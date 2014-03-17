@@ -71,6 +71,7 @@ class Client
         # TODO: Process bots
 
         console.log 'Logged in to '+@team.name+' as '+@self.name
+        @connect()
     else
       console.error 'Invalid login response received (network down?)'
 
@@ -98,6 +99,7 @@ class Client
 
       @ws.on 'ping', (data, flags) =>
         console.log 'Ping received: '+data
+        @ws.pong
 
       @ws.on 'pong', (data, flags) =>
         console.log 'Pong received: '+data
@@ -112,7 +114,9 @@ class Client
         console.log message.user+' has new presence of '+message.presence
       when "error"
         console.error 'Server error: '+message.error
-      else console.warn 'Unknown message type: '+message.type
+      else
+        console.warn 'Unknown message type: '+message.type
+        console.log message
 
   disconnect: ->
     if not @connected
