@@ -30,6 +30,7 @@ class Client
     @socketUrl      = null
     @ws             = null
     @_messageID     = 0
+    @_pending       = {}
 
   #
   # Logging in and connection management functions
@@ -210,7 +211,13 @@ class Client
         if message.reply_to
           if message.ok
             console.log "Message "+message.reply_to+" was sent"
-            # TODO: Now add to history
+            if @_pending[message.reply_to]
+              m = @_pending[message.reply_to]
+              channel = @getChannelGroupOrDMByID m
+              if channel
+                channel.addMessage m
+
+              delete @_pending[message.reply_to]
           else
             console.error "Error sending message "+message.reply_to+": "+message.error.msg
             # TODO: resend?
@@ -227,6 +234,7 @@ class Client
       console.error "Cannot send when not connected"
     else
       message.id = ++@_messageID
+      @_pending[message.id] = message
       @ws.send JSON.stringify(message)
 
   _apiCall: (method, params, callback) ->
