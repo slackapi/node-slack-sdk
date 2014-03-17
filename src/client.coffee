@@ -29,6 +29,7 @@ class Client
 
     @socketUrl      = null
     @ws             = null
+    @_messageID     = 0
 
   #
   # Logging in and connection management functions
@@ -206,12 +207,25 @@ class Client
           console.warn "Could not find channel/user "+message.channel+"/"+message.user+" for user_typing"
 
       else
-        console.warn 'Unknown message type: '+message.type
-        console.log message
+        if message.reply_to
+          if message.ok
+            console.log "Message "+message.reply_to+" was sent"
+          else
+            console.error "Error sending message "+message.reply_to+": "+message.error.msg
+        else
+          console.warn 'Unknown message type: '+message.type
+          console.log message
 
   #
   # Private functions
   #
+
+  _send: (message) ->
+    if not @connected
+      console.error "Cannot send when not connected"
+    else
+      message.id = ++@_messageID
+      @ws.send JSON.stringify(message)
 
   _apiCall: (method, params, callback) ->
     params['token'] = @token

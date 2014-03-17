@@ -1,3 +1,5 @@
+Message = require './message'
+
 class Group
   constructor: (@_client, data = {}) ->
     @_typing = {}
@@ -23,5 +25,13 @@ class Group
   getTyping: ->
     for k of @_typing
       k
+
+  send: (text) ->
+    m = new Message @_client, {text: text}
+    @sendMessage m
+
+  sendMessage: (message) ->
+    message.channel = @id
+    @_client._send(message)
 
 module.exports = Group
