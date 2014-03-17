@@ -1,15 +1,14 @@
 class DM
-  constructor: (@client, data = {}) ->
-    @history = {}
+  constructor: (@_client, data = {}) ->
+    @_istory = {}
 
     for k of (data or {})
-      if k == 'client' || k =='history' then continue
       @[k] = data[k]
 
   addMessage: (message) ->
-    @history[message.ts] = message
+    @_history[message.ts] = message
 
   getHistory: ->
-    @history
+    @_history
 
 module.exports = DM
