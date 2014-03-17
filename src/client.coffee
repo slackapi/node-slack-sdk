@@ -184,7 +184,7 @@ class Client
         else
           console.warn "Could not find channel "+message.channel+" for message"
 
-      when "channel_marked"
+      when "channel_marked", "im_marked"
         channel = @getChannelGroupOrDMByID message.channel
         if channel
           console.log "Moved cursor to "+message.ts+" in "+channel.name
