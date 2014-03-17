@@ -6,6 +6,12 @@ class DM
     for k of (data or {})
       @[k] = data[k]
 
+    # Set a name on this channel for consistency
+    if @user
+      u = @_client.getUserByID @user
+      if u
+        @name = u.name
+
   addMessage: (message) ->
     @_history[message.ts] = message
 

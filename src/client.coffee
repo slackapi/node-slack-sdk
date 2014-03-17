@@ -52,6 +52,11 @@ class Client
         # Stash our websocket url away for later -- must be used within 30 seconds!
         @socketUrl = data.url
 
+        # Stash our list of other users (DO THIS FIRST)
+        for k of data.users
+          u = data.users[k]
+          @users[u.id] = new User @, u
+
         # Stash our list of channels
         for k of data.channels
           c = data.channels[k]
@@ -66,11 +71,6 @@ class Client
         for k of data.groups
           g = data.groups[k]
           @groups[g.id] = new Group @, g
-
-        # Stash our list of other users
-        for k of data.users
-          u = data.users[k]
-          @users[u.id] = new User @, u
 
         # TODO: Process bots
 
