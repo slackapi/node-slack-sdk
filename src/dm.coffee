@@ -1,6 +1,6 @@
 class DM
   constructor: (@_client, data = {}) ->
-    @_istory = {}
+    @_history = {}
 
     for k of (data or {})
       @[k] = data[k]
