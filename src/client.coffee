@@ -210,8 +210,10 @@ class Client
         if message.reply_to
           if message.ok
             console.log "Message "+message.reply_to+" was sent"
+            # TODO: Now add to history
           else
             console.error "Error sending message "+message.reply_to+": "+message.error.msg
+            # TODO: resend?
         else
           console.warn 'Unknown message type: '+message.type
           console.log message
