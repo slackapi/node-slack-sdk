@@ -1,0 +1,23 @@
+{
+  "name": "node-slack",
+  "version": "0.0.1",
+  "description": "A node library for creating a full Slack client",
+  "main": "./index",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "slack"
+  ],
+  "author": "Tiny Speck, Inc.",
+  "license": "MIT",
+
+  "dependencies": {
+    "coffee-script":      "1.6.3"
+  },
+
+  "engines": {
+    "node": ">= 0.8.x",
+    "npm":  ">= 1.1.x"
+  }
+}
