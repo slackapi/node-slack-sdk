@@ -120,7 +120,7 @@ class Client
 
   getUserByName: (name) ->
     for k of @users
-      if @users[k].username == name
+      if @users[k].name == name
         return @users[k]
 
   getChannelByID: (id) ->
@@ -156,7 +156,9 @@ class Client
         @connected = true
       when "presence_change"
         # find user by id and change their presence
-        console.log message.user+' has new presence of '+message.presence
+        u = @getUserByID(message.user)
+        if u
+          u.presence = message.presence
       when "error"
         console.error 'Server error: '+message.error
       when "message"
