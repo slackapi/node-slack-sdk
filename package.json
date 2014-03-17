@@ -13,7 +13,8 @@
   "license": "MIT",
 
   "dependencies": {
-    "coffee-script":      "1.6.3"
+    "coffee-script":      "1.6.3",
+    "ws":                 "0.4.31"
   },
 
   "engines": {

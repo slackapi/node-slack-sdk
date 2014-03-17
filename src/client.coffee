@@ -1,5 +1,6 @@
 https       = require 'https'
 querystring = require 'querystring'
+WebSocket   = require 'ws'
 
 User = require './user'
 Team = require './team'
@@ -27,6 +28,7 @@ class Client
     @bots           = {}
 
     @socketUrl      = null
+    @ws             = null
 
   login: ->
     @_apiCall 'users.login', {token: @token, agent: 'node-slack'}, @onLogin
@@ -76,7 +78,30 @@ class Client
     if not @socketUrl
       console.error 'Cannot connect without a url. Login first?'
     else
-      console.log 'We would connect here'
+      @ws = new WebSocket @socketUrl
+      @ws.on 'open', =>
+        console.log 'Websocket connected!'
+        @connected = true
+
+      @ws.on 'message', (data, flags) =>
+        # flags.binary will be set if a binary data is received
+        # flags.masked will be set if the data was masked
+        console.log data
+
+      @ws.on 'error', =>
+        console.error 'Websocket error!'
+
+      @ws.on 'close', =>
+        console.log 'Websocket disconnected!'
+        @connected = false
+        @socketUrl = null
+
+  disconnect: ->
+    if not @connected
+      console.error 'Cannot disconnect, since not connected'
+    else
+      # We don't set any flags or anything here, since the event handling on the socket will do it
+      @ws.close()
 
   _apiCall: (method, params, callback) ->
     params['token'] = @token
