@@ -86,7 +86,7 @@ class Client
       @ws.on 'message', (data, flags) =>
         # flags.binary will be set if a binary data is received
         # flags.masked will be set if the data was masked
-        console.log data
+        @onMessage JSON.parse(data)
 
       @ws.on 'error', =>
         console.error 'Websocket error!'
@@ -95,6 +95,24 @@ class Client
         console.log 'Websocket disconnected!'
         @connected = false
         @socketUrl = null
+
+      @ws.on 'ping', (data, flags) =>
+        console.log 'Ping received: '+data
+
+      @ws.on 'pong', (data, flags) =>
+        console.log 'Pong received: '+data
+
+  onMessage: (message) ->
+    switch message.type
+      when "hello"
+        # connected
+        @connected = true
+      when "presence_change"
+        # find user by id and change their presence
+        console.log message.user+' has new presence of '+message.presence
+      when "error"
+        console.error 'Server error: '+message.error
+      else console.warn 'Unknown message type: '+message.type
 
   disconnect: ->
     if not @connected
