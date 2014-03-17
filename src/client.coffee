@@ -1,6 +1,7 @@
 https       = require 'https'
 querystring = require 'querystring'
 WebSocket   = require 'ws'
+{EventEmitter} = require 'events'
 
 User = require './user'
 Team = require './team'
@@ -10,7 +11,7 @@ DM = require './dm'
 Message = require './message'
 Bot = require './bot'
 
-class Client
+class Client extends EventEmitter
 
   host: 'api.slack.com'
 
@@ -42,7 +43,7 @@ class Client
   onLogin: (data) =>
     if data
       if not data.ok
-        console.error 'Cannot login: '+data.error
+        @emit 'error', data.error
         @authenticated = false
       else
         @authenticated = true
@@ -76,18 +77,18 @@ class Client
 
         # TODO: Process bots
 
-        console.log 'Logged in to '+@team.name+' as '+@self.name
+        @emit 'loggedIn', @self, @team
         @connect()
     else
-      console.error 'Invalid login response received (network down?)'
+      @emit 'error'
 
   connect: ->
     if not @socketUrl
-      console.error 'Cannot connect without a url. Login first?'
+      return false
     else
       @ws = new WebSocket @socketUrl
       @ws.on 'open', =>
-        console.log 'Websocket connected!'
+        @emit 'open'
         @connected = true
 
       @ws.on 'message', (data, flags) =>
@@ -96,22 +97,25 @@ class Client
         @onMessage JSON.parse(data)
 
       @ws.on 'error', =>
-        console.error 'Websocket error!'
+        @emit 'error'
 
       @ws.on 'close', =>
-        console.log 'Websocket disconnected!'
+        @emit 'close'
         @connected = false
         @socketUrl = null
 
       @ws.on 'ping', (data, flags) =>
         @ws.pong
 
+      return true
+
   disconnect: ->
     if not @connected
-      console.error 'Cannot disconnect, since not connected'
+      return false
     else
       # We don't set any flags or anything here, since the event handling on the socket will do it
       @ws.close()
+      return true
 
   #
   # Utility functions
@@ -158,7 +162,7 @@ class Client
   #
 
   onMessage: (message) ->
-    # TODO: we should probably emit an event here for all messages
+    @emit 'raw_message', message
 
     # Internal handling
     switch message.type
@@ -170,35 +174,32 @@ class Client
         # find user by id and change their presence
         u = @getUserByID(message.user)
         if u
+          @emit 'presenceChange', u, message.presence
           u.presence = message.presence
 
       when "error"
-        console.error 'Server error: '+message.error
+        @emit 'error', message.error
 
       when "message"
         # find channel/group/dm and add it to history
         m = new Message @, message
+        @emit 'message', m
 
         channel = @getChannelGroupOrDMByID message.channel
         if channel
-          console.log "Adding message "+m.ts+" to "+channel.name
           channel.addMessage m
-        else
-          console.warn "Could not find channel "+message.channel+" for message"
 
       when "channel_marked", "im_marked"
         channel = @getChannelGroupOrDMByID message.channel
         if channel
-          console.log "Moved cursor to "+message.ts+" in "+channel.name
+          @emit 'channelMarked', channel, message.ts
           channel.last_read = message.ts
-        else
-          console.warn "Could not find channel "+message.channel+" for channel_marked"
 
       when "user_typing"
         user = @getUserByID message.user
         channel = @getChannelGroupOrDMByID message.channel
         if user and channel
-          console.log user.name+" is typing in "+channel.name
+          @emit 'userTyping', user, channel
           channel.startedTyping(user.id)
         else if channel
           console.warn "Could not find user "+message.user+" for user_typing"
@@ -217,9 +218,10 @@ class Client
               if channel
                 channel.addMessage m
 
+              @emit 'messageSent', m
               delete @_pending[message.reply_to]
           else
-            console.error "Error sending message "+message.reply_to+": "+message.error.msg
+            @emit 'error', message.error
             # TODO: resend?
         else
           console.warn 'Unknown message type: '+message.type
@@ -231,7 +233,7 @@ class Client
 
   _send: (message) ->
     if not @connected
-      console.error "Cannot send when not connected"
+      return false
     else
       message.id = ++@_messageID
       @_pending[message.id] = message
