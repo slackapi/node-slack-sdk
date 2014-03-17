@@ -142,6 +142,15 @@ class Client
       if @groups[k].name == name
         return @groups[k]
 
+  getChannelGroupOrDMByID: (id) ->
+    if id[0] == 'C'
+      return @getChannelByID id
+    else
+      if id[0] == 'G'
+        return @getGroupByID id
+      else
+        return @getDMByID id
+
   #
   # Message handler callback and dispatch
   #
@@ -165,14 +174,7 @@ class Client
         # find channel/group/dm and add it to history
         m = new Message @, message
 
-        if message.channel[0] == 'C'
-          channel = @getChannelByID message.channel
-        else
-          if message.channel[0] == 'G'
-            channel = @getGroupByID message.channel
-          else
-            channel = @getDMByID message.channel
-
+        channel = @getChannelGroupOrDMByID message.channel
         if channel
           console.log "Adding message "+m.ts+" to "+channel.name
           channel.addMessage m
@@ -180,7 +182,12 @@ class Client
           console.warn "Could not find channel "+message.channel+" for message"
 
       when "channel_marked"
-        console.log "Channel marked: "+message
+        channel = @getChannelGroupOrDMByID message.channel
+        if channel
+          console.log "Moved cursor to "+message.ts+" in "+channel.name
+          channel.last_read = message.ts
+        else
+          console.warn "Could not find channel "+message.channel+" for channel_marked"
       when "user_typing"
         console.log "User is typing"
       else
