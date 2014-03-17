@@ -1,7 +1,7 @@
 class User
-  constructor: (@id, options = {}) ->
-    for k of (options or {})
-      @[k] = options[k]
-    @['name'] ||= @id
+  constructor: (@client, data = {}) ->
+    for k of (data or {})
+      if k == 'client' then continue
+      @[k] = data[k]
 
 module.exports = User

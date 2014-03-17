@@ -30,6 +30,10 @@ class Client
     @socketUrl      = null
     @ws             = null
 
+  #
+  # Logging in and connection management functions
+  #
+
   login: ->
     @_apiCall 'users.login', {token: @token, agent: 'node-slack'}, @onLogin
 
@@ -42,8 +46,8 @@ class Client
         @authenticated = true
 
         # Important information about ourselves
-        @self = new User data.self.id, data.self
-        @team = new Team data.team.id, data.team.name, data.team.domain
+        @self = new User @, data.self
+        @team = new Team @, data.team.id, data.team.name, data.team.domain
 
         # Stash our websocket url away for later -- must be used within 30 seconds!
         @socketUrl = data.url
@@ -51,22 +55,22 @@ class Client
         # Stash our list of channels
         for k of data.channels
           c = data.channels[k]
-          @channels[c.id] = new Channel c.id, c
+          @channels[c.id] = new Channel @, c
 
         # Stash our list of dms
         for k of data.ims
           i = data.ims[k]
-          @dms[i.id] = new DM i.id, i
+          @dms[i.id] = new DM @, i
 
         # Stash our list of private groups
         for k of data.groups
           g = data.groups[k]
-          @groups[g.id] = new Group g.id, g
+          @groups[g.id] = new Group @, g
 
         # Stash our list of other users
         for k of data.users
           u = data.users[k]
-          @users[u.id] = new User u.id, u
+          @users[u.id] = new User @, u
 
         # TODO: Process bots
 
@@ -98,25 +102,7 @@ class Client
         @socketUrl = null
 
       @ws.on 'ping', (data, flags) =>
-        console.log 'Ping received: '+data
         @ws.pong
-
-      @ws.on 'pong', (data, flags) =>
-        console.log 'Pong received: '+data
-
-  onMessage: (message) ->
-    switch message.type
-      when "hello"
-        # connected
-        @connected = true
-      when "presence_change"
-        # find user by id and change their presence
-        console.log message.user+' has new presence of '+message.presence
-      when "error"
-        console.error 'Server error: '+message.error
-      else
-        console.warn 'Unknown message type: '+message.type
-        console.log message
 
   disconnect: ->
     if not @connected
@@ -124,6 +110,84 @@ class Client
     else
       # We don't set any flags or anything here, since the event handling on the socket will do it
       @ws.close()
+
+  #
+  # Utility functions
+  #
+
+  getUserByID: (id) ->
+    @users[id]
+
+  getUserByName: (name) ->
+    for k of @users
+      if @users[k].username == name
+        return @users[k]
+
+  getChannelByID: (id) ->
+    @channels[id]
+
+  getChannelByName: (name) ->
+    for k of @channels
+      if @channels[k].name == name
+        return @channels[k]
+
+  getDMByID: (id) ->
+    @dms[id]
+
+  getGroupByID: (id) ->
+    @groups[id]
+
+  getGroupByName: (name) ->
+    for k of @groups
+      if @groups[k].name == name
+        return @groups[k]
+
+  #
+  # Message handler callback and dispatch
+  #
+
+  onMessage: (message) ->
+    # TODO: we should probably emit an event here for all messages
+
+    # Internal handling
+    switch message.type
+      when "hello"
+        # connected really really
+        @connected = true
+      when "presence_change"
+        # find user by id and change their presence
+        console.log message.user+' has new presence of '+message.presence
+      when "error"
+        console.error 'Server error: '+message.error
+      when "message"
+        # find channel/group/dm and add it to history
+        m = new Message @, message
+
+        if message.channel[0] == 'C'
+          channel = @getChannelByID message.channel
+        else
+          if message.channel[0] == 'G'
+            channel = @getGroupByID message.channel
+          else
+            channel = @getDMByID message.channel
+
+        if channel
+          console.log "Adding message "+m.ts+" to "+channel.name
+          channel.addMessage m
+        else
+          console.warn "Could not find channel "+message.channel+" for message"
+
+      when "channel_marked"
+        console.log "Channel marked: "+message
+      when "user_typing"
+        console.log "User is typing"
+      else
+        console.warn 'Unknown message type: '+message.type
+        console.log message
+
+  #
+  # Private functions
+  #
 
   _apiCall: (method, params, callback) ->
     params['token'] = @token

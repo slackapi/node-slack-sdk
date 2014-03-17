@@ -1,4 +1,4 @@
 class Team
-  constructor: (@id, @name, @domain) ->
+  constructor: (@client, @id, @name, @domain) ->
 
 module.exports = Team
