@@ -163,13 +163,16 @@ class Client
       when "hello"
         # connected really really
         @connected = true
+
       when "presence_change"
         # find user by id and change their presence
         u = @getUserByID(message.user)
         if u
           u.presence = message.presence
+
       when "error"
         console.error 'Server error: '+message.error
+
       when "message"
         # find channel/group/dm and add it to history
         m = new Message @, message
@@ -188,8 +191,20 @@ class Client
           channel.last_read = message.ts
         else
           console.warn "Could not find channel "+message.channel+" for channel_marked"
+
       when "user_typing"
-        console.log "User is typing"
+        user = @getUserByID message.user
+        channel = @getChannelGroupOrDMByID message.channel
+        if user and channel
+          console.log user.name+" is typing in "+channel.name
+          channel.startedTyping(user.id)
+        else if channel
+          console.warn "Could not find user "+message.user+" for user_typing"
+        else if user
+          console.warn "Could not find channel "+message.channel+" for user_typing"
+        else
+          console.warn "Could not find channel/user "+message.channel+"/"+message.user+" for user_typing"
+
       else
         console.warn 'Unknown message type: '+message.type
         console.log message
