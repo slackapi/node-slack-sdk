@@ -13,7 +13,7 @@ class Message
     return m
 
   toString: ->
-    if not @text then return ''
+    if not @text and not @attachments then return ''
     
     str = ''
     channel = @_client.getChannelGroupOrDMByID @channel
@@ -27,9 +27,13 @@ class Message
 
     # TODO: bots here
 
-    str += @text
+    if @text then str += @text
 
-    # TODO: attachments here
+    if @attachments
+      if @text then str += "\n"
+      for k of @attachments
+        if k > 0 then str += "\n"
+        str += @attachments[k].fallback
 
     str
 
