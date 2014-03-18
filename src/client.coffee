@@ -181,6 +181,13 @@ class Client extends EventEmitter
         @emit 'error', message.error
 
       when "message"
+        # is this the special message we get on reconnect?
+        if message.reply_to
+          if @_pending[message.reply_to]
+            delete @_pending[message.reply_to]
+          else
+            return
+
         # find channel/group/dm and add it to history
         m = new Message @, message
         @emit 'message', m
