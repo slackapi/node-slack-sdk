@@ -21,6 +21,10 @@ else
     console.warn 'Disconnected!'
     if not shutdown then setTimeout slack.login(), 5000
 
+  slack.on 'message', (message) ->
+    str = message.toString()
+    if str then console.log str
+
   process.on 'SIGINT', ->
     shutdown = true
     slack.disconnect()

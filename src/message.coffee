@@ -12,4 +12,25 @@ class Message
 
     return m
 
+  toString: ->
+    if not @text then return ''
+    
+    str = ''
+    channel = @_client.getChannelGroupOrDMByID @channel
+    if channel then str += channel.name + ' > '
+
+    user = @_client.getUserByID @user
+    if user
+      str += user.name + ': '
+    else if @username
+      str += @username + ': '
+
+    # TODO: bots here
+
+    str += @text
+
+    # TODO: attachments here
+
+    str
+
 module.exports = Message
