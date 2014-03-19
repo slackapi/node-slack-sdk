@@ -21,14 +21,14 @@ else
       channel = slack.channels[k]
       if channel.is_member then channels.push '#'+channel.name
 
-    console.log "You are in %s", channels.join(', ')
+    console.log "You are in: %s", channels.join(', ')
 
     groups = []
     for k of slack.groups
       group = slack.groups[k]
       if group.is_open and not group.is_archived then groups.push group.name
 
-    if groups.length then console.log "As well as %s", groups.join(', ')
+    if groups.length then console.log "As well as: %s", groups.join(', ')
 
   slack.on 'close', ->
     console.warn 'Disconnected!'

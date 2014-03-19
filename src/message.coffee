@@ -23,8 +23,12 @@ class Message
     if user
       str += user.name + ': '
     else if @username
-      str += @username + ' (bot): '
-
+      str += @username
+      if @_client.getUserByName @username
+        str += ' (bot): '
+      else
+        str += ': '
+    
     # TODO: bots here
 
     if @text then str += @text
