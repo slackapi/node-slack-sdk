@@ -23,7 +23,7 @@ class Message
     if user
       str += user.name + ': '
     else if @username
-      str += @username + ': '
+      str += @username + ' (bot): '
 
     # TODO: bots here
 

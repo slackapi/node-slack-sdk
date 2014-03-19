@@ -15,7 +15,20 @@ else
     process.exit 1
 
   slack.on 'open', ->
-    console.log 'Connected!'
+    console.log "Welcome to Slack. You are %s of %s", slack.self.name, slack.team.name
+    channels = []
+    for k of slack.channels
+      channel = slack.channels[k]
+      if channel.is_member then channels.push '#'+channel.name
+
+    console.log "You are in %s", channels.join(', ')
+
+    groups = []
+    for k of slack.groups
+      group = slack.groups[k]
+      if group.is_open and not group.is_archived then groups.push group.name
+
+    if groups.length then console.log "As well as %s", groups.join(', ')
 
   slack.on 'close', ->
     console.warn 'Disconnected!'
