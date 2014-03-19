@@ -215,6 +215,10 @@ class Client extends EventEmitter
         else
           console.warn "Could not find channel/user "+message.channel+"/"+message.user+" for user_typing"
 
+      when "team_join"
+        u = message.user
+        @users[u.id] = new User @, u
+
       else
         if message.reply_to
           if message.ok
