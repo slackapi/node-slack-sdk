@@ -1,6 +1,7 @@
 #!/usr/bin/env coffee
 
-Slack = require '..'
+Slack     = require '..'
+Readline  = require 'readline'
 
 token = process.argv[2]
 if not token
@@ -9,6 +10,7 @@ if not token
 else
   shutdown = false
   slack = new Slack token
+  rl = Readline.createInterface(process.stdin, process.stdout)
 
   slack.on 'error', (error) ->
     console.error 'Error: '+error
@@ -30,6 +32,9 @@ else
 
     if groups.length then console.log "As well as: %s", groups.join(', ')
 
+    rl.setPrompt '> ', 2
+    rl.prompt()
+
   slack.on 'close', ->
     console.warn 'Disconnected!'
     if not shutdown then setTimeout slack.login(), 5000
@@ -38,7 +43,37 @@ else
     str = message.toString()
     if str then console.log str
 
-  process.on 'SIGINT', ->
+
+  rl.on 'line', (line) ->
+    cmd = line.split ' ', 1
+    rest = line.replace cmd[0], ''
+      .trim()
+
+    switch cmd[0]
+      when "/msg"
+        if rest
+          name = rest.split ' ', 1
+          text = rest.replace name, ''
+            .trim()
+
+          channel = slack.getChannelGroupOrDMByName name[0]
+          if not channel
+            console.log "Could not find channel '%s'", name[0]
+          else if not text
+            console.log "Need something to send!"
+          else
+            console.log "Sending '%s' to '%s'", text, name[0]
+            channel.send text
+        else
+          console.log "Sorry, what? Try /help"
+      else
+        console.log "Sorry, what? Try /help"
+
+    rl.setPrompt '> ', 2
+    rl.prompt()
+
+  rl.on 'close', ->
+    console.log 'Shutting down...'
     shutdown = true
     slack.disconnect()
 

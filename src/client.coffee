@@ -140,6 +140,11 @@ class Client extends EventEmitter
   getDMByID: (id) ->
     @dms[id]
 
+  getDMByName: (name) ->
+    for k of @dms
+      if @dms[k].name == name
+        return @dms[k]
+
   getGroupByID: (id) ->
     @groups[id]
 
@@ -156,6 +161,18 @@ class Client extends EventEmitter
         return @getGroupByID id
       else
         return @getDMByID id
+
+  getChannelGroupOrDMByName: (name) ->
+    console.log name
+    channel = @getChannelByName name
+    if not channel
+      group = @getGroupByName name
+      if not group
+        return @getDMByName name
+      else
+        return group
+    else
+      return channel
 
   #
   # Message handler callback and dispatch
