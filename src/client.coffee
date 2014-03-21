@@ -236,6 +236,15 @@ class Client extends EventEmitter
         u = message.user
         @users[u.id] = new User @, u
 
+      when "channel_joined"
+        @channels[message.channel.id] = new Channel @, message.channel
+
+      when "channel_left"
+        delete @channels[message.channel]
+
+      when "pref_change"
+        @self.prefs[message.name] = message.value
+
       else
         if message.reply_to
           if message.ok
@@ -252,8 +261,9 @@ class Client extends EventEmitter
             @emit 'error', message.error
             # TODO: resend?
         else
-          console.warn 'Unknown message type: '+message.type
-          console.log message
+          if message.type not in ["file_created", "file_shared", "file_comment", "file_public"]
+            console.warn 'Unknown message type: '+message.type
+            console.log message
 
   #
   # Private functions
