@@ -13,7 +13,7 @@ else
   rl = Readline.createInterface(process.stdin, process.stdout)
 
   slack.on 'error', (error) ->
-    console.error 'Error: '+error
+    console.error "Error: %s", error
     process.exit 1
 
   slack.on 'open', ->

@@ -304,6 +304,9 @@ class Client extends EventEmitter
           else
             callback(null)
 
+    req.on 'error', (error) =>
+      if callback? then callback({'ok': false, 'data': error})
+
     req.write('' + post_data)
     req.end()
 
