@@ -66,6 +66,16 @@ else
             channel.send text
         else
           console.log "Sorry, what? Try /help"
+
+      when "/quit"
+        rl.close()
+        return
+
+      when "/help"
+        console.log 'Commands:'
+        console.log '/msg channel text'
+        console.log '/quit'
+
       else
         console.log "Sorry, what? Try /help"
 
