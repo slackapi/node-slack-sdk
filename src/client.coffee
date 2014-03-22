@@ -194,6 +194,16 @@ class Client extends EventEmitter
           @emit 'presenceChange', u, message.presence
           u.presence = message.presence
 
+      when "manual_presence_change"
+        @self.presence = message.presence
+
+      when "status_change"
+        # find user by id and change their status
+        u = @getUserByID(message.user)
+        if u
+          @emit 'statusChane', u, message.status
+          u.status = message.status
+
       when "error"
         @emit 'error', message.error
 
@@ -240,10 +250,75 @@ class Client extends EventEmitter
         @channels[message.channel.id] = new Channel @, message.channel
 
       when "channel_left"
+        if @channels[message.channel]
+          for k of @channels[message.channel]
+            if k not in ["id", "name", "created", "creator", "is_archived", "is_general"]
+              delete @channels[message.channel][k]
+
+            @channels[message.channel].is_member = false
+
+      when "channel_created"
+        @channels[message.channel.id] = new Channel @, message.channel
+
+      when "channel_deleted"
         delete @channels[message.channel]
+
+      when "channel_rename"
+        @channels[message.channel.id] = new Channel @, message.channel
+
+      when "channel_archive"
+        if @channels[message.channel] then @channels[message.channel].is_archived = true
+
+      when "channel_unarchive"
+        if @channels[message.channel] then @channels[message.channel].is_archived = false
+
+      when "im_created"
+        @dms[message.channel.id] = new DM @, message.channel
+
+      when "im_open"
+        if @dms[message.channel] then @dms[message.channel].is_open = true
+
+      when "im_close"
+        if @dms[message.channel] then @dms[message.channel].is_open = false
+
+      when "group_joined"
+        @groups[message.channel.id] = new Group @, message.channel
+
+      when "group_close"
+        if @groups[message.channel] then @groups[message.channel].is_open = false
+
+      when "group_open"
+        if @groups[message.channel] then @groups[message.channel].is_open = true
+
+      when "group_left", "group_deleted"
+        delete @groups[message.channel]
+
+      when "group_archive"
+        if @groups[message.channel] then @groups[message.channel].is_archived = true
+
+      when "group_unarchive"
+        if @groups[message.channel] then @groups[message.channel].is_archived = false
+
+      when "group_rename"
+        @groups[message.channel.id] = new Channel @, message.channel
 
       when "pref_change"
         @self.prefs[message.name] = message.value
+
+      when "team_pref_change"
+        @team.prefs[message.name] = message.value
+
+      when "team_rename"
+        @team.name = message.name
+
+      when "team_domain_change"
+        @team.domain = message.domain
+
+      when "bot_added", "bot_changed"
+        @bots[message.bot.id] = new Bot @, message.bot
+
+      when "bot_removed"
+        if @bots[message.bot.id] then @emit 'botRemoved', @bots[message.bot.id]
 
       else
         if message.reply_to
@@ -261,7 +336,7 @@ class Client extends EventEmitter
             @emit 'error', message.error
             # TODO: resend?
         else
-          if message.type not in ["file_created", "file_shared", "file_comment", "file_public"]
+          if message.type not in ["file_created", "file_shared", "file_unshared", "file_comment", "file_public", "file_comment_edited", "file_comment_deleted", "file_change", "file_deleted", "star_added", "star_removed"]
             console.warn 'Unknown message type: '+message.type
             console.log message
 
