@@ -49,14 +49,14 @@ class Channel
         index = @members.indexOf message.user
         if index not -1
           @members.splice index
-        
+
         @_history[message.ts] = message
 
       else
         console.log "Unknown message subtype: %s", message.subtype
         @_history[message.ts] = message
 
-    if message.ts and @latest.ts? and message.ts > @latest.ts
+    if message.ts and @latest? and @latest.ts? and message.ts > @latest.ts
       @latest = message
 
   getHistory: ->
