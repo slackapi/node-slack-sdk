@@ -13,6 +13,7 @@ class Message
     return m
 
   toString: ->
+    if @hidden then return ''
     if not @text and not @attachments then return ''
     
     str = ''

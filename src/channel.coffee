@@ -9,7 +9,55 @@ class Channel
       @[k] = data[k]
 
   addMessage: (message) ->
-    @_history[message.ts] = message
+    switch message.subtype
+      when undefined, "channel_archive", "channel_unarchive", "group_archive", "group_unarchive"
+        @_history[message.ts] = message
+
+      when "message_changed"
+        @_history[message.message.ts] = message.message
+
+      when "message_deleted"
+        delete @_history[message.deleted_ts]
+
+      when "channel_topic", "group_topic"
+        @topic.value = message.topic
+        @topic.creator = message.user
+        @topic.last_set = message.ts
+
+        @_history[message.ts] = message
+
+      when "channel_purpose", "group_purpose"
+        @purpose.value = message.purpose
+        @purpose.creator = message.user
+        @purpose.last_set = message.ts
+
+        @_history[message.ts] = message
+
+      when "channel_name", "group_name"
+        @name = message.name
+        @_history[message.ts] = message
+
+      when "bot_message"
+        # TODO: Make a new message type before storing
+        @_history[message.ts] = message
+
+      when "channel_join", "group_join"
+        @members.append message.user
+        @_history[message.ts] = message
+
+      when "channel_leave", "group_leave"
+        index = @members.indexOf message.user
+        if index not -1
+          @members.splice index
+        
+        @_history[message.ts] = message
+
+      else
+        console.log "Unknown message subtype: %s", message.subtype
+        @_history[message.ts] = message
+
+    if message.ts and @latest.ts? and message.ts > @latest.ts
+      @latest = message
 
   getHistory: ->
     @_history
