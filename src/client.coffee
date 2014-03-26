@@ -91,6 +91,16 @@ class Client extends EventEmitter
         @emit 'open'
         @connected = true
 
+        # start pings
+        @_pongTimeout = setInterval =>
+          if not @connected then return
+
+          @_send {"type": "ping"}
+          if @_lastPong? and Date.now() - @_lastPong > 10000
+            console.log "Last pong is too old: %d", (Date.now() - @_lastPong) / 1000
+            @disconnect()
+        , 5000
+
       @ws.on 'message', (data, flags) =>
         # flags.binary will be set if a binary data is received
         # flags.masked will be set if the data was masked
@@ -113,6 +123,10 @@ class Client extends EventEmitter
     if not @connected
       return false
     else
+      if @_pongTimeout
+        clearInterval @_pongTimeout
+        @_pongTimeout = null
+
       # We don't set any flags or anything here, since the event handling on the socket will do it
       @ws.close()
       return true
@@ -322,7 +336,10 @@ class Client extends EventEmitter
 
       else
         if message.reply_to
-          if message.ok
+          if message.type == 'pong'
+            @_lastPong = Date.now()
+            delete @_pending[message.reply_to]
+          else if message.ok
             console.log "Message "+message.reply_to+" was sent"
             if @_pending[message.reply_to]
               m = @_pending[message.reply_to]
@@ -333,7 +350,7 @@ class Client extends EventEmitter
               @emit 'messageSent', m
               delete @_pending[message.reply_to]
           else
-            @emit 'error', message.error
+            @emit 'error', if message.error? then message.error else message
             # TODO: resend?
         else
           if message.type not in ["file_created", "file_shared", "file_unshared", "file_comment", "file_public", "file_comment_edited", "file_comment_deleted", "file_change", "file_deleted", "star_added", "star_removed"]
