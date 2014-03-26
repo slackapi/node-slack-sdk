@@ -47,7 +47,7 @@ class Channel
 
       when "channel_leave", "group_leave"
         index = @members.indexOf message.user
-        if index not -1
+        if index isnt -1
           @members.splice index
 
         @_history[message.ts] = message
