@@ -42,7 +42,7 @@ class Channel
         @_history[message.ts] = message
 
       when "channel_join", "group_join"
-        @members.append message.user
+        @members.push message.user
         @_history[message.ts] = message
 
       when "channel_leave", "group_leave"
