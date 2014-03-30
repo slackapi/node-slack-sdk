@@ -82,4 +82,82 @@ class Channel
     message.channel = @id
     @_client._send(message)
 
+  fetchHistory: (latest, oldest) ->
+    params = {
+      "channel": @id
+    }
+
+    if latest? then params.latest = latest
+    if oldest? then params.oldest = oldest
+
+    @_client._apiCall 'channels.history', params, @_onFetchHistory
+
+  _onFetchHistory: (data) =>
+    console.log data
+
+  mark: (ts) ->
+    params = {
+      "channel": @id,
+      "ts": ts
+    }
+
+    @_client._apiCall 'channels.mark', params, @_onMark
+
+  _onMark: (data) =>
+    console.log data
+
+  leave: ->
+    params = {
+      "channel": @id
+    }
+
+    @_client._apiCall 'channels.leave', params, @_onLeave
+
+  _onLeave: (data) =>
+    console.log data
+
+  setTopic: (topic) ->
+    params = {
+      "channel": @id,
+      "topic": topic
+    }
+
+    @_client._apiCall 'channels.setTopic', params, @_onSetTopic
+
+  _onSetTopic: (data) =>
+    console.log data
+
+  setPurpose: (purpose) ->
+    params = {
+      "channel": @id,
+      "purpose": purpose
+    }
+
+    @_client._apiCall 'channels.setPurpose', params, @_onSetPurpose
+
+  _onSetPurpose: (data) =>
+    console.log data
+
+  rename: (name) ->
+    params = {
+      "channel": @id,
+      "name": name
+    }
+
+    @_client._apiCall 'channels.rename', params, @_onRename
+
+  _onRename: (data) =>
+    console.log data
+
+  invite: (user_id) ->
+    params = {
+      "channel": @id,
+      "user": user_id
+    }
+
+    @_client._apiCall 'channels.invite', params, @_onInvite
+
+  _onInvite: (data) =>
+    console.log data
+
 module.exports = Channel

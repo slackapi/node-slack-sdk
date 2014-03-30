@@ -39,9 +39,9 @@ class Client extends EventEmitter
 
   login: ->
     console.log 'Connecting...'
-    @_apiCall 'users.login', {token: @token, agent: 'node-slack'}, @onLogin
+    @_apiCall 'users.login', {agent: 'node-slack'}, @_onLogin
 
-  onLogin: (data) =>
+  _onLogin: (data) =>
     if data
       if not data.ok
         @emit 'error', data.error
@@ -131,6 +131,16 @@ class Client extends EventEmitter
       # We don't set any flags or anything here, since the event handling on the socket will do it
       @ws.close()
       return true
+
+  joinChannel: (name) ->
+    params = {
+      "name": name
+    }
+
+    @_apiCall 'channels.join', params, @_onJoinChannel
+
+  _onJoinChannel: (data) =>
+    console.log data
 
   #
   # Utility functions

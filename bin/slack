@@ -56,7 +56,7 @@ else
 
     switch cmd[0]
       when "/msg"
-        if rest
+        if rest?
           name = rest.split ' ', 1
           text = rest.replace name, ''
             .trim()
@@ -76,9 +76,24 @@ else
         rl.close()
         return
 
+      when "/join"
+        if rest? then slack.joinChannel rest else console.log "Need a channel name to join"
+
+      when "/leave"
+        if rest?
+          channel = slack.getChannelGroupOrDMByName rest
+          if not channel
+            console.log "Could not find channel '%s'", rest
+          else
+            channel.leave()
+        else
+          console.log "Need a channel name to leave"
+
       when "/help"
         console.log 'Commands:'
         console.log '/msg channel text'
+        console.log '/join channel'
+        console.log '/leave channel'
         console.log '/quit'
 
       else
