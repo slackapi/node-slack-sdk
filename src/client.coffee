@@ -162,6 +162,36 @@ class Client extends EventEmitter
   _onCreateGroup: (data) =>
     console.log data
 
+  setPresence: (presence) ->
+    if presence is not 'away' and presence is not 'active' then return null
+
+    params = {
+      "presence": presence
+    }
+
+    @_apiCall 'presence.set', params, @_onSetPresence
+
+  _onSetPresence: (data) =>
+    console.log data
+
+  setActive: ->
+    params = {}
+
+    @_apiCall 'users.setActive', params, @_onSetActive
+
+  _onSetActive: (data) =>
+    console.log data
+
+  setStatus: (status) ->
+    params = {
+      "status": status
+    }
+
+    @_apiCall 'status.set', params, @_onSetStatus
+
+  _onSetStatus: (data) =>
+    console.log data
+
   #
   # Utility functions
   #
