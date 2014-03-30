@@ -11,4 +11,14 @@ class DM extends Channel
       if u
         @name = u.name
 
+  close: ->
+    params = {
+      "channel": @id
+    }
+
+    @_client._apiCall 'im.close', params, @_onClose
+
+  _onClose: (data) =>
+    console.log data
+
 module.exports = DM

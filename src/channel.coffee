@@ -90,7 +90,11 @@ class Channel
     if latest? then params.latest = latest
     if oldest? then params.oldest = oldest
 
-    @_client._apiCall 'channels.history', params, @_onFetchHistory
+    method = 'channels.history'
+    if @constructor.name == 'Group' then method = 'groups.history'
+    if @constructor.name == 'DM' then method = 'im.history'
+
+    @_client._apiCall method, params, @_onFetchHistory
 
   _onFetchHistory: (data) =>
     console.log data
@@ -101,61 +105,90 @@ class Channel
       "ts": ts
     }
 
-    @_client._apiCall 'channels.mark', params, @_onMark
+    method = 'channels.mark'
+    if @constructor.name == 'Group' then method = 'groups.mark'
+    if @constructor.name == 'DM' then method = 'im.mark'
+
+    @_client._apiCall method, params, @_onMark
 
   _onMark: (data) =>
     console.log data
 
   leave: ->
+    if @constructor.name == 'DM' then return null
+
     params = {
       "channel": @id
     }
 
-    @_client._apiCall 'channels.leave', params, @_onLeave
+    method = 'channels.leave'
+    if @constructor.name == 'Group' then method = 'groups.leave'
+
+    @_client._apiCall method, params, @_onLeave
 
   _onLeave: (data) =>
     console.log data
 
   setTopic: (topic) ->
+    if @constructor.name == 'DM' then return null
+
     params = {
       "channel": @id,
       "topic": topic
     }
 
-    @_client._apiCall 'channels.setTopic', params, @_onSetTopic
+    method = 'channels.setTopic'
+    if @constructor.name == 'Group' then method = 'groups.setTopic'
+
+    @_client._apiCall method, params, @_onSetTopic
 
   _onSetTopic: (data) =>
     console.log data
 
   setPurpose: (purpose) ->
+    if @constructor.name == 'DM' then return null
+
     params = {
       "channel": @id,
       "purpose": purpose
     }
 
-    @_client._apiCall 'channels.setPurpose', params, @_onSetPurpose
+    method = 'channels.setPurpose'
+    if @constructor.name == 'Group' then method = 'groups.setPurpose'
+
+    @_client._apiCall method, params, @_onSetPurpose
 
   _onSetPurpose: (data) =>
     console.log data
 
   rename: (name) ->
+    if @constructor.name == 'DM' then return null
+
     params = {
       "channel": @id,
       "name": name
     }
 
-    @_client._apiCall 'channels.rename', params, @_onRename
+    method = 'channels.rename'
+    if @constructor.name == 'Group' then method = 'groups.rename'
+
+    @_client._apiCall method, params, @_onRename
 
   _onRename: (data) =>
     console.log data
 
   invite: (user_id) ->
+    if @constructor.name == 'DM' then return null
+
     params = {
       "channel": @id,
       "user": user_id
     }
 
-    @_client._apiCall 'channels.invite', params, @_onInvite
+    method = 'channels.invite'
+    if @constructor.name == 'Group' then method = 'groups.invite'
+
+    @_client._apiCall method, params, @_onInvite
 
   _onInvite: (data) =>
     console.log data

@@ -142,6 +142,26 @@ class Client extends EventEmitter
   _onJoinChannel: (data) =>
     console.log data
 
+  openDM: (user_id) ->
+    params = {
+      "user": user_id
+    }
+
+    @_apiCall 'im.open', params, @_onOpenDM
+
+  _onOpenDM: (data) =>
+    console.log data
+
+  createGroup: (name) ->
+    params = {
+      "name": name
+    }
+
+    @_apiCall 'groups.create', params, @_onCreateGroup
+
+  _onCreateGroup: (data) =>
+    console.log data
+
   #
   # Utility functions
   #
