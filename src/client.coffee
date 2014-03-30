@@ -38,6 +38,7 @@ class Client extends EventEmitter
   #
 
   login: ->
+    console.log 'Connecting...'
     @_apiCall 'users.login', {token: @token, agent: 'node-slack'}, @onLogin
 
   onLogin: (data) =>

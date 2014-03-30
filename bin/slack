@@ -8,13 +8,16 @@ if not token
   console.error "Token is required"
   process.exit 1
 else
+  reconnecting = null
   shutdown = false
   slack = new Slack token
   rl = Readline.createInterface(process.stdin, process.stdout)
 
   slack.on 'error', (error) ->
     console.error "Error: %s", error
-    process.exit 1
+    if not shutdown
+      if reconnecting then cancelTimeout reconnecting
+      reconnecting = setTimeout slack.login(), 5000
 
   slack.on 'open', ->
     console.log "Welcome to Slack. You are %s of %s", slack.self.name, slack.team.name
@@ -37,7 +40,9 @@ else
 
   slack.on 'close', ->
     console.warn 'Disconnected!'
-    if not shutdown then setTimeout slack.login(), 5000
+    if not shutdown
+      if reconnecting then cancelTimeout reconnecting
+      reconnecting = setTimeout slack.login(), 5000
 
   slack.on 'message', (message) ->
     str = message.toString()
@@ -87,5 +92,4 @@ else
     shutdown = true
     slack.disconnect()
 
-  console.log 'Connecting...'
   slack.login()
