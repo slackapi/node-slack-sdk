@@ -16,7 +16,7 @@ else
   slack.on 'error', (error) ->
     console.error "Error: %s", error
     if not shutdown
-      if reconnecting then cancelTimeout reconnecting
+      if reconnecting then clearTimeout reconnecting
       reconnecting = setTimeout slack.login(), 5000
 
   slack.on 'open', ->
@@ -35,13 +35,16 @@ else
 
     if groups.length then console.log "As well as: %s", groups.join(', ')
 
+    unreads = slack.getUnreadCount()
+    if unreads isnt 0 then console.log "You have %d unreads", unreads
+
     rl.setPrompt '> ', 2
     rl.prompt()
 
   slack.on 'close', ->
     console.warn 'Disconnected!'
     if not shutdown
-      if reconnecting then cancelTimeout reconnecting
+      if reconnecting then clearTimeout reconnecting
       reconnecting = setTimeout slack.login(), 5000
 
   slack.on 'message', (message) ->

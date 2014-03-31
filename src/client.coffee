@@ -120,7 +120,7 @@ class Client extends EventEmitter
 
       return true
 
-  disconnect: ->
+  disconnect: =>
     if not @connected
       return false
     else
@@ -248,6 +248,19 @@ class Client extends EventEmitter
         return group
     else
       return channel
+
+  getUnreadCount: ->
+    count = 0
+    for id, channel of @channels
+      if channel.unread_count? then count += channel.unread_count
+
+    for id, dm of @ims
+      if dm.unread_count? then count += dm.unread_count
+
+    for id, group of @groups
+      if group.unread_count? then count += group.unread_count
+
+    count
 
   #
   # Message handler callback and dispatch
