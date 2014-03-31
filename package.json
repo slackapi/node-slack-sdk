@@ -1,6 +1,6 @@
 {
   "name": "node-slack",
-  "version": "0.0.1",
+  "version": "0.9.0",
   "description": "A node library for creating a full Slack client",
   "main": "./index",
   "scripts": {
@@ -10,7 +10,19 @@
     "slack"
   ],
   "author": "Tiny Speck, Inc.",
-  "license": "MIT",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/tinyspeck/node-slack/raw/master/LICENSE"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tinyspeck/node-slack.git"
+  },
+  "bugs": {
+    "url": "http://github.com/tinyspeck/node-slack/issues"
+  },
 
   "dependencies": {
     "coffee-script":      "1.6.3",
