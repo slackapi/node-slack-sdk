@@ -28,6 +28,12 @@
     "coffee-script":      "1.6.3",
     "ws":                 "0.4.31"
   },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-release": "~0.6.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-shell": "~0.5.0"
+  },
 
   "engines": {
     "node": ">= 0.8.x",
