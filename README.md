@@ -8,6 +8,8 @@
 
 This is a Slack client library for Node.js. It is intended to expose all base functionality of Slack, while providing some common abstractions.
 
+**This code is in heavy development and is not supported in any way. Use at your own risk.**
+
 ## Contribute
 
 Here's the most direct way to get your work merged into the project.
