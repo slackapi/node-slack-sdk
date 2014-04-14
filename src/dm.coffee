@@ -10,6 +10,8 @@ class DM extends Channel
       u = @_client.getUserByID @user
       if u
         @name = u.name
+        
+    # TODO: Emit event for unread history
 
   close: ->
     params = {

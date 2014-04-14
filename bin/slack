@@ -9,7 +9,7 @@ if not token
   process.exit 1
 else
   shutdown = false
-  slack = new Slack token, true
+  slack = new Slack token, true, true
   rl = Readline.createInterface(process.stdin, process.stdout)
 
   slack.on 'error', (error) ->

@@ -15,7 +15,7 @@ class Client extends EventEmitter
 
   host: 'api.slack.com'
 
-  constructor: (@token, @autoReconnect=true) ->
+  constructor: (@token, @autoReconnect=true, @autoMark=false) ->
     @authenticated  = false
     @connected      = false
 
@@ -342,7 +342,7 @@ class Client extends EventEmitter
         if channel
           channel.addMessage m
 
-      when "channel_marked", "im_marked"
+      when "channel_marked", "im_marked", "group_marked"
         channel = @getChannelGroupOrDMByID message.channel
         if channel
           @emit 'channelMarked', channel, message.ts

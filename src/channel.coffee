@@ -8,6 +8,8 @@ class Channel
     for k of (data or {})
       @[k] = data[k]
 
+    # TODO: Emit event for unread history
+
   addMessage: (message) ->
     switch message.subtype
       when undefined, "channel_archive", "channel_unarchive", "group_archive", "group_unarchive"
@@ -58,6 +60,9 @@ class Channel
 
     if message.ts and @latest? and @latest.ts? and message.ts > @latest.ts
       @latest = message
+
+    # TODO: Update @unread_count
+    if @_client.autoMark then @mark message.ts
 
   getHistory: ->
     @_history
@@ -113,6 +118,7 @@ class Channel
 
   _onMark: (data) =>
     console.log data
+    # TODO: Update @unread_count based on ts
 
   leave: ->
     if @constructor.name == 'DM' then return null
