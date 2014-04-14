@@ -15,7 +15,7 @@ class Client extends EventEmitter
 
   host: 'api.slack.com'
 
-  constructor: (@token) ->
+  constructor: (@token, @autoReconnect=false) ->
     @authenticated  = false
     @connected      = false
 
@@ -33,6 +33,8 @@ class Client extends EventEmitter
     @_messageID     = 0
     @_pending       = {}
 
+    @_connAttempts  = 0
+
   #
   # Logging in and connection management functions
   #
@@ -46,6 +48,8 @@ class Client extends EventEmitter
       if not data.ok
         @emit 'error', data.error
         @authenticated = false
+
+        if @autoReconnect then @reconnect()
       else
         @authenticated = true
 
@@ -81,7 +85,10 @@ class Client extends EventEmitter
         @emit 'loggedIn', @self, @team
         @connect()
     else
-      @emit 'error'
+      @emit 'error', data
+      @authenticated = false
+
+      if @autoReconnect then @reconnect()
 
   connect: ->
     if not @socketUrl
@@ -91,6 +98,8 @@ class Client extends EventEmitter
       @ws.on 'open', =>
         @emit 'open'
         @connected = true
+        @_connAttempts = 0
+        @_lastPong = Date.now()
 
         # start pings
         @_pongTimeout = setInterval =>
@@ -99,7 +108,9 @@ class Client extends EventEmitter
           @_send {"type": "ping"}
           if @_lastPong? and Date.now() - @_lastPong > 10000
             console.log "Last pong is too old: %d", (Date.now() - @_lastPong) / 1000
-            @disconnect()
+            @authenticated = false
+            @connected = false
+            @reconnect()
         , 5000
 
       @ws.on 'message', (data, flags) =>
@@ -108,6 +119,7 @@ class Client extends EventEmitter
         @onMessage JSON.parse(data)
 
       @ws.on 'error', =>
+        # TODO: Reconnect?
         @emit 'error'
 
       @ws.on 'close', =>
@@ -120,10 +132,12 @@ class Client extends EventEmitter
 
       return true
 
-  disconnect: =>
+  disconnect: ->
     if not @connected
       return false
     else
+      @autoReconnect = false
+
       if @_pongTimeout
         clearInterval @_pongTimeout
         @_pongTimeout = null
@@ -131,6 +145,23 @@ class Client extends EventEmitter
       # We don't set any flags or anything here, since the event handling on the socket will do it
       @ws.close()
       return true
+
+  reconnect: ->
+    if @_pongTimeout
+      clearInterval @_pongTimeout
+      @_pongTimeout = null
+
+    @authenticated = false
+    @connected = false
+
+    @_connAttempts++
+    # TODO: Check max reconnecting attempts and/or set a ceiling on this timeout
+    timeout = @_connAttempts * 1000
+    console.log "Reconnecting in %dms", timeout
+    setTimeout =>
+      console.log 'Attempting reconnect'
+      @login()
+    , timeout
 
   joinChannel: (name) ->
     params = {
@@ -468,10 +499,10 @@ class Client extends EventEmitter
             value = JSON.parse(buffer)
             callback(value)
           else
-            callback(null)
+            callback({'ok': false, 'error': 'API response: '+res.statusCode})
 
     req.on 'error', (error) =>
-      if callback? then callback({'ok': false, 'data': error})
+      if callback? then callback({'ok': false, 'error': error.errno})
 
     req.write('' + post_data)
     req.end()
