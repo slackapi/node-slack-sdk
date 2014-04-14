@@ -27,3 +27,8 @@ Here's the most direct way to get your work merged into the project.
 ## Copyright
 
 Copyright &copy; Tiny Speck, Inc. MIT License; see LICENSE for further details.
+
+## TODOs
+
+1. Better/any timeouts on initial websocket connection
+2. Better/any timeouts on API calls
