@@ -32,3 +32,4 @@ Copyright &copy; Tiny Speck, Inc. MIT License; see LICENSE for further details.
 
 1. Better/any timeouts on initial websocket connection
 2. Better/any timeouts on API calls
+3. Document the connection options, etc

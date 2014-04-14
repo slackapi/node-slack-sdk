@@ -15,7 +15,7 @@ class Client extends EventEmitter
 
   host: 'api.slack.com'
 
-  constructor: (@token, @autoReconnect=false) ->
+  constructor: (@token, @autoReconnect=true) ->
     @authenticated  = false
     @connected      = false
 
