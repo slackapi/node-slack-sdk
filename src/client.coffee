@@ -293,6 +293,19 @@ class Client extends EventEmitter
 
     count
 
+  getChannelsWithUnreads: ->
+    unreads = []
+    for id, channel of @channels
+      if channel.unread_count? then unreads.push channel
+
+    for id, dm of @ims
+      if dm.unread_count? then unreads.push dm
+
+    for id, group of @groups
+      if group.unread_count? then unreads.push group
+
+    unreads
+
   #
   # Message handler callback and dispatch
   #
