@@ -6,9 +6,9 @@
 
 ## Description
 
-This is a Slack client library for Node.js. It is intended to expose all base functionality of Slack, while providing some common abstractions.
+This is a Slack client library for Node.js. It is intended to expose all base functionality of Slack, while providing some common abstractions and generally making your life easier, if you want it to.
 
-**This code is in heavy development and is not supported in any way. Use at your own risk.**
+**This code is in heavy development and is not supported in any way. Documentation is minimal, at best. Use at your own risk, but please contribute back**
 
 ## Contribute
 
@@ -33,3 +33,4 @@ Copyright &copy; Tiny Speck, Inc. MIT License; see LICENSE for further details.
 1. Better/any timeouts on initial websocket connection
 2. Better/any timeouts on API calls
 3. Document the connection options, etc
+4. Emit more events around unreads and mentions
