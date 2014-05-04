@@ -333,7 +333,7 @@ class Client extends EventEmitter
         # find user by id and change their status
         u = @getUserByID(message.user)
         if u
-          @emit 'statusChane', u, message.status
+          @emit 'statusChange', u, message.status
           u.status = message.status
 
       when "error"
