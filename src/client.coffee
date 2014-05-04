@@ -358,8 +358,12 @@ class Client extends EventEmitter
       when "channel_marked", "im_marked", "group_marked"
         channel = @getChannelGroupOrDMByID message.channel
         if channel
-          @emit 'channelMarked', channel, message.ts
+          # update last_read and calculate new unread_count
           channel.last_read = message.ts
+          channel._recalcUnreads()
+
+          # emit
+          @emit 'channelMarked', channel, message.ts
 
       when "user_typing"
         user = @getUserByID message.user

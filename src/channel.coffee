@@ -58,10 +58,10 @@ class Channel
         console.log "Unknown message subtype: %s", message.subtype
         @_history[message.ts] = message
 
-    if message.ts and @latest? and @latest.ts? and message.ts > @latest.ts
+    if message.ts and not message.hidden and @latest? and @latest.ts? and message.ts > @latest.ts
+      @unread_count++
       @latest = message
 
-    # TODO: Update @unread_count
     if @_client.autoMark then @mark message.ts
 
   getHistory: ->
@@ -198,5 +198,15 @@ class Channel
 
   _onInvite: (data) =>
     console.log data
+
+  _recalcUnreads: ->
+    unreads = 0
+
+    # Iterate through history and count messages greater than last_read
+    for ts of @history
+      if ts > @last_read then unreads++
+
+    @unread_count = unreads
+
 
 module.exports = Channel
