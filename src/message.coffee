@@ -15,8 +15,10 @@ class Message
   toString: ->
     if @hidden then return ''
     if not @text and not @attachments then return ''
-    
+
     str = ''
+    # TODO: Date
+    
     channel = @_client.getChannelGroupOrDMByID @channel
     if channel then str += channel.name + ' > '
 
