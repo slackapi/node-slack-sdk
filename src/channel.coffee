@@ -55,7 +55,7 @@ class Channel
         @_history[message.ts] = message
 
       else
-        console.log "Unknown message subtype: %s", message.subtype
+        @logger.debug "Unknown message subtype: %s", message.subtype
         @_history[message.ts] = message
 
     if message.ts and not message.hidden and @latest? and @latest.ts? and message.ts > @latest.ts

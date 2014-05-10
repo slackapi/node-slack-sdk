@@ -26,7 +26,8 @@
 
   "dependencies": {
     "coffee-script":      "1.6.3",
-    "ws":                 "0.4.31"
+    "ws":                 "0.4.31",
+    "log":                "1.4.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

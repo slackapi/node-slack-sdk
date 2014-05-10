@@ -21,6 +21,6 @@ class DM extends Channel
     @_client._apiCall 'im.close', params, @_onClose
 
   _onClose: (data) =>
-    console.log data
+    @logger.debug data
 
 module.exports = DM

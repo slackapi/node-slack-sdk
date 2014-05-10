@@ -1,6 +1,7 @@
 https       = require 'https'
 querystring = require 'querystring'
 WebSocket   = require 'ws'
+Log            = require 'log'
 {EventEmitter} = require 'events'
 
 User = require './user'
@@ -35,12 +36,14 @@ class Client extends EventEmitter
 
     @_connAttempts  = 0
 
+    @logger         = new Log process.env.SLACK_LOG_LEVEL or 'info'
+
   #
   # Logging in and connection management functions
   #
 
   login: ->
-    console.log 'Connecting...'
+    @logger.info 'Connecting...'
     @_apiCall 'users.login', {agent: 'node-slack'}, @_onLogin
 
   _onLogin: (data) =>
@@ -107,7 +110,7 @@ class Client extends EventEmitter
 
           @_send {"type": "ping"}
           if @_lastPong? and Date.now() - @_lastPong > 10000
-            console.log "Last pong is too old: %d", (Date.now() - @_lastPong) / 1000
+            @logger.warn "Last pong is too old: %d", (Date.now() - @_lastPong) / 1000
             @authenticated = false
             @connected = false
             @reconnect()
@@ -157,9 +160,9 @@ class Client extends EventEmitter
     @_connAttempts++
     # TODO: Check max reconnecting attempts and/or set a ceiling on this timeout
     timeout = @_connAttempts * 1000
-    console.log "Reconnecting in %dms", timeout
+    @logger.info "Reconnecting in %dms", timeout
     setTimeout =>
-      console.log 'Attempting reconnect'
+      @logger.info 'Attempting reconnect'
       @login()
     , timeout
 
@@ -171,7 +174,7 @@ class Client extends EventEmitter
     @_apiCall 'channels.join', params, @_onJoinChannel
 
   _onJoinChannel: (data) =>
-    console.log data
+    @logger.debug data
 
   openDM: (user_id) ->
     params = {
@@ -181,7 +184,7 @@ class Client extends EventEmitter
     @_apiCall 'im.open', params, @_onOpenDM
 
   _onOpenDM: (data) =>
-    console.log data
+    @logger.debug data
 
   createGroup: (name) ->
     params = {
@@ -191,7 +194,7 @@ class Client extends EventEmitter
     @_apiCall 'groups.create', params, @_onCreateGroup
 
   _onCreateGroup: (data) =>
-    console.log data
+    @logger.debug data
 
   setPresence: (presence) ->
     if presence is not 'away' and presence is not 'active' then return null
@@ -203,7 +206,7 @@ class Client extends EventEmitter
     @_apiCall 'presence.set', params, @_onSetPresence
 
   _onSetPresence: (data) =>
-    console.log data
+    @logger.debug data
 
   setActive: ->
     params = {}
@@ -211,7 +214,7 @@ class Client extends EventEmitter
     @_apiCall 'users.setActive', params, @_onSetActive
 
   _onSetActive: (data) =>
-    console.log data
+    @logger.debug data
 
   setStatus: (status) ->
     params = {
@@ -221,7 +224,7 @@ class Client extends EventEmitter
     @_apiCall 'status.set', params, @_onSetStatus
 
   _onSetStatus: (data) =>
-    console.log data
+    @logger.debug data
 
   #
   # Utility functions
@@ -269,7 +272,6 @@ class Client extends EventEmitter
         return @getDMByID id
 
   getChannelGroupOrDMByName: (name) ->
-    console.log name
     channel = @getChannelByName name
     if not channel
       group = @getGroupByName name
@@ -462,7 +464,7 @@ class Client extends EventEmitter
             @_lastPong = Date.now()
             delete @_pending[message.reply_to]
           else if message.ok
-            console.log "Message "+message.reply_to+" was sent"
+            @logger.debug "Message "+message.reply_to+" was sent"
             if @_pending[message.reply_to]
               m = @_pending[message.reply_to]
               channel = @getChannelGroupOrDMByID m
@@ -476,8 +478,8 @@ class Client extends EventEmitter
             # TODO: resend?
         else
           if message.type not in ["file_created", "file_shared", "file_unshared", "file_comment", "file_public", "file_comment_edited", "file_comment_deleted", "file_change", "file_deleted", "star_added", "star_removed"]
-            console.warn 'Unknown message type: '+message.type
-            console.log message
+            @logger.warn 'Unknown message type: '+message.type
+            @logger.warn message
 
   #
   # Private functions
