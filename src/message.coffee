@@ -12,11 +12,23 @@ class Message
 
     return m
 
+  getBody: ->
+    txt = ""
+    if @text then txt += @text
+    
+    if @attachments
+      if @text then txt += "\n"
+      for k, attach of @attachments
+        if k > 0 then txt += "\n"
+        txt += attach.fallback
+
+    txt
+
   toString: ->
     if @hidden then return ''
     if not @text and not @attachments then return ''
 
-    str = ''
+    str = ""
     # TODO: Date
     
     channel = @_client.getChannelGroupOrDMByID @channel
@@ -34,13 +46,8 @@ class Message
     
     # TODO: bots here
 
-    if @text then str += @text
-
-    if @attachments
-      if @text then str += "\n"
-      for k of @attachments
-        if k > 0 then str += "\n"
-        str += @attachments[k].fallback
+    body = @getBody()
+    if body then str += body
 
     str
 
