@@ -102,7 +102,7 @@ class Channel
     @_client._apiCall method, params, @_onFetchHistory
 
   _onFetchHistory: (data) =>
-    console.log data
+    @logger.debug data
 
   mark: (ts) ->
     params = {
@@ -117,7 +117,7 @@ class Channel
     @_client._apiCall method, params, @_onMark
 
   _onMark: (data) =>
-    console.log data
+    @logger.debug data
     # TODO: Update @unread_count based on ts
 
   leave: ->
@@ -133,7 +133,7 @@ class Channel
     @_client._apiCall method, params, @_onLeave
 
   _onLeave: (data) =>
-    console.log data
+    @logger.debug data
 
   setTopic: (topic) ->
     if @constructor.name == 'DM' then return null
@@ -149,7 +149,7 @@ class Channel
     @_client._apiCall method, params, @_onSetTopic
 
   _onSetTopic: (data) =>
-    console.log data
+    @logger.debug data
 
   setPurpose: (purpose) ->
     if @constructor.name == 'DM' then return null
@@ -165,7 +165,7 @@ class Channel
     @_client._apiCall method, params, @_onSetPurpose
 
   _onSetPurpose: (data) =>
-    console.log data
+    @logger.debug data
 
   rename: (name) ->
     if @constructor.name == 'DM' then return null
@@ -181,7 +181,7 @@ class Channel
     @_client._apiCall method, params, @_onRename
 
   _onRename: (data) =>
-    console.log data
+    @logger.debug data
 
   invite: (user_id) ->
     if @constructor.name == 'DM' then return null
@@ -197,7 +197,7 @@ class Channel
     @_client._apiCall method, params, @_onInvite
 
   _onInvite: (data) =>
-    console.log data
+    @logger.debug data
 
   _recalcUnreads: ->
     unreads = 0

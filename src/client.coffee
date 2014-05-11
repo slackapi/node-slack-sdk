@@ -374,11 +374,11 @@ class Client extends EventEmitter
           @emit 'userTyping', user, channel
           channel.startedTyping(user.id)
         else if channel
-          console.warn "Could not find user "+message.user+" for user_typing"
+          @logger.warn "Could not find user "+message.user+" for user_typing"
         else if user
-          console.warn "Could not find channel "+message.channel+" for user_typing"
+          @logger.warn "Could not find channel "+message.channel+" for user_typing"
         else
-          console.warn "Could not find channel/user "+message.channel+"/"+message.user+" for user_typing"
+          @logger.warn "Could not find channel/user "+message.channel+"/"+message.user+" for user_typing"
 
       when "team_join", "user_change"
         u = message.user
