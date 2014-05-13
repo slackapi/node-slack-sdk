@@ -10,7 +10,7 @@ class Group extends Channel
     @_client._apiCall 'groups.close', params, @_onClose
 
   _onClose: (data) =>
-    @logger.debug data
+    @_client.logger.debug data
 
   open: ->
     params = {
@@ -20,7 +20,7 @@ class Group extends Channel
     @_client._apiCall 'groups.open', params, @_onOpen
 
   _onOpen: (data) =>
-    @logger.debug data
+    @_client.logger.debug data
 
   archive: ->
     params = {
@@ -30,7 +30,7 @@ class Group extends Channel
     @_client._apiCall 'groups.archive', params, @_onArchive
 
   _onArchive: (data) =>
-    @logger.debug data
+    @_client.logger.debug data
 
   unarchive: ->
     params = {
@@ -40,7 +40,7 @@ class Group extends Channel
     @_client._apiCall 'groups.unarchive', params, @_onUnArchive
 
   _onUnArchive: (data) =>
-    @logger.debug data
+    @_client.logger.debug data
 
   createChild: ->
     params = {
@@ -50,6 +50,6 @@ class Group extends Channel
     @_client._apiCall 'groups.createChild', params, @_onCreateChild
 
   _onCreateChild: (data) =>
-    @logger.debug data
+    @_client.logger.debug data
 
 module.exports = Group

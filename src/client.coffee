@@ -110,7 +110,7 @@ class Client extends EventEmitter
 
           @_send {"type": "ping"}
           if @_lastPong? and Date.now() - @_lastPong > 10000
-            @logger.warn "Last pong is too old: %d", (Date.now() - @_lastPong) / 1000
+            @logger.error "Last pong is too old: %d", (Date.now() - @_lastPong) / 1000
             @authenticated = false
             @connected = false
             @reconnect()
@@ -374,11 +374,11 @@ class Client extends EventEmitter
           @emit 'userTyping', user, channel
           channel.startedTyping(user.id)
         else if channel
-          @logger.warn "Could not find user "+message.user+" for user_typing"
+          @logger.error "Could not find user "+message.user+" for user_typing"
         else if user
-          @logger.warn "Could not find channel "+message.channel+" for user_typing"
+          @logger.error "Could not find channel "+message.channel+" for user_typing"
         else
-          @logger.warn "Could not find channel/user "+message.channel+"/"+message.user+" for user_typing"
+          @logger.error "Could not find channel/user "+message.channel+"/"+message.user+" for user_typing"
 
       when "team_join", "user_change"
         u = message.user
@@ -478,8 +478,8 @@ class Client extends EventEmitter
             # TODO: resend?
         else
           if message.type not in ["file_created", "file_shared", "file_unshared", "file_comment", "file_public", "file_comment_edited", "file_comment_deleted", "file_change", "file_deleted", "star_added", "star_removed"]
-            @logger.warn 'Unknown message type: '+message.type
-            @logger.warn message
+            @logger.debug 'Unknown message type: '+message.type
+            @logger.debug message
 
   #
   # Private functions

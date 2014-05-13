@@ -55,7 +55,7 @@ class Channel
         @_history[message.ts] = message
 
       else
-        @logger.debug "Unknown message subtype: %s", message.subtype
+        @_client.logger.debug "Unknown message subtype: %s", message.subtype
         @_history[message.ts] = message
 
     if message.ts and not message.hidden and @latest? and @latest.ts? and message.ts > @latest.ts
@@ -102,7 +102,7 @@ class Channel
     @_client._apiCall method, params, @_onFetchHistory
 
   _onFetchHistory: (data) =>
-    @logger.debug data
+    @_client.logger.debug data
 
   mark: (ts) ->
     params = {
@@ -117,7 +117,7 @@ class Channel
     @_client._apiCall method, params, @_onMark
 
   _onMark: (data) =>
-    @logger.debug data
+    @_client.logger.debug data
     # TODO: Update @unread_count based on ts
 
   leave: ->
@@ -133,7 +133,7 @@ class Channel
     @_client._apiCall method, params, @_onLeave
 
   _onLeave: (data) =>
-    @logger.debug data
+    @_client.logger.debug data
 
   setTopic: (topic) ->
     if @constructor.name == 'DM' then return null
@@ -149,7 +149,7 @@ class Channel
     @_client._apiCall method, params, @_onSetTopic
 
   _onSetTopic: (data) =>
-    @logger.debug data
+    @_client.logger.debug data
 
   setPurpose: (purpose) ->
     if @constructor.name == 'DM' then return null
@@ -165,7 +165,7 @@ class Channel
     @_client._apiCall method, params, @_onSetPurpose
 
   _onSetPurpose: (data) =>
-    @logger.debug data
+    @_client.logger.debug data
 
   rename: (name) ->
     if @constructor.name == 'DM' then return null
@@ -181,7 +181,7 @@ class Channel
     @_client._apiCall method, params, @_onRename
 
   _onRename: (data) =>
-    @logger.debug data
+    @_client.logger.debug data
 
   invite: (user_id) ->
     if @constructor.name == 'DM' then return null
@@ -197,7 +197,7 @@ class Channel
     @_client._apiCall method, params, @_onInvite
 
   _onInvite: (data) =>
-    @logger.debug data
+    @_client.logger.debug data
 
   _recalcUnreads: ->
     unreads = 0
