@@ -1,6 +1,6 @@
 {
   "name": "slack-client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A library for creating a full Slack client",
   "main": "./index",
   "scripts": {
@@ -23,11 +23,10 @@
   "bugs": {
     "url": "http://github.com/tinyspeck/node-slack/issues"
   },
-
   "dependencies": {
-    "coffee-script":      "1.6.3",
-    "ws":                 "0.4.31",
-    "log":                "1.4.0"
+    "coffee-script": "1.6.3",
+    "ws": "0.4.31",
+    "log": "1.4.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -35,9 +34,8 @@
     "grunt-contrib-watch": "~0.5.3",
     "grunt-shell": "~0.5.0"
   },
-
   "engines": {
     "node": ">= 0.8.x",
-    "npm":  ">= 1.1.x"
+    "npm": ">= 1.1.x"
   }
 }
