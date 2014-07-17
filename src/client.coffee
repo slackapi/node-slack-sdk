@@ -44,7 +44,7 @@ class Client extends EventEmitter
 
   login: ->
     @logger.info 'Connecting...'
-    @_apiCall 'users.login', {agent: 'node-slack'}, @_onLogin
+    @_apiCall 'rtm.start', {agent: 'node-slack'}, @_onLogin
 
   _onLogin: (data) =>
     if data
