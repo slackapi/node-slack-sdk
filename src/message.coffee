@@ -51,4 +51,10 @@ class Message
 
     str
 
+  getChannelType: ->
+    channel = @_client.getChannelGroupOrDMByID @channel
+    if not channel then return ''
+
+    return channel.getType()
+
 module.exports = Message

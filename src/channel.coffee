@@ -10,6 +10,9 @@ class Channel
 
     # TODO: Emit event for unread history
 
+  getType: ->
+    return @constructor.name
+
   addMessage: (message) ->
     switch message.subtype
       when undefined, "channel_archive", "channel_unarchive", "group_archive", "group_unarchive"
@@ -96,8 +99,8 @@ class Channel
     if oldest? then params.oldest = oldest
 
     method = 'channels.history'
-    if @constructor.name == 'Group' then method = 'groups.history'
-    if @constructor.name == 'DM' then method = 'im.history'
+    if @getType() == 'Group' then method = 'groups.history'
+    if @getType() == 'DM' then method = 'im.history'
 
     @_client._apiCall method, params, @_onFetchHistory
 
@@ -111,8 +114,8 @@ class Channel
     }
 
     method = 'channels.mark'
-    if @constructor.name == 'Group' then method = 'groups.mark'
-    if @constructor.name == 'DM' then method = 'im.mark'
+    if @getType() == 'Group' then method = 'groups.mark'
+    if @getType() == 'DM' then method = 'im.mark'
 
     @_client._apiCall method, params, @_onMark
 
@@ -121,14 +124,14 @@ class Channel
     # TODO: Update @unread_count based on ts
 
   leave: ->
-    if @constructor.name == 'DM' then return null
+    if @getType() == 'DM' then return null
 
     params = {
       "channel": @id
     }
 
     method = 'channels.leave'
-    if @constructor.name == 'Group' then method = 'groups.leave'
+    if @getType() == 'Group' then method = 'groups.leave'
 
     @_client._apiCall method, params, @_onLeave
 
@@ -136,7 +139,7 @@ class Channel
     @_client.logger.debug data
 
   setTopic: (topic) ->
-    if @constructor.name == 'DM' then return null
+    if @getType() == 'DM' then return null
 
     params = {
       "channel": @id,
@@ -144,7 +147,7 @@ class Channel
     }
 
     method = 'channels.setTopic'
-    if @constructor.name == 'Group' then method = 'groups.setTopic'
+    if @getType() == 'Group' then method = 'groups.setTopic'
 
     @_client._apiCall method, params, @_onSetTopic
 
@@ -152,7 +155,7 @@ class Channel
     @_client.logger.debug data
 
   setPurpose: (purpose) ->
-    if @constructor.name == 'DM' then return null
+    if @getType() == 'DM' then return null
 
     params = {
       "channel": @id,
@@ -160,7 +163,7 @@ class Channel
     }
 
     method = 'channels.setPurpose'
-    if @constructor.name == 'Group' then method = 'groups.setPurpose'
+    if @getType() == 'Group' then method = 'groups.setPurpose'
 
     @_client._apiCall method, params, @_onSetPurpose
 
@@ -168,7 +171,7 @@ class Channel
     @_client.logger.debug data
 
   rename: (name) ->
-    if @constructor.name == 'DM' then return null
+    if @getType() == 'DM' then return null
 
     params = {
       "channel": @id,
@@ -176,7 +179,7 @@ class Channel
     }
 
     method = 'channels.rename'
-    if @constructor.name == 'Group' then method = 'groups.rename'
+    if @getType() == 'Group' then method = 'groups.rename'
 
     @_client._apiCall method, params, @_onRename
 
@@ -184,7 +187,7 @@ class Channel
     @_client.logger.debug data
 
   invite: (user_id) ->
-    if @constructor.name == 'DM' then return null
+    if @getType() == 'DM' then return null
 
     params = {
       "channel": @id,
@@ -192,7 +195,7 @@ class Channel
     }
 
     method = 'channels.invite'
-    if @constructor.name == 'Group' then method = 'groups.invite'
+    if @getType() == 'Group' then method = 'groups.invite'
 
     @_client._apiCall method, params, @_onInvite
 
