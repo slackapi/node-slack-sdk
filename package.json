@@ -13,15 +13,15 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://github.com/tinyspeck/node-slack/raw/master/LICENSE"
+      "url": "http://github.com/slackhq/node-slack-client/raw/master/LICENSE"
     }
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/tinyspeck/node-slack.git"
+    "url": "git://github.com/slackhq/node-slack-client.git"
   },
   "bugs": {
-    "url": "http://github.com/tinyspeck/node-slack/issues"
+    "url": "http://github.com/slackhq/node-slack-client/issues"
   },
   "dependencies": {
     "coffee-script": "1.6.3",
