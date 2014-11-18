@@ -384,6 +384,7 @@ class Client extends EventEmitter
 
       when "team_join", "user_change"
         u = message.user
+        @emit 'userChange', u
         @users[u.id] = new User @, u
 
       when "channel_joined"
