@@ -2,13 +2,13 @@
 
 ## Travis-CI Build Status
 
-[![Build Status](https://travis-ci.org/tinyspeck/node-slack.png?branch=master)](https://travis-ci.org/tinyspeck/node-slack)
+[![Build Status](https://travis-ci.org/slackhq/node-slack-client.png?branch=master)](https://travis-ci.org/slackhq/node-slack-client)
 
 ## Description
 
-This is a Slack client library for Node.js. It is intended to expose all base functionality of Slack, while providing some common abstractions and generally making your life easier, if you want it to.
+This is a Slack client library for Node.js. It is intended to expose all of the functionality of [Slack's Real Time Messaging API](https://api.slack.com/rtm) while providing some common abstractions and generally making your life easier, if you want it to.
 
-**This code is in heavy development and is not supported in any way. Documentation is minimal, at best. Use at your own risk, but please contribute back**
+This code has been built to support our [hubot-slack](https://github.com/slackhq/hubot-slack) adapter. Most other functionality isn't yet supported, and documenation is minimal, at best.
 
 ## Contribute
 
