@@ -342,6 +342,14 @@ class Client extends EventEmitter
       when "error"
         @emit 'error', message.error
 
+      when "star_added"
+        m = new Message @, message
+        @emit 'star_added', m
+
+      when "star_removed"
+        m = new Message @, message
+        @emit 'star_removed', m
+
       when "message"
         # is this the special message we get on reconnect?
         if message.reply_to
