@@ -8,7 +8,7 @@
 
 This is a Slack client library for Node.js. It is intended to expose all of the functionality of [Slack's Real Time Messaging API](https://api.slack.com/rtm) while providing some common abstractions and generally making your life easier, if you want it to.
 
-This code has been built to support our [hubot-slack](https://github.com/slackhq/hubot-slack) adapter. Most other functionality isn't yet supported, and documentation is minimal, at best.
+This code has been built to support our [hubot-slack](https://github.com/slackhq/hubot-slack) adapter. Most other functionality isn't yet supported, and documentation is minimal, at best. A simple example of how to use this module from Node.js can be found in the `examples` directory.
 
 ## Contribute
 
