@@ -299,13 +299,13 @@ class Client extends EventEmitter
   getChannelsWithUnreads: ->
     unreads = []
     for id, channel of @channels
-      if channel.unread_count? then unreads.push channel
+      if channel.unread_count > 0 then unreads.push channel
 
     for id, dm of @ims
-      if dm.unread_count? then unreads.push dm
+      if dm.unread_count > 0 then unreads.push dm
 
     for id, group of @groups
-      if group.unread_count? then unreads.push group
+      if group.unread_count > 0 then unreads.push group
 
     unreads
 
