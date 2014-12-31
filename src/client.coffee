@@ -241,6 +241,7 @@ class Client extends EventEmitter
     @channels[id]
 
   getChannelByName: (name) ->
+    name = name.replace /^#/, ''
     for k of @channels
       if @channels[k].name == name
         return @channels[k]
