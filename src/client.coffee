@@ -471,6 +471,7 @@ class Client extends EventEmitter
             @logger.debug "Message "+message.reply_to+" was sent"
             if @_pending[message.reply_to]
               m = @_pending[message.reply_to]
+              m._onMessageSent(message)
               channel = @getChannelGroupOrDMByID m
               if channel
                 channel.addMessage m

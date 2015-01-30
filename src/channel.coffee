@@ -89,6 +89,7 @@ class Channel
   sendMessage: (message) ->
     message.channel = @id
     @_client._send(message)
+    return m
 
   fetchHistory: (latest, oldest) ->
     params = {
