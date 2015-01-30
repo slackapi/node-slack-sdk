@@ -497,6 +497,8 @@ class Client extends EventEmitter
       message.id = ++@_messageID
       @_pending[message.id] = message
       @ws.send JSON.stringify(message)
+      # Send the message back to the sender
+      return message
 
   _apiCall: (method, params, callback) ->
     params['token'] = @token
