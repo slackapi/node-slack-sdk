@@ -86,6 +86,19 @@ class Channel
     m = new Message @_client, {text: text}
     @sendMessage m
 
+  postMessage: (data) ->
+    params = data
+    params.channel = @id
+    if data.attachments
+      params.attachments = JSON.stringify(data.attachments)
+
+    @_client.logger.debug data
+    @_client.logger.debug params
+    @_client._apiCall "chat.postMessage", params, @_onPostMessage
+
+  _onPostMessage: (data) =>
+    @_client.logger.debug data
+
   sendMessage: (message) ->
     message.channel = @id
     @_client._send(message)
