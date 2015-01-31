@@ -99,10 +99,9 @@ class Client extends EventEmitter
     else
       @ws = new WebSocket @socketUrl
       @ws.on 'open', =>
-        @emit 'open'
         @connected = true
         @_connAttempts = 0
-        @_lastPong = Date.now()
+        @_lastPong = null
 
         # start pings
         @_pongTimeout = setInterval =>
@@ -465,6 +464,7 @@ class Client extends EventEmitter
         if message.reply_to
           if message.type == 'pong'
             @logger.debug 'pong'
+            @emit 'open' if not @_lastPong
             @_lastPong = Date.now()
             delete @_pending[message.reply_to]
           else if message.ok
