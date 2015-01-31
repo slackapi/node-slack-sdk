@@ -57,4 +57,20 @@ class Message
 
     return channel.getType()
 
+  updateMessage: (new_text) =>
+    params = {
+      "ts": @ts,
+      "channel": @channel,
+      "text": new_text
+    }
+    @_client.logger.debug "Sending message change request"
+    @_client.logger.debug params
+    if @ts then @_client._apiCall "chat.update", params, @_onUpdateMessage
+
+  _onUpdateMessage: (data) ->
+    @_client.logger.debug data
+
+  _onMessageSent: (data) ->
+    @ts = data.ts
+
 module.exports = Message

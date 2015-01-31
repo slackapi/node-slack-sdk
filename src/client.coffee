@@ -471,6 +471,7 @@ class Client extends EventEmitter
             @logger.debug "Message "+message.reply_to+" was sent"
             if @_pending[message.reply_to]
               m = @_pending[message.reply_to]
+              m._onMessageSent(message)
               channel = @getChannelGroupOrDMByID m
               if channel
                 channel.addMessage m
@@ -496,6 +497,8 @@ class Client extends EventEmitter
       message.id = ++@_messageID
       @_pending[message.id] = message
       @ws.send JSON.stringify(message)
+      # Send the message back to the sender
+      return message
 
   _apiCall: (method, params, callback) ->
     params['token'] = @token
