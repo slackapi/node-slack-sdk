@@ -70,6 +70,18 @@ class Message
   _onUpdateMessage: (data) ->
     @_client.logger.debug data
 
+  deleteMessage: =>
+    params = {
+      "ts": @ts,
+      "channel": @channel,
+    }
+    @_client.logger.debug "Sending message delete request"
+    @_client.logger.debug params
+    if @ts then @_client._apiCall "chat.delete", params, @_onDeleteMessage
+
+  _onDeleteMessage: (data) ->
+    @_client.logger.debug data
+
   _onMessageSent: (data) ->
     @ts = data.ts
 
