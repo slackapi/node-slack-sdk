@@ -63,9 +63,10 @@ class Message
       "channel": @channel,
       "text": new_text
     }
-    @_client.logger.debug "Sending message change request"
-    @_client.logger.debug params
-    if @ts then @_client._apiCall "chat.update", params, @_onUpdateMessage
+    if @ts
+      @_client.logger.debug "Sending message change request"
+      @_client.logger.debug params
+      @_client._apiCall "chat.update", params, @_onUpdateMessage
 
   _onUpdateMessage: (data) ->
     @_client.logger.debug data
@@ -75,9 +76,10 @@ class Message
       "ts": @ts,
       "channel": @channel,
     }
-    @_client.logger.debug "Sending message delete request"
-    @_client.logger.debug params
-    if @ts then @_client._apiCall "chat.delete", params, @_onDeleteMessage
+    if @ts
+      @_client.logger.debug "Sending message delete request"
+      @_client.logger.debug params
+      @_client._apiCall "chat.delete", params, @_onDeleteMessage
 
   _onDeleteMessage: (data) ->
     @_client.logger.debug data
