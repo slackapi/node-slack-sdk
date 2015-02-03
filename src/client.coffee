@@ -99,8 +99,6 @@ class Client extends EventEmitter
     else
       @ws = new WebSocket @socketUrl
       @ws.on 'open', =>
-        @emit 'open'
-        @connected = true
         @_connAttempts = 0
         @_lastPong = Date.now()
 
@@ -321,6 +319,7 @@ class Client extends EventEmitter
       when "hello"
         # connected really really
         @connected = true
+        @emit 'open'
 
       when "presence_change"
         # find user by id and change their presence
