@@ -4,10 +4,6 @@
 should = require 'should'
 
 Client = require '../src/client'
-# Stub a few interfaces to grease the skids for tests. These are intentionally
-# as minimal as possible and only provide enough to make the tests possible.
-# Stubs are recreated before each test.
-stubs = null
 
 # Generate a new instance for each test.
 client = null
