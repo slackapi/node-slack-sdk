@@ -8,6 +8,7 @@ User = require './user'
 Team = require './team'
 Channel = require './channel'
 Group = require './group'
+File = require './file'
 DM = require './dm'
 Message = require './message'
 Bot = require './bot'
@@ -26,6 +27,7 @@ class Client extends EventEmitter
     @channels       = {}
     @dms            = {}
     @groups         = {}
+    @files          = {}
     @users          = {}
     @bots           = {}
 
@@ -33,6 +35,7 @@ class Client extends EventEmitter
     @ws             = null
     @_messageID     = 0
     @_pending       = {}
+    @_fetchedFiles  = false
 
     @_connAttempts  = 0
 
@@ -83,6 +86,7 @@ class Client extends EventEmitter
           g = data.groups[k]
           @groups[g.id] = new Group @, g
 
+        @setFiles()
         # TODO: Process bots
 
         @emit 'loggedIn', @self, @team
@@ -195,6 +199,12 @@ class Client extends EventEmitter
   _onCreateGroup: (data) =>
     @logger.debug data
 
+  createFile: (params) ->
+    @_apiCall 'files.upload', params, @_onCreateFile
+
+  _onCreateFile: (data) =>
+    @logger.debug data
+
   setPresence: (presence) ->
     if presence is not 'away' and presence is not 'active' then return null
 
@@ -224,6 +234,17 @@ class Client extends EventEmitter
 
   _onSetStatus: (data) =>
     @logger.debug data
+
+  setFiles: ()->
+    @_apiCall 'files.list', {}, @_onSetFiles
+
+  _onSetFiles: (data)=>
+    @logger.debug data
+    @_fetchedFiles = true
+    for k of data.files
+      f = data.files[k]
+      @files[f.id] = new File @, f
+    @emit 'fetchFiles', data.files
 
   #
   # Utility functions
@@ -308,6 +329,26 @@ class Client extends EventEmitter
 
     unreads
 
+  getFileByID: (id) ->
+    @files[id]
+
+  getCommentByID: (file_id, id) ->
+    @files[file_id].comments[id]
+
+  getFiles: ()->
+    if @_fetchedFiles
+      @files
+    else
+      null
+
+  eventCamelName: (name)->
+    nameArray = name.split('_')
+    return [].map.call nameArray, (string)->
+      if nameArray[0] == string
+        return string
+      else
+        return string.charAt(0).toUpperCase() + string.slice(1)
+    .join ''
   #
   # Message handler callback and dispatch
   #
@@ -461,6 +502,24 @@ class Client extends EventEmitter
       when "bot_removed"
         if @bots[message.bot.id] then @emit 'botRemoved', @bots[message.bot.id]
 
+      when "file_created", "file_change"
+        f = message.file
+        @files[message.file.id] = new File @, f
+        @emit @eventCamelName(message.type), f
+
+      when "file_deleted"
+        if @files[message.file_id] then @emit "fileDeleted", @files[message.file_id]
+
+      when "file_comment_added", "file_comment_edited"
+        if @files[message.file.id]
+          c = message.comment
+          @files[message.file.id].comments[c.id] = @files[message.file.id].newComment c
+          @emit @eventCamelName(message.type), c
+
+      when "file_comment_deleted"
+        if @files[message.file.id] and @files[message.file.id].comments[message.comment]
+          @emit "fileCommentDeleted"
+
       else
         if message.reply_to
           if message.type == 'pong'
@@ -482,9 +541,11 @@ class Client extends EventEmitter
             @emit 'error', if message.error? then message.error else message
             # TODO: resend?
         else
-          if message.type not in ["file_created", "file_shared", "file_unshared", "file_comment", "file_public", "file_comment_edited", "file_comment_deleted", "file_change", "file_deleted", "star_added", "star_removed"]
+          if message.type not in ["file_shared", "file_unshared", "file_public", "star_added", "star_removed"]
             @logger.debug 'Unknown message type: '+message.type
             @logger.debug message
+          else
+            @emit @eventCamelName(message.type)
 
   #
   # Private functions
@@ -505,7 +566,7 @@ class Client extends EventEmitter
 
     post_data = querystring.stringify(params)
 
-    options = 
+    options =
       hostname: @host,
       method: 'POST',
       path: '/api/' + method,
