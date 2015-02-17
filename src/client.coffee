@@ -165,62 +165,74 @@ class Client extends EventEmitter
       @login()
     , timeout
 
-  joinChannel: (name) ->
+  joinChannel: (name, callback) ->
     params = {
       "name": name
     }
 
-    @_apiCall 'channels.join', params, @_onJoinChannel
+    @_apiCall 'channels.join', params, =>
+      @_onJoinChannel arguments...
+      callback? arguments...
 
   _onJoinChannel: (data) =>
     @logger.debug data
 
-  openDM: (user_id) ->
+  openDM: (user_id, callback) ->
     params = {
       "user": user_id
     }
 
-    @_apiCall 'im.open', params, @_onOpenDM
+    @_apiCall 'im.open', params, =>
+      @_onOpenDM arguments...
+      callback? arguments...
 
   _onOpenDM: (data) =>
     @logger.debug data
 
-  createGroup: (name) ->
+  createGroup: (name, callback) ->
     params = {
       "name": name
     }
 
-    @_apiCall 'groups.create', params, @_onCreateGroup
+    @_apiCall 'groups.create', params, =>
+      @_onCreateGroup arguments...
+      callback? arguments...
 
   _onCreateGroup: (data) =>
     @logger.debug data
 
-  setPresence: (presence) ->
+  setPresence: (presence, callback) ->
     if presence is not 'away' and presence is not 'active' then return null
 
     params = {
       "presence": presence
     }
 
-    @_apiCall 'presence.set', params, @_onSetPresence
+    @_apiCall 'presence.set', params, =>
+      @_onSetPresence arguments...
+      callback? arguments...
 
   _onSetPresence: (data) =>
     @logger.debug data
 
-  setActive: ->
+  setActive: (callback) ->
     params = {}
 
-    @_apiCall 'users.setActive', params, @_onSetActive
+    @_apiCall 'users.setActive', params, =>
+      @_onSetActive arguments...
+      callback? arguments...
 
   _onSetActive: (data) =>
     @logger.debug data
 
-  setStatus: (status) ->
+  setStatus: (status, callback) ->
     params = {
       "status": status
     }
 
-    @_apiCall 'status.set', params, @_onSetStatus
+    @_apiCall 'status.set', params, =>
+      @_onSetStatus arguments...
+      callback arguments...
 
   _onSetStatus: (data) =>
     @logger.debug data
