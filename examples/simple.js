@@ -7,6 +7,9 @@
 // 	cd examples
 // 	node simple.js
 
+// Note: in a normal implementation with the package loaded from NPM, you won't have to do this
+require('coffee-script/register');
+
 var Slack = require('..');
 
 var token = 'xoxb-YOUR-TOKEN-HERE', // Add a bot at https://my.slack.com/services/new/bot and copy the token here.
