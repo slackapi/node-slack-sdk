@@ -132,6 +132,12 @@ class Client extends EventEmitter
       @ws.on 'ping', (data, flags) =>
         @ws.pong
 
+      @ws.on 'star_added', (data, flags) =>
+        @onStarAdded JSON.parse(data)
+
+      @ws.on 'star_added', (data, flags) =>
+        @onStarRemoved JSON.parse(data)
+
       return true
 
   disconnect: ->
@@ -307,6 +313,16 @@ class Client extends EventEmitter
       if group.unread_count > 0 then unreads.push group
 
     unreads
+
+   #
+   # Stars handler callbacks and dispatches
+   #
+
+   onStarAdded: (data) ->
+     @emit 'star_added', data
+
+   onStarRemoved: (data) ->
+     @emit 'star_removed', data
 
   #
   # Message handler callback and dispatch
