@@ -135,7 +135,7 @@ class Client extends EventEmitter
       @ws.on 'star_added', (data, flags) =>
         @onStarAdded JSON.parse(data)
 
-      @ws.on 'star_added', (data, flags) =>
+      @ws.on 'star_removed', (data, flags) =>
         @onStarRemoved JSON.parse(data)
 
       return true
