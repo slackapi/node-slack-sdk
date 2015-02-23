@@ -29,12 +29,10 @@ slack.on 'open', ->
   unreads = slack.getUnreadCount()
 
   # Get all the channels that bot is a member of
-  channels = ("##{value.name}" for key, value of slack.channels when slack.channels[key].is_member)
+  channels = ("##{channel.name}" for id, channel of slack.channels when channel.is_member)
+
   # Get all groups that are open and not archived 
-  groups = (for key, value of slack.groups
-    if slack.groups[key].is_open and not slack.groups[key].is_archived
-      value.name)
-  
+  groups = (group.name for id, group of slack.groups when group.is_open and not group.is_archived)
 
   console.log "Welcome to Slack. You are @#{slack.self.name} of #{slack.team.name}"
   console.log 'You are in: ' + channels.join(', ')
