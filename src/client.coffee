@@ -132,12 +132,6 @@ class Client extends EventEmitter
       @ws.on 'ping', (data, flags) =>
         @ws.pong
 
-      @ws.on 'star_added', (data, flags) =>
-        @onStarAdded JSON.parse(data)
-
-      @ws.on 'star_removed', (data, flags) =>
-        @onStarRemoved JSON.parse(data)
-
       return true
 
   disconnect: ->
@@ -476,6 +470,12 @@ class Client extends EventEmitter
 
       when "bot_removed"
         if @bots[message.bot.id] then @emit 'botRemoved', @bots[message.bot.id]
+
+      when 'star_added'
+          @emit 'star_added', message
+      
+      when 'star_removed'
+          @emit 'star_removed', message
 
       else
         if message.reply_to
