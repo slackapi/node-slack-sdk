@@ -26,8 +26,9 @@
   },
   "dependencies": {
     "coffee-script": "~1.9.0",
-    "ws": "0.4.31",
-    "log": "1.4.0"
+    "form-data": "^0.2.0",
+    "log": "1.4.0",
+    "ws": "0.4.31"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
