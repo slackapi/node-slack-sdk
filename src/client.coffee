@@ -513,6 +513,7 @@ class Client extends EventEmitter
       when "file_comment_added", "file_comment_edited"
         if @files[message.file.id]
           c = message.comment
+          c.file_id = message.file.id
           @files[message.file.id].comments[c.id] = @files[message.file.id].newComment c
           @emit @eventCamelName(message.type), c
 
