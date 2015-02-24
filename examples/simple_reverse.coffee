@@ -50,20 +50,35 @@ slack.on 'message', (message) ->
 
   {type, ts, text} = message
 
-  channelName = if channel.is_channel then '#' else ''
-  channelName += channel.name
+  channelName = if channel?.is_channel then '#' else ''
+  channelName = channelName + if channel then channel.name else 'UNKNOWN_CHANNEL'
+
+  userName = if user?.name? then "@#{user.name}" else "UNKNOWN_USER"
 
   console.log """
-    Received: #{type} #{channelName} @#{user.name} #{ts} "#{text}"
+    Received: #{type} #{channelName} #{userName} #{ts} "#{text}"
   """
 
   # Respond to messages with the reverse of the text received.
-
-  if type is 'message'
+  if type is 'message' and text? and channel?
     response = text.split('').reverse().join('')
     channel.send response
     console.log """
       @#{slack.self.name} responded with "#{response}"
+    """
+  else
+    #this one should probably be impossible, since we're in slack.on 'message' 
+    typeError = if type isnt 'message' then "unexpected type #{type}." else null
+    #Can happen on delete/edit/a few other events
+    textError = if not text? then 'text was undefined.' else null
+    #In theory some events could happen with no channel
+    channelError = if not channel? then 'channel was undefined.' else null
+
+    #Space delimited string of my errors
+    errors = [typeError, textError, channelError].filter((element) -> element isnt null).join ' '
+
+    console.log """
+      @#{slack.self.name} could not respond. #{errors}
     """
 
 
