@@ -175,12 +175,15 @@ class Client extends EventEmitter
   _onJoinChannel: (data) =>
     @logger.debug data
 
-  openDM: (user_id) ->
+  openDM: (user_id, callback) ->
     params = {
       "user": user_id
     }
 
-    @_apiCall 'im.open', params, @_onOpenDM
+    if typeof callback is 'undefined'
+      callback = @_onOpenDM
+
+    @_apiCall 'im.open', params, callback
 
   _onOpenDM: (data) =>
     @logger.debug data
