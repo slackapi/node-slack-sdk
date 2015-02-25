@@ -320,6 +320,16 @@ class Client extends EventEmitter
 
     unreads
 
+   #
+   # Stars handler callbacks and dispatches
+   #
+
+   onStarAdded: (data) ->
+     @emit 'star_added', data
+
+   onStarRemoved: (data) ->
+     @emit 'star_removed', data
+
   #
   # Message handler callback and dispatch
   #
@@ -472,6 +482,12 @@ class Client extends EventEmitter
 
       when "bot_removed"
         if @bots[message.bot.id] then @emit 'botRemoved', @bots[message.bot.id]
+
+      when 'star_added'
+          @emit 'star_added', message
+      
+      when 'star_removed'
+          @emit 'star_removed', message
 
       else
         if message.reply_to
