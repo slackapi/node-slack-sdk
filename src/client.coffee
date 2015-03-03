@@ -154,7 +154,10 @@ class Client extends EventEmitter
       @_pongTimeout = null
 
     @authenticated = false
-    @ws.close()
+    
+    # Test for a null value on ws to prevent system failure (e.g. if Bot is disabled)
+    if @ws
+      @ws.close()
 
     @_connAttempts++
     # TODO: Check max reconnecting attempts and/or set a ceiling on this timeout
