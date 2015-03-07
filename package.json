@@ -5,7 +5,8 @@
   "main": "./index",
   "scripts": {
     "test": "mocha --compilers coffee:coffee-script/register --reporter spec",
-    "prepublish": "grunt prepublish"
+    "prepublish": "grunt prepublish",
+    "start": "node_modules/coffee-script/bin/coffee kudobot.coffee"
   },
   "keywords": [
     "slack"
