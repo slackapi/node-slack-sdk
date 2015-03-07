@@ -39,58 +39,10 @@ user_ids = {}
 # username => id
 usernames = {}
 
+# people who can set the current kudos holder
+godUsers = ["@jam", "@p"]
 
 slack = new Slack(token, autoReconnect, autoMark)
-
-
-set_holder = (holder, award, channel) ->
-  response = "OK, set "+user_ids[holder]+" as current holder of "+awards[award]+"\n"
-  current_holders[award] = holder
-  response += "current holders are: \n"
-  for awrd of current_holders
-    response += "" + awrd + ": @"
-    response += user_ids[current_holders[awrd]] + "\n"
-    channel.send response
-
-bad_set = (channel) ->
-  response = "Usage: `set [award holder] [award]`\n"
-  response += "'award holder' should be the slack username, prepended by @\n"
-  response += "`award` should be one of: `credit`, `vibes`, `student`, `group`, `classroom`, `textbook`, `cleaver` or `security`"
-  channel.send response
-
-team_notif = (award) ->
-  team_msg = "Someone just made a nomination for "+awards[award]+"!\n"
-  team_msg += "You can make a nomination by DMing kudobot: `nominate [nominee] [award] [reason]`"
-  team_channel.send team_msg
-
-holder_notif = (words, userName) ->
-  award = words[2]
-  holder_msg = "Hey! "+ userName+" made a nomination!\n"
-  holder_msg += words[1] + " has been nominated for " + award
-  holder_msg += " For " + words.slice(3).join(' ') + "\n"
-
-  holder_id = current_holders[award]
-
-  slack.openDM holder_id, (value) ->
-  holder_dm_id = value.channel.id
-  holder_dm = slack.getDMByID(holder_dm_id)
-  holder_dm.send holder_msg
-
-jam_pot_notif = (words, userName) ->
-  award = words[2]
-  jamila_msg = "Hey Jamila/Potluck, "+ userName+" made a nomination!\n"
-  jamila_msg += words[1] + " has been nominated for " + award
-  jamila_msg += " for " + words.slice(3).join(' ') + "\n"
-  jamila_dm.send jamila_msg
-  potluck_dm.send jamila_msg
-
-bad_nomination = (channel) ->
-  response = "Usage: `nominate [nominee] [award] [reason]`\n"
-  response += "`nominee` should be a single word name\n"
-  response += "`award` should be one of: `credit`, `vibes`, `student`, `group`, `classroom`, `textbook`, `cleaver` or `security`"
-  response += "`reason` can be as long as you want"
-  channel.send response
-
 
 slack.on 'open', ->
   channels = []
@@ -141,7 +93,7 @@ slack.on 'message', (message) ->
 
   if type is 'message' and text? and not channel.is_channel
     words = text.split(' ')
-    if words.length > 2 and userName is "@p" and words[0] is "set" # TODO: change from @p to @jam
+    if words[0] is "set" and words.length > 2 and userName in godUsers
       holder = words[1]
       award = words[2]
 
@@ -184,4 +136,55 @@ slack.on 'error', (error) -> console.error "Error: #{error}"
 
 slack.login()
 
+
+set_holder = (holder, award, channel) ->
+  response = "OK, set "+user_ids[holder]+" as current holder of "+awards[award]+"\n"
+  current_holders[award] = holder
+  response += "current holders are: \n"
+  for awrd of current_holders
+    response += "" + awrd + ": @"
+    response += user_ids[current_holders[awrd]] + "\n"
+  channel.send response
+
+bad_set = (channel) ->
+  response = "Usage: `set [award holder] [award]`\n"
+  response += "'award holder' should be the slack username, prepended by @\n"
+  response += "`award` should be one of: `credit`, `vibes`, `student`, `group`, `classroom`, `textbook`, `cleaver` or `security`"
+  channel.send response
+
+team_notif = (award) ->
+  team_msg = "Someone just made a nomination for "+awards[award]+"!\n"
+  team_msg += "You can make a nomination by DMing kudobot: `nominate [nominee] [award] [reason]`"
+  team_channel.send team_msg
+
+holder_notif = (words, userName) ->
+  award = words[2]
+  holder_msg = "Hey! "+ userName+" made a nomination!\n"
+  holder_msg += words[1] + " has been nominated for " + award
+  holder_msg += " for " + words.slice(3).join(' ') + "\n"
+
+  holder_id = current_holders[award]
+
+  slack.openDM holder_id, (value) ->
+    holder_dm_id = value.channel.id
+    holder_dm = slack.getDMByID(holder_dm_id)
+    holder_dm.send holder_msg
+
+jam_pot_notif = (words, userName) ->
+  award = words[2]
+  jamila_msg = "Hey Jamila/Potluck, "+ userName+" made a nomination!\n"
+  jamila_msg += words[1] + " has been nominated for " + award
+  jamila_msg += " for " + words.slice(3).join(' ') + "\n"
+  jamila_dm.send jamila_msg
+  potluck_dm.send jamila_msg
+
+bad_nomination = (channel) ->
+  response = "Usage: `nominate [nominee] [award] [reason]`\n"
+  response += "`nominee` should be a single word name\n"
+  response += "`award` should be one of: `credit`, `vibes`, `student`, `group`, `classroom`, `textbook`, `cleaver` or `security`"
+  response += "\nCurrent Award holders are: \n"
+  for awrd of current_holders
+    response += "_" + awards[awrd] + "_: *@"
+    response += user_ids[current_holders[awrd]] + "*\n"
+  channel.send response
 
