@@ -1,12 +1,12 @@
 https       = require 'https'
 Slack = require './'
 
-token = 'xoxb-3958311925-wLkLLar0DU0RCVAY39BEDgAI' # Add a bot at https://my.slack.com/services/new/bot and copy the token here.
+token = process.env.KUDOBOT_TOKEN # Add a bot at https://my.slack.com/services/new/bot and copy the token here.
 autoReconnect = true
 autoMark = true
 
-potluck_id = "U03QFSNJF"
-jamila_id = "U03QFQE0U"
+potluck_id = process.env.POTLUCK_ID
+jamila_id = process.env.JAMILA_ID
 
 jamila_dm = null
 potluck_dm = null
