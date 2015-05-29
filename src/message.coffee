@@ -68,7 +68,7 @@ class Message
       @_client.logger.debug params
       @_client._apiCall "chat.update", params, @_onUpdateMessage
 
-  _onUpdateMessage: (data) ->
+  _onUpdateMessage: (data) =>
     @_client.logger.debug data
 
   deleteMessage: =>
@@ -81,7 +81,7 @@ class Message
       @_client.logger.debug params
       @_client._apiCall "chat.delete", params, @_onDeleteMessage
 
-  _onDeleteMessage: (data) ->
+  _onDeleteMessage: (data) =>
     @_client.logger.debug data
 
   _onMessageSent: (data) ->
