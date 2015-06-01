@@ -86,6 +86,10 @@ class Channel
     m = new Message @_client, {text: text}
     @sendMessage m
 
+  sendRaw: (text) ->
+    m = new Message @_client, {text: text, parse: "none"}
+    @sendMessage m
+
   postMessage: (data) ->
     params = data
     params.channel = @id
