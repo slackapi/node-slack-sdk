@@ -83,7 +83,9 @@ class Client extends EventEmitter
           g = data.groups[k]
           @groups[g.id] = new Group @, g
 
-        # TODO: Process bots
+        for k of data.bots
+          b = data.bots[k]
+          @bots[b.id] = new Bot @, b
 
         @emit 'loggedIn', @self, @team
         @connect()
@@ -154,7 +156,7 @@ class Client extends EventEmitter
       @_pongTimeout = null
 
     @authenticated = false
-    
+
     # Test for a null value on ws to prevent system failure (e.g. if Bot is disabled)
     if @ws
       @ws.close()
@@ -243,6 +245,9 @@ class Client extends EventEmitter
   #
   # Utility functions
   #
+
+  getBotByID: (id) ->
+    @bots[id]
 
   getUserByID: (id) ->
     @users[id]
@@ -488,7 +493,7 @@ class Client extends EventEmitter
 
       when 'star_added'
           @emit 'star_added', message
-      
+
       when 'star_removed'
           @emit 'star_removed', message
 
@@ -536,7 +541,7 @@ class Client extends EventEmitter
 
     post_data = querystring.stringify(params)
 
-    options = 
+    options =
       hostname: @host,
       method: 'POST',
       path: '/api/' + method,
