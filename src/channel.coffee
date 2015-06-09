@@ -118,7 +118,10 @@ class Channel
     @_client._apiCall method, params, @_onFetchHistory
 
   _onFetchHistory: (data) =>
-    for message in data['messages']
+    messages = data['messages']
+    messages.sort (a,b) ->
+      a.ts - b.ts
+    for message in messages
       message['channel'] = @id
       @_client.onMessage message
 
