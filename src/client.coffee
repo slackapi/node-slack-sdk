@@ -130,7 +130,7 @@ class Client extends EventEmitter
         @socketUrl = null
 
       @ws.on 'ping', (data, flags) =>
-        @ws.pong
+        @ws.pong data, null, true
 
       return true
 
