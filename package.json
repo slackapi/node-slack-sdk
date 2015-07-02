@@ -30,7 +30,6 @@
     "log": "1.4.0"
   },
   "devDependencies": {
-    "coffee-script": "^1.9.3",
     "grunt": "^0.4.5",
     "grunt-contrib-coffee": "^0.12.0",
     "grunt-contrib-watch": "~0.5.3",
