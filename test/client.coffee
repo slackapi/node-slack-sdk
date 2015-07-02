@@ -37,25 +37,13 @@ describe 'Client', ->
 
     describe 'type: team_migration_started', ->
       beforeEach ->
-        client.connected = true
-        client.ws = {
-          close: ->
-        }
-        sinon.stub(client, 'login')
-        sinon.spy(client, 'disconnect')
+        sinon.stub(client, 'reconnect')
         client.onMessage {
           "type": "team_migration_started"
         }
       
       afterEach ->
-        client.connected = false
-        client.login.restore()
-        client.disconnect.restore()
+        client.reconnect.restore()
 
-      it 'should call disconnect', ->
-        client.disconnect.called.should.equal true
-      it 'should call login', ->
-        client.login.called.should.equal true
-      it 'should preserve the autoReconnect setting', ->
-        client.autoReconnect.should.equal true
-
+      it 'should call reconnect', ->
+        client.reconnect.called.should.equal true

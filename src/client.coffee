@@ -493,10 +493,7 @@ class Client extends EventEmitter
           @emit 'star_removed', message
 
       when 'team_migration_started'
-        autoReconnect = @autoReconnect
-        @disconnect()
-        @autoReconnect = autoReconnect
-        @login()
+        @reconnect()
         @emit 'team_migration_started', message
 
       else
