@@ -492,6 +492,13 @@ class Client extends EventEmitter
       when 'star_removed'
           @emit 'star_removed', message
 
+      when 'team_migration_started'
+        autoReconnect = @autoReconnect
+        @disconnect()
+        @autoReconnect = autoReconnect
+        @login()
+        @emit 'team_migration_started', message
+
       else
         if message.reply_to
           if message.type == 'pong'
