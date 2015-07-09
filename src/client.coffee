@@ -1,13 +1,17 @@
 https       = require 'https'
+fs          = require 'fs'
+path        = require 'path'
 querystring = require 'querystring'
 WebSocket   = require 'ws'
 Log            = require 'log'
 {EventEmitter} = require 'events'
+FormData = require 'form-data'
 
 User = require './user'
 Team = require './team'
 Channel = require './channel'
 Group = require './group'
+File = require './file'
 DM = require './dm'
 Message = require './message'
 Bot = require './bot'
@@ -26,6 +30,7 @@ class Client extends EventEmitter
     @channels       = {}
     @dms            = {}
     @groups         = {}
+    @files          = {}
     @users          = {}
     @bots           = {}
 
@@ -33,6 +38,7 @@ class Client extends EventEmitter
     @ws             = null
     @_messageID     = 0
     @_pending       = {}
+    @_fetchedFiles  = false
 
     @_connAttempts  = 0
 
@@ -83,6 +89,7 @@ class Client extends EventEmitter
           g = data.groups[k]
           @groups[g.id] = new Group @, g
 
+        @setFiles()
         # TODO: Process bots
 
         @emit 'loggedIn', @self, @team
@@ -204,6 +211,23 @@ class Client extends EventEmitter
   _onCreateGroup: (data) =>
     @logger.debug data
 
+  createFile: (params, callback) ->
+    if params.channels and typeof params.channels == 'string'
+      toChannelId = (channelName) =>
+        @getChannelGroupOrDMByName(channelName).id
+      params.channels = params.channels.split(',').map(toChannelId).join(',')
+
+    fs.readFile params.file, (err, content) =>
+      return callback?(err) if err
+      params.filename = path.basename(params.file)
+      params.file = content
+      @_apiCall 'files.upload', params, =>
+        @_onCreateFile arguments...
+        callback? arguments...
+
+  _onCreateFile: (data) =>
+    @logger.debug data
+
   setPresence: (presence, callback) ->
     if presence is not 'away' and presence is not 'active' then return null
 
@@ -239,6 +263,19 @@ class Client extends EventEmitter
 
   _onSetStatus: (data) =>
     @logger.debug data
+
+  setFiles: (callback) ->
+    @_apiCall 'files.list', {}, =>
+      @_onSetFiles arguments...
+      callback? arguments...
+
+  _onSetFiles: (data)=>
+    @logger.debug data
+    @_fetchedFiles = true
+    for k of data.files
+      f = data.files[k]
+      @files[f.id] = new File @, f
+    @emit 'fetchFiles', data.files
 
   #
   # Utility functions
@@ -332,6 +369,18 @@ class Client extends EventEmitter
 
    onStarRemoved: (data) ->
      @emit 'star_removed', data
+
+  getFileByID: (id) ->
+    @files[id]
+
+  getCommentByID: (file_id, id) ->
+    @files[file_id].comments[id]
+
+  getFiles: ()->
+    if @_fetchedFiles
+      @files
+    else
+      null
 
   #
   # Message handler callback and dispatch
@@ -492,6 +541,37 @@ class Client extends EventEmitter
       when 'star_removed'
           @emit 'star_removed', message
 
+      when "file_created"
+        f = message.file
+        @files[message.file.id] = new File @, f
+        @emit 'fileCreated', f
+
+      when "file_change"
+        f = message.file
+        @files[message.file.id] = new File @, f
+        @emit 'fileChange', f
+
+      when "file_deleted"
+        if @files[message.file_id] then @emit "fileDeleted", @files[message.file_id]
+
+      when "file_comment_added"
+        if @files[message.file.id]
+          c = message.comment
+          c.file_id = message.file.id
+          @files[message.file.id].comments[c.id] = @files[message.file.id].newComment c
+          @emit 'fileCommentAdded', c
+
+      when "file_comment_edited"
+        if @files[message.file.id]
+          c = message.comment
+          c.file_id = message.file.id
+          @files[message.file.id].comments[c.id] = @files[message.file.id].newComment c
+          @emit 'fileCommentEdited', c
+
+      when "file_comment_deleted"
+        if @files[message.file.id] and @files[message.file.id].comments[message.comment]
+          @emit "fileCommentDeleted"
+
       else
         if message.reply_to
           if message.type == 'pong'
@@ -513,7 +593,7 @@ class Client extends EventEmitter
             @emit 'error', if message.error? then message.error else message
             # TODO: resend?
         else
-          if message.type not in ["file_created", "file_shared", "file_unshared", "file_comment", "file_public", "file_comment_edited", "file_comment_deleted", "file_change", "file_deleted", "star_added", "star_removed"]
+          if message.type not in ["file_shared", "file_unshared", "file_public", "star_added", "star_removed"]
             @logger.debug 'Unknown message type: '+message.type
             @logger.debug message
 
@@ -532,19 +612,37 @@ class Client extends EventEmitter
       return message
 
   _apiCall: (method, params, callback) ->
-    params['token'] = @token
+    params['token'] ?= @token
 
-    post_data = querystring.stringify(params)
-
-    options = 
-      hostname: @host,
-      method: 'POST',
-      path: '/api/' + method,
-      headers:
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Content-Length': post_data.length
-
-    req = https.request(options)
+    req =
+      if params.file?
+        # multipart upload
+        fileName = params.filename
+        delete params.filename
+        form = new FormData()
+        for name, value of params
+          if name == 'file'
+            form.append(name, value, filename: fileName)
+          else
+            form.append(name, value)
+        request = https.request({
+          hostname: @host,
+          method: 'POST',
+          path: '/api/' + method,
+          headers: form.getHeaders()
+        })
+        form.pipe(request)
+        request
+      else
+        post_data = querystring.stringify(params)
+        https.request({
+          hostname: @host,
+          method: 'POST',
+          path: '/api/' + method,
+          headers:
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': post_data.length
+        })
 
     req.on 'response', (res) =>
       buffer = ''
