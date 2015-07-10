@@ -333,6 +333,16 @@ class Client extends EventEmitter
    onStarRemoved: (data) ->
      @emit 'star_removed', data
 
+   #
+   # Reactions handler callbacks and dispatches
+   #
+
+   onReactionAdded: (data) ->
+     @emit 'reaction_added', data
+
+   onReactionRemoved: (data) ->
+     @emit 'reaction_removed', data
+
   #
   # Message handler callback and dispatch
   #
@@ -492,6 +502,12 @@ class Client extends EventEmitter
       when 'star_removed'
           @emit 'star_removed', message
 
+      when 'reaction_added'
+          @emit 'reaction_added', message
+      
+      when 'reaction_removed'
+          @emit 'reaction_removed', message
+
       else
         if message.reply_to
           if message.type == 'pong'
@@ -513,7 +529,7 @@ class Client extends EventEmitter
             @emit 'error', if message.error? then message.error else message
             # TODO: resend?
         else
-          if message.type not in ["file_created", "file_shared", "file_unshared", "file_comment", "file_public", "file_comment_edited", "file_comment_deleted", "file_change", "file_deleted", "star_added", "star_removed"]
+          if message.type not in ["file_created", "file_shared", "file_unshared", "file_comment", "file_public", "file_comment_edited", "file_comment_deleted", "file_change", "file_deleted", "star_added", "star_removed", "reaction_added", "reaction_removed"]
             @logger.debug 'Unknown message type: '+message.type
             @logger.debug message
 
