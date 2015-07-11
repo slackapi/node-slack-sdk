@@ -72,17 +72,68 @@ class Message
     @_client.logger.debug data
 
   deleteMessage: =>
-    params = {
-      "ts": @ts,
-      "channel": @channel,
-    }
-    if @ts
-      @_client.logger.debug "Sending message delete request"
-      @_client.logger.debug params
-      @_client._apiCall "chat.delete", params, @_onDeleteMessage
+    if @type == 'reaction_added'
+      util = require 'util'
+      console.log JSON.stringify(@)
+      if @item?
+        params =
+          timestamp: @item.ts
+          channel: @item.channel
+          name: @reaction
+        @_client.logger.debug "Sending reation delete request"
+        @_client.logger.debug params
+        @_client._apiCall "reactions.remove", params, @_onDeleteMessage
+    else
+      if @ts
+        params =
+          ts: @ts
+          channel: @channel
+        @_client.logger.debug "Sending message delete request"
+        @_client.logger.debug params
+        @_client._apiCall "chat.delete", params, @_onDeleteMessage
 
   _onDeleteMessage: (data) =>
     @_client.logger.debug data
+
+  react: (emoji_name) =>
+    params =
+      timestamp: @ts
+      channel: @channel
+      name: emoji_name
+
+    if @ts
+      @_client.logger.debug "Reacting to message"
+      @_client.logger.debug params
+      @_client._apiCall "reactions.add", params, @_onReact
+
+  unreact: (emoji_name) =>
+    params =
+      timestamp: @ts
+      channel: @channel
+      name: emoji_name
+
+    if @ts
+      @_client.logger.debug "Removing reaction to message"
+      @_client.logger.debug params
+      @_client._apiCall "reactions.remove", params, @_onReact
+
+  _onReact: (data) =>
+    @_client.logger.debug data
+
+  getReactions: (full=false, callback) =>
+    if typeof(full) == 'function'
+      callback = full
+      full = false
+      
+    params =
+      timestamp: @ts
+      channel: @channel
+      full: full
+
+    if @ts
+      @_client.logger.debug "Getting reactions to message"
+      @_client.logger.debug params
+      @_client._apiCall "reactions.get", params, callback
 
   _onMessageSent: (data) ->
     @ts = data.ts
