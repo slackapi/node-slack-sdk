@@ -180,6 +180,18 @@ class Client extends EventEmitter
   _onJoinChannel: (data) =>
     @logger.debug data
 
+  createChannel: (name, callback) ->
+    params = {
+      "name": name
+    }
+
+    @_apiCall 'channels.create', params, =>
+      @_onCreateChannel arguments...
+      callback? arguments...
+
+  _onCreateChannel: (data) =>
+    @logger.debug data
+
   openDM: (user_id, callback) ->
     params = {
       "user": user_id
