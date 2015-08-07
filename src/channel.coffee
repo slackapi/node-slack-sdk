@@ -86,7 +86,7 @@ class Channel
     m = new Message @_client, {text: text}
     @sendMessage m
 
-  postMessage: (data) ->
+  postMessage: (data, callback) ->
     params = data
     params.channel = @id
     if data.attachments
@@ -94,7 +94,9 @@ class Channel
 
     @_client.logger.debug data
     @_client.logger.debug params
-    @_client._apiCall "chat.postMessage", params, @_onPostMessage
+    @_client._apiCall "chat.postMessage", params, =>
+      @_onPostMessage arguments...
+      callback? arguments...
 
   _onPostMessage: (data) =>
     @_client.logger.debug data
