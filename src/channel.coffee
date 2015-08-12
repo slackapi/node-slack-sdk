@@ -103,19 +103,22 @@ class Channel
     message.channel = @id
     @_client._send(message)
 
-  fetchHistory: (latest, oldest) ->
+  fetchHistory: (latest, oldest, count, callback) ->
     params = {
       "channel": @id
     }
 
     if latest? then params.latest = latest
     if oldest? then params.oldest = oldest
+    if count? then params.count = count
 
     method = 'channels.history'
     if @getType() == 'Group' then method = 'groups.history'
     if @getType() == 'DM' then method = 'im.history'
 
-    @_client._apiCall method, params, @_onFetchHistory
+    @_client._apiCall method, params, =>
+      @_onFetchHistory
+      callback? arguments...
 
   _onFetchHistory: (data) =>
     @_client.logger.debug data
