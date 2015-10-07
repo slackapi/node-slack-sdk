@@ -11,12 +11,7 @@
     "slack"
   ],
   "author": "Slack Technologies, Inc.",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://github.com/slackhq/node-slack-client/raw/master/LICENSE"
-    }
-  ],
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git://github.com/slackhq/node-slack-client.git"
