@@ -192,6 +192,18 @@ class Client extends EventEmitter
   _onOpenDM: (data) =>
     @logger.debug data
 
+  createChannel: (name, callback) ->
+    params = {
+      "name": name
+    }
+
+    @_apiCall 'channels.create', params, =>
+      @_onCreateChannel arguments...
+      callback? arguments...
+
+  _onCreateChannel: (data) =>
+    @logger.debug data
+
   createGroup: (name, callback) ->
     params = {
       "name": name
@@ -488,7 +500,7 @@ class Client extends EventEmitter
 
       when 'star_added'
           @emit 'star_added', message
-      
+
       when 'star_removed'
           @emit 'star_removed', message
 
@@ -536,7 +548,7 @@ class Client extends EventEmitter
 
     post_data = querystring.stringify(params)
 
-    options = 
+    options =
       hostname: @host,
       method: 'POST',
       path: '/api/' + method,
