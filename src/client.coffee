@@ -246,6 +246,11 @@ class Client extends EventEmitter
 
   getUserByID: (id) ->
     @users[id]
+    
+  getUserByEmail: (email) ->
+    for k of @users
+      if @users[k].profile.email == email
+        return @users[k]
 
   getUserByName: (name) ->
     for k of @users
