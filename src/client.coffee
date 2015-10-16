@@ -307,7 +307,7 @@ class Client extends EventEmitter
     for id, channel of @channels
       if channel.unread_count? then count += channel.unread_count
 
-    for id, dm of @ims
+    for id, dm of @dms
       if dm.unread_count? then count += dm.unread_count
 
     for id, group of @groups
@@ -320,7 +320,7 @@ class Client extends EventEmitter
     for id, channel of @channels
       if channel.unread_count > 0 then unreads.push channel
 
-    for id, dm of @ims
+    for id, dm of @dms
       if dm.unread_count > 0 then unreads.push dm
 
     for id, group of @groups
