@@ -47,6 +47,7 @@ class Client extends EventEmitter
     @_apiCall 'rtm.start', {agent: 'node-slack'}, @_onLogin
 
   _onLogin: (data) =>
+    @reconnecting = false
     if data
       if not data.ok
         @emit 'error', data.error
@@ -125,7 +126,11 @@ class Client extends EventEmitter
         @emit 'error', error
 
       @ws.on 'close', =>
-        @emit 'close'
+        @emit 'close' 
+        # If autoReconnect is enabled and the client is not already reconnecting due to pong timeout
+        # Then handle the normal WS termination/close by reconnecting
+        if @autoReconnect && !@reconnecting
+          @reconnect()
         @connected = false
         @socketUrl = null
 
@@ -149,6 +154,7 @@ class Client extends EventEmitter
       return true
 
   reconnect: ->
+    @reconnecting = true
     if @_pongTimeout
       clearInterval @_pongTimeout
       @_pongTimeout = null
