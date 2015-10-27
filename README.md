@@ -33,35 +33,29 @@ What would be great to get some help on is:
 
 ## Description
 
-This is a Slack client library for Node.js. It's intended to expose all of the functionality of [Slack's Real Time Messaging API](https://api.slack.com/rtm) while providing some common abstractions and generally making your life easier, if you want it to.
-
-This code has been built to support our [hubot-slack](https://github.com/slackhq/hubot-slack) adapter. Most other functionality isn't yet supported, and documentation is minimal, at best.
+This is the Slack client library for node.js, it:
+- wraps the [Slack Web API](https://api.slack.com/web) methods
+- exposes the [Real Time Messaging API's](https://api.slack.com/rtm) functionality
 
 ## Installation
+
 ```bash
 npm install slack-client --save
 ```
 
 ## Usage
-```coffeescript
-Slack = require 'slack-client'
+```js
 
-slackToken = 'xoxb-YOUR-TOKEN-HERE' # Add a bot at https://my.slack.com/services/new/bot and copy the token here.
-autoReconnect = true # Automatically reconnect after an error response from Slack.
-autoMark = true # Automatically mark each message as read after it is processed.
+var RtmClient = require('slack-client').RtmClient;
 
-slack = new Slack(slackToken, autoReconnect, autoMark)
+var token = '' || process.env.SLACK_API_TOKEN;
 
-slack.on 'open', ->
-    console.log "Connected to #{slack.team.name} as @#{slack.self.name}"
+var rtm = new RtmClient(token, {logLevel: 'debug'});
+rtm.start();
 
-slack.on 'message', (message) ->
-    console.log message
-
-slack.on 'error', (err) ->
-    console.error "Error", err
-
-slack.login()
+rtm.on('message', function(message) {
+    console.log(message);
+});
 
 ```
 
@@ -85,9 +79,12 @@ Here's the most direct way to get your work merged into the project.
 
 Copyright &copy; Slack Technologies, Inc. MIT License; see LICENSE for further details.
 
-## TODOs
 
-1. Better/any timeouts on initial websocket connection
-2. Better/any timeouts on API calls
-3. Document the connection options, etc
-4. Emit more events around unreads and mentions
+## v2.0.0 TODO
+- add a retry policy to the web API
+- handle and respect 429 responses in the web API
+- update the remaining models to correctly pull out all properties
+- figure out how data-store updates should handle updating objects where a richer object is already present, e.g. the self user is cached on RTM start and then a simplified version of the user object is received and overwrites it
+- figure out how to make data-store methods async friendly, e.g. so that a redis data-store could be a thing
+- improve the events emitted by the RTM api, e.g. errors etc.
+- improve test coverage of the RTM Client API
