@@ -1,0 +1,13 @@
+module.exports = {
+  "extends": "airbnb",
+  "globals": {
+    "it": false,
+    "describe": false
+  },
+  "rules": {
+    "no-var": 0,
+    "object-shorthand": 0,
+    "padded-blocks": 0,
+    "func-names": 0
+  }
+};
