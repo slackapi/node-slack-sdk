@@ -537,7 +537,7 @@ class Client extends EventEmitter
       return message
 
   _apiCall: (method, params, callback) ->
-    params['token'] = @token
+    if typeof params.token != "string" then params['token'] = @token
 
     post_data = querystring.stringify(params)
 
