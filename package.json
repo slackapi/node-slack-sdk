@@ -11,12 +11,7 @@
     "slack"
   ],
   "author": "Slack Technologies, Inc.",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://github.com/slackhq/node-slack-client/raw/master/LICENSE"
-    }
-  ],
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git://github.com/slackhq/node-slack-client.git"
@@ -25,12 +20,13 @@
     "url": "http://github.com/slackhq/node-slack-client/issues"
   },
   "dependencies": {
-    "coffee-script": "~1.9.0",
+    "coffee-script": "~1.9.3",
     "ws": "0.4.31",
     "log": "1.4.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
     "grunt-contrib-coffee": "^0.12.0",
     "grunt-contrib-watch": "~0.5.3",
     "grunt-release": "~0.6.0",

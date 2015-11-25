@@ -6,9 +6,39 @@
 
 ## Description
 
-This is a Slack client library for Node.js. It is intended to expose all of the functionality of [Slack's Real Time Messaging API](https://api.slack.com/rtm) while providing some common abstractions and generally making your life easier, if you want it to.
+This is a Slack client library for Node.js. It's intended to expose all of the functionality of [Slack's Real Time Messaging API](https://api.slack.com/rtm) while providing some common abstractions and generally making your life easier, if you want it to.
 
-This code has been built to support our [hubot-slack](https://github.com/slackhq/hubot-slack) adapter. Most other functionality isn't yet supported, and documentation is minimal, at best. A simple example of how to use this module from Node.js can be found in the `examples` directory.
+This code has been built to support our [hubot-slack](https://github.com/slackhq/hubot-slack) adapter. Most other functionality isn't yet supported, and documentation is minimal, at best.
+
+## Installation
+```bash
+npm install slack-client --save
+```
+
+## Usage
+```coffeescript
+Slack = require 'slack-client'
+
+slackToken = 'xoxb-YOUR-TOKEN-HERE' # Add a bot at https://my.slack.com/services/new/bot and copy the token here.
+autoReconnect = true # Automatically reconnect after an error response from Slack.
+autoMark = true # Automatically mark each message as read after it is processed.
+
+slack = new Slack(slackToken, autoReconnect, autoMark)
+
+slack.on 'open', ->
+    console.log "Connected to #{slack.team.name} as @#{slack.self.name}"
+
+slack.on 'message', (message) ->
+    console.log message
+
+slack.on 'error', (err) ->
+    console.error "Error", err
+
+slack.login()
+
+```
+
+A full example of how to use this module from Node.js can be found in the [/examples directory](https://github.com/slackhq/node-slack-client/tree/master/examples).
 
 ## Contribute
 
