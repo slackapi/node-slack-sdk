@@ -2,7 +2,7 @@
 # Setup the tests
 ###################################################################
 should = require 'should'
-
+sinon = require 'sinon'
 Client = require '../src/client'
 
 # Generate a new instance for each test.
@@ -32,3 +32,18 @@ describe 'Client', ->
     it 'should strip hashes from the channel name', ->
       chan = client.getChannelByName '#bchan'
       chan.name.should.equal 'bchan'
+
+  describe '#onMessage', ->
+
+    describe 'type: team_migration_started', ->
+      beforeEach ->
+        sinon.stub(client, 'reconnect')
+        client.onMessage {
+          "type": "team_migration_started"
+        }
+      
+      afterEach ->
+        client.reconnect.restore()
+
+      it 'should call reconnect', ->
+        client.reconnect.called.should.equal true
