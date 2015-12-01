@@ -1,3 +1,12 @@
+### v.1.5.0 (2015-12-01):
+
+  * Updates the ws library from 0.4.3 to 0.8.1
+  * Reconnects when a `team_migration_started` event is received
+  * Supports finding users by email from the memory data store
+  * Fixes the getUnreadCount and getChannelsWithUnreads functions
+  * Emits error code and message when the ws closes
+  * Removes no-op call when a `ping` is received on the websocket
+
 ### v1.4.0 (2015-02-25):
 
   * Added callbacks to all API calls ([#20](https://github.com/slackhq/node-slack-client/pull/20))
