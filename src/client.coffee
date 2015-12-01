@@ -120,12 +120,12 @@ class Client extends EventEmitter
         # flags.masked will be set if the data was masked
         @onMessage JSON.parse(data)
 
-      @ws.on 'error', (error)=>
+      @ws.on 'error', (error) =>
         # TODO: Reconnect?
         @emit 'error', error
 
-      @ws.on 'close', =>
-        @emit 'close'
+      @ws.on 'close', (code, message) =>
+        @emit 'close', code, message
         @connected = false
         @socketUrl = null
 
