@@ -22,7 +22,8 @@
   "dependencies": {
     "coffee-script": "~1.9.3",
     "ws": "0.8.1",
-    "log": "1.4.0"
+    "log": "1.4.0",
+    "https-proxy-agent": "1.0.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

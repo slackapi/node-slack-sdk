@@ -11,12 +11,13 @@ Group = require './group'
 DM = require './dm'
 Message = require './message'
 Bot = require './bot'
+HttpsProxyAgent = require 'https-proxy-agent'
 
 class Client extends EventEmitter
 
   host: 'api.slack.com'
 
-  constructor: (@token, @autoReconnect=true, @autoMark=false) ->
+  constructor: (@token, @autoReconnect=true, @autoMark=false, @proxyUrl=null) ->
     @authenticated  = false
     @connected      = false
 
@@ -97,7 +98,8 @@ class Client extends EventEmitter
     if not @socketUrl
       return false
     else
-      @ws = new WebSocket @socketUrl
+      options = { agent: new HttpsProxyAgent(@proxyUrl) } if @proxyUrl
+      @ws = new WebSocket @socketUrl, options
       @ws.on 'open', =>
         @_connAttempts = 0
         @_lastPong = Date.now()
@@ -542,13 +544,16 @@ class Client extends EventEmitter
 
     post_data = querystring.stringify(params)
 
-    options = 
+    options =
       hostname: @host,
       method: 'POST',
       path: '/api/' + method,
       headers:
         'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Length': post_data.length
+
+    if @proxyUrl
+      options['agent'] = new HttpsProxyAgent(@proxyUrl)
 
     req = https.request(options)
 
