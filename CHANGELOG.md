@@ -1,4 +1,8 @@
-### v.1.5.0 (2015-12-01):
+### v1.5.1 (2015-15-15)
+
+  * Adds support for a request-proxy URL to use the client from behind a proxy
+
+### v1.5.0 (2015-12-01):
 
   * Updates the ws library from 0.4.3 to 0.8.1
   * Reconnects when a `team_migration_started` event is received
