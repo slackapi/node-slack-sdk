@@ -4,6 +4,7 @@
 should = require 'should'
 sinon = require 'sinon'
 Client = require '../src/client'
+Message = require '../src/message'
 
 # Generate a new instance for each test.
 client = null
@@ -47,3 +48,23 @@ describe 'Client', ->
 
       it 'should call reconnect', ->
         client.reconnect.called.should.equal true
+
+    describe 'type: reaction_added', ->
+      message = {
+        "type": "reaction_added"
+      }
+
+      beforeEach ->
+        sinon.stub(client, 'emit')
+        client.onMessage message
+      
+      afterEach ->
+        client.emit.restore()
+
+      it 'should emit a reaction_added Message', ->
+        client.emit.calledTwice.should.equal true
+        client.emit.args[0].should.eql ['raw_message', message]
+
+        args = client.emit.args[1]
+        args[0].should.eql 'reaction_added'
+        args[1].type.should.eql message.type

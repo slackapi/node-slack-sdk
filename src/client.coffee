@@ -500,6 +500,9 @@ class Client extends EventEmitter
         @reconnect()
         @emit 'team_migration_started', message
 
+      when 'reaction_added'
+        @emit 'reaction_added', new Message(@, message)
+
       else
         if message.reply_to
           if message.type == 'pong'
