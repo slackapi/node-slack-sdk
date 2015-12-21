@@ -500,6 +500,14 @@ class Client extends EventEmitter
         @reconnect()
         @emit 'team_migration_started', message
 
+      when 'team_rename'
+        @reconnect()
+        @emit 'teamRename', message
+
+      when 'team_domain_change'
+        @reconnect()
+        @emit 'teamDomainChange', message
+
       else
         if message.reply_to
           if message.type == 'pong'
