@@ -25,6 +25,12 @@ describe('MemoryDataStore', function () {
       var channel = dataStore.getChannelByName('test');
       expect(channel.name).to.equal('test');
     });
+
+    it('should get a channel by #name (prefixed with #)', function () {
+      var dataStore = getMemoryDataStore();
+      var channel = dataStore.getChannelByName('#test');
+      expect(channel.name).to.equal('test');
+    });
   });
 
   describe('#getChannelGroupOrIMById()', function () {
