@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "coffee-script": "~1.9.3",
-    "ws": "0.8.1",
+    "ws": "1.0.1",
     "log": "1.4.0",
     "https-proxy-agent": "1.0.0"
   },
