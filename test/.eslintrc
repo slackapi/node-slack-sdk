@@ -1,5 +1,5 @@
-module.exports = {
-  "extends": "airbnb",
+{
+  "extends": "airbnb/legacy",
   "globals": {
     "it": false,
     "describe": false
@@ -10,4 +10,4 @@ module.exports = {
     "padded-blocks": 0,
     "func-names": 0
   }
-};
+}

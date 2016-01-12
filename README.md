@@ -35,7 +35,7 @@ npm install slack-client@2.0.0-beta1 --save
 
 var RtmClient = require('slack-client').RtmClient;
 
-var token = '' || process.env.SLACK_API_TOKEN;
+var token = process.env.SLACK_API_TOKEN || '';
 
 var rtm = new RtmClient(token, {logLevel: 'debug'});
 rtm.start();
