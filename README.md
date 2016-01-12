@@ -40,7 +40,7 @@ rtm.on('message', function(message) {
 
 ```
 
-A full example of how to use this module from Node.js can be found in the [/examples directory](https://github.com/slackhq/node-slack-client/tree/master/examples).
+A full example of how to use this module from Node.js can be found in the [/examples directory](examples).
 
 ## Contribute
 
