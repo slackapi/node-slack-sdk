@@ -491,10 +491,18 @@ class Client extends EventEmitter
         if @bots[message.bot.id] then @emit 'botRemoved', @bots[message.bot.id]
 
       when 'star_added'
-          @emit 'star_added', message
-      
+        @emit 'star_added', message
+
       when 'star_removed'
-          @emit 'star_removed', message
+        @emit 'star_removed', message
+
+      when 'reaction_removed'
+        m = new Message @, message
+        @emit 'reaction_removed', m
+
+      when 'reaction_added'
+        m = new Message @, message
+        @emit 'reaction_added', m
 
       when 'team_migration_started'
         @reconnect()
@@ -521,7 +529,7 @@ class Client extends EventEmitter
             @emit 'error', if message.error? then message.error else message
             # TODO: resend?
         else
-          if message.type not in ["file_created", "file_shared", "file_unshared", "file_comment", "file_public", "file_comment_edited", "file_comment_deleted", "file_change", "file_deleted", "star_added", "star_removed"]
+          if message.type not in ["file_created", "file_shared", "file_unshared", "file_comment", "file_public", "file_comment_edited", "file_comment_deleted", "file_change", "file_deleted", "star_added", "star_removed", "reaction_removed", "reaction_added"]
             @logger.debug 'Unknown message type: '+message.type
             @logger.debug message
 
