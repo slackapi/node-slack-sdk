@@ -17,7 +17,7 @@ describe('Web API Client', function () {
     var opts = {
       slackAPIUrl: 'test',
       userAgent: 'test',
-      transport: lodash.noop
+      transport: lodash.noop,
     };
     var client = new WebAPIClient('test-token', opts);
 
@@ -26,43 +26,45 @@ describe('Web API Client', function () {
   });
 
   it('should register facets  during construction', function () {
-    var client = new WebAPIClient('test-token', {transport: lodash.noop});
-    expect(client.auth).to.not.be.undefined;
+    var client = new WebAPIClient('test-token', { transport: lodash.noop });
+    expect(client.auth).to.not.equal(undefined);
   });
 
   it('should make API calls via the transport function', function (done) {
     var args = {
       headers: {},
       statusCode: 200,
-      body: '{"test": 10}'
+      body: '{"test": 10}',
     };
 
-    var client = new WebAPIClient('test-token', {transport: mockTransport});
+    var client = new WebAPIClient('test-token', { transport: mockTransport });
 
     client.makeAPICall('test', args, function (err, res) {
-      expect(res).to.deep.equal({'test': 10});
+      expect(res).to.deep.equal({ test: 10 });
       done();
     });
   });
 
   it('should not crash when no callback is supplied to an API request', function () {
-    var client = new WebAPIClient('test-token', {transport: mockTransport});
+    var client = new WebAPIClient('test-token', { transport: mockTransport });
 
-    client.makeAPICall('test', {test: 'test'});
+    client.makeAPICall('test', { test: 'test' });
   });
 
   describe('it should retry failed or rate-limited requests', function () {
 
     var attemptAPICall = function (done) {
+      var client;
+
       nock('https://slack.com/api')
         .post('/test')
         .reply(200, '{}');
 
-      var client = new WebAPIClient('test-token', {
+      client = new WebAPIClient('test-token', {
         retryConfig: {
           minTimeout: 0,
-          maxTimeout: 1
-        }
+          maxTimeout: 1,
+        },
       });
       sinon.spy(client, 'transport');
 
@@ -75,7 +77,7 @@ describe('Web API Client', function () {
     it('should pause job execution in response to a 429 header', function (done) {
       nock('https://slack.com/api')
         .post('/test')
-        .reply(429, '{}', {'X-Retry-After': 0});
+        .reply(429, '{}', { 'X-Retry-After': 0 });
 
       attemptAPICall(done);
     });

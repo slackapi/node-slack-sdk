@@ -13,4 +13,3 @@ describe('RTM Client helpers', function () {
 
   });
 });
-
