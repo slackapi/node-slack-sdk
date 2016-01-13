@@ -4,9 +4,8 @@
   "description": "A library for creating a full Slack client",
   "main": "./index",
   "scripts": {
-    "mocha": "mocha --recursive --reporter spec test",
     "lint": "eslint . --ignore-path .gitignore",
-    "test": "npm run lint && npm run mocha"
+    "test": "mocha --recursive --reporter spec test"
   },
   "keywords": [
     "slack"

@@ -22,7 +22,7 @@ describe('RTM API Client', function () {
         .times(2)
         .reply(200, rtmFixture);
 
-      return new MockWSServer({port: wssPort});
+      return new MockWSServer({ port: wssPort });
     };
 
     var testReconnectionLogic = function (onFirstConn, onSecondConnFn, opts, wssPort, done) {
@@ -60,7 +60,7 @@ describe('RTM API Client', function () {
       var opts = {
         wsPingInterval: 1,
         maxPongInterval: 2,
-        reconnectionBackoff: 1
+        reconnectionBackoff: 1,
       };
 
       testReconnectionLogic(lodash.noop, onSecondConnFn, opts, 5221, done);
@@ -75,11 +75,12 @@ describe('RTM API Client', function () {
         expect(rtm.reconnect.calledOnce).to.be.true;
       };
 
-      testReconnectionLogic(onFirstConn, onSecondConnFn, {reconnectionBackoff: 1}, 5222, done);
+      testReconnectionLogic(onFirstConn, onSecondConnFn, { reconnectionBackoff: 1 }, 5222, done);
     });
 
 
-    // This is overly complex for what it's trying to test (that a state var is getting toggled), but anyway
+    // This is overly complex for what it's trying to test (that a state var is getting toggled),
+    // but /shrug
     it('should not attempt to reconnect while a connection is in progress', function (done) {
       var attemptingReconnectSpy = sinon.spy();
 
@@ -94,20 +95,20 @@ describe('RTM API Client', function () {
         expect(attemptingReconnectSpy.calledTwice).to.be.true;
       };
 
-      testReconnectionLogic(onFirstConn, onSecondConnFn, {reconnectionBackoff: 1}, 5223, done);
+      testReconnectionLogic(onFirstConn, onSecondConnFn, { reconnectionBackoff: 1 }, 5223, done);
     });
 
 
     it('should reconnect when a `team_migration_started` event is received', function (done) {
       var onFirstConn = function (wss) {
-        wss.sendMessageToClientConn({type: 'team_migration_started'});
+        wss.sendMessageToClientConn({ type: 'team_migration_started' });
       };
 
       var onSecondConnFn = function (rtm) {
         expect(rtm.reconnect.calledOnce).to.be.true;
       };
 
-      testReconnectionLogic(onFirstConn, onSecondConnFn, {reconnectionBackoff: 1}, 5224, done);
+      testReconnectionLogic(onFirstConn, onSecondConnFn, { reconnectionBackoff: 1 }, 5224, done);
     });
 
   });
