@@ -1,31 +1,10 @@
 # Node.js Slack Client Library
 
-## node-slack v2.0.0 please read!
+## node-slack v2.0.0
 
-Hi all,
+The beta release for the 2.0.0 version of this library is now available.
 
-First of all, thanks for using this library :) We really appreciate all the developers out there who want to integrate with Slack and build cool bots and tools.
-
-I've been working on a substantial refactor of the existing node-client library for the past little while and it's now at the point where getting your feedback would be fantastic.
-
-That refactor is located on [my personal github](https://github.com/l12s/node-slack-client).
-
-The refactor has 3 main goals:
-- get node-slack to a point where it can be easily maintained and extended, both by Slack and our delightful external contributors:
-  - improve test coverage
-  - standardize code; e.g. move off coffee script, make heavier use of npm modules etc.
-  - update JSDoc, code comments and inline documentation
-- address flaws in the existing client, e.g.
-  - improve reconnection logic
-  - respect 429 headers
-  - improve the client so that it can be used as the foundation for more complex apps and use cases, e.g. design to support different types of datastores
-- add documentation, examples and test apps
-
-There are still some issues outstanding on the refactor, which can be seen [here](https://github.com/l12s/node-slack-client/issues)
-
-What would be great to get some help on is:
-- code review; please check out the code and raise any issues you run into
-- test it out; it would be great to get a few test applications written to shake out any bugs, or if you have an app already to see
+To use it you can `npm install slack-client@2.0.0-beta.2` or check out the [2.0.0-beta branch](https://github.com/slackhq/node-slack-client/tree/2.0.0-beta)
 
 ## Travis-CI Build Status
 
