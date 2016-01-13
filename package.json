@@ -22,6 +22,7 @@
   "dependencies": {
     "async": "^1.5.0",
     "eventemitter3": "^1.1.1",
+    "https-proxy-agent": "^1.0.0",
     "humps": "^1.0.0",
     "inherits": "^2.0.1",
     "lodash": "^3.10.1",
