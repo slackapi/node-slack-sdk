@@ -480,9 +480,13 @@ class Client extends EventEmitter
 
       when "team_rename"
         @team.name = message.name
+        @reconnect()
+        @emit 'teamRename', message
 
       when "team_domain_change"
         @team.domain = message.domain
+        @reconnect()
+        @emit 'teamDomainChange', message
 
       when "bot_added", "bot_changed"
         @bots[message.bot.id] = new Bot @, message.bot
@@ -499,6 +503,7 @@ class Client extends EventEmitter
       when 'team_migration_started'
         @reconnect()
         @emit 'team_migration_started', message
+
 
       else
         if message.reply_to
