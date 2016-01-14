@@ -1,4 +1,6 @@
 class Team
-  constructor: (@_client, @id, @name, @domain) ->
-    @prefs = {}
+  constructor: (@_client, data = {}) ->
+    for k of (data or {})
+      @[k] = data[k]
+
 module.exports = Team
