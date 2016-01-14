@@ -59,7 +59,7 @@ class Client extends EventEmitter
 
         # Important information about ourselves
         @self = new User @, data.self
-        @team = new Team @, data.team.id, data.team.name, data.team.domain
+        @team = new Team @, data.team
 
         # Stash our websocket url away for later -- must be used within 30 seconds!
         @socketUrl = data.url
@@ -153,7 +153,7 @@ class Client extends EventEmitter
       @_pongTimeout = null
 
     @authenticated = false
-    
+
     # Test for a null value on ws to prevent system failure (e.g. if Bot is disabled)
     if @ws
       @ws.close()
@@ -245,7 +245,7 @@ class Client extends EventEmitter
 
   getUserByID: (id) ->
     @users[id]
-    
+
   getUserByEmail: (email) ->
     for k of @users
       if @users[k].profile.email == email
@@ -492,7 +492,7 @@ class Client extends EventEmitter
 
       when 'star_added'
           @emit 'star_added', message
-      
+
       when 'star_removed'
           @emit 'star_removed', message
 
