@@ -103,13 +103,15 @@ class Channel
     message.channel = @id
     @_client._send(message)
 
-  fetchHistory: (latest, oldest) ->
+  fetchHistory: (latest, oldest, inclusive, count) ->
     params = {
       "channel": @id
     }
 
     if latest? then params.latest = latest
     if oldest? then params.oldest = oldest
+    if inclusive? then params.inclusive = 1
+    if count? then params.count = count
 
     method = 'channels.history'
     if @getType() == 'Group' then method = 'groups.history'
