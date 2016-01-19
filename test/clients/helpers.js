@@ -50,5 +50,13 @@ describe('Client Helpers', function () {
         token: 'test',
       });
     });
+
+    it('handles undefined data object', function () {
+      var testData = undefined;
+
+      expect(helpers.getData(testData, 'test')).to.be.deep.equal({
+        token: 'test',
+      });
+    });
   });
 });
