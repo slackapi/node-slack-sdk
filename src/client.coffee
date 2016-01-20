@@ -547,7 +547,7 @@ class Client extends EventEmitter
     options =
       hostname: @host,
       method: 'POST',
-      path: '/api/' + method,
+      path: '/api/' + method + '?link_names=1',
       headers:
         'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Length': post_data.length
