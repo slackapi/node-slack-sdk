@@ -36,7 +36,7 @@ describe('RTM API Client', function () {
       rtm.start();
 
       var rtmConnCount = 0;
-      rtm.on(RTM_CLIENT_EVENTS.OPENED_RTM_CONNECTION, function () {
+      rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
         rtmConnCount++;
         if (rtmConnCount === 1) {
           onFirstConn(wss, rtm);
