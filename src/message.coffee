@@ -84,6 +84,20 @@ class Message
   _onDeleteMessage: (data) =>
     @_client.logger.debug data
 
+  addReaction: (name) =>
+    params = {
+      "timestamp": @ts,
+      "channel": @channel,
+      "name": name,
+    }
+    if @ts
+      @_client.logger.debug "Sending add reaction request"
+      @_client.logger.debug params
+      @_client._apiCall "chat.delete", params, _onAddReaction
+
+  _onAddReaction: (data) =>
+    @_client.logger.debug data
+
   _onMessageSent: (data) ->
     @ts = data.ts
 
