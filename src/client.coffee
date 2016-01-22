@@ -120,7 +120,10 @@ class Client extends EventEmitter
       @ws.on 'message', (data, flags) =>
         # flags.binary will be set if a binary data is received
         # flags.masked will be set if the data was masked
-        @onMessage JSON.parse(data)
+        try
+          @onMessage JSON.parse(data)
+        catch e
+          console.error e
 
       @ws.on 'error', (error) =>
         # TODO: Reconnect?
@@ -562,12 +565,14 @@ class Client extends EventEmitter
       res.on 'data', (chunk) ->
         buffer += chunk
       res.on 'end', =>
-        if callback?
-          if res.statusCode is 200
-            value = JSON.parse(buffer)
-            callback(value)
-          else
-            callback({'ok': false, 'error': 'API response: '+res.statusCode})
+        if !callback?
+          return
+        if res.statusCode is 200
+          try
+            return callback JSON.parse(buffer)
+          catch e
+            console.error e
+        callback({'ok': false, 'error': 'API response: '+res.statusCode})
 
     req.on 'error', (error) =>
       if callback? then callback({'ok': false, 'error': error.errno})
