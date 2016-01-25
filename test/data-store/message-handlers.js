@@ -1,5 +1,4 @@
 var expect = require('chai').expect;
-var humps = require('humps');
 var lodash = require('lodash');
 
 var RTM_API_EVENTS = require('../../lib/clients/events/rtm').EVENTS;
@@ -24,21 +23,10 @@ describe('RTM API Message Handlers', function () {
     it('emits raw messages with all lower case keys unchanged', function (done) {
       var rtmClient = getRtmClient();
       rtmClient.on('raw_message', function (rawMsg) {
-        expect(rawMsg).to.equal(JSON.stringify(getRTMMessageFixture('im_open', true)));
+        expect(rawMsg).to.equal(JSON.stringify(getRTMMessageFixture('im_open')));
         done();
       });
-      rtmClient.handleWsMessage(JSON.stringify(getRTMMessageFixture('im_open', true)));
-    });
-
-    it('emits changes snake case keys to camelcase and lowercase keys unchanged', function (done) {
-      var rtmClient = getRtmClient();
-      rtmClient.on('manual_presence_change', function (rawMsg) {
-        expect(rawMsg).to.have.deep.property('presence');
-        expect(rawMsg).to.have.deep.property('eventTs');
-        done();
-      });
-      rtmClient.handleWsMessage(
-        JSON.stringify(getRTMMessageFixture('manual_presence_change', true)));
+      rtmClient.handleWsMessage(JSON.stringify(getRTMMessageFixture('im_open')));
     });
   });
 
@@ -71,7 +59,7 @@ describe('RTM API Message Handlers', function () {
 
         messageHandlers[event](dataStore, getRTMMessageFixture(event));
         var baseChannel = dataStore.getChannelGroupOrDMById(id);
-        expect(baseChannel.isArchived).to.equal(expected);
+        expect(baseChannel.is_archived).to.equal(expected);
       };
 
       var testBaseChannelMarked = function (event, baseChannelId) {
@@ -190,7 +178,7 @@ describe('RTM API Message Handlers', function () {
 
           it('marks the group as archived when the last user leaves', function () {
             var group = testBaseChannelLeft('group_left', TEST_GROUP_ID, 'U0F3LFX6K');
-            expect(group.isArchived).to.equal(true);
+            expect(group.is_archived).to.equal(true);
           });
         });
 
@@ -200,10 +188,10 @@ describe('RTM API Message Handlers', function () {
 
         var testDMOpenStatus = function (isOpen, event) {
           var dataStore = getMemoryDataStore();
-          dataStore.getDMById(rtmStartFixture.ims[0].id).isOpen = isOpen;
+          dataStore.getDMById(rtmStartFixture.ims[0].id).is_open = isOpen;
           messageHandlers[event](dataStore, getRTMMessageFixture(event));
 
-          expect(dataStore.getDMById(rtmStartFixture.ims[0].id).isOpen).to.equal(isOpen);
+          expect(dataStore.getDMById(rtmStartFixture.ims[0].id).is_open).to.equal(isOpen);
         };
 
         it(
@@ -332,7 +320,7 @@ describe('RTM API Message Handlers', function () {
         messageHandlers['team_pref_change']('', 'T0CHZBU59', dataStore, prefChangeMsg);
 
         var team = dataStore.getTeamById('T0CHZBU59');
-        expect(team.prefs[humps.camelize(prefChangeMsg.name)]).to.equal(prefChangeMsg.value);
+        expect(team.prefs[prefChangeMsg.name]).to.equal(prefChangeMsg.value);
       });
 
       it('adds a new user to a team when a `team_join` message is received', function () {
@@ -355,7 +343,7 @@ describe('RTM API Message Handlers', function () {
         messageHandlers['pref_change'](ALICE_USER_ID, '', dataStore, prefChangeMsg);
 
         var user = dataStore.getUserById(ALICE_USER_ID);
-        expect(user.prefs[humps.camelize(prefChangeMsg.name)]).to.equal(prefChangeMsg.value);
+        expect(user.prefs[prefChangeMsg.name]).to.equal(prefChangeMsg.value);
       });
 
       it('updates a channel, marking a user as typing when `user_typing` is received', function () {
