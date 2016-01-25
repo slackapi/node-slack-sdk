@@ -1,5 +1,5 @@
 var EventEmitter = require('events').EventEmitter;
-var humps = require('humps');
+var lodash = require('lodash');
 var sinon = require('sinon');
 
 var MemoryDataStore = require('../../lib/data-store').MemoryDataStore;
@@ -23,7 +23,7 @@ var getRtmClient = function getRtmClient() {
 
 var getMemoryDataStore = function getMemoryDataStore() {
   var dataStore = new MemoryDataStore();
-  dataStore.cacheRtmStart(humps.camelizeKeys(rtmStartFixture));
+  dataStore.cacheRtmStart(lodash.cloneDeep(rtmStartFixture));
   return dataStore;
 };
 

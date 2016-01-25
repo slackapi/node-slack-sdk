@@ -1,10 +1,10 @@
-var humps = require('humps');
+var lodash = require('lodash');
 
 var eventFixtures = require('./client-events');
 
 
-var getRTMMessage = function getRTMMessage(event, noHumps) {
-  return noHumps ? eventFixtures[event] : humps.camelizeKeys(eventFixtures[event]);
+var getRTMMessage = function getRTMMessage(event) {
+  return lodash.cloneDeep(eventFixtures[event]);
 };
 
 

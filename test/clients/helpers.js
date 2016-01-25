@@ -5,25 +5,6 @@ var helpers = require('../../lib/clients/helpers');
 
 
 describe('Client Helpers', function () {
-  describe('#parseAPIResponse()', function () {
-    it('should process a JSON  string, converting it to JSON with camel-cased keys', function () {
-      var testMsg = {
-        ok: true,
-        reply_to: 1,
-        ts: '1355517523.000005',
-        text: 'Hello world',
-      };
-      var message = helpers.parseAPIResponse(JSON.stringify(testMsg));
-
-      expect(message).to.deep.equal({
-        ok: true,
-        replyTo: 1,
-        ts: '1355517523.000005',
-        text: 'Hello world',
-      });
-    });
-  });
-
   describe('#getData()', function () {
     it('merges the opts value into the top level data object and then removes opts', function () {
       var testData = {
