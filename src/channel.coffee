@@ -118,7 +118,12 @@ class Channel
     @_client._apiCall method, params, @_onFetchHistory
 
   _onFetchHistory: (data) =>
-    @_client.logger.debug data
+    messages = data['messages']
+    messages.sort (a,b) ->
+      a.ts - b.ts
+    for message in messages
+      message['channel'] = @id
+      @_client.onMessage message
 
   mark: (ts) ->
     params = {
