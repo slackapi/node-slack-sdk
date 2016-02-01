@@ -27,7 +27,7 @@ There are likely still a number of bugs to address in this release before it's r
 ## Installation
 
 ```bash
-npm install slack-client@2.0.0-beta.3 --save
+npm install slack-client@2.0.0-beta.4 --save
 ```
 
 ## Usage
