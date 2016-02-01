@@ -26,16 +26,19 @@ describe('RTM API Client', function () {
     };
 
     var testReconnectionLogic = function (onFirstConn, onSecondConnFn, opts, wssPort, done) {
+      var clonedOpts = lodash.cloneDeep(opts);
+      var rtm;
+      var rtmConnCount;
       // Make a fake URL as otherwise the test cases run in parallel and exhaust the nock-ed endpoint with the customized ws:// url
       var fakeSlackUrl = 'https://slack.com:' + wssPort + '/api';
       var wss = setUpTest(wssPort, fakeSlackUrl);
 
-      opts.slackAPIUrl = fakeSlackUrl;
-      var rtm = new RtmAPIClient('fake-token', opts);
+      clonedOpts.slackAPIUrl = fakeSlackUrl;
+      rtm = new RtmAPIClient('fake-token', clonedOpts);
       sinon.spy(rtm, 'reconnect');
       rtm.start();
 
-      var rtmConnCount = 0;
+      rtmConnCount = 0;
       rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
         rtmConnCount++;
         if (rtmConnCount === 1) {
@@ -54,7 +57,7 @@ describe('RTM API Client', function () {
     // TODO(leah): This test is quite slow (~50ms), figure out why
     it('should reconnect when a pong is not received within the max interval', function (done) {
       var onSecondConnFn = function (rtm) {
-        expect(rtm.reconnect.calledOnce).to.be.true;
+        expect(rtm.reconnect.calledOnce).to.equal(true);
       };
 
       var opts = {
@@ -72,7 +75,7 @@ describe('RTM API Client', function () {
       };
 
       var onSecondConnFn = function (rtm) {
-        expect(rtm.reconnect.calledOnce).to.be.true;
+        expect(rtm.reconnect.calledOnce).to.equal(true);
       };
 
       testReconnectionLogic(onFirstConn, onSecondConnFn, { reconnectionBackoff: 1 }, 5222, done);
@@ -92,7 +95,7 @@ describe('RTM API Client', function () {
 
       var onSecondConnFn = function (rtm) {
         rtm.reconnect();
-        expect(attemptingReconnectSpy.calledTwice).to.be.true;
+        expect(attemptingReconnectSpy.calledTwice).to.equal(true);
       };
 
       testReconnectionLogic(onFirstConn, onSecondConnFn, { reconnectionBackoff: 1 }, 5223, done);
@@ -105,7 +108,7 @@ describe('RTM API Client', function () {
       };
 
       var onSecondConnFn = function (rtm) {
-        expect(rtm.reconnect.calledOnce).to.be.true;
+        expect(rtm.reconnect.calledOnce).to.equal(true);
       };
 
       testReconnectionLogic(onFirstConn, onSecondConnFn, { reconnectionBackoff: 1 }, 5224, done);
