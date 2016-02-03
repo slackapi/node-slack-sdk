@@ -9,7 +9,7 @@ var WebClient = require('../lib/clients/web/client');
 var token = process.env.SLACK_API_TOKEN || '';
 var web = new WebClient(token);
 
-web.team.info(function teamInfoCb(err, channels) {
+web.team.info(function teamInfoCb(err, info) {
   if (err) return console.log('Error:', err);
-  console.log('Team Info:', channels);
+  console.log('Team Info:', info);
 });
