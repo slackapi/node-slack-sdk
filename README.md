@@ -8,7 +8,7 @@ To use it you can `npm install slack-client@2.0.0-beta.2` or check out the [2.0.
 
 ## Travis-CI Build Status
 
-[![Build Status](https://travis-ci.org/slackhq/node-slack-client.png?branch=master)](https://travis-ci.org/slackhq/node-slack-client)
+[![Build Status](https://travis-ci.org/slackhq/node-slack-client.svg?branch=master)](https://travis-ci.org/slackhq/node-slack-client)
 
 ## Description
 
