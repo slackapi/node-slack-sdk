@@ -40,6 +40,28 @@ describe('Client Helpers', function () {
         token: 'test',
       });
     });
+
+    it('JSON encodes attachments if they are not already encoded', function () {
+      var testData = {
+        attachments: [1, 2, 3],
+      };
+
+      expect(helpers.getData(testData, 'test')).to.be.deep.equal({
+        attachments: '[1,2,3]',
+        token: 'test',
+      });
+    });
+
+    it('leaves attachments alone if they are already encoded', function () {
+      var testData = {
+        attachments: '["a","b","c"]',
+      };
+
+      expect(helpers.getData(testData, 'test')).to.be.deep.equal({
+        attachments: '["a","b","c"]',
+        token: 'test',
+      });
+    });
   });
 
   describe('#getAPICallArgs()', function () {
