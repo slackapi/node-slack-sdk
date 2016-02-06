@@ -19,6 +19,14 @@ describe('MemoryDataStore', function () {
 
   });
 
+  describe('#getDMByName', function () {
+    it('should get a DM with another user when passed the name of that user', function () {
+      var dataStore = getMemoryDataStore();
+      var dm = dataStore.getDMByName('bob');
+      expect(dm.id).to.equal('D0CHZQWNP');
+    });
+  });
+
   describe('#getChannelByName()', function () {
     it('should get a channel by name', function () {
       var dataStore = getMemoryDataStore();
