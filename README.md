@@ -1,36 +1,39 @@
-# Node.js Slack Client Library
-
-## node-slack v2.0.0
-
-The beta release for the 2.0.0 version of this library is now available.
-
-To use it you can `npm install slack-client@2.0.0-beta.2` or check out the [2.0.0-beta branch](https://github.com/slackhq/node-slack-client/tree/2.0.0-beta)
-
-## Travis-CI Build Status
+# Node Library for the Slack APIs
 
 [![Build Status](https://travis-ci.org/slackhq/node-slack-client.svg?branch=master)](https://travis-ci.org/slackhq/node-slack-client)
 
-## Description
+## Motivation
 
-This is the beta Slack client 2.0.0 library for node.js, it:
-- wraps the [Slack Web API](https://api.slack.com/web) methods
-- exposes the [Real Time Messaging API's](https://api.slack.com/rtm) functionality
+This is a wrapper around the Slack [RTM](https://api.slack.com/rtm) and [Web](https://api.slack.com/web) APIs.
 
-## Beta Status
+This library will provide the low level functionality you need to build reliable apps and projects on top of Slack's APIs. It:
+- handles reconnection logic and request retries
+- provides reasonable defaults for events and logging
+- defines a basic model layer and data-store for caching Slack RTM API responses
 
-Please note that this client is a complete rewrite of the 1.5.1 slack-client library.
-
-It's still under active development, so issues and PRs are very welcome.
-
-There are likely still a number of bugs to address in this release before it's ready for a full 2.0.0, so use with caution!
+This library does not attempt to provide application level support, e.g. regex matching and filtering of the conversation stream. If you're looking for those kinds of features, you should check out one of the great libraries built on top of this.
 
 ## Installation
 
-```bash
+```bashp
 npm install slack-client@2.0.0-beta.8 --save
 ```
 
 ## Usage
+
+* [RTM Client](#rtm-client)
+  * [Creating an RTM client](#creating-an-rtm-client)
+  * [Listen to messages](#listen-to-messsages)
+  * [Send messages](#send-messages)
+
+## RTM Client
+
+The [Real Time Messaging client](lib/clients/rtm) connects to [Slack's RTM API](https://api.slack.com/rtm) over a websocket.
+
+It allows you to listen for activity in the Slack team you've connected to and push simple messages back to that team over the websocket.
+
+### Creating an RTM client
+
 ```js
 
 var RtmClient = require('slack-client').RtmClient;
@@ -40,27 +43,39 @@ var token = process.env.SLACK_API_TOKEN || '';
 var rtm = new RtmClient(token, {logLevel: 'debug'});
 rtm.start();
 
-rtm.on('message', function(message) {
-    console.log(message);
+```
+
+### Listen to messages
+
+```js
+
+var RTM_EVENTS = require('slack-client').EVENTS.API.EVENTS;
+
+rtm.on(RTM_EVENTS.MESSAGE, function (message) {
+  // Listens to all `message` events from the team
+});
+
+rtm.on(RTM_EVENTS.CHANNEL_CREATED, function (message) {
+  // Listens to all `channel_created` events from the team
 });
 
 ```
 
-A full example of how to use this module from Node.js can be found in the [/examples directory](examples).
+### Send messages
 
-## Contribute
+```js
 
-Here's the most direct way to get your work merged into the project.
+var RTM_CLIENT_EVENTS = require('slack-client').EVENTS.CLIENT.RTM;
 
-1. Fork the project
-2. Clone down your fork
-3. Create a feature branch
-4. Hack away and add tests, not necessarily in that order
-5. Make sure everything still passes by running tests
-6. If necessary, rebase your commits into logical chunks without errors
-7. Add yourself to package.json as a contributor
-8. Push the branch up to your fork
-9. Send a pull request for your branch
+// you need to wait for the client to fully connect before you can send messages
+rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
+  // This will send the message 'this is a test message' to the channel identified by id 'C0CHZA86Q'
+  rtm.sendMessage('this is a test message', 'C0CHZA86Q', function messageSent() {
+    // optionally, you can supply a callback to execute once the message has been sent
+  });
+});
+
+```
 
 ## Copyright
 
