@@ -25,6 +25,8 @@ npm install slack-client@2.0.0-beta.8 --save
   * [Creating an RTM client](#creating-an-rtm-client)
   * [Listen to messages](#listen-to-messsages)
   * [Send messages](#send-messages)
+* [Migrating from earlier versions](#migrating-from-earlier-versions) 
+  * [Models](#models)
 
 ## RTM Client
 
@@ -74,6 +76,51 @@ rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
     // optionally, you can supply a callback to execute once the message has been sent
   });
 });
+
+```
+
+## Migrating from earlier versions
+
+This is an incomplete list of items to consider when you migrate from earlier versions. As issues and PRs are raised for things that don't work as expected we'll fill this out.
+
+### Models
+
+The model objects no longer provide utility functions for working with the API. This is to decouple them from the client implementation. There should be functions on each of the clients that allow you to take the same actions you took from the model via the clients instead. The most common of these are below.
+
+#### Sending a message
+
+```js
+
+channel.sendMessage('test message');
+
+```
+
+becomes
+
+```js
+
+rtmClient.sendMessage('test message', channel.id);
+
+```
+
+#### Posting a message
+
+```js
+
+channel.postMessage({
+  attachments: [...]
+});
+
+```
+
+becomes
+
+```js
+
+var data = {
+  attachments: [...]
+};
+webClient.chat.postMessage(channelId, 'test message', data, function() {});
 
 ```
 
