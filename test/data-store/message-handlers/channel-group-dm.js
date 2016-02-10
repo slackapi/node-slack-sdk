@@ -110,7 +110,8 @@ describe('RTM API Message Handlers: Channel, Group & DM Events', function () {
     });
 
     it('removes a user from a channel when a `channel_left` message is received', function () {
-      testBaseChannelLeft('channel_left', TEST_CHANNEL_ID, 'U0F3LFX6K');
+      var channel = testBaseChannelLeft('channel_left', TEST_CHANNEL_ID, 'U0F3LFX6K');
+      expect(channel.is_member).to.be.false;
     });
 
     it('marks the channel as read when a `channel_marked` message is received', function () {
