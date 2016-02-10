@@ -16,7 +16,7 @@ This library does not attempt to provide application level support, e.g. regex m
 ## Installation
 
 ```bashp
-npm install slack-client@2.0.0-beta.8 --save
+npm install slack-client --save
 ```
 
 ## Usage
