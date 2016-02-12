@@ -1,8 +1,8 @@
 var expect = require('chai').expect;
 var sinon = require('sinon');
 
-var RTM_EVENTS = require('../../lib/clients/events').API.EVENTS;
-var MSG_SUBTYPES = require('../../lib/clients/events').API.MESSAGE_SUBTYPES;
+var RTM_EVENTS = require('../../lib/clients/events').RTM_EVENTS;
+var MSG_SUBTYPES = require('../../lib/clients/events').RTM_MESSAGE_SUBTYPES;
 var getMemoryDataStore = require('../utils/client').getMemoryDataStore;
 var getRTMMessageFixture = require('../fixtures').getRTMMessage;
 var makeMessageEventWithSubtype = require('../../lib/clients/events/utils')

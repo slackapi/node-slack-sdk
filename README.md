@@ -16,7 +16,7 @@ This library does not attempt to provide application level support, e.g. regex m
 ## Installation
 
 ```bashp
-npm install slack-client --save
+npm install slack-client@2.0.0-beta.9 --save
 ```
 
 ## Usage
@@ -25,6 +25,7 @@ npm install slack-client --save
   * [Creating an RTM client](#creating-an-rtm-client)
   * [Listen to messages](#listen-to-messsages)
   * [Send messages](#send-messages)
+  * [RTM Client Lifecycle](#rtm-client-lifecycle)
 * [Migrating from earlier versions](#migrating-from-earlier-versions) 
   * [Models](#models)
 
@@ -51,7 +52,7 @@ rtm.start();
 
 ```js
 
-var RTM_EVENTS = require('slack-client').EVENTS.API.EVENTS;
+var RTM_EVENTS = require('slack-client').RTM_EVENTS;
 
 rtm.on(RTM_EVENTS.MESSAGE, function (message) {
   // Listens to all `message` events from the team
@@ -78,6 +79,16 @@ rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
 });
 
 ```
+
+### RTM Client Lifecyle
+
+The RTM client has its own lifecycle events. These reflect the different states the RTM client can be in as it connects to Slack's RTM API.
+
+The full details of the client lifecyle are in the [RTM client events file](/lib/clients/events/client.js)
+
+The most important events are:
+- `RTM_CONNECTION_OPENED`: the remote server has acked the socket and sent a `hello` message, the connection is now live and can be used to send messages
+- `DISONNECT`: the RTM client has disconnected and will not try to reconnect again automatically
 
 ## Migrating from earlier versions
 
