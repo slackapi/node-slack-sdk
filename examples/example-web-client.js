@@ -10,6 +10,9 @@ var token = process.env.SLACK_API_TOKEN || '';
 var web = new WebClient(token);
 
 web.team.info(function teamInfoCb(err, channels) {
-  if (err) return console.log('Error:', err);
-  console.log('Team Info:', channels);
+  if (err) {
+    console.log('Error:', err);
+  } else {
+    console.log('Team Info:', channels);
+  }
 });
