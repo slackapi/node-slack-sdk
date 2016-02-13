@@ -1,3 +1,8 @@
+### v2.0.1 (2016-02-13)
+
+  * Updates to `ws@1.0.1`
+  * Fixes a bad variable name in [`example-web-client`](/examples/example-web-client.js)
+
 ### v2.0.0 (2016-02-13)
 
   Refactors the library to javascript, adds a lot of tests and restructures it to improve maintainability and extend functionality.

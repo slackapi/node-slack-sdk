@@ -1,6 +1,6 @@
 {
   "name": "slack-client",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A library for creating a Slack client",
   "main": "./index",
   "scripts": {
@@ -29,7 +29,7 @@
     "retry": "^0.8.0",
     "url-join": "0.0.1",
     "winston": "^2.1.1",
-    "ws": "0.8.0"
+    "ws": "^1.0.1"
   },
   "devDependencies": {
     "chai": "^3.3.0",
