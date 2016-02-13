@@ -68,7 +68,7 @@ rtm.on(RTM_EVENTS.CHANNEL_CREATED, function (message) {
 
 ```js
 
-var RTM_CLIENT_EVENTS = require('slack-client').EVENTS.CLIENT.RTM;
+var RTM_CLIENT_EVENTS = require('slack-client').CLIENT_EVENTS.RTM;
 
 // you need to wait for the client to fully connect before you can send messages
 rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
