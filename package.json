@@ -5,7 +5,9 @@
   "main": "./index",
   "scripts": {
     "lint": "eslint . --ignore-path .gitignore",
-    "test": "mocha --recursive --reporter spec test"
+    "test": "mocha --recursive --reporter spec test",
+    "cover": "istanbul cover --report lcovonly _mocha -- --recursive",
+    "coveralls": "npm run cover && istanbul-coveralls"
   },
   "keywords": [
     "slack"
@@ -33,9 +35,13 @@
   },
   "devDependencies": {
     "chai": "^3.3.0",
+    "coveralls": "^2.11.6",
     "eslint": "^1.10.3",
     "eslint-config-airbnb": "^3.0.1",
+    "istanbul": "^0.4.2",
+    "istanbul-coveralls": "^1.0.3",
     "mocha": "~2.3.3",
+    "mocha-lcov-reporter": "^1.0.0",
     "nock": "^2.15.0",
     "sinon": "^1.17.1"
   },
