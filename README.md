@@ -1,6 +1,7 @@
 # Node Library for the Slack APIs
 
 [![Build Status](https://travis-ci.org/slackhq/node-slack-client.svg?branch=master)](https://travis-ci.org/slackhq/node-slack-client)
+[![Coverage Status](https://coveralls.io/repos/github/slackhq/node-slack-client/badge.svg?branch=master)](https://coveralls.io/github/slackhq/node-slack-client?branch=master)
 
 ## Motivation
 
