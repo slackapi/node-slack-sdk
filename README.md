@@ -89,7 +89,7 @@ The full details of the client lifecyle are in the [RTM client events file](/lib
 
 The most important events are:
 - `RTM_CONNECTION_OPENED`: the remote server has acked the socket and sent a `hello` message, the connection is now live and can be used to send messages
-- `DISONNECT`: the RTM client has disconnected and will not try to reconnect again automatically
+- `DISCONNECT`: the RTM client has disconnected and will not try to reconnect again automatically
 
 ## Migrating from earlier versions
 
