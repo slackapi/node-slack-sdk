@@ -49,6 +49,21 @@ rtm.start();
 
 ```
 
+### Capturing the `rtm.start` payload
+
+The RTM client will emit a `RTM.AUTHENTICATED` event, with the `rtm.start` payload.
+
+```js
+
+var CLIENT_EVENTS = require('slack-client').CLIENT_EVENTS;
+
+rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function (rtmStartData) {
+
+});
+
+
+```
+
 ### Listen to messages
 
 ```js

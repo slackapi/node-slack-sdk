@@ -1,3 +1,7 @@
+### v2.0.3 (TBD)
+
+  * The RTM `AUTHENTICATED` event now also emits the `rtm.start` payload
+
 ### v2.0.2 (2016-02-15)
 
   * Adds coveralls to the repo, to track code coverage and display a badge in the README
