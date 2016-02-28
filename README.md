@@ -17,8 +17,14 @@ This library does not attempt to provide application level support, e.g. regex m
 ## Installation
 
 ```bashp
-npm install slack-client --save
+npm install @slack/client --save
 ```
+
+## Package name change!!
+
+**IMPORTANT** We're moving to NPM organizations, so going forwards the client will be published as a scoped module under the Slack organization.
+
+We'll dual-publish both `@slack/client` and `slack-client` until at least `2.1.0` is released, and possibly past that, but please switch over before then.
 
 ## Usage
 
