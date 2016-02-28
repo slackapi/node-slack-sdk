@@ -1,6 +1,7 @@
 ### v2.0.3 (TBD)
 
   * The RTM `AUTHENTICATED` event now also emits the `rtm.start` payload
+  * Fixes the way that loggers are instantiated and used, so that the JSDoc for `opts.logger` is correct
 
 ### v2.0.2 (2016-02-15)
 
