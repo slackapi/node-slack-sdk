@@ -1,3 +1,7 @@
+### v2.0.4 (2016-02-28)
+
+  * Passes through the logLevel param to the getLogger function
+
 ### v2.0.3 (2016-02-28)
 
   * The RTM `AUTHENTICATED` event now also emits the `rtm.start` payload
