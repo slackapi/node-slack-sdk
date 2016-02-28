@@ -46,7 +46,7 @@ It allows you to listen for activity in the Slack team you've connected to and p
 
 ```js
 
-var RtmClient = require('slack-client').RtmClient;
+var RtmClient = require('@slack/client').RtmClient;
 
 var token = process.env.SLACK_API_TOKEN || '';
 
@@ -61,7 +61,7 @@ The RTM client will emit a `RTM.AUTHENTICATED` event, with the `rtm.start` paylo
 
 ```js
 
-var CLIENT_EVENTS = require('slack-client').CLIENT_EVENTS;
+var CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
 
 rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function (rtmStartData) {
 
@@ -74,7 +74,7 @@ rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function (rtmStartData) {
 
 ```js
 
-var RTM_EVENTS = require('slack-client').RTM_EVENTS;
+var RTM_EVENTS = require('@slack/client').RTM_EVENTS;
 
 rtm.on(RTM_EVENTS.MESSAGE, function (message) {
   // Listens to all `message` events from the team
@@ -90,7 +90,7 @@ rtm.on(RTM_EVENTS.CHANNEL_CREATED, function (message) {
 
 ```js
 
-var RTM_CLIENT_EVENTS = require('slack-client').CLIENT_EVENTS.RTM;
+var RTM_CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS.RTM;
 
 // you need to wait for the client to fully connect before you can send messages
 rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
