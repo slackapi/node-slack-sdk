@@ -1,4 +1,8 @@
-### v2.0.4 (2016-03-01)
+### v2.0.6 (2016-03-01)
+
+  * Fixes a crash introduce in `2.0.5` if you try and instantiate a `WebClient` without passing in any options
+
+### v2.0.5 (2016-03-01)
 
   * Updates the way that API requests are throttled to:
     * avoid a condition where the request queue callback could be called multiple times, causing a crash
