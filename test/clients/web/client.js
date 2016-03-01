@@ -17,7 +17,7 @@ describe('Web API Client', function () {
     var opts = {
       slackAPIUrl: 'test',
       userAgent: 'test',
-      transport: lodash.noop,
+      transport: lodash.noop
     };
     var client = new WebAPIClient('test-token', opts);
 
@@ -34,7 +34,7 @@ describe('Web API Client', function () {
     var args = {
       headers: {},
       statusCode: 200,
-      body: '{"test": 10}',
+      body: '{"test": 10}'
     };
 
     var client = new WebAPIClient('test-token', { transport: mockTransport });
@@ -63,8 +63,8 @@ describe('Web API Client', function () {
       client = new WebAPIClient('test-token', {
         retryConfig: {
           minTimeout: 0,
-          maxTimeout: 1,
-        },
+          maxTimeout: 1
+        }
       });
       sinon.spy(client, 'transport');
 

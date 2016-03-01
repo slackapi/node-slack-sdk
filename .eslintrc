@@ -1,7 +1,3 @@
 {
-  "extends": "airbnb/legacy",
-  "rules": {
-    "no-var": 0,
-    "object-shorthand": 0
-  }
+  "extends": "airbnb/legacy"
 }

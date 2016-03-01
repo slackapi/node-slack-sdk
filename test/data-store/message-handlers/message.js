@@ -84,7 +84,7 @@ describe('RTM API Message Handlers: Message Events', function () {
       user: 'U0F3LFX6K',
       text: "I'm going to delete this message Carol",
       ts: '1448496776.000003',
-      team: 'T0CHZBU59',
+      team: 'T0CHZBU59'
     };
     var channel = dataStore.getChannelById(TEST_CHANNEL_ID);
     channel.addMessage(initialMsg);
@@ -103,7 +103,7 @@ describe('RTM API Message Handlers: Message Events', function () {
       user: 'U0F3LFX6K',
       text: 'Howdy Carol',
       ts: '1448496754.000002',
-      team: 'T0CHZBU59',
+      team: 'T0CHZBU59'
     };
     var channel = dataStore.getChannelById(TEST_CHANNEL_ID);
     channel.addMessage(initialMsg);

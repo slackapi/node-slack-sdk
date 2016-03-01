@@ -63,7 +63,7 @@ describe('RTM API Client', function () {
       var opts = {
         wsPingInterval: 1,
         maxPongInterval: 2,
-        reconnectionBackoff: 1,
+        reconnectionBackoff: 1
       };
 
       testReconnectionLogic(lodash.noop, onSecondConnFn, opts, 5221, done);
