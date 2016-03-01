@@ -1,3 +1,13 @@
+### v2.0.4 (2016-03-01)
+
+  * Updates the way that API requests are throttled to:
+    * avoid a condition where the request queue callback could be called multiple times, causing a crash
+    * refactor the logic in `_callTransport` into multiple functions to make it easier to follow
+  * Updates dev dependencies:
+    * eslint
+    * nock
+    * eslint-config-airbnb
+
 ### v2.0.4 (2016-02-28)
 
   * Passes through the logLevel param to the getLogger function
