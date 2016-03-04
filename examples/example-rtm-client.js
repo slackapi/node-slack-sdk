@@ -14,3 +14,11 @@ rtm.start();
 rtm.on('message', function handleRtmMessage(message) {
   console.log(message);
 });
+
+rtm.on('reaction_added', function handleRtmReactionAdded(reaction) {
+  console.log(reaction);
+});
+
+rtm.on('reaction_removed', function handleRtmReactionRemoved(reaction) {
+  console.log(reaction);
+});
