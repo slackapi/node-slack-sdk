@@ -1,5 +1,4 @@
 var expect = require('chai').expect;
-var lodash = require('lodash');
 
 var helpers = require('../../lib/clients/helpers');
 
@@ -65,21 +64,19 @@ describe('Client Helpers', function () {
   });
 
   describe('#getAPICallArgs()', function () {
-    it('returns an empty object and noop fn when called with no data or cb', function () {
+    it('returns an object with the token when called with no data or cb', function () {
       var callArgs = helpers.getAPICallArgs('test');
       expect(callArgs.data).to.deep.equal({
         token: 'test'
       });
-      expect(callArgs.cb).to.deep.equal(lodash.noop);
     });
 
-    it('returns the supplied object and noop fn when called with an object and no cb', function () {
+    it('returns the supplied object when called with a data object and no cb', function () {
       var callArgs = helpers.getAPICallArgs('test', { test: 1 });
       expect(callArgs.data).to.deep.equal({
         test: 1,
         token: 'test'
       });
-      expect(callArgs.cb).to.deep.equal(lodash.noop);
     });
 
     it('returns the supplied cb and empty object when called with a cb and no object', function () {

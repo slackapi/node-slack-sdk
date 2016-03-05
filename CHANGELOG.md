@@ -1,3 +1,7 @@
+### v2.0.7 ()
+
+ * Adds promises to the Slack clients. If no callback is passed to an API call, a promise will be created and returned instead.
+
 ### v2.0.6 (2016-03-01)
 
   * Fixes a crash introduce in `2.0.5` if you try and instantiate a `WebClient` without passing in any options
