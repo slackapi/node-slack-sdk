@@ -1,4 +1,4 @@
-### v2.0.7 ()
+### v2.1.0 (2016-03-05)
 
  * Adds promises to the Slack clients. If no callback is passed to an API call, a promise will be created and returned instead.
  * Logs a warning if an API response with a `warning` key is received
