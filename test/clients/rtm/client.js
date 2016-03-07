@@ -144,11 +144,14 @@ describe('RTM API Client', function () {
 
     describe('#_registerMsgHandler()', function () {
 
-      it('should write to _msgResponseHandlers when _registerMsgHandler is called', function () {
+      it('should write to _msgResponseHandlers and _msgChannelLookup', function () {
         var rtm = new RtmAPIClient('fake-token');
         var fakeHandler = { fulfill: null, reject: null };
-        rtm._registerMsgHandler(1, fakeHandler);
+        var wsMsg = { type: 'message', channel: 'fake', text: 'test', id: 1 };
+        rtm._registerMsgHandler(1, wsMsg, fakeHandler);
+
         expect(rtm._msgResponseHandlers[1]).to.deep.equal(fakeHandler);
+        expect(rtm._msgChannelLookup[1]).to.deep.equal('fake');
       });
 
     });
@@ -157,7 +160,8 @@ describe('RTM API Client', function () {
 
       var setupRTMClient = function (handler) {
         var rtm = new RtmAPIClient('fake-token');
-        rtm._registerMsgHandler(1, handler);
+        var wsMsg = { type: 'message', channel: 'fake', text: 'test', id: 1 };
+        rtm._registerMsgHandler(1, wsMsg, handler);
 
         return rtm;
       };
@@ -186,11 +190,12 @@ describe('RTM API Client', function () {
         expect(handler.reject.calledWith('test')).to.equal(true);
       });
 
-      it('deletes the response handler when a message response or err is received', function () {
+      it('deletes the response handler and channel lookup', function () {
         var rtm = setupRTMClient(function () {});
         rtm._handleMsgResponse(1, null, 'test');
 
         expect(rtm._msgResponseHandlers[1]).to.equal(undefined);
+        expect(rtm._msgChannelLookup[1]).to.equal(undefined);
       });
 
     });
