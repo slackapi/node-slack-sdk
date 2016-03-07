@@ -1,66 +1,162 @@
-# Node.js Slack Client Library
+# Node Library for the Slack APIs
 
-## Travis-CI Build Status
+[![Build Status](https://travis-ci.org/slackhq/node-slack-client.svg?branch=master)](https://travis-ci.org/slackhq/node-slack-client)
+[![Coverage Status](https://coveralls.io/repos/github/slackhq/node-slack-client/badge.svg?branch=master)](https://coveralls.io/github/slackhq/node-slack-client?branch=master)
 
-[![Build Status](https://travis-ci.org/slackhq/node-slack-client.png?branch=master)](https://travis-ci.org/slackhq/node-slack-client)
+## Motivation
 
-## Description
+This is a wrapper around the Slack [RTM](https://api.slack.com/rtm) and [Web](https://api.slack.com/web) APIs.
 
-This is a Slack client library for Node.js. It's intended to expose all of the functionality of [Slack's Real Time Messaging API](https://api.slack.com/rtm) while providing some common abstractions and generally making your life easier, if you want it to.
+This library will provide the low level functionality you need to build reliable apps and projects on top of Slack's APIs. It:
+- handles reconnection logic and request retries
+- provides reasonable defaults for events and logging
+- defines a basic model layer and data-store for caching Slack RTM API responses
 
-This code has been built to support our [hubot-slack](https://github.com/slackhq/hubot-slack) adapter. Most other functionality isn't yet supported, and documentation is minimal, at best.
+This library does not attempt to provide application level support, e.g. regex matching and filtering of the conversation stream. If you're looking for those kinds of features, you should check out one of the great libraries built on top of this.
 
 ## Installation
-```bash
-npm install slack-client --save
+
+```bashp
+npm install @slack/client --save
 ```
+
+## Package name change!!
+
+**IMPORTANT** We're moving to NPM organizations, so going forwards the client will be published as a scoped module under the Slack organization.
+
+We'll dual-publish both `@slack/client` and `slack-client` until at least `2.1.0` is released, and possibly past that, but please switch over before then.
 
 ## Usage
-```coffeescript
-Slack = require 'slack-client'
 
-slackToken = 'xoxb-YOUR-TOKEN-HERE' # Add a bot at https://my.slack.com/services/new/bot and copy the token here.
-autoReconnect = true # Automatically reconnect after an error response from Slack.
-autoMark = true # Automatically mark each message as read after it is processed.
+* [RTM Client](#rtm-client)
+  * [Creating an RTM client](#creating-an-rtm-client)
+  * [Listen to messages](#listen-to-messsages)
+  * [Send messages](#send-messages)
+  * [RTM Client Lifecycle](#rtm-client-lifecycle)
+* [Migrating from earlier versions](#migrating-from-earlier-versions) 
+  * [Models](#models)
 
-slack = new Slack(slackToken, autoReconnect, autoMark)
+## RTM Client
 
-slack.on 'open', ->
-    console.log "Connected to #{slack.team.name} as @#{slack.self.name}"
+The [Real Time Messaging client](lib/clients/rtm) connects to [Slack's RTM API](https://api.slack.com/rtm) over a websocket.
 
-slack.on 'message', (message) ->
-    console.log message
+It allows you to listen for activity in the Slack team you've connected to and push simple messages back to that team over the websocket.
 
-slack.on 'error', (err) ->
-    console.error "Error", err
+### Creating an RTM client
 
-slack.login()
+```js
+
+var RtmClient = require('@slack/client').RtmClient;
+
+var token = process.env.SLACK_API_TOKEN || '';
+
+var rtm = new RtmClient(token, {logLevel: 'debug'});
+rtm.start();
 
 ```
 
-A full example of how to use this module from Node.js can be found in the [/examples directory](https://github.com/slackhq/node-slack-client/tree/master/examples).
+### Capturing the `rtm.start` payload
 
-## Contribute
+The RTM client will emit a `RTM.AUTHENTICATED` event, with the `rtm.start` payload.
 
-Here's the most direct way to get your work merged into the project.
+```js
 
-1. Fork the project
-2. Clone down your fork
-3. Create a feature branch
-4. Hack away and add tests, not necessarily in that order
-5. Make sure everything still passes by running tests
-6. If necessary, rebase your commits into logical chunks without errors
-7. Add yourself to package.json as a contributor
-8. Push the branch up to your fork
-9. Send a pull request for your branch
+var CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
+
+rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function (rtmStartData) {
+
+});
+
+
+```
+
+### Listen to messages
+
+```js
+
+var RTM_EVENTS = require('@slack/client').RTM_EVENTS;
+
+rtm.on(RTM_EVENTS.MESSAGE, function (message) {
+  // Listens to all `message` events from the team
+});
+
+rtm.on(RTM_EVENTS.CHANNEL_CREATED, function (message) {
+  // Listens to all `channel_created` events from the team
+});
+
+```
+
+### Send messages
+
+```js
+
+var RTM_CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS.RTM;
+
+// you need to wait for the client to fully connect before you can send messages
+rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
+  // This will send the message 'this is a test message' to the channel identified by id 'C0CHZA86Q'
+  rtm.sendMessage('this is a test message', 'C0CHZA86Q', function messageSent() {
+    // optionally, you can supply a callback to execute once the message has been sent
+  });
+});
+
+```
+
+### RTM Client Lifecyle
+
+The RTM client has its own lifecycle events. These reflect the different states the RTM client can be in as it connects to Slack's RTM API.
+
+The full details of the client lifecyle are in the [RTM client events file](/lib/clients/events/client.js)
+
+The most important events are:
+- `RTM_CONNECTION_OPENED`: the remote server has acked the socket and sent a `hello` message, the connection is now live and can be used to send messages
+- `DISCONNECT`: the RTM client has disconnected and will not try to reconnect again automatically
+
+## Migrating from earlier versions
+
+This is an incomplete list of items to consider when you migrate from earlier versions. As issues and PRs are raised for things that don't work as expected we'll fill this out.
+
+### Models
+
+The model objects no longer provide utility functions for working with the API. This is to decouple them from the client implementation. There should be functions on each of the clients that allow you to take the same actions you took from the model via the clients instead. The most common of these are below.
+
+#### Sending a message
+
+```js
+
+channel.sendMessage('test message');
+
+```
+
+becomes
+
+```js
+
+rtmClient.sendMessage('test message', channel.id);
+
+```
+
+#### Posting a message
+
+```js
+
+channel.postMessage({
+  attachments: [...]
+});
+
+```
+
+becomes
+
+```js
+
+var data = {
+  attachments: [...]
+};
+webClient.chat.postMessage(channelId, 'test message', data, function() {});
+
+```
 
 ## Copyright
 
 Copyright &copy; Slack Technologies, Inc. MIT License; see LICENSE for further details.
-
-## TODOs
-
-1. Better/any timeouts on initial websocket connection
-2. Better/any timeouts on API calls
-3. Document the connection options, etc
-4. Emit more events around unreads and mentions

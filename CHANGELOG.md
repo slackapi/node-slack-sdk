@@ -1,4 +1,58 @@
-### v.1.5.0 (2015-12-01):
+### v2.1.0 (2016-03-05)
+
+ * Adds promises to the Slack clients. If no callback is passed to an API call, a promise will be created and returned instead.
+ * Logs a warning if an API response with a `warning` key is received
+
+### v2.0.6 (2016-03-01)
+
+  * Fixes a crash introduce in `2.0.5` if you try and instantiate a `WebClient` without passing in any options
+
+### v2.0.5 (2016-03-01)
+
+  * Updates the way that API requests are throttled to:
+    * avoid a condition where the request queue callback could be called multiple times, causing a crash
+    * refactor the logic in `_callTransport` into multiple functions to make it easier to follow
+  * Updates dev dependencies:
+    * eslint
+    * nock
+    * eslint-config-airbnb
+
+### v2.0.4 (2016-02-28)
+
+  * Passes through the logLevel param to the getLogger function
+
+### v2.0.3 (2016-02-28)
+
+  * The RTM `AUTHENTICATED` event now also emits the `rtm.start` payload
+  * Fixes the way that loggers are instantiated and used, so that the JSDoc for `opts.logger` is correct
+
+### v2.0.2 (2016-02-15)
+
+  * Adds coveralls to the repo, to track code coverage and display a badge in the README
+  * Updates the disconnect function on the RTM client to support both an error message and a code or reason for the disconnect, e.g. `account_inactive`
+  * Updates the message-handlers for `team_xxx` events to set the team back to the data-store once changes are made
+
+### v2.0.1 (2016-02-13)
+
+  * Updates to `ws@1.0.1`
+  * Fixes a bad variable name in [`example-web-client`](/examples/example-web-client.js)
+
+### v2.0.0 (2016-02-13)
+
+  Refactors the library to javascript, adds a lot of tests and restructures it to improve maintainability and extend functionality.
+  * Creates two separate clients:
+    - RTM; manages connection to Slack's RTM API, including reconnects
+    - Web; provideas a callback interface to all of Slack's Web API endpoints
+  * Moves the memory data store implementation off the clients and into its own class
+  * Uncouples the model objects from the clients; model functions to send messages to channels etc are now accessed via the web and RTM client
+  * Moves the transport layer (websockets and HTTP) to a pluggable model, so that complex transports (through request proxies etc) can be handled
+  * Adds test coverage on most core functionality in the library
+
+### v1.5.1 (2015-12-15)
+
+  * Adds support for a request-proxy URL to use the client from behind a proxy
+
+### v1.5.0 (2015-12-01):
 
   * Updates the ws library from 0.4.3 to 0.8.1
   * Reconnects when a `team_migration_started` event is received

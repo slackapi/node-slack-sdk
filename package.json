@@ -1,11 +1,13 @@
 {
-  "name": "slack-client",
-  "version": "1.5.0",
-  "description": "A library for creating a full Slack client",
+  "name": "@slack/client",
+  "version": "2.1.0",
+  "description": "A library for creating a Slack client",
   "main": "./index",
   "scripts": {
-    "test": "mocha --compilers coffee:coffee-script/register --reporter spec",
-    "prepublish": "grunt prepublish"
+    "lint": "eslint . --ignore-path .gitignore",
+    "test": "mocha --recursive --reporter spec test",
+    "cover": "istanbul cover --report lcovonly _mocha -- --recursive",
+    "coveralls": "npm run cover && istanbul-coveralls"
   },
   "keywords": [
     "slack"
@@ -20,23 +22,32 @@
     "url": "http://github.com/slackhq/node-slack-client/issues"
   },
   "dependencies": {
-    "coffee-script": "~1.9.3",
-    "ws": "0.8.1",
-    "log": "1.4.0"
+    "async": "^1.5.0",
+    "bluebird": "^3.3.3",
+    "eventemitter3": "^1.1.1",
+    "https-proxy-agent": "^1.0.0",
+    "inherits": "^2.0.1",
+    "lodash": "^3.10.1",
+    "request": "^2.64.0",
+    "retry": "^0.8.0",
+    "url-join": "0.0.1",
+    "winston": "^2.1.1",
+    "ws": "^1.0.1"
   },
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-cli": "^0.1.13",
-    "grunt-contrib-coffee": "^0.12.0",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-release": "~0.6.0",
-    "grunt-shell": "~0.5.0",
-    "mocha": "~1.13.0",
-    "should": "~2.0.2",
-    "sinon": "^1.15.4"
+    "chai": "^3.3.0",
+    "coveralls": "^2.11.6",
+    "eslint": "^2.2.0",
+    "eslint-config-airbnb": "^6.0.2",
+    "istanbul": "^0.4.2",
+    "istanbul-coveralls": "^1.0.3",
+    "mocha": "~2.3.3",
+    "mocha-lcov-reporter": "^1.0.0",
+    "nock": "^7.2.2",
+    "sinon": "^1.17.1"
   },
   "engines": {
-    "node": ">= 0.10.x",
+    "node": ">= 0.12.x",
     "npm": ">= 1.1.x"
   }
 }

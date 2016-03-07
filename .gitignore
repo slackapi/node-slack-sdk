@@ -1,2 +1,4 @@
 node_modules
-*.js
+.idea
+npm-debug.log
+coverage
