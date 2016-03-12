@@ -64,18 +64,29 @@ describe('Client Helpers', function () {
   });
 
   describe('#getAPICallArgs()', function () {
-    it('returns an object with the token when called with no data or cb', function () {
+    it('returns an args object with the token when called with no data or cb', function () {
       var callArgs = helpers.getAPICallArgs('test');
       expect(callArgs.data).to.deep.equal({
         token: 'test'
       });
     });
 
-    it('returns the supplied object when called with a data object and no cb', function () {
-      var callArgs = helpers.getAPICallArgs('test', { test: 1 });
+    it('returns an args object with a token and data items when called with a data obj and no cb',
+      function () {
+        var callArgs = helpers.getAPICallArgs('test', { test: 1 });
+        expect(callArgs.data).to.deep.equal({
+          test: 1,
+          token: 'test'
+        });
+      }
+    );
+
+    it('assigns data from the opts to the returned args obj and removes the opts key', function () {
+      var callArgs = helpers.getAPICallArgs('test', { test: 1, opts: { cat: 1 } });
       expect(callArgs.data).to.deep.equal({
         test: 1,
-        token: 'test'
+        token: 'test',
+        cat: 1
       });
     });
 
