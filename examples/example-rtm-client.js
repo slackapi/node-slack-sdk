@@ -13,13 +13,13 @@ var rtm = new RtmClient(token, { logLevel: 'debug' });
 rtm.start();
 
 rtm.on(RTM_EVENTS.MESSAGE, function handleRtmMessage(message) {
-  console.log("Message:", message);
+  console.log('Message:', message);
 });
 
 rtm.on(RTM_EVENTS.REACTION_ADDED, function handleRtmReactionAdded(reaction) {
-  console.log("Reaction added:", reaction);
+  console.log('Reaction added:', reaction);
 });
 
 rtm.on(RTM_EVENTS.REACTION_REMOVED, function handleRtmReactionRemoved(reaction) {
-  console.log("Reaction removed:", reaction);
+  console.log('Reaction removed:', reaction);
 });
