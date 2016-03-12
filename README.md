@@ -30,7 +30,7 @@ We'll dual-publish both `@slack/client` and `slack-client` until at least `2.1.0
 
 * [RTM Client](#rtm-client)
   * [Creating an RTM client](#creating-an-rtm-client)
-  * [Listen to messages](#listen-to-messsages)
+  * [Listen to messages](#listen-to-messages)
   * [Send messages](#send-messages)
   * [RTM Client Lifecycle](#rtm-client-lifecycle)
 * [Migrating from earlier versions](#migrating-from-earlier-versions) 
@@ -102,11 +102,11 @@ rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
 
 ```
 
-### RTM Client Lifecyle
+### RTM Client Lifecycle
 
 The RTM client has its own lifecycle events. These reflect the different states the RTM client can be in as it connects to Slack's RTM API.
 
-The full details of the client lifecyle are in the [RTM client events file](/lib/clients/events/client.js)
+The full details of the client lifecycle are in the [RTM client events file](/lib/clients/events/client.js)
 
 The most important events are:
 - `RTM_CONNECTION_OPENED`: the remote server has acked the socket and sent a `hello` message, the connection is now live and can be used to send messages
