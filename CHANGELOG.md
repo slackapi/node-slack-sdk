@@ -1,7 +1,8 @@
-### v2.2.0 ()
+### v2.2.0 (2016-03-12)
 
   * Adds promise support to the RTM client `send` and `sendMessage` methods
   * Fixes the way message response callbacks work, so that the success case is only called when the websocket receives a message with a `reply_to` matching the id of the dispatched message, instead of when the ws instance signals message send success
+  * Fixes the way `getAPICallArgs` works, to correctly pull data out of the `opts` arg
 
 ### v2.1.0 (2016-03-05)
 
