@@ -1,3 +1,7 @@
+### v2.2.1 (2016-03-12)
+
+  * Adds an `im` alias for the `dm` facet to the web client, to match the API endpoint naming
+
 ### v2.2.0 (2016-03-12)
 
   * Adds promise support to the RTM client `send` and `sendMessage` methods
