@@ -1,3 +1,7 @@
+### v2.3.0 ()
+
+  * Caches messages on the RTM client, to improve handling in cases where message send fails.
+
 ### v2.2.1 (2016-03-12)
 
   * Adds an `im` alias for the `dm` facet to the web client, to match the API endpoint naming
