@@ -488,10 +488,18 @@ class Client extends EventEmitter
 
       when 'star_added'
           @emit 'star_added', message
-      
+
       when 'star_removed'
           @emit 'star_removed', message
 
+      # when team_migration_started happens, reconnect so it can get the new thing
+      when 'team_migration_started'
+        @logger.info "Team migration started, prepare for reconnect"
+        @reconnect()
+      # if it's still in progress, it's not ready yet, so try again
+      when 'migration_in_progress'
+        @logger.info "Team migration still in progress, prepare for reconnect"
+        @reconnect()
       else
         if message.reply_to
           if message.type == 'pong'
