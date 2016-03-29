@@ -1,4 +1,4 @@
-### v2.3.0 ()
+### v2.3.0 (2016-02-28)
 
   * Caches messages on the RTM client, to improve handling in cases where message send fails
   * Removes the handler for the websocket level `ping` handler (not the RTM API level ping handler)
