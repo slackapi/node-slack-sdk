@@ -32,8 +32,10 @@ We'll dual-publish both `@slack/client` and `slack-client` until at least `2.1.0
   * [Creating an RTM client](#creating-an-rtm-client)
   * [Listen to messages](#listen-to-messages)
   * [Send messages](#send-messages)
+  * [Data stores] (#data-stores)
+  * [Send direct messages] (#send-dm)
   * [RTM Client Lifecycle](#rtm-client-lifecycle)
-* [Migrating from earlier versions](#migrating-from-earlier-versions) 
+* [Migrating from earlier versions](#migrating-from-earlier-versions)
   * [Models](#models)
 
 ## RTM Client
@@ -64,9 +66,8 @@ The RTM client will emit a `RTM.AUTHENTICATED` event, with the `rtm.start` paylo
 var CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
 
 rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function (rtmStartData) {
-
+  console.log(`Logged in as ${rtmStartData.self.name} of team ${rtmStartData.team.name}, but not yet connected to a channel`);
 });
-
 
 ```
 
@@ -102,6 +103,58 @@ rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
 
 ```
 
+### Data stores
+```js
+const RtmClient = require('@slack/client').RtmClient;
+
+// The memory data store is a collection of useful functions we can include in our RtmClient
+const MemoryDataStore = require('@slack/client').MemoryDataStore;
+
+const CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
+
+const token = process.env.SLACK_API_TOKEN;
+
+const rtm = new RtmClient(token, {
+  // Sets the level of logging we require
+  logLevel: 'error',
+  // Initialise a data store for our client, this will load additional helper functions for the storing and retrieval of data
+  dataStore: new MemoryDataStore(),
+  // Boolean indicating whether Slack should automatically reconnect after an error response
+  autoReconnect: true,
+  // Boolean indicating whether each message should be marked as read or not after it is processed
+  autoMark: true
+});
+
+rtm.start();
+
+// Wait for the client to connect
+rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, () => {
+  // Get the user's name
+  let user = slack.dataStore.getUserById(rtm.activeUserId);
+
+  // Get the team's name
+  let team = slack.dataStore.getTeamById(rtm.activeTeamId);
+
+  // Log the slack team name and the bot's name
+  console.log(`Connected to ${team.name} as ${user.name}`);
+});
+```
+
+### Send DMs
+```js
+const RTM_EVENTS = require('@slack/client').RTM_EVENTS;
+
+// Responds to a message with a 'hello' DM
+rtm.on(RTM_EVENTS.MESSAGE, (message) => {
+  let user = slack.dataStore.getUserById(message.user)
+
+  let dm = slack.dataStore.getDMByName(user.name);
+
+  rtm.sendMessage('Hello ${user.name}!', dm.id);
+});
+
+```
+
 ### RTM Client Lifecycle
 
 The RTM client has its own lifecycle events. These reflect the different states the RTM client can be in as it connects to Slack's RTM API.
@@ -111,6 +164,7 @@ The full details of the client lifecycle are in the [RTM client events file](/li
 The most important events are:
 - `RTM_CONNECTION_OPENED`: the remote server has acked the socket and sent a `hello` message, the connection is now live and can be used to send messages
 - `DISCONNECT`: the RTM client has disconnected and will not try to reconnect again automatically
+
 
 ## Migrating from earlier versions
 
