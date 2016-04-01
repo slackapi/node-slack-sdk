@@ -33,7 +33,7 @@ We'll dual-publish both `@slack/client` and `slack-client` until at least `2.1.0
   * [Listen to messages](#listen-to-messages)
   * [Send messages](#send-messages)
   * [Data stores] (#data-stores)
-  * [Send direct messages] (#send-dm)
+  * [Send direct messages] (#send-dms)
   * [RTM Client Lifecycle](#rtm-client-lifecycle)
 * [Migrating from earlier versions](#migrating-from-earlier-versions)
   * [Models](#models)
@@ -104,6 +104,7 @@ rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
 ```
 
 ### Data stores
+
 ```js
 const RtmClient = require('@slack/client').RtmClient;
 
@@ -140,7 +141,7 @@ rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, () => {
 });
 ```
 
-### Send DMs
+### Send Direct Messages
 ```js
 const RTM_EVENTS = require('@slack/client').RTM_EVENTS;
 
@@ -150,7 +151,7 @@ rtm.on(RTM_EVENTS.MESSAGE, (message) => {
 
   let dm = slack.dataStore.getDMByName(user.name);
 
-  rtm.sendMessage('Hello ${user.name}!', dm.id);
+  rtm.sendMessage(`Hello ${user.name}!`, dm.id);
 });
 
 ```
