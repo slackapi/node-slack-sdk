@@ -147,9 +147,9 @@ const RTM_EVENTS = require('@slack/client').RTM_EVENTS;
 
 // Responds to a message with a 'hello' DM
 rtm.on(RTM_EVENTS.MESSAGE, (message) => {
-  let user = slack.dataStore.getUserById(message.user)
+  let user = rtm.dataStore.getUserById(message.user)
 
-  let dm = slack.dataStore.getDMByName(user.name);
+  let dm = rtm.dataStore.getDMByName(user.name);
 
   rtm.sendMessage(`Hello ${user.name}!`, dm.id);
 });
