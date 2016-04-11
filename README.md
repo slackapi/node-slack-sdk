@@ -131,10 +131,10 @@ rtm.start();
 // Wait for the client to connect
 rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, () => {
   // Get the user's name
-  let user = slack.dataStore.getUserById(rtm.activeUserId);
+  let user = rtm.dataStore.getUserById(rtm.activeUserId);
 
   // Get the team's name
-  let team = slack.dataStore.getTeamById(rtm.activeTeamId);
+  let team = rtm.dataStore.getTeamById(rtm.activeTeamId);
 
   // Log the slack team name and the bot's name
   console.log(`Connected to ${team.name} as ${user.name}`);
