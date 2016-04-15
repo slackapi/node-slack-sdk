@@ -39,7 +39,7 @@ describe('Web API Client', function () {
 
     var client = new WebAPIClient('test-token', { transport: mockTransport });
 
-    client.makeAPICall('test', args, null, function (err, res) {
+    client._makeAPICall('test', args, null, function (err, res) {
       expect(res).to.deep.equal({ test: 10 });
       done();
     });
@@ -48,7 +48,7 @@ describe('Web API Client', function () {
   it('should not crash when no callback is supplied to an API request', function () {
     var client = new WebAPIClient('test-token', { transport: mockTransport });
 
-    client.makeAPICall('test', { test: 'test' }, null, null);
+    client._makeAPICall('test', { test: 'test' }, null, null);
   });
 
   describe('it should retry failed or rate-limited requests', function () {
@@ -68,7 +68,7 @@ describe('Web API Client', function () {
       });
       sinon.spy(client, 'transport');
 
-      client.makeAPICall('test', {}, null, function () {
+      client._makeAPICall('test', {}, null, function () {
         expect(client.transport.callCount).to.equal(2);
         done();
       });
