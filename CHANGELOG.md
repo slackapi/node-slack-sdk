@@ -1,4 +1,4 @@
-### v3.0.0 ()
+### v3.0.0 (2016-04-24)
 
   * Adds a number of new web client API facets:
     - [`dnd`](/lib/clients/web/facets/dnd.js)
