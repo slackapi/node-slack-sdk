@@ -106,16 +106,16 @@ rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
 ### Data stores
 
 ```js
-const RtmClient = require('@slack/client').RtmClient;
+var RtmClient = require('@slack/client').RtmClient;
 
 // The memory data store is a collection of useful functions we can include in our RtmClient
-const MemoryDataStore = require('@slack/client').MemoryDataStore;
+var MemoryDataStore = require('@slack/client').MemoryDataStore;
 
-const CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
+var CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
 
-const token = process.env.SLACK_API_TOKEN;
+var token = process.env.SLACK_API_TOKEN;
 
-const rtm = new RtmClient(token, {
+var rtm = new RtmClient(token, {
   // Sets the level of logging we require
   logLevel: 'error',
   // Initialise a data store for our client, this will load additional helper functions for the storing and retrieval of data
@@ -129,29 +129,29 @@ const rtm = new RtmClient(token, {
 rtm.start();
 
 // Wait for the client to connect
-rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, () => {
+rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, function() {
   // Get the user's name
-  let user = rtm.dataStore.getUserById(rtm.activeUserId);
+  var user = rtm.dataStore.getUserById(rtm.activeUserId);
 
   // Get the team's name
-  let team = rtm.dataStore.getTeamById(rtm.activeTeamId);
+  var team = rtm.dataStore.getTeamById(rtm.activeTeamId);
 
   // Log the slack team name and the bot's name
-  console.log(`Connected to ${team.name} as ${user.name}`);
+  console.log('Connected to ' + team.name + ' as ' + user.name);
 });
 ```
 
 ### Send Direct Messages
 ```js
-const RTM_EVENTS = require('@slack/client').RTM_EVENTS;
+var RTM_EVENTS = require('@slack/client').RTM_EVENTS;
 
 // Responds to a message with a 'hello' DM
-rtm.on(RTM_EVENTS.MESSAGE, (message) => {
-  let user = rtm.dataStore.getUserById(message.user)
+rtm.on(RTM_EVENTS.MESSAGE, function(message) {
+  var user = rtm.dataStore.getUserById(message.user)
 
-  let dm = rtm.dataStore.getDMByName(user.name);
+  var dm = rtm.dataStore.getDMByName(user.name);
 
-  rtm.sendMessage(`Hello ${user.name}!`, dm.id);
+  rtm.sendMessage('Hello ' + user.name + '!', dm.id);
 });
 
 ```
