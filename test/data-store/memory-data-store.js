@@ -57,6 +57,30 @@ describe('MemoryDataStore', function () {
     });
   });
 
+  describe('#getUserByEmail()', function () {
+    var dataStore = getMemoryDataStore();
+
+    it('should get a user by email', function () {
+      expect(dataStore.getUserByEmail('leah+slack-api-test-alice@slack-corp.com').id).to.equal('U0CJ5PC7L');
+    });
+
+    it('should return undefined if no users with email is not found', function () {
+      expect(dataStore.getUserByEmail('NOT-leah+slack-api-test-bob@slack-corp.com')).to.equal(undefined);
+    });
+  });
+
+  describe('#getUserByName()', function () {
+    var dataStore = getMemoryDataStore();
+
+    it('should get a user by name', function () {
+      expect(dataStore.getUserByName('alice').id).to.equal('U0CJ5PC7L');
+    });
+
+    it('should return undefined if no users with name is not found', function () {
+      expect(dataStore.getUserByEmail('NOTalice')).to.equal(undefined);
+    });
+  });
+
   describe('#clear()', function () {
     it('should re-set the objects when clear() is called', function () {
       var dataStore = getMemoryDataStore();
