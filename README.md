@@ -35,7 +35,9 @@ We'll dual-publish both `@slack/client` and `slack-client` until at least `2.1.0
   * [Data stores] (#data-stores)
   * [Send direct messages] (#send-dms)
   * [RTM Client Lifecycle](#rtm-client-lifecycle)
-* [Migrating from earlier versions](#migrating-from-earlier-versions)
+  * [Web Client](#web-client)
+  * [Uploading a file](#uploading-a-file)
+  * [Migrating from earlier versions](#migrating-from-earlier-versions)
   * [Models](#models)
 
 ## RTM Client
@@ -166,6 +168,11 @@ The most important events are:
 - `RTM_CONNECTION_OPENED`: the remote server has acked the socket and sent a `hello` message, the connection is now live and can be used to send messages
 - `DISCONNECT`: the RTM client has disconnected and will not try to reconnect again automatically
 
+## Web Client
+
+### Uploading a file
+
+See [examples/upload-a-file.js](/examples/upload-a-file.js)
 
 ## Migrating from earlier versions
 
