@@ -1,4 +1,6 @@
 var expect = require('chai').expect;
+var fs = require('fs');
+var path = require('path');
 var lodash = require('lodash');
 var nock = require('nock');
 var sinon = require('sinon');
@@ -12,6 +14,29 @@ var mockTransport = function (args, cb) {
 
 
 describe('Web API Client', function () {
+
+  it('should add all available facets', function () {
+    var client = new WebAPIClient('test-token');
+    var facets = fs
+      .readdirSync(path.resolve('lib', 'clients', 'web', 'facets'))
+      .filter(function (file) {
+        return /\.js$/.test(file) && file !== 'index.js';
+      })
+      .map(function (file) {
+        return require('../../../lib/clients/web/facets/' + file);
+      });
+
+    // Check that all facet files have been registered:
+    facets.forEach(function (Facet) {
+      var name = new Facet().name;
+      // The 'im' facet is aliased to dm:
+      if (name === 'im') {
+        expect(client[name].name).to.equal('dm');
+      } else {
+        expect(client[name].name).to.equal(name);
+      }
+    });
+  });
 
   it('should accept supplied defaults when present', function () {
     var opts = {
