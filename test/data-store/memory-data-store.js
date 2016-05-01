@@ -61,11 +61,13 @@ describe('MemoryDataStore', function () {
     var dataStore = getMemoryDataStore();
 
     it('should get a user by email', function () {
-      expect(dataStore.getUserByEmail('leah+slack-api-test-alice@slack-corp.com').id).to.equal('U0CJ5PC7L');
+      var user = dataStore.getUserByEmail('leah+slack-api-test-alice@slack-corp.com');
+      expect(user.id).to.equal('U0CJ5PC7L');
     });
 
     it('should return undefined if no users with email is not found', function () {
-      expect(dataStore.getUserByEmail('NOT-leah+slack-api-test-bob@slack-corp.com')).to.equal(undefined);
+      var user = dataStore.getUserByEmail('NOT-leah+slack-api-test-bob@slack-corp.com');
+      expect(user).to.equal(undefined);
     });
   });
 
