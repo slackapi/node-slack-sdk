@@ -1,3 +1,8 @@
+### v3.1.0 (2016-05-01)
+
+  * Updates the [`lib/clients/web/facets/index.js`](/lib/clients/web/facets/index.js) to reference the new facets added in the 3.0.0 update
+  * Adds in a [`reminders`](/lib/clients/web/facets/reminders.js) client facet
+
 ### v3.0.0 (2016-04-24)
 
   * Adds a number of new web client API facets:
