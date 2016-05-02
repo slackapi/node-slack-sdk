@@ -1,7 +1,9 @@
 ### v3.1.0 (2016-05-01)
 
-  * Updates the [`lib/clients/web/facets/index.js`](/lib/clients/web/facets/index.js) to reference the new facets added in the 3.0.0 update
+  * Updates the [`lib/clients/web/facets/index.js`](/lib/clients/web/facets/index.js) to reference the new facets added in the 3.0.0 update, thanks @ekmartin
   * Adds in a [`reminders`](/lib/clients/web/facets/reminders.js) client facet
+  * MemoryDataStore.getUserByEmail now looks at the correct part of the user object for the email, thanks @SimantovYousoufov
+  * Adds docs and examples for the data store and sending DMs, thanks @PaulAsjes!
 
 ### v3.0.0 (2016-04-24)
 
