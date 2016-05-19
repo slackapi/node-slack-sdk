@@ -30,8 +30,8 @@ describe('Web API Client', function () {
     facets.forEach(function (Facet) {
       var name = new Facet().name;
       // The 'im' facet is aliased to dm:
-      if (name === 'im') {
-        expect(client[name].name).to.equal('dm');
+      if (name === 'dm') {
+        expect(client[name].name).to.equal('im');
       } else {
         expect(client[name].name).to.equal(name);
       }
