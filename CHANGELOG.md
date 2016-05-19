@@ -1,3 +1,8 @@
+### v3.1.1 (2016-05-19)
+
+  * Removes the DM facet
+  * Updates the aliasing approach for IM / DM to correctly alias DM to the IM Facet
+
 ### v3.1.0 (2016-05-01)
 
   * Updates the [`lib/clients/web/facets/index.js`](/lib/clients/web/facets/index.js) to reference the new facets added in the 3.0.0 update, thanks @ekmartin
