@@ -102,7 +102,7 @@ describe('Web API Client', function () {
     it('should pause job execution in response to a 429 header', function (done) {
       nock('https://slack.com/api')
         .post('/test')
-        .reply(429, '{}', { 'X-Retry-After': 0 });
+        .reply(429, '{}', { 'retry-after': 0 });
 
       attemptAPICall(done);
     });
