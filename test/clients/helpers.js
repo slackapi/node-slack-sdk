@@ -65,25 +65,27 @@ describe('Client Helpers', function () {
     var testCb = function () {};
 
     it('should return the cb when passed in place of optArgs', function () {
-      var args = helpers.getAPICallArgs('token', 'ua', 'url', 'endpoint', null, testCb);
+      var args = helpers.getAPICallArgs('t', 'ua', 'url', 'endpoint', null, testCb);
       expect(args.cb).to.deep.equal(testCb);
+      expect(args.args.data).to.deep.equal({ token: 't' });
     });
 
     it('should return the cb when passed as the cb', function () {
-      var args = helpers.getAPICallArgs('token', 'ua', 'url', 'endpoint', null, null, testCb);
+      var args = helpers.getAPICallArgs('t', 'ua', 'url', 'endpoint', null, null, testCb);
       expect(args.cb).to.deep.equal(testCb);
+      expect(args.args.data).to.deep.equal({ token: 't' });
     });
 
     it('returns the optional args when passed as the optArgs with a cb', function () {
       var args = helpers.getAPICallArgs('t', 'ua', 'url', 'endpoint', null, { test: '1' }, testCb);
-      expect(args.args.data).to.deep.equal({ test: '1', token: 't' });
       expect(args.cb).to.deep.equal(testCb);
+      expect(args.args.data).to.deep.equal({ test: '1', token: 't' });
     });
 
     it('returns the optional args when passed as the optArgs with null as the cb', function () {
       var args = helpers.getAPICallArgs('t', 'ua', 'url', 'endpoint', null, { test: '1' }, null);
-      expect(args.args.data).to.deep.equal({ test: '1', token: 't' });
       expect(args.cb).to.equal(null);
+      expect(args.args.data).to.deep.equal({ test: '1', token: 't' });
     });
 
   });
