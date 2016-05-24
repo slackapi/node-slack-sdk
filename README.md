@@ -20,14 +20,8 @@ This library does not attempt to provide application level support, e.g. regex m
 npm install @slack/client --save
 ```
 
-## Package name change!!
-
-**IMPORTANT** We're moving to NPM organizations, so going forwards the client will be published as a scoped module under the Slack organization.
-
-We'll dual-publish both `@slack/client` and `slack-client` until at least `2.1.0` is released, and possibly past that, but please switch over before then.
-
 ## Usage
-
+* [Examples](#examples)
 * [RTM Client](#rtm-client)
   * [Creating an RTM client](#creating-an-rtm-client)
   * [Listen to messages](#listen-to-messages)
@@ -35,10 +29,18 @@ We'll dual-publish both `@slack/client` and `slack-client` until at least `2.1.0
   * [Data stores] (#data-stores)
   * [Send direct messages] (#send-dms)
   * [RTM Client Lifecycle](#rtm-client-lifecycle)
-  * [Web Client](#web-client)
-    * [Uploading a file](#uploading-a-file)
-  * [Migrating from earlier versions](#migrating-from-earlier-versions)
-  * [Models](#models)
+* [Web Client](#web-client)
+  * [Uploading a file](#uploading-a-file)
+* [Migrating from earlier versions](#migrating-from-earlier-versions)
+* [Models](#models)
+
+## Examples
+
+There are some examples for using this package in the [examples directory](/examples), these include:
+* [connecting to the RTM API](/examples/example-rtm-client.js)
+* [connecting to the RTM API and using a datastore](/examples/example-rtm-client-datastore.js)
+* [using the web client](/examples/example-web-client.js)
+* [uploading a file via the web client](/examples/upload-a-file.js)
 
 ## RTM Client
 
