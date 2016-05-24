@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint . --ignore-path .gitignore",
     "mocha": "mocha --recursive --reporter spec test",
-    "test": "npm run lint && npm run mocha",
+    "test": "npm run mocha && npm run lint",
     "cover": "istanbul cover --report lcovonly _mocha -- --recursive",
     "coveralls": "npm run cover && istanbul-coveralls",
     "make-slack-client-symlink": "mkdir -p $PWD/node_modules/@slack/client && ln -s $PWD/index.js $PWD/node_modules/@slack/client/index.js"
