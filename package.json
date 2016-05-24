@@ -8,7 +8,8 @@
     "mocha": "mocha --recursive --reporter spec test",
     "test": "npm run lint && npm run mocha",
     "cover": "istanbul cover --report lcovonly _mocha -- --recursive",
-    "coveralls": "npm run cover && istanbul-coveralls"
+    "coveralls": "npm run cover && istanbul-coveralls",
+    "make-slack-client-symlink": "mkdir -p $PWD/node_modules/@slack/client && ln -s $PWD/index.js $PWD/node_modules/@slack/client/index.js"
   },
   "keywords": [
     "slack"
