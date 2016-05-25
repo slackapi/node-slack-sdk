@@ -1,3 +1,8 @@
+### v3.2.1 (2016-05-24)
+
+  * Updates the RTM client to emit an UNABLE_TO_RTM_START event when all reconnection attempts are exhausted, rather than throwing an error
+  * Suppresses some spurious log lines when tests are run
+
 ### v3.2.0 (2016-05-23)
 
   * Updates the `_makeAPICall` method to make the optional API args param optional to pass in, so the third param to this function can be either an opts object or a cb. This is to allow us to add optional arguments to API methods without it being a breaking change.
