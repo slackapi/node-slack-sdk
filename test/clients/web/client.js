@@ -6,6 +6,7 @@ var nock = require('nock');
 var sinon = require('sinon');
 
 var WebAPIClient = require('../../../lib/clients/web/client');
+var retryPolicies = require('../../../lib/clients/retry-policies');
 
 
 var mockTransport = function (args, cb) {
@@ -86,10 +87,7 @@ describe('Web API Client', function () {
         .reply(200, '{}');
 
       client = new WebAPIClient('test-token', {
-        retryConfig: {
-          minTimeout: 0,
-          maxTimeout: 1
-        }
+        retryConfig: retryPolicies.TEST_RETRY_POLICY
       });
       sinon.spy(client, 'transport');
 
