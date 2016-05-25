@@ -1,3 +1,8 @@
+### v3.3.0 (2016-05-24)
+
+  * Creates a memory data store by default if an undefined, but not false|null value is passed for `opts.dataStore`
+  * Aliases the retry policies to be human readable
+ 
 ### v3.2.1 (2016-05-24)
 
   * Updates the RTM client to emit an UNABLE_TO_RTM_START event when all reconnection attempts are exhausted, rather than throwing an error
