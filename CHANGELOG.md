@@ -1,3 +1,7 @@
+### v3.3.1 (2016-05-26)
+
+  * Doesn't crash the RTM client if a message with a `reply_to` ID with no response handler is received
+
 ### v3.3.0 (2016-05-24)
 
   * Creates a memory data store by default if an undefined, but not false|null value is passed for `opts.dataStore`
