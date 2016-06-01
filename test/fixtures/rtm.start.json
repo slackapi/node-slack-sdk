@@ -499,6 +499,43 @@
       "is_ultra_restricted": false,
       "is_bot": false,
       "presence": "active"
+    },
+    {
+      "id": "U0EUYE1E0",
+      "team_id": "T0CHZBU59",
+      "name": "test-bot",
+      "deleted": false,
+      "status": null,
+      "color": "3c989f",
+      "real_name": "Test Bot",
+      "tz": null,
+      "tz_label": "Pacific Daylight Time",
+      "tz_offset": -25200,
+      "profile": {
+        "bot_id": "B0EV07BEH",
+        "image_24": "https://avatars.slack-edge.com/2015-11-19/14986249557_24078e22bcd76fabab72_24.jpg",
+        "image_32": "https://avatars.slack-edge.com/2015-11-19/14986249557_24078e22bcd76fabab72_32.jpg",
+        "image_48": "https://avatars.slack-edge.com/2015-11-19/14986249557_24078e22bcd76fabab72_48.jpg",
+        "image_72": "https://avatars.slack-edge.com/2015-11-19/14986249557_24078e22bcd76fabab72_72.jpg",
+        "image_192": "https://avatars.slack-edge.com/2015-11-19/14986249557_24078e22bcd76fabab72_192.jpg",
+        "image_512": "https://avatars.slack-edge.com/2015-11-19/14986249557_24078e22bcd76fabab72_512.jpg",
+        "image_1024": "https://avatars.slack-edge.com/2015-11-19/14986249557_24078e22bcd76fabab72_512.jpg",
+        "image_original": "https://avatars.slack-edge.com/2015-11-19/14986249557_24078e22bcd76fabab72_original.jpg",
+        "first_name": "Test",
+        "last_name": "Bot",
+        "title": "bot-stuff",
+        "avatar_hash": "24078e22bcd7",
+        "real_name": "Test Bot",
+        "real_name_normalized": "Test Bot",
+        "fields": null
+      },
+      "is_admin": false,
+      "is_owner": false,
+      "is_primary_owner": false,
+      "is_restricted": false,
+      "is_ultra_restricted": false,
+      "is_bot": true,
+      "presence": "away"
     }
   ],
   "cache_version": "v11-mouse",
@@ -508,6 +545,16 @@
       "id": "B0CJ5FF1P",
       "deleted": false,
       "name": "gdrive"
+    },
+    {
+      "id": "B0EV07BEH",
+      "deleted": false,
+      "name": "bot",
+      "icons": {
+        "image_36": "https://a.slack-edge.com/2fac/plugins/bot/assets/service_36.png",
+        "image_48": "https://a.slack-edge.com/2fac/plugins/bot/assets/service_48.png",
+        "image_72": "https://a.slack-edge.com/12b5a/plugins/bot/assets/service_72.png"
+      }
     }
   ],
   "url": "ws://localhost:5221"
