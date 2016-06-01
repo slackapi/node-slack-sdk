@@ -1,3 +1,7 @@
+### v3.4.0 (2016-05-31)
+
+  * Adds the [chat.meMessage](https://api.slack.com/methods/chat.meMessage) endpoint to the chat facet
+
 ### v3.3.1 (2016-05-26)
 
   * Doesn't crash the RTM client if a message with a `reply_to` ID with no response handler is received
