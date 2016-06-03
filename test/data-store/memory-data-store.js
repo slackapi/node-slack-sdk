@@ -83,6 +83,30 @@ describe('MemoryDataStore', function () {
     });
   });
 
+  describe('#getUserByBotId()', function () {
+    var dataStore = getMemoryDataStore();
+
+    it('should get a bot user by bot ID', function () {
+      expect(dataStore.getUserByBotId('B0EV07BEH').id).to.equal('U0EUYE1E0');
+    });
+
+    it('should return undefined if no users with a bot id are found', function () {
+      expect(dataStore.getUserByEmail('B00000000')).to.equal(undefined);
+    });
+  });
+
+  describe('#getBotByUserId()', function () {
+    var dataStore = getMemoryDataStore();
+
+    it('should get a bot user by user ID', function () {
+      expect(dataStore.getBotByUserId('U0EUYE1E0').id).to.equal('B0EV07BEH');
+    });
+
+    it('should return undefined if no bots with a user id are found', function () {
+      expect(dataStore.getBotByUserId('U00000000')).to.equal(undefined);
+    });
+  });
+
   describe('#clear()', function () {
     it('should re-set the objects when clear() is called', function () {
       var dataStore = getMemoryDataStore();
