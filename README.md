@@ -123,11 +123,7 @@ var rtm = new RtmClient(token, {
   // Sets the level of logging we require
   logLevel: 'error',
   // Initialise a data store for our client, this will load additional helper functions for the storing and retrieval of data
-  dataStore: new MemoryDataStore(),
-  // Boolean indicating whether Slack should automatically reconnect after an error response
-  autoReconnect: true,
-  // Boolean indicating whether each message should be marked as read or not after it is processed
-  autoMark: true
+  dataStore: new MemoryDataStore()
 });
 
 rtm.start();
