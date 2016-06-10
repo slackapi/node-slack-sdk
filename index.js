@@ -3,6 +3,7 @@ var events = require('./lib/clients/events');
 module.exports = {
   WebClient: require('./lib/clients/web/client'),
   RtmClient: require('./lib/clients/rtm/client'),
+  IncomingWebhook: require('./lib/clients/incoming-webhook/client'),
   LegacyRtmClient: require('./lib/clients/default/legacy-rtm'),
   CLIENT_EVENTS: {
     WEB: events.CLIENT_EVENTS.WEB,
