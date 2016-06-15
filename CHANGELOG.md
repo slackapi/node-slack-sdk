@@ -1,3 +1,9 @@
+### v3.5.0 (2016-06-14)
+
+  * Adds the [team.billableInfo](https://api.slack.com/methods/team.billableInfo) endpoint to the team facet
+  * Adds the [bots.info](https://api.slack.com/methods/bots.info) endpoint and creates the `bots` facet
+  * Removes the `user` optional argument from the [stars.list](https://api.slack.com/methods/stars.list) method
+ 
 ### v3.4.0 (2016-05-31)
 
   * Adds the [chat.meMessage](https://api.slack.com/methods/chat.meMessage) endpoint to the chat facet
