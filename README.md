@@ -27,7 +27,7 @@ npm install @slack/client --save
   * [Listen to messages](#listen-to-messages)
   * [Send messages](#send-messages)
   * [Data stores] (#data-stores)
-  * [Send direct messages] (#send-dms)
+  * [Send direct messages] (#send-direct-messages)
   * [RTM Client Lifecycle](#rtm-client-lifecycle)
 * [Web Client](#web-client)
   * [Uploading a file](#uploading-a-file)
