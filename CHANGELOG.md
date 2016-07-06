@@ -1,3 +1,8 @@
+### v3.5.1 (2016-07-06)
+
+  * Updates `lodash` from `^3.10.1` to `^4.13.1`. And means it.
+  * Minor tweaks to existing documentation and example code to make them consistent with each other. Because hobgoblins are friendly and love you.
+
 ### v3.5.0 (2016-06-14)
 
   * Adds the [team.billableInfo](https://api.slack.com/methods/team.billableInfo) endpoint to the team facet
