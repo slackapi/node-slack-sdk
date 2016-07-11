@@ -3,7 +3,7 @@
   * Adds the [team.billableInfo](https://api.slack.com/methods/team.billableInfo) endpoint to the team facet
   * Adds the [bots.info](https://api.slack.com/methods/bots.info) endpoint and creates the `bots` facet
   * Removes the `user` optional argument from the [stars.list](https://api.slack.com/methods/stars.list) method
- 
+
 ### v3.4.0 (2016-05-31)
 
   * Adds the [chat.meMessage](https://api.slack.com/methods/chat.meMessage) endpoint to the chat facet
@@ -16,7 +16,7 @@
 
   * Creates a memory data store by default if an undefined, but not false|null value is passed for `opts.dataStore`
   * Aliases the retry policies to be human readable
- 
+
 ### v3.2.1 (2016-05-24)
 
   * Updates the RTM client to emit an UNABLE_TO_RTM_START event when all reconnection attempts are exhausted, rather than throwing an error
