@@ -140,27 +140,6 @@ describe('RTM API Client', function () {
 
   });
 
-  describe('Message Updating', function () {
-
-    it('should call a cb with an err when the RTM is not connected', function (done) {
-      var rtm = new RtmAPIClient('fake-token');
-      rtm.updateMessage({}, function (err, res) {
-        expect(err).to.not.equal(null);
-        expect(res).to.equal(null);
-        done();
-      });
-    });
-
-    it('should call a catch cb with an err when the RTM client is not connected', function (done) {
-      var rtm = new RtmAPIClient('fake-token');
-      rtm.updateMessage({})
-        .catch(function (err) {
-          expect(err).to.not.equal(null);
-          done();
-        });
-    });
-  });
-
   describe('Message Response Handling', function () {
 
     describe('#_registerMsgHandler()', function () {
