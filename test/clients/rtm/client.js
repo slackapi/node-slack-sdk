@@ -10,6 +10,10 @@ var MockWSServer = require('../../utils/mock-ws-server');
 
 
 describe('RTM API Client', function () {
+  var createRtmClient = function (opts) {
+    var options = lodash.assign({ logger: sinon.stub() }, opts);
+    return new RtmAPIClient('fake-token', options);
+  };
 
   describe('reconnection logic', function () {
 
@@ -34,7 +38,7 @@ describe('RTM API Client', function () {
       var wss = setUpTest(wssPort, fakeSlackUrl);
 
       clonedOpts.slackAPIUrl = fakeSlackUrl;
-      rtm = new RtmAPIClient('fake-token', clonedOpts);
+      rtm = createRtmClient(clonedOpts);
       sinon.spy(rtm, 'reconnect');
       rtm.start();
 
@@ -119,7 +123,7 @@ describe('RTM API Client', function () {
   describe('Message Sending', function () {
 
     it('should call a cb with an err when the RTM client is not connected', function (done) {
-      var rtm = new RtmAPIClient('fake-token');
+      var rtm = createRtmClient();
       rtm.sendMessage('test', 'test', function (err, res) {
         expect(err).to.not.equal(null);
         expect(res).to.equal(null);
@@ -128,7 +132,7 @@ describe('RTM API Client', function () {
     });
 
     it('should call a catch cb with an err when the RTM client is not connected', function (done) {
-      var rtm = new RtmAPIClient('fake-token');
+      var rtm = createRtmClient();
       rtm.sendMessage('test', 'test')
         .catch(function (err) {
           expect(err).to.not.equal(null);
@@ -145,7 +149,7 @@ describe('RTM API Client', function () {
     describe('#_registerMsgHandler()', function () {
 
       it('should write to _msgResponseHandlers and _msgChannelLookup', function () {
-        var rtm = new RtmAPIClient('fake-token');
+        var rtm = createRtmClient();
         var fakeHandler = { fulfill: null, reject: null };
         var wsMsg = { type: 'message', channel: 'fake', text: 'test', id: 1 };
         rtm._registerMsgHandler(1, wsMsg, fakeHandler);
@@ -159,7 +163,7 @@ describe('RTM API Client', function () {
     describe('#_handleMsgResponse()', function () {
 
       var setupRTMClient = function (handler) {
-        var rtm = new RtmAPIClient('fake-token');
+        var rtm = createRtmClient();
         var wsMsg = { type: 'message', channel: 'fake', text: 'test', id: 1 };
         rtm._registerMsgHandler(1, wsMsg, handler);
 

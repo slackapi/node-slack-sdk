@@ -1,3 +1,43 @@
+### v3.5.0 (2016-06-14)
+
+  * Adds the [team.billableInfo](https://api.slack.com/methods/team.billableInfo) endpoint to the team facet
+  * Adds the [bots.info](https://api.slack.com/methods/bots.info) endpoint and creates the `bots` facet
+  * Removes the `user` optional argument from the [stars.list](https://api.slack.com/methods/stars.list) method
+
+### v3.4.0 (2016-05-31)
+
+  * Adds the [chat.meMessage](https://api.slack.com/methods/chat.meMessage) endpoint to the chat facet
+
+### v3.3.1 (2016-05-26)
+
+  * Doesn't crash the RTM client if a message with a `reply_to` ID with no response handler is received
+
+### v3.3.0 (2016-05-24)
+
+  * Creates a memory data store by default if an undefined, but not false|null value is passed for `opts.dataStore`
+  * Aliases the retry policies to be human readable
+
+### v3.2.1 (2016-05-24)
+
+  * Updates the RTM client to emit an UNABLE_TO_RTM_START event when all reconnection attempts are exhausted, rather than throwing an error
+  * Suppresses some spurious log lines when tests are run
+
+### v3.2.0 (2016-05-23)
+
+  * Updates the `_makeAPICall` method to make the optional API args param optional to pass in, so the third param to this function can be either an opts object or a cb. This is to allow us to add optional arguments to API methods without it being a breaking change.
+  * Fixes the `retry-after` header name and adds a numeric fallback if the retry-after value can't be parsed, thanks @foiseworth!
+  * Adds new API methods to various facets
+    - [`auth.revoke`](/lib/clients/web/facets/auth.js)
+    - [`users.identify`](/lib/clients/web/facets/users.js)
+  * Adds optional arguments to:
+    - [`files.comments.add`](/lib/clients/web/facets/files.comments.js): adds a `channel` param, for the channel id of the location to associate with the new comment
+    - [`chat.delete`](/lib/clients/web/facets/chat.js): adds a boolean `as_user` param, to support deleting a message as the authed user
+
+### v3.1.1 (2016-05-19)
+
+  * Removes the DM facet
+  * Updates the aliasing approach for IM / DM to correctly alias DM to the IM Facet
+
 ### v3.1.0 (2016-05-01)
 
   * Updates the [`lib/clients/web/facets/index.js`](/lib/clients/web/facets/index.js) to reference the new facets added in the 3.0.0 update, thanks @ekmartin

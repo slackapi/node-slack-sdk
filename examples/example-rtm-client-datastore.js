@@ -6,8 +6,8 @@ var MemoryDataStore = require('@slack/client').MemoryDataStore;
 var token = process.env.SLACK_API_TOKEN || '';
 
 var rtm = new RtmClient(token, {
-  logLevel: 'info', // check this out for more on logger: https://github.com/winstonjs/winston
-  dataStore: new MemoryDataStore({}) // pass a new MemoryDataStore instance to cache information
+  logLevel: 'error', // check this out for more on logger: https://github.com/winstonjs/winston
+  dataStore: new MemoryDataStore() // pass a new MemoryDataStore instance to cache information
 });
 
 rtm.start();

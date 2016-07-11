@@ -4,8 +4,8 @@
 
 /* eslint no-console:0 */
 
-var RtmClient = require('../lib/clients/rtm/client');
-var RTM_EVENTS = require('../lib/clients/events/rtm').EVENTS;
+var RtmClient = require('@slack/client').RtmClient;
+var RTM_EVENTS = require('@slack/client').RTM_EVENTS;
 
 var token = process.env.SLACK_API_TOKEN || '';
 

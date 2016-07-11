@@ -1,7 +1,7 @@
 # Node Library for the Slack APIs
 
-[![Build Status](https://travis-ci.org/slackhq/node-slack-client.svg?branch=master)](https://travis-ci.org/slackhq/node-slack-client)
-[![Coverage Status](https://coveralls.io/repos/github/slackhq/node-slack-client/badge.svg?branch=master)](https://coveralls.io/github/slackhq/node-slack-client?branch=master)
+[![Build Status](https://travis-ci.org/slackhq/node-slack-sdk.svg?branch=master)](https://travis-ci.org/slackhq/node-slack-sdk)
+[![Coverage Status](https://coveralls.io/repos/github/slackhq/node-slack-sdk/badge.svg?branch=master)](https://coveralls.io/github/slackhq/node-slack-sdk?branch=master)
 
 ## Motivation
 
@@ -20,25 +20,27 @@ This library does not attempt to provide application level support, e.g. regex m
 npm install @slack/client --save
 ```
 
-## Package name change!!
-
-**IMPORTANT** We're moving to NPM organizations, so going forwards the client will be published as a scoped module under the Slack organization.
-
-We'll dual-publish both `@slack/client` and `slack-client` until at least `2.1.0` is released, and possibly past that, but please switch over before then.
-
 ## Usage
-
+* [Examples](#examples)
 * [RTM Client](#rtm-client)
   * [Creating an RTM client](#creating-an-rtm-client)
   * [Listen to messages](#listen-to-messages)
   * [Send messages](#send-messages)
   * [Data stores] (#data-stores)
-  * [Send direct messages] (#send-dms)
+  * [Send direct messages] (#send-direct-messages)
   * [RTM Client Lifecycle](#rtm-client-lifecycle)
-  * [Web Client](#web-client)
+* [Web Client](#web-client)
   * [Uploading a file](#uploading-a-file)
-  * [Migrating from earlier versions](#migrating-from-earlier-versions)
-  * [Models](#models)
+* [Migrating from earlier versions](#migrating-from-earlier-versions)
+* [Models](#models)
+
+## Examples
+
+There are some examples for using this package in the [examples directory](/examples), these include:
+* [connecting to the RTM API](/examples/example-rtm-client.js)
+* [connecting to the RTM API and using a datastore](/examples/example-rtm-client-datastore.js)
+* [using the web client](/examples/example-web-client.js)
+* [uploading a file via the web client](/examples/upload-a-file.js)
 
 ## RTM Client
 
@@ -138,11 +140,7 @@ var rtm = new RtmClient(token, {
   // Sets the level of logging we require
   logLevel: 'error',
   // Initialise a data store for our client, this will load additional helper functions for the storing and retrieval of data
-  dataStore: new MemoryDataStore(),
-  // Boolean indicating whether Slack should automatically reconnect after an error response
-  autoReconnect: true,
-  // Boolean indicating whether each message should be marked as read or not after it is processed
-  autoMark: true
+  dataStore: new MemoryDataStore()
 });
 
 rtm.start();
