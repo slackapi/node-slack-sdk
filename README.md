@@ -26,6 +26,7 @@ npm install @slack/client --save
   * [Creating an RTM client](#creating-an-rtm-client)
   * [Listen to messages](#listen-to-messages)
   * [Send messages](#send-messages)
+  * [Update messages](#update-messages)
   * [Data stores] (#data-stores)
   * [Send direct messages] (#send-direct-messages)
   * [RTM Client Lifecycle](#rtm-client-lifecycle)
@@ -108,8 +109,9 @@ rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
 ```
 
 ### Update messages
+
 ```js
-rtm.sendMessage('doing stuff!', channel.id, (err, msg) => {
+rtm.sendMessage('doing stuff!', channel.id, function (err, msg) {
   msg.text = "Updated!";
 
   /* msg is an object which contains:
@@ -118,7 +120,7 @@ rtm.sendMessage('doing stuff!', channel.id, (err, msg) => {
    * text (string) New text to be displayed
    * opts (object) Additional options, see here: https://api.slack.com/methods/chat.update
    */
-  rtm.updateMessage(msg, (err, res) => {
+  rtm.updateMessage(msg, function (err, res) {
     console.log(err, res);
   });
 });
