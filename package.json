@@ -16,10 +16,7 @@
   ],
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "slackhq/node-slack-sdk.git"
-  },
+  "repository": "slackhq/node-slack-sdk",
   "bugs": {
     "url": "https://github.com/slackhq/node-slack-sdk/issues"
   },
