@@ -18,10 +18,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git://github.com/slackhq/node-slack-client.git"
+    "url": "slackhq/node-slack-sdk.git"
   },
   "bugs": {
-    "url": "http://github.com/slackhq/node-slack-client/issues"
+    "url": "https://github.com/slackhq/node-slack-sdk/issues"
   },
   "dependencies": {
     "async": "^1.5.0",
