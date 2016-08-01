@@ -1,3 +1,17 @@
+### v3.5.4 (2016-07-29)
+  * Fixes a bug whereby events with fields not recognized cause a crash. Wow.
+  * Updated some logic around what user ids look like.
+
+### v3.5.3 (2016-07-25)
+  * Fixes a bug in the package.json published by 3.5.2.
+
+### v3.5.2 (2016-07-25)
+  * Updating the links in package.json so that you don't need SSL credentials to pull down the github repo.
+
+### v3.5.1 (2016-07-06)
+  * Updates lodash from ^3.10.1 to ^4.13.1. And means it.
+  * Minor tweaks to existing documentation and example code to make them consistent with each other. Because hobgoblins are friendly and love you.
+
 ### v3.5.0 (2016-06-14)
 
   * Adds the [team.billableInfo](https://api.slack.com/methods/team.billableInfo) endpoint to the team facet
