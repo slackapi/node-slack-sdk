@@ -2,7 +2,7 @@ var expect = require('chai').expect;
 
 var RTM_FIXTURE = require('../fixtures/rtm.start');
 var getMemoryDataStore = require('../utils/client').getMemoryDataStore;
-
+var userModel = require('../../lib/models/user');
 
 describe('Models', function () {
   describe('Model', function () {
@@ -30,5 +30,21 @@ describe('Models', function () {
         testToJSON(memoryStore, 'users');
       });
     });
+
+    describe('#update()', function () {
+      it('updates model objects with objects as new properties', function () {
+        var memoryStore = getMemoryDataStore();
+        var rawObj = RTM_FIXTURE.users[0];
+
+        var modelObj = memoryStore.getUserById(rawObj.id);
+
+        modelObj.update({
+          buddy: RTM_FIXTURE.users[1]
+        });
+
+        expect(modelObj.buddy).to.be.an.instanceof(userModel);
+      });
+    });
+
   });
 });
