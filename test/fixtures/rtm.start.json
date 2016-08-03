@@ -135,7 +135,17 @@
       "msg_select": "{ \"on\":false, \"single\":true, \"key\":true, \"links\":false, \"hover\":false }"
     },
     "created": 1444958977,
-    "manual_presence": "active"
+    "manual_presence": "active",
+    "enterprise_user": {
+      "id": "T0CHZBU59",
+      "enterprise_id": "E12EF3W42",
+      "enterprise_name": "bertorg",
+      "is_admin": false,
+      "is_owner": false,
+      "teams": [
+        "T0CHZBU59"
+      ]
+    }
   },
   "team": {
     "id": "T0CHZBU59",
@@ -536,6 +546,39 @@
       "is_ultra_restricted": false,
       "is_bot": true,
       "presence": "away"
+    },
+    {
+      "id": "W0E2S5A3B",
+      "team_id": "T0CHZBU59",
+      "name": "dave",
+      "deleted": false,
+      "status": null,
+      "color": "e96699",
+      "real_name": "dave",
+      "tz": "America/Los_Angeles",
+      "tz_label": "Pacific Standard Time",
+      "tz_offset": -28800,
+      "profile": {
+        "first_name": "dave",
+        "real_name": "dave",
+        "real_name_normalized": "dave",
+        "email": "bert+slack-api-test+dave@slack-corp.com",
+        "image_24": "https://secure.gravatar.com/avatar/fe6f44ad42f1c7eb53321c43cd4a3253.jpg?s=24&d=https%3A%2F%2Fslack.global.ssl.fastly.net%2F66f9%2Fimg%2Favatars%2Fava_0008-24.png",
+        "image_32": "https://secure.gravatar.com/avatar/fe6f44ad42f1c7eb53321c43cd4a3253.jpg?s=32&d=https%3A%2F%2Fslack.global.ssl.fastly.net%2F66f9%2Fimg%2Favatars%2Fava_0008-32.png",
+        "image_48": "https://secure.gravatar.com/avatar/fe6f44ad42f1c7eb53321c43cd4a3253.jpg?s=48&d=https%3A%2F%2Fslack.global.ssl.fastly.net%2F66f9%2Fimg%2Favatars%2Fava_0008-48.png",
+        "image_72": "https://secure.gravatar.com/avatar/fe6f44ad42f1c7eb53321c43cd4a3253.jpg?s=72&d=https%3A%2F%2Fslack.global.ssl.fastly.net%2F66f9%2Fimg%2Favatars%2Fava_0008-72.png",
+        "image_192": "https://secure.gravatar.com/avatar/fe6f44ad42f1c7eb53321c43cd4a3253.jpg?s=192&d=https%3A%2F%2Fslack.global.ssl.fastly.net%2F7fa9%2Fimg%2Favatars%2Fava_0008-192.png",
+        "image_512": "https://secure.gravatar.com/avatar/fe6f44ad42f1c7eb53321c43cd4a3253.jpg?s=512&d=https%3A%2F%2Fslack.global.ssl.fastly.net%2F7fa9%2Fimg%2Favatars%2Fava_0008-512.png",
+        "fields": null
+      },
+      "is_admin": false,
+      "is_owner": false,
+      "is_primary_owner": false,
+      "is_restricted": false,
+      "is_ultra_restricted": false,
+      "is_bot": false,
+      "has_2fa": false,
+      "presence": "active"
     }
   ],
   "cache_version": "v11-mouse",
