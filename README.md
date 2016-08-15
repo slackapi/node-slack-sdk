@@ -43,7 +43,7 @@ There are some examples for using this package in the [examples directory](/exam
 * [connecting to the RTM API and using a datastore](/examples/example-rtm-client-datastore.js)
 * [using the web client](/examples/example-web-client.js)
 * [uploading a file via the web client](/examples/upload-a-file.js)
-* [using incoming webhooks](/examples/example-incoming-webhooks.js)
+* [using incoming webhooks](/examples/example-incoming-webhook.js)
 
 ## RTM Client
 
