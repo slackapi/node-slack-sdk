@@ -2,7 +2,8 @@
   "extends": "airbnb/legacy",
   "globals": {
     "it": false,
-    "describe": false
+    "describe": false,
+    "afterEach": false
   },
   "rules": {
     "no-var": 0,

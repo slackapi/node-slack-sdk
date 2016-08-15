@@ -32,6 +32,7 @@ npm install @slack/client --save
   * [RTM Client Lifecycle](#rtm-client-lifecycle)
 * [Web Client](#web-client)
   * [Uploading a file](#uploading-a-file)
+* [Incoming Webhook](#incoming-webhook)
 * [Migrating from earlier versions](#migrating-from-earlier-versions)
 * [Models](#models)
 
@@ -42,6 +43,7 @@ There are some examples for using this package in the [examples directory](/exam
 * [connecting to the RTM API and using a datastore](/examples/example-rtm-client-datastore.js)
 * [using the web client](/examples/example-web-client.js)
 * [uploading a file via the web client](/examples/upload-a-file.js)
+* [using incoming webhooks](/examples/example-incoming-webhooks.js)
 
 ## RTM Client
 
@@ -190,6 +192,78 @@ The most important events are:
 ### Uploading a file
 
 See [examples/upload-a-file.js](/examples/upload-a-file.js)
+
+## Incoming Webhook
+
+### Setup
+
+Go to https://slack.com/apps/manage/A0F7XDUAZ-incoming-webhooks and configure an incoming webhook. Grab the url.
+
+### Sending Basic Text
+
+```js
+var IncomingWebhooks = require('@slack/client').IncomingWebhook;
+// Anyone who has access to this url will be able to post your
+// slack org without authentication. So don't save this value in version control
+var url = process.env.SLACK_WEBHOOK_URL;
+
+var wh = new IncomingWebhooks(url);
+
+// This will send a message "Some Text" using the configuration
+// chosen when creating the webhook
+wh.send('Some text');
+
+// You can pass an optional callback
+wh.send('More text', function () {
+  console.log('done sending');
+});
+```
+
+### Sending More than Text
+
+```js
+// This will send a message "Some Text" and override
+// the configuration values chosen when creating the webhook.
+wh.send({
+  text: 'Some text',
+  channel: 'custom-channel',
+  iconEmoji: ':robot_face:',
+  username: 'Custom Name'
+});
+
+// You can send attachments as well
+// See https://api.slack.com/docs/attachments
+wh.send({
+  text: 'Some text',
+  attachments: [
+    // attachment data
+  ]
+});
+```
+
+### Pre-Configure Defaults
+
+```js
+var wh = new IncomingWebhooks(url, {
+  username: 'Custom Username',
+  channel: 'custom-channel',
+  iconEmoji: ':robot_face:',
+  text: 'Default Text'
+});
+
+// This will send a message "Some Text" using the configuration
+// that was passed in when the wh object was initialized
+wh.send('Some text');
+
+// This will send a message "Some Text" and override
+// the values chosen when initializing the wh object
+wh.send({
+  text: 'Some text',
+  channel: 'custom-channel',
+  iconEmoji: ':robot_face:',
+  username: 'Custom Name'
+});
+```
 
 ## Migrating from earlier versions
 
