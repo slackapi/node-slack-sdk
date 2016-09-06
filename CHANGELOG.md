@@ -1,3 +1,7 @@
+### v3.6.0 (2016-09-06)
+  * Adds support for Incoming Webhooks
+  * Fixes a bug around User IDs
+
 ### v3.5.4 (2016-07-29)
   * Fixes a bug whereby events with fields not recognized cause a crash. Wow.
   * Updated some logic around what user ids look like.
