@@ -10,7 +10,7 @@ Before contributing, please read our [Code of Conduct](./CODE_OF_CONDUCT.md). We
 
 Before opening a new issue, please consider:
 
-  - Reading [the documentation](https://github.com/slackhq/node-slack-sdk/blob/master/README.md) and [the changelog](https://github.com/slackhq/node-slack-sdk/blob/master/README.md) first.
+  - Reading [the documentation](./README.md) and [the changelog](./CHANGELOG.md) first.
   - Searching for any related issues and avoid creating duplicated issues.
   - Adding details, diagnoses, screenshots or any type of useful information in existing issues, even if they are marked as closed. The team will still review it.
   - Trying out the examples [provided in this repository](https://github.com/slackhq/node-slack-sdk/tree/master/examples).
