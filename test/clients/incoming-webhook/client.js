@@ -29,6 +29,38 @@ describe('Incoming Webhook', function () {
       expect(wh.defaults.text).to.equal(opts.text);
     });
 
+    it('should accept supplied defaults when present iconUrl specific', function () {
+      var opts = {
+        username: 'a bot name',
+        iconUrl: 'http://flickr.com/icons/bobby.jpg',
+        channel: 'channel-name',
+        text: 'some text'
+      };
+      var wh = new IncomingWebhook('slackWebhookUrl', opts);
+
+      expect(wh.defaults.username).to.equal(opts.username);
+      expect(wh.defaults.iconUrl).to.equal(opts.iconUrl);
+      expect(wh.defaults.channel).to.equal(opts.channel);
+      expect(wh.defaults.text).to.equal(opts.text);
+    });
+
+    it('should accept supplied defaults when present iconUrl and iconEmoji present', function () {
+      var opts = {
+        username: 'a bot name',
+        iconEmoji: ':robot_face:',
+        iconUrl: 'http://flickr.com/icons/bobby.jpg',
+        channel: 'channel-name',
+        text: 'some text'
+      };
+      var wh = new IncomingWebhook('slackWebhookUrl', opts);
+
+      expect(wh.defaults.username).to.equal(opts.username);
+      expect(wh.defaults.iconEmoji).to.equal(opts.iconEmoji);
+      expect(wh.defaults.iconUrl).to.equal(opts.iconUrl);
+      expect(wh.defaults.channel).to.equal(opts.channel);
+      expect(wh.defaults.text).to.equal(opts.text);
+    });
+
     it('should discard unusable properties', function () {
       var opts = {
         foo: 'bar'
@@ -36,6 +68,24 @@ describe('Incoming Webhook', function () {
       var wh = new IncomingWebhook('slackWebhookUrl', opts);
 
       expect(wh.defaults.bar).to.equal(undefined);
+    });
+
+    it('should favour iconUrl if both iconUrl and iconEmoji are set', function () {
+      var opts = {
+        username: 'a bot name',
+        iconEmoji: ':robot_face:',
+        iconUrl: 'http://flickr.com/icons/bobby.jpg',
+        channel: 'channel-name',
+        text: 'some text'
+      };
+
+      var wh = new IncomingWebhook('slackWebhookUrl', opts);
+
+      expect(wh.defaults.username).to.equal(opts.username);
+      expect(wh.defaults.iconUrl).to.equal(opts.iconUrl);
+      expect(wh.defaults.channel).to.equal(opts.channel);
+      expect(wh.defaults.text).to.equal(opts.text);
+      expect(wh.defaults.iconEmoji).to.equal(undefined);
     });
 
     it('does not require a defaults object', function () {
