@@ -15,7 +15,7 @@ Before opening a new issue, please consider:
   - Adding details, diagnoses, screenshots or any type of useful information in existing issues, even if they are marked as closed. The team will still review it.
   - Trying out the examples [provided in this repository](https://github.com/slackhq/node-slack-sdk/tree/master/examples).
   - Taking the time to think of a solution and [**open a pull request**](#new-pull-requests) for either improving the documentation, fixing a bug or suggesting a feature.
-  - Finally, **[open an issue]**(https://github.com/slackhq/node-slack-sdk/issues/new) to report a bug, ask for help or suggest a feature. The more information you give, the better people can help you.
+  - Finally, [**open an issue**](https://github.com/slackhq/node-slack-sdk/issues/new) to report a bug, ask for help or suggest a feature. The more information you give, the better people can help you.
 
 
 ## New Pull Requests
