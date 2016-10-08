@@ -231,6 +231,15 @@ wh.send({
   username: 'Custom Name'
 });
 
+// You can use a URL to an image instead of an Emoji
+// If you specify both an emoji and a URL. It will favour the URL
+wh.send({
+  text: 'Some text',
+  channel: 'custom-channel',
+  iconUrl: 'https://octodex.github.com/images/original.png',
+  username: 'Custom Name'
+});
+
 // You can send attachments as well
 // See https://api.slack.com/docs/attachments
 wh.send({
