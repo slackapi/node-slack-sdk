@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+{% include head.html %}
+
+<body class="api light_theme">
+
+{% include page_header.html %}
+
+<div id="page">
+
+    <div id="page_contents" class="clearfix">
+        <nav id="api_nav" class="col span_1_of_4">
+
+            {% include side_nav.html %}
+
+            <div id="footer">
+
+                <ul id="footer_nav">
+                    <li><a href="https://github.com/{{ site.github_username }}/{{ site.repo_name }}/blob/master/LICENSE">License</a></li>
+                    <li><a href="https://github.com/{{ site.github_username }}/{{ site.repo_name }}/blob/master/CODE_OF_CONDUCT.md">Code of Conduct</a></li>
+                    <li><a href="https://github.com/{{ site.github_username }}/{{ site.repo_name }}/blob/master/CONTRIBUTING.md">Contributing</a></li>
+                    <li><a href="https://docs.google.com/a/slack-corp.com/forms/d/e/1FAIpQLSfzjVoCM7ohBnjWf7eDYQxzti1EPpinsIJQA5RAUBwJKRUQHg/viewform">Contributor License Agreement</a></li>
+                </ul>
+
+                <p id="footer_signature">Made with <i class="ts_icon ts_icon_heart"></i> by Slack<br/>and our Lovely
+                    Community
+                </p>
+
+            </div>
+
+        </nav>
+
+        <div class="col span_3_of_4">
+            {{ content }}
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p class="light tiny align_center">Copyright © 2015–2016 Slack Technologies, Inc. and contributors</p>
+</footer>
+
+
+<script type="text/javascript" src="https://a.slack-edge.com/1504/js/rollup-core_required_libs.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://a.slack-edge.com/125e0/js/rollup-core_web.js" crossorigin="anonymous"></script>
+
+</body>
+</html>
