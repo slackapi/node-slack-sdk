@@ -1,0 +1,31 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your whole blog, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+product_name: &product_name Slack Developer Kit for Node.js
+title: *product_name
+email: opensource@slack.com
+description: >
+  Access the Slack Platform from your Node.js app. _Slack Developer Kit for Node.js_ lets you build on the Slack web APIs, slash
+  commands, and the real-time API for building bots, in an idiomatically JavaScript way.
+baseurl: /node-slack-sdk
+url: http://slackapi.github.io
+repo_name: node-slack-sdk
+dev4slack_channel: sdk-node-slack-sdk
+twitter_username: SlackAPI
+github_username:  SlackAPI
+
+include: ['_pages']
+
+collections:
+  reference:
+    output: true
+
+# Build settings
+markdown: kramdown
+gems:
+  - jemoji
