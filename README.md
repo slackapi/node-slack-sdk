@@ -1,7 +1,8 @@
 # Node Library for the Slack APIs
 
 [![Build Status](https://travis-ci.org/slackapi/node-slack-sdk.svg?branch=master)](https://travis-ci.org/slackapi/node-slack-sdk)
-[![Coverage Status](https://coveralls.io/repos/github/slackapi/node-slack-sdk/badge.svg?branch=master)](https://coveralls.io/github/slackapi/node-slack-sdk?branch=master)
+[![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-sdk)
+[![npm (scoped)](https://img.shields.io/npm/v/@slack/client.svg?maxAge=2592000)](https://www.npmjs.com/package/@slack/client)
 
 
 Access the Slack Platform from your Node.js app. This library lets you build on the Slack Web APIs, Incoming Webhooks,
