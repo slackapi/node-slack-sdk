@@ -8,7 +8,7 @@
     "mocha": "mocha --recursive --reporter spec test",
     "test": "npm run mocha && npm run lint",
     "cover": "istanbul cover -x **/facets/*.js  --report lcovonly _mocha -- --recursive",
-    "coveralls": "npm run cover && istanbul-coveralls",
+    "codecov": "npm run cover && codecov",
     "make-slack-client-symlink": "mkdir -p $PWD/node_modules/@slack/client && ln -s $PWD/index.js $PWD/node_modules/@slack/client/index.js",
     "make-docs": "node jsdoc.js"
   },
@@ -36,11 +36,10 @@
   },
   "devDependencies": {
     "chai": "^3.3.0",
-    "coveralls": "^2.11.6",
+    "codecov": "^1.0.1",
     "eslint": "^2.2.0",
     "eslint-config-airbnb": "^6.0.2",
     "istanbul": "^0.4.2",
-    "istanbul-coveralls": "^1.0.3",
     "jsdoc-to-markdown": "^1.3.7",
     "mocha": "~2.3.3",
     "mocha-lcov-reporter": "^1.0.0",
