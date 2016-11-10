@@ -4,7 +4,6 @@ title: Building Bots
 permalink: /bots
 order: 6
 headings:
-    - title: A note on handling tokens and other sensitive data
     - title: Initializing a bot
     - title: Posting a message
     - title: Bots are Event consumers
@@ -56,7 +55,7 @@ rtm.start();
 ## Posting a message
 
 Of course, just starting a bot running doesn't accomplish much! It would be nice to be able to send messages, right? We
-can do that by sending a message over the RTM connection as such. 
+can do that by sending a message over the RTM connection as such.
 
 ```js
 var RtmClient = require('@slack/client').RtmClient;
@@ -67,7 +66,7 @@ var bot_token = process.env.SLACK_BOT_TOKEN || '';
 var rtm = new RtmClient(bot_token);
 rtm.start();
 
-var channel = "#general"; //could also be a channel, group, DM, or user ID (C1234), or a username (@don) 
+var channel = "#general"; //could also be a channel, group, DM, or user ID (C1234), or a username (@don)
 
 // you need to wait for the client to fully connect before you can send messages
 rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
@@ -193,7 +192,7 @@ var rtm = new RtmClient(bot_token);
 rtm.start();
 
 rtm.on(RTM_EVENTS.MESSAGE, function handleRtmMessage(message) {
-  var channel = "#general"; //could also be a channel, group, DM, or user ID (C1234), or a username (@don) 
+  var channel = "#general"; //could also be a channel, group, DM, or user ID (C1234), or a username (@don)
   rtm.sendMessage("Hello <@" + message.user + ">!", message.channel);
 });
 ```
