@@ -4,4 +4,4 @@ node_js:
   - "4"
   - "5"
 after_success:
-  - npm run coveralls
+  - npm run codecov
