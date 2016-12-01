@@ -1,9 +1,12 @@
 var expect = require('chai').expect;
+var fs = require('fs');
+var path = require('path');
 var lodash = require('lodash');
 var nock = require('nock');
 var sinon = require('sinon');
 
 var WebAPIClient = require('../../../lib/clients/web/client');
+var retryPolicies = require('../../../lib/clients/retry-policies');
 
 
 var mockTransport = function (args, cb) {
@@ -12,6 +15,29 @@ var mockTransport = function (args, cb) {
 
 
 describe('Web API Client', function () {
+
+  it('should add all available facets', function () {
+    var client = new WebAPIClient('test-token');
+    var facets = fs
+      .readdirSync(path.resolve('lib', 'clients', 'web', 'facets'))
+      .filter(function (file) {
+        return /\.js$/.test(file) && file !== 'index.js';
+      })
+      .map(function (file) {
+        return require('../../../lib/clients/web/facets/' + file);
+      });
+
+    // Check that all facet files have been registered:
+    facets.forEach(function (Facet) {
+      var name = new Facet().name;
+      // The 'im' facet is aliased to dm:
+      if (name === 'dm') {
+        expect(client[name].name).to.equal('im');
+      } else {
+        expect(client[name].name).to.equal(name);
+      }
+    });
+  });
 
   it('should accept supplied defaults when present', function () {
     var opts = {
@@ -61,10 +87,7 @@ describe('Web API Client', function () {
         .reply(200, '{}');
 
       client = new WebAPIClient('test-token', {
-        retryConfig: {
-          minTimeout: 0,
-          maxTimeout: 1
-        }
+        retryConfig: retryPolicies.TEST_RETRY_POLICY
       });
       sinon.spy(client, 'transport');
 
@@ -77,7 +100,7 @@ describe('Web API Client', function () {
     it('should pause job execution in response to a 429 header', function (done) {
       nock('https://slack.com/api')
         .post('/test')
-        .reply(429, '{}', { 'X-Retry-After': 0 });
+        .reply(429, '{}', { 'retry-after': 0 });
 
       attemptAPICall(done);
     });

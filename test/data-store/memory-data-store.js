@@ -61,11 +61,13 @@ describe('MemoryDataStore', function () {
     var dataStore = getMemoryDataStore();
 
     it('should get a user by email', function () {
-      expect(dataStore.getUserByEmail('leah+slack-api-test-alice@slack-corp.com').id).to.equal('U0CJ5PC7L');
+      var user = dataStore.getUserByEmail('leah+slack-api-test-alice@slack-corp.com');
+      expect(user.id).to.equal('U0CJ5PC7L');
     });
 
     it('should return undefined if no users with email is not found', function () {
-      expect(dataStore.getUserByEmail('NOT-leah+slack-api-test-bob@slack-corp.com')).to.equal(undefined);
+      var user = dataStore.getUserByEmail('NOT-leah+slack-api-test-bob@slack-corp.com');
+      expect(user).to.equal(undefined);
     });
   });
 
@@ -78,6 +80,30 @@ describe('MemoryDataStore', function () {
 
     it('should return undefined if no users with name is not found', function () {
       expect(dataStore.getUserByEmail('NOTalice')).to.equal(undefined);
+    });
+  });
+
+  describe('#getUserByBotId()', function () {
+    var dataStore = getMemoryDataStore();
+
+    it('should get a bot user by bot ID', function () {
+      expect(dataStore.getUserByBotId('B0EV07BEH').id).to.equal('U0EUYE1E0');
+    });
+
+    it('should return undefined if no users with a bot id are found', function () {
+      expect(dataStore.getUserByEmail('B00000000')).to.equal(undefined);
+    });
+  });
+
+  describe('#getBotByUserId()', function () {
+    var dataStore = getMemoryDataStore();
+
+    it('should get a bot user by user ID', function () {
+      expect(dataStore.getBotByUserId('U0EUYE1E0').id).to.equal('B0EV07BEH');
+    });
+
+    it('should return undefined if no bots with a user id are found', function () {
+      expect(dataStore.getBotByUserId('U00000000')).to.equal(undefined);
     });
   });
 
