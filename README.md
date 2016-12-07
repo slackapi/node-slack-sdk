@@ -5,7 +5,102 @@
 [![npm (scoped)](https://img.shields.io/npm/v/@slack/client.svg?maxAge=2592000)](https://www.npmjs.com/package/@slack/client)
 
 
-Access the Slack Platform from your Node.js app. This library lets you build on the Slack Web APIs, Incoming Webhooks,
-Slash Commands, and the RTM API for building Slack apps and bots, in an idiomatically JavaScript way.
+Read the [full documentation](https://slackapi.github.io/node-slack-sdk) for all the lovely details.
 
-Comprehensive documentation [is available](https://slackapi.github.io/node-slack-sdk).
+So you want to build a Slack app with Node.js? We've got you covered. {{ site.product_name }} is aimed at making
+building Slack apps ridiculously easy. This module will help you build on all aspects of the Slack platform,
+from dropping notifications in channels to fully interactive bots.
+
+This is a wrapper around the Slack [RTM](https://api.slack.com/rtm) and [Web](https://api.slack.com/web) APIs.
+
+This library provides the low level functionality you need to build reliable apps and projects on top of Slack's APIs.
+It:
+
+ - handles reconnection logic and request retries
+ - provides reasonable defaults for events and logging
+ - defines a basic model layer and data-store for caching Slack RTM API responses
+
+This library does not attempt to provide application level support, _e.g._ regex matching and filtering of the
+conversation stream.
+
+Most Slack apps are interested in posting messages into Slack channels, and generally working with our [Web API](https://api.slack.com/web). Read on
+to learn how to use {{ site.product_name }} to accomplish these tasks. Bots, on the other hand, are a bit more complex,
+so we have them covered in [Building Bots](bots.html).
+
+# Some Examples
+
+All of these examples assume that you have set up a Slack [app](https://api.slack.com/slack-apps) or
+[custom integration](https://api.slack.com/custom-integrations), and understand the basic mechanics of working with the
+Slack Platform.
+
+## Posting a message with Incoming Webhooks
+
+[Incoming webhooks](https://api.slack.com/incoming-webhooks) are an easy way to get notifications posted into Slack with
+a minimum of setup. You'll need to either have a custom incoming webhook set up, or an app with an incoming webhook
+added to it.
+
+```js
+var IncomingWebhook = require('@slack/client').IncomingWebhook;
+
+var url = process.env.SLACK_WEBHOOK_URL || ''; //see section above on sensitive data
+
+var webhook = new IncomingWebhook(url);
+
+webhook.send('Hello there', function(err, res) {
+    if (err) {
+        console.log('Error:', err);
+    } else {
+        console.log('Message sent: ', res);
+    }
+});
+```
+
+## Posting a message with Web API
+
+You'll need a Web API token to call any of the Slack Web API methods. For custom integrations, you'll get this
+[from the token generator](https://api.slack.com/docs/oauth-test-tokens), and for apps it will come as the final part
+of the [OAuth dance](https://api.slack.com/docs/oauth).
+
+Your app will interact with the Web API through the `WebClient` object, which requires an access token to operate.
+
+```js
+var WebClient = require('@slack/client').WebClient;
+
+var token = process.env.SLACK_API_TOKEN || ''; //see section above on sensitive data
+
+var web = new WebClient(token);
+web.chat.postMessage('C1232456', 'Hello there', function(err, res) {
+    if (err) {
+        console.log('Error:', err);
+    } else {
+        console.log('Message sent: ', res);
+});
+```
+
+## Posting a message with the Real-Time Messaging API
+
+Starting a bot up requires a bot token (bot tokens start with `xoxb-`),
+which can be had either creating a [custom bot](https://my.slack.com/apps/A0F7YS25R-bots) or by creating an app with a
+bot user, at the end of the [OAuth dance](https://api.slack.com/docs/oauth). If you aren't sure path is right for you,
+have a look at the [Bot Users documentation](https://api.slack.com/bot-users).
+
+```js
+var RtmClient = require('@slack/client').RtmClient;
+var CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
+
+var bot_token = process.env.SLACK_BOT_TOKEN || '';
+
+var rtm = new RtmClient(bot_token);
+
+// The client will emit an RTM.AUTHENTICATED event on successful connection, with the `rtm.start` payload if you want to cache it
+rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function (rtmStartData) {
+  console.log(`Logged in as ${rtmStartData.self.name} of team ${rtmStartData.team.name}, but not yet connected to a channel`);
+});
+
+// you need to wait for the client to fully connect before you can send messages
+rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
+  rtm.sendMessage("Hello!", channel);
+});
+
+rtm.start();
+```
