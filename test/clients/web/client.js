@@ -7,6 +7,8 @@ var sinon = require('sinon');
 
 var WebAPIClient = require('../../../lib/clients/web/client');
 var retryPolicies = require('../../../lib/clients/retry-policies');
+var defaultHTTPResponseHandler =
+  require('../../../lib/clients/transports/call-transport').handleHttpResponse;
 
 
 var mockTransport = function (args, cb) {
@@ -51,7 +53,7 @@ describe('Web API Client', function () {
     expect(client.userAgent).to.equal('test');
   });
 
-  it('should register facets  during construction', function () {
+  it('should register facets during construction', function () {
     var client = new WebAPIClient('test-token', { transport: lodash.noop });
     expect(client.auth).to.not.equal(undefined);
   });
@@ -123,4 +125,27 @@ describe('Web API Client', function () {
 
   });
 
+});
+
+describe('Default transport', function () {
+  it('should report scope information when present', function (done) {
+    // See https://api.slack.com/docs/oauth-scopes#working_with_scopes
+    var headers = {
+      'X-OAuth-Scopes': 'foo, bar,baz ,qux',
+      'X-Accepted-OAuth-Scopes': 'a, i,u ,e'
+    };
+    var body = '{"test": 10}';
+    var client = {
+      logger: function () {}
+    };
+
+    defaultHTTPResponseHandler(body, headers, client, function (err, res) {
+      expect(res).to.deep.equal({
+        test: 10,
+        scopes: ['foo', 'bar', 'baz', 'qux'],
+        acceptedScopes: ['a', 'i', 'u', 'e']
+      });
+      done();
+    });
+  });
 });
