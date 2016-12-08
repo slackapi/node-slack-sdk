@@ -66,7 +66,7 @@ describe('Web API Client', function () {
     var client = new WebAPIClient('test-token', { transport: mockTransport });
 
     client._makeAPICall('test', args, null, function (err, res) {
-      expect(res).to.deep.equal({ test: 10 });
+      expect(res.test).to.equal(10);
       done();
     });
   });
