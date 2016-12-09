@@ -131,8 +131,8 @@ describe('Default transport', function () {
   it('should report scope information when present', function (done) {
     // See https://api.slack.com/docs/oauth-scopes#working_with_scopes
     var headers = {
-      'X-OAuth-Scopes': 'foo, bar,baz ,qux',
-      'X-Accepted-OAuth-Scopes': 'a, i,u ,e'
+      'x-oauth-scopes': 'foo, bar,baz ,qux',
+      'x-accepted-oauth-scopes': 'a, i,u ,e'
     };
     var body = '{"test": 10}';
     var client = {
