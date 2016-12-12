@@ -66,6 +66,7 @@ web.chat.postMessage('C1232456', 'Hello there', function(err, res) {
         console.log('Error:', err);
     } else {
         console.log('Message sent: ', res);
+    }
 });
 ```
 
