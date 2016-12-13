@@ -4,7 +4,7 @@ var path = require('path');
 var lodash = require('lodash');
 var nock = require('nock');
 var sinon = require('sinon');
-var pkginfo = require('pkginfo')(module, 'version', 'name'); // eslint-disable-line no-unused-vars
+var pkginfo = require('pkginfo')(module, 'version', 'repository'); // eslint-disable-line no-unused-vars
 
 var WebAPIClient = require('../../../lib/clients/web/client');
 var retryPolicies = require('../../../lib/clients/retry-policies');
@@ -43,7 +43,7 @@ describe('Web API Client', function () {
   it('should use the calculate user agent when not overriden', function () {
     var client = new WebAPIClient('test-token');
 
-    expect(client.userAgent()).to.equal(module.exports.name + '/' + module.exports.version);
+    expect(client.userAgent()).to.equal(module.exports.repository + '/' + module.exports.version);
   });
 
   it('should accept supplied defaults when present', function () {
