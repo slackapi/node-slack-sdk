@@ -28,6 +28,7 @@
     "https-proxy-agent": "^1.0.0",
     "inherits": "^2.0.1",
     "lodash": "^4.13.1",
+    "pkginfo": "^0.4.0",
     "request": "^2.64.0",
     "retry": "^0.9.0",
     "url-join": "0.0.1",
