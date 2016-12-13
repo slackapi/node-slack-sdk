@@ -4,6 +4,7 @@ var path = require('path');
 var lodash = require('lodash');
 var nock = require('nock');
 var sinon = require('sinon');
+var pkginfo = require('pkginfo')(module, 'version', 'name'); // eslint-disable-line no-unused-vars
 
 var WebAPIClient = require('../../../lib/clients/web/client');
 var retryPolicies = require('../../../lib/clients/retry-policies');
@@ -39,6 +40,12 @@ describe('Web API Client', function () {
     });
   });
 
+  it('should use the calculate user agent when not overriden', function () {
+    var client = new WebAPIClient('test-token');
+
+    expect(client.userAgent()).to.equal(module.exports.name + '/' + module.exports.version);
+  });
+
   it('should accept supplied defaults when present', function () {
     var opts = {
       slackAPIUrl: 'test',
@@ -48,7 +55,7 @@ describe('Web API Client', function () {
     var client = new WebAPIClient('test-token', opts);
 
     expect(client.slackAPIUrl).to.equal('test');
-    expect(client.userAgent).to.equal('test');
+    expect(client.userAgent()).to.equal('test');
   });
 
   it('should register facets  during construction', function () {
