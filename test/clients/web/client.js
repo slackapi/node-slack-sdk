@@ -4,7 +4,8 @@ var path = require('path');
 var lodash = require('lodash');
 var nock = require('nock');
 var sinon = require('sinon');
-var pkginfo = require('pkginfo')(module, 'version', 'repository'); // eslint-disable-line no-unused-vars
+var pkginfo = require('pkginfo')(module, 'version', // eslint-disable-line no-unused-vars
+  'repository');
 
 var WebAPIClient = require('../../../lib/clients/web/client');
 var retryPolicies = require('../../../lib/clients/retry-policies');
