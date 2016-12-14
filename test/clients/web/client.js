@@ -5,7 +5,7 @@ var lodash = require('lodash');
 var nock = require('nock');
 var sinon = require('sinon');
 var pkginfo = require('pkginfo')(module, 'version', // eslint-disable-line no-unused-vars
-  'repository');
+  'repository'); // This is total BS. Thanks eslint for not being able to disable overly long lines
 
 var WebAPIClient = require('../../../lib/clients/web/client');
 var retryPolicies = require('../../../lib/clients/retry-policies');
@@ -44,7 +44,8 @@ describe('Web API Client', function () {
   it('should use the calculate user agent when not overriden', function () {
     var client = new WebAPIClient('test-token');
 
-    expect(client.userAgent()).to.equal(module.exports.repository + '/' + module.exports.version);
+    expect(client.userAgent().split(' ', 1)[0]).to.equal(
+      module.exports.repository.replace('/', ':') + '/' + module.exports.version);
   });
 
   it('should accept supplied defaults when present', function () {

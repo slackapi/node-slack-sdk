@@ -1,12 +1,19 @@
 var expect = require('chai').expect;
 var helpers = require('../lib/helpers');
+var os = require('os');
+var pkginfo = require('pkginfo')(module, 'version', // eslint-disable-line no-unused-vars
+  'repository');
+
+var userAgent = module.exports.repository.replace('/', ':') + '/' + module.exports.version
+  + ' ' + os.platform() + '/' + os.release()
+  + ' node/' + process.version.replace('v', '');
 
 describe('Version strings', function () {
   describe('getVersionString', function () {
     it('returns the current version, when unmodified', function () {
       var str = helpers.getVersionString();
       // TODO the slash in the package name worries me
-      expect(str).to.equal('slackapi/node-slack-sdk/3.7.0');
+      expect(str).to.equal(userAgent);
     });
   });
 
@@ -15,17 +22,17 @@ describe('Version strings', function () {
       var str;
       helpers.appendToVersionString('foobar', '1.2');
       str = helpers.getVersionString();
-      expect(str).to.equal('slackapi/node-slack-sdk/3.7.0 foobar/1.2');
+      expect(str).to.equal(userAgent + ' foobar/1.2');
     });
   });
 
   describe('appendToVersionString', function () {
     it('should never overwrite an existing value', function () {
       var str;
-      helpers.appendToVersionString('slackapi/node-slack-sdk', '1.2');
+      helpers.appendToVersionString('foobar', '1.3');
       str = helpers.getVersionString();
       // TODO that the order of these tests _matters_ bothers me
-      expect(str).to.equal('slackapi/node-slack-sdk/3.7.0 foobar/1.2 slackapi/node-slack-sdk/1.2');
+      expect(str).to.equal(userAgent + ' foobar/1.2 foobar/1.3');
     });
   });
 });
