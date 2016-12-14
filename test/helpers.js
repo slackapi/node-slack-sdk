@@ -1,8 +1,7 @@
 var expect = require('chai').expect;
 var helpers = require('../lib/helpers');
 var os = require('os');
-var pkginfo = require('pkginfo')(module, 'version', // eslint-disable-line no-unused-vars
-  'repository');
+var pkginfo = require('pkginfo')(module, 'version', 'repository'); // eslint-disable-line no-unused-vars
 
 var userAgent = module.exports.repository.replace('/', ':') + '/' + module.exports.version
   + ' ' + os.platform() + '/' + os.release()

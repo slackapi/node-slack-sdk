@@ -4,8 +4,7 @@ var path = require('path');
 var lodash = require('lodash');
 var nock = require('nock');
 var sinon = require('sinon');
-var pkginfo = require('pkginfo')(module, 'version', // eslint-disable-line no-unused-vars
-  'repository'); // This is total BS. Thanks eslint for not being able to disable overly long lines
+var pkginfo = require('pkginfo')(module, 'version', 'repository'); // eslint-disable-line no-unused-vars
 
 var WebAPIClient = require('../../../lib/clients/web/client');
 var retryPolicies = require('../../../lib/clients/retry-policies');
