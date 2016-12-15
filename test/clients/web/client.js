@@ -40,23 +40,16 @@ describe('Web API Client', function () {
     });
   });
 
-  it('should use the calculate user agent when not overriden', function () {
-    var client = new WebAPIClient('test-token');
-
-    expect(client.userAgent().split(' ', 1)[0]).to.equal(
-      module.exports.repository.replace('/', ':') + '/' + module.exports.version);
-  });
+  // TODO add test on appending to the user agent
 
   it('should accept supplied defaults when present', function () {
     var opts = {
       slackAPIUrl: 'test',
-      userAgent: 'test',
       transport: lodash.noop
     };
     var client = new WebAPIClient('test-token', opts);
 
     expect(client.slackAPIUrl).to.equal('test');
-    expect(client.userAgent()).to.equal('test');
   });
 
   it('should register facets  during construction', function () {
