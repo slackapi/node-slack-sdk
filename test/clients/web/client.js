@@ -40,8 +40,6 @@ describe('Web API Client', function () {
     });
   });
 
-  // TODO add test on appending to the user agent
-
   it('should accept supplied defaults when present', function () {
     var opts = {
       slackAPIUrl: 'test',
