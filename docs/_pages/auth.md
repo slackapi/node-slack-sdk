@@ -10,7 +10,7 @@ headings:
 ## Handling tokens and other sensitive data
 
 Slack tokens are the keys to your&mdash;or your customers'&mdash;teams. Keep them secret. Keep them safe. One way to do that is
-to never explicitly hardcode them. One way to do that is to never explicitly hardcode them.
+to never explicitly hardcode them.
                                    
 Try to avoid this when possible:
 
