@@ -1,3 +1,6 @@
 {
-  "extends": "airbnb/legacy"
+  "extends": "airbnb/legacy",
+  "rules": {
+    "max-len": ["error", 100, { "ignoreComments": true }]
+  }
 }

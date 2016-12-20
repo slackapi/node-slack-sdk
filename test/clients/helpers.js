@@ -87,6 +87,5 @@ describe('Client Helpers', function () {
       expect(args.cb).to.equal(null);
       expect(args.args.data).to.deep.equal({ test: '1', token: 't' });
     });
-
   });
 });
