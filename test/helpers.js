@@ -34,4 +34,14 @@ describe('Version strings', function () {
       expect(str).to.equal(userAgent + ' foobar/1.2 foobar/1.3');
     });
   });
+
+  describe('appendToVersionStringWithoutVersion', function () {
+    it('should never overwrite an existing value', function () {
+      var str;
+      helpers.appendToVersionString('foobar');
+      str = helpers.getVersionString();
+      // TODO that the order of these tests _matters_ bothers me
+      expect(str).to.equal(userAgent + ' foobar/1.2 foobar/1.3 foobar');
+    });
+  });
 });
