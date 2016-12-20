@@ -11,7 +11,6 @@ describe('Version strings', function () {
   describe('getVersionString', function () {
     it('returns the current version, when unmodified', function () {
       var str = helpers.getVersionString();
-      // TODO the slash in the package name worries me
       expect(str).to.equal(userAgent);
     });
   });
