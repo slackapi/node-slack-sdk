@@ -1,6 +1,9 @@
 var assert = require('assert');
 var http = require('http');
 var EventEmitter = require('events');
+var proxyquire = require('proxyquire');
+var express = require('express');
+var bodyParser = require('body-parser');
 var SlackEventAdapter = require('../../dist/adapter').default;
 
 // fixtures and test helpers
@@ -41,13 +44,47 @@ describe('SlackEventAdapter', function () {
         });
     });
 
+    describe('when express package is not found', function () {
+      beforeEach(function () {
+        proxyquire('../../dist/adapter', { express: null });
+      });
+      afterEach(function () {
+        proxyquire('../../dist/adapter', { express: express });
+      });
+      it('should reject', function () {
+        return this.adapter.expressServer()
+          .then(function (server) {
+            assert(server, null, 'a server was created');
+          })
+          .catch(function (error) {
+            assert(error instanceof Error);
+          });
+      });
+    });
+
+    describe('when body-parser package is not found', function () {
+      beforeEach(function () {
+        proxyquire('../../dist/adapter', { 'body-parser': null });
+      });
+      afterEach(function () {
+        proxyquire('../../dist/adapter', { 'body-parser': bodyParser });
+      });
+      it('should reject', function () {
+        return this.adapter.expressServer()
+          .then(function (server) {
+            assert(server, null, 'a server was created');
+          })
+          .catch(function (error) {
+            assert(error instanceof Error);
+          });
+      });
+    });
+
     it('should return a Promise of an http.Server', function () {
       fakeBindMiddlewareToAdapter(this.adapter);
       return this.adapter.expressServer().then(function (server) {
         assert(server instanceof http.Server);
       });
     });
-
-    it('should throw if the express or body-parser packages are not found');
   });
 });
