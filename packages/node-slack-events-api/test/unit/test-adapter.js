@@ -56,11 +56,6 @@ describe('SlackEventAdapter', () => {
       return adapter.expressServer().then(server => assert(server instanceof http.Server));
     });
 
-    it('should throw if the express or body-parser packages are not found', () => {
-      assert(false);
-      // assert.throws(() => {
-      //   throw new Error();
-      // }, Error);
-    });
+    it('should throw if the express or body-parser packages are not found');
   });
 });
