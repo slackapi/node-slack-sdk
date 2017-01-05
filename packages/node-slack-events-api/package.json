@@ -10,12 +10,13 @@
   "author": "Ankur Oberoi <aoberoi@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint src test",
+    "lint": "eslint src",
+    "lint:test": "eslint test",
     "test:istanbul": "istanbul cover _mocha -- test/**/*.js --compilers js:babel-register",
     "test:istanbul:babel": "babel-node ./node_modules/istanbul/lib/cli.js cover _mocha -- test/**/*.js",
     "test:nyc": "nyc --reporter=html mocha test/**/*.js",
     "test:mocha": "mocha test/**/*.js",
-    "test": "npm run lint && npm run build && npm run test:nyc",
+    "test": "npm run lint && npm run build && npm run lint:test && npm run test:nyc",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "build": "babel src -d dist --source-maps both",
     "prepare": "npm run build"
