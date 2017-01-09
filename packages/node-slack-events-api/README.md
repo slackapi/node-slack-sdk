@@ -30,14 +30,14 @@ but using a custom subdomain will require a paid plan. Otherwise,
 for free.
 
   With ngrok: `ngrok http -subdomain=<projectname> 3000`
-  
+
   With localtunnel: `lt --port 3000 --subdomain <projectname>`
 
 3.  Input your Request URL into the Slack App configuration settings. This URL depends on how you
 used the previous two commands. For example, using the default path and the project name "mybot":
 
   With ngrok: `https://mybot.ngrok.io/event`
-  
+
   With localtunnel: `https://mybot.localtunnel.me/event`
 
 4.  Once the verification is complete, you can terminate the two processes (verification tool and
@@ -99,3 +99,10 @@ http.createServer(app).listen(port, () => {
   console.log(`server listening on port ${port}`);
 });
 ```
+
+*TODO*: consider changing the generic name "middleware" to something specific to Express, since it
+relies on Express so heavily.
+*TODO*: document options.waitForResponse. including failWithNoRetry, redirectLocation, content
+*TODO*: document options.expressPropagateErrors.
+*TODO*: document options.includeRawBody.
+*TODO*: document options.includeRawBody.

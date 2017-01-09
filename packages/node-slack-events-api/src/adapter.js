@@ -16,12 +16,17 @@ function checkMiddlewareBound(adapter) {
 }
 
 export default class SlackEventAdapter extends EventEmitter {
-  constructor(verificationToken) {
+  constructor(verificationToken, options = {}) {
     if (!isString(verificationToken)) {
       throw new TypeError('SlackEventAdapter needs a verification token');
     }
+
     super();
+
     this.verificationToken = verificationToken;
+    this.waitForResponse = options.waitForResponse ? !!options.waitForResponse : false;
+    this.expressPropagateErrors = options.expressPropagateErrors ?
+      !!options.expressPropagateErrors : false;
   }
 
   // TODO: options (like https)

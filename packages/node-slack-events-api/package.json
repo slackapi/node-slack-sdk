@@ -12,8 +12,6 @@
   "scripts": {
     "lint": "eslint src",
     "lint:test": "eslint test",
-    "test:istanbul": "istanbul cover _mocha -- test/**/*.js --compilers js:babel-register",
-    "test:istanbul:babel": "babel-node ./node_modules/istanbul/lib/cli.js cover _mocha -- test/**/*.js",
     "test:nyc": "nyc --reporter=html mocha test/**/*.js",
     "test:mocha": "mocha test/**/*.js",
     "test": "npm run lint && npm run build && npm run lint:test && npm run test:nyc",
@@ -43,7 +41,8 @@
     "express": "^4.14.0",
     "mocha": "^3.2.0",
     "nyc": "^10.0.0",
-    "proxyquire": "^1.7.10"
+    "proxyquire": "^1.7.10",
+    "superagent": "^3.3.1"
   },
   "dependencies": {
     "lodash.isstring": "^4.0.1"
