@@ -11,7 +11,7 @@ const responseStatuses = {
   REDIRECT: 302,
 };
 
-function bindMiddlewareToAdapter(adapter) {
+export function createExpressMiddleware(adapter, middlewareOptions = {}) {
   function sendResponse(res) {
     return function _sendResponse(err, responseOptions = {}) {
       // Deal with errors up front
@@ -42,7 +42,7 @@ function bindMiddlewareToAdapter(adapter) {
   }
 
   function handleError(error, res, next) {
-    if (adapter.expressPropagateErrors) {
+    if (middlewareOptions.propagateErrors) {
       next(error);
     }
     const respond = sendResponse(res);
@@ -54,8 +54,7 @@ function bindMiddlewareToAdapter(adapter) {
     }
   }
 
-  // eslint-disable-next-line no-param-reassign
-  adapter.middleware = function slackEventAdapterMiddlware(req, res, next) {
+  return function slackEventAdapterMiddleware(req, res, next) {
     // Check that the request body has been parsed
     if (!req.body) {
       const error = new Error('The incoming HTTP request did not have a parsed body.');
@@ -78,6 +77,7 @@ function bindMiddlewareToAdapter(adapter) {
     }
 
     // Handle event token verification
+    // TODO: what if there is no token?
     if (req.body.token && req.body.token !== adapter.verificationToken) {
       const error = new Error('Slack event verification failed');
       error.code = errorCodes.TOKEN_VERIFICATION_FAILURE;
@@ -105,7 +105,3 @@ function bindMiddlewareToAdapter(adapter) {
     }
   };
 }
-
-export default {
-  bindMiddlewareToAdapter,
-};

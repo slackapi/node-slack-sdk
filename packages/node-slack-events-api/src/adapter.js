@@ -1,19 +1,7 @@
 import EventEmitter from 'events';
 import http from 'http';
 import isString from 'lodash.isstring';
-
-export const errorCodes = {
-  MIDDLEWARE_NOT_BOUND: 'SLACKEVENTADAPTER_MIDDLEWARE_NOT_BOUND',
-};
-
-// Private
-function checkMiddlewareBound(adapter) {
-  if (!adapter.middleware) {
-    const error = new Error('An express server can only be created after this adapter has been bound to middleware');
-    error.code = errorCodes.MIDDLEWARE_NOT_BOUND;
-    throw error;
-  }
-}
+import { createExpressMiddleware } from './express-middleware';
 
 export default class SlackEventAdapter extends EventEmitter {
   constructor(verificationToken, options = {}) {
@@ -25,37 +13,34 @@ export default class SlackEventAdapter extends EventEmitter {
 
     this.verificationToken = verificationToken;
     this.waitForResponse = options.waitForResponse ? !!options.waitForResponse : false;
-    this.expressPropagateErrors = options.expressPropagateErrors ?
-      !!options.expressPropagateErrors : false;
   }
 
   // TODO: options (like https)
-  expressServer() {
-    return new Promise((resolve) => {
-      checkMiddlewareBound(this);
-      resolve();
-    })
-    .then(() => { // eslint-disable-line arrow-body-style
-      return Promise.all([
-        System.import('express'),
-        System.import('body-parser'),
-        // import('express'),
-        // import('body-parser'),
+  createServer() {
+    // NOTE: this is a workaround for a shortcoming of the System.import() tranform
+    return Promise.resolve().then(() => Promise.all([
+      System.import('express'),
+      System.import('body-parser'),
+      // import('express'),
+      // import('body-parser'),
 
-        // The previous lines should be written as the comment following it, since `System.import()`
-        // is going to disappear after dynamic imports land (https://github.com/tc39/proposal-dynamic-import).
-        // There are no babel transforms for this syntax that seem to work at the moment. The
-        // following was meant to work but ended up not working:
-        // https://github.com/pwmckenna/babel-plugin-transform-import-commonjs.
-      ]);
-    })
+      // The previous lines should be written as the comment following it, since `System.import()`
+      // is going to disappear after dynamic imports land (https://github.com/tc39/proposal-dynamic-import).
+      // There are no babel transforms for this syntax that seem to work at the moment. The
+      // following was meant to work but ended up not working:
+      // https://github.com/pwmckenna/babel-plugin-transform-import-commonjs.
+    ]))
     .then(([express, bodyParser]) => {
       const app = express();
       app.use(bodyParser.json());
-      app.post('/event', this.middleware);
+      app.post('/event', this.expressMiddleware());
 
       return http.createServer(app);
     });
+  }
+
+  expressMiddleware(middlewareOptions = {}) {
+    return createExpressMiddleware(this, middlewareOptions);
   }
 
 }

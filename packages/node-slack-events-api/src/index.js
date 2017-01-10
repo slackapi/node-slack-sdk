@@ -1,10 +1,9 @@
-import middleware, { errorCodes as middlewareErrorCodes } from './middleware';
+import { errorCodes as middlewareErrorCodes } from './express-middleware';
 import SlackEventAdapter, { errorCodes as adapterErrorCodes } from './adapter';
 
+// TODO: merge these into one
 export const errorCodes = { middleware: middlewareErrorCodes, adapter: adapterErrorCodes };
 
-export default function createSlackEventDispatcher(verificationToken, options) {
-  const adapter = new SlackEventAdapter(verificationToken, options);
-  middleware.bindMiddlewareToAdapter(adapter);
-  return adapter;
+export default function createSlackEventAdapter(verificationToken, options) {
+  return new SlackEventAdapter(verificationToken, options);
 }

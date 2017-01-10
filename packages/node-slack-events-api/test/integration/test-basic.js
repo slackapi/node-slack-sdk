@@ -15,7 +15,7 @@ describe('when using middleware inside your own express application', function (
     this.adapter = createSlackEventAdapter(this.verificationToken);
     this.app = express();
     this.app.use(bodyParser.json());
-    this.app.use('/slack', this.adapter.middleware);
+    this.app.use('/slack', this.adapter.expressMiddleware());
     this.server = http.createServer(this.app);
     this.server.listen(this.port, done);
   });

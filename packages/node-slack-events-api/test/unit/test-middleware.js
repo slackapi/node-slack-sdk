@@ -1,16 +1,16 @@
 var assert = require('assert');
-var systemUnderTest = require('../../dist/middleware');
-var bindMiddlewareToAdapter = systemUnderTest.default.bindMiddlewareToAdapter;
+var systemUnderTest = require('../../dist/express-middleware');
+var createExpressMiddleware = systemUnderTest.createExpressMiddleware;
 var errorCodes = systemUnderTest.errorCodes;
 
 // NOTE: Unit testing the middleware module is not very effective because mocking its dependencies
 // beyond just the trivial cases requires too much effort. Instead of depending on thorough unit
 // tests, the integration tests try to exercise most of the middleware module's functionality.
 
-describe('bindMiddlewareToAdapter', function () {
+describe('expressMiddleware', function () {
   beforeEach(function () {
     this.adapter = { verificationToken: 'VERIFICATION_TOKEN' };
-    bindMiddlewareToAdapter(this.adapter);
+    this.expressMiddleware = createExpressMiddleware(this.adapter);
   });
 
   it('should forward an error when there is no body parser', function (done) {
@@ -21,7 +21,7 @@ describe('bindMiddlewareToAdapter', function () {
       assert.equal(arg2.code, errorCodes.NO_BODY_PARSER);
       done();
     };
-    this.adapter.middleware(req, res);
+    this.expressMiddleware(req, res);
   });
 
   it('should emit on the adapter', function (done) {
@@ -46,6 +46,6 @@ describe('bindMiddlewareToAdapter', function () {
       assert.equal(event, arg2);
       done();
     };
-    this.adapter.middleware(req, res, next);
+    this.expressMiddleware(req, res, next);
   });
 });

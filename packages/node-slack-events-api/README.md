@@ -62,13 +62,13 @@ slackEvents.on('message.im', (event)=> {
 });
 
 // Start a basic HTTP server (TODO: optional path)
-slackEvents.expressServer().then(server => server.listen(port, () => {
+slackEvents.createServer().then(server => server.listen(port, () => {
   console.log(`server listening on port ${port}`);
 }));
 ```
 
-For usage within an existing Express application, you can route requests to the adapter's
-`middleware` property like any other middleware.
+For usage within an existing Express application, you can route requests to an the adapter's express
+middleware by calling the `expressMiddleware()` method;
 
 ```javascript
 const http = require('http');
@@ -87,7 +87,7 @@ app.use(bodyParser.json());
 
 // Mount the event handler on a route
 // NOTE: you must mount to a path that matches the Request URL that was configured earlier
-app.use('/event', slackEvents.middleware);
+app.use('/event', slackEvents.expressMiddleware());
 
 // Attach listeners to events by Slack Event. See: https://api.slack.com/events/api
 slackEvents.on('message.im', (event)=> {
@@ -100,9 +100,4 @@ http.createServer(app).listen(port, () => {
 });
 ```
 
-*TODO*: consider changing the generic name "middleware" to something specific to Express, since it
-relies on Express so heavily.
 *TODO*: document options.waitForResponse. including failWithNoRetry, redirectLocation, content
-*TODO*: document options.expressPropagateErrors.
-*TODO*: document options.includeRawBody.
-*TODO*: document options.includeRawBody.
