@@ -67,7 +67,7 @@ describe('when using middleware inside your own express application', function (
     });
     this.adapter.on('error', function (error) {
       assert(error instanceof Error);
-      assert.equal(error.code, errorCodes.middleware.TOKEN_VERIFICATION_FAILURE);
+      assert.equal(error.code, errorCodes.TOKEN_VERIFICATION_FAILURE);
       assert.deepEqual(error.body, payload);
       partiallyComplete();
     });
