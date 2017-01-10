@@ -88,8 +88,11 @@ export function createExpressMiddleware(adapter, middlewareOptions = {}) {
 
     // TODO: expose whether this is a retry and what the retry reason would be
     const emitArguments = [req.body.event];
-    if (adapter.includeRawBody) {
+    if (adapter.includeBody) {
       emitArguments.push(req.body);
+    }
+    if (adapter.includeHeaders) {
+      emitArguments.push(req.headers);
     }
     if (adapter.waitForResponse) {
       emitArguments.push(sendResponse(res));

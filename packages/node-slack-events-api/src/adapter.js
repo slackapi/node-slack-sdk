@@ -12,7 +12,9 @@ export default class SlackEventAdapter extends EventEmitter {
     super();
 
     this.verificationToken = verificationToken;
-    this.waitForResponse = options.waitForResponse ? !!options.waitForResponse : false;
+    this.includeBody = !!options.includeBody || false;
+    this.includeHeaders = !!options.includeHeaders || false;
+    this.waitForResponse = !!options.waitForResponse || false;
   }
 
   // TODO: options (like https)
@@ -37,6 +39,13 @@ export default class SlackEventAdapter extends EventEmitter {
 
       return http.createServer(app);
     });
+  }
+
+  start(port) {
+    return this.createServer()
+      .then(server => new Promise((resolve) => {
+        server.listen(port, resolve);
+      }));
   }
 
   expressMiddleware(middlewareOptions = {}) {
