@@ -3,7 +3,7 @@ var assert = require('assert');
 var express = require('express');
 var bodyParser = require('body-parser');
 var request = require('superagent');
-var createSlackEventAdapter = require('../../dist').default;
+var createSlackEventAdapter = require('../../dist').createSlackEventAdapter;
 var errorCodes = require('../../dist').errorCodes;
 
 var helpers = require('../helpers');

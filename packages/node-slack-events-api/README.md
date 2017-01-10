@@ -53,7 +53,8 @@ The easiest way to start using the Events API is by using the built-in HTTP serv
 
 ```javascript
 // Initialize using verification token from environment variables
-const slackEvents = require('@slack/events-api').default(process.env.SLACK_VERIFICATION_TOKEN);
+const createSlackEventAdapter = require('@slack/events-api').createSlackEventAdapter;
+const slackEvents = createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN);
 const port = process.env.PORT || 3000;
 
 // Attach listeners to events by Slack Event. See: https://api.slack.com/events/api
@@ -74,7 +75,8 @@ middleware by calling the `expressMiddleware()` method;
 const http = require('http');
 
 // Initialize using verification token from environment variables
-const slackEvents = require('@slack/events-api').default(process.env.SLACK_VERIFICATION_TOKEN);
+const createSlackEventAdapter = require('@slack/events-api').createSlackEventAdapter;
+const slackEvents = createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN);
 const port = process.env.PORT || 3000;
 
 // Initialize an Express application
@@ -99,5 +101,3 @@ http.createServer(app).listen(port, () => {
   console.log(`server listening on port ${port}`);
 });
 ```
-
-*TODO*: document options.waitForResponse. including failWithNoRetry, redirectLocation, content
