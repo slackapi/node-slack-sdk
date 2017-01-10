@@ -63,9 +63,9 @@ slackEvents.on('message.im', (event)=> {
 });
 
 // Start a basic HTTP server (TODO: optional path)
-slackEvents.createServer().then(server => server.listen(port, () => {
+slackEvents.start(port).then(() => {
   console.log(`server listening on port ${port}`);
-}));
+});
 ```
 
 For usage within an existing Express application, you can route requests to an the adapter's express
