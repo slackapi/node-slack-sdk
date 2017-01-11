@@ -20,7 +20,7 @@ verification request. This module, combined with the use of a development proxy,
 easier for you.
 
 1.  Start the verification tool:
-`./node_modules/.bin/slack-verify <token> [--path=/event] [--port=3000]`. You will need to
+`./node_modules/.bin/slack-verify --token <token> [--path=/event] [--port=3000]`. You will need to
 substitute your own verification token for `<token>`. You may also want to choose your own `path`
 and/or `port`.
 

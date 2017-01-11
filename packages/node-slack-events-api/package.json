@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Slack Events API module",
   "main": "dist/index.js",
+  "bin": {
+    "slack-verify": "dist/verify.js"
+  },
   "repository": "https://github.com/slackapi/node-slack-events-api.git",
   "engines": {
     "node": ">=4.2.0"
@@ -45,6 +48,7 @@
     "superagent": "^3.3.1"
   },
   "dependencies": {
-    "lodash.isstring": "^4.0.1"
+    "lodash.isstring": "^4.0.1",
+    "yargs": "^6.6.0"
   }
 }

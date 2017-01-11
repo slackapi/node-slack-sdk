@@ -18,7 +18,7 @@ export default class SlackEventAdapter extends EventEmitter {
   }
 
   // TODO: options (like https)
-  createServer() {
+  createServer(path = '/event') {
     // NOTE: this is a workaround for a shortcoming of the System.import() tranform
     return Promise.resolve().then(() => Promise.all([
       System.import('express'),
@@ -35,7 +35,7 @@ export default class SlackEventAdapter extends EventEmitter {
     .then(([express, bodyParser]) => {
       const app = express();
       app.use(bodyParser.json());
-      app.post('/event', this.expressMiddleware());
+      app.post(path, this.expressMiddleware());
 
       return http.createServer(app);
     });
@@ -43,7 +43,8 @@ export default class SlackEventAdapter extends EventEmitter {
 
   start(port) {
     return this.createServer()
-      .then(server => new Promise((resolve) => {
+      .then(server => new Promise((resolve, reject) => {
+        server.on('error', reject);
         server.listen(port, resolve);
       }));
   }

@@ -8,7 +8,7 @@ The `verificationToken` is a required String parameter which you can find in you
 configuration once you've assigned a Request URL.
 
 If `options.waitForResponse` is truthy then your SlackEventAdapter will emit a callback function
-with each event so you can control more details about the HTTP response send back to Slack. See
+with each event so you can control more details about the HTTP response sent back to Slack. See
 SlackEventAdapter for more details.
 
 If `options.includeBody` is truthy, then the SlackEventAdapter will emit an additional argument
@@ -57,15 +57,16 @@ Remember to mount it at a path that would resolve to your Slack App's Request UR
 If `options.propagateErrors` is truthy then the middleware does not send an HTTP response for
 errors, but instead invokes `next(error)` so that your next route handler can service that request.
 
-#### start(port)
+#### start(_port_)
 
 This method is a convenience API that will create an HTTP server, set it up to receive requests
 from the Slack Events API at the default path of `/event`, and start listening on a port. It
 returns a Promise that resolves when the server is listening.
 
-#### createServer()
+#### createServer([_path_])
 
 This method returns a Promise for an
 [`http.Server`](https://nodejs.org/dist/latest-v4.x/docs/api/http.html#http_class_http_server). The
 server will already be setup to receive requests from the Slack Events API at the default path of
-`/event`. You can start it by calling the `listen()` method on the server.
+`/event`. A specific path can be set using the `path` argument. You can start it by calling the
+`listen()` method on the server.
