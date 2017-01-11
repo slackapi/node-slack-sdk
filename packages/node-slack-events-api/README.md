@@ -34,7 +34,7 @@ for free.
   With localtunnel: `lt --port 3000 --subdomain <projectname>`
 
 3.  Input your Request URL into the Slack App configuration settings. This URL depends on how you
-used the previous two commands. For example, using the default path and the project name "mybot":
+used the previous two commands. For example, using the default path and the subdomain name "mybot":
 
   With ngrok: `https://mybot.ngrok.io/event`
 
@@ -62,7 +62,7 @@ slackEvents.on('message.im', (event)=> {
   console.log(`Received a DM event: user ${event.user} in channel ${event.channel} says ${event.text}`);
 });
 
-// Start a basic HTTP server (TODO: optional path)
+// Start a basic HTTP server
 slackEvents.start(port).then(() => {
   console.log(`server listening on port ${port}`);
 });

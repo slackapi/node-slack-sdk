@@ -77,8 +77,7 @@ export function createExpressMiddleware(adapter, middlewareOptions = {}) {
     }
 
     // Handle event token verification
-    // TODO: what if there is no token?
-    if (req.body.token && req.body.token !== adapter.verificationToken) {
+    if (!req.body.token || req.body.token !== adapter.verificationToken) {
       const error = new Error('Slack event verification failed');
       error.code = errorCodes.TOKEN_VERIFICATION_FAILURE;
       error.body = req.body;
@@ -86,7 +85,6 @@ export function createExpressMiddleware(adapter, middlewareOptions = {}) {
       return;
     }
 
-    // TODO: expose whether this is a retry and what the retry reason would be
     const emitArguments = [req.body.event];
     if (adapter.includeBody) {
       emitArguments.push(req.body);

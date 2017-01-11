@@ -45,7 +45,7 @@ export default class SlackEventAdapter extends EventEmitter {
     return this.createServer()
       .then(server => new Promise((resolve, reject) => {
         server.on('error', reject);
-        server.listen(port, resolve);
+        server.listen(port, () => resolve(server));
       }));
   }
 

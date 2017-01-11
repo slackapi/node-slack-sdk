@@ -5,7 +5,7 @@ var errorCodes = systemUnderTest.errorCodes;
 
 // NOTE: Unit testing the middleware module is not very effective because mocking its dependencies
 // beyond just the trivial cases requires too much effort. Instead of depending on thorough unit
-// tests, the integration tests try to exercise most of the middleware module's functionality.
+// tests, the integration tests aim to exercise most of the middleware module's functionality.
 
 describe('expressMiddleware', function () {
   beforeEach(function () {
@@ -32,7 +32,8 @@ describe('expressMiddleware', function () {
     };
     var req = {
       body: {
-        event: event
+        event: event,
+        token: this.adapter.verificationToken
       }
     };
     var res = {
