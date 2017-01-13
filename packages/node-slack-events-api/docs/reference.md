@@ -32,15 +32,16 @@ notified of errors. Each error is identified with a `code` property. The diction
 produced by this module can be found at the top level named export `errorCodes`.
 
 All other events come from the Slack Events API [Event Types](https://api.slack.com/events/api).
-The first argument your handler receives is the event object. If you initialized the adapter using
-the `includeBody` option, the next argument will be the entire parsed body of the HTTP
-request. This can be useful to get additional context such as `team_id`, `api_app_id`, and more.
-Similarly, if you initialized the adapter using the `includeHeaders` option, the next argument
-will be an object with key-value pairs for the headers in the HTTP request.
+The signature for your event handler would be `handler(event, [body, ] [headers, ] [respond])`.
+The first argument your handler receives is the event object as described in documentation linked.
+If you initialized the adapter using the `includeBody` option, the next argument will be the entire
+parsed body of the HTTP request. This can be useful to get additional context such as `team_id`,
+`api_app_id`, and more. Similarly, if you initialized the adapter using the `includeHeaders` option,
+the next argument will be an object with key-value pairs for the headers in the HTTP request.
 
-If you initialize the adapter ueing the `waitForResponse` option, an additional callback argument
-will be emitted with your events. When using this option, the adapter will not respond to HTTP
-requests until you have invoked the callback. The callback has a signature of
+If you initialize the adapter ueing the `waitForResponse` option, an additional callback argument,
+`respond()`, will be emitted with your events. When using this option, the adapter will not respond
+to HTTP requests until you have invoked the callback. The callback has a signature of
 `respond(error, responseOptions)`. If you want to respond with a general failure, you should set the
 `error` parameter to a truthy value. If you want to respond with a failure and also indicate
 that Slack should not retry that request, you should set `responseOptions.failWithNoRetry` to a

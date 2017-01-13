@@ -29,22 +29,22 @@ but using a custom subdomain will require a paid plan. Otherwise,
 [localtunnel](https://localtunnel.github.io/www/) is an alternative that gives you custom subdomains
 for free.
 
-  With ngrok: `ngrok http -subdomain=<projectname> 3000`
+  > With ngrok: `ngrok http -subdomain=<projectname> 3000`
 
-  With localtunnel: `lt --port 3000 --subdomain <projectname>`
+  > With localtunnel: `lt --port 3000 --subdomain <projectname>`
 
 3.  Input your Request URL into the Slack App configuration settings. This URL depends on how you
 used the previous two commands. For example, using the default path and the subdomain name "mybot":
 
-  With ngrok: `https://mybot.ngrok.io/event`
+  > With ngrok: `https://mybot.ngrok.io/event`
 
-  With localtunnel: `https://mybot.localtunnel.me/event`
+  > With localtunnel: `https://mybot.localtunnel.me/event`
 
 4.  Once the verification is complete, you can terminate the two processes (verification tool and
 development server). You can proceed to selecting the event types your App needs.
 
 **NOTE:** This method of responding to the verification request should only be used
-in development. After you deploy your application to production, you should come back and modify
+**in development**. After you deploy your application to production, you should come back and modify
 your Request URL appropriately.
 
 ## Usage
@@ -68,7 +68,9 @@ slackEvents.start(port).then(() => {
 });
 ```
 
-For usage within an existing Express application, you can route requests to an the adapter's express
+### Using with Express
+
+For usage within an existing Express application, you can route requests to the adapter's express
 middleware by calling the `expressMiddleware()` method;
 
 ```javascript
