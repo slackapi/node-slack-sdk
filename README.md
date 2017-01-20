@@ -25,7 +25,7 @@ conversation stream.
 
 Most Slack apps are interested in posting messages into Slack channels, and generally working with our [Web API](https://api.slack.com/web). Read on
 to learn how to use {{ site.product_name }} to accomplish these tasks. Bots, on the other hand, are a bit more complex,
-so we have them covered in [Building Bots](bots.html).
+so we have them covered in [Building Bots](https://slackapi.github.io/node-slack-sdk/bots).
 
 # Some Examples
 
