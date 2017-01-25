@@ -107,3 +107,11 @@ http.createServer(app).listen(port, () => {
 ## Documentation
 
 To learn more, see the [reference documentation](docs/reference.md).
+
+## Support
+
+Need help? Join [dev4slack](http://dev4slack.xoxco.com/) and talk to us in
+[#slack-api](https://dev4slack.slack.com/messages/slack-api/).
+
+You can also [create an Issue](https://github.com/slackapi/node-slack-events-api/issues/new)
+right here on GitHub.
