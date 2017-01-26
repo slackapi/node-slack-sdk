@@ -1,7 +1,7 @@
 # Contributors Guide
 
 Interested in contributing? Awesome! Before you do though, please read our
-[Code of Conduct](./CODE_OF_CONDUCT.md). We take it very seriously, and expect that you will as
+[Code of Conduct](https://slackhq.github.io/code-of-conduct). We take it very seriously, and expect that you will as
 well.
 
 There are many ways you can contribute! :heart:
