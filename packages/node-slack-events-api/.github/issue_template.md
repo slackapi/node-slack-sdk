@@ -11,7 +11,7 @@ Describe your issue here.
 - [ ] discussion
 
 ### Requirements
-* [ ] I've read and understood the [Contributing guidelines](./contributing.md) and have done my best effort to follow them.
+* [ ] I've read and understood the [Contributing guidelines](https://github.com/slackapi/node-slack-events-api/blob/master/.github/contributing.md) and have done my best effort to follow them.
 * [ ] I've read and agree to the [Code of Conduct](https://slackhq.github.io/code-of-conduct).
 * [ ] I've searched for any related issues and avoided creating a duplicate issue.
 

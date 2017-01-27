@@ -35,7 +35,7 @@ Issues labelled `good first contribution`.
 
 For your contribution to be accepted:
 
-- [ ] You must have signed the [Contributor License Agreement (CLA)](https://docs.google.com/a/slack-corp.com/forms/d/1q_w8rlJG_x_xJOoSUMNl7R35rkpA7N6pUkKhfHHMD9c/viewform).
+- [ ] You must have signed the [Contributor License Agreement (CLA)](https://cla-assistant.io/slackapi/node-slack-events-api).
 - [ ] The test suite must be complete and pass.
 - [ ] The changes must be approved by code review.
 - [ ] Commits should be atomic and messages must be descriptive. Related issues should be mentioned by Issue number.
