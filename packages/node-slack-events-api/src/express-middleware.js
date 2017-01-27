@@ -44,6 +44,7 @@ export function createExpressMiddleware(adapter, middlewareOptions = {}) {
   function handleError(error, res, next) {
     if (middlewareOptions.propagateErrors) {
       next(error);
+      return;
     }
     const respond = sendResponse(res);
     if (adapter.waitForResponse) {
