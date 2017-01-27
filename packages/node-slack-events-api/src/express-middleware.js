@@ -63,7 +63,7 @@ export function createExpressMiddleware(adapter, middlewareOptions = {}) {
       return;
     }
 
-    // Handle event challenge
+    // Handle URL verification challenge
     if (req.body.type === 'url_verification') {
       if (req.body.token !== adapter.verificationToken) {
         const error = new Error('Slack event challenge failed.');
@@ -76,7 +76,7 @@ export function createExpressMiddleware(adapter, middlewareOptions = {}) {
       return;
     }
 
-    // Handle event token verification
+    // Handle request token verification
     if (!req.body.token || req.body.token !== adapter.verificationToken) {
       const error = new Error('Slack event verification failed');
       error.code = errorCodes.TOKEN_VERIFICATION_FAILURE;

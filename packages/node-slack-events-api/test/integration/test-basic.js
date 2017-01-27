@@ -51,7 +51,7 @@ describe('when using middleware inside your own express application', function (
       });
   });
 
-  it('should emit a verification error when handling a request with a bad verification token', function (done) {
+  it('should emit a request verification error when handling a request with a bad verification token', function (done) {
     var partiallyComplete = helpers.completionAggregator(done, 2);
     var payload = {
       token: 'NOT_THE_RIGHT_VERIFICATION_TOKEN',
@@ -102,5 +102,31 @@ describe('when using middleware inside your own express application', function (
       });
   });
 
-  it('should forward a challenge request error to the error handler');
+  it('should forward a challenge request error to the error handler', function (done) {
+    var partiallyComplete = helpers.completionAggregator(done, 2);
+    var challenge = 'CHALLENGE_VALUE';
+    var payload = {
+      token: 'NOT_THE_RIGHT_VERIFICATION_TOKEN',
+      challenge: challenge,
+      type: 'url_verification'
+    };
+    this.adapter.on('any_event', function (event) {
+      // If this happens, the test has failed.
+      partiallyComplete(event);
+    });
+    this.adapter.on('error', function (error) {
+      assert(error instanceof Error);
+      assert.equal(error.code, errorCodes.TOKEN_VERIFICATION_FAILURE);
+      assert.deepEqual(error.body, payload);
+      partiallyComplete();
+    });
+    request
+      .post('http://localhost:' + this.port + '/slack')
+      .send(payload)
+      .end(function (err, res) {
+        assert(err instanceof Error);
+        assert.equal(res.statusCode, 500);
+        partiallyComplete();
+      });
+  });
 });
