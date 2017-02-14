@@ -19,9 +19,15 @@ In order to complete the subscription, you will need a **Request URL** that can 
 verification request. This module, combined with the use of a development proxy, can make this
 easier for you.
 
+0.  Force the generation of a Verification Token: If you just created your Slack App, the Basic
+Information section of your configuration will not yet have a Verification Token under App
+Credentials. By visiting the Event Subscriptions section and putting a dummy URL into Request
+URL, you will get a verification failure, but also there will now be a **Verification Token**
+available in the Basic Information section.
+
 1.  Start the verification tool:
 `./node_modules/.bin/slack-verify --token <token> [--path=/event] [--port=3000]`. You will need to
-substitute your own verification token for `<token>`. You may also want to choose your own `path`
+substitute your own Verification Token for `<token>`. You may also want to choose your own `path`
 and/or `port`.
 
 2.  Start your development proxy. We recommend using [ngrok](https://ngrok.com/) for its stability,
@@ -33,8 +39,9 @@ for free.
 
   > With localtunnel: `lt --port 3000 --subdomain <projectname>`
 
-3.  Input your Request URL into the Slack App configuration settings. This URL depends on how you
-used the previous two commands. For example, using the default path and the subdomain name "mybot":
+3.  Input your Request URL into the Slack App configuration settings, in the Event Subscriptions
+section. This URL depends on how you used the previous two commands. For example, using the
+default path and the subdomain name "mybot":
 
   > With ngrok: `https://mybot.ngrok.io/event`
 
@@ -57,9 +64,9 @@ const createSlackEventAdapter = require('@slack/events-api').createSlackEventAda
 const slackEvents = createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN);
 const port = process.env.PORT || 3000;
 
-// Attach listeners to events by Slack Event. See: https://api.slack.com/events/api
-slackEvents.on('message.im', (event)=> {
-  console.log(`Received a DM event: user ${event.user} in channel ${event.channel} says ${event.text}`);
+// Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
+slackEvents.on('message', (event)=> {
+  console.log(`Received a message event: user ${event.user} in channel ${event.channel} says ${event.text}`);
 });
 
 // Start a basic HTTP server
@@ -67,6 +74,9 @@ slackEvents.start(port).then(() => {
   console.log(`server listening on port ${port}`);
 });
 ```
+
+**NOTE**: To use the example above, you need to add a Team Event such as `message.im` in the Event
+Subscriptions section of your Slack App configuration settings.
 
 ### Using with Express
 
@@ -93,9 +103,9 @@ app.use(bodyParser.json());
 // NOTE: you must mount to a path that matches the Request URL that was configured earlier
 app.use('/event', slackEvents.expressMiddleware());
 
-// Attach listeners to events by Slack Event. See: https://api.slack.com/events/api
-slackEvents.on('message.im', (event)=> {
-  console.log(`Received a DM event: user ${event.user} in channel ${event.channel} says ${event.text}`);
+// Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
+slackEvents.on('message', (event)=> {
+  console.log(`Received a message event: user ${event.user} in channel ${event.channel} says ${event.text}`);
 });
 
 // Start the express application
@@ -103,6 +113,9 @@ http.createServer(app).listen(port, () => {
   console.log(`server listening on port ${port}`);
 });
 ```
+
+**NOTE**: To use the example above, you need to add a Team Event such as `message.im` in the Event
+Subscriptions section of your Slack App configuration settings.
 
 ## Documentation
 
