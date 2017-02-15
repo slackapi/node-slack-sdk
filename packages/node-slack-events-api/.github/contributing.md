@@ -35,10 +35,10 @@ Issues labelled `good first contribution`.
 
 For your contribution to be accepted:
 
-- [ ] You must have signed the [Contributor License Agreement (CLA)](https://cla-assistant.io/slackapi/node-slack-events-api).
-- [ ] The test suite must be complete and pass.
-- [ ] The changes must be approved by code review.
-- [ ] Commits should be atomic and messages must be descriptive. Related issues should be mentioned by Issue number.
+- [x] You must have signed the [Contributor License Agreement (CLA)](https://cla-assistant.io/slackapi/node-slack-events-api).
+- [x] The test suite must be complete and pass.
+- [x] The changes must be approved by code review.
+- [x] Commits should be atomic and messages must be descriptive. Related issues should be mentioned by Issue number.
 
 If the contribution doesn't meet the above criteria, a maintainer should discuss it with you. You can
 continue improve a Pull Request by adding commits to the branch from which the PR was created.
