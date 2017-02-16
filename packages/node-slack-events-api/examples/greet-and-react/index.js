@@ -18,6 +18,9 @@ const slackEvents = slackEventsApi.createSlackEventAdapter(process.env.SLACK_VER
 const botAuthorizations = {}
 
 // Helpers to cache and lookup appropriate client
+// NOTE: Not enterprise-ready. if the event was triggered inside a shared channel, this lookup
+// could fail but there might be a suitable client from one of the other teams that is within that
+// shared channel.
 const clients = {};
 function getClientByTeamId(teamId) {
   if (!clients[teamId] && botAuthorizations[teamId]) {
