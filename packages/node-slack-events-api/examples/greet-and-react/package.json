@@ -1,6 +1,6 @@
 {
   "name": "@slack/events-api-example-greet-and-react",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "description": "A basic example of using the Slack Events API Adapter for Node",
   "main": "index.js",
@@ -12,7 +12,7 @@
   "dependencies": {
     "@aoberoi/passport-slack": "^1.0.5",
     "@slack/client": "^3.8.1",
-    "@slack/events-api": "^1.0.0-beta.2",
+    "@slack/events-api": "^1.0.0",
     "body-parser": "^1.16.1",
     "dotenv": "^4.0.0",
     "express": "^4.14.1",
