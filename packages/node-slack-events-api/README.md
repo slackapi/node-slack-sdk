@@ -26,9 +26,9 @@ URL, you will get a verification failure, but also there will now be a **Verific
 available in the Basic Information section.
 
 1.  Start the verification tool:
-`./node_modules/.bin/slack-verify --token <token> [--path=/event] [--port=3000]`. You will need to
-substitute your own Verification Token for `<token>`. You may also want to choose your own `path`
-and/or `port`.
+`./node_modules/.bin/slack-verify --token <token> [--path=/slack/events] [--port=3000]`. You will
+need to substitute your own Verification Token for `<token>`. You may also want to choose your own
+`path` and/or `port`.
 
 2.  Start your development proxy. We recommend using [ngrok](https://ngrok.com/) for its stability,
 but using a custom subdomain will require a paid plan. Otherwise,
@@ -43,9 +43,9 @@ for free.
 section. This URL depends on how you used the previous two commands. For example, using the
 default path and the subdomain name "mybot":
 
-  > With ngrok: `https://mybot.ngrok.io/event`
+  > With ngrok: `https://mybot.ngrok.io/slack/events`
 
-  > With localtunnel: `https://mybot.localtunnel.me/event`
+  > With localtunnel: `https://mybot.localtunnel.me/slack/events`
 
 4.  Once the verification is complete, you can terminate the two processes (verification tool and
 development server). You can proceed to selecting the event types your App needs.
@@ -101,7 +101,7 @@ app.use(bodyParser.json());
 
 // Mount the event handler on a route
 // NOTE: you must mount to a path that matches the Request URL that was configured earlier
-app.use('/event', slackEvents.expressMiddleware());
+app.use('/slack/events', slackEvents.expressMiddleware());
 
 // Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
 slackEvents.on('message', (event)=> {

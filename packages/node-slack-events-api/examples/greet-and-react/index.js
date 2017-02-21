@@ -65,7 +65,7 @@ app.get('/auth/slack/callback',
 );
 
 // *** Plug the event adapter into the express app as middleware ***
-app.use('/event', slackEvents.expressMiddleware());
+app.use('/slack/events', slackEvents.expressMiddleware());
 
 // *** Attach listeners to the event adapter ***
 

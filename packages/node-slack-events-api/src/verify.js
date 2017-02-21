@@ -14,7 +14,7 @@ const argv = yargs
     path: {
       alias: 'p',
       describe: 'The path (part of URL after hostname and port) that resolves to your Request URL in the App management page',
-      default: '/event',
+      default: '/slack/events',
       type: 'string',
     },
     port: {

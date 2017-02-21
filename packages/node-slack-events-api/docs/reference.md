@@ -61,7 +61,7 @@ errors, but instead invokes `next(error)` so that your next route handler can se
 #### start(_port_)
 
 This method is a convenience API that will create an HTTP server, set it up to receive requests
-from the Slack Events API at the default path of `/event`, and start listening on a port. It
+from the Slack Events API at the default path of `/slack/events`, and start listening on a port. It
 returns a Promise that resolves when the server is listening.
 
 #### createServer([_path_])
@@ -69,5 +69,5 @@ returns a Promise that resolves when the server is listening.
 This method returns a Promise for an
 [`http.Server`](https://nodejs.org/dist/latest-v4.x/docs/api/http.html#http_class_http_server). The
 server will already be setup to receive requests from the Slack Events API at the default path of
-`/event`. A specific path can be set using the `path` argument. You can start it by calling the
-`listen()` method on the server.
+`/slack/events`. A specific path can be set using the `path` argument. You can start it by calling
+the `listen()` method on the server.

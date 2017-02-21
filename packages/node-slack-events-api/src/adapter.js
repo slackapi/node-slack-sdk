@@ -18,7 +18,7 @@ export default class SlackEventAdapter extends EventEmitter {
   }
 
   // TODO: options (like https)
-  createServer(path = '/event') {
+  createServer(path = '/slack/events') {
     // NOTE: this is a workaround for a shortcoming of the System.import() tranform
     return Promise.resolve().then(() => Promise.all([
       System.import('express'),
