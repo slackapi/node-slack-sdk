@@ -3,6 +3,11 @@
 [![Build Status](https://travis-ci.org/slackapi/node-slack-events-api.svg?branch=master)](https://travis-ci.org/slackapi/node-slack-events-api)
 [![codecov](https://codecov.io/gh/slackapi/node-slack-events-api/branch/master/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-events-api)
 
+This adapter enhances and simplifies Slack's Events API by incorporating useful best practices,
+patterns, and opportunities to abstract out common tasks.
+
+[We wrote a blog that explains how the Events API can help you, why we built these tools, and how you can use them to build production-ready Slack apps.](https://medium.com/@SlackAPI/enhancing-slacks-events-api-7535827829ab)
+
 ## Installation
 
 ```
@@ -123,7 +128,7 @@ To learn more, see the [reference documentation](docs/reference.md).
 
 ## Support
 
-Need help? Join [dev4slack](http://dev4slack.xoxco.com/) and talk to us in
+Need help? Join the [Bot Developer Hangout](http://dev4slack.xoxco.com/) team and talk to us in
 [#slack-api](https://dev4slack.slack.com/messages/slack-api/).
 
 You can also [create an Issue](https://github.com/slackapi/node-slack-events-api/issues/new)
