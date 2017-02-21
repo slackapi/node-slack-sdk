@@ -6,7 +6,9 @@
 This adapter enhances and simplifies Slack's Events API by incorporating useful best practices,
 patterns, and opportunities to abstract out common tasks.
 
-[We wrote a blog that explains how the Events API can help you, why we built these tools, and how you can use them to build production-ready Slack apps.](https://medium.com/@SlackAPI/enhancing-slacks-events-api-7535827829ab)
+We wrote a blog that [explains how](https://medium.com/@SlackAPI/enhancing-slacks-events-api-7535827829ab)
+the Events API can help you, why we built these tools, and how you can use them to build
+production-ready Slack apps.
 
 ## Installation
 
