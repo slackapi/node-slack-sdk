@@ -60,7 +60,6 @@ can do that by sending a message over the RTM connection as such.
 ```js
 var RtmClient = require('@slack/client').RtmClient;
 var RTM_CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS.RTM;
-var RTM_EVENTS = require('@slack/client').RTM_EVENTS;
 
 var bot_token = process.env.SLACK_BOT_TOKEN || '';
 
