@@ -1,7 +1,10 @@
 import EventEmitter from 'events';
 import http from 'http';
 import isString from 'lodash.isstring';
+import debugFactory from 'debug';
 import { createExpressMiddleware } from './express-middleware';
+
+const debug = debugFactory('@slack/events-api:adapter');
 
 export default class SlackEventAdapter extends EventEmitter {
   constructor(verificationToken, options = {}) {
@@ -15,6 +18,12 @@ export default class SlackEventAdapter extends EventEmitter {
     this.includeBody = !!options.includeBody || false;
     this.includeHeaders = !!options.includeHeaders || false;
     this.waitForResponse = !!options.waitForResponse || false;
+
+    debug('adapter instantiated - options: %o', {
+      includeBody: this.includeBody,
+      includeHeaders: this.includeHeaders,
+      waitForResponse: this.waitForResponse,
+    });
   }
 
   // TODO: options (like https)
@@ -37,6 +46,8 @@ export default class SlackEventAdapter extends EventEmitter {
       app.use(bodyParser.json());
       app.post(path, this.expressMiddleware());
 
+      debug('server created - path: %s', path);
+
       return http.createServer(app);
     });
   }
@@ -46,6 +57,7 @@ export default class SlackEventAdapter extends EventEmitter {
       .then(server => new Promise((resolve, reject) => {
         server.on('error', reject);
         server.listen(port, () => resolve(server));
+        debug('server started - port: %s', port);
       }));
   }
 

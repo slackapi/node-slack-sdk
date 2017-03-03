@@ -48,6 +48,7 @@
     "superagent": "^3.3.1"
   },
   "dependencies": {
+    "debug": "^2.6.1",
     "lodash.isstring": "^4.0.1",
     "yargs": "^6.6.0"
   }
