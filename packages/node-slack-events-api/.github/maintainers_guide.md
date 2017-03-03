@@ -89,7 +89,7 @@ Labels are used to run issues through an organized workflow. Here are the basic 
 *  `docs`: An issue that is purely about documentation work.
 *  `tests`: An issue that is purely about testing work.
 *  `needs feedback`: An issue that may have claimed to be a bug but was not reproducible, or was otherwise missing some information.
-*  `discussion`: An issue that is purely meant to hold a discussion. Typically the maintainers are looking for feedback in this issues.
+*  `discussion`: An issue that is purely meant to hold a discussion. Typically the maintainers are looking for feedback in this issue.
 *  `question`: An issue that is like a support request because the user's usage was not correct.
 *  `semver:major|minor|patch`: Metadata about how resolving this issue would affect the version number.
 *  `security`: An issue that has special consideration for security reasons.

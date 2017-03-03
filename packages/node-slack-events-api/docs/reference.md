@@ -39,7 +39,7 @@ parsed body of the HTTP request. This can be useful to get additional context su
 `api_app_id`, and more. Similarly, if you initialized the adapter using the `includeHeaders` option,
 the next argument will be an object with key-value pairs for the headers in the HTTP request.
 
-If you initialize the adapter ueing the `waitForResponse` option, an additional callback argument,
+If you initialize the adapter using the `waitForResponse` option, an additional callback argument,
 `respond()`, will be emitted with your events. When using this option, the adapter will not respond
 to HTTP requests until you have invoked the callback. The callback has a signature of
 `respond(error, responseOptions)`. If you want to respond with a general failure, you should set the
@@ -48,7 +48,10 @@ that Slack should not retry that request, you should set `responseOptions.failWi
 truthy value. If you want Slack to send the request to a different URL, you should set the
 value of `responseOptions.redirectLocation` to the URL you want. Lastly, if you'd like to
 set the body of the response, you should set the `responseOptions.content` value to a String of
-body content.
+body content. EventEmitters allow you to add many handlers, but it's recommended when using the
+`waitForResponse` option that you only have one handler on each event type. You should always handle
+the `error` event too. It's your application's responsibility to make sure that the `respond()`
+callback is invoked exactly once.
 
 #### expressMiddleware([_options_])
 
