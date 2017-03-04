@@ -55,10 +55,28 @@ export default class SlackEventAdapter extends EventEmitter {
   start(port) {
     return this.createServer()
       .then(server => new Promise((resolve, reject) => {
+        this.server = server;
         server.on('error', reject);
         server.listen(port, () => resolve(server));
         debug('server started - port: %s', port);
       }));
+  }
+
+  stop() {
+    return new Promise((resolve, reject) => {
+      if (this.server) {
+        this.server.close((error) => {
+          delete this.server;
+          if (error) {
+            reject(error);
+          } else {
+            resolve();
+          }
+        });
+      } else {
+        reject(new Error('SlackEventAdapter cannot stop when it did not start a server'));
+      }
+    });
   }
 
   expressMiddleware(middlewareOptions = {}) {
