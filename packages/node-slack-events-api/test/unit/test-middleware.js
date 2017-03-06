@@ -2,6 +2,7 @@ var assert = require('assert');
 var systemUnderTest = require('../../dist/express-middleware');
 var createExpressMiddleware = systemUnderTest.createExpressMiddleware;
 var errorCodes = systemUnderTest.errorCodes;
+var noop = require('nop');
 
 // NOTE: Unit testing the middleware module is not very effective because mocking its dependencies
 // beyond just the trivial cases requires too much effort. Instead of depending on thorough unit
@@ -37,6 +38,9 @@ describe('expressMiddleware', function () {
       }
     };
     var res = {
+      set: noop,
+      send: noop,
+      on: noop
     };
     function next() {
       assert(false);
