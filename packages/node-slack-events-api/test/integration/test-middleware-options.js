@@ -4,8 +4,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var request = require('superagent');
 var createSlackEventAdapter = require('../../dist').createSlackEventAdapter;
-
-var helpers = require('../helpers');
+var noop = require('nop');
 
 describe('when using middleware propogate errors option', function () {
   beforeEach(function (done) {
@@ -26,7 +25,6 @@ describe('when using middleware propogate errors option', function () {
   });
 
   it('should propogate errors to express error handlers', function (done) {
-    var partiallyComplete = helpers.completionAggregator(done, 2);
     var payload = {
       token: 'NOT_THE_RIGHT_VERIFICATION_TOKEN',
       event: {}
@@ -34,13 +32,16 @@ describe('when using middleware propogate errors option', function () {
     this.app.use(function (err, req, res, next) { // eslint-disable-line no-unused-vars
       assert(err instanceof Error);
       res.sendStatus(500);
-      partiallyComplete();
+      done();
+    });
+    this.adapter.on('error', function (error) {
+      // If this happens, the test has failed
+      assert(false);
+      done(error);
     });
     request
       .post('http://localhost:' + this.port + '/slack')
       .send(payload)
-      .end(function () {
-        partiallyComplete();
-      });
+      .end(noop);
   });
 });
