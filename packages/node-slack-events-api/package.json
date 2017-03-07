@@ -47,7 +47,8 @@
     "nop": "^1.0.0",
     "nyc": "^10.0.0",
     "proxyquire": "^1.7.10",
-    "superagent": "^3.3.1"
+    "superagent": "^3.3.1",
+    "uncaughtException": "^1.0.0"
   },
   "dependencies": {
     "debug": "^2.6.1",

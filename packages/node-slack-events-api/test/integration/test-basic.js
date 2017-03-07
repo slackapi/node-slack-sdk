@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var request = require('superagent');
 var createSlackEventAdapter = require('../../dist').createSlackEventAdapter;
 var errorCodes = require('../../dist').errorCodes;
+var uncaughtException = require('uncaughtException');
 
 var helpers = require('../helpers');
 
@@ -127,6 +128,38 @@ describe('when using middleware inside your own express application', function (
         assert(err instanceof Error);
         assert.equal(res.statusCode, 500);
         partiallyComplete();
+      });
+  });
+
+  it('should emit errors from the user\'s handler from the process when there is no error handler', function (done) {
+    var partiallyComplete = helpers.completionAggregator(done, 2);
+    var payload = {
+      token: this.verificationToken,
+      event: {
+        type: 'any_event',
+        key: 'value',
+        foo: 'baz'
+      }
+    };
+    this.adapter.on('any_event', function () {
+      // This is the error that should eventually be emitted on process
+      throw new Error('user error');
+    });
+    uncaughtException(function (error) {
+      assert(error instanceof Error);
+      assert.equal(error.message, 'user error');
+      partiallyComplete();
+    });
+    request
+      .post('http://localhost:' + this.port + '/slack')
+      .send(payload)
+      .end(function (err, res) {
+        if (err) {
+          partiallyComplete(err);
+        } else {
+          assert.equal(res.statusCode, 200);
+          partiallyComplete();
+        }
       });
   });
 });

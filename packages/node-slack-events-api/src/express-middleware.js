@@ -69,11 +69,15 @@ export function createExpressMiddleware(adapter, middlewareOptions = {}) {
       next(error);
       return;
     }
-    if (adapter.waitForResponse) {
-      adapter.emit('error', error, respond);
-    } else {
-      adapter.emit('error', error);
-      respond(error);
+    try {
+      if (adapter.waitForResponse) {
+        adapter.emit('error', error, respond);
+      } else {
+        adapter.emit('error', error);
+        respond(error);
+      }
+    } catch (userError) {
+      process.nextTick(() => { throw userError; });
     }
   }
 
