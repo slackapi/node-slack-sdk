@@ -72,9 +72,12 @@ const slackEvents = createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN
 const port = process.env.PORT || 3000;
 
 // Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
-slackEvents.on('message', (event)=> {
+slackEvents.on('message', (event) => {
   console.log(`Received a message event: user ${event.user} in channel ${event.channel} says ${event.text}`);
 });
+
+// Handle errors (see `errorCodes` export)
+slackEvents.on('error', console.error);
 
 // Start a basic HTTP server
 slackEvents.start(port).then(() => {
@@ -114,6 +117,9 @@ app.use('/slack/events', slackEvents.expressMiddleware());
 slackEvents.on('message', (event)=> {
   console.log(`Received a message event: user ${event.user} in channel ${event.channel} says ${event.text}`);
 });
+
+// Handle errors (see `errorCodes` export)
+slackEvents.on('error', console.error);
 
 // Start the express application
 http.createServer(app).listen(port, () => {
