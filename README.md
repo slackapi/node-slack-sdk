@@ -46,11 +46,11 @@ var url = process.env.SLACK_WEBHOOK_URL || ''; //see section above on sensitive 
 
 var webhook = new IncomingWebhook(url);
 
-webhook.send('Hello there', function(err, res) {
+webhook.send('Hello there', function(err, header, statusCode, body) {
     if (err) {
         console.log('Error:', err);
     } else {
-        console.log('Message sent: ', res);
+        console.log('Received', statusCode, 'from Slack');
     }
 });
 ```
