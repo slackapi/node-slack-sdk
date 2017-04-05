@@ -16,5 +16,5 @@ export function packageIdentifier(addons = {}) {
     [`${os.platform()}`]: os.release(),
     node: process.version.replace('v', ''),
   }, addons);
-  return identifierMap.keys().reduce((acc, k) => `${acc} ${escape(k)}/${escape(identifierMap[k])}`, '');
+  return Object.keys(identifierMap).reduce((acc, k) => `${acc} ${escape(k)}/${escape(identifierMap[k])}`, '');
 }

@@ -34,7 +34,7 @@ function formatMatchingConstraints(matchingConstraints) {
  */
 function validateConstraints(matchingConstraints) {
   if (matchingConstraints.callbackId &&
-      !(isString(matchingConstraints) || isRegExp(matchingConstraints))) {
+      !(isString(matchingConstraints.callbackId) || isRegExp(matchingConstraints.callbackId))) {
     return new TypeError('Callback ID must be a string or RegExp');
   }
 
@@ -64,7 +64,6 @@ export default class SlackMessageAdapter {
    * @param {string} verificationToken - Slack app verification token used to authenticate request
    */
   constructor(verificationToken) {
-    // TODO: need includeHeaders option?
     if (!isString(verificationToken)) {
       throw new TypeError('SlackMessageAdapter needs a verification token');
     }
@@ -176,6 +175,10 @@ export default class SlackMessageAdapter {
   dispatch(payload) {
     const action = payload.actions && payload.actions[0];
     let result = { status: 200 };
+    const respond = (message) => {
+      debug('sending async response');
+      return this.axios.post(payload.response_url, message);
+    };
 
     this.callbacks.some(([constraints, fn]) => {
       // Returning false in this function continues the iteration, and returning true ends it.
@@ -206,7 +209,7 @@ export default class SlackMessageAdapter {
       }
 
       try {
-        callbackResult = fn.call(this, payload);
+        callbackResult = fn.call(this, payload, respond);
       } catch (error) {
         result = { status: 500 };
         return true;
@@ -215,17 +218,18 @@ export default class SlackMessageAdapter {
       if (callbackResult) {
         // Checking for Promise type
         if (typeof callbackResult.then === 'function') {
-          callbackResult
-            .then(asyncResult => this.axios.post(payload.response_url, asyncResult))
-            .catch(error => debug('async error for callback. callback_id: %s, error: %s', payload.callback_id, error.message));
+          callbackResult.then(respond).catch((error) => {
+            debug('async error for callback. callback_id: %s, error: %s',
+                  payload.callback_id, error.message);
+          });
           return true;
         }
-        result = { status: 200, content: JSON.stringify(callbackResult) };
+        result = { status: 200, content: callbackResult };
         return true;
       }
       return true;
     });
 
-    return result;
+    return Promise.resolve(result);
   }
 }

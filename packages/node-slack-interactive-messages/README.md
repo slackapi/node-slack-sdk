@@ -11,10 +11,10 @@ app.use('/slack/actions', slackMessages.expressMiddleware());
 
 // when the first param is a string, match an action by callback_id
 // returns `this` so that these action registrations are chainable
-slackMessages.action('welcome_button', (action) => {
+slackMessages.action('welcome_button', (payload) => {
   // the `action` arg is the entire payload from the HTTP request
   // return a value or a Promise for a value describing a message for replacement
-  //   if the value is falsy or promise resolves to anything falsy, do nothing (no replacement)
+  //   if the value is falsy or promise, do nothing (no replacement)
   //   if the value is a JSON object, return it in the HTTP response for replacement
   //   if the promise resolves to a JSON object, send it for replacement using the `response_url`
   //   if the promise rejects or there is a synchronous throw, the response is 500 Internal Server Error
@@ -29,7 +29,7 @@ slackMessages.action(/success_\d+/, () => {});
 //   type: 'button'|'select',
 //   unfurl: boolean,
 // }
-slackMessages.action({ type: 'button', unfurl: true }, (action) => {
+slackMessages.action({ type: 'button', unfurl: true }, (payload) => {
   // if the action was an unfurl, the Promise that is returned should be for an attachment as opposed to a whole message
 });
 
@@ -37,6 +37,48 @@ slackMessages.action({ type: 'button', unfurl: true }, (action) => {
 slackMessages.options('ticket_menu', (selection) => {
   // return a value or a Promise for a set of options (same rules as .action())
 });
+
+// when you want to progressively update the message
+slackMessage.action('analyze', (payload, respond) => {
+  let hasCompleted = false;
+
+  // call the respond function with a JSON object for the message
+  doAnalysis(payload)
+    .then(buildMessage)
+    .then(respond)
+    // respond will return a Promise that resolves to a response object on success
+    .then((response) => {
+      hasCompleted = true;
+      // response contains properties data, status, statusText, headers
+      console.log(response);
+    });
+    .catch((error) => {
+      hasCompleted = true;
+      const message = {
+        text: 'Analysis failed',
+      };
+      // error may contain a response property
+      if (error.response) {
+        message.text += '\nServer Error Status Code:' + error.response.status;
+      }
+      respond(message);
+    });
+
+  setTimeout(() => {
+    // you can use the respond function more than once
+    if (!hasCompleted) {
+      respond({
+        text: 'Still analyzing... :speech_balloon:'
+      });
+    }
+  }, 4000);
+
+  return {
+    text: 'Analysis in progress... :speech_balloon:'
+  };
+});
+
+// make if very clear that only the first matching callback gets invoked
 
 // TODO: api to inspect action handlers? api to remove action handlers?
 // TODO: do we need options for name or value matching/routing? slapp has these

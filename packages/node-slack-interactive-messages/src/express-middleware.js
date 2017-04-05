@@ -47,6 +47,11 @@ export function createExpressMiddleware(adapter) {
       return;
     }
 
+    if (req.body.ssl_check) {
+      respond({ status: 200 });
+      return;
+    }
+
     const payload = JSON.parse(req.body.payload);
 
     // Handle request token verification

@@ -3,6 +3,6 @@ import SlackMessageAdapter from './adapter';
 
 export const errorCodes = middlewareErrorCodes;
 
-export function createSlackMessageAdapter(verificationToken, options) {
+export function createMessageAdapter(verificationToken, options) {
   return new SlackMessageAdapter(verificationToken, options);
 }
