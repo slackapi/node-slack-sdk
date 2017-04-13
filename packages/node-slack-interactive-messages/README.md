@@ -1,8 +1,7 @@
-# Slack interactive message adapter for Node and Express
+# Interactive Message Adapter for Node and Express
 
-The adapter provides a simplified API to route message actions and options requests in an
-application. It handles common tasks (JSON decoding) and best practices (token verification) so that
-you don't need to.
+The adapter provides a simplified API to route message actions and options in your app. It handles
+common tasks (JSON decoding) and best practices (token verification) so that you don't need to.
 
 ## Installation
 
@@ -206,6 +205,9 @@ You can also [create an Issue](https://github.com/slackapi/node-slack-events-api
 right here on GitHub.
 
 **TODO** help setting up action URL and/or options URL.
+
 **TODO** mention falsy returns do no replacement in reference docs
+
 **TODO** open an issue to discuss adding API for inspection or removal of action/option handlers
+
 **TODO** open an issue to discuss if we need options for name or value matching/routing? slapp has these
