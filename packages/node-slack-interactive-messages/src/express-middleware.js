@@ -15,19 +15,23 @@ export function createExpressMiddleware(adapter) {
   function sendResponse(res) {
     return function _sendResponse({ status, content }) {
       debug('sending response - status: %s, content: %o', status, content);
-      res.status(status);
-      res.set('X-Slack-Powered-By', poweredBy);
-      if (content) {
-        res.json(content);
-      } else {
-        res.end();
-      }
-      res.on('finish', () => {
-        // res._headers is an undocumented property, but we feel comfortable using it because:
-        // 1. express depends on it and express is so foundational in node
-        // 2. this is logging code and the risk of this causing a break is minimal
-        // eslint-disable-next-line no-underscore-dangle
-        debug('response finished - status: %d, headers: %o', res.statusCode, res._headers);
+      return new Promise((resolve, reject) => {
+        res.status(status);
+        res.set('X-Slack-Powered-By', poweredBy);
+        if (content) {
+          res.json(content);
+        } else {
+          res.end();
+        }
+        res.on('finish', () => {
+          // res._headers is an undocumented property, but we feel comfortable using it because:
+          // 1. express depends on it and express is so foundational in node
+          // 2. this is logging code and the risk of this causing a break is minimal
+          // eslint-disable-next-line no-underscore-dangle
+          debug('response finished - status: %d, headers: %o', res.statusCode, res._headers);
+          resolve(res);
+        });
+        res.on('error', reject);
       });
     };
   }
@@ -64,8 +68,7 @@ export function createExpressMiddleware(adapter) {
     }
     debug('request token verification success');
 
-    adapter.dispatch(payload)
-      .then(respond)
+    respond(adapter.dispatch(payload))
       .catch(next);
   };
 }

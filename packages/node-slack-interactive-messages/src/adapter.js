@@ -211,6 +211,7 @@ export default class SlackMessageAdapter {
       try {
         callbackResult = fn.call(this, payload, respond);
       } catch (error) {
+        debug('callback error: %o', error);
         result = { status: 500 };
         return true;
       }
@@ -230,6 +231,6 @@ export default class SlackMessageAdapter {
       return true;
     });
 
-    return Promise.resolve(result);
+    return result;
   }
 }
