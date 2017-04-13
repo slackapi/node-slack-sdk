@@ -12,20 +12,21 @@ $ npm install --save @slack/interactive-messages express
 ## Configuration
 
 Before you can use [interactive messages](https://api.slack.com/interactive-messages) you must
-[create a Slack App](https://api.slack.com/apps/new), and configure an action URL. If your app will
-use dynamic menus, you also need to configure an options URL.
+[create a Slack App](https://api.slack.com/apps/new), and configure an interactive message request
+URL. If your app will use dynamic menus, you also need to configure an options URL.
 
-![Configuring an action URL](support/interactive-messages.gif)
+![Configuring a request URL](support/interactive-messages.gif)
 
 ### Getting a temporary URL for development
 
-If you're just getting started with development, you may not have a publiclly accessible URL for
+If you're just getting started with development, you may not have a publicly accessible URL for
 your app. We recommend using a development proxy, such as [ngrok](https://ngrok.com/) or
 [localtunnel](https://localtunnel.github.io/www/), to generate a URL that can forward requests to
 your local machine. Once you've installed the development proxy of your choice, run it to begin
 forwarding requests to a specific port (for example, 3000).
 
 > ngrok: `ngrok http 3000`
+
 > localtunnel: `lt --port 3000`
 
 ![Starting a development proxy](support/ngrok.gif)
@@ -34,9 +35,9 @@ The output should show you a newly generated URL that you can use (ngrok will ac
 and we recommend the one that begins with "https"). Let's call this the base URL (for example,
 `https://d9f6dad3.ngrok.io`)
 
-To create an action URL, we add the path where our app listens for message actions onto the end of
+To create the request URL, we add the path where our app listens for message actions onto the end of
 the base URL. This will depend on your app, but if you are using the built-in HTTP server, the
-path is `/slack/actions`. In this example the action URL would be
+path is `/slack/actions`. In this example the request URL would be
 `https://d9f6dad3.ngrok.io/slack/actions`.
 
 ## Usage
