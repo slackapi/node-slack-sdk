@@ -38,7 +38,10 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.3",
+    "get-random-port": "0.0.1",
     "mocha": "^3.2.0",
-    "nyc": "^10.1.2"
+    "nop": "^1.0.0",
+    "nyc": "^10.1.2",
+    "proxyquire": "^1.7.11"
   }
 }
