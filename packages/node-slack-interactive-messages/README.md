@@ -3,6 +3,14 @@
 The adapter provides a simplified API to route message actions and options in your app. It handles
 common tasks and best practices so that you don't need to.
 
+*  [Installation](#installation)
+*  [Configuration](#configuration)
+*  [Usage](#usage)
+*  [Documentation](#documentation)
+*  [Support](#support)
+
+---
+
 ## Installation
 
 ```
