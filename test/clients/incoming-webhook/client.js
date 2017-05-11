@@ -19,6 +19,7 @@ describe('Incoming Webhook', function () {
         username: 'a bot name',
         iconEmoji: ':robot_face:',
         channel: 'channel-name',
+        linkNames: '1',
         text: 'some text'
       };
       var wh = new IncomingWebhook('slackWebhookUrl', opts);
@@ -26,6 +27,7 @@ describe('Incoming Webhook', function () {
       expect(wh.defaults.username).to.equal(opts.username);
       expect(wh.defaults.iconEmoji).to.equal(opts.iconEmoji);
       expect(wh.defaults.channel).to.equal(opts.channel);
+      expect(wh.defaults.linkNames).to.equal(opts.linkNames);
       expect(wh.defaults.text).to.equal(opts.text);
     });
 
@@ -166,7 +168,8 @@ describe('Incoming Webhook', function () {
           text: 'Some text',
           username: 'A username',
           channel: 'a-channel',
-          iconEmoji: ':robot_face:'
+          iconEmoji: ':robot_face:',
+          linkNames: '1'
         }, function () {
           expect(transport.calledOnce).to.equal(true);
           expect(transport.calledWithMatch({
@@ -174,7 +177,8 @@ describe('Incoming Webhook', function () {
               text: 'Some text',
               username: 'A username',
               channel: 'a-channel',
-              icon_emoji: ':robot_face:'
+              icon_emoji: ':robot_face:',
+              link_names: '1'
             }
           })).to.equal(true);
 
