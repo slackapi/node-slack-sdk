@@ -99,11 +99,14 @@ The timer repeatedly pinging the server to let it know the client is still alive
 <a name="RTMClient+start"></a>
 
 ### rtmClient.start(opts)
+Begin an RTM session.
+
 **Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
 
-| Param | Type |
-| --- | --- |
-| opts | <code>object</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| opts | <code>object</code> |  |
+| opts.useConnect | <code>boolean</code> | True to use `rtm.connect` rather than `rtm.start` |
 
 <a name="RTMClient+login"></a>
 
