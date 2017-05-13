@@ -1,0 +1,13 @@
+{
+    "ok": true,
+    "url": "ws://localhost:5225",
+    "team": {
+        "id": "T02QYTVLG",
+        "name": "SF UTES",
+        "domain": "sfutes"
+    },
+    "self": {
+        "id": "U02QYTVLJ",
+        "name": "hess"
+    }
+}

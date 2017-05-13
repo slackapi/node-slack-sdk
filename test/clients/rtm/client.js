@@ -5,6 +5,7 @@ var sinon = require('sinon');
 
 var RTM_CLIENT_EVENTS = require('../../../lib/clients/events/client').RTM;
 var RTM_JSON = require('../../fixtures/rtm.start.json');
+var RTM_CONNECT_JSON = require('../../fixtures/rtm.connect.json');
 var RtmAPIClient = require('../../../lib/clients/rtm/client');
 var MockWSServer = require('../../utils/mock-ws-server');
 
@@ -17,12 +18,15 @@ describe('RTM API Client', function () {
 
   describe('reconnection logic', function () {
 
-    var setUpTest = function (wssPort, fakeSlackUrl) {
-      var rtmFixture = lodash.cloneDeep(RTM_JSON);
+    var setUpTest = function (wssPort, fakeSlackUrl, useConnect) {
+      var rtmFixture = useConnect
+        ? lodash.cloneDeep(RTM_CONNECT_JSON)
+        : lodash.cloneDeep(RTM_JSON);
+
       rtmFixture.url = 'ws://localhost:' + wssPort;
 
       nock(fakeSlackUrl)
-        .post('/rtm.start')
+        .post(useConnect ? '/rtm.connect' : '/rtm.start')
         .times(2)
         .reply(200, rtmFixture);
 
@@ -116,6 +120,26 @@ describe('RTM API Client', function () {
       };
 
       testReconnectionLogic(onFirstConn, onSecondConnFn, { reconnectionBackoff: 1 }, 5224, done);
+    });
+
+
+    it('should support connecting to a socket via rtm.connect', function (done) {
+      var rtm;
+      var useConnect = true;
+      var wssPort = 5225;
+      var fakeSlackUrl = 'https://slack.com:' + wssPort + '/api';
+
+      setUpTest(wssPort, fakeSlackUrl, useConnect);
+      rtm = createRtmClient({ slackAPIUrl: fakeSlackUrl });
+      rtm.start({ useConnect: useConnect });
+
+      rtm.on(RTM_CLIENT_EVENTS.AUTHENTICATED, function (data) {
+        expect(data.self.id).to.equal('U02QYTVLJ');
+        expect(data.team.id).to.equal('T02QYTVLG');
+        expect(data.channels).to.equal(undefined);
+        expect(data.users).to.equal(undefined);
+        done();
+      });
     });
 
   });
