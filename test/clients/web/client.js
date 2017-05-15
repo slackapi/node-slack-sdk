@@ -123,7 +123,6 @@ describe('Web API Client', function () {
       });
       sinon.spy(client, 'transport');
 
-
       client._makeAPICall('test', {}, null, function () {
         expect(client.transport.callCount).to.equal(2);
         done();
