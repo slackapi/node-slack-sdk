@@ -45,6 +45,7 @@ permalink: /reference/RTMClient
 | opts.socketFn | <code>function</code> | A function to call, passing in a websocket URL, that should     return a websocket instance connected to that URL. |
 | opts.dataStore | <code>object</code> | A store to cache Slack info, e.g. channels, users etc. in.     If you don't want a store, pass false or null as the value for this. |
 | opts.autoReconnect | <code>boolean</code> | Whether or not to automatically reconnect when the connection     closes. |
+| opts.useRtmConnect | <code>boolean</code> | True to use rtm.connect rather than rtm.start |
 | opts.maxReconnectionAttempts | <code>number</code> |  |
 | opts.reconnectionBackoff | <code>number</code> |  |
 | opts.wsPingInterval | <code>number</code> |  |
@@ -103,10 +104,9 @@ Begin an RTM session.
 
 **Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| opts | <code>object</code> |  |
-| opts.useConnect | <code>boolean</code> | True to use `rtm.connect` rather than `rtm.start` |
+| Param | Type |
+| --- | --- |
+| opts | <code>object</code> | 
 
 <a name="RTMClient+login"></a>
 

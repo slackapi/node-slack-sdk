@@ -125,13 +125,16 @@ describe('RTM API Client', function () {
 
     it('should support connecting to a socket via rtm.connect', function (done) {
       var rtm;
-      var useConnect = true;
+      var useRtmConnect = true;
       var wssPort = 5225;
       var fakeSlackUrl = 'https://slack.com:' + wssPort + '/api';
 
-      setUpTest(wssPort, fakeSlackUrl, useConnect);
-      rtm = createRtmClient({ slackAPIUrl: fakeSlackUrl });
-      rtm.start({ useConnect: useConnect });
+      setUpTest(wssPort, fakeSlackUrl, useRtmConnect);
+      rtm = createRtmClient({
+        slackAPIUrl: fakeSlackUrl,
+        useRtmConnect: useRtmConnect
+      });
+      rtm.start();
 
       rtm.on(RTM_CLIENT_EVENTS.AUTHENTICATED, function (data) {
         expect(data.self.id).to.equal('U02QYTVLJ');
