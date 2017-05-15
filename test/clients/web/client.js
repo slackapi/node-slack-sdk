@@ -88,21 +88,19 @@ describe('Web API Client', function () {
     var client = new WebAPIClient('test-token', { transport: mockTransport });
     sinon.spy(client, 'transport');
 
-    client._makeAPICall('test', args1, null, function(){
+    client._makeAPICall('test', args1, null, function () {
       expect(client.transport.callCount).to.equal(1);
       expect(client.transport.args[0][0].data.body).to.equal('{"test": 10}');
       expect(client.transport.args.length).to.equal(1);
-
-    })
-    client._makeAPICall('test', args2, null, function(){
+    });
+    client._makeAPICall('test', args2, null, function () {
       expect(client.transport.callCount).to.equal(2);
       expect(client.transport.args[0][0].data.body).to.equal('{"test": 10}');
       expect(client.transport.args[1][0].data.body).to.equal('{"test": 20}');
       expect(client.transport.args.length).to.equal(2);
 
-    })
-    done()
-
+    });
+    done();
   });
 
   it('should not crash when no callback is supplied to an API request', function () {
