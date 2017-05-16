@@ -20,6 +20,7 @@ permalink: /reference/SlackDataStore
     * [.getGroupByName(name)](#SlackDataStore+getGroupByName) ⇒ <code>Object</code>
     * [.getDMById(dmId)](#SlackDataStore+getDMById) ⇒ <code>Object</code>
     * [.getDMByName(name)](#SlackDataStore+getDMByName) ⇒ <code>Object</code>
+    * [.getDMByUserId(id)](#SlackDataStore+getDMByUserId) ⇒ <code>Object</code>
     * [.getBotById(botId)](#SlackDataStore+getBotById) ⇒ <code>Object</code>
     * [.getBotByName(name)](#SlackDataStore+getBotByName) ⇒ <code>Object</code>
     * [.getBotByUserId(userId)](#SlackDataStore+getBotByUserId) ⇒ <code>Object</code>
@@ -186,6 +187,17 @@ Returns the DM object between the registered user and the user with the supplied
 | Param |
 | --- |
 | name | 
+
+<a name="SlackDataStore+getDMByUserId"></a>
+
+### slackDataStore.getDMByUserId(id) ⇒ <code>Object</code>
+Returns the DM object between the registered user and the user with the supplied id.
+
+**Kind**: instance method of <code>[SlackDataStore](#SlackDataStore)</code>  
+
+| Param |
+| --- |
+| id | 
 
 <a name="SlackDataStore+getBotById"></a>
 
