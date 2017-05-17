@@ -7,7 +7,7 @@
 
 Read the [full documentation](https://slackapi.github.io/node-slack-sdk) for all the lovely details.
 
-So you want to build a Slack app with Node.js? We've got you covered. {{ site.product_name }} is aimed at making
+So you want to build a Slack app with Node.js? We've got you covered. `node-slack-sdk` is aimed at making
 building Slack apps ridiculously easy. This module will help you build on all aspects of the Slack platform,
 from dropping notifications in channels to fully interactive bots.
 
@@ -24,7 +24,7 @@ This library does not attempt to provide application level support, _e.g._ regex
 conversation stream.
 
 Most Slack apps are interested in posting messages into Slack channels, and generally working with our [Web API](https://api.slack.com/web). Read on
-to learn how to use {{ site.product_name }} to accomplish these tasks. Bots, on the other hand, are a bit more complex,
+to learn how to use `node-slack-sdk` to accomplish these tasks. Bots, on the other hand, are a bit more complex,
 so we have them covered in [Building Bots](https://slackapi.github.io/node-slack-sdk/bots).
 
 # Some Examples
@@ -47,11 +47,11 @@ var url = process.env.SLACK_WEBHOOK_URL || ''; //see section above on sensitive 
 var webhook = new IncomingWebhook(url);
 
 webhook.send('Hello there', function(err, res) {
-    if (err) {
-        console.log('Error:', err);
-    } else {
-        console.log('Message sent: ', res);
-    }
+  if (err) {
+    console.log('Error:', err);
+  } else {
+    console.log('Message sent: ', res);
+  }
 });
 ```
 
@@ -70,11 +70,11 @@ var token = process.env.SLACK_API_TOKEN || ''; //see section above on sensitive 
 
 var web = new WebClient(token);
 web.chat.postMessage('C1232456', 'Hello there', function(err, res) {
-    if (err) {
-        console.log('Error:', err);
-    } else {
-        console.log('Message sent: ', res);
-    }
+  if (err) {
+    console.log('Error:', err);
+  } else {
+    console.log('Message sent: ', res);
+  }
 });
 ```
 
@@ -93,8 +93,13 @@ var bot_token = process.env.SLACK_BOT_TOKEN || '';
 
 var rtm = new RtmClient(bot_token);
 
-// The client will emit an RTM.AUTHENTICATED event on successful connection, with the `rtm.start` payload if you want to cache it
-rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, function (rtmStartData) {
+let channel;
+
+// The client will emit an RTM.AUTHENTICATED event on successful connection, with the `rtm.start` payload
+rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, (rtmStartData) => {
+  for (const c of rtmStartData.channels) {
+	  if (c.is_member && c.name ==='general') { channel = c.id }
+  }
   console.log(`Logged in as ${rtmStartData.self.name} of team ${rtmStartData.team.name}, but not yet connected to a channel`);
 });
 

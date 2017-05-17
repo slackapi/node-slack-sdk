@@ -8,7 +8,7 @@ var RTM_JSON = require('../../fixtures/rtm.start.json');
 var RTM_CONNECT_JSON = require('../../fixtures/rtm.connect.json');
 var RtmAPIClient = require('../../../lib/clients/rtm/client');
 var MockWSServer = require('../../utils/mock-ws-server');
-
+var WS_PORT_NUMBER = 5221;
 
 describe('RTM API Client', function () {
   var createRtmClient = function (opts) {
@@ -18,7 +18,7 @@ describe('RTM API Client', function () {
 
   describe('reconnection logic', function () {
 
-    var setUpTest = function (wssPort, fakeSlackUrl, useConnect) {
+    var mockWebSocket = function (wssPort, fakeSlackUrl, useConnect) {
       var rtmFixture = useConnect
         ? lodash.cloneDeep(RTM_CONNECT_JSON)
         : lodash.cloneDeep(RTM_JSON);
@@ -33,27 +33,30 @@ describe('RTM API Client', function () {
       return new MockWSServer({ port: wssPort });
     };
 
-    var testReconnectionLogic = function (onFirstConn, onSecondConnFn, opts, wssPort, done) {
+    var testReconnectionLogic = function (onFirstConn, onSecondConnFn, done, opts, startOpts) {
       var clonedOpts = lodash.cloneDeep(opts);
       var rtm;
       var rtmConnCount;
-      // Make a fake URL as otherwise the test cases run in parallel and exhaust the nock-ed endpoint with the customized ws:// url
-      var fakeSlackUrl = 'https://slack.com:' + wssPort + '/api';
-      var wss = setUpTest(wssPort, fakeSlackUrl);
 
+      // Make a fake URL as otherwise the test cases run in parallel and exhaust the nock-ed
+      // endpoint with the customized ws:// url
+      var fakeSlackUrl = 'https://slack.com:' + WS_PORT_NUMBER++ + '/api';
+      var wss = mockWebSocket(WS_PORT_NUMBER, fakeSlackUrl);
+
+      clonedOpts = clonedOpts || { reconnectionBackoff: 1 };
       clonedOpts.slackAPIUrl = fakeSlackUrl;
       rtm = createRtmClient(clonedOpts);
+
       sinon.spy(rtm, 'reconnect');
-      rtm.start();
+      rtm.start = sinon.stub(rtm, 'start', rtm.start);
+      rtm.start(startOpts);
 
       rtmConnCount = 0;
       rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
         rtmConnCount++;
         if (rtmConnCount === 1) {
           onFirstConn(wss, rtm);
-        }
-
-        if (rtmConnCount === 2) {
+        } else if (rtmConnCount === 2) {
           onSecondConnFn(rtm);
           rtm.disconnect();
           rtm = null;
@@ -74,7 +77,7 @@ describe('RTM API Client', function () {
         reconnectionBackoff: 1
       };
 
-      testReconnectionLogic(lodash.noop, onSecondConnFn, opts, 5221, done);
+      testReconnectionLogic(lodash.noop, onSecondConnFn, done, opts);
     });
 
     it('should reconnect when the websocket closes and auto-reconnect is true', function (done) {
@@ -86,7 +89,7 @@ describe('RTM API Client', function () {
         expect(rtm.reconnect.calledOnce).to.equal(true);
       };
 
-      testReconnectionLogic(onFirstConn, onSecondConnFn, { reconnectionBackoff: 1 }, 5222, done);
+      testReconnectionLogic(onFirstConn, onSecondConnFn, done);
     });
 
 
@@ -106,7 +109,7 @@ describe('RTM API Client', function () {
         expect(attemptingReconnectSpy.calledTwice).to.equal(true);
       };
 
-      testReconnectionLogic(onFirstConn, onSecondConnFn, { reconnectionBackoff: 1 }, 5223, done);
+      testReconnectionLogic(onFirstConn, onSecondConnFn, done);
     });
 
 
@@ -119,17 +122,35 @@ describe('RTM API Client', function () {
         expect(rtm.reconnect.calledOnce).to.equal(true);
       };
 
-      testReconnectionLogic(onFirstConn, onSecondConnFn, { reconnectionBackoff: 1 }, 5224, done);
+      testReconnectionLogic(onFirstConn, onSecondConnFn, done);
+    });
+
+
+    it('should pass the same start arguments when reconnecting', function (done) {
+      var startOpts = {
+        simple_latest: 1
+      };
+
+      var onFirstConn = function (wss) {
+        wss.closeClientConn();
+      };
+
+      var onSecondConnFn = function (rtm) {
+        expect(rtm.start.calledTwice).to.equal(true);
+        expect(rtm.start.getCall(0).args[0]).to.equal(startOpts);
+        expect(rtm.start.getCall(1).args[0]).to.equal(startOpts);
+      };
+
+      testReconnectionLogic(onFirstConn, onSecondConnFn, done, null, startOpts);
     });
 
 
     it('should support connecting to a socket via rtm.connect', function (done) {
       var rtm;
       var useRtmConnect = true;
-      var wssPort = 5225;
-      var fakeSlackUrl = 'https://slack.com:' + wssPort + '/api';
+      var fakeSlackUrl = 'https://slack.com:' + WS_PORT_NUMBER++ + '/api';
 
-      setUpTest(wssPort, fakeSlackUrl, useRtmConnect);
+      mockWebSocket(WS_PORT_NUMBER, fakeSlackUrl, useRtmConnect);
       rtm = createRtmClient({
         slackAPIUrl: fakeSlackUrl,
         useRtmConnect: useRtmConnect
