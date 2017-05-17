@@ -43,7 +43,8 @@ Base client for both the RTM and web APIs.
 <a name="BaseAPIClient+retryConfig"></a>
 
 ### baseAPIClient.retryConfig
-Default to attempting 5 retries within 5 minutes, with exponential backoff.
+Default to retrying forever with an exponential backoff, capped at thirty
+minutes but with some randomization.
 
 **Kind**: instance property of <code>[BaseAPIClient](#BaseAPIClient)</code>  
 <a name="BaseAPIClient+logger"></a>
