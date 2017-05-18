@@ -8,6 +8,7 @@ var RTM_JSON = require('../../fixtures/rtm.start.json');
 var RTM_CONNECT_JSON = require('../../fixtures/rtm.connect.json');
 var RtmAPIClient = require('../../../lib/clients/rtm/client');
 var MockWSServer = require('../../utils/mock-ws-server');
+
 var WS_PORT_NUMBER = 5221;
 
 describe('RTM API Client', function () {
@@ -15,6 +16,82 @@ describe('RTM API Client', function () {
     var options = lodash.assign({ logger: sinon.stub() }, opts);
     return new RtmAPIClient('fake-token', options);
   };
+
+  describe('retry policy', function () {
+
+    var testRetryPolicy = function (opts, onRtmStart) {
+      var rtm;
+
+      nock('https://slack.com/api')
+        .post('/rtm.start')
+        .reply(500, '');
+
+      rtm = createRtmClient(opts);
+      sinon.spy(rtm, 'transport');
+      rtm.start(onRtmStart);
+
+      return rtm;
+    };
+
+    it('should call the rtm.start error callback if attempts exceed retries', function (done) {
+      var rtm;
+      var retryCount = 3;
+      var onRtmStart = function (err) {
+        expect(err).to.be.ok;
+        expect(rtm.transport.callCount).to.equal(retryCount + 1);
+        done();
+      };
+
+      rtm = testRetryPolicy({
+        retryConfig: {
+          minTimeout: 1,
+          maxTimeout: 1,
+          retries: retryCount
+        }
+      }, onRtmStart);
+    });
+
+    it('should use max attempts and backoff options in place of a retryConfig', function (done) {
+      var rtm;
+      var retryCount = 2;
+      var backoffDuration = 1;
+      var onRtmStart = function (err) {
+        expect(err).to.be.ok;
+        expect(rtm.transport.callCount).to.equal(retryCount + 1);
+        done();
+      };
+
+      rtm = testRetryPolicy({
+        maxReconnectionAttempts: retryCount,
+        reconnectionBackoff: backoffDuration
+      }, onRtmStart);
+    });
+
+    /**
+     * Without some kind of virtual scheduler we can't test "forever" very well,
+     * so this test focuses on the exponential backoff part.
+     */
+    it('should support retrying forever with exponential backoff', function (done) {
+      var rtm;
+      var retryCount = 6;
+      var timeout = Math.pow(2, retryCount);
+      var onRtmStart = sinon.spy();
+
+      rtm = testRetryPolicy({
+        retryConfig: {
+          forever: true,
+          minTimeout: 1
+        }
+      }, onRtmStart);
+
+      setTimeout(function () {
+        expect(onRtmStart.notCalled).to.be.ok;
+        expect(rtm.transport.callCount).to.equal(retryCount);
+        rtm.disconnect();
+        done();
+      }, timeout);
+    });
+  });
 
   describe('reconnection logic', function () {
 
