@@ -33,10 +33,10 @@ describe('RTM API Client', function () {
       return new MockWSServer({ port: wssPort });
     };
 
-    var testReconnectionLogic = function (onFirstConn, onSecondConnFn, done, opts, startOpts) {
+    var testReconnectionLogic = function (onConnectionCallbacks, done, opts, startOpts) {
       var clonedOpts = lodash.cloneDeep(opts);
       var rtm;
-      var rtmConnCount;
+      var connectionCount;
 
       // Make a fake URL as otherwise the test cases run in parallel and exhaust the nock-ed
       // endpoint with the customized ws:// url
@@ -51,13 +51,10 @@ describe('RTM API Client', function () {
       rtm.start = sinon.stub(rtm, 'start', rtm.start);
       rtm.start(startOpts);
 
-      rtmConnCount = 0;
+      connectionCount = 0;
       rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
-        rtmConnCount++;
-        if (rtmConnCount === 1) {
-          onFirstConn(wss, rtm);
-        } else if (rtmConnCount === 2) {
-          onSecondConnFn(rtm);
+        onConnectionCallbacks[connectionCount++](wss, rtm);
+        if (connectionCount === onConnectionCallbacks.length) {
           rtm.disconnect();
           rtm = null;
           done();
@@ -67,7 +64,7 @@ describe('RTM API Client', function () {
 
     // TODO(leah): This test is quite slow (~50ms), figure out why
     it('should reconnect when a pong is not received within the max interval', function (done) {
-      var onSecondConnFn = function (rtm) {
+      var secondConnection = function (wss, rtm) {
         expect(rtm.reconnect.calledOnce).to.equal(true);
       };
 
@@ -77,73 +74,69 @@ describe('RTM API Client', function () {
         reconnectionBackoff: 1
       };
 
-      testReconnectionLogic(lodash.noop, onSecondConnFn, done, opts);
+      testReconnectionLogic([lodash.noop, secondConnection], done, opts);
     });
 
     it('should reconnect when the websocket closes and auto-reconnect is true', function (done) {
-      var onFirstConn = function (wss) {
+      var firstConnection = function (wss) {
         wss.closeClientConn();
       };
 
-      var onSecondConnFn = function (rtm) {
+      var secondConnection = function (wss, rtm) {
         expect(rtm.reconnect.calledOnce).to.equal(true);
       };
 
-      testReconnectionLogic(onFirstConn, onSecondConnFn, done);
+      testReconnectionLogic([firstConnection, secondConnection], done);
     });
-
 
     // This is overly complex for what it's trying to test (that a state var is getting toggled),
     // but /shrug
     it('should not attempt to reconnect while a connection is in progress', function (done) {
       var attemptingReconnectSpy = sinon.spy();
 
-      var onFirstConn = function (wss, rtm) {
+      var firstConnection = function (wss, rtm) {
         rtm.on(RTM_CLIENT_EVENTS.ATTEMPTING_RECONNECT, attemptingReconnectSpy);
         rtm.reconnect();
         rtm.reconnect();
       };
 
-      var onSecondConnFn = function (rtm) {
+      var secondConnection = function (wss, rtm) {
         rtm.reconnect();
         expect(attemptingReconnectSpy.calledTwice).to.equal(true);
       };
 
-      testReconnectionLogic(onFirstConn, onSecondConnFn, done);
+      testReconnectionLogic([firstConnection, secondConnection], done);
     });
 
-
     it('should reconnect when a `team_migration_started` event is received', function (done) {
-      var onFirstConn = function (wss) {
+      var firstConnection = function (wss) {
         wss.sendMessageToClientConn({ type: 'team_migration_started' });
       };
 
-      var onSecondConnFn = function (rtm) {
+      var secondConnection = function (wss, rtm) {
         expect(rtm.reconnect.calledOnce).to.equal(true);
       };
 
-      testReconnectionLogic(onFirstConn, onSecondConnFn, done);
+      testReconnectionLogic([firstConnection, secondConnection], done);
     });
-
 
     it('should pass the same start arguments when reconnecting', function (done) {
       var startOpts = {
         simple_latest: 1
       };
 
-      var onFirstConn = function (wss) {
+      var firstConnection = function (wss) {
         wss.closeClientConn();
       };
 
-      var onSecondConnFn = function (rtm) {
+      var secondConnection = function (wss, rtm) {
         expect(rtm.start.calledTwice).to.equal(true);
         expect(rtm.start.getCall(0).args[0]).to.equal(startOpts);
         expect(rtm.start.getCall(1).args[0]).to.equal(startOpts);
       };
 
-      testReconnectionLogic(onFirstConn, onSecondConnFn, done, null, startOpts);
+      testReconnectionLogic([firstConnection, secondConnection], done, null, startOpts);
     });
-
 
     it('should support connecting to a socket via rtm.connect', function (done) {
       var rtm;
@@ -165,7 +158,6 @@ describe('RTM API Client', function () {
         done();
       });
     });
-
   });
 
   describe('Message Sending', function () {
@@ -249,9 +241,6 @@ describe('RTM API Client', function () {
         expect(rtm._msgResponseHandlers[1]).to.equal(undefined);
         expect(rtm._msgChannelLookup[1]).to.equal(undefined);
       });
-
     });
-
   });
-
 });
