@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
+    "noUnusedParameters": true,
+    "module": "commonjs",
+    "allowJs": true,
+    "moduleResolution": "node",
+    "pretty": true,
+    "target": "es5",
+    "outDir": "dist",
+    "lib": [
+      "es5",
+      "es2015",
+      "dom"
+    ],
+    "typeRoots" : ["./node_modules/@types"]
+  },
+  "formatCodeOptions": {
+    "indentSize": 2,
+    "tabSize": 2
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

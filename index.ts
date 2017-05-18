@@ -1,5 +1,6 @@
-var events = require('./lib/clients/events');
-var retryPolicies = require('./lib/clients/retry-policies');
+// tslint:disable:no-require-imports no-var-requires
+const events = require('./lib/clients/events');
+const retryPolicies = require('./lib/clients/retry-policies');
 
 module.exports = {
   WebClient: require('./lib/clients/web/client'),

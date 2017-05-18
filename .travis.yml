@@ -3,5 +3,6 @@ node_js:
   - "0.12"
   - "4"
   - "5"
-after_success:
-  - npm run codecov
+script:
+  #test tooling doesn't support node < 4, build only
+  - if [ ! "$TRAVIS_NODE_VERSION" == "0.12" ]; then npm run codecov; fi

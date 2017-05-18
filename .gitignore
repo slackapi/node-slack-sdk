@@ -2,3 +2,7 @@ node_modules
 .idea
 npm-debug.log
 coverage
+dist
+
+# nyc test coverage
+.nyc_output
