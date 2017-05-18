@@ -21,6 +21,7 @@ permalink: /reference/IncomingWebhook
 | defaults.iconEmoji | <code>string</code> | The default emoji to use when sending a webhook.      If no iconEmoji is specified, the one chosen when creating the webhook will be used. |
 | defaults.channel | <code>string</code> | The default channel to use when sending a webhook.      If no channel is specified, the one chosen when creating the webhook will be used. |
 | defaults.text | <code>string</code> | The default text to use when sending a webhook. |
+| defaults.linkNames | <code>string</code> | The default setting for the link_names format option to use when sending a webhook.      If no value is specified, the one chosen when creating the webhook will be used. |
 
 <a name="IncomingWebhook+send"></a>
 

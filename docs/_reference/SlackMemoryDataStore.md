@@ -23,6 +23,7 @@ permalink: /reference/SlackMemoryDataStore
     * [.getGroupByName()](#SlackMemoryDataStore+getGroupByName)
     * [.getDMById()](#SlackMemoryDataStore+getDMById)
     * [.getDMByName()](#SlackMemoryDataStore+getDMByName)
+    * [.getDMByUserId()](#SlackMemoryDataStore+getDMByUserId)
     * [.getBotById()](#SlackMemoryDataStore+getBotById)
     * [.getBotByName()](#SlackMemoryDataStore+getBotByName)
     * [.getBotByUserId()](#SlackMemoryDataStore+getBotByUserId)
@@ -114,6 +115,10 @@ permalink: /reference/SlackMemoryDataStore
 <a name="SlackMemoryDataStore+getDMByName"></a>
 
 ### slackMemoryDataStore.getDMByName()
+**Kind**: instance method of <code>[SlackMemoryDataStore](#SlackMemoryDataStore)</code>  
+<a name="SlackMemoryDataStore+getDMByUserId"></a>
+
+### slackMemoryDataStore.getDMByUserId()
 **Kind**: instance method of <code>[SlackMemoryDataStore](#SlackMemoryDataStore)</code>  
 <a name="SlackMemoryDataStore+getBotById"></a>
 

@@ -9,7 +9,6 @@ permalink: /reference/BaseAPIClient
     * [new BaseAPIClient(token, opts)](#new_BaseAPIClient_new)
     * [.slackAPIUrl](#BaseAPIClient+slackAPIUrl) : <code>string</code>
     * [.transport](#BaseAPIClient+transport) : <code>function</code>
-    * [.userAgent](#BaseAPIClient+userAgent) : <code>string</code>
     * [.retryConfig](#BaseAPIClient+retryConfig)
     * [.logger](#BaseAPIClient+logger) : <code>function</code>
     * [._createFacets()](#BaseAPIClient+_createFacets)
@@ -27,7 +26,6 @@ Base client for both the RTM and web APIs.
 | token | <code>string</code> | The Slack API token to use with this client. |
 | opts | <code>Object</code> |  |
 | opts.slackAPIUrl | <code>String</code> | The Slack API URL. |
-| opts.userAgent | <code>String</code> | The user-agent to use, defaults to node-slack. |
 | opts.transport | <code>function</code> | Function to call to make an HTTP call to the Slack API. |
 | [opts.logLevel] | <code>string</code> | The log level for the logger. |
 | [opts.logger] | <code>function</code> | Function to use for log calls, takes (logLevel, logString) params. |
@@ -41,10 +39,6 @@ Base client for both the RTM and web APIs.
 <a name="BaseAPIClient+transport"></a>
 
 ### baseAPIClient.transport : <code>function</code>
-**Kind**: instance property of <code>[BaseAPIClient](#BaseAPIClient)</code>  
-<a name="BaseAPIClient+userAgent"></a>
-
-### baseAPIClient.userAgent : <code>string</code>
 **Kind**: instance property of <code>[BaseAPIClient](#BaseAPIClient)</code>  
 <a name="BaseAPIClient+retryConfig"></a>
 
