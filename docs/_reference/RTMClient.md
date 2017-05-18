@@ -38,19 +38,24 @@ permalink: /reference/RTMClient
 <a name="new_RTMClient_new"></a>
 
 ### new RTMClient(token, opts)
+Creates a new instance of RTM client.
+
 
 | Param | Type | Description |
 | --- | --- | --- |
-| token | <code>String</code> |  |
-| opts | <code>object</code> |  |
-| opts.socketFn | <code>function</code> | A function to call, passing in a websocket URL, that should     return a websocket instance connected to that URL. |
-| opts.dataStore | <code>object</code> | A store to cache Slack info, e.g. channels, users etc. in.     If you don't want a store, pass false or null as the value for this. |
-| opts.autoReconnect | <code>boolean</code> | Whether or not to automatically reconnect when the connection     closes. |
-| opts.useRtmConnect | <code>boolean</code> | True to use rtm.connect rather than rtm.start |
-| opts.wsPingInterval | <code>number</code> |  |
-| opts.maxPongInterval | <code>number</code> |  |
-| opts.logLevel | <code>string</code> | The log level for the logger. |
-| opts.logger | <code>function</code> | Function to use for log calls, takes (logLevel, logString)     parameters. |
+| token | <code>String</code> | The token to use for connecting |
+| opts | <code>Object</code> |  |
+| opts.socketFn | <code>function</code> | A function to call, passing in a websocket URL, that should                                      return a websocket instance connected to that URL |
+| opts.dataStore | <code>Object</code> | A store to cache Slack info, e.g. channels, users etc. in.                                      Pass null or false to use no store |
+| opts.autoReconnect | <code>Boolean</code> | Whether or not to automatically reconnect when the connection                                      closes. Defaults to true |
+| opts.useRtmConnect | <code>Boolean</code> | True to use rtm.connect rather than rtm.start |
+| opts.retryConfig | <code>Object</code> | The retry policy to use, defaults to forever with exponential                                      backoff {@see https://github.com/SEAPUNK/node-retry} |
+| opts.maxReconnectionAttempts | <code>Number</code> | DEPRECATED: Use retryConfig instead |
+| opts.reconnectionBackoff | <code>Number</code> | DEPRECATED: Use retryConfig instead |
+| opts.wsPingInterval | <code>Number</code> | The time to wait between pings with the server |
+| opts.maxPongInterval | <code>Number</code> | The max time (in ms) to wait for a pong before reconnecting |
+| opts.logLevel | <code>String</code> | The log level for the logger |
+| opts.logger | <code>function</code> | Function to use for log calls, takes (logLevel, logString)                                      parameters |
 
 <a name="RTMClient+_socketFn"></a>
 
@@ -147,7 +152,7 @@ Disconnects from the RTM API.
 <a name="RTMClient+reconnect"></a>
 
 ### rtmClient.reconnect()
-Attempts to reconnect to the websocket by retrying [rtm.start](rtm.start).
+Attempts to reconnect to the websocket by retrying the start method.
 
 **Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
 <a name="RTMClient+handleWsOpen"></a>
