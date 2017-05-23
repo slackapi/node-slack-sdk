@@ -7,12 +7,13 @@ permalink: /reference/BaseAPIClient
 
 * [BaseAPIClient](#BaseAPIClient)
     * [new BaseAPIClient(token, opts)](#new_BaseAPIClient_new)
-    * [.slackAPIUrl](#BaseAPIClient+slackAPIUrl) : <code>string</code>
+    * [.slackAPIUrl](#BaseAPIClient+slackAPIUrl) : <code>String</code>
     * [.transport](#BaseAPIClient+transport) : <code>function</code>
     * [.retryConfig](#BaseAPIClient+retryConfig)
     * [.logger](#BaseAPIClient+logger) : <code>function</code>
     * [._createFacets()](#BaseAPIClient+_createFacets)
     * [.registerDataStore(dataStore)](#BaseAPIClient+registerDataStore)
+    * [.clearQueue()](#BaseAPIClient+clearQueue)
     * [._callTransport(task, queueCb)](#BaseAPIClient+_callTransport)
 
 <a name="new_BaseAPIClient_new"></a>
@@ -23,18 +24,18 @@ Base client for both the RTM and web APIs.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| token | <code>string</code> | The Slack API token to use with this client. |
+| token | <code>String</code> | The Slack API token to use with this client |
 | opts | <code>Object</code> |  |
-| opts.slackAPIUrl | <code>String</code> | The Slack API URL. |
-| opts.transport | <code>function</code> | Function to call to make an HTTP call to the Slack API. |
-| [opts.logLevel] | <code>string</code> | The log level for the logger. |
-| [opts.logger] | <code>function</code> | Function to use for log calls, takes (logLevel, logString) params. |
-| opts.maxRequestConcurrency | <code>Number</code> | The max # of concurrent requests to make to Slack's     API's, defaults to 3. |
-| opts.retryConfig | <code>Object</code> | The configuration to use for the retry operation,     {@see https://github.com/SEAPUNK/node-retry} |
+| opts.slackAPIUrl | <code>String</code> | The Slack API URL |
+| opts.transport | <code>function</code> | Function to call to make an HTTP call to the Slack API |
+| opts.logLevel | <code>String</code> | The log level for the logger |
+| opts.logger | <code>function</code> | Function to use for log calls, takes (logLevel, logString) |
+| opts.maxRequestConcurrency | <code>Number</code> | Max number of concurrent requests to make to Slack's API's, defaults to 3 |
+| opts.retryConfig | <code>Object</code> | The configuration to use for the retry operation, {@see https://github.com/SEAPUNK/node-retry} |
 
 <a name="BaseAPIClient+slackAPIUrl"></a>
 
-### baseAPIClient.slackAPIUrl : <code>string</code>
+### baseAPIClient.slackAPIUrl : <code>String</code>
 **Kind**: instance property of <code>[BaseAPIClient](#BaseAPIClient)</code>  
 <a name="BaseAPIClient+transport"></a>
 
@@ -71,6 +72,12 @@ Attaches a data-store to the client instance.
 | --- | --- |
 | dataStore | <code>[SlackDataStore](#SlackDataStore)</code> | 
 
+<a name="BaseAPIClient+clearQueue"></a>
+
+### baseAPIClient.clearQueue()
+Empties the request queue and returns it to a clean slate.
+
+**Kind**: instance method of <code>[BaseAPIClient](#BaseAPIClient)</code>  
 <a name="BaseAPIClient+_callTransport"></a>
 
 ### baseAPIClient._callTransport(task, queueCb)
