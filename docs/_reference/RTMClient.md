@@ -21,7 +21,7 @@ permalink: /reference/RTMClient
     * [.nextMessageId()](#RTMClient+nextMessageId)
     * [.connect(socketUrl)](#RTMClient+connect)
     * [.disconnect(optReason, optCode)](#RTMClient+disconnect)
-    * [.reconnect()](#RTMClient+reconnect)
+    * [.reconnect(forceRetry)](#RTMClient+reconnect)
     * [.handleWsOpen()](#RTMClient+handleWsOpen)
     * [.handleWsMessage(wsMsg)](#RTMClient+handleWsMessage)
     * [._handleMessageAck(replyTo, message)](#RTMClient+_handleMessageAck)
@@ -151,10 +151,15 @@ Disconnects from the RTM API.
 
 <a name="RTMClient+reconnect"></a>
 
-### rtmClient.reconnect()
+### rtmClient.reconnect(forceRetry)
 Attempts to reconnect to the websocket by retrying the start method.
 
 **Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| forceRetry | <code>Boolean</code> | True to force a reconnect now, even if one is in progress |
+
 <a name="RTMClient+handleWsOpen"></a>
 
 ### rtmClient.handleWsOpen()

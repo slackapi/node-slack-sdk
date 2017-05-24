@@ -129,5 +129,30 @@ describe('RTM API Client', function () {
         done();
       }, timeout);
     });
+
+    it('should support reconnecting immediately', function (done) {
+      testRetryPolicy({
+        retryConfig: {
+          minTimeout: 10,
+          maxTimeout: 10,
+          retries: 1
+        }
+      }, function (post) {
+        // Delay the response long enough that we timeout
+        return post
+          .delay(20)
+          .reply(200, { ok: true });
+      });
+
+      setTimeout(function () {
+        expect(rtm.transport.callCount).to.equal(1);
+        rtm.reconnect(true);
+
+        setImmediate(function () {
+          expect(rtm.transport.callCount).to.equal(2);
+          done();
+        });
+      }, 10);
+    });
   });
 });
