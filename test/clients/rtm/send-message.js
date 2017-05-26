@@ -28,6 +28,17 @@ describe('RTM API Client', function () {
           done();
         });
     });
+
+    it('should send a presence_sub message when subscribePresence is called', function () {
+      var rtm = createRtmClient();
+      var userIds = ['VinDiesel'];
+      sinon.spy(rtm, 'send');
+      rtm.subscribePresence(userIds);
+      expect(rtm.send.calledWith({
+        type: 'presence_sub',
+        ids: userIds
+      })).to.equal(true);
+    });
   });
 
   describe('Message Response Handling', function () {

@@ -33,6 +33,7 @@ permalink: /reference/RTMClient
     * [.sendMessage(text, channelId, [optCb])](#RTMClient+sendMessage)
     * [.updateMessage(message, [optCb])](#RTMClient+updateMessage)
     * [.sendTyping(channelId)](#RTMClient+sendTyping)
+    * [.subscribePresence(userIds)](#RTMClient+subscribePresence)
     * [.send(message, [optCb])](#RTMClient+send)
 
 <a name="new_RTMClient_new"></a>
@@ -274,6 +275,18 @@ Sends a typing indicator to indicate that the user with `activeUserId` is typing
 | Param | Type | Description |
 | --- | --- | --- |
 | channelId | <code>string</code> | The id of the channel|group|DM to send this message to. |
+
+<a name="RTMClient+subscribePresence"></a>
+
+### rtmClient.subscribePresence(userIds)
+Subscribes this socket to presence changes for only the given `userIds`.
+This requires `presence_sub` to have been passed as an argument to `start`.
+
+**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userIds | <code>Array</code> | The user IDs to subscribe to |
 
 <a name="RTMClient+send"></a>
 
