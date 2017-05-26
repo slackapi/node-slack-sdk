@@ -10,6 +10,7 @@
     "object-shorthand": 0,
     "padded-blocks": 0,
     "func-names": 0,
+    "no-unused-expressions": 0,
     "max-len": ["error", 100, { "ignoreComments": true }]
   }
 }
