@@ -1,6 +1,6 @@
 // Type definitions for node-slack-sdk
 // Project: https://github.com/slackapi/node-slack-sdk
-// Definitions by: John Zanutto <https://github.com/jzanutto>, Bilal Aijazi <https://github.com/bmajz>
+// Definitions by: Bilal Aijazi <https://github.com/bmajz>
 
 declare module '@slack/client' {
   class WebClient {
@@ -14,375 +14,34 @@ declare module '@slack/client' {
         logLevel?: string,
         logger?: any,
       });
-    api: {
-      test: (opts?: SlackApiTestParams) => Promise<SlackApiTestResult>;
-      test: (opts?: SlackApiTestParams, callback: (err: Error, result: SlackApiTestResult) => void) => void;
-    };
-    auth: {
-      revoke: (opts?: SlackAuthRevokeParams) => Promise<SlackAuthRevokeResult>;
-      revoke: (opts?: SlackAuthRevokeParams, callback: (err: Error, result: SlackAuthRevokeResult) => void) => void;
-
-      test: () => Promise<SlackAuthTestResult>;
-      test: (callback?: (err: Error, result: SlackAuthTestResult) => void) => void;
-    };
-    bots: {
-      info: (opts?: SlackBotsInfoParams) => Promise<SlackBotsInfoResult>;
-      info: (opts?: SlackBotsInfoParams, callback: (err: Error, result: SlackBotsInfoResult) => void) => void;
-    };
-    channels: {
-      archive: (channel: string) => Promise<Object>;
-      archive: (channel: string, callback: (err: Error, result: Object) => void) => void;
-
-      create: (name: string) => Promise<Object>;
-      create: (name: string, callback: (err: Error, result: Object) => void) => void;
-
-      history: (channel: string, opts?: Object) => Promise<Object>;
-      history: (channel: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      info: (channel: string) => Promise<SlackChannelsInfoResult>;
-      info: (channel: string, callback: (err: Error, result: SlackChannelsInfoResult) => void) => void;
-
-      invite: (channel: string, user: string) => Promise<Object>;
-      invite: (channel: string, user: string, callback: (err: Error, result: Object) => void) => void;
-
-      join: (name: string) => Promise<Object>;
-      join: (name: string, callback: (err: Error, result: Object) => void) => void;
-
-      kick: (channel: string, user: string) => Promise<Object>;
-      kick: (channel: string, user: string, callback: (err: Error, result: Object) => void) => void;
-
-      leave: (channel: string) => Promise<Object>;
-      leave: (channel: string, callback: (err: Error, result: Object) => void) => void;
-
-      list: (opts?: SlackChannelsListParams) => Promise<SlackChannelsListResult>;
-      list: (callback: (err: Error, result: SlackChannelsListResult) => void) => void;
-      list: (opts?: SlackChannelsListParams, callback: (err: Error, result: SlackChannelsListResult) => void) => void;
-
-      mark: (channel: string, ts: string) => Promise<Object>;
-      mark: (channel: string, ts: string, callback: (err: Error, result: Object) => void) => void;
-
-      rename: (channel: string, name: string) => Promise<Object>;
-      rename: (channel: string, name: string, callback: (err: Error, result: Object) => void) => void;
-
-      replies: (channel: string, thead_ts: string) => Promise<Object>;
-      replies: (channel: string, thead_ts: string, callback: (err: Error, result: Object) => void) => void;
-
-      setPurpose: (channel: string, purpose: string) => Promise<Object>;
-      setPurpose: (channel: string, purpose: string, callback: (err: Error, result: Object) => void) => void;
-
-      setTopic: (channel: string, topic: string) => Promise<Object>;
-      setTopic: (channel: string, topic: string, callback: (err: Error, result: Object) => void) => void;
-
-      unarchive: (channel: string) => Promise<Object>;
-      unarchive: (channel: string, callback: (err: Error, result: Object) => void) => void;
-    };
-    chat: {
-      delete: (ts: string, channel: string, opts?: SlackChatDeleteParams) => Promise<SlackChatDeleteResult>;
-      delete: (ts: string, channel: string, opts?: SlackChatDeleteParams, callback: (err: Error, result: SlackChatDeleteResult) => void) => void;
-
-      meMessage: (channel: string, text: string) => Promise<SlackChatMeMessageResult>;
-      meMessage: (channel: string, text: string, callback: (err: Error, result: SlackChatMeMessageResult) => void) => void;
-
-      postMessage: (channel: string, text: string, opts?: SlackChatPostMessageParams) => Promise<SlackChatPostMessageResult>;
-      postMessage: (channel: string, text: string, opts?: SlackChatPostMessageParams, callback: (err: Error, result: SlackChatPostMessageResult) => void) => void;
-
-      unfurl: (ts: string, channel: string, unfurls: string) => Promise<SlackApiResult>;
-      unfurl: (ts: string, channel: string, unfurls: string, callback: (err: Error, result: SlackApiResult) => void) => void;
-
-      update: (ts: string, channel: string, text: string, opts?: SlackChatUpdateParams) => Promise<SlackChatUpdateResult>;
-      update: (ts: string, channel: string, text: string, opts?: SlackChatUpdateParams, callback: (err: Error, result: SlackChatUpdateResult) => void) => void;
-    };
-    dnd: {
-      endDnd: () => Promise<Object>;
-      endDnd: (callback: (err: Error, result: Object) => void) => void;
-
-      endSnooze: () => Promise<Object>;
-      endSnooze: (callback: (err: Error, result: Object) => void) => void;
-
-      info: (opts?: Object) => Promise<Object>;
-      info: (opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      setSnooze: (numMinutes: number) => Promise<Object>;
-      setSnooze: (numMinutes: number, callback: (err: Error, result: Object) => void) => void;
-
-      teamInfo: (opts?: Object) => Promise<Object>;
-      teamInfo: (opts?: Object, callback: (err: Error, result: Object) => void) => void;
-    };
-    emoji: {
-      list: () => Promise<Object>;
-      list: (callback: (err: Error, result: Object) => void) => void;
-    };
-    files: {
-      delete: (file: string) => Promise<Object>;
-      delete: (file: string, callback: (err: Error, result: Object) => void) => void;
-
-      info: (file: string, opts?: Object) => Promise<Object>;
-      info: (file: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      list: (opts?: Object) => Promise<Object>;
-      list: (opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      revokePublicURL: (file: string) => Promise<Object>;
-      revokePublicURL: (file: string, callback: (err: Error, result: Object) => void) => void;
-
-      sharedPublicURL: (file: string, ) => Promise<Object>;
-      sharedPublicURL: (file: string, callback: (err: Error, result: Object) => void) => void;
-
-      upload: (filename: string, opts?: Object) => Promise<Object>;
-      upload: (filename: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      comments: {
-        add: (file: string, comment: string, opts?: Object) => Promise<Object>;
-        add: (file: string, comment: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-        delete: (file: string, id: string) => Promise<Object>;
-        delete: (file: string, id: string, callback: (err: Error, result: Object) => void) => void;
-
-        edit: (file: string, id: string, comment: string) => Promise<Object>;
-        edit: (file: string, id: string, comment: string, callback: (err: Error, result: Object) => void) => void;
-      }
-    };
-    groups: {
-      archive: (channel: string) => Promise<Object>;
-      archive: (channel: string, callback: (err: Error, result: Object) => void) => void;
-
-      close: (channel: string) => Promise<Object>;
-      close: (channel: string, callback: (err: Error, result: Object) => void) => void;
-
-      create: (name: string) => Promise<Object>;
-      create: (name: string, callback: (err: Error, result: Object) => void) => void;
-
-      createChild: (channel: string) => Promise<Object>;
-      createChild: (channel: string, callback: (err: Error, result: Object) => void) => void;
-
-      history: (channel: string, opts?: Object) => Promise<Object>;
-      history: (channel: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      info: (channel: string) => Promise<SlackGroupsInfoResult>;
-      info: (channel: string, callback: (err: Error, result: SlackGroupsInfoResult) => void) => void;
-
-      invite: (channel: string, user: string) => Promise<Object>;
-      invite: (channel: string, user: string, callback: (err: Error, result: Object) => void) => void;
-
-      kick: (channel: string, user: string) => Promise<Object>;
-      kick: (channel: string, user: string, callback: (err: Error, result: Object) => void) => void;
-
-      leave: (channel: string) => Promise<Object>;
-      leave: (channel: string, callback: (err: Error, result: Object) => void) => void;
-
-      list: (opts?: SlackChannelsListParams) => Promise<SlackGroupsListResult>;
-      list: (opts?: SlackChannelsListParams, callback: (err: Error, result: SlackGroupsListResult) => void) => void;
-
-      mark: (channel: string, ts: string) => Promise<Object>;
-      mark: (channel: string, ts: string, callback: (err: Error, result: Object) => void) => void;
-
-      open: (channel: string, ts: string) => Promise<Object>;
-      open: (channel: string, ts: string, callback: (err: Error, result: Object) => void) => void;
-
-      rename: (channel: string, name: string) => Promise<Object>;
-      rename: (channel: string, name: string, callback: (err: Error, result: Object) => void) => void;
-
-      replies: (channel: string, thead_ts: string) => Promise<Object>;
-      replies: (channel: string, thead_ts: string, callback: (err: Error, result: Object) => void) => void;
-
-      setPurpose: (channel: string, purpose: string) => Promise<Object>;
-      setPurpose: (channel: string, purpose: string, callback: (err: Error, result: Object) => void) => void;
-
-      setTopic: (channel: string, topic: string) => Promise<Object>;
-      setTopic: (channel: string, topic: string, callback: (err: Error, result: Object) => void) => void;
-
-      unarchive: (channel: string) => Promise<Object>;
-      unarchive: (channel: string, callback: (err: Error, result: Object) => void) => void;
-    };
-    im: {
-      close: (channel: string) => Promise<SlackImCloseResult>;
-      close: (channel: string, callback: (err: Error, result: SlackImCloseResult) => void) => void;
-
-      history: (channel: string, opts?: SlackImHistoryParams) => Promise<SlackImHistoryResult>;
-      history: (channel: string, opts?: SlackImHistoryParams, callback: (err: Error, result: SlackImHistoryResult) => void) => void;
-
-      list: () => Promise<SlackImListResult>;
-      list: (callback: (err: Error, result: SlackImListResult) => void) => void;
-
-      mark: (channel: string, ts: string) => Promise<Object>;
-      mark: (channel: string, ts: string, callback: (err: Error, result: Object) => void) => void;
-
-      open: (user: string, opts?: SlackImOpenParams) => Promise<SlackImOpenResult>;
-      open: (user: string, opts?: SlackImOpenParams, callback: (err: Error, result: SlackImOpenResult) => void) => void;
-
-      replies: (channel: string, thread_ts: string) => Promise<Object>;
-      replies: (channel: string, thread_ts: string, callback: (err: Error, result: Object) => void) => void;
-    }
-    mpim: {
-      close: (channel: string) => Promise<SlackImCloseResult>;
-      close: (channel: string, callback: (err: Error, result: SlackImCloseResult) => void) => void;
-
-      history: (channel: string, opts?: SlackImHistoryParams) => Promise<SlackImHistoryResult>;
-      history: (channel: string, opts?: SlackImHistoryParams, callback: (err: Error, result: SlackImHistoryResult) => void) => void;
-
-      list: () => Promise<SlackGroupsListResult>;
-      list: (callback: (err: Error, result: SlackGroupsListResult) => void) => void;
-
-      mark: (channel: string, ts: string) => Promise<Object>;
-      mark: (channel: string, ts: string, callback: (err: Error, result: Object) => void) => void;
-
-      open: (users: string) => Promise<SlackGroupsInfoResult>;
-      open: (users: string, callback: (err: Error, result: SlackGroupsInfoResult) => void) => void;
-
-      replies: (channel: string, thread_ts: string) => Promise<Object>;
-      replies: (channel: string, thread_ts: string, callback: (err: Error, result: Object) => void) => void;
-    }
-    oauth: {
-      access: (clientId: string, clientSecret: string, code: string, opts?: Object) => Promise<Object>;
-      access: (clientId: string, clientSecret: string, code: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-    }
-    pins: {
-      add: (channel: string, opts?: Object) => Promise<Object>;
-      add: (channel: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      list: (channel: string) => Promise<Object>;
-      list: (channel: string, callback: (err: Error, result: Object) => void) => void;
-
-      remove: (channel: string, opts?: Object) => Promise<Object>;
-      remove: (channel: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-    }
-    presence: {
-      set: (presence: 'active'|'away') => Promise<SlackApiResult>;
-      set: (presence: 'active'|'away', callback: (err: Error, result: SlackApiResult) => void) => void;
-    }
-    reactions: {
-      add: (name: string, opts?: SlackReactionsAddParams) => Promise<SlackReactionsAddResult>;
-      add: (name: string, opts?: SlackReactionsAddParams, callback: (err: Error, result: SlackReactionsAddResult) => void) => void;
-
-      get: (opts?: Object) => Promise<Object>;
-      get: (opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      list: (opts?: Object) => Promise<Object>;
-      list: (opts?: Object, callback?: (err: Error, result: Object) => void) => void;
-
-      remove: (name: string, opts?: Object) => Promise<Object>;
-      remove: (name: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-    }
-    reminders: {
-      add: (text: string, time: string, opts?: Object) => Promise<Object>;
-      add: (text: string, time: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      complete: (reminder: string) => Promise<Object>;
-      complete: (reminder: string, callback: (err: Error, result: Object) => void) => void;
-
-      delete: (reminder: string) => Promise<Object>;
-      delete: (reminder: string, callback: (err: Error, result: Object) => void) => void;
-
-      info: (reminder: string) => Promise<Object>;
-      info: (reminder: string, callback: (err: Error, result: Object) => void) => void;
-
-      list: () => Promise<Object>;
-      list: (callback: (err: Error, result: Object) => void) => void;
-    }
-    rtm: {
-      start: (opts?: SlackRtmStartParams) => Promise<SlackRtmStartResult>;
-      start: (opts?: SlackRtmStartParams, callback: (err: Error, result: SlackRtmStartResult) => void) => void;
-    };
-    search: {
-      all: (query: string, opts?: Object) => Promise<Object>;
-      all: (query: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      files: (query: string, opts?: Object) => Promise<Object>;
-      files: (query: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      messages: (query: string, opts?: Object) => Promise<Object>;
-      messages: (query: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-    };
-    stars: {
-      add: (opts?: Object) => Promise<Object>;
-      add: (opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      list: (opts?: Object) => Promise<Object>;
-      list: (opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      remove: (opts?: Object) => Promise<Object>;
-      remove: (opts?: Object, callback: (err: Error, result: Object) => void) => void;
-    };
-    team: {
-      accessLogs: (opts?: Object) => Promise<Object>;
-      accessLogs: (opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      billableInfo: (opts?: Object) => Promise<Object>;
-      billableInfo: (opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      info: () => Promise<SlackTeamInfoResult>;
-      info: (callback: (err: Error, result: SlackTeamInfoResult) => void) => void;
-
-      integrationLogs: (opts?: Object) => Promise<Object>;
-      integrationLogs: (opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      profile: {
-        get: (opts?: Object) => Promise<Object>;
-        get: (opts?: Object, callback: (err: Error, result: Object) => void) => void;
-      }
-    };
-    usergroups: {
-      create: (name: string, opts?: Object) => Promise<Object>;
-      create: (name: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      disable: (usergroup: string, opts?: Object) => Promise<Object>;
-      disable: (usergroup: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      enable: (usergroup: string, opts?: Object) => Promise<Object>;
-      enable: (usergroup: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      list: (opts?: Object) => Promise<Object>;
-      list: (opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      update: (usergroup: string, opts?: Object) => Promise<Object>;
-      update: (usergroup: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      users: {
-        list: (usergroup: string, opts?: Object) => Promise<Object>;
-        list: (usergroup: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-        update: (usergroup: string, users: string, opts?: Object) => Promise<Object>;
-        update: (usergroup: string, users: string, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-      }
-    };
-    users: {
-      deletePhoto: () => Promise<Object>;
-      deletePhoto: (callback: (err: Error, result: Object) => void) => void;
-
-      getPresence: (user: string) => Promise<SlackUsersGetPresenceResult>;
-      getPresence: (user: string, callback: (err: Error, result: SlackUsersGetPresenceResult) => void) => void;
-
-      identity: () => Promise<Object>;
-      identity: (callback: (err: Error, result: Object) => void) => void;
-
-      info: (user: string) => Promise<SlackUsersInfoResult>;
-      info: (user: string, callback: (err: Error, result: SlackUsersInfoResult) => void) => void;
-
-      list: (opts?: SlackUsersListParams) => Promise<SlackUsersListResult>;
-      list: (opts?: SlackUsersListParams, callback: (err: Error, result: SlackUsersListResult) => void) => void;
-
-      setActive: () => Promise<Object>;
-      setActive: (callback: (err: Error, result: Object) => void) => void;
-
-      setPhoto: (image: any, opts?: Object) => Promise<Object>;
-      setPhoto: (image: any, opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-      setPresence: (presence: "auto"|"away") => Promise<Object>;
-      setPresence: (presence: "auto"|"away", callback: (err: Error, result: Object) => void) => void;
-
-      profile: {
-        get: (opts?: Object) => Promise<Object>;
-        get: (opts?: Object, callback: (err: Error, result: Object) => void) => void;
-
-        set: (opts?: Object) => Promise<Object>;
-        set: (opts?: Object, callback: (err: Error, result: Object) => void) => void;
-      };
-    };
 
     on(event: CLIENT_EVENTS.WEB.RATE_LIMITED_TYPE, handler?: (headerSecs: number) => void): void;
+
+    api: WebApiApi;
+    auth: WebApiAuth;
+    bots: WebApiBots;
+    channels: WebApiChannels;
+    chat: WebApiChat;
+    dnd: WebApiDnd;
+    emoji: WebApiEmoji;
+    files: WebApiFiles;
+    groups: WebApiGroups;
+    im: WebApiIm;
+    mpim: WebApiMpim;
+    oauth: WebApiOauth;
+    pins: WebApiPins;
+    presence: WebApiPresence;
+    reactions: WebApiReactions;
+    reminders: WebApiReminders;
+    rtm: WebApiRtm;
+    search: WebApiSearch;
+    stars: WebApiStars;
+    team: WebApiTeam;
+    usergroups: WebApiUsergroups;
+    users: WebApiUsers;
   }
 
-  class RtmClientBase {
+  class _RtmClientBase {
     ws: WebSocket;
 
     MAX_RECONNECTION_ATTEMPTS: number;
@@ -396,7 +55,7 @@ declare module '@slack/client' {
     authenticated: boolean;
     activeUserId: string;
     activeTeamId: string;
-    dataStore: DataStore;
+    dataStore: MemoryDataStore;
     start(opts?: any): void;
     nextMessageId(): number;
     connect(socketUrl: string): void;
@@ -412,7 +71,7 @@ declare module '@slack/client' {
     send(message: any, optCb?: any): any;
 
     on(event: CLIENT_EVENTS.RTM.CONNECTING_TYPE, handler?: () => void): void;
-    on(event: CLIENT_EVENTS.RTM.AUTHENTICATED_TYPE, handler?: (data?: SlackRtmStartResult) => void): void;
+    on(event: CLIENT_EVENTS.RTM.AUTHENTICATED_TYPE, handler?: (data?: RtmStartResult) => void): void;
     on(event: CLIENT_EVENTS.RTM.WS_OPENING_TYPE, handler?: () => void): void;
     on(event: CLIENT_EVENTS.RTM.WS_OPENED_TYPE, handler?: () => void): void;
     on(event: CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED_TYPE, handler?: () => void): void;
@@ -426,15 +85,15 @@ declare module '@slack/client' {
     on(event: RTM_EVENTS.ACCOUNTS_CHANGED_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.BOT_ADDED_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.BOT_CHANGED_TYPE, handler?: (data: any) => void): void;
-    on(event: RTM_EVENTS.CHANNEL_ARCHIVE_TYPE, handler?: (data: SlackChannelArchiveEvent) => void): void;
-    on(event: RTM_EVENTS.CHANNEL_CREATED_TYPE, handler?: (data: SlackChannelCreatedEvent) => void): void;
-    on(event: RTM_EVENTS.CHANNEL_DELETED_TYPE, handler?: (data: SlackChannelDeletedEvent) => void): void;
+    on(event: RTM_EVENTS.CHANNEL_ARCHIVE_TYPE, handler?: (data: ChannelArchiveEvent) => void): void;
+    on(event: RTM_EVENTS.CHANNEL_CREATED_TYPE, handler?: (data: ChannelCreatedEvent) => void): void;
+    on(event: RTM_EVENTS.CHANNEL_DELETED_TYPE, handler?: (data: ChannelDeletedEvent) => void): void;
     on(event: RTM_EVENTS.CHANNEL_HISTORY_CHANGED_TYPE, handler?: (data: any) => void): void;
-    on(event: RTM_EVENTS.CHANNEL_JOINED_TYPE, handler?: (data: SlackChannelJoinedEvent) => void): void;
+    on(event: RTM_EVENTS.CHANNEL_JOINED_TYPE, handler?: (data: ChannelJoinedEvent) => void): void;
     on(event: RTM_EVENTS.CHANNEL_LEFT_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.CHANNEL_MARKED_TYPE, handler?: (data: any) => void): void;
-    on(event: RTM_EVENTS.CHANNEL_RENAME_TYPE, handler?: (data: SlackChannelRenameEvent) => void): void;
-    on(event: RTM_EVENTS.CHANNEL_UNARCHIVE_TYPE, handler?: (data: SlackChannelUnarchiveEvent) => void): void;
+    on(event: RTM_EVENTS.CHANNEL_RENAME_TYPE, handler?: (data: ChannelRenameEvent) => void): void;
+    on(event: RTM_EVENTS.CHANNEL_UNARCHIVE_TYPE, handler?: (data: ChannelUnarchiveEvent) => void): void;
     on(event: RTM_EVENTS.COMMANDS_CHANGED_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.DND_UPDATED_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.DND_UPDATED_USER_TYPE, handler?: (data: any) => void): void;
@@ -450,23 +109,23 @@ declare module '@slack/client' {
     on(event: RTM_EVENTS.FILE_PUBLIC_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.FILE_SHARED_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.FILE_UNSHARED_TYPE, handler?: (data: any) => void): void;
-    on(event: RTM_EVENTS.GROUP_ARCHIVE_TYPE, handler?: (data: SlackGroupArchiveEvent) => void): void;
-    on(event: RTM_EVENTS.GROUP_CLOSE_TYPE, handler?: (data: SlackGroupCloseEvent) => void): void;
+    on(event: RTM_EVENTS.GROUP_ARCHIVE_TYPE, handler?: (data: GroupArchiveEvent) => void): void;
+    on(event: RTM_EVENTS.GROUP_CLOSE_TYPE, handler?: (data: GroupCloseEvent) => void): void;
     on(event: RTM_EVENTS.GROUP_HISTORY_CHANGED_TYPE, handler?: (data: any) => void): void;
-    on(event: RTM_EVENTS.GROUP_JOINED_TYPE, handler?: (data: SlackGroupJoinedEvent) => void): void;
-    on(event: RTM_EVENTS.GROUP_LEFT_TYPE, handler?: (data: SlackGroupLeftEvent) => void): void;
+    on(event: RTM_EVENTS.GROUP_JOINED_TYPE, handler?: (data: GroupJoinedEvent) => void): void;
+    on(event: RTM_EVENTS.GROUP_LEFT_TYPE, handler?: (data: GroupLeftEvent) => void): void;
     on(event: RTM_EVENTS.GROUP_MARKED_TYPE, handler?: (data: any) => void): void;
-    on(event: RTM_EVENTS.GROUP_OPEN_TYPE, handler?: (data: SlackGroupOpenEvent) => void): void;
-    on(event: RTM_EVENTS.GROUP_RENAME_TYPE, handler?: (data: SlackGroupRenameEvent) => void): void;
-    on(event: RTM_EVENTS.GROUP_UNARCHIVE_TYPE, handler?: (data: SlackGroupUnarchiveEvent) => void): void;
-    on(event: RTM_EVENTS.HELLO_TYPE, handler?: (data: SlackHelloEvent) => void): void;
+    on(event: RTM_EVENTS.GROUP_OPEN_TYPE, handler?: (data: GroupOpenEvent) => void): void;
+    on(event: RTM_EVENTS.GROUP_RENAME_TYPE, handler?: (data: GroupRenameEvent) => void): void;
+    on(event: RTM_EVENTS.GROUP_UNARCHIVE_TYPE, handler?: (data: GroupUnarchiveEvent) => void): void;
+    on(event: RTM_EVENTS.HELLO_TYPE, handler?: (data: HelloEvent) => void): void;
     on(event: RTM_EVENTS.IM_CLOSE_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.IM_CREATED_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.IM_HISTORY_CHANGED_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.IM_MARKED_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.IM_OPEN_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.MANUAL_PRESENCE_CHANGE_TYPE, handler?: (data: any) => void): void;
-    on(event: RTM_EVENTS.MESSAGE_TYPE, handler?: (data: SlackMessageEvent) => void): void;
+    on(event: RTM_EVENTS.MESSAGE_TYPE, handler?: (data: MessageEvent) => void): void;
     on(event: RTM_EVENTS.MPIM_CLOSE_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.MPIM_HISTORY_CHANGED_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.MPIM_JOINED_TYPE, handler?: (data: any) => void): void;
@@ -475,8 +134,8 @@ declare module '@slack/client' {
     on(event: RTM_EVENTS.PIN_REMOVED_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.PREF_CHANGE_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.PRESENCE_CHANGE_TYPE, handler?: (data: any) => void): void;
-    on(event: RTM_EVENTS.REACTION_ADDED_TYPE, handler?: (data: SlackReactionEvent) => void): void;
-    on(event: RTM_EVENTS.REACTION_REMOVED_TYPE, handler?: (data: SlackReactionEvent) => void): void;
+    on(event: RTM_EVENTS.REACTION_ADDED_TYPE, handler?: (data: ReactionEvent) => void): void;
+    on(event: RTM_EVENTS.REACTION_REMOVED_TYPE, handler?: (data: ReactionEvent) => void): void;
     on(event: RTM_EVENTS.RECONNECT_URL_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.STAR_ADDED_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.STAR_REMOVED_TYPE, handler?: (data: any) => void): void;
@@ -484,25 +143,25 @@ declare module '@slack/client' {
     on(event: RTM_EVENTS.SUBTEAM_SELF_ADDED_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.SUBTEAM_SELF_REMOVED_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.SUBTEAM_UPDATED_TYPE, handler?: (data: any) => void): void;
-    on(event: RTM_EVENTS.TEAM_DOMAIN_CHANGE_TYPE, handler?: (data: SlackTeamDomainChangeEvent) => void): void;
+    on(event: RTM_EVENTS.TEAM_DOMAIN_CHANGE_TYPE, handler?: (data: TeamDomainChangeEvent) => void): void;
     on(event: RTM_EVENTS.TEAM_JOIN_TYPE, handler?: (data: any) => void): void;
-    on(event: RTM_EVENTS.TEAM_MIGRATION_STARTED_TYPE, handler?: (data: SlackTeamMigrationStartedEvent) => void): void;
+    on(event: RTM_EVENTS.TEAM_MIGRATION_STARTED_TYPE, handler?: (data: TeamMigrationStartedEvent) => void): void;
     on(event: RTM_EVENTS.TEAM_PLAN_CHANGE_TYPE, handler?: (data: any) => void): void;
-    on(event: RTM_EVENTS.TEAM_PREF_CHANGE_TYPE, handler?: (data: SlackTeamPrefChangeEvent) => void): void;
+    on(event: RTM_EVENTS.TEAM_PREF_CHANGE_TYPE, handler?: (data: TeamPrefChangeEvent) => void): void;
     on(event: RTM_EVENTS.TEAM_PROFILE_CHANGE_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.TEAM_PROFILE_DELETE_TYPE, handler?: (data: any) => void): void;
     on(event: RTM_EVENTS.TEAM_PROFILE_REORDER_TYPE, handler?: (data: any) => void): void;
-    on(event: RTM_EVENTS.TEAM_RENAME_TYPE, handler?: (data: SlackTeamRenameEvent) => void): void;
+    on(event: RTM_EVENTS.TEAM_RENAME_TYPE, handler?: (data: TeamRenameEvent) => void): void;
     on(event: RTM_EVENTS.USER_CHANGE_TYPE, handler?: (data: any) => void): void;
-    on(event: RTM_EVENTS.USER_TYPING_TYPE, handler?: (data: SlackUserTypingEvent) => void): void;
+    on(event: RTM_EVENTS.USER_TYPING_TYPE, handler?: (data: UserTypingEvent) => void): void;
   }
 
-  class RtmClient extends RtmClientBase {
+  class RtmClient extends _RtmClientBase {
     constructor(
       token: string,
       options?: {
         socketFn?: any,
-        dataStore?: DataStore | null | undefined | false,
+        dataStore?: MemoryDataStore | null | undefined | false,
         autoReconnect?: boolean,
         maxReconnectionAttempts?: number,
         reconnectionBackoff?: number,
@@ -527,11 +186,11 @@ declare module '@slack/client' {
       text?: string
     });
 
-    send(message: string | SlackChatPostMessageParams): Promise<Object>;
-    send(message: string | SlackChatPostMessageParams, cb: any): void;
+    send(message: string | ChatPostMessageParams, cb: (err: Error, result: ChatPostMessageResult) => void): void;
+    send(message: string | ChatPostMessageParams): Promise<ChatPostMessageResult>;
   }
 
-  class LegacyRtmClient extends RtmClientBase {
+  class LegacyRtmClient extends _RtmClientBase {
     constructor(token: string, autoReconnect?: boolean);
   }
 
@@ -572,7 +231,7 @@ declare module '@slack/client' {
       export const ATTEMPTING_RECONNECT: ATTEMPTING_RECONNECT_TYPE;
 
       type RAW_MESSAGE_TYPE = 'raw_message';
-      export const  RAW_MESSAGE: RAW_MESSAGE_TYPE;
+      export const RAW_MESSAGE: RAW_MESSAGE_TYPE;
     }
   }
 
@@ -772,670 +431,1112 @@ declare module '@slack/client' {
     export const UNPINNED_ITEM: UNPINNED_ITEM_TYPE;
   }
 
-  class MemoryDataStore extends DataStore {
+  class MemoryDataStore {
+    constructor(opts: any);
+
+    registerMessageHandler(event: any, handler: any): void;
+    clear(): void;
+
+    users: any;
+    channels: any;
+    dms: any;
+    groups: any;
+    bots: any;
+    teams: any;
+    clear(): void;
+
+    // Getters
+    getUserById(userId: string): any;
+    getUserByName(name: string): any;
+    getUserByEmail(email: string): any;
+    getUserByBotId(botId: string): any;
+    getChannelById(channelId: string): any;
+    getChannelByName(name: string): any;
+    getGroupById(groupId: string): any;
+    getGroupByName(name: string): any;
+    getDMById(dmId: string): any;
+    getDMByName(name: string): any;
+    getDMByUserId(id: string): any;
+    getBotById(botId: string): any;
+    getBotByName(name: string): any;
+    getBotByUserId(userId: string): any;
+    getTeamById(teamId: string): any;
+    getUnreadCount(): any;
+
+    // Setters
+    setChannel(channel: any): void;
+    setGroup(group: any): void;
+    setDM(dm: any): void;
+    setUser(user: any): void;
+    setBot(bot: any): void;
+    setTeam(team: any): void;
+
+    // Upserts
+    upsertChannel(channel: any): void;
+    upsertGroup(group: any): void;
+    upsertDM(dm: any): void;
+    upsertUser(user: any): void;
+    upsertBot(bot: any): void;
+    upsertTeam(team: any): void;
+
+    // Deletion
+    removeChannel(channelId: string): void;
+    removeGroup(groupId: string): void;
+    removeDM(dmId: string): void;
+    removeUser(userId: string): void;
+    removeBot(botId: string): void;
+    removeTeam(teamId: string): void;
+
+    // Helpers
+    upsertChannelGroupOrDMById(id: string, obj: any): void;
+    getChannelGroupOrDMById(objId: string): any;
+    getChannelOrGroupByName(name: string): any;
+
+    // Web API response handlers
+    cacheRtmStart(data: any): void;
+
+    // RTM Message handlers
+    handleRtmMessage(activeUserId: string, activeTeamId: string, messageType: string, message: Object): void;
   }
-}
 
-// Slack Data Store
-class DataStore {
-  constructor(opts?: { logLevel: string, logger: any; });
-
-  registerMessageHandler(event: any, handler: any): void;
-
-  users: any;
-  channels: any;
-  dms: any;
-  groups: any;
-  bots: any;
-  teams: any;
-  clear(): void;
-
-  // Getters
-  getUserById(userId: string): any;
-  getUserByName(name: string): any;
-  getUserByEmail(email: string): any;
-  getUserByBotId(botId: string): any;
-  getChannelById(channelId: string): any;
-  getChannelByName(name: string): any;
-  getGroupById(groupId: string): any;
-  getGroupByName(name: string): any;
-  getDMById(dmId: string): any;
-  getDMByName(name: string): any;
-  getDMByUserId(id: string): any;
-  getBotById(botId: string): any;
-  getBotByName(name: string): any;
-  getBotByUserId(userId: string): any;
-  getTeamById(teamId: string): any;
-  getUnreadCount(): any;
-
-  // Setters
-  setChannel(channel: any): void;
-  setGroup(group: any): void;
-  setDM(dm: any): void;
-  setUser(user: any): void;
-  setBot(bot: any): void;
-  setTeam(team: any): void;
-
-  // Upserts
-  upsertChannel(channel: any): void;
-  upsertGroup(group: any): void;
-  upsertDM(dm: any): void;
-  upsertUser(user: any): void;
-  upsertBot(bot: any): void;
-  upsertTeam(team: any): void;
-
-  // Deletion
-  removeChannel(channelId: string): void;
-  removeGroup(groupId: string): void;
-  removeDM(dmId: string): void;
-  removeUser(userId: string): void;
-  removeBot(botId: string): void;
-  removeTeam(teamId: string): void;
-
-  // Helpers
-  upsertChannelGroupOrDMById(id: string, obj: any): void;
-  getChannelGroupOrDMById(objId: string): any;
-  getChannelOrGroupByName(name: string): any;
-
-  // Web API response handlers
-  cacheRtmStart(data: any);
-  handleRtmMessage(activeUserId: string, activeTeamId: string, messageType: string, message: string);
-}
-
-// Web API Parameters and results
-interface SlackApiResult {
-  ok: boolean;
-  error?: string;
- }
-
-// api
-interface SlackApiTestParams {
-  error?: string;
-  foo?: any;
-}
-
-interface SlackApiTestResult extends SlackApiResult {
-  args?: {
-    foo?: any;
+  // Web API interfaces
+  // https://api.slack.com/web
+  interface WebApiApi {
+    test(callback: (err: Error, result: ApiTestResult) => void): void;
+    test(opts: ApiTestParams, callback: (err: Error, result: ApiTestResult) => void): void;
+    test(opts?: ApiTestParams): Promise<ApiTestResult>;
   }
-}
 
-// auth
-interface SlackAuthTestResult extends SlackApiResult {
-  url: string;
-  team: string;
-  user: string;
-  team_id: string;
-  user_id: string;
-}
+  interface WebApiAuth {
+    revoke(callback: (err: Error, result: AuthRevokeResult) => void): void;
+    revoke(opts: AuthRevokeParams, callback: (err: Error, result: AuthRevokeResult) => void): void;
+    revoke(opts?: AuthRevokeParams): Promise<AuthRevokeResult>;
 
-interface SlackAuthRevokeParams {
-  test?: 1;
-}
+    test(callback: (err: Error, result: AuthTestResult) => void): void;
+    test(): Promise<AuthTestResult>;
+  }
 
-interface SlackAuthRevokeResult extends SlackApiResult {
-  revoked: boolean;
-}
+  interface WebApiBots {
+    info(callback: (err: Error, result: BotsInfoResult) => void): void;
+    info(opts: BotsInfoParams, callback: (err: Error, result: BotsInfoResult) => void): void;
+    info(opts?: BotsInfoParams): Promise<BotsInfoResult>;
+  }
 
-// bots
-interface SlackBotsInfoParams {
-  bot?: string;
-}
+  interface WebApiChannels {
+    archive(channel: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    archive(channel: string): Promise<WebApiResultAny>;
 
-interface SlackBotsInfoResult extends SlackApiResult {
-  bot: {
-    id: string,
-    app_id: string,
-    delete: boolean,
-    name: string,
-    icons: {
-      image_36: string,
-      image_48: string,
-      image_72: string,
+    create(name: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    create(name: string): Promise<WebApiResultAny>;
+
+    history(callback: (err: Error, result: WebApiResultAny) => void): void;
+    history(channel: string, opts: Object, callback: (err: Error, result: WebApiResultAny) => void): void;
+    history(channel: string, opts?: Object): Promise<WebApiResultAny>;
+
+    info(channel: string, callback: (err: Error, result: ChannelsInfoResult) => void): void;
+    info(channel: string): Promise<ChannelsInfoResult>;
+
+    invite(channel: string, user: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    invite(channel: string, user: string): Promise<WebApiResultAny>;
+
+    join(name: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    join(name: string): Promise<WebApiResultAny>;
+
+    kick(channel: string, user: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    kick(channel: string, user: string): Promise<WebApiResultAny>;
+
+    leave(channel: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    leave(channel: string): Promise<WebApiResultAny>;
+
+    list(callback: (err: Error, result: ChannelsListResult) => void): void;
+    list(opts: ChannelsListParams, callback: (err: Error, result: ChannelsListResult) => void): void;
+    list(opts?: ChannelsListParams): Promise<ChannelsListResult>;
+
+    mark(channel: string, ts: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    mark(channel: string, ts: string): Promise<WebApiResultAny>;
+
+    rename(channel: string, name: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    rename(channel: string, name: string): Promise<WebApiResultAny>;
+
+    replies(channel: string, thead_ts: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    replies(channel: string, thead_ts: string): Promise<WebApiResultAny>;
+
+    setPurpose(channel: string, purpose: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    setPurpose(channel: string, purpose: string): Promise<WebApiResultAny>;
+
+    setTopic(channel: string, topic: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    setTopic(channel: string, topic: string): Promise<WebApiResultAny>;
+
+    unarchive(channel: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    unarchive(channel: string): Promise<WebApiResultAny>;
+  }
+
+  interface WebApiChat {
+    delete(ts: string, channel: string, callback: (err: Error, result: ChatDeleteResult) => void): void;
+    delete(ts: string, channel: string, opts: ChatDeleteParams, callback: (err: Error, result: ChatDeleteResult) => void): void;
+    delete(ts: string, channel: string, opts?: ChatDeleteParams): Promise<ChatDeleteResult>;
+
+    meMessage(channel: string, text: string, callback: (err: Error, result: ChatMeMessageResult) => void): void;
+    meMessage(channel: string, text: string): Promise<ChatMeMessageResult>;
+
+    postMessage(channel: string, text: string, callback: (err: Error, result: ChatPostMessageResult) => void): void;
+    postMessage(channel: string, text: string, opts: ChatPostMessageParams, callback: (err: Error, result: ChatPostMessageResult) => void): void;
+    postMessage(channel: string, text: string, opts?: ChatPostMessageParams): Promise<ChatPostMessageResult>;
+
+    unfurl(ts: string, channel: string, unfurls: string, callback: (err: Error, result: WebApiResult) => void): void;
+    unfurl(ts: string, channel: string, unfurls: string): Promise<WebApiResult>;
+
+    update(ts: string, channel: string, text: string, callback: (err: Error, result: ChatUpdateResult) => void): void;
+    update(ts: string, channel: string, text: string, opts: ChatUpdateParams, callback: (err: Error, result: ChatUpdateResult) => void): void;
+    update(ts: string, channel: string, text: string, opts?: ChatUpdateParams): Promise<ChatUpdateResult>;
+  }
+
+  interface WebApiDnd {
+    endDnd(callback: (err: Error, result: WebApiResultAny) => void): void;
+    endDnd(): Promise<WebApiResultAny>;
+
+    endSnooze(callback: (err: Error, result: WebApiResultAny) => void): void;
+    endSnooze():Promise<WebApiResultAny>;
+
+    info(callback: (err: Error, result: WebApiResultAny) => void): void;
+    info(opts: Object, callback: (err: Error, result: WebApiResultAny) => void): void;
+    info(opts?: Object): Promise<WebApiResultAny>;
+
+    setSnooze(numMinutes: number, callback: (err: Error, result: WebApiResultAny) => void): void;
+    setSnooze(numMinutes: number): Promise<WebApiResultAny>;
+
+    teamInfo(callback: (err: Error, result: WebApiResultAny) => void): void;
+    teamInfo(opts: Object, callback: (err: Error, result: WebApiResultAny) => void): void;
+    teamInfo(opts?: Object): Promise<WebApiResultAny>;
+  }
+
+  interface WebApiEmoji {
+    list(callback: (err: Error, result: WebApiResultAny) => void): void;
+    list():Promise<WebApiResultAny>;
+  }
+
+  interface WebApiFiles {
+    delete(file: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    delete(file: string): Promise<WebApiResultAny>;
+
+    info(file: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    info(file: string, opts: Object, callback: (err: Error, result: WebApiResultAny) => void): void;
+    info(file: string, opts?: Object): Promise<WebApiResultAny>;
+
+    list(callback: (err: Error, result: WebApiResultAny) => void): void;
+    list(opts: Object, callback: (err: Error, result: WebApiResultAny) => void): void;
+    list(opts?: Object): Promise<WebApiResultAny>;
+
+    revokePublicURL(file: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    revokePublicURL(file: string): Promise<WebApiResultAny>;
+
+    sharedPublicURL(file: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    sharedPublicURL(file: string): Promise<WebApiResultAny>;
+
+    upload(filename: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    upload(filename: string, opts: Object, callback: (err: Error, result: WebApiResultAny) => void): void;
+    upload(filename: string, opts?: Object): Promise<WebApiResultAny>;
+
+    comments: {
+      add(file: string, comment: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+      add(file: string, comment: string, opts: Object, callback: (err: Error, result: WebApiResultAny) => void): void;
+      add(file: string, comment: string, opts?: Object): Promise<WebApiResultAny>;
+
+      delete(file: string, id: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+      delete(file: string, id: string): Promise<WebApiResultAny>;
+
+      edit(file: string, id: string, comment: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+      edit(file: string, id: string, comment: string): Promise<WebApiResultAny>;
     }
   }
-}
 
-// channels
-interface SlackChannelsInfoResult extends SlackApiResult {
-  channel: SlackFullChannelResult;
-}
+  interface WebApiGroups {
+    archive(channel: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    archive(channel: string): Promise<WebApiResultAny>;
 
-interface SlackChannelsListParams {
-  exclude_archived?: boolean;
-}
+    close(channel: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    close(channel: string): Promise<WebApiResultAny>;
 
-interface SlackChannelsListResult extends SlackApiResult {
-  channels: SlackPartialChannelResult[];
-}
+    create(name: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    create(name: string): Promise<WebApiResultAny>;
 
-interface SlackPartialChannelResult {
-  id: string;
-  name: string;
-  created: number;
-  creator: string;
-  is_channel?: boolean; // public channels
-  is_general?: boolean;
-  is_archived: boolean;
-  is_mpim?: boolean;
-  is_member?: boolean;
-  num_members?: number;
-  members: string[];
-  topic: {
-    value: string;
-    creator: string;
-    last_set: number;
-  };
-  purpose: {
-    value: string;
-    creator: string;
-    last_set: number;
-  };
-}
+    createChild(channel: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    createChild(channel: string): Promise<WebApiResultAny>;
 
-interface SlackFullChannelResult {
-  id: string;
-  name: string;
+    history(channel: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    history(channel: string, opts: Object, callback: (err: Error, result: WebApiResultAny) => void): void;
+    history(channel: string, opts?: Object): Promise<WebApiResultAny>;
 
-  created: number;
-  creator: string;
+    info(channel: string, callback: (err: Error, result: GroupsInfoResult) => void): void;
+    info(channel: string): Promise<GroupsInfoResult>;
 
-  is_channel?: boolean; // public channels
-  is_group?: boolean; // private channels
-  is_im?: boolean; // IM channels
-  is_open?: boolean; // IM Channels
-  user?: string; // IM Channels
+    invite(channel: string, user: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    invite(channel: string, user: string): Promise<WebApiResultAny>;
 
-  is_archived: boolean;
-  is_general: boolean;
-  is_member?: boolean;
-  id_starred?: boolean;
+    kick(channel: string, user: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    kick(channel: string, user: string): Promise<WebApiResultAny>;
 
-  members: string[];
+    leave(channel: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    leave(channel: string): Promise<WebApiResultAny>;
 
-  topic: {
-    value: string;
-    creator: string;
-    last_set: number;
-  };
-  purpose: {
-    value: string;
-    creator: string;
-    last_set: number;
-  };
+    list(callback: (err: Error, result: GroupsListResult) => void): void;
+    list(opts: ChannelsListParams, callback: (err: Error, result: GroupsListResult) => void): void;
+    list(opts?: ChannelsListParams): Promise<GroupsListResult>;
 
-  last_read?: string;
-  latest?: {
+    mark(channel: string, ts: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    mark(channel: string, ts: string): Promise<WebApiResultAny>;
+
+    open(channel: string, ts: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    open(channel: string, ts: string): Promise<WebApiResultAny>;
+
+    rename(channel: string, name: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    rename(channel: string, name: string): Promise<WebApiResultAny>;
+
+    replies(channel: string, thead_ts: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    replies(channel: string, thead_ts: string): Promise<WebApiResultAny>;
+
+    setPurpose(channel: string, purpose: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    setPurpose(channel: string, purpose: string): Promise<WebApiResultAny>;
+
+    setTopic(channel: string, topic: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    setTopic(channel: string, topic: string): Promise<WebApiResultAny>;
+
+    unarchive(channel: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    unarchive(channel: string): Promise<WebApiResultAny>;
+  }
+
+  interface WebApiIm {
+    close(channel: string, callback: (err: Error, result: ImCloseResult) => void): void;
+    close(channel: string): Promise<ImCloseResult>;
+
+    history(channel: string, callback: (err: Error, result: ImHistoryResult) => void): void;
+    history(channel: string, opts: ImHistoryParams, callback: (err: Error, result: ImHistoryResult) => void): void;
+    history(channel: string, opts?: ImHistoryParams): Promise<ImHistoryResult>;
+
+    list(callback: (err: Error, result: ImListResult) => void): void;
+    list(): Promise<ImListResult>;
+
+    mark(channel: string, ts: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    mark(channel: string, ts: string): Promise<WebApiResultAny>;
+
+    open(user: string, callback: (err: Error, result: ImOpenResult) => void): void;
+    open(user: string, opts: ImOpenParams, callback: (err: Error, result: ImOpenResult) => void): void;
+    open(user: string, opts?: ImOpenParams): Promise<ImOpenResult>;
+
+    replies(channel: string, thread_ts: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    replies(channel: string, thread_ts: string): Promise<WebApiResultAny>;
+  }
+
+  interface WebApiMpim {
+    close(channel: string, callback: (err: Error, result: ImCloseResult) => void): void;
+    close(channel: string): Promise<ImCloseResult>;
+
+    history(channel: string, callback: (err: Error, result: ImHistoryResult) => void): void;
+    history(channel: string, opts: ImHistoryParams, callback: (err: Error, result: ImHistoryResult) => void): void;
+    history(channel: string, opts?: ImHistoryParams): Promise<ImHistoryResult>;
+
+    list(callback: (err: Error, result: GroupsListResult) => void): void;
+    list(): Promise<GroupsListResult>;
+
+    mark(channel: string, ts: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    mark(channel: string, ts: string): Promise<WebApiResultAny>;
+
+    open(users: string, callback: (err: Error, result: GroupsInfoResult) => void): void;
+    open(users: string): Promise<GroupsInfoResult>;
+
+    replies(channel: string, thread_ts: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    replies(channel: string, thread_ts: string): Promise<WebApiResultAny>;
+  }
+
+  interface WebApiOauth {
+    access(clientId: string, clientSecret: string, code: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    access(clientId: string, clientSecret: string, code: string, opts: Object, callback: (err: Error, result: WebApiResultAny) => void): void;
+    access(clientId: string, clientSecret: string, code: string, opts?: Object): Promise<WebApiResultAny>;
+  }
+
+  interface WebApiPins {
+    add(channel: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    add(channel: string, opts: Object, callback: (err: Error, result: WebApiResultAny) => void): void;
+    add(channel: string, opts?: Object): Promise<WebApiResultAny>;
+
+    list(channel: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    list(channel: string): Promise<WebApiResultAny>;
+
+    remove(channel: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    remove(channel: string, opts: Object, callback: (err: Error, result: WebApiResultAny) => void): void;
+    remove(channel: string, opts?: Object): Promise<WebApiResultAny>;
+  }
+
+  interface WebApiPresence {
+    set(presence: 'active'|'away', callback: (err: Error, result: WebApiResult) => void): void;
+    set(presence: 'active'|'away'): Promise<WebApiResult>;
+  }
+
+  interface WebApiReactions {
+    add(name: string, callback: (err: Error, result: ReactionsAddResult) => void): void;
+    add(name: string, callback: (err: Error, result: ReactionsAddResult) => void): void;
+    add(name: string, opts?: ReactionsAddParams): Promise<ReactionsAddResult>;
+
+    get(callback: (err: Error, result: WebApiResultAny) => void): void;
+    get(opts: Object, callback: (err: Error, result: WebApiResultAny) => void): void;
+    get(opts?: Object): Promise<WebApiResultAny>;
+
+    list(opts?: Object, callback?: (err: Error, result: Object) => void): void;
+    list(opts?: Object): Promise<WebApiResultAny>;
+
+    remove(name: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    remove(name: string, opts: Object, callback: (err: Error, result: WebApiResultAny) => void): void;
+    remove(name: string, opts?: Object): Promise<WebApiResultAny>;
+  }
+
+  interface WebApiReminders {
+    add(text: string, time: string, callback: (err: Error, result: WebApiResultAny) => void): void;
+    add(text: string, time: string, opts: Object, callback: (err: Error, result: Object) => void): void;
+    add(text: string, time: string, opts?: Object): Promise<WebApiResultAny>;
+
+    complete(reminder: string, callback: (err: Error, result: Object) => void): void;
+    complete(reminder: string): Promise<WebApiResultAny>;
+
+    delete(reminder: string, callback: (err: Error, result: Object) => void): void;
+    delete(reminder: string): Promise<WebApiResultAny>;
+
+    info(reminder: string, callback: (err: Error, result: Object) => void): void;
+    info(reminder: string): Promise<WebApiResultAny>;
+
+    list(callback: (err: Error, result: Object) => void): void;
+    list():Promise<WebApiResultAny>;
+  }
+
+  interface WebApiRtm {
+    start(callback: (err: Error, result: RtmStartResult) => void): void;
+    start(opts: RtmStartParams, callback: (err: Error, result: RtmStartResult) => void): void;
+    start(opts?: RtmStartParams): Promise<RtmStartResult>;
+  }
+
+  interface WebApiSearch {
+    all(query: string, callback: (err: Error, result: Object) => void): void;
+    all(query: string, opts: Object, callback: (err: Error, result: Object) => void): void;
+    all(query: string, opts?: Object): Promise<WebApiResultAny>;
+
+    files(query: string, callback: (err: Error, result: Object) => void): void;
+    files(query: string, opts: Object, callback: (err: Error, result: Object) => void): void;
+    files(query: string, opts?: Object): Promise<WebApiResultAny>;
+
+    messages(query: string, callback: (err: Error, result: Object) => void): void;
+    messages(query: string, opts: Object, callback: (err: Error, result: Object) => void): void;
+    messages(query: string, opts?: Object): Promise<WebApiResultAny>;
+  }
+
+  interface WebApiStars {
+    add(callback: (err: Error, result: Object) => void): void;
+    add(opts: Object, callback: (err: Error, result: Object) => void): void;
+    add(opts?: Object): Promise<WebApiResultAny>;
+
+    list(callback: (err: Error, result: Object) => void): void;
+    list(opts: Object, callback: (err: Error, result: Object) => void): void;
+    list(opts?: Object): Promise<WebApiResultAny>;
+
+    remove(callback: (err: Error, result: Object) => void): void;
+    remove(opts: Object, callback: (err: Error, result: Object) => void): void;
+    remove(opts?: Object): Promise<WebApiResultAny>;
+  }
+
+  interface WebApiTeam {
+    accessLogs(callback: (err: Error, result: Object) => void): void;
+    accessLogs(opts: Object, callback: (err: Error, result: Object) => void): void;
+    accessLogs(opts?: Object): Promise<WebApiResultAny>;
+
+    billableInfo(callback: (err: Error, result: Object) => void): void;
+    billableInfo(opts: Object, callback: (err: Error, result: Object) => void): void;
+    billableInfo(opts?: Object): Promise<WebApiResultAny>;
+
+    info(callback: (err: Error, result: TeamInfoResult) => void): void;
+    info(): Promise<TeamInfoResult>;
+
+    integrationLogs(callback: (err: Error, result: Object) => void): void;
+    integrationLogs(opts: Object, callback: (err: Error, result: Object) => void): void;
+    integrationLogs(opts?: Object): Promise<WebApiResultAny>;
+
+    profile: {
+      get(callback: (err: Error, result: Object) => void): void;
+      get(opts: Object, callback: (err: Error, result: Object) => void): void;
+      get(opts?: Object): Promise<WebApiResultAny>;
+    }
+  }
+
+  interface WebApiUsergroups {
+    create(name: string, callback: (err: Error, result: Object) => void): void;
+    create(name: string, opts: Object, callback: (err: Error, result: Object) => void): void;
+    create(name: string, opts?: Object): Promise<WebApiResultAny>;
+
+    disable(usergroup: string, callback: (err: Error, result: Object) => void): void;
+    disable(usergroup: string, opts: Object, callback: (err: Error, result: Object) => void): void;
+    disable(usergroup: string, opts?: Object): Promise<WebApiResultAny>;
+
+    enable(usergroup: string, callback: (err: Error, result: Object) => void): void;
+    enable(usergroup: string, opts: Object, callback: (err: Error, result: Object) => void): void;
+    enable(usergroup: string, opts?: Object): Promise<WebApiResultAny>;
+
+    list(callback: (err: Error, result: Object) => void): void;
+    list(opts: Object, callback: (err: Error, result: Object) => void): void;
+    list(opts?: Object): Promise<WebApiResultAny>;
+
+    update(usergroup: string, callback: (err: Error, result: Object) => void): void;
+    update(usergroup: string, opts: Object, callback: (err: Error, result: Object) => void): void;
+    update(usergroup: string, opts?: Object): Promise<WebApiResultAny>;
+
+    users: {
+      list(usergroup: string, callback: (err: Error, result: Object) => void): void;
+      list(usergroup: string, opts: Object, callback: (err: Error, result: Object) => void): void;
+      list(usergroup: string, opts?: Object): Promise<WebApiResultAny>;
+
+      update(usergroup: string, users: string, callback: (err: Error, result: Object) => void): void;
+      update(usergroup: string, users: string, opts: Object, callback: (err: Error, result: Object) => void): void;
+      update(usergroup: string, users: string, opts?: Object): Promise<WebApiResultAny>;
+    }
+  }
+
+  interface WebApiUsers {
+    getPresence(callback: (err: Error, result: UsersGetPresenceResult) => void): void;
+    getPresence(user: string, callback: (err: Error, result: UsersGetPresenceResult) => void): void;
+    getPresence(user?: string): Promise<UsersGetPresenceResult>;
+
+    identity(callback: (err: Error, result: Object) => void): void;
+    identity(): Promise<WebApiResultAny>;
+
+    info(callback: (err: Error, result: UsersInfoResult) => void): void;
+    info(user: string, callback: (err: Error, result: UsersInfoResult) => void): void;
+    info(user?: string): Promise<UsersInfoResult>;
+
+    list(callback: (err: Error, result: UsersListResult) => void): void;
+    list(opts: UsersListParams, callback: (err: Error, result: UsersListResult) => void): void;
+    list(opts?: UsersListParams): Promise<UsersListResult>;
+
+    setActive(callback: (err: Error, result: Object) => void): void;
+    setActive():Promise<WebApiResultAny>;
+
+    setPresence(presence: "auto"|"away", callback: (err: Error, result: Object) => void): void;
+    setPresence(presence: "auto"|"away"): Promise<WebApiResultAny>;
+
+    profile: {
+      get(callback: (err: Error, result: Object) => void): void;
+      get(opts: Object, callback: (err: Error, result: Object) => void): void;
+      get(opts?: Object): Promise<WebApiResultAny>;
+
+      set(callback: (err: Error, result: Object) => void): void;
+      set(opts: Object, callback: (err: Error, result: Object) => void): void;
+      set(opts?: Object): Promise<WebApiResultAny>;
+    };
+  }
+
+  // Web API Parameters and results
+  // https://api.slack.com/web
+  interface WebApiResult {
+    ok: boolean;
+    error?: string;
+  }
+
+  // Generic result for untyped return values
+  interface WebApiResultAny extends WebApiResult {
+    [key: string]: any;
+  }
+
+  // api
+  interface ApiTestParams {
+    error?: any;
+    [key: string]: any;
+  }
+
+  interface ApiTestResult extends WebApiResult {
+    args?: {
+      [key: string]: any;
+    }
+  }
+
+  // auth
+  interface AuthTestResult extends WebApiResult {
+    url: string;
+    team: string;
     user: string;
-    text: string;
-    type: string;
-    subtype?: string;
-    inviter?: string;
-    ts: string;
-  };
-  unread_count?: number;
-  unread_count_display?: number;
-}
+    team_id: string;
+    user_id: string;
+  }
 
-// chat
-interface SlackChatDeleteParams {
-  as_user?: boolean;
-}
+  interface AuthRevokeParams {
+    test?: 1;
+  }
 
-interface SlackChatDeleteResult extends SlackApiResult {
-  channel: string;
-  ts: string;
-}
+  interface AuthRevokeResult extends WebApiResult {
+    revoked: boolean;
+  }
 
-interface SlackChatMeMessageParams {
-  channel: string;
-  text: string;
-}
+  // bots
+  interface BotsInfoParams {
+    bot?: string;
+  }
 
-interface SlackChatMeMessageResult extends SlackApiResult {
-  channel: string;
-  ts: string;
-}
+  interface BotsInfoResult extends WebApiResult {
+    bot: {
+      id: string,
+      app_id: string,
+      delete: boolean,
+      name: string,
+      icons: {
+        image_36: string,
+        image_48: string,
+        image_72: string,
+      }
+    }
+  }
 
-interface SlackChatPostMessageParams {
-  text?: string,
-  attachments?: SlackMessageAttachment[];
-  channel: string;
-  parse?: 'none' | 'full';
-  link_names?: number;
-  unfurl_links?: boolean;
-  unfurl_media?: boolean;
-  username?: string;
-  as_user?: boolean;
-  icon_url?: string;
-  icon_emoji?: string;
-  thread_ts?: string;
-}
+  // channels
+  interface ChannelsInfoResult extends WebApiResult {
+    channel: FullChannelResult;
+  }
 
-// Slack Message and Attachment information:
-// https://api.slack.com/docs/message-attachments
+  interface ChannelsListParams {
+    exclude_archived?: boolean;
+  }
 
-interface SlackMessageAttachment {
-  fallback: string;
-  color?: string;
-  pretext?: string;
-  author_name?: string;
-  author_link?: string;
-  author_icon?: string;
-  title?: string;
-  title_link?: string;
-  text?: string;
-  fields?: SlackMessageAttachmentField[];
-  image_url?: string;
-  thumb_url?: string;
-  mrkdwn_in?: string[];
-  footer?: string;
-  footer_icon?: string;
-  attachment_type?: 'default';
-  callback_id?: string;
-  actions?: SlackMessageActions[];
-}
+  interface ChannelsListResult extends WebApiResult {
+    channels: PartialChannelResult[];
+  }
 
-interface SlackMessageAttachmentField {
-  title?: string;
-  value: string;
-  short?: boolean;
-}
+  interface PartialChannelResult {
+    id: string;
+    name: string;
+    created: number;
+    creator: string;
+    is_channel?: boolean; // public channels
+    is_general?: boolean;
+    is_archived: boolean;
+    is_mpim?: boolean;
+    is_member?: boolean;
+    num_members?: number;
+    members: string[];
+    topic: {
+      value: string;
+      creator: string;
+      last_set: number;
+    };
+    purpose: {
+      value: string;
+      creator: string;
+      last_set: number;
+    };
+  }
 
-interface SlackMessageActions {
-  name: string;
-  text: string;
-  type: 'button';
-  style?: 'default' | 'primary' | 'danger';
-  value?: string;
-  confirm?: {
-    title: string,
-    text: string,
-    ok_text?: string,
-    dismiss_text?: string
-  };
-}
+  interface FullChannelResult {
+    id: string;
+    name: string;
 
-interface SlackChatPostMessageResult extends SlackApiResult {
-  ts: string;
-  channel: string;
-  message: string;
-}
+    created: number;
+    creator: string;
 
-interface SlackChatUnfurlParams {
-  channel: string;
-  ts: string;
-  unfurls: string;
-  user_auth_required?: boolean | 0 | 1;
-}
+    is_channel?: boolean; // public channels
+    is_group?: boolean; // private channels
+    is_im?: boolean; // IM channels
+    is_open?: boolean; // IM Channels
+    user?: string; // IM Channels
 
-interface SlackChatUpdateParams {
-  parse?: 'none' | 'full';
-  link_names?: number;
-  attachments?: SlackMessageAttachment[];
-  unfurl_links?: boolean;
-  unfurl_media?: boolean;
-  as_user?: boolean;
-}
-
-interface SlackChatUpdateResult extends SlackApiResult {
-  ts: string;
-  channel: string;
-  text: string;
-}
-
-
-// groups
-interface SlackGroupsInfoResult extends SlackApiResult {
-  group: SlackFullChannelResult;
-}
-
-interface SlackGroupsListResult extends SlackApiResult {
-  groups: SlackPartialChannelResult[];
-}
-
-// im
-interface SlackImCloseResult extends SlackApiResult {
-  no_op?: boolean;
-  already_closed?: boolean;
-}
-
-interface SlackImHistoryParams {
-  latest?: number;
-  oldest?: number;
-  inclusive?: number;
-  count?: number;
-  unreads?: number;
-}
-
-interface SlackImHistoryResult extends SlackApiResult {
-  latest: string;
-  messages: {
-    type: string;
-    ts: string;
-    user: string;
-    text: string;
+    is_archived: boolean;
+    is_general: boolean;
+    is_shared: boolean;
+    is_org_shared: boolean;
+    is_member?: boolean;
     is_starred?: boolean;
-  }[];
-  has_more: boolean;
-}
 
-interface SlackImListResult extends SlackApiResult {
-  ims: {
-    id: string;
-    is_im: true;
-    user: string;
-    created: number;
-    is_user_deleted: boolean;
-  }[];
-}
+    members: string[];
 
-interface SlackImOpenResult extends SlackApiResult {
-  no_op?: boolean;
-  already_open?: boolean;
-  channel: {
-    id: string;
-  } | SlackFullChannelResult;
-}
+    topic: {
+      value: string;
+      creator: string;
+      last_set: number;
+    };
+    purpose: {
+      value: string;
+      creator: string;
+      last_set: number;
+    };
 
-// reactions
-interface SlackReactionsAddParams {
-  file?: string;
-  file_comment?: string;
-  channel?: string;
-  timestamp?: string;
-}
-
-interface SlackReactionsAddResult extends SlackApiResult {}
-
-// rtm
-interface SlackRtmStartParams {
-  simple_latest?: boolean;
-  no_unreads?: boolean;
-  mpim_aware?: boolean;
-}
-
-interface SlackRtmStartResult extends SlackApiResult {
-  url: string;
-  self: {
-    id: string;
-    name: string;
-    prefs: any;
-    created: number;
-    manual_presence: string;
+    last_read?: string;
+    latest?: {
+      user: string;
+      text: string;
+      type: string;
+      subtype?: string;
+      inviter?: string;
+      ts: string;
+    };
+    unread_count?: number;
+    unread_count_display?: number;
   }
-  team: {
-    id: string;
-    name: string;
-    email_domain: string;
-    domain: string;
-    icon: any;
-    msg_edit_window_mins: number;
-    over_integrations_limit?: boolean;
-    over_storage_limit: boolean;
-    prefs: any;
-    plan: string;
+
+  // chat
+  interface ChatDeleteParams {
+    as_user?: boolean;
   }
-  users: any;
-  channels: any;
-  groups: any;
-  mpims: any;
-  ims: any;
-  bots: any;
-}
 
-// team
-interface SlackTeamInfoResult extends SlackApiResult {
-  team: {
-    id: string;
-    name: string;
-    domain: string;
-    email_domain?: string;
-    icon?: {
-      image_34?: string;
-      image_44?: string;
-      image_68?: string;
-      image_88?: string;
-      image_102?: string;
-      image_132?: string;
-      image_default?: boolean;
-    }
-    enterprise_id?: string;
-    enterprise_name?: string;
-  }
-}
-
-// users
-interface SlackUsersInfoResult extends SlackApiResult {
-  user: SlackFullUserResult;
-}
-
-interface SlackUsersListParams {
-  presence?: boolean;
-}
-
-interface SlackUsersListResult extends SlackApiResult {
-  members: SlackFullUserResult[];
-}
-
-interface SlackFullUserResult {
-  id: string;
-  team_id: string;
-  name: string;
-  deleted: boolean;
-  status?: string;
-  color?: string;
-  real_name?: string;
-  tz?: string;
-  tz_label?: string;
-  tz_offset?: number;
-  profile: {
-    bot_id?: string;
-    api_app_id?: string;
-    first_name?: string;
-    last_name?: string;
-    real_name?: string;
-    real_name_normalized?: string;
-    title?: string;
-    email?: string;
-    skype?: string;
-    phone?: string;
-    avatar_hash?: string;
-    image_24?: string;
-    image_32?: string;
-    image_48?: string;
-    image_72?: string;
-    image_192?: string;
-    image_512?: string;
-    image_1024?: string;
-    image_original?: string;
-  }
-  is_admin?: boolean;
-  is_owner?: boolean;
-  is_primary_owner?: boolean;
-  is_restricted?: boolean;
-  is_ultra_restricted?: boolean;
-  is_bot?: boolean;
-  has_2fa?: boolean;
-  has_files?: boolean;
-}
-
-interface SlackUsersGetPresenceResult extends SlackApiResult {
-  presence: string;
-  online?: boolean;
-  auto_away?: boolean;
-  manual_away?: boolean;
-  connection_count?: number;
-  last_activity?: number;
-}
-
-// Events
-interface SlackChannelArchiveEvent {
-  type: 'channel_archive';
-  channel: string;
-  user: string;
-}
-
-interface SlackChannelCreatedEvent {
-  type: 'channel_created';
-  channel: {
-    id: string;
-    name: string;
-    created: string;
-    creator: string;
-  }
-}
-
-interface SlackChannelDeletedEvent {
-  type: 'channel_deleted';
-  channel: string;
-}
-
-interface SlackChannelJoinedEvent {
-  type: 'channel_joined';
-  channel: {
-    id: string;
-    name: string;
-    created: string;
-    creator: string;
-  }
-}
-
-interface SlackChannelRenameEvent {
-  type: 'channel_rename';
-  channel: {
-    id: string;
-    name: string;
-    created: string;
-  }
-}
-
-interface SlackChannelUnarchiveEvent {
-  type: 'channel_unarchive';
-  channel: string;
-  user: string;
-}
-
-interface SlackGroupArchiveEvent {
-  type: 'group_archive';
-  channel: string;
-}
-
-interface SlackGroupCloseEvent {
-  type: 'group_close';
-  user: string;
-  channel: string;
-}
-
-interface SlackGroupJoinedEvent {
-  type: 'group_joined';
-  channel: {
-    id: string;
-    name: string;
-    created: string;
-    creator: string;
-  }
-}
-
-interface SlackGroupLeftEvent {
-  type: 'group_left';
-  channel: string;
-}
-
-interface SlackGroupOpenEvent {
-  type: 'group_open';
-  channel: string;
-  user: string;
-}
-
-interface SlackGroupRenameEvent {
-  type: 'group_rename';
-  channel: {
-    id: string;
-    name: string;
-    created: string;
-  }
-}
-
-interface SlackGroupUnarchiveEvent {
-  type: 'group_unarchive';
-  channel: string;
-  user: string;
-}
-
-interface SlackGroupCreatedEvent {
-  type: 'group_created';
-  channel: {
-    id: string;
-    name: string;
-    created: string;
-    creator: string;
-  }
-}
-
-interface SlackHelloEvent {
-  type: 'hello';
-}
-
-interface SlackMessageEvent {
-  type: 'message';
-  hidden?: string;
-  subtype?: string;
-  channel: string;
-  user: string;
-  text: string;
-  ts: string;
-  user_team: string;
-  team: string;
-  attachments?: SlackMessageAttachment[];
-  deleted_ts?: string;
-  is_starred?: boolean;
-  pinned_to?: string[];
-  edited?: {
-    user: string;
+  interface ChatDeleteResult extends WebApiResult {
+    channel: string;
     ts: string;
-  };
-}
+  }
 
-interface SlackReactionEvent {
-  type: 'reaction_added' | 'reaction_removed';
-  user: string;
-  userName: string;
-  reaction: string;
-  event_ts: string;
-  value?: string;
-  item: {
-    type: string;
-    channel?: string;
-    ts?: string;
+  interface ChatMeMessageParams {
+    channel: string;
+    text: string;
+  }
+
+  interface ChatMeMessageResult extends WebApiResult {
+    channel: string;
+    ts: string;
+  }
+
+  interface ChatPostMessageParams {
+    text?: string,
+    attachments?: MessageAttachment[];
+    channel: string;
+    parse?: 'none' | 'full';
+    link_names?: number;
+    unfurl_links?: boolean;
+    unfurl_media?: boolean;
+    username?: string;
+    as_user?: boolean;
+    icon_url?: string;
+    icon_emoji?: string;
+    thread_ts?: string;
+  }
+
+  interface ChatPostMessageResult extends WebApiResult {
+    ts: string;
+    channel: string;
+    message: string;
+  }
+
+  interface ChatUnfurlParams {
+    channel: string;
+    ts: string;
+    unfurls: string;
+    user_auth_required?: boolean | 0 | 1;
+  }
+
+  interface ChatUpdateParams {
+    parse?: 'none' | 'full';
+    link_names?: number;
+    attachments?: MessageAttachment[];
+    unfurl_links?: boolean;
+    unfurl_media?: boolean;
+    as_user?: boolean;
+  }
+
+  interface ChatUpdateResult extends WebApiResult {
+    ts: string;
+    channel: string;
+    text: string;
+  }
+
+
+  // groups
+  interface GroupsInfoResult extends WebApiResult {
+    group: FullChannelResult;
+  }
+
+  interface GroupsListResult extends WebApiResult {
+    groups: PartialChannelResult[];
+  }
+
+  // im
+  interface ImCloseResult extends WebApiResult {
+    no_op?: boolean;
+    already_closed?: boolean;
+  }
+
+  interface ImHistoryParams {
+    latest?: number;
+    oldest?: number;
+    inclusive?: number;
+    count?: number;
+    unreads?: number;
+  }
+
+  interface ImHistoryResult extends WebApiResult {
+    latest: string;
+    messages: {
+      type: string;
+      ts: string;
+      user: string;
+      text: string;
+      is_starred?: boolean;
+    }[];
+    has_more: boolean;
+  }
+
+  interface ImListResult extends WebApiResult {
+    ims: {
+      id: string;
+      is_im: true;
+      user: string;
+      created: number;
+      is_user_deleted: boolean;
+    }[];
+  }
+
+  interface ImOpenParams {
+    return_im?: boolean;
+  }
+
+  interface ImOpenResult extends WebApiResult {
+    no_op?: boolean;
+    already_open?: boolean;
+    channel: {
+      id: string;
+    };
+  }
+
+  // reactions
+  interface ReactionsAddParams {
     file?: string;
     file_comment?: string;
-  };
-}
+    channel?: string;
+    timestamp?: string;
+  }
 
-interface SlackTeamDomainChangeEvent {
-  type: 'team_domain_change';
-  url: string;
-  domain: string;
-}
+  interface ReactionsAddResult extends WebApiResult {}
 
-interface SlackTeamMigrationStartedEvent {
-  type: 'team_migration_started';
-}
+  // rtm
+  interface RtmStartParams {
+    simple_latest?: boolean;
+    no_unreads?: boolean;
+    mpim_aware?: boolean;
+  }
 
-interface SlackTeamPrefChangeEvent {
-  type: 'team_pref_change';
-  name: string;
-  value: any;
-}
+  interface RtmStartResult extends WebApiResult {
+    url: string;
+    self: {
+      id: string;
+      name: string;
+      prefs: any;
+      created: number;
+      manual_presence: string;
+    }
+    team: {
+      id: string;
+      name: string;
+      email_domain: string;
+      domain: string;
+      icon: any;
+      msg_edit_window_mins: number;
+      over_integrations_limit?: boolean;
+      over_storage_limit: boolean;
+      prefs: any;
+      plan: string;
+    }
+    users: any;
+    channels: any;
+    groups: any;
+    mpims: any;
+    ims: any;
+    bots: any;
+  }
 
-interface SlackTeamRenameEvent {
-  type: 'team_rename';
-  name: string;
-}
+  // team
+  interface TeamInfoResult extends WebApiResult {
+    team: {
+      id: string;
+      name: string;
+      domain: string;
+      email_domain?: string;
+      icon?: {
+        image_34?: string;
+        image_44?: string;
+        image_68?: string;
+        image_88?: string;
+        image_102?: string;
+        image_132?: string;
+        image_default?: boolean;
+      }
+      enterprise_id?: string;
+      enterprise_name?: string;
+    }
+  }
 
-interface SlackUserTypingEvent {
-  type: 'user_typing';
-  channel: string;
-  user: string;
+  // users
+  interface UsersInfoResult extends WebApiResult {
+    user: FullUserResult;
+  }
+
+  interface UsersListParams {
+    presence?: boolean;
+  }
+
+  interface UsersListResult extends WebApiResult {
+    members: FullUserResult[];
+  }
+
+  interface FullUserResult {
+    id: string;
+    team_id: string;
+    name: string;
+    deleted: boolean;
+    status?: string;
+    color?: string;
+    real_name?: string;
+    tz?: string;
+    tz_label?: string;
+    tz_offset?: number;
+    profile: {
+      bot_id?: string;
+      api_app_id?: string;
+      first_name?: string;
+      last_name?: string;
+      real_name?: string;
+      real_name_normalized?: string;
+      title?: string;
+      email?: string;
+      skype?: string;
+      phone?: string;
+      avatar_hash?: string;
+      image_24?: string;
+      image_32?: string;
+      image_48?: string;
+      image_72?: string;
+      image_192?: string;
+      image_512?: string;
+      image_1024?: string;
+      image_original?: string;
+    }
+    is_admin?: boolean;
+    is_owner?: boolean;
+    is_primary_owner?: boolean;
+    is_restricted?: boolean;
+    is_ultra_restricted?: boolean;
+    is_bot?: boolean;
+    has_2fa?: boolean;
+    has_files?: boolean;
+  }
+
+  interface UsersGetPresenceResult extends WebApiResult {
+    presence: string;
+    online?: boolean;
+    auto_away?: boolean;
+    manual_away?: boolean;
+    connection_count?: number;
+    last_activity?: number;
+  }
+
+  // Slack Message and Attachment information
+  // https://api.slack.com/docs/message-attachments
+
+  interface MessageAttachment {
+    fallback: string;
+    color?: string;
+    pretext?: string;
+    author_name?: string;
+    author_link?: string;
+    author_icon?: string;
+    title?: string;
+    title_link?: string;
+    text?: string;
+    fields?: MessageAttachmentField[];
+    image_url?: string;
+    thumb_url?: string;
+    mrkdwn_in?: string[];
+    footer?: string;
+    footer_icon?: string;
+    attachment_type?: 'default';
+    callback_id?: string;
+    actions?: MessageActions[];
+  }
+
+  interface MessageAttachmentField {
+    title?: string;
+    value: string;
+    short?: boolean;
+  }
+
+  interface MessageActions {
+    name: string;
+    text: string;
+    type: 'button';
+    style?: 'default' | 'primary' | 'danger';
+    value?: string;
+    confirm?: {
+      title: string,
+      text: string,
+      ok_text?: string,
+      dismiss_text?: string
+    };
+  }
+
+  // Events
+  // https://api.slack.com/events
+  interface ChannelArchiveEvent {
+    type: 'channel_archive';
+    channel: string;
+    user: string;
+  }
+
+  interface ChannelCreatedEvent {
+    type: 'channel_created';
+    channel: {
+      id: string;
+      name: string;
+      created: string;
+      creator: string;
+    }
+  }
+
+  interface ChannelDeletedEvent {
+    type: 'channel_deleted';
+    channel: string;
+  }
+
+  interface ChannelJoinedEvent {
+    type: 'channel_joined';
+    channel: {
+      id: string;
+      name: string;
+      created: string;
+      creator: string;
+    }
+  }
+
+  interface ChannelRenameEvent {
+    type: 'channel_rename';
+    channel: {
+      id: string;
+      name: string;
+      created: string;
+    }
+  }
+
+  interface ChannelUnarchiveEvent {
+    type: 'channel_unarchive';
+    channel: string;
+    user: string;
+  }
+
+  interface GroupArchiveEvent {
+    type: 'group_archive';
+    channel: string;
+  }
+
+  interface GroupCloseEvent {
+    type: 'group_close';
+    user: string;
+    channel: string;
+  }
+
+  interface GroupJoinedEvent {
+    type: 'group_joined';
+    channel: {
+      id: string;
+      name: string;
+      created: string;
+      creator: string;
+    }
+  }
+
+  interface GroupLeftEvent {
+    type: 'group_left';
+    channel: string;
+  }
+
+  interface GroupOpenEvent {
+    type: 'group_open';
+    channel: string;
+    user: string;
+  }
+
+  interface GroupRenameEvent {
+    type: 'group_rename';
+    channel: {
+      id: string;
+      name: string;
+      created: string;
+    }
+  }
+
+  interface GroupUnarchiveEvent {
+    type: 'group_unarchive';
+    channel: string;
+    user: string;
+  }
+
+  interface GroupCreatedEvent {
+    type: 'group_created';
+    channel: {
+      id: string;
+      name: string;
+      created: string;
+      creator: string;
+    }
+  }
+
+  interface HelloEvent {
+    type: 'hello';
+  }
+
+  interface MessageEvent {
+    type: 'message';
+    hidden?: string;
+    subtype?: string;
+    channel: string;
+    user: string;
+    text: string;
+    ts: string;
+    user_team: string;
+    team: string;
+    attachments?: MessageAttachment[];
+    deleted_ts?: string;
+    is_starred?: boolean;
+    pinned_to?: string[];
+    edited?: {
+      user: string;
+      ts: string;
+    };
+  }
+
+  interface ReactionEvent {
+    type: 'reaction_added' | 'reaction_removed';
+    user: string;
+    userName: string;
+    reaction: string;
+    event_ts: string;
+    value?: string;
+    item: {
+      type: string;
+      channel?: string;
+      ts?: string;
+      file?: string;
+      file_comment?: string;
+    };
+  }
+
+  interface TeamDomainChangeEvent {
+    type: 'team_domain_change';
+    url: string;
+    domain: string;
+  }
+
+  interface TeamMigrationStartedEvent {
+    type: 'team_migration_started';
+  }
+
+  interface TeamPrefChangeEvent {
+    type: 'team_pref_change';
+    name: string;
+    value: any;
+  }
+
+  interface TeamRenameEvent {
+    type: 'team_rename';
+    name: string;
+  }
+
+  interface UserTypingEvent {
+    type: 'user_typing';
+    channel: string;
+    user: string;
+  }
 }
