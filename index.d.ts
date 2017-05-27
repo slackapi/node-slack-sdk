@@ -163,6 +163,7 @@ declare module '@slack/client' {
         socketFn?: any,
         dataStore?: MemoryDataStore | null | undefined | false,
         autoReconnect?: boolean,
+        useRtmConnect?: boolean,
         maxReconnectionAttempts?: number,
         reconnectionBackoff?: number,
         wsPingInterval?: number,
@@ -584,7 +585,8 @@ declare module '@slack/client' {
     postMessage(channel: string, text: string, opts?: ChatPostMessageParams): Promise<ChatPostMessageResult>;
 
     unfurl(ts: string, channel: string, unfurls: string, callback: (err: Error, result: WebApiResult) => void): void;
-    unfurl(ts: string, channel: string, unfurls: string): Promise<WebApiResult>;
+    unfurl(ts: string, channel: string, unfurls: string, opts: Object, callback: (err: Error, result: WebApiResult) => void): void;
+    unfurl(ts: string, channel: string, unfurls: string, opts?: Object): Promise<WebApiResult>;
 
     update(ts: string, channel: string, text: string, callback: (err: Error, result: ChatUpdateResult) => void): void;
     update(ts: string, channel: string, text: string, opts: ChatUpdateParams, callback: (err: Error, result: ChatUpdateResult) => void): void;
@@ -808,6 +810,9 @@ declare module '@slack/client' {
   }
 
   interface WebApiRtm {
+    connect(callback: (err: Error, result: RtmConnectResult) => void): void;
+    connect(): Promise<RtmConnectResult>;
+
     start(callback: (err: Error, result: RtmStartResult) => void): void;
     start(opts: RtmStartParams, callback: (err: Error, result: RtmStartResult) => void): void;
     start(opts?: RtmStartParams): Promise<RtmStartResult>;
@@ -1204,6 +1209,20 @@ declare module '@slack/client' {
   interface ReactionsAddResult extends WebApiResult {}
 
   // rtm
+  interface RtmConnectResult extends WebApiResult {
+    url: string;
+    team: {
+      id: string;
+      name: string;
+      enterprise_id?: string;
+      enterprise_name?: string;
+    }
+    self: {
+      id: string;
+      name: string;
+    }
+  }
+
   interface RtmStartParams {
     simple_latest?: boolean;
     no_unreads?: boolean;
