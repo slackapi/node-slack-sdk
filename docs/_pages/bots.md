@@ -127,7 +127,7 @@ by electing to be notified on `RTM_EVENTS.REACTION_ADDED`:
 
 ```js
 var RtmClient = require('@slack/client').RtmClient;
-
+var RTM_EVENTS = require('@slack/client').RTM_EVENTS;
 var bot_token = process.env.SLACK_BOT_TOKEN || '';
 
 var rtm = new RtmClient(bot_token);
@@ -186,7 +186,7 @@ Here is an example that listens for people to say "Hello.", and that responds wi
 
 ```js
 var RtmClient = require('@slack/client').RtmClient;
-
+var RTM_EVENTS = require('@slack/client').RTM_EVENTS;
 var bot_token = process.env.SLACK_BOT_TOKEN || '';
 
 var rtm = new RtmClient(bot_token);
