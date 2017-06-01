@@ -59,19 +59,28 @@ can do that by sending a message over the RTM connection as such.
 
 ```js
 var RtmClient = require('@slack/client').RtmClient;
-var RTM_CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS.RTM;
+var CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
 
 var bot_token = process.env.SLACK_BOT_TOKEN || '';
 
 var rtm = new RtmClient(bot_token);
-rtm.start();
 
-var channel = "#general"; //could also be a channel, group, DM, or user ID (C1234), or a username (@don)
+let channel;
+
+// The client will emit an RTM.AUTHENTICATED event on successful connection, with the `rtm.start` payload
+rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, (rtmStartData) => {
+  for (const c of rtmStartData.channels) {
+    if (c.is_member && c.name ==='general') { channel = c.id }
+  }
+  console.log(`Logged in as ${rtmStartData.self.name} of team ${rtmStartData.team.name}, but not yet connected to a channel`);
+});
 
 // you need to wait for the client to fully connect before you can send messages
-rtm.on(RTM_CLIENT_EVENTS.RTM_CONNECTION_OPENED, function () {
+rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, function () {
   rtm.sendMessage("Hello!", channel);
 });
+
+rtm.start();
 ```
 
 --------
@@ -127,7 +136,7 @@ by electing to be notified on `RTM_EVENTS.REACTION_ADDED`:
 
 ```js
 var RtmClient = require('@slack/client').RtmClient;
-
+var RTM_EVENTS = require('@slack/client').RTM_EVENTS;
 var bot_token = process.env.SLACK_BOT_TOKEN || '';
 
 var rtm = new RtmClient(bot_token);
@@ -156,7 +165,7 @@ var CLIENT_EVENTS = require('@slack/client').CLIENT_EVENTS;
 
 var bot_token = process.env.SLACK_BOT_TOKEN || '';
 
-var rtm = new RtmClient(token, {
+var rtm = new RtmClient(bot_token, {
   // Sets the level of logging we require
   logLevel: 'error',
   // Initialise a data store for our client, this will load additional helper functions for the storing and retrieval of data
@@ -186,7 +195,7 @@ Here is an example that listens for people to say "Hello.", and that responds wi
 
 ```js
 var RtmClient = require('@slack/client').RtmClient;
-
+var RTM_EVENTS = require('@slack/client').RTM_EVENTS;
 var bot_token = process.env.SLACK_BOT_TOKEN || '';
 
 var rtm = new RtmClient(bot_token);
