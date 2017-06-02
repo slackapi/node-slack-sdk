@@ -27,7 +27,7 @@ so we have them covered in [Building Bots](https://slackapi.github.io/node-slack
 Once you have a working Node.js project (if you need help, you can check out [NPM's tutorial](https://docs.npmjs.com/getting-started/installing-node)), you can install the Slack Developer Kit as a dependency via npm:
 
 ```sh
-npm install @slack/client --save
+$ npm install @slack/client --save
 ```
 
 # Some Examples
