@@ -23,7 +23,7 @@ Most Slack apps are interested in posting messages into Slack channels, and gene
 to learn how to use `node-slack-sdk` to accomplish these tasks. Bots, on the other hand, are a bit more complex,
 so we have them covered in [Building Bots](https://slackapi.github.io/node-slack-sdk/bots).
 
-# Install
+# Installation
 Once you have a working Node.js project (if you need help, you can check out [NPM's tutorial](https://docs.npmjs.com/getting-started/installing-node)), you can install the Slack Developer Kit as a dependency via npm:
 
 `npm install @slack/client --save`
