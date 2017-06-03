@@ -30,7 +30,7 @@ Once you have a working Node.js project, you can install the Slack Developer Kit
 $ npm install @slack/client --save
 ```
 
-If you need some help with setup and installation, check out our [full documentation](https://slackapi.github.io/node-slack-sdk/)
+If you are having troubles with setup and installation, check out our [full documentation](https://slackapi.github.io/node-slack-sdk/).
 
 # Some Examples
 
