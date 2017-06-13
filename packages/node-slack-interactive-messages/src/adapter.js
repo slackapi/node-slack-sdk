@@ -190,7 +190,7 @@ export default class SlackMessageAdapter {
         if (isString(constraints.callbackId) && payload.callback_id !== constraints.callbackId) {
           return false;
         }
-        if (isRegExp(constraints.callbackId) && !constraints.callbackId.text(payload.callback_id)) {
+        if (isRegExp(constraints.callbackId) && !constraints.callbackId.test(payload.callback_id)) {
           return false;
         }
       }
