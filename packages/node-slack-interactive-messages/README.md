@@ -1,5 +1,8 @@
 # Interactive Message Adapter for Node and Express
 
+[![Build Status](https://travis-ci.org/slackapi/node-slack-interactive-messages.svg?branch=master)](https://travis-ci.org/slackapi/node-slack-interactive-messages)
+[![codecov](https://codecov.io/gh/slackapi/node-slack-interactive-messages/branch/master/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-interactive-messages)
+
 The adapter provides a simplified API to route message actions and options in your app. It handles
 common tasks and best practices so that you don't need to.
 
