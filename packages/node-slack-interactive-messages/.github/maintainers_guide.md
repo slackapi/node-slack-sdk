@@ -51,6 +51,7 @@ documentation is written manually in markdown in `docs/reference.md`.
     *  Tag the commit with the version number. For example `v1.0.8`.
 
 2.  Distribute the release
+    *  Make sure the project has been built locally (the `dist`  directory is up to date).
     *  Publish to the appropriate package manager. Once you have permission to publish on npm, you
        can run `npm publish`.
     *  Create a GitHub Release. This will also serve as a Changelog for the project. Add a

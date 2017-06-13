@@ -20,7 +20,7 @@ Describe your issue here.
 Filling out the following details about bugs will help us solve your issue sooner.
 
 #### Reproducible in:
-slack-events version:
+@slack/interactive-messages version:
 node version:
 OS version(s):
 

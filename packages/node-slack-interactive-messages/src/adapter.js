@@ -174,6 +174,7 @@ export default class SlackMessageAdapter {
 
   dispatch(payload) {
     const action = payload.actions && payload.actions[0];
+    // The following result value represents "no replacement"
     let result = { status: 200 };
     const respond = (message) => {
       debug('sending async response');

@@ -3,6 +3,7 @@ var http = require('http');
 var proxyquire = require('proxyquire');
 var nop = require('nop');
 var getRandomPort = require('get-random-port');
+var isFunction = require('lodash.isfunction');
 var systemUnderTest = require('../../dist/adapter');
 var SlackMessageAdapter = systemUnderTest.default;
 
@@ -89,9 +90,56 @@ describe('SlackMessageAdapter', function () {
     it('should return a Promise for a started http.Server', function () {
       var self = this;
       return this.adapter.start(self.portNumber).then(function (server) {
-        assert(server.listening);
+        // only works in node >= 5.7.0
+        // assert(server.listening);
         assert.equal(server.address().port, self.portNumber);
       });
+    });
+  });
+
+  describe('#stop()', function () {
+    beforeEach(function (done) {
+      var self = this;
+      self.adapter = new SlackMessageAdapter(workingVerificationToken);
+      getRandomPort(function (error, port) {
+        if (error) return done(error);
+        return self.adapter.start(port)
+          .then(function (server) {
+            self.server = server;
+            done();
+          })
+          .catch(done);
+      });
+    });
+    afterEach(function () {
+      return this.adapter.stop().catch(nop);
+    });
+    it('should return a Promise and the server should be stopped', function () {
+      var self = this;
+      return this.adapter.stop().then(function () {
+        assert(!self.server.listening);
+      });
+    });
+  });
+
+  describe('#expressMiddleware()', function () {
+    beforeEach(function () {
+      this.adapter = new SlackMessageAdapter(workingVerificationToken);
+    });
+    it('should return a function', function () {
+      var middleware = this.adapter.expressMiddleware();
+      assert(isFunction(middleware));
+    });
+  });
+
+  describe('#action()', function () {
+    beforeEach(function () {
+      this.adapter = new SlackMessageAdapter(workingVerificationToken);
+    });
+    it('should fail registration without handler', function () {
+      assert.throws(function () {
+        this.adapter.action('my_callback');
+      }, TypeError);
     });
   });
 });

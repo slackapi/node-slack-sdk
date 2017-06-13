@@ -14,18 +14,22 @@ common tasks and best practices so that you don't need to.
 ## Installation
 
 ```
-$ npm install --save @slack/interactive-messages express
+$ npm install --save @slack/interactive-messages express body-parser
 ```
 
 ## Configuration
 
 Before you can use [interactive messages](https://api.slack.com/interactive-messages) you must
-[create a Slack App](https://api.slack.com/apps/new), and configure an interactive message request
-URL. If your app will use dynamic menus, you also need to configure an options URL.
+[create a Slack App](https://api.slack.com/apps/new). On the **Basic Information** page, in the section
+for **App Credentials**, note the **Verification Token**. You will need it to initialize the adapter.
+
+Select the **Interactive Messages** feature, and enable it. Input your **Request URL**. If your app
+will use dynamic menus, you also need to input a **Options URL**.
 
 ![Configuring a request URL](support/interactive-messages.gif)
 
-### Getting a temporary URL for development
+<details>
+<summary>Getting a temporary Request URL for development</summary>
 
 If you're just getting started with development, you may not have a publicly accessible URL for
 your app. We recommend using a development proxy, such as [ngrok](https://ngrok.com/) or
@@ -48,26 +52,30 @@ the base URL. This will depend on your app, but if you are using the built-in HT
 path is `/slack/actions`. In this example the request URL would be
 `https://d9f6dad3.ngrok.io/slack/actions`.
 
+</details>
+
 ## Usage
 
-The easiest way to start using interactive messages is by using the built-in HTTP server.
+The easiest way to start responding to interactive message actions is by using the built-in HTTP
+server.
 
 ```javascript
-// Initialize using verification token from environment variables
-const createMessageAdapter = require('@slack/events-api').createMessageAdapter;
-const slackMessages = createMessageAdapter(process.env.SLACK_VERIFICATION_TOKEN);
-const port = process.env.PORT || 3000;
+const { createMessageAdapter } = require('@slack/interactive-messages');
 
-// Attach action handlers by `callback_id` (See: https://api.slack.com/docs/interactive-message-field-guide#attachment_fields)
+// Initialize adapter using verification token from environment variables
+const slackMessages = createMessageAdapter(process.env.SLACK_VERIFICATION_TOKEN);
+
+// Attach action handlers by `callback_id`
+// (See: https://api.slack.com/docs/interactive-message-field-guide#attachment_fields)
 slackMessages.action('welcome_button', (payload) => {
   // `payload` is JSON that describes an interaction with a message.
   console.log(`The user ${payload.user.name} in team ${payload.team.domain} pressed the welcome button`);
 
-  // The `actions` array contains details about the particular action (button press, menu selection, etc.)
+  // The `actions` array contains details about the specific action (button press, menu selection, etc.)
   const action = payload.actions[0];
   console.log(`The button had name ${action.name} and value ${action.value}`);
 
-  // You should return a value which describes a message to replace the original.
+  // You should return a JSON object which describes a message to replace the original.
   // Note that the payload contains a copy of the original message (`payload.original_message`).
   const replacement = payload.original_message;
   // Typically, you want to acknowledge the action and remove the interactive elements from the message
@@ -76,30 +84,32 @@ slackMessages.action('welcome_button', (payload) => {
   return replacement;
 });
 
-// Start a basic HTTP server
+// Start the built-in HTTP server
+const port = process.env.PORT || 3000;
 slackMessages.start(port).then(() => {
   console.log(`server listening on port ${port}`);
 });
 ```
 
-**NOTE**: To use the example above, your application must have already sent a message with an
-attachment that contains a button whose `callback_id` is set to `'welcome_button'`. There are
-multiple ways to produce these types of messages; including
-[incoming webhooks](https://api.slack.com/incoming-webhooks), or the web API (`chat.postMessage`,
-`chat.update`, or even `chat.unfurl`).
+**NOTE**: To use the example above, your application must have already sent a message with a message
+button whose `callback_id` is set to `'welcome_button'`. There are multiple ways to produce these
+types of messages; including [incoming webhooks](https://api.slack.com/incoming-webhooks), or the
+web API ([`chat.postMessage`](https://api.slack.com/methods/chat.postMessage),
+[`chat.update`](https://api.slack.com/methods/chat.update), or
+[`chat.unfurl`](https://api.slack.com/methods/chat.unfurl)).
 
-### Using with Express
+### Using as Express middleware
 
-For usage within an existing Express application, you can route requests to the adapter's express
-middleware by calling the `expressMiddleware()` method.
+For usage within an existing Express application, call the `expressMiddleware()` method on the
+adapter and it will return a middleware function which you can add to your app. Be sure to add
+the `body-parser` middleware before the message adapter as shown below.
 
 ```javascript
 const http = require('http');
+const { createMessageAdapter } = require('@slack/interactive-messages');
 
 // Initialize using verification token from environment variables
-const createMessageAdapter = require('@slack/events-api').createMessageAdapter;
 const slackMessages = createMessageAdapter(process.env.SLACK_VERIFICATION_TOKEN);
-const port = process.env.PORT || 3000;
 
 // Initialize an Express application
 const express = require('express');
@@ -110,7 +120,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Mount the event handler on a route
-// NOTE: you must mount to a path that matches the Action URL or Options URL that was configured
+// NOTE: you must mount to a path that matches the Request URL and/or Options URL that was configured
 app.use('/slack/actions', slackMessages.expressMiddleware());
 
 // Attach action handlers
@@ -119,17 +129,18 @@ slackMessages.action('welcome_button', (payload) => {
 });
 
 // Start the express application
+const port = process.env.PORT || 3000;
 http.createServer(app).listen(port, () => {
   console.log(`server listening on port ${port}`);
 });
 ```
 
-**Pro-Tip**: You can use this technique to combine usage of this module with the
+**Pro-Tip**: You can use this technique to combine usage of this adapter and the
 [Events API adapter](https://github.com/slackapi/node-slack-events-api).
 
 ### Action matching
 
-You can attach handlers to actions using more than just exact matches for the `"callback_id"` string.
+You can attach handlers for actions using more than just exact matches for the `"callback_id"` string.
 
 ```javascript
 // Regular expressions can be used to match a computed callback_id or family of callback_id's
@@ -138,7 +149,8 @@ slackMessages.action(/welcome_(\w+)/, (payload) => { /* ... */ });
 // Action types can be used to separate interactions that originate from buttons or menus
 slackMessages.action({ type: 'select' }, (payload) => { /* ... */ });
 
-// Handle actions from unfurls separately, since properties in the payload can differ (e.g. no access to original_message content)
+// Handle actions from unfurls separately, since properties in the payload can differ
+// (e.g. no access to original_message content)
 slackMessages.action({ unfurl: true }, (payload) => { /* ... */ });
 
 // Combine multiple properties to match actions as specifically as you desire
@@ -146,16 +158,15 @@ slackMessages.action({ callbackId: 'welcome', type: 'button', unfurl: false }, (
 ```
 
 These options should allow you to match actions in any way that makes sense for your app. Keep in
-mind that only the first handler to be registered that matches an incoming interaction will be
-invoked.
+mind that only the first handler that matches an action will be invoked.
 
 ### Asynchronous responses
 
-You cannot always prepare a response to an action synchronously, especially in node where all I/O is
-evented and you should not block. In these situations we recommend that you at least consider
-updating the message to remove the interactive elements when the action shouldn't trigger more than
-once. The adapter will invoke your handler with a `respond()` function as the second argument so you
-can update the message again asynchronously.
+Sometimes you can't prepare a response to an action synchronously, especially in node where all I/O
+is evented and you should not block. In these situations we recommend that you at least consider
+updating the message to remove the interactive elements (often times actions aren't meant to trigger
+more than once for an app). The adapter will invoke your handler with a `respond()` function as the
+second argument so you can update the message asynchronously.
 
 ```javascript
 slackMessages.action('my_callback', (payload, respond) => {
@@ -176,12 +187,16 @@ slackMessages.action('my_callback', (payload, respond) => {
 You may also return a promise for a JSON object that represents the replacement message from the
 action handler. This is not recommended unless you know the promise will resolve within 3 seconds.
 
+If you do not return a value or return a falsy value from the handler, the message is not replaced.
+This is not recommended in most cases, because the interactive attachments will stay on the message
+and might be used again by the same or a different user.
+
 ### Options handling and matching
 
 The adapter can also deal with
 [options requests from interactive menus](https://api.slack.com/docs/message-menus#menu_dynamic).
 If you are using the built-in HTTP server, the URL for options requests will be the same as the
-action URL. If you are using the adapter with Express, the options URL can be anywhere you mount
+request URL. If you are using the adapter with Express, the options URL can be anywhere you mount
 the express middleware.
 
 Options handlers are matched using the menu's `'callback_id'` as a string or a regular expression.
@@ -189,8 +204,9 @@ Options handlers are matched using the menu's `'callback_id'` as a string or a r
 ```javascript
 const messageMiddleware = slackMessages.expressMiddleware();
 // `app` is an express application
-//  this is an example of choosing to use a separate action URL and options URL
 app.use('/slack/actions', messageMiddleware)
+// in this example, we create a separate Options URL (different from the above Request URL) and
+// still use the same instance of the adapter's middleware
 app.use('/slack/options', messageMiddleware);
 
 slackMessages.options('my_dynamic_menu_callback', (selection, respond) => {
@@ -214,7 +230,7 @@ slackMessages
   .action('make_order_1', orderStepOne)
   .action('make_order_2', orderStepTwo)
   .action('make_order_3', orderStepThree)
-  .options('make_order_3', workFlowStepThreeOptions);
+  .options('make_order_3', orderStepThreeOptions);
 ```
 
 ### Error handling
@@ -226,20 +242,10 @@ within the channel.
 For asynchronous code, `respond()` will return a promise. On success, the promise resolves to a
 response object. On errors, the promise rejects and you should handle it with a `.catch()`.
 
-## Documentation
-
-To learn more, see the [reference documentation](docs/reference.md).
-
 ## Support
 
-Need help? Join the [Bot Developer Hangout](http://dev4slack.xoxco.com/) team and talk to us in
+Need help? Join the [Bot Developer Hangout](https://community.botkit.ai/) team and talk to us in
 [#slack-api](https://dev4slack.slack.com/messages/slack-api/).
 
 You can also [create an Issue](https://github.com/slackapi/node-slack-events-api/issues/new)
 right here on GitHub.
-
-**TODO** mention falsy returns do no replacement in reference docs
-
-**TODO** open an issue to discuss adding API for inspection or removal of action/option handlers
-
-**TODO** open an issue to discuss if we need options for name or value matching/routing? slapp has these
