@@ -16,7 +16,7 @@ It:
  - provides reasonable defaults for events and logging
  - defines a basic model layer and data-store for caching Slack RTM API responses
 
-This library does not attempt to provide application level support, _e.g._ regex matching and filtering of the
+This module does not attempt to provide application level support, _e.g._ regex matching and filtering of the
 conversation stream.
 
 Most Slack apps are interested in posting messages into Slack channels, and generally working with our [Web API](https://api.slack.com/web). Read on
