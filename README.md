@@ -7,9 +7,9 @@
 
 Read the [full documentation](https://slackapi.github.io/node-slack-sdk) for all the lovely details.
 
-This library is a wrapper around the Slack [RTM](https://api.slack.com/rtm) and [Web](https://api.slack.com/web) APIs. 
+This module is a wrapper around the Slack [RTM](https://api.slack.com/rtm) and [Web](https://api.slack.com/web) APIs. 
 
-It will help you build on all aspects of the Slack platform, from dropping notifications in channels to fully interactive bots. It provides the low level functionality you need to build reliable apps and projects on top of Slack's APIs.
+It will help you build on the Slack platform, from dropping notifications in channels to developing fully interactive bots. It provides the low level functionality you need to build reliable apps and projects on top of Slack's APIs.
 It:
 
  - handles reconnection logic and request retries
@@ -29,8 +29,6 @@ Once you have a working Node.js project, you can install the Slack Developer Kit
 ```sh
 $ npm install @slack/client --save
 ```
-
-If you are having troubles with setup and installation, check out our [full documentation](https://slackapi.github.io/node-slack-sdk/).
 
 # Some Examples
 
