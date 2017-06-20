@@ -17,6 +17,7 @@ function writeMarkdownFile(data, classes, index) {
                              '{{#class name=\"%s\"}}{{>docs-main}}{{/class}}',
                              className, className, className);
   var dmdStream;
+  // eslint-disable-next-line no-console
   console.log(util.format(
     'rendering %s, template: %s', className, template
   ));
