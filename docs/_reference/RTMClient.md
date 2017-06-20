@@ -13,8 +13,8 @@ permalink: /reference/RTMClient
     * [.authenticated](#RTMClient+authenticated) : <code>boolean</code>
     * [.activeUserId](#RTMClient+activeUserId) : <code>string</code>
     * [.activeTeamId](#RTMClient+activeTeamId) : <code>string</code>
-    * [._pingTimer](#RTMClient+_pingTimer) : <code>?</code>
     * [.dataStore](#RTMClient+dataStore) : <code>[SlackDataStore](#SlackDataStore)</code>
+    * [._pingTimer](#RTMClient+_pingTimer) : <code>?</code>
     * [._createFacets()](#RTMClient+_createFacets)
     * [.start(opts)](#RTMClient+start)
     * ~~[.login()](#RTMClient+login)~~
@@ -26,31 +26,37 @@ permalink: /reference/RTMClient
     * [.handleWsMessage(wsMsg)](#RTMClient+handleWsMessage)
     * [._handleMessageAck(replyTo, message)](#RTMClient+_handleMessageAck)
     * [.handleWsError(err)](#RTMClient+handleWsError)
-    * [.handleWsClose()](#RTMClient+handleWsClose)
+    * [.handleWsClose(code, reason)](#RTMClient+handleWsClose)
     * [._handlePong(message)](#RTMClient+_handlePong)
+    * [._maybeKeepAlive(message)](#RTMClient+_maybeKeepAlive)
     * [._handleHello()](#RTMClient+_handleHello)
     * [.sendMessage(text, channelId, [optCb])](#RTMClient+sendMessage)
     * [.updateMessage(message, [optCb])](#RTMClient+updateMessage)
     * [.sendTyping(channelId)](#RTMClient+sendTyping)
+    * [.subscribePresence(userIds)](#RTMClient+subscribePresence)
     * [.send(message, [optCb])](#RTMClient+send)
 
 <a name="new_RTMClient_new"></a>
 
 ### new RTMClient(token, opts)
+Creates a new instance of RTM client.
+
 
 | Param | Type | Description |
 | --- | --- | --- |
-| token | <code>String</code> |  |
-| opts | <code>object</code> |  |
-| opts.socketFn | <code>function</code> | A function to call, passing in a websocket URL, that should     return a websocket instance connected to that URL. |
-| opts.dataStore | <code>object</code> | A store to cache Slack info, e.g. channels, users etc. in.     If you don't want a store, pass false or null as the value for this. |
-| opts.autoReconnect | <code>boolean</code> | Whether or not to automatically reconnect when the connection     closes. |
-| opts.maxReconnectionAttempts | <code>number</code> |  |
-| opts.reconnectionBackoff | <code>number</code> |  |
-| opts.wsPingInterval | <code>number</code> |  |
-| opts.maxPongInterval | <code>number</code> |  |
-| opts.logLevel | <code>string</code> | The log level for the logger. |
-| opts.logger | <code>function</code> | Function to use for log calls, takes (logLevel, logString)     parameters. |
+| token | <code>String</code> | The token to use for connecting |
+| opts | <code>Object</code> |  |
+| opts.socketFn | <code>function</code> | A function to call, passing in a websocket URL, that should return a websocket instance connected to that URL |
+| opts.dataStore | <code>Object</code> | A store to cache Slack info, e.g. channels, users etc. in. Pass null or false to use no store |
+| opts.autoReconnect | <code>Boolean</code> | Whether or not to automatically reconnect when the connection closes. Defaults to true |
+| opts.useRtmConnect | <code>Boolean</code> | True to use rtm.connect rather than rtm.start |
+| opts.retryConfig | <code>Object</code> | The retry policy to use, defaults to forever with exponential backoff {@see https://github.com/SEAPUNK/node-retry} |
+| opts.maxReconnectionAttempts | <code>Number</code> | DEPRECATED: Use retryConfig instead |
+| opts.reconnectionBackoff | <code>Number</code> | DEPRECATED: Use retryConfig instead |
+| opts.wsPingInterval | <code>Number</code> | The time to wait between pings with the server |
+| opts.maxPongInterval | <code>Number</code> | The max time (in ms) to wait for a pong before reconnecting |
+| opts.logLevel | <code>String</code> | The log level for the logger |
+| opts.logger | <code>function</code> | Function to use for log calls, takes (logLevel, logString) parameters |
 
 <a name="RTMClient+_socketFn"></a>
 
@@ -82,15 +88,15 @@ The id of the user that's currently connected via this client.
 The id of the team that's currently connected via this client.
 
 **Kind**: instance property of <code>[RTMClient](#RTMClient)</code>  
+<a name="RTMClient+dataStore"></a>
+
+### rtmClient.dataStore : <code>[SlackDataStore](#SlackDataStore)</code>
+**Kind**: instance property of <code>[RTMClient](#RTMClient)</code>  
 <a name="RTMClient+_pingTimer"></a>
 
 ### rtmClient._pingTimer : <code>?</code>
 The timer repeatedly pinging the server to let it know the client is still alive.
 
-**Kind**: instance property of <code>[RTMClient](#RTMClient)</code>  
-<a name="RTMClient+dataStore"></a>
-
-### rtmClient.dataStore : <code>[SlackDataStore](#SlackDataStore)</code>
 **Kind**: instance property of <code>[RTMClient](#RTMClient)</code>  
 <a name="RTMClient+_createFacets"></a>
 
@@ -99,6 +105,8 @@ The timer repeatedly pinging the server to let it know the client is still alive
 <a name="RTMClient+start"></a>
 
 ### rtmClient.start(opts)
+Begin an RTM session.
+
 **Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
 
 | Param | Type |
@@ -128,7 +136,7 @@ Connects to the RTM API.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| socketUrl | <code>string</code> | The URL of the websocket to connect to. |
+| socketUrl | <code>String</code> | The URL of the websocket to connect to. |
 
 <a name="RTMClient+disconnect"></a>
 
@@ -137,14 +145,16 @@ Disconnects from the RTM API.
 
 **Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
 
-| Param |
-| --- |
-| optReason | 
-| optCode | 
+| Param | Type |
+| --- | --- |
+| optReason | <code>Error</code> | 
+| optCode | <code>Number</code> | 
 
 <a name="RTMClient+reconnect"></a>
 
 ### rtmClient.reconnect()
+Attempts to reconnect to the websocket by retrying the start method.
+
 **Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
 <a name="RTMClient+handleWsOpen"></a>
 
@@ -189,8 +199,16 @@ Emits the websocket error.
 
 <a name="RTMClient+handleWsClose"></a>
 
-### rtmClient.handleWsClose()
+### rtmClient.handleWsClose(code, reason)
+Occurs when the websocket closes.
+
 **Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| code | <code>String</code> | The error code |
+| reason | <code>String</code> | The reason for closing |
+
 <a name="RTMClient+_handlePong"></a>
 
 ### rtmClient._handlePong(message)
@@ -202,9 +220,23 @@ Handles the RTM API's pong message, updating the lastPong time on the client.
 | --- | --- |
 | message | <code>Object</code> | 
 
+<a name="RTMClient+_maybeKeepAlive"></a>
+
+### rtmClient._maybeKeepAlive(message)
+If we haven't received a pong in too long, treat any incoming message as a pong
+to prevent unnecessary disconnects.
+
+**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
+
+| Param | Type |
+| --- | --- |
+| message | <code>Object</code> | 
+
 <a name="RTMClient+_handleHello"></a>
 
 ### rtmClient._handleHello()
+Occurs when the socket connection is opened.
+Begin ping-pong with the server.
 [hello](https://api.slack.com/events/hello)
 
 **Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
@@ -243,6 +275,18 @@ Sends a typing indicator to indicate that the user with `activeUserId` is typing
 | Param | Type | Description |
 | --- | --- | --- |
 | channelId | <code>string</code> | The id of the channel|group|DM to send this message to. |
+
+<a name="RTMClient+subscribePresence"></a>
+
+### rtmClient.subscribePresence(userIds)
+Subscribes this socket to presence changes for only the given `userIds`.
+This requires `presence_sub` to have been passed as an argument to `start`.
+
+**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| userIds | <code>Array</code> | The user IDs to subscribe to |
 
 <a name="RTMClient+send"></a>
 
