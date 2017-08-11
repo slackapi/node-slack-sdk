@@ -22,6 +22,7 @@ whWithDefaults.send({
   text: 'Some text',
   iconEmoji: ':robot_face:',
   channel: 'custom-channel',
+  linkNames: '1',
   attachments: [
     // attachment data
     // see https://api.slack.com/docs/attachments
