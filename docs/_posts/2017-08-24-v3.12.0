@@ -1,0 +1,5 @@
+---
+layout: changelog
+---
+  * Adds MPIM data to the DataStore as Groups (#389) - thanks @aoberoi and @bradslavin
+
