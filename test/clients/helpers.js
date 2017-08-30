@@ -51,11 +51,31 @@ describe('Client Helpers', function () {
       });
     });
 
+    it('JSON encodes user profile if it is not already encoded', function () {
+      var required = { profile: { status_text: 'testing', status_emoji: ':construction_worker:' } };
+
+      expect(helpers.getAPICallData('test', required, null)).to.be.deep.equal({
+        profile: '{"status_text":"testing","status_emoji":":construction_worker:"}',
+        token: 'test'
+      });
+    });
+
     it('leaves attachments alone if they are already encoded', function () {
       var required = { attachments: '["a","b","c"]' };
 
       expect(helpers.getAPICallData('test', required, null)).to.be.deep.equal({
         attachments: '["a","b","c"]',
+        token: 'test'
+      });
+    });
+
+    it('leaves user profile alone if it is already encoded', function () {
+      var required = { profile:
+        '{"status_text":"testing","status_emoji":":construction_worker:"}'
+      };
+
+      expect(helpers.getAPICallData('test', required, null)).to.be.deep.equal({
+        profile: '{"status_text":"testing","status_emoji":":construction_worker:"}',
         token: 'test'
       });
     });
