@@ -45,7 +45,7 @@ added to it.
 ```js
 var IncomingWebhook = require('@slack/client').IncomingWebhook;
 
-var url = process.env.SLACK_WEBHOOK_URL || ''; //see section above on sensitive data
+var url = process.env.SLACK_WEBHOOK_URL || '';
 
 var webhook = new IncomingWebhook(url);
 
@@ -69,7 +69,7 @@ Your app will interact with the Web API through the `WebClient` object, which re
 ```js
 var WebClient = require('@slack/client').WebClient;
 
-var token = process.env.SLACK_API_TOKEN || ''; //see section above on sensitive data
+var token = process.env.SLACK_API_TOKEN || '';
 
 var web = new WebClient(token);
 web.chat.postMessage('C1232456', 'Hello there', function(err, res) {
