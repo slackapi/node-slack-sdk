@@ -169,7 +169,9 @@ describe('Incoming Webhook', function () {
           username: 'A username',
           channel: 'a-channel',
           iconEmoji: ':robot_face:',
-          linkNames: '1'
+          linkNames: '1',
+          unfurl_links: '1',
+          unfurl_media: '1'
         }, function () {
           expect(transport.calledOnce).to.equal(true);
           expect(transport.calledWithMatch({
@@ -178,7 +180,9 @@ describe('Incoming Webhook', function () {
               username: 'A username',
               channel: 'a-channel',
               icon_emoji: ':robot_face:',
-              link_names: '1'
+              link_names: '1',
+              unfurl_links: '1',
+              unfurl_media: '1'
             }
           })).to.equal(true);
 
