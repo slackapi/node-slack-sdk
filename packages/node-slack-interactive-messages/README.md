@@ -27,7 +27,7 @@ Before you can use [interactive messages](https://api.slack.com/interactive-mess
 for **App Credentials**, note the **Verification Token**. You will need it to initialize the adapter.
 
 Select the **Interactive Messages** feature, and enable it. Input your **Request URL**. If your app
-will use dynamic menus, you also need to input a **Options URL**.
+will use dynamic message menus, you also need to input a **Options URL**.
 
 ![Configuring a request URL](support/interactive-messages.gif)
 
@@ -235,6 +235,11 @@ slackMessages
   .action('make_order_3', orderStepThree)
   .options('make_order_3', orderStepThreeOptions);
 ```
+
+
+### Dialogs
+
+This adapter can be used in conjunction with Slack dialogs. Because any dialog submission request requires a synchronous response, a response is needed within 3 seconds. If your asynchronous code cannot return within sufficient time, the adapter will fallback to responding with a `200 OK` successful response to avoid any user-facing errors.
 
 ### Error handling
 

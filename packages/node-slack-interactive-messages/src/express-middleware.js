@@ -13,31 +13,34 @@ export function createExpressMiddleware(adapter) {
 
   // This function binds a specific response instance to a function
   function sendResponse(res) {
-    return function _sendResponse({ status, content }) {
-      debug('sending response - status: %s, content: %o', status, content);
-      return new Promise((resolve, reject) => {
+    return function _sendResponse(dispatchResult) {
+      const { status, content } = dispatchResult;
+      const contentReady = (content && typeof content.then === 'function') ? content : Promise.resolve(content);
+      return contentReady.then((c) => {
         res.status(status);
         res.set('X-Slack-Powered-By', poweredBy);
-        if (content) {
-          res.json(content);
+        if (c) {
+          res.json(c);
         } else {
           res.end();
         }
-        res.on('finish', () => {
-          // res._headers is an undocumented property, but we feel comfortable using it because:
-          // 1. express depends on it and express is so foundational in node
-          // 2. this is logging code and the risk of this causing a break is minimal
-          // eslint-disable-next-line no-underscore-dangle
-          debug('response finished - status: %d, headers: %o', res.statusCode, res._headers);
-          resolve(res);
+        return new Promise((resolve, reject) => {
+          res.on('finish', () => {
+            // res._headers is an undocumented property, but we feel comfortable using it because:
+            // 1. express depends on it and express is so foundational in node
+            // 2. this is logging code and the risk of this causing a break is minimal
+            // eslint-disable-next-line no-underscore-dangle
+            debug('response finished - status: %d, headers: %o', res.statusCode, res._headers);
+            resolve(res);
+          });
+          res.on('error', reject);
         });
-        res.on('error', reject);
       });
     };
   }
 
   return function slackMessageAdapterMiddleware(req, res, next) {
-    debug('request recieved - method: %s, path: %s', req.method, req.path);
+    debug('request received - method: %s, path: %s', req.method, req.path);
 
     // Bind a response function to this request's respond object. This may be used in a number of
     // places

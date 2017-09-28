@@ -3,6 +3,21 @@ import pkg from '../package.json';
 
 function escape(s) { return s.replace('/', ':').replace(' ', '_'); }
 
+export function promiseTimeout(ms, promise) {
+  // Create a promise that rejects in <ms> milliseconds
+  const timeout = new Promise((resolve, reject) => {
+    const id = setTimeout(() => {
+      clearTimeout(id);
+      reject('Promise timed out');
+    }, ms);
+  });
+  // Returns a race between our timeout and the passed in promise
+  return Promise.race([
+    promise,
+    timeout,
+  ]);
+}
+
 // NOTE: before this can be an external module:
 // 1. are all the JS features supported back to a reasonable version?
 //    default params, template strings, computed property names

@@ -6,7 +6,7 @@ import isRegExp from 'lodash.isregexp';
 import isFunction from 'lodash.isfunction';
 import debugFactory from 'debug';
 import { createExpressMiddleware } from './express-middleware';
-import { packageIdentifier } from './util';
+import { packageIdentifier, promiseTimeout } from './util';
 
 const debug = debugFactory('@slack/interactive-messages:adapter');
 
@@ -174,11 +174,19 @@ export default class SlackMessageAdapter {
 
   dispatch(payload) {
     const action = payload.actions && payload.actions[0];
+
     // The following result value represents "no replacement"
     let result = { status: 200 };
+    // when the matcher finds a dialog submission, it will populate this value with a function
+    let dialogPromiseResolve;
     const respond = (message) => {
-      debug('sending async response');
-      return this.axios.post(payload.response_url, message);
+      if (payload.response_url) {
+        debug('sending async response');
+        return this.axios.post(payload.response_url, message);
+      } else if (dialogPromiseResolve) {
+        dialogPromiseResolve(message);
+      }
+      return true;
     };
 
     this.callbacks.some(([constraints, fn]) => {
@@ -214,6 +222,20 @@ export default class SlackMessageAdapter {
       } catch (error) {
         debug('callback error: %o', error);
         result = { status: 500 };
+        return true;
+      }
+
+      // Dialog submissions must be responded to in under 3 seconds
+      // Setting timeout to  2.5 seconds to account for propagation
+      if (payload.type === 'dialog_submission') {
+        const ms = 2500;
+        if (callbackResult) {
+          result = { status: 200, content: promiseTimeout(ms, callbackResult) };
+        } else {
+          result = {
+            status: 200, content: new Promise((resolve) => { dialogPromiseResolve = resolve; }),
+          };
+        }
         return true;
       }
 
