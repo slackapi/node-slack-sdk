@@ -2,12 +2,11 @@
 
 [![Build Status](https://travis-ci.org/slackapi/node-slack-sdk.svg?branch=master)](https://travis-ci.org/slackapi/node-slack-sdk)
 [![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-sdk)
-[![npm (scoped)](https://img.shields.io/npm/v/@slack/client.svg?maxAge=2592000)](https://www.npmjs.com/package/@slack/client)
-
+[![npm (scoped)](https://img.shields.io/npm/v/@slack/client.svg)](https://www.npmjs.com/package/@slack/client)
 
 Read the [full documentation](https://slackapi.github.io/node-slack-sdk) for all the lovely details.
 
-This module is a wrapper around the Slack [RTM](https://api.slack.com/rtm) and [Web](https://api.slack.com/web) APIs. 
+This module is a wrapper around the Slack [RTM](https://api.slack.com/rtm) and [Web](https://api.slack.com/web) APIs.
 
 It will help you build on the Slack platform, from dropping notifications in channels to developing fully interactive bots. It provides the low level functionality you need to build reliable apps and projects on top of Slack's APIs.
 It:
