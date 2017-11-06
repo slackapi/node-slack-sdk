@@ -123,17 +123,17 @@ describe('Web API Client', function () {
 
     var requestOptionsTransport = requestTransport.requestOptionsTransport(options);
 
+    var client = new WebAPIClient('test-token', { transport: requestOptionsTransport });
+
     // Mock a result where Basic Auth was passed
 
     nock('https://slack.com/api', {
       reqheaders: {
-        'authorization': /Basic [0-9A-Za-z]+/i
+        authorization: /Basic [0-9A-Za-z]+/i
       }
     })
       .post('/test')
       .reply(200, '{"test":"test"}');
-
-    var client = new WebAPIClient('test-token', { transport: requestOptionsTransport });
 
     client._makeAPICall('test', {}, null, function (e, results) {
       expect(results.test).to.equal('test');
