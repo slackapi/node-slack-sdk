@@ -7,6 +7,7 @@ module.exports = {
   IncomingWebhook: require('./lib/clients/incoming-webhook/client'),
   LegacyRtmClient: require('./lib/clients/default/legacy-rtm'),
   MemoryDataStore: require('./lib/data-store/memory-data-store'),
+  requestOptionsTransport: require('./lib/clients/transports/request').requestOptionsTransport,
   CLIENT_EVENTS: {
     WEB: events.CLIENT_EVENTS.WEB,
     RTM: events.CLIENT_EVENTS.RTM

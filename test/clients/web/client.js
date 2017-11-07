@@ -11,6 +11,7 @@ var retryPolicies = require('../../../lib/clients/retry-policies');
 var defaultHTTPResponseHandler =
   require('../../../lib/clients/transports/call-transport').handleHttpResponse;
 
+var requestTransport = require('../../../lib/clients/transports/request');
 
 var mockTransport = function (args, cb) {
   cb(args.data.err, args.headers, args.data.statusCode, args.data.body);
@@ -107,6 +108,37 @@ describe('Web API Client', function () {
     var client = new WebAPIClient('test-token', { transport: mockTransport });
 
     client._makeAPICall('test', { test: 'test' }, null, null);
+  });
+
+  it('should accept overriding of request options', function () {
+
+    // Add Basic Auth
+
+    var options = {
+      auth: {
+        user: 'slack',
+        pass: 'slack'
+      }
+    };
+
+    var requestOptionsTransport = requestTransport.requestOptionsTransport(options);
+
+    var client = new WebAPIClient('test-token', { transport: requestOptionsTransport });
+
+    // Mock a result where Basic Auth was passed
+
+    nock('https://slack.com/api', {
+      reqheaders: {
+        authorization: /Basic [0-9A-Za-z]+/i
+      }
+    })
+      .post('/test')
+      .reply(200, '{"test":"test"}');
+
+    client._makeAPICall('test', {}, null, function (e, results) {
+      expect(results.test).to.equal('test');
+    });
+
   });
 
   describe('it should retry failed or rate-limited requests', function () {
