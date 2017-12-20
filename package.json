@@ -36,6 +36,7 @@
     "ws": "^1.0.1"
   },
   "devDependencies": {
+    "busboy": "^0.2.14",
     "chai": "^3.5.0",
     "codecov": "^1.0.1",
     "eslint": "^2.2.0",
@@ -44,7 +45,7 @@
     "jsdoc-to-markdown": "^1.3.7",
     "mocha": "^3.4.1",
     "mocha-lcov-reporter": "^1.0.0",
-    "nock": "^7.2.2",
+    "nock": "^9.1.5",
     "sinon": "^1.17.1"
   },
   "engines": {
