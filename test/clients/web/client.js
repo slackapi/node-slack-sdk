@@ -153,6 +153,7 @@ describe('Web API Client', function () {
         var fileFound = false; // eslint-disable-line no-unused-vars
         var filenameFound = false; // eslint-disable-line no-unused-vars
         var errorFound = undefined;
+        var bodyBuffer;
         busboy.on('file', function (fieldname, file, filename) {
           fileFound = (fieldname === 'file' && filename === 'train.jpg');
           file.resume();
@@ -171,7 +172,12 @@ describe('Web API Client', function () {
           }
         });
         if (requestBody) {
-          busboy.end(Buffer.from(requestBody, 'hex'));
+          if (lodash.isFunction(Buffer.from)) {
+            bodyBuffer = Buffer.from(requestBody, 'hex');
+          } else {
+            bodyBuffer = new Buffer(requestBody, 'hex');
+          }
+          busboy.end(bodyBuffer);
         } else {
           cb(null, [500, '{ "ok": false, "test": "failed" }']);
         }
