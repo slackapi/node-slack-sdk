@@ -6,7 +6,7 @@ permalink: /reference/RTMClient
 **Kind**: global class  
 
 * [RTMClient](#RTMClient)
-    * [new RTMClient(token, opts)](#new_RTMClient_new)
+    * [new RTMClient(token, [opts])](#new_RTMClient_new)
     * [._socketFn](#RTMClient+_socketFn) : <code>function</code>
     * [.ws](#RTMClient+ws) : <code>Object</code>
     * [.connected](#RTMClient+connected) : <code>boolean</code>
@@ -38,25 +38,25 @@ permalink: /reference/RTMClient
 
 <a name="new_RTMClient_new"></a>
 
-### new RTMClient(token, opts)
+### new RTMClient(token, [opts])
 Creates a new instance of RTM client.
 
 
-| Param | Type | Description |
-| --- | --- | --- |
-| token | <code>String</code> | The token to use for connecting |
-| opts | <code>Object</code> |  |
-| opts.socketFn | <code>function</code> | A function to call, passing in a websocket URL, that should return a websocket instance connected to that URL |
-| opts.dataStore | <code>Object</code> | A store to cache Slack info, e.g. channels, users etc. in. Pass null or false to use no store |
-| opts.autoReconnect | <code>Boolean</code> | Whether or not to automatically reconnect when the connection closes. Defaults to true |
-| opts.useRtmConnect | <code>Boolean</code> | True to use rtm.connect rather than rtm.start |
-| opts.retryConfig | <code>Object</code> | The retry policy to use, defaults to forever with exponential backoff {@see https://github.com/SEAPUNK/node-retry} |
-| opts.maxReconnectionAttempts | <code>Number</code> | DEPRECATED: Use retryConfig instead |
-| opts.reconnectionBackoff | <code>Number</code> | DEPRECATED: Use retryConfig instead |
-| opts.wsPingInterval | <code>Number</code> | The time to wait between pings with the server |
-| opts.maxPongInterval | <code>Number</code> | The max time (in ms) to wait for a pong before reconnecting |
-| opts.logLevel | <code>String</code> | The log level for the logger |
-| opts.logger | <code>function</code> | Function to use for log calls, takes (logLevel, logString) parameters |
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| token | <code>string</code> |  | The token to use for connecting |
+| [opts] | <code>Object</code> |  |  |
+| [opts.socketFn] | <code>RTMClient~socketFn</code> |  | A function to call, passing in a websocket URL, that should return a websocket instance connected to that URL |
+| [opts.dataStore] | <code>[SlackDataStore](#SlackDataStore)</code> &#124; <code>null</code> &#124; <code>false</code> |  | A store to cache Slack info. Recommended value is `false`. Default value is an instance of [SlackMemoryDataStore](#SlackMemoryDataStore). |
+| [opts.autoReconnect] | <code>boolean</code> | <code>true</code> | Whether or not to automatically reconnect when the connection closes |
+| [opts.useRtmConnect] | <code>boolean</code> | <code>false</code> | Whether to use rtm.connect rather than rtm.start. Recommended value is `true`. |
+| [opts.retryConfig] | <code>Object</code> |  | The retry policy to use, defaults to forever with exponential backoff, see [node-retry](https://github.com/SEAPUNK/node-retry) for more details. |
+| [opts.maxReconnectionAttempts] | <code>number</code> |  | DEPRECATED: Use retryConfig instead |
+| [opts.reconnectionBackoff] | <code>number</code> |  | DEPRECATED: Use retryConfig instead |
+| [opts.wsPingInterval] | <code>number</code> | <code>5000</code> | The time (in ms) to wait between pings with the server |
+| [opts.maxPongInterval] | <code>number</code> |  | The max time (in ms) to wait for a pong before reconnecting |
+| [opts.logLevel] | <code>string</code> | <code>&quot;info&quot;</code> | The log level for the logger |
+| [opts.logger] | <code>RTMClient~logFn</code> |  | Function to use for log calls, takes (logLevel, logString) parameters |
 
 <a name="RTMClient+_socketFn"></a>
 

@@ -19,7 +19,7 @@ Slack Web API client.
 | --- | --- | --- |
 | token |  | The Slack API token to use with this client. |
 | [opts] | <code>Object</code> |  |
-| opts.retryConfig | <code>Object</code> | The configuration to use for the retry operation,     {@see https://github.com/tim-kos/node-retry} |
+| [opts.retryConfig] | <code>Object</code> | The configuration to use for the retry operation, see [node-retry](https://github.com/tim-kos/node-retry) for more details. |
 
 <a name="WebAPIClient+_createFacets"></a>
 
