@@ -3,9 +3,11 @@ layout: page
 title: SlackMemoryDataStore
 permalink: /reference/SlackMemoryDataStore
 ---
+***Deprecated***
+
 **Kind**: global class  
 
-* [SlackMemoryDataStore](#SlackMemoryDataStore)
+* ~~[SlackMemoryDataStore](#SlackMemoryDataStore)~~
     * [.users](#SlackMemoryDataStore+users) : <code>Object</code>
     * [.channels](#SlackMemoryDataStore+channels) : <code>Object</code>
     * [.dms](#SlackMemoryDataStore+dms) : <code>Object</code>
