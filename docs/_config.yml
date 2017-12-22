@@ -27,5 +27,6 @@ collections:
 
 # Build settings
 markdown: kramdown
-gems:
+plugins:
   - jemoji
+  - jekyll-redirect-from
