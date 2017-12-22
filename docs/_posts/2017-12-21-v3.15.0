@@ -1,0 +1,13 @@
+---
+layout: changelog
+---
+  - **Deprecates data store APIs** See the migration document for more details:https://github.com/slackapi/node-slack-sdk/wiki/DataStore-v3.x-Migration-Guide
+  - Major docs content rewrite (thanks @aoberoi) #428, #239, #305, #310, #364, #366, #413, #411, #423
+  - Adds `chat.getPermalink` Web API method (thanks @DominikPalo) #431
+  - Adds `opts.user` argument to `users.identity` Web API method (thanks @bertrandom) #432
+  - Fixes bug with not passing optional arguments for `conversations.info` (thanks @aoberoi) #441
+  - Fixes dead link to node-retry (thanks @pine) #433
+  - Adds eaiser support for `Buffer` input in `files.upload` Web API method (thanks @aoeberoi) #307
+  - Refactors logger usage across the package (thanks @aoberoi) #334
+  - General JSDoc, `require()`, dead code, clean up
+
