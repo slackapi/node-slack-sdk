@@ -6,7 +6,7 @@
 
 Visit the [full documentation](https://slackapi.github.io/node-slack-sdk) for all the lovely details.
 
-So you want to build a Slack app with Node.js? We've got you covered. {{ site.product_name }} is aimed at making
+So you want to build a Slack app with Node.js? We've got you covered. This package is aimed at making
 building Slack apps ridiculously easy. This package will help you build on all aspects of the Slack platform,
 from dropping notifications in channels to fully interactive bots.
 
