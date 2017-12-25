@@ -32,8 +32,8 @@ fits for your app.
 
 | Slack API    | Outgoing | Incoming | NPM Package         | Documentation     |
 |--------------|:--------:|:--------:|---------------------|-------------------|
-| Web API      | ⬆️        | ⬜️       | `@slack/client`     | [Guide](https://slackapi.github.io/node-slack-sdk/web_client) |
-| RTM API      | ⬆️        | ⬇️        | `@slack/client`     | [Guide](https://slackapi.github.io/node-slack-sdk/rtm_client) |
+| Web API      | ⬆️        | ⬜️       | `@slack/client`     | [Guide](https://slackapi.github.io/node-slack-sdk/web_api) |
+| RTM API      | ⬆️        | ⬇️        | `@slack/client`     | [Guide](https://slackapi.github.io/node-slack-sdk/rtm_api) |
 | Incoming Webhooks | ⬆️   | ⬜️       | `@slack/client`     | [Guide](https://slackapi.github.io/node-slack-sdk/incoming_webhook) |
 | Events API   | ⬜️       | ⬇️        | `@slack/events-api` | [README](https://github.com/slackapi/node-slack-events-api) |
 | Interactive Messages | ⬜️ | ⬇️      | `@slack/interactive-messages` | [README](https://github.com/slackapi/node-slack-interactive-messages) |
