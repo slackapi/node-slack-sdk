@@ -110,9 +110,9 @@ rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, (connectData) => {
   console.log(`Logged in as ${appData.selfId} of team ${connectData.team.id}`);
 });
 
-// The client will emit an RTM.RTM_CONNECTION_OPEN the connection is ready for
+// The client will emit an RTM.RTM_CONNECTION_OPENED the connection is ready for
 // sending and recieving messages
-rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPEN, () => {
+rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, () => {
   console.log(`Ready`);
 });
 
