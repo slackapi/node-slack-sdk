@@ -39,7 +39,7 @@ fits for your app.
 | Interactive Messages | ⬜️ | ⬇️      | `@slack/interactive-messages` | [README](https://github.com/slackapi/node-slack-interactive-messages) |
 
 **Just starting out?** We suggest starting at the
-[Getting Started guide](https://slackapi.github.io/node-slack-sdk/getting_started.md) which will walk you
+[Getting Started guide](https://slackapi.github.io/node-slack-sdk/getting_started) which will walk you
 through building your first Slack app using Node.js.
 
 **Not sure about which APIs are right for your app?** Read our
