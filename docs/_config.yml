@@ -19,6 +19,8 @@ dev4slack_channel: sdk-node-slack-sdk
 twitter_username: SlackAPI
 github_username:  SlackAPI
 
+google_analytics: UA-56978219-13
+
 include: ['_pages']
 
 collections:
