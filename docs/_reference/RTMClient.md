@@ -16,7 +16,7 @@ permalink: /reference/RTMClient
     * [.dataStore](#RTMClient+dataStore) : <code>[SlackDataStore](#SlackDataStore)</code>
     * [._pingTimer](#RTMClient+_pingTimer) : <code>?</code>
     * [._createFacets()](#RTMClient+_createFacets)
-    * [.start(opts)](#RTMClient+start)
+    * [.start([opts])](#RTMClient+start)
     * ~~[.login()](#RTMClient+login)~~
     * [.nextMessageId()](#RTMClient+nextMessageId)
     * [.connect(socketUrl)](#RTMClient+connect)
@@ -104,14 +104,15 @@ The timer repeatedly pinging the server to let it know the client is still alive
 **Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
 <a name="RTMClient+start"></a>
 
-### rtmClient.start(opts)
+### rtmClient.start([opts])
 Begin an RTM session.
 
 **Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
 
-| Param | Type |
-| --- | --- |
-| opts | <code>object</code> | 
+| Param | Type | Default | Description |
+| --- | --- | --- | --- |
+| [opts] | <code>object</code> |  |  |
+| [opts.batch_presence_aware] | <code>boolean</code> | <code>false</code> | Opt into receiving fewer `presence_change` events that can contain many users. Instead of the event containing a `user` property {string}, it would contain a `users` property {string[]}. This option is not compatible with using the `dataStore`, you must initialize the RTM client object with the `dataStore: false` option. |
 
 <a name="RTMClient+login"></a>
 

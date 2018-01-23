@@ -10,6 +10,7 @@ permalink: /reference/UsersFacet
     * [.identity([options], [optCb])](#UsersFacet+identity)
     * [.info(user, [optCb])](#UsersFacet+info)
     * [.list([opts], [optCb])](#UsersFacet+list)
+    * [.lookupByEmail(email, [opts], [optCb])](#UsersFacet+lookupByEmail)
     * [.setActive([optCb])](#UsersFacet+setActive)
     * [.setPresence(presence, [optCb])](#UsersFacet+setPresence)
 
@@ -66,6 +67,20 @@ Lists all users in a Slack team.
 | [opts] | <code>Object</code> |  |
 | opts.presence | <code>?</code> | Whether to include presence data in the output |
 | opts.include_locale | <code>?</code> | Set this to `true` to receive the locale for users. Defaults to `false` |
+| [optCb] | <code>function</code> | Optional callback, if not using promises. |
+
+<a name="UsersFacet+lookupByEmail"></a>
+
+### usersFacet.lookupByEmail(email, [opts], [optCb])
+Find a user with an email address.
+
+**Kind**: instance method of <code>[UsersFacet](#UsersFacet)</code>  
+**See**: [users.lookupByEmail](https://api.slack.com/methods/users.lookupByEmail)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| email | <code>?</code> | An email address belonging to a user in the workspace |
+| [opts] | <code>Object</code> |  |
 | [optCb] | <code>function</code> | Optional callback, if not using promises. |
 
 <a name="UsersFacet+setActive"></a>
