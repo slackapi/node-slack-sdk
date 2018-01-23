@@ -188,7 +188,107 @@ If you rename a channel in which the bot is a member, you should see the handler
 
 ---
 
-## Handling other events
+### Subscribing to presence updates
+
+Polite people try not to inundate their colleages with messages when they know they are offline.
+We can teach a bot the same ettiquette by subscribing to
+[presence and status information](https://api.slack.com/docs/presence-and-status) for the
+users with which it interacts.
+
+You may not need to subscribe to presence updates if your bot is okay with fetching the user's
+status on-demand using the
+`[WebClient#users.getPresence()]({{ site.baseurl }}{% link _reference/UsersFacet.md %}#UsersFacet+getPresence)`
+method.
+
+If you do prefer to subscribe to presence updates, each time the client connects, your bot needs to
+send a list of user IDs using the `subscribePresence(userIds)` method. The `userIds` argument is an
+array of user IDs and the list must be complete -- any user IDs not included are unsubscribed from
+your bot.
+
+You can get more efficient `presence_change` events by using the `batch_presence_aware` option
+while connecting. If you set the option to `true` your bot will receive `presence_change` events
+with a `users` property that contains an array of user IDs (instead of a `user` property with a
+single user ID). See more about the event: <https://api.slack.com/events/presence_change>.
+
+The following example shows how a bot would keep a timecard for users to record their active
+time or away time.
+
+```javascript
+const { RtmClient, CLIENT_EVENTS, RTM_EVENTS, WebClient } = require('@slack/client');
+
+// An access token (from your Slack app or custom integration - usually xoxb)
+const token = process.env.SLACK_TOKEN;
+
+// Initialize the RTM client. The dataStore option must be set to false.
+const rtm = new RtmClient(token, {
+  dataStore: false,
+  useRtmConnect: true,
+});
+
+// Initialize the Web client
+const web = new WebClient(token);
+
+// Timecard data - In order for this data to survive a restart, it should be backed by a database.
+// Keys: user IDs (string)
+// Values: presence updates (array of { timestamp: number, presence: 'away'|'active' })
+const timecards = new Map();
+const getTrackedUsers = () => Array.from(timecards.keys())
+const updateTimecard = (userId, presence) => {
+  if (!timecards.has(userId)) {
+    timecards.set(userId, []);
+  }
+  const userRecord = timecards.get(userId);
+  userRecord.push({ timestamp: Date.now(), presence });
+}
+const removeTimecard = (userId) => timecards.delete(userId);
+
+// Timecard data is tracked for users in a pre-defined channel
+const timeTrackingChannelId = 'C123456';
+
+
+// RTM event handling
+rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPEN, () => {
+  rtm.subscribePresence(getTrackedUsers());
+});
+
+// See: https://api.slack.com/events/presence_change
+rtm.on(RTM_EVENTS.PRESENCE_CHANGE, (event) => {
+  event.users.forEach(userId => updateTimecard(userId, event.presence));
+});
+
+// See: https://api.slack.com/events/member_joined_channel
+rtm.on('member_joined_channel', (event) => {
+  if (event.channel === timeTrackingChannelId) {
+    // When a user joins, get that user's current presence in order to update the timecard
+    web.users.getPresence(event.user)
+      .then(resp => {
+        updateTimecard(event.user, resp.presence);
+        // Update subscriptions
+        rtm.subscribePresence(getTrackedUsers());
+      })
+      .catch(console.error);
+  }
+});
+
+// See: https://api.slack.com/events/member_left_channel
+rtm.on('member_left_channel', (event) => {
+  if (event.channel === timeTrackingChannelId) {
+    // When a user leaves, the timecard records are deleted
+    removeTimecard(event.user);
+    // Update subscriptions
+    rtm.subscribePresence(getTrackedUsers());
+  }
+});
+
+// Start the connecting process
+rtm.start({
+  batch_presence_aware: true,
+});
+```
+
+---
+
+### Handling other events
 
 Anything that happens in a Slack workspace, and that is visible to the bot (_i.e._ happens in a
 channel to which the bot belongs) is communicated as an event as well. For a complete list of other
