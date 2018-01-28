@@ -257,7 +257,7 @@ rtm.on(RTM_EVENTS.PRESENCE_CHANGE, (event) => {
 });
 
 // See: https://api.slack.com/events/member_joined_channel
-rtm.on('member_joined_channel', (event) => {
+rtm.on(RTM_EVENTS.MEMBER_JOINED_CHANNEL, (event) => {
   if (event.channel === timeTrackingChannelId) {
     // When a user joins, get that user's current presence in order to update the timecard
     web.users.getPresence(event.user)
@@ -271,7 +271,7 @@ rtm.on('member_joined_channel', (event) => {
 });
 
 // See: https://api.slack.com/events/member_left_channel
-rtm.on('member_left_channel', (event) => {
+rtm.on(RTM_EVENTS.MEMBER_LEFT_CHANNEL, (event) => {
   if (event.channel === timeTrackingChannelId) {
     // When a user leaves, the timecard records are deleted
     removeTimecard(event.user);
