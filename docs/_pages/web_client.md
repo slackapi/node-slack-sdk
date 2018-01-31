@@ -226,10 +226,8 @@ but you can configure this with the `maxRequestConcurrency` option.
 const { WebClient } = require('@slack/client');
 const token = process.env.SLACK_TOKEN;
 const web = new WebClient(token, {
-  retryConfig: {
-    // Allow up to 10 requests to be in-flight at a time
-    maxRequestConcurrency: 10,
-  },
+  // Allow up to 10 requests to be in-flight at a time
+  maxRequestConcurrency: 10,
 });
 ```
 
