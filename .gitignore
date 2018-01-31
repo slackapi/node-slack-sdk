@@ -6,4 +6,3 @@ dist
 
 # nyc test coverage
 .nyc_output
-package-lock.json
