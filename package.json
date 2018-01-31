@@ -34,7 +34,7 @@
     "precommit": "lint-staged",
     "prepush": "npm run build",
     "lint:js": "eslint . --ignore-path .gitignore",
-    "lint:ts": "tslint index.ts \"lib/**/*.ts\" \"test/**/*.ts\"",
+    "lint:ts": "tslint --project . index.ts \"lib/**/*.ts\" \"test/**/*.ts\"",
     "lint": "npm run lint:js && npm run lint:ts",
     "mocha": "mocha --compilers ts:ts-node/register --recursive --reporter spec test",
     "test": "npm run mocha && npm run lint",
@@ -85,7 +85,8 @@
     "shx": "^0.2.2",
     "sinon": "^1.17.1",
     "ts-node": "^3.0.4",
-    "tslint": "^5.2.0",
+    "tslint": "^5.9.1",
+    "tslint-config-airbnb": "^5.5.0",
     "typescript": "^2.3.2"
   },
   "engines": {
