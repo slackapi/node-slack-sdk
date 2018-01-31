@@ -25,7 +25,7 @@
   },
   "lint-staged": {
     "*.@(ts)": [
-      "tslint --fix",
+      "tslint --project . --fix",
       "git add"
     ]
   },
@@ -33,16 +33,11 @@
     "prepublish": "npm run build",
     "precommit": "lint-staged",
     "prepush": "npm run build",
-    "lint:js": "eslint . --ignore-path .gitignore",
-    "lint:ts": "tslint --project . index.ts \"lib/**/*.ts\" \"test/**/*.ts\"",
-    "lint": "npm run lint:js && npm run lint:ts",
-    "mocha": "mocha --compilers ts:ts-node/register --recursive --reporter spec test",
-    "test": "npm run mocha && npm run lint",
-    "cover": "nyc --reporter=lcov npm test",
-    "codecov": "npm run cover && codecov",
+    "lint": "tslint --project . index.ts \"lib/**/*.ts\" \"test/**/*.ts\"",
+    "test": "nyc --require ts-node/register _mocha --recursive test",
+    "report-coverage": "nyc report --reporter=lcov | codecov",
     "build": "npm run build:clean && tsc",
-    "build:clean": "shx rm -rf ./dist",
-    "make-slack-client-symlink": "mkdir -p $PWD/node_modules/@slack/client && ln -s $PWD/index.js $PWD/node_modules/@slack/client/index.js",
+    "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
     "make-docs": "node jsdoc.js"
   },
   "keywords": [
@@ -72,22 +67,18 @@
     "@types/node": "^9.4.0",
     "busboy": "^0.2.14",
     "chai": "^4.1.2",
-    "codecov": "^1.0.1",
-    "eslint": "^2.2.0",
-    "eslint-config-airbnb": "^6.0.2",
+    "codecov": "^3.0.0",
     "husky": "^0.14.3",
-    "jsdoc-to-markdown": "^1.3.7",
     "lint-staged": "^3.4.2",
-    "mocha": "^3.4.1",
-    "mocha-lcov-reporter": "^1.0.0",
-    "nock": "^9.1.5",
-    "nyc": "^10.3.2",
+    "mocha": "^5.0.0",
+    "nock": "^9.1.6",
+    "nyc": "^11.4.1",
     "shx": "^0.2.2",
-    "sinon": "^1.17.1",
-    "ts-node": "^3.0.4",
+    "sinon": "^4.2.2",
+    "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
     "tslint-config-airbnb": "^5.5.0",
-    "typescript": "^2.3.2"
+    "typescript": "^2.7.1"
   },
   "engines": {
     "node": ">= 0.12.x",
