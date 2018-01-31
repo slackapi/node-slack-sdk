@@ -9,6 +9,7 @@ headings:
     - title: Sending a message
     - title: Receiving messages
     - title: Listening for message subtypes
+    - title: Subscribing to presence updates
     - title: Handling other events
     - title: Data stores
     - title: Workspace cache on connect
