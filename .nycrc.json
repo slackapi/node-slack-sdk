@@ -1,0 +1,19 @@
+{
+  "include": [
+    "lib/*.ts",
+    "lib/*.js",
+    "test/**/*.ts",
+    "test/**/*.js"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/facets/*.js"
+  ],
+  "reporter": ["text-lcov"],
+  "extension": [
+    ".ts",
+    ".js"
+  ],
+  "all": true,
+  "cache": true
+}

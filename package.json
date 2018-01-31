@@ -1,53 +1,39 @@
 {
   "name": "@slack/client",
   "version": "4.0.0-beta.1",
-  "description": "A library for creating a Slack client",
+  "description": "Slack Developer Kit - official clients for the Web API, RTM API, and Incoming Webhooks",
+  "author": "Slack Technologies, Inc.",
+  "license": "MIT",
+  "keywords": [
+    "slack",
+    "web-api",
+    "rtm-api",
+    "bot",
+    "chatbot",
+    "client",
+    "http",
+    "websockets",
+    "api"
+  ],
   "main": "./dist/index.js",
-  "nyc": {
-    "include": [
-      "lib/*.ts",
-      "lib/*.js",
-      "test/**/*.ts",
-      "test/**/*.js"
-    ],
-    "exclude": [
-      "node_modules",
-      "**/facets/*.js"
-    ],
-    "extension": [
-      ".ts",
-      ".js"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "all": true
+  "engines": {
+    "node": ">= 6.9.0",
+    "npm": ">= 3.10.8"
   },
-  "lint-staged": {
-    "*.@(ts)": [
-      "tslint --project . --fix",
-      "git add"
-    ]
+  "repository": "slackapi/node-slack-sdk",
+  "bugs": {
+    "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
   "scripts": {
     "prepublish": "npm run build",
     "precommit": "lint-staged",
     "prepush": "npm run build",
     "lint": "tslint --project . index.ts \"lib/**/*.ts\" \"test/**/*.ts\"",
-    "test": "nyc --require ts-node/register _mocha --recursive test",
-    "report-coverage": "nyc report --reporter=lcov | codecov",
+    "test": "nyc mocha",
+    "coverage": "nyc report > coverage.lcov && codecov",
     "build": "npm run build:clean && tsc",
-    "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
+    "build:clean": "shx rm -rf ./dist ./coverage.lcov ./.nyc_output",
     "make-docs": "node jsdoc.js"
-  },
-  "keywords": [
-    "slack"
-  ],
-  "author": "Slack Technologies, Inc.",
-  "license": "MIT",
-  "repository": "slackapi/node-slack-sdk",
-  "bugs": {
-    "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
   "dependencies": {
     "async": "^1.5.0",
@@ -69,19 +55,16 @@
     "chai": "^4.1.2",
     "codecov": "^3.0.0",
     "husky": "^0.14.3",
-    "lint-staged": "^3.4.2",
+    "lint-staged": "^6.1.0",
     "mocha": "^5.0.0",
     "nock": "^9.1.6",
     "nyc": "^11.4.1",
     "shx": "^0.2.2",
     "sinon": "^4.2.2",
+    "source-map-support": "^0.5.3",
     "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
     "tslint-config-airbnb": "^5.5.0",
     "typescript": "^2.7.1"
-  },
-  "engines": {
-    "node": ">= 0.12.x",
-    "npm": ">= 1.1.x"
   }
 }
