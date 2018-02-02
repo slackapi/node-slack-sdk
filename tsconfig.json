@@ -19,8 +19,10 @@
     "allowJs": true,
     "pretty": true,
     // rootDir?
-    // baseUrl?
-    // paths?
+    "baseUrl": ".",
+    "paths": {
+      "*": ["types/*"]
+    },
     "outDir": "dist",
     "lib": [
       "es5",

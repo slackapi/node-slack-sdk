@@ -9,6 +9,7 @@ import LegacyRtmClient = require('./lib/clients/default/legacy-rtm');
 // tslint:disable-next-line:no-require-imports import-name
 import MemoryDataStore = require('./lib/data-store/memory-data-store');
 import { requestOptionsTransport } from './lib/clients/transports/request';
+import { default as localRetryPolicies } from './lib/clients/retry-policies';
 
 const CLIENT_EVENTS = {
   WEB: events.CLIENT_EVENTS.WEB,
@@ -16,6 +17,9 @@ const CLIENT_EVENTS = {
 };
 
 const { RTM_EVENTS, RTM_MESSAGE_SUBTYPES } = events;
+
+// SEMVER:MAJOR retry policies are now a top-level export
+export const retryPolicies = localRetryPolicies;
 
 export {
   WebClient,

@@ -1,23 +1,71 @@
-/**
- *
- */
+import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
+import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
+import retry = require('retry'); // tslint:disable-line:no-require-imports
+import retryPolicies from './retry-policies';
 
-var EventEmitter = require('eventemitter3');
-var Promise = require('bluebird');
-var async = require('async');
-var bind = require('lodash').bind;
-var inherits = require('inherits');
-var partial = require('lodash').partial;
-var pick = require('lodash').pick;
-var retry = require('retry');
+// let callTransport = require('./transports/call-transport');
+// let globalHelpers = require('../helpers');
+// let clientHelpers = require('./helpers');
+// let requestsTransport = require('./transports/request').requestTransport;
 
-var SlackAPIError = require('./errors').SlackAPIError;
-var callTransport = require('./transports/call-transport');
-var globalHelpers = require('../helpers');
-var clientHelpers = require('./helpers');
-var requestsTransport = require('./transports/request').requestTransport;
-var retryPolicies = require('./retry-policies');
+export enum LogLevel {
+  Verbose = 'verbose',
+  Debug = 'debug',
+  Info = 'info',
+  Warn = 'warn',
+  Error = 'error',
+}
 
+export interface Logger {
+  (level: LogLevel, message: string): void;
+}
+
+export interface WebClientOptions {
+  slackApiUrl?: string; // SEMVER:MAJOR casing change from previous
+  // NOTE: this is too generic but holding off on fully specifying until callTransport is refactored
+  transport?: Function;
+  logLevel?: LogLevel;
+  logger?: Logger;
+  maxRequestConcurrency?: number;
+  retryConfig?: retry.OperationOptions;
+}
+
+// TODO: remove
+const noop = () => {}; // tslint:disable-line:no-empty
+
+export default class WebClient extends EventEmitter {
+  public readonly token: string;
+  public readonly slackApiUrl: string;
+
+  private transport: Function;
+  private logLevel: LogLevel;
+  private logger: Logger;
+  private maxRequestConcurrency: number;
+  private retryConfig: retry.OperationOptions;
+
+  /**
+   * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`, or `xoxa`)
+   */
+  constructor(token: string, {
+    slackApiUrl = 'https://api.slack.com',
+    transport = noop,
+    logLevel = LogLevel.Info,
+    logger = noop,
+    maxRequestConcurrency = 3,
+    retryConfig = retryPolicies.retryForeverExponentialCappedRandom,
+  }: WebClientOptions = {}) {
+    super();
+    this.token = token;
+    this.slackApiUrl = slackApiUrl;
+    this.transport = transport;
+    this.logLevel = logLevel;
+    this.logger = logger;
+    this.maxRequestConcurrency = maxRequestConcurrency;
+    this.retryConfig = retryConfig;
+
+    // TODO: call createFacets()
+  }
+}
 
 /**
  * Base client for both the RTM and web APIs.
@@ -35,7 +83,7 @@ var retryPolicies = require('./retry-policies');
  * @constructor
  */
 function BaseAPIClient(token, opts) {
-  var clientOpts = opts || {};
+  let clientOpts = opts || {};
   EventEmitter.call(this);
 
   /**
@@ -71,7 +119,7 @@ function BaseAPIClient(token, opts) {
    */
   this.requestQueue = async.queue(
     bind(this._callTransport, this),
-    clientOpts.maxRequestConcurrency || 3
+    clientOpts.maxRequestConcurrency || 3,
   );
 
   this._createFacets();
@@ -115,13 +163,13 @@ BaseAPIClient.prototype.registerDataStore = function registerDataStore(dataStore
  * @protected
  */
 BaseAPIClient.prototype._callTransport = function _callTransport(task, queueCb) {
-  var self = this;
-  var retryOp = retry.operation(self.retryConfig);
-  var retryArgs = {
+  let self = this;
+  let retryOp = retry.operation(self.retryConfig);
+  let retryArgs = {
     client: self,
-    task: task,
-    queueCb: queueCb,
-    retryOp: retryOp
+    task,
+    queueCb,
+    retryOp,
   };
 
   retryOp.attempt(function attemptTransportCall() {
@@ -142,24 +190,24 @@ BaseAPIClient.prototype._callTransport = function _callTransport(task, queueCb) 
  * @private
  */
 BaseAPIClient.prototype._makeAPICall = function _makeAPICall(endpoint, apiArgs, apiOptArgs, optCb) {
-  var self = this;
-  var apiCallArgs = clientHelpers.getAPICallArgs(
+  let self = this;
+  let apiCallArgs = clientHelpers.getAPICallArgs(
     self._token,
     globalHelpers.getVersionString(),
     self.slackAPIUrl,
     endpoint,
     apiArgs,
     apiOptArgs,
-    optCb
+    optCb,
   );
-  var cb = apiCallArgs.cb;
-  var args = apiCallArgs.args;
-  var promise;
+  let cb = apiCallArgs.cb;
+  let args = apiCallArgs.args;
+  let promise;
 
   if (!cb) {
     promise = new Promise(function makeAPICallPromiseResolver(resolve, reject) {
       self.requestQueue.push({
-        args: args,
+        args,
         cb: function makeAPICallPromiseResolverInner(err, res) {
           if (err) {
             reject(err);
@@ -173,13 +221,13 @@ BaseAPIClient.prototype._makeAPICall = function _makeAPICall(endpoint, apiArgs, 
               resolve(res);
             }
           }
-        }
+        },
       });
     });
   } else {
     self.requestQueue.push({
-      args: args,
-      cb: cb
+      args,
+      cb,
     });
   }
 
