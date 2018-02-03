@@ -39,6 +39,8 @@
     "@types/p-queue": "^2.3.1",
     "@types/retry": "^0.10.2",
     "async": "^1.5.0",
+    "aurelia-logging": "^1.4.0",
+    "aurelia-logging-console": "^1.0.0",
     "eventemitter3": "^3.0.0",
     "https-proxy-agent": "^1.0.0",
     "lodash": "^4.13.1",

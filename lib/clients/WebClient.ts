@@ -2,30 +2,19 @@ import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-na
 import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
 import retry = require('retry'); // tslint:disable-line:no-require-imports
 import retryPolicies from './retry-policies';
+import { getLogger, Logger } from 'aurelia-logging';
+import { LogLevel, setLogLevel } from '../logger';
 
 // let callTransport = require('./transports/call-transport');
 // let globalHelpers = require('../helpers');
 // let clientHelpers = require('./helpers');
 // let requestsTransport = require('./transports/request').requestTransport;
 
-export enum LogLevel {
-  Verbose = 'verbose',
-  Debug = 'debug',
-  Info = 'info',
-  Warn = 'warn',
-  Error = 'error',
-}
-
-export interface Logger {
-  (level: LogLevel, message: string): void;
-}
-
 export interface WebClientOptions {
   slackApiUrl?: string; // SEMVER:MAJOR casing change from previous
   // NOTE: this is too generic but holding off on fully specifying until callTransport is refactored
   transport?: Function;
   logLevel?: LogLevel;
-  logger?: Logger;
   maxRequestConcurrency?: number;
   retryConfig?: retry.OperationOptions;
 }
@@ -38,7 +27,6 @@ export default class WebClient extends EventEmitter {
   public readonly slackApiUrl: string;
 
   private transport: Function;
-  private logLevel: LogLevel;
   private logger: Logger;
   private maxRequestConcurrency: number;
   private retryConfig: retry.OperationOptions;
@@ -50,7 +38,6 @@ export default class WebClient extends EventEmitter {
     slackApiUrl = 'https://api.slack.com',
     transport = noop,
     logLevel = LogLevel.Info,
-    logger = noop,
     maxRequestConcurrency = 3,
     retryConfig = retryPolicies.retryForeverExponentialCappedRandom,
   }: WebClientOptions = {}) {
@@ -58,10 +45,11 @@ export default class WebClient extends EventEmitter {
     this.token = token;
     this.slackApiUrl = slackApiUrl;
     this.transport = transport;
-    this.logLevel = logLevel;
-    this.logger = logger;
     this.maxRequestConcurrency = maxRequestConcurrency;
     this.retryConfig = retryConfig;
+
+    this.logger = getLogger('WebClient');
+    setLogLevel(this.logger, logLevel);
 
     // TODO: call createFacets()
   }
