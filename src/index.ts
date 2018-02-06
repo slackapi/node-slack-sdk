@@ -1,4 +1,4 @@
-import events = require("./clients/events"); // tslint:disable-line:no-require-imports
+import events = require('./clients/events'); // tslint:disable-line:no-require-imports
 import RETRY_POLICIES = require('./clients/retry-policies'); // tslint:disable-line:no-require-imports import-name
 import WebClient = require('./clients/web/client'); // tslint:disable-line:no-require-imports import-name
 import RtmClient = require('./clients/rtm/client'); // tslint:disable-line:no-require-imports import-name

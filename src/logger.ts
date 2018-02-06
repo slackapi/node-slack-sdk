@@ -1,5 +1,4 @@
 import * as log from 'loglevel';
-import { ErrorCode, errorWithCode } from './errors';
 
 /**
  * Severity levels for log entries
@@ -19,7 +18,7 @@ export interface LoggingFunc {
 }
 
 /**
- * Interface for Logger objects where this package's logs can be re-routed (the default is to use stdout)
+ * INTERNAL interface for components in this package that need a logging API
  */
 export interface Logger {
   /**
@@ -60,17 +59,9 @@ export interface Logger {
 }
 
 /**
- * Internal interface for getting or creating a named Logger
+ * INTERNAL interface for getting or creating a named Logger
  */
 export const getLogger = log.getLogger as (name: string) => Logger;
-
-/**
- * Checks if the parameter is a LoggingFunc or a Logger
- * @param logger
- */
-export function isLogger(logger: LoggingFunc | Logger): logger is Logger {
-  return (<Logger>logger).info !== undefined;
-}
 
 // TODO: move to a "util" file?
 const noop = () => {}; // tslint:disable-line:no-empty
@@ -98,6 +89,11 @@ function isMoreSevere(level: LogLevel, threshold: number): boolean {
   return true;
 }
 
+/**
+ * INTERNAL function for transforming an external LoggerFunc type into the internal Logger interface
+ * @param name
+ * @param loggingFunc
+ */
 export function loggerFromLoggingFunc(name: string, loggingFunc: LoggingFunc): Logger {
   const logger = log.getLogger(name);
   // TODO: use plugin API to reroute logging to loggingFunc

@@ -13,7 +13,7 @@ export interface WebClientOptions {
   slackApiUrl?: string; // SEMVER:MAJOR casing change from previous
   // NOTE: this is too generic but holding off on fully specifying until callTransport is refactored
   transport?: Function;
-  logger?: LoggingFunc | Logger;
+  logger?: LoggingFunc;
   logLevel?: LogLevel;
   maxRequestConcurrency?: number;
   retryConfig?: retry.OperationOptions;
@@ -80,11 +80,7 @@ export class WebClient extends EventEmitter {
     this.requestQueue = new PQueue({ concurrency: maxRequestConcurrency });
 
     if (logger) {
-      if (isLogger(logger)) {
-        this.logger = logger;
-      } else {
-        this.logger = loggerFromLoggingFunc('@slack/client:WebClient', logger);
-      }
+      this.logger = loggerFromLoggingFunc('@slack/client:WebClient', logger);
     } else {
       // TODO: turn this string into a class property
       this.logger = getLogger('@slack/client:WebClient');

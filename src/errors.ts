@@ -9,7 +9,6 @@ export interface CodedError extends Error {
  * A dictionary of codes for errors produced by this package
  */
 export enum ErrorCode {
-  INVALID_LOG_LEVEL = 'E_SLACKCLIENT_INVALID_LOGLEVEL',
 }
 
 /**
