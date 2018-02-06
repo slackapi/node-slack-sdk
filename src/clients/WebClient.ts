@@ -2,7 +2,8 @@ import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-na
 import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
 import retry = require('retry'); // tslint:disable-line:no-require-imports
 import retryPolicies from './retry-policies';
-import { LogLevel, Logger, LoggingFunc, getLogger, isLogger, loggerFromLoggingFunc } from '../logger';
+import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from '../logger';
+import { pkg } from '../util';
 
 // let callTransport = require('./transports/call-transport');
 // let globalHelpers = require('../helpers');
@@ -58,6 +59,7 @@ export class WebClient extends EventEmitter {
    * Logging
    */
   private logger: Logger;
+  private static loggerName = `${pkg.name}:WebClient`;
 
   /**
    * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`, or `xoxa`)
@@ -80,10 +82,9 @@ export class WebClient extends EventEmitter {
     this.requestQueue = new PQueue({ concurrency: maxRequestConcurrency });
 
     if (logger) {
-      this.logger = loggerFromLoggingFunc('@slack/client:WebClient', logger);
+      this.logger = loggerFromLoggingFunc(WebClient.loggerName, logger);
     } else {
-      // TODO: turn this string into a class property
-      this.logger = getLogger('@slack/client:WebClient');
+      this.logger = getLogger(WebClient.loggerName);
     }
     this.logger.setLevel(logLevel);
 

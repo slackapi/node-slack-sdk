@@ -1,4 +1,5 @@
 import * as log from 'loglevel';
+import { noop } from './util';
 
 /**
  * Severity levels for log entries
@@ -62,9 +63,6 @@ export interface Logger {
  * INTERNAL interface for getting or creating a named Logger
  */
 export const getLogger = log.getLogger as (name: string) => Logger;
-
-// TODO: move to a "util" file?
-const noop = () => {}; // tslint:disable-line:no-empty
 
 /**
  * Decides whether `level` is more severe than the `threshold` for logging. When this returns true, logs should be
