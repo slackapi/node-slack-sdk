@@ -16,4 +16,4 @@ spec
 .git
 .vscode
 
-dist/test
+test/

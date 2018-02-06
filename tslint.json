@@ -1,5 +1,5 @@
 {
-  "extends": "tslint-config-airbnb",
+  "extends": ["tslint-config-airbnb"],
   "rules": {
     "align": [true, "parameters", "statements", "members", "elements"],
     "await-promise": [true],

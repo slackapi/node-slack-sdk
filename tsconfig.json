@@ -13,15 +13,16 @@
     "strictFunctionTypes": false,
     "strictPropertyInitialization": true,
     "noFallthroughCasesInSwitch": true,
-    "preserveConstEnums": true, // look into string enums introduced in 2.4
+    "preserveConstEnums": true,
     "suppressImplicitAnyIndexErrors": true,
     "sourceMap": true,
     "allowJs": true,
+    "checkJs": true,
     "pretty": true,
     // rootDir?
     "baseUrl": ".",
     "paths": {
-      "*": ["types/*"]
+      "*": ["./types/*"]
     },
     "outDir": "dist",
     "lib": [
@@ -30,10 +31,9 @@
     ]
   },
   "include": [
-    "lib/**/*",
-    "test/**/*"
+    "src/**/*"
   ],
   "exclude": [
-    "node_modules"
+    "src/**/*.spec.js"
   ]
 }
