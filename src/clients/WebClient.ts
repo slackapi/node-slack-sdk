@@ -115,9 +115,9 @@ export class WebClient extends EventEmitter {
    *
    * TODO: accept callback without options
    */
-  public async apiCall(method: string,
-                       options?: WebAPICallOptions,
-                       callback?: WebAPIResultCallback): Promise<WebAPICallResult | undefined> {
+  public apiCall(method: string,
+                 options?: WebAPICallOptions,
+                 callback?: WebAPIResultCallback): Promise<WebAPICallResult> | void {
     this.logger.debug('apiCall() start');
 
     const implementation = async (): Promise<WebAPICallResult> => {
