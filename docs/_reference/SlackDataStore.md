@@ -3,9 +3,11 @@ layout: page
 title: SlackDataStore
 permalink: /reference/SlackDataStore
 ---
+***Deprecated***
+
 **Kind**: global class  
 
-* [SlackDataStore](#SlackDataStore)
+* ~~[SlackDataStore](#SlackDataStore)~~
     * [new SlackDataStore(opts)](#new_SlackDataStore_new)
     * [.logger](#SlackDataStore+logger) : <code>function</code>
     * [.registerMessageHandler(event, handler)](#SlackDataStore+registerMessageHandler)

@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 var jsdoc2md = require('jsdoc-to-markdown');
 var fs = require('fs');
 var dmd = require('dmd');
