@@ -9,6 +9,7 @@ import { CodedError } from '../errors';
 import got = require('got'); // tslint:disable-line:no-require-imports
 import urlJoin = require('url-join'); // tslint:disable-line:no-require-imports
 import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
+import Method, * as methods from './methods'; // tslint:disable-line:import-name
 
 // SEMVER:MAJOR no transport option
 
@@ -81,10 +82,11 @@ export class WebClient extends EventEmitter {
     this.token = token;
     this.slackApiUrl = slackApiUrl;
 
+    // Reliability
     this.retryConfig = retryConfig;
-
     this.requestQueue = new PQueue({ concurrency: maxRequestConcurrency });
 
+    // Logging
     if (logger) {
       this.logger = loggerFromLoggingFunc(WebClient.loggerName, logger);
     } else {
@@ -92,16 +94,7 @@ export class WebClient extends EventEmitter {
     }
     this.logger.setLevel(logLevel);
 
-    this.createFacets();
-
     this.logger.debug('initialized');
-  }
-
-  /**
-   * Initializes each of the API facets.
-   */
-  private createFacets() {
-    this.logger.debug('createFacets() start');
   }
 
   /**
@@ -152,6 +145,21 @@ export class WebClient extends EventEmitter {
     }
     return implementation();
   }
+
+  /**
+   * Users method family
+   */
+  public readonly users = {
+    deletePhoto: (this.apiCall.bind(this, 'users.deletePhoto')) as Method<methods.UsersDeletePhotoArguments>,
+    getPresence: (this.apiCall.bind(this, 'users.getPresence')) as Method<methods.UsersGetPresenceArguments>,
+    identity: (this.apiCall.bind(this, 'users.identity')) as Method<methods.UsersIdentityArguments>,
+    info: (this.apiCall.bind(this, 'users.info')) as Method<methods.UsersInfoArguments>,
+    list: (this.apiCall.bind(this, 'users.list')) as Method<methods.UsersListArguments>,
+    lookupByEmail: (this.apiCall.bind(this, 'users.lookupByEmail')) as Method<methods.UsersLookupByEmailArguments>,
+    setActive: (this.apiCall.bind(this, 'users.setActive')) as Method<methods.UsersSetActiveArguments>,
+    setPhoto: (this.apiCall.bind(this, 'users.setPhoto')) as Method<methods.UsersSetPhotoArguments>,
+    setPresence: (this.apiCall.bind(this, 'users.setPresence')) as Method<methods.UsersSetPresenceArguments>,
+  };
 
   /**
    * Flattens options into a key-value object that is suitable for serializing into a body in the
