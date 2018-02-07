@@ -4,23 +4,24 @@ import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
 import retry = require('retry'); // tslint:disable-line:no-require-imports
 import retryPolicies from './retry-policies';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from '../logger';
-import { pkg, noop, callbackify } from '../util';
+import { pkg, callbackify } from '../util';
 import { CodedError } from '../errors';
 import got = require('got'); // tslint:disable-line:no-require-imports
+import urlJoin = require('url-join'); // tslint:disable-line:no-require-imports
+import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
 
-// let callTransport = require('./transports/call-transport');
-// let globalHelpers = require('../helpers');
-// let clientHelpers = require('./helpers');
-// let requestsTransport = require('./transports/request').requestTransport;
+// SEMVER:MAJOR no transport option
+
+// TODO: document how to access custom CA settings
+// TODO: document how to use proxy configuration
+// TODO: export these interfaces and class at the top level
 
 export interface WebClientOptions {
   slackApiUrl?: string; // SEMVER:MAJOR casing change from previous
-  // NOTE: this is too generic but holding off on fully specifying until callTransport is refactored
-  transport?: Function;
   logger?: LoggingFunc;
   logLevel?: LogLevel;
   maxRequestConcurrency?: number;
-  retryConfig?: retry.OperationOptions;
+  retryConfig?: RetryOptions;
 }
 
 export interface WebAPICallOptions {
@@ -31,6 +32,9 @@ export interface WebAPICallResult {
 
 export interface WebAPIResultCallback {
   (error: CodedError, result: WebAPICallResult): void;
+}
+
+export interface RetryOptions extends retry.OperationOptions {
 }
 
 /**
@@ -47,14 +51,9 @@ export class WebClient extends EventEmitter {
   public readonly slackApiUrl: string;
 
   /**
-   * A function for executing an HTTP request
-   */
-  private transport: Function;
-
-  /**
    * Configuration for retry operations. See {@link https://github.com/tim-kos/node-retry|node-retry} for more details.
    */
-  private retryConfig: retry.OperationOptions;
+  private retryConfig: RetryOptions;
 
   /**
    * Queue of requests in which a maximum of {@link WebClientOptions.maxRequestConcurrency} can concurrently be
@@ -73,7 +72,6 @@ export class WebClient extends EventEmitter {
    */
   constructor(token: string, {
     slackApiUrl = 'https://slack.com/api/',
-    transport = noop,
     logger = undefined,
     logLevel = LogLevel.INFO,
     maxRequestConcurrency = 3,
@@ -83,7 +81,6 @@ export class WebClient extends EventEmitter {
     this.token = token;
     this.slackApiUrl = slackApiUrl;
 
-    this.transport = transport;
     this.retryConfig = retryConfig;
 
     this.requestQueue = new PQueue({ concurrency: maxRequestConcurrency });
@@ -121,14 +118,19 @@ export class WebClient extends EventEmitter {
                  callback?: WebAPIResultCallback): Promise<WebAPICallResult> | void {
     this.logger.debug('apiCall() start');
 
+    // The following thunk is the actual implementation for this method. It is wrapped so that it can be adapted for
+    // different executions below.
     const implementation = () => {
-      // TODO: body from options
-      const requestBody = '';
+      const requestBody = WebClient.serializeApiCallOptions(Object.assign({ token: this.token }, options));
 
+      // The following thunk encapsulates the task so that it can be coordinated for retries
       const task = async (): Promise<WebAPICallResult> => {
-        const response = await got.post(`${this.slackApiUrl}${method}`, {
+        // TODO: formData handling
+        const response = await got.post(urlJoin(this.slackApiUrl, method), {
+          form: true,
           body: requestBody,
           retries: 0,
+          // TODO: user-agent
           headers: {},
         });
         // TODO: handle errors
@@ -136,102 +138,49 @@ export class WebClient extends EventEmitter {
         return JSON.parse(response.body);
       };
 
+      // The following thunk encapsulates the retried task so that it can be coordinated for request queuing
       const taskAfterRetries = () => pRetry(task, this.retryConfig);
 
+      // The final return value is the resolution of the task after being retried and queued
       return this.requestQueue.add(taskAfterRetries);
     };
 
+    // Adapt the interface for callback-based execution or Promise-based execution
     if (callback) {
       callbackify(implementation)(callback);
       return;
     }
     return implementation();
   }
+
+  /**
+   * Flattens options into a key-value object that is suitable for serializing into a body in the
+   * `application/x-www-form-urlencoded` content type.
+   *
+   * @param options arguments for the Web API method
+   */
+  private static serializeApiCallOptions(options: WebAPICallOptions): {[key: string]: string | number | boolean } {
+    return objectEntries(options)
+      .map(([key, value]) => {
+        if (value === undefined) {
+          return [];
+        }
+        let serializedValue = value;
+        // if value is anything other than string, number, boolean: json stringify it
+        if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
+          serializedValue = JSON.stringify(value);
+        }
+        return [key, serializedValue];
+      })
+      .reduce((accumulator, [key, value]) => {
+        if (key !== undefined && value !== undefined) {
+          accumulator[key] = value;
+        }
+        return accumulator;
+      }, {});
+  }
 }
 
-/**
- * Calls the supplied transport function and processes the results.
- *
- * This will also manage 429 responses and retry failed operations.
- *
- * @param {Object} task The arguments to pass to the transport.
- * @param {function} queueCb Callback to signal to the request queue that the request has completed.
- * @protected
- */
-// BaseAPIClient.prototype._callTransport = function _callTransport(task, queueCb) {
-//   let self = this;
-//   let retryOp = retry.operation(self.retryConfig);
-//   let retryArgs = {
-//     client: self,
-//     task,
-//     queueCb,
-//     retryOp,
-//   };
-
-//   retryOp.attempt(function attemptTransportCall() {
-//     self.logger('verbose', 'BaseAPIClient _callTransport - Retrying ' + pick(task.args, 'url'));
-//     self.transport(task.args, partial(callTransport.handleTransportResponse, retryArgs));
-//   });
-//   this.logger('debug', 'BaseAPIClient _callTransport end');
-// };
-
-
-/**
- * Makes a call to the Slack API.
- *
- * @param {string} endpoint The API endpoint to send to.
- * @param {Object} apiArgs
- * @param {Object} apiOptArgs
- * @param {function} optCb The callback to run on completion.
- * @private
- */
-// BaseAPIClient.prototype._makeAPICall = function _makeAPICall(endpoint, apiArgs, apiOptArgs, optCb) {
-//   let self = this;
-//   let apiCallArgs = clientHelpers.getAPICallArgs(
-//     self._token,
-//     globalHelpers.getVersionString(),
-//     self.slackAPIUrl,
-//     endpoint,
-//     apiArgs,
-//     apiOptArgs,
-//     optCb,
-//   );
-//   let cb = apiCallArgs.cb;
-//   let args = apiCallArgs.args;
-//   let promise;
-
-//   if (!cb) {
-//     promise = new Promise(function makeAPICallPromiseResolver(resolve, reject) {
-//       self.requestQueue.push({
-//         args,
-//         cb: function makeAPICallPromiseResolverInner(err, res) {
-//           if (err) {
-//             reject(err);
-//           } else {
-//             // NOTE: inspecting the contents of the response and semantically mapping that to an
-//             // error should probably be some in one place for both callback based invokations, and
-//             // promise based invokations.
-//             if (!res.ok) {
-//               reject(new SlackAPIError(res.error));
-//             } else {
-//               resolve(res);
-//             }
-//           }
-//         },
-//       });
-//     });
-//   } else {
-//     self.requestQueue.push({
-//       args,
-//       cb,
-//     });
-//   }
-
-//   this.logger('debug', 'BaseAPIClient _makeAPICall end');
-//   return promise;
-// };
-
-
-// module.exports = BaseAPIClient;
+// TODO enforce existence of token option in specific facets
 
 export default WebClient;

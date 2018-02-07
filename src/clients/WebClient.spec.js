@@ -68,9 +68,7 @@ describe('WebClient', function () {
       beforeEach(function () {
         this.scope = nock('https://slack.com')
           .post(/api/)
-          .reply(200, {
-            ok: true,
-          });
+          .reply(200, { ok: true });
       });
 
       it('should return results in a Promise', function () {
@@ -120,6 +118,42 @@ describe('WebClient', function () {
       });
 
       afterEach(function () {
+        nock.cleanAll();
+      });
+    });
+
+    it('should properly serialize simple API arguments', function () {
+      const scope = nock('https://slack.com')
+        // NOTE: this could create false negatives if the serialization order changes (it shouldn't matter)
+        .post(/api/, 'token=xoxa-faketoken&foo=stringval&bar=42&baz=false')
+        .reply(200, { ok: true });
+      return this.client.apiCall('method', { foo: 'stringval', bar: 42, baz: false })
+        .then(() => {
+          scope.done();
+          nock.cleanAll();
+        });
+    });
+
+    it('should properly serialize complex API arguments', function () {
+      const scope = nock('https://slack.com')
+        // NOTE: this could create false negatives if the serialization order changes (it shouldn't matter)
+        .post(/api/, 'token=xoxa-faketoken&arraything=%5B%7B%22foo%22%3A%22stringval%22%2C%22bar%22%3A42%2C%22baz%22%3Afalse%2C%22zup%22%3A%5B%22one%22%2C%22two%22%2C%22three%22%5D%7D%5D&objectthing=%7B%22foo%22%3A7%2C%22hum%22%3Afalse%7D')
+        .reply(200, { ok: true });
+      return this.client.apiCall('method', {
+        // TODO: include things like quotes and emojis
+        arraything: [{
+          foo: 'stringval',
+          bar: 42,
+          baz: false,
+          zup: ['one', 'two', 'three']
+        }],
+        objectthing: {
+          foo: 7,
+          hum: false,
+        },
+      })
+      .then(() => {
+        scope.done();
         nock.cleanAll();
       });
     });
