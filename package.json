@@ -37,11 +37,13 @@
     "make-docs": "node jsdoc.js"
   },
   "dependencies": {
+    "@types/got": "^7.1.6",
     "@types/loglevel": "^1.5.3",
     "@types/p-queue": "^2.3.1",
     "@types/retry": "^0.10.2",
     "async": "^1.5.0",
     "eventemitter3": "^3.0.0",
+    "got": "^8.0.3",
     "https-proxy-agent": "^1.0.0",
     "lodash": "^4.13.1",
     "loglevel": "^1.6.1",

@@ -5,6 +5,7 @@ import retryPolicies from './retry-policies';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from '../logger';
 import { pkg, noop, callbackify } from '../util';
 import { CodedError } from '../errors';
+import got = require('got'); // tslint:disable-line:no-require-imports
 
 // let callTransport = require('./transports/call-transport');
 // let globalHelpers = require('../helpers');
@@ -118,10 +119,26 @@ export class WebClient extends EventEmitter {
                        options?: WebAPICallOptions,
                        callback?: WebAPIResultCallback): Promise<WebAPICallResult | undefined> {
     this.logger.debug('apiCall() start');
-    async function implementation(): Promise<WebAPICallResult> {
-      // TODO: this is just a stub
-      return { ok: true };
-    }
+
+    const implementation = async (): Promise<WebAPICallResult> => {
+      const response = await got.post(`${this.slackApiUrl}${method}`, {
+        retries: 0,
+        headers: {
+          // TODO: user-agent
+        },
+        body: '',
+      });
+      let jsonBody;
+      try {
+        jsonBody = JSON.parse(response.body);
+      } catch (error) {
+        // TODO: error handling
+        throw error;
+      }
+      // TODO: handle errors
+      return jsonBody;
+    };
+
     if (callback) {
       callbackify(implementation)(callback);
       return;
