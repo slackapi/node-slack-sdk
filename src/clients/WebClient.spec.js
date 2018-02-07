@@ -7,6 +7,7 @@ const isPromise = require('p-is-promise');
 const nock = require('nock');
 
 const token = 'xoxa-faketoken';
+const fastRetriesForTest = { minTimeout: 0, maxTimeout: 1 };
 
 describe('WebClient', function () {
 
@@ -60,7 +61,7 @@ describe('WebClient', function () {
 
   describe('apiCall()', function() {
     beforeEach(function () {
-      this.client = new WebClient(token);
+      this.client = new WebClient(token, { retryConfig: fastRetriesForTest });
     });
 
     describe('when making a successful call', function() {

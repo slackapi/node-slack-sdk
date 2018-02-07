@@ -1,5 +1,6 @@
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
 import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
+import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
 import retry = require('retry'); // tslint:disable-line:no-require-imports
 import retryPolicies from './retry-policies';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from '../logger';
@@ -120,23 +121,24 @@ export class WebClient extends EventEmitter {
                  callback?: WebAPIResultCallback): Promise<WebAPICallResult> | void {
     this.logger.debug('apiCall() start');
 
-    const implementation = async (): Promise<WebAPICallResult> => {
-      const response = await got.post(`${this.slackApiUrl}${method}`, {
-        retries: 0,
-        headers: {
-          // TODO: user-agent
-        },
-        body: '',
-      });
-      let jsonBody;
-      try {
-        jsonBody = JSON.parse(response.body);
-      } catch (error) {
-        // TODO: error handling
-        throw error;
-      }
-      // TODO: handle errors
-      return jsonBody;
+    const implementation = () => {
+      // TODO: body from options
+      const requestBody = '';
+
+      const task = async (): Promise<WebAPICallResult> => {
+        const response = await got.post(`${this.slackApiUrl}${method}`, {
+          body: requestBody,
+          retries: 0,
+          headers: {},
+        });
+        // TODO: handle errors
+        // TODO: handle rate-limiting
+        return JSON.parse(response.body);
+      };
+
+      const taskAfterRetries = () => pRetry(task, this.retryConfig);
+
+      return this.requestQueue.add(taskAfterRetries);
     };
 
     if (callback) {
