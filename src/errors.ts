@@ -1,7 +1,7 @@
 /**
  * All errors produced by this package adhere to this interface
  */
-export interface CodedError extends Error {
+export interface CodedError extends NodeJS.ErrnoException {
   code: ErrorCode;
 }
 
@@ -9,6 +9,7 @@ export interface CodedError extends Error {
  * A dictionary of codes for errors produced by this package
  */
 export enum ErrorCode {
+  TestError = 'test',
 }
 
 /**

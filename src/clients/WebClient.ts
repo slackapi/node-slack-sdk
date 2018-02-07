@@ -3,7 +3,8 @@ import PQueue = require('p-queue'); // tslint:disable-line:import-name no-requir
 import retry = require('retry'); // tslint:disable-line:no-require-imports
 import retryPolicies from './retry-policies';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from '../logger';
-import { pkg } from '../util';
+import { pkg, noop, callbackify } from '../util';
+import { CodedError } from '../errors';
 
 // let callTransport = require('./transports/call-transport');
 // let globalHelpers = require('../helpers');
@@ -23,8 +24,12 @@ export interface WebClientOptions {
 export interface WebAPICallOptions {
 }
 
-// TODO: remove
-const noop = () => {}; // tslint:disable-line:no-empty
+export interface WebAPICallResult {
+}
+
+export interface WebAPIResultCallback {
+  (error: CodedError, result: WebAPICallResult): void;
+}
 
 /**
  * A client for Slack's Web API
@@ -106,9 +111,22 @@ export class WebClient extends EventEmitter {
    * @param method the Web API method to call {@see https://api.slack.com/methods}
    * @param options options
    * @param callback callback if you don't want a promise returned
+   *
+   * TODO: accept callback without options
    */
-  public apiCall(method: string, options?: WebAPICallOptions, callback?: Function) {
+  public async apiCall(method: string,
+                       options?: WebAPICallOptions,
+                       callback?: WebAPIResultCallback): Promise<WebAPICallResult | undefined> {
     this.logger.debug('apiCall() start');
+    async function implementation(): Promise<WebAPICallResult> {
+      // TODO: this is just a stub
+      return { ok: true };
+    }
+    if (callback) {
+      callbackify(implementation)(callback);
+      return;
+    }
+    return implementation();
   }
 }
 

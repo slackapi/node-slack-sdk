@@ -3,6 +3,7 @@ const { assert } = require('chai');
 const { WebClient } = require('./WebClient');
 const { LogLevel } = require('../logger');
 const CaptureStdout = require('capture-stdout');
+const isPromise = require('p-is-promise');
 
 const token = 'xoxa-faketoken';
 
@@ -52,6 +53,38 @@ describe('WebClient', function () {
     });
     afterEach(function () {
       this.capture.stopCapture();
+    });
+  });
+
+  describe('apiCall()', function() {
+    beforeEach(function () {
+      this.client = new WebClient(token);
+    });
+    it('should return results in a Promise', function () {
+      const r = this.client.apiCall('method');
+      assert(isPromise(r));
+      return r.then(result => assert(result.ok));
+    });
+    it('should deliver results in a callback', function (done) {
+      this.client.apiCall('method', {}, (error, result) => {
+        assert.isNotOk(error);
+        assert(result.ok);
+        done();
+      });
+    });
+    it('should return a Promise which rejects on error', function (done) {
+      const r = this.client.apiCall('method')
+      assert(isPromise(r));
+      r.catch(error => {
+        assert.ok(true);
+        done();
+      });
+    });
+    it('should deliver error in a callback', function (done) {
+      this.client.apiCall('method', {}, (error) => {
+        assert.instanceOf(error, Error);
+        done();
+      });
     });
   });
 });
