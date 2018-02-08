@@ -1,15 +1,17 @@
-/**
- * Aliases for useful retry policies.
- * See https://github.com/tim-kos/node-retry
- */
 import { OperationOptions } from 'retry';
 
 // SEMVER:MAJOR renaming exports to camelCase
 
 /**
+ * Options to create retry policies. Extends from https://github.com/tim-kos/node-retry.
+ */
+export interface RetryOptions extends OperationOptions {
+}
+
+/**
  * Keep retrying forever, with an exponential backoff.
  */
-export const retryForeverExponential: OperationOptions = {
+export const retryForeverExponential: RetryOptions = {
   forever: true,
 };
 
@@ -17,7 +19,7 @@ export const retryForeverExponential: OperationOptions = {
 /**
  * Same as {@link retryForeverExponential}, but capped at 30 minutes.
  */
-export const retryForeverExponentialCapped: OperationOptions = Object.assign({}, retryForeverExponential, {
+export const retryForeverExponentialCapped: RetryOptions = Object.assign({}, retryForeverExponential, {
   maxTimeout: 30 * 60 * 1000,
 });
 
@@ -26,7 +28,7 @@ export const retryForeverExponentialCapped: OperationOptions = Object.assign({},
  * Same as {@link retryForeverExponentialCapped}, but with randomization to
  * prevent stampeding herds.
  */
-export const retryForeverExponentialCappedRandom: OperationOptions = Object.assign({}, retryForeverExponentialCapped, {
+export const retryForeverExponentialCappedRandom: RetryOptions = Object.assign({}, retryForeverExponentialCapped, {
   randomize: true,
 });
 
@@ -34,7 +36,7 @@ export const retryForeverExponentialCappedRandom: OperationOptions = Object.assi
 /**
  * Short & sweet, five retries in five minutes and then bail.
  */
-export const fiveRetriesInFiveMinutes: OperationOptions = {
+export const fiveRetriesInFiveMinutes: RetryOptions = {
   retries: 5,
   factor: 3.86,
 };
@@ -44,7 +46,7 @@ export const fiveRetriesInFiveMinutes: OperationOptions = {
  * This policy is just to keep the tests running fast.
  */
 // SEMVER:MAJOR changing the name of this policy
-export const rapidRetryPolicy: OperationOptions = {
+export const rapidRetryPolicy: RetryOptions = {
   minTimeout: 0,
   maxTimeout: 1,
 };

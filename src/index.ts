@@ -1,5 +1,4 @@
 import events = require('./clients/events'); // tslint:disable-line:no-require-imports
-import RETRY_POLICIES = require('./clients/retry-policies'); // tslint:disable-line:no-require-imports import-name
 import WebClient = require('./clients/web/client'); // tslint:disable-line:no-require-imports import-name
 import RtmClient = require('./clients/rtm/client'); // tslint:disable-line:no-require-imports import-name
 // tslint:disable-next-line:no-require-imports import-name
@@ -9,7 +8,7 @@ import MemoryDataStore = require('./data-store/memory-data-store');
 import { requestOptionsTransport } from './clients/transports/request';
 
 // SEMVER:MAJOR retry policies are now a top-level export
-export { default as retryPolicies } from './clients/retry-policies';
+export { default as retryPolicies, RetryOptions } from './clients/retry-policies';
 
 // SEMVER:MAJOR one global logging function instead of used in instances
 export { LoggingFunc, LogLevel } from './logger';

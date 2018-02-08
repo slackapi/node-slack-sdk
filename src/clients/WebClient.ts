@@ -1,8 +1,7 @@
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
 import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
 import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
-import retry = require('retry'); // tslint:disable-line:no-require-imports
-import retryPolicies from './retry-policies';
+import retryPolicies, { RetryOptions } from './retry-policies';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from '../logger';
 import { pkg, callbackify } from '../util';
 import { CodedError } from '../errors';
@@ -33,9 +32,6 @@ export interface WebAPICallResult {
 
 export interface WebAPIResultCallback {
   (error: CodedError, result: WebAPICallResult): void;
-}
-
-export interface RetryOptions extends retry.OperationOptions {
 }
 
 /**
