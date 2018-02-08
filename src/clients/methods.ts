@@ -1,6 +1,7 @@
 import { WebAPICallOptions, WebAPIResultCallback, WebAPICallResult } from './WebClient';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
+// NOTE: not clear if these interfaces should be exported at the top-level
 
 /**
  * Generic method definition
@@ -15,22 +16,22 @@ export default interface Method<MethodArguments extends WebAPICallOptions> {
  * Reusable "protocols" that some MethodArguments types can conform to
  */
 
-interface TokenOverridable {
+export interface TokenOverridable {
   token?: string;
 }
 
-interface CursorPaginationEnabled {
+export interface CursorPaginationEnabled {
   limit?: number; // natural integer, max of 1000
   cursor?: string; // find this in a response's `response_metadata.next_cursor`
 }
 
-interface TimelinePaginationEnabled {
+export interface TimelinePaginationEnabled {
   oldest?: string;
   latest?: string;
   inclusive?: boolean;
 }
 
-interface LocaleAware {
+export interface LocaleAware {
   include_locale?: boolean;
 }
 

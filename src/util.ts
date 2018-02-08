@@ -1,16 +1,30 @@
 import * as util from 'util';
+import * as os from 'os';
+import * as pjson from 'pjson';
+import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
+
 /**
  * For when you need a function that does nothing
  */
 export function noop() { } // tslint:disable-line:no-empty
 
-/**
- * Package metadata
- * TODO: implement a relatible way to read this from `package.json`
- */
-export const pkg = {
-  name: '@slack/client',
-};
+function replaceSlashes(s: string) {
+  return s.replace('/', ':');
+}
+
+const baseUserAgent = `${replaceSlashes(pjson.name)}/${pjson.version} ` +
+                      `node/${process.version.replace('v', '')} ` +
+                      `${os.platform()}/${os.release()}`;
+
+const appMetadata = {};
+
+export function addAppMetadata({ name, version }: { name: string, version: string }) {
+  appMetadata[replaceSlashes(name)] = version;
+}
+
+export function getUserAgent(): string {
+  return `${objectEntries(appMetadata).map(([name, version]) => `${name}/${version}`).join(' ')} ${baseUserAgent}`;
+}
 
 /**
  * The following is a polyfill of Node >= 8.2.0's util.callbackify method. The source is copied (with some

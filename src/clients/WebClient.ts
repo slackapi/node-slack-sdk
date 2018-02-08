@@ -3,7 +3,8 @@ import PQueue = require('p-queue'); // tslint:disable-line:import-name no-requir
 import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
 import retryPolicies, { RetryOptions } from './retry-policies';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from '../logger';
-import { pkg, callbackify } from '../util';
+import { callbackify, getUserAgent } from '../util';
+import * as pjson from 'pjson';
 import { CodedError } from '../errors';
 import got = require('got'); // tslint:disable-line:no-require-imports
 import urlJoin = require('url-join'); // tslint:disable-line:no-require-imports
@@ -42,6 +43,7 @@ export class WebClient extends EventEmitter {
    * Authentication and authorization token for accessing Slack Web API (usually begins with `xoxp`, `xoxb`, or `xoxa`)
    */
   public readonly token: string;
+
   /**
    * The base URL for reaching Slack's Web API. Consider changing this value for testing purposes.
    */
@@ -61,8 +63,9 @@ export class WebClient extends EventEmitter {
   /**
    * Logging
    */
+  private static loggerName = `${pjson.name}:WebClient`;
   private logger: Logger;
-  private static loggerName = `${pkg.name}:WebClient`;
+  private userAgent: string;
 
   /**
    * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`, or `xoxa`)
@@ -89,6 +92,7 @@ export class WebClient extends EventEmitter {
       this.logger = getLogger(WebClient.loggerName);
     }
     this.logger.setLevel(logLevel);
+    this.userAgent = getUserAgent();
 
     this.logger.debug('initialized');
   }
@@ -119,8 +123,9 @@ export class WebClient extends EventEmitter {
           form: true,
           body: requestBody,
           retries: 0,
-          // TODO: user-agent
-          headers: {},
+          headers: {
+            'user-agent': this.userAgent,
+          },
         });
         // TODO: handle errors
         // TODO: handle rate-limiting
