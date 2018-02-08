@@ -5,8 +5,6 @@ import RtmClient = require('./clients/rtm/client'); // tslint:disable-line:no-re
 // tslint:disable-next-line:no-require-imports import-name
 import IncomingWebhook = require('./clients/incoming-webhook/client');
 // tslint:disable-next-line:no-require-imports import-name
-import LegacyRtmClient = require('./clients/default/legacy-rtm');
-// tslint:disable-next-line:no-require-imports import-name
 import MemoryDataStore = require('./data-store/memory-data-store');
 import { requestOptionsTransport } from './clients/transports/request';
 
