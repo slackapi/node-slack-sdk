@@ -24,6 +24,16 @@ interface CursorPaginationEnabled {
   cursor?: string; // find this in a response's `response_metadata.next_cursor`
 }
 
+interface TimelinePaginationEnabled {
+  oldest?: string;
+  latest?: string;
+  inclusive?: boolean;
+}
+
+interface LocaleAware {
+  include_locale?: boolean;
+}
+
 /*
  * Reusable shapes for argument values
  */
@@ -91,35 +101,70 @@ export type BotsInfoArguments = TokenOverridable & {
 };
 
   /*
-   * `users.*`
+   * `channels.*`
    */
-
-export type UsersInfoArguments = TokenOverridable & {
+export type ChannelsArchiveArguments = TokenOverridable & {
+  channel: string;
+};
+export type ChannelsCreateArguments = TokenOverridable & {
+  name: string;
+  validate?: boolean;
+};
+export type ChannelsHistoryArguments = TokenOverridable & TimelinePaginationEnabled & {
+  channel: string;
+  count?: number;
+  unreads?: boolean;
+};
+export type ChannelsInfoArguments = TokenOverridable & LocaleAware & {
+  channel: string;
+};
+export type ChannelsInviteArguments = TokenOverridable & {
+  channel: string;
   user: string;
 };
-export type UsersListArguments = TokenOverridable & CursorPaginationEnabled & {
-  include_locale?: boolean; // defaults to false
-  presence?: boolean; // deprecated, defaults to false
+export type ChannelsJoinArguments = TokenOverridable & {
+  name: string;
+  validate: boolean;
 };
-export type UsersLookupByEmailArguments = TokenOverridable & {
-  email: string;
-};
-export type UsersGetPresenceArguments = TokenOverridable & {
+export type ChannelsKickArguments = TokenOverridable & {
+  channel: string;
   user: string;
 };
-export type UsersIdentityArguments = TokenOverridable & {};
-export type UsersSetActiveArguments = TokenOverridable & {};
-export type UsersSetPhotoArguments = TokenOverridable & {
-  image: string; // TODO: file contents what?
-  crop_w?: number;
-  crop_x?: number;
-  crop_y?: number;
+export type ChannelsLeaveArguments = TokenOverridable & {
+  channel: string;
 };
-export type UsersDeletePhotoArguments = TokenOverridable & {};
-export type UsersSetPresenceArguments = TokenOverridable & {
-  presence: 'auto' | 'away';
+export type ChannelsListArguments = TokenOverridable & CursorPaginationEnabled & {
+  exclude_archived: boolean;
+  exclude_members: boolean;
+};
+export type ChannelsMarkArguments = TokenOverridable & {
+  channel: string;
+  ts: string;
+};
+export type ChannelsRenameArguments = TokenOverridable & {
+  channel: string;
+  name: string;
+  validate?: boolean;
+};
+export type ChannelsRepliesArguments = TokenOverridable & {
+  channel: string;
+  thread_ts: string;
+};
+export type ChannelsSetPurposeArguments = TokenOverridable & {
+  channel: string;
+  purpose: string;
+};
+export type ChannelsSetTopicArguments = TokenOverridable & {
+  channel: string;
+  topic: string;
+};
+export type ChannelsUnarchiveArguments = TokenOverridable & {
+  channel: string;
 };
 
+  /*
+   * `chat.*`
+   */
 export type ChatDeleteArguments = TokenOverridable & {
   channel: string;
   ts: string;
@@ -171,7 +216,207 @@ export type ChatUpdateArguments = TokenOverridable & {
   text: string;
   ts: string;
   as_user?: boolean;
-  attachments?: MessageAttachments[];
+  attachments?: MessageAttachment[];
   link_names?: boolean;
   parse?: 'full' | 'none';
 };
+
+// TODO: fill out the rest of these arugment types
+
+  /*
+   * `conversations.*`
+   */
+export type ConversationsArchiveArguments = TokenOverridable & {};
+export type ConversationsCloseArguments = TokenOverridable & {};
+export type ConversationsCreateArguments = TokenOverridable & {};
+export type ConversationsHistoryArguments = TokenOverridable & {};
+export type ConversationsInfoArguments = TokenOverridable & {};
+export type ConversationsInviteArguments = TokenOverridable & {};
+export type ConversationsJoinArguments = TokenOverridable & {};
+export type ConversationsKickArguments = TokenOverridable & {};
+export type ConversationsLeaveArguments = TokenOverridable & {};
+export type ConversationsListArguments = TokenOverridable & {};
+export type ConversationsMembersArguments = TokenOverridable & {};
+export type ConversationsOpenArguments = TokenOverridable & {};
+export type ConversationsRenameArguments = TokenOverridable & {};
+export type ConversationsRepliesArguments = TokenOverridable & {};
+export type ConversationsSetPurposeArguments = TokenOverridable & {};
+export type ConversationsSetTopicArguments = TokenOverridable & {};
+export type ConversationsUnarchiveArguments = TokenOverridable & {};
+
+  /*
+   * `dialog.*`
+   */
+export type DialogOpenArguments = TokenOverridable & {};
+
+  /*
+   * `dnd.*`
+   */
+export type DndEndDndArguments = TokenOverridable & {};
+export type DndEndSnoozeArguments = TokenOverridable & {};
+export type DndInfoArguments = TokenOverridable & {};
+export type DndSetSnoozeArguments = TokenOverridable & {};
+export type DndTeamInfoArguments = TokenOverridable & {};
+
+  /*
+   * `emoji.*`
+   */
+export type EmojiListArguments = TokenOverridable & {};
+
+  /*
+   * `files.*`
+   */
+export type FilesDeleteArguments = TokenOverridable & {};
+export type FilesInfoArguments = TokenOverridable & {};
+export type FilesListArguments = TokenOverridable & {};
+export type FilesRevokePublicURLArguments = TokenOverridable & {};
+export type FilesSharedPublicURLArguments = TokenOverridable & {};
+export type FilesUploadArguments = TokenOverridable & {};
+export type FilesCommentsAddArguments = TokenOverridable & {};
+export type FilesCommentsDeleteArguments = TokenOverridable & {};
+export type FilesCommentsEditArguments = TokenOverridable & {};
+
+  /*
+   * `groups.*`
+   */
+export type GroupsArchiveArguments = TokenOverridable & {};
+export type GroupsCreateArguments = TokenOverridable & {};
+export type GroupsCreateChildArguments = TokenOverridable & {};
+export type GroupsHistoryArguments = TokenOverridable & {};
+export type GroupsInfoArguments = TokenOverridable & {};
+export type GroupsInviteArguments = TokenOverridable & {};
+export type GroupsKickArguments = TokenOverridable & {};
+export type GroupsLeaveArguments = TokenOverridable & {};
+export type GroupsListArguments = TokenOverridable & {};
+export type GroupsMarkArguments = TokenOverridable & {};
+export type GroupsOpenArguments = TokenOverridable & {};
+export type GroupsRenameArguments = TokenOverridable & {};
+export type GroupsRepliesArguments = TokenOverridable & {};
+export type GroupsSetPurposeArguments = TokenOverridable & {};
+export type GroupsSetTopicArguments = TokenOverridable & {};
+export type GroupsUnarchiveArguments = TokenOverridable & {};
+
+  /*
+   * `im.*`
+   */
+export type IMCloseArguments = TokenOverridable & {};
+export type IMHistoryArguments = TokenOverridable & {};
+export type IMListArguments = TokenOverridable & {};
+export type IMMarkArguments = TokenOverridable & {};
+export type IMOpenArguments = TokenOverridable & {};
+export type IMRepliesArguments = TokenOverridable & {};
+
+  /*
+   * `migration.*`
+   */
+export type MigrationExchangeArguments = TokenOverridable & {};
+
+  /*
+   * `mpim.*`
+   */
+export type MPIMCloseArguments = TokenOverridable & {};
+export type MPIMHistoryArguments = TokenOverridable & {};
+export type MPIMListArguments = TokenOverridable & {};
+export type MPIMMarkArguments = TokenOverridable & {};
+export type MPIMOpenArguments = TokenOverridable & {};
+export type MPIMRepliesArguments = TokenOverridable & {};
+
+  /*
+   * `oauth.*`
+   */
+export type OAuthAccessArguments = TokenOverridable & {};
+export type OAuthTokenArguments = TokenOverridable & {};
+
+  /*
+   * `pins.*`
+   */
+export type PinsAddArguments = TokenOverridable & {};
+export type PinsListArguments = TokenOverridable & {};
+export type PinsRemoveArguments = TokenOverridable & {};
+
+  /*
+   * `reactions.*`
+   */
+export type ReactionsAddArguments = TokenOverridable & {};
+export type ReactionsGetArguments = TokenOverridable & {};
+export type ReactionsListArguments = TokenOverridable & {};
+export type ReactionsRemoveArguments = TokenOverridable & {};
+
+  /*
+   * `reminders.*`
+   */
+export type RemindersAddArguments = TokenOverridable & {};
+export type RemindersCompleteArguments = TokenOverridable & {};
+export type RemindersDeleteArguments = TokenOverridable & {};
+export type RemindersInfoArguments = TokenOverridable & {};
+export type RemindersListArguments = TokenOverridable & {};
+
+  /*
+   * `rtm.*`
+   */
+export type RTMConnectArguments = TokenOverridable & {};
+export type RTMStartArguments = TokenOverridable & {};
+
+  /*
+   * `search.*`
+   */
+export type SearchAllArguments = TokenOverridable & {};
+export type SearchFilesArguments = TokenOverridable & {};
+export type SearchMessagesArguments = TokenOverridable & {};
+
+  /*
+   * `stars.*`
+   */
+export type StarsAddArguments = TokenOverridable & {};
+export type StarsListArguments = TokenOverridable & {};
+export type StarsRemoveArguments = TokenOverridable & {};
+
+  /*
+   * `team.*`
+   */
+export type TeamAccessLogsArguments = TokenOverridable & {};
+export type TeamBillableInfoArguments = TokenOverridable & {};
+export type TeamInfoArguments = TokenOverridable & {};
+export type TeamIntegrationLogsArguments = TokenOverridable & {};
+export type TeamProfileGetArguments = TokenOverridable & {};
+
+  /*
+   * `usergroups.*`
+   */
+export type UsergroupsCreateArguments = TokenOverridable & {};
+export type UsergroupsDisableArguments = TokenOverridable & {};
+export type UsergroupsEnableArguments = TokenOverridable & {};
+export type UsergroupsListArguments = TokenOverridable & {};
+export type UsergroupsUpdateArguments = TokenOverridable & {};
+export type UsergroupsUsersListArguments = TokenOverridable & {};
+export type UsergroupsUsersUpdateArguments = TokenOverridable & {};
+
+  /*
+   * `users.*`
+   */
+export type UsersInfoArguments = TokenOverridable & {
+  user: string;
+};
+export type UsersListArguments = TokenOverridable & CursorPaginationEnabled & LocaleAware & {
+  presence?: boolean; // deprecated, defaults to false
+};
+export type UsersLookupByEmailArguments = TokenOverridable & {
+  email: string;
+};
+export type UsersGetPresenceArguments = TokenOverridable & {
+  user: string;
+};
+export type UsersIdentityArguments = TokenOverridable & {};
+export type UsersSetActiveArguments = TokenOverridable & {};
+export type UsersSetPhotoArguments = TokenOverridable & {
+  image: string; // TODO: file contents what?
+  crop_w?: number;
+  crop_x?: number;
+  crop_y?: number;
+};
+export type UsersDeletePhotoArguments = TokenOverridable & {};
+export type UsersSetPresenceArguments = TokenOverridable & {
+  presence: 'auto' | 'away';
+};
+export type UsersProfileGetArguments = TokenOverridable & {};
+export type UsersProfileSetArguments = TokenOverridable & {};

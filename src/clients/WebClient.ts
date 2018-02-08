@@ -179,7 +179,7 @@ export class WebClient extends EventEmitter {
   };
 
   /**
-   * bots method family
+   * channels method family
    */
   public readonly channels = {
     archive: (this.apiCall.bind(this, 'channels.archive')) as Method<methods.ChannelsArchiveArguments>,
@@ -213,6 +213,219 @@ export class WebClient extends EventEmitter {
   };
 
   /**
+   * conversations method family
+   */
+  public readonly conversations = {
+    archive: (this.apiCall.bind(this, 'conversations.archive')) as Method<methods.ConversationsArchiveArguments>,
+    close: (this.apiCall.bind(this, 'conversations.close')) as Method<methods.ConversationsCloseArguments>,
+    create: (this.apiCall.bind(this, 'conversations.create')) as Method<methods.ConversationsCreateArguments>,
+    history: (this.apiCall.bind(this, 'conversations.history')) as Method<methods.ConversationsHistoryArguments>,
+    info: (this.apiCall.bind(this, 'conversations.info')) as Method<methods.ConversationsInfoArguments>,
+    invite: (this.apiCall.bind(this, 'conversations.invite')) as Method<methods.ConversationsInviteArguments>,
+    join: (this.apiCall.bind(this, 'conversations.join')) as Method<methods.ConversationsJoinArguments>,
+    kick: (this.apiCall.bind(this, 'conversations.kick')) as Method<methods.ConversationsKickArguments>,
+    leave: (this.apiCall.bind(this, 'conversations.leave')) as Method<methods.ConversationsLeaveArguments>,
+    list: (this.apiCall.bind(this, 'conversations.list')) as Method<methods.ConversationsListArguments>,
+    members: (this.apiCall.bind(this, 'conversations.members')) as Method<methods.ConversationsMembersArguments>,
+    open: (this.apiCall.bind(this, 'conversations.open')) as Method<methods.ConversationsOpenArguments>,
+    rename: (this.apiCall.bind(this, 'conversations.rename')) as Method<methods.ConversationsRenameArguments>,
+    replies: (this.apiCall.bind(this, 'conversations.replies')) as Method<methods.ConversationsRepliesArguments>,
+    setPurpose:
+      (this.apiCall.bind(this, 'conversations.setPurpose')) as Method<methods.ConversationsSetPurposeArguments>,
+    setTopic: (this.apiCall.bind(this, 'conversations.setTopic')) as Method<methods.ConversationsSetTopicArguments>,
+    unarchive: (this.apiCall.bind(this, 'conversations.unarchive')) as Method<methods.ConversationsUnarchiveArguments>,
+  };
+
+  /**
+   * dialog method family
+   */
+  public readonly dialog = {
+    open: (this.apiCall.bind(this, 'dialog.open')) as Method<methods.DialogOpenArguments>,
+  };
+
+  /**
+   * dnd method family
+   */
+  public readonly dnd = {
+    endDnd: (this.apiCall.bind(this, 'dnd.endDnd')) as Method<methods.DndEndDndArguments>,
+    endSnooze: (this.apiCall.bind(this, 'dnd.endSnooze')) as Method<methods.DndEndSnoozeArguments>,
+    info: (this.apiCall.bind(this, 'dnd.info')) as Method<methods.DndInfoArguments>,
+    setSnooze: (this.apiCall.bind(this, 'dnd.setSnooze')) as Method<methods.DndSetSnoozeArguments>,
+    teamInfo: (this.apiCall.bind(this, 'dnd.teamInfo')) as Method<methods.DndTeamInfoArguments>,
+  };
+
+  /**
+   * emoji method family
+   */
+  public readonly emoji = {
+    list: (this.apiCall.bind(this, 'emoji.list')) as Method<methods.EmojiListArguments>,
+  };
+
+  /**
+   * files method family
+   */
+  public readonly files = {
+    delete: (this.apiCall.bind(this, 'files.delete')) as Method<methods.FilesDeleteArguments>,
+    info: (this.apiCall.bind(this, 'files.info')) as Method<methods.FilesInfoArguments>,
+    list: (this.apiCall.bind(this, 'files.list')) as Method<methods.FilesListArguments>,
+    revokePublicURL:
+      (this.apiCall.bind(this, 'files.revokePublicURL')) as Method<methods.FilesRevokePublicURLArguments>,
+    sharedPublicURL:
+      (this.apiCall.bind(this, 'files.sharedPublicURL')) as Method<methods.FilesSharedPublicURLArguments>,
+    upload: (this.apiCall.bind(this, 'files.upload')) as Method<methods.FilesUploadArguments>,
+    comments: {
+      add: (this.apiCall.bind(this, 'files.comments.add')) as Method<methods.FilesCommentsAddArguments>,
+      delete: (this.apiCall.bind(this, 'files.comments.delete')) as Method<methods.FilesCommentsDeleteArguments>,
+      edit: (this.apiCall.bind(this, 'files.comments.edit')) as Method<methods.FilesCommentsEditArguments>,
+    },
+  };
+
+  /**
+   * groups method family
+   */
+  public readonly groups = {
+    archive: (this.apiCall.bind(this, 'groups.archive')) as Method<methods.GroupsArchiveArguments>,
+    create: (this.apiCall.bind(this, 'groups.create')) as Method<methods.GroupsCreateArguments>,
+    createChild: (this.apiCall.bind(this, 'groups.createChild')) as Method<methods.GroupsCreateChildArguments>,
+    history: (this.apiCall.bind(this, 'groups.history')) as Method<methods.GroupsHistoryArguments>,
+    info: (this.apiCall.bind(this, 'groups.info')) as Method<methods.GroupsInfoArguments>,
+    invite: (this.apiCall.bind(this, 'groups.invite')) as Method<methods.GroupsInviteArguments>,
+    kick: (this.apiCall.bind(this, 'groups.kick')) as Method<methods.GroupsKickArguments>,
+    leave: (this.apiCall.bind(this, 'groups.leave')) as Method<methods.GroupsLeaveArguments>,
+    list: (this.apiCall.bind(this, 'groups.list')) as Method<methods.GroupsListArguments>,
+    mark: (this.apiCall.bind(this, 'groups.mark')) as Method<methods.GroupsMarkArguments>,
+    open: (this.apiCall.bind(this, 'groups.open')) as Method<methods.GroupsOpenArguments>,
+    rename: (this.apiCall.bind(this, 'groups.rename')) as Method<methods.GroupsRenameArguments>,
+    replies: (this.apiCall.bind(this, 'groups.replies')) as Method<methods.GroupsRepliesArguments>,
+    setPurpose: (this.apiCall.bind(this, 'groups.setPurpose')) as Method<methods.GroupsSetPurposeArguments>,
+    setTopic: (this.apiCall.bind(this, 'groups.setTopic')) as Method<methods.GroupsSetTopicArguments>,
+    unarchive: (this.apiCall.bind(this, 'groups.unarchive')) as Method<methods.GroupsUnarchiveArguments>,
+  };
+
+  /**
+   * im method family
+   */
+  public readonly im = {
+    close: (this.apiCall.bind(this, 'im.close')) as Method<methods.IMCloseArguments>,
+    history: (this.apiCall.bind(this, 'im.history')) as Method<methods.IMHistoryArguments>,
+    list: (this.apiCall.bind(this, 'im.list')) as Method<methods.IMListArguments>,
+    mark: (this.apiCall.bind(this, 'im.mark')) as Method<methods.IMMarkArguments>,
+    open: (this.apiCall.bind(this, 'im.open')) as Method<methods.IMOpenArguments>,
+    replies: (this.apiCall.bind(this, 'im.replies')) as Method<methods.IMRepliesArguments>,
+  };
+
+  /**
+   * migration method family
+   */
+  public readonly migration = {
+    exchange: (this.apiCall.bind(this, 'migration.exchange')) as Method<methods.MigrationExchangeArguments>,
+  };
+
+  /**
+   * mpim method family
+   */
+  public readonly mpim = {
+    close: (this.apiCall.bind(this, 'mpim.close')) as Method<methods.MPIMCloseArguments>,
+    history: (this.apiCall.bind(this, 'mpim.history')) as Method<methods.MPIMHistoryArguments>,
+    list: (this.apiCall.bind(this, 'mpim.list')) as Method<methods.MPIMListArguments>,
+    mark: (this.apiCall.bind(this, 'mpim.mark')) as Method<methods.MPIMMarkArguments>,
+    open: (this.apiCall.bind(this, 'mpim.open')) as Method<methods.MPIMOpenArguments>,
+    replies: (this.apiCall.bind(this, 'mpim.replies')) as Method<methods.MPIMRepliesArguments>,
+  };
+
+  /**
+   * oauth method family
+   */
+  public readonly oauth = {
+    access: (this.apiCall.bind(this, 'oauth.access')) as Method<methods.OAuthAccessArguments>,
+    token: (this.apiCall.bind(this, 'oauth.token')) as Method<methods.OAuthTokenArguments>,
+  };
+
+  /**
+   * pins method family
+   */
+  public readonly pins = {
+    add: (this.apiCall.bind(this, 'pins.add')) as Method<methods.PinsAddArguments>,
+    list: (this.apiCall.bind(this, 'pins.list')) as Method<methods.PinsListArguments>,
+    remove: (this.apiCall.bind(this, 'pins.remove')) as Method<methods.PinsRemoveArguments>,
+  };
+
+  /**
+   * reactions method family
+   */
+  public readonly reactions = {
+    add: (this.apiCall.bind(this, 'reactions.add')) as Method<methods.ReactionsAddArguments>,
+    get: (this.apiCall.bind(this, 'reactions.get')) as Method<methods.ReactionsGetArguments>,
+    list: (this.apiCall.bind(this, 'reactions.list')) as Method<methods.ReactionsListArguments>,
+    remove: (this.apiCall.bind(this, 'reactions.remove')) as Method<methods.ReactionsRemoveArguments>,
+  };
+
+  /**
+   * reminders method family
+   */
+  public readonly reminders = {
+    add: (this.apiCall.bind(this, 'reminders.add')) as Method<methods.RemindersAddArguments>,
+    complete: (this.apiCall.bind(this, 'reminders.complete')) as Method<methods.RemindersCompleteArguments>,
+    delete: (this.apiCall.bind(this, 'reminders.delete')) as Method<methods.RemindersDeleteArguments>,
+    info: (this.apiCall.bind(this, 'reminders.info')) as Method<methods.RemindersInfoArguments>,
+    list: (this.apiCall.bind(this, 'reminders.list')) as Method<methods.RemindersListArguments>,
+  };
+
+  /**
+   * rtm method family
+   */
+  public readonly rtm = {
+    connect: (this.apiCall.bind(this, 'rtm.connect')) as Method<methods.RTMConnectArguments>,
+    start: (this.apiCall.bind(this, 'rtm.start')) as Method<methods.RTMStartArguments>,
+  };
+
+  /**
+   * search method family
+   */
+  public readonly search = {
+    all: (this.apiCall.bind(this, 'search.all')) as Method<methods.SearchAllArguments>,
+    files: (this.apiCall.bind(this, 'search.files')) as Method<methods.SearchFilesArguments>,
+    messages: (this.apiCall.bind(this, 'search.messages')) as Method<methods.SearchMessagesArguments>,
+  };
+
+  /**
+   * stars method family
+   */
+  public readonly stars = {
+    add: (this.apiCall.bind(this, 'stars.add')) as Method<methods.StarsAddArguments>,
+    list: (this.apiCall.bind(this, 'stars.list')) as Method<methods.StarsListArguments>,
+    remove: (this.apiCall.bind(this, 'stars.remove')) as Method<methods.StarsRemoveArguments>,
+  };
+
+  /**
+   * team method family
+   */
+  public readonly team = {
+    accessLogs: (this.apiCall.bind(this, 'team.accessLogs')) as Method<methods.TeamAccessLogsArguments>,
+    billableInfo: (this.apiCall.bind(this, 'team.billableInfo')) as Method<methods.TeamBillableInfoArguments>,
+    info: (this.apiCall.bind(this, 'team.info')) as Method<methods.TeamInfoArguments>,
+    integrationLogs: (this.apiCall.bind(this, 'team.integrationLogs')) as Method<methods.TeamIntegrationLogsArguments>,
+    profile: {
+      get: (this.apiCall.bind(this, 'team.profile.get')) as Method<methods.TeamProfileGetArguments>,
+    },
+  };
+
+  /**
+   * usergroups method family
+   */
+  public readonly usergroups = {
+    create: (this.apiCall.bind(this, 'usergroups.create')) as Method<methods.UsergroupsCreateArguments>,
+    disable: (this.apiCall.bind(this, 'usergroups.disable')) as Method<methods.UsergroupsDisableArguments>,
+    enable: (this.apiCall.bind(this, 'usergroups.enable')) as Method<methods.UsergroupsEnableArguments>,
+    list: (this.apiCall.bind(this, 'usergroups.list')) as Method<methods.UsergroupsListArguments>,
+    update: (this.apiCall.bind(this, 'usergroups.update')) as Method<methods.UsergroupsUpdateArguments>,
+    users: {
+      list: (this.apiCall.bind(this, 'usergroups.users.list')) as Method<methods.UsergroupsUsersListArguments>,
+      update: (this.apiCall.bind(this, 'usergroups.users.update')) as Method<methods.UsergroupsUsersUpdateArguments>,
+    },
+  };
+
+  /**
    * users method family
    */
   public readonly users = {
@@ -225,6 +438,10 @@ export class WebClient extends EventEmitter {
     setActive: (this.apiCall.bind(this, 'users.setActive')) as Method<methods.UsersSetActiveArguments>,
     setPhoto: (this.apiCall.bind(this, 'users.setPhoto')) as Method<methods.UsersSetPhotoArguments>,
     setPresence: (this.apiCall.bind(this, 'users.setPresence')) as Method<methods.UsersSetPresenceArguments>,
+    profile: {
+      get: (this.apiCall.bind(this, 'users.profile.get')) as Method<methods.UsersProfileGetArguments>,
+      set: (this.apiCall.bind(this, 'users.profile.set')) as Method<methods.UsersProfileSetArguments>,
+    },
   };
 
   /**
@@ -254,7 +471,5 @@ export class WebClient extends EventEmitter {
       }, {});
   }
 }
-
-// TODO enforce existence of token option in specific facets
 
 export default WebClient;
