@@ -1,3 +1,4 @@
+import { Agent } from 'http';
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
 import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
 import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
@@ -12,10 +13,16 @@ import objectEntries = require('object.entries'); // tslint:disable-line:no-requ
 import Method, * as methods from './methods'; // tslint:disable-line:import-name
 
 // SEMVER:MAJOR no transport option
+// SEMVER:MAJOR no more mpdm or dm (just im and mpim)
 
 // TODO: document how to access custom CA settings
 // TODO: document how to use proxy configuration
 // TODO: export these interfaces and class at the top level
+
+export type AgentOption = Agent | {
+  http?: Agent,
+  https?: Agent,
+} | boolean;
 
 export interface WebClientOptions {
   slackApiUrl?: string; // SEMVER:MAJOR casing change from previous
@@ -23,6 +30,7 @@ export interface WebClientOptions {
   logLevel?: LogLevel;
   maxRequestConcurrency?: number;
   retryConfig?: RetryOptions;
+  agent?: AgentOption;
 }
 
 export interface WebAPICallOptions {
@@ -61,6 +69,12 @@ export class WebClient extends EventEmitter {
   private requestQueue: PQueue;
 
   /**
+   * An agent used to manage TCP connections for requests. Most commonly used to implement proxy support. See
+   * npm packages `tunnel` and `https-proxy-agent` for information on how to construct a proxy agent.
+   */
+  private agentConfig?: AgentOption;
+
+  /**
    * Logging
    */
   private static loggerName = `${pjson.name}:WebClient`;
@@ -76,14 +90,15 @@ export class WebClient extends EventEmitter {
     logLevel = LogLevel.INFO,
     maxRequestConcurrency = 3,
     retryConfig = retryPolicies.retryForeverExponentialCappedRandom,
+    agent = undefined,
   }: WebClientOptions = {}) {
     super();
     this.token = token;
     this.slackApiUrl = slackApiUrl;
 
-    // Reliability
     this.retryConfig = retryConfig;
     this.requestQueue = new PQueue({ concurrency: maxRequestConcurrency });
+    this.agentConfig = agent;
 
     // Logging
     if (logger) {
@@ -120,12 +135,14 @@ export class WebClient extends EventEmitter {
       const task = async (): Promise<WebAPICallResult> => {
         // TODO: formData handling
         const response = await got.post(urlJoin(this.slackApiUrl, method), {
+          // @ts-ignore using older definitions for package `got`, can remove when type `@types/got` is updated
           form: true,
           body: requestBody,
           retries: 0,
           headers: {
             'user-agent': this.userAgent,
           },
+          agent: this.agentConfig,
         });
         // TODO: handle errors
         // TODO: handle rate-limiting
