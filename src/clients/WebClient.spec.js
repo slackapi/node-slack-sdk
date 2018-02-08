@@ -158,6 +158,22 @@ describe('WebClient', function () {
       });
     });
 
+    it('should properly mount named method aliases (facets)', function () {
+      // This test doesn't exhaustively check all the method aliases, it just tries a couple.
+      // This should be enough since all methods are mounted in the exact same way.
+      const scope = nock('https://slack.com')
+        .post('/api/chat.postMessage', 'token=xoxa-faketoken&foo=stringval')
+        .reply(200, { ok: true })
+        // Trying this method because its mounted one layer "deeper"
+        .post('/api/apps.permissions.info', 'token=xoxa-faketoken')
+        .reply(200, { ok: true });
+      return Promise.all([this.client.chat.postMessage({ foo: 'stringval' }), this.client.apps.permissions.info()])
+        .then(() => {
+          scope.done();
+          nock.cleanAll();
+        });
+    });
+
   });
 
 });

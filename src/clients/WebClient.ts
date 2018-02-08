@@ -103,12 +103,12 @@ export class WebClient extends EventEmitter {
    * @param method the Web API method to call {@see https://api.slack.com/methods}
    * @param options options
    * @param callback callback if you don't want a promise returned
-   *
-   * TODO: accept callback without options
    */
+  public apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult>;
+  public apiCall(method: string, options: WebAPICallOptions, callback: WebAPIResultCallback): void;
   public apiCall(method: string,
                  options?: WebAPICallOptions,
-                 callback?: WebAPIResultCallback): Promise<WebAPICallResult> | void {
+                 callback?: WebAPIResultCallback): void | Promise<WebAPICallResult> {
     this.logger.debug('apiCall() start');
 
     // The following thunk is the actual implementation for this method. It is wrapped so that it can be adapted for
@@ -147,7 +147,73 @@ export class WebClient extends EventEmitter {
   }
 
   /**
-   * Users method family
+   * api method family
+   */
+  public readonly api = {
+    test: (this.apiCall.bind(this, 'api.test')) as Method<methods.APITestArguments>,
+  };
+
+  /**
+   * apps method family
+   */
+  public readonly apps = {
+    permissions: {
+      info: (this.apiCall.bind(this, 'apps.permissions.info')) as Method<methods.AppsPermissionsInfoArguments>,
+      request: (this.apiCall.bind(this, 'apps.permissions.request')) as Method<methods.AppsPermissionsRequestArguments>,
+    },
+  };
+
+  /**
+   * auth method family
+   */
+  public readonly auth = {
+    revoke: (this.apiCall.bind(this, 'auth.revoke')) as Method<methods.AuthRevokeArguments>,
+    test: (this.apiCall.bind(this, 'auth.test')) as Method<methods.AuthTestArguments>,
+  };
+
+  /**
+   * bots method family
+   */
+  public readonly bots = {
+    info: (this.apiCall.bind(this, 'bots.info')) as Method<methods.BotsInfoArguments>,
+  };
+
+  /**
+   * bots method family
+   */
+  public readonly channels = {
+    archive: (this.apiCall.bind(this, 'channels.archive')) as Method<methods.ChannelsArchiveArguments>,
+    create: (this.apiCall.bind(this, 'channels.create')) as Method<methods.ChannelsCreateArguments>,
+    history: (this.apiCall.bind(this, 'channels.history')) as Method<methods.ChannelsHistoryArguments>,
+    info: (this.apiCall.bind(this, 'channels.info')) as Method<methods.ChannelsInfoArguments>,
+    invite: (this.apiCall.bind(this, 'channels.invite')) as Method<methods.ChannelsInviteArguments>,
+    join: (this.apiCall.bind(this, 'channels.join')) as Method<methods.ChannelsJoinArguments>,
+    kick: (this.apiCall.bind(this, 'channels.kick')) as Method<methods.ChannelsKickArguments>,
+    leave: (this.apiCall.bind(this, 'channels.leave')) as Method<methods.ChannelsLeaveArguments>,
+    list: (this.apiCall.bind(this, 'channels.list')) as Method<methods.ChannelsListArguments>,
+    mark: (this.apiCall.bind(this, 'channels.mark')) as Method<methods.ChannelsMarkArguments>,
+    rename: (this.apiCall.bind(this, 'channels.rename')) as Method<methods.ChannelsRenameArguments>,
+    replies: (this.apiCall.bind(this, 'channels.replies')) as Method<methods.ChannelsRepliesArguments>,
+    setPurpose: (this.apiCall.bind(this, 'channels.setPurpose')) as Method<methods.ChannelsSetPurposeArguments>,
+    setTopic: (this.apiCall.bind(this, 'channels.setTopic')) as Method<methods.ChannelsSetTopicArguments>,
+    unarchive: (this.apiCall.bind(this, 'channels.unarchive')) as Method<methods.ChannelsUnarchiveArguments>,
+  };
+
+  /**
+   * chat method family
+   */
+  public readonly chat = {
+    delete: (this.apiCall.bind(this, 'chat.delete')) as Method<methods.ChatDeleteArguments>,
+    getPermalink: (this.apiCall.bind(this, 'chat.getPermalink')) as Method<methods.ChatGetPermalinkArguments>,
+    meMessage: (this.apiCall.bind(this, 'chat.meMessage')) as Method<methods.ChatMeMessageArguments>,
+    postEphemeral: (this.apiCall.bind(this, 'chat.postEphemeral')) as Method<methods.ChatPostEphemeralArguments>,
+    postMessage: (this.apiCall.bind(this, 'chat.postMessage')) as Method<methods.ChatPostMessageArguments>,
+    unfurl: (this.apiCall.bind(this, 'chat.unfurl')) as Method<methods.ChatUnfurlArguments>,
+    update: (this.apiCall.bind(this, 'chat.update')) as Method<methods.ChatUpdateArguments>,
+  };
+
+  /**
+   * users method family
    */
   public readonly users = {
     deletePhoto: (this.apiCall.bind(this, 'users.deletePhoto')) as Method<methods.UsersDeletePhotoArguments>,
