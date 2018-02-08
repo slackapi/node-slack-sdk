@@ -1,28 +1,41 @@
 import { Agent } from 'http';
+import { Readable } from 'stream';
+
+import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
+import * as pjson from 'pjson';
+import urlJoin = require('url-join'); // tslint:disable-line:no-require-imports
+import isStream = require('is-stream'); // tslint:disable-line:no-require-imports
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
 import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
 import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
-import retryPolicies, { RetryOptions } from './retry-policies';
-import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from '../logger';
-import { callbackify, getUserAgent } from '../util';
-import * as pjson from 'pjson';
-import { CodedError } from '../errors';
 import got = require('got'); // tslint:disable-line:no-require-imports
-import urlJoin = require('url-join'); // tslint:disable-line:no-require-imports
-import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
+import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
+
+import { callbackify, getUserAgent } from '../util';
+import { CodedError } from '../errors';
+import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from '../logger';
+import retryPolicies, { RetryOptions } from './retry-policies';
 import Method, * as methods from './methods'; // tslint:disable-line:import-name
 
 // SEMVER:MAJOR no transport option
 // SEMVER:MAJOR no more mpdm or dm (just im and mpim)
 
 // TODO: document how to access custom CA settings
-// TODO: document how to use proxy configuration
-// TODO: export these interfaces and class at the top level
 
 export type AgentOption = Agent | {
   http?: Agent,
   https?: Agent,
 } | boolean;
+
+interface FormCanBeURLEncoded {
+  [key: string]: string | number | boolean;
+}
+
+interface BodyCanBeFormMultipart extends Readable {}
+
+function canBodyCanBeFormMultipart(body: FormCanBeURLEncoded | BodyCanBeFormMultipart): body is BodyCanBeFormMultipart {
+  return isStream.readable(body);
+}
 
 export interface WebClientOptions {
   slackApiUrl?: string; // SEMVER:MAJOR casing change from previous
@@ -129,14 +142,14 @@ export class WebClient extends EventEmitter {
     // The following thunk is the actual implementation for this method. It is wrapped so that it can be adapted for
     // different executions below.
     const implementation = () => {
-      const requestBody = WebClient.serializeApiCallOptions(Object.assign({ token: this.token }, options));
+
+      const requestBody = this.serializeApiCallOptions(Object.assign({ token: this.token }, options));
 
       // The following thunk encapsulates the task so that it can be coordinated for retries
       const task = async (): Promise<WebAPICallResult> => {
-        // TODO: formData handling
         const response = await got.post(urlJoin(this.slackApiUrl, method), {
           // @ts-ignore using older definitions for package `got`, can remove when type `@types/got` is updated
-          form: true,
+          form: !canBodyCanBeFormMultipart(requestBody),
           body: requestBody,
           retries: 0,
           headers: {
@@ -463,13 +476,16 @@ export class WebClient extends EventEmitter {
   };
 
   /**
-   * Flattens options into a key-value object that is suitable for serializing into a body in the
-   * `application/x-www-form-urlencoded` content type.
+   * Transforms options into an object suitable for got to use as a body. This can be one of two things:
+   * -  A FormCanBeURLEncoded object, which is just a key-value object where the values have been flattened and
+   *    got can serialize it into application/x-www-form-urlencoded content type.
+   * -  A BodyCanBeFormMultipart: when the options includes a file, and got must use multipart/form-data content type.
    *
    * @param options arguments for the Web API method
    */
-  private static serializeApiCallOptions(options: WebAPICallOptions): {[key: string]: string | number | boolean } {
-    return objectEntries(options)
+  private serializeApiCallOptions(options: WebAPICallOptions): FormCanBeURLEncoded | BodyCanBeFormMultipart {
+
+    const flattened = objectEntries(options)
       .map(([key, value]) => {
         if (value === undefined) {
           return [];
@@ -480,13 +496,36 @@ export class WebClient extends EventEmitter {
           serializedValue = JSON.stringify(value);
         }
         return [key, serializedValue];
-      })
-      .reduce((accumulator, [key, value]) => {
-        if (key !== undefined && value !== undefined) {
-          accumulator[key] = value;
+      });
+
+    if ('file' in options) {
+      if (Buffer.isBuffer(options.file)) {
+        if (!('filename' in options)) {
+          this.logger.warn('`file` option is a Buffer, but there is no `filename` option. this upload will likely ' +
+                           'fail. add the `filename` option to fix.');
+        } else {
+          // Buffers are sometimes not handled well by the underlying form-data package. Adding extra metadata can
+          // resolve this. see: https://github.com/slackapi/node-slack-sdk/issues/307#issuecomment-289231737
+          options.file = {
+            value: options.file,
+            options: {
+              filename: options.filename
+            },
+          };
         }
-        return accumulator;
-      }, {});
+      }
+      return flattened.reduce((form, [key, value]) => {
+        form.append(key, value);
+        return form;
+      }, new FormData());
+    }
+
+    return flattened.reduce((accumulator, [key, value]) => {
+      if (key !== undefined && value !== undefined) {
+        accumulator[key] = value;
+      }
+      return accumulator;
+    }, {});
   }
 }
 

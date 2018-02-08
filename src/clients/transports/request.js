@@ -2,7 +2,6 @@
  * Simple transport using the node request library.
  */
 
-var HttpsProxyAgent = require('https-proxy-agent');
 var has = require('lodash').has;
 var partial = require('lodash').partial;
 var defaults = require('lodash').defaults;
