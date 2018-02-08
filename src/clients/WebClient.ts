@@ -499,17 +499,27 @@ export class WebClient extends EventEmitter {
       });
 
     if ('file' in options) {
-      if (Buffer.isBuffer(options.file)) {
+      // It's not very smart that `in` is treated as a type guard in TypeScript. The implementation assumes "sealed"
+      // types, which is not what WebAPICallOptions is.
+      // See discussion here: https://github.com/Microsoft/TypeScript/issues/10485
+      // For now, we can make a type assertion to get around this behavior, but in the future lets push for a better
+      // treatment from the compiler. Maybe https://github.com/Microsoft/TypeScript/issues/21732
+      // This could also be resolved by makeing the above condition a type guide for FilesUploadArguments
+      // @ts-ignore
+      if (Buffer.isBuffer((options as WebAPICallOptions).file)) {
         if (!('filename' in options)) {
           this.logger.warn('`file` option is a Buffer, but there is no `filename` option. this upload will likely ' +
                            'fail. add the `filename` option to fix.');
         } else {
           // Buffers are sometimes not handled well by the underlying form-data package. Adding extra metadata can
           // resolve this. see: https://github.com/slackapi/node-slack-sdk/issues/307#issuecomment-289231737
+          // @ts-ignore
           options.file = {
+            // @ts-ignore
             value: options.file,
             options: {
-              filename: options.filename
+              // @ts-ignore
+              filename: options.filename,
             },
           };
         }
