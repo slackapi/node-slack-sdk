@@ -23,7 +23,9 @@ export function addAppMetadata({ name, version }: { name: string, version: strin
 }
 
 export function getUserAgent(): string {
-  return `${objectEntries(appMetadata).map(([name, version]) => `${name}/${version}`).join(' ')} ${baseUserAgent}`;
+  const appIdentifier = objectEntries(appMetadata).map(([name, version]) => `${name}/${version}`).join(' ');
+  // only prepend the appIdentifier when its not empty
+  return ((appIdentifier.length > 0) ? `${appIdentifier} ` : '') + baseUserAgent;
 }
 
 /**

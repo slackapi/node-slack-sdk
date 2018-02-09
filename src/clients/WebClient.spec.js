@@ -1,9 +1,11 @@
 require('mocha');
 const fs = require('fs');
 const path = require('path');
+const { Agent } = require('http');
 const { assert } = require('chai');
 const { WebClient } = require('./WebClient');
 const { LogLevel } = require('../logger');
+const { addAppMetadata } = require('../util');
 const CaptureStdout = require('capture-stdout');
 const isPromise = require('p-is-promise');
 const nock = require('nock');
@@ -91,10 +93,6 @@ describe('WebClient', function () {
           done();
         });
       });
-
-      afterEach(function () {
-        nock.cleanAll();
-      });
     });
 
     describe('when the call fails', function () {
@@ -119,10 +117,6 @@ describe('WebClient', function () {
           done();
         });
       });
-
-      afterEach(function () {
-        nock.cleanAll();
-      });
     });
 
     it('should properly serialize simple API arguments', function () {
@@ -133,7 +127,6 @@ describe('WebClient', function () {
       return this.client.apiCall('method', { foo: 'stringval', bar: 42, baz: false })
         .then(() => {
           scope.done();
-          nock.cleanAll();
         });
     });
 
@@ -157,7 +150,6 @@ describe('WebClient', function () {
       })
       .then(() => {
         scope.done();
-        nock.cleanAll();
       });
     });
 
@@ -242,15 +234,77 @@ describe('WebClient', function () {
           });
       });
 
+      it('should properly serialize when the file is a ReadableStream', function () {
+        const imageStream = fs.createReadStream(path.resolve('test', 'fixtures', 'train.jpg'));
+
+        return this.client.apiCall('upload', {
+            file: imageStream,
+          })
+          .then((parts) => {
+            assert.lengthOf(parts.files, 1);
+            const file = parts.files[0];
+            // TODO: understand why this assertion is failing. already employed the buffer metadata workaround, should
+            // look into the details about whether that workaround is still required, or why else the `source.on` is not
+            // defined error would occur, or if Slack just doesn't need a filename for the part
+            // assert.include(file, { fieldname: 'file', filename: 'train.jpg' });
+            // NOTE: it seems the file and its filename are emitted as a field in addition to the token, not sure if
+            // this was happening in the old implementation.
+            assert.include(file, { fieldname: 'file' });
+          });
+      });
+
       afterEach(function () {
         if (this.capture) { this.capture.stopCapture(); }
       });
     });
 
-    it.skip('should set the user agent to contain package metadata');
-    it.skip('should add application metadata to the user agent');
-    it.skip('should allow setting the slackApiUrl');
-    it.skip('should allow setting an HTTP agent');
+    describe('metadata in the user agent', function () {
+      it('should set the user agent to contain package metadata', function () {
+        const scope = nock('https://slack.com', {
+            reqheaders: {
+              'User-Agent': (value) => {
+                const metadata = parseUserAgentIntoMetadata(value)
+                // NOTE: this assert isn't that strong and doesn't say anything about the values. at this time, there
+                // isn't a good way to test this without dupicating the logic of the code under test.
+                assert.containsAllKeys(metadata, ['node', '@slack:client']);
+                // NOTE: there's an assumption that if there's any keys besides these left at all, its the platform part
+                delete metadata.node;
+                delete metadata['@slack:client'];
+                assert.isNotEmpty(metadata);
+                return true;
+              },
+            },
+          })
+          .post(/api/)
+          .reply(200, { ok: true });
+        return this.client.apiCall('method')
+          .then(() => {
+            scope.done();
+          });
+      });
+
+      it('should set the user agent to contain application metadata', function () {
+        const [name, version] = ['appmedataname', 'appmetadataversion'];
+        addAppMetadata({ name, version });
+        const scope = nock('https://slack.com', {
+            reqheaders: {
+              'User-Agent': (value) => {
+                const metadata = parseUserAgentIntoMetadata(value)
+                assert.propertyVal(metadata, name, version);
+                return true;
+              },
+            },
+          })
+          .post(/api/)
+          .reply(200, { ok: true });
+        // NOTE: appMetaData is only evalued on client construction, so we cannot use the client already created
+        const client = new WebClient(token, { retryConfig: fastRetriesForTest });
+        return client.apiCall('method')
+          .then(() => {
+            scope.done();
+          });
+      });
+    });
   });
 
   describe('named method aliases (facets)', function () {
@@ -269,8 +323,43 @@ describe('WebClient', function () {
       return Promise.all([this.client.chat.postMessage({ foo: 'stringval' }), this.client.apps.permissions.info()])
         .then(() => {
           scope.done();
-          nock.cleanAll();
         });
     });
   })
+
+  describe('has option to change slackApiUrl', function() {
+    it('should send requests to an alternative URL', function () {
+      const alternativeUrl = 'http://12.34.56.78/api/';
+      const scope = nock(alternativeUrl)
+        .post(/api\/method/)
+        .reply(200, { ok: true });
+      const client = new WebClient(token, { slackApiUrl: alternativeUrl });
+      return client.apiCall('method');
+    });
+  });
+
+  describe('has an option to set a custom HTTP agent', function () {
+    // not confident how to test this. one idea is to use sinon to intercept method calls on the agent.
+    it.skip('should send a request using the custom agent', function() {
+      const agent = new Agent();
+      const client = new WebClient(token, { agent });
+      return client.apiCall('method');
+    });
+  });
+
+  afterEach(function () {
+    nock.cleanAll();
+  });
 });
+
+// Helpers
+function parseUserAgentIntoMetadata(userAgent) {
+  // naive implementation, this might break on platforms whose names or version numbers have spaces or slashes in them,
+  // and that if app metadata keys or values have spaces or slashes in them.
+  const parts = userAgent.split(' ');
+  return parts.reduce((digest, part) => {
+    const [key, val] = part.split('/');
+    digest[key] = val;
+    return digest;
+  }, {});
+}

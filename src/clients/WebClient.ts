@@ -48,10 +48,12 @@ export interface WebClientOptions {
   agent?: AgentOption;
 }
 
+// NOTE: could potentially add GotOptions to this interface (using &, or maybe as an embedded key)
 export interface WebAPICallOptions {
 }
 
 export interface WebAPICallResult {
+  ok: boolean;
 }
 
 export interface WebAPIResultCallback {
