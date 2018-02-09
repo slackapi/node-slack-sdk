@@ -34,7 +34,9 @@ interface FormCanBeURLEncoded {
 interface BodyCanBeFormMultipart extends Readable {}
 
 function canBodyCanBeFormMultipart(body: FormCanBeURLEncoded | BodyCanBeFormMultipart): body is BodyCanBeFormMultipart {
-  return isStream.readable(body);
+  // tried using `isStream.readable(body)` but that failes because the object doesn't have a `_read()` method or a
+  // `_readableState` property
+  return isStream(body);
 }
 
 export interface WebClientOptions {
@@ -485,45 +487,55 @@ export class WebClient extends EventEmitter {
    */
   private serializeApiCallOptions(options: WebAPICallOptions): FormCanBeURLEncoded | BodyCanBeFormMultipart {
 
+    // Special treatment for binary file content
+    let containsBinaryData = false;
+    if ('file' in options) {
+      containsBinaryData = true;
+      // TypeScript treats `in` as a type guard. The implementation assumes most types are "sealed", which is not what
+      // WebAPICallOptions is. See discussion: https://github.com/Microsoft/TypeScript/issues/10485
+      //
+      // For now, we can make a type assertion to get around this behavior, but in the future lets push for a better
+      // treatment from the compiler. Maybe https://github.com/Microsoft/TypeScript/issues/21732 will be the solution.
+      //
+      // This could also be resolved by making the above condition a type guard for FilesUploadArguments. Let's expore
+      // this solution when all the arguments in `./methods.ts` are more fully defined.
+      // @ts-ignore
+      // if (Buffer.isBuffer((options as WebAPICallOptions).file)) {
+      //   if (!('filename' in options)) {
+      //     this.logger.warn('`file` option is a Buffer, but there is no `filename` option. this upload will likely ' +
+      //                      'fail. add the `filename` option to fix.');
+      //   }
+
+        // Buffers are sometimes not handled well by the underlying `form-data` package. Adding extra metadata resolves
+        // that issue. See: https://github.com/slackapi/node-slack-sdk/issues/307#issuecomment-289231737
+        // @ts-ignore
+      //   options.file = {
+      //     // @ts-ignore
+      //     value: options.file,
+      //     options: {
+      //       // @ts-ignore
+      //       filename: options.filename,
+      //     },
+      //   };
+      // }
+    }
+
     const flattened = objectEntries(options)
       .map(([key, value]) => {
         if (value === undefined) {
           return [];
         }
         let serializedValue = value;
-        // if value is anything other than string, number, boolean: json stringify it
-        if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
+        // if value is anything other than string, number, boolean, or the specially treated file key, then
+        // encode it as a JSON string.
+        if (key !== 'file' && typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
           serializedValue = JSON.stringify(value);
         }
         return [key, serializedValue];
       });
 
-    if ('file' in options) {
-      // It's not very smart that `in` is treated as a type guard in TypeScript. The implementation assumes "sealed"
-      // types, which is not what WebAPICallOptions is.
-      // See discussion here: https://github.com/Microsoft/TypeScript/issues/10485
-      // For now, we can make a type assertion to get around this behavior, but in the future lets push for a better
-      // treatment from the compiler. Maybe https://github.com/Microsoft/TypeScript/issues/21732
-      // This could also be resolved by makeing the above condition a type guide for FilesUploadArguments
-      // @ts-ignore
-      if (Buffer.isBuffer((options as WebAPICallOptions).file)) {
-        if (!('filename' in options)) {
-          this.logger.warn('`file` option is a Buffer, but there is no `filename` option. this upload will likely ' +
-                           'fail. add the `filename` option to fix.');
-        } else {
-          // Buffers are sometimes not handled well by the underlying form-data package. Adding extra metadata can
-          // resolve this. see: https://github.com/slackapi/node-slack-sdk/issues/307#issuecomment-289231737
-          // @ts-ignore
-          options.file = {
-            // @ts-ignore
-            value: options.file,
-            options: {
-              // @ts-ignore
-              filename: options.filename,
-            },
-          };
-        }
-      }
+    // a body with binary data should be serialized as multipart/form-data
+    if (containsBinaryData) {
       return flattened.reduce((form, [key, value]) => {
         form.append(key, value);
         return form;
