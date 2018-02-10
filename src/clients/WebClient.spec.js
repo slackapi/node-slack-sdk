@@ -347,6 +347,73 @@ describe('WebClient', function () {
     });
   });
 
+  describe('has an option to set request concurrency', function () {
+    // TODO: factor out common logic into test helpers
+    const responseDelay = 100; // ms
+
+    beforeEach(function () {
+      const self = this;
+      self.testStart = Date.now();
+      self.scope = nock('https://slack.com')
+        .persist()
+        .post(/api/)
+        .delay(responseDelay)
+        .reply(200, function (uri, requestBody, cb) {
+          // NOTE: the assumption is that this function gets called right away when the request body is available,
+          // not after the delay
+          const diff = Date.now() - self.testStart;
+          return cb(null, [200, JSON.stringify({ ok: true, diff })]);
+        });
+    });
+
+    it('should have a default conncurrency of 3', function () {
+      const client = new WebClient(token);
+      const requests = [
+        client.apiCall('1'),
+        client.apiCall('2'),
+        client.apiCall('3'),
+        client.apiCall('4'),
+      ];
+      return Promise.all(requests)
+        .then((responses) => {
+          // verify all responses are present
+          assert.lengthOf(responses, 4);
+
+          // verify that maxRequestConcurrency requests were all sent concurrently
+          const concurrentResponses = responses.slice(0, 3); // the first 3 responses
+          concurrentResponses.forEach(r => assert.isBelow(r.diff, responseDelay));
+
+          // verify that any requests after maxRequestConcurrency were delayed by the responseDelay
+          const queuedResponses = responses.slice(3);
+          const minDiff = concurrentResponses[concurrentResponses.length - 1].diff + responseDelay;
+          queuedResponses.forEach(r => assert.isAbove(r.diff, minDiff));
+        });
+    });
+
+    it('should allow concurrency to be set', function () {
+      const client = new WebClient(token, { maxRequestConcurrency: 1 });
+      const requests = [client.apiCall('1'), client.apiCall('2')];
+      return Promise.all(requests)
+        .then((responses) => {
+          // verify all responses are present
+          assert.lengthOf(responses, 2);
+
+          // verify that maxRequestConcurrency requets were all sent concurrently
+          const concurrentResponses = responses.slice(0, 1); // the first 3 responses
+          concurrentResponses.forEach(r => assert.isBelow(r.diff, responseDelay));
+
+          // verify that any requests after maxRequestConcurrency were delayed by the responseDelay
+          const queuedResponses = responses.slice(1);
+          const minDiff = concurrentResponses[concurrentResponses.length - 1].diff + responseDelay;
+          queuedResponses.forEach(r => assert.isAbove(r.diff, minDiff));
+        });
+    });
+
+    afterEach(function () {
+      this.scope.persist(false);
+    });
+  });
+
   afterEach(function () {
     nock.cleanAll();
   });
