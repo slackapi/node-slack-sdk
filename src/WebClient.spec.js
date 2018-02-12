@@ -14,6 +14,8 @@ const Busboy = require('busboy');
 const token = 'xoxa-faketoken';
 const fastRetriesForTest = { minTimeout: 0, maxTimeout: 1 };
 
+// TODO: add tests for API error (ok: false) versus HTTP error (status code: 500)
+
 describe('WebClient', function () {
 
   describe('constructor()', function () {
@@ -455,6 +457,7 @@ describe('WebClient', function () {
       // NOTE: is this retrying configurable with the retry policy? is it subject to the request concurrency?
       it('should automatically retry the request after the specified timeout');
       it('should pause the remaining requests in queue');
+      it('should emit a rate_limited event on the client');
     });
   });
 

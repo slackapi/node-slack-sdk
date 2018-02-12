@@ -44,8 +44,10 @@
     "@types/loglevel": "^1.5.3",
     "@types/p-queue": "^2.3.1",
     "@types/p-retry": "^1.0.1",
+    "@types/promise.prototype.finally": "^2.0.2",
     "@types/retry": "^0.10.2",
     "@types/url-join": "^0.8.2",
+    "@types/ws": "^4.0.1",
     "delay": "^2.0.0",
     "eventemitter3": "^3.0.0",
     "form-data": "^2.3.1",
@@ -54,12 +56,14 @@
     "loglevel": "^1.6.1",
     "object.entries": "^1.0.4",
     "object.getownpropertydescriptors": "^2.0.3",
+    "object.values": "^1.0.4",
     "p-queue": "^2.3.0",
     "p-retry": "^1.0.0",
     "pjson": "^1.0.9",
+    "promise.prototype.finally": "^3.1.0",
     "retry": "^0.10.1",
     "url-join": "^4.0.0",
-    "ws": "^1.0.1"
+    "ws": "^4.1.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.2",

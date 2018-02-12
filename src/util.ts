@@ -1,6 +1,7 @@
 import * as util from 'util';
 import * as os from 'os';
 import * as pjson from 'pjson';
+import { Agent } from 'http';
 import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
 
 /**
@@ -116,3 +117,8 @@ export const callbackify = util.callbackify || function () {
   // tslint:enable
   return callbackify;
 }() as typeof util.callbackify;
+
+export type AgentOption = Agent | {
+  http?: Agent,
+  https?: Agent,
+} | boolean;

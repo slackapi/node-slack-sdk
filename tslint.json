@@ -25,6 +25,7 @@
     "one-line": [true, "check-else", "check-whitespace", "check-open-brace"],
     "quotemark": [true, "single", "avoid-escape", "avoid-template"],
     "strict-boolean-expressions": [true, "allow-boolean-or-undefined"],
+    "typedef": [true, "call-signature"],
     "typedef-whitespace": [true, {
       "call-signature": "nospace",
       "index-signature": "nospace",

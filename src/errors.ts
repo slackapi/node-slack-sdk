@@ -14,6 +14,8 @@ export interface CodedError extends NodeJS.ErrnoException {
 export enum ErrorCode {
   TestError = 'slackclient_test',
   APIError = 'slackclient_api_error',
+  KeepAliveConfigError = 'slackclient_keepalive_config_error',
+  RTMSendWhileDisconnectedError = 'slackclient_rtmclient_send_while_disconnected_error',
 }
 
 /**

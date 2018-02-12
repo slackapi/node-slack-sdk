@@ -18,6 +18,7 @@ export const retryForeverExponential: RetryOptions = {
 
 /**
  * Same as {@link retryForeverExponential}, but capped at 30 minutes.
+ * TODO: should this name really have "forever" in it? if not, remove from all the derived names below
  */
 export const retryForeverExponentialCapped: RetryOptions = Object.assign({}, retryForeverExponential, {
   maxTimeout: 30 * 60 * 1000,

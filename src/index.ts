@@ -1,5 +1,4 @@
 import events = require('./clients/events'); // tslint:disable-line:no-require-imports
-import RtmClient = require('./clients/rtm/client'); // tslint:disable-line:no-require-imports import-name
 // tslint:disable-next-line:no-require-imports import-name
 import IncomingWebhook = require('./clients/incoming-webhook/client');
 
@@ -33,8 +32,13 @@ export {
   WebClientOptions,
   WebAPICallOptions,
   WebAPICallResult,
+  WebAPICallError,
   WebAPIResultCallback,
 } from './WebClient';
+
+export {
+  RTMClient,
+} from './RTMClient';
 
 const CLIENT_EVENTS = {
   WEB: events.CLIENT_EVENTS.WEB,

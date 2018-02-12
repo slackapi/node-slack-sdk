@@ -1,5 +1,6 @@
-import { Agent } from 'http';
 import { Readable } from 'stream';
+
+// TODO: import as many symbols from './' as possible
 
 import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
 import * as pjson from 'pjson';
@@ -12,9 +13,9 @@ import delay = require('delay'); // tslint:disable-line:no-require-imports
 import got = require('got'); // tslint:disable-line:no-require-imports
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
 
-import { callbackify, getUserAgent } from '../util';
-import { CodedError, errorWithCode, ErrorCode } from '../errors';
-import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from '../logger';
+import { callbackify, getUserAgent, AgentOption } from './util';
+import { CodedError, errorWithCode, ErrorCode } from './errors';
+import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
 import Method, * as methods from './methods'; // tslint:disable-line:import-name
 
@@ -24,11 +25,6 @@ import Method, * as methods from './methods'; // tslint:disable-line:import-name
 // TODO: document how to access custom CA settings
 
 // NOTE: to reduce depedency size, consider https://www.npmjs.com/package/got-lite
-
-export type AgentOption = Agent | {
-  http?: Agent,
-  https?: Agent,
-} | boolean;
 
 interface FormCanBeURLEncoded {
   [key: string]: string | number | boolean;
@@ -42,6 +38,7 @@ function canBodyCanBeFormMultipart(body: FormCanBeURLEncoded | BodyCanBeFormMult
   return isStream(body);
 }
 
+// TODO: add tls options
 export interface WebClientOptions {
   slackApiUrl?: string; // SEMVER:MAJOR casing change from previous
   logger?: LoggingFunc;
@@ -55,6 +52,7 @@ export interface WebClientOptions {
 export interface WebAPICallOptions {
 }
 
+// TODO: consider removing "Call" from this and the following type
 export interface WebAPICallResult {
   ok: boolean;
   error?: string;
@@ -64,8 +62,14 @@ export interface WebAPICallResult {
   response_metadata?: { warnings?: string[] };
 }
 
+export interface WebAPICallError extends CodedError {
+  data: WebAPICallResult & {
+    error: string;
+  };
+}
+
 export interface WebAPIResultCallback {
-  (error: CodedError, result: WebAPICallResult): void;
+  (error: WebAPICallError, result: WebAPICallResult): void;
 }
 
 /**
@@ -181,6 +185,7 @@ export class WebClient extends EventEmitter {
         // handle rate-limiting
         if (response.statusCode !== undefined && response.statusCode === 429) {
           const retryAfterMs = result.retryAfter || (60 * 1000);
+          // TODO: the following event should have more information regarding the api call that is being delayed
           this.emit('rate_limited', retryAfterMs / 1000);
           this.logger.info(`API Call failed due to rate limiting. Will retry in ${retryAfterMs / 1000} seconds.`);
           // wait and return the result from calling `task` again after the specified number of seconds
