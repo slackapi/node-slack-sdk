@@ -26,7 +26,7 @@ export {
 export {
   default as retryPolicies,
   RetryOptions,
-} from './clients/retry-policies';
+} from './retry-policies';
 
 export {
   WebClient,
@@ -34,7 +34,7 @@ export {
   WebAPICallOptions,
   WebAPICallResult,
   WebAPIResultCallback,
-} from './clients/WebClient';
+} from './WebClient';
 
 const CLIENT_EVENTS = {
   WEB: events.CLIENT_EVENTS.WEB,
