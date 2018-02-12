@@ -8,11 +8,12 @@ import isStream = require('is-stream'); // tslint:disable-line:no-require-import
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
 import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
 import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
+import delay = require('delay'); // tslint:disable-line:no-require-imports
 import got = require('got'); // tslint:disable-line:no-require-imports
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
 
 import { callbackify, getUserAgent } from '../util';
-import { CodedError } from '../errors';
+import { CodedError, errorWithCode, ErrorCode } from '../errors';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from '../logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
 import Method, * as methods from './methods'; // tslint:disable-line:import-name
@@ -21,6 +22,8 @@ import Method, * as methods from './methods'; // tslint:disable-line:import-name
 // SEMVER:MAJOR no more mpdm or dm (just im and mpim)
 
 // TODO: document how to access custom CA settings
+
+// NOTE: to reduce depedency size, consider https://www.npmjs.com/package/got-lite
 
 export type AgentOption = Agent | {
   http?: Agent,
@@ -54,6 +57,11 @@ export interface WebAPICallOptions {
 
 export interface WebAPICallResult {
   ok: boolean;
+  error?: string;
+  scopes?: string[];
+  acceptedScopes?: string[];
+  retryAfter?: number;
+  response_metadata?: { warnings?: string[] };
 }
 
 export interface WebAPIResultCallback {
@@ -151,6 +159,7 @@ export class WebClient extends EventEmitter {
 
       // The following thunk encapsulates the task so that it can be coordinated for retries
       const task = async (): Promise<WebAPICallResult> => {
+        this.logger.debug('request attempt');
         const response = await got.post(urlJoin(this.slackApiUrl, method), {
           // @ts-ignore using older definitions for package `got`, can remove when type `@types/got` is updated
           form: !canBodyCanBeFormMultipart(requestBody),
@@ -161,9 +170,39 @@ export class WebClient extends EventEmitter {
           },
           agent: this.agentConfig,
         });
-        // TODO: handle errors
-        // TODO: handle rate-limiting
-        return JSON.parse(response.body);
+
+        const result = this.buildResult(response);
+
+        // log warnings in response metadata
+        if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
+          result.response_metadata.warnings.forEach(this.logger.warn);
+        }
+
+        // handle rate-limiting
+        if (response.statusCode !== undefined && response.statusCode === 429) {
+          const retryAfterMs = result.retryAfter || (60 * 1000);
+          this.emit('rate_limited', retryAfterMs / 1000);
+          this.logger.info(`API Call failed due to rate limiting. Will retry in ${retryAfterMs / 1000} seconds.`);
+          // wait and return the result from calling `task` again after the specified number of seconds
+          await delay(retryAfterMs);
+          return task();
+        }
+
+        // SEMVER:MAJOR callback-based executions used to find the JSON parsed body of the response in the second
+        // callback argument, even when the first argument was an error. in this version, the body will be attached
+        // to `error.data`.
+
+        // For any error in the API response, treat them as irrecoverable by throwing an AbortError to end retries.
+        if (!result.ok) {
+          const error = errorWithCode(
+            new Error(result.error || `An API error occurred: ${result.error}`),
+            ErrorCode.APIError,
+          );
+          error.data = result;
+          throw new pRetry.AbortError(error);
+        }
+
+        return result;
       };
 
       // The following thunk encapsulates the retried task so that it can be coordinated for request queuing
@@ -550,6 +589,25 @@ export class WebClient extends EventEmitter {
       }
       return accumulator;
     }, {});
+  }
+
+  private buildResult(response: got.Response<string>): WebAPICallResult {
+    const data = JSON.parse(response.body);
+
+    // add scopes metadata from headers
+    if (response.headers['x-oauth'] !== undefined) {
+      data.scopes = (response.headers['x-oauth-scopes'] as string).trim().split(/\s*,\s*/);
+    }
+    if (response.headers['x-accepted-oauth-scopes'] !== undefined) {
+      data.acceptedScopes = (response.headers['x-accepted-oauth-scopes'] as string).trim().split(/\s*,\s*/);
+    }
+
+    // add retry metadata from headers
+    if (response.headers['retry-after'] !== undefined) {
+      data.retryAfter = parseInt((response.headers['retry-after'] as string), 10) * 1000;
+    }
+
+    return data;
   }
 }
 

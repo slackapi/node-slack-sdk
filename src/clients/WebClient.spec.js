@@ -153,6 +153,8 @@ describe('WebClient', function () {
       });
     });
 
+    it.skip('should remove undefined or null values from API arguments');
+
     describe('when API arguments contain a file upload', function () {
       beforeEach(function () {
         const self = this;
@@ -411,6 +413,48 @@ describe('WebClient', function () {
 
     afterEach(function () {
       this.scope.persist(false);
+    });
+  });
+
+  describe('has an option to set the retry policy ', function () {
+
+    it('retries a request which fails to get a response', function () {
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .replyWithError('could be a ECONNREFUESD, ENOTFOUND, ETIMEDOUT, ECONNRESET')
+        .post(/api/)
+        .reply(200, { ok: true });
+      const client = new WebClient(token, { retryConfig: fastRetriesForTest });
+      return client.apiCall('method')
+        .then((resp) => {
+          assert.propertyVal(resp, 'ok', true);
+          scope.done();
+        });
+    });
+    it('retries a request whose response has a status code that is not 200 nor 429 (rate limited)', function () {
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(500)
+        .post(/api/)
+        .reply(200, { ok: true });
+      const client = new WebClient(token, { retryConfig: fastRetriesForTest });
+      return client.apiCall('method')
+        .then((resp) => {
+          assert.propertyVal(resp, 'ok', true);
+          scope.done();
+        });
+    });
+  });
+
+  describe('has rate limit handling', function () {
+    it('should expose retry headers in the response');
+    // NOTE: see retry policy note below
+    it('should allow rate limit triggered retries to be turned off');
+
+    describe('when a request fails due to rate-limiting', function () {
+      // NOTE: is this retrying configurable with the retry policy? is it subject to the request concurrency?
+      it('should automatically retry the request after the specified timeout');
+      it('should pause the remaining requests in queue');
     });
   });
 

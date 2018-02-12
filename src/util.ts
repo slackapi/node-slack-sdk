@@ -2,6 +2,7 @@ import * as util from 'util';
 import * as os from 'os';
 import * as pjson from 'pjson';
 import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
+import * as pkg from '../package.json';
 
 /**
  * For when you need a function that does nothing

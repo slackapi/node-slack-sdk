@@ -1,15 +1,19 @@
+import { WebAPICallResult } from '.';
+
 /**
  * All errors produced by this package adhere to this interface
  */
 export interface CodedError extends NodeJS.ErrnoException {
   code: ErrorCode;
+  data?: WebAPICallResult;
 }
 
 /**
  * A dictionary of codes for errors produced by this package
  */
 export enum ErrorCode {
-  TestError = 'test',
+  TestError = 'slackclient_test',
+  APIError = 'slackclient_api_error',
 }
 
 /**

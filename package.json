@@ -37,6 +37,7 @@
     "make-docs": "node jsdoc.js"
   },
   "dependencies": {
+    "@types/delay": "^2.0.1",
     "@types/form-data": "^2.2.1",
     "@types/got": "^7.1.6",
     "@types/is-stream": "^1.1.0",
@@ -45,6 +46,7 @@
     "@types/p-retry": "^1.0.1",
     "@types/retry": "^0.10.2",
     "@types/url-join": "^0.8.2",
+    "delay": "^2.0.0",
     "eventemitter3": "^3.0.0",
     "form-data": "^2.3.1",
     "got": "^8.0.3",
