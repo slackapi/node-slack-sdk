@@ -79,9 +79,9 @@ rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, (connectData) => {
   console.log(`Logged in as ${appData.selfId} of team ${connectData.team.id}`);
 });
 
-// The client will emit an RTM.RTM_CONNECTION_OPEN the connection is ready for
+// The client will emit an RTM.RTM_CONNECTION_OPENED the connection is ready for
 // sending and recieving messages
-rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPEN, () => {
+rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, () => {
   console.log(`Ready`);
 });
 
@@ -117,7 +117,7 @@ const web = new WebClient(token);
 // Load the current channels list asynchrously
 let channelListPromise = web.channels.list();
 
-rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPEN, () => {
+rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, () => {
   console.log(`Ready`);
   // Wait for the channels list response
   channelsListPromise.then((res) => {
@@ -248,7 +248,7 @@ const timeTrackingChannelId = 'C123456';
 
 
 // RTM event handling
-rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPEN, () => {
+rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, () => {
   rtm.subscribePresence(getTrackedUsers());
 });
 
