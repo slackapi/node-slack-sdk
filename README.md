@@ -102,7 +102,7 @@ const rtm = new RtmClient(token, {
   useRtmConnect: true,
 });
 
-// The client will emit an RTM.AUTHENTICATED event on when the connection data is avaiable
+// The client will emit an RTM.AUTHENTICATED event on when the connection data is available
 // (before the connection is open)
 rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, (connectData) => {
   // Cache the data necessary for this app in memory
@@ -111,7 +111,7 @@ rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, (connectData) => {
 });
 
 // The client will emit an RTM.RTM_CONNECTION_OPENED the connection is ready for
-// sending and recieving messages
+// sending and receiving messages
 rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, () => {
   console.log(`Ready`);
 });
