@@ -63,6 +63,7 @@ export interface WebAPICallResult {
 }
 
 export interface WebAPICallError extends CodedError {
+  code: ErrorCode.APIError;
   data: WebAPICallResult & {
     error: string;
   };
@@ -164,6 +165,7 @@ export class WebClient extends EventEmitter {
       // The following thunk encapsulates the task so that it can be coordinated for retries
       const task = async (): Promise<WebAPICallResult> => {
         this.logger.debug('request attempt');
+        // TODO: if an HTTP error occurs, the thrown error with not be a WebAPIError type. Fix this.
         const response = await got.post(urlJoin(this.slackApiUrl, method), {
           // @ts-ignore using older definitions for package `got`, can remove when type `@types/got` is updated
           form: !canBodyCanBeFormMultipart(requestBody),
