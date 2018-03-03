@@ -1,6 +1,6 @@
 import events = require('./clients/events'); // tslint:disable-line:no-require-imports
 // tslint:disable-next-line:no-require-imports import-name
-import IncomingWebhook = require('./clients/incoming-webhook/client');
+// import IncomingWebhook = require('./clients/incoming-webhook/client');
 
 export {
   LoggingFunc,
@@ -52,7 +52,7 @@ const CLIENT_EVENTS = {
 const { RTM_EVENTS, RTM_MESSAGE_SUBTYPES } = events;
 
 export {
-  IncomingWebhook,
+  // IncomingWebhook,
   CLIENT_EVENTS,
   RTM_EVENTS,
   RTM_MESSAGE_SUBTYPES,

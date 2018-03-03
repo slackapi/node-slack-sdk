@@ -7,9 +7,9 @@ import objectEntries = require('object.entries'); // tslint:disable-line:no-requ
 /**
  * For when you need a function that does nothing
  */
-export function noop() { } // tslint:disable-line:no-empty
+export function noop(): void { } // tslint:disable-line:no-empty
 
-function replaceSlashes(s: string) {
+function replaceSlashes(s: string): string {
   return s.replace('/', ':');
 }
 
@@ -17,9 +17,9 @@ const baseUserAgent = `${replaceSlashes(pjson.name)}/${pjson.version} ` +
                       `node/${process.version.replace('v', '')} ` +
                       `${os.platform()}/${os.release()}`;
 
-const appMetadata = {};
+const appMetadata: { [key: string]: string } = {};
 
-export function addAppMetadata({ name, version }: { name: string, version: string }) {
+export function addAppMetadata({ name, version }: { name: string, version: string }): void {
   appMetadata[replaceSlashes(name)] = version;
 }
 
@@ -36,7 +36,7 @@ export function getUserAgent(): string {
  * The modified parts are denoted using comments starting with `original` and ending with `modified`
  * This could really be made an independent module. It was suggested here: https://github.com/js-n/callbackify/issues/5
  */
-export const callbackify = util.callbackify || function () {
+export const callbackify = util.callbackify || (function () { // tslint:disable-line:typedef
   // Need polyfill of Object.getOwnPropertyDescriptors
   // tslint:disable
   require('object.getownpropertydescriptors').shim();
@@ -116,7 +116,7 @@ export const callbackify = util.callbackify || function () {
 
   // tslint:enable
   return callbackify;
-}() as typeof util.callbackify;
+}() as typeof util.callbackify);
 
 export type AgentOption = Agent | {
   http?: Agent,

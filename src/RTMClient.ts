@@ -5,14 +5,11 @@ import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-na
 import WebSocket = require('ws'); // tslint:disable-line:import-name no-require-imports
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
 import { RetryOptions } from './retry-policies';
-import { KeepAlive } from './keep-alive';
+// import { KeepAlive } from './keep-alive';
 import { WebClient, WebAPICallResult, WebAPICallError, ErrorCode } from './';
 import * as methods from './methods'; // tslint:disable-line:import-name
 import { errorWithCode } from './errors';
-import Finity from 'finity'; // tslint:disable-line:import-name
-
-// 1. keepalive lifecycle double-check
-// 2. emit submachine states
+import Finity, { StateMachine } from 'finity'; // tslint:disable-line:import-name
 
 // TODO: document the client event lifecycle (including valid state transitions)
 // TODO: type all lifecycle events and their arugments with enums
@@ -36,7 +33,9 @@ export interface RTMClientOptions {
   serverPongTimeout?: number;
 }
 
-enum UnrecoverableRTMStartErrors {
+// NOTE: there may be a better way to add metadata to an error about being "unrecoverable" than to keep an
+// independent enum
+enum UnrecoverableRTMStartError {
   NotAuthed = 'not_authed',
   InvalidAuth = 'invalid_auth',
   AccountInactive = 'account_inactive',
@@ -83,9 +82,16 @@ export class RTMClient extends EventEmitter {
   private useRtmConnect: boolean;
 
   /**
+   * Configuration for websocket keep-alive functionality
+   */
+  private clientPingTimeout?: number;
+  private serverPongTimeout?: number;
+
+  /**
    * State machine that backs the transition and action behavior
    */
-  private stateMachine = Finity
+  private stateMachine: StateMachine<string, string>;
+  private stateMachineConfig = Finity
     .configure()
       .initialState('disconnected')
         .on('start').transitionTo('connecting')
@@ -122,7 +128,7 @@ export class RTMClient extends EventEmitter {
                   // NOTE: assume that ReadErrors are recoverable
                   let isRecoverable = true;
                   if (error.code === ErrorCode.PlatformError &&
-                      objectValues(UnrecoverableRTMStartErrors).includes(error.data.error)) {
+                      objectValues(UnrecoverableRTMStartError).includes(error.data.error)) {
                     isRecoverable = false;
                   } else if (error.code === ErrorCode.RequestError) {
                     isRecoverable = false;
@@ -137,26 +143,17 @@ export class RTMClient extends EventEmitter {
                   this.stateMachine.handle('failure');
                 })
           .state('authenticated')
-            .do((_state, context) => {
-              const result = (context.result as WebAPICallResult);
-
-              // initialize the websocket
-              const options: WebSocket.ClientOptions = {
-                perMessageDeflate: false,
-              };
-              if (this.agentConfig !== undefined) {
-                options.agent = this.agentConfig;
-              }
-
-              return new Promise((resolve) => {
-                // TODO: remove type casts
-                this.websocket = new WebSocket((result as any).url, options);
-                // TODO: remove websocket reference when the connection is closed
-                this.websocket.addEventListener('open', resolve);
-              });
+            .onEnter((_state, context) => {
+              // TODO: think about when websocket should be torn down
+              this.setupWebsocket(context.result.url);
             })
-              .onSuccess().transitionTo('introducing')
+            .on('websocket open').transitionTo('introducing')
           .state('introducing')
+          .global()
+            .onStateEnter((state) => {
+              this.logger.debug(`transitioning to state: connecting:${state}`);
+              // TODO: think about whether to emit these substate events
+            })
         .getConfig())
         .on('server hello').transitionTo('connected')
         .on('failure').transitionTo('disconnected')
@@ -168,10 +165,11 @@ export class RTMClient extends EventEmitter {
         })
       .global()
         .onStateEnter((state) => {
+          this.logger.debug(`transitioning to state: ${state}`);
           // Emits events: `disconnected`, `connecting`, `connected`
           this.emit(state);
         })
-    .start();
+    .getConfig();
 
   /**
    * Private state
@@ -180,7 +178,7 @@ export class RTMClient extends EventEmitter {
   private websocket?: WebSocket;
   private messageId = 1;
   private startOpts?: methods.RTMConnectArguments | methods.RTMStartArguments;
-  private keepAlive: KeepAlive;
+  // private keepAlive: KeepAlive;
 
   /**
    * Logging
@@ -212,14 +210,18 @@ export class RTMClient extends EventEmitter {
     this.agentConfig = agent;
     this.autoReconnect = autoReconnect;
     this.useRtmConnect = useRtmConnect;
+    this.clientPingTimeout = clientPingTimeout;
+    this.serverPongTimeout = serverPongTimeout;
     // TODO: make sure reset is called at the right time during reconnection
     // TODO: make sure dispose is called when manually disconnecting (or no autoreconnect)
-    this.keepAlive = new KeepAlive(this, {
-      clientPingTimeout,
-      serverPongTimeout,
-      logger,
-      logLevel,
-    });
+    // maybe dispose any old keepalives on entry to disconnected state and re-initialize a new instance on entry to
+    // connecting state. this would require storing the timeout config
+    // this.keepAlive = new KeepAlive(this, {
+    //   clientPingTimeout,
+    //   serverPongTimeout,
+    //   logger,
+    //   logLevel,
+    // });
 
     // Logging
     if (logger) {
@@ -230,6 +232,8 @@ export class RTMClient extends EventEmitter {
     this.logger.setLevel(logLevel);
 
     this.logger.debug('initialized');
+
+    this.stateMachine = Finity.start(this.stateMachineConfig);
   }
 
   // TODO: should this return a promise for the WebAPICallResult?
@@ -284,12 +288,7 @@ export class RTMClient extends EventEmitter {
     return this.messageId++; // tslint:disable-line:no-increment-decrement
   }
 
-  // TODO: type the event 'ws_opening', 'ws_opened', 'raw_message' interface with argument type and an enum for the
-  // event type. (should 'raw_message' be renamed to 'ws_message'?)
-  private connect(url: string): void {
-    // notify listeners of the websocket connection's lifecycle (sub-state of the client's state)
-    this.emit('ws_opening');
-
+  private setupWebsocket(url: string): void {
     // initialize the websocket
     const options: WebSocket.ClientOptions = {
       perMessageDeflate: false,
@@ -300,43 +299,37 @@ export class RTMClient extends EventEmitter {
     this.websocket = new WebSocket(url, options);
 
     // attach event listeners
-    this.websocket.addEventListener('open', () => {
-      this.logger.debug('websocket open');
-      this.emit('ws_opened');
+    this.websocket.addEventListener('open', event => this.stateMachine.handle('websocket open', event));
+    // this.websocket.addEventListener('close', event => this.stateMachine.handle('websocket close', event));
+    this.websocket.addEventListener('error', (event) => {
+      this.logger.error(`A websocket error occurred: ${event.message}`);
     });
-    this.websocket.addEventListener('message', (message) => {
-      this.logger.debug(`incoming websocket message: ${message.data}`);
+    this.websocket.addEventListener('message', this.onWebsocketMessage.bind(this));
+  }
 
-      this.emit('raw_message', message.data);
+  private onWebsocketMessage({ data }: { data: string }): void {
+    // v3 legacy
+    this.emit('raw_message', data);
 
-      let event;
-      try {
-        event = JSON.parse(message.data);
-      } catch (parseError) {
-        // prevent application from crashing on a bad message, but log an error to bring attention
-        this.logger.error(`unable to parse incoming websocket message: ${parseError.message}\n` +
-          `message contents: ${message.data}`);
-        return;
-      }
+    // parse message into slack event
+    let event;
+    try {
+      event = JSON.parse(data);
+    } catch (parseError) {
+      // prevent application from crashing on a bad message, but log an error to bring attention
+      this.logger.error(`unable to parse incoming websocket message: ${parseError.message}\n` +
+        `    message contents: "${data}"`);
+      return;
+    }
 
-      // dispatch event to internal handler
-      // let shouldEmit = true;
-      // if (this.eventHandlers[event.type] !== undefined) {
-      //   shouldEmit = this.eventHandlers[event.type](event);
-      // }
+    // internal event handlers
+    if (event.type === 'hello') {
+      this.stateMachine.handle('server hello');
+    }
 
-      // if (shouldEmit) {
-      this.emit(event.type, event);
-      // }
-    });
-    this.websocket.addEventListener('error', (error) => {
-      this.logger.error(`websocket error: ${error.message}`);
-      this.emit('ws_error', error);
-    });
-    this.websocket.addEventListener('close', ({ reason }) => {
-      this.logger.debug(`websocket close: ${reason}`);
-
-      // TODO: use code to determine if closing for various reasons (reconnecting, manual disconnect, etc)
-    });
+    // emit for external event handlers
+    this.emit('slack_event', event.type, event);
+    this.emit(event.type, event);
+    // TODO: if this is a message with a subtype, emit that specifically
   }
 }

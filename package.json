@@ -39,7 +39,7 @@
   "dependencies": {
     "@types/delay": "^2.0.1",
     "@types/form-data": "^2.2.1",
-    "@types/got": "^7.1.6",
+    "@types/got": "^7.1.7",
     "@types/is-stream": "^1.1.0",
     "@types/loglevel": "^1.5.3",
     "@types/p-queue": "^2.3.1",
