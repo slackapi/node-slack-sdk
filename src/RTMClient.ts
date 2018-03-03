@@ -2,7 +2,6 @@ import { Agent } from 'http';
 import * as pjson from 'pjson';
 import objectValues = require('object.values'); // tslint:disable-line:import-name no-require-imports
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
-import promiseFinally = require('promise.prototype.finally'); // tslint:disable-line:import-name no-require-imports
 import WebSocket = require('ws'); // tslint:disable-line:import-name no-require-imports
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
 import { RetryOptions } from './retry-policies';
@@ -12,9 +11,8 @@ import * as methods from './methods'; // tslint:disable-line:import-name
 import { errorWithCode } from './errors';
 import Finity, { StateMachine } from 'finity'; // tslint:disable-line:import-name
 
-// 1. sort out the right way to reference the client inside the state machine config.
-// 2. error types from webclient
-// 3. keepalive lifecycle double-check
+// 1. error types from webclient
+// 2. keepalive lifecycle double-check
 
 // TODO: document the client event lifecycle (including valid state transitions)
 // TODO: type all lifecycle events and their arugments with enums
@@ -44,10 +42,6 @@ enum UnrecoverableRTMStartErrors {
   AccountInactive = 'account_inactive',
   UserRemovedFromTeam = 'user_removed_from_team',
   TeamDisabled = 'team_disabled',
-}
-
-interface RTMClientStateMachine extends StateMachine<string, string> {
-  client: RTMClient;
 }
 
 // TODO: look for consistency with acronym capitalization (RTM, Rtm, rtm)
@@ -91,8 +85,7 @@ export class RTMClient extends EventEmitter {
   /**
    * State machine that backs the transition and action behavior
    */
-  private stateMachine: RTMClientStateMachine = (() => {
-    const machine: Partial<RTMClientStateMachine> = Finity
+  private stateMachine = Finity
     .configure()
       .initialState('disconnected')
         .on('start').transitionTo('connecting')
@@ -100,21 +93,19 @@ export class RTMClient extends EventEmitter {
         // TODO: does the submachine have the client assigned like the parent machine does?
         .submachine(Finity.configure()
           .initialState('authenticating')
-            .do((_state, context) => {
-              const client = (context.stateMachine as RTMClientStateMachine).client;
-
+            .do(() => {
               // determine which Web API method to use for the connection
               const connectMethod = this.useRtmConnect ? 'rtm.connect' : 'rtm.start';
 
-              return client.webClient.apiCall(connectMethod, client.startOpts || {})
+              return this.webClient.apiCall(connectMethod, this.startOpts || {})
                 .then((result: WebAPICallResult) => {
                   // SEMVER:MAJOR: no longer handling the case where `result.url` is undefined separately from an error.
                   // cannot think of a way this would have been triggered.
 
                   // capture identity information
                   // TODO: remove type casts
-                  client.activeUserId = (result as any).self.id;
-                  client.activeTeamId = (result as any).team.id;
+                  this.activeUserId = (result as any).self.id;
+                  this.activeTeamId = (result as any).team.id;
 
                   return result;
                 });
@@ -123,38 +114,37 @@ export class RTMClient extends EventEmitter {
               .onFailure()
                 .internalTransition().withCondition((context) => {
                   const error = context.error as WebAPICallError;
-                  const client = (context.stateMachine as RTMClientStateMachine).client;
 
-                  client.logger.info(`unable to RTM start: ${error.message}`);
+                  this.logger.info(`unable to RTM start: ${error.message}`);
                   // v3 legacy event
                   // NOTE: the error may not be a WebAPICallError
-                  client.emit('unable_to_rtm_start', error);
+                  this.emit('unable_to_rtm_start', error);
 
                   // TODO: this would not work when the error is not a WebAPICallError (like an HTTP error)
                   const isRecoverable = !objectValues(UnrecoverableRTMStartErrors).includes(error.data.error);
-                  return client.autoReconnect && isRecoverable;
+                  return this.autoReconnect && isRecoverable;
                 })
-                .ignore().withAction((_from, _to, context) => {
+                .ignore().withAction(() => {
                   // dispatch 'failure' on parent machine to transition out of submachine
-                  const client = (context.stateMachine as RTMClientStateMachine).client;
-                  client.stateMachine.handle('failure');
+                  this.stateMachine.handle('failure');
                 })
           .state('authenticated')
             .do((_state, context) => {
-              const client = (context.stateMachine as RTMClientStateMachine).client;
               const result = (context.result as WebAPICallResult);
 
               // initialize the websocket
               const options: WebSocket.ClientOptions = {
                 perMessageDeflate: false,
               };
-              if (client.agentConfig !== undefined) {
-                options.agent = client.agentConfig;
+              if (this.agentConfig !== undefined) {
+                options.agent = this.agentConfig;
               }
 
-              return new Promise((resolve, reject) => {
-                client.websocket = new WebSocket((result as any).url, options);
-                client.websocket.addEventListener('open', resolve);
+              return new Promise((resolve) => {
+                // TODO: remove type casts
+                this.websocket = new WebSocket((result as any).url, options);
+                // TODO: remove websocket reference when the connection is closed
+                this.websocket.addEventListener('open', resolve);
               });
             })
               .onSuccess().transitionTo('introducing')
@@ -163,28 +153,17 @@ export class RTMClient extends EventEmitter {
         .on('server hello').transitionTo('connected')
         .on('failure').transitionTo('disconnected')
       .state('connected')
-        .onExit((_state, context) => {
-          const client = (context.stateMachine as RTMClientStateMachine).client;
-
+        .onExit(() => {
           // clear captured data that is now stale
           // TODO: should these really be cleared if transitioning back to 'connecting' because of reconnecting?
-          client.activeUserId = undefined;
-          client.activeTeamId = undefined;
+          this.activeUserId = this.activeTeamId = undefined;
         })
       .global()
-        .onStateEnter((state, context) => {
-          const client = (context.stateMachine as RTMClientStateMachine).client;
+        .onStateEnter((state) => {
           // Emits events: `disconnected`, `connecting`, `connected`
-          client.emit(state);
+          this.emit(state);
         })
     .start();
-    // NOTE: the following circular reference is a hazard for memory leaks. but then again, capturing a ref to an alias
-    // of `this` would also create a circular reference, right? not sure if there's a better way. we could expose an
-    // explicit "dispose" method to tear down the instance, but that doesn't feel very javascript-y.
-    // find out if `this` is just bound to the client instance anyway in the configuration functions.
-    machine.client = this;
-    return (machine as RTMClientStateMachine);
-  })();
 
   /**
    * Private state
