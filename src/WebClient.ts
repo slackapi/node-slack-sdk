@@ -52,7 +52,7 @@ export interface WebClientOptions {
 export interface WebAPICallOptions {
 }
 
-// TODO: consider removing "Call" from this and the following type
+// TODO: consider removing "Call" from this and the following types
 export interface WebAPICallResult {
   ok: boolean;
   error?: string;
@@ -62,12 +62,59 @@ export interface WebAPICallResult {
   response_metadata?: { warnings?: string[] };
 }
 
-export interface WebAPICallError extends CodedError {
-  code: ErrorCode.APIError;
+export interface WebAPIPlatformError extends CodedError {
+  code: ErrorCode.PlatformError;
   data: WebAPICallResult & {
     error: string;
   };
 }
+
+export interface WebAPIRequestError extends CodedError {
+  code: ErrorCode.RequestError;
+  original: Error;
+}
+
+function requestErrorWithOriginal(original: Error): WebAPIRequestError {
+  const error = errorWithCode(
+    // any cast is used because the got definition file doesn't export the got.RequestError type
+    new Error(`A request error occurred: ${(original as any).code}`),
+    ErrorCode.RequestError,
+  ) as Partial<WebAPIRequestError>;
+  error.original = original;
+  return (error as WebAPIRequestError);
+}
+
+export interface WebAPIReadError extends CodedError {
+  code: ErrorCode.ReadError;
+  original: Error;
+}
+
+function readErrorWithOriginal(original: Error): WebAPIReadError {
+  const error = errorWithCode(
+    // any cast is used because the got definition file doesn't export the got.ReadError type
+    new Error('A response read error occurred'),
+    ErrorCode.ReadError,
+  ) as Partial<WebAPIReadError>;
+  error.original = original;
+  return (error as WebAPIReadError);
+}
+
+export interface WebAPIHTTPError extends CodedError {
+  code: ErrorCode.HTTPError;
+  original: Error;
+}
+
+function httpErrorWithOriginal(original: Error): WebAPIHTTPError {
+  const error = errorWithCode(
+    // any cast is used because the got definition file doesn't export the got.HTTPError type
+    new Error(`An HTTP protocol error occurred: statusCode = ${(original as any).statusCode}`),
+    ErrorCode.HTTPError,
+  ) as Partial<WebAPIHTTPError>;
+  error.original = original;
+  return (error as WebAPIHTTPError);
+}
+
+export type WebAPICallError = WebAPIPlatformError | WebAPIRequestError | WebAPIReadError | WebAPIHTTPError;
 
 export interface WebAPIResultCallback {
   (error: WebAPICallError, result: WebAPICallResult): void;
@@ -163,10 +210,10 @@ export class WebClient extends EventEmitter {
       const requestBody = this.serializeApiCallOptions(Object.assign({ token: this.token }, options));
 
       // The following thunk encapsulates the task so that it can be coordinated for retries
-      const task = async (): Promise<WebAPICallResult> => {
+      const task = () => {
         this.logger.debug('request attempt');
         // TODO: if an HTTP error occurs, the thrown error with not be a WebAPIError type. Fix this.
-        const response = await got.post(urlJoin(this.slackApiUrl, method), {
+        return got.post(urlJoin(this.slackApiUrl, method), {
           // @ts-ignore using older definitions for package `got`, can remove when type `@types/got` is updated
           form: !canBodyCanBeFormMultipart(requestBody),
           body: requestBody,
@@ -175,41 +222,52 @@ export class WebClient extends EventEmitter {
             'user-agent': this.userAgent,
           },
           agent: this.agentConfig,
-        });
+        })
+          .catch((error: got.GotError) => {
+            // Wrap errors in this packages own error types (abstract the implementation details' types)
+            if (error.name === 'RequestError') {
+              throw requestErrorWithOriginal(error);
+            } else if (error.name === 'ReadError') {
+              throw readErrorWithOriginal(error);
+            } else if (error.name === 'HTTPError') {
+              throw httpErrorWithOriginal(error);
+            } else {
+              throw error;
+            }
+          })
+          .then((response: got.Response<string>) => {
+            const result = this.buildResult(response);
+            // log warnings in response metadata
+            if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
+              result.response_metadata.warnings.forEach(this.logger.warn);
+            }
 
-        const result = this.buildResult(response);
+            // handle rate-limiting
+            if (response.statusCode !== undefined && response.statusCode === 429) {
+              const retryAfterMs = result.retryAfter || (60 * 1000);
+              // TODO: the following event should have more information regarding the api call that is being delayed
+              this.emit('rate_limited', retryAfterMs / 1000);
+              this.logger.info(`API Call failed due to rate limiting. Will retry in ${retryAfterMs / 1000} seconds.`);
+              // wait and return the result from calling `task` again after the specified number of seconds
+              return delay(retryAfterMs).then(task);
+            }
 
-        // log warnings in response metadata
-        if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
-          result.response_metadata.warnings.forEach(this.logger.warn);
-        }
+            // SEMVER:MAJOR callback-based executions used to find the JSON parsed body of the response in the second
+            // callback argument, even when the first argument was an error. in this version, the body will be attached
+            // to `error.data`.
 
-        // handle rate-limiting
-        if (response.statusCode !== undefined && response.statusCode === 429) {
-          const retryAfterMs = result.retryAfter || (60 * 1000);
-          // TODO: the following event should have more information regarding the api call that is being delayed
-          this.emit('rate_limited', retryAfterMs / 1000);
-          this.logger.info(`API Call failed due to rate limiting. Will retry in ${retryAfterMs / 1000} seconds.`);
-          // wait and return the result from calling `task` again after the specified number of seconds
-          await delay(retryAfterMs);
-          return task();
-        }
+            // For any error in the API response, treat them as irrecoverable by throwing an AbortError to end retries.
+            if (!result.ok) {
+              const error = errorWithCode(
+                new Error(result.error || `An API error occurred: ${result.error}`),
+                ErrorCode.PlatformError,
+              );
+              error.data = result;
+              throw new pRetry.AbortError(error);
+            }
 
-        // SEMVER:MAJOR callback-based executions used to find the JSON parsed body of the response in the second
-        // callback argument, even when the first argument was an error. in this version, the body will be attached
-        // to `error.data`.
-
-        // For any error in the API response, treat them as irrecoverable by throwing an AbortError to end retries.
-        if (!result.ok) {
-          const error = errorWithCode(
-            new Error(result.error || `An API error occurred: ${result.error}`),
-            ErrorCode.APIError,
-          );
-          error.data = result;
-          throw new pRetry.AbortError(error);
-        }
-
-        return result;
+            return result;
+          });
       };
 
       // The following thunk encapsulates the retried task so that it can be coordinated for request queuing

@@ -14,8 +14,6 @@ const Busboy = require('busboy');
 const token = 'xoxa-faketoken';
 const fastRetriesForTest = { minTimeout: 0, maxTimeout: 1 };
 
-// TODO: add tests for API error (ok: false) versus HTTP error (status code: 500)
-
 describe('WebClient', function () {
 
   describe('constructor()', function () {
@@ -97,6 +95,7 @@ describe('WebClient', function () {
       });
     });
 
+    // TODO: simulate each of the error types
     describe('when the call fails', function () {
       beforeEach(function () {
         this.scope = nock('https://slack.com')

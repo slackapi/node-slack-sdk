@@ -32,6 +32,10 @@ export {
   WebClientOptions,
   WebAPICallOptions,
   WebAPICallResult,
+  WebAPIPlatformError,
+  WebAPIRequestError,
+  WebAPIReadError,
+  WebAPIHTTPError,
   WebAPICallError,
   WebAPIResultCallback,
 } from './WebClient';
@@ -48,7 +52,6 @@ const CLIENT_EVENTS = {
 const { RTM_EVENTS, RTM_MESSAGE_SUBTYPES } = events;
 
 export {
-  RtmClient,
   IncomingWebhook,
   CLIENT_EVENTS,
   RTM_EVENTS,

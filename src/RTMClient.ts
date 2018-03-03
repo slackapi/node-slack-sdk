@@ -9,10 +9,10 @@ import { KeepAlive } from './keep-alive';
 import { WebClient, WebAPICallResult, WebAPICallError, ErrorCode } from './';
 import * as methods from './methods'; // tslint:disable-line:import-name
 import { errorWithCode } from './errors';
-import Finity, { StateMachine } from 'finity'; // tslint:disable-line:import-name
+import Finity from 'finity'; // tslint:disable-line:import-name
 
-// 1. error types from webclient
-// 2. keepalive lifecycle double-check
+// 1. keepalive lifecycle double-check
+// 2. emit submachine states
 
 // TODO: document the client event lifecycle (including valid state transitions)
 // TODO: type all lifecycle events and their arugments with enums
@@ -90,7 +90,6 @@ export class RTMClient extends EventEmitter {
       .initialState('disconnected')
         .on('start').transitionTo('connecting')
       .state('connecting')
-        // TODO: does the submachine have the client assigned like the parent machine does?
         .submachine(Finity.configure()
           .initialState('authenticating')
             .do(() => {
@@ -116,16 +115,25 @@ export class RTMClient extends EventEmitter {
                   const error = context.error as WebAPICallError;
 
                   this.logger.info(`unable to RTM start: ${error.message}`);
+
                   // v3 legacy event
-                  // NOTE: the error may not be a WebAPICallError
                   this.emit('unable_to_rtm_start', error);
 
-                  // TODO: this would not work when the error is not a WebAPICallError (like an HTTP error)
-                  const isRecoverable = !objectValues(UnrecoverableRTMStartErrors).includes(error.data.error);
+                  // NOTE: assume that ReadErrors are recoverable
+                  let isRecoverable = true;
+                  if (error.code === ErrorCode.PlatformError &&
+                      objectValues(UnrecoverableRTMStartErrors).includes(error.data.error)) {
+                    isRecoverable = false;
+                  } else if (error.code === ErrorCode.RequestError) {
+                    isRecoverable = false;
+                  } else if (error.code === ErrorCode.HTTPError) {
+                    isRecoverable = false;
+                  }
+
                   return this.autoReconnect && isRecoverable;
                 })
                 .ignore().withAction(() => {
-                  // dispatch 'failure' on parent machine to transition out of submachine
+                  // dispatch 'failure' on parent machine to transition out of this submachine's states
                   this.stateMachine.handle('failure');
                 })
           .state('authenticated')
