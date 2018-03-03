@@ -15,17 +15,17 @@ interface KeepAliveOptions {
 
 export class KeepAlive extends EventEmitter {
 
-  private client: RTMClient;
   private clientPingTimeout: number;
   private serverPongTimeout: number;
 
+  private client?: RTMClient;
   private pingTimer?: NodeJS.Timer;
   private lastPing?: number; // messageId of the last ping message sent
 
   private static loggerName = `${pjson.name}:KeepAlive`;
   private logger: Logger;
 
-  constructor(client: RTMClient, {
+  constructor({
     clientPingTimeout = 6000,
     serverPongTimeout = 4000,
     logger = undefined,
@@ -33,7 +33,6 @@ export class KeepAlive extends EventEmitter {
   }: KeepAliveOptions = {}) {
     super();
 
-    this.client = client;
     this.clientPingTimeout = clientPingTimeout;
     this.serverPongTimeout = serverPongTimeout;
 
@@ -51,24 +50,24 @@ export class KeepAlive extends EventEmitter {
       this.logger = getLogger(KeepAlive.loggerName);
     }
     this.logger.setLevel(logLevel);
+  }
 
-    // Initialization
-    this.client.on('connected', this.setPingTimer, this);
+  public start(client: RTMClient): void {
+    if (!client.connected) {
+      throw errorWithCode(
+        new Error(),
+        ErrorCode.KeepAliveClientNotConnected,
+      );
+    }
+
+    this.client = client;
     this.client.on('outgoing_message', this.setPingTimer, this);
-    // TODO: need an explicit event for when the websocket is no longer connected
-    // this could be computed by tracking whether the client was previously connected and whether its transitioning into
-    // either the disconnected or connecting states
-    this.client.on('ws_close', this.reset, this);
+    this.setPingTimer();
   }
 
-  public reset(): void {
-    delete this.lastPing;
+  public stop(): void {
     this.clearPreviousPingTimer();
-  }
-
-  public dispose(): void {
-    this.reset();
-    delete this.client;
+    this.lastPing = this.client = undefined;
   }
 
   private clearPreviousPingTimer(): void {
@@ -92,13 +91,22 @@ export class KeepAlive extends EventEmitter {
 
   private sendPing(): void {
     this.logger.debug('ping timer expired');
+
+    if (this.client === undefined) {
+      throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
+    }
+
     this.logger.info('sending ping');
     this.lastPing = this.client.send('ping');
 
-    const attemptAcknowledgePong = function (this: KeepAlive, event: any): void {
+    const attemptAcknowledgePong = function (this: KeepAlive, _type: string, event: any): void {
+      if (this.client === undefined) {
+        throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
+      }
+
       if (this.lastPing !== undefined && event.reply_to !== undefined && event.reply_to >= this.lastPing) {
         // this message is a reply that acks the previous ping, clear the last ping
-        this.logger.info('received pong');
+        this.logger.info('received pong, clearing pong timer');
         delete this.lastPing;
 
         // signal that this pong is done being handled
@@ -107,7 +115,12 @@ export class KeepAlive extends EventEmitter {
       }
     };
 
+    this.logger.debug('setting pong timer');
     const pongTimer = setTimeout(() => {
+      if (this.client === undefined) {
+        throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
+      }
+
       // no pong received to acknowledge the last ping within the serverPongTimeout,
       // lifecycle of this object is complete until websocket is disconnected and then this.reset() is called; there
       // is a listener set up in the constructor that will do exactly that

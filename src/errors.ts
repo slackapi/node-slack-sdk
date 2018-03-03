@@ -21,8 +21,12 @@ export enum ErrorCode {
   PlatformError = 'slackclient_platform_error', // Corresponds to WebAPIPlatformError
 
   // RTMClient
-  KeepAliveConfigError = 'slackclient_keepalive_config_error',
   RTMSendWhileDisconnectedError = 'slackclient_rtmclient_send_while_disconnected_error',
+
+  // KeepAlive
+  KeepAliveConfigError = 'slackclient_keepalive_config_error',
+  KeepAliveClientNotConnected = 'slackclient_keepalive_client_not_connected',
+  KeepAliveInconsistentState = 'slackclient_keepalive_inconsistent_state',
 }
 
 /**

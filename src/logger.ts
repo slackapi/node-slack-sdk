@@ -62,6 +62,7 @@ export interface Logger {
 /**
  * INTERNAL interface for getting or creating a named Logger
  */
+// TODO: implement logger name prefixing (example plugins available on the loglevel package's site)
 export const getLogger = log.getLogger as (name: string) => Logger;
 
 /**
