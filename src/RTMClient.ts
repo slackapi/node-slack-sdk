@@ -5,7 +5,7 @@ import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-na
 import WebSocket = require('ws'); // tslint:disable-line:import-name no-require-imports
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
 import { RetryOptions } from './retry-policies';
-import { KeepAlive } from './keep-alive';
+import { KeepAlive } from './KeepAlive';
 import { WebClient, WebAPICallResult, WebAPICallError, ErrorCode, CodedError } from './';
 import * as methods from './methods'; // tslint:disable-line:import-name
 import { errorWithCode } from './errors';
