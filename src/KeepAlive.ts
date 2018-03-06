@@ -96,10 +96,9 @@ export class KeepAlive extends EventEmitter {
     if (this.client === undefined) {
       throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
     }
-
     this.logger.debug('ping timer expired');
-    this.logger.info('sending ping');
 
+    this.logger.debug('sending ping');
     this.client.send('ping')
       .then((messageId) => {
         if (this.client === undefined) {
@@ -115,7 +114,7 @@ export class KeepAlive extends EventEmitter {
 
           if (this.lastPing !== undefined && event.reply_to !== undefined && event.reply_to >= this.lastPing) {
             // this message is a reply that acks the previous ping, clear the last ping
-            this.logger.info('received pong, clearing pong timer');
+            this.logger.debug('received pong, clearing pong timer');
             delete this.lastPing;
 
             // signal that this pong is done being handled
@@ -134,7 +133,7 @@ export class KeepAlive extends EventEmitter {
           // lifecycle of this object is complete - in order to keep using it, this.stop() should be called, and then
           // this.start() should be called again.
           this.logger.debug('pong timer expired');
-          this.logger.info('recommend reconnect');
+          this.logger.debug('recommend reconnect');
           this.emit('recommend_reconnect');
 
           // signal that this pong is done being handled

@@ -59,6 +59,22 @@ export interface Logger {
   setLevel(level: LogLevel): void;
 }
 
+// Implements logger name prefixing using loglevel plugin API. Based on example: http://jsbin.com/xehoye
+const originalFactory = log.methodFactory;
+// @ts-ignore this is the recommended way to use the plugin API for loglevel
+log.methodFactory = function (
+  methodName: LogLevel, logLevel: 0 | 1 | 2 | 3 | 4 | 5, loggerName: string): (...msg: any[]) => void {
+  const rawMethod = originalFactory(methodName, logLevel, loggerName);
+
+  return function (): void {
+    const messages = [`[${methodName.toUpperCase()}]`, loggerName];
+    for (let i = 0; i < arguments.length; i = i + 1) {
+      messages.push(arguments[i]);
+    }
+    rawMethod.apply(undefined, messages);
+  };
+};
+
 /**
  * INTERNAL interface for getting or creating a named Logger
  */
@@ -95,10 +111,9 @@ function isMoreSevere(level: LogLevel, threshold: number): boolean {
  */
 export function loggerFromLoggingFunc(name: string, loggingFunc: LoggingFunc): Logger {
   const logger = log.getLogger(name);
-  // TODO: use plugin API to reroute logging to loggingFunc
-  logger.methodFactory = function (methodName: LogLevel, logLevel, loggerName: string) {
+  logger.methodFactory = function (methodName: LogLevel, logLevel, loggerName: string): (...msg: any[]) => void {
     if (isMoreSevere(methodName, logLevel)) {
-      return function (...msg: any[]) {
+      return function (...msg: any[]): void {
         loggingFunc(methodName, `${loggerName} ${msg.map(m => JSON.stringify(m)).join(' ')}`);
       };
     }
