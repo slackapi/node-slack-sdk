@@ -1,11 +1,11 @@
-import { WebAPICallResult } from '.';
+import { WebAPICallResult, RTMCallResult } from '.';
 
 /**
  * All errors produced by this package adhere to this interface
  */
 export interface CodedError extends NodeJS.ErrnoException {
   code: ErrorCode;
-  data?: WebAPICallResult;
+  data?: WebAPICallResult | RTMCallResult;
 }
 
 /**
@@ -22,6 +22,10 @@ export enum ErrorCode {
 
   // RTMClient
   RTMSendWhileDisconnectedError = 'slackclient_rtmclient_send_while_disconnected_error',
+  RTMSendWhileNotReadyError = 'slackclient_rtmclient_send_while_not_ready_error',
+  RTMSendMessagePlatformError = 'slackclient_rtmclient_send_message_platform_error',
+  RTMWebsocketError = 'slackclient_rtmclient_websocket_error',
+  RTMNoReplyReceivedError = 'slackclient_rtmclient_no_reply_received_error',
 
   // KeepAlive
   KeepAliveConfigError = 'slackclient_keepalive_config_error',

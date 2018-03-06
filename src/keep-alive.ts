@@ -89,49 +89,59 @@ export class KeepAlive extends EventEmitter {
     this.pingTimer = setTimeout(this.sendPing.bind(this), this.clientPingTimeout);
   }
 
+  // NOTE: this thing can throw and/or cause unhandled promise rejections. if either of these happen, its not the
+  // developer who is using this package's fault, its a problem in this package. we would want developers to report
+  // this to the maintainers as soon as possible so we can remedy that situation.
   private sendPing(): void {
-    this.logger.debug('ping timer expired');
-
     if (this.client === undefined) {
       throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
     }
 
+    this.logger.debug('ping timer expired');
     this.logger.info('sending ping');
-    this.lastPing = this.client.send('ping');
 
-    const attemptAcknowledgePong = function (this: KeepAlive, _type: string, event: any): void {
-      if (this.client === undefined) {
-        throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
-      }
+    this.client.send('ping')
+      .then((messageId) => {
+        if (this.client === undefined) {
+          throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
+        }
 
-      if (this.lastPing !== undefined && event.reply_to !== undefined && event.reply_to >= this.lastPing) {
-        // this message is a reply that acks the previous ping, clear the last ping
-        this.logger.info('received pong, clearing pong timer');
-        delete this.lastPing;
+        this.lastPing = messageId;
 
-        // signal that this pong is done being handled
-        clearTimeout(pongTimer);
-        this.client.off('slack_event', attemptAcknowledgePong);
-      }
-    };
+        const attemptAcknowledgePong = function (this: KeepAlive, _type: string, event: any): void {
+          if (this.client === undefined) {
+            throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
+          }
 
-    this.logger.debug('setting pong timer');
-    const pongTimer = setTimeout(() => {
-      if (this.client === undefined) {
-        throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
-      }
+          if (this.lastPing !== undefined && event.reply_to !== undefined && event.reply_to >= this.lastPing) {
+            // this message is a reply that acks the previous ping, clear the last ping
+            this.logger.info('received pong, clearing pong timer');
+            delete this.lastPing;
 
-      // no pong received to acknowledge the last ping within the serverPongTimeout,
-      // lifecycle of this object is complete until websocket is disconnected and then this.reset() is called; there
-      // is a listener set up in the constructor that will do exactly that
-      this.logger.debug('pong timer expired');
-      this.logger.info('recommend reconnect');
-      this.emit('recommend_reconnect');
+            // signal that this pong is done being handled
+            clearTimeout(pongTimer);
+            this.client.off('slack_event', attemptAcknowledgePong);
+          }
+        };
 
-      // signal that this pong is done being handled
-      this.client.off('slack_event', attemptAcknowledgePong);
-    }, this.serverPongTimeout);
+        this.logger.debug('setting pong timer');
+        const pongTimer = setTimeout(() => {
+          if (this.client === undefined) {
+            throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
+          }
 
-    this.client.on('slack_event', attemptAcknowledgePong, this);
+          // no pong received to acknowledge the last ping within the serverPongTimeout,
+          // lifecycle of this object is complete - in order to keep using it, this.stop() should be called, and then
+          // this.start() should be called again.
+          this.logger.debug('pong timer expired');
+          this.logger.info('recommend reconnect');
+          this.emit('recommend_reconnect');
+
+          // signal that this pong is done being handled
+          this.client.off('slack_event', attemptAcknowledgePong);
+        }, this.serverPongTimeout);
+
+        this.client.on('slack_event', attemptAcknowledgePong, this);
+      });
   }
 }

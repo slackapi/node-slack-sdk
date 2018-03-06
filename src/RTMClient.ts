@@ -6,10 +6,13 @@ import WebSocket = require('ws'); // tslint:disable-line:import-name no-require-
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
 import { RetryOptions } from './retry-policies';
 import { KeepAlive } from './keep-alive';
-import { WebClient, WebAPICallResult, WebAPICallError, ErrorCode } from './';
+import { WebClient, WebAPICallResult, WebAPICallError, ErrorCode, CodedError } from './';
 import * as methods from './methods'; // tslint:disable-line:import-name
 import { errorWithCode } from './errors';
 import Finity, { StateMachine } from 'finity'; // tslint:disable-line:import-name
+import { callbackify } from './util';
+import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
+import PCancelable = require('p-cancelable'); // tslint:disable-line:import-name no-require-imports
 
 // TODO: document the client event lifecycle (including valid state transitions)
 // TODO: type all lifecycle events and their arugments with enums
@@ -44,6 +47,31 @@ export interface RTMCallResult {
   };
 }
 
+// TODO: get a better specification of this
+export type RTMCallError = RTMPlatformError | RTMWebsocketError;
+
+export interface RTMPlatformError extends CodedError {
+  code: ErrorCode.RTMSendMessagePlatformError;
+}
+
+export interface RTMWebsocketError extends CodedError {
+  code: ErrorCode.RTMWebsocketError;
+  original: Error;
+}
+
+function websocketErrorWithOriginal(original: Error): RTMWebsocketError {
+  const error = errorWithCode(
+    new Error(`Failed to send message on websocket: ${original.message}`),
+    ErrorCode.RTMWebsocketError,
+  ) as Partial<RTMWebsocketError>;
+  error.original = original;
+  return (error as RTMWebsocketError);
+}
+
+export interface RTMCallResultCallback {
+  (error: RTMCallError, result: RTMCallResult): void;
+}
+
 // NOTE: there may be a better way to add metadata to an error about being "unrecoverable" than to keep an
 // independent enum
 enum UnrecoverableRTMStartError {
@@ -52,6 +80,15 @@ enum UnrecoverableRTMStartError {
   AccountInactive = 'account_inactive',
   UserRemovedFromTeam = 'user_removed_from_team',
   TeamDisabled = 'team_disabled',
+}
+
+// NOTE: hack to express types not found in package. see: https://github.com/nickuraltsev/finity/issues/29
+interface HierarchicalStateMachine extends StateMachine<string, string> {
+  getStateHierarchy: () => string[];
+}
+
+function isHierarchical(machine: StateMachine<string, string>): machine is HierarchicalStateMachine {
+  return (<HierarchicalStateMachine>machine).getStateHierarchy !== undefined;
 }
 
 // TODO: look for consistency with acronym capitalization (RTM, Rtm, rtm)
@@ -100,6 +137,14 @@ export class RTMClient extends EventEmitter {
     .configure()
       .initialState('disconnected')
         .on('start').transitionTo('connecting')
+        .onEnter(() => {
+          // each client should start out with the outgoing event queue paused
+          this.logger.debug('pausing outgoing event queue');
+          this.outgoingEventQueue.pause();
+          // when a formerly connected client gets disconnected, all outgoing messages whose promises were waiting
+          // for a reply from the server should be canceled
+          this.awaitingReplyList.forEach(p => p.cancel());
+        })
       .state('connecting')
         .submachine(Finity.configure()
           .initialState('authenticating')
@@ -165,15 +210,36 @@ export class RTMClient extends EventEmitter {
       .state('connected')
         .onEnter(() => {
           this.connected = true;
-          this.keepAlive.start(this);
         })
         .submachine(Finity.configure()
           .initialState('resuming')
-            .on('replay finished').transitionTo('ready') // this event should happen after either an incoming message
-            // is received with a `reply_to` equal to the last message sent, or some arbitrary time after incoming
-            // messages stop coming in. in the latter case, the queue of pending callbacks should be emptied by invoking
-            // them with errors
-          .state('ready') // only once we're in ready should we begin emptying the queue of pending outgoing messages
+            // when a reply to the last message sent is received, we assume that the client is "caught up" from its
+            // previous connection
+            .on('replay finished').transitionTo('ready')
+            // when this client is connecting for the first time, or if the last message sent on the previous connection
+            // would not get a reply from the server, or if for any other reason we do not receive a reply to the last
+            // message sent - after a timeout of 2 seconds, we assume that the client is "caught up"
+            // NOTE: 2 seconds is arbitrary, we could potentially make this configurable.
+            .onTimeout(2000).transitionTo('ready')
+            .onExit(() => {
+              // once all replay messages are processed, if there are any more messages awaiting a reply message, let
+              // them know that there are none expected to arrive.
+              this.awaitingReplyList.forEach(p => p.cancel());
+            })
+          .state('ready')
+            .onEnter(() => {
+              this.keepAlive.start(this);
+              // the transition isn't done yet, so we delay the following statement until after the event loop returns
+              setImmediate(() => {
+                this.logger.debug('resuming outgoing event queue');
+                this.outgoingEventQueue.start();
+              });
+            })
+          .global()
+            .onStateEnter((state) => {
+              this.logger.debug(`transitioning to state: connected:${state}`);
+              // TODO: think about whether to emit these substate events
+            })
         .getConfig())
         .on('websocket close')
           .transitionTo('reconnecting').withCondition(() => this.autoReconnect)
@@ -190,10 +256,11 @@ export class RTMClient extends EventEmitter {
           this.activeUserId = this.activeTeamId = undefined;
 
           this.keepAlive.stop();
+          this.outgoingEventQueue.pause();
         })
       .state('disconnecting')
         .onEnter(() => {
-          // invariant: websocket exists is open at the start of this state
+          // invariant: websocket exists and is open at the start of this state
           if (this.websocket !== undefined) {
             this.websocket.close();
           } else {
@@ -225,11 +292,15 @@ export class RTMClient extends EventEmitter {
   private startOpts?: methods.RTMConnectArguments | methods.RTMStartArguments;
   private keepAlive: KeepAlive;
 
-  // TODO: a queue of callbacks or promise resolvers for messages that have been sent but a reply is still pending
+  // the outgoingEventQueue is used to serialize outgoing messages and to allow the client to buffer messages to send
+  // before its in the 'ready' state. this queue is paused and resumed as the state machine transitions.
+  private outgoingEventQueue = new PQueue({ concurrency: 1 });
 
-  // TODO: a queue of outgoing messages that have not been sent yet. this queue should be emptied each time the client
-  //       enters the disconnected state. emptying means invoking each message's callback with an error or invoking the
-  //       promise rejecter
+  // the awaitingReplyList is a list of cancelable promises that each represent a caller waiting on the server to
+  // acknowledge the outgoing message with a response. this list is emptied by canceling all the promises when the
+  // client no longer expects to receive the reply message from the server. this may mean the message was received by
+  // the server, but we cannot garauntee that fact.
+  private awaitingReplyList: PCancelable.PCancelable<RTMCallResult>[] = [];
 
   /**
    * Logging
@@ -300,6 +371,7 @@ export class RTMClient extends EventEmitter {
     this.stateMachine.handle('start');
   }
 
+  // TODO: should this return a promise?
   public disconnect(): void {
     this.logger.debug('manual disconnect');
 
@@ -307,44 +379,126 @@ export class RTMClient extends EventEmitter {
     this.stateMachine.handle('explicit disconnect');
   }
 
+  public sendMessage(text: string, channelId?: string): Promise<RTMCallResult>;
+  public sendMessage(text: string, channelId: string, callback: RTMCallResultCallback): void;
+  public sendMessage(text: string,
+                     channelId?: string,
+                     callback?: RTMCallResultCallback): void | Promise<RTMCallResult> {
+    const implementation = () => this.addOutgoingEvent(true, 'message', { text, channel: channelId });
+
+    // Adapt the interface for callback-based execution or Promise-based execution
+    if (callback) {
+      callbackify(implementation)(callback);
+      return;
+    }
+    return implementation();
+  }
+
+  // SEMVER:MAJOR updateMessage is gone. use a WebClient directly if you require this behavior
+
+  // SEMVER:MINOR now returns a Promise, where it used to return void
+  // NOTE: should we allow for callback-based execution of this method?
+  public sendTyping(channelId: string): Promise<void> {
+    return this.addOutgoingEvent(false, 'typing', { channel: channelId });
+  }
+
+  // SEMVER:MINOR now returns a Promise, where it used to return void
+  // NOTE: should we allow for callback-based execution of this method?
+  public subscribePresence(userIds: string[]): Promise<void> {
+    return this.addOutgoingEvent(false, 'presence_sub', { ids: userIds });
+  }
+
+  // this method "guards" the high-level methods from having to worry about which state the client is in by indirecting
+  // every outgoing message through a queue. this allows the client to cancel outgoing messages when disconnected, and
+  // to resume messages that are pending a reply based on replay.
+  public addOutgoingEvent(awaitReply: true, type: string, body?: {}): Promise<RTMCallResult>;
+  public addOutgoingEvent(awaitReply: false, type: string, body?: {}): Promise<void>;
+  public addOutgoingEvent(awaitReply: boolean, type: string, body?: {}): Promise<RTMCallResult | void> {
+    const awaitReplyTask = (messageId: number) => {
+      const replyPromise = new PCancelable<RTMCallResult>((onCancel, resolve, reject) => {
+        const eventHandler = (_type: string, event: RTMCallResult) => {
+          if (event.reply_to === messageId) {
+            this.off('slack_event', eventHandler);
+            if (event.error !== undefined) {
+              const error = errorWithCode(
+                new Error(`An API error occurred: ${event.error.msg}`),
+                ErrorCode.RTMSendMessagePlatformError,
+              );
+              error.data = event;
+              return reject(error);
+            }
+            resolve(event);
+          }
+        };
+        onCancel(() => {
+          this.off('slack_event', eventHandler);
+          reject(errorWithCode(
+            new Error('Message sent but no server acknowledgement was recieved. This may be caused by the client ' +
+            'changing connection state rather than any issue with the specific message. Check before resending.'),
+            ErrorCode.RTMNoReplyReceivedError,
+          ));
+        });
+        this.on('slack_event', eventHandler);
+      });
+      this.awaitingReplyList[messageId] = replyPromise;
+      return replyPromise;
+    };
+
+    const sendTask = (): Promise<RTMCallResult | void> => {
+      const sendPromise = this.send(type, body);
+      if (awaitReply) {
+        return sendPromise.then(awaitReplyTask);
+      }
+      return sendPromise.then(() => Promise.resolve());
+    };
+
+    return this.outgoingEventQueue.add(sendTask);
+  }
+
   // this is a low-level message sending API. you typically will want to use something higher level like sendMessage()
   // which will return a promise that resolves when the sent message is acknowledged. this method will return the
   // internal message ID. that value is an implementation detail and only valid for the lifetime of the connection.
   // SEMVER:MAJOR the method signature is completely different. it used to take an optional callback and return an
   // optional promise. that is now only available with higher level methods.
-  public send(type: string, body = {}): number {
+  // SEMVER:MAJOR this method used to only take one argument, but in this version the type argument is explicit and
+  // required
+  public send(type: string, body = {}): Promise<number> {
     const message = Object.assign({}, body, {
       type,
       id: this.nextMessageId(),
     });
 
-    // TODO: also check that the statemachine is in ready state
-    if (this.websocket === undefined) {
-      this.logger.error('cannot send message when client is not connected');
-      throw errorWithCode(
-        new Error('cannot send message when client is not connected'),
-        ErrorCode.RTMSendWhileDisconnectedError,
-      );
-    } else {
-      // NOTE: it would be cool if in the future there was a middleware pipeline to process the message before its sent
-      this.emit('outgoing_message', message);
+    return new Promise((resolve, reject) => {
+      this.logger.debug(`send() in state: ${(this.stateMachine as HierarchicalStateMachine).getStateHierarchy()}`);
+      if (this.websocket === undefined) {
+        this.logger.error('cannot send message when client is not connected');
+        reject(errorWithCode(
+          new Error('cannot send message when client is not connected'),
+          ErrorCode.RTMSendWhileDisconnectedError,
+        ));
+      } else if (!(this.stateMachine.getCurrentState() === 'connected' &&
+                 isHierarchical(this.stateMachine) && this.stateMachine.getStateHierarchy()[1] === 'ready')) {
+        this.logger.error('cannot send message when client is not ready');
+        reject(errorWithCode(
+          new Error('cannot send message when client is not ready'),
+          ErrorCode.RTMSendWhileNotReadyError,
+        ));
+      } else {
+        // NOTE: future feature request: middleware pipeline to process the message before its sent
+        this.emit('outgoing_message', message);
 
-      const flatMessage = JSON.stringify(message);
-      this.logger.debug(`sending message on websocket: ${flatMessage}`);
+        const flatMessage = JSON.stringify(message);
+        this.logger.debug(`sending message on websocket: ${flatMessage}`);
 
-      this.websocket.send(flatMessage, (error) => {
-        // TODO: how does this interact with replies and promise resolution? if an error occurs, this is the only time
-        // we will hear about it, so its our only chance to reject the promise.
-        if (error) {
-          this.logger.error(`failed to send message on websocket: ${error.message}`);
-        }
-      });
-      return message.id;
-    }
-  }
-
-  public sendEvent(type: string, body = {}): Promise<RTMCallResult> {
-    // TODO: put it in the queue
+        this.websocket.send(flatMessage, (error) => {
+          if (error) {
+            this.logger.error(`failed to send message on websocket: ${error.message}`);
+            return reject(websocketErrorWithOriginal(error));
+          }
+          resolve(message.id);
+        });
+      }
+    });
   }
 
   // atomically increments and returns the last message ID
@@ -367,6 +521,7 @@ export class RTMClient extends EventEmitter {
     this.websocket.addEventListener('close', event => this.stateMachine.handle('websocket close', event));
     this.websocket.addEventListener('error', (event) => {
       this.logger.error(`A websocket error occurred: ${event.message}`);
+      this.emit('error', websocketErrorWithOriginal(event.error));
     });
     this.websocket.addEventListener('message', this.onWebsocketMessage.bind(this));
   }
@@ -385,6 +540,8 @@ export class RTMClient extends EventEmitter {
     // v3 legacy
     this.emit('raw_message', data);
 
+    this.logger.debug(`received message on websocket: ${data}`);
+
     // parse message into slack event
     let event;
     try {
@@ -401,7 +558,13 @@ export class RTMClient extends EventEmitter {
       this.stateMachine.handle('server hello');
     }
 
-    // emit for external event handlers
+    if (this.stateMachine.getCurrentState() === 'connected' &&
+        isHierarchical(this.stateMachine) && this.stateMachine.getStateHierarchy()[1] === 'resuming' &&
+        event.reply_to !== undefined && event.reply_to === this.messageId) {
+      this.stateMachine.handle('replay finished');
+    }
+
+    // emit for event handlers
     this.emit('slack_event', event.type, event);
     this.emit(event.type, event);
     // TODO: if this is a message with a subtype, emit that specifically

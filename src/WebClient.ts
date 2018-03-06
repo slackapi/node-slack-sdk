@@ -259,7 +259,7 @@ export class WebClient extends EventEmitter {
             // For any error in the API response, treat them as irrecoverable by throwing an AbortError to end retries.
             if (!result.ok) {
               const error = errorWithCode(
-                new Error(result.error || `An API error occurred: ${result.error}`),
+                new Error(`An API error occurred: ${result.error}`),
                 ErrorCode.PlatformError,
               );
               error.data = result;

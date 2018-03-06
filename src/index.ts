@@ -42,6 +42,7 @@ export {
 
 export {
   RTMClient,
+  RTMCallResult,
 } from './RTMClient';
 
 const CLIENT_EVENTS = {
