@@ -36,6 +36,7 @@ export interface RTMClientOptions {
   useRtmConnect?: boolean;
   clientPingTimeout?: number;
   serverPongTimeout?: number;
+  replyAckOnReconnectTimeout?: number;
 }
 
 export interface RTMCallResult {
@@ -130,6 +131,12 @@ export class RTMClient extends EventEmitter {
   private useRtmConnect: boolean;
 
   /**
+   * The number of milliseconds to wait upon connection for reply messages from the previous connection. The default
+   * value is 2 seconds.
+   */
+  private replyAckOnReconnectTimeout: number;
+
+  /**
    * State machine that backs the transition and action behavior
    */
   private stateMachine: StateMachine<string, string>;
@@ -218,9 +225,8 @@ export class RTMClient extends EventEmitter {
             .on('replay finished').transitionTo('ready')
             // when this client is connecting for the first time, or if the last message sent on the previous connection
             // would not get a reply from the server, or if for any other reason we do not receive a reply to the last
-            // message sent - after a timeout of 2 seconds, we assume that the client is "caught up"
-            // NOTE: 2 seconds is arbitrary, we could potentially make this configurable.
-            .onTimeout(2000).transitionTo('ready')
+            // message sent - after a timeout, we assume that the client is "caught up"
+            .onTimeout(this.replyAckOnReconnectTimeout).transitionTo('ready')
             .onExit(() => {
               // once all replay messages are processed, if there are any more messages awaiting a reply message, let
               // them know that there are none expected to arrive.
@@ -300,6 +306,7 @@ export class RTMClient extends EventEmitter {
   // acknowledge the outgoing message with a response. this list is emptied by canceling all the promises when the
   // client no longer expects to receive the reply message from the server. this may mean the message was received by
   // the server, but we cannot garauntee that fact.
+  // this is a sparse array, where the indexes are messageIds for the sent messages.
   private awaitingReplyList: PCancelable.PCancelable<RTMCallResult>[] = [];
 
   /**
@@ -318,6 +325,7 @@ export class RTMClient extends EventEmitter {
     useRtmConnect = true,
     clientPingTimeout,
     serverPongTimeout,
+    replyAckOnReconnectTimeout = 2000,
   }: RTMClientOptions = {}) {
     super();
     this.webClient = new WebClient(token, {
@@ -332,6 +340,7 @@ export class RTMClient extends EventEmitter {
     this.agentConfig = agent;
     this.autoReconnect = autoReconnect;
     this.useRtmConnect = useRtmConnect;
+    this.replyAckOnReconnectTimeout = replyAckOnReconnectTimeout;
 
     this.keepAlive = new KeepAlive({
       clientPingTimeout,
