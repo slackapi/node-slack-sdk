@@ -7,6 +7,7 @@ import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-na
 import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
 import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
 import delay = require('delay'); // tslint:disable-line:no-require-imports
+// NOTE: to reduce depedency size, consider https://www.npmjs.com/package/got-lite
 import got = require('got'); // tslint:disable-line:no-require-imports
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
 import { callbackify, getUserAgent, AgentOption } from './util';
@@ -14,13 +15,6 @@ import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
 import Method, * as methods from './methods'; // tslint:disable-line:import-name
-
-// SEMVER:MAJOR no transport option
-// SEMVER:MAJOR no more mpdm or dm (just im and mpim)
-
-// TODO: document how to access custom CA settings
-
-// NOTE: to reduce depedency size, consider https://www.npmjs.com/package/got-lite
 
 /**
  * A client for Slack's Web API
@@ -122,9 +116,8 @@ export class WebClient extends EventEmitter {
       // The following thunk encapsulates the task so that it can be coordinated for retries
       const task = () => {
         this.logger.debug('request attempt');
-        // TODO: if an HTTP error occurs, the thrown error with not be a WebAPIError type. Fix this.
         return got.post(urlJoin(this.slackApiUrl, method), {
-          // @ts-ignore using older definitions for package `got`, can remove when type `@types/got` is updated
+          // @ts-ignore using older definitions for package `got`, can remove when type `@types/got` is updated for v8
           form: !canBodyBeFormMultipart(requestBody),
           body: requestBody,
           retries: 0,
@@ -155,16 +148,12 @@ export class WebClient extends EventEmitter {
             // handle rate-limiting
             if (response.statusCode !== undefined && response.statusCode === 429) {
               const retryAfterMs = result.retryAfter !== undefined ? result.retryAfter : (60 * 1000);
-              // TODO: the following event should have more information regarding the api call that is being delayed
+              // NOTE: the following event could have more information regarding the api call that is being delayed
               this.emit('rate_limited', retryAfterMs / 1000);
               this.logger.info(`API Call failed due to rate limiting. Will retry in ${retryAfterMs / 1000} seconds.`);
               // wait and return the result from calling `task` again after the specified number of seconds
               return delay(retryAfterMs).then(task);
             }
-
-            // SEMVER:MAJOR callback-based executions used to find the JSON parsed body of the response in the second
-            // callback argument, even when the first argument was an error. in this version, the body will be attached
-            // to `error.data`.
 
             // For any error in the API response, treat them as irrecoverable by throwing an AbortError to end retries.
             if (!result.ok) {

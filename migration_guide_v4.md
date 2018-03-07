@@ -13,6 +13,69 @@ to go beyond a simple port.
 
 *  The `slackAPIUrl` option has been renamed to `slackApiUrl`. It was confusing to see two acronyms directly
    next to each other, but with different casing.
+*  The `transport` option has been removed. If you used this option to implement proxy support, use the new `agent`
+   option as described [below](#proxy-support-with-agent). If you used this option for setting custom TLS configuration,
+   use the new `tls` option as described [below](#custom-tls-configuration). If you were using this for
+   some other reason, please [open an issue](https://github.com/slackapi/node-slack-sdk/issues/new) and describe your
+   use case so we can help you migrate.
+
+### All methods
+
+All Web API methods no longer take positional arguments. They each take one argument, an object, in which some
+properties are required and others are optional (depending on the method). You no longer have to memorize or look up
+the order of the arguments. The method arguments are described in the
+[API method documentation](https://api.slack.com/methods). If you are using an editor that understands TypeScript or
+JSDoc annotations, your editor may present you with useful information about these arguments as you type.
+
+If any Web API method is called with a callback parameter, and the call results in an error from the platform, you will
+no longer get the platform's response as the second argument to the callback. Instead, that response will exist as the
+`.data` property on the first argument (the error). You can consolidate this logic by using Promises instead (or
+continue to use callbacks if you prefer).
+
+**Before:**
+
+```javascript
+const { WebClient } = require('@slack/client')
+const web = new WebClient(token);
+
+web.chat.postMessage(channelId, text, { as_user: true, parse: 'full' }, (error, resp) => {
+  if (error) {
+    if (resp) {
+      // a platform error occurred, `resp.error` contains the error information
+    }
+    // some other error occurred
+    return;
+  }
+
+  // success
+});
+```
+
+**After:**
+
+```javascript
+// a new export, ErrorCode, is a dictionary of known error types
+const { WebClient, ErrorCode } = require('@slack/client')
+const web = new WebClient(token);
+
+web.chat.postMessage({ channel: channelId, text, as_user: true, parse: 'full' })
+  .then((resp) => { /* success */ })
+  .catch((error) => {
+    if (error.code === ErrorCode.PlatformError) {
+      // a platform error occurred, `error.message` contains error information, `error.data` contains the entire resp
+    } else {
+      // some other error occurred
+    }
+  });
+```
+
+### dm
+
+This family of methods was always a duplicate of those under the `.im` family. These duplicates have been removed.
+
+### mpdm
+
+This family of methods was always a duplicate of those under the `.mpim` family. These duplicates have been removed.
 
 ## RTMClient
 
@@ -127,3 +190,5 @@ rtm.addOutgoingEvent(true, message.type, message)
 ## Custom TLS Configuration
 
 **TODO**
+
+Show how to use a custom CA
