@@ -35,6 +35,11 @@
     "src/**/*"
   ],
   "exclude": [
-    "src/**/*.spec.js"
-  ]
+    "src/**/*.spec.js",
+    "src/**/*.js"
+  ],
+  "jsdoc": {
+    "out": "jsdoc/out",
+    "access": "public"
+  }
 }
