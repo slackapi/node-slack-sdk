@@ -42,7 +42,12 @@ export {
 
 export {
   RTMClient,
+  RTMClientOptions,
   RTMCallResult,
+  RTMPlatformError,
+  RTMWebsocketError,
+  RTMCallError,
+  RTMCallResultCallback,
 } from './RTMClient';
 
 const CLIENT_EVENTS = {

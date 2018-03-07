@@ -1,7 +1,4 @@
 import { Readable } from 'stream';
-
-// TODO: import as many symbols from './' as possible
-
 import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
 import * as pjson from 'pjson';
 import urlJoin = require('url-join'); // tslint:disable-line:no-require-imports
@@ -12,7 +9,6 @@ import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
 import delay = require('delay'); // tslint:disable-line:no-require-imports
 import got = require('got'); // tslint:disable-line:no-require-imports
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
-
 import { callbackify, getUserAgent, AgentOption } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
@@ -25,100 +21,6 @@ import Method, * as methods from './methods'; // tslint:disable-line:import-name
 // TODO: document how to access custom CA settings
 
 // NOTE: to reduce depedency size, consider https://www.npmjs.com/package/got-lite
-
-interface FormCanBeURLEncoded {
-  [key: string]: string | number | boolean;
-}
-
-interface BodyCanBeFormMultipart extends Readable {}
-
-function canBodyCanBeFormMultipart(body: FormCanBeURLEncoded | BodyCanBeFormMultipart): body is BodyCanBeFormMultipart {
-  // tried using `isStream.readable(body)` but that failes because the object doesn't have a `_read()` method or a
-  // `_readableState` property
-  return isStream(body);
-}
-
-// TODO: add tls options
-export interface WebClientOptions {
-  slackApiUrl?: string; // SEMVER:MAJOR casing change from previous
-  logger?: LoggingFunc;
-  logLevel?: LogLevel;
-  maxRequestConcurrency?: number;
-  retryConfig?: RetryOptions;
-  agent?: AgentOption;
-}
-
-// NOTE: could potentially add GotOptions to this interface (using &, or maybe as an embedded key)
-export interface WebAPICallOptions {
-}
-
-// TODO: consider removing "Call" from this and the following types
-export interface WebAPICallResult {
-  ok: boolean;
-  error?: string;
-  scopes?: string[];
-  acceptedScopes?: string[];
-  retryAfter?: number;
-  response_metadata?: { warnings?: string[] };
-}
-
-export interface WebAPIPlatformError extends CodedError {
-  code: ErrorCode.PlatformError;
-  data: WebAPICallResult & {
-    error: string;
-  };
-}
-
-export interface WebAPIRequestError extends CodedError {
-  code: ErrorCode.RequestError;
-  original: Error;
-}
-
-function requestErrorWithOriginal(original: Error): WebAPIRequestError {
-  const error = errorWithCode(
-    // any cast is used because the got definition file doesn't export the got.RequestError type
-    new Error(`A request error occurred: ${(original as any).code}`),
-    ErrorCode.RequestError,
-  ) as Partial<WebAPIRequestError>;
-  error.original = original;
-  return (error as WebAPIRequestError);
-}
-
-export interface WebAPIReadError extends CodedError {
-  code: ErrorCode.ReadError;
-  original: Error;
-}
-
-function readErrorWithOriginal(original: Error): WebAPIReadError {
-  const error = errorWithCode(
-    // any cast is used because the got definition file doesn't export the got.ReadError type
-    new Error('A response read error occurred'),
-    ErrorCode.ReadError,
-  ) as Partial<WebAPIReadError>;
-  error.original = original;
-  return (error as WebAPIReadError);
-}
-
-export interface WebAPIHTTPError extends CodedError {
-  code: ErrorCode.HTTPError;
-  original: Error;
-}
-
-function httpErrorWithOriginal(original: Error): WebAPIHTTPError {
-  const error = errorWithCode(
-    // any cast is used because the got definition file doesn't export the got.HTTPError type
-    new Error(`An HTTP protocol error occurred: statusCode = ${(original as any).statusCode}`),
-    ErrorCode.HTTPError,
-  ) as Partial<WebAPIHTTPError>;
-  error.original = original;
-  return (error as WebAPIHTTPError);
-}
-
-export type WebAPICallError = WebAPIPlatformError | WebAPIRequestError | WebAPIReadError | WebAPIHTTPError;
-
-export interface WebAPIResultCallback {
-  (error: WebAPICallError, result: WebAPICallResult): void;
-}
 
 /**
  * A client for Slack's Web API
@@ -152,10 +54,18 @@ export class WebClient extends EventEmitter {
   private agentConfig?: AgentOption;
 
   /**
-   * Logging
+   * The name used to prefix all logging generated from this object
    */
   private static loggerName = `${pjson.name}:WebClient`;
+
+  /**
+   * This object's logger instance
+   */
   private logger: Logger;
+
+  /**
+   * The value for the User-Agent HTTP header (used for instrumentation).
+   */
   private userAgent: string;
 
   /**
@@ -178,7 +88,7 @@ export class WebClient extends EventEmitter {
     this.agentConfig = agent;
 
     // Logging
-    if (logger) {
+    if (logger !== undefined) {
       this.logger = loggerFromLoggingFunc(WebClient.loggerName, logger);
     } else {
       this.logger = getLogger(WebClient.loggerName);
@@ -215,7 +125,7 @@ export class WebClient extends EventEmitter {
         // TODO: if an HTTP error occurs, the thrown error with not be a WebAPIError type. Fix this.
         return got.post(urlJoin(this.slackApiUrl, method), {
           // @ts-ignore using older definitions for package `got`, can remove when type `@types/got` is updated
-          form: !canBodyCanBeFormMultipart(requestBody),
+          form: !canBodyBeFormMultipart(requestBody),
           body: requestBody,
           retries: 0,
           headers: {
@@ -244,7 +154,7 @@ export class WebClient extends EventEmitter {
 
             // handle rate-limiting
             if (response.statusCode !== undefined && response.statusCode === 429) {
-              const retryAfterMs = result.retryAfter || (60 * 1000);
+              const retryAfterMs = result.retryAfter !== undefined ? result.retryAfter : (60 * 1000);
               // TODO: the following event should have more information regarding the api call that is being delayed
               this.emit('rate_limited', retryAfterMs / 1000);
               this.logger.info(`API Call failed due to rate limiting. Will retry in ${retryAfterMs / 1000} seconds.`);
@@ -278,7 +188,7 @@ export class WebClient extends EventEmitter {
     };
 
     // Adapt the interface for callback-based execution or Promise-based execution
-    if (callback) {
+    if (callback !== undefined) {
       callbackify(implementation)(callback);
       return;
     }
@@ -656,6 +566,11 @@ export class WebClient extends EventEmitter {
     }, {});
   }
 
+  /**
+   * Processes an HTTP response into a WebAPICallResult by performing JSON parsing on the body and merging relevent
+   * HTTP headers into the object.
+   * @param response
+   */
   private buildResult(response: got.Response<string>): WebAPICallResult {
     const data = JSON.parse(response.body);
 
@@ -677,3 +592,122 @@ export class WebClient extends EventEmitter {
 }
 
 export default WebClient;
+
+/*
+ * Exported types
+ */
+
+// TODO: add tls options
+export interface WebClientOptions {
+  slackApiUrl?: string; // SEMVER:MAJOR casing change from previous
+  logger?: LoggingFunc;
+  logLevel?: LogLevel;
+  maxRequestConcurrency?: number;
+  retryConfig?: RetryOptions;
+  agent?: AgentOption;
+}
+
+// NOTE: could potentially add GotOptions to this interface (using &, or maybe as an embedded key)
+export interface WebAPICallOptions {
+}
+
+// TODO: consider removing "Call" from this and the following types
+export interface WebAPICallResult {
+  ok: boolean;
+  error?: string;
+  scopes?: string[];
+  acceptedScopes?: string[];
+  retryAfter?: number;
+  response_metadata?: { warnings?: string[] };
+}
+
+export interface WebAPIResultCallback {
+  (error: WebAPICallError, result: WebAPICallResult): void;
+}
+
+export type WebAPICallError = WebAPIPlatformError | WebAPIRequestError | WebAPIReadError | WebAPIHTTPError;
+
+export interface WebAPIPlatformError extends CodedError {
+  code: ErrorCode.PlatformError;
+  data: WebAPICallResult & {
+    error: string;
+  };
+}
+
+export interface WebAPIRequestError extends CodedError {
+  code: ErrorCode.RequestError;
+  original: Error;
+}
+
+export interface WebAPIReadError extends CodedError {
+  code: ErrorCode.ReadError;
+  original: Error;
+}
+
+export interface WebAPIHTTPError extends CodedError {
+  code: ErrorCode.HTTPError;
+  original: Error;
+}
+
+/*
+ * Helpers
+ */
+
+interface FormCanBeURLEncoded {
+  [key: string]: string | number | boolean;
+}
+
+interface BodyCanBeFormMultipart extends Readable {}
+
+/**
+ * Determines whether a request body object should be treated as FormData-encodable (Content-Type=multipart/form-data).
+ * @param body a request body
+ */
+function canBodyBeFormMultipart(body: FormCanBeURLEncoded | BodyCanBeFormMultipart): body is BodyCanBeFormMultipart {
+  // tried using `isStream.readable(body)` but that failes because the object doesn't have a `_read()` method or a
+  // `_readableState` property
+  return isStream(body);
+}
+
+
+/**
+ * A factory to create WebAPIRequestError objects
+ * @param original
+ */
+function requestErrorWithOriginal(original: Error): WebAPIRequestError {
+  const error = errorWithCode(
+    // any cast is used because the got definition file doesn't export the got.RequestError type
+    new Error(`A request error occurred: ${(original as any).code}`),
+    ErrorCode.RequestError,
+  ) as Partial<WebAPIRequestError>;
+  error.original = original;
+  return (error as WebAPIRequestError);
+}
+
+/**
+ * A factory to create WebAPIReadError objects
+ * @param original
+ */
+function readErrorWithOriginal(original: Error): WebAPIReadError {
+  const error = errorWithCode(
+    // any cast is used because the got definition file doesn't export the got.ReadError type
+    new Error('A response read error occurred'),
+    ErrorCode.ReadError,
+  ) as Partial<WebAPIReadError>;
+  error.original = original;
+  return (error as WebAPIReadError);
+}
+
+/**
+ * A factory to create WebAPIHTTPError objects
+ * @param original
+ */
+function httpErrorWithOriginal(original: Error): WebAPIHTTPError {
+  const error = errorWithCode(
+    // any cast is used because the got definition file doesn't export the got.HTTPError type
+    new Error(`An HTTP protocol error occurred: statusCode = ${(original as any).statusCode}`),
+    ErrorCode.HTTPError,
+  ) as Partial<WebAPIHTTPError>;
+  error.original = original;
+  return (error as WebAPIHTTPError);
+}

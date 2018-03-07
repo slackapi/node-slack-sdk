@@ -13,16 +13,48 @@ interface KeepAliveOptions {
   serverPongTimeout?: number; // NOTE: this must be less than clientPingTimeout
 }
 
+/**
+ * An object that monitors activity in an RTMClient and generates ping events in an effort to keep its websocket
+ * connection alive. In cases where the websocket connection seems unresponsive, this object emits a
+ * `recommend_reconnect` event. That event should be handled by tearing down the websocket connection and
+ * opening a new one.
+ */
 export class KeepAlive extends EventEmitter {
 
+  /**
+   * The amount of time in milliseconds to wait after the last outgoing message from the client to generate a ping
+   * message.
+   */
   private clientPingTimeout: number;
+  /**
+   * The amount of time in milliseconds to wait after a ping message for the server to respond with a message that
+   * replies to that ping (a pong) or some message after that.
+   */
   private serverPongTimeout: number;
 
+  /**
+   * The RTMClient to monitor.
+   */
   private client?: RTMClient;
-  private pingTimer?: NodeJS.Timer;
-  private lastPing?: number; // messageId of the last ping message sent
 
+  /**
+   * A timer for when to send the next ping if no other outgoing message is sent.
+   */
+  private pingTimer?: NodeJS.Timer;
+
+  /**
+   * The message ID of the latest ping sent, or undefined is there hasn't been one sent.
+   */
+  private lastPing?: number;
+
+  /**
+   * The name used to prefix all logging generated from this object
+   */
   private static loggerName = `${pjson.name}:KeepAlive`;
+
+  /**
+   * This object's logger instance
+   */
   private logger: Logger;
 
   constructor({
@@ -44,7 +76,7 @@ export class KeepAlive extends EventEmitter {
     }
 
     // Logging
-    if (logger) {
+    if (logger !== undefined) {
       this.logger = loggerFromLoggingFunc(KeepAlive.loggerName, logger);
     } else {
       this.logger = getLogger(KeepAlive.loggerName);
@@ -52,6 +84,10 @@ export class KeepAlive extends EventEmitter {
     this.logger.setLevel(logLevel);
   }
 
+  /**
+   * Start monitoring the RTMClient. This method should only be called after the client's websocket is already open.
+   * @param client
+   */
   public start(client: RTMClient): void {
     if (!client.connected) {
       throw errorWithCode(
@@ -65,11 +101,19 @@ export class KeepAlive extends EventEmitter {
     this.setPingTimer();
   }
 
+  /**
+   * Stop monitoring the RTMClient. This method should be called after the `recommend_reconnect` event is emitted and
+   * the client's weboscket is closed. In order to start monitoring the client again, start() needs to be called again
+   * after that.
+   */
   public stop(): void {
     this.clearPreviousPingTimer();
     this.lastPing = this.client = undefined;
   }
 
+  /**
+   * Clears the ping timer if its set, otherwise this is a noop.
+   */
   private clearPreviousPingTimer(): void {
     if (this.pingTimer !== undefined) {
       clearTimeout(this.pingTimer);
@@ -77,6 +121,9 @@ export class KeepAlive extends EventEmitter {
     }
   }
 
+  /**
+   * Sets the ping timer (including clearing any previous one).
+   */
   private setPingTimer(): void {
     // if there's already an unacknowledged ping, we don't need to set up a timer for another to be sent
     if (this.lastPing !== undefined) {
@@ -89,58 +136,60 @@ export class KeepAlive extends EventEmitter {
     this.pingTimer = setTimeout(this.sendPing.bind(this), this.clientPingTimeout);
   }
 
-  // NOTE: this thing can throw and/or cause unhandled promise rejections. if either of these happen, its not the
-  // developer who is using this package's fault, its a problem in this package. we would want developers to report
-  // this to the maintainers as soon as possible so we can remedy that situation.
+  /**
+   * Sends a ping and manages the timer to wait for a pong.
+   */
   private sendPing(): void {
-    if (this.client === undefined) {
-      throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
-    }
-    this.logger.debug('ping timer expired');
-
-    this.logger.debug('sending ping');
-    this.client.send('ping')
-      .then((messageId) => {
-        if (this.client === undefined) {
-          throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
-        }
-
-        this.lastPing = messageId;
-
-        const attemptAcknowledgePong = function (this: KeepAlive, _type: string, event: any): void {
+    try {
+      if (this.client === undefined) {
+        throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
+      }
+      this.logger.debug('ping timer expired, sending ping');
+      this.client.send('ping')
+        .then((messageId) => {
           if (this.client === undefined) {
             throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
           }
 
-          if (this.lastPing !== undefined && event.reply_to !== undefined && event.reply_to >= this.lastPing) {
-            // this message is a reply that acks the previous ping, clear the last ping
-            this.logger.debug('received pong, clearing pong timer');
-            delete this.lastPing;
+          this.lastPing = messageId;
+
+          const attemptAcknowledgePong = function (this: KeepAlive, _type: string, event: any): void {
+            if (this.client === undefined) {
+              throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
+            }
+
+            if (this.lastPing !== undefined && event.reply_to !== undefined && event.reply_to >= this.lastPing) {
+              // this message is a reply that acks the previous ping, clear the last ping
+              this.logger.debug('received pong, clearing pong timer');
+              delete this.lastPing;
+
+              // signal that this pong is done being handled
+              clearTimeout(pongTimer);
+              this.client.off('slack_event', attemptAcknowledgePong);
+            }
+          };
+
+          this.logger.debug('setting pong timer');
+          const pongTimer = setTimeout(() => {
+            if (this.client === undefined) {
+              throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
+            }
+
+            // no pong received to acknowledge the last ping within the serverPongTimeout
+            this.logger.debug('pong timer expired, recommend reconnect');
+            this.emit('recommend_reconnect');
 
             // signal that this pong is done being handled
-            clearTimeout(pongTimer);
             this.client.off('slack_event', attemptAcknowledgePong);
-          }
-        };
+          }, this.serverPongTimeout);
 
-        this.logger.debug('setting pong timer');
-        const pongTimer = setTimeout(() => {
-          if (this.client === undefined) {
-            throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
-          }
-
-          // no pong received to acknowledge the last ping within the serverPongTimeout,
-          // lifecycle of this object is complete - in order to keep using it, this.stop() should be called, and then
-          // this.start() should be called again.
-          this.logger.debug('pong timer expired');
-          this.logger.debug('recommend reconnect');
-          this.emit('recommend_reconnect');
-
-          // signal that this pong is done being handled
-          this.client.off('slack_event', attemptAcknowledgePong);
-        }, this.serverPongTimeout);
-
-        this.client.on('slack_event', attemptAcknowledgePong, this);
-      });
+          this.client.on('slack_event', attemptAcknowledgePong, this);
+        })
+        .catch((error) => {
+          this.logger.error(`Unhandled error: ${error.message}. Please report to @slack/client package maintainers.`);
+        });
+    } catch (error) {
+      this.logger.error(`Unhandled error: ${error.message}. Please report to @slack/client package maintainers.`);
+    }
   }
 }

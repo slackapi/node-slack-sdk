@@ -9,6 +9,10 @@ import objectEntries = require('object.entries'); // tslint:disable-line:no-requ
  */
 export function noop(): void { } // tslint:disable-line:no-empty
 
+/**
+ * Replaces occurences of '/' with ':' in a string, since '/' is meaningful inside User-Agent strings as a separator.
+ * @param s
+ */
 function replaceSlashes(s: string): string {
   return s.replace('/', ':');
 }
@@ -19,10 +23,19 @@ const baseUserAgent = `${replaceSlashes(pjson.name)}/${pjson.version} ` +
 
 const appMetadata: { [key: string]: string } = {};
 
+/**
+ * Appends the app metadata into the User-Agent value
+ * @param appMetadata
+ * @param appMetadata.name name of tool to be counted in instrumentation
+ * @param appMetadata.version version of tool to be counted in instrumentation
+ */
 export function addAppMetadata({ name, version }: { name: string, version: string }): void {
   appMetadata[replaceSlashes(name)] = version;
 }
 
+/**
+ * Returns the current User-Agent value for instrumentation
+ */
 export function getUserAgent(): string {
   const appIdentifier = objectEntries(appMetadata).map(([name, version]) => `${name}/${version}`).join(' ');
   // only prepend the appIdentifier when its not empty
@@ -36,7 +49,8 @@ export function getUserAgent(): string {
  * The modified parts are denoted using comments starting with `original` and ending with `modified`
  * This could really be made an independent module. It was suggested here: https://github.com/js-n/callbackify/issues/5
  */
-export const callbackify = util.callbackify || (function () { // tslint:disable-line:typedef
+// tslint:disable-next-line:typedef
+export const callbackify = util.callbackify !== undefined ? util.callbackify : (function () {
   // Need polyfill of Object.getOwnPropertyDescriptors
   // tslint:disable
   require('object.getownpropertydescriptors').shim();

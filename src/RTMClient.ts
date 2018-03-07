@@ -3,97 +3,24 @@ import * as pjson from 'pjson';
 import objectValues = require('object.values'); // tslint:disable-line:import-name no-require-imports
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
 import WebSocket = require('ws'); // tslint:disable-line:import-name no-require-imports
+import Finity, { StateMachine } from 'finity'; // tslint:disable-line:import-name
+import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
+import PCancelable = require('p-cancelable'); // tslint:disable-line:import-name no-require-imports
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
 import { RetryOptions } from './retry-policies';
 import { KeepAlive } from './KeepAlive';
 import { WebClient, WebAPICallResult, WebAPICallError, ErrorCode, CodedError } from './';
 import * as methods from './methods'; // tslint:disable-line:import-name
 import { errorWithCode } from './errors';
-import Finity, { StateMachine } from 'finity'; // tslint:disable-line:import-name
 import { callbackify } from './util';
-import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
-import PCancelable = require('p-cancelable'); // tslint:disable-line:import-name no-require-imports
 
 // TODO: document the client event lifecycle (including valid state transitions)
 // TODO: type all lifecycle events and their arugments with enums
-
-// SEMVER:MAJOR remove dataStore option, useRtmConnect default value is true
-// SEMVER:MAJOR remove socketFn option. use cases such as proxying and TLS configuration are addressed with specifc opts
-// SEMVER:MAJOR remove wsPingInternal and maxPongInternal options. replace them with the more descriptive
-// clientPingTimeout and serverPongTimeout
-// TODO: add tls options
-// NOTE: would be interesting to have an experimental flag that turned off all application-level ping/pong handling.
-// the python client doesn't do any of that and seems to be able to maintain a reliable connection.
-export interface RTMClientOptions {
-  slackApiUrl?: string; // SEMVER:MAJOR casing change from previous
-  logger?: LoggingFunc;
-  logLevel?: LogLevel;
-  retryConfig?: RetryOptions;
-  agent?: Agent;
-  autoReconnect?: boolean; // this is a simple yes or no. there is no limit to the number or reconnections. a simple
-                           // number is probably the wrong idea since reconnections can happen for uncontrollable
-                           // yet normal reasons such as team migrations and the keep-alive algorithm.
-  useRtmConnect?: boolean;
-  clientPingTimeout?: number;
-  serverPongTimeout?: number;
-  replyAckOnReconnectTimeout?: number;
-}
-
-export interface RTMCallResult {
-  ts: string;
-  reply_to?: number;
-  error?: {
-    code: number;
-    msg: string;
-  };
-}
-
-// TODO: get a better specification of this
-export type RTMCallError = RTMPlatformError | RTMWebsocketError;
-
-export interface RTMPlatformError extends CodedError {
-  code: ErrorCode.RTMSendMessagePlatformError;
-}
-
-export interface RTMWebsocketError extends CodedError {
-  code: ErrorCode.RTMWebsocketError;
-  original: Error;
-}
-
-function websocketErrorWithOriginal(original: Error): RTMWebsocketError {
-  const error = errorWithCode(
-    new Error(`Failed to send message on websocket: ${original.message}`),
-    ErrorCode.RTMWebsocketError,
-  ) as Partial<RTMWebsocketError>;
-  error.original = original;
-  return (error as RTMWebsocketError);
-}
-
-export interface RTMCallResultCallback {
-  (error: RTMCallError, result: RTMCallResult): void;
-}
-
-// NOTE: there may be a better way to add metadata to an error about being "unrecoverable" than to keep an
-// independent enum
-enum UnrecoverableRTMStartError {
-  NotAuthed = 'not_authed',
-  InvalidAuth = 'invalid_auth',
-  AccountInactive = 'account_inactive',
-  UserRemovedFromTeam = 'user_removed_from_team',
-  TeamDisabled = 'team_disabled',
-}
-
-// NOTE: hack to express types not found in package. see: https://github.com/nickuraltsev/finity/issues/29
-interface HierarchicalStateMachine extends StateMachine<string, string> {
-  getStateHierarchy: () => string[];
-}
-
-function isHierarchical(machine: StateMachine<string, string>): machine is HierarchicalStateMachine {
-  return (<HierarchicalStateMachine>machine).getStateHierarchy !== undefined;
-}
-
-// TODO: look for consistency with acronym capitalization (RTM, Rtm, rtm)
-// TODO: make as much private as possible
+/**
+ * An RTMClient allows programs to communicate with the {@link https://api.slack.com/rtm|Slack Platform's RTM API}.
+ * This object uses the EventEmitter pattern to dispatch incoming events and has several methods for sending outgoing
+ * messages.
+ */
 export class RTMClient extends EventEmitter {
   /**
    * Whether or not the client is currently connected to the RTM API
@@ -106,7 +33,14 @@ export class RTMClient extends EventEmitter {
    */
   public authenticated: boolean = false;
 
+  /**
+   * The user ID for the connected client.
+   */
   public activeUserId?: string;
+
+  /**
+   * The team ID for the workspace the client is connected to.
+   */
   public activeTeamId?: string;
 
   /**
@@ -140,6 +74,10 @@ export class RTMClient extends EventEmitter {
    * State machine that backs the transition and action behavior
    */
   private stateMachine: StateMachine<string, string>;
+
+  /**
+   * Configuration for the state machine
+   */
   private stateMachineConfig = Finity
     .configure()
       .initialState('disconnected')
@@ -159,7 +97,7 @@ export class RTMClient extends EventEmitter {
               // determine which Web API method to use for the connection
               const connectMethod = this.useRtmConnect ? 'rtm.connect' : 'rtm.start';
 
-              return this.webClient.apiCall(connectMethod, this.startOpts || {})
+              return this.webClient.apiCall(connectMethod, this.startOpts !== undefined ? this.startOpts : {})
                 .then((result: WebAPICallResult) => {
                   // SEMVER:MAJOR: no longer handling the case where `result.url` is undefined separately from an error.
                   // cannot think of a way this would have been triggered.
@@ -201,6 +139,7 @@ export class RTMClient extends EventEmitter {
                 })
           .state('authenticated')
             .onEnter((_state, context) => {
+              this.authenticated = true;
               this.setupWebsocket(context.result.url);
             })
             .on('websocket open').transitionTo('handshaking')
@@ -257,6 +196,7 @@ export class RTMClient extends EventEmitter {
         .on('explicit disconnect').transitionTo('disconnecting')
         .onExit(() => {
           this.connected = false;
+          this.authenticated = false;
 
           // clear data that is now stale
           this.activeUserId = this.activeTeamId = undefined;
@@ -270,8 +210,8 @@ export class RTMClient extends EventEmitter {
           if (this.websocket !== undefined) {
             this.websocket.close();
           } else {
-            // TODO: turn this into a codederror
-            throw new Error('websocket not found');
+            this.logger.error('Websocket not found when transitioning into disconnecting state. Please report to ' +
+              '@slack/client package maintainers.');
           }
         })
         .on('websocket close').transitionTo('disconnected')
@@ -291,28 +231,49 @@ export class RTMClient extends EventEmitter {
     .getConfig();
 
   /**
-   * Private state
+   * The client's websocket
    */
   private websocket?: WebSocket;
+
+  /**
+   * The last message ID used for an outgoing message
+   */
   private messageId = 1;
+
+  /**
+   * A cache of the options used to start the connection, so that it can be reused during reconnections.
+   */
   private startOpts?: methods.RTMConnectArguments | methods.RTMStartArguments;
+
+  /**
+   * The instance of KeepAlive used to monitor this client's connection.
+   */
   private keepAlive: KeepAlive;
 
-  // the outgoingEventQueue is used to serialize outgoing messages and to allow the client to buffer messages to send
-  // before its in the 'ready' state. this queue is paused and resumed as the state machine transitions.
+  /**
+   * A queue of tasks used to serialize outgoing messages and to allow the client to buffer outgoing messages when
+   * its not in the 'ready' state. This queue is paused and resumed as the state machine transitions.
+   */
   private outgoingEventQueue = new PQueue({ concurrency: 1 });
 
-  // the awaitingReplyList is a list of cancelable promises that each represent a caller waiting on the server to
-  // acknowledge the outgoing message with a response. this list is emptied by canceling all the promises when the
-  // client no longer expects to receive the reply message from the server. this may mean the message was received by
-  // the server, but we cannot garauntee that fact.
-  // this is a sparse array, where the indexes are messageIds for the sent messages.
+  /**
+   * A list of cancelable Promises that each represent a caller waiting on the server to acknowledge an outgoing
+   * message with a response (an incoming message containing a "reply_to" property with the outgoing message's ID).
+   * This list is emptied by canceling all the promises when the client no longer expects to receive any replies from
+   * the server (when its disconnected or when its reconnected and doesn't expect replies for past outgoing messages).
+   * The list is a sparse array, where the indexes are message IDs for the sent messages.
+   */
   private awaitingReplyList: PCancelable.PCancelable<RTMCallResult>[] = [];
 
   /**
-   * Logging
+   * The name used to prefix all logging generated from this object
    */
   private static loggerName = `${pjson.name}:RTMClient`;
+
+
+  /**
+   * This object's logger instance
+   */
   private logger: Logger;
 
   constructor(token: string, {
@@ -356,7 +317,7 @@ export class RTMClient extends EventEmitter {
     }, this);
 
     // Logging
-    if (logger) {
+    if (logger !== undefined) {
       this.logger = loggerFromLoggingFunc(RTMClient.loggerName, logger);
     } else {
       this.logger = getLogger(RTMClient.loggerName);
@@ -368,10 +329,17 @@ export class RTMClient extends EventEmitter {
     this.logger.debug('initialized');
   }
 
-  // TODO: should this return a promise for the WebAPICallResult?
-  // TODO: make a named interface for the argument type, and call it Options instead of Arguments
+  /**
+   * Begin an RTM session using the provided options. This method must be called before any messages can
+   * be sent or received.
+   *
+   * TODO: should this return a Promise<WebAPICallResult>?
+   * TODO: make a named interface for the type of `options`. It should end in -Options instead of Arguments.
+   *
+   * @param options
+   */
   public start(options: methods.RTMStartArguments | methods.RTMConnectArguments): void {
-    this.logger.debug('attempting connection');
+    this.logger.debug('start()');
 
     // capture options for potential future reconnects
     this.startOpts = options;
@@ -380,7 +348,12 @@ export class RTMClient extends EventEmitter {
     this.stateMachine.handle('start');
   }
 
-  // TODO: should this return a promise?
+  /**
+   * End an RTM session. After this method is called no messages will be sent or received unless you call
+   * start() again later.
+   *
+   * TODO: should this return a Promise<void>?
+   */
   public disconnect(): void {
     this.logger.debug('manual disconnect');
 
@@ -388,38 +361,65 @@ export class RTMClient extends EventEmitter {
     this.stateMachine.handle('explicit disconnect');
   }
 
-  public sendMessage(text: string, channelId?: string): Promise<RTMCallResult>;
-  public sendMessage(text: string, channelId: string, callback: RTMCallResultCallback): void;
+  /**
+   * Send a simple message to a public channel, private channel, DM, or MPDM.
+   * @param text The message text.
+   * @param conversationId A conversation ID for the destination of this message.
+   */
+  public sendMessage(text: string, conversationId: string): Promise<RTMCallResult>;
+  public sendMessage(text: string, conversationId: string, callback: RTMCallResultCallback): void;
   public sendMessage(text: string,
-                     channelId?: string,
+                     conversationId: string,
                      callback?: RTMCallResultCallback): void | Promise<RTMCallResult> {
-    const implementation = () => this.addOutgoingEvent(true, 'message', { text, channel: channelId });
+    const implementation = () => this.addOutgoingEvent(true, 'message', { text, channel: conversationId });
 
     // Adapt the interface for callback-based execution or Promise-based execution
-    if (callback) {
+    if (callback !== undefined) {
       callbackify(implementation)(callback);
       return;
     }
     return implementation();
   }
 
-  // SEMVER:MAJOR updateMessage is gone. use a WebClient directly if you require this behavior
-
-  // SEMVER:MINOR now returns a Promise, where it used to return void
-  // NOTE: should we allow for callback-based execution of this method?
-  public sendTyping(channelId: string): Promise<void> {
-    return this.addOutgoingEvent(false, 'typing', { channel: channelId });
+  /**
+   * Sends a typing indicator to indicate that the user with `activeUserId` is typing.
+   * NOTE: should we allow for callback-based execution of this method?
+   * SEMVER:MINOR now returns a Promise, where it used to return void
+   * @param conversationId The destination for where the typing indicator should be shown.
+   */
+  public sendTyping(conversationId: string): Promise<void> {
+    return this.addOutgoingEvent(false, 'typing', { channel: conversationId });
   }
 
-  // SEMVER:MINOR now returns a Promise, where it used to return void
-  // NOTE: should we allow for callback-based execution of this method?
+  /**
+   * Subscribes this client to presence changes for only the given `userIds`.
+   * NOTE: should we allow for callback-based execution of this method?
+   * SEMVER:MINOR now returns a Promise, where it used to return void
+   * @param userIds An array of user IDs whose presence you are interested in. This list will replace the list from any
+   * previous calls to this method.
+   */
   public subscribePresence(userIds: string[]): Promise<void> {
     return this.addOutgoingEvent(false, 'presence_sub', { ids: userIds });
   }
 
-  // this method "guards" the high-level methods from having to worry about which state the client is in by indirecting
-  // every outgoing message through a queue. this allows the client to cancel outgoing messages when disconnected, and
-  // to resume messages that are pending a reply based on replay.
+  /**
+   * Generic method for sending an outgoing message of an arbitrary type. This method guards the higher-level methods
+   * from concern of which state the client is in, because it places all messages into a queue. The tasks on the queue
+   * will buffer until the client is in a state where they can be sent.
+   *
+   * If the awaitReply parameter is set to true, then the returned Promise is resolved with the platform's
+   * acknowledgement response. Not all message types will result in an acknowledgement response, so use this carefully.
+   * This promise may be rejected with an error containing code=RTMNoReplyReceivedError if the client disconnects or
+   * reconnects before recieving the acknowledgement response.
+   *
+   * If the awaitReply parameter is set to false, then the returned Promise is resolved as soon as the message is sent
+   * from the websocket.
+   *
+   * @param awaitReply whether to wait for an acknowledgement response from the platform before resolving the returned
+   * Promise.
+   * @param type the message type
+   * @param body the message body
+   */
   public addOutgoingEvent(awaitReply: true, type: string, body?: {}): Promise<RTMCallResult>;
   public addOutgoingEvent(awaitReply: false, type: string, body?: {}): Promise<void>;
   public addOutgoingEvent(awaitReply: boolean, type: string, body?: {}): Promise<RTMCallResult | void> {
@@ -464,13 +464,15 @@ export class RTMClient extends EventEmitter {
     return this.outgoingEventQueue.add(sendTask);
   }
 
-  // this is a low-level message sending API. you typically will want to use something higher level like sendMessage()
-  // which will return a promise that resolves when the sent message is acknowledged. this method will return the
-  // internal message ID. that value is an implementation detail and only valid for the lifetime of the connection.
-  // SEMVER:MAJOR the method signature is completely different. it used to take an optional callback and return an
-  // optional promise. that is now only available with higher level methods.
-  // SEMVER:MAJOR this method used to only take one argument, but in this version the type argument is explicit and
-  // required
+  /**
+   * Generic method for sending an outgoing message of an arbitrary type. The main difference between this method and
+   * addOutgoingEvent() is that this method does not use a queue so it can only be used while the client is ready
+   * to send messages (in the 'ready' substate of the 'connected' state). It returns a Promise for the message ID of the
+   * sent message. This is an internal ID and generally shouldn't be used as an identifier for messages (for that,
+   * there is `ts` on messages once the server acknowledges it).
+   * @param type the message type
+   * @param body the message body
+   */
   public send(type: string, body = {}): Promise<number> {
     const message = Object.assign({}, body, {
       type,
@@ -500,7 +502,7 @@ export class RTMClient extends EventEmitter {
         this.logger.debug(`sending message on websocket: ${flatMessage}`);
 
         this.websocket.send(flatMessage, (error) => {
-          if (error) {
+          if (error !== undefined) {
             this.logger.error(`failed to send message on websocket: ${error.message}`);
             return reject(websocketErrorWithOriginal(error));
           }
@@ -510,11 +512,17 @@ export class RTMClient extends EventEmitter {
     });
   }
 
-  // atomically increments and returns the last message ID
+  /**
+   * Atomically increments and returns a message ID for the next message.
+   */
   private nextMessageId(): number {
     return this.messageId++; // tslint:disable-line:no-increment-decrement
   }
 
+  /**
+   * Set up method for the client's websocket instance. This method will attach event listeners.
+   * @param url
+   */
   private setupWebsocket(url: string): void {
     // initialize the websocket
     const options: WebSocket.ClientOptions = {
@@ -535,6 +543,9 @@ export class RTMClient extends EventEmitter {
     this.websocket.addEventListener('message', this.onWebsocketMessage.bind(this));
   }
 
+  /**
+   * Tear down method for the client's websocket instance. This method undoes the work in setupWebsocket(url).
+   */
   private teardownWebsocket(): void {
     if (this.websocket !== undefined) {
       this.websocket.removeAllListeners('open');
@@ -545,6 +556,11 @@ export class RTMClient extends EventEmitter {
     }
   }
 
+  /**
+   * `onmessage` handler for the client's websocket. This will parse the payload and dispatch the relevant events for
+   * each incoming message.
+   * @param websocketMessage
+   */
   private onWebsocketMessage({ data }: { data: string }): void {
     // v3 legacy
     this.emit('raw_message', data);
@@ -566,6 +582,12 @@ export class RTMClient extends EventEmitter {
     if (event.type === 'hello') {
       this.stateMachine.handle('server hello');
     }
+    if (event.type === 'team_migration_started') {
+      if (this.websocket !== undefined) {
+        // this will trigger the 'websocket close' event on the state machine, which transitions to clean up
+        this.websocket.close();
+      }
+    }
 
     if (this.stateMachine.getCurrentState() === 'connected' &&
         isHierarchical(this.stateMachine) && this.stateMachine.getStateHierarchy()[1] === 'resuming' &&
@@ -578,4 +600,92 @@ export class RTMClient extends EventEmitter {
     this.emit(event.type, event);
     // TODO: if this is a message with a subtype, emit that specifically
   }
+}
+
+export default RTMClient;
+
+/*
+ * Exported types
+ */
+
+// TODO: add tls options
+// NOTE: add an experimental flag to turn off KeepAlive
+export interface RTMClientOptions {
+  slackApiUrl?: string;
+  logger?: LoggingFunc;
+  logLevel?: LogLevel;
+  retryConfig?: RetryOptions;
+  agent?: Agent;
+  autoReconnect?: boolean; // this is a simple yes or no. there is no limit to the number or reconnections. a simple
+                           // number is probably the wrong idea since reconnections can happen for uncontrollable
+                           // yet normal reasons such as team migrations and the keep-alive algorithm.
+  useRtmConnect?: boolean;
+  clientPingTimeout?: number;
+  serverPongTimeout?: number;
+  replyAckOnReconnectTimeout?: number;
+}
+
+export interface RTMCallResult {
+  ts: string;
+  reply_to?: number;
+  error?: {
+    code: number;
+    msg: string;
+  };
+}
+
+export interface RTMCallResultCallback {
+  (error: RTMCallError, result: RTMCallResult): void;
+}
+
+// TODO: get a better specification of this
+export type RTMCallError = RTMPlatformError | RTMWebsocketError;
+
+export interface RTMPlatformError extends CodedError {
+  code: ErrorCode.RTMSendMessagePlatformError;
+}
+
+export interface RTMWebsocketError extends CodedError {
+  code: ErrorCode.RTMWebsocketError;
+  original: Error;
+}
+
+/*
+ * Helpers
+ */
+
+ /**
+  * A factory to create RTMWebsocketError objects.
+  * @param original
+  */
+function websocketErrorWithOriginal(original: Error): RTMWebsocketError {
+  const error = errorWithCode(
+    new Error(`Failed to send message on websocket: ${original.message}`),
+    ErrorCode.RTMWebsocketError,
+  ) as Partial<RTMWebsocketError>;
+  error.original = original;
+  return (error as RTMWebsocketError);
+}
+
+// NOTE: there may be a better way to add metadata to an error about being "unrecoverable" than to keep an
+// independent enum
+enum UnrecoverableRTMStartError {
+  NotAuthed = 'not_authed',
+  InvalidAuth = 'invalid_auth',
+  AccountInactive = 'account_inactive',
+  UserRemovedFromTeam = 'user_removed_from_team',
+  TeamDisabled = 'team_disabled',
+}
+
+// NOTE: hack to express types not found in package. see: https://github.com/nickuraltsev/finity/issues/29
+interface HierarchicalStateMachine extends StateMachine<string, string> {
+  getStateHierarchy: () => string[];
+}
+
+/**
+ * A type guard for the state machine, used to access the getStateHierarchy() method.
+ * @param machine
+ */
+function isHierarchical(machine: StateMachine<string, string>): machine is HierarchicalStateMachine {
+  return (<HierarchicalStateMachine>machine).getStateHierarchy !== undefined;
 }
