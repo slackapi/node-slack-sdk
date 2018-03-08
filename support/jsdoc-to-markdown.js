@@ -18,6 +18,9 @@ const partialLocation = `${__dirname}/templates/*.hbs`;
 // run jsdoc-to-markdown without the final handlebars templates to get data about the interface
 const templateData = jsdoc2md.getTemplateDataSync({ files: inputFile });
 
+// console.log('templateData');
+// console.dir(templateData, {depth: null, colors: true});
+
 // iterate through the data to build a list of just the chosen symbol names (only classes)
 const classNames = templateData.reduce((classNames, identifier) => {
   if (identifier.kind === 'class') classNames.push(identifier.name);

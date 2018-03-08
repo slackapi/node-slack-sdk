@@ -69,6 +69,9 @@ export class RTMCallResultCallback {
 }
 
 /**
+ * An RTMClient allows programs to communicate with the {@link https://api.slack.com/rtm|Slack Platform's RTM API}.
+ * This object uses the EventEmitter pattern to dispatch incoming events and has several methods for sending outgoing
+ * messages.
  * @extends EventEmitter
  * @property {boolean} [connected=false] Whether or not the client is currently connected to the RTM API
  * @property {boolean} [authenticated=false] Whether or not the client has authenticated to the RTM API. This occurs when the connect method completes, and a WebSocket URL is available for the client's connection.
@@ -118,8 +121,6 @@ Promise.
   /**
    * End an RTM session. After this method is called no messages will be sent or received unless you call
    * start() again later.
-   * 
-   * TODO: should this return a Promise<void>?
    * @function module:@slack/client.RTMClient#disconnect
    */
   disconnect() {}
@@ -164,8 +165,6 @@ Promise.
 
   /**
    * Sends a typing indicator to indicate that the user with `activeUserId` is typing.
-   * NOTE: should we allow for callback-based execution of this method?
-   * SEMVER:MINOR now returns a Promise, where it used to return void
    * @param {string} conversationId The destination for where the typing indicator should be shown.
    * @function module:@slack/client.RTMClient#sendTyping
    * @returns {Promise<void>}
@@ -175,9 +174,6 @@ Promise.
   /**
    * Begin an RTM session using the provided options. This method must be called before any messages can
    * be sent or received.
-   * 
-   * TODO: should this return a Promise<WebAPICallResult>?
-   * TODO: make a named interface for the type of `options`. It should end in -Options instead of Arguments.
    * @param {module:@slack/client/dist/methods.TokenOverridable | module:@slack/client/dist/methods.TokenOverridable} options
    * @function module:@slack/client.RTMClient#start
    */
@@ -185,8 +181,6 @@ Promise.
 
   /**
    * Subscribes this client to presence changes for only the given `userIds`.
-   * NOTE: should we allow for callback-based execution of this method?
-   * SEMVER:MINOR now returns a Promise, where it used to return void
    * @param {Array<string>} userIds An array of user IDs whose presence you are interested in. This list will replace the list from any
 previous calls to this method.
    * @function module:@slack/client.RTMClient#subscribePresence
@@ -302,6 +296,9 @@ export class WebAPIResultCallback {
 
 /**
  * A client for Slack's Web API
+ * 
+ * This client provides a function for each {@link https://api.slack.com/methods|Web API method}. They are each
+ * a convenience wrapper for calling the {@link WebClient#apiCall} method using the method name as the first parameter.
  * @extends EventEmitter
  * @property {string} [token] Authentication and authorization token for accessing Slack Web API (usually begins with `xoxp`, `xoxb`, or `xoxa`)
  * @property {string} [slackApiUrl] The base URL for reaching Slack's Web API. Consider changing this value for testing purposes.

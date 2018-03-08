@@ -14,8 +14,6 @@ import * as methods from './methods'; // tslint:disable-line:import-name
 import { errorWithCode } from './errors';
 import { callbackify, TLSOptions } from './util';
 
-// TODO: document the client event lifecycle (including valid state transitions)
-// TODO: type all lifecycle events and their arugments with enums
 /**
  * An RTMClient allows programs to communicate with the {@link https://api.slack.com/rtm|Slack Platform's RTM API}.
  * This object uses the EventEmitter pattern to dispatch incoming events and has several methods for sending outgoing
@@ -342,13 +340,12 @@ export class RTMClient extends EventEmitter {
   /**
    * Begin an RTM session using the provided options. This method must be called before any messages can
    * be sent or received.
-   *
-   * TODO: should this return a Promise<WebAPICallResult>?
-   * TODO: make a named interface for the type of `options`. It should end in -Options instead of Arguments.
-   *
    * @param options
    */
   public start(options: methods.RTMStartArguments | methods.RTMConnectArguments): void {
+    // TODO: should this return a Promise<WebAPICallResult>?
+    // TODO: make a named interface for the type of `options`. it should end in -Options instead of Arguments.
+
     this.logger.debug('start()');
 
     // capture options for potential future reconnects
@@ -361,10 +358,9 @@ export class RTMClient extends EventEmitter {
   /**
    * End an RTM session. After this method is called no messages will be sent or received unless you call
    * start() again later.
-   *
-   * TODO: should this return a Promise<void>?
    */
   public disconnect(): void {
+    // TODO: should this return a Promise<void>?
     this.logger.debug('manual disconnect');
 
     // delegate behavior to state machine
@@ -393,22 +389,22 @@ export class RTMClient extends EventEmitter {
 
   /**
    * Sends a typing indicator to indicate that the user with `activeUserId` is typing.
-   * NOTE: should we allow for callback-based execution of this method?
-   * SEMVER:MINOR now returns a Promise, where it used to return void
    * @param conversationId The destination for where the typing indicator should be shown.
    */
   public sendTyping(conversationId: string): Promise<void> {
+    // SEMVER:MINOR now returns a Promise, where it used to return void
+    // NOTE: should we allow for callback-based execution of this method?
     return this.addOutgoingEvent(false, 'typing', { channel: conversationId });
   }
 
   /**
    * Subscribes this client to presence changes for only the given `userIds`.
-   * NOTE: should we allow for callback-based execution of this method?
-   * SEMVER:MINOR now returns a Promise, where it used to return void
    * @param userIds An array of user IDs whose presence you are interested in. This list will replace the list from any
    * previous calls to this method.
    */
   public subscribePresence(userIds: string[]): Promise<void> {
+    // SEMVER:MINOR now returns a Promise, where it used to return void
+    // NOTE: should we allow for callback-based execution of this method?
     return this.addOutgoingEvent(false, 'presence_sub', { ids: userIds });
   }
 
@@ -490,7 +486,7 @@ export class RTMClient extends EventEmitter {
     });
 
     return new Promise((resolve, reject) => {
-      this.logger.debug(`send() in state: ${(this.stateMachine as HierarchicalStateMachine).getStateHierarchy()}`);
+      this.logger.debug(`send() in state: ${this.stateMachine.getStateHierarchy()}`);
       if (this.websocket === undefined) {
         this.logger.error('cannot send message when client is not connected');
         reject(errorWithCode(
@@ -498,7 +494,7 @@ export class RTMClient extends EventEmitter {
           ErrorCode.RTMSendWhileDisconnectedError,
         ));
       } else if (!(this.stateMachine.getCurrentState() === 'connected' &&
-                 isHierarchical(this.stateMachine) && this.stateMachine.getStateHierarchy()[1] === 'ready')) {
+                 this.stateMachine.getStateHierarchy()[1] === 'ready')) {
         this.logger.error('cannot send message when client is not ready');
         reject(errorWithCode(
           new Error('cannot send message when client is not ready'),
@@ -600,7 +596,7 @@ export class RTMClient extends EventEmitter {
     }
 
     if (this.stateMachine.getCurrentState() === 'connected' &&
-        isHierarchical(this.stateMachine) && this.stateMachine.getStateHierarchy()[1] === 'resuming' &&
+        this.stateMachine.getStateHierarchy()[1] === 'resuming' &&
         event.reply_to !== undefined && event.reply_to === this.messageId) {
       this.stateMachine.handle('replay finished');
     }
@@ -686,17 +682,4 @@ enum UnrecoverableRTMStartError {
   AccountInactive = 'account_inactive',
   UserRemovedFromTeam = 'user_removed_from_team',
   TeamDisabled = 'team_disabled',
-}
-
-// NOTE: hack to express types not found in package. see: https://github.com/nickuraltsev/finity/issues/29
-interface HierarchicalStateMachine extends StateMachine<string, string> {
-  getStateHierarchy: () => string[];
-}
-
-/**
- * A type guard for the state machine, used to access the getStateHierarchy() method.
- * @param machine
- */
-function isHierarchical(machine: StateMachine<string, string>): machine is HierarchicalStateMachine {
-  return (<HierarchicalStateMachine>machine).getStateHierarchy !== undefined;
 }

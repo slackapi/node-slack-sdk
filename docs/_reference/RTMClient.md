@@ -3,6 +3,10 @@ layout: page
 title: RTMClient
 permalink: /reference/RTMClient
 ---
+An RTMClient allows programs to communicate with the [Slack Platform's RTM API](https://api.slack.com/rtm).
+This object uses the EventEmitter pattern to dispatch incoming events and has several methods for sending outgoing
+messages.
+
 **Kind**: static class of [<code>@slack/client</code>](#module_@slack/client)  
 **Extends**: <code>EventEmitter</code>  
 **Properties**
@@ -79,8 +83,6 @@ from the websocket.
 End an RTM session. After this method is called no messages will be sent or received unless you call
 start() again later.
 
-TODO: should this return a Promise<void>?
-
 **Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
 <a name="module_@slack/client.RTMClient+send"></a>
 
@@ -136,8 +138,6 @@ Send a simple message to a public channel, private channel, DM, or MPDM.
 
 ### rtmClient.sendTyping(conversationId) ⇒ <code>Promise.&lt;void&gt;</code>
 Sends a typing indicator to indicate that the user with `activeUserId` is typing.
-NOTE: should we allow for callback-based execution of this method?
-SEMVER:MINOR now returns a Promise, where it used to return void
 
 **Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
 
@@ -151,9 +151,6 @@ SEMVER:MINOR now returns a Promise, where it used to return void
 Begin an RTM session using the provided options. This method must be called before any messages can
 be sent or received.
 
-TODO: should this return a Promise<WebAPICallResult>?
-TODO: make a named interface for the type of `options`. It should end in -Options instead of Arguments.
-
 **Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
 
 | Param | Type |
@@ -164,8 +161,6 @@ TODO: make a named interface for the type of `options`. It should end in -Option
 
 ### rtmClient.subscribePresence(userIds) ⇒ <code>Promise.&lt;void&gt;</code>
 Subscribes this client to presence changes for only the given `userIds`.
-NOTE: should we allow for callback-based execution of this method?
-SEMVER:MINOR now returns a Promise, where it used to return void
 
 **Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
 

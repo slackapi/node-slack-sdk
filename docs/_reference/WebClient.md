@@ -5,6 +5,9 @@ permalink: /reference/WebClient
 ---
 A client for Slack's Web API
 
+This client provides a function for each [Web API method](https://api.slack.com/methods). They are each
+a convenience wrapper for calling the [WebClient#apiCall](WebClient#apiCall) method using the method name as the first parameter.
+
 **Kind**: static class of [<code>@slack/client</code>](#module_@slack/client)  
 **Extends**: <code>EventEmitter</code>  
 **Properties**
