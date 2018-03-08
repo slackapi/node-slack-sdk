@@ -3,301 +3,173 @@ layout: page
 title: RTMClient
 permalink: /reference/RTMClient
 ---
-**Kind**: global class  
+**Kind**: static class of [<code>@slack/client</code>](#module_@slack/client)  
+**Extends**: <code>EventEmitter</code>  
+**Properties**
 
-* [RTMClient](#RTMClient)
-    * [new RTMClient(token, [opts])](#new_RTMClient_new)
-    * [._socketFn](#RTMClient+_socketFn) : <code>function</code>
-    * [.ws](#RTMClient+ws) : <code>Object</code>
-    * [.connected](#RTMClient+connected) : <code>boolean</code>
-    * [.authenticated](#RTMClient+authenticated) : <code>boolean</code>
-    * [.activeUserId](#RTMClient+activeUserId) : <code>string</code>
-    * [.activeTeamId](#RTMClient+activeTeamId) : <code>string</code>
-    * [.dataStore](#RTMClient+dataStore) : <code>[SlackDataStore](#SlackDataStore)</code>
-    * [._pingTimer](#RTMClient+_pingTimer) : <code>?</code>
-    * [._createFacets()](#RTMClient+_createFacets)
-    * [.start([opts])](#RTMClient+start)
-    * ~~[.login()](#RTMClient+login)~~
-    * [.nextMessageId()](#RTMClient+nextMessageId)
-    * [.connect(socketUrl)](#RTMClient+connect)
-    * [.disconnect(optReason, optCode)](#RTMClient+disconnect)
-    * [.reconnect()](#RTMClient+reconnect)
-    * [.handleWsOpen()](#RTMClient+handleWsOpen)
-    * [.handleWsMessage(wsMsg)](#RTMClient+handleWsMessage)
-    * [._handleMessageAck(replyTo, message)](#RTMClient+_handleMessageAck)
-    * [.handleWsError(err)](#RTMClient+handleWsError)
-    * [.handleWsClose(code, reason)](#RTMClient+handleWsClose)
-    * [._handlePong(message)](#RTMClient+_handlePong)
-    * [._maybeKeepAlive(message)](#RTMClient+_maybeKeepAlive)
-    * [._handleHello()](#RTMClient+_handleHello)
-    * [.sendMessage(text, channelId, [optCb])](#RTMClient+sendMessage)
-    * [.updateMessage(message, [optCb])](#RTMClient+updateMessage)
-    * [.sendTyping(channelId)](#RTMClient+sendTyping)
-    * [.subscribePresence(userIds)](#RTMClient+subscribePresence)
-    * [.send(message, [optCb])](#RTMClient+send)
-
-<a name="new_RTMClient_new"></a>
-
-### new RTMClient(token, [opts])
-Creates a new instance of RTM client.
-
-
-| Param | Type | Default | Description |
+| Name | Type | Default | Description |
 | --- | --- | --- | --- |
-| token | <code>string</code> |  | The token to use for connecting |
-| [opts] | <code>Object</code> |  |  |
-| [opts.socketFn] | <code>RTMClient~socketFn</code> |  | A function to call, passing in a websocket URL, that should return a websocket instance connected to that URL |
-| [opts.dataStore] | <code>[SlackDataStore](#SlackDataStore)</code> &#124; <code>null</code> &#124; <code>false</code> |  | A store to cache Slack info. Recommended value is `false`. Default value is an instance of [SlackMemoryDataStore](#SlackMemoryDataStore). |
-| [opts.autoReconnect] | <code>boolean</code> | <code>true</code> | Whether or not to automatically reconnect when the connection closes |
-| [opts.useRtmConnect] | <code>boolean</code> | <code>false</code> | Whether to use rtm.connect rather than rtm.start. Recommended value is `true`. |
-| [opts.retryConfig] | <code>Object</code> |  | The retry policy to use, defaults to forever with exponential backoff, see [node-retry](https://github.com/SEAPUNK/node-retry) for more details. |
-| [opts.maxReconnectionAttempts] | <code>number</code> |  | DEPRECATED: Use retryConfig instead |
-| [opts.reconnectionBackoff] | <code>number</code> |  | DEPRECATED: Use retryConfig instead |
-| [opts.wsPingInterval] | <code>number</code> | <code>5000</code> | The time (in ms) to wait between pings with the server |
-| [opts.maxPongInterval] | <code>number</code> |  | The max time (in ms) to wait for a pong before reconnecting |
-| [opts.logLevel] | <code>string</code> | <code>&quot;info&quot;</code> | The log level for the logger |
-| [opts.logger] | <code>RTMClient~logFn</code> |  | Function to use for log calls, takes (logLevel, logString) parameters |
+| [connected] | <code>boolean</code> | <code>false</code> | Whether or not the client is currently connected to the RTM API |
+| [authenticated] | <code>boolean</code> | <code>false</code> | Whether or not the client has authenticated to the RTM API. This occurs when the connect method completes, and a WebSocket URL is available for the client's connection. |
+| [activeUserId] | <code>string</code> |  | The user ID for the connected client. |
+| [activeTeamId] | <code>string</code> |  | The team ID for the workspace the client is connected to. |
 
-<a name="RTMClient+_socketFn"></a>
 
-### rtmClient._socketFn : <code>function</code>
-**Kind**: instance property of <code>[RTMClient](#RTMClient)</code>  
-<a name="RTMClient+ws"></a>
+* [.RTMClient](#module_@slack/client.RTMClient) ⇐ <code>EventEmitter</code>
+    * [.addOutgoingEvent(awaitReply, type, body)](#module_@slack/client.RTMClient+addOutgoingEvent) ⇒ <code>Promise.&lt;(void\|module:@slack/client.RTMCallResult)&gt;</code>
+    * [.addOutgoingEvent(awaitReply, type, body)](#module_@slack/client.RTMClient+addOutgoingEvent) ⇒ [<code>Promise.&lt;RTMCallResult&gt;</code>](#module_@slack/client.RTMCallResult)
+    * [.addOutgoingEvent(awaitReply, type, body)](#module_@slack/client.RTMClient+addOutgoingEvent) ⇒ <code>Promise.&lt;void&gt;</code>
+    * [.disconnect()](#module_@slack/client.RTMClient+disconnect)
+    * [.send(type, body)](#module_@slack/client.RTMClient+send) ⇒ <code>Promise.&lt;number&gt;</code>
+    * [.sendMessage(text, conversationId)](#module_@slack/client.RTMClient+sendMessage) ⇒ [<code>Promise.&lt;RTMCallResult&gt;</code>](#module_@slack/client.RTMCallResult)
+    * [.sendMessage(text, conversationId, callback)](#module_@slack/client.RTMClient+sendMessage)
+    * [.sendMessage(text, conversationId, callback)](#module_@slack/client.RTMClient+sendMessage)
+    * [.sendTyping(conversationId)](#module_@slack/client.RTMClient+sendTyping) ⇒ <code>Promise.&lt;void&gt;</code>
+    * [.start(options)](#module_@slack/client.RTMClient+start)
+    * [.subscribePresence(userIds)](#module_@slack/client.RTMClient+subscribePresence) ⇒ <code>Promise.&lt;void&gt;</code>
 
-### rtmClient.ws : <code>Object</code>
-The active websocket.
+<a name="module_@slack/client.RTMClient+addOutgoingEvent"></a>
 
-**Kind**: instance property of <code>[RTMClient](#RTMClient)</code>  
-<a name="RTMClient+connected"></a>
+### rtmClient.addOutgoingEvent(awaitReply, type, body) ⇒ <code>Promise.&lt;(void\|module:@slack/client.RTMCallResult)&gt;</code>
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
 
-### rtmClient.connected : <code>boolean</code>
-**Kind**: instance property of <code>[RTMClient](#RTMClient)</code>  
-<a name="RTMClient+authenticated"></a>
+| Param | Type |
+| --- | --- |
+| awaitReply | <code>boolean</code> | 
+| type | <code>string</code> | 
+| body | <code>Object.&lt;string, any&gt;</code> | 
 
-### rtmClient.authenticated : <code>boolean</code>
-**Kind**: instance property of <code>[RTMClient](#RTMClient)</code>  
-<a name="RTMClient+activeUserId"></a>
+<a name="module_@slack/client.RTMClient+addOutgoingEvent"></a>
 
-### rtmClient.activeUserId : <code>string</code>
-The id of the user that's currently connected via this client.
+### rtmClient.addOutgoingEvent(awaitReply, type, body) ⇒ [<code>Promise.&lt;RTMCallResult&gt;</code>](#module_@slack/client.RTMCallResult)
+Generic method for sending an outgoing message of an arbitrary type. This method guards the higher-level methods
+from concern of which state the client is in, because it places all messages into a queue. The tasks on the queue
+will buffer until the client is in a state where they can be sent.
 
-**Kind**: instance property of <code>[RTMClient](#RTMClient)</code>  
-<a name="RTMClient+activeTeamId"></a>
+If the awaitReply parameter is set to true, then the returned Promise is resolved with the platform's
+acknowledgement response. Not all message types will result in an acknowledgement response, so use this carefully.
+This promise may be rejected with an error containing code=RTMNoReplyReceivedError if the client disconnects or
+reconnects before recieving the acknowledgement response.
 
-### rtmClient.activeTeamId : <code>string</code>
-The id of the team that's currently connected via this client.
+If the awaitReply parameter is set to false, then the returned Promise is resolved as soon as the message is sent
+from the websocket.
 
-**Kind**: instance property of <code>[RTMClient](#RTMClient)</code>  
-<a name="RTMClient+dataStore"></a>
-
-### rtmClient.dataStore : <code>[SlackDataStore](#SlackDataStore)</code>
-**Kind**: instance property of <code>[RTMClient](#RTMClient)</code>  
-<a name="RTMClient+_pingTimer"></a>
-
-### rtmClient._pingTimer : <code>?</code>
-The timer repeatedly pinging the server to let it know the client is still alive.
-
-**Kind**: instance property of <code>[RTMClient](#RTMClient)</code>  
-<a name="RTMClient+_createFacets"></a>
-
-### rtmClient._createFacets()
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
-<a name="RTMClient+start"></a>
-
-### rtmClient.start([opts])
-Begin an RTM session.
-
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
-
-| Param | Type | Default | Description |
-| --- | --- | --- | --- |
-| [opts] | <code>object</code> |  |  |
-| [opts.batch_presence_aware] | <code>boolean</code> | <code>false</code> | Opt into receiving fewer `presence_change` events that can contain many users. Instead of the event containing a `user` property {string}, it would contain a `users` property {string[]}. This option is not compatible with using the `dataStore`, you must initialize the RTM client object with the `dataStore: false` option. |
-
-<a name="RTMClient+login"></a>
-
-### ~~rtmClient.login()~~
-***Deprecated***
-
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
-<a name="RTMClient+nextMessageId"></a>
-
-### rtmClient.nextMessageId()
-Generates the next message id to use.
-
-NOTE: This id must be unique per RTM connection.
-
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
-<a name="RTMClient+connect"></a>
-
-### rtmClient.connect(socketUrl)
-Connects to the RTM API.
-
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| socketUrl | <code>String</code> | The URL of the websocket to connect to. |
+| awaitReply | <code>&quot;undefined&quot;</code> | whether to wait for an acknowledgement response from the platform before resolving the returned Promise. |
+| type | <code>string</code> | the message type |
+| body | <code>Object.&lt;string, any&gt;</code> | the message body |
 
-<a name="RTMClient+disconnect"></a>
+<a name="module_@slack/client.RTMClient+addOutgoingEvent"></a>
 
-### rtmClient.disconnect(optReason, optCode)
-Disconnects from the RTM API.
-
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
-
-| Param | Type |
-| --- | --- |
-| optReason | <code>Error</code> | 
-| optCode | <code>Number</code> | 
-
-<a name="RTMClient+reconnect"></a>
-
-### rtmClient.reconnect()
-Attempts to reconnect to the websocket by retrying the start method.
-
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
-<a name="RTMClient+handleWsOpen"></a>
-
-### rtmClient.handleWsOpen()
-Handler to deal with the WebSocket open event.
-NOTE: this.connected doesn't get set to true until the helloHandler is called.
-
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
-<a name="RTMClient+handleWsMessage"></a>
-
-### rtmClient.handleWsMessage(wsMsg)
-Handler to deal with the WebSocket message event.
-
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
+### rtmClient.addOutgoingEvent(awaitReply, type, body) ⇒ <code>Promise.&lt;void&gt;</code>
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
 
 | Param | Type |
 | --- | --- |
-| wsMsg | <code>object</code> | 
+| awaitReply | <code>&quot;undefined&quot;</code> | 
+| type | <code>string</code> | 
+| body | <code>Object.&lt;string, any&gt;</code> | 
 
-<a name="RTMClient+_handleMessageAck"></a>
+<a name="module_@slack/client.RTMClient+disconnect"></a>
 
-### rtmClient._handleMessageAck(replyTo, message)
-Handler for the remote server's response to a message being sent on the websocket.
+### rtmClient.disconnect()
+End an RTM session. After this method is called no messages will be sent or received unless you call
+start() again later.
 
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
+TODO: should this return a Promise<void>?
 
-| Param |
-| --- |
-| replyTo | 
-| message | 
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
+<a name="module_@slack/client.RTMClient+send"></a>
 
-<a name="RTMClient+handleWsError"></a>
+### rtmClient.send(type, body) ⇒ <code>Promise.&lt;number&gt;</code>
+Generic method for sending an outgoing message of an arbitrary type. The main difference between this method and
+addOutgoingEvent() is that this method does not use a queue so it can only be used while the client is ready
+to send messages (in the 'ready' substate of the 'connected' state). It returns a Promise for the message ID of the
+sent message. This is an internal ID and generally shouldn't be used as an identifier for messages (for that,
+there is `ts` on messages once the server acknowledges it).
 
-### rtmClient.handleWsError(err)
-Emits the websocket error.
-
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
-
-| Param | Type |
-| --- | --- |
-| err | <code>Object</code> | 
-
-<a name="RTMClient+handleWsClose"></a>
-
-### rtmClient.handleWsClose(code, reason)
-Occurs when the websocket closes.
-
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| code | <code>String</code> | The error code |
-| reason | <code>String</code> | The reason for closing |
+| type | <code>string</code> | the message type |
+| body |  | the message body |
 
-<a name="RTMClient+_handlePong"></a>
+<a name="module_@slack/client.RTMClient+sendMessage"></a>
 
-### rtmClient._handlePong(message)
-Handles the RTM API's pong message, updating the lastPong time on the client.
+### rtmClient.sendMessage(text, conversationId) ⇒ [<code>Promise.&lt;RTMCallResult&gt;</code>](#module_@slack/client.RTMCallResult)
+Send a simple message to a public channel, private channel, DM, or MPDM.
 
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
-
-| Param | Type |
-| --- | --- |
-| message | <code>Object</code> | 
-
-<a name="RTMClient+_maybeKeepAlive"></a>
-
-### rtmClient._maybeKeepAlive(message)
-If we haven't received a pong in too long, treat any incoming message as a pong
-to prevent unnecessary disconnects.
-
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
-
-| Param | Type |
-| --- | --- |
-| message | <code>Object</code> | 
-
-<a name="RTMClient+_handleHello"></a>
-
-### rtmClient._handleHello()
-Occurs when the socket connection is opened.
-Begin ping-pong with the server.
-[hello](https://api.slack.com/events/hello)
-
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
-<a name="RTMClient+sendMessage"></a>
-
-### rtmClient.sendMessage(text, channelId, [optCb])
-Helper for sending a simple message to a channel|group|DM etc via the RTM API.
-
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| text | <code>string</code> | The text of the messsage to send. |
-| channelId | <code>string</code> | The id of the channel|group|DM to send this message to. |
-| [optCb] | <code>function</code> |  |
+| text | <code>string</code> | The message text. |
+| conversationId | <code>string</code> | A conversation ID for the destination of this message. |
 
-<a name="RTMClient+updateMessage"></a>
+<a name="module_@slack/client.RTMClient+sendMessage"></a>
 
-### rtmClient.updateMessage(message, [optCb])
-Helper for updating a sent message via the 'chat.update' API call
+### rtmClient.sendMessage(text, conversationId, callback)
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
 
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
+| Param | Type |
+| --- | --- |
+| text | <code>string</code> | 
+| conversationId | <code>string</code> | 
+| callback | [<code>RTMCallResultCallback</code>](#module_@slack/client.RTMCallResultCallback) | 
 
-| Param | Type | Description |
-| --- | --- | --- |
-| message | <code>object</code> | message The message object to be updated, see /lib/clients/web/facets/chat.js for more details |
-| [optCb] | <code>function</code> | Optional callback |
+<a name="module_@slack/client.RTMClient+sendMessage"></a>
 
-<a name="RTMClient+sendTyping"></a>
+### rtmClient.sendMessage(text, conversationId, callback)
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
 
-### rtmClient.sendTyping(channelId)
+| Param | Type |
+| --- | --- |
+| text | <code>string</code> | 
+| conversationId | <code>string</code> | 
+| callback | [<code>RTMCallResultCallback</code>](#module_@slack/client.RTMCallResultCallback) | 
+
+<a name="module_@slack/client.RTMClient+sendTyping"></a>
+
+### rtmClient.sendTyping(conversationId) ⇒ <code>Promise.&lt;void&gt;</code>
 Sends a typing indicator to indicate that the user with `activeUserId` is typing.
+NOTE: should we allow for callback-based execution of this method?
+SEMVER:MINOR now returns a Promise, where it used to return void
 
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| channelId | <code>string</code> | The id of the channel|group|DM to send this message to. |
-
-<a name="RTMClient+subscribePresence"></a>
-
-### rtmClient.subscribePresence(userIds)
-Subscribes this socket to presence changes for only the given `userIds`.
-This requires `presence_sub` to have been passed as an argument to `start`.
-
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| userIds | <code>Array</code> | The user IDs to subscribe to |
+| conversationId | <code>string</code> | The destination for where the typing indicator should be shown. |
 
-<a name="RTMClient+send"></a>
+<a name="module_@slack/client.RTMClient+start"></a>
 
-### rtmClient.send(message, [optCb])
-Sends a message over the websocket to the server.
+### rtmClient.start(options)
+Begin an RTM session using the provided options. This method must be called before any messages can
+be sent or received.
 
-**Kind**: instance method of <code>[RTMClient](#RTMClient)</code>  
+TODO: should this return a Promise<WebAPICallResult>?
+TODO: make a named interface for the type of `options`. It should end in -Options instead of Arguments.
+
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
+
+| Param | Type |
+| --- | --- |
+| options | <code>module:@slack/client/dist/methods.TokenOverridable</code> \| <code>module:@slack/client/dist/methods.TokenOverridable</code> | 
+
+<a name="module_@slack/client.RTMClient+subscribePresence"></a>
+
+### rtmClient.subscribePresence(userIds) ⇒ <code>Promise.&lt;void&gt;</code>
+Subscribes this client to presence changes for only the given `userIds`.
+NOTE: should we allow for callback-based execution of this method?
+SEMVER:MINOR now returns a Promise, where it used to return void
+
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| message | <code>\*</code> | The message to send back to the server. |
-| [optCb] | <code>function</code> |  |
+| userIds | <code>Array.&lt;string&gt;</code> | An array of user IDs whose presence you are interested in. This list will replace the list from any previous calls to this method. |
 

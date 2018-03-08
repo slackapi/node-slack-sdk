@@ -34,7 +34,8 @@
     "coverage": "codecov",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
-    "make-docs": "node jsdoc.js"
+    "docs": "node support/jsdoc-to-markdown.js",
+    "docs:jsdoc": "ts2jsdoc"
   },
   "dependencies": {
     "@types/delay": "^2.0.1",
@@ -75,6 +76,7 @@
     "chai": "^4.1.2",
     "codecov": "^3.0.0",
     "husky": "^0.14.3",
+    "jsdoc-to-markdown": "^4.0.1",
     "lint-staged": "^6.1.0",
     "mocha": "^5.0.0",
     "nock": "^9.1.6",

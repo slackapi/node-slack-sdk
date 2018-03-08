@@ -620,7 +620,6 @@ export default RTMClient;
  * Exported types
  */
 
-// TODO: add tls options
 // NOTE: add an experimental flag to turn off KeepAlive
 export interface RTMClientOptions {
   slackApiUrl?: string;
@@ -651,7 +650,6 @@ export interface RTMCallResultCallback {
   (error: RTMCallError, result: RTMCallResult): void;
 }
 
-// TODO: get a better specification of this
 export type RTMCallError = RTMPlatformError | RTMWebsocketError;
 
 export interface RTMPlatformError extends CodedError {

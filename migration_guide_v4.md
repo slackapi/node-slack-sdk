@@ -1,18 +1,15 @@
-# Migration Guide for v4
-
-This migration guide helps you transition an application written using the v3.x series of this package, to the v4.x
+This migration guide helps you transition an application written using the `v3.x` series of this package, to the `v4.x`
 series. This guide focuses specifically on the breaking changes to help get your existing app up and running as
 quickly as possible. In some cases, there may be better techniques for accomplishing what your app already does by
 utilizing brand new features or new API. Learn about all the new features in our
-[v4.0.0 release notes](https://github.com/slackapi/node-slack-sdk/releases/tag/v4.0.0) if you'd like
+[`v4.0.0` release notes](https://github.com/slackapi/node-slack-sdk/releases/tag/v4.0.0) if you'd like
 to go beyond a simple port.
 
 ## WebClient
 
 ### Constructor
 
-*  The `slackAPIUrl` option has been renamed to `slackApiUrl`. It was confusing to see two acronyms directly
-   next to each other, but with different casing.
+*  The `slackAPIUrl` option has been renamed to `slackApiUrl` to improve readability.
 *  The `transport` option has been removed. If you used this option to implement proxy support, use the new `agent`
    option as described [below](#proxy-support-with-agent). If you used this option for setting custom TLS configuration,
    use the new `tls` option as described [below](#custom-tls-configuration). If you were using this for
@@ -21,7 +18,9 @@ to go beyond a simple port.
 
 ### All methods
 
-All Web API methods no longer take positional arguments. They each take one argument, an object, in which some
+#### 🚨 **All Web API methods no longer take positional arguments.** 🚨
+
+They each take one argument, an object, in which some
 properties are required and others are optional (depending on the method). You no longer have to memorize or look up
 the order of the arguments. The method arguments are described in the
 [API method documentation](https://api.slack.com/methods). If you are using an editor that understands TypeScript or
@@ -81,9 +80,8 @@ This family of methods was always a duplicate of those under the `.mpim` family.
 
 ### Constructor
 
-*  The `slackAPIUrl` option has been renamed to `slackApiUrl`. It was confusing to see two acronyms directly
-   next to each other, but with different casing.
-*  The `dataStore` option has been removed.
+*  The `slackAPIUrl` option has been renamed to `slackApiUrl` to improve readability.
+*  The `dataStore` option has been removed. See the [DataStore v3.x Migration Guide](https://github.com/slackapi/node-slack-sdk/wiki/DataStore-v3.x-Migration-Guide).
 *  The `useRtmConnect` option now has a default value of `true`. We recommend querying for additional data using a
    `WebClient` after this client is connected. If that doesn't help, then you can set this option to `false`.
 *  The `socketFn` option has been removed. If you used this option to implement proxy support, use the new `agent`
@@ -184,9 +182,9 @@ rtm.addOutgoingEvent(true, message.type, message)
 
 The `RTMClient` now has more well-defined states (and substates) that you may observe using the
 [`EventEmitter` API pattern](https://nodejs.org/api/events.html). The following table helps describe the relationship
-between events in the v3.x series and events in the v4.x series.
+between events in the `v3.x` series and events in the `v4.x` series.
 
-| Event Name (v4) | Event Name (v3) | Description |
+| Event Name (`v4.x`) | Event Name (`v3.x`) | Description |
 |-----------------|-----------------|-------------|
 | `disconnected`  | `disconnect`    | The client is not connected to the platform. This is a steady state - no attempt to connect is occurring. |
 | `connecting`    | `connecting` / `attempting_reconnect`   | The client is in the process of connecting to the platform. |
@@ -195,7 +193,7 @@ between events in the v3.x series and events in the v4.x series.
 | `ready`         | `open`          | The client is ready to send outgoing messages. This is a sub-state of `connected` |
 | `disconnecting` |                 | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `disconnected`. |
 | `reconnecting`  |                 | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `connecting`. |
-| `error`         | `ws_error`      | An error has occurred. The error is emitted as an argument. The v4 event is a superset of the v3 event. To test whether the event is a websocket error, check `error.code === ErrorCodes.RTMWebsocketError` |
+| `error`         | `ws_error`      | An error has occurred. The error is emitted as an argument. The `v4` event is a super set of the `v3` event. To test whether the event is a websocket error, check `error.code === ErrorCodes.RTMWebsocketError` |
 | `unable_to_rtm_start` | `unable_to_rtm_start` | A problem occurred while connecting, a reconnect may or may not occur. Use of this event is discouraged since `disconnecting` and `reconnecting` are more meaningful. |
 | `slack_event`   |                 | An incoming Slack event has been received. The event type and event body are emitted as the arguments. |
 | `{type}`        | `{type}`        | An incoming Slack event of type `{type}` has been received. The event is emitted as an argument. An example is `message` for all message events |

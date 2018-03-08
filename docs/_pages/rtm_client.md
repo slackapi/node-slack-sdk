@@ -196,9 +196,7 @@ We can teach a bot the same ettiquette by subscribing to
 users with which it interacts.
 
 You may not need to subscribe to presence updates if your bot is okay with fetching the user's
-status on-demand using the
-`[WebClient#users.getPresence()]({{ site.baseurl }}{% link _reference/UsersFacet.md %}#UsersFacet+getPresence)`
-method.
+status on-demand using the `WebClient.users.getPresence()` method.
 
 If you do prefer to subscribe to presence updates, each time the client connects, your bot needs to
 send a list of user IDs using the `subscribePresence(userIds)` method. The `userIds` argument is an

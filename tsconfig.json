@@ -39,7 +39,7 @@
     "src/**/*.js"
   ],
   "jsdoc": {
-    "out": "jsdoc/out",
+    "out": "support/jsdoc",
     "access": "public"
   }
 }

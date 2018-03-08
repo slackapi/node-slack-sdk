@@ -596,7 +596,6 @@ export default WebClient;
  * Exported types
  */
 
-// TODO: add tls options
 export interface WebClientOptions {
   slackApiUrl?: string; // SEMVER:MAJOR casing change from previous
   logger?: LoggingFunc;
@@ -611,7 +610,6 @@ export interface WebClientOptions {
 export interface WebAPICallOptions {
 }
 
-// TODO: consider removing "Call" from this and the following types
 export interface WebAPICallResult {
   ok: boolean;
   error?: string;

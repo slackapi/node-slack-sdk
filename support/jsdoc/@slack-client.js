@@ -48,7 +48,7 @@ export class LoggingFunc {
 
 /**
  * @interface module:@slack/client.RetryOptions
- * @extends module:/Users/ankur/Developer/@slack/client/node_modules/@types/retry/index.OperationOptions
+ * @extends module:node_modules/@types/retry/index.OperationOptions
  */
 export class RetryOptions {
 }
@@ -207,6 +207,7 @@ previous calls to this method.
  * @property {number} [clientPingTimeout]
  * @property {number} [serverPongTimeout]
  * @property {number} [replyAckOnReconnectTimeout]
+ * @property {module:@slack/client.TLSOptions} [tls]
  */
 export class RTMClientOptions {
 }
@@ -226,6 +227,17 @@ export class RTMPlatformError {
  * @property {Error} original
  */
 export class RTMWebsocketError {
+}
+
+/**
+ * @interface module:@slack/client.TLSOptions
+ * @property {string | Buffer | Array<string | Object | Buffer>} [pfx]
+ * @property {string | Buffer | Array<Object | Buffer>} [key]
+ * @property {string} [passphrase]
+ * @property {string | Buffer | Array<string | Buffer>} [cert]
+ * @property {string | Buffer | Array<string | Buffer>} [ca]
+ */
+export class TLSOptions {
 }
 
 /**
@@ -527,6 +539,7 @@ export class WebClient {
  * @property {number} [maxRequestConcurrency]
  * @property {module:@slack/client.RetryOptions} [retryConfig]
  * @property {"undefined" | "undefined" | module:http.Agent | module:@slack/client/dist/util.__type} [agent]
+ * @property {module:@slack/client.TLSOptions} [tls]
  */
 export class WebClientOptions {
 }
