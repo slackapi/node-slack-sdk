@@ -14,6 +14,7 @@ export {
 
 export {
   addAppMetadata,
+  TLSOptions,
 } from './util';
 
 // SEMVER:MAJOR no more proxiedRequestTransport or requestOptionsTransport
