@@ -191,7 +191,7 @@ export type ChatPostEphemeralArguments = TokenOverridable & {
 export type ChatPostMessageArguments = TokenOverridable & {
   channel: string;
   text: string;
-  as_user?: string;
+  as_user?: boolean;
   attachments?: MessageAttachment[];
   icon_emoji?: string; // if specified, as_user must be false
   icon_url?: string;
