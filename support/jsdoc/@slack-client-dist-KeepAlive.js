@@ -26,3 +26,13 @@ export class KeepAlive {
   stop() {}
 }
 
+/**
+ * @interface module:@slack/client/dist/KeepAlive.KeepAliveOptions
+ * @property {module:@slack/client.LoggingFunc} [logger]
+ * @property {module:@slack/client/dist/logger.LogLevel} [logLevel]
+ * @property {number} [clientPingTimeout]
+ * @property {number} [serverPongTimeout]
+ */
+export class KeepAliveOptions {
+}
+

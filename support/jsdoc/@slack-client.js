@@ -40,6 +40,47 @@ export class CodedError {
 }
 
 /**
+ * A client for Slack's Incoming Webhooks
+ */
+export class IncomingWebhook {
+  /**
+   * Send a notification to a conversation
+   * @param {string | module:@slack/client.IncomingWebhookSendArguments} message the message (a simple string, or an object describing the message)
+   * @param {module:@slack/client.IncomingWebhookResultCallback} callback
+   * @function module:@slack/client.IncomingWebhook#send
+   */
+  send() {}
+}
+
+/**
+ * @interface module:@slack/client.IncomingWebhookDefaultArguments
+ * @property {string} [username]
+ * @property {string} [icon_emoji]
+ * @property {string} [icon_url]
+ * @property {string} [channel]
+ * @property {string} [text]
+ * @property {boolean} [link_names]
+ */
+export class IncomingWebhookDefaultArguments {
+}
+
+/**
+ * @interface module:@slack/client.IncomingWebhookResultCallback
+ */
+export class IncomingWebhookResultCallback {
+}
+
+/**
+ * @interface module:@slack/client.IncomingWebhookSendArguments
+ * @extends module:@slack/client.IncomingWebhookDefaultArguments
+ * @property {Array<module:@slack/client/dist/methods.MessageAttachment>} [attachments]
+ * @property {boolean} [unfurl_links]
+ * @property {boolean} [unful_media]
+ */
+export class IncomingWebhookSendArguments {
+}
+
+/**
  * Interface for functions where this package's logs can be re-routed (the default is to use stdout)
  * @interface module:@slack/client.LoggingFunc
  */
