@@ -4,7 +4,7 @@ import * as pjson from 'pjson';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
 import { errorWithCode } from './errors';
 
-interface KeepAliveOptions {
+export interface KeepAliveOptions {
   logger?: LoggingFunc;
   logLevel?: LogLevel;
   // how long (in ms) to wait before sending a ping message to keep the connection alive

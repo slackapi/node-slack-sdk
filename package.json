@@ -16,6 +16,7 @@
     "api"
   ],
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "engines": {
     "node": ">= 6.9.0",
     "npm": ">= 3.10.8"

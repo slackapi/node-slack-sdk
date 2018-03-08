@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "declaration": true,
     "target": "es2015",
     // esModuleInterop?
     "module": "commonjs",
@@ -16,8 +17,6 @@
     "preserveConstEnums": true,
     "suppressImplicitAnyIndexErrors": true,
     "sourceMap": true,
-    "allowJs": true,
-    "checkJs": true,
     "pretty": true,
     // rootDir?
     "baseUrl": ".",
