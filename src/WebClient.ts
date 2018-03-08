@@ -19,7 +19,7 @@ import Method, * as methods from './methods'; // tslint:disable-line:import-name
 /**
  * A client for Slack's Web API
  *
- * This client provides a function for each {@link https://api.slack.com/methods|Web API method}. They are each
+ * This client provides an alias for each {@link https://api.slack.com/methods|Web API method}. Each method is
  * a convenience wrapper for calling the {@link WebClient#apiCall} method using the method name as the first parameter.
  */
 export class WebClient extends EventEmitter {
