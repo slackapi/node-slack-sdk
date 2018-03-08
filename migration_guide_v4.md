@@ -205,6 +205,14 @@ between events in the `v3.x` series and events in the `v4.x` series.
 |                 | `ws_opened`     | This event is no longer emitted, and the state of the underlying websocket is considered private. |
 |                 | `ws_close`      | This event is no longer emitted, and the state of the underlying websocket is considered private. |
 
+## Incoming Webhooks
+
+*  The following options have been renamed:
+   - `iconEmoji` => `icon_emoji`
+   - `iconUrl` => `icon_url`
+   - `linkNames` => `link_names`
+   - `unfurlLinks` => `unfurl_links`
+   - `unfurlMedia` => `unfurl_media`
 
 ## Proxy Support with `agent`
 
