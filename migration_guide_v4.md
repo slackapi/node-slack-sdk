@@ -148,7 +148,8 @@ This method has be repurposed, and in most cases you will instead rely on `addOu
 The main difference is that if you want to know when the message is acknowledged by the server (you were using the
 optional callback parameter to `send()`), you'll only be able to do so using the returned Promise. If you prefer
 callbacks, you can translate the interface using a library like Bluebird
-(see: http://bluebirdjs.com/docs/api/ascallback.html) or the Node [`util.callbackify()`](https://nodejs.org/api/util.html#util_util_callbackify_original) since v8.2.0.
+(see: http://bluebirdjs.com/docs/api/ascallback.html) or the Node
+[`util.callbackify()`](https://nodejs.org/api/util.html#util_util_callbackify_original) since v8.2.0.
 
 As an added benefit, you will be able to send the message without worrying whether the client is in a connected state
 or not.
@@ -181,14 +182,83 @@ rtm.addOutgoingEvent(true, message.type, message)
 
 ### Events
 
-## Constants
+The `RTMClient` now has more well-defined states (and substates) that you may observe using the
+[`EventEmitter` API pattern](https://nodejs.org/api/events.html). The following table helps describe the relationship
+between events in the v3.x series and events in the v4.x series.
+
+| Event Name (v4) | Event Name (v3) | Description |
+|-----------------|-----------------|-------------|
+| `disconnected`  | `disconnect`    | The client is not connected to the platform. This is a steady state - no attempt to connect is occurring. |
+| `connecting`    | `connecting` / `attempting_reconnect`   | The client is in the process of connecting to the platform. |
+| `authenticated` | `authenticated` | The client has authenticated with the platform. The `rtm.connect` or `rtm.start` response is emitted as an argument. This is a sub-state of `connecting`. |
+| `connected`     |                 | The client is connected to the platform and incoming events will start being emittied. |
+| `ready`         | `open`          | The client is ready to send outgoing messages. This is a sub-state of `connected` |
+| `disconnecting` |                 | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `disconnected`. |
+| `reconnecting`  |                 | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `connecting`. |
+| `error`         | `ws_error`      | An error has occurred. The error is emitted as an argument. The v4 event is a superset of the v3 event. To test whether the event is a websocket error, check `error.code === ErrorCodes.RTMWebsocketError` |
+| `unable_to_rtm_start` | `unable_to_rtm_start` | A problem occurred while connecting, a reconnect may or may not occur. Use of this event is discouraged since `disconnecting` and `reconnecting` are more meaningful. |
+| `slack_event`   |                 | An incoming Slack event has been received. The event type and event body are emitted as the arguments. |
+| `{type}`        | `{type}`        | An incoming Slack event of type `{type}` has been received. The event is emitted as an argument. An example is `message` for all message events |
+| `{type}::{subtype}` | `{type}::{subtype}` | An incoming Slack event of type `{type}` and subtype `{subtype}` has been received. The event is emitted as an argument. An example is `message::bot_message` for all bot messages. |
+| `raw_message`   | `raw_message`   | A websocket message arrived. The message (unparsed string) is emitted as an argument. Use of this event is discouraged since `slack_event` is more useful. |
+|                 | `ws_opening`    | This event is no longer emitted, and the state of the underlying websocket is considered private. |
+|                 | `ws_opened`     | This event is no longer emitted, and the state of the underlying websocket is considered private. |
+|                 | `ws_close`      | This event is no longer emitted, and the state of the underlying websocket is considered private. |
+
 
 ## Proxy Support with `agent`
 
-**TODO**
+In order to pass outgoing requests from `WebClient` or `RTMClient` through an HTTP proxy, you'll first need to install
+an additional package in your application:
+
+```
+$ npm install --save https-proxy-agent
+```
+
+Next, use the `agent` option in the client constructor to configure with your proxy settings.
+
+```javascript
+const HttpsProxyAgent = require('https-proxy-agent');
+const { WebClient, RTMClient } = require('@slack/client');
+
+// in this example, we read the token from an environment variable. its best practice to keep sensitive data outside
+// your source code.
+const token = process.env.SLACK_TOKEN;
+
+// its common to read the proxy URL from an environment variable, since it also may be sensitive.
+const proxyUrl = process.env.http_proxy || 'http://12.34.56.78:9999';
+
+// To use Slack's Web API:
+const web = new WebClient(token, { agent: new HttpsProxyAgent(proxyUrl) });
+
+// To use Slack's RTM API:
+const rtm = new RTMClient(token, { agent: new HttpsProxyAgent(proxyUrl) });
+
+// NOTE: for a more complex proxy configuration, see the https-proxy-agent documentation:
+// https://github.com/TooTallNate/node-https-proxy-agent#api
+```
 
 ## Custom TLS Configuration
 
-**TODO**
+You may want to use a custom TLS configuration if your application needs to send requests through a server with a
+self-signed certificate.
 
-Show how to use a custom CA
+Example:
+
+```javascript
+const { WebClient, RTMClient } = require('@slack/client');
+
+// in this example, we read the token from an environment variable. its best practice to keep sensitive data outside
+// your source code.
+const token = process.env.SLACK_TOKEN;
+
+// Configure TLS options
+const tls = {
+  key: fs.readFileSync('/path/to/key'),
+  cert: fs.readFileSync('/path/to/cert'),
+  ca: fs.readFileSync('/path/to/cert'),
+};
+
+const web = new WebClient(token, { slackApiUrl: 'https://fake.slack.com/api', tls });
+const rtm = new RTMClient(token, { slackApiUrl: 'https://fake.slack.com/api', tls });
+```

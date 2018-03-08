@@ -12,7 +12,7 @@ import { KeepAlive } from './KeepAlive';
 import { WebClient, WebAPICallResult, WebAPICallError, ErrorCode, CodedError } from './';
 import * as methods from './methods'; // tslint:disable-line:import-name
 import { errorWithCode } from './errors';
-import { callbackify } from './util';
+import { callbackify, TLSOptions } from './util';
 
 // TODO: document the client event lifecycle (including valid state transitions)
 // TODO: type all lifecycle events and their arugments with enums
@@ -141,14 +141,15 @@ export class RTMClient extends EventEmitter {
             .onEnter((_state, context) => {
               this.authenticated = true;
               this.setupWebsocket(context.result.url);
+              setImmediate(() => {
+                this.emit('authenticated', context.result);
+              });
             })
             .on('websocket open').transitionTo('handshaking')
           .state('handshaking') // a state in which to wait until the 'server hello' event
           .global()
             .onStateEnter((state) => {
               this.logger.debug(`transitioning to state: connecting:${state}`);
-              // TODO: think about whether to emit these substate events
-              // at the very least, the RTM start data needs to be emitted somewhere
             })
         .getConfig())
         .on('server hello').transitionTo('connected')
@@ -178,12 +179,12 @@ export class RTMClient extends EventEmitter {
               setImmediate(() => {
                 this.logger.debug('resuming outgoing event queue');
                 this.outgoingEventQueue.start();
+                this.emit('ready');
               });
             })
           .global()
             .onStateEnter((state) => {
               this.logger.debug(`transitioning to state: connected:${state}`);
-              // TODO: think about whether to emit these substate events
             })
         .getConfig())
         .on('websocket close')
@@ -266,6 +267,11 @@ export class RTMClient extends EventEmitter {
   private awaitingReplyList: PCancelable.PCancelable<RTMCallResult>[] = [];
 
   /**
+   * Configuration for custom TLS handling
+   */
+  private tlsConfig: TLSOptions;
+
+  /**
    * The name used to prefix all logging generated from this object
    */
   private static loggerName = `${pjson.name}:RTMClient`;
@@ -287,6 +293,7 @@ export class RTMClient extends EventEmitter {
     clientPingTimeout,
     serverPongTimeout,
     replyAckOnReconnectTimeout = 2000,
+    tls = undefined,
   }: RTMClientOptions = {}) {
     super();
     this.webClient = new WebClient(token, {
@@ -295,6 +302,7 @@ export class RTMClient extends EventEmitter {
       logLevel,
       retryConfig,
       agent,
+      tls,
       maxRequestConcurrency: 1,
     });
 
@@ -302,6 +310,8 @@ export class RTMClient extends EventEmitter {
     this.autoReconnect = autoReconnect;
     this.useRtmConnect = useRtmConnect;
     this.replyAckOnReconnectTimeout = replyAckOnReconnectTimeout;
+    // NOTE: may want to filter the keys to only those acceptable for TLS options
+    this.tlsConfig = tls !== undefined ? tls : {};
 
     this.keepAlive = new KeepAlive({
       clientPingTimeout,
@@ -525,9 +535,9 @@ export class RTMClient extends EventEmitter {
    */
   private setupWebsocket(url: string): void {
     // initialize the websocket
-    const options: WebSocket.ClientOptions = {
+    const options: WebSocket.ClientOptions = Object.assign({
       perMessageDeflate: false,
-    };
+    }, this.tlsConfig);
     if (this.agentConfig !== undefined) {
       options.agent = this.agentConfig;
     }
@@ -598,7 +608,9 @@ export class RTMClient extends EventEmitter {
     // emit for event handlers
     this.emit('slack_event', event.type, event);
     this.emit(event.type, event);
-    // TODO: if this is a message with a subtype, emit that specifically
+    if (event.subtype !== undefined) {
+      this.emit(`${event.type}::${event.subtype}`, event);
+    }
   }
 }
 
@@ -623,6 +635,7 @@ export interface RTMClientOptions {
   clientPingTimeout?: number;
   serverPongTimeout?: number;
   replyAckOnReconnectTimeout?: number;
+  tls?: TLSOptions;
 }
 
 export interface RTMCallResult {

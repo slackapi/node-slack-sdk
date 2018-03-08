@@ -10,7 +10,7 @@ import delay = require('delay'); // tslint:disable-line:no-require-imports
 // NOTE: to reduce depedency size, consider https://www.npmjs.com/package/got-lite
 import got = require('got'); // tslint:disable-line:no-require-imports
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
-import { callbackify, getUserAgent, AgentOption } from './util';
+import { callbackify, getUserAgent, AgentOption, TLSOptions } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
@@ -48,6 +48,11 @@ export class WebClient extends EventEmitter {
   private agentConfig?: AgentOption;
 
   /**
+   * Configuration for custom TLS handling
+   */
+  private tlsConfig: TLSOptions;
+
+  /**
    * The name used to prefix all logging generated from this object
    */
   private static loggerName = `${pjson.name}:WebClient`;
@@ -72,6 +77,7 @@ export class WebClient extends EventEmitter {
     maxRequestConcurrency = 3,
     retryConfig = retryPolicies.retryForeverExponentialCappedRandom,
     agent = undefined,
+    tls = undefined,
   }: WebClientOptions = {}) {
     super();
     this.token = token;
@@ -80,6 +86,8 @@ export class WebClient extends EventEmitter {
     this.retryConfig = retryConfig;
     this.requestQueue = new PQueue({ concurrency: maxRequestConcurrency });
     this.agentConfig = agent;
+    // NOTE: may want to filter the keys to only those acceptable for TLS options
+    this.tlsConfig = tls !== undefined ? tls : {};
 
     // Logging
     if (logger !== undefined) {
@@ -116,16 +124,18 @@ export class WebClient extends EventEmitter {
       // The following thunk encapsulates the task so that it can be coordinated for retries
       const task = () => {
         this.logger.debug('request attempt');
-        return got.post(urlJoin(this.slackApiUrl, method), {
+        return got.post(urlJoin(this.slackApiUrl, method),
           // @ts-ignore using older definitions for package `got`, can remove when type `@types/got` is updated for v8
-          form: !canBodyBeFormMultipart(requestBody),
-          body: requestBody,
-          retries: 0,
-          headers: {
-            'user-agent': this.userAgent,
-          },
-          agent: this.agentConfig,
-        })
+          Object.assign({
+            form: !canBodyBeFormMultipart(requestBody),
+            body: requestBody,
+            retries: 0,
+            headers: {
+              'user-agent': this.userAgent,
+            },
+            agent: this.agentConfig,
+          }, this.tlsConfig),
+        )
           .catch((error: got.GotError) => {
             // Wrap errors in this packages own error types (abstract the implementation details' types)
             if (error.name === 'RequestError') {
@@ -594,6 +604,7 @@ export interface WebClientOptions {
   maxRequestConcurrency?: number;
   retryConfig?: RetryOptions;
   agent?: AgentOption;
+  tls?: TLSOptions;
 }
 
 // NOTE: could potentially add GotOptions to this interface (using &, or maybe as an embedded key)

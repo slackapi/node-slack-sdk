@@ -136,3 +136,14 @@ export type AgentOption = Agent | {
   http?: Agent,
   https?: Agent,
 } | boolean;
+
+// This interface is a subset of the options in SecureContextOptions from the node lib
+// tslint:disable:prefer-array-literal
+export interface TLSOptions {
+  pfx?: string | Buffer | Array<string | Buffer | Object>;
+  key?: string | Buffer | Array<Buffer | Object>;
+  passphrase?: string;
+  cert?: string | Buffer | Array<string | Buffer>;
+  ca?: string | Buffer | Array<string | Buffer>;
+}
+// tslint:enable:prefer-array-literal
