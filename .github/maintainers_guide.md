@@ -22,16 +22,18 @@ A useful trick for debugging inside tests is to use the Chrome Debugging Protoco
 ### Generating Documentation
 
 The documentation is built using [Jekyll](https://jekyllrb.com/) and hosted with GitHub Pages.
-The source files are contained in the `docs` directory. Part of the documentation is the reference
-docs, which are generated from comments in the files using the [JSDoc](http://usejsdoc.org/) tool and its markup syntax.
-This means that anytime an API changes (new methods or changes to existing methods) you must run
-JSDoc (`npm run make-docs`) in order to output changes into the `docs` directory, and commit those
-changes so the next Jekyll build will reflect them.
+The source files are contained in the `docs` directory.
+
+Part of the documentation is the reference docs, which are generated from comments in the source files using the
+[JSDoc](http://usejsdoc.org/) markup syntax. The comments are first processed by running `npm run docs:jsdoc`, which
+enriches the comments using type information from TypeScript and places them into an independent file in the
+`support/jsdoc` directory. Next, these comments are turned into markdown for the Jekyll site using the `npm run docs`
+script. These two commands should be run each time an API changes to keep the documentation site updated.
 
 ### Releasing
 
 0.  Update generated content
-    *  Reference docs are updated using `npm run make-docs`
+    *  Reference docs are updated using `npm run docs:jsdoc`, `npm run docs`
 
 1.  Create the commit for the release:
     *  Bump the version number in adherence to [Semantic Versioning](http://semver.org/) in `package.json`.

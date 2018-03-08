@@ -139,7 +139,7 @@ Look inside Slack to verify the notification message was sent.
 ## Calling a web API method
 
 Now that you app has sent a message, let's search for the message using the
-[`search.messages`](https://api.slack.com/methods/search.messages) web API method.
+[`search.messages`](https://api.slack.com/methods/search.messages) Web API method.
 
 Store the access token in a new environment variable. The following example works on Linux and MacOS;
 but [similar commands are available on Windows](https://superuser.com/a/212153/94970). Replace the
@@ -168,7 +168,7 @@ timeNotification.send(`The current time is ${currentTime}`, (error, resp) => {
   console.log('Waiting a few seconds for search indexes to update...');
   setTimeout(() => {
     console.log('Calling search.messages');
-    web.search.messages(currentTime)
+    web.search.messages({ query: currentTime })
       .then(resp => {
         if (resp.messages.total > 0) {
           console.log('First match:', resp.messages.matches[0]);
@@ -230,7 +230,7 @@ ideas about where to look next:
   [different types of tokens](https://api.slack.com/docs/token-types).
 
 * This tutorial only used one of **over 130 Web API methods** available.
-  [Look through them](https://api.slack.com/methods) to and get ideas about what to build next!
+  [Look through them](https://api.slack.com/methods) to get ideas about what to build next!
 
-* Dive deeper into the `IncomingWebhook`, `WebClient`, and `RtmClient` classes in this package by
+* Dive deeper into the `IncomingWebhook`, `WebClient`, and `RTMClient` classes in this package by
   exploring their documentation pages.

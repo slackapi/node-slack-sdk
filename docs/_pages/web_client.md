@@ -6,14 +6,15 @@ redirect_from: /basic_usage
 order: 2
 headings:
     - title: Posting a message
-    - title: Passing optional arguments to a method
+    - title: Adding attachments to a message
     - title: Uploading a file
     - title: Getting a list of channels
     - title: Using a callback instead of a Promise
     - title: Changing the retry configuration
     - title: Changing the request concurrency
+    - title: Rate limit handling
     - title: Customizing the logger
-    - title: Proxy settings
+    - title: Custom agent for proxy support
     - title: OAuth token exchange
 ---
 
@@ -24,8 +25,9 @@ out of the box:
 * Request queuing and rate-limit management
 * Request body serialization and response body parsing
 * Keeps track of your token
-* Proxy support
+* Custom agents for proxy support
 * File upload handling
+* Convenience Web API method aliases
 * Error handling
 * Logging
 * Configurability
@@ -49,11 +51,11 @@ const token = process.env.SLACK_TOKEN;
 
 const web = new WebClient(token);
 
-// The first argument can be a channel ID, a DM ID, a MPDM ID, or a group ID
-const channelId = 'C1232456';
+// This argument can be a channel ID, a DM ID, a MPDM ID, or a group ID
+const conversationId = 'C1232456';
 
 // See: https://api.slack.com/methods/chat.postMessage
-web.chat.postMessage(channelId, 'Hello there')
+web.chat.postMessage({ channel: conversationId, text: 'Hello there' })
   .then((res) => {
     // `res` contains information about the posted message
     console.log('Message sent: ', res.ts);
@@ -61,24 +63,17 @@ web.chat.postMessage(channelId, 'Hello there')
   .catch(console.error);
 ```
 
-**NOTE**: While most Web API methods have a function signature that puts all required arguments
-in order as see on the method's documentation table on <https://api.slack.com/methods>, a few
-methods do not follow this convention:
--  `chat.delete`
--  `chat.update`
--  `chat.unfurl`
-
-See the `___Facet` reference documentation or the source code for the correct parameter ordering.
-
 ---
 
-### Passing optional arguments to a method
+### Adding attachments to a message
 
-Each method can also take optional arguments in an object after its required arguments.
-Let's post a message like above, but with attachments for a more rich UI.
+The `chat.postMessage` method takes an optional `attachments` argument. Arguments for Web API methods are all specified
+in a single object literal, so just add additional keys for any optional argument.
 
 ```javascript
-web.chat.postMessage(channelId, 'Hello there', {
+web.chat.postMessage({
+  channel: conversationId,
+  text: 'Hello there',
   attachments: [
     {
       "fallback": "Required plain-text summary of the attachment.",
@@ -132,10 +127,11 @@ const web = new WebClient(token);
 
 // Slack needs a file name for the upload
 // This file is located in the current directory (`process.pwd()`)
-var fileName = 'test_file.csv';
+const filename = 'test_file.csv';
 
 // See: https://api.slack.com/methods/chat.postMessage
-web.files.upload(fileName, {
+web.files.upload({
+  filename,
   // You can use a ReadableStream or a Buffer for the file option
   file: fs.createReadStream(`./${fileName}`),
   // Or you can use the content property (but not both)
@@ -154,7 +150,7 @@ web.files.upload(fileName, {
 
 The `channels.list` method can be used to get a list of all the public channels (and private
 channels from the user who authorized) when using a user token with scope `channels:read`. Or, it
-would the public channels are all private channels a bot user is a member of when using a bot token.
+would return the public channels and all private channels a bot user is a member of when using a bot token.
 
 ```javascript
 const { WebClient } = require('@slack/client');
@@ -233,19 +229,35 @@ const web = new WebClient(token, {
 
 ---
 
+### Rate limit handling
+
+When your application has exceeded the [rate limit](https://api.slack.com/docs/rate-limits#web) for a certain method,
+the `WebClient` object will emit a `rate_limited` event. Observing this event can be useful for scheduling work to be
+done in the future.
+
+```javascript
+const { WebClient } = require('@slack/client');
+const token = process.env.SLACK_TOKEN;
+const web = new WebClient(token);
+web.on('rate_limited', retryAfter => console.log(`Delay future requests by at least ${retryAfter} seconds`));
+```
+
+---
+
 ### Customizing the logger
 
 The `WebClient` also logs interesting events as it operates. By default, the log level is set to
-`INFO` and it should not log anything as long as nothing goes wrong. You can adjust the log level
-using the `logLevel` option and use any of the
-[npm log levels](https://github.com/winstonjs/winston/tree/2.4.0#logging-levels).
+`info` and it should not log anything as long as nothing goes wrong.
 
-You can also capture the logs without writing them to stdout by setting the `logger` option. It
-should be set to a function that takes `fn(level: string, message: string)`.
+You can adjust the log level by setting the `logLevel` option to any of the values found in the `LogLevel` top-level
+export.
+
+You can also capture the logs without writing them to stdout by setting the `logger` option. It should be set to a
+function that takes `fn(level: string, message: string)`.
 
 ```javascript
 const fs = require('fs');
-const { WebClient } = require('@slack/client');
+const { WebClient, LogLevel } = require('@slack/client');
 
 // open a file to write logs
 // TODO: make sure to call `logStream.end()` when the app is shutting down
@@ -255,7 +267,7 @@ const token = process.env.SLACK_TOKEN;
 logStream.on('open', () => {
   const web = new WebClient(token, {
     // increased logging, great for debugging
-    logLevel: 'debug',
+    logLevel: LogLevel.DEBUG,
     logger: (level, message) => {
       // write to disk
       logStream.write(`[${level}]: ${message}`);
@@ -266,18 +278,32 @@ logStream.on('open', () => {
 
 ---
 
-### Proxy settings
+### Custom agent for proxy support
 
-If you need to send all your HTTP requests through a proxy, the `WebClient` class allows for you
-to do this with the `transport` option.
+In order to pass outgoing requests through an HTTP proxy, you'll first need to install an additional package in your
+application:
+
+```
+$ npm install --save https-proxy-agent
+```
+
+Next, use the `agent` option to configure with your proxy settings.
 
 ```javascript
+const HttpsProxyAgent = require('https-proxy-agent');
 const { WebClient } = require('@slack/client');
-const { proxiedRequestTransport } = require('@slack/client/lib/clients/transports/request');
 
-const web = new WebClient(token, {
-  transport: proxiedRequestTransport('your proxy url')
-});
+// in this example, we read the token from an environment variable. its best practice to keep sensitive data outside
+// your source code.
+const token = process.env.SLACK_TOKEN;
+
+// its common to read the proxy URL from an environment variable, since it also may be sensitive.
+// NOTE: for a more complex proxy configuration, see the https-proxy-agent documentation:
+// https://github.com/TooTallNate/node-https-proxy-agent#api
+const proxyUrl = process.env.http_proxy || 'http://12.34.56.78:9999';
+
+// To use Slack's Web API:
+const web = new WebClient(token, { agent: new HttpsProxyAgent(proxyUrl) });
 ```
 
 ---
@@ -299,7 +325,11 @@ const clientId = process.env.SLACK_CLIENT_ID;
 const clientSecret = process.env.SLACK_CLIENT_SECRET;
 
 // Not shown: did some OAuth to recieve `code` grant
-client.oauth.access(clientId, clientSecret, code)
+client.oauth.access({
+  client_id: clientId,
+  client_secret: clientSecret,
+  code
+})
   .then((res) => {
     // Good idea to save the access token to your database
     console.log(res.access_token);
