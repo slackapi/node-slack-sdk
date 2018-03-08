@@ -7,14 +7,14 @@
 Visit the [full documentation](https://slackapi.github.io/node-slack-sdk) for all the lovely details.
 
 So you want to build a Slack app with Node.js? We've got you covered. This package is aimed at making
-building Slack apps ridiculously easy. This package will help you build on all aspects of the Slack platform,
-from dropping notifications in channels to fully interactive bots.
+building Slack apps ridiculously easy. It helps you build on all aspects of the Slack platform, from dropping
+notifications in channels to fully interactive bots.
 
 ## Requirements
 
-This package supports node starting from major **version 0.12 and later**. It's highly recommended
-to use [the latest LTS version of node](https://github.com/nodejs/Release#release-schedule), and the
-documentation is written using syntax and features from that version.
+This package supports Node v6 and higher. It's highly recommended to use
+[the latest LTS version of node](https://github.com/nodejs/Release#release-schedule), and the documentation is written
+using syntax and features from that version.
 
 ## Installation
 
@@ -64,11 +64,11 @@ const token = process.env.SLACK_TOKEN;
 
 const web = new WebClient(token);
 
-// The first argument can be a channel ID, a DM ID, a MPDM ID, or a group ID
-const channelId = 'C1232456';
+// This argument can be a channel ID, a DM ID, a MPDM ID, or a group ID
+const conversationId = 'C1232456';
 
 // See: https://api.slack.com/methods/chat.postMessage
-web.chat.postMessage(channelId, 'Hello there')
+web.chat.postMessage({ channel: conversationId, text: 'Hello there' })
   .then((res) => {
     // `res` contains information about the posted message
     console.log('Message sent: ', res.ts);
@@ -82,45 +82,33 @@ The `WebClient` object makes it simple to call any of the
 
 ### Posting a message with the Real-Time Messaging API
 
-Your app will interact with the RTM API through the `RtmClient` object, which is a top level
+Your app will interact with the RTM API through the `RTMClient` object, which is a top level
 export from this package. At a minimum, you need to instantiate it with a token, usually a
 bot token.
 
 ```javascript
-const { RtmClient, CLIENT_EVENTS } = require('@slack/client');
+const { RTMClient } = require('@slack/client');
 
 // An access token (from your Slack app or custom integration - usually xoxb)
 const token = process.env.SLACK_TOKEN;
 
-// Cache of data
-const appData = {};
-
-// Initialize the RTM client with the recommended settings. Using the defaults for these
-// settings is deprecated.
-const rtm = new RtmClient(token, {
-  dataStore: false,
-  useRtmConnect: true,
-});
-
-// The client will emit an RTM.AUTHENTICATED event on when the connection data is avaiable
-// (before the connection is open)
-rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, (connectData) => {
-  // Cache the data necessary for this app in memory
-  appData.selfId = connectData.self.id;
-  console.log(`Logged in as ${appData.selfId} of team ${connectData.team.id}`);
-});
-
-// The client will emit an RTM.RTM_CONNECTION_OPENED the connection is ready for
-// sending and recieving messages
-rtm.on(CLIENT_EVENTS.RTM.RTM_CONNECTION_OPENED, () => {
-  console.log(`Ready`);
-});
-
-// Start the connecting process
+// The client is initialized and then started to get an active connection to the platform
+const rtm = new RTMClient(token);
 rtm.start();
+
+// This argument can be a channel ID, a DM ID, a MPDM ID, or a group ID
+const conversationId = 'C1232456';
+
+// The RTM client can send simple string messages
+rtm.sendMessage('Hello there', conversationId)
+  .then((res) => {
+    // `res` contains information about the posted message
+    console.log('Message sent: ', res.ts);
+  })
+  .catch(console.error);
 ```
 
-The `RtmClient` object makes it simple to listen for [events](https://api.slack.com/rtm#events) from
+The `RTMClient` object makes it simple to listen for [events](https://api.slack.com/rtm#events) from a workspace
 and send simple messages to a workspace. See the
 [guide](http://slackapi.github.io/node-slack-sdk/rtm_api) for details.
 

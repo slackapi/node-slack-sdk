@@ -78,6 +78,8 @@ This family of methods was always a duplicate of those under the `.mpim` family.
 
 ## RTMClient
 
+The top-level export name has changed from `RtmClient` to `RTMClient`.
+
 ### Constructor
 
 *  The `slackAPIUrl` option has been renamed to `slackApiUrl` to improve readability.

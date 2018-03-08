@@ -250,6 +250,7 @@ describe('WebClient', function () {
             // look into the details about whether that workaround is still required, or why else the `source.on` is not
             // defined error would occur, or if Slack just doesn't need a filename for the part
             // assert.include(file, { fieldname: 'file', filename: 'train.jpg' });
+
             // NOTE: it seems the file and its filename are emitted as a field in addition to the token, not sure if
             // this was happening in the old implementation.
             assert.include(file, { fieldname: 'file' });
