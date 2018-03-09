@@ -18,7 +18,7 @@ export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArgu
 }
 
 export interface IncomingWebhookResultCallback {
-  (error: Error, result: any): void;
+  (error: Error): void;
 }
 
 /**
@@ -35,7 +35,7 @@ export class IncomingWebhook {
    */
   private defaults: IncomingWebhookDefaultArguments;
 
-  constructor(url: string, defaults: IncomingWebhookDefaultArguments) {
+  constructor(url: string, defaults: IncomingWebhookDefaultArguments = {}) {
     if (url === undefined) {
       throw new Error('Incoming webhook URL is required');
     }
@@ -60,13 +60,12 @@ export class IncomingWebhook {
       payload = Object.assign(payload, message);
     }
 
-    const implementation = () => {
-      return got.post(this.url, {
-        json: true,
-        body: payload,
-        retries: 0,
-      });
-    };
+    const implementation = () => got.post(this.url, {
+      body: JSON.stringify(payload),
+      retries: 0,
+    }).then(() => {
+      return;
+    });
 
     callbackify(implementation)(callback);
   }
