@@ -1,6 +1,6 @@
 import got = require('got'); // tslint:disable-line:no-require-imports
 import { MessageAttachment } from './methods';
-import { callbackify } from 'util';
+import { callbackify } from './util';
 
 export interface IncomingWebhookDefaultArguments {
   username?: string;
