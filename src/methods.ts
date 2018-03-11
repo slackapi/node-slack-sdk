@@ -8,13 +8,17 @@ import { WebAPICallOptions, WebAPIResultCallback, WebAPICallResult } from './Web
  */
 export default interface Method<MethodArguments extends WebAPICallOptions> {
   // TODO: can we create a relationship between MethodArguments and a MethodResult type?
-  (options?: MethodArguments): Promise<WebAPICallResult>;
-  (options: MethodArguments, callback: WebAPIResultCallback): void;
+  (options?: MethodArguments & AuxiliaryArguments): Promise<WebAPICallResult>;
+  (options: MethodArguments & AuxiliaryArguments, callback: WebAPIResultCallback): void;
 }
 
 /*
  * Reusable "protocols" that some MethodArguments types can conform to
  */
+
+export interface AuxiliaryArguments {
+  [unknownArg: string]: any;
+}
 
 export interface TokenOverridable {
   token?: string;
