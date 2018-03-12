@@ -10,6 +10,10 @@ So you want to build a Slack app with Node.js? We've got you covered. This packa
 building Slack apps ridiculously easy. It helps you build on all aspects of the Slack platform, from dropping
 notifications in channels to fully interactive bots.
 
+**Upgrading from version 3?** The
+[migration guide](https://github.com/slackapi/node-slack-sdk/wiki/Migration-Guide-for-v4) has all the information you
+need to bring your app up to speed.
+
 ## Requirements
 
 This package supports Node v6 and higher. It's highly recommended to use

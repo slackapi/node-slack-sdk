@@ -51,6 +51,10 @@ through building your first Slack app using Node.js.
 that explains and compares the options. If you're still not sure,
 [reach out for help](#getting-help) and our community can guide you.
 
+**Upgrading from version 3?** The
+[migration guide](https://github.com/slackapi/node-slack-sdk/wiki/Migration-Guide-for-v4) has all the information you
+need to bring your app up to speed
+
 ---
 
 You'll notice that some of the API tools are not included in the `@slack/client` package.

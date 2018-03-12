@@ -214,6 +214,39 @@ between events in the `v3.x` series and events in the `v4.x` series.
    - `unfurlLinks` => `unfurl_links`
    - `unfurlMedia` => `unfurl_media`
 
+## CLIENT_EVENTS, RTM_EVENTS, RTM_MESSAGE_SUBTYPES
+
+These constants have been removed. We recommend using simple strings for event names. The values that were in
+`CLIENT_EVENTS` have been migrated according to the [events table above](#events). The `RTM_EVENTS` dictionary isn't
+necessary, just directly subscribe to the event name as a string.
+
+**Before:**
+```javascript
+rtm.on(CLIENT_EVENTS.RTM.AUTHENTICATED, (connectionData) => {
+  console.log('RTMClient authenticated');
+});
+
+rtm.on(RTM_EVENTS.MESSAGE, (event) => {
+  console.log(`Incoming message: ${event.ts}`);
+})
+```
+
+**After:**
+```javascript
+rtm.on('authenticated', (connectionData) => {
+  console.log('RTMClient authenticated');
+});
+
+rtm.on('message', (event) => {
+  console.log(`Incoming message: ${event.ts}`);
+})
+```
+
+## RETRY_POLICIES
+
+The names of these policies have slightly changed for more consistency with our style guide. The dictionary of policies
+is now exported under the name `retryPolicies`. See `src/retry-policies.ts` for details.
+
 ## Proxy Support with `agent`
 
 In order to pass outgoing requests from `WebClient` or `RTMClient` through an HTTP proxy, you'll first need to install
