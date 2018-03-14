@@ -400,7 +400,7 @@ describe('WebClient', function () {
           // verify that any requests after maxRequestConcurrency were delayed by the responseDelay
           const queuedResponses = responses.slice(3);
           const minDiff = concurrentResponses[concurrentResponses.length - 1].diff + responseDelay;
-          queuedResponses.forEach(r => assert.isAbove(r.diff, minDiff));
+          queuedResponses.forEach(r => assert.isAtLeast(r.diff, minDiff));
         });
     });
 
@@ -413,13 +413,15 @@ describe('WebClient', function () {
           assert.lengthOf(responses, 2);
 
           // verify that maxRequestConcurrency requets were all sent concurrently
-          const concurrentResponses = responses.slice(0, 1); // the first 3 responses
+          const concurrentResponses = responses.slice(0, 1); // the first response
           concurrentResponses.forEach(r => assert.isBelow(r.diff, responseDelay));
 
           // verify that any requests after maxRequestConcurrency were delayed by the responseDelay
-          const queuedResponses = responses.slice(1);
+          const queuedResponses = responses.slice(1);// the second response
           const minDiff = concurrentResponses[concurrentResponses.length - 1].diff + responseDelay;
-          queuedResponses.forEach(r => assert.isAbove(r.diff, minDiff));
+          queuedResponses.forEach(r => {
+            assert.isAtLeast(r.diff, minDiff)
+          });
         });
     });
 
