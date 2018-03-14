@@ -340,7 +340,7 @@ export type OAuthTokenArguments = {
   client_secret: string;
   code: string;
   redirect_uri?: string;
-  single_channel?: boolean;
+  single_channel?: '0' | '1';
 };
 
   /*
