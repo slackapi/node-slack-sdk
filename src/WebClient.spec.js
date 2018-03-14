@@ -64,12 +64,12 @@ describe('WebClient', function () {
     });
   });
 
-  describe('apiCall()', function() {
+  describe('apiCall()', function () {
     beforeEach(function () {
       this.client = new WebClient(token, { retryConfig: fastRetriesForTest });
     });
 
-    describe('when making a successful call', function() {
+    describe('when making a successful call', function () {
       beforeEach(function () {
         this.scope = nock('https://slack.com')
           .post(/api/)
@@ -149,9 +149,9 @@ describe('WebClient', function () {
           hum: false,
         },
       })
-      .then(() => {
-        scope.done();
-      });
+        .then(() => {
+          scope.done();
+        });
     });
 
     it.skip('should remove undefined or null values from API arguments');
@@ -201,18 +201,28 @@ describe('WebClient', function () {
 
         // intentially vague about the method name
         return this.client.apiCall('upload', {
-            file: imageBuffer,
-            filename: 'train.png',
-          })
+          file: imageBuffer,
+          filename: 'train.png',
+        })
           .then((parts) => {
             assert.lengthOf(parts.files, 1);
             const file = parts.files[0];
-            // TODO: understand why this assertion is failing. already employed the buffer metadata workaround, should
-            // look into the details about whether that workaround is still required, or why else the `source.on` is not
-            // defined error would occur, or if Slack just doesn't need a filename for the part
-            // assert.include(file, { fieldname: 'file', filename: 'train.jpg' });
-            // NOTE: it seems the file and its filename are emitted as a field in addition to the token, not sure if
-            // this was happening in the old implementation.
+            // options were not provided to the form builder
+            assert.include(file, { fieldname: 'file' });
+          });
+      });
+
+      it('should properly serialize when the file is an object with value as a Buffer and options containing filename', function () {
+        const imageBuffer = fs.readFileSync(path.resolve('test', 'fixtures', 'train.jpg'));
+
+        // intentially vague about the method name
+        return this.client.apiCall('upload', {
+          file: { value: imageBuffer, options: { filename: 'train.png' } },
+          filename: 'train.png',
+        })
+          .then((parts) => {
+            assert.lengthOf(parts.files, 1);
+            const file = parts.files[0];
             assert.include(file, { fieldname: 'file' });
           });
       });
@@ -225,8 +235,8 @@ describe('WebClient', function () {
 
         // intentially vague about the method name
         return this.client.apiCall('upload', {
-            file: imageBuffer,
-          })
+          file: imageBuffer,
+        })
           .then(() => {
             const output = this.capture.getCapturedText();
             assert.isNotEmpty(output);
@@ -241,8 +251,8 @@ describe('WebClient', function () {
         const imageStream = fs.createReadStream(path.resolve('test', 'fixtures', 'train.jpg'));
 
         return this.client.apiCall('upload', {
-            file: imageStream,
-          })
+          file: imageStream,
+        })
           .then((parts) => {
             assert.lengthOf(parts.files, 1);
             const file = parts.files[0];
@@ -265,20 +275,20 @@ describe('WebClient', function () {
     describe('metadata in the user agent', function () {
       it('should set the user agent to contain package metadata', function () {
         const scope = nock('https://slack.com', {
-            reqheaders: {
-              'User-Agent': (value) => {
-                const metadata = parseUserAgentIntoMetadata(value)
-                // NOTE: this assert isn't that strong and doesn't say anything about the values. at this time, there
-                // isn't a good way to test this without dupicating the logic of the code under test.
-                assert.containsAllKeys(metadata, ['node', '@slack:client']);
-                // NOTE: there's an assumption that if there's any keys besides these left at all, its the platform part
-                delete metadata.node;
-                delete metadata['@slack:client'];
-                assert.isNotEmpty(metadata);
-                return true;
-              },
+          reqheaders: {
+            'User-Agent': (value) => {
+              const metadata = parseUserAgentIntoMetadata(value)
+              // NOTE: this assert isn't that strong and doesn't say anything about the values. at this time, there
+              // isn't a good way to test this without dupicating the logic of the code under test.
+              assert.containsAllKeys(metadata, ['node', '@slack:client']);
+              // NOTE: there's an assumption that if there's any keys besides these left at all, its the platform part
+              delete metadata.node;
+              delete metadata['@slack:client'];
+              assert.isNotEmpty(metadata);
+              return true;
             },
-          })
+          },
+        })
           .post(/api/)
           .reply(200, { ok: true });
         return this.client.apiCall('method')
@@ -291,14 +301,14 @@ describe('WebClient', function () {
         const [name, version] = ['appmedataname', 'appmetadataversion'];
         addAppMetadata({ name, version });
         const scope = nock('https://slack.com', {
-            reqheaders: {
-              'User-Agent': (value) => {
-                const metadata = parseUserAgentIntoMetadata(value)
-                assert.propertyVal(metadata, name, version);
-                return true;
-              },
+          reqheaders: {
+            'User-Agent': (value) => {
+              const metadata = parseUserAgentIntoMetadata(value)
+              assert.propertyVal(metadata, name, version);
+              return true;
             },
-          })
+          },
+        })
           .post(/api/)
           .reply(200, { ok: true });
         // NOTE: appMetaData is only evalued on client construction, so we cannot use the client already created
@@ -331,7 +341,7 @@ describe('WebClient', function () {
     });
   })
 
-  describe('has option to change slackApiUrl', function() {
+  describe('has option to change slackApiUrl', function () {
     it('should send requests to an alternative URL', function () {
       const alternativeUrl = 'http://12.34.56.78/api/';
       const scope = nock(alternativeUrl)
@@ -344,7 +354,7 @@ describe('WebClient', function () {
 
   describe('has an option to set a custom HTTP agent', function () {
     // not confident how to test this. one idea is to use sinon to intercept method calls on the agent.
-    it.skip('should send a request using the custom agent', function() {
+    it.skip('should send a request using the custom agent', function () {
       const agent = new Agent();
       const client = new WebClient(token, { agent });
       return client.apiCall('method');
