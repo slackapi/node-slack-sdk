@@ -32,7 +32,7 @@
     "lint": "tslint --project .",
     "test": "npm run test:spec && npm run test:integration",
     "test:spec": "nyc mocha --opts src/mocha.opts src/*.spec.js src/**/*.spec.js",
-    "test:integration": "nyc mocha --opts test/mocha.opts test/typescript/test.ts",
+    "test:integration": "npm run build && nyc mocha --opts test/mocha.opts test/typescript/test.ts",
     "coverage": "codecov",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
