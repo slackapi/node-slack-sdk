@@ -329,8 +329,19 @@ export type MPIMRepliesArguments = TokenOverridable & {};
   /*
    * `oauth.*`
    */
-export type OAuthAccessArguments = TokenOverridable & {};
-export type OAuthTokenArguments = TokenOverridable & {};
+export type OAuthAccessArguments = {
+  client_id: string;
+  client_secret: string;
+  code: string;
+  redirect_uri?: string;
+};
+export type OAuthTokenArguments = {
+  client_id: string;
+  client_secret: string;
+  code: string;
+  redirect_uri?: string;
+  single_channel?: '0' | '1';
+};
 
   /*
    * `pins.*`
