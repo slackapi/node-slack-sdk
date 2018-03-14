@@ -1,6 +1,5 @@
 import { Readable } from 'stream';
 import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
-import * as pjson from 'pjson';
 import urlJoin = require('url-join'); // tslint:disable-line:no-require-imports
 import isStream = require('is-stream'); // tslint:disable-line:no-require-imports
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
@@ -15,6 +14,7 @@ import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
 import Method, * as methods from './methods'; // tslint:disable-line:import-name
+const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 /**
  * A client for Slack's Web API
@@ -58,7 +58,7 @@ export class WebClient extends EventEmitter {
   /**
    * The name used to prefix all logging generated from this object
    */
-  private static loggerName = `${pjson.name}:WebClient`;
+  private static loggerName = `${pkg.name}:WebClient`;
 
   /**
    * This object's logger instance

@@ -1,8 +1,8 @@
 import * as util from 'util';
 import * as os from 'os';
-import * as pjson from 'pjson';
 import { Agent } from 'http';
 import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
+const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 /**
  * For when you need a function that does nothing
@@ -17,7 +17,7 @@ function replaceSlashes(s: string): string {
   return s.replace('/', ':');
 }
 
-const baseUserAgent = `${replaceSlashes(pjson.name)}/${pjson.version} ` +
+const baseUserAgent = `${replaceSlashes(pkg.name)}/${pkg.version} ` +
                       `node/${process.version.replace('v', '')} ` +
                       `${os.platform()}/${os.release()}`;
 

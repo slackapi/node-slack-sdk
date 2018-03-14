@@ -1,5 +1,4 @@
 import { Agent } from 'http';
-import * as pjson from 'pjson';
 import objectValues = require('object.values'); // tslint:disable-line:import-name no-require-imports
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
 import WebSocket = require('ws'); // tslint:disable-line:import-name no-require-imports
@@ -13,6 +12,7 @@ import { WebClient, WebAPICallResult, WebAPICallError, ErrorCode, CodedError } f
 import * as methods from './methods'; // tslint:disable-line:import-name
 import { errorWithCode } from './errors';
 import { callbackify, TLSOptions } from './util';
+const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 /**
  * An RTMClient allows programs to communicate with the {@link https://api.slack.com/rtm|Slack Platform's RTM API}.
@@ -272,7 +272,7 @@ export class RTMClient extends EventEmitter {
   /**
    * The name used to prefix all logging generated from this object
    */
-  private static loggerName = `${pjson.name}:RTMClient`;
+  private static loggerName = `${pkg.name}:RTMClient`;
 
 
   /**
