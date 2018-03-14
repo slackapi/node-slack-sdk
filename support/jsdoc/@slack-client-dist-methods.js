@@ -3,6 +3,12 @@
  */
 
 /**
+ * @interface module:@slack/client/dist/methods.AuxiliaryArguments
+ */
+export class AuxiliaryArguments {
+}
+
+/**
  * @interface module:@slack/client/dist/methods.CursorPaginationEnabled
  * @property {number} [limit]
  * @property {string} [cursor]
