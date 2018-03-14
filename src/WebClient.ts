@@ -26,7 +26,7 @@ export class WebClient extends EventEmitter {
   /**
    * Authentication and authorization token for accessing Slack Web API (usually begins with `xoxp`, `xoxb`, or `xoxa`)
    */
-  public readonly token: string;
+  public readonly token?: string;
 
   /**
    * The base URL for reaching Slack's Web API. Consider changing this value for testing purposes.
@@ -73,7 +73,7 @@ export class WebClient extends EventEmitter {
   /**
    * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`, or `xoxa`)
    */
-  constructor(token: string, {
+  constructor(token?: string, {
     slackApiUrl = 'https://slack.com/api/',
     logger = undefined,
     logLevel = LogLevel.INFO,

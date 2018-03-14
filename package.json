@@ -30,8 +30,9 @@
     "precommit": "lint-staged",
     "prepush": "npm run build",
     "lint": "tslint --project .",
-    "test": "npm run test:spec",
+    "test": "npm run build && npm run test:spec && npm run test:integration",
     "test:spec": "nyc mocha --opts src/mocha.opts src/*.spec.js src/**/*.spec.js",
+    "test:integration": "mocha --opts test/mocha.opts test/typescript/test.ts",
     "coverage": "codecov",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
@@ -90,6 +91,7 @@
     "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
     "tslint-config-airbnb": "^5.5.0",
-    "typescript": "^2.7.1"
+    "typescript": "^2.7.1",
+    "typings-tester": "^0.3.1"
   }
 }

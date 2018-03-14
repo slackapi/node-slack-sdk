@@ -23,6 +23,11 @@ describe('WebClient', function () {
       assert.equal(client.token, token);
       assert.equal(client.slackApiUrl, 'https://slack.com/api/')
     });
+
+    it('should build a client without a token', function () {
+      const client = new WebClient();
+      assert.instanceOf(client, WebClient);
+    });
   });
 
   describe('has an option to change the log output severity', function () {
@@ -308,6 +313,21 @@ describe('WebClient', function () {
             scope.done();
           });
       });
+    });
+  });
+
+  describe('apiCall() - without a token', function () {
+    const client = new WebClient(undefined, { retryConfig: fastRetriesForTest });
+
+    const scope = nock('https://slack.com')
+      // NOTE: this could create false negatives if the serialization order changes (it shouldn't matter)
+      .post(/api/, 'foo=stringval')
+      .reply(200, { ok: true });
+
+    const r = client.apiCall('method', { foo: 'stringval' });
+    assert(isPromise(r));
+    return r.then(result => {
+      scope.done();
     });
   });
 
