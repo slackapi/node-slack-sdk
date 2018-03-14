@@ -524,18 +524,16 @@ export class WebClient extends EventEmitter {
       //                      'fail. add the `filename` option to fix.');
       //   }
 
-        // Buffers are sometimes not handled well by the underlying `form-data` package. Adding extra metadata resolves
-        // that issue. See: https://github.com/slackapi/node-slack-sdk/issues/307#issuecomment-289231737
-        // @ts-ignore
-      //   options.file = {
-      //     // @ts-ignore
-      //     value: options.file,
-      //     options: {
-      //       // @ts-ignore
-      //       filename: options.filename,
-      //     },
-      //   };
-      // }
+      // Buffers are sometimes not handled well by the underlying `form-data` package. Adding extra metadata resolves
+      // that issue. See: https://github.com/slackapi/node-slack-sdk/issues/307#issuecomment-289231737
+      if (options['file'] && !options['file'].value) {
+        options['file'] = {
+          value: options['file'],
+          options: {
+            filename: options['filename'],
+          },
+        };
+      }
     }
 
     const flattened = objectEntries(options)
@@ -555,6 +553,10 @@ export class WebClient extends EventEmitter {
     // a body with binary data should be serialized as multipart/form-data
     if (containsBinaryData) {
       return flattened.reduce((form, [key, value]) => {
+        if (key === 'file' && value.value) {
+          form.append(key, value.value, value.options);
+          return form;
+        }
         form.append(key, value);
         return form;
       }, new FormData());
@@ -658,7 +660,7 @@ interface FormCanBeURLEncoded {
   [key: string]: string | number | boolean;
 }
 
-interface BodyCanBeFormMultipart extends Readable {}
+interface BodyCanBeFormMultipart extends Readable { }
 
 /**
  * Determines whether a request body object should be treated as FormData-encodable (Content-Type=multipart/form-data).
