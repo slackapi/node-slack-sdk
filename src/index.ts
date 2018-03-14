@@ -32,6 +32,8 @@ export {
   WebAPIResultCallback,
 } from './WebClient';
 
+export * from './methods';
+
 export {
   RTMClient,
   RTMClientOptions,
