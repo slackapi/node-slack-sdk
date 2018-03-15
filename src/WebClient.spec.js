@@ -444,9 +444,7 @@ describe('WebClient', function () {
           // verify that any requests after maxRequestConcurrency were delayed by the responseDelay
           const queuedResponses = responses.slice(1);// the second response
           const minDiff = concurrentResponses[concurrentResponses.length - 1].diff + responseDelay;
-          queuedResponses.forEach(r => {
-            assert.isAtLeast(r.diff, minDiff)
-          });
+          queuedResponses.forEach(r => { assert.isAtLeast(r.diff, minDiff) });
         });
     });
 
