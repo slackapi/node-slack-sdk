@@ -222,13 +222,18 @@ describe('WebClient', function () {
 
         // intentially vague about the method name
         return this.client.apiCall('upload', {
-          file: { value: imageBuffer, options: { filename: 'train.png' } },
-          filename: 'train.png',
+          file: { value: imageBuffer, options: { filename: 'train.jpg' } },
+          filename: 'train.jpg',
         })
           .then((parts) => {
             assert.lengthOf(parts.files, 1);
             const file = parts.files[0];
-            assert.include(file, { fieldname: 'file' });
+            assert.include(file, { fieldname: 'file', filename: 'train.jpg' });
+            // TODO: understand why this assertion was failing. already employed the buffer metadata workaround, should
+            // look into the details about whether that workaround is still required, or why else the `source.on` is not
+            // defined error would occur, or if Slack just doesn't need a filename for the part
+            // NOTE: it seems the file and its filename are emitted as a field in addition to the token, not sure if
+            // this was happening in the old implementation.
           });
       });
 
@@ -261,14 +266,14 @@ describe('WebClient', function () {
           .then((parts) => {
             assert.lengthOf(parts.files, 1);
             const file = parts.files[0];
-            // TODO: understand why this assertion is failing. already employed the buffer metadata workaround, should
+            // TODO: understand why this assertion was failing. already employed the buffer metadata workaround, should
             // look into the details about whether that workaround is still required, or why else the `source.on` is not
             // defined error would occur, or if Slack just doesn't need a filename for the part
-            // assert.include(file, { fieldname: 'file', filename: 'train.jpg' });
+            assert.include(file, { fieldname: 'file', filename: 'train.jpg' });
 
             // NOTE: it seems the file and its filename are emitted as a field in addition to the token, not sure if
             // this was happening in the old implementation.
-            assert.include(file, { fieldname: 'file' });
+            // assert.include(file, { fieldname: 'file' });
           });
       });
 
