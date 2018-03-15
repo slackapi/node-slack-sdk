@@ -49,7 +49,10 @@ export class IncomingWebhook {
    * @param message the message (a simple string, or an object describing the message)
    * @param callback
    */
-  public send(message: string | IncomingWebhookSendArguments, callback: IncomingWebhookResultCallback): void {
+  public send(message: string | IncomingWebhookSendArguments): Promise<void>;
+  public send(message: string | IncomingWebhookSendArguments, callback: IncomingWebhookResultCallback): void;
+  public send(message: string | IncomingWebhookSendArguments,
+              callback?: IncomingWebhookResultCallback): Promise<void> | void {
     // NOTE: no support for proxy
     // NOTE: no support for TLS config
     let payload: IncomingWebhookSendArguments = this.defaults;
@@ -67,6 +70,10 @@ export class IncomingWebhook {
       return;
     });
 
-    callbackify(implementation)(callback);
+    if (callback !== undefined) {
+      callbackify(implementation)(callback);
+      return;
+    }
+    return implementation();
   }
 }
