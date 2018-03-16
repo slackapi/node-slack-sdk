@@ -136,10 +136,9 @@ web.channels.list()
         .then((msg) => console.log(`Message sent to channel ${channel.name} with ts:${msg.ts}`))
         .catch(console.error);
     } else {
-      console.log('This bot does not belong to any channels, invite it to at least one and try again');
+      console.log('This bot does not belong to any channel, invite it to at least one and try again');
     }
   });
-});
 ```
 
 ---
