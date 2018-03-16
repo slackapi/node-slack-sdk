@@ -1,3 +1,4 @@
+import { Stream } from 'stream';
 import { WebAPICallOptions, WebAPIResultCallback, WebAPICallResult } from './WebClient';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
@@ -372,7 +373,7 @@ export type FilesSharedPublicURLArguments = TokenOverridable & {
 export type FilesUploadArguments = TokenOverridable & {
   channels?: string; // comma-separated list of channels
   content?: string; // if absent, must provide `file`
-  file?: Buffer; // if absent, must provide `content`
+  file?: Buffer | Stream; // if absent, must provide `content`
   filename?: string;
   filetype?: string;
   initial_comment?: string;
@@ -739,7 +740,7 @@ export type UsersLookupByEmailArguments = TokenOverridable & {
 };
 export type UsersSetActiveArguments = TokenOverridable; // deprecated & being removed may 8, 2018
 export type UsersSetPhotoArguments = TokenOverridable & {
-  image: Buffer;
+  image: Buffer | Stream;
   crop_w?: number;
   crop_x?: number;
   crop_y?: number;
