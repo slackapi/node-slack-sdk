@@ -31,6 +31,11 @@ export enum ErrorCode {
   KeepAliveConfigError = 'slackclient_keepalive_config_error',
   KeepAliveClientNotConnected = 'slackclient_keepalive_client_not_connected',
   KeepAliveInconsistentState = 'slackclient_keepalive_inconsistent_state',
+
+  // IncomingWebhook
+  IncomingWebhookRequestError = 'slackclient_incomingwebhook_request_error',
+  IncomingWebhookReadError = 'slackclient_incomingwebhook_read_error',
+  IncomingWebhookHTTPError = 'slackclient_incomingwebhook_http_error',
 }
 
 /**

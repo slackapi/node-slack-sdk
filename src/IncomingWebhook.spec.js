@@ -30,14 +30,16 @@ describe('IncomingWebhook', function () {
       it('should return results in a Promise', function () {
         const result = this.webhook.send('Hello');
         assert(isPromise(result));
-        return result.then(() => {
+        return result.then((result) => {
+          assert.strictEqual(result.text, 'ok');
           this.scope.done();
         });
       });
 
       it('should deliver results in a callback', function (done) {
-        this.webhook.send('Hello', (error) => {
+        this.webhook.send('Hello', (error, result) => {
           assert.notOk(error);
+          assert.strictEqual(result.text, 'ok');
           this.scope.done();
           done();
         });
@@ -56,12 +58,14 @@ describe('IncomingWebhook', function () {
         assert(isPromise(result));
         result.catch((error) => {
           assert.ok(error);
+          assert.instanceOf(error, Error);
           done();
         });
       });
 
       it('should deliver the error in a callback', function (done) {
         this.webhook.send('Hello', (error) => {
+          assert.ok(error);
           assert.instanceOf(error, Error);
           done();
         });
