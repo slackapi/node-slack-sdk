@@ -21,6 +21,7 @@ export {
 
 export {
   WebClient,
+  WebClientBinaryData,
   WebClientOptions,
   WebAPICallOptions,
   WebAPICallResult,

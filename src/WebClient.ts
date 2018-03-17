@@ -1,4 +1,6 @@
-import { Readable } from 'stream';
+import { randomBytes } from 'crypto';
+import { basename } from 'path';
+import { Readable, Stream } from 'stream';
 import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
 import urlJoin = require('url-join'); // tslint:disable-line:no-require-imports
 import isStream = require('is-stream'); // tslint:disable-line:no-require-imports
@@ -504,58 +506,42 @@ export class WebClient extends EventEmitter {
    * @param options arguments for the Web API method
    */
   private serializeApiCallOptions(options: WebAPICallOptions): FormCanBeURLEncoded | BodyCanBeFormMultipart {
-
     // Special treatment for binary file content
     let containsBinaryData = false;
-    if ('file' in options) {
-      containsBinaryData = true;
-      // TypeScript treats `in` as a type guard. The implementation assumes most types are "sealed", which is not what
-      // WebAPICallOptions is. See discussion: https://github.com/Microsoft/TypeScript/issues/10485
-      //
-      // For now, we can make a type assertion to get around this behavior, but in the future lets push for a better
-      // treatment from the compiler. Maybe https://github.com/Microsoft/TypeScript/issues/21732 will be the solution.
-      //
-      // This could also be resolved by making the above condition a type guard for FilesUploadArguments. Let's expore
-      // this solution when all the arguments in `./methods.ts` are more fully defined.
-      // @ts-ignore
-      // if (Buffer.isBuffer((options as WebAPICallOptions).file)) {
-      //   if (!('filename' in options)) {
-      //     this.logger.warn('`file` option is a Buffer, but there is no `filename` option. this upload will likely ' +
-      //                      'fail. add the `filename` option to fix.');
-      //   }
-
-        // Buffers are sometimes not handled well by the underlying `form-data` package. Adding extra metadata resolves
-        // that issue. See: https://github.com/slackapi/node-slack-sdk/issues/307#issuecomment-289231737
-        // @ts-ignore
-      //   options.file = {
-      //     // @ts-ignore
-      //     value: options.file,
-      //     options: {
-      //       // @ts-ignore
-      //       filename: options.filename,
-      //     },
-      //   };
-      // }
-    }
 
     const flattened = objectEntries(options)
       .map(([key, value]) => {
-        if (value === undefined) {
+        if (value === undefined || value === null) {
           return [];
         }
+
         let serializedValue = value;
-        // if value is anything other than string, number, boolean, or the specially treated file key, then
-        // encode it as a JSON string.
-        if (key !== 'file' && typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
+        if (value instanceof WebClientBinaryData || Buffer.isBuffer(value) || isStream(value)) {
+          containsBinaryData = true;
+          if (!(value instanceof WebClientBinaryData)) {
+            serializedValue = new WebClientBinaryData(value);
+          }
+        } else if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
+          // if value is anything other than string, number, boolean, binary data, a Stream, or a Buffer, then encode it
+          // as a JSON string.
           serializedValue = JSON.stringify(value);
         }
+
         return [key, serializedValue];
       });
 
     // a body with binary data should be serialized as multipart/form-data
     if (containsBinaryData) {
       return flattened.reduce((form, [key, value]) => {
-        form.append(key, value);
+        if (key !== undefined && value !== undefined) {
+          if (value instanceof WebClientBinaryData) {
+            form.append(key, value.data, {
+              filename: value.name,
+            });
+          } else {
+            form.append(key, value);
+          }
+        }
         return form;
       }, new FormData());
     }
@@ -594,6 +580,44 @@ export class WebClient extends EventEmitter {
 }
 
 export default WebClient;
+
+/**
+ * A container for sending binary data with {@link WebClient}.
+ */
+export class WebClientBinaryData {
+  /**
+   * The name of the data to be sent, i.e. a file name.
+   */
+  public name: string;
+
+  /**
+   * The binary data to be sent.
+   */
+  public data: Stream | Buffer;
+
+  /**
+   * @param data - Data to be sent
+   * @param name - Name of the data
+   */
+  constructor(data: Stream | Buffer, name?: string) {
+    this.data = data;
+
+    if (name === undefined) {
+      // attempt to find name from `data`. adapted from:
+      // https://github.com/form-data/form-data/blob/028c21e0f93c5fefa46a7bbf1ba753e4f627ab7a/lib/form_data.js#L223-L234
+      if (typeof (data as any).name === 'string') {
+        this.name = (data as any).name;
+      } else if (typeof (data as any).path === 'string') {
+        this.name = basename((data as any).path);
+      } else {
+        // when all else fails, generate a random string to ensure the data will be sent.
+        this.name = randomBytes(24).toString('hex');
+      }
+    } else {
+      this.name = name;
+    }
+  }
+}
 
 /*
  * Exported types
