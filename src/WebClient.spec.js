@@ -207,7 +207,7 @@ describe('WebClient', function () {
         // intentially vague about the method name
         return this.client.apiCall('upload', {
           file: imageBuffer,
-          filename: 'train.png',
+          filename: 'train.jpg',
         })
           .then((parts) => {
             assert.lengthOf(parts.files, 1);
@@ -217,38 +217,20 @@ describe('WebClient', function () {
           });
       });
 
-      it('should properly serialize when the file is an object with value as a Buffer and options containing filename', function () {
-        const imageBuffer = fs.readFileSync(path.resolve('test', 'fixtures', 'train.jpg'));
-
-        // intentially vague about the method name
-        return this.client.apiCall('upload', {
-          file: { value: imageBuffer, options: { filename: 'train.jpg' } },
-          filename: 'train.jpg',
-        })
-          .then((parts) => {
-            assert.lengthOf(parts.files, 1);
-            const file = parts.files[0];
-            assert.include(file, { fieldname: 'file', filename: 'train.jpg' });
-            // TODO: understand why this assertion was failing. already employed the buffer metadata workaround, should
-            // look into the details about whether that workaround is still required, or why else the `source.on` is not
-            // defined error would occur, or if Slack just doesn't need a filename for the part
-            // NOTE: it seems the file and its filename are emitted as a field in addition to the token, not sure if
-            // this was happening in the old implementation.
-          });
-      });
-
       // Reactivate this test once we find out if the workaround in the test case before is necessary
-      it.skip('should log a warning when file is a Buffer and there is no filename', function () {
+      it('should log a warning when file is a Buffer and there is no filename', function () {
         const imageBuffer = fs.readFileSync(path.resolve('test', 'fixtures', 'train.jpg'));
-        this.capture = new CaptureStdout();
-        this.capture.startCapture();
+        const output = [];
+        const stub = function (level, message) {
+          output.push([level, message]);
+        }
+        const debuggingClient = new WebClient(token, { logLevel: LogLevel.WARN, logger: stub });
 
         // intentially vague about the method name
-        return this.client.apiCall('upload', {
+        return debuggingClient.apiCall('upload', {
           file: imageBuffer,
         })
           .then(() => {
-            const output = this.capture.getCapturedText();
             assert.isNotEmpty(output);
             const anyLogLineIsLevelWarn = output.reduce((acc, line) => {
               return acc || (line.indexOf('warn') !== -1)

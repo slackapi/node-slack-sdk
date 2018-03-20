@@ -517,16 +517,16 @@ export class WebClient extends EventEmitter {
       //
       // This could also be resolved by making the above condition a type guard for FilesUploadArguments. Let's expore
       // this solution when all the arguments in `./methods.ts` are more fully defined.
-      // @ts-ignore
-      // if (Buffer.isBuffer((options as WebAPICallOptions).file)) {
-      //   if (!('filename' in options)) {
-      //     this.logger.warn('`file` option is a Buffer, but there is no `filename` option. this upload will likely ' +
-      //                      'fail. add the `filename` option to fix.');
-      //   }
 
-      // Buffers are sometimes not handled well by the underlying `form-data` package. Adding extra metadata resolves
-      // that issue. See: https://github.com/slackapi/node-slack-sdk/issues/307#issuecomment-289231737
-      if (options['file'] && !options['file'].value) {
+      // @ts-ignore
+      if (Buffer.isBuffer((options as WebAPICallOptions).file)) {
+        if (!('filename' in options)) {
+          this.logger.warn('`file` option is a Buffer, but there is no `filename` option. this upload will likely ' +
+            'fail. add the `filename` option to fix.');
+        }
+
+        // Buffers are sometimes not handled well by the underlying `form-data` package. Adding extra metadata resolves
+        // that issue. See: https://github.com/slackapi/node-slack-sdk/issues/307#issuecomment-289231737
         options['file'] = {
           value: options['file'],
           options: {
