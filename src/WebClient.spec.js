@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { Agent } = require('http');
 const { assert } = require('chai');
-const { WebClient } = require('./WebClient');
+const { WebClient, WebClientBinaryData } = require('./WebClient');
 const { LogLevel } = require('./logger');
 const { addAppMetadata } = require('./util');
 const CaptureStdout = require('capture-stdout');
@@ -159,7 +159,21 @@ describe('WebClient', function () {
       });
     });
 
-    it.skip('should remove undefined or null values from API arguments');
+    it('should remove undefined or null values from simple API arguments', function () {
+      const scope = nock('https://slack.com')
+        .post(/api/, 'token=xoxa-faketoken&something=else')
+        .reply(200, { ok: true });
+      return this.client.apiCall('method', {
+        something_undefined: undefined,
+        something_null: null,
+        something: 'else'
+      })
+      .then(() => {
+        scope.done();
+      });
+    });
+
+    it('should remove undefined or null values from complex API arguments');
 
     describe('when API arguments contain a file upload', function () {
       beforeEach(function () {
@@ -207,38 +221,14 @@ describe('WebClient', function () {
         // intentially vague about the method name
         return this.client.apiCall('upload', {
             file: imageBuffer,
-            filename: 'train.png',
+            filename: 'train.jpg',
           })
           .then((parts) => {
             assert.lengthOf(parts.files, 1);
             const file = parts.files[0];
-            // TODO: understand why this assertion is failing. already employed the buffer metadata workaround, should
-            // look into the details about whether that workaround is still required, or why else the `source.on` is not
-            // defined error would occur, or if Slack just doesn't need a filename for the part
-            // assert.include(file, { fieldname: 'file', filename: 'train.jpg' });
             // NOTE: it seems the file and its filename are emitted as a field in addition to the token, not sure if
             // this was happening in the old implementation.
             assert.include(file, { fieldname: 'file' });
-          });
-      });
-
-      // Reactivate this test once we find out if the workaround in the test case before is necessary
-      it.skip('should log a warning when file is a Buffer and there is no filename', function () {
-        const imageBuffer = fs.readFileSync(path.resolve('test', 'fixtures', 'train.jpg'));
-        this.capture = new CaptureStdout();
-        this.capture.startCapture();
-
-        // intentially vague about the method name
-        return this.client.apiCall('upload', {
-            file: imageBuffer,
-          })
-          .then(() => {
-            const output = this.capture.getCapturedText();
-            assert.isNotEmpty(output);
-            const anyLogLineIsLevelWarn = output.reduce((acc, line) => {
-              return acc || (line.indexOf('warn') !== -1)
-            }, false);
-            assert(anyLogLineIsLevelWarn);
           });
       });
 
@@ -251,14 +241,22 @@ describe('WebClient', function () {
           .then((parts) => {
             assert.lengthOf(parts.files, 1);
             const file = parts.files[0];
-            // TODO: understand why this assertion is failing. already employed the buffer metadata workaround, should
-            // look into the details about whether that workaround is still required, or why else the `source.on` is not
-            // defined error would occur, or if Slack just doesn't need a filename for the part
-            // assert.include(file, { fieldname: 'file', filename: 'train.jpg' });
+            // NOTE: the only reason the filename will be present here is because `createReadStream` has file name 
+            // metadata associated with it.
+            assert.include(file, { fieldname: 'file', filename: 'train.jpg' });
+          });
+      });
 
-            // NOTE: it seems the file and its filename are emitted as a field in addition to the token, not sure if
-            // this was happening in the old implementation.
-            assert.include(file, { fieldname: 'file' });
+      it('should properly serialize when the file is a WebClientBinaryData', function () {
+        const imageBuffer = fs.readFileSync(path.resolve('test', 'fixtures', 'train.jpg'));
+
+        return this.client.apiCall('upload', {
+            file: new WebClientBinaryData(imageBuffer, 'mega_ultra_train.jpg')
+          })
+          .then((parts) => {
+            assert.lengthOf(parts.files, 1);
+            const file = parts.files[0];
+            assert.include(file, { fieldname: 'file', filename: 'mega_ultra_train.jpg' })
           });
       });
 
