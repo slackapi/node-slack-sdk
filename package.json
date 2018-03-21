@@ -45,6 +45,7 @@
     "@types/got": "^7.1.7",
     "@types/is-stream": "^1.1.0",
     "@types/loglevel": "^1.5.3",
+    "@types/node": "^9.4.7",
     "@types/p-cancelable": "^0.3.0",
     "@types/p-queue": "^2.3.1",
     "@types/p-retry": "^1.0.1",
@@ -71,7 +72,6 @@
   "devDependencies": {
     "@types/chai": "^4.1.2",
     "@types/mocha": "^2.2.48",
-    "@types/node": "^9.4.0",
     "busboy": "^0.2.14",
     "capture-stdout": "^1.0.0",
     "chai": "^4.1.2",
