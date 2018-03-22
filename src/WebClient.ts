@@ -1,3 +1,4 @@
+import { basename } from 'path';
 import { Readable } from 'stream';
 import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
 import urlJoin = require('url-join'); // tslint:disable-line:no-require-imports
@@ -504,64 +505,59 @@ export class WebClient extends EventEmitter {
    * @param options arguments for the Web API method
    */
   private serializeApiCallOptions(options: WebAPICallOptions): FormCanBeURLEncoded | BodyCanBeFormMultipart {
-
-    // Special treatment for binary file content
+    // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
+    // binary content
     let containsBinaryData = false;
-    if ('file' in options) {
-      containsBinaryData = true;
-      // TypeScript treats `in` as a type guard. The implementation assumes most types are "sealed", which is not what
-      // WebAPICallOptions is. See discussion: https://github.com/Microsoft/TypeScript/issues/10485
-      //
-      // For now, we can make a type assertion to get around this behavior, but in the future lets push for a better
-      // treatment from the compiler. Maybe https://github.com/Microsoft/TypeScript/issues/21732 will be the solution.
-      //
-      // This could also be resolved by making the above condition a type guard for FilesUploadArguments. Let's expore
-      // this solution when all the arguments in `./methods.ts` are more fully defined.
-
-      // @ts-ignore
-      if (Buffer.isBuffer((options as WebAPICallOptions).file)) {
-        if (!('filename' in options)) {
-          this.logger.warn('`file` option is a Buffer, but there is no `filename` option. this upload will likely ' +
-            'fail. add the `filename` option to fix.');
-        }
-
-        // Buffers are sometimes not handled well by the underlying `form-data` package. Adding extra metadata resolves
-        // that issue. See: https://github.com/slackapi/node-slack-sdk/issues/307#issuecomment-289231737
-        options['file'] = {
-          value: options['file'],
-          options: {
-            filename: options['filename'],
-          },
-        };
-      }
-    }
-
     const flattened = objectEntries(options)
       .map(([key, value]) => {
-        if (value === undefined) {
+        if (value === undefined || value === null) {
           return [];
         }
+
         let serializedValue = value;
-        // if value is anything other than string, number, boolean, or the specially treated file key, then
-        // encode it as a JSON string.
-        if (key !== 'file' && typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
+
+        if (Buffer.isBuffer(value) || isStream(value)) {
+          containsBinaryData = true;
+        } else if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
+          // if value is anything other than string, number, boolean, binary data, a Stream, or a Buffer, then encode it
+          // as a JSON string.
           serializedValue = JSON.stringify(value);
         }
+
         return [key, serializedValue];
       });
 
-    // a body with binary data should be serialized as multipart/form-data
+    // A body with binary content should be serialized as multipart/form-data
     if (containsBinaryData) {
+      // TODO: when there's a part called 'file' that does not have the 'filename' option, and there's no
+      //       part called 'filename': log a warning OR generate a random name
       return flattened.reduce((form, [key, value]) => {
-        if (key === 'file' && value.value) {
-          form.append(key, value.value, value.options);
-          return form;
+        if (Buffer.isBuffer(value) || isStream(value)) {
+          const options: FormData.AppendOptions = {};
+          options.filename = (() => {
+            // attempt to find filename from `value`. adapted from:
+            // tslint:disable-next-line:max-line-length
+            // https://github.com/form-data/form-data/blob/028c21e0f93c5fefa46a7bbf1ba753e4f627ab7a/lib/form_data.js#L227-L230
+            // formidable and the browser add a name property
+            // fs- and request- streams have path property
+            const streamOrBuffer: any = (value as any);
+            if (typeof streamOrBuffer.name === 'string') {
+              return basename(streamOrBuffer.name);
+            }
+            if (typeof streamOrBuffer.path === 'string') {
+              return basename(streamOrBuffer.path);
+            }
+            return undefined;
+          })();
+          form.append(key, value, options);
+        } else {
+          form.append(key, value);
         }
-        form.append(key, value);
         return form;
       }, new FormData());
     }
 
+    // Otherwise, a simple key-value object is returned
     return flattened.reduce((accumulator, [key, value]) => {
       if (key !== undefined && value !== undefined) {
         accumulator[key] = value;

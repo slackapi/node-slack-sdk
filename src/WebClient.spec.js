@@ -159,7 +159,21 @@ describe('WebClient', function () {
         });
     });
 
-    it.skip('should remove undefined or null values from API arguments');
+    it('should remove undefined or null values from simple API arguments', function () {
+      const scope = nock('https://slack.com')
+        .post(/api/, 'token=xoxa-faketoken&something=else')
+        .reply(200, { ok: true });
+      return this.client.apiCall('method', {
+        something_undefined: undefined,
+        something_null: null,
+        something: 'else'
+      })
+      .then(() => {
+        scope.done();
+      });
+    });
+
+    it('should remove undefined or null values from complex API arguments');
 
     describe('when API arguments contain a file upload', function () {
       beforeEach(function () {
@@ -212,12 +226,14 @@ describe('WebClient', function () {
           .then((parts) => {
             assert.lengthOf(parts.files, 1);
             const file = parts.files[0];
-            assert.include(file, { fieldname: 'file', filename: 'train.jpg' });
+            assert.include(file, { fieldname: 'file' });
+            // TODO: assert that the above does NOT have a filename field
+            // TODO: assert that there's another part that contains filename
           });
       });
 
-      // Reactivate this test once we find out if the workaround in the test case before is necessary
-      it('should log a warning when file is a Buffer and there is no filename', function () {
+      // TODO: re-enable this once we decide if we want to generate a random name or if we want to log a warning
+      it.skip('should log a warning when file is a Buffer and there is no filename', function () {
         const imageBuffer = fs.readFileSync(path.resolve('test', 'fixtures', 'train.jpg'));
         const output = [];
         const stub = function (level, message) {
@@ -242,14 +258,18 @@ describe('WebClient', function () {
         const imageStream = fs.createReadStream(path.resolve('test', 'fixtures', 'train.jpg'));
 
         return this.client.apiCall('upload', {
-          file: imageStream,
-        })
+            file: imageStream,
+          })
           .then((parts) => {
             assert.lengthOf(parts.files, 1);
             const file = parts.files[0];
+            // NOTE: the only reason the filename will be present here is because `createReadStream` has file name
+            // metadata associated with it.
             assert.include(file, { fieldname: 'file', filename: 'train.jpg' });
           });
       });
+
+      // TODO: some tests with streams/buffers that originate from formiddable and/or request
 
       afterEach(function () {
         if (this.capture) { this.capture.stopCapture(); }
