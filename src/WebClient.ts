@@ -529,8 +529,7 @@ export class WebClient extends EventEmitter {
 
     // A body with binary content should be serialized as multipart/form-data
     if (containsBinaryData) {
-      // TODO: when there's a part called 'file' that does not have the 'filename' option, and there's no
-      //       part called 'filename': log a warning OR generate a random name
+      this.logger.debug('request arguments contain binary data');
       return flattened.reduce((form, [key, value]) => {
         if (Buffer.isBuffer(value) || isStream(value)) {
           const options: FormData.AppendOptions = {};
@@ -547,7 +546,7 @@ export class WebClient extends EventEmitter {
             if (typeof streamOrBuffer.path === 'string') {
               return basename(streamOrBuffer.path);
             }
-            return undefined;
+            return defaultFilename;
           })();
           form.append(key, value, options);
         } else {
@@ -651,6 +650,8 @@ export interface WebAPIHTTPError extends CodedError {
 /*
  * Helpers
  */
+
+const defaultFilename = 'Untitled';
 
 interface FormCanBeURLEncoded {
   [key: string]: string | number | boolean;

@@ -215,48 +215,6 @@ describe('WebClient', function () {
           });
       });
 
-      it('should properly serialize when binary argument is a Buffer and filename is specified', function () {
-        const imageBuffer = fs.readFileSync(path.resolve('test', 'fixtures', 'train.jpg'));
-
-        // intentially vague about the method name and argument name
-        return this.client.apiCall('upload', {
-          someBinaryField: imageBuffer,
-          filename: 'train.jpg',
-        })
-          .then((parts) => {
-            assert.lengthOf(parts.files, 1);
-            const file = parts.files[0];
-            assert.include(file, { fieldname: 'someBinaryField' });
-            assert.notInclude(file, { filename: 'train.jpg' });
-
-            assert.lengthOf(parts.fields, 2);
-            assert.deepInclude(parts.fields, { fieldname: 'token', value: token });
-            assert.deepInclude(parts.fields, { fieldname: 'filename', value: 'train.jpg' });
-          });
-      });
-
-      // TODO: re-enable this once we decide if we want to generate a random name or if we want to log a warning
-      it.skip('should log a warning when binary argument is a Buffer and there is no filename', function () {
-        const imageBuffer = fs.readFileSync(path.resolve('test', 'fixtures', 'train.jpg'));
-        const output = [];
-        const stub = function (level, message) {
-          output.push([level, message]);
-        }
-        const debuggingClient = new WebClient(token, { logLevel: LogLevel.WARN, logger: stub });
-
-        // intentially vague about the method name
-        return debuggingClient.apiCall('upload', {
-          someBinaryField: imageBuffer,
-        })
-          .then(() => {
-            assert.isNotEmpty(output);
-            const anyLogLineIsLevelWarn = output.reduce((acc, line) => {
-              return acc || (line.indexOf('warn') !== -1)
-            }, false);
-            assert(anyLogLineIsLevelWarn);
-          });
-      });
-
       it('should properly serialize when the binary argument is a ReadableStream', function () {
         const imageStream = fs.createReadStream(path.resolve('test', 'fixtures', 'train.jpg'));
 
@@ -266,16 +224,29 @@ describe('WebClient', function () {
           .then((parts) => {
             assert.lengthOf(parts.files, 1);
             const file = parts.files[0];
-            // NOTE: the only reason the filename will be present here is because `createReadStream` has file name
-            // metadata associated with it.
+            // the filename is picked up from the the ReadableStream since it originates from fs
             assert.include(file, { fieldname: 'someBinaryField', filename: 'train.jpg' });
+
+            assert.lengthOf(parts.fields, 1);
+            assert.deepInclude(parts.fields, { fieldname: 'token', value: token });
           });
       });
 
       // TODO: some tests with streams/buffers that originate from formiddable and/or request
 
-      afterEach(function () {
-        if (this.capture) { this.capture.stopCapture(); }
+      it('should use a default name when binary argument is a Buffer', function () {
+        const imageBuffer = fs.readFileSync(path.resolve('test', 'fixtures', 'train.jpg'));
+
+        // intentially vague about the method name and argument name
+        return this.client.apiCall('upload', {
+          someBinaryField: imageBuffer,
+        })
+          .then((parts) => {
+            assert.lengthOf(parts.files, 1);
+            const file = parts.files[0];
+            assert.include(file, { fieldname: 'someBinaryField' });
+            assert.isString(file.filename);
+          });
       });
     });
 
