@@ -17,6 +17,16 @@ export class CursorPaginationEnabled {
 }
 
 /**
+ * @interface module:@slack/client/dist/methods.Dialog
+ * @property {string} title
+ * @property {string} callback_id
+ * @property {Array<module:@slack/client/dist/methods.__type>} elements
+ * @property {string} [submit_label]
+ */
+export class Dialog {
+}
+
+/**
  * @interface module:@slack/client/dist/methods.LinkUnfurls
  */
 export class LinkUnfurls {

@@ -18,6 +18,9 @@
  * @property KeepAliveConfigError
  * @property KeepAliveClientNotConnected
  * @property KeepAliveInconsistentState
+ * @property IncomingWebhookRequestError
+ * @property IncomingWebhookReadError
+ * @property IncomingWebhookHTTPError
  */
 export var ErrorCode
 /**
@@ -46,6 +49,20 @@ export class IncomingWebhook {
   /**
    * Send a notification to a conversation
    * @param {string | module:@slack/client.IncomingWebhookSendArguments} message the message (a simple string, or an object describing the message)
+   * @function module:@slack/client.IncomingWebhook#send
+   * @returns {Promise<module:@slack/client/dist/IncomingWebhook.IncomingWebhookResult>}
+   */
+  send() {}
+
+  /**
+   * @param {string | module:@slack/client.IncomingWebhookSendArguments} message
+   * @param {module:@slack/client.IncomingWebhookResultCallback} callback
+   * @function module:@slack/client.IncomingWebhook#send
+   */
+  send() {}
+
+  /**
+   * @param {string | module:@slack/client.IncomingWebhookSendArguments} message
    * @param {module:@slack/client.IncomingWebhookResultCallback} callback
    * @function module:@slack/client.IncomingWebhook#send
    */
@@ -215,7 +232,7 @@ Promise.
   /**
    * Begin an RTM session using the provided options. This method must be called before any messages can
    * be sent or received.
-   * @param {module:@slack/client/dist/methods.TokenOverridable | module:@slack/client/dist/methods.TokenOverridable} options
+   * @param {module:@slack/client/dist/methods.TokenOverridable | module:@slack/client/dist/methods.LocaleAware | module:@slack/client/dist/methods.__type | module:@slack/client/dist/methods.TokenOverridable | module:@slack/client/dist/methods.__type} options
    * @function module:@slack/client.RTMClient#start
    */
   start() {}
