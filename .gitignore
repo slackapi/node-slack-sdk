@@ -1,8 +1,8 @@
 node_modules
-.idea
 npm-debug.log
 coverage
 dist
+examples/package-lock.json
 
 # nyc test coverage
 .nyc_output
