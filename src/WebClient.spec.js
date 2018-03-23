@@ -100,6 +100,37 @@ describe('WebClient', function () {
       });
     });
 
+    describe('when called with bad options', function () {
+      it('should reject its Promise with TypeError', function (done) {
+        const results = [
+          this.client.apiCall('method', 4),
+          this.client.apiCall('method', 'a string'),
+          this.client.apiCall('method', false),
+        ];
+        const caughtErrors = results.map(r => {
+          assert(isPromise(r));
+          return r
+            .then(() => {
+              // if any of these promises resolve, this test fails
+              assert(false);
+            })
+            .catch((error) => {
+              // each promise should reject with the right kind of error
+              assert.instanceOf(error, TypeError);
+            });
+        });
+        Promise.all(caughtErrors)
+          .then(() => done());
+      });
+
+      it('should return a TypeError to its callback', function (done) {
+        this.client.apiCall('method', 4, (error) => {
+          assert.instanceOf(error, TypeError);
+          done();
+        });
+      });
+    });
+
     // TODO: simulate each of the error types
     describe('when the call fails', function () {
       beforeEach(function () {
