@@ -121,7 +121,11 @@ export class WebClient extends EventEmitter {
 
     // The following thunk is the actual implementation for this method. It is wrapped so that it can be adapted for
     // different executions below.
-    const implementation = () => {
+    const implementation = async () => {
+
+      if (typeof options === 'string' || typeof options === 'number' || typeof options === 'boolean') {
+        throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
+      }
 
       const requestBody = this.serializeApiCallOptions(Object.assign({ token: this.token }, options));
 
