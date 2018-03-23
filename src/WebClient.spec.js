@@ -159,9 +159,23 @@ describe('WebClient', function () {
         });
     });
 
-    it.skip('should remove undefined or null values from API arguments');
+    it('should remove undefined or null values from simple API arguments', function () {
+      const scope = nock('https://slack.com')
+        .post(/api/, 'token=xoxa-faketoken&something=else')
+        .reply(200, { ok: true });
+      return this.client.apiCall('method', {
+        something_undefined: undefined,
+        something_null: null,
+        something: 'else'
+      })
+      .then(() => {
+        scope.done();
+      });
+    });
 
-    describe('when API arguments contain a file upload', function () {
+    it('should remove undefined or null values from complex API arguments');
+
+    describe('when API arguments contain binary to upload', function () {
       beforeEach(function () {
         const self = this;
         self.scope = nock('https://slack.com')
@@ -201,58 +215,38 @@ describe('WebClient', function () {
           });
       });
 
-      it('should properly serialize when the file is a Buffer', function () {
-        const imageBuffer = fs.readFileSync(path.resolve('test', 'fixtures', 'train.jpg'));
-
-        // intentially vague about the method name
-        return this.client.apiCall('upload', {
-          file: imageBuffer,
-          filename: 'train.jpg',
-        })
-          .then((parts) => {
-            assert.lengthOf(parts.files, 1);
-            const file = parts.files[0];
-            assert.include(file, { fieldname: 'file', filename: 'train.jpg' });
-          });
-      });
-
-      // Reactivate this test once we find out if the workaround in the test case before is necessary
-      it('should log a warning when file is a Buffer and there is no filename', function () {
-        const imageBuffer = fs.readFileSync(path.resolve('test', 'fixtures', 'train.jpg'));
-        const output = [];
-        const stub = function (level, message) {
-          output.push([level, message]);
-        }
-        const debuggingClient = new WebClient(token, { logLevel: LogLevel.WARN, logger: stub });
-
-        // intentially vague about the method name
-        return debuggingClient.apiCall('upload', {
-          file: imageBuffer,
-        })
-          .then(() => {
-            assert.isNotEmpty(output);
-            const anyLogLineIsLevelWarn = output.reduce((acc, line) => {
-              return acc || (line.indexOf('warn') !== -1)
-            }, false);
-            assert(anyLogLineIsLevelWarn);
-          });
-      });
-
-      it('should properly serialize when the file is a ReadableStream', function () {
+      it('should properly serialize when the binary argument is a ReadableStream', function () {
         const imageStream = fs.createReadStream(path.resolve('test', 'fixtures', 'train.jpg'));
 
         return this.client.apiCall('upload', {
-          file: imageStream,
+            someBinaryField: imageStream,
+          })
+          .then((parts) => {
+            assert.lengthOf(parts.files, 1);
+            const file = parts.files[0];
+            // the filename is picked up from the the ReadableStream since it originates from fs
+            assert.include(file, { fieldname: 'someBinaryField', filename: 'train.jpg' });
+
+            assert.lengthOf(parts.fields, 1);
+            assert.deepInclude(parts.fields, { fieldname: 'token', value: token });
+          });
+      });
+
+      // TODO: some tests with streams/buffers that originate from formiddable and/or request
+
+      it('should use a default name when binary argument is a Buffer', function () {
+        const imageBuffer = fs.readFileSync(path.resolve('test', 'fixtures', 'train.jpg'));
+
+        // intentially vague about the method name and argument name
+        return this.client.apiCall('upload', {
+          someBinaryField: imageBuffer,
         })
           .then((parts) => {
             assert.lengthOf(parts.files, 1);
             const file = parts.files[0];
-            assert.include(file, { fieldname: 'file', filename: 'train.jpg' });
+            assert.include(file, { fieldname: 'someBinaryField' });
+            assert.isString(file.filename);
           });
-      });
-
-      afterEach(function () {
-        if (this.capture) { this.capture.stopCapture(); }
       });
     });
 
