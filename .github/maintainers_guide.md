@@ -33,7 +33,8 @@ script. These two commands should be run each time an API changes to keep the do
 ### Releasing
 
 0.  Update generated content
-    *  Reference docs are updated using `npm run docs:jsdoc`, `npm run docs`
+    *  Reference docs are updated using `npm run docs:jsdoc`, delete the `@property` tagged method aliases from
+       `support/jsdoc/@slack-client.js`, then `npm run docs`
 
 1.  Create the commit for the release:
     *  Bump the version number in adherence to [Semantic Versioning](http://semver.org/) in `package.json`.
