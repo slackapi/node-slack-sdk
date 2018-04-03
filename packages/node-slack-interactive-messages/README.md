@@ -82,7 +82,7 @@ slackMessages.action('welcome_button', (payload) => {
   // Note that the payload contains a copy of the original message (`payload.original_message`).
   const replacement = payload.original_message;
   // Typically, you want to acknowledge the action and remove the interactive elements from the message
-  const replacement.text =`Welcome ${payload.user.name}`;
+  replacement.text =`Welcome ${payload.user.name}`;
   delete replacement.attachments[0].actions;
   return replacement;
 });
