@@ -19,7 +19,9 @@ export function createExpressMiddleware(adapter) {
       return contentReady.then((c) => {
         res.status(status);
         res.set('X-Slack-Powered-By', poweredBy);
-        if (c) {
+        if (typeof c === 'string') {
+          res.send(c);
+        } else if (c) {
           res.json(c);
         } else {
           res.end();

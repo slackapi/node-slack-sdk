@@ -7,6 +7,6 @@
     }]
   ],
   "plugins": [
-    ["system-import-transformer", { "modules": "common" }]
+    "dynamic-import-node"
   ]
 }

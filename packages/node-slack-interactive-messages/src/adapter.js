@@ -6,7 +6,7 @@ import isRegExp from 'lodash.isregexp';
 import isFunction from 'lodash.isfunction';
 import debugFactory from 'debug';
 import { createExpressMiddleware } from './express-middleware';
-import { packageIdentifier, promiseTimeout } from './util';
+import { packageIdentifier, promiseTimeout, errorCodes as utilErrorCodes } from './util';
 
 const debug = debugFactory('@slack/interactive-messages:adapter');
 
@@ -18,6 +18,9 @@ const debug = debugFactory('@slack/interactive-messages:adapter');
  */
 function formatMatchingConstraints(matchingConstraints) {
   let ret = {};
+  if (typeof matchingConstraints === 'undefined' || matchingConstraints === null) {
+    throw new TypeError('Callback ID cannot be undefined or null');
+  }
   if (!isPlainObject(matchingConstraints)) {
     ret.callbackId = matchingConstraints;
   } else {
@@ -49,8 +52,10 @@ function validateConstraints(matchingConstraints) {
  */
 function validateActionConstraints(actionConstraints) {
   if (actionConstraints.type &&
-      !(actionConstraints.type === 'select' || actionConstraints.type === 'button')) {
-    return new TypeError('Type must be \'select\' or \'button\'');
+    !(actionConstraints.type === 'select' || actionConstraints.type === 'button' ||
+    actionConstraints.type === 'dialog_submission')
+  ) {
+    return new TypeError('Type must be \'select\', \'button\', or \'dialog_submission\'');
   }
 
   // We don't need to validate unfurl, we'll just cooerce it to a boolean
@@ -62,13 +67,29 @@ export default class SlackMessageAdapter {
    * Create a message adapter.
    *
    * @param {string} verificationToken - Slack app verification token used to authenticate request
+   * @param {Object} [options]
+   * @param {number} [options.syncResponseTimeout=2500] - number of milliseconds to wait before
+   * flushing a syncrhonous response to an incoming request and falling back to an asynchronous
+   * response.
+   * @param {boolean} [options.lateResponseFallbackEnabled=true] - whether or not promises that
+   * resolve after the syncResponseTimeout can fallback to a request for the response_url. this only
+   * works in cases where the semantic meaning of the response and the response_url are the same.
    */
-  constructor(verificationToken) {
+  constructor(verificationToken, {
+    syncResponseTimeout = 2500,
+    lateResponseFallbackEnabled = true,
+  } = {}) {
     if (!isString(verificationToken)) {
       throw new TypeError('SlackMessageAdapter needs a verification token');
     }
 
+    if (syncResponseTimeout > 3000 || syncResponseTimeout < 1) {
+      throw new TypeError('syncResponseTimeout must be between 1 and 3000');
+    }
+
     this.verificationToken = verificationToken;
+    this.syncResponseTimeout = syncResponseTimeout;
+    this.lateResponseFallbackEnabled = lateResponseFallbackEnabled;
     this.callbacks = [];
     this.axios = axios.create({
       headers: {
@@ -91,15 +112,15 @@ export default class SlackMessageAdapter {
       import('express'),
       import('body-parser'),
     ]))
-    .then(([express, bodyParser]) => {
-      const app = express();
-      app.use(bodyParser.urlencoded({ extended: false }));
-      app.post(path, this.expressMiddleware());
+      .then(([express, bodyParser]) => {
+        const app = express();
+        app.use(bodyParser.urlencoded({ extended: false }));
+        app.post(path, this.expressMiddleware());
 
-      debug('server created - path: %s', path);
+        debug('server created - path: %s', path);
 
-      return http.createServer(app);
-    });
+        return http.createServer(app);
+      });
   }
 
   start(port) {
@@ -175,19 +196,23 @@ export default class SlackMessageAdapter {
   dispatch(payload) {
     const action = payload.actions && payload.actions[0];
 
-    // The following result value represents "no replacement"
-    let result = { status: 200 };
-    // when the matcher finds a dialog submission, it will populate this value with a function
-    let dialogPromiseResolve;
-    const respond = (message) => {
-      if (payload.response_url) {
+    // The following result value represents:
+    // * "no replacement" for message actions
+    // * "submission is valid" for dialog submissions
+    // * "no suggestions" for menu options TODO: check that this is true
+    let result = { status: 200, content: '' };
+
+    // when a response_url is present,`respond()` function created to to send a message using it
+    let respond;
+    if (payload.response_url) {
+      respond = (message) => {
+        if (typeof message.then === 'function') {
+          throw new TypeError('Cannot use a Promise as the parameter for respond()');
+        }
         debug('sending async response');
         return this.axios.post(payload.response_url, message);
-      } else if (dialogPromiseResolve) {
-        dialogPromiseResolve(message);
-      }
-      return true;
-    };
+      };
+    }
 
     this.callbacks.some(([constraints, fn]) => {
       // Returning false in this function continues the iteration, and returning true ends it.
@@ -209,11 +234,11 @@ export default class SlackMessageAdapter {
       }
 
       if ('unfurl' in constraints &&
-           (
-             (constraints.unfurl && !payload.is_app_unfurl) ||
-             (!constraints.unfurl && payload.is_app_unfurl)
-           )
-         ) {
+        (
+          (constraints.unfurl && !payload.is_app_unfurl) ||
+          (!constraints.unfurl && payload.is_app_unfurl)
+        )
+      ) {
         return false;
       }
 
@@ -225,30 +250,31 @@ export default class SlackMessageAdapter {
         return true;
       }
 
-      // Dialog submissions must be responded to in under 3 seconds
-      // Setting timeout to  2.5 seconds to account for propagation
-      if (payload.type === 'dialog_submission') {
-        const ms = 2500;
-        if (callbackResult) {
-          result = { status: 200, content: promiseTimeout(ms, callbackResult) };
-        } else {
-          result = {
-            status: 200, content: new Promise((resolve) => { dialogPromiseResolve = resolve; }),
-          };
-        }
-        return true;
-      }
-
       if (callbackResult) {
-        // Checking for Promise type
-        if (typeof callbackResult.then === 'function') {
-          callbackResult.then(respond).catch((error) => {
-            debug('async error for callback. callback_id: %s, error: %s',
-                  payload.callback_id, error.message);
+        const contentConsideringTimeout = promiseTimeout(this.syncResponseTimeout, callbackResult)
+          .catch((error) => {
+            if (error.code === utilErrorCodes.PROMISE_TIMEOUT) {
+              // don't save late promises for dialog submission, the response_url doesn't do the
+              // same thing as the response. developer should be warned that the promise is taking
+              // too much time
+              if (!this.lateResponseFallbackEnabled || !respond || payload.type === 'dialog_submission') {
+                debug('WARNING: The response Promise did not resolve under the timeout.');
+                return callbackResult;
+              }
+
+              // save a late promise by sending an empty body in the response, and then using the
+              // response_url to send the eventually resolved value
+              callbackResult.then(respond).catch((callbackError) => {
+                // when the promise is late and fails, won't send it to the response_url, log it
+                debug('ERROR: Promise was late and failed. Use `.catch()` to handle errors.');
+                throw callbackError;
+              });
+              return '';
+            }
+            // NOTE: this should either not happen or be configurable
+            return 'An error occurred. Please report this to the app developer.';
           });
-          return true;
-        }
-        result = { status: 200, content: callbackResult };
+        result = { status: 200, content: contentConsideringTimeout };
         return true;
       }
       return true;

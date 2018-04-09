@@ -19,9 +19,9 @@
     "prepare": "npm run build"
   },
   "dependencies": {
-    "axios": "^0.15.3",
-    "debug": "^2.6.3",
-    "lodash.isfunction": "^3.0.8",
+    "axios": "^0.18.0",
+    "debug": "^3.1.0",
+    "lodash.isfunction": "^3.0.9",
     "lodash.isplainobject": "^4.0.6",
     "lodash.isregexp": "^4.0.1",
     "lodash.isstring": "^4.0.1"
@@ -31,23 +31,23 @@
     "body-parser": "^1.4.3"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.0",
-    "babel-eslint": "^7.2.0",
-    "babel-plugin-system-import-transformer": "^3.1.0",
-    "babel-preset-env": "^1.3.2",
-    "body-parser": "^1.17.2",
-    "codecov": "^2.1.0",
-    "eslint": "^3.18.0",
-    "eslint-config-airbnb": "^14.1.0",
-    "eslint-config-airbnb-base": "^11.1.1",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^4.0.0",
-    "eslint-plugin-react": "^6.10.3",
-    "express": "^4.15.3",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-plugin-dynamic-import-node": "^1.2.0",
+    "babel-preset-env": "^1.6.1",
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "codecov": "^3.0.0",
+    "eslint": "^4.9.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "estraverse": "^4.2.0",
+    "express": "^4.16.3",
     "get-random-port": "0.0.1",
-    "mocha": "^3.2.0",
+    "mocha": "^5.0.5",
     "nop": "^1.0.0",
-    "nyc": "^10.1.2",
-    "proxyquire": "^1.7.11"
+    "nyc": "^11.6.0",
+    "proxyquire": "^2.0.1",
+    "sinon": "^4.5.0"
   }
 }

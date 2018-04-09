@@ -3,12 +3,18 @@ import pkg from '../package.json';
 
 function escape(s) { return s.replace('/', ':').replace(' ', '_'); }
 
+export const errorCodes = {
+  PROMISE_TIMEOUT: 'SLACKMESSAGEUTIL_PROMISE_TIMEOUT',
+};
+
 export function promiseTimeout(ms, promise) {
   // Create a promise that rejects in <ms> milliseconds
   const timeout = new Promise((resolve, reject) => {
     const id = setTimeout(() => {
       clearTimeout(id);
-      reject('Promise timed out');
+      const error = new Error('Promise timed out');
+      error.code = errorCodes.PROMISE_TIMEOUT;
+      reject(error);
     }, ms);
   });
   // Returns a race between our timeout and the passed in promise
