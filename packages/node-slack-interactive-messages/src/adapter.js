@@ -100,11 +100,16 @@ export default class SlackMessageAdapter {
     debug('instantiated');
   }
 
+  /* Interface for using the built-in server */
+
   /**
-   * Create a server that's ready to serve requests from Slack's interactive messages.
+   * Create a server that dispatches Slack's interactive message actions and menu requests to this
+   * message adapter instance. Use this method if your application will handle starting the server.
    *
    * @param {string} [path=/slack/actions] - The path portion of the URL where the server will
    * listen for requests from Slack's interactive messages.
+   * @returns - A promise that resolves to an instance of http.Server and will dispatch interactive
+   * message actions and options requests to this message adapter instance
    */
   createServer(path = '/slack/actions') {
     // TODO: more options (like https)
@@ -123,6 +128,13 @@ export default class SlackMessageAdapter {
       });
   }
 
+  /**
+   * Start a built-in server that dispatches Slack's interactive message actions and menu requests
+   * to this message adapter interface.
+   *
+   * @param {number} port
+   * @requires {Promise<void>} - A promise that resolves once the server is ready
+   */
   start(port) {
     return this.createServer()
       .then(server => new Promise((resolve, reject) => {
@@ -133,6 +145,11 @@ export default class SlackMessageAdapter {
       }));
   }
 
+  /**
+   * Stop the previously started built-in server.
+   *
+   * @returns {Promise<void>} - A promise that resolves once the server is cleaned up.
+   */
   stop() {
     return new Promise((resolve, reject) => {
       if (this.server) {
@@ -150,10 +167,30 @@ export default class SlackMessageAdapter {
     });
   }
 
+  /* Interface for bringing your own server */
+
+  /**
+   * Create a middleware function that can be used to integrate with the `express` web framework
+   * in order for incoming requests to be dispatched to this message adapter instance.
+   *
+   * @returns {ExpressMiddlewareFunc} - A middleware function
+   */
   expressMiddleware() {
     return createExpressMiddleware(this);
   }
 
+  /* Interface for adding handlers */
+
+  /**
+   * Add a handler for an interactive message action.
+   *
+   * @param {Object|string|RegExp} matchingConstraints - the callback ID (as a string or RegExp) or
+   * an object describing the constrants to select actions for the handler.
+   * @param {string|RegExp} matchingConstraints.callbackId
+   * @param {string} matchingConstraints.type
+   * @param {boolean} matchingConstraints.unfurl
+   * @param {ActionHandler} callback
+   */
   action(matchingConstraints, callback) {
     const actionConstraints = formatMatchingConstraints(matchingConstraints);
 
@@ -167,6 +204,16 @@ export default class SlackMessageAdapter {
     return this.registerCallback(actionConstraints, callback);
   }
 
+  /**
+   * Add a handler for an options request
+   *
+   * @param {*} matchingConstraints - the callback ID (as a string or RegExp) or
+   * an object describing the constrants to select options requests for the handler.
+   * @param {string|RegExp} matchingConstraints.callbackId
+   * @param {string} matchingConstraints.type
+   * @param {boolean} matchingConstraints.unfurl
+   * @param {OptionsHandler} callback
+   */
   options(matchingConstraints, callback) {
     const optionsConstraints = formatMatchingConstraints(matchingConstraints);
 
@@ -177,6 +224,81 @@ export default class SlackMessageAdapter {
     }
 
     return this.registerCallback(optionsConstraints, callback);
+  }
+
+  /* Interface for HTTP servers (like express middleware) */
+
+  /**
+   * Dispatches the contents of an HTTP request to the registered handlers.
+   *
+   * @param {object} payload
+   * @returns {Promise<{ status: number, content: object|string|undefined }>|undefined} - A promise
+   * of the response information (an object with status and content that is a JSON serializable
+   * object or a string or undefined) for the request. An undefined return value indicates that the
+   * request was not matched.
+   */
+  dispatch(payload) {
+    const callback = this.matchCallback(payload);
+    if (!callback) {
+      return undefined;
+    }
+    const [, callbackFn] = callback;
+
+    // when a response_url is present,`respond()` function created to to send a message using it
+    let respond;
+    if (payload.response_url) {
+      respond = (message) => {
+        if (typeof message.then === 'function') {
+          throw new TypeError('Cannot use a Promise as the parameter for respond()');
+        }
+        debug('sending async response');
+        return this.axios.post(payload.response_url, message);
+      };
+    }
+
+    let callbackResult;
+    try {
+      callbackResult = callbackFn.call(this, payload, respond);
+    } catch (error) {
+      debug('callback error: %o', error);
+      return Promise.resolve({ status: 500 });
+    }
+
+    if (callbackResult) {
+      return promiseTimeout(this.syncResponseTimeout, callbackResult)
+        .then(content => ({ status: 200, content }))
+        .catch((error) => {
+          if (error.code === utilErrorCodes.PROMISE_TIMEOUT) {
+            // warn and continue for promises that cannot be saved with a later async response.
+            // this includes dialog submissions because the response_url doesn't have the same
+            // semantics as the response, any request that doesn't contain a response_url, and
+            // if this has been explicitly disabled in the configuration.
+            if (!this.lateResponseFallbackEnabled || !respond || payload.type === 'dialog_submission') {
+              debug('WARNING: The response Promise did not resolve under the timeout.');
+              return callbackResult
+                .then(content => ({ status: 200, content }))
+                .catch(() => ({ status: 500 }));
+            }
+
+            // save a late promise by sending an empty body in the response, and then use the
+            // response_url to send the eventually resolved value
+            callbackResult.then(respond).catch((callbackError) => {
+              // when the promise is late and fails, we cannot do anything but log it
+              debug('ERROR: Promise was late and failed. Use `.catch()` to handle errors.');
+              throw callbackError;
+            });
+            return { status: 200 };
+          }
+
+          return { status: 500 };
+        });
+    }
+
+    // The following result value represents:
+    // * "no replacement" for message actions
+    // * "submission is valid" for dialog submissions
+    // * "no suggestions" for menu options TODO: check that this is true
+    return Promise.resolve({ status: 200 });
   }
 
   /* @private */
@@ -193,33 +315,11 @@ export default class SlackMessageAdapter {
     return this;
   }
 
-  dispatch(payload) {
+
+  matchCallback(payload) {
     const action = payload.actions && payload.actions[0];
-
-    // The following result value represents:
-    // * "no replacement" for message actions
-    // * "submission is valid" for dialog submissions
-    // * "no suggestions" for menu options TODO: check that this is true
-    let result = { status: 200, content: '' };
-
-    // when a response_url is present,`respond()` function created to to send a message using it
-    let respond;
-    if (payload.response_url) {
-      respond = (message) => {
-        if (typeof message.then === 'function') {
-          throw new TypeError('Cannot use a Promise as the parameter for respond()');
-        }
-        debug('sending async response');
-        return this.axios.post(payload.response_url, message);
-      };
-    }
-
-    this.callbacks.some(([constraints, fn]) => {
-      // Returning false in this function continues the iteration, and returning true ends it.
-      // The pattern is that we assign a value to `result` and then return true. We only desire one
-      // result for the response.
-      let callbackResult;
-
+    return this.callbacks.find(([constraints]) => {
+      // if the callback ID constraint is specified, only continue if it matches
       if (constraints.callbackId) {
         if (isString(constraints.callbackId) && payload.callback_id !== constraints.callbackId) {
           return false;
@@ -229,10 +329,12 @@ export default class SlackMessageAdapter {
         }
       }
 
+      // if the action constraint is specified, only continue if it matches
       if (action && constraints.type && constraints.type !== action.type) {
         return false;
       }
 
+      // if the unfurl constraint is specified, only continue if it matches
       if ('unfurl' in constraints &&
         (
           (constraints.unfurl && !payload.is_app_unfurl) ||
@@ -242,44 +344,29 @@ export default class SlackMessageAdapter {
         return false;
       }
 
-      try {
-        callbackResult = fn.call(this, payload, respond);
-      } catch (error) {
-        debug('callback error: %o', error);
-        result = { status: 500 };
-        return true;
-      }
-
-      if (callbackResult) {
-        const contentConsideringTimeout = promiseTimeout(this.syncResponseTimeout, callbackResult)
-          .catch((error) => {
-            if (error.code === utilErrorCodes.PROMISE_TIMEOUT) {
-              // don't save late promises for dialog submission, the response_url doesn't do the
-              // same thing as the response. developer should be warned that the promise is taking
-              // too much time
-              if (!this.lateResponseFallbackEnabled || !respond || payload.type === 'dialog_submission') {
-                debug('WARNING: The response Promise did not resolve under the timeout.');
-                return callbackResult;
-              }
-
-              // save a late promise by sending an empty body in the response, and then using the
-              // response_url to send the eventually resolved value
-              callbackResult.then(respond).catch((callbackError) => {
-                // when the promise is late and fails, won't send it to the response_url, log it
-                debug('ERROR: Promise was late and failed. Use `.catch()` to handle errors.');
-                throw callbackError;
-              });
-              return '';
-            }
-            // NOTE: this should either not happen or be configurable
-            return 'An error occurred. Please report this to the app developer.';
-          });
-        result = { status: 200, content: contentConsideringTimeout };
-        return true;
-      }
+      // if there's no reason to eliminate this callback, then its a match!
       return true;
     });
-
-    return result;
   }
 }
+
+/**
+ * @name ExpressMiddlewareFunc
+ * @function
+ * @param {http.IncomingMessage} req
+ * @param {http.ServerResponse} res
+ * @param {function} next
+ */
+
+/**
+ * @name ActionHandler
+ * @function
+ * @param {object} payload
+ * @param {function} respond
+ */
+
+/**
+ * @name OptionsHandler
+ * @function
+ * @param {object} payload
+ */

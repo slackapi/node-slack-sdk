@@ -311,15 +311,16 @@ describe('SlackMessageAdapter', function () {
 
     /**
      * Assert the result of a dispatch contains a certain message
-     * @param {Object} response actual return value of adapter.dispatch (synchronous reponse)
-     * @param {Object|string|undefined} message expected value of response body
+     * @param {Promise<object>} response actual return value of adapter.dispatch
+     * @param {number} status expected status
+     * @param {Object|string|undefined} content expected value of response body
      * @returns {Promise<void>}
      */
-    function assertResponseContainsMessage(response, message) {
-      return Promise.resolve(response.content)
-        .then(function (content) {
-          assert.deepEqual(content, message);
-        });
+    function assertResponseStatusAndMessage(response, status, content) {
+      return response.then(function (res) {
+        assert.equal(status, res.status);
+        assert.deepEqual(content, res.content);
+      });
     }
 
     /**
@@ -386,8 +387,7 @@ describe('SlackMessageAdapter', function () {
           return replacement;
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
-        assert.equal(dispatchResponse.status, 200);
-        return assertResponseContainsMessage(dispatchResponse, replacement);
+        return assertResponseStatusAndMessage(dispatchResponse, 200, replacement);
       });
       it('should handle the callback returning a promise of a message before the timeout with a ' +
          'synchronous response', function () {
@@ -402,8 +402,7 @@ describe('SlackMessageAdapter', function () {
           return delayed(timeout * 0.1, replacement);
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
-        assert.equal(dispatchResponse.status, 200);
-        return assertResponseContainsMessage(dispatchResponse, replacement);
+        return assertResponseStatusAndMessage(dispatchResponse, 200, replacement);
       });
       it('should handle the callback returning a promise of a message after the timeout with an ' +
          'asynchronous response', function () {
@@ -423,13 +422,13 @@ describe('SlackMessageAdapter', function () {
           return delayed(timeout * 1.1, replacement);
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
-        assert.equal(dispatchResponse.status, 200);
         return Promise.all([
-          assertResponseContainsMessage(dispatchResponse, ''),
+          assertResponseStatusAndMessage(dispatchResponse, 200),
           expectedAsyncRequest
         ]);
       });
-      it('should handle the callback returning a promise that fails after the timeout with a sychronous response', function () {
+      it('should handle the callback returning a promise that fails after the timeout with a ' +
+         'sychronous response', function () {
         var dispatchResponse;
         var requestPayload = this.requestPayload;
         var timeout = this.adapter.syncResponseTimeout;
@@ -438,10 +437,10 @@ describe('SlackMessageAdapter', function () {
           return delayed(timeout * 1.1, undefined, 'test error');
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
-        assert.equal(dispatchResponse.status, 200);
-        return assertResponseContainsMessage(dispatchResponse, '');
+        return assertResponseStatusAndMessage(dispatchResponse, 200);
       });
-      it('should handle the callback returning a promise that fails before the timeout with a sychronous response', function () {
+      it('should handle the callback returning a promise that fails before the timeout with a ' +
+         'sychronous response', function () {
         var dispatchResponse;
         var requestPayload = this.requestPayload;
         var timeout = this.adapter.syncResponseTimeout;
@@ -450,8 +449,7 @@ describe('SlackMessageAdapter', function () {
           return delayed(timeout * 0.1, undefined, 'test error');
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
-        assert.equal(dispatchResponse.status, 200);
-        return assertResponseContainsMessage(dispatchResponse, 'An error occurred. Please report this to the app developer.');
+        return assertResponseStatusAndMessage(dispatchResponse, 500);
       });
       it('should handle the callback returning nothing and using respond to send a message', function () {
         var dispatchResponse;
@@ -471,9 +469,8 @@ describe('SlackMessageAdapter', function () {
             });
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
-        assert.equal(dispatchResponse.status, 200);
         return Promise.all([
-          assertResponseContainsMessage(dispatchResponse, ''),
+          assertResponseStatusAndMessage(dispatchResponse, 200),
           expectedAsyncRequest
         ]);
       });
@@ -499,9 +496,8 @@ describe('SlackMessageAdapter', function () {
           return delayed(timeout * 1.1, firstReplacement);
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
-        assert.equal(dispatchResponse.status, 200);
         return Promise.all([
-          assertResponseContainsMessage(dispatchResponse, ''),
+          assertResponseStatusAndMessage(dispatchResponse, 200),
           expectedAsyncRequest
         ]);
       });
@@ -530,9 +526,8 @@ describe('SlackMessageAdapter', function () {
             });
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
-        assert.equal(dispatchResponse.status, 200);
         return Promise.all([
-          assertResponseContainsMessage(dispatchResponse, ''),
+          assertResponseStatusAndMessage(dispatchResponse, 200),
           expectedAsyncRequest
         ]);
       });
@@ -556,8 +551,7 @@ describe('SlackMessageAdapter', function () {
             return delayed(timeout * 1.1, replacement);
           });
           dispatchResponse = this.adapter.dispatch(requestPayload);
-          assert.equal(dispatchResponse.status, 200);
-          return assertResponseContainsMessage(dispatchResponse, replacement);
+          return assertResponseStatusAndMessage(dispatchResponse, 200, replacement);
         });
         it('should handle the callback returning a promise that fails after the timeout with a ' +
            'sychronous response', function () {
@@ -569,12 +563,7 @@ describe('SlackMessageAdapter', function () {
             return delayed(timeout * 1.1, undefined, 'test error');
           });
           dispatchResponse = this.adapter.dispatch(requestPayload);
-          assert.equal(dispatchResponse.status, 200);
-          return Promise.resolve(dispatchResponse.content).then(function () {
-            throw new Error('should not resolve');
-          }, function (error) {
-            assert.equal(error.message, 'test error');
-          });
+          return assertResponseStatusAndMessage(dispatchResponse, 500);
         });
       });
     });
@@ -609,8 +598,7 @@ describe('SlackMessageAdapter', function () {
           return submissionResponse;
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
-        assert.equal(dispatchResponse.status, 200);
-        return assertResponseContainsMessage(dispatchResponse, submissionResponse);
+        return assertResponseStatusAndMessage(dispatchResponse, 200, submissionResponse);
       });
 
       it('should handle the callback returning a promise of a message before the timeout with a ' +
@@ -626,8 +614,7 @@ describe('SlackMessageAdapter', function () {
           return delayed(timeout * 0.1, submissionResponse);
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
-        assert.equal(dispatchResponse.status, 200);
-        return assertResponseContainsMessage(dispatchResponse, submissionResponse);
+        return assertResponseStatusAndMessage(dispatchResponse, 200, submissionResponse);
       });
 
       it('should handle the callback returning a promise of a message after the timeout with a ' +
@@ -643,8 +630,7 @@ describe('SlackMessageAdapter', function () {
           return delayed(timeout * 1.1, submissionResponse);
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
-        assert.equal(dispatchResponse.status, 200);
-        return assertResponseContainsMessage(dispatchResponse, submissionResponse);
+        return assertResponseStatusAndMessage(dispatchResponse, 200, submissionResponse);
       });
 
       it('should handle the callback returning nothing with a synchronous response', function () {
@@ -655,8 +641,7 @@ describe('SlackMessageAdapter', function () {
           assert.isFunction(respond);
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
-        assert.equal(dispatchResponse.status, 200);
-        return assertResponseContainsMessage(dispatchResponse, '');
+        return assertResponseStatusAndMessage(dispatchResponse, 200);
       });
 
       it('should handle the callback using respond to send a follow up message', function () {
@@ -677,9 +662,8 @@ describe('SlackMessageAdapter', function () {
             });
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
-        assert.equal(dispatchResponse.status, 200);
         return Promise.all([
-          assertResponseContainsMessage(dispatchResponse, ''),
+          assertResponseStatusAndMessage(dispatchResponse, 200),
           expectedAsyncRequest
         ]);
       });
@@ -712,8 +696,7 @@ describe('SlackMessageAdapter', function () {
           return optionsResponse;
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
-        assert.equal(dispatchResponse.status, 200);
-        return assertResponseContainsMessage(dispatchResponse, optionsResponse);
+        return assertResponseStatusAndMessage(dispatchResponse, 200, optionsResponse);
       });
 
       it('should handle the callback returning a promise of options before the timeout with a ' +
@@ -729,8 +712,7 @@ describe('SlackMessageAdapter', function () {
           return delayed(timeout * 0.1, optionsResponse);
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
-        assert.equal(dispatchResponse.status, 200);
-        return assertResponseContainsMessage(dispatchResponse, optionsResponse);
+        return assertResponseStatusAndMessage(dispatchResponse, 200, optionsResponse);
       });
 
       it('should handle the callback returning a promise of options after the timeout with a ' +
@@ -746,8 +728,7 @@ describe('SlackMessageAdapter', function () {
           return delayed(timeout * 1.1, optionsResponse);
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
-        assert.equal(dispatchResponse.status, 200);
-        return assertResponseContainsMessage(dispatchResponse, optionsResponse);
+        return assertResponseStatusAndMessage(dispatchResponse, 200, optionsResponse);
       });
 
       it('should handle the callback returning nothing with a synchronous response', function () {
@@ -758,17 +739,14 @@ describe('SlackMessageAdapter', function () {
           assert.isUndefined(secondArg);
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
-        assert.equal(dispatchResponse.status, 200);
-        return assertResponseContainsMessage(dispatchResponse, '');
+        return assertResponseStatusAndMessage(dispatchResponse, 200);
       });
     });
 
     describe('callback matching', function () {
-      // TODO: is this really the behavior we want?
-      it('should return a blank success when there are no callbacks registered', function () {
+      it('should return undefined when there are no callbacks registered', function () {
         var response = this.adapter.dispatch({});
-        assert.equal(response.status, 200);
-        return assertResponseContainsMessage(response, '');
+        assert.isUndefined(response);
       });
 
       describe('callback ID based matching', function () {
@@ -777,22 +755,20 @@ describe('SlackMessageAdapter', function () {
           this.callback = sinon.spy();
         });
 
-        it('should return a blank success with a string mismatch', function () {
+        it('should return undefined with a string mismatch', function () {
           var response;
           this.adapter.action('b', this.callback);
           response = this.adapter.dispatch(this.payload);
           assert(this.callback.notCalled);
-          assert.equal(response.status, 200);
-          return assertResponseContainsMessage(response, '');
+          assert.isUndefined(response);
         });
 
-        it('should return a blank success with a regexp mismatch', function () {
+        it('should return undefined with a RegExp mismatch', function () {
           var response;
           this.adapter.action(/b/, this.callback);
           response = this.adapter.dispatch(this.payload);
           assert(this.callback.notCalled);
-          assert.equal(response.status, 200);
-          return assertResponseContainsMessage(response, '');
+          assert.isUndefined(response);
         });
       });
 
@@ -802,13 +778,12 @@ describe('SlackMessageAdapter', function () {
           this.callback = sinon.spy();
         });
 
-        it('should return a blank success with type is present in constraints and it mismatches', function () {
+        it('should return undefined when type is present in constraints and it mismatches', function () {
           var response;
           this.adapter.action({ type: 'button' }, this.callback);
           response = this.adapter.dispatch(this.payload);
           assert(this.callback.notCalled);
-          assert.equal(response.status, 200);
-          return assertResponseContainsMessage(response, '');
+          assert.isUndefined(response);
         });
 
         it('should match when type not present in constraints', function () {
@@ -824,13 +799,12 @@ describe('SlackMessageAdapter', function () {
           this.callback = sinon.spy();
         });
 
-        it('should return a blank success with unfurl is present in constraints and it mismatches', function () {
+        it('should return undefined with unfurl is present in constraints and it mismatches', function () {
           var response;
           this.adapter.action({ unfurl: false }, this.callback);
           response = this.adapter.dispatch(this.payload);
           assert(this.callback.notCalled);
-          assert.equal(response.status, 200);
-          return assertResponseContainsMessage(response, '');
+          assert.isUndefined(response);
         });
 
         it('should match when unfurl not present in constraints', function () {
@@ -847,8 +821,7 @@ describe('SlackMessageAdapter', function () {
         throw new Error('test error');
       });
       response = this.adapter.dispatch({ callback_id: 'a' });
-      assert.equal(response.status, 500);
-      return assertResponseContainsMessage(response, undefined);
+      return assertResponseStatusAndMessage(response, 500);
     });
 
     it('should fail with an error when calling respond inside a callback with a promise', function (done) {
