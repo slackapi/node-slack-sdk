@@ -91,6 +91,7 @@ export interface MessageAttachment {
     type: string;
     text?: string;
   }[];
+  mrkdwn_in?: ('pretext' | 'text' | 'fields')[];
 }
 
 export interface LinkUnfurls {
