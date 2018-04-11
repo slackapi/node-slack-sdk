@@ -1,0 +1,8 @@
+{
+  "name": "@slack/client-examples",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@slack/client": "^4.0.1"
+  }
+}

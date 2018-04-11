@@ -3,35 +3,43 @@ layout: page
 title: IncomingWebhook
 permalink: /reference/IncomingWebhook
 ---
-**Kind**: global class  
+A client for Slack's Incoming Webhooks
 
-* [IncomingWebhook](#IncomingWebhook)
-    * [new IncomingWebhook(slackUrl, defaults)](#new_IncomingWebhook_new)
-    * [.send(message, [optCb])](#IncomingWebhook+send)
+**Kind**: static class of [<code>@slack/client</code>](#module_@slack/client)  
 
-<a name="new_IncomingWebhook_new"></a>
+* [.IncomingWebhook](#module_@slack/client.IncomingWebhook)
+    * [.send(message)](#module_@slack/client.IncomingWebhook+send) ⇒ <code>Promise.&lt;module:@slack/client/dist/IncomingWebhook.IncomingWebhookResult&gt;</code>
+    * [.send(message, callback)](#module_@slack/client.IncomingWebhook+send)
+    * [.send(message, callback)](#module_@slack/client.IncomingWebhook+send)
 
-### new IncomingWebhook(slackUrl, defaults)
+<a name="module_@slack/client.IncomingWebhook+send"></a>
 
-| Param | Type | Description |
-| --- | --- | --- |
-| slackUrl | <code>String</code> |  |
-| defaults | <code>object</code> |  |
-| defaults.username | <code>string</code> | The default username to use when sending a webhook.      If no username is specified, the one chosen when creating the webhook will be used. |
-| defaults.iconEmoji | <code>string</code> | The default emoji to use when sending a webhook.      If no iconEmoji is specified, the one chosen when creating the webhook will be used. |
-| defaults.channel | <code>string</code> | The default channel to use when sending a webhook.      If no channel is specified, the one chosen when creating the webhook will be used. |
-| defaults.text | <code>string</code> | The default text to use when sending a webhook. |
-| defaults.linkNames | <code>string</code> | The default setting for the link_names format option to use when sending a webhook.      If no value is specified, the one chosen when creating the webhook will be used. |
+### incomingWebhook.send(message) ⇒ <code>Promise.&lt;module:@slack/client/dist/IncomingWebhook.IncomingWebhookResult&gt;</code>
+Send a notification to a conversation
 
-<a name="IncomingWebhook+send"></a>
-
-### incomingWebhook.send(message, [optCb])
-Sends a message via an incoming webhook
-
-**Kind**: instance method of <code>[IncomingWebhook](#IncomingWebhook)</code>  
+**Kind**: instance method of [<code>IncomingWebhook</code>](#module_@slack/client.IncomingWebhook)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| message | <code>String</code> &#124; <code>Object</code> | The message to send. Can be text or an object that     overrides the defaults in initialization. |
-| [optCb] | <code>function</code> |  |
+| message | <code>string</code> \| [<code>IncomingWebhookSendArguments</code>](#module_@slack/client.IncomingWebhookSendArguments) | the message (a simple string, or an object describing the message) |
+
+<a name="module_@slack/client.IncomingWebhook+send"></a>
+
+### incomingWebhook.send(message, callback)
+**Kind**: instance method of [<code>IncomingWebhook</code>](#module_@slack/client.IncomingWebhook)  
+
+| Param | Type |
+| --- | --- |
+| message | <code>string</code> \| [<code>IncomingWebhookSendArguments</code>](#module_@slack/client.IncomingWebhookSendArguments) | 
+| callback | [<code>IncomingWebhookResultCallback</code>](#module_@slack/client.IncomingWebhookResultCallback) | 
+
+<a name="module_@slack/client.IncomingWebhook+send"></a>
+
+### incomingWebhook.send(message, callback)
+**Kind**: instance method of [<code>IncomingWebhook</code>](#module_@slack/client.IncomingWebhook)  
+
+| Param | Type |
+| --- | --- |
+| message | <code>string</code> \| [<code>IncomingWebhookSendArguments</code>](#module_@slack/client.IncomingWebhookSendArguments) | 
+| callback | [<code>IncomingWebhookResultCallback</code>](#module_@slack/client.IncomingWebhookResultCallback) | 
 
