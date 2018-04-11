@@ -91,6 +91,8 @@ export interface MessageAttachment {
     type: string;
     text?: string;
   }[];
+  attachment_type?: 'default',
+  callback_id?: string;
   mrkdwn_in?: ('pretext' | 'text' | 'fields')[];
 }
 
