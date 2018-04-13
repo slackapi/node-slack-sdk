@@ -726,6 +726,11 @@ export type UsergroupsUsersUpdateArguments = TokenOverridable & {
   /*
    * `users.*`
    */
+export type UsersConversationsArguments = TokenOverridable & CursorPaginationEnabled & {
+  exclude_archived?: boolean;
+  types?: string; // comma-separated list of conversation types
+  user?: string;
+};
 export type UsersDeletePhotoArguments = TokenOverridable;
 export type UsersGetPresenceArguments = TokenOverridable & {
   user: string;

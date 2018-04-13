@@ -485,6 +485,7 @@ export class WebClient extends EventEmitter {
    * users method family
    */
   public readonly users = {
+    conversations: (this.apiCall.bind(this, 'users.conversations')) as Method<methods.UsersConversationsArguments>,
     deletePhoto: (this.apiCall.bind(this, 'users.deletePhoto')) as Method<methods.UsersDeletePhotoArguments>,
     getPresence: (this.apiCall.bind(this, 'users.getPresence')) as Method<methods.UsersGetPresenceArguments>,
     identity: (this.apiCall.bind(this, 'users.identity')) as Method<methods.UsersIdentityArguments>,
