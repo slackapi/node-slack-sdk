@@ -726,7 +726,7 @@ export type UsergroupsUsersUpdateArguments = TokenOverridable & {
    */
 export type UsersConversationsArguments = TokenOverridable & CursorPaginationEnabled & {
   exclude_archived?: boolean;
-  types?: ('public_channel' | 'private_channel' | 'mpim' | 'im')[];
+  types?: string; // comma-separated list of conversation types
   user?: string;
 };
 export type UsersDeletePhotoArguments = TokenOverridable;
