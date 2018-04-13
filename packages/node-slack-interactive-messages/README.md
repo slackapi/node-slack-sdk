@@ -221,6 +221,16 @@ slackMessages.options('my_dynamic_menu_callback', (selection, respond) => {
     .then(respond)
     .catch((error) => ({ options: [ { text: `Error: ${error.message}`, value: 'error' } ] }));
 });
+
+// You can also narrow down the handler for selections coming from interactive messages versus
+// dialog suggestions
+slackMessages.options({ within: 'interactive_message' }, (selection, respond) => {
+
+});
+
+slackMessages.options({ within: 'dialog' }, (selection, respond) => {
+
+});
 ```
 
 ### Chaining

@@ -62,6 +62,24 @@ function validateActionConstraints(actionConstraints) {
   return false;
 }
 
+/**
+ * Validates properties of a matching constraints object specific to registering an options request
+ * @param {Object} matchingConstraints - object describing the constraints on a callback
+ * @return {Error|false} - a false value represents successful validation, otherwise an error to
+ * describe why validation failed.
+ */
+function validateOptionsConstraints(optionsConstraints) {
+  if (optionsConstraints.within &&
+    !(optionsConstraints.within === 'interactive_message' ||
+      optionsConstraints.within === 'dialog')
+  ) {
+    return new TypeError('Within must be \'interactive_message\' or \'dialog\'');
+  }
+
+  // We don't need to validate unfurl, we'll just cooerce it to a boolean
+  return false;
+}
+
 export default class SlackMessageAdapter {
   /**
    * Create a message adapter.
@@ -217,7 +235,8 @@ export default class SlackMessageAdapter {
   options(matchingConstraints, callback) {
     const optionsConstraints = formatMatchingConstraints(matchingConstraints);
 
-    const error = validateConstraints(optionsConstraints);
+    const error = validateConstraints(optionsConstraints) ||
+      validateOptionsConstraints(optionsConstraints);
     if (error) {
       debug('options could not be registered: %s', error.message);
       throw error;
@@ -315,9 +334,10 @@ export default class SlackMessageAdapter {
     return this;
   }
 
-
   matchCallback(payload) {
-    const action = payload.actions && payload.actions[0];
+    const isAction = !!payload.actions;
+    const isOptions = !isAction;
+
     return this.callbacks.find(([constraints]) => {
       // if the callback ID constraint is specified, only continue if it matches
       if (constraints.callbackId) {
@@ -330,18 +350,45 @@ export default class SlackMessageAdapter {
       }
 
       // if the action constraint is specified, only continue if it matches
-      if (action && constraints.type && constraints.type !== action.type) {
-        return false;
+      if (isAction) {
+        const action = payload.actions[0];
+
+        // button actions have a type defined inside the action, dialog submission actions have a
+        // type defined at the top level, and select actions don't have a type defined, but type
+        // can be inferred by checking if a `selected_options` property exists in the action.
+        const type = action.type || payload.type || (action.selected_options && 'select');
+        if (!type) {
+          debug('no type found in dispatched action');
+        }
+        // if the type constraint is specified, only continue if it matches
+        if (constraints.type && constraints.type !== type) {
+          return false;
+        }
+
+        // if the unfurl constraint is specified, only continue if it matches
+        if ('unfurl' in constraints &&
+          (
+            (constraints.unfurl && !payload.is_app_unfurl) ||
+            (!constraints.unfurl && payload.is_app_unfurl)
+          )
+        ) {
+          return false;
+        }
       }
 
-      // if the unfurl constraint is specified, only continue if it matches
-      if ('unfurl' in constraints &&
-        (
-          (constraints.unfurl && !payload.is_app_unfurl) ||
-          (!constraints.unfurl && payload.is_app_unfurl)
-        )
-      ) {
-        return false;
+      if (isOptions) {
+        // an options request always has a type at the top level which can be one of two values
+        // that need to be mapped into the values for the `within` constraint:
+        // * type:interactive_message => within:interactive_message
+        // * type:dialog_suggestion => within:dialog
+        if (constraints.within) {
+          if (constraints.within === 'interactive_message' && payload.type !== 'interactive_message') {
+            return false;
+          }
+          if (constraints.within === 'dialog' && payload.type !== 'dialog_suggestion') {
+            return false;
+          }
+        }
       }
 
       // if there's no reason to eliminate this callback, then its a match!

@@ -26,7 +26,7 @@ describe('SlackMessageAdapter', function () {
         var adapter = new SlackMessageAdapter(); // eslint-disable-line no-unused-vars
       }, TypeError);
     });
-    it('should allow configuring of synchronous response timeout', function () {
+    it('should allow configuring of the synchronous response timeout', function () {
       var newValue = 20;
       var adapter = new SlackMessageAdapter(workingVerificationToken, {
         syncResponseTimeout: newValue
@@ -44,8 +44,6 @@ describe('SlackMessageAdapter', function () {
       }, TypeError);
     });
   });
-
-  // TODO: use syncResponseTimeout config to make running all the timeout dependent tests faster
 
   describe('#createServer()', function () {
     beforeEach(function () {
@@ -179,7 +177,7 @@ describe('SlackMessageAdapter', function () {
   }
 
   /**
-   * Encapsulates knowledge of adapter handler registration internals and unregistered all handlers.
+   * Encapsulates knowledge of adapter handler registration internals and unregisters all handlers.
    * @param {SlackMessageAdapter} adapter
    */
   function unregisterAllHandlers(adapter) {
@@ -267,22 +265,23 @@ describe('SlackMessageAdapter', function () {
           adapter.action(constraints, actionHandler);
         }, TypeError);
       });
+      it('should register with unfurl constraint successfully', function () {
+        var constraints = { unfurl: true };
+        this.adapter.action(constraints, this.actionHandler);
+        assertHandlerRegistered(this.adapter, this.actionHandler, constraints);
+      });
       it('should register with valid compound constraints successfully', function () {
         var constraints = { callbackId: 'my_callback', type: 'button' };
         this.adapter.action(constraints, this.actionHandler);
         assertHandlerRegistered(this.adapter, this.actionHandler, constraints);
       });
       it('should throw when registering with invalid compound constraints', function () {
+        var adapter = this.adapter;
         var actionHandler = this.actionHandler;
         var constraints = { callbackId: /\w+_callback/, type: 'not_a_real_action_type' };
         assert.throws(function () {
-          this.adapter.action(constraints, actionHandler);
+          adapter.action(constraints, actionHandler);
         }, TypeError);
-      });
-      it('should register with unfurl constraint successfully', function () {
-        var constraints = { unfurl: true };
-        this.adapter.action(constraints, this.actionHandler);
-        assertHandlerRegistered(this.adapter, this.actionHandler, constraints);
       });
     });
   });
@@ -299,6 +298,46 @@ describe('SlackMessageAdapter', function () {
 
     // execute shared tests
     shouldRegisterWithCallbackId('options');
+
+    describe('when registering with a complex set of constraints', function () {
+      beforeEach(function () {
+        this.optionsHandler = function () { };
+      });
+      it('should register with valid from constraints successfully', function () {
+        var adapter = this.adapter;
+        var optionsHandler = this.optionsHandler;
+        var constraintsSet = [
+          { within: 'interactive_message' },
+          { within: 'dialog' }
+        ];
+        constraintsSet.forEach(function (constraints) {
+          adapter.options(constraints, optionsHandler);
+          assertHandlerRegistered(adapter, optionsHandler, constraints);
+          unregisterAllHandlers(adapter);
+        });
+      });
+      it('should throw when registering with invalid within constraints', function () {
+        var adapter = this.adapter;
+        var optionsHandler = this.optionsHandler;
+        var constraints = { within: 'not_a_real_options_source' };
+        assert.throws(function () {
+          adapter.options(constraints, optionsHandler);
+        }, TypeError);
+      });
+      it('should register with valid compound constraints successfully', function () {
+        var constraints = { callbackId: 'my_callback', within: 'dialog' };
+        this.adapter.options(constraints, this.optionsHandler);
+        assertHandlerRegistered(this.adapter, this.optionsHandler, constraints);
+      });
+      it('should throw when registering with invalid compound constraints', function () {
+        var adapter = this.adapter;
+        var optionsHandler = this.optionsHandler;
+        var constraints = { callbackId: /\w+_callback/, within: 'not_a_real_options_source' };
+        assert.throws(function () {
+          adapter.options(constraints, optionsHandler);
+        }, TypeError);
+      });
+    });
   });
 
   describe('#dispatch()', function () {
@@ -366,13 +405,14 @@ describe('SlackMessageAdapter', function () {
       }));
     }
 
-    // NOTE: the middleware has to check the verification token, poweredBy headers
     describe('when dispatching a message action request', function () {
       beforeEach(function () {
+        // this represents a minimum action from a button
         this.requestPayload = {
-          type: 'interactive_message',
           callback_id: 'id',
-          actions: [{}],
+          actions: [{
+            type: 'button'
+          }],
           response_url: 'https://example.com'
         };
         this.replacement = { text: 'example replacement message' };
@@ -671,6 +711,7 @@ describe('SlackMessageAdapter', function () {
 
     describe('when dispatching a menu options request', function () {
       beforeEach(function () {
+        // this represents a minimum menu options request from an interactive message
         this.requestPayload = {
           name: 'bug_name',
           value: 'TRAC-12',
@@ -686,6 +727,8 @@ describe('SlackMessageAdapter', function () {
           ]
         };
       });
+      // NOTE: if the response options or options_groups contain the property "label", we can
+      // change them to "text"
       it('should handle the callback returning options with a synchronous response', function () {
         var dispatchResponse;
         var requestPayload = this.requestPayload;
@@ -741,9 +784,63 @@ describe('SlackMessageAdapter', function () {
         dispatchResponse = this.adapter.dispatch(requestPayload);
         return assertResponseStatusAndMessage(dispatchResponse, 200);
       });
+      // describe('when the menu options request is coming from a dialog', function () {
+      //   beforeEach(function () {
+      //     this.requestPayload.type = 'dialog';
+      //   });
+      //   // NOTE: if the response options or options_groups contain the property "text", we can
+      //   // change them to "label"
+      // });
     });
 
+    // the following tests pertain to the behavior of #matchCallback(), but since that is an
+    // implementation detail, its tested as part of the behavior of #dispatch()
     describe('callback matching', function () {
+      beforeEach(function () {
+        this.buttonPayload = {
+          callback_id: 'id',
+          actions: [{
+            type: 'button'
+          }],
+          response_url: 'https://example.com'
+        };
+        this.buttonAppUnfurlPayload = Object.assign({}, this.buttonPayload, {
+          is_app_unfurl: true
+        });
+        // NOTE: this payload isn't used in a test but it remains a good reference
+        this.dialogSubmissionPayload = {
+          type: 'dialog_submission',
+          callback_id: 'id',
+          submission: {
+            name: 'Value'
+          },
+          response_url: 'https://example.com'
+        };
+        // NOTE: this payload isn't used in a test but it remains a good reference
+        this.menuSelectionPayload = {
+          callback_id: 'id',
+          actions: [{
+            name: 'pick_a_thing',
+            selected_options: [{
+              value: 'Option A'
+            }]
+          }],
+          response_url: 'https://example.com'
+        };
+        this.optionsFromInteractiveMessagePayload = {
+          name: 'pick_a_thing',
+          value: 'opti',
+          callback_id: 'id',
+          type: 'interactive_message'
+        };
+        this.optionsFromDialogPayload = {
+          name: 'pick_a_thing',
+          value: 'opti',
+          callback_id: 'id',
+          type: 'dialog_suggestion'
+        };
+        this.callback = sinon.spy();
+      });
       it('should return undefined when there are no callbacks registered', function () {
         var response = this.adapter.dispatch({});
         assert.isUndefined(response);
@@ -751,8 +848,7 @@ describe('SlackMessageAdapter', function () {
 
       describe('callback ID based matching', function () {
         beforeEach(function () {
-          this.payload = { callback_id: 'a' };
-          this.callback = sinon.spy();
+          this.payload = this.buttonPayload;
         });
 
         it('should return undefined with a string mismatch', function () {
@@ -770,17 +866,19 @@ describe('SlackMessageAdapter', function () {
           assert(this.callback.notCalled);
           assert.isUndefined(response);
         });
+
+        // TODO: successful match on string, successful match on regexp, matches when registered
+        // as an options handler instead
       });
 
       describe('type based matching', function () {
         beforeEach(function () {
-          this.payload = { callback_id: 'a', actions: [{ type: 'select' }] };
-          this.callback = sinon.spy();
+          this.payload = this.buttonPayload;
         });
 
         it('should return undefined when type is present in constraints and it mismatches', function () {
           var response;
-          this.adapter.action({ type: 'button' }, this.callback);
+          this.adapter.action({ type: 'select' }, this.callback);
           response = this.adapter.dispatch(this.payload);
           assert(this.callback.notCalled);
           assert.isUndefined(response);
@@ -791,15 +889,21 @@ describe('SlackMessageAdapter', function () {
           this.adapter.dispatch(this.payload);
           assert(this.callback.called);
         });
+
+        it('should not throw when type is not found in payload', function () {
+          this.adapter.action({}, this.callback);
+          this.adapter.dispatch({ actions: [{}] });
+        });
+
+        // TODO: successful match on type (utilize the unused payloads above)
       });
 
       describe('unfurl based matching', function () {
         beforeEach(function () {
-          this.payload = { callback_id: 'a', is_app_unfurl: true };
-          this.callback = sinon.spy();
+          this.payload = this.buttonAppUnfurlPayload;
         });
 
-        it('should return undefined with unfurl is present in constraints and it mismatches', function () {
+        it('should return undefined when unfurl is present in constraints and it mismatches', function () {
           var response;
           this.adapter.action({ unfurl: false }, this.callback);
           response = this.adapter.dispatch(this.payload);
@@ -812,27 +916,63 @@ describe('SlackMessageAdapter', function () {
           this.adapter.dispatch(this.payload);
           assert(this.callback.called);
         });
+
+        // TODO: successful match on unfurl
+      });
+
+      describe('within based matching (options request only)', function () {
+        it('should return undefined when within is present in constraints and it mismatches', function () {
+          var response;
+          this.adapter.options({ within: 'dialog' }, this.callback);
+          response = this.adapter.dispatch(this.optionsFromInteractiveMessagePayload);
+          assert(this.callback.notCalled);
+          assert.isUndefined(response);
+
+          unregisterAllHandlers(this.adapter);
+
+          this.adapter.options({ within: 'interactive_message' }, this.callback);
+          response = this.adapter.dispatch(this.optionsFromDialogPayload);
+          assert(this.callback.notCalled);
+          assert.isUndefined(response);
+        });
+        it('should match when within is not present in constraints', function () {
+          this.adapter.options({}, this.callback);
+          this.adapter.dispatch(this.optionsFromInteractiveMessagePayload);
+          assert(this.callback.called);
+        });
+        it('should match using within constraint on options requests from interactive messages', function () {
+          this.adapter.options({ within: 'interactive_message' }, this.callback);
+          this.adapter.dispatch(this.optionsFromInteractiveMessagePayload);
+          assert(this.callback.called);
+        });
+        it('should match using within constraint on options requests from dialog', function () {
+          this.adapter.options({ within: 'dialog' }, this.callback);
+          this.adapter.dispatch(this.optionsFromDialogPayload);
+          assert(this.callback.called);
+        });
       });
     });
 
-    it('should respond with an error when the registered callback throws', function () {
-      var response;
-      this.adapter.action('a', function () {
-        throw new Error('test error');
+    describe('callback error handling', function () {
+      it('should respond with an error when the registered callback throws', function () {
+        var response;
+        this.adapter.action('a', function () {
+          throw new Error('test error');
+        });
+        response = this.adapter.dispatch({ callback_id: 'a' });
+        return assertResponseStatusAndMessage(response, 500);
       });
-      response = this.adapter.dispatch({ callback_id: 'a' });
-      return assertResponseStatusAndMessage(response, 500);
-    });
 
-    it('should fail with an error when calling respond inside a callback with a promise', function (done) {
-      this.adapter.action('a', function (payload, respond) {
-        assert.isFunction(respond);
-        assert.throws(function () {
-          respond(Promise.resolve('b'));
-        }, TypeError);
-        done();
+      it('should fail with an error when calling respond inside a callback with a promise', function (done) {
+        this.adapter.action('a', function (payload, respond) {
+          assert.isFunction(respond);
+          assert.throws(function () {
+            respond(Promise.resolve('b'));
+          }, TypeError);
+          done();
+        });
+        this.adapter.dispatch({ callback_id: 'a', response_url: 'http://example.com' });
       });
-      this.adapter.dispatch({ callback_id: 'a', response_url: 'http://example.com' });
     });
   });
 });
