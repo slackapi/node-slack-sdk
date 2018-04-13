@@ -724,6 +724,11 @@ export type UsergroupsUsersUpdateArguments = TokenOverridable & {
   /*
    * `users.*`
    */
+export type UsersConversationsArguments = TokenOverridable & CursorPaginationEnabled & {
+  exclude_archived?: boolean;
+  types?: ('public_channel' | 'private_channel' | 'mpim' | 'im')[];
+  user?: string;
+};
 export type UsersDeletePhotoArguments = TokenOverridable;
 export type UsersGetPresenceArguments = TokenOverridable & {
   user: string;
