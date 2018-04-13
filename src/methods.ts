@@ -154,7 +154,7 @@ export type ChannelsInviteArguments = TokenOverridable & {
 };
 export type ChannelsJoinArguments = TokenOverridable & {
   name: string;
-  validate: boolean;
+  validate?: boolean;
 };
 export type ChannelsKickArguments = TokenOverridable & {
   channel: string;
