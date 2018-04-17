@@ -71,5 +71,25 @@ describe('IncomingWebhook', function () {
         });
       });
     });
+
+    describe('lifecycle', function () {
+      beforeEach(function () {
+        this.scope = nock('https://hooks.slack.com')
+          .post(/services/)
+          .reply(500);
+      });
+
+      it('should not overwrite the default parameters after a call', function (done) {
+        const defaultParams  = { channel: 'default' };
+        const expectedParams = Object.assign({}, defaultParams);
+        const webhook        = new IncomingWebhook(url, defaultParams);
+
+        webhook.send({ channel: 'different' }, () => {
+          assert.deepEqual(webhook.defaults, expectedParams);
+          done();
+        });
+      });
+    });
+
   });
 });
