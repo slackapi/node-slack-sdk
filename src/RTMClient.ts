@@ -145,6 +145,14 @@ export class RTMClient extends EventEmitter {
             })
             .on('websocket open').transitionTo('handshaking')
           .state('handshaking') // a state in which to wait until the 'server hello' event
+            .on('websocket close')
+              .transitionTo('reconnecting').withCondition(() => this.autoReconnect)
+              .transitionTo('disconnected').withAction((_from, _to, context) => {
+                this.logger.debug(`unexpected close ${context.eventPayload.reason} ${context.eventPayload.code}`);
+                // this transition circumvents the 'disconnecting' state (since the websocket is already closed),
+                // so we need to execute its onExit behavior here.
+                this.teardownWebsocket();
+              })
           .global()
             .onStateEnter((state) => {
               this.logger.debug(`transitioning to state: connecting:${state}`);
