@@ -211,6 +211,7 @@ export default class SlackMessageAdapter {
    */
   action(matchingConstraints, callback) {
     const actionConstraints = formatMatchingConstraints(matchingConstraints);
+    actionConstraints.handlerType = 'action';
 
     const error = validateConstraints(actionConstraints) ||
       validateActionConstraints(actionConstraints);
@@ -234,6 +235,7 @@ export default class SlackMessageAdapter {
    */
   options(matchingConstraints, callback) {
     const optionsConstraints = formatMatchingConstraints(matchingConstraints);
+    optionsConstraints.handlerType = 'options';
 
     const error = validateConstraints(optionsConstraints) ||
       validateOptionsConstraints(optionsConstraints);
@@ -259,8 +261,10 @@ export default class SlackMessageAdapter {
   dispatch(payload) {
     const callback = this.matchCallback(payload);
     if (!callback) {
+      debug('dispatch could not find a handler');
       return undefined;
     }
+    debug('dispatching to handler');
     const [, callbackFn] = callback;
 
     // when a response_url is present,`respond()` function created to to send a message using it
@@ -335,9 +339,6 @@ export default class SlackMessageAdapter {
   }
 
   matchCallback(payload) {
-    const isAction = !!payload.actions;
-    const isOptions = !isAction;
-
     return this.callbacks.find(([constraints]) => {
       // if the callback ID constraint is specified, only continue if it matches
       if (constraints.callbackId) {
@@ -350,8 +351,15 @@ export default class SlackMessageAdapter {
       }
 
       // if the action constraint is specified, only continue if it matches
-      if (isAction) {
-        const action = payload.actions[0];
+      if (constraints.handlerType === 'action') {
+        // a payload that represents an action either has actions or submission defined
+        if (!(payload.actions || payload.submission)) {
+          return false;
+        }
+
+        // dialog submissions don't have an action defined, so an empty action is substituted for
+        // the purpose of callback matching
+        const action = payload.actions ? payload.actions[0] : {};
 
         // button actions have a type defined inside the action, dialog submission actions have a
         // type defined at the top level, and select actions don't have a type defined, but type
@@ -376,7 +384,12 @@ export default class SlackMessageAdapter {
         }
       }
 
-      if (isOptions) {
+      if (constraints.handlerType === 'options') {
+        // a payload that represents an options request always has a name defined at the top level
+        if (!('name' in payload)) {
+          return false;
+        }
+
         // an options request always has a type at the top level which can be one of two values
         // that need to be mapped into the values for the `within` constraint:
         // * type:interactive_message => within:interactive_message
