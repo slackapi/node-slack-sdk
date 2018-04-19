@@ -11,6 +11,12 @@ All you need to work with this project is a recent version of Node.js (current L
 
 ## Tasks
 
+### Debugging
+
+This package uses [`debug`](https://github.com/visionmedia/debug) to log interesting data while
+running. This is a good first step in trying to diagnose an issue. To enable the output, set the
+following environment variable: `DEBUG=@slack/interactive-messages:*`.
+
 ### Building
 
 The source of this project is written in ES2016, a modern JavaScript syntax. In order to allow the
@@ -40,8 +46,12 @@ using the following command: `./node_modules/.bin/mocha test/unit/{test-name}.js
 
 ### Generating Documentation
 
-There is no generated documentation for this project. The README serves as a guide and the reference
-documentation is written manually in markdown in `docs/reference.md`.
+The documentation is generated using the `npm run build:docs` task and output as a single file in
+`docs/reference.md`. The documentation is generated from [JSDoc](http://usejsdoc.org) markup syntax
+(with slight variation for support of the underlying
+[`jsdoc2md`](https://github.com/jsdoc2md/jsdoc-to-markdown) tool). This means that anytime an API
+changes (new methods or changes to existing methods) you must run the above command to output
+changes and commit those changes in git.
 
 ### Releasing
 

@@ -1,3 +1,7 @@
+/**
+ * @module adapter
+ */
+
 import http from 'http';
 import axios from 'axios';
 import isString from 'lodash.isstring';
@@ -15,6 +19,7 @@ const debug = debugFactory('@slack/interactive-messages:adapter');
  * @param {string|RegExp|Object} matchingConstraints - the various forms of matching constraints
  * accepted
  * @returns {Object} - an object where each matching constraint is a property
+ * @private
  */
 function formatMatchingConstraints(matchingConstraints) {
   let ret = {};
@@ -32,8 +37,9 @@ function formatMatchingConstraints(matchingConstraints) {
 /**
  * Validates general properties of a matching constraints object
  * @param {Object} matchingConstraints - object describing the constraints on a callback
- * @return {Error|false} - a false value represents successful validation, otherwise an error to
+ * @returns {Error|false} - a false value represents successful validation, otherwise an error to
  * describe why validation failed.
+ * @private
  */
 function validateConstraints(matchingConstraints) {
   if (matchingConstraints.callbackId &&
@@ -47,8 +53,9 @@ function validateConstraints(matchingConstraints) {
 /**
  * Validates properties of a matching constraints object specific to registering an action
  * @param {Object} matchingConstraints - object describing the constraints on a callback
- * @return {Error|false} - a false value represents successful validation, otherwise an error to
+ * @returns {Error|false} - a false value represents successful validation, otherwise an error to
  * describe why validation failed.
+ * @private
  */
 function validateActionConstraints(actionConstraints) {
   if (actionConstraints.type &&
@@ -65,8 +72,9 @@ function validateActionConstraints(actionConstraints) {
 /**
  * Validates properties of a matching constraints object specific to registering an options request
  * @param {Object} matchingConstraints - object describing the constraints on a callback
- * @return {Error|false} - a false value represents successful validation, otherwise an error to
+ * @returns {Error|false} - a false value represents successful validation, otherwise an error to
  * describe why validation failed.
+ * @private
  */
 function validateOptionsConstraints(optionsConstraints) {
   if (optionsConstraints.within &&
@@ -80,7 +88,11 @@ function validateOptionsConstraints(optionsConstraints) {
   return false;
 }
 
-export default class SlackMessageAdapter {
+/**
+ * An adapter for Slack's interactive message components such as buttons, menus, and dialogs.
+ * @typicalname slackInteractions
+ */
+class SlackMessageAdapter {
   /**
    * Create a message adapter.
    *
@@ -126,8 +138,9 @@ export default class SlackMessageAdapter {
    *
    * @param {string} [path=/slack/actions] - The path portion of the URL where the server will
    * listen for requests from Slack's interactive messages.
-   * @returns - A promise that resolves to an instance of http.Server and will dispatch interactive
-   * message actions and options requests to this message adapter instance
+   * @returns {Promise<NodeHttpServer>} - A promise that resolves to an instance of http.Server and
+   * will dispatch interactive message actions and options requests to this message adapter
+   * instance. https://nodejs.org/dist/latest/docs/api/http.html#http_class_http_server
    */
   createServer(path = '/slack/actions') {
     // TODO: more options (like https)
@@ -151,7 +164,7 @@ export default class SlackMessageAdapter {
    * to this message adapter interface.
    *
    * @param {number} port
-   * @requires {Promise<void>} - A promise that resolves once the server is ready
+   * @returns {Promise<void>} - A promise that resolves once the server is ready
    */
   start(port) {
     return this.createServer()
@@ -191,7 +204,7 @@ export default class SlackMessageAdapter {
    * Create a middleware function that can be used to integrate with the `express` web framework
    * in order for incoming requests to be dispatched to this message adapter instance.
    *
-   * @returns {ExpressMiddlewareFunc} - A middleware function
+   * @returns {ExpressMiddlewareFunc} - A middleware function http://expressjs.com/en/guide/using-middleware.html
    */
   expressMiddleware() {
     return createExpressMiddleware(this);
@@ -199,17 +212,32 @@ export default class SlackMessageAdapter {
 
   /* Interface for adding handlers */
 
+  /* eslint-disable max-len */
   /**
    * Add a handler for an interactive message action.
    *
+   * Usually there's no need to be concerned with _how_ a message is sent to Slack, but the
+   * following table describes it fully.
+   *
+   * **Action**|**Return `object`**|**Return `Promise<object>`**|**Return `undefined`**|**Call `respond(message)`**|**Notes**
+   * :-----:|:-----:|:-----:|:-----:|:-----:|:-----:
+   * **Button Press**| Message in response | When resolved before `syncResposeTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` | Create a new message instead of replacing using `replace_original: false`
+   * **Menu Selection**| Message in response | When resolved before `syncResposeTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` | Create a new message instead of replacing using `replace_original: false`
+   * **Dialog Submission**| Error list in response | Error list in response | Empty response | Message in request to `response_url` | Returning a Promise that takes longer than 3 seconds to resolve can result in the user seeing an error. Warning logged if a promise isn't completed before `syncResponseTimeout`.
+   *
    * @param {Object|string|RegExp} matchingConstraints - the callback ID (as a string or RegExp) or
-   * an object describing the constrants to select actions for the handler.
-   * @param {string|RegExp} matchingConstraints.callbackId
-   * @param {string} matchingConstraints.type
-   * @param {boolean} matchingConstraints.unfurl
-   * @param {ActionHandler} callback
+   * an object describing the constraints to match actions for the handler.
+   * @param {string|RegExp} [matchingConstraints.callbackId] - a string or RegExp to match against
+   * the `callback_id`
+   * @param {string} [matchingConstraints.type] - when `select` only for menu selections, when
+   * `button` only for buttton presses, or when `dialog_submission` only for dialog submissions
+   * @param {boolean} [matchingConstraints.unfurl] - when `true` only match actions from an unfurl
+   * @param {module:adapter~SlackMessageAdapter~ActionHandler} callback - the function to run when
+   * an action is matched
+   * @returns {module:adapter~SlackMessageAdapter} - this instance (for chaining)
    */
   action(matchingConstraints, callback) {
+    /* eslint-enable max-len */
     const actionConstraints = formatMatchingConstraints(matchingConstraints);
     actionConstraints.handlerType = 'action';
 
@@ -223,17 +251,29 @@ export default class SlackMessageAdapter {
     return this.registerCallback(actionConstraints, callback);
   }
 
+  /* eslint-disable max-len */
   /**
    * Add a handler for an options request
    *
-   * @param {*} matchingConstraints - the callback ID (as a string or RegExp) or
-   * an object describing the constrants to select options requests for the handler.
-   * @param {string|RegExp} matchingConstraints.callbackId
-   * @param {string} matchingConstraints.type
-   * @param {boolean} matchingConstraints.unfurl
-   * @param {OptionsHandler} callback
+   * Usually there's no need to be concerned with _how_ a message is sent to Slack, but the
+   * following table describes it fully
+   *
+   * &nbsp;|**Return `options`**|**Return `Promise<options>`**|**Return `undefined`**|**Notes**
+   * :-----:|:-----:|:-----:|:-----:|:-----:
+   * **Options Request**| Options in response | Options in response | Empty response | Returning a Promise that takes longer than 3 seconds to resolve can result in the user seeing an error. If the request is from within a dialog, the `text` field is called `label`.
+   *
+   * @param {object} matchingConstraints - the callback ID (as a string or RegExp) or
+   * an object describing the constraints to select options requests for the handler.
+   * @param {string|RegExp} [matchingConstraints.callbackId] - a string or RegExxp to match against
+   * the `callback_id`
+   * @param {string} [matchingConstraints.within] - when `interactive_message` only for menus in
+   * an interactive message, or when `dialog` only for menus in a dialog
+   * @param {module:adapter~SlackMessageAdapter~OptionsHandler} callback - the function to run when
+   * an options request is matched
+   * @returns {module:adapter~SlackMessageAdapter} - this instance (for chaining)
    */
   options(matchingConstraints, callback) {
+    /* eslint-enable max-len */
     const optionsConstraints = formatMatchingConstraints(matchingConstraints);
     optionsConstraints.handlerType = 'options';
 
@@ -257,6 +297,7 @@ export default class SlackMessageAdapter {
    * of the response information (an object with status and content that is a JSON serializable
    * object or a string or undefined) for the request. An undefined return value indicates that the
    * request was not matched.
+   * @private
    */
   dispatch(payload) {
     const callback = this.matchCallback(payload);
@@ -324,8 +365,9 @@ export default class SlackMessageAdapter {
     return Promise.resolve({ status: 200 });
   }
 
-  /* @private */
-
+  /**
+   * @private
+   */
   registerCallback(constraints, callback) {
     // Validation
     if (!isFunction(callback)) {
@@ -338,6 +380,9 @@ export default class SlackMessageAdapter {
     return this;
   }
 
+  /**
+   * @private
+   */
   matchCallback(payload) {
     return this.callbacks.find(([constraints]) => {
       // if the callback ID constraint is specified, only continue if it matches
@@ -411,22 +456,74 @@ export default class SlackMessageAdapter {
 }
 
 /**
- * @name ExpressMiddlewareFunc
- * @function
- * @param {http.IncomingMessage} req
- * @param {http.ServerResponse} res
- * @param {function} next
+ * @alias module:adapter
+ */
+export default SlackMessageAdapter;
+
+/**
+ * @external ExpressMiddlewareFunc
+ * @see http://expressjs.com/en/guide/using-middleware.html
  */
 
 /**
- * @name ActionHandler
- * @function
- * @param {object} payload
- * @param {function} respond
+ * @external NodeHttpServer
+ * @see https://nodejs.org/dist/latest/docs/api/http.html#http_class_http_server
  */
 
 /**
- * @name OptionsHandler
+ * A handler function for action requests (button presses, menu selections, and dialog submissions).
+ *
+ * @name module:adapter~SlackMessageAdapter~ActionHandler
  * @function
- * @param {object} payload
+ * @param {Object} payload - an object describing the
+ * [button press](https://api.slack.com/docs/message-buttons#responding_to_message_actions),
+ * [menu selection](https://api.slack.com/docs/message-menus#request_url_response), or
+ * [dialog submission](https://api.slack.com/dialogs#evaluating_submission_responses).
+ * @param {module:adapter~SlackMessageAdapter~ActionHandler~Respond} respond - When the action is a
+ * button press or menu selection, this function is used to update the message where the action
+ * occured or create new messages in the same conversation. When the action is a dialog submission,
+ * this function is used to create new messages in the conversation where the dialog was triggered.
+ * @returns {Object} When the action is a button press or a menu selection, this object is a
+ * replacement
+ * [message](https://api.slack.com/docs/interactive-message-field-guide#top-level_message_fields)
+ * for the message in which the action occurred. It may also be a Promise for a message, and if so
+ * and the Promise takes longer than the `syncResponseTimeout` to complete, the message is sent over
+ * the `response_url`. The message may also be a new message in the same conversation by setting
+ * `replace_original: false`. When the action is a dialog submission, this object is a list of
+ * [validation errors](https://api.slack.com/dialogs#input_validation). It may also be a Promise for
+ * a list of validation errors, and if so and the Promise takes longer than the
+ * `syncReponseTimeout` to complete, Slack will disply an error to the user. If there is no return
+ * value, then button presses and menu selections do not update the message and dialog submissions
+ * will validate and dismiss.
+ */
+
+/**
+ * A function used to send message updates after an action is handled. This function can be used
+ * up to 5 times in 30 minutes.
+ *
+ * @name module:adapter~SlackMessageAdapter~ActionHandler~Respond
+ * @function
+ * @param {Object} message - a
+ * [message](https://api.slack.com/docs/interactive-message-field-guide#top-level_message_fields).
+ * Dialog submissions do not allow `resplace_original: false` on this message.
+ * @returns {Promise} there's no contract or interface for the resolution value, but this Promise
+ * will resolve when the HTTP response from the `response_url` request is complete and reject when
+ * there is an error.
+ */
+
+/**
+ * A handler function for menu options requests.
+ *
+ * @name module:adapter~SlackMessageAdapter~OptionsHandler
+ * @function
+ * @param {Object} payload - an object describing
+ * [the state of the menu](https://api.slack.com/docs/message-menus#options_load_url)
+ * @returns {Object} an
+ * [options list](https://api.slack.com/docs/interactive-message-field-guide#option_fields) or
+ * [option groups list](https://api.slack.com/docs/interactive-message-field-guide#option_groups).
+ * When the menu is within an interactive message, (`within: 'interactive_message'`) the option
+ * keys are `text` and `value`. When the menu is within a dialog (`within: 'dialog'`) the option
+ * keys are `label` and `value`. This function may also return a Promise either of these values.
+ * If a Promise is returned and it does not complete within 3 seconds, Slack will display an error
+ * to the user. If there is no return value, then the user is shown an empty list of options.
  */
