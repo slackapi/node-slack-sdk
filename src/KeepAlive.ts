@@ -57,6 +57,16 @@ export class KeepAlive extends EventEmitter {
    */
   private logger: Logger;
 
+  /**
+   * Flag that indicates whether this object is still monitoring.
+   */
+  public isMonitoring?: Boolean;
+
+  /**
+   * Flag that indicates whether recommend_reconnect event has been emitted and stop() has not been called.
+   */
+  public recommendReconnect?: Boolean;
+
   constructor({
     clientPingTimeout = 6000,
     serverPongTimeout = 4000,
@@ -97,6 +107,7 @@ export class KeepAlive extends EventEmitter {
     }
 
     this.client = client;
+    this.isMonitoring = true;
     this.client.on('outgoing_message', this.setPingTimer, this);
     this.setPingTimer();
   }
@@ -109,6 +120,7 @@ export class KeepAlive extends EventEmitter {
   public stop(): void {
     this.clearPreviousPingTimer();
     this.lastPing = this.client = undefined;
+    this.recommendReconnect = this.isMonitoring = false;
   }
 
   /**
@@ -174,13 +186,13 @@ export class KeepAlive extends EventEmitter {
             if (this.client === undefined) {
               throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
             }
+            // signal that this pong is done being handled
+            this.client.off('slack_event', attemptAcknowledgePong);
 
             // no pong received to acknowledge the last ping within the serverPongTimeout
             this.logger.debug('pong timer expired, recommend reconnect');
+            this.recommendReconnect = true;
             this.emit('recommend_reconnect');
-
-            // signal that this pong is done being handled
-            this.client.off('slack_event', attemptAcknowledgePong);
           }, this.serverPongTimeout);
 
           this.client.on('slack_event', attemptAcknowledgePong, this);
