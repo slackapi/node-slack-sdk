@@ -14,7 +14,7 @@ if (!slackVerificationToken || !slackAccessToken) {
 }
 
 // Create the adapter using the app's verification token
-const slackInteractions = createMessageAdapter(process.env.SLACK_VERIFICATION_TOKEN);
+const slackInteractions = createMessageAdapter(slackVerificationToken);
 
 // Create a Slack Web API client
 const web = new WebClient(slackAccessToken);
