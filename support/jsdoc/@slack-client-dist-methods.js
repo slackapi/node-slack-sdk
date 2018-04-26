@@ -57,6 +57,8 @@ export class LocaleAware {
  * @property {string} [footer_icon]
  * @property {string} [ts]
  * @property {Array<module:@slack/client/dist/methods.__type>} [actions]
+ * @property {string} [callback_id]
+ * @property {Array<"pretext" | "text" | "fields">} [mrkdwn_in]
  */
 export class MessageAttachment {
 }
