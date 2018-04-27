@@ -65,6 +65,7 @@ export interface Dialog {
     }[];
   }[];
   submit_label?: string;
+  notify_on_cancel?: boolean;
 }
 
 export interface MessageAttachment {
