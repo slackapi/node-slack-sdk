@@ -8,6 +8,8 @@
  * `recommend_reconnect` event. That event should be handled by tearing down the websocket connection and
  * opening a new one.
  * @extends EventEmitter
+ * @property {Boolean} [isMonitoring] Flag that indicates whether this object is still monitoring.
+ * @property {Boolean} [recommendReconnect] Flag that indicates whether recommend_reconnect event has been emitted and stop() has not been called.
  */
 export class KeepAlive {
   /**

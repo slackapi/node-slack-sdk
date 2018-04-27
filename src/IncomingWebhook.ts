@@ -37,7 +37,7 @@ export class IncomingWebhook {
               callback?: IncomingWebhookResultCallback): Promise<IncomingWebhookResult> | void {
     // NOTE: no support for proxy
     // NOTE: no support for TLS config
-    let payload: IncomingWebhookSendArguments = this.defaults;
+    let payload: IncomingWebhookSendArguments = Object.assign({}, this.defaults);
 
     if (typeof message === 'string') {
       payload.text = message;
