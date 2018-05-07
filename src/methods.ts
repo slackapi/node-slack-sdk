@@ -97,18 +97,19 @@ export interface AttachmentAction {
   id?: string;
   confirm?: Confirmation;
   data_source?: string;
-  min_query_length: number;
-  name: string;
+  min_query_length?: number;
+  name?: string;
   options?: OptionField[];
   option_groups?: {
     text: string
     options: OptionField[];
   }[];
-  selected_options: OptionField[];
+  selected_options?: OptionField[];
   style?: string;
   text: string;
   type: string;
   value?: string;
+  url?: string;
 }
 
 export interface OptionField {
