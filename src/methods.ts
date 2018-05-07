@@ -65,6 +65,7 @@ export interface Dialog {
     }[];
   }[];
   submit_label?: string;
+  notify_on_cancel?: boolean;
 }
 
 export interface MessageAttachment {
@@ -87,12 +88,40 @@ export interface MessageAttachment {
   footer?: string;
   footer_icon?: string; // footer must be present
   ts?: string;
-  actions?: { // note: this is a very minimal definition of link buttons, interactive buttons, and message menus
-    type: string;
-    text?: string;
-  }[];
+  actions?: AttachmentAction[];
   callback_id?: string;
   mrkdwn_in?: ('pretext' | 'text' | 'fields')[];
+}
+
+export interface AttachmentAction {
+  id?: string;
+  confirm?: Confirmation;
+  data_source?: string;
+  min_query_length: number;
+  name: string;
+  options?: OptionField[];
+  option_groups?: {
+    text: string
+    options: OptionField[];
+  }[];
+  selected_options: OptionField[];
+  style?: string;
+  text: string;
+  type: string;
+  value?: string;
+}
+
+export interface OptionField {
+  description?: string;
+  text: string;
+  value: string;
+}
+
+export interface Confirmation {
+  dismiss_text?: string;
+  ok_text?: string;
+  text: string;
+  title?: string;
 }
 
 export interface LinkUnfurls {
