@@ -59,10 +59,14 @@ export interface Dialog {
     hint?: string;
     subtype?: 'email' | 'number' | 'tel' | 'url';
     // type `select`:
-    options?: {
-      label: string; // shown to user
-      value: string; // sent to app
+    data_source?: 'users' | 'channels' | 'conversations' | 'external'
+    selected_options?: string;
+    options?: SelectOption[];
+    option_groups?: {
+      label: string;
+      options: SelectOption[]
     }[];
+    min_query_length?: number;
   }[];
   submit_label?: string;
   notify_on_cancel?: boolean;
@@ -98,6 +102,11 @@ export interface MessageAttachment {
 
 export interface LinkUnfurls {
   [linkUrl: string]: MessageAttachment;
+}
+
+export interface SelectOption {
+  label: string; // shown to user
+  value: string; // sent to app
 }
 
 /*
