@@ -155,15 +155,15 @@ export class RTMClient extends EventEmitter {
             .on('websocket close')
               .transitionTo('reconnecting').withCondition(() => this.autoReconnect)
               .withAction((_from, _to, context) => {
-                this.logger.debug(`reconnecting after unexpected close ${context.eventPayload.reason}
-                  ${context.eventPayload.code} with isMonitoring set to ${this.keepAlive.isMonitoring}
-                  and recommendReconnect set to ${this.keepAlive.recommendReconnect}`);
+                this.logger.debug(`reconnecting after unexpected close ${context.eventPayload.reason} ` +
+                  `${context.eventPayload.code} with isMonitoring set to ${this.keepAlive.isMonitoring} ` +
+                  `and recommendReconnect set to ${this.keepAlive.recommendReconnect}`);
               })
               .transitionTo('disconnected')
               .withAction((_from, _to, context) => {
-                this.logger.debug(`disconnected after unexpected close ${context.eventPayload.reason}
-                  ${context.eventPayload.code} with isMonitoring set to ${this.keepAlive.isMonitoring}
-                  and recommendReconnect set to ${this.keepAlive.recommendReconnect}`);
+                this.logger.debug(`disconnected after unexpected close ${context.eventPayload.reason} ` +
+                  `${context.eventPayload.code} with isMonitoring set to ${this.keepAlive.isMonitoring} ` +
+                  `and recommendReconnect set to ${this.keepAlive.recommendReconnect}`);
                 // this transition circumvents the 'disconnecting' state (since the websocket is already closed),
                 // so we need to execute its onExit behavior here.
                 this.teardownWebsocket();
