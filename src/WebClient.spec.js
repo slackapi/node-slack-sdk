@@ -100,6 +100,23 @@ describe('WebClient', function () {
       });
     });
 
+    describe('with OAuth scopes in the response headers', function () {
+      it('should expose a scopes and acceptedScopes properties on the result', function () {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(200, { ok: true }, {
+            'X-OAuth-Scopes': 'files:read, chat:write:bot',
+            'X-Accepted-OAuth-Scopes': 'files:read'
+          });
+        return this.client.apiCall('method')
+          .then((result) => {
+            assert.deepNestedInclude(result, { 'scopes': ['files:read', 'chat:write:bot'] });
+            assert.deepNestedInclude(result, { 'acceptedScopes': ['files:read'] });
+            scope.done();
+          })
+      });
+    });
+
     describe('when called with bad options', function () {
       it('should reject its Promise with TypeError', function (done) {
         const results = [
