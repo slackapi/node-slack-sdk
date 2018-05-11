@@ -579,7 +579,7 @@ export class WebClient extends EventEmitter {
     const data = JSON.parse(response.body);
 
     // add scopes metadata from headers
-    if (response.headers['x-oauth'] !== undefined) {
+    if (response.headers['x-oauth-scopes'] !== undefined) {
       data.scopes = (response.headers['x-oauth-scopes'] as string).trim().split(/\s*,\s*/);
     }
     if (response.headers['x-accepted-oauth-scopes'] !== undefined) {
