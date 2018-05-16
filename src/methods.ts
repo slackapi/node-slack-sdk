@@ -1,5 +1,9 @@
 import { Stream } from 'stream';
-import { WebAPICallOptions, WebAPIResultCallback, WebAPICallResult } from './WebClient';
+import {
+  WebAPICallOptions,
+  WebAPIResultCallback,
+  WebAPICallResult,
+} from './WebClient';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
 // NOTE: not clear if these interfaces should be exported at the top-level
@@ -7,10 +11,16 @@ import { WebAPICallOptions, WebAPIResultCallback, WebAPICallResult } from './Web
 /**
  * Generic method definition
  */
-export default interface Method<MethodArguments extends WebAPICallOptions> {
+export default interface Method<
+  MethodArguments extends WebAPICallOptions,
+  ResponseType extends WebAPICallResult
+> {
   // TODO: can we create a relationship between MethodArguments and a MethodResult type?
-  (options?: MethodArguments & AuxiliaryArguments): Promise<WebAPICallResult>;
-  (options: MethodArguments & AuxiliaryArguments, callback: WebAPIResultCallback): void;
+  (options?: MethodArguments & AuxiliaryArguments): Promise<ResponseType>;
+  (
+    options: MethodArguments & AuxiliaryArguments,
+    callback: WebAPIResultCallback,
+  ): void;
 }
 
 /*
@@ -105,7 +115,7 @@ export interface AttachmentAction {
   name?: string;
   options?: OptionField[];
   option_groups?: {
-    text: string
+    text: string;
     options: OptionField[];
   }[];
   selected_options?: OptionField[];
@@ -142,12 +152,12 @@ export interface SelectOption {
  * MethodArguments types (no formal relationship other than the generic constraint in Method<>)
  */
 
-  /*
+/*
    * `api.*`
    */
 export type APITestArguments = {};
 
-  /*
+/*
    * `apps.*`
    */
 export type AppsPermissionsInfoArguments = TokenOverridable & {};
@@ -156,7 +166,7 @@ export type AppsPermissionsRequestArguments = TokenOverridable & {
   trigger_id: string;
 };
 
-  /*
+/*
    * `auth.*`
    */
 export type AuthRevokeArguments = TokenOverridable & {
@@ -164,14 +174,14 @@ export type AuthRevokeArguments = TokenOverridable & {
 };
 export type AuthTestArguments = TokenOverridable & {};
 
-  /*
+/*
    * `bots.*`
    */
 export type BotsInfoArguments = TokenOverridable & {
   bot?: string;
 };
 
-  /*
+/*
    * `channels.*`
    */
 export type ChannelsArchiveArguments = TokenOverridable & {
@@ -181,14 +191,16 @@ export type ChannelsCreateArguments = TokenOverridable & {
   name: string;
   validate?: boolean;
 };
-export type ChannelsHistoryArguments = TokenOverridable & TimelinePaginationEnabled & {
-  channel: string;
-  count?: number;
-  unreads?: boolean;
-};
-export type ChannelsInfoArguments = TokenOverridable & LocaleAware & {
-  channel: string;
-};
+export type ChannelsHistoryArguments = TokenOverridable &
+  TimelinePaginationEnabled & {
+    channel: string;
+    count?: number;
+    unreads?: boolean;
+  };
+export type ChannelsInfoArguments = TokenOverridable &
+  LocaleAware & {
+    channel: string;
+  };
 export type ChannelsInviteArguments = TokenOverridable & {
   channel: string;
   user: string;
@@ -204,10 +216,11 @@ export type ChannelsKickArguments = TokenOverridable & {
 export type ChannelsLeaveArguments = TokenOverridable & {
   channel: string;
 };
-export type ChannelsListArguments = TokenOverridable & CursorPaginationEnabled & {
-  exclude_archived: boolean;
-  exclude_members: boolean;
-};
+export type ChannelsListArguments = TokenOverridable &
+  CursorPaginationEnabled & {
+    exclude_archived: boolean;
+    exclude_members: boolean;
+  };
 export type ChannelsMarkArguments = TokenOverridable & {
   channel: string;
   ts: string;
@@ -233,13 +246,13 @@ export type ChannelsUnarchiveArguments = TokenOverridable & {
   channel: string;
 };
 
-  /*
+/*
    * `chat.*`
    */
 export type ChatDeleteArguments = TokenOverridable & {
   channel: string;
   ts: string;
-  as_user?: boolean
+  as_user?: boolean;
 };
 export type ChatGetPermalinkArguments = TokenOverridable & {
   channel: string;
@@ -292,7 +305,7 @@ export type ChatUpdateArguments = TokenOverridable & {
   parse?: 'full' | 'none';
 };
 
-  /*
+/*
    * `conversations.*`
    */
 export type ConversationsArchiveArguments = TokenOverridable & {
@@ -305,12 +318,15 @@ export type ConversationsCreateArguments = TokenOverridable & {
   name: string;
   is_private?: boolean;
 };
-export type ConversationsHistoryArguments = TokenOverridable & CursorPaginationEnabled & TimelinePaginationEnabled & {
-  channel: string;
-};
-export type ConversationsInfoArguments = TokenOverridable & LocaleAware & {
-  channel: string;
-};
+export type ConversationsHistoryArguments = TokenOverridable &
+  CursorPaginationEnabled &
+  TimelinePaginationEnabled & {
+    channel: string;
+  };
+export type ConversationsInfoArguments = TokenOverridable &
+  LocaleAware & {
+    channel: string;
+  };
 export type ConversationsInviteArguments = TokenOverridable & {
   channel: string;
   users: string; // comma-separated list of users
@@ -325,13 +341,15 @@ export type ConversationsKickArguments = TokenOverridable & {
 export type ConversationsLeaveArguments = TokenOverridable & {
   channel: string;
 };
-export type ConversationsListArguments = TokenOverridable & CursorPaginationEnabled & {
-  exclude_archived?: boolean;
-  types?: string; // comma-separated list of conversation types
-};
-export type ConversationsMembersArguments = TokenOverridable & CursorPaginationEnabled & {
-  channel: string;
-};
+export type ConversationsListArguments = TokenOverridable &
+  CursorPaginationEnabled & {
+    exclude_archived?: boolean;
+    types?: string; // comma-separated list of conversation types
+  };
+export type ConversationsMembersArguments = TokenOverridable &
+  CursorPaginationEnabled & {
+    channel: string;
+  };
 export type ConversationsOpenArguments = TokenOverridable & {
   channel?: string;
   users?: string; // comma-separated list of users
@@ -341,10 +359,12 @@ export type ConversationsRenameArguments = TokenOverridable & {
   channel: string;
   name: string;
 };
-export type ConversationsRepliesArguments = TokenOverridable & CursorPaginationEnabled & TimelinePaginationEnabled & {
-  channel: string;
-  ts: string;
-};
+export type ConversationsRepliesArguments = TokenOverridable &
+  CursorPaginationEnabled &
+  TimelinePaginationEnabled & {
+    channel: string;
+    ts: string;
+  };
 export type ConversationsSetPurposeArguments = TokenOverridable & {
   channel: string;
   purpose: string;
@@ -357,7 +377,7 @@ export type ConversationsUnarchiveArguments = TokenOverridable & {
   channel: string;
 };
 
-  /*
+/*
    * `dialog.*`
    */
 export type DialogOpenArguments = TokenOverridable & {
@@ -365,7 +385,7 @@ export type DialogOpenArguments = TokenOverridable & {
   dialog: Dialog;
 };
 
-  /*
+/*
    * `dnd.*`
    */
 export type DndEndDndArguments = TokenOverridable;
@@ -380,12 +400,12 @@ export type DndTeamInfoArguments = TokenOverridable & {
   users?: string; // comma-separated list of users
 };
 
-  /*
+/*
    * `emoji.*`
    */
 export type EmojiListArguments = TokenOverridable;
 
-  /*
+/*
    * `files.*`
    */
 export type FilesDeleteArguments = TokenOverridable & {
@@ -434,7 +454,7 @@ export type FilesCommentsEditArguments = TokenOverridable & {
   id: string; // comment id
 };
 
-  /*
+/*
    * `groups.*`
    */
 export type GroupsArchiveArguments = TokenOverridable & {
@@ -447,13 +467,16 @@ export type GroupsCreateArguments = TokenOverridable & {
 export type GroupsCreateChildArguments = TokenOverridable & {
   channel: string;
 };
-export type GroupsHistoryArguments = TokenOverridable & CursorPaginationEnabled & TimelinePaginationEnabled & {
-  channel: string;
-  unreads?: boolean;
-};
-export type GroupsInfoArguments = TokenOverridable & LocaleAware & {
-  channel: string;
-};
+export type GroupsHistoryArguments = TokenOverridable &
+  CursorPaginationEnabled &
+  TimelinePaginationEnabled & {
+    channel: string;
+    unreads?: boolean;
+  };
+export type GroupsInfoArguments = TokenOverridable &
+  LocaleAware & {
+    channel: string;
+  };
 export type GroupsInviteArguments = TokenOverridable & {
   channel: string;
   user: string;
@@ -497,32 +520,34 @@ export type GroupsUnarchiveArguments = TokenOverridable & {
   channel: string;
 };
 
-  /*
+/*
    * `im.*`
    */
 export type IMCloseArguments = TokenOverridable & {
   channel: string;
 };
-export type IMHistoryArguments = TokenOverridable & TimelinePaginationEnabled & {
-  channel: string;
-  count?: number;
-  unreads?: boolean;
-};
+export type IMHistoryArguments = TokenOverridable &
+  TimelinePaginationEnabled & {
+    channel: string;
+    count?: number;
+    unreads?: boolean;
+  };
 export type IMListArguments = TokenOverridable & CursorPaginationEnabled;
 export type IMMarkArguments = TokenOverridable & {
   channel: string;
   ts: string;
 };
-export type IMOpenArguments = TokenOverridable & LocaleAware & {
-  user: string;
-  return_im?: boolean;
-};
+export type IMOpenArguments = TokenOverridable &
+  LocaleAware & {
+    user: string;
+    return_im?: boolean;
+  };
 export type IMRepliesArguments = TokenOverridable & {
   channel: string;
   thread_ts?: string;
 };
 
-  /*
+/*
    * `migration.*`
    */
 export type MigrationExchangeArguments = TokenOverridable & {
@@ -530,17 +555,18 @@ export type MigrationExchangeArguments = TokenOverridable & {
   to_old?: boolean;
 };
 
-  /*
+/*
    * `mpim.*`
    */
 export type MPIMCloseArguments = TokenOverridable & {
   channel: string;
 };
-export type MPIMHistoryArguments = TokenOverridable & TimelinePaginationEnabled & {
-  channel: string;
-  count?: number;
-  unreads?: boolean;
-};
+export type MPIMHistoryArguments = TokenOverridable &
+  TimelinePaginationEnabled & {
+    channel: string;
+    count?: number;
+    unreads?: boolean;
+  };
 export type MPIMListArguments = TokenOverridable;
 export type MPIMMarkArguments = TokenOverridable & {
   channel: string;
@@ -554,7 +580,7 @@ export type MPIMRepliesArguments = TokenOverridable & {
   thread_ts: string;
 };
 
-  /*
+/*
    * `oauth.*`
    */
 export type OAuthAccessArguments = {
@@ -571,7 +597,7 @@ export type OAuthTokenArguments = {
   single_channel?: '0' | '1';
 };
 
-  /*
+/*
    * `pins.*`
    */
 export type PinsAddArguments = TokenOverridable & {
@@ -592,7 +618,7 @@ export type PinsRemoveArguments = TokenOverridable & {
   timestamp?: string;
 };
 
-  /*
+/*
    * `reactions.*`
    */
 export type ReactionsAddArguments = TokenOverridable & {
@@ -626,7 +652,7 @@ export type ReactionsRemoveArguments = TokenOverridable & {
   file_comment?: string;
 };
 
-  /*
+/*
    * `reminders.*`
    */
 export type RemindersAddArguments = TokenOverridable & {
@@ -645,23 +671,24 @@ export type RemindersInfoArguments = TokenOverridable & {
 };
 export type RemindersListArguments = TokenOverridable;
 
-  /*
+/*
    * `rtm.*`
    */
 export type RTMConnectArguments = TokenOverridable & {
   batch_presence_aware?: boolean;
   presence_sub?: boolean;
 };
-export type RTMStartArguments = TokenOverridable & LocaleAware & {
-  batch_presence_aware?: boolean;
-  mpim_aware?: boolean;
-  no_latest?: '0' | '1';
-  no_unreads?: string;
-  presence_sub?: boolean;
-  simple_latest?: boolean;
-};
+export type RTMStartArguments = TokenOverridable &
+  LocaleAware & {
+    batch_presence_aware?: boolean;
+    mpim_aware?: boolean;
+    no_latest?: '0' | '1';
+    no_unreads?: string;
+    presence_sub?: boolean;
+    simple_latest?: boolean;
+  };
 
-  /*
+/*
    * `search.*`
    */
 export type SearchAllArguments = TokenOverridable & {
@@ -675,7 +702,7 @@ export type SearchAllArguments = TokenOverridable & {
 export type SearchFilesArguments = SearchAllArguments;
 export type SearchMessagesArguments = SearchAllArguments;
 
-  /*
+/*
    * `stars.*`
    */
 export type StarsAddArguments = TokenOverridable & {
@@ -697,7 +724,7 @@ export type StarsRemoveArguments = TokenOverridable & {
   file_comment?: string;
 };
 
-  /*
+/*
    * `team.*`
    */
 export type TeamAccessLogsArguments = TokenOverridable & {
@@ -721,7 +748,7 @@ export type TeamProfileGetArguments = TokenOverridable & {
   visibility?: 'all' | 'visible' | 'hidden';
 };
 
-  /*
+/*
    * `usergroups.*`
    */
 export type UsergroupsCreateArguments = TokenOverridable & {
@@ -762,25 +789,29 @@ export type UsergroupsUsersUpdateArguments = TokenOverridable & {
   include_count?: boolean;
 };
 
-  /*
+/*
    * `users.*`
    */
-export type UsersConversationsArguments = TokenOverridable & CursorPaginationEnabled & {
-  exclude_archived?: boolean;
-  types?: string; // comma-separated list of conversation types
-  user?: string;
-};
+export type UsersConversationsArguments = TokenOverridable &
+  CursorPaginationEnabled & {
+    exclude_archived?: boolean;
+    types?: string; // comma-separated list of conversation types
+    user?: string;
+  };
 export type UsersDeletePhotoArguments = TokenOverridable;
 export type UsersGetPresenceArguments = TokenOverridable & {
   user: string;
 };
 export type UsersIdentityArguments = TokenOverridable;
-export type UsersInfoArguments = TokenOverridable & LocaleAware & {
-  user: string;
-};
-export type UsersListArguments = TokenOverridable & CursorPaginationEnabled & LocaleAware & {
-  presence?: boolean; // deprecated, defaults to false
-};
+export type UsersInfoArguments = TokenOverridable &
+  LocaleAware & {
+    user: string;
+  };
+export type UsersListArguments = TokenOverridable &
+  CursorPaginationEnabled &
+  LocaleAware & {
+    presence?: boolean; // deprecated, defaults to false
+  };
 export type UsersLookupByEmailArguments = TokenOverridable & {
   email: string;
 };
