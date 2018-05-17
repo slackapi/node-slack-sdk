@@ -12,16 +12,10 @@ import got = require('got'); // tslint:disable-line:no-require-imports
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
 import { callbackify, getUserAgent, AgentOption, TLSOptions } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
-import {
-  LogLevel,
-  Logger,
-  LoggingFunc,
-  getLogger,
-  loggerFromLoggingFunc,
-} from './logger';
+import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
 import Method, * as methods from './methods'; // tslint:disable-line:import-name
-import * as responses from './responses';
+import * as responses from './responses'; // tslint:disable-line:import-name
 const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 /**
@@ -122,15 +116,8 @@ export class WebClient extends EventEmitter {
    * @param options options
    * @param callback callback if you don't want a promise returned
    */
-  public apiCall(
-    method: string,
-    options?: WebAPICallOptions,
-  ): Promise<WebAPICallResult>;
-  public apiCall(
-    method: string,
-    options: WebAPICallOptions,
-    callback: WebAPIResultCallback,
-  ): void;
+  public apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult>;
+  public apiCall(method: string, options: WebAPICallOptions, callback: WebAPIResultCallback): void;
   public apiCall(
     method: string,
     options?: WebAPICallOptions,
@@ -141,19 +128,11 @@ export class WebClient extends EventEmitter {
     // The following thunk is the actual implementation for this method. It is wrapped so that it can be adapted for
     // different executions below.
     const implementation = async () => {
-      if (
-        typeof options === 'string' ||
-        typeof options === 'number' ||
-        typeof options === 'boolean'
-      ) {
-        throw new TypeError(
-          `Expected an options argument but instead received a ${typeof options}`,
-        );
+      if (typeof options === 'string' || typeof options === 'number' || typeof options === 'boolean') {
+        throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
       }
 
-      const requestBody = this.serializeApiCallOptions(
-        Object.assign({ token: this.token }, options),
-      );
+      const requestBody = this.serializeApiCallOptions(Object.assign({ token: this.token }, options));
 
       // The following thunk encapsulates the task so that it can be coordinated for retries
       const task = () => {
@@ -190,36 +169,23 @@ export class WebClient extends EventEmitter {
           .then((response: got.Response<string>) => {
             const result = this.buildResult(response);
             // log warnings in response metadata
-            if (
-              result.response_metadata !== undefined &&
-              result.response_metadata.warnings !== undefined
-            ) {
+            if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
               result.response_metadata.warnings.forEach(this.logger.warn);
             }
 
             // handle rate-limiting
-            if (
-              response.statusCode !== undefined &&
-              response.statusCode === 429
-            ) {
-              const retryAfterMs =
-                result.retryAfter !== undefined ? result.retryAfter : 60 * 1000;
+            if (response.statusCode !== undefined && response.statusCode === 429) {
+              const retryAfterMs = result.retryAfter !== undefined ? result.retryAfter : 60 * 1000;
               // NOTE: the following event could have more information regarding the api call that is being delayed
               this.emit('rate_limited', retryAfterMs / 1000);
-              this.logger.info(
-                `API Call failed due to rate limiting. Will retry in ${retryAfterMs /
-                  1000} seconds.`,
-              );
+              this.logger.info(`API Call failed due to rate limiting. Will retry in ${retryAfterMs / 1000} seconds.`);
               // wait and return the result from calling `task` again after the specified number of seconds
               return delay(retryAfterMs).then(task);
             }
 
             // For any error in the API response, treat them as irrecoverable by throwing an AbortError to end retries.
             if (!result.ok) {
-              const error = errorWithCode(
-                new Error(`An API error occurred: ${result.error}`),
-                ErrorCode.PlatformError,
-              );
+              const error = errorWithCode(new Error(`An API error occurred: ${result.error}`), ErrorCode.PlatformError);
               error.data = result;
               throw new pRetry.AbortError(error);
             }
@@ -247,10 +213,7 @@ export class WebClient extends EventEmitter {
    * api method family
    */
   public readonly api = {
-    test: this.apiCall.bind(this, 'api.test') as Method<
-      methods.APITestArguments,
-      responses.APITestResponse
-    >,
+    test: this.apiCall.bind(this, 'api.test') as Method<methods.APITestArguments, responses.APITestResponse>,
   };
 
   /**
@@ -273,24 +236,15 @@ export class WebClient extends EventEmitter {
    * auth method family
    */
   public readonly auth = {
-    revoke: this.apiCall.bind(this, 'auth.revoke') as Method<
-      methods.AuthRevokeArguments,
-      responses.AuthRevokeResponse
-    >,
-    test: this.apiCall.bind(this, 'auth.test') as Method<
-      methods.AuthTestArguments,
-      responses.AuthTestResponse
-    >,
+    revoke: this.apiCall.bind(this, 'auth.revoke') as Method<methods.AuthRevokeArguments, responses.AuthRevokeResponse>,
+    test: this.apiCall.bind(this, 'auth.test') as Method<methods.AuthTestArguments, responses.AuthTestResponse>,
   };
 
   /**
    * bots method family
    */
   public readonly bots = {
-    info: this.apiCall.bind(this, 'bots.info') as Method<
-      methods.BotsInfoArguments,
-      responses.BotsInfoResponse
-    >,
+    info: this.apiCall.bind(this, 'bots.info') as Method<methods.BotsInfoArguments, responses.BotsInfoResponse>,
   };
 
   /**
@@ -363,10 +317,7 @@ export class WebClient extends EventEmitter {
    * chat method family
    */
   public readonly chat = {
-    delete: this.apiCall.bind(this, 'chat.delete') as Method<
-      methods.ChatDeleteArguments,
-      responses.ChatDeleteResponse
-    >,
+    delete: this.apiCall.bind(this, 'chat.delete') as Method<methods.ChatDeleteArguments, responses.ChatDeleteResponse>,
     getPermalink: this.apiCall.bind(this, 'chat.getPermalink') as Method<
       methods.ChatGetPermalinkArguments,
       responses.ChatGetPermalinkResponse
@@ -383,14 +334,8 @@ export class WebClient extends EventEmitter {
       methods.ChatPostMessageArguments,
       responses.ChatPostMessageResponse
     >,
-    unfurl: this.apiCall.bind(this, 'chat.unfurl') as Method<
-      methods.ChatUnfurlArguments,
-      responses.ChatUnfurlResponse
-    >,
-    update: this.apiCall.bind(this, 'chat.update') as Method<
-      methods.ChatUpdateArguments,
-      responses.ChatUpdateResponse
-    >,
+    unfurl: this.apiCall.bind(this, 'chat.unfurl') as Method<methods.ChatUnfurlArguments, responses.ChatUnfurlResponse>,
+    update: this.apiCall.bind(this, 'chat.update') as Method<methods.ChatUpdateArguments, responses.ChatUpdateResponse>,
   };
 
   /**
@@ -471,28 +416,19 @@ export class WebClient extends EventEmitter {
    * dialog method family
    */
   public readonly dialog = {
-    open: this.apiCall.bind(this, 'dialog.open') as Method<
-      methods.DialogOpenArguments,
-      responses.DialogOpenResponse
-    >,
+    open: this.apiCall.bind(this, 'dialog.open') as Method<methods.DialogOpenArguments, responses.DialogOpenResponse>,
   };
 
   /**
    * dnd method family
    */
   public readonly dnd = {
-    endDnd: this.apiCall.bind(this, 'dnd.endDnd') as Method<
-      methods.DndEndDndArguments,
-      responses.DndEndDndResponse
-    >,
+    endDnd: this.apiCall.bind(this, 'dnd.endDnd') as Method<methods.DndEndDndArguments, responses.DndEndDndResponse>,
     endSnooze: this.apiCall.bind(this, 'dnd.endSnooze') as Method<
       methods.DndEndSnoozeArguments,
       responses.DndEndSnoozeResponse
     >,
-    info: this.apiCall.bind(this, 'dnd.info') as Method<
-      methods.DndInfoArguments,
-      responses.DndInfoResponse
-    >,
+    info: this.apiCall.bind(this, 'dnd.info') as Method<methods.DndInfoArguments, responses.DndInfoResponse>,
     setSnooze: this.apiCall.bind(this, 'dnd.setSnooze') as Method<
       methods.DndSetSnoozeArguments,
       responses.DndSetSnoozeResponse
@@ -507,10 +443,7 @@ export class WebClient extends EventEmitter {
    * emoji method family
    */
   public readonly emoji = {
-    list: this.apiCall.bind(this, 'emoji.list') as Method<
-      methods.EmojiListArguments,
-      responses.EmojiListResponse
-    >,
+    list: this.apiCall.bind(this, 'emoji.list') as Method<methods.EmojiListArguments, responses.EmojiListResponse>,
   };
 
   /**
@@ -521,14 +454,8 @@ export class WebClient extends EventEmitter {
       methods.FilesDeleteArguments,
       responses.FilesDeleteResponse
     >,
-    info: this.apiCall.bind(this, 'files.info') as Method<
-      methods.FilesInfoArguments,
-      responses.FilesInfoResponse
-    >,
-    list: this.apiCall.bind(this, 'files.list') as Method<
-      methods.FilesListArguments,
-      responses.FilesListResponse
-    >,
+    info: this.apiCall.bind(this, 'files.info') as Method<methods.FilesInfoArguments, responses.FilesInfoResponse>,
+    list: this.apiCall.bind(this, 'files.list') as Method<methods.FilesListArguments, responses.FilesListResponse>,
     revokePublicURL: this.apiCall.bind(this, 'files.revokePublicURL') as Method<
       methods.FilesRevokePublicURLArguments,
       responses.FilesRevokePublicURLResponse
@@ -577,34 +504,19 @@ export class WebClient extends EventEmitter {
       methods.GroupsHistoryArguments,
       responses.GroupsHistoryResponse
     >,
-    info: this.apiCall.bind(this, 'groups.info') as Method<
-      methods.GroupsInfoArguments,
-      responses.GroupsInfoResponse
-    >,
+    info: this.apiCall.bind(this, 'groups.info') as Method<methods.GroupsInfoArguments, responses.GroupsInfoResponse>,
     invite: this.apiCall.bind(this, 'groups.invite') as Method<
       methods.GroupsInviteArguments,
       responses.GroupsInviteResponse
     >,
-    kick: this.apiCall.bind(this, 'groups.kick') as Method<
-      methods.GroupsKickArguments,
-      responses.GroupsKickResponse
-    >,
+    kick: this.apiCall.bind(this, 'groups.kick') as Method<methods.GroupsKickArguments, responses.GroupsKickResponse>,
     leave: this.apiCall.bind(this, 'groups.leave') as Method<
       methods.GroupsLeaveArguments,
       responses.GroupsLeaveResponse
     >,
-    list: this.apiCall.bind(this, 'groups.list') as Method<
-      methods.GroupsListArguments,
-      responses.GroupsListResponse
-    >,
-    mark: this.apiCall.bind(this, 'groups.mark') as Method<
-      methods.GroupsMarkArguments,
-      responses.GroupsMarkResponse
-    >,
-    open: this.apiCall.bind(this, 'groups.open') as Method<
-      methods.GroupsOpenArguments,
-      responses.GroupsOpenResponse
-    >,
+    list: this.apiCall.bind(this, 'groups.list') as Method<methods.GroupsListArguments, responses.GroupsListResponse>,
+    mark: this.apiCall.bind(this, 'groups.mark') as Method<methods.GroupsMarkArguments, responses.GroupsMarkResponse>,
+    open: this.apiCall.bind(this, 'groups.open') as Method<methods.GroupsOpenArguments, responses.GroupsOpenResponse>,
     rename: this.apiCall.bind(this, 'groups.rename') as Method<
       methods.GroupsRenameArguments,
       responses.GroupsRenameResponse
@@ -631,30 +543,12 @@ export class WebClient extends EventEmitter {
    * im method family
    */
   public readonly im = {
-    close: this.apiCall.bind(this, 'im.close') as Method<
-      methods.IMCloseArguments,
-      responses.IMCloseResponse
-    >,
-    history: this.apiCall.bind(this, 'im.history') as Method<
-      methods.IMHistoryArguments,
-      responses.IMHistoryResponse
-    >,
-    list: this.apiCall.bind(this, 'im.list') as Method<
-      methods.IMListArguments,
-      responses.IMListResponse
-    >,
-    mark: this.apiCall.bind(this, 'im.mark') as Method<
-      methods.IMMarkArguments,
-      responses.IMMarkResponse
-    >,
-    open: this.apiCall.bind(this, 'im.open') as Method<
-      methods.IMOpenArguments,
-      responses.IMOpenResponse
-    >,
-    replies: this.apiCall.bind(this, 'im.replies') as Method<
-      methods.IMRepliesArguments,
-      responses.IMRepliesResponse
-    >,
+    close: this.apiCall.bind(this, 'im.close') as Method<methods.IMCloseArguments, responses.IMCloseResponse>,
+    history: this.apiCall.bind(this, 'im.history') as Method<methods.IMHistoryArguments, responses.IMHistoryResponse>,
+    list: this.apiCall.bind(this, 'im.list') as Method<methods.IMListArguments, responses.IMListResponse>,
+    mark: this.apiCall.bind(this, 'im.mark') as Method<methods.IMMarkArguments, responses.IMMarkResponse>,
+    open: this.apiCall.bind(this, 'im.open') as Method<methods.IMOpenArguments, responses.IMOpenResponse>,
+    replies: this.apiCall.bind(this, 'im.replies') as Method<methods.IMRepliesArguments, responses.IMRepliesResponse>,
   };
 
   /**
@@ -671,26 +565,14 @@ export class WebClient extends EventEmitter {
    * mpim method family
    */
   public readonly mpim = {
-    close: this.apiCall.bind(this, 'mpim.close') as Method<
-      methods.MPIMCloseArguments,
-      responses.MPIMCloseResponse
-    >,
+    close: this.apiCall.bind(this, 'mpim.close') as Method<methods.MPIMCloseArguments, responses.MPIMCloseResponse>,
     history: this.apiCall.bind(this, 'mpim.history') as Method<
       methods.MPIMHistoryArguments,
       responses.MPIMHistoryResponse
     >,
-    list: this.apiCall.bind(this, 'mpim.list') as Method<
-      methods.MPIMListArguments,
-      responses.MPIMListResponse
-    >,
-    mark: this.apiCall.bind(this, 'mpim.mark') as Method<
-      methods.MPIMMarkArguments,
-      responses.MPIMMarkResponse
-    >,
-    open: this.apiCall.bind(this, 'mpim.open') as Method<
-      methods.MPIMOpenArguments,
-      responses.MPIMOpenResponse
-    >,
+    list: this.apiCall.bind(this, 'mpim.list') as Method<methods.MPIMListArguments, responses.MPIMListResponse>,
+    mark: this.apiCall.bind(this, 'mpim.mark') as Method<methods.MPIMMarkArguments, responses.MPIMMarkResponse>,
+    open: this.apiCall.bind(this, 'mpim.open') as Method<methods.MPIMOpenArguments, responses.MPIMOpenResponse>,
     replies: this.apiCall.bind(this, 'mpim.replies') as Method<
       methods.MPIMRepliesArguments,
       responses.MPIMRepliesResponse
@@ -705,28 +587,16 @@ export class WebClient extends EventEmitter {
       methods.OAuthAccessArguments,
       responses.OAuthAccessResponse
     >,
-    token: this.apiCall.bind(this, 'oauth.token') as Method<
-      methods.OAuthTokenArguments,
-      responses.OAuthTokenResponse
-    >,
+    token: this.apiCall.bind(this, 'oauth.token') as Method<methods.OAuthTokenArguments, responses.OAuthTokenResponse>,
   };
 
   /**
    * pins method family
    */
   public readonly pins = {
-    add: this.apiCall.bind(this, 'pins.add') as Method<
-      methods.PinsAddArguments,
-      responses.PinsAddResponse
-    >,
-    list: this.apiCall.bind(this, 'pins.list') as Method<
-      methods.PinsListArguments,
-      responses.PinsListResponse
-    >,
-    remove: this.apiCall.bind(this, 'pins.remove') as Method<
-      methods.PinsRemoveArguments,
-      responses.PinsRemoveResponse
-    >,
+    add: this.apiCall.bind(this, 'pins.add') as Method<methods.PinsAddArguments, responses.PinsAddResponse>,
+    list: this.apiCall.bind(this, 'pins.list') as Method<methods.PinsListArguments, responses.PinsListResponse>,
+    remove: this.apiCall.bind(this, 'pins.remove') as Method<methods.PinsRemoveArguments, responses.PinsRemoveResponse>,
   };
 
   /**
@@ -785,20 +655,14 @@ export class WebClient extends EventEmitter {
       methods.RTMConnectArguments,
       responses.RTMConnectResponse
     >,
-    start: this.apiCall.bind(this, 'rtm.start') as Method<
-      methods.RTMStartArguments,
-      responses.RTMStartResponse
-    >,
+    start: this.apiCall.bind(this, 'rtm.start') as Method<methods.RTMStartArguments, responses.RTMStartResponse>,
   };
 
   /**
    * search method family
    */
   public readonly search = {
-    all: this.apiCall.bind(this, 'search.all') as Method<
-      methods.SearchAllArguments,
-      responses.SearchAllResponse
-    >,
+    all: this.apiCall.bind(this, 'search.all') as Method<methods.SearchAllArguments, responses.SearchAllResponse>,
     files: this.apiCall.bind(this, 'search.files') as Method<
       methods.SearchFilesArguments,
       responses.SearchFilesResponse
@@ -813,14 +677,8 @@ export class WebClient extends EventEmitter {
    * stars method family
    */
   public readonly stars = {
-    add: this.apiCall.bind(this, 'stars.add') as Method<
-      methods.StarsAddArguments,
-      responses.StarsAddResponse
-    >,
-    list: this.apiCall.bind(this, 'stars.list') as Method<
-      methods.StarsListArguments,
-      responses.StarsListResponse
-    >,
+    add: this.apiCall.bind(this, 'stars.add') as Method<methods.StarsAddArguments, responses.StarsAddResponse>,
+    list: this.apiCall.bind(this, 'stars.list') as Method<methods.StarsListArguments, responses.StarsListResponse>,
     remove: this.apiCall.bind(this, 'stars.remove') as Method<
       methods.StarsRemoveArguments,
       responses.StarsRemoveResponse
@@ -839,10 +697,7 @@ export class WebClient extends EventEmitter {
       methods.TeamBillableInfoArguments,
       responses.TeamBillableInfoResponse
     >,
-    info: this.apiCall.bind(this, 'team.info') as Method<
-      methods.TeamInfoArguments,
-      responses.TeamInfoResponse
-    >,
+    info: this.apiCall.bind(this, 'team.info') as Method<methods.TeamInfoArguments, responses.TeamInfoResponse>,
     integrationLogs: this.apiCall.bind(this, 'team.integrationLogs') as Method<
       methods.TeamIntegrationLogsArguments,
       responses.TeamIntegrationLogsResponse
@@ -911,14 +766,8 @@ export class WebClient extends EventEmitter {
       methods.UsersIdentityArguments,
       responses.UsersIdentityResponse
     >,
-    info: this.apiCall.bind(this, 'users.info') as Method<
-      methods.UsersInfoArguments,
-      responses.UsersInfoResponse
-    >,
-    list: this.apiCall.bind(this, 'users.list') as Method<
-      methods.UsersListArguments,
-      responses.UsersListResponse
-    >,
+    info: this.apiCall.bind(this, 'users.info') as Method<methods.UsersInfoArguments, responses.UsersInfoResponse>,
+    list: this.apiCall.bind(this, 'users.list') as Method<methods.UsersListArguments, responses.UsersListResponse>,
     lookupByEmail: this.apiCall.bind(this, 'users.lookupByEmail') as Method<
       methods.UsersLookupByEmailArguments,
       responses.UsersLookupByEmailResponse
@@ -955,9 +804,7 @@ export class WebClient extends EventEmitter {
    *
    * @param options arguments for the Web API method
    */
-  private serializeApiCallOptions(
-    options: WebAPICallOptions,
-  ): FormCanBeURLEncoded | BodyCanBeFormMultipart {
+  private serializeApiCallOptions(options: WebAPICallOptions): FormCanBeURLEncoded | BodyCanBeFormMultipart {
     // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
     // binary content
     let containsBinaryData = false;
@@ -970,11 +817,7 @@ export class WebClient extends EventEmitter {
 
       if (Buffer.isBuffer(value) || isStream(value)) {
         containsBinaryData = true;
-      } else if (
-        typeof value !== 'string' &&
-        typeof value !== 'number' &&
-        typeof value !== 'boolean'
-      ) {
+      } else if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
         // if value is anything other than string, number, boolean, binary data, a Stream, or a Buffer, then encode it
         // as a JSON string.
         serializedValue = JSON.stringify(value);
@@ -1030,22 +873,15 @@ export class WebClient extends EventEmitter {
 
     // add scopes metadata from headers
     if (response.headers['x-oauth-scopes'] !== undefined) {
-      data.scopes = (response.headers['x-oauth-scopes'] as string)
-        .trim()
-        .split(/\s*,\s*/);
+      data.scopes = (response.headers['x-oauth-scopes'] as string).trim().split(/\s*,\s*/);
     }
     if (response.headers['x-accepted-oauth-scopes'] !== undefined) {
-      data.acceptedScopes = (response.headers[
-        'x-accepted-oauth-scopes'
-      ] as string)
-        .trim()
-        .split(/\s*,\s*/);
+      data.acceptedScopes = (response.headers['x-accepted-oauth-scopes'] as string).trim().split(/\s*,\s*/);
     }
 
     // add retry metadata from headers
     if (response.headers['retry-after'] !== undefined) {
-      data.retryAfter =
-        parseInt(response.headers['retry-after'] as string, 10) * 1000;
+      data.retryAfter = parseInt(response.headers['retry-after'] as string, 10) * 1000;
     }
 
     return data;
@@ -1084,11 +920,7 @@ export interface WebAPIResultCallback {
   (error: WebAPICallError, result: WebAPICallResult): void;
 }
 
-export type WebAPICallError =
-  | WebAPIPlatformError
-  | WebAPIRequestError
-  | WebAPIReadError
-  | WebAPIHTTPError;
+export type WebAPICallError = WebAPIPlatformError | WebAPIRequestError | WebAPIReadError | WebAPIHTTPError;
 
 export interface WebAPIPlatformError extends CodedError {
   code: ErrorCode.PlatformError;
@@ -1128,9 +960,7 @@ interface BodyCanBeFormMultipart extends Readable {}
  * Determines whether a request body object should be treated as FormData-encodable (Content-Type=multipart/form-data).
  * @param body a request body
  */
-function canBodyBeFormMultipart(
-  body: FormCanBeURLEncoded | BodyCanBeFormMultipart,
-): body is BodyCanBeFormMultipart {
+function canBodyBeFormMultipart(body: FormCanBeURLEncoded | BodyCanBeFormMultipart): body is BodyCanBeFormMultipart {
   // tried using `isStream.readable(body)` but that failes because the object doesn't have a `_read()` method or a
   // `_readableState` property
   return isStream(body);
@@ -1168,11 +998,7 @@ function readErrorWithOriginal(original: Error): WebAPIReadError {
 function httpErrorWithOriginal(original: Error): WebAPIHTTPError {
   const error = errorWithCode(
     // any cast is used because the got definition file doesn't export the got.HTTPError type
-    new Error(
-      `An HTTP protocol error occurred: statusCode = ${
-        (original as any).statusCode
-      }`,
-    ),
+    new Error(`An HTTP protocol error occurred: statusCode = ${(original as any).statusCode}`),
     ErrorCode.HTTPError,
   ) as Partial<WebAPIHTTPError>;
   error.original = original;
