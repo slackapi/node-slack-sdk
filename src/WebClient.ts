@@ -133,7 +133,8 @@ export class WebClient extends EventEmitter {
       const task = () => {
         this.logger.debug('request attempt');
         return got.post(urlJoin(this.slackApiUrl, method),
-          // @ts-ignore using older definitions for package `got`, can remove when type `@types/got` is updated for v8
+          // @ts-ignore would work if GotFn in `@types/got` adopts conditional types.
+          // see: https://github.com/Microsoft/TypeScript/issues/14107#issuecomment-390401191
           Object.assign({
             form: !canBodyBeFormMultipart(requestBody),
             body: requestBody,
@@ -503,13 +504,13 @@ export class WebClient extends EventEmitter {
 
   /**
    * Transforms options into an object suitable for got to use as a body. This can be one of two things:
-   * -  A FormCanBeURLEncoded object, which is just a key-value object where the values have been flattened and
+   * -  A FormEncodable object, which is just a key-value object where the values have been flattened and
    *    got can serialize it into application/x-www-form-urlencoded content type.
-   * -  A BodyCanBeFormMultipart: when the options includes a file, and got must use multipart/form-data content type.
+   * -  A Readable stream: when the options includes a file, and got must use multipart/form-data content type.
    *
    * @param options arguments for the Web API method
    */
-  private serializeApiCallOptions(options: WebAPICallOptions): FormCanBeURLEncoded | BodyCanBeFormMultipart {
+  private serializeApiCallOptions(options: WebAPICallOptions): URLEncodableForm | Readable {
     // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
     // binary content
     let containsBinaryData = false;
@@ -658,17 +659,15 @@ export interface WebAPIHTTPError extends CodedError {
 
 const defaultFilename = 'Untitled';
 
-interface FormCanBeURLEncoded {
+interface URLEncodableForm {
   [key: string]: string | number | boolean;
 }
-
-interface BodyCanBeFormMultipart extends Readable { }
 
 /**
  * Determines whether a request body object should be treated as FormData-encodable (Content-Type=multipart/form-data).
  * @param body a request body
  */
-function canBodyBeFormMultipart(body: FormCanBeURLEncoded | BodyCanBeFormMultipart): body is BodyCanBeFormMultipart {
+function canBodyBeFormMultipart(body: URLEncodableForm | Readable): body is Readable {
   // tried using `isStream.readable(body)` but that failes because the object doesn't have a `_read()` method or a
   // `_readableState` property
   return isStream(body);
