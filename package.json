@@ -45,7 +45,7 @@
   "dependencies": {
     "@types/delay": "^2.0.1",
     "@types/form-data": "^2.2.1",
-    "@types/got": "^7.1.7",
+    "@types/got": "^8.3.1",
     "@types/is-stream": "^1.1.0",
     "@types/loglevel": "^1.5.3",
     "@types/node": "^9.4.7",
@@ -78,7 +78,7 @@
     "busboy": "^0.2.14",
     "capture-stdout": "^1.0.0",
     "chai": "^4.1.2",
-    "codecov": "^3.0.0",
+    "codecov": "^3.0.2",
     "husky": "^0.14.3",
     "jsdoc-to-markdown": "^4.0.1",
     "lint-staged": "^6.1.0",
