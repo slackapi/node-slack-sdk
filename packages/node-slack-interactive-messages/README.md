@@ -169,6 +169,9 @@ slackInteractions.action({ type: 'button' }, handlerFunction)
 // Run handlerFunction for the dialog submission with callback_id of 'welcome'
 slackInteractions.action({ callbackId: 'welcome', type: 'dialog_submission' }, handlerFunction);
 
+// Run handlerFunction for a message action with callback_id of 'save'
+slackInteractions.action({ callbackId: 'save', type: 'message_action' }, handlerFunction);
+
 // Run handlerFunction for all menu selections inside an unfurl attachment
 slackInteractions.action({ unfurl: true, type: 'select' }, handlerFunction);
 
@@ -182,11 +185,11 @@ function handlerFunction() {
 Slack requires your app to respond to actions in a timely manner so that the user isn't blocked.
 The adapter helps your app respond correctly and on time.
 
-For most actions (button presses and menu selections), a response is simply an updated message to
-replace the one where the interaction occurred. Your app can return a message (or a Promise for a
-message) from the handler. **We recommend that apps at least remove the interactive elements from
-the message in the response** so that users don't get confused (for example, click the same button
-twice). Find details about the format for a message in the docs for
+For most actions (button presses, menu selections, and message actions), a response is simply an
+updated message to replace the one where the interaction occurred. Your app can return a message
+(or a Promise for a message) from the handler. **We recommend that apps at least remove the
+interactive elements from the message in the response** so that users don't get confused (for
+example, click the same button twice). Find details about the format for a message in the docs for
 [message](https://api.slack.com/docs/interactive-message-field-guide#message).
 
 The handler will receive a `payload` which describes the interaction a user had with a message.

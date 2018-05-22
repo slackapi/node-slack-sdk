@@ -60,9 +60,9 @@ function validateConstraints(matchingConstraints) {
 function validateActionConstraints(actionConstraints) {
   if (actionConstraints.type &&
     !(actionConstraints.type === 'select' || actionConstraints.type === 'button' ||
-    actionConstraints.type === 'dialog_submission')
+    actionConstraints.type === 'dialog_submission' || actionConstraints.type === 'message_action')
   ) {
-    return new TypeError('Type must be \'select\', \'button\', or \'dialog_submission\'');
+    return new TypeError('Type must be \'select\', \'button\', \'dialog_submission\', or \'message_action\'');
   }
 
   // We don't need to validate unfurl, we'll just cooerce it to a boolean
@@ -223,6 +223,7 @@ class SlackMessageAdapter {
    * :-----:|:-----:|:-----:|:-----:|:-----:|:-----:
    * **Button Press**| Message in response | When resolved before `syncResposeTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` | Create a new message instead of replacing using `replace_original: false`
    * **Menu Selection**| Message in response | When resolved before `syncResposeTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` | Create a new message instead of replacing using `replace_original: false`
+   * **Message Action** | Message in response | When resolved before `syncResposeTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` |
    * **Dialog Submission**| Error list in response | Error list in response | Empty response | Message in request to `response_url` | Returning a Promise that takes longer than 3 seconds to resolve can result in the user seeing an error. Warning logged if a promise isn't completed before `syncResponseTimeout`.
    *
    * @param {Object|string|RegExp} matchingConstraints - the callback ID (as a string or RegExp) or
@@ -406,9 +407,10 @@ class SlackMessageAdapter {
         // the purpose of callback matching
         const action = payload.actions ? payload.actions[0] : {};
 
-        // button actions have a type defined inside the action, dialog submission actions have a
-        // type defined at the top level, and select actions don't have a type defined, but type
-        // can be inferred by checking if a `selected_options` property exists in the action.
+        // button and message actions have a type defined inside the action, dialog submission
+        // actions have a type defined at the top level, and select actions don't have a type
+        // defined, but type can be inferred by checking if a `selected_options` property exists in
+        // the action.
         const type = action.type || payload.type || (action.selected_options && 'select');
         if (!type) {
           debug('no type found in dispatched action');
