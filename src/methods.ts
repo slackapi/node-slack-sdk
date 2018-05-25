@@ -155,6 +155,11 @@ export type AppsPermissionsRequestArguments = TokenOverridable & {
   scopes: string; // comma-separated list of scopes
   trigger_id: string;
 };
+export type AppsPermissionsResourcesListArguments = TokenOverridable & {
+  cursor?: string;
+  limit?: number;
+};
+export type AppsPermissionsScopesListArguments = TokenOverridable & {};
 
   /*
    * `auth.*`

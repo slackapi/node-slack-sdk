@@ -216,6 +216,14 @@ export class WebClient extends EventEmitter {
     permissions: {
       info: (this.apiCall.bind(this, 'apps.permissions.info')) as Method<methods.AppsPermissionsInfoArguments>,
       request: (this.apiCall.bind(this, 'apps.permissions.request')) as Method<methods.AppsPermissionsRequestArguments>,
+      resources: {
+        list: (this.apiCall.bind(this, 'apps.permissions.resources.list')) as
+          Method<methods.AppsPermissionsResourcesListArguments>,
+      },
+      scopes: {
+        list: (this.apiCall.bind(this, 'apps.permissions.scopes.list')) as
+          Method<methods.AppsPermissionsScopesListArguments>,
+      },
     },
   };
 
@@ -573,7 +581,7 @@ export class WebClient extends EventEmitter {
   /**
    * Processes an HTTP response into a WebAPICallResult by performing JSON parsing on the body and merging relevent
    * HTTP headers into the object.
-   * @param response
+   * @param response - an http response
    */
   private buildResult(response: got.Response<string>): WebAPICallResult {
     const data = JSON.parse(response.body);
@@ -674,10 +682,9 @@ function canBodyBeFormMultipart(body: FormCanBeURLEncoded | BodyCanBeFormMultipa
   return isStream(body);
 }
 
-
 /**
  * A factory to create WebAPIRequestError objects
- * @param original
+ * @param original - original error
  */
 function requestErrorWithOriginal(original: Error): WebAPIRequestError {
   const error = errorWithCode(
@@ -691,7 +698,7 @@ function requestErrorWithOriginal(original: Error): WebAPIRequestError {
 
 /**
  * A factory to create WebAPIReadError objects
- * @param original
+ * @param original - original error
  */
 function readErrorWithOriginal(original: Error): WebAPIReadError {
   const error = errorWithCode(
@@ -705,7 +712,7 @@ function readErrorWithOriginal(original: Error): WebAPIReadError {
 
 /**
  * A factory to create WebAPIHTTPError objects
- * @param original
+ * @param original - original error
  */
 function httpErrorWithOriginal(original: Error): WebAPIHTTPError {
   const error = errorWithCode(
