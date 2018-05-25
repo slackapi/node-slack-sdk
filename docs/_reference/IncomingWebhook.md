@@ -8,13 +8,13 @@ A client for Slack's Incoming Webhooks
 **Kind**: static class of [<code>@slack/client</code>](#module_@slack/client)  
 
 * [.IncomingWebhook](#module_@slack/client.IncomingWebhook)
-    * [.send(message)](#module_@slack/client.IncomingWebhook+send) ⇒ <code>Promise.&lt;module:@slack/client/dist/IncomingWebhook.IncomingWebhookResult&gt;</code>
+    * [.send(message)](#module_@slack/client.IncomingWebhook+send) ⇒ [<code>Promise.&lt;IncomingWebhookResult&gt;</code>](#module_@slack/client.IncomingWebhookResult)
     * [.send(message, callback)](#module_@slack/client.IncomingWebhook+send)
     * [.send(message, callback)](#module_@slack/client.IncomingWebhook+send)
 
 <a name="module_@slack/client.IncomingWebhook+send"></a>
 
-### incomingWebhook.send(message) ⇒ <code>Promise.&lt;module:@slack/client/dist/IncomingWebhook.IncomingWebhookResult&gt;</code>
+### incomingWebhook.send(message) ⇒ [<code>Promise.&lt;IncomingWebhookResult&gt;</code>](#module_@slack/client.IncomingWebhookResult)
 Send a notification to a conversation
 
 **Kind**: instance method of [<code>IncomingWebhook</code>](#module_@slack/client.IncomingWebhook)  

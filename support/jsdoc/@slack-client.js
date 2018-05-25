@@ -50,7 +50,7 @@ export class IncomingWebhook {
    * Send a notification to a conversation
    * @param {string | module:@slack/client.IncomingWebhookSendArguments} message the message (a simple string, or an object describing the message)
    * @function module:@slack/client.IncomingWebhook#send
-   * @returns {Promise<module:@slack/client/dist/IncomingWebhook.IncomingWebhookResult>}
+   * @returns {Promise<module:@slack/client.IncomingWebhookResult>}
    */
   send() {}
 
@@ -79,6 +79,13 @@ export class IncomingWebhook {
  * @property {boolean} [link_names]
  */
 export class IncomingWebhookDefaultArguments {
+}
+
+/**
+ * @interface module:@slack/client.IncomingWebhookResult
+ * @property {string} text
+ */
+export class IncomingWebhookResult {
 }
 
 /**

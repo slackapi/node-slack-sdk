@@ -155,6 +155,8 @@ export type AppsPermissionsRequestArguments = TokenOverridable & {
   scopes: string; // comma-separated list of scopes
   trigger_id: string;
 };
+export type AppsPermissionsResourcesListArguments = TokenOverridable & CursorPaginationEnabled;
+export type AppsPermissionsScopesListArguments = TokenOverridable & {};
 
   /*
    * `auth.*`

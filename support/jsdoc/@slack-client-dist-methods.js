@@ -3,9 +3,38 @@
  */
 
 /**
+ * @interface module:@slack/client/dist/methods.AttachmentAction
+ * @property {string} [id]
+ * @property {module:@slack/client/dist/methods.Confirmation} [confirm]
+ * @property {string} [data_source]
+ * @property {number} [min_query_length]
+ * @property {string} [name]
+ * @property {Array<module:@slack/client/dist/methods.OptionField>} [options]
+ * @property {Array<module:@slack/client/dist/methods.__type>} [option_groups]
+ * @property {Array<module:@slack/client/dist/methods.OptionField>} [selected_options]
+ * @property {string} [style]
+ * @property {string} text
+ * @property {string} type
+ * @property {string} [value]
+ * @property {string} [url]
+ */
+export class AttachmentAction {
+}
+
+/**
  * @interface module:@slack/client/dist/methods.AuxiliaryArguments
  */
 export class AuxiliaryArguments {
+}
+
+/**
+ * @interface module:@slack/client/dist/methods.Confirmation
+ * @property {string} [dismiss_text]
+ * @property {string} [ok_text]
+ * @property {string} text
+ * @property {string} [title]
+ */
+export class Confirmation {
 }
 
 /**
@@ -22,6 +51,7 @@ export class CursorPaginationEnabled {
  * @property {string} callback_id
  * @property {Array<module:@slack/client/dist/methods.__type>} elements
  * @property {string} [submit_label]
+ * @property {boolean} [notify_on_cancel]
  */
 export class Dialog {
 }
@@ -56,7 +86,7 @@ export class LocaleAware {
  * @property {string} [footer]
  * @property {string} [footer_icon]
  * @property {string} [ts]
- * @property {Array<module:@slack/client/dist/methods.__type>} [actions]
+ * @property {Array<module:@slack/client/dist/methods.AttachmentAction>} [actions]
  * @property {string} [callback_id]
  * @property {Array<"pretext" | "text" | "fields">} [mrkdwn_in]
  */
@@ -67,6 +97,23 @@ export class MessageAttachment {
  * @interface module:@slack/client/dist/methods.Method
  */
 export class Method {
+}
+
+/**
+ * @interface module:@slack/client/dist/methods.OptionField
+ * @property {string} [description]
+ * @property {string} text
+ * @property {string} value
+ */
+export class OptionField {
+}
+
+/**
+ * @interface module:@slack/client/dist/methods.SelectOption
+ * @property {string} label
+ * @property {string} value
+ */
+export class SelectOption {
 }
 
 /**
