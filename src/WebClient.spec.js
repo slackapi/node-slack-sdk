@@ -6,6 +6,7 @@ const { assert } = require('chai');
 const { WebClient } = require('./WebClient');
 const { LogLevel } = require('./logger');
 const { addAppMetadata } = require('./util');
+const rapidRetryPolicy = require('./retry-policies').rapidRetryPolicy;
 const CaptureStdout = require('capture-stdout');
 const isPromise = require('p-is-promise');
 const nock = require('nock');
@@ -13,7 +14,6 @@ const Busboy = require('busboy');
 const sinon = require('sinon');
 
 const token = 'xoxa-faketoken';
-const fastRetriesForTest = { minTimeout: 0, maxTimeout: 1 };
 
 describe('WebClient', function () {
 
@@ -72,7 +72,7 @@ describe('WebClient', function () {
 
   describe('apiCall()', function () {
     beforeEach(function () {
-      this.client = new WebClient(token, { retryConfig: fastRetriesForTest });
+      this.client = new WebClient(token, { retryConfig: rapidRetryPolicy });
     });
 
     describe('when making a successful call', function () {
@@ -339,7 +339,7 @@ describe('WebClient', function () {
           .post(/api/)
           .reply(200, { ok: true });
         // NOTE: appMetaData is only evalued on client construction, so we cannot use the client already created
-        const client = new WebClient(token, { retryConfig: fastRetriesForTest });
+        const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
         return client.apiCall('method')
           .then(() => {
             scope.done();
@@ -349,7 +349,7 @@ describe('WebClient', function () {
   });
 
   describe('apiCall() - without a token', function () {
-    const client = new WebClient(undefined, { retryConfig: fastRetriesForTest });
+    const client = new WebClient(undefined, { retryConfig: rapidRetryPolicy });
 
     const scope = nock('https://slack.com')
       // NOTE: this could create false negatives if the serialization order changes (it shouldn't matter)
@@ -365,7 +365,7 @@ describe('WebClient', function () {
 
   describe('named method aliases (facets)', function () {
     beforeEach(function () {
-      this.client = new WebClient(token, { retryConfig: fastRetriesForTest });
+      this.client = new WebClient(token, { retryConfig: rapidRetryPolicy });
     });
     it('should properly mount methods as functions', function () {
       // This test doesn't exhaustively check all the method aliases, it just tries a couple.
@@ -471,14 +471,13 @@ describe('WebClient', function () {
   });
 
   describe('has an option to set the retry policy ', function () {
-
     it('retries a request which fails to get a response', function () {
       const scope = nock('https://slack.com')
         .post(/api/)
         .replyWithError('could be a ECONNREFUESD, ENOTFOUND, ETIMEDOUT, ECONNRESET')
         .post(/api/)
         .reply(200, { ok: true });
-      const client = new WebClient(token, { retryConfig: fastRetriesForTest });
+      const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
       return client.apiCall('method')
         .then((resp) => {
           assert.propertyVal(resp, 'ok', true);
@@ -491,7 +490,7 @@ describe('WebClient', function () {
         .reply(500)
         .post(/api/)
         .reply(200, { ok: true });
-      const client = new WebClient(token, { retryConfig: fastRetriesForTest });
+      const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
       return client.apiCall('method')
         .then((resp) => {
           assert.propertyVal(resp, 'ok', true);
@@ -501,86 +500,35 @@ describe('WebClient', function () {
   });
 
   describe('has rate limit handling', function () {
-    it('should expose retry headers in the response', function() {
-      const scope = nock('https://slack.com')
-        .post(/api/)
-        .reply(200, { ok: true }, {
-          'retry-after': 1
-        });
-      const client = new WebClient(token);
-      return client.apiCall('method')
-        .then((result) => {
-          assert.deepNestedInclude(result, { 'retryAfter': 1000 });
-          scope.done();
-        });
-    });
-
-    // NOTE: see retry policy note below
-    it('should allow rate limit triggered retries to be turned off', function() {
-      const scope = nock('https://slack.com')
-        .post(/api/)
-        .reply(429, { ok: true }, {
-          'retry-after': 0
-        })
-        .post(/api/)
-        .reply(200, { ok: true });
-      const client = new WebClient(token, { retryConfig: { retries: 0 } });
-      return client.apiCall('method')
-        .catch((error) => {
-          assert.equal(error.statusCode, 429);
-          assert.isFalse(scope.isDone());
-        });
-    });
-
-
+    // NOTE: Check issue #451
+    it('should expose retry headers in the response');
+    it('should allow rate limit triggered retries to be turned off');
 
     describe('when a request fails due to rate-limiting', function () {
       // NOTE: is this retrying configurable with the retry policy? is it subject to the request concurrency?
       it('should automatically retry the request after the specified timeout', function() {
         const scope = nock('https://slack.com')
           .post(/api/)
-          .reply(429, { ok: true }, {
-            'retry-after': 1
-          })
+          .reply(429, {}, { 'retry-after': 1 })
           .post(/api/)
           .reply(200, { ok: true });
         const client = new WebClient(token, { retryConfig: { retries: 1 } });
+        const startTime = new Date().getTime();
         return client.apiCall('method')
           .then((resp) => {
-            assert.propertyVal(resp, 'ok', true);;
+            const time = new Date().getTime() - startTime;
+            assert.isAtLeast(time, 1000, 'elapsed time is at least a second');
+            assert.propertyVal(resp, 'ok', true);
           });
       });
 
-      it('should pause the remaining requests in queue', function() {
-        const scope = nock('https://slack.com')
-          .post(/api/)
-          .reply(429, { ok: true }, {
-            'retry-after': 0
-          })
-          .post(/api/)
-          .reply(429, { ok: true }, {
-            'retry-after': 1
-          })
-          .post(/api/)
-          .reply(429, { ok: true }, {
-            'retry-after': 0
-          })
-          .post(/api/)
-          .reply(200, { ok: true });
-        const client = new WebClient(token, { retryConfig: { retries: 3 } });
-        return client.apiCall('method')
-          .then((resp) => {
-            assert.propertyVal(resp, 'ok', true);;
-          });
-      });
+      it('should pause the remaining requests in queue');
 
       it('should emit a rate_limited event on the client', function() {
         const spy = sinon.spy();
         const scope = nock('https://slack.com')
           .post(/api/)
-          .reply(429, { ok: true }, {
-            'retry-after': 0
-          });
+          .reply(429, {}, { 'retry-after': 0 });
         const client = new WebClient(token, { retryConfig: { retries: 0 } });
         client.on('rate_limited', spy);
         return client.apiCall('method')
@@ -588,7 +536,6 @@ describe('WebClient', function () {
             sinon.assert.calledOnce(spy);
           });
       });
-
     });
   });
 

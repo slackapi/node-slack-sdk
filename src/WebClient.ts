@@ -159,27 +159,15 @@ export class WebClient extends EventEmitter {
             } else if (error.name === 'ReadError') {
               throw readErrorWithOriginal(error);
             } else if (error.name === 'HTTPError') {
-              // Special case: retry if 429
-              const result = this.buildResult(error.response);
+              // Special case: retry if 429;
               if (error.statusCode === 429) {
+                const result = this.buildResult(error.response);
                 const retryAfterMs = result.retryAfter !== undefined ? result.retryAfter : (60 * 1000);
                 this.emit('rate_limited', retryAfterMs / 1000);
                 this.logger.info(`API Call failed due to rate limiting. Will retry in ${retryAfterMs / 1000} seconds.`);
                 // wait and return the result from calling `task` again after the specified number of seconds
                 return delay(retryAfterMs).then(task);
               }
-
-              // If a 429 error is NOT OK, treat as irrecoverable by throwing an AbortError to end retries.
-              if (!result.ok) {
-                const fatalErr = errorWithCode(
-                  new Error(`An API error occurred: ${result.error}`),
-                  ErrorCode.PlatformError,
-                );
-                fatalErr.data = result;
-                throw new pRetry.AbortError(fatalErr);
-              }
-
-              // if it's some other http error, just throw as normal
               throw httpErrorWithOriginal(error);
             } else {
               throw error;
