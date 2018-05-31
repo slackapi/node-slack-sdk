@@ -352,7 +352,7 @@ export class RTMClient extends EventEmitter {
    * be sent or received.
    * @param options
    */
-  public start(options: methods.RTMStartArguments | methods.RTMConnectArguments): void {
+  public start(options?: methods.RTMStartArguments | methods.RTMConnectArguments): void {
     // TODO: should this return a Promise<WebAPICallResult>?
     // TODO: make a named interface for the type of `options`. it should end in -Options instead of Arguments.
 
