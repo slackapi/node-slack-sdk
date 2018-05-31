@@ -10,6 +10,7 @@ const CaptureStdout = require('capture-stdout');
 const isPromise = require('p-is-promise');
 const nock = require('nock');
 const Busboy = require('busboy');
+const sinon = require('sinon');
 
 const token = 'xoxa-faketoken';
 const fastRetriesForTest = { minTimeout: 0, maxTimeout: 1 };
@@ -500,15 +501,94 @@ describe('WebClient', function () {
   });
 
   describe('has rate limit handling', function () {
-    it('should expose retry headers in the response');
+    it('should expose retry headers in the response', function() {
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(200, { ok: true }, {
+          'retry-after': 1
+        });
+      const client = new WebClient(token);
+      return client.apiCall('method')
+        .then((result) => {
+          assert.deepNestedInclude(result, { 'retryAfter': 1000 });
+          scope.done();
+        });
+    });
+
     // NOTE: see retry policy note below
-    it('should allow rate limit triggered retries to be turned off');
+    it('should allow rate limit triggered retries to be turned off', function() {
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(429, { ok: true }, {
+          'retry-after': 0
+        })
+        .post(/api/)
+        .reply(200, { ok: true });
+      const client = new WebClient(token, { retryConfig: { retries: 0 } });
+      return client.apiCall('method')
+        .catch((error) => {
+          assert.equal(error.statusCode, 429);
+          assert.isFalse(scope.isDone());
+        });
+    });
+
+
 
     describe('when a request fails due to rate-limiting', function () {
       // NOTE: is this retrying configurable with the retry policy? is it subject to the request concurrency?
-      it('should automatically retry the request after the specified timeout');
-      it('should pause the remaining requests in queue');
-      it('should emit a rate_limited event on the client');
+      it('should automatically retry the request after the specified timeout', function() {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(429, { ok: true }, {
+            'retry-after': 1
+          })
+          .post(/api/)
+          .reply(200, { ok: true });
+        const client = new WebClient(token, { retryConfig: { retries: 1 } });
+        return client.apiCall('method')
+          .then((resp) => {
+            assert.propertyVal(resp, 'ok', true);;
+          });
+      });
+
+      it('should pause the remaining requests in queue', function() {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(429, { ok: true }, {
+            'retry-after': 0
+          })
+          .post(/api/)
+          .reply(429, { ok: true }, {
+            'retry-after': 1
+          })
+          .post(/api/)
+          .reply(429, { ok: true }, {
+            'retry-after': 0
+          })
+          .post(/api/)
+          .reply(200, { ok: true });
+        const client = new WebClient(token, { retryConfig: { retries: 3 } });
+        return client.apiCall('method')
+          .then((resp) => {
+            assert.propertyVal(resp, 'ok', true);;
+          });
+      });
+
+      it('should emit a rate_limited event on the client', function() {
+        const spy = sinon.spy();
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(429, { ok: true }, {
+            'retry-after': 0
+          });
+        const client = new WebClient(token, { retryConfig: { retries: 0 } });
+        client.on('rate_limited', spy);
+        return client.apiCall('method')
+          .catch((err) => {
+            sinon.assert.calledOnce(spy);
+          });
+      });
+
     });
   });
 
