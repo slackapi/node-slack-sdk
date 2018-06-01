@@ -6,13 +6,14 @@ const { assert } = require('chai');
 const { WebClient } = require('./WebClient');
 const { LogLevel } = require('./logger');
 const { addAppMetadata } = require('./util');
+const rapidRetryPolicy = require('./retry-policies').rapidRetryPolicy;
 const CaptureStdout = require('capture-stdout');
 const isPromise = require('p-is-promise');
 const nock = require('nock');
 const Busboy = require('busboy');
+const sinon = require('sinon');
 
 const token = 'xoxa-faketoken';
-const fastRetriesForTest = { minTimeout: 0, maxTimeout: 1 };
 
 describe('WebClient', function () {
 
@@ -71,14 +72,18 @@ describe('WebClient', function () {
 
   describe('apiCall()', function () {
     beforeEach(function () {
-      this.client = new WebClient(token, { retryConfig: fastRetriesForTest });
+      this.client = new WebClient(token, { retryConfig: rapidRetryPolicy });
     });
 
     describe('when making a successful call', function () {
       beforeEach(function () {
         this.scope = nock('https://slack.com')
           .post(/api/)
-          .reply(200, { ok: true });
+          .reply(200, { ok: true,
+            response_metadata: {
+              warnings: ['testWarning1', 'testWarning2']
+            }
+          });
       });
 
       it('should return results in a Promise', function () {
@@ -88,6 +93,19 @@ describe('WebClient', function () {
           assert(result.ok);
           this.scope.done();
         });
+      });
+
+      it('should send warnings to logs', function() {
+        const output = [];
+        const stub = function (level, message) {
+          output.push([level, message]);
+        }
+        const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger: stub });
+        return warnClient.apiCall('method')
+          .then((result) => {
+            assert.isNotEmpty(output);
+            assert.lengthOf(output, 2, 'two logs pushed onto output');
+          });
       });
 
       it('should deliver results in a callback', function (done) {
@@ -338,7 +356,7 @@ describe('WebClient', function () {
           .post(/api/)
           .reply(200, { ok: true });
         // NOTE: appMetaData is only evalued on client construction, so we cannot use the client already created
-        const client = new WebClient(token, { retryConfig: fastRetriesForTest });
+        const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
         return client.apiCall('method')
           .then(() => {
             scope.done();
@@ -348,7 +366,7 @@ describe('WebClient', function () {
   });
 
   describe('apiCall() - without a token', function () {
-    const client = new WebClient(undefined, { retryConfig: fastRetriesForTest });
+    const client = new WebClient(undefined, { retryConfig: rapidRetryPolicy });
 
     const scope = nock('https://slack.com')
       // NOTE: this could create false negatives if the serialization order changes (it shouldn't matter)
@@ -364,7 +382,7 @@ describe('WebClient', function () {
 
   describe('named method aliases (facets)', function () {
     beforeEach(function () {
-      this.client = new WebClient(token, { retryConfig: fastRetriesForTest });
+      this.client = new WebClient(token, { retryConfig: rapidRetryPolicy });
     });
     it('should properly mount methods as functions', function () {
       // This test doesn't exhaustively check all the method aliases, it just tries a couple.
@@ -470,14 +488,13 @@ describe('WebClient', function () {
   });
 
   describe('has an option to set the retry policy ', function () {
-
     it('retries a request which fails to get a response', function () {
       const scope = nock('https://slack.com')
         .post(/api/)
         .replyWithError('could be a ECONNREFUESD, ENOTFOUND, ETIMEDOUT, ECONNRESET')
         .post(/api/)
         .reply(200, { ok: true });
-      const client = new WebClient(token, { retryConfig: fastRetriesForTest });
+      const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
       return client.apiCall('method')
         .then((resp) => {
           assert.propertyVal(resp, 'ok', true);
@@ -490,7 +507,7 @@ describe('WebClient', function () {
         .reply(500)
         .post(/api/)
         .reply(200, { ok: true });
-      const client = new WebClient(token, { retryConfig: fastRetriesForTest });
+      const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
       return client.apiCall('method')
         .then((resp) => {
           assert.propertyVal(resp, 'ok', true);
@@ -500,15 +517,42 @@ describe('WebClient', function () {
   });
 
   describe('has rate limit handling', function () {
+    // NOTE: Check issue #451
     it('should expose retry headers in the response');
-    // NOTE: see retry policy note below
     it('should allow rate limit triggered retries to be turned off');
 
     describe('when a request fails due to rate-limiting', function () {
       // NOTE: is this retrying configurable with the retry policy? is it subject to the request concurrency?
-      it('should automatically retry the request after the specified timeout');
+      it('should automatically retry the request after the specified timeout', function() {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(429, {}, { 'retry-after': 1 })
+          .post(/api/)
+          .reply(200, { ok: true });
+        const client = new WebClient(token, { retryConfig: { retries: 1 } });
+        const startTime = new Date().getTime();
+        return client.apiCall('method')
+          .then((resp) => {
+            const time = new Date().getTime() - startTime;
+            assert.isAtLeast(time, 1000, 'elapsed time is at least a second');
+            assert.propertyVal(resp, 'ok', true);
+          });
+      });
+
       it('should pause the remaining requests in queue');
-      it('should emit a rate_limited event on the client');
+
+      it('should emit a rate_limited event on the client', function() {
+        const spy = sinon.spy();
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(429, {}, { 'retry-after': 0 });
+        const client = new WebClient(token, { retryConfig: { retries: 0 } });
+        client.on('rate_limited', spy);
+        return client.apiCall('method')
+          .catch((err) => {
+            sinon.assert.calledOnce(spy);
+          });
+      });
     });
   });
 

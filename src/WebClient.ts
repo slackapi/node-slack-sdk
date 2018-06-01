@@ -144,6 +144,14 @@ export class WebClient extends EventEmitter {
             agent: this.agentConfig,
           }, this.tlsConfig),
         )
+          .then((response: got.Response<string>) => {
+            const result = this.buildResult(response);
+            // log warnings in response metadata
+            if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
+              result.response_metadata.warnings.forEach(this.logger.warn);
+            }
+            return result;
+          })
           .catch((error: got.GotError) => {
             // Wrap errors in this packages own error types (abstract the implementation details' types)
             if (error.name === 'RequestError') {
@@ -151,39 +159,19 @@ export class WebClient extends EventEmitter {
             } else if (error.name === 'ReadError') {
               throw readErrorWithOriginal(error);
             } else if (error.name === 'HTTPError') {
+              // Special case: retry if 429;
+              if (error.statusCode === 429) {
+                const result = this.buildResult(error.response);
+                const retryAfterMs = result.retryAfter !== undefined ? result.retryAfter : (60 * 1000);
+                this.emit('rate_limited', retryAfterMs / 1000);
+                this.logger.info(`API Call failed due to rate limiting. Will retry in ${retryAfterMs / 1000} seconds.`);
+                // wait and return the result from calling `task` again after the specified number of seconds
+                return delay(retryAfterMs).then(task);
+              }
               throw httpErrorWithOriginal(error);
             } else {
               throw error;
             }
-          })
-          .then((response: got.Response<string>) => {
-            const result = this.buildResult(response);
-            // log warnings in response metadata
-            if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
-              result.response_metadata.warnings.forEach(this.logger.warn);
-            }
-
-            // handle rate-limiting
-            if (response.statusCode !== undefined && response.statusCode === 429) {
-              const retryAfterMs = result.retryAfter !== undefined ? result.retryAfter : (60 * 1000);
-              // NOTE: the following event could have more information regarding the api call that is being delayed
-              this.emit('rate_limited', retryAfterMs / 1000);
-              this.logger.info(`API Call failed due to rate limiting. Will retry in ${retryAfterMs / 1000} seconds.`);
-              // wait and return the result from calling `task` again after the specified number of seconds
-              return delay(retryAfterMs).then(task);
-            }
-
-            // For any error in the API response, treat them as irrecoverable by throwing an AbortError to end retries.
-            if (!result.ok) {
-              const error = errorWithCode(
-                new Error(`An API error occurred: ${result.error}`),
-                ErrorCode.PlatformError,
-              );
-              error.data = result;
-              throw new pRetry.AbortError(error);
-            }
-
-            return result;
           });
       };
 
