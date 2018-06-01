@@ -79,7 +79,11 @@ describe('WebClient', function () {
       beforeEach(function () {
         this.scope = nock('https://slack.com')
           .post(/api/)
-          .reply(200, { ok: true });
+          .reply(200, { ok: true,
+            response_metadata: {
+              warnings: ['testWarning1', 'testWarning2']
+            }
+          });
       });
 
       it('should return results in a Promise', function () {
@@ -89,6 +93,19 @@ describe('WebClient', function () {
           assert(result.ok);
           this.scope.done();
         });
+      });
+
+      it('should send warnings to logs', function() {
+        const output = [];
+        const stub = function (level, message) {
+          output.push([level, message]);
+        }
+        const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger: stub });
+        return warnClient.apiCall('method')
+          .then((result) => {
+            assert.isNotEmpty(output);
+            assert.lengthOf(output, 2, 'two logs pushed onto output');
+          });
       });
 
       it('should deliver results in a callback', function (done) {
