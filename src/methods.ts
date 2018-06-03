@@ -25,20 +25,43 @@ export interface TokenOverridable {
   token?: string;
 }
 
+export interface LocaleAware {
+  include_locale?: boolean;
+}
+
+export interface Searchable {
+  query: string;
+  highlight?: boolean;
+  sort: 'score' | 'timestamp';
+  sort_dir: 'asc' | 'desc';
+}
+
+// Pagination protocols
+// --------------------
+// In order to support automatic pagination in the WebClient, the following pagination types are not only defined as an
+// interface to abstract the related arguments, but also all API methods which support the pagination type are added
+// to a respective Set, so that the WebClient can reflect on which API methods it may apply automatic pagination.
+// As maintainers, we must be careful to add each of the API methods into these sets, so that is handled local (in line
+// numbers close) to the application of each interface.
+
 export interface CursorPaginationEnabled {
   limit?: number; // natural integer, max of 1000
   cursor?: string; // find this in a response's `response_metadata.next_cursor`
 }
+export const cursorPaginationEnabledMethods = new Set();
 
 export interface TimelinePaginationEnabled {
   oldest?: string;
   latest?: string;
   inclusive?: boolean;
 }
+export const timelinePaginationEnabledMethods = new Set();
 
-export interface LocaleAware {
-  include_locale?: boolean;
+export interface TraditionalPagingEnabled {
+  page?: number; // default: 1
+  count?: number; // default: 100
 }
+export const traditionalPagingEnabledMethods = new Set();
 
 /*
  * Reusable shapes for argument values
@@ -156,6 +179,7 @@ export type AppsPermissionsRequestArguments = TokenOverridable & {
   trigger_id: string;
 };
 export type AppsPermissionsResourcesListArguments = TokenOverridable & CursorPaginationEnabled;
+cursorPaginationEnabledMethods.add('apps.permissions.resources.list');
 export type AppsPermissionsScopesListArguments = TokenOverridable & {};
 
   /*
@@ -188,6 +212,7 @@ export type ChannelsHistoryArguments = TokenOverridable & TimelinePaginationEnab
   count?: number;
   unreads?: boolean;
 };
+timelinePaginationEnabledMethods.add('channels.history');
 export type ChannelsInfoArguments = TokenOverridable & LocaleAware & {
   channel: string;
 };
@@ -210,6 +235,7 @@ export type ChannelsListArguments = TokenOverridable & CursorPaginationEnabled &
   exclude_archived: boolean;
   exclude_members: boolean;
 };
+cursorPaginationEnabledMethods.add('channels.list');
 export type ChannelsMarkArguments = TokenOverridable & {
   channel: string;
   ts: string;
@@ -310,6 +336,8 @@ export type ConversationsCreateArguments = TokenOverridable & {
 export type ConversationsHistoryArguments = TokenOverridable & CursorPaginationEnabled & TimelinePaginationEnabled & {
   channel: string;
 };
+cursorPaginationEnabledMethods.add('conversations.history');
+timelinePaginationEnabledMethods.add('conversations.history');
 export type ConversationsInfoArguments = TokenOverridable & LocaleAware & {
   channel: string;
 };
@@ -331,9 +359,11 @@ export type ConversationsListArguments = TokenOverridable & CursorPaginationEnab
   exclude_archived?: boolean;
   types?: string; // comma-separated list of conversation types
 };
+cursorPaginationEnabledMethods.add('conversations.list');
 export type ConversationsMembersArguments = TokenOverridable & CursorPaginationEnabled & {
   channel: string;
 };
+cursorPaginationEnabledMethods.add('conversations.members');
 export type ConversationsOpenArguments = TokenOverridable & {
   channel?: string;
   users?: string; // comma-separated list of users
@@ -347,6 +377,8 @@ export type ConversationsRepliesArguments = TokenOverridable & CursorPaginationE
   channel: string;
   ts: string;
 };
+cursorPaginationEnabledMethods.add('conversations.replies');
+timelinePaginationEnabledMethods.add('conversations.replies');
 export type ConversationsSetPurposeArguments = TokenOverridable & {
   channel: string;
   purpose: string;
@@ -398,15 +430,14 @@ export type FilesInfoArguments = TokenOverridable & {
   count?: number;
   page?: number;
 };
-export type FilesListArguments = TokenOverridable & {
+export type FilesListArguments = TokenOverridable & TraditionalPagingEnabled & {
   channel?: string;
   user?: string;
-  count?: number;
-  page?: number;
   ts_from?: string;
   ts_to?: string;
   types?: string; // comma-separated list of file types
 };
+traditionalPagingEnabledMethods.add('files.list');
 export type FilesRevokePublicURLArguments = TokenOverridable & {
   file: string; // file id
 };
@@ -453,6 +484,8 @@ export type GroupsHistoryArguments = TokenOverridable & CursorPaginationEnabled 
   channel: string;
   unreads?: boolean;
 };
+cursorPaginationEnabledMethods.add('groups.history');
+timelinePaginationEnabledMethods.add('groups.history');
 export type GroupsInfoArguments = TokenOverridable & LocaleAware & {
   channel: string;
 };
@@ -510,7 +543,9 @@ export type IMHistoryArguments = TokenOverridable & TimelinePaginationEnabled & 
   count?: number;
   unreads?: boolean;
 };
+timelinePaginationEnabledMethods.add('im.history');
 export type IMListArguments = TokenOverridable & CursorPaginationEnabled;
+cursorPaginationEnabledMethods.add('im.list');
 export type IMMarkArguments = TokenOverridable & {
   channel: string;
   ts: string;
@@ -543,6 +578,7 @@ export type MPIMHistoryArguments = TokenOverridable & TimelinePaginationEnabled 
   count?: number;
   unreads?: boolean;
 };
+timelinePaginationEnabledMethods.add('mpim.history');
 export type MPIMListArguments = TokenOverridable;
 export type MPIMMarkArguments = TokenOverridable & {
   channel: string;
@@ -613,12 +649,11 @@ export type ReactionsGetArguments = TokenOverridable & {
   file?: string; // file id
   file_comment?: string;
 };
-export type ReactionsListArguments = TokenOverridable & {
+export type ReactionsListArguments = TokenOverridable & TraditionalPagingEnabled & {
   user?: string;
-  count?: number;
-  page?: number;
   full?: boolean;
 };
+traditionalPagingEnabledMethods.add('reactions.list');
 export type ReactionsRemoveArguments = TokenOverridable & {
   name: string;
   // must supply one of:
@@ -666,16 +701,12 @@ export type RTMStartArguments = TokenOverridable & LocaleAware & {
   /*
    * `search.*`
    */
-export type SearchAllArguments = TokenOverridable & {
-  query: string;
-  count?: number;
-  page?: number;
-  highlight?: boolean;
-  sort: 'score' | 'timestamp';
-  sort_dir: 'asc' | 'desc';
-};
-export type SearchFilesArguments = SearchAllArguments;
-export type SearchMessagesArguments = SearchAllArguments;
+export type SearchAllArguments = TokenOverridable & TraditionalPagingEnabled & Searchable;
+traditionalPagingEnabledMethods.add('search.all');
+export type SearchFilesArguments = TokenOverridable & TraditionalPagingEnabled & Searchable;
+traditionalPagingEnabledMethods.add('search.files');
+export type SearchMessagesArguments = TokenOverridable & TraditionalPagingEnabled & Searchable;
+traditionalPagingEnabledMethods.add('search.messages');
 
   /*
    * `stars.*`
@@ -687,10 +718,8 @@ export type StarsAddArguments = TokenOverridable & {
   file?: string; // file id
   file_comment?: string;
 };
-export type StarsListArguments = TokenOverridable & {
-  count?: number;
-  page?: number;
-};
+export type StarsListArguments = TokenOverridable & TraditionalPagingEnabled;
+traditionalPagingEnabledMethods.add('stars.list');
 export type StarsRemoveArguments = TokenOverridable & {
   // must supply one of:
   channel?: string; // paired with `timestamp`
@@ -772,6 +801,7 @@ export type UsersConversationsArguments = TokenOverridable & CursorPaginationEna
   types?: string; // comma-separated list of conversation types
   user?: string;
 };
+cursorPaginationEnabledMethods.add('users.conversations');
 export type UsersDeletePhotoArguments = TokenOverridable;
 export type UsersGetPresenceArguments = TokenOverridable & {
   user: string;
@@ -783,6 +813,7 @@ export type UsersInfoArguments = TokenOverridable & LocaleAware & {
 export type UsersListArguments = TokenOverridable & CursorPaginationEnabled & LocaleAware & {
   presence?: boolean; // deprecated, defaults to false
 };
+cursorPaginationEnabledMethods.add('users.list');
 export type UsersLookupByEmailArguments = TokenOverridable & {
   email: string;
 };
@@ -806,3 +837,8 @@ export type UsersProfileSetArguments = TokenOverridable & {
   name?: string; // usable if `profile` is not passed
   value?: string; // usable if `profile` is not passed
 };
+
+/**
+ * Logical groups of methods which can be used for behavior
+ */
+export
