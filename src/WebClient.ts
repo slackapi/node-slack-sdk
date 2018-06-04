@@ -150,6 +150,16 @@ export class WebClient extends EventEmitter {
             if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
               result.response_metadata.warnings.forEach(this.logger.warn);
             }
+
+            if (!result.ok) {
+              const error = errorWithCode(
+                new Error(`An API error occurred: ${result.error}`),
+                ErrorCode.PlatformError,
+              );
+              error.data = result;
+              throw new pRetry.AbortError(error);
+            }
+
             return result;
           })
           .catch((error: got.GotError) => {
@@ -168,6 +178,7 @@ export class WebClient extends EventEmitter {
                 // wait and return the result from calling `task` again after the specified number of seconds
                 return delay(retryAfterMs).then(task);
               }
+
               throw httpErrorWithOriginal(error);
             } else {
               throw error;

@@ -191,6 +191,19 @@ describe('WebClient', function () {
       });
     });
 
+    it('should return platform error if 200 request is not ok', function () {
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(200, { ok: false });
+      const client = new WebClient(token);
+      return client.apiCall('method')
+        .catch((error) => {
+          assert.propertyVal(error, 'code', 'slackclient_platform_error');
+          assert.propertyVal(error.data, 'ok', false);
+          scope.done();
+        });
+    });
+
     it('should properly serialize simple API arguments', function () {
       const scope = nock('https://slack.com')
         // NOTE: this could create false negatives if the serialization order changes (it shouldn't matter)
