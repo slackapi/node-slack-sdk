@@ -191,15 +191,16 @@ describe('WebClient', function () {
       });
     });
 
-    it('should return platform error if 200 request is not ok', function () {
+    it.only('should fail with platform errors when the API response is an error', function () {
       const scope = nock('https://slack.com')
         .post(/api/)
-        .reply(200, { ok: false });
+        .reply(200, { ok: false, error: 'bad error' });
       const client = new WebClient(token);
       return client.apiCall('method')
         .catch((error) => {
           assert.propertyVal(error, 'code', 'slackclient_platform_error');
-          assert.propertyVal(error.data, 'ok', false);
+          assert.nestedPropertyVal(error, 'data.ok', false);
+          assert.nestedPropertyVal(error, 'data.error', 'bad error');
           scope.done();
         });
     });
