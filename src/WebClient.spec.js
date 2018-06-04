@@ -191,7 +191,7 @@ describe('WebClient', function () {
       });
     });
 
-    it.only('should fail with platform errors when the API response is an error', function () {
+    it('should fail with platform errors when the API response is an error', function () {
       const scope = nock('https://slack.com')
         .post(/api/)
         .reply(200, { ok: false, error: 'bad error' });
