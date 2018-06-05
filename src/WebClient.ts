@@ -129,30 +129,103 @@ export class WebClient extends EventEmitter {
 
       const requestBody = this.serializeApiCallOptions(Object.assign({ token: this.token }, options));
 
+      // determine if this call should be auto-paginated and how
+      // when yes, need to generate a taskAfterRetries for each page request and add them to the requestQueue using
+      // addAll(), and then merge the responses
+      // when no, there's just one task to generate
+
+      // Each call to this method may result in many HTTP requests. One case for more than a single HTTP request is when
+      // the first request fails for a reason that is intermittent (including rate-limits) and in those cases, the
+      // same request is retried. Another case for more than a single HTTP request is when the method supports
+      // pagination and the input options don't include any pagination arguments. In this case, the client performs
+      // automatic pagination by performing many HTTP requests.
+
       // The following thunk encapsulates the task so that it can be coordinated for retries
-      const task = () => {
-        this.logger.debug('request attempt');
-        return got.post(urlJoin(this.slackApiUrl, method),
-          // @ts-ignore using older definitions for package `got`, can remove when type `@types/got` is updated for v8
-          Object.assign({
-            form: !canBodyBeFormMultipart(requestBody),
-            body: requestBody,
-            retries: 0,
-            headers: {
-              'user-agent': this.userAgent,
-            },
-            agent: this.agentConfig,
-          }, this.tlsConfig),
-        )
-          .then((response: got.Response<string>) => {
-            const result = this.buildResult(response);
+      // const task = () => {
+      //   this.logger.debug('request attempt');
+      //   return got.post(urlJoin(this.slackApiUrl, method),
+      //     // @ts-ignore using older definitions for package `got`, can remove when type `@types/got` is updated for v8
+      //     Object.assign({
+      //       form: !canBodyBeFormMultipart(requestBody),
+      //       body: requestBody,
+      //       retries: 0,
+      //       headers: {
+      //         'user-agent': this.userAgent,
+      //       },
+      //       agent: this.agentConfig,
+      //     }, this.tlsConfig),
+      //   )
+      //     .then((response: got.Response<string>) => {
+      //       const result = this.buildResult(response);
+      //       // log warnings in response metadata
+      //       if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
+      //         result.response_metadata.warnings.forEach(this.logger.warn);
+      //       }
+      //       return result;
+      //     })
+      //     .catch((error: got.GotError) => {
+      //       // Wrap errors in this packages own error types (abstract the implementation details' types)
+      //       if (error.name === 'RequestError') {
+      //         throw requestErrorWithOriginal(error);
+      //       } else if (error.name === 'ReadError') {
+      //         throw readErrorWithOriginal(error);
+      //       } else if (error.name === 'HTTPError') {
+      //         // Special case: retry if 429;
+      //         if (error.statusCode === 429) {
+      //           const result = this.buildResult(error.response);
+      //           const retryAfterMs = result.retryAfter !== undefined ? result.retryAfter : (60 * 1000);
+      //           this.emit('rate_limited', retryAfterMs / 1000);
+      //           this.logger.info(`API Call failed due to rate limiting. Will retry in ${retryAfterMs / 1000} seconds.`);
+      //           // wait and return the result from calling `task` again after the specified number of seconds
+      //           return delay(retryAfterMs).then(task);
+      //         }
+      //         throw httpErrorWithOriginal(error);
+      //       } else {
+      //         throw error;
+      //       }
+      //     });
+      // };
+
+      // // The following thunk encapsulates the retried task so that it can be coordinated for request queuing
+      // const taskAfterRetries = () => pRetry(task, this.retryConfig);
+
+      // The final return value is the resolution of the task after being retried and queued
+      // return this.requestQueue.add(taskAfterRetries);
+
+      // TODO
+      const shouldAutoPaginate: boolean = false;
+
+      // NOTE: maybe the retrier needs to be *outside* the request queue
+
+      // promises of responses that are each outputs of the requestQueue
+      async function* generateResults(this: WebClient): AsyncIterableIterator<WebAPICallResult> {
+        let result: WebAPICallResult | undefined = undefined;
+
+        while (result === undefined || (shouldAutoPaginate && hasNextPage(result))) {
+          try {
+            // TODO: figure out how to add retry and the request queue into this
+            const task = () => got.post(urlJoin(this.slackApiUrl, method),
+              // @ts-ignore
+              Object.assign({
+                form: !canBodyBeFormMultipart(requestBody),
+                body: requestBody,
+                retries: 0,
+                headers: {
+                  'user-agent': this.userAgent,
+                },
+                agent: this.agentConfig,
+              }, this.tlsConfig),
+            );
+
+            result = this.buildResult(await task());
+
             // log warnings in response metadata
             if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
               result.response_metadata.warnings.forEach(this.logger.warn);
             }
-            return result;
-          })
-          .catch((error: got.GotError) => {
+
+            yield result;
+          } catch (error) {
             // Wrap errors in this packages own error types (abstract the implementation details' types)
             if (error.name === 'RequestError') {
               throw requestErrorWithOriginal(error);
@@ -172,14 +245,12 @@ export class WebClient extends EventEmitter {
             } else {
               throw error;
             }
-          });
-      };
+          }
+        }
+      }
 
-      // The following thunk encapsulates the retried task so that it can be coordinated for request queuing
-      const taskAfterRetries = () => pRetry(task, this.retryConfig);
-
-      // The final return value is the resolution of the task after being retried and queued
-      return this.requestQueue.add(taskAfterRetries);
+      // return a promise that resolves when a reduction of responses finishes
+      return awaitAndReduce(generateResults.call(this), mergeResults, {} as WebAPICallResult);
     };
 
     // Adapt the interface for callback-based execution or Promise-based execution
@@ -710,4 +781,26 @@ function httpErrorWithOriginal(original: Error): WebAPIHTTPError {
   ) as Partial<WebAPIHTTPError>;
   error.original = original;
   return (error as WebAPIHTTPError);
+}
+
+function mergeResults(resultOne: WebAPICallResult, resultTwo: WebAPICallResult): Promise<WebAPICallResult> {
+  // TODO
+  return Promise.resolve(resultOne);
+}
+
+function hasNextPage(previousResult: WebAPICallResult): boolean {
+  // TODO
+  return true;
+}
+
+// TODO: move to util
+// TODO: make initialValue optional (overloads or conditional types?)
+async function awaitAndReduce<T, U>(iterable: AsyncIterable<T>,
+                                    callbackfn: (previousValue: U, currentValue: T) => Promise<U>,
+                                    initialValue: U): Promise<U> {
+  let accumulator = initialValue;
+  for await (const value of iterable) {
+    accumulator = await callbackfn(accumulator, value);
+  }
+  return accumulator;
 }
