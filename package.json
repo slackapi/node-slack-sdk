@@ -1,6 +1,6 @@
 {
   "name": "@slack/client",
-  "version": "4.2.2",
+  "version": "4.3.0",
   "description": "Slack Developer Kit - official clients for the Web API, RTM API, and Incoming Webhooks",
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
