@@ -107,6 +107,8 @@ export class KeepAlive extends EventEmitter {
    * @param client an RTMClient to monitor
    */
   public start(client: RTMClient): void {
+    this.logger.debug('start monitoring');
+
     if (!client.connected) {
       throw errorWithCode(
         new Error(),
@@ -126,6 +128,8 @@ export class KeepAlive extends EventEmitter {
    * after that.
    */
   public stop(): void {
+    this.logger.debug('stop monitoring');
+
     this.clearPreviousPingTimer();
     this.clearPreviousPongTimer();
     if (this.client !== undefined) {
