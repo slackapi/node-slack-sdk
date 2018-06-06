@@ -104,7 +104,7 @@ export class KeepAlive extends EventEmitter {
 
   /**
    * Start monitoring the RTMClient. This method should only be called after the client's websocket is already open.
-   * @param client
+   * @param client an RTMClient to monitor
    */
   public start(client: RTMClient): void {
     if (!client.connected) {
@@ -230,7 +230,6 @@ export class KeepAlive extends EventEmitter {
   /**
    * Determines if a giving incoming event can be treated as an acknowledgement for the outstanding ping, and then
    * clears the ping if so.
-   * @param _type
    * @param event any incoming slack event
    */
   private attemptAcknowledgePong(_type: string, event: any): void {

@@ -284,7 +284,6 @@ export class RTMClient extends EventEmitter {
    */
   private static loggerName = `${pkg.name}:RTMClient`;
 
-
   /**
    * This object's logger instance
    */
@@ -350,7 +349,7 @@ export class RTMClient extends EventEmitter {
   /**
    * Begin an RTM session using the provided options. This method must be called before any messages can
    * be sent or received.
-   * @param options
+   * @param options arguments for the start method
    */
   public start(options?: methods.RTMStartArguments | methods.RTMConnectArguments): void {
     // TODO: should this return a Promise<WebAPICallResult>?
@@ -537,7 +536,7 @@ export class RTMClient extends EventEmitter {
 
   /**
    * Set up method for the client's websocket instance. This method will attach event listeners.
-   * @param url
+   * @param url the websocket url
    */
   private setupWebsocket(url: string): void {
     // initialize the websocket
@@ -575,7 +574,7 @@ export class RTMClient extends EventEmitter {
   /**
    * `onmessage` handler for the client's websocket. This will parse the payload and dispatch the relevant events for
    * each incoming message.
-   * @param websocketMessage
+   * @param websocketMessage an incoming message
    */
   private onWebsocketMessage({ data }: { data: string }): void {
     // v3 legacy
@@ -673,7 +672,7 @@ export interface RTMWebsocketError extends CodedError {
 
  /**
   * A factory to create RTMWebsocketError objects.
-  * @param original
+  * @param original the original error
   */
 function websocketErrorWithOriginal(original: Error): RTMWebsocketError {
   const error = errorWithCode(
