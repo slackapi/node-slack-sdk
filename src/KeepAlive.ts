@@ -70,7 +70,7 @@ export class KeepAlive extends EventEmitter {
   /**
    * Flag that indicates whether recommend_reconnect event has been emitted and stop() has not been called.
    */
-  public recommendReconnect?: boolean;
+  public recommendReconnect: boolean;
 
   constructor({
     clientPingTimeout = 6000,
@@ -91,6 +91,7 @@ export class KeepAlive extends EventEmitter {
     }
 
     this.isMonitoring = false;
+    this.recommendReconnect = false;
 
     // Logging
     if (logger !== undefined) {
