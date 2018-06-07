@@ -54,7 +54,7 @@
     "@types/p-retry": "^1.0.1",
     "@types/retry": "^0.10.2",
     "@types/url-join": "^0.8.2",
-    "@types/ws": "^4.0.1",
+    "@types/ws": "^5.1.1",
     "delay": "^2.0.0",
     "eventemitter3": "^3.0.0",
     "finity": "^0.5.4",
@@ -70,7 +70,7 @@
     "p-retry": "^1.0.0",
     "retry": "^0.10.1",
     "url-join": "^4.0.0",
-    "ws": "^4.1.0"
+    "ws": "^5.2.0"
   },
   "devDependencies": {
     "@types/chai": "^4.1.2",
