@@ -328,6 +328,20 @@ describe('WebClient', function () {
             assert.isString(file.filename);
           });
       });
+
+      it('should filter out undefined values', function () {
+        const imageBuffer = fs.readFileSync(path.resolve('test', 'fixtures', 'train.jpg'));
+
+        return this.client.apiCall('upload', {
+          // the binary argument is necessary to trigger form data serialization
+          someBinaryField: imageBuffer,
+          someUndefinedField: undefined,
+        })
+          .then((parts) => {
+            // the only field is the one related to the token
+            assert.lengthOf(parts.fields, 1);
+          })
+      });
     });
 
     describe('metadata in the user agent', function () {
