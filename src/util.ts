@@ -42,6 +42,17 @@ export function getUserAgent(): string {
   return ((appIdentifier.length > 0) ? `${appIdentifier} ` : '') + baseUserAgent;
 }
 
+// TODO: make initialValue optional (overloads or conditional types?)
+export async function awaitAndReduce<T, U>(iterable: AsyncIterable<T>,
+                                           callbackfn: (previousValue: U, currentValue: T) => Promise<U>,
+                                           initialValue: U): Promise<U> {
+  let accumulator = initialValue;
+  for await (const value of iterable) {
+  accumulator = await callbackfn(accumulator, value);
+}
+  return accumulator;
+}
+
 /**
  * The following is a polyfill of Node >= 8.2.0's util.callbackify method. The source is copied (with some
  * modification) from:

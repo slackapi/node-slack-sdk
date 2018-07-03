@@ -556,6 +556,26 @@ describe('WebClient', function () {
     });
   });
 
+  describe('has support for automatic pagination', function () {
+    describe('when using a method that supports cursor-based pagination', function () {
+      it('should automatically paginate and return a single merged result when no pagination options are supplied', function () {
+
+      });
+
+      it('should not automatically paginate when pagination options are supplied', function () {
+
+      });
+
+      it('should warn when pagination options for timeline or traditional pagination are supplied', function () {
+
+      });
+    });
+
+    describe('when using a method that supports other pagination techniques', function () {
+      it('should not automatically paginate')
+    });
+  });
+
   afterEach(function () {
     nock.cleanAll();
   });

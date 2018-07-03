@@ -44,10 +44,13 @@ export interface Searchable {
 // As maintainers, we must be careful to add each of the API methods into these sets, so that is handled local (in line
 // numbers close) to the application of each interface.
 
+// TODO: express the interfaces as keyof the sets?
+
 export interface CursorPaginationEnabled {
   limit?: number; // natural integer, max of 1000
   cursor?: string; // find this in a response's `response_metadata.next_cursor`
 }
+export const cursorPaginationOptionKeys = new Set(['limit', 'cursor']);
 export const cursorPaginationEnabledMethods = new Set();
 
 export interface TimelinePaginationEnabled {
@@ -55,12 +58,14 @@ export interface TimelinePaginationEnabled {
   latest?: string;
   inclusive?: boolean;
 }
+export const timelinePaginationOptionKeys = new Set(['oldest', 'latest', 'inclusive']);
 export const timelinePaginationEnabledMethods = new Set();
 
 export interface TraditionalPagingEnabled {
   page?: number; // default: 1
   count?: number; // default: 100
 }
+export const traditionalPagingOptionKeys = new Set(['page', 'count']);
 export const traditionalPagingEnabledMethods = new Set();
 
 /*
@@ -837,8 +842,3 @@ export type UsersProfileSetArguments = TokenOverridable & {
   name?: string; // usable if `profile` is not passed
   value?: string; // usable if `profile` is not passed
 };
-
-/**
- * Logical groups of methods which can be used for behavior
- */
-export

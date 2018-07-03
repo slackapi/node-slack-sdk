@@ -1,3 +1,4 @@
+import { IncomingMessage } from 'http';
 import { basename } from 'path';
 import { Readable } from 'stream';
 import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
@@ -10,7 +11,7 @@ import delay = require('delay'); // tslint:disable-line:no-require-imports
 // NOTE: to reduce depedency size, consider https://www.npmjs.com/package/got-lite
 import got = require('got'); // tslint:disable-line:no-require-imports
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
-import { callbackify, getUserAgent, AgentOption, TLSOptions } from './util';
+import { awaitAndReduce, callbackify, getUserAgent, AgentOption, TLSOptions } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
@@ -127,7 +128,7 @@ export class WebClient extends EventEmitter {
         throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
       }
 
-      const requestBody = this.serializeApiCallOptions(Object.assign({ token: this.token }, options));
+      // const requestBody = this.serializeApiCallOptions(Object.assign({ token: this.token }, options));
 
       // determine if this call should be auto-paginated and how
       // when yes, need to generate a taskAfterRetries for each page request and add them to the requestQueue using
@@ -192,60 +193,110 @@ export class WebClient extends EventEmitter {
       // The final return value is the resolution of the task after being retried and queued
       // return this.requestQueue.add(taskAfterRetries);
 
-      // TODO
-      const shouldAutoPaginate: boolean = false;
+      const methodSupportsCursorPagination = methods.cursorPaginationEnabledMethods.has(method);
+      const optionsPaginationType = getOptionsPaginationType(options);
+
+      // warn in priority of most general pagination problem to most specific pagination problem
+      if (optionsPaginationType === PaginationType.Mixed) {
+        this.logger.warn('Options include mixed pagination techniques. ' +
+                         'Always prefer cursor-based pagination when available');
+      } else if (optionsPaginationType === PaginationType.Cursor &&
+                 !methodSupportsCursorPagination) {
+        this.logger.warn('Options include cursor-based pagination while the method cannot support that technique');
+      } else if (optionsPaginationType === PaginationType.Timeline &&
+                 !methods.timelinePaginationEnabledMethods.has(method)) {
+        this.logger.warn('Options include timeline-based pagination while the method cannot support that technique');
+      } else if (optionsPaginationType === PaginationType.Traditional &&
+                 !methods.traditionalPagingEnabledMethods.has(method)) {
+        this.logger.warn('Options include traditional paging while the method cannot support that technique');
+      } else if (methodSupportsCursorPagination &&
+                 optionsPaginationType !== PaginationType.Cursor && optionsPaginationType !== PaginationType.None) {
+        this.logger.warn('Method supports cursor-based pagination and a different tecnique is used in options.' +
+                         'Always prefer cursor-based pagination when available');
+      }
+
+      const shouldAutoPaginate = methodSupportsCursorPagination && optionsPaginationType === PaginationType.None;
+      this.logger.debug(`shouldAutoPaginate: ${shouldAutoPaginate}`);
 
       // NOTE: maybe the retrier needs to be *outside* the request queue
 
       // promises of responses that are each outputs of the requestQueue
       async function* generateResults(this: WebClient): AsyncIterableIterator<WebAPICallResult> {
         let result: WebAPICallResult | undefined = undefined;
+        let paginationOptions: methods.CursorPaginationEnabled = {};
 
-        while (result === undefined || (shouldAutoPaginate && hasNextPage(result))) {
-          try {
-            // TODO: figure out how to add retry and the request queue into this
-            const task = () => got.post(urlJoin(this.slackApiUrl, method),
-              // @ts-ignore
-              Object.assign({
-                form: !canBodyBeFormMultipart(requestBody),
-                body: requestBody,
-                retries: 0,
-                headers: {
-                  'user-agent': this.userAgent,
-                },
-                agent: this.agentConfig,
-              }, this.tlsConfig),
-            );
+        // TODO: store the default page size in a constant
+        if (shouldAutoPaginate) {
+          paginationOptions = { limit: 200 };
+        }
 
-            result = this.buildResult(await task());
+        while (result === undefined ||
+               (shouldAutoPaginate &&
+                 (objectEntries(paginationOptions = paginationOptionsForNextPage(result)).length > 0)
+               )
+              ) {
+          const requestBody = this.serializeApiCallOptions(Object.assign(
+            { token: this.token },
+            paginationOptions,
+            options,
+          ));
 
-            // log warnings in response metadata
-            if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
-              result.response_metadata.warnings.forEach(this.logger.warn);
-            }
+          const task = async () => {
+            try {
+              const response = await this.requestQueue.add(
+                () => got.post(urlJoin(this.slackApiUrl, method),
+                  // @ts-ignore
+                  Object.assign({
+                    form: !canBodyBeFormMultipart(requestBody),
+                    body: requestBody,
+                    retries: 0,
+                    headers: {
+                      'user-agent': this.userAgent,
+                    },
+                    throwHttpErrors: false,
+                    agent: this.agentConfig,
+                  }, this.tlsConfig),
+                ),
+              ) as got.Response<string>;
 
-            yield result;
-          } catch (error) {
-            // Wrap errors in this packages own error types (abstract the implementation details' types)
-            if (error.name === 'RequestError') {
-              throw requestErrorWithOriginal(error);
-            } else if (error.name === 'ReadError') {
-              throw readErrorWithOriginal(error);
-            } else if (error.name === 'HTTPError') {
-              // Special case: retry if 429;
-              if (error.statusCode === 429) {
-                const result = this.buildResult(error.response);
-                const retryAfterMs = result.retryAfter !== undefined ? result.retryAfter : (60 * 1000);
-                this.emit('rate_limited', retryAfterMs / 1000);
-                this.logger.info(`API Call failed due to rate limiting. Will retry in ${retryAfterMs / 1000} seconds.`);
-                // wait and return the result from calling `task` again after the specified number of seconds
-                return delay(retryAfterMs).then(task);
+              // TODO: config option for automatic retry handling here
+              if (response.statusCode === 429) {
+                const retrySec = parseRetryHeaders(response);
+                if (retrySec !== undefined) {
+                  this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
+                  this.emit('rate_limited', retrySec);
+                  // TODO: how does scheduling work in pRetry?
+                  // will this time get added onto an exponentially increasing time?
+                  // TODO: pause the requestQueue?
+                  await delay(retrySec * 1000);
+                  // TODO: resume the requestQueue?
+                  // TODO: throw a non-abort error to signal a retry
+                } else {
+                  // TODO: got a 429 but don't have a valid value in header, should probably throw an aborterror
+                }
               }
-              throw httpErrorWithOriginal(error);
-            } else {
+
+              result = this.buildResult(response);
+
+              // log warnings in response metadata
+              if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
+                result.response_metadata.warnings.forEach(this.logger.warn);
+              }
+
+              return result;
+            } catch (error) {
+              // TODO: wrap these in AbortError
+              if (error.name === 'RequestError') {
+                throw requestErrorWithOriginal(error);
+              } else if (error.name === 'ReadError') {
+                throw readErrorWithOriginal(error);
+              }
               throw error;
             }
-          }
+          };
+
+          // TODO: assign to result
+          yield pRetry(task, this.retryConfig);
         }
       }
 
@@ -654,8 +705,9 @@ export class WebClient extends EventEmitter {
     }
 
     // add retry metadata from headers
-    if (response.headers['retry-after'] !== undefined) {
-      data.retryAfter = parseInt((response.headers['retry-after'] as string), 10) * 1000;
+    const retrySec = parseRetryHeaders(response);
+    if (retrySec !== undefined) {
+      data.retryAfter = retrySec;
     }
 
     return data;
@@ -688,7 +740,10 @@ export interface WebAPICallResult {
   scopes?: string[];
   acceptedScopes?: string[];
   retryAfter?: number;
-  response_metadata?: { warnings?: string[] };
+  response_metadata?: {
+    warnings?: string[];
+    next_cursor?: string; // is this too specific to be encoded into this type?
+  };
 }
 
 export interface WebAPIResultCallback {
@@ -783,24 +838,92 @@ function httpErrorWithOriginal(original: Error): WebAPIHTTPError {
   return (error as WebAPIHTTPError);
 }
 
+enum PaginationType {
+  Cursor = 'Cursor',
+  Timeline = 'Timeline',
+  Traditional = 'Traditional',
+  Mixed = 'Mixed',
+  None = 'None',
+}
+
+// function getMethodPaginationType(method: string): PaginationType {
+//   // some methods have multiple pagination types enabled, so this method queries the sets in order of preference
+//   if (methods.cursorPaginationEnabledMethods.has(method)) {
+//     return PaginationType.Cursor;
+//   }
+//   if (methods.timelinePaginationEnabledMethods.has(method)) {
+//     return PaginationType.Timeline;
+//   }
+//   if (methods.traditionalPagingEnabledMethods.has(method)) {
+//     return PaginationType.Traditional;
+//   }
+//   return PaginationType.None;
+// }
+
+function getOptionsPaginationType(options?: WebAPICallOptions): PaginationType {
+  if (options === undefined) {
+    return PaginationType.None;
+  }
+
+  let optionsType = PaginationType.None;
+  for (const option of Object.keys(options)) {
+    if (optionsType === PaginationType.None) {
+      if (methods.cursorPaginationOptionKeys.has(option)) {
+        optionsType = PaginationType.Cursor;
+      } else if (methods.timelinePaginationOptionKeys.has(option)) {
+        optionsType = PaginationType.Timeline;
+      } else if (methods.traditionalPagingOptionKeys.has(option)) {
+        optionsType = PaginationType.Traditional;
+      }
+    } else if (optionsType === PaginationType.Cursor) {
+      if (methods.timelinePaginationOptionKeys.has(option) || methods.traditionalPagingOptionKeys.has(option)) {
+        return PaginationType.Mixed;
+      }
+    } else if (optionsType === PaginationType.Timeline) {
+      if (methods.cursorPaginationOptionKeys.has(option) || methods.traditionalPagingOptionKeys.has(option)) {
+        return PaginationType.Mixed;
+      }
+    } else if (optionsType === PaginationType.Traditional) {
+      if (methods.cursorPaginationOptionKeys.has(option) || methods.timelinePaginationOptionKeys.has(option)) {
+        return PaginationType.Mixed;
+      }
+    }
+  }
+  return optionsType;
+}
+
+// TODO: this seems like metadata that should go in methods.ts
+// const paginationOptions = new Set(['limit', 'cursor', 'oldest', 'latest', 'inclusive', 'page', 'count']);
+
+// function containsPaginationOptions(options: WebAPICallOptions): boolean {
+//   for (const [key, value] of objectEntries(options)) {
+//     if (options[option] !== undefined) {
+//       return true;
+//     }
+//   }
+//   return false;
+// }
+
+// does this need to be async?
 function mergeResults(resultOne: WebAPICallResult, resultTwo: WebAPICallResult): Promise<WebAPICallResult> {
   // TODO
   return Promise.resolve(resultOne);
 }
 
-function hasNextPage(previousResult: WebAPICallResult): boolean {
-  // TODO
-  return true;
+function paginationOptionsForNextPage(previousResult: WebAPICallResult): methods.CursorPaginationEnabled {
+  const paginationOptions: methods.CursorPaginationEnabled = {};
+  if (previousResult.response_metadata !== undefined &&
+    previousResult.response_metadata.next_cursor !== undefined &&
+    previousResult.response_metadata.next_cursor !== '') {
+    paginationOptions.limit = 200;
+    paginationOptions.cursor = previousResult.response_metadata.next_cursor as string;
+  }
+  return paginationOptions;
 }
 
-// TODO: move to util
-// TODO: make initialValue optional (overloads or conditional types?)
-async function awaitAndReduce<T, U>(iterable: AsyncIterable<T>,
-                                    callbackfn: (previousValue: U, currentValue: T) => Promise<U>,
-                                    initialValue: U): Promise<U> {
-  let accumulator = initialValue;
-  for await (const value of iterable) {
-    accumulator = await callbackfn(accumulator, value);
+function parseRetryHeaders(response: IncomingMessage): number | undefined {
+  if (response.headers['retry-after'] !== undefined) {
+    return parseInt((response.headers['retry-after'] as string), 10) * 1000;
   }
-  return accumulator;
+  return undefined;
 }
