@@ -630,7 +630,7 @@ export class WebClient extends EventEmitter {
             return defaultFilename;
           })();
           form.append(key, value, options);
-        } else {
+        } else if (key !== undefined && value !== undefined) {
           form.append(key, value);
         }
         return form;

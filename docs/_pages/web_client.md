@@ -129,7 +129,7 @@ const web = new WebClient(token);
 // This file is located in the current directory (`process.pwd()`)
 const filename = 'test_file.csv';
 
-// See: https://api.slack.com/methods/chat.postMessage
+// See: https://api.slack.com/methods/files.upload
 web.files.upload({
   filename,
   // You can use a ReadableStream or a Buffer for the file option

@@ -191,6 +191,20 @@ describe('WebClient', function () {
       });
     });
 
+    it('should fail with platform errors when the API response is an error', function () {
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(200, { ok: false, error: 'bad error' });
+      const client = new WebClient(token);
+      return client.apiCall('method')
+        .catch((error) => {
+          assert.propertyVal(error, 'code', 'slackclient_platform_error');
+          assert.nestedPropertyVal(error, 'data.ok', false);
+          assert.nestedPropertyVal(error, 'data.error', 'bad error');
+          scope.done();
+        });
+    });
+
     it('should properly serialize simple API arguments', function () {
       const scope = nock('https://slack.com')
         // NOTE: this could create false negatives if the serialization order changes (it shouldn't matter)
@@ -313,6 +327,20 @@ describe('WebClient', function () {
             assert.include(file, { fieldname: 'someBinaryField' });
             assert.isString(file.filename);
           });
+      });
+
+      it('should filter out undefined values', function () {
+        const imageBuffer = fs.readFileSync(path.resolve('test', 'fixtures', 'train.jpg'));
+
+        return this.client.apiCall('upload', {
+          // the binary argument is necessary to trigger form data serialization
+          someBinaryField: imageBuffer,
+          someUndefinedField: undefined,
+        })
+          .then((parts) => {
+            // the only field is the one related to the token
+            assert.lengthOf(parts.fields, 1);
+          })
       });
     });
 
