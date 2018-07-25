@@ -96,7 +96,6 @@ export class KeepAlive extends EventEmitter {
 
   /**
    * Start monitoring the RTMClient. This method should only be called after the client's websocket is already open.
-   * @param client
    */
   public start(client: RTMClient): void {
     if (!client.connected) {

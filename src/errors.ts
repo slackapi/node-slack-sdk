@@ -40,9 +40,6 @@ export enum ErrorCode {
 
 /**
  * Factory for producing a {@link CodedError} from a generic error
- *
- * @param error
- * @param code
  */
 export function errorWithCode(error: Error, code: ErrorCode): CodedError {
   const codedError = error as Partial<CodedError>;

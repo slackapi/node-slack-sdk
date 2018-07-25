@@ -10,11 +10,10 @@ import isStream = require('is-stream'); // tslint:disable-line:no-require-import
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
 import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
 import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
-import delay = require('delay'); // tslint:disable-line:no-require-imports
 // NOTE: to reduce depedency size, consider https://www.npmjs.com/package/got-lite
 import got = require('got'); // tslint:disable-line:no-require-imports
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
-import { awaitAndReduce, callbackify, getUserAgent, AgentOption, TLSOptions } from './util';
+import { awaitAndReduce, callbackify, getUserAgent, delay, AgentOption, TLSOptions } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
@@ -156,6 +155,10 @@ export class WebClient extends EventEmitter {
       const shouldAutoPaginate = methodSupportsCursorPagination && optionsPaginationType === PaginationType.None;
       this.logger.debug(`shouldAutoPaginate: ${shouldAutoPaginate}`);
 
+      /**
+       * Generates a result object for each of the HTTP requests for this API call. API calls will generally only
+       * generate more than one result when automatic pagination is occurring.
+       */
       async function* generateResults(this: WebClient): AsyncIterableIterator<WebAPICallResult> {
         // when result is undefined, that signals that the first of potentially many calls has not yet been made
         let result: WebAPICallResult | undefined = undefined;
@@ -801,6 +804,10 @@ enum PaginationType {
   None = 'None',
 }
 
+/**
+ * Determines which pagination type, if any, the supplied options (a.k.a. method arguments) is using. This method is
+ * also able to determine if the options have mixed different pagination types.
+ */
 function getOptionsPaginationType(options?: WebAPICallOptions): PaginationType {
   if (options === undefined) {
     return PaginationType.None;
@@ -833,6 +840,11 @@ function getOptionsPaginationType(options?: WebAPICallOptions): PaginationType {
   return optionsType;
 }
 
+/**
+ * Creates a function that can reduce a result into an accumulated result. This is used for reducing many results from
+ * automatically paginated API calls into a single result. It depends on metadata in the 'method' import.
+ * @param method - the API method for which a result merging function is needed
+ */
 function createResultMerger(method: string):
     (accumulator: WebAPICallResult, result: WebAPICallResult) => WebAPICallResult {
   if (methods.cursorPaginationEnabledMethods.has(method)) {
@@ -854,6 +866,10 @@ function createResultMerger(method: string):
   return (_, result) => result;
 }
 
+/**
+ * Determines an appropriate set of cursor pagination options for the next request to a paginated API method.
+ * @param previousResult - the result of the last request, where the next cursor might be found.
+ */
 function paginationOptionsForNextPage(previousResult: WebAPICallResult): methods.CursorPaginationEnabled {
   const paginationOptions: methods.CursorPaginationEnabled = {};
   if (previousResult.response_metadata !== undefined &&
@@ -865,6 +881,10 @@ function paginationOptionsForNextPage(previousResult: WebAPICallResult): methods
   return paginationOptions;
 }
 
+/**
+ * Extract the amount of time (in seconds) the platform has recommended this client wait before sending another request
+ * from a rate-limited HTTP response (statusCode = 429).
+ */
 function parseRetryHeaders(response: IncomingMessage): number | undefined {
   if (response.headers['retry-after'] !== undefined) {
     return parseInt((response.headers['retry-after'] as string), 10);

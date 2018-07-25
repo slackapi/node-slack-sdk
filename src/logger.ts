@@ -106,8 +106,6 @@ function isMoreSevere(level: LogLevel, threshold: number): boolean {
 
 /**
  * INTERNAL function for transforming an external LoggerFunc type into the internal Logger interface
- * @param name
- * @param loggingFunc
  */
 export function loggerFromLoggingFunc(name: string, loggingFunc: LoggingFunc): Logger {
   const logger = log.getLogger(name);
