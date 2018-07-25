@@ -8,7 +8,7 @@ import { WebAPICallOptions, WebAPIResultCallback, WebAPICallResult } from './Web
  * Generic method definition
  */
 export default interface Method<MethodArguments extends WebAPICallOptions> {
-  // TODO: can we create a relationship between MethodArguments and a MethodResult type?
+  // TODO: can we create a relationship between MethodArguments and a MethodResult type? hint: conditional types
   (options?: MethodArguments & AuxiliaryArguments): Promise<WebAPICallResult>;
   (options: MethodArguments & AuxiliaryArguments, callback: WebAPIResultCallback): void;
 }
@@ -51,7 +51,7 @@ export interface CursorPaginationEnabled {
   cursor?: string; // find this in a response's `response_metadata.next_cursor`
 }
 export const cursorPaginationOptionKeys = new Set(['limit', 'cursor']);
-export const cursorPaginationEnabledMethods = new Set();
+export const cursorPaginationEnabledMethods: Map<string, string> = new Map(); // method : paginatedResponseProperty
 
 export interface TimelinePaginationEnabled {
   oldest?: string;
@@ -184,7 +184,7 @@ export type AppsPermissionsRequestArguments = TokenOverridable & {
   trigger_id: string;
 };
 export type AppsPermissionsResourcesListArguments = TokenOverridable & CursorPaginationEnabled;
-cursorPaginationEnabledMethods.add('apps.permissions.resources.list');
+cursorPaginationEnabledMethods.set('apps.permissions.resources.list', 'resources');
 export type AppsPermissionsScopesListArguments = TokenOverridable & {};
 
   /*
@@ -240,7 +240,7 @@ export type ChannelsListArguments = TokenOverridable & CursorPaginationEnabled &
   exclude_archived: boolean;
   exclude_members: boolean;
 };
-cursorPaginationEnabledMethods.add('channels.list');
+cursorPaginationEnabledMethods.set('channels.list', 'channels');
 export type ChannelsMarkArguments = TokenOverridable & {
   channel: string;
   ts: string;
@@ -341,7 +341,7 @@ export type ConversationsCreateArguments = TokenOverridable & {
 export type ConversationsHistoryArguments = TokenOverridable & CursorPaginationEnabled & TimelinePaginationEnabled & {
   channel: string;
 };
-cursorPaginationEnabledMethods.add('conversations.history');
+cursorPaginationEnabledMethods.set('conversations.history', 'messages');
 timelinePaginationEnabledMethods.add('conversations.history');
 export type ConversationsInfoArguments = TokenOverridable & LocaleAware & {
   channel: string;
@@ -364,11 +364,11 @@ export type ConversationsListArguments = TokenOverridable & CursorPaginationEnab
   exclude_archived?: boolean;
   types?: string; // comma-separated list of conversation types
 };
-cursorPaginationEnabledMethods.add('conversations.list');
+cursorPaginationEnabledMethods.set('conversations.list', 'channels');
 export type ConversationsMembersArguments = TokenOverridable & CursorPaginationEnabled & {
   channel: string;
 };
-cursorPaginationEnabledMethods.add('conversations.members');
+cursorPaginationEnabledMethods.set('conversations.members', 'members');
 export type ConversationsOpenArguments = TokenOverridable & {
   channel?: string;
   users?: string; // comma-separated list of users
@@ -382,7 +382,7 @@ export type ConversationsRepliesArguments = TokenOverridable & CursorPaginationE
   channel: string;
   ts: string;
 };
-cursorPaginationEnabledMethods.add('conversations.replies');
+cursorPaginationEnabledMethods.set('conversations.replies', 'messages');
 timelinePaginationEnabledMethods.add('conversations.replies');
 export type ConversationsSetPurposeArguments = TokenOverridable & {
   channel: string;
@@ -489,7 +489,7 @@ export type GroupsHistoryArguments = TokenOverridable & CursorPaginationEnabled 
   channel: string;
   unreads?: boolean;
 };
-cursorPaginationEnabledMethods.add('groups.history');
+cursorPaginationEnabledMethods.set('groups.history', 'messages');
 timelinePaginationEnabledMethods.add('groups.history');
 export type GroupsInfoArguments = TokenOverridable & LocaleAware & {
   channel: string;
@@ -550,7 +550,7 @@ export type IMHistoryArguments = TokenOverridable & TimelinePaginationEnabled & 
 };
 timelinePaginationEnabledMethods.add('im.history');
 export type IMListArguments = TokenOverridable & CursorPaginationEnabled;
-cursorPaginationEnabledMethods.add('im.list');
+cursorPaginationEnabledMethods.set('im.list', 'ims');
 export type IMMarkArguments = TokenOverridable & {
   channel: string;
   ts: string;
@@ -806,7 +806,7 @@ export type UsersConversationsArguments = TokenOverridable & CursorPaginationEna
   types?: string; // comma-separated list of conversation types
   user?: string;
 };
-cursorPaginationEnabledMethods.add('users.conversations');
+cursorPaginationEnabledMethods.set('users.conversations', 'channels');
 export type UsersDeletePhotoArguments = TokenOverridable;
 export type UsersGetPresenceArguments = TokenOverridable & {
   user: string;
@@ -818,7 +818,7 @@ export type UsersInfoArguments = TokenOverridable & LocaleAware & {
 export type UsersListArguments = TokenOverridable & CursorPaginationEnabled & LocaleAware & {
   presence?: boolean; // deprecated, defaults to false
 };
-cursorPaginationEnabledMethods.add('users.list');
+cursorPaginationEnabledMethods.set('users.list', 'members');
 export type UsersLookupByEmailArguments = TokenOverridable & {
   email: string;
 };

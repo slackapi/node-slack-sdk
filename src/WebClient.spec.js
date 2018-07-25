@@ -523,19 +523,20 @@ describe('WebClient', function () {
 
     describe('when a request fails due to rate-limiting', function () {
       // NOTE: is this retrying configurable with the retry policy? is it subject to the request concurrency?
-      it('should automatically retry the request after the specified timeout', function() {
+      it('should automatically retry the request after the specified timeout', function () {
         const scope = nock('https://slack.com')
           .post(/api/)
           .reply(429, {}, { 'retry-after': 1 })
           .post(/api/)
           .reply(200, { ok: true });
-        const client = new WebClient(token, { retryConfig: { retries: 1 } });
+        const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
         const startTime = new Date().getTime();
         return client.apiCall('method')
           .then((resp) => {
             const time = new Date().getTime() - startTime;
             assert.isAtLeast(time, 1000, 'elapsed time is at least a second');
             assert.propertyVal(resp, 'ok', true);
+            scope.done();
           });
       });
 

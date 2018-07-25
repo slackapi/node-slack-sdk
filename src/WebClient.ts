@@ -1,3 +1,6 @@
+// polyfill for async iterable. see: https://stackoverflow.com/a/43694282/305340
+if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
+
 import { IncomingMessage } from 'http';
 import { basename } from 'path';
 import { Readable } from 'stream';
@@ -146,7 +149,7 @@ export class WebClient extends EventEmitter {
         this.logger.warn('Options include traditional paging while the method cannot support that technique');
       } else if (methodSupportsCursorPagination &&
                  optionsPaginationType !== PaginationType.Cursor && optionsPaginationType !== PaginationType.None) {
-        this.logger.warn('Method supports cursor-based pagination and a different tecnique is used in options.' +
+        this.logger.warn('Method supports cursor-based pagination and a different tecnique is used in options. ' +
                          'Always prefer cursor-based pagination when available');
       }
 
@@ -234,6 +237,8 @@ export class WebClient extends EventEmitter {
                 throw new pRetry.AbortError(error);
               }
 
+              // TODO: httpError when bad things happen (like statusCode=500). this should be an AbortError
+
               return result;
             } catch (error) {
               if (error.name === 'RequestError') {
@@ -251,7 +256,7 @@ export class WebClient extends EventEmitter {
       }
 
       // return a promise that resolves when a reduction of responses finishes
-      return awaitAndReduce(generateResults.call(this), mergeResults, {} as WebAPICallResult);
+      return awaitAndReduce(generateResults.call(this), createResultMerger(method) , {} as WebAPICallResult);
     };
 
     // Adapt the interface for callback-based execution or Promise-based execution
@@ -778,15 +783,15 @@ function readErrorWithOriginal(original: Error): WebAPIReadError {
  * A factory to create WebAPIHTTPError objects
  * @param original - original error
  */
-function httpErrorWithOriginal(original: Error): WebAPIHTTPError {
-  const error = errorWithCode(
-    // any cast is used because the got definition file doesn't export the got.HTTPError type
-    new Error(`An HTTP protocol error occurred: statusCode = ${(original as any).statusCode}`),
-    ErrorCode.HTTPError,
-  ) as Partial<WebAPIHTTPError>;
-  error.original = original;
-  return (error as WebAPIHTTPError);
-}
+// function httpErrorWithOriginal(original: Error): WebAPIHTTPError {
+//   const error = errorWithCode(
+//     // any cast is used because the got definition file doesn't export the got.HTTPError type
+//     new Error(`An HTTP protocol error occurred: statusCode = ${(original as any).statusCode}`),
+//     ErrorCode.HTTPError,
+//   ) as Partial<WebAPIHTTPError>;
+//   error.original = original;
+//   return (error as WebAPIHTTPError);
+// }
 
 enum PaginationType {
   Cursor = 'Cursor',
@@ -828,10 +833,25 @@ function getOptionsPaginationType(options?: WebAPICallOptions): PaginationType {
   return optionsType;
 }
 
-// does this need to be async?
-function mergeResults(accumulator: WebAPICallResult, result: WebAPICallResult): Promise<WebAPICallResult> {
-  // TODO
-  return Promise.resolve(accumulator);
+function createResultMerger(method: string):
+    (accumulator: WebAPICallResult, result: WebAPICallResult) => WebAPICallResult {
+  if (methods.cursorPaginationEnabledMethods.has(method)) {
+    const paginatedResponseProperty = methods.cursorPaginationEnabledMethods.get(method) as string;
+    return (accumulator: WebAPICallResult, result: WebAPICallResult): WebAPICallResult => {
+      for (const resultProperty of Object.keys(result)) {
+        if (resultProperty === paginatedResponseProperty) {
+          if (accumulator[resultProperty] === undefined) {
+            accumulator[resultProperty] = [];
+          }
+          accumulator[resultProperty] = accumulator[resultProperty].concat(result[resultProperty]);
+        } else {
+          accumulator[resultProperty] = result[resultProperty];
+        }
+      }
+      return accumulator;
+    };
+  }
+  return (_, result) => result;
 }
 
 function paginationOptionsForNextPage(previousResult: WebAPICallResult): methods.CursorPaginationEnabled {
@@ -847,7 +867,7 @@ function paginationOptionsForNextPage(previousResult: WebAPICallResult): methods
 
 function parseRetryHeaders(response: IncomingMessage): number | undefined {
   if (response.headers['retry-after'] !== undefined) {
-    return parseInt((response.headers['retry-after'] as string), 10) * 1000;
+    return parseInt((response.headers['retry-after'] as string), 10);
   }
   return undefined;
 }

@@ -11,7 +11,6 @@ export function noop(): void { } // tslint:disable-line:no-empty
 
 /**
  * Replaces occurences of '/' with ':' in a string, since '/' is meaningful inside User-Agent strings as a separator.
- * @param s
  */
 function replaceSlashes(s: string): string {
   return s.replace('/', ':');
@@ -43,11 +42,11 @@ export function getUserAgent(): string {
 
 // TODO: make initialValue optional (overloads or conditional types?)
 export async function awaitAndReduce<T, U>(iterable: AsyncIterable<T>,
-                                           callbackfn: (previousValue: U, currentValue: T) => Promise<U>,
+                                           callbackfn: (previousValue: U, currentValue: T) => U,
                                            initialValue: U): Promise<U> {
   let accumulator = initialValue;
   for await (const value of iterable) {
-    accumulator = await callbackfn(accumulator, value);
+    accumulator = callbackfn(accumulator, value);
   }
   return accumulator;
 }
