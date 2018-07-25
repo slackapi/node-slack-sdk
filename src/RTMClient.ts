@@ -330,6 +330,11 @@ export class RTMClient extends EventEmitter {
       if (this.websocket !== undefined) {
         // this will trigger the 'websocket close' event on the state machine, which transitions to clean up
         this.websocket.close();
+
+        // if the websocket actually is no longer connected, the eventual 'websocket close' event will take a long time,
+        // because it won't fire until the close handshake completes. in the meantime, stop the keep alive so we don't
+        // send pings on a dead connection.
+        this.keepAlive.stop();
       }
     }, this);
 
