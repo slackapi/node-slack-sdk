@@ -25,7 +25,6 @@ const appMetadata: { [key: string]: string } = {};
 
 /**
  * Appends the app metadata into the User-Agent value
- * @param appMetadata
  * @param appMetadata.name name of tool to be counted in instrumentation
  * @param appMetadata.version version of tool to be counted in instrumentation
  */
@@ -48,8 +47,8 @@ export async function awaitAndReduce<T, U>(iterable: AsyncIterable<T>,
                                            initialValue: U): Promise<U> {
   let accumulator = initialValue;
   for await (const value of iterable) {
-  accumulator = await callbackfn(accumulator, value);
-}
+    accumulator = await callbackfn(accumulator, value);
+  }
   return accumulator;
 }
 

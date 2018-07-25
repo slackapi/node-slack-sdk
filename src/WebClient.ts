@@ -128,71 +128,6 @@ export class WebClient extends EventEmitter {
         throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
       }
 
-      // const requestBody = this.serializeApiCallOptions(Object.assign({ token: this.token }, options));
-
-      // determine if this call should be auto-paginated and how
-      // when yes, need to generate a taskAfterRetries for each page request and add them to the requestQueue using
-      // addAll(), and then merge the responses
-      // when no, there's just one task to generate
-
-      // Each call to this method may result in many HTTP requests. One case for more than a single HTTP request is when
-      // the first request fails for a reason that is intermittent (including rate-limits) and in those cases, the
-      // same request is retried. Another case for more than a single HTTP request is when the method supports
-      // pagination and the input options don't include any pagination arguments. In this case, the client performs
-      // automatic pagination by performing many HTTP requests.
-
-      // The following thunk encapsulates the task so that it can be coordinated for retries
-      // const task = () => {
-      //   this.logger.debug('request attempt');
-      //   return got.post(urlJoin(this.slackApiUrl, method),
-      //     // @ts-ignore using older definitions for package `got`, can remove when type `@types/got` is updated for v8
-      //     Object.assign({
-      //       form: !canBodyBeFormMultipart(requestBody),
-      //       body: requestBody,
-      //       retries: 0,
-      //       headers: {
-      //         'user-agent': this.userAgent,
-      //       },
-      //       agent: this.agentConfig,
-      //     }, this.tlsConfig),
-      //   )
-      //     .then((response: got.Response<string>) => {
-      //       const result = this.buildResult(response);
-      //       // log warnings in response metadata
-      //       if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
-      //         result.response_metadata.warnings.forEach(this.logger.warn);
-      //       }
-      //       return result;
-      //     })
-      //     .catch((error: got.GotError) => {
-      //       // Wrap errors in this packages own error types (abstract the implementation details' types)
-      //       if (error.name === 'RequestError') {
-      //         throw requestErrorWithOriginal(error);
-      //       } else if (error.name === 'ReadError') {
-      //         throw readErrorWithOriginal(error);
-      //       } else if (error.name === 'HTTPError') {
-      //         // Special case: retry if 429;
-      //         if (error.statusCode === 429) {
-      //           const result = this.buildResult(error.response);
-      //           const retryAfterMs = result.retryAfter !== undefined ? result.retryAfter : (60 * 1000);
-      //           this.emit('rate_limited', retryAfterMs / 1000);
-      //           this.logger.info(`API Call failed due to rate limiting. Will retry in ${retryAfterMs / 1000} seconds.`);
-      //           // wait and return the result from calling `task` again after the specified number of seconds
-      //           return delay(retryAfterMs).then(task);
-      //         }
-      //         throw httpErrorWithOriginal(error);
-      //       } else {
-      //         throw error;
-      //       }
-      //     });
-      // };
-
-      // // The following thunk encapsulates the retried task so that it can be coordinated for request queuing
-      // const taskAfterRetries = () => pRetry(task, this.retryConfig);
-
-      // The final return value is the resolution of the task after being retried and queued
-      // return this.requestQueue.add(taskAfterRetries);
-
       const methodSupportsCursorPagination = methods.cursorPaginationEnabledMethods.has(method);
       const optionsPaginationType = getOptionsPaginationType(options);
 
@@ -218,15 +153,15 @@ export class WebClient extends EventEmitter {
       const shouldAutoPaginate = methodSupportsCursorPagination && optionsPaginationType === PaginationType.None;
       this.logger.debug(`shouldAutoPaginate: ${shouldAutoPaginate}`);
 
-      // NOTE: maybe the retrier needs to be *outside* the request queue
-
-      // promises of responses that are each outputs of the requestQueue
       async function* generateResults(this: WebClient): AsyncIterableIterator<WebAPICallResult> {
+        // when result is undefined, that signals that the first of potentially many calls has not yet been made
         let result: WebAPICallResult | undefined = undefined;
+        // paginationOptions stores pagination options not already stored in the options argument
         let paginationOptions: methods.CursorPaginationEnabled = {};
 
-        // TODO: store the default page size in a constant
         if (shouldAutoPaginate) {
+          // these are the default pagination options
+          // TODO: store the default page size in a constant, or possibly an instance-specific option
           paginationOptions = { limit: 200 };
         }
 
@@ -265,14 +200,21 @@ export class WebClient extends EventEmitter {
                 if (retrySec !== undefined) {
                   this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
                   this.emit('rate_limited', retrySec);
-                  // TODO: how does scheduling work in pRetry?
-                  // will this time get added onto an exponentially increasing time?
-                  // TODO: pause the requestQueue?
+                  // pause the request queue and then delay the rejection by the amount of time in the retry header
+                  this.requestQueue.pause();
+                  // NOTE: if there was a way to introspect the current RetryOperation and know what the next timeout
+                  // would be, then we could subtract that time from the following delay, knowing that it the next
+                  // attempt still wouldn't occur until after the rate-limit header has specified. an even better
+                  // solution would be to subtract the time from only the timeout of this next attempt of the
+                  // RetryOperation. this would result in the staying paused for the entire duration specified in the
+                  // header, yet this operation not having to pay the timeout cost in addition to that.
                   await delay(retrySec * 1000);
-                  // TODO: resume the requestQueue?
-                  // TODO: throw a non-abort error to signal a retry
+                  // resume the request queue and throw a non-abort error to signal a retry
+                  this.requestQueue.start();
+                  // TODO: turn this into a WebAPIPlatformError
+                  throw Error('A rate limit was exceeded.');
                 } else {
-                  // TODO: got a 429 but don't have a valid value in header, should probably throw an aborterror
+                  throw new pRetry.AbortError(new Error('Retry header did not contain a valid timeout.'));
                 }
               }
 
@@ -283,9 +225,17 @@ export class WebClient extends EventEmitter {
                 result.response_metadata.warnings.forEach(this.logger.warn);
               }
 
+              if (!result.ok) {
+                const error = errorWithCode(
+                  new Error(`An API error occurred: ${result.error}`),
+                  ErrorCode.PlatformError,
+                );
+                error.data = result;
+                throw new pRetry.AbortError(error);
+              }
+
               return result;
             } catch (error) {
-              // TODO: wrap these in AbortError
               if (error.name === 'RequestError') {
                 throw requestErrorWithOriginal(error);
               } else if (error.name === 'ReadError') {
@@ -295,8 +245,8 @@ export class WebClient extends EventEmitter {
             }
           };
 
-          // TODO: assign to result
-          yield pRetry(task, this.retryConfig);
+          result = await pRetry(task, this.retryConfig);
+          yield result;
         }
       }
 
@@ -846,20 +796,6 @@ enum PaginationType {
   None = 'None',
 }
 
-// function getMethodPaginationType(method: string): PaginationType {
-//   // some methods have multiple pagination types enabled, so this method queries the sets in order of preference
-//   if (methods.cursorPaginationEnabledMethods.has(method)) {
-//     return PaginationType.Cursor;
-//   }
-//   if (methods.timelinePaginationEnabledMethods.has(method)) {
-//     return PaginationType.Timeline;
-//   }
-//   if (methods.traditionalPagingEnabledMethods.has(method)) {
-//     return PaginationType.Traditional;
-//   }
-//   return PaginationType.None;
-// }
-
 function getOptionsPaginationType(options?: WebAPICallOptions): PaginationType {
   if (options === undefined) {
     return PaginationType.None;
@@ -892,22 +828,10 @@ function getOptionsPaginationType(options?: WebAPICallOptions): PaginationType {
   return optionsType;
 }
 
-// TODO: this seems like metadata that should go in methods.ts
-// const paginationOptions = new Set(['limit', 'cursor', 'oldest', 'latest', 'inclusive', 'page', 'count']);
-
-// function containsPaginationOptions(options: WebAPICallOptions): boolean {
-//   for (const [key, value] of objectEntries(options)) {
-//     if (options[option] !== undefined) {
-//       return true;
-//     }
-//   }
-//   return false;
-// }
-
 // does this need to be async?
-function mergeResults(resultOne: WebAPICallResult, resultTwo: WebAPICallResult): Promise<WebAPICallResult> {
+function mergeResults(accumulator: WebAPICallResult, result: WebAPICallResult): Promise<WebAPICallResult> {
   // TODO
-  return Promise.resolve(resultOne);
+  return Promise.resolve(accumulator);
 }
 
 function paginationOptionsForNextPage(previousResult: WebAPICallResult): methods.CursorPaginationEnabled {
