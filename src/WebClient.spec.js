@@ -7,7 +7,7 @@ const { WebClient } = require('./WebClient');
 const { LogLevel } = require('./logger');
 const { addAppMetadata } = require('./util');
 const rapidRetryPolicy = require('./retry-policies').rapidRetryPolicy;
-const CaptureStdout = require('capture-stdout');
+const { CaptureConsole } = require('@aoberoi/capture-console');
 const isPromise = require('p-is-promise');
 const nock = require('nock');
 const Busboy = require('busboy');
@@ -33,13 +33,13 @@ describe('WebClient', function () {
 
   describe('has an option to change the log output severity', function () {
     beforeEach(function () {
-      this.capture = new CaptureStdout();
+      this.capture = new CaptureConsole();
       this.capture.startCapture();
     });
     it('outputs a debug log on initialization', function () {
       const debuggingClient = new WebClient(token, { logLevel: LogLevel.DEBUG });
       const output = this.capture.getCapturedText();
-      assert.isNotEmpty(output); // should have 2 log lines, but not asserting since that is an implementation detail
+      assert.isNotEmpty(output); // should have at least 1 log line, but not asserting since that is an implementation detail
     });
     afterEach(function () {
       this.capture.stopCapture();
@@ -48,7 +48,7 @@ describe('WebClient', function () {
 
   describe('has an option to provide a logging function', function () {
     beforeEach(function () {
-      this.capture = new CaptureStdout();
+      this.capture = new CaptureConsole();
       this.capture.startCapture();
     });
     it('sends logs to the function and not to stdout', function () {
@@ -588,15 +588,61 @@ describe('WebClient', function () {
   describe('has support for automatic pagination', function () {
     describe('when using a method that supports cursor-based pagination', function () {
       it('should automatically paginate and return a single merged result when no pagination options are supplied', function () {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(200, { ok: true, channels: ['CONVERSATION_ONE', 'CONVERSATION_TWO'], response_metadata: { next_cursor: 'CURSOR' } })
+          .post(/api/, (body) => {
+            // NOTE: limit value is compared as a string because nock doesn't properly serialize the param into a number
+            return body.limit && body.limit === '200' && body.cursor && body.cursor === 'CURSOR';
+          })
+          .reply(200, { ok: true, channels: ['CONVERSATION_THREE'], response_metadata: { some_key: 'some_val' }});
 
+        const client = new WebClient(token);
+        return client.channels.list()
+          .then((result) => {
+            assert.lengthOf(result.channels, 3);
+            assert.deepEqual(result.channels, ['CONVERSATION_ONE', 'CONVERSATION_TWO', 'CONVERSATION_THREE'])
+            // the following line makes sure that besides the paginated property, other properties of the result are
+            // sourced from the last response
+            assert.propertyVal(result.response_metadata, 'some_key', 'some_val');
+            scope.done();
+          });
       });
 
       it('should not automatically paginate when pagination options are supplied', function () {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(200, { ok: true, channels: ['CONVERSATION_ONE'], response_metadata: { next_cursor: 'CURSOR' } });
 
+        const client = new WebClient(token);
+        return client.channels.list({ limit: 1 })
+          .then((result) => {
+            assert.deepEqual(result.channels, ['CONVERSATION_ONE'])
+            scope.done();
+          });
       });
 
       it('should warn when pagination options for timeline or traditional pagination are supplied', function () {
+        const capture = new CaptureConsole();
+        capture.startCapture();
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(200, { ok: true, messages: [] });
 
+        const client = new WebClient(token);
+        // this method supports both cursor-based and timeline-based pagination
+        return client.conversations.history({ oldest: 'MESSAGE_TIMESTAMP' })
+          .then(() => {
+            const output = capture.getCapturedText();
+            assert.isNotEmpty(output);
+            scope.done();
+          })
+          .then(() => {
+            capture.stopCapture();
+          }, (error) => {
+            capture.stopCapture();
+            throw error;
+          });
       });
     });
 

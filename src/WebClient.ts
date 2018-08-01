@@ -200,7 +200,7 @@ export class WebClient extends EventEmitter {
                 ),
               ) as got.Response<string>;
 
-              // TODO: config option for automatic retry handling here
+              // TODO: config option for automatic rate limit handling here
               if (response.statusCode === 429) {
                 const retrySec = parseRetryHeaders(response);
                 if (retrySec !== undefined) {
@@ -805,7 +805,7 @@ enum PaginationType {
 }
 
 /**
- * Determines which pagination type, if any, the supplied options (a.k.a. method arguments) is using. This method is
+ * Determines which pagination type, if any, the supplied options (a.k.a. method arguments) are using. This method is
  * also able to determine if the options have mixed different pagination types.
  */
 function getOptionsPaginationType(options?: WebAPICallOptions): PaginationType {
