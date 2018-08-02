@@ -60,7 +60,7 @@ export interface Dialog {
     subtype?: 'email' | 'number' | 'tel' | 'url';
     // type `select`:
     data_source?: 'users' | 'channels' | 'conversations' | 'external';
-    selected_options?: string;
+    selected_options?: SelectOption[];
     options?: SelectOption[];
     option_groups?: {
       label: string;
