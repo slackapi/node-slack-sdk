@@ -656,6 +656,10 @@ describe('WebClient', function () {
   });
 
   describe('has support for automatic pagination', function () {
+    beforeEach(function () {
+      this.client = new WebClient(token);
+    });
+
     describe('when using a method that supports cursor-based pagination', function () {
       it('should automatically paginate and return a single merged result when no pagination options are supplied', function () {
         const scope = nock('https://slack.com')
@@ -667,8 +671,7 @@ describe('WebClient', function () {
           })
           .reply(200, { ok: true, channels: ['CONVERSATION_THREE'], response_metadata: { some_key: 'some_val' }});
 
-        const client = new WebClient(token);
-        return client.channels.list()
+        return this.client.channels.list()
           .then((result) => {
             assert.lengthOf(result.channels, 3);
             assert.deepEqual(result.channels, ['CONVERSATION_ONE', 'CONVERSATION_TWO', 'CONVERSATION_THREE'])
@@ -684,8 +687,7 @@ describe('WebClient', function () {
           .post(/api/)
           .reply(200, { ok: true, channels: ['CONVERSATION_ONE'], response_metadata: { next_cursor: 'CURSOR' } });
 
-        const client = new WebClient(token);
-        return client.channels.list({ limit: 1 })
+        return this.client.channels.list({ limit: 1 })
           .then((result) => {
             assert.deepEqual(result.channels, ['CONVERSATION_ONE'])
             scope.done();
@@ -699,9 +701,8 @@ describe('WebClient', function () {
           .post(/api/)
           .reply(200, { ok: true, messages: [] });
 
-        const client = new WebClient(token);
         // this method supports both cursor-based and timeline-based pagination
-        return client.conversations.history({ oldest: 'MESSAGE_TIMESTAMP' })
+        return this.client.conversations.history({ oldest: 'MESSAGE_TIMESTAMP' })
           .then(() => {
             const output = capture.getCapturedText();
             assert.isNotEmpty(output);
@@ -716,24 +717,72 @@ describe('WebClient', function () {
       });
     });
 
-    // TODO: other types of warnings
+    it('should warn when options indicate mixed pagination types', function () {
+      const capture = new CaptureConsole();
+      capture.startCapture();
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(200, { ok: true, messages: [] });
 
-    // TODO: when pagination type is traditional
+      // oldest indicates timeline-based pagination, cursor indicates cursor-based pagination
+      return this.client.conversations.history({ oldest: 'MESSAGE_TIMESTAMP', cursor: 'CURSOR' })
+        .then(() => {
+          const output = capture.getCapturedText();
+          assert.isNotEmpty(output);
+          scope.done();
+        })
+        .then(() => {
+          capture.stopCapture();
+        }, (error) => {
+          capture.stopCapture();
+          throw error;
+        });
+    });
 
-    // TODO: when pagination type is mixed (differnt kinds of combos)
+    it('should warn when the options indicate a pagination type that is incompatible with the method', function () {
+      const capture = new CaptureConsole();
+      capture.startCapture();
+      const scope = nock('https://slack.com')
+        .persist()
+        .post(/api/)
+        // its important to note that these requests all indicate some kind of pagination, so there should be no
+        // auto-pagination, and therefore there's no need to specify a list-type data in the response.
+        .reply(200, { ok: true });
+
+      const requests = [
+        // when the options are cursor and the method is not
+        this.client.channels.history({ cursor: 'CURSOR' }),
+        // when the options are timeline and the method is not
+        this.client.channels.list({ oldest: 'MESSAGE_TIMESTAMP' }),
+        // when the options are traditional and the method is not
+        this.client.channels.list({ page: 3, count: 100 }),
+      ];
+
+      return Promise.all(requests)
+        .then(() => {
+          const output = capture.getCapturedText();
+          assert.isAtLeast(output.length, 3);
+          scope.done();
+        })
+        .then(() => {
+          capture.stopCapture();
+        }, (error) => {
+          capture.stopCapture();
+          throw error;
+        });
+    });
 
     // TODO: when parsing he retry header fails
 
     // TODO: a result that has retry headers in it (when automatic rate-limit handling is disabled)
 
-    describe('when using a method that supports other pagination techniques', function () {
+    describe('when using a method that supports only non-cursor pagination techniques', function () {
       it('should not automatically paginate', function () {
         const scope = nock('https://slack.com')
           .post(/api/)
           .reply(200, { ok: true, messages: [{}, {}], has_more: false });
 
-        const client = new WebClient(token);
-        return client.mpim.history({ channel: 'MPIM_ID' })
+        return this.client.mpim.history({ channel: 'MPIM_ID' })
           .then((result) => {
             assert.isTrue(result.ok);
             scope.done();
