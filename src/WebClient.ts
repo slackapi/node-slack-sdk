@@ -60,6 +60,11 @@ export class WebClient extends EventEmitter {
   private tlsConfig: TLSOptions;
 
   /**
+   * Automatic pagination page size (limit)
+   */
+  private pageSize: number;
+
+  /**
    * The name used to prefix all logging generated from this object
    */
   private static loggerName = `${pkg.name}:WebClient`;
@@ -85,6 +90,7 @@ export class WebClient extends EventEmitter {
     retryConfig = retryPolicies.retryForeverExponentialCappedRandom,
     agent = undefined,
     tls = undefined,
+    pageSize = 200,
   }: WebClientOptions = {}) {
     super();
     this.token = token;
@@ -95,6 +101,7 @@ export class WebClient extends EventEmitter {
     this.agentConfig = agent;
     // NOTE: may want to filter the keys to only those acceptable for TLS options
     this.tlsConfig = tls !== undefined ? tls : {};
+    this.pageSize = pageSize;
 
     // Logging
     if (logger !== undefined) {
@@ -168,12 +175,12 @@ export class WebClient extends EventEmitter {
         if (shouldAutoPaginate) {
           // these are the default pagination options
           // TODO: store the default page size in a constant, or possibly an instance-specific option
-          paginationOptions = { limit: 200 };
+          paginationOptions = { limit: this.pageSize };
         }
 
         while (result === undefined ||
                (shouldAutoPaginate &&
-                 (objectEntries(paginationOptions = paginationOptionsForNextPage(result)).length > 0)
+                 (objectEntries(paginationOptions = paginationOptionsForNextPage(result, this.pageSize)).length > 0)
                )
               ) {
           const requestBody = this.serializeApiCallOptions(Object.assign(
@@ -689,6 +696,7 @@ export interface WebClientOptions {
   retryConfig?: RetryOptions;
   agent?: AgentOption;
   tls?: TLSOptions;
+  pageSize?: number;
 }
 
 // NOTE: could potentially add GotOptions to this interface (using &, or maybe as an embedded key)
@@ -885,12 +893,14 @@ function createResultMerger(method: string):
  * Determines an appropriate set of cursor pagination options for the next request to a paginated API method.
  * @param previousResult - the result of the last request, where the next cursor might be found.
  */
-function paginationOptionsForNextPage(previousResult: WebAPICallResult): methods.CursorPaginationEnabled {
+function paginationOptionsForNextPage(
+  previousResult: WebAPICallResult, pageSize: number,
+): methods.CursorPaginationEnabled {
   const paginationOptions: methods.CursorPaginationEnabled = {};
   if (previousResult.response_metadata !== undefined &&
     previousResult.response_metadata.next_cursor !== undefined &&
     previousResult.response_metadata.next_cursor !== '') {
-    paginationOptions.limit = 200;
+    paginationOptions.limit = pageSize;
     paginationOptions.cursor = previousResult.response_metadata.next_cursor as string;
   }
   return paginationOptions;

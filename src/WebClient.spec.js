@@ -682,6 +682,22 @@ describe('WebClient', function () {
           });
       });
 
+      it('should allow the automatic page size to be configured', function () {
+        const pageSize = 400;
+        const scope = nock('https://slack.com')
+          .post(/api/, (body) => {
+            // NOTE: limit value is compared as a string because nock doesn't properly serialize the param into a number
+            return body.limit && body.limit === ('' + pageSize);
+          })
+          .reply(200, { ok: true, channels: [], response_metadata: {} })
+
+        const client = new WebClient(token, { pageSize });
+        return client.channels.list()
+          .then((result) => {
+            scope.done();
+          });
+      });
+
       it('should not automatically paginate when pagination options are supplied', function () {
         const scope = nock('https://slack.com')
           .post(/api/)
