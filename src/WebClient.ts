@@ -1,7 +1,7 @@
 // polyfill for async iterable. see: https://stackoverflow.com/a/43694282/305340
 if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
 
-import { IncomingMessage } from 'http';
+import { IncomingMessage, IncomingHttpHeaders } from 'http';
 import { basename } from 'path';
 import { Readable } from 'stream';
 import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
@@ -224,6 +224,11 @@ export class WebClient extends EventEmitter {
                 }
               }
 
+              // Slack's Web API doesn't use meaningful status codes besides 429 and 200
+              if (response.statusCode !== 200) {
+                throw httpErrorFromResponse(response);
+              }
+
               result = this.buildResult(response);
 
               // log warnings in response metadata
@@ -239,8 +244,6 @@ export class WebClient extends EventEmitter {
                 error.data = result;
                 throw new pRetry.AbortError(error);
               }
-
-              // TODO: httpError when bad things happen (like statusCode=500). this should be an AbortError
 
               return result;
             } catch (error) {
@@ -729,7 +732,11 @@ export interface WebAPIReadError extends CodedError {
 
 export interface WebAPIHTTPError extends CodedError {
   code: ErrorCode.HTTPError;
-  original: Error;
+  original: Error; // TODO: deprecate
+  statusCode: number;
+  statusMessage: string;
+  headers: IncomingHttpHeaders;
+  body?: any;
 }
 
 /*
@@ -786,15 +793,23 @@ function readErrorWithOriginal(original: Error): WebAPIReadError {
  * A factory to create WebAPIHTTPError objects
  * @param original - original error
  */
-// function httpErrorWithOriginal(original: Error): WebAPIHTTPError {
-//   const error = errorWithCode(
-//     // any cast is used because the got definition file doesn't export the got.HTTPError type
-//     new Error(`An HTTP protocol error occurred: statusCode = ${(original as any).statusCode}`),
-//     ErrorCode.HTTPError,
-//   ) as Partial<WebAPIHTTPError>;
-//   error.original = original;
-//   return (error as WebAPIHTTPError);
-// }
+function httpErrorFromResponse(response: got.Response<string>): WebAPIHTTPError {
+  const error = errorWithCode(
+    // any cast is used because the got definition file doesn't export the got.HTTPError type
+    new Error(`An HTTP protocol error occurred: statusCode = ${response.statusCode}`),
+    ErrorCode.HTTPError,
+  ) as Partial<WebAPIHTTPError>;
+  error.original = new Error('The WebAPIHTTPError.original property is deprecated');
+  error.statusCode = response.statusCode;
+  error.statusMessage = response.statusMessage;
+  error.headers = response.headers;
+  try {
+    error.body = JSON.parse(response.body);
+  } catch (error) {
+    error.body = response.body;
+  }
+  return (error as WebAPIHTTPError);
+}
 
 enum PaginationType {
   Cursor = 'Cursor',

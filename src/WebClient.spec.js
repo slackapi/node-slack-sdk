@@ -1,9 +1,11 @@
 require('mocha');
 const fs = require('fs');
 const path = require('path');
-const { Agent } = require('http');
+const { Agent } = require('https');
+const { Readable } = require('stream');
 const { assert } = require('chai');
 const { WebClient } = require('./WebClient');
+const { ErrorCode } = require('./errors');
 const { LogLevel } = require('./logger');
 const { addAppMetadata } = require('./util');
 const rapidRetryPolicy = require('./retry-policies').rapidRetryPolicy;
@@ -166,8 +168,7 @@ describe('WebClient', function () {
       });
     });
 
-    // TODO: simulate each of the error types
-    describe('when the call fails', function () {
+    describe('when an API call fails', function () {
       beforeEach(function () {
         this.scope = nock('https://slack.com')
           .post(/api/)
@@ -177,8 +178,9 @@ describe('WebClient', function () {
       it('should return a Promise which rejects on error', function (done) {
         const r = this.client.apiCall('method')
         assert(isPromise(r));
-        r.catch(error => {
-          assert.ok(true);
+        r.catch((error) => {
+          assert.instanceOf(error, Error);
+          this.scope.done();
           done();
         });
       });
@@ -186,22 +188,78 @@ describe('WebClient', function () {
       it('should deliver error in a callback', function (done) {
         this.client.apiCall('method', {}, (error) => {
           assert.instanceOf(error, Error);
+          this.scope.done();
           done();
         });
       });
     });
 
-    it('should fail with platform errors when the API response is an error', function () {
+    it('should fail with WebAPIPlatformError when the API response has an error', function (done) {
       const scope = nock('https://slack.com')
         .post(/api/)
         .reply(200, { ok: false, error: 'bad error' });
-      const client = new WebClient(token);
-      return client.apiCall('method')
+      this.client.apiCall('method')
         .catch((error) => {
-          assert.propertyVal(error, 'code', 'slackclient_platform_error');
+          assert.instanceOf(error, Error);
+          assert.equal(error.code, ErrorCode.PlatformError);
           assert.nestedPropertyVal(error, 'data.ok', false);
           assert.nestedPropertyVal(error, 'data.error', 'bad error');
           scope.done();
+          done();
+        });
+    });
+
+    it('should fail with WebAPIHTTPError when the API response has an unexpected status', function (done) {
+      const body = { foo: 'bar' };
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(500, body);
+      const client = new WebClient(token, { retryConfig: { retries: 0 } });
+      client.apiCall('method')
+        .catch((error) => {
+          assert.instanceOf(error, Error);
+          assert.equal(error.code, ErrorCode.HTTPError);
+          assert.instanceOf(error.original, Error); // TODO: deprecate
+          assert.equal(error.statusCode, 500);
+          assert.exists(error.headers);
+          assert.deepEqual(error.body, body);
+          scope.done();
+          done();
+        });
+    });
+
+    it('should fail with WebAPIRequestError when the API request fails', function (done) {
+      // One known request error is when the node encounters an ECONNREFUSED. In order to simulate this, rather than
+      // using nock, we send the request to a host:port that is not listening.
+      const client = new WebClient(token, { slackApiUrl: 'https://localhost:8999/api/', retryConfig: { retries: 0 } });
+      client.apiCall('method')
+        .catch((error) => {
+          assert.instanceOf(error, Error);
+          assert.equal(error.code, ErrorCode.RequestError);
+          assert.instanceOf(error.original, Error);
+          done();
+        });
+    });
+
+    // Despite trying, could not figure out a good way to simulate a response that emits an error in a reliable way
+    it.skip('should fail with WebAPIReadError when an API response fails', function (done) {
+      class FailingReadable extends Readable {
+        constructor(options) { super(options); }
+        _read(size) {
+          this.emit('error', new Error('test error'));
+        }
+      }
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(200, () => new FailingReadable());
+      const client = new WebClient(token, { retryConfig: { retries: 0 } });
+      client.apiCall('method')
+        .catch((error) => {
+          assert.instanceOf(error, Error);
+          assert.equal(error.code, ErrorCode.ReadError);
+          assert.instanceOf(error.original, Error);
+          scope.done();
+          done();
         });
     });
 
@@ -252,8 +310,6 @@ describe('WebClient', function () {
         scope.done();
       });
     });
-
-    it('should remove undefined or null values from complex API arguments');
 
     describe('when API arguments contain binary to upload', function () {
       beforeEach(function () {
@@ -394,17 +450,19 @@ describe('WebClient', function () {
   });
 
   describe('apiCall() - without a token', function () {
-    const client = new WebClient(undefined, { retryConfig: rapidRetryPolicy });
+    it('should make successful api calls', function () {
+      const client = new WebClient(undefined, { retryConfig: rapidRetryPolicy });
 
-    const scope = nock('https://slack.com')
-      // NOTE: this could create false negatives if the serialization order changes (it shouldn't matter)
-      .post(/api/, 'foo=stringval')
-      .reply(200, { ok: true });
+      const scope = nock('https://slack.com')
+        // NOTE: this could create false negatives if the serialization order changes (it shouldn't matter)
+        .post(/api/, 'foo=stringval')
+        .reply(200, { ok: true });
 
-    const r = client.apiCall('method', { foo: 'stringval' });
-    assert(isPromise(r));
-    return r.then(result => {
-      scope.done();
+      const r = client.apiCall('method', { foo: 'stringval' });
+      assert(isPromise(r));
+      return r.then((result) => {
+        scope.done();
+      });
     });
   });
 
@@ -440,11 +498,23 @@ describe('WebClient', function () {
   });
 
   describe('has an option to set a custom HTTP agent', function () {
-    // not confident how to test this. one idea is to use sinon to intercept method calls on the agent.
-    it.skip('should send a request using the custom agent', function () {
-      const agent = new Agent();
+    it('should send a request using the custom agent', function () {
+      const agent = new Agent({ keepAlive: true });
+      const spy = sinon.spy(agent, 'addRequest');
       const client = new WebClient(token, { agent });
-      return client.apiCall('method');
+      return client.apiCall('method')
+        .catch(() => {
+          assert(spy.called);
+        })
+        .then(() => {
+          agent.addRequest.restore();
+          agent.destroy();
+        })
+        .catch((error) => {
+          agent.addRequest.restore();
+          agent.destroy();
+          throw error;
+        });
     });
   });
 
@@ -519,7 +589,7 @@ describe('WebClient', function () {
     it('retries a request which fails to get a response', function () {
       const scope = nock('https://slack.com')
         .post(/api/)
-        .replyWithError('could be a ECONNREFUESD, ENOTFOUND, ETIMEDOUT, ECONNRESET')
+        .replyWithError('could be a ECONNREFUSED, ENOTFOUND, ETIMEDOUT, ECONNRESET')
         .post(/api/)
         .reply(200, { ok: true });
       const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
@@ -646,8 +716,29 @@ describe('WebClient', function () {
       });
     });
 
+    // TODO: other types of warnings
+
+    // TODO: when pagination type is traditional
+
+    // TODO: when pagination type is mixed (differnt kinds of combos)
+
+    // TODO: when parsing he retry header fails
+
+    // TODO: a result that has retry headers in it (when automatic rate-limit handling is disabled)
+
     describe('when using a method that supports other pagination techniques', function () {
-      it('should not automatically paginate')
+      it('should not automatically paginate', function () {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(200, { ok: true, messages: [{}, {}], has_more: false });
+
+        const client = new WebClient(token);
+        return client.mpim.history({ channel: 'MPIM_ID' })
+          .then((result) => {
+            assert.isTrue(result.ok);
+            scope.done();
+          });
+      });
     });
   });
 

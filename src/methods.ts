@@ -430,11 +430,12 @@ export type EmojiListArguments = TokenOverridable;
 export type FilesDeleteArguments = TokenOverridable & {
   file: string; // file id
 };
-export type FilesInfoArguments = TokenOverridable & {
+export type FilesInfoArguments = TokenOverridable & CursorPaginationEnabled & {
   file: string; // file id
   count?: number;
   page?: number;
 };
+cursorPaginationEnabledMethods.set('files.info', 'comments');
 export type FilesListArguments = TokenOverridable & TraditionalPagingEnabled & {
   channel?: string;
   user?: string;
@@ -505,10 +506,11 @@ export type GroupsKickArguments = TokenOverridable & {
 export type GroupsLeaveArguments = TokenOverridable & {
   channel: string;
 };
-export type GroupsListArguments = TokenOverridable & {
+export type GroupsListArguments = TokenOverridable & CursorPaginationEnabled & {
   exclude_archived?: boolean;
   exclude_members?: boolean;
 };
+cursorPaginationEnabledMethods.set('groups.list', 'groups');
 export type GroupsMarkArguments = TokenOverridable & {
   channel: string;
   ts: string;
@@ -584,7 +586,8 @@ export type MPIMHistoryArguments = TokenOverridable & TimelinePaginationEnabled 
   unreads?: boolean;
 };
 timelinePaginationEnabledMethods.add('mpim.history');
-export type MPIMListArguments = TokenOverridable;
+export type MPIMListArguments = TokenOverridable & CursorPaginationEnabled;
+cursorPaginationEnabledMethods.set('mpim.list', 'groups');
 export type MPIMMarkArguments = TokenOverridable & {
   channel: string;
   ts: string;
@@ -654,10 +657,11 @@ export type ReactionsGetArguments = TokenOverridable & {
   file?: string; // file id
   file_comment?: string;
 };
-export type ReactionsListArguments = TokenOverridable & TraditionalPagingEnabled & {
+export type ReactionsListArguments = TokenOverridable & TraditionalPagingEnabled & CursorPaginationEnabled & {
   user?: string;
   full?: boolean;
 };
+cursorPaginationEnabledMethods.set('reactions.list', 'items');
 traditionalPagingEnabledMethods.add('reactions.list');
 export type ReactionsRemoveArguments = TokenOverridable & {
   name: string;
@@ -723,7 +727,8 @@ export type StarsAddArguments = TokenOverridable & {
   file?: string; // file id
   file_comment?: string;
 };
-export type StarsListArguments = TokenOverridable & TraditionalPagingEnabled;
+export type StarsListArguments = TokenOverridable & TraditionalPagingEnabled & CursorPaginationEnabled;
+cursorPaginationEnabledMethods.set('stars.list', 'items');
 traditionalPagingEnabledMethods.add('stars.list');
 export type StarsRemoveArguments = TokenOverridable & {
   // must supply one of:
