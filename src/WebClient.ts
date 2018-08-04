@@ -174,7 +174,6 @@ export class WebClient extends EventEmitter {
 
         if (shouldAutoPaginate) {
           // these are the default pagination options
-          // TODO: store the default page size in a constant, or possibly an instance-specific option
           paginationOptions = { limit: this.pageSize };
         }
 
@@ -886,12 +885,14 @@ function createResultMerger(method: string):
       return accumulator;
     };
   }
+  // For all methods who don't use cursor-pagination, return the identity reduction function
   return (_, result) => result;
 }
 
 /**
  * Determines an appropriate set of cursor pagination options for the next request to a paginated API method.
  * @param previousResult - the result of the last request, where the next cursor might be found.
+ * @param pageSize - the maximum number of additional items to fetch in the next request.
  */
 function paginationOptionsForNextPage(
   previousResult: WebAPICallResult, pageSize: number,

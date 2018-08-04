@@ -80,10 +80,8 @@ log.methodFactory = function (
 /**
  * INTERNAL interface for getting or creating a named Logger
  */
-// TODO: implement logger name prefixing (example plugins available on the loglevel package's site)
-// export const getLogger = log.getLogger as (name: string) => Logger;
-
 export function getLogger(name: string): Logger {
+  // TODO: implement logger name prefixing (example plugins available on the loglevel package's site)
   const instanceNumber = instanceCount;
   instanceCount += 1;
   return log.getLogger(name + instanceNumber);
