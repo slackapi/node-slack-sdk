@@ -615,12 +615,29 @@ describe('WebClient', function () {
   });
 
   describe('has rate limit handling', function () {
-    // NOTE: Check issue #451
-    it('should expose retry headers in the response');
-    it('should allow rate limit triggered retries to be turned off');
+
+    describe('when configured to reject rate-limited calls', function () {
+      beforeEach(function () {
+        this.client = new WebClient(token, { rejectRateLimitedCalls: true, retryConfig: rapidRetryPolicy });
+      });
+
+      it('should reject with a WebAPIRateLimitedError when a request fails due to rate-limiting', function (done) {
+        const retryAfter = 5;
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(429, '', { 'retry-after': retryAfter });
+        this.client.apiCall('method')
+          .catch((error) => {
+            assert.instanceOf(error, Error);
+            assert.equal(error.code, ErrorCode.RateLimitedError);
+            assert.equal(error.retryAfter, retryAfter);
+            scope.done();
+            done();
+          });
+      });
+    });
 
     describe('when a request fails due to rate-limiting', function () {
-      // NOTE: is this retrying configurable with the retry policy? is it subject to the request concurrency?
       it('should automatically retry the request after the specified timeout', function () {
         const scope = nock('https://slack.com')
           .post(/api/)

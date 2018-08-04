@@ -216,11 +216,11 @@ export class WebClient extends EventEmitter {
               if (response.statusCode === 429) {
                 const retrySec = parseRetryHeaders(response);
                 if (retrySec !== undefined) {
-                  this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
                   this.emit('rate_limited', retrySec);
                   if (this.rejectRateLimitedCalls) {
                     throw new pRetry.AbortError(rateLimitedErrorWithDelay(retrySec));
                   }
+                  this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
                   // pause the request queue and then delay the rejection by the amount of time in the retry header
                   this.requestQueue.pause();
                   // NOTE: if there was a way to introspect the current RetryOperation and know what the next timeout
