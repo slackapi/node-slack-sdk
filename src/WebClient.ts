@@ -198,20 +198,24 @@ export class WebClient extends EventEmitter {
           const task = async () => {
             try {
               const response = await this.requestQueue.add(
-                () => got.post(urlJoin(this.slackApiUrl, method),
-                  // @ts-ignore
-                  Object.assign({
-                    form: !canBodyBeFormMultipart(requestBody),
-                    body: requestBody,
-                    retries: 0,
-                    headers: {
-                      'user-agent': this.userAgent,
-                    },
-                    throwHttpErrors: false,
-                    agent: this.agentConfig,
-                  }, this.tlsConfig),
-                ),
+                () => {
+                  this.logger.debug('will perform http request');
+                  return got.post(urlJoin(this.slackApiUrl, method),
+                    // @ts-ignore
+                    Object.assign({
+                      form: !canBodyBeFormMultipart(requestBody),
+                      body: requestBody,
+                      retries: 0,
+                      headers: {
+                        'user-agent': this.userAgent,
+                      },
+                      throwHttpErrors: false,
+                      agent: this.agentConfig,
+                    }, this.tlsConfig),
+                  );
+                },
               ) as got.Response<string>;
+              this.logger.debug('http response received');
 
               if (response.statusCode === 429) {
                 const retrySec = parseRetryHeaders(response);
@@ -262,6 +266,7 @@ export class WebClient extends EventEmitter {
 
               return result;
             } catch (error) {
+              this.logger.debug('http request failed');
               if (error.name === 'RequestError') {
                 throw requestErrorWithOriginal(error);
               } else if (error.name === 'ReadError') {

@@ -615,10 +615,9 @@ describe('WebClient', function () {
   });
 
   describe('has rate limit handling', function () {
-
     describe('when configured to reject rate-limited calls', function () {
       beforeEach(function () {
-        this.client = new WebClient(token, { rejectRateLimitedCalls: true, retryConfig: rapidRetryPolicy });
+        this.client = new WebClient(token, { rejectRateLimitedCalls: true });
       });
 
       it('should reject with a WebAPIRateLimitedError when a request fails due to rate-limiting', function (done) {
@@ -635,40 +634,81 @@ describe('WebClient', function () {
             done();
           });
       });
-    });
 
-    describe('when a request fails due to rate-limiting', function () {
-      it('should automatically retry the request after the specified timeout', function () {
-        const scope = nock('https://slack.com')
-          .post(/api/)
-          .reply(429, {}, { 'retry-after': 1 })
-          .post(/api/)
-          .reply(200, { ok: true });
-        const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
-        const startTime = new Date().getTime();
-        return client.apiCall('method')
-          .then((resp) => {
-            const time = new Date().getTime() - startTime;
-            assert.isAtLeast(time, 1000, 'elapsed time is at least a second');
-            assert.propertyVal(resp, 'ok', true);
-            scope.done();
-          });
-      });
-
-      it('should pause the remaining requests in queue');
-
-      it('should emit a rate_limited event on the client', function() {
+      it('should emit a rate_limited event on the client', function (done) {
         const spy = sinon.spy();
         const scope = nock('https://slack.com')
           .post(/api/)
           .reply(429, {}, { 'retry-after': 0 });
-        const client = new WebClient(token, { retryConfig: { retries: 0 } });
+        const client = new WebClient(token, { rejectRateLimitedCalls: true });
         client.on('rate_limited', spy);
-        return client.apiCall('method')
+        client.apiCall('method')
           .catch((err) => {
-            sinon.assert.calledOnce(spy);
+            assert(spy.calledOnceWith(0))
+            scope.done();
+            done();
           });
       });
+    });
+
+    it('should automatically retry the request after the specified timeout', function () {
+      const retryAfter = 1;
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(429, '', { 'retry-after': retryAfter })
+        .post(/api/)
+        .reply(200, { ok: true });
+      const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
+      const startTime = Date.now();
+      return client.apiCall('method')
+        .then(() => {
+          const diff = Date.now() - startTime;
+          assert.isAtLeast(diff, retryAfter * 1000, 'elapsed time is at least a second');
+          scope.done();
+        });
+    });
+
+    // TODO: seems like the queuing logic needs to be adjusted
+    it.skip('should pause the remaining requests in queue', function () {
+      const startTime = Date.now();
+      const retryAfter = 1;
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(429, '', { 'retry-after': retryAfter })
+        .post(/api/)
+        .reply(200, function (uri, requestBody) {
+          console.log('first success');
+          return JSON.stringify({ ok: true, diff: Date.now() - startTime });
+        })
+        .post(/api/)
+        .reply(200, function (uri, requestBody) {
+          console.log('second success');
+          return JSON.stringify({ ok: true, diff: Date.now() - startTime });
+        });
+      const client = new WebClient(token, { retryConfig: rapidRetryPolicy, maxRequestConcurrency: 1, logLevel: LogLevel.DEBUG });
+      const firstCall = client.apiCall('method');
+      const secondCall = client.apiCall('method');
+      return Promise.all([firstCall, secondCall])
+        .then(([firstResult, secondResult]) => {
+          assert.isAtLeast(firstResult.diff, retryAfter * 1000);
+          assert.isAtLeast(secondResult.diff, retryAfter * 1000);
+          scope.done();
+        });
+    });
+
+    it('should emit a rate_limited event on the client', function (done) {
+      const spy = sinon.spy();
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(429, {}, { 'retry-after': 0 });
+      const client = new WebClient(token, { retryConfig: { retries: 0 } });
+      client.on('rate_limited', spy);
+      client.apiCall('method')
+        .catch((err) => {
+          assert(spy.calledOnceWith(0))
+          scope.done();
+          done();
+        });
     });
   });
 
