@@ -668,8 +668,7 @@ describe('WebClient', function () {
         });
     });
 
-    // TODO: seems like the queuing logic needs to be adjusted
-    it.skip('should pause the remaining requests in queue', function () {
+    it('should pause the remaining requests in queue', function () {
       const startTime = Date.now();
       const retryAfter = 1;
       const scope = nock('https://slack.com')
@@ -677,15 +676,13 @@ describe('WebClient', function () {
         .reply(429, '', { 'retry-after': retryAfter })
         .post(/api/)
         .reply(200, function (uri, requestBody) {
-          console.log('first success');
           return JSON.stringify({ ok: true, diff: Date.now() - startTime });
         })
         .post(/api/)
         .reply(200, function (uri, requestBody) {
-          console.log('second success');
           return JSON.stringify({ ok: true, diff: Date.now() - startTime });
         });
-      const client = new WebClient(token, { retryConfig: rapidRetryPolicy, maxRequestConcurrency: 1, logLevel: LogLevel.DEBUG });
+      const client = new WebClient(token, { retryConfig: rapidRetryPolicy, maxRequestConcurrency: 1 });
       const firstCall = client.apiCall('method');
       const secondCall = client.apiCall('method');
       return Promise.all([firstCall, secondCall])
