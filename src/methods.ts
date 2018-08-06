@@ -486,11 +486,11 @@ export type GroupsCreateArguments = TokenOverridable & {
 export type GroupsCreateChildArguments = TokenOverridable & {
   channel: string;
 };
-export type GroupsHistoryArguments = TokenOverridable & CursorPaginationEnabled & TimelinePaginationEnabled & {
+export type GroupsHistoryArguments = TokenOverridable & TimelinePaginationEnabled & {
   channel: string;
   unreads?: boolean;
+  count?: number;
 };
-cursorPaginationEnabledMethods.set('groups.history', 'messages');
 timelinePaginationEnabledMethods.add('groups.history');
 export type GroupsInfoArguments = TokenOverridable & LocaleAware & {
   channel: string;
