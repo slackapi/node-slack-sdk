@@ -88,7 +88,7 @@ export interface Dialog {
     subtype?: 'email' | 'number' | 'tel' | 'url';
     // type `select`:
     data_source?: 'users' | 'channels' | 'conversations' | 'external';
-    selected_options?: string;
+    selected_options?: SelectOption[];
     options?: SelectOption[];
     option_groups?: {
       label: string;
@@ -486,11 +486,11 @@ export type GroupsCreateArguments = TokenOverridable & {
 export type GroupsCreateChildArguments = TokenOverridable & {
   channel: string;
 };
-export type GroupsHistoryArguments = TokenOverridable & CursorPaginationEnabled & TimelinePaginationEnabled & {
+export type GroupsHistoryArguments = TokenOverridable & TimelinePaginationEnabled & {
   channel: string;
   unreads?: boolean;
+  count?: number;
 };
-cursorPaginationEnabledMethods.set('groups.history', 'messages');
 timelinePaginationEnabledMethods.add('groups.history');
 export type GroupsInfoArguments = TokenOverridable & LocaleAware & {
   channel: string;
