@@ -167,7 +167,6 @@ web.channels.list()
     res.channels.forEach(c => console.log(c.name));
   })
   .catch(console.error);
-});
 ```
 
 ---
