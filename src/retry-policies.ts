@@ -15,7 +15,6 @@ export const retryForeverExponential: RetryOptions = {
   forever: true,
 };
 
-
 /**
  * Same as {@link retryForeverExponential}, but capped at 30 minutes.
  * TODO: should this name really have "forever" in it? if not, remove from all the derived names below
@@ -23,7 +22,6 @@ export const retryForeverExponential: RetryOptions = {
 export const retryForeverExponentialCapped: RetryOptions = Object.assign({}, retryForeverExponential, {
   maxTimeout: 30 * 60 * 1000,
 });
-
 
 /**
  * Same as {@link retryForeverExponentialCapped}, but with randomization to
@@ -33,7 +31,6 @@ export const retryForeverExponentialCappedRandom: RetryOptions = Object.assign({
   randomize: true,
 });
 
-
 /**
  * Short & sweet, five retries in five minutes and then bail.
  */
@@ -41,7 +38,6 @@ export const fiveRetriesInFiveMinutes: RetryOptions = {
   retries: 5,
   factor: 3.86,
 };
-
 
 /**
  * This policy is just to keep the tests running fast.

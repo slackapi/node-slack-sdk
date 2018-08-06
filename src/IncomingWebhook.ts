@@ -29,7 +29,6 @@ export class IncomingWebhook {
   /**
    * Send a notification to a conversation
    * @param message the message (a simple string, or an object describing the message)
-   * @param callback
    */
   public send(message: string | IncomingWebhookSendArguments): Promise<IncomingWebhookResult>;
   public send(message: string | IncomingWebhookSendArguments, callback: IncomingWebhookResultCallback): void;
@@ -75,7 +74,6 @@ export class IncomingWebhook {
 
   /**
    * Processes an HTTP response into an IncomingWebhookResult.
-   * @param response
    */
   private buildResult(response: got.Response<string>): IncomingWebhookResult {
     return {
@@ -147,7 +145,6 @@ function requestErrorWithOriginal(original: Error): IncomingWebhookRequestError 
   return (error as IncomingWebhookRequestError);
 }
 
-
 /**
  * A factory to create IncomingWebhookReadError objects
  * @param original The original error
@@ -160,7 +157,6 @@ function readErrorWithOriginal(original: Error): IncomingWebhookReadError {
   error.original = original;
   return (error as IncomingWebhookReadError);
 }
-
 
 /**
  * A factory to create IncomingWebhookHTTPError objects

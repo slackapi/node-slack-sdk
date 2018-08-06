@@ -11,7 +11,6 @@ export function noop(): void { } // tslint:disable-line:no-empty
 
 /**
  * Replaces occurences of '/' with ':' in a string, since '/' is meaningful inside User-Agent strings as a separator.
- * @param s
  */
 function replaceSlashes(s: string): string {
   return s.replace('/', ':');
@@ -25,7 +24,6 @@ const appMetadata: { [key: string]: string } = {};
 
 /**
  * Appends the app metadata into the User-Agent value
- * @param appMetadata
  * @param appMetadata.name name of tool to be counted in instrumentation
  * @param appMetadata.version version of tool to be counted in instrumentation
  */
@@ -40,6 +38,34 @@ export function getUserAgent(): string {
   const appIdentifier = objectEntries(appMetadata).map(([name, version]) => `${name}/${version}`).join(' ');
   // only prepend the appIdentifier when its not empty
   return ((appIdentifier.length > 0) ? `${appIdentifier} ` : '') + baseUserAgent;
+}
+
+/**
+ * Build a Promise that will resolve after the specified number of milliseconds.
+ * @param ms milliseconds to wait
+ * @param value value for eventual resolution
+ */
+export function delay<T>(ms: number, value?: T): Promise<T> {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(value), ms);
+  });
+}
+
+/**
+ * Reduce an asynchronous iterable into a single value.
+ * @param iterable the async iterable to be reduced
+ * @param callbackfn a function that implements one step of the reduction
+ * @param initialValue the initial value for the accumulator
+ */
+export async function awaitAndReduce<T, U>(iterable: AsyncIterable<T>,
+                                           callbackfn: (previousValue: U, currentValue: T) => U,
+                                           initialValue: U): Promise<U> {
+  // TODO: make initialValue optional (overloads or conditional types?)
+  let accumulator = initialValue;
+  for await (const value of iterable) {
+    accumulator = callbackfn(accumulator, value);
+  }
+  return accumulator;
 }
 
 /**

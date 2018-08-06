@@ -43,7 +43,6 @@
     "docs:jsdoc": "ts2jsdoc"
   },
   "dependencies": {
-    "@types/delay": "^2.0.1",
     "@types/form-data": "^2.2.1",
     "@types/got": "^7.1.7",
     "@types/is-stream": "^1.1.0",
@@ -55,7 +54,6 @@
     "@types/retry": "^0.10.2",
     "@types/url-join": "^0.8.2",
     "@types/ws": "^5.1.1",
-    "delay": "^2.0.0",
     "eventemitter3": "^3.0.0",
     "finity": "^0.5.4",
     "form-data": "^2.3.1",
@@ -67,16 +65,16 @@
     "object.values": "^1.0.4",
     "p-cancelable": "^0.3.0",
     "p-queue": "^2.3.0",
-    "p-retry": "^1.0.0",
-    "retry": "^0.10.1",
+    "p-retry": "^2.0.0",
+    "retry": "^0.12.0",
     "url-join": "^4.0.0",
     "ws": "^5.2.0"
   },
   "devDependencies": {
+    "@aoberoi/capture-console": "^1.0.0",
     "@types/chai": "^4.1.2",
     "@types/mocha": "^2.2.48",
     "busboy": "^0.2.14",
-    "capture-stdout": "^1.0.0",
     "chai": "^4.1.2",
     "codecov": "^3.0.0",
     "husky": "^0.14.3",

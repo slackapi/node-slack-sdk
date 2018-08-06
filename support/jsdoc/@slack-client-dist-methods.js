@@ -3,6 +3,11 @@
  */
 
 /**
+ * @type {Map}
+ * @constant
+ */
+export var cursorPaginationEnabledMethods
+/**
  * @interface module:@slack/client/dist/methods.AttachmentAction
  * @property {string} [id]
  * @property {module:@slack/client/dist/methods.Confirmation} [confirm]
@@ -109,6 +114,16 @@ export class OptionField {
 }
 
 /**
+ * @interface module:@slack/client/dist/methods.Searchable
+ * @property {string} query
+ * @property {boolean} [highlight]
+ * @property {"score" | "timestamp"} sort
+ * @property {"asc" | "desc"} sort_dir
+ */
+export class Searchable {
+}
+
+/**
  * @interface module:@slack/client/dist/methods.SelectOption
  * @property {string} label
  * @property {string} value
@@ -130,5 +145,13 @@ export class TimelinePaginationEnabled {
  * @property {string} [token]
  */
 export class TokenOverridable {
+}
+
+/**
+ * @interface module:@slack/client/dist/methods.TraditionalPagingEnabled
+ * @property {number} [page]
+ * @property {number} [count]
+ */
+export class TraditionalPagingEnabled {
 }
 

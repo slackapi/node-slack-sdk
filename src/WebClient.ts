@@ -1,3 +1,7 @@
+// polyfill for async iterable. see: https://stackoverflow.com/a/43694282/305340
+if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
+
+import { IncomingMessage, IncomingHttpHeaders } from 'http';
 import { basename } from 'path';
 import { Readable } from 'stream';
 import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
@@ -6,11 +10,10 @@ import isStream = require('is-stream'); // tslint:disable-line:no-require-import
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
 import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
 import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
-import delay = require('delay'); // tslint:disable-line:no-require-imports
 // NOTE: to reduce depedency size, consider https://www.npmjs.com/package/got-lite
 import got = require('got'); // tslint:disable-line:no-require-imports
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
-import { callbackify, getUserAgent, AgentOption, TLSOptions } from './util';
+import { awaitAndReduce, callbackify, getUserAgent, delay, AgentOption, TLSOptions } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
@@ -57,6 +60,11 @@ export class WebClient extends EventEmitter {
   private tlsConfig: TLSOptions;
 
   /**
+   * Automatic pagination page size (limit)
+   */
+  private pageSize: number;
+
+  /**
    * The name used to prefix all logging generated from this object
    */
   private static loggerName = `${pkg.name}:WebClient`;
@@ -82,6 +90,7 @@ export class WebClient extends EventEmitter {
     retryConfig = retryPolicies.retryForeverExponentialCappedRandom,
     agent = undefined,
     tls = undefined,
+    pageSize = 200,
   }: WebClientOptions = {}) {
     super();
     this.token = token;
@@ -92,6 +101,7 @@ export class WebClient extends EventEmitter {
     this.agentConfig = agent;
     // NOTE: may want to filter the keys to only those acceptable for TLS options
     this.tlsConfig = tls !== undefined ? tls : {};
+    this.pageSize = pageSize;
 
     // Logging
     if (logger !== undefined) {
@@ -127,70 +137,138 @@ export class WebClient extends EventEmitter {
         throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
       }
 
-      const requestBody = this.serializeApiCallOptions(Object.assign({ token: this.token }, options));
+      const methodSupportsCursorPagination = methods.cursorPaginationEnabledMethods.has(method);
+      const optionsPaginationType = getOptionsPaginationType(options);
 
-      // The following thunk encapsulates the task so that it can be coordinated for retries
-      const task = () => {
-        this.logger.debug('request attempt');
-        return got.post(urlJoin(this.slackApiUrl, method),
-          // @ts-ignore using older definitions for package `got`, can remove when type `@types/got` is updated for v8
-          Object.assign({
-            form: !canBodyBeFormMultipart(requestBody),
-            body: requestBody,
-            retries: 0,
-            headers: {
-              'user-agent': this.userAgent,
-            },
-            agent: this.agentConfig,
-          }, this.tlsConfig),
-        )
-          .then((response: got.Response<string>) => {
-            const result = this.buildResult(response);
-            // log warnings in response metadata
-            if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
-              result.response_metadata.warnings.forEach(this.logger.warn);
-            }
+      // warn in priority of most general pagination problem to most specific pagination problem
+      if (optionsPaginationType === PaginationType.Mixed) {
+        this.logger.warn('Options include mixed pagination techniques. ' +
+                         'Always prefer cursor-based pagination when available');
+      } else if (optionsPaginationType === PaginationType.Cursor &&
+                 !methodSupportsCursorPagination) {
+        this.logger.warn('Options include cursor-based pagination while the method cannot support that technique');
+      } else if (optionsPaginationType === PaginationType.Timeline &&
+                 !methods.timelinePaginationEnabledMethods.has(method)) {
+        this.logger.warn('Options include timeline-based pagination while the method cannot support that technique');
+      } else if (optionsPaginationType === PaginationType.Traditional &&
+                 !methods.traditionalPagingEnabledMethods.has(method)) {
+        this.logger.warn('Options include traditional paging while the method cannot support that technique');
+      } else if (methodSupportsCursorPagination &&
+                 optionsPaginationType !== PaginationType.Cursor && optionsPaginationType !== PaginationType.None) {
+        this.logger.warn('Method supports cursor-based pagination and a different tecnique is used in options. ' +
+                         'Always prefer cursor-based pagination when available');
+      }
 
-            if (!result.ok) {
-              const error = errorWithCode(
-                new Error(`An API error occurred: ${result.error}`),
-                ErrorCode.PlatformError,
-              );
-              error.data = result;
-              throw new pRetry.AbortError(error);
-            }
+      const shouldAutoPaginate = methodSupportsCursorPagination && optionsPaginationType === PaginationType.None;
+      this.logger.debug(`shouldAutoPaginate: ${shouldAutoPaginate}`);
 
-            return result;
-          })
-          .catch((error: got.GotError) => {
-            // Wrap errors in this packages own error types (abstract the implementation details' types)
-            if (error.name === 'RequestError') {
-              throw requestErrorWithOriginal(error);
-            } else if (error.name === 'ReadError') {
-              throw readErrorWithOriginal(error);
-            } else if (error.name === 'HTTPError') {
-              // Special case: retry if 429;
-              if (error.statusCode === 429) {
-                const result = this.buildResult(error.response);
-                const retryAfterMs = result.retryAfter !== undefined ? result.retryAfter : (60 * 1000);
-                this.emit('rate_limited', retryAfterMs / 1000);
-                this.logger.info(`API Call failed due to rate limiting. Will retry in ${retryAfterMs / 1000} seconds.`);
-                // wait and return the result from calling `task` again after the specified number of seconds
-                return delay(retryAfterMs).then(task);
+      /**
+       * Generates a result object for each of the HTTP requests for this API call. API calls will generally only
+       * generate more than one result when automatic pagination is occurring.
+       */
+      async function* generateResults(this: WebClient): AsyncIterableIterator<WebAPICallResult> {
+        // when result is undefined, that signals that the first of potentially many calls has not yet been made
+        let result: WebAPICallResult | undefined = undefined;
+        // paginationOptions stores pagination options not already stored in the options argument
+        let paginationOptions: methods.CursorPaginationEnabled = {};
+
+        if (shouldAutoPaginate) {
+          // these are the default pagination options
+          paginationOptions = { limit: this.pageSize };
+        }
+
+        while (result === undefined ||
+               (shouldAutoPaginate &&
+                 (objectEntries(paginationOptions = paginationOptionsForNextPage(result, this.pageSize)).length > 0)
+               )
+              ) {
+          const requestBody = this.serializeApiCallOptions(Object.assign(
+            { token: this.token },
+            paginationOptions,
+            options,
+          ));
+
+          const task = async () => {
+            try {
+              const response = await this.requestQueue.add(
+                () => got.post(urlJoin(this.slackApiUrl, method),
+                  // @ts-ignore
+                  Object.assign({
+                    form: !canBodyBeFormMultipart(requestBody),
+                    body: requestBody,
+                    retries: 0,
+                    headers: {
+                      'user-agent': this.userAgent,
+                    },
+                    throwHttpErrors: false,
+                    agent: this.agentConfig,
+                  }, this.tlsConfig),
+                ),
+              ) as got.Response<string>;
+
+              // TODO: config option for automatic rate limit handling here
+              if (response.statusCode === 429) {
+                const retrySec = parseRetryHeaders(response);
+                if (retrySec !== undefined) {
+                  this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
+                  this.emit('rate_limited', retrySec);
+                  // pause the request queue and then delay the rejection by the amount of time in the retry header
+                  this.requestQueue.pause();
+                  // NOTE: if there was a way to introspect the current RetryOperation and know what the next timeout
+                  // would be, then we could subtract that time from the following delay, knowing that it the next
+                  // attempt still wouldn't occur until after the rate-limit header has specified. an even better
+                  // solution would be to subtract the time from only the timeout of this next attempt of the
+                  // RetryOperation. this would result in the staying paused for the entire duration specified in the
+                  // header, yet this operation not having to pay the timeout cost in addition to that.
+                  await delay(retrySec * 1000);
+                  // resume the request queue and throw a non-abort error to signal a retry
+                  this.requestQueue.start();
+                  // TODO: turn this into a WebAPIPlatformError
+                  throw Error('A rate limit was exceeded.');
+                } else {
+                  throw new pRetry.AbortError(new Error('Retry header did not contain a valid timeout.'));
+                }
               }
 
-              throw httpErrorWithOriginal(error);
-            } else {
+              // Slack's Web API doesn't use meaningful status codes besides 429 and 200
+              if (response.statusCode !== 200) {
+                throw httpErrorFromResponse(response);
+              }
+
+              result = this.buildResult(response);
+
+              // log warnings in response metadata
+              if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
+                result.response_metadata.warnings.forEach(this.logger.warn);
+              }
+
+              if (!result.ok) {
+                const error = errorWithCode(
+                  new Error(`An API error occurred: ${result.error}`),
+                  ErrorCode.PlatformError,
+                );
+                error.data = result;
+                throw new pRetry.AbortError(error);
+              }
+
+              return result;
+            } catch (error) {
+              if (error.name === 'RequestError') {
+                throw requestErrorWithOriginal(error);
+              } else if (error.name === 'ReadError') {
+                throw readErrorWithOriginal(error);
+              }
               throw error;
             }
-          });
-      };
+          };
 
-      // The following thunk encapsulates the retried task so that it can be coordinated for request queuing
-      const taskAfterRetries = () => pRetry(task, this.retryConfig);
+          result = await pRetry(task, this.retryConfig);
+          yield result;
+        }
+      }
 
-      // The final return value is the resolution of the task after being retried and queued
-      return this.requestQueue.add(taskAfterRetries);
+      // return a promise that resolves when a reduction of responses finishes
+      return awaitAndReduce(generateResults.call(this), createResultMerger(method) , {} as WebAPICallResult);
     };
 
     // Adapt the interface for callback-based execution or Promise-based execution
@@ -594,8 +672,9 @@ export class WebClient extends EventEmitter {
     }
 
     // add retry metadata from headers
-    if (response.headers['retry-after'] !== undefined) {
-      data.retryAfter = parseInt((response.headers['retry-after'] as string), 10) * 1000;
+    const retrySec = parseRetryHeaders(response);
+    if (retrySec !== undefined) {
+      data.retryAfter = retrySec;
     }
 
     return data;
@@ -616,6 +695,7 @@ export interface WebClientOptions {
   retryConfig?: RetryOptions;
   agent?: AgentOption;
   tls?: TLSOptions;
+  pageSize?: number;
 }
 
 // NOTE: could potentially add GotOptions to this interface (using &, or maybe as an embedded key)
@@ -628,7 +708,10 @@ export interface WebAPICallResult {
   scopes?: string[];
   acceptedScopes?: string[];
   retryAfter?: number;
-  response_metadata?: { warnings?: string[] };
+  response_metadata?: {
+    warnings?: string[];
+    next_cursor?: string; // is this too specific to be encoded into this type?
+  };
 }
 
 export interface WebAPIResultCallback {
@@ -656,7 +739,11 @@ export interface WebAPIReadError extends CodedError {
 
 export interface WebAPIHTTPError extends CodedError {
   code: ErrorCode.HTTPError;
-  original: Error;
+  original: Error; // TODO: deprecate
+  statusCode: number;
+  statusMessage: string;
+  headers: IncomingHttpHeaders;
+  body?: any;
 }
 
 /*
@@ -713,12 +800,120 @@ function readErrorWithOriginal(original: Error): WebAPIReadError {
  * A factory to create WebAPIHTTPError objects
  * @param original - original error
  */
-function httpErrorWithOriginal(original: Error): WebAPIHTTPError {
+function httpErrorFromResponse(response: got.Response<string>): WebAPIHTTPError {
   const error = errorWithCode(
     // any cast is used because the got definition file doesn't export the got.HTTPError type
-    new Error(`An HTTP protocol error occurred: statusCode = ${(original as any).statusCode}`),
+    new Error(`An HTTP protocol error occurred: statusCode = ${response.statusCode}`),
     ErrorCode.HTTPError,
   ) as Partial<WebAPIHTTPError>;
-  error.original = original;
+  error.original = new Error('The WebAPIHTTPError.original property is deprecated');
+  error.statusCode = response.statusCode;
+  error.statusMessage = response.statusMessage;
+  error.headers = response.headers;
+  try {
+    error.body = JSON.parse(response.body);
+  } catch (error) {
+    error.body = response.body;
+  }
   return (error as WebAPIHTTPError);
+}
+
+enum PaginationType {
+  Cursor = 'Cursor',
+  Timeline = 'Timeline',
+  Traditional = 'Traditional',
+  Mixed = 'Mixed',
+  None = 'None',
+}
+
+/**
+ * Determines which pagination type, if any, the supplied options (a.k.a. method arguments) are using. This method is
+ * also able to determine if the options have mixed different pagination types.
+ */
+function getOptionsPaginationType(options?: WebAPICallOptions): PaginationType {
+  if (options === undefined) {
+    return PaginationType.None;
+  }
+
+  let optionsType = PaginationType.None;
+  for (const option of Object.keys(options)) {
+    if (optionsType === PaginationType.None) {
+      if (methods.cursorPaginationOptionKeys.has(option)) {
+        optionsType = PaginationType.Cursor;
+      } else if (methods.timelinePaginationOptionKeys.has(option)) {
+        optionsType = PaginationType.Timeline;
+      } else if (methods.traditionalPagingOptionKeys.has(option)) {
+        optionsType = PaginationType.Traditional;
+      }
+    } else if (optionsType === PaginationType.Cursor) {
+      if (methods.timelinePaginationOptionKeys.has(option) || methods.traditionalPagingOptionKeys.has(option)) {
+        return PaginationType.Mixed;
+      }
+    } else if (optionsType === PaginationType.Timeline) {
+      if (methods.cursorPaginationOptionKeys.has(option) || methods.traditionalPagingOptionKeys.has(option)) {
+        return PaginationType.Mixed;
+      }
+    } else if (optionsType === PaginationType.Traditional) {
+      if (methods.cursorPaginationOptionKeys.has(option) || methods.timelinePaginationOptionKeys.has(option)) {
+        return PaginationType.Mixed;
+      }
+    }
+  }
+  return optionsType;
+}
+
+/**
+ * Creates a function that can reduce a result into an accumulated result. This is used for reducing many results from
+ * automatically paginated API calls into a single result. It depends on metadata in the 'method' import.
+ * @param method - the API method for which a result merging function is needed
+ */
+function createResultMerger(method: string):
+    (accumulator: WebAPICallResult, result: WebAPICallResult) => WebAPICallResult {
+  if (methods.cursorPaginationEnabledMethods.has(method)) {
+    const paginatedResponseProperty = methods.cursorPaginationEnabledMethods.get(method) as string;
+    return (accumulator: WebAPICallResult, result: WebAPICallResult): WebAPICallResult => {
+      for (const resultProperty of Object.keys(result)) {
+        if (resultProperty === paginatedResponseProperty) {
+          if (accumulator[resultProperty] === undefined) {
+            accumulator[resultProperty] = [];
+          }
+          accumulator[resultProperty] = accumulator[resultProperty].concat(result[resultProperty]);
+        } else {
+          accumulator[resultProperty] = result[resultProperty];
+        }
+      }
+      return accumulator;
+    };
+  }
+  // For all methods who don't use cursor-pagination, return the identity reduction function
+  return (_, result) => result;
+}
+
+/**
+ * Determines an appropriate set of cursor pagination options for the next request to a paginated API method.
+ * @param previousResult - the result of the last request, where the next cursor might be found.
+ * @param pageSize - the maximum number of additional items to fetch in the next request.
+ */
+function paginationOptionsForNextPage(
+  previousResult: WebAPICallResult, pageSize: number,
+): methods.CursorPaginationEnabled {
+  const paginationOptions: methods.CursorPaginationEnabled = {};
+  if (previousResult.response_metadata !== undefined &&
+    previousResult.response_metadata.next_cursor !== undefined &&
+    previousResult.response_metadata.next_cursor !== '') {
+    paginationOptions.limit = pageSize;
+    paginationOptions.cursor = previousResult.response_metadata.next_cursor as string;
+  }
+  return paginationOptions;
+}
+
+/**
+ * Extract the amount of time (in seconds) the platform has recommended this client wait before sending another request
+ * from a rate-limited HTTP response (statusCode = 429).
+ */
+function parseRetryHeaders(response: IncomingMessage): number | undefined {
+  if (response.headers['retry-after'] !== undefined) {
+    return parseInt((response.headers['retry-after'] as string), 10);
+  }
+  return undefined;
 }
