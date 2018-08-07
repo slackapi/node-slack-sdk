@@ -80,7 +80,7 @@ slackEvents.on('message', (message, body) => {
       return console.error('No authorization found for this team. Did you install this app again after restarting?');
     }
     // Respond to the message back in the same channel
-    slack.chat.postMessage(message.channel, `Hello <@${message.user}>! :tada:`)
+    slack.chat.postMessage({ channel: message.channel, text: `Hello <@${message.user}>! :tada:` })
       .catch(console.error);
   }
 });

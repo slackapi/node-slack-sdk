@@ -5,3 +5,4 @@ coverage
 *.lcov
 *.log
 examples/*/.env
+package-lock.json
