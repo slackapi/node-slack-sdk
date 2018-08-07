@@ -159,6 +159,7 @@ export class RTMClient extends EventEmitter {
             this.teardownWebsocket();
           })
         .on('failure').transitionTo('disconnected')
+        .on('explicit disconnect').transitionTo('disconnecting')
       .state('connected')
         .onEnter(() => {
           this.connected = true;
@@ -212,12 +213,10 @@ export class RTMClient extends EventEmitter {
         })
       .state('disconnecting')
         .onEnter(() => {
-          // invariant: websocket exists and is open at the start of this state
+          // Most of the time, a websocket will exist. The only time it does not is when transitioning from connecting,
+          // before the rtm.start() has finished and the websocket hasn't been set up.
           if (this.websocket !== undefined) {
             this.websocket.close();
-          } else {
-            this.logger.error('Websocket not found when transitioning into disconnecting state. Please report to ' +
-              '@slack/client package maintainers.');
           }
         })
         .on('websocket close').transitionTo('disconnected')
