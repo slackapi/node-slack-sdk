@@ -10,6 +10,7 @@
  * @property ReadError
  * @property HTTPError
  * @property PlatformError
+ * @property RateLimitedError
  * @property RTMSendWhileDisconnectedError
  * @property RTMSendWhileNotReadyError
  * @property RTMSendMessagePlatformError
@@ -409,6 +410,7 @@ export class WebClient {
  * @property {"undefined" | "undefined" | module:http.Agent | module:@slack/client/dist/util.__type} [agent]
  * @property {module:@slack/client.TLSOptions} [tls]
  * @property {number} [pageSize]
+ * @property {boolean} [rejectRateLimitedCalls]
  */
 export class WebClientOptions {
 }

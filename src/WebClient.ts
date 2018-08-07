@@ -65,6 +65,11 @@ export class WebClient extends EventEmitter {
   private pageSize: number;
 
   /**
+   * Preference for immediately rejecting API calls which result in a rate-limited response
+   */
+  private rejectRateLimitedCalls: boolean;
+
+  /**
    * The name used to prefix all logging generated from this object
    */
   private static loggerName = `${pkg.name}:WebClient`;
@@ -91,6 +96,7 @@ export class WebClient extends EventEmitter {
     agent = undefined,
     tls = undefined,
     pageSize = 200,
+    rejectRateLimitedCalls = false,
   }: WebClientOptions = {}) {
     super();
     this.token = token;
@@ -102,6 +108,7 @@ export class WebClient extends EventEmitter {
     // NOTE: may want to filter the keys to only those acceptable for TLS options
     this.tlsConfig = tls !== undefined ? tls : {};
     this.pageSize = pageSize;
+    this.rejectRateLimitedCalls = rejectRateLimitedCalls;
 
     // Logging
     if (logger !== undefined) {
@@ -188,10 +195,11 @@ export class WebClient extends EventEmitter {
             options,
           ));
 
-          const task = async () => {
-            try {
-              const response = await this.requestQueue.add(
-                () => got.post(urlJoin(this.slackApiUrl, method),
+          const task = () => this.requestQueue.add(
+            async () => {
+              this.logger.debug('will perform http request');
+              try {
+                const response = await got.post(urlJoin(this.slackApiUrl, method),
                   // @ts-ignore
                   Object.assign({
                     form: !canBodyBeFormMultipart(requestBody),
@@ -203,64 +211,68 @@ export class WebClient extends EventEmitter {
                     throwHttpErrors: false,
                     agent: this.agentConfig,
                   }, this.tlsConfig),
-                ),
-              ) as got.Response<string>;
-
-              // TODO: config option for automatic rate limit handling here
-              if (response.statusCode === 429) {
-                const retrySec = parseRetryHeaders(response);
-                if (retrySec !== undefined) {
-                  this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
-                  this.emit('rate_limited', retrySec);
-                  // pause the request queue and then delay the rejection by the amount of time in the retry header
-                  this.requestQueue.pause();
-                  // NOTE: if there was a way to introspect the current RetryOperation and know what the next timeout
-                  // would be, then we could subtract that time from the following delay, knowing that it the next
-                  // attempt still wouldn't occur until after the rate-limit header has specified. an even better
-                  // solution would be to subtract the time from only the timeout of this next attempt of the
-                  // RetryOperation. this would result in the staying paused for the entire duration specified in the
-                  // header, yet this operation not having to pay the timeout cost in addition to that.
-                  await delay(retrySec * 1000);
-                  // resume the request queue and throw a non-abort error to signal a retry
-                  this.requestQueue.start();
-                  // TODO: turn this into a WebAPIPlatformError
-                  throw Error('A rate limit was exceeded.');
-                } else {
-                  throw new pRetry.AbortError(new Error('Retry header did not contain a valid timeout.'));
-                }
-              }
-
-              // Slack's Web API doesn't use meaningful status codes besides 429 and 200
-              if (response.statusCode !== 200) {
-                throw httpErrorFromResponse(response);
-              }
-
-              result = this.buildResult(response);
-
-              // log warnings in response metadata
-              if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
-                result.response_metadata.warnings.forEach(this.logger.warn);
-              }
-
-              if (!result.ok) {
-                const error = errorWithCode(
-                  new Error(`An API error occurred: ${result.error}`),
-                  ErrorCode.PlatformError,
                 );
-                error.data = result;
-                throw new pRetry.AbortError(error);
-              }
+                this.logger.debug('http response received');
 
-              return result;
-            } catch (error) {
-              if (error.name === 'RequestError') {
-                throw requestErrorWithOriginal(error);
-              } else if (error.name === 'ReadError') {
-                throw readErrorWithOriginal(error);
+                if (response.statusCode === 429) {
+                  const retrySec = parseRetryHeaders(response);
+                  if (retrySec !== undefined) {
+                    this.emit('rate_limited', retrySec);
+                    if (this.rejectRateLimitedCalls) {
+                      throw new pRetry.AbortError(rateLimitedErrorWithDelay(retrySec));
+                    }
+                    this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
+                    // pause the request queue and then delay the rejection by the amount of time in the retry header
+                    this.requestQueue.pause();
+                    // NOTE: if there was a way to introspect the current RetryOperation and know what the next timeout
+                    // would be, then we could subtract that time from the following delay, knowing that it the next
+                    // attempt still wouldn't occur until after the rate-limit header has specified. an even better
+                    // solution would be to subtract the time from only the timeout of this next attempt of the
+                    // RetryOperation. this would result in the staying paused for the entire duration specified in the
+                    // header, yet this operation not having to pay the timeout cost in addition to that.
+                    await delay(retrySec * 1000);
+                    // resume the request queue and throw a non-abort error to signal a retry
+                    this.requestQueue.start();
+                    // TODO: turn this into a WebAPIPlatformError
+                    throw Error('A rate limit was exceeded.');
+                  } else {
+                    throw new pRetry.AbortError(new Error('Retry header did not contain a valid timeout.'));
+                  }
+                }
+
+                // Slack's Web API doesn't use meaningful status codes besides 429 and 200
+                if (response.statusCode !== 200) {
+                  throw httpErrorFromResponse(response);
+                }
+
+                result = this.buildResult(response);
+
+                // log warnings in response metadata
+                if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
+                  result.response_metadata.warnings.forEach(this.logger.warn);
+                }
+
+                if (!result.ok) {
+                  const error = errorWithCode(
+                    new Error(`An API error occurred: ${result.error}`),
+                    ErrorCode.PlatformError,
+                  );
+                  error.data = result;
+                  throw new pRetry.AbortError(error);
+                }
+
+                return result;
+              } catch (error) {
+                this.logger.debug('http request failed');
+                if (error.name === 'RequestError') {
+                  throw requestErrorWithOriginal(error);
+                } else if (error.name === 'ReadError') {
+                  throw readErrorWithOriginal(error);
+                }
+                throw error;
               }
-              throw error;
-            }
-          };
+            },
+          );
 
           result = await pRetry(task, this.retryConfig);
           yield result;
@@ -696,6 +708,7 @@ export interface WebClientOptions {
   agent?: AgentOption;
   tls?: TLSOptions;
   pageSize?: number;
+  rejectRateLimitedCalls?: boolean;
 }
 
 // NOTE: could potentially add GotOptions to this interface (using &, or maybe as an embedded key)
@@ -718,7 +731,8 @@ export interface WebAPIResultCallback {
   (error: WebAPICallError, result: WebAPICallResult): void;
 }
 
-export type WebAPICallError = WebAPIPlatformError | WebAPIRequestError | WebAPIReadError | WebAPIHTTPError;
+export type WebAPICallError =
+  WebAPIPlatformError | WebAPIRequestError | WebAPIReadError | WebAPIHTTPError | WebAPIRateLimitedError;
 
 export interface WebAPIPlatformError extends CodedError {
   code: ErrorCode.PlatformError;
@@ -744,6 +758,11 @@ export interface WebAPIHTTPError extends CodedError {
   statusMessage: string;
   headers: IncomingHttpHeaders;
   body?: any;
+}
+
+export interface WebAPIRateLimitedError extends CodedError {
+  code: ErrorCode.RateLimitedError;
+  retryAfter: number;
 }
 
 /*
@@ -806,7 +825,7 @@ function httpErrorFromResponse(response: got.Response<string>): WebAPIHTTPError 
     new Error(`An HTTP protocol error occurred: statusCode = ${response.statusCode}`),
     ErrorCode.HTTPError,
   ) as Partial<WebAPIHTTPError>;
-  error.original = new Error('The WebAPIHTTPError.original property is deprecated');
+  error.original = new Error('The WebAPIHTTPError.original property is deprecated. See other properties for details.');
   error.statusCode = response.statusCode;
   error.statusMessage = response.statusMessage;
   error.headers = response.headers;
@@ -816,6 +835,19 @@ function httpErrorFromResponse(response: got.Response<string>): WebAPIHTTPError 
     error.body = response.body;
   }
   return (error as WebAPIHTTPError);
+}
+
+/**
+ * A factory to create WebAPIRateLimitedError objects
+ * @param retrySec - Number of seconds that the request can be retried in
+ */
+function rateLimitedErrorWithDelay(retrySec: number): WebAPIRateLimitedError {
+  const error = errorWithCode(
+    new Error(`A rate-limit has been reached, you may retry this request in ${retrySec} seconds`),
+    ErrorCode.RateLimitedError,
+  ) as Partial<WebAPIRateLimitedError>;
+  error.retryAfter = retrySec;
+  return (error as WebAPIRateLimitedError);
 }
 
 enum PaginationType {

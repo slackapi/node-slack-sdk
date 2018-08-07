@@ -231,15 +231,53 @@ const web = new WebClient(token, {
 
 ### Rate limit handling
 
-When your application has exceeded the [rate limit](https://api.slack.com/docs/rate-limits#web) for a certain method,
-the `WebClient` object will emit a `rate_limited` event. Observing this event can be useful for scheduling work to be
-done in the future.
+Typically, you shouldn't have to worry about rate limits. By default, the `WebClient` will automatically wait the
+appropriate amount of time and retry the request. During that time, all new requests from the `WebClient` will be
+paused, so it doesn't make your rate-limiting problem worse. Then, once a successful response is received, the returned
+Promise is resolved with the result.
+
+In addition, you can observe when your application has been rate-limited by attaching a handler to the `rate_limited`
+event.
 
 ```javascript
 const { WebClient } = require('@slack/client');
 const token = process.env.SLACK_TOKEN;
 const web = new WebClient(token);
-web.on('rate_limited', retryAfter => console.log(`Delay future requests by at least ${retryAfter} seconds`));
+web.on('rate_limited', (retryAfter) => {
+  console.log(`A request was rate limited and future requests will be paused for ${retryAfter} seconds`);
+});
+
+const userIds = []; // a potentially long list of user IDs
+for (user of userIds) {
+  // if this list is large enough and responses are fast enough, this might trigger a rate-limit
+  // but you will get each result without any additional code, since the rate-limited requests will be retried
+  web.users.info({ user }).then(console.log).catch(console.error);
+}
+```
+
+If you'd like to handle rate-limits in a specific way for your application, you can turn off the automatic retrying of
+rate-limited API calls with the `rejectRateLimitedCalls` configuration option.
+
+```javascript
+const { WebClient, ErrorCode } = require('@slack/client');
+const token = process.env.SLACK_TOKEN;
+const web = new WebClient(token, { rejectRateLimitedCalls: true });
+
+const userIds = []; // a potentially long list of user IDs
+for (user of userIds) {
+  web.users.info({ user }).then(console.log).catch((error) => {
+    if (error.code === ErrorCodes.RateLimitedError) {
+      // the request was rate-limited, you can deal with this error in your application however you wish
+      console.log(
+        `The users.info with ID ${user} failed due to rate limiting. ` +
+        `The request can be retried in ${error.retryAfter} seconds.`
+      );
+    } else {
+      // some other error occurred
+      console.error(error.message);
+    }
+  });
+}
 ```
 
 ---

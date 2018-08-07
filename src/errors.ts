@@ -19,6 +19,7 @@ export enum ErrorCode {
   ReadError = 'slackclient_read_error', // Corresponds to WebAPIReadError
   HTTPError = 'slackclient_http_error', // Corresponds to WebAPIHTTPError
   PlatformError = 'slackclient_platform_error', // Corresponds to WebAPIPlatformError
+  RateLimitedError = 'slackclient_rate_limited_error', // Corresponds to WebAPIRateLimitedError
 
   // RTMClient
   RTMSendWhileDisconnectedError = 'slackclient_rtmclient_send_while_disconnected_error',
