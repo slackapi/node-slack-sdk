@@ -29,7 +29,7 @@ Webhooks, and other parts of the platform.
 ## Installation
 
 ```
-$ npm install --save @slack/interactive-messages express body-parser
+$ npm install --save @slack/interactive-messages
 ```
 
 ## Configuration
