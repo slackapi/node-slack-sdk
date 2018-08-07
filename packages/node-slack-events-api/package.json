@@ -10,6 +10,9 @@
   "engines": {
     "node": ">=4.2.0"
   },
+  "files": [
+    "dist/**/*"
+  ],
   "author": "Ankur Oberoi <aoberoi@gmail.com>",
   "license": "MIT",
   "scripts": {
