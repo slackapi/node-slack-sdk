@@ -16,7 +16,7 @@ describe('expressMiddleware', function () {
 
   it('should forward an error when there is no body parser', function (done) {
     var req = {};
-    var res = {};
+    var res = { status: noop, send: noop, on: noop };
     this.adapter.emit = function (arg1, arg2) {
       assert(arg2 instanceof Error);
       assert.equal(arg2.code, errorCodes.NO_BODY_PARSER);

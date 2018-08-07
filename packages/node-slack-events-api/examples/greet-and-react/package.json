@@ -13,9 +13,9 @@
     "@aoberoi/passport-slack": "^1.0.5",
     "@slack/client": "^4.3.1",
     "@slack/events-api": "^1.0.0",
-    "body-parser": "^1.16.1",
+    "body-parser": "^1.18.3",
     "dotenv": "^4.0.0",
-    "express": "^4.14.1",
+    "express": "^4.16.3",
     "passport": "^0.3.2"
   }
 }
