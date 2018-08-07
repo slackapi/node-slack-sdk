@@ -9,10 +9,14 @@ import isPlainObject from 'lodash.isplainobject';
 import isRegExp from 'lodash.isregexp';
 import isFunction from 'lodash.isfunction';
 import debugFactory from 'debug';
-import { createExpressMiddleware } from './express-middleware';
+import { createHTTPHandler } from './http-handler';
 import { packageIdentifier, promiseTimeout, errorCodes as utilErrorCodes } from './util';
 
 const debug = debugFactory('@slack/interactive-messages:adapter');
+
+export const errorCodes = {
+  BODY_PARSER_NOT_PERMITTED: 'SLACKADAPTER_BODY_PARSER_NOT_PERMITTED_FAILURE',
+};
 
 /**
  * Transforms various forms of matching constraints to a single standard object shape
@@ -96,7 +100,7 @@ class SlackMessageAdapter {
   /**
    * Create a message adapter.
    *
-   * @param {string} verificationToken - Slack app verification token used to authenticate request
+   * @param {string} signingSecret - Slack app signing secret used to authenticate request
    * @param {Object} [options]
    * @param {number} [options.syncResponseTimeout=2500] - number of milliseconds to wait before
    * flushing a syncrhonous response to an incoming request and falling back to an asynchronous
@@ -105,19 +109,19 @@ class SlackMessageAdapter {
    * resolve after the syncResponseTimeout can fallback to a request for the response_url. this only
    * works in cases where the semantic meaning of the response and the response_url are the same.
    */
-  constructor(verificationToken, {
+  constructor(signingSecret, {
     syncResponseTimeout = 2500,
     lateResponseFallbackEnabled = true,
   } = {}) {
-    if (!isString(verificationToken)) {
-      throw new TypeError('SlackMessageAdapter needs a verification token');
+    if (!isString(signingSecret)) {
+      throw new TypeError('SlackMessageAdapter needs a signing secret');
     }
 
     if (syncResponseTimeout > 3000 || syncResponseTimeout < 1) {
       throw new TypeError('syncResponseTimeout must be between 1 and 3000');
     }
 
-    this.verificationToken = verificationToken;
+    this.signingSecret = signingSecret;
     this.syncResponseTimeout = syncResponseTimeout;
     this.lateResponseFallbackEnabled = lateResponseFallbackEnabled;
     this.callbacks = [];
@@ -144,19 +148,11 @@ class SlackMessageAdapter {
    */
   createServer(path = '/slack/actions') {
     // TODO: more options (like https)
-    return Promise.resolve().then(() => Promise.all([
-      import('express'),
-      import('body-parser'),
-    ]))
-      .then(([express, bodyParser]) => {
-        const app = express();
-        app.use(bodyParser.urlencoded({ extended: false }));
-        app.post(path, this.expressMiddleware());
+    return Promise.resolve().then(() => {
+      debug('server created - path: %s', path);
 
-        debug('server created - path: %s', path);
-
-        return http.createServer(app);
-      });
+      return http.createServer(this.requestListener());
+    });
   }
 
   /**
@@ -207,7 +203,27 @@ class SlackMessageAdapter {
    * @returns {ExpressMiddlewareFunc} - A middleware function http://expressjs.com/en/guide/using-middleware.html
    */
   expressMiddleware() {
-    return createExpressMiddleware(this);
+    const requestListener = this.requestListener();
+    return (req, res, next) => {
+      // If parser is being used, we can't verify request signature
+      if (req.body) {
+        const error = new Error('Parsing request body prohibits request signature verification');
+        error.code = errorCodes.BODY_PARSER_NOT_PERMITTED;
+        next(error);
+        return;
+      }
+      requestListener(req, res);
+    };
+  }
+
+  /**
+   * Create a middleware function that handles HTTP requests, verifies requests
+   * and dispatches responses
+   *
+   * @returns {slackRequestListener}
+   */
+  requestListener() {
+    return createHTTPHandler(this);
   }
 
   /* Interface for adding handlers */

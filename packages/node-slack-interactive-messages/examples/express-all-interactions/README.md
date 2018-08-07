@@ -16,7 +16,7 @@ This example shows a fully functioning app using the
   *  Or, <a href="https://glitch.com/edit/#!/remix/slack-express-all-interactions-example"><img src="https://cdn.glitch.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Fremix%402x.png?1513093958726" alt="remix button" aria-label="remix" height="33"></a>
 
 2. Set the following environment variables
-  *  `SLACK_VERIFICATION_TOKEN`: Available on your app's _Basic Information_ page in Slack.
+  *  `SLACK_SIGNING_SECRET`: Available on your app's _Basic Information_ page in Slack.
   *  `SLACK_ACCESS_TOKEN`: Available on your app's _Install App_ page in Slack (after installing on your Development Workspace).
   *  `PORT`: _ONLY_ if you are running locally
 

@@ -1,27 +1,25 @@
 const http = require('http');
 const express = require('express');
-const bodyParser = require('body-parser');
 const { createMessageAdapter } = require('@slack/interactive-messages');
 const { WebClient } = require('@slack/client');
 const { users, neighborhoods } = require('./models');
 const axios = require('axios');
 
 // Read the verification token from the environment variables
-const slackVerificationToken = process.env.SLACK_VERIFICATION_TOKEN;
+const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 const slackAccessToken = process.env.SLACK_ACCESS_TOKEN;
-if (!slackVerificationToken || !slackAccessToken) {
-  throw new Error('Slack verification token and access token are required to run this app.');
+if (!slackSigningSecret || !slackAccessToken) {
+  throw new Error('A Slack signing secret and access token are required to run this app.');
 }
 
 // Create the adapter using the app's verification token
-const slackInteractions = createMessageAdapter(slackVerificationToken);
+const slackInteractions = createMessageAdapter(slackSigningSecret);
 
 // Create a Slack Web API client
 const web = new WebClient(slackAccessToken);
 
 // Initialize an Express application
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
 
 // Attach the adapter to the Express application as a middleware
 app.use('/slack/actions', slackInteractions.expressMiddleware());

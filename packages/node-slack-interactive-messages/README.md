@@ -36,7 +36,9 @@ $ npm install --save @slack/interactive-messages express body-parser
 
 Get started by [creating a Slack App](https://api.slack.com/apps/new) if you haven't already.
 On the **Basic Information** page, in the section for **App Credentials**, note the
-**Verification Token**. You will need it to initialize the adapter.
+**Signing Secret**. You will need it to initialize the adapter.
+
+> ⚠️ As of `v1.0.0`, the interactive message adapter no longer accepts legacy verification tokens. You must pass a signing secret [to verify requests from Slack](https://api.slack.com/docs/verifying-requests-from-slack).
 
 Select the **Interactive Components** feature, and enable it. Input a **Request URL**. If your
 app will use dynamic message menus, you also need to input a **Options Load URL**.
@@ -86,8 +88,8 @@ the adapter to an existing Express application as a middleware.
 // Import dependencies
 const { createMessageAdapter } = require('@slack/interactive-messages');
 
-// Create the adapter using the app's verification token, read from environment variable
-const slackInteractions = createMessageAdapter(process.env.SLACK_VERIFICATION_TOKEN);
+// Create the adapter using the app's signing secret, read from environment variable
+const slackInteractions = createMessageAdapter(process.env.SLACK_SIGNING_SECRET);
 
 // Select a port for the server to listen on.
 // NOTE: When using ngrok or localtunnel locally, choose the same port it was started with.
@@ -106,15 +108,13 @@ slackInteractions.start(port).then(() => {
 const { createMessageAdapter } = require('@slack/interactive-messages');
 const http = require('http');
 const express = require('express');
-const bodyParser = require('body-parser');
 
-// Create the adapter using the app's verification token, read from environment variable
-const slackInteractions = createMessageAdapter(process.env.SLACK_VERIFICATION_TOKEN);
+// Create the adapter using the app's signing secret, read from environment variable
+const slackInteractions = createMessageAdapter(process.env.SLACK_SIGNING_SECRET);
 
 // Initialize an Express application
 // NOTE: You must use a body parser for the urlencoded format before attaching the adapter
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
 
 // Attach the adapter to the Express application as a middleware
 // NOTE: The path must match the Request URL and/or Options URL configured in Slack
@@ -129,6 +129,8 @@ http.createServer(app).listen(port, () => {
   console.log(`server listening on port ${port}`);
 });
 ```
+
+> ⚠️ As of `v1.0.0`, the interactive message adapter parses raw request bodies while performing request signing verification. This means developers no longer need to use `body-parser` middleware to parse urlencoded requests.
 
 **Pro-Tip**: You can combine this package and
 [`@slack/events-api`](https://github.com/slackapi/node-slack-events-api) by attaching each to the

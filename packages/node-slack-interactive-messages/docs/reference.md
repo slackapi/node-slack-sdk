@@ -14,7 +14,7 @@
 * [adapter](#module_adapter)
     * [module.exports](#exp_module_adapter--module.exports) ⏏
         * [~SlackMessageAdapter](#module_adapter--module.exports..SlackMessageAdapter)
-            * [new SlackMessageAdapter(verificationToken, [options])](#new_module_adapter--module.exports..SlackMessageAdapter_new)
+            * [new SlackMessageAdapter(signingSecret, [options])](#new_module_adapter--module.exports..SlackMessageAdapter_new)
             * _instance_
                 * [.createServer([path])](#module_adapter--module.exports..SlackMessageAdapter+createServer) ⇒ <code>Promise.&lt;NodeHttpServer&gt;</code>
                 * [.start(port)](#module_adapter--module.exports..SlackMessageAdapter+start) ⇒ <code>Promise.&lt;void&gt;</code>
@@ -45,7 +45,7 @@ An adapter for Slack's interactive message components such as buttons, menus, an
 **Kind**: inner class of [<code>module.exports</code>](#exp_module_adapter--module.exports)  
 
 * [~SlackMessageAdapter](#module_adapter--module.exports..SlackMessageAdapter)
-    * [new SlackMessageAdapter(verificationToken, [options])](#new_module_adapter--module.exports..SlackMessageAdapter_new)
+    * [new SlackMessageAdapter(signingSecret, [options])](#new_module_adapter--module.exports..SlackMessageAdapter_new)
     * _instance_
         * [.createServer([path])](#module_adapter--module.exports..SlackMessageAdapter+createServer) ⇒ <code>Promise.&lt;NodeHttpServer&gt;</code>
         * [.start(port)](#module_adapter--module.exports..SlackMessageAdapter+start) ⇒ <code>Promise.&lt;void&gt;</code>
@@ -63,13 +63,13 @@ An adapter for Slack's interactive message components such as buttons, menus, an
 
 <a name="new_module_adapter--module.exports..SlackMessageAdapter_new"></a>
 
-##### new SlackMessageAdapter(verificationToken, [options])
+##### new SlackMessageAdapter(signingSecret, [options])
 Create a message adapter.
 
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| verificationToken | <code>string</code> |  | Slack app verification token used to authenticate request |
+| signingSecret | <code>string</code> |  | Slack app signing secret used to authenticate request |
 | [options] | <code>Object</code> |  |  |
 | [options.syncResponseTimeout] | <code>number</code> | <code>2500</code> | number of milliseconds to wait before flushing a syncrhonous response to an incoming request and falling back to an asynchronous response. |
 | [options.lateResponseFallbackEnabled] | <code>boolean</code> | <code>true</code> | whether or not promises that resolve after the syncResponseTimeout can fallback to a request for the response_url. this only works in cases where the semantic meaning of the response and the response_url are the same. |
@@ -258,7 +258,7 @@ to the user. If there is no return value, then the user is shown an empty list o
 
 * [@slack/interactive-messages](#module_@slack/interactive-messages)
     * [.errorCodes](#module_@slack/interactive-messages.errorCodes) : <code>enum</code>
-    * [.createMessageAdapter(verificationToken, options)](#module_@slack/interactive-messages.createMessageAdapter) ⇒ [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)
+    * [.createMessageAdapter(signingSecret, options)](#module_@slack/interactive-messages.createMessageAdapter) ⇒ [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)
 
 
 * * *
@@ -275,14 +275,14 @@ Dictionary of error codes that may appear on errors emitted from this package's 
 
 <a name="module_@slack/interactive-messages.createMessageAdapter"></a>
 
-### @slack/interactive-messages.createMessageAdapter(verificationToken, options) ⇒ [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)
+### @slack/interactive-messages.createMessageAdapter(signingSecret, options) ⇒ [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)
 Factory method to create an instance of [SlackMessageAdapter](#new_module_adapter--module.exports..SlackMessageAdapter_new)
 
 **Kind**: static method of [<code>@slack/interactive-messages</code>](#module_@slack/interactive-messages)  
 
 | Param | Type |
 | --- | --- |
-| verificationToken | <code>string</code> | 
+| signingSecret | <code>string</code> | 
 | options | <code>Object</code> | 
 
 
