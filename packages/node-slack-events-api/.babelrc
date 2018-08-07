@@ -2,9 +2,5 @@
   "presets": [
     "es2015",
     "es2016"
-  ],
-  "plugins": [
-    "syntax-dynamic-import",
-    ["system-import-transformer", { "modules": "common" }]
   ]
 }

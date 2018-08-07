@@ -1,9 +1,9 @@
 var http = require('http');
 var assert = require('assert');
 var express = require('express');
-var bodyParser = require('body-parser');
 var request = require('superagent');
 var createSlackEventAdapter = require('../../dist').createSlackEventAdapter;
+var createRequestSignature = require('../helpers').createRequestSignature;
 var errorCodes = require('../../dist').errorCodes;
 var uncaughtException = require('uncaughtException');
 
@@ -12,10 +12,10 @@ var helpers = require('../helpers');
 describe('when using middleware inside your own express application', function () {
   beforeEach(function (done) {
     this.port = process.env.PORT || '8080';
-    this.verificationToken = 'VERIFICATION_TOKEN';
-    this.adapter = createSlackEventAdapter(this.verificationToken);
+    this.signingSecret = 'SIGNING_SECRET';
+    this.ts = Math.floor(Date.now() / 1000);
+    this.adapter = createSlackEventAdapter(this.signingSecret);
     this.app = express();
-    this.app.use(bodyParser.json());
     this.app.use('/slack', this.adapter.expressMiddleware());
     this.server = http.createServer(this.app);
     this.server.listen(this.port, done);
@@ -28,13 +28,13 @@ describe('when using middleware inside your own express application', function (
   it('should emit a slack event', function (done) {
     var partiallyComplete = helpers.completionAggregator(done, 2);
     var payload = {
-      token: this.verificationToken,
       event: {
         type: 'any_event',
         key: 'value',
         foo: 'baz'
       }
     };
+    var signature = createRequestSignature(this.signingSecret, this.ts, JSON.stringify(payload));
     this.adapter.on('any_event', function (event) {
       assert.deepEqual(event, payload.event);
       partiallyComplete();
@@ -42,6 +42,8 @@ describe('when using middleware inside your own express application', function (
     request
       .post('http://localhost:' + this.port + '/slack')
       .send(payload)
+      .set('x-slack-signature', signature)
+      .set('x-slack-request-timestamp', this.ts)
       .end(function (err, res) {
         if (err) {
           partiallyComplete(err);
@@ -52,32 +54,33 @@ describe('when using middleware inside your own express application', function (
       });
   });
 
-  it('should emit a request verification error when handling a request with a bad verification token', function (done) {
+  it('should emit an error when handling a request with a bad request signature', function (done) {
     var partiallyComplete = helpers.completionAggregator(done, 2);
     var payload = {
-      token: 'NOT_THE_RIGHT_VERIFICATION_TOKEN',
       event: {
         type: 'any_event',
         key: 'value',
         foo: 'baz'
       }
     };
+    var signature = createRequestSignature('WRONG_SECRET', this.ts, JSON.stringify(payload));
     this.adapter.on('any_event', function (event) {
       // If this happens, the test has failed.
       partiallyComplete(event);
     });
     this.adapter.on('error', function (error) {
       assert(error instanceof Error);
-      assert.equal(error.code, errorCodes.TOKEN_VERIFICATION_FAILURE);
-      assert.deepEqual(error.body, payload);
+      assert.equal(error.code, errorCodes.SIGNATURE_VERIFICATION_FAILURE);
       partiallyComplete();
     });
     request
       .post('http://localhost:' + this.port + '/slack')
       .send(payload)
+      .set('x-slack-signature', signature)
+      .set('x-slack-request-timestamp', this.ts)
       .end(function (err, res) {
         assert(err instanceof Error);
-        assert.equal(res.statusCode, 500);
+        assert.equal(res.statusCode, 404);
         partiallyComplete();
       });
   });
@@ -85,13 +88,15 @@ describe('when using middleware inside your own express application', function (
   it('should handle URL verification', function (done) {
     var challenge = 'CHALLENGE_VALUE';
     var payload = {
-      token: this.verificationToken,
       challenge: challenge,
       type: 'url_verification'
     };
+    var signature = createRequestSignature(this.signingSecret, this.ts, JSON.stringify(payload));
     request
       .post('http://localhost:' + this.port + '/slack')
       .send(payload)
+      .set('x-slack-signature', signature)
+      .set('x-slack-request-timestamp', this.ts)
       .end(function (err, res) {
         if (err) {
           done(err);
@@ -107,26 +112,27 @@ describe('when using middleware inside your own express application', function (
     var partiallyComplete = helpers.completionAggregator(done, 2);
     var challenge = 'CHALLENGE_VALUE';
     var payload = {
-      token: 'NOT_THE_RIGHT_VERIFICATION_TOKEN',
       challenge: challenge,
       type: 'url_verification'
     };
+    var signature = createRequestSignature('WRONG_SECRET', this.ts, JSON.stringify(payload));
     this.adapter.on('any_event', function (event) {
       // If this happens, the test has failed.
       partiallyComplete(event);
     });
     this.adapter.on('error', function (error) {
       assert(error instanceof Error);
-      assert.equal(error.code, errorCodes.TOKEN_VERIFICATION_FAILURE);
-      assert.deepEqual(error.body, payload);
+      assert.equal(error.code, errorCodes.SIGNATURE_VERIFICATION_FAILURE);
       partiallyComplete();
     });
     request
       .post('http://localhost:' + this.port + '/slack')
       .send(payload)
+      .set('x-slack-signature', signature)
+      .set('x-slack-request-timestamp', this.ts)
       .end(function (err, res) {
         assert(err instanceof Error);
-        assert.equal(res.statusCode, 500);
+        assert.equal(res.statusCode, 404);
         partiallyComplete();
       });
   });
@@ -134,13 +140,13 @@ describe('when using middleware inside your own express application', function (
   it('should emit errors from the user\'s handler from the process when there is no error handler', function (done) {
     var partiallyComplete = helpers.completionAggregator(done, 2);
     var payload = {
-      token: this.verificationToken,
       event: {
         type: 'any_event',
         key: 'value',
         foo: 'baz'
       }
     };
+    var signature = createRequestSignature(this.signingSecret, this.ts, JSON.stringify(payload));
     this.adapter.on('any_event', function () {
       // This is the error that should eventually be emitted on process
       throw new Error('user error');
@@ -153,6 +159,8 @@ describe('when using middleware inside your own express application', function (
     request
       .post('http://localhost:' + this.port + '/slack')
       .send(payload)
+      .set('x-slack-signature', signature)
+      .set('x-slack-request-timestamp', this.ts)
       .end(function (err, res) {
         if (err) {
           partiallyComplete(err);
@@ -169,8 +177,8 @@ describe('when using the built-in HTTP server', function () {
     this.port = process.env.PORT || '8080';
     // This is the default path
     this.path = '/slack/events';
-    this.verificationToken = 'VERIFICATION_TOKEN';
-    this.adapter = createSlackEventAdapter(this.verificationToken, {
+    this.signingSecret = 'SIGNING_SECRET';
+    this.adapter = createSlackEventAdapter(this.signingSecret, {
       waitForResponse: true
     });
     return this.adapter.start(this.port);

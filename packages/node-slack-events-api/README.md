@@ -26,15 +26,17 @@ In order to complete the subscription, you will need a **Request URL** that can 
 verification request. This module, combined with the use of a development proxy, can make this
 easier for you.
 
-0.  Force the generation of a Verification Token: If you just created your Slack App, the Basic
-Information section of your configuration will not yet have a Verification Token under App
+0.  Force the generation of a Signing Secret: If you just created your Slack App, the Basic
+Information section of your configuration will not yet have a Signing Secret under App
 Credentials. By visiting the Event Subscriptions section and putting a dummy URL into Request
-URL, you will get a verification failure, but also there will now be a **Verification Token**
+URL, you will get a verification failure, but also there will now be a **Signing Secret**
 available in the Basic Information section.
 
+> ⚠️ As of `v2.0.0`, the Events API adapter no longer accepts legacy verification tokens. You must pass a signing secret [to verify requests from Slack](https://api.slack.com/docs/verifying-requests-from-slack).
+
 1.  Start the verification tool:
-`./node_modules/.bin/slack-verify --token <token> [--path=/slack/events] [--port=3000]`. You will
-need to substitute your own Verification Token for `<token>`. You may also want to choose your own
+`./node_modules/.bin/slack-verify --token <signing-secret> [--path=/slack/events] [--port=3000]`. You will
+need to substitute your own Verification Token for `<signing-secret>`. You may also want to choose your own
 `path` and/or `port`.
 
 2.  Start your development proxy. We recommend using [ngrok](https://ngrok.com/) for its stability,
@@ -68,7 +70,7 @@ The easiest way to start using the Events API is by using the built-in HTTP serv
 ```javascript
 // Initialize using verification token from environment variables
 const createSlackEventAdapter = require('@slack/events-api').createSlackEventAdapter;
-const slackEvents = createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN);
+const slackEvents = createSlackEventAdapter(process.env.SLACK_SIGNING_SECRET);
 const port = process.env.PORT || 3000;
 
 // Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
@@ -98,16 +100,12 @@ const http = require('http');
 
 // Initialize using verification token from environment variables
 const createSlackEventAdapter = require('@slack/events-api').createSlackEventAdapter;
-const slackEvents = createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN);
+const slackEvents = createSlackEventAdapter(process.env.SLACK_SIGNING_SECRET);
 const port = process.env.PORT || 3000;
 
 // Initialize an Express application
 const express = require('express');
-const bodyParser = require('body-parser');
 const app = express();
-
-// You must use a body parser for JSON before mounting the adapter
-app.use(bodyParser.json());
 
 // Mount the event handler on a route
 // NOTE: you must mount to a path that matches the Request URL that was configured earlier
@@ -126,6 +124,8 @@ http.createServer(app).listen(port, () => {
   console.log(`server listening on port ${port}`);
 });
 ```
+
+> ⚠️ As of `v2.0.0`, the Events API adapter parses raw request bodies while performing request signing verification. This means developers no longer need to use `body-parser` middleware to parse JSON-encoded requests.
 
 **NOTE**: To use the example above, you need to add a Team Event such as `message.im` in the Event
 Subscriptions section of your Slack App configuration settings.

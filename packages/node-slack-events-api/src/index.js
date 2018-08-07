@@ -1,8 +1,8 @@
-import { errorCodes as middlewareErrorCodes } from './express-middleware';
+import { errorCodes as requestListenerErrorCodes } from './http-handler';
 import SlackEventAdapter from './adapter';
 
-export const errorCodes = middlewareErrorCodes;
+export const errorCodes = requestListenerErrorCodes;
 
-export function createSlackEventAdapter(verificationToken, options) {
-  return new SlackEventAdapter(verificationToken, options);
+export function createSlackEventAdapter(signingSecret, options) {
+  return new SlackEventAdapter(signingSecret, options);
 }

@@ -7,10 +7,9 @@ const passport = require('passport');
 const SlackStrategy = require('@aoberoi/passport-slack').default.Strategy;
 const http = require('http');
 const express = require('express');
-const bodyParser = require('body-parser');
 
-// *** Initialize event adapter using verification token from environment variables ***
-const slackEvents = slackEventsApi.createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN, {
+// *** Initialize event adapter using signing secret from environment variables ***
+const slackEvents = slackEventsApi.createSlackEventAdapter(process.env.SIGNING_SECRET, {
   includeBody: true
 });
 
@@ -44,7 +43,6 @@ passport.use(new SlackStrategy({
 
 // Initialize an Express application
 const app = express();
-app.use(bodyParser.json());
 
 // Plug the Add to Slack (OAuth) helpers into the express app
 app.use(passport.initialize());

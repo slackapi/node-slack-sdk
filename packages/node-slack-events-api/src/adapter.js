@@ -2,19 +2,23 @@ import EventEmitter from 'events';
 import http from 'http';
 import isString from 'lodash.isstring';
 import debugFactory from 'debug';
-import { createExpressMiddleware } from './express-middleware';
+import { createHTTPHandler } from './http-handler';
 
 const debug = debugFactory('@slack/events-api:adapter');
 
+export const errorCodes = {
+  BODY_PARSER_NOT_PERMITTED: 'SLACKADAPTER_BODY_PARSER_NOT_PERMITTED_FAILURE',
+};
+
 export default class SlackEventAdapter extends EventEmitter {
-  constructor(verificationToken, options = {}) {
-    if (!isString(verificationToken)) {
+  constructor(signingSecret, options = {}) {
+    if (!isString(signingSecret)) {
       throw new TypeError('SlackEventAdapter needs a verification token');
     }
 
     super();
 
-    this.verificationToken = verificationToken;
+    this.signingSecret = signingSecret;
     this.includeBody = !!options.includeBody || false;
     this.includeHeaders = !!options.includeHeaders || false;
     this.waitForResponse = !!options.waitForResponse || false;
@@ -29,26 +33,10 @@ export default class SlackEventAdapter extends EventEmitter {
   // TODO: options (like https)
   createServer(path = '/slack/events') {
     // NOTE: this is a workaround for a shortcoming of the System.import() tranform
-    return Promise.resolve().then(() => Promise.all([
-      System.import('express'),
-      System.import('body-parser'),
-      // import('express'),
-      // import('body-parser'),
-
-      // The previous lines should be written as the comment following it, since `System.import()`
-      // is going to disappear after dynamic imports land (https://github.com/tc39/proposal-dynamic-import).
-      // There are no babel transforms for this syntax that seem to work at the moment. The
-      // following was meant to work but ended up not working:
-      // https://github.com/pwmckenna/babel-plugin-transform-import-commonjs.
-    ]))
-    .then(([express, bodyParser]) => {
-      const app = express();
-      app.use(bodyParser.json());
-      app.post(path, this.expressMiddleware());
-
+    return Promise.resolve().then(() => {
       debug('server created - path: %s', path);
 
-      return http.createServer(app);
+      return http.createServer(this.requestListener());
     });
   }
 
@@ -80,7 +68,21 @@ export default class SlackEventAdapter extends EventEmitter {
   }
 
   expressMiddleware(middlewareOptions = {}) {
-    return createExpressMiddleware(this, middlewareOptions);
+    const requestListener = this.requestListener(middlewareOptions);
+    return (req, res, next) => {
+      // If parser is being used, we can't verify request signature
+      if (req.body) {
+        const error = new Error('Parsing request body prohibits request signature verification');
+        error.code = errorCodes.BODY_PARSER_NOT_PERMITTED;
+        next(error);
+        return;
+      }
+      requestListener(req, res);
+    };
+  }
+
+  requestListener(middlewareOptions = {}) {
+    return createHTTPHandler(this, middlewareOptions);
   }
 
 }

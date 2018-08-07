@@ -3,6 +3,7 @@
   "env": {
     "mocha": true
   },
+  "parser": "babel-eslint",
   "rules": {
     "func-names": "off"
   }

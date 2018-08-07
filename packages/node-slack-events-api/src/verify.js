@@ -7,7 +7,7 @@ const argv = yargs
   .options({
     token: {
       alias: 't',
-      describe: 'Slack verification token from the App management page',
+      describe: 'Slack signing secret from the App management page',
       demand: true,
       type: 'string',
     },
