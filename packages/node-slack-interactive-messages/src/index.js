@@ -13,7 +13,7 @@ export const errorCodes = adapterErrorCodes;
 /**
  * Factory method to create an instance of {@link module:adapter~SlackMessageAdapter}
  *
- * @param {string} verificationToken
+ * @param {string} signingSecret
  * @param {Object} options
  * @returns {module:adapter~SlackMessageAdapter}
  */

@@ -217,7 +217,7 @@ class SlackMessageAdapter {
   }
 
   /**
-   * Create a middleware function that handles HTTP requests, verifies requests
+   * Create a request listener function that handles HTTP requests, verifies requests
    * and dispatches responses
    *
    * @returns {slackRequestListener}
