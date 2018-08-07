@@ -144,6 +144,15 @@ export class WebClient extends EventEmitter {
         throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
       }
 
+      // warn for methods whose functionality is deprecated
+      if (method === 'files.comments.add' || method === 'files.comments.edit') {
+        this.logger.warn(
+          `File comments are deprecated in favor of file threads. Replace uses of ${method} in your app ` +
+          'to take advantage of improvements. See https://api.slack.com/changelog/2018-05-file-threads-soon-tread ' +
+          'to learn more.',
+        );
+      }
+
       const methodSupportsCursorPagination = methods.cursorPaginationEnabledMethods.has(method);
       const optionsPaginationType = getOptionsPaginationType(options);
 
