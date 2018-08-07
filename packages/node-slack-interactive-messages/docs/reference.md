@@ -13,20 +13,15 @@
 
 * [adapter](#module_adapter)
     * [module.exports](#exp_module_adapter--module.exports) ⏏
-        * [~SlackMessageAdapter](#module_adapter--module.exports..SlackMessageAdapter)
-            * [new SlackMessageAdapter(signingSecret, [options])](#new_module_adapter--module.exports..SlackMessageAdapter_new)
-            * _instance_
-                * [.createServer([path])](#module_adapter--module.exports..SlackMessageAdapter+createServer) ⇒ <code>Promise.&lt;NodeHttpServer&gt;</code>
-                * [.start(port)](#module_adapter--module.exports..SlackMessageAdapter+start) ⇒ <code>Promise.&lt;void&gt;</code>
-                * [.stop()](#module_adapter--module.exports..SlackMessageAdapter+stop) ⇒ <code>Promise.&lt;void&gt;</code>
-                * [.expressMiddleware()](#module_adapter--module.exports..SlackMessageAdapter+expressMiddleware) ⇒ <code>ExpressMiddlewareFunc</code>
-                * [.requestListener()](#module_adapter--module.exports..SlackMessageAdapter+requestListener) ⇒ <code>slackRequestListener</code>
-                * [.action(matchingConstraints, callback)](#module_adapter--module.exports..SlackMessageAdapter+action) ⇒ [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)
-                * [.options(matchingConstraints, callback)](#module_adapter--module.exports..SlackMessageAdapter+options) ⇒ [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)
-            * _inner_
-                * [~ActionHandler(payload, respond)](#module_adapter--module.exports..SlackMessageAdapter..ActionHandler) ⇒ <code>Object</code>
-                    * [~Respond(message)](#module_adapter--module.exports..SlackMessageAdapter..ActionHandler..Respond) ⇒ <code>Promise</code>
-                * [~OptionsHandler(payload)](#module_adapter--module.exports..SlackMessageAdapter..OptionsHandler) ⇒ <code>Object</code>
+        * [.SlackMessageAdapter](#module_adapter--module.exports.SlackMessageAdapter)
+            * [new exports.SlackMessageAdapter(signingSecret, [options])](#new_module_adapter--module.exports.SlackMessageAdapter_new)
+            * [.createServer([path])](#module_adapter--module.exports.SlackMessageAdapter+createServer) ⇒ <code>Promise.&lt;NodeHttpServer&gt;</code>
+            * [.start(port)](#module_adapter--module.exports.SlackMessageAdapter+start) ⇒ <code>Promise.&lt;void&gt;</code>
+            * [.stop()](#module_adapter--module.exports.SlackMessageAdapter+stop) ⇒ <code>Promise.&lt;void&gt;</code>
+            * [.expressMiddleware()](#module_adapter--module.exports.SlackMessageAdapter+expressMiddleware) ⇒ <code>ExpressMiddlewareFunc</code>
+            * [.requestListener()](#module_adapter--module.exports.SlackMessageAdapter+requestListener) ⇒ <code>slackRequestListener</code>
+            * [.action(matchingConstraints, callback)](#module_adapter--module.exports.SlackMessageAdapter+action) ⇒ <code>module:adapter--module.exports~SlackMessageAdapter</code>
+            * [.options(matchingConstraints, callback)](#module_adapter--module.exports.SlackMessageAdapter+options) ⇒ <code>module:adapter--module.exports~SlackMessageAdapter</code>
 
 
 * * *
@@ -38,34 +33,29 @@
 
 * * *
 
-<a name="module_adapter--module.exports..SlackMessageAdapter"></a>
+<a name="module_adapter--module.exports.SlackMessageAdapter"></a>
 
-#### module.exports~SlackMessageAdapter
+#### module.exports.SlackMessageAdapter
 An adapter for Slack's interactive message components such as buttons, menus, and dialogs.
 
-**Kind**: inner class of [<code>module.exports</code>](#exp_module_adapter--module.exports)  
+**Kind**: static class of [<code>module.exports</code>](#exp_module_adapter--module.exports)  
 
-* [~SlackMessageAdapter](#module_adapter--module.exports..SlackMessageAdapter)
-    * [new SlackMessageAdapter(signingSecret, [options])](#new_module_adapter--module.exports..SlackMessageAdapter_new)
-    * _instance_
-        * [.createServer([path])](#module_adapter--module.exports..SlackMessageAdapter+createServer) ⇒ <code>Promise.&lt;NodeHttpServer&gt;</code>
-        * [.start(port)](#module_adapter--module.exports..SlackMessageAdapter+start) ⇒ <code>Promise.&lt;void&gt;</code>
-        * [.stop()](#module_adapter--module.exports..SlackMessageAdapter+stop) ⇒ <code>Promise.&lt;void&gt;</code>
-        * [.expressMiddleware()](#module_adapter--module.exports..SlackMessageAdapter+expressMiddleware) ⇒ <code>ExpressMiddlewareFunc</code>
-        * [.requestListener()](#module_adapter--module.exports..SlackMessageAdapter+requestListener) ⇒ <code>slackRequestListener</code>
-        * [.action(matchingConstraints, callback)](#module_adapter--module.exports..SlackMessageAdapter+action) ⇒ [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)
-        * [.options(matchingConstraints, callback)](#module_adapter--module.exports..SlackMessageAdapter+options) ⇒ [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)
-    * _inner_
-        * [~ActionHandler(payload, respond)](#module_adapter--module.exports..SlackMessageAdapter..ActionHandler) ⇒ <code>Object</code>
-            * [~Respond(message)](#module_adapter--module.exports..SlackMessageAdapter..ActionHandler..Respond) ⇒ <code>Promise</code>
-        * [~OptionsHandler(payload)](#module_adapter--module.exports..SlackMessageAdapter..OptionsHandler) ⇒ <code>Object</code>
+* [.SlackMessageAdapter](#module_adapter--module.exports.SlackMessageAdapter)
+    * [new exports.SlackMessageAdapter(signingSecret, [options])](#new_module_adapter--module.exports.SlackMessageAdapter_new)
+    * [.createServer([path])](#module_adapter--module.exports.SlackMessageAdapter+createServer) ⇒ <code>Promise.&lt;NodeHttpServer&gt;</code>
+    * [.start(port)](#module_adapter--module.exports.SlackMessageAdapter+start) ⇒ <code>Promise.&lt;void&gt;</code>
+    * [.stop()](#module_adapter--module.exports.SlackMessageAdapter+stop) ⇒ <code>Promise.&lt;void&gt;</code>
+    * [.expressMiddleware()](#module_adapter--module.exports.SlackMessageAdapter+expressMiddleware) ⇒ <code>ExpressMiddlewareFunc</code>
+    * [.requestListener()](#module_adapter--module.exports.SlackMessageAdapter+requestListener) ⇒ <code>slackRequestListener</code>
+    * [.action(matchingConstraints, callback)](#module_adapter--module.exports.SlackMessageAdapter+action) ⇒ <code>module:adapter--module.exports~SlackMessageAdapter</code>
+    * [.options(matchingConstraints, callback)](#module_adapter--module.exports.SlackMessageAdapter+options) ⇒ <code>module:adapter--module.exports~SlackMessageAdapter</code>
 
 
 * * *
 
-<a name="new_module_adapter--module.exports..SlackMessageAdapter_new"></a>
+<a name="new_module_adapter--module.exports.SlackMessageAdapter_new"></a>
 
-##### new SlackMessageAdapter(signingSecret, [options])
+##### new exports.SlackMessageAdapter(signingSecret, [options])
 Create a message adapter.
 
 
@@ -79,13 +69,13 @@ Create a message adapter.
 
 * * *
 
-<a name="module_adapter--module.exports..SlackMessageAdapter+createServer"></a>
+<a name="module_adapter--module.exports.SlackMessageAdapter+createServer"></a>
 
 ##### slackInteractions.createServer([path]) ⇒ <code>Promise.&lt;NodeHttpServer&gt;</code>
 Create a server that dispatches Slack's interactive message actions and menu requests to this
 message adapter instance. Use this method if your application will handle starting the server.
 
-**Kind**: instance method of [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)  
+**Kind**: instance method of [<code>SlackMessageAdapter</code>](#module_adapter--module.exports.SlackMessageAdapter)  
 **Returns**: <code>Promise.&lt;NodeHttpServer&gt;</code> - - A promise that resolves to an instance of http.Server and
 will dispatch interactive message actions and options requests to this message adapter
 instance. https://nodejs.org/dist/latest/docs/api/http.html#http_class_http_server  
@@ -97,13 +87,13 @@ instance. https://nodejs.org/dist/latest/docs/api/http.html#http_class_http_serv
 
 * * *
 
-<a name="module_adapter--module.exports..SlackMessageAdapter+start"></a>
+<a name="module_adapter--module.exports.SlackMessageAdapter+start"></a>
 
 ##### slackInteractions.start(port) ⇒ <code>Promise.&lt;void&gt;</code>
 Start a built-in server that dispatches Slack's interactive message actions and menu requests
 to this message adapter interface.
 
-**Kind**: instance method of [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)  
+**Kind**: instance method of [<code>SlackMessageAdapter</code>](#module_adapter--module.exports.SlackMessageAdapter)  
 **Returns**: <code>Promise.&lt;void&gt;</code> - - A promise that resolves once the server is ready  
 
 | Param | Type |
@@ -113,40 +103,40 @@ to this message adapter interface.
 
 * * *
 
-<a name="module_adapter--module.exports..SlackMessageAdapter+stop"></a>
+<a name="module_adapter--module.exports.SlackMessageAdapter+stop"></a>
 
 ##### slackInteractions.stop() ⇒ <code>Promise.&lt;void&gt;</code>
 Stop the previously started built-in server.
 
-**Kind**: instance method of [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)  
+**Kind**: instance method of [<code>SlackMessageAdapter</code>](#module_adapter--module.exports.SlackMessageAdapter)  
 **Returns**: <code>Promise.&lt;void&gt;</code> - - A promise that resolves once the server is cleaned up.  
 
 * * *
 
-<a name="module_adapter--module.exports..SlackMessageAdapter+expressMiddleware"></a>
+<a name="module_adapter--module.exports.SlackMessageAdapter+expressMiddleware"></a>
 
 ##### slackInteractions.expressMiddleware() ⇒ <code>ExpressMiddlewareFunc</code>
 Create a middleware function that can be used to integrate with the `express` web framework
 in order for incoming requests to be dispatched to this message adapter instance.
 
-**Kind**: instance method of [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)  
+**Kind**: instance method of [<code>SlackMessageAdapter</code>](#module_adapter--module.exports.SlackMessageAdapter)  
 **Returns**: <code>ExpressMiddlewareFunc</code> - - A middleware function http://expressjs.com/en/guide/using-middleware.html  
 
 * * *
 
-<a name="module_adapter--module.exports..SlackMessageAdapter+requestListener"></a>
+<a name="module_adapter--module.exports.SlackMessageAdapter+requestListener"></a>
 
 ##### slackInteractions.requestListener() ⇒ <code>slackRequestListener</code>
 Create a request listener function that handles HTTP requests, verifies requests
 and dispatches responses
 
-**Kind**: instance method of [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)  
+**Kind**: instance method of [<code>SlackMessageAdapter</code>](#module_adapter--module.exports.SlackMessageAdapter)  
 
 * * *
 
-<a name="module_adapter--module.exports..SlackMessageAdapter+action"></a>
+<a name="module_adapter--module.exports.SlackMessageAdapter+action"></a>
 
-##### slackInteractions.action(matchingConstraints, callback) ⇒ [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)
+##### slackInteractions.action(matchingConstraints, callback) ⇒ <code>module:adapter--module.exports~SlackMessageAdapter</code>
 Add a handler for an interactive message action.
 
 Usually there's no need to be concerned with _how_ a message is sent to Slack, but the
@@ -159,8 +149,8 @@ following table describes it fully.
 **Message Action** | Message in response | When resolved before `syncResposeTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` |
 **Dialog Submission**| Error list in response | Error list in response | Empty response | Message in request to `response_url` | Returning a Promise that takes longer than 3 seconds to resolve can result in the user seeing an error. Warning logged if a promise isn't completed before `syncResponseTimeout`.
 
-**Kind**: instance method of [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)  
-**Returns**: [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter) - - this instance (for chaining)  
+**Kind**: instance method of [<code>SlackMessageAdapter</code>](#module_adapter--module.exports.SlackMessageAdapter)  
+**Returns**: <code>module:adapter--module.exports~SlackMessageAdapter</code> - - this instance (for chaining)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -173,9 +163,9 @@ following table describes it fully.
 
 * * *
 
-<a name="module_adapter--module.exports..SlackMessageAdapter+options"></a>
+<a name="module_adapter--module.exports.SlackMessageAdapter+options"></a>
 
-##### slackInteractions.options(matchingConstraints, callback) ⇒ [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)
+##### slackInteractions.options(matchingConstraints, callback) ⇒ <code>module:adapter--module.exports~SlackMessageAdapter</code>
 Add a handler for an options request
 
 Usually there's no need to be concerned with _how_ a message is sent to Slack, but the
@@ -185,8 +175,8 @@ following table describes it fully
 :-----:|:-----:|:-----:|:-----:|:-----:
 **Options Request**| Options in response | Options in response | Empty response | Returning a Promise that takes longer than 3 seconds to resolve can result in the user seeing an error. If the request is from within a dialog, the `text` field is called `label`.
 
-**Kind**: instance method of [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)  
-**Returns**: [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter) - - this instance (for chaining)  
+**Kind**: instance method of [<code>SlackMessageAdapter</code>](#module_adapter--module.exports.SlackMessageAdapter)  
+**Returns**: <code>module:adapter--module.exports~SlackMessageAdapter</code> - - this instance (for chaining)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -198,80 +188,13 @@ following table describes it fully
 
 * * *
 
-<a name="module_adapter--module.exports..SlackMessageAdapter..ActionHandler"></a>
-
-##### SlackMessageAdapter~ActionHandler(payload, respond) ⇒ <code>Object</code>
-A handler function for action requests (button presses, menu selections, and dialog submissions).
-
-**Kind**: inner method of [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)  
-**Returns**: <code>Object</code> - When the action is a button press or a menu selection, this object is a
-replacement
-[message](https://api.slack.com/docs/interactive-message-field-guide#top-level_message_fields)
-for the message in which the action occurred. It may also be a Promise for a message, and if so
-and the Promise takes longer than the `syncResponseTimeout` to complete, the message is sent over
-the `response_url`. The message may also be a new message in the same conversation by setting
-`replace_original: false`. When the action is a dialog submission, this object is a list of
-[validation errors](https://api.slack.com/dialogs#input_validation). It may also be a Promise for
-a list of validation errors, and if so and the Promise takes longer than the
-`syncReponseTimeout` to complete, Slack will disply an error to the user. If there is no return
-value, then button presses and menu selections do not update the message and dialog submissions
-will validate and dismiss.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| payload | <code>Object</code> | an object describing the [button press](https://api.slack.com/docs/message-buttons#responding_to_message_actions), [menu selection](https://api.slack.com/docs/message-menus#request_url_response), or [dialog submission](https://api.slack.com/dialogs#evaluating_submission_responses). |
-| respond | [<code>Respond</code>](#module_adapter--module.exports..SlackMessageAdapter..ActionHandler..Respond) | When the action is a button press or menu selection, this function is used to update the message where the action occured or create new messages in the same conversation. When the action is a dialog submission, this function is used to create new messages in the conversation where the dialog was triggered. |
-
-
-* * *
-
-<a name="module_adapter--module.exports..SlackMessageAdapter..ActionHandler..Respond"></a>
-
-###### ActionHandler~Respond(message) ⇒ <code>Promise</code>
-A function used to send message updates after an action is handled. This function can be used
-up to 5 times in 30 minutes.
-
-**Kind**: inner method of [<code>ActionHandler</code>](#module_adapter--module.exports..SlackMessageAdapter..ActionHandler)  
-**Returns**: <code>Promise</code> - there's no contract or interface for the resolution value, but this Promise
-will resolve when the HTTP response from the `response_url` request is complete and reject when
-there is an error.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| message | <code>Object</code> | a [message](https://api.slack.com/docs/interactive-message-field-guide#top-level_message_fields). Dialog submissions do not allow `resplace_original: false` on this message. |
-
-
-* * *
-
-<a name="module_adapter--module.exports..SlackMessageAdapter..OptionsHandler"></a>
-
-##### SlackMessageAdapter~OptionsHandler(payload) ⇒ <code>Object</code>
-A handler function for menu options requests.
-
-**Kind**: inner method of [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)  
-**Returns**: <code>Object</code> - an
-[options list](https://api.slack.com/docs/interactive-message-field-guide#option_fields) or
-[option groups list](https://api.slack.com/docs/interactive-message-field-guide#option_groups).
-When the menu is within an interactive message, (`within: 'interactive_message'`) the option
-keys are `text` and `value`. When the menu is within a dialog (`within: 'dialog'`) the option
-keys are `label` and `value`. This function may also return a Promise either of these values.
-If a Promise is returned and it does not complete within 3 seconds, Slack will display an error
-to the user. If there is no return value, then the user is shown an empty list of options.  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| payload | <code>Object</code> | an object describing [the state of the menu](https://api.slack.com/docs/message-menus#options_load_url) |
-
-
-* * *
-
 <a name="module_@slack/interactive-messages"></a>
 
 ## @slack/interactive-messages
 
 * [@slack/interactive-messages](#module_@slack/interactive-messages)
     * [.errorCodes](#module_@slack/interactive-messages.errorCodes) : <code>enum</code>
-    * [.createMessageAdapter(signingSecret, options)](#module_@slack/interactive-messages.createMessageAdapter) ⇒ [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)
+    * [.createMessageAdapter(signingSecret, options)](#module_@slack/interactive-messages.createMessageAdapter) ⇒ <code>module:adapter--module.exports~SlackMessageAdapter</code>
 
 
 * * *
@@ -288,8 +211,8 @@ Dictionary of error codes that may appear on errors emitted from this package's 
 
 <a name="module_@slack/interactive-messages.createMessageAdapter"></a>
 
-### @slack/interactive-messages.createMessageAdapter(signingSecret, options) ⇒ [<code>SlackMessageAdapter</code>](#module_adapter--module.exports..SlackMessageAdapter)
-Factory method to create an instance of [SlackMessageAdapter](#new_module_adapter--module.exports..SlackMessageAdapter_new)
+### @slack/interactive-messages.createMessageAdapter(signingSecret, options) ⇒ <code>module:adapter--module.exports~SlackMessageAdapter</code>
+Factory method to create an instance of [module:adapter~SlackMessageAdapter](module:adapter~SlackMessageAdapter)
 
 **Kind**: static method of [<code>@slack/interactive-messages</code>](#module_@slack/interactive-messages)  
 

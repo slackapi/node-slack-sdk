@@ -96,7 +96,7 @@ function validateOptionsConstraints(optionsConstraints) {
  * An adapter for Slack's interactive message components such as buttons, menus, and dialogs.
  * @typicalname slackInteractions
  */
-class SlackMessageAdapter {
+export class SlackMessageAdapter {
   /**
    * Create a message adapter.
    *
