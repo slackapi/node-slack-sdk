@@ -707,6 +707,7 @@ describe('WebClient', function () {
           done();
         });
     });
+    // TODO: when parsing the retry header fails
   });
 
   describe('has support for automatic pagination', function () {
@@ -842,10 +843,6 @@ describe('WebClient', function () {
         });
     });
 
-    // TODO: when parsing he retry header fails
-
-    // TODO: a result that has retry headers in it (when automatic rate-limit handling is disabled)
-
     describe('when using a method that supports only non-cursor pagination techniques', function () {
       it('should not automatically paginate', function () {
         const scope = nock('https://slack.com')
@@ -858,6 +855,32 @@ describe('WebClient', function () {
             scope.done();
           });
       });
+    });
+  });
+
+  describe('warnings', function () {
+    it('should warn when calling a deprecated method', function () {
+      const capture = new CaptureConsole();
+      capture.startCapture();
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(200, { ok: true });
+
+      const client = new WebClient(token);
+      return client.files.comments.add({ file: 'FILE', comment: 'COMMENT' })
+        .then(() => {
+          const output = capture.getCapturedText();
+          assert.isNotEmpty(output);
+          const warning = output[0];
+          assert.match(warning, /^\[WARN\]/);
+          scope.done();
+        })
+        .then(() => {
+          capture.stopCapture();
+        }, (error) => {
+          capture.stopCapture();
+          throw error;
+        });
     });
   });
 
