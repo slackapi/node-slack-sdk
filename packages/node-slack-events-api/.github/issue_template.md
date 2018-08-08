@@ -10,18 +10,23 @@ Describe your issue here.
 - [ ] testing related
 - [ ] discussion
 
-### Requirements
+### Requirements (place an `x` in each of the `[ ]`)
 * [ ] I've read and understood the [Contributing guidelines](https://github.com/slackapi/node-slack-events-api/blob/master/.github/contributing.md) and have done my best effort to follow them.
 * [ ] I've read and agree to the [Code of Conduct](https://slackhq.github.io/code-of-conduct).
 * [ ] I've searched for any related issues and avoided creating a duplicate issue.
+
+---
 
 ### Bug Report
 
 Filling out the following details about bugs will help us solve your issue sooner.
 
 #### Reproducible in:
-slack-events version:
+
+`@slack/events-api` version:
+
 node version:
+
 OS version(s):
 
 #### Steps to reproduce:

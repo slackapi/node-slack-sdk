@@ -6,16 +6,16 @@ well.
 
 There are many ways you can contribute! :heart:
 
-### Bug Fixes :bug:
+### Bug Reports and Fixes :bug:
 -  If you find a bug, please search for it in the [Issues](https://github.com/slackapi/node-slack-events-api/issues), and if it isn't already tracked,
-   [create a new issue](https://github.com/slackapi/node-slack-events-api/issues/new). Feel free to comment and add details in a closed Issue, it will still
+   [create a new issue](https://github.com/slackapi/node-slack-events-api/issues/new). Fill out the "Bug Report" section of the issue template. Even if an Issue is closed, feel free to comment and add details, it will still
    be reviewed.
 -  Issues that have already been identified as a bug (note: able to reproduce) will be labelled `bug`.
 -  If you'd like to submit a fix for a bug, [send a Pull Request](#creating_a_pull_request) and mention the Issue number.
   -  Include tests that isolate the bug and verifies that it was fixed.
 
 ### New Features :bulb:
--  If you'd like to add new functionality to this project, describe the problem you want to solve in a [new Issue]().
+-  If you'd like to add new functionality to this project, describe the problem you want to solve in a [new Issue](https://github.com/slackapi/node-slack-events-api/issues/new).
 -  Issues that have been identified as a feature request will be labelled `enhancement`.
 -  If you'd like to implement the new feature, please wait for feedback from the project
    maintainers before spending too much time writing the code. In some cases, `enhancement`s may
@@ -40,8 +40,7 @@ For your contribution to be accepted:
 - [x] The changes must be approved by code review.
 - [x] Commits should be atomic and messages must be descriptive. Related issues should be mentioned by Issue number.
 
-If the contribution doesn't meet the above criteria, a maintainer should discuss it with you. You can
-continue improve a Pull Request by adding commits to the branch from which the PR was created.
+If the contribution doesn't meet the above criteria, you may fail our automated checks or a maintainer will discuss it with you. You can continue to improve a Pull Request by adding commits to the branch from which the PR was created.
 
 [Interested in knowing more about about pull requests at Slack?](https://slack.engineering/on-empathy-pull-requests-979e4257d158#.awxtvmb2z)
 
