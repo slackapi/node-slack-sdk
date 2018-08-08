@@ -1,7 +1,7 @@
 var assert = require('assert');
 var request = require('superagent');
 var createRequestSignature = require('../helpers').createRequestSignature;
-var createSlackEventAdapter = require('../../dist').createSlackEventAdapter;
+var createEventAdapter = require('../../dist').createEventAdapter;
 
 var isFunction = require('lodash.isfunction');
 var correctSigningSecret = 'SIGNING_SECRET';
@@ -13,7 +13,7 @@ describe('when using the waitForResponse option', function () {
     this.path = '/slack/events';
     this.signingSecret = correctSigningSecret;
     this.ts = Math.floor(Date.now() / 1000);
-    this.adapter = createSlackEventAdapter(this.signingSecret, {
+    this.adapter = createEventAdapter(this.signingSecret, {
       waitForResponse: true
     });
     return this.adapter.start(this.port);

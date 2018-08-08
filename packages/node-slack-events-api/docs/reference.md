@@ -1,6 +1,6 @@
 # Reference Documentation
 
-#### createSlackEventAdapter(_signingSecret_, [_options_])
+#### createEventAdapter(_signingSecret_, [_options_])
 
 A factory method for creating a new `SlackEventAdapter` instance.
 

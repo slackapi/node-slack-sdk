@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import yargs from 'yargs';
-import { createSlackEventAdapter } from './index';
+import { createEventAdapter } from './index';
 
 const argv = yargs
   .options({
@@ -27,7 +27,7 @@ const argv = yargs
   .help()
   .argv;
 
-const slackEvents = createSlackEventAdapter(argv.secret);
+const slackEvents = createEventAdapter(argv.secret);
 
 /* eslint-disable no-console */
 slackEvents

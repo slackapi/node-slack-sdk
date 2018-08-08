@@ -2,7 +2,7 @@ var http = require('http');
 var assert = require('assert');
 var express = require('express');
 var request = require('superagent');
-var createSlackEventAdapter = require('../../dist').createSlackEventAdapter;
+var createEventAdapter = require('../../dist').createEventAdapter;
 var createRequestSignature = require('../helpers').createRequestSignature;
 var errorCodes = require('../../dist/http-handler').errorCodes;
 var uncaughtException = require('uncaughtException');
@@ -14,7 +14,7 @@ describe('when using middleware inside your own express application', function (
     this.port = process.env.PORT || '8080';
     this.signingSecret = 'SIGNING_SECRET';
     this.ts = Math.floor(Date.now() / 1000);
-    this.adapter = createSlackEventAdapter(this.signingSecret);
+    this.adapter = createEventAdapter(this.signingSecret);
     this.app = express();
     this.app.use('/slack', this.adapter.expressMiddleware());
     this.server = http.createServer(this.app);
@@ -178,7 +178,7 @@ describe('when using the built-in HTTP server', function () {
     // This is the default path
     this.path = '/slack/events';
     this.signingSecret = 'SIGNING_SECRET';
-    this.adapter = createSlackEventAdapter(this.signingSecret, {
+    this.adapter = createEventAdapter(this.signingSecret, {
       waitForResponse: true
     });
     return this.adapter.start(this.port);

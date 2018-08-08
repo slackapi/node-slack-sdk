@@ -111,8 +111,8 @@ The easiest way to start using the Events API is by using the built-in HTTP serv
 
 ```javascript
 // Initialize using signing secret from environment variables
-const { createSlackEventAdapter } = require('@slack/events-api');
-const slackEvents = createSlackEventAdapter(process.env.SLACK_SIGNING_SECRET);
+const { createEventAdapter } = require('@slack/events-api');
+const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 const port = process.env.PORT || 3000;
 
 // Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
@@ -141,8 +141,8 @@ middleware by calling the `expressMiddleware()` method;
 const http = require('http');
 
 // Initialize using signing secret from environment variables
-const { createSlackEventAdapter } = require('@slack/events-api');
-const slackEvents = createSlackEventAdapter(process.env.SLACK_SIGNING_SECRET);
+const { createEventAdapter } = require('@slack/events-api');
+const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 const port = process.env.PORT || 3000;
 
 // Initialize an Express application
