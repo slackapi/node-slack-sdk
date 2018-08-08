@@ -4,7 +4,7 @@ var express = require('express');
 var request = require('superagent');
 var createSlackEventAdapter = require('../../dist').createSlackEventAdapter;
 var createRequestSignature = require('../helpers').createRequestSignature;
-var errorCodes = require('../../dist').errorCodes;
+var errorCodes = require('../../dist/http-handler').errorCodes;
 var uncaughtException = require('uncaughtException');
 
 var helpers = require('../helpers');

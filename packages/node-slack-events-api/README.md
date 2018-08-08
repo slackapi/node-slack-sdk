@@ -1,14 +1,23 @@
-# Slack Events API adapter for Node and Express
+# Slack Events API adapter for Node
 
 [![Build Status](https://travis-ci.org/slackapi/node-slack-events-api.svg?branch=master)](https://travis-ci.org/slackapi/node-slack-events-api)
 [![codecov](https://codecov.io/gh/slackapi/node-slack-events-api/branch/master/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-events-api)
 
-This adapter enhances and simplifies Slack's Events API by incorporating useful best practices,
-patterns, and opportunities to abstract out common tasks.
+Build your Slack apps by reacting to messages, emojis, files, and many more types of interesting
+events in the [Events API](https://api.slack.com/events-api). This package will help you start
+with sensible and secure defaults.
 
-We wrote a blog that [explains how](https://medium.com/@SlackAPI/enhancing-slacks-events-api-7535827829ab)
-the Events API can help you, why we built these tools, and how you can use them to build
-production-ready Slack apps.
+The adapter gives you a simple and highly configurable Node-style [EventEmitter](https://nodejs.org/dist/latest/docs/api/events.html#events_class_eventemitter) to attach functions
+to handle events.
+
+*  [Installation](#installation)
+*  [Configuration](#configuration)
+*  [Usage](#usage)
+*  [Examples](#examples)
+*  [Reference Documentation](#reference_documentation)
+*  [Support](#support)
+
+---
 
 ## Installation
 
@@ -18,58 +27,91 @@ $ npm install --save @slack/events-api
 
 ## Configuration
 
-Before you can use the [Events API](https://api.slack.com/events-api) you must
-[create a Slack App](https://api.slack.com/apps/new), and turn on
-[Event Subscriptions](https://api.slack.com/events-api#subscriptions).
+Get started by [creating a Slack App](https://api.slack.com/apps/new) if you haven't already.
+On the **Basic Information** page, in the section for **App Credentials**, note the
+**Signing Secret**. You will need it to initialize the adapter.
 
-In order to complete the subscription, you will need a **Request URL** that can already respond to a
-verification request. This module, combined with the use of a development proxy, can make this
-easier for you.
+> ⚠️ As of `v2.0.0`, the Events API adapter no longer accepts legacy verification tokens.
+You must pass a signing secret [to verify requests from Slack](https://api.slack.com/docs/verifying-requests-from-slack).
 
-0.  Force the generation of a Signing Secret: If you just created your Slack App, the Basic
-Information section of your configuration will not yet have a Signing Secret under App
-Credentials. By visiting the Event Subscriptions section and putting a dummy URL into Request
-URL, you will get a verification failure, but also there will now be a **Signing Secret**
-available in the Basic Information section.
+Select the **Event Subscriptions** feature, and enable it. Input a **Request URL**.
 
-> ⚠️ As of `v2.0.0`, the Events API adapter no longer accepts legacy verification tokens. You must pass a signing secret [to verify requests from Slack](https://api.slack.com/docs/verifying-requests-from-slack).
+![Configuring a request URL](support/event-subscriptions.gif)
 
-1.  Start the verification tool:
-`./node_modules/.bin/slack-verify --token <signing-secret> [--path=/slack/events] [--port=3000]`. You will
-need to substitute your own Verification Token for `<signing-secret>`. You may also want to choose your own
-`path` and/or `port`.
+<details>
+<summary><strong>What's a request URL? How can I get one for development?</strong></summary>
 
-2.  Start your development proxy. We recommend using [ngrok](https://ngrok.com/) for its stability,
-but using a custom subdomain will require a paid plan. Otherwise,
-[localtunnel](https://localtunnel.github.io/www/) is an alternative that gives you custom subdomains
-for free.
+Slack will send requests to your app server each time an event from a subscription is triggered.
+In order to reach your server, you have to tell Slack where your app is listening for those
+requests. This location is the request URL.
 
-  > With ngrok: `ngrok http -subdomain=<projectname> 3000`
+If you're just getting started with development, you may not have a publicly accessible URL for
+your app. We recommend using a development proxy, such as [ngrok](https://ngrok.com/) or
+[localtunnel](https://localtunnel.github.io/www/), to generate a URL that can forward requests to
+your local machine. Once you've installed the development proxy of your choice, run it to begin
+forwarding requests to a specific port (for example, 3000).
 
-  > With localtunnel: `lt --port 3000 --subdomain <projectname>`
+> ngrok: `ngrok http 3000`
 
-3.  Input your Request URL into the Slack App configuration settings, in the Event Subscriptions
-section. This URL depends on how you used the previous two commands. For example, using the
-default path and the subdomain name "mybot":
+> localtunnel: `lt --port 3000`
 
-  > With ngrok: `https://mybot.ngrok.io/slack/events`
+![Starting a development proxy](support/ngrok.gif)
 
-  > With localtunnel: `https://mybot.localtunnel.me/slack/events`
+The output should show you a newly generated URL that you can use (ngrok will actually show you two
+and we recommend the one that begins with "https"). Let's call this the base URL (for example,
+`https://e0e88971.ngrok.io`)
 
-4.  Once the verification is complete, you can terminate the two processes (verification tool and
-development server). You can proceed to selecting the event types your App needs.
+To create the request URL, we add the path where our app listens for events onto the end of
+the base URL. If you are using the built-in HTTP server it is set to `/slack/events`. In this
+example the request URL would be `https://e0e88971.ngrok.io/slack/events`. If you are using the
+Express middlware, you can set whichever path you like, just remember to make the path you mount the
+middleware into the application the same as the one you configure in Slack.
+</details>
 
-**NOTE:** This method of responding to the verification request should only be used
-**in development**. After you deploy your application to production, you should come back and modify
-your Request URL appropriately.
+<br/>
+
+<details>
+<summary><strong>I'm getting an error about the `challenge` parameter. Help?</strong></summary>
+
+Before you can save the subscription, your app will need to respond to a challenge at your chosen
+request URL. I know what you're thinking: 🤔 _How can I respond if I haven't written my app yet?_
+This package comes with a command line tool which starts a server that can properly respond to the
+challenge. If you're using the development proxy as described above, you can run the tool from
+inside your project directory (after this package has been installed) with the following command:
+
+```bash
+./node_modules/.bin/slack-verify --secret <signing_secret> [--path=/slack/events] [--port=3000]
+```
+
+You'll need to substitute your own signing secret for `<signing_secret>`. The path and port values
+are optional. If your request URL includes a different path, you should specify it with
+`--path=/my/path/here` (no brackets). Similarly, if your development proxy is forwarding requests to
+a different port, you should specify it with `--port=8888` (no brackets). If you're using the
+defaults, you can ignore everything after `<signing_secret>`. You should **only use the command line
+tool in development**. If your app is up and running, the adapter will automatically respond to
+challenges.
+
+You might need to click "Retry" in the Request URL input to ask Slack to send the challenge
+again. Once the request URL is verified, you can terminate the two processes (command line tool and
+development server) with Ctrl+C.
+</details>
+
+<br/>
+
+Add each event type your app requires. In the tables below, you may add Workspace events and Bot events.
+Once you've selected all the event types, be sure to **Save Changes**.
+
+Lastly, if you've added event types that require scopes your app did not previously have, you'll need to
+reinstall the app into the workspace(s) from where you'd like Slack to send your app new events. To quickly
+install the app to your Development Workspace, visit the **Install App** page.
 
 ## Usage
 
 The easiest way to start using the Events API is by using the built-in HTTP server.
 
 ```javascript
-// Initialize using verification token from environment variables
-const createSlackEventAdapter = require('@slack/events-api').createSlackEventAdapter;
+// Initialize using signing secret from environment variables
+const { createSlackEventAdapter } = require('@slack/events-api');
 const slackEvents = createSlackEventAdapter(process.env.SLACK_SIGNING_SECRET);
 const port = process.env.PORT || 3000;
 
@@ -87,7 +129,7 @@ slackEvents.start(port).then(() => {
 });
 ```
 
-**NOTE**: To use the example above, you need to add a Team Event such as `message.im` in the Event
+**NOTE**: To use the example above, you need to add a Workspace Event such as `message.im` in the Event
 Subscriptions section of your Slack App configuration settings.
 
 ### Using with Express
@@ -98,8 +140,8 @@ middleware by calling the `expressMiddleware()` method;
 ```javascript
 const http = require('http');
 
-// Initialize using verification token from environment variables
-const createSlackEventAdapter = require('@slack/events-api').createSlackEventAdapter;
+// Initialize using signing secret from environment variables
+const { createSlackEventAdapter } = require('@slack/events-api');
 const slackEvents = createSlackEventAdapter(process.env.SLACK_SIGNING_SECRET);
 const port = process.env.PORT || 3000;
 
@@ -125,18 +167,24 @@ http.createServer(app).listen(port, () => {
 });
 ```
 
-> ⚠️ As of `v2.0.0`, the Events API adapter parses raw request bodies while performing request signing verification. This means developers no longer need to use `body-parser` middleware to parse JSON-encoded requests.
+> ⚠️ As of `v2.0.0`, the Events API adapter parses raw request bodies while performing request signing verification. This means apps no longer need to use `body-parser` middleware to parse JSON-encoded requests.
 
 **NOTE**: To use the example above, you need to add a Team Event such as `message.im` in the Event
 Subscriptions section of your Slack App configuration settings.
 
-## Documentation
+## Examples
+
+*  [Greet And React](examples/greet-and-react) - A ready to run sample app that listens for messages and
+   emoji reactions, and responds to them. It is built on top of the [Express](https://expressjs.com) web framework. It also implements [OAuth](https://api.slack.com/docs/oauth) to demonstate how an app can handle
+   installation to additional workspaces and be structured to handle events from multiple workspaces.
+
+## Reference Documentation
 
 To learn more, see the [reference documentation](docs/reference.md).
 
 ## Support
 
-Need help? Join the [Bot Developer Hangout](http://dev4slack.xoxco.com/) team and talk to us in
+Need help? Join the [Bot Developer Hangout](https://community.botkit.ai) team and talk to us in
 [#slack-api](https://dev4slack.slack.com/messages/slack-api/).
 
 You can also [create an Issue](https://github.com/slackapi/node-slack-events-api/issues/new)

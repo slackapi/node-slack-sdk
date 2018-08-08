@@ -46,16 +46,21 @@ documentation is written manually in markdown in `docs/reference.md`.
 ### Releasing
 
 1.  Create the commit for the release:
+    *  Create and checkout a new branch for the release, for example `rel-v1.0.8`.
     *  Bump the version number in adherence to [Semantic Versioning](http://semver.org/) in `package.json`.
     *  Commit with a message including the new version number. For example `v1.0.8`.
-    *  Tag the commit with the version number. For example `v1.0.8`.
+    *  Push the branch to your fork (`git push username rel-v1.0.8`).
+    *  Open the PR from your fork to the origin repo. Get code review. Merge the PR.
 
 2.  Distribute the release
-    *  Publish to the appropriate package manager. Once you have permission to publish on npm, you
-       can run `npm publish`.
-    *  Create a GitHub Release. This will also serve as a Changelog for the project. Add a
-       description of changes to the Changelog. Mention Issue and PR #'s and @-mention
-       contributors.
+    *  In your local working copy, make sure you fetch from the repo, checkout and update your master branch.
+    *  Make sure the project has been built locally (`npm run build`). It is a good idea to reset the
+       `/node_modules` directory and use a low LTS version of node (e.g. v4.x).
+    *  Publish to npm. Once you have permission to publish on npm, you can run `npm publish`.
+    *  Create a GitHub Release and the associated git tag. When creating a new release, make sure to
+       select the commit with the version number as the commit messsage (e.g. `v1.0.8`). This will also
+       serve as a Changelog for the project. Add a description of changes to the Changelog. Mention Issue
+       and PR #'s and @-mention contributors.
 
 3.  (Slack Internal) Communicate the release internally. Include a link to the GitHub Release.
 

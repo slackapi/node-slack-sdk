@@ -5,9 +5,9 @@ import { createSlackEventAdapter } from './index';
 
 const argv = yargs
   .options({
-    token: {
-      alias: 't',
-      describe: 'Slack signing secret from the App management page',
+    secret: {
+      alias: 's',
+      describe: 'Slack request signing secret from the App management page',
       demand: true,
       type: 'string',
     },
@@ -27,7 +27,7 @@ const argv = yargs
   .help()
   .argv;
 
-const slackEvents = createSlackEventAdapter(argv.token);
+const slackEvents = createSlackEventAdapter(argv.secret);
 
 /* eslint-disable no-console */
 slackEvents

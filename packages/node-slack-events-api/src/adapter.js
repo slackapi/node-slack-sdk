@@ -10,7 +10,7 @@ export const errorCodes = {
   BODY_PARSER_NOT_PERMITTED: 'SLACKADAPTER_BODY_PARSER_NOT_PERMITTED_FAILURE',
 };
 
-export default class SlackEventAdapter extends EventEmitter {
+export class SlackEventAdapter extends EventEmitter {
   constructor(signingSecret, options = {}) {
     if (!isString(signingSecret)) {
       throw new TypeError('SlackEventAdapter needs a verification token');
@@ -84,5 +84,9 @@ export default class SlackEventAdapter extends EventEmitter {
   requestListener(middlewareOptions = {}) {
     return createHTTPHandler(this, middlewareOptions);
   }
-
 }
+
+/**
+ * @alias module:adapter
+ */
+export default SlackEventAdapter;
