@@ -131,10 +131,7 @@ export class RTMClient extends EventEmitter {
 
                   return this.autoReconnect && isRecoverable;
                 })
-                .ignore().withAction(() => {
-                  // dispatch 'failure' on parent machine to transition out of this submachine's states
-                  this.stateMachine.handle('failure');
-                })
+                .transitionTo('failed')
           .state('authenticated')
             .onEnter((_state, context) => {
               this.authenticated = true;
@@ -145,6 +142,11 @@ export class RTMClient extends EventEmitter {
             })
             .on('websocket open').transitionTo('handshaking')
           .state('handshaking') // a state in which to wait until the 'server hello' event
+          .state('failed')
+            .onEnter((_state, context) => {
+              // dispatch 'failure' on parent machine to transition out of this submachine's states
+              this.stateMachine.handle('failure', context.error);
+            })
           .global()
             .onStateEnter((state) => {
               this.logger.debug(`transitioning to state: connecting:${state}`);
