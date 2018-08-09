@@ -311,6 +311,21 @@ describe('WebClient', function () {
       });
     });
 
+    it('should embed an actor in the request headers', function () {
+      const userId = 'USERID';
+      const scope = nock('https://slack.com', {
+          reqheaders: {
+            'X-Slack-User': userId,
+          },
+        })
+        .post(/api/)
+        .reply(200, { ok: true });
+      return this.client.apiCall('method', { actor: userId })
+        .then(() => {
+          scope.done();
+        });
+    });
+
     describe('when API arguments contain binary to upload', function () {
       beforeEach(function () {
         const self = this;

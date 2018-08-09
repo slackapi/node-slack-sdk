@@ -153,6 +153,15 @@ export class WebClient extends EventEmitter {
         );
       }
 
+      // build headers
+      const headers = {
+        'user-agent': this.userAgent,
+      };
+      if (options !== undefined && (options as any).actor !== undefined) {
+        headers['X-Slack-User'] = (options as any).actor;
+        delete (options as any).actor;
+      }
+
       const methodSupportsCursorPagination = methods.cursorPaginationEnabledMethods.has(method);
       const optionsPaginationType = getOptionsPaginationType(options);
 
@@ -211,12 +220,10 @@ export class WebClient extends EventEmitter {
                 const response = await got.post(urlJoin(this.slackApiUrl, method),
                   // @ts-ignore
                   Object.assign({
+                    headers,
                     form: !canBodyBeFormMultipart(requestBody),
                     body: requestBody,
                     retries: 0,
-                    headers: {
-                      'user-agent': this.userAgent,
-                    },
                     throwHttpErrors: false,
                     agent: this.agentConfig,
                   }, this.tlsConfig),
