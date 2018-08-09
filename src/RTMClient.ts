@@ -233,10 +233,11 @@ export class RTMClient extends EventEmitter {
           .onSuccess().transitionTo('connecting')
         .onExit(() => this.teardownWebsocket())
       .global()
-        .onStateEnter((state) => {
+        .onStateEnter((state, context) => {
           this.logger.debug(`transitioning to state: ${state}`);
           // Emits events: `disconnected`, `connecting`, `connected`, 'disconnecting', 'reconnecting'
-          this.emit(state);
+          // event payload is anything related to the event, i.e. an error on disconnect
+          this.emit(state, context.eventPayload);
         })
     .getConfig();
 
@@ -356,8 +357,7 @@ export class RTMClient extends EventEmitter {
    * Begin an RTM session using the provided options. This method must be called before any messages can
    * be sent or received.
    */
-  public start(options?: methods.RTMStartArguments | methods.RTMConnectArguments): void {
-    // TODO: should this return a Promise<WebAPICallResult>?
+  public start(options?: methods.RTMStartArguments | methods.RTMConnectArguments): Promise<WebAPICallResult> {
     // TODO: make a named interface for the type of `options`. it should end in -Options instead of Arguments.
 
     this.logger.debug('start()');
@@ -367,18 +367,40 @@ export class RTMClient extends EventEmitter {
 
     // delegate behavior to state machine
     this.stateMachine.handle('start');
+
+    // return a promise that resolves with the connection information
+    return new Promise((resolve, reject) => {
+      this.once('authenticated', (result) => {
+        this.removeListener('disconnected', reject);
+        resolve(result);
+      });
+      this.once('disconnected', (err) => {
+        this.removeListener('authenticated', resolve);
+        reject(err);
+      });
+    });
   }
 
   /**
    * End an RTM session. After this method is called no messages will be sent or received unless you call
    * start() again later.
    */
-  public disconnect(): void {
-    // TODO: should this return a Promise<void>?
-    this.logger.debug('manual disconnect');
+  public disconnect(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.logger.debug('manual disconnect');
 
-    // delegate behavior to state machine
-    this.stateMachine.handle('explicit disconnect');
+      // resolve (or reject) on disconnect
+      this.once('disconnected', (err) => {
+        if (err instanceof Error) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+
+      // delegate behavior to state machine
+      this.stateMachine.handle('explicit disconnect');
+    });
   }
 
   /**
