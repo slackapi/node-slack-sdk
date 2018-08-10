@@ -311,7 +311,7 @@ describe('WebClient', function () {
       });
     });
 
-    it('should embed an actor in the request headers', function () {
+    it('should the user on whose behalf the method is called in the request headers', function () {
       const userId = 'USERID';
       const scope = nock('https://slack.com', {
           reqheaders: {
@@ -320,7 +320,7 @@ describe('WebClient', function () {
         })
         .post(/api/)
         .reply(200, { ok: true });
-      return this.client.apiCall('method', { actor: userId })
+      return this.client.apiCall('method', { on_behalf_of: userId })
         .then(() => {
           scope.done();
         });

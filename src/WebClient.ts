@@ -157,9 +157,9 @@ export class WebClient extends EventEmitter {
       const headers = {
         'user-agent': this.userAgent,
       };
-      if (options !== undefined && (options as any).actor !== undefined) {
-        headers['X-Slack-User'] = (options as any).actor;
-        delete (options as any).actor;
+      if (options !== undefined && optionsAreUserPerspectiveEnabled(options)) {
+        headers['X-Slack-User'] = options.on_behalf_of;
+        delete options.on_behalf_of;
       }
 
       const methodSupportsCursorPagination = methods.cursorPaginationEnabledMethods.has(method);
@@ -801,6 +801,13 @@ function canBodyBeFormMultipart(body: FormCanBeURLEncoded | BodyCanBeFormMultipa
   // tried using `isStream.readable(body)` but that failes because the object doesn't have a `_read()` method or a
   // `_readableState` property
   return isStream(body);
+}
+
+/**
+ * Determines whether WebAPICallOptions conform to UserPerspectiveEnabled
+ */
+function optionsAreUserPerspectiveEnabled(options: WebAPICallOptions): options is methods.UserPerspectiveEnabled {
+  return (options as any).on_behalf_of !== undefined;
 }
 
 /**
