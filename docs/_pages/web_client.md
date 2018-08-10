@@ -177,7 +177,7 @@ web.channels.list()
 
 When using [workspace tokens](https://api.slack.com/docs/working-with-workspace-tokens), some methods allow your app
 to perform the action [on behalf of a user](https://api.slack.com/docs/working-for-users). To use one of these methods,
-your app will provide the user's ID in the options a property named `on_behalf_of`.
+your app will provide the user's ID as an option named `on_behalf_of`.
 
 ```javascript
 const { WebClient } = require('@slack/client');
