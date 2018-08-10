@@ -311,6 +311,21 @@ describe('WebClient', function () {
       });
     });
 
+    it('should the user on whose behalf the method is called in the request headers', function () {
+      const userId = 'USERID';
+      const scope = nock('https://slack.com', {
+          reqheaders: {
+            'X-Slack-User': userId,
+          },
+        })
+        .post(/api/)
+        .reply(200, { ok: true });
+      return this.client.apiCall('method', { on_behalf_of: userId })
+        .then(() => {
+          scope.done();
+        });
+    });
+
     describe('when API arguments contain binary to upload', function () {
       beforeEach(function () {
         const self = this;

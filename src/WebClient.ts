@@ -153,6 +153,15 @@ export class WebClient extends EventEmitter {
         );
       }
 
+      // build headers
+      const headers = {
+        'user-agent': this.userAgent,
+      };
+      if (options !== undefined && optionsAreUserPerspectiveEnabled(options)) {
+        headers['X-Slack-User'] = options.on_behalf_of;
+        delete options.on_behalf_of;
+      }
+
       const methodSupportsCursorPagination = methods.cursorPaginationEnabledMethods.has(method);
       const optionsPaginationType = getOptionsPaginationType(options);
 
@@ -211,12 +220,10 @@ export class WebClient extends EventEmitter {
                 const response = await got.post(urlJoin(this.slackApiUrl, method),
                   // @ts-ignore
                   Object.assign({
+                    headers,
                     form: !canBodyBeFormMultipart(requestBody),
                     body: requestBody,
                     retries: 0,
-                    headers: {
-                      'user-agent': this.userAgent,
-                    },
                     throwHttpErrors: false,
                     agent: this.agentConfig,
                   }, this.tlsConfig),
@@ -794,6 +801,13 @@ function canBodyBeFormMultipart(body: FormCanBeURLEncoded | BodyCanBeFormMultipa
   // tried using `isStream.readable(body)` but that failes because the object doesn't have a `_read()` method or a
   // `_readableState` property
   return isStream(body);
+}
+
+/**
+ * Determines whether WebAPICallOptions conform to UserPerspectiveEnabled
+ */
+function optionsAreUserPerspectiveEnabled(options: WebAPICallOptions): options is methods.UserPerspectiveEnabled {
+  return (options as any).on_behalf_of !== undefined;
 }
 
 /**
