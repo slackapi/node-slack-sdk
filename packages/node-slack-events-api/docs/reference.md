@@ -19,6 +19,19 @@ If `options.includeHeaders` is truthy, then the SlackEventAdapter will emit an a
 with the event that has the parsed headers of the HTTP request. See SlackEventAdapter for more
 details.
 
+#### verifyRequestSignature([_params_])
+
+A helper method for verifying a request signature according to the docs here: https://api.slack.com/docs/verifying-requests-from-slack
+
+The `params.signingSecret` is a required string parameter which you can find in your Slack app's Basic
+Information.
+
+The `params.requestSignature` is a required string parameter taken from the 'x-slack-signature' header of the request.
+
+The `params.requestTimestamp` is a required numeric parameter taken from the 'x-slack-request-timestamp' header of the request.
+
+The `params.body` is a required string parameter for the raw, unparsed request body. If your application automatically parses JSON request you may need to retrieve the raw body prior to parsing.
+
 ### SlackEventAdapter
 
 This object is responsible for consuming HTTP requests from the Slack Events API (via a request handler or
