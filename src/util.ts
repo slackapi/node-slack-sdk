@@ -1,3 +1,4 @@
+/// <reference lib="esnext.asynciterable" />
 import * as util from 'util';
 import * as os from 'os';
 import { Agent } from 'http';
