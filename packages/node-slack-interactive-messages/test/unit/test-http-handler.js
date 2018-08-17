@@ -152,6 +152,7 @@ describe('createHTTPHandler', function () {
       res.end.callsFake(function (json) {
         assert(dispatch.called);
         assert.equal(res.statusCode, 200);
+        assert(res.setHeader.calledWith('Content-Type', 'application/json'));
         assert.deepEqual(json, JSON.stringify(content));
         done();
       });
