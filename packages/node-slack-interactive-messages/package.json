@@ -1,6 +1,6 @@
 {
   "name": "@slack/interactive-messages",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Slack Interactive Messages module",
   "main": "dist/index.js",
   "repository": "https://github.com/slackapi/node-slack-interactive-messages.git",
