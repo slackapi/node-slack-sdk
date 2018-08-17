@@ -28,6 +28,7 @@ export function createHTTPHandler(adapter) {
       if (typeof content === 'string') {
         res.end(content);
       } else if (content) {
+        res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify(content));
       } else {
         res.end();
