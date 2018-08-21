@@ -13,7 +13,7 @@ export const errorCodes = {
 export class SlackEventAdapter extends EventEmitter {
   constructor(signingSecret, options = {}) {
     if (!isString(signingSecret)) {
-      throw new TypeError('SlackEventAdapter needs a verification token');
+      throw new TypeError('SlackEventAdapter needs a signing secret');
     }
 
     super();

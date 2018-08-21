@@ -9,7 +9,7 @@ const http = require('http');
 const express = require('express');
 
 // *** Initialize event adapter using signing secret from environment variables ***
-const slackEvents = slackEventsApi.createEventAdapter(process.env.SIGNING_SECRET, {
+const slackEvents = slackEventsApi.createEventAdapter(process.env.SLACK_SIGNING_SECRET, {
   includeBody: true
 });
 
