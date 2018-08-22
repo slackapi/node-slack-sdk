@@ -606,7 +606,11 @@ export class WebClient extends EventEmitter {
   };
 
   /**
-   * TODO
+   * Transforms options (a simple key-value object) into an acceptable value for a body. This can be either
+   * a string, used when posting with a content-type of url-encoded. Or, it can be a readable stream, used
+   * when the options contain a binary (a stream or a buffer) and the upload should be done with content-type
+   * multipart/form-data.
+   *
    * @param options arguments for the Web API method
    * @param headers a mutable object representing the HTTP headers for the outgoing request
    */
