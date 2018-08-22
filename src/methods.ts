@@ -103,6 +103,7 @@ export interface Dialog {
   }[];
   submit_label?: string;
   notify_on_cancel?: boolean;
+  state?: string;
 }
 
 export interface MessageAttachment {
