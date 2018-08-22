@@ -121,6 +121,8 @@ export class WebClient extends EventEmitter {
       validateStatus: () => true, // all HTTP status codes should result in a resolved promise (as opposed to only 2xx)
       maxRedirects: 0,
     });
+    // serializeApiCallOptions will always determine the appropriate content-type
+    delete this.axios.defaults.headers.post['Content-Type'];
 
     this.logger.debug('initialized');
   }
@@ -634,8 +636,7 @@ export class WebClient extends EventEmitter {
     // A body with binary content should be serialized as multipart/form-data
     if (containsBinaryData) {
       this.logger.debug('request arguments contain binary data');
-      headers['Content-Type'] = 'multipart/form-data';
-      return flattened.reduce((form, [key, value]) => {
+      const form = flattened.reduce((form, [key, value]) => {
         if (Buffer.isBuffer(value) || isStream(value)) {
           const options: FormData.AppendOptions = {};
           options.filename = (() => {
@@ -659,6 +660,12 @@ export class WebClient extends EventEmitter {
         }
         return form;
       }, new FormData());
+      // Merge FormData provided headers into headers param
+      // not reassigning to headers param since it is passed by reference and behaves as an inout param
+      for (const [header, value] of objectEntries(form.getHeaders())) {
+        headers[header] = value;
+      }
+      return form;
     }
 
     // Otherwise, a simple key-value object is returned
