@@ -9,6 +9,7 @@ headings:
     - title: Adding attachments to a message
     - title: Uploading a file
     - title: Getting a list of channels
+    - title: Using refresh tokens
     - title: Using a callback instead of a Promise
     - title: Changing the retry configuration
     - title: Changing the request concurrency
@@ -187,6 +188,71 @@ web.channels.list((err, res) => {
   res.channels.forEach(c => console.log(c.name));
 });
 
+```
+
+---
+
+### Using automatic refresh tokens
+
+If you're using workspace apps, refresh tokens can be used to obtain short-lived access tokens that power your Web API calls from the `WebClient` (this is *required* for distributed apps). To enable the `WebClient` to automatically refresh and swap your access tokens, you need to pass your app's refresh token, client ID, and client secret in the `WebClientOptions`. 
+
+At the time of refresh, the `WebClient` will emit a `token_refreshed` event that will contain the new access token (`access_token`) and time to expiration (`expires_in`). It's recommended to listen to this event and store the access token in a database so you have access to your active token.
+
+```javascript
+const { WebClient } = require('@slack/client');
+
+const refreshToken = process.env.SLACK_REFRESH_TOKEN;
+const id = process.env.SLACK_CLIENT_ID;
+const secret = process.env.SLACK_CLIENT_SECRET;
+
+// Intialize a data structure to store team access token info (typically stored in a database)
+const slackAccessTokens = {};
+// Associated team ID
+const teamId = 'T12345';
+
+// Fetch access token by team id
+function getTokenByTeamId(id) {
+  if (!slackAccessTokens[id]) {
+    return undefined;
+  } else {
+    return slackAccessTokens[id];
+  }
+}
+
+const accessToken = getTokenByTeamId(teamId);
+
+// Initiate WebClient
+const web = new WebClient(accessToken, {
+  clientId: id,
+  clientSecret: secret,
+  refreshToken: refreshToken
+});
+
+/* When a token is refreshed, a token_refreshed event is triggered:
+ * {
+ *    "access_token": "xoxa-...",
+ *    "expires_in": 86400,
+ *    "team_id": "T12345",
+ *    "enterprise_id": "E1234A12AB"
+ * }
+ */
+web.on('token_refreshed', (event) => {
+  // It's recommended you encrypt and store your new access token in a database to access it later
+  slackAuthorizations[event.team_id] = { access_token: event.access_token, expires_in: event.expires_in };
+
+  console.log(`Access token expires in ${event.expires_in}`);
+});
+```
+
+
+---
+
+### Manually refreshing tokens
+
+If you need more control over token refreshing, you can listen for `invalid_auth` errors and call `oauth.access` yourself:
+
+```javascript
+//This example needs to be done heehehehe
 ```
 
 ---
