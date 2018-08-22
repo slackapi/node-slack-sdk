@@ -208,7 +208,7 @@ const secret = process.env.SLACK_CLIENT_SECRET;
 // Intialize a data structure to store team access token info (typically stored in a database)
 const slackAccessTokens = {};
 // Associated team ID
-const teamId = 'T12345';
+let teamId = '';
 
 // Fetch access token by team id
 function getTokenByTeamId(id) {
@@ -239,6 +239,8 @@ const web = new WebClient(accessToken, {
 web.on('token_refreshed', (event) => {
   // It's recommended you encrypt and store your new access token in a database to access it later
   slackAuthorizations[event.team_id] = { access_token: event.access_token, expires_in: event.expires_in };
+  // Save active team ID
+  teamId = event.team_id;
 
   console.log(`Access token expires in ${event.expires_in}`);
 });
