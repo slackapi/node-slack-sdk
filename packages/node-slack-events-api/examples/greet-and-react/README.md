@@ -19,7 +19,7 @@ changes
 2. Set the following environment variables (all available on the *Basic Information* page) to `.env` (see `.env.sample` if you're developing locally)
 	- `SLACK_CLIENT_ID`: You app's _Client ID_
 	- `SLACK_CLIENT_SECRET`: Your app's _Client Secret_
-	- `SLACK_VERIFICATION_TOKEN`: Your app's _Verification Token_
+	- `SLACK_SIGNING_SECRET`: Your app's _Signing Secret_
 3. If you're running the app locally:
 	- Start the app (`node index.js`)
 	- In another window, start ngrok on the same port as your webserver (`ngrok http $PORT`)
