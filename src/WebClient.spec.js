@@ -1,18 +1,21 @@
 require('mocha');
 const fs = require('fs');
 const path = require('path');
-const { Agent } = require('http');
+const { Agent } = require('https');
+const { Readable } = require('stream');
 const { assert } = require('chai');
 const { WebClient } = require('./WebClient');
+const { ErrorCode } = require('./errors');
 const { LogLevel } = require('./logger');
 const { addAppMetadata } = require('./util');
-const CaptureStdout = require('capture-stdout');
+const rapidRetryPolicy = require('./retry-policies').rapidRetryPolicy;
+const { CaptureConsole } = require('@aoberoi/capture-console');
 const isPromise = require('p-is-promise');
 const nock = require('nock');
 const Busboy = require('busboy');
+const sinon = require('sinon');
 
 const token = 'xoxa-faketoken';
-const fastRetriesForTest = { minTimeout: 0, maxTimeout: 1 };
 
 describe('WebClient', function () {
 
@@ -32,13 +35,13 @@ describe('WebClient', function () {
 
   describe('has an option to change the log output severity', function () {
     beforeEach(function () {
-      this.capture = new CaptureStdout();
+      this.capture = new CaptureConsole();
       this.capture.startCapture();
     });
     it('outputs a debug log on initialization', function () {
       const debuggingClient = new WebClient(token, { logLevel: LogLevel.DEBUG });
       const output = this.capture.getCapturedText();
-      assert.isNotEmpty(output); // should have 2 log lines, but not asserting since that is an implementation detail
+      assert.isNotEmpty(output); // should have at least 1 log line, but not asserting since that is an implementation detail
     });
     afterEach(function () {
       this.capture.stopCapture();
@@ -47,7 +50,7 @@ describe('WebClient', function () {
 
   describe('has an option to provide a logging function', function () {
     beforeEach(function () {
-      this.capture = new CaptureStdout();
+      this.capture = new CaptureConsole();
       this.capture.startCapture();
     });
     it('sends logs to the function and not to stdout', function () {
@@ -71,14 +74,18 @@ describe('WebClient', function () {
 
   describe('apiCall()', function () {
     beforeEach(function () {
-      this.client = new WebClient(token, { retryConfig: fastRetriesForTest });
+      this.client = new WebClient(token, { retryConfig: rapidRetryPolicy });
     });
 
     describe('when making a successful call', function () {
       beforeEach(function () {
         this.scope = nock('https://slack.com')
           .post(/api/)
-          .reply(200, { ok: true });
+          .reply(200, { ok: true,
+            response_metadata: {
+              warnings: ['testWarning1', 'testWarning2']
+            }
+          });
       });
 
       it('should return results in a Promise', function () {
@@ -90,6 +97,19 @@ describe('WebClient', function () {
         });
       });
 
+      it('should send warnings to logs', function() {
+        const output = [];
+        const stub = function (level, message) {
+          output.push([level, message]);
+        }
+        const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger: stub });
+        return warnClient.apiCall('method')
+          .then((result) => {
+            assert.isNotEmpty(output);
+            assert.lengthOf(output, 2, 'two logs pushed onto output');
+          });
+      });
+
       it('should deliver results in a callback', function (done) {
         this.client.apiCall('method', {}, (error, result) => {
           assert.isNotOk(error);
@@ -97,6 +117,23 @@ describe('WebClient', function () {
           this.scope.done();
           done();
         });
+      });
+    });
+
+    describe('with OAuth scopes in the response headers', function () {
+      it('should expose a scopes and acceptedScopes properties on the result', function () {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(200, { ok: true }, {
+            'X-OAuth-Scopes': 'files:read, chat:write:bot',
+            'X-Accepted-OAuth-Scopes': 'files:read'
+          });
+        return this.client.apiCall('method')
+          .then((result) => {
+            assert.deepNestedInclude(result, { 'scopes': ['files:read', 'chat:write:bot'] });
+            assert.deepNestedInclude(result, { 'acceptedScopes': ['files:read'] });
+            scope.done();
+          })
       });
     });
 
@@ -131,8 +168,7 @@ describe('WebClient', function () {
       });
     });
 
-    // TODO: simulate each of the error types
-    describe('when the call fails', function () {
+    describe('when an API call fails', function () {
       beforeEach(function () {
         this.scope = nock('https://slack.com')
           .post(/api/)
@@ -142,8 +178,9 @@ describe('WebClient', function () {
       it('should return a Promise which rejects on error', function (done) {
         const r = this.client.apiCall('method')
         assert(isPromise(r));
-        r.catch(error => {
-          assert.ok(true);
+        r.catch((error) => {
+          assert.instanceOf(error, Error);
+          this.scope.done();
           done();
         });
       });
@@ -151,9 +188,79 @@ describe('WebClient', function () {
       it('should deliver error in a callback', function (done) {
         this.client.apiCall('method', {}, (error) => {
           assert.instanceOf(error, Error);
+          this.scope.done();
           done();
         });
       });
+    });
+
+    it('should fail with WebAPIPlatformError when the API response has an error', function (done) {
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(200, { ok: false, error: 'bad error' });
+      this.client.apiCall('method')
+        .catch((error) => {
+          assert.instanceOf(error, Error);
+          assert.equal(error.code, ErrorCode.PlatformError);
+          assert.nestedPropertyVal(error, 'data.ok', false);
+          assert.nestedPropertyVal(error, 'data.error', 'bad error');
+          scope.done();
+          done();
+        });
+    });
+
+    it('should fail with WebAPIHTTPError when the API response has an unexpected status', function (done) {
+      const body = { foo: 'bar' };
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(500, body);
+      const client = new WebClient(token, { retryConfig: { retries: 0 } });
+      client.apiCall('method')
+        .catch((error) => {
+          assert.instanceOf(error, Error);
+          assert.equal(error.code, ErrorCode.HTTPError);
+          assert.instanceOf(error.original, Error); // TODO: deprecate
+          assert.equal(error.statusCode, 500);
+          assert.exists(error.headers);
+          assert.deepEqual(error.body, body);
+          scope.done();
+          done();
+        });
+    });
+
+    it('should fail with WebAPIRequestError when the API request fails', function (done) {
+      // One known request error is when the node encounters an ECONNREFUSED. In order to simulate this, rather than
+      // using nock, we send the request to a host:port that is not listening.
+      const client = new WebClient(token, { slackApiUrl: 'https://localhost:8999/api/', retryConfig: { retries: 0 } });
+      client.apiCall('method')
+        .catch((error) => {
+          assert.instanceOf(error, Error);
+          assert.equal(error.code, ErrorCode.RequestError);
+          assert.instanceOf(error.original, Error);
+          done();
+        });
+    });
+
+    // Despite trying, could not figure out a good way to simulate a response that emits an error in a reliable way
+    it.skip('should fail with WebAPIReadError when an API response fails', function (done) {
+      class FailingReadable extends Readable {
+        constructor(options) { super(options); }
+        _read(size) {
+          this.emit('error', new Error('test error'));
+        }
+      }
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(200, () => new FailingReadable());
+      const client = new WebClient(token, { retryConfig: { retries: 0 } });
+      client.apiCall('method')
+        .catch((error) => {
+          assert.instanceOf(error, Error);
+          assert.equal(error.code, ErrorCode.ReadError);
+          assert.instanceOf(error.original, Error);
+          scope.done();
+          done();
+        });
     });
 
     it('should properly serialize simple API arguments', function () {
@@ -204,7 +311,20 @@ describe('WebClient', function () {
       });
     });
 
-    it('should remove undefined or null values from complex API arguments');
+    it('should the user on whose behalf the method is called in the request headers', function () {
+      const userId = 'USERID';
+      const scope = nock('https://slack.com', {
+          reqheaders: {
+            'X-Slack-User': userId,
+          },
+        })
+        .post(/api/)
+        .reply(200, { ok: true });
+      return this.client.apiCall('method', { on_behalf_of: userId })
+        .then(() => {
+          scope.done();
+        });
+    });
 
     describe('when API arguments contain binary to upload', function () {
       beforeEach(function () {
@@ -279,6 +399,20 @@ describe('WebClient', function () {
             assert.isString(file.filename);
           });
       });
+
+      it('should filter out undefined values', function () {
+        const imageBuffer = fs.readFileSync(path.resolve('test', 'fixtures', 'train.jpg'));
+
+        return this.client.apiCall('upload', {
+          // the binary argument is necessary to trigger form data serialization
+          someBinaryField: imageBuffer,
+          someUndefinedField: undefined,
+        })
+          .then((parts) => {
+            // the only field is the one related to the token
+            assert.lengthOf(parts.fields, 1);
+          })
+      });
     });
 
     describe('metadata in the user agent', function () {
@@ -321,7 +455,7 @@ describe('WebClient', function () {
           .post(/api/)
           .reply(200, { ok: true });
         // NOTE: appMetaData is only evalued on client construction, so we cannot use the client already created
-        const client = new WebClient(token, { retryConfig: fastRetriesForTest });
+        const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
         return client.apiCall('method')
           .then(() => {
             scope.done();
@@ -331,23 +465,25 @@ describe('WebClient', function () {
   });
 
   describe('apiCall() - without a token', function () {
-    const client = new WebClient(undefined, { retryConfig: fastRetriesForTest });
+    it('should make successful api calls', function () {
+      const client = new WebClient(undefined, { retryConfig: rapidRetryPolicy });
 
-    const scope = nock('https://slack.com')
-      // NOTE: this could create false negatives if the serialization order changes (it shouldn't matter)
-      .post(/api/, 'foo=stringval')
-      .reply(200, { ok: true });
+      const scope = nock('https://slack.com')
+        // NOTE: this could create false negatives if the serialization order changes (it shouldn't matter)
+        .post(/api/, 'foo=stringval')
+        .reply(200, { ok: true });
 
-    const r = client.apiCall('method', { foo: 'stringval' });
-    assert(isPromise(r));
-    return r.then(result => {
-      scope.done();
+      const r = client.apiCall('method', { foo: 'stringval' });
+      assert(isPromise(r));
+      return r.then((result) => {
+        scope.done();
+      });
     });
   });
 
   describe('named method aliases (facets)', function () {
     beforeEach(function () {
-      this.client = new WebClient(token, { retryConfig: fastRetriesForTest });
+      this.client = new WebClient(token, { retryConfig: rapidRetryPolicy });
     });
     it('should properly mount methods as functions', function () {
       // This test doesn't exhaustively check all the method aliases, it just tries a couple.
@@ -377,11 +513,23 @@ describe('WebClient', function () {
   });
 
   describe('has an option to set a custom HTTP agent', function () {
-    // not confident how to test this. one idea is to use sinon to intercept method calls on the agent.
-    it.skip('should send a request using the custom agent', function () {
-      const agent = new Agent();
+    it('should send a request using the custom agent', function () {
+      const agent = new Agent({ keepAlive: true });
+      const spy = sinon.spy(agent, 'addRequest');
       const client = new WebClient(token, { agent });
-      return client.apiCall('method');
+      return client.apiCall('method')
+        .catch(() => {
+          assert(spy.called);
+        })
+        .then(() => {
+          agent.addRequest.restore();
+          agent.destroy();
+        })
+        .catch((error) => {
+          agent.addRequest.restore();
+          agent.destroy();
+          throw error;
+        });
     });
   });
 
@@ -453,14 +601,13 @@ describe('WebClient', function () {
   });
 
   describe('has an option to set the retry policy ', function () {
-
     it('retries a request which fails to get a response', function () {
       const scope = nock('https://slack.com')
         .post(/api/)
-        .replyWithError('could be a ECONNREFUESD, ENOTFOUND, ETIMEDOUT, ECONNRESET')
+        .replyWithError('could be a ECONNREFUSED, ENOTFOUND, ETIMEDOUT, ECONNRESET')
         .post(/api/)
         .reply(200, { ok: true });
-      const client = new WebClient(token, { retryConfig: fastRetriesForTest });
+      const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
       return client.apiCall('method')
         .then((resp) => {
           assert.propertyVal(resp, 'ok', true);
@@ -473,7 +620,7 @@ describe('WebClient', function () {
         .reply(500)
         .post(/api/)
         .reply(200, { ok: true });
-      const client = new WebClient(token, { retryConfig: fastRetriesForTest });
+      const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
       return client.apiCall('method')
         .then((resp) => {
           assert.propertyVal(resp, 'ok', true);
@@ -483,15 +630,272 @@ describe('WebClient', function () {
   });
 
   describe('has rate limit handling', function () {
-    it('should expose retry headers in the response');
-    // NOTE: see retry policy note below
-    it('should allow rate limit triggered retries to be turned off');
+    describe('when configured to reject rate-limited calls', function () {
+      beforeEach(function () {
+        this.client = new WebClient(token, { rejectRateLimitedCalls: true });
+      });
 
-    describe('when a request fails due to rate-limiting', function () {
-      // NOTE: is this retrying configurable with the retry policy? is it subject to the request concurrency?
-      it('should automatically retry the request after the specified timeout');
-      it('should pause the remaining requests in queue');
-      it('should emit a rate_limited event on the client');
+      it('should reject with a WebAPIRateLimitedError when a request fails due to rate-limiting', function (done) {
+        const retryAfter = 5;
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(429, '', { 'retry-after': retryAfter });
+        this.client.apiCall('method')
+          .catch((error) => {
+            assert.instanceOf(error, Error);
+            assert.equal(error.code, ErrorCode.RateLimitedError);
+            assert.equal(error.retryAfter, retryAfter);
+            scope.done();
+            done();
+          });
+      });
+
+      it('should emit a rate_limited event on the client', function (done) {
+        const spy = sinon.spy();
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(429, {}, { 'retry-after': 0 });
+        const client = new WebClient(token, { rejectRateLimitedCalls: true });
+        client.on('rate_limited', spy);
+        client.apiCall('method')
+          .catch((err) => {
+            assert(spy.calledOnceWith(0))
+            scope.done();
+            done();
+          });
+      });
+    });
+
+    it('should automatically retry the request after the specified timeout', function () {
+      const retryAfter = 1;
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(429, '', { 'retry-after': retryAfter })
+        .post(/api/)
+        .reply(200, { ok: true });
+      const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
+      const startTime = Date.now();
+      return client.apiCall('method')
+        .then(() => {
+          const diff = Date.now() - startTime;
+          assert.isAtLeast(diff, retryAfter * 1000, 'elapsed time is at least a second');
+          scope.done();
+        });
+    });
+
+    it('should pause the remaining requests in queue', function () {
+      const startTime = Date.now();
+      const retryAfter = 1;
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(429, '', { 'retry-after': retryAfter })
+        .post(/api/)
+        .reply(200, function (uri, requestBody) {
+          return JSON.stringify({ ok: true, diff: Date.now() - startTime });
+        })
+        .post(/api/)
+        .reply(200, function (uri, requestBody) {
+          return JSON.stringify({ ok: true, diff: Date.now() - startTime });
+        });
+      const client = new WebClient(token, { retryConfig: rapidRetryPolicy, maxRequestConcurrency: 1 });
+      const firstCall = client.apiCall('method');
+      const secondCall = client.apiCall('method');
+      return Promise.all([firstCall, secondCall])
+        .then(([firstResult, secondResult]) => {
+          assert.isAtLeast(firstResult.diff, retryAfter * 1000);
+          assert.isAtLeast(secondResult.diff, retryAfter * 1000);
+          scope.done();
+        });
+    });
+
+    it('should emit a rate_limited event on the client', function (done) {
+      const spy = sinon.spy();
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(429, {}, { 'retry-after': 0 });
+      const client = new WebClient(token, { retryConfig: { retries: 0 } });
+      client.on('rate_limited', spy);
+      client.apiCall('method')
+        .catch((err) => {
+          assert(spy.calledOnceWith(0))
+          scope.done();
+          done();
+        });
+    });
+    // TODO: when parsing the retry header fails
+  });
+
+  describe('has support for automatic pagination', function () {
+    beforeEach(function () {
+      this.client = new WebClient(token);
+    });
+
+    describe('when using a method that supports cursor-based pagination', function () {
+      it('should automatically paginate and return a single merged result when no pagination options are supplied', function () {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(200, { ok: true, channels: ['CONVERSATION_ONE', 'CONVERSATION_TWO'], response_metadata: { next_cursor: 'CURSOR' } })
+          .post(/api/, (body) => {
+            // NOTE: limit value is compared as a string because nock doesn't properly serialize the param into a number
+            return body.limit && body.limit === '200' && body.cursor && body.cursor === 'CURSOR';
+          })
+          .reply(200, { ok: true, channels: ['CONVERSATION_THREE'], response_metadata: { some_key: 'some_val' }});
+
+        return this.client.channels.list()
+          .then((result) => {
+            assert.lengthOf(result.channels, 3);
+            assert.deepEqual(result.channels, ['CONVERSATION_ONE', 'CONVERSATION_TWO', 'CONVERSATION_THREE'])
+            // the following line makes sure that besides the paginated property, other properties of the result are
+            // sourced from the last response
+            assert.propertyVal(result.response_metadata, 'some_key', 'some_val');
+            scope.done();
+          });
+      });
+
+      it('should allow the automatic page size to be configured', function () {
+        const pageSize = 400;
+        const scope = nock('https://slack.com')
+          .post(/api/, (body) => {
+            // NOTE: limit value is compared as a string because nock doesn't properly serialize the param into a number
+            return body.limit && body.limit === ('' + pageSize);
+          })
+          .reply(200, { ok: true, channels: [], response_metadata: {} })
+
+        const client = new WebClient(token, { pageSize });
+        return client.channels.list()
+          .then((result) => {
+            scope.done();
+          });
+      });
+
+      it('should not automatically paginate when pagination options are supplied', function () {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(200, { ok: true, channels: ['CONVERSATION_ONE'], response_metadata: { next_cursor: 'CURSOR' } });
+
+        return this.client.channels.list({ limit: 1 })
+          .then((result) => {
+            assert.deepEqual(result.channels, ['CONVERSATION_ONE'])
+            scope.done();
+          });
+      });
+
+      it('should warn when pagination options for timeline or traditional pagination are supplied', function () {
+        const capture = new CaptureConsole();
+        capture.startCapture();
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(200, { ok: true, messages: [] });
+
+        // this method supports both cursor-based and timeline-based pagination
+        return this.client.conversations.history({ oldest: 'MESSAGE_TIMESTAMP' })
+          .then(() => {
+            const output = capture.getCapturedText();
+            assert.isNotEmpty(output);
+            scope.done();
+          })
+          .then(() => {
+            capture.stopCapture();
+          }, (error) => {
+            capture.stopCapture();
+            throw error;
+          });
+      });
+    });
+
+    it('should warn when options indicate mixed pagination types', function () {
+      const capture = new CaptureConsole();
+      capture.startCapture();
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(200, { ok: true, messages: [] });
+
+      // oldest indicates timeline-based pagination, cursor indicates cursor-based pagination
+      return this.client.conversations.history({ oldest: 'MESSAGE_TIMESTAMP', cursor: 'CURSOR' })
+        .then(() => {
+          const output = capture.getCapturedText();
+          assert.isNotEmpty(output);
+          scope.done();
+        })
+        .then(() => {
+          capture.stopCapture();
+        }, (error) => {
+          capture.stopCapture();
+          throw error;
+        });
+    });
+
+    it('should warn when the options indicate a pagination type that is incompatible with the method', function () {
+      const capture = new CaptureConsole();
+      capture.startCapture();
+      const scope = nock('https://slack.com')
+        .persist()
+        .post(/api/)
+        // its important to note that these requests all indicate some kind of pagination, so there should be no
+        // auto-pagination, and therefore there's no need to specify a list-type data in the response.
+        .reply(200, { ok: true });
+
+      const requests = [
+        // when the options are cursor and the method is not
+        this.client.channels.history({ cursor: 'CURSOR' }),
+        // when the options are timeline and the method is not
+        this.client.channels.list({ oldest: 'MESSAGE_TIMESTAMP' }),
+        // when the options are traditional and the method is not
+        this.client.channels.list({ page: 3, count: 100 }),
+      ];
+
+      return Promise.all(requests)
+        .then(() => {
+          const output = capture.getCapturedText();
+          assert.isAtLeast(output.length, 3);
+          scope.done();
+        })
+        .then(() => {
+          capture.stopCapture();
+        }, (error) => {
+          capture.stopCapture();
+          throw error;
+        });
+    });
+
+    describe('when using a method that supports only non-cursor pagination techniques', function () {
+      it('should not automatically paginate', function () {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(200, { ok: true, messages: [{}, {}], has_more: false });
+
+        return this.client.mpim.history({ channel: 'MPIM_ID' })
+          .then((result) => {
+            assert.isTrue(result.ok);
+            scope.done();
+          });
+      });
+    });
+  });
+
+  describe('warnings', function () {
+    it('should warn when calling a deprecated method', function () {
+      const capture = new CaptureConsole();
+      capture.startCapture();
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(200, { ok: true });
+
+      const client = new WebClient(token);
+      return client.files.comments.add({ file: 'FILE', comment: 'COMMENT' })
+        .then(() => {
+          const output = capture.getCapturedText();
+          assert.isNotEmpty(output);
+          const warning = output[0];
+          assert.match(warning, /^\[WARN\]/);
+          scope.done();
+        })
+        .then(() => {
+          capture.stopCapture();
+        }, (error) => {
+          capture.stopCapture();
+          throw error;
+        });
     });
   });
 

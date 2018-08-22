@@ -43,6 +43,11 @@ export class KeepAlive extends EventEmitter {
   private pingTimer?: NodeJS.Timer;
 
   /**
+   * A timer for when to stop listening for an incoming event that acknowledges the ping (counts as a pong)
+   */
+  private pongTimer?: NodeJS.Timer;
+
+  /**
    * The message ID of the latest ping sent, or undefined is there hasn't been one sent.
    */
   private lastPing?: number;
@@ -60,12 +65,12 @@ export class KeepAlive extends EventEmitter {
   /**
    * Flag that indicates whether this object is still monitoring.
    */
-  public isMonitoring?: Boolean;
+  public isMonitoring: boolean;
 
   /**
    * Flag that indicates whether recommend_reconnect event has been emitted and stop() has not been called.
    */
-  public recommendReconnect?: Boolean;
+  public recommendReconnect: boolean;
 
   constructor({
     clientPingTimeout = 6000,
@@ -85,6 +90,9 @@ export class KeepAlive extends EventEmitter {
       );
     }
 
+    this.isMonitoring = false;
+    this.recommendReconnect = false;
+
     // Logging
     if (logger !== undefined) {
       this.logger = loggerFromLoggingFunc(KeepAlive.loggerName, logger);
@@ -96,9 +104,10 @@ export class KeepAlive extends EventEmitter {
 
   /**
    * Start monitoring the RTMClient. This method should only be called after the client's websocket is already open.
-   * @param client
    */
   public start(client: RTMClient): void {
+    this.logger.debug('start monitoring');
+
     if (!client.connected) {
       throw errorWithCode(
         new Error(),
@@ -118,7 +127,14 @@ export class KeepAlive extends EventEmitter {
    * after that.
    */
   public stop(): void {
+    this.logger.debug('stop monitoring');
+
     this.clearPreviousPingTimer();
+    this.clearPreviousPongTimer();
+    if (this.client !== undefined) {
+      this.client.off('outgoing_message', this.setPingTimer);
+      this.client.off('slack_event', this.attemptAcknowledgePong);
+    }
     this.lastPing = this.client = undefined;
     this.recommendReconnect = this.isMonitoring = false;
   }
@@ -154,40 +170,40 @@ export class KeepAlive extends EventEmitter {
   private sendPing(): void {
     try {
       if (this.client === undefined) {
+        if (!this.isMonitoring) {
+          // if monitoring stopped before the ping timer fires, its safe to return
+          this.logger.debug('stopped monitoring before ping timer fired');
+          return;
+        }
         throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
       }
       this.logger.debug('ping timer expired, sending ping');
       this.client.send('ping')
         .then((messageId) => {
           if (this.client === undefined) {
+            if (!this.isMonitoring) {
+              // if monitoring stopped before the ping is sent, its safe to return
+              this.logger.debug('stopped monitoring before outgoing ping message was finished');
+              return;
+            }
             throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
           }
 
           this.lastPing = messageId;
 
-          const attemptAcknowledgePong = function (this: KeepAlive, _type: string, event: any): void {
-            if (this.client === undefined) {
-              throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
-            }
-
-            if (this.lastPing !== undefined && event.reply_to !== undefined && event.reply_to >= this.lastPing) {
-              // this message is a reply that acks the previous ping, clear the last ping
-              this.logger.debug('received pong, clearing pong timer');
-              delete this.lastPing;
-
-              // signal that this pong is done being handled
-              clearTimeout(pongTimer);
-              this.client.off('slack_event', attemptAcknowledgePong);
-            }
-          };
-
           this.logger.debug('setting pong timer');
-          const pongTimer = setTimeout(() => {
+
+          this.pongTimer = setTimeout(() => {
             if (this.client === undefined) {
+              // if monitoring stopped before the pong timer fires, its safe to return
+              if (!this.isMonitoring) {
+                this.logger.debug('stopped monitoring before pong timer fired');
+                return;
+              }
               throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
             }
             // signal that this pong is done being handled
-            this.client.off('slack_event', attemptAcknowledgePong);
+            this.client.off('slack_event', this.attemptAcknowledgePong);
 
             // no pong received to acknowledge the last ping within the serverPongTimeout
             this.logger.debug('pong timer expired, recommend reconnect');
@@ -195,13 +211,43 @@ export class KeepAlive extends EventEmitter {
             this.emit('recommend_reconnect');
           }, this.serverPongTimeout);
 
-          this.client.on('slack_event', attemptAcknowledgePong, this);
+          this.client.on('slack_event', this.attemptAcknowledgePong, this);
         })
         .catch((error) => {
           this.logger.error(`Unhandled error: ${error.message}. Please report to @slack/client package maintainers.`);
         });
     } catch (error) {
       this.logger.error(`Unhandled error: ${error.message}. Please report to @slack/client package maintainers.`);
+    }
+  }
+
+  /**
+   * Clears the pong timer if its set, otherwise this is a noop.
+   */
+  private clearPreviousPongTimer(): void {
+    if (this.pongTimer !== undefined) {
+      clearTimeout(this.pongTimer);
+    }
+  }
+
+  /**
+   * Determines if a giving incoming event can be treated as an acknowledgement for the outstanding ping, and then
+   * clears the ping if so.
+   * @param event any incoming slack event
+   */
+  private attemptAcknowledgePong(_type: string, event: any): void {
+    if (this.client === undefined) {
+      throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
+    }
+
+    if (this.lastPing !== undefined && event.reply_to !== undefined && event.reply_to >= this.lastPing) {
+      // this message is a reply that acks the previous ping, clear the last ping
+      this.logger.debug('received pong, clearing pong timer');
+      delete this.lastPing;
+
+      // signal that this pong is done being handled
+      this.clearPreviousPongTimer();
+      this.client.off('slack_event', this.attemptAcknowledgePong);
     }
   }
 }

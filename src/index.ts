@@ -48,5 +48,6 @@ export {
   IncomingWebhook,
   IncomingWebhookSendArguments,
   IncomingWebhookDefaultArguments,
+  IncomingWebhookResult,
   IncomingWebhookResultCallback,
 } from './IncomingWebhook';

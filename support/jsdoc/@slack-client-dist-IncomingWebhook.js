@@ -29,10 +29,3 @@ export class IncomingWebhookReadError {
 export class IncomingWebhookRequestError {
 }
 
-/**
- * @interface module:@slack/client/dist/IncomingWebhook.IncomingWebhookResult
- * @property {string} text
- */
-export class IncomingWebhookResult {
-}
-

@@ -8,7 +8,7 @@ import { WebAPICallOptions, WebAPIResultCallback, WebAPICallResult } from './Web
  * Generic method definition
  */
 export default interface Method<MethodArguments extends WebAPICallOptions> {
-  // TODO: can we create a relationship between MethodArguments and a MethodResult type?
+  // TODO: can we create a relationship between MethodArguments and a MethodResult type? hint: conditional types
   (options?: MethodArguments & AuxiliaryArguments): Promise<WebAPICallResult>;
   (options: MethodArguments & AuxiliaryArguments, callback: WebAPIResultCallback): void;
 }
@@ -25,20 +25,53 @@ export interface TokenOverridable {
   token?: string;
 }
 
+export interface LocaleAware {
+  include_locale?: boolean;
+}
+
+export interface Searchable {
+  query: string;
+  highlight?: boolean;
+  sort: 'score' | 'timestamp';
+  sort_dir: 'asc' | 'desc';
+}
+
+// For workspace apps, this argument allows calling a method on behalf of a user
+export interface UserPerspectiveEnabled {
+  on_behalf_of?: string;
+}
+
+// Pagination protocols
+// --------------------
+// In order to support automatic pagination in the WebClient, the following pagination types are not only defined as an
+// interface to abstract the related arguments, but also all API methods which support the pagination type are added
+// to a respective Set, so that the WebClient can reflect on which API methods it may apply automatic pagination.
+// As maintainers, we must be careful to add each of the API methods into these sets, so that is handled local (in line
+// numbers close) to the application of each interface.
+
+// TODO: express the interfaces as keyof the sets?
+
 export interface CursorPaginationEnabled {
   limit?: number; // natural integer, max of 1000
   cursor?: string; // find this in a response's `response_metadata.next_cursor`
 }
+export const cursorPaginationOptionKeys = new Set(['limit', 'cursor']);
+export const cursorPaginationEnabledMethods: Map<string, string> = new Map(); // method : paginatedResponseProperty
 
 export interface TimelinePaginationEnabled {
   oldest?: string;
   latest?: string;
   inclusive?: boolean;
 }
+export const timelinePaginationOptionKeys = new Set(['oldest', 'latest', 'inclusive']);
+export const timelinePaginationEnabledMethods = new Set();
 
-export interface LocaleAware {
-  include_locale?: boolean;
+export interface TraditionalPagingEnabled {
+  page?: number; // default: 1
+  count?: number; // default: 100
 }
+export const traditionalPagingOptionKeys = new Set(['page', 'count']);
+export const traditionalPagingEnabledMethods = new Set();
 
 /*
  * Reusable shapes for argument values
@@ -59,10 +92,14 @@ export interface Dialog {
     hint?: string;
     subtype?: 'email' | 'number' | 'tel' | 'url';
     // type `select`:
-    options?: {
-      label: string; // shown to user
-      value: string; // sent to app
+    data_source?: 'users' | 'channels' | 'conversations' | 'external';
+    selected_options?: SelectOption[];
+    options?: SelectOption[];
+    option_groups?: {
+      label: string;
+      options: SelectOption[];
     }[];
+    min_query_length?: number;
   }[];
   submit_label?: string;
   notify_on_cancel?: boolean;
@@ -97,18 +134,19 @@ export interface AttachmentAction {
   id?: string;
   confirm?: Confirmation;
   data_source?: string;
-  min_query_length: number;
-  name: string;
+  min_query_length?: number;
+  name?: string;
   options?: OptionField[];
   option_groups?: {
     text: string
     options: OptionField[];
   }[];
-  selected_options: OptionField[];
+  selected_options?: OptionField[];
   style?: string;
   text: string;
   type: string;
   value?: string;
+  url?: string;
 }
 
 export interface OptionField {
@@ -128,6 +166,11 @@ export interface LinkUnfurls {
   [linkUrl: string]: MessageAttachment;
 }
 
+export interface SelectOption {
+  label: string; // shown to user
+  value: string; // sent to app
+}
+
 /*
  * MethodArguments types (no formal relationship other than the generic constraint in Method<>)
  */
@@ -145,6 +188,9 @@ export type AppsPermissionsRequestArguments = TokenOverridable & {
   scopes: string; // comma-separated list of scopes
   trigger_id: string;
 };
+export type AppsPermissionsResourcesListArguments = TokenOverridable & CursorPaginationEnabled;
+cursorPaginationEnabledMethods.set('apps.permissions.resources.list', 'resources');
+export type AppsPermissionsScopesListArguments = TokenOverridable & {};
 
   /*
    * `auth.*`
@@ -176,6 +222,7 @@ export type ChannelsHistoryArguments = TokenOverridable & TimelinePaginationEnab
   count?: number;
   unreads?: boolean;
 };
+timelinePaginationEnabledMethods.add('channels.history');
 export type ChannelsInfoArguments = TokenOverridable & LocaleAware & {
   channel: string;
 };
@@ -198,6 +245,7 @@ export type ChannelsListArguments = TokenOverridable & CursorPaginationEnabled &
   exclude_archived: boolean;
   exclude_members: boolean;
 };
+cursorPaginationEnabledMethods.set('channels.list', 'channels');
 export type ChannelsMarkArguments = TokenOverridable & {
   channel: string;
   ts: string;
@@ -298,6 +346,8 @@ export type ConversationsCreateArguments = TokenOverridable & {
 export type ConversationsHistoryArguments = TokenOverridable & CursorPaginationEnabled & TimelinePaginationEnabled & {
   channel: string;
 };
+cursorPaginationEnabledMethods.set('conversations.history', 'messages');
+timelinePaginationEnabledMethods.add('conversations.history');
 export type ConversationsInfoArguments = TokenOverridable & LocaleAware & {
   channel: string;
 };
@@ -319,9 +369,11 @@ export type ConversationsListArguments = TokenOverridable & CursorPaginationEnab
   exclude_archived?: boolean;
   types?: string; // comma-separated list of conversation types
 };
+cursorPaginationEnabledMethods.set('conversations.list', 'channels');
 export type ConversationsMembersArguments = TokenOverridable & CursorPaginationEnabled & {
   channel: string;
 };
+cursorPaginationEnabledMethods.set('conversations.members', 'members');
 export type ConversationsOpenArguments = TokenOverridable & {
   channel?: string;
   users?: string; // comma-separated list of users
@@ -335,6 +387,8 @@ export type ConversationsRepliesArguments = TokenOverridable & CursorPaginationE
   channel: string;
   ts: string;
 };
+cursorPaginationEnabledMethods.set('conversations.replies', 'messages');
+timelinePaginationEnabledMethods.add('conversations.replies');
 export type ConversationsSetPurposeArguments = TokenOverridable & {
   channel: string;
   purpose: string;
@@ -358,12 +412,12 @@ export type DialogOpenArguments = TokenOverridable & {
   /*
    * `dnd.*`
    */
-export type DndEndDndArguments = TokenOverridable;
-export type DndEndSnoozeArguments = TokenOverridable;
+export type DndEndDndArguments = TokenOverridable & UserPerspectiveEnabled;
+export type DndEndSnoozeArguments = TokenOverridable & UserPerspectiveEnabled;
 export type DndInfoArguments = TokenOverridable & {
   user: string;
 };
-export type DndSetSnoozeArguments = TokenOverridable & {
+export type DndSetSnoozeArguments = TokenOverridable & UserPerspectiveEnabled & {
   num_minutes: number;
 };
 export type DndTeamInfoArguments = TokenOverridable & {
@@ -381,20 +435,20 @@ export type EmojiListArguments = TokenOverridable;
 export type FilesDeleteArguments = TokenOverridable & {
   file: string; // file id
 };
-export type FilesInfoArguments = TokenOverridable & {
+export type FilesInfoArguments = TokenOverridable & CursorPaginationEnabled & {
   file: string; // file id
   count?: number;
   page?: number;
 };
-export type FilesListArguments = TokenOverridable & {
+cursorPaginationEnabledMethods.set('files.info', 'comments');
+export type FilesListArguments = TokenOverridable & TraditionalPagingEnabled & {
   channel?: string;
   user?: string;
-  count?: number;
-  page?: number;
   ts_from?: string;
   ts_to?: string;
   types?: string; // comma-separated list of file types
 };
+traditionalPagingEnabledMethods.add('files.list');
 export type FilesRevokePublicURLArguments = TokenOverridable & {
   file: string; // file id
 };
@@ -437,10 +491,12 @@ export type GroupsCreateArguments = TokenOverridable & {
 export type GroupsCreateChildArguments = TokenOverridable & {
   channel: string;
 };
-export type GroupsHistoryArguments = TokenOverridable & CursorPaginationEnabled & TimelinePaginationEnabled & {
+export type GroupsHistoryArguments = TokenOverridable & TimelinePaginationEnabled & {
   channel: string;
   unreads?: boolean;
+  count?: number;
 };
+timelinePaginationEnabledMethods.add('groups.history');
 export type GroupsInfoArguments = TokenOverridable & LocaleAware & {
   channel: string;
 };
@@ -455,10 +511,11 @@ export type GroupsKickArguments = TokenOverridable & {
 export type GroupsLeaveArguments = TokenOverridable & {
   channel: string;
 };
-export type GroupsListArguments = TokenOverridable & {
+export type GroupsListArguments = TokenOverridable & CursorPaginationEnabled & {
   exclude_archived?: boolean;
   exclude_members?: boolean;
 };
+cursorPaginationEnabledMethods.set('groups.list', 'groups');
 export type GroupsMarkArguments = TokenOverridable & {
   channel: string;
   ts: string;
@@ -498,7 +555,9 @@ export type IMHistoryArguments = TokenOverridable & TimelinePaginationEnabled & 
   count?: number;
   unreads?: boolean;
 };
+timelinePaginationEnabledMethods.add('im.history');
 export type IMListArguments = TokenOverridable & CursorPaginationEnabled;
+cursorPaginationEnabledMethods.set('im.list', 'ims');
 export type IMMarkArguments = TokenOverridable & {
   channel: string;
   ts: string;
@@ -531,7 +590,9 @@ export type MPIMHistoryArguments = TokenOverridable & TimelinePaginationEnabled 
   count?: number;
   unreads?: boolean;
 };
-export type MPIMListArguments = TokenOverridable;
+timelinePaginationEnabledMethods.add('mpim.history');
+export type MPIMListArguments = TokenOverridable & CursorPaginationEnabled;
+cursorPaginationEnabledMethods.set('mpim.list', 'groups');
 export type MPIMMarkArguments = TokenOverridable & {
   channel: string;
   ts: string;
@@ -601,12 +662,12 @@ export type ReactionsGetArguments = TokenOverridable & {
   file?: string; // file id
   file_comment?: string;
 };
-export type ReactionsListArguments = TokenOverridable & {
+export type ReactionsListArguments = TokenOverridable & TraditionalPagingEnabled & CursorPaginationEnabled & {
   user?: string;
-  count?: number;
-  page?: number;
   full?: boolean;
 };
+cursorPaginationEnabledMethods.set('reactions.list', 'items');
+traditionalPagingEnabledMethods.add('reactions.list');
 export type ReactionsRemoveArguments = TokenOverridable & {
   name: string;
   // must supply one of:
@@ -619,21 +680,21 @@ export type ReactionsRemoveArguments = TokenOverridable & {
   /*
    * `reminders.*`
    */
-export type RemindersAddArguments = TokenOverridable & {
+export type RemindersAddArguments = TokenOverridable & UserPerspectiveEnabled & {
   text: string;
   time: string | number;
   user?: string;
 };
-export type RemindersCompleteArguments = TokenOverridable & {
+export type RemindersCompleteArguments = TokenOverridable & UserPerspectiveEnabled & {
   reminder: string;
 };
-export type RemindersDeleteArguments = TokenOverridable & {
+export type RemindersDeleteArguments = TokenOverridable & UserPerspectiveEnabled & {
   reminder: string;
 };
-export type RemindersInfoArguments = TokenOverridable & {
+export type RemindersInfoArguments = TokenOverridable & UserPerspectiveEnabled & {
   reminder: string;
 };
-export type RemindersListArguments = TokenOverridable;
+export type RemindersListArguments = TokenOverridable & UserPerspectiveEnabled;
 
   /*
    * `rtm.*`
@@ -654,16 +715,12 @@ export type RTMStartArguments = TokenOverridable & LocaleAware & {
   /*
    * `search.*`
    */
-export type SearchAllArguments = TokenOverridable & {
-  query: string;
-  count?: number;
-  page?: number;
-  highlight?: boolean;
-  sort: 'score' | 'timestamp';
-  sort_dir: 'asc' | 'desc';
-};
-export type SearchFilesArguments = SearchAllArguments;
-export type SearchMessagesArguments = SearchAllArguments;
+export type SearchAllArguments = TokenOverridable & TraditionalPagingEnabled & Searchable;
+traditionalPagingEnabledMethods.add('search.all');
+export type SearchFilesArguments = TokenOverridable & TraditionalPagingEnabled & Searchable;
+traditionalPagingEnabledMethods.add('search.files');
+export type SearchMessagesArguments = TokenOverridable & TraditionalPagingEnabled & Searchable;
+traditionalPagingEnabledMethods.add('search.messages');
 
   /*
    * `stars.*`
@@ -675,10 +732,9 @@ export type StarsAddArguments = TokenOverridable & {
   file?: string; // file id
   file_comment?: string;
 };
-export type StarsListArguments = TokenOverridable & {
-  count?: number;
-  page?: number;
-};
+export type StarsListArguments = TokenOverridable & TraditionalPagingEnabled & CursorPaginationEnabled;
+cursorPaginationEnabledMethods.set('stars.list', 'items');
+traditionalPagingEnabledMethods.add('stars.list');
 export type StarsRemoveArguments = TokenOverridable & {
   // must supply one of:
   channel?: string; // paired with `timestamp`
@@ -760,17 +816,19 @@ export type UsersConversationsArguments = TokenOverridable & CursorPaginationEna
   types?: string; // comma-separated list of conversation types
   user?: string;
 };
+cursorPaginationEnabledMethods.set('users.conversations', 'channels');
 export type UsersDeletePhotoArguments = TokenOverridable;
 export type UsersGetPresenceArguments = TokenOverridable & {
   user: string;
 };
-export type UsersIdentityArguments = TokenOverridable;
+export type UsersIdentityArguments = TokenOverridable & UserPerspectiveEnabled;
 export type UsersInfoArguments = TokenOverridable & LocaleAware & {
   user: string;
 };
 export type UsersListArguments = TokenOverridable & CursorPaginationEnabled & LocaleAware & {
   presence?: boolean; // deprecated, defaults to false
 };
+cursorPaginationEnabledMethods.set('users.list', 'members');
 export type UsersLookupByEmailArguments = TokenOverridable & {
   email: string;
 };
@@ -788,7 +846,7 @@ export type UsersProfileGetArguments = TokenOverridable & {
   include_labels?: boolean;
   user?: string;
 };
-export type UsersProfileSetArguments = TokenOverridable & {
+export type UsersProfileSetArguments = TokenOverridable & UserPerspectiveEnabled &{
   profile?: string; // url-encoded json
   user?: string;
   name?: string; // usable if `profile` is not passed
