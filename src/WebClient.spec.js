@@ -531,6 +531,29 @@ describe('WebClient', function () {
           throw error;
         });
     });
+
+    it('should use the right custom agent when providing agents for many schemes', function () {
+      const agent = new Agent({ keepAlive: true });
+      const spy = sinon.spy(agent, 'addRequest');
+      const badAgent = { addRequest: sinon.stub().throws() };
+      const client = new WebClient(token, { agent: {
+        https: agent,
+        http: badAgent,
+      } });
+      return client.apiCall('method')
+        .catch(() => {
+          assert(spy.called);
+        })
+        .then(() => {
+          agent.addRequest.restore();
+          agent.destroy();
+        })
+        .catch((error) => {
+          agent.addRequest.restore();
+          agent.destroy();
+          throw error;
+        });
+    });
   });
 
   describe('has an option to set request concurrency', function () {
