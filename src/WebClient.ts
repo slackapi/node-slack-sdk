@@ -10,7 +10,7 @@ import isStream = require('is-stream'); // tslint:disable-line:no-require-import
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
 import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
 import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios';
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
 import { awaitAndReduce, callbackify, getUserAgent, delay, AgentOption, TLSOptions } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
@@ -26,15 +26,60 @@ const pkg = require('../package.json'); // tslint:disable-line:no-require-import
  * a convenience wrapper for calling the {@link WebClient#apiCall} method using the method name as the first parameter.
  */
 export class WebClient extends EventEmitter {
+
   /**
-   * Authentication and authorization token for accessing Slack Web API (usually begins with `xoxp`, `xoxb`, or `xoxa`)
+   * Authentication and authorization token for accessing Slack Web API (usually begins with `xoxa`, xoxp`, or `xoxb`)
    */
-  public readonly token?: string;
+  public get token(): string | undefined {
+    return this._accessToken;
+  }
+  public set token(newToken: string | undefined) {
+    this.accessTokenExpiresAt = undefined;
+    this.isTokenRefreshing = false;
+    this._accessToken = newToken;
+  }
+
+  /**
+   * OAuth 2.0 refresh token used to automatically create new access tokens (`token`) when the current is expired.
+   */
+  public readonly refreshToken?: string;
+
+  /**
+   * OAuth 2.0 client identifier
+   */
+  public readonly clientId?: string;
+
+  /**
+   * OAuth 2.0 client secret
+   */
+  public readonly clientSecret?: string;
 
   /**
    * The base URL for reaching Slack's Web API. Consider changing this value for testing purposes.
    */
   public readonly slackApiUrl: string;
+
+  /**
+   * The backing store for the current access token.
+   */
+  private _accessToken?: string;
+
+  /**
+   * The time (in milliseconds) when the current access token will expire
+   */
+  private accessTokenExpiresAt?: number;
+
+  /**
+   * Whether or not a token refresh is currently in progress
+   * TODO: maybe this should be a Promise so that other API calls can await this and we don't fill the queue with
+   * calls that are destined to fail.
+   */
+  private isTokenRefreshing: boolean = false;
+
+  /**
+   * The time (in milliseconds) when the last token refresh completed
+   */
+  private accessTokenLastRefreshedAt?: number;
 
   /**
    * Configuration for retry operations. See {@link https://github.com/tim-kos/node-retry|node-retry} for more details.
@@ -90,9 +135,15 @@ export class WebClient extends EventEmitter {
     tls = undefined,
     pageSize = 200,
     rejectRateLimitedCalls = false,
+    clientId = undefined,
+    clientSecret = undefined,
+    refreshToken = undefined,
   }: WebClientOptions = {}) {
     super();
-    this.token = token;
+    this._accessToken = token;
+    this.clientId = clientId;
+    this.clientSecret = clientSecret;
+    this.refreshToken = refreshToken;
     this.slackApiUrl = slackApiUrl;
 
     this.retryConfig = retryConfig;
@@ -158,10 +209,17 @@ export class WebClient extends EventEmitter {
         );
       }
 
+      // check for expired access token, and refresh token accordingly
+      // an exception is made when this call includes its own token in the options
+      if ((options === undefined || !('token' in options)) && this.shouldAutomaticallyRefreshToken() &&
+          this.accessTokenExpiresAt !== undefined && this.accessTokenExpiresAt < Date.now()) {
+        await this.performTokenRefresh();
+      }
+
       // build headers
       const headers = {};
       if (options !== undefined && optionsAreUserPerspectiveEnabled(options)) {
-        headers['X-Slack-User'] = options.on_behalf_of;
+        headers['x-Slack-User'] = options.on_behalf_of;
         delete options.on_behalf_of;
       }
 
@@ -210,78 +268,13 @@ export class WebClient extends EventEmitter {
                  (objectEntries(paginationOptions = paginationOptionsForNextPage(result, this.pageSize)).length > 0)
                )
               ) {
-          const task = () => this.requestQueue.add(
-            async () => {
-              this.logger.debug('will perform http request');
-              try {
-                const response = await this.axios.post(method, Object.assign(
-                  { token: this.token },
-                  paginationOptions,
-                  options,
-                ), Object.assign({
-                  headers,
-                }, this.tlsConfig));
-                this.logger.debug('http response received');
+          // TODO: figure out how to handle expired token errors and token refresh
+          result = await this.makeRequest(method, Object.assign(
+            { token: this.token },
+            paginationOptions,
+            options,
+          ), headers);
 
-                if (response.status === 429) {
-                  const retrySec = parseRetryHeaders(response);
-                  if (retrySec !== undefined) {
-                    this.emit('rate_limited', retrySec);
-                    if (this.rejectRateLimitedCalls) {
-                      throw new pRetry.AbortError(rateLimitedErrorWithDelay(retrySec));
-                    }
-                    this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
-                    // pause the request queue and then delay the rejection by the amount of time in the retry header
-                    this.requestQueue.pause();
-                    // NOTE: if there was a way to introspect the current RetryOperation and know what the next timeout
-                    // would be, then we could subtract that time from the following delay, knowing that it the next
-                    // attempt still wouldn't occur until after the rate-limit header has specified. an even better
-                    // solution would be to subtract the time from only the timeout of this next attempt of the
-                    // RetryOperation. this would result in the staying paused for the entire duration specified in the
-                    // header, yet this operation not having to pay the timeout cost in addition to that.
-                    await delay(retrySec * 1000);
-                    // resume the request queue and throw a non-abort error to signal a retry
-                    this.requestQueue.start();
-                    throw Error('A rate limit was exceeded.');
-                  } else {
-                    // TODO: turn this into some CodedError
-                    throw new pRetry.AbortError(new Error('Retry header did not contain a valid timeout.'));
-                  }
-                }
-
-                // Slack's Web API doesn't use meaningful status codes besides 429 and 200
-                if (response.status !== 200) {
-                  throw httpErrorFromResponse(response);
-                }
-
-                result = this.buildResult(response);
-
-                // log warnings in response metadata
-                if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
-                  result.response_metadata.warnings.forEach(this.logger.warn);
-                }
-
-                if (!result.ok) {
-                  const error = errorWithCode(
-                    new Error(`An API error occurred: ${result.error}`),
-                    ErrorCode.PlatformError,
-                  );
-                  error.data = result;
-                  throw new pRetry.AbortError(error);
-                }
-
-                return result;
-              } catch (error) {
-                this.logger.debug('http request failed');
-                if (error.request) {
-                  throw requestErrorWithOriginal(error);
-                }
-                throw error;
-              }
-            },
-          );
-
-          result = await pRetry(task, this.retryConfig);
           yield result;
         }
       }
@@ -296,6 +289,76 @@ export class WebClient extends EventEmitter {
       return;
     }
     return implementation();
+  }
+
+  // TODO: better input types - remove any
+  private async makeRequest(url: string, body: any, headers: any = {}): Promise<WebAPICallResult> {
+    const task = () => this.requestQueue.add(async () => {
+      this.logger.debug('will perform http request');
+      try {
+        const response = await this.axios.post(url, body, Object.assign({
+          headers,
+        }, this.tlsConfig));
+        this.logger.debug('http response received');
+
+        if (response.status === 429) {
+          const retrySec = parseRetryHeaders(response);
+          if (retrySec !== undefined) {
+            this.emit('rate_limited', retrySec);
+            if (this.rejectRateLimitedCalls) {
+              throw new pRetry.AbortError(rateLimitedErrorWithDelay(retrySec));
+            }
+            this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
+            // pause the request queue and then delay the rejection by the amount of time in the retry header
+            this.requestQueue.pause();
+            // NOTE: if there was a way to introspect the current RetryOperation and know what the next timeout
+            // would be, then we could subtract that time from the following delay, knowing that it the next
+            // attempt still wouldn't occur until after the rate-limit header has specified. an even better
+            // solution would be to subtract the time from only the timeout of this next attempt of the
+            // RetryOperation. this would result in the staying paused for the entire duration specified in the
+            // header, yet this operation not having to pay the timeout cost in addition to that.
+            await delay(retrySec * 1000);
+            // resume the request queue and throw a non-abort error to signal a retry
+            this.requestQueue.start();
+            throw Error('A rate limit was exceeded.');
+          } else {
+            // TODO: turn this into some CodedError
+            throw new pRetry.AbortError(new Error('Retry header did not contain a valid timeout.'));
+          }
+        }
+
+        // Slack's Web API doesn't use meaningful status codes besides 429 and 200
+        if (response.status !== 200) {
+          throw httpErrorFromResponse(response);
+        }
+
+        const result = this.buildResult(response);
+
+        // log warnings in response metadata
+        if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
+          result.response_metadata.warnings.forEach(this.logger.warn);
+        }
+
+        if (!result.ok) {
+          const error = errorWithCode(
+            new Error(`An API error occurred: ${result.error}`),
+            ErrorCode.PlatformError,
+          );
+          error.data = result;
+          throw new pRetry.AbortError(error);
+        }
+
+        return result;
+      } catch (error) {
+        this.logger.debug('http request failed');
+        if (error.request) {
+          throw requestErrorWithOriginal(error);
+        }
+        throw error;
+      }
+    });
+
+    return pRetry(task, this.retryConfig);
   }
 
   /**
@@ -706,6 +769,54 @@ export class WebClient extends EventEmitter {
 
     return data;
   }
+
+  /**
+   * Determine if this client is in automatic token-refreshing mode
+   * TODO: make this a getter?
+   */
+  private shouldAutomaticallyRefreshToken(): boolean {
+    return (this.clientId !== undefined && this.clientSecret !== undefined && this.refreshToken !== undefined);
+  }
+
+  /**
+   * Perform a token refresh. Before calling this method, this.shouldAutomaticallyRefreshToken() should be checked.
+   *
+   * This method avoids using `apiCall()` because that could infinitely recursive when that method determines that the
+   * access token is already expired.
+   */
+  private async performTokenRefresh(): Promise<void> {
+    let refreshResult: WebAPITokenRefreshResult | undefined;
+
+    try {
+      // TODO: if we change isTokenRefreshing to a promise, we could await it here.
+      this.isTokenRefreshing = true;
+
+      refreshResult =  await this.makeRequest('oauth.access', {
+        client_id: this.clientId,
+        client_secret: this.clientSecret,
+        grant_type: 'refresh_token',
+        refresh_token: this.refreshToken,
+      }) as WebAPITokenRefreshResult;
+
+    } catch (error) {
+      this.isTokenRefreshing = false;
+      throw refreshFailedErrorWithOriginal(error);
+    }
+
+    this.isTokenRefreshing = false;
+    this.accessTokenLastRefreshedAt = Date.now();
+    this._accessToken = refreshResult.access_token;
+    this.accessTokenExpiresAt = Date.now() + (refreshResult.expires_in * 1000);
+
+    const tokenRefreshedEvent: TokenRefreshedEvent = {
+      access_token: refreshResult.access_token,
+      expires_in: refreshResult.expires_in,
+      team_id: refreshResult.team_id,
+      enterprise_id: refreshResult.enterprise_id,
+    };
+
+    this.emit('token_refreshed', tokenRefreshedEvent);
+  }
 }
 
 export default WebClient;
@@ -724,6 +835,9 @@ export interface WebClientOptions {
   tls?: TLSOptions;
   pageSize?: number;
   rejectRateLimitedCalls?: boolean;
+  clientId?: string;
+  clientSecret?: string;
+  refreshToken?: string;
 }
 
 export interface WebAPICallOptions {
@@ -745,8 +859,8 @@ export interface WebAPIResultCallback {
   (error: WebAPICallError, result: WebAPICallResult): void;
 }
 
-export type WebAPICallError =
-  WebAPIPlatformError | WebAPIRequestError | WebAPIReadError | WebAPIHTTPError | WebAPIRateLimitedError;
+export type WebAPICallError = WebAPIPlatformError | WebAPIRequestError | WebAPIReadError | WebAPIHTTPError |
+  WebAPIRateLimitedError | WebAPIRefreshFailedError;
 
 export interface WebAPIPlatformError extends CodedError {
   code: ErrorCode.PlatformError;
@@ -777,6 +891,18 @@ export interface WebAPIHTTPError extends CodedError {
 export interface WebAPIRateLimitedError extends CodedError {
   code: ErrorCode.RateLimitedError;
   retryAfter: number;
+}
+
+export interface WebAPIRefreshFailedError extends CodedError {
+  code: ErrorCode.RefreshFailedError;
+  original: Error;
+}
+
+export interface TokenRefreshedEvent {
+  access_token: string;
+  expires_in: number;
+  team_id: string;
+  enterprise_id?: string;
 }
 
 /*
@@ -859,12 +985,31 @@ function rateLimitedErrorWithDelay(retrySec: number): WebAPIRateLimitedError {
   return (error as WebAPIRateLimitedError);
 }
 
+function refreshFailedErrorWithOriginal(original: Error): WebAPIRefreshFailedError {
+  const error = errorWithCode(
+    new Error(`A token refresh error occurred: ${original.message}`),
+    ErrorCode.RefreshFailedError,
+  ) as Partial<WebAPIRefreshFailedError>;
+  error.original = original;
+  return (error as WebAPIRefreshFailedError);
+}
+
 enum PaginationType {
   Cursor = 'Cursor',
   Timeline = 'Timeline',
   Traditional = 'Traditional',
   Mixed = 'Mixed',
   None = 'None',
+}
+
+// NOTE: once this package gains some knowledge about result shapes, this should likely become a specific shape of a
+// generic WebAPICallResult type. at this time, its not meant to be used outside this file, and that's why its not
+// exported.
+interface WebAPITokenRefreshResult extends WebAPICallResult {
+  access_token: string;
+  expires_in: number;
+  team_id: string;
+  enterprise_id?: string;
 }
 
 /**

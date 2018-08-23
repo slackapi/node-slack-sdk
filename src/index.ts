@@ -29,8 +29,11 @@ export {
   WebAPIReadError, // NOTE: this is no longer used, but might once again be used if a more specific means to detect it
                    // becomes evident
   WebAPIHTTPError,
+  WebAPIRateLimitedError,
+  WebAPIRefreshFailedError,
   WebAPICallError,
   WebAPIResultCallback,
+  TokenRefreshedEvent,
 } from './WebClient';
 
 export * from './methods';
