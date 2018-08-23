@@ -1,5 +1,6 @@
 require('mocha');
 const { IncomingWebhook } = require('./IncomingWebhook');
+const { ErrorCode } = require('./errors');
 const { assert } = require('chai');
 const isPromise = require('p-is-promise');
 const nock = require('nock');
@@ -67,6 +68,18 @@ describe('IncomingWebhook', function () {
         this.webhook.send('Hello', (error) => {
           assert.ok(error);
           assert.instanceOf(error, Error);
+          done();
+        });
+      });
+
+      it('should fail with IncomingWebhookRequestError when the API request fails', function (done) {
+        // One known request error is when the node encounters an ECONNREFUSED. In order to simulate this, rather than
+        // using nock, we send the request to a host:port that is not listening.
+        const webhook = new IncomingWebhook('https://localhost:8999/api/');
+        webhook.send('Hello', (error) => {
+          assert.instanceOf(error, Error);
+          assert.equal(error.code, ErrorCode.IncomingWebhookRequestError);
+          assert.instanceOf(error.original, Error);
           done();
         });
       });

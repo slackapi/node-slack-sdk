@@ -1,17 +1,16 @@
 // polyfill for async iterable. see: https://stackoverflow.com/a/43694282/305340
 if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
 
-import { IncomingMessage, IncomingHttpHeaders } from 'http';
+import { stringify as qsStringify } from 'querystring';
+import { IncomingHttpHeaders, Agent } from 'http';
 import { basename } from 'path';
 import { Readable } from 'stream';
 import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
-import urlJoin = require('url-join'); // tslint:disable-line:no-require-imports
 import isStream = require('is-stream'); // tslint:disable-line:no-require-imports
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
 import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
 import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
-// NOTE: to reduce depedency size, consider https://www.npmjs.com/package/got-lite
-import got = require('got'); // tslint:disable-line:no-require-imports
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
 import { awaitAndReduce, callbackify, getUserAgent, delay, AgentOption, TLSOptions } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
@@ -49,10 +48,9 @@ export class WebClient extends EventEmitter {
   private requestQueue: PQueue;
 
   /**
-   * An agent used to manage TCP connections for requests. Most commonly used to implement proxy support. See
-   * npm packages `tunnel` and `https-proxy-agent` for information on how to construct a proxy agent.
+   * Axios HTTP client instance used by this client
    */
-  private agentConfig?: AgentOption;
+  private axios: AxiosInstance;
 
   /**
    * Configuration for custom TLS handling
@@ -80,11 +78,6 @@ export class WebClient extends EventEmitter {
   private logger: Logger;
 
   /**
-   * The value for the User-Agent HTTP header (used for instrumentation).
-   */
-  private userAgent: string;
-
-  /**
    * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`, or `xoxa`)
    */
   constructor(token?: string, {
@@ -104,7 +97,6 @@ export class WebClient extends EventEmitter {
 
     this.retryConfig = retryConfig;
     this.requestQueue = new PQueue({ concurrency: maxRequestConcurrency });
-    this.agentConfig = agent;
     // NOTE: may want to filter the keys to only those acceptable for TLS options
     this.tlsConfig = tls !== undefined ? tls : {};
     this.pageSize = pageSize;
@@ -117,7 +109,20 @@ export class WebClient extends EventEmitter {
       this.logger = getLogger(WebClient.loggerName);
     }
     this.logger.setLevel(logLevel);
-    this.userAgent = getUserAgent();
+
+    this.axios = axios.create({
+      baseURL: slackApiUrl,
+      headers: {
+        'User-Agent': getUserAgent(),
+      },
+      httpAgent: agentForScheme('http', agent),
+      httpsAgent: agentForScheme('https', agent),
+      transformRequest: [this.serializeApiCallOptions.bind(this)],
+      validateStatus: () => true, // all HTTP status codes should result in a resolved promise (as opposed to only 2xx)
+      maxRedirects: 0,
+    });
+    // serializeApiCallOptions will always determine the appropriate content-type
+    delete this.axios.defaults.headers.post['Content-Type'];
 
     this.logger.debug('initialized');
   }
@@ -154,9 +159,7 @@ export class WebClient extends EventEmitter {
       }
 
       // build headers
-      const headers = {
-        'user-agent': this.userAgent,
-      };
+      const headers = {};
       if (options !== undefined && optionsAreUserPerspectiveEnabled(options)) {
         headers['X-Slack-User'] = options.on_behalf_of;
         delete options.on_behalf_of;
@@ -207,30 +210,20 @@ export class WebClient extends EventEmitter {
                  (objectEntries(paginationOptions = paginationOptionsForNextPage(result, this.pageSize)).length > 0)
                )
               ) {
-          const requestBody = this.serializeApiCallOptions(Object.assign(
-            { token: this.token },
-            paginationOptions,
-            options,
-          ));
-
           const task = () => this.requestQueue.add(
             async () => {
               this.logger.debug('will perform http request');
               try {
-                const response = await got.post(urlJoin(this.slackApiUrl, method),
-                  // @ts-ignore
-                  Object.assign({
-                    headers,
-                    form: !canBodyBeFormMultipart(requestBody),
-                    body: requestBody,
-                    retries: 0,
-                    throwHttpErrors: false,
-                    agent: this.agentConfig,
-                  }, this.tlsConfig),
-                );
+                const response = await this.axios.post(method, Object.assign(
+                  { token: this.token },
+                  paginationOptions,
+                  options,
+                ), Object.assign({
+                  headers,
+                }, this.tlsConfig));
                 this.logger.debug('http response received');
 
-                if (response.statusCode === 429) {
+                if (response.status === 429) {
                   const retrySec = parseRetryHeaders(response);
                   if (retrySec !== undefined) {
                     this.emit('rate_limited', retrySec);
@@ -249,15 +242,15 @@ export class WebClient extends EventEmitter {
                     await delay(retrySec * 1000);
                     // resume the request queue and throw a non-abort error to signal a retry
                     this.requestQueue.start();
-                    // TODO: turn this into a WebAPIPlatformError
                     throw Error('A rate limit was exceeded.');
                   } else {
+                    // TODO: turn this into some CodedError
                     throw new pRetry.AbortError(new Error('Retry header did not contain a valid timeout.'));
                   }
                 }
 
                 // Slack's Web API doesn't use meaningful status codes besides 429 and 200
-                if (response.statusCode !== 200) {
+                if (response.status !== 200) {
                   throw httpErrorFromResponse(response);
                 }
 
@@ -280,10 +273,8 @@ export class WebClient extends EventEmitter {
                 return result;
               } catch (error) {
                 this.logger.debug('http request failed');
-                if (error.name === 'RequestError') {
+                if (error.request) {
                   throw requestErrorWithOriginal(error);
-                } else if (error.name === 'ReadError') {
-                  throw readErrorWithOriginal(error);
                 }
                 throw error;
               }
@@ -615,14 +606,15 @@ export class WebClient extends EventEmitter {
   };
 
   /**
-   * Transforms options into an object suitable for got to use as a body. This can be one of two things:
-   * -  A FormCanBeURLEncoded object, which is just a key-value object where the values have been flattened and
-   *    got can serialize it into application/x-www-form-urlencoded content type.
-   * -  A BodyCanBeFormMultipart: when the options includes a file, and got must use multipart/form-data content type.
+   * Transforms options (a simple key-value object) into an acceptable value for a body. This can be either
+   * a string, used when posting with a content-type of url-encoded. Or, it can be a readable stream, used
+   * when the options contain a binary (a stream or a buffer) and the upload should be done with content-type
+   * multipart/form-data.
    *
    * @param options arguments for the Web API method
+   * @param headers a mutable object representing the HTTP headers for the outgoing request
    */
-  private serializeApiCallOptions(options: WebAPICallOptions): FormCanBeURLEncoded | BodyCanBeFormMultipart {
+  private serializeApiCallOptions(options: WebAPICallOptions, headers?: any): string | Readable {
     // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
     // binary content
     let containsBinaryData = false;
@@ -648,7 +640,7 @@ export class WebClient extends EventEmitter {
     // A body with binary content should be serialized as multipart/form-data
     if (containsBinaryData) {
       this.logger.debug('request arguments contain binary data');
-      return flattened.reduce((form, [key, value]) => {
+      const form = flattened.reduce((form, [key, value]) => {
         if (Buffer.isBuffer(value) || isStream(value)) {
           const options: FormData.AppendOptions = {};
           options.filename = (() => {
@@ -672,15 +664,22 @@ export class WebClient extends EventEmitter {
         }
         return form;
       }, new FormData());
+      // Merge FormData provided headers into headers param
+      // not reassigning to headers param since it is passed by reference and behaves as an inout param
+      for (const [header, value] of objectEntries(form.getHeaders())) {
+        headers[header] = value;
+      }
+      return form;
     }
 
     // Otherwise, a simple key-value object is returned
-    return flattened.reduce((accumulator, [key, value]) => {
+    headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    return qsStringify(flattened.reduce((accumulator, [key, value]) => {
       if (key !== undefined && value !== undefined) {
         accumulator[key] = value;
       }
       return accumulator;
-    }, {});
+    }, {}));
   }
 
   /**
@@ -688,8 +687,8 @@ export class WebClient extends EventEmitter {
    * HTTP headers into the object.
    * @param response - an http response
    */
-  private buildResult(response: got.Response<string>): WebAPICallResult {
-    const data = JSON.parse(response.body);
+  private buildResult(response: AxiosResponse): WebAPICallResult {
+    const data = response.data;
 
     // add scopes metadata from headers
     if (response.headers['x-oauth-scopes'] !== undefined) {
@@ -716,7 +715,7 @@ export default WebClient;
  */
 
 export interface WebClientOptions {
-  slackApiUrl?: string; // SEMVER:MAJOR casing change from previous
+  slackApiUrl?: string;
   logger?: LoggingFunc;
   logLevel?: LogLevel;
   maxRequestConcurrency?: number;
@@ -727,7 +726,6 @@ export interface WebClientOptions {
   rejectRateLimitedCalls?: boolean;
 }
 
-// NOTE: could potentially add GotOptions to this interface (using &, or maybe as an embedded key)
 export interface WebAPICallOptions {
 }
 
@@ -787,20 +785,28 @@ export interface WebAPIRateLimitedError extends CodedError {
 
 const defaultFilename = 'Untitled';
 
-interface FormCanBeURLEncoded {
-  [key: string]: string | number | boolean;
+/**
+ * Detects whether an object is an http.Agent
+ */
+function isAgent(obj: any): obj is Agent {
+  return typeof obj.maxSockets === 'number' && typeof obj.destroy === 'function';
 }
 
-interface BodyCanBeFormMultipart extends Readable { }
-
 /**
- * Determines whether a request body object should be treated as FormData-encodable (Content-Type=multipart/form-data).
- * @param body a request body
+ * Returns an agent (or false or undefined) for the specific scheme and option passed in
+ * @param scheme either 'http' or 'https'
  */
-function canBodyBeFormMultipart(body: FormCanBeURLEncoded | BodyCanBeFormMultipart): body is BodyCanBeFormMultipart {
-  // tried using `isStream.readable(body)` but that failes because the object doesn't have a `_read()` method or a
-  // `_readableState` property
-  return isStream(body);
+function agentForScheme(scheme: string, agentOption?: AgentOption): Agent | boolean | undefined {
+  if (agentOption === undefined) {
+    return undefined;
+  }
+  if (typeof agentOption === 'boolean') {
+    return agentOption;
+  }
+  if (isAgent(agentOption)) {
+    return agentOption;
+  }
+  return agentOption[scheme];
 }
 
 /**
@@ -816,8 +822,7 @@ function optionsAreUserPerspectiveEnabled(options: WebAPICallOptions): options i
  */
 function requestErrorWithOriginal(original: Error): WebAPIRequestError {
   const error = errorWithCode(
-    // any cast is used because the got definition file doesn't export the got.RequestError type
-    new Error(`A request error occurred: ${(original as any).code}`),
+    new Error(`A request error occurred: ${original.message}`),
     ErrorCode.RequestError,
   ) as Partial<WebAPIRequestError>;
   error.original = original;
@@ -825,38 +830,19 @@ function requestErrorWithOriginal(original: Error): WebAPIRequestError {
 }
 
 /**
- * A factory to create WebAPIReadError objects
- * @param original - original error
- */
-function readErrorWithOriginal(original: Error): WebAPIReadError {
-  const error = errorWithCode(
-    // any cast is used because the got definition file doesn't export the got.ReadError type
-    new Error('A response read error occurred'),
-    ErrorCode.ReadError,
-  ) as Partial<WebAPIReadError>;
-  error.original = original;
-  return (error as WebAPIReadError);
-}
-
-/**
  * A factory to create WebAPIHTTPError objects
  * @param original - original error
  */
-function httpErrorFromResponse(response: got.Response<string>): WebAPIHTTPError {
+function httpErrorFromResponse(response: AxiosResponse): WebAPIHTTPError {
   const error = errorWithCode(
-    // any cast is used because the got definition file doesn't export the got.HTTPError type
-    new Error(`An HTTP protocol error occurred: statusCode = ${response.statusCode}`),
+    new Error(`An HTTP protocol error occurred: statusCode = ${response.status}`),
     ErrorCode.HTTPError,
   ) as Partial<WebAPIHTTPError>;
   error.original = new Error('The WebAPIHTTPError.original property is deprecated. See other properties for details.');
-  error.statusCode = response.statusCode;
-  error.statusMessage = response.statusMessage;
+  error.statusCode = response.status;
+  error.statusMessage = response.statusText;
   error.headers = response.headers;
-  try {
-    error.body = JSON.parse(response.body);
-  } catch (error) {
-    error.body = response.body;
-  }
+  error.body = response.data;
   return (error as WebAPIHTTPError);
 }
 
@@ -966,7 +952,7 @@ function paginationOptionsForNextPage(
  * Extract the amount of time (in seconds) the platform has recommended this client wait before sending another request
  * from a rate-limited HTTP response (statusCode = 429).
  */
-function parseRetryHeaders(response: IncomingMessage): number | undefined {
+function parseRetryHeaders(response: AxiosResponse): number | undefined {
   if (response.headers['retry-after'] !== undefined) {
     return parseInt((response.headers['retry-after'] as string), 10);
   }
