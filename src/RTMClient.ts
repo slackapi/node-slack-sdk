@@ -235,9 +235,13 @@ export class RTMClient extends EventEmitter {
       .global()
         .onStateEnter((state, context) => {
           this.logger.debug(`transitioning to state: ${state}`);
-          // Emits events: `disconnected`, `connecting`, `connected`, 'disconnecting', 'reconnecting'
-          // event payload is anything related to the event, i.e. an error on disconnect
-          this.emit(state, context.eventPayload);
+          if (state === 'disconnected') {
+            // Emits a `disconnected` event with a possible error object (might be undefined)
+            this.emit(state, context.eventPayload);
+          } else {
+            // Emits events: `connecting`, `connected`, `disconnecting`, `reconnecting`
+            this.emit(state);
+          }
         })
     .getConfig();
 
