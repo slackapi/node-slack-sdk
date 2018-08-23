@@ -554,6 +554,12 @@ describe('WebClient', function () {
           throw error;
         });
     });
+
+    it('should use accept a boolean agent', function () {
+      // we don't have any hooks into an agent that node will initialize, so we just make sure that this doesn't throw
+      new WebClient(token, { agent: false });
+      return Promise.resolve();
+    });
   });
 
   describe('has an option to set request concurrency', function () {
