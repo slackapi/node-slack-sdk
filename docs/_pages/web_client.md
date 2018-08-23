@@ -254,7 +254,17 @@ web.on('token_refreshed', (event) => {
 If you need more control over token refreshing, you can listen for `invalid_auth` errors and call `oauth.access` yourself:
 
 ```javascript
-//This example needs to be done heehehehe
+const { WebClient } = require('@slack/client');
+
+const accessToken = process.env.SLACK_TOKEN;
+
+// Initiate WebClient
+const web = new WebClient(accessToken);
+
+// This argument can be a channel ID, a DM ID, a MPDM ID, or a group ID
+const conversationId = 'C1232456';
+
+
 ```
 
 ---
