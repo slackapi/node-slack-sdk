@@ -65,7 +65,7 @@ how to post a message into a channel, DM, MPDM, or group. This will require eith
 ```javascript
 const { WebClient } = require('@slack/client');
 
-// An access token (from your Slack app or custom integration - xoxp, xoxb, or xoxa)
+// An access token (from your Slack app or custom integration - xoxa, xoxp, or xoxb)
 const token = process.env.SLACK_TOKEN;
 
 const web = new WebClient(token);
