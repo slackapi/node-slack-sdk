@@ -1,4 +1,4 @@
-/** 
+/**
  * @module @slack/client
  */
 
@@ -10,6 +10,7 @@
  * @property ReadError
  * @property HTTPError
  * @property PlatformError
+ * @property RateLimitedError
  * @property RTMSendWhileDisconnectedError
  * @property RTMSendWhileNotReadyError
  * @property RTMSendMessagePlatformError
@@ -50,7 +51,7 @@ export class IncomingWebhook {
    * Send a notification to a conversation
    * @param {string | module:@slack/client.IncomingWebhookSendArguments} message the message (a simple string, or an object describing the message)
    * @function module:@slack/client.IncomingWebhook#send
-   * @returns {Promise<module:@slack/client/dist/IncomingWebhook.IncomingWebhookResult>}
+   * @returns {Promise<module:@slack/client.IncomingWebhookResult>}
    */
   send() {}
 
@@ -79,6 +80,13 @@ export class IncomingWebhook {
  * @property {boolean} [link_names]
  */
 export class IncomingWebhookDefaultArguments {
+}
+
+/**
+ * @interface module:@slack/client.IncomingWebhookResult
+ * @property {string} text
+ */
+export class IncomingWebhookResult {
 }
 
 /**
@@ -150,12 +158,12 @@ export class RTMClient {
    * Generic method for sending an outgoing message of an arbitrary type. This method guards the higher-level methods
    * from concern of which state the client is in, because it places all messages into a queue. The tasks on the queue
    * will buffer until the client is in a state where they can be sent.
-   * 
+   *
    * If the awaitReply parameter is set to true, then the returned Promise is resolved with the platform's
    * acknowledgement response. Not all message types will result in an acknowledgement response, so use this carefully.
    * This promise may be rejected with an error containing code=RTMNoReplyReceivedError if the client disconnects or
    * reconnects before recieving the acknowledgement response.
-   * 
+   *
    * If the awaitReply parameter is set to false, then the returned Promise is resolved as soon as the message is sent
    * from the websocket.
    * @param {"undefined"} awaitReply whether to wait for an acknowledgement response from the platform before resolving the returned
@@ -315,6 +323,10 @@ export class WebAPICallResult {
  * @extends module:@slack/client.CodedError
  * @property {"slackclient_http_error"} code
  * @property {Error} original
+ * @property {number} statusCode
+ * @property {string} statusMessage
+ * @property {module:http.IncomingHttpHeaders} headers
+ * @property {any} [body]
  */
 export class WebAPIHTTPError {
 }
@@ -354,7 +366,7 @@ export class WebAPIResultCallback {
 
 /**
  * A client for Slack's Web API
- * 
+ *
  * This client provides an alias for each {@link https://api.slack.com/methods|Web API method}. Each method is
  * a convenience wrapper for calling the {@link WebClient#apiCall} method using the method name as the first parameter.
  * @extends EventEmitter
@@ -397,6 +409,8 @@ export class WebClient {
  * @property {module:@slack/client.RetryOptions} [retryConfig]
  * @property {"undefined" | "undefined" | module:http.Agent | module:@slack/client/dist/util.__type} [agent]
  * @property {module:@slack/client.TLSOptions} [tls]
+ * @property {number} [pageSize]
+ * @property {boolean} [rejectRateLimitedCalls]
  */
 export class WebClientOptions {
 }

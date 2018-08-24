@@ -1,4 +1,4 @@
-import got = require('got'); // tslint:disable-line:no-require-imports
+import axios, { AxiosResponse, AxiosError } from 'axios';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { MessageAttachment } from './methods';
 import { callbackify } from './util';
@@ -29,7 +29,6 @@ export class IncomingWebhook {
   /**
    * Send a notification to a conversation
    * @param message the message (a simple string, or an object describing the message)
-   * @param callback
    */
   public send(message: string | IncomingWebhookSendArguments): Promise<IncomingWebhookResult>;
   public send(message: string | IncomingWebhookSendArguments, callback: IncomingWebhookResultCallback): void;
@@ -45,24 +44,18 @@ export class IncomingWebhook {
       payload = Object.assign(payload, message);
     }
 
-    const implementation = () => got.post(this.url, {
-      body: JSON.stringify(payload),
-      retries: 0,
-    })
-      .catch((error: got.GotError) => {
+    const implementation = () => axios.post(this.url, payload)
+      .catch((error: AxiosError) => {
         // Wrap errors in this packages own error types (abstract the implementation details' types)
-        switch (error.name) {
-          case 'RequestError':
-            throw requestErrorWithOriginal(error);
-          case 'ReadError':
-            throw readErrorWithOriginal(error);
-          case 'HTTPError':
-            throw httpErrorWithOriginal(error);
-          default:
-            throw error;
+        if (error.response !== undefined) {
+          throw httpErrorWithOriginal(error);
+        } else if (error.request !== undefined) {
+          throw requestErrorWithOriginal(error);
+        } else {
+          throw error;
         }
       })
-      .then((response: got.Response<string>) => {
+      .then((response: AxiosResponse) => {
         return this.buildResult(response);
       });
 
@@ -75,11 +68,10 @@ export class IncomingWebhook {
 
   /**
    * Processes an HTTP response into an IncomingWebhookResult.
-   * @param response
    */
-  private buildResult(response: got.Response<string>): IncomingWebhookResult {
+  private buildResult(response: AxiosResponse): IncomingWebhookResult {
     return {
-      text: response.body,
+      text: response.data,
     };
   }
 }
@@ -119,6 +111,7 @@ export interface IncomingWebhookRequestError extends CodedError {
   original: Error;
 }
 
+// NOTE: this is no longer used, but might once again be used if a more specific means to detect it becomes evident
 export interface IncomingWebhookReadError extends CodedError {
   code: ErrorCode.IncomingWebhookReadError;
   original: Error;
@@ -139,28 +132,12 @@ export interface IncomingWebhookHTTPError extends CodedError {
  */
 function requestErrorWithOriginal(original: Error): IncomingWebhookRequestError {
   const error = errorWithCode(
-    // `any` cast is used because the got definition file doesn't export the got.RequestError type
-    new Error(`A request error occurred: ${(original as any).code}`),
+    new Error(`A request error occurred: ${original.message}`),
     ErrorCode.IncomingWebhookRequestError,
   ) as Partial<IncomingWebhookRequestError>;
   error.original = original;
   return (error as IncomingWebhookRequestError);
 }
-
-
-/**
- * A factory to create IncomingWebhookReadError objects
- * @param original The original error
- */
-function readErrorWithOriginal(original: Error): IncomingWebhookReadError {
-  const error = errorWithCode(
-    new Error('A response read error occurred'),
-    ErrorCode.IncomingWebhookReadError,
-  ) as Partial<IncomingWebhookReadError>;
-  error.original = original;
-  return (error as IncomingWebhookReadError);
-}
-
 
 /**
  * A factory to create IncomingWebhookHTTPError objects

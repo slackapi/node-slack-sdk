@@ -1,6 +1,6 @@
 {
   "name": "@slack/client",
-  "version": "4.2.0",
+  "version": "4.4.0",
   "description": "Slack Developer Kit - official clients for the Web API, RTM API, and Incoming Webhooks",
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
@@ -17,6 +17,9 @@
   ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "engines": {
     "node": ">= 6.9.0",
     "npm": ">= 3.10.8"
@@ -40,23 +43,19 @@
     "docs:jsdoc": "ts2jsdoc"
   },
   "dependencies": {
-    "@types/delay": "^2.0.1",
     "@types/form-data": "^2.2.1",
-    "@types/got": "^7.1.7",
     "@types/is-stream": "^1.1.0",
     "@types/loglevel": "^1.5.3",
-    "@types/node": "^9.4.7",
+    "@types/node": ">=6.0.0",
     "@types/p-cancelable": "^0.3.0",
     "@types/p-queue": "^2.3.1",
     "@types/p-retry": "^1.0.1",
     "@types/retry": "^0.10.2",
-    "@types/url-join": "^0.8.2",
-    "@types/ws": "^4.0.1",
-    "delay": "^2.0.0",
+    "@types/ws": "^5.1.1",
+    "axios": "^0.18.0",
     "eventemitter3": "^3.0.0",
     "finity": "^0.5.4",
     "form-data": "^2.3.1",
-    "got": "^8.0.3",
     "is-stream": "^1.1.0",
     "loglevel": "^1.6.1",
     "object.entries": "^1.0.4",
@@ -64,16 +63,15 @@
     "object.values": "^1.0.4",
     "p-cancelable": "^0.3.0",
     "p-queue": "^2.3.0",
-    "p-retry": "^1.0.0",
-    "retry": "^0.10.1",
-    "url-join": "^4.0.0",
-    "ws": "^4.1.0"
+    "p-retry": "^2.0.0",
+    "retry": "^0.12.0",
+    "ws": "^5.2.0"
   },
   "devDependencies": {
+    "@aoberoi/capture-console": "^1.0.0",
     "@types/chai": "^4.1.2",
     "@types/mocha": "^2.2.48",
     "busboy": "^0.2.14",
-    "capture-stdout": "^1.0.0",
     "chai": "^4.1.2",
     "codecov": "^3.0.0",
     "husky": "^0.14.3",

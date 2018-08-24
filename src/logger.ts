@@ -1,6 +1,8 @@
 import * as log from 'loglevel';
 import { noop } from './util';
 
+let instanceCount = 0;
+
 /**
  * Severity levels for log entries
  */
@@ -78,8 +80,12 @@ log.methodFactory = function (
 /**
  * INTERNAL interface for getting or creating a named Logger
  */
-// TODO: implement logger name prefixing (example plugins available on the loglevel package's site)
-export const getLogger = log.getLogger as (name: string) => Logger;
+export function getLogger(name: string): Logger {
+  // TODO: implement logger name prefixing (example plugins available on the loglevel package's site)
+  const instanceNumber = instanceCount;
+  instanceCount += 1;
+  return log.getLogger(name + instanceNumber);
+}
 
 /**
  * Decides whether `level` is more severe than the `threshold` for logging. When this returns true, logs should be
@@ -106,11 +112,11 @@ function isMoreSevere(level: LogLevel, threshold: number): boolean {
 
 /**
  * INTERNAL function for transforming an external LoggerFunc type into the internal Logger interface
- * @param name
- * @param loggingFunc
  */
 export function loggerFromLoggingFunc(name: string, loggingFunc: LoggingFunc): Logger {
-  const logger = log.getLogger(name);
+  const instanceNumber = instanceCount;
+  instanceCount += 1;
+  const logger = log.getLogger(name + instanceNumber);
   logger.methodFactory = function (methodName: LogLevel, logLevel, loggerName: string): (...msg: any[]) => void {
     if (isMoreSevere(methodName, logLevel)) {
       return function (...msg: any[]): void {

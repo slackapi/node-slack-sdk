@@ -11,10 +11,12 @@ headings:
     - title: Getting a list of channels
     - title: Using refresh tokens
     - title: Manually handling token rotation
+    - title: Calling methods on behalf of users
     - title: Using a callback instead of a Promise
     - title: Changing the retry configuration
     - title: Changing the request concurrency
     - title: Rate limit handling
+    - title: Pagination
     - title: Customizing the logger
     - title: Custom agent for proxy support
     - title: OAuth token exchange
@@ -131,7 +133,7 @@ const web = new WebClient(token);
 // This file is located in the current directory (`process.pwd()`)
 const filename = 'test_file.csv';
 
-// See: https://api.slack.com/methods/chat.postMessage
+// See: https://api.slack.com/methods/files.upload
 web.files.upload({
   filename,
   // You can use a ReadableStream or a Buffer for the file option
@@ -169,7 +171,34 @@ web.channels.list()
     res.channels.forEach(c => console.log(c.name));
   })
   .catch(console.error);
-});
+```
+
+---
+
+### Calling methods on behalf of users
+
+When using [workspace tokens](https://api.slack.com/docs/working-with-workspace-tokens), some methods allow your app
+to perform the action [on behalf of a user](https://api.slack.com/docs/working-for-users). To use one of these methods,
+your app will provide the user's ID as an option named `on_behalf_of`.
+
+```javascript
+const { WebClient } = require('@slack/client');
+
+// An access token (from your Slack workspace app - xoxa)
+const token = process.env.SLACK_TOKEN;
+
+// A user ID - this may be found in events or requests such as slash commands, interactive messages, actions, or dialogs
+const userId = 'U0123456';
+
+const web = new WebClient(token);
+
+// https://api.slack.com/methods/users.identity
+web.users.identity({ on_behalf_of: userId })
+  .then((res) => {
+    // `res` contains information about the user. the specific structure depends on the scopes your app was allowed.
+    console.log(res);
+  })
+  .catch(console.error);
 ```
 
 ---
@@ -355,16 +384,117 @@ const web = new WebClient(token, {
 
 ### Rate limit handling
 
-When your application has exceeded the [rate limit](https://api.slack.com/docs/rate-limits#web) for a certain method,
-the `WebClient` object will emit a `rate_limited` event. Observing this event can be useful for scheduling work to be
-done in the future.
+Typically, you shouldn't have to worry about rate limits. By default, the `WebClient` will automatically wait the
+appropriate amount of time and retry the request. During that time, all new requests from the `WebClient` will be
+paused, so it doesn't make your rate-limiting problem worse. Then, once a successful response is received, the returned
+Promise is resolved with the result.
+
+In addition, you can observe when your application has been rate-limited by attaching a handler to the `rate_limited`
+event.
 
 ```javascript
 const { WebClient } = require('@slack/client');
 const token = process.env.SLACK_TOKEN;
 const web = new WebClient(token);
-web.on('rate_limited', retryAfter => console.log(`Delay future requests by at least ${retryAfter} seconds`));
+web.on('rate_limited', (retryAfter) => {
+  console.log(`A request was rate limited and future requests will be paused for ${retryAfter} seconds`);
+});
+
+const userIds = []; // a potentially long list of user IDs
+for (user of userIds) {
+  // if this list is large enough and responses are fast enough, this might trigger a rate-limit
+  // but you will get each result without any additional code, since the rate-limited requests will be retried
+  web.users.info({ user }).then(console.log).catch(console.error);
+}
 ```
+
+If you'd like to handle rate-limits in a specific way for your application, you can turn off the automatic retrying of
+rate-limited API calls with the `rejectRateLimitedCalls` configuration option.
+
+```javascript
+const { WebClient, ErrorCode } = require('@slack/client');
+const token = process.env.SLACK_TOKEN;
+const web = new WebClient(token, { rejectRateLimitedCalls: true });
+
+const userIds = []; // a potentially long list of user IDs
+for (user of userIds) {
+  web.users.info({ user }).then(console.log).catch((error) => {
+    if (error.code === ErrorCodes.RateLimitedError) {
+      // the request was rate-limited, you can deal with this error in your application however you wish
+      console.log(
+        `The users.info with ID ${user} failed due to rate limiting. ` +
+        `The request can be retried in ${error.retryAfter} seconds.`
+      );
+    } else {
+      // some other error occurred
+      console.error(error.message);
+    }
+  });
+}
+```
+
+---
+
+### Pagination
+
+Some methods are meant to return large lists of things; whether it be users, channels, messages, or something else. In
+order to efficiently get you the data you need, Slack will return parts of that entire list, or **pages**. Cursor-based
+pagination describes using a couple options: `cursor` and `limit` to get exactly the page of data you desire. For
+example, this is how your app would get the last 500 messages in a conversation.
+
+```javascript
+const { WebClient } = require('@slack/client');
+const token = process.env.SLACK_TOKEN;
+const web = new WebClient(token);
+const conversationId = 'C123456'; // some conversation ID
+
+web.conversations.history({ channel: conversationId, limit: 500 })
+  .then((res) => {
+    console.log(`Requested 500 messages, recieved ${res.messages.length} in the response`);
+  })
+  .catch(console.error);
+```
+
+In the code above, the `res.messages` array will contain, at maximum, 500 messages. But what about all the previous
+messages? That's what the `cursor` argument is used for 😎.
+
+Inside `res` is a property called `response_metadata`, which might (or might not) have a `next_cursor` property. When
+that `next_cursor` property exists, and is not an empty string, you know there's still more data in the list. If you
+want to read more messages in that channel's history, you would call the method again, but use that value as the
+`cursor` argument. **NOTE**: It should be rare that your app needs to read the entire history of a channel, avoid that!
+With other methods, such as `users.list`, it would be more common to request the entire list, so that's what we're
+illustrating below.
+
+```javascript
+// A function that recursively iterates through each page while a next_cursor exists
+function getAllUsers() {
+  let users = [];
+  function pageLoaded(res) {
+    users = users.concat(res.users);
+    if (res.response_metadata && res.response_metadata.next_cursor && res.response_metadata.cursor !== '') {
+      return web.users.list({ limit: 100, cursor: res.response_metadata.next_cursor }).then(pageLoaded);
+    }
+    return users;
+  }
+  return web.users.list({ limit: 100 }).then(pageLoaded);
+}
+
+getAllUsers()
+  .then(console.log) // prints out the list of users
+  .catch(console.error);
+```
+
+Cursor-based pagination, if available for a method, is always preferred. In fact, when you call a cursor-paginated
+method without a `cursor` or `limit`, the `WebClient` will **automatically paginate** the requests for you until the
+end of the list. Then, each page of results are concatenated, and that list takes the place of the last page in the last
+response. In other words, if you don't specify any pagination options then you get the whole list in the result as well
+as the non-list properties of the last API call. It's always preferred to perform your own pagination by specifying the
+`limit` and/or `cursor` since you can optimize to your own application's needs.
+
+A few methods that returns lists do not support cursor-based pagination, but do support
+[other pagination types](https://api.slack.com/docs/pagination#classic_pagination). These methods will not be
+automatically paginated for you, so you should give extra care and use appropriate options to only request a page at a
+time. If you don't, you risk failing with `Error`s which have a `code` property set to `errorCode.HTTPError`.
 
 ---
 

@@ -1,16 +1,18 @@
+// polyfill for async iterable. see: https://stackoverflow.com/a/43694282/305340
+if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
+
+import { stringify as qsStringify } from 'querystring';
+import { IncomingHttpHeaders, Agent } from 'http';
 import { basename } from 'path';
 import { Readable } from 'stream';
 import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
-import urlJoin = require('url-join'); // tslint:disable-line:no-require-imports
 import isStream = require('is-stream'); // tslint:disable-line:no-require-imports
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
 import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
 import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
-import delay = require('delay'); // tslint:disable-line:no-require-imports
-// NOTE: to reduce depedency size, consider https://www.npmjs.com/package/got-lite
-import got = require('got'); // tslint:disable-line:no-require-imports
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
-import { callbackify, getUserAgent, AgentOption, TLSOptions } from './util';
+import { awaitAndReduce, callbackify, getUserAgent, delay, AgentOption, TLSOptions } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
@@ -46,15 +48,24 @@ export class WebClient extends EventEmitter {
   private requestQueue: PQueue;
 
   /**
-   * An agent used to manage TCP connections for requests. Most commonly used to implement proxy support. See
-   * npm packages `tunnel` and `https-proxy-agent` for information on how to construct a proxy agent.
+   * Axios HTTP client instance used by this client
    */
-  private agentConfig?: AgentOption;
+  private axios: AxiosInstance;
 
   /**
    * Configuration for custom TLS handling
    */
   private tlsConfig: TLSOptions;
+
+  /**
+   * Automatic pagination page size (limit)
+   */
+  private pageSize: number;
+
+  /**
+   * Preference for immediately rejecting API calls which result in a rate-limited response
+   */
+  private rejectRateLimitedCalls: boolean;
 
   /**
    * The name used to prefix all logging generated from this object
@@ -67,11 +78,6 @@ export class WebClient extends EventEmitter {
   private logger: Logger;
 
   /**
-   * The value for the User-Agent HTTP header (used for instrumentation).
-   */
-  private userAgent: string;
-
-  /**
    * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`, or `xoxa`)
    */
   constructor(token?: string, {
@@ -82,6 +88,8 @@ export class WebClient extends EventEmitter {
     retryConfig = retryPolicies.retryForeverExponentialCappedRandom,
     agent = undefined,
     tls = undefined,
+    pageSize = 200,
+    rejectRateLimitedCalls = false,
   }: WebClientOptions = {}) {
     super();
     this.token = token;
@@ -89,9 +97,10 @@ export class WebClient extends EventEmitter {
 
     this.retryConfig = retryConfig;
     this.requestQueue = new PQueue({ concurrency: maxRequestConcurrency });
-    this.agentConfig = agent;
     // NOTE: may want to filter the keys to only those acceptable for TLS options
     this.tlsConfig = tls !== undefined ? tls : {};
+    this.pageSize = pageSize;
+    this.rejectRateLimitedCalls = rejectRateLimitedCalls;
 
     // Logging
     if (logger !== undefined) {
@@ -100,7 +109,20 @@ export class WebClient extends EventEmitter {
       this.logger = getLogger(WebClient.loggerName);
     }
     this.logger.setLevel(logLevel);
-    this.userAgent = getUserAgent();
+
+    this.axios = axios.create({
+      baseURL: slackApiUrl,
+      headers: {
+        'User-Agent': getUserAgent(),
+      },
+      httpAgent: agentForScheme('http', agent),
+      httpsAgent: agentForScheme('https', agent),
+      transformRequest: [this.serializeApiCallOptions.bind(this)],
+      validateStatus: () => true, // all HTTP status codes should result in a resolved promise (as opposed to only 2xx)
+      maxRedirects: 0,
+    });
+    // serializeApiCallOptions will always determine the appropriate content-type
+    delete this.axios.defaults.headers.post['Content-Type'];
 
     this.logger.debug('initialized');
   }
@@ -127,71 +149,145 @@ export class WebClient extends EventEmitter {
         throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
       }
 
-      const requestBody = this.serializeApiCallOptions(Object.assign({ token: this.token }, options));
+      // warn for methods whose functionality is deprecated
+      if (method === 'files.comments.add' || method === 'files.comments.edit') {
+        this.logger.warn(
+          `File comments are deprecated in favor of file threads. Replace uses of ${method} in your app ` +
+          'to take advantage of improvements. See https://api.slack.com/changelog/2018-05-file-threads-soon-tread ' +
+          'to learn more.',
+        );
+      }
 
-      // The following thunk encapsulates the task so that it can be coordinated for retries
-      const task = () => {
-        this.logger.debug('request attempt');
-        return got.post(urlJoin(this.slackApiUrl, method),
-          // @ts-ignore using older definitions for package `got`, can remove when type `@types/got` is updated for v8
-          Object.assign({
-            form: !canBodyBeFormMultipart(requestBody),
-            body: requestBody,
-            retries: 0,
-            headers: {
-              'user-agent': this.userAgent,
+      // build headers
+      const headers = {};
+      if (options !== undefined && optionsAreUserPerspectiveEnabled(options)) {
+        headers['X-Slack-User'] = options.on_behalf_of;
+        delete options.on_behalf_of;
+      }
+
+      const methodSupportsCursorPagination = methods.cursorPaginationEnabledMethods.has(method);
+      const optionsPaginationType = getOptionsPaginationType(options);
+
+      // warn in priority of most general pagination problem to most specific pagination problem
+      if (optionsPaginationType === PaginationType.Mixed) {
+        this.logger.warn('Options include mixed pagination techniques. ' +
+                         'Always prefer cursor-based pagination when available');
+      } else if (optionsPaginationType === PaginationType.Cursor &&
+                 !methodSupportsCursorPagination) {
+        this.logger.warn('Options include cursor-based pagination while the method cannot support that technique');
+      } else if (optionsPaginationType === PaginationType.Timeline &&
+                 !methods.timelinePaginationEnabledMethods.has(method)) {
+        this.logger.warn('Options include timeline-based pagination while the method cannot support that technique');
+      } else if (optionsPaginationType === PaginationType.Traditional &&
+                 !methods.traditionalPagingEnabledMethods.has(method)) {
+        this.logger.warn('Options include traditional paging while the method cannot support that technique');
+      } else if (methodSupportsCursorPagination &&
+                 optionsPaginationType !== PaginationType.Cursor && optionsPaginationType !== PaginationType.None) {
+        this.logger.warn('Method supports cursor-based pagination and a different tecnique is used in options. ' +
+                         'Always prefer cursor-based pagination when available');
+      }
+
+      const shouldAutoPaginate = methodSupportsCursorPagination && optionsPaginationType === PaginationType.None;
+      this.logger.debug(`shouldAutoPaginate: ${shouldAutoPaginate}`);
+
+      /**
+       * Generates a result object for each of the HTTP requests for this API call. API calls will generally only
+       * generate more than one result when automatic pagination is occurring.
+       */
+      async function* generateResults(this: WebClient): AsyncIterableIterator<WebAPICallResult> {
+        // when result is undefined, that signals that the first of potentially many calls has not yet been made
+        let result: WebAPICallResult | undefined = undefined;
+        // paginationOptions stores pagination options not already stored in the options argument
+        let paginationOptions: methods.CursorPaginationEnabled = {};
+
+        if (shouldAutoPaginate) {
+          // these are the default pagination options
+          paginationOptions = { limit: this.pageSize };
+        }
+
+        while (result === undefined ||
+               (shouldAutoPaginate &&
+                 (objectEntries(paginationOptions = paginationOptionsForNextPage(result, this.pageSize)).length > 0)
+               )
+              ) {
+          const task = () => this.requestQueue.add(
+            async () => {
+              this.logger.debug('will perform http request');
+              try {
+                const response = await this.axios.post(method, Object.assign(
+                  { token: this.token },
+                  paginationOptions,
+                  options,
+                ), Object.assign({
+                  headers,
+                }, this.tlsConfig));
+                this.logger.debug('http response received');
+
+                if (response.status === 429) {
+                  const retrySec = parseRetryHeaders(response);
+                  if (retrySec !== undefined) {
+                    this.emit('rate_limited', retrySec);
+                    if (this.rejectRateLimitedCalls) {
+                      throw new pRetry.AbortError(rateLimitedErrorWithDelay(retrySec));
+                    }
+                    this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
+                    // pause the request queue and then delay the rejection by the amount of time in the retry header
+                    this.requestQueue.pause();
+                    // NOTE: if there was a way to introspect the current RetryOperation and know what the next timeout
+                    // would be, then we could subtract that time from the following delay, knowing that it the next
+                    // attempt still wouldn't occur until after the rate-limit header has specified. an even better
+                    // solution would be to subtract the time from only the timeout of this next attempt of the
+                    // RetryOperation. this would result in the staying paused for the entire duration specified in the
+                    // header, yet this operation not having to pay the timeout cost in addition to that.
+                    await delay(retrySec * 1000);
+                    // resume the request queue and throw a non-abort error to signal a retry
+                    this.requestQueue.start();
+                    throw Error('A rate limit was exceeded.');
+                  } else {
+                    // TODO: turn this into some CodedError
+                    throw new pRetry.AbortError(new Error('Retry header did not contain a valid timeout.'));
+                  }
+                }
+
+                // Slack's Web API doesn't use meaningful status codes besides 429 and 200
+                if (response.status !== 200) {
+                  throw httpErrorFromResponse(response);
+                }
+
+                result = this.buildResult(response);
+
+                // log warnings in response metadata
+                if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
+                  result.response_metadata.warnings.forEach(this.logger.warn);
+                }
+
+                if (!result.ok) {
+                  const error = errorWithCode(
+                    new Error(`An API error occurred: ${result.error}`),
+                    ErrorCode.PlatformError,
+                  );
+                  error.data = result;
+                  throw new pRetry.AbortError(error);
+                }
+
+                return result;
+              } catch (error) {
+                this.logger.debug('http request failed');
+                if (error.request) {
+                  throw requestErrorWithOriginal(error);
+                }
+                throw error;
+              }
             },
-            agent: this.agentConfig,
-          }, this.tlsConfig),
-        )
-          .catch((error: got.GotError) => {
-            // Wrap errors in this packages own error types (abstract the implementation details' types)
-            if (error.name === 'RequestError') {
-              throw requestErrorWithOriginal(error);
-            } else if (error.name === 'ReadError') {
-              throw readErrorWithOriginal(error);
-            } else if (error.name === 'HTTPError') {
-              throw httpErrorWithOriginal(error);
-            } else {
-              throw error;
-            }
-          })
-          .then((response: got.Response<string>) => {
-            const result = this.buildResult(response);
-            // log warnings in response metadata
-            if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
-              result.response_metadata.warnings.forEach(this.logger.warn);
-            }
+          );
 
-            // handle rate-limiting
-            if (response.statusCode !== undefined && response.statusCode === 429) {
-              const retryAfterMs = result.retryAfter !== undefined ? result.retryAfter : (60 * 1000);
-              // NOTE: the following event could have more information regarding the api call that is being delayed
-              this.emit('rate_limited', retryAfterMs / 1000);
-              this.logger.info(`API Call failed due to rate limiting. Will retry in ${retryAfterMs / 1000} seconds.`);
-              // wait and return the result from calling `task` again after the specified number of seconds
-              return delay(retryAfterMs).then(task);
-            }
+          result = await pRetry(task, this.retryConfig);
+          yield result;
+        }
+      }
 
-            // For any error in the API response, treat them as irrecoverable by throwing an AbortError to end retries.
-            if (!result.ok) {
-              const error = errorWithCode(
-                new Error(`An API error occurred: ${result.error}`),
-                ErrorCode.PlatformError,
-              );
-              error.data = result;
-              throw new pRetry.AbortError(error);
-            }
-
-            return result;
-          });
-      };
-
-      // The following thunk encapsulates the retried task so that it can be coordinated for request queuing
-      const taskAfterRetries = () => pRetry(task, this.retryConfig);
-
-      // The final return value is the resolution of the task after being retried and queued
-      return this.requestQueue.add(taskAfterRetries);
+      // return a promise that resolves when a reduction of responses finishes
+      return awaitAndReduce(generateResults.call(this), createResultMerger(method) , {} as WebAPICallResult);
     };
 
     // Adapt the interface for callback-based execution or Promise-based execution
@@ -216,6 +312,14 @@ export class WebClient extends EventEmitter {
     permissions: {
       info: (this.apiCall.bind(this, 'apps.permissions.info')) as Method<methods.AppsPermissionsInfoArguments>,
       request: (this.apiCall.bind(this, 'apps.permissions.request')) as Method<methods.AppsPermissionsRequestArguments>,
+      resources: {
+        list: (this.apiCall.bind(this, 'apps.permissions.resources.list')) as
+          Method<methods.AppsPermissionsResourcesListArguments>,
+      },
+      scopes: {
+        list: (this.apiCall.bind(this, 'apps.permissions.scopes.list')) as
+          Method<methods.AppsPermissionsScopesListArguments>,
+      },
     },
   };
 
@@ -502,14 +606,15 @@ export class WebClient extends EventEmitter {
   };
 
   /**
-   * Transforms options into an object suitable for got to use as a body. This can be one of two things:
-   * -  A FormCanBeURLEncoded object, which is just a key-value object where the values have been flattened and
-   *    got can serialize it into application/x-www-form-urlencoded content type.
-   * -  A BodyCanBeFormMultipart: when the options includes a file, and got must use multipart/form-data content type.
+   * Transforms options (a simple key-value object) into an acceptable value for a body. This can be either
+   * a string, used when posting with a content-type of url-encoded. Or, it can be a readable stream, used
+   * when the options contain a binary (a stream or a buffer) and the upload should be done with content-type
+   * multipart/form-data.
    *
    * @param options arguments for the Web API method
+   * @param headers a mutable object representing the HTTP headers for the outgoing request
    */
-  private serializeApiCallOptions(options: WebAPICallOptions): FormCanBeURLEncoded | BodyCanBeFormMultipart {
+  private serializeApiCallOptions(options: WebAPICallOptions, headers?: any): string | Readable {
     // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
     // binary content
     let containsBinaryData = false;
@@ -535,7 +640,7 @@ export class WebClient extends EventEmitter {
     // A body with binary content should be serialized as multipart/form-data
     if (containsBinaryData) {
       this.logger.debug('request arguments contain binary data');
-      return flattened.reduce((form, [key, value]) => {
+      const form = flattened.reduce((form, [key, value]) => {
         if (Buffer.isBuffer(value) || isStream(value)) {
           const options: FormData.AppendOptions = {};
           options.filename = (() => {
@@ -554,32 +659,39 @@ export class WebClient extends EventEmitter {
             return defaultFilename;
           })();
           form.append(key, value, options);
-        } else {
+        } else if (key !== undefined && value !== undefined) {
           form.append(key, value);
         }
         return form;
       }, new FormData());
+      // Merge FormData provided headers into headers param
+      // not reassigning to headers param since it is passed by reference and behaves as an inout param
+      for (const [header, value] of objectEntries(form.getHeaders())) {
+        headers[header] = value;
+      }
+      return form;
     }
 
     // Otherwise, a simple key-value object is returned
-    return flattened.reduce((accumulator, [key, value]) => {
+    headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    return qsStringify(flattened.reduce((accumulator, [key, value]) => {
       if (key !== undefined && value !== undefined) {
         accumulator[key] = value;
       }
       return accumulator;
-    }, {});
+    }, {}));
   }
 
   /**
    * Processes an HTTP response into a WebAPICallResult by performing JSON parsing on the body and merging relevent
    * HTTP headers into the object.
-   * @param response
+   * @param response - an http response
    */
-  private buildResult(response: got.Response<string>): WebAPICallResult {
-    const data = JSON.parse(response.body);
+  private buildResult(response: AxiosResponse): WebAPICallResult {
+    const data = response.data;
 
     // add scopes metadata from headers
-    if (response.headers['x-oauth'] !== undefined) {
+    if (response.headers['x-oauth-scopes'] !== undefined) {
       data.scopes = (response.headers['x-oauth-scopes'] as string).trim().split(/\s*,\s*/);
     }
     if (response.headers['x-accepted-oauth-scopes'] !== undefined) {
@@ -587,8 +699,9 @@ export class WebClient extends EventEmitter {
     }
 
     // add retry metadata from headers
-    if (response.headers['retry-after'] !== undefined) {
-      data.retryAfter = parseInt((response.headers['retry-after'] as string), 10) * 1000;
+    const retrySec = parseRetryHeaders(response);
+    if (retrySec !== undefined) {
+      data.retryAfter = retrySec;
     }
 
     return data;
@@ -602,16 +715,17 @@ export default WebClient;
  */
 
 export interface WebClientOptions {
-  slackApiUrl?: string; // SEMVER:MAJOR casing change from previous
+  slackApiUrl?: string;
   logger?: LoggingFunc;
   logLevel?: LogLevel;
   maxRequestConcurrency?: number;
   retryConfig?: RetryOptions;
   agent?: AgentOption;
   tls?: TLSOptions;
+  pageSize?: number;
+  rejectRateLimitedCalls?: boolean;
 }
 
-// NOTE: could potentially add GotOptions to this interface (using &, or maybe as an embedded key)
 export interface WebAPICallOptions {
 }
 
@@ -621,14 +735,18 @@ export interface WebAPICallResult {
   scopes?: string[];
   acceptedScopes?: string[];
   retryAfter?: number;
-  response_metadata?: { warnings?: string[] };
+  response_metadata?: {
+    warnings?: string[];
+    next_cursor?: string; // is this too specific to be encoded into this type?
+  };
 }
 
 export interface WebAPIResultCallback {
   (error: WebAPICallError, result: WebAPICallResult): void;
 }
 
-export type WebAPICallError = WebAPIPlatformError | WebAPIRequestError | WebAPIReadError | WebAPIHTTPError;
+export type WebAPICallError =
+  WebAPIPlatformError | WebAPIRequestError | WebAPIReadError | WebAPIHTTPError | WebAPIRateLimitedError;
 
 export interface WebAPIPlatformError extends CodedError {
   code: ErrorCode.PlatformError;
@@ -649,7 +767,16 @@ export interface WebAPIReadError extends CodedError {
 
 export interface WebAPIHTTPError extends CodedError {
   code: ErrorCode.HTTPError;
-  original: Error;
+  original: Error; // TODO: deprecate
+  statusCode: number;
+  statusMessage: string;
+  headers: IncomingHttpHeaders;
+  body?: any;
+}
+
+export interface WebAPIRateLimitedError extends CodedError {
+  code: ErrorCode.RateLimitedError;
+  retryAfter: number;
 }
 
 /*
@@ -658,31 +785,44 @@ export interface WebAPIHTTPError extends CodedError {
 
 const defaultFilename = 'Untitled';
 
-interface FormCanBeURLEncoded {
-  [key: string]: string | number | boolean;
+/**
+ * Detects whether an object is an http.Agent
+ */
+function isAgent(obj: any): obj is Agent {
+  return typeof obj.maxSockets === 'number' && typeof obj.destroy === 'function';
 }
-
-interface BodyCanBeFormMultipart extends Readable { }
 
 /**
- * Determines whether a request body object should be treated as FormData-encodable (Content-Type=multipart/form-data).
- * @param body a request body
+ * Returns an agent (or false or undefined) for the specific scheme and option passed in
+ * @param scheme either 'http' or 'https'
  */
-function canBodyBeFormMultipart(body: FormCanBeURLEncoded | BodyCanBeFormMultipart): body is BodyCanBeFormMultipart {
-  // tried using `isStream.readable(body)` but that failes because the object doesn't have a `_read()` method or a
-  // `_readableState` property
-  return isStream(body);
+function agentForScheme(scheme: string, agentOption?: AgentOption): Agent | boolean | undefined {
+  if (agentOption === undefined) {
+    return undefined;
+  }
+  if (typeof agentOption === 'boolean') {
+    return agentOption;
+  }
+  if (isAgent(agentOption)) {
+    return agentOption;
+  }
+  return agentOption[scheme];
 }
 
+/**
+ * Determines whether WebAPICallOptions conform to UserPerspectiveEnabled
+ */
+function optionsAreUserPerspectiveEnabled(options: WebAPICallOptions): options is methods.UserPerspectiveEnabled {
+  return (options as any).on_behalf_of !== undefined;
+}
 
 /**
  * A factory to create WebAPIRequestError objects
- * @param original
+ * @param original - original error
  */
 function requestErrorWithOriginal(original: Error): WebAPIRequestError {
   const error = errorWithCode(
-    // any cast is used because the got definition file doesn't export the got.RequestError type
-    new Error(`A request error occurred: ${(original as any).code}`),
+    new Error(`A request error occurred: ${original.message}`),
     ErrorCode.RequestError,
   ) as Partial<WebAPIRequestError>;
   error.original = original;
@@ -690,29 +830,131 @@ function requestErrorWithOriginal(original: Error): WebAPIRequestError {
 }
 
 /**
- * A factory to create WebAPIReadError objects
- * @param original
+ * A factory to create WebAPIHTTPError objects
+ * @param original - original error
  */
-function readErrorWithOriginal(original: Error): WebAPIReadError {
+function httpErrorFromResponse(response: AxiosResponse): WebAPIHTTPError {
   const error = errorWithCode(
-    // any cast is used because the got definition file doesn't export the got.ReadError type
-    new Error('A response read error occurred'),
-    ErrorCode.ReadError,
-  ) as Partial<WebAPIReadError>;
-  error.original = original;
-  return (error as WebAPIReadError);
+    new Error(`An HTTP protocol error occurred: statusCode = ${response.status}`),
+    ErrorCode.HTTPError,
+  ) as Partial<WebAPIHTTPError>;
+  error.original = new Error('The WebAPIHTTPError.original property is deprecated. See other properties for details.');
+  error.statusCode = response.status;
+  error.statusMessage = response.statusText;
+  error.headers = response.headers;
+  error.body = response.data;
+  return (error as WebAPIHTTPError);
 }
 
 /**
- * A factory to create WebAPIHTTPError objects
- * @param original
+ * A factory to create WebAPIRateLimitedError objects
+ * @param retrySec - Number of seconds that the request can be retried in
  */
-function httpErrorWithOriginal(original: Error): WebAPIHTTPError {
+function rateLimitedErrorWithDelay(retrySec: number): WebAPIRateLimitedError {
   const error = errorWithCode(
-    // any cast is used because the got definition file doesn't export the got.HTTPError type
-    new Error(`An HTTP protocol error occurred: statusCode = ${(original as any).statusCode}`),
-    ErrorCode.HTTPError,
-  ) as Partial<WebAPIHTTPError>;
-  error.original = original;
-  return (error as WebAPIHTTPError);
+    new Error(`A rate-limit has been reached, you may retry this request in ${retrySec} seconds`),
+    ErrorCode.RateLimitedError,
+  ) as Partial<WebAPIRateLimitedError>;
+  error.retryAfter = retrySec;
+  return (error as WebAPIRateLimitedError);
+}
+
+enum PaginationType {
+  Cursor = 'Cursor',
+  Timeline = 'Timeline',
+  Traditional = 'Traditional',
+  Mixed = 'Mixed',
+  None = 'None',
+}
+
+/**
+ * Determines which pagination type, if any, the supplied options (a.k.a. method arguments) are using. This method is
+ * also able to determine if the options have mixed different pagination types.
+ */
+function getOptionsPaginationType(options?: WebAPICallOptions): PaginationType {
+  if (options === undefined) {
+    return PaginationType.None;
+  }
+
+  let optionsType = PaginationType.None;
+  for (const option of Object.keys(options)) {
+    if (optionsType === PaginationType.None) {
+      if (methods.cursorPaginationOptionKeys.has(option)) {
+        optionsType = PaginationType.Cursor;
+      } else if (methods.timelinePaginationOptionKeys.has(option)) {
+        optionsType = PaginationType.Timeline;
+      } else if (methods.traditionalPagingOptionKeys.has(option)) {
+        optionsType = PaginationType.Traditional;
+      }
+    } else if (optionsType === PaginationType.Cursor) {
+      if (methods.timelinePaginationOptionKeys.has(option) || methods.traditionalPagingOptionKeys.has(option)) {
+        return PaginationType.Mixed;
+      }
+    } else if (optionsType === PaginationType.Timeline) {
+      if (methods.cursorPaginationOptionKeys.has(option) || methods.traditionalPagingOptionKeys.has(option)) {
+        return PaginationType.Mixed;
+      }
+    } else if (optionsType === PaginationType.Traditional) {
+      if (methods.cursorPaginationOptionKeys.has(option) || methods.timelinePaginationOptionKeys.has(option)) {
+        return PaginationType.Mixed;
+      }
+    }
+  }
+  return optionsType;
+}
+
+/**
+ * Creates a function that can reduce a result into an accumulated result. This is used for reducing many results from
+ * automatically paginated API calls into a single result. It depends on metadata in the 'method' import.
+ * @param method - the API method for which a result merging function is needed
+ */
+function createResultMerger(method: string):
+    (accumulator: WebAPICallResult, result: WebAPICallResult) => WebAPICallResult {
+  if (methods.cursorPaginationEnabledMethods.has(method)) {
+    const paginatedResponseProperty = methods.cursorPaginationEnabledMethods.get(method) as string;
+    return (accumulator: WebAPICallResult, result: WebAPICallResult): WebAPICallResult => {
+      for (const resultProperty of Object.keys(result)) {
+        if (resultProperty === paginatedResponseProperty) {
+          if (accumulator[resultProperty] === undefined) {
+            accumulator[resultProperty] = [];
+          }
+          accumulator[resultProperty] = accumulator[resultProperty].concat(result[resultProperty]);
+        } else {
+          accumulator[resultProperty] = result[resultProperty];
+        }
+      }
+      return accumulator;
+    };
+  }
+  // For all methods who don't use cursor-pagination, return the identity reduction function
+  return (_, result) => result;
+}
+
+/**
+ * Determines an appropriate set of cursor pagination options for the next request to a paginated API method.
+ * @param previousResult - the result of the last request, where the next cursor might be found.
+ * @param pageSize - the maximum number of additional items to fetch in the next request.
+ */
+function paginationOptionsForNextPage(
+  previousResult: WebAPICallResult, pageSize: number,
+): methods.CursorPaginationEnabled {
+  const paginationOptions: methods.CursorPaginationEnabled = {};
+  if (previousResult.response_metadata !== undefined &&
+    previousResult.response_metadata.next_cursor !== undefined &&
+    previousResult.response_metadata.next_cursor !== '') {
+    paginationOptions.limit = pageSize;
+    paginationOptions.cursor = previousResult.response_metadata.next_cursor as string;
+  }
+  return paginationOptions;
+}
+
+/**
+ * Extract the amount of time (in seconds) the platform has recommended this client wait before sending another request
+ * from a rate-limited HTTP response (statusCode = 429).
+ */
+function parseRetryHeaders(response: AxiosResponse): number | undefined {
+  if (response.headers['retry-after'] !== undefined) {
+    return parseInt((response.headers['retry-after'] as string), 10);
+  }
+  return undefined;
 }

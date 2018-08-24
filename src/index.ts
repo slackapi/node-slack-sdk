@@ -26,7 +26,8 @@ export {
   WebAPICallResult,
   WebAPIPlatformError,
   WebAPIRequestError,
-  WebAPIReadError,
+  WebAPIReadError, // NOTE: this is no longer used, but might once again be used if a more specific means to detect it
+                   // becomes evident
   WebAPIHTTPError,
   WebAPICallError,
   WebAPIResultCallback,
@@ -48,5 +49,6 @@ export {
   IncomingWebhook,
   IncomingWebhookSendArguments,
   IncomingWebhookDefaultArguments,
+  IncomingWebhookResult,
   IncomingWebhookResultCallback,
 } from './IncomingWebhook';

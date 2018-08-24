@@ -145,29 +145,21 @@ export class RTMClient extends EventEmitter {
             })
             .on('websocket open').transitionTo('handshaking')
           .state('handshaking') // a state in which to wait until the 'server hello' event
-            .on('websocket close')
-              .transitionTo('reconnecting').withCondition(() => this.autoReconnect)
-              .withAction((_from, _to, context) => {
-                this.logger.debug(`reconnecting after unexpected close ${context.eventPayload.reason} 
-                  ${context.eventPayload.code} with isMonitoring set to ${this.keepAlive.isMonitoring} 
-                  and recommendReconnect set to ${this.keepAlive.recommendReconnect}`);
-              })
-              .transitionTo('disconnected')
-              .withAction((_from, _to, context) => {
-                this.logger.debug(`disconnected after unexpected close ${context.eventPayload.reason} 
-                  ${context.eventPayload.code} with isMonitoring set to ${this.keepAlive.isMonitoring} 
-                  and recommendReconnect set to ${this.keepAlive.recommendReconnect}`);
-                // this transition circumvents the 'disconnecting' state (since the websocket is already closed),
-                // so we need to execute its onExit behavior here.
-                this.teardownWebsocket();
-              })
           .global()
             .onStateEnter((state) => {
               this.logger.debug(`transitioning to state: connecting:${state}`);
             })
         .getConfig())
         .on('server hello').transitionTo('connected')
+        .on('websocket close')
+          .transitionTo('reconnecting').withCondition(() => this.autoReconnect)
+          .transitionTo('disconnected').withAction(() => {
+            // this transition circumvents the 'disconnecting' state (since the websocket is already closed), so we need
+            // to execute its onExit behavior here.
+            this.teardownWebsocket();
+          })
         .on('failure').transitionTo('disconnected')
+        .on('explicit disconnect').transitionTo('disconnecting')
       .state('connected')
         .onEnter(() => {
           this.connected = true;
@@ -221,12 +213,10 @@ export class RTMClient extends EventEmitter {
         })
       .state('disconnecting')
         .onEnter(() => {
-          // invariant: websocket exists and is open at the start of this state
+          // Most of the time, a websocket will exist. The only time it does not is when transitioning from connecting,
+          // before the rtm.start() has finished and the websocket hasn't been set up.
           if (this.websocket !== undefined) {
             this.websocket.close();
-          } else {
-            this.logger.error('Websocket not found when transitioning into disconnecting state. Please report to ' +
-              '@slack/client package maintainers.');
           }
         })
         .on('websocket close').transitionTo('disconnected')
@@ -234,7 +224,10 @@ export class RTMClient extends EventEmitter {
       // reconnecting is just like disconnecting, except that the websocket should already be closed before we enter
       // this state, and that the next state should be connecting.
       .state('reconnecting')
-        .do(() => Promise.resolve(true))
+        .do(() => {
+          this.keepAlive.stop();
+          return Promise.resolve(true);
+        })
           .onSuccess().transitionTo('connecting')
         .onExit(() => this.teardownWebsocket())
       .global()
@@ -290,7 +283,6 @@ export class RTMClient extends EventEmitter {
    */
   private static loggerName = `${pkg.name}:RTMClient`;
 
-
   /**
    * This object's logger instance
    */
@@ -337,6 +329,11 @@ export class RTMClient extends EventEmitter {
       if (this.websocket !== undefined) {
         // this will trigger the 'websocket close' event on the state machine, which transitions to clean up
         this.websocket.close();
+
+        // if the websocket actually is no longer connected, the eventual 'websocket close' event will take a long time,
+        // because it won't fire until the close handshake completes. in the meantime, stop the keep alive so we don't
+        // send pings on a dead connection.
+        this.keepAlive.stop();
       }
     }, this);
 
@@ -356,9 +353,8 @@ export class RTMClient extends EventEmitter {
   /**
    * Begin an RTM session using the provided options. This method must be called before any messages can
    * be sent or received.
-   * @param options
    */
-  public start(options: methods.RTMStartArguments | methods.RTMConnectArguments): void {
+  public start(options?: methods.RTMStartArguments | methods.RTMConnectArguments): void {
     // TODO: should this return a Promise<WebAPICallResult>?
     // TODO: make a named interface for the type of `options`. it should end in -Options instead of Arguments.
 
@@ -543,7 +539,6 @@ export class RTMClient extends EventEmitter {
 
   /**
    * Set up method for the client's websocket instance. This method will attach event listeners.
-   * @param url
    */
   private setupWebsocket(url: string): void {
     // initialize the websocket
@@ -581,7 +576,6 @@ export class RTMClient extends EventEmitter {
   /**
    * `onmessage` handler for the client's websocket. This will parse the payload and dispatch the relevant events for
    * each incoming message.
-   * @param websocketMessage
    */
   private onWebsocketMessage({ data }: { data: string }): void {
     // v3 legacy
@@ -679,7 +673,6 @@ export interface RTMWebsocketError extends CodedError {
 
  /**
   * A factory to create RTMWebsocketError objects.
-  * @param original
   */
 function websocketErrorWithOriginal(original: Error): RTMWebsocketError {
   const error = errorWithCode(

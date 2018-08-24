@@ -310,6 +310,8 @@ export.
 You can also capture the logs without writing them to stdout by setting the `logger` option. It should be set to a
 function that takes `fn(level: string, message: string)`.
 
+**Note** `logLevel: LogLevel.DEBUG` should not be used in production. Debug is helpful for diagnosing issues but it is a bad idea to use this in production because it will log the contents of messages in the RTMClient.
+
 ```javascript
 const fs = require('fs');
 const { RTMClient, LogLevel } = require('@slack/client');
