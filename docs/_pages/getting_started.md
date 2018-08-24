@@ -226,8 +226,8 @@ ideas about where to look next:
   authentication, you may find the
   [`@aoberoi/passport-slack`](https://github.com/aoberoi/passport-slack) strategy package helpful.
 
-* Short-lived tokens are required if you plan on distributing your app. You can find examples of using
-  refresh tokens with the `WebClient` [in the documentation](/web_api#using-automatic-refresh-tokens), and learn more about short-lived tokens and token refresh [on the API site](https://api.dev612.slack.com/docs/rotating-and-refreshing-credentials).
+* Token rotation is required if you plan on distributing your app. You can find examples of using
+  refresh tokens with the `WebClient` [in the documentation](/web_api#using-refresh-tokens), and learn more about refresh tokens and token rotation [on the API site](https://api.dev612.slack.com/docs/rotating-and-refreshing-credentials).
 
 * Tokens are an important part of using the Slack platform. Learn about the
   [different types of tokens](https://api.slack.com/docs/token-types).
