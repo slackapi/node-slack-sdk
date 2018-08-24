@@ -6,8 +6,7 @@ order: 1
 headings:
     - title: Create a Slack app
     - title: Setting up your local project
-    - title: Sending a notification with incoming webhooks
-    - title: Calling a web API method
+    - title: Sending a message with the web API
 ---
 
 You've never built a Slack app before? Want some direction on how to use this package? Well, my
@@ -18,26 +17,11 @@ This guide introduces fundamentals of the Slack Developer Kit for Node.js and Sl
 ## Create a Slack app
 
 The first step is to [register a new app](https://api.slack.com/apps/new) with Slack at the API
-website. Give your app a fun name and choose a Development Slack Workspace. We recommend using
-a workspace where you aren't going to disrupt real work getting done -- you can create a new
-workspace for free.
+website. You have the option to build a user-token app or a workspace app. Give your app a fun name and choose a Development Slack Workspace. We recommend using a workspace where you aren't going to disrupt real work getting done -- you can create a new workspace for free.
 
-You'll be greeted with some basic information. In this guide we'll be setting up an Incoming Webhook
-and make a request to the Web API. The webhook allows your app to post rich notifications into
-one specific channel that a user gets to decide when they install your app into their workspace.
-The Web API allows your app to call methods that can be used for everything from creating a channel
-to searching messages. Let's configure our new app for these capabilities.
+> ⚠️ For this guide, we'll assume you're building a [workspace app](https://api.slack.com/workspace-apps-preview). Workspace apps support Slack's latest-and-greatest platform features and will be required for distributed apps in the (near) future. However, most steps are the same for user-token apps.
 
-### Setting up incoming webhooks
-
-Navigate to incoming webhooks and activate the feature. When you click the "Add New Webhook to
-Workspace" button, you'll be taken to your app installation page. This page is asking you for
-permission to install the app in your development workspace with specific capabilities. That's
-right, the development workspace is like every other workspace -- apps must be authorized by a user
-each time it asks for more permissions. Go ahead and choose a channel and click "Authorize".
-Copy the webhook URL that was added to the table below and keep it safe. This URL should be treated
-like a password since it contains the permissions to post in a channel from the outside world. In
-a later step, you'll be asked to use this URL in your code.
+After you create an app, you'll be greeted with some basic information. In this guide we'll be making a request to the Web API to post a message to a channel. Aside from posting messages, the Web API allows your app to call [methods](https://api.slack.com/methods) that can be used for everything from creating a channel to searching messages. Let's configure our new app with proper permissions.
 
 ### Getting a token to use the Web API
 
@@ -47,17 +31,13 @@ various permissions your app could obtain from a user as **scopes**. There are a
 of data, while others are very specific and let your app touch just a tiny sliver. Your users (and
 their IT admins) will have opinions about which data your app should access, so we recommend finding
 the scope(s) with the least amount of privilege for your app's needs. In this guide we will use the
-Web API to perform a search for messages. The scope required for this is called `search:read`. Use
-the dropdown or start typing its name to select and add the scope, then click "Save Changes".
+Web API to post a message. The scope required for this is called `chat:write` (or `chat:write:user` for user-token apps). Use the dropdown or start typing its name to select and add the scope, then click "Save Changes".
 
 Our app has described which scope it desires in the workspace, but a user hasn't authorized those
 scopes for the development workspace yet. Scroll up and click "Install (or Reinstall) App". You'll
 be back at the page asking you for permission, but this time with an additional entry corresponding
-to the `search:read` scope we just added. Choose your channel again and click "Authorize". When you
-return to the OAuth & Permissions page copy the OAuth Access Token. Just like the webhook URL from
-above, treat this value like a password and keep it safe. The Web API uses tokens to
-to authenticate the requests your app makes. In a later step, you'll be asked to use this token in
-your code.
+to the `chat:write` scope we just added. Choose your channel again and click "Authorize". When you
+return to the OAuth & Permissions page copy the OAuth Access Token (it should begin with `xoxa`). Treat this value like a password and keep it safe. The Web API uses tokens to to authenticate the requests your app makes. In a later step, you'll be asked to use this token in your code.
 
 ## Set up your local project
 
@@ -81,7 +61,7 @@ $ npm install @slack/client
 Create a new file called `tutorial.js` in this directory and add the following code:
 
 ```javascript
-const { IncomingWebhook, WebClient } = require('@slack/client');
+const { WebClient } = require('@slack/client');
 
 console.log('Getting started with Slack Developer Kit for Node.js');
 ```
@@ -95,70 +75,73 @@ Getting started with Slack Developer Kit for Node.js
 
 If you see the same output as above, you're ready to build your Slack app!
 
-## Sending a notification with incoming webhooks
+## Sending a message with the Web API
 
-In this guide we'll post a simple notification that contains the current time. We'll also follow
+In this guide we'll post a simple message that contains the current time. We'll also follow
 the best practice of keeping secrets outside of your code (do not hardcode sensitive data).
 
-Store the webhook URL in a new environment variable. The following example works on Linux and MacOS;
+Store the access token in a new environment variable. The following example works on Linux and MacOS;
 but [similar commands are available on Windows](https://superuser.com/a/212153/94970). Replace the
-value with webhook URL that you copied above.
+value with OAuth Access Token that you copied above.
 
 ```shell
-$ export SLACK_WEBHOOK_URL=https://hooks.slack.com/services/...
+$ export SLACK_ACCESS_TOKEN=xoxa-...
 ```
 
 Open `tutorial.js` and add the following code:
 
 ```javascript
-const timeNotification = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL);
+// This creates a new instance of WebClient with your app's access token
+const web = new WebClient(process.env.SLACK_ACCESS_TOKEN);
+
+// This argument can be a channel ID, a DM ID, a MPDM ID, or a group ID
+const conversationId = 'C1234567890';
+
+// The current date
 const currentTime = new Date().toTimeString();
-timeNotification.send(`The current time is ${currentTime}`, (error, resp) => {
-  if (error) {
-    return console.error(error);
-  }
-  console.log('Notification sent');
-});
+
+web.chat.postMessage({channel: conversationId, text: `The current time is ${currentTime}`})
+  .then(res => {
+    console.log('Message posted!');
+  })
+  .catch(console.error);
 ```
 
-This code creates an instance of the `IncomingWebhook` class, which requires a webhook URL. The
-program reads the webhook URL from the environment variable. Then the `.send()` method is called to
-send a simple string to the Slack channel. The second argument is a callback which handles any
-error by logging it, and otherwise prints "Notification sent".
+
+This code creates an instance of the `WebClient`, which requires an access token to call Web API methods. The program reads the app's access token from the environment variable. Then the [chat.postMessage](https://api.slack.com/methods/chat.postMessage) method is called with the `WebClient` to send a simple string to the Slack channel.
 
 Run the program. The output should look like the following:
 
 ```shell
 $ node tutorial.js
 Getting started with Slack Developer Kit for Node.js
-Notification sent
+Message posted!
 ```
 
-Look inside Slack to verify the notification message was sent.
+Look inside Slack to verify the message was sent.
 
-## Calling a web API method
+## Next Steps
 
-Now that you app has sent a message, let's search for the message using the
-[`search.messages`](https://api.slack.com/methods/search.messages) Web API method.
+You just built your first Slack app with Node.js! 🎉💃🌮
 
-Store the access token in a new environment variable. The following example works on Linux and MacOS;
-but [similar commands are available on Windows](https://superuser.com/a/212153/94970). Replace the
-value with token that you copied above.
+There's plenty more to learn and explore about this package and the Slack platform. Here are some
+ideas about where to look next:
 
-```
-$ export SLACK_TOKEN=xoxa-...
-```
+* You now know how to build a Slack app for a single workspace,
+  [learn how to implement Slack OAuth](https://api.slack.com/docs/oauth) to make your app
+  installable in many workspaces. If you are using [Passport](http://www.passportjs.org/) to handle
+  authentication, you may find the
+  [`@aoberoi/passport-slack`](https://github.com/aoberoi/passport-slack) strategy package helpful.
 
-Open `tutorial.js` and update the code to look like the following:
+* This tutorial only used one of **over 130 Web API methods** available.
+  [Look through them](https://api.slack.com/methods) to get ideas about what to build next!
 
-```javascript
-const { IncomingWebhook, WebClient } = require('@slack/client');
+* Token rotation is required if you plan to distribute your app. You can find examples of using
+  refresh tokens with the `WebClient` [in the documentation](/web_api#using-refresh-tokens), and learn more about refresh tokens and token rotation [on the API site](https://api.dev612.slack.com/docs/rotating-and-refreshing-credentials).
 
-console.log('Getting started with Slack Developer Kit for Node.js');
-
-const web = new WebClient(process.env.SLACK_TOKEN);
-const timeNotification = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL);
-const currentTime = new Date().toTimeString();
+* Dive deeper into the `IncomingWebhook`, `WebClient`, and `RTMClient` classes in this package by
+  exploring their documentation pages.
+= new Date().toTimeString();
 
 timeNotification.send(`The current time is ${currentTime}`, (error, resp) => {
   if (error) {
