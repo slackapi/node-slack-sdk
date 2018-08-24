@@ -44,13 +44,12 @@ Here are some of the common recipies for using the `WebClient` class.
 
 Your app will interact with the Web API through the `WebClient` object, which a top level export
 from this package. At a minimum, you need to instantiate it with a token. The example below shows
-how to post a message into a channel, DM, MPDM, or group. This will require either the
-`chat:user:write` or `chat:bot:write` scopes.
+how to post a message into a channel, DM, MPDM, or group. This will require the `chat:write` scope (either the `chat:user:write` or `chat:bot:write` for user-token apps).
 
 ```javascript
 const { WebClient } = require('@slack/client');
 
-// An access token (from your Slack app or custom integration - xoxp, xoxb, or xoxa)
+// An access token (from your Slack app or custom integration - xoxa, xoxp, or xoxb)
 const token = process.env.SLACK_TOKEN;
 
 const web = new WebClient(token);
@@ -124,7 +123,7 @@ scope.
 const fs = require('fs');
 const { WebClient } = require('@slack/client');
 
-// An access token (from your Slack app or custom integration - xoxp, xoxb, or xoxa)
+// An access token (from your Slack app or custom integration - xoxa, xoxp, or xoxb)
 const token = process.env.SLACK_TOKEN;
 
 const web = new WebClient(token);
@@ -159,7 +158,7 @@ would return the public channels and all private channels a bot user is a member
 ```javascript
 const { WebClient } = require('@slack/client');
 
-// An access token (from your Slack app or custom integration - xoxp, xoxb, or xoxa)
+// An access token (from your Slack app or custom integration - xoxa, xoxp, or xoxb)
 const token = process.env.SLACK_TOKEN;
 
 const web = new WebClient(token);
