@@ -192,7 +192,7 @@ web.channels.list((err, res) => {
 
 ---
 
-### Using automatic refresh tokens
+### Using refresh tokens
 
 If you're using workspace apps, refresh tokens can be used to obtain short-lived access tokens that power your Web API calls from the `WebClient` (this is *required* for distributed apps). To enable the `WebClient` to automatically refresh and swap your access tokens, you need to pass your app's refresh token, client ID, and client secret in the `WebClientOptions`. 
 
@@ -251,21 +251,68 @@ web.on('token_refreshed', (event) => {
 
 ### Manually refreshing tokens
 
-If you need more control over token refreshing, you can listen for `invalid_auth` errors and call `oauth.access` yourself:
+Note: Before implementing it on your own, it's suggested you read through the [token rotation documentation](http://api.slack.com/docs/rotating-and-refreshing-credentials).
+
+If you need more control over token refreshing, you don't need to pass in your refresh token, client ID, or client secret. However, you'll need to listen for `invalid_auth` errors and handle calls to `oauth.access` to fetch new access tokens:
 
 ```javascript
 const { WebClient } = require('@slack/client');
 
 const accessToken = process.env.SLACK_TOKEN;
+const refreshToken = process.env.SLACK_REFRESH_TOKEN;
+const id = process.env.SLACK_CLIENT_ID;
+const secret = process.env.SLACK_CLIENT_SECRET;
 
-// Initiate WebClient
 const web = new WebClient(accessToken);
 
-// This argument can be a channel ID, a DM ID, a MPDM ID, or a group ID
-const conversationId = 'C1232456';
+function refreshToken() {
+  // Custom logic to refresh a token, possibly purging other stale data from db
+  return new Promise((resolve, reject) => {
+    web.oauth.access({
+      client_id: id,
+      client_secret: secret,
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken
+    }).then((res) => {
+      /* Response contains new access token and time until expiration
+       * {
+       *    "access_token": "xoxa-...",
+       *    "expires_in": 86400,
+       *    "team_id": "T12345",
+       *    "enterprise_id": "E1234A12AB"
+       * }
+       */
+      accessToken = res.access_token;
+      // web.token allows you to update the access token for WebClient
+      web.token = accessToken;
+      // Probably purge stale data from db at this point
+      
+      resolve();
+    }).catch((err) => {
+      console.log(err);
+      reject();
+    });
+  });
+}
 
+function sendMessage(msg) {
+  return web.chat.postMessage(msg)
+    .then(console.log)
+    .catch((error) => {
+      if (error.code === ErrorCode.PlatformError && error.data.error === 'invalid_auth') {
+        return refreshToken()
+          .then(() => sendMessage(msg));
+      }
+      throw error;
+    })
+}
+
+sendMessage({ channel: conversationId, text: 'Hello world!' })
+  .catch((error) => console.error(`failed to send message: ${error.message}`));
 
 ```
+
+Note: 
 
 ---
 

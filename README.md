@@ -51,6 +51,8 @@ through building your first Slack app using Node.js.
 that explains and compares the options. If you're still not sure,
 [reach out for help](#getting-help) and our community can guide you.
 
+**Building a workspace app?** Token rotation is required for distributed workspace apps and recommended for non-distrubted. The `WebClient` takes care of this automagically when you pass in a refresh token. Take a look at [the `WebClient` documentation](https://slackapi.github.io/node-slack-sdk/web_api#using-refresh-tokens) to see a working example.
+
 ## Examples
 
 ### Posting a message with Web API

@@ -43,7 +43,7 @@ a later step, you'll be asked to use this URL in your code.
 
 Navigate to OAuth & Permissions and scroll down to the section for scopes. Slack describes the
 various permissions your app could obtain from a user as **scopes**. There are a
-[ton of scopes](https://api.slack.com/scopes)! Some are coarse and authorize your app to access lots
+[ton of scopes](https://api.slack.com/scopes)! Some are broad and authorize your app to access lots
 of data, while others are very specific and let your app touch just a tiny sliver. Your users (and
 their IT admins) will have opinions about which data your app should access, so we recommend finding
 the scope(s) with the least amount of privilege for your app's needs. In this guide we will use the
@@ -146,7 +146,7 @@ but [similar commands are available on Windows](https://superuser.com/a/212153/9
 value with token that you copied above.
 
 ```
-$ export SLACK_TOKEN=xoxp-...
+$ export SLACK_TOKEN=xoxa-...
 ```
 
 Open `tutorial.js` and update the code to look like the following:
@@ -225,6 +225,9 @@ ideas about where to look next:
   installable in many workspaces. If you are using [Passport](http://www.passportjs.org/) to handle
   authentication, you may find the
   [`@aoberoi/passport-slack`](https://github.com/aoberoi/passport-slack) strategy package helpful.
+
+* Short-lived tokens are required if you plan on distributing your app. You can find examples of using
+  refresh tokens with the `WebClient` [in the documentation](/web_api#using-automatic-refresh-tokens), and learn more about short-lived tokens and token refresh [on the API site](https://api.dev612.slack.com/docs/rotating-and-refreshing-credentials).
 
 * Tokens are an important part of using the Slack platform. Learn about the
   [different types of tokens](https://api.slack.com/docs/token-types).
