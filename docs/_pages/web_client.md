@@ -10,6 +10,7 @@ headings:
     - title: Uploading a file
     - title: Getting a list of channels
     - title: Using refresh tokens
+    - title: Manually handling token rotation
     - title: Using a callback instead of a Promise
     - title: Changing the retry configuration
     - title: Changing the request concurrency
@@ -249,7 +250,7 @@ web.on('token_refreshed', (event) => {
 
 ---
 
-### Manually refreshing tokens
+### Manually handling token rotation
 
 Note: Before implementing it on your own, it's suggested you read through the [token rotation documentation](http://api.slack.com/docs/rotating-and-refreshing-credentials).
 
@@ -286,7 +287,7 @@ function refreshToken() {
       // web.token allows you to update the access token for WebClient
       web.token = accessToken;
       // Probably purge stale data from db at this point
-      
+
       resolve();
     }).catch((err) => {
       console.log(err);
@@ -311,8 +312,6 @@ sendMessage({ channel: conversationId, text: 'Hello world!' })
   .catch((error) => console.error(`failed to send message: ${error.message}`));
 
 ```
-
-Note: 
 
 ---
 
