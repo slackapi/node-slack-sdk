@@ -23,13 +23,13 @@ messages.
     * [.addOutgoingEvent(awaitReply, type, body)](#module_@slack/client.RTMClient+addOutgoingEvent) ⇒ <code>Promise.&lt;(void\|module:@slack/client.RTMCallResult)&gt;</code>
     * [.addOutgoingEvent(awaitReply, type, body)](#module_@slack/client.RTMClient+addOutgoingEvent) ⇒ [<code>Promise.&lt;RTMCallResult&gt;</code>](#module_@slack/client.RTMCallResult)
     * [.addOutgoingEvent(awaitReply, type, body)](#module_@slack/client.RTMClient+addOutgoingEvent) ⇒ <code>Promise.&lt;void&gt;</code>
-    * [.disconnect()](#module_@slack/client.RTMClient+disconnect)
+    * [.disconnect()](#module_@slack/client.RTMClient+disconnect) ⇒ <code>Promise.&lt;void&gt;</code>
     * [.send(type, body)](#module_@slack/client.RTMClient+send) ⇒ <code>Promise.&lt;number&gt;</code>
     * [.sendMessage(text, conversationId)](#module_@slack/client.RTMClient+sendMessage) ⇒ [<code>Promise.&lt;RTMCallResult&gt;</code>](#module_@slack/client.RTMCallResult)
     * [.sendMessage(text, conversationId, callback)](#module_@slack/client.RTMClient+sendMessage)
     * [.sendMessage(text, conversationId, callback)](#module_@slack/client.RTMClient+sendMessage)
     * [.sendTyping(conversationId)](#module_@slack/client.RTMClient+sendTyping) ⇒ <code>Promise.&lt;void&gt;</code>
-    * [.start(options)](#module_@slack/client.RTMClient+start)
+    * [.start(options)](#module_@slack/client.RTMClient+start) ⇒ [<code>Promise.&lt;WebAPICallResult&gt;</code>](#module_@slack/client.WebAPICallResult)
     * [.subscribePresence(userIds)](#module_@slack/client.RTMClient+subscribePresence) ⇒ <code>Promise.&lt;void&gt;</code>
 
 <a name="module_@slack/client.RTMClient+addOutgoingEvent"></a>
@@ -79,7 +79,7 @@ from the websocket.
 
 <a name="module_@slack/client.RTMClient+disconnect"></a>
 
-### rtmClient.disconnect()
+### rtmClient.disconnect() ⇒ <code>Promise.&lt;void&gt;</code>
 End an RTM session. After this method is called no messages will be sent or received unless you call
 start() again later.
 
@@ -147,7 +147,7 @@ Sends a typing indicator to indicate that the user with `activeUserId` is typing
 
 <a name="module_@slack/client.RTMClient+start"></a>
 
-### rtmClient.start(options)
+### rtmClient.start(options) ⇒ [<code>Promise.&lt;WebAPICallResult&gt;</code>](#module_@slack/client.WebAPICallResult)
 Begin an RTM session using the provided options. This method must be called before any messages can
 be sent or received.
 
