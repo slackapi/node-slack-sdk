@@ -57,6 +57,7 @@ export class CursorPaginationEnabled {
  * @property {Array<module:@slack/client/dist/methods.__type>} elements
  * @property {string} [submit_label]
  * @property {boolean} [notify_on_cancel]
+ * @property {string} [state]
  */
 export class Dialog {
 }
@@ -153,5 +154,12 @@ export class TokenOverridable {
  * @property {number} [count]
  */
 export class TraditionalPagingEnabled {
+}
+
+/**
+ * @interface module:@slack/client/dist/methods.UserPerspectiveEnabled
+ * @property {string} [on_behalf_of]
+ */
+export class UserPerspectiveEnabled {
 }
 

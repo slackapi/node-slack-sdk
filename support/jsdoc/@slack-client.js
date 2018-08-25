@@ -188,6 +188,7 @@ Promise.
    * End an RTM session. After this method is called no messages will be sent or received unless you call
    * start() again later.
    * @function module:@slack/client.RTMClient#disconnect
+   * @returns {Promise<void>}
    */
   disconnect() {}
 
@@ -242,6 +243,7 @@ Promise.
    * be sent or received.
    * @param {module:@slack/client/dist/methods.TokenOverridable | module:@slack/client/dist/methods.LocaleAware | module:@slack/client/dist/methods.__type | module:@slack/client/dist/methods.TokenOverridable | module:@slack/client/dist/methods.__type} options
    * @function module:@slack/client.RTMClient#start
+   * @returns {Promise<module:@slack/client.WebAPICallResult>}
    */
   start() {}
 
