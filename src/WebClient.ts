@@ -211,6 +211,12 @@ export class WebClient extends EventEmitter {
 
       // check for expired access token, and refresh token accordingly
       // an exception is made when this call includes its own token in the options
+      // TODO: what if the token refresh is in progress when this gets called? as is, it would start refreshing again
+      // one option is to make this condition fail so that it doesn't refresh, allow the API call to be made, and then
+      // wait on token refresh to complete before retrying (that needs to be handled anyway) but this is less than
+      // optimal
+      // another option would be to implement a mutex to "pause" execution here until the refresh completes, or an error
+      // occurs (see further notes about making isTokenRefreshing a Promise)
       if ((options === undefined || !('token' in options)) && this.shouldAutomaticallyRefreshToken() &&
           this.accessTokenExpiresAt !== undefined && this.accessTokenExpiresAt < Date.now()) {
         await this.performTokenRefresh();
@@ -241,7 +247,7 @@ export class WebClient extends EventEmitter {
         this.logger.warn('Options include traditional paging while the method cannot support that technique');
       } else if (methodSupportsCursorPagination &&
                  optionsPaginationType !== PaginationType.Cursor && optionsPaginationType !== PaginationType.None) {
-        this.logger.warn('Method supports cursor-based pagination and a different tecnique is used in options. ' +
+        this.logger.warn('Method supports cursor-based pagination and a different technique is used in options. ' +
                          'Always prefer cursor-based pagination when available');
       }
 
@@ -268,12 +274,20 @@ export class WebClient extends EventEmitter {
                  (objectEntries(paginationOptions = paginationOptionsForNextPage(result, this.pageSize)).length > 0)
                )
               ) {
-          // TODO: figure out how to handle expired token errors and token refresh
-          result = await this.makeRequest(method, Object.assign(
+
+          result = await (this.makeRequest(method, Object.assign(
             { token: this.token },
             paginationOptions,
             options,
-          ), headers);
+          ), headers)
+            .catch((error) => {
+              if (error.code === ErrorCode.PlatformError && error.original.error === 'invalid_auth' &&
+                  // TODO: replace `true` with a time comparison
+                  (this.isTokenRefreshing || true)) {
+                // retry
+              }
+              throw error;
+            }));
 
           yield result;
         }
@@ -292,6 +306,8 @@ export class WebClient extends EventEmitter {
   }
 
   // TODO: better input types - remove any
+  // TODO: maybe this returns an object that also has the request information and doesn't do buildResult. that way
+  // the time comparison can be done in apiCall() and buildResult (and steps after) can happen on the .then()
   private async makeRequest(url: string, body: any, headers: any = {}): Promise<WebAPICallResult> {
     const task = () => this.requestQueue.add(async () => {
       this.logger.debug('will perform http request');
@@ -781,7 +797,7 @@ export class WebClient extends EventEmitter {
   /**
    * Perform a token refresh. Before calling this method, this.shouldAutomaticallyRefreshToken() should be checked.
    *
-   * This method avoids using `apiCall()` because that could infinitely recursive when that method determines that the
+   * This method avoids using `apiCall()` because that could infinitely recurse when that method determines that the
    * access token is already expired.
    */
   private async performTokenRefresh(): Promise<void> {
