@@ -10,7 +10,7 @@ import isStream = require('is-stream'); // tslint:disable-line:no-require-import
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
 import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
 import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
-import axios, { AxiosInstance, AxiosResponse, AxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
 import { awaitAndReduce, callbackify, getUserAgent, delay, AgentOption, TLSOptions } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
@@ -274,17 +274,48 @@ export class WebClient extends EventEmitter {
                  (objectEntries(paginationOptions = paginationOptionsForNextPage(result, this.pageSize)).length > 0)
                )
               ) {
+          // NOTE: this is a really inelegant way of capturing the request time
+          let requestTime: number | undefined;
 
           result = await (this.makeRequest(method, Object.assign(
-            { token: this.token },
+            { token: this._accessToken },
             paginationOptions,
             options,
           ), headers)
-            .catch((error) => {
-              if (error.code === ErrorCode.PlatformError && error.original.error === 'invalid_auth' &&
-                  // TODO: replace `true` with a time comparison
-                  (this.isTokenRefreshing || true)) {
-                // retry
+            .then((response) => {
+              requestTime = response.request[requestTimePropName];
+              const result = this.buildResult(response);
+
+              // log warnings in response metadata
+              if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
+                result.response_metadata.warnings.forEach(this.logger.warn);
+              }
+
+              if (!result.ok) {
+                // TODO: could this be contained in a helper function?
+                const error = errorWithCode(
+                  new Error(`An API error occurred: ${result.error}`),
+                  ErrorCode.PlatformError,
+                );
+                error.data = result;
+                throw error;
+              }
+
+              return result;
+            })
+            // Automatic token refresh concerns
+            .catch(async (error) => {
+              if (this.shouldAutomaticallyRefreshToken() &&
+                  error.code === ErrorCode.PlatformError && error.original.error === 'invalid_auth') {
+                if (requestTime === undefined) {
+                  // TODO: create an inconsistent state error
+                  throw new Error('A logical error with tracking the request time occurred.');
+                }
+                if (this.isTokenRefreshing ||
+                   (this.accessTokenLastRefreshedAt !== undefined && requestTime < this.accessTokenLastRefreshedAt)) {
+                  await this.performTokenRefresh();
+                  return implementation();
+                }
               }
               throw error;
             }));
@@ -303,78 +334,6 @@ export class WebClient extends EventEmitter {
       return;
     }
     return implementation();
-  }
-
-  // TODO: better input types - remove any
-  // TODO: maybe this returns an object that also has the request information and doesn't do buildResult. that way
-  // the time comparison can be done in apiCall() and buildResult (and steps after) can happen on the .then()
-  private async makeRequest(url: string, body: any, headers: any = {}): Promise<WebAPICallResult> {
-    const task = () => this.requestQueue.add(async () => {
-      this.logger.debug('will perform http request');
-      try {
-        const response = await this.axios.post(url, body, Object.assign({
-          headers,
-        }, this.tlsConfig));
-        this.logger.debug('http response received');
-
-        if (response.status === 429) {
-          const retrySec = parseRetryHeaders(response);
-          if (retrySec !== undefined) {
-            this.emit('rate_limited', retrySec);
-            if (this.rejectRateLimitedCalls) {
-              throw new pRetry.AbortError(rateLimitedErrorWithDelay(retrySec));
-            }
-            this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
-            // pause the request queue and then delay the rejection by the amount of time in the retry header
-            this.requestQueue.pause();
-            // NOTE: if there was a way to introspect the current RetryOperation and know what the next timeout
-            // would be, then we could subtract that time from the following delay, knowing that it the next
-            // attempt still wouldn't occur until after the rate-limit header has specified. an even better
-            // solution would be to subtract the time from only the timeout of this next attempt of the
-            // RetryOperation. this would result in the staying paused for the entire duration specified in the
-            // header, yet this operation not having to pay the timeout cost in addition to that.
-            await delay(retrySec * 1000);
-            // resume the request queue and throw a non-abort error to signal a retry
-            this.requestQueue.start();
-            throw Error('A rate limit was exceeded.');
-          } else {
-            // TODO: turn this into some CodedError
-            throw new pRetry.AbortError(new Error('Retry header did not contain a valid timeout.'));
-          }
-        }
-
-        // Slack's Web API doesn't use meaningful status codes besides 429 and 200
-        if (response.status !== 200) {
-          throw httpErrorFromResponse(response);
-        }
-
-        const result = this.buildResult(response);
-
-        // log warnings in response metadata
-        if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
-          result.response_metadata.warnings.forEach(this.logger.warn);
-        }
-
-        if (!result.ok) {
-          const error = errorWithCode(
-            new Error(`An API error occurred: ${result.error}`),
-            ErrorCode.PlatformError,
-          );
-          error.data = result;
-          throw new pRetry.AbortError(error);
-        }
-
-        return result;
-      } catch (error) {
-        this.logger.debug('http request failed');
-        if (error.request) {
-          throw requestErrorWithOriginal(error);
-        }
-        throw error;
-      }
-    });
-
-    return pRetry(task, this.retryConfig);
   }
 
   /**
@@ -684,6 +643,64 @@ export class WebClient extends EventEmitter {
     },
   };
 
+  // TODO: better input types - remove any
+  // TODO: maybe this returns an object that also has the request information and doesn't do buildResult. that way
+  // the time comparison can be done in apiCall() and buildResult (and steps after) can happen on the .then()
+  private async makeRequest(url: string, body: any, headers: any = {}): Promise<AxiosResponse> {
+    const task = () => this.requestQueue.add(async () => {
+      this.logger.debug('will perform http request');
+      try {
+        const requestTime = Date.now();
+        const response = await this.axios.post(url, body, Object.assign({
+          headers,
+        }, this.tlsConfig));
+        response.request[requestTimePropName] = requestTime;
+        this.logger.debug('http response received');
+
+        if (response.status === 429) {
+          const retrySec = parseRetryHeaders(response);
+          if (retrySec !== undefined) {
+            this.emit('rate_limited', retrySec);
+            if (this.rejectRateLimitedCalls) {
+              throw new pRetry.AbortError(rateLimitedErrorWithDelay(retrySec));
+            }
+            this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
+            // pause the request queue and then delay the rejection by the amount of time in the retry header
+            this.requestQueue.pause();
+            // NOTE: if there was a way to introspect the current RetryOperation and know what the next timeout
+            // would be, then we could subtract that time from the following delay, knowing that it the next
+            // attempt still wouldn't occur until after the rate-limit header has specified. an even better
+            // solution would be to subtract the time from only the timeout of this next attempt of the
+            // RetryOperation. this would result in the staying paused for the entire duration specified in the
+            // header, yet this operation not having to pay the timeout cost in addition to that.
+            await delay(retrySec * 1000);
+            // resume the request queue and throw a non-abort error to signal a retry
+            this.requestQueue.start();
+            throw Error('A rate limit was exceeded.');
+          } else {
+            // TODO: turn this into some CodedError
+            throw new pRetry.AbortError(new Error('Retry header did not contain a valid timeout.'));
+          }
+        }
+
+        // Slack's Web API doesn't use meaningful status codes besides 429 and 200
+        if (response.status !== 200) {
+          throw httpErrorFromResponse(response);
+        }
+
+        return response;
+      } catch (error) {
+        this.logger.debug('http request failed');
+        if (error.request) {
+          throw requestErrorWithOriginal(error);
+        }
+        throw error;
+      }
+    });
+
+    return pRetry(task, this.retryConfig);
+  }
+
   /**
    * Transforms options (a simple key-value object) into an acceptable value for a body. This can be either
    * a string, used when posting with a content-type of url-encoded. Or, it can be a readable stream, used
@@ -801,18 +818,18 @@ export class WebClient extends EventEmitter {
    * access token is already expired.
    */
   private async performTokenRefresh(): Promise<void> {
-    let refreshResult: WebAPITokenRefreshResult | undefined;
+    let refreshResponse: AxiosResponse | undefined;
 
     try {
       // TODO: if we change isTokenRefreshing to a promise, we could await it here.
       this.isTokenRefreshing = true;
 
-      refreshResult =  await this.makeRequest('oauth.access', {
+      refreshResponse =  await this.makeRequest('oauth.access', {
         client_id: this.clientId,
         client_secret: this.clientSecret,
         grant_type: 'refresh_token',
         refresh_token: this.refreshToken,
-      }) as WebAPITokenRefreshResult;
+      });
 
     } catch (error) {
       this.isTokenRefreshing = false;
@@ -821,14 +838,14 @@ export class WebClient extends EventEmitter {
 
     this.isTokenRefreshing = false;
     this.accessTokenLastRefreshedAt = Date.now();
-    this._accessToken = refreshResult.access_token;
-    this.accessTokenExpiresAt = Date.now() + (refreshResult.expires_in * 1000);
+    this._accessToken = refreshResponse.data.access_token;
+    this.accessTokenExpiresAt = Date.now() + (refreshResponse.data.expires_in * 1000);
 
     const tokenRefreshedEvent: TokenRefreshedEvent = {
-      access_token: refreshResult.access_token,
-      expires_in: refreshResult.expires_in,
-      team_id: refreshResult.team_id,
-      enterprise_id: refreshResult.enterprise_id,
+      access_token: refreshResponse.data.access_token,
+      expires_in: refreshResponse.data.expires_in,
+      team_id: refreshResponse.data.team_id,
+      enterprise_id: refreshResponse.data.enterprise_id,
     };
 
     this.emit('token_refreshed', tokenRefreshedEvent);
@@ -926,6 +943,7 @@ export interface TokenRefreshedEvent {
  */
 
 const defaultFilename = 'Untitled';
+const requestTimePropName = 'slack_webclient_request_time';
 
 /**
  * Detects whether an object is an http.Agent
@@ -1016,16 +1034,6 @@ enum PaginationType {
   Traditional = 'Traditional',
   Mixed = 'Mixed',
   None = 'None',
-}
-
-// NOTE: once this package gains some knowledge about result shapes, this should likely become a specific shape of a
-// generic WebAPICallResult type. at this time, its not meant to be used outside this file, and that's why its not
-// exported.
-interface WebAPITokenRefreshResult extends WebAPICallResult {
-  access_token: string;
-  expires_in: number;
-  team_id: string;
-  enterprise_id?: string;
 }
 
 /**
