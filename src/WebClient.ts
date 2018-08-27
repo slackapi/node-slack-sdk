@@ -209,14 +209,7 @@ export class WebClient extends EventEmitter {
         );
       }
 
-      // check for expired access token, and refresh token accordingly
-      // an exception is made when this call includes its own token in the options
-      // TODO: what if the token refresh is in progress when this gets called? as is, it would start refreshing again
-      // one option is to make this condition fail so that it doesn't refresh, allow the API call to be made, and then
-      // wait on token refresh to complete before retrying (that needs to be handled anyway) but this is less than
-      // optimal
-      // another option would be to implement a mutex to "pause" execution here until the refresh completes, or an error
-      // occurs (see further notes about making isTokenRefreshing a Promise)
+      // optimistically check for an expired access token, and refresh it if possible
       if ((options === undefined || !('token' in options)) && this.shouldAutomaticallyRefreshToken() &&
           this.accessTokenExpiresAt !== undefined && this.accessTokenExpiresAt < Date.now()) {
         await this.performTokenRefresh();
@@ -292,13 +285,7 @@ export class WebClient extends EventEmitter {
               }
 
               if (!result.ok) {
-                // TODO: could this be contained in a helper function?
-                const error = errorWithCode(
-                  new Error(`An API error occurred: ${result.error}`),
-                  ErrorCode.PlatformError,
-                );
-                error.data = result;
-                throw error;
+                throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
               }
 
               return result;
@@ -313,6 +300,8 @@ export class WebClient extends EventEmitter {
                 }
                 if (this.isTokenRefreshing ||
                    (this.accessTokenLastRefreshedAt !== undefined && requestTime < this.accessTokenLastRefreshedAt)) {
+                  // TODO: what's the point in doing the token refresh right here? if we just retry, the optimistic
+                  // token refresh check would end up catching this anyway
                   await this.performTokenRefresh();
                   return implementation();
                 }
@@ -644,8 +633,6 @@ export class WebClient extends EventEmitter {
   };
 
   // TODO: better input types - remove any
-  // TODO: maybe this returns an object that also has the request information and doesn't do buildResult. that way
-  // the time comparison can be done in apiCall() and buildResult (and steps after) can happen on the .then()
   private async makeRequest(url: string, body: any, headers: any = {}): Promise<AxiosResponse> {
     const task = () => this.requestQueue.add(async () => {
       this.logger.debug('will perform http request');
@@ -1004,6 +991,15 @@ function httpErrorFromResponse(response: AxiosResponse): WebAPIHTTPError {
   error.headers = response.headers;
   error.body = response.data;
   return (error as WebAPIHTTPError);
+}
+
+function platformErrorFromResult(result: WebAPICallResult & { error: string; }): WebAPIPlatformError {
+  const error = errorWithCode(
+    new Error(`An API error occurred: ${result.error}`),
+    ErrorCode.PlatformError,
+  ) as Partial<WebAPIPlatformError>;
+  error.data = result;
+  return (error as WebAPIPlatformError);
 }
 
 /**
