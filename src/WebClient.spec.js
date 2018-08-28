@@ -16,6 +16,9 @@ const Busboy = require('busboy');
 const sinon = require('sinon');
 
 const token = 'xoxa-faketoken';
+const refreshToken = 'xoxr-refreshtoken';
+const clientId = 'CLIENTID';
+const clientSecret = 'CLIENTSECRET';
 
 describe('WebClient', function () {
 
@@ -903,11 +906,46 @@ describe('WebClient', function () {
   });
 
   describe('has support for token refresh', function () {
-    it('should accept client credentials and refresh token on initialization');
-
+    it('should accept client credentials and refresh token on initialization', function () {
+      const client = new WebClient(token, {
+        refreshToken,
+        clientId,
+        clientSecret,
+      });
+      assert.equal(client.token, token);
+    });
 
     describe('when the access token is expired', function () {
-      it('should refresh the token before making the API call');
+      beforeEach(function () {
+        this.expiredToken = 'xoxa-expired-access-token';
+        this.client = new WebClient(this.expiredToken, { refreshToken, clientId, clientSecret });
+
+        // NOTE: this is bad because it depends on internal implementation details. in the future we should allow the
+        // client to perform a refresh and actually send back a response from `oauth.access` with a very short (or
+        // possibly negative) expires_in value.
+        this.client.accessTokenExpiresAt = Date.now() - 100;
+      });
+
+      it('should refresh the token before making the API call', function () {
+        const scope = nock('https://slack.com')
+          .post(/api\/oauth\.access/, function (body) {
+            // verify that the body contains the required arguments for token refresh
+            return (body.client_id === clientId && body.client_secret === clientSecret &&
+                    body.grant_type === 'refresh_token' && body.refresh_token === refreshToken);
+          })
+          .reply(200, { ok: true, access_token: token, expires_in: 5, team_id: 'TEAMID', enterprise_id: 'ORGID' })
+          .post(/api/, function (body) {
+            // verify the body contains the unexpired token
+            return body.token === token;
+          })
+          .reply(200, { ok: true });
+        return this.client.apiCall('method')
+          .then((result) => {
+            assert.isTrue(result.ok);
+            scope.done();
+          });
+      });
+
       it('should emit the token_refreshed event after a successful token refresh');
 
       it('should retry an API call that fails during a token refresh');
