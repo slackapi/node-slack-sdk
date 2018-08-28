@@ -231,31 +231,68 @@ At the time of refresh, the `WebClient` will emit a `token_refreshed` event that
 const { WebClient } = require('@slack/client');
 
 const refreshToken = process.env.SLACK_REFRESH_TOKEN;
-const id = process.env.SLACK_CLIENT_ID;
-const secret = process.env.SLACK_CLIENT_SECRET;
+const teamId = process.env.SLACK_TEAM_ID;
+const enterpriseId = process.env.SLACK_ENTERPRISE_ID;
+const clientId = process.env.SLACK_CLIENT_ID;
+const clientSecret = process.env.SLACK_CLIENT_SECRET;
+
 
 // Intialize a data structure to store team access token info (typically stored in a database)
-const slackAccessTokens = {};
-// Associated team ID
-let teamId = '';
+const slackAuthorizations = [];
 
-// Fetch access token by team id
-function getTokenByTeamId(id) {
-  if (!slackAccessTokens[id]) {
-    return undefined;
-  } else {
-    return slackAccessTokens[id];
+// Set authorization info in data structure
+function setAuthorization(authorization) {
+  // Get existing authorization, if it exists
+  const authIndex = getAuthorizationIndex(teamId, enterpriseId);
+  // If an existing authorization doesn't exist, add to end of array
+  if (authIndex === -1) {
+    authIndex = slackAuthorizations.length;
   }
+  
+  // Set authorization in data structure
+  slackAuthorizations[authIndex] = {
+    accessToken: authorization.access_token,
+    expiresIn: authorization.expires_in,
+    teamId: authorization.teamId,
+    enterpriseId: authorization.enterpriseId
+  };
 }
 
-const accessToken = getTokenByTeamId(teamId);
+// Gets index of authorization in data structure
+function getAuthorizationIndex(teamId, enterpriseId) {
+  slackAuthorizations.findIndex(function(authorization) {
+    return (authorization.team_id === teamId && 
+      authorization.enterprise_id === enterpriseId);
+  })
+}
+
+// Get authorization from data structure
+function getAuthorizationToken(teamId, enterpriseId) {
+  return new Promise((resolve, reject) => {
+    const authIndex = getAuthorizationIndex(teamId, enterpriseId);
+    if (authIndex > -1) {
+      return slackAuthorizations[authIndex].accessToken;
+    } else {
+      return undefined;
+    }
+  });
+}
 
 // Initiate WebClient
-const web = new WebClient(accessToken, {
-  clientId: id,
-  clientSecret: secret,
-  refreshToken: refreshToken
+getAuthorization(teamId, enterpriseId).then((res) => {
+  // If authorization doesn't exist, res will be undefined and the WebClient will fetch token
+  // Instantiate the WebClient
+  const web = new WebClient(res, {
+    clientId: clientId,
+    clientSecret: clientSecret,
+    refreshToken: refreshToken
+  });
+
+  // WebClient is up and running, so let's post a message!
+  const conversationId = 'C123456';
+  web.chat.postMessage({ channel: conversationId, text: 'Hello world!'});
 });
+
 
 /* When a token is refreshed, a token_refreshed event is triggered:
  * {
@@ -266,10 +303,8 @@ const web = new WebClient(accessToken, {
  * }
  */
 web.on('token_refreshed', (event) => {
-  // It's recommended you encrypt and store your new access token in a database to access it later
-  slackAuthorizations[event.team_id] = { access_token: event.access_token, expires_in: event.expires_in };
-  // Save active team ID
-  teamId = event.team_id;
+  // It's recommended you store your new access token in a database to access it later
+  setAuthorization(event);
 
   console.log(`Access token expires in ${event.expires_in}`);
 });
