@@ -19,7 +19,7 @@ This guide introduces fundamentals of the Slack Developer Kit for Node.js and Sl
 The first step is to [register a new app](https://api.slack.com/apps/new) with Slack at the API
 website. You have the option to build a user-token app or a workspace app. Give your app a fun name and choose a Development Slack Workspace. We recommend using a workspace where you aren't going to disrupt real work getting done -- you can create a new workspace for free.
 
-> ⚠️ For this guide, we'll assume you're building a [workspace app](https://api.slack.com/workspace-apps-preview). Workspace apps support Slack's latest-and-greatest platform features and will be required for distributed apps in the (near) future. However, most steps are the same for user-token apps.
+> ⚠️ For this guide, we'll assume you're building a [workspace app](https://api.slack.com/workspace-apps-preview). Workspace apps support Slack's latest and greatest platform features. However, most steps are the same for user-token apps.
 
 After you create an app, you'll be greeted with some basic information. In this guide we'll be making a request to the Web API to post a message to a channel. Aside from posting messages, the Web API allows your app to call [methods](https://api.slack.com/methods) that can be used for everything from creating a channel to searching messages. Let's configure our new app with proper permissions.
 
@@ -33,11 +33,11 @@ their IT admins) will have opinions about which data your app should access, so 
 the scope(s) with the least amount of privilege for your app's needs. In this guide we will use the
 Web API to post a message. The scope required for this is called `chat:write` (or `chat:write:user` for user-token apps). Use the dropdown or start typing its name to select and add the scope, then click "Save Changes".
 
-Our app has described which scope it desires in the workspace, but a user hasn't authorized those
-scopes for the development workspace yet. Scroll up and click "Install (or Reinstall) App". You'll
-be back at the page asking you for permission, but this time with an additional entry corresponding
-to the `chat:write` scope we just added. Choose your channel again and click "Authorize". When you
-return to the OAuth & Permissions page copy the OAuth Access Token (it should begin with `xoxa`). Treat this value like a password and keep it safe. The Web API uses tokens to to authenticate the requests your app makes. In a later step, you'll be asked to use this token in your code.
+Our app has described which scope it desires in the workspace, but a user hasn't authorized those scopes for the development workspace yet. Scroll up and click "Install App". You'll be taken to your app installation page. This page is asking you for permission to install the app in your development workspace with specific capabilities. That's right, the development workspace is like every other workspace -- apps must be authorized by a user each time it asks for more permissions. 
+
+Go ahead and click "Continue". The next page asks you which conversations the app should be able to post messages in. In this case, choose "No channels", which still allows the app to directly message who install the App -- which means you. 
+
+When you return to the OAuth & Permissions page copy the OAuth Access Token (it should begin with `xoxa`). Treat this value like a password and keep it safe. The Web API uses tokens to to authenticate the requests your app makes. In a later step, you'll be asked to use this token in your code.
 
 ## Set up your local project
 
@@ -88,27 +88,33 @@ value with OAuth Access Token that you copied above.
 $ export SLACK_ACCESS_TOKEN=xoxa-...
 ```
 
-Open `tutorial.js` and add the following code:
+Create a file called `tutorial.js` and add the following code:
 
 ```javascript
-// This creates a new instance of WebClient with your app's access token
-const web = new WebClient(process.env.SLACK_ACCESS_TOKEN);
-
-// This argument can be a channel ID, a DM ID, a MPDM ID, or a group ID
-const conversationId = 'C1234567890';
-
 // The current date
 const currentTime = new Date().toTimeString();
 
-web.chat.postMessage({channel: conversationId, text: `The current time is ${currentTime}`})
-  .then(res => {
+// Use the `apps.permissions.resources.list` method to find the conversation ID for an app home
+web.apps.permissions.resources.list()
+  .then((res) => {
+    // Find the app home to use as the conversation to post a message
+    // At this point, there should only be one app home in the whole response since only one user has installed the app
+    const appHome = res.resources.find(r => r.type === 'app_home');
+
+    // Use the `chat.postMessage` method to send a message from this app
+    return web.chat.postMessage({
+      channel: appHome.id,
+      text: `The current time is ${currentTime}`,
+    });
+  })
+  .then((res) => {
     console.log('Message posted!');
   })
   .catch(console.error);
 ```
 
 
-This code creates an instance of the `WebClient`, which requires an access token to call Web API methods. The program reads the app's access token from the environment variable. Then the [chat.postMessage](https://api.slack.com/methods/chat.postMessage) method is called with the `WebClient` to send a simple string to the Slack channel.
+This code creates an instance of the `WebClient`, which requires an access token to call Web API methods. The program reads the app's access token from the environment variable. Then the [apps.permissions.resources.list](https://api.slack.com/methods/apps.permissions.resources.list) method is called with the `WebClient` to find a conversation where the app can send a message. There will be one resource that represents your own DM with the app (since you were the installing user). We find that resource by finding the first in the list with a `type` that equals `"app_home"`. Lastly, the [chat.postMessage](https://api.slack.com/methods/chat.postMessage) method is called using the conversation ID we just found to send a simple message.
 
 Run the program. The output should look like the following:
 
@@ -141,82 +147,6 @@ ideas about where to look next:
 
 * Dive deeper into the `IncomingWebhook`, `WebClient`, and `RTMClient` classes in this package by
   exploring their documentation pages.
-= new Date().toTimeString();
-
-timeNotification.send(`The current time is ${currentTime}`, (error, resp) => {
-  if (error) {
-    return console.error(error);
-  }
-  console.log('Notification sent');
-  console.log('Waiting a few seconds for search indexes to update...');
-  setTimeout(() => {
-    console.log('Calling search.messages');
-    web.search.messages({ query: currentTime })
-      .then(resp => {
-        if (resp.messages.total > 0) {
-          console.log('First match:', resp.messages.matches[0]);
-        } else {
-          console.log('No matches found');
-        }
-      })
-      .catch(console.error)
-  }, 12000);
-});
-```
-
-Run the program and you should see output similar to the following:
-
-```shell
-$ node tutorial.js
-Getting started with Slack Developer Kit for Node.js
-Notification sent
-Waiting a few seconds for search indexes to update...
-Calling search.messages
-First match: { type: 'message',
-  ts: '1513884363.000142',
-  text: 'The current time is 11:26:03 GMT-0800 (PST)',
-  iid: '0a4d7acd-c0d9-49f4-813f-7a21f3cf78dc',
-  permalink: 'https://workspace-subdomain.slack.com/archives/C34SDV231/p231234192347',
-  team: 'T0AS345LD',
-  channel:
-   { id: 'C34SDV231',
-     is_channel: true,
-     is_group: false,
-     is_im: false,
-     name: 'blah',
-     is_shared: false,
-     is_org_shared: false,
-     is_ext_shared: false,
-     is_private: false,
-     is_mpim: false,
-     pending_shared: [],
-     is_pending_ext_shared: false } }
-```
-
-_If you see no results, try increasing the timeout time and run the program again. Slack's
-search indexes could take more than a few seconds._
-
-## Next Steps
-
-You just built your first Slack app with Node.js! 🎉💃🌮
-
-There's plenty more to learn and explore about this package and the Slack platform. Here are some
-ideas about where to look next:
-
-* You now know how to build a Slack app for a single workspace,
-  [learn how to implement Slack OAuth](https://api.slack.com/docs/oauth) to make your app
-  installable in many workspaces. If you are using [Passport](http://www.passportjs.org/) to handle
-  authentication, you may find the
-  [`@aoberoi/passport-slack`](https://github.com/aoberoi/passport-slack) strategy package helpful.
-
-* Token rotation is required if you plan on distributing your app. You can find examples of using
-  refresh tokens with the `WebClient` [in the documentation](/web_api#using-refresh-tokens), and learn more about refresh tokens and token rotation [on the API site](https://api.dev612.slack.com/docs/rotating-and-refreshing-credentials).
 
 * Tokens are an important part of using the Slack platform. Learn about the
   [different types of tokens](https://api.slack.com/docs/token-types).
-
-* This tutorial only used one of **over 130 Web API methods** available.
-  [Look through them](https://api.slack.com/methods) to get ideas about what to build next!
-
-* Dive deeper into the `IncomingWebhook`, `WebClient`, and `RTMClient` classes in this package by
-  exploring their documentation pages.

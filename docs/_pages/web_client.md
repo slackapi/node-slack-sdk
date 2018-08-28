@@ -223,9 +223,9 @@ web.channels.list((err, res) => {
 
 ### Using refresh tokens
 
-If you're using workspace apps, refresh tokens can be used to obtain short-lived access tokens that power your Web API calls from the `WebClient` (this is *required* for distributed apps). To enable the `WebClient` to automatically refresh and swap your access tokens, you need to pass your app's refresh token, client ID, and client secret in the `WebClientOptions`. 
+If you're using workspace apps, refresh tokens can be used to obtain short-lived access tokens that power your Web API calls from the `WebClient` (this is *required* for distributed apps). This can increase the security of your app since, in the event of a token being exposed accidentally, it won't be able to be used against your app or users after a short time. To enable the `WebClient` to automatically refresh and swap your access tokens, you need to pass your app's refresh token, client ID, and client secret in the `WebClientOptions`. 
 
-At the time of refresh, the `WebClient` will emit a `token_refreshed` event that will contain the new access token (`access_token`) and time to expiration (`expires_in`). It's recommended to listen to this event and store the access token in a database so you have access to your active token.
+At the time of refresh, the `WebClient` will emit a `token_refreshed` event that will contain the new access token (`access_token`), time to expiration (`expires_in`), an associated team ID (`team_id`), and an associated enterprise ID (`enterprise_id`). It's recommended to listen to this event and store the access token in a database so you have access to your active token.
 
 ```javascript
 const { WebClient } = require('@slack/client');
@@ -282,7 +282,7 @@ web.on('token_refreshed', (event) => {
 
 Note: Before implementing it on your own, it's suggested you read through the [token rotation documentation](http://api.slack.com/docs/rotating-and-refreshing-credentials).
 
-If you need more control over token refreshing, you don't need to pass in your refresh token, client ID, or client secret. However, you'll need to listen for `invalid_auth` errors and handle calls to `oauth.access` to fetch new access tokens:
+If you need more control over token refreshing, you don't need to pass in your refresh token, client ID, or client secret. However, you'll need to listen for `invalid_auth` errors and make calls to `oauth.access` to fetch new access tokens:
 
 ```javascript
 const { WebClient } = require('@slack/client');
@@ -329,6 +329,7 @@ function sendMessage(msg) {
     .then(console.log)
     .catch((error) => {
       if (error.code === ErrorCode.PlatformError && error.data.error === 'invalid_auth') {
+        // This error could have occured because of an expired access token -- refresh, and try again.
         return refreshToken()
           .then(() => sendMessage(msg));
       }
