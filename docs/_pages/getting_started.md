@@ -35,7 +35,7 @@ Web API to post a message. The scope required for this is called `chat:write` (o
 
 Our app has described which scope it desires in the workspace, but a user hasn't authorized those scopes for the development workspace yet. Scroll up and click "Install App". You'll be taken to your app installation page. This page is asking you for permission to install the app in your development workspace with specific capabilities. That's right, the development workspace is like every other workspace -- apps must be authorized by a user each time it asks for more permissions. 
 
-Go ahead and click "Continue". The next page asks you which conversations the app should be able to post messages in. In this case, choose "No channels", which still allows the app to directly message who install the App -- which means you. 
+Go ahead and click "Continue". The next page asks you which conversations the app should be able to post messages in. In this case, choose "No channels", which still allows the app to directly message users who install the App -- which means you. 
 
 When you return to the OAuth & Permissions page copy the OAuth Access Token (it should begin with `xoxa`). Treat this value like a password and keep it safe. The Web API uses tokens to to authenticate the requests your app makes. In a later step, you'll be asked to use this token in your code.
 
