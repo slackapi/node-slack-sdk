@@ -210,7 +210,7 @@ export class WebClient extends EventEmitter {
       }
 
       // optimistically check for an expired access token, and refresh it if possible
-      if ((options === undefined || !('token' in options)) && this.shouldAutomaticallyRefreshToken() &&
+      if ((options === undefined || !('token' in options)) && this.shouldAutomaticallyRefreshToken &&
           this.accessTokenExpiresAt !== undefined && this.accessTokenExpiresAt < Date.now()) {
         await this.performTokenRefresh();
       }
@@ -292,7 +292,7 @@ export class WebClient extends EventEmitter {
             })
             // Automatic token refresh concerns
             .catch(async (error) => {
-              if (this.shouldAutomaticallyRefreshToken() &&
+              if (this.shouldAutomaticallyRefreshToken &&
                   error.code === ErrorCode.PlatformError && error.original.error === 'invalid_auth') {
                 if (requestTime === undefined) {
                   // TODO: create an inconsistent state error
@@ -792,14 +792,13 @@ export class WebClient extends EventEmitter {
 
   /**
    * Determine if this client is in automatic token-refreshing mode
-   * TODO: make this a getter?
    */
-  private shouldAutomaticallyRefreshToken(): boolean {
+  private get shouldAutomaticallyRefreshToken(): boolean {
     return (this.clientId !== undefined && this.clientSecret !== undefined && this.refreshToken !== undefined);
   }
 
   /**
-   * Perform a token refresh. Before calling this method, this.shouldAutomaticallyRefreshToken() should be checked.
+   * Perform a token refresh. Before calling this method, this.shouldAutomaticallyRefreshToken should be checked.
    *
    * This method avoids using `apiCall()` because that could infinitely recurse when that method determines that the
    * access token is already expired.
