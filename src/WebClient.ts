@@ -218,7 +218,7 @@ export class WebClient extends EventEmitter {
       // build headers
       const headers = {};
       if (options !== undefined && optionsAreUserPerspectiveEnabled(options)) {
-        headers['x-Slack-User'] = options.on_behalf_of;
+        headers['X-Slack-User'] = options.on_behalf_of;
         delete options.on_behalf_of;
       }
 

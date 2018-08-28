@@ -902,6 +902,28 @@ describe('WebClient', function () {
     });
   });
 
+  describe('has support for token refresh', function () {
+    it('should accept client credentials and refresh token on initialization');
+
+
+    describe('when the access token is expired', function () {
+      it('should refresh the token before making the API call');
+      it('should emit the token_refreshed event after a successful token refresh');
+
+      it('should retry an API call that fails during a token refresh');
+      it('should retry an API call that fails and began before the last token refresh');
+
+      it('should fail with a TokenRefreshError when the refresh token is not valid');
+    });
+
+    describe('manually setting the access token', function () {
+      it('should not refresh the token before making the API call');
+      it('should not refresh the token after an API call fails');
+    });
+
+    it('should fail with a PlatformError (invalid_auth) when the access token is not valid (but not expired)');
+  });
+
   describe('warnings', function () {
     it('should warn when calling a deprecated method', function () {
       const capture = new CaptureConsole();
