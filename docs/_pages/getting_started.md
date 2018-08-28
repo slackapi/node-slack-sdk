@@ -143,7 +143,7 @@ ideas about where to look next:
   [Look through them](https://api.slack.com/methods) to get ideas about what to build next!
 
 * Token rotation is required if you plan to distribute your app. You can find examples of using
-  refresh tokens with the `WebClient` [in the documentation](/web_api#using-refresh-tokens), and learn more about refresh tokens and token rotation [on the API site](https://api.dev612.slack.com/docs/rotating-and-refreshing-credentials).
+  refresh tokens with the `WebClient` [in the documentation](/web_api#using-refresh-tokens), and learn more about refresh tokens and token rotation [on the API site](https://api.slack.com/docs/rotating-and-refreshing-credentials).
 
 * Dive deeper into the `IncomingWebhook`, `WebClient`, and `RTMClient` classes in this package by
   exploring their documentation pages.
