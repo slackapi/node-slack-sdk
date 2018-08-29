@@ -959,7 +959,25 @@ describe('WebClient', function () {
       it('should not refresh the token after an API call fails');
     });
 
-    it('should fail with a PlatformError (invalid_auth) when the access token is not valid (but not expired)');
+    it('should fail with a PlatformError (invalid_auth) when the access token is not valid (but not expired)', function () {
+      this.invalidToken = 'xoxa-invalid-token';
+      this.client = new WebClient(this.invalidToken, { refreshToken, clientId, clientSecret });
+      // Token shouldn't not be expired
+      this.client.accessTokenExpiresAt = Date.now() + 100;
+
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(200, { ok: false, error: 'invalid_auth' });
+      return this.client.apiCall('method')
+        .then((res) => {
+          assert(false);
+        })
+        .catch((error) => {
+          assert.instanceOf(error, Error);
+          assert.equal(error.code, ErrorCode.PlatformError);
+          scope.done();
+        });
+    });
   });
 
   describe('warnings', function () {

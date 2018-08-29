@@ -293,7 +293,7 @@ export class WebClient extends EventEmitter {
             // Automatic token refresh concerns
             .catch(async (error) => {
               if (this.shouldAutomaticallyRefreshToken &&
-                  error.code === ErrorCode.PlatformError && error.original.error === 'invalid_auth') {
+                  error.code === ErrorCode.PlatformError && error.data.error === 'invalid_auth') {
                 if (requestTime === undefined) {
                   // TODO: create an inconsistent state error
                   throw new Error('A logical error with tracking the request time occurred.');
