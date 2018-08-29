@@ -946,7 +946,26 @@ describe('WebClient', function () {
           });
       });
 
-      it('should emit the token_refreshed event after a successful token refresh');
+      it('should emit the token_refreshed event after a successful token refresh', function () {
+        const spy = sinon.spy();
+        const scope = nock('https://slack.com')
+          .post(/api\/oauth\.access/, function (body) {
+            // verify that the body contains the required arguments for token refresh
+            return (body.client_id === clientId && body.client_secret === clientSecret &&
+                    body.grant_type === 'refresh_token' && body.refresh_token === refreshToken);
+          })
+          .reply(200, { ok: true, access_token: token, expires_in: 5, team_id: 'TEAMID', enterprise_id: 'ORGID' })
+          .post(/api/)
+          .reply(200, { ok: true });
+        this.client.on('token_refreshed', spy);
+        return this.client.apiCall('method')
+          .then((result) => {
+            assert(spy.calledOnce);
+            assert.isTrue(result.ok);
+            scope.done();
+          });
+
+      });
 
       it('should retry an API call that fails during a token refresh');
       it('should retry an API call that fails and began before the last token refresh');
