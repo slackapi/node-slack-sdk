@@ -293,7 +293,7 @@ export class WebClient extends EventEmitter {
             // Automatic token refresh concerns
             .catch(async (error) => {
               if (this.shouldAutomaticallyRefreshToken &&
-                  error.code === ErrorCode.PlatformError && error.original.error === 'invalid_auth') {
+                  error.code === ErrorCode.PlatformError && error.data.error === 'invalid_auth') {
                 if (requestTime === undefined) {
                   // TODO: create an inconsistent state error
                   throw new Error('A logical error with tracking the request time occurred.');
@@ -817,6 +817,10 @@ export class WebClient extends EventEmitter {
         refresh_token: this.refreshToken,
       });
 
+      if (!refreshResponse.data.ok) {
+        throw platformErrorFromResponse(refreshResponse);
+      }
+
     } catch (error) {
       this.isTokenRefreshing = false;
       throw refreshFailedErrorWithOriginal(error);
@@ -977,7 +981,7 @@ function requestErrorWithOriginal(original: Error): WebAPIRequestError {
 
 /**
  * A factory to create WebAPIHTTPError objects
- * @param original - original error
+ * @param response - original error
  */
 function httpErrorFromResponse(response: AxiosResponse): WebAPIHTTPError {
   const error = errorWithCode(
@@ -992,12 +996,29 @@ function httpErrorFromResponse(response: AxiosResponse): WebAPIHTTPError {
   return (error as WebAPIHTTPError);
 }
 
+/**
+ * A factory to create WebAPIPlatformError objects
+ * @param result - Web API call result
+ */
 function platformErrorFromResult(result: WebAPICallResult & { error: string; }): WebAPIPlatformError {
   const error = errorWithCode(
     new Error(`An API error occurred: ${result.error}`),
     ErrorCode.PlatformError,
   ) as Partial<WebAPIPlatformError>;
   error.data = result;
+  return (error as WebAPIPlatformError);
+}
+
+/**
+ * A factory to create WebAPIPlatformError objects
+ * @param response - Axios response
+ */
+function platformErrorFromResponse(response: AxiosResponse & { data: { error: string; };}): WebAPIPlatformError {
+  const error = errorWithCode(
+    new Error(`An API error occurred: ${response.data.error}`),
+    ErrorCode.PlatformError,
+  ) as Partial<WebAPIPlatformError>;
+  error.data = response.data;
   return (error as WebAPIPlatformError);
 }
 
@@ -1014,7 +1035,11 @@ function rateLimitedErrorWithDelay(retrySec: number): WebAPIRateLimitedError {
   return (error as WebAPIRateLimitedError);
 }
 
-function refreshFailedErrorWithOriginal(original: Error): WebAPIRefreshFailedError {
+/**
+ * A factory to create WebAPIRefreshFailedError objects
+ * @param original - Original error
+ */
+function refreshFailedErrorWithOriginal(original: WebAPICallError): WebAPIRefreshFailedError {
   const error = errorWithCode(
     new Error(`A token refresh error occurred: ${original.message}`),
     ErrorCode.RefreshFailedError,
