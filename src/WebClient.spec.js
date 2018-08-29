@@ -948,7 +948,40 @@ describe('WebClient', function () {
 
       it('should emit the token_refreshed event after a successful token refresh');
 
-      it('should retry an API call that fails during a token refresh');
+      it('should retry an API call that fails during a token refresh', function () {
+        const scope = nock('https://slack.com')
+          .post(/api\/oauth\.access/, function (body) {
+            // verify that the body contains the required arguments for token refresh
+            return (body.client_id === clientId && body.client_secret === clientSecret &&
+                    body.grant_type === 'refresh_token' && body.refresh_token === refreshToken);
+          })
+          .reply(200, { ok: true, access_token: token, expires_in: 5, team_id: 'TEAMID', enterprise_id: 'ORGID' })
+          // this request is handled before the refresh finishes
+          .post(/api\/second/, function(body) {
+            return body.token === this.expiredToken;
+          })
+          .reply(200, { ok: false, error: 'invalid_auth' })
+          // these requests are handled after the refresh finishes
+          .post(/api\/first/, function(body) {
+            return body.token === token;
+          })
+          .reply(200, { ok: true, call: 'first' })
+          .post(/api\/second/, function(body) {
+            return body.token === token;
+          })
+          .reply(200, { ok: true, call: 'second' });
+
+        const requests = [
+          this.client.apiCall('first'), // the first API call triggers the token refresh, which will be in progress
+          this.client.apiCall('second'), // this is the API call which we are verifying the retry will occur
+        ];
+        return Promise.all(requests)
+          .then(([firstResult, secondResult]) => {
+            assert.equal(firstResult.call, 'first');
+            assert.equal(secondResult.call, 'second');
+            scope.done();
+          });
+      });
       it('should retry an API call that fails and began before the last token refresh');
 
       it('should fail with a TokenRefreshError when the refresh token is not valid');
