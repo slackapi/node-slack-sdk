@@ -1013,21 +1013,6 @@ describe('WebClient', function () {
             scope.done();
           })
       });
-
-      it('should not refresh the token after an API call fails', function () {
-        const scope = nock('https://slack.com')
-          .post(/api\/method/)
-          .reply(200, { ok: false, error: 'invalid_auth' });
-        return this.client.apiCall('method')
-          .then((result) => {
-            assert(false);
-          })
-          .catch((error) => {
-            assert.instanceOf(error, Error);
-            assert.equal(error.code, ErrorCode.PlatformError);
-            scope.done();
-          })
-      });
     });
 
     it('should fail with a PlatformError (invalid_auth) when the access token is not valid (but not expired)', function () {
