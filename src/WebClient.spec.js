@@ -951,7 +951,24 @@ describe('WebClient', function () {
       it('should retry an API call that fails during a token refresh');
       it('should retry an API call that fails and began before the last token refresh');
 
-      it('should fail with a TokenRefreshError when the refresh token is not valid');
+      it('should fail with a RefreshFailedError when the refresh token is not valid', function () {
+        const scope = nock('https://slack.com')
+          .post(/api\/oauth\.access/, function (body) {
+            // verify that the body contains the required arguments for token refresh
+            return (body.client_id === clientId && body.client_secret === clientSecret &&
+                    body.grant_type === 'refresh_token' && body.refresh_token === refreshToken);
+          })
+          .reply(200, { ok: false, error: 'invalid_auth' })
+        return this.client.apiCall('method')
+          .then((result) => {
+            assert(false);
+          })
+          .catch((error) => {
+            assert.instanceOf(error, Error);
+            assert.equal(error.code, ErrorCode.RefreshFailedError);
+            scope.done();
+          });
+      });
     });
 
     describe('manually setting the access token', function () {
