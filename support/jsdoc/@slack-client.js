@@ -1,4 +1,4 @@
-/**
+/** 
  * @module @slack/client
  */
 
@@ -11,6 +11,7 @@
  * @property HTTPError
  * @property PlatformError
  * @property RateLimitedError
+ * @property RefreshFailedError
  * @property RTMSendWhileDisconnectedError
  * @property RTMSendWhileNotReadyError
  * @property RTMSendMessagePlatformError
@@ -158,12 +159,12 @@ export class RTMClient {
    * Generic method for sending an outgoing message of an arbitrary type. This method guards the higher-level methods
    * from concern of which state the client is in, because it places all messages into a queue. The tasks on the queue
    * will buffer until the client is in a state where they can be sent.
-   *
+   * 
    * If the awaitReply parameter is set to true, then the returned Promise is resolved with the platform's
    * acknowledgement response. Not all message types will result in an acknowledgement response, so use this carefully.
    * This promise may be rejected with an error containing code=RTMNoReplyReceivedError if the client disconnects or
    * reconnects before recieving the acknowledgement response.
-   *
+   * 
    * If the awaitReply parameter is set to false, then the returned Promise is resolved as soon as the message is sent
    * from the websocket.
    * @param {"undefined"} awaitReply whether to wait for an acknowledgement response from the platform before resolving the returned
@@ -303,6 +304,16 @@ export class TLSOptions {
 }
 
 /**
+ * @interface module:@slack/client.TokenRefreshedEvent
+ * @property {string} access_token
+ * @property {number} expires_in
+ * @property {string} team_id
+ * @property {string} [enterprise_id]
+ */
+export class TokenRefreshedEvent {
+}
+
+/**
  * @interface module:@slack/client.WebAPICallOptions
  */
 export class WebAPICallOptions {
@@ -343,12 +354,30 @@ export class WebAPIPlatformError {
 }
 
 /**
+ * @interface module:@slack/client.WebAPIRateLimitedError
+ * @extends module:@slack/client.CodedError
+ * @property {"slackclient_rate_limited_error"} code
+ * @property {number} retryAfter
+ */
+export class WebAPIRateLimitedError {
+}
+
+/**
  * @interface module:@slack/client.WebAPIReadError
  * @extends module:@slack/client.CodedError
  * @property {"slackclient_read_error"} code
  * @property {Error} original
  */
 export class WebAPIReadError {
+}
+
+/**
+ * @interface module:@slack/client.WebAPIRefreshFailedError
+ * @extends module:@slack/client.CodedError
+ * @property {"slackclient_refresh_failed_error"} code
+ * @property {Error} original
+ */
+export class WebAPIRefreshFailedError {
 }
 
 /**
@@ -368,11 +397,14 @@ export class WebAPIResultCallback {
 
 /**
  * A client for Slack's Web API
- *
+ * 
  * This client provides an alias for each {@link https://api.slack.com/methods|Web API method}. Each method is
  * a convenience wrapper for calling the {@link WebClient#apiCall} method using the method name as the first parameter.
  * @extends EventEmitter
- * @property {string} [token] Authentication and authorization token for accessing Slack Web API (usually begins with `xoxp`, `xoxb`, or `xoxa`)
+ * @property {string | undefined} token Authentication and authorization token for accessing Slack Web API (usually begins with `xoxa`, xoxp`, or `xoxb`)
+ * @property {string} [refreshToken] OAuth 2.0 refresh token used to automatically create new access tokens (`token`) when the current is expired.
+ * @property {string} [clientId] OAuth 2.0 client identifier
+ * @property {string} [clientSecret] OAuth 2.0 client secret
  * @property {string} [slackApiUrl] The base URL for reaching Slack's Web API. Consider changing this value for testing purposes.
  */
 export class WebClient {
@@ -413,6 +445,9 @@ export class WebClient {
  * @property {module:@slack/client.TLSOptions} [tls]
  * @property {number} [pageSize]
  * @property {boolean} [rejectRateLimitedCalls]
+ * @property {string} [clientId]
+ * @property {string} [clientSecret]
+ * @property {string} [refreshToken]
  */
 export class WebClientOptions {
 }
