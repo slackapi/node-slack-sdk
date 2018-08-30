@@ -298,13 +298,19 @@ export class WebClient extends EventEmitter {
                   // TODO: create an inconsistent state error
                   throw new Error('A logical error with tracking the request time occurred.');
                 }
-                if (this.isTokenRefreshing ||
-                   (this.accessTokenLastRefreshedAt !== undefined && requestTime < this.accessTokenLastRefreshedAt)) {
-                  // TODO: what's the point in doing the token refresh right here? if we just retry, the optimistic
-                  // token refresh check would end up catching this anyway
+
+                if (this.accessTokenLastRefreshedAt === undefined) {
+                  if (!this.isTokenRefreshing) {
+                    await this.performTokenRefresh();
+                    return implementation();
+                  }
+                  return implementation();
+                }
+                if (!this.isTokenRefreshing && requestTime > this.accessTokenLastRefreshedAt) {
                   await this.performTokenRefresh();
                   return implementation();
                 }
+                return implementation();
               }
               throw error;
             }));

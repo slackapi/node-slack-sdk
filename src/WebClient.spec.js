@@ -1,6 +1,7 @@
 require('mocha');
 const fs = require('fs');
 const path = require('path');
+const { parse: qsParse } = require('querystring');
 const { Agent } = require('https');
 const { Readable } = require('stream');
 const { assert } = require('chai');
@@ -948,39 +949,50 @@ describe('WebClient', function () {
 
       it('should emit the token_refreshed event after a successful token refresh');
 
-      it('should retry an API call that fails during a token refresh', function () {
+      it('should retry an API call that fails during a token refresh', function (done) {
+        // this value is assigned just to force the client to forget its known expiration time for the token
+        const anotherExpiredToken = 'xoxa-another-expired-token';
+        this.client.token = anotherExpiredToken;
+
         const scope = nock('https://slack.com')
+          .persist()
+          .post(/api\/first/)
+          .reply(200, function (uri, requestBody) {
+            if (qsParse(requestBody).token === token) {
+              return { ok: true };
+            } else {
+              return { ok: false, error: 'invalid_auth' };
+            }
+          })
+          .post(/api\/second/)
+          .reply(200, function (uri, requestBody) {
+            if (qsParse(requestBody).token === token) {
+              return { ok: true };
+            } else {
+              return { ok: false, error: 'invalid_auth' };
+            }
+          })
           .post(/api\/oauth\.access/, function (body) {
             // verify that the body contains the required arguments for token refresh
             return (body.client_id === clientId && body.client_secret === clientSecret &&
                     body.grant_type === 'refresh_token' && body.refresh_token === refreshToken);
           })
           .reply(200, { ok: true, access_token: token, expires_in: 5, team_id: 'TEAMID', enterprise_id: 'ORGID' })
-          // this request is handled before the refresh finishes
-          .post(/api\/second/, function(body) {
-            return body.token === this.expiredToken;
-          })
-          .reply(200, { ok: false, error: 'invalid_auth' })
-          // these requests are handled after the refresh finishes
-          .post(/api\/first/, function(body) {
-            return body.token === token;
-          })
-          .reply(200, { ok: true, call: 'first' })
-          .post(/api\/second/, function(body) {
-            return body.token === token;
-          })
-          .reply(200, { ok: true, call: 'second' });
 
-        const requests = [
-          this.client.apiCall('first'), // the first API call triggers the token refresh, which will be in progress
-          this.client.apiCall('second'), // this is the API call which we are verifying the retry will occur
-        ];
-        return Promise.all(requests)
-          .then(([firstResult, secondResult]) => {
-            assert.equal(firstResult.call, 'first');
-            assert.equal(secondResult.call, 'second');
+
+        // the first API call will fail because of an `invalid_auth`, which should trigger a token refresh.
+        this.client.apiCall('first').catch(done);
+
+        // while that token refresh is in progress, we'll make another API call, which will still be using
+        // anotherExpiredToken (since the refresh hasn't completed), it would fail, and then we need to verify it will
+        // retry with a valid token.
+        this.client.apiCall('second')
+          .then((result) => {
             scope.done();
-          });
+            assert.isTrue(result.ok);
+            done();
+          })
+          .catch(done);
       });
       it('should retry an API call that fails and began before the last token refresh');
 
@@ -1009,25 +1021,6 @@ describe('WebClient', function () {
       it('should not refresh the token after an API call fails');
     });
 
-    it('should fail with a PlatformError (invalid_auth) when the access token is not valid (but not expired)', function () {
-      this.invalidToken = 'xoxa-invalid-token';
-      this.client = new WebClient(this.invalidToken, { refreshToken, clientId, clientSecret });
-      // Token shouldn't not be expired
-      this.client.accessTokenExpiresAt = Date.now() + 100;
-
-      const scope = nock('https://slack.com')
-        .post(/api/)
-        .reply(200, { ok: false, error: 'invalid_auth' });
-      return this.client.apiCall('method')
-        .then((res) => {
-          assert(false);
-        })
-        .catch((error) => {
-          assert.instanceOf(error, Error);
-          assert.equal(error.code, ErrorCode.PlatformError);
-          scope.done();
-        });
-    });
   });
 
   describe('warnings', function () {
