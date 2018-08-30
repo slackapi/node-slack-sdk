@@ -947,7 +947,26 @@ describe('WebClient', function () {
           });
       });
 
-      it('should emit the token_refreshed event after a successful token refresh');
+      it('should emit the token_refreshed event after a successful token refresh', function () {
+        const spy = sinon.spy();
+        const scope = nock('https://slack.com')
+          .post(/api\/oauth\.access/, function (body) {
+            // verify that the body contains the required arguments for token refresh
+            return (body.client_id === clientId && body.client_secret === clientSecret &&
+                    body.grant_type === 'refresh_token' && body.refresh_token === refreshToken);
+          })
+          .reply(200, { ok: true, access_token: token, expires_in: 5, team_id: 'TEAMID', enterprise_id: 'ORGID' })
+          .post(/api/)
+          .reply(200, { ok: true });
+        this.client.on('token_refreshed', spy);
+        return this.client.apiCall('method')
+          .then((result) => {
+            assert(spy.calledOnce);
+            assert.isTrue(result.ok);
+            scope.done();
+          });
+
+      });
 
       it('should retry an API call that fails during a token refresh', function (done) {
         // this value is assigned just to force the client to forget its known expiration time for the token
@@ -1017,8 +1036,28 @@ describe('WebClient', function () {
     });
 
     describe('manually setting the access token', function () {
-      it('should not refresh the token before making the API call');
-      it('should not refresh the token after an API call fails');
+      beforeEach(function () {
+        this.expiredToken = 'xoxa-expired-access-token';
+        this.client = new WebClient(this.expiredToken, { refreshToken, clientId, clientSecret });
+
+        // NOTE: this is bad because it depends on internal implementation details. in the future we should allow the
+        // client to perform a refresh and actually send back a response from `oauth.access` with a very short (or
+        // possibly negative) expires_in value.
+        this.client.accessTokenExpiresAt = Date.now() - 100;
+        this.newToken = 'xoxa-new-token';
+        this.client.token = this.newToken;
+      });
+
+      it('should not refresh the token before making the API call', function () {
+        const scope = nock('https://slack.com')
+          .post(/api\/method/)
+          .reply(200, { ok: true });
+        return this.client.apiCall('method')
+          .then((result) => {
+            assert.isTrue(result.ok);
+            scope.done();
+          })
+      });
     });
 
   });
