@@ -51,6 +51,8 @@ through building your first Slack app using Node.js.
 that explains and compares the options. If you're still not sure,
 [reach out for help](#getting-help) and our community can guide you.
 
+**Building a workspace app?** The `WebClient` can automatically [handle token rotation](https://slackapi.github.io/node-slack-sdk/web_api#using-refresh-tokens) for your app. [Learn more](https://api.slack.com/docs/rotating-and-refreshing-credentials#why) about why you should enable token expiration (hint: its required for App Directory distribution).
+
 ## Examples
 
 ### Posting a message with Web API
@@ -63,7 +65,7 @@ how to post a message into a channel, DM, MPDM, or group. This will require eith
 ```javascript
 const { WebClient } = require('@slack/client');
 
-// An access token (from your Slack app or custom integration - xoxp, xoxb, or xoxa)
+// An access token (from your Slack app or custom integration - xoxa, xoxp, or xoxb)
 const token = process.env.SLACK_TOKEN;
 
 const web = new WebClient(token);
