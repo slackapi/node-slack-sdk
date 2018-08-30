@@ -210,8 +210,11 @@ export class WebClient extends EventEmitter {
       }
 
       // optimistically check for an expired access token, and refresh it if possible
-      if ((options === undefined || !('token' in options)) && this.shouldAutomaticallyRefreshToken &&
-          this.accessTokenExpiresAt !== undefined && this.accessTokenExpiresAt < Date.now()) {
+      if ((method !== 'oauth.access' && method !== 'oauth.token') &&
+          (options === undefined || !('token' in options)) &&
+          this.shouldAutomaticallyRefreshToken &&
+          (this.token === undefined ||
+           this.accessTokenExpiresAt !== undefined && this.accessTokenExpiresAt < Date.now())) {
         await this.performTokenRefresh();
       }
 
@@ -638,8 +641,11 @@ export class WebClient extends EventEmitter {
     },
   };
 
-  // TODO: better input types - remove any
+  /**
+   * Low-level function to make a single API request. handles queing, retries, and http-level errors
+   */
   private async makeRequest(url: string, body: any, headers: any = {}): Promise<AxiosResponse> {
+    // TODO: better input types - remove any
     const task = () => this.requestQueue.add(async () => {
       this.logger.debug('will perform http request');
       try {
