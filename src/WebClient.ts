@@ -123,6 +123,11 @@ export class WebClient extends EventEmitter {
   private logger: Logger;
 
   /**
+   * Static headers on every request.
+   */
+  private staticHeaders?: object;
+
+  /**
    * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`, or `xoxa`)
    */
   constructor(token?: string, {
@@ -138,6 +143,7 @@ export class WebClient extends EventEmitter {
     clientId = undefined,
     clientSecret = undefined,
     refreshToken = undefined,
+    headers = {},
   }: WebClientOptions = {}) {
     super();
     this._accessToken = token;
@@ -145,6 +151,7 @@ export class WebClient extends EventEmitter {
     this.clientSecret = clientSecret;
     this.refreshToken = refreshToken;
     this.slackApiUrl = slackApiUrl;
+    this.staticHeaders = headers;
 
     this.retryConfig = retryConfig;
     this.requestQueue = new PQueue({ concurrency: maxRequestConcurrency });
@@ -165,6 +172,7 @@ export class WebClient extends EventEmitter {
       baseURL: slackApiUrl,
       headers: {
         'User-Agent': getUserAgent(),
+        ...this.staticHeaders,
       },
       httpAgent: agentForScheme('http', agent),
       httpsAgent: agentForScheme('https', agent),
@@ -873,6 +881,7 @@ export interface WebClientOptions {
   clientId?: string;
   clientSecret?: string;
   refreshToken?: string;
+  headers?: object;
 }
 
 export interface WebAPICallOptions {
