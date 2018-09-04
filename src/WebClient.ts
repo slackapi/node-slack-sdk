@@ -170,10 +170,9 @@ export class WebClient extends EventEmitter {
 
     this.axios = axios.create({
       baseURL: slackApiUrl,
-      headers: {
+      headers: Object.assign({
         'User-Agent': getUserAgent(),
-        ...this.staticHeaders,
-      },
+      }, this.staticHeaders),
       httpAgent: agentForScheme('http', agent),
       httpsAgent: agentForScheme('https', agent),
       transformRequest: [this.serializeApiCallOptions.bind(this)],
