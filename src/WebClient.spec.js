@@ -20,9 +20,6 @@ const token = 'xoxa-faketoken';
 const refreshToken = 'xoxr-refreshtoken';
 const clientId = 'CLIENTID';
 const clientSecret = 'CLIENTSECRET';
-const staticHeaders = {
-  'X-ABC': 'value'
-};
 
 describe('WebClient', function () {
 
@@ -37,12 +34,6 @@ describe('WebClient', function () {
     it('should build a client without a token', function () {
       const client = new WebClient();
       assert.instanceOf(client, WebClient);
-    });
-
-    it('should build a client with static headers', function () {
-      const client = new WebClient(token, { headers: staticHeaders});
-      assert.instanceOf(client, WebClient);
-      assert.equal(client.staticHeaders, staticHeaders);
     });
   });
 
@@ -87,7 +78,7 @@ describe('WebClient', function () {
 
   describe('apiCall()', function () {
     beforeEach(function () {
-      this.client = new WebClient(token, { retryConfig: rapidRetryPolicy, headers: staticHeaders });
+      this.client = new WebClient(token, { retryConfig: rapidRetryPolicy });
     });
 
     describe('when making a successful call', function () {
@@ -488,6 +479,23 @@ describe('WebClient', function () {
 
       const r = client.apiCall('method', { foo: 'stringval' });
       assert(isPromise(r));
+      return r.then((result) => {
+        scope.done();
+      });
+    });
+  });
+
+  describe('apiCall() - when using static headers', function () {
+    it('should include static headers on api request', function () {
+      const client = new WebClient(token, { headers: { 'X-XYZ': 'value' } });
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(200, { ok: true })
+        .on('request', function (req, interceptor, body) {
+          const headerKey = req.headers['x-xyz'];
+          assert.isDefined(headerKey);
+        });
+      const r = client.apiCall('method');
       return r.then((result) => {
         scope.done();
       });
