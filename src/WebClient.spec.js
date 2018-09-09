@@ -488,13 +488,13 @@ describe('WebClient', function () {
   describe('apiCall() - when using static headers', function () {
     it('should include static headers on api request', function () {
       const client = new WebClient(token, { headers: { 'X-XYZ': 'value' } });
-      const scope = nock('https://slack.com')
+      const scope = nock('https://slack.com', {
+        reqheaders: {
+          'X-XYZ': 'value'
+        }
+      })
         .post(/api/)
-        .reply(200, { ok: true })
-        .on('request', function (req, interceptor, body) {
-          const headerKey = req.headers['x-xyz'];
-          assert.isDefined(headerKey);
-        });
+        .reply(200, { ok: true });
       const r = client.apiCall('method');
       return r.then((result) => {
         scope.done();
