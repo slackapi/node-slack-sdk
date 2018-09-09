@@ -138,6 +138,7 @@ export class WebClient extends EventEmitter {
     clientId = undefined,
     clientSecret = undefined,
     refreshToken = undefined,
+    headers = {},
   }: WebClientOptions = {}) {
     super();
     this._accessToken = token;
@@ -163,9 +164,9 @@ export class WebClient extends EventEmitter {
 
     this.axios = axios.create({
       baseURL: slackApiUrl,
-      headers: {
+      headers: Object.assign({
         'User-Agent': getUserAgent(),
-      },
+      }, headers),
       httpAgent: agentForScheme('http', agent),
       httpsAgent: agentForScheme('https', agent),
       transformRequest: [this.serializeApiCallOptions.bind(this)],
@@ -873,6 +874,7 @@ export interface WebClientOptions {
   clientId?: string;
   clientSecret?: string;
   refreshToken?: string;
+  headers?: object;
 }
 
 export interface WebAPICallOptions {

@@ -485,6 +485,23 @@ describe('WebClient', function () {
     });
   });
 
+  describe('apiCall() - when using static headers', function () {
+    it('should include static headers on api request', function () {
+      const client = new WebClient(token, { headers: { 'X-XYZ': 'value' } });
+      const scope = nock('https://slack.com', {
+        reqheaders: {
+          'X-XYZ': 'value'
+        }
+      })
+        .post(/api/)
+        .reply(200, { ok: true });
+      const r = client.apiCall('method');
+      return r.then((result) => {
+        scope.done();
+      });
+    });
+  });
+
   describe('named method aliases (facets)', function () {
     beforeEach(function () {
       this.client = new WebClient(token, { retryConfig: rapidRetryPolicy });
