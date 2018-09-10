@@ -208,7 +208,7 @@ Every web API method can also be called with a callback function that takes `cb(
 If you prefer callbacks over promises, here is the example above translated for callbacks:
 
 ```javascript
-web.channels.list((err, res) => {
+web.channels.list({}, (err, res) => {
   if (err) {
     return console.error(err);
   }
@@ -219,11 +219,13 @@ web.channels.list((err, res) => {
 
 ```
 
+Note that when calling a method with no required arguments, you **still need to provide an empty options object**.
+
 ---
 
 ### Using refresh tokens
 
-If you're using workspace apps, refresh tokens can be used to obtain short-lived access tokens that power your Web API calls from the `WebClient` (this is *required* for distributed apps). This can increase the security of your app since, in the event of a token being exposed accidentally, it won't be able to be used against your app or users after a short time. To enable the `WebClient` to automatically refresh and swap your access tokens, you need to pass your app's refresh token, client ID, and client secret in the `WebClientOptions`. 
+If you're using workspace apps, refresh tokens can be used to obtain short-lived access tokens that power your Web API calls from the `WebClient` (this is *required* for distributed apps). This can increase the security of your app since, in the event of a token being exposed accidentally, it won't be able to be used against your app or users after a short time. To enable the `WebClient` to automatically refresh and swap your access tokens, you need to pass your app's refresh token, client ID, and client secret in the `WebClientOptions`.
 
 At the time of refresh, the `WebClient` will emit a `token_refreshed` event that will contain the new access token (`access_token`), time to expiration (`expires_in`), an associated team ID (`team_id`), and an associated enterprise ID (`enterprise_id`). It's recommended to listen to this event and store the access token in a database so you have access to your active token.
 
@@ -248,7 +250,7 @@ function setAuthorization(authorization) {
   if (authIndex === -1) {
     authIndex = slackAuthorizations.length;
   }
-  
+
   // Set authorization in data structure
   slackAuthorizations[authIndex] = {
     accessToken: authorization.access_token,
@@ -261,7 +263,7 @@ function setAuthorization(authorization) {
 // Gets index of authorization in data structure
 function getAuthorizationIndex(teamId, enterpriseId) {
   slackAuthorizations.findIndex(function(authorization) {
-    return (authorization.team_id === teamId && 
+    return (authorization.team_id === teamId &&
       authorization.enterprise_id === enterpriseId);
   })
 }
