@@ -1,6 +1,6 @@
 {
   "name": "@slack/client",
-  "version": "3.16.1-sec",
+  "version": "3.16.1-sec.2",
   "description": "A library for creating a Slack client",
   "main": "./index",
   "scripts": {
