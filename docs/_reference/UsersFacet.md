@@ -11,7 +11,6 @@ permalink: /reference/UsersFacet
     * [.info(user, [optCb])](#UsersFacet+info)
     * [.list([opts], [optCb])](#UsersFacet+list)
     * [.lookupByEmail(email, [opts], [optCb])](#UsersFacet+lookupByEmail)
-    * [.setActive([optCb])](#UsersFacet+setActive)
     * [.setPresence(presence, [optCb])](#UsersFacet+setPresence)
 
 <a name="UsersFacet+getPresence"></a>
@@ -81,18 +80,6 @@ Find a user with an email address.
 | --- | --- | --- |
 | email | <code>?</code> | An email address belonging to a user in the workspace |
 | [opts] | <code>Object</code> |  |
-| [optCb] | <code>function</code> | Optional callback, if not using promises. |
-
-<a name="UsersFacet+setActive"></a>
-
-### usersFacet.setActive([optCb])
-Marks a user as active.
-
-**Kind**: instance method of <code>[UsersFacet](#UsersFacet)</code>  
-**See**: [users.setActive](https://api.slack.com/methods/users.setActive)  
-
-| Param | Type | Description |
-| --- | --- | --- |
 | [optCb] | <code>function</code> | Optional callback, if not using promises. |
 
 <a name="UsersFacet+setPresence"></a>
