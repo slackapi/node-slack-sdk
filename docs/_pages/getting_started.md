@@ -91,6 +91,8 @@ $ export SLACK_ACCESS_TOKEN=xoxa-...
 Create a file called `tutorial.js` and add the following code:
 
 ```javascript
+// Create a new instance of the WebClient class with the token stored in your environment variable
+const web = new WebClient(process.env.SLACK_ACCESS_TOKEN);
 // The current date
 const currentTime = new Date().toTimeString();
 
