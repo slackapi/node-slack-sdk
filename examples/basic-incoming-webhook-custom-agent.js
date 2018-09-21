@@ -1,5 +1,5 @@
 /**
- * Example for using an Incoming Webhook
+ * Example for using an Incoming Webhook with custom agent
  */
 
 const { IncomingWebhook } = require('../dist');
