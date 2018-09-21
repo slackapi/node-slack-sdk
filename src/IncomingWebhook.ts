@@ -1,7 +1,8 @@
-import axios, { AxiosResponse, AxiosError } from 'axios';
+import { Agent } from 'http';
+import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { MessageAttachment } from './methods';
-import { callbackify } from './util';
+import { callbackify, AgentOption } from './util';
 
 /**
  * A client for Slack's Incoming Webhooks
@@ -17,6 +18,11 @@ export class IncomingWebhook {
    */
   private defaults: IncomingWebhookDefaultArguments;
 
+  /**
+   * Axios HTTP client instance used by this client
+   */
+  private axios: AxiosInstance;
+
   constructor(url: string, defaults: IncomingWebhookDefaultArguments = {}) {
     if (url === undefined) {
       throw new Error('Incoming webhook URL is required');
@@ -24,6 +30,15 @@ export class IncomingWebhook {
 
     this.url = url;
     this.defaults = defaults;
+
+    this.axios = axios.create({
+      baseURL: url,
+      httpAgent: agentForScheme('http', defaults.agent),
+      httpsAgent: agentForScheme('https', defaults.agent),
+      maxRedirects: 0,
+      proxy: false,
+    });
+
   }
 
   /**
@@ -34,7 +49,6 @@ export class IncomingWebhook {
   public send(message: string | IncomingWebhookSendArguments, callback: IncomingWebhookResultCallback): void;
   public send(message: string | IncomingWebhookSendArguments,
               callback?: IncomingWebhookResultCallback): Promise<IncomingWebhookResult> | void {
-    // NOTE: no support for proxy
     // NOTE: no support for TLS config
     let payload: IncomingWebhookSendArguments = Object.assign({}, this.defaults);
 
@@ -44,7 +58,7 @@ export class IncomingWebhook {
       payload = Object.assign(payload, message);
     }
 
-    const implementation = () => axios.post(this.url, payload)
+    const implementation = () => this.axios.post(this.url, payload)
       .catch((error: AxiosError) => {
         // Wrap errors in this packages own error types (abstract the implementation details' types)
         if (error.response !== undefined) {
@@ -87,6 +101,7 @@ export interface IncomingWebhookDefaultArguments {
   channel?: string;
   text?: string;
   link_names?: boolean; // SEMVER:MAJOR used to be linkNames
+  agent?: AgentOption;
 }
 
 export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArguments {
@@ -151,4 +166,28 @@ function httpErrorWithOriginal(original: Error): IncomingWebhookHTTPError {
   ) as Partial<IncomingWebhookHTTPError>;
   error.original = original;
   return (error as IncomingWebhookHTTPError);
+}
+
+/**
+ * Detects whether an object is an Agent
+ */
+function isAgent(obj: any): obj is Agent {
+  return obj && typeof obj.addRequest === 'function';
+}
+
+/**
+ * Returns an agent (or false or undefined) for the specific scheme and option passed in
+ * @param scheme either 'http' or 'https'
+ */
+function agentForScheme(scheme: string, agentOption?: AgentOption): Agent | boolean | undefined {
+  if (agentOption === undefined) {
+    return undefined;
+  }
+  if (typeof agentOption === 'boolean') {
+    return agentOption;
+  }
+  if (isAgent(agentOption)) {
+    return agentOption;
+  }
+  return agentOption[scheme];
 }
