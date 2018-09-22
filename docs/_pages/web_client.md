@@ -507,8 +507,8 @@ illustrating below.
 function getAllUsers() {
   let users = [];
   function pageLoaded(res) {
-    users = users.concat(res.users);
-    if (res.response_metadata && res.response_metadata.next_cursor && res.response_metadata.cursor !== '') {
+    users = users.concat(res.members);
+    if (res.response_metadata && res.response_metadata.next_cursor && res.response_metadata.next_cursor !== '') {
       return web.users.list({ limit: 100, cursor: res.response_metadata.next_cursor }).then(pageLoaded);
     }
     return users;
