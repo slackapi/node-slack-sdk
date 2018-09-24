@@ -127,5 +127,4 @@ describe('IncomingWebhook', function () {
       });
     });
   });
-
 });
