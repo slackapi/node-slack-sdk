@@ -151,9 +151,8 @@ web.files.upload({
 
 ### Getting a list of channels
 
-The `channels.list` method can be used to get a list of all the public channels (and private
-channels from the user who authorized) when using a user token with scope `channels:read`. Or, it
-would return the public channels and all private channels a bot user is a member of when using a bot token.
+The `conversations.list` method can be used to get a list of all channels in a Slack team.
+This [Conversations API](https://api.slack.com/docs/conversations-api) method returns a list of all [channel-like conversations](https://api.slack.com/types/conversation) in a workspace. The "channels" returned depend on what the calling token has access to and the directives placed in the `types` parameter. See the [conversations.list](https://api.slack.com/methods/conversations.list) documentation for details.
 
 ```javascript
 const { WebClient } = require('@slack/client');
@@ -163,14 +162,23 @@ const token = process.env.SLACK_TOKEN;
 
 const web = new WebClient(token);
 
-// See: https://api.slack.com/methods/channels.list
-web.channels.list()
-  .then((res) => {
-    // `res` contains information about the channels
-    res.channels.forEach(c => console.log(c.name));
-  })
+function getAllChannels() {
+  // See: https://api.slack.com/methods/conversations.list#arguments
+  const param = {
+    exclude_archived: true,
+    types: 'public_channel',
+    // Only get first 100 items
+    limit: 100
+  };
+  return web.conversations.list(param).then(results => { return results.channels });
+}
+
+getAllChannels()
+  .then(console.log)  // prints out the list of channels
   .catch(console.error);
 ```
+
+**NOTE**: The example above can only get a specific number of items (by `limit` arguments). See the [Pagination](#pagination) section for the detailed description as to how you can handle pagination in API methods so that you can get full items even if you don't know how many items are there.
 
 ---
 
@@ -499,25 +507,41 @@ Inside `res` is a property called `response_metadata`, which might (or might not
 that `next_cursor` property exists, and is not an empty string, you know there's still more data in the list. If you
 want to read more messages in that channel's history, you would call the method again, but use that value as the
 `cursor` argument. **NOTE**: It should be rare that your app needs to read the entire history of a channel, avoid that!
-With other methods, such as `users.list`, it would be more common to request the entire list, so that's what we're
+With other methods, such as `conversations.list`, it would be more common to request the entire list of channels, so that's what we're
 illustrating below.
 
 ```javascript
-// A function that recursively iterates through each page while a next_cursor exists
-function getAllUsers() {
-  let users = [];
+const { WebClient } = require('@slack/client');
+
+// An access token (from your Slack app or custom integration - xoxa, xoxp, or xoxb)
+const token = process.env.SLACK_TOKEN;
+
+const web = new WebClient(token);
+
+function getAllChannels() {
+  // See: https://api.slack.com/methods/conversations.list#arguments
+  const param = {
+    exclude_archived: true,
+    types: 'public_channel',
+    // See: https://api.slack.com/methods/conversations.list#pagination
+    // We recommend no more than 200 results at a time.
+    limit: 200
+  };
+  let channels = [];
   function pageLoaded(res) {
-    users = users.concat(res.members);
+    channels = channels.concat(res.channels);
     if (res.response_metadata && res.response_metadata.next_cursor && res.response_metadata.next_cursor !== '') {
-      return web.users.list({ limit: 100, cursor: res.response_metadata.next_cursor }).then(pageLoaded);
+      // Add a 'cursor' arguments if a 'next_cursor' exists
+      param.cursor = res.response_metadata.next_cursor;
+      return web.conversations.list(param).then(pageLoaded);
     }
-    return users;
+    return channels;
   }
-  return web.users.list({ limit: 100 }).then(pageLoaded);
+  return web.conversations.list(param).then(pageLoaded);
 }
 
-getAllUsers()
-  .then(console.log) // prints out the list of users
+getAllChannels()
+  .then(console.log)  // prints out the list of channels
   .catch(console.error);
 ```
 
