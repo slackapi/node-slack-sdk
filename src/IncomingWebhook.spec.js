@@ -120,6 +120,28 @@ describe('IncomingWebhook', function () {
       });
     });
 
+    it('should use the right custom agent when providing agents for many schemes', function () {
+      const agent = new Agent({ keepAlive: true });
+      const spy = sinon.spy(agent, 'addRequest');
+      const badAgent = { addRequest: sinon.stub().throws() };
+      const webhook = new IncomingWebhook(url, { agent: {
+        https: agent,
+        http: badAgent,
+      } });
+
+      webhook.send('Hello')
+      .catch(() => {
+        assert(spy.called);
+      }).then( () => {
+        agent.addRequest.restore();
+        agent.destroy();
+      }).catch((error) => {
+        agent.addRequest.restore();
+        agent.destroy();
+        throw error;
+      });
+    });
+
     it('should use accept a boolean (false) agent', function (done) {
       const webhook = new IncomingWebhook(url, {agent: false});
       webhook.send('Hello', () => {
