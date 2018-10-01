@@ -23,7 +23,7 @@ This page helps describe how to use this package from a project that also uses T
 In your project, you'll need to make sure that certain `lib`s are referenced. Usually you would configure this inside
 a `tsconfig.json` file at the root of your project. If you haven't already created this file, you can generate one
 using `tsc --init` on the command line. Below is an example of what the `lib` should _at a minimum_ contain for a
-prject using this package.
+project using this package.
 
 For versions of TypeScript < 3.1:
 ```
@@ -59,8 +59,8 @@ The above options will help you compile down to an `"es5"` target, but if you're
 
 ### Result properties are not defined
 
-This package aims to provides complete and accurate type information for all method **inputs** (or arguments), but
-doesn't necessarily provide that depth for **outputs** or the results. This is a shortcoming we are aware of, and are
+This package aims to provide complete and accurate type information for all method **inputs** (or arguments), but
+doesn't necessarily provide that depth for **outputs** (or the results). This is a shortcoming we are aware of, and are
 evaluating the various ways we might be able to address it in issues
 [#496](https://github.com/slackapi/node-slack-sdk/issues/496) and
 [#509](https://github.com/slackapi/node-slack-sdk/issues/509). There are two recommendations for working with results.
