@@ -25,7 +25,6 @@ a `tsconfig.json` file at the root of your project. If you haven't already creat
 using `tsc --init` on the command line. Below is an example of what the `lib` should _at a minimum_ contain for a
 project using this package.
 
-For versions of TypeScript < 3.1:
 ```
 {
   "compilerOptions": {
@@ -34,20 +33,6 @@ For versions of TypeScript < 3.1:
       "es2015",
       "es2016.array.include",
       "esnext.asynciterable"
-    ]
-  }
-}
-```
-
-For versions of TypeScript >= 3.1:
-```
-{
-  "compilerOptions": {
-    "lib": [
-      "es5",
-      "es2015",
-      "es2016.array.include",
-      "es2018.asynciterable"
     ]
   }
 }
