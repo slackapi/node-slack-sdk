@@ -2,7 +2,7 @@
 if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
 
 import { stringify as qsStringify } from 'querystring';
-import { IncomingHttpHeaders, Agent } from 'http';
+import { IncomingHttpHeaders } from 'http';
 import { basename } from 'path';
 import { Readable } from 'stream';
 import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
@@ -12,11 +12,12 @@ import PQueue = require('p-queue'); // tslint:disable-line:import-name no-requir
 import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
-import { awaitAndReduce, callbackify, getUserAgent, delay, AgentOption, TLSOptions } from './util';
+import { awaitAndReduce, callbackify, getUserAgent, delay, AgentOption, TLSOptions, agentForScheme } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
 import Method, * as methods from './methods'; // tslint:disable-line:import-name
+
 const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 /**
@@ -948,32 +949,6 @@ export interface TokenRefreshedEvent {
 
 const defaultFilename = 'Untitled';
 const requestTimePropName = 'slack_webclient_request_time';
-
-/**
- * Detects whether an object is an http.Agent
- */
-function isAgent(obj: any): obj is Agent {
-  // This check is not perfect, but we're borrowing this from a very common library where agent are generated.
-  // https://github.com/TooTallNate/node-agent-base/blob/c7ffe87ca4cd996f94ef70b5665c582b88791dca/index.js#L10
-  return obj && typeof obj.addRequest === 'function';
-}
-
-/**
- * Returns an agent (or false or undefined) for the specific scheme and option passed in
- * @param scheme either 'http' or 'https'
- */
-function agentForScheme(scheme: string, agentOption?: AgentOption): Agent | boolean | undefined {
-  if (agentOption === undefined) {
-    return undefined;
-  }
-  if (typeof agentOption === 'boolean') {
-    return agentOption;
-  }
-  if (isAgent(agentOption)) {
-    return agentOption;
-  }
-  return agentOption[scheme];
-}
 
 /**
  * Determines whether WebAPICallOptions conform to UserPerspectiveEnabled

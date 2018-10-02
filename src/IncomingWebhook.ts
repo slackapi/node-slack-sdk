@@ -1,8 +1,7 @@
-import { Agent } from 'http';
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { MessageAttachment } from './methods';
-import { callbackify, AgentOption } from './util';
+import { callbackify, AgentOption, agentForScheme } from './util';
 
 /**
  * A client for Slack's Incoming Webhooks
@@ -166,28 +165,4 @@ function httpErrorWithOriginal(original: Error): IncomingWebhookHTTPError {
   ) as Partial<IncomingWebhookHTTPError>;
   error.original = original;
   return (error as IncomingWebhookHTTPError);
-}
-
-/**
- * Detects whether an object is an Agent
- */
-function isAgent(obj: any): obj is Agent {
-  return obj && typeof obj.addRequest === 'function';
-}
-
-/**
- * Returns an agent (or false or undefined) for the specific scheme and option passed in
- * @param scheme either 'http' or 'https'
- */
-function agentForScheme(scheme: string, agentOption?: AgentOption): Agent | boolean | undefined {
-  if (agentOption === undefined) {
-    return undefined;
-  }
-  if (typeof agentOption === 'boolean') {
-    return agentOption;
-  }
-  if (isAgent(agentOption)) {
-    return agentOption;
-  }
-  return agentOption[scheme];
 }
