@@ -2,6 +2,7 @@ import debugFactory from 'debug';
 import getRawBody from 'raw-body';
 import querystring from 'querystring';
 import crypto from 'crypto';
+import timingSafeCompare from 'tsscmp';
 import { packageIdentifier } from './util';
 
 const debug = debugFactory('@slack/interactive-messages:http-handler');
@@ -80,7 +81,7 @@ export function createHTTPHandler(adapter) {
     const [version, hash] = signature.split('=');
     hmac.update(`${version}:${ts}:${body}`);
 
-    if (hash !== hmac.digest('hex')) {
+    if (!timingSafeCompare(hash, hmac.digest('hex'))) {
       debug('request signature is not valid');
       const error = new Error('Slack request signing verification failed');
       error.code = errorCodes.SIGNATURE_VERIFICATION_FAILURE;
