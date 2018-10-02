@@ -8,7 +8,7 @@ const { IncomingWebhook } = require('../dist');
 // It's always a good idea to keep sensitive data like the url outside your source code. Prefer environment variables.
 const url = process.env.SLACK_WEBHOOK_URL || '';
 
-if (!url) { console.log('You must specify a token to use this example'); process.exitCode = 1; return; }
+if (!url) { console.log('You must specify a webhook url to use this example'); process.exitCode = 1; return; }
 
 const proxyUrl = process.env.SLACK_PROXY_URL || '';
 const proxyPort = process.env.SLACK_PROXY_PORT || '';
