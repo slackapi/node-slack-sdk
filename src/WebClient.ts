@@ -953,7 +953,9 @@ const requestTimePropName = 'slack_webclient_request_time';
  * Detects whether an object is an http.Agent
  */
 function isAgent(obj: any): obj is Agent {
-  return typeof obj.maxSockets === 'number' && typeof obj.destroy === 'function';
+  // This check is not perfect, but we're borrowing this from a very common library where agent are generated.
+  // https://github.com/TooTallNate/node-agent-base/blob/c7ffe87ca4cd996f94ef70b5665c582b88791dca/index.js#L10
+  return obj && typeof obj.addRequest === 'function';
 }
 
 /**
