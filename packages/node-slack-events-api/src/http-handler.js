@@ -1,6 +1,7 @@
 import debugFactory from 'debug';
 import getRawBody from 'raw-body';
 import crypto from 'crypto';
+import timingSafeCompare from 'tsscmp';
 import { packageIdentifier } from './util';
 
 export const errorCodes = {
@@ -44,7 +45,7 @@ export function verifyRequestSignature({
   const [version, hash] = requestSignature.split('=');
   hmac.update(`${version}:${requestTimestamp}:${body}`);
 
-  if (hash !== hmac.digest('hex')) {
+  if (!timingSafeCompare(hash, hmac.digest('hex'))) {
     debug('request signature is not valid');
     const error = new Error('Slack request signing verification failed');
     error.code = errorCodes.SIGNATURE_VERIFICATION_FAILURE;
