@@ -46,8 +46,7 @@ For versions of TypeScript >= 3.1:
     "lib": [
       "es5",
       "es2015",
-      "es2016.array.include",
-      "es2018.asynciterable"
+      "es2016.array.include"
     ]
   }
 }
