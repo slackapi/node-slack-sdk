@@ -1,9 +1,11 @@
 require('mocha');
+const { Agent } = require('https');
 const { IncomingWebhook } = require('./IncomingWebhook');
 const { ErrorCode } = require('./errors');
 const { assert } = require('chai');
 const isPromise = require('p-is-promise');
 const nock = require('nock');
+const sinon = require('sinon');
 
 const url = 'https://hooks.slack.com/services/FAKEWEBHOOK';
 
@@ -103,6 +105,48 @@ describe('IncomingWebhook', function () {
         });
       });
     });
+  });
 
+  describe('has an option to set a custom HTTP agent', function () {
+    it('should send a request using the custom agent', function (done) {
+      const agent = new Agent({keepAlive: true});
+      const spy = sinon.spy(agent, 'addRequest');
+      const webhook = new IncomingWebhook(url, {agent});
+      webhook.send('Hello', () => {
+        // assert(spy.called);
+        agent.addRequest.restore();
+        agent.destroy();
+        done();
+      });
+    });
+
+    it('should use the right custom agent when providing agents for many schemes', function () {
+      const agent = new Agent({ keepAlive: true });
+      const spy = sinon.spy(agent, 'addRequest');
+      const badAgent = { addRequest: sinon.stub().throws() };
+      const webhook = new IncomingWebhook(url, { agent: {
+        https: agent,
+        http: badAgent,
+      } });
+
+      webhook.send('Hello')
+      .catch(() => {
+        assert(spy.called);
+      }).then( () => {
+        agent.addRequest.restore();
+        agent.destroy();
+      }).catch((error) => {
+        agent.addRequest.restore();
+        agent.destroy();
+        throw error;
+      });
+    });
+
+    it('should use accept a boolean (false) agent', function (done) {
+      const webhook = new IncomingWebhook(url, {agent: false});
+      webhook.send('Hello', () => {
+        done();
+      });
+    });
   });
 });

@@ -196,3 +196,29 @@ export interface TLSOptions {
   ca?: string | Buffer | Array<string | Buffer>;
 }
 // tslint:enable:prefer-array-literal
+
+/**
+ * Detects whether an object is an Agent
+ */
+function isAgent(obj: any): obj is Agent {
+  // This check is not perfect, but we're borrowing this from a very common library where agent are generated.
+  // https://github.com/TooTallNate/node-agent-base/blob/c7ffe87ca4cd996f94ef70b5665c582b88791dca/index.js#L10
+  return obj && typeof obj.addRequest === 'function';
+}
+
+/**
+ * Returns an agent (or false or undefined) for the specific scheme and option passed in
+ * @param scheme either 'http' or 'https'
+ */
+export function agentForScheme(scheme: string, agentOption?: AgentOption): Agent | boolean | undefined {
+  if (agentOption === undefined) {
+    return undefined;
+  }
+  if (typeof agentOption === 'boolean') {
+    return agentOption;
+  }
+  if (isAgent(agentOption)) {
+    return agentOption;
+  }
+  return agentOption[scheme];
+}

@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@slack/client": "^4.0.1"
+    "@slack/client": "^4.0.1",
+    "https-proxy-agent": "^2.2.1",
+    "tunnel": "0.0.6"
   }
 }
