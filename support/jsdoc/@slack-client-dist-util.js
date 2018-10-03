@@ -3,6 +3,13 @@
  */
 
 /**
+ * Returns an agent (or false or undefined) for the specific scheme and option passed in
+ * @param {string} scheme either 'http' or 'https'
+ * @param {"undefined" | "undefined" | module:http.Agent | module:@slack/client/dist/util.__type} agentOption
+ * @returns {undefined | "undefined" | "undefined" | module:http.Agent}
+ */
+export function agentForScheme() {}
+/**
  * Reduce an asynchronous iterable into a single value.
  * @param {module:node_modules/typescript/lib/lib.esnext.asynciterable.AsyncIterable<module:@slack/client/dist/util.T>} iterable the async iterable to be reduced
  * @param {callback} callbackfn a function that implements one step of the reduction
