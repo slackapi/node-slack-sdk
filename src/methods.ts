@@ -134,7 +134,7 @@ export interface MessageAttachment {
 export interface AttachmentAction {
   id?: string;
   confirm?: Confirmation;
-  data_source?: string;
+  data_source?: 'static' | 'channels' | 'conversations' | 'users' | 'external';
   min_query_length?: number;
   name?: string;
   options?: OptionField[];
@@ -143,9 +143,9 @@ export interface AttachmentAction {
     options: OptionField[];
   }[];
   selected_options?: OptionField[];
-  style?: string;
+  style?: 'default' | 'primary' | 'danger';
   text: string;
-  type: string;
+  type: 'button' | 'select';
   value?: string;
   url?: string;
 }
