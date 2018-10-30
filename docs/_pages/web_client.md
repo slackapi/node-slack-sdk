@@ -139,6 +139,10 @@ web.files.upload({
   file: fs.createReadStream(`./${fileName}`),
   // Or you can use the content property (but not both)
   // content: 'plain string content that will be editable in Slack'
+  // Choose specific channels you want the file to be posted to
+  // channels: 'comma separated list of channels'
+  // You can also upload a file to a thread by specifying the thread_ts value
+  // thread_ts: 'ts value of the parent message - if used, you must specify the channel'
 })
   .then((res) => {
     // `res` contains information about the uploaded file
