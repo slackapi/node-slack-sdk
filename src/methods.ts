@@ -464,6 +464,7 @@ export type FilesUploadArguments = TokenOverridable & {
   filetype?: string;
   initial_comment?: string;
   title?: string;
+  thread_ts?: string; // if specified, `channels` must be set
 };
 export type FilesCommentsAddArguments = TokenOverridable & {
   comment: string;
