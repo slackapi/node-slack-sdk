@@ -88,8 +88,8 @@ in which your bot has access. The client can handle messages using the `on('mess
 const { RTMClient } = require('@slack/client');
 // SNIP: the initialization code shown above is skipped for brevity
 
-rtm.on('message', (event) => {
-  // For structure of `event`, see https://api.slack.com/events/message
+rtm.on('message', (message) => {
+  // For structure of `message`, see https://api.slack.com/events/message
 
   // Skip messages that are from a bot or my own user ID
   if ( (message.subtype && message.subtype === 'bot_message') ||
