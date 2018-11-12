@@ -1,7 +1,7 @@
 <div id="api_sections">
 
     {% comment %}https://github.com/pages-themes/primer/issues/15{% endcomment %}
-    {% assign sorted_pages = site.pages | where_exp:"page", "page.name != 'style.scss'" | where_exp: "page", "page.layout != 'redirect'" | sort:"order" %}
+    {% assign sorted_pages = site.pages | where_exp:"page", "page.name != 'style.scss'" | where_exp: "page", "page.name != 'redirects.json'" | where_exp: "page", "page.layout != 'redirect'" | sort:"order" %}
 
     {% for node in sorted_pages %}
         {% if node.hidden != true %}
