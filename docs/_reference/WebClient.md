@@ -14,8 +14,8 @@ a convenience wrapper for calling the [WebClient#apiCall](WebClient#apiCall) met
 
 | Name | Type | Description |
 | --- | --- | --- |
-| token | <code>string</code> \| <code>undefined</code> | Authentication and authorization token for accessing Slack Web API (usually begins with `xoxa`, xoxp`, or `xoxb`) |
-| [refreshToken] | <code>string</code> | OAuth 2.0 refresh token used to automatically create new access tokens (`token`) when the current is expired. |
+| token | <code>string</code> \| <code>undefined</code> | Authentication and authorization token for accessing Slack Web API (usually begins with `xoxp` or `xoxb`) |
+| [refreshToken] | <code>string</code> | OAuth 2.0 refresh token used to automatically create new access tokens (`token`) when the current is expired. __Warning: This is only available to the legacy workspace apps.__ |
 | [clientId] | <code>string</code> | OAuth 2.0 client identifier |
 | [clientSecret] | <code>string</code> | OAuth 2.0 client secret |
 | [slackApiUrl] | <code>string</code> | The base URL for reaching Slack's Web API. Consider changing this value for testing purposes. |
