@@ -61,30 +61,33 @@ export interface Logger {
   setLevel(level: LogLevel): void;
 }
 
-// Implements logger name prefixing using loglevel plugin API. Based on example: http://jsbin.com/xehoye
-const originalFactory = log.methodFactory;
-// @ts-ignore this is the recommended way to use the plugin API for loglevel
-log.methodFactory = function (
-  methodName: LogLevel, logLevel: 0 | 1 | 2 | 3 | 4 | 5, loggerName: string): (...msg: any[]) => void {
-  const rawMethod = originalFactory(methodName, logLevel, loggerName);
-
-  return function (): void {
-    const messages = [`[${methodName.toUpperCase()}]`, loggerName];
-    for (let i = 0; i < arguments.length; i = i + 1) {
-      messages.push(arguments[i]);
-    }
-    rawMethod.apply(undefined, messages);
-  };
-};
-
 /**
- * INTERNAL interface for getting or creating a named Logger
+ * INTERNAL interface for getting or creating a named Logger.
  */
 export function getLogger(name: string): Logger {
-  // TODO: implement logger name prefixing (example plugins available on the loglevel package's site)
-  const instanceNumber = instanceCount;
+  // Get a unique ID for the logger.
+  const instanceId = instanceCount;
   instanceCount += 1;
-  return log.getLogger(name + instanceNumber);
+
+  // Set up the logger.
+  const logger = log.getLogger(name + instanceId);
+
+  // Wrap the original method factory with one that prepends custom information.
+  const originalFactory = logger.methodFactory;
+  logger.methodFactory = (methodName, logLevel, loggerName) => {
+    const logMessage = originalFactory(methodName, logLevel, loggerName);
+
+    // return a LoggingMethod
+    return (...msg) => {
+      // Prepend some info to the log message.
+      const segments = [`[${methodName.toUpperCase()}]`, loggerName].concat(msg);
+
+      // Daisy chain with the original method factory.
+      logMessage.apply(undefined, segments);
+    };
+  };
+
+  return logger;
 }
 
 /**
@@ -111,19 +114,26 @@ function isMoreSevere(level: LogLevel, threshold: number): boolean {
 }
 
 /**
- * INTERNAL function for transforming an external LoggerFunc type into the internal Logger interface
+ * INTERNAL function for transforming an external LoggingFunc type into the internal Logger interface.
  */
 export function loggerFromLoggingFunc(name: string, loggingFunc: LoggingFunc): Logger {
-  const instanceNumber = instanceCount;
+  // Get a unique ID for the logger.
+  const instanceId = instanceCount;
   instanceCount += 1;
-  const logger = log.getLogger(name + instanceNumber);
-  logger.methodFactory = function (methodName: LogLevel, logLevel, loggerName: string): (...msg: any[]) => void {
+
+  // Set up the logger.
+  const logger = log.getLogger(name + instanceId);
+
+  // Set the method factory to reroute logs to the provided log function.
+  logger.methodFactory = (methodName: LogLevel, logLevel, loggerName) => {
     if (isMoreSevere(methodName, logLevel)) {
-      return function (...msg: any[]): void {
+      return (...msg) => {
         loggingFunc(methodName, `${loggerName} ${msg.map(m => JSON.stringify(m)).join(' ')}`);
       };
     }
+
     return noop;
   };
+
   return logger;
 }
