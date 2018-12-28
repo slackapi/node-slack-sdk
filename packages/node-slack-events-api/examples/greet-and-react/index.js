@@ -92,7 +92,7 @@ slackEvents.on('reaction_added', (event, body) => {
     return console.error('No authorization found for this team. Did you install this app again after restarting?');
   }
   // Respond to the reaction back with the same emoji
-  slack.chat.postMessage(event.item.channel, `:${event.reaction}:`)
+  slack.chat.postMessage({ channel: event.item.channel, text: `:${event.reaction}:` })
     .catch(console.error);
 });
 
