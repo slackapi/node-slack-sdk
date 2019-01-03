@@ -49,7 +49,7 @@ how to post a message into a channel, DM, MPDM, or group. This will require the 
 ```javascript
 const { WebClient } = require('@slack/client');
 
-// An access token (from your Slack app or custom integration - xoxa, xoxp, or xoxb)
+// An access token (from your Slack app or custom integration - xoxp, xoxb)
 const token = process.env.SLACK_TOKEN;
 
 const web = new WebClient(token);
@@ -123,7 +123,7 @@ scope.
 const fs = require('fs');
 const { WebClient } = require('@slack/client');
 
-// An access token (from your Slack app or custom integration - xoxa, xoxp, or xoxb)
+// An access token (from your Slack app or custom integration - xoxp, xoxb, or the deprecated xoxa)
 const token = process.env.SLACK_TOKEN;
 
 const web = new WebClient(token);
@@ -151,89 +151,10 @@ web.files.upload({
 
 ---
 
-### Getting a list of channels
-
-The `conversations.list` method can be used to get a list of all channels in a Slack team.
-This [Conversations API](https://api.slack.com/docs/conversations-api) method returns a list of all [channel-like conversations](https://api.slack.com/types/conversation) in a workspace. The "channels" returned depend on what the calling token has access to and the directives placed in the `types` parameter. See the [conversations.list](https://api.slack.com/methods/conversations.list) documentation for details.
-
-```javascript
-const { WebClient } = require('@slack/client');
-
-// An access token (from your Slack app or custom integration - xoxa, xoxp, or xoxb)
-const token = process.env.SLACK_TOKEN;
-
-const web = new WebClient(token);
-
-function getAllChannels() {
-  // See: https://api.slack.com/methods/conversations.list#arguments
-  const param = {
-    exclude_archived: true,
-    types: 'public_channel',
-    // Only get first 100 items
-    limit: 100
-  };
-  return web.conversations.list(param).then(results => { return results.channels });
-}
-
-getAllChannels()
-  .then(console.log)  // prints out the list of channels
-  .catch(console.error);
-```
-
-**NOTE**: The example above can only get a specific number of items (by `limit` arguments). See the [Pagination](#pagination) section for the detailed description as to how you can handle pagination in API methods so that you can get full items even if you don't know how many items are there.
-
----
-
-### Calling methods on behalf of users
-
-When using [workspace tokens](https://api.slack.com/docs/working-with-workspace-tokens), some methods allow your app
-to perform the action [on behalf of a user](https://api.slack.com/docs/working-for-users). To use one of these methods,
-your app will provide the user's ID as an option named `on_behalf_of`.
-
-```javascript
-const { WebClient } = require('@slack/client');
-
-// An access token (from your Slack workspace app - xoxa)
-const token = process.env.SLACK_TOKEN;
-
-// A user ID - this may be found in events or requests such as slash commands, interactive messages, actions, or dialogs
-const userId = 'U0123456';
-
-const web = new WebClient(token);
-
-// https://api.slack.com/methods/users.identity
-web.users.identity({ on_behalf_of: userId })
-  .then((res) => {
-    // `res` contains information about the user. the specific structure depends on the scopes your app was allowed.
-    console.log(res);
-  })
-  .catch(console.error);
-```
-
----
-
-### Using a callback instead of a Promise
-
-Every web API method can also be called with a callback function that takes `cb(error, response)`.
-If you prefer callbacks over promises, here is the example above translated for callbacks:
-
-```javascript
-web.channels.list({}, (err, res) => {
-  if (err) {
-    return console.error(err);
-  }
-
-  // `res` contains information about the channels
-  res.channels.forEach(c => console.log(c.name));
-});
-
-```
-
-Note that when calling a method with no required arguments, you **still need to provide an empty options object**.
-
----
-
 ### Using refresh tokens
+> WARNING: This feature is only supported for the now-deprecated workspace app tokens (xoxa). Refresh
+> tokens will be available in the future to classic Slack apps in a couple of months. You may find more
+> details [on the related blog post.](https://medium.com/slack-developer-blog/an-update-on-workspace-apps-aabc9e42a98b).
 
 If you're using workspace apps, refresh tokens can be used to obtain short-lived access tokens that power your Web API calls from the `WebClient` (this is *required* for distributed apps). This can increase the security of your app since, in the event of a token being exposed accidentally, it won't be able to be used against your app or users after a short time. To enable the `WebClient` to automatically refresh and swap your access tokens, you need to pass your app's refresh token, client ID, and client secret in the `WebClientOptions`.
 
@@ -326,6 +247,9 @@ web.on('token_refreshed', (event) => {
 ---
 
 ### Manually handling token rotation
+> WARNING: This feature is only supported for the now-deprecated workspace app tokens (xoxa). Token
+> rotation will be available in the future to classic Slack apps in a couple of months. You may find more
+> details [on the related blog post.](https://medium.com/slack-developer-blog/an-update-on-workspace-apps-aabc9e42a98b).
 
 Note: Before implementing it on your own, it's suggested you read through the [token rotation documentation](http://api.slack.com/docs/rotating-and-refreshing-credentials).
 
@@ -388,6 +312,88 @@ sendMessage({ channel: conversationId, text: 'Hello world!' })
   .catch((error) => console.error(`failed to send message: ${error.message}`));
 
 ```
+
+---
+
+### Getting a list of channels
+
+The `conversations.list` method can be used to get a list of all channels in a Slack team.
+This [Conversations API](https://api.slack.com/docs/conversations-api) method returns a list of all [channel-like conversations](https://api.slack.com/types/conversation) in a workspace. The "channels" returned depend on what the calling token has access to and the directives placed in the `types` parameter. See the [conversations.list](https://api.slack.com/methods/conversations.list) documentation for details.
+
+```javascript
+const { WebClient } = require('@slack/client');
+
+// An access token (from your Slack app or custom integration - xoxp, or xoxb)
+const token = process.env.SLACK_TOKEN;
+
+const web = new WebClient(token);
+
+function getAllChannels() {
+  // See: https://api.slack.com/methods/conversations.list#arguments
+  const param = {
+    exclude_archived: true,
+    types: 'public_channel',
+    // Only get first 100 items
+    limit: 100
+  };
+  return web.conversations.list(param).then(results => { return results.channels });
+}
+
+getAllChannels()
+  .then(console.log)  // prints out the list of channels
+  .catch(console.error);
+```
+
+**NOTE**: The example above can only get a specific number of items (by `limit` arguments). See the [Pagination](#pagination) section for the detailed description as to how you can handle pagination in API methods so that you can get full items even if you don't know how many items are there.
+
+---
+
+### Calling methods on behalf of users
+
+When using [user tokens](https://api.slack.com/docs/token-types#user), some methods allow your app
+to perform the action _on behalf of a user_. To use one of these methods,
+your app will provide the user's ID as an option named `on_behalf_of`.
+
+```javascript
+const { WebClient } = require('@slack/client');
+
+// An access token (from your Slack app - xoxp)
+const token = process.env.SLACK_TOKEN;
+
+// A user ID - this may be found in events or requests such as slash commands, interactive messages, actions, or dialogs
+const userId = 'U0123456';
+
+const web = new WebClient(token);
+
+// https://api.slack.com/methods/users.identity
+web.users.identity({ on_behalf_of: userId })
+  .then((res) => {
+    // `res` contains information about the user. the specific structure depends on the scopes your app was allowed.
+    console.log(res);
+  })
+  .catch(console.error);
+```
+
+---
+
+### Using a callback instead of a Promise
+
+Every web API method can also be called with a callback function that takes `cb(error, response)`.
+If you prefer callbacks over promises, here is the example above translated for callbacks:
+
+```javascript
+web.channels.list({}, (err, res) => {
+  if (err) {
+    return console.error(err);
+  }
+
+  // `res` contains information about the channels
+  res.channels.forEach(c => console.log(c.name));
+});
+
+```
+
+Note that when calling a method with no required arguments, you **still need to provide an empty options object**.
 
 ---
 
@@ -515,7 +521,7 @@ illustrating below.
 ```javascript
 const { WebClient } = require('@slack/client');
 
-// An access token (from your Slack app or custom integration - xoxa, xoxp, or xoxb)
+// An access token (from your Slack app or custom integration - xoxp, or xoxb)
 const token = process.env.SLACK_TOKEN;
 
 const web = new WebClient(token);

@@ -17,9 +17,7 @@ This guide introduces fundamentals of the Slack Developer Kit for Node.js and Sl
 ## Create a Slack app
 
 The first step is to [register a new app](https://api.slack.com/apps/new) with Slack at the API
-website. You have the option to build a user-token app or a workspace app. Give your app a fun name and choose a Development Slack Workspace. We recommend using a workspace where you aren't going to disrupt real work getting done -- you can create a new workspace for free.
-
-> ⚠️ For this guide, we'll assume you're building a [workspace app](https://api.slack.com/workspace-apps-preview). Workspace apps support Slack's latest and greatest platform features. However, most steps are the same for user-token apps.
+website. Give your app a fun name and choose a Development Slack Workspace. We recommend using a workspace where you aren't going to disrupt real work getting done -- you can create a new workspace for free.
 
 After you create an app, you'll be greeted with some basic information. In this guide we'll be making a request to the Web API to post a message to a channel. Aside from posting messages, the Web API allows your app to call [methods](https://api.slack.com/methods) that can be used for everything from creating a channel to searching messages. Let's configure our new app with proper permissions.
 
@@ -31,13 +29,13 @@ various permissions your app could obtain from a user as **scopes**. There are a
 of data, while others are very specific and let your app touch just a tiny sliver. Your users (and
 their IT admins) will have opinions about which data your app should access, so we recommend finding
 the scope(s) with the least amount of privilege for your app's needs. In this guide we will use the
-Web API to post a message. The scope required for this is called `chat:write` (or `chat:write:user` for user-token apps). Use the dropdown or start typing its name to select and add the scope, then click "Save Changes".
+Web API to post a message. The scope required for this is called `chat:write:user`. Use the dropdown or start typing its name to select and add the scope, then click "Save Changes".
 
 Our app has described which scope it desires in the workspace, but a user hasn't authorized those scopes for the development workspace yet. Scroll up and click "Install App". You'll be taken to your app installation page. This page is asking you for permission to install the app in your development workspace with specific capabilities. That's right, the development workspace is like every other workspace -- apps must be authorized by a user each time it asks for more permissions. 
 
 Go ahead and click "Continue". The next page asks you which conversations the app should be able to post messages in. In this case, choose "No channels", which still allows the app to directly message users who install the App -- which means you. 
 
-When you return to the OAuth & Permissions page copy the OAuth Access Token (it should begin with `xoxa`). Treat this value like a password and keep it safe. The Web API uses tokens to to authenticate the requests your app makes. In a later step, you'll be asked to use this token in your code.
+When you return to the OAuth & Permissions page copy the OAuth Access Token (it should begin with `xoxp`). Treat this value like a password and keep it safe. The Web API uses tokens to to authenticate the requests your app makes. In a later step, you'll be asked to use this token in your code.
 
 ## Set up your local project
 
@@ -85,7 +83,7 @@ but [similar commands are available on Windows](https://superuser.com/a/212153/9
 value with OAuth Access Token that you copied above.
 
 ```shell
-$ export SLACK_ACCESS_TOKEN=xoxa-...
+$ export SLACK_ACCESS_TOKEN=xoxp-...
 ```
 
 Create a file called `tutorial.js` and add the following code:
