@@ -4,6 +4,7 @@ require('dotenv').config();
 const slackEventsApi = require('@slack/events-api');
 const SlackClient = require('@slack/client').WebClient;
 const passport = require('passport');
+const LocalStorage = require('node-localstorage').LocalStorage;
 const SlackStrategy = require('@aoberoi/passport-slack').default.Strategy;
 const http = require('http');
 const express = require('express');
@@ -13,8 +14,9 @@ const slackEvents = slackEventsApi.createEventAdapter(process.env.SLACK_SIGNING_
   includeBody: true
 });
 
-// Initialize a data structures to store team authorization info (typically stored in a database)
-const botAuthorizations = {}
+// Initialize a Local Storage object to store authorization info
+// NOTE: This is an insecure method and thus for demo purposes only!
+const botAuthorizationStorage = new LocalStorage('./storage');
 
 // Helpers to cache and lookup appropriate client
 // NOTE: Not enterprise-ready. if the event was triggered inside a shared channel, this lookup
@@ -22,8 +24,8 @@ const botAuthorizations = {}
 // shared channel.
 const clients = {};
 function getClientByTeamId(teamId) {
-  if (!clients[teamId] && botAuthorizations[teamId]) {
-    clients[teamId] = new SlackClient(botAuthorizations[teamId]);
+  if (!clients[teamId] && botAuthorizationStorage.getItem(teamId)) {
+    clients[teamId] = new SlackClient(botAuthorizationStorage.getItem(teamId));
   }
   if (clients[teamId]) {
     return clients[teamId];
@@ -37,7 +39,7 @@ passport.use(new SlackStrategy({
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   skipUserProfile: true,
 }, (accessToken, scopes, team, extra, profiles, done) => {
-  botAuthorizations[team.id] = extra.bot.accessToken;
+  botAuthorizationStorage.setItem(team.id, extra.bot.accessToken);
   done(null, {});
 }));
 
@@ -75,7 +77,7 @@ slackEvents.on('message', (message, body) => {
     const slack = getClientByTeamId(body.team_id);
     // Handle initialization failure
     if (!slack) {
-      return console.error('No authorization found for this team. Did you install this app again after restarting?');
+      return console.error('No authorization found for this team. Did you install the app through the url provided by ngrok?');
     }
     // Respond to the message back in the same channel
     slack.chat.postMessage({ channel: message.channel, text: `Hello <@${message.user}>! :tada:` })
@@ -89,7 +91,7 @@ slackEvents.on('reaction_added', (event, body) => {
   const slack = getClientByTeamId(body.team_id);
   // Handle initialization failure
   if (!slack) {
-    return console.error('No authorization found for this team. Did you install this app again after restarting?');
+    return console.error('No authorization found for this team. Did you install the app through the url provided by ngrok?');
   }
   // Respond to the reaction back with the same emoji
   slack.chat.postMessage({ channel: event.item.channel, text: `:${event.reaction}:` })
