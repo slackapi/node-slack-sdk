@@ -114,7 +114,7 @@ web.auth.test()
 
 
 
-This code creates an instance of the `WebClient`, which requires an access token to call Web API methods. The program reads the app's access token from the environment variable. Then the [auth.test](https://api.slack.com/methods/auth.test) method is called with the `WebClient` to find the installing user's id.  Then, the [chat.postMessage](https://api.slack.com/methods/chat.postMessage) method is called using your userId as the channel parameter to send a simple message.
+This code creates an instance of the `WebClient`, which uses an access token to call Web API methods. The program reads the app's access token from an environment variable. Then the [auth.test](https://api.slack.com/methods/auth.test) method is called on the `WebClient` to find the installing user's ID.  Lastly, the [chat.postMessage](https://api.slack.com/methods/chat.postMessage) method is called using the found user ID as the `channel` argument to send a simple message.
 
 Run the program. The output should look like the following:
 
