@@ -33,7 +33,7 @@ Web API to post a message. The scope required for this is called `chat:write:use
 
 Our app has described which scope it desires in the workspace, but a user hasn't authorized those scopes for the development workspace yet. Scroll up and click "Install App". You'll be taken to your app installation page. This page is asking you for permission to install the app in your development workspace with specific capabilities. That's right, the development workspace is like every other workspace -- apps must be authorized by a user each time it asks for more permissions. 
 
-Go ahead and click "Continue". The next page asks you which conversations the app should be able to post messages in. In this case, choose "No channels", which still allows the app to directly message users who install the App -- which means you. 
+Go ahead and click "Authorize". This will install the app on the workspace and generate the token we'll need to authorize our calls to the web API. 
 
 When you return to the OAuth & Permissions page copy the OAuth Access Token (it should begin with `xoxp`). Treat this value like a password and keep it safe. The Web API uses tokens to to authenticate the requests your app makes. In a later step, you'll be asked to use this token in your code.
 
@@ -86,7 +86,7 @@ value with OAuth Access Token that you copied above.
 $ export SLACK_ACCESS_TOKEN=xoxp-...
 ```
 
-Create a file called `tutorial.js` and add the following code:
+Re-open `tutorial.js` and add the following code:
 
 ```javascript
 // Create a new instance of the WebClient class with the token stored in your environment variable
@@ -94,16 +94,15 @@ const web = new WebClient(process.env.SLACK_ACCESS_TOKEN);
 // The current date
 const currentTime = new Date().toTimeString();
 
-// Use the `apps.permissions.resources.list` method to find the conversation ID for an app home
-web.apps.permissions.resources.list()
+// Use the `auth.test` method to find information about the installing user
+web.auth.test()
   .then((res) => {
-    // Find the app home to use as the conversation to post a message
-    // At this point, there should only be one app home in the whole response since only one user has installed the app
-    const appHome = res.resources.find(r => r.type === 'app_home');
+    // Find your user id to know where to send messages to
+    const userId = res.user_id
 
     // Use the `chat.postMessage` method to send a message from this app
     return web.chat.postMessage({
-      channel: appHome.id,
+      channel: userId,
       text: `The current time is ${currentTime}`,
     });
   })
@@ -114,7 +113,8 @@ web.apps.permissions.resources.list()
 ```
 
 
-This code creates an instance of the `WebClient`, which requires an access token to call Web API methods. The program reads the app's access token from the environment variable. Then the [apps.permissions.resources.list](https://api.slack.com/methods/apps.permissions.resources.list) method is called with the `WebClient` to find a conversation where the app can send a message. There will be one resource that represents your own DM with the app (since you were the installing user). We find that resource by finding the first in the list with a `type` that equals `"app_home"`. Lastly, the [chat.postMessage](https://api.slack.com/methods/chat.postMessage) method is called using the conversation ID we just found to send a simple message.
+
+This code creates an instance of the `WebClient`, which requires an access token to call Web API methods. The program reads the app's access token from the environment variable. Then the [auth.test](https://api.slack.com/methods/auth.test) method is called with the `WebClient` to find the installing user's id.  Then, the [chat.postMessage](https://api.slack.com/methods/chat.postMessage) method is called using your userId as the channel parameter to send a simple message.
 
 Run the program. The output should look like the following:
 
@@ -139,11 +139,8 @@ ideas about where to look next:
   authentication, you may find the
   [`@aoberoi/passport-slack`](https://github.com/aoberoi/passport-slack) strategy package helpful.
 
-* This tutorial only used one of **over 130 Web API methods** available.
+* This tutorial only used two of **over 130 Web API methods** available.
   [Look through them](https://api.slack.com/methods) to get ideas about what to build next!
-
-* Token rotation is required if you plan to distribute your app. You can find examples of using
-  refresh tokens with the `WebClient` [in the documentation](/web_api#using-refresh-tokens), and learn more about refresh tokens and token rotation [on the API site](https://api.slack.com/docs/rotating-and-refreshing-credentials).
 
 * Dive deeper into the `IncomingWebhook`, `WebClient`, and `RTMClient` classes in this package by
   exploring their documentation pages.
