@@ -4,18 +4,19 @@ const { createMessageAdapter } = require('@slack/interactive-messages');
 const { WebClient } = require('@slack/client');
 const { users, neighborhoods } = require('./models');
 const axios = require('axios');
+const bodyParser = require('body-parser');
 
-// Read the verification token from the environment variables
+// Read the signing secret and access token from the environment variables
 const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 const slackAccessToken = process.env.SLACK_ACCESS_TOKEN;
 if (!slackSigningSecret || !slackAccessToken) {
   throw new Error('A Slack signing secret and access token are required to run this app.');
 }
 
-// Create the adapter using the app's verification token
+// Create the adapter using the app's signing secret
 const slackInteractions = createMessageAdapter(slackSigningSecret);
 
-// Create a Slack Web API client
+// Create a Slack Web API client using the access token
 const web = new WebClient(slackAccessToken);
 
 // Initialize an Express application
@@ -25,7 +26,7 @@ const app = express();
 app.use('/slack/actions', slackInteractions.expressMiddleware());
 
 // Attach the slash command handler
-app.post('/slack/commands', slackSlashCommand);
+app.post('/slack/commands', bodyParser.urlencoded({ extended: false }), slackSlashCommand);
 
 // Start the express application server
 const port = process.env.PORT || 0;
@@ -214,7 +215,7 @@ const dialog = {
 
 // Slack slash command handler
 function slackSlashCommand(req, res, next) {
-  if (req.body.token === slackVerificationToken && req.body.command === '/interactive-example') {
+  if (req.body.command === '/interactive-example') {
     const type = req.body.text.split(' ')[0];
     if (type === 'button') {
       res.json(interactiveButtons);
