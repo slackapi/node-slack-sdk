@@ -251,14 +251,14 @@ details about the structure of `payload` in the docs for
 
 Unlike with buttons and menus, the response does not replace the message (a dialog is not a message)
 but rather the response tells Slack whether the inputs are valid and the dialog can be closed on
-the user's screen. Your app returns a list of errors (or a Promise for a list of errors) from the
+the user's screen. Your app returns an object with a list of errors as a property (or a Promise for an object with a list of errors as a property) from the
 handler. If there are no errors, your app should return nothing from the handler. Find more details
 on the structure of the list of errors in the docs for
 [input validation](https://api.slack.com/dialogs#input_validation).
 
 The handler will also receive a `respond()` function, which can be used to send a message to the
 conversation where the dialog was triggered. **We recommend that apps use `respond()` to notify the
-user that the dialog submission was recieved** and use it again to communicate updates such as
+user that the dialog submission was received** and use it again to communicate updates such as
 success or failure.
 
 **Example dialog submission handler:**
@@ -268,7 +268,8 @@ slackInteractions.action('create_order_dialog', (payload, respond) => {
   // `payload` is an object that describes the interaction
   console.log(`The user ${payload.user.name} in team ${payload.team.domain} submitted a dialog`);
 
-  // Check the values in `payload.submission` and report any possible errors
+  // Check the values in `payload.submission` and report any possible errors 
+  //   in the format {errors: [{name:'username', error:'Uh-oh. This username has been taken!'}]}
   const errors = validateOrderSubmission(payload.submission);
   if (errors) {
     return errors;
