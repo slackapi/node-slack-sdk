@@ -3,7 +3,7 @@
 
 /* Updates body font */
 body {
-  font-family: NotoSansJP,Slack-Lato,appleLogo,sans-serif;
+  font-family: Slack-Lato,appleLogo,sans-serif;
 }
 
 /* Replaces old sidebar styled links */
@@ -34,35 +34,4 @@ a:hover {
 footer {
   background-color: transparent;
   border: 0;
-}
-
-/* Font styles */
-@font-face {
-  font-family: NotoSansJP;
-  font-style: normal;
-  font-weight: 400;
-  src: local('â˜º'),
-      url(https://a.slack-edge.com/90dd/fonts/NotoSansJP/NotoSansJP-Regular.min.woff2) format('woff2'),
-      url(https://a.slack-edge.com/90dd/fonts/NotoSansJP/NotoSansJP-Regular.min.woff) format('woff');
-  unicode-range: U+3000-303F, U+3040-309F, U+30A0-30FF, U+31F0-31FF, U+FF00-FFEF, U+00A0, U+4E00-9F62;
-}
-
-@font-face {
-  font-family: NotoSansJP;
-  font-style: normal;
-  font-weight: 700;
-  src: local('â˜º'),
-      url(https://a.slack-edge.com/90dd/fonts/NotoSansJP/NotoSansJP-Bold.min.woff2) format('woff2'),
-      url(https://a.slack-edge.com/90dd/fonts/NotoSansJP/NotoSansJP-Bold.min.woff) format('woff');
-  unicode-range: U+3000-303F, U+3040-309F, U+30A0-30FF, U+31F0-31FF, U+FF00-FFEF, U+00A0, U+4E00-9F62;
-}
-
-@font-face {
-  font-family: NotoSansJP;
-  font-style: normal;
-  font-weight: 900;
-  src: local('â˜º'),
-      url(https://a.slack-edge.com/90dd/fonts/NotoSansJP/NotoSansJP-Bold.min.woff2) format('woff2'),
-      url(https://a.slack-edge.com/90dd/fonts/NotoSansJP/NotoSansJP-Bold.min.woff) format('woff');
-  unicode-range: U+3000-303F, U+3040-309F, U+30A0-30FF, U+31F0-31FF, U+FF00-FFEF, U+00A0, U+4E00-9F62;
 }
