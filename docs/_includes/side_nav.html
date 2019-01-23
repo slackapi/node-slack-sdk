@@ -14,9 +14,9 @@
                     <li><a href="{{ node.url | prepend: site.baseurl }}#{{ anchor }}" class="sidebar_menu_list_item">{{ heading.title }}</a></li>
                 {% endfor %}
                 {% endif %}
-            {% endif %}
         </ul>
     </div>
+    {% endif %}
     {% endfor %}
 
     <div class="sidebar_menu">
