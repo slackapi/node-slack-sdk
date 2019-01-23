@@ -30,6 +30,12 @@ a:hover {
   text-decoration: underline;
 }
 
+/* Makes footer consistent */
+footer {
+  background-color: transparent;
+  border: 0;
+}
+
 /* Font styles */
 @font-face {
   font-family: NotoSansJP;
