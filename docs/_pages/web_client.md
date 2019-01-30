@@ -503,7 +503,7 @@ const conversationId = 'C123456'; // some conversation ID
 
 web.conversations.history({ channel: conversationId, limit: 500 })
   .then((res) => {
-    console.log(`Requested 500 messages, recieved ${res.messages.length} in the response`);
+    console.log(`Requested 500 messages, received ${res.messages.length} in the response`);
   })
   .catch(console.error);
 ```
@@ -647,7 +647,7 @@ const client = new WebClient();
 const clientId = process.env.SLACK_CLIENT_ID;
 const clientSecret = process.env.SLACK_CLIENT_SECRET;
 
-// Not shown: did some OAuth to recieve `code` grant
+// Not shown: did some OAuth to receive `code` grant
 client.oauth.access({
   client_id: clientId,
   client_secret: clientSecret,
