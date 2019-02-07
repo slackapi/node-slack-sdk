@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
-import { MessageAttachment } from './methods';
+import { MessageAttachment, Block } from './methods';
 import { callbackify, AgentOption, agentForScheme } from './util';
 
 /**
@@ -105,6 +105,7 @@ export interface IncomingWebhookDefaultArguments {
 
 export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArguments {
   attachments?: MessageAttachment[];
+  blocks?: Block[];
   unfurl_links?: boolean;
   unful_media?: boolean;
 }

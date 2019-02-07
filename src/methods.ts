@@ -106,7 +106,157 @@ export interface Dialog {
   state?: string;
 }
 
+/*
+ * Block Elements
+ */
+
+export interface ImageElement {
+  type: 'image';
+  image_url: string;
+  alt_text: string;
+}
+
+export interface UserElement {
+  type: 'user';
+  user_id: string;
+}
+
+export interface PlainTextElement {
+  type: 'plaintext';
+  text: string;
+  emoji?: boolean;
+}
+
+export interface MrkdwnElement {
+  type: 'mrkdwn';
+  text: string;
+  parse?: 'none';
+}
+
+export interface Option {
+  text: PlainTextElement;
+  value?: string;
+  url?: string;
+  description?: PlainTextElement;
+}
+
+export interface Confirm {
+  title?: PlainTextElement;
+  text: PlainTextElement | MrkdwnElement;
+  confirm?: PlainTextElement;
+  deny?: PlainTextElement;
+}
+
+/*
+ * Action Types
+ */
+
+type ActionTypes = 'users_select' | 'static_select' | 'conversations_select' | 'channels_select' | 'external_select' |
+  'button' | 'overflow' | 'datepicker';
+
+interface Action {
+  type: ActionTypes;
+  action_id?: string;
+  confirm?: Confirm;
+}
+
+export interface UsersSelect extends Action {
+  type: 'users_select';
+  initial_user?: string;
+  placeholder?: PlainTextElement;
+}
+
+export interface StaticSelect extends Action {
+  type: 'static_select';
+  placeholder?: PlainTextElement;
+  initial_option?: Option;
+  options?: Option[];
+  option_groups?: {
+    label: PlainTextElement;
+    options: Option[];
+  }[];
+}
+
+export interface ConversationsSelect extends Action {
+  type: 'conversations_select';
+  initial_conversation?: string;
+  placeholder?: PlainTextElement;
+}
+
+export interface ChannelsSelect extends Action {
+  type: 'channels_select';
+  initial_channel?: string;
+  placeholder?: PlainTextElement;
+}
+
+export interface ExternalSelect extends Action {
+  type: 'external_select';
+  initial_option?: Option;
+  placeholder?: PlainTextElement;
+  min_query_length?: number;
+}
+
+export interface Button extends Action {
+  type: 'button';
+  text: PlainTextElement;
+  value?: string;
+  url?: string;
+}
+
+export interface Overflow extends Action {
+  type: 'overflow';
+  options: Option[];
+}
+
+export interface Datepicker extends Action {
+  type: 'datepicker';
+  initial_date?: string;
+  placeholder?: PlainTextElement;
+}
+
+/*
+ * Block Types
+ */
+
+export type Block = ImageBlock | ContextBlock | ActionsBlock | DividerBlock | SectionBlock;
+
+export interface ImageBlock {
+  type: 'image';
+  block_id?: string;
+  image_url: string;
+  alt_text: string;
+  title?: PlainTextElement;
+}
+
+export interface ContextBlock {
+  type: 'context';
+  block_id?: string;
+  elements: (ImageElement | UserElement | PlainTextElement | MrkdwnElement)[];
+}
+
+export interface ActionsBlock {
+  type: 'actions';
+  block_id?: string;
+  elements: (UsersSelect | StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect |
+    Button | Overflow | Datepicker)[];
+}
+
+export interface DividerBlock {
+  type: 'divider';
+  block_id?: string;
+}
+
+export interface SectionBlock {
+  type: 'section';
+  block_id?: string;
+  text?: PlainTextElement | MrkdwnElement; // either this or fields must be defined
+  fields?: (PlainTextElement | MrkdwnElement)[]; // either this or text must be defined
+  accessory?: Button | Overflow | StaticSelect | UsersSelect | ConversationsSelect |
+    ChannelsSelect | ExternalSelect | Datepicker;
+}
+
 export interface MessageAttachment {
+  blocks?: Block[];
   fallback?: string; // either this or text must be defined
   color?: 'good' | 'warning' | 'danger' | string;
   pretext?: string;
@@ -294,6 +444,7 @@ export type ChatPostEphemeralArguments = TokenOverridable & {
   user: string;
   as_user?: boolean;
   attachments?: MessageAttachment[];
+  blocks?: Block[];
   link_names?: boolean;
   parse?: 'full' | 'none';
 };
@@ -302,6 +453,7 @@ export type ChatPostMessageArguments = TokenOverridable & {
   text: string;
   as_user?: boolean;
   attachments?: MessageAttachment[];
+  blocks?: Block[];
   icon_emoji?: string; // if specified, as_user must be false
   icon_url?: string;
   link_names?: boolean;
@@ -327,6 +479,7 @@ export type ChatUpdateArguments = TokenOverridable & {
   ts: string;
   as_user?: boolean;
   attachments?: MessageAttachment[];
+  blocks?: Block[];
   link_names?: boolean;
   parse?: 'full' | 'none';
 };
