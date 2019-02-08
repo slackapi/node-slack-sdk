@@ -6,7 +6,7 @@ redirect_from: /basic_usage
 order: 2
 headings:
     - title: Posting a message
-    - title: Adding attachments to a message
+    - title: Customizing a message layout
     - title: Uploading a file
     - title: Getting a list of channels
     - title: Using refresh tokens
@@ -68,37 +68,46 @@ web.chat.postMessage({ channel: conversationId, text: 'Hello there' })
 
 ---
 
-### Adding attachments to a message
+### Customizing a message layout
 
-The `chat.postMessage` method takes an optional `attachments` argument. Arguments for Web API methods are all specified
-in a single object literal, so just add additional keys for any optional argument.
+The `chat.postMessage` method takes an optional `blocks` argument that allows you to customize the layout of a message. 
+Blocks for Web API methods are all specified in a single object literal, so just add additional keys for any 
+optional argument.
+
+[Learn more about customize message layouts on the API site](https://api.slack.com/messaging/composing/layouts).
 
 ```javascript
 web.chat.postMessage({
   channel: conversationId,
-  text: 'Hello there',
-  attachments: [
+  blocks: [
     {
-      "fallback": "Required plain-text summary of the attachment.",
-      "color": "#36a64f",
-      "author_name": "Bobby Tables",
-      "author_link": "http://flickr.com/bobby/",
-      "author_icon": "http://flickr.com/icons/bobby.jpg",
-      "title": "Slack API Documentation",
-      "title_link": "https://api.slack.com/",
-      "text": "Optional text that appears within the attachment",
-      "fields": [
-        {
-          "title": "Priority",
-          "value": "High",
-          "short": false
+        "type": "section",
+        "text": {
+            "type": "mrkdwn",
+            "text": "Danny Torrence left the following review for your property:"
         }
-      ],
-      "image_url": "http://my-website.com/path/to/image.jpg",
-      "thumb_url": "http://example.com/path/to/thumb.png",
-      "footer": "Slack API",
-      "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
-      "ts": 123456789
+    },
+    {
+        "type": "section",
+        "text": {
+            "type": "mrkdwn",
+            "text": "<https://example.com|Overlook Hotel> \n :star: \n Doors had too many axe holes, guest in room " +
+            "237 was far too rowdy, whole place felt stuck in the 1920s."
+        },
+        "accessory": {
+            "type": "image",
+            "image_url": "https://images.pexels.com/photos/750319/pexels-photo-750319.jpeg",
+            "alt_text": "Haunted hotel image"
+        }
+    },
+    {
+        "type": "section",
+        "fields": [
+            {
+                "type": "mrkdwn",
+                "text": "*Average Rating*\n1.0"
+            }
+        ]
     }
   ]
 })
@@ -109,10 +118,8 @@ web.chat.postMessage({
   .catch(console.error);
 ```
 
-**NOTE**: See the [Message Builder](https://api.slack.com/docs/messages/builder) for a playground
-where you can prototype your message's look.
-
----
+**NOTE**: Use the [Block Kit Builder](https://api.slack.com/tools/block-kit-builder) for a playground
+where you can prototype your message's look and feel.
 
 ### Uploading a file
 
