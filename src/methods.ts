@@ -130,7 +130,7 @@ export interface PlainTextElement {
 export interface MrkdwnElement {
   type: 'mrkdwn';
   text: string;
-  parse?: 'none';
+  verbatim?: boolean;
 }
 
 export interface Option {
