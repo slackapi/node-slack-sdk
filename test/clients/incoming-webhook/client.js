@@ -213,32 +213,6 @@ describe('Incoming Webhook', function () {
         });
       });
 
-      it('sends blocks', function (done) {
-        var wh = createIncomingWebhook();
-        var blocks = [
-          {
-            "type": "section",
-            "block_id": "test_block",
-            "text": {
-              "type": "mrkdwn",
-              "text": "Sample text! :ghost: *this is bold*, and ~this is crossed out~, and " +
-                "<https://google.com|this is a link>, dated <!date^1392734382^Posted {date_num} {time_secs}>"
-            }
-          }
-        ];
-
-        wh.send({
-          blocks: blocks
-        }, function () {
-          expect(transport.calledOnce).to.equal(true);
-          expect(transport.calledWithMatch({
-            body: { blocks: blocks }
-          })).to.equal(true);
-
-          done();
-        });
-      });
-
       it('sends attachments', function (done) {
         var wh = createIncomingWebhook();
         var attachments = [{
