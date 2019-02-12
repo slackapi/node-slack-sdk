@@ -672,8 +672,7 @@ client.oauth.access({
 
 ### Using legacy message attachments
 
-While we recommend using the more flexible [top-level blocks]() to display message content, attachments are still 
-supported anywhere you construct a message (like `chat.postMessage`). Just use the `attachments` key like you're 
+While we recommend using the more flexible top-level blocks to display message content, attachments are still supported anywhere you construct a message (like `chat.postMessage`). Just use the `attachments` key like you're 
 accustomed to:
 
 ```javascript

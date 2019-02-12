@@ -151,11 +151,11 @@ export interface Confirm {
  * Action Types
  */
 
-type ActionTypes = 'users_select' | 'static_select' | 'conversations_select' | 'channels_select' | 'external_select' |
-  'button' | 'overflow' | 'datepicker';
+type KnownAction = UsersSelect | StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect |
+  Button | Overflow | Datepicker;
 
 interface Action {
-  type: ActionTypes;
+  type: string;
   action_id?: string;
   confirm?: Confirm;
 }
@@ -218,45 +218,43 @@ export interface Datepicker extends Action {
  * Block Types
  */
 
-export type Block = ImageBlock | ContextBlock | ActionsBlock | DividerBlock | SectionBlock;
+export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock | SectionBlock;
 
-export interface ImageBlock {
-  type: 'image';
+export interface Block {
+  type: string;
   block_id?: string;
+}
+
+export interface ImageBlock extends Block {
+  type: 'image';
   image_url: string;
   alt_text: string;
   title?: PlainTextElement;
 }
 
-export interface ContextBlock {
+export interface ContextBlock extends Block {
   type: 'context';
-  block_id?: string;
   elements: (ImageElement | UserElement | PlainTextElement | MrkdwnElement)[];
 }
 
-export interface ActionsBlock {
+export interface ActionsBlock extends Block {
   type: 'actions';
-  block_id?: string;
-  elements: (UsersSelect | StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect |
-    Button | Overflow | Datepicker)[];
+  elements: (KnownAction | Action)[];
 }
 
-export interface DividerBlock {
+export interface DividerBlock extends Block {
   type: 'divider';
-  block_id?: string;
 }
 
-export interface SectionBlock {
+export interface SectionBlock extends Block {
   type: 'section';
-  block_id?: string;
   text?: PlainTextElement | MrkdwnElement; // either this or fields must be defined
   fields?: (PlainTextElement | MrkdwnElement)[]; // either this or text must be defined
-  accessory?: Button | Overflow | StaticSelect | UsersSelect | ConversationsSelect |
-    ChannelsSelect | ExternalSelect | Datepicker;
+  accessory?: KnownAction | Action | ImageElement;
 }
 
 export interface MessageAttachment {
-  blocks?: Block[];
+  blocks?: (KnownBlock | Block)[];
   fallback?: string; // either this or text must be defined
   color?: 'good' | 'warning' | 'danger' | string;
   pretext?: string;
@@ -444,7 +442,7 @@ export type ChatPostEphemeralArguments = TokenOverridable & {
   user: string;
   as_user?: boolean;
   attachments?: MessageAttachment[];
-  blocks?: Block[];
+  blocks?: (KnownBlock | Block)[];
   link_names?: boolean;
   parse?: 'full' | 'none';
 };
@@ -453,7 +451,7 @@ export type ChatPostMessageArguments = TokenOverridable & {
   text: string;
   as_user?: boolean;
   attachments?: MessageAttachment[];
-  blocks?: Block[];
+  blocks?: (KnownBlock | Block)[];
   icon_emoji?: string; // if specified, as_user must be false
   icon_url?: string;
   link_names?: boolean;
@@ -479,7 +477,7 @@ export type ChatUpdateArguments = TokenOverridable & {
   ts: string;
   as_user?: boolean;
   attachments?: MessageAttachment[];
-  blocks?: Block[];
+  blocks?: (KnownBlock | Block)[];
   link_names?: boolean;
   parse?: 'full' | 'none';
 };
