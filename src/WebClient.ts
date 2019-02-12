@@ -330,6 +330,11 @@ export class WebClient extends EventEmitter {
 
     // Adapt the interface for callback-based execution or Promise-based execution
     if (callback !== undefined) {
+      this.logger.warn(
+        'Using callbacks has been deprecated, and will not work in the next major version of WebClient. Instead, ' +
+        'call this method without the callback argument and a Promise will be returned. See the documentation for ' +
+        'examples.',
+      );
       callbackify(implementation)(callback);
       return;
     }

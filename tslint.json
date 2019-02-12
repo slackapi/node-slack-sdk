@@ -4,7 +4,8 @@
     "align": [true, "parameters", "statements", "members", "elements"],
     "await-promise": [true],
     "ban-comma-operator": true,
-    "completed-docs": true,
+    // Disabling the following rule because of https://github.com/palantir/tslint/issues/4493
+    // "completed-docs": true,
     "indent": [true, "spaces", 2],
     "jsdoc-format": [true, "check-multiline-start"],
     "max-line-length": [true, 120],
