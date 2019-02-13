@@ -29,7 +29,8 @@ const pkg = require('../package.json'); // tslint:disable-line:no-require-import
 export class WebClient extends EventEmitter {
 
   /**
-   * Authentication and authorization token for accessing Slack Web API (usually begins with `xoxa`, xoxp`, or `xoxb`)
+   * Authentication and authorization token for accessing Slack Web API (usually begins with `xoxa`, `xoxp`, or `xoxb`).
+   * This should be treated as readonly. Setting this value is used for refreshing tokens, and it is deprecated.
    */
   public get token(): string | undefined {
     return this._accessToken;
@@ -42,16 +43,19 @@ export class WebClient extends EventEmitter {
 
   /**
    * OAuth 2.0 refresh token used to automatically create new access tokens (`token`) when the current is expired.
+   * @deprecated
    */
   public readonly refreshToken?: string;
 
   /**
    * OAuth 2.0 client identifier
+   * @deprecated
    */
   public readonly clientId?: string;
 
   /**
    * OAuth 2.0 client secret
+   * @deprecated
    */
   public readonly clientSecret?: string;
 
@@ -177,6 +181,15 @@ export class WebClient extends EventEmitter {
     // serializeApiCallOptions will always determine the appropriate content-type
     delete this.axios.defaults.headers.post['Content-Type'];
 
+    // Warn when automatic token refresh is being used
+    if (this.shouldAutomaticallyRefreshToken) {
+      this.logger.warn(
+        'Automatic token refresh has been deprecated and will be removed from the next major version of the ' +
+        'WebClient. Refresh tokens were built to support Workspace Apps, which have also been deprecated. See ' +
+        'https://medium.com/slack-developer-blog/an-update-on-workspace-apps-aabc9e42a98b to learn more.',
+      );
+    }
+
     this.logger.debug('initialized');
   }
 
@@ -185,7 +198,7 @@ export class WebClient extends EventEmitter {
    *
    * @param method the Web API method to call {@see https://api.slack.com/methods}
    * @param options options
-   * @param callback callback if you don't want a promise returned
+   * @param callback callback if you don't want a promise returned - this argument is deprecated.
    */
   public apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult>;
   public apiCall(method: string, options: WebAPICallOptions, callback: WebAPIResultCallback): void;
@@ -330,6 +343,11 @@ export class WebClient extends EventEmitter {
 
     // Adapt the interface for callback-based execution or Promise-based execution
     if (callback !== undefined) {
+      this.logger.warn(
+        'Using callbacks has been deprecated, and will not work in the next major version of WebClient. Instead, ' +
+        'call this method without the callback argument and a Promise will be returned. See the documentation for ' +
+        'examples.',
+      );
       callbackify(implementation)(callback);
       return;
     }
@@ -872,9 +890,9 @@ export interface WebClientOptions {
   tls?: TLSOptions;
   pageSize?: number;
   rejectRateLimitedCalls?: boolean;
-  clientId?: string;
-  clientSecret?: string;
-  refreshToken?: string;
+  clientId?: string; /* DEPRECATED */
+  clientSecret?: string; /* DEPRECATED */
+  refreshToken?: string; /* DEPRECATED */
   headers?: object;
 }
 

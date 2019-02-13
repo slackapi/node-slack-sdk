@@ -1080,28 +1080,57 @@ describe('WebClient', function () {
   });
 
   describe('warnings', function () {
-    it('should warn when calling a deprecated method', function () {
-      const capture = new CaptureConsole();
-      capture.startCapture();
-      const scope = nock('https://slack.com')
+
+    beforeEach(function () {
+      this.client = new WebClient(token);
+      this.scope = nock('https://slack.com')
         .post(/api/)
         .reply(200, { ok: true });
+      this.capture = new CaptureConsole();
+      this.capture.startCapture();
+    });
 
-      const client = new WebClient(token);
-      return client.files.comments.add({ file: 'FILE', comment: 'COMMENT' })
+    it('should warn when calling a deprecated method', function () {
+      return this.client.files.comments.add({ file: 'FILE', comment: 'COMMENT' })
         .then(() => {
-          const output = capture.getCapturedText();
+          const output = this.capture.getCapturedText();
           assert.isNotEmpty(output);
           const warning = output[0];
           assert.match(warning, /^\[WARN\]/);
-          scope.done();
+          this.scope.done();
         })
         .then(() => {
-          capture.stopCapture();
+          this.capture.stopCapture();
         }, (error) => {
-          capture.stopCapture();
+          this.capture.stopCapture();
           throw error;
         });
+    });
+
+    it('should warn when calling an API method using a callback', function (done) {
+      this.client.apiCall('method', {}, () => {
+        const output = this.capture.getCapturedText();
+        assert.isNotEmpty(output);
+        const warning = output[0];
+        assert.match(warning, /^\[WARN\]/);
+        this.scope.done();
+        this.capture.stopCapture();
+        done();
+      });
+    });
+
+    it('should warn when using automatic token refresh', function (done) {
+      new WebClient(token, {
+        clientId,
+        clientSecret,
+        refreshToken,
+      });
+      const output = this.capture.getCapturedText();
+      assert.isNotEmpty(output);
+      const warning = output[0];
+      assert.match(warning, /^\[WARN\]/);
+      this.capture.stopCapture();
+      done();
     });
   });
 
