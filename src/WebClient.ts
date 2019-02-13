@@ -29,7 +29,8 @@ const pkg = require('../package.json'); // tslint:disable-line:no-require-import
 export class WebClient extends EventEmitter {
 
   /**
-   * Authentication and authorization token for accessing Slack Web API (usually begins with `xoxa`, `xoxp`, or `xoxb`)
+   * Authentication and authorization token for accessing Slack Web API (usually begins with `xoxa`, `xoxp`, or `xoxb`).
+   * This should be treated as readonly. Setting this value is used for refreshing tokens, and it is deprecated.
    */
   public get token(): string | undefined {
     return this._accessToken;
@@ -42,16 +43,19 @@ export class WebClient extends EventEmitter {
 
   /**
    * OAuth 2.0 refresh token used to automatically create new access tokens (`token`) when the current is expired.
+   * @deprecated
    */
   public readonly refreshToken?: string;
 
   /**
    * OAuth 2.0 client identifier
+   * @deprecated
    */
   public readonly clientId?: string;
 
   /**
    * OAuth 2.0 client secret
+   * @deprecated
    */
   public readonly clientSecret?: string;
 
@@ -194,7 +198,7 @@ export class WebClient extends EventEmitter {
    *
    * @param method the Web API method to call {@see https://api.slack.com/methods}
    * @param options options
-   * @param callback callback if you don't want a promise returned
+   * @param callback callback if you don't want a promise returned - this argument is deprecated.
    */
   public apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult>;
   public apiCall(method: string, options: WebAPICallOptions, callback: WebAPIResultCallback): void;
@@ -886,9 +890,9 @@ export interface WebClientOptions {
   tls?: TLSOptions;
   pageSize?: number;
   rejectRateLimitedCalls?: boolean;
-  clientId?: string;
-  clientSecret?: string;
-  refreshToken?: string;
+  clientId?: string; /* DEPRECATED */
+  clientSecret?: string; /* DEPRECATED */
+  refreshToken?: string; /* DEPRECATED */
   headers?: object;
 }
 

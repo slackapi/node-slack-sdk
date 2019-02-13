@@ -402,10 +402,10 @@ export class WebAPIResultCallback {
  * This client provides an alias for each {@link https://api.slack.com/methods|Web API method}. Each method is
  * a convenience wrapper for calling the {@link WebClient#apiCall} method using the method name as the first parameter.
  * @extends EventEmitter
- * @property {string | undefined} token Authentication and authorization token for accessing Slack Web API (usually begins with `xoxa`, xoxp`, or `xoxb`)
- * @property {string} [refreshToken] OAuth 2.0 refresh token used to automatically create new access tokens (`token`) when the current is expired.
- * @property {string} [clientId] OAuth 2.0 client identifier
- * @property {string} [clientSecret] OAuth 2.0 client secret
+ * @property {string | undefined} token Authentication and authorization token for accessing Slack Web API (usually begins with `xoxa`, `xoxp`, or `xoxb`). This should be treated as readonly. Setting this value is used for refreshing tokens, and it is deprecated.
+ * @property {string} [refreshToken] OAuth 2.0 refresh token used to automatically create new access tokens (`token`) when the current is expired. Deprecated: {tag.description}
+ * @property {string} [clientId] OAuth 2.0 client identifier Deprecated: {tag.description}
+ * @property {string} [clientSecret] OAuth 2.0 client secret Deprecated: {tag.description}
  * @property {string} [slackApiUrl] The base URL for reaching Slack's Web API. Consider changing this value for testing purposes.
  */
 export class WebClient {

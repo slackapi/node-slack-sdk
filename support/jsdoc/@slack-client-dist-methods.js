@@ -11,15 +11,15 @@ export var cursorPaginationEnabledMethods
  * @interface module:@slack/client/dist/methods.AttachmentAction
  * @property {string} [id]
  * @property {module:@slack/client/dist/methods.Confirmation} [confirm]
- * @property {string} [data_source]
+ * @property {"static" | "channels" | "conversations" | "users" | "external"} [data_source]
  * @property {number} [min_query_length]
  * @property {string} [name]
  * @property {Array<module:@slack/client/dist/methods.OptionField>} [options]
  * @property {Array<module:@slack/client/dist/methods.__type>} [option_groups]
  * @property {Array<module:@slack/client/dist/methods.OptionField>} [selected_options]
- * @property {string} [style]
+ * @property {"default" | "primary" | "danger"} [style]
  * @property {string} text
- * @property {string} type
+ * @property {"button" | "select"} type
  * @property {string} [value]
  * @property {string} [url]
  */

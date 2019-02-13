@@ -45,13 +45,13 @@ export class Logger {
 }
 
 /**
- * INTERNAL interface for getting or creating a named Logger
+ * INTERNAL interface for getting or creating a named Logger.
  * @param {string} name
  * @returns {module:@slack/client/dist/logger.Logger}
  */
 export function getLogger() {}
 /**
- * INTERNAL function for transforming an external LoggerFunc type into the internal Logger interface
+ * INTERNAL function for transforming an external LoggingFunc type into the internal Logger interface.
  * @param {string} name
  * @param {module:@slack/client.LoggingFunc} loggingFunc
  * @returns {module:@slack/client/dist/logger.Logger}

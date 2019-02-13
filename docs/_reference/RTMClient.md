@@ -155,7 +155,7 @@ be sent or received.
 
 | Param | Type |
 | --- | --- |
-| options | <code>module:@slack/client/dist/methods.TokenOverridable</code> \| <code>module:@slack/client/dist/methods.LocaleAware</code> \| <code>module:@slack/client/dist/methods.__type</code> \| <code>module:@slack/client/dist/methods.TokenOverridable</code> \| <code>module:@slack/client/dist/methods.__type</code> | 
+| options | <code>module:@slack/client/dist/methods.TokenOverridable</code> \| <code>module:@slack/client/dist/methods.LocaleAware</code> \| <code>module:@slack/client/dist/methods.\_\_type</code> \| <code>module:@slack/client/dist/methods.TokenOverridable</code> \| <code>module:@slack/client/dist/methods.\_\_type</code> | 
 
 <a name="module_@slack/client.RTMClient+subscribePresence"></a>
 
