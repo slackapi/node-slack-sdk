@@ -177,6 +177,15 @@ export class WebClient extends EventEmitter {
     // serializeApiCallOptions will always determine the appropriate content-type
     delete this.axios.defaults.headers.post['Content-Type'];
 
+    // Warn when automatic token refresh is being used
+    if (this.shouldAutomaticallyRefreshToken) {
+      this.logger.warn(
+        'Automatic token refresh has been deprecated and will be removed from the next major version of the ' +
+        'WebClient. Refresh tokens were built to support Workspace Apps, which have also been deprecated. See: ' +
+        'https://medium.com/slack-developer-blog/an-update-on-workspace-apps-aabc9e42a98b',
+      );
+    }
+
     this.logger.debug('initialized');
   }
 

@@ -1118,6 +1118,20 @@ describe('WebClient', function () {
         done();
       });
     });
+
+    it('should warn when using automatic token refresh', function (done) {
+      new WebClient(token, {
+        clientId,
+        clientSecret,
+        refreshToken,
+      });
+      const output = this.capture.getCapturedText();
+      assert.isNotEmpty(output);
+      const warning = output[0];
+      assert.match(warning, /^\[WARN\]/);
+      this.capture.stopCapture()
+      done();
+    });
   });
 
   afterEach(function () {
