@@ -106,7 +106,155 @@ export interface Dialog {
   state?: string;
 }
 
+/*
+ * Block Elements
+ */
+
+export interface ImageElement {
+  type: 'image';
+  image_url: string;
+  alt_text: string;
+}
+
+export interface UserElement {
+  type: 'user';
+  user_id: string;
+}
+
+export interface PlainTextElement {
+  type: 'plain_text';
+  text: string;
+  emoji?: boolean;
+}
+
+export interface MrkdwnElement {
+  type: 'mrkdwn';
+  text: string;
+  verbatim?: boolean;
+}
+
+export interface Option {
+  text: PlainTextElement;
+  value?: string;
+  url?: string;
+  description?: PlainTextElement;
+}
+
+export interface Confirm {
+  title?: PlainTextElement;
+  text: PlainTextElement | MrkdwnElement;
+  confirm?: PlainTextElement;
+  deny?: PlainTextElement;
+}
+
+/*
+ * Action Types
+ */
+
+type KnownAction = UsersSelect | StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect |
+  Button | Overflow | Datepicker;
+
+interface Action {
+  type: string;
+  action_id?: string;
+  confirm?: Confirm;
+}
+
+export interface UsersSelect extends Action {
+  type: 'users_select';
+  initial_user?: string;
+  placeholder?: PlainTextElement;
+}
+
+export interface StaticSelect extends Action {
+  type: 'static_select';
+  placeholder?: PlainTextElement;
+  initial_option?: Option;
+  options?: Option[];
+  option_groups?: {
+    label: PlainTextElement;
+    options: Option[];
+  }[];
+}
+
+export interface ConversationsSelect extends Action {
+  type: 'conversations_select';
+  initial_conversation?: string;
+  placeholder?: PlainTextElement;
+}
+
+export interface ChannelsSelect extends Action {
+  type: 'channels_select';
+  initial_channel?: string;
+  placeholder?: PlainTextElement;
+}
+
+export interface ExternalSelect extends Action {
+  type: 'external_select';
+  initial_option?: Option;
+  placeholder?: PlainTextElement;
+  min_query_length?: number;
+}
+
+export interface Button extends Action {
+  type: 'button';
+  text: PlainTextElement;
+  value?: string;
+  url?: string;
+}
+
+export interface Overflow extends Action {
+  type: 'overflow';
+  options: Option[];
+}
+
+export interface Datepicker extends Action {
+  type: 'datepicker';
+  initial_date?: string;
+  placeholder?: PlainTextElement;
+}
+
+/*
+ * Block Types
+ */
+
+export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock | SectionBlock;
+
+export interface Block {
+  type: string;
+  block_id?: string;
+}
+
+export interface ImageBlock extends Block {
+  type: 'image';
+  image_url: string;
+  alt_text: string;
+  title?: PlainTextElement;
+}
+
+export interface ContextBlock extends Block {
+  type: 'context';
+  elements: (ImageElement | UserElement | PlainTextElement | MrkdwnElement)[];
+}
+
+export interface ActionsBlock extends Block {
+  type: 'actions';
+  elements: (KnownAction | Action)[];
+}
+
+export interface DividerBlock extends Block {
+  type: 'divider';
+}
+
+export interface SectionBlock extends Block {
+  type: 'section';
+  text?: PlainTextElement | MrkdwnElement; // either this or fields must be defined
+  fields?: (PlainTextElement | MrkdwnElement)[]; // either this or text must be defined
+  accessory?: KnownAction | Action | ImageElement;
+}
+
 export interface MessageAttachment {
+  blocks?: (KnownBlock | Block)[];
   fallback?: string; // either this or text must be defined
   color?: 'good' | 'warning' | 'danger' | string;
   pretext?: string;
@@ -294,6 +442,7 @@ export type ChatPostEphemeralArguments = TokenOverridable & {
   user: string;
   as_user?: boolean;
   attachments?: MessageAttachment[];
+  blocks?: (KnownBlock | Block)[];
   link_names?: boolean;
   parse?: 'full' | 'none';
 };
@@ -302,6 +451,7 @@ export type ChatPostMessageArguments = TokenOverridable & {
   text: string;
   as_user?: boolean;
   attachments?: MessageAttachment[];
+  blocks?: (KnownBlock | Block)[];
   icon_emoji?: string; // if specified, as_user must be false
   icon_url?: string;
   link_names?: boolean;
@@ -327,6 +477,7 @@ export type ChatUpdateArguments = TokenOverridable & {
   ts: string;
   as_user?: boolean;
   attachments?: MessageAttachment[];
+  blocks?: (KnownBlock | Block)[];
   link_names?: boolean;
   parse?: 'full' | 'none';
 };
