@@ -14,7 +14,7 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
 import { awaitAndReduce, callbackify, getUserAgent, delay, AgentOption, TLSOptions, agentForScheme } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
-import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc, isLoggingFunc } from './logger';
+import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
 import Method, * as methods from './methods'; // tslint:disable-line:import-name
 
@@ -157,15 +157,7 @@ export class WebClient extends EventEmitter {
 
     // Logging
     if (logger !== undefined) {
-      if (isLoggingFunc(logger)) {
-        this.logger = loggerFromLoggingFunc(WebClient.loggerName, logger);
-        this.logger.warn(
-          'Custom logging using a function is deprecated. Instead, use an object with methods for each log level ' +
-          '(Logger interface).',
-        );
-      } else {
-        this.logger = logger;
-      }
+      this.logger = loggerFromLoggingFunc(WebClient.loggerName, logger);
     } else {
       this.logger = getLogger(WebClient.loggerName);
     }
@@ -886,7 +878,7 @@ export default WebClient;
 
 export interface WebClientOptions {
   slackApiUrl?: string;
-  logger?: LoggingFunc | Logger;
+  logger?: LoggingFunc;
   logLevel?: LogLevel;
   maxRequestConcurrency?: number;
   retryConfig?: RetryOptions;
