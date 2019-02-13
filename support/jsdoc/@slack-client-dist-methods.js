@@ -9,9 +9,9 @@
 export var cursorPaginationEnabledMethods
 /**
  * @interface module:@slack/client/dist/methods.ActionsBlock
+ * @extends module:@slack/client/dist/methods.Block
  * @property {"actions"} type
- * @property {string} [block_id]
- * @property {Array<module:@slack/client/dist/methods.UsersSelect | module:@slack/client/dist/methods.StaticSelect | module:@slack/client/dist/methods.ConversationsSelect | module:@slack/client/dist/methods.ChannelsSelect | module:@slack/client/dist/methods.ExternalSelect | module:@slack/client/dist/methods.Button | module:@slack/client/dist/methods.Overflow | module:@slack/client/dist/methods.Datepicker>} elements
+ * @property {Array<module:@slack/client/dist/methods.Action | module:@slack/client/dist/methods.UsersSelect | module:@slack/client/dist/methods.StaticSelect | module:@slack/client/dist/methods.ConversationsSelect | module:@slack/client/dist/methods.ChannelsSelect | module:@slack/client/dist/methods.ExternalSelect | module:@slack/client/dist/methods.Button | module:@slack/client/dist/methods.Overflow | module:@slack/client/dist/methods.Datepicker>} elements
  */
 export class ActionsBlock {
 }
@@ -39,6 +39,14 @@ export class AttachmentAction {
  * @interface module:@slack/client/dist/methods.AuxiliaryArguments
  */
 export class AuxiliaryArguments {
+}
+
+/**
+ * @interface module:@slack/client/dist/methods.Block
+ * @property {string} type
+ * @property {string} [block_id]
+ */
+export class Block {
 }
 
 /**
@@ -84,8 +92,8 @@ export class Confirmation {
 
 /**
  * @interface module:@slack/client/dist/methods.ContextBlock
+ * @extends module:@slack/client/dist/methods.Block
  * @property {"context"} type
- * @property {string} [block_id]
  * @property {Array<module:@slack/client/dist/methods.PlainTextElement | module:@slack/client/dist/methods.MrkdwnElement | module:@slack/client/dist/methods.ImageElement | module:@slack/client/dist/methods.UserElement>} elements
  */
 export class ContextBlock {
@@ -133,8 +141,8 @@ export class Dialog {
 
 /**
  * @interface module:@slack/client/dist/methods.DividerBlock
+ * @extends module:@slack/client/dist/methods.Block
  * @property {"divider"} type
- * @property {string} [block_id]
  */
 export class DividerBlock {
 }
@@ -152,8 +160,8 @@ export class ExternalSelect {
 
 /**
  * @interface module:@slack/client/dist/methods.ImageBlock
+ * @extends module:@slack/client/dist/methods.Block
  * @property {"image"} type
- * @property {string} [block_id]
  * @property {string} image_url
  * @property {string} alt_text
  * @property {module:@slack/client/dist/methods.PlainTextElement} [title]
@@ -185,7 +193,7 @@ export class LocaleAware {
 
 /**
  * @interface module:@slack/client/dist/methods.MessageAttachment
- * @property {Array<module:@slack/client/dist/methods.ImageBlock | module:@slack/client/dist/methods.ContextBlock | module:@slack/client/dist/methods.ActionsBlock | module:@slack/client/dist/methods.DividerBlock | module:@slack/client/dist/methods.SectionBlock>} [blocks]
+ * @property {Array<module:@slack/client/dist/methods.Block | module:@slack/client/dist/methods.ImageBlock | module:@slack/client/dist/methods.ContextBlock | module:@slack/client/dist/methods.ActionsBlock | module:@slack/client/dist/methods.DividerBlock | module:@slack/client/dist/methods.SectionBlock>} [blocks]
  * @property {string} [fallback]
  * @property {"good" | "warning" | "danger" | string} [color]
  * @property {string} [pretext]
@@ -218,7 +226,7 @@ export class Method {
  * @interface module:@slack/client/dist/methods.MrkdwnElement
  * @property {"mrkdwn"} type
  * @property {string} text
- * @property {"none"} [parse]
+ * @property {boolean} [verbatim]
  */
 export class MrkdwnElement {
 }
@@ -253,7 +261,7 @@ export class Overflow {
 
 /**
  * @interface module:@slack/client/dist/methods.PlainTextElement
- * @property {"plaintext"} type
+ * @property {"plain_text"} type
  * @property {string} text
  * @property {boolean} [emoji]
  */
@@ -272,11 +280,11 @@ export class Searchable {
 
 /**
  * @interface module:@slack/client/dist/methods.SectionBlock
+ * @extends module:@slack/client/dist/methods.Block
  * @property {"section"} type
- * @property {string} [block_id]
  * @property {module:@slack/client/dist/methods.PlainTextElement | module:@slack/client/dist/methods.MrkdwnElement} [text]
  * @property {Array<module:@slack/client/dist/methods.PlainTextElement | module:@slack/client/dist/methods.MrkdwnElement>} [fields]
- * @property {module:@slack/client/dist/methods.Button | module:@slack/client/dist/methods.Overflow | module:@slack/client/dist/methods.StaticSelect | module:@slack/client/dist/methods.UsersSelect | module:@slack/client/dist/methods.ConversationsSelect | module:@slack/client/dist/methods.ChannelsSelect | module:@slack/client/dist/methods.ExternalSelect | module:@slack/client/dist/methods.Datepicker} [accessory]
+ * @property {module:@slack/client/dist/methods.UsersSelect | module:@slack/client/dist/methods.StaticSelect | module:@slack/client/dist/methods.ConversationsSelect | module:@slack/client/dist/methods.ChannelsSelect | module:@slack/client/dist/methods.ExternalSelect | module:@slack/client/dist/methods.Button | module:@slack/client/dist/methods.Overflow | module:@slack/client/dist/methods.Datepicker | module:@slack/client/dist/methods.Action | module:@slack/client/dist/methods.ImageElement} [accessory]
  */
 export class SectionBlock {
 }

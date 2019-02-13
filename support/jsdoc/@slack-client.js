@@ -101,7 +101,7 @@ export class IncomingWebhookResultCallback {
  * @interface module:@slack/client.IncomingWebhookSendArguments
  * @extends module:@slack/client.IncomingWebhookDefaultArguments
  * @property {Array<module:@slack/client/dist/methods.MessageAttachment>} [attachments]
- * @property {Array<module:@slack/client/dist/methods.ImageBlock | module:@slack/client/dist/methods.ContextBlock | module:@slack/client/dist/methods.ActionsBlock | module:@slack/client/dist/methods.DividerBlock | module:@slack/client/dist/methods.SectionBlock>} [blocks]
+ * @property {Array<module:@slack/client/dist/methods.Block>} [blocks]
  * @property {boolean} [unfurl_links]
  * @property {boolean} [unful_media]
  */
