@@ -14,7 +14,7 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
 import { awaitAndReduce, callbackify, getUserAgent, delay, AgentOption, TLSOptions, agentForScheme } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
-import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
+import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc, isLoggingFunc } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
 import Method, * as methods from './methods'; // tslint:disable-line:import-name
 
@@ -29,7 +29,7 @@ const pkg = require('../package.json'); // tslint:disable-line:no-require-import
 export class WebClient extends EventEmitter {
 
   /**
-   * Authentication and authorization token for accessing Slack Web API (usually begins with `xoxa`, xoxp`, or `xoxb`)
+   * Authentication and authorization token for accessing Slack Web API (usually begins with `xoxa`, `xoxp`, or `xoxb`)
    */
   public get token(): string | undefined {
     return this._accessToken;
@@ -157,7 +157,15 @@ export class WebClient extends EventEmitter {
 
     // Logging
     if (logger !== undefined) {
-      this.logger = loggerFromLoggingFunc(WebClient.loggerName, logger);
+      if (isLoggingFunc(logger)) {
+        this.logger = loggerFromLoggingFunc(WebClient.loggerName, logger);
+        this.logger.warn(
+          'Custom logging using a function is deprecated. Instead, use an object with methods for each log level ' +
+          '(Logger interface).',
+        );
+      } else {
+        this.logger = logger;
+      }
     } else {
       this.logger = getLogger(WebClient.loggerName);
     }
@@ -181,8 +189,8 @@ export class WebClient extends EventEmitter {
     if (this.shouldAutomaticallyRefreshToken) {
       this.logger.warn(
         'Automatic token refresh has been deprecated and will be removed from the next major version of the ' +
-        'WebClient. Refresh tokens were built to support Workspace Apps, which have also been deprecated. See: ' +
-        'https://medium.com/slack-developer-blog/an-update-on-workspace-apps-aabc9e42a98b',
+        'WebClient. Refresh tokens were built to support Workspace Apps, which have also been deprecated. See ' +
+        'https://medium.com/slack-developer-blog/an-update-on-workspace-apps-aabc9e42a98b to learn more.',
       );
     }
 
@@ -878,7 +886,7 @@ export default WebClient;
 
 export interface WebClientOptions {
   slackApiUrl?: string;
-  logger?: LoggingFunc;
+  logger?: LoggingFunc | Logger;
   logLevel?: LogLevel;
   maxRequestConcurrency?: number;
   retryConfig?: RetryOptions;

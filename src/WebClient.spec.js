@@ -1114,7 +1114,7 @@ describe('WebClient', function () {
         const warning = output[0];
         assert.match(warning, /^\[WARN\]/);
         this.scope.done();
-        this.capture.stopCapture()
+        this.capture.stopCapture();
         done();
       });
     });
@@ -1129,7 +1129,7 @@ describe('WebClient', function () {
       assert.isNotEmpty(output);
       const warning = output[0];
       assert.match(warning, /^\[WARN\]/);
-      this.capture.stopCapture()
+      this.capture.stopCapture();
       done();
     });
   });
