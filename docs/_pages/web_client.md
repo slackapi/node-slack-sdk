@@ -9,8 +9,6 @@ headings:
     - title: Adding attachments to a message
     - title: Uploading a file
     - title: Getting a list of channels
-    - title: Using refresh tokens
-    - title: Manually handling token rotation
     - title: Calling methods on behalf of users
     - title: Using a callback instead of a Promise
     - title: Changing the retry configuration
@@ -20,11 +18,12 @@ headings:
     - title: Customizing the logger
     - title: Custom agent for proxy support
     - title: OAuth token exchange
+    - title: Using legacy refresh tokens
+    - title: Manually handling legacy token rotation
 ---
 
-This package includes a web client that makes it simple to use the
-[Slack Web API methods](https://api.slack.com/methods). Here are some of the goodies you get right
-out of the box:
+This package includes a web client that makes it simple to use the [Slack Web API
+methods](https://api.slack.com/methods). Here are some of the goodies you get right out of the box:
 
 * Request queuing and rate-limit management
 * Request body serialization and response body parsing
@@ -36,15 +35,16 @@ out of the box:
 * Logging
 * Configurability
 
-Here are some of the common recipies for using the `WebClient` class.
+Here are some of the common recipes for using the `WebClient` class.
 
 ---
 
 ### Posting a message
 
-Your app will interact with the Web API through the `WebClient` object, which a top level export
-from this package. At a minimum, you need to instantiate it with a token. The example below shows
-how to post a message into a channel, DM, MPDM, or group. This will require the `chat:write` scope (either the `chat:user:write` or `chat:bot:write` for user-token apps).
+Your app will interact with the Web API through the `WebClient` object, which a top level export from this package. At a
+minimum, you need to instantiate it with a token. The example below shows how to post a message into a channel, DM,
+MPDM, or group. This will require the `chat:write` scope (either the `chat:user:write` or `chat:bot:write` for
+user-token apps).
 
 ```javascript
 const { WebClient } = require('@slack/client');
@@ -109,15 +109,14 @@ web.chat.postMessage({
   .catch(console.error);
 ```
 
-**NOTE**: See the [Message Builder](https://api.slack.com/docs/messages/builder) for a playground
-where you can prototype your message's look.
+**NOTE**: See the [Message Builder](https://api.slack.com/docs/messages/builder) for a playground where you can
+prototype your message's look.
 
 ---
 
 ### Uploading a file
 
-The `files.upload` method can be used to upload a file, cool! This will require `files:write:user`
-scope.
+The `files.upload` method can be used to upload a file, cool! This will require `files:write:user` scope.
 
 ```javascript
 const fs = require('fs');
@@ -149,176 +148,16 @@ web.files.upload({
   .catch(console.error);
 ```
 
----
-
-### Using refresh tokens
-> WARNING: This feature is only supported for the now-deprecated workspace app tokens (xoxa). Refresh
-> tokens will be available in the future to classic Slack apps in a couple of months. You may find more
-> details [on the related blog post.](https://medium.com/slack-developer-blog/an-update-on-workspace-apps-aabc9e42a98b).
-
-If you're using workspace apps, refresh tokens can be used to obtain short-lived access tokens that power your Web API calls from the `WebClient` (this is *required* for distributed apps). This can increase the security of your app since, in the event of a token being exposed accidentally, it won't be able to be used against your app or users after a short time. To enable the `WebClient` to automatically refresh and swap your access tokens, you need to pass your app's refresh token, client ID, and client secret in the `WebClientOptions`.
-
-At the time of refresh, the `WebClient` will emit a `token_refreshed` event that will contain the new access token (`access_token`), time to expiration (`expires_in`), an associated team ID (`team_id`), and an associated enterprise ID (`enterprise_id`). It's recommended to listen to this event and store the access token in a database so you have access to your active token.
-
-```javascript
-const { WebClient } = require('@slack/client');
-
-const refreshToken = process.env.SLACK_REFRESH_TOKEN;
-const teamId = process.env.SLACK_TEAM_ID;
-const enterpriseId = process.env.SLACK_ENTERPRISE_ID;
-const clientId = process.env.SLACK_CLIENT_ID;
-const clientSecret = process.env.SLACK_CLIENT_SECRET;
-
-
-// Intialize a data structure to store team access token info (typically stored in a database)
-const slackAuthorizations = [];
-
-// Set authorization info in data structure
-function setAuthorization(authorization) {
-  // Get existing authorization, if it exists
-  const authIndex = getAuthorizationIndex(teamId, enterpriseId);
-  // If an existing authorization doesn't exist, add to end of array
-  if (authIndex === -1) {
-    authIndex = slackAuthorizations.length;
-  }
-
-  // Set authorization in data structure
-  slackAuthorizations[authIndex] = {
-    accessToken: authorization.access_token,
-    expiresIn: authorization.expires_in,
-    teamId: authorization.teamId,
-    enterpriseId: authorization.enterpriseId
-  };
-}
-
-// Gets index of authorization in data structure
-function getAuthorizationIndex(teamId, enterpriseId) {
-  slackAuthorizations.findIndex(function(authorization) {
-    return (authorization.team_id === teamId &&
-      authorization.enterprise_id === enterpriseId);
-  })
-}
-
-// Get authorization from data structure
-function getAuthorizationToken(teamId, enterpriseId) {
-  return new Promise((resolve, reject) => {
-    const authIndex = getAuthorizationIndex(teamId, enterpriseId);
-    if (authIndex > -1) {
-      return slackAuthorizations[authIndex].accessToken;
-    } else {
-      return undefined;
-    }
-  });
-}
-
-// Initiate WebClient
-getAuthorization(teamId, enterpriseId).then((res) => {
-  // If authorization doesn't exist, res will be undefined and the WebClient will fetch token
-  // Instantiate the WebClient
-  const web = new WebClient(res, {
-    clientId: clientId,
-    clientSecret: clientSecret,
-    refreshToken: refreshToken
-  });
-
-  // WebClient is up and running, so let's post a message!
-  const conversationId = 'C123456';
-  web.chat.postMessage({ channel: conversationId, text: 'Hello world!'});
-});
-
-
-/* When a token is refreshed, a token_refreshed event is triggered:
- * {
- *    "access_token": "xoxa-...",
- *    "expires_in": 86400,
- *    "team_id": "T12345",
- *    "enterprise_id": "E1234A12AB"
- * }
- */
-web.on('token_refreshed', (event) => {
-  // It's recommended you store your new access token in a database to access it later
-  setAuthorization(event);
-
-  console.log(`Access token expires in ${event.expires_in}`);
-});
-```
-
-
----
-
-### Manually handling token rotation
-> WARNING: This feature is only supported for the now-deprecated workspace app tokens (xoxa). Token
-> rotation will be available in the future to classic Slack apps in a couple of months. You may find more
-> details [on the related blog post.](https://medium.com/slack-developer-blog/an-update-on-workspace-apps-aabc9e42a98b).
-
-Note: Before implementing it on your own, it's suggested you read through the [token rotation documentation](http://api.slack.com/docs/rotating-and-refreshing-credentials).
-
-If you need more control over token refreshing, you don't need to pass in your refresh token, client ID, or client secret. However, you'll need to listen for `invalid_auth` errors and make calls to `oauth.access` to fetch new access tokens:
-
-```javascript
-const { WebClient } = require('@slack/client');
-
-const accessToken = process.env.SLACK_TOKEN;
-const refreshToken = process.env.SLACK_REFRESH_TOKEN;
-const id = process.env.SLACK_CLIENT_ID;
-const secret = process.env.SLACK_CLIENT_SECRET;
-
-const web = new WebClient(accessToken);
-
-function refreshToken() {
-  // Custom logic to refresh a token, possibly purging other stale data from db
-  return new Promise((resolve, reject) => {
-    web.oauth.access({
-      client_id: id,
-      client_secret: secret,
-      grant_type: 'refresh_token',
-      refresh_token: refreshToken
-    }).then((res) => {
-      /* Response contains new access token and time until expiration
-       * {
-       *    "access_token": "xoxa-...",
-       *    "expires_in": 86400,
-       *    "team_id": "T12345",
-       *    "enterprise_id": "E1234A12AB"
-       * }
-       */
-      accessToken = res.access_token;
-      // web.token allows you to update the access token for WebClient
-      web.token = accessToken;
-      // Probably purge stale data from db at this point
-
-      resolve();
-    }).catch((err) => {
-      console.log(err);
-      reject();
-    });
-  });
-}
-
-function sendMessage(msg) {
-  return web.chat.postMessage(msg)
-    .then(console.log)
-    .catch((error) => {
-      if (error.code === ErrorCode.PlatformError && error.data.error === 'invalid_auth') {
-        // This error could have occured because of an expired access token -- refresh, and try again.
-        return refreshToken()
-          .then(() => sendMessage(msg));
-      }
-      throw error;
-    })
-}
-
-sendMessage({ channel: conversationId, text: 'Hello world!' })
-  .catch((error) => console.error(`failed to send message: ${error.message}`));
-
-```
 
 ---
 
 ### Getting a list of channels
 
-The `conversations.list` method can be used to get a list of all channels in a Slack team.
-This [Conversations API](https://api.slack.com/docs/conversations-api) method returns a list of all [channel-like conversations](https://api.slack.com/types/conversation) in a workspace. The "channels" returned depend on what the calling token has access to and the directives placed in the `types` parameter. See the [conversations.list](https://api.slack.com/methods/conversations.list) documentation for details.
+The `conversations.list` method can be used to get a list of all channels in a Slack team. This [Conversations
+API](https://api.slack.com/docs/conversations-api) method returns a list of all [channel-like
+conversations](https://api.slack.com/types/conversation) in a workspace. The "channels" returned depend on what the
+calling token has access to and the directives placed in the `types` parameter. See the
+[conversations.list](https://api.slack.com/methods/conversations.list) documentation for details.
 
 ```javascript
 const { WebClient } = require('@slack/client');
@@ -344,15 +183,17 @@ getAllChannels()
   .catch(console.error);
 ```
 
-**NOTE**: The example above can only get a specific number of items (by `limit` arguments). See the [Pagination](#pagination) section for the detailed description as to how you can handle pagination in API methods so that you can get full items even if you don't know how many items are there.
+**NOTE**: The example above can only get a specific number of items (by `limit` arguments). See the
+[Pagination](#pagination) section for the detailed description as to how you can handle pagination in API methods so
+that you can get full items even if you don't know how many items are there.
 
 ---
 
 ### Calling methods on behalf of users
 
-When using [user tokens](https://api.slack.com/docs/token-types#user), some methods allow your app
-to perform the action _on behalf of a user_. To use one of these methods,
-your app will provide the user's ID as an option named `on_behalf_of`.
+When using [user tokens](https://api.slack.com/docs/token-types#user), some methods allow your app to perform the action
+_on behalf of a user_. To use one of these methods, your app will provide the user's ID as an option named
+`on_behalf_of`.
 
 ```javascript
 const { WebClient } = require('@slack/client');
@@ -378,8 +219,8 @@ web.users.identity({ on_behalf_of: userId })
 
 ### Using a callback instead of a Promise
 
-Every web API method can also be called with a callback function that takes `cb(error, response)`.
-If you prefer callbacks over promises, here is the example above translated for callbacks:
+Every web API method can also be called with a callback function that takes `cb(error, response)`. If you prefer
+callbacks over promises, here is the example above translated for callbacks:
 
 ```javascript
 web.channels.list({}, (err, res) => {
@@ -399,10 +240,9 @@ Note that when calling a method with no required arguments, you **still need to 
 
 ### Changing the retry configuration
 
-The `WebClient` will retry any request that fails for a recoverable error. The policy is
-configurable, but the default is retrying forever with an exponential backoff, capped at thirty
-minutes but with some randomization. You can use the `retryConfig` option to customize that policy.
-The value is an `options` object as described in the following library:
+The `WebClient` will retry any request that fails for a recoverable error. The policy is configurable, but the default
+is retrying forever with an exponential backoff, capped at thirty minutes but with some randomization. You can use the
+`retryConfig` option to customize that policy. The value is an `options` object as described in the following library:
 <https://github.com/tim-kos/node-retry>.
 
 ```javascript
@@ -420,9 +260,9 @@ const web = new WebClient(token, {
 
 ### Changing the request concurrency
 
-The `WebClient` maintains a queue of requests to make sure a limited number of requests are in
-flight at a time. It also helps with rate limit management. The default concurrency is set to three
-but you can configure this with the `maxRequestConcurrency` option.
+The `WebClient` maintains a queue of requests to make sure a limited number of requests are in flight at a time. It also
+helps with rate limit management. The default concurrency is set to three but you can configure this with the
+`maxRequestConcurrency` option.
 
 ```javascript
 const { WebClient } = require('@slack/client');
@@ -515,8 +355,8 @@ Inside `res` is a property called `response_metadata`, which might (or might not
 that `next_cursor` property exists, and is not an empty string, you know there's still more data in the list. If you
 want to read more messages in that channel's history, you would call the method again, but use that value as the
 `cursor` argument. **NOTE**: It should be rare that your app needs to read the entire history of a channel, avoid that!
-With other methods, such as `conversations.list`, it would be more common to request the entire list of channels, so that's what we're
-illustrating below.
+With other methods, such as `conversations.list`, it would be more common to request the entire list of channels, so
+that's what we're illustrating below.
 
 ```javascript
 const { WebClient } = require('@slack/client');
@@ -554,23 +394,23 @@ getAllChannels()
 ```
 
 Cursor-based pagination, if available for a method, is always preferred. In fact, when you call a cursor-paginated
-method without a `cursor` or `limit`, the `WebClient` will **automatically paginate** the requests for you until the
-end of the list. Then, each page of results are concatenated, and that list takes the place of the last page in the last
+method without a `cursor` or `limit`, the `WebClient` will **automatically paginate** the requests for you until the end
+of the list. Then, each page of results are concatenated, and that list takes the place of the last page in the last
 response. In other words, if you don't specify any pagination options then you get the whole list in the result as well
 as the non-list properties of the last API call. It's always preferred to perform your own pagination by specifying the
 `limit` and/or `cursor` since you can optimize to your own application's needs.
 
-A few methods that returns lists do not support cursor-based pagination, but do support
-[other pagination types](https://api.slack.com/docs/pagination#classic_pagination). These methods will not be
-automatically paginated for you, so you should give extra care and use appropriate options to only request a page at a
-time. If you don't, you risk failing with `Error`s which have a `code` property set to `errorCode.HTTPError`.
+A few methods that returns lists do not support cursor-based pagination, but do support [other pagination
+types](https://api.slack.com/docs/pagination#classic_pagination). These methods will not be automatically paginated for
+you, so you should give extra care and use appropriate options to only request a page at a time. If you don't, you risk
+failing with `Error`s which have a `code` property set to `errorCode.HTTPError`.
 
 ---
 
 ### Customizing the logger
 
-The `WebClient` also logs interesting events as it operates. By default, the log level is set to
-`info` and it should not log anything as long as nothing goes wrong.
+The `WebClient` also logs interesting events as it operates. By default, the log level is set to `info` and it should
+not log anything as long as nothing goes wrong.
 
 You can adjust the log level by setting the `logLevel` option to any of the values found in the `LogLevel` top-level
 export.
@@ -633,9 +473,9 @@ const web = new WebClient(token, { agent: new HttpsProxyAgent(proxyUrl) });
 
 ### OAuth token exchange
 
-There's one method that doesn't require a `token`, and that's because it generates the `token` for
-you: `oauth.access`. You'll be using this method at the end of the OAuth flow for a distributed
-Slack app. To do this, just initialize without a token.
+There's one method that doesn't require a `token`, and that's because it generates the `token` for you: `oauth.access`.
+You'll be using this method at the end of the OAuth flow for a distributed Slack app. To do this, just initialize
+without a token.
 
 Or, if you are using the Passport authentication framework, this step is handled for you using the
 [`@aoberoi/passport-slack` Strategy](https://github.com/aoberoi/passport-slack).
@@ -660,4 +500,174 @@ client.oauth.access({
   .catch(console.error);
 ```
 
+---
 
+### Using legacy refresh tokens
+
+If you're using workspace apps, refresh tokens can be used to obtain short-lived access tokens that power your Web API
+calls from the `WebClient` (this is *required* for distributed apps). This can increase the security of your app since,
+in the event of a token being exposed accidentally, it won't be able to be used against your app or users after a short
+time. To enable the `WebClient` to automatically refresh and swap your access tokens, you need to pass your app's
+refresh token, client ID, and client secret in the `WebClientOptions`.
+
+At the time of refresh, the `WebClient` will emit a `token_refreshed` event that will contain the new access token
+(`access_token`), time to expiration (`expires_in`), an associated team ID (`team_id`), and an associated enterprise ID
+(`enterprise_id`). It's recommended to listen to this event and store the access token in a database so you have access
+to your active token.
+
+```javascript
+const { WebClient } = require('@slack/client');
+
+const refreshToken = process.env.SLACK_REFRESH_TOKEN;
+const teamId = process.env.SLACK_TEAM_ID;
+const enterpriseId = process.env.SLACK_ENTERPRISE_ID;
+const clientId = process.env.SLACK_CLIENT_ID;
+const clientSecret = process.env.SLACK_CLIENT_SECRET;
+
+
+// Initialize a data structure to store team access token info (typically stored in a database)
+const slackAuthorizations = [];
+
+// Set authorization info in data structure
+function setAuthorization(authorization) {
+  // Get existing authorization, if it exists
+  const authIndex = getAuthorizationIndex(teamId, enterpriseId);
+  // If an existing authorization doesn't exist, add to end of array
+  if (authIndex === -1) {
+    authIndex = slackAuthorizations.length;
+  }
+
+  // Set authorization in data structure
+  slackAuthorizations[authIndex] = {
+    accessToken: authorization.access_token,
+    expiresIn: authorization.expires_in,
+    teamId: authorization.teamId,
+    enterpriseId: authorization.enterpriseId
+  };
+}
+
+// Gets index of authorization in data structure
+function getAuthorizationIndex(teamId, enterpriseId) {
+  slackAuthorizations.findIndex(function(authorization) {
+    return (authorization.team_id === teamId &&
+      authorization.enterprise_id === enterpriseId);
+  })
+}
+
+// Get authorization from data structure
+function getAuthorizationToken(teamId, enterpriseId) {
+  return new Promise((resolve, reject) => {
+    const authIndex = getAuthorizationIndex(teamId, enterpriseId);
+    if (authIndex > -1) {
+      return slackAuthorizations[authIndex].accessToken;
+    } else {
+      return undefined;
+    }
+  });
+}
+
+// Initiate WebClient
+getAuthorization(teamId, enterpriseId).then((res) => {
+  // If authorization doesn't exist, res will be undefined and the WebClient will fetch token
+  // Instantiate the WebClient
+  const web = new WebClient(res, {
+    clientId: clientId,
+    clientSecret: clientSecret,
+    refreshToken: refreshToken
+  });
+
+  // WebClient is up and running, so let's post a message!
+  const conversationId = 'C123456';
+  web.chat.postMessage({ channel: conversationId, text: 'Hello world!'});
+});
+
+
+/* When a token is refreshed, a token_refreshed event is triggered:
+ * {
+ *    "access_token": "xoxa-...",
+ *    "expires_in": 86400,
+ *    "team_id": "T12345",
+ *    "enterprise_id": "E1234A12AB"
+ * }
+ */
+web.on('token_refreshed', (event) => {
+  // It's recommended you store your new access token in a database to access it later
+  setAuthorization(event);
+
+  console.log(`Access token expires in ${event.expires_in}`);
+});
+```
+
+
+---
+
+### Manually handling legacy token rotation
+
+> WARNING: This feature is only supported for the now-deprecated workspace app tokens (xoxa). Token rotation will be
+> available in the future to classic Slack apps in a couple of months. You may find more details [on the related blog
+> post.](https://medium.com/slack-developer-blog/an-update-on-workspace-apps-aabc9e42a98b).
+
+Note: Before implementing it on your own, it's suggested you read through the [token rotation
+documentation](http://api.slack.com/docs/rotating-and-refreshing-credentials).
+
+If you need more control over token refreshing, you don't need to pass in your refresh token, client ID, or client
+secret. However, you'll need to listen for `invalid_auth` errors and make calls to `oauth.access` to fetch new access
+tokens:
+
+```javascript
+const { WebClient } = require('@slack/client');
+
+const accessToken = process.env.SLACK_TOKEN;
+const refreshToken = process.env.SLACK_REFRESH_TOKEN;
+const id = process.env.SLACK_CLIENT_ID;
+const secret = process.env.SLACK_CLIENT_SECRET;
+
+const web = new WebClient(accessToken);
+
+function refreshToken() {
+  // Custom logic to refresh a token, possibly purging other stale data from db
+  return new Promise((resolve, reject) => {
+    web.oauth.access({
+      client_id: id,
+      client_secret: secret,
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken
+    }).then((res) => {
+      /* Response contains new access token and time until expiration
+       * {
+       *    "access_token": "xoxa-...",
+       *    "expires_in": 86400,
+       *    "team_id": "T12345",
+       *    "enterprise_id": "E1234A12AB"
+       * }
+       */
+      accessToken = res.access_token;
+      // web.token allows you to update the access token for WebClient
+      web.token = accessToken;
+      // Probably purge stale data from db at this point
+
+      resolve();
+    }).catch((err) => {
+      console.log(err);
+      reject();
+    });
+  });
+}
+
+function sendMessage(msg) {
+  return web.chat.postMessage(msg)
+    .then(console.log)
+    .catch((error) => {
+      if (error.code === ErrorCode.PlatformError && error.data.error === 'invalid_auth') {
+        // This error could have occured because of an expired access token -- refresh, and try again.
+        return refreshToken()
+          .then(() => sendMessage(msg));
+      }
+      throw error;
+    })
+}
+
+sendMessage({ channel: conversationId, text: 'Hello world!' })
+  .catch((error) => console.error(`failed to send message: ${error.message}`));
+
+```
