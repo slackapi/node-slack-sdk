@@ -285,10 +285,10 @@ rtm.on(RTM_EVENTS.MEMBER_LEFT_CHANNEL, (event) => {
 
 ### Workspace cache on connect
 
-The `useRtmConnect` option on `RTMClient` initialization can give you control of how much workspace state you recieve
-when you connect and recieve the `authenticated` event.
+The `useRtmConnect` option on `RTMClient` initialization can give you control of how much workspace state you receive
+when you connect and receive the `authenticated` event.
 
-If you set the value to `false` (not recommended for large teams), you'll recieve a cache the relevent client state
+If you set the value to `false` (not recommended for large teams), you'll receive a cache the relevent client state
 for your app. See the response in the [`rtm.start`](https://api.slack.com/methods/rtm.start) reference documentation
 for a description of the workspace cache.
 

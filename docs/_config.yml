@@ -20,6 +20,7 @@ twitter_username: SlackAPI
 github_username:  SlackAPI
 
 google_analytics: UA-56978219-13
+google_tag_manager: GTM-KFZ5MK7
 
 include: ['_pages']
 

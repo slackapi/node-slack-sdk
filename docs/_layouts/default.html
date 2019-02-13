@@ -3,7 +3,7 @@
 
 {% include head.html %}
 
-<body class="api light_theme">
+<body class="api feature_related_content">
 
 {% include page_header.html %}
 
@@ -14,9 +14,9 @@
 
             {% include side_nav.html %}
 
-            <div id="footer">
-
-                <ul id="footer_nav">
+            <div class="sidebar_menu" id="api_nav">
+                
+                <ul class="sidebar_menu_list footer_nav">
                     <li><a href="https://github.com/{{ site.github_username }}/{{ site.repo_name }}/blob/master/LICENSE">License</a></li>
                     <li><a href="https://github.com/{{ site.github_username }}/{{ site.repo_name }}/blob/master/CODE_OF_CONDUCT.md">Code of Conduct</a></li>
                     <li><a href="https://github.com/{{ site.github_username }}/{{ site.repo_name }}/blob/master/CONTRIBUTING.md">Contributing</a></li>
@@ -38,12 +38,8 @@
 </div>
 
 <footer>
-    <p class="light tiny align_center">Copyright © 2015–2016 Slack Technologies, Inc. and contributors</p>
+    <p class="light tiny align_center">© 2019 Slack Technologies, Inc. and contributors</p>
 </footer>
-
-
-<script type="text/javascript" src="https://a.slack-edge.com/1504/js/rollup-core_required_libs.js" crossorigin="anonymous"></script>
-<script type="text/javascript" src="https://a.slack-edge.com/125e0/js/rollup-core_web.js" crossorigin="anonymous"></script>
 
 {% include analytics.html %}
 

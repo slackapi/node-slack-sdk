@@ -53,7 +53,7 @@ will buffer until the client is in a state where they can be sent.
 If the awaitReply parameter is set to true, then the returned Promise is resolved with the platform's
 acknowledgement response. Not all message types will result in an acknowledgement response, so use this carefully.
 This promise may be rejected with an error containing code=RTMNoReplyReceivedError if the client disconnects or
-reconnects before recieving the acknowledgement response.
+reconnects before receiving the acknowledgement response.
 
 If the awaitReply parameter is set to false, then the returned Promise is resolved as soon as the message is sent
 from the websocket.
