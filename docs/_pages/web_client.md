@@ -667,16 +667,12 @@ async function getAuthorizationToken(teamId, enterpriseId) {
 
 ### Manually handling token rotation (deprecated)
 
-> WARNING: This feature is only supported for the now-deprecated workspace app tokens (xoxa). Token rotation will be
-> available in the future to classic Slack apps in a couple of months. You may find more details [on the related blog
-> post.](https://medium.com/slack-developer-blog/an-update-on-workspace-apps-aabc9e42a98b).
+> Before implementing it on your own, it's suggested you read through the [token rotation
+> documentation](http://api.slack.com/docs/rotating-and-refreshing-credentials).
 
-Note: Before implementing it on your own, it's suggested you read through the [token rotation
-documentation](http://api.slack.com/docs/rotating-and-refreshing-credentials).
-
-If you need more control over token refreshing, you don't need to pass in your refresh token, client ID, or client
-secret. However, you'll need to listen for `invalid_auth` errors and make calls to `oauth.access` to fetch new access
-tokens:
+If you need more control over token refreshing, you don't need to initialize the `WebClient` with a refresh token,
+client ID, or client secret. However, you'll need to listen for `invalid_auth` errors and make calls to `oauth.access`
+to fetch new access tokens:
 
 ```javascript
 const { WebClient } = require('@slack/client');
@@ -688,49 +684,40 @@ const secret = process.env.SLACK_CLIENT_SECRET;
 
 const web = new WebClient(accessToken);
 
-function refreshToken() {
-  // Custom logic to refresh a token, possibly purging other stale data from db
-  return new Promise((resolve, reject) => {
-    web.oauth.access({
-      client_id: id,
-      client_secret: secret,
-      grant_type: 'refresh_token',
-      refresh_token: refreshToken
-    }).then((res) => {
-      /* Response contains new access token and time until expiration
-       * {
-       *    "access_token": "xoxa-...",
-       *    "expires_in": 86400,
-       *    "team_id": "T12345",
-       *    "enterprise_id": "E1234A12AB"
-       * }
-       */
-      accessToken = res.access_token;
-      // web.token allows you to update the access token for WebClient
-      web.token = accessToken;
-      // Probably purge stale data from db at this point
-
-      resolve();
-    }).catch((err) => {
-      console.log(err);
-      reject();
-    });
+// Example custom logic to refresh a token
+async function refreshToken() {
+  // See: https://api.slack.com/methods/oauth.access
+  const res = await web.oauth.access({
+    client_id: id,
+    client_secret: secret,
+    grant_type: 'refresh_token',
+    refresh_token: refreshToken
   });
+
+  // Result contains new access token and time until expiration
+  const accessToken = res.access_token;
+  // Update the access token on the WebClient instance
+  web.token = accessToken;
+  // Do other work...
+  // For example, this would be a good place to purge stale data from a database
 }
 
-function sendMessage(msg) {
-  return web.chat.postMessage(msg)
-    .then(console.log)
-    .catch((error) => {
-      if (error.code === ErrorCode.PlatformError && error.data.error === 'invalid_auth') {
-        // This error could have occured because of an expired access token -- refresh, and try again.
-        return refreshToken()
-          .then(() => sendMessage(msg));
-      }
-      throw error;
-    })
+// A wrapper for chat.postMessage that knows how to invoke the custom token refresh function and retry
+async function sendMessage(msg) {
+  try {
+    return web.chat.postMessage(msg);
+  } catch (error) {
+    if (error.code === ErrorCode.PlatformError && error.data.error === 'invalid_auth') {
+      // This error could have occurred because of an expired access token -- refresh, and try again.
+      await refreshToken();
+      // NOTE: If the credentials are bad, this could potentially try again infinitely.
+      return sendMessage(msg);
+    }
+    throw error;
+  }
 }
 
-sendMessage({ channel: conversationId, text: 'Hello world!' })
-  .catch((error) => console.error(`failed to send message: ${error.message}`));
+(async () => {
+  const res = await sendMessage({ channel: conversationId, text: 'Hello world!' });
+})();
 ```
