@@ -18,9 +18,9 @@ headings:
     - title: OAuth token exchange
     - title: Using legacy message attachments
     - title: Using a callback instead of a Promise (deprecated)
-    - title: Calling methods on behalf of users (legacy)
-    - title: Using legacy refresh tokens
-    - title: Manually handling legacy token rotation
+    - title: Calling methods on behalf of users (deprecated)
+    - title: Using refresh tokens (deprecated)
+    - title: Manually handling token rotation (deprecated)
 
 ---
 
@@ -546,16 +546,16 @@ Note that when calling a method with no required arguments, you **still need to 
 
 ---
 
-### Calling methods on behalf of users (legacy)
+### Calling methods on behalf of users (deprecated)
 
-When using [user tokens](https://api.slack.com/docs/token-types#user), some methods allow your app to perform the action
-_on behalf of a user_. To use one of these methods, your app will provide the user's ID as an option named
+When using [workspace tokens](https://api.slack.com/docs/token-types#workspace), some methods allow your app to perform
+the action _on behalf of a user_. To use one of these methods, your app will provide the user's ID as an option named
 `on_behalf_of`.
 
 ```javascript
 const { WebClient } = require('@slack/client');
 
-// An access token (from your Slack app - xoxp)
+// An access token (from your Slack app - xoxa)
 const token = process.env.SLACK_TOKEN;
 
 // A user ID - this may be found in events or requests such as slash commands, interactive messages, actions, or dialogs
@@ -563,24 +563,23 @@ const userId = 'U0123456';
 
 const web = new WebClient(token);
 
-// https://api.slack.com/methods/users.identity
-web.users.identity({ on_behalf_of: userId })
-  .then((res) => {
-    // `res` contains information about the user. the specific structure depends on the scopes your app was allowed.
-    console.log(res);
-  })
-  .catch(console.error);
+(async () => {
+  // https://api.slack.com/methods/users.identity
+  const res = await web.users.identity({ on_behalf_of: userId });
+  // `res` contains information about the user. the specific structure depends on the scopes your app was allowed.
+  console.log(res);
+})();
 ```
 
 ---
 
-### Using legacy refresh tokens
+### Using refresh tokens (deprecated)
 
-If you're using workspace apps, refresh tokens can be used to obtain short-lived access tokens that power your Web API
-calls from the `WebClient` (this is *required* for distributed apps). This can increase the security of your app since,
-in the event of a token being exposed accidentally, it won't be able to be used against your app or users after a short
-time. To enable the `WebClient` to automatically refresh and swap your access tokens, you need to pass your app's
-refresh token, client ID, and client secret in the `WebClientOptions`.
+If you're using workspace apps, refresh tokens can be used to obtain short-lived access tokens for Web API calls from
+the `WebClient` (this is *required* for distributed apps). This can increase the security of your app since, in the
+event of a token being exposed accidentally, it won't be able to be used against your app or users after a short time.
+To enable the `WebClient` to automatically refresh and swap your access tokens, you need to pass your app's refresh
+token, client ID, and client secret in the `WebClientOptions`.
 
 At the time of refresh, the `WebClient` will emit a `token_refreshed` event that will contain the new access token
 (`access_token`), time to expiration (`expires_in`), an associated team ID (`team_id`), and an associated enterprise ID
@@ -596,8 +595,9 @@ const enterpriseId = process.env.SLACK_ENTERPRISE_ID;
 const clientId = process.env.SLACK_CLIENT_ID;
 const clientSecret = process.env.SLACK_CLIENT_SECRET;
 
+/* --- Example data access layer (this example stores data in memory, but a database is more typical) --- */
 
-// Initialize a data structure to store team access token info (typically stored in a database)
+// Initialize a data structure to store team access token info
 const slackAuthorizations = [];
 
 // Set authorization info in data structure
@@ -627,52 +627,45 @@ function getAuthorizationIndex(teamId, enterpriseId) {
 }
 
 // Get authorization from data structure
-function getAuthorizationToken(teamId, enterpriseId) {
-  return new Promise((resolve, reject) => {
-    const authIndex = getAuthorizationIndex(teamId, enterpriseId);
-    if (authIndex > -1) {
-      return slackAuthorizations[authIndex].accessToken;
-    } else {
-      return undefined;
-    }
-  });
+async function getAuthorizationToken(teamId, enterpriseId) {
+  const authIndex = getAuthorizationIndex(teamId, enterpriseId);
+  if (authIndex > -1) {
+    return slackAuthorizations[authIndex].accessToken;
+  } else {
+    return undefined;
+  }
 }
 
-// Initiate WebClient
-getAuthorization(teamId, enterpriseId).then((res) => {
-  // If authorization doesn't exist, res will be undefined and the WebClient will fetch token
+/*  --- App --- */
+
+(async () => {
+  // Find a token for a given team ID and enterprise ID
+  // If authorization doesn't exist, token will be undefined and the WebClient will fetch token before its first request
+  const token = await getAuthorizationToken(teamId, enterpriseId);
+
   // Instantiate the WebClient
-  const web = new WebClient(res, {
+  const web = new WebClient(token, {
     clientId: clientId,
     clientSecret: clientSecret,
     refreshToken: refreshToken
   });
 
+  // Every time a token is refreshed, a token_refreshed event is triggered
+  web.on('token_refreshed', (event) => {
+    // Store the new access token in a database to access it later
+    setAuthorization(event);
+    console.log(`Access token expires in ${event.expires_in}`);
+  });
+
   // WebClient is up and running, so let's post a message!
   const conversationId = 'C123456';
   web.chat.postMessage({ channel: conversationId, text: 'Hello world!'});
-});
-
-
-/* When a token is refreshed, a token_refreshed event is triggered:
- * {
- *    "access_token": "xoxa-...",
- *    "expires_in": 86400,
- *    "team_id": "T12345",
- *    "enterprise_id": "E1234A12AB"
- * }
- */
-web.on('token_refreshed', (event) => {
-  // It's recommended you store your new access token in a database to access it later
-  setAuthorization(event);
-
-  console.log(`Access token expires in ${event.expires_in}`);
-});
+})();
 ```
 
 ---
 
-### Manually handling legacy token rotation
+### Manually handling token rotation (deprecated)
 
 > WARNING: This feature is only supported for the now-deprecated workspace app tokens (xoxa). Token rotation will be
 > available in the future to classic Slack apps in a couple of months. You may find more details [on the related blog
