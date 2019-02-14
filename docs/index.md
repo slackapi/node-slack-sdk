@@ -16,9 +16,9 @@ notifications in channels to fully interactive bots.
 
 ## Requirements
 
-This package supports Node v6 and higher. It's highly recommended to use
-[the latest LTS version of node](https://github.com/nodejs/Release#release-schedule), and the documentation is written
-using syntax and features from that version.
+This package supports Node v6 LTS and higher. It's highly recommended to use [the latest LTS version of
+node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
+from that version.
 
 ## Installation
 
@@ -42,29 +42,21 @@ fits for your app.
 | Events API   | ⬜️       | ⬇️        | `@slack/events-api` | [README](https://github.com/slackapi/node-slack-events-api) |
 | Interactive Messages | ⬜️ | ⬇️      | `@slack/interactive-messages` | [README](https://github.com/slackapi/node-slack-interactive-messages) |
 
-**Just starting out?** We suggest starting at the
-[Getting Started guide]({{ site.baseurl }}{% link _pages/getting_started.md %}) which will walk you
-through building your first Slack app using Node.js.
+**Just starting out?** The [Getting Started guide](https://slackapi.github.io/node-slack-sdk/getting_started) will walk
+you through building your first Slack app using Node.js.
 
-**Not sure about which APIs are right for your app?** Read our
-[helpful blog post](https://medium.com/slack-developer-blog/getting-started-with-slacks-apis-f930c73fc889)
-that explains and compares the options. If you're still not sure,
-[reach out for help](#getting-help) and our community can guide you.
-
-**Upgrading from version 3?** The
-[migration guide](https://github.com/slackapi/node-slack-sdk/wiki/Migration-Guide-for-v4) has all the information you
-need to bring your app up to speed
+**Not sure about which APIs are right for your app?** Read our [helpful blog
+post](https://medium.com/slack-developer-blog/getting-started-with-slacks-apis-f930c73fc889) that explains and compares
+the options. If you're still not sure, [reach out for help](#getting-help) and our community can guide you.
 
 ---
 
-You'll notice that some of the API tools are not included in the `@slack/client` package.
-This reflects the fact that those tools function as HTTP servers, whereas this package contains
-the tools which function as HTTP clients. Separating these packages gives you the flexibility to
-only depend on the parts that fit into your app.
+You'll notice that some of the API tools are not included in the `@slack/client` package. This reflects the fact that
+those tools function as HTTP servers, whereas this package contains the tools which function as HTTP clients. Separating
+these packages gives you the flexibility to only depend on the parts that fit into your app.
 
-If you're looking for an all-in-one solution that hides the underlying Slack APIs, but
-simplifies building a bot-style app inside Slack, try the
-[Hubot Slack adapter](https://slackapi.github.io/hubot-slack/). This framework is popular for
+If you're looking for an all-in-one solution that hides the underlying Slack APIs, but simplifies building a bot-style
+app inside Slack, try the [Hubot Slack adapter](https://slackapi.github.io/hubot-slack/). This framework is popular for
 internal apps that automate workflows, perform ChatOps, or just generate silly memes.
 
 ## Getting Help
