@@ -43,9 +43,9 @@ Here are some of the common recipes for using the `WebClient` class.
 
 ### Posting a message
 
-Your app will interact with the Web API through the `WebClient` object, which a top level export from this package. At a
-minimum, you need to instantiate it with a token. The example below shows how to post a message into a channel, DM,
-MPDM, or group. This will require either the `bot`, `chat:user:write`, or `chat:bot:write` scope.
+Your app will interact with the Web API through the `WebClient` object, which a top level export from this package. You
+instantiate it with a token. The example below shows how to post a message into a channel, DM, MPDM, or group. This will
+require either the `bot`, `chat:user:write`, or `chat:bot:write` scope.
 
 ```javascript
 const { WebClient } = require('@slack/client');
