@@ -16,11 +16,11 @@ headings:
     - title: Customizing the logger
     - title: Custom agent for proxy support
     - title: OAuth token exchange
+    - title: Using legacy message attachments
     - title: Using a callback instead of a Promise (deprecated)
     - title: Calling methods on behalf of users (legacy)
     - title: Using legacy refresh tokens
     - title: Manually handling legacy token rotation
-    - title: Using legacy message attachments
 
 ---
 
@@ -483,6 +483,48 @@ const clientSecret = process.env.SLACK_CLIENT_SECRET;
 
 ---
 
+### Using legacy message attachments
+
+While we recommend using the more flexible top-level blocks to display message content, attachments are still supported
+anywhere you construct a message (like `chat.postMessage`). Just use the `attachments` key like you're accustomed to:
+
+```javascript
+(async () => {
+  const res = await web.chat.postMessage({
+    channel: conversationId,
+    text: 'Hello there',
+    attachments: [
+      {
+        fallback: 'Required plain-text summary of the attachment.',
+        color: '#36a64f',
+        author_name: 'Bobby Tables',
+        author_link: 'http://flickr.com/bobby/',
+        author_icon: 'http://flickr.com/icons/bobby.jpg',
+        title: 'Slack API Documentation',
+        title_link: 'https://api.slack.com/',
+        text: 'Optional text that appears within the attachment',
+        fields: [
+          {
+            title: 'Priority',
+            value: 'High',
+            short: false
+          }
+        ],
+        image_url: 'http://my-website.com/path/to/image.jpg',
+        thumb_url: 'http://example.com/path/to/thumb.png',
+        footer: 'Slack API',
+        footer_icon: 'https://platform.slack-edge.com/img/default_application_icon.png',
+        ts: 123456789
+      }
+    ]
+  });
+
+  // `res` contains information about the posted message
+  console.log('Message sent: ', res.ts);
+})();
+```
+---
+
 ### Using a callback instead of a Promise (deprecated)
 
 Every web API method can also be called with a callback function that takes `cb(error, response)`. If you prefer
@@ -698,47 +740,4 @@ function sendMessage(msg) {
 
 sendMessage({ channel: conversationId, text: 'Hello world!' })
   .catch((error) => console.error(`failed to send message: ${error.message}`));
-```
-
----
-
-### Using legacy message attachments
-
-While we recommend using the more flexible top-level blocks to display message content, attachments are still supported
-anywhere you construct a message (like `chat.postMessage`). Just use the `attachments` key like you're accustomed to:
-
-```javascript
-(async () => {
-  const res = await web.chat.postMessage({
-    channel: conversationId,
-    text: 'Hello there',
-    attachments: [
-      {
-        fallback: 'Required plain-text summary of the attachment.',
-        color: '#36a64f',
-        author_name: 'Bobby Tables',
-        author_link: 'http://flickr.com/bobby/',
-        author_icon: 'http://flickr.com/icons/bobby.jpg',
-        title: 'Slack API Documentation',
-        title_link: 'https://api.slack.com/',
-        text: 'Optional text that appears within the attachment',
-        fields: [
-          {
-            title: 'Priority',
-            value: 'High',
-            short: false
-          }
-        ],
-        image_url: 'http://my-website.com/path/to/image.jpg',
-        thumb_url: 'http://example.com/path/to/thumb.png',
-        footer: 'Slack API',
-        footer_icon: 'https://platform.slack-edge.com/img/default_application_icon.png',
-        ts: 123456789
-      }
-    ]
-  });
-
-  // `res` contains information about the posted message
-  console.log('Message sent: ', res.ts);
-})();
 ```
