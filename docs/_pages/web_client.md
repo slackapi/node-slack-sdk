@@ -337,8 +337,6 @@ value as the `cursor` argument. **NOTE**: It should be rare that your app needs 
 avoid that! With other methods, such as `conversations.list`, it would be more common to request the entire list of
 conversations, so that's what we're illustrating below.
 
-**TODO: TEST THE EXAMPLE BELOW**
-
 ```javascript
 const { WebClient } = require('@slack/client');
 
@@ -353,7 +351,7 @@ async function getAllChannels(options) {
     const mergedChannels = accumulatedChannels.concat(res.channels);
 
     // When a `next_cursor` exists, recursively call this function to get the next page.
-    if (res.response_metadata && res.response_metadata.next_cursor && && res.response_metadata.next_cursor !== '') {
+    if (res.response_metadata && res.response_metadata.next_cursor && res.response_metadata.next_cursor !== '') {
       // Make a copy of options
       const pageOptions = { ...options };
       // Add the `cursor` argument
