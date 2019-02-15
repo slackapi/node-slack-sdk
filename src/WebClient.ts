@@ -14,7 +14,7 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
 import { awaitAndReduce, callbackify, getUserAgent, delay, AgentOption, TLSOptions, agentForScheme } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
-import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
+import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc, isLoggingFunc } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
 import Method, * as methods from './methods'; // tslint:disable-line:import-name
 
@@ -161,7 +161,11 @@ export class WebClient extends EventEmitter {
 
     // Logging
     if (logger !== undefined) {
-      this.logger = loggerFromLoggingFunc(WebClient.loggerName, logger, logLevel);
+      if (isLoggingFunc(logger)) {
+        this.logger = loggerFromLoggingFunc(WebClient.loggerName, logger, logLevel);
+      } else {
+        this.logger = logger;
+      }
     } else {
       this.logger = getLogger(WebClient.loggerName, logLevel);
     }
@@ -881,7 +885,7 @@ export default WebClient;
 
 export interface WebClientOptions {
   slackApiUrl?: string;
-  logger?: LoggingFunc;
+  logger?: Logger | LoggingFunc;
   logLevel?: LogLevel;
   maxRequestConcurrency?: number;
   retryConfig?: RetryOptions;

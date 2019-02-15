@@ -1,11 +1,11 @@
 import { RTMClient, ErrorCode } from './';
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
-import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
+import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc, isLoggingFunc } from './logger';
 import { errorWithCode } from './errors';
 const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 export interface KeepAliveOptions {
-  logger?: LoggingFunc;
+  logger?: Logger | LoggingFunc;
   logLevel?: LogLevel;
   // how long (in ms) to wait before sending a ping message to keep the connection alive
   clientPingTimeout?: number;
@@ -95,7 +95,11 @@ export class KeepAlive extends EventEmitter {
 
     // Logging
     if (logger !== undefined) {
-      this.logger = loggerFromLoggingFunc(KeepAlive.loggerName, logger, logLevel);
+      if (isLoggingFunc(logger)) {
+        this.logger = loggerFromLoggingFunc(KeepAlive.loggerName, logger, logLevel);
+      } else {
+        this.logger = logger;
+      }
     } else {
       this.logger = getLogger(KeepAlive.loggerName, logLevel);
     }

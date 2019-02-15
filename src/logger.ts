@@ -187,6 +187,13 @@ export function loggerFromLoggingFunc(name: string, loggingFunc: LoggingFunc, le
   return logger;
 }
 
+/**
+ * INTERNAL determine if a value is a LoggingFunc
+ */
+export function isLoggingFunc(l: Logger | LoggingFunc): l is LoggingFunc {
+  return (l as Logger).debug === undefined;
+}
+
 /* Helpers for loggerFromLoggingFunc */
 
 const severityByLogLevel: { [key in LogLevel]: number } = {
