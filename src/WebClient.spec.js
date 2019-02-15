@@ -52,12 +52,26 @@ describe('WebClient', function () {
     });
   });
 
-  describe('has an option to provide a logging function', function () {
+  describe('has a logger option', function () {
     beforeEach(function () {
       this.capture = new CaptureConsole();
       this.capture.startCapture();
+      this.logger = {
+        debug: sinon.spy(),
+        info: sinon.spy(),
+        warn: sinon.spy(),
+        error: sinon.spy(),
+        setLevel: sinon.spy(),
+        setName: sinon.spy(),
+      };
     });
-    it('sends logs to the function and not to stdout', function () {
+    it('sends logs to a logger and not to stdout', function () {
+      const debuggingClient = new WebClient(token, { logLevel: LogLevel.DEBUG, logger: this.logger });
+      assert.isTrue(this.logger.debug.called);
+      const capturedOutput = this.capture.getCapturedText();
+      assert.isEmpty(capturedOutput);
+    });
+    it('sends logs to a logger function and not to stdout', function () {
       const output = [];
       const stub = function (level, message) {
         output.push([level, message]);
