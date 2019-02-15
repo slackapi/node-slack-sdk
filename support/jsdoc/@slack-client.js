@@ -1,4 +1,4 @@
-/** 
+/**
  * @module @slack/client
  */
 
@@ -109,8 +109,59 @@ export class IncomingWebhookSendArguments {
 }
 
 /**
- * Interface for functions where this package's logs can be re-routed (the default is to use stdout)
+ * Interface for objects where objects in this package's logs can be sent (can be used as `logger` option).
+ * @interface module:@slack/client.Logger
+ */
+export class Logger {
+  /**
+   * Output debug message
+   * @param {Array<any>} msg any data to log
+   * @function module:@slack/client.Logger#debug
+   */
+  debug() {}
+
+  /**
+   * Output error message
+   * @param {Array<any>} msg any data to log
+   * @function module:@slack/client.Logger#error
+   */
+  error() {}
+
+  /**
+   * Output info message
+   * @param {Array<any>} msg any data to log
+   * @function module:@slack/client.Logger#info
+   */
+  info() {}
+
+  /**
+   * This disables all logging below the given level, so that after a log.setLevel("warn") call log.warn("something")
+   * or log.error("something") will output messages, but log.info("something") will not.
+   * @param {module:@slack/client/dist/logger.LogLevel} level as a string, like 'error' (case-insensitive)
+   * @function module:@slack/client.Logger#setLevel
+   */
+  setLevel() {}
+
+  /**
+   * This allows the instance to be named so that they can easily be filtered when many loggers are sending output
+   * to the same destination.
+   * @param {string} name as a string, will be output with every log after the level
+   * @function module:@slack/client.Logger#setName
+   */
+  setName() {}
+
+  /**
+   * Output warn message
+   * @param {Array<any>} msg any data to log
+   * @function module:@slack/client.Logger#warn
+   */
+  warn() {}
+}
+
+/**
+ * Interface for functions where this package's logs can be re-routed
  * @interface module:@slack/client.LoggingFunc
+ * @deprecated
  */
 export class LoggingFunc {
 }
@@ -161,12 +212,12 @@ export class RTMClient {
    * Generic method for sending an outgoing message of an arbitrary type. This method guards the higher-level methods
    * from concern of which state the client is in, because it places all messages into a queue. The tasks on the queue
    * will buffer until the client is in a state where they can be sent.
-   * 
+   *
    * If the awaitReply parameter is set to true, then the returned Promise is resolved with the platform's
    * acknowledgement response. Not all message types will result in an acknowledgement response, so use this carefully.
    * This promise may be rejected with an error containing code=RTMNoReplyReceivedError if the client disconnects or
    * reconnects before receiving the acknowledgement response.
-   * 
+   *
    * If the awaitReply parameter is set to false, then the returned Promise is resolved as soon as the message is sent
    * from the websocket.
    * @param {"undefined"} awaitReply whether to wait for an acknowledgement response from the platform before resolving the returned
@@ -263,7 +314,7 @@ previous calls to this method.
 /**
  * @interface module:@slack/client.RTMClientOptions
  * @property {string} [slackApiUrl]
- * @property {module:@slack/client.LoggingFunc} [logger]
+ * @property {module:@slack/client.Logger | module:@slack/client.LoggingFunc} [logger] Custom logger. Using a LoggingFunc is deprecated.
  * @property {module:@slack/client/dist/logger.LogLevel} [logLevel]
  * @property {module:@slack/client.RetryOptions} [retryConfig]
  * @property {module:http.Agent} [agent]
@@ -399,7 +450,7 @@ export class WebAPIResultCallback {
 
 /**
  * A client for Slack's Web API
- * 
+ *
  * This client provides an alias for each {@link https://api.slack.com/methods|Web API method}. Each method is
  * a convenience wrapper for calling the {@link WebClient#apiCall} method using the method name as the first parameter.
  * @extends EventEmitter
@@ -439,7 +490,7 @@ export class WebClient {
 /**
  * @interface module:@slack/client.WebClientOptions
  * @property {string} [slackApiUrl]
- * @property {module:@slack/client.LoggingFunc} [logger]
+ * @property {module:@slack/client.Logger | module:@slack/client.LoggingFunc} [logger] Custom logger. Using a LoggingFunc is deprecated.
  * @property {module:@slack/client/dist/logger.LogLevel} [logLevel]
  * @property {number} [maxRequestConcurrency]
  * @property {module:@slack/client.RetryOptions} [retryConfig]
