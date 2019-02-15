@@ -21,7 +21,7 @@ headings:
     - title: Using legacy refresh tokens
     - title: Manually handling legacy token rotation
     - title: Using legacy message attachments
-    
+
 ---
 
 This package includes a web client that makes it simple to use the [Slack Web API
@@ -72,8 +72,8 @@ web.chat.postMessage({ channel: conversationId, text: 'Hello there' })
 
 ### Customizing a message layout
 
-The `chat.postMessage` method takes an optional `blocks` argument that allows you to customize the layout of a message. 
-Blocks for Web API methods are all specified in a single object literal, so just add additional keys for any 
+The `chat.postMessage` method takes an optional `blocks` argument that allows you to customize the layout of a message.
+Blocks for Web API methods are all specified in a single object literal, so just add additional keys for any
 optional argument.
 
 [Learn more about customize message layouts on the API site](https://api.slack.com/messaging/composing/layouts).
@@ -426,8 +426,31 @@ not log anything as long as nothing goes wrong.
 You can adjust the log level by setting the `logLevel` option to any of the values found in the `LogLevel` top-level
 export.
 
-You can also capture the logs without writing them to stdout by setting the `logger` option. It should be set to a
-function that takes `fn(level: string, message: string)`.
+```javascript
+const fs = require('fs');
+const { WebClient, LogLevel } = require('@slack/client');
+
+// increased logging, great for debugging
+const web = new WebClient(token, { logLevel: LogLevel.DEBUG });
+```
+
+You can also capture the logs without writing them to stdout by setting the `logger` option. The option should be set
+to an object that has the following methods:
+
+**Logger**
+
+| Method       | Parameters        | Return type |
+|--------------|-------------------|-------------|
+| `setLevel()` | `level: LogLevel` | `void`      |
+| `setName()`  | `name: string`    | `void`      |
+| `debug()`    | `...msgs: any[]`  | `void`      |
+| `info()`     | `...msgs: any[]`  | `void`      |
+| `warn()`     | `...msgs: any[]`  | `void`      |
+| `error()`    | `...msgs: any[]`  | `void`      |
+
+
+**NOTE**: The option can also take a function with the following signature, but this usage is deprecated:
+`fn(level: string, message: string)`.
 
 ```javascript
 const fs = require('fs');
@@ -440,11 +463,15 @@ const logStream = fs.createWriteStream('/tmp/app.log');
 const token = process.env.SLACK_TOKEN;
 logStream.on('open', () => {
   const web = new WebClient(token, {
-    // increased logging, great for debugging
-    logLevel: LogLevel.DEBUG,
-    logger: (level, message) => {
-      // write to disk
-      logStream.write(`[${level}]: ${message}`);
+    // write all messages to disk
+    logger: {
+      debug(...msgs) { logStream.write(JSON.stringify(msgs)); }
+      info(...msgs) { logStream.write(JSON.stringify(msgs)); }
+      warn(...msgs) { logStream.write(JSON.stringify(msgs)); }
+      error(...msgs) { logStream.write(JSON.stringify(msgs)); }
+      // these methods are noops because this custom logger will write everything to disk (all levels)
+      setLevel(){},
+      setName(){},
     }
   });
 });
@@ -684,7 +711,7 @@ sendMessage({ channel: conversationId, text: 'Hello world!' })
 
 ### Using legacy message attachments
 
-While we recommend using the more flexible top-level blocks to display message content, attachments are still supported anywhere you construct a message (like `chat.postMessage`). Just use the `attachments` key like you're 
+While we recommend using the more flexible top-level blocks to display message content, attachments are still supported anywhere you construct a message (like `chat.postMessage`). Just use the `attachments` key like you're
 accustomed to:
 
 ```javascript

@@ -307,10 +307,31 @@ not log anything as long as nothing goes wrong.
 You can adjust the log level by setting the `logLevel` option to any of the values found in the `LogLevel` top-level
 export.
 
-You can also capture the logs without writing them to stdout by setting the `logger` option. It should be set to a
-function that takes `fn(level: string, message: string)`.
+```javascript
+const fs = require('fs');
+const { RTMClient, LogLevel } = require('@slack/client');
 
-**Note** `logLevel: LogLevel.DEBUG` should not be used in production. Debug is helpful for diagnosing issues but it is a bad idea to use this in production because it will log the contents of messages in the RTMClient.
+// increased logging, great for debugging
+const rtm = new RTMClient(token, { logLevel: LogLevel.DEBUG });
+```
+
+You can also capture the logs without writing them to stdout by setting the `logger` option. The option should be set
+to an object that has the following methods:
+
+**Logger**
+
+| Method       | Parameters        | Return type |
+|--------------|-------------------|-------------|
+| `setLevel()` | `level: LogLevel` | `void`      |
+| `setName()`  | `name: string`    | `void`      |
+| `debug()`    | `...msgs: any[]`  | `void`      |
+| `info()`     | `...msgs: any[]`  | `void`      |
+| `warn()`     | `...msgs: any[]`  | `void`      |
+| `error()`    | `...msgs: any[]`  | `void`      |
+
+
+**NOTE**: The option can also take a function with the following signature, but this usage is deprecated:
+`fn(level: string, message: string)`.
 
 ```javascript
 const fs = require('fs');
@@ -323,11 +344,15 @@ const logStream = fs.createWriteStream('/tmp/app.log');
 const token = process.env.SLACK_TOKEN;
 logStream.on('open', () => {
   const rtm = new RTMClient(token, {
-    // increased logging, great for debugging
-    logLevel: LogLevel.DEBUG,
-    logger: (level, message) => {
-      // write to disk
-      logStream.write(`[${level}]: ${message}`);
+    // write all messages to disk
+    logger: {
+      debug(...msgs) { logStream.write(JSON.stringify(msgs)); }
+      info(...msgs) { logStream.write(JSON.stringify(msgs)); }
+      warn(...msgs) { logStream.write(JSON.stringify(msgs)); }
+      error(...msgs) { logStream.write(JSON.stringify(msgs)); }
+      // these methods are noops because this custom logger will write everything to disk (all levels)
+      setLevel(){},
+      setName(){},
     }
   });
 });
