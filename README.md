@@ -10,12 +10,6 @@ So you want to build a Slack app with Node.js? We've got you covered. This packa
 apps ridiculously easy. It helps you build on all aspects of the Slack platform, from dropping notifications in channels
 to fully interactive bots.
 
-## Requirements
-
-This package supports Node v6 LTS and higher. It's highly recommended to use [the latest LTS version of
-node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
-from that version.
-
 ## Installation
 
 Use npm to install the package and save it to your `package.json`:
@@ -110,7 +104,7 @@ rtm.on('ready', async () => {
 
 See the [guide](http://slackapi.github.io/node-slack-sdk/rtm_api) for more details.
 
-## Posting a message with Incoming Webhooks
+### Posting a message with Incoming Webhooks
 
 [Incoming webhooks](https://api.slack.com/incoming-webhooks) are an easy way to send notifications
 to a Slack channel with a minimum of setup. You'll need a webhook URL from a Slack app or a custom
@@ -130,6 +124,12 @@ webhook.send('Hello there', function(err, res) {
     }
 });
 ```
+
+## Requirements
+
+This package supports Node v6 LTS and higher. It's highly recommended to use [the latest LTS version of
+node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
+from that version.
 
 ## Getting Help
 

@@ -14,12 +14,6 @@ So you want to build a Slack app with Node.js? We've got you covered. {{ site.pr
 building Slack apps ridiculously easy. It helps you build on all aspects of the Slack platform, from dropping
 notifications in channels to fully interactive bots.
 
-## Requirements
-
-This package supports Node v6 LTS and higher. It's highly recommended to use [the latest LTS version of
-node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
-from that version.
-
 ## Installation
 
 Use npm to install the package and save it to your `package.json`:
@@ -58,6 +52,12 @@ these packages gives you the flexibility to only depend on the parts that fit in
 If you're looking for an all-in-one solution that hides the underlying Slack APIs, but simplifies building a bot-style
 app inside Slack, try the [Hubot Slack adapter](https://slackapi.github.io/hubot-slack/). This framework is popular for
 internal apps that automate workflows, perform ChatOps, or just generate silly memes.
+
+## Requirements
+
+This package supports Node v6 LTS and higher. It's highly recommended to use [the latest LTS version of
+node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
+from that version.
 
 ## Getting Help
 

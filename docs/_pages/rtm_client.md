@@ -83,7 +83,7 @@ where your bot is a member. The client can handle message events using the `on('
 
 ```javascript
 const { RTMClient } = require('@slack/client');
-// SNIP: the initialization code shown above is skipped for brevity
+// The initialization code shown above is skipped for brevity
 
 rtm.on('message', (message) => {
   // For structure of `message`, see https://api.slack.com/events/message
@@ -176,7 +176,7 @@ subtypes](https://api.slack.com/events/message#message_subtypes), just format th
 
 ```javascript
 const { RTMClient } = require('@slack/client');
-// SNIP: the initialization code shown above is skipped for brevity
+// The initialization code shown above is skipped for brevity
 
 rtm.on(`message::channel_name`, (event) => {
   // For structure of `event`, see https://api.slack.com/events/message/channel_name
@@ -196,7 +196,7 @@ is a member and visible to its scopes) is communicated as an event as well. For 
 
 ```javascript
 const { RTMClient } = require('@slack/client');
-// SNIP: the initialization code shown above is skipped for brevity
+// The initialization code shown above is skipped for brevity
 
 rtm.on('reaction_added', (event) => {
   // For structure of `event`, see https://api.slack.com/events/reaction_added
