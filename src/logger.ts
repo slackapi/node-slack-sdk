@@ -68,7 +68,7 @@ export class ConsoleLogger implements Logger {
   /** Name */
   private name: string;
   /** Map of labels for each log level */
-  private labels: Map<LogLevel, string> = (() => {
+  private static labels: Map<LogLevel, string> = (() => {
     const entries = objectEntries(LogLevel) as ([string, LogLevel])[];
     const map = entries.map(([key, value]) => {
       return [value, `[${key}] `] as [LogLevel, string];
@@ -76,7 +76,7 @@ export class ConsoleLogger implements Logger {
     return new Map(map);
   })();
   /** Map of severity as comparable numbers for each log level */
-  private severity: { [key in LogLevel]: number } = {
+  private static severity: { [key in LogLevel]: number } = {
     [LogLevel.ERROR]: 400,
     [LogLevel.WARN]: 300,
     [LogLevel.INFO]: 200,
@@ -106,40 +106,40 @@ export class ConsoleLogger implements Logger {
    * Log a debug message
    */
   public debug(...msg: any[]): void {
-    if (this.isMoreOrEqualSevere(LogLevel.DEBUG, this.level)) {
-      console.debug(this.labels.get(LogLevel.DEBUG), this.name, ...msg);
+    if (ConsoleLogger.isMoreOrEqualSevere(LogLevel.DEBUG, this.level)) {
+      console.debug(ConsoleLogger.labels.get(LogLevel.DEBUG), this.name, ...msg);
     }
   }
   /**
    * Log an info message
    */
   public info(...msg: any[]): void {
-    if (this.isMoreOrEqualSevere(LogLevel.INFO, this.level)) {
-      console.info(this.labels.get(LogLevel.INFO), this.name, ...msg);
+    if (ConsoleLogger.isMoreOrEqualSevere(LogLevel.INFO, this.level)) {
+      console.info(ConsoleLogger.labels.get(LogLevel.INFO), this.name, ...msg);
     }
   }
   /**
    * Log a warning message
    */
   public warn(...msg: any[]): void {
-    if (this.isMoreOrEqualSevere(LogLevel.WARN, this.level)) {
-      console.warn(this.labels.get(LogLevel.WARN), this.name, ...msg);
+    if (ConsoleLogger.isMoreOrEqualSevere(LogLevel.WARN, this.level)) {
+      console.warn(ConsoleLogger.labels.get(LogLevel.WARN), this.name, ...msg);
     }
   }
   /**
    * Log an error message
    */
   public error(...msg: any[]): void {
-    if (this.isMoreOrEqualSevere(LogLevel.ERROR, this.level)) {
-      console.error(this.labels.get(LogLevel.ERROR), this.name, ...msg);
+    if (ConsoleLogger.isMoreOrEqualSevere(LogLevel.ERROR, this.level)) {
+      console.error(ConsoleLogger.labels.get(LogLevel.ERROR), this.name, ...msg);
     }
   }
 
   /**
    * Helper to compare two log levels and determine if a is equal or more severe than b
    */
-  private isMoreOrEqualSevere(a: LogLevel, b: LogLevel): boolean {
-    return this.severity[a] >= this.severity[b];
+  private static isMoreOrEqualSevere(a: LogLevel, b: LogLevel): boolean {
+    return ConsoleLogger.severity[a] >= ConsoleLogger.severity[b];
   }
 }
 
