@@ -420,8 +420,8 @@ failing with `Error`s which have a `code` property set to `errorCode.HTTPError`.
 
 ### Customizing the logger
 
-The `WebClient` also logs interesting events as it operates. By default, the log level is set to `info` and it should
-not log anything as long as nothing goes wrong.
+The `WebClient` also logs interesting events as it operates. By default, the log level is set to `LogLevel.INFO` and it
+should not log anything as long as nothing goes wrong.
 
 You can adjust the log level by setting the `logLevel` option to any of the values found in the `LogLevel` top-level
 export.
@@ -433,6 +433,10 @@ const { WebClient, LogLevel } = require('@slack/client');
 // increased logging, great for debugging
 const web = new WebClient(token, { logLevel: LogLevel.DEBUG });
 ```
+
+There are four logging levels: `LogLevel.DEBUG`, `LogLevel.INFO`, `LogLevel.WARN`, `LogLevel.ERROR`. Here they appear in
+order of increasing severity, which means that using `LogLevel.ERROR` will output the least number of messages, and only
+the most important.
 
 You can also capture the logs without writing them to stdout by setting the `logger` option. The option should be set
 to an object that has the following methods:
@@ -449,8 +453,8 @@ to an object that has the following methods:
 | `error()`    | `...msgs: any[]`  | `void`      |
 
 
-**NOTE**: The option can also take a function with the following signature, but this usage is deprecated:
-`fn(level: string, message: string)`.
+**NOTE**: While the use of logging functions is deprecated, the `logger` option will still currently accept a function
+whose method signature matches `fn(level: string, message: string)`.
 
 ```javascript
 const fs = require('fs');
