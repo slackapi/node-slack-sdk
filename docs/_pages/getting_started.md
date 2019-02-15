@@ -30,7 +30,7 @@ Let's configure our new app with proper permissions.
 ### Getting a token to use the Web API
 
 Navigate to "OAuth & Permissions" and scroll down to the section for scopes. Slack describes the various permissions
-your app could obtain from a user as **scopes**. There are a [ton of scopes](https://api.slack.com/scopes)! Some are
+your app could obtain from a user as **scopes**. There are [over 60 scopes](https://api.slack.com/scopes)! Some are
 broad and authorize your app to access lots of data, while others are very specific and let your app touch just a tiny
 sliver. Your users (and their IT admins) will have opinions about which data your app should access, so we recommend
 finding the scope(s) with the least amount of privilege for your app's needs. In this guide we will use the Web API to

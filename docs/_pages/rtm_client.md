@@ -184,7 +184,7 @@ rtm.on(`message::channel_name`, (event) => {
 });
 ```
 
-With this program running, when you rename a channel in which the bot is a member, you should see the log message.
+When the program is running and you rename a channel your bot is a member of, you should see the logged message.
 
 ---
 

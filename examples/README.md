@@ -1,7 +1,7 @@
 ## Examples
 
 This directory contains small example programs that you can copy to get started quickly. Try these examples out for
-yourself by cloning (or downloading) this repository, running `npm install` in this directory. Then run one of the
+yourself by cloning (or downloading) this repository and running `npm install` in this directory. Then run one of the
 programs (e.g. `node basic-web-client.js`). We recommend using the latest LTS version node.
 
 *  **Basic Web Client** (`basic-web-client.js`) -- Using the Slack Web API
