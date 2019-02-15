@@ -72,16 +72,11 @@ describe('WebClient', function () {
       assert.isEmpty(capturedOutput);
     });
     it('sends logs to a logger function and not to stdout', function () {
-      const output = [];
-      const stub = function (level, message) {
-        output.push([level, message]);
-      }
+      const stub = sinon.stub();
       const debuggingClient = new WebClient(token, { logLevel: LogLevel.DEBUG, logger: stub });
-      assert.isAtLeast(output.length, 1);
-      const firstOutput = output[0];
-      assert.lengthOf(firstOutput, 2);
-      const firstOutputLevel = firstOutput[0];
-      assert.equal(firstOutputLevel, 'debug');
+      assert.isTrue(stub.called);
+      const firstCall = stub.firstCall;
+      assert.isTrue(firstCall.calledWithMatch('debug'));
       const capturedOutput = this.capture.getCapturedText();
       assert.isEmpty(capturedOutput);
     });
