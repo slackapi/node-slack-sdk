@@ -346,11 +346,10 @@ export class RTMClient extends EventEmitter {
 
     // Logging
     if (logger !== undefined) {
-      this.logger = loggerFromLoggingFunc(RTMClient.loggerName, logger);
+      this.logger = loggerFromLoggingFunc(RTMClient.loggerName, logger, logLevel);
     } else {
-      this.logger = getLogger(RTMClient.loggerName);
+      this.logger = getLogger(RTMClient.loggerName, logLevel);
     }
-    this.logger.setLevel(logLevel);
 
     this.stateMachine = Finity.start(this.stateMachineConfig);
 
@@ -617,8 +616,9 @@ export class RTMClient extends EventEmitter {
       event = JSON.parse(data);
     } catch (parseError) {
       // prevent application from crashing on a bad message, but log an error to bring attention
-      this.logger.error(`unable to parse incoming websocket message: ${parseError.message}\n` +
-        `    message contents: "${data}"`);
+      this.logger.error(
+        `unable to parse incoming websocket message: ${parseError.message}\n    message contents: "${data}"`,
+      );
       return;
     }
 

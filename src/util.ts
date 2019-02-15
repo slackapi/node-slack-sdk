@@ -5,12 +5,7 @@ import objectEntries = require('object.entries'); // tslint:disable-line:no-requ
 const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 /**
- * For when you need a function that does nothing
- */
-export function noop(): void { } // tslint:disable-line:no-empty
-
-/**
- * Replaces occurences of '/' with ':' in a string, since '/' is meaningful inside User-Agent strings as a separator.
+ * Replaces occurrences of '/' with ':' in a string, since '/' is meaningful inside User-Agent strings as a separator.
  */
 function replaceSlashes(s: string): string {
   return s.replace('/', ':');

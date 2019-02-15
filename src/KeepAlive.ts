@@ -95,11 +95,10 @@ export class KeepAlive extends EventEmitter {
 
     // Logging
     if (logger !== undefined) {
-      this.logger = loggerFromLoggingFunc(KeepAlive.loggerName, logger);
+      this.logger = loggerFromLoggingFunc(KeepAlive.loggerName, logger, logLevel);
     } else {
-      this.logger = getLogger(KeepAlive.loggerName);
+      this.logger = getLogger(KeepAlive.loggerName, logLevel);
     }
-    this.logger.setLevel(logLevel);
   }
 
   /**

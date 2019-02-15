@@ -161,11 +161,10 @@ export class WebClient extends EventEmitter {
 
     // Logging
     if (logger !== undefined) {
-      this.logger = loggerFromLoggingFunc(WebClient.loggerName, logger);
+      this.logger = loggerFromLoggingFunc(WebClient.loggerName, logger, logLevel);
     } else {
-      this.logger = getLogger(WebClient.loggerName);
+      this.logger = getLogger(WebClient.loggerName, logLevel);
     }
-    this.logger.setLevel(logLevel);
 
     this.axios = axios.create({
       baseURL: slackApiUrl,
@@ -299,7 +298,7 @@ export class WebClient extends EventEmitter {
 
               // log warnings in response metadata
               if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
-                result.response_metadata.warnings.forEach(this.logger.warn);
+                result.response_metadata.warnings.forEach(this.logger.warn.bind(this.logger));
               }
 
               if (!result.ok) {

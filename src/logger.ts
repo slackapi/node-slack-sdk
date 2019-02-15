@@ -1,7 +1,4 @@
-import * as log from 'loglevel';
-import { noop } from './util';
-
-let instanceCount = 0;
+import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
 
 /**
  * Severity levels for log entries
@@ -14,41 +11,34 @@ export enum LogLevel {
 }
 
 /**
- * Interface for functions where this package's logs can be re-routed (the default is to use stdout)
- */
-export interface LoggingFunc {
-  (level: LogLevel, message: string): void;
-}
-
-/**
- * INTERNAL interface for components in this package that need a logging API
+ * Interface for objects where objects in this package's logs can be sent (can be used as `logger` option).
  */
 export interface Logger {
   /**
-   * Output debug message to console
+   * Output debug message
    *
-   * @param msg any data to log to the console
+   * @param msg any data to log
    */
   debug(...msg: any[]): void;
 
   /**
-   * Output info message to console
+   * Output info message
    *
-   * @param msg any data to log to the console
+   * @param msg any data to log
    */
   info(...msg: any[]): void;
 
   /**
-   * Output warn message to console
+   * Output warn message
    *
-   * @param msg any data to log to the console
+   * @param msg any data to log
    */
   warn(...msg: any[]): void;
 
   /**
-   * Output error message to console
+   * Output error message
    *
-   * @param msg any data to log to the console
+   * @param msg any data to log
    */
   error(...msg: any[]): void;
 
@@ -59,81 +49,152 @@ export interface Logger {
    * @param level as a string, like 'error' (case-insensitive)
    */
   setLevel(level: LogLevel): void;
+
+  /**
+   * This allows the instance to be named so that they can easily be filtered when many loggers are sending output
+   * to the same destination.
+   *
+   * @param name as a string, will be output with every log after the level
+   */
+  setName(name: string): void;
 }
+
+export class ConsoleLogger implements Logger {
+  private level: LogLevel;
+  private name: string;
+  private labels: Map<LogLevel, string> = (() => {
+    const entries = objectEntries(LogLevel) as ([string, LogLevel])[];
+    const map = entries.map(([key, value]) => {
+      return [value, `[${key}] `] as [LogLevel, string];
+    });
+    return new Map(map);
+  })();
+  private severity: { [key in LogLevel]: number } = {
+    [LogLevel.ERROR]: 400,
+    [LogLevel.WARN]: 300,
+    [LogLevel.INFO]: 200,
+    [LogLevel.DEBUG]: 100,
+  };
+
+  constructor() {
+    this.level = LogLevel.INFO;
+    this.name = '';
+  }
+
+  public setLevel(level: LogLevel): void {
+    this.level = level;
+  }
+
+  public setName(name: string): void {
+    this.name = name;
+  }
+
+  public debug(...msg: any[]): void {
+    if (this.isMoreOrEqualSevere(LogLevel.DEBUG, this.level)) {
+      console.debug(this.labels.get(LogLevel.DEBUG), this.name, ...msg);
+    }
+  }
+  public info(...msg: any[]): void {
+    if (this.isMoreOrEqualSevere(LogLevel.INFO, this.level)) {
+      console.info(this.labels.get(LogLevel.INFO), this.name, ...msg);
+    }
+  }
+  public warn(...msg: any[]): void {
+    if (this.isMoreOrEqualSevere(LogLevel.WARN, this.level)) {
+      console.warn(this.labels.get(LogLevel.WARN), this.name, ...msg);
+    }
+  }
+  public error(...msg: any[]): void {
+    if (this.isMoreOrEqualSevere(LogLevel.ERROR, this.level)) {
+      console.error(this.labels.get(LogLevel.ERROR), this.name, ...msg);
+    }
+  }
+
+  private isMoreOrEqualSevere(a: LogLevel, b: LogLevel): boolean {
+    return this.severity[a] >= this.severity[b];
+  }
+}
+
+/**
+ * Interface for functions where this package's logs can be re-routed
+ * @deprecated
+ */
+export interface LoggingFunc {
+  (level: LogLevel, message: string): void;
+}
+
+let instanceCount = 0;
 
 /**
  * INTERNAL interface for getting or creating a named Logger.
  */
-export function getLogger(name: string): Logger {
+export function getLogger(name: string, level?: LogLevel): Logger {
   // Get a unique ID for the logger.
   const instanceId = instanceCount;
   instanceCount += 1;
 
   // Set up the logger.
-  const logger = log.getLogger(name + instanceId);
-
-  // Wrap the original method factory with one that prepends custom information.
-  const originalFactory = logger.methodFactory;
-  logger.methodFactory = (methodName, logLevel, loggerName) => {
-    const logMessage = originalFactory(methodName, logLevel, loggerName);
-
-    // return a LoggingMethod
-    return (...msg) => {
-      // Prepend some info to the log message.
-      const segments = [`[${methodName.toUpperCase()}]`, loggerName].concat(msg);
-
-      // Daisy chain with the original method factory.
-      logMessage.apply(undefined, segments);
-    };
-  };
+  const logger = new ConsoleLogger();
+  logger.setName(`${name}:${instanceId}`);
+  if (level !== undefined) {
+    logger.setLevel(level);
+  }
 
   return logger;
 }
 
 /**
- * Decides whether `level` is more severe than the `threshold` for logging. When this returns true, logs should be
- * output.
- *
- * @param level log level to check
- * @param threshold lower bound on severity, expressed as a number inside the loglevel package
+ * INTERNAL function for transforming an external LoggingFunc type into the Logger interface.
  */
-function isMoreSevere(level: LogLevel, threshold: number): boolean {
-  if (level === LogLevel.DEBUG) {
-    return threshold <= 1;
-  }
-  if (level === LogLevel.INFO) {
-    return threshold <= 2;
-  }
-  if (level === LogLevel.WARN) {
-    return threshold <= 3;
-  }
-  if (level === LogLevel.ERROR) {
-    return threshold <= 4;
-  }
-  return true;
-}
-
-/**
- * INTERNAL function for transforming an external LoggingFunc type into the internal Logger interface.
- */
-export function loggerFromLoggingFunc(name: string, loggingFunc: LoggingFunc): Logger {
+export function loggerFromLoggingFunc(name: string, loggingFunc: LoggingFunc, level?: LogLevel): Logger {
   // Get a unique ID for the logger.
   const instanceId = instanceCount;
   instanceCount += 1;
 
+  let loggerName = `${name}:${instanceId}`;
+  let loggerLevel = level !== undefined ? level : LogLevel.INFO;
+
   // Set up the logger.
-  const logger = log.getLogger(name + instanceId);
-
-  // Set the method factory to reroute logs to the provided log function.
-  logger.methodFactory = (methodName: LogLevel, logLevel, loggerName) => {
-    if (isMoreSevere(methodName, logLevel)) {
-      return (...msg) => {
-        loggingFunc(methodName, `${loggerName} ${msg.map(m => JSON.stringify(m)).join(' ')}`);
-      };
-    }
-
-    return noop;
+  const logger: Logger = {
+    setLevel(level): void {
+      loggerLevel = level;
+    },
+    setName(name): void {
+      loggerName = name;
+    },
+    debug(...msg): void {
+      if (isMoreOrEqualSevere(LogLevel.DEBUG, loggerLevel)) {
+        loggingFunc(LogLevel.DEBUG, `${loggerName} ${msg.map(m => JSON.stringify(m)).join(' ')}`);
+      }
+    },
+    info(...msg): void {
+      if (isMoreOrEqualSevere(LogLevel.INFO, loggerLevel)) {
+        loggingFunc(LogLevel.INFO, `${loggerName} ${msg.map(m => JSON.stringify(m)).join(' ')}`);
+      }
+    },
+    warn(...msg): void {
+      if (isMoreOrEqualSevere(LogLevel.WARN, loggerLevel)) {
+        loggingFunc(LogLevel.WARN, `${loggerName} ${msg.map(m => JSON.stringify(m)).join(' ')}`);
+      }
+    },
+    error(...msg): void {
+      if (isMoreOrEqualSevere(LogLevel.ERROR, loggerLevel)) {
+        loggingFunc(LogLevel.ERROR, `${loggerName} ${msg.map(m => JSON.stringify(m)).join(' ')}`);
+      }
+    },
   };
 
   return logger;
+}
+
+/* Helpers for loggerFromLoggingFunc */
+
+const severityByLogLevel: { [key in LogLevel]: number } = {
+  [LogLevel.ERROR]: 400,
+  [LogLevel.WARN]: 300,
+  [LogLevel.INFO]: 200,
+  [LogLevel.DEBUG]: 100,
+};
+function isMoreOrEqualSevere(a: LogLevel, b: LogLevel): boolean {
+  return severityByLogLevel[a] >= severityByLogLevel[b];
 }
