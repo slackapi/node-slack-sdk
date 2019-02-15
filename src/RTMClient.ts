@@ -348,6 +348,7 @@ export class RTMClient extends EventEmitter {
     if (logger !== undefined) {
       if (isLoggingFunc(logger)) {
         this.logger = loggerFromLoggingFunc(RTMClient.loggerName, logger, logLevel);
+        this.logger.warn('Using a logging function is deprecated. Use a Logger object instead.');
       } else {
         this.logger = logger;
       }

@@ -97,6 +97,7 @@ export class KeepAlive extends EventEmitter {
     if (logger !== undefined) {
       if (isLoggingFunc(logger)) {
         this.logger = loggerFromLoggingFunc(KeepAlive.loggerName, logger, logLevel);
+        this.logger.warn('Using a logging function is deprecated. Use a Logger object instead.');
       } else {
         this.logger = logger;
       }
