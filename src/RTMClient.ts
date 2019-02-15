@@ -345,15 +345,11 @@ export class RTMClient extends EventEmitter {
     }, this);
 
     // Logging
-    if (logger !== undefined) {
-      if (isLoggingFunc(logger)) {
-        this.logger = loggerFromLoggingFunc(RTMClient.loggerName, logger, logLevel);
-        this.logger.warn('Using a logging function is deprecated. Use a Logger object instead.');
-      } else {
-        this.logger = logger;
-      }
+    if (logger !== undefined && isLoggingFunc(logger)) {
+      this.logger = loggerFromLoggingFunc(RTMClient.loggerName, logger, logLevel);
+      this.logger.warn('Using a logging function is deprecated. Use a Logger object instead.');
     } else {
-      this.logger = getLogger(RTMClient.loggerName, logLevel);
+      this.logger = getLogger(RTMClient.loggerName, logLevel, logger);
     }
 
     this.stateMachine = Finity.start(this.stateMachineConfig);
@@ -662,6 +658,7 @@ export default RTMClient;
 // NOTE: add an experimental flag to turn off KeepAlive
 export interface RTMClientOptions {
   slackApiUrl?: string;
+  /** Custom logger. Using a LoggingFunc is deprecated. */
   logger?: Logger | LoggingFunc;
   logLevel?: LogLevel;
   retryConfig?: RetryOptions;

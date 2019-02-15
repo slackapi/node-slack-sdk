@@ -5,11 +5,12 @@ import { errorWithCode } from './errors';
 const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 export interface KeepAliveOptions {
+  /** Custom logger. Using a LoggingFunc is deprecated. */
   logger?: Logger | LoggingFunc;
   logLevel?: LogLevel;
-  // how long (in ms) to wait before sending a ping message to keep the connection alive
+  /** How long (in ms) to wait before sending a ping message to keep the connection alive */
   clientPingTimeout?: number;
-  // how long (in ms) to wait for the acknowledgement of a ping message before considering the connection dead
+  /** How long (in ms) to wait for the acknowledgement of a ping message before considering the connection dead */
   serverPongTimeout?: number; // NOTE: this must be less than clientPingTimeout
 }
 
@@ -94,15 +95,11 @@ export class KeepAlive extends EventEmitter {
     this.recommendReconnect = false;
 
     // Logging
-    if (logger !== undefined) {
-      if (isLoggingFunc(logger)) {
-        this.logger = loggerFromLoggingFunc(KeepAlive.loggerName, logger, logLevel);
-        this.logger.warn('Using a logging function is deprecated. Use a Logger object instead.');
-      } else {
-        this.logger = logger;
-      }
+    if (logger !== undefined && isLoggingFunc(logger)) {
+      this.logger = loggerFromLoggingFunc(KeepAlive.loggerName, logger, logLevel);
+      this.logger.warn('Using a logging function is deprecated. Use a Logger object instead.');
     } else {
-      this.logger = getLogger(KeepAlive.loggerName, logLevel);
+      this.logger = getLogger(KeepAlive.loggerName, logLevel, logger);
     }
   }
 

@@ -59,9 +59,15 @@ export interface Logger {
   setName(name: string): void;
 }
 
+/**
+ * Default logger which logs to stdout and stderr
+ */
 export class ConsoleLogger implements Logger {
+  /** Setting for level */
   private level: LogLevel;
+  /** Name */
   private name: string;
+  /** Map of labels for each log level */
   private labels: Map<LogLevel, string> = (() => {
     const entries = objectEntries(LogLevel) as ([string, LogLevel])[];
     const map = entries.map(([key, value]) => {
@@ -69,6 +75,7 @@ export class ConsoleLogger implements Logger {
     });
     return new Map(map);
   })();
+  /** Map of severity as comparable numbers for each log level */
   private severity: { [key in LogLevel]: number } = {
     [LogLevel.ERROR]: 400,
     [LogLevel.WARN]: 300,
@@ -81,35 +88,56 @@ export class ConsoleLogger implements Logger {
     this.name = '';
   }
 
+  /**
+   * Sets the instance's log level so that only messages which are equal or more severe are output to the console.
+   */
   public setLevel(level: LogLevel): void {
     this.level = level;
   }
 
+  /**
+   * Set the instance's name, which will appear on each log line before the message.
+   */
   public setName(name: string): void {
     this.name = name;
   }
 
+  /**
+   * Log a debug message
+   */
   public debug(...msg: any[]): void {
     if (this.isMoreOrEqualSevere(LogLevel.DEBUG, this.level)) {
       console.debug(this.labels.get(LogLevel.DEBUG), this.name, ...msg);
     }
   }
+  /**
+   * Log an info message
+   */
   public info(...msg: any[]): void {
     if (this.isMoreOrEqualSevere(LogLevel.INFO, this.level)) {
       console.info(this.labels.get(LogLevel.INFO), this.name, ...msg);
     }
   }
+  /**
+   * Log a warning message
+   */
   public warn(...msg: any[]): void {
     if (this.isMoreOrEqualSevere(LogLevel.WARN, this.level)) {
       console.warn(this.labels.get(LogLevel.WARN), this.name, ...msg);
     }
   }
+  /**
+   * Log an error message
+   */
   public error(...msg: any[]): void {
     if (this.isMoreOrEqualSevere(LogLevel.ERROR, this.level)) {
       console.error(this.labels.get(LogLevel.ERROR), this.name, ...msg);
     }
   }
 
+  /**
+   * Helper to compare two log levels and determine if a is equal or more severe than b
+   */
   private isMoreOrEqualSevere(a: LogLevel, b: LogLevel): boolean {
     return this.severity[a] >= this.severity[b];
   }
@@ -128,13 +156,16 @@ let instanceCount = 0;
 /**
  * INTERNAL interface for getting or creating a named Logger.
  */
-export function getLogger(name: string, level?: LogLevel): Logger {
+export function getLogger(name: string, level: LogLevel, existingLogger?: Logger): Logger {
   // Get a unique ID for the logger.
   const instanceId = instanceCount;
   instanceCount += 1;
 
   // Set up the logger.
-  const logger = new ConsoleLogger();
+  const logger: Logger = (() => {
+    if (existingLogger !== undefined) { return existingLogger; }
+    return new ConsoleLogger();
+  })();
   logger.setName(`${name}:${instanceId}`);
   if (level !== undefined) {
     logger.setLevel(level);
@@ -196,12 +227,19 @@ export function isLoggingFunc(l: Logger | LoggingFunc): l is LoggingFunc {
 
 /* Helpers for loggerFromLoggingFunc */
 
+/**
+ * Map of comparable severity values for each log level
+ */
 const severityByLogLevel: { [key in LogLevel]: number } = {
   [LogLevel.ERROR]: 400,
   [LogLevel.WARN]: 300,
   [LogLevel.INFO]: 200,
   [LogLevel.DEBUG]: 100,
 };
+
+/**
+ * Helper to compare two log levels and determine if a is equal or more severe than b
+ */
 function isMoreOrEqualSevere(a: LogLevel, b: LogLevel): boolean {
   return severityByLogLevel[a] >= severityByLogLevel[b];
 }

@@ -160,15 +160,11 @@ export class WebClient extends EventEmitter {
     this.rejectRateLimitedCalls = rejectRateLimitedCalls;
 
     // Logging
-    if (logger !== undefined) {
-      if (isLoggingFunc(logger)) {
-        this.logger = loggerFromLoggingFunc(WebClient.loggerName, logger, logLevel);
-        this.logger.warn('Using a logging function is deprecated. Use a Logger object instead.');
-      } else {
-        this.logger = logger;
-      }
+    if (logger !== undefined && isLoggingFunc(logger)) {
+      this.logger = loggerFromLoggingFunc(WebClient.loggerName, logger, logLevel);
+      this.logger.warn('Using a logging function is deprecated. Use a Logger object instead.');
     } else {
-      this.logger = getLogger(WebClient.loggerName, logLevel);
+      this.logger = getLogger(WebClient.loggerName, logLevel, logger);
     }
 
     this.axios = axios.create({
@@ -886,6 +882,7 @@ export default WebClient;
 
 export interface WebClientOptions {
   slackApiUrl?: string;
+  /** Custom logger. Using a LoggingFunc is deprecated. */
   logger?: Logger | LoggingFunc;
   logLevel?: LogLevel;
   maxRequestConcurrency?: number;
