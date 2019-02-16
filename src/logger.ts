@@ -177,13 +177,13 @@ export function getLogger(name: string, level: LogLevel, existingLogger?: Logger
 /**
  * INTERNAL function for transforming an external LoggingFunc type into the Logger interface.
  */
-export function loggerFromLoggingFunc(name: string, loggingFunc: LoggingFunc, level?: LogLevel): Logger {
+export function loggerFromLoggingFunc(name: string, loggingFunc: LoggingFunc, level: LogLevel): Logger {
   // Get a unique ID for the logger.
   const instanceId = instanceCount;
   instanceCount += 1;
 
   let loggerName = `${name}:${instanceId}`;
-  let loggerLevel = level !== undefined ? level : LogLevel.INFO;
+  let loggerLevel = level;
 
   // Set up the logger.
   const logger: Logger = {
