@@ -9,9 +9,9 @@ headings:
 
 ## Posting a message with Incoming Webhooks
 
-[Incoming webhooks](https://api.slack.com/incoming-webhooks) are an easy way to send notifications
-to a Slack channel with a minimum of setup. You'll need a webhook URL from a Slack app or a custom
-integration to use the `IncomingWebhook` class.
+[Incoming webhooks](https://api.slack.com/incoming-webhooks) are an easy way to send notifications to a Slack channel
+with a minimum of setup. You'll need a webhook URL from a Slack app or a custom integration to use the `IncomingWebhook`
+class.
 
 ```javascript
 const { IncomingWebhook } = require('@slack/client');
