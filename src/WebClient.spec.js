@@ -52,22 +52,31 @@ describe('WebClient', function () {
     });
   });
 
-  describe('has an option to provide a logging function', function () {
+  describe('has a logger option', function () {
     beforeEach(function () {
       this.capture = new CaptureConsole();
       this.capture.startCapture();
+      this.logger = {
+        debug: sinon.spy(),
+        info: sinon.spy(),
+        warn: sinon.spy(),
+        error: sinon.spy(),
+        setLevel: sinon.spy(),
+        setName: sinon.spy(),
+      };
     });
-    it('sends logs to the function and not to stdout', function () {
-      const output = [];
-      const stub = function (level, message) {
-        output.push([level, message]);
-      }
+    it('sends logs to a logger and not to stdout', function () {
+      const debuggingClient = new WebClient(token, { logLevel: LogLevel.DEBUG, logger: this.logger });
+      assert.isTrue(this.logger.debug.called);
+      const capturedOutput = this.capture.getCapturedText();
+      assert.isEmpty(capturedOutput);
+    });
+    it('sends logs to a logger function and not to stdout', function () {
+      const stub = sinon.stub();
       const debuggingClient = new WebClient(token, { logLevel: LogLevel.DEBUG, logger: stub });
-      assert.isAtLeast(output.length, 1);
-      const firstOutput = output[0];
-      assert.lengthOf(firstOutput, 2);
-      const firstOutputLevel = firstOutput[0];
-      assert.equal(firstOutputLevel, 'debug');
+      assert.isTrue(stub.called);
+      const call = stub.lastCall;
+      assert.isTrue(call.calledWithMatch('debug'));
       const capturedOutput = this.capture.getCapturedText();
       assert.isEmpty(capturedOutput);
     });
@@ -102,15 +111,18 @@ describe('WebClient', function () {
       });
 
       it('should send warnings to logs', function() {
-        const output = [];
-        const stub = function (level, message) {
-          output.push([level, message]);
-        }
-        const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger: stub });
+        const logger = {
+          debug: sinon.spy(),
+          info: sinon.spy(),
+          warn: sinon.spy(),
+          error: sinon.spy(),
+          setLevel: sinon.spy(),
+          setName: sinon.spy(),
+        };
+        const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
         return warnClient.apiCall('method')
-          .then((result) => {
-            assert.isNotEmpty(output);
-            assert.lengthOf(output, 2, 'two logs pushed onto output');
+          .then(() => {
+            assert.isTrue(logger.warn.calledTwice);
           });
       });
 
@@ -1129,6 +1141,15 @@ describe('WebClient', function () {
       assert.isNotEmpty(output);
       const warning = output[0];
       assert.match(warning, /^\[WARN\]/);
+      this.capture.stopCapture();
+      done();
+    });
+    it('should warn when using a logging func', function (done) {
+      const stub = sinon.spy();
+      new WebClient(token, { logger: stub });
+      assert.isTrue(stub.called);
+      const call = stub.firstCall;
+      assert.isTrue(call.calledWithMatch('warn'));
       this.capture.stopCapture();
       done();
     });

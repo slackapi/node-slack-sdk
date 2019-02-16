@@ -311,17 +311,41 @@ A simpler alternative is to fetch the state you need from the Web API whenever y
 
 ### Customizing the logger
 
-The `RTMClient` also logs interesting events as it operates. By default, the log level is set to `info` and it should
-not log anything as long as nothing goes wrong.
+The `RTMClient` also logs interesting events as it operates. By default, the log level is set to `LogLevel.INFO` and it
+should not log anything as long as nothing goes wrong.
 
 You can adjust the log level by setting the `logLevel` option to any of the values found in the `LogLevel` top-level
 export.
 
-You can also capture the logs without writing them to stdout by setting the `logger` option. It should be set to a
-function that takes `fn(level: string, message: string)`.
+```javascript
+const fs = require('fs');
+const { RTMClient, LogLevel } = require('@slack/client');
 
-**NOTE** `logLevel: LogLevel.DEBUG` should not be used in production. Debug is helpful for diagnosing issues but it is a
-bad idea to use this in production because it will log the contents of messages.
+// increased logging, great for debugging
+const rtm = new RTMClient(token, { logLevel: LogLevel.DEBUG });
+```
+
+There are four logging levels: `LogLevel.DEBUG`, `LogLevel.INFO`, `LogLevel.WARN`, `LogLevel.ERROR`. Here they appear in
+order of increasing severity, which means that using `LogLevel.ERROR` will output the least number of messages, and only
+the most important.
+
+You can also capture the logs without writing them to stdout by setting the `logger` option. The option should be set
+to an object that has the following methods:
+
+**Logger**
+
+| Method       | Parameters        | Return type |
+|--------------|-------------------|-------------|
+| `setLevel()` | `level: LogLevel` | `void`      |
+| `setName()`  | `name: string`    | `void`      |
+| `debug()`    | `...msgs: any[]`  | `void`      |
+| `info()`     | `...msgs: any[]`  | `void`      |
+| `warn()`     | `...msgs: any[]`  | `void`      |
+| `error()`    | `...msgs: any[]`  | `void`      |
+
+
+**NOTE**: While the use of logging functions is deprecated, the `logger` option will still currently accept a function
+whose method signature matches `fn(level: string, message: string)`
 
 ```javascript
 const fs = require('fs');
@@ -334,11 +358,15 @@ const logStream = fs.createWriteStream('/tmp/app.log');
 const token = process.env.SLACK_TOKEN;
 logStream.on('open', () => {
   const rtm = new RTMClient(token, {
-    // increased logging, great for debugging
-    logLevel: LogLevel.DEBUG,
-    logger: (level, message) => {
-      // write to disk
-      logStream.write(`[${level}]: ${message}`);
+    // write all messages to disk
+    logger: {
+      debug(...msgs) { logStream.write(JSON.stringify(msgs)); }
+      info(...msgs) { logStream.write(JSON.stringify(msgs)); }
+      warn(...msgs) { logStream.write(JSON.stringify(msgs)); }
+      error(...msgs) { logStream.write(JSON.stringify(msgs)); }
+      // these methods are noops because this custom logger will write everything to disk (all levels)
+      setLevel(){},
+      setName(){},
     }
   });
 });

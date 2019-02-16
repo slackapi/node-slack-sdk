@@ -29,7 +29,3 @@ export function delay() {}
  * @returns {string}
  */
 export function getUserAgent() {}
-/**
- * For when you need a function that does nothing
- */
-export function noop() {}

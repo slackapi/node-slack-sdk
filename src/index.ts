@@ -1,4 +1,5 @@
 export {
+  Logger,
   LoggingFunc,
   LogLevel,
 } from './logger';

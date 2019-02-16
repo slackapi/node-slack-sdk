@@ -1,15 +1,16 @@
 import { RTMClient, ErrorCode } from './';
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
-import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc } from './logger';
+import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc, isLoggingFunc } from './logger';
 import { errorWithCode } from './errors';
 const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 export interface KeepAliveOptions {
-  logger?: LoggingFunc;
+  /** Custom logger. Using a LoggingFunc is deprecated. */
+  logger?: Logger | LoggingFunc;
   logLevel?: LogLevel;
-  // how long (in ms) to wait before sending a ping message to keep the connection alive
+  /** How long (in ms) to wait before sending a ping message to keep the connection alive */
   clientPingTimeout?: number;
-  // how long (in ms) to wait for the acknowledgement of a ping message before considering the connection dead
+  /** How long (in ms) to wait for the acknowledgement of a ping message before considering the connection dead */
   serverPongTimeout?: number; // NOTE: this must be less than clientPingTimeout
 }
 
@@ -94,12 +95,12 @@ export class KeepAlive extends EventEmitter {
     this.recommendReconnect = false;
 
     // Logging
-    if (logger !== undefined) {
-      this.logger = loggerFromLoggingFunc(KeepAlive.loggerName, logger);
+    if (logger !== undefined && isLoggingFunc(logger)) {
+      this.logger = loggerFromLoggingFunc(KeepAlive.loggerName, logger, logLevel);
+      this.logger.warn('Using a logging function is deprecated. Use a Logger object instead.');
     } else {
-      this.logger = getLogger(KeepAlive.loggerName);
+      this.logger = getLogger(KeepAlive.loggerName, logLevel, logger);
     }
-    this.logger.setLevel(logLevel);
   }
 
   /**

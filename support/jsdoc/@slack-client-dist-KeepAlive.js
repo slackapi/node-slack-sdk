@@ -30,10 +30,10 @@ export class KeepAlive {
 
 /**
  * @interface module:@slack/client/dist/KeepAlive.KeepAliveOptions
- * @property {module:@slack/client.LoggingFunc} [logger]
+ * @property {module:@slack/client.Logger | module:@slack/client.LoggingFunc} [logger] Custom logger. Using a LoggingFunc is deprecated.
  * @property {module:@slack/client/dist/logger.LogLevel} [logLevel]
- * @property {number} [clientPingTimeout]
- * @property {number} [serverPongTimeout]
+ * @property {number} [clientPingTimeout] How long (in ms) to wait before sending a ping message to keep the connection alive
+ * @property {number} [serverPongTimeout] How long (in ms) to wait for the acknowledgement of a ping message before considering the connection dead
  */
 export class KeepAliveOptions {
 }

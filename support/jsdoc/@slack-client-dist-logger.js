@@ -3,43 +3,49 @@
  */
 
 /**
- * INTERNAL interface for components in this package that need a logging API
- * @interface module:@slack/client/dist/logger.Logger
+ * Default logger which logs to stdout and stderr
+ * @extends module:@slack/client.Logger
  */
-export class Logger {
+export class ConsoleLogger {
   /**
-   * Output debug message to console
-   * @param {Array<any>} msg any data to log to the console
-   * @function module:@slack/client/dist/logger.Logger#debug
+   * Log a debug message
+   * @param {Array<any>} msg
+   * @function module:@slack/client/dist/logger.ConsoleLogger#debug
    */
   debug() {}
 
   /**
-   * Output error message to console
-   * @param {Array<any>} msg any data to log to the console
-   * @function module:@slack/client/dist/logger.Logger#error
+   * Log an error message
+   * @param {Array<any>} msg
+   * @function module:@slack/client/dist/logger.ConsoleLogger#error
    */
   error() {}
 
   /**
-   * Output info message to console
-   * @param {Array<any>} msg any data to log to the console
-   * @function module:@slack/client/dist/logger.Logger#info
+   * Log an info message
+   * @param {Array<any>} msg
+   * @function module:@slack/client/dist/logger.ConsoleLogger#info
    */
   info() {}
 
   /**
-   * This disables all logging below the given level, so that after a log.setLevel("warn") call log.warn("something")
-   * or log.error("something") will output messages, but log.info("something") will not.
-   * @param {module:@slack/client/dist/logger.LogLevel} level as a string, like 'error' (case-insensitive)
-   * @function module:@slack/client/dist/logger.Logger#setLevel
+   * Sets the instance's log level so that only messages which are equal or more severe are output to the console.
+   * @param {module:@slack/client/dist/logger.LogLevel} level
+   * @function module:@slack/client/dist/logger.ConsoleLogger#setLevel
    */
   setLevel() {}
 
   /**
-   * Output warn message to console
-   * @param {Array<any>} msg any data to log to the console
-   * @function module:@slack/client/dist/logger.Logger#warn
+   * Set the instance's name, which will appear on each log line before the message.
+   * @param {string} name
+   * @function module:@slack/client/dist/logger.ConsoleLogger#setName
+   */
+  setName() {}
+
+  /**
+   * Log a warning message
+   * @param {Array<any>} msg
+   * @function module:@slack/client/dist/logger.ConsoleLogger#warn
    */
   warn() {}
 }
@@ -47,13 +53,22 @@ export class Logger {
 /**
  * INTERNAL interface for getting or creating a named Logger.
  * @param {string} name
- * @returns {module:@slack/client/dist/logger.Logger}
+ * @param {module:@slack/client/dist/logger.LogLevel} level
+ * @param {module:@slack/client.Logger} existingLogger
+ * @returns {module:@slack/client.Logger}
  */
 export function getLogger() {}
 /**
- * INTERNAL function for transforming an external LoggingFunc type into the internal Logger interface.
+ * INTERNAL determine if a value is a LoggingFunc
+ * @param {module:@slack/client.Logger | module:@slack/client.LoggingFunc} l
+ * @returns {boolean}
+ */
+export function isLoggingFunc() {}
+/**
+ * INTERNAL function for transforming an external LoggingFunc type into the Logger interface.
  * @param {string} name
  * @param {module:@slack/client.LoggingFunc} loggingFunc
- * @returns {module:@slack/client/dist/logger.Logger}
+ * @param {module:@slack/client/dist/logger.LogLevel} level
+ * @returns {module:@slack/client.Logger}
  */
 export function loggerFromLoggingFunc() {}
