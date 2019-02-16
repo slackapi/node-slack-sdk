@@ -17,13 +17,10 @@ headings:
     - title: Custom agent for proxy support
     - title: OAuth token exchange
     - title: Using legacy message attachments
-<<<<<<< HEAD
-=======
     - title: Using a callback instead of a Promise (deprecated)
     - title: Calling methods on behalf of users (deprecated)
     - title: Using refresh tokens (deprecated)
     - title: Manually handling token rotation (deprecated)
->>>>>>> master
 
 ---
 
