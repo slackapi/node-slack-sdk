@@ -20,28 +20,26 @@ const filePath = path.resolve('..', 'test', 'fixtures', 'train.jpg');
 // Using a Stream as the source for the upload
 // Your token should have `files:write:user` scope
 const fileStream = fs.createReadStream(filePath);
-web.files.upload({ file: fileStream })
-  .then((response) => {
-    // Success!
+(async () => {
+  try {
+    const response = await web.files.upload({ file: fileStream });
     console.log(`File uploaded as Stream. File ID: ${response.file.id}`);
-  })
-  .catch((error) => {
-    // Error :/
+  } catch (error) {
     console.log('File upload as Stream error:');
     console.log(error);
-  });
+  }
+})();
 
 // Using a Buffer as the source for the upload
 // Your token should have `files:write:user` scope
 const fileBuffer = fs.readFileSync(filePath);
-// When using a Buffer, its best to support a filename, since the SDK will not know the filename on disk
-web.files.upload({ file: fileStream, filename: 'train.jpg' })
-  .then((response) => {
-    // Success!
+(async () => {
+  try {
+    // When using a Buffer, its best to supply a filename, since the SDK will not know the filename on disk
+    const response = await web.files.upload({ file: fileBuffer, filename: 'train.jpg' });
     console.log(`File uploaded as Buffer. File ID: ${response.file.id}`);
-  })
-  .catch((error) => {
-    // Error :/
+  } catch (error) {
     console.log('File upload as Buffer error:');
     console.log(error);
-  });
+  }
+})();

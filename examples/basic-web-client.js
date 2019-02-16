@@ -14,14 +14,15 @@ const web = new WebClient(token);
 
 // Call a Web API method (in this case, `team.info`)
 // Your token should have `team:read` scope (or `bot` scope, which includes `team:read`)
-web.team.info()
-  .then((response) => {
+(async () => {
+  try {
+    const response = await web.team.info();
     // Success!
     console.log('Team info response:');
     console.log(response);
-  })
-  .catch((error) => {
+  } catch (error) {
     // Error :/
     console.log('Team info error:');
     console.log(error);
-  });
+  }
+})();
