@@ -1,6 +1,6 @@
 {
   "name": "@slack/events-api",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Slack Events API module",
   "main": "dist/index.js",
   "bin": {
