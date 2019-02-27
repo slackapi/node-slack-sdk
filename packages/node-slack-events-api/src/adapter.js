@@ -6,10 +6,6 @@ import { createHTTPHandler } from './http-handler';
 
 const debug = debugFactory('@slack/events-api:adapter');
 
-export const errorCodes = {
-  BODY_PARSER_NOT_PERMITTED: 'SLACKADAPTER_BODY_PARSER_NOT_PERMITTED_FAILURE',
-};
-
 export class SlackEventAdapter extends EventEmitter {
   constructor(signingSecret, options = {}) {
     if (!isString(signingSecret)) {
@@ -69,14 +65,7 @@ export class SlackEventAdapter extends EventEmitter {
 
   expressMiddleware(middlewareOptions = {}) {
     const requestListener = this.requestListener(middlewareOptions);
-    return (req, res, next) => {
-      // If parser is being used, we can't verify request signature
-      if (req.body) {
-        const error = new Error('Parsing request body prohibits request signature verification');
-        error.code = errorCodes.BODY_PARSER_NOT_PERMITTED;
-        next(error);
-        return;
-      }
+    return (req, res, next) => { // eslint-disable-line no-unused-vars
       requestListener(req, res);
     };
   }

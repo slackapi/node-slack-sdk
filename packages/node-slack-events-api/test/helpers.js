@@ -31,7 +31,26 @@ function createRequest(signingSecret, ts, rawBody) {
     'content-type': 'application/json'
   };
   return {
-    body: rawBody,
+    headers: headers
+  };
+}
+
+/**
+ * Creates request object with proper headers and a rawBody field payload
+ * @param {string} signingSecret - A Slack signing secret for request verification
+ * @param {Integer} ts - A timestamp for request verification and header
+ * @param {string} rawBody - String of raw body to be put in rawBody field
+ * @returns {Object} pseudo request object
+ */
+function createRawBodyRequest(signingSecret, ts, rawBody) {
+  const signature = createRequestSignature(signingSecret, ts, rawBody);
+  const headers = {
+    'x-slack-signature': signature,
+    'x-slack-request-timestamp': ts,
+    'content-type': 'application/json'
+  };
+  return {
+    rawBody: Buffer.from(rawBody),
     headers: headers
   };
 }
@@ -79,6 +98,7 @@ function completionAggregator(done, totalParts) {
 }
 
 module.exports.createRequest = createRequest;
+module.exports.createRawBodyRequest = createRawBodyRequest;
 module.exports.createRequestSignature = createRequestSignature;
 module.exports.createStreamRequest = createStreamRequest;
 exports.completionAggregator = completionAggregator;

@@ -2,6 +2,7 @@ var assert = require('chai').assert;
 var sinon = require('sinon');
 var proxyquire = require('proxyquire');
 var createRequest = require('../helpers').createRequest;
+var createRawBodyRequest = require('../helpers').createRawBodyRequest;
 var getRawBodyStub = sinon.stub();
 var systemUnderTest = proxyquire('../../dist/http-handler', {
   'raw-body': getRawBodyStub
@@ -26,7 +27,7 @@ describe('http-handler', function () {
         signingSecret: correctSigningSecret,
         requestTimestamp: req.headers['x-slack-request-timestamp'],
         requestSignature: req.headers['x-slack-signature'],
-        body: req.body
+        body: correctRawBody
       });
 
       assert.isTrue(isVerified);
@@ -38,7 +39,7 @@ describe('http-handler', function () {
         signingSecret: 'INVALID_SECRET',
         requestTimestamp: req.headers['x-slack-request-timestamp'],
         requestSignature: req.headers['x-slack-signature'],
-        body: req.body
+        body: correctRawBody
       }), 'Slack request signing verification failed');
     });
   });
@@ -64,9 +65,34 @@ describe('http-handler', function () {
       var res = this.res;
       var req = createRequest(correctSigningSecret, this.correctDate, correctRawBody);
       emit.resolves({ status: 200 });
-      getRawBodyStub.resolves(correctRawBody);
+      getRawBodyStub.resolves(Buffer.from(correctRawBody));
       res.end.callsFake(function () {
         assert.equal(res.statusCode, 200);
+        done();
+      });
+      this.requestListener(req, res);
+    });
+
+    it('should verify a correct signing secret for a request with rawBody attribute', function (done) {
+      var emit = this.emit;
+      var res = this.res;
+      var req = createRawBodyRequest(correctSigningSecret, this.correctDate, correctRawBody);
+      emit.resolves({ status: 200 });
+      getRawBodyStub.resolves(Buffer.from(correctRawBody));
+      res.end.callsFake(function () {
+        assert.equal(res.statusCode, 200);
+        done();
+      });
+      this.requestListener(req, res);
+    });
+
+    it('should fail request signing verification for a request with a body but no rawBody', function (done) {
+      var res = this.res;
+      var req = createRequest(correctSigningSecret, this.correctDate, correctRawBody);
+      req.body = {};
+      getRawBodyStub.resolves(Buffer.from(correctRawBody));
+      res.end.callsFake(function () {
+        assert.equal(res.statusCode, 500);
         done();
       });
       this.requestListener(req, res);
@@ -75,7 +101,18 @@ describe('http-handler', function () {
     it('should fail request signing verification with an incorrect signing secret', function (done) {
       var res = this.res;
       var req = createRequest('INVALID_SECRET', this.correctDate, correctRawBody);
-      getRawBodyStub.resolves(correctRawBody);
+      getRawBodyStub.resolves(Buffer.from(correctRawBody));
+      res.end.callsFake(function () {
+        assert.equal(res.statusCode, 404);
+        done();
+      });
+      this.requestListener(req, res);
+    });
+
+    it('should fail request signing verification when a request has body and no rawBody attribute', function (done) {
+      var res = this.res;
+      var req = createRequest('INVALID_SECRET', this.correctDate, correctRawBody);
+      getRawBodyStub.resolves(Buffer.from(correctRawBody));
       res.end.callsFake(function () {
         assert.equal(res.statusCode, 404);
         done();
@@ -87,7 +124,7 @@ describe('http-handler', function () {
       var res = this.res;
       var sixMinutesAgo = Math.floor(Date.now() / 1000) - (60 * 6);
       var req = createRequest(correctSigningSecret, sixMinutesAgo, correctRawBody);
-      getRawBodyStub.resolves(correctRawBody);
+      getRawBodyStub.resolves(Buffer.from(correctRawBody));
       res.end.callsFake(function () {
         assert.equal(res.statusCode, 404);
         done();
@@ -126,7 +163,7 @@ describe('http-handler', function () {
       var res = this.res;
       var req = createRequest(correctSigningSecret, this.correctDate, correctRawBody);
       emit.resolves({ status: 200 });
-      getRawBodyStub.resolves(correctRawBody);
+      getRawBodyStub.resolves(Buffer.from(correctRawBody));
       res.end.callsFake(function () {
         assert(res.setHeader.calledWith('X-Slack-Powered-By'));
         done();
@@ -139,7 +176,7 @@ describe('http-handler', function () {
       var emit = this.emit;
       var urlVerificationBody = '{"type":"url_verification","challenge": "TEST_CHALLENGE"}';
       var req = createRequest(correctSigningSecret, this.correctDate, urlVerificationBody);
-      getRawBodyStub.resolves(urlVerificationBody);
+      getRawBodyStub.resolves(Buffer.from(urlVerificationBody));
       res.end.callsFake(function () {
         assert(emit.notCalled);
         assert.equal(res.statusCode, 200);

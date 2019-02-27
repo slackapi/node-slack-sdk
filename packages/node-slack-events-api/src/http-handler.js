@@ -7,6 +7,7 @@ import { packageIdentifier } from './util';
 export const errorCodes = {
   SIGNATURE_VERIFICATION_FAILURE: 'SLACKHTTPHANDLER_REQUEST_SIGNATURE_VERIFICATION_FAILURE',
   REQUEST_TIME_FAILURE: 'SLACKHTTPHANDLER_REQUEST_TIMELIMIT_FAILURE',
+  BODY_PARSER_NOT_PERMITTED: 'SLACKADAPTER_BODY_PARSER_NOT_PERMITTED_FAILURE', // moved constant from adapter
 };
 
 const responseStatuses = {
@@ -36,7 +37,7 @@ export function verifyRequestSignature({
 
   if (requestTimestamp < fiveMinutesAgo) {
     debug('request is older than 5 minutes');
-    const error = new Error('Slack request signing verification failed');
+    const error = new Error('Slack request signing verification outdated');
     error.code = errorCodes.REQUEST_TIME_FAILURE;
     throw error;
   }
@@ -148,10 +149,33 @@ export function createHTTPHandler(adapter) {
     // Bind a response function to this request's respond object.
     const respond = sendResponse(res);
 
-    getRawBody(req)
+    // If parser is being used and we don't receive the raw payload via `rawBody`,
+    // we can't verify request signature
+    if (req.body && !req.rawBody) {
+      const error = new Error('Parsing request body prohibits request signature verification');
+      error.code = errorCodes.BODY_PARSER_NOT_PERMITTED;
+      handleError(error, respond);
+      return;
+    }
+
+    // Some serverless cloud providers (e.g. Google Firebase Cloud Functions) might populate
+    // the request with a bodyparser before it can be populated by the SDK.
+    // To prevent throwing an error here, we check the `rawBody` field before parsing the request
+    // through the `raw-body` module (see Issue #85 - https://github.com/slackapi/node-slack-events-api/issues/85)
+    let parseRawBody;
+    if (req.rawBody) {
+      debug('Parsing request with a rawBody attribute');
+      parseRawBody = new Promise((resolve) => {
+        resolve(req.rawBody);
+      });
+    } else {
+      debug('Parsing raw request');
+      parseRawBody = getRawBody(req);
+    }
+
+    parseRawBody
       .then((r) => {
         const rawBody = r.toString();
-
         if (verifyRequestSignature({
           signingSecret: adapter.signingSecret,
           requestSignature: req.headers['x-slack-signature'],
