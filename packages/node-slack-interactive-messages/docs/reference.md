@@ -156,7 +156,9 @@ following table describes it fully.
 | --- | --- | --- |
 | matchingConstraints | <code>Object</code> \| <code>string</code> \| <code>RegExp</code> | the callback ID (as a string or RegExp) or an object describing the constraints to match actions for the handler. |
 | [matchingConstraints.callbackId] | <code>string</code> \| <code>RegExp</code> | a string or RegExp to match against the `callback_id` |
-| [matchingConstraints.type] | <code>string</code> | when `select` only for menu selections, when `button` only for buttton presses, or when `dialog_submission` only for dialog submissions |
+| [matchingConstraints.blockId] | <code>string</code> \| <code>RegExp</code> | a string or RegExp to match against the `block_id` |
+| [matchingConstraints.actionId] | <code>string</code> \| <code>RegExp</code> | a string or RegExp to match against the `action_id` |
+| [matchingConstraints.type] | <code>string</code> | valid types include all [actions block elements](https://api.slack.com/reference/messaging/interactive-components), `select` only for menu selections, or `dialog_submission` only for dialog submissions |
 | [matchingConstraints.unfurl] | <code>boolean</code> | when `true` only match actions from an unfurl |
 | callback | [<code>ActionHandler</code>](#module_adapter--module.exports..SlackMessageAdapter..ActionHandler) | the function to run when an action is matched |
 
@@ -181,8 +183,10 @@ following table describes it fully
 | Param | Type | Description |
 | --- | --- | --- |
 | matchingConstraints | <code>object</code> | the callback ID (as a string or RegExp) or an object describing the constraints to select options requests for the handler. |
-| [matchingConstraints.callbackId] | <code>string</code> \| <code>RegExp</code> | a string or RegExxp to match against the `callback_id` |
-| [matchingConstraints.within] | <code>string</code> | when `interactive_message` only for menus in an interactive message, or when `dialog` only for menus in a dialog |
+| [matchingConstraints.callbackId] | <code>string</code> \| <code>RegExp</code> | a string or RegExp to match against the `callback_id` |
+| [matchingConstraints.blockId] | <code>string</code> \| <code>RegExp</code> | a string or RegExp to match against the `block_id` |
+| [matchingConstraints.actionId] | <code>string</code> \| <code>RegExp</code> | a string or RegExp to match against the `action_id` |
+| [matchingConstraints.within] | <code>string</code> | `block_actions` only for external select in actions block, `interactive_message` only for menus in an interactive message, or `dialog` only for menus in a dialog |
 | callback | [<code>OptionsHandler</code>](#module_adapter--module.exports..SlackMessageAdapter..OptionsHandler) | the function to run when an options request is matched |
 
 
