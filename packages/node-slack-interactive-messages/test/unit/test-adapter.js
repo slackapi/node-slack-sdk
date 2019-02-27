@@ -268,16 +268,61 @@ describe('SlackMessageAdapter', function () {
           unregisterAllHandlers(adapter);
         });
       });
-      it('should throw when registering with invalid type constraints', function () {
-        var adapter = this.adapter;
-        var actionHandler = this.actionHandler;
-        var constraints = { type: 'not_a_real_action_type' };
-        assert.throws(function () {
-          adapter.action(constraints, actionHandler);
-        }, TypeError);
-      });
       it('should register with unfurl constraint successfully', function () {
         var constraints = { unfurl: true };
+        this.adapter.action(constraints, this.actionHandler);
+        assertHandlerRegistered(this.adapter, this.actionHandler, constraints);
+      });
+      it('should register with blockId constraints successfully', function () {
+        var constraints = { blockId: 'my_block' };
+        this.adapter.action(constraints, this.actionHandler);
+        assertHandlerRegistered(this.adapter, this.actionHandler, constraints);
+      });
+      it('invalid block_id types throw on registration', function () {
+        var handler = this.handler;
+        var adapter = this.adapter;
+        assert.throws(function () {
+          adapter.action({ blockId: 5 }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter.action({ blockId: true }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter.action({ blockId: [] }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter.action({ blockId: null }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter.action({ blockId: undefined }, handler);
+        }, TypeError);
+      });
+      it('should register with actionId constraints successfully', function () {
+        var constraints = { actionId: 'my_action' };
+        this.adapter.action(constraints, this.actionHandler);
+        assertHandlerRegistered(this.adapter, this.actionHandler, constraints);
+      });
+      it('invalid action_id types throw on registration', function () {
+        var handler = this.handler;
+        var adapter = this.adapter;
+        assert.throws(function () {
+          adapter.action({ actionId: 5 }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter.action({ actionId: true }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter.action({ actionId: [] }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter.action({ actionId: null }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter.action({ actionId: undefined }, handler);
+        }, TypeError);
+      });
+      it('should register with compound block constraints successfully', function () {
+        var constraints = { blockId: 'my_block', actionId: 'wham' };
         this.adapter.action(constraints, this.actionHandler);
         assertHandlerRegistered(this.adapter, this.actionHandler, constraints);
       });
@@ -289,7 +334,8 @@ describe('SlackMessageAdapter', function () {
       it('should throw when registering with invalid compound constraints', function () {
         var adapter = this.adapter;
         var actionHandler = this.actionHandler;
-        var constraints = { callbackId: /\w+_callback/, type: 'not_a_real_action_type' };
+        // number isn't valid callbackId, all types are valid
+        var constraints = { callbackId: 111, type: 'button' };
         assert.throws(function () {
           adapter.action(constraints, actionHandler);
         }, TypeError);
@@ -815,6 +861,14 @@ describe('SlackMessageAdapter', function () {
           }],
           response_url: 'https://example.com'
         };
+        this.buttonPayloadBlocks = {
+          actions: [{
+            type: 'button',
+            block_id: 'b_id',
+            action_id: 'a_id'
+          }],
+          response_url: 'https://example.com'
+        };
         this.buttonAppUnfurlPayload = Object.assign({}, this.buttonPayload, {
           is_app_unfurl: true
         });
@@ -843,6 +897,11 @@ describe('SlackMessageAdapter', function () {
           value: 'opti',
           callback_id: 'id',
           type: 'interactive_message'
+        };
+        this.optionsFromBlockMessagePayload = {
+          value: 'opti',
+          block_id: 'id',
+          type: 'block_suggestion'
         };
         this.optionsFromDialogPayload = {
           name: 'pick_a_thing',
@@ -873,6 +932,56 @@ describe('SlackMessageAdapter', function () {
         it('should return undefined with a RegExp mismatch', function () {
           var response;
           this.adapter.action(/b/, this.callback);
+          response = this.adapter.dispatch(this.payload);
+          assert(this.callback.notCalled);
+          assert.isUndefined(response);
+        });
+
+        // TODO: successful match on string, successful match on regexp, matches when registered
+        // as an options handler instead
+      });
+
+      describe('block ID based matching', function () {
+        beforeEach(function () {
+          this.payload = this.buttonPayloadBlocks;
+        });
+
+        it('should return undefined with a string mismatch', function () {
+          var response;
+          this.adapter.action({ blockId: 'b' }, this.callback);
+          response = this.adapter.dispatch(this.payload);
+          assert(this.callback.notCalled);
+          assert.isUndefined(response);
+        });
+
+        it('should return undefined with a RegExp mismatch', function () {
+          var response;
+          this.adapter.action({ blockId: /b/ }, this.callback);
+          response = this.adapter.dispatch(this.payload);
+          assert(this.callback.notCalled);
+          assert.isUndefined(response);
+        });
+
+        // TODO: successful match on string, successful match on regexp, matches when registered
+        // as an options handler instead
+      });
+
+      describe('action ID based matching', function () {
+        beforeEach(function () {
+          this.payload = this.buttonPayloadBlocks;
+        });
+
+        it('should return undefined with a string mismatch', function () {
+          var response;
+          this.adapter.action({ actionId: 'b' }, this.callback);
+          response = this.adapter.dispatch(this.payload);
+          assert(this.callback.notCalled);
+          assert.isUndefined(response);
+        });
+
+        it('should return undefined with a RegExp mismatch', function () {
+          var response;
+          this.adapter.action({ actionId: /b/ }, this.callback);
           response = this.adapter.dispatch(this.payload);
           assert(this.callback.notCalled);
           assert.isUndefined(response);
@@ -945,6 +1054,13 @@ describe('SlackMessageAdapter', function () {
           response = this.adapter.dispatch(this.optionsFromDialogPayload);
           assert(this.callback.notCalled);
           assert.isUndefined(response);
+
+          unregisterAllHandlers(this.adapter);
+
+          this.adapter.options({ within: 'block_actions' }, this.callback);
+          response = this.adapter.dispatch(this.optionsFromInteractiveMessagePayload);
+          assert(this.callback.notCalled);
+          assert.isUndefined(response);
         });
         it('should match when within is not present in constraints', function () {
           this.adapter.options({}, this.callback);
@@ -954,6 +1070,11 @@ describe('SlackMessageAdapter', function () {
         it('should match using within constraint on options requests from interactive messages', function () {
           this.adapter.options({ within: 'interactive_message' }, this.callback);
           this.adapter.dispatch(this.optionsFromInteractiveMessagePayload);
+          assert(this.callback.called);
+        });
+        it('should match using within constraint on options requests from Block Kit messages', function () {
+          this.adapter.options({ within: 'block_actions' }, this.callback);
+          this.adapter.dispatch(this.optionsFromBlockMessagePayload);
           assert(this.callback.called);
         });
         it('should match using within constraint on options requests from dialog', function () {

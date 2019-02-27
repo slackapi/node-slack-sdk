@@ -3,19 +3,23 @@
 [![Build Status](https://travis-ci.org/slackapi/node-slack-interactive-messages.svg?branch=master)](https://travis-ci.org/slackapi/node-slack-interactive-messages)
 [![codecov](https://codecov.io/gh/slackapi/node-slack-interactive-messages/branch/master/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-interactive-messages)
 
-Build your Slack Apps with rich and engaging user interactions using buttons, menus, and dialogs.
-The package will help you start with sensible and secure defaults.
+Build your Slack Apps with rich and engaging user interactions using block actions, buttons, menus, 
+and dialogs. The package will help you start with sensible and secure defaults.
 
 The adapter gives you a meaningful API to handle actions from all of Slack's interactive
-message components ([buttons](https://api.slack.com/docs/message-buttons),
-[menus](https://api.slack.com/docs/message-menus), and [dialogs](https://api.slack.com/dialogs)).
-Use it as an independent HTTP server or plug it into an existing server as
-[Express](http://expressjs.com/) middleware.
+message components
+[actions block elements](https://api.slack.com/reference/messaging/interactive-components),
+([buttons](https://api.slack.com/docs/message-buttons),
+[menus](https://api.slack.com/docs/message-menus),
+and [dialogs](https://api.slack.com/dialogs)). Use it as an independent HTTP server or plug it into
+an existing server as [Express](http://expressjs.com/) middleware.
 
-This package does **not** help you compose messages with buttons, menus and dialogs to trigger the
-actions. We recommend using the [Message Builder](https://api.slack.com/docs/messages/builder) to
-design interactive messages. You can send these messages to Slack using the Web API, Incoming
-Webhooks, and other parts of the platform.
+This package does **not** help you compose messages with action blocks, buttons, menus and dialogs
+to trigger the actions. We recommend using the
+[Block Kit Builder](https://api.slack.com/tools/block-kit-builder) to design interactive Block Kit
+messages and the [Message Builder](https://api.slack.com/docs/messages/builder) to design legacy
+interactive messages. You can send these messages to Slack using the Web API, Incoming Webhooks,
+and other parts of the platform.
 
 *  [Installation](#installation)
 *  [Configuration](#configuration)
@@ -159,6 +163,9 @@ slackInteractions.action(/welcome_(\w+)/, handlerFunction);
 function handlerFunction() {
 }
 ```
+> ⚠️ If your app is using [blocks](https://api.slack.com/messaging/composing/layouts), you _must_
+use an object to describe constraints (`block_id` and `action_id`). Blocks have no `callback_id`.
+There are examples below.
 
 Use an object to describe other constraints, even combine multiple constraints to create more
 specific handlers. The full set of constraint options are described in the
@@ -182,15 +189,38 @@ function handlerFunction() {
 }
 ```
 
+#### Action matching with blocks
+
+Apps using [blocks](https://api.slack.com/messaging/composing/layouts) must use an object to
+describe constraints since they contain no `callback_id`. Instead, you can use the `block_id` and
+`action_id` described in the [interactive component documentation](https://api.slack.com/reference/messaging/interactive-components).
+
+```javascript
+// Run handlerFunction for a any interactions with a block_id of 'save'
+slackInteractions.action({ blockId: 'save' }, handlerFunction);
+
+// Run handlerFunction for a any interactions with an action_id of 'select_coffee'
+slackInteractions.action({ actionId: 'select_coffee' }, handlerFunction);
+
+// Run handlerFunction for a static select element with an action_id of 'select_animal'
+slackInteractions.action({ actionId: 'select_animal', type: 'static_select' }, handlerFunction);
+
+// This function is discussed in "Responding to actions" below
+function handlerFunction() {
+}
+```
+
+Blocks are not supported in dialogs or message actions, so you cannot filter by those types.
+
 #### Responding to actions
 
 Slack requires your app to respond to actions in a timely manner so that the user isn't blocked.
 The adapter helps your app respond correctly and on time.
 
-For most actions (button presses, menu selections, and message actions), a response is simply an
-updated message to replace the one where the interaction occurred. Your app can return a message
-(or a Promise for a message) from the handler. **We recommend that apps at least remove the
-interactive elements from the message in the response** so that users don't get confused (for
+For most actions (block actions, button presses, menu selections, and message actions), a response
+is simply an updated message to replace the one where the interaction occurred. Your app can return
+a message (or a Promise for a message) from the handler. **We recommend that apps at least remove
+the interactive elements from the message in the response** so that users don't get confused (for
 example, click the same button twice). Find details about the format for a message in the docs for
 [message](https://api.slack.com/docs/interactive-message-field-guide#message).
 
@@ -198,6 +228,10 @@ The handler will receive a `payload` which describes the interaction a user had 
 Find more details about the structure of `payload` in the docs for
 [buttons](https://api.slack.com/docs/message-buttons#responding_to_message_actions) and
 [menus](https://api.slack.com/docs/message-menus#request_url_response).
+
+> ⚠️ If your app is using [blocks](https://api.slack.com/messaging/composing/layouts), your payload
+will look different. You can find the payload for action block interactivity on the
+[interactive components](https://api.slack.com/reference/messaging/interactive-components) page.
 
 If your app defers some work asynchronously (like querying another API or using a database), you can
 continue to update the message using the `respond()` function that is provided to your handler.
@@ -322,6 +356,10 @@ function handlerFunction() {
 }
 ```
 
+> ⚠️ If your app is using [blocks](https://api.slack.com/messaging/composing/layouts), you _must_
+use an object to describe contraints (`block_id` and `action_id`). Blocks have no `callback_id`.
+There are examples below.
+
 Use an object to describe other constraints, even combine multiple constraints to create more
 specific handlers. The full set of constraint options are described in the
 [reference documentation](docs/reference.md#module_adapter--module.exports..SlackMessageAdapter+options).
@@ -332,6 +370,22 @@ slackInteractions.options({ within: 'dialog' }, handlerFunction)
 
 // Run handlerFunction for all options requests from inside a message with callback_id of 'project_menu'
 slackInteractions.options({ callbackId: 'project_menu', within: 'interactive_message' }, handlerFunction)
+
+// This function is discussed in "Responding to options requests" below
+function handlerFunction() {
+}
+```
+
+#### Options request matching with blocks
+
+Use an object to describe constraints if your app is using blocks.
+
+```javascript
+// Run handlerFunction for all options requests from inside a message with blocks
+slackInteractions.options({ within: 'block_actions' }, handlerFunction)
+
+// Run handlerFunction for all options requests from inside a message with blocks with block_id of 'coffee_menu'
+slackInteractions.options({ blockId: 'coffee_menu', within: 'block_actions' }, handlerFunction)
 
 // This function is discussed in "Responding to options requests" below
 function handlerFunction() {
