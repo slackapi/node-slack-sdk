@@ -215,15 +215,6 @@ export class WebClient extends EventEmitter {
         throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
       }
 
-      // warn for methods whose functionality is deprecated
-      if (method === 'files.comments.add' || method === 'files.comments.edit') {
-        this.logger.warn(
-          `File comments are deprecated in favor of file threads. Replace uses of ${method} in your app ` +
-          'to take advantage of improvements. See https://api.slack.com/changelog/2018-05-file-threads-soon-tread ' +
-          'to learn more.',
-        );
-      }
-
       // optimistically check for an expired access token, and refresh it if possible
       if ((method !== 'oauth.access' && method !== 'oauth.token') &&
           (options === undefined || !('token' in options)) &&
@@ -490,9 +481,7 @@ export class WebClient extends EventEmitter {
       (this.apiCall.bind(this, 'files.sharedPublicURL')) as Method<methods.FilesSharedPublicURLArguments>,
     upload: (this.apiCall.bind(this, 'files.upload')) as Method<methods.FilesUploadArguments>,
     comments: {
-      add: (this.apiCall.bind(this, 'files.comments.add')) as Method<methods.FilesCommentsAddArguments>,
       delete: (this.apiCall.bind(this, 'files.comments.delete')) as Method<methods.FilesCommentsDeleteArguments>,
-      edit: (this.apiCall.bind(this, 'files.comments.edit')) as Method<methods.FilesCommentsEditArguments>,
     },
   };
 
