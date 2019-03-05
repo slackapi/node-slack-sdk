@@ -14,7 +14,7 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
 import { awaitAndReduce, callbackify, getUserAgent, delay, AgentOption, TLSOptions, agentForScheme } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
-import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc, isLoggingFunc } from './logger';
+import { LogLevel, Logger, getLogger } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
 import Method, * as methods from './methods'; // tslint:disable-line:import-name
 
@@ -160,12 +160,7 @@ export class WebClient extends EventEmitter {
     this.rejectRateLimitedCalls = rejectRateLimitedCalls;
 
     // Logging
-    if (logger !== undefined && isLoggingFunc(logger)) {
-      this.logger = loggerFromLoggingFunc(WebClient.loggerName, logger, logLevel);
-      this.logger.warn('Using a logging function is deprecated. Use a Logger object instead.');
-    } else {
-      this.logger = getLogger(WebClient.loggerName, logLevel, logger);
-    }
+    this.logger = getLogger(WebClient.loggerName, logLevel, logger);
 
     this.axios = axios.create({
       baseURL: slackApiUrl,
@@ -882,8 +877,7 @@ export default WebClient;
 
 export interface WebClientOptions {
   slackApiUrl?: string;
-  /** Custom logger. Using a LoggingFunc is deprecated. */
-  logger?: Logger | LoggingFunc;
+  logger?: Logger;
   logLevel?: LogLevel;
   maxRequestConcurrency?: number;
   retryConfig?: RetryOptions;

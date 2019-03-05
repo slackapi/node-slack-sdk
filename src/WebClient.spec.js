@@ -71,15 +71,6 @@ describe('WebClient', function () {
       const capturedOutput = this.capture.getCapturedText();
       assert.isEmpty(capturedOutput);
     });
-    it('sends logs to a logger function and not to stdout', function () {
-      const stub = sinon.stub();
-      const debuggingClient = new WebClient(token, { logLevel: LogLevel.DEBUG, logger: stub });
-      assert.isTrue(stub.called);
-      const call = stub.lastCall;
-      assert.isTrue(call.calledWithMatch('debug'));
-      const capturedOutput = this.capture.getCapturedText();
-      assert.isEmpty(capturedOutput);
-    });
     afterEach(function () {
       this.capture.stopCapture();
     });
@@ -1141,15 +1132,6 @@ describe('WebClient', function () {
       assert.isNotEmpty(output);
       const warning = output[0];
       assert.match(warning, /^\[WARN\]/);
-      this.capture.stopCapture();
-      done();
-    });
-    it('should warn when using a logging func', function (done) {
-      const stub = sinon.spy();
-      new WebClient(token, { logger: stub });
-      assert.isTrue(stub.called);
-      const call = stub.firstCall;
-      assert.isTrue(call.calledWithMatch('warn'));
       this.capture.stopCapture();
       done();
     });

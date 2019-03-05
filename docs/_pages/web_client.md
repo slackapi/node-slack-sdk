@@ -420,10 +420,6 @@ to an object that has the following methods:
 | `warn()`     | `...msgs: any[]`  | `void`      |
 | `error()`    | `...msgs: any[]`  | `void`      |
 
-
-**NOTE**: While the use of logging functions is deprecated, the `logger` option will still currently accept a function
-whose method signature matches `fn(level: string, message: string)`.
-
 ```javascript
 const fs = require('fs');
 const { WebClient, LogLevel } = require('@slack/client');

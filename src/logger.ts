@@ -153,14 +153,6 @@ export class ConsoleLogger implements Logger {
   }
 }
 
-/**
- * Interface for functions where this package's logs can be re-routed
- * @deprecated
- */
-export interface LoggingFunc {
-  (level: LogLevel, message: string): void;
-}
-
 let instanceCount = 0;
 
 /**
@@ -182,74 +174,4 @@ export function getLogger(name: string, level: LogLevel, existingLogger?: Logger
   }
 
   return logger;
-}
-
-/**
- * INTERNAL function for transforming an external LoggingFunc type into the Logger interface.
- */
-export function loggerFromLoggingFunc(name: string, loggingFunc: LoggingFunc, level: LogLevel): Logger {
-  // Get a unique ID for the logger.
-  const instanceId = instanceCount;
-  instanceCount += 1;
-
-  let loggerName = `${name}:${instanceId}`;
-  let loggerLevel = level;
-
-  // Set up the logger.
-  const logger: Logger = {
-    setLevel(level): void {
-      loggerLevel = level;
-    },
-    setName(name): void {
-      loggerName = name;
-    },
-    debug(...msg): void {
-      if (isMoreOrEqualSevere(LogLevel.DEBUG, loggerLevel)) {
-        loggingFunc(LogLevel.DEBUG, `${loggerName} ${msg.map(m => JSON.stringify(m)).join(' ')}`);
-      }
-    },
-    info(...msg): void {
-      if (isMoreOrEqualSevere(LogLevel.INFO, loggerLevel)) {
-        loggingFunc(LogLevel.INFO, `${loggerName} ${msg.map(m => JSON.stringify(m)).join(' ')}`);
-      }
-    },
-    warn(...msg): void {
-      if (isMoreOrEqualSevere(LogLevel.WARN, loggerLevel)) {
-        loggingFunc(LogLevel.WARN, `${loggerName} ${msg.map(m => JSON.stringify(m)).join(' ')}`);
-      }
-    },
-    error(...msg): void {
-      if (isMoreOrEqualSevere(LogLevel.ERROR, loggerLevel)) {
-        loggingFunc(LogLevel.ERROR, `${loggerName} ${msg.map(m => JSON.stringify(m)).join(' ')}`);
-      }
-    },
-  };
-
-  return logger;
-}
-
-/**
- * INTERNAL determine if a value is a LoggingFunc
- */
-export function isLoggingFunc(l: Logger | LoggingFunc): l is LoggingFunc {
-  return (l as Logger).debug === undefined;
-}
-
-/* Helpers for loggerFromLoggingFunc */
-
-/**
- * Map of comparable severity values for each log level
- */
-const severityByLogLevel: { [key in LogLevel]: number } = {
-  [LogLevel.ERROR]: 400,
-  [LogLevel.WARN]: 300,
-  [LogLevel.INFO]: 200,
-  [LogLevel.DEBUG]: 100,
-};
-
-/**
- * Helper to compare two log levels and determine if a is equal or more severe than b
- */
-function isMoreOrEqualSevere(a: LogLevel, b: LogLevel): boolean {
-  return severityByLogLevel[a] >= severityByLogLevel[b];
 }
