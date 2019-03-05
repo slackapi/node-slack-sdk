@@ -764,17 +764,8 @@ export type MPIMRepliesArguments = TokenOverridable & {
 export type OAuthAccessArguments = {
   client_id: string;
   client_secret: string;
-  redirect_uri?: string;
-  grant_type?: 'authorization_code' | 'refresh_token';
-  code?: string; // only when grant_type = 'authorization_code'
-  refresh_token?: string; // only when grant_type = 'refresh_token'
-};
-export type OAuthTokenArguments = {
-  client_id: string;
-  client_secret: string;
   code: string;
   redirect_uri?: string;
-  single_channel?: '0' | '1';
 };
 
   /*
