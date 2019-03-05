@@ -33,7 +33,6 @@ export {
   WebAPIRateLimitedError,
   WebAPIRefreshFailedError,
   WebAPICallError,
-  WebAPIResultCallback,
   TokenRefreshedEvent,
 } from './WebClient';
 
@@ -46,7 +45,6 @@ export {
   RTMPlatformError,
   RTMWebsocketError,
   RTMCallError,
-  RTMCallResultCallback,
 } from './RTMClient';
 
 export {
@@ -54,5 +52,4 @@ export {
   IncomingWebhookSendArguments,
   IncomingWebhookDefaultArguments,
   IncomingWebhookResult,
-  IncomingWebhookResultCallback,
 } from './IncomingWebhook';

@@ -11,7 +11,7 @@ import { KeepAlive } from './KeepAlive';
 import { WebClient, WebAPICallResult, WebAPICallError, ErrorCode, CodedError } from './';
 import * as methods from './methods'; // tslint:disable-line:import-name
 import { errorWithCode } from './errors';
-import { callbackify, TLSOptions } from './util';
+import { TLSOptions } from './util';
 const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 /**
@@ -412,18 +412,9 @@ export class RTMClient extends EventEmitter {
    * @param text The message text.
    * @param conversationId A conversation ID for the destination of this message.
    */
-  public sendMessage(text: string, conversationId: string): Promise<RTMCallResult>;
-  public sendMessage(text: string, conversationId: string, callback: RTMCallResultCallback): void;
-  public sendMessage(text: string,
-                     conversationId: string,
-                     callback?: RTMCallResultCallback): void | Promise<RTMCallResult> {
+  public sendMessage(text: string, conversationId: string): Promise<RTMCallResult> {
     const implementation = () => this.addOutgoingEvent(true, 'message', { text, channel: conversationId });
 
-    // Adapt the interface for callback-based execution or Promise-based execution
-    if (callback !== undefined) {
-      callbackify(implementation)(callback);
-      return;
-    }
     return implementation();
   }
 
@@ -680,10 +671,6 @@ export interface RTMCallResult {
     code: number;
     msg: string;
   };
-}
-
-export interface RTMCallResultCallback {
-  (error: RTMCallError, result: RTMCallResult): void;
 }
 
 export type RTMCallError = RTMPlatformError | RTMWebsocketError;

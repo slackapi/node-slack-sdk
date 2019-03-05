@@ -12,7 +12,7 @@ import PQueue = require('p-queue'); // tslint:disable-line:import-name no-requir
 import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
-import { awaitAndReduce, callbackify, getUserAgent, delay, AgentOption, TLSOptions, agentForScheme } from './util';
+import { awaitAndReduce, getUserAgent, delay, AgentOption, TLSOptions, agentForScheme } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc, isLoggingFunc } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
@@ -198,13 +198,8 @@ export class WebClient extends EventEmitter {
    *
    * @param method the Web API method to call {@see https://api.slack.com/methods}
    * @param options options
-   * @param callback callback if you don't want a promise returned - this argument is deprecated.
    */
-  public apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult>;
-  public apiCall(method: string, options: WebAPICallOptions, callback: WebAPIResultCallback): void;
-  public apiCall(method: string,
-                 options?: WebAPICallOptions,
-                 callback?: WebAPIResultCallback): void | Promise<WebAPICallResult> {
+  public apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult> {
     this.logger.debug('apiCall() start');
 
     // The following thunk is the actual implementation for this method. It is wrapped so that it can be adapted for
@@ -341,16 +336,6 @@ export class WebClient extends EventEmitter {
       return awaitAndReduce(generateResults.call(this), createResultMerger(method) , {} as WebAPICallResult);
     };
 
-    // Adapt the interface for callback-based execution or Promise-based execution
-    if (callback !== undefined) {
-      this.logger.warn(
-        'Using callbacks has been deprecated, and will not work in the next major version of WebClient. Instead, ' +
-        'call this method without the callback argument and a Promise will be returned. See the documentation for ' +
-        'examples.',
-      );
-      callbackify(implementation)(callback);
-      return;
-    }
     return implementation();
   }
 
@@ -910,10 +895,6 @@ export interface WebAPICallResult {
     warnings?: string[];
     next_cursor?: string; // is this too specific to be encoded into this type?
   };
-}
-
-export interface WebAPIResultCallback {
-  (error: WebAPICallError, result: WebAPICallResult): void;
 }
 
 export type WebAPICallError = WebAPIPlatformError | WebAPIRequestError | WebAPIReadError | WebAPIHTTPError |
