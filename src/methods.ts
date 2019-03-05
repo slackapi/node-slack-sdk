@@ -36,11 +36,6 @@ export interface Searchable {
   sort_dir: 'asc' | 'desc';
 }
 
-// For workspace apps, this argument allows calling a method on behalf of a user
-export interface UserPerspectiveEnabled {
-  on_behalf_of?: string;
-}
-
 // Pagination protocols
 // --------------------
 // In order to support automatic pagination in the WebClient, the following pagination types are not only defined as an
@@ -564,12 +559,12 @@ export type DialogOpenArguments = TokenOverridable & {
   /*
    * `dnd.*`
    */
-export type DndEndDndArguments = TokenOverridable & UserPerspectiveEnabled;
-export type DndEndSnoozeArguments = TokenOverridable & UserPerspectiveEnabled;
+export type DndEndDndArguments = TokenOverridable;
+export type DndEndSnoozeArguments = TokenOverridable;
 export type DndInfoArguments = TokenOverridable & {
   user: string;
 };
-export type DndSetSnoozeArguments = TokenOverridable & UserPerspectiveEnabled & {
+export type DndSetSnoozeArguments = TokenOverridable & {
   num_minutes: number;
 };
 export type DndTeamInfoArguments = TokenOverridable & {
@@ -826,21 +821,21 @@ export type ReactionsRemoveArguments = TokenOverridable & {
   /*
    * `reminders.*`
    */
-export type RemindersAddArguments = TokenOverridable & UserPerspectiveEnabled & {
+export type RemindersAddArguments = TokenOverridable & {
   text: string;
   time: string | number;
   user?: string;
 };
-export type RemindersCompleteArguments = TokenOverridable & UserPerspectiveEnabled & {
+export type RemindersCompleteArguments = TokenOverridable & {
   reminder: string;
 };
-export type RemindersDeleteArguments = TokenOverridable & UserPerspectiveEnabled & {
+export type RemindersDeleteArguments = TokenOverridable & {
   reminder: string;
 };
-export type RemindersInfoArguments = TokenOverridable & UserPerspectiveEnabled & {
+export type RemindersInfoArguments = TokenOverridable & {
   reminder: string;
 };
-export type RemindersListArguments = TokenOverridable & UserPerspectiveEnabled;
+export type RemindersListArguments = TokenOverridable;
 
   /*
    * `rtm.*`
@@ -967,7 +962,7 @@ export type UsersDeletePhotoArguments = TokenOverridable;
 export type UsersGetPresenceArguments = TokenOverridable & {
   user: string;
 };
-export type UsersIdentityArguments = TokenOverridable & UserPerspectiveEnabled;
+export type UsersIdentityArguments = TokenOverridable;
 export type UsersInfoArguments = TokenOverridable & LocaleAware & {
   user: string;
 };
@@ -992,7 +987,7 @@ export type UsersProfileGetArguments = TokenOverridable & {
   include_labels?: boolean;
   user?: string;
 };
-export type UsersProfileSetArguments = TokenOverridable & UserPerspectiveEnabled &{
+export type UsersProfileSetArguments = TokenOverridable &{
   profile?: string; // url-encoded json
   user?: string;
   name?: string; // usable if `profile` is not passed

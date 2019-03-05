@@ -18,7 +18,6 @@ headings:
     - title: OAuth token exchange
     - title: Using legacy message attachments
     - title: Using a callback instead of a Promise (deprecated)
-    - title: Calling methods on behalf of users (deprecated)
 
 ---
 
@@ -570,30 +569,3 @@ web.channels.list({}, (err, res) => {
 ```
 
 Note that when calling a method with no required arguments, you **still need to provide an empty options object**.
-
----
-
-### Calling methods on behalf of users (deprecated)
-
-When using [workspace tokens](https://api.slack.com/docs/token-types#workspace), some methods allow your app to perform
-the action _on behalf of a user_. To use one of these methods, your app will provide the user's ID as an option named
-`on_behalf_of`.
-
-```javascript
-const { WebClient } = require('@slack/client');
-
-// An access token (from your Slack app - xoxa)
-const token = process.env.SLACK_TOKEN;
-
-// A user ID - this may be found in events or requests such as slash commands, interactive messages, actions, or dialogs
-const userId = 'U0123456';
-
-const web = new WebClient(token);
-
-(async () => {
-  // https://api.slack.com/methods/users.identity
-  const res = await web.users.identity({ on_behalf_of: userId });
-  // `res` contains information about the user. the specific structure depends on the scopes your app was allowed.
-  console.log(res);
-})();
-```

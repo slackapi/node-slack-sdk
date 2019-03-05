@@ -160,13 +160,6 @@ export class WebClient extends EventEmitter {
         );
       }
 
-      // build headers
-      const headers = {};
-      if (options !== undefined && optionsAreUserPerspectiveEnabled(options)) {
-        headers['X-Slack-User'] = options.on_behalf_of;
-        delete options.on_behalf_of;
-      }
-
       const methodSupportsCursorPagination = methods.cursorPaginationEnabledMethods.has(method);
       const optionsPaginationType = getOptionsPaginationType(options);
 
@@ -217,7 +210,7 @@ export class WebClient extends EventEmitter {
             { token: this.token },
             paginationOptions,
             options,
-          ), headers)
+          ))
             .then((response) => {
               const result = this.buildResult(response);
 
@@ -798,13 +791,6 @@ export interface WebAPIRateLimitedError extends CodedError {
  */
 
 const defaultFilename = 'Untitled';
-
-/**
- * Determines whether WebAPICallOptions conform to UserPerspectiveEnabled
- */
-function optionsAreUserPerspectiveEnabled(options: WebAPICallOptions): options is methods.UserPerspectiveEnabled {
-  return (options as any).on_behalf_of !== undefined;
-}
 
 /**
  * A factory to create WebAPIRequestError objects
