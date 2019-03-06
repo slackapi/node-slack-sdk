@@ -1,11 +1,11 @@
-import { OperationOptions } from 'retry';
+import { Options } from 'p-retry';
 
 // SEMVER:MAJOR renaming exports to camelCase
 
 /**
  * Options to create retry policies. Extends from https://github.com/tim-kos/node-retry.
  */
-export interface RetryOptions extends OperationOptions {
+export interface RetryOptions extends Options {
 }
 
 /**
