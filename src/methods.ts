@@ -612,16 +612,7 @@ export type FilesUploadArguments = TokenOverridable & {
   title?: string;
   thread_ts?: string; // if specified, `channels` must be set
 };
-export type FilesCommentsAddArguments = TokenOverridable & {
-  comment: string;
-  file: string; // file id
-};
 export type FilesCommentsDeleteArguments = TokenOverridable & {
-  file: string; // file id
-  id: string; // comment id
-};
-export type FilesCommentsEditArguments = TokenOverridable & {
-  comment: string;
   file: string; // file id
   id: string; // comment id
 };

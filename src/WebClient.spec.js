@@ -919,23 +919,6 @@ describe('WebClient', function () {
       this.capture.startCapture();
     });
 
-    it('should warn when calling a deprecated method', function () {
-      return this.client.files.comments.add({ file: 'FILE', comment: 'COMMENT' })
-        .then(() => {
-          const output = this.capture.getCapturedText();
-          assert.isNotEmpty(output);
-          const warning = output[0];
-          assert.match(warning, /^\[WARN\]/);
-          this.scope.done();
-        })
-        .then(() => {
-          this.capture.stopCapture();
-        }, (error) => {
-          this.capture.stopCapture();
-          throw error;
-        });
-    });
-
     it('should warn when calling an API method using a callback', function (done) {
       this.client.apiCall('method', {}, () => {
         const output = this.capture.getCapturedText();
