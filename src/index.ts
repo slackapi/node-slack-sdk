@@ -31,10 +31,8 @@ export {
                    // becomes evident
   WebAPIHTTPError,
   WebAPIRateLimitedError,
-  WebAPIRefreshFailedError,
   WebAPICallError,
   WebAPIResultCallback,
-  TokenRefreshedEvent,
 } from './WebClient';
 
 export * from './methods';
