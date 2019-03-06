@@ -113,15 +113,6 @@ describe('WebClient', function () {
             assert.isTrue(logger.warn.calledTwice);
           });
       });
-
-      it('should deliver results in a callback', function (done) {
-        this.client.apiCall('method', {}, (error, result) => {
-          assert.isNotOk(error);
-          assert(result.ok);
-          this.scope.done();
-          done();
-        });
-      });
     });
 
     describe('with OAuth scopes in the response headers', function () {
@@ -163,13 +154,6 @@ describe('WebClient', function () {
         Promise.all(caughtErrors)
           .then(() => done());
       });
-
-      it('should return a TypeError to its callback', function (done) {
-        this.client.apiCall('method', 4, (error) => {
-          assert.instanceOf(error, TypeError);
-          done();
-        });
-      });
     });
 
     describe('when an API call fails', function () {
@@ -183,14 +167,6 @@ describe('WebClient', function () {
         const r = this.client.apiCall('method')
         assert(isPromise(r));
         r.catch((error) => {
-          assert.instanceOf(error, Error);
-          this.scope.done();
-          done();
-        });
-      });
-
-      it('should deliver error in a callback', function (done) {
-        this.client.apiCall('method', {}, (error) => {
           assert.instanceOf(error, Error);
           this.scope.done();
           done();
@@ -904,30 +880,6 @@ describe('WebClient', function () {
             assert.isTrue(result.ok);
             scope.done();
           });
-      });
-    });
-  });
-
-  describe('warnings', function () {
-
-    beforeEach(function () {
-      this.client = new WebClient(token);
-      this.scope = nock('https://slack.com')
-        .post(/api/)
-        .reply(200, { ok: true });
-      this.capture = new CaptureConsole();
-      this.capture.startCapture();
-    });
-
-    it('should warn when calling an API method using a callback', function (done) {
-      this.client.apiCall('method', {}, () => {
-        const output = this.capture.getCapturedText();
-        assert.isNotEmpty(output);
-        const warning = output[0];
-        assert.match(warning, /^\[WARN\]/);
-        this.scope.done();
-        this.capture.stopCapture();
-        done();
       });
     });
   });

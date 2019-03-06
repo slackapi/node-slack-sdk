@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { MessageAttachment, Block } from './methods';
-import { callbackify, AgentOption, agentForScheme } from './util';
+import { AgentOption, agentForScheme } from './util';
 
 /**
  * A client for Slack's Incoming Webhooks
@@ -44,10 +44,7 @@ export class IncomingWebhook {
    * Send a notification to a conversation
    * @param message the message (a simple string, or an object describing the message)
    */
-  public send(message: string | IncomingWebhookSendArguments): Promise<IncomingWebhookResult>;
-  public send(message: string | IncomingWebhookSendArguments, callback: IncomingWebhookResultCallback): void;
-  public send(message: string | IncomingWebhookSendArguments,
-              callback?: IncomingWebhookResultCallback): Promise<IncomingWebhookResult> | void {
+  public send(message: string | IncomingWebhookSendArguments): Promise<IncomingWebhookResult> {
     // NOTE: no support for TLS config
     let payload: IncomingWebhookSendArguments = Object.assign({}, this.defaults);
 
@@ -72,10 +69,6 @@ export class IncomingWebhook {
         return this.buildResult(response);
       });
 
-    if (callback !== undefined) {
-      callbackify(implementation)(callback);
-      return;
-    }
     return implementation();
   }
 
@@ -112,10 +105,6 @@ export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArgu
 
 export interface IncomingWebhookResult {
   text: string;
-}
-
-export interface IncomingWebhookResultCallback {
-  (error: IncomingWebhookSendError, result: IncomingWebhookResult): void;
 }
 
 export type IncomingWebhookSendError = IncomingWebhookRequestError | IncomingWebhookReadError |

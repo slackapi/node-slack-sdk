@@ -1,5 +1,5 @@
 import { Stream } from 'stream';
-import { WebAPICallOptions, WebAPIResultCallback, WebAPICallResult } from './WebClient';
+import { WebAPICallOptions, WebAPICallResult } from './WebClient';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
 // NOTE: not clear if these interfaces should be exported at the top-level
@@ -10,7 +10,6 @@ import { WebAPICallOptions, WebAPIResultCallback, WebAPICallResult } from './Web
 export default interface Method<MethodArguments extends WebAPICallOptions> {
   // TODO: can we create a relationship between MethodArguments and a MethodResult type? hint: conditional types
   (options?: MethodArguments & AuxiliaryArguments): Promise<WebAPICallResult>;
-  (options: MethodArguments & AuxiliaryArguments, callback: WebAPIResultCallback): void;
 }
 
 /*

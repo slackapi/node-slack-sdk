@@ -31,7 +31,6 @@ export {
   WebAPIHTTPError,
   WebAPIRateLimitedError,
   WebAPICallError,
-  WebAPIResultCallback,
 } from './WebClient';
 
 export * from './methods';
@@ -43,7 +42,6 @@ export {
   RTMPlatformError,
   RTMWebsocketError,
   RTMCallError,
-  RTMCallResultCallback,
 } from './RTMClient';
 
 export {
@@ -51,5 +49,4 @@ export {
   IncomingWebhookSendArguments,
   IncomingWebhookDefaultArguments,
   IncomingWebhookResult,
-  IncomingWebhookResultCallback,
 } from './IncomingWebhook';

@@ -9,8 +9,4 @@ describe('typescript typings tests', () => {
   it('should export method argument types and enforce strictness in the right ways', () => {
     check([`${__dirname}/sources/method-argument-types.ts`], `${__dirname}/tsconfig-strict.json`);
   });
-
-  it('should properly type api calls with callback method parameters', () => {
-    check([`${__dirname}/sources/webclient-callback-type.ts`], `${__dirname}/tsconfig-strict.json`);
-  });
 });

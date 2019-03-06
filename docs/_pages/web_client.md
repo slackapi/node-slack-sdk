@@ -17,7 +17,6 @@ headings:
     - title: Custom agent for proxy support
     - title: OAuth token exchange
     - title: Using legacy message attachments
-    - title: Using a callback instead of a Promise (deprecated)
 
 ---
 
@@ -545,23 +544,3 @@ anywhere you construct a message (like `chat.postMessage`). Just use the `attach
   console.log('Message sent: ', res.ts);
 })();
 ```
----
-
-### Using a callback instead of a Promise (deprecated)
-
-Every web API method can also be called with a callback function that takes `cb(error, response)`. If you prefer
-callbacks over promises, here is the example above translated for callbacks:
-
-```javascript
-web.channels.list({}, (err, res) => {
-  if (err) {
-    return console.error(err);
-  }
-
-  // `res` contains information about the channels
-  res.channels.forEach(c => console.log(c.name));
-});
-
-```
-
-Note that when calling a method with no required arguments, you **still need to provide an empty options object**.
