@@ -21,8 +21,8 @@
     "dist/**/*"
   ],
   "engines": {
-    "node": ">= 6.9.0",
-    "npm": ">= 3.10.8"
+    "node": ">= 8.9.0",
+    "npm": ">= 5.5.1"
   },
   "repository": "slackapi/node-slack-sdk",
   "bugs": {
@@ -45,7 +45,7 @@
   "dependencies": {
     "@types/form-data": "^2.2.1",
     "@types/is-stream": "^1.1.0",
-    "@types/node": ">=6.0.0",
+    "@types/node": ">=8.9.0",
     "@types/p-cancelable": "^0.3.0",
     "@types/p-queue": "^2.3.1",
     "@types/p-retry": "^1.0.1",
