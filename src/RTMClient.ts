@@ -5,7 +5,7 @@ import WebSocket = require('ws'); // tslint:disable-line:import-name no-require-
 import Finity, { StateMachine } from 'finity'; // tslint:disable-line:import-name
 import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
 import PCancelable = require('p-cancelable'); // tslint:disable-line:import-name no-require-imports
-import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc, isLoggingFunc } from './logger';
+import { LogLevel, Logger, getLogger } from './logger';
 import { RetryOptions } from './retry-policies';
 import { KeepAlive } from './KeepAlive';
 import { WebClient, WebAPICallResult, WebAPICallError, ErrorCode, CodedError } from './';
@@ -345,12 +345,7 @@ export class RTMClient extends EventEmitter {
     }, this);
 
     // Logging
-    if (logger !== undefined && isLoggingFunc(logger)) {
-      this.logger = loggerFromLoggingFunc(RTMClient.loggerName, logger, logLevel);
-      this.logger.warn('Using a logging function is deprecated. Use a Logger object instead.');
-    } else {
-      this.logger = getLogger(RTMClient.loggerName, logLevel, logger);
-    }
+    this.logger = getLogger(RTMClient.loggerName, logLevel, logger);
 
     this.stateMachine = Finity.start(this.stateMachineConfig);
 
@@ -649,8 +644,7 @@ export default RTMClient;
 // NOTE: add an experimental flag to turn off KeepAlive
 export interface RTMClientOptions {
   slackApiUrl?: string;
-  /** Custom logger. Using a LoggingFunc is deprecated. */
-  logger?: Logger | LoggingFunc;
+  logger?: Logger;
   logLevel?: LogLevel;
   retryConfig?: RetryOptions;
   agent?: Agent;

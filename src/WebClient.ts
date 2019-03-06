@@ -14,7 +14,7 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
 import { awaitAndReduce, getUserAgent, delay, AgentOption, TLSOptions, agentForScheme } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
-import { LogLevel, Logger, LoggingFunc, getLogger, loggerFromLoggingFunc, isLoggingFunc } from './logger';
+import { LogLevel, Logger, getLogger } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
 import Method, * as methods from './methods'; // tslint:disable-line:import-name
 
@@ -27,64 +27,15 @@ const pkg = require('../package.json'); // tslint:disable-line:no-require-import
  * a convenience wrapper for calling the {@link WebClient#apiCall} method using the method name as the first parameter.
  */
 export class WebClient extends EventEmitter {
-
-  /**
-   * Authentication and authorization token for accessing Slack Web API (usually begins with `xoxa`, `xoxp`, or `xoxb`).
-   * This should be treated as readonly. Setting this value is used for refreshing tokens, and it is deprecated.
-   */
-  public get token(): string | undefined {
-    return this._accessToken;
-  }
-  public set token(newToken: string | undefined) {
-    this.accessTokenExpiresAt = undefined;
-    this.isTokenRefreshing = false;
-    this._accessToken = newToken;
-  }
-
-  /**
-   * OAuth 2.0 refresh token used to automatically create new access tokens (`token`) when the current is expired.
-   * @deprecated
-   */
-  public readonly refreshToken?: string;
-
-  /**
-   * OAuth 2.0 client identifier
-   * @deprecated
-   */
-  public readonly clientId?: string;
-
-  /**
-   * OAuth 2.0 client secret
-   * @deprecated
-   */
-  public readonly clientSecret?: string;
-
   /**
    * The base URL for reaching Slack's Web API. Consider changing this value for testing purposes.
    */
   public readonly slackApiUrl: string;
 
   /**
-   * The backing store for the current access token.
+   * Authentication and authorization token for accessing Slack Web API (usually begins with `xoxp` or `xoxb`)
    */
-  private _accessToken?: string;
-
-  /**
-   * The time (in milliseconds) when the current access token will expire
-   */
-  private accessTokenExpiresAt?: number;
-
-  /**
-   * Whether or not a token refresh is currently in progress
-   * TODO: maybe this should be a Promise so that other API calls can await this and we don't fill the queue with
-   * calls that are destined to fail.
-   */
-  private isTokenRefreshing: boolean = false;
-
-  /**
-   * The time (in milliseconds) when the last token refresh completed
-   */
-  private accessTokenLastRefreshedAt?: number;
+  public readonly token?: string;
 
   /**
    * Configuration for retry operations. See {@link https://github.com/tim-kos/node-retry|node-retry} for more details.
@@ -128,7 +79,7 @@ export class WebClient extends EventEmitter {
   private logger: Logger;
 
   /**
-   * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`, or `xoxa`)
+   * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`)
    */
   constructor(token?: string, {
     slackApiUrl = 'https://slack.com/api/',
@@ -140,16 +91,10 @@ export class WebClient extends EventEmitter {
     tls = undefined,
     pageSize = 200,
     rejectRateLimitedCalls = false,
-    clientId = undefined,
-    clientSecret = undefined,
-    refreshToken = undefined,
     headers = {},
   }: WebClientOptions = {}) {
     super();
-    this._accessToken = token;
-    this.clientId = clientId;
-    this.clientSecret = clientSecret;
-    this.refreshToken = refreshToken;
+    this.token = token;
     this.slackApiUrl = slackApiUrl;
 
     this.retryConfig = retryConfig;
@@ -160,12 +105,7 @@ export class WebClient extends EventEmitter {
     this.rejectRateLimitedCalls = rejectRateLimitedCalls;
 
     // Logging
-    if (logger !== undefined && isLoggingFunc(logger)) {
-      this.logger = loggerFromLoggingFunc(WebClient.loggerName, logger, logLevel);
-      this.logger.warn('Using a logging function is deprecated. Use a Logger object instead.');
-    } else {
-      this.logger = getLogger(WebClient.loggerName, logLevel, logger);
-    }
+    this.logger = getLogger(WebClient.loggerName, logLevel, logger);
 
     this.axios = axios.create({
       baseURL: slackApiUrl,
@@ -180,15 +120,6 @@ export class WebClient extends EventEmitter {
     });
     // serializeApiCallOptions will always determine the appropriate content-type
     delete this.axios.defaults.headers.post['Content-Type'];
-
-    // Warn when automatic token refresh is being used
-    if (this.shouldAutomaticallyRefreshToken) {
-      this.logger.warn(
-        'Automatic token refresh has been deprecated and will be removed from the next major version of the ' +
-        'WebClient. Refresh tokens were built to support Workspace Apps, which have also been deprecated. See ' +
-        'https://medium.com/slack-developer-blog/an-update-on-workspace-apps-aabc9e42a98b to learn more.',
-      );
-    }
 
     this.logger.debug('initialized');
   }
@@ -208,31 +139,6 @@ export class WebClient extends EventEmitter {
 
       if (typeof options === 'string' || typeof options === 'number' || typeof options === 'boolean') {
         throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
-      }
-
-      // warn for methods whose functionality is deprecated
-      if (method === 'files.comments.add' || method === 'files.comments.edit') {
-        this.logger.warn(
-          `File comments are deprecated in favor of file threads. Replace uses of ${method} in your app ` +
-          'to take advantage of improvements. See https://api.slack.com/changelog/2018-05-file-threads-soon-tread ' +
-          'to learn more.',
-        );
-      }
-
-      // optimistically check for an expired access token, and refresh it if possible
-      if ((method !== 'oauth.access' && method !== 'oauth.token') &&
-          (options === undefined || !('token' in options)) &&
-          this.shouldAutomaticallyRefreshToken &&
-          (this.token === undefined ||
-           this.accessTokenExpiresAt !== undefined && this.accessTokenExpiresAt < Date.now())) {
-        await this.performTokenRefresh();
-      }
-
-      // build headers
-      const headers = {};
-      if (options !== undefined && optionsAreUserPerspectiveEnabled(options)) {
-        headers['X-Slack-User'] = options.on_behalf_of;
-        delete options.on_behalf_of;
       }
 
       const methodSupportsCursorPagination = methods.cursorPaginationEnabledMethods.has(method);
@@ -280,16 +186,13 @@ export class WebClient extends EventEmitter {
                  (objectEntries(paginationOptions = paginationOptionsForNextPage(result, this.pageSize)).length > 0)
                )
               ) {
-          // NOTE: this is a really inelegant way of capturing the request time
-          let requestTime: number | undefined;
 
           result = await (this.makeRequest(method, Object.assign(
-            { token: this._accessToken },
+            { token: this.token },
             paginationOptions,
             options,
-          ), headers)
+          ))
             .then((response) => {
-              requestTime = response.request[requestTimePropName];
               const result = this.buildResult(response);
 
               // log warnings in response metadata
@@ -302,30 +205,6 @@ export class WebClient extends EventEmitter {
               }
 
               return result;
-            })
-            // Automatic token refresh concerns
-            .catch(async (error) => {
-              if (this.shouldAutomaticallyRefreshToken &&
-                  error.code === ErrorCode.PlatformError && error.data.error === 'invalid_auth') {
-                if (requestTime === undefined) {
-                  // TODO: create an inconsistent state error
-                  throw new Error('A logical error with tracking the request time occurred.');
-                }
-
-                if (this.accessTokenLastRefreshedAt === undefined) {
-                  if (!this.isTokenRefreshing) {
-                    await this.performTokenRefresh();
-                    return implementation();
-                  }
-                  return implementation();
-                }
-                if (!this.isTokenRefreshing && requestTime > this.accessTokenLastRefreshedAt) {
-                  await this.performTokenRefresh();
-                  return implementation();
-                }
-                return implementation();
-              }
-              throw error;
             }));
 
           yield result;
@@ -475,9 +354,7 @@ export class WebClient extends EventEmitter {
       (this.apiCall.bind(this, 'files.sharedPublicURL')) as Method<methods.FilesSharedPublicURLArguments>,
     upload: (this.apiCall.bind(this, 'files.upload')) as Method<methods.FilesUploadArguments>,
     comments: {
-      add: (this.apiCall.bind(this, 'files.comments.add')) as Method<methods.FilesCommentsAddArguments>,
       delete: (this.apiCall.bind(this, 'files.comments.delete')) as Method<methods.FilesCommentsDeleteArguments>,
-      edit: (this.apiCall.bind(this, 'files.comments.edit')) as Method<methods.FilesCommentsEditArguments>,
     },
   };
 
@@ -539,7 +416,6 @@ export class WebClient extends EventEmitter {
    */
   public readonly oauth = {
     access: (this.apiCall.bind(this, 'oauth.access')) as Method<methods.OAuthAccessArguments>,
-    token: (this.apiCall.bind(this, 'oauth.token')) as Method<methods.OAuthTokenArguments>,
   };
 
   /**
@@ -654,11 +530,9 @@ export class WebClient extends EventEmitter {
     const task = () => this.requestQueue.add(async () => {
       this.logger.debug('will perform http request');
       try {
-        const requestTime = Date.now();
         const response = await this.axios.post(url, body, Object.assign({
           headers,
         }, this.tlsConfig));
-        response.request[requestTimePropName] = requestTime;
         this.logger.debug('http response received');
 
         if (response.status === 429) {
@@ -806,57 +680,6 @@ export class WebClient extends EventEmitter {
 
     return data;
   }
-
-  /**
-   * Determine if this client is in automatic token-refreshing mode
-   */
-  private get shouldAutomaticallyRefreshToken(): boolean {
-    return (this.clientId !== undefined && this.clientSecret !== undefined && this.refreshToken !== undefined);
-  }
-
-  /**
-   * Perform a token refresh. Before calling this method, this.shouldAutomaticallyRefreshToken should be checked.
-   *
-   * This method avoids using `apiCall()` because that could infinitely recurse when that method determines that the
-   * access token is already expired.
-   */
-  private async performTokenRefresh(): Promise<void> {
-    let refreshResponse: AxiosResponse | undefined;
-
-    try {
-      // TODO: if we change isTokenRefreshing to a promise, we could await it here.
-      this.isTokenRefreshing = true;
-
-      refreshResponse =  await this.makeRequest('oauth.access', {
-        client_id: this.clientId,
-        client_secret: this.clientSecret,
-        grant_type: 'refresh_token',
-        refresh_token: this.refreshToken,
-      });
-
-      if (!refreshResponse.data.ok) {
-        throw platformErrorFromResponse(refreshResponse);
-      }
-
-    } catch (error) {
-      this.isTokenRefreshing = false;
-      throw refreshFailedErrorWithOriginal(error);
-    }
-
-    this.isTokenRefreshing = false;
-    this.accessTokenLastRefreshedAt = Date.now();
-    this._accessToken = refreshResponse.data.access_token;
-    this.accessTokenExpiresAt = Date.now() + (refreshResponse.data.expires_in * 1000);
-
-    const tokenRefreshedEvent: TokenRefreshedEvent = {
-      access_token: refreshResponse.data.access_token,
-      expires_in: refreshResponse.data.expires_in,
-      team_id: refreshResponse.data.team_id,
-      enterprise_id: refreshResponse.data.enterprise_id,
-    };
-
-    this.emit('token_refreshed', tokenRefreshedEvent);
-  }
 }
 
 export default WebClient;
@@ -867,8 +690,7 @@ export default WebClient;
 
 export interface WebClientOptions {
   slackApiUrl?: string;
-  /** Custom logger. Using a LoggingFunc is deprecated. */
-  logger?: Logger | LoggingFunc;
+  logger?: Logger;
   logLevel?: LogLevel;
   maxRequestConcurrency?: number;
   retryConfig?: RetryOptions;
@@ -876,9 +698,6 @@ export interface WebClientOptions {
   tls?: TLSOptions;
   pageSize?: number;
   rejectRateLimitedCalls?: boolean;
-  clientId?: string; /* DEPRECATED */
-  clientSecret?: string; /* DEPRECATED */
-  refreshToken?: string; /* DEPRECATED */
   headers?: object;
 }
 
@@ -898,7 +717,7 @@ export interface WebAPICallResult {
 }
 
 export type WebAPICallError = WebAPIPlatformError | WebAPIRequestError | WebAPIReadError | WebAPIHTTPError |
-  WebAPIRateLimitedError | WebAPIRefreshFailedError;
+  WebAPIRateLimitedError;
 
 export interface WebAPIPlatformError extends CodedError {
   code: ErrorCode.PlatformError;
@@ -931,31 +750,11 @@ export interface WebAPIRateLimitedError extends CodedError {
   retryAfter: number;
 }
 
-export interface WebAPIRefreshFailedError extends CodedError {
-  code: ErrorCode.RefreshFailedError;
-  original: Error;
-}
-
-export interface TokenRefreshedEvent {
-  access_token: string;
-  expires_in: number;
-  team_id: string;
-  enterprise_id?: string;
-}
-
 /*
  * Helpers
  */
 
 const defaultFilename = 'Untitled';
-const requestTimePropName = 'slack_webclient_request_time';
-
-/**
- * Determines whether WebAPICallOptions conform to UserPerspectiveEnabled
- */
-function optionsAreUserPerspectiveEnabled(options: WebAPICallOptions): options is methods.UserPerspectiveEnabled {
-  return (options as any).on_behalf_of !== undefined;
-}
 
 /**
  * A factory to create WebAPIRequestError objects
@@ -1001,19 +800,6 @@ function platformErrorFromResult(result: WebAPICallResult & { error: string; }):
 }
 
 /**
- * A factory to create WebAPIPlatformError objects
- * @param response - Axios response
- */
-function platformErrorFromResponse(response: AxiosResponse & { data: { error: string; };}): WebAPIPlatformError {
-  const error = errorWithCode(
-    new Error(`An API error occurred: ${response.data.error}`),
-    ErrorCode.PlatformError,
-  ) as Partial<WebAPIPlatformError>;
-  error.data = response.data;
-  return (error as WebAPIPlatformError);
-}
-
-/**
  * A factory to create WebAPIRateLimitedError objects
  * @param retrySec - Number of seconds that the request can be retried in
  */
@@ -1024,19 +810,6 @@ function rateLimitedErrorWithDelay(retrySec: number): WebAPIRateLimitedError {
   ) as Partial<WebAPIRateLimitedError>;
   error.retryAfter = retrySec;
   return (error as WebAPIRateLimitedError);
-}
-
-/**
- * A factory to create WebAPIRefreshFailedError objects
- * @param original - Original error
- */
-function refreshFailedErrorWithOriginal(original: WebAPICallError): WebAPIRefreshFailedError {
-  const error = errorWithCode(
-    new Error(`A token refresh error occurred: ${original.message}`),
-    ErrorCode.RefreshFailedError,
-  ) as Partial<WebAPIRefreshFailedError>;
-  error.original = original;
-  return (error as WebAPIRefreshFailedError);
 }
 
 enum PaginationType {

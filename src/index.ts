@@ -1,6 +1,5 @@
 export {
   Logger,
-  LoggingFunc,
   LogLevel,
 } from './logger';
 
@@ -31,9 +30,7 @@ export {
                    // becomes evident
   WebAPIHTTPError,
   WebAPIRateLimitedError,
-  WebAPIRefreshFailedError,
   WebAPICallError,
-  TokenRefreshedEvent,
 } from './WebClient';
 
 export * from './methods';
