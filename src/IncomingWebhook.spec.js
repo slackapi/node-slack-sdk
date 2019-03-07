@@ -108,16 +108,24 @@ describe('IncomingWebhook', function () {
   });
 
   describe('has an option to set a custom HTTP agent', function () {
-    it('should send a request using the custom agent', function (done) {
-      const agent = new Agent({keepAlive: true});
+    it('should send a request using the custom agent', function () {
+      const agent = new Agent({ keepAlive: true });
       const spy = sinon.spy(agent, 'addRequest');
-      const webhook = new IncomingWebhook(url, {agent});
-      webhook.send('Hello', () => {
-        // assert(spy.called);
-        agent.addRequest.restore();
-        agent.destroy();
-        done();
-      });
+      const webhook = new IncomingWebhook(url, { agent });
+
+      return webhook.send('Hello')
+        .catch((error) => {
+          assert(spy.called);
+        })
+        .then(() => {
+          agent.addRequest.restore();
+          agent.destroy();
+        })
+        .catch((error) => {
+          agent.addRequest.restore();
+          agent.destroy();
+          throw error;
+        });
     });
 
     it('should use the right custom agent when providing agents for many schemes', function () {
@@ -129,24 +137,35 @@ describe('IncomingWebhook', function () {
         http: badAgent,
       } });
 
-      webhook.send('Hello')
-      .catch(() => {
-        assert(spy.called);
-      }).then( () => {
-        agent.addRequest.restore();
-        agent.destroy();
-      }).catch((error) => {
-        agent.addRequest.restore();
-        agent.destroy();
-        throw error;
-      });
+      return webhook.send('Hello')
+        .catch((error) => {
+          assert(spy.called);
+        }).then( () => {
+          agent.addRequest.restore();
+          agent.destroy();
+        }).catch((error) => {
+          agent.addRequest.restore();
+          agent.destroy();
+          throw error;
+        });
     });
 
+<<<<<<< Updated upstream
     it('should use accept a boolean (false) agent', function (done) {
       const webhook = new IncomingWebhook(url, {agent: false});
       webhook.send('Hello', () => {
         done();
       });
+=======
+    it('should use accept a boolean (false) agent', function () {
+      const webhook = new IncomingWebhook(url, { agent: false });
+      const result = webhook.send('Hello');
+      return result.catch((error) => { });
+>>>>>>> Stashed changes
     });
+  });
+
+  afterEach(function () {
+    nock.cleanAll();
   });
 });
