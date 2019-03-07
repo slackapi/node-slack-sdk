@@ -5,7 +5,6 @@ import { stringify as qsStringify } from 'querystring';
 import { IncomingHttpHeaders } from 'http';
 import { basename } from 'path';
 import { Readable } from 'stream';
-import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
 import isStream = require('is-stream'); // tslint:disable-line:no-require-imports
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
 import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
@@ -183,7 +182,7 @@ export class WebClient extends EventEmitter {
 
         while (result === undefined ||
                (shouldAutoPaginate &&
-                 (objectEntries(paginationOptions = paginationOptionsForNextPage(result, this.pageSize)).length > 0)
+                 (Object.entries(paginationOptions = paginationOptionsForNextPage(result, this.pageSize)).length > 0)
                )
               ) {
 
@@ -592,7 +591,7 @@ export class WebClient extends EventEmitter {
     // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
     // binary content
     let containsBinaryData = false;
-    const flattened = objectEntries(options)
+    const flattened = Object.entries(options)
       .map(([key, value]) => {
         if (value === undefined || value === null) {
           return [];
@@ -640,7 +639,7 @@ export class WebClient extends EventEmitter {
       }, new FormData());
       // Merge FormData provided headers into headers param
       // not reassigning to headers param since it is passed by reference and behaves as an inout param
-      for (const [header, value] of objectEntries(form.getHeaders())) {
+      for (const [header, value] of Object.entries(form.getHeaders())) {
         headers[header] = value;
       }
       return form;
