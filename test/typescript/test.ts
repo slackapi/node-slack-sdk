@@ -1,5 +1,5 @@
 import 'mocha';
-import { check, checkDirectory } from 'typings-tester';
+import { check } from 'typings-tester';
 
 describe('typescript typings tests', () => {
   it('should allow WebClient to work without a token', () => {

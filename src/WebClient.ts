@@ -177,6 +177,7 @@ export class WebClient extends EventEmitter {
       transformRequest: [this.serializeApiCallOptions.bind(this)],
       validateStatus: () => true, // all HTTP status codes should result in a resolved promise (as opposed to only 2xx)
       maxRedirects: 0,
+      proxy: false,
     });
     // serializeApiCallOptions will always determine the appropriate content-type
     delete this.axios.defaults.headers.post['Content-Type'];
@@ -709,7 +710,7 @@ export class WebClient extends EventEmitter {
 
         return response;
       } catch (error) {
-        this.logger.debug('http request failed');
+        this.logger.debug('http request failed', error.message);
         if (error.request) {
           throw requestErrorWithOriginal(error);
         }
