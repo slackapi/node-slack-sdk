@@ -40,11 +40,8 @@ describe('with a proxy server listening', function () {
       delete process.env.http_proxy;
     });
 
-    // NOTE: we are intentionally using a non-TLS URL here to make this test effective.
-    // it turns out that axios' automatic proxy support (which we've disabled) doesn't support TLS connections via
-    // proxies, while the https-proxy-agent package does. so the only want to test whether the automatic proxy support
-    // is actually turned off is to use an http (non-TLS) API URL, because otherwise we'd still see the effect that
-    // the proxy was not called, and that would be a false positive.
+    // NOTE: we are intentionally using a non-TLS URL here to make this test effective. otherwise we'd still see the
+    // effect that the proxy was not called, and that would be a false positive.
     const client = new WebClient(undefined, {
       slackApiUrl: 'http://example.com/',
       retryConfig: retryPolicies.rapidRetryPolicy
