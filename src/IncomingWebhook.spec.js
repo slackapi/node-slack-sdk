@@ -150,18 +150,10 @@ describe('IncomingWebhook', function () {
         });
     });
 
-<<<<<<< Updated upstream
-    it('should use accept a boolean (false) agent', function (done) {
-      const webhook = new IncomingWebhook(url, {agent: false});
-      webhook.send('Hello', () => {
-        done();
-      });
-=======
     it('should use accept a boolean (false) agent', function () {
       const webhook = new IncomingWebhook(url, { agent: false });
       const result = webhook.send('Hello');
       return result.catch((error) => { });
->>>>>>> Stashed changes
     });
   });
 
