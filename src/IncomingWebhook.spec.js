@@ -114,7 +114,7 @@ describe('IncomingWebhook', function () {
       const webhook = new IncomingWebhook(url, { agent });
 
       return webhook.send('Hello')
-        .catch((error) => {
+        .catch(() => {
           assert(spy.called);
         })
         .then(() => {
@@ -138,7 +138,7 @@ describe('IncomingWebhook', function () {
       } });
 
       return webhook.send('Hello')
-        .catch((error) => {
+        .catch(() => {
           assert(spy.called);
         }).then( () => {
           agent.addRequest.restore();
