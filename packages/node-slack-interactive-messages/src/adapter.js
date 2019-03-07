@@ -413,26 +413,6 @@ export class SlackMessageAdapter {
         }
       }
 
-      // if the block ID constraint is specified, only continue if it matches
-      if (constraints.blockId) {
-        if (isString(constraints.blockId) && payload.block_id !== constraints.blockId) {
-          return false;
-        }
-        if (isRegExp(constraints.blockId) && !constraints.blockId.test(payload.block_id)) {
-          return false;
-        }
-      }
-
-      // if the action ID constraint is specified, only continue if it matches
-      if (constraints.actionId) {
-        if (isString(constraints.actionId) && payload.action_id !== constraints.actionId) {
-          return false;
-        }
-        if (isRegExp(constraints.actionId) && !constraints.actionId.test(payload.action_id)) {
-          return false;
-        }
-      }
-
       // if the action constraint is specified, only continue if it matches
       if (constraints.handlerType === 'action') {
         // a payload that represents an action either has actions, submission, or message defined
@@ -443,6 +423,26 @@ export class SlackMessageAdapter {
         // dialog submissions don't have an action defined, so an empty action is substituted for
         // the purpose of callback matching
         const action = payload.actions ? payload.actions[0] : {};
+
+        // if the block ID constraint is specified, only continue if it matches
+        if (constraints.blockId) {
+          if (isString(constraints.blockId) && action.block_id !== constraints.blockId) {
+            return false;
+          }
+          if (isRegExp(constraints.blockId) && !constraints.blockId.test(action.block_id)) {
+            return false;
+          }
+        }
+
+        // if the action ID constraint is specified, only continue if it matches
+        if (constraints.actionId) {
+          if (isString(constraints.actionId) && action.action_id !== constraints.actionId) {
+            return false;
+          }
+          if (isRegExp(constraints.actionId) && !constraints.actionId.test(action.action_id)) {
+            return false;
+          }
+        }
 
         // button and message actions have a type defined inside the action, dialog submission
         // actions have a type defined at the top level, and select actions don't have a type
@@ -473,6 +473,26 @@ export class SlackMessageAdapter {
         // at the top level. in blocks the type is block_suggestion and has no name
         if (!('name' in payload || (payload.type && payload.type === 'block_suggestion'))) {
           return false;
+        }
+
+        // if the block ID constraint is specified, only continue if it matches
+        if (constraints.blockId) {
+          if (isString(constraints.blockId) && payload.block_id !== constraints.blockId) {
+            return false;
+          }
+          if (isRegExp(constraints.blockId) && !constraints.blockId.test(payload.block_id)) {
+            return false;
+          }
+        }
+
+        // if the action ID constraint is specified, only continue if it matches
+        if (constraints.actionId) {
+          if (isString(constraints.actionId) && payload.action_id !== constraints.actionId) {
+            return false;
+          }
+          if (isRegExp(constraints.actionId) && !constraints.actionId.test(payload.action_id)) {
+            return false;
+          }
         }
 
         // an options request always has a type at the top level which can be one of three values

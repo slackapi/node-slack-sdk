@@ -900,7 +900,8 @@ describe('SlackMessageAdapter', function () {
         };
         this.optionsFromBlockMessagePayload = {
           value: 'opti',
-          block_id: 'id',
+          block_id: 'b_id',
+          action_id: 'a_id',
           type: 'block_suggestion'
         };
         this.optionsFromDialogPayload = {
@@ -948,7 +949,7 @@ describe('SlackMessageAdapter', function () {
 
         it('should return undefined with a string mismatch', function () {
           var response;
-          this.adapter.action({ blockId: 'b' }, this.callback);
+          this.adapter.action({ blockId: 'a' }, this.callback);
           response = this.adapter.dispatch(this.payload);
           assert(this.callback.notCalled);
           assert.isUndefined(response);
@@ -956,14 +957,51 @@ describe('SlackMessageAdapter', function () {
 
         it('should return undefined with a RegExp mismatch', function () {
           var response;
-          this.adapter.action({ blockId: /b/ }, this.callback);
+          this.adapter.action({ blockId: /a/ }, this.callback);
           response = this.adapter.dispatch(this.payload);
           assert(this.callback.notCalled);
           assert.isUndefined(response);
         });
 
-        // TODO: successful match on string, successful match on regexp, matches when registered
-        // as an options handler instead
+        it('should match with matching blockId', function () {
+          this.adapter.action({ blockId: 'b_id' }, this.callback);
+          this.adapter.dispatch(this.payload);
+          assert(this.callback.called);
+        });
+
+        it('should match with matching RegExp blockId', function () {
+          this.adapter.action({ blockId: /b/ }, this.callback);
+          this.adapter.dispatch(this.payload);
+          assert(this.callback.called);
+        });
+
+        it('should return undefined with a string mismatch with options', function () {
+          var response;
+          this.adapter.options({ blockId: 'a' }, this.callback);
+          response = this.adapter.dispatch(this.optionsFromBlockMessagePayload);
+          assert(this.callback.notCalled);
+          assert.isUndefined(response);
+        });
+
+        it('should return undefined with a RegExp mismatch with options', function () {
+          var response;
+          this.adapter.options({ blockId: /a/ }, this.callback);
+          response = this.adapter.dispatch(this.optionsFromBlockMessagePayload);
+          assert(this.callback.notCalled);
+          assert.isUndefined(response);
+        });
+
+        it('should match with matching blockId with options', function () {
+          this.adapter.options({ blockId: 'b_id' }, this.callback);
+          this.adapter.dispatch(this.optionsFromBlockMessagePayload);
+          assert(this.callback.called);
+        });
+
+        it('should match with matching RegExp blockId with options', function () {
+          this.adapter.options({ blockId: /b/ }, this.callback);
+          this.adapter.dispatch(this.optionsFromBlockMessagePayload);
+          assert(this.callback.called);
+        });
       });
 
       describe('action ID based matching', function () {
@@ -987,8 +1025,45 @@ describe('SlackMessageAdapter', function () {
           assert.isUndefined(response);
         });
 
-        // TODO: successful match on string, successful match on regexp, matches when registered
-        // as an options handler instead
+        it('should match with matching actionId', function () {
+          this.adapter.action({ actionId: 'a_id' }, this.callback);
+          this.adapter.dispatch(this.payload);
+          assert(this.callback.called);
+        });
+
+        it('should match with matching RegExp actionId', function () {
+          this.adapter.action({ actionId: /a/ }, this.callback);
+          this.adapter.dispatch(this.payload);
+          assert(this.callback.called);
+        });
+
+        it('should return undefined with a string mismatch with options', function () {
+          var response;
+          this.adapter.options({ actionId: 'b' }, this.callback);
+          response = this.adapter.dispatch(this.optionsFromBlockMessagePayload);
+          assert(this.callback.notCalled);
+          assert.isUndefined(response);
+        });
+
+        it('should return undefined with a RegExp mismatch with options', function () {
+          var response;
+          this.adapter.options({ actionId: /b/ }, this.callback);
+          response = this.adapter.dispatch(this.optionsFromBlockMessagePayload);
+          assert(this.callback.notCalled);
+          assert.isUndefined(response);
+        });
+
+        it('should match with matching string actionId with options', function () {
+          this.adapter.options({ actionId: 'a_id' }, this.callback);
+          this.adapter.dispatch(this.optionsFromBlockMessagePayload);
+          assert(this.callback.called);
+        });
+
+        it('should match with matching RegExp actionId with options', function () {
+          this.adapter.options({ actionId: /a/ }, this.callback);
+          this.adapter.dispatch(this.optionsFromBlockMessagePayload);
+          assert(this.callback.called);
+        });
       });
 
       describe('type based matching', function () {
