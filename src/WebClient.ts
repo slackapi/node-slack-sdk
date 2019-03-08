@@ -117,6 +117,11 @@ export class WebClient extends EventEmitter {
       transformRequest: [this.serializeApiCallOptions.bind(this)],
       validateStatus: () => true, // all HTTP status codes should result in a resolved promise (as opposed to only 2xx)
       maxRedirects: 0,
+      // disabling axios' automatic proxy support:
+      // axios would read from envvars to configure a proxy automatically, but it doesn't support TLS destinations.
+      // for compatibility with https://api.slack.com, and for a larger set of possible proxies (SOCKS or other
+      // protocols), users of this package should use the `agent` option to configure a proxy.
+      proxy: false,
     });
     // serializeApiCallOptions will always determine the appropriate content-type
     delete this.axios.defaults.headers.post['Content-Type'];
@@ -165,6 +170,11 @@ export class WebClient extends EventEmitter {
 
       const shouldAutoPaginate = methodSupportsCursorPagination && optionsPaginationType === PaginationType.None;
       this.logger.debug(`shouldAutoPaginate: ${shouldAutoPaginate}`);
+      if (shouldAutoPaginate) {
+        this.logger.warn(
+          'Auto pagination is deprecated. Use the `cursor` and `limit` arguments to make paginated calls.',
+        );
+      }
 
       /**
        * Generates a result object for each of the HTTP requests for this API call. API calls will generally only
@@ -568,7 +578,7 @@ export class WebClient extends EventEmitter {
 
         return response;
       } catch (error) {
-        this.logger.debug('http request failed');
+        this.logger.warn('http request failed', error.message);
         if (error.request) {
           throw requestErrorWithOriginal(error);
         }

@@ -456,7 +456,7 @@ export class RTMClient extends EventEmitter {
   public addOutgoingEvent(awaitReply: false, type: string, body?: {}): Promise<void>;
   public addOutgoingEvent(awaitReply: boolean, type: string, body?: {}): Promise<RTMCallResult | void> {
     const awaitReplyTask = (messageId: number) => {
-      const replyPromise = new PCancelable<RTMCallResult>((onCancel, resolve, reject) => {
+      const replyPromise = new PCancelable<RTMCallResult>((resolve, reject, onCancel) => {
         const eventHandler = (_type: string, event: RTMCallResult) => {
           if (event.reply_to === messageId) {
             this.off('slack_event', eventHandler);

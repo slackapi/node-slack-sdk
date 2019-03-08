@@ -87,16 +87,23 @@ describe('IncomingWebhook', function () {
 
   describe('has an option to set a custom HTTP agent', function () {
     it('should send a request using the custom agent', function () {
-      const agent = new Agent({keepAlive: true});
+      const agent = new Agent({ keepAlive: true });
       const spy = sinon.spy(agent, 'addRequest');
-      const webhook = new IncomingWebhook(url, {agent});
-      const result = webhook.send('Hello');
+      const webhook = new IncomingWebhook(url, { agent });
 
-      return result.catch((error) => {
-        // assert(spy.called);
-        agent.addRequest.restore();
-        agent.destroy();
-      })
+      return webhook.send('Hello')
+        .catch(() => {
+          assert(spy.called);
+        })
+        .then(() => {
+          agent.addRequest.restore();
+          agent.destroy();
+        })
+        .catch((error) => {
+          agent.addRequest.restore();
+          agent.destroy();
+          throw error;
+        });
     });
 
     it('should use the right custom agent when providing agents for many schemes', function () {
@@ -108,23 +115,27 @@ describe('IncomingWebhook', function () {
         http: badAgent,
       } });
 
-      webhook.send('Hello')
-      .catch(() => {
-        assert(spy.called);
-      }).then( () => {
-        agent.addRequest.restore();
-        agent.destroy();
-      }).catch((error) => {
-        agent.addRequest.restore();
-        agent.destroy();
-        throw error;
-      });
+      return webhook.send('Hello')
+        .catch(() => {
+          assert(spy.called);
+        }).then( () => {
+          agent.addRequest.restore();
+          agent.destroy();
+        }).catch((error) => {
+          agent.addRequest.restore();
+          agent.destroy();
+          throw error;
+        });
     });
 
     it('should use accept a boolean (false) agent', function () {
-      const webhook = new IncomingWebhook(url, {agent: false});
+      const webhook = new IncomingWebhook(url, { agent: false });
       const result = webhook.send('Hello');
       return result.catch((error) => { });
     });
+  });
+
+  afterEach(function () {
+    nock.cleanAll();
   });
 });

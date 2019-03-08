@@ -38,6 +38,8 @@ export class IncomingWebhook {
       proxy: false,
     });
 
+    delete this.defaults.agent;
+
   }
 
   /**
