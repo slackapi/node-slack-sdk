@@ -1,6 +1,5 @@
 import * as os from 'os';
 import { Agent } from 'http';
-import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
 const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 /**
@@ -29,7 +28,7 @@ export function addAppMetadata({ name, version }: { name: string, version: strin
  * Returns the current User-Agent value for instrumentation
  */
 export function getUserAgent(): string {
-  const appIdentifier = objectEntries(appMetadata).map(([name, version]) => `${name}/${version}`).join(' ');
+  const appIdentifier = Object.entries(appMetadata).map(([name, version]) => `${name}/${version}`).join(' ');
   // only prepend the appIdentifier when its not empty
   return ((appIdentifier.length > 0) ? `${appIdentifier} ` : '') + baseUserAgent;
 }

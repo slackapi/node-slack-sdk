@@ -1,5 +1,3 @@
-import objectEntries = require('object.entries'); // tslint:disable-line:no-require-imports
-
 /**
  * Severity levels for log entries
  */
@@ -69,7 +67,7 @@ export class ConsoleLogger implements Logger {
   private name: string;
   /** Map of labels for each log level */
   private static labels: Map<LogLevel, string> = (() => {
-    const entries = objectEntries(LogLevel) as ([string, LogLevel])[];
+    const entries = Object.entries(LogLevel) as ([string, LogLevel])[];
     const map = entries.map(([key, value]) => {
       return [value, `[${key}] `] as [LogLevel, string];
     });
