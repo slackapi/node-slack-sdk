@@ -269,6 +269,11 @@ export class WebClient extends EventEmitter {
 
       const shouldAutoPaginate = methodSupportsCursorPagination && optionsPaginationType === PaginationType.None;
       this.logger.debug(`shouldAutoPaginate: ${shouldAutoPaginate}`);
+      if (shouldAutoPaginate) {
+        this.logger.warn(
+          'Auto pagination is deprecated. Use the `cursor` and `limit` arguments to make paginated calls.',
+        );
+      }
 
       /**
        * Generates a result object for each of the HTTP requests for this API call. API calls will generally only
