@@ -719,7 +719,7 @@ export class WebClient extends EventEmitter {
 
         return response;
       } catch (error) {
-        this.logger.debug('http request failed', error.message);
+        this.logger.warn('http request failed', error.message);
         if (error.request) {
           throw requestErrorWithOriginal(error);
         }
