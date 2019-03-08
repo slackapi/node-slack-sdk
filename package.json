@@ -48,7 +48,6 @@
     "@types/form-data": "^2.2.1",
     "@types/is-stream": "^1.1.0",
     "@types/node": ">=8.9.0",
-    "@types/p-cancelable": "^1.0.0",
     "@types/p-queue": "^2.3.2",
     "@types/p-retry": "^3.0.0",
     "@types/ws": "^5.1.1",
@@ -57,7 +56,7 @@
     "finity": "^0.5.4",
     "form-data": "^2.3.3",
     "is-stream": "^1.1.0",
-    "p-cancelable": "^1.0.0",
+    "p-cancelable": "^1.1.0",
     "p-queue": "^2.4.2",
     "p-retry": "^3.0.1",
     "ws": "^5.2.0"
@@ -86,7 +85,7 @@
     "ts-node": "^8.0.3",
     "tslint": "^5.13.1",
     "tslint-config-airbnb": "^5.11.1",
-    "typescript": "^2.7.1",
+    "typescript": "^3.3.3333",
     "typings-tester": "^0.3.2"
   }
 }

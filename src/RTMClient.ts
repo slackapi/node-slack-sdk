@@ -3,7 +3,7 @@ import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-na
 import WebSocket = require('ws'); // tslint:disable-line:import-name no-require-imports
 import Finity, { StateMachine } from 'finity'; // tslint:disable-line:import-name
 import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
-import PCancelable = require('p-cancelable'); // tslint:disable-line:import-name no-require-imports
+import PCancelable from 'p-cancelable'; // tslint:disable-line:import-name
 import { LogLevel, Logger, getLogger } from './logger';
 import { RetryOptions } from './retry-policies';
 import { KeepAlive } from './KeepAlive';
@@ -278,7 +278,7 @@ export class RTMClient extends EventEmitter {
    * the server (when its disconnected or when its reconnected and doesn't expect replies for past outgoing messages).
    * The list is a sparse array, where the indexes are message IDs for the sent messages.
    */
-  private awaitingReplyList: PCancelable.PCancelable<RTMCallResult>[] = [];
+  private awaitingReplyList: PCancelable<RTMCallResult>[] = [];
 
   /**
    * Configuration for custom TLS handling
