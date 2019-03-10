@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "es5",
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
@@ -8,9 +8,6 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "lib": [
-      "es2017",
-      "esnext.asynciterable"
-    ]
+    "lib": []
   }
 }

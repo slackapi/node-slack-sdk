@@ -33,7 +33,8 @@
     "lint": "tslint --project .",
     "test": "npm run build && npm run test:spec && npm run test:integration",
     "test:spec": "nyc mocha --config src/.mocharc.json src/*.spec.js src/**/*.spec.js",
-    "test:integration": "mocha --config test/.mocharc.json test/typescript/test.ts test/proxy/test.js",
+    "test:integration:setup": "node test/setup.js",
+    "test:integration": "npm run test:integration:setup && dtslint --expectOnly test && mocha --config test/.mocharc.json test/proxy/test.js",
     "coverage": "codecov",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
@@ -68,6 +69,7 @@
     "busboy": "^0.3.0",
     "chai": "^4.2.0",
     "codecov": "^3.2.0",
+    "dtslint": "^0.5.3",
     "http-shutdown": "^1.2.0",
     "https-proxy-agent": "^2.2.1",
     "husky": "^1.3.1",
@@ -78,6 +80,7 @@
     "nyc": "^13.3.0",
     "p-is-promise": "^2.0.0",
     "proxy": "^0.2.4",
+    "shelljs": "^0.8.3",
     "shx": "^0.3.2",
     "sinon": "^7.2.7",
     "source-map-support": "^0.5.10",
@@ -85,7 +88,6 @@
     "ts-node": "^8.0.3",
     "tslint": "^5.13.1",
     "tslint-config-airbnb": "^5.11.1",
-    "typescript": "^3.3.3333",
-    "typings-tester": "^0.3.2"
+    "typescript": "^3.3.3333"
   }
 }

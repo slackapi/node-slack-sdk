@@ -1,0 +1,11 @@
+{
+  "name": "@slack/node-slack-sdk-integration-tests",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Integration tests for Node Slack SDK",
+  "author": "Slack Technologies, Inc.",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^8.10.43"
+  }
+}

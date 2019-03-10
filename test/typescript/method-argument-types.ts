@@ -1,4 +1,4 @@
-import { WebClient, ChatPostMessageArguments } from '../../../dist';
+import { WebClient, ChatPostMessageArguments } from '@slack/client';
 
 const web = new WebClient('TOKEN');
 
@@ -10,7 +10,7 @@ web.chat.postMessage({
 });
 
 // calling a method directly with underspecified arguments should not work
-// typings:expect-error
+// $ExpectError
 web.chat.postMessage({
   channel: 'CHANNEL',
 });
@@ -19,7 +19,7 @@ web.chat.postMessage({
 const message: ChatPostMessageArguments = {
   text: 'TEXT',
   channel: 'CHANNEL',
-  // typings:expect-error
+  // $ExpectError
   key: 'VALUE',
 };
 

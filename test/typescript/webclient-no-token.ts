@@ -1,5 +1,4 @@
-
-import { WebClient } from '../../../dist';
+import { WebClient } from '@slack/client';
 
 const web = new WebClient();
 
