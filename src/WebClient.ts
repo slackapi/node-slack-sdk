@@ -1,4 +1,5 @@
 // polyfill for async iterable. see: https://stackoverflow.com/a/43694282/305340
+// can be removed once node v10 is the minimum target (node v8 and v9 require --harmony_async_iteration flag)
 if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
 
 import { stringify as qsStringify } from 'querystring';
