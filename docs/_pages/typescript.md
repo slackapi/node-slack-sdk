@@ -29,9 +29,7 @@ project using this package.
 {
   "compilerOptions": {
     "lib": [
-      "es5",
-      "es2015",
-      "es2016.array.include",
+      "es2017",
       "esnext.asynciterable"
     ]
   }
