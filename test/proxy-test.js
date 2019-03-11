@@ -5,7 +5,7 @@ const setup = require('proxy');
 const HttpsProxyAgent = require('https-proxy-agent');
 const { assert } = require('chai');
 const sinon = require('sinon');
-const { WebClient, retryPolicies } = require('../../dist');
+const { WebClient, retryPolicies } = require('@slack/client');
 
 const proxyPort = 31280;
 

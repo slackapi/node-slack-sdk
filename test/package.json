@@ -5,7 +5,16 @@
   "description": "Integration tests for Node Slack SDK",
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
+  "scripts": {
+    "test:typechecker": "dtslint types",
+    "test": "npm run test:typechecker && ../node_modules/.bin/mocha --config .mocharc.json proxy-test.js"
+  },
   "dependencies": {
+    "@slack/client": "file:./slack-client.tgz",
     "@types/node": "^8.10.43"
+  },
+  "devDependencies": {
+    "dtslint": "^0.5.4",
+    "typescript": "^3.3.3333"
   }
 }

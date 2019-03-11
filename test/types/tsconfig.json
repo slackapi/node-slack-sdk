@@ -8,6 +8,6 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "lib": []
+    "lib": ["es5", "es2015", "esnext.asynciterable"]
   }
 }
