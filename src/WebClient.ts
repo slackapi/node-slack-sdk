@@ -17,7 +17,7 @@ import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { LogLevel, Logger, getLogger } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
 import Method, * as methods from './methods'; // tslint:disable-line:import-name
-import packageJson from '../package.json';
+const packageJson = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 /**
  * A client for Slack's Web API

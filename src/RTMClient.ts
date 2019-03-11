@@ -11,7 +11,7 @@ import { WebClient, WebAPICallResult, WebAPICallError, ErrorCode, CodedError } f
 import * as methods from './methods'; // tslint:disable-line:import-name
 import { errorWithCode } from './errors';
 import { TLSOptions } from './util';
-import packageJson from '../package.json';
+const packageJson = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 /**
  * An RTMClient allows programs to communicate with the {@link https://api.slack.com/rtm|Slack Platform's RTM API}.

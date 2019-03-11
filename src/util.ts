@@ -2,7 +2,7 @@
 
 import * as os from 'os';
 import { Agent } from 'http';
-import packageJson from '../package.json';
+const packageJson = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 /**
  * Replaces occurrences of '/' with ':' in a string, since '/' is meaningful inside User-Agent strings as a separator.
