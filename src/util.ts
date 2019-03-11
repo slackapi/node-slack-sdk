@@ -1,3 +1,5 @@
+/// <reference lib="esnext.asynciterable" />
+
 import * as os from 'os';
 import { Agent } from 'http';
 const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires

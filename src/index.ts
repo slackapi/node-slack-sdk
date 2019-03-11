@@ -1,3 +1,5 @@
+/// <reference lib="es2017" />
+
 export {
   Logger,
   LogLevel,
