@@ -39,7 +39,6 @@ export class IncomingWebhook {
     });
 
     delete this.defaults.agent;
-
   }
 
   /**

@@ -15,6 +15,7 @@ const baseUserAgent = `${replaceSlashes(pkg.name)}/${pkg.version} ` +
                       `node/${process.version.replace('v', '')} ` +
                       `${os.platform()}/${os.release()}`;
 
+// TODO: refactor, shouldn't be a global singleton. that would require app metadata to become an option for all objects
 const appMetadata: { [key: string]: string } = {};
 
 /**
@@ -55,7 +56,7 @@ export function delay<T>(ms: number, value?: T): Promise<T> {
 export async function awaitAndReduce<T, U>(iterable: AsyncIterable<T>,
                                            callbackfn: (previousValue: U, currentValue: T) => U,
                                            initialValue: U): Promise<U> {
-  // TODO: make initialValue optional (overloads or conditional types?)
+  // NOTE: could make the initialValue optional (overloads or conditional types?)
   let accumulator = initialValue;
   for await (const value of iterable) {
     accumulator = callbackfn(accumulator, value);

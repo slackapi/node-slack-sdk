@@ -85,7 +85,6 @@ export class RTMClient extends EventEmitter {
           this.outgoingEventQueue.pause();
           // when a formerly connected client gets disconnected, all outgoing messages whose promises were waiting
           // for a reply from the server should be canceled
-          // TODO: we could give a reason for this here
           this.awaitingReplyList.forEach(p => p.cancel());
         })
       .state('connecting')
@@ -97,9 +96,6 @@ export class RTMClient extends EventEmitter {
 
               return this.webClient.apiCall(connectMethod, this.startOpts !== undefined ? this.startOpts : {})
                 .then((result: WebAPICallResult) => {
-                  // SEMVER:MAJOR: no longer handling the case where `result.url` is undefined separately from an error.
-                  // cannot think of a way this would have been triggered.
-
                   // capture identity information
                   // TODO: remove type casts
                   this.activeUserId = (result as any).self.id;
@@ -115,7 +111,7 @@ export class RTMClient extends EventEmitter {
 
                   this.logger.info(`unable to RTM start: ${error.message}`);
 
-                  // v3 legacy event
+                  // Observe this event when the error which causes reconnecting or disconnecting is meaningful
                   this.emit('unable_to_rtm_start', error);
 
                   // NOTE: assume that ReadErrors are recoverable
@@ -258,7 +254,7 @@ export class RTMClient extends EventEmitter {
   /**
    * A cache of the options used to start the connection, so that it can be reused during reconnections.
    */
-  private startOpts?: methods.RTMConnectArguments | methods.RTMStartArguments;
+  private startOpts?: RTMStartOptions;
 
   /**
    * The instance of KeepAlive used to monitor this client's connection.
@@ -356,9 +352,7 @@ export class RTMClient extends EventEmitter {
    * Begin an RTM session using the provided options. This method must be called before any messages can
    * be sent or received.
    */
-  public start(options?: methods.RTMStartArguments | methods.RTMConnectArguments): Promise<WebAPICallResult> {
-    // TODO: make a named interface for the type of `options`. it should end in -Options instead of Arguments.
-
+  public start(options?: RTMStartOptions): Promise<WebAPICallResult> {
     this.logger.debug('start()');
 
     // capture options for potential future reconnects
@@ -418,8 +412,6 @@ export class RTMClient extends EventEmitter {
    * @param conversationId The destination for where the typing indicator should be shown.
    */
   public sendTyping(conversationId: string): Promise<void> {
-    // SEMVER:MINOR now returns a Promise, where it used to return void
-    // NOTE: should we allow for callback-based execution of this method?
     return this.addOutgoingEvent(false, 'typing', { channel: conversationId });
   }
 
@@ -429,8 +421,6 @@ export class RTMClient extends EventEmitter {
    * previous calls to this method.
    */
   public subscribePresence(userIds: string[]): Promise<void> {
-    // SEMVER:MINOR now returns a Promise, where it used to return void
-    // NOTE: should we allow for callback-based execution of this method?
     return this.addOutgoingEvent(false, 'presence_sub', { ids: userIds });
   }
 
@@ -592,9 +582,6 @@ export class RTMClient extends EventEmitter {
    * each incoming message.
    */
   private onWebsocketMessage({ data }: { data: string }): void {
-    // v3 legacy
-    this.emit('raw_message', data);
-
     this.logger.debug(`received message on websocket: ${data}`);
 
     // parse message into slack event
@@ -641,7 +628,6 @@ export default RTMClient;
  * Exported types
  */
 
-// NOTE: add an experimental flag to turn off KeepAlive
 export interface RTMClientOptions {
   slackApiUrl?: string;
   logger?: Logger;
@@ -666,6 +652,8 @@ export interface RTMCallResult {
     msg: string;
   };
 }
+
+export type RTMStartOptions = methods.RTMConnectArguments | methods.RTMStartArguments;
 
 export type RTMCallError = RTMPlatformError | RTMWebsocketError;
 
@@ -695,7 +683,7 @@ function websocketErrorWithOriginal(original: Error): RTMWebsocketError {
 }
 
 // NOTE: there may be a better way to add metadata to an error about being "unrecoverable" than to keep an
-// independent enum
+// independent enum, probably a Set (this isn't used as a type).
 enum UnrecoverableRTMStartError {
   NotAuthed = 'not_authed',
   InvalidAuth = 'invalid_auth',

@@ -2,7 +2,6 @@ import { Stream } from 'stream';
 import { WebAPICallOptions, WebAPICallResult } from './WebClient';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
-// NOTE: not clear if these interfaces should be exported at the top-level
 
 /**
  * Generic method definition
@@ -42,8 +41,6 @@ export interface Searchable {
 // to a respective Set, so that the WebClient can reflect on which API methods it may apply automatic pagination.
 // As maintainers, we must be careful to add each of the API methods into these sets, so that is handled local (in line
 // numbers close) to the application of each interface.
-
-// TODO: express the interfaces as keyof the sets?
 
 export interface CursorPaginationEnabled {
   limit?: number; // natural integer, max of 1000

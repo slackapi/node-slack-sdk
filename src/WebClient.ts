@@ -533,7 +533,7 @@ export class WebClient extends EventEmitter {
   };
 
   /**
-   * Low-level function to make a single API request. handles queing, retries, and http-level errors
+   * Low-level function to make a single API request. handles queuing, retries, and http-level errors
    */
   private async makeRequest(url: string, body: any, headers: any = {}): Promise<AxiosResponse> {
     // TODO: better input types - remove any

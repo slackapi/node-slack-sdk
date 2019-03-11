@@ -12,8 +12,6 @@ export interface CodedError extends NodeJS.ErrnoException {
  * A dictionary of codes for errors produced by this package
  */
 export enum ErrorCode {
-  TestError = 'slackclient_test',
-
   // WebClient
   RequestError = 'slackclient_request_error', // Corresponds to WebAPIRequestError
   ReadError = 'slackclient_read_error', // Corresponds to WebAPIReadError
@@ -43,6 +41,7 @@ export enum ErrorCode {
  * Factory for producing a {@link CodedError} from a generic error
  */
 export function errorWithCode(error: Error, code: ErrorCode): CodedError {
+  // NOTE: might be able to return something more specific than a CodedError with conditional typing
   const codedError = error as Partial<CodedError>;
   codedError.code = code;
   return codedError as CodedError;
