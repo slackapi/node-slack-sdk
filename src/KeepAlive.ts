@@ -2,7 +2,7 @@ import { RTMClient, ErrorCode } from './';
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
 import { LogLevel, Logger, getLogger } from './logger';
 import { errorWithCode } from './errors';
-const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
+import packageJson from '../package.json';
 
 export interface KeepAliveOptions {
   logger?: Logger;
@@ -55,7 +55,7 @@ export class KeepAlive extends EventEmitter {
   /**
    * The name used to prefix all logging generated from this object
    */
-  private static loggerName = `${pkg.name}:KeepAlive`;
+  private static loggerName = `${packageJson.name}:KeepAlive`;
 
   /**
    * This object's logger instance

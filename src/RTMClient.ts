@@ -11,7 +11,7 @@ import { WebClient, WebAPICallResult, WebAPICallError, ErrorCode, CodedError } f
 import * as methods from './methods'; // tslint:disable-line:import-name
 import { errorWithCode } from './errors';
 import { TLSOptions } from './util';
-const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
+import packageJson from '../package.json';
 
 /**
  * An RTMClient allows programs to communicate with the {@link https://api.slack.com/rtm|Slack Platform's RTM API}.
@@ -284,7 +284,7 @@ export class RTMClient extends EventEmitter {
   /**
    * The name used to prefix all logging generated from this object
    */
-  private static loggerName = `${pkg.name}:RTMClient`;
+  private static loggerName = `${packageJson.name}:RTMClient`;
 
   /**
    * This object's logger instance

@@ -17,8 +17,7 @@ import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { LogLevel, Logger, getLogger } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
 import Method, * as methods from './methods'; // tslint:disable-line:import-name
-
-const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
+import packageJson from '../package.json';
 
 /**
  * A client for Slack's Web API
@@ -71,7 +70,7 @@ export class WebClient extends EventEmitter {
   /**
    * The name used to prefix all logging generated from this object
    */
-  private static loggerName = `${pkg.name}:WebClient`;
+  private static loggerName = `${packageJson.name}:WebClient`;
 
   /**
    * This object's logger instance

@@ -2,7 +2,7 @@
 
 import * as os from 'os';
 import { Agent } from 'http';
-const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
+import packageJson from '../package.json';
 
 /**
  * Replaces occurrences of '/' with ':' in a string, since '/' is meaningful inside User-Agent strings as a separator.
@@ -11,7 +11,7 @@ function replaceSlashes(s: string): string {
   return s.replace('/', ':');
 }
 
-const baseUserAgent = `${replaceSlashes(pkg.name)}/${pkg.version} ` +
+const baseUserAgent = `${replaceSlashes(packageJson.name)}/${packageJson.version} ` +
                       `node/${process.version.replace('v', '')} ` +
                       `${os.platform()}/${os.release()}`;
 
