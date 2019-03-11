@@ -90,7 +90,7 @@ function isAgent(obj: any): obj is Agent {
  * Returns an agent (or false or undefined) for the specific scheme and option passed in
  * @param scheme either 'http' or 'https'
  */
-export function agentForScheme(scheme: string, agentOption?: AgentOption): Agent | boolean | undefined {
+export function agentForScheme(scheme: 'http' | 'https', agentOption?: AgentOption): Agent | boolean | undefined {
   if (agentOption === undefined) {
     return undefined;
   }

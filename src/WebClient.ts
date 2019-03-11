@@ -601,9 +601,9 @@ export class WebClient extends EventEmitter {
   private serializeApiCallOptions(options: WebAPICallOptions, headers?: any): string | Readable {
     // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
     // binary content
-    let containsBinaryData = false;
+    let containsBinaryData: boolean = false;
     const flattened = Object.entries(options)
-      .map(([key, value]) => {
+      .map<[string, any] | []>(([key, value]) => {
         if (value === undefined || value === null) {
           return [];
         }
@@ -642,7 +642,7 @@ export class WebClient extends EventEmitter {
             }
             return defaultFilename;
           })();
-          form.append(key, value, options);
+          form.append(key as string, value, options);
         } else if (key !== undefined && value !== undefined) {
           form.append(key, value);
         }
@@ -663,7 +663,7 @@ export class WebClient extends EventEmitter {
         accumulator[key] = value;
       }
       return accumulator;
-    }, {}));
+    }, {} as { [key: string]: any; }));
   }
 
   /**
@@ -874,16 +874,16 @@ function getOptionsPaginationType(options?: WebAPICallOptions): PaginationType {
 function createResultMerger(method: string):
     (accumulator: WebAPICallResult, result: WebAPICallResult) => WebAPICallResult {
   if (methods.cursorPaginationEnabledMethods.has(method)) {
-    const paginatedResponseProperty = methods.cursorPaginationEnabledMethods.get(method) as string;
+    const paginatedResponseProperty = methods.cursorPaginationEnabledMethods.get(method) as keyof WebAPICallResult;
     return (accumulator: WebAPICallResult, result: WebAPICallResult): WebAPICallResult => {
       for (const resultProperty of Object.keys(result)) {
         if (resultProperty === paginatedResponseProperty) {
           if (accumulator[resultProperty] === undefined) {
-            accumulator[resultProperty] = [];
+            accumulator[resultProperty] = [] as any[];
           }
-          accumulator[resultProperty] = accumulator[resultProperty].concat(result[resultProperty]);
+          accumulator[resultProperty] = (accumulator[resultProperty] as any[]).concat(result[resultProperty]);
         } else {
-          accumulator[resultProperty] = result[resultProperty];
+          accumulator[resultProperty as keyof WebAPICallResult] = result[resultProperty as keyof WebAPICallResult];
         }
       }
       return accumulator;

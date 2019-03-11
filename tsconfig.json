@@ -1,33 +1,28 @@
 {
   "compilerOptions": {
-    "declaration": true,
     "target": "es2017",
-    // esModuleInterop?
     "module": "commonjs",
-    "moduleResolution": "node",
-    "noImplicitAny": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
+    "lib": [
+      "es2017",
+      "esnext.asynciterable"
+    ],
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "dist",
+
+    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": false,
-    "strictPropertyInitialization": true,
+    "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "preserveConstEnums": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "sourceMap": true,
-    "pretty": true,
-    // rootDir?
+
+    "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
       "*": ["./types/*"]
     },
-    "outDir": "dist",
-    "lib": [
-      "es2017",
-      "esnext.asynciterable"
-    ]
+    "esModuleInterop" : true,
   },
   "include": [
     "src/**/*"
