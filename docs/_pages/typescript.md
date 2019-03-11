@@ -4,7 +4,6 @@ title: Using TypeScript
 permalink: /typescript
 order: 5
 headings:
-    - title: Configuration requirements
     - title: Result properties are not defined
     - title: Known issues
 ---
@@ -15,31 +14,6 @@ that know how to read that metadata, or if you're using TypeScript in your own p
 documentation as your write code, early detection of errors, easier refactoring, and more.
 
 This page helps describe how to use this package from a project that also uses TypeScript.
-
----
-
-### Configuration requirements
-
-In your project, you'll need to make sure that certain `lib`s are referenced. Usually you would configure this inside
-a `tsconfig.json` file at the root of your project. If you haven't already created this file, you can generate one
-using `tsc --init` on the command line. Below is an example of what the `lib` should _at a minimum_ contain for a
-project using this package.
-
-```
-{
-  "compilerOptions": {
-    "lib": [
-      "es2017",
-      "esnext.asynciterable"
-    ]
-  }
-}
-```
-
-The above options will help you compile down to an `"es5"` target, but if you're compiling to a target newer than that,
-you won't need to explicitly include the older `"lib"` values. Also, if you are willing to include a larger set of
-features from a specific language version, you don't need to include each minor feature on its own (e.g. `"es2016"`
-would cover the need for `"es2016.array.include"`).
 
 ---
 
