@@ -6,12 +6,12 @@ import { stringify as qsStringify } from 'querystring';
 import { IncomingHttpHeaders } from 'http';
 import { basename } from 'path';
 import { Readable } from 'stream';
-import isStream = require('is-stream'); // tslint:disable-line:no-require-imports
-import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
-import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
-import pRetry = require('p-retry'); // tslint:disable-line:no-require-imports
+import isStream from 'is-stream';
+import EventEmitter from 'eventemitter3'; // tslint:disable-line:import-name
+import PQueue from 'p-queue'; // tslint:disable-line:import-name
+import pRetry from 'p-retry';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import FormData = require('form-data'); // tslint:disable-line:no-require-imports import-name
+import FormData from 'form-data'; // tslint:disable-line:import-name
 import { awaitAndReduce, getUserAgent, delay, AgentOption, TLSOptions, agentForScheme } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { LogLevel, Logger, getLogger } from './logger';
@@ -25,7 +25,7 @@ const packageJson = require('../package.json'); // tslint:disable-line:no-requir
  * This client provides an alias for each {@link https://api.slack.com/methods|Web API method}. Each method is
  * a convenience wrapper for calling the {@link WebClient#apiCall} method using the method name as the first parameter.
  */
-export class WebClient extends EventEmitter {
+export class WebClient extends EventEmitter<WebClientEvent> {
   /**
    * The base URL for reaching Slack's Web API. Consider changing this value for testing purposes.
    */
@@ -108,9 +108,12 @@ export class WebClient extends EventEmitter {
 
     this.axios = axios.create({
       baseURL: slackApiUrl,
-      headers: Object.assign({
-        'User-Agent': getUserAgent(),
-      }, headers),
+      headers: Object.assign(
+        {
+          'User-Agent': getUserAgent(),
+        },
+        headers,
+      ),
       httpAgent: agentForScheme('http', agent),
       httpsAgent: agentForScheme('https', agent),
       transformRequest: [this.serializeApiCallOptions.bind(this)],
@@ -221,7 +224,7 @@ export class WebClient extends EventEmitter {
       }
 
       // return a promise that resolves when a reduction of responses finishes
-      return awaitAndReduce(generateResults.call(this), createResultMerger(method) , {} as WebAPICallResult);
+      return awaitAndReduce(generateResults.call(this), createResultMerger(method) , { ok: true });
     };
 
     return implementation();
@@ -539,15 +542,18 @@ export class WebClient extends EventEmitter {
     const task = () => this.requestQueue.add(async () => {
       this.logger.debug('will perform http request');
       try {
-        const response = await this.axios.post(url, body, Object.assign({
-          headers,
-        }, this.tlsConfig));
+        const response = await this.axios.post(url, body, Object.assign(
+          {
+            headers,
+          },
+          this.tlsConfig,
+        ));
         this.logger.debug('http response received');
 
         if (response.status === 429) {
           const retrySec = parseRetryHeaders(response);
           if (retrySec !== undefined) {
-            this.emit('rate_limited', retrySec);
+            this.emit(WebClientEvent.RATE_LIMITED, retrySec);
             if (this.rejectRateLimitedCalls) {
               throw new pRetry.AbortError(rateLimitedErrorWithDelay(retrySec));
             }
@@ -623,30 +629,33 @@ export class WebClient extends EventEmitter {
     // A body with binary content should be serialized as multipart/form-data
     if (containsBinaryData) {
       this.logger.debug('request arguments contain binary data');
-      const form = flattened.reduce((form, [key, value]) => {
-        if (Buffer.isBuffer(value) || isStream(value)) {
-          const options: FormData.AppendOptions = {};
-          options.filename = (() => {
-            // attempt to find filename from `value`. adapted from:
-            // tslint:disable-next-line:max-line-length
-            // https://github.com/form-data/form-data/blob/028c21e0f93c5fefa46a7bbf1ba753e4f627ab7a/lib/form_data.js#L227-L230
-            // formidable and the browser add a name property
-            // fs- and request- streams have path property
-            const streamOrBuffer: any = (value as any);
-            if (typeof streamOrBuffer.name === 'string') {
-              return basename(streamOrBuffer.name);
-            }
-            if (typeof streamOrBuffer.path === 'string') {
-              return basename(streamOrBuffer.path);
-            }
-            return defaultFilename;
-          })();
-          form.append(key as string, value, options);
-        } else if (key !== undefined && value !== undefined) {
-          form.append(key, value);
-        }
-        return form;
-      }, new FormData());
+      const form = flattened.reduce(
+        (form, [key, value]) => {
+          if (Buffer.isBuffer(value) || isStream(value)) {
+            const options: FormData.AppendOptions = {};
+            options.filename = (() => {
+              // attempt to find filename from `value`. adapted from:
+              // tslint:disable-next-line:max-line-length
+              // https://github.com/form-data/form-data/blob/028c21e0f93c5fefa46a7bbf1ba753e4f627ab7a/lib/form_data.js#L227-L230
+              // formidable and the browser add a name property
+              // fs- and request- streams have path property
+              const streamOrBuffer: any = (value as any);
+              if (typeof streamOrBuffer.name === 'string') {
+                return basename(streamOrBuffer.name);
+              }
+              if (typeof streamOrBuffer.path === 'string') {
+                return basename(streamOrBuffer.path);
+              }
+              return defaultFilename;
+            })();
+            form.append(key as string, value, options);
+          } else if (key !== undefined && value !== undefined) {
+            form.append(key, value);
+          }
+          return form;
+        },
+        new FormData(),
+      );
       // Copying FormData-generated headers into headers param
       // not reassigning to headers param since it is passed by reference and behaves as an inout param
       for (const [header, value] of Object.entries(form.getHeaders())) {
@@ -657,12 +666,16 @@ export class WebClient extends EventEmitter {
 
     // Otherwise, a simple key-value object is returned
     headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    return qsStringify(flattened.reduce((accumulator, [key, value]) => {
-      if (key !== undefined && value !== undefined) {
-        accumulator[key] = value;
-      }
-      return accumulator;
-    }, {} as { [key: string]: any; }));
+    const initialValue: { [key: string]: any; } = {};
+    return qsStringify(flattened.reduce(
+      (accumulator, [key, value]) => {
+        if (key !== undefined && value !== undefined) {
+          accumulator[key] = value;
+        }
+        return accumulator;
+      },
+      initialValue,
+    ));
   }
 
   /**
@@ -710,6 +723,11 @@ export interface WebClientOptions {
   headers?: object;
 }
 
+export enum WebClientEvent {
+  RATE_LIMITED = 'rate_limited',
+}
+
+// TODO: generic parameter?
 export interface WebAPICallOptions {
 }
 

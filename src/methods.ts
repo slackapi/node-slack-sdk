@@ -318,7 +318,7 @@ export interface SelectOption {
   /*
    * `api.*`
    */
-export type APITestArguments = {};
+export interface APITestArguments {}
 
   /*
    * `apps.*`
@@ -743,12 +743,12 @@ export type MPIMRepliesArguments = TokenOverridable & {
   /*
    * `oauth.*`
    */
-export type OAuthAccessArguments = {
+export interface OAuthAccessArguments {
   client_id: string;
   client_secret: string;
   code: string;
   redirect_uri?: string;
-};
+}
 
   /*
    * `pins.*`
@@ -974,7 +974,7 @@ export type UsersProfileGetArguments = TokenOverridable & {
   include_labels?: boolean;
   user?: string;
 };
-export type UsersProfileSetArguments = TokenOverridable &{
+export type UsersProfileSetArguments = TokenOverridable & {
   profile?: string; // url-encoded json
   user?: string;
   name?: string; // usable if `profile` is not passed

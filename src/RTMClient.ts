@@ -1,8 +1,8 @@
 import { Agent } from 'http';
-import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
-import WebSocket = require('ws'); // tslint:disable-line:import-name no-require-imports
+import EventEmitter from 'eventemitter3'; // tslint:disable-line:import-name
+import WebSocket from 'ws'; // tslint:disable-line:import-name
 import Finity, { StateMachine } from 'finity'; // tslint:disable-line:import-name
-import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
+import PQueue from 'p-queue'; // tslint:disable-line:import-name
 import PCancelable from 'p-cancelable'; // tslint:disable-line:import-name
 import { LogLevel, Logger, getLogger } from './logger';
 import { RetryOptions } from './retry-policies';
@@ -329,17 +329,21 @@ export class RTMClient extends EventEmitter {
       logger,
       logLevel,
     });
-    this.keepAlive.on('recommend_reconnect', () => {
-      if (this.websocket !== undefined) {
-        // this will trigger the 'websocket close' event on the state machine, which transitions to clean up
-        this.websocket.close();
+    this.keepAlive.on(
+      'recommend_reconnect',
+      () => {
+        if (this.websocket !== undefined) {
+          // this will trigger the 'websocket close' event on the state machine, which transitions to clean up
+          this.websocket.close();
 
-        // if the websocket actually is no longer connected, the eventual 'websocket close' event will take a long time,
-        // because it won't fire until the close handshake completes. in the meantime, stop the keep alive so we don't
-        // send pings on a dead connection.
-        this.keepAlive.stop();
-      }
-    }, this);
+          // if the websocket actually is no longer connected, the eventual 'websocket close' event will take a long
+          // time, because it won't fire until the close handshake completes. in the meantime, stop the keep alive so we
+          // don't send pings on a dead connection.
+          this.keepAlive.stop();
+        }
+      },
+      this,
+    );
 
     // Logging
     this.logger = getLogger(RTMClient.loggerName, logLevel, logger);
@@ -539,7 +543,8 @@ export class RTMClient extends EventEmitter {
    * Atomically increments and returns a message ID for the next message.
    */
   private nextMessageId(): number {
-    return this.messageId++; // tslint:disable-line:no-increment-decrement
+    this.messageId += 1;
+    return this.messageId;
   }
 
   /**
@@ -547,9 +552,12 @@ export class RTMClient extends EventEmitter {
    */
   private setupWebsocket(url: string): void {
     // initialize the websocket
-    const options: WebSocket.ClientOptions = Object.assign({
-      perMessageDeflate: false,
-    }, this.tlsConfig);
+    const options: WebSocket.ClientOptions = Object.assign(
+      {
+        perMessageDeflate: false,
+      },
+      this.tlsConfig,
+    );
     if (this.agentConfig !== undefined) {
       options.agent = this.agentConfig;
     }
@@ -644,6 +652,8 @@ export interface RTMClientOptions {
   replyAckOnReconnectTimeout?: number;
   tls?: TLSOptions;
 }
+
+// TODO: define RTMClientEvent enum, use as generic parameter for EventEmitter (and probably still union with string)
 
 export interface RTMCallResult {
   ts: string;

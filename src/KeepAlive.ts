@@ -188,23 +188,26 @@ export class KeepAlive extends EventEmitter {
 
           this.logger.debug('setting pong timer');
 
-          this.pongTimer = setTimeout(() => {
-            if (this.client === undefined) {
-              // if monitoring stopped before the pong timer fires, its safe to return
-              if (!this.isMonitoring) {
-                this.logger.debug('stopped monitoring before pong timer fired');
-                return;
+          this.pongTimer = setTimeout(
+            () => {
+              if (this.client === undefined) {
+                // if monitoring stopped before the pong timer fires, its safe to return
+                if (!this.isMonitoring) {
+                  this.logger.debug('stopped monitoring before pong timer fired');
+                  return;
+                }
+                throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
               }
-              throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
-            }
-            // signal that this pong is done being handled
-            this.client.off('slack_event', this.attemptAcknowledgePong);
+              // signal that this pong is done being handled
+              this.client.off('slack_event', this.attemptAcknowledgePong);
 
-            // no pong received to acknowledge the last ping within the serverPongTimeout
-            this.logger.debug('pong timer expired, recommend reconnect');
-            this.recommendReconnect = true;
-            this.emit('recommend_reconnect');
-          }, this.serverPongTimeout);
+              // no pong received to acknowledge the last ping within the serverPongTimeout
+              this.logger.debug('pong timer expired, recommend reconnect');
+              this.recommendReconnect = true;
+              this.emit('recommend_reconnect');
+            },
+            this.serverPongTimeout,
+          );
 
           this.client.on('slack_event', this.attemptAcknowledgePong, this);
         })
