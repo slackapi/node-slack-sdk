@@ -7,27 +7,15 @@ export interface RetryOptions extends Options {
 }
 
 /**
- * Keep retrying forever, with an exponential backoff.
+ * The default retry policy. Retry up to 10 times, over the span of about 30 minutes. It's not exact because
+ * randomization has been added to prevent a stampeding herd problem (if all instances in your application are retrying
+ * a request at the exact same intervals, they are more likely to cause failures for each other).
  */
-export const retryForeverExponential: RetryOptions = {
-  forever: true,
-};
-
-/**
- * Same as {@link retryForeverExponential}, but capped at 30 minutes.
- * TODO: should this name really have "forever" in it? if not, remove from all the derived names below
- */
-export const retryForeverExponentialCapped: RetryOptions = Object.assign({}, retryForeverExponential, {
-  maxTimeout: 30 * 60 * 1000,
-});
-
-/**
- * Same as {@link retryForeverExponentialCapped}, but with randomization to
- * prevent stampeding herds.
- */
-export const retryForeverExponentialCappedRandom: RetryOptions = Object.assign({}, retryForeverExponentialCapped, {
+export const tenRetriesInAboutThirtyMinutes: RetryOptions = {
+  retries: 10,
+  factor: 1.96821,
   randomize: true,
-});
+};
 
 /**
  * Short & sweet, five retries in five minutes and then bail.
@@ -46,9 +34,7 @@ export const rapidRetryPolicy: RetryOptions = {
 };
 
 const policies = {
-  retryForeverExponential,
-  retryForeverExponentialCapped,
-  retryForeverExponentialCappedRandom,
+  tenRetriesInAboutThirtyMinutes,
   fiveRetriesInFiveMinutes,
   rapidRetryPolicy,
 };
