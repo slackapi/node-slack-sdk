@@ -140,94 +140,87 @@ export class WebClient extends EventEmitter<WebClientEvent> {
   public apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult> {
     this.logger.debug('apiCall() start');
 
-    // The following thunk is the actual implementation for this method. It is wrapped so that it can be adapted for
-    // different executions below.
-    const implementation = async () => {
+    if (typeof options === 'string' || typeof options === 'number' || typeof options === 'boolean') {
+      throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
+    }
 
-      if (typeof options === 'string' || typeof options === 'number' || typeof options === 'boolean') {
-        throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
-      }
+    const methodSupportsCursorPagination = methods.cursorPaginationEnabledMethods.has(method);
+    const optionsPaginationType = getOptionsPaginationType(options);
 
-      const methodSupportsCursorPagination = methods.cursorPaginationEnabledMethods.has(method);
-      const optionsPaginationType = getOptionsPaginationType(options);
+    // warn in priority of most general pagination problem to most specific pagination problem
+    if (optionsPaginationType === PaginationType.Mixed) {
+      this.logger.warn('Options include mixed pagination techniques. ' +
+                        'Always prefer cursor-based pagination when available');
+    } else if (optionsPaginationType === PaginationType.Cursor &&
+                !methodSupportsCursorPagination) {
+      this.logger.warn('Options include cursor-based pagination while the method cannot support that technique');
+    } else if (optionsPaginationType === PaginationType.Timeline &&
+                !methods.timelinePaginationEnabledMethods.has(method)) {
+      this.logger.warn('Options include timeline-based pagination while the method cannot support that technique');
+    } else if (optionsPaginationType === PaginationType.Traditional &&
+                !methods.traditionalPagingEnabledMethods.has(method)) {
+      this.logger.warn('Options include traditional paging while the method cannot support that technique');
+    } else if (methodSupportsCursorPagination &&
+                optionsPaginationType !== PaginationType.Cursor && optionsPaginationType !== PaginationType.None) {
+      this.logger.warn('Method supports cursor-based pagination and a different technique is used in options. ' +
+                        'Always prefer cursor-based pagination when available');
+    }
 
-      // warn in priority of most general pagination problem to most specific pagination problem
-      if (optionsPaginationType === PaginationType.Mixed) {
-        this.logger.warn('Options include mixed pagination techniques. ' +
-                         'Always prefer cursor-based pagination when available');
-      } else if (optionsPaginationType === PaginationType.Cursor &&
-                 !methodSupportsCursorPagination) {
-        this.logger.warn('Options include cursor-based pagination while the method cannot support that technique');
-      } else if (optionsPaginationType === PaginationType.Timeline &&
-                 !methods.timelinePaginationEnabledMethods.has(method)) {
-        this.logger.warn('Options include timeline-based pagination while the method cannot support that technique');
-      } else if (optionsPaginationType === PaginationType.Traditional &&
-                 !methods.traditionalPagingEnabledMethods.has(method)) {
-        this.logger.warn('Options include traditional paging while the method cannot support that technique');
-      } else if (methodSupportsCursorPagination &&
-                 optionsPaginationType !== PaginationType.Cursor && optionsPaginationType !== PaginationType.None) {
-        this.logger.warn('Method supports cursor-based pagination and a different technique is used in options. ' +
-                         'Always prefer cursor-based pagination when available');
-      }
+    const shouldAutoPaginate = methodSupportsCursorPagination && optionsPaginationType === PaginationType.None;
+    this.logger.debug(`shouldAutoPaginate: ${shouldAutoPaginate}`);
+    if (shouldAutoPaginate) {
+      this.logger.warn(
+        'Auto pagination is deprecated. Use the `cursor` and `limit` arguments to make paginated calls.',
+      );
+    }
 
-      const shouldAutoPaginate = methodSupportsCursorPagination && optionsPaginationType === PaginationType.None;
-      this.logger.debug(`shouldAutoPaginate: ${shouldAutoPaginate}`);
+    /**
+     * Generates a result object for each of the HTTP requests for this API call. API calls will generally only
+     * generate more than one result when automatic pagination is occurring.
+     */
+    async function* generateResults(this: WebClient): AsyncIterableIterator<WebAPICallResult> {
+      // when result is undefined, that signals that the first of potentially many calls has not yet been made
+      let result: WebAPICallResult | undefined = undefined;
+      // paginationOptions stores pagination options not already stored in the options argument
+      let paginationOptions: methods.CursorPaginationEnabled = {};
+
       if (shouldAutoPaginate) {
-        this.logger.warn(
-          'Auto pagination is deprecated. Use the `cursor` and `limit` arguments to make paginated calls.',
-        );
+        // these are the default pagination options
+        paginationOptions = { limit: this.pageSize };
       }
 
-      /**
-       * Generates a result object for each of the HTTP requests for this API call. API calls will generally only
-       * generate more than one result when automatic pagination is occurring.
-       */
-      async function* generateResults(this: WebClient): AsyncIterableIterator<WebAPICallResult> {
-        // when result is undefined, that signals that the first of potentially many calls has not yet been made
-        let result: WebAPICallResult | undefined = undefined;
-        // paginationOptions stores pagination options not already stored in the options argument
-        let paginationOptions: methods.CursorPaginationEnabled = {};
+      while (result === undefined ||
+              (shouldAutoPaginate &&
+                (Object.entries(paginationOptions = paginationOptionsForNextPage(result, this.pageSize)).length > 0)
+              )
+            ) {
 
-        if (shouldAutoPaginate) {
-          // these are the default pagination options
-          paginationOptions = { limit: this.pageSize };
-        }
+        result = await (this.makeRequest(method, Object.assign(
+          { token: this.token },
+          paginationOptions,
+          options,
+        ))
+          .then((response) => {
+            const result = this.buildResult(response);
 
-        while (result === undefined ||
-               (shouldAutoPaginate &&
-                 (Object.entries(paginationOptions = paginationOptionsForNextPage(result, this.pageSize)).length > 0)
-               )
-              ) {
+            // log warnings in response metadata
+            if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
+              result.response_metadata.warnings.forEach(this.logger.warn.bind(this.logger));
+            }
 
-          result = await (this.makeRequest(method, Object.assign(
-            { token: this.token },
-            paginationOptions,
-            options,
-          ))
-            .then((response) => {
-              const result = this.buildResult(response);
+            if (!result.ok) {
+              throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
+            }
 
-              // log warnings in response metadata
-              if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
-                result.response_metadata.warnings.forEach(this.logger.warn.bind(this.logger));
-              }
+            return result;
+          }));
 
-              if (!result.ok) {
-                throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
-              }
-
-              return result;
-            }));
-
-          yield result;
-        }
+        yield result;
       }
+    }
 
-      // return a promise that resolves when a reduction of responses finishes
-      return awaitAndReduce(generateResults.call(this), createResultMerger(method) , { ok: true });
-    };
-
-    return implementation();
+    // return a promise that resolves when a reduction of responses finishes
+    return awaitAndReduce(generateResults.call(this), createResultMerger(method) , { ok: true });
   }
 
   /**

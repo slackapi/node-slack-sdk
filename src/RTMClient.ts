@@ -406,10 +406,8 @@ export class RTMClient extends EventEmitter {
    * @param text The message text.
    * @param conversationId A conversation ID for the destination of this message.
    */
-  public sendMessage(text: string, conversationId: string): Promise<RTMCallResult> {
-    const implementation = () => this.addOutgoingEvent(true, 'message', { text, channel: conversationId });
-
-    return implementation();
+  public async sendMessage(text: string, conversationId: string): Promise<RTMCallResult> {
+    return this.addOutgoingEvent(true, 'message', { text, channel: conversationId });
   }
 
   /**
