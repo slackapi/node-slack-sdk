@@ -513,35 +513,6 @@ describe('WebClient', function () {
           throw error;
         });
     });
-
-    it('should use the right custom agent when providing agents for many schemes', function () {
-      const agent = new Agent({ keepAlive: true });
-      const spy = sinon.spy(agent, 'addRequest');
-      const badAgent = { addRequest: sinon.stub().throws() };
-      const client = new WebClient(token, { agent: {
-        https: agent,
-        http: badAgent,
-      } });
-      return client.apiCall('method')
-        .catch(() => {
-          assert(spy.called);
-        })
-        .then(() => {
-          agent.addRequest.restore();
-          agent.destroy();
-        })
-        .catch((error) => {
-          agent.addRequest.restore();
-          agent.destroy();
-          throw error;
-        });
-    });
-
-    it('should use accept a boolean agent', function () {
-      // we don't have any hooks into an agent that node will initialize, so we just make sure that this doesn't throw
-      new WebClient(token, { agent: false });
-      return Promise.resolve();
-    });
   });
 
   describe('has an option to set request concurrency', function () {

@@ -3,7 +3,7 @@
 if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
 
 import { stringify as qsStringify } from 'querystring';
-import { IncomingHttpHeaders } from 'http';
+import { IncomingHttpHeaders, Agent } from 'http';
 import { basename } from 'path';
 import { Readable } from 'stream';
 import isStream from 'is-stream';
@@ -12,7 +12,7 @@ import PQueue from 'p-queue'; // tslint:disable-line:import-name
 import pRetry from 'p-retry';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData from 'form-data'; // tslint:disable-line:import-name
-import { awaitAndReduce, getUserAgent, delay, AgentOption, TLSOptions, agentForScheme } from './util';
+import { awaitAndReduce, getUserAgent, delay, TLSOptions } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { LogLevel, Logger, getLogger } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
@@ -114,8 +114,8 @@ export class WebClient extends EventEmitter<WebClientEvent> {
         },
         headers,
       ),
-      httpAgent: agentForScheme('http', agent),
-      httpsAgent: agentForScheme('https', agent),
+      httpAgent: agent,
+      httpsAgent: agent,
       transformRequest: [this.serializeApiCallOptions.bind(this)],
       validateStatus: () => true, // all HTTP status codes should result in a resolved promise (as opposed to only 2xx)
       maxRedirects: 0,
@@ -714,7 +714,7 @@ export interface WebClientOptions {
   logLevel?: LogLevel;
   maxRequestConcurrency?: number;
   retryConfig?: RetryOptions;
-  agent?: AgentOption;
+  agent?: Agent;
   tls?: TLSOptions;
   pageSize?: number;
   rejectRateLimitedCalls?: boolean;
