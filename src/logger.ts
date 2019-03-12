@@ -81,19 +81,9 @@ export class ConsoleLogger implements Logger {
     [LogLevel.DEBUG]: 100,
   };
 
-  /** Reference to a function that can be used as console.debug() */
-  private debugFn: (message?: any, ...optionalParams: any[]) => void;
-
   constructor() {
     this.level = LogLevel.INFO;
     this.name = '';
-
-    // In node < 8.0.0, console.debug does not exist
-    if (console.debug !== undefined) {
-      this.debugFn = console.debug;
-    } else {
-      this.debugFn = console.log;
-    }
   }
 
   /**
@@ -115,7 +105,7 @@ export class ConsoleLogger implements Logger {
    */
   public debug(...msg: any[]): void {
     if (ConsoleLogger.isMoreOrEqualSevere(LogLevel.DEBUG, this.level)) {
-      this.debugFn(ConsoleLogger.labels.get(LogLevel.DEBUG), this.name, ...msg);
+      console.debug(ConsoleLogger.labels.get(LogLevel.DEBUG), this.name, ...msg);
     }
   }
   /**

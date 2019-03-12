@@ -45,7 +45,7 @@ export class IncomingWebhook {
    * Send a notification to a conversation
    * @param message the message (a simple string, or an object describing the message)
    */
-  public send(message: string | IncomingWebhookSendArguments): Promise<IncomingWebhookResult> {
+  public async send(message: string | IncomingWebhookSendArguments): Promise<IncomingWebhookResult> {
     // NOTE: no support for TLS config
     let payload: IncomingWebhookSendArguments = Object.assign({}, this.defaults);
 
@@ -55,22 +55,19 @@ export class IncomingWebhook {
       payload = Object.assign(payload, message);
     }
 
-    const implementation = () => this.axios.post(this.url, payload)
-      .catch((error: AxiosError) => {
-        // Wrap errors in this packages own error types (abstract the implementation details' types)
-        if (error.response !== undefined) {
-          throw httpErrorWithOriginal(error);
-        } else if (error.request !== undefined) {
-          throw requestErrorWithOriginal(error);
-        } else {
-          throw error;
-        }
-      })
-      .then((response: AxiosResponse) => {
-        return this.buildResult(response);
-      });
-
-    return implementation();
+    try {
+      const response = await this.axios.post(this.url, payload);
+      return this.buildResult(response);
+    } catch (error) {
+      // Wrap errors in this packages own error types (abstract the implementation details' types)
+      if (error.response !== undefined) {
+        throw httpErrorWithOriginal(error);
+      } else if (error.request !== undefined) {
+        throw requestErrorWithOriginal(error);
+      } else {
+        throw error;
+      }
+    }
   }
 
   /**
