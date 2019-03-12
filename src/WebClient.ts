@@ -727,7 +727,6 @@ export enum WebClientEvent {
   RATE_LIMITED = 'rate_limited',
 }
 
-// TODO: generic parameter?
 export interface WebAPICallOptions {
 }
 
