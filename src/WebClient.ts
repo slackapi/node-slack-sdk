@@ -137,7 +137,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
    * @param method the Web API method to call {@see https://api.slack.com/methods}
    * @param options options
    */
-  public apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult> {
+  public async apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult> {
     this.logger.debug('apiCall() start');
 
     if (typeof options === 'string' || typeof options === 'number' || typeof options === 'boolean') {
