@@ -12,7 +12,6 @@ export {
 
 export {
   addAppMetadata,
-  AgentOption,
   TLSOptions,
 } from './util';
 

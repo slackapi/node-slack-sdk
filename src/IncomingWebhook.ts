@@ -1,7 +1,7 @@
+import { Agent } from 'http';
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { MessageAttachment, Block } from './methods';
-import { AgentOption, agentForScheme } from './util';
 
 /**
  * A client for Slack's Incoming Webhooks
@@ -32,8 +32,8 @@ export class IncomingWebhook {
 
     this.axios = axios.create({
       baseURL: url,
-      httpAgent: agentForScheme('http', defaults.agent),
-      httpsAgent: agentForScheme('https', defaults.agent),
+      httpAgent: defaults.agent,
+      httpsAgent: defaults.agent,
       maxRedirects: 0,
       proxy: false,
     });
@@ -86,12 +86,12 @@ export class IncomingWebhook {
 
 export interface IncomingWebhookDefaultArguments {
   username?: string;
-  icon_emoji?: string; // SEMVER:MAJOR used to be iconEmoji
-  icon_url?: string; // SEMVER:MAJOR used to be iconUrl
+  icon_emoji?: string;
+  icon_url?: string;
   channel?: string;
   text?: string;
-  link_names?: boolean; // SEMVER:MAJOR used to be linkNames
-  agent?: AgentOption;
+  link_names?: boolean;
+  agent?: Agent;
 }
 
 export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArguments {
