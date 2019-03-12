@@ -686,18 +686,23 @@ export class WebClient extends EventEmitter<WebClientEvent> {
   private buildResult(response: AxiosResponse): WebAPICallResult {
     const data = response.data;
 
+    if (data.response_metadata === undefined) {
+      data.response_metadata = {};
+    }
+
     // add scopes metadata from headers
     if (response.headers['x-oauth-scopes'] !== undefined) {
-      data.scopes = (response.headers['x-oauth-scopes'] as string).trim().split(/\s*,\s*/);
+      data.response_metadata.scopes = (response.headers['x-oauth-scopes'] as string).trim().split(/\s*,\s*/);
     }
     if (response.headers['x-accepted-oauth-scopes'] !== undefined) {
-      data.acceptedScopes = (response.headers['x-accepted-oauth-scopes'] as string).trim().split(/\s*,\s*/);
+      data.response_metadata.acceptedScopes =
+        (response.headers['x-accepted-oauth-scopes'] as string).trim().split(/\s*,\s*/);
     }
 
     // add retry metadata from headers
     const retrySec = parseRetryHeaders(response);
     if (retrySec !== undefined) {
-      data.retryAfter = retrySec;
+      data.response_metadata.retryAfter = retrySec;
     }
 
     return data;
@@ -733,13 +738,16 @@ export interface WebAPICallOptions {
 export interface WebAPICallResult {
   ok: boolean;
   error?: string;
-  scopes?: string[];
-  acceptedScopes?: string[];
-  retryAfter?: number;
   response_metadata?: {
     warnings?: string[];
     next_cursor?: string; // is this too specific to be encoded into this type?
+
+    // added from the headers of the http response
+    scopes?: string[];
+    acceptedScopes?: string[];
+    retryAfter?: number;
   };
+  [key: string]: unknown;
 }
 
 export type WebAPICallError = WebAPIPlatformError | WebAPIRequestError | WebAPIReadError | WebAPIHTTPError |
