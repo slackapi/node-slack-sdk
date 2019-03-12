@@ -16,7 +16,7 @@ export default interface Method<MethodArguments extends WebAPICallOptions> {
  */
 
 export interface AuxiliaryArguments {
-  [unknownArg: string]: any;
+  [unknownArg: string]: unknown;
 }
 
 export interface TokenOverridable {

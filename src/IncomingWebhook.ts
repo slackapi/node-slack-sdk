@@ -135,7 +135,7 @@ export interface IncomingWebhookHTTPError extends CodedError {
  * A factory to create IncomingWebhookRequestError objects
  * @param original The original error
  */
-function requestErrorWithOriginal(original: Error): IncomingWebhookRequestError {
+function requestErrorWithOriginal(original: AxiosError): IncomingWebhookRequestError {
   const error = errorWithCode(
     new Error(`A request error occurred: ${original.message}`),
     ErrorCode.IncomingWebhookRequestError,
@@ -148,10 +148,9 @@ function requestErrorWithOriginal(original: Error): IncomingWebhookRequestError 
  * A factory to create IncomingWebhookHTTPError objects
  * @param original The original error
  */
-function httpErrorWithOriginal(original: Error): IncomingWebhookHTTPError {
+function httpErrorWithOriginal(original: AxiosError): IncomingWebhookHTTPError {
   const error = errorWithCode(
-    // `any` cast is used because the got definition file doesn't export the got.HTTPError type
-    new Error(`An HTTP protocol error occurred: statusCode = ${(original as any).statusCode}`),
+    new Error(`An HTTP protocol error occurred: statusCode = ${original.code}`),
     ErrorCode.IncomingWebhookHTTPError,
   ) as Partial<IncomingWebhookHTTPError>;
   error.original = original;

@@ -96,10 +96,11 @@ export class RTMClient extends EventEmitter {
 
               return this.webClient.apiCall(connectMethod, this.startOpts !== undefined ? this.startOpts : {})
                 .then((result: WebAPICallResult) => {
+                  const startData = result as RTMStartResult;
+
                   // capture identity information
-                  // TODO: remove type casts
-                  this.activeUserId = (result as any).self.id;
-                  this.activeTeamId = (result as any).team.id;
+                  this.activeUserId = startData.self.id;
+                  this.activeTeamId = startData.team.id;
 
                   return result;
                 });
@@ -690,4 +691,17 @@ enum UnrecoverableRTMStartError {
   AccountInactive = 'account_inactive',
   UserRemovedFromTeam = 'user_removed_from_team',
   TeamDisabled = 'team_disabled',
+}
+
+/**
+ * This interface is the minimum that the RTMClient depends on from the intersection of `rtm.start` and `rtm.connect`
+ * responses.
+ */
+interface RTMStartResult extends WebAPICallResult {
+  self: {
+    id: string;
+  };
+  team: {
+    id: string;
+  };
 }

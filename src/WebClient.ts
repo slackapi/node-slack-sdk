@@ -647,7 +647,7 @@ export class WebClient extends EventEmitter {
         }
         return form;
       }, new FormData());
-      // Merge FormData provided headers into headers param
+      // Copying FormData-generated headers into headers param
       // not reassigning to headers param since it is passed by reference and behaves as an inout param
       for (const [header, value] of Object.entries(form.getHeaders())) {
         headers[header] = value;

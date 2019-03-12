@@ -228,14 +228,14 @@ export class KeepAlive extends EventEmitter {
   /**
    * Determines if a giving incoming event can be treated as an acknowledgement for the outstanding ping, and then
    * clears the ping if so.
-   * @param event any incoming slack event
+   * @param event incoming slack event
    */
-  private attemptAcknowledgePong(_type: string, event: any): void {
+  private attemptAcknowledgePong(_type: string, event: { [key: string]: unknown }): void {
     if (this.client === undefined) {
       throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
     }
 
-    if (this.lastPing !== undefined && event.reply_to !== undefined && event.reply_to >= this.lastPing) {
+    if (this.lastPing !== undefined && event.reply_to !== undefined && (event.reply_to as number) >= this.lastPing) {
       // this message is a reply that acks the previous ping, clear the last ping
       this.logger.debug('received pong, clearing pong timer');
       delete this.lastPing;
