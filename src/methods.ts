@@ -2,7 +2,6 @@ import { Stream } from 'stream';
 import { WebAPICallOptions, WebAPICallResult } from './WebClient';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
-// NOTE: not clear if these interfaces should be exported at the top-level
 
 /**
  * Generic method definition
@@ -17,7 +16,7 @@ export default interface Method<MethodArguments extends WebAPICallOptions> {
  */
 
 export interface AuxiliaryArguments {
-  [unknownArg: string]: any;
+  [unknownArg: string]: unknown;
 }
 
 export interface TokenOverridable {
@@ -42,8 +41,6 @@ export interface Searchable {
 // to a respective Set, so that the WebClient can reflect on which API methods it may apply automatic pagination.
 // As maintainers, we must be careful to add each of the API methods into these sets, so that is handled local (in line
 // numbers close) to the application of each interface.
-
-// TODO: express the interfaces as keyof the sets?
 
 export interface CursorPaginationEnabled {
   limit?: number; // natural integer, max of 1000
@@ -321,7 +318,7 @@ export interface SelectOption {
   /*
    * `api.*`
    */
-export type APITestArguments = {};
+export interface APITestArguments {}
 
   /*
    * `apps.*`
@@ -746,12 +743,12 @@ export type MPIMRepliesArguments = TokenOverridable & {
   /*
    * `oauth.*`
    */
-export type OAuthAccessArguments = {
+export interface OAuthAccessArguments {
   client_id: string;
   client_secret: string;
   code: string;
   redirect_uri?: string;
-};
+}
 
   /*
    * `pins.*`
@@ -977,7 +974,7 @@ export type UsersProfileGetArguments = TokenOverridable & {
   include_labels?: boolean;
   user?: string;
 };
-export type UsersProfileSetArguments = TokenOverridable &{
+export type UsersProfileSetArguments = TokenOverridable & {
   profile?: string; // url-encoded json
   user?: string;
   name?: string; // usable if `profile` is not passed

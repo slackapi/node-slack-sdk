@@ -1,7 +1,5 @@
 import { Options } from 'p-retry';
 
-// SEMVER:MAJOR renaming exports to camelCase
-
 /**
  * Options to create retry policies. Extends from https://github.com/tim-kos/node-retry.
  */
@@ -42,13 +40,10 @@ export const fiveRetriesInFiveMinutes: RetryOptions = {
 /**
  * This policy is just to keep the tests running fast.
  */
-// SEMVER:MAJOR changing the name of this policy
 export const rapidRetryPolicy: RetryOptions = {
   minTimeout: 0,
   maxTimeout: 1,
 };
-
-// SEMVER:MAJOR: removed retryPolicyFromOptions()
 
 const policies = {
   retryForeverExponential,

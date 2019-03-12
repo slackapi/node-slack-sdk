@@ -33,7 +33,8 @@
     "lint": "tslint --project .",
     "test": "npm run build && npm run test:spec && npm run test:integration",
     "test:spec": "nyc mocha --config src/.mocharc.json src/*.spec.js src/**/*.spec.js",
-    "test:integration": "mocha --config test/.mocharc.json test/typescript/test.ts test/proxy/test.js",
+    "test:integration:setup": "node test/setup.js",
+    "test:integration": "npm run test:integration:setup && node test/run-tests.js",
     "coverage": "codecov",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
@@ -48,7 +49,6 @@
     "@types/form-data": "^2.2.1",
     "@types/is-stream": "^1.1.0",
     "@types/node": ">=8.9.0",
-    "@types/p-cancelable": "^1.0.0",
     "@types/p-queue": "^2.3.2",
     "@types/p-retry": "^3.0.0",
     "@types/ws": "^5.1.1",
@@ -57,7 +57,7 @@
     "finity": "^0.5.4",
     "form-data": "^2.3.3",
     "is-stream": "^1.1.0",
-    "p-cancelable": "^1.0.0",
+    "p-cancelable": "^1.1.0",
     "p-queue": "^2.4.2",
     "p-retry": "^3.0.1",
     "ws": "^5.2.0"
@@ -79,6 +79,7 @@
     "nyc": "^13.3.0",
     "p-is-promise": "^2.0.0",
     "proxy": "^0.2.4",
+    "shelljs": "^0.8.3",
     "shx": "^0.3.2",
     "sinon": "^7.2.7",
     "source-map-support": "^0.5.10",
@@ -86,7 +87,6 @@
     "ts-node": "^8.0.3",
     "tslint": "^5.13.1",
     "tslint-config-airbnb": "^5.11.1",
-    "typescript": "^2.7.1",
-    "typings-tester": "^0.3.2"
+    "typescript": "^3.3.3333"
   }
 }

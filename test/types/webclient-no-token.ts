@@ -1,8 +1,8 @@
-
-import { WebClient } from '../../../dist';
+import { WebClient } from '@slack/client';
 
 const web = new WebClient();
 
+// $ExpectType Promise<WebAPICallResult>
 web.oauth.access({
   client_id: 'CLIENT_ID',
   client_secret: 'CLIENT_SECRET',

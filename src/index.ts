@@ -1,3 +1,5 @@
+/// <reference lib="es2017" />
+
 export {
   Logger,
   LogLevel,
@@ -38,6 +40,7 @@ export * from './methods';
 export {
   RTMClient,
   RTMClientOptions,
+  RTMStartOptions,
   RTMCallResult,
   RTMPlatformError,
   RTMWebsocketError,
@@ -49,4 +52,8 @@ export {
   IncomingWebhookSendArguments,
   IncomingWebhookDefaultArguments,
   IncomingWebhookResult,
+  IncomingWebhookRequestError,
+  IncomingWebhookReadError, // NOTE: this is no longer used.
+  IncomingWebhookHTTPError,
+  IncomingWebhookSendError,
 } from './IncomingWebhook';

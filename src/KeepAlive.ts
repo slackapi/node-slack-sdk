@@ -2,7 +2,7 @@ import { RTMClient, ErrorCode } from './';
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
 import { LogLevel, Logger, getLogger } from './logger';
 import { errorWithCode } from './errors';
-const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
+const packageJson = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 export interface KeepAliveOptions {
   logger?: Logger;
@@ -55,7 +55,7 @@ export class KeepAlive extends EventEmitter {
   /**
    * The name used to prefix all logging generated from this object
    */
-  private static loggerName = `${pkg.name}:KeepAlive`;
+  private static loggerName = `${packageJson.name}:KeepAlive`;
 
   /**
    * This object's logger instance
@@ -188,23 +188,26 @@ export class KeepAlive extends EventEmitter {
 
           this.logger.debug('setting pong timer');
 
-          this.pongTimer = setTimeout(() => {
-            if (this.client === undefined) {
-              // if monitoring stopped before the pong timer fires, its safe to return
-              if (!this.isMonitoring) {
-                this.logger.debug('stopped monitoring before pong timer fired');
-                return;
+          this.pongTimer = setTimeout(
+            () => {
+              if (this.client === undefined) {
+                // if monitoring stopped before the pong timer fires, its safe to return
+                if (!this.isMonitoring) {
+                  this.logger.debug('stopped monitoring before pong timer fired');
+                  return;
+                }
+                throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
               }
-              throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
-            }
-            // signal that this pong is done being handled
-            this.client.off('slack_event', this.attemptAcknowledgePong);
+              // signal that this pong is done being handled
+              this.client.off('slack_event', this.attemptAcknowledgePong);
 
-            // no pong received to acknowledge the last ping within the serverPongTimeout
-            this.logger.debug('pong timer expired, recommend reconnect');
-            this.recommendReconnect = true;
-            this.emit('recommend_reconnect');
-          }, this.serverPongTimeout);
+              // no pong received to acknowledge the last ping within the serverPongTimeout
+              this.logger.debug('pong timer expired, recommend reconnect');
+              this.recommendReconnect = true;
+              this.emit('recommend_reconnect');
+            },
+            this.serverPongTimeout,
+          );
 
           this.client.on('slack_event', this.attemptAcknowledgePong, this);
         })
@@ -228,14 +231,14 @@ export class KeepAlive extends EventEmitter {
   /**
    * Determines if a giving incoming event can be treated as an acknowledgement for the outstanding ping, and then
    * clears the ping if so.
-   * @param event any incoming slack event
+   * @param event incoming slack event
    */
-  private attemptAcknowledgePong(_type: string, event: any): void {
+  private attemptAcknowledgePong(_type: string, event: { [key: string]: unknown }): void {
     if (this.client === undefined) {
       throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
     }
 
-    if (this.lastPing !== undefined && event.reply_to !== undefined && event.reply_to >= this.lastPing) {
+    if (this.lastPing !== undefined && event.reply_to !== undefined && (event.reply_to as number) >= this.lastPing) {
       // this message is a reply that acks the previous ping, clear the last ping
       this.logger.debug('received pong, clearing pong timer');
       delete this.lastPing;

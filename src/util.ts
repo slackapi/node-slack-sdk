@@ -1,6 +1,8 @@
+/// <reference lib="esnext.asynciterable" />
+
 import * as os from 'os';
 import { Agent } from 'http';
-const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
+const packageJson = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 /**
  * Replaces occurrences of '/' with ':' in a string, since '/' is meaningful inside User-Agent strings as a separator.
@@ -9,10 +11,11 @@ function replaceSlashes(s: string): string {
   return s.replace('/', ':');
 }
 
-const baseUserAgent = `${replaceSlashes(pkg.name)}/${pkg.version} ` +
+const baseUserAgent = `${replaceSlashes(packageJson.name)}/${packageJson.version} ` +
                       `node/${process.version.replace('v', '')} ` +
                       `${os.platform()}/${os.release()}`;
 
+// TODO: refactor, shouldn't be a global singleton. that would require app metadata to become an option for all objects
 const appMetadata: { [key: string]: string } = {};
 
 /**
@@ -53,7 +56,7 @@ export function delay<T>(ms: number, value?: T): Promise<T> {
 export async function awaitAndReduce<T, U>(iterable: AsyncIterable<T>,
                                            callbackfn: (previousValue: U, currentValue: T) => U,
                                            initialValue: U): Promise<U> {
-  // TODO: make initialValue optional (overloads or conditional types?)
+  // NOTE: could make the initialValue optional (overloads or conditional types?)
   let accumulator = initialValue;
   for await (const value of iterable) {
     accumulator = callbackfn(accumulator, value);
@@ -90,7 +93,7 @@ function isAgent(obj: any): obj is Agent {
  * Returns an agent (or false or undefined) for the specific scheme and option passed in
  * @param scheme either 'http' or 'https'
  */
-export function agentForScheme(scheme: string, agentOption?: AgentOption): Agent | boolean | undefined {
+export function agentForScheme(scheme: 'http' | 'https', agentOption?: AgentOption): Agent | boolean | undefined {
   if (agentOption === undefined) {
     return undefined;
   }

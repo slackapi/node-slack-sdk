@@ -1,9 +1,9 @@
 import { Agent } from 'http';
-import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
-import WebSocket = require('ws'); // tslint:disable-line:import-name no-require-imports
+import EventEmitter from 'eventemitter3'; // tslint:disable-line:import-name
+import WebSocket from 'ws'; // tslint:disable-line:import-name
 import Finity, { StateMachine } from 'finity'; // tslint:disable-line:import-name
-import PQueue = require('p-queue'); // tslint:disable-line:import-name no-require-imports
-import PCancelable = require('p-cancelable'); // tslint:disable-line:import-name no-require-imports
+import PQueue from 'p-queue'; // tslint:disable-line:import-name
+import PCancelable from 'p-cancelable'; // tslint:disable-line:import-name
 import { LogLevel, Logger, getLogger } from './logger';
 import { RetryOptions } from './retry-policies';
 import { KeepAlive } from './KeepAlive';
@@ -11,7 +11,7 @@ import { WebClient, WebAPICallResult, WebAPICallError, ErrorCode, CodedError } f
 import * as methods from './methods'; // tslint:disable-line:import-name
 import { errorWithCode } from './errors';
 import { TLSOptions } from './util';
-const pkg = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
+const packageJson = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 /**
  * An RTMClient allows programs to communicate with the {@link https://api.slack.com/rtm|Slack Platform's RTM API}.
@@ -85,7 +85,6 @@ export class RTMClient extends EventEmitter {
           this.outgoingEventQueue.pause();
           // when a formerly connected client gets disconnected, all outgoing messages whose promises were waiting
           // for a reply from the server should be canceled
-          // TODO: we could give a reason for this here
           this.awaitingReplyList.forEach(p => p.cancel());
         })
       .state('connecting')
@@ -97,13 +96,11 @@ export class RTMClient extends EventEmitter {
 
               return this.webClient.apiCall(connectMethod, this.startOpts !== undefined ? this.startOpts : {})
                 .then((result: WebAPICallResult) => {
-                  // SEMVER:MAJOR: no longer handling the case where `result.url` is undefined separately from an error.
-                  // cannot think of a way this would have been triggered.
+                  const startData = result as RTMStartResult;
 
                   // capture identity information
-                  // TODO: remove type casts
-                  this.activeUserId = (result as any).self.id;
-                  this.activeTeamId = (result as any).team.id;
+                  this.activeUserId = startData.self.id;
+                  this.activeTeamId = startData.team.id;
 
                   return result;
                 });
@@ -115,7 +112,7 @@ export class RTMClient extends EventEmitter {
 
                   this.logger.info(`unable to RTM start: ${error.message}`);
 
-                  // v3 legacy event
+                  // Observe this event when the error which causes reconnecting or disconnecting is meaningful
                   this.emit('unable_to_rtm_start', error);
 
                   // NOTE: assume that ReadErrors are recoverable
@@ -258,7 +255,7 @@ export class RTMClient extends EventEmitter {
   /**
    * A cache of the options used to start the connection, so that it can be reused during reconnections.
    */
-  private startOpts?: methods.RTMConnectArguments | methods.RTMStartArguments;
+  private startOpts?: RTMStartOptions;
 
   /**
    * The instance of KeepAlive used to monitor this client's connection.
@@ -278,7 +275,7 @@ export class RTMClient extends EventEmitter {
    * the server (when its disconnected or when its reconnected and doesn't expect replies for past outgoing messages).
    * The list is a sparse array, where the indexes are message IDs for the sent messages.
    */
-  private awaitingReplyList: PCancelable.PCancelable<RTMCallResult>[] = [];
+  private awaitingReplyList: PCancelable<RTMCallResult>[] = [];
 
   /**
    * Configuration for custom TLS handling
@@ -288,7 +285,7 @@ export class RTMClient extends EventEmitter {
   /**
    * The name used to prefix all logging generated from this object
    */
-  private static loggerName = `${pkg.name}:RTMClient`;
+  private static loggerName = `${packageJson.name}:RTMClient`;
 
   /**
    * This object's logger instance
@@ -332,17 +329,21 @@ export class RTMClient extends EventEmitter {
       logger,
       logLevel,
     });
-    this.keepAlive.on('recommend_reconnect', () => {
-      if (this.websocket !== undefined) {
-        // this will trigger the 'websocket close' event on the state machine, which transitions to clean up
-        this.websocket.close();
+    this.keepAlive.on(
+      'recommend_reconnect',
+      () => {
+        if (this.websocket !== undefined) {
+          // this will trigger the 'websocket close' event on the state machine, which transitions to clean up
+          this.websocket.close();
 
-        // if the websocket actually is no longer connected, the eventual 'websocket close' event will take a long time,
-        // because it won't fire until the close handshake completes. in the meantime, stop the keep alive so we don't
-        // send pings on a dead connection.
-        this.keepAlive.stop();
-      }
-    }, this);
+          // if the websocket actually is no longer connected, the eventual 'websocket close' event will take a long
+          // time, because it won't fire until the close handshake completes. in the meantime, stop the keep alive so we
+          // don't send pings on a dead connection.
+          this.keepAlive.stop();
+        }
+      },
+      this,
+    );
 
     // Logging
     this.logger = getLogger(RTMClient.loggerName, logLevel, logger);
@@ -356,9 +357,7 @@ export class RTMClient extends EventEmitter {
    * Begin an RTM session using the provided options. This method must be called before any messages can
    * be sent or received.
    */
-  public start(options?: methods.RTMStartArguments | methods.RTMConnectArguments): Promise<WebAPICallResult> {
-    // TODO: make a named interface for the type of `options`. it should end in -Options instead of Arguments.
-
+  public start(options?: RTMStartOptions): Promise<WebAPICallResult> {
     this.logger.debug('start()');
 
     // capture options for potential future reconnects
@@ -418,8 +417,6 @@ export class RTMClient extends EventEmitter {
    * @param conversationId The destination for where the typing indicator should be shown.
    */
   public sendTyping(conversationId: string): Promise<void> {
-    // SEMVER:MINOR now returns a Promise, where it used to return void
-    // NOTE: should we allow for callback-based execution of this method?
     return this.addOutgoingEvent(false, 'typing', { channel: conversationId });
   }
 
@@ -429,8 +426,6 @@ export class RTMClient extends EventEmitter {
    * previous calls to this method.
    */
   public subscribePresence(userIds: string[]): Promise<void> {
-    // SEMVER:MINOR now returns a Promise, where it used to return void
-    // NOTE: should we allow for callback-based execution of this method?
     return this.addOutgoingEvent(false, 'presence_sub', { ids: userIds });
   }
 
@@ -548,7 +543,8 @@ export class RTMClient extends EventEmitter {
    * Atomically increments and returns a message ID for the next message.
    */
   private nextMessageId(): number {
-    return this.messageId++; // tslint:disable-line:no-increment-decrement
+    this.messageId += 1;
+    return this.messageId;
   }
 
   /**
@@ -556,9 +552,12 @@ export class RTMClient extends EventEmitter {
    */
   private setupWebsocket(url: string): void {
     // initialize the websocket
-    const options: WebSocket.ClientOptions = Object.assign({
-      perMessageDeflate: false,
-    }, this.tlsConfig);
+    const options: WebSocket.ClientOptions = Object.assign(
+      {
+        perMessageDeflate: false,
+      },
+      this.tlsConfig,
+    );
     if (this.agentConfig !== undefined) {
       options.agent = this.agentConfig;
     }
@@ -592,9 +591,6 @@ export class RTMClient extends EventEmitter {
    * each incoming message.
    */
   private onWebsocketMessage({ data }: { data: string }): void {
-    // v3 legacy
-    this.emit('raw_message', data);
-
     this.logger.debug(`received message on websocket: ${data}`);
 
     // parse message into slack event
@@ -641,7 +637,6 @@ export default RTMClient;
  * Exported types
  */
 
-// NOTE: add an experimental flag to turn off KeepAlive
 export interface RTMClientOptions {
   slackApiUrl?: string;
   logger?: Logger;
@@ -658,6 +653,8 @@ export interface RTMClientOptions {
   tls?: TLSOptions;
 }
 
+// TODO: define RTMClientEvent enum, use as generic parameter for EventEmitter (and probably still union with string)
+
 export interface RTMCallResult {
   ts: string;
   reply_to?: number;
@@ -666,6 +663,8 @@ export interface RTMCallResult {
     msg: string;
   };
 }
+
+export type RTMStartOptions = methods.RTMConnectArguments | methods.RTMStartArguments;
 
 export type RTMCallError = RTMPlatformError | RTMWebsocketError;
 
@@ -695,11 +694,24 @@ function websocketErrorWithOriginal(original: Error): RTMWebsocketError {
 }
 
 // NOTE: there may be a better way to add metadata to an error about being "unrecoverable" than to keep an
-// independent enum
+// independent enum, probably a Set (this isn't used as a type).
 enum UnrecoverableRTMStartError {
   NotAuthed = 'not_authed',
   InvalidAuth = 'invalid_auth',
   AccountInactive = 'account_inactive',
   UserRemovedFromTeam = 'user_removed_from_team',
   TeamDisabled = 'team_disabled',
+}
+
+/**
+ * This interface is the minimum that the RTMClient depends on from the intersection of `rtm.start` and `rtm.connect`
+ * responses.
+ */
+interface RTMStartResult extends WebAPICallResult {
+  self: {
+    id: string;
+  };
+  team: {
+    id: string;
+  };
 }
