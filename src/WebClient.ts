@@ -85,7 +85,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     logger = undefined,
     logLevel = LogLevel.INFO,
     maxRequestConcurrency = 3,
-    retryConfig = retryPolicies.retryForeverExponentialCappedRandom,
+    retryConfig = retryPolicies.tenRetriesInAboutThirtyMinutes,
     agent = undefined,
     tls = undefined,
     pageSize = 200,
