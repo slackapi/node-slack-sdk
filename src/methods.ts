@@ -34,35 +34,25 @@ export interface Searchable {
   sort_dir: 'asc' | 'desc';
 }
 
-// Pagination protocols
-// --------------------
-// In order to support automatic pagination in the WebClient, the following pagination types are not only defined as an
-// interface to abstract the related arguments, but also all API methods which support the pagination type are added
-// to a respective Set, so that the WebClient can reflect on which API methods it may apply automatic pagination.
-// As maintainers, we must be careful to add each of the API methods into these sets, so that is handled local (in line
-// numbers close) to the application of each interface.
-
+// A set of method names is initialized here and added to each time an argument type extends the CursorPaginationEnabled
+// interface, so that methods are checked against this set when using the pagination helper. If the method name is not
+// found, a warning is emitted to guide the developer to using the method correctly.
+export const cursorPaginationEnabledMethods: Set<string> = new Set();
 export interface CursorPaginationEnabled {
   limit?: number; // natural integer, max of 1000
   cursor?: string; // find this in a response's `response_metadata.next_cursor`
 }
-export const cursorPaginationOptionKeys = new Set(['limit', 'cursor']);
-export const cursorPaginationEnabledMethods: Map<string, string> = new Map(); // method : paginatedResponseProperty
 
 export interface TimelinePaginationEnabled {
   oldest?: string;
   latest?: string;
   inclusive?: boolean;
 }
-export const timelinePaginationOptionKeys = new Set(['oldest', 'latest', 'inclusive']);
-export const timelinePaginationEnabledMethods = new Set();
 
 export interface TraditionalPagingEnabled {
   page?: number; // default: 1
   count?: number; // default: 100
 }
-export const traditionalPagingOptionKeys = new Set(['page', 'count']);
-export const traditionalPagingEnabledMethods = new Set();
 
 /*
  * Reusable shapes for argument values
@@ -350,7 +340,6 @@ export type ChannelsHistoryArguments = TokenOverridable & TimelinePaginationEnab
   count?: number;
   unreads?: boolean;
 };
-timelinePaginationEnabledMethods.add('channels.history');
 export type ChannelsInfoArguments = TokenOverridable & LocaleAware & {
   channel: string;
 };
@@ -373,7 +362,7 @@ export type ChannelsListArguments = TokenOverridable & CursorPaginationEnabled &
   exclude_archived: boolean;
   exclude_members: boolean;
 };
-cursorPaginationEnabledMethods.set('channels.list', 'channels');
+cursorPaginationEnabledMethods.add('channels.list');
 export type ChannelsMarkArguments = TokenOverridable & {
   channel: string;
   ts: string;
@@ -477,8 +466,7 @@ export type ConversationsCreateArguments = TokenOverridable & {
 export type ConversationsHistoryArguments = TokenOverridable & CursorPaginationEnabled & TimelinePaginationEnabled & {
   channel: string;
 };
-cursorPaginationEnabledMethods.set('conversations.history', 'messages');
-timelinePaginationEnabledMethods.add('conversations.history');
+cursorPaginationEnabledMethods.add('conversations.history');
 export type ConversationsInfoArguments = TokenOverridable & LocaleAware & {
   channel: string;
 };
@@ -500,11 +488,11 @@ export type ConversationsListArguments = TokenOverridable & CursorPaginationEnab
   exclude_archived?: boolean;
   types?: string; // comma-separated list of conversation types
 };
-cursorPaginationEnabledMethods.set('conversations.list', 'channels');
+cursorPaginationEnabledMethods.add('conversations.list');
 export type ConversationsMembersArguments = TokenOverridable & CursorPaginationEnabled & {
   channel: string;
 };
-cursorPaginationEnabledMethods.set('conversations.members', 'members');
+cursorPaginationEnabledMethods.add('conversations.members');
 export type ConversationsOpenArguments = TokenOverridable & {
   channel?: string;
   users?: string; // comma-separated list of users
@@ -518,8 +506,7 @@ export type ConversationsRepliesArguments = TokenOverridable & CursorPaginationE
   channel: string;
   ts: string;
 };
-cursorPaginationEnabledMethods.set('conversations.replies', 'messages');
-timelinePaginationEnabledMethods.add('conversations.replies');
+cursorPaginationEnabledMethods.add('conversations.replies');
 export type ConversationsSetPurposeArguments = TokenOverridable & {
   channel: string;
   purpose: string;
@@ -571,7 +558,7 @@ export type FilesInfoArguments = TokenOverridable & CursorPaginationEnabled & {
   count?: number;
   page?: number;
 };
-cursorPaginationEnabledMethods.set('files.info', 'comments');
+cursorPaginationEnabledMethods.add('files.info');
 export type FilesListArguments = TokenOverridable & TraditionalPagingEnabled & {
   channel?: string;
   user?: string;
@@ -579,7 +566,6 @@ export type FilesListArguments = TokenOverridable & TraditionalPagingEnabled & {
   ts_to?: string;
   types?: string; // comma-separated list of file types
 };
-traditionalPagingEnabledMethods.add('files.list');
 export type FilesRevokePublicURLArguments = TokenOverridable & {
   file: string; // file id
 };
@@ -619,7 +605,6 @@ export type GroupsHistoryArguments = TokenOverridable & TimelinePaginationEnable
   unreads?: boolean;
   count?: number;
 };
-timelinePaginationEnabledMethods.add('groups.history');
 export type GroupsInfoArguments = TokenOverridable & LocaleAware & {
   channel: string;
 };
@@ -638,7 +623,7 @@ export type GroupsListArguments = TokenOverridable & CursorPaginationEnabled & {
   exclude_archived?: boolean;
   exclude_members?: boolean;
 };
-cursorPaginationEnabledMethods.set('groups.list', 'groups');
+cursorPaginationEnabledMethods.add('groups.list');
 export type GroupsMarkArguments = TokenOverridable & {
   channel: string;
   ts: string;
@@ -678,9 +663,8 @@ export type IMHistoryArguments = TokenOverridable & TimelinePaginationEnabled & 
   count?: number;
   unreads?: boolean;
 };
-timelinePaginationEnabledMethods.add('im.history');
 export type IMListArguments = TokenOverridable & CursorPaginationEnabled;
-cursorPaginationEnabledMethods.set('im.list', 'ims');
+cursorPaginationEnabledMethods.add('im.list');
 export type IMMarkArguments = TokenOverridable & {
   channel: string;
   ts: string;
@@ -713,9 +697,8 @@ export type MPIMHistoryArguments = TokenOverridable & TimelinePaginationEnabled 
   count?: number;
   unreads?: boolean;
 };
-timelinePaginationEnabledMethods.add('mpim.history');
 export type MPIMListArguments = TokenOverridable & CursorPaginationEnabled;
-cursorPaginationEnabledMethods.set('mpim.list', 'groups');
+cursorPaginationEnabledMethods.add('mpim.list');
 export type MPIMMarkArguments = TokenOverridable & {
   channel: string;
   ts: string;
@@ -782,8 +765,7 @@ export type ReactionsListArguments = TokenOverridable & TraditionalPagingEnabled
   user?: string;
   full?: boolean;
 };
-cursorPaginationEnabledMethods.set('reactions.list', 'items');
-traditionalPagingEnabledMethods.add('reactions.list');
+cursorPaginationEnabledMethods.add('reactions.list');
 export type ReactionsRemoveArguments = TokenOverridable & {
   name: string;
   // must supply one of:
@@ -832,11 +814,8 @@ export type RTMStartArguments = TokenOverridable & LocaleAware & {
    * `search.*`
    */
 export type SearchAllArguments = TokenOverridable & TraditionalPagingEnabled & Searchable;
-traditionalPagingEnabledMethods.add('search.all');
 export type SearchFilesArguments = TokenOverridable & TraditionalPagingEnabled & Searchable;
-traditionalPagingEnabledMethods.add('search.files');
 export type SearchMessagesArguments = TokenOverridable & TraditionalPagingEnabled & Searchable;
-traditionalPagingEnabledMethods.add('search.messages');
 
   /*
    * `stars.*`
@@ -849,8 +828,7 @@ export type StarsAddArguments = TokenOverridable & {
   file_comment?: string;
 };
 export type StarsListArguments = TokenOverridable & TraditionalPagingEnabled & CursorPaginationEnabled;
-cursorPaginationEnabledMethods.set('stars.list', 'items');
-traditionalPagingEnabledMethods.add('stars.list');
+cursorPaginationEnabledMethods.add('stars.list');
 export type StarsRemoveArguments = TokenOverridable & {
   // must supply one of:
   channel?: string; // paired with `timestamp`
@@ -932,7 +910,7 @@ export type UsersConversationsArguments = TokenOverridable & CursorPaginationEna
   types?: string; // comma-separated list of conversation types
   user?: string;
 };
-cursorPaginationEnabledMethods.set('users.conversations', 'channels');
+cursorPaginationEnabledMethods.add('users.conversations');
 export type UsersDeletePhotoArguments = TokenOverridable;
 export type UsersGetPresenceArguments = TokenOverridable & {
   user: string;
@@ -944,7 +922,7 @@ export type UsersInfoArguments = TokenOverridable & LocaleAware & {
 export type UsersListArguments = TokenOverridable & CursorPaginationEnabled & LocaleAware & {
   presence?: boolean; // deprecated, defaults to false
 };
-cursorPaginationEnabledMethods.set('users.list', 'members');
+cursorPaginationEnabledMethods.add('users.list');
 export type UsersLookupByEmailArguments = TokenOverridable & {
   email: string;
 };

@@ -1,6 +1,6 @@
 // polyfill for async iterable. see: https://stackoverflow.com/a/43694282/305340
 // can be removed once node v10 is the minimum target (node v8 and v9 require --harmony_async_iteration flag)
-if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
+// if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
 
 import { stringify as qsStringify } from 'querystring';
 import { IncomingHttpHeaders, Agent } from 'http';
@@ -12,7 +12,7 @@ import PQueue from 'p-queue'; // tslint:disable-line:import-name
 import pRetry from 'p-retry';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData from 'form-data'; // tslint:disable-line:import-name
-import { awaitAndReduce, getUserAgent, delay, TLSOptions } from './util';
+import { getUserAgent, delay, TLSOptions } from './util';
 import { CodedError, errorWithCode, ErrorCode } from './errors';
 import { LogLevel, Logger, getLogger } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
@@ -58,11 +58,6 @@ export class WebClient extends EventEmitter<WebClientEvent> {
   private tlsConfig: TLSOptions;
 
   /**
-   * Automatic pagination page size (limit)
-   */
-  private pageSize: number;
-
-  /**
    * Preference for immediately rejecting API calls which result in a rate-limited response
    */
   private rejectRateLimitedCalls: boolean;
@@ -88,7 +83,6 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     retryConfig = retryPolicies.tenRetriesInAboutThirtyMinutes,
     agent = undefined,
     tls = undefined,
-    pageSize = 200,
     rejectRateLimitedCalls = false,
     headers = {},
   }: WebClientOptions = {}) {
@@ -100,7 +94,6 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     this.requestQueue = new PQueue({ concurrency: maxRequestConcurrency });
     // NOTE: may want to filter the keys to only those acceptable for TLS options
     this.tlsConfig = tls !== undefined ? tls : {};
-    this.pageSize = pageSize;
     this.rejectRateLimitedCalls = rejectRateLimitedCalls;
 
     // Logging
@@ -144,83 +137,22 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
     }
 
-    const methodSupportsCursorPagination = methods.cursorPaginationEnabledMethods.has(method);
-    const optionsPaginationType = getOptionsPaginationType(options);
+    const response = await this.makeRequest(method, Object.assign(
+      { token: this.token },
+      options,
+    ));
+    const result = this.buildResult(response);
 
-    // warn in priority of most general pagination problem to most specific pagination problem
-    if (optionsPaginationType === PaginationType.Mixed) {
-      this.logger.warn('Options include mixed pagination techniques. ' +
-                        'Always prefer cursor-based pagination when available');
-    } else if (optionsPaginationType === PaginationType.Cursor &&
-                !methodSupportsCursorPagination) {
-      this.logger.warn('Options include cursor-based pagination while the method cannot support that technique');
-    } else if (optionsPaginationType === PaginationType.Timeline &&
-                !methods.timelinePaginationEnabledMethods.has(method)) {
-      this.logger.warn('Options include timeline-based pagination while the method cannot support that technique');
-    } else if (optionsPaginationType === PaginationType.Traditional &&
-                !methods.traditionalPagingEnabledMethods.has(method)) {
-      this.logger.warn('Options include traditional paging while the method cannot support that technique');
-    } else if (methodSupportsCursorPagination &&
-                optionsPaginationType !== PaginationType.Cursor && optionsPaginationType !== PaginationType.None) {
-      this.logger.warn('Method supports cursor-based pagination and a different technique is used in options. ' +
-                        'Always prefer cursor-based pagination when available');
+    // log warnings in response metadata
+    if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
+      result.response_metadata.warnings.forEach(this.logger.warn.bind(this.logger));
     }
 
-    const shouldAutoPaginate = methodSupportsCursorPagination && optionsPaginationType === PaginationType.None;
-    this.logger.debug(`shouldAutoPaginate: ${shouldAutoPaginate}`);
-    if (shouldAutoPaginate) {
-      this.logger.warn(
-        'Auto pagination is deprecated. Use the `cursor` and `limit` arguments to make paginated calls.',
-      );
+    if (!result.ok) {
+      throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
     }
 
-    /**
-     * Generates a result object for each of the HTTP requests for this API call. API calls will generally only
-     * generate more than one result when automatic pagination is occurring.
-     */
-    async function* generateResults(this: WebClient): AsyncIterableIterator<WebAPICallResult> {
-      // when result is undefined, that signals that the first of potentially many calls has not yet been made
-      let result: WebAPICallResult | undefined = undefined;
-      // paginationOptions stores pagination options not already stored in the options argument
-      let paginationOptions: methods.CursorPaginationEnabled = {};
-
-      if (shouldAutoPaginate) {
-        // these are the default pagination options
-        paginationOptions = { limit: this.pageSize };
-      }
-
-      while (result === undefined ||
-              (shouldAutoPaginate &&
-                (Object.entries(paginationOptions = paginationOptionsForNextPage(result, this.pageSize)).length > 0)
-              )
-            ) {
-
-        result = await (this.makeRequest(method, Object.assign(
-          { token: this.token },
-          paginationOptions,
-          options,
-        ))
-          .then((response) => {
-            const result = this.buildResult(response);
-
-            // log warnings in response metadata
-            if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
-              result.response_metadata.warnings.forEach(this.logger.warn.bind(this.logger));
-            }
-
-            if (!result.ok) {
-              throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
-            }
-
-            return result;
-          }));
-
-        yield result;
-      }
-    }
-
-    // return a promise that resolves when a reduction of responses finishes
-    return awaitAndReduce(generateResults.call(this), createResultMerger(method) , { ok: true });
+    return result;
   }
 
   /**
@@ -698,7 +630,6 @@ export interface WebClientOptions {
   retryConfig?: RetryOptions;
   agent?: Agent;
   tls?: TLSOptions;
-  pageSize?: number;
   rejectRateLimitedCalls?: boolean;
   headers?: object;
 }
@@ -821,85 +752,15 @@ function rateLimitedErrorWithDelay(retrySec: number): WebAPIRateLimitedError {
   return (error as WebAPIRateLimitedError);
 }
 
-enum PaginationType {
-  Cursor = 'Cursor',
-  Timeline = 'Timeline',
-  Traditional = 'Traditional',
-  Mixed = 'Mixed',
-  None = 'None',
-}
-
-/**
- * Determines which pagination type, if any, the supplied options (a.k.a. method arguments) are using. This method is
- * also able to determine if the options have mixed different pagination types.
- */
-function getOptionsPaginationType(options?: WebAPICallOptions): PaginationType {
-  if (options === undefined) {
-    return PaginationType.None;
-  }
-
-  let optionsType = PaginationType.None;
-  for (const option of Object.keys(options)) {
-    if (optionsType === PaginationType.None) {
-      if (methods.cursorPaginationOptionKeys.has(option)) {
-        optionsType = PaginationType.Cursor;
-      } else if (methods.timelinePaginationOptionKeys.has(option)) {
-        optionsType = PaginationType.Timeline;
-      } else if (methods.traditionalPagingOptionKeys.has(option)) {
-        optionsType = PaginationType.Traditional;
-      }
-    } else if (optionsType === PaginationType.Cursor) {
-      if (methods.timelinePaginationOptionKeys.has(option) || methods.traditionalPagingOptionKeys.has(option)) {
-        return PaginationType.Mixed;
-      }
-    } else if (optionsType === PaginationType.Timeline) {
-      if (methods.cursorPaginationOptionKeys.has(option) || methods.traditionalPagingOptionKeys.has(option)) {
-        return PaginationType.Mixed;
-      }
-    } else if (optionsType === PaginationType.Traditional) {
-      if (methods.cursorPaginationOptionKeys.has(option) || methods.timelinePaginationOptionKeys.has(option)) {
-        return PaginationType.Mixed;
-      }
-    }
-  }
-  return optionsType;
-}
-
-/**
- * Creates a function that can reduce a result into an accumulated result. This is used for reducing many results from
- * automatically paginated API calls into a single result. It depends on metadata in the 'method' import.
- * @param method - the API method for which a result merging function is needed
- */
-function createResultMerger(method: string):
-    (accumulator: WebAPICallResult, result: WebAPICallResult) => WebAPICallResult {
-  if (methods.cursorPaginationEnabledMethods.has(method)) {
-    const paginatedResponseProperty = methods.cursorPaginationEnabledMethods.get(method) as keyof WebAPICallResult;
-    return (accumulator: WebAPICallResult, result: WebAPICallResult): WebAPICallResult => {
-      for (const resultProperty of Object.keys(result)) {
-        if (resultProperty === paginatedResponseProperty) {
-          if (accumulator[resultProperty] === undefined) {
-            accumulator[resultProperty] = [] as any[];
-          }
-          accumulator[resultProperty] = (accumulator[resultProperty] as any[]).concat(result[resultProperty]);
-        } else {
-          accumulator[resultProperty as keyof WebAPICallResult] = result[resultProperty as keyof WebAPICallResult];
-        }
-      }
-      return accumulator;
-    };
-  }
-  // For all methods who don't use cursor-pagination, return the identity reduction function
-  return (_, result) => result;
-}
-
 /**
  * Determines an appropriate set of cursor pagination options for the next request to a paginated API method.
  * @param previousResult - the result of the last request, where the next cursor might be found.
  * @param pageSize - the maximum number of additional items to fetch in the next request.
  */
-function paginationOptionsForNextPage(
+export function paginationOptionsForNextPage(
   previousResult: WebAPICallResult, pageSize: number,
 ): methods.CursorPaginationEnabled {
+  // NOTE: temporarily exported the function because its unused, but will be used later by the new helper method
   const paginationOptions: methods.CursorPaginationEnabled = {};
   if (previousResult.response_metadata !== undefined &&
     previousResult.response_metadata.next_cursor !== undefined &&

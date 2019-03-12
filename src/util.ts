@@ -1,5 +1,3 @@
-/// <reference lib="esnext.asynciterable" />
-
 import * as os from 'os';
 const packageJson = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
@@ -44,23 +42,6 @@ export function delay<T>(ms: number, value?: T): Promise<T> {
   return new Promise((resolve) => {
     setTimeout(() => resolve(value), ms);
   });
-}
-
-/**
- * Reduce an asynchronous iterable into a single value.
- * @param iterable the async iterable to be reduced
- * @param callbackfn a function that implements one step of the reduction
- * @param initialValue the initial value for the accumulator
- */
-export async function awaitAndReduce<T, U>(iterable: AsyncIterable<T>,
-                                           callbackfn: (previousValue: U, currentValue: T) => U,
-                                           initialValue: U): Promise<U> {
-  // NOTE: could make the initialValue optional (overloads or conditional types?)
-  let accumulator = initialValue;
-  for await (const value of iterable) {
-    accumulator = callbackfn(accumulator, value);
-  }
-  return accumulator;
 }
 
 // This interface is a subset of the options in SecureContextOptions from the node lib
