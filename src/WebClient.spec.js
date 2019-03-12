@@ -125,8 +125,8 @@ describe('WebClient', function () {
           });
         return this.client.apiCall('method')
           .then((result) => {
-            assert.deepNestedInclude(result, { 'scopes': ['files:read', 'chat:write:bot'] });
-            assert.deepNestedInclude(result, { 'acceptedScopes': ['files:read'] });
+            assert.deepNestedInclude(result.response_metadata, {  scopes: ['files:read', 'chat:write:bot'] });
+            assert.deepNestedInclude(result.response_metadata, { acceptedScopes: ['files:read'] });
             scope.done();
           })
       });
