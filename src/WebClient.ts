@@ -231,24 +231,6 @@ export class WebClient extends EventEmitter<WebClientEvent> {
   };
 
   /**
-   * apps method family
-   */
-  public readonly apps = {
-    permissions: {
-      info: (this.apiCall.bind(this, 'apps.permissions.info')) as Method<methods.AppsPermissionsInfoArguments>,
-      request: (this.apiCall.bind(this, 'apps.permissions.request')) as Method<methods.AppsPermissionsRequestArguments>,
-      resources: {
-        list: (this.apiCall.bind(this, 'apps.permissions.resources.list')) as
-          Method<methods.AppsPermissionsResourcesListArguments>,
-      },
-      scopes: {
-        list: (this.apiCall.bind(this, 'apps.permissions.scopes.list')) as
-          Method<methods.AppsPermissionsScopesListArguments>,
-      },
-    },
-  };
-
-  /**
    * auth method family
    */
   public readonly auth = {

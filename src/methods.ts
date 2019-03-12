@@ -321,18 +321,6 @@ export interface SelectOption {
 export interface APITestArguments {}
 
   /*
-   * `apps.*`
-   */
-export type AppsPermissionsInfoArguments = TokenOverridable & {};
-export type AppsPermissionsRequestArguments = TokenOverridable & {
-  scopes: string; // comma-separated list of scopes
-  trigger_id: string;
-};
-export type AppsPermissionsResourcesListArguments = TokenOverridable & CursorPaginationEnabled;
-cursorPaginationEnabledMethods.set('apps.permissions.resources.list', 'resources');
-export type AppsPermissionsScopesListArguments = TokenOverridable & {};
-
-  /*
    * `auth.*`
    */
 export type AuthRevokeArguments = TokenOverridable & {

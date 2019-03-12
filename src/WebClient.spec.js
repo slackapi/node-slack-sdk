@@ -474,9 +474,9 @@ describe('WebClient', function () {
         .post('/api/chat.postMessage', 'token=xoxb-faketoken&foo=stringval')
         .reply(200, { ok: true })
         // Trying this method because its mounted one layer "deeper"
-        .post('/api/apps.permissions.info', 'token=xoxb-faketoken')
+        .post('/api/team.profile.get', 'token=xoxb-faketoken')
         .reply(200, { ok: true });
-      return Promise.all([this.client.chat.postMessage({ foo: 'stringval' }), this.client.apps.permissions.info()])
+      return Promise.all([this.client.chat.postMessage({ foo: 'stringval' }), this.client.team.profile.get()])
         .then(() => {
           scope.done();
         });
