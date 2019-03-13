@@ -1,6 +1,8 @@
+/// <reference lib="esnext.asynciterable" />
+
 // polyfill for async iterable. see: https://stackoverflow.com/a/43694282/305340
 // can be removed once node v10 is the minimum target (node v8 and v9 require --harmony_async_iteration flag)
-// if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
+if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
 
 import { stringify as qsStringify } from 'querystring';
 import { IncomingHttpHeaders, Agent } from 'http';
@@ -153,6 +155,69 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     }
 
     return result;
+  }
+
+  /**
+   *
+   */
+  public paginate(method: string, options?: WebAPICallOptions): AsyncIterator<WebAPICallResult>;
+  public paginate<R extends PageReducer, A extends PageAccumulator<R>>(
+    method: string,
+    options?: WebAPICallOptions,
+    shouldStop?: PaginatePredicate,
+    reduce?: R,
+  ): Promise<A>;
+  public paginate<R extends PageReducer, A extends PageAccumulator<R>>(
+    method: string,
+    options?: WebAPICallOptions,
+    shouldStop?: PaginatePredicate,
+    reduce?: R,
+  ): (Promise<A> | AsyncIterator<WebAPICallResult>) {
+    // TODO: warn (or just info) if the method name isn't in the set of cursor paginated methods
+
+    const pageSize = (() => {
+      if (options !== undefined && typeof options.limit === 'number') {
+        const limit = options.limit;
+        delete options.limit;
+        return limit;
+      }
+      return defaultPageSize;
+    })();
+
+    async function* generatePages(this: WebClient): AsyncIterableIterator<WebAPICallResult> {
+      // when result is undefined, that signals that the first of potentially many calls has not yet been made
+      let result: WebAPICallResult | undefined = undefined;
+      // paginationOptions stores pagination options not already stored in the options argument
+      let paginationOptions: methods.CursorPaginationEnabled | undefined =
+        (options !== undefined && options.cursor !== undefined) ? { cursor: options.cursor as string } : undefined;
+
+      // NOTE: test for the situation where you're resuming a pagination using and existing cursor
+
+      while (paginationOptions !== undefined) {
+        result = await this.apiCall(method, Object.assign(options, paginationOptions));
+        yield result;
+        paginationOptions = paginationOptionsForNextPage(result, pageSize);
+      }
+    }
+
+    if (shouldStop === undefined) {
+      return generatePages.call(this);
+    }
+
+    const pageReducer = (reduce !== undefined) ? reduce : noopPageReducer;
+    let accumulator = undefined;
+    let index = 0;
+
+    return (async () => {
+      for await (const page of generatePages.call(this)) {
+        accumulator = pageReducer(accumulator, page, index);
+        if (shouldStop(page)) {
+          return accumulator;
+        }
+        index += 1;
+      }
+      return accumulator;
+    })();
   }
 
   /**
@@ -638,7 +703,9 @@ export enum WebClientEvent {
   RATE_LIMITED = 'rate_limited',
 }
 
+// TODO: figure out if this means we don't need AuxiliaryArguments
 export interface WebAPICallOptions {
+  [argument: string]: unknown;
 }
 
 export interface WebAPICallResult {
@@ -690,11 +757,25 @@ export interface WebAPIRateLimitedError extends CodedError {
   retryAfter: number;
 }
 
+// NOTE: should there be an async predicate?
+export interface PaginatePredicate {
+  (page: WebAPICallResult): boolean | undefined | void;
+}
+
+interface PageReducer {
+  (accumulator: any, page: WebAPICallResult, index: number): any;
+}
+
+type PageAccumulator<R extends PageReducer> =
+  R extends (accumulator: (infer A) | undefined, page: WebAPICallResult, index: number) => infer A ? A : never;
+
 /*
  * Helpers
  */
 
 const defaultFilename = 'Untitled';
+const defaultPageSize = 200;
+const noopPageReducer = () => undefined;
 
 /**
  * A factory to create WebAPIRequestError objects
@@ -757,18 +838,21 @@ function rateLimitedErrorWithDelay(retrySec: number): WebAPIRateLimitedError {
  * @param previousResult - the result of the last request, where the next cursor might be found.
  * @param pageSize - the maximum number of additional items to fetch in the next request.
  */
-export function paginationOptionsForNextPage(
-  previousResult: WebAPICallResult, pageSize: number,
-): methods.CursorPaginationEnabled {
-  // NOTE: temporarily exported the function because its unused, but will be used later by the new helper method
-  const paginationOptions: methods.CursorPaginationEnabled = {};
-  if (previousResult.response_metadata !== undefined &&
+function paginationOptionsForNextPage(
+  previousResult: WebAPICallResult | undefined, pageSize: number,
+): methods.CursorPaginationEnabled | undefined {
+  if (
+    previousResult !== undefined &&
+    previousResult.response_metadata !== undefined &&
     previousResult.response_metadata.next_cursor !== undefined &&
-    previousResult.response_metadata.next_cursor !== '') {
-    paginationOptions.limit = pageSize;
-    paginationOptions.cursor = previousResult.response_metadata.next_cursor as string;
+    previousResult.response_metadata.next_cursor !== ''
+  ) {
+    return {
+      limit: pageSize,
+      cursor: previousResult.response_metadata.next_cursor as string,
+    };
   }
-  return paginationOptions;
+  return;
 }
 
 /**
