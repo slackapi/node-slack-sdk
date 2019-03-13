@@ -161,10 +161,15 @@ export class WebClient extends EventEmitter<WebClientEvent> {
    *
    */
   public paginate(method: string, options?: WebAPICallOptions): AsyncIterator<WebAPICallResult>;
+  public paginate(
+    method: string,
+    options: WebAPICallOptions,
+    shouldStop: PaginatePredicate,
+  ): Promise<void>;
   public paginate<R extends PageReducer, A extends PageAccumulator<R>>(
     method: string,
-    options?: WebAPICallOptions,
-    shouldStop?: PaginatePredicate,
+    options: WebAPICallOptions,
+    shouldStop: PaginatePredicate,
     reduce?: R,
   ): Promise<A>;
   public paginate<R extends PageReducer, A extends PageAccumulator<R>>(
