@@ -210,21 +210,41 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     }
 
     const pageReducer: R = (reduce !== undefined) ? reduce : noopPageReducer as R;
-    let accumulator: A | undefined = undefined;
     let index = 0;
 
-    const accumulate: () => Promise<A> = async () => {
-      for await (const page of generatePages.call(this)) {
-        accumulator = pageReducer(accumulator, page, index);
-        if (shouldStop(page)) {
-          return accumulator;
-        }
-        index += 1;
+    const unrollWrapper: () => Promise<A> = async () => {
+      // Unroll the first iteration of the iterator
+      // This is done primarily because in order to satisfy the type system, we need a variable that is typed as A
+      // (shown as accumulator before), but before the first iteration all we have is a variable typed A | undefined.
+      // Unrolling the first iteration allows us to deal with undefined as a special case.
+
+      const pageIterator: AsyncIterableIterator<WebAPICallResult> = generatePages.call(this);
+      const firstIteratorResult = await pageIterator.next(undefined);
+      // Assumption: there will always be at least one result in a paginated API request
+      // if (firstIteratorResult.done) { return; }
+      const firstPage = firstIteratorResult.value;
+      let accumulator: A = pageReducer(undefined, firstPage, index);
+      index += 1;
+      if (shouldStop(firstPage)) {
+        return accumulator;
       }
-      return accumulator;
+
+      const accumulate: () => Promise<A> = async () => {
+        // Continue iteration
+        for await (const page of pageIterator) {
+          accumulator = pageReducer(accumulator, page, index);
+          if (shouldStop(page)) {
+            return accumulator;
+          }
+          index += 1;
+        }
+        return accumulator;
+      };
+
+      return accumulate();
     };
 
-    return accumulate();
+    return unrollWrapper();
   }
 
   /**
