@@ -1,3 +1,4 @@
+// tslint:disable:no-unused-expression
 import { WebClient } from '@slack/client';
 
 const web = new WebClient();
@@ -13,6 +14,9 @@ web.paginate('conversations.list', {});
 // $ExpectType Promise<void>
 web.paginate('conversations.list', {}, () => false);
 
+// $ExpectError
+web.paginate('conversations.list', {}, () => 7);
+
 // $ExpectType Promise<number>
 web.paginate('conversations.list', {}, () => false, () => 5);
 
@@ -25,7 +29,7 @@ web.paginate('conversations.list', {}, undefined, () => 5);
 
 web.paginate('conversations.list', {}, (page) => {
   // $ExpectType WebAPICallResult
-  page; // tslint:disable-line:no-unused-expression
+  page;
   return false;
 });
 
@@ -38,11 +42,11 @@ const d: Dummy = { t: 'dummy' };
 // $ExpectType Promise<Dummy>
 web.paginate('conversations.list', {}, () => false, (accumulator, page, pageNumber) => {
   // $ExpectType Dummy | undefined
-  accumulator; // tslint:disable-line:no-unused-expression
+  accumulator;
   // $ExpectType WebAPICallResult
-  page; // tslint:disable-line:no-unused-expression
+  page;
   // $ExpectType number
-  pageNumber; // tslint:disable-line:no-unused-expression
+  pageNumber;
 
   return d;
 });
