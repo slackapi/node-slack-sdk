@@ -158,7 +158,24 @@ export class WebClient extends EventEmitter<WebClientEvent> {
   }
 
   /**
+   * Iterate over the result pages of a cursor-paginated Web API method. This method can return two types of values,
+   * depending on which arguments are used. When up to two parameters are used, the return value is an async iterator
+   * which can be used as the iterable in a for-await-of loop. When three or four parameters are used, the return
+   * value is a promise that resolves at the end of iteration. The third parameter, `shouldStop`, is a function that is
+   * called with each `page` and can end iteration by returning `true`. The fourth parameter, `reduce`, is a function
+   * that is called with three arguments: `accumulator`, `page`, and `index`. The `accumulator` is a value of any type
+   * you choose, but it will contain `undefined` when `reduce` is called for the first time. The `page` argument and
+   * `index` arguments are exactly what they say they are. The `reduce` function's return value will be passed in as
+   * `accumulator` the next time its called, and the returned promise will resolve to the last value of `accumulator`.
    *
+   * The for-await-of syntax is part of ES2018. It is available natively in Node starting with v10.0.0. You may be able
+   * to use it in earlier JavaScript runtimes by transpiling your source with a tool like Babel. However, the
+   * transpiled code will likely sacrifice performance.
+   *
+   * @param method the cursor-paginated Web API method to call {@see https://api.slack.com/docs/pagination}
+   * @param options options
+   * @param shouldStop a predicate that is called with each page, and should return true when pagination can end.
+   * @param reduce a callback that can be used to accumulate a value that the return promise is resolved to
    */
   public paginate(method: string, options?: WebAPICallOptions): AsyncIterator<WebAPICallResult>;
   public paginate(
@@ -178,7 +195,10 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     shouldStop?: PaginatePredicate,
     reduce?: PageReducer<A>,
   ): (Promise<A> | AsyncIterator<WebAPICallResult>) {
-    // TODO: warn (or just info) if the method name isn't in the set of cursor paginated methods
+
+    if (!methods.cursorPaginationEnabledMethods.has(method)) {
+      this.logger.warn(`paginate() called with method ${method}, which is not known to be cursor pagination enabled.`);
+    }
 
     const pageSize = (() => {
       if (options !== undefined && typeof options.limit === 'number') {
