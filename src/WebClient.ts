@@ -209,11 +209,11 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       return generatePages.call(this);
     }
 
-    const pageReducer: R = (reduce !== undefined) ? reduce : noopPageReducer as R;
-    let accumulator: A | undefined = undefined;
+    const pageReducer = (reduce !== undefined) ? reduce : noopPageReducer;
+    let accumulator = undefined;
     let index = 0;
 
-    const accumulate: () => Promise<A> = async () => {
+    return (async () => {
       for await (const page of generatePages.call(this)) {
         accumulator = pageReducer(accumulator, page, index);
         if (shouldStop(page)) {
@@ -222,9 +222,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
         index += 1;
       }
       return accumulator;
-    };
-
-    return accumulate();
+    })();
   }
 
   /**
@@ -782,7 +780,7 @@ type PageAccumulator<R extends PageReducer> =
 
 const defaultFilename = 'Untitled';
 const defaultPageSize = 200;
-const noopPageReducer: PageReducer = () => undefined;
+const noopPageReducer = () => undefined;
 
 /**
  * A factory to create WebAPIRequestError objects
