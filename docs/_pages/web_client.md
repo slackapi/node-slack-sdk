@@ -8,14 +8,15 @@ headings:
     - title: Posting a message
     - title: Customizing a message layout
     - title: Uploading a file
-    - title: Getting a list of channels
-    - title: Changing the retry configuration
-    - title: Changing the request concurrency
-    - title: Rate limit handling
     - title: Pagination
+    - title: Getting a list of channels
+    - title: Making arbitrary API calls
     - title: Customizing the logger
     - title: Custom agent for proxy support
     - title: OAuth token exchange
+    - title: Changing the retry configuration
+    - title: Changing the request concurrency
+    - title: Rate limit handling
     - title: Using legacy message attachments
 
 ---
@@ -23,12 +24,13 @@ headings:
 This package includes a web client that makes it simple to use the [Slack Web API
 methods](https://api.slack.com/methods). Here are some of the goodies you get right out of the box:
 
-* Request queuing and rate-limit management
-* Request body serialization and response body parsing
-* Keeps track of your token
-* Custom agents for proxy support
+* Convenience Web API method aliases with type hints for all arguments
+* Simple pagination
+* Correct request body serialization and response body parsing
 * File upload handling
-* Convenience Web API method aliases
+* Request queuing and rate-limit management
+* Custom agents for proxy support
+* Keeps track of your token
 * Error handling
 * Logging
 * Configurability
@@ -39,9 +41,9 @@ Here are some of the common recipes for using the `WebClient` class.
 
 ### Posting a message
 
-Your app will interact with the Web API through the `WebClient` object, which a top level export from this package. You
-instantiate it with a token. The example below shows how to post a message into a channel, DM, MPDM, or group. This will
-require either the `bot`, `chat:user:write`, or `chat:bot:write` scope.
+Your app will interact with the Web API through the `WebClient` object, which is a top level export from this package.
+You typically instantiate it with a token. The example below shows how to post a message into a channel, DM, MPDM, or
+group. This will require a token with either the `bot`, `chat:user:write`, or `chat:bot:write` scope.
 
 ```javascript
 const { WebClient } = require('@slack/client');
@@ -154,154 +156,6 @@ const filename = 'test_file.csv';
 })();
 ```
 
-
----
-
-### Getting a list of channels
-
-The `conversations.list` method is part of the [Conversations API](https://api.slack.com/docs/conversations-api).
-This method returns a list of all [channel-like conversations](https://api.slack.com/types/conversation) in a workspace.
-The "channels" returned depend on what the calling token has access to and the directives placed in the `types`
-parameter. See the [conversations.list](https://api.slack.com/methods/conversations.list) documentation for details.
-
-```javascript
-const { WebClient } = require('@slack/client');
-
-// An access token (from your Slack app or custom integration - xoxp, or xoxb)
-const token = process.env.SLACK_TOKEN;
-
-const web = new WebClient(token);
-
-(async () => {
-  // See: https://api.slack.com/methods/conversations.list
-  const res = await web.conversations.list({
-    exclude_archived: true,
-    types: 'public_channel',
-    // Only get first 100 items
-    limit: 100,
-  });
-
-  // `res.channels` is an array of channel info objects
-  console.log(res.channels);
-})();
-```
-
-**NOTE**: The example above can only get a specific number of items (by `limit` arguments). See the
-[Pagination](#pagination) section for the detailed description as to how you can handle pagination in API methods so
-that you can get full items even if you don't know how many items are there.
-
----
-
-### Changing the retry configuration
-
-The `WebClient` will retry any request that fails for a recoverable error. The policy is configurable, but the default
-is to retry with an exponential back-off, capped at thirty minutes but with some randomization. You can use the
-`retryConfig` option to customize that policy. The value is an `options` object as described in the following library:
-<https://github.com/tim-kos/node-retry>.
-
-```javascript
-const { WebClient } = require('@slack/client');
-const token = process.env.SLACK_TOKEN;
-const web = new WebClient(token, {
-  retryConfig: {
-    // This would turn the retrying feature off
-    retries: 0,
-  },
-});
-```
-
----
-
-### Changing the request concurrency
-
-The `WebClient` maintains a queue of requests to make sure a limited number of requests are in flight at a time. It also
-helps with rate limit management. The default concurrency is set to three but you can configure this with the
-`maxRequestConcurrency` option.
-
-```javascript
-const { WebClient } = require('@slack/client');
-const token = process.env.SLACK_TOKEN;
-const web = new WebClient(token, {
-  // Allow up to 10 requests to be in-flight at a time
-  maxRequestConcurrency: 10,
-});
-```
-
----
-
-### Rate limit handling
-
-Typically, you shouldn't have to worry about rate limits. By default, the `WebClient` will automatically wait the
-appropriate amount of time and retry the request. During that time, all new requests from the `WebClient` will be
-paused, so it doesn't make your rate-limiting problem worse. Then, once a successful response is received, the returned
-Promise is resolved with the result.
-
-In addition, you can observe when your application has been rate-limited by attaching a handler to the `rate_limited`
-event. In the following example, we're trying to call the `users.info` method for a long list of users, and continue
-processing when all the responses have succeeded.
-
-```javascript
-const { WebClient } = require('@slack/client');
-const token = process.env.SLACK_TOKEN;
-const web = new WebClient(token);
-web.on('rate_limited', (retryAfter) => {
-  console.log(`A request was rate limited and future requests will be paused for ${retryAfter} seconds`);
-});
-
-const userIds = []; // a potentially long list of user IDs
-
-// If the list is large enough and responses are fast enough, this might trigger a rate-limit. But you will get each
-// result without any additional code, since the rate-limited requests will be retried.
-const allUsersInfoPromises = userIds.map(async (user) => {
-  const res = await web.users.info({ user });
-  // `res.user` contains the info for the user requested.
-  return res.user;
-});
-
-// `allUsersInfoPromises` is an array of Promises, but we can use Promise.all() to wait for them to all complete.
-Promise.all(allUsersInfoPromises)
-  .then((allUsersInfo) => {
-    // `allUsersInfo` is an array of user objects
-    console.log(allUsersInfo);
-  });
-```
-
-If you'd like to handle rate-limits in a specific way for your application, you can turn off the automatic retrying of
-rate-limited API calls with the `rejectRateLimitedCalls` configuration option.
-
-```javascript
-const { WebClient, ErrorCode } = require('@slack/client');
-const token = process.env.SLACK_TOKEN;
-const web = new WebClient(token, { rejectRateLimitedCalls: true });
-
-const userIds = []; // a potentially long list of user IDs
-
-userIds.map(async (user) => {
-  try {
-    const res = await web.users.info({ user });
-  } catch (error) {
-    if (error.code === ErrorCode.RateLimitedError) {
-      // the request was rate-limited, you can deal with this error in your application however you wish
-      console.log(
-        `The users.info with ID ${user} failed due to rate limiting. ` +
-        `The request can be retried in ${error.retryAfter} seconds.`
-      );
-    } else {
-      // some other error occurred
-      throw error;
-    }
-  }
-});
-
-// `allUsersInfoPromises` is an array of Promises, but we can use Promise.all() to wait for them to all complete.
-Promise.all(allUsersInfoPromises)
-  .then((allUsersInfo) => {
-    // `allUsersInfo` is an array of user objects, but some items may be undefined (error handling above doesn't return
-    // a value in rate-limiting situations)
-    console.log(allUsersInfo);
-  });
-```
-
 ---
 
 ### Pagination
@@ -324,14 +178,138 @@ const conversationId = 'C123456'; // some conversation ID
 ```
 
 In the code above, the `res.messages` array will contain, at maximum, 500 messages. But what about all the previous
-messages? That's what the `cursor` argument is used for 😎.
+messages? That's where `WebClient#paginate()` can really simplify your code. It allows you to iterate, or loop through,
+each of the pages in one of two different ways.
 
-Inside `res` is a property called `response_metadata`, which might (or might not) have a `next_cursor` property. When
-that `next_cursor` property exists, and is not an empty string, you know there's still more data in the list. If you
-want to read more messages in that conversation's history, you would call the method again, but use the `next_cursor`
-value as the `cursor` argument. **NOTE**: It should be rare that your app needs to read the entire history of a channel,
-avoid that! With other methods, such as `conversations.list`, it would be more common to request the entire list of
-conversations, so that's what we're illustrating below.
+The first way is using a
+[`for-await-of`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of) loop.
+You'll most likely choose this way when you're running in a modern JavaScript environment. On Node.js, that's v10.0.0 or
+higher. Here's how we can iterate over many pages of messages, and stop when we find one that contains a magic phrase.
+
+```javascript
+const { WebClient } = require('@slack/client');
+const token = process.env.SLACK_TOKEN;
+const web = new WebClient(token);
+const conversationId = 'C123456'; // some conversation ID
+
+const magicPhrase = 'never gonna give you up';
+
+(async () => {
+  let found = undefined;
+
+  // The loop gives you one page at a time, until you break or there's no more pages left in the list
+  for await (const page of web.paginate('conversations.history', { channel: conversationId })) {
+    console.log(`Received a page with ${page.messages.length} messages.`);
+
+    found = page.messages.find(m => m.text.toLowerCase().startsWith(magicPhrase));
+    if (found) {
+      // To stop iterating over pages, you can break at any time
+      break;
+    }
+  }
+
+  if (found) {
+    // never gonna let you down...
+  }
+})();
+```
+
+The second way is to use the third and fourth arguments to `WebClient#paginate()`. You might also prefer this way if
+you're into functional programming 〰️. The third argument is a function called `shouldStop()`, which will get called
+with each page as its only argument, and is expected to return `true` when you want to stop iterating. Also, when you
+pass in a `shouldStop()` function, the `WebClient#paginate()` method returns a `Promise`. A promise for what, exactly?
+Well that depends on whether you pass in the fourth argument, another function called `reduce()`. If you don't pass in
+a `reduce()` function, then the `Promise` will resolve when `shouldStop()` returns true or there are no more pages left,
+but it won't resolve to any value. When you do pass in `reduce()`, it will get called with three values: `accumulator`,
+`page`, and `index`. That's right, if you've seen
+[`Array.prototype.reduce()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce)
+before, this should look very familiar. The `page` and `index` are just what they sound like. They are the result of
+each request, and the number of which request it is (starting at 0), respectively. The `accumulator` is more
+interesting. On the first iteration (meaning when `reduce()` is called for the first time with the first page),
+`accumulator` will be `undefined`. But whatever your `reduce()` function returns from that call, will become the value
+of `accumulator` on the next iteration. This gives you a chance to build, or accumulate, a single value through all the
+pages that you see (remember: you can still use `shouldStop()` to determine when to stop). Once the iteration has
+stopped, the last value returned from `reduce()` will be the resolution value of the `Promise` returned from
+`WebClient#paginate()` 😮.
+
+Does it sound a little complicated? Don't worry, this example will help make it clear. Let's do the same thing as the
+example above, but this time use functional programming approach.
+
+```javascript
+const { WebClient } = require('@slack/client');
+const token = process.env.SLACK_TOKEN;
+const web = new WebClient(token);
+const conversationId = 'C123456'; // some conversation ID
+
+const magicPhrase = 'never gonna give you up';
+
+(async () => {
+  let found = undefined;
+  await web.paginate('conversations.history', { channel: conversationId },
+    // shouldStop(page) - returns true when we're done
+    (page) => {
+      found = page.messages.find(m => m.text.toLowerCase().startsWith(magicPhrase));
+      return found;
+    },
+  );
+
+  if (found) {
+    // never gonna let you down...
+  }
+})();
+```
+
+Easy! In the previous example, we were only looking for one message, so all we needed was `shouldStop()`. But let's
+say you wanted to count the number of users who sent a message since the last user said the magic phrase. That's
+something `reduce()` can make much easier.
+
+```javascript
+const { WebClient } = require('@slack/client');
+const token = process.env.SLACK_TOKEN;
+const web = new WebClient(token);
+const conversationId = 'C123456'; // some conversation ID
+
+const magicPhrase = 'never gonna give you up';
+
+(async () => {
+  const userSet = await web.paginate('conversations.history', { channel: conversationId },
+    // shouldStop(page) - returns true when we're done
+    (page) => {
+      found = page.messages.find(m => m.text.toLowerCase().startsWith(magicPhrase));
+      return found;
+    },
+    // reduce(accumulator, page, index)
+    (accumulator, page) => {
+      // Initialize the accumulator for the first iteration
+      if (accumulator === undefined) {
+        accumulator = new Set();
+      }
+      // Add each user into the Set (set will deduplicate)
+      page.messages.forEach(m => accumulator.add(m.user))
+      return accumulator;
+    }
+  );
+
+  console.log(`${userSet.size} users have sent a message since the last time the magic phrase was said.`)
+})();
+```
+
+That should be everything you need to work with cursor pagination enabled methods. A few methods that returns lists do
+not support cursor-based pagination, but do support [other pagination
+types](https://api.slack.com/docs/pagination#classic_pagination). These methods will not work with
+`WebClient#paginate()` and should give extra care to use appropriate options to only request a page at a time. If you
+don't, you risk failing with `Error`s which have a `code` property set to `errorCode.HTTPError`.
+
+---
+
+### Getting a list of channels
+
+The `conversations.list` method is part of the [Conversations API](https://api.slack.com/docs/conversations-api).
+This method returns a list of all [channel-like conversations](https://api.slack.com/types/conversation) in a workspace.
+The "channels" returned depend on what the calling token has access to and the directives placed in the `types`
+parameter. See the [conversations.list](https://api.slack.com/methods/conversations.list) documentation for details.
+
+Since `conversations.list` is cursor pagination enabled, its easy to get a complete list of visible channels.
 
 ```javascript
 const { WebClient } = require('@slack/client');
@@ -341,44 +319,48 @@ const token = process.env.SLACK_TOKEN;
 
 const web = new WebClient(token);
 
-async function getAllChannels(options) {
-  async function pageLoaded(accumulatedChannels, res) {
-    // Merge the previous result with the results in the current page
-    const mergedChannels = accumulatedChannels.concat(res.channels);
-
-    // When a `next_cursor` exists, recursively call this function to get the next page.
-    if (res.response_metadata && res.response_metadata.next_cursor && res.response_metadata.next_cursor !== '') {
-      // Make a copy of options
-      const pageOptions = { ...options };
-      // Add the `cursor` argument
-      pageOptions.cursor = res.response_metadata.next_cursor;
-
-      return pageLoaded(mergedChannels, await web.conversations.list(pageOptions));
-    }
-
-    // Otherwise, we're done and can return the result
-    return mergedChannels;
-  }
-  return pageLoaded([], await web.conversations.list(options));
-}
-
 (async () => {
-  const allChannels = await getAllChannels({ exclude_archived: true, types: 'public_channel' });
-  console.log(allChannels);
+  // See: https://api.slack.com/methods/conversations.list
+  const channels = await web.paginate('conversations.list', {
+    exclude_archived: true,
+    types: 'public_channel',
+  }, () => false, (acc, page) => {
+    if (acc === undefined) {
+      acc = []
+    }
+    acc.concat(page.channels);
+    return acc;
+  });
+
+  // `channels` is an array of channel info objects
+  console.log(channels);
 })();
 ```
 
-Cursor-based pagination, if available for a method, is always preferred. In fact, when you call a cursor-paginated
-method without a `cursor` or `limit`, the `WebClient` will **automatically paginate** the requests for you until the end
-of the list. Then, each page of results are concatenated, and that list takes the place of the last page in the last
-response. In other words, if you don't specify any pagination options then you get the whole list in the result as well
-as the non-list properties of the last API call. It's always preferred to perform your own pagination by specifying the
-`limit` and/or `cursor` since you can optimize to your own application's needs.
+---
 
-A few methods that returns lists do not support cursor-based pagination, but do support [other pagination
-types](https://api.slack.com/docs/pagination#classic_pagination). These methods will not be automatically paginated for
-you, so you should give extra care and use appropriate options to only request a page at a time. If you don't, you risk
-failing with `Error`s which have a `code` property set to `errorCode.HTTPError`.
+### Making arbitrary API calls
+
+If you prefer not to used the named methods, or you have a string with the name of the Web API method you'd like to
+call, then `WebClient#apiCall()` is for you. It takes a `method` string as its first argument, and the `options` as
+the second argument.
+
+```javascript
+const { WebClient } = require('@slack/client');
+
+// An access token (from your Slack app or custom integration - xoxp, or xoxb)
+const token = process.env.SLACK_TOKEN;
+
+const web = new WebClient(token);
+
+// There might be logic in my app to decide whether I want to use chat.postMessage or chat.postEphemeral
+const methodName = 'chat.postEphemeral';
+(async () => {
+  const res = await web.apiCall(methodName, { user: 'U12345', text: 'It\'s Morphin\' Time!' });
+})();
+```
+
+**NOTE**: You won't get the helpful type hints when using `WebClient#apiCall()` to make arbitrary API calls.
 
 ---
 
@@ -502,6 +484,117 @@ const clientSecret = process.env.SLACK_CLIENT_SECRET;
 })();
 ```
 
+---
+
+### Changing the retry configuration
+
+The `WebClient` will retry any request that fails for a recoverable error. The policy is configurable, but the default
+is to retry with an exponential back-off, capped at thirty minutes but with some randomization. You can use the
+`retryConfig` option to customize that policy. The value is an `options` object as described in the following library:
+<https://github.com/tim-kos/node-retry>.
+
+```javascript
+const { WebClient } = require('@slack/client');
+const token = process.env.SLACK_TOKEN;
+const web = new WebClient(token, {
+  retryConfig: {
+    // This would turn the retrying feature off
+    retries: 0,
+  },
+});
+```
+
+---
+
+### Changing the request concurrency
+
+The `WebClient` maintains a queue of requests to make sure a limited number of requests are in flight at a time. It also
+helps with rate limit management. The default concurrency is set to three but you can configure this with the
+`maxRequestConcurrency` option.
+
+```javascript
+const { WebClient } = require('@slack/client');
+const token = process.env.SLACK_TOKEN;
+const web = new WebClient(token, {
+  // Allow up to 10 requests to be in-flight at a time
+  maxRequestConcurrency: 10,
+});
+```
+
+---
+
+### Rate limit handling
+
+Typically, you shouldn't have to worry about rate limits. By default, the `WebClient` will automatically wait the
+appropriate amount of time and retry the request. During that time, all new requests from the `WebClient` will be
+paused, so it doesn't make your rate-limiting problem worse. Then, once a successful response is received, the returned
+Promise is resolved with the result.
+
+In addition, you can observe when your application has been rate-limited by attaching a handler to the `rate_limited`
+event. In the following example, we're trying to call the `users.info` method for a long list of users, and continue
+processing when all the responses have succeeded.
+
+```javascript
+const { WebClient } = require('@slack/client');
+const token = process.env.SLACK_TOKEN;
+const web = new WebClient(token);
+web.on('rate_limited', (retryAfter) => {
+  console.log(`A request was rate limited and future requests will be paused for ${retryAfter} seconds`);
+});
+
+const userIds = []; // a potentially long list of user IDs
+
+// If the list is large enough and responses are fast enough, this might trigger a rate-limit. But you will get each
+// result without any additional code, since the rate-limited requests will be retried.
+const allUsersInfoPromises = userIds.map(async (user) => {
+  const res = await web.users.info({ user });
+  // `res.user` contains the info for the user requested.
+  return res.user;
+});
+
+// `allUsersInfoPromises` is an array of Promises, but we can use Promise.all() to wait for them to all complete.
+Promise.all(allUsersInfoPromises)
+  .then((allUsersInfo) => {
+    // `allUsersInfo` is an array of user objects
+    console.log(allUsersInfo);
+  });
+```
+
+If you'd like to handle rate-limits in a specific way for your application, you can turn off the automatic retrying of
+rate-limited API calls with the `rejectRateLimitedCalls` configuration option.
+
+```javascript
+const { WebClient, ErrorCode } = require('@slack/client');
+const token = process.env.SLACK_TOKEN;
+const web = new WebClient(token, { rejectRateLimitedCalls: true });
+
+const userIds = []; // a potentially long list of user IDs
+
+userIds.map(async (user) => {
+  try {
+    const res = await web.users.info({ user });
+  } catch (error) {
+    if (error.code === ErrorCode.RateLimitedError) {
+      // the request was rate-limited, you can deal with this error in your application however you wish
+      console.log(
+        `The users.info with ID ${user} failed due to rate limiting. ` +
+        `The request can be retried in ${error.retryAfter} seconds.`
+      );
+    } else {
+      // some other error occurred
+      throw error;
+    }
+  }
+});
+
+// `allUsersInfoPromises` is an array of Promises, but we can use Promise.all() to wait for them to all complete.
+Promise.all(allUsersInfoPromises)
+  .then((allUsersInfo) => {
+    // `allUsersInfo` is an array of user objects, but some items may be undefined (error handling above doesn't return
+    // a value in rate-limiting situations)
+    console.log(allUsersInfo);
+  });
+```
 ---
 
 ### Using legacy message attachments

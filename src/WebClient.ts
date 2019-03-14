@@ -1,6 +1,8 @@
+/// <reference lib="esnext.asynciterable" />
+
 // polyfill for async iterable. see: https://stackoverflow.com/a/43694282/305340
 // can be removed once node v10 is the minimum target (node v8 and v9 require --harmony_async_iteration flag)
-// if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
+if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
 
 import { stringify as qsStringify } from 'querystring';
 import { IncomingHttpHeaders, Agent } from 'http';
@@ -153,6 +155,114 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     }
 
     return result;
+  }
+
+  /**
+   * Iterate over the result pages of a cursor-paginated Web API method. This method can return two types of values,
+   * depending on which arguments are used. When up to two parameters are used, the return value is an async iterator
+   * which can be used as the iterable in a for-await-of loop. When three or four parameters are used, the return
+   * value is a promise that resolves at the end of iteration. The third parameter, `shouldStop`, is a function that is
+   * called with each `page` and can end iteration by returning `true`. The fourth parameter, `reduce`, is a function
+   * that is called with three arguments: `accumulator`, `page`, and `index`. The `accumulator` is a value of any type
+   * you choose, but it will contain `undefined` when `reduce` is called for the first time. The `page` argument and
+   * `index` arguments are exactly what they say they are. The `reduce` function's return value will be passed in as
+   * `accumulator` the next time its called, and the returned promise will resolve to the last value of `accumulator`.
+   *
+   * The for-await-of syntax is part of ES2018. It is available natively in Node starting with v10.0.0. You may be able
+   * to use it in earlier JavaScript runtimes by transpiling your source with a tool like Babel. However, the
+   * transpiled code will likely sacrifice performance.
+   *
+   * @param method the cursor-paginated Web API method to call {@see https://api.slack.com/docs/pagination}
+   * @param options options
+   * @param shouldStop a predicate that is called with each page, and should return true when pagination can end.
+   * @param reduce a callback that can be used to accumulate a value that the return promise is resolved to
+   */
+  public paginate(method: string, options?: WebAPICallOptions): AsyncIterator<WebAPICallResult>;
+  public paginate(
+    method: string,
+    options: WebAPICallOptions,
+    shouldStop: PaginatePredicate,
+  ): Promise<void>;
+  public paginate<R extends PageReducer, A extends PageAccumulator<R>>(
+    method: string,
+    options: WebAPICallOptions,
+    shouldStop: PaginatePredicate,
+    reduce?: PageReducer<A>,
+  ): Promise<A>;
+  public paginate<R extends PageReducer, A extends PageAccumulator<R>>(
+    method: string,
+    options?: WebAPICallOptions,
+    shouldStop?: PaginatePredicate,
+    reduce?: PageReducer<A>,
+  ): (Promise<A> | AsyncIterator<WebAPICallResult>) {
+
+    if (!methods.cursorPaginationEnabledMethods.has(method)) {
+      this.logger.warn(`paginate() called with method ${method}, which is not known to be cursor pagination enabled.`);
+    }
+
+    const pageSize = (() => {
+      if (options !== undefined && typeof options.limit === 'number') {
+        const limit = options.limit;
+        delete options.limit;
+        return limit;
+      }
+      return defaultPageSize;
+    })();
+
+    async function* generatePages(this: WebClient): AsyncIterableIterator<WebAPICallResult> {
+      // when result is undefined, that signals that the first of potentially many calls has not yet been made
+      let result: WebAPICallResult | undefined = undefined;
+      // paginationOptions stores pagination options not already stored in the options argument
+      let paginationOptions: methods.CursorPaginationEnabled | undefined = {
+        limit: pageSize,
+      };
+      if (options !== undefined && options.cursor !== undefined) {
+        paginationOptions.cursor = options.cursor as string;
+      }
+
+      // NOTE: test for the situation where you're resuming a pagination using and existing cursor
+
+      while (result === undefined || paginationOptions !== undefined) {
+        result = await this.apiCall(method, Object.assign(options || {}, paginationOptions));
+        yield result;
+        paginationOptions = paginationOptionsForNextPage(result, pageSize);
+      }
+    }
+
+    if (shouldStop === undefined) {
+      return generatePages.call(this);
+    }
+
+    const pageReducer: PageReducer<A> = (reduce !== undefined) ? reduce : noopPageReducer;
+    let index = 0;
+
+    return (async () => {
+      // Unroll the first iteration of the iterator
+      // This is done primarily because in order to satisfy the type system, we need a variable that is typed as A
+      // (shown as accumulator before), but before the first iteration all we have is a variable typed A | undefined.
+      // Unrolling the first iteration allows us to deal with undefined as a special case.
+
+      const pageIterator: AsyncIterableIterator<WebAPICallResult> = generatePages.call(this);
+      const firstIteratorResult = await pageIterator.next(undefined);
+      // Assumption: there will always be at least one result in a paginated API request
+      // if (firstIteratorResult.done) { return; }
+      const firstPage = firstIteratorResult.value;
+      let accumulator: A = pageReducer(undefined, firstPage, index);
+      index += 1;
+      if (shouldStop(firstPage)) {
+        return accumulator;
+      }
+
+      // Continue iteration
+      for await (const page of pageIterator) {
+        accumulator = pageReducer(accumulator, page, index);
+        if (shouldStop(page)) {
+          return accumulator;
+        }
+        index += 1;
+      }
+      return accumulator;
+    })();
   }
 
   /**
@@ -639,6 +749,7 @@ export enum WebClientEvent {
 }
 
 export interface WebAPICallOptions {
+  [argument: string]: unknown;
 }
 
 export interface WebAPICallResult {
@@ -690,11 +801,25 @@ export interface WebAPIRateLimitedError extends CodedError {
   retryAfter: number;
 }
 
+// NOTE: should there be an async predicate?
+export interface PaginatePredicate {
+  (page: WebAPICallResult): boolean | undefined | void;
+}
+
+interface PageReducer<A = any> {
+  (accumulator: A | undefined, page: WebAPICallResult, index: number): A;
+}
+
+type PageAccumulator<R extends PageReducer> =
+  R extends (accumulator: (infer A) | undefined, page: WebAPICallResult, index: number) => infer A ? A : never;
+
 /*
  * Helpers
  */
 
 const defaultFilename = 'Untitled';
+const defaultPageSize = 200;
+const noopPageReducer: PageReducer = () => undefined;
 
 /**
  * A factory to create WebAPIRequestError objects
@@ -757,18 +882,21 @@ function rateLimitedErrorWithDelay(retrySec: number): WebAPIRateLimitedError {
  * @param previousResult - the result of the last request, where the next cursor might be found.
  * @param pageSize - the maximum number of additional items to fetch in the next request.
  */
-export function paginationOptionsForNextPage(
-  previousResult: WebAPICallResult, pageSize: number,
-): methods.CursorPaginationEnabled {
-  // NOTE: temporarily exported the function because its unused, but will be used later by the new helper method
-  const paginationOptions: methods.CursorPaginationEnabled = {};
-  if (previousResult.response_metadata !== undefined &&
+function paginationOptionsForNextPage(
+  previousResult: WebAPICallResult | undefined, pageSize: number,
+): methods.CursorPaginationEnabled | undefined {
+  if (
+    previousResult !== undefined &&
+    previousResult.response_metadata !== undefined &&
     previousResult.response_metadata.next_cursor !== undefined &&
-    previousResult.response_metadata.next_cursor !== '') {
-    paginationOptions.limit = pageSize;
-    paginationOptions.cursor = previousResult.response_metadata.next_cursor as string;
+    previousResult.response_metadata.next_cursor !== ''
+  ) {
+    return {
+      limit: pageSize,
+      cursor: previousResult.response_metadata.next_cursor as string,
+    };
   }
-  return paginationOptions;
+  return;
 }
 
 /**

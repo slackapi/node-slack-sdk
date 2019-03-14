@@ -1,7 +1,6 @@
 require('mocha');
 const fs = require('fs');
 const path = require('path');
-const { parse: qsParse } = require('querystring');
 const { Agent } = require('https');
 const { Readable } = require('stream');
 const { assert } = require('chai');
@@ -482,6 +481,188 @@ describe('WebClient', function () {
         });
     });
   })
+
+  describe('paginate()', function () {
+    beforeEach(function () {
+      this.client = new WebClient(token, { retryConfig: rapidRetryPolicy });
+      this.method = 'conversations.list';
+    });
+
+    describe('logging', function () {
+      beforeEach(function () {
+        this.capture = new CaptureConsole();
+        this.capture.startCapture();
+      });
+      it('should log a warning when called with a method not known to be cursor pagination enabled', function () {
+        this.client.paginate('method');
+        const output = this.capture.getCapturedText();
+        assert.isNotEmpty(output);
+      });
+      it('should not log a warning when called with a known cursor pagination enabled', function () {
+        this.client.paginate(this.method);
+        const output = this.capture.getCapturedText();
+        assert.isEmpty(output);
+      });
+      afterEach(function () {
+        this.capture.stopCapture();
+      });
+    });
+
+    describe('when not given shouldStop predicate', function () {
+      it('should return an AsyncIterator', function () {
+        const iterator = this.client.paginate(this.method);
+        assert.isOk(iterator[Symbol.asyncIterator]);
+      });
+      it('can iterate multiple pages', async function () {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(200, { ok: true, response_metadata: { next_cursor: 'CURSOR' } })
+          .post(/api/, (body) => {
+            // NOTE: limit value is compared as a string because nock doesn't properly serialize the param into a number
+            return body.limit && body.limit === '200' && body.cursor && body.cursor === 'CURSOR';
+          })
+          .reply(200, { ok: true });
+        const iterator = this.client.paginate(this.method);
+
+        const { value: firstPage, done: firstDone } = await iterator.next();
+        assert.isOk(firstPage);
+        assert.isFalse(firstDone);
+        const { value: secondPage, done: secondDone } = await iterator.next();
+        assert.isOk(secondPage);
+        assert.isFalse(secondDone);
+        const { value: thirdPage, done: thirdDone } = await iterator.next();
+        assert.isNotOk(thirdPage);
+        assert.isTrue(thirdDone);
+
+        scope.done();
+      });
+      it('can iterate multiple pages with limit items per page', async function () {
+        const limit = 4;
+        const scope = nock('https://slack.com')
+          .post(/api/, (body) => {
+            // NOTE: limit value is compared as a string because nock doesn't properly serialize the param into a number
+            return body.limit && body.limit === limit.toString();
+          })
+          .reply(200, { ok: true, response_metadata: { next_cursor: 'CURSOR' } })
+          .post(/api/, (body) => {
+            // NOTE: limit value is compared as a string because nock doesn't properly serialize the param into a number
+            return body.limit && body.limit === limit.toString() && body.cursor && body.cursor === 'CURSOR';
+          })
+          .reply(200, { ok: true });
+        const iterator = this.client.paginate(this.method, { limit });
+
+        const { value: firstPage, done: firstDone } = await iterator.next();
+        assert.isOk(firstPage);
+        assert.isFalse(firstDone);
+        const { value: secondPage, done: secondDone } = await iterator.next();
+        assert.isOk(secondPage);
+        assert.isFalse(secondDone);
+        const { value: thirdPage, done: thirdDone } = await iterator.next();
+        assert.isNotOk(thirdPage);
+        assert.isTrue(thirdDone);
+
+        scope.done();
+      });
+      it('can resume iteration from a result with an existing cursor', async function () {
+        const cursor = 'PRE_CURSOR';
+        const scope = nock('https://slack.com')
+          .post(/api/, (body) => {
+            return body.cursor && body.cursor === cursor;
+          })
+          .reply(200, { ok: true, response_metadata: { next_cursor: 'CURSOR' } })
+          .post(/api/, (body) => {
+            return body.cursor && body.cursor === 'CURSOR';
+          })
+          .reply(200, { ok: true });
+        const iterator = this.client.paginate(this.method, { cursor });
+
+        const { value: firstPage, done: firstDone } = await iterator.next();
+        assert.isOk(firstPage);
+        assert.isFalse(firstDone);
+        const { value: secondPage, done: secondDone } = await iterator.next();
+        assert.isOk(secondPage);
+        assert.isFalse(secondDone);
+        const { value: thirdPage, done: thirdDone } = await iterator.next();
+        assert.isNotOk(thirdPage);
+        assert.isTrue(thirdDone);
+
+        scope.done();
+      });
+    });
+
+    describe('when given shouldStop predicate', function () {
+      it('should iterate until the end when shouldStop always returns false', async function () {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(200, { ok: true, response_metadata: { next_cursor: 'CURSOR' } })
+          .post(/api/, (body) => {
+            // NOTE: limit value is compared as a string because nock doesn't properly serialize the param into a number
+            return body.limit && body.limit === '200' && body.cursor && body.cursor === 'CURSOR';
+          })
+          .reply(200, { ok: true });
+
+        const neverStop = sinon.fake.returns(false);
+        await this.client.paginate(this.method, {}, neverStop);
+        assert.equal(neverStop.callCount, 2);
+
+        scope.done();
+      });
+      it('should only iterate once when shouldStop always returns true', async function () {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(200, { ok: true, response_metadata: { next_cursor: 'CURSOR' } });
+
+        const neverStop = sinon.fake.returns(true);
+        await this.client.paginate(this.method, {}, neverStop);
+        assert.equal(neverStop.callCount, 1);
+
+        scope.done();
+      });
+      it('should iterate twice when shouldStop always returns false then true', async function () {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(200, { ok: true, response_metadata: { next_cursor: 'CURSOR_1' } })
+          .post(/api/, (body) => {
+            return body.cursor && body.cursor === 'CURSOR_1';
+          })
+          .reply(200, { ok: true, response_metadata: { next_cursor: 'CURSOR_2' } })
+
+        const shouldStop = sinon.stub();
+        shouldStop.onCall(0).returns(false);
+        shouldStop.onCall(1).returns(true);
+        await this.client.paginate(this.method, {}, shouldStop);
+        assert.equal(shouldStop.callCount, 2);
+
+        scope.done();
+      });
+
+      describe('when given a reduce function', function () {
+        it('should resolve for the accumulated value', async function () {
+          const scope = nock('https://slack.com')
+            .post(/api/)
+            .reply(200, { ok: true, v: 1, response_metadata: { next_cursor: 'CURSOR' } })
+            .post(/api/, (body) => {
+              // NOTE: limit value is compared as a string because nock doesn't properly serialize the param into a number
+              return body.limit && body.limit === '200' && body.cursor && body.cursor === 'CURSOR';
+            })
+            .reply(200, { ok: true, v: 2 });
+
+          const sum = await this.client.paginate(this.method, {}, () => false, (acc, page) => {
+            if (acc === undefined) {
+              acc = 0;
+            }
+            if (page.v && typeof page.v === 'number') {
+              acc += page.v;
+            }
+            return acc;
+          });
+          assert.equal(sum, 3);
+
+          scope.done();
+        });
+      });
+    });
+  });
 
   describe('has option to change slackApiUrl', function () {
     it('should send requests to an alternative URL', function () {
