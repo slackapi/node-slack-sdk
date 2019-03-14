@@ -170,13 +170,13 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     method: string,
     options: WebAPICallOptions,
     shouldStop: PaginatePredicate,
-    reduce?: R,
+    reduce?: PageReducer<A>,
   ): Promise<A>;
   public paginate<R extends PageReducer, A extends PageAccumulator<R>>(
     method: string,
     options?: WebAPICallOptions,
     shouldStop?: PaginatePredicate,
-    reduce?: R,
+    reduce?: PageReducer<A>,
   ): (Promise<A> | AsyncIterator<WebAPICallResult>) {
     // TODO: warn (or just info) if the method name isn't in the set of cursor paginated methods
 
@@ -210,18 +210,36 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     }
 
     const pageReducer = (reduce !== undefined) ? reduce : noopPageReducer;
-    let accumulator = undefined;
     let index = 0;
 
     return (async () => {
-      for await (const page of generatePages.call(this)) {
-        accumulator = pageReducer(accumulator, page, index);
-        if (shouldStop(page)) {
-          return accumulator;
-        }
-        index += 1;
+      // Unroll the first iteration of the iterator
+      // This is done primarily because in order to satisfy the type system, we need a variable that is typed as A
+      // (shown as accumulator before), but before the first iteration all we have is a variable typed A | undefined.
+      // Unrolling the first iteration allows us to deal with undefined as a special case.
+
+      const pageIterator: AsyncIterableIterator<WebAPICallResult> = generatePages.call(this);
+      const firstIteratorResult = await pageIterator.next(undefined);
+      // Assumption: there will always be at least one result in a paginated API request
+      // if (firstIteratorResult.done) { return; }
+      const firstPage = firstIteratorResult.value;
+      let accumulator: A = pageReducer(undefined, firstPage, index);
+      index += 1;
+      if (shouldStop(firstPage)) {
+        return accumulator;
       }
-      return accumulator;
+
+      return (async () => {
+        // Continue iteration
+        for await (const page of pageIterator) {
+          accumulator = pageReducer(accumulator, page, index);
+          if (shouldStop(page)) {
+            return accumulator;
+          }
+          index += 1;
+        }
+        return accumulator;
+      })();
     })();
   }
 
@@ -767,8 +785,8 @@ export interface PaginatePredicate {
   (page: WebAPICallResult): boolean | undefined | void;
 }
 
-interface PageReducer {
-  (accumulator: any, page: WebAPICallResult, index: number): any;
+interface PageReducer<A = any> {
+  (accumulator: A | undefined, page: WebAPICallResult, index: number): A;
 }
 
 type PageAccumulator<R extends PageReducer> =
@@ -780,7 +798,7 @@ type PageAccumulator<R extends PageReducer> =
 
 const defaultFilename = 'Untitled';
 const defaultPageSize = 200;
-const noopPageReducer = () => undefined;
+const noopPageReducer: PageReducer = () => undefined;
 
 /**
  * A factory to create WebAPIRequestError objects
