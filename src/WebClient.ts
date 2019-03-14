@@ -213,13 +213,17 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       // when result is undefined, that signals that the first of potentially many calls has not yet been made
       let result: WebAPICallResult | undefined = undefined;
       // paginationOptions stores pagination options not already stored in the options argument
-      let paginationOptions: methods.CursorPaginationEnabled | undefined =
-        (options !== undefined && options.cursor !== undefined) ? { cursor: options.cursor as string } : undefined;
+      let paginationOptions: methods.CursorPaginationEnabled | undefined = {
+        limit: pageSize,
+      };
+      if (options !== undefined && options.cursor !== undefined) {
+        paginationOptions.cursor = options.cursor as string;
+      }
 
       // NOTE: test for the situation where you're resuming a pagination using and existing cursor
 
-      while (paginationOptions !== undefined) {
-        result = await this.apiCall(method, Object.assign(options, paginationOptions));
+      while (result === undefined || paginationOptions !== undefined) {
+        result = await this.apiCall(method, Object.assign(options || {}, paginationOptions));
         yield result;
         paginationOptions = paginationOptionsForNextPage(result, pageSize);
       }
