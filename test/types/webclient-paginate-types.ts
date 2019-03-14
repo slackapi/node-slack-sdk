@@ -11,8 +11,8 @@ web.paginate('conversations.list');
 // $ExpectType AsyncIterator<WebAPICallResult>
 web.paginate('conversations.list', {});
 
-// NOTE: would like this to be a Promise<void>, but not sure that's possible
-// web.paginate('conversations.list', {}, () => false);
+// $ExpectType Promise<void>
+web.paginate('conversations.list', {}, () => false);
 
 // $ExpectError
 web.paginate('conversations.list', {}, () => 7);
@@ -39,8 +39,10 @@ web.paginate('conversations.list', {}, (page) => {
 interface Dummy { t: 'dummy'; }
 const d: Dummy = { t: 'dummy' };
 
+// Ideally, we would get all the same expected types even when accumulator was not explicitly typed (only the return
+// value of reduce having a known type).
 // $ExpectType Promise<Dummy>
-web.paginate('conversations.list', {}, () => false, (accumulator, page, pageNumber) => {
+web.paginate('conversations.list', {}, () => false, (accumulator: Dummy | undefined, page, pageNumber) => {
   // $ExpectType Dummy | undefined
   accumulator;
   // $ExpectType WebAPICallResult
