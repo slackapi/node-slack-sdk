@@ -209,7 +209,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       return generatePages.call(this);
     }
 
-    const pageReducer = (reduce !== undefined) ? reduce : noopPageReducer;
+    const pageReducer: PageReducer<A> = (reduce !== undefined) ? reduce : noopPageReducer;
     let index = 0;
 
     return (async () => {
@@ -229,17 +229,15 @@ export class WebClient extends EventEmitter<WebClientEvent> {
         return accumulator;
       }
 
-      return (async () => {
-        // Continue iteration
-        for await (const page of pageIterator) {
-          accumulator = pageReducer(accumulator, page, index);
-          if (shouldStop(page)) {
-            return accumulator;
-          }
-          index += 1;
+      // Continue iteration
+      for await (const page of pageIterator) {
+        accumulator = pageReducer(accumulator, page, index);
+        if (shouldStop(page)) {
+          return accumulator;
         }
-        return accumulator;
-      })();
+        index += 1;
+      }
+      return accumulator;
     })();
   }
 
