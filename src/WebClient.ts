@@ -748,7 +748,6 @@ export enum WebClientEvent {
   RATE_LIMITED = 'rate_limited',
 }
 
-// TODO: figure out if this means we don't need AuxiliaryArguments
 export interface WebAPICallOptions {
   [argument: string]: unknown;
 }
