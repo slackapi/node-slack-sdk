@@ -161,22 +161,22 @@ export class WebClient extends EventEmitter<WebClientEvent> {
    *
    */
   public paginate(method: string, options?: WebAPICallOptions): AsyncIterator<WebAPICallResult>;
-  public paginate(
-    method: string,
-    options: WebAPICallOptions,
-    shouldStop: PaginatePredicate,
-  ): Promise<void>;
+  // public paginate(
+  //   method: string,
+  //   options: WebAPICallOptions,
+  //   shouldStop: PaginatePredicate,
+  // ): Promise<void>;
   public paginate<R extends PageReducer, A extends PageAccumulator<R>>(
     method: string,
     options: WebAPICallOptions,
     shouldStop: PaginatePredicate,
-    reduce?: R,
+    reduce?: PageReducer<A>,
   ): Promise<A>;
   public paginate<R extends PageReducer, A extends PageAccumulator<R>>(
     method: string,
     options?: WebAPICallOptions,
     shouldStop?: PaginatePredicate,
-    reduce?: R,
+    reduce?: PageReducer<A>,
   ): (Promise<A> | AsyncIterator<WebAPICallResult>) {
     // TODO: warn (or just info) if the method name isn't in the set of cursor paginated methods
 
@@ -209,10 +209,10 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       return generatePages.call(this);
     }
 
-    const pageReducer: R = (reduce !== undefined) ? reduce : noopPageReducer as R;
+    const pageReducer: PageReducer<A> = (reduce !== undefined) ? reduce : noopPageReducer;
     let index = 0;
 
-    const unrollWrapper: () => Promise<A> = async () => {
+    const unrollWrapper: () => Promise<PageAccumulator<R>> = async () => {
       // Unroll the first iteration of the iterator
       // This is done primarily because in order to satisfy the type system, we need a variable that is typed as A
       // (shown as accumulator before), but before the first iteration all we have is a variable typed A | undefined.
@@ -223,13 +223,13 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       // Assumption: there will always be at least one result in a paginated API request
       // if (firstIteratorResult.done) { return; }
       const firstPage = firstIteratorResult.value;
-      let accumulator: A = pageReducer(undefined, firstPage, index);
+      let accumulator: PageAccumulator<R> = pageReducer(undefined, firstPage, index);
       index += 1;
       if (shouldStop(firstPage)) {
         return accumulator;
       }
 
-      const accumulate: () => Promise<A> = async () => {
+      const accumulate: () => Promise<PageAccumulator<R>> = async () => {
         // Continue iteration
         for await (const page of pageIterator) {
           accumulator = pageReducer(accumulator, page, index);
@@ -789,8 +789,8 @@ export interface PaginatePredicate {
   (page: WebAPICallResult): boolean | undefined | void;
 }
 
-interface PageReducer {
-  (accumulator: any, page: WebAPICallResult, index: number): any;
+interface PageReducer<A = any> {
+  (accumulator: A | undefined, page: WebAPICallResult, index: number): A;
 }
 
 type PageAccumulator<R extends PageReducer> =

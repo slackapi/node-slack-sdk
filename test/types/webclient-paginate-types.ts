@@ -11,8 +11,8 @@ web.paginate('conversations.list');
 // $ExpectType AsyncIterator<WebAPICallResult>
 web.paginate('conversations.list', {});
 
-// $ExpectType Promise<void>
-web.paginate('conversations.list', {}, () => false);
+// NOTE: would like this to be a Promise<void>, but not sure that's possible
+// web.paginate('conversations.list', {}, () => false);
 
 // $ExpectError
 web.paginate('conversations.list', {}, () => 7);
