@@ -212,7 +212,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     const pageReducer: PageReducer<A> = (reduce !== undefined) ? reduce : noopPageReducer;
     let index = 0;
 
-    const unrollWrapper: () => Promise<A> = async () => {
+    return (async () => {
       // Unroll the first iteration of the iterator
       // This is done primarily because in order to satisfy the type system, we need a variable that is typed as A
       // (shown as accumulator before), but before the first iteration all we have is a variable typed A | undefined.
@@ -229,22 +229,16 @@ export class WebClient extends EventEmitter<WebClientEvent> {
         return accumulator;
       }
 
-      const accumulate: () => Promise<A> = async () => {
-        // Continue iteration
-        for await (const page of pageIterator) {
-          accumulator = pageReducer(accumulator, page, index);
-          if (shouldStop(page)) {
-            return accumulator;
-          }
-          index += 1;
+      // Continue iteration
+      for await (const page of pageIterator) {
+        accumulator = pageReducer(accumulator, page, index);
+        if (shouldStop(page)) {
+          return accumulator;
         }
-        return accumulator;
-      };
-
-      return accumulate();
-    };
-
-    return unrollWrapper();
+        index += 1;
+      }
+      return accumulator;
+    })();
   }
 
   /**
