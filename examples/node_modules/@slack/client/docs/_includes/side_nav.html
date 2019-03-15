@@ -1,0 +1,27 @@
+<div id="api_sections">
+
+    {% comment %}https://github.com/pages-themes/primer/issues/15{% endcomment %}
+    {% assign sorted_pages = site.pages | where_exp:"page", "page.name != 'style.scss'" | where_exp: "page", "page.layout != 'redirect'" | sort:"order" %}
+
+    {% for node in sorted_pages %}
+        {% if node.hidden != true %}
+    <h5><a href="{{ node.url | prepend: site.baseurl }}" class="{% if page.url == node.url %}current{% endif %}">{% if node.title %}{{ node.title }}{% else %}{{ site.title }}{% endif %}</a></h5>
+    <ul>
+        {% if node.headings %}
+            {% for heading in node.headings %}
+                {% assign anchor = heading.title | downcase | replace: " ", "-" | remove: ":" |  remove: "," | remove: "'" | remove: "." | remove: "?" | remove: "!" %}
+                <li><a href="{{ node.url | prepend: site.baseurl }}#{{ anchor }}" class="sidebar_menu_list_item">{{ heading.title }}</a></li>
+            {% endfor %}
+            {% endif %}
+        {% endif %}
+    </ul>
+    {% endfor %}
+    <h5>SDK Reference</h5>
+    <ul>
+    {% for doc in site.reference %}
+        <li><a href="{{ doc.url | prepend: site.baseurl }}" class="sidebar_menu_list_item">{{ doc.title }}</a></li>
+    {% endfor %}
+    </ul>
+
+
+</div>

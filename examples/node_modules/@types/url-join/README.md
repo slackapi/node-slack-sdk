@@ -1,0 +1,16 @@
+# Installation
+> `npm install --save @types/url-join`
+
+# Summary
+This package contains type definitions for url-join (https://github.com/jfromaniello/url-join).
+
+# Details
+Files were exported from https://www.github.com/DefinitelyTyped/DefinitelyTyped/tree/master/url-join
+
+Additional Details
+ * Last updated: Sat, 25 Feb 2017 01:41:02 GMT
+ * Dependencies: none
+ * Global values: urljoin
+
+# Credits
+These definitions were written by Rogier Schouten <https://github.com/rogierschouten>, Mike Deverell <https://github.com/devrelm>.

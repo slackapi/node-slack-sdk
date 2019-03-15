@@ -1,0 +1,38 @@
+{
+    "name": "url-join",
+    "libraryName": "url-join",
+    "sourceRepoURL": "https://www.github.com/DefinitelyTyped/DefinitelyTyped",
+    "data": {
+        "contributors": [
+            {
+                "name": "Rogier Schouten",
+                "url": "https://github.com/rogierschouten"
+            },
+            {
+                "name": "Mike Deverell",
+                "url": "https://github.com/devrelm"
+            }
+        ],
+        "dependencies": {},
+        "pathMappings": {},
+        "libraryMajorVersion": 0,
+        "libraryMinorVersion": 8,
+        "typeScriptVersion": "2.0",
+        "libraryName": "url-join",
+        "typingsPackageName": "url-join",
+        "projectName": "https://github.com/jfromaniello/url-join",
+        "sourceRepoURL": "https://www.github.com/DefinitelyTyped/DefinitelyTyped",
+        "globals": [
+            "urljoin"
+        ],
+        "declaredModules": [
+            "url-join"
+        ],
+        "files": [
+            "index.d.ts"
+        ],
+        "hasPackageJson": false,
+        "contentHash": "8f6189cff37157676bc4e103e03672308d9ca63828a428f86629b95d862c4b4c"
+    },
+    "isLatest": true
+}
