@@ -25,6 +25,10 @@
     "npm": ">= 5.5.1"
   },
   "repository": "slackapi/node-slack-sdk",
+  "homepage": "https://slack.dev/node-slack-sdk",
+  "publishConfig": {
+    "access": "public"
+  },
   "bugs": {
     "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
