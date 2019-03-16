@@ -1,0 +1,38 @@
+{
+  "name": "@slack/web-api",
+  "version": "5.0.0",
+  "description": "Official library for using the Slack Platform's Web API",
+  "author": "Slack Technologies, Inc.",
+  "license": "MIT",
+  "keywords": [
+    "slack",
+    "web-api",
+    "bot",
+    "client",
+    "http",
+    "api",
+    "proxy",
+    "rate-limiting",
+    "pagination"
+  ],
+  "main": "dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.5.1"
+  },
+  "repository": "slackapi/node-slack-sdk",
+  "homepage": "https://slack.dev/node-slack-sdk",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/slackapi/node-slack-sdk/issues"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  }
+}
