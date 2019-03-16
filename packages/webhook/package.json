@@ -30,6 +30,32 @@
     "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "prepublishOnly": "npm run build",
+    "build": "npm run build:clean && tsc",
+    "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
+    "lint": "tslint --project .",
+    "test": "npm run build && nyc mocha --config .mocharc.json src/*.spec.js",
+    "coverage": "codecov"
+  },
+  "dependencies": {
+    "@types/node": ">=8.9.0",
+    "axios": "^0.18.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "chai": "^4.2.0",
+    "codecov": "^3.2.0",
+    "mocha": "^6.0.2",
+    "nock": "^10.0.6",
+    "nyc": "^13.3.0",
+    "p-is-promise": "^2.0.0",
+    "shx": "^0.3.2",
+    "sinon": "^7.2.7",
+    "source-map-support": "^0.5.10",
+    "ts-node": "^8.0.3",
+    "tslint": "^5.13.1",
+    "tslint-config-airbnb": "^5.11.1",
+    "typescript": "^3.3.3333"
   }
 }
