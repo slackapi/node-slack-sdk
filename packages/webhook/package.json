@@ -1,19 +1,16 @@
 {
-  "name": "@slack/web-api",
+  "name": "@slack/webhook",
   "version": "5.0.0",
-  "description": "Official library for using the Slack Platform's Web API",
+  "description": "Official library for using the Slack Platform's Incoming Webhooks",
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
   "keywords": [
     "slack",
-    "web-api",
-    "bot",
+    "request",
     "client",
     "http",
     "api",
-    "proxy",
-    "rate-limiting",
-    "pagination"
+    "proxy"
   ],
   "main": "dist/index.js",
   "types": "./dist/index.d.ts",

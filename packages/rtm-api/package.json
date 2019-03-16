@@ -1,19 +1,20 @@
 {
-  "name": "@slack/web-api",
+  "name": "@slack/rtm-api",
   "version": "5.0.0",
-  "description": "Official library for using the Slack Platform's Web API",
+  "description": "Official library for using the Slack Platform's Real Time Messaging API",
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
   "keywords": [
     "slack",
-    "web-api",
+    "rtm-api",
     "bot",
     "client",
     "http",
+    "websocket",
     "api",
     "proxy",
-    "rate-limiting",
-    "pagination"
+    "state",
+    "connection"
   ],
   "main": "dist/index.js",
   "types": "./dist/index.d.ts",
