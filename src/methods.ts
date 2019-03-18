@@ -428,9 +428,19 @@ export type ChatDeleteArguments = TokenOverridable & {
   ts: string;
   as_user?: boolean
 };
+export type ChatDeleteScheduledMessagesArguments = TokenOverridable & {
+  channel: string;
+  scheduled_message_id: string;
+  as_user?: boolean
+};
 export type ChatGetPermalinkArguments = TokenOverridable & {
   channel: string;
   message_ts: string;
+};
+export type ChatListScheduledMessagesArguments = TokenOverridable & CursorPaginationEnabled & {
+  channel: string;
+  latest: number;
+  oldest: number;
 };
 export type ChatMeMessageArguments = TokenOverridable & {
   channel: string;
@@ -462,6 +472,20 @@ export type ChatPostMessageArguments = TokenOverridable & {
   unfurl_links?: boolean;
   unfurl_media?: boolean;
   username?: string; // if specified, as_user must be false
+};
+export type ChatScheduleMessageArguments = TokenOverridable & {
+  channel: string;
+  text: string;
+  post_at: number;
+  as_user?: boolean;
+  attachments?: MessageAttachment[];
+  blocks?: (KnownBlock | Block)[];
+  link_names?: boolean;
+  parse?: 'full' | 'none';
+  reply_broadcast?: boolean; // if specified, thread_ts must be set
+  thread_ts?: string;
+  unfurl_links?: boolean;
+  unfurl_media?: boolean;
 };
 export type ChatUnfurlArguments = TokenOverridable & {
   channel: string;
