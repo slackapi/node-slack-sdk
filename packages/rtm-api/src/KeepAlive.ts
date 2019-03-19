@@ -1,8 +1,7 @@
-import { RTMClient, ErrorCode } from './';
 import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
+import { RTMClient } from './RTMClient';
 import { LogLevel, Logger, getLogger } from './logger';
-import { errorWithCode } from './errors';
-const packageJson = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
+import { ErrorCode, CodedError } from './errors';
 
 export interface KeepAliveOptions {
   logger?: Logger;
@@ -55,7 +54,7 @@ export class KeepAlive extends EventEmitter {
   /**
    * The name used to prefix all logging generated from this object
    */
-  private static loggerName = `${packageJson.name}:KeepAlive`;
+  private static loggerName = 'KeepAlive';
 
   /**
    * This object's logger instance
@@ -84,10 +83,9 @@ export class KeepAlive extends EventEmitter {
     this.serverPongTimeout = serverPongTimeout;
 
     if (this.serverPongTimeout >= this.clientPingTimeout) {
-      throw errorWithCode(
-        new Error('client ping timeout must be less than server pong timeout'),
-        ErrorCode.KeepAliveConfigError,
-      );
+      const error = new Error('Client ping timeout must be less than server pong timeout');
+      (error as CodedError).code = ErrorCode.KeepAliveConfigError;
+      throw error;
     }
 
     this.isMonitoring = false;
@@ -104,10 +102,9 @@ export class KeepAlive extends EventEmitter {
     this.logger.debug('start monitoring');
 
     if (!client.connected) {
-      throw errorWithCode(
-        new Error(),
-        ErrorCode.KeepAliveClientNotConnected,
-      );
+      const error = new Error('');
+      (error as CodedError).code = ErrorCode.KeepAliveClientNotConnected;
+      throw error;
     }
 
     this.client = client;
@@ -170,7 +167,9 @@ export class KeepAlive extends EventEmitter {
           this.logger.debug('stopped monitoring before ping timer fired');
           return;
         }
-        throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
+        const error = new Error('no client found');
+        (error as CodedError).code = ErrorCode.KeepAliveInconsistentState;
+        throw error;
       }
       this.logger.debug('ping timer expired, sending ping');
       this.client.send('ping')
@@ -181,7 +180,9 @@ export class KeepAlive extends EventEmitter {
               this.logger.debug('stopped monitoring before outgoing ping message was finished');
               return;
             }
-            throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
+            const error = new Error('no client found');
+            (error as CodedError).code = ErrorCode.KeepAliveInconsistentState;
+            throw error;
           }
 
           this.lastPing = messageId;
@@ -196,7 +197,9 @@ export class KeepAlive extends EventEmitter {
                   this.logger.debug('stopped monitoring before pong timer fired');
                   return;
                 }
-                throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
+                const error = new Error('no client found');
+                (error as CodedError).code = ErrorCode.KeepAliveInconsistentState;
+                throw error;
               }
               // signal that this pong is done being handled
               this.client.off('slack_event', this.attemptAcknowledgePong);
@@ -235,7 +238,9 @@ export class KeepAlive extends EventEmitter {
    */
   private attemptAcknowledgePong(_type: string, event: { [key: string]: unknown }): void {
     if (this.client === undefined) {
-      throw errorWithCode(new Error('no client found'), ErrorCode.KeepAliveInconsistentState);
+      const error = new Error('no client found');
+      (error as CodedError).code = ErrorCode.KeepAliveInconsistentState;
+      throw error;
     }
 
     if (this.lastPing !== undefined && event.reply_to !== undefined && (event.reply_to as number) >= this.lastPing) {

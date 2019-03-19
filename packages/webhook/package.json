@@ -30,7 +30,7 @@
     "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
   "scripts": {
-    "prepublishOnly": "npm run build",
+    "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
     "lint": "tslint --project .",
@@ -38,6 +38,7 @@
     "coverage": "codecov"
   },
   "dependencies": {
+    "@slack/types": "^1.0.0",
     "@types/node": ">=8.9.0",
     "axios": "^0.18.0"
   },

@@ -1,23 +1,17 @@
 {
-  "name": "@slack/rtm-api",
-  "version": "5.0.0",
-  "description": "Official library for using the Slack Platform's Real Time Messaging API",
+  "name": "@slack/types",
+  "version": "1.0.0",
+  "description": "Shared type definitions for the Node Slack SDK",
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
   "keywords": [
     "slack",
-    "rtm-api",
-    "bot",
-    "client",
-    "http",
-    "websocket",
-    "api",
-    "proxy",
-    "state",
-    "connection"
+    "typescript",
+    "types",
+    "api"
   ],
   "main": "dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*"
   ],
@@ -39,18 +33,6 @@
     "build:clean": "shx rm -rf ./dist",
     "lint": "tslint --project .",
     "test": "npm run build && echo \"Tests are not implemented.\" && exit 0"
-  },
-  "dependencies": {
-    "@slack/web-api": "^5.0.0",
-    "@slack/logger": "^1.0.0",
-    "@types/node": ">=8.9.0",
-    "@types/p-queue": "^2.3.2",
-    "@types/ws": "^5.1.1",
-    "eventemitter3": "^3.1.0",
-    "finity": "^0.5.4",
-    "p-cancelable": "^1.1.0",
-    "p-queue": "^2.4.2",
-    "ws": "^5.2.0"
   },
   "devDependencies": {
     "shx": "^0.3.2",

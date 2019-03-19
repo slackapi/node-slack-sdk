@@ -5,21 +5,26 @@
 if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
 
 import { stringify as qsStringify } from 'querystring';
-import { IncomingHttpHeaders, Agent } from 'http';
+import { Agent } from 'http';
 import { basename } from 'path';
 import { Readable } from 'stream';
+import { SecureContextOptions } from 'tls';
+
 import isStream from 'is-stream';
 import EventEmitter from 'eventemitter3'; // tslint:disable-line:import-name
 import PQueue from 'p-queue'; // tslint:disable-line:import-name
 import pRetry from 'p-retry';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData from 'form-data'; // tslint:disable-line:import-name
-import { getUserAgent, delay, TLSOptions } from './util';
-import { CodedError, errorWithCode, ErrorCode } from './errors';
+
+import Method, * as methods from './methods'; // tslint:disable-line:import-name
+import { getUserAgent } from './instrument';
+import {
+  requestErrorWithOriginal, httpErrorFromResponse, platformErrorFromResult, rateLimitedErrorWithDelay,
+} from './errors';
 import { LogLevel, Logger, getLogger } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
-import Method, * as methods from './methods'; // tslint:disable-line:import-name
-const packageJson = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
+import { delay } from './helpers';
 
 /**
  * A client for Slack's Web API
@@ -67,7 +72,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
   /**
    * The name used to prefix all logging generated from this object
    */
-  private static loggerName = `${packageJson.name}:WebClient`;
+  private static loggerName = 'WebClient';
 
   /**
    * This object's logger instance
@@ -744,6 +749,8 @@ export interface WebClientOptions {
   headers?: object;
 }
 
+export type TLSOptions = Pick<SecureContextOptions, 'pfx' | 'key' | 'passphrase' | 'cert' | 'ca'>;
+
 export enum WebClientEvent {
   RATE_LIMITED = 'rate_limited',
 }
@@ -767,40 +774,6 @@ export interface WebAPICallResult {
   [key: string]: unknown;
 }
 
-export type WebAPICallError = WebAPIPlatformError | WebAPIRequestError | WebAPIReadError | WebAPIHTTPError |
-  WebAPIRateLimitedError;
-
-export interface WebAPIPlatformError extends CodedError {
-  code: ErrorCode.PlatformError;
-  data: WebAPICallResult & {
-    error: string;
-  };
-}
-
-export interface WebAPIRequestError extends CodedError {
-  code: ErrorCode.RequestError;
-  original: Error;
-}
-
-export interface WebAPIReadError extends CodedError {
-  code: ErrorCode.ReadError;
-  original: Error;
-}
-
-export interface WebAPIHTTPError extends CodedError {
-  code: ErrorCode.HTTPError;
-  original: Error; // TODO: deprecate
-  statusCode: number;
-  statusMessage: string;
-  headers: IncomingHttpHeaders;
-  body?: any;
-}
-
-export interface WebAPIRateLimitedError extends CodedError {
-  code: ErrorCode.RateLimitedError;
-  retryAfter: number;
-}
-
 // NOTE: should there be an async predicate?
 export interface PaginatePredicate {
   (page: WebAPICallResult): boolean | undefined | void;
@@ -820,62 +793,6 @@ type PageAccumulator<R extends PageReducer> =
 const defaultFilename = 'Untitled';
 const defaultPageSize = 200;
 const noopPageReducer: PageReducer = () => undefined;
-
-/**
- * A factory to create WebAPIRequestError objects
- * @param original - original error
- */
-function requestErrorWithOriginal(original: Error): WebAPIRequestError {
-  const error = errorWithCode(
-    new Error(`A request error occurred: ${original.message}`),
-    ErrorCode.RequestError,
-  ) as Partial<WebAPIRequestError>;
-  error.original = original;
-  return (error as WebAPIRequestError);
-}
-
-/**
- * A factory to create WebAPIHTTPError objects
- * @param response - original error
- */
-function httpErrorFromResponse(response: AxiosResponse): WebAPIHTTPError {
-  const error = errorWithCode(
-    new Error(`An HTTP protocol error occurred: statusCode = ${response.status}`),
-    ErrorCode.HTTPError,
-  ) as Partial<WebAPIHTTPError>;
-  error.original = new Error('The WebAPIHTTPError.original property is deprecated. See other properties for details.');
-  error.statusCode = response.status;
-  error.statusMessage = response.statusText;
-  error.headers = response.headers;
-  error.body = response.data;
-  return (error as WebAPIHTTPError);
-}
-
-/**
- * A factory to create WebAPIPlatformError objects
- * @param result - Web API call result
- */
-function platformErrorFromResult(result: WebAPICallResult & { error: string; }): WebAPIPlatformError {
-  const error = errorWithCode(
-    new Error(`An API error occurred: ${result.error}`),
-    ErrorCode.PlatformError,
-  ) as Partial<WebAPIPlatformError>;
-  error.data = result;
-  return (error as WebAPIPlatformError);
-}
-
-/**
- * A factory to create WebAPIRateLimitedError objects
- * @param retrySec - Number of seconds that the request can be retried in
- */
-function rateLimitedErrorWithDelay(retrySec: number): WebAPIRateLimitedError {
-  const error = errorWithCode(
-    new Error(`A rate-limit has been reached, you may retry this request in ${retrySec} seconds`),
-    ErrorCode.RateLimitedError,
-  ) as Partial<WebAPIRateLimitedError>;
-  error.retryAfter = retrySec;
-  return (error as WebAPIRateLimitedError);
-}
 
 /**
  * Determines an appropriate set of cursor pagination options for the next request to a paginated API method.

@@ -1,17 +1,30 @@
 import { Agent } from 'http';
+
 import EventEmitter from 'eventemitter3'; // tslint:disable-line:import-name
 import WebSocket from 'ws'; // tslint:disable-line:import-name
 import Finity, { StateMachine } from 'finity'; // tslint:disable-line:import-name
 import PQueue from 'p-queue'; // tslint:disable-line:import-name
 import PCancelable from 'p-cancelable'; // tslint:disable-line:import-name
-import { LogLevel, Logger, getLogger } from './logger';
-import { RetryOptions } from './retry-policies';
+import {
+  WebClient,
+  WebAPICallResult,
+  WebAPICallError,
+  ErrorCode as APICallErrorCode,
+  RetryOptions,
+  TLSOptions,
+  RTMConnectArguments,
+  RTMStartArguments,
+} from '@slack/web-api';
+
 import { KeepAlive } from './KeepAlive';
-import { WebClient, WebAPICallResult, WebAPICallError, ErrorCode, CodedError } from './';
-import * as methods from './methods'; // tslint:disable-line:import-name
-import { errorWithCode } from './errors';
-import { TLSOptions } from './util';
-const packageJson = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
+import { LogLevel, Logger, getLogger } from './logger';
+import {
+  websocketErrorWithOriginal,
+  platformErrorFromEvent,
+  noReplyReceivedError,
+  sendWhileDisconnectedError,
+  sendWhileNotReadyError,
+} from './errors';
 
 /**
  * An RTMClient allows programs to communicate with the {@link https://api.slack.com/rtm|Slack Platform's RTM API}.
@@ -117,12 +130,12 @@ export class RTMClient extends EventEmitter {
 
                   // NOTE: assume that ReadErrors are recoverable
                   let isRecoverable = true;
-                  if (error.code === ErrorCode.PlatformError &&
+                  if (error.code === APICallErrorCode.PlatformError &&
                       Object.values(UnrecoverableRTMStartError).includes(error.data.error)) {
                     isRecoverable = false;
-                  } else if (error.code === ErrorCode.RequestError) {
+                  } else if (error.code === APICallErrorCode.RequestError) {
                     isRecoverable = false;
-                  } else if (error.code === ErrorCode.HTTPError) {
+                  } else if (error.code === APICallErrorCode.HTTPError) {
                     isRecoverable = false;
                   }
 
@@ -285,7 +298,7 @@ export class RTMClient extends EventEmitter {
   /**
    * The name used to prefix all logging generated from this object
    */
-  private static loggerName = `${packageJson.name}:RTMClient`;
+  private static loggerName = 'RTMClient';
 
   /**
    * This object's logger instance
@@ -454,11 +467,7 @@ export class RTMClient extends EventEmitter {
           if (event.reply_to === messageId) {
             this.off('slack_event', eventHandler);
             if (event.error !== undefined) {
-              const error = errorWithCode(
-                new Error(`An API error occurred: ${event.error.msg}`),
-                ErrorCode.RTMSendMessagePlatformError,
-              );
-              error.data = event;
+              const error = platformErrorFromEvent(event as RTMCallResult & { error: { msg: string; } });
               return reject(error);
             }
             resolve(event);
@@ -466,11 +475,7 @@ export class RTMClient extends EventEmitter {
         };
         onCancel(() => {
           this.off('slack_event', eventHandler);
-          reject(errorWithCode(
-            new Error('Message sent but no server acknowledgement was received. This may be caused by the client ' +
-            'changing connection state rather than any issue with the specific message. Check before resending.'),
-            ErrorCode.RTMNoReplyReceivedError,
-          ));
+          reject(noReplyReceivedError());
         });
         this.on('slack_event', eventHandler);
       });
@@ -508,17 +513,11 @@ export class RTMClient extends EventEmitter {
       this.logger.debug(`send() in state: ${this.stateMachine.getStateHierarchy()}`);
       if (this.websocket === undefined) {
         this.logger.error('cannot send message when client is not connected');
-        reject(errorWithCode(
-          new Error('cannot send message when client is not connected'),
-          ErrorCode.RTMSendWhileDisconnectedError,
-        ));
+        reject(sendWhileDisconnectedError());
       } else if (!(this.stateMachine.getCurrentState() === 'connected' &&
                  this.stateMachine.getStateHierarchy()[1] === 'ready')) {
         this.logger.error('cannot send message when client is not ready');
-        reject(errorWithCode(
-          new Error('cannot send message when client is not ready'),
-          ErrorCode.RTMSendWhileNotReadyError,
-        ));
+        reject(sendWhileNotReadyError());
       } else {
         // NOTE: future feature request: middleware pipeline to process the message before its sent
         this.emit('outgoing_message', message);
@@ -662,34 +661,11 @@ export interface RTMCallResult {
   };
 }
 
-export type RTMStartOptions = methods.RTMConnectArguments | methods.RTMStartArguments;
-
-export type RTMCallError = RTMPlatformError | RTMWebsocketError;
-
-export interface RTMPlatformError extends CodedError {
-  code: ErrorCode.RTMSendMessagePlatformError;
-}
-
-export interface RTMWebsocketError extends CodedError {
-  code: ErrorCode.RTMWebsocketError;
-  original: Error;
-}
+export type RTMStartOptions = RTMConnectArguments | RTMStartArguments;
 
 /*
  * Helpers
  */
-
- /**
-  * A factory to create RTMWebsocketError objects.
-  */
-function websocketErrorWithOriginal(original: Error): RTMWebsocketError {
-  const error = errorWithCode(
-    new Error(`Failed to send message on websocket: ${original.message}`),
-    ErrorCode.RTMWebsocketError,
-  ) as Partial<RTMWebsocketError>;
-  error.original = original;
-  return (error as RTMWebsocketError);
-}
 
 // NOTE: there may be a better way to add metadata to an error about being "unrecoverable" than to keep an
 // independent enum, probably a Set (this isn't used as a type).

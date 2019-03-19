@@ -1,7 +1,7 @@
 import { Agent } from 'http';
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
-import { CodedError, errorWithCode, ErrorCode } from './errors';
-import { MessageAttachment, Block } from './methods';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
+import { MessageAttachment, Block } from '@slack/types';
 
 /**
  * A client for Slack's Incoming Webhooks
@@ -98,58 +98,9 @@ export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArgu
   attachments?: MessageAttachment[];
   blocks?: Block[];
   unfurl_links?: boolean;
-  unful_media?: boolean;
+  unfurl_media?: boolean;
 }
 
 export interface IncomingWebhookResult {
   text: string;
-}
-
-export type IncomingWebhookSendError = IncomingWebhookRequestError | IncomingWebhookReadError |
-                                       IncomingWebhookHTTPError;
-
-export interface IncomingWebhookRequestError extends CodedError {
-  code: ErrorCode.IncomingWebhookRequestError;
-  original: Error;
-}
-
-// NOTE: this is no longer used, but might once again be used if a more specific means to detect it becomes evident
-export interface IncomingWebhookReadError extends CodedError {
-  code: ErrorCode.IncomingWebhookReadError;
-  original: Error;
-}
-
-export interface IncomingWebhookHTTPError extends CodedError {
-  code: ErrorCode.IncomingWebhookHTTPError;
-  original: Error;
-}
-
-/*
- * Helpers
- */
-
-/**
- * A factory to create IncomingWebhookRequestError objects
- * @param original The original error
- */
-function requestErrorWithOriginal(original: AxiosError): IncomingWebhookRequestError {
-  const error = errorWithCode(
-    new Error(`A request error occurred: ${original.message}`),
-    ErrorCode.IncomingWebhookRequestError,
-  ) as Partial<IncomingWebhookRequestError>;
-  error.original = original;
-  return (error as IncomingWebhookRequestError);
-}
-
-/**
- * A factory to create IncomingWebhookHTTPError objects
- * @param original The original error
- */
-function httpErrorWithOriginal(original: AxiosError): IncomingWebhookHTTPError {
-  const error = errorWithCode(
-    new Error(`An HTTP protocol error occurred: statusCode = ${original.code}`),
-    ErrorCode.IncomingWebhookHTTPError,
-  ) as Partial<IncomingWebhookHTTPError>;
-  error.original = original;
-  return (error as IncomingWebhookHTTPError);
 }
