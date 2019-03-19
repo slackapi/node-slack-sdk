@@ -476,7 +476,7 @@ export type ChatPostMessageArguments = TokenOverridable & {
 export type ChatScheduleMessageArguments = TokenOverridable & {
   channel: string;
   text: string;
-  post_at: number;
+  post_at: string;
   as_user?: boolean;
   attachments?: MessageAttachment[];
   blocks?: (KnownBlock | Block)[];
