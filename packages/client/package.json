@@ -1,18 +1,22 @@
 {
-  "name": "@slack/rtm-api",
+  "name": "@slack/client",
   "version": "5.0.0",
-  "description": "Official library for using the Slack Platform's Real Time Messaging API",
+  "description": "Meta package for official Slack Platform's Web API, RTM API, and Incoming Webhook libraries",
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
   "keywords": [
     "slack",
+    "web-api",
     "rtm-api",
     "bot",
     "client",
     "http",
     "websocket",
+    "request",
     "api",
     "proxy",
+    "rate-limiting",
+    "pagination",
     "state",
     "connection"
   ],
@@ -42,15 +46,10 @@
   },
   "dependencies": {
     "@slack/logger": "^1.0.0",
+    "@slack/rtm-api": "^5.0.0",
+    "@slack/types": "^1.0.0",
     "@slack/web-api": "^5.0.0",
-    "@types/node": ">=8.9.0",
-    "@types/p-queue": "^2.3.2",
-    "@types/ws": "^5.1.1",
-    "eventemitter3": "^3.1.0",
-    "finity": "^0.5.4",
-    "p-cancelable": "^1.1.0",
-    "p-queue": "^2.4.2",
-    "ws": "^5.2.0"
+    "@slack/webhook": "^5.0.0"
   },
   "devDependencies": {
     "shx": "^0.3.2",

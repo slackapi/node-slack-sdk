@@ -4,7 +4,3 @@
 
 # build products
 /dist
-
-# coverage
-/.nyc_output
-/coverage

@@ -23,6 +23,10 @@
 		{
 			"name": "Logger",
 			"path": "packages/logger"
+		},
+		{
+			"name": "Client (legacy)",
+			"path": "packages/client"
 		}
 	],
 	"settings": {
