@@ -428,7 +428,7 @@ export type ChatDeleteArguments = TokenOverridable & {
   ts: string;
   as_user?: boolean
 };
-export type ChatDeleteScheduledMessagesArguments = TokenOverridable & {
+export type ChatDeleteScheduledMessageArguments = TokenOverridable & {
   channel: string;
   scheduled_message_id: string;
   as_user?: boolean
