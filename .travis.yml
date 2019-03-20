@@ -12,6 +12,7 @@ env:
   - PACKAGE=@slack/logger
   - PACKAGE=@slack/client
   - PACKAGE=@slack/sdk-integration-tests
+cache: npm
 install:
   - npm install
   - lerna bootstrap --no-ci
