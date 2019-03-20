@@ -61,7 +61,7 @@ describe('IncomingWebhook', function () {
         const result = webhook.send('Hello');
         return result.catch((error) => {
           assert.instanceOf(error, Error);
-          assert.equal(error.code, ErrorCode.IncomingWebhookRequestError);
+          assert.equal(error.code, ErrorCode.RequestError);
           assert.instanceOf(error.original, Error);
         });
       });

@@ -18,12 +18,12 @@ export enum ErrorCode {
 export type IncomingWebhookSendError = IncomingWebhookRequestError | IncomingWebhookHTTPError;
 
 export interface IncomingWebhookRequestError extends CodedError {
-  code: ErrorCode.IncomingWebhookRequestError;
+  code: ErrorCode.RequestError;
   original: Error;
 }
 
 export interface IncomingWebhookHTTPError extends CodedError {
-  code: ErrorCode.IncomingWebhookHTTPError;
+  code: ErrorCode.HTTPError;
   original: Error;
 }
 
@@ -44,7 +44,7 @@ function errorWithCode(error: Error, code: ErrorCode): CodedError {
 export function requestErrorWithOriginal(original: AxiosError): IncomingWebhookRequestError {
   const error = errorWithCode(
     new Error(`A request error occurred: ${original.message}`),
-    ErrorCode.IncomingWebhookRequestError,
+    ErrorCode.RequestError,
   ) as Partial<IncomingWebhookRequestError>;
   error.original = original;
   return (error as IncomingWebhookRequestError);
@@ -57,7 +57,7 @@ export function requestErrorWithOriginal(original: AxiosError): IncomingWebhookR
 export function httpErrorWithOriginal(original: AxiosError): IncomingWebhookHTTPError {
   const error = errorWithCode(
     new Error(`An HTTP protocol error occurred: statusCode = ${original.code}`),
-    ErrorCode.IncomingWebhookHTTPError,
+    ErrorCode.HTTPError,
   ) as Partial<IncomingWebhookHTTPError>;
   error.original = original;
   return (error as IncomingWebhookHTTPError);
