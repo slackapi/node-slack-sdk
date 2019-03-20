@@ -6,8 +6,9 @@
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
   "scripts": {
+    "test": "npm run test:typechecker && npm run test:mocha",
     "test:typechecker": "dtslint types",
-    "test": "npm run test:typechecker && mocha proxy-test.js"
+    "test:mocha": "mocha proxy-test.js"
   },
   "dependencies": {
     "@slack/web-api": "^5.0.0",

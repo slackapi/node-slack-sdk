@@ -27,6 +27,10 @@
 		{
 			"name": "Client (legacy)",
 			"path": "packages/client"
+		},
+		{
+			"name": "Integration Tests",
+			"path": "integration-tests"
 		}
 	],
 	"settings": {

@@ -4,5 +4,17 @@ node_js:
   - "9"
   - "10"
   - "11"
+env:
+  - PACKAGE=web-api
+  - PACKAGE=rtm-api
+  - PACKAGE=webhook
+  - PACKAGE=types
+  - PACKAGE=logger
+  - PACKAGE=client
+  - PACKAGE=integration-tests
+install: lerna bootstrap
+script:
+  - lerna run test --scope $PACKAGE
+  - lerna run lint --scope $PACKAGE
 after_success:
-  - npm run coverage
+  - lerna run coverage --scope $PACKAGE
