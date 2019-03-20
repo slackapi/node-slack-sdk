@@ -11,8 +11,8 @@ export interface CodedError extends NodeJS.ErrnoException {
  * A dictionary of codes for errors produced by this package
  */
 export enum ErrorCode {
-  IncomingWebhookRequestError = 'slack_webhook_request_error',
-  IncomingWebhookHTTPError = 'slack_webhook_http_error',
+  RequestError = 'slack_webhook_request_error',
+  HTTPError = 'slack_webhook_http_error',
 }
 
 export type IncomingWebhookSendError = IncomingWebhookRequestError | IncomingWebhookHTTPError;
