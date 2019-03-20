@@ -14,7 +14,7 @@ env:
   - PACKAGE=integration-tests
 install:
   - npm install
-  - lerna bootstrap
+  - lerna bootstrap --no-ci
 script:
   - lerna run test --scope $PACKAGE
   - lerna run lint --scope $PACKAGE
