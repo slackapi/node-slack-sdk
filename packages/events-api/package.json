@@ -39,7 +39,7 @@
     "build": "babel src -d dist --source-maps both",
     "lint": "eslint src test",
     "test": "npm run build && nyc --reporter=html mocha test/**/*.js",
-    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov -F eventsapi --root=$PWD"
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov -F eventsapi"
   },
   "dependencies": {
     "debug": "^2.6.1",
