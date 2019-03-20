@@ -5,13 +5,13 @@ node_js:
   - "10"
   - "11"
 env:
-  - PACKAGE=web-api
-  - PACKAGE=rtm-api
-  - PACKAGE=webhook
-  - PACKAGE=types
-  - PACKAGE=logger
-  - PACKAGE=client
-  - PACKAGE=integration-tests
+  - PACKAGE=@slack/web-api
+  - PACKAGE=@slack/rtm-api
+  - PACKAGE=@slack/webhook
+  - PACKAGE=@slack/types
+  - PACKAGE=@slack/logger
+  - PACKAGE=@slack/client
+  - PACKAGE=@slack/sdk-integration-tests
 install:
   - npm install
   - lerna bootstrap --no-ci
