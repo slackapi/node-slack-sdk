@@ -2,7 +2,8 @@
   "name": "node-slack-sdk",
   "private": true,
   "scripts": {
-    "test": "lerna run test"
+    "test": "lerna run test",
+    "lint": "lerna run lint"
   },
   "devDependencies": {
     "lerna": "^3.13.1"
