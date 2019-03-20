@@ -1,6 +1,7 @@
 import { Agent } from 'http';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
+import { getUserAgent } from './instrument';
 import { MessageAttachment, Block } from '@slack/types';
 
 /**
@@ -36,6 +37,9 @@ export class IncomingWebhook {
       httpsAgent: defaults.agent,
       maxRedirects: 0,
       proxy: false,
+      headers: {
+        'User-Agent': getUserAgent(),
+      },
     });
 
     delete this.defaults.agent;

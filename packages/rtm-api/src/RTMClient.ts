@@ -14,6 +14,7 @@ import {
   TLSOptions,
   RTMConnectArguments,
   RTMStartArguments,
+  addAppMetadata,
 } from '@slack/web-api';
 
 import { KeepAlive } from './KeepAlive';
@@ -25,6 +26,8 @@ import {
   sendWhileDisconnectedError,
   sendWhileNotReadyError,
 } from './errors';
+
+const packageJson = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
 
 /**
  * An RTMClient allows programs to communicate with the {@link https://api.slack.com/rtm|Slack Platform's RTM API}.
@@ -627,6 +630,9 @@ export class RTMClient extends EventEmitter {
     }
   }
 }
+
+/* Instrumentation */
+addAppMetadata({ name: packageJson.name, version: packageJson.version });
 
 export default RTMClient;
 
