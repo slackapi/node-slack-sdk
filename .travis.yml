@@ -15,7 +15,7 @@ env:
 cache: npm
 install:
   - npm install
-  - lerna bootstrap --no-ci
+  - lerna bootstrap --no-ci --hoist
 script:
   - lerna run test --scope $PACKAGE
   - lerna run lint --scope $PACKAGE
