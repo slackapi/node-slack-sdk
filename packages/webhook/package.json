@@ -35,7 +35,7 @@
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
     "lint": "tslint --project .",
     "test": "npm run build && nyc mocha --config .mocharc.json src/*.spec.js",
-    "coverage": "codecov -F webhook"
+    "coverage": "codecov -F webhook --root=$PWD"
   },
   "dependencies": {
     "@slack/types": "^1.0.0",
