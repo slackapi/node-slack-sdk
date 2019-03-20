@@ -1,32 +1,52 @@
 {
   "name": "@slack/events-api",
   "version": "2.2.0",
-  "description": "Slack Events API module",
+  "description": "Official library for using the Slack Platform's Web API",
+  "author": "Slack Technologies, Inc.",
+  "license": "MIT",
+  "keywords": [
+    "slack",
+    "events-api",
+    "bot",
+    "server",
+    "http",
+    "api",
+    "verify",
+    "signature",
+    "request-signing",
+    "event-emitter"
+  ],
   "main": "dist/index.js",
   "bin": {
     "slack-verify": "dist/verify.js"
   },
-  "repository": "https://github.com/slackapi/node-slack-events-api.git",
-  "engines": {
-    "node": ">=4.2.0"
-  },
   "files": [
     "dist/**/*"
   ],
-  "author": "Ankur Oberoi <aoberoi@gmail.com>",
-  "license": "MIT",
-  "scripts": {
-    "lint": "eslint src",
-    "lint:test": "eslint test",
-    "test:nyc": "nyc --reporter=html mocha test/**/*.js",
-    "test:mocha": "mocha test/**/*.js",
-    "test": "npm run lint && npm run build && npm run lint:test && npm run test:nyc",
-    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
-    "build": "babel src -d dist --source-maps both",
-    "prepare": "npm run build"
+  "engines": {
+    "node": ">=4.2.0"
   },
-  "optionalDependencies": {
-    "express": "^4.0.0"
+  "repository": "slackapi/node-slack-sdk",
+  "homepage": "https://slack.dev/node-slack-sdk",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/slackapi/node-slack-sdk/issues"
+  },
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "babel src -d dist --source-maps both",
+    "lint": "eslint src test",
+    "test": "npm run build && nyc --reporter=html mocha test/**/*.js",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
+  },
+  "dependencies": {
+    "debug": "^2.6.1",
+    "lodash.isstring": "^4.0.1",
+    "raw-body": "^2.3.3",
+    "tsscmp": "^1.0.6",
+    "yargs": "^6.6.0"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
@@ -52,11 +72,7 @@
     "superagent": "^3.3.1",
     "uncaughtException": "^1.0.0"
   },
-  "dependencies": {
-    "debug": "^2.6.1",
-    "lodash.isstring": "^4.0.1",
-    "raw-body": "^2.3.3",
-    "tsscmp": "^1.0.6",
-    "yargs": "^6.6.0"
+  "optionalDependencies": {
+    "express": "^4.0.0"
   }
 }
