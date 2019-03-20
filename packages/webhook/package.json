@@ -50,7 +50,6 @@
     "mocha": "^6.0.2",
     "nock": "^10.0.6",
     "nyc": "^13.3.0",
-    "p-is-promise": "^2.0.0",
     "shx": "^0.3.2",
     "sinon": "^7.2.7",
     "source-map-support": "^0.5.10",

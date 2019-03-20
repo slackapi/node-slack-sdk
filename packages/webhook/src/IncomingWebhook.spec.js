@@ -3,7 +3,6 @@ const { Agent } = require('https');
 const { IncomingWebhook } = require('./IncomingWebhook');
 const { ErrorCode } = require('./errors');
 const { assert } = require('chai');
-const isPromise = require('p-is-promise');
 const nock = require('nock');
 const sinon = require('sinon');
 
@@ -32,7 +31,6 @@ describe('IncomingWebhook', function () {
 
       it('should return results in a Promise', function () {
         const result = this.webhook.send('Hello');
-        assert(isPromise(result));
         return result.then((result) => {
           assert.strictEqual(result.text, 'ok');
           this.scope.done();
@@ -49,7 +47,6 @@ describe('IncomingWebhook', function () {
 
       it('should return a Promise which rejects on error', function () {
         const result = this.webhook.send('Hello');
-        assert(isPromise(result));
         result.catch((error) => {
           assert.ok(error);
           assert.instanceOf(error, Error);
@@ -62,7 +59,6 @@ describe('IncomingWebhook', function () {
         // using nock, we send the request to a host:port that is not listening.
         const webhook = new IncomingWebhook('https://localhost:8999/api/');
         const result = webhook.send('Hello');
-        assert(isPromise(result));
         return result.catch((error) => {
           assert.instanceOf(error, Error);
           assert.equal(error.code, ErrorCode.IncomingWebhookRequestError);

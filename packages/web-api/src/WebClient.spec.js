@@ -2,15 +2,13 @@ require('mocha');
 const fs = require('fs');
 const path = require('path');
 const { Agent } = require('https');
-const { Readable } = require('stream');
 const { assert } = require('chai');
 const { WebClient } = require('./WebClient');
 const { ErrorCode } = require('./errors');
 const { LogLevel } = require('./logger');
-const { addAppMetadata } = require('./util');
-const rapidRetryPolicy = require('./retry-policies').rapidRetryPolicy;
+const { addAppMetadata } = require('./instrument');
+const { rapidRetryPolicy } = require('./retry-policies');
 const { CaptureConsole } = require('@aoberoi/capture-console');
-const isPromise = require('p-is-promise');
 const nock = require('nock');
 const Busboy = require('busboy');
 const sinon = require('sinon');
@@ -90,7 +88,6 @@ describe('WebClient', function () {
 
       it('should return results in a Promise', function () {
         const r = this.client.apiCall('method');
-        assert(isPromise(r));
         return r.then(result => {
           assert(result.ok);
           this.scope.done();
@@ -139,7 +136,6 @@ describe('WebClient', function () {
           this.client.apiCall('method', false),
         ];
         const caughtErrors = results.map(r => {
-          assert(isPromise(r));
           return r
             .then(() => {
               // if any of these promises resolve, this test fails
@@ -164,7 +160,6 @@ describe('WebClient', function () {
 
       it('should return a Promise which rejects on error', function (done) {
         const r = this.client.apiCall('method')
-        assert(isPromise(r));
         r.catch((error) => {
           assert.instanceOf(error, Error);
           this.scope.done();
@@ -216,28 +211,6 @@ describe('WebClient', function () {
           assert.instanceOf(error, Error);
           assert.equal(error.code, ErrorCode.RequestError);
           assert.instanceOf(error.original, Error);
-          done();
-        });
-    });
-
-    // Despite trying, could not figure out a good way to simulate a response that emits an error in a reliable way
-    it.skip('should fail with WebAPIReadError when an API response fails', function (done) {
-      class FailingReadable extends Readable {
-        constructor(options) { super(options); }
-        _read(size) {
-          this.emit('error', new Error('test error'));
-        }
-      }
-      const scope = nock('https://slack.com')
-        .post(/api/)
-        .reply(200, () => new FailingReadable());
-      const client = new WebClient(token, { retryConfig: { retries: 0 } });
-      client.apiCall('method')
-        .catch((error) => {
-          assert.instanceOf(error, Error);
-          assert.equal(error.code, ErrorCode.ReadError);
-          assert.instanceOf(error.original, Error);
-          scope.done();
           done();
         });
     });
@@ -387,7 +360,7 @@ describe('WebClient', function () {
               const metadata = parseUserAgentIntoMetadata(value)
               // NOTE: this assert isn't that strong and doesn't say anything about the values. at this time, there
               // isn't a good way to test this without dupicating the logic of the code under test.
-              assert.containsAllKeys(metadata, ['node', '@slack:client']);
+              assert.containsAllKeys(metadata, ['node', '@slack:web-api']);
               // NOTE: there's an assumption that if there's any keys besides these left at all, its the platform part
               delete metadata.node;
               delete metadata['@slack:client'];
@@ -438,7 +411,6 @@ describe('WebClient', function () {
         .reply(200, { ok: true });
 
       const r = client.apiCall('method', { foo: 'stringval' });
-      assert(isPromise(r));
       return r.then((result) => {
         scope.done();
       });

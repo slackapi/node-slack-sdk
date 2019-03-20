@@ -37,7 +37,7 @@
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
     "lint": "tslint --project .",
-    "test": "npm run build && npm run test:spec && npm run test:integration",
+    "test": "npm run build && npm run test:spec",
     "test:spec": "nyc mocha --config .mocharc.json src/*.spec.js",
     "test:integration": "npm run test:integration:setup && node test/run-tests.js",
     "test:integration:setup": "node test/setup.js",
