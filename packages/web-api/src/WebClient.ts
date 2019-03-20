@@ -228,7 +228,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       // NOTE: test for the situation where you're resuming a pagination using and existing cursor
 
       while (result === undefined || paginationOptions !== undefined) {
-        result = await this.apiCall(method, Object.assign(options || {}, paginationOptions));
+        result = await this.apiCall(method, Object.assign(options !== undefined ? options : {}, paginationOptions));
         yield result;
         paginationOptions = paginationOptionsForNextPage(result, pageSize);
       }
