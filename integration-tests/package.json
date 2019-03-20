@@ -7,14 +7,20 @@
   "license": "MIT",
   "scripts": {
     "test:typechecker": "dtslint types",
-    "test": "npm run test:typechecker && ../node_modules/.bin/mocha --config .mocharc.json proxy-test.js"
+    "test": "npm run test:typechecker && mocha proxy-test.js"
   },
   "dependencies": {
-    "@slack/client": "file:./slack-client.tgz",
+    "@slack/web-api": "^5.0.0",
     "@types/node": "^8.10.43"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "dtslint": "^0.5.4",
+    "http-shutdown": "^1.2.0",
+    "https-proxy-agent": "^2.2.1",
+    "mocha": "^6.0.2",
+    "proxy": "^0.2.4",
+    "sinon": "^7.2.7",
     "typescript": "^3.3.3333"
   }
 }

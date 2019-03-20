@@ -1,4 +1,4 @@
-import { WebClient, ChatPostMessageArguments } from '@slack/client';
+import { WebClient, ChatPostMessageArguments } from '@slack/web-api';
 
 const web = new WebClient('TOKEN');
 
