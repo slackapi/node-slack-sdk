@@ -13,6 +13,10 @@
 			"path": "packages/rtm-api"
 		},
 		{
+			"name": "Interactive Messages",
+			"path": "packages/interactive-messages"
+		},
+		{
 			"name": "Events API",
 			"path": "packages/events-api"
 		},

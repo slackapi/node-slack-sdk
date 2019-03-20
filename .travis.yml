@@ -7,6 +7,7 @@ node_js:
 env:
   - PACKAGE=@slack/web-api
   - PACKAGE=@slack/rtm-api
+  - PACKAGE=@slack/interactive-messages
   - PACKAGE=@slack/events-api
   - PACKAGE=@slack/webhook
   - PACKAGE=@slack/types

@@ -1,26 +1,49 @@
 {
   "name": "@slack/interactive-messages",
   "version": "1.1.1",
-  "description": "Slack Interactive Messages module",
+  "description": "Official library for using the Slack Platform's Interactive Buttons, Menus, Dialogs, Actions, and Block Actions",
+  "author": "Slack Technologies, Inc.",
+  "license": "MIT",
+  "keywords": [
+    "slack",
+    "interactive",
+    "interactive-messages",
+    "interactive-components",
+    "dialog",
+    "button",
+    "menu",
+    "action",
+    "block-kit",
+    "block-actions",
+    "bot",
+    "server",
+    "http",
+    "api",
+    "verify",
+    "signature",
+    "request-signing"
+  ],
   "main": "dist/index.js",
-  "repository": "https://github.com/slackapi/node-slack-interactive-messages.git",
-  "engines": {
-    "node": ">=4.2.0"
-  },
   "files": [
     "dist/**/*"
   ],
-  "author": "Ankur Oberoi <aoberoi@gmail.com>",
-  "license": "MIT",
+  "engines": {
+    "node": ">=4.2.0"
+  },
+  "repository": "slackapi/node-slack-sdk",
+  "homepage": "https://slack.dev/node-slack-sdk",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/slackapi/node-slack-sdk/issues"
+  },
   "scripts": {
-    "lint": "eslint src",
-    "lint:test": "eslint test",
-    "test:nyc": "nyc --reporter=html mocha test/**/*.js",
-    "test": "npm run lint && npm run build && npm run lint:test && npm run test:nyc",
-    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "prepare": "npm run build",
     "build": "babel src -d dist --source-maps both",
-    "build:docs": "jsdoc2md src/adapter.js src/index.js > docs/reference.md --separators",
-    "prepare": "npm run build"
+    "lint": "eslint src test",
+    "test": "npm run build && nyc --reporter=html mocha test/**/*.js",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov -F interactivemessages --root=$PWD"
   },
   "dependencies": {
     "axios": "^0.18.0",

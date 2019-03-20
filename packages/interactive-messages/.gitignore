@@ -1,8 +1,11 @@
-node_modules
-dist
-coverage
-.nyc_output
+# node / npm stuff
+/node_modules
+/package-lock.json
+
+# build products
+/dist
+
+# coverage
+/.nyc_output
+/coverage
 *.lcov
-*.log
-package-lock.json
-.env
