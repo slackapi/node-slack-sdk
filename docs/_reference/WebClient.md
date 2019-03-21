@@ -1,5 +1,6 @@
 ---
 title: WebClient
+layout: default
 permalink: /reference/WebClient
 ---
 A client for Slack's Web API

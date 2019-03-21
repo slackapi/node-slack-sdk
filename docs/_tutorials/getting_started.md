@@ -77,7 +77,7 @@ Back at the command line, run the program using the following command:
 
 ```shell
 $ node tutorial.js
-Getting started with Slack Developer Kit for Node.js
+Getting started with Node Slack SDK
 ```
 
 If you see the same output as above, we're ready to start.
@@ -130,7 +130,7 @@ Run the program. The output should look like the following:
 
 ```shell
 $ node tutorial.js
-Getting started with Slack Developer Kit for Node.js
+Getting started with Node Slack SDK
 Message posted!
 ```
 

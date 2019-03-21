@@ -1,5 +1,6 @@
 ---
 title: IncomingWebhook
+layout: default
 permalink: /reference/IncomingWebhook
 ---
 A client for Slack's Incoming Webhooks

@@ -6,8 +6,11 @@
 # See: https://jekyllrb.com/docs/configuration/options/, https://help.github.com/en/articles/configuring-jekyll, and
 # https://help.github.com/en/articles/configuring-jekyll-plugins
 
-product_name: &product_name Slack Developer Kit for Node.js
-title: *product_name
+title: Node Slack SDK
+description: >-
+  This SDK is a collection of individual, single-purpose packages. The packages are aimed at making building
+  Slack apps easy, performant, secure, and scalable. They can help with just about anything in the Slack platform, from
+  dropping notifications in channels to fully interactive bots.
 
 # In order to decouple the directory structure from the URL structure, we use directory names that begin with an
 # undescore to contain most of the content on this site. This works because Jekyll will not directly copy directories

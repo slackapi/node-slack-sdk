@@ -1,5 +1,6 @@
 ---
 title: RTMClient
+layout: default
 permalink: /reference/RTMClient
 ---
 An RTMClient allows programs to communicate with the [Slack Platform's RTM API](https://api.slack.com/rtm).
