@@ -1,11 +1,10 @@
 ---
-layout: page
 title: IncomingWebhook
 permalink: /reference/IncomingWebhook
 ---
 A client for Slack's Incoming Webhooks
 
-**Kind**: static class of [<code>@slack/client</code>](#module_@slack/client)  
+**Kind**: static class of [<code>@slack/client</code>](#module_@slack/client)
 
 * [.IncomingWebhook](#module_@slack/client.IncomingWebhook)
     * [.send(message)](#module_@slack/client.IncomingWebhook+send) ⇒ [<code>Promise.&lt;IncomingWebhookResult&gt;</code>](#module_@slack/client.IncomingWebhookResult)
@@ -17,7 +16,7 @@ A client for Slack's Incoming Webhooks
 ### incomingWebhook.send(message) ⇒ [<code>Promise.&lt;IncomingWebhookResult&gt;</code>](#module_@slack/client.IncomingWebhookResult)
 Send a notification to a conversation
 
-**Kind**: instance method of [<code>IncomingWebhook</code>](#module_@slack/client.IncomingWebhook)  
+**Kind**: instance method of [<code>IncomingWebhook</code>](#module_@slack/client.IncomingWebhook)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -26,20 +25,20 @@ Send a notification to a conversation
 <a name="module_@slack/client.IncomingWebhook+send"></a>
 
 ### incomingWebhook.send(message, callback)
-**Kind**: instance method of [<code>IncomingWebhook</code>](#module_@slack/client.IncomingWebhook)  
+**Kind**: instance method of [<code>IncomingWebhook</code>](#module_@slack/client.IncomingWebhook)
 
 | Param | Type |
 | --- | --- |
-| message | <code>string</code> \| [<code>IncomingWebhookSendArguments</code>](#module_@slack/client.IncomingWebhookSendArguments) | 
-| callback | [<code>IncomingWebhookResultCallback</code>](#module_@slack/client.IncomingWebhookResultCallback) | 
+| message | <code>string</code> \| [<code>IncomingWebhookSendArguments</code>](#module_@slack/client.IncomingWebhookSendArguments) |
+| callback | [<code>IncomingWebhookResultCallback</code>](#module_@slack/client.IncomingWebhookResultCallback) |
 
 <a name="module_@slack/client.IncomingWebhook+send"></a>
 
 ### incomingWebhook.send(message, callback)
-**Kind**: instance method of [<code>IncomingWebhook</code>](#module_@slack/client.IncomingWebhook)  
+**Kind**: instance method of [<code>IncomingWebhook</code>](#module_@slack/client.IncomingWebhook)
 
 | Param | Type |
 | --- | --- |
-| message | <code>string</code> \| [<code>IncomingWebhookSendArguments</code>](#module_@slack/client.IncomingWebhookSendArguments) | 
-| callback | [<code>IncomingWebhookResultCallback</code>](#module_@slack/client.IncomingWebhookResultCallback) | 
+| message | <code>string</code> \| [<code>IncomingWebhookSendArguments</code>](#module_@slack/client.IncomingWebhookSendArguments) |
+| callback | [<code>IncomingWebhookResultCallback</code>](#module_@slack/client.IncomingWebhookResultCallback) |
 

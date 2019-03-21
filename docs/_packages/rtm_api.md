@@ -1,5 +1,4 @@
 ---
-layout: page
 title: RTM API client
 permalink: /rtm_api
 redirect_from:

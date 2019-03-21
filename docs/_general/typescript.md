@@ -1,5 +1,4 @@
 ---
-layout: page
 title: Using TypeScript
 permalink: /typescript
 order: 5

@@ -1,5 +1,4 @@
 ---
-layout: page
 title: Incoming webhooks
 permalink: /webhook
 redirect_from:

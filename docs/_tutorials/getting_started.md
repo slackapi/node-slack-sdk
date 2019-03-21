@@ -1,5 +1,4 @@
 ---
-layout: page
 title: Getting Started
 permalink: /getting_started
 order: 1

@@ -1,5 +1,4 @@
 ---
-layout: page
 title: Web API client
 permalink: /web_api
 redirect_from:

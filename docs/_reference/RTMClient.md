@@ -1,5 +1,4 @@
 ---
-layout: page
 title: RTMClient
 permalink: /reference/RTMClient
 ---
@@ -7,8 +6,8 @@ An RTMClient allows programs to communicate with the [Slack Platform's RTM API](
 This object uses the EventEmitter pattern to dispatch incoming events and has several methods for sending outgoing
 messages.
 
-**Kind**: static class of [<code>@slack/client</code>](#module_@slack/client)  
-**Extends**: <code>EventEmitter</code>  
+**Kind**: static class of [<code>@slack/client</code>](#module_@slack/client)
+**Extends**: <code>EventEmitter</code>
 **Properties**
 
 | Name | Type | Default | Description |
@@ -35,13 +34,13 @@ messages.
 <a name="module_@slack/client.RTMClient+addOutgoingEvent"></a>
 
 ### rtmClient.addOutgoingEvent(awaitReply, type, body) ⇒ <code>Promise.&lt;(void\|module:@slack/client.RTMCallResult)&gt;</code>
-**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)
 
 | Param | Type |
 | --- | --- |
-| awaitReply | <code>boolean</code> | 
-| type | <code>string</code> | 
-| body | <code>Object.&lt;string, any&gt;</code> | 
+| awaitReply | <code>boolean</code> |
+| type | <code>string</code> |
+| body | <code>Object.&lt;string, any&gt;</code> |
 
 <a name="module_@slack/client.RTMClient+addOutgoingEvent"></a>
 
@@ -58,7 +57,7 @@ reconnects before receiving the acknowledgement response.
 If the awaitReply parameter is set to false, then the returned Promise is resolved as soon as the message is sent
 from the websocket.
 
-**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -69,13 +68,13 @@ from the websocket.
 <a name="module_@slack/client.RTMClient+addOutgoingEvent"></a>
 
 ### rtmClient.addOutgoingEvent(awaitReply, type, body) ⇒ <code>Promise.&lt;void&gt;</code>
-**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)
 
 | Param | Type |
 | --- | --- |
-| awaitReply | <code>&quot;undefined&quot;</code> | 
-| type | <code>string</code> | 
-| body | <code>Object.&lt;string, any&gt;</code> | 
+| awaitReply | <code>&quot;undefined&quot;</code> |
+| type | <code>string</code> |
+| body | <code>Object.&lt;string, any&gt;</code> |
 
 <a name="module_@slack/client.RTMClient+disconnect"></a>
 
@@ -83,7 +82,7 @@ from the websocket.
 End an RTM session. After this method is called no messages will be sent or received unless you call
 start() again later.
 
-**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)
 <a name="module_@slack/client.RTMClient+send"></a>
 
 ### rtmClient.send(type, body) ⇒ <code>Promise.&lt;number&gt;</code>
@@ -93,7 +92,7 @@ to send messages (in the 'ready' substate of the 'connected' state). It returns 
 sent message. This is an internal ID and generally shouldn't be used as an identifier for messages (for that,
 there is `ts` on messages once the server acknowledges it).
 
-**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -105,7 +104,7 @@ there is `ts` on messages once the server acknowledges it).
 ### rtmClient.sendMessage(text, conversationId) ⇒ [<code>Promise.&lt;RTMCallResult&gt;</code>](#module_@slack/client.RTMCallResult)
 Send a simple message to a public channel, private channel, DM, or MPDM.
 
-**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -115,31 +114,31 @@ Send a simple message to a public channel, private channel, DM, or MPDM.
 <a name="module_@slack/client.RTMClient+sendMessage"></a>
 
 ### rtmClient.sendMessage(text, conversationId, callback)
-**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)
 
 | Param | Type |
 | --- | --- |
-| text | <code>string</code> | 
-| conversationId | <code>string</code> | 
-| callback | [<code>RTMCallResultCallback</code>](#module_@slack/client.RTMCallResultCallback) | 
+| text | <code>string</code> |
+| conversationId | <code>string</code> |
+| callback | [<code>RTMCallResultCallback</code>](#module_@slack/client.RTMCallResultCallback) |
 
 <a name="module_@slack/client.RTMClient+sendMessage"></a>
 
 ### rtmClient.sendMessage(text, conversationId, callback)
-**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)
 
 | Param | Type |
 | --- | --- |
-| text | <code>string</code> | 
-| conversationId | <code>string</code> | 
-| callback | [<code>RTMCallResultCallback</code>](#module_@slack/client.RTMCallResultCallback) | 
+| text | <code>string</code> |
+| conversationId | <code>string</code> |
+| callback | [<code>RTMCallResultCallback</code>](#module_@slack/client.RTMCallResultCallback) |
 
 <a name="module_@slack/client.RTMClient+sendTyping"></a>
 
 ### rtmClient.sendTyping(conversationId) ⇒ <code>Promise.&lt;void&gt;</code>
 Sends a typing indicator to indicate that the user with `activeUserId` is typing.
 
-**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -151,18 +150,18 @@ Sends a typing indicator to indicate that the user with `activeUserId` is typing
 Begin an RTM session using the provided options. This method must be called before any messages can
 be sent or received.
 
-**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)
 
 | Param | Type |
 | --- | --- |
-| options | <code>module:@slack/client/dist/methods.TokenOverridable</code> \| <code>module:@slack/client/dist/methods.LocaleAware</code> \| <code>module:@slack/client/dist/methods.\_\_type</code> \| <code>module:@slack/client/dist/methods.TokenOverridable</code> \| <code>module:@slack/client/dist/methods.\_\_type</code> | 
+| options | <code>module:@slack/client/dist/methods.TokenOverridable</code> \| <code>module:@slack/client/dist/methods.LocaleAware</code> \| <code>module:@slack/client/dist/methods.\_\_type</code> \| <code>module:@slack/client/dist/methods.TokenOverridable</code> \| <code>module:@slack/client/dist/methods.\_\_type</code> |
 
 <a name="module_@slack/client.RTMClient+subscribePresence"></a>
 
 ### rtmClient.subscribePresence(userIds) ⇒ <code>Promise.&lt;void&gt;</code>
 Subscribes this client to presence changes for only the given `userIds`.
 
-**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)  
+**Kind**: instance method of [<code>RTMClient</code>](#module_@slack/client.RTMClient)
 
 | Param | Type | Description |
 | --- | --- | --- |

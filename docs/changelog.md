@@ -1,5 +1,4 @@
 ---
-layout: page
 title: Changelog
 permalink: /changelog
 order: 10

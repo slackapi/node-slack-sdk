@@ -1,5 +1,4 @@
 ---
-layout: page
 permalink: /
 redirect_from: /faq
 order: 0
