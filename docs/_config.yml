@@ -55,3 +55,6 @@ plugins:
 # Obtain github metadata when building locally
 # You will need to copy the `.env.sample` file to `.env` and fill in your token for this to work.
 repository: slackapi/node-slack-sdk
+
+# Avoid inheriting assets (and pages) from GitHub Pages' default Jekyll theme (primer).
+theme: false

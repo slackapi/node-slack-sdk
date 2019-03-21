@@ -1,21 +1,26 @@
 <div id="api_sections">
 
-    {% comment %}https://github.com/pages-themes/primer/issues/15{% endcomment %}
-    {% assign sorted_pages = site.pages | where_exp:"page", "page.name != 'style.scss'" | where_exp:"page", "page.name != 'docs.css'" | where_exp: "page", "page.name != 'redirects.json'" | where_exp: "page", "page.layout != 'redirect'" | sort:"order" %}
+    {% comment %}
+        This is a janky way to filter out pages that aren't meant to hold content. Jekyll allows plugins to use a
+        PageWithoutAFile class to represent these, and sometimes other pages that do have a file also don't hold any
+        content. The fix for this is that we should be using collection(s) and iterating the values in them to only
+        get the pages we expect.
+    {% endcomment %}
+    {% assign sorted_pages = site.pages | where_exp: "page", "page.path != 'redirects.json'" | where_exp: "page", "page.layout != 'redirect'" | sort:"order" %}
 
     {% for node in sorted_pages %}
-        {% if node.hidden != true %}
-    <div class="sidebar_menu">
-        <h5><a href="{{ node.url | prepend: site.baseurl }}" class="{% if page.url == node.url %}current{% endif %}">{% if node.title %}{{ node.title }}{% else %}{{ site.title }}{% endif %}</a></h5>
-        <ul class="sidebar_menu_list">
-            {% if node.headings %}
-                {% for heading in node.headings %}
-                    <li><a href="{{ node.url | prepend: site.baseurl }}#{{ heading.title | slugify }}" class="sidebar_menu_list_item">{{ heading.title }}</a></li>
-                {% endfor %}
-                {% endif %}
-        </ul>
-    </div>
-    {% endif %}
+        {% if node.title and node.hidden != true %}
+            <div class="sidebar_menu">
+                <h4 class="sidebar_menu_header"><a href="{{ node.url | prepend: site.baseurl }}">{{ node.title }}</a></h4>
+                <ul class="sidebar_menu_list">
+                    {% if node.headings %}
+                        {% for heading in node.headings %}
+                            <li><a href="{{ node.url | prepend: site.baseurl }}#{{ heading.title | slugify }}" class="sidebar_menu_list_item">{{ heading.title }}</a></li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+        {% endif %}
     {% endfor %}
 
     <div class="sidebar_menu">
