@@ -5,7 +5,7 @@
 
 Visit the [documentation site](https://slack.dev/node-slack-sdk) for all the lovely details.
 
-This SDK is a collection of individual, single-purpose packages. They packages are aimed at making building Slack apps
+This SDK is a collection of individual, single-purpose packages. The packages are aimed at making building Slack apps
 easy, performant, secure, and scalable. They can help with just about anything in the Slack platform, from dropping
 notifications in channels to fully interactive bots.
 
@@ -13,8 +13,7 @@ notifications in channels to fully interactive bots.
 
 The Slack platform offers several APIs to build apps. Each Slack API delivers part of the capabilities from the
 platform, so that you can pick just those that fit for your needs. This SDK offers a corresponding package for each of
-Slack's APIs (and a few additional ones). They are small and powerful when used independently, and work seamlessly when
-used together, too.
+Slack's APIs. They are small and powerful when used independently, and work seamlessly when used together, too.
 
 **Just starting out?** The [Getting Started tutorial](https://slackapi.github.io/node-slack-sdk/getting_started) will
 walk you through building your first Slack app using Node.js.
