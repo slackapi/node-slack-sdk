@@ -10,48 +10,46 @@ headings:
     - title: Getting Help
 ---
 
-So you want to build a Slack app with Node.js? We've got you covered. {{ site.product_name }} is aimed at making
-building Slack apps ridiculously easy. It helps you build on all aspects of the Slack platform, from dropping
+This SDK is a collection of individual, single-purpose packages. They packages are aimed at making building Slack apps
+easy, performant, secure, and scalable. They can help with just about anything in the Slack platform, from dropping
 notifications in channels to fully interactive bots.
+
+## Packages
+
+The Slack platform offers several APIs to build apps. Each Slack API delivers part of the capabilities from the
+platform, so that you can pick just those that fit for your needs. This SDK offers a corresponding package for each of
+Slack's APIs (and a few additional ones). They are small and powerful when used independently, and work seamlessly when
+used together, too.
+
+**Just starting out?** The [Getting Started tutorial](https://slackapi.github.io/node-slack-sdk/getting_started) will
+walk you through building your first Slack app using Node.js.
+
+| Slack API    | What its for | Documentation     |
+|--------------|--------------|-------------------|
+| Web API      | Send data to or query data from Slack using any of [over 130 methods](https://api.slack.com/methods). | [`@slack/web-api`](https://slack.dev/node-slack-sdk/web_api) |
+| Events API   | Listen for incoming messages and [many other events](https://api.slack.com/events) happening in Slack, using a URL. | [`@slack/events-api`](https://slack.dev/node-slack-sdk/events_api) |
+| Interactive Messages | Respond to button clicks, dialogs, and other interactions with messages. | [`@slack/interactive-messages`](https://slack.dev/node-slack-sdk/interactive_messages) |
+| RTM API      | Listen for incoming messages and a limited set of events happening in Slack, using websockets. | [`@slack/rtm-api`](https://slack.dev/node-slack-sdk/rtm_api) |
+| Incoming Webhooks | Send notifications to a single channel which the user picks on installation. | [`@slack/webhook`](https://slack.dev/node-slack-sdk/incoming_webhook) |
+
+**Not sure about which APIs are right for your app?** Read our [blog
+post](https://medium.com/slack-developer-blog/getting-started-with-slacks-apis-f930c73fc889) that explains the options.
+If you're still not sure, [reach out for help](#getting-help) and our community can guide you.
+
+If you're looking for an all-in-one solution that hides the underlying Slack APIs, but simplifies building a bot-style
+app inside Slack, try the [Hubot Slack adapter](https://slackapi.github.io/hubot-slack/). Hubot is a popular framework
+for internal apps that automate workflows, perform ChatOps, or just generate silly memes.
 
 ## Installation
 
-Use npm to install the package and save it to your `package.json`:
+Use your favorite package manager to install any of these packages and save to your `package.json`:
 
 ```shell
-$ npm install @slack/client
+$ npm install @slack/web-api @slack/events-api
+
+# Or, if you prefer yarn
+$ yarn add @slack/web-api @slack/events-api
 ```
-
-## Features
-
-The Slack platform offers several APIs to build apps. Each API delivers part of the capabilities
-from the platform, with a range of complexity and functionality, so that you can pick the one that
-fits for your app.
-
-| Slack API    | Outgoing | Incoming | NPM Package         | Documentation     |
-|--------------|:--------:|:--------:|---------------------|-------------------|
-| Web API      | ⬆️        | ⬜️       | `@slack/client`     | [Guide]({{ site.baseurl }}{% link _pages/web_client.md %}) |
-| RTM API      | ⬆️        | ⬇️        | `@slack/client`     | [Guide]({{ site.baseurl }}{% link _pages/rtm_client.md %}) |
-| Incoming Webhooks | ⬆️   | ⬜️       | `@slack/client`     | [Guide]({{ site.baseurl }}{% link _pages/incoming_webhook.md %}) |
-| Events API   | ⬜️       | ⬇️        | `@slack/events-api` | [README](https://github.com/slackapi/node-slack-events-api) |
-| Interactive Messages | ⬜️ | ⬇️      | `@slack/interactive-messages` | [README](https://github.com/slackapi/node-slack-interactive-messages) |
-
-**Just starting out?** The [Getting Started guide](https://slackapi.github.io/node-slack-sdk/getting_started) will walk
-you through building your first Slack app using Node.js.
-
-**Not sure about which APIs are right for your app?** Read our [helpful blog
-post](https://medium.com/slack-developer-blog/getting-started-with-slacks-apis-f930c73fc889) that explains and compares
-the options. If you're still not sure, [reach out for help](#getting-help) and our community can guide you.
-
----
-
-You'll notice that some of the API tools are not included in the `@slack/client` package. This reflects the fact that
-those tools function as HTTP servers, whereas this package contains the tools which function as HTTP clients. Separating
-these packages gives you the flexibility to only depend on the parts that fit into your app.
-
-If you're looking for an all-in-one solution that hides the underlying Slack APIs, but simplifies building a bot-style
-app inside Slack, try the [Hubot Slack adapter](https://slackapi.github.io/hubot-slack/). This framework is popular for
-internal apps that automate workflows, perform ChatOps, or just generate silly memes.
 
 ## Requirements
 
