@@ -1,16 +1,42 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely need to edit after that.
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'jekyll serve'. If you change this file, please restart the server process.
+# Welcome to the documentation site. You can build it locally use `bundle exec jekyll serve`.
+# See: https://help.github.com/en/articles/setting-up-your-github-pages-site-locally-with-jekyll
 
-# Site settings
+# This file contains site settings and metadata. It is used to both configure how Jekyll will build the site, and also
+# the metadata is made available in the templates, layouts, and pages.
+# See: https://jekyllrb.com/docs/configuration/options/, https://help.github.com/en/articles/configuring-jekyll, and
+# https://help.github.com/en/articles/configuring-jekyll-plugins
+
 product_name: &product_name Slack Developer Kit for Node.js
 title: *product_name
-email: opensource@slack.com
+
+# In order to decouple the directory structure from the URL structure, we use directory names that begin with an
+# undescore to contain most of the content on this site. This works because Jekyll will not directly copy directories
+# to the static build if their name begins with an underscore. To make sure they aren't ignored, we explicitly
+# include them in the build here. However, we must make sure that each of the pages declare their own permalink,
+# otherwise, they will be rendered at a path which includes the directory name (including the underscore).
+include:
+
+  # This directory contains homepages for each of the individual packages. The general format is to introduce the
+  # features offered in the package, and then provide a list of recipies (copy-pastable snippets for common uses).
+  # These pages should borrow heavily from the READMEs in each package. In the future, we may want to connect the
+  # READMEs to the generation of this content.
+  - _packages
+
+  # This directory contains tutorials that walk the reader through solving a specific task
+  - _tutorials
+
+  # This directory contains other, mostly static, supporting pages. This is almost everything else, except for the
+  # changelog, which is quite dynamic so its worth keeping separate.
+  - _general
+
+collections:
+  # Placing reference pages in a collection allows them to be enumerated for the sidebar
+  reference:
+    output: true # collection pages aren't turned into files for the static build unless this is set
+
 baseurl: /node-slack-sdk
 url: https://slack.dev
+
 repo_name: node-slack-sdk
 github_username: SlackAPI
 
@@ -20,21 +46,12 @@ cla_url: https://cla-assistant.io/slackapi/node-slack-sdk
 google_analytics: UA-56978219-13
 google_tag_manager: GTM-KFZ5MK7
 
-include:
-  - _general
-  - _packages
-  - _tutorials
-
-# Placing reference pages in a collection allows them to be enumerated for the sidebar
-collections:
-  reference:
-    output: true # collection pages aren't turned into files for the static build unless this is set
-
-# Build settings
+# Plugin settings
 markdown: kramdown
 plugins:
   - jemoji
   - jekyll-redirect-from
 
 # Obtain github metadata when building locally
+# You will need to copy the `.env.sample` file to `.env` and fill in your token for this to work.
 repository: slackapi/node-slack-sdk
