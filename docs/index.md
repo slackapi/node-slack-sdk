@@ -4,9 +4,9 @@ permalink: /
 redirect_from: /faq
 order: 0
 headings:
-    - title: Requirements
+    - title: Packages
     - title: Installation
-    - title: Features
+    - title: Requirements
     - title: Getting Help
 ---
 
