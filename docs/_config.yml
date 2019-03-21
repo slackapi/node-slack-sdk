@@ -30,3 +30,6 @@ markdown: kramdown
 plugins:
   - jemoji
   - jekyll-redirect-from
+
+# Obtain github metadata when building locally
+repository: slackapi/node-slack-sdk
