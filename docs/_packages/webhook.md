@@ -1,7 +1,9 @@
 ---
 layout: page
 title: Incoming webhooks
-permalink: /incoming_webhook
+permalink: /webhook
+redirect_from:
+  - /incoming_webhook
 order: 4
 headings:
     - title: Posting a message with Incoming Webhooks

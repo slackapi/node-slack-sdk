@@ -2,7 +2,8 @@
 layout: page
 title: RTM API client
 permalink: /rtm_api
-redirect_from: /bots
+redirect_from:
+  - /bots
 order: 3
 headings:
     - title: Connecting and sending a message
@@ -39,7 +40,7 @@ only ever need to connect to one workspace.
 But the RTM client does not have access to the full power of the Slack platform, including message attachments, buttons,
 menus, and dialogs. It also does not scale well for apps that are connected to many workspaces because it is stateful.
 This also causes problems when the workspace uses Shared Channels. The most robust app building solution is through a
-combination of the [Web API]({{ site.baseurl }}{% link _pages/web_client.md %}) and the [Events
+combination of the [Web API]({{ site.baseurl }}{% link _packages/web_api.md %}) and the [Events
 API](https://github.com/slackapi/node-slack-events-api).
 
 Here are some of the common recipes for using the `RTMClient` class.

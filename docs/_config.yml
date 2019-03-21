@@ -12,7 +12,7 @@ email: opensource@slack.com
 baseurl: /node-slack-sdk
 url: https://slack.dev
 repo_name: node-slack-sdk
-github_username:  SlackAPI
+github_username: SlackAPI
 
 code_of_conduct_url: https://slackhq.github.io/code-of-conduct
 cla_url: https://cla-assistant.io/slackapi/node-slack-sdk
@@ -20,11 +20,15 @@ cla_url: https://cla-assistant.io/slackapi/node-slack-sdk
 google_analytics: UA-56978219-13
 google_tag_manager: GTM-KFZ5MK7
 
-include: ['_pages']
+include:
+  - _general
+  - _packages
+  - _tutorials
 
+# Placing reference pages in a collection allows them to be enumerated for the sidebar
 collections:
   reference:
-    output: true
+    output: true # collection pages aren't turned into files for the static build unless this is set
 
 # Build settings
 markdown: kramdown

@@ -2,7 +2,8 @@
 layout: page
 title: Web API client
 permalink: /web_api
-redirect_from: /basic_usage
+redirect_from:
+ - /basic_usage
 order: 2
 headings:
     - title: Posting a message
