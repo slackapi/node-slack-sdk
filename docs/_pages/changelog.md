@@ -7,10 +7,15 @@ order: 10
 
 {% for release in site.github.releases %}
 
-<h2 id="{{ release.published_at | date: "%b-%-d-%Y" }}">{{ release.name }}</h2>
+<div>
+<h2 class="flat_grey" id="{{ release.name | slugify }}">{{ release.name }}</h2>
 <p>{{ release.published_at | date: "%b %-d, %Y" }}</p>
 
-{{ release.body }}
+<div class="release_notes">
+{{ release.body | markdownify }}
+</div>
+
+</div>
 
 {% endfor %}
 

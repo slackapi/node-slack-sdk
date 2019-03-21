@@ -35,3 +35,11 @@ footer {
   background-color: transparent;
   border: 0;
 }
+
+/* On the changelog, the release note headers should not be larger than the surrounding page header or version name */
+.release_notes h1,
+.release_notes h2,
+.release_notes h3 {
+  font-size:1.5rem;
+  line-height:1.75rem;
+}
