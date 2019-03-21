@@ -12,9 +12,10 @@ email: opensource@slack.com
 baseurl: /node-slack-sdk
 url: https://slack.dev
 repo_name: node-slack-sdk
-dev4slack_channel: sdk-node-slack-sdk
-twitter_username: SlackAPI
 github_username:  SlackAPI
+
+code_of_conduct_url: https://slackhq.github.io/code-of-conduct
+cla_url: https://cla-assistant.io/slackapi/node-slack-sdk
 
 google_analytics: UA-56978219-13
 google_tag_manager: GTM-KFZ5MK7

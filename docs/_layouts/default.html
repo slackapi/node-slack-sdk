@@ -15,12 +15,11 @@
             {% include side_nav.html %}
 
             <div class="sidebar_menu" id="api_nav">
-                
+
                 <ul class="sidebar_menu_list footer_nav">
-                    <li><a href="https://github.com/{{ site.github_username }}/{{ site.repo_name }}/blob/master/LICENSE">License</a></li>
-                    <li><a href="https://github.com/{{ site.github_username }}/{{ site.repo_name }}/blob/master/CODE_OF_CONDUCT.md">Code of Conduct</a></li>
-                    <li><a href="https://github.com/{{ site.github_username }}/{{ site.repo_name }}/blob/master/CONTRIBUTING.md">Contributing</a></li>
-                    <li><a href="https://docs.google.com/a/slack-corp.com/forms/d/e/1FAIpQLSfzjVoCM7ohBnjWf7eDYQxzti1EPpinsIJQA5RAUBwJKRUQHg/viewform">Contributor License Agreement</a></li>
+                    <li><a href="{{ site.code_of_conduct_url }}">Code of Conduct</a></li>
+                    <li><a href="https://github.com/{{ site.github_username }}/{{ site.repo_name }}/blob/master/.github/contributing.md">Contributing</a></li>
+                    <li><a href="{{ site.cla_url }}">Contributor License Agreement</a></li>
                 </ul>
 
                 <p id="footer_signature">Made with <i class="ts_icon ts_icon_heart"></i> by Slack<br/>and our Lovely
