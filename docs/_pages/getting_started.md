@@ -23,9 +23,9 @@ work getting done -- you can create a new one for free. After you create an app,
 In this guide we'll be **calling a method of Web API** to post a message to a channel. The Web API is the foundation of
 the Slack Platform, and almost every Slack app uses it. Aside from posting messages, the Web API allows your app to call
 [methods](https://api.slack.com/methods) that can be used for everything from creating a channel to updating a user's
-status. Before we can call a method, we need to configure our new app with the proper permissions.
+status. Before we can call any methods, we need to configure our new app with the proper permissions.
 
-### Getting a token to use the Web API
+## Getting a token to use the Web API
 
 Navigate to "OAuth & Permissions" and scroll down to the section for scopes. Slack describes the various permissions
 your app could obtain from an installing user as **scopes**. There are [over 60 scopes](https://api.slack.com/scopes)!

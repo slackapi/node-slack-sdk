@@ -10,7 +10,7 @@ product_name: &product_name Slack Developer Kit for Node.js
 title: *product_name
 email: opensource@slack.com
 baseurl: /node-slack-sdk
-url: http://slackapi.github.io
+url: https://slack.dev
 repo_name: node-slack-sdk
 dev4slack_channel: sdk-node-slack-sdk
 twitter_username: SlackAPI
