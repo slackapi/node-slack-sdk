@@ -6,8 +6,6 @@ order: 9999
 ---
 # {{ site.product_name }}
 
-{{ site.description }}
-
 {{ site.product_name }} is proudly maintained with :sparkling_heart: by the Slack Platform team
 
   * [License](https://github.com/{{ site.github_username }}/{{ site.repo_name }}/blob/master/LICENSE)

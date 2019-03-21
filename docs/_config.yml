@@ -9,9 +9,6 @@
 product_name: &product_name Slack Developer Kit for Node.js
 title: *product_name
 email: opensource@slack.com
-description: >
-  Access the Slack Platform from your Node.js app. _Slack Developer Kit for Node.js_ lets you build on the Slack web APIs, slash
-  commands, and the real-time API for building bots, in an idiomatically JavaScript way.
 baseurl: /node-slack-sdk
 url: http://slackapi.github.io
 repo_name: node-slack-sdk
