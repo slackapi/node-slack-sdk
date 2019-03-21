@@ -40,7 +40,7 @@ for internal apps that automate workflows, perform ChatOps, or just generate sil
 
 ## Installation
 
-Use your favorite package manager to install any of these packages and save to your `package.json`:
+Use your favorite package manager to install any of the packages and save to your `package.json`:
 
 ```shell
 $ npm install @slack/web-api @slack/events-api

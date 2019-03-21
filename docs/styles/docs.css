@@ -41,6 +41,12 @@ footer {
   line-height:1.75rem;
 }
 
+/* Fix emojis */
+.api_doc img.emoji {
+    border-radius: 0;
+    border: none;
+}
+
 /*
  * Github theme stylesheet from: http://jwarby.github.io/jekyll-pygments-themes/languages/javascript.html
  */

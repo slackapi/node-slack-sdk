@@ -8,7 +8,7 @@ headings:
 ---
 
 This project is written and built using [TypeScript](https://www.typescriptlang.org/), which means all of the APIs
-have type information metadata :tada:. This means that if you're using a code editor like VSCode, Atom, or many others
+have type information metadata 🎉. This means that if you're using a code editor like VSCode, Atom, or many others
 that know how to read that metadata, or if you're using TypeScript in your own project, you'll benefit from improved
 documentation as your write code, early detection of errors, easier refactoring, and more.
 

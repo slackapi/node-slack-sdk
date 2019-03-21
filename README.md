@@ -32,7 +32,7 @@ If you're still not sure, [reach out for help](#getting-help) and our community 
 
 ## Installation
 
-Use your favorite package manager to install any of these packages and save to your `package.json`:
+Use your favorite package manager to install any of the packages and save to your `package.json`:
 
 ```shell
 $ npm install @slack/web-api @slack/events-api
