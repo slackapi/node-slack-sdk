@@ -23,9 +23,9 @@ $ npm install @slack/web-api
 
 ### Initialize the client
 
-The package exports the `WebClient` class. All you need to do is instantiate it, and you're ready to go. You'll
-typically initialize it with a `token`, so that you don't have to use it each time you call a method. A token usually
-begins with `xoxb` or `xoxp`. You get one from each workspace on the app is installed onto. The app configuration pages
+The package exports a `WebClient` class. All you need to do is instantiate it, and you're ready to go. You'll typically
+initialize it with a `token`, so that you don't have to use the token each time you call a method. A token usually
+begins with `xoxb` or `xoxp`. You get them from each workspace an app is installed onto. The app configuration pages
 help you get your first token for your development workspace.
 
 ```javascript
@@ -67,10 +67,10 @@ const web = new WebClient();
 
 ### Call a method
 
-The client instance has all of the public methods from the Web API as named methods. The most popular method is called
-`chat.postMessage`, and its used to send a message to a conversation. For every method, you pass arguments as properties
-of an options object. This makes your code very readable since every argument has a name. All named methods return a
-`Promise` which resolves for the response, or rejects for an error.
+The client instance has a named method for each of the public methods in the Web API. The most popular one is
+called `chat.postMessage`, and its used to send a message to a conversation. For every method, you pass arguments as
+properties of an options object. This helps with the readablility of your code since every argument has a name. All
+named methods return a `Promise` which resolves with the response data, or rejects with an error.
 
 ```javascript
 // Given some known conversation ID (representing a public channel, private channel, DM or group DM)
@@ -91,8 +91,9 @@ const conversationId = '...';
 ```
 
 **Hint**: If you're using an editor that supports TypeScript, even if you're not using TypeScript to write your code,
-you'll get hints for all the arguments each method supports. This really helps you save time and reduces the number of
-times you need to pop out to a webpage to check the reference.
+you'll get hints for all the arguments each method supports. This helps you save time by reducing the number of
+times you need to pop out to a webpage to check the reference. There's more information about [using
+TypeScript](https://slack.dev/node-slack-sdk/typescript) with this package in the documentation website.
 
 **Note**: Use the [Block Kit Builder](https://api.slack.com/tools/block-kit-builder) for a playground
 where you can prototype your message's look and feel.
@@ -123,9 +124,10 @@ const conversationId = '...';
 
 ### Handle errors
 
-Errors can happen for many reasons: maybe the token doesn't have the proper scopes to call a method, maybe its been
-revoked by a user, or maybe you just used a bad argument. In these cases, the returned `Promise` will reject with an
-`Error`. You should catch the error and use the information it contains to decide how your app can proceed.
+Errors can happen for many reasons: maybe the token doesn't have the proper [scopes](https://api.slack.com/scopes) to
+call a method, maybe its been revoked by a user, or maybe you just used a bad argument. In these cases, the returned
+`Promise` will reject with an `Error`. You should catch the error and use the information it contains to decide how your
+app can proceed.
 
 Each error contains a `code` property, which you can check against the `ErrorCode` export to understand the kind of
 error you're dealing with. For example, when Slack responds to your app with an error, that is an
@@ -164,10 +166,10 @@ There are a few more types of errors that you might encounter, each with one of 
 
 * `ErrorCode.RateLimitedError`: The Web API cannot fulfill the API method call because your app has made too many
   requests too quickly. This error has a `retryAfter` property with the number of seconds you should wait before trying
-  again. See [the documentation on rate limit handling](https://slack.dev/node-slack-sdk/web-api/#rate-limit-handling)
-  to understand how the client can automatically deal with these problems for you.
+  again. See [the documentation on rate limit handling](https://slack.dev/node-slack-sdk/web-api/#rate-limits) to
+  understand how the client will automatically deal with these problems for you.
 
-* `ErrorCode.HTTPError`: The HTTP response contained an unfamiliar response code. The Web API only responds with `200`
+* `ErrorCode.HTTPError`: The HTTP response contained an unfamiliar status code. The Web API only responds with `200`
   (yes, even for errors) or `429` (rate limiting). If you receive this error, its likely due to a problem with a proxy,
   a custom TLS configuration, or a custom API URL. This error has the `statusCode`, `statusMessage`, `headers`, and
   `body` properties containing more details.
@@ -198,11 +200,11 @@ stop, and help you process the results.
 });
 ```
 
-The return value is a `Promise`, but the value it resolves to depends on whether or not you include the fourth
-(optional) parameter. If you don't include it, the resolved value is always `undefined`. In this case, its used for
-control flow purposes (resuming the rest of your program), and the function in the third parameter is usually used to
-capture a result. If you do include the fourth parameter, then the resolved value is the value of the `accumulator`.
-This is a familiar pattern for people that use _functional programming_.
+The returned value is a `Promise`, but what it resolves to depends on whether or not you include the fourth (optional)
+parameter. If you don't include it, the resolved value is always `undefined`. In this case, its used for control flow
+purposes (resuming the rest of your program), and the function in the third parameter is used to capture a result. If
+you do include the fourth parameter, then the resolved value is the value of the `accumulator`. This is a familiar
+pattern for people that use _functional programming_.
 
 <details>
 <summary markdown="span">
@@ -211,7 +213,7 @@ This is a familiar pattern for people that use _functional programming_.
 
 The process of retrieving multiple pages from Slack's API can be described as **asynchronous iteration**, which means
 you're processing items in a collection, but getting each item is an asynchronous operation. Fortunately, JavaScript
-has this concept built in, and in newer versions of JavaScript there's syntax to make it even simpler:
+has this concept built in, and in newer versions of the language there's syntax to make it even simpler:
 [`for await...of`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of).
 
 ```javascript
@@ -240,7 +242,7 @@ The `for await...of` syntax is available in Node v10.0.0 and above.
 The `WebClient` will log interesting information to the console by default. You can use the `logLevel` to decide how
 much information, or how interesting the information needs to be, in order for it to be output. There are a few possible
 log levels, which you can find in the `LogLevel` export. By default, the value is set to `LogLevel.INFO`. While you're
-in development, its sometimes helpful to set this to the most verbose `LogLevel.DEBUG`.
+in development, its sometimes helpful to set this to the most verbose: `LogLevel.DEBUG`.
 
 ```javascript
 // Import LogLevel from the package
@@ -252,7 +254,7 @@ const web = new WebClient(token, {
 });
 ```
 
-All the log levels, in order of most to least information are as follows: `DEBUG`, `INFO`, `WARN`, and `ERROR`.
+All the log levels, in order of most to least information are: `DEBUG`, `INFO`, `WARN`, and `ERROR`.
 
 <details>
 <summary markdown="span">
@@ -315,7 +317,7 @@ const web = new WebClient('bogus token');
 ```
 
 Shortly after re-connecting your network, you should see the `Done!` message. Did you notice the program doesn't use a
-valid token? The client is doing something clever and helpful here. It knows the difference between an error like not
+valid token? The client is doing something clever and helpful here. It knows the difference between an error such as not
 being able to reach `api.slack.com` and an error in the response from Slack about an invalid token. The former is
 something that can be resolved with a retry, so it was retried. The invalid token error means that the call isn't going
 to succeed until your app does something differently, so it stops attempting retries.
@@ -390,7 +392,8 @@ In the example above, you could also use a `Buffer` object as the value for the 
 
 The client allows you to customize the HTTP
 [`Agent`](https://nodejs.org/docs/latest/api/http.html#http_class_http_agent) used to create the connection to Slack.
-Using this option is the best way to make all requests from your app through a proxy, as is a requirement common in many corporate settings.
+Using this option is the best way to make all requests from your app through a proxy, which is a common requirement in
+many corporate settings.
 
 In order to create an `Agent` from some proxy information (such as a host, port, username, and password), you can use
 one of many npm packages. We recommend [`https-proxy-agent`](https://www.npmjs.com/package/https-proxy-agent). Start
@@ -400,8 +403,7 @@ by installing this package and saving it to your `package.json`.
 $ npm install https-proxy-agent
 ```
 
-Now we'll import the `HttpsProxyAgent` class, and create an instance that can be used as the `agent` option of the
-`WebClient`.
+Import the `HttpsProxyAgent` class, and create an instance that can be used as the `agent` option of the `WebClient`.
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
@@ -422,15 +424,17 @@ const web = new WebClient(token, { agent: proxy });
 
 ### Rate limits
 
-When your app calls API methods too fast, Slack will politely ask (by returning an error) the app to slow down, and also
-let it know how many seconds later it should try again. This is called **rate limiting** and the `WebClient` handles it
-for your app with grace. The client will listen for these rate limiting errors, wait the appropriate amount of time, and
-then retry the request. The `Promise` returned only resolves when Slack has given your app a real response.
+When your app calls API methods too frequently, Slack will politely ask (by returning an error) the app to slow down,
+and also let your app know how many seconds later it should try again. This is called **rate limiting** and the
+`WebClient` handles it for your app with grace. The client will understand these rate limiting errors, wait the
+appropriate amount of time, and then retry the request without any changes in your code. The `Promise` returned only
+resolves when Slack has given your app a real response.
 
-It's a good idea to know when you're bumping up against these limits, so that you might be able to change the behavior
-of your app to hit them less often. Your users would surely appreciate getting things done without the delay. Each time
-a rate limit related retry occurs, the `WebClient` instance emits an event: `WebClientEvent.RATE_LIMITED`. We recommend
-that you use the event to inform users when something might take longer than expected, or just log it for later.
+It's a good idea to know when you're bumping up against [these limits](https://api.slack.com/docs/rate-limits), so that
+you might be able to change the behavior of your app to hit them less often. Your users would surely appreciate getting
+things done without the delay. Each time a rate limit related error occurs, the `WebClient` instance emits an event:
+`WebClientEvent.RATE_LIMITED`. We recommend that you use the event to inform users when something might take longer than
+expected, or just log it for later.
 
 ```javascript
 const { WebClient, WebClientEvent } = require('@slack/web-api');
@@ -466,8 +470,8 @@ to perform a lot of method calls, let's say 100 of them, at the same time, each 
 same network resources (such as bandwidth). By competing, they might negatively affect the performance of all the rest,
 and therefore negatively affect the performance of your app. This is one of the reasons why the `WebClient` limits the
 **concurrency** of requests by default to ten, which means it keeps track of how many requests are waiting, and only
-starts an eleventh request when one of them completes. The exact number of requests the client should keep track of in
-this way can be set using the `maxRequestConcurrency` option.
+starts an eleventh request when one of them completes. The exact number of requests the client allows at the same time
+can be set using the `maxRequestConcurrency` option.
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
@@ -478,14 +482,14 @@ const web = new WebClient(token, { maxRequestConcurrency: 5 });
 ```
 
 The lower you set the `maxRequestConcurrency`, the less parallelism you'll have in your app. Imagine setting the
-concurrency to `1`, each of the method calls would have to wait for the previous method call to complete before it can
-even be started. This could slow down your app significantly.
+concurrency to `1`. Each of the method calls would have to wait for the previous method call to complete before it can
+even be started. This could slow down your app significantly. So its best not to set this number too low.
 
 Another reason, besides competing for resources, that you might limit the request concurrency is to **minimize the
 amount of state** in your app. Each request that hasn't completed is in some ways a piece of state that hasn't yet been
 stored anywhere except the memory of your program. In the scenario where you had 100 method calls waiting, and your
 program unexpectedly crashes, you've lost information about 100 different things going on in the app. But by limiting
-the concurrency to a smaller number, you can minimize this risk.
+the concurrency to a smaller number, you can minimize this risk. So its best not to set this number too high.
 
 ---
 
