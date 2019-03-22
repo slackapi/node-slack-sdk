@@ -9,16 +9,16 @@
 			"path": "packages/web-api"
 		},
 		{
-			"name": "RTM API",
-			"path": "packages/rtm-api"
+			"name": "Events API",
+			"path": "packages/events-api"
 		},
 		{
 			"name": "Interactive Messages",
 			"path": "packages/interactive-messages"
 		},
 		{
-			"name": "Events API",
-			"path": "packages/events-api"
+			"name": "RTM API",
+			"path": "packages/rtm-api"
 		},
 		{
 			"name": "Incoming Webhook",

@@ -22,7 +22,7 @@
     "npm": ">= 5.5.1"
   },
   "repository": "slackapi/node-slack-sdk",
-  "homepage": "https://slack.dev/node-slack-sdk",
+  "homepage": "https://slack.dev/node-slack-sdk/webhook",
   "publishConfig": {
     "access": "public"
   },

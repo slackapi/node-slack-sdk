@@ -5,7 +5,9 @@
 </div>
 
 <div class="sidebar_menu invisible_until_anchor">
-    <h4 class="sidebar_menu_header">Recipes</h4>
+    {% if page.anchor_links_header %}
+    <h4 class="sidebar_menu_header">{{ page.anchor_links_header }}</h4>
+    {% endif %}
     <ul class="sidebar_menu_list">
         <li class="anchor_template"><a href="#" class="sidebar_menu_list_item"></a></li>
     </ul>

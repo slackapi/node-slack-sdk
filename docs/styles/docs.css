@@ -3,11 +3,24 @@ body {
   font-family: Slack-Lato,appleLogo,sans-serif;
 }
 
-/* Replaces old sidebar styled links */
-.sidebar_menu h5 {
-  font-size: 0.8rem;
-  font-weight: 800;
-  margin-bottom: 3px;
+/*
+ * Unfix the header position. Otherwise, anchor links take you to a spot on the page that's covered.
+ * The API site fixes this by offsetting anchor tags from the headers in a weird and also error-prone way.
+ * It's a better tradeoff to unfix the header, and the side benefit is we get some screen space back.
+ */
+body > header {
+  position: initial;
+}
+@media only screen and (min-width: 641px) {
+  .api #page_contents {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+@media only screen and (max-width: 640px) {
+  #page_contents {
+    margin-top: 0;
+  }
 }
 
 /* Aligns footer navigation to the left of the sidebar */
@@ -47,7 +60,6 @@ footer {
   font-weight: 600;
   font-size: 1.1rem;
 }
-
 .nav_home_icon {
   vertical-align: middle;
 }
@@ -56,6 +68,18 @@ footer {
 .invisible_until_anchor {
   visibility: hidden;
 }
+
+/* Details tags aren't styled in the rollup, but need the same margin bottom as paragraphs */
+details {
+  margin-bottom: 1rem;
+}
+summary > strong > i {
+  font-style: normal;
+}
+
+/*
+ * ☁️ Maybe one day, #page_contents will be able to go beyond a fixed width...
+ */
 
 /*
  * Github theme stylesheet from: http://jwarby.github.io/jekyll-pygments-themes/languages/javascript.html

@@ -31,7 +31,7 @@
     "node": ">=4.2.0"
   },
   "repository": "slackapi/node-slack-sdk",
-  "homepage": "https://slack.dev/node-slack-sdk",
+  "homepage": "https://slack.dev/node-slack-sdk/interactive-messages",
   "publishConfig": {
     "access": "public"
   },

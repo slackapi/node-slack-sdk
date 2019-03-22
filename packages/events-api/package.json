@@ -27,7 +27,7 @@
     "node": ">=4.2.0"
   },
   "repository": "slackapi/node-slack-sdk",
-  "homepage": "https://slack.dev/node-slack-sdk",
+  "homepage": "https://slack.dev/node-slack-sdk/events-api",
   "publishConfig": {
     "access": "public"
   },

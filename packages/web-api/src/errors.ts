@@ -35,7 +35,6 @@ export interface WebAPIRequestError extends CodedError {
 
 export interface WebAPIHTTPError extends CodedError {
   code: ErrorCode.HTTPError;
-  original: Error; // TODO: deprecate
   statusCode: number;
   statusMessage: string;
   headers: IncomingHttpHeaders;
@@ -79,7 +78,6 @@ export function httpErrorFromResponse(response: AxiosResponse): WebAPIHTTPError 
     new Error(`An HTTP protocol error occurred: statusCode = ${response.status}`),
     ErrorCode.HTTPError,
   ) as Partial<WebAPIHTTPError>;
-  error.original = new Error('The WebAPIHTTPError.original property is deprecated. See other properties for details.');
   error.statusCode = response.status;
   error.statusMessage = response.statusText;
   error.headers = response.headers;

@@ -1,13 +1,4 @@
----
-title: Web API
-permalink: /web-api
-redirect_from:
- - /basic_usage
- - /web_api
-order: 1
-anchor_links_header: Usage
----
-
+# Slack Web API
 
 The `@slack/web-api` package contains a simple, convenient, and configurable HTTP client for making requests to Slack's
 [Web API](https://api.slack.com/web). Use it in your app to call any of the over 130
@@ -18,6 +9,15 @@ The `@slack/web-api` package contains a simple, convenient, and configurable HTT
 ```shell
 $ npm install @slack/web-api
 ```
+
+<!-- START: Remove before copying into the docs directory -->
+
+## Usage
+
+These examples show the most common features of the `WebClient`. You'll find even more extensive [documentation on the
+package's website](https://slack.dev/node-slack-sdk/web-api).
+
+<!-- END: Remove before copying into the docs directory -->
 
 ---
 
@@ -93,9 +93,6 @@ const conversationId = '...';
 **Hint**: If you're using an editor that supports TypeScript, even if you're not using TypeScript to write your code,
 you'll get hints for all the arguments each method supports. This really helps you save time and reduces the number of
 times you need to pop out to a webpage to check the reference.
-
-**Note**: Use the [Block Kit Builder](https://api.slack.com/tools/block-kit-builder) for a playground
-where you can prototype your message's look and feel.
 
 <details>
 <summary markdown="span">
@@ -346,237 +343,33 @@ retrying the API call. If you'd like to opt out of that behavior, set the `rejec
 
 ---
 
-### Upload a file
+### More
 
-A couple methods, `files.upload` and `users.setPhoto`, allow you to upload a file over the API. In Node, there are a few
-ways you might be dealing with files, or more generally, binary data. When you have the whole file in memory (like when
-you've just generated or processed an image), then in Node you'd have a `Buffer` that contains that binary data. Or,
-when you are reading the file from disk or a network (like when you have a path to file name), then you'd typically have
-a `ReadableStream`. The client can handle both of these binary data types for you, and it looks like any other API call.
+The [documentation website](https://slack.dev/node-slack-sdk/web-api) has information about these additional features of
+the `WebClient`:
 
-The following example shows how you can use [`files.upload`](https://api.slack.com/methods/files.upload) to upload a
-file that is read from disk (as a `ReadableStream`).
-
-```javascript
-const { createReadStream } = require('fs');
-const { WebClient } = require('@slack/client');
-
-const token = process.env.SLACK_TOKEN;
-const web = new WebClient(token);
-
-// A file name is required for the upload
-const filename = 'test_file.csv';
-
-(async () => {
-  // Just use the `file` argument as the documentation suggests
-  // See: https://api.slack.com/methods/files.upload
-  const result = await web.files.upload({
-    filename,
-    // You can use a ReadableStream or a Buffer for the file option
-    // This file is located in the current directory (`process.pwd()`), so the relative path resolves
-    file: createReadStream(`./${fileName}`),
-  })
-
-  // `res` contains information about the uploaded file
-  console.log('File uploaded: ', result.file.id);
-})();
-```
-
-In the example above, you could also use a `Buffer` object as the value for the `file` property of the options object.
+*  Upload a file with a `Buffer` or a `ReadableStream`.
+*  Using a custom agent for proxying
+*  Rate limit handling
+*  Request concurrency
+*  Custom TLS configuration
+*  Custom API URL
+*  Exchange an OAuth grant for a token
 
 ---
 
-### Proxy requests with a custom agent
+## Requirements
 
-The client allows you to customize the HTTP
-[`Agent`](https://nodejs.org/docs/latest/api/http.html#http_class_http_agent) used to create the connection to Slack.
-Using this option is the best way to make all requests from your app through a proxy, as is a requirement common in many corporate settings.
+This package supports Node v8 LTS and higher. It's highly recommended to use [the latest LTS version of
+node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
+from that version.
 
-In order to create an `Agent` from some proxy information (such as a host, port, username, and password), you can use
-one of many npm packages. We recommend [`https-proxy-agent`](https://www.npmjs.com/package/https-proxy-agent). Start
-by installing this package and saving it to your `package.json`.
+## Getting Help
 
-```shell
-$ npm install https-proxy-agent
-```
+If you get stuck, we're here to help. The following are the best ways to get assistance working through your issue:
 
-Now we'll import the `HttpsProxyAgent` class, and create an instance that can be used as the `agent` option of the
-`WebClient`.
-
-```javascript
-const { WebClient } = require('@slack/web-api');
-const { HttpsProxyAgent } = require('https-proxy-agent');
-
-// One of the ways you can configure HttpsProxyAgent is using a simple string.
-// See: https://github.com/TooTallNate/node-https-proxy-agent for more options
-const proxy = process.env.http_proxy || 'http://168.63.76.32:3128';
-
-const token = process.env.SLACK_TOKEN;
-
-const web = new WebClient(token, { agent: proxy });
-
-// All API method calls will now go through the proxy
-```
-
----
-
-### Rate limits
-
-When your app calls API methods too fast, Slack will politely ask (by returning an error) the app to slow down, and also
-let it know how many seconds later it should try again. This is called **rate limiting** and the `WebClient` handles it
-for your app with grace. The client will listen for these rate limiting errors, wait the appropriate amount of time, and
-then retry the request. The `Promise` returned only resolves when Slack has given your app a real response.
-
-It's a good idea to know when you're bumping up against these limits, so that you might be able to change the behavior
-of your app to hit them less often. Your users would surely appreciate getting things done without the delay. Each time
-a rate limit related retry occurs, the `WebClient` instance emits an event: `WebClientEvent.RATE_LIMITED`. We recommend
-that you use the event to inform users when something might take longer than expected, or just log it for later.
-
-```javascript
-const { WebClient, WebClientEvent } = require('@slack/web-api');
-const token = process.env.SLACK_TOKEN;
-
-const web = new WebClient(token);
-
-web.on(WebClientEvent.RATE_LIMITED, (numSeconds) => {
-  console.log(`A rate-limiting error occurred and the app is going to retry in ${numSeconds} seconds.`);
-});
-```
-
-You might not want to the `WebClient` to handle rate limits in this way. Perhaps the operation was time sensitive, and
-it won't be useful by the time Slack is ready for another request. Or, you have a more sophisticated approach. In these
-cases, you can set the `rejectRateLimitedCalls` option on the client to `true`. Once you set this option, method calls
-can fail with rate limiting related errors. These errors have a `code` property set to `ErrorCode.RateLimitedError`. See
-[error handling](#handle-errors) for more details.
-
-```javascript
-const { WebClient } = require('@slack/web-api');
-const token = process.env.SLACK_TOKEN;
-
-// Setting the rejectRateLimitedCalls option to true turns off automatic retries
-const web = new WebClient(token, { rejectRateLimitedCalls: true });
-```
-
----
-
-### Request concurrency
-
-Each of the API method calls the client starts are happening **concurrently**, or at the same time. If your app tries
-to perform a lot of method calls, let's say 100 of them, at the same time, each one of them would be competing for the
-same network resources (such as bandwidth). By competing, they might negatively affect the performance of all the rest,
-and therefore negatively affect the performance of your app. This is one of the reasons why the `WebClient` limits the
-**concurrency** of requests by default to ten, which means it keeps track of how many requests are waiting, and only
-starts an eleventh request when one of them completes. The exact number of requests the client should keep track of in
-this way can be set using the `maxRequestConcurrency` option.
-
-```javascript
-const { WebClient } = require('@slack/web-api');
-const token = process.env.SLACK_TOKEN;
-
-// Limit the number of concurrent requests to 5
-const web = new WebClient(token, { maxRequestConcurrency: 5 });
-```
-
-The lower you set the `maxRequestConcurrency`, the less parallelism you'll have in your app. Imagine setting the
-concurrency to `1`, each of the method calls would have to wait for the previous method call to complete before it can
-even be started. This could slow down your app significantly.
-
-Another reason, besides competing for resources, that you might limit the request concurrency is to **minimize the
-amount of state** in your app. Each request that hasn't completed is in some ways a piece of state that hasn't yet been
-stored anywhere except the memory of your program. In the scenario where you had 100 method calls waiting, and your
-program unexpectedly crashes, you've lost information about 100 different things going on in the app. But by limiting
-the concurrency to a smaller number, you can minimize this risk.
-
----
-
-### Custom TLS configuration
-
-Each connection to Slack starts with a handshake that allows your app to trust that it is actually Slack you are
-connecting to. The system for establishing this trust is called TLS. In order for TLS to work, the host running your app
-keeps a list of trusted **certificate authorities**, that it can use to verify a signature Slack produces. You don't
-usually see this list, its usually a part of the operating system you're running on. In very special cases, like certain
-testing techniques, you might want to send a request to another party that doesn't have a valid TLS signature that your
-certificate authority would verify. In these cases, you can provide alternative TLS settings, in order to change how the
-operating system might determine whether the signature is valid. You can use the `tls` option to describe the settings
-you want (these settings are the most common and useful from the [standard Node
-API](https://nodejs.org/dist/latest/docs/api/tls.html#tls_tls_createsecurecontext_options)).
-
-```javascript
-const { WebClient } = require('@slack/web-client');
-const { readFileSync } = require('fs');
-const token = process.env.SLACK_TOKEN;
-
-// Load a custom certificate authority from a file in the current directory
-const ca = readFileSync('./ca.crt');
-
-// Initialize a client with the custom certificate authority
-const web = new WebClient(token, { tls: { ca } });
-```
-
-| `tls` property  | Description  |
-|-----------------|--------------|
-| `ca`            | Optionally override the trusted CA certificates. Any `string` or `Buffer` can contain multiple PEM CAs concatenated together. |
-| `key`           | Private keys in PEM format. PEM allows the option of private keys being encrypted. Encrypted keys will be decrypted with `passphrase`. |
-| `cert`          | Cert chains in PEM format. One cert chain should be provided per private key. |
-| `pfx`           | PFX or PKCS12 encoded private key and certificate chain. `pfx` is an alternative to providing `key` and `cert` individually. PFX is usually encrypted, if it is, `passphrase` will be used to decrypt it. |
-| `passphrase`    | Shared passphrase used for a single private key and/or a PFX. |
-
----
-
-### Custom API URL
-
-The URLs for method calls to Slack's Web API always begin with `https://slack.com/api/`. In very special cases, such as
-certain testing techniques, you might want to send these requests to a different URL. The `slackApiUrl` option allows
-you to replace this prefix with another.
-
-```javascript
-const { WebClient } = require('@slack/web-client');
-const token = process.env.SLACK_TOKEN;
-
-const options = {};
-
-// In a testing environment, configure the client to send requests to a mock server
-if (process.env.NODE_ENV === 'test') {
-  options.slackApiUrl = 'http://localhost:8888/api/';
-}
-
-// Initialize a client using the configuration
-const web = new WebClient(token, options);
-```
-
----
-
-### Exchange an OAuth grant for a token
-
-There's one method in the Slack Web API that doesn't requires a token, because its the method that gets a token! This
-method is called [`oauth.access`](https://api.slack.com/methods/oauth.access). It's used as part of the [OAuth
-2.0](https://api.slack.com/docs/oauth) process that users initiate when installing your app into a workspace. In the
-last step of this process, your app has received an authorization grant called `code` which it needs to exchange for
-an access token (`token`). You can use an instance of the `WebClient` that has no token to easily complete this
-exchange.
-
-```javascript
-const { WebClient } = require('@slack/web-client');
-
-// App credentials found in the Basic Information section of the app configuration
-const clientId = process.env.SLACK_CLIENT_ID;
-const clientSecret = process.env.SLACK_CLIENT_SECRET;
-
-// Not shown: received an authorization grant called `code`.
-(async () => {
-  // Create a client instance just to make this single call, and use it for the exchange
-  const result = await (new WebClient()).oauth.access({
-    client_id: clientId,
-    client_secret: clientSecret,
-    code
-  });
-
-  // It's now a good idea to save the access token to your database
-  // Some fictitious database
-  await db.createAppInstallation(result.team_id, result.enterprise_id, result.access_token, result.bot);
-})();
-```
-
-**Note**: If you're looking for a more complete solution that handles more of the OAuth process for your app, take a
-look at the [@aoberoi/passport-slack Passport Strategy](https://github.com/aoberoi/passport-slack).
-
+  * [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and
+    general discussion related to these packages. Try searching before you create a new issue.
+  * [Email us](mailto:developers@slack.com) in Slack developer support: `developers@slack.com`
+  * [Bot Developers Hangout](https://community.botkit.ai/): a Slack community for developers
+    building all types of bots. You can find the maintainers and users of these packages in **#sdk-node-slack-sdk**.

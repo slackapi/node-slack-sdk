@@ -57,6 +57,8 @@ google_tag_manager: GTM-KFZ5MK7
 
 # Plugin settings
 markdown: kramdown
+kramdown:
+  parse_block_html: true
 plugins:
   - jemoji
   - jekyll-redirect-from
