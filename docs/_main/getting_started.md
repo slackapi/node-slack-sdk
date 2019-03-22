@@ -1,6 +1,7 @@
 ---
 title: Getting Started
-permalink: /getting_started
+permalink: /getting-started
+redirect_from: /getting_started
 order: 1
 headings:
     - title: Create a Slack app

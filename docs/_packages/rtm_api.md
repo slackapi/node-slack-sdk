@@ -1,9 +1,10 @@
 ---
-title: RTM API client
-permalink: /rtm_api
+title: Real Time Messaging API
+permalink: /rtm-api
 redirect_from:
   - /bots
-order: 3
+  - /rtm_api
+order: 4
 headings:
     - title: Connecting and sending a message
     - title: Receiving messages

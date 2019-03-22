@@ -1,9 +1,10 @@
 ---
-title: Web API client
-permalink: /web_api
+title: Web API
+permalink: /web-api
 redirect_from:
  - /basic_usage
-order: 2
+ - /web_api
+order: 1
 headings:
     - title: Posting a message
     - title: Customizing a message layout

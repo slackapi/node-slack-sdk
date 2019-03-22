@@ -1,9 +1,9 @@
 ---
-title: Incoming webhooks
+title: Incoming Webhooks
 permalink: /webhook
 redirect_from:
   - /incoming_webhook
-order: 4
+order: 5
 headings:
     - title: Posting a message with Incoming Webhooks
 ---

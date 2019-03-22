@@ -31,11 +31,13 @@
         </nav>
 
         <div class="col span_3_of_4">
-            <h1>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</h1>
+            {% if page.title != "" %}
+                <h1>{{ page.title }}</h1>
+            {% endif %}
 
-                <div class="card api_doc">
-                    {{ content }}
-                </div>
+            <div class="card api_doc">
+                {{ content }}
+            </div>
         </div>
     </div>
 </div>
