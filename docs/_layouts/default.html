@@ -1,3 +1,6 @@
+---
+sidebar_style: main
+---
 <!DOCTYPE html>
 <html>
 
@@ -12,9 +15,14 @@
     <div id="page_contents" class="clearfix">
         <nav id="api_nav" class="col span_1_of_4">
 
-            {% include side_nav.html %}
+            {% case layout.sidebar_style %}
+                {% when 'main' %}
+                    {% include main_nav.html %}
+                {% when 'focussed' %}
+                    {% include focussed_nav.html %}
+            {% endcase %}
 
-            <div class="sidebar_menu" id="api_nav">
+            <div class="sidebar_menu">
 
                 <ul class="sidebar_menu_list footer_nav">
                     <li><a href="{{ site.code_of_conduct_url }}">Code of Conduct</a></li>

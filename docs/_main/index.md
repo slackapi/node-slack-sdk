@@ -1,5 +1,5 @@
 ---
-title: ""
+title: Node Slack SDK
 permalink: /
 redirect_from: /faq
 hidden: true
@@ -10,12 +10,6 @@ headings:
     - title: Getting Help
 ---
 
-This SDK is a collection of individual, single-purpose packages. The packages are aimed at making building Slack apps
-easy, performant, secure, and scalable. They can help with just about anything in the Slack platform, from dropping
-notifications in channels to fully interactive bots.
-
-## Packages
-
 The Slack platform offers several APIs to build apps. Each Slack API delivers part of the capabilities from the
 platform, so that you can pick just those that fit for your needs. This SDK offers a corresponding package for each of
 Slack's APIs. They are small and powerful when used independently, and work seamlessly when used together, too.
@@ -23,7 +17,7 @@ Slack's APIs. They are small and powerful when used independently, and work seam
 **Just starting out?** The [Getting Started tutorial](https://slackapi.github.io/node-slack-sdk/getting-started) will
 walk you through building your first Slack app using Node.js.
 
-| Slack API    | What its for | Documentation     |
+| Slack API    | What its for | NPM Package    |
 |--------------|--------------|-------------------|
 | Web API      | Send data to or query data from Slack using any of [over 130 methods](https://api.slack.com/methods). | [`@slack/web-api`](https://slack.dev/node-slack-sdk/web-api) |
 | Events API   | Listen for incoming messages and [many other events](https://api.slack.com/events) happening in Slack, using a URL. | [`@slack/events-api`](https://slack.dev/node-slack-sdk/events_api) |

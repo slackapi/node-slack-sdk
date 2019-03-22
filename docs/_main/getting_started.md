@@ -3,12 +3,6 @@ title: Getting Started
 permalink: /getting-started
 redirect_from: /getting_started
 order: 1
-headings:
-    - title: Create a Slack app
-    - title: Getting a token to use the Web API
-    - title: Set up your local project
-    - title: Sending a message with the Web API
-    - title: Next Steps
 ---
 
 This tutorial will show you how to use the packages in this Node Slack SDK to get a simple Slack app running. If you've

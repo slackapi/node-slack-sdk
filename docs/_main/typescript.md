@@ -2,9 +2,6 @@
 title: Using TypeScript
 permalink: /typescript
 order: 5
-headings:
-    - title: Result properties are not defined
-    - title: Known issues
 ---
 
 This project is written and built using [TypeScript](https://www.typescriptlang.org/), which means all of the APIs

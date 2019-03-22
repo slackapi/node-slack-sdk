@@ -1,0 +1,28 @@
+{% assign main_documents = site.main | sort: 'order' | where_exp:"item", "item.hidden != true" %}
+<div class="sidebar_menu">
+    <ul class="sidebar_menu_list">
+        {% for doc in main_documents %}
+            <li><a href="{{ doc.url | prepend: site.baseurl }}" class="{% if doc.url == page.url %}sidebar_menu_list_item is_active{% else %}sidebar_menu_list_item{% endif %}">{{ doc.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% assign packages = site.packages | sort: 'order' %}
+<div class="sidebar_menu">
+    <h4 class="sidebar_menu_header">Packages</h4>
+    <ul class="sidebar_menu_list">
+        {% for doc in packages %}
+            <li><a href="{{ doc.url | prepend: site.baseurl }}" class="sidebar_menu_list_item">{{ doc.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% assign tutorials = site.tutorials | sort: 'order' %}
+<div class="sidebar_menu">
+    <h4 class="sidebar_menu_header">Tutorials</h4>
+    <ul class="sidebar_menu_list">
+        {% for doc in tutorials %}
+            <li><a href="{{ doc.url | prepend: site.baseurl }}" class="sidebar_menu_list_item">{{ doc.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

@@ -1,0 +1,14 @@
+<div class="sidebar_menu">
+    <ul class="sidebar_menu_list">
+        <li><a href="{{ '/' | prepend: site.baseurl }}" class="sidebar_menu_list_item"><p class="nav_home"><ts-icon class="ts_icon_home nav_home_icon"></ts-icon> Node Slack SDK</p></a></li>
+    </ul>
+</div>
+
+<div class="sidebar_menu">
+    <h4 class="sidebar_menu_header">Recipes</h4>
+    <ul class="sidebar_menu_list">
+        {% for heading in page.headings %}
+            <li><a href="#{{ heading.title | slugify }}" class="sidebar_menu_list_item">{{ heading.title }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

@@ -47,6 +47,16 @@ footer {
     border: none;
 }
 
+.nav_home {
+  margin:0;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.nav_home_icon {
+  vertical-align: middle;
+}
+
 /*
  * Github theme stylesheet from: http://jwarby.github.io/jekyll-pygments-themes/languages/javascript.html
  */
