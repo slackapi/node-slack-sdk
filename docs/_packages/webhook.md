@@ -4,8 +4,6 @@ permalink: /webhook
 redirect_from:
   - /incoming_webhook
 order: 5
-headings:
-    - title: Posting a message with Incoming Webhooks
 ---
 
 ## Posting a message with Incoming Webhooks

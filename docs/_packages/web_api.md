@@ -5,21 +5,6 @@ redirect_from:
  - /basic_usage
  - /web_api
 order: 1
-headings:
-    - title: Posting a message
-    - title: Customizing a message layout
-    - title: Uploading a file
-    - title: Pagination
-    - title: Getting a list of channels
-    - title: Making arbitrary API calls
-    - title: Customizing the logger
-    - title: Custom agent for proxy support
-    - title: OAuth token exchange
-    - title: Changing the retry configuration
-    - title: Changing the request concurrency
-    - title: Rate limit handling
-    - title: Using legacy message attachments
-
 ---
 
 This package includes a web client that makes it simple to use the [Slack Web API

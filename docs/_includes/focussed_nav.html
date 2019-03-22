@@ -4,11 +4,9 @@
     </ul>
 </div>
 
-<div class="sidebar_menu">
+<div class="sidebar_menu invisible_until_anchor">
     <h4 class="sidebar_menu_header">Recipes</h4>
     <ul class="sidebar_menu_list">
-        {% for heading in page.headings %}
-            <li><a href="#{{ heading.title | slugify }}" class="sidebar_menu_list_item">{{ heading.title }}</a></li>
-        {% endfor %}
+        <li class="anchor_template"><a href="#" class="sidebar_menu_list_item"></a></li>
     </ul>
 </div>

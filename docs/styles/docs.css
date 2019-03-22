@@ -23,7 +23,7 @@ body {
 }
 
 /* Fixes link hover state */
-a:hover {
+.card a:hover {
   text-decoration: underline;
 }
 
@@ -41,12 +41,7 @@ footer {
   line-height:1.75rem;
 }
 
-/* Fix emojis */
-.api_doc img.emoji {
-    border-radius: 0;
-    border: none;
-}
-
+/* Home button in sidebar on package pages */
 .nav_home {
   margin:0;
   font-weight: 600;
@@ -55,6 +50,11 @@ footer {
 
 .nav_home_icon {
   vertical-align: middle;
+}
+
+/* Automatically rendered anchors */
+.invisible_until_anchor {
+  visibility: hidden;
 }
 
 /*

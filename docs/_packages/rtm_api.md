@@ -5,18 +5,6 @@ redirect_from:
   - /bots
   - /rtm_api
 order: 4
-headings:
-    - title: Connecting and sending a message
-    - title: Receiving messages
-    - title: Combining with the WebClient
-    - title: Lifecycle events
-    - title: Listening for message subtypes
-    - title: Subscribing to presence updates
-    - title: Handling other events
-    - title: Subscribing to presence updates
-    - title: Workspace cache on connect
-    - title: Customizing the logger
-    - title: Custom agent for proxy support
 ---
 
 This package includes an RTM client that makes it simple to use the [Slack RTM API](https://api.slack.com/rtm). Here are
