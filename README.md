@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/slackapi/node-slack-sdk.svg?branch=master)](https://travis-ci.org/slackapi/node-slack-sdk)
 [![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-sdk)
+<!-- TODO: npm versions with scoped packages: https://github.com/rvagg/nodei.co/issues/24 -->
 
 Visit the [documentation site](https://slack.dev/node-slack-sdk) for all the lovely details.
 
@@ -82,11 +83,11 @@ need to verify that the URL belongs to you by responding to a challenge. There i
 `@slack/events-api` package that you may use to respond to the challenge.
 
 ```shell
-./node_modules/.bin/slack-verify --secret <signing_secret> [--path=/slack/events] [--port=3000]
+$ ./node_modules/.bin/slack-verify --secret <signing_secret> [--path=/slack/events] [--port=3000]
 ```
 
-Run the command with your own signing secret (provided by Slack in the Basic Information), and optionally a path or a
-port, a web server will be listening for requests containing a challenge and respond to them the way Slack expects. Once
+Run the command with your own signing secret (provided by Slack in the "Basic Information"), and optionally a path or a
+port. A web server will be listening for requests containing a challenge and respond to them the way Slack expects. Once
 the Request URL is verified and saved, you can stop the server with `Ctrl-C` and start working on your app. We also have
 a tutorial with information about [getting a public URL that can be used for development](https://slack.dev/node-slack-sdk/local_development).
 
