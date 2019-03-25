@@ -547,7 +547,7 @@ export default SlackMessageAdapter;
  * [dialog submission](https://api.slack.com/dialogs#evaluating_submission_responses).
  * @param {module:adapter~SlackMessageAdapter~ActionHandler~Respond} respond - When the action is a
  * button press or menu selection, this function is used to update the message where the action
- * occured or create new messages in the same conversation. When the action is a dialog submission,
+ * occurred or create new messages in the same conversation. When the action is a dialog submission,
  * this function is used to create new messages in the conversation where the dialog was triggered.
  * @returns {Object} When the action is a button press or a menu selection, this object is a
  * replacement
@@ -558,7 +558,7 @@ export default SlackMessageAdapter;
  * `replace_original: false`. When the action is a dialog submission, this object is a list of
  * [validation errors](https://api.slack.com/dialogs#input_validation). It may also be a Promise for
  * a list of validation errors, and if so and the Promise takes longer than the
- * `syncReponseTimeout` to complete, Slack will disply an error to the user. If there is no return
+ * `syncReponseTimeout` to complete, Slack will display an error to the user. If there is no return
  * value, then button presses and menu selections do not update the message and dialog submissions
  * will validate and dismiss.
  */
