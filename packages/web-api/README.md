@@ -94,12 +94,12 @@ const conversationId = '...';
 })();
 ```
 
-**Hint**: If you're using an editor that supports TypeScript, even if you're not using TypeScript to write your code,
+**Tip**: If you're using an editor that supports TypeScript, even if you're not using TypeScript to write your code,
 you'll get hints for all the arguments each method supports. This helps you save time by reducing the number of
 times you need to pop out to a webpage to check the reference. There's more information about [using
 TypeScript](https://slack.dev/node-slack-sdk/typescript) with this package in the documentation website.
 
-**Note**: Use the [Block Kit Builder](https://api.slack.com/tools/block-kit-builder) for a playground
+**Tip**: Use the [Block Kit Builder](https://api.slack.com/tools/block-kit-builder) for a playground
 where you can prototype your message's look and feel.
 
 <details>
