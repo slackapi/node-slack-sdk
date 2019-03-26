@@ -1,7 +1,8 @@
 {
   "packages": [
     "packages/*",
-    "integration-tests"
+    "integration-tests",
+    "examples/*"
   ],
   "version": "independent"
 }
