@@ -1,6 +1,4 @@
 {
-  "name": "node-slack-sdk",
-  "private": true,
   "scripts": {
     "test": "lerna run test",
     "lint": "lerna run lint"
