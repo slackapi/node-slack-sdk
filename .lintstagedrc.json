@@ -1,6 +1,0 @@
-{
-  "linters": {
-    "*.ts": ["tslint --project . --fix", "git add"]
-  },
-  "ignore": ["test/**/*.ts"]
-}

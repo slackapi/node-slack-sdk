@@ -1,0 +1,60 @@
+{
+  "name": "@slack/client",
+  "version": "5.0.0",
+  "description": "Legacy wrapper for official Slack Platform's Web API, RTM API, and Incoming Webhook libraries. Use @slack/web-api, @slack/rtm-api, or @slack/webhook instead.",
+  "author": "Slack Technologies, Inc.",
+  "license": "MIT",
+  "keywords": [
+    "slack",
+    "web-api",
+    "rtm-api",
+    "bot",
+    "client",
+    "http",
+    "websocket",
+    "request",
+    "api",
+    "proxy",
+    "rate-limiting",
+    "pagination",
+    "state",
+    "connection"
+  ],
+  "main": "dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.5.1"
+  },
+  "repository": "slackapi/node-slack-sdk",
+  "homepage": "https://slack.dev/node-slack-sdk/tutorials/migrating_to_v5/",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/slackapi/node-slack-sdk/issues"
+  },
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "npm run build:clean && tsc",
+    "build:clean": "shx rm -rf ./dist",
+    "lint": "tslint --project .",
+    "test": "npm run build && echo \"Tests are not implemented.\" && exit 0"
+  },
+  "dependencies": {
+    "@slack/logger": "^1.0.0",
+    "@slack/rtm-api": "^5.0.0",
+    "@slack/types": "^1.0.0",
+    "@slack/web-api": "^5.0.0",
+    "@slack/webhook": "^5.0.0"
+  },
+  "devDependencies": {
+    "shx": "^0.3.2",
+    "tslint": "^5.13.1",
+    "tslint-config-airbnb": "^5.11.1",
+    "typescript": "^3.3.3333"
+  }
+}

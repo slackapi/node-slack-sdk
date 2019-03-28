@@ -1,7 +1,0 @@
-{
-    "typescript.tsdk": "./node_modules/typescript/lib",
-    "editor.rulers": [
-        120
-    ],
-    "editor.tabSize": 2,
-}

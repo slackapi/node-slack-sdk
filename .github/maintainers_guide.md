@@ -1,5 +1,7 @@
 # Maintainers Guide
 
+> ⚠️ This maintainers guide is out of date. Progress on updating it is being [tracked](https://github.com/slackapi/node-slack-sdk/issues/748).
+
 This document describes tools, tasks and workflow that one needs to be familiar with in order to effectively maintain
 this project. If you use this package within your own software as is but don't plan on modifying it, this guide is
 **not** for you.
