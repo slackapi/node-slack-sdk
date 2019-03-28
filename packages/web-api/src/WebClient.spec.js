@@ -650,7 +650,7 @@ describe('WebClient', function () {
     it('should send a request using the custom agent', function () {
       const agent = new Agent({ keepAlive: true });
       const spy = sinon.spy(agent, 'addRequest');
-      const client = new WebClient(token, { agent });
+      const client = new WebClient(token, { agent, retryConfig: rapidRetryPolicy });
       return client.apiCall('method')
         .catch(() => {
           assert(spy.called);

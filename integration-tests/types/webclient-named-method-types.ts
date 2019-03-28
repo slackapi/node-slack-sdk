@@ -20,7 +20,6 @@ web.chat.postMessage({
 const message: ChatPostMessageArguments = {
   text: 'TEXT',
   channel: 'CHANNEL',
-  // $ExpectError
   key: 'VALUE',
 };
 
