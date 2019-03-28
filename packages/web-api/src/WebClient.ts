@@ -547,7 +547,6 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     info: (this.apiCall.bind(this, 'users.info')) as Method<methods.UsersInfoArguments>,
     list: (this.apiCall.bind(this, 'users.list')) as Method<methods.UsersListArguments>,
     lookupByEmail: (this.apiCall.bind(this, 'users.lookupByEmail')) as Method<methods.UsersLookupByEmailArguments>,
-    setActive: (this.apiCall.bind(this, 'users.setActive')) as Method<methods.UsersSetActiveArguments>,
     setPhoto: (this.apiCall.bind(this, 'users.setPhoto')) as Method<methods.UsersSetPhotoArguments>,
     setPresence: (this.apiCall.bind(this, 'users.setPresence')) as Method<methods.UsersSetPresenceArguments>,
     profile: {

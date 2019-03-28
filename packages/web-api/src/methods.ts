@@ -9,17 +9,12 @@ import { WebAPICallOptions, WebAPICallResult } from './WebClient';
  */
 export default interface Method<MethodArguments extends WebAPICallOptions> {
   // TODO: can we create a relationship between MethodArguments and a MethodResult type? hint: conditional types
-  (options?: MethodArguments & AuxiliaryArguments): Promise<WebAPICallResult>;
+  (options?: MethodArguments): Promise<WebAPICallResult>;
 }
 
 /*
  * Reusable "protocols" that some MethodArguments types can conform to
  */
-
-export interface AuxiliaryArguments {
-  [unknownArg: string]: unknown;
-}
-
 export interface TokenOverridable {
   token?: string;
 }
@@ -62,103 +57,104 @@ export interface TraditionalPagingEnabled {
   /*
    * `api.*`
    */
-export interface APITestArguments {}
+export interface APITestArguments extends WebAPICallOptions {}
 
   /*
    * `auth.*`
    */
-export type AuthRevokeArguments = TokenOverridable & {
+export interface AuthRevokeArguments extends WebAPICallOptions, TokenOverridable {
   test: boolean;
-};
-export type AuthTestArguments = TokenOverridable & {};
+}
+export interface AuthTestArguments extends WebAPICallOptions, TokenOverridable {}
 
   /*
    * `bots.*`
    */
-export type BotsInfoArguments = TokenOverridable & {
+export interface BotsInfoArguments extends WebAPICallOptions, TokenOverridable  {
   bot?: string;
-};
+}
 
   /*
    * `channels.*`
    */
-export type ChannelsArchiveArguments = TokenOverridable & {
+export interface ChannelsArchiveArguments extends TokenOverridable {
   channel: string;
-};
-export type ChannelsCreateArguments = TokenOverridable & {
+}
+
+export interface ChannelsCreateArguments extends WebAPICallOptions, TokenOverridable {
   name: string;
   validate?: boolean;
-};
-export type ChannelsHistoryArguments = TokenOverridable & TimelinePaginationEnabled & {
+}
+export interface ChannelsHistoryArguments extends WebAPICallOptions, TokenOverridable, TimelinePaginationEnabled {
   channel: string;
   count?: number;
   unreads?: boolean;
-};
-export type ChannelsInfoArguments = TokenOverridable & LocaleAware & {
+}
+export interface ChannelsInfoArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
   channel: string;
-};
-export type ChannelsInviteArguments = TokenOverridable & {
+}
+export interface ChannelsInviteArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   user: string;
-};
-export type ChannelsJoinArguments = TokenOverridable & {
+}
+export interface ChannelsJoinArguments extends WebAPICallOptions, TokenOverridable {
   name: string;
   validate?: boolean;
-};
-export type ChannelsKickArguments = TokenOverridable & {
+}
+export interface ChannelsKickArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   user: string;
-};
-export type ChannelsLeaveArguments = TokenOverridable & {
+}
+export interface ChannelsLeaveArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-};
-export type ChannelsListArguments = TokenOverridable & CursorPaginationEnabled & {
+}
+export interface ChannelsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   exclude_archived: boolean;
   exclude_members: boolean;
-};
+}
 cursorPaginationEnabledMethods.add('channels.list');
-export type ChannelsMarkArguments = TokenOverridable & {
+export interface ChannelsMarkArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   ts: string;
-};
-export type ChannelsRenameArguments = TokenOverridable & {
+}
+export interface ChannelsRenameArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   name: string;
   validate?: boolean;
-};
-export type ChannelsRepliesArguments = TokenOverridable & {
+}
+export interface ChannelsRepliesArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   thread_ts: string;
-};
-export type ChannelsSetPurposeArguments = TokenOverridable & {
+}
+export interface ChannelsSetPurposeArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   purpose: string;
-};
-export type ChannelsSetTopicArguments = TokenOverridable & {
+}
+export interface ChannelsSetTopicArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   topic: string;
-};
-export type ChannelsUnarchiveArguments = TokenOverridable & {
+}
+export interface ChannelsUnarchiveArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-};
+}
 
   /*
    * `chat.*`
    */
-export type ChatDeleteArguments = TokenOverridable & {
+export interface ChatDeleteArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   ts: string;
-  as_user?: boolean
-};
-export type ChatGetPermalinkArguments = TokenOverridable & {
+  as_user?: boolean;
+}
+export interface ChatGetPermalinkArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   message_ts: string;
-};
-export type ChatMeMessageArguments = TokenOverridable & {
+}
+export interface ChatMeMessageArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   text: string;
-};
-export type ChatPostEphemeralArguments = TokenOverridable & {
+}
+export interface ChatPostEphemeralArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   text: string;
   user: string;
@@ -167,8 +163,8 @@ export type ChatPostEphemeralArguments = TokenOverridable & {
   blocks?: (KnownBlock | Block)[];
   link_names?: boolean;
   parse?: 'full' | 'none';
-};
-export type ChatPostMessageArguments = TokenOverridable & {
+}
+export interface ChatPostMessageArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   text: string;
   as_user?: boolean;
@@ -184,16 +180,16 @@ export type ChatPostMessageArguments = TokenOverridable & {
   unfurl_links?: boolean;
   unfurl_media?: boolean;
   username?: string; // if specified, as_user must be false
-};
-export type ChatUnfurlArguments = TokenOverridable & {
+}
+export interface ChatUnfurlArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   ts: string;
   unfurls: LinkUnfurls;
   user_auth_message?: string;
   user_auth_required?: boolean;
   user_auth_url?: string;
-};
-export type ChatUpdateArguments = TokenOverridable & {
+}
+export interface ChatUpdateArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   text: string;
   ts: string;
@@ -202,131 +198,133 @@ export type ChatUpdateArguments = TokenOverridable & {
   blocks?: (KnownBlock | Block)[];
   link_names?: boolean;
   parse?: 'full' | 'none';
-};
+}
 
   /*
    * `conversations.*`
    */
-export type ConversationsArchiveArguments = TokenOverridable & {
+export interface ConversationsArchiveArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-};
-export type ConversationsCloseArguments = TokenOverridable & {
+}
+export interface ConversationsCloseArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-};
-export type ConversationsCreateArguments = TokenOverridable & {
+}
+export interface ConversationsCreateArguments extends WebAPICallOptions, TokenOverridable {
   name: string;
   is_private?: boolean;
-};
-export type ConversationsHistoryArguments = TokenOverridable & CursorPaginationEnabled & TimelinePaginationEnabled & {
+}
+export interface ConversationsHistoryArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled,
+  TimelinePaginationEnabled {
   channel: string;
-};
+}
 cursorPaginationEnabledMethods.add('conversations.history');
-export type ConversationsInfoArguments = TokenOverridable & LocaleAware & {
+export interface ConversationsInfoArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
   channel: string;
-};
-export type ConversationsInviteArguments = TokenOverridable & {
+}
+export interface ConversationsInviteArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   users: string; // comma-separated list of users
-};
-export type ConversationsJoinArguments = TokenOverridable & {
+}
+export interface ConversationsJoinArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-};
-export type ConversationsKickArguments = TokenOverridable & {
+}
+export interface ConversationsKickArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   user: string;
-};
-export type ConversationsLeaveArguments = TokenOverridable & {
+}
+export interface ConversationsLeaveArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-};
-export type ConversationsListArguments = TokenOverridable & CursorPaginationEnabled & {
+}
+export interface ConversationsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   exclude_archived?: boolean;
   types?: string; // comma-separated list of conversation types
-};
+}
 cursorPaginationEnabledMethods.add('conversations.list');
-export type ConversationsMembersArguments = TokenOverridable & CursorPaginationEnabled & {
+export interface ConversationsMembersArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   channel: string;
-};
+}
 cursorPaginationEnabledMethods.add('conversations.members');
-export type ConversationsOpenArguments = TokenOverridable & {
+export interface ConversationsOpenArguments extends WebAPICallOptions, TokenOverridable {
   channel?: string;
   users?: string; // comma-separated list of users
   return_im?: boolean;
-};
-export type ConversationsRenameArguments = TokenOverridable & {
+}
+export interface ConversationsRenameArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   name: string;
-};
-export type ConversationsRepliesArguments = TokenOverridable & CursorPaginationEnabled & TimelinePaginationEnabled & {
+}
+export interface ConversationsRepliesArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled,
+  TimelinePaginationEnabled {
   channel: string;
   ts: string;
-};
+}
 cursorPaginationEnabledMethods.add('conversations.replies');
-export type ConversationsSetPurposeArguments = TokenOverridable & {
+export interface ConversationsSetPurposeArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   purpose: string;
-};
-export type ConversationsSetTopicArguments = TokenOverridable & {
+}
+export interface ConversationsSetTopicArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   topic: string;
-};
-export type ConversationsUnarchiveArguments = TokenOverridable & {
+}
+export interface ConversationsUnarchiveArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-};
+}
 
   /*
    * `dialog.*`
    */
-export type DialogOpenArguments = TokenOverridable & {
+export interface DialogOpenArguments extends WebAPICallOptions, TokenOverridable {
   trigger_id: string;
   dialog: Dialog;
-};
+}
 
   /*
    * `dnd.*`
    */
-export type DndEndDndArguments = TokenOverridable;
-export type DndEndSnoozeArguments = TokenOverridable;
-export type DndInfoArguments = TokenOverridable & {
+export interface DndEndDndArguments extends WebAPICallOptions, TokenOverridable {}
+export interface DndEndSnoozeArguments extends WebAPICallOptions, TokenOverridable {}
+export interface DndInfoArguments extends WebAPICallOptions, TokenOverridable {
   user: string;
-};
-export type DndSetSnoozeArguments = TokenOverridable & {
+}
+export interface DndSetSnoozeArguments extends WebAPICallOptions, TokenOverridable {
   num_minutes: number;
-};
-export type DndTeamInfoArguments = TokenOverridable & {
+}
+export interface DndTeamInfoArguments extends WebAPICallOptions, TokenOverridable {
   users?: string; // comma-separated list of users
-};
+}
 
   /*
    * `emoji.*`
    */
-export type EmojiListArguments = TokenOverridable;
+export interface EmojiListArguments extends WebAPICallOptions, TokenOverridable {}
 
   /*
    * `files.*`
    */
-export type FilesDeleteArguments = TokenOverridable & {
+export interface FilesDeleteArguments extends WebAPICallOptions, TokenOverridable {
   file: string; // file id
-};
-export type FilesInfoArguments = TokenOverridable & CursorPaginationEnabled & {
+}
+export interface FilesInfoArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   file: string; // file id
   count?: number;
   page?: number;
-};
+}
 cursorPaginationEnabledMethods.add('files.info');
-export type FilesListArguments = TokenOverridable & TraditionalPagingEnabled & {
+export interface FilesListArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled {
   channel?: string;
   user?: string;
   ts_from?: string;
   ts_to?: string;
   types?: string; // comma-separated list of file types
-};
-export type FilesRevokePublicURLArguments = TokenOverridable & {
+}
+export interface FilesRevokePublicURLArguments extends WebAPICallOptions, TokenOverridable {
   file: string; // file id
-};
-export type FilesSharedPublicURLArguments = TokenOverridable & {
+}
+export interface FilesSharedPublicURLArguments extends WebAPICallOptions, TokenOverridable {
   file: string; // file id
-};
-export type FilesUploadArguments = TokenOverridable & {
+}
+export interface FilesUploadArguments extends WebAPICallOptions, TokenOverridable {
   channels?: string; // comma-separated list of channels
   content?: string; // if absent, must provide `file`
   file?: Buffer | Stream; // if absent, must provide `content`
@@ -335,135 +333,135 @@ export type FilesUploadArguments = TokenOverridable & {
   initial_comment?: string;
   title?: string;
   thread_ts?: string; // if specified, `channels` must be set
-};
-export type FilesCommentsDeleteArguments = TokenOverridable & {
+}
+export interface FilesCommentsDeleteArguments extends WebAPICallOptions, TokenOverridable {
   file: string; // file id
   id: string; // comment id
-};
+}
 
   /*
    * `groups.*`
    */
-export type GroupsArchiveArguments = TokenOverridable & {
+export interface GroupsArchiveArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-};
-export type GroupsCreateArguments = TokenOverridable & {
+}
+export interface GroupsCreateArguments extends WebAPICallOptions, TokenOverridable {
   name: string;
   validate?: boolean;
-};
-export type GroupsCreateChildArguments = TokenOverridable & {
+}
+export interface GroupsCreateChildArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-};
-export type GroupsHistoryArguments = TokenOverridable & TimelinePaginationEnabled & {
+}
+export interface GroupsHistoryArguments extends WebAPICallOptions, TokenOverridable, TimelinePaginationEnabled {
   channel: string;
   unreads?: boolean;
   count?: number;
-};
-export type GroupsInfoArguments = TokenOverridable & LocaleAware & {
+}
+export interface GroupsInfoArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
   channel: string;
-};
-export type GroupsInviteArguments = TokenOverridable & {
-  channel: string;
-  user: string;
-};
-export type GroupsKickArguments = TokenOverridable & {
+}
+export interface GroupsInviteArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   user: string;
-};
-export type GroupsLeaveArguments = TokenOverridable & {
+}
+export interface GroupsKickArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-};
-export type GroupsListArguments = TokenOverridable & CursorPaginationEnabled & {
+  user: string;
+}
+export interface GroupsLeaveArguments extends WebAPICallOptions, TokenOverridable {
+  channel: string;
+}
+export interface GroupsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   exclude_archived?: boolean;
   exclude_members?: boolean;
-};
+}
 cursorPaginationEnabledMethods.add('groups.list');
-export type GroupsMarkArguments = TokenOverridable & {
+export interface GroupsMarkArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   ts: string;
-};
-export type GroupsOpenArguments = TokenOverridable & {
+}
+export interface GroupsOpenArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-};
-export type GroupsRenameArguments = TokenOverridable & {
+}
+export interface GroupsRenameArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   name: string;
   validate?: boolean;
-};
-export type GroupsRepliesArguments = TokenOverridable & {
+}
+export interface GroupsRepliesArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   thread_ts: boolean;
-};
-export type GroupsSetPurposeArguments = TokenOverridable & {
+}
+export interface GroupsSetPurposeArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   purpose: string;
-};
-export type GroupsSetTopicArguments = TokenOverridable & {
+}
+export interface GroupsSetTopicArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   topic: string;
-};
-export type GroupsUnarchiveArguments = TokenOverridable & {
+}
+export interface GroupsUnarchiveArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-};
+}
 
   /*
    * `im.*`
    */
-export type IMCloseArguments = TokenOverridable & {
+export interface IMCloseArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-};
-export type IMHistoryArguments = TokenOverridable & TimelinePaginationEnabled & {
+}
+export interface IMHistoryArguments extends WebAPICallOptions, TokenOverridable, TimelinePaginationEnabled {
   channel: string;
   count?: number;
   unreads?: boolean;
-};
-export type IMListArguments = TokenOverridable & CursorPaginationEnabled;
+}
+export interface IMListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {}
 cursorPaginationEnabledMethods.add('im.list');
-export type IMMarkArguments = TokenOverridable & {
+export interface IMMarkArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   ts: string;
-};
-export type IMOpenArguments = TokenOverridable & LocaleAware & {
+}
+export interface IMOpenArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
   user: string;
   return_im?: boolean;
-};
-export type IMRepliesArguments = TokenOverridable & {
+}
+export interface IMRepliesArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   thread_ts?: string;
-};
+}
 
   /*
    * `migration.*`
    */
-export type MigrationExchangeArguments = TokenOverridable & {
+export interface MigrationExchangeArguments extends WebAPICallOptions, TokenOverridable {
   users: string; // comma-separated list of users
   to_old?: boolean;
-};
+}
 
   /*
    * `mpim.*`
    */
-export type MPIMCloseArguments = TokenOverridable & {
+export interface MPIMCloseArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-};
-export type MPIMHistoryArguments = TokenOverridable & TimelinePaginationEnabled & {
+}
+export interface MPIMHistoryArguments extends WebAPICallOptions, TokenOverridable, TimelinePaginationEnabled {
   channel: string;
   count?: number;
   unreads?: boolean;
-};
-export type MPIMListArguments = TokenOverridable & CursorPaginationEnabled;
+}
+export interface MPIMListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {}
 cursorPaginationEnabledMethods.add('mpim.list');
-export type MPIMMarkArguments = TokenOverridable & {
+export interface MPIMMarkArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   ts: string;
-};
-export type MPIMOpenArguments = TokenOverridable & {
+}
+export interface MPIMOpenArguments extends WebAPICallOptions, TokenOverridable {
   users: string; // comma-separated list of users
-};
-export type MPIMRepliesArguments = TokenOverridable & {
+}
+export interface MPIMRepliesArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   thread_ts: string;
-};
+}
 
   /*
    * `oauth.*`
@@ -478,227 +476,231 @@ export interface OAuthAccessArguments {
   /*
    * `pins.*`
    */
-export type PinsAddArguments = TokenOverridable & {
+export interface PinsAddArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   // must supply one of:
   file?: string; // file id
   file_comment?: string;
   timestamp?: string;
-};
-export type PinsListArguments = TokenOverridable & {
+}
+export interface PinsListArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-};
-export type PinsRemoveArguments = TokenOverridable & {
+}
+export interface PinsRemoveArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   // must supply one of:
   file?: string; // file id
   file_comment?: string;
   timestamp?: string;
-};
+}
 
   /*
    * `reactions.*`
    */
-export type ReactionsAddArguments = TokenOverridable & {
+export interface ReactionsAddArguments extends WebAPICallOptions, TokenOverridable {
   name: string;
   // must supply one of:
   channel?: string; // paired with timestamp
   timestamp?: string; // paired with channel
   file?: string; // file id
   file_comment?: string;
-};
-export type ReactionsGetArguments = TokenOverridable & {
+}
+export interface ReactionsGetArguments extends WebAPICallOptions, TokenOverridable {
   full?: boolean;
   // must supply one of:
   channel?: string; // paired with timestamp
   timestamp?: string; // paired with channel
   file?: string; // file id
   file_comment?: string;
-};
-export type ReactionsListArguments = TokenOverridable & TraditionalPagingEnabled & CursorPaginationEnabled & {
+}
+export interface ReactionsListArguments extends WebAPICallOptions, TokenOverridable,  TraditionalPagingEnabled,
+  CursorPaginationEnabled {
   user?: string;
   full?: boolean;
-};
+}
 cursorPaginationEnabledMethods.add('reactions.list');
-export type ReactionsRemoveArguments = TokenOverridable & {
+export interface ReactionsRemoveArguments extends WebAPICallOptions, TokenOverridable {
   name: string;
   // must supply one of:
   channel?: string; // paired with timestamp
   timestamp?: string; // paired with channel
   file?: string; // file id
   file_comment?: string;
-};
+}
 
   /*
    * `reminders.*`
    */
-export type RemindersAddArguments = TokenOverridable & {
+export interface RemindersAddArguments extends WebAPICallOptions, TokenOverridable {
   text: string;
   time: string | number;
   user?: string;
-};
-export type RemindersCompleteArguments = TokenOverridable & {
+}
+export interface RemindersCompleteArguments extends WebAPICallOptions, TokenOverridable {
   reminder: string;
-};
-export type RemindersDeleteArguments = TokenOverridable & {
+}
+export interface RemindersDeleteArguments extends WebAPICallOptions, TokenOverridable {
   reminder: string;
-};
-export type RemindersInfoArguments = TokenOverridable & {
+}
+export interface RemindersInfoArguments extends WebAPICallOptions, TokenOverridable {
   reminder: string;
-};
-export type RemindersListArguments = TokenOverridable;
+}
+export interface RemindersListArguments extends WebAPICallOptions, TokenOverridable {}
 
   /*
    * `rtm.*`
    */
-export type RTMConnectArguments = TokenOverridable & {
+export interface RTMConnectArguments extends WebAPICallOptions, TokenOverridable {
   batch_presence_aware?: boolean;
   presence_sub?: boolean;
-};
-export type RTMStartArguments = TokenOverridable & LocaleAware & {
+}
+export interface RTMStartArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
   batch_presence_aware?: boolean;
   mpim_aware?: boolean;
   no_latest?: '0' | '1';
   no_unreads?: string;
   presence_sub?: boolean;
   simple_latest?: boolean;
-};
+}
 
   /*
    * `search.*`
    */
-export type SearchAllArguments = TokenOverridable & TraditionalPagingEnabled & Searchable;
-export type SearchFilesArguments = TokenOverridable & TraditionalPagingEnabled & Searchable;
-export type SearchMessagesArguments = TokenOverridable & TraditionalPagingEnabled & Searchable;
+export interface SearchAllArguments extends WebAPICallOptions, TokenOverridable,  TraditionalPagingEnabled,
+  Searchable {}
+export interface SearchFilesArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled,
+  Searchable {}
+export interface SearchMessagesArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled,
+  Searchable {}
 
   /*
    * `stars.*`
    */
-export type StarsAddArguments = TokenOverridable & {
+export interface StarsAddArguments extends WebAPICallOptions, TokenOverridable {
   // must supply one of:
   channel?: string; // paired with `timestamp`
   timestamp?: string; // paired with `channel`
   file?: string; // file id
   file_comment?: string;
-};
-export type StarsListArguments = TokenOverridable & TraditionalPagingEnabled & CursorPaginationEnabled;
+}
+export interface StarsListArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled,
+  CursorPaginationEnabled {}
 cursorPaginationEnabledMethods.add('stars.list');
-export type StarsRemoveArguments = TokenOverridable & {
+export interface StarsRemoveArguments extends WebAPICallOptions, TokenOverridable {
   // must supply one of:
   channel?: string; // paired with `timestamp`
   timestamp?: string; // paired with `channel`
   file?: string; // file id
   file_comment?: string;
-};
+}
 
   /*
    * `team.*`
    */
-export type TeamAccessLogsArguments = TokenOverridable & {
+export interface TeamAccessLogsArguments extends WebAPICallOptions, TokenOverridable {
   before?: number;
   count?: number;
   page?: number;
-};
-export type TeamBillableInfoArguments = TokenOverridable & {
+}
+export interface TeamBillableInfoArguments extends WebAPICallOptions, TokenOverridable {
   user?: string;
-};
-export type TeamInfoArguments = TokenOverridable;
-export type TeamIntegrationLogsArguments = TokenOverridable & {
+}
+export interface TeamInfoArguments extends WebAPICallOptions, TokenOverridable {}
+export interface TeamIntegrationLogsArguments extends WebAPICallOptions, TokenOverridable {
   app_id?: string;
   change_type?: string; // TODO: list types: 'x' | 'y' | 'z'
   count?: number;
   page?: number;
   service_id?: string;
   user?: string;
-};
-export type TeamProfileGetArguments = TokenOverridable & {
+}
+export interface TeamProfileGetArguments extends WebAPICallOptions, TokenOverridable {
   visibility?: 'all' | 'visible' | 'hidden';
-};
+}
 
   /*
    * `usergroups.*`
    */
-export type UsergroupsCreateArguments = TokenOverridable & {
+export interface UsergroupsCreateArguments extends WebAPICallOptions, TokenOverridable {
   name: string;
   channels?: string; // comma-separated list of channels
   description?: string;
   handle?: string;
   include_count?: boolean;
-};
-export type UsergroupsDisableArguments = TokenOverridable & {
+}
+export interface UsergroupsDisableArguments extends WebAPICallOptions, TokenOverridable {
   usergroup: string;
   include_count?: boolean;
-};
-export type UsergroupsEnableArguments = TokenOverridable & {
+}
+export interface UsergroupsEnableArguments extends WebAPICallOptions, TokenOverridable {
   usergroup: string;
   include_count?: boolean;
-};
-export type UsergroupsListArguments = TokenOverridable & {
+}
+export interface UsergroupsListArguments extends WebAPICallOptions, TokenOverridable {
   include_count?: boolean;
   include_disabled?: boolean;
   include_users?: boolean;
-};
-export type UsergroupsUpdateArguments = TokenOverridable & {
+}
+export interface UsergroupsUpdateArguments extends WebAPICallOptions, TokenOverridable {
   usergroup: string;
   channels?: string; // comma-separated list of channels
   description?: string;
   handle?: string;
   include_count?: boolean;
   name?: string;
-};
-export type UsergroupsUsersListArguments = TokenOverridable & {
+}
+export interface UsergroupsUsersListArguments extends WebAPICallOptions, TokenOverridable {
   usergroup: string;
   include_disabled?: boolean;
-};
-export type UsergroupsUsersUpdateArguments = TokenOverridable & {
+}
+export interface UsergroupsUsersUpdateArguments extends WebAPICallOptions, TokenOverridable {
   usergroup: string;
   users: string; // comma-separated list of users
   include_count?: boolean;
-};
+}
 
   /*
    * `users.*`
    */
-export type UsersConversationsArguments = TokenOverridable & CursorPaginationEnabled & {
+export interface UsersConversationsArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   exclude_archived?: boolean;
   types?: string; // comma-separated list of conversation types
   user?: string;
-};
+}
 cursorPaginationEnabledMethods.add('users.conversations');
-export type UsersDeletePhotoArguments = TokenOverridable;
-export type UsersGetPresenceArguments = TokenOverridable & {
+export interface UsersDeletePhotoArguments extends WebAPICallOptions, TokenOverridable {}
+export interface UsersGetPresenceArguments extends WebAPICallOptions, TokenOverridable {
   user: string;
-};
-export type UsersIdentityArguments = TokenOverridable;
-export type UsersInfoArguments = TokenOverridable & LocaleAware & {
+}
+export interface UsersIdentityArguments extends WebAPICallOptions, TokenOverridable {}
+export interface UsersInfoArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
   user: string;
-};
-export type UsersListArguments = TokenOverridable & CursorPaginationEnabled & LocaleAware & {
+}
+export interface UsersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled, LocaleAware {
   presence?: boolean; // deprecated, defaults to false
-};
+}
 cursorPaginationEnabledMethods.add('users.list');
-export type UsersLookupByEmailArguments = TokenOverridable & {
+export interface UsersLookupByEmailArguments extends WebAPICallOptions, TokenOverridable {
   email: string;
-};
-export type UsersSetActiveArguments = TokenOverridable; // deprecated & being removed may 8, 2018
-export type UsersSetPhotoArguments = TokenOverridable & {
+}
+export interface UsersSetPhotoArguments extends WebAPICallOptions, TokenOverridable {
   image: Buffer | Stream;
   crop_w?: number;
   crop_x?: number;
   crop_y?: number;
-};
-export type UsersSetPresenceArguments = TokenOverridable & {
+}
+export interface UsersSetPresenceArguments extends WebAPICallOptions, TokenOverridable {
   presence: 'auto' | 'away';
-};
-export type UsersProfileGetArguments = TokenOverridable & {
+}
+export interface UsersProfileGetArguments extends WebAPICallOptions, TokenOverridable {
   include_labels?: boolean;
   user?: string;
-};
-export type UsersProfileSetArguments = TokenOverridable & {
+}
+export interface UsersProfileSetArguments extends WebAPICallOptions, TokenOverridable {
   profile?: string; // url-encoded json
   user?: string;
   name?: string; // usable if `profile` is not passed
   value?: string; // usable if `profile` is not passed
-};
+}
 
 export * from '@slack/types';
