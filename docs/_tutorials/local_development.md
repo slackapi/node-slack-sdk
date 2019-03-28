@@ -51,7 +51,7 @@ You'll need your token to use any of the [Web API methods](https://api.slack.com
 ## Setting up interactive components
 If you want to use features like buttons, select menus, datepickers, dialogs, or message actions, you'll need to enable interactivity.
 
-> Interactive components use the `@slack/interactive-messages` package
+> The `@slack/interactive-messages` package is used for Interactive Components
 
 Start by clicking **Interactive Components** on the left sidebar. Once you flip the switch, you'll see a textbox labeled **Request URL**.
 
