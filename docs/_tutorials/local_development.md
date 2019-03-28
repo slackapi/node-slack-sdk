@@ -107,7 +107,7 @@ The path and port values are optional. If your request URL includes a different 
 Now that you've verified your endpoint, you can add events.
 
 ### Adding event subscriptions
-On the **Event Subscriptions** page, you can add each event your want your app to subscribe to. In the tables below, you may add Workspace events and Bot events. 
+On the **Event Subscriptions** page, you can add each event you want your app to subscribe to. In the tables below, you may add Workspace events and Bot events. 
 
 Most events require additional scopes (for example, the `reaction_added` event requires the `reactions:read` scope). You can add scopes to your app on the **OAuth & Permissions** page.
 
