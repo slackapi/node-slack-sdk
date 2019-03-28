@@ -21,9 +21,20 @@ Describe your issue here.
 
 Filling out the following details about bugs will help us solve your issue sooner.
 
+#### Packages:
+
+Select all that apply:
+
+- [ ] `@slack/web-api`
+- [ ] `@slack/events-api`
+- [ ] `@slack/interactive-messages`
+- [ ] `@slack/rtm-api`
+- [ ] `@slack/webhooks`
+- [ ] I don't know
+
 #### Reproducible in:
 
-`@slack/client` version:
+package version:
 
 node version:
 
