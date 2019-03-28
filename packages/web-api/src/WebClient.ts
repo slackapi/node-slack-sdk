@@ -318,10 +318,17 @@ export class WebClient extends EventEmitter<WebClientEvent> {
    */
   public readonly chat = {
     delete: (this.apiCall.bind(this, 'chat.delete')) as Method<methods.ChatDeleteArguments>,
+    deleteScheduledMessage:
+      (this.apiCall.bind(this, 'chat.deleteScheduledMessage')) as Method<methods.ChatDeleteScheduledMessageArguments>,
     getPermalink: (this.apiCall.bind(this, 'chat.getPermalink')) as Method<methods.ChatGetPermalinkArguments>,
     meMessage: (this.apiCall.bind(this, 'chat.meMessage')) as Method<methods.ChatMeMessageArguments>,
     postEphemeral: (this.apiCall.bind(this, 'chat.postEphemeral')) as Method<methods.ChatPostEphemeralArguments>,
     postMessage: (this.apiCall.bind(this, 'chat.postMessage')) as Method<methods.ChatPostMessageArguments>,
+    scheduleMessage: (this.apiCall.bind(this, 'chat.scheduleMessage')) as Method<methods.ChatScheduleMessageArguments>,
+    scheduledMessages: {
+      list:
+        (this.apiCall.bind(this, 'chat.scheduledMessages.list')) as Method<methods.ChatScheduledMessagesListArguments>,
+    },
     unfurl: (this.apiCall.bind(this, 'chat.unfurl')) as Method<methods.ChatUnfurlArguments>,
     update: (this.apiCall.bind(this, 'chat.update')) as Method<methods.ChatUpdateArguments>,
   };

@@ -146,6 +146,11 @@ export interface ChatDeleteArguments extends WebAPICallOptions, TokenOverridable
   ts: string;
   as_user?: boolean;
 }
+export interface ChatDeleteScheduledMessageArguments extends WebAPICallOptions, TokenOverridable {
+  channel: string;
+  scheduled_message_id: string;
+  as_user?: boolean;
+}
 export interface ChatGetPermalinkArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   message_ts: string;
@@ -180,6 +185,26 @@ export interface ChatPostMessageArguments extends WebAPICallOptions, TokenOverri
   unfurl_links?: boolean;
   unfurl_media?: boolean;
   username?: string; // if specified, as_user must be false
+}
+export interface ChatScheduleMessageArguments extends WebAPICallOptions, TokenOverridable {
+  channel: string;
+  text: string;
+  post_at: string;
+  as_user?: boolean;
+  attachments?: MessageAttachment[];
+  blocks?: (KnownBlock | Block)[];
+  link_names?: boolean;
+  parse?: 'full' | 'none';
+  reply_broadcast?: boolean; // if specified, thread_ts must be set
+  thread_ts?: string;
+  unfurl_links?: boolean;
+  unfurl_media?: boolean;
+}
+export interface ChatScheduledMessagesListArguments extends WebAPICallOptions, TokenOverridable,
+  CursorPaginationEnabled {
+  channel: string;
+  latest: number;
+  oldest: number;
 }
 export interface ChatUnfurlArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
