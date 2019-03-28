@@ -141,7 +141,7 @@ error you're dealing with. For example, when Slack responds to your app with an 
 
 ```javascript
 // Import ErrorCode from the package
-const { WebClient, ErrorCode } = require('@slack/client');
+const { WebClient, ErrorCode } = require('@slack/web-api');
 
 (async () => {
 

@@ -57,7 +57,7 @@ picky. After you're done, you'll have a new `package.json` file in your director
 Install the `@slack/web-api` package and save it to your `package.json` dependencies using the following command:
 
 ```shell
-$ npm install @slack/client
+$ npm install @slack/web-api
 ```
 
 Create a new file called `tutorial.js` in this directory and add the following code:
