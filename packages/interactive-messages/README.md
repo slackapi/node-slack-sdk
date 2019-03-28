@@ -476,6 +476,14 @@ additional features of the `SlackMessageAdapter`:
 
 ---
 
+## Examples
+
+*  [Express All Interactions](../../examples/express-all-interactions) - A ready to run sample app that creates and responds
+   to buttons, menus, and dialogs. It also demonstrates a menu with dynamic options. It is built on top of the
+   [Express](https://expressjs.com) web framework.
+
+---
+
 ## Requirements
 
 This package supports Node v8 LTS and higher. It's highly recommended to use [the latest LTS version of

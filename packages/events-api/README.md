@@ -305,6 +305,15 @@ the `SlackEventAdapter`:
 
 ---
 
+## Examples
+
+*  [Greet And React](../../examples/greet-and-react) - A ready to run sample app that listens for messages and emoji
+   reactions, and responds to them. It is built on top of the [Express](https://expressjs.com) web framework. It also
+   implements [OAuth](https://api.slack.com/docs/oauth) to demonstrate how an app can handle installation to additional
+   workspaces and be structured to handle events from multiple workspaces.
+
+---
+
 ## Requirements
 
 This package supports Node v8 LTS and higher. It's highly recommended to use [the latest LTS version of

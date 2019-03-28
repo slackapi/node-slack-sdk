@@ -191,32 +191,6 @@ the list, or a page, and also provide you with information on how to continue to
 Instead of calling many times manually, the `WebClient` can manage getting each page, allowing you to determine when to
 stop, and help you process the results.
 
-```javascript
-(async () => {
-
-  // The first two parameters are the method name and the options object.
-  const done = await web.paginate('something.list', { name: 'value' },
-    // The third is a function that receives each page and should return true when the next page isn't needed.
-    (page) => { /* ... */ },
-    // The fourth is a reducer function, similar to the callback parameter of Array.prototype.reduce().
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
-    // The accumulator is initialized to undefined.
-    (accumulator, page, index) => { /* ... */ },
-  );
-});
-```
-
-The returned value is a `Promise`, but what it resolves to depends on whether or not you include the fourth (optional)
-parameter. If you don't include it, the resolved value is always `undefined`. In this case, its used for control flow
-purposes (resuming the rest of your program), and the function in the third parameter is used to capture a result. If
-you do include the fourth parameter, then the resolved value is the value of the `accumulator`. This is a familiar
-pattern for people that use _functional programming_.
-
-<details>
-<summary markdown="span">
-<strong><i>Using asynchronous iteration</i></strong>
-</summary>
-
 The process of retrieving multiple pages from Slack's API can be described as **asynchronous iteration**, which means
 you're processing items in a collection, but getting each item is an asynchronous operation. Fortunately, JavaScript
 has this concept built in, and in newer versions of the language there's syntax to make it even simpler:
@@ -238,7 +212,41 @@ has this concept built in, and in newer versions of the language there's syntax 
 });
 ```
 
-The `for await...of` syntax is available in Node v10.0.0 and above.
+The `for await...of` syntax is available in Node v10.0.0 and above. If you're using an older version of Node, see
+functional iteration below.
+
+<details>
+<summary markdown="span">
+<strong><i>Using functional iteration</i></strong>
+</summary>
+
+The `.paginate()` method can accept up to two additional parameters. The third parameter, `stopFn`, is a function that
+is called once for each page of the result, and should return `true` when the app no longer needs to get another page.
+The fourth parameter is `reducerFn`, which is a function that gets called once for each page of the result, but can
+be used to aggregate a result. The value it returns is used to call it the next time as the `accumulator`. The first
+time it gets called, the `accumulator` is undefined.
+
+```javascript
+(async () => {
+
+  // The first two parameters are the method name and the options object.
+  const done = await web.paginate('something.list', { name: 'value' },
+    // The third is a function that receives each page and should return true when the next page isn't needed.
+    (page) => { /* ... */ },
+    // The fourth is a reducer function, similar to the callback parameter of Array.prototype.reduce().
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
+    // The accumulator is initialized to undefined.
+    (accumulator, page, index) => { /* ... */ },
+  );
+});
+```
+
+The returned value is a `Promise`, but what it resolves to depends on whether or not you include the fourth (optional)
+parameter. If you don't include it, the resolved value is always `undefined`. In this case, its used for control flow
+purposes (resuming the rest of your program), and the function in the third parameter is used to capture a result. If
+you do include the fourth parameter, then the resolved value is the value of the `accumulator`. This is a familiar
+pattern for people that use _functional programming_.
+
 </details>
 
 ---
