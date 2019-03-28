@@ -10,6 +10,17 @@ This tutorial is meant to guide developers through setting up and configuring a 
 
 Feel free to skip around to the specfic sections relevant to you — we won't mind 🙂
 
+- [Create an app](#create-an-app)
+- [Tokens and installing apps](#tokens-and-installing-apps)
+- [Setting up interactive components](#setting-up-interactive-components)
+  - [What is a Request URL?](#what-is-a-request-URL)
+  - [Using a local Request URL for development](#using-a-local-request-URL-for-development)
+  - [Add Request URL to your app configuration](#add-the-URL-to-your-app-configuration)
+- [Listening to workspace events](#listening-to-workspace-events)
+  - [Verifying your local endpoint](#verifying-your-local-endpoint)
+  - [Adding event subscriptions](#adding-event-subscriptions)
+- [Next steps](#next-steps)
+
 
 ## Create an app
 First thing's first: before you start developing a Slack app, you'll need to [create an app](https://api.slack.com/apps/new). After you fill out an App Name (_you can change it later_) and picking a workspace to install it to, hit the `Create App` button and you'll be transported through space and time to the **Basic Information** page.
