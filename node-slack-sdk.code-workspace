@@ -48,7 +48,8 @@
 		"editor.tabSize": 2,
 		"typescript.tsdk": "RTM API/node_modules/typescript/lib",
 		"cSpell.words": [
-			"Overridable"
+			"Overridable",
+			"workspaces"
 		],
 	}
 }
