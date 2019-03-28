@@ -1,8 +1,8 @@
 // Load environment variables from `.env` file (optional)
 require('dotenv').config();
 
-const slackEventsApi = require('@slack/events-api');
-const SlackClient = require('@slack/client').WebClient;
+const { createEventAdapter } = require('@slack/events-api');
+const { WebClient } = require('@slack/web-api');
 const passport = require('passport');
 const LocalStorage = require('node-localstorage').LocalStorage;
 const SlackStrategy = require('@aoberoi/passport-slack').default.Strategy;
@@ -10,7 +10,7 @@ const http = require('http');
 const express = require('express');
 
 // *** Initialize event adapter using signing secret from environment variables ***
-const slackEvents = slackEventsApi.createEventAdapter(process.env.SLACK_SIGNING_SECRET, {
+const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET, {
   includeBody: true
 });
 
@@ -25,7 +25,7 @@ const botAuthorizationStorage = new LocalStorage('./storage');
 const clients = {};
 function getClientByTeamId(teamId) {
   if (!clients[teamId] && botAuthorizationStorage.getItem(teamId)) {
-    clients[teamId] = new SlackClient(botAuthorizationStorage.getItem(teamId));
+    clients[teamId] = new WebClient(botAuthorizationStorage.getItem(teamId));
   }
   if (clients[teamId]) {
     return clients[teamId];
@@ -79,9 +79,15 @@ slackEvents.on('message', (message, body) => {
     if (!slack) {
       return console.error('No authorization found for this team. Did you install the app through the url provided by ngrok?');
     }
-    // Respond to the message back in the same channel
-    slack.chat.postMessage({ channel: message.channel, text: `Hello <@${message.user}>! :tada:` })
-      .catch(console.error);
+
+    (async () => {
+      try {
+        // Respond to the message back in the same channel
+        const response = await slack.chat.postMessage({ channel: message.channel, text: `Hello <@${message.user}>! :tada:` });
+      } catch (error) {
+        console.log(error.data);
+      }
+    })();
   }
 });
 
@@ -94,8 +100,15 @@ slackEvents.on('reaction_added', (event, body) => {
     return console.error('No authorization found for this team. Did you install the app through the url provided by ngrok?');
   }
   // Respond to the reaction back with the same emoji
-  slack.chat.postMessage({ channel: event.item.channel, text: `:${event.reaction}:` })
-    .catch(console.error);
+
+  (async () => {
+    try {
+      // Respond to the message back in the same channel
+      const response = await slack.chat.postMessage({ channel: event.item.channel, text: `:${event.reaction}:` });
+    } catch (error) {
+      console.log(error.data);
+    }
+  })();
 });
 
 // *** Handle errors ***

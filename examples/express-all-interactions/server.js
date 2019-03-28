@@ -1,7 +1,7 @@
 const http = require('http');
 const express = require('express');
 const { createMessageAdapter } = require('@slack/interactive-messages');
-const { WebClient } = require('@slack/client');
+const { WebClient } = require('@slack/web-api');
 const { users, neighborhoods } = require('./models');
 const axios = require('axios');
 const bodyParser = require('body-parser');
@@ -223,14 +223,19 @@ function slackSlashCommand(req, res, next) {
       res.json(interactiveMenu);
     } else if (type === 'dialog') {
       res.send();
-      web.dialog.open({
-        trigger_id: req.body.trigger_id,
-        dialog,
-      }).catch((error) => {
-        return axios.post(req.body.response_url, {
-          text: `An error occurred while opening the dialog: ${error.message}`,
-        });
-      }).catch(console.error);
+      (async () => {
+        try {
+          // Open dialog
+          const response = await web.dialog.open({ 
+            trigger_id: req.body.trigger_id,
+            dialog,
+          });
+        } catch (error) {
+          axios.post(req.body.response_url, {
+            text: `An error occurred while opening the dialog: ${error.message}`,
+          }).catch(console.error);
+        }
+      })();
     } else {
       res.send('Use this command followed by `button`, `menu`, or `dialog`.');
     }
