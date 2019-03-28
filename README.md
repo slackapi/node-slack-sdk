@@ -222,7 +222,8 @@ const token = process.env.SLACK_TOKEN;
 
 // The client is initialized and then started to get an active connection to the platform
 const rtm = new RTMClient(token);
-rtm.start();
+rtm.start()
+  .catch(console.error);
 
 // Calling `rtm.on(eventName, eventHandler)` allows you to handle events (see: https://api.slack.com/events)
 // When the connection is active, the 'ready' event will be triggered

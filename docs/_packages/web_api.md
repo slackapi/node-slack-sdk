@@ -24,7 +24,7 @@ $ npm install @slack/web-api
 ### Initialize the client
 
 The package exports a `WebClient` class. All you need to do is instantiate it, and you're ready to go. You'll typically
-initialize it with a `token`, so that you don't have to use the token each time you call a method. A token usually
+initialize it with a `token`, so that you don't have to provide the token each time you call a method. A token usually
 begins with `xoxb` or `xoxp`. You get them from each workspace an app is installed onto. The app configuration pages
 help you get your first token for your development workspace.
 
@@ -135,7 +135,7 @@ error you're dealing with. For example, when Slack responds to your app with an 
 
 ```javascript
 // Import ErrorCode from the package
-const { WebClient, ErrorCode } = require('@slack/client');
+const { WebClient, ErrorCode } = require('@slack/web-api');
 
 (async () => {
 
@@ -361,7 +361,7 @@ file that is read from disk (as a `ReadableStream`).
 
 ```javascript
 const { createReadStream } = require('fs');
-const { WebClient } = require('@slack/client');
+const { WebClient } = require('@slack/web-api');
 
 const token = process.env.SLACK_TOKEN;
 const web = new WebClient(token);
@@ -408,12 +408,11 @@ Import the `HttpsProxyAgent` class, and create an instance that can be used as t
 ```javascript
 const { WebClient } = require('@slack/web-api');
 const { HttpsProxyAgent } = require('https-proxy-agent');
+const token = process.env.SLACK_TOKEN;
 
 // One of the ways you can configure HttpsProxyAgent is using a simple string.
 // See: https://github.com/TooTallNate/node-https-proxy-agent for more options
-const proxy = process.env.http_proxy || 'http://168.63.76.32:3128';
-
-const token = process.env.SLACK_TOKEN;
+const proxy = new HttpsProxyAgent(process.env.http_proxy || 'http://168.63.76.32:3128');
 
 const web = new WebClient(token, { agent: proxy });
 
@@ -506,7 +505,7 @@ you want (these settings are the most common and useful from the [standard Node
 API](https://nodejs.org/dist/latest/docs/api/tls.html#tls_tls_createsecurecontext_options)).
 
 ```javascript
-const { WebClient } = require('@slack/web-client');
+const { WebClient } = require('@slack/web-api');
 const { readFileSync } = require('fs');
 const token = process.env.SLACK_TOKEN;
 
@@ -534,7 +533,7 @@ certain testing techniques, you might want to send these requests to a different
 you to replace this prefix with another.
 
 ```javascript
-const { WebClient } = require('@slack/web-client');
+const { WebClient } = require('@slack/web-api');
 const token = process.env.SLACK_TOKEN;
 
 const options = {};
@@ -560,7 +559,7 @@ an access token (`token`). You can use an instance of the `WebClient` that has n
 exchange.
 
 ```javascript
-const { WebClient } = require('@slack/web-client');
+const { WebClient } = require('@slack/web-api');
 
 // App credentials found in the Basic Information section of the app configuration
 const clientId = process.env.SLACK_CLIENT_ID;

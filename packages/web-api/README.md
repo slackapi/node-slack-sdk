@@ -1,6 +1,8 @@
 # Slack Web API
 
+<!-- TODO: per-job badge https://github.com/bjfish/travis-matrix-badges/issues/4 -->
 [![Build Status](https://travis-ci.org/slackapi/node-slack-sdk.svg?branch=master)](https://travis-ci.org/slackapi/node-slack-sdk)
+<!-- TODO: per-flag badge https://docs.codecov.io/docs/flags#section-flag-badges-and-graphs -->
 [![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-sdk)
 <!-- TODO: npm versions with scoped packages: https://github.com/rvagg/nodei.co/issues/24 -->
 
@@ -28,7 +30,7 @@ package's website](https://slack.dev/node-slack-sdk/web-api).
 ### Initialize the client
 
 The package exports a `WebClient` class. All you need to do is instantiate it, and you're ready to go. You'll typically
-initialize it with a `token`, so that you don't have to use the token each time you call a method. A token usually
+initialize it with a `token`, so that you don't have to provide the token each time you call a method. A token usually
 begins with `xoxb` or `xoxp`. You get them from each workspace an app is installed onto. The app configuration pages
 help you get your first token for your development workspace.
 
