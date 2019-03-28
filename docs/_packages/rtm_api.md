@@ -291,7 +291,6 @@ the arguments that a listener would receive.
 | `error`         | `(error)` | An error has occurred. See [error handling](#handle-errors) for details. |
 | `slack_event`   | `(eventType, event)` | An incoming Slack event has been received. |
 | `unable_to_rtm_start` | `(error)` | A problem occurred while connecting, a reconnect may or may not occur. |
-| `raw_message`   | `(message)`   | A websocket message arrived. The message is an unparsed string. Use of this event is discouraged since `slack_event` is more useful. |
 
 ---
 
