@@ -1,0 +1,6 @@
+# node / npm stuff
+/node_modules
+/package-lock.json
+
+# build products
+/dist

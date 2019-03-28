@@ -1,92 +1,11 @@
 {
-  "name": "@slack/client",
-  "version": "4.11.0",
-  "description": "Slack Developer Kit - official clients for the Web API, RTM API, and Incoming Webhooks",
-  "author": "Slack Technologies, Inc.",
-  "license": "MIT",
-  "keywords": [
-    "slack",
-    "web-api",
-    "rtm-api",
-    "bot",
-    "chatbot",
-    "client",
-    "http",
-    "websockets",
-    "api"
-  ],
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist/**/*"
-  ],
-  "engines": {
-    "node": ">= 8.9.0",
-    "npm": ">= 5.5.1"
-  },
-  "repository": "slackapi/node-slack-sdk",
-  "bugs": {
-    "url": "https://github.com/slackapi/node-slack-sdk/issues"
-  },
+  "name": "node-slack-sdk",
+  "private": true,
   "scripts": {
-    "prepublish": "npm run build",
-    "lint": "tslint --project .",
-    "test": "npm run build && npm run test:spec && npm run test:integration",
-    "test:spec": "nyc mocha --config src/.mocharc.json src/*.spec.js src/**/*.spec.js",
-    "test:integration:setup": "node test/setup.js",
-    "test:integration": "npm run test:integration:setup && node test/run-tests.js",
-    "coverage": "codecov",
-    "build": "npm run build:clean && tsc",
-    "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
-    "docs": "node support/jsdoc-to-markdown.js",
-    "docs:jsdoc": "ts2jsdoc"
-  },
-  "husky": {
-    "pre-push": "npm run build",
-    "pre-commit": "lint-staged"
-  },
-  "dependencies": {
-    "@types/form-data": "^2.2.1",
-    "@types/is-stream": "^1.1.0",
-    "@types/node": ">=8.9.0",
-    "@types/p-queue": "^2.3.2",
-    "@types/p-retry": "^3.0.0",
-    "@types/ws": "^5.1.1",
-    "axios": "^0.18.0",
-    "eventemitter3": "^3.1.0",
-    "finity": "^0.5.4",
-    "form-data": "^2.3.3",
-    "is-stream": "^1.1.0",
-    "p-cancelable": "^1.1.0",
-    "p-queue": "^2.4.2",
-    "p-retry": "^3.0.1",
-    "ws": "^5.2.0"
+    "test": "lerna run test",
+    "lint": "lerna run lint"
   },
   "devDependencies": {
-    "@aoberoi/capture-console": "^1.1.0",
-    "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.6",
-    "busboy": "^0.3.0",
-    "chai": "^4.2.0",
-    "codecov": "^3.2.0",
-    "http-shutdown": "^1.2.0",
-    "https-proxy-agent": "^2.2.1",
-    "husky": "^1.3.1",
-    "jsdoc-to-markdown": "^4.0.1",
-    "lint-staged": "^8.1.5",
-    "mocha": "^6.0.2",
-    "nock": "^10.0.6",
-    "nyc": "^13.3.0",
-    "p-is-promise": "^2.0.0",
-    "proxy": "^0.2.4",
-    "shelljs": "^0.8.3",
-    "shx": "^0.3.2",
-    "sinon": "^7.2.7",
-    "source-map-support": "^0.5.10",
-    "ts-jsdoc": "^3.0.1",
-    "ts-node": "^8.0.3",
-    "tslint": "^5.13.1",
-    "tslint-config-airbnb": "^5.11.1",
-    "typescript": "^3.3.3333"
+    "lerna": "^3.13.1"
   }
 }

@@ -1,0 +1,78 @@
+{
+  "name": "@slack/events-api",
+  "version": "2.2.0",
+  "description": "Official library for using the Slack Platform's Web API",
+  "author": "Slack Technologies, Inc.",
+  "license": "MIT",
+  "keywords": [
+    "slack",
+    "events-api",
+    "bot",
+    "server",
+    "http",
+    "api",
+    "verify",
+    "signature",
+    "request-signing",
+    "event-emitter"
+  ],
+  "main": "dist/index.js",
+  "bin": {
+    "slack-verify": "dist/verify.js"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "engines": {
+    "node": ">=4.2.0"
+  },
+  "repository": "slackapi/node-slack-sdk",
+  "homepage": "https://slack.dev/node-slack-sdk/events-api",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/slackapi/node-slack-sdk/issues"
+  },
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "babel src -d dist --source-maps both",
+    "lint": "eslint src test",
+    "test": "npm run build && nyc --reporter=html mocha test/**/*.js",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov -F eventsapi"
+  },
+  "dependencies": {
+    "debug": "^2.6.1",
+    "lodash.isstring": "^4.0.1",
+    "raw-body": "^2.3.3",
+    "tsscmp": "^1.0.6",
+    "yargs": "^6.6.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-eslint": "^7.1.1",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-es2016": "^6.16.0",
+    "codecov": "^3.0.4",
+    "chai": "^4.1.2",
+    "eslint": "^3.12.2",
+    "eslint-config-airbnb": "^13.0.0",
+    "eslint-config-airbnb-base": "^11.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.8.0",
+    "express": "^4.14.0",
+    "get-random-port": "0.0.1",
+    "lodash.isfunction": "^3.0.8",
+    "mocha": "^5.2.0",
+    "nop": "^1.0.0",
+    "nyc": "^12.0.2",
+    "proxyquire": "^1.7.10",
+    "sinon": "^4.5.0",
+    "superagent": "^3.3.1",
+    "uncaughtException": "^1.0.0"
+  },
+  "optionalDependencies": {
+    "express": "^4.0.0"
+  }
+}

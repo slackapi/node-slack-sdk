@@ -4,5 +4,22 @@ node_js:
   - "9"
   - "10"
   - "11"
+env:
+  - PACKAGE=@slack/web-api
+  - PACKAGE=@slack/rtm-api
+  - PACKAGE=@slack/interactive-messages
+  - PACKAGE=@slack/events-api
+  - PACKAGE=@slack/webhook
+  - PACKAGE=@slack/types
+  - PACKAGE=@slack/logger
+  - PACKAGE=@slack/client
+  - PACKAGE=@slack/sdk-integration-tests
+cache: npm
+install:
+  - npm install
+  - lerna bootstrap --no-ci --hoist
+script:
+  - lerna run test --scope $PACKAGE
+  - lerna run lint --scope $PACKAGE
 after_success:
-  - npm run coverage
+  - lerna run coverage --scope $PACKAGE

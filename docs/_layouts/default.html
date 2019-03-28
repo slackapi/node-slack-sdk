@@ -1,3 +1,6 @@
+---
+sidebar_style: main
+---
 <!DOCTYPE html>
 <html>
 
@@ -12,15 +15,19 @@
     <div id="page_contents" class="clearfix">
         <nav id="api_nav" class="col span_1_of_4">
 
-            {% include side_nav.html %}
+            {% case layout.sidebar_style %}
+                {% when 'main' %}
+                    {% include main_nav.html %}
+                {% when 'focussed' %}
+                    {% include focussed_nav.html %}
+            {% endcase %}
 
-            <div class="sidebar_menu" id="api_nav">
-                
+            <div class="sidebar_menu">
+
                 <ul class="sidebar_menu_list footer_nav">
-                    <li><a href="https://github.com/{{ site.github_username }}/{{ site.repo_name }}/blob/master/LICENSE">License</a></li>
-                    <li><a href="https://github.com/{{ site.github_username }}/{{ site.repo_name }}/blob/master/CODE_OF_CONDUCT.md">Code of Conduct</a></li>
-                    <li><a href="https://github.com/{{ site.github_username }}/{{ site.repo_name }}/blob/master/CONTRIBUTING.md">Contributing</a></li>
-                    <li><a href="https://docs.google.com/a/slack-corp.com/forms/d/e/1FAIpQLSfzjVoCM7ohBnjWf7eDYQxzti1EPpinsIJQA5RAUBwJKRUQHg/viewform">Contributor License Agreement</a></li>
+                    <li><a href="{{ site.code_of_conduct_url }}">Code of Conduct</a></li>
+                    <li><a href="https://github.com/{{ site.github_username }}/{{ site.repo_name }}/blob/master/.github/contributing.md">Contributing</a></li>
+                    <li><a href="{{ site.cla_url }}">Contributor License Agreement</a></li>
                 </ul>
 
                 <p id="footer_signature">Made with <i class="ts_icon ts_icon_heart"></i> by Slack<br/>and our Lovely
@@ -32,7 +39,13 @@
         </nav>
 
         <div class="col span_3_of_4">
-            {{ content }}
+            {% if page.title != "" %}
+                <h1>{{ page.title }}</h1>
+            {% endif %}
+
+            <div class="card auto_anchor_container">
+                {{ content }}
+            </div>
         </div>
     </div>
 </div>
@@ -41,7 +54,7 @@
     <p class="light tiny align_center">© 2019 Slack Technologies, Inc. and contributors</p>
 </footer>
 
+<script src="{{ site.url | append: site.baseurl }}/scripts/auto_anchor.js"></script>
 {% include analytics.html %}
-
 </body>
 </html>

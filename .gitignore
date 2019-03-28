@@ -1,9 +1,8 @@
-node_modules
-npm-debug.log
-coverage
-dist
-examples/package-lock.json
+/node_modules
+/package-lock.json
 
-# nyc test coverage
-.nyc_output
-package-lock.json
+npm-debug.log
+lerna-debug.log
+
+# temporary until examples are turned into first class packages
+/examples/node_modules
