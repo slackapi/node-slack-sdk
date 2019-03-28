@@ -131,7 +131,6 @@ export class RTMClient extends EventEmitter {
                   // Observe this event when the error which causes reconnecting or disconnecting is meaningful
                   this.emit('unable_to_rtm_start', error);
 
-                  // NOTE: assume that ReadErrors are recoverable
                   let isRecoverable = true;
                   if (error.code === APICallErrorCode.PlatformError &&
                       Object.values(UnrecoverableRTMStartError).includes(error.data.error)) {

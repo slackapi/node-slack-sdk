@@ -193,7 +193,6 @@ describe('WebClient', function () {
         .catch((error) => {
           assert.instanceOf(error, Error);
           assert.equal(error.code, ErrorCode.HTTPError);
-          assert.instanceOf(error.original, Error); // TODO: deprecate
           assert.equal(error.statusCode, 500);
           assert.exists(error.headers);
           assert.deepEqual(error.body, body);

@@ -6,7 +6,7 @@
 [![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-sdk)
 <!-- TODO: npm versions with scoped packages: https://github.com/rvagg/nodei.co/issues/24 -->
 
-The `@slack/events-api` helps your app respond to events from Slack's [Events API](https://api.slack.com/events-api)
+The `@slack/events-api` package helps your app respond to events from Slack's [Events API](https://api.slack.com/events-api)
 such as new messages, emoji reactions, files, and much more. This package will help you start with convenient and secure
 defaults.
 
@@ -27,7 +27,7 @@ These examples show how to get started using the most common features. You'll fi
 
 Before building an app, you'll need to [create a Slack app](https://api.slack.com/apps/new) and install it to your
 development workspace. You'll also **need a public URL** where the app can begin receiving events. Finally, you'll need
-to find the **request signing secret** give to you by Slack under the "Basic Information" of your app configuration.
+to find the **request signing secret** given to you by Slack under the "Basic Information" of your app configuration.
 
 It may be helpful to read the tutorials on [getting started](https://slack.dev/node-slack-sdk/getting-started) and
 [getting a public URL that can be used for development](https://slack.dev/node-slack-sdk/local_development). After you
@@ -40,9 +40,9 @@ subscriptions).
 
 ### Initialize the event adapter
 
-The package exports a `createEventAdapter()`, which returns an instance of the `SlackEventAdapter` class. The function
+The package exports a `createEventAdapter()` function, which returns an instance of the `SlackEventAdapter` class. The function
 requires one parameter, the **request signing secret**, which it uses to enforce that all events are coming from Slack
-and keep your app secure.
+to keep your app secure.
 
 ```javascript
 const { createEventAdapter } = require('@slack/events-api');
@@ -58,7 +58,7 @@ const slackEvents = createEventAdapter(slackSigningSecret);
 
 ### Start a server
 
-The event adapter is called an adapter because it transforms incoming HTTP requests into verified and parsed events.
+The event adapter transforms incoming HTTP requests into verified and parsed events.
 That means, in order for it to emit events for your app, it needs an HTTP server. The adapter can receive requests from
 an existing server, or as a convenience, it can create and start the server for you.
 
@@ -94,7 +94,7 @@ when the server is no longer listening.
 </summary>
 
 The event adapter can receive requests from an existing Node HTTP server. You still need to specify a port, but this
-time its only given to the server. Starting a server in this manner means that is listening to requests on all paths; as
+time its only given to the server. Starting a server in this manner means it is listening to requests on all paths; as
 long as the Request URL is routed to this port, the adapter will receive the requests.
 
 ```javascript
@@ -147,14 +147,13 @@ app.use('/my/path', slackEvents.requestListener());
 // Example: If you're using a body parser, always put it after the event adapter in the middleware stack
 app.use(bodyParser());
 
-// Initialize a server for the express app - you can skip this and the rest if prefer to use app.listen()
+// Initialize a server for the express app - you can skip this and the rest if you prefer to use app.listen()
 const server = createServer(app);
 server.listen(port, () => {
   // Log a message when the server is ready
   console.log(`Listening for events on ${server.address().port}`);
 });
 ```
-
 </details>
 
 ---
@@ -165,8 +164,8 @@ Apps register functions, called listeners, to be triggered when an event of a sp
 adapter. If you've used Node's [`EventEmitter`](https://nodejs.org/api/events.html#events_class_eventemitter) pattern
 before, then you're already familiar with how this works, since the adapter is an `EventEmitter`.
 
-The `event` argument passed to the listener is an object. It's shape corresponds to the
-[type of event](https://api.slack.com/events) its registered for.
+The `event` argument passed to the listener is an object. It's contents corresponds to the [type of
+event](https://api.slack.com/events) its registered for.
 
 ```javascript
 const { createEventAdapter } = require('@slack/events-api');
@@ -221,7 +220,7 @@ slackEvents.on('error', (error) => {
 
 If you're having difficulty understanding why a certain request received a certain response, you can try debugging your
 program. A common cause is a request signature verification failing, sometimes because the wrong secret was used. The
-following example should how you might figure this out using debugging.
+following example shows how you might figure this out using debugging.
 
 Start your program with the `DEBUG` environment variable set to `@slack/events-api:*`. This should only be used for
 development/debugging purposes, and should not be turned on in production. This tells the adapter to write messages
@@ -257,7 +256,7 @@ When the adapter receives a request, it will now output something like the follo
 @slack/events-api:adapter adapter instantiated - options: { includeBody: false, includeHeaders: false, waitForResponse: false }
 @slack/events-api:adapter server created - path: /slack/events
 @slack/events-api:adapter server started - port: 3000
-@slack/events-api:http-handler request recieved - method: POST, path: /slack/events
+@slack/events-api:http-handler request received - method: POST, path: /slack/events
 @slack/events-api:http-handler request signature is not valid
 @slack/events-api:http-handler handling error - message: Slack request signing verification failed, code: SLACKHTTPHANDLER_REQUEST_SIGNATURE_VERIFICATION_FAILURE
 @slack/events-api:http-handler sending response - error: Slack request signing verification failed, responseOptions: {}
@@ -269,6 +268,7 @@ see that the signature verification failed.
 If you believe the adapter is behaving incorrectly, before filing a bug please gather the output from debugging and
 include it in your bug report.
 
+---
 
 ### Verify tool
 
@@ -292,6 +292,18 @@ app.
 the tunnel URL, such as `https://abcdef.ngrok.io`, appended with the path. In other words, it should look like
 `https://abcdef.ngrok.io/slack/events`. Also make sure that when ngrok was started, it's set to use the port that the
 tool is listening on. In other words, start ngrok with a command like `ngrok http 3000`.
+
+---
+
+### More
+
+The [documentation website](https://slack.dev/node-slack-sdk/events-api) has information about these additional features of
+the `SlackEventAdapter`:
+
+*  Receiving event envelope and header data
+*  Custom responses
+
+---
 
 ## Requirements
 
