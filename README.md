@@ -54,7 +54,7 @@ a channel, DM, MPDM, or group. The `WebClient` object makes it simple to call an
 methods**](https://api.slack.com/methods).
 
 ```javascript
-const { WebClient } = require('@slack/client');
+const { WebClient } = require('@slack/web-api');
 
 // An access token (from your Slack app or custom integration - xoxp, xoxb)
 const token = process.env.SLACK_TOKEN;
@@ -215,7 +215,7 @@ to instantiate it with a token, usually a bot token, that you received from Slac
 for the RTM connection to be established, and then send a simple string message to a channel.
 
 ```javascript
-const { RTMClient } = require('@slack/client');
+const { RTMClient } = require('@slack/web-api');
 
 // An access token (from your Slack app or custom integration - usually xoxb)
 const token = process.env.SLACK_TOKEN;

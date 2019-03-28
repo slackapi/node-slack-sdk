@@ -26,7 +26,7 @@ in the [Web API method documentation](https://api.slack.com/methods). This is th
 have rich typing available as the value is used around your codebase.
 
 ```typescript
-import { WebClient, WebAPICallResult } from '@slack/client';
+import { WebClient, WebAPICallResult } from '@slack/web-api';
 
 const web = new WebClient(process.env.SLACK_TOKEN);
 
@@ -55,7 +55,7 @@ describes the properties which this app needs.
 The second recommendation is less preferred, but its a useful hack for moving quickly. You can cast the result to `any`.
 
 ```typescript
-import { WebClient, WebAPICallResult } from '@slack/client';
+import { WebClient, WebAPICallResult } from '@slack/web-api';
 
 const web = new WebClient(process.env.SLACK_TOKEN);
 

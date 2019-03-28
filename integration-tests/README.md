@@ -25,15 +25,4 @@ the minimum requirements and nothing more. Here are a few ways this is set up:
   represent the least amount of configuration needed to get the package working.
 
 * In `package.json`, the `"private"` key must remain set to `true`. This enforces that this project doesn't get
-  accidentally published. Also, the `@slack/client` dependency is set to a local filename. This allows the
-  `package.json` to remain authoritative about which dependencies are available (important for code editors) and still
-  isolated from the version of the package available in the registry.
-
-### Details
-
-You'll notice that this inner project has its own development dependencies. This was done on purpose. Initially, we
-tried to install all development dependencies in the top level project (so that there's no need to hit the npm registry
-again in the middle of a test run, and so that we can benefit more from module caching in CI systems), but `dtslint` has
-some undesirable behavior that preventing us from doing so. Specifically, dependencies of `@slack/client` would be
-loaded from the `node_modules` directory at the top-level project, since that was on the module loading path of
-`dtslint`, while the `node_modules` directory of the inner project is not.
+  accidentally published.
