@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node -r dotenv/config server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "author": "Ankur Oberoi <aoberoi@gmail.com>",
   "license": "MIT",
