@@ -116,6 +116,6 @@ Once you've selected all the event types, be sure to Save Changes.
 Lastly, if you've added event types that require scopes your app did not previously have, you'll need to reinstall the app into the workspace(s) you'd like Slack to send your app new events. You can reinstall the app from the **Install App** page.
 
 ## Next steps
-Hopefully this guide included information that's helpful to get you up and running with a Slack app. If something is missing, feel free to open a ticket or a pull request. And if you want more information on Slack apps in general (and all of the APIs, events, and features talked about in this guide), check out our [API documentation](https://api.slack.com).
+Hopefully this guide included information that's helpful to get you up and running with a Slack app. If something is missing, feel free to open a ticket or a pull request.
 
 The different packages have code samples, explanations, and more resources to get you started writing the code in your app using our SDKs. [The README has links to the packages and examples to get started](https://github.com/slackapi/node-slack-sdk).
