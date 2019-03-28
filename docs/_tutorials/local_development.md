@@ -61,12 +61,11 @@ A Request URL is a public URL where Slack can send HTTP post requests.
 When a button is clicked, a dialog is submitted, or a user interacts with your app [using another interactive feature](https://api.slack.com/messaging/interactivity), Slack will send you information about that event, like who clicked it in what channel.
 
 ### Using a local Request URL for development
-If you're just getting started with your app development, you probably don't have a publicly accessible URL yet. Eventually, you'll want to set that up, but for now a development proxy like [ngrok](https://ngrok.com/) or [localtunnel](https://localtunnel.github.io/) will do the job.
+If you're just getting started with your app development, you probably don't have a publicly accessible URL yet. Eventually, you'll want to set that up, but for now a development proxy like [ngrok](https://ngrok.com/) will do the job.
 
 Once you've installed a development proxy, run it to begin forwarding requests to a specific port (we're using port 3000 for this example):
 
 > ngrok: `ngrok http 3000`
-> localtunnel: `lt --port 3000`
 
 ![Running ngrok](assets/ngrok.gif "Running ngrok")
 
@@ -82,9 +81,9 @@ If you're using the default HTTP server in the `@slack/interactive-messages` pac
 ## Listening to workspace events
 If you want your app to listen to events like when a reaction is added, when a user mentions your app, or [another Events API event](https://api.slack.com/events), you'll need to enable events for your app.
 
-> The Events API uses the `@slack/events-api` package.
+> The `@slack/events-api` is used for the Events API.
 
-Start by clicking **Event Subscriptions** on the left sidebar. After you toggle the switch, you'll see you need to add a Request URL. This is similar to [adding a Request URL in the interactive components section](#what-is-a-Request-URL). There are two differences though: 
+Start by clicking **Event Subscriptions** on the left sidebar. After you toggle the switch, you'll see you need to add a Request URL. This is similar to [adding a Request URL in the previous section](#what-is-a-Request-URL). There are two differences though: 
 1. The default path is `/slack/events` instead of `/slack/actions`
 2. The Request URL in this section will need to verify that your endpoint can handle events.
 
@@ -119,6 +118,4 @@ Lastly, if you've added event types that require scopes your app did not previou
 ## Next steps
 Hopefully this guide included information that's helpful to get you up and running with a Slack app. If something is missing, feel free to open a ticket or a pull request. And if you want more information on Slack apps in general (and all of the APIs, events, and features talked about in this guide), check out our [API documentation](https://api.slack.com).
 
-The different packages have code samples and explanations to get you started writing the code in your app using our SDKs.
-
-If you need developer support, email us at [developers@slack.com](mailto:developers@slack.com).
+The different packages have code samples, explanations, and more resources to get you started writing the code in your app using our SDKs. [The README has links to the packages and examples to get started](https://github.com/slackapi/node-slack-sdk).
