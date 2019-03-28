@@ -32,7 +32,7 @@ This page contains links to add features and functionalities to your app as well
 Look around, add an app icon and description, and then let's start configuring your app 🔩
 
 ## Tokens and installing apps
-You have two major options for tokens: user (`xoxp`) tokens and bot (`xoxb`) tokens. User tokens allow you to call Web API methods on behalf of users based on OAuth scopes and bot tokens require a bot user, which has permissions by default similar to a standard user.
+You have two major options for tokens: user (`xoxp`) tokens and bot (`xoxb`) tokens. User tokens allow you to call Web API methods on behalf of users based on OAuth scopes and bot tokens require a bot user, which has default permissions similar to a standard user.
 
 You can learn more about the different token types [on our API site](https://api.slack.com/docs/token-types). The type of token your app needs depends on the actions you want it to perform. But for brevity, we're going to use bot tokens for this guide.
 
