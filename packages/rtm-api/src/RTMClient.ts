@@ -1,6 +1,6 @@
 import { Agent } from 'http';
 
-import EventEmitter from 'eventemitter3'; // tslint:disable-line:import-name
+import { EventEmitter } from 'eventemitter3'; // tslint:disable-line:import-name
 import WebSocket from 'ws'; // tslint:disable-line:import-name
 import Finity, { StateMachine } from 'finity'; // tslint:disable-line:import-name
 import PQueue from 'p-queue'; // tslint:disable-line:import-name
