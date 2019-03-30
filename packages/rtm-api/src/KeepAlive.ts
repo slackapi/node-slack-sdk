@@ -1,4 +1,4 @@
-import EventEmitter = require('eventemitter3'); // tslint:disable-line:import-name no-require-imports
+import { EventEmitter } from 'eventemitter3';
 import { RTMClient } from './RTMClient';
 import { LogLevel, Logger, getLogger } from './logger';
 import { ErrorCode, CodedError } from './errors';

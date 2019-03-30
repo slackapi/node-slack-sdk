@@ -11,7 +11,7 @@ import { Readable } from 'stream';
 import { SecureContextOptions } from 'tls';
 
 import isStream from 'is-stream';
-import EventEmitter from 'eventemitter3'; // tslint:disable-line:import-name
+import { EventEmitter } from 'eventemitter3';
 import PQueue from 'p-queue'; // tslint:disable-line:import-name
 import pRetry, { AbortError } from 'p-retry';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
