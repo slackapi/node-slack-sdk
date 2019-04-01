@@ -215,7 +215,7 @@ to instantiate it with a token, usually a bot token, that you received from Slac
 for the RTM connection to be established, and then send a simple string message to a channel.
 
 ```javascript
-const { RTMClient } = require('@slack/web-api');
+const { RTMClient } = require('@slack/rtm-api');
 
 // An access token (from your Slack app or custom integration - usually xoxb)
 const token = process.env.SLACK_TOKEN;
