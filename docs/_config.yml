@@ -20,7 +20,7 @@ collections:
     output: true
   tutorials:
     output: true
-    permalink: /tutorials/:slug/
+    permalink: /tutorials/:slug
 
 defaults:
   -

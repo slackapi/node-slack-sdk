@@ -27,7 +27,7 @@ First thing's first: before you start developing a Slack app, you'll need to [cr
 
 This page contains links to add features and functionalities to your app as well as important credentials you'll need for development later, like the `Signing Secret` under **App Crendentials**.
 
-![Basic Information page](assets/basic-information-page.png "Basic Information page")
+![Basic Information page](basic-information-page.png "Basic Information page")
 
 Look around, add an app icon and description, and then let's start configuring your app 🔩
 
@@ -42,7 +42,7 @@ Now that you have a bot user with permission to send messages to Slack, let's in
 
 Click **Install App** on the left sidebar and click the big **Install App to Workspace** button at the top of the page. Once you authorize the installation, you'll land on the **OAuth & Permissions** page.
 
-![OAuth Tokens](assets/bot-token.png "OAuth Tokens")
+![OAuth Tokens](bot-token.png "OAuth Tokens")
 
 You'll see two tokens. To add scopes to the `xoxp` tokens, you can scroll down to the **Scopes** section. For now, we'll just use the `xoxb` bot token.
 
@@ -67,7 +67,7 @@ Once you've installed a development proxy, run it to begin forwarding requests t
 
 > ngrok: `ngrok http 3000`
 
-![Running ngrok](assets/ngrok.gif "Running ngrok")
+![Running ngrok](ngrok.gif "Running ngrok")
 
 The output should show a generated URL that you can use (we recommend the one that starts with `https://`). This URL will be the base of your request URL, in this case `https://8e8ec2d7.ngrok.io`.
 
@@ -76,14 +76,14 @@ Okay, so hopefully at this point you have some kind of public-facing URL. Now, l
 
 If you're using the default HTTP server in the `@slack/interactive-messages` package, you should append `/slack/actions` to your URL. For our example, this will be `https://8e8ec2d7.ngrok.io/slack/actions`. If you are using the Express middlware, you can set whichever path you like, just remember to make the path you mount the middleware into the application the same as the one you configure in Slack.
 
-![Configuring a Request URL](assets/request-url-config.png "Configuring a Request URL")
+![Configuring a Request URL](request-url-config.png "Configuring a Request URL")
 
 ## Listening to workspace events
 If you want your app to listen to events like when a reaction is added, when a user mentions your app, or [another Events API event](https://api.slack.com/events), you'll need to enable events for your app.
 
 > The `@slack/events-api` is used for the Events API.
 
-Start by clicking **Event Subscriptions** on the left sidebar. After you toggle the switch, you'll see you need to add a Request URL. This is similar to [adding a Request URL in the previous section](#what-is-a-Request-URL). There are two differences though: 
+Start by clicking **Event Subscriptions** on the left sidebar. After you toggle the switch, you'll see you need to add a Request URL. This is similar to [adding a Request URL in the previous section](#what-is-a-Request-URL). There are two differences though:
 1. The default path is `/slack/events` instead of `/slack/actions`
 2. The Request URL in this section will need to verify that your endpoint can handle events.
 
@@ -100,14 +100,14 @@ You can run the command line tool form inside your project directory with the fo
 
 You'll need to substitue your own signing secret for `<signing_secret>`. This is found on the **Basic Information** page in the [Create an App section](#create-an-app).
 
-![Signing Secret](assets/signing-secret.png "Signing Secret on Basic Information page")
+![Signing Secret](signing-secret.png "Signing Secret on Basic Information page")
 
 The path and port values are optional. If your request URL includes a different path, you should specify it with `--path=/my/path/here` (no brackets). Similarly, if your development proxy is forwarding requests to a different port, you should specify it with `--port=8888` (no brackets). If you're using the defaults, you can ignore everything after `<signing_secret>`.
 
 Now that you've verified your endpoint, you can add events.
 
 ### Adding event subscriptions
-On the **Event Subscriptions** page, you can add each event you want your app to subscribe to. In the tables below, you may add Workspace events and Bot events. 
+On the **Event Subscriptions** page, you can add each event you want your app to subscribe to. In the tables below, you may add Workspace events and Bot events.
 
 Most events require additional scopes (for example, the `reaction_added` event requires the `reactions:read` scope). You can add scopes to your app on the **OAuth & Permissions** page.
 
