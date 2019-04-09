@@ -20,8 +20,8 @@ walk you through building your first Slack app using Node.js.
 | Slack API    | What its for | NPM Package      |
 |--------------|--------------|-------------------|
 | Web API      | Send data to or query data from Slack using any of [over 130 methods](https://api.slack.com/methods). | [`@slack/web-api`](https://slack.dev/node-slack-sdk/web-api) |
-| Events API   | Listen for incoming messages and [many other events](https://api.slack.com/events) happening in Slack, using a URL. | [`@slack/events-api`](https://slack.dev/node-slack-sdk/events_api) |
-| Interactive Messages | Respond to button clicks, dialogs, and other interactions with messages. | [`@slack/interactive-messages`](https://slack.dev/node-slack-sdk/interactive_messages) |
+| Events API   | Listen for incoming messages and [many other events](https://api.slack.com/events) happening in Slack, using a URL. | [`@slack/events-api`](https://slack.dev/node-slack-sdk/events-api) |
+| Interactive Messages | Respond to button clicks, dialogs, and other interactions with messages. | [`@slack/interactive-messages`](https://slack.dev/node-slack-sdk/interactive-messages) |
 | RTM API      | Listen for incoming messages and a limited set of events happening in Slack, using websockets. | [`@slack/rtm-api`](https://slack.dev/node-slack-sdk/rtm-api) |
 | Incoming Webhooks | Send notifications to a single channel which the user picks on installation. | [`@slack/webhook`](https://slack.dev/node-slack-sdk/incoming_webhook) |
 
