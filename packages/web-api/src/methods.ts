@@ -77,7 +77,7 @@ export interface BotsInfoArguments extends WebAPICallOptions, TokenOverridable  
   /*
    * `channels.*`
    */
-export interface ChannelsArchiveArguments extends TokenOverridable {
+export interface ChannelsArchiveArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
 }
 
@@ -491,7 +491,7 @@ export interface MPIMRepliesArguments extends WebAPICallOptions, TokenOverridabl
   /*
    * `oauth.*`
    */
-export interface OAuthAccessArguments {
+export interface OAuthAccessArguments extends WebAPICallOptions {
   client_id: string;
   client_secret: string;
   code: string;
