@@ -110,7 +110,8 @@ export interface MrkdwnElement {
    * conversation names will be link-ified, and certain mentions will be
    * [automatically parsed](https://api.slack.com/messaging/composing/formatting#automatic-parsing).
    * Using a value of false will skip any preprocessing of this nature,
-   * although you can still include [manual parsing strings](https://api.slack.com/messaging/composing/formatting#advanced).
+   * although you can still include
+   * [manual parsing strings](https://api.slack.com/messaging/composing/formatting#advanced).
    */
   verbatim?: boolean;
 }
@@ -121,7 +122,7 @@ export interface MrkdwnElement {
  *
  * https://api.slack.com/reference/messaging/composition-objects#text
  */
-export type TextElement = MrkdwnElement | PlainTextElement
+export type TextElement = MrkdwnElement | PlainTextElement;
 
 /**
  * An object that represents a single selectable item in a select menu.
@@ -429,7 +430,8 @@ export interface Button extends Action {
  * buttons.
  *
  * To use interactive elements like this, you will need to make some changes
- * to prepare your app. Read our [guide to enabling interactivity](https://api.slack.com/messaging/interactivity/enabling).
+ * to prepare your app. Read our
+ * [guide to enabling interactivity](https://api.slack.com/messaging/interactivity/enabling).
  *
  * https://api.slack.com/reference/messaging/block-elements#overflow
  */
@@ -446,7 +448,7 @@ export interface Overflow extends Action {
    * A plain_text only text object that defines the placeholder text shown on
    * the menu. Maximum length for the text in this field is 150 characters.
    */
-  placeholder: PlainTextElement
+  placeholder: PlainTextElement;
 }
 
 /**
