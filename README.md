@@ -92,7 +92,8 @@ $ ./node_modules/.bin/slack-verify --secret <signing_secret> [--path=/slack/even
 Run the command with your own signing secret (provided by Slack in the "Basic Information"), and optionally a path or a
 port. A web server will be listening for requests containing a challenge and respond to them the way Slack expects. Once
 the Request URL is verified and saved, you can stop the server with `Ctrl-C` and start working on your app. We also have
-a tutorial with information about [getting a public URL that can be used for development](https://slack.dev/node-slack-sdk/local_development).
+a tutorial with information about [getting a public URL that can be used for
+development](https://slack.dev/node-slack-sdk/tutorials/local-development).
 
 You app will use the `createEventAdapter()` function, which is an export from `@slack/events-api`. It creates an object
 that emits events, just Node's built-in `EventEmitter`, except they are happening in Slack. It also has a `start()`
@@ -144,7 +145,7 @@ Slack App configuration settings.
 Your app will receive actions from interactive messages and other components at the Request URL you registered with
 Slack. Unlike the Events API, the Request URL doesn't need to be verified, because you're only receiving actions from
 messages your app generated in the first place. It may be helpful to read our tutorial on [getting a public URL that can
-be used for development](https://slack.dev/node-slack-sdk/local_development).
+be used for development](https://slack.dev/node-slack-sdk/tutorials/local-development).
 
 Your app will use the `createMessageAdapter()` function, which is an
 export from `@slack/interactive-messages`. It creates an object that routes actions to the handlers you define. It also

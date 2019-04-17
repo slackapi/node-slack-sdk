@@ -19,11 +19,11 @@ Before building an app, you'll need to [create a Slack app](https://api.slack.co
 development workspace. You'll also **need a public URL** where the app can begin receiving events. Finally, you'll need
 to find the **request signing secret** given to you by Slack under the "Basic Information" of your app configuration.
 
-It may be helpful to read the tutorial on [developing Slack apps locally](https://slack.dev/node-slack-sdk/local_development). After you
-have a URL for development, see the section on [verifying a request URL for development](#verify-tool) so you can save
-it as the Request URL in your app configuration. Now you can begin adding event subscriptions, just be sure to install
-the app in your development workspace again each time you add new scopes (typically whenever you add new event
-subscriptions).
+It may be helpful to read the tutorial on [developing Slack apps
+locally](https://slack.dev/node-slack-sdk/tutorials/local-development). After you have a URL for development, see the
+section on [verifying a request URL for development](#verify-tool) so you can save it as the Request URL in your app
+configuration. Now you can begin adding event subscriptions, just be sure to install the app in your development
+workspace again each time you add new scopes (typically whenever you add new event subscriptions).
 
 ---
 

@@ -19,7 +19,8 @@ Before building an app, you'll need to [create a Slack app](https://api.slack.co
 development workspace. You'll also **need a public URL** where the app can begin receiving actions. Finally, you'll need
 to find the **request signing secret** given to you by Slack under the "Basic Information" of your app configuration.
 
-It may be helpful to read the tutorial on [developing Slack apps locally](https://slack.dev/node-slack-sdk/local_development).
+It may be helpful to read the tutorial on [developing Slack apps
+locally](https://slack.dev/node-slack-sdk/tutorials/local-development).
 
 ---
 
