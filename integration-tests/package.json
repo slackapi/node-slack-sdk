@@ -1,6 +1,6 @@
 {
   "name": "@slack/sdk-integration-tests",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "description": "Integration tests for Node Slack SDK",
   "author": "Slack Technologies, Inc.",
@@ -11,7 +11,7 @@
     "test:mocha": "mocha proxy-test.js"
   },
   "dependencies": {
-    "@slack/web-api": "^5.0.0",
+    "@slack/web-api": "^5.0.1",
     "@types/node": "^8.10.43"
   },
   "devDependencies": {
