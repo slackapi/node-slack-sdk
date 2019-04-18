@@ -3,102 +3,146 @@
 > ⚠️ This maintainers guide is out of date. Progress on updating it is being [tracked](https://github.com/slackapi/node-slack-sdk/issues/748).
 
 This document describes tools, tasks and workflow that one needs to be familiar with in order to effectively maintain
-this project. If you use this package within your own software as is but don't plan on modifying it, this guide is
+this project. If you use this package within your own software but don't plan on modifying it, this guide is
 **not** for you.
 
 ## Tools
 
-All you need to work with this project is a supported version of [Node.js](https://nodejs.org/en/)
-(see `package.json` field "engines") and npm (which is distributed with Node.js).
+Maintaining this project requires installing [Node.js](https://nodejs.org) in your development environment. All of the
+remaining tools are downloaded as `devDependencies`, which means you'll have them available once you run `npm install`
+in a working copy of this repository.
+
+In particular, [`lerna`](https://lerna.js.org/) is a tool you should become familiar with. This project is home to
+several packages, and lerna makes it easier to manage operations across the set of packages. The very next thing you
+should do is run `npx lerna bootstrap` in the root of this project to install dependencies for each of the packages,
+and to allow lerna to link them to each other.
 
 ## Tasks
 
 ### Testing
 
-This package has unit tests for most modules (files) in the `test` directory. The structure mirrors the `lib` directory closely. You can run the entire test suite using the npm script `npm test`. This command is also executed by Travis, the continuous integration service, for every Pull Request and branch. The coverage is computed with the `istanbul` package. The tests themselves are run using the `mocha` test runner.
+This package has tests for individual packages in the respective `test` directory inside those packages. It also has
+integration tests in the `integration-tests` directory at the root. You can run the entire test suite using the npm
+script `npm test` at the top level. This script will use Lerna to invoke tests in each package and the integration
+tests.
 
-Test code should be written in syntax that runs on the oldest supported Node.js version, without transpiling. This ensures that backwards compatibility is tested and the APIs look reasonable in versions of Node.js that do not support the most modern syntax.
+Tests are executed by Travis, our continuous integration system, slightly differently. Travis runs several, more
+granular builds in order to report on success and failure in a more useful (targetted) way. There is one build for each
+package on each supported version of Node, as well as one for the integration tests on each supported version of Node.
+Travis also runs linting in each package, which is separate from tests so that you can run tests locally frequently
+without having to block for fixing styling problems. Lastly, Travis uploads the coverage report for the tests ran within
+the build to Codecov, our coverage reporting system. Travis reports status on each PR. Codecov aggregates all the
+coverage reports, and separate reports status on each PR. The configuration is stored in `.travis.yml`.
 
-A useful trick for debugging inside tests is to use the Chrome Debugging Protocol feature of Node.js to set breakpoints and interactively debug. In order to do this you must run mocha directly. This means that you should have already linted the source (`npm run lint`), manually. You then run the tests using the following command: `./node_modules/.bin/mocha test/{test-name}.js --debug-brk --inspect` (replace {test-name} with an actual test file).
+Test code should be written in syntax that runs on the oldest supported Node.js version, without transpiling. This
+ensures that backwards compatibility is tested and the APIs look reasonable in versions of Node.js that do not support
+the most modern syntax.
+
+**TODO** update the following information for debugging with VSCode or with the protocol directly.
+
+A useful trick for debugging inside tests is to use the Chrome Debugging Protocol feature of Node.js to set breakpoints
+and interactively debug. In order to do this you must run mocha directly. This means that you should have already linted
+the source (`npm run lint`), manually. You then run the tests using the following command: `./node_modules/.bin/mocha
+test/{test-name}.js --debug-brk --inspect` (replace {test-name} with an actual test file).
 
 ### Generating Documentation
 
-The documentation is built using [Jekyll](https://jekyllrb.com/) and hosted with GitHub Pages.
-The source files are contained in the `docs` directory.
+The documentation is built using [Jekyll](https://jekyllrb.com/) and hosted with GitHub Pages. The source files are
+contained in the `docs` directory. Reading the Jekyll configuration in `docs/_config.yml` is helpful to understand how
+the documentation is organized and built.
 
-Part of the documentation is the reference docs, which are generated from comments in the source files using the
-[JSDoc](http://usejsdoc.org/) markup syntax. The comments are first processed by running `npm run docs:jsdoc`, which
-enriches the comments using type information from TypeScript and places them into an independent file in the
-`support/jsdoc` directory. Next, these comments are turned into markdown for the Jekyll site using the `npm run docs`
-script. These two commands should be run each time an API changes to keep the documentation site updated.
+**TODO** add information regarding building reference documentation, once that process is revised.
 
 ### Releasing
 
-0.  Update generated content
-    *  Reference docs are updated using `npm run docs:jsdoc`, delete the `@property` tagged method aliases from
-       `support/jsdoc/@slack-client.js`, then `npm run docs`
+Before releasing, its important to understand that you may release several packages simultaneously. While `lerna` can
+offer its view on which packages have changed since the last release, you should **verify version changes yourself**
+before continuing with the release. If you find a file or set of files that should be allowed to change without
+publishing a package, it might be a good idea to add it to the `ignoreChanges` setting in `lerna.json`.
 
-1.  Create the commit for the release:
-    *  Bump the version number in adherence to [Semantic Versioning](http://semver.org/) in `package.json`.
-    *  Add a changelog entry. Release notes should mention contributors (@-mentions) and issues/PRs (#-mentions). An entry is a new file in `docs/_posts`.
-    *  Commit with a message including the new version number. For example `v1.0.8`.
-    *  Tag the commit with the version number. For example `v1.0.8`.
+If you make a mistake, don't fret. NPM allows you to unpublish a release within the first 24 hours of publishing, but
+you might not be able to use the same version number again. Venture on!
 
-2.  Merge into master repository
-    *  Create a pull request with the commit that was just made. Be certain to include the tag. For
-       example: `git push username master:rel-v1.0.8 && git push --tags username`.
-    *  Once tests pass and a reviewer has approved, merge the pull request. You will also want to
-       update your local `master` branch.
+**TODO**: verify NPM's policy on revoking a release and version number reuse.
 
-3.  Distribute the release
-    *  Publish to the package manager. Once you have permission to publish on npm, you can run `npm publish`.
-    *  Create a GitHub Release. Reuse the release notes written for the changelog entry.
+> If you have any doubt whether your working copy is in good shape to do a release, here is a succinct way to get a
+> fresh start: `npx lerna clean && npx lerna bootstrap`.
 
-4.  (Slack Internal) Communicate the release internally. Include a link to the GitHub Release.
+0. Verify that everything is in order by testing and linting locally before proceeding: `npm run test && npm run lint`.
 
-5.  Announce on Slack Team dev4slack in #slack-api
+1. Create a tagged commit for the release: `npx lerna version`
+  * Lerna will ask you to make selections for the version increment on each package it plans to tag for release. You
+    should already have an idea of what the appropriate semver increment (patch, minor, or major) you intend to create.
+    If Lerna asks about a package you didn't intend to release, its best to bail at this point
+    (<kbd>CTRL</kbd>+<kbd>C</kbd>).
 
-6.  (Slack Internal) Tweet? Not necessary for patch updates, might be needed for minor updates,
-    definitely needed for major updates. Include a link to the GitHub Release.
+2. Publish the release(s) to npm: `NPM_CONFIG_OTP=xxxxxx npx lerna publish from-package`
+  * You should have [2FA set up with NPM](https://docs.npmjs.com/about-two-factor-authentication), and the
+    `NPM_CONFIG_OTP` value should be set to the one time password from your configured second factor device. If the
+    publishing process takes longer than the expiration time of the value (30 seconds), then you may see a publish
+    failure. You can try again as soon as the value changes if you think you can beat the timeout, or you can run
+    `npm publish` in each of the package directories.
+
+3. Create GitHub Release(s) and add release notes.
+  * Release notes should mention contributors (@-mentions) and issues/PRs (#-mentions).
+
+4. (Slack Internal) Communicate the release internally. Include a link to the GitHub Release(s).
+
+5. Announce on Bot Developer Hangout (`dev4slack.slack.com`) in **#slack-api**.
+
+6. (Slack Internal) Tweet? Not necessary for patch updates, might be needed for minor updates, definitely needed for
+   major updates. Include a link to the GitHub Release(s).
 
 ## Workflow
 
 ### Versioning and Tags
 
-This project is versioned using [Semantic Versioning](http://semver.org/), particularly in the
-[npm flavor](https://docs.npmjs.com/getting-started/semantic-versioning). Each release is tagged
-using git.
+This project is versioned using [Semantic Versioning](http://semver.org/), particularly in the [npm
+flavor](https://docs.npmjs.com/getting-started/semantic-versioning). Each release is tagged using git. The naming
+convention for tags is `{package_name}@{version}`. For example, the tag `@slack/web-api@v5.0.0` marks the v5.0.0 release
+of the `@slack/web-api` package. A single commit will have multiple tags when multiple packages are released
+simultaneously.
+
+While `lerna` is used for management of this repository, it is configured for **independent** versioning. This allows
+each package to evolve in a less tightly-coupled manner. Specifically, if one package were to require a major version
+increment, it could do so without unnecessarily affecting all the other packages.
 
 ### Branches
 
-`master` is where active development occurs. Long running named feature branches are occasionally
-created for collaboration on a feature that has a large scope (because everyone cannot push commits
-to another person's open Pull Request). At some point in the future after a major version increment,
-there may be maintenance branches for older major versions.
+`master` is where active development occurs. Long running named feature branches are occasionally created for
+collaboration on a feature that has a large scope (because everyone cannot push commits to another person's open Pull
+Request). After a major version increment, a maintenance branch for the older major version is left open (e.g. `v3`,
+`v4`, etc)
 
 ### Issue Management
 
 Labels are used to run issues through an organized workflow. Here are the basic definitions:
 
-*  `bug`: A confirmed bug report. A bug is considered confirmed when reproduction steps have been
-   documented and the issue has been reproduced.
-*  `enhancement`: A feature request for something this package might not already do.
-*  `docs`: An issue that is purely about documentation work.
-*  `tests`: An issue that is purely about testing work.
-*  `needs feedback`: An issue that may have claimed to be a bug but was not reproducible, or was otherwise missing some information.
-*  `discussion`: An issue that is purely meant to hold a discussion. Typically the maintainers are looking for feedback in this issues.
-*  `question`: An issue that is like a support request because the user's usage was not correct.
-*  `semver:major|minor|patch`: Metadata about how resolving this issue would affect the version number.
-*  `security`: An issue that has special consideration for security reasons.
-*  `good first contribution`: An issue that has a well-defined relatively-small scope, with clear expectations. It helps when the testing approach is also known.
-*  `duplicate`: An issue that is functionally the same as another issue. Apply this only if you've linked the other issue by number.
+* `bug`: A confirmed bug report. A bug is considered confirmed when reproduction steps have been documented and the
+  issue has been reproduced by a maintainer.
+* `enhancement`: A feature request for something this package might not already do.
+* `docs`: An issue that is purely about documentation work.
+* `tests`: An issue that is purely about testing work.
+* `needs feedback`: An issue that may have claimed to be a bug but was not reproducible, or was otherwise missing some
+  information.
+* `discussion`: An issue that is purely meant to hold a discussion. Typically the maintainers are looking for feedback
+  in these issues.
+* `question`: An issue that is like a support request where the user needed more information or their usage was not
+  correct.
+* `security`: An issue that has special consideration for security reasons.
+* `good first contribution`: An issue that has a well-defined relatively-small scope, with clear expectations. It helps
+  when the testing approach is also known.
+* `duplicate`: An issue that is functionally the same as another issue. Apply this only if you've linked the other issue
+  by number.
+* `semver:major|minor|patch`: Metadata about how resolving this issue would affect the version number.
+* `package:*`: Metadata about which package(s) this issue affects.
 
-**Triage** is the process of taking new issues that aren't yet "seen" and marking them with a basic
-level of information with labels. An issue should have **one** of the following labels applied:
-`bug`, `enhancement`, `question`, `needs feedback`, `docs`, `tests`, or `discussion`.
+**Triage** is the process of taking new issues that aren't yet "seen" and marking them with a basic level of information
+with labels. An issue should have **one** of the following labels applied: `bug`, `enhancement`, `question`,
+`needs feedback`, `docs`, `tests`, or `discussion`.
 
-Issues are closed when a resolution has been reached. If for any reason a closed issue seems
-relevant once again, reopening is great and better than creating a duplicate issue.
+Issues are closed when a resolution has been reached. If for any reason a closed issue seems relevant once again,
+reopening is great and better than creating a duplicate issue.
 
 ## Everything else
 
