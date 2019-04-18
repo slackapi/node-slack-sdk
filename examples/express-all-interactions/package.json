@@ -1,7 +1,6 @@
 {
   "name": "@slack/express-all-interactions",
   "private": true,
-  "version": "1.0.0",
   "description": "An example of using Slack Interactive Messages for Node",
   "main": "index.js",
   "scripts": {
