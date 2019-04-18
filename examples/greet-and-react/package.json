@@ -1,6 +1,5 @@
 {
   "name": "@slack/events-api-example-greet-and-react",
-  "version": "1.0.0",
   "private": true,
   "description": "A basic example of using the Slack Events API Adapter for Node",
   "main": "index.js",
