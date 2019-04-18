@@ -30,10 +30,10 @@ development workspace. You'll also **need a public URL** where the app can begin
 to find the **request signing secret** given to you by Slack under the "Basic Information" of your app configuration.
 
 It may be helpful to read the tutorials on [getting started](https://slack.dev/node-slack-sdk/getting-started) and
-[getting a public URL that can be used for development](https://slack.dev/node-slack-sdk/local_development). After you
-have a URL for development, see the section on [verifying a request URL for development](#verify-tool) so you can save
-it as the Request URL in your app configuration. Now you can begin adding event subscriptions, just be sure to install
-the app in your development workspace again each time you add new scopes (typically whenever you add new event
+[getting a public URL that can be used for development](https://slack.dev/node-slack-sdk/tutorials/local-development).
+After you have a URL for development, see the section on [verifying a request URL for development](#verify-tool) so you
+can save it as the Request URL in your app configuration. Now you can begin adding event subscriptions, just be sure to
+install the app in your development workspace again each time you add new scopes (typically whenever you add new event
 subscriptions).
 
 ---
