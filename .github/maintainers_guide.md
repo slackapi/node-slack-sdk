@@ -135,7 +135,7 @@ Labels are used to run issues through an organized workflow. Here are the basic 
 * `duplicate`: An issue that is functionally the same as another issue. Apply this only if you've linked the other issue
   by number.
 * `semver:major|minor|patch`: Metadata about how resolving this issue would affect the version number.
-* `package:*`: Metadata about which package(s) this issue affects.
+* `pkg:*`: Metadata about which package(s) this issue affects.
 
 **Triage** is the process of taking new issues that aren't yet "seen" and marking them with a basic level of information
 with labels. An issue should have **one** of the following labels applied: `bug`, `enhancement`, `question`,
