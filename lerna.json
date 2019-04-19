@@ -4,5 +4,6 @@
     "integration-tests",
     "examples/*"
   ],
-  "version": "independent"
+  "version": "independent",
+  "ignoreChanges": ["**/*.md"]
 }
