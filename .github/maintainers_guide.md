@@ -21,18 +21,18 @@ and to allow lerna to link them to each other.
 
 ### Testing
 
-This package has tests for individual packages in the respective `test` directory inside those packages. It also has
+This project has tests for individual packages inside of each's respective `test` directory. It also has
 integration tests in the `integration-tests` directory at the root. You can run the entire test suite using the npm
 script `npm test` at the top level. This script will use Lerna to invoke tests in each package and the integration
 tests.
 
 Tests are executed by Travis, our continuous integration system, slightly differently. Travis runs several, more
-granular builds in order to report on success and failure in a more useful (targetted) way. There is one build for each
+granular builds in order to report on success and failure in a more useful (targeted) way. There is one build for each
 package on each supported version of Node, as well as one for the integration tests on each supported version of Node.
-Travis also runs linting in each package, which is separate from tests so that you can run tests locally frequently
-without having to block for fixing styling problems. Lastly, Travis uploads the coverage report for the tests ran within
-the build to Codecov, our coverage reporting system. Travis reports status on each PR. Codecov aggregates all the
-coverage reports, and separate reports status on each PR. The configuration is stored in `.travis.yml`.
+Travis also runs linting in each package, which is separate from tests so you can run tests locally frequently without
+having to block for fixing styling problems. Lastly, Travis uploads the coverage report for the tests ran within the
+build to Codecov, our coverage reporting system. Travis reports status on each PR. Codecov aggregates all the coverage
+reports, and separate reports status on each PR. The configuration is stored in `.travis.yml`.
 
 Test code should be written in syntax that runs on the oldest supported Node.js version, without transpiling. This
 ensures that backwards compatibility is tested and the APIs look reasonable in versions of Node.js that do not support
@@ -42,7 +42,7 @@ the most modern syntax.
 
 A useful trick for debugging inside tests is to use the Chrome Debugging Protocol feature of Node.js to set breakpoints
 and interactively debug. In order to do this you must run mocha directly. This means that you should have already linted
-the source (`npm run lint`), manually. You then run the tests using the following command: `./node_modules/.bin/mocha
+the source (`npm run lint`) manually. You then run the tests using the following command: `./node_modules/.bin/mocha
 test/{test-name}.js --debug-brk --inspect` (replace {test-name} with an actual test file).
 
 ### Generating Documentation
@@ -55,7 +55,7 @@ the documentation is organized and built.
 
 ### Releasing
 
-Before releasing, its important to understand that you may release several packages simultaneously. While `lerna` can
+Before releasing, it's important to understand that you may release several packages simultaneously. While `lerna` can
 offer its view on which packages have changed since the last release, you should **verify version changes yourself**
 before continuing with the release. If you find a file or set of files that should be allowed to change without
 publishing a package, it might be a good idea to add it to the `ignoreChanges` setting in `lerna.json`.
@@ -73,7 +73,7 @@ you might not be able to use the same version number again. Venture on!
 1. Create a tagged commit for the release: `npx lerna version`
   * Lerna will ask you to make selections for the version increment on each package it plans to tag for release. You
     should already have an idea of what the appropriate semver increment (patch, minor, or major) you intend to create.
-    If Lerna asks about a package you didn't intend to release, its best to bail at this point
+    If Lerna asks about a package you didn't intend to release, it's best to bail at this point
     (<kbd>CTRL</kbd>+<kbd>C</kbd>).
 
 2. Publish the release(s) to npm: `NPM_CONFIG_OTP=xxxxxx npx lerna publish from-package`
