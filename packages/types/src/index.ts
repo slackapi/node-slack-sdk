@@ -211,7 +211,7 @@ export interface Confirm {
  */
 
  /**
-  * All known action types, this is to differentiate from thigns
+  * All known action types, this is to differentiate from things
   * that have the form of an action but aren't known to slack.
   */
 export type KnownAction =
@@ -333,7 +333,7 @@ export interface ChannelsSelect extends Action {
   type: 'channels_select';
 
   /**
-   * The ID of any valid conversation to be pre-selected when the menu loads.
+   * The ID of any valid public channel to be pre-selected when the menu loads.
    */
   initial_channel?: string;
 
@@ -572,7 +572,7 @@ export interface ActionsBlock extends Block {
 }
 
 /**
- * A content divider, like an <hr>, to split up different blocks inside of a
+ * A content divider, to split up different blocks inside of a
  * message. The divider block is nice and neat, requiring only a type.
  *
  * https://api.slack.com/reference/messaging/blocks#divider
