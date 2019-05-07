@@ -105,7 +105,7 @@ Import the `HttpsProxyAgent` class, and create an instance that can be used as t
 
 ```javascript
 const { IncomingWebhook } = require('@slack/webhook');
-const { HttpsProxyAgent } = require('https-proxy-agent');
+const HttpsProxyAgent = require('https-proxy-agent');
 const url = process.env.SLACK_WEBHOOK_URL;
 
 // One of the ways you can configure HttpsProxyAgent is using a simple string.
