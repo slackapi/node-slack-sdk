@@ -1,10 +1,12 @@
-var assert = require('assert');
-var request = require('superagent');
-var createRequestSignature = require('../helpers').createRequestSignature;
-var createEventAdapter = require('../../dist').createEventAdapter;
+require('mocha');
+const assert = require('assert');
+const request = require('superagent');
+const isFunction = require('lodash.isfunction');
 
-var isFunction = require('lodash.isfunction');
-var correctSigningSecret = 'SIGNING_SECRET';
+const { createEventAdapter } = require('../../src/');
+const { createRequestSignature } = require('../helpers');
+
+const correctSigningSecret = 'SIGNING_SECRET';
 
 describe('when using the waitForResponse option', function () {
   beforeEach(function () {
