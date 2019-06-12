@@ -70,6 +70,7 @@
     "nop": "^1.0.0",
     "nyc": "^11.6.0",
     "proxyquire": "^2.0.1",
+    "shx": "^0.3.2",
     "sinon": "^4.5.0",
     "source-map-support": "^0.5.12",
     "ts-node": "^8.2.0",
