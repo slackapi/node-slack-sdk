@@ -40,10 +40,11 @@
   },
   "scripts": {
     "prepare": "npm run build",
-    "build": "babel src -d dist --source-maps both",
-    "lint": "eslint src test",
-    "test": "npm run build && nyc --reporter=html mocha test/**/*.js",
-    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov -F interactivemessages"
+    "build": "npm run build:clean && tsc",
+    "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
+    "lint": "tslint --project .",
+    "test": "nyc mocha --config .mocharc.json src/*.spec.js",
+    "coverage": "codecov -F interactivemessages --root=$PWD"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -56,23 +57,24 @@
     "tsscmp": "^1.0.6"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^8.2.2",
-    "babel-plugin-dynamic-import-node": "^1.2.0",
-    "babel-preset-env": "^1.6.1",
+    "@types/debug": "^4.1.4",
+    "@types/node": "^12.0.8",
     "body-parser": "^1.18.2",
-    "chai": "^4.1.2",
+    "chai": "^4.2.0",
     "codecov": "^3.0.0",
     "eslint": "^4.9.0",
-    "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.7.0",
     "estraverse": "^4.2.0",
     "get-random-port": "0.0.1",
     "jsdoc-to-markdown": "^4.0.1",
-    "mocha": "^5.0.5",
+    "mocha": "^6.1.4",
     "nop": "^1.0.0",
     "nyc": "^11.6.0",
     "proxyquire": "^2.0.1",
-    "sinon": "^4.5.0"
+    "sinon": "^4.5.0",
+    "source-map-support": "^0.5.12",
+    "ts-node": "^8.2.0",
+    "tslint": "^5.17.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "typescript": "^3.5.1"
   }
 }

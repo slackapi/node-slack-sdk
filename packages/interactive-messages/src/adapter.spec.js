@@ -1,36 +1,34 @@
-/* global Promise */
+require('mocha');
+const http = require('http');
+const { assert } = require('chai');
+const sinon = require('sinon');
+const nop = require('nop');
+const getRandomPort = require('get-random-port');
 
-var http = require('http');
-var assert = require('chai').assert;
-var sinon = require('sinon');
-var nop = require('nop');
-var getRandomPort = require('get-random-port');
-var systemUnderTest = require('../../dist/adapter');
-var createStreamRequest = require('../helpers').createStreamRequest;
-var errorCodes = systemUnderTest.errorCodes;
-var SlackMessageAdapter = systemUnderTest.default;
-var delayed = require('../helpers').delayed;
+const { createStreamRequest, delayed } = require('../test/helpers');
+const { default: SlackMessageAdapter } = require('./adapter');
+const { errorCodes } = require('./index');
 
 // fixtures
-var workingSigningSecret = 'SIGNING_SECRET';
-var workingRawBody = 'payload=%7B%22type%22%3A%22interactive_message%22%7D';
+const workingSigningSecret = 'SIGNING_SECRET';
+const workingRawBody = 'payload=%7B%22type%22%3A%22interactive_message%22%7D';
 
 // test suite
 describe('SlackMessageAdapter', function () {
   describe('constructor', function () {
     it('should build an instance', function () {
-      var adapter = new SlackMessageAdapter(workingSigningSecret);
+      const adapter = new SlackMessageAdapter(workingSigningSecret);
       assert.instanceOf(adapter, SlackMessageAdapter);
       assert.equal(adapter.syncResponseTimeout, 2500);
     });
     it('should fail without a signing secret', function () {
       assert.throws(function () {
-        var adapter = new SlackMessageAdapter(); // eslint-disable-line no-unused-vars
+        const adapter = new SlackMessageAdapter(); // eslint-disable-line no-unused-vars
       }, TypeError);
     });
     it('should allow configuring of the synchronous response timeout', function () {
-      var newValue = 20;
-      var adapter = new SlackMessageAdapter(workingSigningSecret, {
+      const newValue = 20;
+      const adapter = new SlackMessageAdapter(workingSigningSecret, {
         syncResponseTimeout: newValue
       });
       assert.equal(adapter.syncResponseTimeout, newValue);
@@ -38,11 +36,11 @@ describe('SlackMessageAdapter', function () {
     it('should fail when the synchronous response timeout is out of range', function () {
       assert.throws(function () {
         // eslint-disable-next-line no-unused-vars
-        var a = new SlackMessageAdapter(workingSigningSecret, { syncResponseTimeout: 0 });
+        const a = new SlackMessageAdapter(workingSigningSecret, { syncResponseTimeout: 0 });
       }, TypeError);
       assert.throws(function () {
         // eslint-disable-next-line no-unused-vars
-        var a = new SlackMessageAdapter(workingSigningSecret, { syncResponseTimeout: 3001 });
+        const a = new SlackMessageAdapter(workingSigningSecret, { syncResponseTimeout: 3001 });
       }, TypeError);
     });
   });
@@ -61,7 +59,7 @@ describe('SlackMessageAdapter', function () {
 
   describe('#start()', function () {
     beforeEach(function (done) {
-      var self = this;
+      const self = this;
       self.adapter = new SlackMessageAdapter(workingSigningSecret);
       getRandomPort(function (error, port) {
         if (error) return done(error);
@@ -73,7 +71,7 @@ describe('SlackMessageAdapter', function () {
       return this.adapter.stop().catch(nop);
     });
     it('should return a Promise for a started http.Server', function () {
-      var self = this;
+      const self = this;
       return this.adapter.start(self.portNumber).then(function (server) {
         // only works in node >= 5.7.0
         // assert(server.listening);
@@ -84,7 +82,7 @@ describe('SlackMessageAdapter', function () {
 
   describe('#stop()', function () {
     beforeEach(function (done) {
-      var self = this;
+      const self = this;
       self.adapter = new SlackMessageAdapter(workingSigningSecret);
       getRandomPort(function (error, port) {
         if (error) return done(error);
@@ -100,7 +98,7 @@ describe('SlackMessageAdapter', function () {
       return this.adapter.stop().catch(nop);
     });
     it('should return a Promise and the server should be stopped', function () {
-      var self = this;
+      const self = this;
       return this.adapter.stop().then(function () {
         assert(!self.server.listening);
       });
@@ -120,14 +118,14 @@ describe('SlackMessageAdapter', function () {
     });
 
     it('should return a function', function () {
-      var middleware = this.adapter.expressMiddleware();
+      const middleware = this.adapter.expressMiddleware();
       assert.isFunction(middleware);
     });
     it('should error when body parser is used', function (done) {
-      var middleware = this.adapter.expressMiddleware();
-      var req = { body: { } };
-      var res = this.res;
-      var next = this.next;
+      const middleware = this.adapter.expressMiddleware();
+      const req = { body: { } };
+      const res = this.res;
+      const next = this.next;
       next.callsFake(function (err) {
         assert.equal(err.code, errorCodes.BODY_PARSER_NOT_PERMITTED);
         done();
@@ -135,12 +133,12 @@ describe('SlackMessageAdapter', function () {
       middleware(req, res, next);
     });
     it('should verify correctly signed request bodies', function (done) {
-      var ts = Math.floor(Date.now() / 1000);
-      var adapter = this.adapter;
-      var middleware = adapter.expressMiddleware();
-      var dispatch = this.dispatch;
-      var res = this.res;
-      var next = this.next;
+      const ts = Math.floor(Date.now() / 1000);
+      const adapter = this.adapter;
+      const middleware = adapter.expressMiddleware();
+      const dispatch = this.dispatch;
+      const res = this.res;
+      const next = this.next;
       adapter.dispatch = dispatch;
       // Create streamed request
       const req = createStreamRequest(workingSigningSecret, ts, workingRawBody);
@@ -160,7 +158,7 @@ describe('SlackMessageAdapter', function () {
       this.adapter = new SlackMessageAdapter(workingSigningSecret);
     });
     it('should return a function', function () {
-      var middleware = this.adapter.requestListener();
+      const middleware = this.adapter.requestListener();
       assert.isFunction(middleware);
     });
   });
@@ -175,7 +173,7 @@ describe('SlackMessageAdapter', function () {
    * @param {Object} [constraints] expected constraints for which handler should be registered
    */
   function assertHandlerRegistered(adapter, handler, constraints) {
-    var callbackEntry;
+    let callbackEntry;
 
     assert.isNotEmpty(adapter.callbacks);
     callbackEntry = adapter.callbacks.find(function (aCallbackEntry) {
@@ -210,8 +208,8 @@ describe('SlackMessageAdapter', function () {
         assertHandlerRegistered(this.adapter, this.handler);
       });
       it('invalid callback_id types throw on registration', function () {
-        var handler = this.handler;
-        var adapter = this.adapter;
+        const handler = this.handler;
+        const adapter = this.adapter;
         assert.throws(function () {
           adapter[methodName](5, handler);
         }, TypeError);
@@ -229,7 +227,7 @@ describe('SlackMessageAdapter', function () {
         }, TypeError);
       });
       it('non-function callbacks throw on registration', function () {
-        var adapter = this.adapter;
+        const adapter = this.adapter;
         assert.throws(function () {
           adapter[methodName]('my_callback', 5);
         }, TypeError);
@@ -255,9 +253,9 @@ describe('SlackMessageAdapter', function () {
         this.actionHandler = function () { };
       });
       it('should register with valid type constraints successfully', function () {
-        var adapter = this.adapter;
-        var actionHandler = this.actionHandler;
-        var constraintsSet = [
+        const adapter = this.adapter;
+        const actionHandler = this.actionHandler;
+        const constraintsSet = [
           { type: 'button' },
           { type: 'select' },
           { type: 'dialog_submission' }
@@ -269,18 +267,18 @@ describe('SlackMessageAdapter', function () {
         });
       });
       it('should register with unfurl constraint successfully', function () {
-        var constraints = { unfurl: true };
+        const constraints = { unfurl: true };
         this.adapter.action(constraints, this.actionHandler);
         assertHandlerRegistered(this.adapter, this.actionHandler, constraints);
       });
       it('should register with blockId constraints successfully', function () {
-        var constraints = { blockId: 'my_block' };
+        const constraints = { blockId: 'my_block' };
         this.adapter.action(constraints, this.actionHandler);
         assertHandlerRegistered(this.adapter, this.actionHandler, constraints);
       });
       it('invalid block_id types throw on registration', function () {
-        var handler = this.handler;
-        var adapter = this.adapter;
+        const handler = this.handler;
+        const adapter = this.adapter;
         assert.throws(function () {
           adapter.action({ blockId: 5 }, handler);
         }, TypeError);
@@ -298,13 +296,13 @@ describe('SlackMessageAdapter', function () {
         }, TypeError);
       });
       it('should register with actionId constraints successfully', function () {
-        var constraints = { actionId: 'my_action' };
+        const constraints = { actionId: 'my_action' };
         this.adapter.action(constraints, this.actionHandler);
         assertHandlerRegistered(this.adapter, this.actionHandler, constraints);
       });
       it('invalid action_id types throw on registration', function () {
-        var handler = this.handler;
-        var adapter = this.adapter;
+        const handler = this.handler;
+        const adapter = this.adapter;
         assert.throws(function () {
           adapter.action({ actionId: 5 }, handler);
         }, TypeError);
@@ -322,20 +320,20 @@ describe('SlackMessageAdapter', function () {
         }, TypeError);
       });
       it('should register with compound block constraints successfully', function () {
-        var constraints = { blockId: 'my_block', actionId: 'wham' };
+        const constraints = { blockId: 'my_block', actionId: 'wham' };
         this.adapter.action(constraints, this.actionHandler);
         assertHandlerRegistered(this.adapter, this.actionHandler, constraints);
       });
       it('should register with valid compound constraints successfully', function () {
-        var constraints = { callbackId: 'my_callback', type: 'button' };
+        const constraints = { callbackId: 'my_callback', type: 'button' };
         this.adapter.action(constraints, this.actionHandler);
         assertHandlerRegistered(this.adapter, this.actionHandler, constraints);
       });
       it('should throw when registering with invalid compound constraints', function () {
-        var adapter = this.adapter;
-        var actionHandler = this.actionHandler;
+        const adapter = this.adapter;
+        const actionHandler = this.actionHandler;
         // number isn't valid callbackId, all types are valid
-        var constraints = { callbackId: 111, type: 'button' };
+        const constraints = { callbackId: 111, type: 'button' };
         assert.throws(function () {
           adapter.action(constraints, actionHandler);
         }, TypeError);
@@ -361,9 +359,9 @@ describe('SlackMessageAdapter', function () {
         this.optionsHandler = function () { };
       });
       it('should register with valid from constraints successfully', function () {
-        var adapter = this.adapter;
-        var optionsHandler = this.optionsHandler;
-        var constraintsSet = [
+        const adapter = this.adapter;
+        const optionsHandler = this.optionsHandler;
+        const constraintsSet = [
           { within: 'interactive_message' },
           { within: 'dialog' }
         ];
@@ -374,22 +372,22 @@ describe('SlackMessageAdapter', function () {
         });
       });
       it('should throw when registering with invalid within constraints', function () {
-        var adapter = this.adapter;
-        var optionsHandler = this.optionsHandler;
-        var constraints = { within: 'not_a_real_options_source' };
+        const adapter = this.adapter;
+        const optionsHandler = this.optionsHandler;
+        const constraints = { within: 'not_a_real_options_source' };
         assert.throws(function () {
           adapter.options(constraints, optionsHandler);
         }, TypeError);
       });
       it('should register with valid compound constraints successfully', function () {
-        var constraints = { callbackId: 'my_callback', within: 'dialog' };
+        const constraints = { callbackId: 'my_callback', within: 'dialog' };
         this.adapter.options(constraints, this.optionsHandler);
         assertHandlerRegistered(this.adapter, this.optionsHandler, constraints);
       });
       it('should throw when registering with invalid compound constraints', function () {
-        var adapter = this.adapter;
-        var optionsHandler = this.optionsHandler;
-        var constraints = { callbackId: /\w+_callback/, within: 'not_a_real_options_source' };
+        const adapter = this.adapter;
+        const optionsHandler = this.optionsHandler;
+        const constraints = { callbackId: /\w+_callback/, within: 'not_a_real_options_source' };
         assert.throws(function () {
           adapter.options(constraints, optionsHandler);
         }, TypeError);
@@ -430,9 +428,9 @@ describe('SlackMessageAdapter', function () {
      * @param {...Object|string} messages expected messages in request body
      */
     function assertPostRequestMadeWithMessages(adapter, requestUrl) {
-      var messages = [].slice.call(arguments, 2);
-      var messagePromiseEntries = messages.map(function () {
-        var entry = {};
+      const messages = [].slice.call(arguments, 2);
+      const messagePromiseEntries = messages.map(function () {
+        const entry = {};
         entry.promise = new Promise(function (resolve) {
           entry.resolve = resolve;
         });
@@ -440,7 +438,7 @@ describe('SlackMessageAdapter', function () {
       });
 
       sinon.stub(adapter.axios, 'post').callsFake(function (url, body) {
-        var messageIndex;
+        let messageIndex;
         if (url !== requestUrl) {
           return;
         }
@@ -475,9 +473,9 @@ describe('SlackMessageAdapter', function () {
         this.replacement = { text: 'example replacement message' };
       });
       it('should handle the callback returning a message with a synchronous response', function () {
-        var dispatchResponse;
-        var requestPayload = this.requestPayload;
-        var replacement = this.replacement;
+        let dispatchResponse;
+        const requestPayload = this.requestPayload;
+        const replacement = this.replacement;
         this.adapter.action(requestPayload.callback_id, function (payload, respond) {
           assert.deepEqual(payload, requestPayload);
           assert.isFunction(respond);
@@ -488,10 +486,10 @@ describe('SlackMessageAdapter', function () {
       });
       it('should handle the callback returning a promise of a message before the timeout with a ' +
          'synchronous response', function () {
-        var dispatchResponse;
-        var requestPayload = this.requestPayload;
-        var replacement = this.replacement;
-        var timeout = this.adapter.syncResponseTimeout;
+        let dispatchResponse;
+        const requestPayload = this.requestPayload;
+        const replacement = this.replacement;
+        const timeout = this.adapter.syncResponseTimeout;
         this.timeout(timeout);
         this.adapter.action(requestPayload.callback_id, function (payload, respond) {
           assert.deepEqual(payload, requestPayload);
@@ -503,15 +501,15 @@ describe('SlackMessageAdapter', function () {
       });
       it('should handle the callback returning a promise of a message after the timeout with an ' +
          'asynchronous response', function () {
-        var dispatchResponse;
-        var requestPayload = this.requestPayload;
-        var replacement = this.replacement;
-        var expectedAsyncRequest = assertPostRequestMadeWithMessages(
+        let dispatchResponse;
+        const requestPayload = this.requestPayload;
+        const replacement = this.replacement;
+        const expectedAsyncRequest = assertPostRequestMadeWithMessages(
           this.adapter,
           requestPayload.response_url,
           replacement
         );
-        var timeout = this.adapter.syncResponseTimeout;
+        const timeout = this.adapter.syncResponseTimeout;
         this.timeout(timeout * 1.5);
         this.adapter.action(requestPayload.callback_id, function (payload, respond) {
           assert.deepEqual(payload, requestPayload);
@@ -526,9 +524,9 @@ describe('SlackMessageAdapter', function () {
       });
       it('should handle the callback returning a promise that fails after the timeout with a ' +
          'sychronous response', function () {
-        var dispatchResponse;
-        var requestPayload = this.requestPayload;
-        var timeout = this.adapter.syncResponseTimeout;
+        let dispatchResponse;
+        const requestPayload = this.requestPayload;
+        const timeout = this.adapter.syncResponseTimeout;
         this.timeout(timeout * 1.5);
         this.adapter.action(requestPayload.callback_id, function () {
           return delayed(timeout * 1.1, undefined, 'test error');
@@ -538,9 +536,9 @@ describe('SlackMessageAdapter', function () {
       });
       it('should handle the callback returning a promise that fails before the timeout with a ' +
          'sychronous response', function () {
-        var dispatchResponse;
-        var requestPayload = this.requestPayload;
-        var timeout = this.adapter.syncResponseTimeout;
+        let dispatchResponse;
+        const requestPayload = this.requestPayload;
+        const timeout = this.adapter.syncResponseTimeout;
         this.timeout(timeout);
         this.adapter.action(requestPayload.callback_id, function () {
           return delayed(timeout * 0.1, undefined, 'test error');
@@ -549,15 +547,15 @@ describe('SlackMessageAdapter', function () {
         return assertResponseStatusAndMessage(dispatchResponse, 500);
       });
       it('should handle the callback returning nothing and using respond to send a message', function () {
-        var dispatchResponse;
-        var requestPayload = this.requestPayload;
-        var replacement = this.replacement;
-        var expectedAsyncRequest = assertPostRequestMadeWithMessages(
+        let dispatchResponse;
+        const requestPayload = this.requestPayload;
+        const replacement = this.replacement;
+        const expectedAsyncRequest = assertPostRequestMadeWithMessages(
           this.adapter,
           requestPayload.response_url,
           replacement
         );
-        var timeout = this.adapter.syncResponseTimeout;
+        const timeout = this.adapter.syncResponseTimeout;
         this.timeout(timeout * 1.5);
         this.adapter.action(requestPayload.callback_id, function (payload, respond) {
           delayed(timeout * 1.1)
@@ -573,17 +571,17 @@ describe('SlackMessageAdapter', function () {
       });
       it('should handle the callback returning a promise of a message after the timeout with an ' +
          'asynchronous response and using respond to send another asynchronous response', function () {
-        var dispatchResponse;
-        var requestPayload = this.requestPayload;
-        var firstReplacement = this.replacement;
-        var secondReplacement = Object.assign({}, firstReplacement, { text: '2nd replacement' });
-        var expectedAsyncRequest = assertPostRequestMadeWithMessages(
+        let dispatchResponse;
+        const requestPayload = this.requestPayload;
+        const firstReplacement = this.replacement;
+        const secondReplacement = Object.assign({}, firstReplacement, { text: '2nd replacement' });
+        const expectedAsyncRequest = assertPostRequestMadeWithMessages(
           this.adapter,
           requestPayload.response_url,
           firstReplacement,
           secondReplacement
         );
-        var timeout = this.adapter.syncResponseTimeout;
+        const timeout = this.adapter.syncResponseTimeout;
         this.timeout(timeout * 1.5);
         this.adapter.action(requestPayload.callback_id, function (payload, respond) {
           delayed(timeout * 1.2)
@@ -600,17 +598,17 @@ describe('SlackMessageAdapter', function () {
       });
       it('should handle the callback returning nothing with a synchronous response and using ' +
          'respond to send multiple asynchronous responses', function () {
-        var dispatchResponse;
-        var requestPayload = this.requestPayload;
-        var firstReplacement = this.replacement;
-        var secondReplacement = Object.assign({}, firstReplacement, { text: '2nd replacement' });
-        var expectedAsyncRequest = assertPostRequestMadeWithMessages(
+        let dispatchResponse;
+        const requestPayload = this.requestPayload;
+        const firstReplacement = this.replacement;
+        const secondReplacement = Object.assign({}, firstReplacement, { text: '2nd replacement' });
+        const expectedAsyncRequest = assertPostRequestMadeWithMessages(
           this.adapter,
           requestPayload.response_url,
           firstReplacement,
           secondReplacement
         );
-        var timeout = this.adapter.syncResponseTimeout;
+        const timeout = this.adapter.syncResponseTimeout;
         this.timeout(timeout * 1.5);
         this.adapter.action(requestPayload.callback_id, function (payload, respond) {
           delayed(timeout * 1.1)
@@ -637,10 +635,10 @@ describe('SlackMessageAdapter', function () {
         });
         it('should handle the callback returning a promise of a message after the timeout with a ' +
             'synchronous response', function () {
-          var dispatchResponse;
-          var requestPayload = this.requestPayload;
-          var replacement = this.replacement;
-          var timeout = this.adapter.syncResponseTimeout;
+          let dispatchResponse;
+          const requestPayload = this.requestPayload;
+          const replacement = this.replacement;
+          const timeout = this.adapter.syncResponseTimeout;
           this.timeout(timeout * 1.5);
           this.adapter.action(requestPayload.callback_id, function (payload, respond) {
             assert.deepEqual(payload, requestPayload);
@@ -652,9 +650,9 @@ describe('SlackMessageAdapter', function () {
         });
         it('should handle the callback returning a promise that fails after the timeout with a ' +
            'sychronous response', function () {
-          var dispatchResponse;
-          var requestPayload = this.requestPayload;
-          var timeout = this.adapter.syncResponseTimeout;
+          let dispatchResponse;
+          const requestPayload = this.requestPayload;
+          const timeout = this.adapter.syncResponseTimeout;
           this.timeout(timeout * 1.5);
           this.adapter.action(requestPayload.callback_id, function () {
             return delayed(timeout * 1.1, undefined, 'test error');
@@ -686,9 +684,9 @@ describe('SlackMessageAdapter', function () {
         this.followUp = { text: 'thanks for submitting your email address' };
       });
       it('should handle the callback returning a message with a synchronous response', function () {
-        var dispatchResponse;
-        var requestPayload = this.requestPayload;
-        var submissionResponse = this.submissionResponse;
+        let dispatchResponse;
+        const requestPayload = this.requestPayload;
+        const submissionResponse = this.submissionResponse;
         this.adapter.action(requestPayload.callback_id, function (payload, respond) {
           assert.deepEqual(payload, requestPayload);
           assert.isFunction(respond);
@@ -700,10 +698,10 @@ describe('SlackMessageAdapter', function () {
 
       it('should handle the callback returning a promise of a message before the timeout with a ' +
          'synchronous response', function () {
-        var dispatchResponse;
-        var requestPayload = this.requestPayload;
-        var submissionResponse = this.submissionResponse;
-        var timeout = this.adapter.syncResponseTimeout;
+        let dispatchResponse;
+        const requestPayload = this.requestPayload;
+        const submissionResponse = this.submissionResponse;
+        const timeout = this.adapter.syncResponseTimeout;
         this.timeout(timeout);
         this.adapter.action(requestPayload.callback_id, function (payload, respond) {
           assert.deepEqual(payload, requestPayload);
@@ -716,10 +714,10 @@ describe('SlackMessageAdapter', function () {
 
       it('should handle the callback returning a promise of a message after the timeout with a ' +
          'synchronous response', function () {
-        var dispatchResponse;
-        var requestPayload = this.requestPayload;
-        var submissionResponse = this.submissionResponse;
-        var timeout = this.adapter.syncResponseTimeout;
+        let dispatchResponse;
+        const requestPayload = this.requestPayload;
+        const submissionResponse = this.submissionResponse;
+        const timeout = this.adapter.syncResponseTimeout;
         this.timeout(timeout * 1.5);
         this.adapter.action(requestPayload.callback_id, function (payload, respond) {
           assert.deepEqual(payload, requestPayload);
@@ -731,8 +729,8 @@ describe('SlackMessageAdapter', function () {
       });
 
       it('should handle the callback returning nothing with a synchronous response', function () {
-        var dispatchResponse;
-        var requestPayload = this.requestPayload;
+        let dispatchResponse;
+        const requestPayload = this.requestPayload;
         this.adapter.action(requestPayload.callback_id, function (payload, respond) {
           assert.deepEqual(payload, requestPayload);
           assert.isFunction(respond);
@@ -742,15 +740,15 @@ describe('SlackMessageAdapter', function () {
       });
 
       it('should handle the callback using respond to send a follow up message', function () {
-        var dispatchResponse;
-        var requestPayload = this.requestPayload;
-        var followUp = this.followUp;
-        var expectedAsyncRequest = assertPostRequestMadeWithMessages(
+        let dispatchResponse;
+        const requestPayload = this.requestPayload;
+        const followUp = this.followUp;
+        const expectedAsyncRequest = assertPostRequestMadeWithMessages(
           this.adapter,
           requestPayload.response_url,
           followUp
         );
-        var timeout = this.adapter.syncResponseTimeout;
+        const timeout = this.adapter.syncResponseTimeout;
         this.timeout(timeout * 1.5);
         this.adapter.action(requestPayload.callback_id, function (payload, respond) {
           delayed(timeout * 1.1)
@@ -787,9 +785,9 @@ describe('SlackMessageAdapter', function () {
       // NOTE: if the response options or options_groups contain the property "label", we can
       // change them to "text"
       it('should handle the callback returning options with a synchronous response', function () {
-        var dispatchResponse;
-        var requestPayload = this.requestPayload;
-        var optionsResponse = this.optionsResponse;
+        let dispatchResponse;
+        const requestPayload = this.requestPayload;
+        const optionsResponse = this.optionsResponse;
         this.adapter.options(requestPayload.callback_id, function (payload, secondArg) {
           assert.deepEqual(payload, requestPayload);
           assert.isUndefined(secondArg);
@@ -801,10 +799,10 @@ describe('SlackMessageAdapter', function () {
 
       it('should handle the callback returning a promise of options before the timeout with a ' +
          'synchronous response', function () {
-        var dispatchResponse;
-        var requestPayload = this.requestPayload;
-        var optionsResponse = this.optionsResponse;
-        var timeout = this.adapter.syncResponseTimeout;
+        let dispatchResponse;
+        const requestPayload = this.requestPayload;
+        const optionsResponse = this.optionsResponse;
+        const timeout = this.adapter.syncResponseTimeout;
         this.timeout(timeout);
         this.adapter.options(requestPayload.callback_id, function (payload, secondArg) {
           assert.deepEqual(payload, requestPayload);
@@ -817,10 +815,10 @@ describe('SlackMessageAdapter', function () {
 
       it('should handle the callback returning a promise of options after the timeout with a ' +
          'synchronous response', function () {
-        var dispatchResponse;
-        var requestPayload = this.requestPayload;
-        var optionsResponse = this.optionsResponse;
-        var timeout = this.adapter.syncResponseTimeout;
+        let dispatchResponse;
+        const requestPayload = this.requestPayload;
+        const optionsResponse = this.optionsResponse;
+        const timeout = this.adapter.syncResponseTimeout;
         this.timeout(timeout * 1.5);
         this.adapter.options(requestPayload.callback_id, function (payload, secondArg) {
           assert.deepEqual(payload, requestPayload);
@@ -832,8 +830,8 @@ describe('SlackMessageAdapter', function () {
       });
 
       it('should handle the callback returning nothing with a synchronous response', function () {
-        var dispatchResponse;
-        var requestPayload = this.requestPayload;
+        let dispatchResponse;
+        const requestPayload = this.requestPayload;
         this.adapter.options(requestPayload.callback_id, function (payload, secondArg) {
           assert.deepEqual(payload, requestPayload);
           assert.isUndefined(secondArg);
@@ -913,7 +911,7 @@ describe('SlackMessageAdapter', function () {
         this.callback = sinon.spy();
       });
       it('should return undefined when there are no callbacks registered', function () {
-        var response = this.adapter.dispatch({});
+        const response = this.adapter.dispatch({});
         assert.isUndefined(response);
       });
 
@@ -923,7 +921,7 @@ describe('SlackMessageAdapter', function () {
         });
 
         it('should return undefined with a string mismatch', function () {
-          var response;
+          let response;
           this.adapter.action('b', this.callback);
           response = this.adapter.dispatch(this.payload);
           assert(this.callback.notCalled);
@@ -931,7 +929,7 @@ describe('SlackMessageAdapter', function () {
         });
 
         it('should return undefined with a RegExp mismatch', function () {
-          var response;
+          let response;
           this.adapter.action(/b/, this.callback);
           response = this.adapter.dispatch(this.payload);
           assert(this.callback.notCalled);
@@ -948,7 +946,7 @@ describe('SlackMessageAdapter', function () {
         });
 
         it('should return undefined with a string mismatch', function () {
-          var response;
+          let response;
           this.adapter.action({ blockId: 'a' }, this.callback);
           response = this.adapter.dispatch(this.payload);
           assert(this.callback.notCalled);
@@ -956,7 +954,7 @@ describe('SlackMessageAdapter', function () {
         });
 
         it('should return undefined with a RegExp mismatch', function () {
-          var response;
+          let response;
           this.adapter.action({ blockId: /a/ }, this.callback);
           response = this.adapter.dispatch(this.payload);
           assert(this.callback.notCalled);
@@ -976,7 +974,7 @@ describe('SlackMessageAdapter', function () {
         });
 
         it('should return undefined with a string mismatch with options', function () {
-          var response;
+          let response;
           this.adapter.options({ blockId: 'a' }, this.callback);
           response = this.adapter.dispatch(this.optionsFromBlockMessagePayload);
           assert(this.callback.notCalled);
@@ -984,7 +982,7 @@ describe('SlackMessageAdapter', function () {
         });
 
         it('should return undefined with a RegExp mismatch with options', function () {
-          var response;
+          let response;
           this.adapter.options({ blockId: /a/ }, this.callback);
           response = this.adapter.dispatch(this.optionsFromBlockMessagePayload);
           assert(this.callback.notCalled);
@@ -1010,7 +1008,7 @@ describe('SlackMessageAdapter', function () {
         });
 
         it('should return undefined with a string mismatch', function () {
-          var response;
+          let response;
           this.adapter.action({ actionId: 'b' }, this.callback);
           response = this.adapter.dispatch(this.payload);
           assert(this.callback.notCalled);
@@ -1018,7 +1016,7 @@ describe('SlackMessageAdapter', function () {
         });
 
         it('should return undefined with a RegExp mismatch', function () {
-          var response;
+          let response;
           this.adapter.action({ actionId: /b/ }, this.callback);
           response = this.adapter.dispatch(this.payload);
           assert(this.callback.notCalled);
@@ -1038,7 +1036,7 @@ describe('SlackMessageAdapter', function () {
         });
 
         it('should return undefined with a string mismatch with options', function () {
-          var response;
+          let response;
           this.adapter.options({ actionId: 'b' }, this.callback);
           response = this.adapter.dispatch(this.optionsFromBlockMessagePayload);
           assert(this.callback.notCalled);
@@ -1046,7 +1044,7 @@ describe('SlackMessageAdapter', function () {
         });
 
         it('should return undefined with a RegExp mismatch with options', function () {
-          var response;
+          let response;
           this.adapter.options({ actionId: /b/ }, this.callback);
           response = this.adapter.dispatch(this.optionsFromBlockMessagePayload);
           assert(this.callback.notCalled);
@@ -1072,7 +1070,7 @@ describe('SlackMessageAdapter', function () {
         });
 
         it('should return undefined when type is present in constraints and it mismatches', function () {
-          var response;
+          let response;
           this.adapter.action({ type: 'select' }, this.callback);
           response = this.adapter.dispatch(this.payload);
           assert(this.callback.notCalled);
@@ -1099,7 +1097,7 @@ describe('SlackMessageAdapter', function () {
         });
 
         it('should return undefined when unfurl is present in constraints and it mismatches', function () {
-          var response;
+          let response;
           this.adapter.action({ unfurl: false }, this.callback);
           response = this.adapter.dispatch(this.payload);
           assert(this.callback.notCalled);
@@ -1117,7 +1115,7 @@ describe('SlackMessageAdapter', function () {
 
       describe('within based matching (options request only)', function () {
         it('should return undefined when within is present in constraints and it mismatches', function () {
-          var response;
+          let response;
           this.adapter.options({ within: 'dialog' }, this.callback);
           response = this.adapter.dispatch(this.optionsFromInteractiveMessagePayload);
           assert(this.callback.notCalled);
@@ -1167,10 +1165,10 @@ describe('SlackMessageAdapter', function () {
         });
         it('should only match the right handler for payload when both have the same callback_id', function () {
           // the following payloads have the same callback_id
-          var actionPayload = this.buttonPayload;
-          var optionsPayload = this.optionsFromDialogPayload;
-          var actionCallback = sinon.spy();
-          var optionsCallback = sinon.spy();
+          const actionPayload = this.buttonPayload;
+          const optionsPayload = this.optionsFromDialogPayload;
+          const actionCallback = sinon.spy();
+          const optionsCallback = sinon.spy();
           this.adapter.action(actionPayload.callback_id, actionCallback);
           this.adapter.options(actionPayload.callback_id, optionsCallback);
 
@@ -1189,7 +1187,7 @@ describe('SlackMessageAdapter', function () {
 
     describe('callback error handling', function () {
       it('should respond with an error when the registered callback throws', function () {
-        var response;
+        let response;
         this.adapter.action('a', function () {
           throw new Error('test error');
         });

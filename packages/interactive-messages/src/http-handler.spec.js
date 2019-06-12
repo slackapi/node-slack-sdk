@@ -1,15 +1,17 @@
-var assert = require('chai').assert;
-var sinon = require('sinon');
-var proxyquire = require('proxyquire');
-var createRequest = require('../helpers').createRequest;
-var correctRawBody = 'payload=%7B%22type%22%3A%22interactive_message%22%7D';
-var getRawBodyStub = sinon.stub();
-var systemUnderTest = proxyquire('../../dist/http-handler', {
+require('mocha');
+const { assert } = require('chai');
+const sinon = require('sinon');
+const proxyquire = require('proxyquire');
+
+const { createRequest } = require('../test/helpers');
+
+const getRawBodyStub = sinon.stub();
+const { createHTTPHandler } = proxyquire('./http-handler', {
   'raw-body': getRawBodyStub
 });
-var createHTTPHandler = systemUnderTest.createHTTPHandler;
-// fixtures
-var correctSigningSecret = 'SIGNING_SECRET';
+
+const correctRawBody = 'payload=%7B%22type%22%3A%22interactive_message%22%7D';
+const correctSigningSecret = 'SIGNING_SECRET';
 
 describe('createHTTPHandler', function () {
   beforeEach(function () {
@@ -28,10 +30,10 @@ describe('createHTTPHandler', function () {
   });
 
   it('should verify a correct signing secret', function (done) {
-    var dispatch = this.dispatch;
-    var res = this.res;
-    var date = Math.floor(Date.now() / 1000);
-    var req = createRequest(correctSigningSecret, date, correctRawBody);
+    const dispatch = this.dispatch;
+    const res = this.res;
+    const date = Math.floor(Date.now() / 1000);
+    const req = createRequest(correctSigningSecret, date, correctRawBody);
     dispatch.resolves({ status: 200 });
     getRawBodyStub.resolves(correctRawBody);
     res.end.callsFake(function () {
@@ -43,9 +45,9 @@ describe('createHTTPHandler', function () {
   });
 
   it('should fail request signing verification with an incorrect signing secret', function (done) {
-    var dispatch = this.dispatch;
-    var res = this.res;
-    var req = createRequest('INVALID_SECRET', this.correctDate, correctRawBody);
+    const dispatch = this.dispatch;
+    const res = this.res;
+    const req = createRequest('INVALID_SECRET', this.correctDate, correctRawBody);
     getRawBodyStub.resolves(correctRawBody);
     res.end.callsFake(function () {
       assert(dispatch.notCalled);
@@ -56,10 +58,10 @@ describe('createHTTPHandler', function () {
   });
 
   it('should fail request signing verification with old timestamp', function (done) {
-    var dispatch = this.dispatch;
-    var res = this.res;
-    var sixMinutesAgo = Math.floor(Date.now() / 1000) - (60 * 6);
-    var req = createRequest(correctSigningSecret, sixMinutesAgo, correctRawBody);
+    const dispatch = this.dispatch;
+    const res = this.res;
+    const sixMinutesAgo = Math.floor(Date.now() / 1000) - (60 * 6);
+    const req = createRequest(correctSigningSecret, sixMinutesAgo, correctRawBody);
     dispatch.resolves({ status: 200 });
     getRawBodyStub.resolves(correctRawBody);
     res.end.callsFake(function () {
@@ -71,8 +73,8 @@ describe('createHTTPHandler', function () {
   });
 
   it('should handle unexpected error', function (done) {
-    var res = this.res;
-    var req = createRequest(correctSigningSecret, this.correctDate, correctRawBody);
+    const res = this.res;
+    const req = createRequest(correctSigningSecret, this.correctDate, correctRawBody);
     getRawBodyStub.rejects(new Error('test error'));
     res.end.callsFake(function (result) {
       assert.equal(res.statusCode, 500);
@@ -83,8 +85,8 @@ describe('createHTTPHandler', function () {
   });
 
   it('should provide message with unexpected errors in development', function (done) {
-    var res = this.res;
-    var req = createRequest(correctSigningSecret, this.correctDate, correctRawBody);
+    const res = this.res;
+    const req = createRequest(correctSigningSecret, this.correctDate, correctRawBody);
     process.env.NODE_ENV = 'development';
     getRawBodyStub.rejects(new Error('test error'));
     res.end.callsFake(function (result) {
@@ -97,9 +99,9 @@ describe('createHTTPHandler', function () {
   });
 
   it('should handle no callback', function (done) {
-    var res = this.res;
-    var dispatch = this.dispatch;
-    var req = createRequest(correctSigningSecret, this.correctDate, correctRawBody);
+    const res = this.res;
+    const dispatch = this.dispatch;
+    const req = createRequest(correctSigningSecret, this.correctDate, correctRawBody);
     dispatch.returns(undefined);
     getRawBodyStub.resolves(correctRawBody);
     res.end.callsFake(function () {
@@ -110,9 +112,9 @@ describe('createHTTPHandler', function () {
   });
 
   it('should set an identification header in its responses', function (done) {
-    var dispatch = this.dispatch;
-    var res = this.res;
-    var req = createRequest(correctSigningSecret, this.correctDate, correctRawBody);
+    const dispatch = this.dispatch;
+    const res = this.res;
+    const req = createRequest(correctSigningSecret, this.correctDate, correctRawBody);
     dispatch.resolves({ status: 200 });
     getRawBodyStub.resolves(correctRawBody);
     res.end.callsFake(function () {
@@ -123,10 +125,10 @@ describe('createHTTPHandler', function () {
   });
 
   it('should respond to ssl check requests', function (done) {
-    var dispatch = this.dispatch;
-    var res = this.res;
-    var sslRawBody = 'payload=%7B%22ssl_check%22%3A%221%22%7D';
-    var req = createRequest(correctSigningSecret, this.correctDate, sslRawBody);
+    const dispatch = this.dispatch;
+    const res = this.res;
+    const sslRawBody = 'payload=%7B%22ssl_check%22%3A%221%22%7D';
+    const req = createRequest(correctSigningSecret, this.correctDate, sslRawBody);
     getRawBodyStub.resolves(sslRawBody);
     res.end.callsFake(function () {
       assert(dispatch.notCalled);
@@ -138,10 +140,10 @@ describe('createHTTPHandler', function () {
 
   describe('handling dispatch results', function () {
     it('should serialize objects in the content key as JSON', function (done) {
-      var dispatch = this.dispatch;
-      var res = this.res;
-      var req = createRequest(correctSigningSecret, this.correctDate, correctRawBody);
-      var content = {
+      const dispatch = this.dispatch;
+      const res = this.res;
+      const req = createRequest(correctSigningSecret, this.correctDate, correctRawBody);
+      const content = {
         abc: 'def',
         ghi: true,
         jkl: ['m', 'n', 'o'],
@@ -160,9 +162,9 @@ describe('createHTTPHandler', function () {
     });
 
     it('should handle an undefined content key as no body', function (done) {
-      var dispatch = this.dispatch;
-      var res = this.res;
-      var req = createRequest(correctSigningSecret, this.correctDate, correctRawBody);
+      const dispatch = this.dispatch;
+      const res = this.res;
+      const req = createRequest(correctSigningSecret, this.correctDate, correctRawBody);
       dispatch.resolves({ status: 500 });
       getRawBodyStub.resolves(correctRawBody);
       res.end.callsFake(function (body) {
@@ -175,10 +177,10 @@ describe('createHTTPHandler', function () {
     });
 
     it('should handle a string content key as the literal body', function (done) {
-      var dispatch = this.dispatch;
-      var res = this.res;
-      var req = createRequest(correctSigningSecret, this.correctDate, correctRawBody);
-      var content = 'hello, world';
+      const dispatch = this.dispatch;
+      const res = this.res;
+      const req = createRequest(correctSigningSecret, this.correctDate, correctRawBody);
+      const content = 'hello, world';
       dispatch.resolves({ status: 200, content: content });
       getRawBodyStub.resolves(correctRawBody);
       res.end.callsFake(function (body) {
