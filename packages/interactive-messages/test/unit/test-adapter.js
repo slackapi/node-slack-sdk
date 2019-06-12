@@ -7,7 +7,6 @@ var nop = require('nop');
 var getRandomPort = require('get-random-port');
 var systemUnderTest = require('../../dist/adapter');
 var createStreamRequest = require('../helpers').createStreamRequest;
-var errorCodes = systemUnderTest.errorCodes;
 var SlackMessageAdapter = systemUnderTest.default;
 var delayed = require('../helpers').delayed;
 
@@ -122,17 +121,6 @@ describe('SlackMessageAdapter', function () {
     it('should return a function', function () {
       var middleware = this.adapter.expressMiddleware();
       assert.isFunction(middleware);
-    });
-    it('should error when body parser is used', function (done) {
-      var middleware = this.adapter.expressMiddleware();
-      var req = { body: { } };
-      var res = this.res;
-      var next = this.next;
-      next.callsFake(function (err) {
-        assert.equal(err.code, errorCodes.BODY_PARSER_NOT_PERMITTED);
-        done();
-      });
-      middleware(req, res, next);
     });
     it('should verify correctly signed request bodies', function (done) {
       var ts = Math.floor(Date.now() / 1000);
