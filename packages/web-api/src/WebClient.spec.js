@@ -817,6 +817,18 @@ describe('WebClient', function () {
         });
     });
 
+    it('should set retrySec info on the response_metadata object', function () {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(200, { ok: true }, { 'retry-after': 100 });
+        const client = new WebClient(token);
+        return client.apiCall('method')
+          .then((data) => {
+            assert(data.response_metadata.retryAfter === 100);
+            scope.done();
+          });
+    });
+
     it('should pause the remaining requests in queue', function () {
       const startTime = Date.now();
       const retryAfter = 1;
@@ -856,8 +868,34 @@ describe('WebClient', function () {
           done();
         });
     });
-    // TODO: when parsing the retry header fails
   });
+
+  it('should throw an error if the response has no retry info', function (done) {
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(429, {}, { 'retry-after': undefined });
+      const client = new WebClient(token);
+      client.apiCall('method')
+        .catch((err) => {
+          assert(err.message.match(/Retry header did not contain a valid timeout/i) !== null);
+          scope.done();
+          done();
+        });
+  });
+
+  it('should throw an error if the response has an invalid retry-after header', function (done) {
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(429, {}, { 'retry-after': 'notanumber' });
+      const client = new WebClient(token);
+      client.apiCall('method')
+        .catch((err) => {
+          assert(err.message.match(/Retry header did not contain a valid timeout/i) !== null);
+          scope.done();
+          done();
+        });
+  });
+
 
   afterEach(function () {
     nock.cleanAll();
