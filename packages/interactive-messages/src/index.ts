@@ -7,6 +7,7 @@ import { ErrorCode } from './errors';
 export const errorCodes = {
   BODY_PARSER_NOT_PERMITTED: ErrorCode.BodyParserNotPermitted,
 } as const;
+// TODO: export other error codes
 
 /**
  * Factory method to create an instance of {@link SlackMessageAdapter}

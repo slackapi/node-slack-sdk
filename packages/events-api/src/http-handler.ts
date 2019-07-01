@@ -3,9 +3,10 @@ import debugFactory from 'debug';
 import getRawBody from 'raw-body';
 import crypto from 'crypto';
 import timingSafeCompare from 'tsscmp';
-import { packageIdentifier } from './util';
+import { packageIdentifier, isFalsy } from './util';
 import SlackEventAdapter from './adapter';
 import { IncomingMessage, ServerResponse } from 'http';
+/* tslint:enable:import-name */
 
 const debug = debugFactory('@slack/events-api:http-handler');
 
@@ -59,18 +60,20 @@ export function createHTTPHandler(adapter: SlackEventAdapter): HTTPHandler {
     return (err, responseOptions) => {
       debug('sending response - error: %s, responseOptions: %o', err, responseOptions);
       // Deal with errors up front
-      if (err !== undefined) {
+      if (!isFalsy(err)) {
         if ('status' in err) {
           res.statusCode = err.status;
-        } else if (err.code === ErrorCode.SignatureVerificationFailure ||
-            err.code === ErrorCode.RequestTimeFailure) {
+        } else if ('code' in err && (
+          err.code === ErrorCode.SignatureVerificationFailure ||
+          err.code === ErrorCode.RequestTimeFailure
+        )) {
           res.statusCode = ResponseStatus.NotFound;
         } else {
           res.statusCode = ResponseStatus.Failure;
         }
       } else {
         // First determine the response status
-        if (responseOptions !== undefined) {
+        if (!isFalsy(responseOptions)) {
           if (responseOptions.failWithNoRetry) {
             res.statusCode = ResponseStatus.Failure;
           } else if (responseOptions.redirectLocation) {
@@ -84,14 +87,14 @@ export function createHTTPHandler(adapter: SlackEventAdapter): HTTPHandler {
         }
 
         // Next determine the response headers
-        if (responseOptions !== undefined && responseOptions.failWithNoRetry) {
+        if (!isFalsy(responseOptions) && responseOptions.failWithNoRetry) {
           res.setHeader('X-Slack-No-Retry', '1');
         }
         res.setHeader('X-Slack-Powered-By', poweredBy);
       }
 
       // Lastly, send the response
-      if (responseOptions !== undefined && responseOptions.content) {
+      if (!isFalsy(responseOptions) && responseOptions.content) {
         res.end(responseOptions.content);
       } else {
         res.end();
@@ -137,7 +140,7 @@ export function createHTTPHandler(adapter: SlackEventAdapter): HTTPHandler {
 
     // If parser is being used and we don't receive the raw payload via `rawBody`,
     // we can't verify request signature
-    if (req.body !== undefined && req.rawBody === undefined) {
+    if (!isFalsy(req.body) && isFalsy(req.rawBody)) {
       handleError(
         errorWithCode(
           new Error('Parsing request body prohibits request signature verification'),
@@ -153,7 +156,7 @@ export function createHTTPHandler(adapter: SlackEventAdapter): HTTPHandler {
     // To prevent throwing an error here, we check the `rawBody` field before parsing the request
     // through the `raw-body` module (see Issue #85 - https://github.com/slackapi/node-slack-events-api/issues/85)
     let parseRawBody: Promise<Buffer>;
-    if (req.rawBody !== undefined) {
+    if (!isFalsy(req.rawBody)) {
       debug('Parsing request with a rawBody attribute');
       parseRawBody = Promise.resolve(req.rawBody);
     } else {
@@ -211,12 +214,12 @@ enum ResponseStatus {
   Failure = 500,
 }
 
-type HTTPHandler = (req: IncomingMessage & { body?: string, rawBody?: Buffer }, res: ServerResponse) => void;
+type HTTPHandler = (req: IncomingMessage & { body?: any, rawBody?: Buffer }, res: ServerResponse) => void;
 
 /**
  * A response handler returned by `sendResponse`.
  */
-type ResponseHandler = (err?: (Error & Partial<Omit<CodedError, keyof Error>>) | { status: number }, responseOptions?: {
+export type ResponseHandler = (err?: Error | CodedError | { status: number }, responseOptions?: {
   failWithNoRetry?: boolean;
   redirectLocation?: boolean;
   content?: any;

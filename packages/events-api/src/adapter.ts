@@ -1,7 +1,11 @@
-import EventEmitter from 'events'; // tslint:disable-line
+/* tslint:disable import-name */
+import EventEmitter from 'events';
 import http, { IncomingMessage, ServerResponse } from 'http';
-import debugFactory from 'debug'; // tslint:disable-line
+import debugFactory from 'debug';
+import isString from 'lodash.isstring';
 import { createHTTPHandler } from './http-handler';
+import { isFalsy } from './util';
+/* tslint:enable import-name */
 
 const debug = debugFactory('@slack/events-api:adapter');
 
@@ -15,17 +19,17 @@ export class SlackEventAdapter extends EventEmitter {
   public readonly signingSecret: string;
 
   /**
-   * Whether to include the API event bodies in adapter event consumers.
+   * Whether to include the API event bodies in adapter event listeners.
    */
   public includeBody: boolean;
 
   /**
-   * Whether to include request headers in adapter event consumers.
+   * Whether to include request headers in adapter event listeners.
    */
   public includeHeaders: boolean;
 
   /**
-   * When `true`, prevents the adapter from responding by itself and leaves that up to consumers.
+   * When `true` prevents the adapter from responding by itself and leaves that up to listeners.
    */
   public waitForResponse: boolean;
 
@@ -36,25 +40,26 @@ export class SlackEventAdapter extends EventEmitter {
 
   /**
    * @param signingSecret - The token used to authenticate signed requests from Slack's Events API.
-   * @param opts.includeBody - TODO:
-   * @param opts.includeHeaders - TODO:
-   * @param opts.waitForResponse - TODO:
+   * @param opts.includeBody - Whether to include the API event bodies in adapter event listeners.
+   * @param opts.includeHeaders - Whether to include request headers in adapter event listeners.
+   * @param opts.waitForResponse - When `true` prevents the adapter from responding by itself and leaves that up to
+   *   listeners.
    */
   constructor(
-    signingSecret: string | String,
+    signingSecret: string,
     {
       includeBody = false,
       includeHeaders = false,
       waitForResponse = false,
     }: EventAdapterOptions = {},
   ) {
-    if (typeof signingSecret !== 'string' && !(signingSecret instanceof String)) {
+    if (!isString(signingSecret)) {
       throw new TypeError('SlackEventAdapter needs a signing secret');
     }
 
     super();
 
-    this.signingSecret = signingSecret as string;
+    this.signingSecret = signingSecret;
     this.includeBody = includeBody;
     this.includeHeaders = includeHeaders;
     this.waitForResponse = waitForResponse;
@@ -68,15 +73,11 @@ export class SlackEventAdapter extends EventEmitter {
 
   /**
    * Creates an HTTP server to listen for event payloads.
-   *
-   * @param path - (UNUSED) The path to listen on.
    */
-  public createServer(path: string = '/slack/events'): Promise<http.Server> {
+  public createServer(): Promise<http.Server> {
     // TODO: options (like https)
-    // NOTE: this is a workaround for a shortcoming of the System.import() tranform
+    // NOTE: this was once a workaround for a shortcoming of the System.import() tranform
     return Promise.resolve().then(() => {
-      debug('server created - path: %s', path);
-
       return http.createServer(this.requestListener());
     });
   }
@@ -102,10 +103,10 @@ export class SlackEventAdapter extends EventEmitter {
    */
   public stop(): Promise<void> {
     return new Promise((resolve, reject) => {
-      if (this.server !== undefined) {
+      if (!isFalsy(this.server)) {
         this.server.close((error) => {
           delete this.server;
-          if (error !== undefined) {
+          if (!isFalsy(error)) {
             reject(error);
           } else {
             resolve();
@@ -119,12 +120,9 @@ export class SlackEventAdapter extends EventEmitter {
 
   /**
    * Returns a middleware-compatible adapter.
-   * @param middlewareOptions - (UNUSED)
    */
-  public expressMiddleware(
-    middlewareOptions: object = {},
-  ): (req: IncomingMessage, res: ServerResponse, next: () => void) => void {
-    const requestListener = this.requestListener(middlewareOptions);
+  public expressMiddleware(): (req: IncomingMessage, res: ServerResponse, next: () => void) => void {
+    const requestListener = this.requestListener();
     return (req, res, _next) => {
       requestListener(req, res);
     };
@@ -132,10 +130,8 @@ export class SlackEventAdapter extends EventEmitter {
 
   /**
    * Creates a request listener.
-   *
-   * @param middlewareOptions - (UNUSED)
    */
-  public requestListener(_middlewareOptions = {}): (req: IncomingMessage, res: ServerResponse) => void {
+  public requestListener(): (req: IncomingMessage, res: ServerResponse) => void {
     return createHTTPHandler(this);
   }
 }

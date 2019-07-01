@@ -23,7 +23,7 @@ describe('SlackMessageAdapter', function () {
     });
     it('should fail without a signing secret', function () {
       assert.throws(function () {
-        const adapter = new SlackMessageAdapter(); // eslint-disable-line no-unused-vars
+        const adapter = new SlackMessageAdapter();
       }, TypeError);
     });
     it('should allow configuring of the synchronous response timeout', function () {
@@ -35,11 +35,9 @@ describe('SlackMessageAdapter', function () {
     });
     it('should fail when the synchronous response timeout is out of range', function () {
       assert.throws(function () {
-        // eslint-disable-next-line no-unused-vars
         const a = new SlackMessageAdapter(workingSigningSecret, { syncResponseTimeout: 0 });
       }, TypeError);
       assert.throws(function () {
-        // eslint-disable-next-line no-unused-vars
         const a = new SlackMessageAdapter(workingSigningSecret, { syncResponseTimeout: 3001 });
       }, TypeError);
     });
@@ -190,7 +188,7 @@ describe('SlackMessageAdapter', function () {
    * @param {SlackMessageAdapter} adapter
    */
   function unregisterAllHandlers(adapter) {
-    adapter.callbacks = []; // eslint-disable-line no-param-reassign
+    adapter.callbacks = [];
   }
 
   // shared tests

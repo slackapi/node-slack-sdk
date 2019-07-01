@@ -1,5 +1,5 @@
 /* tslint:disable import-name */
-import { IncomingMessage, ServerResponse } from 'http';
+import { ServerResponse, RequestListener } from 'http';
 import * as querystring from 'querystring';
 import debugFactory from 'debug';
 import getRawBody from 'raw-body';
@@ -7,11 +7,11 @@ import crypto from 'crypto';
 import timingSafeCompare from 'tsscmp';
 import SlackMessageAdapter from './adapter';
 import { ErrorCode, errorWithCode } from './errors';
-import { packageIdentifier } from './util';
+import { packageIdentifier, isFalsy } from './util';
 
 const debug = debugFactory('@slack/interactive-messages:http-handler');
 
-export function createHTTPHandler(adapter: SlackMessageAdapter): HTTPHandler {
+export function createHTTPHandler(adapter: SlackMessageAdapter): RequestListener {
   const poweredBy = packageIdentifier();
 
   /**
@@ -26,7 +26,7 @@ export function createHTTPHandler(adapter: SlackMessageAdapter): HTTPHandler {
       res.setHeader('X-Slack-Powered-By', poweredBy);
       if (typeof content === 'string') {
         res.end(content);
-      } else if (content !== undefined) {
+      } else if (!isFalsy(content)) {
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify(content));
       } else {
@@ -41,9 +41,9 @@ export function createHTTPHandler(adapter: SlackMessageAdapter): HTTPHandler {
    * @param body - Raw body of request
    * @returns Parsed body of the request
    */
-  function parseBody(body: string): object {
+  function parseBody(body: string): any {
     const parsedBody = querystring.parse(body);
-    if (parsedBody.payload !== undefined) {
+    if (!isFalsy(parsedBody.payload)) {
       return JSON.parse(parsedBody.payload as string);
     }
 
@@ -120,6 +120,7 @@ export function createHTTPHandler(adapter: SlackMessageAdapter): HTTPHandler {
           const dispatchResult = adapter.dispatch(body);
 
           if (dispatchResult !== undefined) {
+            // TODO: handle this after responding?
             // tslint:disable-next-line no-floating-promises
             dispatchResult.then(respond);
           } else {
@@ -140,8 +141,6 @@ export function createHTTPHandler(adapter: SlackMessageAdapter): HTTPHandler {
   };
 }
 
-export type HTTPHandler = (req: IncomingMessage & { body?: string, rawBody?: Buffer }, res: ServerResponse) => void;
-
 /**
  * A response handler returned by `sendResponse`.
  */
@@ -149,28 +148,3 @@ type ResponseHandler = (dispatchResult: {
   status: number,
   content?: string | object,
 }) => void;
-
-/**
- * Parameters for calling {@link verifyRequestSignature}.
- */
-export interface VerifyRequestSignatureParams {
-  /**
-   * The signing secret used to verify request signature.
-   */
-  signingSecret: string;
-
-  /**
-   * Signature from the `X-Slack-Signature` header.
-   */
-  requestSignature: string;
-
-  /**
-   * Timestamp from the `X-Slack-Request-Timestamp` header.
-   */
-  requestTimestamp: number;
-
-  /**
-   * Full, raw body string.
-   */
-  body: string;
-}

@@ -33,7 +33,7 @@ const argv = yargs
 const slackEvents = createEventAdapter(argv.secret);
 
 slackEvents
-  .createServer(argv.path)
+  .createServer()
   .then(server => new Promise((resolve, reject) => {
     server.on('error', reject);
     server.listen(argv.port, () => {

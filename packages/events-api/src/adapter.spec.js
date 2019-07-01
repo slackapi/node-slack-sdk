@@ -20,7 +20,7 @@ describe('SlackEventAdapter', function () {
     });
     it('should fail without a signing secret', function () {
       assert.throws(function () {
-        const adapter = new SlackEventAdapter();  // eslint-disable-line no-unused-vars
+        const adapter = new SlackEventAdapter();
       }, TypeError);
     });
     it('should store the signing secret', function () {
