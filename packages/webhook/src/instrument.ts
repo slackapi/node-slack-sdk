@@ -11,9 +11,9 @@ function replaceSlashes(s: string): string {
   return s.replace('/', ':');
 }
 
-const baseUserAgent = `${replaceSlashes(packageJson.name)}/${packageJson.version} `
-                    + `node/${process.version.replace('v', '')} `
-                    + `${os.platform()}/${os.release()}`;
+const baseUserAgent = `${replaceSlashes(packageJson.name)}/${packageJson.version} ` +
+                      `node/${process.version.replace('v', '')} ` +
+                      `${os.platform()}/${os.release()}`;
 
 const appMetadata: { [key: string]: string } = {};
 

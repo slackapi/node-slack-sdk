@@ -1,10 +1,10 @@
 import { Agent } from 'http';
 
 import { EventEmitter } from 'eventemitter3';
-import WebSocket from 'ws'; // tslint:disable-line:import-name
-import Finity, { StateMachine } from 'finity'; // tslint:disable-line:import-name
-import PQueue from 'p-queue'; // tslint:disable-line:import-name
-import PCancelable from 'p-cancelable'; // tslint:disable-line:import-name
+import WebSocket from 'ws';
+import Finity, { StateMachine } from 'finity';
+import PQueue from 'p-queue';
+import PCancelable from 'p-cancelable';
 import {
   WebClient,
   WebAPICallResult,
@@ -27,7 +27,8 @@ import {
   sendWhileNotReadyError,
 } from './errors';
 
-const packageJson = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const packageJson = require('../package.json');
 
 /**
  * An RTMClient allows programs to communicate with the {@link https://api.slack.com/rtm|Slack Platform's RTM API}.
@@ -88,6 +89,7 @@ export class RTMClient extends EventEmitter {
    */
   private stateMachine: StateMachine<string, string>;
 
+  /* eslint-disable @typescript-eslint/indent,newline-per-chained-call */
   /**
    * Configuration for the state machine
    */
@@ -220,7 +222,8 @@ export class RTMClient extends EventEmitter {
           this.authenticated = false;
 
           // clear data that is now stale
-          this.activeUserId = this.activeTeamId = undefined;
+          this.activeUserId = undefined;
+          this.activeTeamId = undefined;
 
           this.keepAlive.stop();
           this.outgoingEventQueue.pause();
@@ -256,6 +259,7 @@ export class RTMClient extends EventEmitter {
           }
         })
     .getConfig();
+    /* eslint-enable @typescript-eslint/indent,newline-per-chained-call */
 
   /**
    * The client's websocket
@@ -307,7 +311,11 @@ export class RTMClient extends EventEmitter {
    */
   private logger: Logger;
 
-  constructor(token: string, {
+  /**
+   * @param token token to authenticate
+   * @param options client options
+   */
+  public constructor(token: string, {
     slackApiUrl = 'https://slack.com/api/',
     logger = undefined,
     logLevel = LogLevel.INFO,
@@ -371,6 +379,7 @@ export class RTMClient extends EventEmitter {
   /**
    * Begin an RTM session using the provided options. This method must be called before any messages can
    * be sent or received.
+   * @param options start options
    */
   public start(options?: RTMStartOptions): Promise<WebAPICallResult> {
     this.logger.debug('start()');
@@ -442,6 +451,7 @@ export class RTMClient extends EventEmitter {
     return this.addOutgoingEvent(false, 'presence_sub', { ids: userIds });
   }
 
+  /* eslint-disable jsdoc/require-jsdoc,lines-between-class-members */
   /**
    * Generic method for sending an outgoing message of an arbitrary type. This method guards the higher-level methods
    * from concern of which state the client is in, because it places all messages into a queue. The tasks on the queue
@@ -463,14 +473,15 @@ export class RTMClient extends EventEmitter {
   public addOutgoingEvent(awaitReply: true, type: string, body?: {}): Promise<RTMCallResult>;
   public addOutgoingEvent(awaitReply: false, type: string, body?: {}): Promise<void>;
   public addOutgoingEvent(awaitReply: boolean, type: string, body?: {}): Promise<RTMCallResult | void> {
-    const awaitReplyTask = (messageId: number) => {
+  /* eslint-enable jsdoc/require-jsdoc,lines-between-class-members */
+    const awaitReplyTask = (messageId: number): PCancelable<RTMCallResult> => {
       const replyPromise = new PCancelable<RTMCallResult>((resolve, reject, onCancel) => {
-        const eventHandler = (_type: string, event: RTMCallResult) => {
+        const eventHandler = (_type: string, event: RTMCallResult): void => {
           if (event.reply_to === messageId) {
             this.off('slack_event', eventHandler);
             if (event.error !== undefined) {
-              const error = platformErrorFromEvent(event as RTMCallResult & { error: { msg: string; } });
-              return reject(error);
+              const error = platformErrorFromEvent(event as RTMCallResult & { error: { msg: string } });
+              reject(error);
             }
             resolve(event);
           }
@@ -530,7 +541,7 @@ export class RTMClient extends EventEmitter {
         this.websocket.send(flatMessage, (error) => {
           if (error !== undefined) {
             this.logger.error(`failed to send message on websocket: ${error.message}`);
-            return reject(websocketErrorWithOriginal(error));
+            reject(websocketErrorWithOriginal(error));
           }
           resolve(message.id);
         });
@@ -548,6 +559,7 @@ export class RTMClient extends EventEmitter {
 
   /**
    * Set up method for the client's websocket instance. This method will attach event listeners.
+   * @param url websocket url to initialise
    */
   private setupWebsocket(url: string): void {
     // initialize the websocket
@@ -588,6 +600,8 @@ export class RTMClient extends EventEmitter {
   /**
    * `onmessage` handler for the client's websocket. This will parse the payload and dispatch the relevant events for
    * each incoming message.
+   * @param message message being received
+   * @param message.data message data being parsed
    */
   private onWebsocketMessage({ data }: { data: string }): void {
     this.logger.debug(`received message on websocket: ${data}`);
@@ -645,9 +659,12 @@ export interface RTMClientOptions {
   logLevel?: LogLevel;
   retryConfig?: RetryOptions;
   agent?: Agent;
-  autoReconnect?: boolean; // this is a simple yes or no. there is no limit to the number or reconnections. a simple
-                           // number is probably the wrong idea since reconnections can happen for uncontrollable
-                           // yet normal reasons such as team migrations and the keep-alive algorithm.
+
+  // this is a simple yes or no. there is no limit to the number or reconnections. a simple
+  // number is probably the wrong idea since reconnections can happen for uncontrollable
+  // yet normal reasons such as team migrations and the keep-alive algorithm.
+  autoReconnect?: boolean;
+
   useRtmConnect?: boolean;
   clientPingTimeout?: number;
   serverPongTimeout?: number;

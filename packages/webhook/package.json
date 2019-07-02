@@ -33,8 +33,7 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
-    "lint": "eslint src --ext ts",
-    "test": "npm run build && nyc mocha --config .mocharc.json src/*.spec.js",
+    "test": "npm run build && nyc mocha --config .mocharc.json src/*.spec.ts",
     "coverage": "codecov -F webhook --root=$PWD"
   },
   "dependencies": {
@@ -45,14 +44,10 @@
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
-    "@typescript-eslint/eslint-plugin": "^1.11.0",
-    "@typescript-eslint/parser": "^1.11.0",
+    "@types/nock": "^10.0.3",
+    "@types/sinon": "^7.0.13",
     "chai": "^4.2.0",
     "codecov": "^3.2.0",
-    "eslint": "^6.0.1",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.18.0",
-    "eslint-plugin-jsdoc": "^10.0.3",
     "mocha": "^6.0.2",
     "nock": "^10.0.6",
     "nyc": "^14.1.1",

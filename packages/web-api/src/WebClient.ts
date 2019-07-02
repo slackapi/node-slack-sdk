@@ -1,9 +1,5 @@
 /// <reference lib="esnext.asynciterable" />
 
-// polyfill for async iterable. see: https://stackoverflow.com/a/43694282/305340
-// can be removed once node v10 is the minimum target (node v8 and v9 require --harmony_async_iteration flag)
-if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
-
 import { Agent } from 'http';
 import { basename } from 'path';
 import { Readable } from 'stream';
@@ -11,19 +7,24 @@ import { SecureContextOptions } from 'tls';
 
 import isStream from 'is-stream';
 import { EventEmitter } from 'eventemitter3';
-import PQueue from 'p-queue'; // tslint:disable-line:import-name
+import PQueue from 'p-queue';
 import pRetry, { AbortError } from 'p-retry';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import FormData from 'form-data'; // tslint:disable-line:import-name
+import FormData from 'form-data';
 
-import Method, * as methods from './methods'; // tslint:disable-line:import-name
+import Method, * as methods from './methods';
 import { getUserAgent } from './instrument';
 import {
   requestErrorWithOriginal, httpErrorFromResponse, platformErrorFromResult, rateLimitedErrorWithDelay,
 } from './errors';
 import { LogLevel, Logger, getLogger } from './logger';
-import retryPolicies, { RetryOptions } from './retry-policies';
+import { tenRetriesInAboutThirtyMinutes, RetryOptions } from './retry-policies';
 import { delay } from './helpers';
+
+// polyfill for async iterable. see: https://stackoverflow.com/a/43694282/305340
+// can be removed once node v10 is the minimum target (node v8 and v9 require --harmony_async_iteration flag)
+// eslint-disable-next-line dot-notation,@typescript-eslint/no-explicit-any
+if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
 
 /**
  * A client for Slack's Web API
@@ -80,13 +81,14 @@ export class WebClient extends EventEmitter<WebClientEvent> {
 
   /**
    * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`)
+   * @param options options to set
    */
-  constructor(token?: string, {
+  public constructor(token?: string, {
     slackApiUrl = 'https://slack.com/api/',
     logger = undefined,
     logLevel = LogLevel.INFO,
     maxRequestConcurrency = 3,
-    retryConfig = retryPolicies.tenRetriesInAboutThirtyMinutes,
+    retryConfig = tenRetriesInAboutThirtyMinutes,
     agent = undefined,
     tls = undefined,
     rejectRateLimitedCalls = false,
@@ -155,12 +157,13 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     }
 
     if (!result.ok) {
-      throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
+      throw platformErrorFromResult(result as (WebAPICallResult & { error: string }));
     }
 
     return result;
   }
 
+  /* eslint-disable jsdoc/require-jsdoc,lines-between-class-members */
   /**
    * Iterate over the result pages of a cursor-paginated Web API method. This method can return two types of values,
    * depending on which arguments are used. When up to two parameters are used, the return value is an async iterator
@@ -199,20 +202,24 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     shouldStop?: PaginatePredicate,
     reduce?: PageReducer<A>,
   ): (Promise<A> | AsyncIterator<WebAPICallResult>) {
-
+  /* eslint-enable jsdoc/require-jsdoc,lines-between-class-members */
     if (!methods.cursorPaginationEnabledMethods.has(method)) {
       this.logger.warn(`paginate() called with method ${method}, which is not known to be cursor pagination enabled.`);
     }
 
     const pageSize = (() => {
       if (options !== undefined && typeof options.limit === 'number') {
-        const limit = options.limit;
+        const { limit } = options;
         delete options.limit;
         return limit;
       }
       return defaultPageSize;
     })();
 
+    /**
+     * Generates a set of web api calls
+     * @param this client being bound to
+     */
     async function* generatePages(this: WebClient): AsyncIterableIterator<WebAPICallResult> {
       // when result is undefined, that signals that the first of potentially many calls has not yet been made
       let result: WebAPICallResult | undefined = undefined;
@@ -227,6 +234,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       // NOTE: test for the situation where you're resuming a pagination using and existing cursor
 
       while (result === undefined || paginationOptions !== undefined) {
+        // eslint-disable-next-line no-await-in-loop
         result = await this.apiCall(method, Object.assign(options !== undefined ? options : {}, paginationOptions));
         yield result;
         paginationOptions = paginationOptionsForNextPage(result, pageSize);
@@ -590,10 +598,13 @@ export class WebClient extends EventEmitter<WebClientEvent> {
 
   /**
    * Low-level function to make a single API request. handles queuing, retries, and http-level errors
+   * @param url URL to request
+   * @param body body to post
+   * @param headers headers to set on the request
    */
   private async makeRequest(url: string, body: any, headers: any = {}): Promise<AxiosResponse> {
     // TODO: better input types - remove any
-    const task = () => this.requestQueue.add(async () => {
+    const task = (): any => this.requestQueue.add(async () => {
       this.logger.debug('will perform http request');
       try {
         const response = await this.axios.post(url, body, Object.assign(
@@ -660,8 +671,9 @@ export class WebClient extends EventEmitter<WebClientEvent> {
   private serializeApiCallOptions(options: WebAPICallOptions, headers?: any): string | Readable {
     // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
     // binary content
-    let containsBinaryData: boolean = false;
+    let containsBinaryData = false;
     const flattened = Object.entries(options)
+      /* eslint-disable @typescript-eslint/indent */
       .map<[string, any] | []>(([key, value]) => {
         if (value === undefined || value === null) {
           return [];
@@ -679,17 +691,17 @@ export class WebClient extends EventEmitter<WebClientEvent> {
 
         return [key, serializedValue];
       });
+      /* eslint-enable @typescript-eslint/indent */
 
     // A body with binary content should be serialized as multipart/form-data
     if (containsBinaryData) {
       this.logger.debug('request arguments contain binary data');
       const form = flattened.reduce(
-        (form, [key, value]) => {
+        (f, [key, value]) => {
           if (Buffer.isBuffer(value) || isStream(value)) {
-            const options: FormData.AppendOptions = {};
-            options.filename = (() => {
+            const appendOptions: FormData.AppendOptions = {};
+            appendOptions.filename = (() => {
               // attempt to find filename from `value`. adapted from:
-              // tslint:disable-next-line:max-line-length
               // https://github.com/form-data/form-data/blob/028c21e0f93c5fefa46a7bbf1ba753e4f627ab7a/lib/form_data.js#L227-L230
               // formidable and the browser add a name property
               // fs- and request- streams have path property
@@ -702,11 +714,11 @@ export class WebClient extends EventEmitter<WebClientEvent> {
               }
               return defaultFilename;
             })();
-            form.append(key as string, value, options);
+            f.append(key as string, value, appendOptions);
           } else if (key !== undefined && value !== undefined) {
-            form.append(key, value);
+            f.append(key, value);
           }
-          return form;
+          return f;
         },
         new FormData(),
       );
@@ -720,7 +732,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
 
     // Otherwise, a simple key-value object is returned
     headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    const initialValue: { [key: string]: any; } = {};
+    const initialValue: { [key: string]: any } = {};
     return (new URLSearchParams(flattened.reduce(
       (accumulator, [key, value]) => {
         if (key !== undefined && value !== undefined) {
@@ -738,9 +750,10 @@ export class WebClient extends EventEmitter<WebClientEvent> {
    * @param response - an http response
    */
   private buildResult(response: AxiosResponse): WebAPICallResult {
-    const data = response.data;
+    const { data } = response;
 
     if (data.response_metadata === undefined) {
+      // eslint-disable-next-line @typescript-eslint/camelcase
       data.response_metadata = {};
     }
 
@@ -813,6 +826,7 @@ export interface PaginatePredicate {
   (page: WebAPICallResult): boolean | undefined | void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 interface PageReducer<A = any> {
   (accumulator: A | undefined, page: WebAPICallResult, index: number): A;
 }
@@ -847,12 +861,13 @@ function paginationOptionsForNextPage(
       cursor: previousResult.response_metadata.next_cursor as string,
     };
   }
-  return;
+  return undefined;
 }
 
 /**
  * Extract the amount of time (in seconds) the platform has recommended this client wait before sending another request
  * from a rate-limited HTTP response (statusCode = 429).
+ * @param response response to read headers from
  */
 function parseRetryHeaders(response: AxiosResponse): number | undefined {
   if (response.headers['retry-after'] !== undefined) {
