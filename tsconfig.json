@@ -18,7 +18,6 @@
     "paths": {
       "*": ["./types/*"]
     },
-    "esModuleInterop" : true,
 
     // Not using this setting because its only used to require the package.json file, and that would change the
     // structure of the files in the dist directory because package.json is not located inside src. It would be nice

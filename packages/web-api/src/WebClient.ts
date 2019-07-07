@@ -5,12 +5,12 @@ import { basename } from 'path';
 import { Readable } from 'stream';
 import { SecureContextOptions } from 'tls';
 
-import isStream from 'is-stream';
+import isStream = require('is-stream');
 import { EventEmitter } from 'eventemitter3';
-import PQueue from 'p-queue';
-import pRetry, { AbortError } from 'p-retry';
+import PQueue = require('p-queue');
+import pRetry = require('p-retry');
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import FormData from 'form-data';
+import FormData = require('form-data');
 
 import Method, * as methods from './methods';
 import { getUserAgent } from './instrument';
@@ -624,7 +624,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
           if (retrySec !== undefined) {
             this.emit(WebClientEvent.RATE_LIMITED, retrySec);
             if (this.rejectRateLimitedCalls) {
-              throw new AbortError(rateLimitedErrorWithDelay(retrySec));
+              throw new pRetry.AbortError(rateLimitedErrorWithDelay(retrySec));
             }
             this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
             // pause the request queue and then delay the rejection by the amount of time in the retry header
@@ -641,7 +641,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
             throw Error('A rate limit was exceeded.');
           } else {
             // TODO: turn this into some CodedError
-            throw new AbortError(new Error('Retry header did not contain a valid timeout.'));
+            throw new pRetry.AbortError(new Error('Retry header did not contain a valid timeout.'));
           }
         }
 
