@@ -2,7 +2,7 @@ import { Agent } from 'http';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
 import { getUserAgent } from './instrument';
-import { MessageAttachment, Block } from '@slack/types';
+import { MessageAttachment, Block, KnownBlock } from '@slack/types';
 
 /**
  * A client for Slack's Incoming Webhooks
@@ -100,7 +100,7 @@ export interface IncomingWebhookDefaultArguments {
 
 export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArguments {
   attachments?: MessageAttachment[];
-  blocks?: Block[];
+  blocks?: (KnownBlock | Block)[];
   unfurl_links?: boolean;
   unfurl_media?: boolean;
 }
