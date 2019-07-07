@@ -4,7 +4,6 @@
 // can be removed once node v10 is the minimum target (node v8 and v9 require --harmony_async_iteration flag)
 if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
 
-import { stringify as qsStringify } from 'querystring';
 import { Agent } from 'http';
 import { basename } from 'path';
 import { Readable } from 'stream';
@@ -695,7 +694,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     // Otherwise, a simple key-value object is returned
     headers['Content-Type'] = 'application/x-www-form-urlencoded';
     const initialValue: { [key: string]: any; } = {};
-    return qsStringify(flattened.reduce(
+    return (new URLSearchParams(flattened.reduce(
       (accumulator, [key, value]) => {
         if (key !== undefined && value !== undefined) {
           accumulator[key] = value;
@@ -703,7 +702,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
         return accumulator;
       },
       initialValue,
-    ));
+    ))).toString();
   }
 
   /**
