@@ -163,7 +163,6 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     return result;
   }
 
-  /* eslint-disable jsdoc/require-jsdoc,lines-between-class-members */
   /**
    * Iterate over the result pages of a cursor-paginated Web API method. This method can return two types of values,
    * depending on which arguments are used. When up to two parameters are used, the return value is an async iterator
@@ -185,24 +184,29 @@ export class WebClient extends EventEmitter<WebClientEvent> {
    * @param reduce a callback that can be used to accumulate a value that the return promise is resolved to
    */
   public paginate(method: string, options?: WebAPICallOptions): AsyncIterator<WebAPICallResult>;
+
+  // eslint-disable-next-line jsdoc/require-jsdoc
   public paginate(
     method: string,
     options: WebAPICallOptions,
     shouldStop: PaginatePredicate,
   ): Promise<void>;
+
+  // eslint-disable-next-line jsdoc/require-jsdoc
   public paginate<R extends PageReducer, A extends PageAccumulator<R>>(
     method: string,
     options: WebAPICallOptions,
     shouldStop: PaginatePredicate,
     reduce?: PageReducer<A>,
   ): Promise<A>;
+
+  // eslint-disable-next-line jsdoc/require-jsdoc
   public paginate<R extends PageReducer, A extends PageAccumulator<R>>(
     method: string,
     options?: WebAPICallOptions,
     shouldStop?: PaginatePredicate,
     reduce?: PageReducer<A>,
   ): (Promise<A> | AsyncIterator<WebAPICallResult>) {
-  /* eslint-enable jsdoc/require-jsdoc,lines-between-class-members */
     if (!methods.cursorPaginationEnabledMethods.has(method)) {
       this.logger.warn(`paginate() called with method ${method}, which is not known to be cursor pagination enabled.`);
     }
