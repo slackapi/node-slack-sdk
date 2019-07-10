@@ -451,7 +451,6 @@ export class RTMClient extends EventEmitter {
     return this.addOutgoingEvent(false, 'presence_sub', { ids: userIds });
   }
 
-  /* eslint-disable jsdoc/require-jsdoc,lines-between-class-members */
   /**
    * Generic method for sending an outgoing message of an arbitrary type. This method guards the higher-level methods
    * from concern of which state the client is in, because it places all messages into a queue. The tasks on the queue
@@ -471,9 +470,12 @@ export class RTMClient extends EventEmitter {
    * @param body the message body
    */
   public addOutgoingEvent(awaitReply: true, type: string, body?: {}): Promise<RTMCallResult>;
+
+  // eslint-disable-next-line jsdoc/require-jsdoc
   public addOutgoingEvent(awaitReply: false, type: string, body?: {}): Promise<void>;
+
+  // eslint-disable-next-line jsdoc/require-jsdoc
   public addOutgoingEvent(awaitReply: boolean, type: string, body?: {}): Promise<RTMCallResult | void> {
-  /* eslint-enable jsdoc/require-jsdoc,lines-between-class-members */
     const awaitReplyTask = (messageId: number): PCancelable<RTMCallResult> => {
       const replyPromise = new PCancelable<RTMCallResult>((resolve, reject, onCancel) => {
         const eventHandler = (_type: string, event: RTMCallResult): void => {
