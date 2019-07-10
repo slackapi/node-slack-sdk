@@ -9,7 +9,7 @@
     "eslint": "^6.0.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.18.0",
-    "eslint-plugin-jsdoc": "^10.0.3",
+    "eslint-plugin-jsdoc": "^15.3.4",
     "lerna": "^3.13.1",
     "typescript": "^3.5.2"
   }
