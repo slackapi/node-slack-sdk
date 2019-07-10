@@ -1,9 +1,7 @@
 import { Agent } from 'http';
 
 import { EventEmitter } from 'eventemitter3';
-import WebSocket = require('ws');
 import Finity, { StateMachine } from 'finity';
-import PQueue = require('p-queue');
 import PCancelable from 'p-cancelable';
 import {
   WebClient,
@@ -26,6 +24,9 @@ import {
   sendWhileDisconnectedError,
   sendWhileNotReadyError,
 } from './errors';
+
+import WebSocket = require('ws');
+import PQueue = require('p-queue');
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const packageJson = require('../package.json');

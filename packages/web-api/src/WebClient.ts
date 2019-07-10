@@ -5,12 +5,8 @@ import { basename } from 'path';
 import { Readable } from 'stream';
 import { SecureContextOptions } from 'tls';
 
-import isStream = require('is-stream');
 import { EventEmitter } from 'eventemitter3';
-import PQueue = require('p-queue');
-import pRetry = require('p-retry');
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import FormData = require('form-data');
 
 import Method, * as methods from './methods';
 import { getUserAgent } from './instrument';
@@ -20,6 +16,11 @@ import {
 import { LogLevel, Logger, getLogger } from './logger';
 import { tenRetriesInAboutThirtyMinutes, RetryOptions } from './retry-policies';
 import { delay } from './helpers';
+
+import isStream = require('is-stream');
+import PQueue = require('p-queue');
+import pRetry = require('p-retry');
+import FormData = require('form-data');
 
 // polyfill for async iterable. see: https://stackoverflow.com/a/43694282/305340
 // can be removed once node v10 is the minimum target (node v8 and v9 require --harmony_async_iteration flag)
