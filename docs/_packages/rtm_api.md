@@ -550,7 +550,7 @@ Import the `HttpsProxyAgent` class, and create an instance that can be used as t
 
 ```javascript
 const { RTMClient } = require('@slack/rtm-api');
-const { HttpsProxyAgent } = require('https-proxy-agent');
+const HttpsProxyAgent = require('https-proxy-agent');
 const token = process.env.SLACK_BOT_TOKEN;
 
 // One of the ways you can configure HttpsProxyAgent is using a simple string.
