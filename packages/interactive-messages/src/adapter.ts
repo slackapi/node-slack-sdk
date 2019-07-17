@@ -2,7 +2,6 @@
 import http, { RequestListener } from 'http';
 import axios, { AxiosInstance } from 'axios';
 import isString from 'lodash.isstring';
-import isPlainObject from 'lodash.isplainobject';
 import isRegExp from 'lodash.isregexp';
 import isFunction from 'lodash.isfunction';
 import debugFactory from 'debug';
@@ -19,19 +18,18 @@ const debug = debugFactory('@slack/interactive-messages:adapter');
  * @param matchingConstraints - the various forms of matching constraints accepted
  * @returns an object where each matching constraint is a property
  */
-function formatMatchingConstraints(matchingConstraints: string | RegExp | ActionConstraints): ActionConstraints;
-function formatMatchingConstraints(matchingConstraints: string | RegExp | OptionsConstraints): OptionsConstraints;
-function formatMatchingConstraints(matchingConstraints: string | RegExp | BaseConstraints): BaseConstraints {
-  let ret: BaseConstraints = {};
+function formatMatchingConstraints<C extends AnyConstraints>(matchingConstraints: string | RegExp | C): C {
   if (matchingConstraints === undefined || matchingConstraints === null) {
     throw new TypeError('Constraints cannot be undefined or null');
   }
-  if (!isPlainObject(matchingConstraints)) {
-    ret.callbackId = matchingConstraints as string | RegExp;
+
+  let ret: AnyConstraints = {};
+  if (typeof matchingConstraints === 'string' || matchingConstraints instanceof RegExp) {
+    ret.callbackId = matchingConstraints;
   } else {
-    ret = Object.assign({}, matchingConstraints as BaseConstraints);
+    ret = Object.assign({}, matchingConstraints);
   }
-  return ret;
+  return ret as C;
 }
 
 /**
@@ -39,7 +37,7 @@ function formatMatchingConstraints(matchingConstraints: string | RegExp | BaseCo
  * @param matchingConstraints - object describing the constraints on a callback
  * @returns `false` represents successful validation, an error represents failure and describes why validation failed.
  */
-function validateConstraints(matchingConstraints: BaseConstraints): Error | false {
+function validateConstraints(matchingConstraints: AnyConstraints): Error | false {
   if (!isFalsy(matchingConstraints.callbackId) &&
       !(isString(matchingConstraints.callbackId) || isRegExp(matchingConstraints.callbackId))) {
     return new TypeError('Callback ID must be a string or RegExp');
@@ -98,7 +96,7 @@ export class SlackMessageAdapter {
    */
   public lateResponseFallbackEnabled: boolean;
 
-  private callbacks: ConstrainedHandler[];
+  private callbacks: [StoredConstraints, Callback][];
   private axios: AxiosInstance;
   private server?: http.Server;
 
@@ -147,10 +145,9 @@ export class SlackMessageAdapter {
    *   options requests to this message adapter instance. See
    *   https://nodejs.org/dist/latest/docs/api/http.html#http_class_http_server
    */
-  public createServer(): Promise<http.Server> {
+  public async createServer(): Promise<http.Server> {
     // TODO: more options (like https)
-    // NOTE: this was once a workaround for a shortcoming of the System.import() tranform
-    return Promise.resolve().then(() => http.createServer(this.requestListener()));
+    return http.createServer(this.requestListener());
   }
 
   /**
@@ -246,9 +243,11 @@ export class SlackMessageAdapter {
   public action(
     matchingConstraints: string | RegExp | ActionConstraints,
     callback: ActionHandler,
-  ): SlackMessageAdapter {
-    const actionConstraints = formatMatchingConstraints(matchingConstraints) as ConstrainedActionHandler[0];
-    actionConstraints.handlerType = 'action';
+  ): this {
+    const actionConstraints = formatMatchingConstraints(matchingConstraints);
+    const storableConstraints = Object.assign(actionConstraints, {
+      handlerType: StoredConstraintsType.Action as const,
+    });
 
     const error = validateConstraints(actionConstraints);
     if (error) {
@@ -256,7 +255,7 @@ export class SlackMessageAdapter {
       throw error;
     }
 
-    return this.registerCallback(actionConstraints, callback);
+    return this.registerCallback(storableConstraints, callback);
   }
 
   /* tslint:disable max-line-length */
@@ -279,9 +278,11 @@ export class SlackMessageAdapter {
   public options(
     matchingConstraints: string | RegExp | OptionsConstraints,
     callback: OptionsHandler,
-  ): SlackMessageAdapter {
-    const optionsConstraints = formatMatchingConstraints(matchingConstraints) as ConstrainedOptionsHandler[0];
-    optionsConstraints.handlerType = 'options';
+  ): this {
+    const optionsConstraints = formatMatchingConstraints(matchingConstraints);
+    const storableConstraints = Object.assign(optionsConstraints, {
+      handlerType: StoredConstraintsType.Options as const,
+    });
 
     const error = validateConstraints(optionsConstraints) ||
       validateOptionsConstraints(optionsConstraints);
@@ -290,7 +291,7 @@ export class SlackMessageAdapter {
       throw error;
     }
 
-    return this.registerCallback(optionsConstraints, callback);
+    return this.registerCallback(storableConstraints, callback);
   }
 
   /* Interface for HTTP servers (like express middleware) */
@@ -324,7 +325,7 @@ export class SlackMessageAdapter {
       return this.axios.post(payload.response_url, message);
     } : undefined;
 
-    let callbackResult: ReturnType<ConstrainedHandler[1]>;
+    let callbackResult: any;
     try {
       callbackResult = callbackFn.call(this, payload, respond as Respond);
     } catch (error) {
@@ -369,19 +370,19 @@ export class SlackMessageAdapter {
     return Promise.resolve({ status: 200 });
   }
 
-  private registerCallback(constraints: ConstrainedHandler[0], callback: ConstrainedHandler[1]): SlackMessageAdapter {
+  private registerCallback(constraints: StoredConstraints, callback: Callback): this {
     // Validation
     if (!isFunction(callback)) {
       debug('did not register callback because its not a function');
       throw new TypeError('callback must be a function');
     }
 
-    this.callbacks.push([constraints, callback] as ConstrainedHandler);
+    this.callbacks.push([constraints, callback]);
 
     return this;
   }
 
-  private matchCallback(payload: any): ConstrainedHandler | undefined {
+  private matchCallback(payload: any): [StoredConstraints, Callback] | undefined {
     return this.callbacks.find(([constraints]) => {
       // if the callback ID constraint is specified, only continue if it matches
       if (!isFalsy(constraints.callbackId)) {
@@ -394,7 +395,7 @@ export class SlackMessageAdapter {
       }
 
       // if the action constraint is specified, only continue if it matches
-      if (constraints.handlerType === 'action') {
+      if (constraints.handlerType === StoredConstraintsType.Action) {
         // a payload that represents an action either has actions, submission, or message defined
         if (!(payload.actions || payload.submission || payload.message)) {
           return false;
@@ -449,7 +450,7 @@ export class SlackMessageAdapter {
         }
       }
 
-      if (constraints.handlerType === 'options') {
+      if (constraints.handlerType === StoredConstraintsType.Options) {
         // a payload that represents an options request in attachments always has a name defined
         // at the top level. in blocks the type is block_suggestion and has no name
         if (!('name' in payload || (payload.type && payload.type === 'block_suggestion'))) {
@@ -525,9 +526,9 @@ export interface MessageAdapterOptions {
 }
 
 /**
- * Constraints that apply to actions and options handlers.
+ * Constraints on when to call an action handler.
  */
-interface BaseConstraints {
+export interface ActionConstraints {
   /**
    * A string or RegExp to match against the `callback_id`
    */
@@ -542,18 +543,13 @@ interface BaseConstraints {
    * A string or RegExp to match against the `action_id`
    */
   actionId?: string | RegExp;
-}
 
-/**
- * Constraints on when to call an action handler.
- */
-export interface ActionConstraints extends BaseConstraints {
   /**
    * Valid types include all
    * [actions block elements](https://api.slack.com/reference/messaging/interactive-components),
    * `select` only for menu selections, or `dialog_submission` only for dialog submissions
    */
-  type?: '';
+  type?: string;
 
   /**
    * When `true` only match actions from an unfurl
@@ -564,27 +560,55 @@ export interface ActionConstraints extends BaseConstraints {
 /**
  * Constraints on when to call an options handler.
  */
-export interface OptionsConstraints extends BaseConstraints {
+export interface OptionsConstraints {
+  /**
+   * A string or RegExp to match against the `callback_id`
+   */
+  callbackId?: string | RegExp;
+
+  /**
+   * A string or RegExp to match against the `block_id`
+   */
+  blockId?: string | RegExp;
+
+  /**
+   * A string or RegExp to match against the `action_id`
+   */
+  actionId?: string | RegExp;
+
   /**
    * The source of options request.
    */
   within: 'block_actions' | 'interactive_message' | 'dialog';
 }
 
-/**
- * An action handler that has a set of constraints attached to it.
- */
-type ConstrainedActionHandler = [ActionConstraints & { handlerType: 'action' }, ActionHandler];
+type AnyConstraints = ActionConstraints | OptionsConstraints;
 
 /**
- * An options handler that has a set of constraints attached to it.
+ * The type of stored constraints.
  */
-type ConstrainedOptionsHandler = [OptionsConstraints & { handlerType: 'options' }, OptionsHandler];
+const enum StoredConstraintsType {
+  Action = 'action',
+  Options = 'options',
+}
 
 /**
- * An action or options handler that has its respective kind of constraint alongside it.
+ * Internal storage type that describes the constraints of an ActionHandler.
  */
-type ConstrainedHandler = ConstrainedActionHandler | ConstrainedOptionsHandler;
+type StoredConstraints =
+ | ({ handlerType: StoredConstraintsType.Action } & ActionConstraints)
+ | ({ handlerType: StoredConstraintsType.Options } & OptionsConstraints);
+
+/**
+ * A function used to send message updates after an action is handled. This function can be used
+ * up to 5 times in 30 minutes.
+ *
+ * @param message - a [message](https://api.slack.com/docs/interactive-message-field-guide#top-level_message_fields).
+ *   Dialog submissions do not allow `resplace_original: false` on this message. @returnsthere's no contract or
+ *   interface for the resolution value, but this Promise will resolve when the HTTP response from the `response_url`
+ *   request is complete and reject when there is an error.
+ */
+type Respond = (message: any) => Promise<any>;
 
 /**
  * A handler function for action requests (block actions, button presses, menu selections,
@@ -611,17 +635,6 @@ type ConstrainedHandler = ConstrainedActionHandler | ConstrainedOptionsHandler;
 type ActionHandler = (payload: any, respond: Respond) => any | Promise<any> | undefined;
 
 /**
- * A function used to send message updates after an action is handled. This function can be used
- * up to 5 times in 30 minutes.
- *
- * @param message - a [message](https://api.slack.com/docs/interactive-message-field-guide#top-level_message_fields).
- *   Dialog submissions do not allow `resplace_original: false` on this message. @returnsthere's no contract or
- *   interface for the resolution value, but this Promise will resolve when the HTTP response from the `response_url`
- *   request is complete and reject when there is an error.
- */
-type Respond = (message: any) => Promise<any>;
-
-/**
  * A handler function for menu options requests.
  *
  * @param payload - an object describing
@@ -635,3 +648,5 @@ type Respond = (message: any) => Promise<any>;
  *   display an error to the user. If there is no return value, then the user is shown an empty list of options.
  */
 type OptionsHandler = (payload: any) => any | Promise<any> | undefined;
+
+type Callback = ActionHandler | OptionsHandler;

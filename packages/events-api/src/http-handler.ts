@@ -219,7 +219,7 @@ type HTTPHandler = (req: IncomingMessage & { body?: any, rawBody?: Buffer }, res
 /**
  * A response handler returned by `sendResponse`.
  */
-export type ResponseHandler = (err?: Error | CodedError | { status: number }, responseOptions?: {
+export type ResponseHandler = (err?: Error | CodedError | { status: ResponseStatus }, responseOptions?: {
   failWithNoRetry?: boolean;
   redirectLocation?: boolean;
   content?: any;
