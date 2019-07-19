@@ -22,9 +22,9 @@ and to allow lerna to link them to each other.
 ### Testing
 
 This project has tests for individual packages inside of each's respective `test` directory. It also has
-integration tests in the `integration-tests` directory at the root. You can run the entire test suite using the npm
-script `npm test` at the top level. This script will use Lerna to invoke tests in each package and the integration
-tests.
+integration tests in the `integration-tests` directory under the root `support` directory. You can run the entire test
+suite using the npm script `npm test` at the top level. This script will use Lerna to invoke tests in each package and
+the integration tests.
 
 Tests are executed by Travis, our continuous integration system, slightly differently. Travis runs several, more
 granular builds in order to report on success and failure in a more useful (targeted) way. There is one build for each

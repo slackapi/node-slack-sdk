@@ -1,0 +1,9 @@
+# node / npm stuff
+/node_modules
+/package-lock.json
+
+# build distributables
+/dist
+
+# API models
+/models/*.json
