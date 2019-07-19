@@ -38,7 +38,11 @@
 		},
 		{
 			"name": "Integration Tests",
-			"path": "integration-tests"
+			"path": "support/integration-tests"
+		},
+		{
+			"name": "Reference Documentation",
+			"path": "support/ref-docs"
 		}
 	],
 	"settings": {

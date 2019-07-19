@@ -21,6 +21,9 @@ collections:
   tutorials:
     output: true
     permalink: /tutorials/:slug
+  reference:
+    output: true
+    permalink: /reference/:slug
 
 defaults:
   -
@@ -39,6 +42,12 @@ defaults:
     scope:
       path: ""
       type: tutorials
+    values:
+      layout: contained
+  -
+    scope:
+      path: ""
+      type: reference
     values:
       layout: contained
 
