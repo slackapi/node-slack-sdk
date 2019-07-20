@@ -817,7 +817,7 @@ describe('WebClient', function () {
         });
     });
 
-    it('should set retrySec info on the response_metadata object', function () {
+    it('should include retryAfter metadata if the response has retry info', function () {
         const scope = nock('https://slack.com')
           .post(/api/)
           .reply(200, { ok: true }, { 'retry-after': 100 });
