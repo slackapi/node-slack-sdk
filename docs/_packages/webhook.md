@@ -52,7 +52,7 @@ The webhook can be initialized with default arguments that are reused each time 
 parameter to the constructor to set the default arguments.
 
 ```javascript
-const IncomingWebhook = require('@slack/webhook');
+const { IncomingWebhook } = require('@slack/webhook');
 const url = process.env.SLACK_WEBHOOK_URL;
 
 // Initialize with defaults
@@ -72,7 +72,7 @@ Something interesting just happened in your app, so its time to send the notific
 the message. The method returns a `Promise` that resolves once the notification is sent.
 
 ```javascript
-const IncomingWebhook = require('@slack/webhook');
+const { IncomingWebhook } = require('@slack/webhook');
 const url = process.env.SLACK_WEBHOOK_URL;
 
 const webhook = new IncomingWebhook(url);
