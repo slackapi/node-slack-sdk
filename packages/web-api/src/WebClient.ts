@@ -138,7 +138,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
    * @param options options
    */
   public async apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult> {
-    this.logger.debug('apiCall() start');
+    this.logger.debug(`apiCall('${method}') start`);
 
     if (typeof options === 'string' || typeof options === 'number' || typeof options === 'boolean') {
       throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
