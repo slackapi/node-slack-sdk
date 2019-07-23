@@ -68,10 +68,10 @@
     "eslint-plugin-import": "^2.7.0",
     "estraverse": "^4.2.0",
     "get-random-port": "0.0.1",
-    "jsdoc-to-markdown": "^4.0.1",
+    "jsdoc-to-markdown": "^5.0.0",
     "mocha": "^5.0.5",
     "nop": "^1.0.0",
-    "nyc": "^11.6.0",
+    "nyc": "^14.1.1",
     "proxyquire": "^2.0.1",
     "sinon": "^4.5.0"
   }
