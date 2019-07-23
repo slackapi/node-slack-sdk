@@ -63,10 +63,10 @@ export function createHTTPHandler(adapter: SlackEventAdapter): HTTPHandler {
       if (!isFalsy(err)) {
         if ('status' in err && typeof err.status === 'number') {
           res.statusCode = err.status;
-        } else if ('code' in err && (
+        } else if (
           (err as CodedError).code === ErrorCode.SignatureVerificationFailure ||
           (err as CodedError).code === ErrorCode.RequestTimeFailure
-        )) {
+        ) {
           res.statusCode = ResponseStatus.NotFound;
         } else {
           res.statusCode = ResponseStatus.Failure;
