@@ -54,7 +54,7 @@ export function createHTTPHandler(adapter: SlackMessageAdapter): RequestListener
    * Method to verify signature of requests
    *
    * @param signingSecret - Signing secret used to verify request signature
-   * @param requestHeaders - The signing headers. If `rew` is an incoming request, then this should be `req.headers`.
+   * @param requestHeaders - The signing headers. If `req` is an incoming request, then this should be `req.headers`.
    * @param body - Raw body string
    * @returns Indicates if request is verified
    */

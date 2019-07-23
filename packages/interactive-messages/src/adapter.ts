@@ -592,7 +592,7 @@ const enum StoredConstraintsType {
 }
 
 /**
- * Internal storage type that describes the constraints of an ActionHandler.
+ * Internal storage type that describes the constraints of an ActionHandler or OptionsHandler.
  */
 type StoredConstraints =
  | ({ handlerType: StoredConstraintsType.Action } & ActionConstraints)
@@ -603,11 +603,11 @@ type StoredConstraints =
  * up to 5 times in 30 minutes.
  *
  * @param message - a [message](https://api.slack.com/docs/interactive-message-field-guide#top-level_message_fields).
- *   Dialog submissions do not allow `resplace_original: false` on this message. @returnsthere's no contract or
- *   interface for the resolution value, but this Promise will resolve when the HTTP response from the `response_url`
- *   request is complete and reject when there is an error.
+ *   Dialog submissions do not allow `replace_original: false` on this message.
+ * @returns there's no contract or interface for the resolution value, but this Promise will resolve when the HTTP
+ *   response from the `response_url` request is complete and reject when there is an error.
  */
-type Respond = (message: any) => Promise<any>;
+type Respond = (message: any) => Promise<unknown>;
 
 /**
  * A handler function for action requests (block actions, button presses, menu selections,
