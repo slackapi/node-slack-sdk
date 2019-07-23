@@ -56,12 +56,14 @@
     "axios": "^0.18.0",
     "debug": "^3.1.0",
     "lodash.isfunction": "^3.0.9",
+    "lodash.isplainobject": "^4.0.6",
     "lodash.isregexp": "^4.0.1",
     "lodash.isstring": "^4.0.1",
     "raw-body": "^2.3.3",
     "tsscmp": "^1.0.6"
   },
   "devDependencies": {
+    "@types/lodash.isplainobject": "^4.0.6",
     "body-parser": "^1.18.2",
     "chai": "^4.2.0",
     "codecov": "^3.0.0",

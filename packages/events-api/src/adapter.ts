@@ -1,10 +1,11 @@
 /* tslint:disable import-name */
 import EventEmitter from 'events';
-import http, { IncomingMessage, ServerResponse, RequestListener } from 'http';
+import http, { RequestListener } from 'http';
 import debugFactory from 'debug';
 import isString from 'lodash.isstring';
 import { createHTTPHandler } from './http-handler';
 import { isFalsy } from './util';
+import { RequestHandler } from 'express'; // tslint:disable-line: no-implicit-dependencies
 /* tslint:enable import-name */
 
 const debug = debugFactory('@slack/events-api:adapter');
@@ -118,7 +119,7 @@ export class SlackEventAdapter extends EventEmitter {
   /**
    * Returns a middleware-compatible adapter.
    */
-  public expressMiddleware(): (req: IncomingMessage, res: ServerResponse, next: () => void) => void {
+  public expressMiddleware(): RequestHandler {
     const requestListener = this.requestListener();
     return (req, res, _next) => {
       requestListener(req, res);

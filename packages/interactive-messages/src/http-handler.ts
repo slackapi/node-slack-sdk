@@ -110,7 +110,7 @@ export function createHTTPHandler(adapter: SlackMessageAdapter): RequestListener
         if (verifyRequestSignature(adapter.signingSecret, req.headers as VerificationHeaders, rawBody)) {
           // Request signature is verified
           // Parse raw body
-          const body = parseBody(rawBody) as any;
+          const body = parseBody(rawBody);
 
           if (body.ssl_check) {
             respond({ status: 200 });

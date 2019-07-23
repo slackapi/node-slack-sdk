@@ -4,6 +4,7 @@ import axios, { AxiosInstance } from 'axios';
 import isString from 'lodash.isstring';
 import isRegExp from 'lodash.isregexp';
 import isFunction from 'lodash.isfunction';
+import isPlainObject from 'lodash.isplainobject';
 import debugFactory from 'debug';
 import { ErrorCode, errorWithCode, CodedError } from './errors';
 import { createHTTPHandler } from './http-handler';
@@ -24,10 +25,10 @@ function formatMatchingConstraints<C extends AnyConstraints>(matchingConstraints
   }
 
   let ret: AnyConstraints = {};
-  if (typeof matchingConstraints === 'string' || matchingConstraints instanceof RegExp) {
-    ret.callbackId = matchingConstraints;
+  if (!isPlainObject(matchingConstraints)) {
+    ret.callbackId = matchingConstraints as string | RegExp;
   } else {
-    ret = Object.assign({}, matchingConstraints);
+    ret = Object.assign({}, matchingConstraints as C);
   }
   return ret as C;
 }
@@ -245,16 +246,15 @@ export class SlackMessageAdapter {
     callback: ActionHandler,
   ): this {
     const actionConstraints = formatMatchingConstraints(matchingConstraints);
-    const storableConstraints = Object.assign(actionConstraints, {
-      handlerType: StoredConstraintsType.Action as const,
-    });
-
     const error = validateConstraints(actionConstraints);
     if (error) {
       debug('action could not be registered: %s', error.message);
       throw error;
     }
 
+    const storableConstraints = Object.assign(actionConstraints, {
+      handlerType: StoredConstraintsType.Action as const,
+    });
     return this.registerCallback(storableConstraints, callback);
   }
 
@@ -280,10 +280,6 @@ export class SlackMessageAdapter {
     callback: OptionsHandler,
   ): this {
     const optionsConstraints = formatMatchingConstraints(matchingConstraints);
-    const storableConstraints = Object.assign(optionsConstraints, {
-      handlerType: StoredConstraintsType.Options as const,
-    });
-
     const error = validateConstraints(optionsConstraints) ||
       validateOptionsConstraints(optionsConstraints);
     if (error) {
@@ -291,6 +287,9 @@ export class SlackMessageAdapter {
       throw error;
     }
 
+    const storableConstraints = Object.assign(optionsConstraints, {
+      handlerType: StoredConstraintsType.Options as const,
+    });
     return this.registerCallback(storableConstraints, callback);
   }
 
