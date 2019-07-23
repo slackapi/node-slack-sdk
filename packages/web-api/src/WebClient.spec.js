@@ -877,7 +877,7 @@ describe('WebClient', function () {
       const client = new WebClient(token);
       client.apiCall('method')
         .catch((err) => {
-          assert(err.message.match(/Retry header did not contain a valid timeout/i) !== null);
+          assert.instanceOf(err, Error);
           scope.done();
           done();
         });
@@ -890,7 +890,7 @@ describe('WebClient', function () {
       const client = new WebClient(token);
       client.apiCall('method')
         .catch((err) => {
-          assert(err.message.match(/Retry header did not contain a valid timeout/i) !== null);
+          assert.instanceOf(err, Error);
           scope.done();
           done();
         });
