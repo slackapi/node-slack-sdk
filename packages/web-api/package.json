@@ -43,13 +43,12 @@
   "dependencies": {
     "@slack/logger": "^1.0.0",
     "@slack/types": "^1.0.0",
-    "@types/form-data": "^2.2.1",
     "@types/is-stream": "^1.1.0",
     "@types/node": ">=8.9.0",
     "@types/p-queue": "^2.3.2",
     "axios": "^0.18.0",
     "eventemitter3": "^3.1.0",
-    "form-data": "^2.3.3",
+    "form-data": "^2.5.0",
     "is-stream": "^1.1.0",
     "p-queue": "^2.4.2",
     "p-retry": "^4.0.0"
@@ -63,7 +62,7 @@
     "codecov": "^3.2.0",
     "mocha": "^6.0.2",
     "nock": "^10.0.6",
-    "nyc": "^13.3.0",
+    "nyc": "^14.1.1",
     "shelljs": "^0.8.3",
     "shx": "^0.3.2",
     "sinon": "^7.2.7",

@@ -1,13 +1,13 @@
-var http = require('http');
-var assert = require('assert');
-var express = require('express');
-var request = require('superagent');
-var createEventAdapter = require('../../dist').createEventAdapter;
-var createRequestSignature = require('../helpers').createRequestSignature;
-var errorCodes = require('../../dist/http-handler').errorCodes;
-var uncaughtException = require('uncaughtException');
+require('mocha');
+const http = require('http');
+const assert = require('assert');
+const express = require('express');
+const request = require('superagent');
+const uncaughtException = require('uncaughtException');
 
-var helpers = require('../helpers');
+const { createEventAdapter, errorCodes } = require('../../src/');
+const helpers = require('../helpers');
+const { createRequestSignature } = helpers;
 
 describe('when using middleware inside your own express application', function () {
   beforeEach(function (done) {
