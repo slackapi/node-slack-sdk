@@ -127,6 +127,7 @@ export interface Button extends Action {
   text: PlainTextElement;
   value?: string;
   url?: string;
+  style?: 'danger' | 'primary';
 }
 
 export interface Overflow extends Action {
