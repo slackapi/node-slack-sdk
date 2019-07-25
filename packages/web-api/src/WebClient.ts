@@ -828,7 +828,11 @@ function paginationOptionsForNextPage(
  */
 function parseRetryHeaders(response: AxiosResponse): number | undefined {
   if (response.headers['retry-after'] !== undefined) {
-    return parseInt((response.headers['retry-after'] as string), 10);
+    const retryAfter = parseInt((response.headers['retry-after'] as string), 10);
+
+    if (!Number.isNaN(retryAfter)) {
+      return retryAfter;
+    }
   }
   return undefined;
 }

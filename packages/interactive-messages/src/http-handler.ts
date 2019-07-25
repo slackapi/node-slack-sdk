@@ -1,34 +1,32 @@
+/* tslint:disable import-name */
+import { ServerResponse, RequestListener, IncomingHttpHeaders } from 'http';
+import * as querystring from 'querystring';
 import debugFactory from 'debug';
 import getRawBody from 'raw-body';
-import querystring from 'querystring';
 import crypto from 'crypto';
 import timingSafeCompare from 'tsscmp';
-import { packageIdentifier } from './util';
+import SlackMessageAdapter from './adapter';
+import { ErrorCode, errorWithCode } from './errors';
+import { packageIdentifier, isFalsy } from './util';
 
 const debug = debugFactory('@slack/interactive-messages:http-handler');
 
-export const errorCodes = {
-  SIGNATURE_VERIFICATION_FAILURE: 'SLACKHTTPHANDLER_REQUEST_SIGNATURE_VERIFICATION_FAILURE',
-  REQUEST_TIME_FAILURE: 'SLACKHTTPHANDLER_REQUEST_TIMELIMIT_FAILURE',
-};
-
-export function createHTTPHandler(adapter) {
+export function createHTTPHandler(adapter: SlackMessageAdapter): RequestListener {
   const poweredBy = packageIdentifier();
 
   /**
    * Handles sending responses
    *
-   * @param {Object} res - Response object
-   * @returns {Function} Returns a function used to send response
+   * @param res - Response object
+   * @returns Returns a function used to send response
    */
-  function sendResponse(res) {
-    return function _sendResponse(dispatchResult) {
-      const { status, content } = dispatchResult;
+  function sendResponse(res: ServerResponse): ResponseHandler {
+    return ({ status, content }) => {
       res.statusCode = status;
       res.setHeader('X-Slack-Powered-By', poweredBy);
       if (typeof content === 'string') {
         res.end(content);
-      } else if (content) {
+      } else if (!isFalsy(content)) {
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify(content));
       } else {
@@ -40,13 +38,13 @@ export function createHTTPHandler(adapter) {
   /**
    * Parses raw bodies of requests
    *
-   * @param {string} body - Raw body of request
-   * @returns {Object} Parsed body of the request
+   * @param body - Raw body of request
+   * @returns Parsed body of the request
    */
-  function parseBody(body) {
+  function parseBody(body: string): any {
     const parsedBody = querystring.parse(body);
-    if (parsedBody.payload) {
-      return JSON.parse(parsedBody.payload);
+    if (!isFalsy(parsedBody.payload)) {
+      return JSON.parse(parsedBody.payload as string);
     }
 
     return parsedBody;
@@ -55,16 +53,20 @@ export function createHTTPHandler(adapter) {
   /**
    * Method to verify signature of requests
    *
-   * @param {string} signingSecret - Signing secret used to verify request signature
-   * @param {Object} requestHeaders - Request headers
-   * @param {string} body - Raw body string
-   * @returns {boolean} Indicates if request is verified
+   * @param signingSecret - Signing secret used to verify request signature
+   * @param requestHeaders - The signing headers. If `req` is an incoming request, then this should be `req.headers`.
+   * @param body - Raw body string
+   * @returns Indicates if request is verified
    */
-  function verifyRequestSignature(signingSecret, requestHeaders, body) {
+  function verifyRequestSignature(
+    signingSecret: string,
+    requestHeaders: VerificationHeaders,
+    body: string,
+  ): boolean {
     // Request signature
     const signature = requestHeaders['x-slack-signature'];
     // Request timestamp
-    const ts = requestHeaders['x-slack-request-timestamp'];
+    const ts = parseInt(requestHeaders['x-slack-request-timestamp'], 10);
 
     // Divide current date to match Slack ts format
     // Subtract 5 minutes from current time
@@ -72,9 +74,7 @@ export function createHTTPHandler(adapter) {
 
     if (ts < fiveMinutesAgo) {
       debug('request is older than 5 minutes');
-      const error = new Error('Slack request signing verification failed');
-      error.code = errorCodes.REQUEST_TIME_FAILURE;
-      throw error;
+      throw errorWithCode(new Error('Slack request signing verification failed'), ErrorCode.RequestTimeFailure);
     }
 
     const hmac = crypto.createHmac('sha256', signingSecret);
@@ -83,9 +83,10 @@ export function createHTTPHandler(adapter) {
 
     if (!timingSafeCompare(hash, hmac.digest('hex'))) {
       debug('request signature is not valid');
-      const error = new Error('Slack request signing verification failed');
-      error.code = errorCodes.SIGNATURE_VERIFICATION_FAILURE;
-      throw error;
+      throw errorWithCode(
+        new Error('Slack request signing verification failed'),
+        ErrorCode.SignatureVerificationFailure,
+      );
     }
 
     debug('request signing verification success');
@@ -95,21 +96,18 @@ export function createHTTPHandler(adapter) {
   /**
    * Request listener used to handle Slack requests and send responses and
    * verify request signatures
-   *
-   * @param {Object} req - Request object
-   * @param {Object} res - Response object
    */
-  return function slackRequestListener(req, res) {
+  return (req, res) => {
     debug('request received - method: %s, path: %s', req.method, req.url);
     // Function used to send response
     const respond = sendResponse(res);
 
     // Builds body of the request from stream and returns the raw request body
     getRawBody(req)
-      .then((r) => {
-        const rawBody = r.toString();
+      .then((bodyBuf) => {
+        const rawBody = bodyBuf.toString();
 
-        if (verifyRequestSignature(adapter.signingSecret, req.headers, rawBody)) {
+        if (verifyRequestSignature(adapter.signingSecret, req.headers as VerificationHeaders, rawBody)) {
           // Request signature is verified
           // Parse raw body
           const body = parseBody(rawBody);
@@ -121,7 +119,9 @@ export function createHTTPHandler(adapter) {
 
           const dispatchResult = adapter.dispatch(body);
 
-          if (dispatchResult) {
+          if (dispatchResult !== undefined) {
+            // TODO: handle this after responding?
+            // tslint:disable-next-line no-floating-promises
             dispatchResult.then(respond);
           } else {
             // No callback was matched
@@ -130,8 +130,7 @@ export function createHTTPHandler(adapter) {
           }
         }
       }).catch((error) => {
-        if (error.code === errorCodes.SIGNATURE_VERIFICATION_FAILURE ||
-          error.code === errorCodes.REQUEST_TIME_FAILURE) {
+        if (error.code === ErrorCode.SignatureVerificationFailure || error.code === ErrorCode.RequestTimeFailure) {
           respond({ status: 404 });
         } else if (process.env.NODE_ENV === 'development') {
           respond({ status: 500, content: error.message });
@@ -140,4 +139,22 @@ export function createHTTPHandler(adapter) {
         }
       });
   };
+}
+
+/**
+ * A response handler returned by `sendResponse`.
+ */
+type ResponseHandler = (dispatchResult: {
+  status: number,
+  content?: string | object,
+}) => void;
+
+/**
+ * Headers required for verification.
+ *
+ * See: https://api.slack.com/docs/verifying-requests-from-slack
+ */
+export interface VerificationHeaders extends IncomingHttpHeaders {
+  'x-slack-signature': string;
+  'x-slack-request-timestamp': string;
 }
