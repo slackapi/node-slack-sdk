@@ -1,29 +1,30 @@
-var http = require('http');
-var assert = require('chai').assert;
-var sinon = require('sinon');
-var noop = require('nop');
-var getRandomPort = require('get-random-port');
-var EventEmitter = require('events');
-var systemUnderTest = require('../../dist/adapter');
-var createStreamRequest = require('../helpers').createStreamRequest;
-var SlackEventAdapter = systemUnderTest.default;
+require('mocha');
+const EventEmitter = require('events');
+const http = require('http');
+const { assert } = require('chai');
+const sinon = require('sinon');
+const noop = require('nop');
+const getRandomPort = require('get-random-port');
+
+const { createStreamRequest } = require('../test/helpers');
+const { SlackEventAdapter } = require('./adapter');
 
 // fixtures and test helpers
-var workingSigningSecret = 'SIGNING_SECRET';
+const workingSigningSecret = 'SIGNING_SECRET';
 
 describe('SlackEventAdapter', function () {
   describe('constructor', function () {
     it('should be an EventEmitter subclass', function () {
-      var adapter = new SlackEventAdapter(workingSigningSecret);
+      const adapter = new SlackEventAdapter(workingSigningSecret);
       assert(adapter instanceof EventEmitter);
     });
     it('should fail without a signing secret', function () {
       assert.throws(function () {
-        var adapter = new SlackEventAdapter();  // eslint-disable-line no-unused-vars
+        const adapter = new SlackEventAdapter();
       }, TypeError);
     });
     it('should store the signing secret', function () {
-      var adapter = new SlackEventAdapter(workingSigningSecret);
+      const adapter = new SlackEventAdapter(workingSigningSecret);
       assert.equal(adapter.signingSecret, workingSigningSecret);
     });
   });
@@ -42,7 +43,7 @@ describe('SlackEventAdapter', function () {
 
   describe('#start()', function () {
     beforeEach(function (done) {
-      var self = this;
+      const self = this;
       self.adapter = new SlackEventAdapter(workingSigningSecret);
       getRandomPort(function (error, port) {
         if (error) return done(error);
@@ -54,7 +55,7 @@ describe('SlackEventAdapter', function () {
       return this.adapter.stop().catch();
     });
     it('should return a Promise for a started http.Server', function () {
-      var self = this;
+      const self = this;
       return this.adapter.start(self.portNumber).then(function (server) {
         // only works in node >= 5.7.0
         // assert(server.listening);
@@ -77,25 +78,25 @@ describe('SlackEventAdapter', function () {
     });
 
     it('should return a function', function () {
-      var middleware = this.adapter.expressMiddleware();
+      const middleware = this.adapter.expressMiddleware();
       assert.isFunction(middleware);
     });
     it('should emit on the adapter', function (done) {
-      var middleware = this.adapter.expressMiddleware();
-      var emit = this.emit;
-      var ts = Math.floor(Date.now() / 1000);
-      var eventName = 'eventName';
-      var event = {
+      const middleware = this.adapter.expressMiddleware();
+      const emit = this.emit;
+      const ts = Math.floor(Date.now() / 1000);
+      const eventName = 'eventName';
+      const event = {
         type: eventName,
         key: 'value'
       };
-      var rawReq = {
+      const rawReq = {
         body: {
           event: event
         }
       };
-      var req = createStreamRequest(workingSigningSecret, ts, JSON.stringify(rawReq.body));
-      var res = sinon.stub({
+      const req = createStreamRequest(workingSigningSecret, ts, JSON.stringify(rawReq.body));
+      const res = sinon.stub({
         setHeader: noop,
         end: noop
       });
@@ -117,7 +118,7 @@ describe('SlackEventAdapter', function () {
       this.adapter = new SlackEventAdapter(workingSigningSecret);
     });
     it('should return a function', function () {
-      var requestListener = this.adapter.requestListener();
+      const requestListener = this.adapter.requestListener();
       assert.isFunction(requestListener);
     });
   });

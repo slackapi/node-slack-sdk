@@ -1,22 +1,21 @@
-var assert = require('chai').assert;
-var systemUnderTest = require('../../dist/util');
-var promiseTimeout = systemUnderTest.promiseTimeout;
-var errorCodes = systemUnderTest.errorCodes;
-var delayed = require('../helpers').delayed;
+require('mocha');
+const { assert } = require('chai');
+const { promiseTimeout, errorCodes } = require('./util');
+const { delayed } = require('../test/helpers');
 
 // test suite
 describe('promiseTimeout', function () {
   it('should resolve to input promise value when input resolves faster than timeout', function () {
-    var value = 'test';
-    var input = delayed(10, value);
-    var output = promiseTimeout(20, input);
+    const value = 'test';
+    const input = delayed(10, value);
+    const output = promiseTimeout(20, input);
     return output.then(function (v) {
       assert.equal(v, value);
     });
   });
   it('should reject with error code when input resolves slower than timeout', function () {
-    var input = delayed(20, 'test');
-    var output = promiseTimeout(10, input);
+    const input = delayed(20, 'test');
+    const output = promiseTimeout(10, input);
     return output.then(function (value) {
       throw new Error('should not resolve. value: ' + value);
     }, function (error) {
@@ -24,9 +23,9 @@ describe('promiseTimeout', function () {
     });
   });
   it('should reject to input error when input rejects faster than timeout', function () {
-    var reason = 'test';
-    var input = delayed(10, undefined, reason);
-    var output = promiseTimeout(20, input);
+    const reason = 'test';
+    const input = delayed(10, undefined, reason);
+    const output = promiseTimeout(20, input);
     return output.then(function (value) {
       throw new Error('should not resolve. value: ' + value);
     }, function (error) {
@@ -34,9 +33,9 @@ describe('promiseTimeout', function () {
     });
   });
   it('should reject with error code when input rejects slower than timeout', function () {
-    var reason = 'test';
-    var input = delayed(20, undefined, reason);
-    var output = promiseTimeout(10, input);
+    const reason = 'test';
+    const input = delayed(20, undefined, reason);
+    const output = promiseTimeout(10, input);
     return output.then(function (value) {
       throw new Error('should not resolve. value: ' + value);
     }, function (error) {
