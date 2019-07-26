@@ -363,6 +363,49 @@ export interface FilesCommentsDeleteArguments extends WebAPICallOptions, TokenOv
   file: string; // file id
   id: string; // comment id
 }
+// either file or external_id is required
+export interface FilesRemoteInfoArguments extends WebAPICallOptions, TokenOverridable {
+  // either one of the file or external_id arguments are required
+  file?: string;
+  external_id?: string;
+}
+export interface FilesRemoteListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  ts_from?: string;
+  ts_to?: string;
+  channel?: string;
+}
+cursorPaginationEnabledMethods.add('files.remote.list');
+export interface FilesRemoteAddArguments extends WebAPICallOptions, TokenOverridable {
+  title: string;
+  external_url: string;
+  external_id: string; // a unique identifier for the file in your system
+  filetype: string; // possible values (except for 'auto'): https://api.slack.com/types/file#file_types
+  preview_image?: Buffer | Stream;
+  indexable_file_contents?: Buffer | Stream;
+}
+export interface FilesRemoteUpdateArguments extends WebAPICallOptions, TokenOverridable {
+  title?: string;
+  external_url?: string;
+  filetype?: string; // possible values (except for 'auto'): https://api.slack.com/types/file#file_types
+  preview_image?: Buffer | Stream;
+  indexable_file_contents?: Buffer | Stream;
+
+  // either one of the file or external_id arguments are required
+  file?: string;
+  external_id?: string;
+}
+export interface FilesRemoteRemoveArguments extends WebAPICallOptions, TokenOverridable {
+  // either one of the file or external_id arguments are required
+  file?: string;
+  external_id?: string;
+}
+export interface FilesRemoteShareArguments extends WebAPICallOptions, TokenOverridable {
+  channels: string; // comma-separated list of channel ids
+
+  // either one of the file or external_id arguments are required
+  file?: string;
+  external_id?: string;
+}
 
   /*
    * `groups.*`

@@ -397,6 +397,14 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     comments: {
       delete: (this.apiCall.bind(this, 'files.comments.delete')) as Method<methods.FilesCommentsDeleteArguments>,
     },
+    remote: {
+      info: (this.apiCall.bind(this, 'files.remote.info')) as Method<methods.FilesRemoteInfoArguments>,
+      list: (this.apiCall.bind(this, 'files.remote.list')) as Method<methods.FilesRemoteListArguments>,
+      add: (this.apiCall.bind(this, 'files.remote.add')) as Method<methods.FilesRemoteAddArguments>,
+      update: (this.apiCall.bind(this, 'files.remote.update')) as Method<methods.FilesRemoteUpdateArguments>,
+      remove: (this.apiCall.bind(this, 'files.remote.remove')) as Method<methods.FilesRemoteRemoveArguments>,
+      share: (this.apiCall.bind(this, 'files.remote.share')) as Method<methods.FilesRemoteShareArguments>,
+    },
   };
 
   /**
