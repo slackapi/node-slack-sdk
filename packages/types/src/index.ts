@@ -145,7 +145,7 @@ export interface Datepicker extends Action {
  * Block Types
  */
 
-export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock | SectionBlock;
+export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock | SectionBlock | FileBlock;
 
 export interface Block {
   type: string;
@@ -178,6 +178,12 @@ export interface SectionBlock extends Block {
   text?: PlainTextElement | MrkdwnElement; // either this or fields must be defined
   fields?: (PlainTextElement | MrkdwnElement)[]; // either this or text must be defined
   accessory?: KnownAction | Action | ImageElement;
+}
+
+export interface FileBlock extends Block {
+  type: 'file';
+  source: string; // 'remote'
+  external_id: string;
 }
 
 export interface MessageAttachment {
