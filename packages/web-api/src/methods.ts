@@ -365,10 +365,13 @@ export interface FilesCommentsDeleteArguments extends WebAPICallOptions, TokenOv
 }
 
 // either file or external_id is required
-interface FilesRemoteInfoCommonArguments extends WebAPICallOptions, TokenOverridable { channel?: string; }
-type FilesRemoteInfoArgumentsFileRequired = FilesRemoteInfoCommonArguments & { file: string };
-type FilesRemoteInfoArgumentsExternalIdRequired = FilesRemoteInfoCommonArguments & { external_id: string };
-export type FilesRemoteInfoArguments = FilesRemoteInfoArgumentsFileRequired | FilesRemoteInfoArgumentsExternalIdRequired;
+export interface FilesRemoteInfoArguments extends WebAPICallOptions, TokenOverridable {
+  channel?: string;
+
+  // either one of the file or external_id arguments are required
+  file: string;
+  external_id: string;
+}
 
 export interface FilesRemoteListArguments extends WebAPICallOptions, TokenOverridable {
   ts_from?: string;
@@ -386,32 +389,35 @@ export interface FilesRemoteAddArguments extends WebAPICallOptions, TokenOverrid
   filetype: string; // possible values (except for 'auto'): https://api.slack.com/types/file#file_types
   preview_image?: Buffer | Stream;
   preview_file?: Buffer | Stream;
-  indexable_file_contents?: Buffer| Stream;
+  indexable_file_contents?: Buffer | Stream;
 }
 
-interface FilesRemoteUpdateCommonArguments extends WebAPICallOptions, TokenOverridable {
+export interface FilesRemoteUpdateArguments extends WebAPICallOptions, TokenOverridable {
   title: string;
   external_url: string;
   filetype: string; // possible values (except for 'auto'): https://api.slack.com/types/file#file_types
   preview_image?: Buffer | Stream;
   preview_file?: Buffer | Stream;
-  indexable_file_contents?: Buffer| Stream;
+  indexable_file_contents?: Buffer | Stream;
+
+  // either one of the file or external_id arguments are required
+  file: string;
+  external_id: string;
 }
-type FilesRemoteUpdateArgumentsFileRequired = FilesRemoteUpdateCommonArguments & { file: string };
-type FilesRemoteUpdateArgumentsExternalIdRequired = FilesRemoteUpdateCommonArguments & { external_id: string };
-export type FilesRemoteUpdateArguments = FilesRemoteUpdateArgumentsFileRequired | FilesRemoteUpdateArgumentsExternalIdRequired;
 
-interface FilesRemoteRemoveCommonArguments extends WebAPICallOptions, TokenOverridable {}
-type FilesRemoteRemoveArgumentsFileRequired = FilesRemoteRemoveCommonArguments & { file: string };
-type FilesRemoteRemoveArgumentsExternalIdRequired = FilesRemoteRemoveCommonArguments & { external_id: string };
-export type FilesRemoteRemoveArguments = FilesRemoteRemoveArgumentsFileRequired | FilesRemoteRemoveArgumentsExternalIdRequired;
+export interface FilesRemoteRemoveArguments extends WebAPICallOptions, TokenOverridable {
+  // either one of the file or external_id arguments are required
+  file: string;
+  external_id: string;
+}
 
-interface FilesRemoteShareCommonArguments extends WebAPICallOptions, TokenOverridable {
+export interface FilesRemoteShareArguments extends WebAPICallOptions, TokenOverridable {
   channels: string; // comma-separated list of channel ids
+
+  // either one of the file or external_id arguments are required
+  file: string;
+  external_id: string;
 }
-type FilesRemoteShareArgumentsFileRequired = FilesRemoteShareCommonArguments & { file: string };
-type FilesRemoteShareArgumentsExternalIdRequired = FilesRemoteShareCommonArguments & { external_id: string };
-export type FilesRemoteShareArguments = FilesRemoteShareArgumentsFileRequired | FilesRemoteShareArgumentsExternalIdRequired;
 
   /*
    * `groups.*`
