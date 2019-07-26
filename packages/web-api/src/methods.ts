@@ -363,7 +363,6 @@ export interface FilesCommentsDeleteArguments extends WebAPICallOptions, TokenOv
   file: string; // file id
   id: string; // comment id
 }
-
 // either file or external_id is required
 export interface FilesRemoteInfoArguments extends WebAPICallOptions, TokenOverridable {
   channel?: string;
@@ -372,14 +371,13 @@ export interface FilesRemoteInfoArguments extends WebAPICallOptions, TokenOverri
   file: string;
   external_id: string;
 }
-
-export interface FilesRemoteListArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled {
+export interface FilesRemoteListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   ts_from?: string;
   ts_to?: string;
   channel?: string;
   types?: string;
 }
-
+cursorPaginationEnabledMethods.add('files.remote.list');
 export interface FilesRemoteAddArguments extends WebAPICallOptions, TokenOverridable {
   title: string;
   external_url: string;
@@ -389,7 +387,6 @@ export interface FilesRemoteAddArguments extends WebAPICallOptions, TokenOverrid
   preview_file?: Buffer | Stream;
   indexable_file_contents?: Buffer | Stream;
 }
-
 export interface FilesRemoteUpdateArguments extends WebAPICallOptions, TokenOverridable {
   title: string;
   external_url: string;
@@ -402,13 +399,11 @@ export interface FilesRemoteUpdateArguments extends WebAPICallOptions, TokenOver
   file: string;
   external_id: string;
 }
-
 export interface FilesRemoteRemoveArguments extends WebAPICallOptions, TokenOverridable {
   // either one of the file or external_id arguments are required
   file: string;
   external_id: string;
 }
-
 export interface FilesRemoteShareArguments extends WebAPICallOptions, TokenOverridable {
   channels: string; // comma-separated list of channel ids
 
