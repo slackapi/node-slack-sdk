@@ -373,11 +373,9 @@ export interface FilesRemoteInfoArguments extends WebAPICallOptions, TokenOverri
   external_id: string;
 }
 
-export interface FilesRemoteListArguments extends WebAPICallOptions, TokenOverridable {
+export interface FilesRemoteListArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled {
   ts_from?: string;
   ts_to?: string;
-  count?: number;
-  page?: number;
   channel?: string;
   types?: string;
 }
