@@ -1,6 +1,6 @@
 {
   "name": "@slack/webhook",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Official library for using the Slack Platform's Incoming Webhooks",
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
@@ -38,7 +38,7 @@
     "coverage": "codecov -F webhook --root=$PWD"
   },
   "dependencies": {
-    "@slack/types": "^1.0.0",
+    "@slack/types": "^1.1.0",
     "@types/node": ">=8.9.0",
     "axios": "^0.18.0"
   },
