@@ -776,6 +776,8 @@ export interface WebAPICallResult {
     scopes?: string[];
     acceptedScopes?: string[];
     retryAfter?: number;
+    // `chat.postMessage` returns an array of error messages (e.g., "messages": ["[ERROR] invalid_keys"])
+    messages?: string[];
   };
   [key: string]: unknown;
 }
