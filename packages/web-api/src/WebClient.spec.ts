@@ -885,16 +885,16 @@ describe('WebClient', () => {
         });
     });
 
-    it('should include retryAfter metadata if the response has retry info', function () {
-        const scope = nock('https://slack.com')
-          .post(/api/)
-          .reply(200, { ok: true }, { 'retry-after': 100 });
-        const client = new WebClient(token);
-        return client.apiCall('method')
-          .then((data) => {
-            assert(data.response_metadata.retryAfter === 100);
-            scope.done();
-          });
+    it('should include retryAfter metadata if the response has retry info', () => {
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(200, { ok: true }, { 'retry-after': '100' });
+      const client = new WebClient(token);
+      return client.apiCall('method')
+        .then((data) => {
+          assert(data.response_metadata!.retryAfter === 100);
+          scope.done();
+        });
     });
 
     it('should pause the remaining requests in queue', () => {
@@ -939,29 +939,29 @@ describe('WebClient', () => {
   });
 
   it('should throw an error if the response has no retry info', (done) => {
-      const scope = nock('https://slack.com')
-        .post(/api/)
-        .reply(429, {}, { 'retry-after': undefined });
-      const client = new WebClient(token);
-      client.apiCall('method')
-        .catch((err) => {
-          assert.instanceOf(err, Error);
-          scope.done();
-          done();
-        });
+    const scope = nock('https://slack.com')
+      .post(/api/)
+      .reply(429, {}, { 'retry-after': undefined as unknown as string });
+    const client = new WebClient(token);
+    client.apiCall('method')
+      .catch((err) => {
+        assert.instanceOf(err, Error);
+        scope.done();
+        done();
+      });
   });
 
   it('should throw an error if the response has an invalid retry-after header', (done) => {
-      const scope = nock('https://slack.com')
-        .post(/api/)
-        .reply(429, {}, { 'retry-after': 'notanumber' });
-      const client = new WebClient(token);
-      client.apiCall('method')
-        .catch((err) => {
-          assert.instanceOf(err, Error);
-          scope.done();
-          done();
-        });
+    const scope = nock('https://slack.com')
+      .post(/api/)
+      .reply(429, {}, { 'retry-after': 'notanumber' });
+    const client = new WebClient(token);
+    client.apiCall('method')
+      .catch((err) => {
+        assert.instanceOf(err, Error);
+        scope.done();
+        done();
+      });
   });
 
 
