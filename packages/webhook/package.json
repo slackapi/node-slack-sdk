@@ -33,7 +33,7 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
-    "test": "npm run build && nyc mocha --config .mocharc.json src/*.spec.ts",
+    "test": "npm run build && nyc mocha src/*.spec.ts",
     "coverage": "codecov -F webhook --root=$PWD"
   },
   "dependencies": {

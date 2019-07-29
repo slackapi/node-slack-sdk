@@ -4,7 +4,7 @@ const request = require('superagent');
 const isFunction = require('lodash.isfunction');
 
 const { createEventAdapter } = require('../../src/');
-const { createRequestSignature } = require('../helpers');
+const { createRequestSignature } = require('../../src/test-helpers');
 
 const correctSigningSecret = 'SIGNING_SECRET';
 

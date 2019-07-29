@@ -6,7 +6,7 @@ const request = require('superagent');
 const uncaughtException = require('uncaughtException');
 
 const { createEventAdapter, errorCodes } = require('../../src/');
-const helpers = require('../helpers');
+const helpers = require('../../src/test-helpers');
 const { createRequestSignature } = helpers;
 
 describe('when using middleware inside your own express application', function () {
