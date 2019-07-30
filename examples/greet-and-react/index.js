@@ -11,7 +11,7 @@ const express = require('express');
 
 /**
  * Logs a configuration error to console with given missing variable names.
- * @param array envVarNames
+ * @param {Array} envVarNames
  */
 function logConfigurationError(envVarNames) {
   const description = envVarNames.length > 1 ?
