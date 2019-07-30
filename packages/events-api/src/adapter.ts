@@ -1,10 +1,11 @@
 /* tslint:disable import-name */
 import EventEmitter from 'events';
-import http, { IncomingMessage, ServerResponse } from 'http';
+import http, { RequestListener } from 'http';
 import debugFactory from 'debug';
 import isString from 'lodash.isstring';
 import { createHTTPHandler } from './http-handler';
 import { isFalsy } from './util';
+import { RequestHandler } from 'express'; // tslint:disable-line: no-implicit-dependencies
 /* tslint:enable import-name */
 
 const debug = debugFactory('@slack/events-api:adapter');
@@ -74,12 +75,9 @@ export class SlackEventAdapter extends EventEmitter {
   /**
    * Creates an HTTP server to listen for event payloads.
    */
-  public createServer(): Promise<http.Server> {
+  public async createServer(): Promise<http.Server> {
     // TODO: options (like https)
-    // NOTE: this was once a workaround for a shortcoming of the System.import() tranform
-    return Promise.resolve().then(() => {
-      return http.createServer(this.requestListener());
-    });
+    return http.createServer(this.requestListener());
   }
 
   /**
@@ -121,7 +119,7 @@ export class SlackEventAdapter extends EventEmitter {
   /**
    * Returns a middleware-compatible adapter.
    */
-  public expressMiddleware(): (req: IncomingMessage, res: ServerResponse, next: () => void) => void {
+  public expressMiddleware(): RequestHandler {
     const requestListener = this.requestListener();
     return (req, res, _next) => {
       requestListener(req, res);
@@ -131,7 +129,7 @@ export class SlackEventAdapter extends EventEmitter {
   /**
    * Creates a request listener.
    */
-  public requestListener(): (req: IncomingMessage, res: ServerResponse) => void {
+  public requestListener(): RequestListener {
     return createHTTPHandler(this);
   }
 }

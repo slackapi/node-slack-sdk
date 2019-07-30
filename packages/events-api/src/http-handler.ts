@@ -60,12 +60,12 @@ export function createHTTPHandler(adapter: SlackEventAdapter): HTTPHandler {
       debug('sending response - error: %s, responseOptions: %o', err, responseOptions);
       // Deal with errors up front
       if (!isFalsy(err)) {
-        if ('status' in err) {
+        if ('status' in err && typeof err.status === 'number') {
           res.statusCode = err.status;
-        } else if ('code' in err && (
-          err.code === ErrorCode.SignatureVerificationFailure ||
-          err.code === ErrorCode.RequestTimeFailure
-        )) {
+        } else if (
+          (err as CodedError).code === ErrorCode.SignatureVerificationFailure ||
+          (err as CodedError).code === ErrorCode.RequestTimeFailure
+        ) {
           res.statusCode = ResponseStatus.NotFound;
         } else {
           res.statusCode = ResponseStatus.Failure;
@@ -114,7 +114,8 @@ export function createHTTPHandler(adapter: SlackEventAdapter): HTTPHandler {
         adapter.emit('error', error, respond);
       } else if (process.env.NODE_ENV === 'development') {
         adapter.emit('error', error);
-        respond({ status: ResponseStatus.Failure }, { content: error.message });
+        // tslint:disable-next-line: no-object-literal-type-assertion
+        respond({ status: ResponseStatus.Failure } as ResponseError, { content: error.message });
       } else {
         adapter.emit('error', error);
         respond(error);
@@ -216,13 +217,20 @@ enum ResponseStatus {
 type HTTPHandler = (req: IncomingMessage & { body?: any, rawBody?: Buffer }, res: ServerResponse) => void;
 
 /**
- * A response handler returned by `sendResponse`.
+ * A Node-style response handler that takes an error (if any occurred) and a few response-related options.
  */
-export type ResponseHandler = (err?: Error | CodedError | { status: number }, responseOptions?: {
+export type ResponseHandler = (err?: ResponseError, responseOptions?: {
   failWithNoRetry?: boolean;
   redirectLocation?: boolean;
   content?: any;
 }) => void;
+
+/**
+ * An error (that may or may not have a status code) in response to a request.
+ */
+export interface ResponseError extends Error {
+  status?: number;
+}
 
 /**
  * Parameters for calling {@link verifyRequestSignature}.

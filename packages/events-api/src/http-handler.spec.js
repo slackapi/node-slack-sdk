@@ -1,4 +1,3 @@
-require('mocha');
 const { assert } = require('chai');
 const sinon = require('sinon');
 const proxyquire = require('proxyquire');

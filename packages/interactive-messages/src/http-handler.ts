@@ -1,5 +1,5 @@
 /* tslint:disable import-name */
-import { ServerResponse, RequestListener } from 'http';
+import { ServerResponse, RequestListener, IncomingHttpHeaders } from 'http';
 import * as querystring from 'querystring';
 import debugFactory from 'debug';
 import getRawBody from 'raw-body';
@@ -54,13 +54,13 @@ export function createHTTPHandler(adapter: SlackMessageAdapter): RequestListener
    * Method to verify signature of requests
    *
    * @param signingSecret - Signing secret used to verify request signature
-   * @param requestHeaders - Request headers
+   * @param requestHeaders - The signing headers. If `req` is an incoming request, then this should be `req.headers`.
    * @param body - Raw body string
    * @returns Indicates if request is verified
    */
   function verifyRequestSignature(
     signingSecret: string,
-    requestHeaders: Record<string, string>,
+    requestHeaders: VerificationHeaders,
     body: string,
   ): boolean {
     // Request signature
@@ -107,10 +107,10 @@ export function createHTTPHandler(adapter: SlackMessageAdapter): RequestListener
       .then((bodyBuf) => {
         const rawBody = bodyBuf.toString();
 
-        if (verifyRequestSignature(adapter.signingSecret, req.headers as Record<string, string>, rawBody)) {
+        if (verifyRequestSignature(adapter.signingSecret, req.headers as VerificationHeaders, rawBody)) {
           // Request signature is verified
           // Parse raw body
-          const body = parseBody(rawBody) as any;
+          const body = parseBody(rawBody);
 
           if (body.ssl_check) {
             respond({ status: 200 });
@@ -148,3 +148,13 @@ type ResponseHandler = (dispatchResult: {
   status: number,
   content?: string | object,
 }) => void;
+
+/**
+ * Headers required for verification.
+ *
+ * See: https://api.slack.com/docs/verifying-requests-from-slack
+ */
+export interface VerificationHeaders extends IncomingHttpHeaders {
+  'x-slack-signature': string;
+  'x-slack-request-timestamp': string;
+}

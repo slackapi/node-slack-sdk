@@ -1,6 +1,6 @@
 {
   "name": "@slack/webhook",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Official library for using the Slack Platform's Incoming Webhooks",
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
@@ -39,7 +39,7 @@
     "ref-docs:model": "api-extractor run"
   },
   "dependencies": {
-    "@slack/types": "^1.0.0",
+    "@slack/types": "^1.1.0",
     "@types/node": ">=8.9.0",
     "axios": "^0.18.0"
   },
@@ -51,7 +51,7 @@
     "codecov": "^3.2.0",
     "mocha": "^6.0.2",
     "nock": "^10.0.6",
-    "nyc": "^13.3.0",
+    "nyc": "^14.1.1",
     "shx": "^0.3.2",
     "sinon": "^7.2.7",
     "source-map-support": "^0.5.10",

@@ -138,7 +138,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
    * @param options options
    */
   public async apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult> {
-    this.logger.debug('apiCall() start');
+    this.logger.debug(`apiCall('${method}') start`);
 
     if (typeof options === 'string' || typeof options === 'number' || typeof options === 'boolean') {
       throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
@@ -396,6 +396,14 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     upload: (this.apiCall.bind(this, 'files.upload')) as Method<methods.FilesUploadArguments>,
     comments: {
       delete: (this.apiCall.bind(this, 'files.comments.delete')) as Method<methods.FilesCommentsDeleteArguments>,
+    },
+    remote: {
+      info: (this.apiCall.bind(this, 'files.remote.info')) as Method<methods.FilesRemoteInfoArguments>,
+      list: (this.apiCall.bind(this, 'files.remote.list')) as Method<methods.FilesRemoteListArguments>,
+      add: (this.apiCall.bind(this, 'files.remote.add')) as Method<methods.FilesRemoteAddArguments>,
+      update: (this.apiCall.bind(this, 'files.remote.update')) as Method<methods.FilesRemoteUpdateArguments>,
+      remove: (this.apiCall.bind(this, 'files.remote.remove')) as Method<methods.FilesRemoteRemoveArguments>,
+      share: (this.apiCall.bind(this, 'files.remote.share')) as Method<methods.FilesRemoteShareArguments>,
     },
   };
 
@@ -776,6 +784,8 @@ export interface WebAPICallResult {
     scopes?: string[];
     acceptedScopes?: string[];
     retryAfter?: number;
+    // `chat.postMessage` returns an array of error messages (e.g., "messages": ["[ERROR] invalid_keys"])
+    messages?: string[];
   };
   [key: string]: unknown;
 }
@@ -828,7 +838,11 @@ function paginationOptionsForNextPage(
  */
 function parseRetryHeaders(response: AxiosResponse): number | undefined {
   if (response.headers['retry-after'] !== undefined) {
-    return parseInt((response.headers['retry-after'] as string), 10);
+    const retryAfter = parseInt((response.headers['retry-after'] as string), 10);
+
+    if (!Number.isNaN(retryAfter)) {
+      return retryAfter;
+    }
   }
   return undefined;
 }
