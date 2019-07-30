@@ -11,7 +11,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 const debug = debugFactory('@slack/events-api:http-handler');
 
 /**
- * Verifies the signature of a request.
+ * Verifies the signature of a request. Throws a {@link CodedError} if the signature is invalid.
  *
  * @remarks
  * See [Verifying requests from Slack](https://api.slack.com/docs/verifying-requests-from-slack#sdk_support) for more
@@ -19,7 +19,6 @@ const debug = debugFactory('@slack/events-api:http-handler');
  *
  * @param params - See {@link VerifyRequestSignatureParams}.
  * @returns `true` when the signature is valid.
- * @throws {CodedError} - Signature is invalid.
  */
 export function verifyRequestSignature({
   signingSecret, requestSignature, requestTimestamp, body,

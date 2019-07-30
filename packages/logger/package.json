@@ -31,13 +31,13 @@
     "build:clean": "shx rm -rf ./dist",
     "lint": "tslint --project .",
     "test": "npm run build && echo \"Tests are not implemented.\" && exit 0",
-    "ref-doc:model": "api-extractor run"
+    "ref-docs:model": "api-extractor run"
   },
   "dependencies": {
     "@types/node": ">=8.9.0"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.3.0",
+    "@microsoft/api-extractor": "^7.3.4",
     "shx": "^0.3.2",
     "tslint": "^5.13.1",
     "tslint-config-airbnb": "^5.11.1",
