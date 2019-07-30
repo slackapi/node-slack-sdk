@@ -17,12 +17,12 @@ changes
 	- Either clone this repo and run `npm install`
 	- Or visit [glitch.com/edit/#!/remix/slack-greet-and-react-example](https://glitch.com/edit/#!/remix/slack-greet-and-react-example)
 2. Set the following environment variables (all available on the *Basic Information* page) to `.env` (see `.env.sample` if you're developing locally)
-	- `SLACK_CLIENT_ID`: You app's _Client ID_
+	- `SLACK_CLIENT_ID`: Your app's _Client ID_
 	- `SLACK_CLIENT_SECRET`: Your app's _Client Secret_
 	- `SLACK_SIGNING_SECRET`: Your app's _Signing Secret_
 3. If you're running the app locally:
 	- Start the app (`node index.js`)
-	- In another window, start ngrok on the same port as your webserver (`ngrok http $PORT`)
+	- In another window, start [ngrok](https://ngrok.com/) on the same port as your webserver (`ngrok http $PORT`)
 
 ### Enable Events
 1. Go back to the app settings and click on `Event Subscriptions` on the left side navigation
