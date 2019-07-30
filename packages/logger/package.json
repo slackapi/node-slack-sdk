@@ -30,8 +30,13 @@
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
     "lint": "tslint --project .",
+<<<<<<< HEAD
     "test": "npm run build && nyc mocha --config .mocharc.json src/*.spec.js",
     "ref-doc:model": "api-extractor run"
+=======
+    "test": "npm run build && echo \"Tests are not implemented.\" && exit 0",
+    "ref-docs:model": "api-extractor run"
+>>>>>>> Add ref docs generation
   },
   "dependencies": {
     "@types/node": ">=8.9.0"
@@ -42,7 +47,7 @@
     "chai": "^4.2.0",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1",
-    "@microsoft/api-extractor": "^7.3.0",
+    "@microsoft/api-extractor": "^7.3.4",
     "shx": "^0.3.2",
     "ts-node": "^8.2.0",
     "tslint": "^5.13.1",

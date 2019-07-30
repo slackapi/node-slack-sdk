@@ -39,7 +39,7 @@
     "build:clean": "shx rm -rf ./dist",
     "lint": "tslint --project .",
     "test": "npm run build && echo \"Tests are not implemented.\" && exit 0",
-    "ref-doc:model": "api-extractor run"
+    "ref-docs:model": "api-extractor run"
   },
   "dependencies": {
     "@slack/logger": ">=1.0.0 <3.0.0",
@@ -54,7 +54,7 @@
     "ws": "^5.2.0"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.3.0",
+    "@microsoft/api-extractor": "^7.3.4",
     "shx": "^0.3.2",
     "tslint": "^5.13.1",
     "tslint-config-airbnb": "^5.11.1",

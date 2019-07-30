@@ -35,7 +35,8 @@
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
     "lint": "tslint --project .",
     "test": "npm run build && nyc mocha --config .mocharc.json src/*.spec.js",
-    "coverage": "codecov -F webhook --root=$PWD"
+    "coverage": "codecov -F webhook --root=$PWD",
+    "ref-docs:model": "api-extractor run"
   },
   "dependencies": {
     "@slack/types": "^1.2.1",
@@ -43,7 +44,7 @@
     "axios": "^0.18.0"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.3.0",
+    "@microsoft/api-extractor": "^7.3.4",
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
     "chai": "^4.2.0",

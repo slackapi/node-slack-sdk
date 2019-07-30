@@ -8,10 +8,12 @@
     "start": "ts-node ./src/index.ts"
   },
   "dependencies": {
-    "@microsoft/api-extractor-model": "^7.2.0",
-    "@microsoft/tsdoc": "^0.12.9",
-    "remark-stringify": "^6.0.4",
-    "unified": "^8.2.0"
+    "@microsoft/api-extractor-model": "^7.3.0",
+    "mdast-builder": "^1.1.1",
+    "remark-stringify": "^7.0.1",
+    "remark-toc": "^6.0.0",
+    "unified": "^8.3.2",
+    "vfile": "^4.0.1"
   },
   "devDependencies": {
     "ts-node": "^8.3.0",
