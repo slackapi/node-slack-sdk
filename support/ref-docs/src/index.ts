@@ -1,4 +1,3 @@
-/// <reference types="./types/remark-toc" />
 import { readdir as fsReadDir, writeFile as fsWriteFile } from 'fs';
 import { join as joinPaths } from 'path';
 import { promisify } from 'util';
