@@ -1,22 +1,25 @@
 {
-    "compilerOptions": {
-      "target": "es2017",
-      "module": "commonjs",
-      "declaration": true,
-      "declarationMap": true,
-      "sourceMap": true,
-      "outDir": "dist",
-  
-      "strict": true,
-      "noUnusedLocals": true,
-      "noUnusedParameters": true,
-      "noImplicitReturns": true,
-      "noFallthroughCasesInSwitch": true,
-  
-      "moduleResolution": "node",
-      "baseUrl": ".",
-      "esModuleInterop": true
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "dist",
+
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["./types/*"]
     },
-    "include": ["src/**/*.ts"]
-  }
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*.ts"]
+}
   
