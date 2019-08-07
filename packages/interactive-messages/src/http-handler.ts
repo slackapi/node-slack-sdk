@@ -1,5 +1,5 @@
 /* tslint:disable import-name */
-import { ServerResponse, RequestListener, IncomingHttpHeaders } from 'http';
+import { ServerResponse, IncomingHttpHeaders, IncomingMessage } from 'http';
 import * as querystring from 'querystring';
 import debugFactory from 'debug';
 import getRawBody from 'raw-body';
@@ -11,7 +11,7 @@ import { packageIdentifier, isFalsy } from './util';
 
 const debug = debugFactory('@slack/interactive-messages:http-handler');
 
-export function createHTTPHandler(adapter: SlackMessageAdapter): RequestListener {
+export function createHTTPHandler(adapter: SlackMessageAdapter): HTTPHandler {
   const poweredBy = packageIdentifier();
 
   /**
@@ -74,7 +74,7 @@ export function createHTTPHandler(adapter: SlackMessageAdapter): RequestListener
 
     if (ts < fiveMinutesAgo) {
       debug('request is older than 5 minutes');
-      throw errorWithCode(new Error('Slack request signing verification failed'), ErrorCode.RequestTimeFailure);
+      throw errorWithCode(new Error('Slack request signing verification outdated'), ErrorCode.RequestTimeFailure);
     }
 
     const hmac = crypto.createHmac('sha256', signingSecret);
@@ -102,8 +102,32 @@ export function createHTTPHandler(adapter: SlackMessageAdapter): RequestListener
     // Function used to send response
     const respond = sendResponse(res);
 
-    // Builds body of the request from stream and returns the raw request body
-    getRawBody(req)
+    // If parser is being used and we don't receive the raw payload via `rawBody`,
+    // we can't verify request signature
+    if (!isFalsy(req.body) && isFalsy(req.rawBody)) {
+      respond({
+        status: 500,
+        content: process.env.NODE_ENV === 'development'
+          ? 'Parsing request body prohibits request signature verification'
+          : undefined,
+      });
+      return;
+    }
+
+    // Some serverless cloud providers (e.g. Google Firebase Cloud Functions) might populate
+    // the request with a bodyparser before it can be populated by the SDK.
+    // To prevent throwing an error here, we check the `rawBody` field before parsing the request
+    // through the `raw-body` module (see Issue #85 - https://github.com/slackapi/node-slack-events-api/issues/85)
+    let parseRawBody: Promise<Buffer>;
+    if (!isFalsy(req.rawBody)) {
+      debug('Parsing request with a rawBody attribute');
+      parseRawBody = Promise.resolve(req.rawBody);
+    } else {
+      debug('Parsing raw request');
+      parseRawBody = getRawBody(req);
+    }
+
+    parseRawBody
       .then((bodyBuf) => {
         const rawBody = bodyBuf.toString();
 
@@ -140,6 +164,8 @@ export function createHTTPHandler(adapter: SlackMessageAdapter): RequestListener
       });
   };
 }
+
+type HTTPHandler = (req: IncomingMessage & { body?: any, rawBody?: Buffer }, res: ServerResponse) => void;
 
 /**
  * A response handler returned by `sendResponse`.

@@ -6,7 +6,7 @@ import isRegExp from 'lodash.isregexp';
 import isFunction from 'lodash.isfunction';
 import isPlainObject from 'lodash.isplainobject';
 import debugFactory from 'debug';
-import { ErrorCode, errorWithCode, CodedError } from './errors';
+import { ErrorCode, CodedError } from './errors';
 import { createHTTPHandler } from './http-handler';
 import { packageIdentifier, promiseTimeout, isFalsy } from './util';
 import { RequestHandler } from 'express'; // tslint:disable-line no-implicit-dependencies - only a type is imported
@@ -199,15 +199,7 @@ export class SlackMessageAdapter {
    */
   public expressMiddleware(): RequestHandler {
     const requestListener = this.requestListener();
-    return (req, res, next) => {
-      // If parser is being used, we can't verify request signature
-      if (!isFalsy(req.body)) {
-        next(errorWithCode(
-          new Error('Parsing request body prohibits request signature verification'),
-          ErrorCode.BodyParserNotPermitted,
-        ));
-        return;
-      }
+    return (req, res, _next) => {
       requestListener(req, res);
     };
   }
