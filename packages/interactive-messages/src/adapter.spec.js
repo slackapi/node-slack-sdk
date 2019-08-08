@@ -119,17 +119,6 @@ describe('SlackMessageAdapter', function () {
       const middleware = this.adapter.expressMiddleware();
       assert.isFunction(middleware);
     });
-    it('should error when body parser is used', function (done) {
-      const middleware = this.adapter.expressMiddleware();
-      const req = { body: { } };
-      const res = this.res;
-      const next = this.next;
-      next.callsFake(function (err) {
-        assert.equal(err.code, errorCodes.BODY_PARSER_NOT_PERMITTED);
-        done();
-      });
-      middleware(req, res, next);
-    });
     it('should verify correctly signed request bodies', function (done) {
       const ts = Math.floor(Date.now() / 1000);
       const adapter = this.adapter;
