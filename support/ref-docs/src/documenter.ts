@@ -46,14 +46,17 @@ import {
   DocBlock
 } from '@microsoft/tsdoc';
 import { Node, Parent } from 'unist';
-import { flatMap, joinArrs, filterUndef } from './arrays';
 import {
   section,
   itemSections,
   Ctor,
   itemsOfType,
-  SectionTitle
+  SectionTitle,
+  filterUndef,
+  FrontmatterEntires
 } from './macros';
+import 'array.prototype.flatmap';
+import 'array.prototype.flat';
 
 /**
  * Information about the context of a documentation process.
@@ -76,7 +79,7 @@ function withCtx<
 }
 
 /**
- * Heuristic that decides if a parameter utilises object destructuring.
+ * Heuristic that decides if a parameter utilizes object destructuring.
  */
 function isDestructuredParam(param: Parameter): boolean {
   return param.name.startsWith('{') && param.name.endsWith('}');
@@ -112,6 +115,19 @@ function prependFirstParagraph(
 }
 
 /**
+ * Formats the name of a package as a URL-friendly slug.
+ * 
+ * @remarks
+ * Excludes the common `@slack/` at the start of most package names and replaces
+ * sequences of (1+) non-alphanumeric characters with a hyphen.
+ */
+export function formatPkgSlug(pkg: ApiPackage): string {
+  return pkg.name
+    .replace(/@slack\//i, '')
+    .replace(/[^a-zA-Z0-9]+($)?/g, '-');
+}
+
+/**
  * Attempts to link to a target API item by its name.
  */
 function tryLinkName(
@@ -122,30 +138,37 @@ function tryLinkName(
   // Attempt to find the target item
   const [target] = ctx.pkgEntry.findMembersByName(name);
   // TODO: handle multiple targets?
-  // TODO: better extraction by using tokens instead of
 
   // If the target isn't found, simply return the child w/o a link
   if (target === undefined) {
     return child;
   }
 
-  return link(`#${target.displayName}`, undefined, child);
+  // TODO: We don't solidly know the URL to link to this item. The below works
+  // for GitHub-style heading `id`s.
+  return link(`#${target.displayName.toLowerCase()}`, undefined, child);
 }
 
 /**
- * Formats certain types to be more human-friendly.
+ * Formats a type excerpt (like `{}`) to be more human-friendly and possibly
+ * link to the type(s) it refers to.
  */
 function formatExcerptReferences(
   ctx: DocumentationContext,
   excerpt: Excerpt
 ): Node[] {
-  // Bail early for object types/interface shorthand
+  // Bail early for object types/interface shorthand by searching for anything
+  // that looks like an object (which starts and ends with `{` and `}`) and
+  // might be followed by a number of array brackets (`[]`)
   if (excerpt.text.match(/^{(?:\s|\S)*}(?:\[\])*$/) !== null) {
-    // TODO: better substitution that explains properties
+    // TODO: The information about this object (its properties and such) are now
+    // lost. How can we retain that information?
     return [inlineCode('object')];
   }
 
   return [
+    // HTML `<code>` tags need to be used in order to let links within the
+    // inline code segment to work.
     html('<code>'),
     ...excerpt.tokens
       // Get the relevant tokens
@@ -165,7 +188,7 @@ function formatExcerptReferences(
 }
 
 /**
- * Converts a DocSection to `mdast` nodes.
+ * Converts a DocSection to an array of `mdast` paragraphs.
  */
 function convertDocSection(
   ctx: DocumentationContext,
@@ -185,7 +208,6 @@ function convertDocSection(
           } else if (node instanceof DocLinkTag) {
             // Links map to links. The URI depends on the destination.
             if (node.codeDestination !== undefined) {
-              // TODO: better code link resolution
               const name = node.codeDestination.memberReferences[0]
                 .memberIdentifier!.identifier;
               return tryLinkName(ctx, name, inlineCode(name));
@@ -212,7 +234,7 @@ function convertDocSection(
 }
 
 /**
- * Converts a DocBlock to `mdast` nodes.
+ * Converts a DocBlock to a titled section.
  */
 function convertDocBlock(
   ctx: DocumentationContext,
@@ -223,8 +245,14 @@ function convertDocBlock(
 }
 
 /**
- * Gets documentation contained in an API item's model, specifically from
- * documentation comments.
+ * Attempts to extract and format documentation from associated comments with a
+ * documentable API item.
+ * 
+ * @remarks
+ * Extracts:
+ * - The description (if any).
+ * - The remarks (if any).
+ * - An example (if any).
  */
 function itemDocumentation(
   ctx: DocumentationContext,
@@ -240,8 +268,9 @@ function itemDocumentation(
     block => block.blockTag.tagNameWithUpperCase === '@EXAMPLE'
   );
 
-  return joinArrs(
-    // TODO: Deprecation notice
+  return [
+    // TODO: handle `@deprecation` tags by making a big, flashy "this is
+    // deprecated" alert for this item
 
     // Summary
     convertDocSection(ctx, item.tsdocComment.summarySection),
@@ -255,12 +284,19 @@ function itemDocumentation(
     exampleBlock !== undefined
       ? convertDocBlock(ctx, [6, 'Example'], exampleBlock)
       : []
-  );
+  ].flat();
 }
 
 /**
  * Generates the title for a function-like item (e.g. a function, method,
  * constructor).
+ * 
+ * @remarks
+ * The generated string looks like `name(param1, param2, param3)` where:
+ * - `name` is either the value of this function's `name` argument (if
+ *   provided) or the function-like's name.
+ * - `paramX` is the name of the parameter or `opts` if the parameter is
+ *   defined using object destructuring.
  */
 function fnLikeTitle(item: ApiParameterListMixin, name?: string): Node[] {
   // TODO: linkify parameters?
@@ -275,7 +311,17 @@ function fnLikeTitle(item: ApiParameterListMixin, name?: string): Node[] {
 }
 
 /**
- * Documents a function-like item.
+ * Generates information about a function-like (which includes functions,
+ * methods, constructors, and constructor signatures).
+ * 
+ * @remarks
+ * Includes:
+ * - Comment-provided documentation (if any).
+ * - A table describing the function's parameters (if any).
+ *   - Each parameter is described by its name, type, whether it's required or
+ *     not, and any documentation comment-provided description. If none of the
+ *     parameters have descriptions, the description column from the table is
+ *     excluded.
  */
 function documentFnLike(
   ctx: DocumentationContext,
@@ -298,7 +344,7 @@ function documentFnLike(
     item.tsdocComment !== undefined &&
     item.tsdocComment.remarksBlock !== undefined;
 
-  return joinArrs(
+  return [
     // Documentation
     itemDocumentation(ctx, item),
 
@@ -306,67 +352,60 @@ function documentFnLike(
     item.parameters.length === 0
       ? []
       : [
-          paragraph([
-            strong(text('Parameters:')),
-            brk,
-            brk,
-            table(['center', 'center', 'center', null] as any, [
+          strong(text('Parameters:')),
+          table(['center', 'center', 'center', null] as any, [
+            tableRow(
+              filterUndef([
+                tableCell(text('Name')),
+                tableCell(text('Type')),
+                tableCell(text('Required')),
+                paramsHaveDesc ? tableCell(text('Description')) : undefined
+              ])
+            ),
+            ...item.parameters.map(param =>
               tableRow(
                 filterUndef([
-                  tableCell(text('Name')),
-                  tableCell(text('Type')),
-                  tableCell(text('Required')),
-                  paramsHaveDesc ? tableCell(text('Description')) : undefined
+                  // Name
+                  tableCell(
+                    text(hasOpts && param === optsParam ? 'opts' : param.name)
+                  ),
+
+                  // Type
+                  tableCell(
+                    formatExcerptReferences(ctx, param.parameterTypeExcerpt)
+                  ),
+
+                  // Required
+                  tableCell(text(isRequiredParam(item, param) ? '✓' : '✗')),
+
+                  // Description
+                  paramsHaveDesc
+                    ? tableCell(
+                        param.tsdocParamBlock === undefined
+                          ? text(
+                              hasOpts && param === optsParam
+                                ? 'See options.'
+                                : ''
+                            )
+                          : convertDocSection(
+                              ctx,
+                              param.tsdocParamBlock.content
+                            )
+                      )
+                    : undefined
                 ])
-              ),
-              ...item.parameters.map(param =>
-                tableRow(
-                  filterUndef([
-                    // Name
-                    tableCell(
-                      text(hasOpts && param === optsParam ? 'opts' : param.name)
-                    ),
-
-                    // Type
-                    tableCell(
-                      formatExcerptReferences(ctx, param.parameterTypeExcerpt)
-                    ),
-
-                    // Required
-                    tableCell(text(isRequiredParam(item, param) ? '✓' : '✗')),
-
-                    // Description
-                    paramsHaveDesc
-                      ? tableCell(
-                          param.tsdocParamBlock === undefined
-                            ? text(
-                                hasOpts && param === optsParam
-                                  ? 'See options.'
-                                  : ''
-                              )
-                            : convertDocSection(
-                                ctx,
-                                param.tsdocParamBlock.content
-                              )
-                        )
-                      : undefined
-                  ])
-                )
               )
-            ])
+            )
           ])
         ],
 
     // Options
     hasOpts
       ? [
-          paragraph([
-            strong(text('Options:')),
-            brk,
-            brk,
-            // We assume that `opts` is a non-empty interface
-            documentClassLikeProps(ctx, optsTarget as ApiInterface) as Node
-          ])
+          strong(text('Options:')),
+          
+          // We assume that `opts` is a non-empty interface
+          documentClassLikeProps(ctx, optsTarget as ApiInterface) as Node
         ]
       : [],
 
@@ -389,11 +428,16 @@ function documentFnLike(
           ]
         )
       : []
-  );
+  ].flat();
 }
 
 /**
- * Documents the properties/fields of a class-like item.
+ * Generates information about the properties/fields of a class-like.
+ * 
+ * @remarks
+ * Creates a table including the prop's/field's name, type, and a documentation
+ * comment-provided description. If none of the props/fields include a
+ * description, that column of the table is excluded.
  */
 function documentClassLikeProps(
   ctx: DocumentationContext,
@@ -438,7 +482,14 @@ function documentClassLikeProps(
 }
 
 /**
- * Documents an interface class or interface.
+ * Generates information about a class or interface.
+ * 
+ * @remarks
+ * Includes:
+ * - Comment documentation associated with the class-like (if any).
+ * - Constructors (formatted as `new {ClassLikeName}(parameters)`) (if any).
+ * - A table of fields/properties (if any).
+ * - Methods (if any).
  */
 function documentClassLike(
   ctx: DocumentationContext,
@@ -452,12 +503,12 @@ function documentClassLike(
   // Get the properties/fields documentation
   const propsTable = documentClassLikeProps(ctx, item);
 
-  return joinArrs(
+  return [
     // Documentation
     itemDocumentation(ctx, item),
 
     // Constructor(s)
-    flatMap(itemsOfType(item.members, ctorKind), ctorItem =>
+    itemsOfType(item.members, ctorKind).flatMap(ctorItem =>
       section(
         // These headings are at depth 5 to match other members
         [5, fnLikeTitle(ctorItem, `new ${item.name}`)],
@@ -475,14 +526,18 @@ function documentClassLike(
       withCtx(ctx, documentFnLike),
       fnLikeTitle
     )
-  );
+  ].flat();
 }
 
 /**
- * Documents an enum.
+ * Generates information about an enum.
+ * 
+ * @remarks
+ * Lists all the members of the enum & any accompanying comment documentation
+ * for each member.
  */
 function documentEnum(ctx: DocumentationContext, item: ApiEnum): Node[] {
-  return joinArrs(
+  return [
     // Documentation
     itemDocumentation(ctx, item),
 
@@ -509,11 +564,16 @@ function documentEnum(ctx: DocumentationContext, item: ApiEnum): Node[] {
         )
       )
     )
-  );
+  ].flat();
 }
 
 /**
- * Documents a type alias.
+ * Generates information about a type alias.
+ * 
+ * @remarks
+ * Includes the relevant definition of the type alias (the part after `=` but
+ * before `;` in `type X = ...;`) and attempts to make an English description
+ * of the type alias.
  */
 function documentTypeAlias(
   ctx: DocumentationContext,
@@ -549,7 +609,7 @@ function documentTypeAlias(
     ];
   }
 
-  return joinArrs(
+  return [
     // Documentation
     itemDocumentation(ctx, item),
 
@@ -558,13 +618,13 @@ function documentTypeAlias(
 
     // Description of the type alias
     description
-  );
+  ].flat();
 }
 
 /**
- * Documents a package's API
+ * Generates information about a package in an API model.
  */
-export function documentPkg(model: ApiModel, pkg: ApiPackage): Node {
+export function documentPkg(model: ApiModel, pkg: ApiPackage): [FrontmatterEntires, Node] {
   // Every package is only expected to have one entry point
   if (
     pkg.members.length !== 1 ||
@@ -583,42 +643,76 @@ export function documentPkg(model: ApiModel, pkg: ApiPackage): Node {
   // All top-level API members in this package
   const apiItems = ctx.pkgEntry.members;
 
-  return root(
-    // TODO: front matter (title & slug)
-    section(
-      [1, pkg.name],
-      [
-        ...itemSections(
-          [2, 'Classes'],
-          itemsOfType(apiItems, ApiClass),
-          withCtx(ctx, documentClassLike)
-        ),
+  return [
+    {
+      // The title of the page is just the package name
+      title: `"${pkg.name}"`,
 
-        ...itemSections(
-          [2, 'Functions'],
-          itemsOfType(apiItems, ApiFunction),
-          withCtx(ctx, documentFnLike),
-          fnLikeTitle
-        ),
+      // See the `formatPkgSlug` for the format of the slug
+      slug: formatPkgSlug(pkg)
+    },
+    root(
+      section(
+        [1, pkg.name],
+        [
+          ...itemSections(
+            [2, 'Classes'],
+            itemsOfType(apiItems, ApiClass),
+            withCtx(ctx, documentClassLike)
+          ),
 
-        ...itemSections(
-          [2, 'Enums'],
-          itemsOfType(apiItems, ApiEnum),
-          withCtx(ctx, documentEnum)
-        ),
+          ...itemSections(
+            [2, 'Functions'],
+            itemsOfType(apiItems, ApiFunction),
+            withCtx(ctx, documentFnLike),
+            fnLikeTitle
+          ),
 
-        ...itemSections(
-          [2, 'Interfaces'],
-          itemsOfType(apiItems, ApiInterface),
-          withCtx(ctx, documentClassLike)
-        ),
+          ...itemSections(
+            [2, 'Enums'],
+            itemsOfType(apiItems, ApiEnum),
+            withCtx(ctx, documentEnum)
+          ),
 
-        ...itemSections(
-          [2, 'Type Aliases'],
-          itemsOfType(apiItems, ApiTypeAlias),
-          withCtx(ctx, documentTypeAlias)
-        )
-      ]
+          ...itemSections(
+            [2, 'Interfaces'],
+            itemsOfType(apiItems, ApiInterface),
+            withCtx(ctx, documentClassLike)
+          ),
+
+          ...itemSections(
+            [2, 'Type Aliases'],
+            itemsOfType(apiItems, ApiTypeAlias),
+            withCtx(ctx, documentTypeAlias)
+          )
+        ]
+      )
     )
-  );
+  ];
+}
+
+/**
+ * Creates an index page linking to each package in an API model.
+ */
+export function documentModel(model: ApiModel): [FrontmatterEntires, Node] {
+  return [
+    {
+      title: 'Reference Documentation',
+      parmalink: '/reference/'
+    },
+    root(
+      section(
+        [1, 'Reference Documentation'],
+        [
+          paragraph([strong(text('Packages:'))]),
+          list(
+            'unordered',
+            model.packages.map(pkg =>
+              listItem(link(formatPkgSlug(pkg), undefined, text(pkg.name)))
+            )
+          )
+        ]
+      )
+    )
+  ];
 }

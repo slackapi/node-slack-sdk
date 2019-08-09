@@ -1,7 +1,7 @@
 import { Children, heading, text } from 'mdast-builder';
 import { ApiItem } from '@microsoft/api-extractor-model';
 import { Node } from 'unist';
-import { flatMap } from './arrays';
+import 'array.prototype.flatmap';
 
 /**
  * A constructor for an object `T` that takes the tuple of arguments `A`.
@@ -60,15 +60,38 @@ export function itemSections<I extends ApiItem>(
     ? []
     : section(
         title,
+
         // Map each item to its own section
-        flatMap(items, item =>
-          section(
-            [
-              title[0] + 1,
-              namer === undefined ? item.displayName : namer(item)
-            ],
-            mapper(item)
-          )
-        )
+        items.flatMap(item => section(
+          [
+            title[0] + 1,
+            namer === undefined ? item.displayName : namer(item)
+          ],
+          mapper(item)
+        )),
       );
+}
+
+/**
+ * Filters out any elements from an array that are `undefined`.
+ */
+export function filterUndef<T>(arr: T[]): Exclude<T, undefined>[] {
+  return arr.filter(elem => elem !== undefined) as Exclude<T, undefined>[];
+}
+
+
+/**
+ * Entries in a file's frontmatter.
+ */
+export type FrontmatterEntires = Record<string, string>;
+
+/**
+ * Formats a simple map of keys and values as a frontmatter node.
+ */
+export function stringifyFrontmatter(entries: FrontmatterEntires): string {
+  return `---\n${
+    Object.entries(entries)
+      .map(([key, value]) => `${key}: ${value}`)
+      .join('\n')
+    }\n---`;
 }

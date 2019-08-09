@@ -9,8 +9,12 @@
   },
   "dependencies": {
     "@microsoft/api-extractor-model": "^7.3.0",
+    "array.prototype.flat": "^1.2.1",
+    "array.prototype.flatmap": "^1.2.1",
     "mdast-builder": "^1.1.1",
-    "remark-stringify": "^7.0.1",
+    "rehype-slug": "^2.0.3",
+    "rehype-stringify": "^6.0.0",
+    "remark-rehype": "^5.0.0",
     "remark-toc": "^6.0.0",
     "unified": "^8.3.2",
     "vfile": "^4.0.1"
