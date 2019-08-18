@@ -140,7 +140,7 @@ look next:
 
 * Dive into the [`@slack/events-api`](https://slack.dev/node-slack-sdk/events_api) package to learn how your app can
   listen for events happening inside Slack. You'll need a URL where your app can receive events, and the [local
-  development tutorial](https://slack.dev/node-slack-sdk/local_development) can help you set one up.
+  development tutorial](https://slack.dev/node-slack-sdk/tutorials/local-development) can help you set one up.
 
 * This tutorial only used two of **over 130 Web API methods** available. [Look through
   them](https://api.slack.com/methods) to get ideas about what to build next!
