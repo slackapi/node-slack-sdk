@@ -216,7 +216,7 @@ export interface ChatUnfurlArguments extends WebAPICallOptions, TokenOverridable
 }
 export interface ChatUpdateArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-  text: string;
+  text?: string;
   ts: string;
   as_user?: boolean;
   attachments?: MessageAttachment[];
