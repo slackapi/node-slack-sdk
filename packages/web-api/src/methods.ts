@@ -55,6 +55,23 @@ export interface TraditionalPagingEnabled {
  */
 
   /*
+   * `admin.*`
+   */
+export interface AdminAppsApproveArguments extends WebAPICallOptions, TokenOverridable {
+  app_id?: string;
+  request_id?: string;
+  team_id?: string;
+}
+export interface AdminAppsRequestsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id?: string;
+}
+export interface AdminAppsRestrictArguments extends WebAPICallOptions, TokenOverridable {
+  app_id?: string;
+  request_id?: string;
+  team_id?: string;
+}
+
+  /*
    * `api.*`
    */
 export interface APITestArguments extends WebAPICallOptions {}
