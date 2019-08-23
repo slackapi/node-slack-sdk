@@ -60,15 +60,15 @@ export interface TraditionalPagingEnabled {
 export interface AdminAppsApproveArguments extends WebAPICallOptions, TokenOverridable {
   app_id?: string;
   request_id?: string;
-  team_id: string;
+  team_id?: string;
 }
 export interface AdminAppsRequestsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
-  team_id: string;
+  team_id?: string;
 }
 export interface AdminAppsRestrictArguments extends WebAPICallOptions, TokenOverridable {
   app_id?: string;
   request_id?: string;
-  team_id: string;
+  team_id?: string;
 }
 export interface AdminUsersSessionResetArguments extends WebAPICallOptions, TokenOverridable {
   user_id: string;
