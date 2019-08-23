@@ -271,6 +271,19 @@ export class WebClient extends EventEmitter<WebClientEvent> {
   }
 
   /**
+   * admin method family
+   */
+  public readonly admin = {
+    apps: {
+      approve: (this.apiCall.bind(this, 'admin.apps.approve')) as Method<methods.AdminAppsApproveArguments>,
+      requests: {
+        list: (this.apiCall.bind(this, 'admin.apps.requests.list')) as Method<methods.AdminAppsRequestsListArguments>,
+      },
+      restrict: (this.apiCall.bind(this, 'admin.apps.restrict')) as Method<methods.AdminAppsRestrictArguments>,
+    },
+  };
+
+  /**
    * api method family
    */
   public readonly api = {
