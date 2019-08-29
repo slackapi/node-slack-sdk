@@ -4,6 +4,7 @@
     "lint": "lerna run lint"
   },
   "devDependencies": {
+    "husky": "^3.0.4",
     "lerna": "^3.13.1"
   }
 }
