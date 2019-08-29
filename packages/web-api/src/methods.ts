@@ -1,6 +1,5 @@
 import { Stream } from 'stream';
-import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, PlainTextElement } from '../../types';
-// import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls } from '@slack/types';
+import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, PlainTextElement } from '@slack/types';
 import { WebAPICallOptions, WebAPICallResult } from './WebClient';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
