@@ -70,6 +70,11 @@ export interface AdminAppsRestrictArguments extends WebAPICallOptions, TokenOver
   request_id?: string;
   team_id?: string;
 }
+export interface AdminUsersSessionResetArguments extends WebAPICallOptions, TokenOverridable {
+  user_id: string;
+  mobile_only?: boolean;
+  web_only?: boolean;
+}
 
   /*
    * `api.*`

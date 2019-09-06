@@ -281,6 +281,12 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       },
       restrict: (this.apiCall.bind(this, 'admin.apps.restrict')) as Method<methods.AdminAppsRestrictArguments>,
     },
+    users: {
+      session: {
+        reset:
+          (this.apiCall.bind(this, 'admin.users.session.reset')) as Method<methods.AdminUsersSessionResetArguments>,
+      },
+    },
   };
 
   /**
