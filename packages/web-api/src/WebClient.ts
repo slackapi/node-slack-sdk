@@ -371,6 +371,15 @@ export class WebClient extends EventEmitter<WebClientEvent> {
   };
 
   /**
+   * view method family
+   */
+  public readonly views = {
+    open: (this.apiCall.bind(this, 'views.open')) as Method<methods.ViewsOpenArguments>,
+    push: (this.apiCall.bind(this, 'views.push')) as Method<methods.ViewsPushArguments>,
+    update: (this.apiCall.bind(this, 'views.update')) as Method<methods.ViewsUpdateArguments>,
+  };
+
+  /**
    * dialog method family
    */
   public readonly dialog = {
