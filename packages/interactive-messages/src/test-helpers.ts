@@ -40,20 +40,20 @@ export function createRequest(
 
 /**
  * Creates request object with proper headers and a rawBody field payload
- * @param {string} signingSecret - A Slack signing secret for request verification
- * @param {number} ts - A timestamp for request verification and header
- * @param {string} rawBody - String of raw body to be put in rawBody field
+ * @param signingSecret - A Slack signing secret for request verification
+ * @param ts - A timestamp for request verification and header
+ * @param rawBody - String of raw body to be put in rawBody field
  */
 export function createRawBodyRequest(signingSecret: string, ts: number, rawBody: string): IncomingMessage {
   const signature = createRequestSignature(signingSecret, ts, rawBody);
   const headers = {
     'x-slack-signature': signature,
     'x-slack-request-timestamp': ts,
-    'content-type': 'application/json'
+    'content-type': 'application/json',
   };
   return {
     rawBody: Buffer.from(rawBody),
-    headers: headers,
+    headers,
   } as unknown as IncomingMessage;
 }
 

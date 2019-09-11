@@ -220,7 +220,6 @@ enum ResponseStatus {
 /**
  * A RequestListener-compatible callback for creating response information from an incoming request.
  *
- * @remarks
  * See RequestListener in the `http` module.
  */
 export type HTTPHandler = (req: IncomingMessage & { body?: any; rawBody?: Buffer }, res: ServerResponse) => void;

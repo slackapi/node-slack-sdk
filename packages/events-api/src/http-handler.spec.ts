@@ -1,8 +1,8 @@
 import { assert } from 'chai';
 import * as sinon from 'sinon';
+import { ServerResponse } from 'http';
 import { createRequest, createRawBodyRequest } from './test-helpers';
 import { HTTPHandler } from './http-handler';
-import { ServerResponse } from 'http';
 
 import proxyquire = require('proxyquire');
 

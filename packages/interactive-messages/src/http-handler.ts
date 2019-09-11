@@ -113,9 +113,8 @@ export function createHTTPHandler(adapter: SlackMessageAdapter): HTTPHandler {
     if (!isFalsy(req.body) && isFalsy(req.rawBody)) {
       respond({
         status: 500,
-        content: process.env.NODE_ENV === 'development'
-          ? 'Parsing request body prohibits request signature verification'
-          : undefined,
+        content: process.env.NODE_ENV === 'development' ?
+          'Parsing request body prohibits request signature verification' : undefined,
       });
       return;
     }
@@ -174,7 +173,6 @@ export function createHTTPHandler(adapter: SlackMessageAdapter): HTTPHandler {
 /**
  * A RequestListener-compatible callback for creating response information from an incoming request.
  *
- * @remarks
  * See RequestListener in the `http` module.
  */
 type HTTPHandler = (req: IncomingMessage & { body?: any; rawBody?: Buffer }, res: ServerResponse) => void;
