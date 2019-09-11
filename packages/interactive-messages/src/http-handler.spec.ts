@@ -54,18 +54,17 @@ describe('createHTTPHandler', () => {
       assert.equal(res.statusCode, 200);
       done();
     });
-    requestListener(req, res);
+    requestListener(req, (res as unknown as ServerResponse));
   });
 
   it('should fail request signing verification for a request with a body but no rawBody', (done) => {
     const req = createRequest(correctSigningSecret, correctDate, correctRawBody);
-    req.body = {};
     getRawBodyStub.resolves(Buffer.from(correctRawBody));
     res.end.callsFake(() => {
       assert.equal(res.statusCode, 500);
       done();
     });
-    requestListener(req, res);
+    requestListener(req, (res as unknown as ServerResponse));
   });
 
   it('should fail request signing verification with an incorrect signing secret', (done) => {
