@@ -131,8 +131,8 @@ export interface ChannelsLeaveArguments extends WebAPICallOptions, TokenOverrida
   channel: string;
 }
 export interface ChannelsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
-  exclude_archived: boolean;
-  exclude_members: boolean;
+  exclude_archived?: boolean;
+  exclude_members?: boolean;
 }
 cursorPaginationEnabledMethods.add('channels.list');
 export interface ChannelsMarkArguments extends WebAPICallOptions, TokenOverridable {
