@@ -133,7 +133,7 @@ export class RTMClient extends EventEmitter {
 
                   let isRecoverable = true;
                   if (error.code === APICallErrorCode.PlatformError &&
-                      Object.values(UnrecoverableRTMStartError).includes(error.data.error)) {
+                      (Object.values(UnrecoverableRTMStartError) as string[]).includes(error.data.error)) {
                     isRecoverable = false;
                   } else if (error.code === APICallErrorCode.RequestError) {
                     isRecoverable = false;
