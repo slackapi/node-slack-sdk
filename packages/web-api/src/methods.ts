@@ -55,6 +55,28 @@ export interface TraditionalPagingEnabled {
  */
 
   /*
+   * `admin.*`
+   */
+export interface AdminAppsApproveArguments extends WebAPICallOptions, TokenOverridable {
+  app_id?: string;
+  request_id?: string;
+  team_id?: string;
+}
+export interface AdminAppsRequestsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id?: string;
+}
+export interface AdminAppsRestrictArguments extends WebAPICallOptions, TokenOverridable {
+  app_id?: string;
+  request_id?: string;
+  team_id?: string;
+}
+export interface AdminUsersSessionResetArguments extends WebAPICallOptions, TokenOverridable {
+  user_id: string;
+  mobile_only?: boolean;
+  web_only?: boolean;
+}
+
+  /*
    * `api.*`
    */
 export interface APITestArguments extends WebAPICallOptions {}
@@ -109,8 +131,8 @@ export interface ChannelsLeaveArguments extends WebAPICallOptions, TokenOverrida
   channel: string;
 }
 export interface ChannelsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
-  exclude_archived: boolean;
-  exclude_members: boolean;
+  exclude_archived?: boolean;
+  exclude_members?: boolean;
 }
 cursorPaginationEnabledMethods.add('channels.list');
 export interface ChannelsMarkArguments extends WebAPICallOptions, TokenOverridable {

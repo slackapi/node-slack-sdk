@@ -106,17 +106,6 @@ describe('http-handler', function () {
       this.requestListener(req, res);
     });
 
-    it('should fail request signing verification when a request has body and no rawBody attribute', function (done) {
-      const res = this.res;
-      const req = createRequest('INVALID_SECRET', this.correctDate, correctRawBody);
-      getRawBodyStub.resolves(Buffer.from(correctRawBody));
-      res.end.callsFake(function () {
-        assert.equal(res.statusCode, 404);
-        done();
-      });
-      this.requestListener(req, res);
-    });
-
     it('should fail request signing verification with old timestamp', function (done) {
       const res = this.res;
       const sixMinutesAgo = Math.floor(Date.now() / 1000) - (60 * 6);
