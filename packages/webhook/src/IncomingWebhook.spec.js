@@ -97,9 +97,9 @@ describe('IncomingWebhook', function () {
         await webhook.send('Hello');
         assert.fail();
       } catch (error) {
-        assert(spy.called);
         agent.addRequest.restore();
         agent.destroy();
+        assert(spy.called);
       }
     });
   });
