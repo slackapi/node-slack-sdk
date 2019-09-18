@@ -9,17 +9,6 @@ const SlackStrategy = require('@aoberoi/passport-slack').default.Strategy;
 const http = require('http');
 const express = require('express');
 
-/**
- * Logs a configuration error to console with given missing variable names.
- * @param {Array} envVarNames
- */
-function logConfigurationError(envVarNames) {
-  const description = envVarNames.length > 1 ?
-    `${envVarNames.join(', ')} environment variables` :
-    `${envVarNames[0]} environment variable`;
-  console.log(`***\nCould not start up the application. Have you set your ${description}?\n\nSee https://github.com/slackapi/node-slack-sdk/blob/master/examples/greet-and-react/README.md#run-locally-or-\n`);
-}
-
 let slackEvents;
 // *** Initialize event adapter using signing secret from environment variables ***
 try {
@@ -149,3 +138,14 @@ const port = process.env.PORT || 3000;
 http.createServer(app).listen(port, () => {
   console.log(`server listening on port ${port}`);
 });
+
+/**
+ * Logs a configuration error to console with given missing variable names.
+ * @param {Array} envVarNames
+ */
+function logConfigurationError(envVarNames) {
+  const description = envVarNames.length > 1 ?
+    `${envVarNames.join(', ')} environment variables` :
+    `${envVarNames[0]} environment variable`;
+  console.log(`***\nCould not start up the application. Have you set your ${description}?\n\nSee https://github.com/slackapi/node-slack-sdk/blob/master/examples/greet-and-react/README.md#run-locally-or-\n`);
+}
