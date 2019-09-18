@@ -152,8 +152,8 @@ describe('WebClient', function () {
           await this.client.apiCall('method');
           assert.fail();
         } catch (error) {
-          assert.instanceOf(error, Error);
           this.scope.done();
+          assert.instanceOf(error, Error);
         }
       });
     });
@@ -166,11 +166,11 @@ describe('WebClient', function () {
         await this.client.apiCall('method');
         assert.fail();
       } catch (error) {
+        scope.done();
         assert.instanceOf(error, Error);
         assert.equal(error.code, ErrorCode.PlatformError);
         assert.nestedPropertyVal(error, 'data.ok', false);
         assert.nestedPropertyVal(error, 'data.error', 'bad error');
-        scope.done();
       }
     });
 
@@ -184,12 +184,12 @@ describe('WebClient', function () {
         await client.apiCall('method');
         assert.fail();
       } catch (error) {
+        scope.done();
         assert.instanceOf(error, Error);
         assert.equal(error.code, ErrorCode.HTTPError);
         assert.equal(error.statusCode, 500);
         assert.exists(error.headers);
         assert.deepEqual(error.body, body);
-        scope.done();
       }
     });
 
@@ -626,9 +626,9 @@ describe('WebClient', function () {
         await client.apiCall('method');
         assert.fail();
       } catch (error) {
-        assert(spy.called);
         agent.addRequest.restore();
         agent.destroy();
+        assert(spy.called);
       }
     });
   });
@@ -736,10 +736,10 @@ describe('WebClient', function () {
           await this.client.apiCall('method');
           assert.fail();
         } catch (error) {
+          scope.done();
           assert.instanceOf(error, Error);
           assert.equal(error.code, ErrorCode.RateLimitedError);
           assert.equal(error.retryAfter, retryAfter);
-          scope.done();
         }
       });
 
@@ -754,8 +754,8 @@ describe('WebClient', function () {
           await client.apiCall('method');
           assert.fail();
         } catch (err) {
-          assert(spy.calledOnceWith(0))
           scope.done();
+          assert(spy.calledOnceWith(0))
         }
       });
     });
@@ -819,8 +819,8 @@ describe('WebClient', function () {
         await client.apiCall('method');
         assert.fail();
       } catch (err) {
-        assert(spy.calledOnceWith(0));
         scope.done();
+        assert(spy.calledOnceWith(0));
       }
     });
   });
@@ -834,8 +834,8 @@ describe('WebClient', function () {
         await client.apiCall('method');
         assert.fail();
       } catch (err) {
-        assert.instanceOf(err, Error);
         scope.done();
+        assert.instanceOf(err, Error);
       }
   });
 
@@ -848,8 +848,8 @@ describe('WebClient', function () {
         await client.apiCall('method');
         assert.fail();
       } catch (err) {
-        assert.instanceOf(err, Error);
         scope.done();
+        assert.instanceOf(err, Error);
       }
   });
 
