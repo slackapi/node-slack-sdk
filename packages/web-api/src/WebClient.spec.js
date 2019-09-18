@@ -2,7 +2,7 @@ require('mocha');
 const fs = require('fs');
 const path = require('path');
 const { Agent } = require('https');
-const { assert } = require('chai');
+const { assert, AssertionError } = require('chai');
 const { WebClient } = require('./WebClient');
 const { ErrorCode } = require('./errors');
 const { LogLevel } = require('./logger');
@@ -153,6 +153,7 @@ describe('WebClient', function () {
           assert.fail();
         } catch (error) {
           this.scope.done();
+          assert.notInstanceOf(error, AssertionError);
           assert.instanceOf(error, Error);
         }
       });
@@ -167,6 +168,7 @@ describe('WebClient', function () {
         assert.fail();
       } catch (error) {
         scope.done();
+        assert.notInstanceOf(error, AssertionError);
         assert.instanceOf(error, Error);
         assert.equal(error.code, ErrorCode.PlatformError);
         assert.nestedPropertyVal(error, 'data.ok', false);
@@ -185,6 +187,7 @@ describe('WebClient', function () {
         assert.fail();
       } catch (error) {
         scope.done();
+        assert.notInstanceOf(error, AssertionError);
         assert.instanceOf(error, Error);
         assert.equal(error.code, ErrorCode.HTTPError);
         assert.equal(error.statusCode, 500);
@@ -201,6 +204,7 @@ describe('WebClient', function () {
         await client.apiCall('method');
         assert.fail();
       } catch (error) {
+        assert.notInstanceOf(error, AssertionError);
         assert.instanceOf(error, Error);
         assert.equal(error.code, ErrorCode.RequestError);
         assert.instanceOf(error.original, Error);
@@ -628,6 +632,7 @@ describe('WebClient', function () {
       } catch (error) {
         agent.addRequest.restore();
         agent.destroy();
+        assert.notInstanceOf(error, AssertionError);
         assert(spy.called);
       }
     });
@@ -737,6 +742,7 @@ describe('WebClient', function () {
           assert.fail();
         } catch (error) {
           scope.done();
+          assert.notInstanceOf(error, AssertionError);
           assert.instanceOf(error, Error);
           assert.equal(error.code, ErrorCode.RateLimitedError);
           assert.equal(error.retryAfter, retryAfter);
@@ -753,8 +759,9 @@ describe('WebClient', function () {
         try {
           await client.apiCall('method');
           assert.fail();
-        } catch (err) {
+        } catch (error) {
           scope.done();
+          assert.notInstanceOf(error, AssertionError);
           assert(spy.calledOnceWith(0))
         }
       });
@@ -818,8 +825,9 @@ describe('WebClient', function () {
       try {
         await client.apiCall('method');
         assert.fail();
-      } catch (err) {
+      } catch (error) {
         scope.done();
+        assert.notInstanceOf(error, AssertionError);
         assert(spy.calledOnceWith(0));
       }
     });
@@ -833,9 +841,10 @@ describe('WebClient', function () {
       try {
         await client.apiCall('method');
         assert.fail();
-      } catch (err) {
+      } catch (error) {
         scope.done();
-        assert.instanceOf(err, Error);
+        assert.notInstanceOf(error, AssertionError);
+        assert.instanceOf(error, Error);
       }
   });
 
@@ -847,9 +856,10 @@ describe('WebClient', function () {
       try {
         await client.apiCall('method');
         assert.fail();
-      } catch (err) {
+      } catch (error) {
         scope.done();
-        assert.instanceOf(err, Error);
+        assert.notInstanceOf(error, AssertionError);
+        assert.instanceOf(error, Error);
       }
   });
 
