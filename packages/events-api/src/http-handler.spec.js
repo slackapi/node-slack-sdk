@@ -1,33 +1,18 @@
-import { assert } from 'chai';
-import * as sinon from 'sinon';
-import { ServerResponse } from 'http';
-import { createRequest, createRawBodyRequest } from './test-helpers';
-import { HTTPHandler } from './http-handler';
-
-import proxyquire = require('proxyquire');
+const { assert } = require('chai');
+const sinon = require('sinon');
+const proxyquire = require('proxyquire');
+const { createRequest, createRawBodyRequest } = require('../test/helpers');
 
 const getRawBodyStub = sinon.stub();
-const {
-  createHTTPHandler,
-  verifyRequestSignature,
-} = proxyquire('./http-handler', { 'raw-body': getRawBodyStub });
+const { createHTTPHandler, verifyRequestSignature } = proxyquire('./http-handler', { 'raw-body': getRawBodyStub });
 
 // fixtures
 const correctSigningSecret = 'SIGNING_SECRET';
-const correctRawBody = JSON.stringify({
-  type: 'event_callback',
-  event: {
-    type: 'reaction_added',
-    user: 'U123',
-    item: {
-      type: 'message',
-      channel: 'C123',
-    },
-  },
-});
+const correctRawBody = '{"type":"event_callback","event":{"type":"reaction_added","user":"U123","item":{"type":"messa' +
+  'ge","channel":"C123"}}}';
 
 describe('http-handler', () => {
-  let correctDate: number;
+  let correctDate;
 
   beforeEach(() => {
     correctDate = Math.floor(Date.now() / 1000);
@@ -58,17 +43,19 @@ describe('http-handler', () => {
   });
 
   describe('createHTTPHandler', () => {
-    let emit: sinon.SinonStub;
-    let res: sinon.SinonStubbedInstance<any>;
-    let requestListener: HTTPHandler;
+    let emit;
+    let res;
+    let next;
+    let requestListener;
 
     beforeEach(() => {
       emit = sinon.stub();
       res = sinon.stub({
-        setHeader() { },
-        send() { },
-        end() {},
+        setHeader: () => { },
+        send: () => { },
+        end: () => { },
       });
+      next = sinon.stub();
       correctDate = Math.floor(Date.now() / 1000);
       requestListener = createHTTPHandler({
         signingSecret: correctSigningSecret,
@@ -84,7 +71,7 @@ describe('http-handler', () => {
         assert.equal(res.statusCode, 200);
         done();
       });
-      requestListener(req, (res as unknown as ServerResponse));
+      requestListener(req, res);
     });
 
     it('should verify a correct signing secret for a request with rawBody attribute', (done) => {
@@ -92,31 +79,31 @@ describe('http-handler', () => {
       emit.resolves({ status: 200 });
       getRawBodyStub.resolves(Buffer.from(correctRawBody));
       res.end.callsFake(() => {
-        assert.equal((res as unknown as ServerResponse).statusCode, 200);
+        assert.equal(res.statusCode, 200);
         done();
       });
-      requestListener(req, (res as unknown as ServerResponse));
+      requestListener(req, res);
     });
 
     it('should fail request signing verification for a request with a body but no rawBody', (done) => {
       const req = createRequest(correctSigningSecret, correctDate, correctRawBody);
-      (req as any).body = {};
+      req.body = {};
       getRawBodyStub.resolves(Buffer.from(correctRawBody));
       res.end.callsFake(() => {
-        assert.equal((res as unknown as ServerResponse).statusCode, 500);
+        assert.equal(res.statusCode, 500);
         done();
       });
-      requestListener(req, (res as unknown as ServerResponse));
+      requestListener(req, res);
     });
 
     it('should fail request signing verification with an incorrect signing secret', (done) => {
       const req = createRequest('INVALID_SECRET', correctDate, correctRawBody);
       getRawBodyStub.resolves(Buffer.from(correctRawBody));
       res.end.callsFake(() => {
-        assert.equal((res as unknown as ServerResponse).statusCode, 404);
+        assert.equal(res.statusCode, 404);
         done();
       });
-      requestListener(req, (res as unknown as ServerResponse));
+      requestListener(req, res);
     });
 
     it('should fail request signing verification with old timestamp', (done) => {
@@ -124,34 +111,34 @@ describe('http-handler', () => {
       const req = createRequest(correctSigningSecret, sixMinutesAgo, correctRawBody);
       getRawBodyStub.resolves(Buffer.from(correctRawBody));
       res.end.callsFake(() => {
-        assert.equal((res as unknown as ServerResponse).statusCode, 404);
+        assert.equal(res.statusCode, 404);
         done();
       });
-      requestListener(req, (res as unknown as ServerResponse));
+      requestListener(req, res);
     });
 
     it('should handle unexpected error', (done) => {
       const req = createRequest(correctSigningSecret, correctDate, correctRawBody);
       getRawBodyStub.rejects(new Error('test error'));
-      res.end.callsFake((result?: string) => {
-        assert.equal((res as unknown as ServerResponse).statusCode, 500);
+      res.end.callsFake((result) => {
+        assert.equal(res.statusCode, 500);
         assert.isUndefined(result);
         done();
       });
-      requestListener(req, (res as unknown as ServerResponse));
+      requestListener(req, res);
     });
 
     it('should provide message with unexpected errors in development', (done) => {
       const req = createRequest(correctSigningSecret, correctDate, correctRawBody);
       process.env.NODE_ENV = 'development';
       getRawBodyStub.rejects(new Error('test error'));
-      res.end.callsFake((result?: string) => {
-        assert.equal((res as unknown as ServerResponse).statusCode, 500);
+      res.end.callsFake((result) => {
+        assert.equal(res.statusCode, 500);
         assert.equal(result, 'test error');
         delete process.env.NODE_ENV;
         done();
       });
-      requestListener(req, (res as unknown as ServerResponse));
+      requestListener(req, res);
     });
 
     it('should set an identification header in its responses', (done) => {
@@ -162,7 +149,7 @@ describe('http-handler', () => {
         assert(res.setHeader.calledWith('X-Slack-Powered-By'));
         done();
       });
-      requestListener(req, (res as unknown as ServerResponse));
+      requestListener(req, res);
     });
 
     it('should respond to url verification requests', (done) => {
@@ -171,10 +158,10 @@ describe('http-handler', () => {
       getRawBodyStub.resolves(Buffer.from(urlVerificationBody));
       res.end.callsFake(() => {
         assert(emit.notCalled);
-        assert.equal((res as unknown as ServerResponse).statusCode, 200);
+        assert.equal(res.statusCode, 200);
         done();
       });
-      requestListener(req, (res as unknown as ServerResponse));
+      requestListener(req, res);
     });
   });
 });

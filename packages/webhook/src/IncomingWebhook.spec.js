@@ -1,10 +1,9 @@
-import { Agent } from 'https';
-import { assert } from 'chai';
-import * as sinon from 'sinon';
-import { IncomingWebhook } from './IncomingWebhook';
-import { ErrorCode } from './errors';
-
-import nock = require('nock');
+const { Agent } = require('https');
+const { assert } = require('chai');
+const nock = require('nock');
+const sinon = require('sinon');
+const { IncomingWebhook } = require('./IncomingWebhook');
+const { ErrorCode } = require('./errors');
 
 const url = 'https://hooks.slack.com/services/FAKEWEBHOOK';
 
@@ -17,14 +16,14 @@ describe('IncomingWebhook', () => {
   });
 
   describe('send()', () => {
-    let webhook: IncomingWebhook;
+    let webhook;
 
     beforeEach(() => {
       webhook = new IncomingWebhook(url);
     });
 
     describe('when making a successful call', () => {
-      let scope: nock.Scope;
+      let scope;
 
       beforeEach(() => {
         scope = nock('https://hooks.slack.com')
@@ -33,7 +32,7 @@ describe('IncomingWebhook', () => {
       });
 
       it('should return results in a Promise', () => {
-        return webhook.send('Hello').then((result) => {
+        webhook.send('Hello').then((result) => {
           assert.strictEqual(result.text, 'ok');
           scope.done();
         });
@@ -41,21 +40,22 @@ describe('IncomingWebhook', () => {
     });
 
     describe('when the call fails', () => {
-      let scope: nock.Scope;
-      let statusCode: number;
+      let statusCode;
+      let scope;
 
       beforeEach(() => {
         statusCode = 500;
         scope = nock('https://hooks.slack.com')
           .post(/services/)
-          .reply(statusCode);
+          .reply(this.statusCode);
       });
 
       it('should return a Promise which rejects on error', () => {
-        return webhook.send('Hello').catch((error) => {
+        const result = webhook.send('Hello');
+        return result.catch((error) => {
           assert.ok(error);
           assert.instanceOf(error, Error);
-          assert.match(error.message, new RegExp(`${statusCode}`));
+          assert.match(error.message, new RegExp(statusCode));
           scope.done();
         });
       });
@@ -63,8 +63,9 @@ describe('IncomingWebhook', () => {
       it('should fail with IncomingWebhookRequestError when the API request fails', () => {
         // One known request error is when the node encounters an ECONNREFUSED. In order to simulate this, rather than
         // using nock, we send the request to a host:port that is not listening.
-        const hook = new IncomingWebhook('https://localhost:8999/api/');
-        return hook.send('Hello').catch((error) => {
+        webhook = new IncomingWebhook('https://localhost:8999/api/');
+        const result = webhook.send('Hello');
+        return result.catch((error) => {
           assert.instanceOf(error, Error);
           assert.equal(error.code, ErrorCode.RequestError);
           assert.instanceOf(error.original, Error);
@@ -73,14 +74,15 @@ describe('IncomingWebhook', () => {
     });
 
     describe('lifecycle', () => {
-      it('should not overwrite the default parameters after a call', (done) => {
+      it('should not overwrite the default parameters after a call', () => {
         const defaultParams = { channel: 'default' };
         const expectedParams = Object.assign({}, defaultParams);
-        const hook = new IncomingWebhook(url, defaultParams);
 
-        hook.send({ channel: 'different' }).catch(() => {
-          assert.deepEqual(defaultParams, expectedParams);
-          done();
+        webhook = new IncomingWebhook(url, defaultParams);
+
+        const result = webhook.send({ channel: 'different' });
+        return result.catch((error) => {
+          assert.deepEqual(webhook.defaults, expectedParams);
         });
       });
     });
@@ -89,7 +91,7 @@ describe('IncomingWebhook', () => {
   describe('has an option to set a custom HTTP agent', () => {
     it('should send a request using the custom agent', () => {
       const agent = new Agent({ keepAlive: true });
-      const spy = sinon.spy<any, 'addRequest'>(agent, 'addRequest');
+      const spy = sinon.spy(agent, 'addRequest');
       const webhook = new IncomingWebhook(url, { agent });
 
       return webhook.send('Hello')
@@ -97,11 +99,11 @@ describe('IncomingWebhook', () => {
           assert(spy.called);
         })
         .then(() => {
-          spy.restore();
+          agent.addRequest.restore();
           agent.destroy();
         })
         .catch((error) => {
-          spy.restore();
+          agent.addRequest.restore();
           agent.destroy();
           throw error;
         });

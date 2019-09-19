@@ -1,23 +1,14 @@
-import * as http from 'http';
-import { AddressInfo } from 'net';
-import { assert } from 'chai';
-import * as sinon from 'sinon';
-import getRandomPort from 'get-random-port';
-import { createStreamRequest, delayed } from './test-helpers';
-// eslint-disable-next-line import/no-named-as-default
-import SlackMessageAdapter, {
-  ActionConstraints,
-  OptionsConstraints,
-  DispatchResult,
-} from './adapter';
+const http = require('http');
+const { assert } = require('chai');
+const sinon = require('sinon');
+const getRandomPort = require('get-random-port');
+const { createStreamRequest, delayed } = require('../test/helpers');
+const { default: SlackMessageAdapter } = require('./adapter');
+const { errorCodes } = require('./index');
 
 // fixtures
 const workingSigningSecret = 'SIGNING_SECRET';
 const workingRawBody = 'payload=%7B%22type%22%3A%22interactive_message%22%7D';
-type Request = import('express-serve-static-core').Request;
-type Response = import('express-serve-static-core').Response;
-
-/* eslint-disable @typescript-eslint/camelcase,@typescript-eslint/no-floating-promises,func-names */
 
 // test suite
 describe('SlackMessageAdapter', () => {
@@ -30,8 +21,7 @@ describe('SlackMessageAdapter', () => {
 
     it('should fail without a signing secret', () => {
       assert.throws(() => {
-        // eslint-disable-next-line no-new
-        new (SlackMessageAdapter as any)();
+        const adapter = new SlackMessageAdapter();
       }, TypeError);
     });
 
@@ -45,18 +35,16 @@ describe('SlackMessageAdapter', () => {
 
     it('should fail when the synchronous response timeout is out of range', () => {
       assert.throws(() => {
-        // eslint-disable-next-line no-new
-        new SlackMessageAdapter(workingSigningSecret, { syncResponseTimeout: 0 });
+        const a = new SlackMessageAdapter(workingSigningSecret, { syncResponseTimeout: 0 });
       }, TypeError);
       assert.throws(() => {
-        // eslint-disable-next-line no-new
-        new SlackMessageAdapter(workingSigningSecret, { syncResponseTimeout: 3001 });
+        const a = new SlackMessageAdapter(workingSigningSecret, { syncResponseTimeout: 3001 });
       }, TypeError);
     });
   });
 
   describe('#createServer()', () => {
-    let adapter: SlackMessageAdapter;
+    let adapter;
 
     beforeEach(() => {
       adapter = new SlackMessageAdapter(workingSigningSecret);
@@ -70,8 +58,8 @@ describe('SlackMessageAdapter', () => {
   });
 
   describe('#start()', () => {
-    let adapter: SlackMessageAdapter;
-    let portNumber: number;
+    let adapter;
+    let portNumber;
 
     beforeEach((done) => {
       adapter = new SlackMessageAdapter(workingSigningSecret);
@@ -90,22 +78,23 @@ describe('SlackMessageAdapter', () => {
       return adapter.start(portNumber).then((server) => {
         // only works in node >= 5.7.0
         // assert(server.listening);
-        assert.equal((server.address() as AddressInfo).port, portNumber);
+        assert.equal(server.address().port, portNumber);
       });
     });
   });
 
   describe('#stop()', () => {
-    let adapter: SlackMessageAdapter;
-    let server: http.Server;
+    let adapter;
+    let portNumber;
+    let server;
 
     beforeEach((done) => {
       adapter = new SlackMessageAdapter(workingSigningSecret);
       getRandomPort((error, port) => {
         if (error) return done(error);
         return adapter.start(port)
-          .then((s) => {
-            server = s;
+          .then((srv) => {
+            server = srv;
             done();
           })
           .catch(done);
@@ -124,22 +113,21 @@ describe('SlackMessageAdapter', () => {
   });
 
   describe('#expressMiddleware()', () => {
-    let adapter: SlackMessageAdapter;
-    let next: sinon.SinonStub;
-    let dispatch: sinon.SinonStub;
-    let res: sinon.SinonStubbedInstance<{
-      setHeader: () => void;
-      end: () => void;
-    }>;
+    let adapter;
+    let next;
+    let dispatch;
+    let res;
+    let errFn;
 
     beforeEach(() => {
       adapter = new SlackMessageAdapter(workingSigningSecret);
       next = sinon.stub();
       dispatch = sinon.stub();
       res = sinon.stub({
-        setHeader: () => {},
-        end: () => {},
+        setHeader: () => { },
+        end: () => { },
       });
+      errFn = sinon.stub();
     });
 
     it('should return a function', () => {
@@ -157,15 +145,15 @@ describe('SlackMessageAdapter', () => {
       dispatch.resolves({ status: 200 });
       res.end.callsFake(() => {
         assert(dispatch.called);
-        assert.equal((res as unknown as Response).statusCode, 200);
+        assert.equal(res.statusCode, 200);
         done();
       });
-      middleware(req as Request, res as unknown as Response, next);
+      middleware(req, res, next);
     });
   });
 
   describe('#requestListener()', () => {
-    let adapter: SlackMessageAdapter;
+    let adapter;
 
     beforeEach(() => {
       adapter = new SlackMessageAdapter(workingSigningSecret);
@@ -186,14 +174,9 @@ describe('SlackMessageAdapter', () => {
    * @param handler expected registered function
    * @param [constraints] expected constraints for which handler should be registered
    */
-  function assertHandlerRegistered(
-    adapter: SlackMessageAdapter,
-    handler: () => void,
-    constraints?: ActionConstraints|OptionsConstraints,
-  ): void {
-    const { callbacks } = (adapter as any);
-    assert.isNotEmpty(callbacks);
-    const callbackEntry = callbacks.find((aCallbackEntry: any[]) => {
+  function assertHandlerRegistered(adapter, handler, constraints) {
+    assert.isNotEmpty(adapter.callbacks);
+    const callbackEntry = adapter.callbacks.find((aCallbackEntry) => {
       return handler === aCallbackEntry[1];
     });
     assert.isOk(callbackEntry);
@@ -204,65 +187,61 @@ describe('SlackMessageAdapter', () => {
 
   /**
    * Encapsulates knowledge of adapter handler registration internals and unregisters all handlers.
-   * @param adapter adapter to unregister handlers of
+   * @param adapter adapter to remove handlers from
    */
-  function unregisterAllHandlers(adapter: SlackMessageAdapter): void {
-    (adapter as any).callbacks = [];
+  function unregisterAllHandlers(adapter) {
+    adapter.callbacks = [];
   }
 
-  /**
-   * Shared tests
-   * @param methodName method being tested
-   * @param getAdapter factory to retrieve adapter
-   */
-  function shouldRegisterWithCallbackId(methodName: string, getAdapter: () => SlackMessageAdapter): void {
+  // shared tests
+  function shouldRegisterWithCallbackId(methodName, getAdapter) {
     describe('when registering with a callback_id', () => {
-      let handler: () => void;
-      let adapter: SlackMessageAdapter;
+      let handler;
+      let adapter;
 
       beforeEach(() => {
-        handler = function () { };
+        handler = () => { };
         adapter = getAdapter();
       });
 
       it('a plain string callback_id registers successfully', () => {
-        (adapter as any)[methodName]('my_callback', handler);
+        adapter[methodName]('my_callback', handler);
         assertHandlerRegistered(adapter, handler);
       });
 
       it('a RegExp callback_id registers successfully', () => {
-        (adapter as any)[methodName](/\w+_callback/, handler);
+        adapter[methodName](/\w+_callback/, handler);
         assertHandlerRegistered(adapter, handler);
       });
 
       it('invalid callback_id types throw on registration', () => {
         assert.throws(() => {
-          (adapter as any)[methodName](5, handler);
+          adapter[methodName](5, handler);
         }, TypeError);
         assert.throws(() => {
-          (adapter as any)[methodName](true, handler);
+          adapter[methodName](true, handler);
         }, TypeError);
         assert.throws(() => {
-          (adapter as any)[methodName]([], handler);
+          adapter[methodName]([], handler);
         }, TypeError);
         assert.throws(() => {
-          (adapter as any)[methodName](null, handler);
+          adapter[methodName](null, handler);
         }, TypeError);
         assert.throws(() => {
-          (adapter as any)[methodName](undefined, handler);
+          adapter[methodName](undefined, handler);
         }, TypeError);
       });
 
       it('non-function callbacks throw on registration', () => {
         assert.throws(() => {
-          (adapter as any)[methodName]('my_callback', 5);
+          adapter[methodName]('my_callback', 5);
         }, TypeError);
       });
     });
   }
 
   describe('#action()', () => {
-    let adapter: SlackMessageAdapter;
+    let adapter;
 
     beforeEach(() => {
       adapter = new SlackMessageAdapter(workingSigningSecret);
@@ -270,7 +249,7 @@ describe('SlackMessageAdapter', () => {
 
     it('should fail action registration without handler', () => {
       assert.throws(() => {
-        (adapter.action as any)('my_callback');
+        adapter.action('my_callback');
       }, TypeError);
     });
 
@@ -278,10 +257,12 @@ describe('SlackMessageAdapter', () => {
     shouldRegisterWithCallbackId('action', () => adapter);
 
     describe('when registering with a complex set of constraints', () => {
-      let actionHandler: () => void;
+      let actionHandler;
+      let handler;
 
       beforeEach(() => {
-        actionHandler = function () {};
+        actionHandler = () => { };
+        handler = () => { };
       });
 
       it('should register with valid type constraints successfully', () => {
@@ -311,19 +292,19 @@ describe('SlackMessageAdapter', () => {
 
       it('invalid block_id types throw on registration', () => {
         assert.throws(() => {
-          adapter.action({ blockId: 5 as unknown as string }, actionHandler);
+          adapter.action({ blockId: 5 }, handler);
         }, TypeError);
         assert.throws(() => {
-          adapter.action({ blockId: true as unknown as string }, actionHandler);
+          adapter.action({ blockId: true }, handler);
         }, TypeError);
         assert.throws(() => {
-          adapter.action({ blockId: [] as unknown as string }, actionHandler);
+          adapter.action({ blockId: [] }, handler);
         }, TypeError);
         assert.throws(() => {
-          adapter.action({ blockId: null as unknown as string }, actionHandler);
+          adapter.action({ blockId: null }, handler);
         }, TypeError);
         assert.throws(() => {
-          adapter.action({ blockId: undefined as unknown as string }, actionHandler);
+          adapter.action({ blockId: undefined }, handler);
         }, TypeError);
       });
 
@@ -335,19 +316,19 @@ describe('SlackMessageAdapter', () => {
 
       it('invalid action_id types throw on registration', () => {
         assert.throws(() => {
-          adapter.action({ actionId: 5 as unknown as string }, actionHandler);
+          adapter.action({ actionId: 5 }, handler);
         }, TypeError);
         assert.throws(() => {
-          adapter.action({ actionId: true as unknown as string }, actionHandler);
+          adapter.action({ actionId: true }, handler);
         }, TypeError);
         assert.throws(() => {
-          adapter.action({ actionId: [] as unknown as string }, actionHandler);
+          adapter.action({ actionId: [] }, handler);
         }, TypeError);
         assert.throws(() => {
-          adapter.action({ actionId: null as unknown as string }, actionHandler);
+          adapter.action({ actionId: null }, handler);
         }, TypeError);
         assert.throws(() => {
-          adapter.action({ actionId: undefined as unknown as string }, actionHandler);
+          adapter.action({ actionId: undefined }, handler);
         }, TypeError);
       });
 
@@ -365,7 +346,7 @@ describe('SlackMessageAdapter', () => {
 
       it('should throw when registering with invalid compound constraints', () => {
         // number isn't valid callbackId, all types are valid
-        const constraints = { callbackId: 111 as unknown as string, type: 'button' };
+        const constraints = { callbackId: 111, type: 'button' };
         assert.throws(() => {
           adapter.action(constraints, actionHandler);
         }, TypeError);
@@ -374,7 +355,7 @@ describe('SlackMessageAdapter', () => {
   });
 
   describe('#options()', () => {
-    let adapter: SlackMessageAdapter;
+    let adapter;
 
     beforeEach(() => {
       adapter = new SlackMessageAdapter(workingSigningSecret);
@@ -382,7 +363,7 @@ describe('SlackMessageAdapter', () => {
 
     it('should fail options registration without handler', () => {
       assert.throws(() => {
-        (adapter.options as any)('my_callback');
+        adapter.options('my_callback');
       }, TypeError);
     });
 
@@ -390,14 +371,14 @@ describe('SlackMessageAdapter', () => {
     shouldRegisterWithCallbackId('options', () => adapter);
 
     describe('when registering with a complex set of constraints', () => {
-      let optionsHandler: () => void;
+      let optionsHandler;
 
       beforeEach(() => {
-        optionsHandler = function () {};
+        optionsHandler = () => { };
       });
 
       it('should register with valid from constraints successfully', () => {
-        const constraintsSet: OptionsConstraints[] = [
+        const constraintsSet = [
           { within: 'interactive_message' },
           { within: 'dialog' },
         ];
@@ -411,12 +392,12 @@ describe('SlackMessageAdapter', () => {
       it('should throw when registering with invalid within constraints', () => {
         const constraints = { within: 'not_a_real_options_source' };
         assert.throws(() => {
-          adapter.options(constraints as unknown as OptionsConstraints, optionsHandler);
+          adapter.options(constraints, optionsHandler);
         }, TypeError);
       });
 
       it('should register with valid compound constraints successfully', () => {
-        const constraints: OptionsConstraints = { callbackId: 'my_callback', within: 'dialog' };
+        const constraints = { callbackId: 'my_callback', within: 'dialog' };
         adapter.options(constraints, optionsHandler);
         assertHandlerRegistered(adapter, optionsHandler, constraints);
       });
@@ -424,14 +405,14 @@ describe('SlackMessageAdapter', () => {
       it('should throw when registering with invalid compound constraints', () => {
         const constraints = { callbackId: /\w+_callback/, within: 'not_a_real_options_source' };
         assert.throws(() => {
-          adapter.options(constraints as unknown as OptionsConstraints, optionsHandler);
+          adapter.options(constraints, optionsHandler);
         }, TypeError);
       });
     });
   });
 
   describe('#dispatch()', () => {
-    let adapter: SlackMessageAdapter;
+    let adapter;
 
     beforeEach(() => {
       adapter = new SlackMessageAdapter(workingSigningSecret, {
@@ -446,11 +427,7 @@ describe('SlackMessageAdapter', () => {
      * @param status expected status
      * @param content expected value of response body
      */
-    function assertResponseStatusAndMessage(
-      response: Promise<DispatchResult>,
-      status: number,
-      content?: any,
-    ): Promise<void> {
+    function assertResponseStatusAndMessage(response, status, content) {
       return response.then((res) => {
         assert.equal(status, res.status);
         assert.deepEqual(content, res.content);
@@ -463,24 +440,21 @@ describe('SlackMessageAdapter', () => {
      * If less than all of the messages are matched, if a request is mad and the body doesn't match
      * and messages, or if the url doesn't match the requestUrl, this will result in a timeout (a
      * promise that never resolves nor rejects).
-     * @param msgAdapter actual adapter
+     * @param messageAdapter actual adapter
      * @param requestUrl expected request URL
-     * @param messages expected messages in request body
      */
-    function assertPostRequestMadeWithMessages(
-      msgAdapter: SlackMessageAdapter,
-      requestUrl: string,
-      ...messages: any[]
-    ): Promise<void[]> {
+    function assertPostRequestMadeWithMessages(messageAdapter, requestUrl) {
+      // eslint-disable-next-line prefer-rest-params
+      const messages = [].slice.call(arguments, 2);
       const messagePromiseEntries = messages.map(() => {
-        const entry: { promise?: Promise<void>; resolve?: () => void } = {};
+        const entry = {};
         entry.promise = new Promise((resolve) => {
           entry.resolve = resolve;
         });
         return entry;
       });
 
-      sinon.stub((msgAdapter as any).axios, 'post').callsFake((url, body) => {
+      sinon.stub(messageAdapter.axios, 'post').callsFake((url, body) => {
         if (url !== requestUrl) {
           return;
         }
@@ -493,7 +467,7 @@ describe('SlackMessageAdapter', () => {
           }
         });
         if (messageIndex >= 0) {
-          messagePromiseEntries[messageIndex].resolve!();
+          messagePromiseEntries[messageIndex].resolve();
         }
       });
 
@@ -503,8 +477,8 @@ describe('SlackMessageAdapter', () => {
     }
 
     describe('when dispatching a message action request', () => {
-      let requestPayload: Record<string, any>;
-      let replacement: Record<string, any>;
+      let requestPayload;
+      let replacement;
 
       beforeEach(() => {
         // this represents a minimum action from a button
@@ -524,7 +498,7 @@ describe('SlackMessageAdapter', () => {
           assert.isFunction(respond);
           return replacement;
         });
-        const dispatchResponse = adapter.dispatch(requestPayload)!;
+        const dispatchResponse = adapter.dispatch(requestPayload);
         return assertResponseStatusAndMessage(dispatchResponse, 200, replacement);
       });
 
@@ -537,7 +511,7 @@ describe('SlackMessageAdapter', () => {
           assert.isFunction(respond);
           return delayed(timeout * 0.1, replacement);
         });
-        const dispatchResponse = adapter.dispatch(requestPayload)!;
+        const dispatchResponse = adapter.dispatch(requestPayload);
         return assertResponseStatusAndMessage(dispatchResponse, 200, replacement);
       });
 
@@ -555,7 +529,7 @@ describe('SlackMessageAdapter', () => {
           assert.isFunction(respond);
           return delayed(timeout * 1.1, replacement);
         });
-        const dispatchResponse = adapter.dispatch(requestPayload)!;
+        const dispatchResponse = adapter.dispatch(requestPayload);
         return Promise.all([
           assertResponseStatusAndMessage(dispatchResponse, 200),
           expectedAsyncRequest,
@@ -569,7 +543,7 @@ describe('SlackMessageAdapter', () => {
         adapter.action(requestPayload.callback_id, () => {
           return delayed(timeout * 1.1, undefined, 'test error');
         });
-        const dispatchResponse = adapter.dispatch(requestPayload)!;
+        const dispatchResponse = adapter.dispatch(requestPayload);
         return assertResponseStatusAndMessage(dispatchResponse, 200);
       });
 
@@ -580,7 +554,7 @@ describe('SlackMessageAdapter', () => {
         adapter.action(requestPayload.callback_id, () => {
           return delayed(timeout * 0.1, undefined, 'test error');
         });
-        const dispatchResponse = adapter.dispatch(requestPayload)!;
+        const dispatchResponse = adapter.dispatch(requestPayload);
         return assertResponseStatusAndMessage(dispatchResponse, 500);
       });
 
@@ -592,13 +566,14 @@ describe('SlackMessageAdapter', () => {
         );
         const timeout = adapter.syncResponseTimeout;
         this.timeout(timeout * 2);
-        adapter.action(requestPayload.callback_id, (_payload, respond) => {
-          delayed(timeout * 1.1, null)
+        adapter.action(requestPayload.callback_id, (payload, respond) => {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
+          delayed(timeout * 1.1)
             .then(() => {
               respond(replacement);
             });
         });
-        const dispatchResponse = adapter.dispatch(requestPayload)!;
+        const dispatchResponse = adapter.dispatch(requestPayload);
         return Promise.all([
           assertResponseStatusAndMessage(dispatchResponse, 200),
           expectedAsyncRequest,
@@ -616,14 +591,15 @@ describe('SlackMessageAdapter', () => {
         );
         const timeout = adapter.syncResponseTimeout;
         this.timeout(timeout * 2);
-        adapter.action(requestPayload.callback_id, (_payload, respond) => {
-          delayed(timeout * 1.2, null)
+        adapter.action(requestPayload.callback_id, (payload, respond) => {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
+          delayed(timeout * 1.2)
             .then(() => {
               respond(secondReplacement);
             });
           return delayed(timeout * 1.1, replacement);
         });
-        const dispatchResponse = adapter.dispatch(requestPayload)!;
+        const dispatchResponse = adapter.dispatch(requestPayload);
         return Promise.all([
           assertResponseStatusAndMessage(dispatchResponse, 200),
           expectedAsyncRequest,
@@ -641,17 +617,18 @@ describe('SlackMessageAdapter', () => {
         );
         const timeout = adapter.syncResponseTimeout;
         this.timeout(timeout * 2);
-        adapter.action(requestPayload.callback_id, (_payload, respond) => {
-          delayed(timeout * 1.1, null)
+        adapter.action(requestPayload.callback_id, (payload, respond) => {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
+          delayed(timeout * 1.1)
             .then(() => {
               respond(replacement);
-              return delayed(timeout * 0.1, null);
+              return delayed(timeout * 0.1);
             })
             .then(() => {
               respond(secondReplacement);
             });
         });
-        const dispatchResponse = adapter.dispatch(requestPayload)!;
+        const dispatchResponse = adapter.dispatch(requestPayload);
         return Promise.all([
           assertResponseStatusAndMessage(dispatchResponse, 200),
           expectedAsyncRequest,
@@ -675,7 +652,7 @@ describe('SlackMessageAdapter', () => {
             assert.isFunction(respond);
             return delayed(timeout * 1.1, replacement);
           });
-          const dispatchResponse = adapter.dispatch(requestPayload)!;
+          const dispatchResponse = adapter.dispatch(requestPayload);
           return assertResponseStatusAndMessage(dispatchResponse, 200, replacement);
         });
 
@@ -686,16 +663,16 @@ describe('SlackMessageAdapter', () => {
           adapter.action(requestPayload.callback_id, () => {
             return delayed(timeout * 1.1, undefined, 'test error');
           });
-          const dispatchResponse = adapter.dispatch(requestPayload)!;
+          const dispatchResponse = adapter.dispatch(requestPayload);
           return assertResponseStatusAndMessage(dispatchResponse, 500);
         });
       });
     });
 
     describe('when dispatching a dialog submission request', () => {
-      let requestPayload: Record<string, any>;
-      let submissionResponse: Record<string, any>;
-      let followUp: Record<string, any>;
+      let requestPayload;
+      let submissionResponse;
+      let followUp;
 
       beforeEach(() => {
         requestPayload = {
@@ -723,7 +700,7 @@ describe('SlackMessageAdapter', () => {
           assert.isFunction(respond);
           return submissionResponse;
         });
-        const dispatchResponse = adapter.dispatch(requestPayload)!;
+        const dispatchResponse = adapter.dispatch(requestPayload);
         return assertResponseStatusAndMessage(dispatchResponse, 200, submissionResponse);
       });
 
@@ -736,7 +713,7 @@ describe('SlackMessageAdapter', () => {
           assert.isFunction(respond);
           return delayed(timeout * 0.1, submissionResponse);
         });
-        const dispatchResponse = adapter.dispatch(requestPayload)!;
+        const dispatchResponse = adapter.dispatch(requestPayload);
         return assertResponseStatusAndMessage(dispatchResponse, 200, submissionResponse);
       });
 
@@ -749,7 +726,7 @@ describe('SlackMessageAdapter', () => {
           assert.isFunction(respond);
           return delayed(timeout * 1.1, submissionResponse);
         });
-        const dispatchResponse = adapter.dispatch(requestPayload)!;
+        const dispatchResponse = adapter.dispatch(requestPayload);
         return assertResponseStatusAndMessage(dispatchResponse, 200, submissionResponse);
       });
 
@@ -758,7 +735,7 @@ describe('SlackMessageAdapter', () => {
           assert.deepEqual(payload, requestPayload);
           assert.isFunction(respond);
         });
-        const dispatchResponse = adapter.dispatch(requestPayload)!;
+        const dispatchResponse = adapter.dispatch(requestPayload);
         return assertResponseStatusAndMessage(dispatchResponse, 200);
       });
 
@@ -770,13 +747,14 @@ describe('SlackMessageAdapter', () => {
         );
         const timeout = adapter.syncResponseTimeout;
         this.timeout(timeout * 2);
-        adapter.action(requestPayload.callback_id, (_payload, respond) => {
-          delayed(timeout * 1.1, null)
+        adapter.action(requestPayload.callback_id, (payload, respond) => {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
+          delayed(timeout * 1.1)
             .then(() => {
               respond(followUp);
             });
         });
-        const dispatchResponse = adapter.dispatch(requestPayload)!;
+        const dispatchResponse = adapter.dispatch(requestPayload);
         return Promise.all([
           assertResponseStatusAndMessage(dispatchResponse, 200),
           expectedAsyncRequest,
@@ -785,8 +763,8 @@ describe('SlackMessageAdapter', () => {
     });
 
     describe('when dispatching a menu options request', () => {
-      let requestPayload: Record<string, any>;
-      let optionsResponse: Record<string, any>;
+      let requestPayload;
+      let optionsResponse;
 
       beforeEach(() => {
         // this represents a minimum menu options request from an interactive message
@@ -809,12 +787,12 @@ describe('SlackMessageAdapter', () => {
       // NOTE: if the response options or options_groups contain the property "label", we can
       // change them to "text"
       it('should handle the callback returning options with a synchronous response', () => {
-        (adapter.options as any)(requestPayload.callback_id, (payload: any, secondArg: any) => {
+        adapter.options(requestPayload.callback_id, (payload, secondArg) => {
           assert.deepEqual(payload, requestPayload);
           assert.isUndefined(secondArg);
           return optionsResponse;
         });
-        const dispatchResponse = adapter.dispatch(requestPayload)!;
+        const dispatchResponse = adapter.dispatch(requestPayload);
         return assertResponseStatusAndMessage(dispatchResponse, 200, optionsResponse);
       });
 
@@ -822,12 +800,12 @@ describe('SlackMessageAdapter', () => {
          'synchronous response', function () {
         const timeout = adapter.syncResponseTimeout;
         this.timeout(timeout);
-        (adapter.options as any)(requestPayload.callback_id, (payload: any, secondArg: any) => {
+        adapter.options(requestPayload.callback_id, (payload, secondArg) => {
           assert.deepEqual(payload, requestPayload);
           assert.isUndefined(secondArg);
           return delayed(timeout * 0.1, optionsResponse);
         });
-        const dispatchResponse = adapter.dispatch(requestPayload)!;
+        const dispatchResponse = adapter.dispatch(requestPayload);
         return assertResponseStatusAndMessage(dispatchResponse, 200, optionsResponse);
       });
 
@@ -835,26 +813,25 @@ describe('SlackMessageAdapter', () => {
          'synchronous response', function () {
         const timeout = adapter.syncResponseTimeout;
         this.timeout(timeout * 2);
-        (adapter.options as any)(requestPayload.callback_id, (payload: any, secondArg: any) => {
+        adapter.options(requestPayload.callback_id, (payload, secondArg) => {
           assert.deepEqual(payload, requestPayload);
           assert.isUndefined(secondArg);
           return delayed(timeout * 1.1, optionsResponse);
         });
-        const dispatchResponse = adapter.dispatch(requestPayload)!;
+        const dispatchResponse = adapter.dispatch(requestPayload);
         return assertResponseStatusAndMessage(dispatchResponse, 200, optionsResponse);
       });
 
       it('should handle the callback returning nothing with a synchronous response', () => {
-        (adapter.options as any)(requestPayload.callback_id, (payload: any, secondArg: any) => {
+        adapter.options(requestPayload.callback_id, (payload, secondArg) => {
           assert.deepEqual(payload, requestPayload);
           assert.isUndefined(secondArg);
         });
-        const dispatchResponse = adapter.dispatch(requestPayload)!;
+        const dispatchResponse = adapter.dispatch(requestPayload);
         return assertResponseStatusAndMessage(dispatchResponse, 200);
       });
-
-      // describe('when the menu options request is coming from a dialog', function () {
-      //   beforeEach(function () {
+      // describe('when the menu options request is coming from a dialog', () => {
+      //   beforeEach(() => {
       //     this.requestPayload.type = 'dialog';
       //   });
       //   // NOTE: if the response options or options_groups contain the property "text", we can
@@ -865,13 +842,15 @@ describe('SlackMessageAdapter', () => {
     // the following tests pertain to the behavior of #matchCallback(), but since that is an
     // implementation detail, its tested as part of the behavior of #dispatch()
     describe('callback matching', () => {
-      let buttonPayload: Record<string, any>;
-      let buttonPayloadBlocks: Record<string, any>;
-      let buttonAppUnfurlPayload: Record<string, any>;
-      let optionsFromInteractiveMessagePayload: Record<string, any>;
-      let optionsFromBlockMessagePayload: Record<string, any>;
-      let optionsFromDialogPayload: Record<string, any>;
-      let callback: sinon.SinonSpy;
+      let buttonPayload;
+      let buttonPayloadBlocks;
+      let buttonAppUnfurlPayload;
+      let dialogSubmissionPayload;
+      let menuSelectionPayload;
+      let optionsFromInteractiveMessagePayload;
+      let optionsFromBlockMessagePayload;
+      let optionsFromDialogPayload;
+      let callback;
 
       beforeEach(() => {
         buttonPayload = {
@@ -889,9 +868,11 @@ describe('SlackMessageAdapter', () => {
           }],
           response_url: 'https://example.com',
         };
-        buttonAppUnfurlPayload = { ...buttonPayload, is_app_unfurl: true };
+        buttonAppUnfurlPayload = {
+          ...buttonPayload,
+          is_app_unfurl: true,
+        };
         // NOTE: this payload isn't used in a test but it remains a good reference
-        /*
         dialogSubmissionPayload = {
           type: 'dialog_submission',
           callback_id: 'id',
@@ -900,6 +881,7 @@ describe('SlackMessageAdapter', () => {
           },
           response_url: 'https://example.com',
         };
+        // NOTE: this payload isn't used in a test but it remains a good reference
         menuSelectionPayload = {
           callback_id: 'id',
           actions: [{
@@ -910,7 +892,6 @@ describe('SlackMessageAdapter', () => {
           }],
           response_url: 'https://example.com',
         };
-        */
         optionsFromInteractiveMessagePayload = {
           name: 'pick_a_thing',
           value: 'opti',
@@ -938,7 +919,7 @@ describe('SlackMessageAdapter', () => {
       });
 
       describe('callback ID based matching', () => {
-        let payload: Record<string, unknown>;
+        let payload;
 
         beforeEach(() => {
           payload = buttonPayload;
@@ -963,7 +944,7 @@ describe('SlackMessageAdapter', () => {
       });
 
       describe('block ID based matching', () => {
-        let payload: Record<string, unknown>;
+        let payload;
 
         beforeEach(() => {
           payload = buttonPayloadBlocks;
@@ -996,34 +977,34 @@ describe('SlackMessageAdapter', () => {
         });
 
         it('should return undefined with a string mismatch with options', () => {
-          adapter.options({ blockId: 'a', within: 'interactive_message' }, callback);
+          adapter.options({ blockId: 'a' }, callback);
           const response = adapter.dispatch(optionsFromBlockMessagePayload);
           assert(callback.notCalled);
           assert.isUndefined(response);
         });
 
         it('should return undefined with a RegExp mismatch with options', () => {
-          adapter.options({ blockId: /a/, within: 'interactive_message' }, callback);
+          adapter.options({ blockId: /a/ }, callback);
           const response = adapter.dispatch(optionsFromBlockMessagePayload);
           assert(callback.notCalled);
           assert.isUndefined(response);
         });
 
         it('should match with matching blockId with options', () => {
-          adapter.options({ blockId: 'b_id', within: 'interactive_message' }, callback);
+          adapter.options({ blockId: 'b_id' }, callback);
           adapter.dispatch(optionsFromBlockMessagePayload);
           assert(callback.called);
         });
 
         it('should match with matching RegExp blockId with options', () => {
-          adapter.options({ blockId: /b/, within: 'interactive_message' }, callback);
+          adapter.options({ blockId: /b/ }, callback);
           adapter.dispatch(optionsFromBlockMessagePayload);
           assert(callback.called);
         });
       });
 
       describe('action ID based matching', () => {
-        let payload: Record<string, unknown>;
+        let payload;
 
         beforeEach(() => {
           payload = buttonPayloadBlocks;
@@ -1056,34 +1037,34 @@ describe('SlackMessageAdapter', () => {
         });
 
         it('should return undefined with a string mismatch with options', () => {
-          adapter.options({ actionId: 'b', within: 'interactive_message' }, callback);
+          adapter.options({ actionId: 'b' }, callback);
           const response = adapter.dispatch(optionsFromBlockMessagePayload);
           assert(callback.notCalled);
           assert.isUndefined(response);
         });
 
         it('should return undefined with a RegExp mismatch with options', () => {
-          adapter.options({ actionId: /b/, within: 'interactive_message' }, callback);
+          adapter.options({ actionId: /b/ }, callback);
           const response = adapter.dispatch(optionsFromBlockMessagePayload);
           assert(callback.notCalled);
           assert.isUndefined(response);
         });
 
         it('should match with matching string actionId with options', () => {
-          adapter.options({ actionId: 'a_id', within: 'interactive_message' }, callback);
+          adapter.options({ actionId: 'a_id' }, callback);
           adapter.dispatch(optionsFromBlockMessagePayload);
           assert(callback.called);
         });
 
         it('should match with matching RegExp actionId with options', () => {
-          adapter.options({ actionId: /a/, within: 'interactive_message' }, callback);
+          adapter.options({ actionId: /a/ }, callback);
           adapter.dispatch(optionsFromBlockMessagePayload);
           assert(callback.called);
         });
       });
 
       describe('type based matching', () => {
-        let payload: Record<string, unknown>;
+        let payload;
 
         beforeEach(() => {
           payload = buttonPayload;
@@ -1111,7 +1092,7 @@ describe('SlackMessageAdapter', () => {
       });
 
       describe('unfurl based matching', () => {
-        let payload: Record<string, unknown>;
+        let payload;
 
         beforeEach(() => {
           payload = buttonAppUnfurlPayload;
@@ -1135,9 +1116,8 @@ describe('SlackMessageAdapter', () => {
 
       describe('within based matching (options request only)', () => {
         it('should return undefined when within is present in constraints and it mismatches', () => {
-          let response;
           adapter.options({ within: 'dialog' }, callback);
-          response = adapter.dispatch(optionsFromInteractiveMessagePayload);
+          let response = adapter.dispatch(optionsFromInteractiveMessagePayload);
           assert(callback.notCalled);
           assert.isUndefined(response);
 
@@ -1157,7 +1137,7 @@ describe('SlackMessageAdapter', () => {
         });
 
         it('should match when within is not present in constraints', () => {
-          adapter.options({} as any, callback);
+          adapter.options({}, callback);
           adapter.dispatch(optionsFromInteractiveMessagePayload);
           assert(callback.called);
         });
@@ -1215,12 +1195,12 @@ describe('SlackMessageAdapter', () => {
         adapter.action('a', () => {
           throw new Error('test error');
         });
-        const response = adapter.dispatch({ callback_id: 'a', actions: [{}] })!;
+        const response = adapter.dispatch({ callback_id: 'a', actions: [{}] });
         return assertResponseStatusAndMessage(response, 500);
       });
 
       it('should fail with an error when calling respond inside a callback with a promise', (done) => {
-        adapter.action('a', (_payload, respond) => {
+        adapter.action('a', (payload, respond) => {
           assert.isFunction(respond);
           assert.throws(() => {
             respond(Promise.resolve('b'));

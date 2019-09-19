@@ -59,6 +59,9 @@
       "allowTypedFunctionExpressions": true
     }],
     "@typescript-eslint/indent": ["error", 2],
+    "@typescript-eslint/camelcase": ["error", {
+      "properties": "never"
+    }],
     "@typescript-eslint/await-thenable": "error",
     "@typescript-eslint/no-floating-promises": "error",
     "@typescript-eslint/no-for-in-array": "error",
@@ -80,6 +83,8 @@
         "mocha": true
       },
       "rules": {
+        "jsdoc/require-jsdoc": "off",
+        "func-names": "off",
         "import/no-extraneous-dependencies": ["error", {
           "devDependencies": true
         }],

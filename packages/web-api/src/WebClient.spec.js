@@ -1,19 +1,16 @@
-/// <reference types="../types/capture-console" />
-/* eslint @typescript-eslint/camelcase: ["error", {allow: ["next_cursor", "response_metadata"]}] */
-import * as fs from 'fs';
-import * as path from 'path';
-import * as sinon from 'sinon';
-import { CaptureConsole } from '@aoberoi/capture-console';
-import { Agent } from 'https';
-import { assert } from 'chai';
-import { WebClient, WebClientEvent } from './WebClient';
-import { ErrorCode } from './errors';
-import { LogLevel, Logger } from './logger';
-import { addAppMetadata } from './instrument';
-import { rapidRetryPolicy } from './retry-policies';
-
-import nock = require('nock');
-import Busboy = require('busboy');
+const fs = require('fs');
+const path = require('path');
+const { Agent } = require('https');
+const { assert } = require('chai');
+const { CaptureConsole } = require('@aoberoi/capture-console');
+const nock = require('nock');
+const Busboy = require('busboy');
+const sinon = require('sinon');
+const { WebClient } = require('./WebClient');
+const { ErrorCode } = require('./errors');
+const { LogLevel } = require('./logger');
+const { addAppMetadata } = require('./instrument');
+const { rapidRetryPolicy } = require('./retry-policies');
 
 const token = 'xoxb-faketoken';
 
@@ -33,7 +30,7 @@ describe('WebClient', () => {
   });
 
   describe('has an option to change the log output severity', () => {
-    let capture: CaptureConsole;
+    let capture;
 
     beforeEach(() => {
       capture = new CaptureConsole();
@@ -41,8 +38,7 @@ describe('WebClient', () => {
     });
 
     it('outputs a debug log on initialization', () => {
-      // eslint-disable-next-line no-new
-      new WebClient(token, { logLevel: LogLevel.DEBUG });
+      const debuggingClient = new WebClient(token, { logLevel: LogLevel.DEBUG });
       const output = capture.getCapturedText();
       assert.isNotEmpty(output); // should have at least 1 log line, but not asserting since that is an implementation detail
     });
@@ -53,8 +49,8 @@ describe('WebClient', () => {
   });
 
   describe('has a logger option', () => {
-    let capture: CaptureConsole;
-    let logger: Record<string, sinon.SinonSpy>;
+    let logger;
+    let capture;
 
     beforeEach(() => {
       capture = new CaptureConsole();
@@ -70,11 +66,7 @@ describe('WebClient', () => {
     });
 
     it('sends logs to a logger and not to stdout', () => {
-      // eslint-disable-next-line no-new
-      new WebClient(token, {
-        logLevel: LogLevel.DEBUG,
-        logger: logger as unknown as Logger,
-      });
+      const debuggingClient = new WebClient(token, { logLevel: LogLevel.DEBUG, logger });
       assert.isTrue(logger.debug.called);
       const capturedOutput = capture.getCapturedText();
       assert.isEmpty(capturedOutput);
@@ -86,14 +78,14 @@ describe('WebClient', () => {
   });
 
   describe('apiCall()', () => {
-    let client: WebClient;
+    let client;
 
     beforeEach(() => {
       client = new WebClient(token, { retryConfig: rapidRetryPolicy });
     });
 
     describe('when making a successful call', () => {
-      let scope: nock.Scope;
+      let scope;
 
       beforeEach(() => {
         scope = nock('https://slack.com')
@@ -123,10 +115,7 @@ describe('WebClient', () => {
           setLevel: sinon.spy(),
           setName: sinon.spy(),
         };
-        const warnClient = new WebClient(token, {
-          logLevel: LogLevel.WARN,
-          logger,
-        });
+        const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
         return warnClient.apiCall('method')
           .then(() => {
             assert.isTrue(logger.warn.calledTwice);
@@ -142,7 +131,6 @@ describe('WebClient', () => {
             'X-OAuth-Scopes': 'files:read, chat:write:bot',
             'X-Accepted-OAuth-Scopes': 'files:read',
           });
-
         return client.apiCall('method')
           .then((result) => {
             assert.deepNestedInclude(result.response_metadata, { scopes: ['files:read', 'chat:write:bot'] });
@@ -155,11 +143,10 @@ describe('WebClient', () => {
     describe('when called with bad options', () => {
       it('should reject its Promise with TypeError', () => {
         const results = [
-          client.apiCall('method', 4 as any),
-          client.apiCall('method', 'a string' as any),
-          client.apiCall('method', false as any),
+          client.apiCall('method', 4),
+          client.apiCall('method', 'a string'),
+          client.apiCall('method', false),
         ];
-
         const caughtErrors = results.map((r) => {
           return r
             .then(() => {
@@ -176,7 +163,7 @@ describe('WebClient', () => {
     });
 
     describe('when an API call fails', () => {
-      let scope: nock.Scope;
+      let scope;
 
       beforeEach(() => {
         scope = nock('https://slack.com')
@@ -198,7 +185,6 @@ describe('WebClient', () => {
       const scope = nock('https://slack.com')
         .post(/api/)
         .reply(200, { ok: false, error: 'bad error' });
-
       client.apiCall('method')
         .catch((error) => {
           assert.instanceOf(error, Error);
@@ -215,9 +201,8 @@ describe('WebClient', () => {
       const scope = nock('https://slack.com')
         .post(/api/)
         .reply(500, body);
-      const wc = new WebClient(token, { retryConfig: { retries: 0 } });
-
-      wc.apiCall('method')
+      client = new WebClient(token, { retryConfig: { retries: 0 } });
+      client.apiCall('method')
         .catch((error) => {
           assert.instanceOf(error, Error);
           assert.equal(error.code, ErrorCode.HTTPError);
@@ -232,12 +217,8 @@ describe('WebClient', () => {
     it('should fail with WebAPIRequestError when the API request fails', (done) => {
       // One known request error is when the node encounters an ECONNREFUSED. In order to simulate this, rather than
       // using nock, we send the request to a host:port that is not listening.
-      const wc = new WebClient(token, {
-        slackApiUrl: 'https://localhost:8999/api/',
-        retryConfig: { retries: 0 },
-      });
-
-      wc.apiCall('method')
+      client = new WebClient(token, { slackApiUrl: 'https://localhost:8999/api/', retryConfig: { retries: 0 } });
+      client.apiCall('method')
         .catch((error) => {
           assert.instanceOf(error, Error);
           assert.equal(error.code, ErrorCode.RequestError);
@@ -251,7 +232,6 @@ describe('WebClient', () => {
         // NOTE: this could create false negatives if the serialization order changes (it shouldn't matter)
         .post(/api/, 'token=xoxb-faketoken&foo=stringval&bar=42&baz=false')
         .reply(200, { ok: true });
-
       return client.apiCall('method', { foo: 'stringval', bar: 42, baz: false })
         .then(() => {
           scope.done();
@@ -264,7 +244,6 @@ describe('WebClient', () => {
         // eslint-disable-next-line max-len
         .post(/api/, 'token=xoxb-faketoken&arraything=%5B%7B%22foo%22%3A%22stringval%22%2C%22bar%22%3A42%2C%22baz%22%3Afalse%2C%22zup%22%3A%5B%22one%22%2C%22two%22%2C%22three%22%5D%7D%5D&objectthing=%7B%22foo%22%3A7%2C%22hum%22%3Afalse%7D')
         .reply(200, { ok: true });
-
       return client.apiCall('method', {
         // TODO: include things like quotes and emojis
         arraything: [{
@@ -287,10 +266,9 @@ describe('WebClient', () => {
       const scope = nock('https://slack.com')
         .post(/api/, 'token=xoxb-faketoken&something=else')
         .reply(200, { ok: true });
-
       return client.apiCall('method', {
-        somethingundefined: undefined,
-        somethingnull: null,
+        something_undefined: undefined,
+        something_null: null,
         something: 'else',
       })
         .then(() => {
@@ -299,25 +277,19 @@ describe('WebClient', () => {
     });
 
     describe('when API arguments contain binary to upload', () => {
+      let scope;
+
       beforeEach(() => {
-        nock('https://slack.com')
+        scope = nock('https://slack.com')
           .post(/api/)
           // rather than matching on the body, that nock cannot do for content-type multipart/form-data, we use the
           // response to signal that the body was correctly serialized
-          .reply(function onReply(_uri, requestBody, cb) {
+          // eslint-disable-next-line prefer-arrow-callback,func-names
+          .reply(function (uri, requestBody, cb) {
             // busboy is a parser for for multipart/form-data bodies
             const busboy = new Busboy({ headers: this.req.headers });
             // capture state about all the parts that are in the body
-            const parts: {
-              files: Record<string, unknown>[];
-              fields: Record<string, unknown>[];
-              errors: any[];
-              ok?: boolean;
-            } = {
-              files: [],
-              fields: [],
-              errors: [],
-            };
+            const parts = { files: [], fields: [], errors: [] };
 
             // attaching event handlers to track incoming parts
             busboy.on('file', (fieldname, file, filename) => {
@@ -327,13 +299,13 @@ describe('WebClient', () => {
             busboy.on('field', (fieldname, value) => {
               parts.fields.push({ fieldname, value });
             });
-            busboy.on('error', (error: unknown) => {
+            busboy.on('error', (error) => {
               parts.errors.push(error);
             });
             busboy.on('finish', () => {
               // when the parser is done, respond to the request with the state captured
               if (parts.errors.length > 0) {
-                cb(parts.errors[0], {});
+                cb(parts.errors[0]);
               } else {
                 // the response must contain `ok: true` for the client to accept it
                 parts.ok = true;
@@ -342,7 +314,7 @@ describe('WebClient', () => {
             });
 
             // Write incoming string body to busboy parser
-            busboy.end(requestBody ? Buffer.from(requestBody as string, 'hex') : '');
+            busboy.end(requestBody ? Buffer.from(requestBody, 'hex') : undefined);
           });
       });
 
@@ -352,7 +324,7 @@ describe('WebClient', () => {
         return client.apiCall('upload', {
           someBinaryField: imageStream,
         })
-          .then((parts: any) => {
+          .then((parts) => {
             assert.lengthOf(parts.files, 1);
             const file = parts.files[0];
             // the filename is picked up from the the ReadableStream since it originates from fs
@@ -372,7 +344,7 @@ describe('WebClient', () => {
         return client.apiCall('upload', {
           someBinaryField: imageBuffer,
         })
-          .then((parts: any) => {
+          .then((parts) => {
             assert.lengthOf(parts.files, 1);
             const file = parts.files[0];
             assert.include(file, { fieldname: 'someBinaryField' });
@@ -388,7 +360,7 @@ describe('WebClient', () => {
           someBinaryField: imageBuffer,
           someUndefinedField: undefined,
         })
-          .then((parts: any) => {
+          .then((parts) => {
             // the only field is the one related to the token
             assert.lengthOf(parts.fields, 1);
           });
@@ -414,7 +386,6 @@ describe('WebClient', () => {
         })
           .post(/api/)
           .reply(200, { ok: true });
-
         return client.apiCall('method')
           .then(() => {
             scope.done();
@@ -436,8 +407,8 @@ describe('WebClient', () => {
           .post(/api/)
           .reply(200, { ok: true });
         // NOTE: appMetaData is only evalued on client construction, so we cannot use the client already created
-        const wc = new WebClient(token, { retryConfig: rapidRetryPolicy });
-        return wc.apiCall('method')
+        client = new WebClient(token, { retryConfig: rapidRetryPolicy });
+        return client.apiCall('method')
           .then(() => {
             scope.done();
           });
@@ -455,7 +426,7 @@ describe('WebClient', () => {
         .reply(200, { ok: true });
 
       const r = client.apiCall('method', { foo: 'stringval' });
-      return r.then(() => {
+      return r.then((result) => {
         scope.done();
       });
     });
@@ -472,14 +443,14 @@ describe('WebClient', () => {
         .post(/api/)
         .reply(200, { ok: true });
       const r = client.apiCall('method');
-      return r.then(() => {
+      return r.then((result) => {
         scope.done();
       });
     });
   });
 
   describe('named method aliases (facets)', () => {
-    let client: WebClient;
+    let client;
 
     beforeEach(() => {
       client = new WebClient(token, { retryConfig: rapidRetryPolicy });
@@ -489,15 +460,12 @@ describe('WebClient', () => {
       // This test doesn't exhaustively check all the method aliases, it just tries a couple.
       // This should be enough since all methods are mounted in the exact same way.
       const scope = nock('https://slack.com')
-        .post('/api/chat.postMessage', 'token=xoxb-faketoken&channel=&text=&foo=stringval')
+        .post('/api/chat.postMessage', 'token=xoxb-faketoken&foo=stringval')
         .reply(200, { ok: true })
         // Trying this method because its mounted one layer "deeper"
         .post('/api/team.profile.get', 'token=xoxb-faketoken')
         .reply(200, { ok: true });
-      return Promise.all([
-        client.chat.postMessage({ channel: '', text: '', foo: 'stringval' }),
-        client.team.profile.get(),
-      ])
+      return Promise.all([client.chat.postMessage({ foo: 'stringval' }), client.team.profile.get()])
         .then(() => {
           scope.done();
         });
@@ -505,8 +473,8 @@ describe('WebClient', () => {
   });
 
   describe('paginate()', () => {
-    let client: WebClient;
-    let method: string;
+    let client;
+    let method;
 
     beforeEach(() => {
       client = new WebClient(token, { retryConfig: rapidRetryPolicy });
@@ -514,7 +482,7 @@ describe('WebClient', () => {
     });
 
     describe('logging', () => {
-      let capture: CaptureConsole;
+      let capture;
 
       beforeEach(() => {
         capture = new CaptureConsole();
@@ -541,7 +509,7 @@ describe('WebClient', () => {
     describe('when not given shouldStop predicate', () => {
       it('should return an AsyncIterator', () => {
         const iterator = client.paginate(method);
-        assert.isOk((iterator as any)[Symbol.asyncIterator]);
+        assert.isOk(iterator[Symbol.asyncIterator]);
       });
 
       it('can iterate multiple pages', async () => {
@@ -702,7 +670,7 @@ describe('WebClient', () => {
   describe('has option to change slackApiUrl', () => {
     it('should send requests to an alternative URL', () => {
       const alternativeUrl = 'http://12.34.56.78/api/';
-      nock(alternativeUrl)
+      const scope = nock(alternativeUrl)
         .post(/api\/method/)
         .reply(200, { ok: true });
       const client = new WebClient(token, { slackApiUrl: alternativeUrl });
@@ -713,18 +681,18 @@ describe('WebClient', () => {
   describe('has an option to set a custom HTTP agent', () => {
     it('should send a request using the custom agent', () => {
       const agent = new Agent({ keepAlive: true });
-      const spy = sinon.spy<any, 'addRequest'>(agent, 'addRequest');
+      const spy = sinon.spy(agent, 'addRequest');
       const client = new WebClient(token, { agent, retryConfig: rapidRetryPolicy });
       return client.apiCall('method')
         .catch(() => {
           assert(spy.called);
         })
         .then(() => {
-          spy.restore();
+          agent.addRequest.restore();
           agent.destroy();
         })
         .catch((error) => {
-          spy.restore();
+          agent.addRequest.restore();
           agent.destroy();
           throw error;
         });
@@ -734,8 +702,8 @@ describe('WebClient', () => {
   describe('has an option to set request concurrency', () => {
     // TODO: factor out common logic into test helpers
     const responseDelay = 100; // ms
-    let testStart: number;
-    let scope: nock.Scope;
+    let testStart;
+    let scope;
 
     beforeEach(() => {
       testStart = Date.now();
@@ -743,7 +711,7 @@ describe('WebClient', () => {
         .persist()
         .post(/api/)
         .delay(responseDelay)
-        .reply(200, (_uri, _requestBody, cb) => {
+        .reply(200, (uri, requestBody, cb) => {
           // NOTE: the assumption is that this function gets called right away when the request body is available,
           // not after the delay
           const diff = Date.now() - testStart;
@@ -760,7 +728,7 @@ describe('WebClient', () => {
         client.apiCall('4'),
       ];
       return Promise.all(requests)
-        .then((responses: any[]) => {
+        .then((responses) => {
           // verify all responses are present
           assert.lengthOf(responses, 4);
 
@@ -779,7 +747,7 @@ describe('WebClient', () => {
       const client = new WebClient(token, { maxRequestConcurrency: 1 });
       const requests = [client.apiCall('1'), client.apiCall('2')];
       return Promise.all(requests)
-        .then((responses: any[]) => {
+        .then((responses) => {
           // verify all responses are present
           assert.lengthOf(responses, 2);
 
@@ -831,7 +799,7 @@ describe('WebClient', () => {
 
   describe('has rate limit handling', () => {
     describe('when configured to reject rate-limited calls', () => {
-      let client: WebClient;
+      let client;
 
       beforeEach(() => {
         client = new WebClient(token, { rejectRateLimitedCalls: true });
@@ -841,7 +809,7 @@ describe('WebClient', () => {
         const retryAfter = 5;
         const scope = nock('https://slack.com')
           .post(/api/)
-          .reply(429, '', { 'retry-after': `${retryAfter}` });
+          .reply(429, '', { 'retry-after': retryAfter });
         client.apiCall('method')
           .catch((error) => {
             assert.instanceOf(error, Error);
@@ -856,11 +824,11 @@ describe('WebClient', () => {
         const spy = sinon.spy();
         const scope = nock('https://slack.com')
           .post(/api/)
-          .reply(429, {}, { 'retry-after': '0' });
-        const wc = new WebClient(token, { rejectRateLimitedCalls: true });
-        wc.on(WebClientEvent.RATE_LIMITED, spy);
-        wc.apiCall('method')
-          .catch(() => {
+          .reply(429, {}, { 'retry-after': 0 });
+        client = new WebClient(token, { rejectRateLimitedCalls: true });
+        client.on('rate_limited', spy);
+        client.apiCall('method')
+          .catch((err) => {
             assert(spy.calledOnceWith(0));
             scope.done();
             done();
@@ -872,12 +840,12 @@ describe('WebClient', () => {
       const retryAfter = 1;
       const scope = nock('https://slack.com')
         .post(/api/)
-        .reply(429, '', { 'retry-after': `${retryAfter}` })
+        .reply(429, '', { 'retry-after': retryAfter })
         .post(/api/)
         .reply(200, { ok: true });
-      const wc = new WebClient(token, { retryConfig: rapidRetryPolicy });
+      const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
       const startTime = Date.now();
-      return wc.apiCall('method')
+      return client.apiCall('method')
         .then(() => {
           const diff = Date.now() - startTime;
           assert.isAtLeast(diff, retryAfter * 1000, 'elapsed time is at least a second');
@@ -888,11 +856,11 @@ describe('WebClient', () => {
     it('should include retryAfter metadata if the response has retry info', () => {
       const scope = nock('https://slack.com')
         .post(/api/)
-        .reply(200, { ok: true }, { 'retry-after': '100' });
+        .reply(200, { ok: true }, { 'retry-after': 100 });
       const client = new WebClient(token);
       return client.apiCall('method')
         .then((data) => {
-          assert(data.response_metadata!.retryAfter === 100);
+          assert(data.response_metadata.retryAfter === 100);
           scope.done();
         });
     });
@@ -902,20 +870,20 @@ describe('WebClient', () => {
       const retryAfter = 1;
       const scope = nock('https://slack.com')
         .post(/api/)
-        .reply(429, '', { 'retry-after': `${retryAfter}` })
+        .reply(429, '', { 'retry-after': retryAfter })
         .post(/api/)
-        .reply(200, () => {
+        .reply(200, (uri, requestBody) => {
           return JSON.stringify({ ok: true, diff: Date.now() - startTime });
         })
         .post(/api/)
-        .reply(200, () => {
+        .reply(200, (uri, requestBody) => {
           return JSON.stringify({ ok: true, diff: Date.now() - startTime });
         });
-      const wc = new WebClient(token, { retryConfig: rapidRetryPolicy, maxRequestConcurrency: 1 });
-      const firstCall = wc.apiCall('method');
-      const secondCall = wc.apiCall('method');
+      const client = new WebClient(token, { retryConfig: rapidRetryPolicy, maxRequestConcurrency: 1 });
+      const firstCall = client.apiCall('method');
+      const secondCall = client.apiCall('method');
       return Promise.all([firstCall, secondCall])
-        .then(([firstResult, secondResult]: any[]) => {
+        .then(([firstResult, secondResult]) => {
           assert.isAtLeast(firstResult.diff, retryAfter * 1000);
           assert.isAtLeast(secondResult.diff, retryAfter * 1000);
           scope.done();
@@ -926,11 +894,11 @@ describe('WebClient', () => {
       const spy = sinon.spy();
       const scope = nock('https://slack.com')
         .post(/api/)
-        .reply(429, {}, { 'retry-after': '0' });
-      const wc = new WebClient(token, { retryConfig: { retries: 0 } });
-      wc.on(WebClientEvent.RATE_LIMITED, spy);
-      wc.apiCall('method')
-        .catch(() => {
+        .reply(429, {}, { 'retry-after': 0 });
+      const client = new WebClient(token, { retryConfig: { retries: 0 } });
+      client.on('rate_limited', spy);
+      client.apiCall('method')
+        .catch((err) => {
           assert(spy.calledOnceWith(0));
           scope.done();
           done();
@@ -941,7 +909,7 @@ describe('WebClient', () => {
   it('should throw an error if the response has no retry info', (done) => {
     const scope = nock('https://slack.com')
       .post(/api/)
-      .reply(429, {}, { 'retry-after': undefined as unknown as string });
+      .reply(429, {}, { 'retry-after': undefined });
     const client = new WebClient(token);
     client.apiCall('method')
       .catch((err) => {
@@ -970,15 +938,12 @@ describe('WebClient', () => {
   });
 });
 
-/**
- * Parses a user agent string into a metadata object
- * @param userAgent agent string to parse
- */
-function parseUserAgentIntoMetadata(userAgent: string): Record<string, string> {
+// Helpers
+function parseUserAgentIntoMetadata(userAgent) {
   // naive implementation, this might break on platforms whose names or version numbers have spaces or slashes in them,
   // and that if app metadata keys or values have spaces or slashes in them.
   const parts = userAgent.split(' ');
-  return parts.reduce<Record<string, string>>((digest, part) => {
+  return parts.reduce((digest, part) => {
     const [key, val] = part.split('/');
     digest[key] = val;
     return digest;

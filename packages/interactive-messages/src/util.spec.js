@@ -1,6 +1,6 @@
-import { assert } from 'chai';
-import { promiseTimeout, errorCodes } from './util';
-import { delayed } from './test-helpers';
+const { assert } = require('chai');
+const { promiseTimeout, errorCodes } = require('./util');
+const { delayed } = require('../test/helpers');
 
 // test suite
 describe('promiseTimeout', () => {

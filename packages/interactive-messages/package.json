@@ -42,7 +42,7 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
-    "test": "nyc mocha src/*.spec.ts",
+    "test": "nyc mocha src/*.spec.js",
     "coverage": "codecov -F interactivemessages --root=$PWD"
   },
   "dependencies": {

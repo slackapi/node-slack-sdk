@@ -1,17 +1,15 @@
-import EventEmitter from 'events';
-import * as http from 'http';
-import * as net from 'net';
-import { assert } from 'chai';
-import * as sinon from 'sinon';
-import { createStreamRequest } from './test-helpers';
-import { SlackEventAdapter } from './adapter';
+require('mocha');
+const EventEmitter = require('events');
+const http = require('http');
+const { assert } = require('chai');
+const sinon = require('sinon');
+const getRandomPort = require('get-random-port');
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-import getRandomPort = require('get-random-port');
+const { createStreamRequest } = require('../test/helpers');
+const { SlackEventAdapter } = require('./adapter');
 
 // fixtures and test helpers
 const workingSigningSecret = 'SIGNING_SECRET';
-type Response = import('express-serve-static-core').Response;
 
 describe('SlackEventAdapter', () => {
   describe('constructor', () => {
@@ -19,14 +17,11 @@ describe('SlackEventAdapter', () => {
       const adapter = new SlackEventAdapter(workingSigningSecret);
       assert(adapter instanceof EventEmitter);
     });
-
     it('should fail without a signing secret', () => {
       assert.throws(() => {
-        // eslint-disable-next-line no-new
-        new (SlackEventAdapter as any)();
+        const adapter = new SlackEventAdapter();
       }, TypeError);
     });
-
     it('should store the signing secret', () => {
       const adapter = new SlackEventAdapter(workingSigningSecret);
       assert.equal(adapter.signingSecret, workingSigningSecret);
@@ -34,7 +29,7 @@ describe('SlackEventAdapter', () => {
   });
 
   describe('#createServer()', () => {
-    let adapter: SlackEventAdapter;
+    let adapter;
 
     beforeEach(() => {
       adapter = new SlackEventAdapter(workingSigningSecret);
@@ -48,16 +43,13 @@ describe('SlackEventAdapter', () => {
   });
 
   describe('#start()', () => {
-    let adapter: SlackEventAdapter;
-    let portNumber: number;
+    let adapter;
+    let portNumber;
 
     beforeEach((done) => {
       adapter = new SlackEventAdapter(workingSigningSecret);
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       getRandomPort((error, port) => {
-        if (error) {
-          return done(error);
-        }
+        if (error) return done(error);
         portNumber = port;
         return done();
       });
@@ -72,23 +64,25 @@ describe('SlackEventAdapter', () => {
         // only works in node >= 5.7.0
         // assert(server.listening);
         assert(server instanceof http.Server);
-        assert.equal((server.address() as net.AddressInfo).port, portNumber);
+        assert.equal(server.address().port, portNumber);
       });
     });
   });
 
   describe('#expressMiddleware()', () => {
-    let adapter: SlackEventAdapter;
-    let emit: sinon.SinonStub;
-    let res: sinon.SinonStubbedInstance<any>;
+    let adapter;
+    let emit;
+    let next;
+    let res;
 
     beforeEach(() => {
       adapter = new SlackEventAdapter(workingSigningSecret);
       emit = sinon.stub();
       adapter.emit = emit;
+      next = sinon.stub();
       res = sinon.stub({
-        setHeader() { },
-        end() { },
+        setHeader: () => { },
+        end: () => { },
       });
     });
 
@@ -116,7 +110,7 @@ describe('SlackEventAdapter', () => {
         assert.deepEqual(event, arg2);
         done();
       });
-      middleware(req, res as unknown as Response, () => {
+      middleware(req, res, () => {
         assert(false);
         done(new Error());
       });
@@ -124,7 +118,7 @@ describe('SlackEventAdapter', () => {
   });
 
   describe('#requestListener()', () => {
-    let adapter: SlackEventAdapter;
+    let adapter;
 
     beforeEach(() => {
       adapter = new SlackEventAdapter(workingSigningSecret);

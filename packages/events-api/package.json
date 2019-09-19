@@ -38,7 +38,7 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
-    "test": "nyc mocha src/*.spec.ts test/integration/*.js",
+    "test": "nyc mocha src/*.spec.js test/integration/*.js",
     "coverage": "codecov -F eventsapi --root=$PWD"
   },
   "dependencies": {
