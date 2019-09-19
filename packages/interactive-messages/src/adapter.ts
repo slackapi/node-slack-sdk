@@ -313,7 +313,7 @@ export class SlackMessageAdapter {
         throw new TypeError('Cannot use a Promise as the parameter for respond()');
       }
       debug('sending async response');
-      return this.axios.post(payload.response_url, message);
+      return Promise.resolve().then(() => this.axios.post(payload.response_url, message));
     } : undefined;
 
     let callbackResult: any;
