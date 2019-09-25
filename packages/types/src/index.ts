@@ -32,6 +32,17 @@ export interface Dialog {
   state?: string;
 }
 
+export interface View {
+  title: PlainTextElement;
+  type: 'modal';
+  blocks: (KnownBlock | Block)[];
+  close?: PlainTextElement;
+  submit?: PlainTextElement;
+  private_metadata?: string;
+  clear_on_close?: boolean; // defaults to false
+  notify_on_close?: boolean; // defaults to false
+}
+
 /*
  * Block Elements
  */
@@ -77,19 +88,30 @@ export interface Confirm {
  * Action Types
  */
 
-export type KnownAction = UsersSelect | StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect |
-  Button | Overflow | Datepicker;
+ // Selects and Multiselects are available in different surface areas so I've seperated them here
+export type Select = UsersSelect | StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect;
+
+export type MultiSelect =
+  MultiUsersSelect | MultiStaticSelect | MultiConversationsSelect | MultiChannelsSelect | MultiExternalSelect;
 
 export interface Action {
   type: string;
   action_id?: string;
-  confirm?: Confirm;
 }
 
 export interface UsersSelect extends Action {
   type: 'users_select';
   initial_user?: string;
   placeholder?: PlainTextElement;
+  confirm?: Confirm;
+}
+
+export interface MultiUsersSelect extends Action {
+  type: 'multi_users_select';
+  initial_users?: string[];
+  placeholder?: PlainTextElement;
+  max_selected_items?: number;
+  confirm?: Confirm;
 }
 
 export interface StaticSelect extends Action {
@@ -101,18 +123,50 @@ export interface StaticSelect extends Action {
     label: PlainTextElement;
     options: Option[];
   }[];
+  confirm?: Confirm;
+}
+
+export interface MultiStaticSelect extends Action {
+  type: 'multi_static_select';
+  placeholder?: PlainTextElement;
+  initial_options?: Option[];
+  options?: Option[];
+  option_groups?: {
+    label: PlainTextElement;
+    options: Option[];
+  }[];
+  max_selected_items?: number;
+  confirm?: Confirm;
 }
 
 export interface ConversationsSelect extends Action {
   type: 'conversations_select';
   initial_conversation?: string;
   placeholder?: PlainTextElement;
+  confirm?: Confirm;
+}
+
+export interface MultiConversationsSelect extends Action {
+  type: 'multi_conversations_select';
+  initial_conversations?: string[];
+  placeholder?: PlainTextElement;
+  max_selected_items?: number;
+  confirm?: Confirm;
 }
 
 export interface ChannelsSelect extends Action {
   type: 'channels_select';
   initial_channel?: string;
   placeholder?: PlainTextElement;
+  confirm?: Confirm;
+}
+
+export interface MultiChannelsSelect extends Action {
+  type: 'multi_channels_select';
+  initial_channels?: string[];
+  placeholder?: PlainTextElement;
+  max_selected_items?: number;
+  confirm?: Confirm;
 }
 
 export interface ExternalSelect extends Action {
@@ -120,6 +174,16 @@ export interface ExternalSelect extends Action {
   initial_option?: Option;
   placeholder?: PlainTextElement;
   min_query_length?: number;
+  confirm?: Confirm;
+}
+
+export interface MultiExternalSelect extends Action {
+  type: 'multi_external_select';
+  initial_options?: Option[];
+  placeholder?: PlainTextElement;
+  min_query_length?: number;
+  max_selected_items?: number;
+  confirm?: Confirm;
 }
 
 export interface Button extends Action {
@@ -128,24 +192,37 @@ export interface Button extends Action {
   value?: string;
   url?: string;
   style?: 'danger' | 'primary';
+  confirm?: Confirm;
 }
 
 export interface Overflow extends Action {
   type: 'overflow';
   options: Option[];
+  confirm?: Confirm;
 }
 
 export interface Datepicker extends Action {
   type: 'datepicker';
   initial_date?: string;
   placeholder?: PlainTextElement;
+  confirm?: Confirm;
+}
+
+export interface PlainTextInput extends Action {
+  type: 'plain_text_input';
+  placeholder?: PlainTextElement;
+  initial_value?: string;
+  multiline?: boolean;
+  min_length?: number;
+  max_length?: number;
 }
 
 /*
  * Block Types
  */
 
-export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock | SectionBlock | FileBlock;
+export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock |
+  SectionBlock | InputBlock | FileBlock;
 
 export interface Block {
   type: string;
@@ -166,7 +243,7 @@ export interface ContextBlock extends Block {
 
 export interface ActionsBlock extends Block {
   type: 'actions';
-  elements: (KnownAction | Action)[];
+  elements: (Button | Overflow | Datepicker | Select | Action)[];
 }
 
 export interface DividerBlock extends Block {
@@ -177,13 +254,21 @@ export interface SectionBlock extends Block {
   type: 'section';
   text?: PlainTextElement | MrkdwnElement; // either this or fields must be defined
   fields?: (PlainTextElement | MrkdwnElement)[]; // either this or text must be defined
-  accessory?: KnownAction | Action | ImageElement;
+  accessory?: Button | Overflow | Datepicker | Select | MultiSelect | Action | ImageElement;
 }
 
 export interface FileBlock extends Block {
   type: 'file';
   source: string; // 'remote'
   external_id: string;
+}
+
+export interface InputBlock extends Block {
+  type: 'input';
+  label: PlainTextElement;
+  hint?: PlainTextElement;
+  optional?: boolean;
+  element: Select | MultiSelect | Datepicker | PlainTextInput;
 }
 
 export interface MessageAttachment {
