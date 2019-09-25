@@ -89,9 +89,9 @@ export interface Confirm {
  */
 
  // Selects and Multiselects are available in different surface areas so I've seperated them here
-export type KnownSelect = UsersSelect | StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect;
+export type Select = UsersSelect | StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect;
 
-export type KnownMultiSelect =
+export type MultiSelect =
   MultiUsersSelect | MultiStaticSelect | MultiConversationsSelect | MultiChannelsSelect | MultiExternalSelect;
 
 export interface Action {
@@ -243,7 +243,7 @@ export interface ContextBlock extends Block {
 
 export interface ActionsBlock extends Block {
   type: 'actions';
-  elements: (Button | Overflow | Datepicker | KnownSelect | Action)[];
+  elements: (Button | Overflow | Datepicker | Select | Action)[];
 }
 
 export interface DividerBlock extends Block {
@@ -254,7 +254,7 @@ export interface SectionBlock extends Block {
   type: 'section';
   text?: PlainTextElement | MrkdwnElement; // either this or fields must be defined
   fields?: (PlainTextElement | MrkdwnElement)[]; // either this or text must be defined
-  accessory?: Button | Overflow | Datepicker | KnownSelect | KnownMultiSelect | Action | ImageElement;
+  accessory?: Button | Overflow | Datepicker | Select | MultiSelect | Action | ImageElement;
 }
 
 export interface FileBlock extends Block {
@@ -268,7 +268,7 @@ export interface InputBlock extends Block {
   label: PlainTextElement;
   hint?: PlainTextElement;
   optional?: boolean;
-  element: KnownSelect | KnownMultiSelect | Datepicker | PlainTextInput;
+  element: Select | MultiSelect | Datepicker | PlainTextInput;
 }
 
 export interface MessageAttachment {
