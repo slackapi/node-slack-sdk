@@ -387,8 +387,8 @@ export class SlackMessageAdapter {
 
       // if the action constraint is specified, only continue if it matches
       if (constraints.handlerType === StoredConstraintsType.Action) {
-        // a payload that represents an action either has actions, submission, or message defined
-        if (!(payload.actions || payload.submission || payload.message)) {
+        // a payload that represents an action either has actions, submission, message, or view defined
+        if (!(payload.actions || payload.submission || payload.message || payload.view)) {
           return false;
         }
 
