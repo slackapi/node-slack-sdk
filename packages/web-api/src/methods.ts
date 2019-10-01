@@ -1,5 +1,5 @@
 import { Stream } from 'stream';
-import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, PlainTextElement } from '@slack/types';
+import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls } from '@slack/types';
 import { WebAPICallOptions, WebAPICallResult } from './WebClient';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
@@ -805,11 +805,9 @@ export interface ViewsPushArguments extends WebAPICallOptions, TokenOverridable 
 
 export interface ViewsUpdateArguments extends WebAPICallOptions, TokenOverridable {
   view_id: string;
-  title: PlainTextElement;
-  blocks: (KnownBlock | Block)[];
-  close?: PlainTextElement;
-  submit?: PlainTextElement;
-  private_metadata?: string;
+  view: View;
+  external_id?: string;
+  hash?: string;
 }
 
 export * from '@slack/types';
