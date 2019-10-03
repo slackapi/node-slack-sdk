@@ -268,6 +268,10 @@ const trigger = 'VALID_TRIGGER_ID';
         type: 'plain_text',
         text: 'Modal title'
       },
+      submit: {
+        type: 'plain_text',
+        text: 'Submit'
+      },
       blocks: [
         {
           type: 'input',
