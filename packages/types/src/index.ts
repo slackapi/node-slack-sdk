@@ -36,6 +36,7 @@ export interface View {
   title: PlainTextElement;
   type: 'modal';
   blocks: (KnownBlock | Block)[];
+  callback_id?: string;
   close?: PlainTextElement;
   submit?: PlainTextElement;
   private_metadata?: string;
