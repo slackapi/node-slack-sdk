@@ -1,6 +1,6 @@
 {
   "name": "@slack/types",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Shared type definitions for the Node Slack SDK",
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
