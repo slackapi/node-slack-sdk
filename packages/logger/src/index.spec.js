@@ -17,26 +17,4 @@ describe('logger', () => {
       assert.equal(logger.getLevel(), level);
     });
   });
-
-  it('should offer getLevel to test which level is currently set', () => {
-    let largeObjectGenerated = false;
-    function generateSomethingExpensive() {
-      largeObjectGenerated = true;
-      return JSON.stringify('{ description: "Something expensive to load" }');
-    }
-
-    const logger = new ConsoleLogger();
-    logger.setLevel(LogLevel.INFO);
-    if (logger.getLevel() === LogLevel.DEBUG) {
-      const largeObj = generateSomethingExpensive();
-      logger.debug(`debug: ${largeObj}`);
-    }
-    assert.isFalse(largeObjectGenerated);
-
-    logger.setLevel(LogLevel.DEBUG);
-    if (logger.getLevel() === LogLevel.DEBUG) {
-      generateSomethingExpensive();
-    }
-    assert.isTrue(largeObjectGenerated);
-  });
 });
