@@ -49,11 +49,6 @@ export interface Logger {
   setLevel(level: LogLevel): void;
 
   /**
-   * Return the current LogLevel.
-   */
-  getLevel(): LogLevel;
-
-  /**
    * This allows the instance to be named so that they can easily be filtered when many loggers are sending output
    * to the same destination.
    *
@@ -89,10 +84,6 @@ export class ConsoleLogger implements Logger {
   constructor() {
     this.level = LogLevel.INFO;
     this.name = '';
-  }
-
-  public getLevel(): LogLevel {
-    return this.level;
   }
 
   /**
