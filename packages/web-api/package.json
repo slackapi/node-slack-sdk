@@ -41,8 +41,8 @@
     "coverage": "codecov -F webapi --root=$PWD"
   },
   "dependencies": {
-    "@slack/logger": "^1.0.0",
-    "@slack/types": "^1.1.0",
+    "@slack/logger": "^2.0.0",
+    "@slack/types": "^1.2.1",
     "@types/is-stream": "^1.1.0",
     "@types/node": ">=8.9.0",
     "@types/p-queue": "^2.3.2",

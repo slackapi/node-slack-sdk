@@ -38,7 +38,7 @@
     "coverage": "codecov -F webhook --root=$PWD"
   },
   "dependencies": {
-    "@slack/types": "^1.1.0",
+    "@slack/types": "^1.2.1",
     "@types/node": ">=8.9.0",
     "axios": "^0.18.0"
   },
