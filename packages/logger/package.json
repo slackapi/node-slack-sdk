@@ -30,7 +30,7 @@
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
     "lint": "tslint --project .",
-    "test": "npm run build && echo \"Tests are not implemented.\" && exit 0"
+    "test": "npm run build && nyc mocha --config .mocharc.json src/*.spec.js"
   },
   "dependencies": {
     "@types/node": ">=8.9.0"
