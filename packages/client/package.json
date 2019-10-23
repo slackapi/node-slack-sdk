@@ -48,7 +48,7 @@
     "@slack/logger": ">=1.0.0 <3.0.0",
     "@slack/rtm-api": "^5.0.3",
     "@slack/types": "^1.2.1",
-    "@slack/web-api": "^5.2.1",
+    "@slack/web-api": "^5.3.0",
     "@slack/webhook": "^5.0.2"
   },
   "devDependencies": {
