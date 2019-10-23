@@ -803,6 +803,12 @@ export interface ViewsPushArguments extends WebAPICallOptions, TokenOverridable 
   view: View;
 }
 
+export interface ViewsPublishArguments extends WebAPICallOptions, TokenOverridable {
+  user_id: string;
+  view: View;
+  hash?: string;
+}
+
 export interface ViewsUpdateArguments extends WebAPICallOptions, TokenOverridable {
   view_id: string;
   view: View;
