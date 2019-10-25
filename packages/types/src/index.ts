@@ -213,6 +213,7 @@ export interface RadioButtons extends Action {
   type: 'radio_buttons';
   initial_option?: Option;
   options: Option[];
+  confirm?: Confirm;
 }
 
 export interface PlainTextInput extends Action {
