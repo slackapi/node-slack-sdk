@@ -281,11 +281,26 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       },
       restrict: (this.apiCall.bind(this, 'admin.apps.restrict')) as Method<methods.AdminAppsRestrictArguments>,
     },
+    teams: {
+      admins: {
+        list: (this.apiCall.bind(this, 'admin.teams.admins.list')) as Method<methods.AdminTeamsAdminsListArguments>,
+      },
+      owners: {
+        list: (this.apiCall.bind(this, 'admin.teams.owners.list')) as Method<methods.AdminTeamsOwnersListArguments>,
+      },
+      create: (this.apiCall.bind(this, 'admin.teams.create')) as Method<methods.AdminTeamsCreateArguments>,
+    },
     users: {
       session: {
         reset:
           (this.apiCall.bind(this, 'admin.users.session.reset')) as Method<methods.AdminUsersSessionResetArguments>,
       },
+      assign: (this.apiCall.bind(this, 'admin.users.assign')) as Method<methods.AdminUsersAssignArguments>,
+      invite: (this.apiCall.bind(this, 'admin.users.invite')) as Method<methods.AdminUsersInviteArguments>,
+      remove: (this.apiCall.bind(this, 'admin.users.remove')) as Method<methods.AdminUsersRemoveArguments>,
+      setAdmin: (this.apiCall.bind(this, 'admin.users.setAdmin')) as Method<methods.AdminUsersSetAdminArguments>,
+      setOwner: (this.apiCall.bind(this, 'admin.users.setOwner')) as Method<methods.AdminUsersSetOwnerArguments>,
+      setRegular: (this.apiCall.bind(this, 'admin.users.setRegular')) as Method<methods.AdminUsersSetRegularArguments>,
     },
   };
 

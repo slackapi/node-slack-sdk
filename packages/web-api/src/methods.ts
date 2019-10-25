@@ -70,6 +70,51 @@ export interface AdminAppsRestrictArguments extends WebAPICallOptions, TokenOver
   request_id?: string;
   team_id?: string;
 }
+export interface AdminTeamsAdminsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id: string;
+}
+export interface AdminTeamsCreateArguments extends WebAPICallOptions, TokenOverridable {
+  team_domain: string;
+  team_name: string;
+  team_description?: string;
+  team_discoverability?: string;
+}
+export interface AdminTeamsOwnersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id: string;
+}
+export interface AdminUsersAssignArguments extends WebAPICallOptions, TokenOverridable {
+  team_id: string;
+  user_id: string;
+  is_restricted?: boolean;
+  is_ultra_restricted?: boolean;
+}
+export interface AdminUsersInviteArguments extends WebAPICallOptions, TokenOverridable {
+  channel_ids: string;
+  email: string;
+  team_id: string;
+  custom_message?: string;
+  guest_expiration_ts?: string;
+  is_restricted?: boolean;
+  is_ultra_restricted?: boolean;
+  real_name?: string;
+  resend?: boolean;
+}
+export interface AdminUsersRemoveArguments extends WebAPICallOptions, TokenOverridable {
+  team_id: string;
+  user_id: string;
+}
+export interface AdminUsersSetAdminArguments extends WebAPICallOptions, TokenOverridable {
+  team_id: string;
+  user_id: string;
+}
+export interface AdminUsersSetOwnerArguments extends WebAPICallOptions, TokenOverridable {
+  team_id: string;
+  user_id: string;
+}
+export interface AdminUsersSetRegularArguments extends WebAPICallOptions, TokenOverridable {
+  team_id: string;
+  user_id: string;
+}
 export interface AdminUsersSessionResetArguments extends WebAPICallOptions, TokenOverridable {
   user_id: string;
   mobile_only?: boolean;
