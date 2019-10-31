@@ -606,6 +606,13 @@ export interface OAuthAccessArguments extends WebAPICallOptions {
   client_secret: string;
   code: string;
   redirect_uri?: string;
+  single_channel?: string;
+}
+export interface OAuthV2AccessArguments extends WebAPICallOptions {
+  client_id: string;
+  client_secret: string;
+  code: string;
+  redirect_uri?: string;
 }
 
   /*
