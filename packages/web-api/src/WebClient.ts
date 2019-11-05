@@ -146,16 +146,18 @@ export class WebClient extends EventEmitter<WebClientEvent> {
 
     // Sending an encrypted value in Authorization header instead of sending them in request body
     let headers = {};
-    if (options && typeof options.client_id !== 'undefined' && typeof options.client_secret !== 'undefined') {
+    if (typeof options !== 'undefined'
+      && typeof options.client_id !== 'undefined'
+      && typeof options.client_secret !== 'undefined') {
       const credentials = Buffer.from(`${options.client_id}:${options.client_secret}`).toString('base64');
-      headers = {'Authorization': `Basic ${credentials}`};
+      headers = { Authorization: `Basic ${credentials}` };
       delete options.client_id;
       delete options.client_secret;
     }
-    const response = await this.makeRequest(method, Object.assign(
-      { token: this.token },
-      options,
-    ), headers);
+    const response = await this.makeRequest(
+      method,
+      Object.assign({ token: this.token }, options),
+      headers);
     const result = this.buildResult(response);
 
     // log warnings in response metadata
@@ -519,7 +521,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     access: (this.apiCall.bind(this, 'oauth.access')) as Method<methods.OAuthAccessArguments>,
     v2: {
       access: (this.apiCall.bind(this, 'oauth.v2.access')) as Method<methods.OAuthV2AccessArguments>,
-    }
+    },
   };
 
   /**
