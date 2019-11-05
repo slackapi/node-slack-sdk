@@ -896,6 +896,47 @@ describe('WebClient', function () {
         });
   });
 
+  /*
+  // npm i express --save-dev
+  // export SLACK_CLIENT_ID=123.456
+  // export SLACK_CLIENT_SECRET=abcabc
+  // export SLACK_REDIECT_URI=https://your-domain.ngrok.io/slack/oauth/callback
+  it('should request oauth.access using Basic Auth', function(done) {
+    const app = require('express')();
+    app.get('/slack/oauth/callback', (req, resp) => {
+      const client = new WebClient(null);
+      client.oauth.access({
+        client_id: process.env.SLACK_CLIENT_ID,
+        client_secret: process.env.SLACK_CLIENT_SECRET,
+        code: req.query.code,
+        redirect_uri: process.env.SLACK_REDIRECT_URI
+      })
+      .then(res => console.log(JSON.stringify(res)))
+      .catch(err => console.log(`error: ${err}`))
+    });
+    app.listen(3000, () => console.log(`Listening on port 3000!`));
+  });
+
+  // npm i express --save-dev
+  // export SLACK_CLIENT_ID=123.456
+  // export SLACK_CLIENT_SECRET=abcabc
+  // export SLACK_REDIECT_URI=https://your-domain.ngrok.io/slack/oauth/callback
+  it('should request oauth.v2.access using Basic Auth', function(done) {
+    const app = require('express')();
+    app.get('/slack/oauth/callback', (req, resp) => {
+      const client = new WebClient(null);
+      client.oauth.v2.access({
+        client_id: process.env.SLACK_CLIENT_ID,
+        client_secret: process.env.SLACK_CLIENT_SECRET,
+        code: req.query.code,
+        redirect_uri: process.env.SLACK_REDIRECT_URI
+      })
+      .then(res => console.log(JSON.stringify(res)))
+      .catch(err => console.log(`error: ${err}`))
+    });
+    app.listen(3000, () => console.log(`Listening on port 3000!`));
+  });
+  */
 
   afterEach(function () {
     nock.cleanAll();

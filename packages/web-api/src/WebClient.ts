@@ -144,10 +144,18 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
     }
 
+    // Sending an encrypted value in Authorization header instead of sending them in request body
+    let headers = {};
+    if (options && typeof options.client_id !== 'undefined' && typeof options.client_secret !== 'undefined') {
+      const credentials = Buffer.from(`${options.client_id}:${options.client_secret}`).toString('base64');
+      headers = {'Authorization': `Basic ${credentials}`};
+      delete options.client_id;
+      delete options.client_secret;
+    }
     const response = await this.makeRequest(method, Object.assign(
       { token: this.token },
       options,
-    ));
+    ), headers);
     const result = this.buildResult(response);
 
     // log warnings in response metadata
