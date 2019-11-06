@@ -144,20 +144,10 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
     }
 
-    // Sending an encrypted value in Authorization header instead of sending them in request body
-    let headers = {};
-    if (typeof options !== 'undefined'
-      && typeof options.client_id !== 'undefined'
-      && typeof options.client_secret !== 'undefined') {
-      const credentials = Buffer.from(`${options.client_id}:${options.client_secret}`).toString('base64');
-      headers = { Authorization: `Basic ${credentials}` };
-      delete options.client_id;
-      delete options.client_secret;
-    }
-    const response = await this.makeRequest(
-      method,
-      Object.assign({ token: this.token }, options),
-      headers);
+    const response = await this.makeRequest(method, Object.assign(
+      { token: this.token },
+      options,
+    ));
     const result = this.buildResult(response);
 
     // log warnings in response metadata
@@ -749,12 +739,23 @@ export class WebClient extends EventEmitter<WebClientEvent> {
         },
         new FormData(),
       );
+
       // Copying FormData-generated headers into headers param
       // not reassigning to headers param since it is passed by reference and behaves as an inout param
       for (const [header, value] of Object.entries(form.getHeaders())) {
         headers[header] = value;
       }
       return form;
+    }
+
+    // Sending an encoded value in Authorization header instead of sending them in request body
+    // * https://api.slack.com/methods/oauth.access
+    // * https://api.slack.com/methods/oauth.v2.access
+    if (typeof options.client_id !== 'undefined' && typeof options.client_secret !== 'undefined') {
+      const credentials = Buffer.from(`${options.client_id}:${options.client_secret}`).toString('base64');
+      headers['Authorization'] = `Basic ${credentials}`;
+      delete options.client_id;
+      delete options.client_secret;
     }
 
     // Otherwise, a simple key-value object is returned
