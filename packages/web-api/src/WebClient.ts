@@ -509,6 +509,9 @@ export class WebClient extends EventEmitter<WebClientEvent> {
    */
   public readonly oauth = {
     access: (this.apiCall.bind(this, 'oauth.access')) as Method<methods.OAuthAccessArguments>,
+    v2: {
+      access: (this.apiCall.bind(this, 'oauth.v2.access')) as Method<methods.OAuthV2AccessArguments>,
+    },
   };
 
   /**
