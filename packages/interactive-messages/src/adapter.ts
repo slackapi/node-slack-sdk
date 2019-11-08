@@ -44,6 +44,10 @@ function validateConstraints(matchingConstraints: AnyConstraints): Error | false
     return new TypeError('Callback ID must be a string or RegExp');
   }
 
+  if (!hasBlockRelatedConstraints(matchingConstraints)) {
+    return false;
+  }
+
   if (!isFalsy(matchingConstraints.blockId) &&
     !(isString(matchingConstraints.blockId) || isRegExp(matchingConstraints.blockId))) {
     return new TypeError('Block ID must be a string or RegExp');
@@ -71,7 +75,25 @@ function validateOptionsConstraints(optionsConstraints: OptionsConstraints): Err
     return new TypeError('Within must be \'block_actions\', \'interactive_message\' or \'dialog\'');
   }
 
-  // We don't need to validate unfurl, we'll just cooerce it to a boolean
+  // We don't need to validate unfurl, we'll just coerce it to a boolean
+  return false;
+}
+
+/**
+ * Validates properties fo a matching constraints object specific to registering a view submission or view closed
+ * request
+ * @param viewConstraints - object describing the constraints on a view submission or view closed handler
+ * @returns `false` represents successful validation, an error represents failure and describes why validation failed.
+ */
+function validateViewConstraints(viewConstraints: ViewConstraints): Error | false {
+  if (viewConstraints.externalId === null ||
+    (!isFalsy(viewConstraints.externalId) && !isString(viewConstraints.externalId))) {
+    return new TypeError('External ID must be a string');
+  }
+  if (viewConstraints.viewId === null ||
+    (!isFalsy(viewConstraints.viewId) && !isString(viewConstraints.viewId))) {
+    return new TypeError('View ID must be a string');
+  }
   return false;
 }
 
@@ -86,7 +108,7 @@ export class SlackMessageAdapter {
   public signingSecret: string;
 
   /**
-   * The number of milliseconds to wait before flushing a syncrhonous response to an incoming request and falling back
+   * The number of milliseconds to wait before flushing a synchronous response to an incoming request and falling back
    * to an asynchronous response.
    */
   public syncResponseTimeout: number;
@@ -105,7 +127,7 @@ export class SlackMessageAdapter {
    * Create a message adapter.
    *
    * @param signingSecret - Slack app signing secret used to authenticate request
-   * @param options.syncResponseTimeout - number of milliseconds to wait before flushing a syncrhonous response to an
+   * @param options.syncResponseTimeout - number of milliseconds to wait before flushing a synchronous response to an
    *   incoming request and falling back to an asynchronous response.
    * @param options.lateResponseFallbackEnabled - whether or not promises that resolve after the syncResponseTimeout can
    *   fallback to a request for the response_url. this only works in cases where the semantic meaning of the response
@@ -222,9 +244,9 @@ export class SlackMessageAdapter {
    *
    * **Action**|**Return `object`**|**Return `Promise<object>`**|**Return `undefined`**|**Call `respond(message)`**|**Notes**
    * :-----:|:-----:|:-----:|:-----:|:-----:|:-----:
-   * **Button Press**| Message in response | When resolved before `syncResposeTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` | Create a new message instead of replacing using `replace_original: false`
-   * **Menu Selection**| Message in response | When resolved before `syncResposeTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` | Create a new message instead of replacing using `replace_original: false`
-   * **Message Action** | Message in response | When resolved before `syncResposeTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` |
+   * **Button Press**| Message in response | When resolved before `syncResponseTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` | Create a new message instead of replacing using `replace_original: false`
+   * **Menu Selection**| Message in response | When resolved before `syncResponseTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` | Create a new message instead of replacing using `replace_original: false`
+   * **Message Action** | Message in response | When resolved before `syncResponseTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` |
    * **Dialog Submission**| Error list in response | Error list in response | Empty response | Message in request to `response_url` | Returning a Promise that takes longer than 3 seconds to resolve can result in the user seeing an error. Warning logged if a promise isn't completed before `syncResponseTimeout`.
    *
    * @param matchingConstraints - the callback ID (as a string or RegExp) or an object describing the constraints to
@@ -281,6 +303,40 @@ export class SlackMessageAdapter {
 
     const storableConstraints = Object.assign(optionsConstraints, {
       handlerType: StoredConstraintsType.Options as const,
+    });
+    return this.registerCallback(storableConstraints, callback);
+  }
+
+  /**
+   * Add a handler for a view submission
+   */
+  public viewSubmission(matchingConstraints: string | RegExp | ViewConstraints, callback: ViewSubmissionHandler): this {
+    const viewConstraints = formatMatchingConstraints(matchingConstraints);
+    const error = validateConstraints(viewConstraints) || validateViewConstraints(viewConstraints);
+    if (error) {
+      debug('view submission could not be registered: %s', error.message);
+      throw error;
+    }
+
+    const storableConstraints = Object.assign(viewConstraints, {
+      handlerType: StoredConstraintsType.ViewSubmission as const,
+    });
+    return this.registerCallback(storableConstraints, callback);
+  }
+
+  /**
+   * Add a handler for a view submission
+   */
+  public viewClosed(matchingConstraints: string | RegExp | ViewConstraints, callback: ViewClosedHandler): this {
+    const viewConstraints = formatMatchingConstraints(matchingConstraints);
+    const error = validateConstraints(viewConstraints) || validateViewConstraints(viewConstraints);
+    if (error) {
+      debug('view closed could not be registered: %s', error.message);
+      throw error;
+    }
+
+    const storableConstraints = Object.assign(viewConstraints, {
+      handlerType: StoredConstraintsType.ViewClosed as const,
     });
     return this.registerCallback(storableConstraints, callback);
   }
@@ -573,7 +629,16 @@ export interface OptionsConstraints {
   within: 'block_actions' | 'interactive_message' | 'dialog';
 }
 
-type AnyConstraints = ActionConstraints | OptionsConstraints;
+/**
+ * Constraints on when to call a view submission or view closed handler.
+ */
+export interface ViewConstraints {
+  callbackId?: string | RegExp;
+  externalId?: string;
+  viewId?: string;
+}
+
+type AnyConstraints = ActionConstraints | OptionsConstraints | ViewConstraints;
 
 /**
  * The type of stored constraints.
@@ -581,6 +646,8 @@ type AnyConstraints = ActionConstraints | OptionsConstraints;
 const enum StoredConstraintsType {
   Action = 'action',
   Options = 'options',
+  ViewSubmission = 'view_submission',
+  ViewClosed = 'view_closed',
 }
 
 /**
@@ -588,7 +655,9 @@ const enum StoredConstraintsType {
  */
 type StoredConstraints =
  | ({ handlerType: StoredConstraintsType.Action } & ActionConstraints)
- | ({ handlerType: StoredConstraintsType.Options } & OptionsConstraints);
+ | ({ handlerType: StoredConstraintsType.Options } & OptionsConstraints)
+ | ({ handlerType: StoredConstraintsType.ViewSubmission } & ViewConstraints)
+ | ({ handlerType: StoredConstraintsType.ViewClosed } & ViewConstraints);
 
 /**
  * A function used to send message updates after an action is handled. This function can be used
@@ -619,7 +688,7 @@ type Respond = (message: any) => Promise<unknown>;
  *   `syncResponseTimeout` to complete, the message is sent over the `response_url`. The message may also be a new
  *   message in the same conversation by setting `replace_original: false`. When the action is a dialog submission,
  *   this object is a list of [validation errors](https://api.slack.com/dialogs#input_validation). It may also be a
- *   Promise for a list of validation errors, and if so and the Promise takes longer than the `syncReponseTimeout` to
+ *   Promise for a list of validation errors, and if so and the Promise takes longer than the `syncResponseTimeout` to
  *   complete, Slack will display an error to the user. If there is no return value, then button presses and menu
  *   selections do not update the message and dialog submissions will validate and dismiss.
  */
@@ -640,4 +709,25 @@ type ActionHandler = (payload: any, respond: Respond) => any | Promise<any> | un
  */
 type OptionsHandler = (payload: any) => any | Promise<any> | undefined;
 
+/**
+ * A handler function for view submission requests.
+ *
+ * TODO: describe the payload and return values more specifically?
+ */
+type ViewSubmissionHandler = (payload: any) => any | Promise<any> | undefined;
+
+/**
+ * A handler function for view closed requests.
+ *
+ * TODO: describe the payload and return values more specifically?
+ */
+type ViewClosedHandler = (payload: any) => any | Promise<any> | undefined;
+
 type Callback = ActionHandler | OptionsHandler;
+
+function hasBlockRelatedConstraints(
+  constraints: AnyConstraints,
+): constraints is (ActionConstraints | OptionsConstraints) {
+  const asBlockRelatedConstraints = constraints as (ActionConstraints | OptionsConstraints);
+  return !(isFalsy(asBlockRelatedConstraints.blockId) && isFalsy(asBlockRelatedConstraints.actionId));
+}

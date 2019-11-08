@@ -213,7 +213,7 @@ describe('SlackMessageAdapter', function () {
           adapter[methodName](undefined, handler);
         }, TypeError);
       });
-      it('non-function callbacks throw on registration', function () {
+      it('non-function handlers throw on registration', function () {
         const adapter = this.adapter;
         assert.throws(function () {
           adapter[methodName]('my_callback', 5);
@@ -275,6 +275,7 @@ describe('SlackMessageAdapter', function () {
         assert.throws(function () {
           adapter.action({ blockId: [] }, handler);
         }, TypeError);
+        // TODO: do the following two tests even work?
         assert.throws(function () {
           adapter.action({ blockId: null }, handler);
         }, TypeError);
@@ -299,6 +300,7 @@ describe('SlackMessageAdapter', function () {
         assert.throws(function () {
           adapter.action({ actionId: [] }, handler);
         }, TypeError);
+        // TODO: do the following two tests even work?
         assert.throws(function () {
           adapter.action({ actionId: null }, handler);
         }, TypeError);
@@ -382,10 +384,95 @@ describe('SlackMessageAdapter', function () {
     });
   });
 
+  // shared view constraints tests
+  function shouldRegisterWithViewConstraints(methodName) {
+    describe('when registering with a complex set of constraints', function () {
+      beforeEach(function () {
+        this.handler = function () { };
+      });
+      it('a string external_id registers successfully', function () {
+        this.adapter[methodName]({ externalId: 'my_external_id' }, this.handler);
+        assertHandlerRegistered(this.adapter, this.handler);
+      });
+      it('invalid external_id types throw on registration', function () {
+        const handler = this.handler;
+        const adapter = this.adapter;
+        assert.throws(function () {
+          adapter[methodName]({ externalId: 5 }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter[methodName]({ externalId: true }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter[methodName]({ externalId: [] }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter[methodName]({ externalId: null }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter[methodName]({ externalId: /\w+_external_id/ }, handler);
+        }, TypeError);
+      });
+      it('a string view_id registers successfully', function () {
+        this.adapter[methodName]({ viewId: 'my_view_id' }, this.handler);
+        assertHandlerRegistered(this.adapter, this.handler);
+      });
+      it('invalid view_id types throw on registration', function () {
+        const handler = this.handler;
+        const adapter = this.adapter;
+        assert.throws(function () {
+          adapter[methodName]({ viewId: 5 }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter[methodName]({ viewId: true }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter[methodName]({ viewId: [] }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter[methodName]({ viewId: null }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter[methodName]({ viewId: /\w+_view_id/ }, handler);
+        }, TypeError);
+      });
+    });
+  }
+
+  describe('#viewSubmission()', function () {
+    beforeEach(function () {
+      this.adapter = new SlackMessageAdapter(workingSigningSecret);
+    });
+    it('should fail view submission registration without handler', function () {
+      assert.throws(function () {
+        this.adapter.viewSubmission('my_callback');
+      }, TypeError);
+    });
+
+    // execute shared tests
+    shouldRegisterWithCallbackId('viewSubmission');
+    shouldRegisterWithViewConstraints('viewSubmission');
+  });
+
+  describe('#viewClosed()', function () {
+    beforeEach(function () {
+      this.adapter = new SlackMessageAdapter(workingSigningSecret);
+    });
+    it('should fail view closed registration without handler', function () {
+      assert.throws(function () {
+        this.adapter.viewClosed('my_callback');
+      }, TypeError);
+    });
+
+    // execute shared tests
+    shouldRegisterWithCallbackId('viewClosed');
+    shouldRegisterWithViewConstraints('viewSubmission');
+  });
+
   describe('#dispatch()', function () {
     beforeEach(function () {
       this.adapter = new SlackMessageAdapter(workingSigningSecret, {
-        // using a short timout to make tests finish faster
+        // using a short timeout to make tests finish faster
         syncResponseTimeout: 50
       });
     });
@@ -510,7 +597,7 @@ describe('SlackMessageAdapter', function () {
         ]);
       });
       it('should handle the callback returning a promise that fails after the timeout with a ' +
-         'sychronous response', function () {
+         'synchronous response', function () {
         let dispatchResponse;
         const requestPayload = this.requestPayload;
         const timeout = this.adapter.syncResponseTimeout;
@@ -522,7 +609,7 @@ describe('SlackMessageAdapter', function () {
         return assertResponseStatusAndMessage(dispatchResponse, 200);
       });
       it('should handle the callback returning a promise that fails before the timeout with a ' +
-         'sychronous response', function () {
+         'synchronous response', function () {
         let dispatchResponse;
         const requestPayload = this.requestPayload;
         const timeout = this.adapter.syncResponseTimeout;
@@ -636,7 +723,7 @@ describe('SlackMessageAdapter', function () {
           return assertResponseStatusAndMessage(dispatchResponse, 200, replacement);
         });
         it('should handle the callback returning a promise that fails after the timeout with a ' +
-           'sychronous response', function () {
+           'synchronous response', function () {
           let dispatchResponse;
           const requestPayload = this.requestPayload;
           const timeout = this.adapter.syncResponseTimeout;
