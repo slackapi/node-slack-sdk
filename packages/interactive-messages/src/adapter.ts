@@ -412,8 +412,9 @@ export class SlackMessageAdapter {
 
     // The following result value represents:
     // * "no replacement" for message actions
-    // * "submission is valid" for dialog submissions
+    // * "submission is valid" for dialog submissions and view submissions
     // * "no suggestions" for menu options TODO: check that this is true
+    // * "ack" for view closed
     return Promise.resolve({ status: 200 });
   }
 
@@ -539,6 +540,52 @@ export class SlackMessageAdapter {
           if (constraints.within === 'dialog' && payload.type !== 'dialog_suggestion') {
             return false;
           }
+        }
+      }
+
+      if (constraints.handlerType === StoredConstraintsType.ViewSubmission) {
+        // a payload that represents a view submission always has a type property set to view_submission
+        if (!isFalsy(payload.type) && payload.type !== 'view_submission') {
+          return false;
+        }
+
+        // if there's no view in this payload, this payload is malformed - abort matching.
+        if (isFalsy(payload.view)) {
+          return false;
+        }
+
+        // if the view ID constraint is specified, only continue if it matches
+        if (!isFalsy(constraints.viewId) && payload.view.id !== constraints.viewId) {
+          return false;
+        }
+
+        // if the external ID constraint is specified, only continue if it matches
+        if (!isFalsy(constraints.externalId) &&
+          (payload.view.external_id && payload.view.external_id !== constraints.externalId)) {
+          return false;
+        }
+      }
+
+      if (constraints.handlerType === StoredConstraintsType.ViewClosed) {
+        // a payload that represents a view submission always has a type property set to view_submission
+        if (!isFalsy(payload.type) && payload.type !== 'view_closed') {
+          return false;
+        }
+
+        // if there's no view in this payload, this payload is malformed - abort matching.
+        if (isFalsy(payload.view)) {
+          return false;
+        }
+
+        // if the view ID constraint is specified, only continue if it matches
+        if (!isFalsy(constraints.viewId) && payload.view.id !== constraints.viewId) {
+          return false;
+        }
+
+        // if the external ID constraint is specified, only continue if it matches
+        if (!isFalsy(constraints.externalId) &&
+          (payload.view.external_id && payload.view.external_id !== constraints.externalId)) {
+          return false;
         }
       }
 
@@ -723,7 +770,7 @@ type ViewSubmissionHandler = (payload: any) => any | Promise<any> | undefined;
  */
 type ViewClosedHandler = (payload: any) => any | Promise<any> | undefined;
 
-type Callback = ActionHandler | OptionsHandler;
+type Callback = ActionHandler | OptionsHandler | ViewSubmissionHandler | ViewClosedHandler;
 
 function hasBlockRelatedConstraints(
   constraints: AnyConstraints,
