@@ -80,7 +80,7 @@ function validateOptionsConstraints(optionsConstraints: OptionsConstraints): Err
 }
 
 /**
- * Validates properties fo a matching constraints object specific to registering a view submission or view closed
+ * Validates properties of a matching constraints object specific to registering a view submission or view closed
  * request
  * @param viewConstraints - object describing the constraints on a view submission or view closed handler
  * @returns `false` represents successful validation, an error represents failure and describes why validation failed.
@@ -308,7 +308,19 @@ export class SlackMessageAdapter {
   }
 
   /**
-   * Add a handler for a view submission
+   * Add a handler for view submission.
+   *
+   * The value returned from the `callback` determines the response sent back to Slack. The handler can return a plain
+   * object with a `response_action` property to dismiss the modal, push a view into the modal, display validation
+   * errors, or update the view. Alternatively, the handler can return a Promise for this kind of object, which resolves
+   * before `syncResponseTimeout` or `lateResponseFallbackEnabled: false`, to perform the same response actions. If the
+   * Promise resolves afterwards or `lateResponseFallbackEnabled: true` then the modal will be dismissed. If the handler
+   * returns `undefined` the modal will be dismissed.
+   *
+   * @param matchingConstraints - the callback ID (as a string or RegExp) or an object describing the constraints to
+   *   match view submissions for the handler.
+   * @param callback - the function to run when an view submission is matched
+   * @returns this instance (for chaining)
    */
   public viewSubmission(matchingConstraints: string | RegExp | ViewConstraints, callback: ViewSubmissionHandler): this {
     const viewConstraints = formatMatchingConstraints(matchingConstraints);
@@ -325,7 +337,12 @@ export class SlackMessageAdapter {
   }
 
   /**
-   * Add a handler for a view submission
+   * Add a handler for view closed interaction. The handler should not return a value.
+   *
+   * @param matchingConstraints - the callback ID (as a string or RegExp) or an object describing the constraints to
+   *   match view closed interactions for the handler.
+   * @param callback - the function to run when an view closed interaction is matched
+   * @returns this instance (for chaining)
    */
   public viewClosed(matchingConstraints: string | RegExp | ViewConstraints, callback: ViewClosedHandler): this {
     const viewConstraints = formatMatchingConstraints(matchingConstraints);
@@ -680,8 +697,19 @@ export interface OptionsConstraints {
  * Constraints on when to call a view submission or view closed handler.
  */
 export interface ViewConstraints {
+  /**
+   * A string or RegExp to match against the `callback_id`
+   */
   callbackId?: string | RegExp;
+
+  /**
+   * A string to match against the `external_id`
+   */
   externalId?: string;
+
+  /**
+   * A string to match against the `view_id`
+   */
   viewId?: string;
 }
 

@@ -357,6 +357,117 @@ slackInteractions.options({ within: 'dialog' }, (payload) => {
 
 ---
 
+### Handling view submission and view closed interactions
+
+View submissions are generated when a user clicks on the submission button of a
+[Modal](https://api.slack.com/surfaces/modals). View closed interactions are generated when a user clicks on the cancel
+button of a Modal, or dismisses the modal using the `×` in the corner.
+
+Apps register functions, called **handlers**, to be triggered when a submissions are received by the adapter using the
+`.viewSubmission(constraints, handler)` method or when closed interactions are received using the
+`.viewClosed(constraints, handler)` method. When registering a handler, you describe which submissions and closed
+interactions you'd like the handler to match using **constraints**. Constraints are [described in detail](#constraints)
+below. The adapter will call the handler whose constraints match the interaction best.
+
+These handlers receive a single `payload` argument. The `payload` describes the
+[view submission](https://api.slack.com/reference/interaction-payloads/views#view_submission) or
+[view closed](https://api.slack.com/reference/interaction-payloads/views#view_closed)
+interaction that occurred.
+
+For view submissions, handlers can return an object, or a `Promise` for a object which must resolve within the
+`syncResponseTimeout` (default: 2500ms). The contents of the object depend on what you'd like to happen to the view.
+Your app can update the view, push a new view into the stack, close the view, or display validation errors to the user.
+In the documentation, the shape of the objects for each of those possible outcomes, which the handler would return, are
+described as `response_action`s. If the handler returns no value, or a Promise that resolves to no value, the view will
+simply be dismissed on submission.
+
+View closed interactions only occur if the view was opened with the `notify_on_close` property set to `true`. For these
+interactions the handler should not return a value.
+
+```javascript
+const { createMessageAdapter } = require('@slack/interactive-messages');
+const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
+const slackInteractions = createMessageAdapter(slackSigningSecret);
+const port = process.env.PORT || 3000;
+
+// Example of handling a simple view submission
+slackInteractions.viewSubmission('simple_modal_callback_id', (payload) => {
+  // Log the input elements from the view submission.
+  console.log(payload.view.state);
+
+  // The previous value is an object keyed by block_id, which contains objects keyed by action_id,
+  // which contains value properties that contain the input data. Let's log one specific value.
+  console.log(payload.view.state.my_block_id.my_action_id.value);
+
+  // Validate the inputs (errors is of the shape in https://api.slack.com/surfaces/modals/using#displaying_errors)
+  const errors = validate(payload.view.state);
+
+  // Return validation errors if there were errors in the inputs
+  if (errors) {
+    return errors;
+  }
+
+  // Process the submission
+  doWork();
+});
+
+// Example of handling a view submission which pushes another view onto the stack
+slackInteractions.viewSubmission('first_step_callback_id', () => {
+  const errors = validate(payload.view.state);
+
+  if (errors) {
+    return errors;
+  }
+
+  // Process the submission (needs to complete under 2.5 seconds)
+  return doWork()
+    .then(() => {
+      return {
+        response_action: 'push',
+        view: {
+          type: 'modal',
+          callback_id: 'second_step_callback_id',
+          title: {
+            type: 'plain_text',
+            text: 'Second step',
+          },
+          blocks: [
+            {
+              type: 'input',
+              block_id: 'last_thing',
+              element: {
+                type: 'plain_text_input',
+                action_id: 'text',
+              },
+              label: {
+                type: 'plain_text',
+                text: 'One last thing...',
+              },
+            },
+          ],
+        },
+      };
+    })
+    .catch((error) => {
+      // Log the error. In your app, inform the user of a failure using a DM or some other area in Slack.
+      console.log(error);
+    });
+});
+
+// Example of handling view closed
+slackInteractions.viewClosed('my_modal_callback_id', (payload) => {
+  // If you accumulated partial state using block actions, now is a good time to clear it
+  clearPartialState();
+});
+
+(async () => {
+  const server = await slackInteractions.start(port);
+  console.log(`Listening for events on ${server.address().port}`);
+})();
+```
+
+---
+
 ### Constraints
 
 Constraints allow you to describe when a handler should be called. In simpler apps, you can use very simple constraints
@@ -365,14 +476,16 @@ conditions, and express a more nuanced structure of your app.
 
 Constraints can be a simple string, a `RegExp`, or an object with a number of properties.
 
-| Property name | Type | Description | Used with `.actions()` | Used with `.options()` |
-|---------------|------|-------------|------------------------|------------------------|
-| `callbackId` | `string` or `RegExp` | Match the `callback_id` for attachment or dialog | ✅ | ✅ |
-| `blockId` | `string` or `RegExp` | Match the `block_id` for a block action | ✅ | ✅ |
-| `actionId` | `string` or `RegExp` | Match the `action_id` for a block action | ✅ | ✅ |
-| `type` | any block action element type or `message_actions` or `dialog_submission` or `button` or `select` | Match the kind of interaction | ✅ | 🚫 |
-| `within` | `block_actions` or `interactive_message` or `dialog` | Match the source of options request | 🚫 | ✅ |
-| `unfurl` | `boolean` | Whether or not the `button`, `select`, or `block_action` occurred in an App Unfurl |  ✅ | 🚫 |
+| Property name | Type | Description | Used with `.action()` | Used with `.options()` | Used with `.viewSubmission()` and `.viewClosed()` |
+|---------------|------|-------------|-----------------------|------------------------|---------------------------------------------------|
+| `callbackId` | `string` or `RegExp` | Match the `callback_id` for attachment or dialog | ✅ | ✅ | ✅ |
+| `blockId` | `string` or `RegExp` | Match the `block_id` for a block action | ✅ | ✅ | 🚫 |
+| `actionId` | `string` or `RegExp` | Match the `action_id` for a block action | ✅ | ✅ | 🚫 |
+| `type` | any block action element type or `message_actions` or `dialog_submission` or `button` or `select` | Match the kind of interaction | ✅ | 🚫 | 🚫 |
+| `within` | `block_actions` or `interactive_message` or `dialog` | Match the source of options request | 🚫 | ✅ | 🚫 |
+| `unfurl` | `boolean` | Whether or not the `button`, `select`, or `block_action` occurred in an App Unfurl | ✅ | 🚫 | 🚫 |
+| `viewId` | `string` | Match the `view_id` for view submissions | 🚫 | 🚫 | ✅ |
+| `externalId` | `string` | Match the `external_id` for view submissions | 🚫 | 🚫 | ✅ |
 
 All of the properties are optional, its just a matter of how specific you want to the handler's behavior to be. A
 `string` or `RegExp` is a shorthand for only specifying the `callbackId` constraint. Here are some examples:
