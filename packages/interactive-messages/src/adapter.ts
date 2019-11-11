@@ -87,8 +87,9 @@ function validateOptionsConstraints(optionsConstraints: OptionsConstraints): Err
  */
 function validateViewConstraints(viewConstraints: ViewConstraints): Error | false {
   if (viewConstraints.externalId === null ||
-    (!isFalsy(viewConstraints.externalId) && !isString(viewConstraints.externalId))) {
-    return new TypeError('External ID must be a string');
+    ((!isFalsy(viewConstraints.externalId) &&
+    !(isString(viewConstraints.externalId) || isRegExp(viewConstraints.externalId))))) {
+    return new TypeError('External ID must be a string or RegExp');
   }
   if (viewConstraints.viewId === null ||
     (!isFalsy(viewConstraints.viewId) && !isString(viewConstraints.viewId))) {
@@ -560,9 +561,15 @@ export class SlackMessageAdapter {
         }
       }
 
-      if (constraints.handlerType === StoredConstraintsType.ViewSubmission) {
-        // a payload that represents a view submission always has a type property set to view_submission
-        if (!isFalsy(payload.type) && payload.type !== 'view_submission') {
+      if (constraints.handlerType === StoredConstraintsType.ViewSubmission ||
+        constraints.handlerType === StoredConstraintsType.ViewClosed
+      ) {
+        // a payload that represents a view submission always has a type property set to view_submission,
+        // a payload that represents a view closed interaction always has a type property set to view_closed
+        if (!isFalsy(payload.type) &&
+          (constraints.handlerType === StoredConstraintsType.ViewSubmission && payload.type !== 'view_submission') ||
+          (constraints.handlerType === StoredConstraintsType.ViewClosed && payload.type !== 'view_closed')
+        ) {
           return false;
         }
 
@@ -577,32 +584,13 @@ export class SlackMessageAdapter {
         }
 
         // if the external ID constraint is specified, only continue if it matches
-        if (!isFalsy(constraints.externalId) &&
-          (payload.view.external_id && payload.view.external_id !== constraints.externalId)) {
-          return false;
-        }
-      }
-
-      if (constraints.handlerType === StoredConstraintsType.ViewClosed) {
-        // a payload that represents a view submission always has a type property set to view_submission
-        if (!isFalsy(payload.type) && payload.type !== 'view_closed') {
-          return false;
-        }
-
-        // if there's no view in this payload, this payload is malformed - abort matching.
-        if (isFalsy(payload.view)) {
-          return false;
-        }
-
-        // if the view ID constraint is specified, only continue if it matches
-        if (!isFalsy(constraints.viewId) && payload.view.id !== constraints.viewId) {
-          return false;
-        }
-
-        // if the external ID constraint is specified, only continue if it matches
-        if (!isFalsy(constraints.externalId) &&
-          (payload.view.external_id && payload.view.external_id !== constraints.externalId)) {
-          return false;
+        if (!isFalsy(constraints.externalId)) {
+          if (isString(constraints.externalId) && payload.view.external_id !== constraints.externalId) {
+            return false;
+          }
+          if (isRegExp(constraints.externalId) && !(constraints.externalId as RegExp).test(payload.view.external_id)) {
+            return false;
+          }
         }
       }
 
@@ -705,7 +693,7 @@ export interface ViewConstraints {
   /**
    * A string to match against the `external_id`
    */
-  externalId?: string;
+  externalId?: string | RegExp;
 
   /**
    * A string to match against the `view_id`

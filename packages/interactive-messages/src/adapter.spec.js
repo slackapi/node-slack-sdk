@@ -394,6 +394,10 @@ describe('SlackMessageAdapter', function () {
         this.adapter[methodName]({ externalId: 'my_external_id' }, this.handler);
         assertHandlerRegistered(this.adapter, this.handler);
       });
+      it('a RegExp external_id registers successfully', function () {
+        this.adapter[methodName]({ externalId: /w+_external_id/ }, this.handler);
+        assertHandlerRegistered(this.adapter, this.handler);
+      });
       it('invalid external_id types throw on registration', function () {
         const handler = this.handler;
         const adapter = this.adapter;
@@ -408,9 +412,6 @@ describe('SlackMessageAdapter', function () {
         }, TypeError);
         assert.throws(function () {
           adapter[methodName]({ externalId: null }, handler);
-        }, TypeError);
-        assert.throws(function () {
-          adapter[methodName]({ externalId: /\w+_external_id/ }, handler);
         }, TypeError);
       });
       it('a string view_id registers successfully', function () {
@@ -1317,6 +1318,20 @@ describe('SlackMessageAdapter', function () {
             this.adapter.dispatch(this.payload);
             assert(this.callback.called);
           });
+
+          it('should return undefined with a RegExp mismatch', function () {
+            let response;
+            this.adapter.viewSubmission({ externalId: /g/ }, this.callback);
+            response = this.adapter.dispatch(this.payload);
+            assert(this.callback.notCalled);
+            assert.isUndefined(response);
+          });
+
+          it('should match with matching RegExp externalId', function () {
+            this.adapter.viewSubmission({ externalId: /a/ }, this.callback);
+            this.adapter.dispatch(this.payload);
+            assert(this.callback.called);
+          });
         });
         describe('on view closed', function () {
           beforeEach(function () {
@@ -1333,6 +1348,20 @@ describe('SlackMessageAdapter', function () {
 
           it('should match with matching viewId', function () {
             this.adapter.viewClosed({ externalId: 'abcdef' }, this.callback);
+            this.adapter.dispatch(this.payload);
+            assert(this.callback.called);
+          });
+
+          it('should return undefined with a RegExp mismatch', function () {
+            let response;
+            this.adapter.viewClosed({ externalId: /g/ }, this.callback);
+            response = this.adapter.dispatch(this.payload);
+            assert(this.callback.notCalled);
+            assert.isUndefined(response);
+          });
+
+          it('should match with matching RegExp externalId', function () {
+            this.adapter.viewClosed({ externalId: /a/ }, this.callback);
             this.adapter.dispatch(this.payload);
             assert(this.callback.called);
           });
