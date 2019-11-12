@@ -789,7 +789,7 @@ type ViewSubmissionHandler = (payload: any) => any | Promise<any> | undefined;
  *
  * TODO: describe the payload and return values more specifically?
  */
-type ViewClosedHandler = (payload: any) => any | Promise<any> | undefined;
+type ViewClosedHandler = (payload: any) => void;
 
 type Callback = ActionHandler | OptionsHandler | ViewSubmissionHandler | ViewClosedHandler;
 
