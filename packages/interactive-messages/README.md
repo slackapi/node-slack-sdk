@@ -485,7 +485,7 @@ Constraints can be a simple string, a `RegExp`, or an object with a number of pr
 | `within` | `block_actions` or `interactive_message` or `dialog` | Match the source of options request | 🚫 | ✅ | 🚫 |
 | `unfurl` | `boolean` | Whether or not the `button`, `select`, or `block_action` occurred in an App Unfurl | ✅ | 🚫 | 🚫 |
 | `viewId` | `string` | Match the `view_id` for view submissions | 🚫 | 🚫 | ✅ |
-| `externalId` | `string` | Match the `external_id` for view submissions | 🚫 | 🚫 | ✅ |
+| `externalId` | `string` or `RegExp` | Match the `external_id` for view submissions | 🚫 | 🚫 | ✅ |
 
 All of the properties are optional, its just a matter of how specific you want to the handler's behavior to be. A
 `string` or `RegExp` is a shorthand for only specifying the `callbackId` constraint. Here are some examples:
