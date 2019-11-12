@@ -44,6 +44,10 @@ function validateConstraints(matchingConstraints: AnyConstraints): Error | false
     return new TypeError('Callback ID must be a string or RegExp');
   }
 
+  if (!hasBlockRelatedConstraints(matchingConstraints)) {
+    return false;
+  }
+
   if (!isFalsy(matchingConstraints.blockId) &&
     !(isString(matchingConstraints.blockId) || isRegExp(matchingConstraints.blockId))) {
     return new TypeError('Block ID must be a string or RegExp');
@@ -71,7 +75,26 @@ function validateOptionsConstraints(optionsConstraints: OptionsConstraints): Err
     return new TypeError('Within must be \'block_actions\', \'interactive_message\' or \'dialog\'');
   }
 
-  // We don't need to validate unfurl, we'll just cooerce it to a boolean
+  // We don't need to validate unfurl, we'll just coerce it to a boolean
+  return false;
+}
+
+/**
+ * Validates properties of a matching constraints object specific to registering a view submission or view closed
+ * request
+ * @param viewConstraints - object describing the constraints on a view submission or view closed handler
+ * @returns `false` represents successful validation, an error represents failure and describes why validation failed.
+ */
+function validateViewConstraints(viewConstraints: ViewConstraints): Error | false {
+  if (viewConstraints.externalId === null ||
+    ((!isFalsy(viewConstraints.externalId) &&
+    !(isString(viewConstraints.externalId) || isRegExp(viewConstraints.externalId))))) {
+    return new TypeError('External ID must be a string or RegExp');
+  }
+  if (viewConstraints.viewId === null ||
+    (!isFalsy(viewConstraints.viewId) && !isString(viewConstraints.viewId))) {
+    return new TypeError('View ID must be a string');
+  }
   return false;
 }
 
@@ -86,7 +109,7 @@ export class SlackMessageAdapter {
   public signingSecret: string;
 
   /**
-   * The number of milliseconds to wait before flushing a syncrhonous response to an incoming request and falling back
+   * The number of milliseconds to wait before flushing a synchronous response to an incoming request and falling back
    * to an asynchronous response.
    */
   public syncResponseTimeout: number;
@@ -105,7 +128,7 @@ export class SlackMessageAdapter {
    * Create a message adapter.
    *
    * @param signingSecret - Slack app signing secret used to authenticate request
-   * @param options.syncResponseTimeout - number of milliseconds to wait before flushing a syncrhonous response to an
+   * @param options.syncResponseTimeout - number of milliseconds to wait before flushing a synchronous response to an
    *   incoming request and falling back to an asynchronous response.
    * @param options.lateResponseFallbackEnabled - whether or not promises that resolve after the syncResponseTimeout can
    *   fallback to a request for the response_url. this only works in cases where the semantic meaning of the response
@@ -222,9 +245,9 @@ export class SlackMessageAdapter {
    *
    * **Action**|**Return `object`**|**Return `Promise<object>`**|**Return `undefined`**|**Call `respond(message)`**|**Notes**
    * :-----:|:-----:|:-----:|:-----:|:-----:|:-----:
-   * **Button Press**| Message in response | When resolved before `syncResposeTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` | Create a new message instead of replacing using `replace_original: false`
-   * **Menu Selection**| Message in response | When resolved before `syncResposeTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` | Create a new message instead of replacing using `replace_original: false`
-   * **Message Action** | Message in response | When resolved before `syncResposeTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` |
+   * **Button Press**| Message in response | When resolved before `syncResponseTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` | Create a new message instead of replacing using `replace_original: false`
+   * **Menu Selection**| Message in response | When resolved before `syncResponseTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` | Create a new message instead of replacing using `replace_original: false`
+   * **Message Action** | Message in response | When resolved before `syncResponseTimeout` or `lateResponseFallbackEnabled: false`, message in response<br />When resolved after `syncResponseTimeout` and `lateResponseFallbackEnabled: true`, message in request to `response_url` | Empty response | Message in request to `response_url` |
    * **Dialog Submission**| Error list in response | Error list in response | Empty response | Message in request to `response_url` | Returning a Promise that takes longer than 3 seconds to resolve can result in the user seeing an error. Warning logged if a promise isn't completed before `syncResponseTimeout`.
    *
    * @param matchingConstraints - the callback ID (as a string or RegExp) or an object describing the constraints to
@@ -281,6 +304,57 @@ export class SlackMessageAdapter {
 
     const storableConstraints = Object.assign(optionsConstraints, {
       handlerType: StoredConstraintsType.Options as const,
+    });
+    return this.registerCallback(storableConstraints, callback);
+  }
+
+  /**
+   * Add a handler for view submission.
+   *
+   * The value returned from the `callback` determines the response sent back to Slack. The handler can return a plain
+   * object with a `response_action` property to dismiss the modal, push a view into the modal, display validation
+   * errors, or update the view. Alternatively, the handler can return a Promise for this kind of object, which resolves
+   * before `syncResponseTimeout` or `lateResponseFallbackEnabled: false`, to perform the same response actions. If the
+   * Promise resolves afterwards or `lateResponseFallbackEnabled: true` then the modal will be dismissed. If the handler
+   * returns `undefined` the modal will be dismissed.
+   *
+   * @param matchingConstraints - the callback ID (as a string or RegExp) or an object describing the constraints to
+   *   match view submissions for the handler.
+   * @param callback - the function to run when an view submission is matched
+   * @returns this instance (for chaining)
+   */
+  public viewSubmission(matchingConstraints: string | RegExp | ViewConstraints, callback: ViewSubmissionHandler): this {
+    const viewConstraints = formatMatchingConstraints(matchingConstraints);
+    const error = validateConstraints(viewConstraints) || validateViewConstraints(viewConstraints);
+    if (error) {
+      debug('view submission could not be registered: %s', error.message);
+      throw error;
+    }
+
+    const storableConstraints = Object.assign(viewConstraints, {
+      handlerType: StoredConstraintsType.ViewSubmission as const,
+    });
+    return this.registerCallback(storableConstraints, callback);
+  }
+
+  /**
+   * Add a handler for view closed interaction. The handler should not return a value.
+   *
+   * @param matchingConstraints - the callback ID (as a string or RegExp) or an object describing the constraints to
+   *   match view closed interactions for the handler.
+   * @param callback - the function to run when an view closed interaction is matched
+   * @returns this instance (for chaining)
+   */
+  public viewClosed(matchingConstraints: string | RegExp | ViewConstraints, callback: ViewClosedHandler): this {
+    const viewConstraints = formatMatchingConstraints(matchingConstraints);
+    const error = validateConstraints(viewConstraints) || validateViewConstraints(viewConstraints);
+    if (error) {
+      debug('view closed could not be registered: %s', error.message);
+      throw error;
+    }
+
+    const storableConstraints = Object.assign(viewConstraints, {
+      handlerType: StoredConstraintsType.ViewClosed as const,
     });
     return this.registerCallback(storableConstraints, callback);
   }
@@ -356,8 +430,9 @@ export class SlackMessageAdapter {
 
     // The following result value represents:
     // * "no replacement" for message actions
-    // * "submission is valid" for dialog submissions
+    // * "submission is valid" for dialog submissions and view submissions
     // * "no suggestions" for menu options TODO: check that this is true
+    // * "ack" for view closed
     return Promise.resolve({ status: 200 });
   }
 
@@ -377,10 +452,15 @@ export class SlackMessageAdapter {
     return this.callbacks.find(([constraints]) => {
       // if the callback ID constraint is specified, only continue if it matches
       if (!isFalsy(constraints.callbackId)) {
-        if (isString(constraints.callbackId) && payload.callback_id !== constraints.callbackId) {
+        // The callback ID is located at a different path in the payload for view submission and view closed
+        const callbackId = (
+          constraints.handlerType === StoredConstraintsType.ViewSubmission ||
+          constraints.handlerType === StoredConstraintsType.ViewClosed
+        ) ? payload.view.callback_id : payload.callback_id;
+        if (isString(constraints.callbackId) && callbackId !== constraints.callbackId) {
           return false;
         }
-        if (isRegExp(constraints.callbackId) && !(constraints.callbackId as RegExp).test(payload.callback_id)) {
+        if (isRegExp(constraints.callbackId) && !(constraints.callbackId as RegExp).test(callbackId)) {
           return false;
         }
       }
@@ -486,6 +566,39 @@ export class SlackMessageAdapter {
         }
       }
 
+      if (constraints.handlerType === StoredConstraintsType.ViewSubmission ||
+        constraints.handlerType === StoredConstraintsType.ViewClosed
+      ) {
+        // a payload that represents a view submission always has a type property set to view_submission,
+        // a payload that represents a view closed interaction always has a type property set to view_closed
+        if (!isFalsy(payload.type) &&
+          (constraints.handlerType === StoredConstraintsType.ViewSubmission && payload.type !== 'view_submission') ||
+          (constraints.handlerType === StoredConstraintsType.ViewClosed && payload.type !== 'view_closed')
+        ) {
+          return false;
+        }
+
+        // if there's no view in this payload, this payload is malformed - abort matching.
+        if (isFalsy(payload.view)) {
+          return false;
+        }
+
+        // if the view ID constraint is specified, only continue if it matches
+        if (!isFalsy(constraints.viewId) && payload.view.id !== constraints.viewId) {
+          return false;
+        }
+
+        // if the external ID constraint is specified, only continue if it matches
+        if (!isFalsy(constraints.externalId)) {
+          if (isString(constraints.externalId) && payload.view.external_id !== constraints.externalId) {
+            return false;
+          }
+          if (isRegExp(constraints.externalId) && !(constraints.externalId as RegExp).test(payload.view.external_id)) {
+            return false;
+          }
+        }
+      }
+
       // if there's no reason to eliminate this callback, then its a match!
       return true;
     });
@@ -573,7 +686,27 @@ export interface OptionsConstraints {
   within: 'block_actions' | 'interactive_message' | 'dialog';
 }
 
-type AnyConstraints = ActionConstraints | OptionsConstraints;
+/**
+ * Constraints on when to call a view submission or view closed handler.
+ */
+export interface ViewConstraints {
+  /**
+   * A string or RegExp to match against the `callback_id`
+   */
+  callbackId?: string | RegExp;
+
+  /**
+   * A string to match against the `external_id`
+   */
+  externalId?: string | RegExp;
+
+  /**
+   * A string to match against the `view_id`
+   */
+  viewId?: string;
+}
+
+type AnyConstraints = ActionConstraints | OptionsConstraints | ViewConstraints;
 
 /**
  * The type of stored constraints.
@@ -581,6 +714,8 @@ type AnyConstraints = ActionConstraints | OptionsConstraints;
 const enum StoredConstraintsType {
   Action = 'action',
   Options = 'options',
+  ViewSubmission = 'view_submission',
+  ViewClosed = 'view_closed',
 }
 
 /**
@@ -588,7 +723,9 @@ const enum StoredConstraintsType {
  */
 type StoredConstraints =
  | ({ handlerType: StoredConstraintsType.Action } & ActionConstraints)
- | ({ handlerType: StoredConstraintsType.Options } & OptionsConstraints);
+ | ({ handlerType: StoredConstraintsType.Options } & OptionsConstraints)
+ | ({ handlerType: StoredConstraintsType.ViewSubmission } & ViewConstraints)
+ | ({ handlerType: StoredConstraintsType.ViewClosed } & ViewConstraints);
 
 /**
  * A function used to send message updates after an action is handled. This function can be used
@@ -619,7 +756,7 @@ type Respond = (message: any) => Promise<unknown>;
  *   `syncResponseTimeout` to complete, the message is sent over the `response_url`. The message may also be a new
  *   message in the same conversation by setting `replace_original: false`. When the action is a dialog submission,
  *   this object is a list of [validation errors](https://api.slack.com/dialogs#input_validation). It may also be a
- *   Promise for a list of validation errors, and if so and the Promise takes longer than the `syncReponseTimeout` to
+ *   Promise for a list of validation errors, and if so and the Promise takes longer than the `syncResponseTimeout` to
  *   complete, Slack will display an error to the user. If there is no return value, then button presses and menu
  *   selections do not update the message and dialog submissions will validate and dismiss.
  */
@@ -640,4 +777,25 @@ type ActionHandler = (payload: any, respond: Respond) => any | Promise<any> | un
  */
 type OptionsHandler = (payload: any) => any | Promise<any> | undefined;
 
-type Callback = ActionHandler | OptionsHandler;
+/**
+ * A handler function for view submission requests.
+ *
+ * TODO: describe the payload and return values more specifically?
+ */
+type ViewSubmissionHandler = (payload: any) => any | Promise<any> | undefined;
+
+/**
+ * A handler function for view closed requests.
+ *
+ * TODO: describe the payload and return values more specifically?
+ */
+type ViewClosedHandler = (payload: any) => void;
+
+type Callback = ActionHandler | OptionsHandler | ViewSubmissionHandler | ViewClosedHandler;
+
+function hasBlockRelatedConstraints(
+  constraints: AnyConstraints,
+): constraints is (ActionConstraints | OptionsConstraints) {
+  const asBlockRelatedConstraints = constraints as (ActionConstraints | OptionsConstraints);
+  return !(isFalsy(asBlockRelatedConstraints.blockId) && isFalsy(asBlockRelatedConstraints.actionId));
+}

@@ -213,7 +213,7 @@ describe('SlackMessageAdapter', function () {
           adapter[methodName](undefined, handler);
         }, TypeError);
       });
-      it('non-function callbacks throw on registration', function () {
+      it('non-function handlers throw on registration', function () {
         const adapter = this.adapter;
         assert.throws(function () {
           adapter[methodName]('my_callback', 5);
@@ -275,6 +275,7 @@ describe('SlackMessageAdapter', function () {
         assert.throws(function () {
           adapter.action({ blockId: [] }, handler);
         }, TypeError);
+        // TODO: do the following two tests even work?
         assert.throws(function () {
           adapter.action({ blockId: null }, handler);
         }, TypeError);
@@ -299,6 +300,7 @@ describe('SlackMessageAdapter', function () {
         assert.throws(function () {
           adapter.action({ actionId: [] }, handler);
         }, TypeError);
+        // TODO: do the following two tests even work?
         assert.throws(function () {
           adapter.action({ actionId: null }, handler);
         }, TypeError);
@@ -382,10 +384,96 @@ describe('SlackMessageAdapter', function () {
     });
   });
 
+  // shared view constraints tests
+  function shouldRegisterWithViewConstraints(methodName) {
+    describe('when registering with a complex set of constraints', function () {
+      beforeEach(function () {
+        this.handler = function () { };
+      });
+      it('a string external_id registers successfully', function () {
+        this.adapter[methodName]({ externalId: 'my_external_id' }, this.handler);
+        assertHandlerRegistered(this.adapter, this.handler);
+      });
+      it('a RegExp external_id registers successfully', function () {
+        this.adapter[methodName]({ externalId: /w+_external_id/ }, this.handler);
+        assertHandlerRegistered(this.adapter, this.handler);
+      });
+      it('invalid external_id types throw on registration', function () {
+        const handler = this.handler;
+        const adapter = this.adapter;
+        assert.throws(function () {
+          adapter[methodName]({ externalId: 5 }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter[methodName]({ externalId: true }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter[methodName]({ externalId: [] }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter[methodName]({ externalId: null }, handler);
+        }, TypeError);
+      });
+      it('a string view_id registers successfully', function () {
+        this.adapter[methodName]({ viewId: 'my_view_id' }, this.handler);
+        assertHandlerRegistered(this.adapter, this.handler);
+      });
+      it('invalid view_id types throw on registration', function () {
+        const handler = this.handler;
+        const adapter = this.adapter;
+        assert.throws(function () {
+          adapter[methodName]({ viewId: 5 }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter[methodName]({ viewId: true }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter[methodName]({ viewId: [] }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter[methodName]({ viewId: null }, handler);
+        }, TypeError);
+        assert.throws(function () {
+          adapter[methodName]({ viewId: /\w+_view_id/ }, handler);
+        }, TypeError);
+      });
+    });
+  }
+
+  describe('#viewSubmission()', function () {
+    beforeEach(function () {
+      this.adapter = new SlackMessageAdapter(workingSigningSecret);
+    });
+    it('should fail view submission registration without handler', function () {
+      assert.throws(function () {
+        this.adapter.viewSubmission('my_callback');
+      }, TypeError);
+    });
+
+    // execute shared tests
+    shouldRegisterWithCallbackId('viewSubmission');
+    shouldRegisterWithViewConstraints('viewSubmission');
+  });
+
+  describe('#viewClosed()', function () {
+    beforeEach(function () {
+      this.adapter = new SlackMessageAdapter(workingSigningSecret);
+    });
+    it('should fail view closed registration without handler', function () {
+      assert.throws(function () {
+        this.adapter.viewClosed('my_callback');
+      }, TypeError);
+    });
+
+    // execute shared tests
+    shouldRegisterWithCallbackId('viewClosed');
+    shouldRegisterWithViewConstraints('viewSubmission');
+  });
+
   describe('#dispatch()', function () {
     beforeEach(function () {
       this.adapter = new SlackMessageAdapter(workingSigningSecret, {
-        // using a short timout to make tests finish faster
+        // using a short timeout to make tests finish faster
         syncResponseTimeout: 50
       });
     });
@@ -407,8 +495,8 @@ describe('SlackMessageAdapter', function () {
     /**
      * Encapsulates knowledge of how the adapter makes post requests by arranging a stub that can
      * observe these requests and verify that one is made to the given url with the given message.
-     * If less than all of the messages are matched, if a request is mad and the body doesn't match
-     * and messages, or if the url doesn't match the requestUrl, this will result in a timeout (a
+     * If less than all of the messages are matched, if a request is made and the body doesn't match
+     * the messages, or if the URL doesn't match the requestUrl, this will result in a timeout (a
      * promise that never resolves nor rejects).
      * @param {SlackMessageAdapter} adapter actual adapter
      * @param {string} requestUrl expected request URL
@@ -447,7 +535,7 @@ describe('SlackMessageAdapter', function () {
       }));
     }
 
-    describe('when dispatching a message action request', function () {
+    describe('when dispatching a message attachment action request', function () {
       beforeEach(function () {
         // this represents a minimum action from a button
         this.requestPayload = {
@@ -510,7 +598,7 @@ describe('SlackMessageAdapter', function () {
         ]);
       });
       it('should handle the callback returning a promise that fails after the timeout with a ' +
-         'sychronous response', function () {
+         'synchronous response', function () {
         let dispatchResponse;
         const requestPayload = this.requestPayload;
         const timeout = this.adapter.syncResponseTimeout;
@@ -522,7 +610,7 @@ describe('SlackMessageAdapter', function () {
         return assertResponseStatusAndMessage(dispatchResponse, 200);
       });
       it('should handle the callback returning a promise that fails before the timeout with a ' +
-         'sychronous response', function () {
+         'synchronous response', function () {
         let dispatchResponse;
         const requestPayload = this.requestPayload;
         const timeout = this.adapter.syncResponseTimeout;
@@ -636,7 +724,7 @@ describe('SlackMessageAdapter', function () {
           return assertResponseStatusAndMessage(dispatchResponse, 200, replacement);
         });
         it('should handle the callback returning a promise that fails after the timeout with a ' +
-           'sychronous response', function () {
+           'synchronous response', function () {
           let dispatchResponse;
           const requestPayload = this.requestPayload;
           const timeout = this.adapter.syncResponseTimeout;
@@ -895,22 +983,49 @@ describe('SlackMessageAdapter', function () {
           callback_id: 'id',
           type: 'dialog_suggestion'
         };
+        this.viewSubmissionPayload = {
+          type: 'view_submission',
+          view: {
+            callback_id: 'id',
+            id: 'V12345'
+          },
+        };
+        this.viewSubmissionWithExternalIdPayload = {
+          type: 'view_submission',
+          view: {
+            callback_id: 'id',
+            id: 'V12345',
+            external_id: 'abcdef',
+          },
+        };
+        this.viewClosedPayload = {
+          type: 'view_closed',
+          view: {
+            callback_id: 'id',
+            id: 'V12345'
+          },
+        };
+        this.viewClosedWithExternalIdPayload = {
+          type: 'view_closed',
+          view: {
+            callback_id: 'id',
+            id: 'V12345',
+            external_id: 'abcdef',
+          },
+        };
         this.callback = sinon.spy();
       });
+
       it('should return undefined when there are no callbacks registered', function () {
         const response = this.adapter.dispatch({});
         assert.isUndefined(response);
       });
 
-      describe('callback ID based matching', function () {
-        beforeEach(function () {
-          this.payload = this.buttonPayload;
-        });
-
+      function shouldMatchBasedOnCallbackId(payload) {
         it('should return undefined with a string mismatch', function () {
           let response;
           this.adapter.action('b', this.callback);
-          response = this.adapter.dispatch(this.payload);
+          response = this.adapter.dispatch(payload);
           assert(this.callback.notCalled);
           assert.isUndefined(response);
         });
@@ -918,13 +1033,19 @@ describe('SlackMessageAdapter', function () {
         it('should return undefined with a RegExp mismatch', function () {
           let response;
           this.adapter.action(/b/, this.callback);
-          response = this.adapter.dispatch(this.payload);
+          response = this.adapter.dispatch(payload);
           assert(this.callback.notCalled);
           assert.isUndefined(response);
         });
 
         // TODO: successful match on string, successful match on regexp, matches when registered
         // as an options handler instead
+      }
+
+      describe('callback ID based matching', function () {
+        shouldMatchBasedOnCallbackId('interactive message action', this.buttonPayload);
+        shouldMatchBasedOnCallbackId('view submission', this.viewSubmissionPayload);
+        shouldMatchBasedOnCallbackId('view closed', this.viewClosedPayload);
       });
 
       describe('block ID based matching', function () {
@@ -1141,6 +1262,116 @@ describe('SlackMessageAdapter', function () {
           this.adapter.options({ within: 'dialog' }, this.callback);
           this.adapter.dispatch(this.optionsFromDialogPayload);
           assert(this.callback.called);
+        });
+      });
+
+      describe('view ID based matching' , function () {
+        describe('on view submission', function () {
+          beforeEach(function () {
+            this.payload = this.viewSubmissionPayload;
+          });
+
+          it('should return undefined with a string mismatch', function () {
+            let response;
+            this.adapter.viewSubmission({ viewId: 'a' }, this.callback);
+            response = this.adapter.dispatch(this.payload);
+            assert(this.callback.notCalled);
+            assert.isUndefined(response);
+          });
+
+          it('should match with matching viewId', function () {
+            this.adapter.viewSubmission({ viewId: 'V12345' }, this.callback);
+            this.adapter.dispatch(this.payload);
+            assert(this.callback.called);
+          });
+        });
+        describe('on view closed', function () {
+          beforeEach(function () {
+            this.payload = this.viewClosedPayload;
+          });
+
+          it('should return undefined with a string mismatch', function () {
+            let response;
+            this.adapter.viewClosed({ viewId: 'a' }, this.callback);
+            response = this.adapter.dispatch(this.payload);
+            assert(this.callback.notCalled);
+            assert.isUndefined(response);
+          });
+
+          it('should match with matching viewId', function () {
+            this.adapter.viewClosed({ viewId: 'V12345' }, this.callback);
+            this.adapter.dispatch(this.payload);
+            assert(this.callback.called);
+          });
+        });
+      });
+
+      describe('external ID based matching', function () {
+        describe('on view submission', function () {
+          beforeEach(function () {
+            this.payload = this.viewSubmissionWithExternalIdPayload;
+          });
+
+          it('should return undefined with a string mismatch', function () {
+            let response;
+            this.adapter.viewSubmission({ externalId: 'a' }, this.callback);
+            response = this.adapter.dispatch(this.payload);
+            assert(this.callback.notCalled);
+            assert.isUndefined(response);
+          });
+
+          it('should match with matching externalId', function () {
+            this.adapter.viewSubmission({ externalId: 'abcdef' }, this.callback);
+            this.adapter.dispatch(this.payload);
+            assert(this.callback.called);
+          });
+
+          it('should return undefined with a RegExp mismatch', function () {
+            let response;
+            this.adapter.viewSubmission({ externalId: /g/ }, this.callback);
+            response = this.adapter.dispatch(this.payload);
+            assert(this.callback.notCalled);
+            assert.isUndefined(response);
+          });
+
+          it('should match with matching RegExp externalId', function () {
+            this.adapter.viewSubmission({ externalId: /a/ }, this.callback);
+            this.adapter.dispatch(this.payload);
+            assert(this.callback.called);
+          });
+        });
+        describe('on view closed', function () {
+          beforeEach(function () {
+            this.payload = this.viewClosedWithExternalIdPayload;
+          });
+
+          it('should return undefined with a string mismatch', function () {
+            let response;
+            this.adapter.viewClosed({ externalId: 'a' }, this.callback);
+            response = this.adapter.dispatch(this.payload);
+            assert(this.callback.notCalled);
+            assert.isUndefined(response);
+          });
+
+          it('should match with matching viewId', function () {
+            this.adapter.viewClosed({ externalId: 'abcdef' }, this.callback);
+            this.adapter.dispatch(this.payload);
+            assert(this.callback.called);
+          });
+
+          it('should return undefined with a RegExp mismatch', function () {
+            let response;
+            this.adapter.viewClosed({ externalId: /g/ }, this.callback);
+            response = this.adapter.dispatch(this.payload);
+            assert(this.callback.notCalled);
+            assert.isUndefined(response);
+          });
+
+          it('should match with matching RegExp externalId', function () {
+            this.adapter.viewClosed({ externalId: /a/ }, this.callback);
+            this.adapter.dispatch(this.payload);
+            assert(this.callback.called);
+          });
         });
       });
 
