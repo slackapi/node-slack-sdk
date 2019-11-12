@@ -986,12 +986,14 @@ describe('SlackMessageAdapter', function () {
         this.viewSubmissionPayload = {
           type: 'view_submission',
           view: {
+            callback_id: 'id',
             id: 'V12345'
           },
         };
         this.viewSubmissionWithExternalIdPayload = {
           type: 'view_submission',
           view: {
+            callback_id: 'id',
             id: 'V12345',
             external_id: 'abcdef',
           },
@@ -999,32 +1001,31 @@ describe('SlackMessageAdapter', function () {
         this.viewClosedPayload = {
           type: 'view_closed',
           view: {
+            callback_id: 'id',
             id: 'V12345'
           },
         };
         this.viewClosedWithExternalIdPayload = {
           type: 'view_closed',
           view: {
+            callback_id: 'id',
             id: 'V12345',
             external_id: 'abcdef',
           },
         };
         this.callback = sinon.spy();
       });
+
       it('should return undefined when there are no callbacks registered', function () {
         const response = this.adapter.dispatch({});
         assert.isUndefined(response);
       });
 
-      describe('callback ID based matching', function () {
-        beforeEach(function () {
-          this.payload = this.buttonPayload;
-        });
-
+      function shouldMatchBasedOnCallbackId(payload) {
         it('should return undefined with a string mismatch', function () {
           let response;
           this.adapter.action('b', this.callback);
-          response = this.adapter.dispatch(this.payload);
+          response = this.adapter.dispatch(payload);
           assert(this.callback.notCalled);
           assert.isUndefined(response);
         });
@@ -1032,13 +1033,19 @@ describe('SlackMessageAdapter', function () {
         it('should return undefined with a RegExp mismatch', function () {
           let response;
           this.adapter.action(/b/, this.callback);
-          response = this.adapter.dispatch(this.payload);
+          response = this.adapter.dispatch(payload);
           assert(this.callback.notCalled);
           assert.isUndefined(response);
         });
 
         // TODO: successful match on string, successful match on regexp, matches when registered
         // as an options handler instead
+      }
+
+      describe('callback ID based matching', function () {
+        shouldMatchBasedOnCallbackId('interactive message action', this.buttonPayload);
+        shouldMatchBasedOnCallbackId('view submission', this.viewSubmissionPayload);
+        shouldMatchBasedOnCallbackId('view closed', this.viewClosedPayload);
       });
 
       describe('block ID based matching', function () {

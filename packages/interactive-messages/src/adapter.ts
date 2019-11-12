@@ -452,10 +452,15 @@ export class SlackMessageAdapter {
     return this.callbacks.find(([constraints]) => {
       // if the callback ID constraint is specified, only continue if it matches
       if (!isFalsy(constraints.callbackId)) {
-        if (isString(constraints.callbackId) && payload.callback_id !== constraints.callbackId) {
+        // The callback ID is located at a different path in the payload for view submission and view closed
+        const callbackId = (
+          constraints.handlerType === StoredConstraintsType.ViewSubmission ||
+          constraints.handlerType === StoredConstraintsType.ViewClosed
+        ) ? payload.view.callback_id : payload.callback_id;
+        if (isString(constraints.callbackId) && callbackId !== constraints.callbackId) {
           return false;
         }
-        if (isRegExp(constraints.callbackId) && !(constraints.callbackId as RegExp).test(payload.callback_id)) {
+        if (isRegExp(constraints.callbackId) && !(constraints.callbackId as RegExp).test(callbackId)) {
           return false;
         }
       }
