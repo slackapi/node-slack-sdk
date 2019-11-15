@@ -10,7 +10,11 @@
     "test:mocha": "mocha proxy-test.js"
   },
   "dependencies": {
+    "@slack/events-api": "^2.3.0",
+    "@slack/interactive-messages": "^1.4.0",
+    "@slack/rtm-api": "^5.0.3",
     "@slack/web-api": "^5.0.0",
+    "@slack/webhook": "^5.0.2",
     "@types/node": "^8.10.43"
   },
   "devDependencies": {
