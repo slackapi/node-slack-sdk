@@ -896,6 +896,63 @@ describe('WebClient', function () {
         });
   });
 
+  describe('has all admin.inviteRequests.* APIs', function () {
+    function verify(runApiCall, methodName, expectedBody, done) {
+      const scope = nock('https://slack.com')
+        .post(`/api/${methodName}`)
+        .reply(200, function (_uri, body) {
+          return { ok: true, body: body };
+        });
+      runApiCall
+        .then((res) => {
+          assert.equal(res.body, expectedBody);
+          scope.done();
+          done();
+        });
+    }
+    const client = new WebClient(token);
+
+    it('can call admin.inviteRequests.approve', function (done) {
+      verify(
+        client.admin.inviteRequests.approve({ team_id: 'T123', invite_request_id: 'I123' }),
+        'admin.inviteRequests.approve',
+        'token=xoxb-faketoken&team_id=T123&invite_request_id=I123',
+        done,
+      );
+    });
+    it('can call admin.inviteRequests.deny', function (done) {
+      verify(
+        client.admin.inviteRequests.deny({ team_id: 'T123', invite_request_id: 'I123' }),
+        'admin.inviteRequests.deny',
+        'token=xoxb-faketoken&team_id=T123&invite_request_id=I123',
+        done
+      );
+    });
+    it('can call admin.inviteRequests.list', function (done) {
+      verify(
+        client.admin.inviteRequests.list({ team_id: 'T123', limit: 10, cursor: 'position' }),
+        'admin.inviteRequests.list',
+        'token=xoxb-faketoken&team_id=T123&limit=10&cursor=position',
+        done
+      );
+    });
+    it('can call admin.inviteRequests.approved.list', function (done) {
+      verify(
+        client.admin.inviteRequests.approved.list({ team_id: 'T123', limit: 10, cursor: 'position' }),
+        'admin.inviteRequests.approved.list',
+        'token=xoxb-faketoken&team_id=T123&limit=10&cursor=position',
+        done
+      );
+    });
+    it('can call admin.inviteRequests.denied.list', function (done) {
+      verify(
+        client.admin.inviteRequests.denied.list({ team_id: 'T123', limit: 10, cursor: 'position' }),
+        'admin.inviteRequests.denied.list',
+        'token=xoxb-faketoken&team_id=T123&limit=10&cursor=position',
+        done
+      );
+    });
+  });
 
   afterEach(function () {
     nock.cleanAll();
