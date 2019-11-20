@@ -1,0 +1,111 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Interactive Messages Tests",
+            "program": "${workspaceFolder}/packages/interactive-messages/node_modules/mocha/bin/_mocha",
+            "args": [
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/packages/interactive-messages/src/*.spec.js"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "cwd": "${workspaceFolder}/packages/interactive-messages"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Events API Tests",
+            "program": "${workspaceFolder}/packages/events-api/node_modules/mocha/bin/_mocha",
+            "args": [
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/packages/events-api/test/integration/*.js",
+                "${workspaceFolder}/packages/events-api/src/*.spec.js"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "cwd": "${workspaceFolder}/packages/events-api"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Logger Tests",
+            "program": "${workspaceFolder}/packages/logger/node_modules/mocha/bin/_mocha",
+            "args": [
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/packages/logger/src/*.spec.js"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "cwd": "${workspaceFolder}/packages/logger"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Web API Tests",
+            "program": "${workspaceFolder}/packages/web-api/node_modules/mocha/bin/_mocha",
+            "args": [
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/packages/web-api/src/*.spec.js"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "cwd": "${workspaceFolder}/packages/web-api"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Webhook Tests",
+            "program": "${workspaceFolder}/packages/webhook/node_modules/mocha/bin/_mocha",
+            "args": [
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/packages/webhook/src/*.spec.js"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "cwd": "${workspaceFolder}/packages/webhook"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Integration Tests",
+            "program": "${workspaceFolder}/integration-tests/node_modules/mocha/bin/_mocha",
+            "args": [
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/integration-tests/proxy-test.js"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "cwd": "${workspaceFolder}/integration-tests"
+        },
+    ]
+}
