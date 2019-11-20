@@ -38,12 +38,7 @@ Test code should be written in syntax that runs on the oldest supported Node.js 
 ensures that backwards compatibility is tested and the APIs look reasonable in versions of Node.js that do not support
 the most modern syntax.
 
-**TODO** update the following information for debugging with VSCode or with the protocol directly.
-
-A useful trick for debugging inside tests is to use the Chrome Debugging Protocol feature of Node.js to set breakpoints
-and interactively debug. In order to do this you must run mocha directly. This means that you should have already linted
-the source (`npm run lint`) manually. You then run the tests using the following command: `./node_modules/.bin/mocha
-test/{test-name}.js --debug-brk --inspect` (replace {test-name} with an actual test file).
+We have included `launch.json` files that store configuration for `vscode` debugging in each pacakge. This allows you to set breakpoints in test files and interactively debug. Open the project in `vscode` and navigate to the debug screen on the left sidebar. The icon for it looks like a little lock bug with an x inside. At the top in `vscode`, select the configuration to run and press the green play icon to start debugging. Alternatively, on mac, you can press `cmd + shift + d` to get to the debug screen and `F5` to start debugging. If you are using `vscode` debugging, don't forget to lint the source (`npm run lint`) manually.
 
 ### Generating Documentation
 
