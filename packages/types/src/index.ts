@@ -33,8 +33,8 @@ export interface Dialog {
 }
 
 export interface View {
-  title: PlainTextElement;
-  type: 'modal';
+  title?: PlainTextElement;
+  type: 'home' | 'modal';
   blocks: (KnownBlock | Block)[];
   callback_id?: string;
   close?: PlainTextElement;
