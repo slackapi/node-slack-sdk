@@ -13,8 +13,21 @@
                 "--timeout",
                 "999999",
                 "--colors",
-                "${workspaceFolder}/test/integration/*.js",
                 "${workspaceFolder}/proxy-test.js"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Integration Type Checker",
+            "program": "${workspaceFolder}/node_modules/dtslint/bin/index.js",
+            "args": [
+                "types"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "skipFiles": [
