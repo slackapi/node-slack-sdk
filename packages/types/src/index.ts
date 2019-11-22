@@ -54,11 +54,6 @@ export interface ImageElement {
   alt_text: string;
 }
 
-export interface UserElement {
-  type: 'user';
-  user_id: string;
-}
-
 export interface PlainTextElement {
   type: 'plain_text';
   text: string;
@@ -246,7 +241,7 @@ export interface ImageBlock extends Block {
 
 export interface ContextBlock extends Block {
   type: 'context';
-  elements: (ImageElement | UserElement | PlainTextElement | MrkdwnElement)[];
+  elements: (ImageElement | PlainTextElement | MrkdwnElement)[];
 }
 
 export interface ActionsBlock extends Block {
