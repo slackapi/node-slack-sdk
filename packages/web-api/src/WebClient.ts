@@ -281,6 +281,22 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       },
       restrict: (this.apiCall.bind(this, 'admin.apps.restrict')) as Method<methods.AdminAppsRestrictArguments>,
     },
+    inviteRequests: {
+      approve: (this.apiCall.bind(
+        this, 'admin.inviteRequests.approve')) as Method<methods.AdminInviteRequestsApproveArguments>,
+      deny: (this.apiCall.bind(
+        this, 'admin.inviteRequests.deny')) as Method<methods.AdminInviteRequestsDenyArguments>,
+      list: (this.apiCall.bind(
+        this, 'admin.inviteRequests.list')) as Method<methods.AdminInviteRequestsListArguments>,
+      approved: {
+        list: (this.apiCall.bind(
+          this, 'admin.inviteRequests.approved.list')) as Method<methods.AdminInviteRequestsApprovedListArguments>,
+      },
+      denied: {
+        list: (this.apiCall.bind(
+          this, 'admin.inviteRequests.denied.list')) as Method<methods.AdminInviteRequestsDeniedListArguments>,
+      },
+    },
     teams: {
       admins: {
         list: (this.apiCall.bind(this, 'admin.teams.admins.list')) as Method<methods.AdminTeamsAdminsListArguments>,

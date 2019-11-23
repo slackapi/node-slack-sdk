@@ -70,6 +70,28 @@ export interface AdminAppsRestrictArguments extends WebAPICallOptions, TokenOver
   request_id?: string;
   team_id?: string;
 }
+export interface AdminInviteRequestsApproveArguments
+  extends WebAPICallOptions, TokenOverridable {
+  invite_request_id: string;
+  team_id: string;
+}
+export interface AdminInviteRequestsDenyArguments
+  extends WebAPICallOptions, TokenOverridable {
+  invite_request_id: string;
+  team_id: string;
+}
+export interface AdminInviteRequestsListArguments
+  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id: string;
+}
+export interface AdminInviteRequestsApprovedListArguments
+  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id: string;
+}
+export interface AdminInviteRequestsDeniedListArguments
+  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id: string;
+}
 export interface AdminTeamsAdminsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
