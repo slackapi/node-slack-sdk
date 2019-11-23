@@ -55,21 +55,23 @@ offer its view on which packages have changed since the last release, you should
 before continuing with the release. If you find a file or set of files that should be allowed to change without
 publishing a package, it might be a good idea to add it to the `ignoreChanges` setting in `lerna.json`.
 
-If you make a mistake, don't fret. NPM allows you to unpublish a release within the first 24 hours of publishing, but
-you might not be able to use the same version number again. Venture on!
-
-**TODO**: verify NPM's policy on revoking a release and version number reuse.
+If you make a mistake, don't fret. NPM allows you to unpublish a release within the first 72 hours of publishing, but you won’t be able to use the same version number again. Venture on!
 
 > If you have any doubt whether your working copy is in good shape to do a release, here is a succinct way to get a
 > fresh start: `npx lerna clean && npx lerna bootstrap`.
 
 0. Verify that everything is in order by testing and linting locally before proceeding: `npm run test && npm run lint`.
 
-1. Create a tagged commit for the release: `npx lerna version`
+1. First, lets confirm lerna wants to release the correct packages. Run `npx lerna changed` to see which packages lerna thinks are ready for release. If that looks good, follow through with the command to create a tagged commit `npx learna version`.
   * Lerna will ask you to make selections for the version increment on each package it plans to tag for release. You
     should already have an idea of what the appropriate semver increment (patch, minor, or major) you intend to create.
     If Lerna asks about a package you didn't intend to release, it's best to bail at this point
     (<kbd>CTRL</kbd>+<kbd>C</kbd>).
+  * If lerna wants to release more packages than you want to, it's best to run the commands individually. This includes the following:
+    - bump the version in `package.json` for all packages you are releasing
+    - Make a signle commit for the version bump. The commit message should be similar to a [previous one](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594).
+    - Add version tags for each package you are about to release. Ex `git tag @slack/web-api@5.6.0`
+    - Push commit and tags up to origin: `git push origin master && git push origin --tags`. 
 
 2. Publish the release(s) to npm: `NPM_CONFIG_OTP=xxxxxx npx lerna publish from-package`
   * You should have [2FA set up with NPM](https://docs.npmjs.com/about-two-factor-authentication), and the
