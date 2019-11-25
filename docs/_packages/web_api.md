@@ -334,6 +334,8 @@ const vid = 'YOUR_VIEW_ID';
 ```
 </details>
 
+---
+
 ### Logging
 
 The `WebClient` will log interesting information to the console by default. You can use the `logLevel` to decide how
