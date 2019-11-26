@@ -1,6 +1,6 @@
 {
   "name": "@slack/logger",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Logging utility used by Node Slack SDK",
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
@@ -30,7 +30,7 @@
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
     "lint": "tslint --project .",
-    "test": "npm run build && echo \"Tests are not implemented.\" && exit 0",
+    "test": "npm run build && nyc mocha --config .mocharc.json src/*.spec.js",
     "ref-docs:model": "api-extractor run"
   },
   "dependencies": {
@@ -38,7 +38,13 @@
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.3.4",
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.6",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
     "shx": "^0.3.2",
+    "ts-node": "^8.2.0",
     "tslint": "^5.13.1",
     "tslint-config-airbnb": "^5.11.1",
     "typescript": "^3.3.3333"

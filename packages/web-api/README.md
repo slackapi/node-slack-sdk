@@ -49,7 +49,7 @@ const web = new WebClient(token);
 <strong><i>Initializing without a token</i></strong>
 </summary>
 
-Alternatively, you can create a client without an token, and use it with multiple workspaces as long as you supply a
+Alternatively, you can create a client without a token, and use it with multiple workspaces as long as you supply a
 `token` when you call a method.
 
 ```javascript
@@ -74,9 +74,9 @@ const web = new WebClient();
 ### Call a method
 
 The client instance has a named method for each of the public methods in the Web API. The most popular one is
-called `chat.postMessage`, and its used to send a message to a conversation. For every method, you pass arguments as
-properties of an options object. This helps with the readablility of your code since every argument has a name. All
-named methods return a `Promise` which resolves with the response data, or rejects with an error.
+called `chat.postMessage`, and it's used to send a message to a conversation. For every method, you pass arguments as
+properties of an options object. This helps with the readability of your code since every argument has a name. All
+named methods return a `Promise` which resolves with the response data or rejects with an error.
 
 ```javascript
 // Given some known conversation ID (representing a public channel, private channel, DM or group DM)
@@ -109,7 +109,7 @@ where you can prototype your message's look and feel.
 <strong><i>Using a dynamic method name</i></strong>
 </summary>
 
-If you want to provide the method name as a string, so that you can decide which method to call dynamically, or to call
+If you want to provide the method name as a string so that you can decide which method to call dynamically or to call
 a method that might not be available in your version of the client, use the `WebClient.apiCall(methodName, [options])`
 method. The API method call above can also be written as follows:
 
@@ -176,7 +176,7 @@ There are a few more types of errors that you might encounter, each with one of 
   understand how the client will automatically deal with these problems for you.
 
 * `ErrorCode.HTTPError`: The HTTP response contained an unfamiliar status code. The Web API only responds with `200`
-  (yes, even for errors) or `429` (rate limiting). If you receive this error, its likely due to a problem with a proxy,
+  (yes, even for errors) or `429` (rate limiting). If you receive this error, it's likely due to a problem with a proxy,
   a custom TLS configuration, or a custom API URL. This error has the `statusCode`, `statusMessage`, `headers`, and
   `body` properties containing more details.
 </details>
@@ -188,12 +188,12 @@ There are a few more types of errors that you might encounter, each with one of 
 [Many of the Web API's methods](https://api.slack.com/docs/pagination#methods_supporting_cursor-based_pagination) return
 lists of objects, and are known to be **cursor-paginated**. The result of calling these methods will contain a part of
 the list, or a page, and also provide you with information on how to continue to the next page on a subsequent API call.
-Instead of calling many times manually, the `WebClient` can manage getting each page, allowing you to determine when to
+Instead of calling many times manually, the `WebClient` can manage to get each page, allowing you to determine when to
 stop, and help you process the results.
 
 The process of retrieving multiple pages from Slack's API can be described as **asynchronous iteration**, which means
 you're processing items in a collection, but getting each item is an asynchronous operation. Fortunately, JavaScript
-has this concept built in, and in newer versions of the language there's syntax to make it even simpler:
+has this concept built-in, and in newer versions of the language there's a syntax to make it even simpler:
 [`for await...of`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of).
 
 ```javascript
@@ -268,7 +268,7 @@ const web = new WebClient(token, {
 });
 ```
 
-All the log levels, in order of most to least information are: `DEBUG`, `INFO`, `WARN`, and `ERROR`.
+All the log levels, in order of most to least information, are: `DEBUG`, `INFO`, `WARN`, and `ERROR`.
 
 <details>
 <summary markdown="span">
@@ -313,8 +313,8 @@ const web = new WebClient(token, {
 
 In production systems, you want your app to be resilient to short hiccups and temporary outages. Solving for this
 problem usually involves building a queuing system that handles retrying failed tasks. The `WebClient` comes with this
-queuing system out of the box, and its on by default! The client will retry a failed API method call up to 10 times,
-spaced out over about 30 minutes. If the request doesn't succeed in that time, then the returned `Promise` will reject.
+queuing system out of the box, and it's on by default! The client will retry a failed API method call up to 10 times,
+spaced out over about 30 minutes. If the request doesn't succeed within that time, then the returned `Promise` will reject.
 You can observe each of the retries in your logs by [setting the log level to DEBUG](#logging). Try running the
 following code with your network disconnected, and then re-connect after you see a couple of log messages:
 

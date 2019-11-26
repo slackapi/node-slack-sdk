@@ -40,16 +40,18 @@ describe('IncomingWebhook', function () {
 
     describe('when the call fails', function () {
       beforeEach(function () {
+        this.statusCode = 500;
         this.scope = nock('https://hooks.slack.com')
           .post(/services/)
-          .reply(500);
+          .reply(this.statusCode);
       });
 
       it('should return a Promise which rejects on error', function () {
         const result = this.webhook.send('Hello');
-        result.catch((error) => {
+        return result.catch((error) => {
           assert.ok(error);
           assert.instanceOf(error, Error);
+          assert.match(error.message, new RegExp(this.statusCode));
           this.scope.done();
         });
       });

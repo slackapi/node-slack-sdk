@@ -7,21 +7,19 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Spec tests",
+      "name": "Web API Tests",
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "stopOnEntry": false,
       "args": [
-        "--config",
-        "src/.mocharc.json",
-        "--no-timeouts",
-        "src/*.spec.js",
-        "src/**/*.spec.js"
+          "--timeout",
+          "999999",
+          "--colors",
+          "${workspaceFolder}/src/*.spec.js"
       ],
-      "cwd": "${workspaceFolder}",
-      "runtimeExecutable": null,
-      "env": {
-        "NODE_ENV": "testing"
-      }
-    }
+      "internalConsoleOptions": "openOnSessionStart",
+      "skipFiles": [
+          "<node_internals>/**"
+      ],
+      "cwd": "${workspaceFolder}"
+    },
   ]
 }

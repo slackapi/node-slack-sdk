@@ -245,6 +245,97 @@ pattern for people that use _functional programming_.
 
 ---
 
+### Opening modals
+[Modals](https://api.slack.com/block-kit/surfaces/modals) can be created by calling the `views.open` method. The method requires you to pass a valid [view payload](https://api.slack.com/reference/block-kit/views) in addition to a `trigger_id`, which can be obtained when a user invokes your app using a slash command, clicking a button, or using [another interactive action](https://api.slack.com/reference/messaging/interactive-components).
+
+```javascript
+const { WebClient } = require('@slack/web-api');
+
+// trigger_ids can be obtained when a user invokes your app.
+// Find more information on triggers: https://api.slack.com/docs/triggers
+const trigger = 'VALID_TRIGGER_ID';
+
+(async () => {
+
+  // Open a modal.
+  // Find more arguments and details of the response: https://api.slack.com/methods/views.open
+  const result = await web.views.open({
+    trigger_id: trigger,
+    view: {
+      type: 'modal',
+      callback_id: 'view_identifier',
+      title: {
+        type: 'plain_text',
+        text: 'Modal title'
+      },
+      submit: {
+        type: 'plain_text',
+        text: 'Submit'
+      },
+      blocks: [
+        {
+          type: 'input',
+          label: {
+            type: 'plain_text',
+            text: 'Input label'
+          },
+          element: {
+            type: 'plain_text_input',
+            action_id: 'value_indentifier'
+          }
+        }
+      ]
+    }
+  });
+
+  // The result contains an identifier for the root view, view.id
+  console.log(`Successfully opened root view ${result.view.id}`);
+})();
+```
+
+<details>
+<summary markdown="span">
+<strong><i>Dynamically updating a modal</i></strong>
+</summary>
+
+After the modal is opened, you can update it dynamically by calling `views.update` with the view ID returned in the `views.open` result.
+
+```javascript
+const { WebClient } = require('@slack/web-api');
+
+// The view ID returned in a views.open call
+const vid = 'YOUR_VIEW_ID';
+
+(async () => {
+
+  // Update a modal
+  // Find more arguments and details of the response: https://api.slack.com/methods/views.update
+  const result = await web.views.update({
+    view_id: vid
+    view: {
+      type: 'modal',
+      callback_id: 'view_identifier',
+      title: {
+        type: 'plain_text',
+        text: 'Modal title'
+      },
+      blocks: [
+        {
+          type: 'section',
+          text: {
+            type: 'plain_text',
+            text: 'An updated modal, indeed'
+          }
+        }
+      ]
+    }
+  });
+})();
+```
+</details>
+
+---
+
 ### Logging
 
 The `WebClient` will log interesting information to the console by default. You can use the `logLevel` to decide how

@@ -1,5 +1,5 @@
 import { Stream } from 'stream';
-import { Dialog, KnownBlock, Block, MessageAttachment, LinkUnfurls } from '@slack/types';
+import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls } from '@slack/types';
 import { WebAPICallOptions, WebAPICallResult } from './WebClient';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
@@ -53,6 +53,95 @@ export interface TraditionalPagingEnabled {
 /*
  * MethodArguments types (no formal relationship other than the generic constraint in Method<>)
  */
+
+  /*
+   * `admin.*`
+   */
+export interface AdminAppsApproveArguments extends WebAPICallOptions, TokenOverridable {
+  app_id?: string;
+  request_id?: string;
+  team_id?: string;
+}
+export interface AdminAppsRequestsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id?: string;
+}
+export interface AdminAppsRestrictArguments extends WebAPICallOptions, TokenOverridable {
+  app_id?: string;
+  request_id?: string;
+  team_id?: string;
+}
+export interface AdminInviteRequestsApproveArguments
+  extends WebAPICallOptions, TokenOverridable {
+  invite_request_id: string;
+  team_id: string;
+}
+export interface AdminInviteRequestsDenyArguments
+  extends WebAPICallOptions, TokenOverridable {
+  invite_request_id: string;
+  team_id: string;
+}
+export interface AdminInviteRequestsListArguments
+  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id: string;
+}
+export interface AdminInviteRequestsApprovedListArguments
+  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id: string;
+}
+export interface AdminInviteRequestsDeniedListArguments
+  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id: string;
+}
+export interface AdminTeamsAdminsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id: string;
+}
+export interface AdminTeamsCreateArguments extends WebAPICallOptions, TokenOverridable {
+  team_domain: string;
+  team_name: string;
+  team_description?: string;
+  team_discoverability?: string;
+}
+export interface AdminTeamsOwnersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id: string;
+}
+export interface AdminUsersAssignArguments extends WebAPICallOptions, TokenOverridable {
+  team_id: string;
+  user_id: string;
+  is_restricted?: boolean;
+  is_ultra_restricted?: boolean;
+}
+export interface AdminUsersInviteArguments extends WebAPICallOptions, TokenOverridable {
+  channel_ids: string;
+  email: string;
+  team_id: string;
+  custom_message?: string;
+  guest_expiration_ts?: string;
+  is_restricted?: boolean;
+  is_ultra_restricted?: boolean;
+  real_name?: string;
+  resend?: boolean;
+}
+export interface AdminUsersRemoveArguments extends WebAPICallOptions, TokenOverridable {
+  team_id: string;
+  user_id: string;
+}
+export interface AdminUsersSetAdminArguments extends WebAPICallOptions, TokenOverridable {
+  team_id: string;
+  user_id: string;
+}
+export interface AdminUsersSetOwnerArguments extends WebAPICallOptions, TokenOverridable {
+  team_id: string;
+  user_id: string;
+}
+export interface AdminUsersSetRegularArguments extends WebAPICallOptions, TokenOverridable {
+  team_id: string;
+  user_id: string;
+}
+export interface AdminUsersSessionResetArguments extends WebAPICallOptions, TokenOverridable {
+  user_id: string;
+  mobile_only?: boolean;
+  web_only?: boolean;
+}
 
   /*
    * `api.*`
@@ -109,8 +198,8 @@ export interface ChannelsLeaveArguments extends WebAPICallOptions, TokenOverrida
   channel: string;
 }
 export interface ChannelsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
-  exclude_archived: boolean;
-  exclude_members: boolean;
+  exclude_archived?: boolean;
+  exclude_members?: boolean;
 }
 cursorPaginationEnabledMethods.add('channels.list');
 export interface ChannelsMarkArguments extends WebAPICallOptions, TokenOverridable {
@@ -539,8 +628,14 @@ export interface OAuthAccessArguments extends WebAPICallOptions {
   client_secret: string;
   code: string;
   redirect_uri?: string;
+  single_channel?: string;
 }
-
+export interface OAuthV2AccessArguments extends WebAPICallOptions {
+  client_id: string;
+  client_secret: string;
+  code: string;
+  redirect_uri?: string;
+}
   /*
    * `pins.*`
    */
@@ -769,6 +864,29 @@ export interface UsersProfileSetArguments extends WebAPICallOptions, TokenOverri
   user?: string;
   name?: string; // usable if `profile` is not passed
   value?: string; // usable if `profile` is not passed
+}
+
+export interface ViewsOpenArguments extends WebAPICallOptions, TokenOverridable {
+  trigger_id: string;
+  view: View;
+}
+
+export interface ViewsPushArguments extends WebAPICallOptions, TokenOverridable {
+  trigger_id: string;
+  view: View;
+}
+
+export interface ViewsPublishArguments extends WebAPICallOptions, TokenOverridable {
+  user_id: string;
+  view: View;
+  hash?: string;
+}
+
+export interface ViewsUpdateArguments extends WebAPICallOptions, TokenOverridable {
+  view_id: string;
+  view: View;
+  external_id?: string;
+  hash?: string;
 }
 
 export * from '@slack/types';

@@ -271,6 +271,56 @@ export class WebClient extends EventEmitter<WebClientEvent> {
   }
 
   /**
+   * admin method family
+   */
+  public readonly admin = {
+    apps: {
+      approve: (this.apiCall.bind(this, 'admin.apps.approve')) as Method<methods.AdminAppsApproveArguments>,
+      requests: {
+        list: (this.apiCall.bind(this, 'admin.apps.requests.list')) as Method<methods.AdminAppsRequestsListArguments>,
+      },
+      restrict: (this.apiCall.bind(this, 'admin.apps.restrict')) as Method<methods.AdminAppsRestrictArguments>,
+    },
+    inviteRequests: {
+      approve: (this.apiCall.bind(
+        this, 'admin.inviteRequests.approve')) as Method<methods.AdminInviteRequestsApproveArguments>,
+      deny: (this.apiCall.bind(
+        this, 'admin.inviteRequests.deny')) as Method<methods.AdminInviteRequestsDenyArguments>,
+      list: (this.apiCall.bind(
+        this, 'admin.inviteRequests.list')) as Method<methods.AdminInviteRequestsListArguments>,
+      approved: {
+        list: (this.apiCall.bind(
+          this, 'admin.inviteRequests.approved.list')) as Method<methods.AdminInviteRequestsApprovedListArguments>,
+      },
+      denied: {
+        list: (this.apiCall.bind(
+          this, 'admin.inviteRequests.denied.list')) as Method<methods.AdminInviteRequestsDeniedListArguments>,
+      },
+    },
+    teams: {
+      admins: {
+        list: (this.apiCall.bind(this, 'admin.teams.admins.list')) as Method<methods.AdminTeamsAdminsListArguments>,
+      },
+      owners: {
+        list: (this.apiCall.bind(this, 'admin.teams.owners.list')) as Method<methods.AdminTeamsOwnersListArguments>,
+      },
+      create: (this.apiCall.bind(this, 'admin.teams.create')) as Method<methods.AdminTeamsCreateArguments>,
+    },
+    users: {
+      session: {
+        reset:
+          (this.apiCall.bind(this, 'admin.users.session.reset')) as Method<methods.AdminUsersSessionResetArguments>,
+      },
+      assign: (this.apiCall.bind(this, 'admin.users.assign')) as Method<methods.AdminUsersAssignArguments>,
+      invite: (this.apiCall.bind(this, 'admin.users.invite')) as Method<methods.AdminUsersInviteArguments>,
+      remove: (this.apiCall.bind(this, 'admin.users.remove')) as Method<methods.AdminUsersRemoveArguments>,
+      setAdmin: (this.apiCall.bind(this, 'admin.users.setAdmin')) as Method<methods.AdminUsersSetAdminArguments>,
+      setOwner: (this.apiCall.bind(this, 'admin.users.setOwner')) as Method<methods.AdminUsersSetOwnerArguments>,
+      setRegular: (this.apiCall.bind(this, 'admin.users.setRegular')) as Method<methods.AdminUsersSetRegularArguments>,
+    },
+  };
+
+  /**
    * api method family
    */
   public readonly api = {
@@ -355,6 +405,16 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       (this.apiCall.bind(this, 'conversations.setPurpose')) as Method<methods.ConversationsSetPurposeArguments>,
     setTopic: (this.apiCall.bind(this, 'conversations.setTopic')) as Method<methods.ConversationsSetTopicArguments>,
     unarchive: (this.apiCall.bind(this, 'conversations.unarchive')) as Method<methods.ConversationsUnarchiveArguments>,
+  };
+
+  /**
+   * view method family
+   */
+  public readonly views = {
+    open: (this.apiCall.bind(this, 'views.open')) as Method<methods.ViewsOpenArguments>,
+    publish: (this.apiCall.bind(this, 'views.publish')) as Method<methods.ViewsPublishArguments>,
+    push: (this.apiCall.bind(this, 'views.push')) as Method<methods.ViewsPushArguments>,
+    update: (this.apiCall.bind(this, 'views.update')) as Method<methods.ViewsUpdateArguments>,
   };
 
   /**
@@ -465,6 +525,9 @@ export class WebClient extends EventEmitter<WebClientEvent> {
    */
   public readonly oauth = {
     access: (this.apiCall.bind(this, 'oauth.access')) as Method<methods.OAuthAccessArguments>,
+    v2: {
+      access: (this.apiCall.bind(this, 'oauth.v2.access')) as Method<methods.OAuthV2AccessArguments>,
+    },
   };
 
   /**

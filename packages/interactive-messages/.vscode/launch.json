@@ -7,21 +7,19 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Mocha Tests",
+      "name": "Interactive Messages Tests",
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
       "args": [
-        "-u",
-        "tdd",
-        "--timeout",
-        "999999",
-        "--colors",
-        "${workspaceFolder}/test/**/*.js"
+          "--timeout",
+          "999999",
+          "--colors",
+          "${workspaceFolder}/src/*.spec.js"
       ],
       "internalConsoleOptions": "openOnSessionStart",
-      "sourceMaps": true,
-      "outFiles": [
-        "${workspaceRoot}/dist/*.js"
-      ]
-    }
+      "skipFiles": [
+          "<node_internals>/**"
+      ],
+      "cwd": "${workspaceFolder}"
+  }
   ]
 }

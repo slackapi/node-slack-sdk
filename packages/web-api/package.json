@@ -1,6 +1,6 @@
 {
   "name": "@slack/web-api",
-  "version": "5.1.0",
+  "version": "5.6.0",
   "description": "Official library for using the Slack Platform's Web API",
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
@@ -42,8 +42,8 @@
     "ref-docs:model": "api-extractor run"
   },
   "dependencies": {
-    "@slack/logger": "^1.0.0",
-    "@slack/types": "^1.1.0",
+    "@slack/logger": ">=1.0.0 <3.0.0",
+    "@slack/types": "^1.2.1",
     "@types/is-stream": "^1.1.0",
     "@types/node": ">=8.9.0",
     "@types/p-queue": "^2.3.2",
