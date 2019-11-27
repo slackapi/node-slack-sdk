@@ -65,6 +65,11 @@ describe('WebClient', function () {
       const capturedOutput = this.capture.getCapturedText();
       assert.isEmpty(capturedOutput);
     });
+    it('never modifies the original logger', function () {
+      new WebClient(token, { logger: this.logger });
+      // Calling #setName of the given logger is destructive
+      assert.isFalse(this.logger.setName.called);
+    });
     afterEach(function () {
       this.capture.stopCapture();
     });
