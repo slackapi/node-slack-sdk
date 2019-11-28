@@ -17,6 +17,7 @@
     "event-emitter"
   ],
   "main": "dist/index.js",
+  "types": "./dist/index.d.ts",
   "bin": {
     "slack-verify": "dist/verify.js"
   },
