@@ -104,7 +104,14 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     this.rejectRateLimitedCalls = rejectRateLimitedCalls;
 
     // Logging
-    this.logger = getLogger(WebClient.loggerName, logLevel, logger);
+    if (typeof logger !== 'undefined') {
+      this.logger = logger;
+      if (typeof logLevel !== 'undefined') {
+        this.logger.debug('The logLevel given to WebClient was ignored as you also gave logger');
+      }
+    } else {
+      this.logger = getLogger(WebClient.loggerName, logLevel, logger);
+    }
 
     this.axios = axios.create({
       baseURL: slackApiUrl,
