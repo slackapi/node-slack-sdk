@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@slack/types": "^1.2.1",
-    "@types/node": ">=8.9.0",
+    "@types/node": "*",
     "axios": "^0.18.0"
   },
   "devDependencies": {
