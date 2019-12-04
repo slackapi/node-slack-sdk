@@ -1,5 +1,5 @@
 /* tslint:disable import-name */
-import http, { RequestListener } from 'http';
+import http, { IncomingMessage, ServerResponse } from 'http';
 import axios, { AxiosInstance } from 'axios';
 import isString from 'lodash.isstring';
 import isRegExp from 'lodash.isregexp';
@@ -230,7 +230,7 @@ export class SlackMessageAdapter {
   /**
    * Create a request listener function that handles HTTP requests, verifies requests and dispatches responses
    */
-  public requestListener(): RequestListener {
+  public requestListener(): (req: IncomingMessage, res: ServerResponse) => void {
     return createHTTPHandler(this);
   }
 
