@@ -1,4 +1,4 @@
-# Express All Interacttions Example
+# Express All Interactions Example
 
 This example shows a fully functioning app using the
 [Slack Interactive Messages](https://github.com/slackapi/node-slack-interactive-messages) package.
