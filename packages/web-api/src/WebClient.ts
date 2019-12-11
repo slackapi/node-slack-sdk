@@ -16,8 +16,6 @@ import PQueue from 'p-queue'; // tslint:disable-line:import-name
 import pRetry, { AbortError } from 'p-retry';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData from 'form-data'; // tslint:disable-line:import-name
-
-import Method, * as methods from './methods'; // tslint:disable-line:import-name
 import { getUserAgent } from './instrument';
 import {
   requestErrorWithOriginal, httpErrorFromResponse, platformErrorFromResult, rateLimitedErrorWithDelay,
@@ -208,7 +206,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     reduce?: PageReducer<A>,
   ): (Promise<A> | AsyncIterator<WebAPICallResult>) {
 
-    if (!methods.cursorPaginationEnabledMethods.has(method)) {
+    if (!cursorPaginationEnabledMethods.has(method)) {
       this.logger.warn(`paginate() called with method ${method}, which is not known to be cursor pagination enabled.`);
     }
 
@@ -225,7 +223,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       // when result is undefined, that signals that the first of potentially many calls has not yet been made
       let result: WebAPICallResult | undefined = undefined;
       // paginationOptions stores pagination options not already stored in the options argument
-      let paginationOptions: methods.CursorPaginationEnabled | undefined = {
+      let paginationOptions: CursorPaginationEnabled | undefined = {
         limit: pageSize,
       };
       if (options !== undefined && options.cursor !== undefined) {
@@ -282,48 +280,48 @@ export class WebClient extends EventEmitter<WebClientEvent> {
    */
   public readonly admin = {
     apps: {
-      approve: (this.apiCall.bind(this, 'admin.apps.approve')) as Method<methods.AdminAppsApproveArguments>,
+      approve: (this.apiCall.bind(this, 'admin.apps.approve')) as Method<AdminAppsApproveArguments>,
       requests: {
-        list: (this.apiCall.bind(this, 'admin.apps.requests.list')) as Method<methods.AdminAppsRequestsListArguments>,
+        list: (this.apiCall.bind(this, 'admin.apps.requests.list')) as Method<AdminAppsRequestsListArguments>,
       },
-      restrict: (this.apiCall.bind(this, 'admin.apps.restrict')) as Method<methods.AdminAppsRestrictArguments>,
+      restrict: (this.apiCall.bind(this, 'admin.apps.restrict')) as Method<AdminAppsRestrictArguments>,
     },
     inviteRequests: {
       approve: (this.apiCall.bind(
-        this, 'admin.inviteRequests.approve')) as Method<methods.AdminInviteRequestsApproveArguments>,
+        this, 'admin.inviteRequests.approve')) as Method<AdminInviteRequestsApproveArguments>,
       deny: (this.apiCall.bind(
-        this, 'admin.inviteRequests.deny')) as Method<methods.AdminInviteRequestsDenyArguments>,
+        this, 'admin.inviteRequests.deny')) as Method<AdminInviteRequestsDenyArguments>,
       list: (this.apiCall.bind(
-        this, 'admin.inviteRequests.list')) as Method<methods.AdminInviteRequestsListArguments>,
+        this, 'admin.inviteRequests.list')) as Method<AdminInviteRequestsListArguments>,
       approved: {
         list: (this.apiCall.bind(
-          this, 'admin.inviteRequests.approved.list')) as Method<methods.AdminInviteRequestsApprovedListArguments>,
+          this, 'admin.inviteRequests.approved.list')) as Method<AdminInviteRequestsApprovedListArguments>,
       },
       denied: {
         list: (this.apiCall.bind(
-          this, 'admin.inviteRequests.denied.list')) as Method<methods.AdminInviteRequestsDeniedListArguments>,
+          this, 'admin.inviteRequests.denied.list')) as Method<AdminInviteRequestsDeniedListArguments>,
       },
     },
     teams: {
       admins: {
-        list: (this.apiCall.bind(this, 'admin.teams.admins.list')) as Method<methods.AdminTeamsAdminsListArguments>,
+        list: (this.apiCall.bind(this, 'admin.teams.admins.list')) as Method<AdminTeamsAdminsListArguments>,
       },
       owners: {
-        list: (this.apiCall.bind(this, 'admin.teams.owners.list')) as Method<methods.AdminTeamsOwnersListArguments>,
+        list: (this.apiCall.bind(this, 'admin.teams.owners.list')) as Method<AdminTeamsOwnersListArguments>,
       },
-      create: (this.apiCall.bind(this, 'admin.teams.create')) as Method<methods.AdminTeamsCreateArguments>,
+      create: (this.apiCall.bind(this, 'admin.teams.create')) as Method<AdminTeamsCreateArguments>,
     },
     users: {
       session: {
         reset:
-          (this.apiCall.bind(this, 'admin.users.session.reset')) as Method<methods.AdminUsersSessionResetArguments>,
+          (this.apiCall.bind(this, 'admin.users.session.reset')) as Method<AdminUsersSessionResetArguments>,
       },
-      assign: (this.apiCall.bind(this, 'admin.users.assign')) as Method<methods.AdminUsersAssignArguments>,
-      invite: (this.apiCall.bind(this, 'admin.users.invite')) as Method<methods.AdminUsersInviteArguments>,
-      remove: (this.apiCall.bind(this, 'admin.users.remove')) as Method<methods.AdminUsersRemoveArguments>,
-      setAdmin: (this.apiCall.bind(this, 'admin.users.setAdmin')) as Method<methods.AdminUsersSetAdminArguments>,
-      setOwner: (this.apiCall.bind(this, 'admin.users.setOwner')) as Method<methods.AdminUsersSetOwnerArguments>,
-      setRegular: (this.apiCall.bind(this, 'admin.users.setRegular')) as Method<methods.AdminUsersSetRegularArguments>,
+      assign: (this.apiCall.bind(this, 'admin.users.assign')) as Method<AdminUsersAssignArguments>,
+      invite: (this.apiCall.bind(this, 'admin.users.invite')) as Method<AdminUsersInviteArguments>,
+      remove: (this.apiCall.bind(this, 'admin.users.remove')) as Method<AdminUsersRemoveArguments>,
+      setAdmin: (this.apiCall.bind(this, 'admin.users.setAdmin')) as Method<AdminUsersSetAdminArguments>,
+      setOwner: (this.apiCall.bind(this, 'admin.users.setOwner')) as Method<AdminUsersSetOwnerArguments>,
+      setRegular: (this.apiCall.bind(this, 'admin.users.setRegular')) as Method<AdminUsersSetRegularArguments>,
     },
   };
 
@@ -331,146 +329,146 @@ export class WebClient extends EventEmitter<WebClientEvent> {
    * api method family
    */
   public readonly api = {
-    test: (this.apiCall.bind(this, 'api.test')) as Method<methods.APITestArguments>,
+    test: (this.apiCall.bind(this, 'api.test')) as Method<APITestArguments>,
   };
 
   /**
    * auth method family
    */
   public readonly auth = {
-    revoke: (this.apiCall.bind(this, 'auth.revoke')) as Method<methods.AuthRevokeArguments>,
-    test: (this.apiCall.bind(this, 'auth.test')) as Method<methods.AuthTestArguments>,
+    revoke: (this.apiCall.bind(this, 'auth.revoke')) as Method<AuthRevokeArguments>,
+    test: (this.apiCall.bind(this, 'auth.test')) as Method<AuthTestArguments>,
   };
 
   /**
    * bots method family
    */
   public readonly bots = {
-    info: (this.apiCall.bind(this, 'bots.info')) as Method<methods.BotsInfoArguments>,
+    info: (this.apiCall.bind(this, 'bots.info')) as Method<BotsInfoArguments>,
   };
 
   /**
    * channels method family
    */
   public readonly channels = {
-    archive: (this.apiCall.bind(this, 'channels.archive')) as Method<methods.ChannelsArchiveArguments>,
-    create: (this.apiCall.bind(this, 'channels.create')) as Method<methods.ChannelsCreateArguments>,
-    history: (this.apiCall.bind(this, 'channels.history')) as Method<methods.ChannelsHistoryArguments>,
-    info: (this.apiCall.bind(this, 'channels.info')) as Method<methods.ChannelsInfoArguments>,
-    invite: (this.apiCall.bind(this, 'channels.invite')) as Method<methods.ChannelsInviteArguments>,
-    join: (this.apiCall.bind(this, 'channels.join')) as Method<methods.ChannelsJoinArguments>,
-    kick: (this.apiCall.bind(this, 'channels.kick')) as Method<methods.ChannelsKickArguments>,
-    leave: (this.apiCall.bind(this, 'channels.leave')) as Method<methods.ChannelsLeaveArguments>,
-    list: (this.apiCall.bind(this, 'channels.list')) as Method<methods.ChannelsListArguments>,
-    mark: (this.apiCall.bind(this, 'channels.mark')) as Method<methods.ChannelsMarkArguments>,
-    rename: (this.apiCall.bind(this, 'channels.rename')) as Method<methods.ChannelsRenameArguments>,
-    replies: (this.apiCall.bind(this, 'channels.replies')) as Method<methods.ChannelsRepliesArguments>,
-    setPurpose: (this.apiCall.bind(this, 'channels.setPurpose')) as Method<methods.ChannelsSetPurposeArguments>,
-    setTopic: (this.apiCall.bind(this, 'channels.setTopic')) as Method<methods.ChannelsSetTopicArguments>,
-    unarchive: (this.apiCall.bind(this, 'channels.unarchive')) as Method<methods.ChannelsUnarchiveArguments>,
+    archive: (this.apiCall.bind(this, 'channels.archive')) as Method<ChannelsArchiveArguments>,
+    create: (this.apiCall.bind(this, 'channels.create')) as Method<ChannelsCreateArguments>,
+    history: (this.apiCall.bind(this, 'channels.history')) as Method<ChannelsHistoryArguments>,
+    info: (this.apiCall.bind(this, 'channels.info')) as Method<ChannelsInfoArguments>,
+    invite: (this.apiCall.bind(this, 'channels.invite')) as Method<ChannelsInviteArguments>,
+    join: (this.apiCall.bind(this, 'channels.join')) as Method<ChannelsJoinArguments>,
+    kick: (this.apiCall.bind(this, 'channels.kick')) as Method<ChannelsKickArguments>,
+    leave: (this.apiCall.bind(this, 'channels.leave')) as Method<ChannelsLeaveArguments>,
+    list: (this.apiCall.bind(this, 'channels.list')) as Method<ChannelsListArguments>,
+    mark: (this.apiCall.bind(this, 'channels.mark')) as Method<ChannelsMarkArguments>,
+    rename: (this.apiCall.bind(this, 'channels.rename')) as Method<ChannelsRenameArguments>,
+    replies: (this.apiCall.bind(this, 'channels.replies')) as Method<ChannelsRepliesArguments>,
+    setPurpose: (this.apiCall.bind(this, 'channels.setPurpose')) as Method<ChannelsSetPurposeArguments>,
+    setTopic: (this.apiCall.bind(this, 'channels.setTopic')) as Method<ChannelsSetTopicArguments>,
+    unarchive: (this.apiCall.bind(this, 'channels.unarchive')) as Method<ChannelsUnarchiveArguments>,
   };
 
   /**
    * chat method family
    */
   public readonly chat = {
-    delete: (this.apiCall.bind(this, 'chat.delete')) as Method<methods.ChatDeleteArguments>,
+    delete: (this.apiCall.bind(this, 'chat.delete')) as Method<ChatDeleteArguments>,
     deleteScheduledMessage:
-      (this.apiCall.bind(this, 'chat.deleteScheduledMessage')) as Method<methods.ChatDeleteScheduledMessageArguments>,
-    getPermalink: (this.apiCall.bind(this, 'chat.getPermalink')) as Method<methods.ChatGetPermalinkArguments>,
-    meMessage: (this.apiCall.bind(this, 'chat.meMessage')) as Method<methods.ChatMeMessageArguments>,
-    postEphemeral: (this.apiCall.bind(this, 'chat.postEphemeral')) as Method<methods.ChatPostEphemeralArguments>,
-    postMessage: (this.apiCall.bind(this, 'chat.postMessage')) as Method<methods.ChatPostMessageArguments>,
-    scheduleMessage: (this.apiCall.bind(this, 'chat.scheduleMessage')) as Method<methods.ChatScheduleMessageArguments>,
+      (this.apiCall.bind(this, 'chat.deleteScheduledMessage')) as Method<ChatDeleteScheduledMessageArguments>,
+    getPermalink: (this.apiCall.bind(this, 'chat.getPermalink')) as Method<ChatGetPermalinkArguments>,
+    meMessage: (this.apiCall.bind(this, 'chat.meMessage')) as Method<ChatMeMessageArguments>,
+    postEphemeral: (this.apiCall.bind(this, 'chat.postEphemeral')) as Method<ChatPostEphemeralArguments>,
+    postMessage: (this.apiCall.bind(this, 'chat.postMessage')) as Method<ChatPostMessageArguments>,
+    scheduleMessage: (this.apiCall.bind(this, 'chat.scheduleMessage')) as Method<ChatScheduleMessageArguments>,
     scheduledMessages: {
       list:
-        (this.apiCall.bind(this, 'chat.scheduledMessages.list')) as Method<methods.ChatScheduledMessagesListArguments>,
+        (this.apiCall.bind(this, 'chat.scheduledMessages.list')) as Method<ChatScheduledMessagesListArguments>,
     },
-    unfurl: (this.apiCall.bind(this, 'chat.unfurl')) as Method<methods.ChatUnfurlArguments>,
-    update: (this.apiCall.bind(this, 'chat.update')) as Method<methods.ChatUpdateArguments>,
+    unfurl: (this.apiCall.bind(this, 'chat.unfurl')) as Method<ChatUnfurlArguments>,
+    update: (this.apiCall.bind(this, 'chat.update')) as Method<ChatUpdateArguments>,
   };
 
   /**
    * conversations method family
    */
   public readonly conversations = {
-    archive: (this.apiCall.bind(this, 'conversations.archive')) as Method<methods.ConversationsArchiveArguments>,
-    close: (this.apiCall.bind(this, 'conversations.close')) as Method<methods.ConversationsCloseArguments>,
-    create: (this.apiCall.bind(this, 'conversations.create')) as Method<methods.ConversationsCreateArguments>,
-    history: (this.apiCall.bind(this, 'conversations.history')) as Method<methods.ConversationsHistoryArguments>,
-    info: (this.apiCall.bind(this, 'conversations.info')) as Method<methods.ConversationsInfoArguments>,
-    invite: (this.apiCall.bind(this, 'conversations.invite')) as Method<methods.ConversationsInviteArguments>,
-    join: (this.apiCall.bind(this, 'conversations.join')) as Method<methods.ConversationsJoinArguments>,
-    kick: (this.apiCall.bind(this, 'conversations.kick')) as Method<methods.ConversationsKickArguments>,
-    leave: (this.apiCall.bind(this, 'conversations.leave')) as Method<methods.ConversationsLeaveArguments>,
-    list: (this.apiCall.bind(this, 'conversations.list')) as Method<methods.ConversationsListArguments>,
-    members: (this.apiCall.bind(this, 'conversations.members')) as Method<methods.ConversationsMembersArguments>,
-    open: (this.apiCall.bind(this, 'conversations.open')) as Method<methods.ConversationsOpenArguments>,
-    rename: (this.apiCall.bind(this, 'conversations.rename')) as Method<methods.ConversationsRenameArguments>,
-    replies: (this.apiCall.bind(this, 'conversations.replies')) as Method<methods.ConversationsRepliesArguments>,
+    archive: (this.apiCall.bind(this, 'conversations.archive')) as Method<ConversationsArchiveArguments>,
+    close: (this.apiCall.bind(this, 'conversations.close')) as Method<ConversationsCloseArguments>,
+    create: (this.apiCall.bind(this, 'conversations.create')) as Method<ConversationsCreateArguments>,
+    history: (this.apiCall.bind(this, 'conversations.history')) as Method<ConversationsHistoryArguments>,
+    info: (this.apiCall.bind(this, 'conversations.info')) as Method<ConversationsInfoArguments>,
+    invite: (this.apiCall.bind(this, 'conversations.invite')) as Method<ConversationsInviteArguments>,
+    join: (this.apiCall.bind(this, 'conversations.join')) as Method<ConversationsJoinArguments>,
+    kick: (this.apiCall.bind(this, 'conversations.kick')) as Method<ConversationsKickArguments>,
+    leave: (this.apiCall.bind(this, 'conversations.leave')) as Method<ConversationsLeaveArguments>,
+    list: (this.apiCall.bind(this, 'conversations.list')) as Method<ConversationsListArguments>,
+    members: (this.apiCall.bind(this, 'conversations.members')) as Method<ConversationsMembersArguments>,
+    open: (this.apiCall.bind(this, 'conversations.open')) as Method<ConversationsOpenArguments>,
+    rename: (this.apiCall.bind(this, 'conversations.rename')) as Method<ConversationsRenameArguments>,
+    replies: (this.apiCall.bind(this, 'conversations.replies')) as Method<ConversationsRepliesArguments>,
     setPurpose:
-      (this.apiCall.bind(this, 'conversations.setPurpose')) as Method<methods.ConversationsSetPurposeArguments>,
-    setTopic: (this.apiCall.bind(this, 'conversations.setTopic')) as Method<methods.ConversationsSetTopicArguments>,
-    unarchive: (this.apiCall.bind(this, 'conversations.unarchive')) as Method<methods.ConversationsUnarchiveArguments>,
+      (this.apiCall.bind(this, 'conversations.setPurpose')) as Method<ConversationsSetPurposeArguments>,
+    setTopic: (this.apiCall.bind(this, 'conversations.setTopic')) as Method<ConversationsSetTopicArguments>,
+    unarchive: (this.apiCall.bind(this, 'conversations.unarchive')) as Method<ConversationsUnarchiveArguments>,
   };
 
   /**
    * view method family
    */
   public readonly views = {
-    open: (this.apiCall.bind(this, 'views.open')) as Method<methods.ViewsOpenArguments>,
-    publish: (this.apiCall.bind(this, 'views.publish')) as Method<methods.ViewsPublishArguments>,
-    push: (this.apiCall.bind(this, 'views.push')) as Method<methods.ViewsPushArguments>,
-    update: (this.apiCall.bind(this, 'views.update')) as Method<methods.ViewsUpdateArguments>,
+    open: (this.apiCall.bind(this, 'views.open')) as Method<ViewsOpenArguments>,
+    publish: (this.apiCall.bind(this, 'views.publish')) as Method<ViewsPublishArguments>,
+    push: (this.apiCall.bind(this, 'views.push')) as Method<ViewsPushArguments>,
+    update: (this.apiCall.bind(this, 'views.update')) as Method<ViewsUpdateArguments>,
   };
 
   /**
    * dialog method family
    */
   public readonly dialog = {
-    open: (this.apiCall.bind(this, 'dialog.open')) as Method<methods.DialogOpenArguments>,
+    open: (this.apiCall.bind(this, 'dialog.open')) as Method<DialogOpenArguments>,
   };
 
   /**
    * dnd method family
    */
   public readonly dnd = {
-    endDnd: (this.apiCall.bind(this, 'dnd.endDnd')) as Method<methods.DndEndDndArguments>,
-    endSnooze: (this.apiCall.bind(this, 'dnd.endSnooze')) as Method<methods.DndEndSnoozeArguments>,
-    info: (this.apiCall.bind(this, 'dnd.info')) as Method<methods.DndInfoArguments>,
-    setSnooze: (this.apiCall.bind(this, 'dnd.setSnooze')) as Method<methods.DndSetSnoozeArguments>,
-    teamInfo: (this.apiCall.bind(this, 'dnd.teamInfo')) as Method<methods.DndTeamInfoArguments>,
+    endDnd: (this.apiCall.bind(this, 'dnd.endDnd')) as Method<DndEndDndArguments>,
+    endSnooze: (this.apiCall.bind(this, 'dnd.endSnooze')) as Method<DndEndSnoozeArguments>,
+    info: (this.apiCall.bind(this, 'dnd.info')) as Method<DndInfoArguments>,
+    setSnooze: (this.apiCall.bind(this, 'dnd.setSnooze')) as Method<DndSetSnoozeArguments>,
+    teamInfo: (this.apiCall.bind(this, 'dnd.teamInfo')) as Method<DndTeamInfoArguments>,
   };
 
   /**
    * emoji method family
    */
   public readonly emoji = {
-    list: (this.apiCall.bind(this, 'emoji.list')) as Method<methods.EmojiListArguments>,
+    list: (this.apiCall.bind(this, 'emoji.list')) as Method<EmojiListArguments>,
   };
 
   /**
    * files method family
    */
   public readonly files = {
-    delete: (this.apiCall.bind(this, 'files.delete')) as Method<methods.FilesDeleteArguments>,
-    info: (this.apiCall.bind(this, 'files.info')) as Method<methods.FilesInfoArguments>,
-    list: (this.apiCall.bind(this, 'files.list')) as Method<methods.FilesListArguments>,
+    delete: (this.apiCall.bind(this, 'files.delete')) as Method<FilesDeleteArguments>,
+    info: (this.apiCall.bind(this, 'files.info')) as Method<FilesInfoArguments>,
+    list: (this.apiCall.bind(this, 'files.list')) as Method<FilesListArguments>,
     revokePublicURL:
-      (this.apiCall.bind(this, 'files.revokePublicURL')) as Method<methods.FilesRevokePublicURLArguments>,
+      (this.apiCall.bind(this, 'files.revokePublicURL')) as Method<FilesRevokePublicURLArguments>,
     sharedPublicURL:
-      (this.apiCall.bind(this, 'files.sharedPublicURL')) as Method<methods.FilesSharedPublicURLArguments>,
-    upload: (this.apiCall.bind(this, 'files.upload')) as Method<methods.FilesUploadArguments>,
+      (this.apiCall.bind(this, 'files.sharedPublicURL')) as Method<FilesSharedPublicURLArguments>,
+    upload: (this.apiCall.bind(this, 'files.upload')) as Method<FilesUploadArguments>,
     comments: {
-      delete: (this.apiCall.bind(this, 'files.comments.delete')) as Method<methods.FilesCommentsDeleteArguments>,
+      delete: (this.apiCall.bind(this, 'files.comments.delete')) as Method<FilesCommentsDeleteArguments>,
     },
     remote: {
-      info: (this.apiCall.bind(this, 'files.remote.info')) as Method<methods.FilesRemoteInfoArguments>,
-      list: (this.apiCall.bind(this, 'files.remote.list')) as Method<methods.FilesRemoteListArguments>,
-      add: (this.apiCall.bind(this, 'files.remote.add')) as Method<methods.FilesRemoteAddArguments>,
-      update: (this.apiCall.bind(this, 'files.remote.update')) as Method<methods.FilesRemoteUpdateArguments>,
-      remove: (this.apiCall.bind(this, 'files.remote.remove')) as Method<methods.FilesRemoteRemoveArguments>,
-      share: (this.apiCall.bind(this, 'files.remote.share')) as Method<methods.FilesRemoteShareArguments>,
+      info: (this.apiCall.bind(this, 'files.remote.info')) as Method<FilesRemoteInfoArguments>,
+      list: (this.apiCall.bind(this, 'files.remote.list')) as Method<FilesRemoteListArguments>,
+      add: (this.apiCall.bind(this, 'files.remote.add')) as Method<FilesRemoteAddArguments>,
+      update: (this.apiCall.bind(this, 'files.remote.update')) as Method<FilesRemoteUpdateArguments>,
+      remove: (this.apiCall.bind(this, 'files.remote.remove')) as Method<FilesRemoteRemoveArguments>,
+      share: (this.apiCall.bind(this, 'files.remote.share')) as Method<FilesRemoteShareArguments>,
     },
   };
 
@@ -478,62 +476,62 @@ export class WebClient extends EventEmitter<WebClientEvent> {
    * groups method family
    */
   public readonly groups = {
-    archive: (this.apiCall.bind(this, 'groups.archive')) as Method<methods.GroupsArchiveArguments>,
-    create: (this.apiCall.bind(this, 'groups.create')) as Method<methods.GroupsCreateArguments>,
-    createChild: (this.apiCall.bind(this, 'groups.createChild')) as Method<methods.GroupsCreateChildArguments>,
-    history: (this.apiCall.bind(this, 'groups.history')) as Method<methods.GroupsHistoryArguments>,
-    info: (this.apiCall.bind(this, 'groups.info')) as Method<methods.GroupsInfoArguments>,
-    invite: (this.apiCall.bind(this, 'groups.invite')) as Method<methods.GroupsInviteArguments>,
-    kick: (this.apiCall.bind(this, 'groups.kick')) as Method<methods.GroupsKickArguments>,
-    leave: (this.apiCall.bind(this, 'groups.leave')) as Method<methods.GroupsLeaveArguments>,
-    list: (this.apiCall.bind(this, 'groups.list')) as Method<methods.GroupsListArguments>,
-    mark: (this.apiCall.bind(this, 'groups.mark')) as Method<methods.GroupsMarkArguments>,
-    open: (this.apiCall.bind(this, 'groups.open')) as Method<methods.GroupsOpenArguments>,
-    rename: (this.apiCall.bind(this, 'groups.rename')) as Method<methods.GroupsRenameArguments>,
-    replies: (this.apiCall.bind(this, 'groups.replies')) as Method<methods.GroupsRepliesArguments>,
-    setPurpose: (this.apiCall.bind(this, 'groups.setPurpose')) as Method<methods.GroupsSetPurposeArguments>,
-    setTopic: (this.apiCall.bind(this, 'groups.setTopic')) as Method<methods.GroupsSetTopicArguments>,
-    unarchive: (this.apiCall.bind(this, 'groups.unarchive')) as Method<methods.GroupsUnarchiveArguments>,
+    archive: (this.apiCall.bind(this, 'groups.archive')) as Method<GroupsArchiveArguments>,
+    create: (this.apiCall.bind(this, 'groups.create')) as Method<GroupsCreateArguments>,
+    createChild: (this.apiCall.bind(this, 'groups.createChild')) as Method<GroupsCreateChildArguments>,
+    history: (this.apiCall.bind(this, 'groups.history')) as Method<GroupsHistoryArguments>,
+    info: (this.apiCall.bind(this, 'groups.info')) as Method<GroupsInfoArguments>,
+    invite: (this.apiCall.bind(this, 'groups.invite')) as Method<GroupsInviteArguments>,
+    kick: (this.apiCall.bind(this, 'groups.kick')) as Method<GroupsKickArguments>,
+    leave: (this.apiCall.bind(this, 'groups.leave')) as Method<GroupsLeaveArguments>,
+    list: (this.apiCall.bind(this, 'groups.list')) as Method<GroupsListArguments>,
+    mark: (this.apiCall.bind(this, 'groups.mark')) as Method<GroupsMarkArguments>,
+    open: (this.apiCall.bind(this, 'groups.open')) as Method<GroupsOpenArguments>,
+    rename: (this.apiCall.bind(this, 'groups.rename')) as Method<GroupsRenameArguments>,
+    replies: (this.apiCall.bind(this, 'groups.replies')) as Method<GroupsRepliesArguments>,
+    setPurpose: (this.apiCall.bind(this, 'groups.setPurpose')) as Method<GroupsSetPurposeArguments>,
+    setTopic: (this.apiCall.bind(this, 'groups.setTopic')) as Method<GroupsSetTopicArguments>,
+    unarchive: (this.apiCall.bind(this, 'groups.unarchive')) as Method<GroupsUnarchiveArguments>,
   };
 
   /**
    * im method family
    */
   public readonly im = {
-    close: (this.apiCall.bind(this, 'im.close')) as Method<methods.IMCloseArguments>,
-    history: (this.apiCall.bind(this, 'im.history')) as Method<methods.IMHistoryArguments>,
-    list: (this.apiCall.bind(this, 'im.list')) as Method<methods.IMListArguments>,
-    mark: (this.apiCall.bind(this, 'im.mark')) as Method<methods.IMMarkArguments>,
-    open: (this.apiCall.bind(this, 'im.open')) as Method<methods.IMOpenArguments>,
-    replies: (this.apiCall.bind(this, 'im.replies')) as Method<methods.IMRepliesArguments>,
+    close: (this.apiCall.bind(this, 'im.close')) as Method<IMCloseArguments>,
+    history: (this.apiCall.bind(this, 'im.history')) as Method<IMHistoryArguments>,
+    list: (this.apiCall.bind(this, 'im.list')) as Method<IMListArguments>,
+    mark: (this.apiCall.bind(this, 'im.mark')) as Method<IMMarkArguments>,
+    open: (this.apiCall.bind(this, 'im.open')) as Method<IMOpenArguments>,
+    replies: (this.apiCall.bind(this, 'im.replies')) as Method<IMRepliesArguments>,
   };
 
   /**
    * migration method family
    */
   public readonly migration = {
-    exchange: (this.apiCall.bind(this, 'migration.exchange')) as Method<methods.MigrationExchangeArguments>,
+    exchange: (this.apiCall.bind(this, 'migration.exchange')) as Method<MigrationExchangeArguments>,
   };
 
   /**
    * mpim method family
    */
   public readonly mpim = {
-    close: (this.apiCall.bind(this, 'mpim.close')) as Method<methods.MPIMCloseArguments>,
-    history: (this.apiCall.bind(this, 'mpim.history')) as Method<methods.MPIMHistoryArguments>,
-    list: (this.apiCall.bind(this, 'mpim.list')) as Method<methods.MPIMListArguments>,
-    mark: (this.apiCall.bind(this, 'mpim.mark')) as Method<methods.MPIMMarkArguments>,
-    open: (this.apiCall.bind(this, 'mpim.open')) as Method<methods.MPIMOpenArguments>,
-    replies: (this.apiCall.bind(this, 'mpim.replies')) as Method<methods.MPIMRepliesArguments>,
+    close: (this.apiCall.bind(this, 'mpim.close')) as Method<MPIMCloseArguments>,
+    history: (this.apiCall.bind(this, 'mpim.history')) as Method<MPIMHistoryArguments>,
+    list: (this.apiCall.bind(this, 'mpim.list')) as Method<MPIMListArguments>,
+    mark: (this.apiCall.bind(this, 'mpim.mark')) as Method<MPIMMarkArguments>,
+    open: (this.apiCall.bind(this, 'mpim.open')) as Method<MPIMOpenArguments>,
+    replies: (this.apiCall.bind(this, 'mpim.replies')) as Method<MPIMRepliesArguments>,
   };
 
   /**
    * oauth method family
    */
   public readonly oauth = {
-    access: (this.apiCall.bind(this, 'oauth.access')) as Method<methods.OAuthAccessArguments>,
+    access: (this.apiCall.bind(this, 'oauth.access')) as Method<OAuthAccessArguments>,
     v2: {
-      access: (this.apiCall.bind(this, 'oauth.v2.access')) as Method<methods.OAuthV2AccessArguments>,
+      access: (this.apiCall.bind(this, 'oauth.v2.access')) as Method<OAuthV2AccessArguments>,
     },
   };
 
@@ -541,68 +539,68 @@ export class WebClient extends EventEmitter<WebClientEvent> {
    * pins method family
    */
   public readonly pins = {
-    add: (this.apiCall.bind(this, 'pins.add')) as Method<methods.PinsAddArguments>,
-    list: (this.apiCall.bind(this, 'pins.list')) as Method<methods.PinsListArguments>,
-    remove: (this.apiCall.bind(this, 'pins.remove')) as Method<methods.PinsRemoveArguments>,
+    add: (this.apiCall.bind(this, 'pins.add')) as Method<PinsAddArguments>,
+    list: (this.apiCall.bind(this, 'pins.list')) as Method<PinsListArguments>,
+    remove: (this.apiCall.bind(this, 'pins.remove')) as Method<PinsRemoveArguments>,
   };
 
   /**
    * reactions method family
    */
   public readonly reactions = {
-    add: (this.apiCall.bind(this, 'reactions.add')) as Method<methods.ReactionsAddArguments>,
-    get: (this.apiCall.bind(this, 'reactions.get')) as Method<methods.ReactionsGetArguments>,
-    list: (this.apiCall.bind(this, 'reactions.list')) as Method<methods.ReactionsListArguments>,
-    remove: (this.apiCall.bind(this, 'reactions.remove')) as Method<methods.ReactionsRemoveArguments>,
+    add: (this.apiCall.bind(this, 'reactions.add')) as Method<ReactionsAddArguments>,
+    get: (this.apiCall.bind(this, 'reactions.get')) as Method<ReactionsGetArguments>,
+    list: (this.apiCall.bind(this, 'reactions.list')) as Method<ReactionsListArguments>,
+    remove: (this.apiCall.bind(this, 'reactions.remove')) as Method<ReactionsRemoveArguments>,
   };
 
   /**
    * reminders method family
    */
   public readonly reminders = {
-    add: (this.apiCall.bind(this, 'reminders.add')) as Method<methods.RemindersAddArguments>,
-    complete: (this.apiCall.bind(this, 'reminders.complete')) as Method<methods.RemindersCompleteArguments>,
-    delete: (this.apiCall.bind(this, 'reminders.delete')) as Method<methods.RemindersDeleteArguments>,
-    info: (this.apiCall.bind(this, 'reminders.info')) as Method<methods.RemindersInfoArguments>,
-    list: (this.apiCall.bind(this, 'reminders.list')) as Method<methods.RemindersListArguments>,
+    add: (this.apiCall.bind(this, 'reminders.add')) as Method<RemindersAddArguments>,
+    complete: (this.apiCall.bind(this, 'reminders.complete')) as Method<RemindersCompleteArguments>,
+    delete: (this.apiCall.bind(this, 'reminders.delete')) as Method<RemindersDeleteArguments>,
+    info: (this.apiCall.bind(this, 'reminders.info')) as Method<RemindersInfoArguments>,
+    list: (this.apiCall.bind(this, 'reminders.list')) as Method<RemindersListArguments>,
   };
 
   /**
    * rtm method family
    */
   public readonly rtm = {
-    connect: (this.apiCall.bind(this, 'rtm.connect')) as Method<methods.RTMConnectArguments>,
-    start: (this.apiCall.bind(this, 'rtm.start')) as Method<methods.RTMStartArguments>,
+    connect: (this.apiCall.bind(this, 'rtm.connect')) as Method<RTMConnectArguments>,
+    start: (this.apiCall.bind(this, 'rtm.start')) as Method<RTMStartArguments>,
   };
 
   /**
    * search method family
    */
   public readonly search = {
-    all: (this.apiCall.bind(this, 'search.all')) as Method<methods.SearchAllArguments>,
-    files: (this.apiCall.bind(this, 'search.files')) as Method<methods.SearchFilesArguments>,
-    messages: (this.apiCall.bind(this, 'search.messages')) as Method<methods.SearchMessagesArguments>,
+    all: (this.apiCall.bind(this, 'search.all')) as Method<SearchAllArguments>,
+    files: (this.apiCall.bind(this, 'search.files')) as Method<SearchFilesArguments>,
+    messages: (this.apiCall.bind(this, 'search.messages')) as Method<SearchMessagesArguments>,
   };
 
   /**
    * stars method family
    */
   public readonly stars = {
-    add: (this.apiCall.bind(this, 'stars.add')) as Method<methods.StarsAddArguments>,
-    list: (this.apiCall.bind(this, 'stars.list')) as Method<methods.StarsListArguments>,
-    remove: (this.apiCall.bind(this, 'stars.remove')) as Method<methods.StarsRemoveArguments>,
+    add: (this.apiCall.bind(this, 'stars.add')) as Method<StarsAddArguments>,
+    list: (this.apiCall.bind(this, 'stars.list')) as Method<StarsListArguments>,
+    remove: (this.apiCall.bind(this, 'stars.remove')) as Method<StarsRemoveArguments>,
   };
 
   /**
    * team method family
    */
   public readonly team = {
-    accessLogs: (this.apiCall.bind(this, 'team.accessLogs')) as Method<methods.TeamAccessLogsArguments>,
-    billableInfo: (this.apiCall.bind(this, 'team.billableInfo')) as Method<methods.TeamBillableInfoArguments>,
-    info: (this.apiCall.bind(this, 'team.info')) as Method<methods.TeamInfoArguments>,
-    integrationLogs: (this.apiCall.bind(this, 'team.integrationLogs')) as Method<methods.TeamIntegrationLogsArguments>,
+    accessLogs: (this.apiCall.bind(this, 'team.accessLogs')) as Method<TeamAccessLogsArguments>,
+    billableInfo: (this.apiCall.bind(this, 'team.billableInfo')) as Method<TeamBillableInfoArguments>,
+    info: (this.apiCall.bind(this, 'team.info')) as Method<TeamInfoArguments>,
+    integrationLogs: (this.apiCall.bind(this, 'team.integrationLogs')) as Method<TeamIntegrationLogsArguments>,
     profile: {
-      get: (this.apiCall.bind(this, 'team.profile.get')) as Method<methods.TeamProfileGetArguments>,
+      get: (this.apiCall.bind(this, 'team.profile.get')) as Method<TeamProfileGetArguments>,
     },
   };
 
@@ -610,14 +608,14 @@ export class WebClient extends EventEmitter<WebClientEvent> {
    * usergroups method family
    */
   public readonly usergroups = {
-    create: (this.apiCall.bind(this, 'usergroups.create')) as Method<methods.UsergroupsCreateArguments>,
-    disable: (this.apiCall.bind(this, 'usergroups.disable')) as Method<methods.UsergroupsDisableArguments>,
-    enable: (this.apiCall.bind(this, 'usergroups.enable')) as Method<methods.UsergroupsEnableArguments>,
-    list: (this.apiCall.bind(this, 'usergroups.list')) as Method<methods.UsergroupsListArguments>,
-    update: (this.apiCall.bind(this, 'usergroups.update')) as Method<methods.UsergroupsUpdateArguments>,
+    create: (this.apiCall.bind(this, 'usergroups.create')) as Method<UsergroupsCreateArguments>,
+    disable: (this.apiCall.bind(this, 'usergroups.disable')) as Method<UsergroupsDisableArguments>,
+    enable: (this.apiCall.bind(this, 'usergroups.enable')) as Method<UsergroupsEnableArguments>,
+    list: (this.apiCall.bind(this, 'usergroups.list')) as Method<UsergroupsListArguments>,
+    update: (this.apiCall.bind(this, 'usergroups.update')) as Method<UsergroupsUpdateArguments>,
     users: {
-      list: (this.apiCall.bind(this, 'usergroups.users.list')) as Method<methods.UsergroupsUsersListArguments>,
-      update: (this.apiCall.bind(this, 'usergroups.users.update')) as Method<methods.UsergroupsUsersUpdateArguments>,
+      list: (this.apiCall.bind(this, 'usergroups.users.list')) as Method<UsergroupsUsersListArguments>,
+      update: (this.apiCall.bind(this, 'usergroups.users.update')) as Method<UsergroupsUsersUpdateArguments>,
     },
   };
 
@@ -625,18 +623,18 @@ export class WebClient extends EventEmitter<WebClientEvent> {
    * users method family
    */
   public readonly users = {
-    conversations: (this.apiCall.bind(this, 'users.conversations')) as Method<methods.UsersConversationsArguments>,
-    deletePhoto: (this.apiCall.bind(this, 'users.deletePhoto')) as Method<methods.UsersDeletePhotoArguments>,
-    getPresence: (this.apiCall.bind(this, 'users.getPresence')) as Method<methods.UsersGetPresenceArguments>,
-    identity: (this.apiCall.bind(this, 'users.identity')) as Method<methods.UsersIdentityArguments>,
-    info: (this.apiCall.bind(this, 'users.info')) as Method<methods.UsersInfoArguments>,
-    list: (this.apiCall.bind(this, 'users.list')) as Method<methods.UsersListArguments>,
-    lookupByEmail: (this.apiCall.bind(this, 'users.lookupByEmail')) as Method<methods.UsersLookupByEmailArguments>,
-    setPhoto: (this.apiCall.bind(this, 'users.setPhoto')) as Method<methods.UsersSetPhotoArguments>,
-    setPresence: (this.apiCall.bind(this, 'users.setPresence')) as Method<methods.UsersSetPresenceArguments>,
+    conversations: (this.apiCall.bind(this, 'users.conversations')) as Method<UsersConversationsArguments>,
+    deletePhoto: (this.apiCall.bind(this, 'users.deletePhoto')) as Method<UsersDeletePhotoArguments>,
+    getPresence: (this.apiCall.bind(this, 'users.getPresence')) as Method<UsersGetPresenceArguments>,
+    identity: (this.apiCall.bind(this, 'users.identity')) as Method<UsersIdentityArguments>,
+    info: (this.apiCall.bind(this, 'users.info')) as Method<UsersInfoArguments>,
+    list: (this.apiCall.bind(this, 'users.list')) as Method<UsersListArguments>,
+    lookupByEmail: (this.apiCall.bind(this, 'users.lookupByEmail')) as Method<UsersLookupByEmailArguments>,
+    setPhoto: (this.apiCall.bind(this, 'users.setPhoto')) as Method<UsersSetPhotoArguments>,
+    setPresence: (this.apiCall.bind(this, 'users.setPresence')) as Method<UsersSetPresenceArguments>,
     profile: {
-      get: (this.apiCall.bind(this, 'users.profile.get')) as Method<methods.UsersProfileGetArguments>,
-      set: (this.apiCall.bind(this, 'users.profile.set')) as Method<methods.UsersProfileSetArguments>,
+      get: (this.apiCall.bind(this, 'users.profile.get')) as Method<UsersProfileGetArguments>,
+      set: (this.apiCall.bind(this, 'users.profile.set')) as Method<UsersProfileSetArguments>,
     },
   };
 
@@ -887,7 +885,7 @@ const noopPageReducer: PageReducer = () => undefined;
  */
 function paginationOptionsForNextPage(
   previousResult: WebAPICallResult | undefined, pageSize: number,
-): methods.CursorPaginationEnabled | undefined {
+): CursorPaginationEnabled | undefined {
   if (
     previousResult !== undefined &&
     previousResult.response_metadata !== undefined &&
@@ -916,3 +914,48 @@ function parseRetryHeaders(response: AxiosResponse): number | undefined {
   }
   return undefined;
 }
+
+// import Method, * as methods from '@slack/methods'; // tslint:disable-line:import-name
+// cursorPaginationEnabledMethods
+// import Method from './methods' 
+// tslint:disable-next-line: import-name
+import Method, { cursorPaginationEnabledMethods, CursorPaginationEnabled, AdminAppsApproveArguments,
+  AdminAppsRequestsListArguments, AdminAppsRestrictArguments, AdminInviteRequestsApproveArguments, 
+  AdminInviteRequestsDenyArguments, AdminInviteRequestsListArguments, AdminInviteRequestsApprovedListArguments,
+  AdminInviteRequestsDeniedListArguments, AdminTeamsAdminsListArguments, AdminTeamsCreateArguments,
+  AdminTeamsOwnersListArguments, AdminUsersAssignArguments, AdminUsersInviteArguments, AdminUsersRemoveArguments,
+  AdminUsersSetAdminArguments, AdminUsersSetOwnerArguments, AdminUsersSetRegularArguments,
+  AdminUsersSessionResetArguments, APITestArguments, AuthRevokeArguments, AuthTestArguments, BotsInfoArguments,
+  ChannelsArchiveArguments, ChannelsCreateArguments, ChannelsHistoryArguments, ChannelsInfoArguments,
+  ChannelsInviteArguments, ChannelsJoinArguments, ChannelsKickArguments, ChannelsLeaveArguments, ChannelsListArguments,
+  ChannelsMarkArguments, ChannelsRenameArguments, ChannelsRepliesArguments, ChannelsSetPurposeArguments,
+  ChannelsSetTopicArguments, ChannelsUnarchiveArguments, ChatDeleteArguments, ChatDeleteScheduledMessageArguments,
+  ChatGetPermalinkArguments, ChatMeMessageArguments, ChatPostEphemeralArguments, ChatPostMessageArguments,
+  ChatScheduleMessageArguments, ChatScheduledMessagesListArguments, ChatUnfurlArguments, ChatUpdateArguments,
+  ConversationsArchiveArguments, ConversationsCloseArguments, ConversationsCreateArguments,
+  ConversationsHistoryArguments, ConversationsInfoArguments, ConversationsInviteArguments, ConversationsJoinArguments,
+  ConversationsKickArguments, ConversationsLeaveArguments, ConversationsListArguments, ConversationsMembersArguments,
+  ConversationsOpenArguments, ConversationsRenameArguments, ConversationsRepliesArguments,
+  ConversationsSetPurposeArguments, ConversationsSetTopicArguments, ConversationsUnarchiveArguments,
+  DialogOpenArguments, DndEndDndArguments, DndEndSnoozeArguments, DndInfoArguments, DndSetSnoozeArguments,
+  DndTeamInfoArguments, EmojiListArguments, FilesDeleteArguments, FilesInfoArguments, FilesListArguments,
+  FilesRevokePublicURLArguments, FilesSharedPublicURLArguments, FilesUploadArguments,
+  FilesCommentsDeleteArguments, FilesRemoteInfoArguments, FilesRemoteListArguments, FilesRemoteAddArguments,
+  FilesRemoteUpdateArguments, FilesRemoteRemoveArguments, FilesRemoteShareArguments, GroupsArchiveArguments,
+  GroupsCreateArguments, GroupsCreateChildArguments, GroupsHistoryArguments, GroupsInfoArguments, GroupsInviteArguments,
+  GroupsKickArguments, GroupsLeaveArguments, GroupsListArguments, GroupsMarkArguments, GroupsOpenArguments,
+  GroupsRenameArguments, GroupsRepliesArguments, GroupsSetPurposeArguments, GroupsSetTopicArguments,
+  GroupsUnarchiveArguments, IMCloseArguments, IMHistoryArguments, IMListArguments, IMMarkArguments, IMOpenArguments,
+  IMRepliesArguments, MigrationExchangeArguments, MPIMCloseArguments, MPIMHistoryArguments, MPIMListArguments,
+  MPIMMarkArguments, MPIMOpenArguments, MPIMRepliesArguments, OAuthAccessArguments, OAuthV2AccessArguments,
+  PinsAddArguments, PinsListArguments, PinsRemoveArguments, ReactionsAddArguments, ReactionsGetArguments,
+  ReactionsListArguments, ReactionsRemoveArguments, RemindersAddArguments, RemindersCompleteArguments,
+  RemindersDeleteArguments, RemindersInfoArguments, RemindersListArguments, RTMConnectArguments, RTMStartArguments, 
+  SearchAllArguments, SearchFilesArguments, SearchMessagesArguments, StarsAddArguments, StarsListArguments,
+  StarsRemoveArguments, TeamAccessLogsArguments, TeamBillableInfoArguments, TeamInfoArguments,
+  TeamIntegrationLogsArguments, TeamProfileGetArguments,  UsergroupsCreateArguments, UsergroupsDisableArguments,
+  UsergroupsEnableArguments, UsergroupsListArguments, UsergroupsUpdateArguments, UsergroupsUsersListArguments,
+  UsergroupsUsersUpdateArguments, UsersConversationsArguments, UsersDeletePhotoArguments, UsersGetPresenceArguments,
+  UsersIdentityArguments, UsersInfoArguments, UsersListArguments, UsersLookupByEmailArguments, UsersSetPhotoArguments,
+  UsersSetPresenceArguments, UsersProfileGetArguments, UsersProfileSetArguments, ViewsOpenArguments, ViewsPushArguments,
+  ViewsPublishArguments, ViewsUpdateArguments, } from './methods';

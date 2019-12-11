@@ -22,11 +22,6 @@ slug: types
 <td></td>
 </tr>
 <tr>
-<td align="center">confirm</td>
-<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
-<td></td>
-</tr>
-<tr>
 <td align="center">type</td>
 <td align="center"><code>string</code></td>
 <td></td>
@@ -46,7 +41,7 @@ slug: types
 <tbody>
 <tr>
 <td align="center">elements</td>
-<td align="center"><code>(<a href="#knownaction" title="">KnownAction</a> | <a href="#action" title="">Action</a>)[]</code></td>
+<td align="center"><code>(<a href="#button" title="">Button</a> | <a href="#overflow" title="">Overflow</a> | <a href="#datepicker" title="">Datepicker</a> | <a href="#select" title="">Select</a> | <a href="#radiobuttons" title="">RadioButtons</a> | <a href="#action" title="">Action</a>)[]</code></td>
 <td></td>
 </tr>
 <tr>
@@ -169,6 +164,11 @@ slug: types
 </thead>
 <tbody>
 <tr>
+<td align="center">confirm</td>
+<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
+<td></td>
+</tr>
+<tr>
 <td align="center">style</td>
 <td align="center"><code>'danger' | 'primary'</code></td>
 <td></td>
@@ -206,6 +206,11 @@ slug: types
 </tr>
 </thead>
 <tbody>
+<tr>
+<td align="center">confirm</td>
+<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
+<td></td>
+</tr>
 <tr>
 <td align="center">initial_channel</td>
 <td align="center"><code>string</code></td>
@@ -302,7 +307,7 @@ slug: types
 <tbody>
 <tr>
 <td align="center">elements</td>
-<td align="center"><code>(<a href="#imageelement" title="">ImageElement</a> | <a href="#userelement" title="">UserElement</a> | <a href="#plaintextelement" title="">PlainTextElement</a> | <a href="#mrkdwnelement" title="">MrkdwnElement</a>)[]</code></td>
+<td align="center"><code>(<a href="#imageelement" title="">ImageElement</a> | <a href="#plaintextelement" title="">PlainTextElement</a> | <a href="#mrkdwnelement" title="">MrkdwnElement</a>)[]</code></td>
 <td></td>
 </tr>
 <tr>
@@ -323,6 +328,11 @@ slug: types
 </tr>
 </thead>
 <tbody>
+<tr>
+<td align="center">confirm</td>
+<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
+<td></td>
+</tr>
 <tr>
 <td align="center">initial_conversation</td>
 <td align="center"><code>string</code></td>
@@ -351,6 +361,11 @@ slug: types
 </tr>
 </thead>
 <tbody>
+<tr>
+<td align="center">confirm</td>
+<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
+<td></td>
+</tr>
 <tr>
 <td align="center">initial_date</td>
 <td align="center"><code>string</code></td>
@@ -440,6 +455,11 @@ slug: types
 </tr>
 </thead>
 <tbody>
+<tr>
+<td align="center">confirm</td>
+<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
+<td></td>
+</tr>
 <tr>
 <td align="center">initial_option</td>
 <td align="center"><code><a href="#option" title="">Option</a></code></td>
@@ -551,9 +571,47 @@ slug: types
 </tr>
 </tbody>
 </table>
+<h3 id="inputblock">InputBlock</h3>
+<h4 id="fields-17">Fields</h4>
+<table>
+<thead>
+<tr>
+<th align="center">Name</th>
+<th align="center">Type</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">element</td>
+<td align="center"><code><a href="#select" title="">Select</a> | <a href="#multiselect" title="">MultiSelect</a> | <a href="#datepicker" title="">Datepicker</a> | <a href="#plaintextinput" title="">PlainTextInput</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">hint</td>
+<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">label</td>
+<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">optional</td>
+<td align="center"><code>boolean</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">type</td>
+<td align="center"><code>'input'</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3 id="linkunfurls">LinkUnfurls</h3>
 <h3 id="messageattachment">MessageAttachment</h3>
-<h4 id="fields-17">Fields</h4>
+<h4 id="fields-18">Fields</h4>
 <table>
 <thead>
 <tr>
@@ -661,7 +719,7 @@ slug: types
 </tbody>
 </table>
 <h3 id="mrkdwnelement">MrkdwnElement</h3>
-<h4 id="fields-18">Fields</h4>
+<h4 id="fields-19">Fields</h4>
 <table>
 <thead>
 <tr>
@@ -688,8 +746,213 @@ slug: types
 </tr>
 </tbody>
 </table>
+<h3 id="multichannelsselect">MultiChannelsSelect</h3>
+<h4 id="fields-20">Fields</h4>
+<table>
+<thead>
+<tr>
+<th align="center">Name</th>
+<th align="center">Type</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">confirm</td>
+<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">initial_channels</td>
+<td align="center"><code>string[]</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">max_selected_items</td>
+<td align="center"><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">placeholder</td>
+<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">type</td>
+<td align="center"><code>'multi_channels_select'</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="multiconversationsselect">MultiConversationsSelect</h3>
+<h4 id="fields-21">Fields</h4>
+<table>
+<thead>
+<tr>
+<th align="center">Name</th>
+<th align="center">Type</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">confirm</td>
+<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">initial_conversations</td>
+<td align="center"><code>string[]</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">max_selected_items</td>
+<td align="center"><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">placeholder</td>
+<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">type</td>
+<td align="center"><code>'multi_conversations_select'</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="multiexternalselect">MultiExternalSelect</h3>
+<h4 id="fields-22">Fields</h4>
+<table>
+<thead>
+<tr>
+<th align="center">Name</th>
+<th align="center">Type</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">confirm</td>
+<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">initial_options</td>
+<td align="center"><code><a href="#option" title="">Option</a>[]</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">max_selected_items</td>
+<td align="center"><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">min_query_length</td>
+<td align="center"><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">placeholder</td>
+<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">type</td>
+<td align="center"><code>'multi_external_select'</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="multistaticselect">MultiStaticSelect</h3>
+<h4 id="fields-23">Fields</h4>
+<table>
+<thead>
+<tr>
+<th align="center">Name</th>
+<th align="center">Type</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">confirm</td>
+<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">initial_options</td>
+<td align="center"><code><a href="#option" title="">Option</a>[]</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">max_selected_items</td>
+<td align="center"><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">option_groups</td>
+<td align="center"><code>object</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">options</td>
+<td align="center"><code><a href="#option" title="">Option</a>[]</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">placeholder</td>
+<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">type</td>
+<td align="center"><code>'multi_static_select'</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="multiusersselect">MultiUsersSelect</h3>
+<h4 id="fields-24">Fields</h4>
+<table>
+<thead>
+<tr>
+<th align="center">Name</th>
+<th align="center">Type</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">confirm</td>
+<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">initial_users</td>
+<td align="center"><code>string[]</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">max_selected_items</td>
+<td align="center"><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">placeholder</td>
+<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">type</td>
+<td align="center"><code>'multi_users_select'</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3 id="option">Option</h3>
-<h4 id="fields-19">Fields</h4>
+<h4 id="fields-25">Fields</h4>
 <table>
 <thead>
 <tr>
@@ -722,7 +985,7 @@ slug: types
 </tbody>
 </table>
 <h3 id="optionfield">OptionField</h3>
-<h4 id="fields-20">Fields</h4>
+<h4 id="fields-26">Fields</h4>
 <table>
 <thead>
 <tr>
@@ -750,7 +1013,7 @@ slug: types
 </tbody>
 </table>
 <h3 id="overflow">Overflow</h3>
-<h4 id="fields-21">Fields</h4>
+<h4 id="fields-27">Fields</h4>
 <table>
 <thead>
 <tr>
@@ -760,6 +1023,11 @@ slug: types
 </tr>
 </thead>
 <tbody>
+<tr>
+<td align="center">confirm</td>
+<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
+<td></td>
+</tr>
 <tr>
 <td align="center">options</td>
 <td align="center"><code><a href="#option" title="">Option</a>[]</code></td>
@@ -773,7 +1041,7 @@ slug: types
 </tbody>
 </table>
 <h3 id="plaintextelement">PlainTextElement</h3>
-<h4 id="fields-22">Fields</h4>
+<h4 id="fields-28">Fields</h4>
 <table>
 <thead>
 <tr>
@@ -800,8 +1068,84 @@ slug: types
 </tr>
 </tbody>
 </table>
+<h3 id="plaintextinput">PlainTextInput</h3>
+<h4 id="fields-29">Fields</h4>
+<table>
+<thead>
+<tr>
+<th align="center">Name</th>
+<th align="center">Type</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">initial_value</td>
+<td align="center"><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">max_length</td>
+<td align="center"><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">min_length</td>
+<td align="center"><code>number</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">multiline</td>
+<td align="center"><code>boolean</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">placeholder</td>
+<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">type</td>
+<td align="center"><code>'plain_text_input'</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="radiobuttons">RadioButtons</h3>
+<h4 id="fields-30">Fields</h4>
+<table>
+<thead>
+<tr>
+<th align="center">Name</th>
+<th align="center">Type</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">confirm</td>
+<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">initial_option</td>
+<td align="center"><code><a href="#option" title="">Option</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">options</td>
+<td align="center"><code><a href="#option" title="">Option</a>[]</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">type</td>
+<td align="center"><code>'radio_buttons'</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3 id="sectionblock">SectionBlock</h3>
-<h4 id="fields-23">Fields</h4>
+<h4 id="fields-31">Fields</h4>
 <table>
 <thead>
 <tr>
@@ -813,7 +1157,7 @@ slug: types
 <tbody>
 <tr>
 <td align="center">accessory</td>
-<td align="center"><code><a href="#knownaction" title="">KnownAction</a> | <a href="#action" title="">Action</a> | <a href="#imageelement" title="">ImageElement</a></code></td>
+<td align="center"><code><a href="#button" title="">Button</a> | <a href="#overflow" title="">Overflow</a> | <a href="#datepicker" title="">Datepicker</a> | <a href="#select" title="">Select</a> | <a href="#multiselect" title="">MultiSelect</a> | <a href="#action" title="">Action</a> | <a href="#imageelement" title="">ImageElement</a></code></td>
 <td></td>
 </tr>
 <tr>
@@ -834,7 +1178,7 @@ slug: types
 </tbody>
 </table>
 <h3 id="selectoption">SelectOption</h3>
-<h4 id="fields-24">Fields</h4>
+<h4 id="fields-32">Fields</h4>
 <table>
 <thead>
 <tr>
@@ -857,7 +1201,7 @@ slug: types
 </tbody>
 </table>
 <h3 id="staticselect">StaticSelect</h3>
-<h4 id="fields-25">Fields</h4>
+<h4 id="fields-33">Fields</h4>
 <table>
 <thead>
 <tr>
@@ -867,6 +1211,11 @@ slug: types
 </tr>
 </thead>
 <tbody>
+<tr>
+<td align="center">confirm</td>
+<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
+<td></td>
+</tr>
 <tr>
 <td align="center">initial_option</td>
 <td align="center"><code><a href="#option" title="">Option</a></code></td>
@@ -894,31 +1243,8 @@ slug: types
 </tr>
 </tbody>
 </table>
-<h3 id="userelement">UserElement</h3>
-<h4 id="fields-26">Fields</h4>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'user'</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">user_id</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <h3 id="usersselect">UsersSelect</h3>
-<h4 id="fields-27">Fields</h4>
+<h4 id="fields-34">Fields</h4>
 <table>
 <thead>
 <tr>
@@ -928,6 +1254,11 @@ slug: types
 </tr>
 </thead>
 <tbody>
+<tr>
+<td align="center">confirm</td>
+<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
+<td></td>
+</tr>
 <tr>
 <td align="center">initial_user</td>
 <td align="center"><code>string</code></td>
@@ -945,30 +1276,94 @@ slug: types
 </tr>
 </tbody>
 </table>
+<h3 id="view">View</h3>
+<h4 id="fields-35">Fields</h4>
+<table>
+<thead>
+<tr>
+<th align="center">Name</th>
+<th align="center">Type</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">blocks</td>
+<td align="center"><code>(<a href="#knownblock" title="">KnownBlock</a> | <a href="#block" title="">Block</a>)[]</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">callback_id</td>
+<td align="center"><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">clear_on_close</td>
+<td align="center"><code>boolean</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">close</td>
+<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">notify_on_close</td>
+<td align="center"><code>boolean</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">private_metadata</td>
+<td align="center"><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">submit</td>
+<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">title</td>
+<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">type</td>
+<td align="center"><code>'home' | 'modal'</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h2 id="type-aliases">Type Aliases</h2>
-<h3 id="knownaction">KnownAction</h3>
-<pre><code class="language-ts">UsersSelect | StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect | Button | Overflow | Datepicker
-</code></pre>
-One of:
-<ul>
-<li><a href="#usersselect" title=""><code>UsersSelect</code></a></li>
-<li><a href="#staticselect" title=""><code>StaticSelect</code></a></li>
-<li><a href="#conversationsselect" title=""><code>ConversationsSelect</code></a></li>
-<li><a href="#channelsselect" title=""><code>ChannelsSelect</code></a></li>
-<li><a href="#externalselect" title=""><code>ExternalSelect</code></a></li>
-<li><a href="#button" title=""><code>Button</code></a></li>
-<li><a href="#overflow" title=""><code>Overflow</code></a></li>
-<li><a href="#datepicker" title=""><code>Datepicker</code></a></li>
-</ul>
 <h3 id="knownblock">KnownBlock</h3>
-<pre><code class="language-ts">ImageBlock | ContextBlock | ActionsBlock | DividerBlock | SectionBlock | FileBlock
+<pre><code class="language-ts">ContextBlock | ActionsBlock | DividerBlock | SectionBlock | InputBlock | FileBlock
 </code></pre>
 One of:
 <ul>
-<li><a href="#imageblock" title=""><code>ImageBlock</code></a></li>
 <li><a href="#contextblock" title=""><code>ContextBlock</code></a></li>
 <li><a href="#actionsblock" title=""><code>ActionsBlock</code></a></li>
 <li><a href="#dividerblock" title=""><code>DividerBlock</code></a></li>
 <li><a href="#sectionblock" title=""><code>SectionBlock</code></a></li>
+<li><a href="#inputblock" title=""><code>InputBlock</code></a></li>
 <li><a href="#fileblock" title=""><code>FileBlock</code></a></li>
+</ul>
+<h3 id="multiselect">MultiSelect</h3>
+<pre><code class="language-ts">MultiStaticSelect | MultiConversationsSelect | MultiChannelsSelect | MultiExternalSelect
+</code></pre>
+One of:
+<ul>
+<li><a href="#multistaticselect" title=""><code>MultiStaticSelect</code></a></li>
+<li><a href="#multiconversationsselect" title=""><code>MultiConversationsSelect</code></a></li>
+<li><a href="#multichannelsselect" title=""><code>MultiChannelsSelect</code></a></li>
+<li><a href="#multiexternalselect" title=""><code>MultiExternalSelect</code></a></li>
+</ul>
+<h3 id="select">Select</h3>
+<pre><code class="language-ts">StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect
+</code></pre>
+One of:
+<ul>
+<li><a href="#staticselect" title=""><code>StaticSelect</code></a></li>
+<li><a href="#conversationsselect" title=""><code>ConversationsSelect</code></a></li>
+<li><a href="#channelsselect" title=""><code>ChannelsSelect</code></a></li>
+<li><a href="#externalselect" title=""><code>ExternalSelect</code></a></li>
 </ul>

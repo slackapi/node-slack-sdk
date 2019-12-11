@@ -452,7 +452,7 @@ slug: rtm-api
 <tbody>
 <tr>
 <td align="center">code</td>
-<td align="center"><code><a href="#errorcode" title="">ErrorCode</a>.NoReplyReceivedError</code></td>
+<td align="center"><code>ErrorCode.NoReplyReceivedError</code></td>
 <td></td>
 </tr>
 </tbody>
@@ -470,7 +470,7 @@ slug: rtm-api
 <tbody>
 <tr>
 <td align="center">code</td>
-<td align="center"><code><a href="#errorcode" title="">ErrorCode</a>.SendMessagePlatformError</code></td>
+<td align="center"><code>ErrorCode.SendMessagePlatformError</code></td>
 <td></td>
 </tr>
 <tr>
@@ -493,7 +493,7 @@ slug: rtm-api
 <tbody>
 <tr>
 <td align="center">code</td>
-<td align="center"><code><a href="#errorcode" title="">ErrorCode</a>.SendWhileDisconnectedError</code></td>
+<td align="center"><code>ErrorCode.SendWhileDisconnectedError</code></td>
 <td></td>
 </tr>
 </tbody>
@@ -511,7 +511,7 @@ slug: rtm-api
 <tbody>
 <tr>
 <td align="center">code</td>
-<td align="center"><code><a href="#errorcode" title="">ErrorCode</a>.SendWhileNotReadyError</code></td>
+<td align="center"><code>ErrorCode.SendWhileNotReadyError</code></td>
 <td></td>
 </tr>
 </tbody>
@@ -529,7 +529,7 @@ slug: rtm-api
 <tbody>
 <tr>
 <td align="center">code</td>
-<td align="center"><code><a href="#errorcode" title="">ErrorCode</a>.WebsocketError</code></td>
+<td align="center"><code>ErrorCode.WebsocketError</code></td>
 <td></td>
 </tr>
 <tr>
@@ -541,21 +541,19 @@ slug: rtm-api
 </table>
 <h2 id="type-aliases">Type Aliases</h2>
 <h3 id="rtmcallerror">RTMCallError</h3>
-<pre><code class="language-ts">RTMPlatformError | RTMWebsocketError | RTMNoReplyReceivedError | RTMSendWhileDisconnectedError | RTMSendWhileNotReadyError
+<pre><code class="language-ts">RTMWebsocketError | RTMNoReplyReceivedError | RTMSendWhileDisconnectedError | RTMSendWhileNotReadyError
 </code></pre>
 One of:
 <ul>
-<li><a href="#rtmplatformerror" title=""><code>RTMPlatformError</code></a></li>
 <li><a href="#rtmwebsocketerror" title=""><code>RTMWebsocketError</code></a></li>
 <li><a href="#rtmnoreplyreceivederror" title=""><code>RTMNoReplyReceivedError</code></a></li>
 <li><a href="#rtmsendwhiledisconnectederror" title=""><code>RTMSendWhileDisconnectedError</code></a></li>
 <li><a href="#rtmsendwhilenotreadyerror" title=""><code>RTMSendWhileNotReadyError</code></a></li>
 </ul>
 <h3 id="rtmstartoptions">RTMStartOptions</h3>
-<pre><code class="language-ts">RTMConnectArguments | RTMStartArguments
+<pre><code class="language-ts">RTMStartArguments
 </code></pre>
 One of:
 <ul>
-<li><code>RTMConnectArguments</code></li>
 <li><code>RTMStartArguments</code></li>
 </ul>

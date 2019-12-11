@@ -54,6 +54,8 @@ slug: logger
 </tbody>
 </table>
 <p><strong>Returns</strong> <code>void</code></p>
+<h5 id="getlevel">getLevel()</h5>
+<p><strong>Returns</strong> <code><a href="#loglevel" title="">LogLevel</a></code></p>
 <h5 id="infomsg">info(msg)</h5>
 <p>Log an info message</p>
 <strong>Parameters:</strong>
@@ -200,6 +202,9 @@ slug: logger
 </tbody>
 </table>
 <p><strong>Returns</strong> <code>void</code></p>
+<h5 id="getlevel-1">getLevel()</h5>
+<p>Return the current LogLevel.</p>
+<p><strong>Returns</strong> <code><a href="#loglevel" title="">LogLevel</a></code></p>
 <h5 id="infomsg-1">info(msg)</h5>
 <p>Output info message</p>
 <strong>Parameters:</strong>

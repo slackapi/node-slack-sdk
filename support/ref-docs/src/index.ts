@@ -8,7 +8,7 @@ import rehypeStringify = require('rehype-stringify');
 import remarkToRehype = require('remark-rehype');
 import remarkToc = require('remark-toc');
 import unified = require('unified');
-import { VFile } from 'vfile';
+import { VFile, VFileCompatible } from 'vfile';
 import documenter, { DocumenterKind } from './package-parser';
 import { stringifyFrontmatter } from './macros';
 
@@ -93,7 +93,7 @@ function saveVFile(file: VFile): Promise<void> {
           ({
             path: pkg.name,
             data: { kind: DocumenterKind.Package }
-          } as unified.VFileCompatible)
+          } as VFileCompatible)
       )
       // Document each package
       .map(pkgFile => processor.process(pkgFile))

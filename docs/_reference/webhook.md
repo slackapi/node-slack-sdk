@@ -127,7 +127,7 @@ slug: webhook
 <tbody>
 <tr>
 <td align="center">code</td>
-<td align="center"><code><a href="#errorcode" title="">ErrorCode</a>.HTTPError</code></td>
+<td align="center"><code>ErrorCode.HTTPError</code></td>
 <td></td>
 </tr>
 <tr>
@@ -150,7 +150,7 @@ slug: webhook
 <tbody>
 <tr>
 <td align="center">code</td>
-<td align="center"><code><a href="#errorcode" title="">ErrorCode</a>.RequestError</code></td>
+<td align="center"><code>ErrorCode.RequestError</code></td>
 <td></td>
 </tr>
 <tr>
@@ -213,10 +213,9 @@ slug: webhook
 </table>
 <h2 id="type-aliases">Type Aliases</h2>
 <h3 id="incomingwebhooksenderror">IncomingWebhookSendError</h3>
-<pre><code class="language-ts">IncomingWebhookRequestError | IncomingWebhookHTTPError
+<pre><code class="language-ts">IncomingWebhookHTTPError
 </code></pre>
 One of:
 <ul>
-<li><a href="#incomingwebhookrequesterror" title=""><code>IncomingWebhookRequestError</code></a></li>
 <li><a href="#incomingwebhookhttperror" title=""><code>IncomingWebhookHTTPError</code></a></li>
 </ul>
