@@ -376,6 +376,7 @@ export class SlackMessageAdapter {
     const callback = this.matchCallback(payload);
     if (isFalsy(callback)) {
       debug('dispatch could not find a handler');
+      debug({ payload });
       return undefined;
     }
     debug('dispatching to handler');
