@@ -366,7 +366,7 @@ slackEvents.on('reaction_added', (event, respond) => {
   console.log('Reaction event received');
   // Normal success
   respond();
-})
+});
 
 (async () => {
   const server = await slackEvents.start(port);
