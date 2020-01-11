@@ -283,10 +283,21 @@ export class WebClient extends EventEmitter<WebClientEvent> {
   public readonly admin = {
     apps: {
       approve: (this.apiCall.bind(this, 'admin.apps.approve')) as Method<methods.AdminAppsApproveArguments>,
+      approved: {
+        list: (this.apiCall.bind(this, 'admin.apps.approved.list')) as Method<methods.AdminAppsApprovedListArguments>,
+      },
       requests: {
         list: (this.apiCall.bind(this, 'admin.apps.requests.list')) as Method<methods.AdminAppsRequestsListArguments>,
       },
       restrict: (this.apiCall.bind(this, 'admin.apps.restrict')) as Method<methods.AdminAppsRestrictArguments>,
+      restricted: {
+        list:
+          (this.apiCall.bind(this, 'admin.apps.restricted.list')) as Method<methods.AdminAppsRestrictedListArguments>,
+      },
+    },
+    conversations: {
+      setTeams: (this.apiCall.bind(
+          this, 'admin.conversations.setTeams')) as Method<methods.AdminConversationsSetTeamsArguments>,
     },
     inviteRequests: {
       approve: (this.apiCall.bind(
@@ -308,10 +319,24 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       admins: {
         list: (this.apiCall.bind(this, 'admin.teams.admins.list')) as Method<methods.AdminTeamsAdminsListArguments>,
       },
+      create: (this.apiCall.bind(this, 'admin.teams.create')) as Method<methods.AdminTeamsCreateArguments>,
+      list: (this.apiCall.bind(this, 'admin.teams.list')) as Method<methods.AdminTeamsListArguments>,
       owners: {
         list: (this.apiCall.bind(this, 'admin.teams.owners.list')) as Method<methods.AdminTeamsOwnersListArguments>,
       },
-      create: (this.apiCall.bind(this, 'admin.teams.create')) as Method<methods.AdminTeamsCreateArguments>,
+      settings: {
+        info: (this.apiCall.bind(this, 'admin.teams.settings.info')) as Method<methods.AdminTeamsSettingsInfoArguments>,
+        setDefaultChannels: (this.apiCall.bind(this, 'admin.teams.settings.setDefaultChannels')
+          ) as Method<methods.AdminTeamsSettingsSetDefaultChannelsArguments>,
+        setDescription: (this.apiCall.bind(
+          this, 'admin.teams.settings.setDescription')) as Method<methods.AdminTeamsSettingsSetDescriptionArguments>,
+        setDiscoverability: (this.apiCall.bind(this, 'admin.teams.settings.setDiscoverability')
+          ) as Method<methods.AdminTeamsSettingsSetDiscoverabilityArguments>,
+        setIcon: (this.apiCall.bind(
+          this, 'admin.teams.settings.setIcon')) as Method<methods.AdminTeamsSettingseSetIconArguments>,
+        setName: (this.apiCall.bind(
+          this, 'admin.teams.settings.setName')) as Method<methods.AdminTeamsSettingsSetNameArguments>,
+      },
     },
     users: {
       session: {
@@ -320,8 +345,11 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       },
       assign: (this.apiCall.bind(this, 'admin.users.assign')) as Method<methods.AdminUsersAssignArguments>,
       invite: (this.apiCall.bind(this, 'admin.users.invite')) as Method<methods.AdminUsersInviteArguments>,
+      list: (this.apiCall.bind(this, 'admin.users.list')) as Method<methods.AdminUsersListArguments>,
       remove: (this.apiCall.bind(this, 'admin.users.remove')) as Method<methods.AdminUsersRemoveArguments>,
       setAdmin: (this.apiCall.bind(this, 'admin.users.setAdmin')) as Method<methods.AdminUsersSetAdminArguments>,
+      setExpiration:
+        (this.apiCall.bind(this, 'admin.users.setExpiration')) as Method<methods.AdminUsersSetExpirationArguments>,
       setOwner: (this.apiCall.bind(this, 'admin.users.setOwner')) as Method<methods.AdminUsersSetOwnerArguments>,
       setRegular: (this.apiCall.bind(this, 'admin.users.setRegular')) as Method<methods.AdminUsersSetRegularArguments>,
     },
