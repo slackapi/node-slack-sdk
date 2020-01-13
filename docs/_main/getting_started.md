@@ -22,23 +22,19 @@ status. Before we can call any methods, we need to configure our new app with th
 ## Getting a token to use the Web API
 
 Navigate to "OAuth & Permissions" and scroll down to the section for scopes. Slack describes the various permissions
-your app could obtain from an installing user as **scopes**. There are [over 60 scopes](https://api.slack.com/scopes)!
+your app could obtain from an installing bot as **scopes**. There are [over 80 scopes](https://api.slack.com/scopes)!
 Some are broad and authorize your app to access lots of data, while others are very specific and let your app touch just
 a tiny sliver. Your users (and their IT admins) will have opinions about which data your app should access, and only
 agree to install the app if the data permissions seem reasonable, so we recommend finding the scope(s) with the least
 amount of privilege for your app's needs. In this guide we will use the Web API to post a message. The scope required
-for this is called `chat:write:user`. Use the dropdown or start typing its name to select and add the scope, then click
+for this is called `chat:write`. Use the dropdown or start typing its name to select and add the scope, then click
 "Save Changes".
 
-Now our app has described which scope it desires in the workspace, but nobody has authorized those scopes for your
-workspace yet. Scroll up and click "Install App". You'll be taken to your app installation page. This page is asking you
-for permission to install the app in your development workspace with specific capabilities. That's right, the
-development workspace is like every other workspace -- apps must be authorized by a user each time it asks for more
-permissions.
+Now our app has described which scope it desires in the workspace, but we haven't added it to your workspace yet. To do so, we first need to create a bot user. Scroll down to Bot Users and click "Add a Bot User". Add a display name and username for your bot. Next, scroll up to Install App and click "Install App to Workspace". You'll be taken to the app installation page. This page is where you grant the bot user permission to install the app in your development workspace with specific capabilities.
 
-Go ahead and click "Authorize". This will install the app on the workspace and generate the token we'll need.
+Go ahead and click "Allow". This will install the app on the workspace and generate the token we'll need.
 
-When you return to the "OAuth & Permissions" page copy the "OAuth Access Token" (it should begin with `xoxp`). Treat
+When you return to the "OAuth & Permissions" page copy the "Bot User OAuth Access Token" (it should begin with `xoxb`). Treat
 this value like a password and keep it safe. The Web API uses tokens to to authenticate the requests your app makes. In
 a later step, you'll be asked to use this token in your code.
 
@@ -82,12 +78,16 @@ If you see the same output as above, we're ready to start.
 In this guide we'll post a simple message that contains the current time. We'll also follow the best practice of keeping
 secrets outside of your code (do not hardcode sensitive data).
 
+Before we move forward, add the bot user you created above to the `#general` channel in your workspace. Bots need to be
+invited to channels to be able to post in them. You can do this by going to the `#general` channel inside slack in your workspace and
+type `/invite @YourBotUser` with the display name of your bot user.
+ 
 Store the access token in a new environment variable. The following example works on Linux and MacOS; but [similar
 commands are available on Windows](https://superuser.com/a/212153/94970). Replace the value with OAuth Access Token that
 you copied earlier.
 
 ```shell
-$ export SLACK_TOKEN=xoxp-...
+$ export SLACK_TOKEN=xoxb-...
 ```
 
 Re-open `tutorial.js` and add the following code:
@@ -99,27 +99,24 @@ const web = new WebClient(process.env.SLACK_TOKEN);
 const currentTime = new Date().toTimeString();
 
 (async () => {
-  // Use the `auth.test` method to find information about the installing user
-  const res = await web.auth.test()
 
-  // Find your user id to know where to send messages to
-  const userId = res.user_id
-
-  // Use the `chat.postMessage` method to send a message from this app
-  await web.chat.postMessage({
-    channel: userId,
-    text: `The current time is ${currentTime}`,
-  });
+  try {
+    // Use the `chat.postMessage` method to send a message from this app
+    await web.chat.postMessage({
+      channel: '#general',
+      text: `The current time is ${currentTime}`,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 
   console.log('Message posted!');
 })();
 ```
 
 This code creates an instance of the `WebClient`, which uses an access token to call Web API methods. The program reads
-the app's access token from an environment variable. Then the [auth.test](https://api.slack.com/methods/auth.test)
-method is called on the `WebClient` to find the installing user's ID. Lastly, the
-[chat.postMessage](https://api.slack.com/methods/chat.postMessage) method is called using the found user ID as the
-`channel` argument to send a simple message.
+the app's access token from an environment variable. Then this program will post a message in the `#general` channel,
+assuming you have invited your bot to that channel.
 
 Run the program. The output should look like the following:
 
@@ -129,7 +126,7 @@ Getting started with Node Slack SDK
 Message posted!
 ```
 
-Look inside Slack to verify a message was sent to you in a DM.
+Look inside Slack to verify a message was sent to `#general`.
 
 ## Next Steps
 
@@ -149,7 +146,7 @@ look next:
   allows the app to use a bot token. Learn about the [different types of
   tokens](https://api.slack.com/docs/token-types).
 
-* You now know how to build a Slack app for a single workspace, [learn how to implement Slack
-  OAuth](https://api.slack.com/docs/oauth) to make your app installable in many workspaces. If you are using
+* You now know how to build a Slack app for a single workspace, [learn how to implement Slack"
+  OAuth](https://api.slack.com/authentication/oauth-v2) to make your app installable in many workspaces. If you are using
   [Passport](http://www.passportjs.org/) to handle authentication, you may find the
   [`@aoberoi/passport-slack`](https://github.com/aoberoi/passport-slack) strategy package helpful.

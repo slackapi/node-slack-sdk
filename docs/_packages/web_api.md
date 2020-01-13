@@ -651,8 +651,8 @@ const web = new WebClient(token, options);
 ### Exchange an OAuth grant for a token
 
 There's one method in the Slack Web API that doesn't requires a token, because its the method that gets a token! This
-method is called [`oauth.access`](https://api.slack.com/methods/oauth.access). It's used as part of the [OAuth
-2.0](https://api.slack.com/docs/oauth) process that users initiate when installing your app into a workspace. In the
+method is called [`oauth.v2.access`](https://api.slack.com/methods/oauth.v2.access). It's used as part of the [OAuth
+2.0](https://api.slack.com/authentication/oauth-v2) process that users initiate when installing your app into a workspace. In the
 last step of this process, your app has received an authorization grant called `code` which it needs to exchange for
 an access token (`token`). You can use an instance of the `WebClient` that has no token to easily complete this
 exchange.
@@ -667,7 +667,7 @@ const clientSecret = process.env.SLACK_CLIENT_SECRET;
 // Not shown: received an authorization grant called `code`.
 (async () => {
   // Create a client instance just to make this single call, and use it for the exchange
-  const result = await (new WebClient()).oauth.access({
+  const result = await (new WebClient()).oauth.v2.access({
     client_id: clientId,
     client_secret: clientSecret,
     code

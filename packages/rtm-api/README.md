@@ -9,6 +9,8 @@
 The `@slack/rtm-api` package contains a simple, convenient, and configurable client for receiving events and sending simple messages to Slack's [Real Time Messaging API](https://api.slack.com/rtm). Use it in your
 app to stay connected to the Slack platform over a persistent Websocket connection.
 
+**Note**: RTM isn't available for modern scoped apps anymore. We recommend using the [Events API](https://slack.dev/node-slack-sdk/events-api) and [Web API](https://slack.dev/node-slack-sdk/web-api) instead. If you need to use RTM (possibly due to corporate firewall limitations), you can do so by creating a [legacy scoped app](#TODO). If you have an existing RTM app, do not update its scopes as it will be updated to a modern scoped app and stop working with RTM.
+
 ## Installation
 
 ```shell
