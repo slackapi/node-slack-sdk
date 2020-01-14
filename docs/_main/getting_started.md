@@ -10,7 +10,7 @@ never used the Slack APIs before, you're in the right place. Welcome, and let's 
 
 ## Create a Slack app
 
-The first step is to [register a new app](https://api.slack.com/apps/new) with Slack at the API website. Give your app a
+The first step is to [create a new app](https://api.slack.com/apps?new_granular_bot_app=1) with Slack at the API website. Give your app a
 fun name and choose a Development Slack Workspace. We recommend using a workspace where you aren't going to disrupt real
 work getting done -- you can create a new one for free. After you create an app, you'll be greeted with some basic information.
 
@@ -21,20 +21,20 @@ status. Before we can call any methods, we need to configure our new app with th
 
 ## Getting a token to use the Web API
 
-Navigate to "OAuth & Permissions" and scroll down to the section for scopes. Slack describes the various permissions
+Navigate to **OAuth & Permissions** and scroll down to the section for scopes. Slack describes the various permissions
 your app could obtain from an installing bot as **scopes**. There are [over 80 scopes](https://api.slack.com/scopes)!
 Some are broad and authorize your app to access lots of data, while others are very specific and let your app touch just
 a tiny sliver. Your users (and their IT admins) will have opinions about which data your app should access, and only
 agree to install the app if the data permissions seem reasonable, so we recommend finding the scope(s) with the least
 amount of privilege for your app's needs. In this guide we will use the Web API to post a message. The scope required
-for this is called `chat:write`. Use the dropdown or start typing its name to select and add the scope, then click
+for this is called [`chat:write`](https://api.slack.com/scopes/chat:write). Use the dropdown under the "Bot Token Scopes" header and add the scope, then click
 "Save Changes".
 
-Now our app has described which scope it desires in the workspace, but we haven't added it to your workspace yet. To do so, we first need to create a bot user. Scroll down to Bot Users and click "Add a Bot User". Add a display name and username for your bot. Next, scroll up to Install App and click "Install App to Workspace". You'll be taken to the app installation page. This page is where you grant the bot user permission to install the app in your development workspace with specific capabilities.
+Now our app has described which scope it desires in the workspace, but we haven't added it to your workspace yet. To install your app, scroll up to the top of the page and click the green **Install App to Workspace** button. You'll be taken to the app installation page. This page is where you grant the bot user permission to install the app in your development workspace with specific capabilities.
 
 Go ahead and click "Allow". This will install the app on the workspace and generate the token we'll need.
 
-When you return to the "OAuth & Permissions" page copy the "Bot User OAuth Access Token" (it should begin with `xoxb`). Treat
+When you return to the **OAuth & Permissions** page copy the **Bot User OAuth Access Token** (it should begin with `xoxb`). Treat
 this value like a password and keep it safe. The Web API uses tokens to to authenticate the requests your app makes. In
 a later step, you'll be asked to use this token in your code.
 
@@ -114,8 +114,8 @@ const currentTime = new Date().toTimeString();
 })();
 ```
 
-This code creates an instance of the `WebClient`, which uses an access token to call Web API methods. The program reads
-the app's access token from an environment variable. Then this program will post a message in the `#general` channel,
+This code creates an instance of the `WebClient`, which uses an access token to call Web API methods. The app reads
+the access token from an environment variable. Then this app will post a message in the `#general` channel,
 assuming you have invited your bot to that channel.
 
 Run the program. The output should look like the following:
