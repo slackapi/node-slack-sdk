@@ -28,7 +28,7 @@ $ npm install @slack/webhook
 The package exports a `IncomingWebhook` class. You'll need to initialize it with the URL you received from Slack.
 
 The URL can come from installation in your development workspace, which is shown right in the app configuration pages.
-Or, the URL could be in the response from [`oauth.access`](https://api.slack.com/methods/oauth.access) when the app is
+Or, the URL could be in the response from [`oauth.v2.access`](https://api.slack.com/methods/oauth.v2.access) when the app is
 distributed and installed into another workspace.
 
 ```javascript
