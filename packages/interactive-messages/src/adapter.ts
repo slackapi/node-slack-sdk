@@ -458,8 +458,8 @@ export class SlackMessageAdapter {
         const callbackId = ((
           constraints.handlerType === StoredConstraintsType.ViewSubmission ||
           constraints.handlerType === StoredConstraintsType.ViewClosed
-        ) && payload.view && payload.view.callback_id) ||
-        (constraints.handlerType === StoredConstraintsType.Action && payload.callback_id);
+        ) && payload.view) ? payload.view.callback_id : payload.callback_id;
+
         if (isString(constraints.callbackId) && callbackId !== constraints.callbackId) {
           return false;
         }
