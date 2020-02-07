@@ -135,7 +135,7 @@ You just built your first Slack app with Node.js! 🎉💃🌮
 There's plenty more to learn and explore about this SDK and the Slack platform. Here are some ideas about where to
 look next:
 
-* Dive into the [`@slack/events-api`](https://slack.dev/node-slack-sdk/events_api) package to learn how your app can
+* Dive into the [`@slack/events-api`](https://slack.dev/node-slack-sdk/events-api) package to learn how your app can
   listen for events happening inside Slack. You'll need a URL where your app can receive events, and the [local
   development tutorial](https://slack.dev/node-slack-sdk/tutorials/local-development) can help you set one up.
 
