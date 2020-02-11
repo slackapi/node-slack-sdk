@@ -189,7 +189,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
    * @param shouldStop a predicate that is called with each page, and should return true when pagination can end.
    * @param reduce a callback that can be used to accumulate a value that the return promise is resolved to
    */
-  public paginate(method: string, options?: WebAPICallOptions): AsyncIterator<WebAPICallResult>;
+  public paginate(method: string, options?: WebAPICallOptions): AsyncIterableIterator<WebAPICallResult>;
   public paginate(
     method: string,
     options: WebAPICallOptions,
@@ -206,7 +206,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     options?: WebAPICallOptions,
     shouldStop?: PaginatePredicate,
     reduce?: PageReducer<A>,
-  ): (Promise<A> | AsyncIterator<WebAPICallResult>) {
+  ): (Promise<A> | AsyncIterableIterator<WebAPICallResult>) {
 
     if (!methods.cursorPaginationEnabledMethods.has(method)) {
       this.logger.warn(`paginate() called with method ${method}, which is not known to be cursor pagination enabled.`);
