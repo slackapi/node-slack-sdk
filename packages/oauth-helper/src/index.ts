@@ -153,31 +153,27 @@ export class InstallProvider {
           client_secret: this.clientSecret,
         }) as unknown as OAuthV1Response;
 
-        if (resp.app_id == null) {
-          // TODO: need to get appID
-        }
+        // TODO: need to get appID
         // resp obj for v1 - https://api.slack.com/methods/oauth.access#response
         // TODO: look into getting bot.id added to platform response
         // check if it already exists for v1
         installation = {
           team: { id: resp.team_id, name: resp.team_name },
-          appId: resp.app_id, // not included in v1 unless workspace apps, so most likely undefinied
+          appId: undefined, // not included in v1 unless workspace apps, so most likely undefinied
           user: {
             token: resp.access_token,
-            // TODO: workspace apps scopes needs to be massaged in here instead of undefined
-            scopes: resp.scope != null ? resp.scope.split(',') : undefined,
-            // resp.authorizing_user only available in workspace apps
-            // should this be installer_user for workspace apps
-            id: resp.authorizing_user != null ? resp.authorizing_user.user_id : '',
+            scopes: resp.scope.split(','),
+            id: '',
           },
           bot: {
-            scopes: resp.scope != null ? resp.scope.split(',') : [],
+            // TODO is this correct?
+            scopes: resp.scope.split(','),
             token: resp.bot != null ? resp.bot.bot_access_token : '',
             userId: resp.bot != null ? resp.bot.bot_user_id : '',
             id: '',
           },
-          // default should be user? it is app in workspace apps
-          tokenType: resp.token_type != null ? resp.token_type : 'user',
+          // TODO default should be user?
+          tokenType: 'user',
         };
       } else {
         // convert response type from WebApiCallResult to OAuthResponse
@@ -208,18 +204,6 @@ export class InstallProvider {
         };
       }
 
-    // {
-    //   ok: true,
-    //   app_id: 'ATEP45M3K',
-    //   authed_user: { id: 'U2VRKRGQ0' },
-    //   scope: 'chat:write,channels:read,groups:read,channels:manage',
-    //   token_type: 'bot',
-    //   access_token: 'xoxb-97819213779-930195450674-zw4OVLG2jufqf0ROcW52cYbr',
-    //   bot_user_id: 'UTC5RD8KU',
-    //   team: { id: 'T2VQ369NX', name: 'stevegill' },
-    //   enterprise: null,
-    //   response_metadata: {}
-    // }
       // save access code to installationStore
       await this.installationStore.storeInstallation(installation);
       if (options != null && options.success != null) {
@@ -230,7 +214,6 @@ export class InstallProvider {
         callbackSuccess(installation, metadata, req, res);
       }
     } catch (error) {
-      console.log('catch');
       console.log(error);
       if (options != null && options.failure != null) {
         console.log('calling options.failure');
@@ -304,29 +287,16 @@ interface OAuthV2Response {
 
 // Response shape from oauth.access - https://api.slack.com/methods/oauth.access#response
 interface OAuthV1Response {
+  ok: boolean;
   access_token: string;
   // scope parameter isn't returned in workspace apps
-  scope?: string;
+  scope: string;
   team_name: string;
   team_id: string;
   enterprise_id: string | null;
   // if they request bot user token
   bot?: { bot_user_id: string, bot_access_token: string };
-  // workspace apps only
-  authorizing_user: { user_id: string, app_home: string };
-  installer_user: { user_id: string, app_home: string };
-  app_id?: string;
-  app_user_id?: string;
-  token_type?: string;
-  scopes?: {
-    app_home: [],
-    team: [],
-    channel: [],
-    group: [],
-    mpim: [],
-    im: [],
-    user: [],
-  };
+  response_metadata: object;
 }
 
 interface StateStore {
@@ -350,8 +320,10 @@ interface StateObj {
 class ClearStateStore implements StateStore {
   private stateSecret: string;
   // todo: remove need for default string value here
-  public constructor(stateSecret: string = 'temp') {
-    console.log('stateSecret', stateSecret);
+  public constructor(stateSecret: string | undefined) {
+    if (stateSecret == null) {
+      throw new Error('You must provide a State Secret to use the built-in state store');
+    }
     this.stateSecret = stateSecret;
   }
 
@@ -367,7 +339,6 @@ class ClearStateStore implements StateStore {
   public verifyStateParam(now: Date, state: string): Promise<string | undefined> {
     // decode the state using the secret
     const decoded: StateObj = verify(state, this.stateSecret) as StateObj;
-    console.log(decoded);
 
     // return metadata string
     return new Promise<string | undefined>((resolve) => {
@@ -470,9 +441,9 @@ function callbackSuccess(
   // TODO: this if statement doesn't match the proposal one
   // if (!classicAuth || scopes.includes('bot')
   // How do i check if something is classicAuth? and bot scope doesn't make sense here
+  // TODO: Redirect only works for v2 OAuth as v1 is missing appId
   if (installation.tokenType === 'bot') {
     // redirect back to slack
-    console.log('res.redirect', installation.team.id, installation.appId);
     // TODO: this redirects back to workplace general instead of appHome tab
     const redirectUrl = `https://app.slack.com/client/${installation.team.id}/${installation.appId}/home`;
     res.writeHead(302, { Location: redirectUrl });
