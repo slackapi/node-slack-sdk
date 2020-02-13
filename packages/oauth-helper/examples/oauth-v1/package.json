@@ -1,0 +1,14 @@
+{
+  "name": "oauth-v1-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "oauth-v1-example.js",
+  "scripts": {
+    "start": "node oauth-v2-example.js"
+  },
+  "author": "Slack Technologies, Inc.",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
