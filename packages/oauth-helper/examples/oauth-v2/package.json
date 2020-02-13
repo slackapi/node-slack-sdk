@@ -2,9 +2,9 @@
   "name": "oauth-v2-example",
   "version": "1.0.0",
   "description": "",
-  "main": "oauth-v2-example.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node oauth-v2-example.js"
+    "start": "node app.js"
   },
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
