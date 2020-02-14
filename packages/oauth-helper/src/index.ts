@@ -122,7 +122,6 @@ export class InstallProvider {
     res: ServerResponse,
     options?: CallbackOptions,
   ): Promise<void> {
-    console.log('handleCallback');
     console.log(options);
     let parsedUrl;
     let code: string = '';
@@ -133,8 +132,6 @@ export class InstallProvider {
       code = parsedUrl.query.code as string;
       state = parsedUrl.query.state as string;
     }
-    console.log('code', code);
-    console.log('state', state);
 
     try {
       const metadata = await this.stateStore.verifyStateParam(new Date(), state);
@@ -151,6 +148,7 @@ export class InstallProvider {
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
+          redirect_uri: this.installOptions.redirectUri != null ? this.installOptions.redirectUri : undefined,
         }) as unknown as OAuthV1Response;
 
         // TODO: need to get appID
@@ -181,6 +179,7 @@ export class InstallProvider {
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
+          redirect_uri: this.installOptions.redirectUri != null ? this.installOptions.redirectUri : undefined,
         }) as unknown as OAuthV2Response;
 
         // resp obj for v2 - https://api.slack.com/methods/oauth.v2.access#response
@@ -282,6 +281,13 @@ interface OAuthV2Response {
   bot_user_id: string;
   team: { id: string, name: string };
   enterprise: { name: string, id: string } | null;
+  error?: string;
+  incoming_webhook?: {
+    url: string,
+    channel: string,
+    channel_id: string,
+    configuration_url: string,
+  };
   response_metadata: object;
 }
 
@@ -302,7 +308,7 @@ interface OAuthV1Response {
 interface StateStore {
   // Returned Promise resolves for a string which can be used as an
   // OAuth state param.
-  generateStateParam: (now: Date, secret: string | undefined, metadata?: string) => Promise<string>;
+  generateStateParam: (now: Date, metadata?: string) => Promise<string>;
 
   // Returned Promise resolves for metadata that was stored in the state
   // param, or undefined when there was no metadata. The Promise rejects
@@ -319,7 +325,6 @@ interface StateObj {
 // default implementation of StateStore
 class ClearStateStore implements StateStore {
   private stateSecret: string;
-  // todo: remove need for default string value here
   public constructor(stateSecret: string | undefined) {
     if (stateSecret == null) {
       throw new Error('You must provide a State Secret to use the built-in state store');
