@@ -211,6 +211,13 @@ export interface RadioButtons extends Action {
   confirm?: Confirm;
 }
 
+export interface Checkboxes extends Action {
+  type: 'checkboxes';
+  initial_options?: Option[];
+  options: Option[];
+  confirm?: Confirm;
+}
+
 export interface PlainTextInput extends Action {
   type: 'plain_text_input';
   placeholder?: PlainTextElement;
@@ -246,7 +253,7 @@ export interface ContextBlock extends Block {
 
 export interface ActionsBlock extends Block {
   type: 'actions';
-  elements: (Button | Overflow | Datepicker | Select | RadioButtons | Action)[];
+  elements: (Button | Overflow | Datepicker | Select | RadioButtons | Checkboxes | Action)[];
 }
 
 export interface DividerBlock extends Block {
