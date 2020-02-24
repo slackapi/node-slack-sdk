@@ -1,4 +1,4 @@
-# Slack Oauth Helper
+# Slack Oauth
 
 <!-- TODO: per-job badge https://github.com/bjfish/travis-matrix-badges/issues/4 -->
 [![Build Status](https://travis-ci.org/slackapi/node-slack-sdk.svg?branch=master)](https://travis-ci.org/slackapi/node-slack-sdk)
@@ -6,12 +6,12 @@
 [![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-sdk)
 <!-- TODO: npm versions with scoped packages: https://github.com/rvagg/nodei.co/issues/24 -->
 
-The `@slack/oauth-helper` package makes it simple to setup the OAuth flow for slack apps. It supports [V2 OAuth](https://api.slack.com/authentication/oauth-v2) for new Slack Apps as well as [V1 OAuth](https://api.slack.com/docs/oauth ) for classic Slack apps.
+The `@slack/oauth` package makes it simple to setup the OAuth flow for slack apps. It supports [V2 OAuth](https://api.slack.com/authentication/oauth-v2) for new Slack Apps as well as [V1 OAuth](https://api.slack.com/docs/oauth ) for classic Slack apps.
 
 ## Installation
 
 ```shell
-$ npm install @slack/oauth-helper
+$ npm install @slack/oauth
 ```
 
 <!-- START: Remove before copying into the docs directory -->
@@ -29,6 +29,22 @@ to find the **request signing secret** given to you by Slack under the "Basic In
 
 It may be helpful to read the tutorials on [getting started](https://slack.dev/node-slack-sdk/getting-started) and
 [getting a public URL that can be used for development](https://slack.dev/node-slack-sdk/tutorials/local-development).
+
+Simple setup with Express
+```
+const slackOauth = require('../../dist/index');
+const express = require('express');
+
+// intialize the installProvider
+const installer = new slackOauth.InstallProvider({
+  clientId: process.env.SLACK_CLIENT_ID,
+  clientSecret: process.env.SLACK_CLIENT_SECRET,
+  authVersion: 'v2',
+  stateSecret: 'my-state-secret'
+});
+
+
+```
 
 ---
 

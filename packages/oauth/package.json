@@ -1,5 +1,5 @@
 {
-  "name": "@slack/oauth-helper",
+  "name": "@slack/oauth",
   "version": "1.0.0",
   "description": "Official library for interacting with Slack's Oauth endpoints",
   "author": "Slack Technologies, Inc.",
@@ -19,7 +19,7 @@
     "node": ">=6.0.0"
   },
   "repository": "slackapi/node-slack-sdk",
-  "homepage": "https://slack.dev/node-slack-sdk/oauth-helper",
+  "homepage": "https://slack.dev/node-slack-sdk/oauth",
   "publishConfig": {
     "access": "public"
   },

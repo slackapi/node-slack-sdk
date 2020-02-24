@@ -1,9 +1,9 @@
 
 // TODO: Not using RequestListner, should I?
-import { RequestListener, IncomingMessage, ServerResponse } from 'http';
+import { IncomingMessage, ServerResponse } from 'http';
 import { sign, verify } from 'jsonwebtoken';
 import { WebClient } from '@slack/web-api';
-import { errorWithCode, CodedError } from './errors';
+import { CodedError } from './errors';
 import * as url from 'url';
 
 export class InstallProvider {
@@ -16,12 +16,15 @@ export class InstallProvider {
   private installOptions!: InstallURLOptions;
 
   public constructor({
-    clientId = '',
-    clientSecret = '',
+    clientId,
+    clientSecret,
     stateSecret = undefined,
     stateStore = new ClearStateStore(stateSecret),
-    installationStore = new MemoryInstallStore(),
+    installationStore = new MemoryInstallationStore(),
     authVersion = 'v2'}: InstallProviderOptions) {
+    if (typeof clientId !== 'string' || typeof clientSecret !== 'string') {
+      throw new Error('You must provide a valid clientId and clientSecret');
+    }
 
     this.stateStore = stateStore;
     this.installationStore = installationStore;
@@ -66,13 +69,17 @@ export class InstallProvider {
       URL = 'https://slack.com/oauth/authorize?';
     }
 
+    if (options.scopes === undefined) {
+      throw new Error('You must provide a scope paramter when calling generateInstallUrl');
+    }
+
     // scope
     let scopes;
     if (options.scopes instanceof Array) {
       scopes = options.scopes.join(',');
     } else {
       scopes = options.scopes;
-    }
+    } 
     URL = `${URL}scope=${scopes}`;
 
     // generate state
@@ -126,6 +133,7 @@ export class InstallProvider {
     let parsedUrl;
     let code: string = '';
     let state: string = '';
+    let botId = '';
 
     if (req.url != null) {
       parsedUrl = url.parse(req.url, true);
@@ -135,8 +143,6 @@ export class InstallProvider {
 
     try {
       const metadata = await this.stateStore.verifyStateParam(new Date(), state);
-      console.log(metadata);
-
       const client = new WebClient('');
 
       let resp;
@@ -151,6 +157,12 @@ export class InstallProvider {
           redirect_uri: this.installOptions.redirectUri != null ? this.installOptions.redirectUri : undefined,
         }) as unknown as OAuthV1Response;
 
+        // only can get botId if bot access token exists
+        // need to create a botUser + request bot scope to have this be part of resp
+        if (resp.bot != null) {
+          botId = await getBotId(resp.bot.bot_access_token);
+        }
+
         // TODO: need to get appID
         // resp obj for v1 - https://api.slack.com/methods/oauth.access#response
         // TODO: look into getting bot.id added to platform response
@@ -164,14 +176,14 @@ export class InstallProvider {
             id: '',
           },
           bot: {
-            // TODO is this correct?
+            // TODO: is it correct to copy top level scopes down to here?
             scopes: resp.scope.split(','),
             token: resp.bot != null ? resp.bot.bot_access_token : '',
             userId: resp.bot != null ? resp.bot.bot_user_id : '',
-            id: '',
+            id: botId,
           },
           // TODO default should be user?
-          tokenType: 'user',
+          tokenType: 'classic',
         };
       } else {
         // convert response type from WebApiCallResult to OAuthResponse
@@ -181,6 +193,9 @@ export class InstallProvider {
           client_secret: this.clientSecret,
           redirect_uri: this.installOptions.redirectUri != null ? this.installOptions.redirectUri : undefined,
         }) as unknown as OAuthV2Response;
+
+        // get botId
+        botId = await getBotId(resp.access_token);
 
         // resp obj for v2 - https://api.slack.com/methods/oauth.v2.access#response
         // TODO: look into getting bot.id added to platform response
@@ -230,7 +245,7 @@ interface InstallProviderOptions {
   clientSecret: string;
   stateStore?: StateStore; // default ClearStateStore
   stateSecret?: string; // ClearStateStoreOptions['secret']; // required when using default stateStore
-  installationStore?: InstallationStore; // default MemoryInstallStore
+  installationStore?: InstallationStore; // default MemoryInstallationStore
   authVersion: 'v1' | 'v2'; // default 'v2'
 }
 
@@ -239,7 +254,7 @@ interface InstallURLOptions {
   teamId?: string;
   redirectUri?: string;
   userScopes?: string | string[]; // cannot be used with authVersion=v1
-  metadata?: string;
+  metadata?: string; // Arbitrary data can be stored here, potentially to save app state or use for custom redirect
 }
 
 interface CallbackOptions {
@@ -335,13 +350,12 @@ class ClearStateStore implements StateStore {
   // TODO: Question, why do the params below need to have types definied
   // instead of getting those types from StateStore interface
   public generateStateParam(now: Date, metadata?: string): Promise<string> {
-    console.log('clear store generate state param');
     const state = sign({ metadata, now: now.toJSON() }, this.stateSecret);
     return new Promise<string>((resolve) => {
       resolve(state);
     });
   }
-  public verifyStateParam(now: Date, state: string): Promise<string | undefined> {
+  public verifyStateParam(_now: Date, state: string): Promise<string | undefined> {
     // decode the state using the secret
     const decoded: StateObj = verify(state, this.stateSecret) as StateObj;
 
@@ -357,13 +371,14 @@ interface InstallationStore {
   fetchInstallation: (query: InstallationQuery) => Promise<Installation>;
 }
 
+// using a javascript object as a makeshift database for development
 interface DevDatabase {
   [key: string]: Installation;
 }
 const devDB: DevDatabase = {};
 
 // Default Install Store. Should only be used for development
-class MemoryInstallStore implements InstallationStore {
+class MemoryInstallationStore implements InstallationStore {
 
   public storeInstallation(installation: Installation): Promise<void> {
     console.log('Storing Access Token. Please use a real Installation Store for production!');
@@ -438,8 +453,8 @@ interface AuthorizeResult {
 // Default function to call when OAuth flow is successful
 function callbackSuccess(
   installation: Installation,
-  metadata: string | undefined,
-  req: IncomingMessage,
+  _metadata: string | undefined,
+  _req: IncomingMessage,
   res: ServerResponse,
 ): void {
   // TODO: We never do anything with metadata. Should we?
@@ -447,7 +462,7 @@ function callbackSuccess(
   // if (!classicAuth || scopes.includes('bot')
   // How do i check if something is classicAuth? and bot scope doesn't make sense here
   // TODO: Redirect only works for v2 OAuth as v1 is missing appId
-  if (installation.tokenType === 'bot') {
+  if (installation.team.id != null && installation.appId != null) {
     // redirect back to slack
     // TODO: this redirects back to workplace general instead of appHome tab
     const redirectUrl = `https://app.slack.com/client/${installation.team.id}/${installation.appId}/home`;
@@ -463,11 +478,25 @@ function callbackSuccess(
 
 // Default function to call when OAuth flow is unsuccessful
 function callbackFailure(
-  error: CodedError,
-  options: InstallURLOptions,
-  req: IncomingMessage,
+  _error: CodedError,
+  _options: InstallURLOptions,
+  _req: IncomingMessage,
   res: ServerResponse,
 ): void {
   res.writeHead(500, { 'Content-Type': 'text/html' });
   res.end('<html><body><h1>Oops, Something Went Wrong! Please Try Again or Contact the App Owner</h1></body></html>');
+}
+
+// Gets the bot_id using the `auth.test` method.
+async function getBotId(token: string): Promise<string> {
+  const client = new WebClient(token);
+  const authResult = await client.auth.test();
+  return new Promise<string>((resolve) => {
+    if (authResult.bot_id != null) {
+      resolve(authResult.bot_id as string);
+    }
+    // If a user token was used for auth.test, there is no bot_id
+    // return an empty string in this case
+    resolve('');
+  });
 }
