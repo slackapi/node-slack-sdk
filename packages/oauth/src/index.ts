@@ -5,6 +5,7 @@ import { sign, verify } from 'jsonwebtoken';
 import { WebClient } from '@slack/web-api';
 import { CodedError } from './errors';
 import * as url from 'url';
+import { Logger, LogLevel, getLogger } from './logger';
 
 export class InstallProvider {
   public stateStore: StateStore;
@@ -12,6 +13,7 @@ export class InstallProvider {
   private clientId: string;
   private clientSecret: string;
   private authVersion: string;
+  private logger: Logger;
   // Use Definite Assignment Assertions here because this gets set in generateInstallUrl
   private installOptions!: InstallURLOptions;
 
@@ -21,9 +23,22 @@ export class InstallProvider {
     stateSecret = undefined,
     stateStore = new ClearStateStore(stateSecret),
     installationStore = new MemoryInstallationStore(),
-    authVersion = 'v2'}: InstallProviderOptions) {
+    authVersion = 'v2',
+    logger = undefined,
+    logLevel = LogLevel.INFO}: InstallProviderOptions) {
+
     if (typeof clientId !== 'string' || typeof clientSecret !== 'string') {
       throw new Error('You must provide a valid clientId and clientSecret');
+    }
+
+    // Setup the logger
+    if (typeof logger !== 'undefined') {
+      this.logger = logger;
+      if (typeof logLevel !== 'undefined') {
+        this.logger.debug('The logLevel given to OAuth was ignored as you also gave logger');
+      }
+    } else {
+      this.logger = getLogger('OAuth', logLevel, logger);
     }
 
     this.stateStore = stateStore;
@@ -40,7 +55,7 @@ export class InstallProvider {
    * This method can be used as the value in AppOptions['authorize']
    */
   public async authorize(source: InstallationQuery): Promise<AuthorizeResult> {
-    const queryResult = await this.installationStore.fetchInstallation(source);
+    const queryResult = await this.installationStore.fetchInstallation(source, this.logger);
 
     const authResult: AuthorizeResult = {};
     authResult.userToken = queryResult.user.token;
@@ -79,7 +94,7 @@ export class InstallProvider {
       scopes = options.scopes.join(',');
     } else {
       scopes = options.scopes;
-    } 
+    }
     URL = `${URL}scope=${scopes}`;
 
     // generate state
@@ -129,25 +144,27 @@ export class InstallProvider {
     res: ServerResponse,
     options?: CallbackOptions,
   ): Promise<void> {
-    console.log(options);
     let parsedUrl;
-    let code: string = '';
-    let state: string = '';
-    let botId = '';
-
-    if (req.url != null) {
-      parsedUrl = url.parse(req.url, true);
-      code = parsedUrl.query.code as string;
-      state = parsedUrl.query.state as string;
-    }
+    let code: string;
+    let state: string;
 
     try {
+      if (req.url != null) {
+        parsedUrl = url.parse(req.url, true);
+        code = parsedUrl.query.code as string;
+        state = parsedUrl.query.state as string;
+        if (state === undefined) {
+          throw new Error('redirect url is missing state query parameter');
+        }
+      } else {
+        throw new Error('Something went wrong');
+      }
+
       const metadata = await this.stateStore.verifyStateParam(new Date(), state);
       const client = new WebClient('');
 
       let resp;
       let installation: Installation;
-      console.log('authVersion', this.authVersion);
       if (this.authVersion === 'v1') {
         // convert response type from WebApiCallResult to OAuthResponse
         resp = await client.oauth.access({
@@ -157,34 +174,33 @@ export class InstallProvider {
           redirect_uri: this.installOptions.redirectUri != null ? this.installOptions.redirectUri : undefined,
         }) as unknown as OAuthV1Response;
 
-        // only can get botId if bot access token exists
-        // need to create a botUser + request bot scope to have this be part of resp
-        if (resp.bot != null) {
-          botId = await getBotId(resp.bot.bot_access_token);
+        // throw error if error exists
+        if (resp.error != null && !resp.ok) {
+          throw new Error(resp.error);
         }
 
-        // TODO: need to get appID
         // resp obj for v1 - https://api.slack.com/methods/oauth.access#response
-        // TODO: look into getting bot.id added to platform response
-        // check if it already exists for v1
         installation = {
           team: { id: resp.team_id, name: resp.team_name },
-          appId: undefined, // not included in v1 unless workspace apps, so most likely undefinied
+          appId: resp.app_id, // not included in v1 unless workspace apps, so most likely undefinied
           user: {
             token: resp.access_token,
             scopes: resp.scope.split(','),
-            id: '',
+            id: '', // Todo: no value for this
           },
-          bot: {
-            // TODO: is it correct to copy top level scopes down to here?
-            scopes: resp.scope.split(','),
-            token: resp.bot != null ? resp.bot.bot_access_token : '',
-            userId: resp.bot != null ? resp.bot.bot_user_id : '',
-            id: botId,
-          },
-          // TODO default should be user?
-          tokenType: 'classic',
         };
+
+        // only can get botId if bot access token exists
+        // need to create a botUser + request bot scope to have this be part of resp
+        if (resp.bot != null) {
+          const botId = await getBotId(resp.bot.bot_access_token);
+          installation.bot = {
+            id: botId,
+            scopes: resp.scope.split(','), // TODO: Is there a way to get bot specific scopes?
+            token: resp.bot.bot_access_token,
+            userId: resp.bot.bot_user_id,
+          };
+        }
       } else {
         // convert response type from WebApiCallResult to OAuthResponse
         resp = await client.oauth.v2.access({
@@ -194,12 +210,15 @@ export class InstallProvider {
           redirect_uri: this.installOptions.redirectUri != null ? this.installOptions.redirectUri : undefined,
         }) as unknown as OAuthV2Response;
 
+        // throw error if error exists
+        if (resp.error != null && !resp.ok) {
+          throw new Error(resp.error);
+        }
+
         // get botId
-        botId = await getBotId(resp.access_token);
+        const botId = await getBotId(resp.access_token);
 
         // resp obj for v2 - https://api.slack.com/methods/oauth.v2.access#response
-        // TODO: look into getting bot.id added to platform response
-        // check if it already exists for v1
         installation = {
           team: resp.team,
           appId: resp.app_id,
@@ -212,28 +231,37 @@ export class InstallProvider {
             scopes: resp.scope.split(','),
             token: resp.access_token,
             userId: resp.bot_user_id,
-            id: '', // not currently included
+            id: botId,
           },
           tokenType: resp.token_type,
         };
       }
 
+      if (resp.incoming_webhook != null) {
+        installation.incomingWebhook = {
+          url: resp.incoming_webhook.url,
+          channel: resp.incoming_webhook.channel,
+          channelId: resp.incoming_webhook.channel_id,
+          configurationUrl: resp.incoming_webhook.configuration_url,
+        };
+      }
+
       // save access code to installationStore
-      await this.installationStore.storeInstallation(installation);
+      await this.installationStore.storeInstallation(installation, this.logger);
       if (options != null && options.success != null) {
-        console.log('calling options.sucess');
+        this.logger.debug('calling passed in options.sucess');
         options.success(installation, metadata, req, res);
       } else {
-        // call our default callbackSuccess function
+        this.logger.debug('run built-in success function');
         callbackSuccess(installation, metadata, req, res);
       }
     } catch (error) {
-      console.log(error);
+      this.logger.error(error);
       if (options != null && options.failure != null) {
-        console.log('calling options.failure');
+        this.logger.debug('calling passed in options.failure');
         options.failure(error, this.installOptions , req, res);
       } else {
-        console.log('run custom failure function');
+        this.logger.debug('run built-in failure function');
         callbackFailure(error, this.installOptions , req, res);
       }
     }
@@ -247,6 +275,8 @@ interface InstallProviderOptions {
   stateSecret?: string; // ClearStateStoreOptions['secret']; // required when using default stateStore
   installationStore?: InstallationStore; // default MemoryInstallationStore
   authVersion: 'v1' | 'v2'; // default 'v2'
+  logger?: Logger;
+  logLevel?: LogLevel;
 }
 
 interface InstallURLOptions {
@@ -317,7 +347,16 @@ interface OAuthV1Response {
   enterprise_id: string | null;
   // if they request bot user token
   bot?: { bot_user_id: string, bot_access_token: string };
+  incoming_webhook?: {
+    url: string,
+    channel: string,
+    channel_id: string,
+    configuration_url: string,
+  };
   response_metadata: object;
+  error?: string;
+  // app_id is currently undefinined but leaving it in here incase the v1 method adds it
+  app_id: string | undefined;
 }
 
 interface StateStore {
@@ -367,8 +406,8 @@ class ClearStateStore implements StateStore {
 }
 
 interface InstallationStore {
-  storeInstallation: (installation: Installation) => Promise<void>;
-  fetchInstallation: (query: InstallationQuery) => Promise<Installation>;
+  storeInstallation: (installation: Installation, logger?: Logger) => Promise<void>;
+  fetchInstallation: (query: InstallationQuery, logger?: Logger) => Promise<Installation>;
 }
 
 // using a javascript object as a makeshift database for development
@@ -380,8 +419,10 @@ const devDB: DevDatabase = {};
 // Default Install Store. Should only be used for development
 class MemoryInstallationStore implements InstallationStore {
 
-  public storeInstallation(installation: Installation): Promise<void> {
-    console.log('Storing Access Token. Please use a real Installation Store for production!');
+  public storeInstallation(installation: Installation, logger?: Logger): Promise<void> {
+    if (logger != null) {
+      logger.warn('Storing Access Token. Please use a real Installation Store for production!');
+    }
     // db write
     devDB[installation.team.id] = installation;
     return new Promise<void>((resolve) => {
@@ -389,8 +430,10 @@ class MemoryInstallationStore implements InstallationStore {
     });
   }
 
-  public fetchInstallation(query: InstallationQuery): Promise<Installation> {
-    console.log('Retrieving Access Token from DB. Please use a real Installation Store for production!');
+  public fetchInstallation(query: InstallationQuery, logger?: Logger): Promise<Installation> {
+    if (logger != null) {
+      logger.warn('Retrieving Access Token from DB. Please use a real Installation Store for production!');
+    }
     // db read
     const item = devDB[query.teamId];
     return new Promise<Installation>((resolve) => {
@@ -424,6 +467,7 @@ interface Installation {
   incomingWebhook?: {
     url: string;
     channel: string;
+    channelId: string;
     configurationUrl: string;
   };
   appId: string | undefined;

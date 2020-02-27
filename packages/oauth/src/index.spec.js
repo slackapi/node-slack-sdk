@@ -104,10 +104,16 @@ describe('OAuth', function () {
         it('should return a generated v2 url', async function() {
             const installer = new InstallProvider({clientId, clientSecret, stateSecret});
             const scopes = ['channels:read'];
+            const teamId = '1234Team';
+            const redirectUri = 'https://mysite.com/slack/redirect';
+            const userScopes = ['chat:write:user']
             try {
                 const generatedUrl = await installer.generateInstallUrl({
                     scopes,
                     metadata: 'some_metadata',
+                    teamId,
+                    redirectUri,
+                    userScopes,
                 })
                 assert.exists(generatedUrl);
                 const parsedUrl = url.parse(generatedUrl);
@@ -115,6 +121,15 @@ describe('OAuth', function () {
                 var scopeRegex = /scope=(.*)&state/;
                 var scopeMatches = scopeRegex.exec(parsedUrl.query);
                 assert.equal(scopes.join(','), scopeMatches[1]);
+                const redirectUriRegex = /redirect_uri=(.*)&team/;
+                const redirectMatches = redirectUriRegex.exec(parsedUrl.query);
+                assert.equal(redirectUri, redirectMatches[1]);
+                const teamRegex = /team=(.*)&user_scope/;
+                const teamMatches = teamRegex.exec(parsedUrl.query);
+                assert.equal(teamId, teamMatches[1]);
+                const userRegex = /user_scope=(.*)/;
+                const userMatches = userRegex.exec(parsedUrl.query);
+                assert.equal(userScopes.join(','), userMatches[1]);
             } catch (error) {
                 assert.fail(error.message);
             }
@@ -122,17 +137,27 @@ describe('OAuth', function () {
         it('should return a generated v1 url', async function() {
             const installer = new InstallProvider({clientId, clientSecret, stateSecret, authVersion: 'v1'});
             const scopes = ['channels:read'];
+            const teamId = '1234Team';
+            const redirectUri = 'https://mysite.com/slack/redirect';
             try {
                 const generatedUrl = await installer.generateInstallUrl({
                     scopes,
                     metadata: 'some_metadata',
+                    teamId,
+                    redirectUri,
                 })
                 assert.exists(generatedUrl);
                 const parsedUrl = url.parse(generatedUrl);
                 assert.equal(parsedUrl.pathname, '/oauth/authorize');
-                var scopeRegex = /scope=(.*)&state/;
-                var scopeMatches = scopeRegex.exec(parsedUrl.query);
+                const scopeRegex = /scope=(.*)&state/;
+                const scopeMatches = scopeRegex.exec(parsedUrl.query);
                 assert.equal(scopes.join(','), scopeMatches[1]);
+                const redirectUriRegex = /redirect_uri=(.*)&team/;
+                const redirectMatches = redirectUriRegex.exec(parsedUrl.query);
+                assert.equal(redirectUri, redirectMatches[1]);
+                const teamRegex = /team=(.*)/;
+                const teamMatches = teamRegex.exec(parsedUrl.query);
+                assert.equal(teamId, teamMatches[1]);
             } catch (error) {
                 assert.fail(error.message);
             }
