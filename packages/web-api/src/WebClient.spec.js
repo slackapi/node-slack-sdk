@@ -86,7 +86,11 @@ describe('WebClient', function () {
           .post(/api/)
           .reply(200, { ok: true,
             response_metadata: {
-              warnings: ['testWarning1', 'testWarning2']
+              warnings: ['testWarning1', 'testWarning2'],
+              messages: [
+                "[ERROR] unsupported type: sections [json-pointer:/blocks/0/type]", 
+                "[WARN] A Content-Type HTTP header was presented but did not declare a charset, such as a 'utf-8'"
+              ]
             }
           });
       });
@@ -99,7 +103,7 @@ describe('WebClient', function () {
         });
       });
 
-      it('should send warnings to logs', function() {
+      it('should send warnings to logs from both response_metadata.warnings & response_metadata.messages', function() {
         const logger = {
           debug: sinon.spy(),
           info: sinon.spy(),
@@ -111,7 +115,23 @@ describe('WebClient', function () {
         const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
         return warnClient.apiCall('method')
           .then(() => {
-            assert.isTrue(logger.warn.calledTwice);
+            assert.isTrue(logger.warn.calledThrice);
+          });
+      });
+
+      it('should send response_metadata.messages errors to logs', function() {
+        const logger = {
+          debug: sinon.spy(),
+          info: sinon.spy(),
+          warn: sinon.spy(),
+          error: sinon.spy(),
+          setLevel: sinon.spy(),
+          setName: sinon.spy(),
+        };
+        const errorClient = new WebClient(token, { logLevel: LogLevel.ERROR, logger });
+        return errorClient.apiCall('method')
+          .then(() => {
+            assert.isTrue(logger.error.calledOnce);
           });
       });
     });
