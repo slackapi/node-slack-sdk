@@ -4,7 +4,7 @@ permalink: /rtm-api
 redirect_from:
   - /bots
   - /rtm_api
-order: 4
+order: 5
 ---
 
 # Slack Real Time Messaging API
