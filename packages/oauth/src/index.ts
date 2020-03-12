@@ -508,8 +508,11 @@ function callbackSuccess(
   // TODO: Redirect only works for v2 OAuth as v1 is missing appId
   if (installation.team.id != null && installation.appId != null) {
     // redirect back to slack
-    // TODO: this redirects back to workplace general instead of appHome tab
-    const redirectUrl = `https://app.slack.com/client/${installation.team.id}/${installation.appId}/home`;
+    // TODO: should we provide an option to open in the browser instead of client?
+    // open in web client
+    // const redirectUrl = `https://app.slack.com/client/${installation.team.id}/${installation.appId}/`;
+    // Open in native app
+    const redirectUrl = `slack://app?team=${installation.team.id}&id=${installation.appId}`;
     res.writeHead(302, { Location: redirectUrl });
     res.end();
   } else {

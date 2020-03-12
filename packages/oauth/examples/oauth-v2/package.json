@@ -9,6 +9,7 @@
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "keyv": "^4.0.0"
   }
 }

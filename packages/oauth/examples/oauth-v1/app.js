@@ -23,26 +23,37 @@ app.get('/begin_auth', (req, res, next) => {
 });
 
 const callbackOptions = {
-  success: () => {
+  success: (installation, metadata, req, res) => {
     console.log('success!')
   },
-  failure: () => {
+  failure: (error, installOptions , req, res) => {
     console.log('fail')
   },
 }
 
+// example 1
 // empty callbackOptions Object
-// use skacjOAuth default success and failure methods
+// use slackOauth default success and failure methods
 app.get('/slack/install', (req, res) => {
   installer.handleCallback(req, res, {});
 });
 
+// example 2
+// const callbackOptions = {
+//   success: (installation, metadata, req, res) => {
+//     res.send('successful!');
+//   },
+//   failure: (error, installOptions , req, res) => {
+//     res.send('failure');
+//   },
+// }
 // callbackOptions object with success and failure methods
 // app.get('/slack/install', (req, res) => {
 //   installer.handleCallback(req, res, callbackOptions);
 // });
 
-// use slackOAuth default success and methods
+// example 3
+// use slackOauth default success and failure methods
 // app.get('/slack/install', installer.handleCallback);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
