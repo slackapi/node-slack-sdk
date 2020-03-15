@@ -67,7 +67,7 @@ export interface MrkdwnElement {
 }
 
 export interface Option {
-  text: PlainTextElement;
+  text: PlainTextElement | MrkdwnElement;
   value?: string;
   url?: string;
   description?: PlainTextElement;
