@@ -144,7 +144,7 @@ export interface ConversationsSelect extends Action {
   filter?: {
     include?: ('im' | 'mpim' | 'private' | 'public')[];
     exclude_external_shared_channels?: boolean;
-    exclude_bot_users: boolean;
+    exclude_bot_users?: boolean;
   };
 }
 
@@ -157,7 +157,7 @@ export interface MultiConversationsSelect extends Action {
   filter?: {
     include?: ('im' | 'mpim' | 'private' | 'public')[];
     exclude_external_shared_channels?: boolean;
-    exclude_bot_users: boolean;
+    exclude_bot_users?: boolean;
   };
 }
 
