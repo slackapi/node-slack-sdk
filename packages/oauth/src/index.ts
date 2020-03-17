@@ -85,7 +85,7 @@ export class InstallProvider {
     }
 
     if (options.scopes === undefined) {
-      throw new Error('You must provide a scope paramter when calling generateInstallUrl');
+      throw new Error('You must provide a scope parameter when calling generateInstallUrl');
     }
 
     // scope

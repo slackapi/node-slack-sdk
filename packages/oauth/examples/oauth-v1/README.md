@@ -1,8 +1,8 @@
 # OAuth v1 Example
 
-This repo contains a sample app for doing OAuth with Slack for Classic Slack Apps. I recommending checking out `app.js`. I've included a few different options in the code which have been commented out. As you play around with the app, I recommend you uncomment some of these options to get a deeper understanding of how to use this library. 
+This repo contains a sample app for doing OAuth with Slack for [Classic Slack apps](https://api.slack.com/authentication/quickstart). Checkout `app.js`. The code includes a few different options which have been commented out. As you play around with the app, you can uncomment some of these options to get a deeper understanding of how to use this library. 
 
-I recommend using [`ngrok`](https://ngrok.com/download) for local development of Slack apps. Checkout [this guide](https://api.slack.com/tutorials/tunneling-with-ngrok) for setting it up.
+Local development requires a public URL where Slack can send requests. In this guide, we'll be using [`ngrok`](https://ngrok.com/download). Checkout [this guide](https://api.slack.com/tutorials/tunneling-with-ngrok) for setting it up.
 
 Before we get started, make sure you have a development workspace where you have permissions to install apps. If you don’t have one setup, go ahead and [create one](https://slack.com/create). You also need to [create a new app](https://api.slack.com/apps?new_app=1) if you haven’t already. 
 
