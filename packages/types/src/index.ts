@@ -140,6 +140,12 @@ export interface ConversationsSelect extends Action {
   initial_conversation?: string;
   placeholder?: PlainTextElement;
   confirm?: Confirm;
+  response_url_enabled?: boolean;
+  filter?: {
+    include?: ('im' | 'mpim' | 'private' | 'public')[];
+    exclude_external_shared_channels?: boolean;
+    exclude_bot_users?: boolean;
+  };
 }
 
 export interface MultiConversationsSelect extends Action {
@@ -148,6 +154,11 @@ export interface MultiConversationsSelect extends Action {
   placeholder?: PlainTextElement;
   max_selected_items?: number;
   confirm?: Confirm;
+  filter?: {
+    include?: ('im' | 'mpim' | 'private' | 'public')[];
+    exclude_external_shared_channels?: boolean;
+    exclude_bot_users?: boolean;
+  };
 }
 
 export interface ChannelsSelect extends Action {
