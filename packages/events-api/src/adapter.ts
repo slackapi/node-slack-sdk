@@ -1,7 +1,7 @@
 /* tslint:disable import-name */
 import { EventEmitter } from 'events';
 import * as http from 'http';
-import { RequestListener } from 'http';
+import { RequestListener } from 'http'; 
 import debugFactory from 'debug';
 import isString from 'lodash.isstring';
 import { createHTTPHandler } from './http-handler';
@@ -47,14 +47,7 @@ export class SlackEventAdapter extends EventEmitter {
    * @param opts.waitForResponse - When `true` prevents the adapter from responding by itself and leaves that up to
    *   listeners.
    */
-  constructor(
-    signingSecret: string,
-    {
-      includeBody = false,
-      includeHeaders = false,
-      waitForResponse = false,
-    }: EventAdapterOptions = {},
-  ) {
+  constructor(signingSecret: string, { includeBody = false, includeHeaders = false, waitForResponse = false }: EventAdapterOptions = {}) {
     if (!isString(signingSecret)) {
       throw new TypeError('SlackEventAdapter needs a signing secret');
     }
@@ -69,7 +62,7 @@ export class SlackEventAdapter extends EventEmitter {
     debug('adapter instantiated - options: %o', {
       includeBody,
       includeHeaders,
-      waitForResponse,
+      waitForResponse
     });
   }
 
@@ -88,13 +81,15 @@ export class SlackEventAdapter extends EventEmitter {
    * @returns The {@link http.Server | server}.
    */
   public start(port: number): Promise<http.Server> {
-    return this.createServer()
-      .then(server => new Promise((resolve, reject) => {
-        this.server = server;
-        server.on('error', reject);
-        server.listen(port, () => resolve(server));
-        debug('server started - port: %s', port);
-      }));
+    return this.createServer().then(
+      server =>
+        new Promise((resolve, reject) => {
+          this.server = server;
+          server.on('error', reject);
+          server.listen(port, () => resolve(server));
+          debug('server started - port: %s', port);
+        })
+    );
   }
 
   /**
@@ -103,7 +98,7 @@ export class SlackEventAdapter extends EventEmitter {
   public stop(): Promise<void> {
     return new Promise((resolve, reject) => {
       if (!isFalsy(this.server)) {
-        this.server.close((error) => {
+        this.server.close(error => {
           delete this.server;
           if (!isFalsy(error)) {
             reject(error);
