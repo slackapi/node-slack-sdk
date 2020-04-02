@@ -1,6 +1,7 @@
 /* tslint:disable import-name */
-import EventEmitter from 'events';
-import http, { RequestListener } from 'http';
+import { EventEmitter } from 'events';
+import * as http from 'http';
+import { RequestListener } from 'http';
 import debugFactory from 'debug';
 import isString from 'lodash.isstring';
 import { createHTTPHandler } from './http-handler';
