@@ -112,7 +112,7 @@ API calls. It does this exchange by calling the [`oauth.v2.access` method](https
 
 ## Fetching Data from DB
 
-The build in [Installation Store](#installation-store-guidelines) takes in an `Installation Query` object that has a `teamId` parameter. It will then search the DB with this parameter or any matches, and return an object that could have any combination of `botToken`, `userToken`, `botId`, `botUserId`, depending on which scopes your app initially requests. *Note: your app will likely receive the `teamId` in event and action payloads.*
+The built in [Installation Store](#installation-store-guidelines) takes in an `Installation Query` object that has a `teamId` parameter. It will then search the DB with this parameter or any matches, and return an object that could have any combination of `botToken`, `userToken`, `botId`, `botUserId`, depending on which scopes your app initially requests. *Note: your app will likely receive the `teamId` in event and action payloads.*
 
 ```javascript
 const result = installer.authorize({teamId:'my-Team-ID'});

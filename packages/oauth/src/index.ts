@@ -7,7 +7,13 @@ import { CodedError } from './errors';
 import * as url from 'url';
 import { Logger, LogLevel, getLogger } from './logger';
 
-export class InstallProvider {
+export interface OAuthInterface {
+  generateInstallUrl(options: InstallURLOptions): Promise<string>;
+  authorize(source: InstallationQuery): Promise<AuthorizeResult>;
+  handleCallback(req: IncomingMessage, res: ServerResponse, options?: CallbackOptions): Promise<void>;
+}
+
+export class InstallProvider implements OAuthInterface {
   public stateStore: StateStore;
   public installationStore: InstallationStore;
   private clientId: string;
@@ -17,7 +23,7 @@ export class InstallProvider {
   // Use Definite Assignment Assertions here because this gets set in generateInstallUrl
   private installOptions!: InstallURLOptions;
 
-  public constructor({
+  constructor({
     clientId,
     clientSecret,
     stateSecret = undefined,
@@ -359,7 +365,7 @@ interface OAuthV1Response {
   app_id: string | undefined;
 }
 
-interface StateStore {
+export interface StateStore {
   // Returned Promise resolves for a string which can be used as an
   // OAuth state param.
   generateStateParam: (now: Date, metadata?: string) => Promise<string>;
@@ -405,7 +411,7 @@ class ClearStateStore implements StateStore {
   }
 }
 
-interface InstallationStore {
+export interface InstallationStore {
   storeInstallation: (installation: Installation, logger?: Logger) => Promise<void>;
   fetchInstallation: (query: InstallationQuery, logger?: Logger) => Promise<Installation>;
 }
