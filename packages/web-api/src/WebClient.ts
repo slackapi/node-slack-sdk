@@ -147,6 +147,8 @@ export class WebClient extends EventEmitter<WebClientEvent> {
   public async apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult> {
     this.logger.debug(`apiCall('${method}') start`);
 
+    warnDeprecations(method, this.logger);
+
     if (typeof options === 'string' || typeof options === 'number' || typeof options === 'boolean') {
       throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
     }
@@ -963,4 +965,22 @@ function parseRetryHeaders(response: AxiosResponse): number | undefined {
     }
   }
   return undefined;
+}
+
+/**
+ * Log a warning when using a deprecated method
+ * @param method api method being called
+ * @param logger instance of web clients logger
+ */
+function warnDeprecations(method: string, logger: Logger): void {
+  const deprecatedMethods = ['channels.', 'groups.', 'im.', 'mpim.'];
+
+  const isDeprecated = deprecatedMethods.some((depMethod) => {
+    const re = new RegExp(`^${depMethod}`);
+    return re.test(method);
+  });
+
+  if (isDeprecated) {
+    logger.warn(`${method} is deprecated. Please use the Conversations API instead. For more info, go to https://api.slack.com/changelog/2020-01-deprecating-antecedents-to-the-conversations-api`);
+  }
 }
