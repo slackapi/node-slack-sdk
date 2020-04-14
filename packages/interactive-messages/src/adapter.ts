@@ -274,6 +274,30 @@ export class SlackMessageAdapter {
   }
 
   /* tslint:disable max-line-length */
+  /*
+  * **Shortcut**|**Return `Promise<any>`**|**Return `any`**|**Notes**
+  * :-----:|:-----:|:-----:|:-----:|
+  * **Global Shortcut**| Empty response when Promise is resolved | Empty response | Returning a Promise that takes longer than 3 seconds to resolve can result in the user seeing an error.
+  */
+  /* tslint:enable max-line-length */
+  public shortcut(
+    matchingConstraints: string | RegExp | ShortcutConstraints,
+    callback: ShortcutHandler,
+  ): this {
+    const shortcutConstraints = formatMatchingConstraints(matchingConstraints);
+    const error = validateConstraints(shortcutConstraints);
+    if (error) {
+      debug('shortcut could not be registered: %s', error.message);
+      throw error;
+    }
+
+    const storableConstraints = Object.assign(shortcutConstraints, {
+      handlerType: StoredConstraintsType.Shortcut as const,
+    });
+    return this.registerCallback(storableConstraints, callback);
+  }
+
+  /* tslint:disable max-line-length */
   /**
    * Add a handler for an options request
    *
@@ -665,6 +689,21 @@ export interface ActionConstraints {
 }
 
 /**
+ * Constraints on when to call an shortcut handler.
+ */
+export interface ShortcutConstraints {
+  /**
+   * A string or RegExp to match against the `callback_id`
+   */
+  callbackId?: string | RegExp;
+
+  /**
+   * Valid type includes shortcut
+   */
+  type?: 'shortcut';
+}
+
+/**
  * Constraints on when to call an options handler.
  */
 export interface OptionsConstraints {
@@ -709,13 +748,14 @@ export interface ViewConstraints {
   viewId?: string;
 }
 
-type AnyConstraints = ActionConstraints | OptionsConstraints | ViewConstraints;
+type AnyConstraints = ActionConstraints | OptionsConstraints | ViewConstraints | ShortcutConstraints;
 
 /**
  * The type of stored constraints.
  */
 const enum StoredConstraintsType {
   Action = 'action',
+  Shortcut = 'shortcut',
   Options = 'options',
   ViewSubmission = 'view_submission',
   ViewClosed = 'view_closed',
@@ -726,6 +766,7 @@ const enum StoredConstraintsType {
  */
 type StoredConstraints =
  | ({ handlerType: StoredConstraintsType.Action } & ActionConstraints)
+ | ({ handlerType: StoredConstraintsType.Shortcut } & ShortcutConstraints)
  | ({ handlerType: StoredConstraintsType.Options } & OptionsConstraints)
  | ({ handlerType: StoredConstraintsType.ViewSubmission } & ViewConstraints)
  | ({ handlerType: StoredConstraintsType.ViewClosed } & ViewConstraints);
@@ -764,6 +805,13 @@ type Respond = (message: any) => Promise<unknown>;
  *   selections do not update the message and dialog submissions will validate and dismiss.
  */
 type ActionHandler = (payload: any, respond: Respond) => any | Promise<any> | undefined;
+
+/**
+ * A handler function for global shortcuts.
+ *
+ * TODO: describe the payload and return values more specifically?
+ */
+type ShortcutHandler = (payload: any) => any | Promise<any> | undefined;
 
 /**
  * A handler function for menu options requests.
