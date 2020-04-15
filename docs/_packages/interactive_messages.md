@@ -699,9 +699,9 @@ const { createMessageAdapter } = require('@slack/interactive-messages');
 const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 const port = process.env.PORT || 3000;
 
-// Turn late response fallback off
+// Adjust the timeout millis from 2500 (default) to 2800
 const slackInteractions = createMessageAdapter(slackSigningSecret, {
-  lateResponseFallbackEnabled: false,
+  syncResponseTimeout: 2800,
 });
 
 (async () => {
