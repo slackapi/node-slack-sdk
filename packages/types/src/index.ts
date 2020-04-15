@@ -275,7 +275,7 @@ export interface SectionBlock extends Block {
   type: 'section';
   text?: PlainTextElement | MrkdwnElement; // either this or fields must be defined
   fields?: (PlainTextElement | MrkdwnElement)[]; // either this or text must be defined
-  accessory?: Button | Overflow | Datepicker | Select | MultiSelect | Action | ImageElement | RadioButtons;
+  accessory?: Button | Overflow | Datepicker | Select | MultiSelect | Action | ImageElement | RadioButtons | Checkboxes;
 }
 
 export interface FileBlock extends Block {
@@ -289,7 +289,7 @@ export interface InputBlock extends Block {
   label: PlainTextElement;
   hint?: PlainTextElement;
   optional?: boolean;
-  element: Select | MultiSelect | Datepicker | PlainTextInput | RadioButtons;
+  element: Select | MultiSelect | Datepicker | PlainTextInput | RadioButtons | Checkboxes;
 }
 
 export interface MessageAttachment {
