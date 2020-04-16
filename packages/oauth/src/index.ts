@@ -293,7 +293,7 @@ interface InstallURLOptions {
   metadata?: string; // Arbitrary data can be stored here, potentially to save app state or use for custom redirect
 }
 
-interface CallbackOptions {
+export interface CallbackOptions {
   // success is given control after handleCallback() has stored the
   // installation. when provided, this function must complete the
   // callbackRes.
