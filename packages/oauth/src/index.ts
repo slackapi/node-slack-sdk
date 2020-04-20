@@ -4,7 +4,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import { sign, verify } from 'jsonwebtoken';
 import { WebClient } from '@slack/web-api';
 import { CodedError } from './errors';
-import * as url from 'url';
+import { parse as parseUrl, URLSearchParams, URL } from 'url';
 import { Logger, LogLevel, getLogger } from './logger';
 
 export interface OAuthInterface {
@@ -20,8 +20,6 @@ export class InstallProvider implements OAuthInterface {
   private clientSecret: string;
   private authVersion: string;
   private logger: Logger;
-  // Use Definite Assignment Assertions here because this gets set in generateInstallUrl
-  private installOptions!: InstallURLOptions;
 
   constructor({
     clientId,
@@ -33,7 +31,7 @@ export class InstallProvider implements OAuthInterface {
     logger = undefined,
     logLevel = LogLevel.INFO}: InstallProviderOptions) {
 
-    if (typeof clientId !== 'string' || typeof clientSecret !== 'string') {
+    if (clientId === undefined || clientSecret === undefined) {
       throw new Error('You must provide a valid clientId and clientSecret');
     }
 
@@ -44,7 +42,7 @@ export class InstallProvider implements OAuthInterface {
         this.logger.debug('The logLevel given to OAuth was ignored as you also gave logger');
       }
     } else {
-      this.logger = getLogger('OAuth', logLevel, logger);
+      this.logger = getLogger('OAuth:InstallProvider', logLevel, logger);
     }
 
     this.stateStore = stateStore;
@@ -58,7 +56,6 @@ export class InstallProvider implements OAuthInterface {
 
   /**
    * Fetches data from the installationStore.
-   * This method can be used as the value in AppOptions['authorize']
    */
   public async authorize(source: InstallationQuery): Promise<AuthorizeResult> {
     const queryResult = await this.installationStore.fetchInstallation(source, this.logger);
@@ -71,7 +68,7 @@ export class InstallProvider implements OAuthInterface {
       authResult.botUserId = queryResult.bot.userId;
     }
 
-    return authorizeResult;
+    return authResult;
   }
 
   /**
@@ -79,13 +76,11 @@ export class InstallProvider implements OAuthInterface {
    * Uses stateStore to generate a value for the state query param.
    */
   public async generateInstallUrl(options: InstallURLOptions): Promise<string> {
-    // save options in case we need to share it for handleCallback failure
-    this.installOptions = options;
 
     // Base URL
-    let URL = 'https://slack.com/oauth/v2/authorize?';
+    const slackURL = new URL('https://slack.com/oauth/v2/authorize');
     if (this.authVersion === 'v1') {
-      URL = 'https://slack.com/oauth/authorize?';
+      slackURL.href = 'https://slack.com/oauth/authorize';
     }
 
     if (options.scopes === undefined) {
@@ -99,39 +94,38 @@ export class InstallProvider implements OAuthInterface {
     } else {
       scopes = options.scopes;
     }
-    URL = `${URL}scope=${scopes}`;
+    const params = new URLSearchParams(`scope=${scopes}`);
 
     // generate state
-    const state = await this.stateStore.generateStateParam(new Date(), options.metadata);
-    URL = `${URL}&state=${state}`;
+    const state = await this.stateStore.generateStateParam(options, new Date());
+    params.append('state', state);
 
     // client id
-    URL = `${URL}&client_id=${this.clientId}`;
+    params.append('client_id', this.clientId);
 
     // redirect uri
-    if (options.redirectUri != null) {
-      URL = `${URL}&redirect_uri=${options.redirectUri}`;
+    if (options.redirectUri !== undefined) {
+      params.append('redirect_uri', options.redirectUri);
     }
 
     // team id
-    if (options.teamId != null) {
-      URL = `${URL}&team=${options.teamId}`;
+    if (options.teamId !== undefined) {
+      params.append('team', options.teamId);
     }
 
     // user scope, only available for OAuth v2
-    if (options.userScopes != null && this.authVersion === 'v2') {
+    if (options.userScopes !== undefined && this.authVersion === 'v2') {
       let userScopes;
       if (options.userScopes instanceof Array) {
         userScopes = options.userScopes.join(',');
       } else {
         userScopes = options.userScopes;
       }
-      URL = `${URL}&user_scope=${userScopes}`;
+      params.append('user_scope', userScopes);
     }
 
-    return new Promise<string>((resolve) => {
-      resolve(URL);
-    });
+    slackURL.search = params.toString();
+    return slackURL.toString();
   }
 
   /**
@@ -151,10 +145,11 @@ export class InstallProvider implements OAuthInterface {
     let parsedUrl;
     let code: string;
     let state: string;
+    let installOptions: InstallURLOptions;
 
     try {
-      if (req.url != null) {
-        parsedUrl = url.parse(req.url, true);
+      if (req.url !== undefined) {
+        parsedUrl = parseUrl(req.url, true);
         code = parsedUrl.query.code as string;
         state = parsedUrl.query.state as string;
         if (state === undefined) {
@@ -164,8 +159,8 @@ export class InstallProvider implements OAuthInterface {
         throw new Error('Something went wrong');
       }
 
-      const metadata = await this.stateStore.verifyStateParam(new Date(), state);
-      const client = new WebClient('');
+      installOptions = await this.stateStore.verifyStateParam(new Date(), state);
+      const client = new WebClient();
 
       let resp;
       let installation: Installation;
@@ -175,11 +170,11 @@ export class InstallProvider implements OAuthInterface {
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
-          redirect_uri: this.installOptions.redirectUri != null ? this.installOptions.redirectUri : undefined,
+          redirect_uri: installOptions.redirectUri,
         }) as unknown as OAuthV1Response;
 
         // throw error if error exists
-        if (resp.error != null && !resp.ok) {
+        if (resp.error !== undefined && !resp.ok) {
           throw new Error(resp.error);
         }
 
@@ -196,7 +191,7 @@ export class InstallProvider implements OAuthInterface {
 
         // only can get botId if bot access token exists
         // need to create a botUser + request bot scope to have this be part of resp
-        if (resp.bot != null) {
+        if (resp.bot !== undefined) {
           const botId = await getBotId(resp.bot.bot_access_token);
           installation.bot = {
             id: botId,
@@ -211,11 +206,11 @@ export class InstallProvider implements OAuthInterface {
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
-          redirect_uri: this.installOptions.redirectUri != null ? this.installOptions.redirectUri : undefined,
+          redirect_uri: installOptions.redirectUri,
         }) as unknown as OAuthV2Response;
 
         // throw error if error exists
-        if (resp.error != null && !resp.ok) {
+        if (resp.error !== undefined && !resp.ok) {
           throw new Error(resp.error);
         }
 
@@ -228,7 +223,7 @@ export class InstallProvider implements OAuthInterface {
           appId: resp.app_id,
           user: {
             token: resp.authed_user.access_token,
-            scopes: resp.authed_user.scope != null ? resp.authed_user.scope.split(',') : resp.authed_user.scope,
+            scopes: resp.authed_user.scope !== undefined ? resp.authed_user.scope.split(',') : undefined,
             id: resp.authed_user.id,
           },
           bot: {
@@ -241,7 +236,7 @@ export class InstallProvider implements OAuthInterface {
         };
       }
 
-      if (resp.incoming_webhook != null) {
+      if (resp.incoming_webhook !== undefined) {
         installation.incomingWebhook = {
           url: resp.incoming_webhook.url,
           channel: resp.incoming_webhook.channel,
@@ -252,21 +247,21 @@ export class InstallProvider implements OAuthInterface {
 
       // save access code to installationStore
       await this.installationStore.storeInstallation(installation, this.logger);
-      if (options != null && options.success != null) {
+      if (options !== undefined && options.success !== undefined) {
         this.logger.debug('calling passed in options.sucess');
-        options.success(installation, metadata, req, res);
+        options.success(installation, installOptions, req, res);
       } else {
         this.logger.debug('run built-in success function');
-        callbackSuccess(installation, metadata, req, res);
+        callbackSuccess(installation, installOptions, req, res);
       }
     } catch (error) {
       this.logger.error(error);
-      if (options != null && options.failure != null) {
+      if (options !== undefined && options.failure !== undefined) {
         this.logger.debug('calling passed in options.failure');
-        options.failure(error, this.installOptions , req, res);
+        options.failure(error, installOptions!, req, res);
       } else {
         this.logger.debug('run built-in failure function');
-        callbackFailure(error, this.installOptions , req, res);
+        callbackFailure(error, installOptions!, req, res);
       }
     }
   }
@@ -297,7 +292,7 @@ export interface CallbackOptions {
   // callbackRes.
   success?: (
     installation: Installation,
-    metadata: string | undefined,
+    options: InstallURLOptions,
     callbackReq: IncomingMessage,
     callbackRes: ServerResponse,
   ) => void;
@@ -366,25 +361,24 @@ interface OAuthV1Response {
 export interface StateStore {
   // Returned Promise resolves for a string which can be used as an
   // OAuth state param.
-  generateStateParam: (now: Date, metadata?: string) => Promise<string>;
+  generateStateParam: (installOptions: InstallURLOptions, now: Date) => Promise<string>;
 
-  // Returned Promise resolves for metadata that was stored in the state
-  // param, or undefined when there was no metadata. The Promise rejects
-  // with a CodedError when the state is invalid.
-  verifyStateParam: (now: Date, state: string) => Promise<string | undefined>;
+  // Returned Promise resolves for InstallURLOptions that were stored in the state
+  // param. The Promise rejects with a CodedError when the state is invalid.
+  verifyStateParam: (now: Date, state: string) => Promise<InstallURLOptions>;
 }
 
 // State object structure
 interface StateObj {
   now: Date;
-  metadata?: string;
+  installOptions: InstallURLOptions;
 }
 
 // default implementation of StateStore
 class ClearStateStore implements StateStore {
   private stateSecret: string;
   public constructor(stateSecret: string | undefined) {
-    if (stateSecret == null) {
+    if (stateSecret === undefined) {
       throw new Error('You must provide a State Secret to use the built-in state store');
     }
     this.stateSecret = stateSecret;
@@ -392,20 +386,16 @@ class ClearStateStore implements StateStore {
 
   // TODO: Question, why do the params below need to have types definied
   // instead of getting those types from StateStore interface
-  public generateStateParam(now: Date, metadata?: string): Promise<string> {
-    const state = sign({ metadata, now: now.toJSON() }, this.stateSecret);
-    return new Promise<string>((resolve) => {
-      resolve(state);
-    });
+  public async generateStateParam(installOptions: InstallURLOptions, now: Date): Promise<string> {
+    const state = sign({ installOptions, now: now.toJSON() }, this.stateSecret);
+    return state;
   }
-  public verifyStateParam(_now: Date, state: string): Promise<string | undefined> {
+  public async verifyStateParam(_now: Date, state: string): Promise<InstallURLOptions> {
     // decode the state using the secret
     const decoded: StateObj = verify(state, this.stateSecret) as StateObj;
 
-    // return metadata string
-    return new Promise<string | undefined>((resolve) => {
-      resolve(decoded.metadata);
-    });
+    // return installOptions
+    return decoded.installOptions;
   }
 }
 
@@ -423,26 +413,22 @@ const devDB: DevDatabase = {};
 // Default Install Store. Should only be used for development
 class MemoryInstallationStore implements InstallationStore {
 
-  public storeInstallation(installation: Installation, logger?: Logger): Promise<void> {
-    if (logger != null) {
+  public async storeInstallation(installation: Installation, logger?: Logger): Promise<void> {
+    if (logger !== undefined) {
       logger.warn('Storing Access Token. Please use a real Installation Store for production!');
     }
     // db write
     devDB[installation.team.id] = installation;
-    return new Promise<void>((resolve) => {
-      resolve();
-    });
+    return;
   }
 
-  public fetchInstallation(query: InstallationQuery, logger?: Logger): Promise<Installation> {
-    if (logger != null) {
+  public async fetchInstallation(query: InstallationQuery, logger?: Logger): Promise<Installation> {
+    if (logger !== undefined) {
       logger.warn('Retrieving Access Token from DB. Please use a real Installation Store for production!');
     }
     // db read
     const item = devDB[query.teamId];
-    return new Promise<Installation>((resolve) => {
-      resolve(item);
-    });
+    return item;
   }
 }
 
@@ -501,20 +487,12 @@ interface AuthorizeResult {
 // Default function to call when OAuth flow is successful
 function callbackSuccess(
   installation: Installation,
-  _metadata: string | undefined,
+  _options: InstallURLOptions | undefined,
   _req: IncomingMessage,
   res: ServerResponse,
 ): void {
-  // TODO: We never do anything with metadata. Should we?
-  // TODO: this if statement doesn't match the proposal one
-  // if (!classicAuth || scopes.includes('bot')
-  // How do i check if something is classicAuth? and bot scope doesn't make sense here
-  // TODO: Redirect only works for v2 OAuth as v1 is missing appId
-  if (installation.team.id != null && installation.appId != null) {
+  if (installation.team.id !== undefined && installation.appId !== undefined) {
     // redirect back to slack
-    // TODO: should we provide an option to open in the browser instead of client?
-    // open in web client
-    // const redirectUrl = `https://app.slack.com/client/${installation.team.id}/${installation.appId}/`;
     // Open in native app
     const redirectUrl = `slack://app?team=${installation.team.id}&id=${installation.appId}`;
     res.writeHead(302, { Location: redirectUrl });
@@ -542,12 +520,10 @@ function callbackFailure(
 async function getBotId(token: string): Promise<string> {
   const client = new WebClient(token);
   const authResult = await client.auth.test();
-  return new Promise<string>((resolve) => {
-    if (authResult.bot_id != null) {
-      resolve(authResult.bot_id as string);
-    }
-    // If a user token was used for auth.test, there is no bot_id
-    // return an empty string in this case
-    resolve('');
-  });
+  if (authResult.bot_id !== undefined) {
+    return authResult.bot_id as string;
+  }
+  // If a user token was used for auth.test, there is no bot_id
+  // return an empty string in this case
+  return '';
 }

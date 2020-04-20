@@ -5,6 +5,7 @@ const url = require('url');
 const clientSecret = 'MY_SECRET';
 const clientId = 'MY_ID';
 const stateSecret = 'stateSecret';
+const querystring = require('querystring');
 
 // stateStore for testing
 const stateStore = {
@@ -116,20 +117,12 @@ describe('OAuth', function () {
                     userScopes,
                 })
                 assert.exists(generatedUrl);
-                const parsedUrl = url.parse(generatedUrl);
+                const parsedUrl = url.parse(generatedUrl, true);
                 assert.equal(parsedUrl.pathname, '/oauth/v2/authorize');
-                var scopeRegex = /scope=(.*)&state/;
-                var scopeMatches = scopeRegex.exec(parsedUrl.query);
-                assert.equal(scopes.join(','), scopeMatches[1]);
-                const redirectUriRegex = /redirect_uri=(.*)&team/;
-                const redirectMatches = redirectUriRegex.exec(parsedUrl.query);
-                assert.equal(redirectUri, redirectMatches[1]);
-                const teamRegex = /team=(.*)&user_scope/;
-                const teamMatches = teamRegex.exec(parsedUrl.query);
-                assert.equal(teamId, teamMatches[1]);
-                const userRegex = /user_scope=(.*)/;
-                const userMatches = userRegex.exec(parsedUrl.query);
-                assert.equal(userScopes.join(','), userMatches[1]);
+                assert.equal(scopes.join(','), parsedUrl.query.scope);
+                assert.equal(redirectUri, parsedUrl.query.redirect_uri);
+                assert.equal(teamId, parsedUrl.query.team);
+                assert.equal(userScopes.join(','), parsedUrl.query.user_scope);
             } catch (error) {
                 assert.fail(error.message);
             }
@@ -147,17 +140,11 @@ describe('OAuth', function () {
                     redirectUri,
                 })
                 assert.exists(generatedUrl);
-                const parsedUrl = url.parse(generatedUrl);
+                const parsedUrl = url.parse(generatedUrl, true);
                 assert.equal(parsedUrl.pathname, '/oauth/authorize');
-                const scopeRegex = /scope=(.*)&state/;
-                const scopeMatches = scopeRegex.exec(parsedUrl.query);
-                assert.equal(scopes.join(','), scopeMatches[1]);
-                const redirectUriRegex = /redirect_uri=(.*)&team/;
-                const redirectMatches = redirectUriRegex.exec(parsedUrl.query);
-                assert.equal(redirectUri, redirectMatches[1]);
-                const teamRegex = /team=(.*)/;
-                const teamMatches = teamRegex.exec(parsedUrl.query);
-                assert.equal(teamId, teamMatches[1]);
+                assert.equal(scopes.join(','), parsedUrl.query.scope);
+                assert.equal(redirectUri, parsedUrl.query.redirect_uri);
+                assert.equal(teamId, parsedUrl.query.team);
             } catch (error) {
                 assert.fail(error.message);
             }
@@ -168,7 +155,7 @@ describe('OAuth', function () {
                 const generatedUrl = await installer.generateInstallUrl({})
                 assert.exists(generatedUrl);
             } catch (error) {
-                assert.equal(error.message, 'You must provide a scope paramter when calling generateInstallUrl');
+                assert.equal(error.message, 'You must provide a scope parameter when calling generateInstallUrl');
             }
         });
     });

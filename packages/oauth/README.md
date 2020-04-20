@@ -128,8 +128,8 @@ This library comes with a built-in `stateStore` that handles generating and veri
 
 Developers can pass in their own `stateStore` if they don't want to use the built-in one. A state store must have two functions:
 
-- `generateStateParam(Date)`: takes in a `Date` argument as the first argument and returns a `string` representing `state`.
-- `verifyStateParam(Date, state)`: takes in a `Date` argument as the first argument and `state` as the second argument. Returns `undefined` or a `string` representing `metadata`.
+- `generateStateParam(installOptions, Date)`: takes in a `installOptions` as the first argument representing `installURLOptions` passed in to `generateInstallURL`. Takes a `Date` argument as the second argument. Returns a `string` representing `state`.
+- `verifyStateParam(Date, state)`: takes in a `Date` argument as the first argument and `state` as the second argument. Returns the `installOptions` that were encoded into the `state` param.
 
 ## Installation Store Guidelines
 
