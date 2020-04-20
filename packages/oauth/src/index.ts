@@ -71,9 +71,7 @@ export class InstallProvider implements OAuthInterface {
       authResult.botUserId = queryResult.bot.userId;
     }
 
-    return new Promise<AuthorizeResult>((resolve) => {
-      resolve(authResult);
-    });
+    return authorizeResult;
   }
 
   /**
@@ -202,7 +200,7 @@ export class InstallProvider implements OAuthInterface {
           const botId = await getBotId(resp.bot.bot_access_token);
           installation.bot = {
             id: botId,
-            scopes: resp.scope.split(','), // TODO: Is there a way to get bot specific scopes?
+            scopes: ['bot'],
             token: resp.bot.bot_access_token,
             userId: resp.bot.bot_user_id,
           };
