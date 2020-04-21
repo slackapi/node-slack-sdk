@@ -7,13 +7,7 @@ import { CodedError } from './errors';
 import { parse as parseUrl, URLSearchParams, URL } from 'url';
 import { Logger, LogLevel, getLogger } from './logger';
 
-export interface OAuthInterface {
-  generateInstallUrl(options: InstallURLOptions): Promise<string>;
-  authorize(source: InstallationQuery): Promise<AuthorizeResult>;
-  handleCallback(req: IncomingMessage, res: ServerResponse, options?: CallbackOptions): Promise<void>;
-}
-
-export class InstallProvider implements OAuthInterface {
+export class InstallProvider {
   public stateStore: StateStore;
   public installationStore: InstallationStore;
   private clientId: string;
@@ -25,11 +19,12 @@ export class InstallProvider implements OAuthInterface {
     clientId,
     clientSecret,
     stateSecret = undefined,
-    stateStore = new ClearStateStore(stateSecret),
+    stateStore = undefined,
     installationStore = new MemoryInstallationStore(),
     authVersion = 'v2',
     logger = undefined,
-    logLevel = LogLevel.INFO}: InstallProviderOptions) {
+    logLevel = LogLevel.INFO,
+  }: InstallProviderOptions) {
 
     if (clientId === undefined || clientSecret === undefined) {
       throw new Error('You must provide a valid clientId and clientSecret');
@@ -45,7 +40,15 @@ export class InstallProvider implements OAuthInterface {
       this.logger = getLogger('OAuth:InstallProvider', logLevel, logger);
     }
 
-    this.stateStore = stateStore;
+    // Setup stateStore
+    if (stateStore !== undefined) {
+      this.stateStore = stateStore;
+    } else if (stateSecret === undefined) {
+      throw new Error('You must provide a State Secret to use the built-in state store');
+    } else {
+      this.stateStore = new ClearStateStore(stateSecret);
+    }
+
     this.installationStore = installationStore;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
@@ -377,10 +380,7 @@ interface StateObj {
 // default implementation of StateStore
 class ClearStateStore implements StateStore {
   private stateSecret: string;
-  public constructor(stateSecret: string | undefined) {
-    if (stateSecret === undefined) {
-      throw new Error('You must provide a State Secret to use the built-in state store');
-    }
+  public constructor(stateSecret: string) {
     this.stateSecret = stateSecret;
   }
 
@@ -408,17 +408,17 @@ export interface InstallationStore {
 interface DevDatabase {
   [key: string]: Installation;
 }
-const devDB: DevDatabase = {};
 
 // Default Install Store. Should only be used for development
 class MemoryInstallationStore implements InstallationStore {
+  public devDB: DevDatabase = {};
 
   public async storeInstallation(installation: Installation, logger?: Logger): Promise<void> {
     if (logger !== undefined) {
       logger.warn('Storing Access Token. Please use a real Installation Store for production!');
     }
     // db write
-    devDB[installation.team.id] = installation;
+    this.devDB[installation.team.id] = installation;
     return;
   }
 
@@ -427,7 +427,7 @@ class MemoryInstallationStore implements InstallationStore {
       logger.warn('Retrieving Access Token from DB. Please use a real Installation Store for production!');
     }
     // db read
-    const item = devDB[query.teamId];
+    const item = this.devDB[query.teamId];
     return item;
   }
 }
