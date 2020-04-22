@@ -11,9 +11,9 @@ const installer = InstallProvider({
   stateSecret: 'super-secret'
 });
 
-app.get('/', (req, res) => res.send('Hello World!'));
+app.get('/', (req, res) => res.send('go to /slack/install'));
 
-app.get('/begin_auth', (req, res, next) => {
+app.get('/slack/install', (req, res, next) => {
   installer.generateInstallUrl({
     scopes: ['channels:read', 'bot', 'incoming-webhook'],
     metadata: 'some_metadata',
@@ -34,7 +34,7 @@ const callbackOptions = {
 // example 1
 // empty callbackOptions Object
 // use slackOauth default success and failure methods
-app.get('/slack/install', (req, res) => {
+app.get('/slack/oauth_redirect', (req, res) => {
   installer.handleCallback(req, res);
 });
 
@@ -48,7 +48,7 @@ app.get('/slack/install', (req, res) => {
 //   },
 // }
 // callbackOptions object with success and failure methods
-// app.get('/slack/install', (req, res) => {
+// app.get('/slack/oauth_redirect', (req, res) => {
 //   installer.handleCallback(req, res, callbackOptions);
 // });
 

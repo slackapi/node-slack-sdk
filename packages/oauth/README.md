@@ -71,7 +71,7 @@ const port = 3000;
 
 // Setup a begin_auth route to display the Add to Slack button
 // This initiates the OAuth Flow
-app.get('/begin_auth', (req, res, next) => {
+app.get('/slack/install', (req, res, next) => {
   // Call the generateInstallUrl
   installer.generateInstallUrl({
     // Add the scopes your app needs
@@ -83,14 +83,14 @@ app.get('/begin_auth', (req, res, next) => {
 });
 
 // This will be where your app gets redirected after the user installs your app
-app.get('/slack/install', (req, res) => {
+app.get('/slack/oauth_redirect', (req, res) => {
   installer.handleCallback(req, res, {});
 });
 ```
-The above code has two routes. The first route is `/begin_auth` and it is used to create a Slack URL for your users to install your application. This URL is how your app requests scopes, [which govern its permissions](https://api.slack.com/scopes). It calls this library's `generateInstallUrl` method which will build the URL by appending your specified scopes, generating
+The above code has two routes. The first route is `/slack/install` and it is used to create a Slack URL for your users to install your application. This URL is how your app requests scopes, [which govern its permissions](https://api.slack.com/scopes). It calls this library's `generateInstallUrl` method which will build the URL by appending your specified scopes, generating
 a state parameter, and appending any of the other options passed in. Checkout [`generateInstallUrl` options](#generateinstallurl-options) to see a full list of what options you can pass into `generateInstallUrl`.
 
-The second route is `/slack/install` and is used as the **redirect url**. After the user approves the request to install your app (and grants access to the required permissions), Slack will redirect the user to your specified **redirect url**. You can either set the redirect url in the app’s **OAuth and Permissions** page or pass a `redirectUri` when calling `generateInstallUrl`. `/slack/install` will call this library's `handleCallback` method, which will verify that the `state` parameter from `generateInstallUrl` is the same as the one received in `handleCallback`. This is to prevent [CSRF attacks](https://en.wikipedia.org/wiki/Cross-site_request_forgery). `handleCallback` will also receive a `code` parameter in its url. It will exchange this `code` parameter for an `access_token`, which we can save in our Installation Store and use to make subsequent
+The second route is `/slack/oauth_redirect` and is used as the **redirect url**. After the user approves the request to install your app (and grants access to the required permissions), Slack will redirect the user to your specified **redirect url**. You can either set the redirect url in the app’s **OAuth and Permissions** page or pass a `redirectUri` when calling `generateInstallUrl`. `/slack/oauth_redirect` will call this library's `handleCallback` method, which will verify that the `state` parameter from `generateInstallUrl` is the same as the one received in `handleCallback`. This is to prevent [CSRF attacks](https://en.wikipedia.org/wiki/Cross-site_request_forgery). `handleCallback` will also receive a `code` parameter in its url. It will exchange this `code` parameter for an `access_token`, which we can save in our Installation Store and use to make subsequent
 API calls. It does this exchange by calling the [`oauth.v2.access` method](https://api.slack.com/methods/oauth.v2.access) (or [`oauth.access` method](https://api.slack.com/methods/oauth.access) when `authVersion` is set to `v1` for Classic Slack Apps). If the exchange is successful, `handleCallback` will redirect the user back to Slack, or show a generic success page when `authVersion` is set to `v1`. If you desire different behavior (say to show a custom success page on success), both `success` and `failure` can be overridden. Checkout [`handleCallback` options](#handlecallback-options) for more details.
 
 ### generateInstallUrl Options

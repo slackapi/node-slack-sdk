@@ -29,9 +29,9 @@ const installer = new InstallProvider({
   },
 });
 
-app.get('/', (req, res) => res.send('go to /begin_auth'));
+app.get('/', (req, res) => res.send('go to /slack/install'));
 
-app.get('/begin_auth', (req, res, next) => {
+app.get('/slack/install', (req, res, next) => {
   // feel free to modify the scopes
   installer.generateInstallUrl({
     scopes: ['channels:read', 'groups:read', 'channels:manage', 'chat:write', 'incoming-webhook'],
@@ -44,7 +44,7 @@ app.get('/begin_auth', (req, res, next) => {
 // example 1
 // empty callbackOptions Object
 // use slackOauth default success and failure methods
-app.get('/slack/install', (req, res) => {
+app.get('/slack/oauth_redirect', (req, res) => {
   installer.handleCallback(req, res);
 });
 
@@ -58,7 +58,7 @@ app.get('/slack/install', (req, res) => {
 //   },
 // }
 // // callbackOptions object with success and failure methods
-// app.get('/slack/install', (req, res) => {
+// app.get('/slack/oauth_redirect', (req, res) => {
 //   installer.handleCallback(req, res, callbackOptions);
 // });
 

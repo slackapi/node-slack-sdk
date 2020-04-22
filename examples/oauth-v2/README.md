@@ -45,10 +45,10 @@ This should output a forwarding address for `http` and `https`. Take note of the
 Forwarding   https://3cb89939.ngrok.io -> http://localhost:3000
 ```
 
-Go to your app on https://api.slack.com/apps and navigate to your apps **OAuth & Permissions** page. Under **Redirect URLs**, add your `ngrok` forwarding address with the `/slack/install` path appended. ex:
+Go to your app on https://api.slack.com/apps and navigate to your apps **OAuth & Permissions** page. Under **Redirect URLs**, add your `ngrok` forwarding address with the `/slack/oauth_redirect` path appended. ex:
 
 ```
-https://3cb89939.ngrok.io/slack/install
+https://3cb89939.ngrok.io/slack/oauth_redirect
 ```
 
-Everything is now setup. In your browser, navigate to http://localhost:3000/begin_auth to initiate the oAuth flow. Once you install the app, it should redirect you back to your native slack app.
+Everything is now setup. In your browser, navigate to http://localhost:3000/slack/install to initiate the oAuth flow. Once you install the app, it should redirect you back to your native slack app.
