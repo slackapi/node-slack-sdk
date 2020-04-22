@@ -3,7 +3,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { sign, verify } from 'jsonwebtoken';
 import { WebClient } from '@slack/web-api';
-import { CodedError, MissingClientError, MissingStateSecretError, MissingScopeError, UnknownError, MissingStateError } from './errors';
+import { CodedError, InstallerInitializationError, UnknownError, MissingStateError, GenerateInstallUrlError } from './errors';
 import { parse as parseUrl, URLSearchParams, URL } from 'url';
 import { Logger, LogLevel, getLogger } from './logger';
 
@@ -27,7 +27,7 @@ export class InstallProvider {
   }: InstallProviderOptions) {
 
     if (clientId === undefined || clientSecret === undefined) {
-      throw new MissingClientError('You must provide a valid clientId and clientSecret');
+      throw new InstallerInitializationError('You must provide a valid clientId and clientSecret');
     }
 
     // Setup the logger
@@ -44,7 +44,7 @@ export class InstallProvider {
     if (stateStore !== undefined) {
       this.stateStore = stateStore;
     } else if (stateSecret === undefined) {
-      throw new MissingStateSecretError('You must provide a State Secret to use the built-in state store');
+      throw new InstallerInitializationError('You must provide a State Secret to use the built-in state store');
     } else {
       this.stateStore = new ClearStateStore(stateSecret);
     }
@@ -87,7 +87,7 @@ export class InstallProvider {
     }
 
     if (options.scopes === undefined) {
-      throw new MissingScopeError('You must provide a scope parameter when calling generateInstallUrl');
+      throw new GenerateInstallUrlError('You must provide a scope parameter when calling generateInstallUrl');
     }
 
     // scope

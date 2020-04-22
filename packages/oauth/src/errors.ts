@@ -6,23 +6,18 @@ export interface CodedError extends Error {
    * A dictionary of codes for errors produced by this package.
    */
 export enum ErrorCode {
-    MissingClientError = 'MISSING_CLIENT_ID_OR_SECRET',
-    MissingStateSecretError = 'MISSING_STATE_SECRET',
-    MissingScopeError = 'MISSING_SCOPE',
+    InstallerInitializationError = 'INSTALLER_INITIALIZATION_ERROR',
+    GenerateInstallUrlError = 'GENERATE_URL_ERROR',
     MissingStateError = 'MISSING_STATE',
     UnknownError = 'UNKNOWN_ERROR',
   }
 
-export class MissingClientError extends Error implements CodedError {
-  public code = ErrorCode.MissingClientError;
+export class InstallerInitializationError extends Error implements CodedError {
+  public code = ErrorCode.InstallerInitializationError;
 }
 
-export class MissingStateSecretError extends Error implements CodedError {
-  public code = ErrorCode.MissingStateSecretError;
-}
-
-export class MissingScopeError extends Error implements CodedError {
-  public code = ErrorCode.MissingScopeError;
+export class GenerateInstallUrlError extends Error implements CodedError {
+  public code = ErrorCode.GenerateInstallUrlError;
 }
 
 export class MissingStateError extends Error implements CodedError {

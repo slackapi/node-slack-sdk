@@ -5,7 +5,6 @@ const url = require('url');
 const clientSecret = 'MY_SECRET';
 const clientId = 'MY_ID';
 const stateSecret = 'stateSecret';
-const querystring = require('querystring');
 
 // stateStore for testing
 const stateStore = {
@@ -80,6 +79,7 @@ describe('OAuth', function () {
         try {
             const installer = new InstallProvider({clientId, stateSecret});
         } catch (error) {
+            assert.equal(error.code, 'INSTALLER_INITIALIZATION_ERROR');
             assert.equal(error.message, 'You must provide a valid clientId and clientSecret');
         }
       });
@@ -88,6 +88,7 @@ describe('OAuth', function () {
         try {
             const installer = new InstallProvider({clientSecret, stateSecret});
         } catch (error) {
+            assert.equal(error.code, 'INSTALLER_INITIALIZATION_ERROR');
             assert.equal(error.message, 'You must provide a valid clientId and clientSecret');
         }
       });
@@ -96,6 +97,7 @@ describe('OAuth', function () {
         try {
             const installer = new InstallProvider({clientId, clientSecret});
         } catch (error) {
+            assert.equal(error.code, 'INSTALLER_INITIALIZATION_ERROR');
             assert.equal(error.message, 'You must provide a State Secret to use the built-in state store');
         }
       });
@@ -156,6 +158,7 @@ describe('OAuth', function () {
                 assert.exists(generatedUrl);
             } catch (error) {
                 assert.equal(error.message, 'You must provide a scope parameter when calling generateInstallUrl');
+                assert.equal(error.code, 'GENERATE_URL_ERROR');
             }
         });
     });
