@@ -1,24 +1,34 @@
-/**
- * All errors produced by this package are regular
- * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error | Error} objects with
- * an extra {@link CodedError.code | `error`} field.
- */
 export interface CodedError extends Error {
-    /**
-     * What kind of error occurred.
-     */
-  code: ErrorCode;
+  code: string; // This can be a value from ErrorCode, or WebClient's ErrorCode, or a NodeJS error code
 }
 
   /**
    * A dictionary of codes for errors produced by this package.
    */
 export enum ErrorCode {
-    StateDoesNotMatch = 'STATE_DOES_NOT_MATCH',
+    MissingClientError = 'MISSING_CLIENT_ID_OR_SECRET',
+    MissingStateSecretError = 'MISSING_STATE_SECRET',
+    MissingScopeError = 'MISSING_SCOPE',
+    MissingStateError = 'MISSING_STATE',
+    UnknownError = 'UNKNOWN_ERROR',
   }
 
-export function errorWithCode(message: string, code: ErrorCode): CodedError {
-  const error = new Error(message);
-  (error as CodedError).code = code;
-  return error as CodedError;
+export class MissingClientError extends Error implements CodedError {
+  public code = ErrorCode.MissingClientError;
+}
+
+export class MissingStateSecretError extends Error implements CodedError {
+  public code = ErrorCode.MissingStateSecretError;
+}
+
+export class MissingScopeError extends Error implements CodedError {
+  public code = ErrorCode.MissingScopeError;
+}
+
+export class MissingStateError extends Error implements CodedError {
+  public code = ErrorCode.MissingStateError;
+}
+
+export class UnknownError extends Error implements CodedError {
+  public code = ErrorCode.UnknownError;
 }

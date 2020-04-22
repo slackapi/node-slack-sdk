@@ -3,7 +3,7 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { sign, verify } from 'jsonwebtoken';
 import { WebClient } from '@slack/web-api';
-import { CodedError } from './errors';
+import { CodedError, MissingClientError, MissingStateSecretError, MissingScopeError, UnknownError, MissingStateError } from './errors';
 import { parse as parseUrl, URLSearchParams, URL } from 'url';
 import { Logger, LogLevel, getLogger } from './logger';
 
@@ -27,7 +27,7 @@ export class InstallProvider {
   }: InstallProviderOptions) {
 
     if (clientId === undefined || clientSecret === undefined) {
-      throw new Error('You must provide a valid clientId and clientSecret');
+      throw new MissingClientError('You must provide a valid clientId and clientSecret');
     }
 
     // Setup the logger
@@ -44,7 +44,7 @@ export class InstallProvider {
     if (stateStore !== undefined) {
       this.stateStore = stateStore;
     } else if (stateSecret === undefined) {
-      throw new Error('You must provide a State Secret to use the built-in state store');
+      throw new MissingStateSecretError('You must provide a State Secret to use the built-in state store');
     } else {
       this.stateStore = new ClearStateStore(stateSecret);
     }
@@ -87,7 +87,7 @@ export class InstallProvider {
     }
 
     if (options.scopes === undefined) {
-      throw new Error('You must provide a scope parameter when calling generateInstallUrl');
+      throw new MissingScopeError('You must provide a scope parameter when calling generateInstallUrl');
     }
 
     // scope
@@ -156,10 +156,10 @@ export class InstallProvider {
         code = parsedUrl.query.code as string;
         state = parsedUrl.query.state as string;
         if (state === undefined) {
-          throw new Error('redirect url is missing state query parameter');
+          throw new MissingStateError('redirect url is missing state query parameter');
         }
       } else {
-        throw new Error('Something went wrong');
+        throw new UnknownError('Something went wrong');
       }
 
       installOptions = await this.stateStore.verifyStateParam(new Date(), state);
@@ -175,11 +175,6 @@ export class InstallProvider {
           client_secret: this.clientSecret,
           redirect_uri: installOptions.redirectUri,
         }) as unknown as OAuthV1Response;
-
-        // throw error if error exists
-        if (resp.error !== undefined && !resp.ok) {
-          throw new Error(resp.error);
-        }
 
         // resp obj for v1 - https://api.slack.com/methods/oauth.access#response
         installation = {
@@ -211,11 +206,6 @@ export class InstallProvider {
           client_secret: this.clientSecret,
           redirect_uri: installOptions.redirectUri,
         }) as unknown as OAuthV2Response;
-
-        // throw error if error exists
-        if (resp.error !== undefined && !resp.ok) {
-          throw new Error(resp.error);
-        }
 
         // get botId
         const botId = await getBotId(resp.access_token);
@@ -251,7 +241,7 @@ export class InstallProvider {
       // save access code to installationStore
       await this.installationStore.storeInstallation(installation, this.logger);
       if (options !== undefined && options.success !== undefined) {
-        this.logger.debug('calling passed in options.sucess');
+        this.logger.debug('calling passed in options.success');
         options.success(installation, installOptions, req, res);
       } else {
         this.logger.debug('run built-in success function');

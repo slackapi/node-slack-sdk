@@ -146,8 +146,8 @@ For development, we provide an in-memory `installationStore`. This means that al
 
 ## Examples
 
-*  [OAuth-v2](examples/oauth-v2/README.md). This example uses [Keyv](https://github.com/lukechilds/keyv) library as a database.
-*  [OAuth-v1](examples/oauth-v1/README.md) 
+*  [OAuth-v2](../../examples/oauth-v2/README.md). This example uses [Keyv](https://github.com/lukechilds/keyv) library as a database.
+*  [OAuth-v1](../../examples/oauth-v1/README.md) 
 
 ---
 
