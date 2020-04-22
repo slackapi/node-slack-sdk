@@ -17,8 +17,9 @@ npm install
 This app requires you setup a few environment variables. You can get these values by navigating to your app's [**BASIC INFORMATION** Page](https://api.slack.com/apps). 
 
 ```
-export SLACK_CLIENT_ID = YOUR_SLACK_CLIENT_ID
-export SLACK_CLIENT_SECRET = YOUR_SLACK_CLIENT_SECRET
+export SLACK_CLIENT_ID=YOUR_SLACK_CLIENT_ID
+export SLACK_CLIENT_SECRET=YOUR_SLACK_CLIENT_SECRET
+export SLACK_SIGNING_SECRET=YOUR_SLACK_SIGNING_SECRET
 ```
 
 ## Run the App
@@ -49,4 +50,12 @@ Go to your app on https://api.slack.com/apps and navigate to your apps **OAuth &
 https://3cb89939.ngrok.io/slack/oauth_redirect
 ```
 
-Everything is now setup. In your browser, navigate to http://localhost:3000/slack/install to initiate the oAuth flow. Once you install the app, it should redirect you back to a generic success page.
+This app also listens to the `app_home_opened` event to illustrate fetching the saved token from the database and using it to publish a view on the home tab. Navigate to the **App Home** page in your app settings and enable it. Then navigate to **Event Subscriptions** to enable it. The request URL should be set to your `ngrok` forwarding address with the `slack/events` path appended. ex:
+
+```
+https://3cb89939.ngrok.io/slack/events
+```
+
+Lastly, in the **Events Subscription** page, click **Subscribe to bot events** and add `app_home_opened`.  
+
+Everything is now setup. In your browser, navigate to http://localhost:3000/slack/install to initiate the oAuth flow. Once you install the app, it should redirect you back to your native slack app. Click on the home tab of your app in slack to see the message `Welcome to the App Home!`.
