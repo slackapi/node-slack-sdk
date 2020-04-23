@@ -1,9 +1,14 @@
-
-// TODO: Not using RequestListner, should I?
 import { IncomingMessage, ServerResponse } from 'http';
 import { sign, verify } from 'jsonwebtoken';
 import { WebClient } from '@slack/web-api';
-import { CodedError, InstallerInitializationError, UnknownError, MissingStateError, GenerateInstallUrlError } from './errors';
+import {
+  CodedError,
+  InstallerInitializationError,
+  UnknownError,
+  MissingStateError,
+  GenerateInstallUrlError,
+  AuthorizationError,
+} from './errors';
 import { parse as parseUrl, URLSearchParams, URL } from 'url';
 import { Logger, LogLevel, getLogger } from './logger';
 
@@ -61,17 +66,25 @@ export class InstallProvider {
    * Fetches data from the installationStore.
    */
   public async authorize(source: InstallationQuery): Promise<AuthorizeResult> {
-    const queryResult = await this.installationStore.fetchInstallation(source, this.logger);
+    try {
+      const queryResult = await this.installationStore.fetchInstallation(source, this.logger);
 
-    const authResult: AuthorizeResult = {};
-    authResult.userToken = queryResult.user.token;
-    if (queryResult.bot !== undefined) {
-      authResult.botToken = queryResult.bot.token;
-      authResult.botId = queryResult.bot.id;
-      authResult.botUserId = queryResult.bot.userId;
+      if (queryResult === undefined) {
+        throw new Error('Failed fetching data from the Installation Store');
+      }
+
+      const authResult: AuthorizeResult = {};
+      authResult.userToken = queryResult.user.token;
+      if (queryResult.bot !== undefined) {
+        authResult.botToken = queryResult.bot.token;
+        authResult.botId = queryResult.bot.id;
+        authResult.botUserId = queryResult.bot.userId;
+      }
+
+      return authResult;
+    } catch (error) {
+      throw new AuthorizationError(error.message);
     }
-
-    return authResult;
   }
 
   /**
@@ -179,7 +192,7 @@ export class InstallProvider {
         // resp obj for v1 - https://api.slack.com/methods/oauth.access#response
         installation = {
           team: { id: resp.team_id, name: resp.team_name },
-          appId: resp.app_id, // not included in v1 unless workspace apps, so most likely undefinied
+          appId: resp.app_id, // not included in v1 unless workspace apps, so most likely undefined
           user: {
             token: resp.access_token,
             scopes: resp.scope.split(','),
@@ -271,7 +284,7 @@ interface InstallProviderOptions {
   logLevel?: LogLevel;
 }
 
-interface InstallURLOptions {
+export interface InstallURLOptions {
   scopes: string | string[];
   teamId?: string;
   redirectUri?: string;
@@ -347,7 +360,7 @@ interface OAuthV1Response {
   };
   response_metadata: object;
   error?: string;
-  // app_id is currently undefinined but leaving it in here incase the v1 method adds it
+  // app_id is currently undefined but leaving it in here incase the v1 method adds it
   app_id: string | undefined;
 }
 
@@ -374,8 +387,6 @@ class ClearStateStore implements StateStore {
     this.stateSecret = stateSecret;
   }
 
-  // TODO: Question, why do the params below need to have types definied
-  // instead of getting those types from StateStore interface
   public async generateStateParam(installOptions: InstallURLOptions, now: Date): Promise<string> {
     const state = sign({ installOptions, now: now.toJSON() }, this.stateSecret);
     return state;
@@ -424,7 +435,7 @@ class MemoryInstallationStore implements InstallationStore {
 
 // Needs to have all the data from OAuthV2Access result and OAuthAccess
 // result. This is a normalized shape.
-interface Installation {
+export interface Installation {
   team: {
     id: string;
     name: string;
@@ -457,7 +468,7 @@ interface Installation {
 // This is intentionally structurally identical to AuthorizeSourceData
 // from App. It is redefined so that this class remains loosely coupled to
 // the rest of Bolt.
-interface InstallationQuery {
+export interface InstallationQuery {
   teamId: string;
   enterpriseId?: string;
   userId?: string;
@@ -467,7 +478,7 @@ interface InstallationQuery {
 // This is intentionally structurally identical to AuthorizeResult from App
 // It is redefined so that this class remains loosely coupled to the rest
 // of Bolt.
-interface AuthorizeResult {
+export interface AuthorizeResult {
   botToken?: string;
   userToken?: string;
   botId?: string;

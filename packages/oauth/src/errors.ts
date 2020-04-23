@@ -7,6 +7,7 @@ export interface CodedError extends Error {
    */
 export enum ErrorCode {
     InstallerInitializationError = 'INSTALLER_INITIALIZATION_ERROR',
+    AuthorizationError = 'INSTALLER_AUTHORIZATION_ERROR',
     GenerateInstallUrlError = 'GENERATE_URL_ERROR',
     MissingStateError = 'MISSING_STATE',
     UnknownError = 'UNKNOWN_ERROR',
@@ -26,4 +27,17 @@ export class MissingStateError extends Error implements CodedError {
 
 export class UnknownError extends Error implements CodedError {
   public code = ErrorCode.UnknownError;
+}
+
+export class AuthorizationError extends Error implements CodedError {
+  public code = ErrorCode.AuthorizationError;
+  public original: Error | undefined;
+
+  constructor(message: string, original?: Error) {
+    super(message);
+
+    if (original !== undefined) {
+      this.original = original;
+    }
+  }
 }
