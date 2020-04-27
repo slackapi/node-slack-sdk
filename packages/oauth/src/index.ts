@@ -168,8 +168,8 @@ export class InstallProvider {
         parsedUrl = parseUrl(req.url, true);
         code = parsedUrl.query.code as string;
         state = parsedUrl.query.state as string;
-        if (state === undefined) {
-          throw new MissingStateError('redirect url is missing state query parameter');
+        if (state === undefined || code === undefined) {
+          throw new MissingStateError('redirect url is missing state or code query parameters');
         }
       } else {
         throw new UnknownError('Something went wrong');

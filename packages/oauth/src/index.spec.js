@@ -4,6 +4,7 @@ const { assert } = require('chai');
 const url = require('url');
 const rewiremock = require('rewiremock/node');
 const sinon = require('sinon');
+const { ErrorCode } = require('./errors');
 
 // Stub WebClient api calls that the OAuth package makes
 rewiremock(() => require('@slack/web-api')).with({
@@ -51,12 +52,6 @@ rewiremock.disable();
 const clientSecret = 'MY_SECRET';
 const clientId = 'MY_ID';
 const stateSecret = 'stateSecret';
-
-// stateStore for testing
-const stateStore = {
-  generateStateParam: sinon.fake.resolves('fakeState'),
-  verifyStateParam: sinon.fake.resolves({})
-}
 
 // Memory database
 const devDB = {};
@@ -129,7 +124,13 @@ describe('OAuth', async () => {
     });
 
     it('should build a default installer given a clientID, client secret and state store', async () => {
-      const installer = new InstallProvider({clientId, clientSecret, stateStore});
+      // stateStore for testing
+      const fakeStateStore = {
+        generateStateParam: sinon.fake.resolves('fakeState'),
+        verifyStateParam: sinon.fake.resolves({})
+      }
+
+      const installer = new InstallProvider({clientId, clientSecret, 'stateStore': fakeStateStore});
       assert.instanceOf(installer, InstallProvider);
     });
 
@@ -154,7 +155,7 @@ describe('OAuth', async () => {
       try {
           const installer = new InstallProvider({clientId, stateSecret});
       } catch (error) {
-          assert.equal(error.code, 'INSTALLER_INITIALIZATION_ERROR');
+          assert.equal(error.code, ErrorCode.InstallerInitializationError);
           assert.equal(error.message, 'You must provide a valid clientId and clientSecret');
       }
     });
@@ -163,7 +164,7 @@ describe('OAuth', async () => {
       try {
           const installer = new InstallProvider({clientSecret, stateSecret});
       } catch (error) {
-          assert.equal(error.code, 'INSTALLER_INITIALIZATION_ERROR');
+          assert.equal(error.code, ErrorCode.InstallerInitializationError);
           assert.equal(error.message, 'You must provide a valid clientId and clientSecret');
       }
     });
@@ -172,7 +173,7 @@ describe('OAuth', async () => {
       try {
           const installer = new InstallProvider({clientId, clientSecret});
       } catch (error) {
-          assert.equal(error.code, 'INSTALLER_INITIALIZATION_ERROR');
+          assert.equal(error.code, ErrorCode.InstallerInitializationError);
           assert.equal(error.message, 'You must provide a State Secret to use the built-in state store');
       }
     });
@@ -180,21 +181,31 @@ describe('OAuth', async () => {
 
   describe('installer.generateInstallUrl', async () => {
       it('should return a generated v2 url', async () => {
-          const installer = new InstallProvider({clientId, clientSecret, stateSecret});
+          const fakeStateStore = {
+            generateStateParam: sinon.fake.resolves('fakeState'),
+            verifyStateParam: sinon.fake.resolves({})
+          }
+          const installer = new InstallProvider({clientId, clientSecret, 'stateStore': fakeStateStore});
           const scopes = ['channels:read'];
           const teamId = '1234Team';
           const redirectUri = 'https://mysite.com/slack/redirect';
           const userScopes = ['chat:write:user']
+          const installUrlOptions = {
+            scopes,
+            metadata: 'some_metadata',
+            teamId,
+            redirectUri,
+            userScopes,
+          }
           try {
-              const generatedUrl = await installer.generateInstallUrl({
-                  scopes,
-                  metadata: 'some_metadata',
-                  teamId,
-                  redirectUri,
-                  userScopes,
-              })
+              const generatedUrl = await installer.generateInstallUrl(installUrlOptions)
               assert.exists(generatedUrl);
+              assert.equal(fakeStateStore.generateStateParam.callCount, 1);
+              assert.equal(fakeStateStore.verifyStateParam.callCount, 0);
+              assert.equal(fakeStateStore.generateStateParam.calledWith(installUrlOptions), true);
+
               const parsedUrl = url.parse(generatedUrl, true);
+              assert.equal(parsedUrl.query.state, 'fakeState');
               assert.equal(parsedUrl.pathname, '/oauth/v2/authorize');
               assert.equal(scopes.join(','), parsedUrl.query.scope);
               assert.equal(redirectUri, parsedUrl.query.redirect_uri);
@@ -205,20 +216,29 @@ describe('OAuth', async () => {
           }
       });
       it('should return a generated v1 url', async () => {
-          const installer = new InstallProvider({clientId, clientSecret, stateSecret, authVersion: 'v1'});
+          const fakeStateStore = {
+            generateStateParam: sinon.fake.resolves('fakeState'),
+            verifyStateParam: sinon.fake.resolves({})
+          }
+          const installer = new InstallProvider({clientId, clientSecret, 'stateStore': fakeStateStore, authVersion: 'v1'});
           const scopes = ['bot'];
           const teamId = '1234Team';
           const redirectUri = 'https://mysite.com/slack/redirect';
+          const installUrlOptions = {
+            scopes,
+            metadata: 'some_metadata',
+            teamId,
+            redirectUri,
+        }
           try {
-              const generatedUrl = await installer.generateInstallUrl({
-                  scopes,
-                  metadata: 'some_metadata',
-                  teamId,
-                  redirectUri,
-              })
+              const generatedUrl = await installer.generateInstallUrl(installUrlOptions)
               assert.exists(generatedUrl);
               const parsedUrl = url.parse(generatedUrl, true);
+              assert.equal(fakeStateStore.generateStateParam.callCount, 1);
+              assert.equal(fakeStateStore.verifyStateParam.callCount, 0);
+              assert.equal(fakeStateStore.generateStateParam.calledWith(installUrlOptions), true);
               assert.equal(parsedUrl.pathname, '/oauth/authorize');
+              assert.equal(parsedUrl.query.state, 'fakeState');
               assert.equal(scopes.join(','), parsedUrl.query.scope);
               assert.equal(redirectUri, parsedUrl.query.redirect_uri);
               assert.equal(teamId, parsedUrl.query.team);
@@ -233,7 +253,7 @@ describe('OAuth', async () => {
               assert.exists(generatedUrl);
           } catch (error) {
               assert.equal(error.message, 'You must provide a scope parameter when calling generateInstallUrl');
-              assert.equal(error.code, 'GENERATE_URL_ERROR');
+              assert.equal(error.code, ErrorCode.GenerateInstallUrlError);
           }
       });
   });
@@ -241,9 +261,10 @@ describe('OAuth', async () => {
     it('should fail if database does not have an entry for authorize query', async () => {
       const installer = new InstallProvider({clientId, clientSecret, stateSecret, installationStore});
       try {
-          const AuthResult = await installer.authorize({teamId:'non_existing_team_id'});
+          const authResult = await installer.authorize({teamId:'non_existing_team_id'});
+          assert.fail('Should have failed');
       } catch(error) {
-          assert.equal(error.code, 'INSTALLER_AUTHORIZATION_ERROR');
+          assert.equal(error.code, ErrorCode.AuthorizationError);
           assert.equal(error.message, 'Failed fetching data from the Installation Store');
       }
     });
@@ -258,11 +279,11 @@ describe('OAuth', async () => {
       };
 
       try {
-        const AuthResult = await installer.authorize({teamId:'test-team-id'});
-        assert.equal(AuthResult.userToken, fakeAuthResult.userToken);
-        assert.equal(AuthResult.botToken, fakeAuthResult.botToken);
-        assert.equal(AuthResult.botId, fakeAuthResult.botId);
-        assert.equal(AuthResult.botUserId, fakeAuthResult.botUserId);
+        const authResult = await installer.authorize({teamId:'test-team-id'});
+        assert.equal(authResult.userToken, fakeAuthResult.userToken);
+        assert.equal(authResult.botToken, fakeAuthResult.botToken);
+        assert.equal(authResult.botId, fakeAuthResult.botId);
+        assert.equal(authResult.botUserId, fakeAuthResult.botUserId);
       } catch(error) {
         assert.fail(error.message);
       }
@@ -270,6 +291,14 @@ describe('OAuth', async () => {
   });
 
   describe('installer.handleCallback', async () => {
+    let fakeStateStore = undefined;
+    beforeEach(() => {
+      fakeStateStore = {
+        generateStateParam: sinon.fake.resolves('fakeState'),
+        verifyStateParam: sinon.fake.resolves({})
+      }
+    });
+
     it('should call the failure callback due to missing state query parameter on the URL', async () => {
       const req = { url: 'someUrl' };
       let sent = false;
@@ -280,7 +309,26 @@ describe('OAuth', async () => {
           assert.fail('should have failed');
         },
         failure: async (error, installOptions , req, res) => {
-          assert.equal(error.code, 'MISSING_STATE')
+          assert.equal(error.code, ErrorCode.MissingStateError)
+          res.send('failure');
+        },
+      }
+      const installer = new InstallProvider({clientId, clientSecret, stateSecret, installationStore, logger: noopLogger});
+      await installer.handleCallback(req, res, callbackOptions);
+
+      assert.isTrue(sent);
+    });
+    it('should call the failure callback due to missing code query parameter on the URL', async () => {
+      const req = { url: 'someUrl' };
+      let sent = false;
+      const res = { send: () => { sent = true; } };
+      const callbackOptions = {
+        success: async (installation, installOptions, req, res) => {
+          res.send('successful!');
+          assert.fail('should have failed');
+        },
+        failure: async (error, installOptions , req, res) => {
+          assert.equal(error.code, ErrorCode.MissingStateError)
           res.send('failure');
         },
       }
@@ -291,11 +339,9 @@ describe('OAuth', async () => {
     });
     it('should call the success callback for a v2 url', async () => {
       let sent = false;
-      const installUrlOptions = { scopes: [ 'channels:read' ] };
       const res = { send: () => { sent = true; } };
       const callbackOptions = {
         success: async (installation, installOptions, req, res) => {
-          assert.equal(installOptions.scopes[0], installUrlOptions.scopes[0]);
           res.send('successful!');
         },
         failure: async (error, installOptions , req, res) => {
@@ -304,32 +350,19 @@ describe('OAuth', async () => {
         },
       }
       
-      const installer = new InstallProvider({clientId, clientSecret, stateSecret, installationStore});
-      const url = await installer.generateInstallUrl(installUrlOptions);
-      const fakeState = Symbol();
-      const fakeCode = Symbol();
+      const installer = new InstallProvider({clientId, clientSecret, installationStore, stateStore: fakeStateStore});
+      const fakeState = 'fakeState';
+      const fakeCode = 'fakeCode';
       const req = { url: `http://example.com?state=${fakeState}&code=${fakeCode}` };
       await installer.handleCallback(req, res, callbackOptions);
       assert.isTrue(sent);
-
-      try {
-        // do a authorize check
-        const AuthResult = await installer.authorize({teamId:'fake-v2-team-id'});
-        assert.equal(AuthResult.userToken, 'userAccessToken');
-        assert.equal(AuthResult.botToken, 'botToken');
-        assert.equal(AuthResult.botId, '');
-        assert.equal(AuthResult.botUserId, 'botUserId');
-      } catch (error) {
-        assert.fail(error.message);
-      }
+      assert.equal(fakeStateStore.verifyStateParam.callCount, 1);
     });
     it('should call the success callback for a v1 url', async () => {
       let sent = false;
-      const installUrlOptions = { scopes: [ 'bot' ] };
       const res = { send: () => { sent = true; } };
       const callbackOptions = {
         success: async (installation, installOptions, req, res) => {
-          assert.equal(installOptions.scopes[0], installUrlOptions.scopes[0]);
           res.send('successful!');
         },
         failure: async (error, installOptions , req, res) => {
@@ -338,22 +371,35 @@ describe('OAuth', async () => {
         },
       }
       
-      const installer = new InstallProvider({clientId, clientSecret, stateSecret, installationStore, authVersion: 'v1'});
-      const url = await installer.generateInstallUrl(installUrlOptions);
-      const req = { url };
+      const installer = new InstallProvider({clientId, clientSecret, stateSecret, installationStore, stateStore: fakeStateStore, authVersion: 'v1'});
+      const fakeState = 'fakeState';
+      const fakeCode = 'fakeCode';
+      const req = { url: `http://example.com?state=${fakeState}&code=${fakeCode}` };
       await installer.handleCallback(req, res, callbackOptions);
       assert.isTrue(sent);
-
-      try {
-        // do a authorize check
-        const AuthResult = await installer.authorize({teamId:'fake-v1-team-id'});
-        assert.equal(AuthResult.userToken, 'token');
-        assert.equal(AuthResult.botToken, 'botAccessToken');
-        assert.equal(AuthResult.botId, '');
-        assert.equal(AuthResult.botUserId, 'botUserId');
-      } catch (error) {
-        assert.fail(error.message);
-      }
+      assert.equal(fakeStateStore.verifyStateParam.callCount, 1);
     });
-  })
+  });
+
+  describe('MemoryInstallStore', async () => {
+    it('should store and fetch an installation', async () => {
+      const installer = new InstallProvider({clientId, clientSecret, stateSecret});
+      const fakeTeamId = storedInstallation.team.id;
+      assert.deepEqual({}, installer.installationStore.devDB);
+      await installer.installationStore.storeInstallation(storedInstallation);
+      const fetchedResult = await installer.installationStore.fetchInstallation({teamId:fakeTeamId});
+      assert.deepEqual(fetchedResult, storedInstallation);
+      assert.deepEqual(storedInstallation, installer.installationStore.devDB[fakeTeamId]);
+    });
+  });
+
+  describe('ClearStateStore', async () => {
+    it('should generate a state and return install options once verified', async () => {
+      const installer = new InstallProvider({clientId, clientSecret, stateSecret});
+      const installUrlOptions = { scopes: [ 'channels:read' ] };
+      const state = await installer.stateStore.generateStateParam(installUrlOptions, new Date());
+      const returnedInstallUrlOptions = await installer.stateStore.verifyStateParam(new Date(), state);
+      assert.deepEqual(installUrlOptions, returnedInstallUrlOptions);
+    });
+  });
 });
