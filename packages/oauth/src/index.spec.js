@@ -241,7 +241,7 @@ describe('OAuth', async () => {
     it('should fail if database does not have an entry for authorize query', async () => {
       const installer = new InstallProvider({clientId, clientSecret, stateSecret, installationStore});
       try {
-          const AuthResult = await installer.authorize({teamId:'teamID'});
+          const AuthResult = await installer.authorize({teamId:'non_existing_team_id'});
       } catch(error) {
           assert.equal(error.code, 'INSTALLER_AUTHORIZATION_ERROR');
           assert.equal(error.message, 'Failed fetching data from the Installation Store');
@@ -306,7 +306,9 @@ describe('OAuth', async () => {
       
       const installer = new InstallProvider({clientId, clientSecret, stateSecret, installationStore});
       const url = await installer.generateInstallUrl(installUrlOptions);
-      const req = { url };
+      const fakeState = Symbol();
+      const fakeCode = Symbol();
+      const req = { url: `http://example.com?state=${fakeState}&code=${fakeCode}` };
       await installer.handleCallback(req, res, callbackOptions);
       assert.isTrue(sent);
 
