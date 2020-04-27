@@ -471,7 +471,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     open: (this.apiCall.bind(this, 'views.open')) as Method<methods.ViewsOpenArguments>,
     publish: (this.apiCall.bind(this, 'views.publish')) as Method<methods.ViewsPublishArguments>,
     push: (this.apiCall.bind(this, 'views.push')) as Method<methods.ViewsPushArguments>,
-    update: (this.apiCall.bind(this, 'views.update')) as Method<methods.ViewsUpdateArguments>,
+    update: (this.apiCall.bind(this, 'views.update')) as Method<methods.ViewsUpdateArgumentsWithViewId | methods.ViewsUpdateArgumentsWithExternalId>,
   };
 
   /**
