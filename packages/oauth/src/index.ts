@@ -12,6 +12,17 @@ import {
 import { parse as parseUrl, URLSearchParams, URL } from 'url';
 import { Logger, LogLevel, getLogger } from './logger';
 
+/**
+ * InstallProvider Class.
+ * @param clientId - Your apps client ID
+ * @param clientSecret - Your apps client Secret
+ * @param stateSecret - Used to sign and verify the generated state when using the built-in `stateStore`
+ * @param stateStore - Replacement function for the built-in `stateStore`
+ * @param installationStore - Interface to store and retrieve installation data from the database
+ * @param authVersion - Can be either `v1` or `v2`. Determines which slack Oauth URL and method to use
+ * @param logger - Pass in your own Logger if you don't want to use the built-in one
+ * @param logLevel - Pass in the log level you want (ERROR, WARN, INFO, DEBUG). Default is INFO
+ */
 export class InstallProvider {
   public stateStore: StateStore;
   public installationStore: InstallationStore;
@@ -528,3 +539,5 @@ async function getBotId(token: string): Promise<string> {
   // return an empty string in this case
   return '';
 }
+
+export { Logger, LogLevel } from './logger';

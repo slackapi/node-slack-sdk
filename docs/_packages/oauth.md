@@ -7,9 +7,9 @@ anchor_links_header: Usage
 
 # Slack OAuth
 
-The `@slack/oauth` package makes it simple to setup the OAuth flow for slack apps. It supports [V2 OAuth](https://api.slack.com/authentication/oauth-v2) for Slack Apps as well as [V1 OAuth](https://api.slack.com/docs/oauth) for [Classic Slack apps](https://api.slack.com/authentication/quickstart).
+The `@slack/oauth` package makes it simple to setup the OAuth flow for Slack apps. It supports [V2 OAuth](https://api.slack.com/authentication/oauth-v2) for Slack Apps as well as [V1 OAuth](https://api.slack.com/docs/oauth) for [Classic Slack apps](https://api.slack.com/authentication/quickstart). Slack apps that are installed in multiple workspaces, like in the App Directory or in an Enterprise Grid, will need to implement OAuth and store information about each of those installations (such as access tokens). 
 
-The package handles url generation, state generation and verification, code exchange for access tokens, an interface easily plugging in your own databases for saving and retrieving installation data, and much more!
+The package handles URL generation, state verification, and authorization code exchange for access tokens. It also provides an interface for easily plugging in your own database for saving and retrieving installation data.
 
 ## Installation
 
@@ -19,133 +19,290 @@ $ npm install @slack/oauth
 
 Before building an app, you'll need to [create a Slack app](https://api.slack.com/apps/new) and install it to your
 development workspace. You'll also **need a public URL** where the app can receive response URLs. Finally, you'll need
-to copy the **request signing secret** given to you by Slack under the "Basic Information" of your app configuration.
+to copy the **Client ID** and **Client Secret** given to you by Slack under the **Basic Information** of your app configuration.
 
 It may be helpful to read the tutorials on [getting started](https://slack.dev/node-slack-sdk/getting-started) and
 [getting a public URL that can be used for development](https://slack.dev/node-slack-sdk/tutorials/local-development).
 
+---
 
-## Initialization
+### Initialize the installer
 
-View the [Initialization Options](#initialization-options) to see the full list of options available when initializing the `InstallProvider` class. 
+This package exposes an `InstallProvider` class, which sets up the required configuration and exposes methods such as `generateInstallUrl`, `handleCallback`, `authorize` for use within your apps. At a minimum, `InstallProvider` takes a `clientId` and `clientSecret` (both which can be obtained under the **Basic Information** of your app configuration). `InstallProvider` also requires a `stateSecret`, which is used to encode the generated state, and later used to decode that same state to verify it wasn't tampered with during the OAuth flow. **Note**: This example is not ready for production because it only stores installations (tokens) in memory. Please go to the [storing installations in a database](#storing-installations-in-a-database) section to learn how to plug in your own database.
 
 ```javascript
-const slackOauth = require('@slack/oauth');;
+const { InstallProvider } = require('@slack/oauth');;
 
 // initialize the installProvider
-const installer = new slackOauth.InstallProvider({
+const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  authVersion: 'v2',
   stateSecret: 'my-state-secret'
 });
 ```
 
-### Initialization Options
+<details>
+<summary markdown="span">
+<strong><i>Using a classic Slack app</i></strong>
+</summary>
 
-| Option             | Required | Type   | Description                                    |
-|--------------------|----------|--------|------------------------------------------------|
-| clientId           | yes      | String | Your apps client ID                           |
-| clientSecret       | yes      | String | Your apps client Secret                       |
-| stateSecret        | no (yes if using built-in stateStore) | String | Used to sign and verify the generated state when using the built-in `stateStore` |
-| stateStore         | no       | Object | Replacement function for the built-in `stateStore`. Must follow the [`stateStore` guidelines](#state-store-guidelines) |
-| installationStore  | no for dev, yes for production | Object | Interface to store and retrieve installation data from the database. Must follow the [`Installation Store` guidelines](#installation-store-guidelines)|
-| authVersion        | no (defaults to 'v2') | String | Can be either `v1` or `v2`. Determines which slack Oauth URL and method to use |
-| logger             | no       | Object | Pass in your own Logger if you don't want to use the built-in one | 
-| logLevel           | no       | String | Pass in the log level you want (ERROR, WARN, INFO, DEBUG). Default is INFO |
+  ```javascript
+  const { InstallProvider } = require('@slack/oauth');;
 
-## Setup a simple express app 
+  // initialize the installProvider
+  const installer = new InstallProvider({
+    clientId: process.env.SLACK_CLIENT_ID,
+    clientSecret: process.env.SLACK_CLIENT_SECRET,
+    stateSecret: 'my-state-secret',
+    authVersion: 'v1' //required for classic Slack apps
+  });
+  ```
+</details>
+
+---
+
+### Generating an installation URL
+
+You'll need an installation URL when you want to test your own installation, in order to submit your app to the App Directory, and if you need an additional authorizations (user tokens) from users inside a team when your app is already installed. These URLs are also commonly used on your own webpages as the link for an ["Add to Slack" button](https://api.slack.com/docs/slack-button). You may also need to generate an installation URL dynamically when an option's value is only known at runtime, and in this case you would redirect the user to the installation URL.
+
+The `installProvider.generateInstallUrl()` method will create an installation URL for you. It takes in an options argument which at a minimum contains a `scopes` property. `installProvider.generateInstallUrl()` options argument also supports `metadata`, `teamId`, `redirectUri` and `userScopes` properties. 
 
 ```javascript
-const express = require('express');
+installer.generateInstallUrl({
+  // Add the scopes your app needs
+  scopes: ['channels:read']
+})
+```
+<details>
+<summary markdown="span">
+<strong><i>Adding custom metadata to the installation URL</i></strong>
+</summary>
 
-const app = express();
-const port = 3000;
+You might want to present an "Add to Slack" button while the user is in the middle of some other tasks (e.g. linking their Slack account to your service). In these situations, you want to bring the user back to where they left off after the app installation is complete. Custom metadata can be used to capture partial (incomplete) information about the task (like which page they were on or inputs to form elements the user began to fill out) in progress. Then when the installation is complete, that custom metadata will be available for your app to recreate exactly where they left off. You must also use a [custom success handler when handling the OAuth redirect](#handling-the-oauth-redirect) to read the custom metadata after the installation is complete. 
 
-// Setup a begin_auth route to display the Add to Slack button
-// This initiates the OAuth Flow
-app.get('/slack/install', (req, res, next) => {
-  // Call the generateInstallUrl
-  installer.generateInstallUrl({
-    // Add the scopes your app needs
-    scopes: ['channels:read'],
-    metadata: 'some_metadata',
-  }).then((url) => {
-    res.send(`<a href=${url}><img alt=""Add to Slack"" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>`);
-  }).catch(next);
-});
+```javascript
+installer.generateInstallUrl({
+  // Add the scopes your app needs
+  scopes: ['channels:read'],
+  metadata: JSON.stringify({some:'sessionState'})
+})
+```
 
-// This will be where your app gets redirected after the user installs your app
+**Note**: custom metadata is visible to the user, so don't store any secret information in the metadata. The installation provider will ensure that none of the metadata has been tampered with when the user returns. To change how metadata is handled, including hiding it from users, read about [using a custom state store](#using-a-custom-state-store).
+</details>
+
+---
+
+### Handling the OAuth redirect
+
+After the user approves the request to install your app (and grants access to the required permissions), Slack will redirect the user to your specified **redirect url**. You can either set the redirect url in the app’s **OAuth and Permissions** page or pass a `redirectUri` when calling `installProvider.generateInstallUrl`. Your HTTP server should handle requests to the redirect URL by calling the `installProvider.handleCallback()` method. The first two arguments (`req`, `res`) to `installProvider.handleCallback` are required. By default, if the installation is successful the user will be redirected back to your App Home in Slack (or shown a generic success page for classic Slack apps). If the installation is not successful the user will be shown an error page.
+
+```javascript
+const { createServer } = require('http');
+
+const server = createServer((req, res) =>  {
+  // our redirect_uri is /slack/oauth_redirect
+  if (req.url === '/slack/oauth_redirect') {
+    // call installer.handleCallback to wrap up the install flow
+    installer.handleCallback(req, res);
+  }
+})
+
+server.listen(3000);
+```
+
+<details>
+<summary markdown="span">
+<strong><i>Using an Express app</i></strong>
+</summary>
+
+You can easily use `installer.handleCallback` within an Express app by setting up a route for the OAuth redirect.
+
+```javascript
 app.get('/slack/oauth_redirect', (req, res) => {
-  installer.handleCallback(req, res, {});
+  installer.handleCallback(req, res);
 });
 ```
-The above code has two routes. The first route is `/slack/install` and it is used to create a Slack URL for your users to install your application. This URL is how your app requests scopes, [which govern its permissions](https://api.slack.com/scopes). It calls this library's `generateInstallUrl` method which will build the URL by appending your specified scopes, generating
-a state parameter, and appending any of the other options passed in. Checkout [`generateInstallUrl` options](#generateinstallurl-options) to see a full list of what options you can pass into `generateInstallUrl`.
+</details>
 
-The second route is `/slack/oauth_redirect` and is used as the **redirect url**. After the user approves the request to install your app (and grants access to the required permissions), Slack will redirect the user to your specified **redirect url**. You can either set the redirect url in the app’s **OAuth and Permissions** page or pass a `redirectUri` when calling `generateInstallUrl`. `/slack/oauth_redirect` will call this library's `handleCallback` method, which will verify that the `state` parameter from `generateInstallUrl` is the same as the one received in `handleCallback`. This is to prevent [CSRF attacks](https://en.wikipedia.org/wiki/Cross-site_request_forgery). `handleCallback` will also receive a `code` parameter in its url. It will exchange this `code` parameter for an `access_token`, which we can save in our Installation Store and use to make subsequent
-API calls. It does this exchange by calling the [`oauth.v2.access` method](https://api.slack.com/methods/oauth.v2.access) (or [`oauth.access` method](https://api.slack.com/methods/oauth.access) when `authVersion` is set to `v1` for Classic Slack Apps). If the exchange is successful, `handleCallback` will redirect the user back to Slack, or show a generic success page when `authVersion` is set to `v1`. If you desire different behavior (say to show a custom success page on success), both `success` and `failure` can be overridden. Checkout [`handleCallback` options](#handlecallback-options) for more details.
+<details>
+<summary markdown="span">
+<strong><i>Using a custom success handler and custom failure handler</i></strong>
+</summary>
 
-### generateInstallUrl Options
+If you decide you need custom success or failure behaviors (ex: wanting to show a page on your site with instructions on how to use the app), you can pass in your own success/failure functions.
 
-| Option             | Required | Type            | Description                                    |
-|--------------------|----------|-----------------|------------------------------------------------|
-| scopes             | yes      | String or Array | Permissions your app requires. Either as an array of strings or a string separated by commas |
-| metadata           | no       | String          | Any metadata you wish to pass through the URL to the handleCallback function. A good place to store state specific information |
-| teamId             | no       | String          | Slack team ID of a workspace to attempt to restrict to |
-| redirectUri        | no       | String          | URL to redirect back to                        |
-| userScopes         | no       | String or Array | Permissions your app needs for the user token  |
+```javascript
+const callbackOptions = {
+  success: (installation, metadata, req, res) => {
+    // Do custom success logic here
+    res.send('successful!');
+  }, 
+  failure: (error, installOptions , req, res) => {
+    // Do custom failure logic here
+    res.send('failure');
+  }
+}
+app.get('/slack/oauth_redirect', (req, res) => {
+  installer.handleCallback(req, res, callbackOptions);
+});
+```
+</details>
+---
 
-### handleCallback Options
+### Storing installations in a database
 
-| Option             | Required | Type      | Description                                    |
-|--------------------|----------|-----------|------------------------------------------------|
-| success            | no       | function  | function to run if `handleCallback` runs successfully. Run instead of the built-in success function |
-| failure            | no       | function  | function to run if `handleCallback` runs fails. Run instead of the built-in failure function |
+Although this package comes with a built in `memoryInstallationStore`, it isn't recommended for production use. Instead, `InstallProvider` has an interface for supplying your own `installationStore` which is used to save and retrieve install information (like tokens).
 
-## Fetching Data from DB
+```javascript
+const installer = new InstallProvider({
+  clientId: process.env.SLACK_CLIENT_ID,
+  clientSecret: process.env.SLACK_CLIENT_SECRET,
+  stateSecret: 'my-state-secret',
+  installationStore: {
+    storeInstallation: (installation) => {
+      // replace myDB.set with your own database or OEM setter
+      return myDB.set(installation.team.id, installation);
+    },
+    fetchInstallation: (InstallQuery) => {
+      // replace myDB.get with your own database or OEM getter
+      return myDB.get(InstallQuery.teamId);
+    },
+  },
+});
+```
+---
 
-The built in [Installation Store](#installation-store-guidelines) takes in an `Installation Query` object that has a `teamId` parameter. It will then search the DB with this parameter or any matches, and return an object that could have any combination of `botToken`, `userToken`, `botId`, `botUserId`, depending on which scopes your app initially requests. *Note: your app will likely receive the `teamId` in event and action payloads.*
+### Reading tokens and other installation data
+
+You can use the the `installer.authorize()` function to fetch data that has been saved in your `installationStore`.
 
 ```javascript
 const result = installer.authorize({teamId:'my-Team-ID'});
-console.log(result.botToken);
-console.log(result.userToken);
-console.log(result.botId);
-console.log(result.botUserId);
+/*
+result = {
+  botToken: '',
+  userToken: '',
+  botId: '',
+  botUserId: '',
+}
+*/
 ```
 
-## State Store Guidelines
+<details>
+<summary markdown="span">
+<strong><i>Reading extended installation data</i></strong>
+</summary>
 
-This library comes with a built-in `stateStore` that handles generating and verifying a state parameter to use in your generated install url. The built-in `stateStore` also allows developers to programmatically pass in metadata that will be sent along with the state for use within the callback. To use the `built-in` state store, developers will have to pass in a `stateSecret` when initializing their application. We use this `stateSecret` to sign the `state` parameter and later verify that it hasn't been modified by potential attackers. 
+The `installer.authorize()` method only returns a small sub set of the installation data we saved to our `installationStore`. To fetch the entire installation object we saved, use the `installer.installationStore.fetchInstallation` method. 
 
-Developers can pass in their own `stateStore` if they don't want to use the built-in one. A state store must have two functions:
-
-- `generateStateParam(installOptions, Date)`: takes in a `installOptions` as the first argument representing `installURLOptions` passed in to `generateInstallURL`. Takes a `Date` argument as the second argument. Returns a `string` representing `state`.
-- `verifyStateParam(Date, state)`: takes in a `Date` argument as the first argument and `state` as the second argument. Returns the `installOptions` that were encoded into the `state` param.
-
-## Installation Store Guidelines
-
-`installationStore` is used to interact with a database to save and retrieve installation data. To use this library in production, you must provide a custom `installationStore`.
-
-An `installationStore` must provide the following two functions:
-
-- `storeInstallation`: takes in a `Installation object` as the first argument to save into your database. Optionally takes a logger as the second argument. 
-- `fetchInstallation`: takes in a `Installation Query` as the first argument and optionally a logger as the second. Returns a promise with the result of the DB query.
-
-For development, we provide an in-memory `installationStore`. This means that all saved data will be erased every time you restart the server.
+```javascript
+const result = installer.installationStore.fetchInstallation({teamId:'my-Team-ID'});
+```
+</details>
 
 ---
 
-## Examples
+### Using a custom state store
 
-*  [OAuth-v2](../../examples/oauth-v2/README.md). This example uses [Keyv](https://github.com/lukechilds/keyv) library as a database.
-*  [OAuth-v1](../../examples/oauth-v1/README.md) 
+This package comes with a built-in `stateStore` that handles generating state parameter via encoding the options passed in (like metadata). If you have a need to store state out of process in a cache or database like Redis (because you want to conceal the metadata), you may want to pass a custom `stateStore`.
+
+```javascript
+const installer = new InstallProvider({
+  clientId: process.env.SLACK_CLIENT_ID,
+  clientSecret: process.env.SLACK_CLIENT_SECRET,
+  stateStore: {
+    generateStateParam: (installOptions, date) => {
+      // generate a random string to use as state in the URL
+      const randomState = randomStringGenerator();
+      // save installOptions to cache/db
+      myDB.set(randomState, installOptions);
+      // return a state string that references saved options in DB
+      return randomState;
+    },
+    verifyStateParam:  (date, state) => {
+      // fetch saved installOptions from DB using state reference
+      const installOptions = myDB.get(randomState);
+      return installOptions;
+    }
+  },
+});
+```
+---
+
+### Setting the log level and using a custom logger
+
+The `InstallProvider` will log interesting information to the console by default. You can use the `logLevel` to decide how
+much information, or how interesting the information needs to be, in order for it to be output. There are a few possible
+log levels, which you can find in the `LogLevel` export. By default, the value is set to `LogLevel.INFO`. While you're
+in development, its sometimes helpful to set this to the most verbose: `LogLevel.DEBUG`.
+
+```javascript
+// Import LogLevel from the package
+const { InstallProvider, LogLevel } = require('@slack/oauth');
+
+// Log level is one of the options you can set in the constructor
+const installer = new InstallProvider({
+  clientId: process.env.SLACK_CLIENT_ID,
+  clientSecret: process.env.SLACK_CLIENT_SECRET,
+  stateSecret: 'my-state-secret',
+  logLevel: LogLevel.DEBUG,
+});
+```
+
+All the log levels, in order of most to least information are: `DEBUG`, `INFO`, `WARN`, and `ERROR`.
+
+<details>
+<summary markdown="span">
+<strong><i>Sending log output somewhere besides the console</i></strong>
+</summary>
+
+You can also choose to have logs sent to a custom logger using the `logger` option. A custom logger needs to implement
+specific methods (known as the `Logger` interface):
+
+| Method       | Parameters        | Return type |
+|--------------|-------------------|-------------|
+| `setLevel()` | `level: LogLevel` | `void`      |
+| `setName()`  | `name: string`    | `void`      |
+| `debug()`    | `...msgs: any[]`  | `void`      |
+| `info()`     | `...msgs: any[]`  | `void`      |
+| `warn()`     | `...msgs: any[]`  | `void`      |
+| `error()`    | `...msgs: any[]`  | `void`      |
+
+A very simple custom logger might ignore the name and level, and write all messages to a file.
+
+```javascript
+const { createWriteStream } = require('fs');
+const logWritable = createWriteStream('/var/my_log_file'); // Not shown: close this stream
+
+const installer = new InstallProvider({
+  clientId: process.env.SLACK_CLIENT_ID,
+  clientSecret: process.env.SLACK_CLIENT_SECRET,
+  stateSecret: 'my-state-secret',
+  // Creating a logger as a literal object. It's more likely that you'd create a class.
+  logger: {
+    debug(...msgs): { logWritable.write('debug: ' + JSON.stringify(msgs)); },
+    info(...msgs): { logWritable.write('info: ' + JSON.stringify(msgs)); },
+    warn(...msgs): { logWritable.write('warn: ' + JSON.stringify(msgs)); },
+    error(...msgs): { logWritable.write('error: ' + JSON.stringify(msgs)); },
+    setLevel(): { },
+    setName(): { },
+  },
+});
+```
+</details>
 
 ---
 
-## Requirements
+### Examples
 
-This package supports Node v8 LTS and higher. It's highly recommended to use [the latest LTS version of
+*  [OAuth Express app](../../examples/oauth-v2/README.md). This example uses [Keyv](https://github.com/lukechilds/keyv) library as a Installation Store.
+*  [classic Slack App](../../examples/oauth-v1/README.md). This example uses in the built in Installation Store
+
+---
+
+### Requirements
+
+This package supports Node v10 LTS and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
 from that version.
