@@ -464,7 +464,7 @@ slackInteractions.viewClosed('my_modal_callback_id', (payload) => {
 Shortcuts are invokable UI elements within Slack clients. For [global shortcuts](https://api.slack.com/interactivity/shortcuts/using#global_shortcuts), they are available in the composer and search menus.
 
 Apps register functions, called **handlers**, to be triggered when an shortcuts request is received by the adapter using
-the `.shortcuts(constraints, handler)` method. When registering a handler, you describe which shortcut request(s) you'd
+the `.shortcut(constraints, handler)` method. When registering a handler, you describe which shortcut request(s) you'd
 like the handler to match using **constraints**. Constraints are [described in detail](#constraints) below. The adapter
 will call the handler whose constraints match the action best.
 
