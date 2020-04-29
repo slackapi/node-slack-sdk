@@ -1,0 +1,63 @@
+{
+  "name": "@slack/oauth",
+  "version": "1.0.0",
+  "description": "Official library for interacting with Slack's Oauth endpoints",
+  "author": "Slack Technologies, Inc.",
+  "license": "MIT",
+  "keywords": [
+    "slack",
+    "oauth",
+    "bot",
+    "http",
+    "api"
+  ],
+  "main": "dist/index.js",
+  "files": [
+    "dist/**/*"
+  ],
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "repository": "slackapi/node-slack-sdk",
+  "homepage": "https://slack.dev/node-slack-sdk/oauth",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/slackapi/node-slack-sdk/issues"
+  },
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "npm run build:clean && tsc",
+    "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
+    "lint": "tslint --project .",
+    "test": "nyc mocha --config .mocharc.json src/*.spec.js test/integration/*.js",
+    "coverage": "codecov -F oauthhelper --root=$PWD"
+  },
+  "dependencies": {
+    "@slack/logger": "^2.0.0",
+    "@slack/web-api": "^5.7.0",
+    "@types/jsonwebtoken": "^8.3.7",
+    "@types/node": ">=6.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash.isstring": "^4.0.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.11",
+    "chai": "^4.2.0",
+    "codecov": "^3.0.4",
+    "mocha": "^6.1.4",
+    "nop": "^1.0.0",
+    "nyc": "^14.1.1",
+    "rewiremock": "^3.13.9",
+    "shx": "^0.3.2",
+    "sinon": "^9.0.2",
+    "source-map-support": "^0.5.12",
+    "superagent": "^3.3.1",
+    "ts-node": "^8.2.0",
+    "tslint": "^5.17.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "typescript": "^3.5.1",
+    "uncaughtException": "^1.0.0"
+  }
+}

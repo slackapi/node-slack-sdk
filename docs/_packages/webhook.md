@@ -3,7 +3,7 @@ title: Incoming Webhooks
 permalink: /webhook
 redirect_from:
   - /incoming_webhook
-order: 5
+order: 6
 ---
 
 # Slack Incoming Webhooks
