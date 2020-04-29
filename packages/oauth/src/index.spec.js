@@ -130,7 +130,7 @@ describe('OAuth', async () => {
         verifyStateParam: sinon.fake.resolves({})
       }
 
-      const installer = new InstallProvider({clientId, clientSecret, 'stateStore': fakeStateStore});
+      const installer = new InstallProvider({ clientId, clientSecret, stateStore: fakeStateStore });
       assert.instanceOf(installer, InstallProvider);
     });
 
@@ -185,7 +185,7 @@ describe('OAuth', async () => {
             generateStateParam: sinon.fake.resolves('fakeState'),
             verifyStateParam: sinon.fake.resolves({})
           }
-          const installer = new InstallProvider({clientId, clientSecret, 'stateStore': fakeStateStore});
+          const installer = new InstallProvider({ clientId, clientSecret, stateStore: fakeStateStore });
           const scopes = ['channels:read'];
           const teamId = '1234Team';
           const redirectUri = 'https://mysite.com/slack/redirect';

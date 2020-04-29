@@ -166,9 +166,9 @@ const installer = new InstallProvider({
       // replace myDB.set with your own database or OEM setter
       return myDB.set(installation.team.id, installation);
     },
-    fetchInstallation: (InstallQuery) => {
+    fetchInstallation: (installQuery) => {
       // replace myDB.get with your own database or OEM getter
-      return myDB.get(InstallQuery.teamId);
+      return myDB.get(installQuery.teamId);
     },
   },
 });
@@ -177,7 +177,7 @@ const installer = new InstallProvider({
 
 ### Reading tokens and other installation data
 
-You can use the the `installer.authorize()` function to fetch data that has been saved in your `installationStore`.
+You can use the the `installationProvider.authorize()` function to fetch data that has been saved in your installation store.
 
 ```javascript
 const result = installer.authorize({teamId:'my-Team-ID'});
@@ -196,7 +196,7 @@ result = {
 <strong><i>Reading extended installation data</i></strong>
 </summary>
 
-The `installer.authorize()` method only returns a small sub set of the installation data we saved to our `installationStore`. To fetch the entire installation object we saved, use the `installer.installationStore.fetchInstallation` method. 
+The `installer.authorize()` method only returns a subset of the installation data returned by the installation store. To fetch the entire saved installation, use the `installer.installationStore.fetchInstallation()` method. 
 
 ```javascript
 const result = installer.installationStore.fetchInstallation({teamId:'my-Team-ID'});
@@ -207,7 +207,11 @@ const result = installer.installationStore.fetchInstallation({teamId:'my-Team-ID
 
 ### Using a custom state store
 
-This package comes with a built-in `stateStore` that handles generating state parameter via encoding the options passed in (like metadata). If you have a need to store state out of process in a cache or database like Redis (because you want to conceal the metadata), you may want to pass a custom `stateStore`.
+A state store handles generating the OAuth `state` parameter in the installation URL for a given set of options, and verifying the `state` in the OAuth callback and returning those same options.
+
+The default state store, `ClearStateStore`, does not use any storage. Instead, it signs the options (using the `stateSecret`) and encodes them along with a signature into `state`. Later during the OAuth callback, it verifies the signature.
+
+If you want to conceal the `metadata` used in the installation URL options you will need to store `state` on your server (in a database) by providing a custom state store. A custom state implements two methods: `generateStateParam()` and `verifyStateParam()`. When you instantiate the `InstallProvider` use the `stateStore` option to set your custom state store. And when using the custom state store, you no longer need to use the `stateSecret` option.
 
 ```javascript
 const installer = new InstallProvider({
@@ -298,8 +302,8 @@ const installer = new InstallProvider({
 
 ### Examples
 
-*  [OAuth Express app](../../examples/oauth-v2/README.md). This example uses [Keyv](https://github.com/lukechilds/keyv) library as a Installation Store.
-*  [classic Slack App](../../examples/oauth-v1/README.md). This example uses in the built in Installation Store
+*  [OAuth Express app](../../examples/oauth-v2/README.md). This example uses [Keyv](https://github.com/lukechilds/keyv) library as an installation store.
+*  [classic Slack App](../../examples/oauth-v1/README.md). This example uses the built-in installation store
 
 ---
 
