@@ -940,16 +940,10 @@ export interface ViewsPublishArguments extends WebAPICallOptions, TokenOverridab
 }
 
 export interface ViewsUpdateArguments extends WebAPICallOptions, TokenOverridable {
-  view: View;
-  hash?: string;
-}
-
-export interface ViewsUpdateArgumentsWithViewId extends ViewsUpdateArguments {
   view_id: string;
-}
-
-export interface ViewsUpdateArgumentsWithExternalId extends ViewsUpdateArguments {
-  external_id: string;
+  view: View;
+  external_id?: string;
+  hash?: string;
 }
 
 export * from '@slack/types';
