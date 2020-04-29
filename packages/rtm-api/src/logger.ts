@@ -16,7 +16,7 @@ export function getLogger(name: string, level: LogLevel, existingLogger?: Logger
     if (existingLogger !== undefined) { return existingLogger; }
     return new ConsoleLogger();
   })();
-  logger.setName(`${name}:${instanceId}`);
+  logger.setName(`rtm-api:${name}:${instanceId}`);
   if (level !== undefined) {
     logger.setLevel(level);
   }
