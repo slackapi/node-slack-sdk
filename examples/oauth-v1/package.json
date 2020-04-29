@@ -10,6 +10,7 @@
     "node": ">=10.0.0",
     "npm": ">=6.4.1"
   },
+  "repository": "slackapi/node-slack-sdk",
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
   "dependencies": {

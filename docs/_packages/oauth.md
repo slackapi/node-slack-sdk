@@ -317,8 +317,8 @@ const installer = new InstallProvider({
 
 ### Examples
 
-*  [OAuth Express app](../../examples/oauth-v2/README.md). This example uses [Keyv](https://github.com/lukechilds/keyv) library as an installation store.
-*  [classic Slack App](../../examples/oauth-v1/README.md). This example uses the built-in installation store
+*  [OAuth Express app](https://github.com/slackapi/node-slack-sdk/tree/master/examples/oauth-v1). This example uses [Keyv](https://github.com/lukechilds/keyv) library as an installation store.
+*  [classic Slack App](https://github.com/slackapi/node-slack-sdk/tree/master/examples/oauth-v2). This example uses the built-in installation store
 
 ---
 
