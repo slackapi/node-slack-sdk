@@ -24,12 +24,9 @@ These examples show how to get started using the most common features. You'll fi
 
 <!-- END: Remove before copying into the docs directory -->
 
-Before building an app, you'll need to [create a Slack app](https://api.slack.com/apps/new) and install it to your
-development workspace. You'll also **need a public URL** where the app can receive response URLs. Finally, you'll need
-to copy the **Client ID** and **Client Secret** given to you by Slack under the **Basic Information** of your app configuration.
+Before building an app, you'll need to [create a Slack app](https://api.slack.com/apps/new) and install it to your development workspace. You'll also need to copy the **Client ID** and **Client Secret** given to you by Slack under the **Basic Information** of your app configuration.
 
-It may be helpful to read the tutorials on [getting started](https://slack.dev/node-slack-sdk/getting-started) and
-[getting a public URL that can be used for development](https://slack.dev/node-slack-sdk/tutorials/local-development).
+It may be helpful to read the tutorials on [getting started](https://slack.dev/node-slack-sdk/getting-started) and [getting a public URL that can be used for development](https://slack.dev/node-slack-sdk/tutorials/local-development).
 
 ---
 
@@ -159,7 +156,11 @@ app.get('/slack/oauth_redirect', (req, res) => {
 
 ### Storing installations in a database
 
-Although this package comes with a built in `memoryInstallationStore`, it isn't recommended for production use. Instead, `InstallProvider` has an interface for supplying your own `installationStore` which is used to save and retrieve install information (like tokens).
+Although this package uses a default `MemoryInstallationStore`, it isn't recommended for production use since the access tokens it stores would be lost when the process terminates or restarts. Instead, `InstallProvider` has an option for supplying your own installation store, which is used to save and retrieve install information (like tokens) to your own database.
+
+An installation store is an object that provides two methods: `storeInstallation` and `fetchInstallation`. `storeInstallation` takes an `installation` as an argument, which is an object that contains all installation related data (like tokens, teamIds, enterpriseIds, etc). `fetchInstallation` takes in a `installQuery`, which is used to query the database. The `installQuery` can contain `teamId`, `enterpriseId`, `userId`, and `conversationId`.   
+
+In the following example, the `installationStore` option is used and the object is defined in line. The required methods are implemented by calling an example database library with simple get and set operations.
 
 ```javascript
 const installer = new InstallProvider({
@@ -167,13 +168,19 @@ const installer = new InstallProvider({
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateSecret: 'my-state-secret',
   installationStore: {
+    // takes in an installation object as an argument
+    // returns nothing
     storeInstallation: (installation) => {
       // replace myDB.set with your own database or OEM setter
-      return myDB.set(installation.team.id, installation);
+      myDB.set(installation.team.id, installation);
+      return;
     },
-    fetchInstallation: (InstallQuery) => {
+    // takes in an installQuery as an argument
+    // installQuery = {teamId: 'string', enterpriseId: 'string', userId: string, conversationId: 'string'};
+    // returns installation object from database
+    fetchInstallation: (installQuery) => {
       // replace myDB.get with your own database or OEM getter
-      return myDB.get(InstallQuery.teamId);
+      return myDB.get(installQuery.teamId);
     },
   },
 });
@@ -182,9 +189,11 @@ const installer = new InstallProvider({
 
 ### Reading tokens and other installation data
 
-You can use the the `installer.authorize()` function to fetch data that has been saved in your `installationStore`.
+You can use the the `installationProvider.authorize()` function to fetch data that has been saved in your installation store.
 
 ```javascript
+// installer.authorize takes in an installQuery as an argument
+// installQuery = {teamId: 'string', enterpriseId: 'string', userId: string, conversationId: 'string'};
 const result = installer.authorize({teamId:'my-Team-ID'});
 /*
 result = {
@@ -201,9 +210,12 @@ result = {
 <strong><i>Reading extended installation data</i></strong>
 </summary>
 
-The `installer.authorize()` method only returns a small sub set of the installation data we saved to our `installationStore`. To fetch the entire installation object we saved, use the `installer.installationStore.fetchInstallation` method. 
+The `installer.authorize()` method only returns a subset of the installation data returned by the installation store. To fetch the entire saved installation, use the `installer.installationStore.fetchInstallation()` method. 
 
 ```javascript
+// installer.installationStore.fetchInstallation takes in an installQuery as an argument
+// installQuery = {teamId: 'string', enterpriseId: 'string', userId: string, conversationId: 'string'};
+// returns an installation object
 const result = installer.installationStore.fetchInstallation({teamId:'my-Team-ID'});
 ```
 </details>
@@ -212,25 +224,34 @@ const result = installer.installationStore.fetchInstallation({teamId:'my-Team-ID
 
 ### Using a custom state store
 
-This package comes with a built-in `stateStore` that handles generating state parameter via encoding the options passed in (like metadata). If you have a need to store state out of process in a cache or database like Redis (because you want to conceal the metadata), you may want to pass a custom `stateStore`.
+A state store handles generating the OAuth `state` parameter in the installation URL for a given set of options, and verifying the `state` in the OAuth callback and returning those same options.
+
+The default state store, `ClearStateStore`, does not use any storage. Instead, it signs the options (using the `stateSecret`) and encodes them along with a signature into `state`. Later during the OAuth callback, it verifies the signature.
+
+If you want to conceal the `metadata` used in the installation URL options you will need to store `state` on your server (in a database) by providing a custom state store. A custom state implements two methods: `generateStateParam()` and `verifyStateParam()`. When you instantiate the `InstallProvider` use the `stateStore` option to set your custom state store. And when using the custom state store, you no longer need to use the `stateSecret` option.
 
 ```javascript
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateStore: {
-    generateStateParam: (installOptions, date) => {
+    // generateStateParam's first argument is the entire InstallUrlOptions object which was passed into generateInstallUrl method
+    // the second argument is a date object
+    // the method is expected to return a string representing the state
+    generateStateParam: (installUrlOptions, date) => {
       // generate a random string to use as state in the URL
       const randomState = randomStringGenerator();
       // save installOptions to cache/db
-      myDB.set(randomState, installOptions);
+      myDB.set(randomState, installUrlOptions);
       // return a state string that references saved options in DB
       return randomState;
     },
+    // verifyStateParam's first argument is a date object and the second argument is a string representing the state
+    // verifyStateParam is expected to return an object representing installUrlOptions
     verifyStateParam:  (date, state) => {
       // fetch saved installOptions from DB using state reference
-      const installOptions = myDB.get(randomState);
-      return installOptions;
+      const installUrlOptions = myDB.get(randomState);
+      return installUrlOptions;
     }
   },
 });
@@ -303,8 +324,8 @@ const installer = new InstallProvider({
 
 ### Examples
 
-*  [OAuth Express app](../../examples/oauth-v2/README.md). This example uses [Keyv](https://github.com/lukechilds/keyv) library as a Installation Store.
-*  [classic Slack App](../../examples/oauth-v1/README.md). This example uses in the built in Installation Store
+*  [OAuth Express app](../../examples/oauth-v2/README.md). This example uses [Keyv](https://github.com/lukechilds/keyv) library as an installation store.
+*  [classic Slack App](../../examples/oauth-v1/README.md). This example uses the built-in installation store
 
 ---
 

@@ -35,13 +35,13 @@ app.get('/slack/install', async (req, res, next) => {
 });
 
 // example 1
-// empty callbackOptions Object
-// use default success and failure methods
+// use default success and failure handlers
 app.get('/slack/oauth_redirect', async (req, res) => {
   await installer.handleCallback(req, res);
 });
 
 // example 2
+// using custom success and failure handlers
 // const callbackOptions = {
 //   success: (installation, metadata, req, res) => {
 //     res.send('successful!');
@@ -50,7 +50,7 @@ app.get('/slack/oauth_redirect', async (req, res) => {
 //     res.send('failure');
 //   },
 // }
-// // callbackOptions object with success and failure methods
+//
 // app.get('/slack/oauth_redirect', async (req, res) => {
 //   await installer.handleCallback(req, res, callbackOptions);
 // });
