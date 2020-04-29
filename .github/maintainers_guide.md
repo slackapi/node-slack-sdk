@@ -69,7 +69,7 @@ If you make a mistake, don't fret. NPM allows you to unpublish a release within 
     (<kbd>CTRL</kbd>+<kbd>C</kbd>).
   * If lerna wants to release more packages than you want to, it's best to run the commands individually. This includes the following:
     - bump the version in `package.json` for all packages you are releasing
-    - Make a signle commit for the version bump. The commit message should be similar to a [previous one](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594).
+    - Make a single commit for the version bump. The commit message should be similar to a [previous one](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594).
     - Add version tags for each package you are about to release. Ex `git tag @slack/web-api@5.6.0`
     - Push commit and tags up to origin: `git push origin master && git push origin --tags`. 
 
