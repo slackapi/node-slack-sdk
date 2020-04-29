@@ -152,7 +152,9 @@ app.get('/slack/oauth_redirect', (req, res) => {
 
 ### Storing installations in a database
 
-Although this package comes with a built in `memoryInstallationStore`, it isn't recommended for production use. Instead, `InstallProvider` has an interface for supplying your own `installationStore` which is used to save and retrieve install information (like tokens).
+Although this package uses a default `MemoryInstallationStore`, it isn't recommended for production use since the access tokens it stores would be lost when the process terminates or restarts. Instead, `InstallProvider` has an option for supplying your own installation store, which is used to save and retrieve install information (like tokens) to your own database.
+
+An installation store is an object that provides two methods: `storeInstallation` and `fetchInstallation`. In the following example, the `installationStore` option is used and the object is defined in line. The required methods are implemented by calling an example database library with simple get and set operations.
 
 ```javascript
 const installer = new InstallProvider({
