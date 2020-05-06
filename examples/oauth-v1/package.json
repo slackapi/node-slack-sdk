@@ -15,8 +15,9 @@
   "license": "MIT",
   "dependencies": {
     "@slack/events-api": "^2.3.2",
-    "@slack/oauth": "^1.0.0",
+    "@slack/oauth": "^1.1.0",
     "@slack/web-api": "^5.8.0",
+    "cookie": "^0.4.1",
     "express": "^4.17.1"
   }
 }
