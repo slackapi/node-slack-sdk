@@ -179,7 +179,7 @@ export class InstallProvider {
         parsedUrl = parseUrl(req.url, true);
         code = parsedUrl.query.code as string;
         state = parsedUrl.query.state as string;
-        if (state === undefined || code === undefined) {
+        if (state === undefined || state === '' || code === undefined) {
           throw new MissingStateError('redirect url is missing state or code query parameters');
         }
       } else {
@@ -507,8 +507,14 @@ function callbackSuccess(
     // redirect back to slack
     // Open in native app
     const redirectUrl = `slack://app?team=${installation.team.id}&id=${installation.appId}`;
-    res.writeHead(302, { Location: redirectUrl });
-    res.end();
+    const htmlResponse = `<html>
+    <meta http-equiv="refresh" content="0; URL=${redirectUrl}">
+    <body>
+      <h1>Success! Redirecting to the Slack App...</h1>
+      <button onClick="window.location = '${redirectUrl}'">Click here to redirect</button>
+    </body></html>`;
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(htmlResponse);
   } else {
     // Send a generic success page
     // TODO: make this page pretty?
