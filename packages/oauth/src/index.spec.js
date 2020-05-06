@@ -1,6 +1,6 @@
 require('mocha');
 const { assert } = require('chai');
-
+const { decode } = require('jsonwebtoken');
 const url = require('url');
 const rewiremock = require('rewiremock/node');
 const sinon = require('sinon');
@@ -15,7 +15,7 @@ rewiremock(() => require('@slack/web-api')).with({
     auth = {
       test: sinon.fake.resolves({ bot_id: '' }),
     };
-    oauth = { 
+    oauth = {
       access: sinon.fake.resolves({
         team_id: 'fake-v1-team-id',
         team_name: 'fake-team-name',
@@ -102,6 +102,8 @@ const storedInstallation =  {
     appId: undefined,
     tokenType: 'tokenType'
 }
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 // store our fake installation Object to the memory database.
 devDB[storedInstallation.team.id] = storedInstallation;
@@ -257,6 +259,7 @@ describe('OAuth', async () => {
           }
       });
   });
+
   describe('installer.authorize', async () => {
     it('should fail if database does not have an entry for authorize query', async () => {
       const installer = new InstallProvider({clientId, clientSecret, stateSecret, installationStore});
@@ -349,7 +352,7 @@ describe('OAuth', async () => {
           res.send('failure');
         },
       }
-      
+
       const installer = new InstallProvider({clientId, clientSecret, installationStore, stateStore: fakeStateStore});
       const fakeState = 'fakeState';
       const fakeCode = 'fakeCode';
@@ -370,7 +373,7 @@ describe('OAuth', async () => {
           res.send('failure');
         },
       }
-      
+
       const installer = new InstallProvider({clientId, clientSecret, stateSecret, installationStore, stateStore: fakeStateStore, authVersion: 'v1'});
       const fakeState = 'fakeState';
       const fakeCode = 'fakeCode';
@@ -400,6 +403,27 @@ describe('OAuth', async () => {
       const state = await installer.stateStore.generateStateParam(installUrlOptions, new Date());
       const returnedInstallUrlOptions = await installer.stateStore.verifyStateParam(new Date(), state);
       assert.deepEqual(installUrlOptions, returnedInstallUrlOptions);
+    });
+
+    it('should expire the state token 3 minutes in the future, by default', async () => {
+      const installer = new InstallProvider({clientId, clientSecret, stateSecret});
+      const installUrlOptions = { scopes: [ 'channels:read' ] };
+      const state = await installer.stateStore.generateStateParam(installUrlOptions, new Date());
+      assert.isAtLeast(decode(state).exp, Math.floor(Date.now() / 1000) + 170)
+    });
+
+    it('should use the token stateTokenLifetime (string) from the installUrlOptions if present', async () => {
+      const installer = new InstallProvider({clientId, clientSecret, stateSecret});
+      const installUrlOptions = { scopes: [ 'channels:read' ], stateTokenLifetime: '1h' };
+      const state = await installer.stateStore.generateStateParam(installUrlOptions, new Date());
+      assert.isAtLeast(decode(state).exp, Math.floor(Date.now() / 1000) + 3400)
+    });
+
+    it('should use the token stateTokenLifetime (number) from the installUrlOptions if present', async () => {
+      const installer = new InstallProvider({clientId, clientSecret, stateSecret});
+      const installUrlOptions = { scopes: [ 'channels:read' ], stateTokenLifetime: 3600 };
+      const state = await installer.stateStore.generateStateParam(installUrlOptions, new Date());
+      assert.isAtLeast(decode(state).exp, Math.floor(Date.now() / 1000) + 3400)
     });
   });
 });

@@ -300,6 +300,7 @@ export interface InstallURLOptions {
   teamId?: string;
   redirectUri?: string;
   userScopes?: string | string[]; // cannot be used with authVersion=v1
+  stateTokenLifetime?: number | string; // a string describing a time span zeit/ms
   metadata?: string; // Arbitrary data can be stored here, potentially to save app state or use for custom redirect
 }
 
@@ -399,7 +400,15 @@ class ClearStateStore implements StateStore {
   }
 
   public async generateStateParam(installOptions: InstallURLOptions, now: Date): Promise<string> {
-    const state = sign({ installOptions, now: now.toJSON() }, this.stateSecret);
+    const state = sign(
+      { installOptions, now: now.toJSON() },
+      this.stateSecret,
+      {
+        expiresIn: typeof installOptions.stateTokenLifetime !== 'undefined'
+          ? installOptions.stateTokenLifetime
+          : '3m',
+      },
+    );
     return state;
   }
   public async verifyStateParam(_now: Date, state: string): Promise<InstallURLOptions> {
