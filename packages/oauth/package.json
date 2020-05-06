@@ -32,6 +32,7 @@
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
     "lint": "tslint --project .",
     "test": "nyc mocha --config .mocharc.json src/*.spec.js test/integration/*.js",
+    "test:coverage": "nyc --reporter=text mocha --config .mocharc.json src/*.spec.js test/integration/*.js",
     "coverage": "codecov -F oauthhelper --root=$PWD"
   },
   "dependencies": {
