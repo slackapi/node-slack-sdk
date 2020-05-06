@@ -48,12 +48,12 @@
     "@types/express": "^4.17.0",
     "@types/lodash.isstring": "^4.0.6",
     "@types/node": ">=4.2.0 < 13",
-    "@types/yargs": "^13.0.0",
+    "@types/yargs": "^15.0.4",
     "debug": "^2.6.1",
     "lodash.isstring": "^4.0.1",
     "raw-body": "^2.3.3",
     "tsscmp": "^1.0.6",
-    "yargs": "^6.6.0"
+    "yargs": "^15.3.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
