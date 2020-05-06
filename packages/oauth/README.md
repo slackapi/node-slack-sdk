@@ -32,7 +32,7 @@ It may be helpful to read the tutorials on [getting started](https://slack.dev/n
 
 ### Initialize the installer
 
-This package exposes an `InstallProvider` class, which sets up the required configuration and exposes methods such as `generateInstallUrl`, `handleCallback`, `authorize` for use within your apps. At a minimum, `InstallProvider` takes a `clientId` and `clientSecret` (both which can be obtained under the **Basic Information** of your app configuration). `InstallProvider` also requires a `stateSecret`, which is used to encode the generated state, and later used to decode that same state to verify it wasn't tampered with during the OAuth flow. **Note**: This example is not ready for production because it only stores installations (tokens) in memory. Please go to the [storing installations in a database](#storing-installations-in-a-database) section to learn how to plug in your own database.
+This package exposes an `InstallProvider` class, which sets up the required configuration and exposes methods such as `makeInstallUrl`, `handleCallback`, `authorize` for use within your apps. At a minimum, `InstallProvider` takes a `clientId` and `clientSecret` (both which can be obtained under the **Basic Information** of your app configuration). `InstallProvider` also requires a `stateSecret`, which is used to encode the generated state, and later used to decode that same state to verify it wasn't tampered with during the OAuth flow. **Note**: This example is not ready for production because it only stores installations (tokens) in memory. Please go to the [storing installations in a database](#storing-installations-in-a-database) section to learn how to plug in your own database.
 
 ```javascript
 const { InstallProvider } = require('@slack/oauth');;
@@ -69,10 +69,10 @@ const installer = new InstallProvider({
 
 You'll need an installation URL when you want to test your own installation, in order to submit your app to the App Directory, and if you need an additional authorizations (user tokens) from users inside a team when your app is already installed. These URLs are also commonly used on your own webpages as the link for an ["Add to Slack" button](https://api.slack.com/docs/slack-button). You may also need to generate an installation URL dynamically when an option's value is only known at runtime, and in this case you would redirect the user to the installation URL.
 
-The `installProvider.generateInstallUrl()` method will create an installation URL for you. It takes in an options argument which at a minimum contains a `scopes` property. `installProvider.generateInstallUrl()` options argument also supports `metadata`, `teamId`, `redirectUri` and `userScopes` properties.
+The `installProvider.makeInstallUrl()` method will create an installation URL for you. It takes in an options argument which at a minimum contains a `scopes` property. `installProvider.makeInstallUrl()` options argument also supports `metadata`, `teamId`, `redirectUri` and `userScopes` properties.
 
 ```javascript
-installer.generateInstallUrl({
+const { url, token } = const { url, token } = installer.makeInstallUrl({
   // Add the scopes your app needs
   scopes: ['channels:read']
 })
@@ -85,7 +85,7 @@ installer.generateInstallUrl({
 You might want to present an "Add to Slack" button while the user is in the middle of some other tasks (e.g. linking their Slack account to your service). In these situations, you want to bring the user back to where they left off after the app installation is complete. Custom metadata can be used to capture partial (incomplete) information about the task (like which page they were on or inputs to form elements the user began to fill out) in progress. Then when the installation is complete, that custom metadata will be available for your app to recreate exactly where they left off. You must also use a [custom success handler when handling the OAuth redirect](#handling-the-oauth-redirect) to read the custom metadata after the installation is complete.
 
 ```javascript
-installer.generateInstallUrl({
+const { url, token } = installer.makeInstallUrl({
   // Add the scopes your app needs
   scopes: ['channels:read'],
   metadata: JSON.stringify({some:'sessionState'})
@@ -99,7 +99,7 @@ installer.generateInstallUrl({
 
 ### Handling the OAuth redirect
 
-After the user approves the request to install your app (and grants access to the required permissions), Slack will redirect the user to your specified **redirect url**. You can either set the redirect url in the app’s **OAuth and Permissions** page or pass a `redirectUri` when calling `installProvider.generateInstallUrl`. Your HTTP server should handle requests to the redirect URL by calling the `installProvider.handleCallback()` method. The first two arguments (`req`, `res`) to `installProvider.handleCallback` are required. By default, if the installation is successful the user will be redirected back to your App Home in Slack (or shown a generic success page for classic Slack apps). If the installation is not successful the user will be shown an error page.
+After the user approves the request to install your app (and grants access to the required permissions), Slack will redirect the user to your specified **redirect url**. You can either set the redirect url in the app’s **OAuth and Permissions** page or pass a `redirectUri` when calling `installProvider.makeInstallUrl`. Your HTTP server should handle requests to the redirect URL by calling the `installProvider.handleCallback()` method. The first two arguments (`req`, `res`) to `installProvider.handleCallback` are required. By default, if the installation is successful the user will be redirected back to your App Home in Slack (or shown a generic success page for classic Slack apps). If the installation is not successful the user will be shown an error page.
 
 ```javascript
 const { createServer } = require('http');
@@ -240,7 +240,7 @@ const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateStore: {
-    // generateStateParam's first argument is the entire InstallUrlOptions object which was passed into generateInstallUrl method
+    // generateStateParam's first argument is the entire InstallUrlOptions object which was passed into makeInstallUrl method
     // the second argument is a date object
     // the method is expected to return a string representing the state
     generateStateParam: (installUrlOptions, date) => {
@@ -329,7 +329,7 @@ const installer = new InstallProvider({
 
 ### Setting the state token expiration
 
-The state token that is appended to the output of `generateInstallUrl` has a default lifetime of 3 minutes. You can override the lifetime by passing a number (seconds), or a string describing a time span [zeit/ms](https://github.com/zeit/ms) as the value of `stateTokenLifetime` when instantiating the `InstallProvider`.
+The state token that is appended to the output of `makeInstallUrl` has a default lifetime of 3 minutes. You can override the lifetime by passing a number (seconds), or a string describing a time span [zeit/ms](https://github.com/zeit/ms) as the value of `stateTokenLifetime` when instantiating the `InstallProvider`.
 
 * Numbers are interpreted as seconds (i.e. `120` is interpreted as 120 seconds)
 * Strings without time units are interpreted as milliseconds (i.e. `'120'` is interpreted as 120 millseconds)
@@ -345,7 +345,7 @@ const installer = new InstallProvider({
   stateSecret: 'my-state-secret', // should be an unguessable 256+ bit (32+ char) string
 });
 
-const url = await installer.generateInstallUrl({
+const { url, token } = await installer.makeInstallUrl({
   scopes: ['channels:read'],
   stateTokenLifetime: '5m',
   metadata: 'some_metadata',
