@@ -1,6 +1,6 @@
 {
   "name": "@slack/oauth",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Official library for interacting with Slack's Oauth endpoints",
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
@@ -37,13 +37,13 @@
   "dependencies": {
     "@slack/logger": "^2.0.0",
     "@slack/web-api": "^5.7.0",
-    "@types/jsonwebtoken": "^8.3.7",
-    "@types/node": ">=6.0.0",
     "jsonwebtoken": "^8.5.1",
     "lodash.isstring": "^4.0.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.11",
+    "@types/jsonwebtoken": "^8.3.7",
+    "@types/node": ">=6.0.0",
     "chai": "^4.2.0",
     "codecov": "^3.0.4",
     "mocha": "^6.1.4",
