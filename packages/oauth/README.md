@@ -6,7 +6,7 @@
 [![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-sdk)
 <!-- TODO: npm versions with scoped packages: https://github.com/rvagg/nodei.co/issues/24 -->
 
-The `@slack/oauth` package makes it simple to setup the OAuth flow for Slack apps. It supports [V2 OAuth](https://api.slack.com/authentication/oauth-v2) for Slack Apps as well as [V1 OAuth](https://api.slack.com/docs/oauth) for [Classic Slack apps](https://api.slack.com/authentication/quickstart). Slack apps that are installed in multiple workspaces, like in the App Directory or in an Enterprise Grid, will need to implement OAuth and store information about each of those installations (such as access tokens). 
+The `@slack/oauth` package makes it simple to setup the OAuth flow for Slack apps. It supports [V2 OAuth](https://api.slack.com/authentication/oauth-v2) for Slack Apps as well as [V1 OAuth](https://api.slack.com/docs/oauth) for [Classic Slack apps](https://api.slack.com/authentication/quickstart). Slack apps that are installed in multiple workspaces, like in the App Directory or in an Enterprise Grid, will need to implement OAuth and store information about each of those installations (such as access tokens).
 
 The package handles URL generation, state verification, and authorization code exchange for access tokens. It also provides an interface for easily plugging in your own database for saving and retrieving installation data.
 
@@ -41,7 +41,7 @@ const { InstallProvider } = require('@slack/oauth');;
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'my-state-secret'
+  stateSecret: 'my-state-secret' // should be an unguessable 256+ bit (32+ char) string
 });
 ```
 
@@ -57,7 +57,7 @@ const installer = new InstallProvider({
   const installer = new InstallProvider({
     clientId: process.env.SLACK_CLIENT_ID,
     clientSecret: process.env.SLACK_CLIENT_SECRET,
-    stateSecret: 'my-state-secret',
+    stateSecret: 'my-state-secret', // should be an unguessable 256+ bit (32+ char) string
     authVersion: 'v1' //required for classic Slack apps
   });
   ```
@@ -69,7 +69,7 @@ const installer = new InstallProvider({
 
 You'll need an installation URL when you want to test your own installation, in order to submit your app to the App Directory, and if you need an additional authorizations (user tokens) from users inside a team when your app is already installed. These URLs are also commonly used on your own webpages as the link for an ["Add to Slack" button](https://api.slack.com/docs/slack-button). You may also need to generate an installation URL dynamically when an option's value is only known at runtime, and in this case you would redirect the user to the installation URL.
 
-The `installProvider.generateInstallUrl()` method will create an installation URL for you. It takes in an options argument which at a minimum contains a `scopes` property. `installProvider.generateInstallUrl()` options argument also supports `metadata`, `teamId`, `redirectUri` and `userScopes` properties. 
+The `installProvider.generateInstallUrl()` method will create an installation URL for you. It takes in an options argument which at a minimum contains a `scopes` property. `installProvider.generateInstallUrl()` options argument also supports `metadata`, `teamId`, `redirectUri` and `userScopes` properties.
 
 ```javascript
 installer.generateInstallUrl({
@@ -82,7 +82,7 @@ installer.generateInstallUrl({
 <strong><i>Adding custom metadata to the installation URL</i></strong>
 </summary>
 
-You might want to present an "Add to Slack" button while the user is in the middle of some other tasks (e.g. linking their Slack account to your service). In these situations, you want to bring the user back to where they left off after the app installation is complete. Custom metadata can be used to capture partial (incomplete) information about the task (like which page they were on or inputs to form elements the user began to fill out) in progress. Then when the installation is complete, that custom metadata will be available for your app to recreate exactly where they left off. You must also use a [custom success handler when handling the OAuth redirect](#handling-the-oauth-redirect) to read the custom metadata after the installation is complete. 
+You might want to present an "Add to Slack" button while the user is in the middle of some other tasks (e.g. linking their Slack account to your service). In these situations, you want to bring the user back to where they left off after the app installation is complete. Custom metadata can be used to capture partial (incomplete) information about the task (like which page they were on or inputs to form elements the user began to fill out) in progress. Then when the installation is complete, that custom metadata will be available for your app to recreate exactly where they left off. You must also use a [custom success handler when handling the OAuth redirect](#handling-the-oauth-redirect) to read the custom metadata after the installation is complete.
 
 ```javascript
 installer.generateInstallUrl({
@@ -144,7 +144,8 @@ const callbackOptions = {
     const htmlResponse = `<html><body>Success!</body></html>`
     res.writeHead(200, { 'Content-Type': 'text/html' });
     res.end(htmlResponse);
-  }, 
+  },
+  },
   failure: (error, installOptions , req, res) => {
     // Do custom failure logic here
     res.writeHead(500, { 'Content-Type': 'text/html' });
@@ -162,7 +163,7 @@ app.get('/slack/oauth_redirect', (req, res) => {
 
 Although this package uses a default `MemoryInstallationStore`, it isn't recommended for production use since the access tokens it stores would be lost when the process terminates or restarts. Instead, `InstallProvider` has an option for supplying your own installation store, which is used to save and retrieve install information (like tokens) to your own database.
 
-An installation store is an object that provides two methods: `storeInstallation` and `fetchInstallation`. `storeInstallation` takes an `installation` as an argument, which is an object that contains all installation related data (like tokens, teamIds, enterpriseIds, etc). `fetchInstallation` takes in a `installQuery`, which is used to query the database. The `installQuery` can contain `teamId`, `enterpriseId`, `userId`, and `conversationId`.   
+An installation store is an object that provides two methods: `storeInstallation` and `fetchInstallation`. `storeInstallation` takes an `installation` as an argument, which is an object that contains all installation related data (like tokens, teamIds, enterpriseIds, etc). `fetchInstallation` takes in a `installQuery`, which is used to query the database. The `installQuery` can contain `teamId`, `enterpriseId`, `userId`, and `conversationId`.
 
 In the following example, the `installationStore` option is used and the object is defined in line. The required methods are implemented by calling an example database library with simple get and set operations.
 
@@ -214,7 +215,7 @@ result = {
 <strong><i>Reading extended installation data</i></strong>
 </summary>
 
-The `installer.authorize()` method only returns a subset of the installation data returned by the installation store. To fetch the entire saved installation, use the `installer.installationStore.fetchInstallation()` method. 
+The `installer.authorize()` method only returns a subset of the installation data returned by the installation store. To fetch the entire saved installation, use the `installer.installationStore.fetchInstallation()` method.
 
 ```javascript
 // installer.installationStore.fetchInstallation takes in an installQuery as an argument
@@ -325,6 +326,31 @@ const installer = new InstallProvider({
 </details>
 
 ---
+
+### Setting the state token expiration
+
+The state token that is appended to the output of `generateInstallUrl` has a default lifetime of 3 minutes. You can override the lifetime by passing a number (seconds), or a string describing a time span [zeit/ms](https://github.com/zeit/ms) as the value of `stateTokenLifetime` when instantiating the `InstallProvider`.
+
+* Numbers are interpreted as seconds (i.e. `120` is interpreted as 120 seconds)
+* Strings without time units are interpreted as milliseconds (i.e. `'120'` is interpreted as 120 millseconds)
+* Strings that include time units are interpreted using [zeit/ms](https://github.com/zeit/ms) (i.e. `'2 days'`, and `'2d'` are both interpreted as 2 days; `'10h'` is 10 hours; `'7m'` is 7 minutes)
+
+```javascript
+const { InstallProvider } = require('@slack/oauth');;
+
+// initialize the installProvider
+const installer = new InstallProvider({
+  clientId: process.env.SLACK_CLIENT_ID,
+  clientSecret: process.env.SLACK_CLIENT_SECRET,
+  stateSecret: 'my-state-secret', // should be an unguessable 256+ bit (32+ char) string
+});
+
+const url = await installer.generateInstallUrl({
+  scopes: ['channels:read'],
+  stateTokenLifetime: '5m',
+  metadata: 'some_metadata',
+});
+```
 
 ### Examples
 
