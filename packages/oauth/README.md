@@ -140,11 +140,15 @@ If you decide you need custom success or failure behaviors (ex: wanting to show 
 const callbackOptions = {
   success: (installation, metadata, req, res) => {
     // Do custom success logic here
-    res.send('successful!');
+    // tip: you can add javascript and css in the htmlResponse using the <script> and <style> tags
+    const htmlResponse = `<html><body>Success!</body></html>`
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(htmlResponse);
   }, 
   failure: (error, installOptions , req, res) => {
     // Do custom failure logic here
-    res.send('failure');
+    res.writeHead(500, { 'Content-Type': 'text/html' });
+    res.end('<html><body><h1>Oops, Something Went Wrong! Please Try Again or Contact the App Owner</h1></body></html>');
   }
 }
 app.get('/slack/oauth_redirect', (req, res) => {
