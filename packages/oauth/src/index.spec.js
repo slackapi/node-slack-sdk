@@ -524,8 +524,9 @@ describe('OAuth', async () => {
       });
       const req = { url: `http://example.com?state=${token}&code=fakeCode` };
       await installer.handleCallback(req, res, { token });
-      assert.equal(result.code, 302);
-      assert.deepEqual(result.headers, { 'Location': 'slack://app?team=fake-v2-team-id&id=fakeAppId' });
+      assert.equal(result.code, 200);
+      assert.deepEqual(result.headers, { 'Content-Type': 'text/html' });
+      assert.include(result.body, 'Success');
     });
 
     it('should use the default success handler if `success` is not defined (fallback)', async () => {
