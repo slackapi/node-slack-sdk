@@ -242,21 +242,24 @@ describe('OAuth', async () => {
       assert.equal(teamId, parsedUrl.query.team);
     });
 
-    it('should return the JWT token that includes an unguessable, 256 bit state', async () => {
+    it('should return the JWT token that includes an unguessable, 256 bit synchronizer', async () => {
       const installer = new InstallProvider({clientId, clientSecret, stateSecret});
-      const { url, token } = await installer.makeInstallUrl({
+      const { url, synchronizer, token } = await installer.makeInstallUrl({
         scopes: ['channels:read'],
         metadata: 'some_metadata',
         teamId: '1234Team',
         redirectUri: 'https://mysite.com/slack/redirect',
       });
       assert.isString(token, 'the token should be returned');
-      const state = decode(token).installOptions.state;
+      assert.isString(synchronizer, 'the synchronizer should be returned');
+      assert.isAtLeast(Buffer.byteLength(synchronizer.trim(), 'utf8'), 32, 'the synchronizer should be 256+ bit');
+
       const parsedUrl = parseUrl(url, true);
-      const urlState = decode(parsedUrl.query.state).installOptions.state;
-      assert.isString(state, 'the JWT should include a state string');
-      assert.isAtLeast(Buffer.byteLength(state.trim(), 'utf8'), 32, 'the state should be 256+ bit');
-      assert.equal(state, urlState, 'the same state value should be present in the token that is returned and the token in the url');
+      const synchronizerInUrl = decode(parsedUrl.query.state).installOptions.synchronizer;
+      assert.isString(synchronizerInUrl, 'the OAuth state param should include a synchronizer string');
+      assert.equal(synchronizer, synchronizerInUrl, 'the synchronizer in the URL should match that which was returned from makeInstallUrl');
+      const synchronizerInToken = decode(token).installOptions.synchronizer;
+      assert.equal(synchronizer, synchronizerInToken, 'the synchronizer in the token should match that which was returned from makeInstallUrl');
     });
 
     it('should fail if missing scopes', async () => {
@@ -578,21 +581,17 @@ describe('OAuth', async () => {
         res.send(error.message);
       };
       const installer = new InstallProvider({ clientId, clientSecret, stateSecret, logger: noopLogger });
-      const makeToken = async () => {
-        const { token } = await installer.makeInstallUrl({
-          scopes: ['channels:read'],
-          metadata: 'some_metadata',
-          teamId: '1234Team',
-          redirectUri: 'https://mysite.com/slack/redirect',
-        });
+      const makeToken = async () => installer.makeInstallUrl({
+        scopes: ['channels:read'],
+        metadata: 'some_metadata',
+        teamId: '1234Team',
+        redirectUri: 'https://mysite.com/slack/redirect',
+      })
 
-        return token;
-      }
-
-      const token1 = await makeToken();
-      const token2 = await makeToken();
-      const req = { url: `http://example.com?state=${token1}&code=fakeCode` };
-      await installer.handleCallback(req, res, { token: token2, success, failure });
+      const t1 = await makeToken();
+      const t2 = await makeToken();
+      const req = { url: `http://example.com?state=${t1.token}&code=fakeCode` };
+      await installer.handleCallback(req, res, { synchronizer: t2.synchronizer, success, failure });
       assert.equal(result, 'redirect url and session token do not match');
     });
 
@@ -608,21 +607,17 @@ describe('OAuth', async () => {
         },
       };
       const installer = new InstallProvider({ clientId, clientSecret, stateSecret, logger: noopLogger });
-      const makeToken = async () => {
-        const { token } = await installer.makeInstallUrl({
-          scopes: ['channels:read'],
-          metadata: 'some_metadata',
-          teamId: '1234Team',
-          redirectUri: 'https://mysite.com/slack/redirect',
-        });
+      const makeToken = async () => installer.makeInstallUrl({
+        scopes: ['channels:read'],
+        metadata: 'some_metadata',
+        teamId: '1234Team',
+        redirectUri: 'https://mysite.com/slack/redirect',
+      })
 
-        return token;
-      }
-
-      const token1 = await makeToken();
-      const token2 = await makeToken();
-      const req = { url: `http://example.com?state=${token1}&code=fakeCode` };
-      await installer.handleCallback(req, res, { token: token2 });
+      const t1 = await makeToken();
+      const t2 = await makeToken();
+      const req = { url: `http://example.com?state=${t1.token}&code=fakeCode` };
+      await installer.handleCallback(req, res, { synchronizer: t2.synchronizer });
       assert.equal(result.code, 500);
       assert.deepEqual(result.headers, { 'Content-Type': 'text/html' });
       assert.include(result.body, 'Oops, Something Went Wrong');

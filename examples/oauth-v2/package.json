@@ -15,6 +15,7 @@
     "@slack/web-api": "^5.8.1",
     "cookie": "^0.4.1",
     "express": "^4.17.1",
+    "jsonwebtoken": "~8.5.1",
     "keyv": "^4.0.1"
   }
 }

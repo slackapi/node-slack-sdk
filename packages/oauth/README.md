@@ -72,7 +72,7 @@ You'll need an installation URL when you want to test your own installation, in 
 The `installProvider.makeInstallUrl()` method will create an installation URL for you. It takes in an options argument which at a minimum contains a `scopes` property. `installProvider.makeInstallUrl()` options argument also supports `metadata`, `teamId`, `redirectUri` and `userScopes` properties.
 
 ```javascript
-const { url, token } = const { url, token } = installer.makeInstallUrl({
+const { token, synchronizer, url } = installer.makeInstallUrl({
   // Add the scopes your app needs
   scopes: ['channels:read']
 })
@@ -85,7 +85,7 @@ const { url, token } = const { url, token } = installer.makeInstallUrl({
 You might want to present an "Add to Slack" button while the user is in the middle of some other tasks (e.g. linking their Slack account to your service). In these situations, you want to bring the user back to where they left off after the app installation is complete. Custom metadata can be used to capture partial (incomplete) information about the task (like which page they were on or inputs to form elements the user began to fill out) in progress. Then when the installation is complete, that custom metadata will be available for your app to recreate exactly where they left off. You must also use a [custom success handler when handling the OAuth redirect](#handling-the-oauth-redirect) to read the custom metadata after the installation is complete.
 
 ```javascript
-const { url, token } = installer.makeInstallUrl({
+const { token, synchronizer, url } = installer.makeInstallUrl({
   // Add the scopes your app needs
   scopes: ['channels:read'],
   metadata: JSON.stringify({some:'sessionState'})
@@ -345,7 +345,7 @@ const installer = new InstallProvider({
   stateSecret: 'my-state-secret', // should be an unguessable 256+ bit (32+ char) string
 });
 
-const { url, token } = await installer.makeInstallUrl({
+const { token, synchronizer, url } = await installer.makeInstallUrl({
   scopes: ['channels:read'],
   stateTokenLifetime: '5m',
   metadata: 'some_metadata',

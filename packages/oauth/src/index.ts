@@ -126,9 +126,9 @@ export class InstallProvider {
     const params = new URLSearchParams(`scope=${scopes}`);
 
     // generate state
-    const state = randomBytes(16).toString('hex');
+    const synchronizer = randomBytes(16).toString('hex');
     const token = await this.stateStore.generateStateParam(
-      { ...options, ...{ state } },
+      { ...options, ...{ synchronizer } },
       new Date(),
     );
     params.append('state', token);
@@ -161,6 +161,7 @@ export class InstallProvider {
 
     return {
       token,
+      synchronizer,
       url: slackURL.toString(),
     };
   }
@@ -192,7 +193,6 @@ export class InstallProvider {
     let code: string;
     let state: string;
     let installOptions: TokenBody;
-    let tokenBody: TokenBody;
 
     try {
       if (req.url !== undefined) {
@@ -208,10 +208,8 @@ export class InstallProvider {
 
       installOptions = await this.stateStore.verifyStateParam(new Date(), state) as TokenBody;
 
-      if (typeof options === 'object' && typeof options.token === 'string') {
-        tokenBody = await this.stateStore.verifyStateParam(new Date(), options.token) as TokenBody;
-
-        if (!timingSafeEqual(Buffer.from(installOptions.state), Buffer.from(tokenBody.state))) {
+      if (typeof options === 'object' && typeof options.synchronizer === 'string') {
+        if (!timingSafeEqual(Buffer.from(installOptions.synchronizer), Buffer.from(options.synchronizer))) {
           throw new Error('redirect url and session token do not match');
         }
       }
@@ -336,12 +334,13 @@ export interface InstallURLOptions {
 }
 
 export interface TokenBody extends InstallURLOptions {
-  state: string;
+  synchronizer: string;
 }
 
 export interface InstallURLResult {
-  url: string;
   token: string;
+  synchronizer: string;
+  url: string;
 }
 
 export interface CallbackOptions {
@@ -366,7 +365,7 @@ export interface CallbackOptions {
     callbackRes: ServerResponse,
   ) => void;
 
-  token?: string; // the JWT token that was stored in a cookie to bind the device to the OAuth flow
+  synchronizer?: string; // the synchronizer value that was stored in a cookie to bind the device to the OAuth flow
 }
 
 // Response shape from oauth.v2.access - https://api.slack.com/methods/oauth.v2.access#response
