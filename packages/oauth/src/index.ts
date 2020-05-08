@@ -1,3 +1,4 @@
+import { randomBytes, timingSafeEqual } from 'crypto';
 import { IncomingMessage, ServerResponse } from 'http';
 import { sign, verify } from 'jsonwebtoken';
 import { WebClient } from '@slack/web-api';
@@ -70,6 +71,7 @@ export class InstallProvider {
     this.clientSecret = clientSecret;
     this.handleCallback = this.handleCallback.bind(this);
     this.authorize = this.authorize.bind(this);
+    this.makeInstallUrl = this.makeInstallUrl.bind(this);
     this.authVersion = authVersion;
   }
 
@@ -99,11 +101,11 @@ export class InstallProvider {
   }
 
   /**
-   * Returns a URL that is suitable for including in an Add to Slack button
-   * Uses stateStore to generate a value for the state query param.
+   * Returns a JWT session token, and a URL that can be used to redirect
+   * a request to Slack's OAuth installation flow. Uses stateStore to
+   * generate a value for the state query param.
    */
-  public async generateInstallUrl(options: InstallURLOptions): Promise<string> {
-
+  public async makeInstallUrl(options: InstallURLOptions): Promise<InstallURLResult> {
     // Base URL
     const slackURL = new URL('https://slack.com/oauth/v2/authorize');
     if (this.authVersion === 'v1') {
@@ -111,7 +113,7 @@ export class InstallProvider {
     }
 
     if (options.scopes === undefined) {
-      throw new GenerateInstallUrlError('You must provide a scope parameter when calling generateInstallUrl');
+      throw new GenerateInstallUrlError('You must provide a scope parameter when calling makeInstallUrl or generateInstallUrl');
     }
 
     // scope
@@ -124,8 +126,12 @@ export class InstallProvider {
     const params = new URLSearchParams(`scope=${scopes}`);
 
     // generate state
-    const state = await this.stateStore.generateStateParam(options, new Date());
-    params.append('state', state);
+    const synchronizer = randomBytes(16).toString('hex');
+    const token = await this.stateStore.generateStateParam(
+      { ...options, ...{ synchronizer } },
+      new Date(),
+    );
+    params.append('state', token);
 
     // client id
     params.append('client_id', this.clientId);
@@ -152,7 +158,21 @@ export class InstallProvider {
     }
 
     slackURL.search = params.toString();
-    return slackURL.toString();
+
+    return {
+      token,
+      synchronizer,
+      url: slackURL.toString(),
+    };
+  }
+
+  /**
+   * (Deprecated) Returns a URL that is suitable for including in an Add to Slack button
+   * Uses stateStore to generate a value for the state query param.
+   * @deprecated - use makeInstallUrl instead
+   */
+  public async generateInstallUrl(options: InstallURLOptions): Promise<string> {
+    return (await this.makeInstallUrl(options)).url;
   }
 
   /**
@@ -172,7 +192,7 @@ export class InstallProvider {
     let parsedUrl;
     let code: string;
     let state: string;
-    let installOptions: InstallURLOptions;
+    let installOptions: TokenBody;
 
     try {
       if (req.url !== undefined) {
@@ -186,8 +206,17 @@ export class InstallProvider {
         throw new UnknownError('Something went wrong');
       }
 
-      installOptions = await this.stateStore.verifyStateParam(new Date(), state);
-      const client = new WebClient();
+      installOptions = await this.stateStore.verifyStateParam(new Date(), state) as TokenBody;
+
+      if (typeof options === 'object' && typeof options.synchronizer === 'string') {
+        if (!timingSafeEqual(Buffer.from(installOptions.synchronizer), Buffer.from(options.synchronizer))) {
+          throw new Error('redirect url and session token do not match');
+        }
+      }
+
+      const client = (typeof options === 'object' && typeof (options as any).webClient !== 'undefined')
+        ? (options as any).webClient // for testing
+        : new WebClient();
 
       let resp;
       let installation: Installation;
@@ -300,7 +329,18 @@ export interface InstallURLOptions {
   teamId?: string;
   redirectUri?: string;
   userScopes?: string | string[]; // cannot be used with authVersion=v1
+  stateTokenLifetime?: number | string; // a string describing a time span zeit/ms
   metadata?: string; // Arbitrary data can be stored here, potentially to save app state or use for custom redirect
+}
+
+export interface TokenBody extends InstallURLOptions {
+  synchronizer: string;
+}
+
+export interface InstallURLResult {
+  token: string;
+  synchronizer: string;
+  url: string;
 }
 
 export interface CallbackOptions {
@@ -324,6 +364,8 @@ export interface CallbackOptions {
     callbackReq: IncomingMessage,
     callbackRes: ServerResponse,
   ) => void;
+
+  synchronizer?: string; // the synchronizer value that was stored in a cookie to bind the device to the OAuth flow
 }
 
 // Response shape from oauth.v2.access - https://api.slack.com/methods/oauth.v2.access#response
@@ -399,7 +441,15 @@ class ClearStateStore implements StateStore {
   }
 
   public async generateStateParam(installOptions: InstallURLOptions, now: Date): Promise<string> {
-    const state = sign({ installOptions, now: now.toJSON() }, this.stateSecret);
+    const state = sign(
+      { installOptions, now: now.toJSON() },
+      this.stateSecret,
+      {
+        expiresIn: typeof installOptions.stateTokenLifetime !== 'undefined'
+          ? installOptions.stateTokenLifetime
+          : '3m',
+      },
+    );
     return state;
   }
   public async verifyStateParam(_now: Date, state: string): Promise<InstallURLOptions> {
