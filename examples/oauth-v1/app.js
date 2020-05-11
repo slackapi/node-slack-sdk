@@ -43,7 +43,7 @@ app.get('/slack/oauth_redirect', async (req, res) => {
 // example 2
 // using custom success and failure handlers
 // const callbackOptions = {
-//   success: (installation, metadata, req, res) => {
+//   success: (installation, installOptions, req, res) => {
 //     res.send('successful!');
 //   },
 //   failure: (error, installOptions , req, res) => {

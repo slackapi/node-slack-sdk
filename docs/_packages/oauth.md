@@ -131,7 +131,7 @@ If you decide you need custom success or failure behaviors (ex: wanting to show 
 
 ```javascript
 const callbackOptions = {
-  success: (installation, metadata, req, res) => {
+  success: (installation, installOptions, req, res) => {
     // Do custom success logic here
     res.send('successful!');
   }, 
