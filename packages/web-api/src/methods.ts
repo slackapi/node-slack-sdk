@@ -151,6 +151,20 @@ export interface AdminTeamsSettingsSetNameArguments extends WebAPICallOptions, T
   team_id: string;
   name: string;
 }
+export interface AdminUsergroupsAddChannelsArguments extends WebAPICallOptions, TokenOverridable {
+  usergroup_id: string;
+  team_id: string;
+  channel_ids: string | string[];
+}
+export interface AdminUsergroupsListChannelsArguments extends WebAPICallOptions, TokenOverridable {
+  usergroup_id: string;
+  include_num_members?: boolean;
+  team_id?: string;
+}
+export interface AdminUsergroupsRemoveChannelsArguments extends WebAPICallOptions, TokenOverridable {
+  usergroup_id: string;
+  channel_ids: string | string[];
+}
 export interface AdminUsersAssignArguments extends WebAPICallOptions, TokenOverridable {
   team_id: string;
   user_id: string;

@@ -319,7 +319,7 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     },
     conversations: {
       setTeams: (this.apiCall.bind(
-          this, 'admin.conversations.setTeams')) as Method<methods.AdminConversationsSetTeamsArguments>,
+        this, 'admin.conversations.setTeams')) as Method<methods.AdminConversationsSetTeamsArguments>,
     },
     inviteRequests: {
       approve: (this.apiCall.bind(
@@ -348,17 +348,25 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       },
       settings: {
         info: (this.apiCall.bind(this, 'admin.teams.settings.info')) as Method<methods.AdminTeamsSettingsInfoArguments>,
-        setDefaultChannels: (this.apiCall.bind(this, 'admin.teams.settings.setDefaultChannels')
-          ) as Method<methods.AdminTeamsSettingsSetDefaultChannelsArguments>,
+        setDefaultChannels: (this.apiCall.bind(this, 'admin.teams.settings.setDefaultChannels')) as
+          Method<methods.AdminTeamsSettingsSetDefaultChannelsArguments>,
         setDescription: (this.apiCall.bind(
           this, 'admin.teams.settings.setDescription')) as Method<methods.AdminTeamsSettingsSetDescriptionArguments>,
-        setDiscoverability: (this.apiCall.bind(this, 'admin.teams.settings.setDiscoverability')
-          ) as Method<methods.AdminTeamsSettingsSetDiscoverabilityArguments>,
+        setDiscoverability: (this.apiCall.bind(this, 'admin.teams.settings.setDiscoverability')) as
+          Method<methods.AdminTeamsSettingsSetDiscoverabilityArguments>,
         setIcon: (this.apiCall.bind(
           this, 'admin.teams.settings.setIcon')) as Method<methods.AdminTeamsSettingseSetIconArguments>,
         setName: (this.apiCall.bind(
           this, 'admin.teams.settings.setName')) as Method<methods.AdminTeamsSettingsSetNameArguments>,
       },
+    },
+    usergroups: {
+      addChannels: (this.apiCall.bind(this, 'admin.usergroups.addChannels')) as
+        Method<methods.AdminUsergroupsAddChannelsArguments>,
+      listChannels: (this.apiCall.bind(this, 'admin.usergroups.listChannels')) as
+        Method<methods.AdminUsergroupsListChannelsArguments>,
+      removeChannels: (this.apiCall.bind(this, 'admin.usergroups.removeChannels')) as
+        Method<methods.AdminUsergroupsRemoveChannelsArguments>,
     },
     users: {
       session: {

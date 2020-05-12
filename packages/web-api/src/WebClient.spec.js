@@ -979,6 +979,66 @@ describe('WebClient', function () {
     });
   });
 
+  describe('has all admin.usergroups.* APIs', function () {
+    function verify(runApiCall, methodName, expectedBody, done) {
+      const scope = nock('https://slack.com')
+        .post(`/api/${methodName}`)
+        .reply(200, function (_uri, body) {
+          return { ok: true, body: body };
+        });
+
+      runApiCall
+        .then((res) => {
+          assert.equal(res.body, expectedBody);
+          scope.done();
+          done();
+        });
+    }
+    const client = new WebClient(token);
+
+    it('can call admin.usergroups.addChannels with a string "channe_ids"', function (done) {
+      verify(
+        client.admin.usergroups.addChannels({ team_id: 'T123', usergroup_id: 'S123', channel_ids: 'C123,C234' }),
+        'admin.usergroups.addChannels',
+        'token=xoxb-faketoken&team_id=T123&usergroup_id=S123&channel_ids=C123%2CC234',
+        done,
+      );
+    });
+
+    it('can call admin.usergroups.addChannels', function (done) {
+      verify(
+        client.admin.usergroups.addChannels({ team_id: 'T123', usergroup_id: 'S123', channel_ids: ['C123','C234'] }),
+        'admin.usergroups.addChannels',
+        'token=xoxb-faketoken&team_id=T123&usergroup_id=S123&channel_ids=%5B%22C123%22%2C%22C234%22%5D', // URL encoded "['C123','C234']"
+        done,
+      );
+    });
+    it('can call admin.usergroups.listChannels', function (done) {
+      verify(
+        client.admin.usergroups.listChannels({ team_id: 'T123', include_num_members: true, usergroup_id: 'S123' }),
+        'admin.usergroups.listChannels',
+        'token=xoxb-faketoken&team_id=T123&include_num_members=true&usergroup_id=S123',
+        done
+      );
+    });
+    it('can call admin.usergroups.removeChannels with a string "channe_ids"', function (done) {
+      verify(
+        client.admin.usergroups.removeChannels({ usergroup_id: 'S123', channel_ids: 'C123,C234' }),
+        'admin.usergroups.removeChannels',
+        'token=xoxb-faketoken&usergroup_id=S123&channel_ids=C123%2CC234',
+        done,
+      );
+    });
+
+    it('can call admin.usergroups.removeChannels', function (done) {
+      verify(
+        client.admin.usergroups.removeChannels({ usergroup_id: 'S123', channel_ids: ['C123','C234'] }),
+        'admin.usergroups.removeChannels',
+        'token=xoxb-faketoken&usergroup_id=S123&channel_ids=%5B%22C123%22%2C%22C234%22%5D', // URL encoded "['C123','C234']"
+        done,
+      );
+    });
+  });
   afterEach(function () {
     nock.cleanAll();
   });
