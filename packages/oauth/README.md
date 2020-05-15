@@ -176,15 +176,34 @@ const installer = new InstallProvider({
     // returns nothing
     storeInstallation: (installation) => {
       // replace myDB.set with your own database or OEM setter
-      myDB.set(installation.team.id, installation);
+      if (installation.isEnterpriseInstall && installation.enterprise !== undefined) {
+        // enterprise app, org wide installation
+        myDB.set(installation.enterprise.id, installation);
+      } else if (installation.team.id !== undefined) {
+        // non enterprise org app installation
+        myDB.set(installation.team.id, installation);
+      } else {
+        throw new Error('Failed saving installation data to installationStore');
+      }
       return;
     },
     // takes in an installQuery as an argument
     // installQuery = {teamId: 'string', enterpriseId: 'string', userId: string, conversationId: 'string'};
     // returns installation object from database
-    fetchInstallation: (installQuery) => {
+    fetchInstallation: async (installQuery) => {
       // replace myDB.get with your own database or OEM getter
-      return myDB.get(installQuery.teamId);
+      let result = undefined;
+      // enterprise org app installation lookup
+      if (InstallQuery.enterpriseId !== undefined) {
+        result = await myDB.get(installQuery.enterpriseId);
+      }
+
+      // non enterprise org app lookup
+      if (result === undefined && InstallQuery.teamId !== undefined) {
+        result = await myDB.get(installQuery.teamId);
+      }
+
+      return result;
     },
   },
 });
@@ -220,7 +239,7 @@ The `installer.authorize()` method only returns a subset of the installation dat
 // installer.installationStore.fetchInstallation takes in an installQuery as an argument
 // installQuery = {teamId: 'string', enterpriseId: 'string', userId: string, conversationId: 'string'};
 // returns an installation object
-const result = installer.installationStore.fetchInstallation({teamId:'my-Team-ID'});
+const result = installer.installationStore.fetchInstallation({teamId:'my-team-ID', enterpriseId:'my-enterprise-ID'});
 ```
 </details>
 

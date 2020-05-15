@@ -31,11 +31,39 @@ const installer = new InstallProvider({
   stateSecret: 'my-state-secret',
   installationStore: {
     storeInstallation: (installation) => {
-      keyv.set(installation.team.id, installation);
-      return;
+      if (installation.isEnterpriseInstall && installation.enterprise !== undefined) {
+        // enterprise app, org wide installation
+        keyv.set(installation.enterprise.id, installation);
+      } else if (installation.enterprise !== undefined) {
+        // enterprise app, single workspace installation
+        keyv.set(`${installation.enterprise.id}-${installation.team.id}`, installation);
+      } else if (installation.team.id !== undefined) {
+        // non enterprise installation
+        keyv.set(installation.team.id, installation);
+      } else {
+        throw new Error('Failed saving installation data to installationStore');
+      }
+
+      return
     },
-    fetchInstallation: (InstallQuery) => {
-      return keyv.get(InstallQuery.teamId);
+    fetchInstallation: async (InstallQuery) => {
+      let result = undefined;
+      // enterprise org app installation lookup
+      if (InstallQuery.enterpriseId !== undefined) {
+        result = await keyv.get(InstallQuery.enterpriseId);
+      }
+
+      // non org app installation but still in enterprise lookup
+      if (result === undefined && InstallQuery.enterpriseId !== undefined && InstallQuery.teamId !== undefined) {
+        result = await keyv.get(`${InstallQuery.enterpriseId}-${InstallQuery.teamId}`);
+      }
+
+      // non enterprise lookup
+      if (result === undefined && InstallQuery.teamId !== undefined) {
+        result = await keyv.get(InstallQuery.teamId);
+      }
+
+      return result;
     },
   },
 });
