@@ -256,6 +256,7 @@ export class InstallProvider {
             id: botId,
           },
           tokenType: resp.token_type,
+          isEnterpriseInstall: resp.is_enterprise_install,
         };
 
         if (resp.enterprise !== null) {
@@ -355,6 +356,7 @@ interface OAuthV2Response {
   bot_user_id: string;
   team: { id: string, name: string };
   enterprise: { name: string, id: string } | null;
+  is_enterprise_install: boolean;
   error?: string;
   incoming_webhook?: {
     url: string,
@@ -442,8 +444,16 @@ class MemoryInstallationStore implements InstallationStore {
     if (logger !== undefined) {
       logger.warn('Storing Access Token. Please use a real Installation Store for production!');
     }
+
     // db write
-    this.devDB[installation.team.id] = installation;
+    if (installation.isEnterpriseInstall && installation.enterprise !== undefined) {
+      this.devDB[installation.enterprise.id] = installation;
+    } else if (installation.team.id !== undefined) {
+      this.devDB[installation.team.id] = installation;
+    } else {
+      throw new Error('Failed saving installation data to installationStore');
+    }
+
     return;
   }
 
@@ -451,9 +461,19 @@ class MemoryInstallationStore implements InstallationStore {
     if (logger !== undefined) {
       logger.warn('Retrieving Access Token from DB. Please use a real Installation Store for production!');
     }
-    // db read
-    const item = this.devDB[query.teamId];
-    return item;
+
+    let item: Installation | undefined = undefined;
+    // enterprise org app installation lookup
+    if (query.enterpriseId !== undefined) {
+      item = this.devDB[query.enterpriseId];
+    }
+
+    // non org app lookup
+    if (item === undefined && query.teamId !== undefined) {
+      item = this.devDB[query.teamId];
+    }
+
+    return item!;
   }
 }
 
@@ -461,13 +481,14 @@ class MemoryInstallationStore implements InstallationStore {
 // result. This is a normalized shape.
 export interface Installation {
   team: {
-    id: string;
-    name: string;
+    id?: string;
+    name?: string;
   };
   enterprise?: {
     id: string;
     name?: string;
   };
+  isEnterpriseInstall?: boolean;
   bot?: {
     token: string;
     scopes: string[];
