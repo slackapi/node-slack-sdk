@@ -408,6 +408,7 @@ export interface Searchable {
   highlight?: boolean;
   sort: 'score' | 'timestamp';
   sort_dir: 'asc' | 'desc';
+  team_id?: string;
 }
 
 // A set of method names is initialized here and added to each time an argument type extends the CursorPaginationEnabled
@@ -634,6 +635,7 @@ export interface AuthTestArguments extends WebAPICallOptions, TokenOverridable {
    */
 export interface BotsInfoArguments extends WebAPICallOptions, TokenOverridable  {
   bot?: string;
+  team_id?: string;
 }
 
   /*
@@ -686,6 +688,7 @@ export interface ChannelsArchiveArguments extends WebAPICallOptions, TokenOverri
 export interface ChannelsCreateArguments extends WebAPICallOptions, TokenOverridable {
   name: string;
   validate?: boolean;
+  team_id?: string;
 }
 export interface ChannelsHistoryArguments extends WebAPICallOptions, TokenOverridable, TimelinePaginationEnabled {
   channel: string;
@@ -713,6 +716,7 @@ export interface ChannelsLeaveArguments extends WebAPICallOptions, TokenOverrida
 export interface ChannelsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   exclude_archived?: boolean;
   exclude_members?: boolean;
+  team_id?: string;
 }
 cursorPaginationEnabledMethods.add('channels.list');
 export interface ChannelsMarkArguments extends WebAPICallOptions, TokenOverridable {
@@ -801,6 +805,7 @@ export interface ChatScheduleMessageArguments extends WebAPICallOptions, TokenOv
   thread_ts?: string;
   unfurl_links?: boolean;
   unfurl_media?: boolean;
+  team_id?: string;
 }
 export interface ChatScheduledMessagesListArguments extends WebAPICallOptions, TokenOverridable,
   CursorPaginationEnabled {
@@ -840,6 +845,7 @@ export interface ConversationsCloseArguments extends WebAPICallOptions, TokenOve
 export interface ConversationsCreateArguments extends WebAPICallOptions, TokenOverridable {
   name: string;
   is_private?: boolean;
+  team_id?: string;
 }
 export interface ConversationsHistoryArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled,
   TimelinePaginationEnabled {
@@ -866,6 +872,7 @@ export interface ConversationsLeaveArguments extends WebAPICallOptions, TokenOve
 export interface ConversationsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   exclude_archived?: boolean;
   types?: string; // comma-separated list of conversation types
+  team_id?: string;
 }
 cursorPaginationEnabledMethods.add('conversations.list');
 export interface ConversationsMarkArguments extends WebAPICallOptions, TokenOverridable {
@@ -949,6 +956,7 @@ export interface FilesListArguments extends WebAPICallOptions, TokenOverridable,
   ts_from?: string;
   ts_to?: string;
   types?: string; // comma-separated list of file types
+  team_id?: string;
 }
 export interface FilesRevokePublicURLArguments extends WebAPICallOptions, TokenOverridable {
   file: string; // file id
@@ -1023,6 +1031,7 @@ export interface GroupsArchiveArguments extends WebAPICallOptions, TokenOverrida
 export interface GroupsCreateArguments extends WebAPICallOptions, TokenOverridable {
   name: string;
   validate?: boolean;
+  team_id?: string;
 }
 export interface GroupsCreateChildArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
@@ -1049,6 +1058,7 @@ export interface GroupsLeaveArguments extends WebAPICallOptions, TokenOverridabl
 export interface GroupsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   exclude_archived?: boolean;
   exclude_members?: boolean;
+  team_id?: string;
 }
 cursorPaginationEnabledMethods.add('groups.list');
 export interface GroupsMarkArguments extends WebAPICallOptions, TokenOverridable {
@@ -1111,6 +1121,7 @@ export interface IMRepliesArguments extends WebAPICallOptions, TokenOverridable 
 export interface MigrationExchangeArguments extends WebAPICallOptions, TokenOverridable {
   users: string; // comma-separated list of users
   to_old?: boolean;
+  team_id?: string;
 }
 
   /*
@@ -1198,6 +1209,7 @@ export interface ReactionsListArguments extends WebAPICallOptions, TokenOverrida
   CursorPaginationEnabled {
   user?: string;
   full?: boolean;
+  team_id?: string;
 }
 cursorPaginationEnabledMethods.add('reactions.list');
 export interface ReactionsRemoveArguments extends WebAPICallOptions, TokenOverridable {
@@ -1282,9 +1294,11 @@ export interface TeamAccessLogsArguments extends WebAPICallOptions, TokenOverrid
   before?: number;
   count?: number;
   page?: number;
+  team_id?: string;
 }
 export interface TeamBillableInfoArguments extends WebAPICallOptions, TokenOverridable {
   user?: string;
+  team_id?: string;
 }
 export interface TeamInfoArguments extends WebAPICallOptions, TokenOverridable {}
 export interface TeamIntegrationLogsArguments extends WebAPICallOptions, TokenOverridable {
@@ -1294,9 +1308,11 @@ export interface TeamIntegrationLogsArguments extends WebAPICallOptions, TokenOv
   page?: number;
   service_id?: string;
   user?: string;
+  team_id?: string;
 }
 export interface TeamProfileGetArguments extends WebAPICallOptions, TokenOverridable {
   visibility?: 'all' | 'visible' | 'hidden';
+  team_id?: string;
 }
 
   /*
@@ -1347,6 +1363,7 @@ export interface UsersConversationsArguments extends WebAPICallOptions, TokenOve
   exclude_archived?: boolean;
   types?: string; // comma-separated list of conversation types
   user?: string;
+  team_id?: string;
 }
 cursorPaginationEnabledMethods.add('users.conversations');
 export interface UsersDeletePhotoArguments extends WebAPICallOptions, TokenOverridable {}
@@ -1359,6 +1376,7 @@ export interface UsersInfoArguments extends WebAPICallOptions, TokenOverridable,
 }
 export interface UsersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled, LocaleAware {
   presence?: boolean; // deprecated, defaults to false
+  team_id?: string;
 }
 cursorPaginationEnabledMethods.add('users.list');
 export interface UsersLookupByEmailArguments extends WebAPICallOptions, TokenOverridable {

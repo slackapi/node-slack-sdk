@@ -34,11 +34,8 @@ const installer = new InstallProvider({
       if (installation.isEnterpriseInstall && installation.enterprise !== undefined) {
         // enterprise app, org wide installation
         keyv.set(installation.enterprise.id, installation);
-      } else if (installation.enterprise !== undefined) {
-        // enterprise app, single workspace installation
-        keyv.set(`${installation.enterprise.id}-${installation.team.id}`, installation);
       } else if (installation.team.id !== undefined) {
-        // non enterprise installation
+        // non enterprise org app installation
         keyv.set(installation.team.id, installation);
       } else {
         throw new Error('Failed saving installation data to installationStore');
@@ -53,12 +50,7 @@ const installer = new InstallProvider({
         result = await keyv.get(InstallQuery.enterpriseId);
       }
 
-      // non org app installation but still in enterprise lookup
-      if (result === undefined && InstallQuery.enterpriseId !== undefined && InstallQuery.teamId !== undefined) {
-        result = await keyv.get(`${InstallQuery.enterpriseId}-${InstallQuery.teamId}`);
-      }
-
-      // non enterprise lookup
+      // non org app lookup
       if (result === undefined && InstallQuery.teamId !== undefined) {
         result = await keyv.get(InstallQuery.teamId);
       }
