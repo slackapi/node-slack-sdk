@@ -6,7 +6,7 @@
 [![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-sdk)
 <!-- TODO: npm versions with scoped packages: https://github.com/rvagg/nodei.co/issues/24 -->
 
-The `@slack/oauth` package makes it simple to setup the OAuth flow for Slack apps. It supports [V2 OAuth](https://api.slack.com/authentication/oauth-v2) for Slack Apps as well as [V1 OAuth](https://api.slack.com/docs/oauth) for [Classic Slack apps](https://api.slack.com/authentication/quickstart). Slack apps that are installed in multiple workspaces, like in the App Directory or in an Enterprise Grid, will need to implement OAuth and store information about each of those installations (such as access tokens). 
+The `@slack/oauth` package makes it simple to setup the OAuth flow for Slack apps. It supports [V2 OAuth](https://api.slack.com/authentication/oauth-v2) for Slack Apps as well as [V1 OAuth](https://api.slack.com/docs/oauth) for [Classic Slack apps](https://api.slack.com/authentication/quickstart). Slack apps that are installed in multiple workspaces, like in the App Directory or in an Enterprise Grid, will need to implement OAuth and store information about each of those installations (such as access tokens).
 
 The package handles URL generation, state verification, and authorization code exchange for access tokens. It also provides an interface for easily plugging in your own database for saving and retrieving installation data.
 
@@ -69,7 +69,7 @@ const installer = new InstallProvider({
 
 You'll need an installation URL when you want to test your own installation, in order to submit your app to the App Directory, and if you need an additional authorizations (user tokens) from users inside a team when your app is already installed. These URLs are also commonly used on your own webpages as the link for an ["Add to Slack" button](https://api.slack.com/docs/slack-button). You may also need to generate an installation URL dynamically when an option's value is only known at runtime, and in this case you would redirect the user to the installation URL.
 
-The `installProvider.generateInstallUrl()` method will create an installation URL for you. It takes in an options argument which at a minimum contains a `scopes` property. `installProvider.generateInstallUrl()` options argument also supports `metadata`, `teamId`, `redirectUri` and `userScopes` properties. 
+The `installProvider.generateInstallUrl()` method will create an installation URL for you. It takes in an options argument which at a minimum contains a `scopes` property. `installProvider.generateInstallUrl()` options argument also supports `metadata`, `teamId`, `redirectUri` and `userScopes` properties.
 
 ```javascript
 installer.generateInstallUrl({
@@ -82,7 +82,7 @@ installer.generateInstallUrl({
 <strong><i>Adding custom metadata to the installation URL</i></strong>
 </summary>
 
-You might want to present an "Add to Slack" button while the user is in the middle of some other tasks (e.g. linking their Slack account to your service). In these situations, you want to bring the user back to where they left off after the app installation is complete. Custom metadata can be used to capture partial (incomplete) information about the task (like which page they were on or inputs to form elements the user began to fill out) in progress. Then when the installation is complete, that custom metadata will be available for your app to recreate exactly where they left off. You must also use a [custom success handler when handling the OAuth redirect](#handling-the-oauth-redirect) to read the custom metadata after the installation is complete. 
+You might want to present an "Add to Slack" button while the user is in the middle of some other tasks (e.g. linking their Slack account to your service). In these situations, you want to bring the user back to where they left off after the app installation is complete. Custom metadata can be used to capture partial (incomplete) information about the task (like which page they were on or inputs to form elements the user began to fill out) in progress. Then when the installation is complete, that custom metadata will be available for your app to recreate exactly where they left off. You must also use a [custom success handler when handling the OAuth redirect](#handling-the-oauth-redirect) to read the custom metadata after the installation is complete.
 
 ```javascript
 installer.generateInstallUrl({
@@ -144,7 +144,7 @@ const callbackOptions = {
     const htmlResponse = `<html><body>Success!</body></html>`
     res.writeHead(200, { 'Content-Type': 'text/html' });
     res.end(htmlResponse);
-  }, 
+  },
   failure: (error, installOptions , req, res) => {
     // Do custom failure logic here
     res.writeHead(500, { 'Content-Type': 'text/html' });
@@ -162,7 +162,7 @@ app.get('/slack/oauth_redirect', (req, res) => {
 
 Although this package uses a default `MemoryInstallationStore`, it isn't recommended for production use since the access tokens it stores would be lost when the process terminates or restarts. Instead, `InstallProvider` has an option for supplying your own installation store, which is used to save and retrieve install information (like tokens) to your own database.
 
-An installation store is an object that provides two methods: `storeInstallation` and `fetchInstallation`. `storeInstallation` takes an `installation` as an argument, which is an object that contains all installation related data (like tokens, teamIds, enterpriseIds, etc). `fetchInstallation` takes in a `installQuery`, which is used to query the database. The `installQuery` can contain `teamId`, `enterpriseId`, `userId`, and `conversationId`.   
+An installation store is an object that provides two methods: `storeInstallation` and `fetchInstallation`. `storeInstallation` takes an `installation` as an argument, which is an object that contains all installation related data (like tokens, teamIds, enterpriseIds, etc). `fetchInstallation` takes in a `installQuery`, which is used to query the database. The `installQuery` can contain `teamId`, `enterpriseId`, `userId`, and `conversationId`.
 
 In the following example, the `installationStore` option is used and the object is defined in line. The required methods are implemented by calling an example database library with simple get and set operations.
 
@@ -214,7 +214,7 @@ result = {
 <strong><i>Reading extended installation data</i></strong>
 </summary>
 
-The `installer.authorize()` method only returns a subset of the installation data returned by the installation store. To fetch the entire saved installation, use the `installer.installationStore.fetchInstallation()` method. 
+The `installer.authorize()` method only returns a subset of the installation data returned by the installation store. To fetch the entire saved installation, use the `installer.installationStore.fetchInstallation()` method.
 
 ```javascript
 // installer.installationStore.fetchInstallation takes in an installQuery as an argument
@@ -228,38 +228,126 @@ const result = installer.installationStore.fetchInstallation({teamId:'my-Team-ID
 
 ### Using a custom state store
 
-A state store handles generating the OAuth `state` parameter in the installation URL for a given set of options, and verifying the `state` in the OAuth callback and returning those same options.
+The state store provides functions for generating the value used in the OAuth "state" parameter, `generateStateParam`, as well as verifying the value of the OAuth "state" parameter when the User Agent returns to your app, `verifyStateParam`.
 
-The default state store, `ClearStateStore`, does not use any storage. Instead, it signs the options (using the `stateSecret`) and encodes them along with a signature into `state`. Later during the OAuth callback, it verifies the signature.
+[Section 5.3.5 of RFC-6819](https://tools.ietf.org/html/rfc6819#section-5.3.5) explains how the OAuth "state" parameter is intended to be used to link the OAuth flow to the User Agent (device) that initiated the OAuth flow. The default state store does *not* link the User Agent, and is provided for demonstration purposes.
 
-If you want to conceal the `metadata` used in the installation URL options you will need to store `state` on your server (in a database) by providing a custom state store. A custom state implements two methods: `generateStateParam()` and `verifyStateParam()`. When you instantiate the `InstallProvider` use the `stateStore` option to set your custom state store. And when using the custom state store, you no longer need to use the `stateSecret` option.
+To implement [Section 5.3.5 of RFC-6819](https://tools.ietf.org/html/rfc6819#section-5.3.5), you need to override the default state store, and synchronize the value sent in the OAuth "state" param with the User Agent (device). Following is an example for implementing Section 5.3.5 in an express app.
+
+> Note that in this example, the InstallProvider has a per-request lifetime.
+>
+> Note that when overriding stateStore, you do not need to provide a `stateSecret`
 
 ```javascript
-const installer = new InstallProvider({
+const { InstallProvider } = require('@slack/oauth');
+const { randomBytes, timingSafeEqual } = require('crypto');
+const cookie = require('cookie');
+const { sign, verify } = require('jsonwebtoken');
+
+const makeInstaller = (req, res) => new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateStore: {
-    // generateStateParam's first argument is the entire InstallUrlOptions object which was passed into generateInstallUrl method
-    // the second argument is a date object
-    // the method is expected to return a string representing the state
-    generateStateParam: (installUrlOptions, date) => {
-      // generate a random string to use as state in the URL
-      const randomState = randomStringGenerator();
-      // save installOptions to cache/db
-      myDB.set(randomState, installUrlOptions);
-      // return a state string that references saved options in DB
-      return randomState;
+    /**
+     * Generates a value that will be used to link the OAuth "state" parameter
+     * to User Agent (device) session.
+     * @see https://tools.ietf.org/html/rfc6819#section-5.3.5
+     * @param {InstallURLOptions} installUrlOptions - the object that was passed to `generateInstallUrl`
+     * @param {Date} timestamp - now, in milliseconds
+     * @return {String} - the value to be sent in the OAuth "state" parameter
+     */
+    generateStateParam: async (installUrlOptions, timestamp) => {
+      /*
+       * generate an unguessable value that will be used in the OAuth "state"
+       * parameter, as well as in the User Agent
+       */
+      const synchronizer = randomBytes(16).toString('hex');
+
+      /*
+       * Create, and sign the User Agent session state
+       */
+      const token = await sign(
+        { synchronizer, installUrlOptions },
+        process.env.SLACK_OAUTH_SECRET,
+        { expiresIn: '3m' }
+      );
+
+      /*
+       * Add the User Agent session state to an http-only, secure, samesite cookie
+       */
+      res.setHeader('Set-Cookie', cookie.serialize('slack_oauth', token, {
+        maxAge: 180,     // will expire in 3 minutes
+        sameSite: 'lax', // limit the scope of the cookie to this site, but allow top level redirects
+        path: '/',       // set the relative path that the cookie is scoped for
+        secure: true,    // only support HTTPS connections
+        httpOnly: true,  // dissallow client-side access to the cookie
+        overwrite: true, // overwrite the cookie every time, so nonce data is never re-used
+      }));
+
+      /**
+       * Return the value to be used in the OAuth "state" parameter
+       * NOTE that this should not be the same, as the signed session state.
+       * If you prefer the OAuth session state to also be a JWT, sign it with
+       * a separate secret
+       */
+      return synchronizer;
     },
-    // verifyStateParam's first argument is a date object and the second argument is a string representing the state
-    // verifyStateParam is expected to return an object representing installUrlOptions
-    verifyStateParam:  (date, state) => {
-      // fetch saved installOptions from DB using state reference
-      const installUrlOptions = myDB.get(randomState);
-      return installUrlOptions;
+    /**
+     * Verifies that the OAuth "state" parameter, and the User Agent session
+     * are synchronized, and destroys the User Agent session, which should be a nonce
+     * @see https://tools.ietf.org/html/rfc6819#section-5.3.5
+     * @param {Date} timestamp - now, in milliseconds
+     * @param {String} state - the value that was returned in the OAuth "state" parameter
+     * @return {InstallURLOptions} - the object that was passed to `generateInstallUrl`
+     * @throws {Error} if the User Agent session state is invalid, or if the
+     *   OAuth "state" parameter, and the state found in the User Agent session
+     *   do not match
+     */
+    verifyStateParam: async (timestamp, state) => {
+      /*
+       * Get the cookie header, if it exists
+       */
+      const cookies = cookie.parse(req.get('cookie') || '');
+
+      /*
+       * Remove the User Agent session - it should be a nonce
+       */
+      res.setHeader('Set-Cookie', cookie.serialize('slack_oauth', 'expired', {
+        maxAge: -99999999, // set the cookie to expire in the past
+        sameSite: 'lax',   // limit the scope of the cookie to this site, but allow top level redirects
+        path: '/',         // set the relative path that the cookie is scoped for
+        secure: true,      // only support HTTPS connections
+        httpOnly: true,    // dissallow client-side access to the cookie
+        overwrite: true,   // overwrite the cookie every time, so nonce data is never re-used
+      }));
+
+      /*
+       * Verify that the User Agent session was signed by this server, and
+       * decode the session
+       */
+      const {
+        synchronizer,
+        installUrlOptions
+      } = await verify(cookies.slack_oauth, process.env.SLACK_OAUTH_SECRET);
+
+      /*
+       * Verify that the value in the OAuth "state" parameter, and in the
+       * User Agent session are equal, and prevent timing attacks when
+       * comparing the values
+       */
+      if (!timingSafeEqual(Buffer.from(synchronizer), Buffer.from(state))) {
+        throw new Error('The OAuth state, and device state are not synchronized. Try again.');
+      }
+
+      /**
+       * Return the object that was passed to `generateInstallUrl`
+       */
+      return installUrlOptions
     }
   },
 });
 ```
+
 ---
 
 ### Setting the log level and using a custom logger
