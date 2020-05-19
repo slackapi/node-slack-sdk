@@ -11,7 +11,9 @@ const port = 3000;
 
 
 // Initialize slack events adapter
-const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
+const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET, {
+  includeBody: true,
+});
 // Set path to receive events
 app.use('/slack/events', slackEvents.requestListener());
 
@@ -29,7 +31,8 @@ const installer = new InstallProvider({
   stateSecret: 'my-state-secret',
   installationStore: {
     storeInstallation: (installation) => {
-      return keyv.set(installation.team.id, installation);
+      keyv.set(installation.team.id, installation);
+      return;
     },
     fetchInstallation: (InstallQuery) => {
       return keyv.get(InstallQuery.teamId);
@@ -75,10 +78,10 @@ app.get('/slack/oauth_redirect', async (req, res) => {
 // });
 
 // When a user navigates to the app home, grab the token from our database and publish a view
-slackEvents.on('app_home_opened', async (event) => {
+slackEvents.on('app_home_opened', async (event, body) => {
   try {
     if (event.tab === 'home') {
-      const DBInstallData = await installer.authorize({teamId:event.view.team_id});
+      const DBInstallData = await installer.authorize({teamId:body.team_id, enterpriseId: body.enterprise_id});
       const web = new WebClient(DBInstallData.botToken);
       await web.views.publish({
         user_id: event.user,

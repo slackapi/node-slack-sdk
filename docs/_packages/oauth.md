@@ -92,7 +92,7 @@ installer.generateInstallUrl({
 
 ### Handling the OAuth redirect
 
-After the user approves the request to install your app (and grants access to the required permissions), Slack will redirect the user to your specified **redirect url**. You can either set the redirect url in the app’s **OAuth and Permissions** page or pass a `redirectUri` when calling `installProvider.generateInstallUrl`. Your HTTP server should handle requests to the redirect URL by calling the `installProvider.handleCallback()` method. The first two arguments (`req`, `res`) to `installProvider.handleCallback` are required. By default, if the installation is successful the user will be redirected back to your App Home in Slack (or shown a generic success page for classic Slack apps). If the installation is not successful the user will be shown an error page.
+After the user approves the request to install your app (and grants access to the required permissions), Slack will redirect the user to your specified **redirect url**. You can either set the redirect url in the app’s **OAuth and Permissions** page or pass a `redirectUri` when calling `installProvider.generateInstallUrl`. Your HTTP server should handle requests to the redirect URL by calling the `installProvider.handleCallback()` method. The first two arguments (`req`, `res`) to `installProvider.handleCallback` are required. By default, if the installation is successful the user will be redirected back to your App Home in Slack (or redirected back to the last open workspace in your slack app for classic Slack apps). If the installation is not successful the user will be shown an error page.
 
 ```javascript
 const { createServer } = require('http');
@@ -209,7 +209,7 @@ The `installer.authorize()` method only returns a subset of the installation dat
 // installer.installationStore.fetchInstallation takes in an installQuery as an argument
 // installQuery = {teamId: 'string', enterpriseId: 'string', userId: string, conversationId: 'string'};
 // returns an installation object
-const result = installer.installationStore.fetchInstallation({teamId:'my-Team-ID'});
+const result = installer.installationStore.fetchInstallation({teamId:'my-Team-ID', enterpriseId:'my-enterprise-ID'});
 ```
 </details>
 

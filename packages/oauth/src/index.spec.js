@@ -38,7 +38,8 @@ rewiremock(() => require('@slack/web-api')).with({
           bot_user_id: 'botUserId',
           scope: 'chat:write,chat:read',
           appId: 'fakeAppId',
-          token_type: 'bot'
+          token_type: 'bot',
+          enterprise: null,
         })
       }
     }

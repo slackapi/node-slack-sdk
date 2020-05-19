@@ -222,6 +222,12 @@ export class InstallProvider {
             userId: resp.bot.bot_user_id,
           };
         }
+
+        if (resp.enterprise_id !== null) {
+          installation.enterprise = {
+            id: resp.enterprise_id,
+          };
+        }
       } else {
         // convert response type from WebApiCallResult to OAuthResponse
         resp = await client.oauth.v2.access({
@@ -251,6 +257,13 @@ export class InstallProvider {
           },
           tokenType: resp.token_type,
         };
+
+        if (resp.enterprise !== null) {
+          installation.enterprise = {
+            id: resp.enterprise.id,
+            name: resp.enterprise.name,
+          };
+        }
       }
 
       if (resp.incoming_webhook !== undefined) {
@@ -453,7 +466,7 @@ export interface Installation {
   };
   enterprise?: {
     id: string;
-    name: string;
+    name?: string;
   };
   bot?: {
     token: string;
@@ -503,24 +516,24 @@ function callbackSuccess(
   _req: IncomingMessage,
   res: ServerResponse,
 ): void {
-  if (installation.team.id !== undefined && installation.appId !== undefined) {
-    // redirect back to slack
-    // Open in native app
-    const redirectUrl = `slack://app?team=${installation.team.id}&id=${installation.appId}`;
-    const htmlResponse = `<html>
-    <meta http-equiv="refresh" content="0; URL=${redirectUrl}">
-    <body>
-      <h1>Success! Redirecting to the Slack App...</h1>
-      <button onClick="window.location = '${redirectUrl}'">Click here to redirect</button>
-    </body></html>`;
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.end(htmlResponse);
+  let redirectUrl;
+  if (installation.team !== null && installation.team.id !== undefined && installation.appId !== undefined) {
+    // redirect back to Slack native app
+    // Changes to the workspace app was installed to, to the app home
+    redirectUrl = `slack://app?team=${installation.team.id}&id=${installation.appId}`;
   } else {
-    // Send a generic success page
-    // TODO: make this page pretty?
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.end('<html><body><h1>Success! Please close this tab and go back to Slack</h1></body></html>');
+    // redirect back to Slack native app
+    // does not change the workspace the slack client was last in
+    redirectUrl = 'slack://open';
   }
+  const htmlResponse = `<html>
+  <meta http-equiv="refresh" content="0; URL=${redirectUrl}">
+  <body>
+    <h1>Success! Redirecting to the Slack App...</h1>
+    <button onClick="window.location = '${redirectUrl}'">Click here to redirect</button>
+  </body></html>`;
+  res.writeHead(200, { 'Content-Type': 'text/html' });
+  res.end(htmlResponse);
 }
 
 // Default function to call when OAuth flow is unsuccessful
