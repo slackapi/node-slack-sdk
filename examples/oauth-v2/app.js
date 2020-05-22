@@ -33,15 +33,13 @@ const installer = new InstallProvider({
     storeInstallation: (installation) => {
       if (installation.isEnterpriseInstall && installation.enterprise !== undefined) {
         // enterprise app, org wide installation
-        keyv.set(installation.enterprise.id, installation);
+        return await keyv.set(installation.enterprise.id, installation);
       } else if (installation.team.id !== undefined) {
         // non enterprise org app installation
-        keyv.set(installation.team.id, installation);
+        return await keyv.set(installation.team.id, installation);
       } else {
         throw new Error('Failed saving installation data to installationStore');
       }
-
-      return
     },
     fetchInstallation: async (InstallQuery) => {
       let result = undefined;
