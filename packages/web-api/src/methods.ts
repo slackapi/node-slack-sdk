@@ -62,47 +62,108 @@ export interface AdminAppsApproveArguments extends WebAPICallOptions, TokenOverr
   request_id?: string;
   team_id?: string;
 }
+export interface AdminAppsApprovedListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id?: string;
+  enterprise_id?: string;
+}
+cursorPaginationEnabledMethods.add('admin.apps.approved.list');
 export interface AdminAppsRequestsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   team_id?: string;
 }
+cursorPaginationEnabledMethods.add('admin.apps.requests.list');
 export interface AdminAppsRestrictArguments extends WebAPICallOptions, TokenOverridable {
   app_id?: string;
   request_id?: string;
   team_id?: string;
+}
+export interface AdminAppsRestrictedListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id?: string;
+  enterprise_id?: string;
+}
+cursorPaginationEnabledMethods.add('admin.apps.restricted.list');
+export interface AdminConversationsSetTeamsArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+  team_id?: string;
+  target_team_ids?: string[];
+  org_channel?: boolean;
 }
 export interface AdminInviteRequestsApproveArguments
   extends WebAPICallOptions, TokenOverridable {
   invite_request_id: string;
   team_id: string;
 }
+export interface AdminInviteRequestsApprovedListArguments
+  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id: string;
+}
+cursorPaginationEnabledMethods.add('admin.inviteRequests.approved.list');
 export interface AdminInviteRequestsDenyArguments
   extends WebAPICallOptions, TokenOverridable {
   invite_request_id: string;
-  team_id: string;
-}
-export interface AdminInviteRequestsListArguments
-  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
-  team_id: string;
-}
-export interface AdminInviteRequestsApprovedListArguments
-  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
 export interface AdminInviteRequestsDeniedListArguments
   extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
+cursorPaginationEnabledMethods.add('admin.inviteRequests.denied.list');
+export interface AdminInviteRequestsListArguments
+  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id: string;
+}
+cursorPaginationEnabledMethods.add('admin.inviteRequests.list');
 export interface AdminTeamsAdminsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
+cursorPaginationEnabledMethods.add('admin.teams.admins.list');
 export interface AdminTeamsCreateArguments extends WebAPICallOptions, TokenOverridable {
   team_domain: string;
   team_name: string;
   team_description?: string;
   team_discoverability?: string;
 }
+export interface AdminTeamsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {}
+cursorPaginationEnabledMethods.add('admin.teams.list');
 export interface AdminTeamsOwnersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   team_id: string;
+}
+cursorPaginationEnabledMethods.add('admin.teams.owners.list');
+export interface AdminTeamsSettingsInfoArguments extends WebAPICallOptions, TokenOverridable {
+  team_id: string;
+}
+export interface AdminTeamsSettingsSetDefaultChannelsArguments extends WebAPICallOptions, TokenOverridable {
+  team_id: string;
+  channel_ids: string[];
+}
+export interface AdminTeamsSettingsSetDescriptionArguments extends WebAPICallOptions, TokenOverridable {
+  team_id: string;
+  description: string;
+}
+export interface AdminTeamsSettingsSetDiscoverabilityArguments extends WebAPICallOptions, TokenOverridable {
+  team_id: string;
+  discoverability: 'open' | 'invite_only' | 'closed' | 'unlisted';
+}
+export interface AdminTeamsSettingseSetIconArguments extends WebAPICallOptions, TokenOverridable {
+  team_id: string;
+  image_url: string;
+}
+export interface AdminTeamsSettingsSetNameArguments extends WebAPICallOptions, TokenOverridable {
+  team_id: string;
+  name: string;
+}
+export interface AdminUsergroupsAddChannelsArguments extends WebAPICallOptions, TokenOverridable {
+  usergroup_id: string;
+  team_id: string;
+  channel_ids: string | string[];
+}
+export interface AdminUsergroupsListChannelsArguments extends WebAPICallOptions, TokenOverridable {
+  usergroup_id: string;
+  include_num_members?: boolean;
+  team_id?: string;
+}
+export interface AdminUsergroupsRemoveChannelsArguments extends WebAPICallOptions, TokenOverridable {
+  usergroup_id: string;
+  channel_ids: string | string[];
 }
 export interface AdminUsersAssignArguments extends WebAPICallOptions, TokenOverridable {
   team_id: string;
@@ -121,6 +182,10 @@ export interface AdminUsersInviteArguments extends WebAPICallOptions, TokenOverr
   real_name?: string;
   resend?: boolean;
 }
+export interface AdminUsersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  team_id: string;
+}
+cursorPaginationEnabledMethods.add('admin.users.list');
 export interface AdminUsersRemoveArguments extends WebAPICallOptions, TokenOverridable {
   team_id: string;
   user_id: string;
@@ -128,6 +193,11 @@ export interface AdminUsersRemoveArguments extends WebAPICallOptions, TokenOverr
 export interface AdminUsersSetAdminArguments extends WebAPICallOptions, TokenOverridable {
   team_id: string;
   user_id: string;
+}
+export interface AdminUsersSetExpirationArguments extends WebAPICallOptions, TokenOverridable {
+  team_id: string;
+  user_id: string;
+  expiration_ts: number;
 }
 export interface AdminUsersSetOwnerArguments extends WebAPICallOptions, TokenOverridable {
   team_id: string;
@@ -295,6 +365,7 @@ export interface ChatScheduledMessagesListArguments extends WebAPICallOptions, T
   latest: number;
   oldest: number;
 }
+cursorPaginationEnabledMethods.add('chat.scheduledMessages.list');
 export interface ChatUnfurlArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   ts: string;

@@ -1,0 +1,22 @@
+{
+  "name": "oauth-v1-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.4.1"
+  },
+  "repository": "slackapi/node-slack-sdk",
+  "author": "Slack Technologies, Inc.",
+  "license": "MIT",
+  "dependencies": {
+    "@slack/events-api": "^2.3.2",
+    "@slack/oauth": "^1.0.0",
+    "@slack/web-api": "^5.8.0",
+    "express": "^4.17.1"
+  }
+}

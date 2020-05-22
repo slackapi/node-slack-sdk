@@ -67,7 +67,7 @@ export interface MrkdwnElement {
 }
 
 export interface Option {
-  text: PlainTextElement;
+  text: PlainTextElement | MrkdwnElement;
   value?: string;
   url?: string;
   description?: PlainTextElement;
@@ -140,6 +140,12 @@ export interface ConversationsSelect extends Action {
   initial_conversation?: string;
   placeholder?: PlainTextElement;
   confirm?: Confirm;
+  response_url_enabled?: boolean;
+  filter?: {
+    include?: ('im' | 'mpim' | 'private' | 'public')[];
+    exclude_external_shared_channels?: boolean;
+    exclude_bot_users?: boolean;
+  };
 }
 
 export interface MultiConversationsSelect extends Action {
@@ -148,6 +154,11 @@ export interface MultiConversationsSelect extends Action {
   placeholder?: PlainTextElement;
   max_selected_items?: number;
   confirm?: Confirm;
+  filter?: {
+    include?: ('im' | 'mpim' | 'private' | 'public')[];
+    exclude_external_shared_channels?: boolean;
+    exclude_bot_users?: boolean;
+  };
 }
 
 export interface ChannelsSelect extends Action {
@@ -211,6 +222,13 @@ export interface RadioButtons extends Action {
   confirm?: Confirm;
 }
 
+export interface Checkboxes extends Action {
+  type: 'checkboxes';
+  initial_options?: Option[];
+  options: Option[];
+  confirm?: Confirm;
+}
+
 export interface PlainTextInput extends Action {
   type: 'plain_text_input';
   placeholder?: PlainTextElement;
@@ -246,7 +264,7 @@ export interface ContextBlock extends Block {
 
 export interface ActionsBlock extends Block {
   type: 'actions';
-  elements: (Button | Overflow | Datepicker | Select | RadioButtons | Action)[];
+  elements: (Button | Overflow | Datepicker | Select | RadioButtons | Checkboxes | Action)[];
 }
 
 export interface DividerBlock extends Block {
@@ -257,7 +275,7 @@ export interface SectionBlock extends Block {
   type: 'section';
   text?: PlainTextElement | MrkdwnElement; // either this or fields must be defined
   fields?: (PlainTextElement | MrkdwnElement)[]; // either this or text must be defined
-  accessory?: Button | Overflow | Datepicker | Select | MultiSelect | Action | ImageElement;
+  accessory?: Button | Overflow | Datepicker | Select | MultiSelect | Action | ImageElement | RadioButtons | Checkboxes;
 }
 
 export interface FileBlock extends Block {
@@ -271,7 +289,7 @@ export interface InputBlock extends Block {
   label: PlainTextElement;
   hint?: PlainTextElement;
   optional?: boolean;
-  element: Select | MultiSelect | Datepicker | PlainTextInput;
+  element: Select | MultiSelect | Datepicker | PlainTextInput | RadioButtons | Checkboxes;
 }
 
 export interface MessageAttachment {

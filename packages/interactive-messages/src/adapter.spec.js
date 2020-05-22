@@ -330,6 +330,52 @@ describe('SlackMessageAdapter', function () {
     });
   });
 
+  describe('#shortcut()', function () {
+    beforeEach(function () {
+      this.adapter = new SlackMessageAdapter(workingSigningSecret);
+    });
+    it('should fail shortcut registration without handler', function () {
+      assert.throws(function () {
+        this.adapter.shortcut('my_callback');
+      }, TypeError);
+    });
+
+    // execute shared tests
+    shouldRegisterWithCallbackId('shortcut');
+
+    describe('when registering with a complex set of constraints', function () {
+      beforeEach(function () {
+        this.shortcutHandler = function () { };
+      });
+      it('should register with valid type constraints successfully', function () {
+        const adapter = this.adapter;
+        const shortcutHandler = this.shortcutHandler;
+        const constraintsSet = [
+          { type: 'shortcut' },
+        ];
+        constraintsSet.forEach(function (constraints) {
+          adapter.shortcut(constraints, shortcutHandler);
+          assertHandlerRegistered(adapter, shortcutHandler, constraints);
+          unregisterAllHandlers(adapter);
+        });
+      });
+      it('should register with valid compound constraints successfully', function () {
+        const constraints = { callbackId: 'my_callback', type: 'shortcut' };
+        this.adapter.shortcut(constraints, this.shortcutHandler);
+        assertHandlerRegistered(this.adapter, this.shortcutHandler, constraints);
+      });
+      it('should throw when registering with invalid compound constraints', function () {
+        const adapter = this.adapter;
+        const shortcutHandler = this.shortcutHandler;
+        // number isn't valid callbackId, all types are valid
+        const constraints = { callbackId: 111, type: 'shortcut' };
+        assert.throws(function () {
+          adapter.shortcut(constraints, shortcutHandler);
+        }, TypeError);
+      });
+    });
+  });
+
   describe('#options()', function () {
     beforeEach(function () {
       this.adapter = new SlackMessageAdapter(workingSigningSecret);

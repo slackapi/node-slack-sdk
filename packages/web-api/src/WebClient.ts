@@ -104,7 +104,14 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     this.rejectRateLimitedCalls = rejectRateLimitedCalls;
 
     // Logging
-    this.logger = getLogger(WebClient.loggerName, logLevel, logger);
+    if (typeof logger !== 'undefined') {
+      this.logger = logger;
+      if (typeof logLevel !== 'undefined') {
+        this.logger.debug('The logLevel given to WebClient was ignored as you also gave logger');
+      }
+    } else {
+      this.logger = getLogger(WebClient.loggerName, logLevel, logger);
+    }
 
     this.axios = axios.create({
       baseURL: slackApiUrl,
@@ -140,6 +147,8 @@ export class WebClient extends EventEmitter<WebClientEvent> {
   public async apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult> {
     this.logger.debug(`apiCall('${method}') start`);
 
+    warnDeprecations(method, this.logger);
+
     if (typeof options === 'string' || typeof options === 'number' || typeof options === 'boolean') {
       throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
     }
@@ -153,6 +162,26 @@ export class WebClient extends EventEmitter<WebClientEvent> {
     // log warnings in response metadata
     if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
       result.response_metadata.warnings.forEach(this.logger.warn.bind(this.logger));
+    }
+
+    // log warnings and errors in response metadata messages
+    // related to https://api.slack.com/changelog/2016-09-28-response-metadata-is-on-the-way
+    if (result.response_metadata !== undefined && result.response_metadata.messages !== undefined) {
+      result.response_metadata.messages.forEach((msg) => {
+        const errReg: RegExp = /\[ERROR\](.*)/;
+        const warnReg: RegExp = /\[WARN\](.*)/;
+        if (errReg.test(msg)) {
+          const errMatch = msg.match(errReg);
+          if (errMatch != null) {
+            this.logger.error(errMatch[1].trim());
+          }
+        } else if (warnReg.test(msg)) {
+          const warnMatch = msg.match(warnReg);
+          if (warnMatch != null) {
+            this.logger.warn(warnMatch[1].trim());
+          }
+        }
+      });
     }
 
     if (!result.ok) {
@@ -276,10 +305,21 @@ export class WebClient extends EventEmitter<WebClientEvent> {
   public readonly admin = {
     apps: {
       approve: (this.apiCall.bind(this, 'admin.apps.approve')) as Method<methods.AdminAppsApproveArguments>,
+      approved: {
+        list: (this.apiCall.bind(this, 'admin.apps.approved.list')) as Method<methods.AdminAppsApprovedListArguments>,
+      },
       requests: {
         list: (this.apiCall.bind(this, 'admin.apps.requests.list')) as Method<methods.AdminAppsRequestsListArguments>,
       },
       restrict: (this.apiCall.bind(this, 'admin.apps.restrict')) as Method<methods.AdminAppsRestrictArguments>,
+      restricted: {
+        list:
+          (this.apiCall.bind(this, 'admin.apps.restricted.list')) as Method<methods.AdminAppsRestrictedListArguments>,
+      },
+    },
+    conversations: {
+      setTeams: (this.apiCall.bind(
+        this, 'admin.conversations.setTeams')) as Method<methods.AdminConversationsSetTeamsArguments>,
     },
     inviteRequests: {
       approve: (this.apiCall.bind(
@@ -301,10 +341,32 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       admins: {
         list: (this.apiCall.bind(this, 'admin.teams.admins.list')) as Method<methods.AdminTeamsAdminsListArguments>,
       },
+      create: (this.apiCall.bind(this, 'admin.teams.create')) as Method<methods.AdminTeamsCreateArguments>,
+      list: (this.apiCall.bind(this, 'admin.teams.list')) as Method<methods.AdminTeamsListArguments>,
       owners: {
         list: (this.apiCall.bind(this, 'admin.teams.owners.list')) as Method<methods.AdminTeamsOwnersListArguments>,
       },
-      create: (this.apiCall.bind(this, 'admin.teams.create')) as Method<methods.AdminTeamsCreateArguments>,
+      settings: {
+        info: (this.apiCall.bind(this, 'admin.teams.settings.info')) as Method<methods.AdminTeamsSettingsInfoArguments>,
+        setDefaultChannels: (this.apiCall.bind(this, 'admin.teams.settings.setDefaultChannels')) as
+          Method<methods.AdminTeamsSettingsSetDefaultChannelsArguments>,
+        setDescription: (this.apiCall.bind(
+          this, 'admin.teams.settings.setDescription')) as Method<methods.AdminTeamsSettingsSetDescriptionArguments>,
+        setDiscoverability: (this.apiCall.bind(this, 'admin.teams.settings.setDiscoverability')) as
+          Method<methods.AdminTeamsSettingsSetDiscoverabilityArguments>,
+        setIcon: (this.apiCall.bind(
+          this, 'admin.teams.settings.setIcon')) as Method<methods.AdminTeamsSettingseSetIconArguments>,
+        setName: (this.apiCall.bind(
+          this, 'admin.teams.settings.setName')) as Method<methods.AdminTeamsSettingsSetNameArguments>,
+      },
+    },
+    usergroups: {
+      addChannels: (this.apiCall.bind(this, 'admin.usergroups.addChannels')) as
+        Method<methods.AdminUsergroupsAddChannelsArguments>,
+      listChannels: (this.apiCall.bind(this, 'admin.usergroups.listChannels')) as
+        Method<methods.AdminUsergroupsListChannelsArguments>,
+      removeChannels: (this.apiCall.bind(this, 'admin.usergroups.removeChannels')) as
+        Method<methods.AdminUsergroupsRemoveChannelsArguments>,
     },
     users: {
       session: {
@@ -313,8 +375,11 @@ export class WebClient extends EventEmitter<WebClientEvent> {
       },
       assign: (this.apiCall.bind(this, 'admin.users.assign')) as Method<methods.AdminUsersAssignArguments>,
       invite: (this.apiCall.bind(this, 'admin.users.invite')) as Method<methods.AdminUsersInviteArguments>,
+      list: (this.apiCall.bind(this, 'admin.users.list')) as Method<methods.AdminUsersListArguments>,
       remove: (this.apiCall.bind(this, 'admin.users.remove')) as Method<methods.AdminUsersRemoveArguments>,
       setAdmin: (this.apiCall.bind(this, 'admin.users.setAdmin')) as Method<methods.AdminUsersSetAdminArguments>,
+      setExpiration:
+        (this.apiCall.bind(this, 'admin.users.setExpiration')) as Method<methods.AdminUsersSetExpirationArguments>,
       setOwner: (this.apiCall.bind(this, 'admin.users.setOwner')) as Method<methods.AdminUsersSetOwnerArguments>,
       setRegular: (this.apiCall.bind(this, 'admin.users.setRegular')) as Method<methods.AdminUsersSetRegularArguments>,
     },
@@ -908,4 +973,22 @@ function parseRetryHeaders(response: AxiosResponse): number | undefined {
     }
   }
   return undefined;
+}
+
+/**
+ * Log a warning when using a deprecated method
+ * @param method api method being called
+ * @param logger instance of web clients logger
+ */
+function warnDeprecations(method: string, logger: Logger): void {
+  const deprecatedMethods = ['channels.', 'groups.', 'im.', 'mpim.'];
+
+  const isDeprecated = deprecatedMethods.some((depMethod) => {
+    const re = new RegExp(`^${depMethod}`);
+    return re.test(method);
+  });
+
+  if (isDeprecated) {
+    logger.warn(`${method} is deprecated. Please use the Conversations API instead. For more info, go to https://api.slack.com/changelog/2020-01-deprecating-antecedents-to-the-conversations-api`);
+  }
 }

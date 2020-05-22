@@ -160,7 +160,7 @@ Actions are interactions in Slack that generate an HTTP request to your app. The
 -  **Block actions**: A user interacted with one of the [interactive
    components](https://api.slack.com/reference/messaging/interactive-components) in a message built with [block
    elements](https://api.slack.com/reference/messaging/block-elements).
--  **Message actions**: A user selected an [action in the overflow menu of a message](https://api.slack.com/actions).
+-  **Message Shortcuts (previously message actions)**: A user selected an [action in the overflow menu of a message](https://api.slack.com/actions).
 -  **Dialog submission**: A user submitted a form in a [modal dialog](https://api.slack.com/dialogs)
 -  **Attachment actions**: A user clicked a button or selected an item in a menu in a message built with [legacy message
    attachments](https://api.slack.com/interactive-messages).
@@ -468,6 +468,85 @@ slackInteractions.viewClosed('my_modal_callback_id', (payload) => {
 
 ---
 
+### Handling a global shortcut
+
+Shortcuts are invokable UI elements within Slack clients. For [global shortcuts](https://api.slack.com/interactivity/shortcuts/using#global_shortcuts), they are available in the composer and search menus.
+
+Apps register functions, called **handlers**, to be triggered when an shortcuts request is received by the adapter using
+the `.shortcut(constraints, handler)` method. When registering a handler, you describe which shortcut request(s) you'd
+like the handler to match using **constraints**. Constraints are [described in detail](#constraints) below. The adapter
+will call the handler whose constraints match the action best.
+
+These handlers receive a single `payload` argument. The `payload` describes the interaction with the menu that occurred.
+If interested, checkout the shape of the [shortcuts payload](https://api.slack.com/reference/interaction-payloads/shortcuts).
+
+Handlers can return a `Promise` which must resolve within the `syncResponseTimeout` (default:
+2500ms).
+
+The `.shortcut()` handler currently supports [global shortcuts](https://api.slack.com/interactivity/shortcuts/using#global_shortcuts). [Message shortcuts](https://api.slack.com/interactivity/shortcuts/using#message_shortcuts) (previously known as message actions) are still handled by the `.action()` handler. 
+
+```javascript
+const { createMessageAdapter } = require('@slack/interactive-messages');
+const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
+const slackInteractions = createMessageAdapter(slackSigningSecret);
+const { WebClient } = require('@slack/web-api');
+const token = process.env.SLACK_ACCESS_TOKEN;
+
+const web = new WebClient(token);
+
+// Read the port from the environment variables, fallback to 3000 default.
+const port = process.env.PORT || 3000;
+
+// Example of handling a global shortcut
+slackInteractions.shortcut({ callback: 'simple-modal', type: 'shortcut' }, (payload) => {
+
+  // This example shortcut opens a view (needs to complete under 2.5 seconds)
+  return web.views.open({
+    token: token,
+    trigger_id: payload.trigger_id,
+    view: {
+      type: "modal",
+      title: {
+        type: "plain_text",
+        text: "My App"
+      },
+      close: {
+        type: "plain_text",
+        text: "Close"
+      },
+      blocks: [
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: "About the simplest modal you could conceive of :smile:\n\nMaybe <https://api.slack.com/reference/block-kit/interactive-components|*make the modal interactive*> or <https://api.slack.com/surfaces/modals/using#modifying|*learn more advanced modal use cases*>."
+          }
+        },
+        {
+          type: "context",
+          elements: [
+            {
+              type: "mrkdwn",
+              text: "Psssst this modal was designed using <https://api.slack.com/tools/block-kit-builder|*Block Kit Builder*>"
+            }
+          ]
+        }
+      ]
+    }
+  })
+});
+
+(async () => {
+  // Start the built-in server
+  const server = await slackInteractions.start(port);
+
+  // Log a message when the server is ready
+  console.log(`Listening for events on ${server.address().port}`);
+})();
+```
+
+---
+
 ### Constraints
 
 Constraints allow you to describe when a handler should be called. In simpler apps, you can use very simple constraints
@@ -476,16 +555,16 @@ conditions, and express a more nuanced structure of your app.
 
 Constraints can be a simple string, a `RegExp`, or an object with a number of properties.
 
-| Property name | Type | Description | Used with `.action()` | Used with `.options()` | Used with `.viewSubmission()` and `.viewClosed()` |
-|---------------|------|-------------|-----------------------|------------------------|---------------------------------------------------|
-| `callbackId` | `string` or `RegExp` | Match the `callback_id` for attachment or dialog | ✅ | ✅ | ✅ |
-| `blockId` | `string` or `RegExp` | Match the `block_id` for a block action | ✅ | ✅ | 🚫 |
-| `actionId` | `string` or `RegExp` | Match the `action_id` for a block action | ✅ | ✅ | 🚫 |
-| `type` | any block action element type or `message_actions` or `dialog_submission` or `button` or `select` | Match the kind of interaction | ✅ | 🚫 | 🚫 |
-| `within` | `block_actions` or `interactive_message` or `dialog` | Match the source of options request | 🚫 | ✅ | 🚫 |
-| `unfurl` | `boolean` | Whether or not the `button`, `select`, or `block_action` occurred in an App Unfurl | ✅ | 🚫 | 🚫 |
-| `viewId` | `string` | Match the `view_id` for view submissions | 🚫 | 🚫 | ✅ |
-| `externalId` | `string` or `RegExp` | Match the `external_id` for view submissions | 🚫 | 🚫 | ✅ |
+| Property name | Type | Description | Used with `.action()` | Used with `.options()` | Used with `.viewSubmission()` and `.viewClosed()` | Used with `.shortcut()` |
+|---------------|------|-------------|-----------------------|------------------------|---------------------------------------------------|-------------------------|
+| `callbackId` | `string` or `RegExp` | Match the `callback_id` for attachment or dialog | ✅ | ✅ | ✅ | ✅ |
+| `blockId` | `string` or `RegExp` | Match the `block_id` for a block action | ✅ | ✅ | 🚫 | 🚫 |
+| `actionId` | `string` or `RegExp` | Match the `action_id` for a block action | ✅ | ✅ | 🚫 | 🚫 |
+| `type` | any block action element type or `message_actions` or `dialog_submission` or `button` or `select` or `shortcut` | Match the kind of interaction | ✅ | 🚫 | 🚫 | ✅ |
+| `within` | `block_actions` or `interactive_message` or `dialog` | Match the source of options request | 🚫 | ✅ | 🚫 | 🚫 |
+| `unfurl` | `boolean` | Whether or not the `button`, `select`, or `block_action` occurred in an App Unfurl | ✅ | 🚫 | 🚫 | 🚫 |
+| `viewId` | `string` | Match the `view_id` for view submissions | 🚫 | 🚫 | ✅ | 🚫 |
+| `externalId` | `string` or `RegExp` | Match the `external_id` for view submissions | 🚫 | 🚫 | ✅ | 🚫 |
 
 All of the properties are optional, its just a matter of how specific you want to the handler's behavior to be. A
 `string` or `RegExp` is a shorthand for only specifying the `callbackId` constraint. Here are some examples:
