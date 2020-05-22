@@ -448,13 +448,13 @@ class MemoryInstallationStore implements InstallationStore {
     // db write
     if (installation.isEnterpriseInstall && installation.enterprise !== undefined) {
       this.devDB[installation.enterprise.id] = installation;
-    } else if (installation.team.id !== undefined) {
+    } else if (installation.team !== null && installation.team.id !== undefined) {
       this.devDB[installation.team.id] = installation;
     } else {
       throw new Error('Failed saving installation data to installationStore');
     }
 
-    return;
+    return Promise.resolve();
   }
 
   public async fetchInstallation(query: InstallationQuery, logger?: Logger): Promise<Installation> {
@@ -481,9 +481,9 @@ class MemoryInstallationStore implements InstallationStore {
 // result. This is a normalized shape.
 export interface Installation {
   team: {
-    id?: string;
-    name?: string;
-  };
+    id: string;
+    name: string;
+  } | null;
   enterprise?: {
     id: string;
     name?: string;
