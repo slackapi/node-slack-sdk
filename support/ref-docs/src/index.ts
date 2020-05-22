@@ -93,7 +93,7 @@ function saveVFile(file: VFile): Promise<void> {
           ({
             path: pkg.name,
             data: { kind: DocumenterKind.Package }
-          } as unified.VFileCompatible)
+          })
       )
       // Document each package
       .map(pkgFile => processor.process(pkgFile))
