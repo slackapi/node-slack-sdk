@@ -408,6 +408,19 @@ export class WebClient extends EventEmitter<WebClientEvent> {
   };
 
   /**
+   * calls method family
+   */
+  public readonly calls = {
+    add: (this.apiCall.bind(this, 'calls.add')) as Method<methods.CallsAddArguments>,
+    end: (this.apiCall.bind(this, 'calls.end')) as Method<methods.CallsEndArguments>,
+    info: (this.apiCall.bind(this, 'calls.info')) as Method<methods.CallsInfoArguments>,
+    update: (this.apiCall.bind(this, 'calls.update')) as Method<methods.CallsUpdateArguments>,
+    participants: {
+      add: (this.apiCall.bind(this, 'calls.participants.add')) as Method<methods.CallsParticipantsAddArguments>,
+    },
+  };
+
+  /**
    * channels method family
    */
   public readonly channels = {
