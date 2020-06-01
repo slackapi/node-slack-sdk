@@ -354,7 +354,7 @@ interface OAuthV2Response {
   token_type: string;
   access_token: string;
   bot_user_id: string;
-  team: { id: string, name: string };
+  team: { id: string, name: string } | null;
   enterprise: { name: string, id: string } | null;
   is_enterprise_install: boolean;
   error?: string;
