@@ -78,6 +78,7 @@ export interface Confirm {
   text: PlainTextElement | MrkdwnElement;
   confirm?: PlainTextElement;
   deny?: PlainTextElement;
+  style?: 'primary' | 'danger';
 }
 
 /*
