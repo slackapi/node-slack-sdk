@@ -25,7 +25,7 @@ Feel free to skip around to the specfic sections relevant to you — we won't mi
 ## Create an app
 First thing's first: before you start developing a Slack app, you'll need to [create an app](https://api.slack.com/apps/new). After you fill out an App Name (_you can change it later_) and picking a workspace to install it to, hit the `Create App` button and you'll be transported through space and time to the **Basic Information** page.
 
-This page contains links to add features and functionalities to your app as well as important credentials you'll need for development later, like the `Signing Secret` under **App Crendentials**.
+This page contains links to add features and functionalities to your app as well as important credentials you'll need for development later, like the `Signing Secret` under **App Credentials**.
 
 ![Basic Information page](basic-information-page.png "Basic Information page")
 
@@ -74,7 +74,7 @@ The output should show a generated URL that you can use (we recommend the one th
 ### Add the URL to your app configuration
 Okay, so hopefully at this point you have some kind of public-facing URL. Now, let's add that to the **Interactive Components** page. Under the **Request URL** box, go ahead and paste in your accessible URL.
 
-If you're using the default HTTP server in the `@slack/interactive-messages` package, you should append `/slack/actions` to your URL. For our example, this will be `https://8e8ec2d7.ngrok.io/slack/actions`. If you are using the Express middlware, you can set whichever path you like, just remember to make the path you mount the middleware into the application the same as the one you configure in Slack.
+If you're using the default HTTP server in the `@slack/interactive-messages` package, you should append `/slack/actions` to your URL. For our example, this will be `https://8e8ec2d7.ngrok.io/slack/actions`. If you are using the Express middleware, you can set whichever path you like, just remember to make the path you mount the middleware into the application the same as the one you configure in Slack.
 
 ![Configuring a Request URL](request-url-config.png "Configuring a Request URL")
 
@@ -92,13 +92,13 @@ To do this, we've included a command line tool in the `@slack/events-api` packag
 ### Verifying your local endpoint
 If you're using the development proxy as [described above](#using-a-local-request-URL-for-development), you can run the tool from inside your project directory (after the `@slack/events-api` package is installed). You should **only use the command line tool in development**. If your app is up and running, the adapter will automatically respond to challenges.
 
-You can run the command line tool form inside your project directory with the following command:
+You can run the command line tool from inside your project directory with the following command:
 
 ```
 ./node_modules/.bin/slack-verify --secret <signing_secret> [--path=/slack/events] [--port=3000]
 ```
 
-You'll need to substitue your own signing secret for `<signing_secret>`. This is found on the **Basic Information** page in the [Create an App section](#create-an-app).
+You'll need to substitute your own signing secret for `<signing_secret>`. This is found on the **Basic Information** page in the [Create an App section](#create-an-app).
 
 ![Signing Secret](signing-secret.png "Signing Secret on Basic Information page")
 
