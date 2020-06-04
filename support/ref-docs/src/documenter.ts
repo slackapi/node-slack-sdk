@@ -277,12 +277,12 @@ function itemDocumentation(
 
     // Remarks
     item.tsdocComment.remarksBlock !== undefined
-      ? convertDocBlock(ctx, [6, 'Remarks'], item.tsdocComment.remarksBlock)
+      ? convertDocBlock(ctx, [5, 'Remarks'], item.tsdocComment.remarksBlock)
       : [],
 
     // Example
     exampleBlock !== undefined
-      ? convertDocBlock(ctx, [6, 'Example'], exampleBlock)
+      ? convertDocBlock(ctx, [5, 'Example'], exampleBlock)
       : []
   ].flat();
 }
@@ -511,17 +511,17 @@ function documentClassLike(
     itemsOfType(item.members, ctorKind).flatMap(ctorItem =>
       section(
         // These headings are at depth 5 to match other members
-        [5, fnLikeTitle(ctorItem, `new ${item.name}`)],
+        [4, fnLikeTitle(ctorItem, `new ${item.name}`)],
         documentFnLike(ctx, ctorItem)
       )
     ),
 
     // Fields/properties
-    propsTable === undefined ? [] : section([4, 'Fields'], propsTable),
+    propsTable === undefined ? [] : section([3, 'Fields'], propsTable),
 
     // Methods
     itemSections(
-      [4, 'Methods'],
+      [3, 'Methods'],
       itemsOfType(item.members, methodKind),
       withCtx(ctx, documentFnLike),
       fnLikeTitle
@@ -543,7 +543,7 @@ function documentEnum(ctx: DocumentationContext, item: ApiEnum): Node[] {
 
     // Members
     section(
-      [4, 'Members'],
+      [3, 'Members'],
       list(
         'unordered',
         item.members.map(member =>
@@ -652,41 +652,38 @@ export function documentPkg(model: ApiModel, pkg: ApiPackage): [FrontmatterEntir
       slug: formatPkgSlug(pkg)
     },
     root(
-      section(
-        [1, pkg.name],
-        [
-          ...itemSections(
-            [2, 'Classes'],
-            itemsOfType(apiItems, ApiClass),
-            withCtx(ctx, documentClassLike)
-          ),
+      [
+        ...itemSections(
+          [1, 'Classes'],
+          itemsOfType(apiItems, ApiClass),
+          withCtx(ctx, documentClassLike)
+        ),
 
-          ...itemSections(
-            [2, 'Functions'],
-            itemsOfType(apiItems, ApiFunction),
-            withCtx(ctx, documentFnLike),
-            fnLikeTitle
-          ),
+        ...itemSections(
+          [1, 'Functions'],
+          itemsOfType(apiItems, ApiFunction),
+          withCtx(ctx, documentFnLike),
+          fnLikeTitle
+        ),
 
-          ...itemSections(
-            [2, 'Enums'],
-            itemsOfType(apiItems, ApiEnum),
-            withCtx(ctx, documentEnum)
-          ),
+        ...itemSections(
+          [1, 'Enums'],
+          itemsOfType(apiItems, ApiEnum),
+          withCtx(ctx, documentEnum)
+        ),
 
-          ...itemSections(
-            [2, 'Interfaces'],
-            itemsOfType(apiItems, ApiInterface),
-            withCtx(ctx, documentClassLike)
-          ),
+        ...itemSections(
+          [1, 'Interfaces'],
+          itemsOfType(apiItems, ApiInterface),
+          withCtx(ctx, documentClassLike)
+        ),
 
-          ...itemSections(
-            [2, 'Type Aliases'],
-            itemsOfType(apiItems, ApiTypeAlias),
-            withCtx(ctx, documentTypeAlias)
-          )
-        ]
-      )
+        ...itemSections(
+          [1, 'Type Aliases'],
+          itemsOfType(apiItems, ApiTypeAlias),
+          withCtx(ctx, documentTypeAlias)
+        )
+      ]
     )
   ];
 }
@@ -701,18 +698,15 @@ export function documentModel(model: ApiModel): [FrontmatterEntires, Node] {
       parmalink: '/reference/'
     },
     root(
-      section(
-        [1, 'Reference Documentation'],
-        [
-          paragraph([strong(text('Packages:'))]),
-          list(
-            'unordered',
-            model.packages.map(pkg =>
-              listItem(link(formatPkgSlug(pkg), undefined, text(pkg.name)))
-            )
+      [
+        paragraph([strong(text('Packages:'))]),
+        list(
+          'unordered',
+          model.packages.map(pkg =>
+            listItem(link(formatPkgSlug(pkg), undefined, text(pkg.name)))
           )
-        ]
-      )
+        )
+      ]
     )
   ];
 }
