@@ -418,8 +418,8 @@ export class RTMClient extends EventEmitter {
 
   /**
    * Send a simple message to a public channel, private channel, DM, or MPDM.
-   * @param text The message text.
-   * @param conversationId A conversation ID for the destination of this message.
+   * @param text - The message text.
+   * @param conversationId - A conversation ID for the destination of this message.
    */
   public async sendMessage(text: string, conversationId: string): Promise<RTMCallResult> {
     return this.addOutgoingEvent(true, 'message', { text, channel: conversationId });
@@ -427,7 +427,7 @@ export class RTMClient extends EventEmitter {
 
   /**
    * Sends a typing indicator to indicate that the user with `activeUserId` is typing.
-   * @param conversationId The destination for where the typing indicator should be shown.
+   * @param conversationId - The destination for where the typing indicator should be shown.
    */
   public sendTyping(conversationId: string): Promise<void> {
     return this.addOutgoingEvent(false, 'typing', { channel: conversationId });
@@ -435,8 +435,8 @@ export class RTMClient extends EventEmitter {
 
   /**
    * Subscribes this client to presence changes for only the given `userIds`.
-   * @param userIds An array of user IDs whose presence you are interested in. This list will replace the list from any
-   * previous calls to this method.
+   * @param userIds - An array of user IDs whose presence you are interested in. This list will replace the list from
+   * any previous calls to this method.
    */
   public subscribePresence(userIds: string[]): Promise<void> {
     return this.addOutgoingEvent(false, 'presence_sub', { ids: userIds });
@@ -455,10 +455,10 @@ export class RTMClient extends EventEmitter {
    * If the awaitReply parameter is set to false, then the returned Promise is resolved as soon as the message is sent
    * from the websocket.
    *
-   * @param awaitReply whether to wait for an acknowledgement response from the platform before resolving the returned
+   * @param awaitReply - whether to wait for an acknowledgement response from the platform before resolving the returned
    * Promise.
-   * @param type the message type
-   * @param body the message body
+   * @param type - the message type
+   * @param body - the message body
    */
   public addOutgoingEvent(awaitReply: true, type: string, body?: {}): Promise<RTMCallResult>;
   public addOutgoingEvent(awaitReply: false, type: string, body?: {}): Promise<void>;
@@ -502,8 +502,8 @@ export class RTMClient extends EventEmitter {
    * to send messages (in the 'ready' substate of the 'connected' state). It returns a Promise for the message ID of the
    * sent message. This is an internal ID and generally shouldn't be used as an identifier for messages (for that,
    * there is `ts` on messages once the server acknowledges it).
-   * @param type the message type
-   * @param body the message body
+   * @param type - the message type
+   * @param body - the message body
    */
   public send(type: string, body = {}): Promise<number> {
     const message = Object.assign({}, body, {
