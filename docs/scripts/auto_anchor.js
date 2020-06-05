@@ -11,18 +11,26 @@ window.addEventListener('DOMContentLoaded', (event) => {
   if (!templateEl) { return; }
   var newElementContainer = templateEl.parentElement;
 
-  function createTemplatedElement(title, href) {
+  function createTemplatedElement(title, href, strong) {
     var el = templateEl.cloneNode(true);
     var anchor = el.querySelector('a');
     anchor.setAttribute('href', href);
-    anchor.innerText = title;
+
+    if (strong) {
+      var strongEl = document.createElement('strong');
+      anchor.appendChild(strongEl);
+      strongEl.innerText = title;
+    } else {
+      anchor.innerText = title;
+    }
+    
     return el;
   }
 
   // Search for headers with anchors, and create a clone of the template for each header in the document
   var headers = document.querySelectorAll(headerWithIdSelector)
   Array.prototype.map.call(headers, function (header) {
-    return createTemplatedElement(header.innerText, '#' + header.id);
+    return createTemplatedElement(header.innerText, '#' + header.id, header.classList.contains('auto-anchor-strong'));
   }).forEach(function (newElement) {
     newElementContainer.insertBefore(newElement, templateEl);
   });

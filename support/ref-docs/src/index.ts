@@ -70,8 +70,8 @@ function saveVFile(file: VFile): Promise<void> {
 function addHeadingIds(): unified.Transformer {
   return (tree: Node) => {
     visit(tree, 'element', (node: Element) => {
-      // Only tag H1 elements
-      if (node.tagName !== 'h1') {
+      // Only tag H1 and H2 elements
+      if (node.tagName !== 'h1' && node.tagName !== 'h2') {
         return;
       }
 
@@ -86,6 +86,11 @@ function addHeadingIds(): unified.Transformer {
         node.properties = { id };
       } else {
         node.properties.id = id;
+      }
+
+      // Add a "auto-anchor-strong" class to H1 elements
+      if (node.tagName === 'h1') {
+        node.properties!.class += ' auto-anchor-strong';
       }
     });
   }
