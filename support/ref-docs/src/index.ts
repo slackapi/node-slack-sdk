@@ -2,12 +2,11 @@ import { readdir as fsReadDir, writeFile as fsWriteFile } from 'fs';
 import { join as joinPaths } from 'path';
 import { promisify } from 'util';
 import { ApiModel } from '@microsoft/api-extractor-model';
-import rehypeSlug = require('rehype-slug');
+import { Node, Element, Text } from 'hast';
 import rehypeStringify = require('rehype-stringify');
-// import remarkStringify = require('remark-stringify');
 import remarkToRehype = require('remark-rehype');
-import remarkToc = require('remark-toc');
 import unified = require('unified');
+import visit = require('unist-util-visit');
 import { VFile } from 'vfile';
 import documenter, { DocumenterKind } from './package-parser';
 import { stringifyFrontmatter } from './macros';
@@ -65,6 +64,33 @@ function saveVFile(file: VFile): Promise<void> {
   );
 }
 
+/**
+ * A transformer that adds `id` attributes to headings.
+ */
+function addHeadingIds(): unified.Transformer {
+  return (tree: Node) => {
+    visit(tree, 'element', (node: Element) => {
+      // Only tag H1 elements
+      if (node.tagName !== 'h1') {
+        return;
+      }
+
+      // Create a 'slug' id for the heading by lower-casing the text inside and
+      // replacing sequences of non-basic-alphanumeric characters with a hyphen
+      const id = (node.children[0] as Text).value
+        .toLowerCase()
+        .replace(/[^a-zA-Z0-9]+/g, '-');
+
+      // Add the `id` attribute
+      if (node.properties === undefined) {
+        node.properties = { id };
+      } else {
+        node.properties.id = id;
+      }
+    });
+  }
+}
+
 (async () => {
   // Create the cumulative API model
   const apiModel = await loadModel();
@@ -72,9 +98,8 @@ function saveVFile(file: VFile): Promise<void> {
   // Create the pipeline that handles processing API packages
   const processor = unified()
     .use(documenter, { model: apiModel })
-    .use(remarkToc)
     .use(remarkToRehype, { allowDangerousHTML: true })
-    .use(rehypeSlug)
+    .use(addHeadingIds)
     .use(rehypeStringify, { allowDangerousHTML: true });
     // .use(remarkStringify);
 
