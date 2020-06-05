@@ -8,6 +8,7 @@ export {
 } from './IncomingWebhook';
 
 export {
+  CodedError,
   ErrorCode,
   IncomingWebhookSendError,
   IncomingWebhookRequestError,
