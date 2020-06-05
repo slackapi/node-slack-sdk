@@ -1,5 +1,5 @@
 import { Stream } from 'stream';
-import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls } from '@slack/types';
+import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser } from '@slack/types';
 import { WebAPICallOptions, WebAPICallResult } from './WebClient';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
@@ -231,6 +231,41 @@ export interface AuthTestArguments extends WebAPICallOptions, TokenOverridable {
    */
 export interface BotsInfoArguments extends WebAPICallOptions, TokenOverridable  {
   bot?: string;
+}
+
+  /*
+  * `calls.*`
+  */
+export interface CallsAddArguments extends WebAPICallOptions, TokenOverridable {
+  external_unique_id: string;
+  join_url: string;
+  created_by?: string;
+  date_start?: number;
+  desktop_app_join_url?: string;
+  external_display_id?: string;
+  title?: string;
+  users?: CallUser[];
+}
+
+export interface CallsEndArguments extends WebAPICallOptions, TokenOverridable {
+  id: string;
+  duration?: number;
+}
+
+export interface CallsInfoArguments extends WebAPICallOptions, TokenOverridable {
+  id: string;
+}
+
+export interface CallsUpdateArguments extends WebAPICallOptions, TokenOverridable {
+  id: string;
+  join_url?: string;
+  desktop_app_join_url?: string;
+  title?: string;
+}
+
+export interface CallsParticipantsAddArguments extends WebAPICallOptions, TokenOverridable {
+  id: string;
+  users: CallUser[];
 }
 
   /*

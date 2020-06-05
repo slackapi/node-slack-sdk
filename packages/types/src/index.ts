@@ -78,6 +78,7 @@ export interface Confirm {
   text: PlainTextElement | MrkdwnElement;
   confirm?: PlainTextElement;
   deny?: PlainTextElement;
+  style?: 'primary' | 'danger';
 }
 
 /*
@@ -141,6 +142,7 @@ export interface ConversationsSelect extends Action {
   placeholder?: PlainTextElement;
   confirm?: Confirm;
   response_url_enabled?: boolean;
+  default_to_current_conversation?: boolean;
   filter?: {
     include?: ('im' | 'mpim' | 'private' | 'public')[];
     exclude_external_shared_channels?: boolean;
@@ -154,6 +156,7 @@ export interface MultiConversationsSelect extends Action {
   placeholder?: PlainTextElement;
   max_selected_items?: number;
   confirm?: Confirm;
+  default_to_current_conversation?: boolean;
   filter?: {
     include?: ('im' | 'mpim' | 'private' | 'public')[];
     exclude_external_shared_channels?: boolean;
@@ -357,4 +360,16 @@ export interface LinkUnfurls {
 export interface SelectOption {
   label: string; // shown to user
   value: string; // sent to app
+}
+
+export type CallUser = CallUserSlack | CallUserExternal;
+
+export interface CallUserSlack {
+  slack_id: string;
+}
+
+export interface CallUserExternal {
+  external_id: string;
+  display_name: string;
+  avatar_url: string;
 }
