@@ -996,7 +996,7 @@ describe('WebClient', function () {
     }
     const client = new WebClient(token);
 
-    it('can call admin.usergroups.addChannels with a string "channe_ids"', function (done) {
+    it('can call admin.usergroups.addChannels with a string "channel_ids"', function (done) {
       verify(
         client.admin.usergroups.addChannels({ team_id: 'T123', usergroup_id: 'S123', channel_ids: 'C123,C234' }),
         'admin.usergroups.addChannels',
