@@ -27,7 +27,6 @@ export const errorCodes = {
 } as const;
 // TODO: export other error codes
 
-
 /**
  * Factory method to create an instance of {@link SlackMessageAdapter}
  */
