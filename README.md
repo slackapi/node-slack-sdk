@@ -90,8 +90,18 @@ $ ./node_modules/.bin/slack-verify --secret <signing_secret> [--path=/slack/even
 ```
 
 Run the command with your own signing secret (provided by Slack in the "Basic Information"), and optionally a path or a
-port. A web server will be listening for requests containing a challenge and respond to them the way Slack expects. Once
-the Request URL is verified and saved, you can stop the server with `Ctrl-C` and start working on your app. We also have
+port. A web server will be listening for requests containing a challenge and respond to them the way Slack expects. 
+
+If your app's signing secret is "xxx123", any of the following works for you.
+
+```
+$ ./node_modules/.bin/slack-verify --secret xxx123
+$ ./node_modules/.bin/slack-verify --secret xxx123 --path=/slack/events
+$ ./node_modules/.bin/slack-verify --secret xxx123 --port=3000
+$ ./node_modules/.bin/slack-verify --secret xxx123 --path=/slack/events --port=3000
+```
+
+Once the Request URL is verified and saved, you can stop the server with `Ctrl-C` and start working on your app. We also have
 a tutorial with information about [getting a public URL that can be used for
 development](https://slack.dev/node-slack-sdk/tutorials/local-development).
 
