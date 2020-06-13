@@ -43,7 +43,8 @@ import {
   DocLinkTag,
   DocSoftBreak,
   DocCodeSpan,
-  DocBlock
+  DocBlock,
+  DocHtmlStartTag
 } from '@microsoft/tsdoc';
 import { Node, Parent } from 'unist';
 import {
@@ -225,6 +226,9 @@ function convertDocSection(
           } else if (node instanceof DocCodeSpan) {
             // Code spans map to inline code nodes
             return inlineCode(node.code);
+          } else if (node instanceof DocHtmlStartTag) {
+            // NOTE: It seems like this is usually `<br />` tags
+            return html(node.emitAsHtml());
           } else {
             throw new Error(`unknown DocNode type encountered: '${node.kind}'`);
           }
