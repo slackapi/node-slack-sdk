@@ -141,8 +141,8 @@ export class WebClient extends Methods {
   /**
    * Generic method for calling a Web API method
    *
-   * @param method the Web API method to call {@see https://api.slack.com/methods}
-   * @param options options
+   * @param method - the Web API method to call {@link https://api.slack.com/methods}
+   * @param options - options
    */
   public async apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult> {
     this.logger.debug(`apiCall('${method}') start`);
@@ -206,10 +206,10 @@ export class WebClient extends Methods {
    * to use it in earlier JavaScript runtimes by transpiling your source with a tool like Babel. However, the
    * transpiled code will likely sacrifice performance.
    *
-   * @param method the cursor-paginated Web API method to call {@see https://api.slack.com/docs/pagination}
-   * @param options options
-   * @param shouldStop a predicate that is called with each page, and should return true when pagination can end.
-   * @param reduce a callback that can be used to accumulate a value that the return promise is resolved to
+   * @param method - the cursor-paginated Web API method to call {@link https://api.slack.com/docs/pagination}
+   * @param options - options
+   * @param shouldStop - a predicate that is called with each page, and should return true when pagination can end.
+   * @param reduce - a callback that can be used to accumulate a value that the return promise is resolved to
    */
   public paginate(method: string, options?: WebAPICallOptions): AsyncIterator<WebAPICallResult>;
   public paginate(
@@ -365,8 +365,8 @@ export class WebClient extends Methods {
    * when the options contain a binary (a stream or a buffer) and the upload should be done with content-type
    * multipart/form-data.
    *
-   * @param options arguments for the Web API method
-   * @param headers a mutable object representing the HTTP headers for the outgoing request
+   * @param options - arguments for the Web API method
+   * @param headers - a mutable object representing the HTTP headers for the outgoing request
    */
   private serializeApiCallOptions(options: WebAPICallOptions, headers?: any): string | Readable {
     // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
@@ -524,11 +524,11 @@ export interface PaginatePredicate {
   (page: WebAPICallResult): boolean | undefined | void;
 }
 
-interface PageReducer<A = any> {
+export interface PageReducer<A = any> {
   (accumulator: A | undefined, page: WebAPICallResult, index: number): A;
 }
 
-type PageAccumulator<R extends PageReducer> =
+export type PageAccumulator<R extends PageReducer> =
   R extends (accumulator: (infer A) | undefined, page: WebAPICallResult, index: number) => infer A ? A : never;
 
 /*

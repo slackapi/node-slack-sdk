@@ -16,8 +16,8 @@ const appMetadata: { [key: string]: string } = {};
 
 /**
  * Appends the app metadata into the User-Agent value
- * @param appMetadata.name name of tool to be counted in instrumentation
- * @param appMetadata.version version of tool to be counted in instrumentation
+ * @param appMetadata.name - name of tool to be counted in instrumentation
+ * @param appMetadata.version - version of tool to be counted in instrumentation
  */
 export function addAppMetadata({ name, version }: { name: string, version: string }): void {
   appMetadata[replaceSlashes(name)] = version;
