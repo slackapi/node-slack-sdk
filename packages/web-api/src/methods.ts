@@ -1,15 +1,374 @@
 import { Stream } from 'stream';
 import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser } from '@slack/types';
-import { WebAPICallOptions, WebAPICallResult } from './WebClient';
+import { WebAPICallOptions, WebAPICallResult, WebClientEvent } from './WebClient';
+import { EventEmitter } from 'eventemitter3';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
 
 /**
+ * Binds a certain `method` and its arguments and result types to the `apiCall` method in `WebClient`.
+ */
+function bindApiCall<Arguments extends WebAPICallOptions, Result extends WebAPICallResult>(
+  self: Methods,
+  method: string,
+): Method<Arguments, Result> {
+  // We have to "assert" that the bound method does indeed return the more specific `Result` type instead of just
+  // `WebAPICallResult`
+  return self.apiCall.bind(self, method) as Method<Arguments, Result>;
+}
+
+/**
+ * A class that defines all Web API methods, their arguments type, their response type, and binds those methods to the
+ * `apiCall` class method.
+ */
+export abstract class Methods extends EventEmitter<WebClientEvent> {
+  // TODO: As of writing, `WebClient` already extends EventEmitter...
+  // and I want WebClient to extend this class...
+  // and multiple inheritance in JS is cursed...
+  // so I'm just making this class extend EventEmitter.
+  //
+  // It shouldn't be here, indeed. Nothing here uses it, indeed. But it must be here for the sake of sanity.
+
+  public abstract async apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult>;
+
+  public readonly admin = {
+    apps: {
+      approve: bindApiCall<AdminAppsApproveArguments, WebAPICallResult>(this, 'admin.apps.approve'),
+      approved: {
+        list: bindApiCall<AdminAppsApprovedListArguments, WebAPICallResult>(this, 'admin.apps.approved.list'),
+      },
+      requests: {
+        list: bindApiCall<AdminAppsRequestsListArguments, WebAPICallResult>(this, 'admin.apps.requests.list'),
+      },
+      restrict: bindApiCall<AdminAppsRestrictArguments, WebAPICallResult>(this, 'admin.apps.restrict'),
+      restricted: {
+        list:
+          bindApiCall<AdminAppsRestrictedListArguments, WebAPICallResult>(this, 'admin.apps.restricted.list'),
+      },
+    },
+    conversations: {
+      setTeams:
+        bindApiCall<AdminConversationsSetTeamsArguments, WebAPICallResult>(this, 'admin.conversations.setTeams'),
+    },
+    inviteRequests: {
+      approve: bindApiCall<AdminInviteRequestsApproveArguments, WebAPICallResult>(
+        this, 'admin.inviteRequests.approve'),
+      deny: bindApiCall<AdminInviteRequestsDenyArguments, WebAPICallResult>(this, 'admin.inviteRequests.deny'),
+      list: bindApiCall<AdminInviteRequestsListArguments, WebAPICallResult>(this, 'admin.inviteRequests.list'),
+      approved: {
+        list: bindApiCall<AdminInviteRequestsApprovedListArguments, WebAPICallResult>(
+          this, 'admin.inviteRequests.approved.list'),
+      },
+      denied: {
+        list: bindApiCall<AdminInviteRequestsDeniedListArguments, WebAPICallResult>(
+          this, 'admin.inviteRequests.denied.list'),
+      },
+    },
+    teams: {
+      admins: {
+        list: bindApiCall<AdminTeamsAdminsListArguments, WebAPICallResult>(this, 'admin.teams.admins.list'),
+      },
+      create: bindApiCall<AdminTeamsCreateArguments, WebAPICallResult>(this, 'admin.teams.create'),
+      list: bindApiCall<AdminTeamsListArguments, WebAPICallResult>(this, 'admin.teams.list'),
+      owners: {
+        list: bindApiCall<AdminTeamsOwnersListArguments, WebAPICallResult>(this, 'admin.teams.owners.list'),
+      },
+      settings: {
+        info: bindApiCall<AdminTeamsSettingsInfoArguments, WebAPICallResult>(this, 'admin.teams.settings.info'),
+        setDefaultChannels: bindApiCall<AdminTeamsSettingsSetDefaultChannelsArguments, WebAPICallResult>(
+          this, 'admin.teams.settings.setDefaultChannels'),
+        setDescription: bindApiCall<AdminTeamsSettingsSetDescriptionArguments, WebAPICallResult>(
+          this, 'admin.teams.settings.setDescription'),
+        setDiscoverability: bindApiCall<AdminTeamsSettingsSetDiscoverabilityArguments, WebAPICallResult>(
+          this, 'admin.teams.settings.setDiscoverability'),
+        setIcon: bindApiCall<AdminTeamsSettingseSetIconArguments, WebAPICallResult>(
+          this, 'admin.teams.settings.setIcon'),
+        setName: bindApiCall<AdminTeamsSettingsSetNameArguments, WebAPICallResult>(
+          this, 'admin.teams.settings.setName'),
+      },
+    },
+    usergroups: {
+      addChannels: bindApiCall<AdminUsergroupsAddChannelsArguments, WebAPICallResult>(
+        this, 'admin.usergroups.addChannels'),
+      listChannels: bindApiCall<AdminUsergroupsListChannelsArguments, WebAPICallResult>(
+        this, 'admin.usergroups.listChannels'),
+      removeChannels: bindApiCall<AdminUsergroupsRemoveChannelsArguments, WebAPICallResult>(
+        this, 'admin.usergroups.removeChannels'),
+    },
+    users: {
+      session: {
+        reset:
+          bindApiCall<AdminUsersSessionResetArguments, WebAPICallResult>(this, 'admin.users.session.reset'),
+      },
+      assign: bindApiCall<AdminUsersAssignArguments, WebAPICallResult>(this, 'admin.users.assign'),
+      invite: bindApiCall<AdminUsersInviteArguments, WebAPICallResult>(this, 'admin.users.invite'),
+      list: bindApiCall<AdminUsersListArguments, WebAPICallResult>(this, 'admin.users.list'),
+      remove: bindApiCall<AdminUsersRemoveArguments, WebAPICallResult>(this, 'admin.users.remove'),
+      setAdmin: bindApiCall<AdminUsersSetAdminArguments, WebAPICallResult>(this, 'admin.users.setAdmin'),
+      setExpiration:
+        bindApiCall<AdminUsersSetExpirationArguments, WebAPICallResult>(this, 'admin.users.setExpiration'),
+      setOwner: bindApiCall<AdminUsersSetOwnerArguments, WebAPICallResult>(this, 'admin.users.setOwner'),
+      setRegular: bindApiCall<AdminUsersSetRegularArguments, WebAPICallResult>(this, 'admin.users.setRegular'),
+    },
+  };
+
+  public readonly api = {
+    test: bindApiCall<APITestArguments, WebAPICallResult>(this, 'api.test'),
+  };
+
+  public readonly auth = {
+    revoke: bindApiCall<AuthRevokeArguments, WebAPICallResult>(this, 'auth.revoke'),
+    test: bindApiCall<AuthTestArguments, WebAPICallResult>(this, 'auth.test'),
+  };
+
+  public readonly bots = {
+    info: bindApiCall<BotsInfoArguments, WebAPICallResult>(this, 'bots.info'),
+  };
+
+  public readonly calls = {
+    add: bindApiCall<CallsAddArguments, WebAPICallResult>(this, 'calls.add'),
+    end: bindApiCall<CallsEndArguments, WebAPICallResult>(this, 'calls.end'),
+    info: bindApiCall<CallsInfoArguments, WebAPICallResult>(this, 'calls.info'),
+    update: bindApiCall<CallsUpdateArguments, WebAPICallResult>(this, 'calls.update'),
+    participants: {
+      add: bindApiCall<CallsParticipantsAddArguments, WebAPICallResult>(this, 'calls.participants.add'),
+    },
+  };
+
+  public readonly channels = {
+    archive: bindApiCall<ChannelsArchiveArguments, WebAPICallResult>(this, 'channels.archive'),
+    create: bindApiCall<ChannelsCreateArguments, WebAPICallResult>(this, 'channels.create'),
+    history: bindApiCall<ChannelsHistoryArguments, WebAPICallResult>(this, 'channels.history'),
+    info: bindApiCall<ChannelsInfoArguments, WebAPICallResult>(this, 'channels.info'),
+    invite: bindApiCall<ChannelsInviteArguments, WebAPICallResult>(this, 'channels.invite'),
+    join: bindApiCall<ChannelsJoinArguments, WebAPICallResult>(this, 'channels.join'),
+    kick: bindApiCall<ChannelsKickArguments, WebAPICallResult>(this, 'channels.kick'),
+    leave: bindApiCall<ChannelsLeaveArguments, WebAPICallResult>(this, 'channels.leave'),
+    list: bindApiCall<ChannelsListArguments, WebAPICallResult>(this, 'channels.list'),
+    mark: bindApiCall<ChannelsMarkArguments, WebAPICallResult>(this, 'channels.mark'),
+    rename: bindApiCall<ChannelsRenameArguments, WebAPICallResult>(this, 'channels.rename'),
+    replies: bindApiCall<ChannelsRepliesArguments, WebAPICallResult>(this, 'channels.replies'),
+    setPurpose: bindApiCall<ChannelsSetPurposeArguments, WebAPICallResult>(this, 'channels.setPurpose'),
+    setTopic: bindApiCall<ChannelsSetTopicArguments, WebAPICallResult>(this, 'channels.setTopic'),
+    unarchive: bindApiCall<ChannelsUnarchiveArguments, WebAPICallResult>(this, 'channels.unarchive'),
+  };
+
+  public readonly chat = {
+    delete: bindApiCall<ChatDeleteArguments, WebAPICallResult>(this, 'chat.delete'),
+    deleteScheduledMessage:
+      bindApiCall<ChatDeleteScheduledMessageArguments, WebAPICallResult>(this, 'chat.deleteScheduledMessage'),
+    getPermalink: bindApiCall<ChatGetPermalinkArguments, WebAPICallResult>(this, 'chat.getPermalink'),
+    meMessage: bindApiCall<ChatMeMessageArguments, WebAPICallResult>(this, 'chat.meMessage'),
+    postEphemeral: bindApiCall<ChatPostEphemeralArguments, WebAPICallResult>(this, 'chat.postEphemeral'),
+    postMessage: bindApiCall<ChatPostMessageArguments, WebAPICallResult>(this, 'chat.postMessage'),
+    scheduleMessage: bindApiCall<ChatScheduleMessageArguments, WebAPICallResult>(this, 'chat.scheduleMessage'),
+    scheduledMessages: {
+      list:
+        bindApiCall<ChatScheduledMessagesListArguments, WebAPICallResult>(this, 'chat.scheduledMessages.list'),
+    },
+    unfurl: bindApiCall<ChatUnfurlArguments, WebAPICallResult>(this, 'chat.unfurl'),
+    update: bindApiCall<ChatUpdateArguments, WebAPICallResult>(this, 'chat.update'),
+  };
+
+  public readonly conversations = {
+    archive: bindApiCall<ConversationsArchiveArguments, WebAPICallResult>(this, 'conversations.archive'),
+    close: bindApiCall<ConversationsCloseArguments, WebAPICallResult>(this, 'conversations.close'),
+    create: bindApiCall<ConversationsCreateArguments, WebAPICallResult>(this, 'conversations.create'),
+    history: bindApiCall<ConversationsHistoryArguments, WebAPICallResult>(this, 'conversations.history'),
+    info: bindApiCall<ConversationsInfoArguments, WebAPICallResult>(this, 'conversations.info'),
+    invite: bindApiCall<ConversationsInviteArguments, WebAPICallResult>(this, 'conversations.invite'),
+    join: bindApiCall<ConversationsJoinArguments, WebAPICallResult>(this, 'conversations.join'),
+    kick: bindApiCall<ConversationsKickArguments, WebAPICallResult>(this, 'conversations.kick'),
+    leave: bindApiCall<ConversationsLeaveArguments, WebAPICallResult>(this, 'conversations.leave'),
+    list: bindApiCall<ConversationsListArguments, WebAPICallResult>(this, 'conversations.list'),
+    members: bindApiCall<ConversationsMembersArguments, WebAPICallResult>(this, 'conversations.members'),
+    open: bindApiCall<ConversationsOpenArguments, WebAPICallResult>(this, 'conversations.open'),
+    rename: bindApiCall<ConversationsRenameArguments, WebAPICallResult>(this, 'conversations.rename'),
+    replies: bindApiCall<ConversationsRepliesArguments, WebAPICallResult>(this, 'conversations.replies'),
+    setPurpose:
+      bindApiCall<ConversationsSetPurposeArguments, WebAPICallResult>(this, 'conversations.setPurpose'),
+    setTopic: bindApiCall<ConversationsSetTopicArguments, WebAPICallResult>(this, 'conversations.setTopic'),
+    unarchive: bindApiCall<ConversationsUnarchiveArguments, WebAPICallResult>(this, 'conversations.unarchive'),
+  };
+
+  public readonly views = {
+    open: bindApiCall<ViewsOpenArguments, WebAPICallResult>(this, 'views.open'),
+    publish: bindApiCall<ViewsPublishArguments, WebAPICallResult>(this, 'views.publish'),
+    push: bindApiCall<ViewsPushArguments, WebAPICallResult>(this, 'views.push'),
+    update: bindApiCall<ViewsUpdateArguments, WebAPICallResult>(this, 'views.update'),
+  };
+
+  public readonly dialog = {
+    open: bindApiCall<DialogOpenArguments, WebAPICallResult>(this, 'dialog.open'),
+  };
+
+  public readonly dnd = {
+    endDnd: bindApiCall<DndEndDndArguments, WebAPICallResult>(this, 'dnd.endDnd'),
+    endSnooze: bindApiCall<DndEndSnoozeArguments, WebAPICallResult>(this, 'dnd.endSnooze'),
+    info: bindApiCall<DndInfoArguments, WebAPICallResult>(this, 'dnd.info'),
+    setSnooze: bindApiCall<DndSetSnoozeArguments, WebAPICallResult>(this, 'dnd.setSnooze'),
+    teamInfo: bindApiCall<DndTeamInfoArguments, WebAPICallResult>(this, 'dnd.teamInfo'),
+  };
+
+  public readonly emoji = {
+    list: bindApiCall<EmojiListArguments, WebAPICallResult>(this, 'emoji.list'),
+  };
+
+  public readonly files = {
+    delete: bindApiCall<FilesDeleteArguments, WebAPICallResult>(this, 'files.delete'),
+    info: bindApiCall<FilesInfoArguments, WebAPICallResult>(this, 'files.info'),
+    list: bindApiCall<FilesListArguments, WebAPICallResult>(this, 'files.list'),
+    revokePublicURL:
+      bindApiCall<FilesRevokePublicURLArguments, WebAPICallResult>(this, 'files.revokePublicURL'),
+    sharedPublicURL:
+      bindApiCall<FilesSharedPublicURLArguments, WebAPICallResult>(this, 'files.sharedPublicURL'),
+    upload: bindApiCall<FilesUploadArguments, WebAPICallResult>(this, 'files.upload'),
+    comments: {
+      delete: bindApiCall<FilesCommentsDeleteArguments, WebAPICallResult>(this, 'files.comments.delete'),
+    },
+    remote: {
+      info: bindApiCall<FilesRemoteInfoArguments, WebAPICallResult>(this, 'files.remote.info'),
+      list: bindApiCall<FilesRemoteListArguments, WebAPICallResult>(this, 'files.remote.list'),
+      add: bindApiCall<FilesRemoteAddArguments, WebAPICallResult>(this, 'files.remote.add'),
+      update: bindApiCall<FilesRemoteUpdateArguments, WebAPICallResult>(this, 'files.remote.update'),
+      remove: bindApiCall<FilesRemoteRemoveArguments, WebAPICallResult>(this, 'files.remote.remove'),
+      share: bindApiCall<FilesRemoteShareArguments, WebAPICallResult>(this, 'files.remote.share'),
+    },
+  };
+
+  public readonly groups = {
+    archive: bindApiCall<GroupsArchiveArguments, WebAPICallResult>(this, 'groups.archive'),
+    create: bindApiCall<GroupsCreateArguments, WebAPICallResult>(this, 'groups.create'),
+    createChild: bindApiCall<GroupsCreateChildArguments, WebAPICallResult>(this, 'groups.createChild'),
+    history: bindApiCall<GroupsHistoryArguments, WebAPICallResult>(this, 'groups.history'),
+    info: bindApiCall<GroupsInfoArguments, WebAPICallResult>(this, 'groups.info'),
+    invite: bindApiCall<GroupsInviteArguments, WebAPICallResult>(this, 'groups.invite'),
+    kick: bindApiCall<GroupsKickArguments, WebAPICallResult>(this, 'groups.kick'),
+    leave: bindApiCall<GroupsLeaveArguments, WebAPICallResult>(this, 'groups.leave'),
+    list: bindApiCall<GroupsListArguments, WebAPICallResult>(this, 'groups.list'),
+    mark: bindApiCall<GroupsMarkArguments, WebAPICallResult>(this, 'groups.mark'),
+    open: bindApiCall<GroupsOpenArguments, WebAPICallResult>(this, 'groups.open'),
+    rename: bindApiCall<GroupsRenameArguments, WebAPICallResult>(this, 'groups.rename'),
+    replies: bindApiCall<GroupsRepliesArguments, WebAPICallResult>(this, 'groups.replies'),
+    setPurpose: bindApiCall<GroupsSetPurposeArguments, WebAPICallResult>(this, 'groups.setPurpose'),
+    setTopic: bindApiCall<GroupsSetTopicArguments, WebAPICallResult>(this, 'groups.setTopic'),
+    unarchive: bindApiCall<GroupsUnarchiveArguments, WebAPICallResult>(this, 'groups.unarchive'),
+  };
+
+  public readonly im = {
+    close: bindApiCall<IMCloseArguments, WebAPICallResult>(this, 'im.close'),
+    history: bindApiCall<IMHistoryArguments, WebAPICallResult>(this, 'im.history'),
+    list: bindApiCall<IMListArguments, WebAPICallResult>(this, 'im.list'),
+    mark: bindApiCall<IMMarkArguments, WebAPICallResult>(this, 'im.mark'),
+    open: bindApiCall<IMOpenArguments, WebAPICallResult>(this, 'im.open'),
+    replies: bindApiCall<IMRepliesArguments, WebAPICallResult>(this, 'im.replies'),
+  };
+
+  public readonly migration = {
+    exchange: bindApiCall<MigrationExchangeArguments, WebAPICallResult>(this, 'migration.exchange'),
+  };
+
+  public readonly mpim = {
+    close: bindApiCall<MPIMCloseArguments, WebAPICallResult>(this, 'mpim.close'),
+    history: bindApiCall<MPIMHistoryArguments, WebAPICallResult>(this, 'mpim.history'),
+    list: bindApiCall<MPIMListArguments, WebAPICallResult>(this, 'mpim.list'),
+    mark: bindApiCall<MPIMMarkArguments, WebAPICallResult>(this, 'mpim.mark'),
+    open: bindApiCall<MPIMOpenArguments, WebAPICallResult>(this, 'mpim.open'),
+    replies: bindApiCall<MPIMRepliesArguments, WebAPICallResult>(this, 'mpim.replies'),
+  };
+
+  public readonly oauth = {
+    access: bindApiCall<OAuthAccessArguments, WebAPICallResult>(this, 'oauth.access'),
+    v2: {
+      access: bindApiCall<OAuthV2AccessArguments, WebAPICallResult>(this, 'oauth.v2.access'),
+    },
+  };
+
+  public readonly pins = {
+    add: bindApiCall<PinsAddArguments, WebAPICallResult>(this, 'pins.add'),
+    list: bindApiCall<PinsListArguments, WebAPICallResult>(this, 'pins.list'),
+    remove: bindApiCall<PinsRemoveArguments, WebAPICallResult>(this, 'pins.remove'),
+  };
+
+  public readonly reactions = {
+    add: bindApiCall<ReactionsAddArguments, WebAPICallResult>(this, 'reactions.add'),
+    get: bindApiCall<ReactionsGetArguments, WebAPICallResult>(this, 'reactions.get'),
+    list: bindApiCall<ReactionsListArguments, WebAPICallResult>(this, 'reactions.list'),
+    remove: bindApiCall<ReactionsRemoveArguments, WebAPICallResult>(this, 'reactions.remove'),
+  };
+
+  public readonly reminders = {
+    add: bindApiCall<RemindersAddArguments, WebAPICallResult>(this, 'reminders.add'),
+    complete: bindApiCall<RemindersCompleteArguments, WebAPICallResult>(this, 'reminders.complete'),
+    delete: bindApiCall<RemindersDeleteArguments, WebAPICallResult>(this, 'reminders.delete'),
+    info: bindApiCall<RemindersInfoArguments, WebAPICallResult>(this, 'reminders.info'),
+    list: bindApiCall<RemindersListArguments, WebAPICallResult>(this, 'reminders.list'),
+  };
+
+  public readonly rtm = {
+    connect: bindApiCall<RTMConnectArguments, WebAPICallResult>(this, 'rtm.connect'),
+    start: bindApiCall<RTMStartArguments, WebAPICallResult>(this, 'rtm.start'),
+  };
+
+  public readonly search = {
+    all: bindApiCall<SearchAllArguments, WebAPICallResult>(this, 'search.all'),
+    files: bindApiCall<SearchFilesArguments, WebAPICallResult>(this, 'search.files'),
+    messages: bindApiCall<SearchMessagesArguments, WebAPICallResult>(this, 'search.messages'),
+  };
+
+  public readonly stars = {
+    add: bindApiCall<StarsAddArguments, WebAPICallResult>(this, 'stars.add'),
+    list: bindApiCall<StarsListArguments, WebAPICallResult>(this, 'stars.list'),
+    remove: bindApiCall<StarsRemoveArguments, WebAPICallResult>(this, 'stars.remove'),
+  };
+
+  public readonly team = {
+    accessLogs: bindApiCall<TeamAccessLogsArguments, WebAPICallResult>(this, 'team.accessLogs'),
+    billableInfo: bindApiCall<TeamBillableInfoArguments, WebAPICallResult>(this, 'team.billableInfo'),
+    info: bindApiCall<TeamInfoArguments, WebAPICallResult>(this, 'team.info'),
+    integrationLogs: bindApiCall<TeamIntegrationLogsArguments, WebAPICallResult>(this, 'team.integrationLogs'),
+    profile: {
+      get: bindApiCall<TeamProfileGetArguments, WebAPICallResult>(this, 'team.profile.get'),
+    },
+  };
+
+  public readonly usergroups = {
+    create: bindApiCall<UsergroupsCreateArguments, WebAPICallResult>(this, 'usergroups.create'),
+    disable: bindApiCall<UsergroupsDisableArguments, WebAPICallResult>(this, 'usergroups.disable'),
+    enable: bindApiCall<UsergroupsEnableArguments, WebAPICallResult>(this, 'usergroups.enable'),
+    list: bindApiCall<UsergroupsListArguments, WebAPICallResult>(this, 'usergroups.list'),
+    update: bindApiCall<UsergroupsUpdateArguments, WebAPICallResult>(this, 'usergroups.update'),
+    users: {
+      list: bindApiCall<UsergroupsUsersListArguments, WebAPICallResult>(this, 'usergroups.users.list'),
+      update: bindApiCall<UsergroupsUsersUpdateArguments, WebAPICallResult>(this, 'usergroups.users.update'),
+    },
+  };
+
+  public readonly users = {
+    conversations: bindApiCall<UsersConversationsArguments, WebAPICallResult>(this, 'users.conversations'),
+    deletePhoto: bindApiCall<UsersDeletePhotoArguments, WebAPICallResult>(this, 'users.deletePhoto'),
+    getPresence: bindApiCall<UsersGetPresenceArguments, WebAPICallResult>(this, 'users.getPresence'),
+    identity: bindApiCall<UsersIdentityArguments, WebAPICallResult>(this, 'users.identity'),
+    info: bindApiCall<UsersInfoArguments, WebAPICallResult>(this, 'users.info'),
+    list: bindApiCall<UsersListArguments, WebAPICallResult>(this, 'users.list'),
+    lookupByEmail: bindApiCall<UsersLookupByEmailArguments, WebAPICallResult>(this, 'users.lookupByEmail'),
+    setPhoto: bindApiCall<UsersSetPhotoArguments, WebAPICallResult>(this, 'users.setPhoto'),
+    setPresence: bindApiCall<UsersSetPresenceArguments, WebAPICallResult>(this, 'users.setPresence'),
+    profile: {
+      get: bindApiCall<UsersProfileGetArguments, WebAPICallResult>(this, 'users.profile.get'),
+      set: bindApiCall<UsersProfileSetArguments, WebAPICallResult>(this, 'users.profile.set'),
+    },
+  };
+}
+
+/**
  * Generic method definition
  */
-export default interface Method<MethodArguments extends WebAPICallOptions> {
-  // TODO: can we create a relationship between MethodArguments and a MethodResult type? hint: conditional types
-  (options?: MethodArguments): Promise<WebAPICallResult>;
+export default interface Method<
+  MethodArguments extends WebAPICallOptions,
+  MethodResult extends WebAPICallResult = WebAPICallResult
+> {
+  (options?: MethodArguments): Promise<MethodResult>;
 }
 
 /*
