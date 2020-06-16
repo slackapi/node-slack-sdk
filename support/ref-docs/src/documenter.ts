@@ -22,6 +22,7 @@ import {
   ApiEnum,
   ApiFunction,
   ApiInterface,
+  ApiItem,
   ApiItemKind,
   ApiMethod,
   ApiMethodSignature,
@@ -626,6 +627,21 @@ function documentTypeAlias(
 }
 
 /**
+ * Filters out noisy items from the `@slack/web-api` package docs.
+ */
+function filterWebApi(item: ApiItem): boolean {
+  if (item instanceof ApiInterface) {
+    // Skip all `*Arguments` interfaces
+    return !item.name.endsWith('Arguments');
+  } else if (item instanceof ApiClass) {
+    // Ignore the `Methods` abstract class as well
+    return item.name !== 'Methods';
+  }
+
+  return true;
+}
+
+/**
  * Generates information about a package in an API model.
  */
 export function documentPkg(model: ApiModel, pkg: ApiPackage): [FrontmatterEntires, Node] {
@@ -644,8 +660,11 @@ export function documentPkg(model: ApiModel, pkg: ApiPackage): [FrontmatterEntir
     pkgEntry: pkg.members[0] as ApiEntryPoint
   };
 
+  // Pick an item filter depending on the package
+  const itemFilter = pkg.name === '@slack/web-api' ? filterWebApi : () => true;
+
   // All top-level API members in this package
-  const apiItems = ctx.pkgEntry.members;
+  const apiItems = ctx.pkgEntry.members.filter(itemFilter);
 
   return [
     {
