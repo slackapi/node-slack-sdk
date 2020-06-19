@@ -1,6 +1,6 @@
 import { Stream } from 'stream';
 import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser } from '@slack/types';
-import { WebAPICallOptions, WebAPICallResult, WebClientEvent } from './WebClient';
+import { WebAPICallOptions, WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
 import { EventEmitter } from 'eventemitter3';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
@@ -28,6 +28,15 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   // so I'm just making this class extend EventEmitter.
   //
   // It shouldn't be here, indeed. Nothing here uses it, indeed. But it must be here for the sake of sanity.
+
+  protected constructor() {
+    super();
+
+    // Check that the class being created extends from `WebClient` rather than this class
+    if (new.target !== WebClient && !(new.target.prototype instanceof WebClient)) {
+      throw new Error('Attempt to inherit from WebClient methods without inheriting from WebClient');
+    }
+  }
 
   public abstract async apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult>;
 
