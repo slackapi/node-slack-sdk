@@ -2,7 +2,7 @@ require('mocha');
 const fs = require('fs');
 const path = require('path');
 const { Agent } = require('https');
-const { assert, expect } = require('chai');
+const { assert } = require('chai');
 const { WebClient } = require('./WebClient');
 const { ErrorCode } = require('./errors');
 const { LogLevel } = require('./logger');
@@ -34,25 +34,25 @@ describe('WebClient', function () {
 
   describe('Methods superclass', function () {
     it('should fail to construct classes that don\'t extend WebClient', function () {
-      expect(function () {
+      assert.throws(function () {
         class X extends Methods {
           apiCall() {}
         }
         new X();
-      }).to.throw();
+      });
     });
 
     it('should succeed when constructing WebClient', function () {
-      expect(function () {
+      assert.doesNotThrow(function () {
         new WebClient();
-      }).to.not.throw();
+      });
     });
 
     it('should succeed when constructing a class that extends WebClient', function () {
-      expect(function () {
+      assert.doesNotThrow(function () {
         class X extends WebClient {}
         new X();
-      }).to.not.throw();
+      });
     });
   });
 
