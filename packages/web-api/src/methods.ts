@@ -90,6 +90,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     usergroups: {
       addChannels: bindApiCall<AdminUsergroupsAddChannelsArguments, WebAPICallResult>(
         this, 'admin.usergroups.addChannels'),
+      addTeams: bindApiCall<AdminUsergroupsAddTeamsArguments, WebAPICallResult>(
+        this, 'admin.usergroups.addTeams'),
       listChannels: bindApiCall<AdminUsergroupsListChannelsArguments, WebAPICallResult>(
         this, 'admin.usergroups.listChannels'),
       removeChannels: bindApiCall<AdminUsergroupsRemoveChannelsArguments, WebAPICallResult>(
@@ -132,6 +134,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     update: bindApiCall<CallsUpdateArguments, WebAPICallResult>(this, 'calls.update'),
     participants: {
       add: bindApiCall<CallsParticipantsAddArguments, WebAPICallResult>(this, 'calls.participants.add'),
+      remove: bindApiCall<CallsParticipantsRemoveArguments, WebAPICallResult>(this, 'calls.participants.remove'),
     },
   };
 
@@ -512,8 +515,13 @@ export interface AdminTeamsSettingsSetNameArguments extends WebAPICallOptions, T
 }
 export interface AdminUsergroupsAddChannelsArguments extends WebAPICallOptions, TokenOverridable {
   usergroup_id: string;
-  team_id: string;
+  team_id?: string;
   channel_ids: string | string[];
+}
+export interface AdminUsergroupsAddTeamsArguments extends WebAPICallOptions, TokenOverridable {
+  usergroup_id: string;
+  team_ids: string | string[];
+  auto_provision?: boolean;
 }
 export interface AdminUsergroupsListChannelsArguments extends WebAPICallOptions, TokenOverridable {
   usergroup_id: string;
@@ -623,6 +631,11 @@ export interface CallsUpdateArguments extends WebAPICallOptions, TokenOverridabl
 }
 
 export interface CallsParticipantsAddArguments extends WebAPICallOptions, TokenOverridable {
+  id: string;
+  users: CallUser[];
+}
+
+export interface CallsParticipantsRemoveArguments extends WebAPICallOptions, TokenOverridable {
   id: string;
   users: CallUser[];
 }
