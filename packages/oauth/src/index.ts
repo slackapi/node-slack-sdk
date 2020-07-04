@@ -70,15 +70,46 @@ export class InstallProvider {
     this.clientSecret = clientSecret;
     this.handleCallback = this.handleCallback.bind(this);
     this.authorize = this.authorize.bind(this);
+    this.orgAuthorize = this.orgAuthorize.bind(this);
     this.authVersion = authVersion;
   }
 
   /**
-   * Fetches data from the installationStore.
+   * Fetches data from the installationStore for non Org Installations.
    */
   public async authorize(source: InstallationQuery): Promise<AuthorizeResult> {
     try {
       const queryResult = await this.installationStore.fetchInstallation(source, this.logger);
+
+      if (queryResult === undefined) {
+        throw new Error('Failed fetching data from the Installation Store');
+      }
+
+      const authResult: AuthorizeResult = {};
+      authResult.userToken = queryResult.user.token;
+      authResult.teamId = queryResult.team.id;
+      if (queryResult.bot !== undefined) {
+        authResult.botToken = queryResult.bot.token;
+        authResult.botId = queryResult.bot.id;
+        authResult.botUserId = queryResult.bot.userId;
+      }
+
+      return authResult;
+    } catch (error) {
+      throw new AuthorizationError(error.message);
+    }
+  }
+
+  /**
+   * Fetches data from the installationStore for Org Installations.
+   */
+  public async orgAuthorize(source: OrgInstallationQuery): Promise<AuthorizeResult> {
+    try {
+      if (this.installationStore.fetchOrgInstallation === undefined) {
+        throw new Error('Installation Store is missing the fetchOrgInstallation method');
+      }
+
+      const queryResult = await this.installationStore.fetchOrgInstallation(source, this.logger);
 
       if (queryResult === undefined) {
         throw new Error('Failed fetching data from the Installation Store');
@@ -190,7 +221,7 @@ export class InstallProvider {
       const client = new WebClient();
 
       let resp;
-      let installation: Installation;
+      let installation: Installation | OrgInstallation;
       if (this.authVersion === 'v1') {
         // convert response type from WebApiCallResult to OAuthResponse
         resp = await client.oauth.access({
@@ -241,28 +272,45 @@ export class InstallProvider {
         const botId = await getBotId(resp.access_token);
 
         // resp obj for v2 - https://api.slack.com/methods/oauth.v2.access#response
-        installation = {
-          team: resp.team,
-          appId: resp.app_id,
-          user: {
-            token: resp.authed_user.access_token,
-            scopes: resp.authed_user.scope !== undefined ? resp.authed_user.scope.split(',') : undefined,
-            id: resp.authed_user.id,
-          },
-          bot: {
-            scopes: resp.scope.split(','),
-            token: resp.access_token,
-            userId: resp.bot_user_id,
-            id: botId,
-          },
-          tokenType: resp.token_type,
-          isEnterpriseInstall: resp.is_enterprise_install,
-        };
 
-        if (resp.enterprise !== null) {
-          installation.enterprise = {
-            id: resp.enterprise.id,
-            name: resp.enterprise.name,
+        if (resp.is_enterprise_install) {
+          // org installation
+          installation = {
+            enterprise: resp.enterprise!,
+            appId: resp.app_id,
+            user: {
+              token: resp.authed_user.access_token,
+              scopes: resp.authed_user.scope !== undefined ? resp.authed_user.scope.split(',') : undefined,
+              id: resp.authed_user.id,
+            },
+            bot: {
+              scopes: resp.scope.split(','),
+              token: resp.access_token,
+              userId: resp.bot_user_id,
+              id: botId,
+            },
+            tokenType: resp.token_type,
+            isEnterpriseInstall: resp.is_enterprise_install,
+          };
+        } else {
+          // workspace or non org enterprise installation
+          installation = {
+            team: resp.team!,
+            ...(resp.enterprise !== null && resp.enterprise !== undefined) ? { enterprise: resp.enterprise } : {},
+            appId: resp.app_id,
+            user: {
+              token: resp.authed_user.access_token,
+              scopes: resp.authed_user.scope !== undefined ? resp.authed_user.scope.split(',') : undefined,
+              id: resp.authed_user.id,
+            },
+            bot: {
+              scopes: resp.scope.split(','),
+              token: resp.access_token,
+              userId: resp.bot_user_id,
+              id: botId,
+            },
+            tokenType: resp.token_type,
+            ...(resp.is_enterprise_install !== undefined) ? { isEnterpriseInstall: resp.is_enterprise_install } : {},
           };
         }
       }
@@ -276,8 +324,17 @@ export class InstallProvider {
         };
       }
 
-      // save access code to installationStore
-      await this.installationStore.storeInstallation(installation, this.logger);
+      if (installation.isEnterpriseInstall) {
+        if (this.installationStore.storeOrgInstallation === undefined) {
+          throw new Error('Installation store is missing the storeOrgInstallation method');
+        }
+        // save token to orgInstallationStore
+        await this.installationStore.storeOrgInstallation(installation as OrgInstallation, this.logger);
+      } else {
+        // save token to InstallationStore
+        await this.installationStore.storeInstallation(installation as Installation, this.logger);
+      }
+
       if (options !== undefined && options.success !== undefined) {
         this.logger.debug('calling passed in options.success');
         options.success(installation, installOptions, req, res);
@@ -322,7 +379,7 @@ export interface CallbackOptions {
   // installation. when provided, this function must complete the
   // callbackRes.
   success?: (
-    installation: Installation,
+    installation: Installation | OrgInstallation,
     options: InstallURLOptions,
     callbackReq: IncomingMessage,
     callbackRes: ServerResponse,
@@ -428,12 +485,14 @@ class ClearStateStore implements StateStore {
 
 export interface InstallationStore {
   storeInstallation: (installation: Installation, logger?: Logger) => Promise<void>;
+  storeOrgInstallation?: (installation: OrgInstallation, logger?: Logger) => Promise<void>;
   fetchInstallation: (query: InstallationQuery, logger?: Logger) => Promise<Installation>;
+  fetchOrgInstallation?: (query: OrgInstallationQuery, logger?: Logger) => Promise<OrgInstallation>;
 }
 
 // using a javascript object as a makeshift database for development
 interface DevDatabase {
-  [key: string]: Installation;
+  [key: string]: Installation | OrgInstallation;
 }
 
 // Default Install Store. Should only be used for development
@@ -446,9 +505,7 @@ class MemoryInstallationStore implements InstallationStore {
     }
 
     // db write
-    if (installation.isEnterpriseInstall && installation.enterprise !== undefined) {
-      this.devDB[installation.enterprise.id] = installation;
-    } else if (installation.team !== null && installation.team.id !== undefined) {
+    if (isNotOrgInstall(installation)) {
       this.devDB[installation.team.id] = installation;
     } else {
       throw new Error('Failed saving installation data to installationStore');
@@ -457,23 +514,43 @@ class MemoryInstallationStore implements InstallationStore {
     return Promise.resolve();
   }
 
+  public async storeOrgInstallation(installation: OrgInstallation, logger?: Logger): Promise<void> {
+    if (logger !== undefined) {
+      logger.warn('Storing Access Token. Please use a real Installation Store for production!');
+    }
+
+    // db write
+    if (installation.isEnterpriseInstall) {
+      this.devDB[installation.enterprise.id] = installation;
+    } else {
+      throw new Error('Failed saving installation data to installationStore');
+    }
+
+    return Promise.resolve();
+  }
+
+  // non org app lookup
   public async fetchInstallation(query: InstallationQuery, logger?: Logger): Promise<Installation> {
     if (logger !== undefined) {
       logger.warn('Retrieving Access Token from DB. Please use a real Installation Store for production!');
     }
 
-    let item: Installation | undefined = undefined;
-    // enterprise org app installation lookup
+    if (query.teamId !== undefined) {
+      return this.devDB[query.teamId] as Installation;
+    }
+    throw new Error('Failed fetching installation');
+  }
+
+  // enterprise org app installation lookup
+  public async fetchOrgInstallation(query: OrgInstallationQuery, logger?: Logger): Promise<OrgInstallation> {
+    if (logger !== undefined) {
+      logger.warn('Retrieving Access Token from DB. Please use a real Installation Store for production!');
+    }
+
     if (query.enterpriseId !== undefined) {
-      item = this.devDB[query.enterpriseId];
+      return this.devDB[query.enterpriseId] as OrgInstallation;
     }
-
-    // non org app lookup
-    if (item === undefined && query.teamId !== undefined) {
-      item = this.devDB[query.teamId];
-    }
-
-    return item!;
+    throw new Error('Failed fetching installation');
   }
 }
 
@@ -483,7 +560,7 @@ export interface Installation {
   team: {
     id: string;
     name: string;
-  } | null;
+  };
   enterprise?: {
     id: string;
     name?: string;
@@ -510,12 +587,48 @@ export interface Installation {
   tokenType?: string;
 }
 
+// this shape is for org installed apps
+export interface OrgInstallation {
+  enterprise: {
+    id: string;
+    name?: string;
+  };
+  bot?: {
+    token: string;
+    scopes: string[];
+    id?: string;
+    userId: string;
+  };
+  user: {
+    token?: string;
+    scopes?: string[];
+    id: string;
+  };
+  incomingWebhook?: {
+    url: string;
+    channel: string;
+    channelId: string;
+    configurationUrl: string;
+  };
+  appId: string | undefined;
+  tokenType?: string;
+  isEnterpriseInstall: boolean;
+}
+
 // This is intentionally structurally identical to AuthorizeSourceData
 // from App. It is redefined so that this class remains loosely coupled to
 // the rest of Bolt.
 export interface InstallationQuery {
   teamId: string;
   enterpriseId?: string;
+  userId?: string;
+  conversationId?: string;
+}
+
+// NOTE: `enterpriseId` is no longer optional, and `teamId` is optional
+export interface OrgInstallationQuery {
+  enterpriseId: string;
+  teamId?: string;
   userId?: string;
   conversationId?: string;
 }
@@ -528,17 +641,19 @@ export interface AuthorizeResult {
   userToken?: string;
   botId?: string;
   botUserId?: string;
+  teamId?: string;
 }
 
 // Default function to call when OAuth flow is successful
 function callbackSuccess(
-  installation: Installation,
+  installation: Installation | OrgInstallation,
   _options: InstallURLOptions | undefined,
   _req: IncomingMessage,
   res: ServerResponse,
 ): void {
   let redirectUrl;
-  if (installation.team !== null && installation.team.id !== undefined && installation.appId !== undefined) {
+
+  if (isNotOrgInstall(installation) && installation.appId !== undefined) {
     // redirect back to Slack native app
     // Changes to the workspace app was installed to, to the app home
     redirectUrl = `slack://app?team=${installation.team.id}&id=${installation.appId}`;
@@ -578,6 +693,11 @@ async function getBotId(token: string): Promise<string> {
   // If a user token was used for auth.test, there is no bot_id
   // return an empty string in this case
   return '';
+}
+
+// type guard to confirm an installation isn't an OrgInstallation
+function isNotOrgInstall(installation: Installation | OrgInstallation): installation is Installation {
+  return (installation as Installation).team !== undefined && (installation as Installation).team !== null;
 }
 
 export { Logger, LogLevel } from './logger';
