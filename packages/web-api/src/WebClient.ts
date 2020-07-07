@@ -582,14 +582,23 @@ function parseRetryHeaders(response: AxiosResponse): number | undefined {
  * @param logger instance of web clients logger
  */
 function warnDeprecations(method: string, logger: Logger): void {
-  const deprecatedMethods = ['channels.', 'groups.', 'im.', 'mpim.'];
+  const deprecatedConversationsMethods = ['channels.', 'groups.', 'im.', 'mpim.'];
+
+  const deprecatedMethods = ['admin.conversations.whitelist.'];
+
+  const isDeprecatedConversations = deprecatedConversationsMethods.some((depMethod) => {
+    const re = new RegExp(`^${depMethod}`);
+    return re.test(method);
+  });
 
   const isDeprecated = deprecatedMethods.some((depMethod) => {
     const re = new RegExp(`^${depMethod}`);
     return re.test(method);
   });
 
-  if (isDeprecated) {
+  if (isDeprecatedConversations) {
     logger.warn(`${method} is deprecated. Please use the Conversations API instead. For more info, go to https://api.slack.com/changelog/2020-01-deprecating-antecedents-to-the-conversations-api`);
+  } else if (isDeprecated) {
+    logger.warn(`${method} is deprecated. Please check on https://api.slack.com/methods for an alternative.`);
   }
 }
