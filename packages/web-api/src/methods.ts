@@ -1420,11 +1420,11 @@ export interface WorkflowsStepCompletedArguments extends WebAPICallOptions, Toke
   workflow_step_execute_id: string;
   outputs?: object;
 }
- 
+
 export interface WorkflowsStepFailedArguments extends WebAPICallOptions, TokenOverridable {
   workflow_step_execute_id: string;
   error: {
-      message: string;
+    message: string;
   };
 }
 
