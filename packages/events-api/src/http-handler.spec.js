@@ -2,7 +2,7 @@ const { assert } = require('chai');
 const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 
-const { createRequest, createRawBodyRequest } = require('../test/helpers');
+const { createRequest, createRawBodyRequest, createRequestWithoutRequiredHeaders } = require('../test/helpers');
 
 const getRawBodyStub = sinon.stub();
 const { createHTTPHandler, verifyRequestSignature } = proxyquire('./http-handler', { 'raw-body': getRawBodyStub });
@@ -117,6 +117,17 @@ describe('http-handler', function () {
       });
       this.requestListener(req, res);
     });
+
+    it('should fail request signing verification if signature and timestamp headers are not present', function (done) {
+      const res = this.res;
+      const req = createRequestWithoutRequiredHeaders();
+      getRawBodyStub.resolves(Buffer.from(correctRawBody));
+      res.end.callsFake(function () {
+        assert.equal(res.statusCode, 404);
+        done();
+      });
+      this.requestListener(req, res);
+    })
 
     it('should handle unexpected error', function (done) {
       const res = this.res;

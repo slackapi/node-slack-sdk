@@ -139,6 +139,17 @@ export function createHTTPHandler(adapter: SlackEventAdapter): HTTPHandler {
     // Bind a response function to this request's respond object.
     const respond = sendResponse(res);
 
+    if (isFalsy(req.headers['x-slack-signature']) || isFalsy(req.headers['x-slack-request-timestamp'])) {
+      handleError(
+        errorWithCode(
+          new Error('Slack request signing verification failed'),
+          ErrorCode.SignatureVerificationFailure
+        ),
+        respond,
+      )
+      return;
+    }
+
     // If parser is being used and we don't receive the raw payload via `rawBody`,
     // we can't verify request signature
     if (!isFalsy(req.body) && isFalsy(req.rawBody)) {
