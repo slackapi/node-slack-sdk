@@ -143,10 +143,10 @@ export function createHTTPHandler(adapter: SlackEventAdapter): HTTPHandler {
       handleError(
         errorWithCode(
           new Error('Slack request signing verification failed'),
-          ErrorCode.SignatureVerificationFailure
+          ErrorCode.SignatureVerificationFailure,
         ),
         respond,
-      )
+      );
       return;
     }
 
