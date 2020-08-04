@@ -25,7 +25,7 @@ It may be helpful to read the tutorials on [getting started](https://slack.dev/n
 
 ### Initialize the installer
 
-This package exposes an `InstallProvider` class, which sets up the required configuration and exposes methods such as `generateInstallUrl`, `handleCallback`, `authorize` for use within your apps. At a minimum, `InstallProvider` takes a `clientId` and `clientSecret` (both which can be obtained under the **Basic Information** of your app configuration). `InstallProvider` also requires a `stateSecret`, which is used to encode the generated state, and later used to decode that same state to verify it wasn't tampered with during the OAuth flow. **Note**: This example is not ready for production because it only stores installations (tokens) in memory. Please go to the [storing installations in a database](#storing-installations-in-a-database) section to learn how to plug in your own database.
+This package exposes an `InstallProvider` class, which sets up the required configuration and exposes methods such as `generateInstallUrl`, `handleCallback`, `authorize`, `orgAuthorize` for use within your apps. At a minimum, `InstallProvider` takes a `clientId` and `clientSecret` (both which can be obtained under the **Basic Information** of your app configuration). `InstallProvider` also requires a `stateSecret`, which is used to encode the generated state, and later used to decode that same state to verify it wasn't tampered with during the OAuth flow. **Note**: This example is not ready for production because it only stores installations (tokens) in memory. Please go to the [storing installations in a database](#storing-installations-in-a-database) section to learn how to plug in your own database.
 
 ```javascript
 const { InstallProvider } = require('@slack/oauth');
@@ -131,13 +131,17 @@ If you decide you need custom success or failure behaviors (ex: wanting to show 
 
 ```javascript
 const callbackOptions = {
-  success: (installation, installOptions, req, res) => {
+  success: (installation, metadata, req, res) => {
     // Do custom success logic here
-    res.send('successful!');
+    // tip: you can add javascript and css in the htmlResponse using the <script> and <style> tags
+    const htmlResponse = `<html><body>Success!</body></html>`
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(htmlResponse);
   }, 
   failure: (error, installOptions , req, res) => {
     // Do custom failure logic here
-    res.send('failure');
+    res.writeHead(500, { 'Content-Type': 'text/html' });
+    res.end('<html><body><h1>Oops, Something Went Wrong! Please Try Again or Contact the App Owner</h1></body></html>');
   }
 }
 app.get('/slack/oauth_redirect', (req, res) => {
@@ -151,9 +155,11 @@ app.get('/slack/oauth_redirect', (req, res) => {
 
 Although this package uses a default `MemoryInstallationStore`, it isn't recommended for production use since the access tokens it stores would be lost when the process terminates or restarts. Instead, `InstallProvider` has an option for supplying your own installation store, which is used to save and retrieve install information (like tokens) to your own database.
 
-An installation store is an object that provides two methods: `storeInstallation` and `fetchInstallation`. `storeInstallation` takes an `installation` as an argument, which is an object that contains all installation related data (like tokens, teamIds, enterpriseIds, etc). `fetchInstallation` takes in a `installQuery`, which is used to query the database. The `installQuery` can contain `teamId`, `enterpriseId`, `userId`, and `conversationId`.   
+An installation store is an object that provides four methods: `storeInstallation`, `storeOrgInstallation`, `fetchInstallation` and `fetchOrgInstallation`. `storeInstallation` and `storeOrgInstallation` takes an `installation` as an argument, which is an object that contains all installation related data (like tokens, teamIds, enterpriseIds, etc). `fetchInstallation` and `fetchOrgInstallation` takes in a `installQuery`, which is used to query the database. The `installQuery` can contain `teamId`, `enterpriseId`, `userId`, and `conversationId`. 
 
-In the following example, the `installationStore` option is used and the object is defined in line. The required methods are implemented by calling an example database library with simple get and set operations.
+**Note**: `fetchOrgInstallation` and `storeOrgInstallation` were introduced to support Org wide app installations (currently in beta).  
+
+In the following example, the `installationStore` option is used and the object is defined in line. The methods are implemented by calling an example database library with simple get and set operations.
 
 ```javascript
 const installer = new InstallProvider({
@@ -165,34 +171,39 @@ const installer = new InstallProvider({
     // returns nothing
     storeInstallation: (installation) => {
       // replace myDB.set with your own database or OEM setter
-      if (installation.isEnterpriseInstall && installation.enterprise !== undefined) {
-        // enterprise app, org wide installation
-        myDB.set(installation.enterprise.id, installation);
-      } else if (installation.team.id !== undefined) {
+      if (installation.team.id !== undefined) {
         // non enterprise org app installation
-        myDB.set(installation.team.id, installation);
+        return myDB.set(installation.team.id, installation);
       } else {
         throw new Error('Failed saving installation data to installationStore');
       }
-      return;
     },
     // takes in an installQuery as an argument
     // installQuery = {teamId: 'string', enterpriseId: 'string', userId: string, conversationId: 'string'};
     // returns installation object from database
     fetchInstallation: async (installQuery) => {
       // replace myDB.get with your own database or OEM getter
-      let result = undefined;
-      // enterprise org app installation lookup
-      if (InstallQuery.enterpriseId !== undefined) {
-        result = await myDB.get(installQuery.enterpriseId);
-      }
-
       // non enterprise org app lookup
-      if (result === undefined && InstallQuery.teamId !== undefined) {
-        result = await myDB.get(installQuery.teamId);
+      return await myDB.get(installQuery.teamId);
+    },
+    // takes in an installation object as an argument
+    // returns nothing
+    storeOrgInstallation: (installation) => {
+      // replace myDB.set with your own database or OEM setter
+      if (installation.isEnterpriseInstall && installation.enterprise !== undefined) {
+        // enterprise app, org wide installation
+        return myDB.set(installation.enterprise.id, installation);
+      } else {
+        throw new Error('Failed saving installation data to installationStore');
       }
-
-      return result;
+    },
+    // takes in an installQuery as an argument
+    // installQuery = {teamId: 'string', enterpriseId: 'string', userId: string, conversationId: 'string'};
+    // returns installation object from database
+    fetchInstallation: async (installQuery) => {
+      // replace myDB.get with your own database or OEM getter
+      // enterprise org app installation lookup
+      return await myDB.get(installQuery.enterpriseId);
     },
   },
 });
@@ -201,12 +212,13 @@ const installer = new InstallProvider({
 
 ### Reading tokens and other installation data
 
-You can use the the `installationProvider.authorize()` function to fetch data that has been saved in your installation store.
+You can use the the `installationProvider.authorize()` function to fetch data that has been saved in your installation store. For Org wide app installations, you can use `installationProvider.orgAuthorize()`
 
 ```javascript
 // installer.authorize takes in an installQuery as an argument
 // installQuery = {teamId: 'string', enterpriseId: 'string', userId: string, conversationId: 'string'};
-const result = installer.authorize({teamId:'my-Team-ID'});
+const result = installer.authorize({teamId:'my-team-ID'});
+const orgResult = installer.orgAuthorize({enterpriseId:'my-enterprise-ID'});
 /*
 result = {
   botToken: '',
@@ -222,13 +234,14 @@ result = {
 <strong><i>Reading extended installation data</i></strong>
 </summary>
 
-The `installer.authorize()` method only returns a subset of the installation data returned by the installation store. To fetch the entire saved installation, use the `installer.installationStore.fetchInstallation()` method. 
+The `installer.authorize()`/`installer.orgAuthorize()` methods only returns a subset of the installation data returned by the installation store. To fetch the entire saved installation, use the `installer.installationStore.fetchInstallation()`/`installer.installationStore.fetchOrgInstallation()` methods. 
 
 ```javascript
 // installer.installationStore.fetchInstallation takes in an installQuery as an argument
 // installQuery = {teamId: 'string', enterpriseId: 'string', userId: string, conversationId: 'string'};
 // returns an installation object
-const result = installer.installationStore.fetchInstallation({teamId:'my-Team-ID', enterpriseId:'my-enterprise-ID'});
+const result = installer.installationStore.fetchInstallation({teamId:'my-team-ID', enterpriseId:'my-enterprise-ID'});
+const orgResult = installer.installationStore.fetchOrgInstallation({enterpriseId:'my-enterprise-ID'});
 ```
 </details>
 
@@ -336,8 +349,8 @@ const installer = new InstallProvider({
 
 ### Examples
 
-*  [OAuth Express app](https://github.com/slackapi/node-slack-sdk/tree/master/examples/oauth-v2). This example uses [Keyv](https://github.com/lukechilds/keyv) library as an installation store.
-*  [OAuth Express app for Classic Slack apps](https://github.com/slackapi/node-slack-sdk/tree/master/examples/oauth-v1). This example uses the built-in installation store.
+*  [OAuth Express app](../../examples/oauth-v2/README.md). This example uses [Keyv](https://github.com/lukechilds/keyv) library as an installation store.
+*  [classic Slack App](../../examples/oauth-v1/README.md). This example uses the built-in installation store
 
 ---
 
@@ -346,3 +359,13 @@ const installer = new InstallProvider({
 This package supports Node v10 LTS and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
 from that version.
+
+## Getting Help
+
+If you get stuck, we're here to help. The following are the best ways to get assistance working through your issue:
+
+  * [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and
+    general discussion related to these packages. Try searching before you create a new issue.
+  * [Email us](mailto:developers@slack.com) in Slack developer support: `developers@slack.com`
+  * [Bot Developers Hangout](https://community.botkit.ai/): a Slack community for developers
+    building all types of bots. You can find the maintainers and users of these packages in **#sdk-node-slack-sdk**.
