@@ -71,7 +71,8 @@ If you make a mistake, don't fret. NPM allows you to unpublish a release within 
     - bump the version in `package.json` for all packages you are releasing
     - Make a single commit for the version bump. The commit message should be similar to a [previous one](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594).
     - Add version tags for each package you are about to release. Ex `git tag @slack/web-api@5.6.0`
-    - Push commit and tags up to origin: `git push origin master && git push origin --tags`. 
+    - Push commit and tags up to your fork: `git push username main && git push --tags username`. 
+    - Create pull request for review. It should be similar to a [previous one](https://github.com/slackapi/node-slack-sdk/pull/1059)
 
 2. Publish the release(s) to npm: `NPM_CONFIG_OTP=xxxxxx npx lerna publish from-package`
   * You should have [2FA set up with NPM](https://docs.npmjs.com/about-two-factor-authentication), and the
@@ -89,6 +90,24 @@ If you make a mistake, don't fret. NPM allows you to unpublish a release within 
 
 6. (Slack Internal) Tweet? Not necessary for patch updates, might be needed for minor updates, definitely needed for
    major updates. Include a link to the GitHub Release(s).
+
+### Releasing Beta Releases
+
+1. Rebase from main
+2. run the tests
+3. update version in package.json. Use the existing version and add a hyphen to name the beta release (ex: `5.10.0-workflowStepsBeta.1`) (Note: the beta version must be in the format of `Major.Minor.Patch-BetaNamespace.BetaVersion`)
+4. - Make a single commit for the version bump. The commit message should be similar to a [previous one](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594).
+
+5. Git tag, push commit and tag up to origin 
+4. Publish to npm 
+  `npm publish .`
+  `npm dist-tag add @slack/web-api@5.10.0 latest --otp YOUR_OTP_CODE`
+  `npm dist-tag add @slack/web-api@5.10.0-workflow-steps-beta.1 feat-workflow-steps --otp YOUR_OTP_CODE`
+
+
+5. Test by installing package from npm via `npm install @slack/web-api@feat-workflow-steps`
+
+
 
 ## Workflow
 
