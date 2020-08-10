@@ -1,8 +1,10 @@
 import os from 'os';
 import { ErrorCode, errorWithCode } from './errors';
-const pkg = require('../package.json'); // tslint:disable-line
+const pkg = require('../package.json'); // eslint-disable-line
 
-function escape(s: string): string { return s.replace('/', ':').replace(' ', '_'); }
+function escape(s: string): string {
+  return s.replace('/', ':').replace(' ', '_');
+}
 
 export const errorCodes = {
   PROMISE_TIMEOUT: ErrorCode.PromiseTimeout,
@@ -17,20 +19,14 @@ export const errorCodes = {
 export function promiseTimeout<T>(ms: number, promise: T | Promise<T>): Promise<T> {
   // Create a promise that rejects in `ms` milliseconds
   const timeout = new Promise<never>((_resolve, reject) => {
-    const id = setTimeout(
-      () => {
-        clearTimeout(id);
-        reject(errorWithCode(new Error('Promise timed out'), ErrorCode.PromiseTimeout));
-      },
-      ms,
-    );
+    const id = setTimeout(() => {
+      clearTimeout(id);
+      reject(errorWithCode(new Error('Promise timed out'), ErrorCode.PromiseTimeout));
+    }, ms);
   });
 
   // Race between our timeout and the passed in `promise`
-  return Promise.race([
-    promise as Promise<T>,
-    timeout,
-  ]);
+  return Promise.race([promise as Promise<T>, timeout]);
 }
 
 // NOTE: before this can be an external module:

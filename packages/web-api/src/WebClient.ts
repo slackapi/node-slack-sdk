@@ -2,7 +2,9 @@
 
 // polyfill for async iterable. see: https://stackoverflow.com/a/43694282/305340
 // can be removed once node v10 is the minimum target (node v8 and v9 require --harmony_async_iteration flag)
-if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
+if (Symbol['asyncIterator'] === undefined) {
+  (Symbol as any)['asyncIterator'] = Symbol.for('asyncIterator');
+}
 
 import { stringify as qsStringify } from 'querystring';
 import { Agent } from 'http';
@@ -11,15 +13,18 @@ import { Readable } from 'stream';
 import { SecureContextOptions } from 'tls';
 
 import isStream from 'is-stream';
-import PQueue from 'p-queue'; // tslint:disable-line:import-name
+import PQueue from 'p-queue'; // eslint-disable-line
 import pRetry, { AbortError } from 'p-retry';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import FormData from 'form-data'; // tslint:disable-line:import-name
+import FormData from 'form-data'; // eslint-disable-line
 
 import { Methods, CursorPaginationEnabled, cursorPaginationEnabledMethods } from './methods';
 import { getUserAgent } from './instrument';
 import {
-  requestErrorWithOriginal, httpErrorFromResponse, platformErrorFromResult, rateLimitedErrorWithDelay,
+  requestErrorWithOriginal,
+  httpErrorFromResponse,
+  platformErrorFromResult,
+  rateLimitedErrorWithDelay,
 } from './errors';
 import { LogLevel, Logger, getLogger } from './logger';
 import retryPolicies, { RetryOptions } from './retry-policies';
@@ -81,17 +86,20 @@ export class WebClient extends Methods {
   /**
    * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`)
    */
-  constructor(token?: string, {
-    slackApiUrl = 'https://slack.com/api/',
-    logger = undefined,
-    logLevel = LogLevel.INFO,
-    maxRequestConcurrency = 3,
-    retryConfig = retryPolicies.tenRetriesInAboutThirtyMinutes,
-    agent = undefined,
-    tls = undefined,
-    rejectRateLimitedCalls = false,
-    headers = {},
-  }: WebClientOptions = {}) {
+  constructor(
+    token?: string,
+    {
+      slackApiUrl = 'https://slack.com/api/',
+      logger = undefined,
+      logLevel = LogLevel.INFO,
+      maxRequestConcurrency = 3,
+      retryConfig = retryPolicies.tenRetriesInAboutThirtyMinutes,
+      agent = undefined,
+      tls = undefined,
+      rejectRateLimitedCalls = false,
+      headers = {},
+    }: WebClientOptions = {},
+  ) {
     super();
 
     this.token = token;
@@ -153,10 +161,7 @@ export class WebClient extends Methods {
       throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
     }
 
-    const response = await this.makeRequest(method, Object.assign(
-      { token: this.token },
-      options,
-    ));
+    const response = await this.makeRequest(method, Object.assign({ token: this.token }, options));
     const result = this.buildResult(response);
 
     // log warnings in response metadata
@@ -185,7 +190,7 @@ export class WebClient extends Methods {
     }
 
     if (!result.ok) {
-      throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
+      throw platformErrorFromResult(result as WebAPICallResult & { error: string });
     }
 
     return result;
@@ -212,11 +217,7 @@ export class WebClient extends Methods {
    * @param reduce - a callback that can be used to accumulate a value that the return promise is resolved to
    */
   public paginate(method: string, options?: WebAPICallOptions): AsyncIterable<WebAPICallResult>;
-  public paginate(
-    method: string,
-    options: WebAPICallOptions,
-    shouldStop: PaginatePredicate,
-  ): Promise<void>;
+  public paginate(method: string, options: WebAPICallOptions, shouldStop: PaginatePredicate): Promise<void>;
   public paginate<R extends PageReducer, A extends PageAccumulator<R>>(
     method: string,
     options: WebAPICallOptions,
@@ -228,8 +229,7 @@ export class WebClient extends Methods {
     options?: WebAPICallOptions,
     shouldStop?: PaginatePredicate,
     reduce?: PageReducer<A>,
-  ): (Promise<A> | AsyncIterable<WebAPICallResult>) {
-
+  ): Promise<A> | AsyncIterable<WebAPICallResult> {
     if (!cursorPaginationEnabledMethods.has(method)) {
       this.logger.warn(`paginate() called with method ${method}, which is not known to be cursor pagination enabled.`);
     }
@@ -267,7 +267,7 @@ export class WebClient extends Methods {
       return generatePages.call(this);
     }
 
-    const pageReducer: PageReducer<A> = (reduce !== undefined) ? reduce : noopPageReducer;
+    const pageReducer: PageReducer<A> = reduce !== undefined ? reduce : noopPageReducer;
     let index = 0;
 
     return (async () => {
@@ -304,57 +304,62 @@ export class WebClient extends Methods {
    */
   private async makeRequest(url: string, body: any, headers: any = {}): Promise<AxiosResponse> {
     // TODO: better input types - remove any
-    const task = () => this.requestQueue.add(async () => {
-      this.logger.debug('will perform http request');
-      try {
-        const response = await this.axios.post(url, body, Object.assign(
-          {
-            headers,
-          },
-          this.tlsConfig,
-        ));
-        this.logger.debug('http response received');
+    const task = () =>
+      this.requestQueue.add(async () => {
+        this.logger.debug('will perform http request');
+        try {
+          const response = await this.axios.post(
+            url,
+            body,
+            Object.assign(
+              {
+                headers,
+              },
+              this.tlsConfig,
+            ),
+          );
+          this.logger.debug('http response received');
 
-        if (response.status === 429) {
-          const retrySec = parseRetryHeaders(response);
-          if (retrySec !== undefined) {
-            this.emit(WebClientEvent.RATE_LIMITED, retrySec);
-            if (this.rejectRateLimitedCalls) {
-              throw new AbortError(rateLimitedErrorWithDelay(retrySec));
+          if (response.status === 429) {
+            const retrySec = parseRetryHeaders(response);
+            if (retrySec !== undefined) {
+              this.emit(WebClientEvent.RATE_LIMITED, retrySec);
+              if (this.rejectRateLimitedCalls) {
+                throw new AbortError(rateLimitedErrorWithDelay(retrySec));
+              }
+              this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
+              // pause the request queue and then delay the rejection by the amount of time in the retry header
+              this.requestQueue.pause();
+              // NOTE: if there was a way to introspect the current RetryOperation and know what the next timeout
+              // would be, then we could subtract that time from the following delay, knowing that it the next
+              // attempt still wouldn't occur until after the rate-limit header has specified. an even better
+              // solution would be to subtract the time from only the timeout of this next attempt of the
+              // RetryOperation. this would result in the staying paused for the entire duration specified in the
+              // header, yet this operation not having to pay the timeout cost in addition to that.
+              await delay(retrySec * 1000);
+              // resume the request queue and throw a non-abort error to signal a retry
+              this.requestQueue.start();
+              throw Error('A rate limit was exceeded.');
+            } else {
+              // TODO: turn this into some CodedError
+              throw new AbortError(new Error('Retry header did not contain a valid timeout.'));
             }
-            this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
-            // pause the request queue and then delay the rejection by the amount of time in the retry header
-            this.requestQueue.pause();
-            // NOTE: if there was a way to introspect the current RetryOperation and know what the next timeout
-            // would be, then we could subtract that time from the following delay, knowing that it the next
-            // attempt still wouldn't occur until after the rate-limit header has specified. an even better
-            // solution would be to subtract the time from only the timeout of this next attempt of the
-            // RetryOperation. this would result in the staying paused for the entire duration specified in the
-            // header, yet this operation not having to pay the timeout cost in addition to that.
-            await delay(retrySec * 1000);
-            // resume the request queue and throw a non-abort error to signal a retry
-            this.requestQueue.start();
-            throw Error('A rate limit was exceeded.');
-          } else {
-            // TODO: turn this into some CodedError
-            throw new AbortError(new Error('Retry header did not contain a valid timeout.'));
           }
-        }
 
-        // Slack's Web API doesn't use meaningful status codes besides 429 and 200
-        if (response.status !== 200) {
-          throw httpErrorFromResponse(response);
-        }
+          // Slack's Web API doesn't use meaningful status codes besides 429 and 200
+          if (response.status !== 200) {
+            throw httpErrorFromResponse(response);
+          }
 
-        return response;
-      } catch (error) {
-        this.logger.warn('http request failed', error.message);
-        if (error.request) {
-          throw requestErrorWithOriginal(error);
+          return response;
+        } catch (error) {
+          this.logger.warn('http request failed', error.message);
+          if (error.request) {
+            throw requestErrorWithOriginal(error);
+          }
+          throw error;
         }
-        throw error;
-      }
-    });
+      });
 
     return pRetry(task, this.retryConfig);
   }
@@ -372,55 +377,51 @@ export class WebClient extends Methods {
     // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
     // binary content
     let containsBinaryData: boolean = false;
-    const flattened = Object.entries(options)
-      .map<[string, any] | []>(([key, value]) => {
-        if (value === undefined || value === null) {
-          return [];
-        }
+    const flattened = Object.entries(options).map<[string, any] | []>(([key, value]) => {
+      if (value === undefined || value === null) {
+        return [];
+      }
 
-        let serializedValue = value;
+      let serializedValue = value;
 
-        if (Buffer.isBuffer(value) || isStream(value)) {
-          containsBinaryData = true;
-        } else if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
-          // if value is anything other than string, number, boolean, binary data, a Stream, or a Buffer, then encode it
-          // as a JSON string.
-          serializedValue = JSON.stringify(value);
-        }
+      if (Buffer.isBuffer(value) || isStream(value)) {
+        containsBinaryData = true;
+      } else if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
+        // if value is anything other than string, number, boolean, binary data, a Stream, or a Buffer, then encode it
+        // as a JSON string.
+        serializedValue = JSON.stringify(value);
+      }
 
-        return [key, serializedValue];
-      });
+      return [key, serializedValue];
+    });
 
     // A body with binary content should be serialized as multipart/form-data
     if (containsBinaryData) {
       this.logger.debug('request arguments contain binary data');
-      const form = flattened.reduce(
-        (form, [key, value]) => {
-          if (Buffer.isBuffer(value) || isStream(value)) {
-            const options: FormData.AppendOptions = {};
-            options.filename = (() => {
-              // attempt to find filename from `value`. adapted from:
-              // tslint:disable-next-line:max-line-length
-              // https://github.com/form-data/form-data/blob/028c21e0f93c5fefa46a7bbf1ba753e4f627ab7a/lib/form_data.js#L227-L230
-              // formidable and the browser add a name property
-              // fs- and request- streams have path property
-              const streamOrBuffer: any = (value as any);
-              if (typeof streamOrBuffer.name === 'string') {
-                return basename(streamOrBuffer.name);
-              }
-              if (typeof streamOrBuffer.path === 'string') {
-                return basename(streamOrBuffer.path);
-              }
-              return defaultFilename;
-            })();
-            form.append(key as string, value, options);
-          } else if (key !== undefined && value !== undefined) {
-            form.append(key, value);
-          }
-          return form;
-        },
-        new FormData(),
-      );
+      const form = flattened.reduce((form, [key, value]) => {
+        if (Buffer.isBuffer(value) || isStream(value)) {
+          const options: FormData.AppendOptions = {};
+          options.filename = (() => {
+            // attempt to find filename from `value`. adapted from:
+            // eslint-disable-next-line max-len
+            // https://github.com/form-data/form-data/blob/028c21e0f93c5fefa46a7bbf1ba753e4f627ab7a/lib/form_data.js#L227-L230
+            // formidable and the browser add a name property
+            // fs- and request- streams have path property
+            const streamOrBuffer: any = value as any;
+            if (typeof streamOrBuffer.name === 'string') {
+              return basename(streamOrBuffer.name);
+            }
+            if (typeof streamOrBuffer.path === 'string') {
+              return basename(streamOrBuffer.path);
+            }
+            return defaultFilename;
+          })();
+          form.append(key as string, value, options);
+        } else if (key !== undefined && value !== undefined) {
+          form.append(key, value);
+        }
+        return form;
+      }, new FormData());
       // Copying FormData-generated headers into headers param
       // not reassigning to headers param since it is passed by reference and behaves as an inout param
       for (const [header, value] of Object.entries(form.getHeaders())) {
@@ -431,16 +432,15 @@ export class WebClient extends Methods {
 
     // Otherwise, a simple key-value object is returned
     headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    const initialValue: { [key: string]: any; } = {};
-    return qsStringify(flattened.reduce(
-      (accumulator, [key, value]) => {
+    const initialValue: { [key: string]: any } = {};
+    return qsStringify(
+      flattened.reduce((accumulator, [key, value]) => {
         if (key !== undefined && value !== undefined) {
           accumulator[key] = value;
         }
         return accumulator;
-      },
-      initialValue,
-    ));
+      }, initialValue),
+    );
   }
 
   /**
@@ -460,8 +460,9 @@ export class WebClient extends Methods {
       data.response_metadata.scopes = (response.headers['x-oauth-scopes'] as string).trim().split(/\s*,\s*/);
     }
     if (response.headers['x-accepted-oauth-scopes'] !== undefined) {
-      data.response_metadata.acceptedScopes =
-        (response.headers['x-accepted-oauth-scopes'] as string).trim().split(/\s*,\s*/);
+      data.response_metadata.acceptedScopes = (response.headers['x-accepted-oauth-scopes'] as string)
+        .trim()
+        .split(/\s*,\s*/);
     }
 
     // add retry metadata from headers
@@ -528,8 +529,13 @@ export interface PageReducer<A = any> {
   (accumulator: A | undefined, page: WebAPICallResult, index: number): A;
 }
 
-export type PageAccumulator<R extends PageReducer> =
-  R extends (accumulator: (infer A) | undefined, page: WebAPICallResult, index: number) => infer A ? A : never;
+export type PageAccumulator<R extends PageReducer> = R extends (
+  accumulator: infer A | undefined,
+  page: WebAPICallResult,
+  index: number,
+) => infer A
+  ? A
+  : never;
 
 /*
  * Helpers
@@ -545,7 +551,8 @@ const noopPageReducer: PageReducer = () => undefined;
  * @param pageSize - the maximum number of additional items to fetch in the next request.
  */
 function paginationOptionsForNextPage(
-  previousResult: WebAPICallResult | undefined, pageSize: number,
+  previousResult: WebAPICallResult | undefined,
+  pageSize: number,
 ): CursorPaginationEnabled | undefined {
   if (
     previousResult !== undefined &&
@@ -567,7 +574,7 @@ function paginationOptionsForNextPage(
  */
 function parseRetryHeaders(response: AxiosResponse): number | undefined {
   if (response.headers['retry-after'] !== undefined) {
-    const retryAfter = parseInt((response.headers['retry-after'] as string), 10);
+    const retryAfter = parseInt(response.headers['retry-after'] as string, 10);
 
     if (!Number.isNaN(retryAfter)) {
       return retryAfter;
@@ -597,7 +604,9 @@ function warnDeprecations(method: string, logger: Logger): void {
   });
 
   if (isDeprecatedConversations) {
-    logger.warn(`${method} is deprecated. Please use the Conversations API instead. For more info, go to https://api.slack.com/changelog/2020-01-deprecating-antecedents-to-the-conversations-api`);
+    logger.warn(
+      `${method} is deprecated. Please use the Conversations API instead. For more info, go to https://api.slack.com/changelog/2020-01-deprecating-antecedents-to-the-conversations-api`,
+    );
   } else if (isDeprecated) {
     logger.warn(`${method} is deprecated. Please check on https://api.slack.com/methods for an alternative.`);
   }
