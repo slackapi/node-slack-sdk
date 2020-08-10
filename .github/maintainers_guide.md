@@ -75,8 +75,8 @@ If you make a mistake, don't fret. NPM allows you to unpublish a release within 
     - Create pull request for review. It should be similar to a [previous one](https://github.com/slackapi/node-slack-sdk/pull/1059)
 
 2.  Merge into main repository
-  *  Once tests pass and a reviewer has approved, merge the pull request. You will also want to
-    update your local `main` branch.
+  *  Once tests pass and a reviewer has approved, merge the pull request. 
+  *  Update your local main branch `git rebase origin main` (or `git pull origin main`)
   *  Push the new tag up to origin `git push --tags origin`.
 
 3. Publish the release(s) to npm
@@ -85,11 +85,10 @@ If you make a mistake, don't fret. NPM allows you to unpublish a release within 
     publishing process takes longer than the expiration time of the value (30 seconds), then you may see a publish
     failure. You can try again as soon as the value changes if you think you can beat the timeout, or you can run
     `npm publish . --otp YOUR_OTP_CODE` in each of the package directories.
-  * If you are releasing without learna, run `npm publish . --otp YOUR_OTP_CODE` in each of the package directories.
+  * If you are releasing without learna, change into the package directory and run `npm publish . --otp YOUR_OTP_CODE`.
 
 4. Create GitHub Release(s) and add release notes.
   * Release notes should mention contributors (@-mentions) and issues/PRs (#-mentions).
-  * Check the `This is a pre-release` checkbox.
   * Example release: https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Fweb-api%405.11.0
 
 5. (Slack Internal) Communicate the release internally. Include a link to the GitHub Release(s).
@@ -103,9 +102,9 @@ If you make a mistake, don't fret. NPM allows you to unpublish a release within 
 
 1. Make sure `main` has the latest changes from GitHub and rebase your branch from `main` by running `git rebase main` from your checked out branch. You can also `git merge main` if you are not comfortable with rebase.
 
-2. run the tests via `npm run test && npm run lint`
+2. Run the tests via `npm run test && npm run lint`
 
-3. update version in `package.json`. Use the existing version and add a hyphen to name the beta release (ex: `5.10.0-workflowStepsBeta.1`) (Note: the beta version must be in the format of `Major.Minor.Patch-BetaNamespace.BetaVersion`)
+3. Update version in `package.json`. Use the existing version and add a hyphen to name the beta release (ex: `5.10.0-workflowStepsBeta.1`) (Note: the beta version must be in the format of `Major.Minor.Patch-BetaNamespace.BetaVersion`)
 
 4. Make a single commit for the version bump. The commit message should be similar to a [previous one](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594).
 
@@ -120,8 +119,8 @@ If you make a mistake, don't fret. NPM allows you to unpublish a release within 
 
 8. Create GitHub Release(s) and add release notes.
   * Release notes should mention contributors (@-mentions) and issues/PRs (#-mentions).
+  * Check the `This is a pre-release` checkbox.
   * Example release: https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Fweb-api%405.11.0
-
 
 ## Workflow
 
