@@ -75,6 +75,7 @@
     "chai": "^4.2.0",
     "codecov": "^3.0.0",
     "eslint": "^7.6.0",
+    "eslint-config-airbnb-typescript": "^9.0.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsdoc": "^30.2.1",
