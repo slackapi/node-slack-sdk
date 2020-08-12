@@ -99,7 +99,7 @@ const { createServer } = require('http');
 
 const server = createServer((req, res) =>  {
   // our redirect_uri is /slack/oauth_redirect
-  if (req.url === '/slack/oauth_redirect') {
+  if (req.url.startsWith('/slack/oauth_redirect')) {
     // call installer.handleCallback to wrap up the install flow
     installer.handleCallback(req, res);
   }
