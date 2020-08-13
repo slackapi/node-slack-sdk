@@ -34,7 +34,7 @@ export interface Dialog {
 
 export interface View {
   title?: PlainTextElement;
-  type: 'home' | 'modal';
+  type: 'home' | 'modal' | 'workflow_step';
   blocks: (KnownBlock | Block)[];
   callback_id?: string;
   close?: PlainTextElement;
