@@ -44,15 +44,18 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     apps: {
       approve: bindApiCall<AdminAppsApproveArguments, WebAPICallResult>(this, 'admin.apps.approve'),
       approved: {
-        list: bindApiCall<AdminAppsApprovedListArguments, WebAPICallResult>(this, 'admin.apps.approved.list'),
+        list: bindApiCall<AdminAppsApprovedListArguments, AdminAppsApprovedListResponse>(
+          this, 'admin.apps.approved.list'),
       },
       requests: {
-        list: bindApiCall<AdminAppsRequestsListArguments, WebAPICallResult>(this, 'admin.apps.requests.list'),
+        list: bindApiCall<AdminAppsRequestsListArguments, AdminAppsRequestsListResponse>(
+          this, 'admin.apps.requests.list'),
       },
       restrict: bindApiCall<AdminAppsRestrictArguments, WebAPICallResult>(this, 'admin.apps.restrict'),
       restricted: {
         list:
-          bindApiCall<AdminAppsRestrictedListArguments, WebAPICallResult>(this, 'admin.apps.restricted.list'),
+          bindApiCall<AdminAppsRestrictedListArguments, AdminAppsRestrictedListResponse>(
+            this, 'admin.apps.restricted.list'),
       },
     },
     conversations: {
@@ -73,32 +76,33 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       deny: bindApiCall<AdminInviteRequestsDenyArguments, WebAPICallResult>(this, 'admin.inviteRequests.deny'),
       list: bindApiCall<AdminInviteRequestsListArguments, WebAPICallResult>(this, 'admin.inviteRequests.list'),
       approved: {
-        list: bindApiCall<AdminInviteRequestsApprovedListArguments, WebAPICallResult>(
+        list: bindApiCall<AdminInviteRequestsApprovedListArguments, AdminInviteRequestsApprovedListResponse>(
           this, 'admin.inviteRequests.approved.list'),
       },
       denied: {
-        list: bindApiCall<AdminInviteRequestsDeniedListArguments, WebAPICallResult>(
+        list: bindApiCall<AdminInviteRequestsDeniedListArguments, AdminInviteRequestsDeniedListResponse>(
           this, 'admin.inviteRequests.denied.list'),
       },
     },
     teams: {
       admins: {
-        list: bindApiCall<AdminTeamsAdminsListArguments, WebAPICallResult>(this, 'admin.teams.admins.list'),
+        list: bindApiCall<AdminTeamsAdminsListArguments, AdminTeamsAdminsListResponse>(this, 'admin.teams.admins.list'),
       },
-      create: bindApiCall<AdminTeamsCreateArguments, WebAPICallResult>(this, 'admin.teams.create'),
-      list: bindApiCall<AdminTeamsListArguments, WebAPICallResult>(this, 'admin.teams.list'),
+      create: bindApiCall<AdminTeamsCreateArguments, AdminTeamsCreateResponse>(this, 'admin.teams.create'),
+      list: bindApiCall<AdminTeamsListArguments, AdminTeamsListResponse>(this, 'admin.teams.list'),
       owners: {
-        list: bindApiCall<AdminTeamsOwnersListArguments, WebAPICallResult>(this, 'admin.teams.owners.list'),
+        list: bindApiCall<AdminTeamsOwnersListArguments, AdminTeamsOwnersListResponse>(this, 'admin.teams.owners.list'),
       },
       settings: {
-        info: bindApiCall<AdminTeamsSettingsInfoArguments, WebAPICallResult>(this, 'admin.teams.settings.info'),
+        info: bindApiCall<AdminTeamsSettingsInfoArguments, AdminTeamsSettingsInfoResponse>(
+          this, 'admin.teams.settings.info'),
         setDefaultChannels: bindApiCall<AdminTeamsSettingsSetDefaultChannelsArguments, WebAPICallResult>(
           this, 'admin.teams.settings.setDefaultChannels'),
         setDescription: bindApiCall<AdminTeamsSettingsSetDescriptionArguments, WebAPICallResult>(
           this, 'admin.teams.settings.setDescription'),
         setDiscoverability: bindApiCall<AdminTeamsSettingsSetDiscoverabilityArguments, WebAPICallResult>(
           this, 'admin.teams.settings.setDiscoverability'),
-        setIcon: bindApiCall<AdminTeamsSettingseSetIconArguments, WebAPICallResult>(
+        setIcon: bindApiCall<AdminTeamsSettingsSetIconArguments, WebAPICallResult>(
           this, 'admin.teams.settings.setIcon'),
         setName: bindApiCall<AdminTeamsSettingsSetNameArguments, WebAPICallResult>(
           this, 'admin.teams.settings.setName'),
@@ -109,7 +113,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         this, 'admin.usergroups.addChannels'),
       addTeams: bindApiCall<AdminUsergroupsAddTeamsArguments, WebAPICallResult>(
         this, 'admin.usergroups.addTeams'),
-      listChannels: bindApiCall<AdminUsergroupsListChannelsArguments, WebAPICallResult>(
+      listChannels: bindApiCall<AdminUsergroupsListChannelsArguments, AdminUsergroupsListChannelsResponse>(
         this, 'admin.usergroups.listChannels'),
       removeChannels: bindApiCall<AdminUsergroupsRemoveChannelsArguments, WebAPICallResult>(
         this, 'admin.usergroups.removeChannels'),
@@ -121,7 +125,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       },
       assign: bindApiCall<AdminUsersAssignArguments, WebAPICallResult>(this, 'admin.users.assign'),
       invite: bindApiCall<AdminUsersInviteArguments, WebAPICallResult>(this, 'admin.users.invite'),
-      list: bindApiCall<AdminUsersListArguments, WebAPICallResult>(this, 'admin.users.list'),
+      list: bindApiCall<AdminUsersListArguments, AdminUsersListResponse>(this, 'admin.users.list'),
       remove: bindApiCall<AdminUsersRemoveArguments, WebAPICallResult>(this, 'admin.users.remove'),
       setAdmin: bindApiCall<AdminUsersSetAdminArguments, WebAPICallResult>(this, 'admin.users.setAdmin'),
       setExpiration:
@@ -136,19 +140,19 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly auth = {
-    revoke: bindApiCall<AuthRevokeArguments, WebAPICallResult>(this, 'auth.revoke'),
-    test: bindApiCall<AuthTestArguments, WebAPICallResult>(this, 'auth.test'),
+    revoke: bindApiCall<AuthRevokeArguments, AuthRevokeResponse>(this, 'auth.revoke'),
+    test: bindApiCall<AuthTestArguments, AuthTestResponse>(this, 'auth.test'),
   };
 
   public readonly bots = {
-    info: bindApiCall<BotsInfoArguments, WebAPICallResult>(this, 'bots.info'),
+    info: bindApiCall<BotsInfoArguments, BotsInfoResponse>(this, 'bots.info'),
   };
 
   public readonly calls = {
-    add: bindApiCall<CallsAddArguments, WebAPICallResult>(this, 'calls.add'),
+    add: bindApiCall<CallsAddArguments, CallsAddResponse>(this, 'calls.add'),
     end: bindApiCall<CallsEndArguments, WebAPICallResult>(this, 'calls.end'),
-    info: bindApiCall<CallsInfoArguments, WebAPICallResult>(this, 'calls.info'),
-    update: bindApiCall<CallsUpdateArguments, WebAPICallResult>(this, 'calls.update'),
+    info: bindApiCall<CallsInfoArguments, CallsInfoResponse>(this, 'calls.info'),
+    update: bindApiCall<CallsUpdateArguments, CallsUpdateResponse>(this, 'calls.update'),
     participants: {
       add: bindApiCall<CallsParticipantsAddArguments, WebAPICallResult>(this, 'calls.participants.add'),
       remove: bindApiCall<CallsParticipantsRemoveArguments, WebAPICallResult>(this, 'calls.participants.remove'),
@@ -192,31 +196,25 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly conversations = {
     archive: bindApiCall<ConversationsArchiveArguments, WebAPICallResult>(this, 'conversations.archive'),
-    close: bindApiCall<ConversationsCloseArguments, WebAPICallResult>(this, 'conversations.close'),
-    create: bindApiCall<ConversationsCreateArguments, WebAPICallResult>(this, 'conversations.create'),
-    history: bindApiCall<ConversationsHistoryArguments, WebAPICallResult>(this, 'conversations.history'),
-    info: bindApiCall<ConversationsInfoArguments, WebAPICallResult>(this, 'conversations.info'),
-    invite: bindApiCall<ConversationsInviteArguments, WebAPICallResult>(this, 'conversations.invite'),
-    join: bindApiCall<ConversationsJoinArguments, WebAPICallResult>(this, 'conversations.join'),
+    close: bindApiCall<ConversationsCloseArguments, ConversationsCloseResponse>(this, 'conversations.close'),
+    create: bindApiCall<ConversationsCreateArguments, ConversationsCreateResponse>(this, 'conversations.create'),
+    history: bindApiCall<ConversationsHistoryArguments, ConversationsHistoryResponse>(this, 'conversations.history'),
+    info: bindApiCall<ConversationsInfoArguments, ConversationsInfoResponse>(this, 'conversations.info'),
+    invite: bindApiCall<ConversationsInviteArguments, ConversationsInviteResponse>(this, 'conversations.invite'),
+    join: bindApiCall<ConversationsJoinArguments, ConversationsJoinResponse>(this, 'conversations.join'),
     kick: bindApiCall<ConversationsKickArguments, WebAPICallResult>(this, 'conversations.kick'),
-    leave: bindApiCall<ConversationsLeaveArguments, WebAPICallResult>(this, 'conversations.leave'),
-    list: bindApiCall<ConversationsListArguments, WebAPICallResult>(this, 'conversations.list'),
+    leave: bindApiCall<ConversationsLeaveArguments, ConversationsLeaveResponse>(this, 'conversations.leave'),
+    list: bindApiCall<ConversationsListArguments, ConversationsListResponse>(this, 'conversations.list'),
     mark: bindApiCall<ConversationsMarkArguments, WebAPICallResult>(this, 'conversations.mark'),
-    members: bindApiCall<ConversationsMembersArguments, WebAPICallResult>(this, 'conversations.members'),
-    open: bindApiCall<ConversationsOpenArguments, WebAPICallResult>(this, 'conversations.open'),
-    rename: bindApiCall<ConversationsRenameArguments, WebAPICallResult>(this, 'conversations.rename'),
-    replies: bindApiCall<ConversationsRepliesArguments, WebAPICallResult>(this, 'conversations.replies'),
+    members: bindApiCall<ConversationsMembersArguments, ConversationsMembersResponse>(this, 'conversations.members'),
+    open: bindApiCall<ConversationsOpenArguments, ConversationsOpenResponse>(this, 'conversations.open'),
+    rename: bindApiCall<ConversationsRenameArguments, ConversationsRenameResponse>(this, 'conversations.rename'),
+    replies: bindApiCall<ConversationsRepliesArguments, ConversationsRepliesResponse>(this, 'conversations.replies'),
     setPurpose:
-      bindApiCall<ConversationsSetPurposeArguments, WebAPICallResult>(this, 'conversations.setPurpose'),
-    setTopic: bindApiCall<ConversationsSetTopicArguments, WebAPICallResult>(this, 'conversations.setTopic'),
+      bindApiCall<ConversationsSetPurposeArguments, ConversationsSetPurposeResponse>(this, 'conversations.setPurpose'),
+    setTopic:
+      bindApiCall<ConversationsSetTopicArguments, ConversationsSetTopicResponse>(this, 'conversations.setTopic'),
     unarchive: bindApiCall<ConversationsUnarchiveArguments, WebAPICallResult>(this, 'conversations.unarchive'),
-  };
-
-  public readonly views = {
-    open: bindApiCall<ViewsOpenArguments, WebAPICallResult>(this, 'views.open'),
-    publish: bindApiCall<ViewsPublishArguments, WebAPICallResult>(this, 'views.publish'),
-    push: bindApiCall<ViewsPushArguments, WebAPICallResult>(this, 'views.push'),
-    update: bindApiCall<ViewsUpdateArguments, WebAPICallResult>(this, 'views.update'),
   };
 
   public readonly dialog = {
@@ -225,32 +223,32 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly dnd = {
     endDnd: bindApiCall<DndEndDndArguments, WebAPICallResult>(this, 'dnd.endDnd'),
-    endSnooze: bindApiCall<DndEndSnoozeArguments, WebAPICallResult>(this, 'dnd.endSnooze'),
-    info: bindApiCall<DndInfoArguments, WebAPICallResult>(this, 'dnd.info'),
-    setSnooze: bindApiCall<DndSetSnoozeArguments, WebAPICallResult>(this, 'dnd.setSnooze'),
-    teamInfo: bindApiCall<DndTeamInfoArguments, WebAPICallResult>(this, 'dnd.teamInfo'),
+    endSnooze: bindApiCall<DndEndSnoozeArguments, DndEndSnoozeResponse>(this, 'dnd.endSnooze'),
+    info: bindApiCall<DndInfoArguments, DndInfoResponse>(this, 'dnd.info'),
+    setSnooze: bindApiCall<DndSetSnoozeArguments, DndSetSnoozeResponse>(this, 'dnd.setSnooze'),
+    teamInfo: bindApiCall<DndTeamInfoArguments, DndTeamInfoResponse>(this, 'dnd.teamInfo'),
   };
 
   public readonly emoji = {
-    list: bindApiCall<EmojiListArguments, WebAPICallResult>(this, 'emoji.list'),
+    list: bindApiCall<EmojiListArguments, EmojiListResponse>(this, 'emoji.list'),
   };
 
   public readonly files = {
     delete: bindApiCall<FilesDeleteArguments, WebAPICallResult>(this, 'files.delete'),
-    info: bindApiCall<FilesInfoArguments, WebAPICallResult>(this, 'files.info'),
-    list: bindApiCall<FilesListArguments, WebAPICallResult>(this, 'files.list'),
+    info: bindApiCall<FilesInfoArguments, FilesInfoResponse>(this, 'files.info'),
+    list: bindApiCall<FilesListArguments, FilesListResponse>(this, 'files.list'),
     revokePublicURL:
-      bindApiCall<FilesRevokePublicURLArguments, WebAPICallResult>(this, 'files.revokePublicURL'),
+      bindApiCall<FilesRevokePublicURLArguments, FilesRevokePublicURLResponse>(this, 'files.revokePublicURL'),
     sharedPublicURL:
-      bindApiCall<FilesSharedPublicURLArguments, WebAPICallResult>(this, 'files.sharedPublicURL'),
-    upload: bindApiCall<FilesUploadArguments, WebAPICallResult>(this, 'files.upload'),
+      bindApiCall<FilesSharedPublicURLArguments, FilesSharedPublicURLResponse>(this, 'files.sharedPublicURL'),
+    upload: bindApiCall<FilesUploadArguments, FilesUploadResponse>(this, 'files.upload'),
     comments: {
       delete: bindApiCall<FilesCommentsDeleteArguments, WebAPICallResult>(this, 'files.comments.delete'),
     },
     remote: {
       info: bindApiCall<FilesRemoteInfoArguments, WebAPICallResult>(this, 'files.remote.info'),
       list: bindApiCall<FilesRemoteListArguments, WebAPICallResult>(this, 'files.remote.list'),
-      add: bindApiCall<FilesRemoteAddArguments, WebAPICallResult>(this, 'files.remote.add'),
+      add: bindApiCall<FilesRemoteAddArguments, FilesRemoteAddResponse>(this, 'files.remote.add'),
       update: bindApiCall<FilesRemoteUpdateArguments, WebAPICallResult>(this, 'files.remote.update'),
       remove: bindApiCall<FilesRemoteRemoveArguments, WebAPICallResult>(this, 'files.remote.remove'),
       share: bindApiCall<FilesRemoteShareArguments, WebAPICallResult>(this, 'files.remote.share'),
@@ -286,7 +284,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly migration = {
-    exchange: bindApiCall<MigrationExchangeArguments, WebAPICallResult>(this, 'migration.exchange'),
+    exchange: bindApiCall<MigrationExchangeArguments, MigrationExchangeResponse>(this, 'migration.exchange'),
   };
 
   public readonly mpim = {
@@ -301,84 +299,93 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   public readonly oauth = {
     access: bindApiCall<OAuthAccessArguments, WebAPICallResult>(this, 'oauth.access'),
     v2: {
-      access: bindApiCall<OAuthV2AccessArguments, WebAPICallResult>(this, 'oauth.v2.access'),
+      access: bindApiCall<OAuthV2AccessArguments, OAuthV2AccessResponse>(this, 'oauth.v2.access'),
     },
   };
 
   public readonly pins = {
     add: bindApiCall<PinsAddArguments, WebAPICallResult>(this, 'pins.add'),
-    list: bindApiCall<PinsListArguments, WebAPICallResult>(this, 'pins.list'),
+    list: bindApiCall<PinsListArguments, PinsListResponse>(this, 'pins.list'),
     remove: bindApiCall<PinsRemoveArguments, WebAPICallResult>(this, 'pins.remove'),
   };
 
   public readonly reactions = {
     add: bindApiCall<ReactionsAddArguments, WebAPICallResult>(this, 'reactions.add'),
-    get: bindApiCall<ReactionsGetArguments, WebAPICallResult>(this, 'reactions.get'),
-    list: bindApiCall<ReactionsListArguments, WebAPICallResult>(this, 'reactions.list'),
+    get: bindApiCall<ReactionsGetArguments, ReactionsGetResponse>(this, 'reactions.get'),
+    list: bindApiCall<ReactionsListArguments, ReactionsListResponse>(this, 'reactions.list'),
     remove: bindApiCall<ReactionsRemoveArguments, WebAPICallResult>(this, 'reactions.remove'),
   };
 
   public readonly reminders = {
-    add: bindApiCall<RemindersAddArguments, WebAPICallResult>(this, 'reminders.add'),
+    add: bindApiCall<RemindersAddArguments, RemindersAddResponse>(this, 'reminders.add'),
     complete: bindApiCall<RemindersCompleteArguments, WebAPICallResult>(this, 'reminders.complete'),
     delete: bindApiCall<RemindersDeleteArguments, WebAPICallResult>(this, 'reminders.delete'),
-    info: bindApiCall<RemindersInfoArguments, WebAPICallResult>(this, 'reminders.info'),
-    list: bindApiCall<RemindersListArguments, WebAPICallResult>(this, 'reminders.list'),
+    info: bindApiCall<RemindersInfoArguments, RemindersInfoResponse>(this, 'reminders.info'),
+    list: bindApiCall<RemindersListArguments, RemindersListResponse>(this, 'reminders.list'),
   };
 
   public readonly rtm = {
-    connect: bindApiCall<RTMConnectArguments, WebAPICallResult>(this, 'rtm.connect'),
-    start: bindApiCall<RTMStartArguments, WebAPICallResult>(this, 'rtm.start'),
+    connect: bindApiCall<RTMConnectArguments, RTMConnectResponse>(this, 'rtm.connect'),
+    start: bindApiCall<RTMStartArguments, RTMStartResponse>(this, 'rtm.start'),
   };
 
   public readonly search = {
-    all: bindApiCall<SearchAllArguments, WebAPICallResult>(this, 'search.all'),
-    files: bindApiCall<SearchFilesArguments, WebAPICallResult>(this, 'search.files'),
-    messages: bindApiCall<SearchMessagesArguments, WebAPICallResult>(this, 'search.messages'),
+    all: bindApiCall<SearchAllArguments, SearchAllResponse>(this, 'search.all'),
+    files: bindApiCall<SearchFilesArguments, SearchFilesResponse>(this, 'search.files'),
+    messages: bindApiCall<SearchMessagesArguments, SearchMessagesResponse>(this, 'search.messages'),
   };
 
   public readonly stars = {
     add: bindApiCall<StarsAddArguments, WebAPICallResult>(this, 'stars.add'),
-    list: bindApiCall<StarsListArguments, WebAPICallResult>(this, 'stars.list'),
+    list: bindApiCall<StarsListArguments, StartsListResponse>(this, 'stars.list'),
     remove: bindApiCall<StarsRemoveArguments, WebAPICallResult>(this, 'stars.remove'),
   };
 
   public readonly team = {
-    accessLogs: bindApiCall<TeamAccessLogsArguments, WebAPICallResult>(this, 'team.accessLogs'),
-    billableInfo: bindApiCall<TeamBillableInfoArguments, WebAPICallResult>(this, 'team.billableInfo'),
-    info: bindApiCall<TeamInfoArguments, WebAPICallResult>(this, 'team.info'),
-    integrationLogs: bindApiCall<TeamIntegrationLogsArguments, WebAPICallResult>(this, 'team.integrationLogs'),
+    accessLogs: bindApiCall<TeamAccessLogsArguments, TeamAccessLogsResponse>(this, 'team.accessLogs'),
+    billableInfo: bindApiCall<TeamBillableInfoArguments, TeamBillableInfoResponse>(this, 'team.billableInfo'),
+    info: bindApiCall<TeamInfoArguments, TeamInfoResponse>(this, 'team.info'),
+    integrationLogs:
+      bindApiCall<TeamIntegrationLogsArguments, TeamIntegrationLogsResponse>(this, 'team.integrationLogs'),
     profile: {
-      get: bindApiCall<TeamProfileGetArguments, WebAPICallResult>(this, 'team.profile.get'),
+      get: bindApiCall<TeamProfileGetArguments, TeamProfileGetResponse>(this, 'team.profile.get'),
     },
   };
 
   public readonly usergroups = {
-    create: bindApiCall<UsergroupsCreateArguments, WebAPICallResult>(this, 'usergroups.create'),
-    disable: bindApiCall<UsergroupsDisableArguments, WebAPICallResult>(this, 'usergroups.disable'),
-    enable: bindApiCall<UsergroupsEnableArguments, WebAPICallResult>(this, 'usergroups.enable'),
-    list: bindApiCall<UsergroupsListArguments, WebAPICallResult>(this, 'usergroups.list'),
-    update: bindApiCall<UsergroupsUpdateArguments, WebAPICallResult>(this, 'usergroups.update'),
+    create: bindApiCall<UsergroupsCreateArguments, UsergroupsCreateResponse>(this, 'usergroups.create'),
+    disable: bindApiCall<UsergroupsDisableArguments, UsergroupsDisableResponse>(this, 'usergroups.disable'),
+    enable: bindApiCall<UsergroupsEnableArguments, UsergroupsEnableResponse>(this, 'usergroups.enable'),
+    list: bindApiCall<UsergroupsListArguments, UsergroupsListResponse>(this, 'usergroups.list'),
+    update: bindApiCall<UsergroupsUpdateArguments, UsergroupsUpdateResponse>(this, 'usergroups.update'),
     users: {
-      list: bindApiCall<UsergroupsUsersListArguments, WebAPICallResult>(this, 'usergroups.users.list'),
-      update: bindApiCall<UsergroupsUsersUpdateArguments, WebAPICallResult>(this, 'usergroups.users.update'),
+      list: bindApiCall<UsergroupsUsersListArguments, UsergroupsUsersListResponse>(this, 'usergroups.users.list'),
+      update:
+        bindApiCall<UsergroupsUsersUpdateArguments, UsergroupsUsersUpdateResponse>(this, 'usergroups.users.update'),
     },
   };
 
   public readonly users = {
-    conversations: bindApiCall<UsersConversationsArguments, WebAPICallResult>(this, 'users.conversations'),
+    conversations: bindApiCall<UsersConversationsArguments, UsersConversationsResponse>(this, 'users.conversations'),
     deletePhoto: bindApiCall<UsersDeletePhotoArguments, WebAPICallResult>(this, 'users.deletePhoto'),
-    getPresence: bindApiCall<UsersGetPresenceArguments, WebAPICallResult>(this, 'users.getPresence'),
-    identity: bindApiCall<UsersIdentityArguments, WebAPICallResult>(this, 'users.identity'),
-    info: bindApiCall<UsersInfoArguments, WebAPICallResult>(this, 'users.info'),
-    list: bindApiCall<UsersListArguments, WebAPICallResult>(this, 'users.list'),
-    lookupByEmail: bindApiCall<UsersLookupByEmailArguments, WebAPICallResult>(this, 'users.lookupByEmail'),
+    getPresence: bindApiCall<UsersGetPresenceArguments, UsersGetPresenceResponse>(this, 'users.getPresence'),
+    identity: bindApiCall<UsersIdentityArguments, UsersIdentityResponse>(this, 'users.identity'),
+    info: bindApiCall<UsersInfoArguments, UsersInfoResponse>(this, 'users.info'),
+    list: bindApiCall<UsersListArguments, UsersListResponse>(this, 'users.list'),
+    lookupByEmail: bindApiCall<UsersLookupByEmailArguments, UsersLookupByEmailResponse>(this, 'users.lookupByEmail'),
     setPhoto: bindApiCall<UsersSetPhotoArguments, WebAPICallResult>(this, 'users.setPhoto'),
     setPresence: bindApiCall<UsersSetPresenceArguments, WebAPICallResult>(this, 'users.setPresence'),
     profile: {
-      get: bindApiCall<UsersProfileGetArguments, WebAPICallResult>(this, 'users.profile.get'),
-      set: bindApiCall<UsersProfileSetArguments, WebAPICallResult>(this, 'users.profile.set'),
+      get: bindApiCall<UsersProfileGetArguments, UsersProfileGetResponse>(this, 'users.profile.get'),
+      set: bindApiCall<UsersProfileSetArguments, UsersProfileSetResponse>(this, 'users.profile.set'),
     },
+  };
+
+  public readonly views = {
+    open: bindApiCall<ViewsOpenArguments, ViewsOpenResponse>(this, 'views.open'),
+    publish: bindApiCall<ViewsPublishArguments, ViewsPublishResponse>(this, 'views.publish'),
+    push: bindApiCall<ViewsPushArguments, ViewsPushResponse>(this, 'views.push'),
+    update: bindApiCall<ViewsUpdateArguments, ViewsUpdateResponse>(this, 'views.update'),
   };
 }
 
@@ -434,9 +441,9 @@ export interface TraditionalPagingEnabled {
  * MethodArguments types (no formal relationship other than the generic constraint in Method<>)
  */
 
-  /*
-   * `admin.*`
-   */
+/*
+ * `admin.*`
+ */
 export interface AdminAppsApproveArguments extends WebAPICallOptions, TokenOverridable {
   app_id?: string;
   request_id?: string;
@@ -447,10 +454,75 @@ export interface AdminAppsApprovedListArguments extends WebAPICallOptions, Token
   enterprise_id?: string;
 }
 cursorPaginationEnabledMethods.add('admin.apps.approved.list');
+export interface AdminAppsApprovedListResponse extends WebAPICallResult {
+  approved_apps: {
+    app: {
+      id: string;
+      name: string;
+      description: string;
+      help_url: string;
+      privacy_policy_url: string;
+      app_homepage_url: string;
+      app_directory_url: string;
+      is_app_directory_approved: boolean;
+      is_internal: boolean;
+      icons: Record<string, string>;
+      additional_info: string
+    };
+    scopes: {
+      name: string;
+      description: string;
+      is_sensitive: boolean;
+      token_type: string;
+    }[];
+    date_update: number;
+    last_resolved_by: {
+      actor_id: string;
+      actor_type: string;
+    };
+  }[];
+}
 export interface AdminAppsRequestsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   team_id?: string;
 }
 cursorPaginationEnabledMethods.add('admin.apps.requests.list');
+export interface AdminAppsRequestsListResponse extends WebAPICallResult {
+  app_requests: {
+    id: string;
+    app: {
+      id: string;
+      name: string;
+      description: string;
+      help_url: string;
+      privacy_policy_url: string;
+      app_homepage_url: string;
+      app_directory_url: string;
+      is_app_directory_approved: boolean;
+      is_internal: boolean;
+      icons: Record<string, string>;
+      additional_info: string
+    };
+    previous_resolution: unknown | null;
+    user: {
+      id: string;
+      name: string;
+      email: string;
+    };
+    team: {
+      id: string;
+      name: string;
+      domain: string;
+    }
+    scopes: {
+      name: string;
+      description: string;
+      is_sensitive: boolean;
+      token_type: string;
+    }[];
+    message: string;
+    date_created: number;
+  }[];
+}
 export interface AdminAppsRestrictArguments extends WebAPICallOptions, TokenOverridable {
   app_id?: string;
   request_id?: string;
@@ -461,24 +533,26 @@ export interface AdminAppsRestrictedListArguments extends WebAPICallOptions, Tok
   enterprise_id?: string;
 }
 cursorPaginationEnabledMethods.add('admin.apps.restricted.list');
-
+export interface AdminAppsRestrictedListResponse extends WebAPICallResult {
+  restricted_apps: AdminAppsApprovedListResponse['approved_apps'];
+}
 export interface AdminConversationsRestrictAccessAddGroupArguments extends WebAPICallOptions, TokenOverridable {
   channel_id: string;
   group_id: string;
   team_id?: string;
 }
-
 export interface AdminConversationsRestrictAccessListGroupsArguments extends WebAPICallOptions, TokenOverridable {
   channel_id: string;
   team_id?: string;
 }
-
+export interface AdminConversationsRestrictAccessListGroupsResponse extends WebAPICallResult {
+  group_ids: string[];
+}
 export interface AdminConversationsRestrictAccessRemoveGroupArguments extends WebAPICallOptions, TokenOverridable {
   channel_id: string;
   group_id: string;
   team_id: string;
 }
-
 export interface AdminConversationsSetTeamsArguments extends WebAPICallOptions, TokenOverridable {
   channel_id: string;
   team_id?: string;
@@ -495,6 +569,9 @@ export interface AdminInviteRequestsApprovedListArguments
   team_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.inviteRequests.approved.list');
+export interface AdminInviteRequestsApprovedListResponse extends WebAPICallResult {
+  approved_requests: unknown[];
+}
 export interface AdminInviteRequestsDenyArguments
   extends WebAPICallOptions, TokenOverridable {
   invite_request_id: string;
@@ -505,29 +582,57 @@ export interface AdminInviteRequestsDeniedListArguments
   team_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.inviteRequests.denied.list');
+export interface AdminInviteRequestsDeniedListResponse extends WebAPICallResult {
+  denied_requests: unknown[];
+}
 export interface AdminInviteRequestsListArguments
   extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.inviteRequests.list');
+// TODO: AdminInviteRequestsListResponse
 export interface AdminTeamsAdminsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.teams.admins.list');
+export interface AdminTeamsAdminsListResponse extends WebAPICallResult {
+  admin_ids: string[];
+}
 export interface AdminTeamsCreateArguments extends WebAPICallOptions, TokenOverridable {
   team_domain: string;
   team_name: string;
   team_description?: string;
   team_discoverability?: string;
 }
+export interface AdminTeamsCreateResponse extends WebAPICallResult {
+  team: string;
+}
 export interface AdminTeamsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {}
 cursorPaginationEnabledMethods.add('admin.teams.list');
+export interface AdminTeamsListResponse extends WebAPICallResult {
+  teams: {
+    id: string;
+    name: string;
+    discoverability: string;
+    primary_owner: {
+      user_id: string;
+      email: string;
+    };
+    team_url: string;
+  }[];
+}
 export interface AdminTeamsOwnersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.teams.owners.list');
+export interface AdminTeamsOwnersListResponse extends WebAPICallResult {
+  owner_ids: string[];
+}
 export interface AdminTeamsSettingsInfoArguments extends WebAPICallOptions, TokenOverridable {
   team_id: string;
+}
+export interface AdminTeamsSettingsInfoResponse extends WebAPICallResult {
+  team: TeamInfoResponse['team'];
 }
 export interface AdminTeamsSettingsSetDefaultChannelsArguments extends WebAPICallOptions, TokenOverridable {
   team_id: string;
@@ -541,7 +646,7 @@ export interface AdminTeamsSettingsSetDiscoverabilityArguments extends WebAPICal
   team_id: string;
   discoverability: 'open' | 'invite_only' | 'closed' | 'unlisted';
 }
-export interface AdminTeamsSettingseSetIconArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminTeamsSettingsSetIconArguments extends WebAPICallOptions, TokenOverridable {
   team_id: string;
   image_url: string;
 }
@@ -563,6 +668,15 @@ export interface AdminUsergroupsListChannelsArguments extends WebAPICallOptions,
   usergroup_id: string;
   include_num_members?: boolean;
   team_id?: string;
+}
+export interface AdminUsergroupsListChannelsResponse extends WebAPICallResult {
+  channels: {
+    id: string;
+    name: string;
+    team_id: string;
+    num_members?: number;
+    is_redacted?: boolean;
+  }[];
 }
 export interface AdminUsergroupsRemoveChannelsArguments extends WebAPICallOptions, TokenOverridable {
   usergroup_id: string;
@@ -589,6 +703,9 @@ export interface AdminUsersListArguments extends WebAPICallOptions, TokenOverrid
   team_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.users.list');
+export interface AdminUsersListResponse extends WebAPICallResult {
+  users: UsersInfoResponse['user'][];
+}
 export interface AdminUsersRemoveArguments extends WebAPICallOptions, TokenOverridable {
   team_id: string;
   user_id: string;
@@ -616,29 +733,54 @@ export interface AdminUsersSessionResetArguments extends WebAPICallOptions, Toke
   web_only?: boolean;
 }
 
-  /*
-   * `api.*`
-   */
+/*
+ * `api.*`
+ */
 export interface APITestArguments extends WebAPICallOptions {}
+export interface APITestResponse extends WebAPICallResult {
+  args?: Record<string, any>;
+}
 
-  /*
-   * `auth.*`
-   */
+/*
+ * `auth.*`
+ */
 export interface AuthRevokeArguments extends WebAPICallOptions, TokenOverridable {
   test: boolean;
 }
+export interface AuthRevokeResponse extends WebAPICallResult {
+  revoked: boolean;
+}
 export interface AuthTestArguments extends WebAPICallOptions, TokenOverridable {}
+export interface AuthTestResponse extends WebAPICallResult {
+  url: string;
+  team: string;
+  user: string;
+  team_id: string;
+  user_id: string;
+  enterprise_id?: string;
+}
 
-  /*
-   * `bots.*`
-   */
+/*
+ * `bots.*`
+ */
 export interface BotsInfoArguments extends WebAPICallOptions, TokenOverridable  {
   bot?: string;
 }
+export interface BotsInfoResponse extends WebAPICallResult {
+  bot: {
+    id: string;
+    deleted: boolean;
+    name: string;
+    updated: number;
+    app_id: string;
+    user_id: string;
+    icons: Record<string, string>;
+  };
+}
 
-  /*
-  * `calls.*`
-  */
+/*
+ * `calls.*`
+ */
 export interface CallsAddArguments extends WebAPICallOptions, TokenOverridable {
   external_unique_id: string;
   join_url: string;
@@ -649,23 +791,37 @@ export interface CallsAddArguments extends WebAPICallOptions, TokenOverridable {
   title?: string;
   users?: CallUser[];
 }
-
+export interface CallsAddResponse extends WebAPICallResult {
+  call: CallsInfoResponse['call'];
+}
 export interface CallsEndArguments extends WebAPICallOptions, TokenOverridable {
   id: string;
   duration?: number;
 }
-
 export interface CallsInfoArguments extends WebAPICallOptions, TokenOverridable {
   id: string;
 }
-
+export interface CallsInfoResponse extends WebAPICallResult {
+  call: {
+    id: string;
+    date_start: number;
+    external_unique_id: string;
+    join_url: string;
+    desktop_app_join_url: string;
+    external_display_id: string;
+    title: string;
+    users: CallUser[];
+  };
+}
 export interface CallsUpdateArguments extends WebAPICallOptions, TokenOverridable {
   id: string;
   join_url?: string;
   desktop_app_join_url?: string;
   title?: string;
 }
-
+export interface CallsUpdateResponse extends WebAPICallResult {
+  call: CallsInfoResponse['call'];
+}
 export interface CallsParticipantsAddArguments extends WebAPICallOptions, TokenOverridable {
   id: string;
   users: CallUser[];
@@ -676,9 +832,9 @@ export interface CallsParticipantsRemoveArguments extends WebAPICallOptions, Tok
   users: CallUser[];
 }
 
-  /*
-   * `channels.*`
-   */
+/*
+ * `channels.*`
+ */
 export interface ChannelsArchiveArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
 }
@@ -740,13 +896,17 @@ export interface ChannelsUnarchiveArguments extends WebAPICallOptions, TokenOver
   channel: string;
 }
 
-  /*
-   * `chat.*`
-   */
+/*
+ * `chat.*`
+ */
 export interface ChatDeleteArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   ts: string;
   as_user?: boolean;
+}
+export interface ChatDeleteResponse extends WebAPICallResult {
+  channel: string;
+  ts: string;
 }
 export interface ChatDeleteScheduledMessageArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
@@ -757,9 +917,17 @@ export interface ChatGetPermalinkArguments extends WebAPICallOptions, TokenOverr
   channel: string;
   message_ts: string;
 }
+export interface ChatGetPermalinkResponse extends WebAPICallResult {
+  channel: string;
+  permalink: string;
+}
 export interface ChatMeMessageArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   text: string;
+}
+export interface ChatMeMessageResponse extends WebAPICallResult {
+  channel: string;
+  ts: string;
 }
 export interface ChatPostEphemeralArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
@@ -770,6 +938,9 @@ export interface ChatPostEphemeralArguments extends WebAPICallOptions, TokenOver
   blocks?: (KnownBlock | Block)[];
   link_names?: boolean;
   parse?: 'full' | 'none';
+}
+export interface ChatPostEphemeralResponse extends WebAPICallResult {
+  message_ts: string;
 }
 export interface ChatPostMessageArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
@@ -788,6 +959,21 @@ export interface ChatPostMessageArguments extends WebAPICallOptions, TokenOverri
   unfurl_media?: boolean;
   username?: string; // if specified, as_user must be false
 }
+export interface ChatPostMessageResponse extends WebAPICallResult {
+  channel: string;
+  ts: string;
+  message: {
+    ts: string;
+    text: string;
+    user: string;
+    username?: string;
+    bot_id?: string;
+    attachments?: MessageAttachment[];
+    blocks?: (Block | KnownBlock)[];
+    type: string;
+    subtype?: string;
+  };
+}
 export interface ChatScheduleMessageArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   text: string;
@@ -802,6 +988,12 @@ export interface ChatScheduleMessageArguments extends WebAPICallOptions, TokenOv
   unfurl_links?: boolean;
   unfurl_media?: boolean;
 }
+export interface ChatScheduleMessageResponse extends WebAPICallResult {
+  channel: string;
+  scheduled_message_id: string;
+  post_at: string;
+  message: ChatPostMessageResponse['message'];
+}
 export interface ChatScheduledMessagesListArguments extends WebAPICallOptions, TokenOverridable,
   CursorPaginationEnabled {
   channel: string;
@@ -809,6 +1001,9 @@ export interface ChatScheduledMessagesListArguments extends WebAPICallOptions, T
   oldest: number;
 }
 cursorPaginationEnabledMethods.add('chat.scheduledMessages.list');
+export interface ChatScheduleMessageResponse extends WebAPICallResult {
+  scheduled_messages: ChatPostMessageResponse['message'][];
+}
 export interface ChatUnfurlArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   ts: string;
@@ -827,34 +1022,96 @@ export interface ChatUpdateArguments extends WebAPICallOptions, TokenOverridable
   link_names?: boolean;
   parse?: 'full' | 'none';
 }
+export interface ChatUpdateResponse extends WebAPICallResult {
+  channel: string;
+  ts: string;
+  text: string;
+  message: ChatPostMessageResponse['message'];
+}
 
-  /*
-   * `conversations.*`
-   */
+/*
+ * `conversations.*`
+ */
 export interface ConversationsArchiveArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
 }
 export interface ConversationsCloseArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
 }
+export interface ConversationsCloseResponse extends WebAPICallResult {
+  no_op?: boolean;
+  already_closed?: boolean;
+}
 export interface ConversationsCreateArguments extends WebAPICallOptions, TokenOverridable {
   name: string;
   is_private?: boolean;
+}
+export interface ConversationsCreateResponse extends WebAPICallResult {
+  channel: ConversationsInfoResponse['channel'];
 }
 export interface ConversationsHistoryArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled,
   TimelinePaginationEnabled {
   channel: string;
 }
 cursorPaginationEnabledMethods.add('conversations.history');
+export interface ConversationsHistoryResponse extends WebAPICallResult {
+  messages: ChatPostMessageResponse['message'][];
+  has_more: boolean;
+  pin_count: number;
+  latest?: string;
+}
 export interface ConversationsInfoArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
   channel: string;
+}
+export interface ConversationsInfoResponse extends WebAPICallResult {
+  channel: {
+    id: string;
+    is_archived?: boolean;
+    is_channel?: boolean;
+    is_ext_shared?: boolean;
+    is_general?: boolean;
+    is_group?: boolean;
+    is_im?: boolean;
+    is_member?: boolean;
+    is_mpim?: boolean;
+    is_org_shared?: boolean;
+    is_pending_ext_shared?: boolean;
+    is_private?: boolean;
+    is_read_only?: boolean;
+    is_shared?: boolean;
+    name: string;
+    creator: string;
+    created: number;
+    conversation_host_id?: string;
+    topic?: {
+      value: string;
+      creator: string;
+      last_set: number;
+    };
+    purpose?: {
+      value: string;
+      creator: string;
+      last_set: number;
+    };
+    members?: string[];
+    last_read?: string;
+    latest?: ChatPostMessageResponse['message'];
+    unread_count?: number;
+    unread_count_display?: number;
+  };
 }
 export interface ConversationsInviteArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   users: string; // comma-separated list of users
 }
+export interface ConversationsInviteResponse extends WebAPICallResult {
+  channel: ConversationsInfoResponse['channel'];
+}
 export interface ConversationsJoinArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
+}
+export interface ConversationsJoinResponse extends WebAPICallResult {
+  channel: ConversationsInfoResponse['channel'];
 }
 export interface ConversationsKickArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
@@ -863,11 +1120,17 @@ export interface ConversationsKickArguments extends WebAPICallOptions, TokenOver
 export interface ConversationsLeaveArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
 }
+export interface ConversationsLeaveResponse extends WebAPICallResult {
+  not_in_channel?: boolean;
+}
 export interface ConversationsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   exclude_archived?: boolean;
   types?: string; // comma-separated list of conversation types
 }
 cursorPaginationEnabledMethods.add('conversations.list');
+export interface ConversationsListResponse extends WebAPICallResult {
+  channels: ConversationsInfoResponse['channel'][];
+}
 export interface ConversationsMarkArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   ts: string;
@@ -876,14 +1139,25 @@ export interface ConversationsMembersArguments extends WebAPICallOptions, TokenO
   channel: string;
 }
 cursorPaginationEnabledMethods.add('conversations.members');
+export interface ConversationsMembersResponse extends WebAPICallResult {
+  members: string[];
+}
 export interface ConversationsOpenArguments extends WebAPICallOptions, TokenOverridable {
   channel?: string;
   users?: string; // comma-separated list of users
   return_im?: boolean;
 }
+export interface ConversationsOpenResponse extends WebAPICallResult {
+  channel: { id: string } | ConversationsInfoResponse['channel'];
+  no_op?: boolean;
+  already_open?: boolean;
+}
 export interface ConversationsRenameArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   name: string;
+}
+export interface ConversationsRenameResponse extends WebAPICallResult {
+  channel: ConversationsInfoResponse['channel'];
 }
 export interface ConversationsRepliesArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled,
   TimelinePaginationEnabled {
@@ -891,49 +1165,90 @@ export interface ConversationsRepliesArguments extends WebAPICallOptions, TokenO
   ts: string;
 }
 cursorPaginationEnabledMethods.add('conversations.replies');
+export interface ConversationsRepliesResponse extends WebAPICallResult {
+  messages: ChatPostMessageResponse['message'][];
+  has_more: boolean;
+}
 export interface ConversationsSetPurposeArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
+  purpose: string;
+}
+export interface ConversationsSetPurposeResponse extends WebAPICallResult {
   purpose: string;
 }
 export interface ConversationsSetTopicArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   topic: string;
 }
+export interface ConversationsSetTopicResponse extends WebAPICallResult {
+  topic: string;
+}
 export interface ConversationsUnarchiveArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
 }
 
-  /*
-   * `dialog.*`
-   */
+/*
+ * `dialog.*`
+ */
 export interface DialogOpenArguments extends WebAPICallOptions, TokenOverridable {
   trigger_id: string;
   dialog: Dialog;
 }
 
-  /*
-   * `dnd.*`
-   */
+/*
+ * `dnd.*`
+ */
 export interface DndEndDndArguments extends WebAPICallOptions, TokenOverridable {}
 export interface DndEndSnoozeArguments extends WebAPICallOptions, TokenOverridable {}
+export interface DndEndSnoozeResponse extends WebAPICallResult {
+  dnd_enabled: boolean;
+  next_dnd_start_ts: number;
+  next_dnd_end_ts: number;
+  snooze_enabled: boolean;
+  snooze_endtime?: number;
+  snooze_remaining?: number;
+}
 export interface DndInfoArguments extends WebAPICallOptions, TokenOverridable {
   user: string;
+}
+export interface DndInfoResponse extends WebAPICallResult {
+  dnd_enabled: boolean;
+  next_dnd_start_ts: number;
+  next_dnd_end_ts: number;
+  snooze_enabled: boolean;
+  snooze_endtime?: number;
+  snooze_remaining?: number;
 }
 export interface DndSetSnoozeArguments extends WebAPICallOptions, TokenOverridable {
   num_minutes: number;
 }
+export interface DndSetSnoozeResponse extends WebAPICallResult {
+  snooze_enabled: boolean;
+  snooze_endtime?: number;
+  snooze_remaining?: number;
+}
 export interface DndTeamInfoArguments extends WebAPICallOptions, TokenOverridable {
   users?: string; // comma-separated list of users
 }
+export interface DndTeamInfoResponse extends WebAPICallResult {
+  users: Record<string, {
+    dnd_enabled: boolean;
+    next_dnd_start_ts: number;
+    next_dnd_end_ts: number;
+  }>;
+}
 
-  /*
-   * `emoji.*`
-   */
+/*
+ * `emoji.*`
+ */
 export interface EmojiListArguments extends WebAPICallOptions, TokenOverridable {}
+export interface EmojiListResponse extends WebAPICallResult {
+  emoji: Record<string, string>;
+}
 
-  /*
-   * `files.*`
-   */
+/*
+ * `files.*`
+ */
 export interface FilesDeleteArguments extends WebAPICallOptions, TokenOverridable {
   file: string; // file id
 }
@@ -943,6 +1258,73 @@ export interface FilesInfoArguments extends WebAPICallOptions, TokenOverridable,
   page?: number;
 }
 cursorPaginationEnabledMethods.add('files.info');
+export interface FilesInfoResponse extends WebAPICallResult {
+  file: {
+    id: string;
+    created: number;
+    timestamp: number;
+    name: string;
+    title: string;
+    mimetype: string;
+    filetype: string;
+    pretty_type: string;
+    user: string;
+    editable: boolean;
+    size: number;
+    mode: string;
+    is_external: boolean;
+    external_type: string;
+    is_public: boolean;
+    public_url_shared: boolean;
+    display_as_bot: boolean;
+    username: string;
+    url_private: string;
+    url_private_download: string;
+    thumb_64: string;
+    thumb_80: string;
+    thumb_160: string;
+    thumb_360: string;
+    thumb_360_w: string;
+    thumb_360_h: string;
+    thumb_360_gif: string;
+    deanimate_gif: string;
+    pjpeg: string;
+    image_exif_rotation: number;
+    original_w: number;
+    original_h: number;
+    permalink: string;
+    permalink_public: string;
+    comments_count: number;
+    is_starred: boolean;
+    has_rich_preview: boolean;
+    shares: {
+      public?: Record<string, {
+        reply_users: string[];
+        reply_users_count: number;
+        reply_count: number;
+        ts: string;
+        thread_ts?: string;
+        latest_reply?: string;
+        channel_name?: string;
+        team_id?: string;
+      }[]>;
+      private?: Record<string, {
+        reply_users: string[];
+        reply_users_count: number;
+        reply_count: number;
+        ts: string;
+        thread_ts?: string;
+        latest_reply?: string;
+        channel_name?: string;
+        team_id?: string;
+      }[]>;
+    };
+    channels: string[];
+    groups: string[];
+    ims: string[];
+  };
+  comments: unknown[];
+}
 export interface FilesListArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled {
   channel?: string;
   user?: string;
@@ -950,11 +1332,26 @@ export interface FilesListArguments extends WebAPICallOptions, TokenOverridable,
   ts_to?: string;
   types?: string; // comma-separated list of file types
 }
+export interface FilesListResponse extends WebAPICallResult {
+  files: FilesInfoResponse['file'][];
+  paging?: {
+    count: number;
+    total: number;
+    page: number;
+    pages: number;
+  };
+}
 export interface FilesRevokePublicURLArguments extends WebAPICallOptions, TokenOverridable {
   file: string; // file id
 }
+export interface FilesRevokePublicURLResponse extends WebAPICallResult {
+  file: FilesInfoResponse['file'];
+}
 export interface FilesSharedPublicURLArguments extends WebAPICallOptions, TokenOverridable {
   file: string; // file id
+}
+export interface FilesSharedPublicURLResponse extends WebAPICallResult {
+  file: FilesInfoResponse['file'];
 }
 export interface FilesUploadArguments extends WebAPICallOptions, TokenOverridable {
   channels?: string; // comma-separated list of channels
@@ -965,6 +1362,9 @@ export interface FilesUploadArguments extends WebAPICallOptions, TokenOverridabl
   initial_comment?: string;
   title?: string;
   thread_ts?: string; // if specified, `channels` must be set
+}
+export interface FilesUploadResponse extends WebAPICallResult {
+  file: FilesInfoResponse['file'];
 }
 export interface FilesCommentsDeleteArguments extends WebAPICallOptions, TokenOverridable {
   file: string; // file id
@@ -990,6 +1390,9 @@ export interface FilesRemoteAddArguments extends WebAPICallOptions, TokenOverrid
   preview_image?: Buffer | Stream;
   indexable_file_contents?: Buffer | Stream;
 }
+export interface FilesRemoteAddResponse extends WebAPICallResult {
+  file: FilesInfoResponse['file'];
+}
 export interface FilesRemoteUpdateArguments extends WebAPICallOptions, TokenOverridable {
   title?: string;
   external_url?: string;
@@ -1014,9 +1417,9 @@ export interface FilesRemoteShareArguments extends WebAPICallOptions, TokenOverr
   external_id?: string;
 }
 
-  /*
-   * `groups.*`
-   */
+/*
+ * `groups.*`
+ */
 export interface GroupsArchiveArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
 }
@@ -1079,9 +1482,9 @@ export interface GroupsUnarchiveArguments extends WebAPICallOptions, TokenOverri
   channel: string;
 }
 
-  /*
-   * `im.*`
-   */
+/*
+ * `im.*`
+ */
 export interface IMCloseArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
 }
@@ -1105,17 +1508,23 @@ export interface IMRepliesArguments extends WebAPICallOptions, TokenOverridable 
   thread_ts?: string;
 }
 
-  /*
-   * `migration.*`
-   */
+/*
+ * `migration.*`
+ */
 export interface MigrationExchangeArguments extends WebAPICallOptions, TokenOverridable {
   users: string; // comma-separated list of users
   to_old?: boolean;
 }
+export interface MigrationExchangeResponse extends WebAPICallResult {
+  team_id: string;
+  enterprise_id: string;
+  user_id_map: Record<string, string>;
+  invalid_user_ids?: string[];
+}
 
-  /*
-   * `mpim.*`
-   */
+/*
+ * `mpim.*`
+ */
 export interface MPIMCloseArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
 }
@@ -1138,9 +1547,9 @@ export interface MPIMRepliesArguments extends WebAPICallOptions, TokenOverridabl
   thread_ts: string;
 }
 
-  /*
-   * `oauth.*`
-   */
+/*
+ * `oauth.*`
+ */
 export interface OAuthAccessArguments extends WebAPICallOptions {
   client_id: string;
   client_secret: string;
@@ -1154,9 +1563,31 @@ export interface OAuthV2AccessArguments extends WebAPICallOptions {
   code: string;
   redirect_uri?: string;
 }
-  /*
-   * `pins.*`
-   */
+export interface OAuthV2AccessResponse extends WebAPICallResult {
+  access_token?: string;
+  token_type?: string;
+  scope?: string;
+  bot_user_id?: string;
+  app_id: string;
+  team: {
+    name?: string;
+    id: string;
+  };
+  is_enterprise_install: boolean;
+  enterprise: {
+    name: string;
+    id: string;
+  } | null;
+  authed_user: {
+    id: string;
+    scope: string;
+    access_token: string;
+    token_type: string;
+  };
+}
+/*
+ * `pins.*`
+ */
 export interface PinsAddArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   // must supply one of:
@@ -1167,6 +1598,17 @@ export interface PinsAddArguments extends WebAPICallOptions, TokenOverridable {
 export interface PinsListArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
 }
+export interface PinsListResponse extends WebAPICallResult {
+  items: {
+    channel?: string;
+    message?: ChatPostMessageResponse['message'];
+    file?: FilesInfoResponse['file'];
+    comment?: unknown;
+    type: 'message' | 'file' | 'file_comment';
+    created: number;
+    created_by: string;
+  }[];
+}
 export interface PinsRemoveArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   // must supply one of:
@@ -1175,9 +1617,9 @@ export interface PinsRemoveArguments extends WebAPICallOptions, TokenOverridable
   timestamp?: string;
 }
 
-  /*
-   * `reactions.*`
-   */
+/*
+ * `reactions.*`
+ */
 export interface ReactionsAddArguments extends WebAPICallOptions, TokenOverridable {
   name: string;
   // must supply one of:
@@ -1194,12 +1636,26 @@ export interface ReactionsGetArguments extends WebAPICallOptions, TokenOverridab
   file?: string; // file id
   file_comment?: string;
 }
+export interface ReactionsGetResponse extends WebAPICallResult {
+  message?: ChatPostMessageResponse['message'];
+  file?: FilesInfoResponse['file'];
+  comment?: unknown;
+  type: 'message' | 'file' | 'file_comment';
+}
 export interface ReactionsListArguments extends WebAPICallOptions, TokenOverridable,  TraditionalPagingEnabled,
   CursorPaginationEnabled {
   user?: string;
   full?: boolean;
 }
 cursorPaginationEnabledMethods.add('reactions.list');
+export interface ReactionsListResponse extends WebAPICallResult {
+  items: {
+    message?: ReactionsGetResponse['message'];
+    file?: ReactionsGetResponse['file'];
+    comment?: ReactionsGetResponse['comment'];
+    type: ReactionsGetResponse['type'];
+  }[];
+}
 export interface ReactionsRemoveArguments extends WebAPICallOptions, TokenOverridable {
   name: string;
   // must supply one of:
@@ -1209,13 +1665,16 @@ export interface ReactionsRemoveArguments extends WebAPICallOptions, TokenOverri
   file_comment?: string;
 }
 
-  /*
-   * `reminders.*`
-   */
+/*
+ * `reminders.*`
+ */
 export interface RemindersAddArguments extends WebAPICallOptions, TokenOverridable {
   text: string;
   time: string | number;
   user?: string;
+}
+export interface RemindersAddResponse extends WebAPICallResult {
+  reminder: RemindersInfoResponse['reminder'];
 }
 export interface RemindersCompleteArguments extends WebAPICallOptions, TokenOverridable {
   reminder: string;
@@ -1226,14 +1685,41 @@ export interface RemindersDeleteArguments extends WebAPICallOptions, TokenOverri
 export interface RemindersInfoArguments extends WebAPICallOptions, TokenOverridable {
   reminder: string;
 }
+export interface RemindersInfoResponse extends WebAPICallResult {
+  reminder: {
+    id: string;
+    creator: string;
+    user: string;
+    text: string;
+    recurring: boolean;
+    time?: number;
+    complete_ts?: number;
+  };
+}
 export interface RemindersListArguments extends WebAPICallOptions, TokenOverridable {}
+export interface RemindersListResponse extends WebAPICallResult {
+  reminders: RemindersInfoResponse['reminder'][];
+}
 
-  /*
-   * `rtm.*`
-   */
+/*
+ * `rtm.*`
+ */
 export interface RTMConnectArguments extends WebAPICallOptions, TokenOverridable {
   batch_presence_aware?: boolean;
   presence_sub?: boolean;
+}
+export interface RTMConnectResponse extends WebAPICallResult {
+  self: {
+    id: string;
+    name: string;
+  };
+  team: {
+    domain: string;
+    id: string;
+    name: string;
+    enterprise_id?: string;
+  };
+  url: string;
 }
 export interface RTMStartArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
   batch_presence_aware?: boolean;
@@ -1243,20 +1729,108 @@ export interface RTMStartArguments extends WebAPICallOptions, TokenOverridable, 
   presence_sub?: boolean;
   simple_latest?: boolean;
 }
+export interface RTMStartResponse extends WebAPICallResult {
+  url: string;
+  self: {
+    id: string;
+    name: string;
+    prefs: unknown;
+    created: number;
+    manual_presence: string;
+  };
+  team: {
+    id: string;
+    name: string;
+    email_domain: string;
+    domain: string;
+    icon: Record<string, string>;
+    msg_edit_window_mins: number;
+    over_storage_limit: boolean;
+    prefs: unknown;
+    plan: string;
+  };
+  users: UsersInfoResponse['user'][];
+  channels: ConversationsInfoResponse['channel'][];
+  groups: ConversationsInfoResponse['channel'][];
+  mpimps: ConversationsInfoResponse['channel'][];
+  ims: ConversationsInfoResponse['channel'][];
+  bots: BotsInfoResponse['bot'][];
+}
 
-  /*
-   * `search.*`
-   */
+/*
+ * `search.*`
+ */
 export interface SearchAllArguments extends WebAPICallOptions, TokenOverridable,  TraditionalPagingEnabled,
   Searchable {}
+export interface SearchAllResponse extends WebAPICallResult {
+  files: SearchFilesResponse['files'];
+  messages: SearchMessagesResponse['messages'];
+  posts: {
+    matches: unknown[];
+    total: number;
+  };
+  query: string;
+}
 export interface SearchFilesArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled,
   Searchable {}
+export interface SearchFilesResponse extends WebAPICallResult {
+  files: {
+    matches: FilesInfoResponse['file'][];
+    pagination: {
+      first: number;
+      last: number;
+      page: number;
+      page_count: number;
+      per_page: number;
+      total_count: number;
+    };
+    paging: {
+      count: number;
+      page: number;
+      pages: number;
+      total: number;
+    };
+    total: number;
+  };
+  query: string;
+}
 export interface SearchMessagesArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled,
   Searchable {}
+export interface SearchMessagesResponse extends WebAPICallResult {
+  messages: {
+    matches: {
+      channel: ConversationsInfoResponse['channel'];
+      iid: string;
+      permalink: string;
+      team: string;
+      text: string;
+      ts: string;
+      type: string;
+      user: string;
+      username: string;
+    }[];
+    pagination: {
+      first: number;
+      last: number;
+      page: number;
+      page_count: number;
+      per_page: number;
+      total_count: number;
+    };
+    paging: {
+      count: number;
+      page: number;
+      pages: number;
+      total: number;
+    };
+    total: number;
+  };
+  query: string;
+}
 
-  /*
-   * `stars.*`
-   */
+/*
+ * `stars.*`
+ */
 export interface StarsAddArguments extends WebAPICallOptions, TokenOverridable {
   // must supply one of:
   channel?: string; // paired with `timestamp`
@@ -1266,6 +1840,21 @@ export interface StarsAddArguments extends WebAPICallOptions, TokenOverridable {
 }
 export interface StarsListArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled,
   CursorPaginationEnabled {}
+export interface StartsListResponse extends WebAPICallResult {
+  items: {
+    type: string;
+    channel?: string;
+    message?: ChatPostMessageResponse['message'];
+    file?: FilesInfoResponse['file'];
+    comment?: unknown;
+  }[];
+  paging: {
+    count: number;
+    total: number;
+    page: number;
+    pages: number;
+  };
+}
 cursorPaginationEnabledMethods.add('stars.list');
 export interface StarsRemoveArguments extends WebAPICallOptions, TokenOverridable {
   // must supply one of:
@@ -1275,33 +1864,106 @@ export interface StarsRemoveArguments extends WebAPICallOptions, TokenOverridabl
   file_comment?: string;
 }
 
-  /*
-   * `team.*`
-   */
-export interface TeamAccessLogsArguments extends WebAPICallOptions, TokenOverridable {
+/*
+ * `team.*`
+ */
+export interface TeamAccessLogsArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled {
   before?: number;
-  count?: number;
-  page?: number;
+}
+export interface TeamAccessLogsResponse extends WebAPICallResult {
+  logins: {
+    user_id: string;
+    username: string;
+    date_first: number;
+    date_last: number;
+    count: number;
+    ip: string;
+    user_agent: string;
+    isp: string;
+    country: string;
+    region: string;
+  }[];
+  paging: {
+    count: number;
+    total: number;
+    page: number;
+    pages: number;
+  };
 }
 export interface TeamBillableInfoArguments extends WebAPICallOptions, TokenOverridable {
   user?: string;
 }
+export interface TeamBillableInfoResponse extends WebAPICallResult {
+  billable_info: Record<string, { billing_active: boolean; }>;
+}
 export interface TeamInfoArguments extends WebAPICallOptions, TokenOverridable {}
-export interface TeamIntegrationLogsArguments extends WebAPICallOptions, TokenOverridable {
+export interface TeamInfoResponse extends WebAPICallResult {
+  team: {
+    id: string;
+    name: string;
+    domain: string;
+    email_domain: string;
+    icon: {
+      image_34?: string;
+      image_44?: string;
+      image_68?: string;
+      image_88?: string;
+      image_102?: string;
+      image_132?: string;
+      image_default: boolean;
+    };
+    enterprise_id?: string;
+    enterprise_name?: string;
+    default_channels?: string[];
+  };
+}
+export interface TeamIntegrationLogsArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled {
   app_id?: string;
   change_type?: string; // TODO: list types: 'x' | 'y' | 'z'
-  count?: number;
-  page?: number;
   service_id?: string;
   user?: string;
+}
+export interface TeamIntegrationLogsResponse extends WebAPICallResult {
+  logs: {
+    service_id: string;
+    service_type: string;
+    user_id: string;
+    user_name: string;
+    channel: string;
+    date: string;
+    change_type: string;
+    scope: string;
+  }[];
+  paging: {
+    count: number;
+    total: number;
+    page: number;
+    pages: number;
+  };
 }
 export interface TeamProfileGetArguments extends WebAPICallOptions, TokenOverridable {
   visibility?: 'all' | 'visible' | 'hidden';
 }
+export interface TeamProfileGetResponse extends WebAPICallResult {
+  profile: {
+    fields: {
+      id: string;
+      ordering: number;
+      label: string;
+      hint: string;
+      type: string;
+      possible_values: string[] | null;
+      options: {
+        is_protected: 1 | 0;
+      } | null;
+      is_hidden?: 1 | 0;
+    }[];
+  };
+}
 
-  /*
-   * `usergroups.*`
-   */
+/*
+ * `usergroups.*`
+ */
 export interface UsergroupsCreateArguments extends WebAPICallOptions, TokenOverridable {
   name: string;
   channels?: string; // comma-separated list of channels
@@ -1309,18 +1971,30 @@ export interface UsergroupsCreateArguments extends WebAPICallOptions, TokenOverr
   handle?: string;
   include_count?: boolean;
 }
+export interface UsergroupsCreateResponse extends WebAPICallResult {
+  usergroup: UsergroupsUpdateResponse['usergroup'];
+}
 export interface UsergroupsDisableArguments extends WebAPICallOptions, TokenOverridable {
   usergroup: string;
   include_count?: boolean;
+}
+export interface UsergroupsDisableResponse extends WebAPICallResult {
+  usergroup: UsergroupsUpdateResponse['usergroup'];
 }
 export interface UsergroupsEnableArguments extends WebAPICallOptions, TokenOverridable {
   usergroup: string;
   include_count?: boolean;
 }
+export interface UsergroupsEnableResponse extends WebAPICallResult {
+  usergroup: UsergroupsUpdateResponse['usergroup'];
+}
 export interface UsergroupsListArguments extends WebAPICallOptions, TokenOverridable {
   include_count?: boolean;
   include_disabled?: boolean;
   include_users?: boolean;
+}
+export interface UsergroupsListResponse extends WebAPICallResult {
+  usergroups: UsergroupsUpdateArguments['usergroup'][];
 }
 export interface UsergroupsUpdateArguments extends WebAPICallOptions, TokenOverridable {
   usergroup: string;
@@ -1330,39 +2004,138 @@ export interface UsergroupsUpdateArguments extends WebAPICallOptions, TokenOverr
   include_count?: boolean;
   name?: string;
 }
+export interface UsergroupsUpdateResponse extends WebAPICallResult {
+  usergroup: {
+    id: string;
+    team_id: string;
+    is_usergroup: boolean;
+    name: string;
+    description: string;
+    handle: string;
+    is_external: boolean;
+    date_create: number;
+    date_update: number;
+    date_delete: number;
+    auto_type: unknown | null;
+    created_by: string;
+    updated_by: string;
+    deleted_by: string | null;
+    prefs: {
+      channels: unknown[];
+      groups: unknown[];
+    };
+    users: string[];
+    user_count: number;
+  };
+}
 export interface UsergroupsUsersListArguments extends WebAPICallOptions, TokenOverridable {
   usergroup: string;
   include_disabled?: boolean;
+}
+export interface UsergroupsUsersListResponse extends WebAPICallResult {
+  users: string[];
 }
 export interface UsergroupsUsersUpdateArguments extends WebAPICallOptions, TokenOverridable {
   usergroup: string;
   users: string; // comma-separated list of users
   include_count?: boolean;
 }
+export interface UsergroupsUsersUpdateResponse extends WebAPICallResult {
+  usergroup: UsergroupsUpdateResponse['usergroup'];
+}
 
-  /*
-   * `users.*`
-   */
+/*
+ * `users.*`
+ */
 export interface UsersConversationsArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   exclude_archived?: boolean;
   types?: string; // comma-separated list of conversation types
   user?: string;
 }
 cursorPaginationEnabledMethods.add('users.conversations');
+export interface UsersConversationsResponse extends WebAPICallResult {
+  channels: ConversationsListResponse['channels'];
+}
 export interface UsersDeletePhotoArguments extends WebAPICallOptions, TokenOverridable {}
 export interface UsersGetPresenceArguments extends WebAPICallOptions, TokenOverridable {
   user: string;
 }
+export interface UsersGetPresenceResponse extends WebAPICallResult {
+  presence: 'active' | 'away';
+  online?: boolean;
+  auto_away?: boolean;
+  manual_away?: boolean;
+  connection_count?: number;
+  last_activity?: number;
+}
 export interface UsersIdentityArguments extends WebAPICallOptions, TokenOverridable {}
+export interface UsersIdentityResponse extends WebAPICallResult {
+  user: {
+    name: string;
+    id: string;
+    email?: string;
+    image_24?: string;
+    image_32?: string;
+    image_48?: string;
+    image_72?: string;
+    image_192?: string;
+    image_512?: string;
+  };
+  team: {
+    name?: string;
+    id: string;
+  };
+}
 export interface UsersInfoArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
   user: string;
+}
+export interface UsersInfoResponse extends WebAPICallResult {
+  user: {
+    always_active?: boolean;
+    color: string;
+    deleted?: boolean;
+    enterprise_user?: {
+      enterprise_id: string;
+      enterprise_name: string;
+      id: string;
+      is_admin: boolean;
+      is_owner: boolean;
+      teams: string[];
+    };
+    has_2fa: boolean;
+    id: string;
+    is_admin: boolean;
+    is_app_user: boolean;
+    is_bot: boolean;
+    is_invited_user: boolean;
+    is_owner: boolean;
+    is_primary_owner: boolean;
+    is_restricted: boolean;
+    is_stranger: boolean;
+    is_ultra_restricted: boolean;
+    locale: string;
+    /** @deprecated */
+    name: string;
+    profile: Omit<UsersProfileGetResponse['profile'], 'fields'>;
+    two_factor_type?: string;
+    tz: string;
+    tz_label: string;
+    tz_offset: number;
+    updated: string;
+  };
 }
 export interface UsersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled, LocaleAware {
   presence?: boolean; // deprecated, defaults to false
 }
 cursorPaginationEnabledMethods.add('users.list');
+export interface UsersListResponse extends WebAPICallResult {
+  members: UsersInfoResponse['user'][];
+}
 export interface UsersLookupByEmailArguments extends WebAPICallOptions, TokenOverridable {
   email: string;
+}
+export interface UsersLookupByEmailResponse extends WebAPICallResult {
+  user: UsersInfoResponse['user'];
 }
 export interface UsersSetPhotoArguments extends WebAPICallOptions, TokenOverridable {
   image: Buffer | Stream;
@@ -1377,34 +2150,139 @@ export interface UsersProfileGetArguments extends WebAPICallOptions, TokenOverri
   include_labels?: boolean;
   user?: string;
 }
+export interface UsersProfileGetResponse extends WebAPICallResult {
+  profile: {
+    avatar_hash: string;
+    status_text: string;
+    status_emoji: string;
+    status_expiration: number;
+    real_name: string;
+    display_name: string;
+    real_name_normalized: string;
+    display_name_normalized: string;
+    email?: string;
+    image_original: string;
+    image_24: string;
+    image_32: string;
+    image_48: string;
+    image_72: string;
+    image_192: string;
+    image_512: string;
+    team: string;
+    always_active?: boolean;
+    fields: {
+      [field: string]: {
+        value: string;
+        alt?: string;
+      };
+    };
+  };
+}
 export interface UsersProfileSetArguments extends WebAPICallOptions, TokenOverridable {
-  profile?: string; // url-encoded json
+  profile?: {
+    first_name?: string;
+    last_name?: string;
+    status_text?: string;
+    status_emoji?: string;
+    status_expiration?: number;
+    real_name?: string;
+    display_name?: string;
+    email?: string;
+    fields?: {
+      [field: string]: {
+        value: string;
+        alt?: string;
+      };
+    };
+  };
   user?: string;
   name?: string; // usable if `profile` is not passed
   value?: string; // usable if `profile` is not passed
 }
+export interface UsersProfileSetResponse extends WebAPICallResult {
+  profile: UsersProfileGetResponse['profile'];
+}
 
+/*
+ * `views.*`
+ */
 export interface ViewsOpenArguments extends WebAPICallOptions, TokenOverridable {
   trigger_id: string;
   view: View;
 }
-
-export interface ViewsPushArguments extends WebAPICallOptions, TokenOverridable {
-  trigger_id: string;
-  view: View;
+export interface ViewsOpenResponse extends WebAPICallResult {
+  view: View & {
+    id: string;
+    team_id: string;
+    external_id: string;
+    state: {
+      values: unknown[];
+    };
+    hash: string;
+    root_view_id: string;
+    app_id: string;
+    bot_id: string;
+  };
 }
-
 export interface ViewsPublishArguments extends WebAPICallOptions, TokenOverridable {
   user_id: string;
   view: View;
   hash?: string;
 }
-
+export interface ViewsPublishResponse extends WebAPICallResult {
+  view: View & {
+    id: string;
+    team_id: string;
+    external_id: string;
+    state: {
+      values: unknown[];
+    };
+    hash: string;
+    root_view_id: string;
+    previous_view_id: string | null;
+    app_id: string;
+    bot_id: string;
+  };
+}
+export interface ViewsPushArguments extends WebAPICallOptions, TokenOverridable {
+  trigger_id: string;
+  view: View;
+}
+export interface ViewsPushResponse extends WebAPICallResult {
+  view: View & {
+    id: string;
+    team_id: string;
+    external_id: string;
+    state: {
+      values: unknown[];
+    };
+    hash: string;
+    root_view_id: string;
+    previous_view_id: string | null;
+    app_id: string;
+    bot_id: string;
+  };
+}
 export interface ViewsUpdateArguments extends WebAPICallOptions, TokenOverridable {
   view_id: string;
   view: View;
   external_id?: string;
   hash?: string;
+}
+export interface ViewsUpdateResponse extends WebAPICallResult {
+  view: View & {
+    id: string;
+    team_id: string;
+    external_id: string;
+    state: {
+      values: unknown[];
+    };
+    hash: string;
+    root_view_id: string;
+    previous_view_id: string | null;
+    app_id: string;
+    bot_id: string;
+  };
 }
 
 export * from '@slack/types';
