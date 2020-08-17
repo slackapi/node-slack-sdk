@@ -1,6 +1,6 @@
 {
   "name": "@slack/web-api",
-  "version": "5.10.0-workflowStepsBeta.1",
+  "version": "5.11.0-workflowStepsBeta.1",
   "description": "Official library for using the Slack Platform's Web API",
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@slack/logger": ">=1.0.0 <3.0.0",
-    "@slack/types": "^1.7.0",
+    "@slack/types": "feat-workflow-steps",
     "@types/is-stream": "^1.1.0",
     "@types/node": ">=8.9.0",
     "@types/p-queue": "^2.3.2",
