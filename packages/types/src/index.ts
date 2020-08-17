@@ -42,6 +42,7 @@ export interface View {
   private_metadata?: string;
   clear_on_close?: boolean; // defaults to false
   notify_on_close?: boolean; // defaults to false
+  submit_disabled?: boolean; // defaults to false
 }
 
 /*
