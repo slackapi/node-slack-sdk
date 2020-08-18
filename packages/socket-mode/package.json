@@ -1,0 +1,63 @@
+{
+  "name": "@slack/socket-mode",
+  "version": "0.0.1",
+  "description": "Official library for using the Slack Platform's Socket Mode API",
+  "author": "Slack Technologies, Inc.",
+  "license": "MIT",
+  "keywords": [
+    "slack",
+    "socket",
+    "websocket",
+    "firewall",
+    "bot",
+    "client",
+    "http",
+    "websocket",
+    "api",
+    "proxy",
+    "state",
+    "connection"
+  ],
+  "main": "dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "repository": "slackapi/node-slack-sdk",
+  "homepage": "https://slack.dev/node-slack-sdk/socket-mode",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/slackapi/node-slack-sdk/issues"
+  },
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "npm run build:clean && tsc",
+    "build:clean": "shx rm -rf ./dist",
+    "lint": "tslint --project .",
+    "test": "npm run build && echo \"Tests are not implemented.\" && exit 0",
+    "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
+  },
+  "dependencies": {
+    "@slack/logger": "^2.0.0",
+    "@slack/web-api": "^5.10.0",
+    "@types/node": ">=10.0.0",
+    "@types/p-queue": "^2.3.2",
+    "@types/ws": "^7.2.5",
+    "eventemitter3": "^3.1.0",
+    "finity": "^0.5.4",
+    "p-cancelable": "^1.1.0",
+    "p-queue": "^2.4.2",
+    "ws": "^7.3.1"
+  },
+  "devDependencies": {
+    "shx": "^0.3.2",
+    "tslint": "^5.13.1",
+    "tslint-config-airbnb": "^5.11.1",
+    "typescript": "^3.3.3333"
+  }
+}
