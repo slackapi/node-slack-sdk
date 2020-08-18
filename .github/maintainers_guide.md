@@ -77,24 +77,56 @@ If you make a mistake, don't fret. NPM allows you to unpublish a release within 
     - bump the version in `package.json` for all packages you are releasing
     - Make a single commit for the version bump. The commit message should be similar to a [previous one](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594).
     - Add version tags for each package you are about to release. Ex `git tag @slack/web-api@5.6.0`
-    - Push commit and tags up to origin: `git push origin master && git push origin --tags`. 
+    - Push commit and tags up to your fork: `git push username main --tags`. 
+    - Create pull request for review. It should be similar to a [previous one](https://github.com/slackapi/node-slack-sdk/pull/1059)
 
-2. Publish the release(s) to npm: `NPM_CONFIG_OTP=xxxxxx npx lerna publish from-package`
-  * You should have [2FA set up with NPM](https://docs.npmjs.com/about-two-factor-authentication), and the
+2.  Merge into main repository
+  *  Once tests pass and a reviewer has approved, merge the pull request. 
+  *  Update your local main branch `git rebase origin main` (or `git pull origin main`)
+  *  Push the new tag up to origin `git push --tags origin`.
+
+3. Publish the release(s) to npm
+  * If you are using learna, use `NPM_CONFIG_OTP=xxxxxx npx lerna publish from-package` You should have [2FA set up with NPM](https://docs.npmjs.com/about-two-factor-authentication), and the
     `NPM_CONFIG_OTP` value should be set to the one time password from your configured second factor device. If the
     publishing process takes longer than the expiration time of the value (30 seconds), then you may see a publish
     failure. You can try again as soon as the value changes if you think you can beat the timeout, or you can run
-    `npm publish` in each of the package directories.
+    `npm publish . --otp YOUR_OTP_CODE` in each of the package directories.
+  * If you are releasing without learna, change into the package directory and run `npm publish . --otp YOUR_OTP_CODE`.
 
-3. Create GitHub Release(s) and add release notes.
+4. Create GitHub Release(s) and add release notes.
   * Release notes should mention contributors (@-mentions) and issues/PRs (#-mentions).
+  * Example release: https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Fweb-api%405.11.0
 
-4. (Slack Internal) Communicate the release internally. Include a link to the GitHub Release(s).
+5. (Slack Internal) Communicate the release internally. Include a link to the GitHub Release(s).
 
-5. Announce on Bot Developer Hangout (`dev4slack.slack.com`) in **#slack-api**.
+6. Announce on Bot Developer Hangout (`dev4slack.slack.com`) in **#slack-api**.
 
-6. (Slack Internal) Tweet? Not necessary for patch updates, might be needed for minor updates, definitely needed for
+7. (Slack Internal) Tweet? Not necessary for patch updates, might be needed for minor updates, definitely needed for
    major updates. Include a link to the GitHub Release(s).
+
+### Releasing Beta Releases
+
+1. Make sure `main` has the latest changes from GitHub and rebase your branch from `main` by running `git rebase main` from your checked out branch. You can also `git merge main` if you are not comfortable with rebase.
+
+2. Run the tests via `npm run test && npm run lint`
+
+3. Update version in `package.json`. Use the existing version and add a hyphen to name the beta release (ex: `5.10.0-workflowStepsBeta.1`) (Note: the beta version must be in the format of `Major.Minor.Patch-BetaNamespace.BetaVersion`)
+
+4. Make a single commit for the version bump. The commit message should be similar to a [previous one](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594).
+
+5. Git tag, push commit and tag up to origin
+  * Add a Git tag for every package you are releasing. example: `git tag @slack/web-api@5.10.0-workflowStepsBeta.1`
+  * Push all tags and commits up to the feature branch on `origin` via `git push origin feature-branch --tags`
+
+6. Publish to npm via `npm publish . --otp YOUR_OTP_CODE`
+  * We need to update the `dist-tags` on npm after a beta release. First update the `latest` `dist-tag` to the previous non beta release: `npm dist-tag add @slack/web-api@5.10.0 latest --otp YOUR_OTP_CODE`. Next, if you are adding/updating a feature/beta dist-tag, run `npm dist-tag add @slack/web-api@5.10.0-workflow-steps-beta.1 feat-workflow-steps --otp YOUR_OTP_CODE`
+
+7. Test by installing package from npm via `npm install @slack/web-api@feat-workflow-steps`
+
+8. Create GitHub Release(s) and add release notes.
+  * Release notes should mention contributors (@-mentions) and issues/PRs (#-mentions).
+  * Check the `This is a pre-release` checkbox.
+  * Example release: https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Fweb-api%405.11.0
 
 ## Workflow
 
@@ -112,7 +144,7 @@ increment, it could do so without unnecessarily affecting all the other packages
 
 ### Branches
 
-`master` is where active development occurs. Long running named feature branches are occasionally created for
+`main` is where active development occurs. Long running named feature branches are occasionally created for
 collaboration on a feature that has a large scope (because everyone cannot push commits to another person's open Pull
 Request). After a major version increment, a maintenance branch for the older major version is left open (e.g. `v3`,
 `v4`, etc)

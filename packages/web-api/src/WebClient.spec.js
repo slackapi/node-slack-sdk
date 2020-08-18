@@ -8,6 +8,7 @@ const { ErrorCode } = require('./errors');
 const { LogLevel } = require('./logger');
 const { addAppMetadata } = require('./instrument');
 const { rapidRetryPolicy } = require('./retry-policies');
+const { Methods } = require('./methods');
 const { CaptureConsole } = require('@aoberoi/capture-console');
 const nock = require('nock');
 const Busboy = require('busboy');
@@ -28,6 +29,30 @@ describe('WebClient', function () {
     it('should build a client without a token', function () {
       const client = new WebClient();
       assert.instanceOf(client, WebClient);
+    });
+  });
+
+  describe('Methods superclass', function () {
+    it('should fail to construct classes that don\'t extend WebClient', function () {
+      assert.throws(function () {
+        class X extends Methods {
+          apiCall() {}
+        }
+        new X();
+      });
+    });
+
+    it('should succeed when constructing WebClient', function () {
+      assert.doesNotThrow(function () {
+        new WebClient();
+      });
+    });
+
+    it('should succeed when constructing a class that extends WebClient', function () {
+      assert.doesNotThrow(function () {
+        class X extends WebClient {}
+        new X();
+      });
     });
   });
 

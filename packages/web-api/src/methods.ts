@@ -1,6 +1,6 @@
 import { Stream } from 'stream';
 import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser } from '@slack/types';
-import { WebAPICallOptions, WebAPICallResult, WebClientEvent } from './WebClient';
+import { WebAPICallOptions, WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
 import { EventEmitter } from 'eventemitter3';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
@@ -29,6 +29,15 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   //
   // It shouldn't be here, indeed. Nothing here uses it, indeed. But it must be here for the sake of sanity.
 
+  protected constructor() {
+    super();
+
+    // Check that the class being created extends from `WebClient` rather than this class
+    if (new.target !== WebClient && !(new.target.prototype instanceof WebClient)) {
+      throw new Error('Attempt to inherit from WebClient methods without inheriting from WebClient');
+    }
+  }
+
   public abstract async apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult>;
 
   public readonly admin = {
@@ -49,6 +58,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     conversations: {
       setTeams:
         bindApiCall<AdminConversationsSetTeamsArguments, WebAPICallResult>(this, 'admin.conversations.setTeams'),
+      restrictAccess: {
+        addGroup:
+          bindApiCall<AdminConversationsRestrictAccessAddGroupArguments, WebAPICallResult>(this, 'admin.conversations.restrictAccess.addGroup'),
+        listGroups:
+          bindApiCall<AdminConversationsRestrictAccessListGroupsArguments, WebAPICallResult>(this, 'admin.conversations.restrictAccess.listGroups'),
+        removeGroup:
+          bindApiCall<AdminConversationsRestrictAccessRemoveGroupArguments, WebAPICallResult>(this, 'admin.conversations.restrictAccess.removeGroup'),
+      },
     },
     inviteRequests: {
       approve: bindApiCall<AdminInviteRequestsApproveArguments, WebAPICallResult>(
@@ -90,6 +107,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     usergroups: {
       addChannels: bindApiCall<AdminUsergroupsAddChannelsArguments, WebAPICallResult>(
         this, 'admin.usergroups.addChannels'),
+      addTeams: bindApiCall<AdminUsergroupsAddTeamsArguments, WebAPICallResult>(
+        this, 'admin.usergroups.addTeams'),
       listChannels: bindApiCall<AdminUsergroupsListChannelsArguments, WebAPICallResult>(
         this, 'admin.usergroups.listChannels'),
       removeChannels: bindApiCall<AdminUsergroupsRemoveChannelsArguments, WebAPICallResult>(
@@ -132,6 +151,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     update: bindApiCall<CallsUpdateArguments, WebAPICallResult>(this, 'calls.update'),
     participants: {
       add: bindApiCall<CallsParticipantsAddArguments, WebAPICallResult>(this, 'calls.participants.add'),
+      remove: bindApiCall<CallsParticipantsRemoveArguments, WebAPICallResult>(this, 'calls.participants.remove'),
     },
   };
 
@@ -181,6 +201,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     kick: bindApiCall<ConversationsKickArguments, WebAPICallResult>(this, 'conversations.kick'),
     leave: bindApiCall<ConversationsLeaveArguments, WebAPICallResult>(this, 'conversations.leave'),
     list: bindApiCall<ConversationsListArguments, WebAPICallResult>(this, 'conversations.list'),
+    mark: bindApiCall<ConversationsMarkArguments, WebAPICallResult>(this, 'conversations.mark'),
     members: bindApiCall<ConversationsMembersArguments, WebAPICallResult>(this, 'conversations.members'),
     open: bindApiCall<ConversationsOpenArguments, WebAPICallResult>(this, 'conversations.open'),
     rename: bindApiCall<ConversationsRenameArguments, WebAPICallResult>(this, 'conversations.rename'),
@@ -440,6 +461,24 @@ export interface AdminAppsRestrictedListArguments extends WebAPICallOptions, Tok
   enterprise_id?: string;
 }
 cursorPaginationEnabledMethods.add('admin.apps.restricted.list');
+
+export interface AdminConversationsRestrictAccessAddGroupArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+  group_id: string;
+  team_id?: string;
+}
+
+export interface AdminConversationsRestrictAccessListGroupsArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+  team_id?: string;
+}
+
+export interface AdminConversationsRestrictAccessRemoveGroupArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+  group_id: string;
+  team_id: string;
+}
+
 export interface AdminConversationsSetTeamsArguments extends WebAPICallOptions, TokenOverridable {
   channel_id: string;
   team_id?: string;
@@ -512,8 +551,13 @@ export interface AdminTeamsSettingsSetNameArguments extends WebAPICallOptions, T
 }
 export interface AdminUsergroupsAddChannelsArguments extends WebAPICallOptions, TokenOverridable {
   usergroup_id: string;
-  team_id: string;
+  team_id?: string;
   channel_ids: string | string[];
+}
+export interface AdminUsergroupsAddTeamsArguments extends WebAPICallOptions, TokenOverridable {
+  usergroup_id: string;
+  team_ids: string | string[];
+  auto_provision?: boolean;
 }
 export interface AdminUsergroupsListChannelsArguments extends WebAPICallOptions, TokenOverridable {
   usergroup_id: string;
@@ -623,6 +667,11 @@ export interface CallsUpdateArguments extends WebAPICallOptions, TokenOverridabl
 }
 
 export interface CallsParticipantsAddArguments extends WebAPICallOptions, TokenOverridable {
+  id: string;
+  users: CallUser[];
+}
+
+export interface CallsParticipantsRemoveArguments extends WebAPICallOptions, TokenOverridable {
   id: string;
   users: CallUser[];
 }
@@ -819,6 +868,10 @@ export interface ConversationsListArguments extends WebAPICallOptions, TokenOver
   types?: string; // comma-separated list of conversation types
 }
 cursorPaginationEnabledMethods.add('conversations.list');
+export interface ConversationsMarkArguments extends WebAPICallOptions, TokenOverridable {
+  channel: string;
+  ts: string;
+}
 export interface ConversationsMembersArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   channel: string;
 }

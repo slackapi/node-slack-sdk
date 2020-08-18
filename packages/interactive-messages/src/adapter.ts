@@ -1,5 +1,5 @@
 /* tslint:disable import-name */
-import http, { RequestListener } from 'http';
+import http, { RequestListener, Agent } from 'http';
 import axios, { AxiosInstance } from 'axios';
 import isString from 'lodash.isstring';
 import isRegExp from 'lodash.isregexp';
@@ -136,6 +136,7 @@ export class SlackMessageAdapter {
   constructor(signingSecret: string, {
     syncResponseTimeout = 2500,
     lateResponseFallbackEnabled = true,
+    agent = undefined,
   }: MessageAdapterOptions = {}) {
     if (!isString(signingSecret)) {
       throw new TypeError('SlackMessageAdapter needs a signing secret');
@@ -153,6 +154,13 @@ export class SlackMessageAdapter {
       headers: {
         'User-Agent': packageIdentifier(),
       },
+      httpAgent: agent,
+      httpsAgent: agent,
+      // disabling axios' automatic proxy support:
+      // axios would read from envvars to configure a proxy automatically, but it doesn't support TLS destinations.
+      // for compatibility with https://api.slack.com, and for a larger set of possible proxies (SOCKS or other
+      // protocols), users of this package should use the `agent` option to configure a proxy.
+      proxy: false,
     });
 
     debug('instantiated');
@@ -653,6 +661,7 @@ export interface DispatchResult {
 export interface MessageAdapterOptions {
   syncResponseTimeout?: number;
   lateResponseFallbackEnabled?: boolean;
+  agent?: Agent;
 }
 
 /**

@@ -211,7 +211,7 @@ export class WebClient extends Methods {
    * @param shouldStop - a predicate that is called with each page, and should return true when pagination can end.
    * @param reduce - a callback that can be used to accumulate a value that the return promise is resolved to
    */
-  public paginate(method: string, options?: WebAPICallOptions): AsyncIterator<WebAPICallResult>;
+  public paginate(method: string, options?: WebAPICallOptions): AsyncIterable<WebAPICallResult>;
   public paginate(
     method: string,
     options: WebAPICallOptions,
@@ -228,7 +228,7 @@ export class WebClient extends Methods {
     options?: WebAPICallOptions,
     shouldStop?: PaginatePredicate,
     reduce?: PageReducer<A>,
-  ): (Promise<A> | AsyncIterator<WebAPICallResult>) {
+  ): (Promise<A> | AsyncIterable<WebAPICallResult>) {
 
     if (!cursorPaginationEnabledMethods.has(method)) {
       this.logger.warn(`paginate() called with method ${method}, which is not known to be cursor pagination enabled.`);
@@ -582,14 +582,23 @@ function parseRetryHeaders(response: AxiosResponse): number | undefined {
  * @param logger instance of web clients logger
  */
 function warnDeprecations(method: string, logger: Logger): void {
-  const deprecatedMethods = ['channels.', 'groups.', 'im.', 'mpim.'];
+  const deprecatedConversationsMethods = ['channels.', 'groups.', 'im.', 'mpim.'];
+
+  const deprecatedMethods = ['admin.conversations.whitelist.'];
+
+  const isDeprecatedConversations = deprecatedConversationsMethods.some((depMethod) => {
+    const re = new RegExp(`^${depMethod}`);
+    return re.test(method);
+  });
 
   const isDeprecated = deprecatedMethods.some((depMethod) => {
     const re = new RegExp(`^${depMethod}`);
     return re.test(method);
   });
 
-  if (isDeprecated) {
+  if (isDeprecatedConversations) {
     logger.warn(`${method} is deprecated. Please use the Conversations API instead. For more info, go to https://api.slack.com/changelog/2020-01-deprecating-antecedents-to-the-conversations-api`);
+  } else if (isDeprecated) {
+    logger.warn(`${method} is deprecated. Please check on https://api.slack.com/methods for an alternative.`);
   }
 }

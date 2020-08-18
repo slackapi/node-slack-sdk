@@ -5,22 +5,17 @@
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
   "scripts": {
-    "test": "npm run test:typechecker && npm run test:mocha",
-    "test:typechecker": "dtslint types",
-    "test:mocha": "mocha proxy-test.js"
+    "test": "mocha proxy-test.js"
   },
   "dependencies": {
-    "@slack/web-api": "^5.0.0",
-    "@types/node": "^8.10.43"
+    "@slack/web-api": "^5.0.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "dtslint": "^0.5.4",
     "http-shutdown": "^1.2.0",
     "https-proxy-agent": "^2.2.1",
     "mocha": "^6.0.2",
     "proxy": "^0.2.4",
-    "sinon": "^7.2.7",
-    "typescript": "^3.3.3333"
+    "sinon": "^7.2.7"
   }
 }
