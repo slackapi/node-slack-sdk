@@ -37,7 +37,9 @@
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
     "lint": "tslint --project .",
-    "test": "npm run build && nyc mocha --config .mocharc.json src/*.spec.js",
+    "test": "npm run build && npm run test:mocha && npm run test:types",
+    "test:mocha": "nyc mocha --config .mocharc.json src/*.spec.js",
+    "test:types": "tsd",
     "coverage": "codecov -F webapi --root=$PWD"
   },
   "dependencies": {
@@ -68,8 +70,12 @@
     "sinon": "^7.2.7",
     "source-map-support": "^0.5.10",
     "ts-node": "^8.0.3",
+    "tsd": "^0.13.1",
     "tslint": "^5.13.1",
     "tslint-config-airbnb": "^5.11.1",
     "typescript": "^3.3.3333"
+  },
+  "tsd": {
+    "directory": "test/types"
   }
 }
