@@ -3,11 +3,10 @@ title: "@slack/rtm-api"
 slug: rtm-api
 ---
 
-<h1 id="slackrtm-api">@slack/rtm-api</h1>
-<h2 id="classes">Classes</h2>
-<h3 id="rtmclient">RTMClient</h3>
+<h1 id="classes" class="undefined auto-anchor-strong">Classes</h1>
+<h2 id="rtmclient">RTMClient</h2>
 <p>An RTMClient allows programs to communicate with the <a href="https://api.slack.com/rtm" title="">Slack Platform's RTM API</a>. This object uses the EventEmitter pattern to dispatch incoming events and has several methods for sending outgoing messages.</p>
-<h5 id="new-rtmclienttoken-opts">new RTMClient(token, opts)</h5>
+<h4>new RTMClient(token, opts)</h4>
 <p>Constructs a new instance of the <code>RTMClient</code> class</p>
 <strong>Parameters:</strong>
 <table>
@@ -101,7 +100,7 @@ slug: rtm-api
 </tr>
 </tbody>
 </table>
-<h4 id="fields">Fields</h4>
+<h3>Fields</h3>
 <table>
 <thead>
 <tr>
@@ -133,8 +132,8 @@ slug: rtm-api
 </tr>
 </tbody>
 </table>
-<h4 id="methods">Methods</h4>
-<h5 id="addoutgoingeventawaitreply-type-body">addOutgoingEvent(awaitReply, type, body)</h5>
+<h3>Methods</h3>
+<h4>addOutgoingEvent(awaitReply, type, body)</h4>
 <p>Generic method for sending an outgoing message of an arbitrary type. This method guards the higher-level methods from concern of which state the client is in, because it places all messages into a queue. The tasks on the queue will buffer until the client is in a state where they can be sent.</p>
 <p>If the awaitReply parameter is set to true, then the returned Promise is resolved with the platform's acknowledgement response. Not all message types will result in an acknowledgement response, so use this carefully. This promise may be rejected with an error containing code=RTMNoReplyReceivedError if the client disconnects or reconnects before receiving the acknowledgement response.</p>
 <p>If the awaitReply parameter is set to false, then the returned Promise is resolved as soon as the message is sent from the websocket.</p>
@@ -145,7 +144,7 @@ slug: rtm-api
 <th align="center">Name</th>
 <th align="center">Type</th>
 <th align="center">Required</th>
-<th></th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
@@ -153,24 +152,24 @@ slug: rtm-api
 <td align="center">awaitReply</td>
 <td align="center"><code>true</code></td>
 <td align="center">✓</td>
-<td></td>
+<td><p>whether to wait for an acknowledgement response from the platform before resolving the returned Promise.</p></td>
 </tr>
 <tr>
 <td align="center">type</td>
 <td align="center"><code>string</code></td>
 <td align="center">✓</td>
-<td></td>
+<td><p>the message type</p></td>
 </tr>
 <tr>
 <td align="center">body</td>
 <td align="center"><code>object</code></td>
 <td align="center">✗</td>
-<td></td>
+<td><p>the message body</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Returns</strong> <code>Promise&#x3C;<a href="#rtmcallresult" title="">RTMCallResult</a>></code></p>
-<h5 id="addoutgoingeventawaitreply-type-body-1">addOutgoingEvent(awaitReply, type, body)</h5>
+<h4>addOutgoingEvent(awaitReply, type, body)</h4>
 <strong>Parameters:</strong>
 <table>
 <thead>
@@ -203,10 +202,10 @@ slug: rtm-api
 </tbody>
 </table>
 <p><strong>Returns</strong> <code>Promise&#x3C;void></code></p>
-<h5 id="disconnect">disconnect()</h5>
+<h4>disconnect()</h4>
 <p>End an RTM session. After this method is called no messages will be sent or received unless you call start() again later.</p>
 <p><strong>Returns</strong> <code>Promise&#x3C;void></code></p>
-<h5 id="sendtype-body">send(type, body)</h5>
+<h4>send(type, body)</h4>
 <p>Generic method for sending an outgoing message of an arbitrary type. The main difference between this method and addOutgoingEvent() is that this method does not use a queue so it can only be used while the client is ready to send messages (in the 'ready' substate of the 'connected' state). It returns a Promise for the message ID of the sent message. This is an internal ID and generally shouldn't be used as an identifier for messages (for that, there is <code>ts</code> on messages once the server acknowledges it).</p>
 <strong>Parameters:</strong>
 <table>
@@ -215,7 +214,7 @@ slug: rtm-api
 <th align="center">Name</th>
 <th align="center">Type</th>
 <th align="center">Required</th>
-<th></th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
@@ -223,18 +222,18 @@ slug: rtm-api
 <td align="center">type</td>
 <td align="center"><code>string</code></td>
 <td align="center">✓</td>
-<td></td>
+<td><p>the message type</p></td>
 </tr>
 <tr>
 <td align="center">body</td>
 <td align="center"><code>object</code></td>
 <td align="center">✗</td>
-<td></td>
+<td><p>the message body</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Returns</strong> <code>Promise&#x3C;number></code></p>
-<h5 id="sendmessagetext-conversationid">sendMessage(text, conversationId)</h5>
+<h4>sendMessage(text, conversationId)</h4>
 <p>Send a simple message to a public channel, private channel, DM, or MPDM.</p>
 <strong>Parameters:</strong>
 <table>
@@ -243,7 +242,7 @@ slug: rtm-api
 <th align="center">Name</th>
 <th align="center">Type</th>
 <th align="center">Required</th>
-<th></th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
@@ -251,18 +250,18 @@ slug: rtm-api
 <td align="center">text</td>
 <td align="center"><code>string</code></td>
 <td align="center">✓</td>
-<td></td>
+<td><p>The message text.</p></td>
 </tr>
 <tr>
 <td align="center">conversationId</td>
 <td align="center"><code>string</code></td>
 <td align="center">✓</td>
-<td></td>
+<td><p>A conversation ID for the destination of this message.</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Returns</strong> <code>Promise&#x3C;<a href="#rtmcallresult" title="">RTMCallResult</a>></code></p>
-<h5 id="sendtypingconversationid">sendTyping(conversationId)</h5>
+<h4>sendTyping(conversationId)</h4>
 <p>Sends a typing indicator to indicate that the user with <code>activeUserId</code> is typing.</p>
 <strong>Parameters:</strong>
 <table>
@@ -271,7 +270,7 @@ slug: rtm-api
 <th align="center">Name</th>
 <th align="center">Type</th>
 <th align="center">Required</th>
-<th></th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
@@ -279,12 +278,12 @@ slug: rtm-api
 <td align="center">conversationId</td>
 <td align="center"><code>string</code></td>
 <td align="center">✓</td>
-<td></td>
+<td><p>The destination for where the typing indicator should be shown.</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Returns</strong> <code>Promise&#x3C;void></code></p>
-<h5 id="startoptions">start(options)</h5>
+<h4>start(options)</h4>
 <p>Begin an RTM session using the provided options. This method must be called before any messages can be sent or received.</p>
 <strong>Parameters:</strong>
 <table>
@@ -306,7 +305,7 @@ slug: rtm-api
 </tbody>
 </table>
 <p><strong>Returns</strong> <code>Promise&#x3C;WebAPICallResult></code></p>
-<h5 id="subscribepresenceuserids">subscribePresence(userIds)</h5>
+<h4>subscribePresence(userIds)</h4>
 <p>Subscribes this client to presence changes for only the given <code>userIds</code>.</p>
 <strong>Parameters:</strong>
 <table>
@@ -315,7 +314,7 @@ slug: rtm-api
 <th align="center">Name</th>
 <th align="center">Type</th>
 <th align="center">Required</th>
-<th></th>
+<th>Description</th>
 </tr>
 </thead>
 <tbody>
@@ -323,15 +322,15 @@ slug: rtm-api
 <td align="center">userIds</td>
 <td align="center"><code>string[]</code></td>
 <td align="center">✓</td>
-<td></td>
+<td><p>An array of user IDs whose presence you are interested in. This list will replace the list from any previous calls to this method.</p></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Returns</strong> <code>Promise&#x3C;void></code></p>
-<h2 id="enums">Enums</h2>
-<h3 id="errorcode">ErrorCode</h3>
+<h1 id="enums" class="undefined auto-anchor-strong">Enums</h1>
+<h2 id="errorcode">ErrorCode</h2>
 <p>A dictionary of codes for errors produced by this package</p>
-<h4 id="members">Members</h4>
+<h3>Members</h3>
 <ul>
 <li><strong>KeepAliveClientNotConnected</strong></li>
 <li><strong>KeepAliveConfigError</strong></li>
@@ -342,9 +341,28 @@ slug: rtm-api
 <li><strong>SendWhileNotReadyError</strong></li>
 <li><strong>WebsocketError</strong></li>
 </ul>
-<h2 id="interfaces">Interfaces</h2>
-<h3 id="rtmcallresult">RTMCallResult</h3>
-<h4 id="fields-1">Fields</h4>
+<h1 id="interfaces" class="undefined auto-anchor-strong">Interfaces</h1>
+<h2 id="codederror">CodedError</h2>
+<p>All errors produced by this package adhere to this interface</p>
+<h3>Fields</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Name</th>
+<th align="center">Type</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">code</td>
+<td align="center"><code><a href="#errorcode" title="">ErrorCode</a></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="rtmcallresult">RTMCallResult</h2>
+<h3>Fields</h3>
 <table>
 <thead>
 <tr>
@@ -371,8 +389,8 @@ slug: rtm-api
 </tr>
 </tbody>
 </table>
-<h3 id="rtmclientoptions">RTMClientOptions</h3>
-<h4 id="fields-2">Fields</h4>
+<h2 id="rtmclientoptions">RTMClientOptions</h2>
+<h3>Fields</h3>
 <table>
 <thead>
 <tr>
@@ -439,8 +457,8 @@ slug: rtm-api
 </tr>
 </tbody>
 </table>
-<h3 id="rtmnoreplyreceivederror">RTMNoReplyReceivedError</h3>
-<h4 id="fields-3">Fields</h4>
+<h2 id="rtmnoreplyreceivederror">RTMNoReplyReceivedError</h2>
+<h3>Fields</h3>
 <table>
 <thead>
 <tr>
@@ -452,13 +470,13 @@ slug: rtm-api
 <tbody>
 <tr>
 <td align="center">code</td>
-<td align="center"><code><a href="#errorcode" title="">ErrorCode</a>.NoReplyReceivedError</code></td>
+<td align="center"><code>ErrorCode.NoReplyReceivedError</code></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<h3 id="rtmplatformerror">RTMPlatformError</h3>
-<h4 id="fields-4">Fields</h4>
+<h2 id="rtmplatformerror">RTMPlatformError</h2>
+<h3>Fields</h3>
 <table>
 <thead>
 <tr>
@@ -470,7 +488,7 @@ slug: rtm-api
 <tbody>
 <tr>
 <td align="center">code</td>
-<td align="center"><code><a href="#errorcode" title="">ErrorCode</a>.SendMessagePlatformError</code></td>
+<td align="center"><code>ErrorCode.SendMessagePlatformError</code></td>
 <td></td>
 </tr>
 <tr>
@@ -480,8 +498,8 @@ slug: rtm-api
 </tr>
 </tbody>
 </table>
-<h3 id="rtmsendwhiledisconnectederror">RTMSendWhileDisconnectedError</h3>
-<h4 id="fields-5">Fields</h4>
+<h2 id="rtmsendwhiledisconnectederror">RTMSendWhileDisconnectedError</h2>
+<h3>Fields</h3>
 <table>
 <thead>
 <tr>
@@ -493,13 +511,13 @@ slug: rtm-api
 <tbody>
 <tr>
 <td align="center">code</td>
-<td align="center"><code><a href="#errorcode" title="">ErrorCode</a>.SendWhileDisconnectedError</code></td>
+<td align="center"><code>ErrorCode.SendWhileDisconnectedError</code></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<h3 id="rtmsendwhilenotreadyerror">RTMSendWhileNotReadyError</h3>
-<h4 id="fields-6">Fields</h4>
+<h2 id="rtmsendwhilenotreadyerror">RTMSendWhileNotReadyError</h2>
+<h3>Fields</h3>
 <table>
 <thead>
 <tr>
@@ -511,13 +529,13 @@ slug: rtm-api
 <tbody>
 <tr>
 <td align="center">code</td>
-<td align="center"><code><a href="#errorcode" title="">ErrorCode</a>.SendWhileNotReadyError</code></td>
+<td align="center"><code>ErrorCode.SendWhileNotReadyError</code></td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<h3 id="rtmwebsocketerror">RTMWebsocketError</h3>
-<h4 id="fields-7">Fields</h4>
+<h2 id="rtmwebsocketerror">RTMWebsocketError</h2>
+<h3>Fields</h3>
 <table>
 <thead>
 <tr>
@@ -529,7 +547,7 @@ slug: rtm-api
 <tbody>
 <tr>
 <td align="center">code</td>
-<td align="center"><code><a href="#errorcode" title="">ErrorCode</a>.WebsocketError</code></td>
+<td align="center"><code>ErrorCode.WebsocketError</code></td>
 <td></td>
 </tr>
 <tr>
@@ -539,23 +557,21 @@ slug: rtm-api
 </tr>
 </tbody>
 </table>
-<h2 id="type-aliases">Type Aliases</h2>
-<h3 id="rtmcallerror">RTMCallError</h3>
-<pre><code class="language-ts">RTMPlatformError | RTMWebsocketError | RTMNoReplyReceivedError | RTMSendWhileDisconnectedError | RTMSendWhileNotReadyError
+<h1 id="type-aliases" class="undefined auto-anchor-strong">Type Aliases</h1>
+<h2 id="rtmcallerror">RTMCallError</h2>
+<pre><code class="language-ts">RTMWebsocketError | RTMNoReplyReceivedError | RTMSendWhileDisconnectedError | RTMSendWhileNotReadyError
 </code></pre>
 One of:
 <ul>
-<li><a href="#rtmplatformerror" title=""><code>RTMPlatformError</code></a></li>
 <li><a href="#rtmwebsocketerror" title=""><code>RTMWebsocketError</code></a></li>
 <li><a href="#rtmnoreplyreceivederror" title=""><code>RTMNoReplyReceivedError</code></a></li>
 <li><a href="#rtmsendwhiledisconnectederror" title=""><code>RTMSendWhileDisconnectedError</code></a></li>
 <li><a href="#rtmsendwhilenotreadyerror" title=""><code>RTMSendWhileNotReadyError</code></a></li>
 </ul>
-<h3 id="rtmstartoptions">RTMStartOptions</h3>
-<pre><code class="language-ts">RTMConnectArguments | RTMStartArguments
+<h2 id="rtmstartoptions">RTMStartOptions</h2>
+<pre><code class="language-ts">RTMStartArguments
 </code></pre>
 One of:
 <ul>
-<li><code>RTMConnectArguments</code></li>
 <li><code>RTMStartArguments</code></li>
 </ul>

@@ -631,8 +631,8 @@ function documentTypeAlias(
  */
 function filterWebApi(item: ApiItem): boolean {
   if (item instanceof ApiInterface) {
-    // Skip all `*Arguments` interfaces
-    return !item.name.endsWith('Arguments');
+    // Skip all `*Arguments` and `*Response` interfaces
+    return !(item.name.endsWith('Arguments') || item.name.endsWith('Response'));
   } else if (item instanceof ApiClass) {
     // Ignore the `Methods` abstract class as well
     return item.name !== 'Methods';
