@@ -246,7 +246,7 @@ export interface PlainTextInput extends Action {
  */
 
 export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock |
-  SectionBlock | InputBlock | FileBlock;
+  SectionBlock | InputBlock | FileBlock | HeaderBlock;
 
 export interface Block {
   type: string;
@@ -285,6 +285,11 @@ export interface FileBlock extends Block {
   type: 'file';
   source: string; // 'remote'
   external_id: string;
+}
+
+export interface HeaderBlock extends Block {
+  type: 'header';
+  text: PlainTextElement;
 }
 
 export interface InputBlock extends Block {

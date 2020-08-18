@@ -36,6 +36,19 @@ function createRequest(signingSecret, ts, rawBody) {
 }
 
 /**
+ * Create request object with missing headers
+ * @returns {Object} pseudo request object
+ */
+function createRequestWithoutRequiredHeaders() {
+  const headers = {
+    'content-type': 'application/json'
+  };
+  return {
+    headers: headers
+  };
+}
+
+/**
  * Creates request object with proper headers and a rawBody field payload
  * @param {string} signingSecret - A Slack signing secret for request verification
  * @param {Integer} ts - A timestamp for request verification and header
@@ -101,4 +114,5 @@ module.exports.createRequest = createRequest;
 module.exports.createRawBodyRequest = createRawBodyRequest;
 module.exports.createRequestSignature = createRequestSignature;
 module.exports.createStreamRequest = createStreamRequest;
+module.exports.createRequestWithoutRequiredHeaders = createRequestWithoutRequiredHeaders;
 exports.completionAggregator = completionAggregator;
