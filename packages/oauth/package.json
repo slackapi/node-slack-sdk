@@ -33,7 +33,8 @@
     "lint": "tslint --project .",
     "test": "nyc mocha --config .mocharc.json src/*.spec.js",
     "coverage": "codecov -F oauthhelper --root=$PWD",
-    "ref-docs:model": "api-extractor run"
+    "ref-docs:model": "api-extractor run",
+    "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
   },
   "dependencies": {
     "@slack/logger": "^2.0.0",

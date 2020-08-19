@@ -5,12 +5,14 @@ const url = require('url');
 const rewiremock = require('rewiremock/node');
 const sinon = require('sinon');
 const { ErrorCode } = require('./errors');
+const { LogLevel } = require('./logger');
 
 // Stub WebClient api calls that the OAuth package makes
 rewiremock(() => require('@slack/web-api')).with({
   WebClient: class {
-    constructor(token, _options) {
+    constructor(token, options) {
       this.token = token;
+      this.options = options;
     };
     auth = {
       test: sinon.fake.resolves({ bot_id: '' }),
