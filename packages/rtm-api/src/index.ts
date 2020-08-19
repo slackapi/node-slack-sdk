@@ -1,4 +1,3 @@
-
 /// <reference lib="es2017" />
 
 export {
@@ -11,6 +10,7 @@ export {
 export { Logger, LogLevel } from './logger';
 
 export {
+  CodedError,
   ErrorCode,
   RTMPlatformError,
   RTMWebsocketError,

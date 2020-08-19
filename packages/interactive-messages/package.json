@@ -45,12 +45,14 @@
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
     "lint": "tslint --project .",
     "test": "nyc mocha --config .mocharc.json src/*.spec.js",
-    "coverage": "codecov -F interactivemessages --root=$PWD"
+    "coverage": "codecov -F interactivemessages --root=$PWD",
+    "ref-docs:model": "api-extractor run"
   },
   "dependencies": {
     "@types/debug": "^4.1.4",
     "@types/express": "^4.17.0",
     "@types/lodash.isfunction": "^3.0.6",
+    "@types/lodash.isplainobject": "^4.0.6",
     "@types/lodash.isregexp": "^4.0.6",
     "@types/lodash.isstring": "^4.0.6",
     "@types/node": ">=4.2.0",
@@ -64,7 +66,7 @@
     "tsscmp": "^1.0.6"
   },
   "devDependencies": {
-    "@types/lodash.isplainobject": "^4.0.6",
+    "@microsoft/api-extractor": "^7.3.4",
     "body-parser": "^1.18.2",
     "chai": "^4.2.0",
     "codecov": "^3.0.0",

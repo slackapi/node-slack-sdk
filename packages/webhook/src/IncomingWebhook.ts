@@ -47,7 +47,7 @@ export class IncomingWebhook {
 
   /**
    * Send a notification to a conversation
-   * @param message the message (a simple string, or an object describing the message)
+   * @param message - the message (a simple string, or an object describing the message)
    */
   public async send(message: string | IncomingWebhookSendArguments): Promise<IncomingWebhookResult> {
     // NOTE: no support for TLS config

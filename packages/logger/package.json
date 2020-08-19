@@ -30,12 +30,14 @@
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
     "lint": "tslint --project .",
-    "test": "npm run build && nyc mocha --config .mocharc.json src/*.spec.js"
+    "test": "npm run build && nyc mocha --config .mocharc.json src/*.spec.js",
+    "ref-docs:model": "api-extractor run"
   },
   "dependencies": {
     "@types/node": ">=8.9.0"
   },
   "devDependencies": {
+    "@microsoft/api-extractor": "^7.3.4",
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
     "chai": "^4.2.0",

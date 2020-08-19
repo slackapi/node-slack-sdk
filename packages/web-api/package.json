@@ -40,7 +40,8 @@
     "test": "npm run build && npm run test:mocha && npm run test:types",
     "test:mocha": "nyc mocha --config .mocharc.json src/*.spec.js",
     "test:types": "tsd",
-    "coverage": "codecov -F webapi --root=$PWD"
+    "coverage": "codecov -F webapi --root=$PWD",
+    "ref-docs:model": "api-extractor run"
   },
   "dependencies": {
     "@slack/logger": ">=1.0.0 <3.0.0",
@@ -57,6 +58,7 @@
   },
   "devDependencies": {
     "@aoberoi/capture-console": "^1.1.0",
+    "@microsoft/api-extractor": "^7.3.4",
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
     "busboy": "^0.3.0",

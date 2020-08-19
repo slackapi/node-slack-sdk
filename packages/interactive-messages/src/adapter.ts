@@ -100,7 +100,6 @@ function validateViewConstraints(viewConstraints: ViewConstraints): Error | fals
 
 /**
  * An adapter for Slack's interactive message components such as buttons, menus, and dialogs.
- * @typicalname slackInteractions
  */
 export class SlackMessageAdapter {
   /**
@@ -643,7 +642,7 @@ export class SlackMessageAdapter {
 export default SlackMessageAdapter;
 
 /** Some HTTP response statuses. */
-enum ResponseStatus {
+export enum ResponseStatus {
   Ok = 200,
   Failure = 500,
 }
@@ -651,7 +650,7 @@ enum ResponseStatus {
 /**
  * The result of a call to {@link SlackMessageAdapter#dispatch}.
  */
-interface DispatchResult {
+export interface DispatchResult {
   status: ResponseStatus;
   content?: any;
 }
@@ -757,7 +756,7 @@ export interface ViewConstraints {
   viewId?: string;
 }
 
-type AnyConstraints = ActionConstraints | OptionsConstraints | ViewConstraints | ShortcutConstraints;
+export type AnyConstraints = ActionConstraints | OptionsConstraints | ViewConstraints | ShortcutConstraints;
 
 /**
  * The type of stored constraints.
@@ -773,7 +772,7 @@ const enum StoredConstraintsType {
 /**
  * Internal storage type that describes the constraints of an ActionHandler or OptionsHandler.
  */
-type StoredConstraints =
+export type StoredConstraints =
  | ({ handlerType: StoredConstraintsType.Action } & ActionConstraints)
  | ({ handlerType: StoredConstraintsType.Shortcut } & ShortcutConstraints)
  | ({ handlerType: StoredConstraintsType.Options } & OptionsConstraints)
@@ -789,7 +788,7 @@ type StoredConstraints =
  * @returns there's no contract or interface for the resolution value, but this Promise will resolve when the HTTP
  *   response from the `response_url` request is complete and reject when there is an error.
  */
-type Respond = (message: any) => Promise<unknown>;
+export type Respond = (message: any) => Promise<unknown>;
 
 /**
  * A handler function for action requests (block actions, button presses, menu selections,
@@ -813,14 +812,14 @@ type Respond = (message: any) => Promise<unknown>;
  *   complete, Slack will display an error to the user. If there is no return value, then button presses and menu
  *   selections do not update the message and dialog submissions will validate and dismiss.
  */
-type ActionHandler = (payload: any, respond: Respond) => any | Promise<any> | undefined;
+export type ActionHandler = (payload: any, respond: Respond) => any | Promise<any> | undefined;
 
 /**
  * A handler function for global shortcuts.
  *
  * TODO: describe the payload and return values more specifically?
  */
-type ShortcutHandler = (payload: any) => any | Promise<any> | undefined;
+export type ShortcutHandler = (payload: any) => any | Promise<any> | undefined;
 
 /**
  * A handler function for menu options requests.
@@ -835,21 +834,21 @@ type ShortcutHandler = (payload: any) => any | Promise<any> | undefined;
  *   Promise either of these values. If a Promise is returned and it does not complete within 3 seconds, Slack will
  *   display an error to the user. If there is no return value, then the user is shown an empty list of options.
  */
-type OptionsHandler = (payload: any) => any | Promise<any> | undefined;
+export type OptionsHandler = (payload: any) => any | Promise<any> | undefined;
 
 /**
  * A handler function for view submission requests.
  *
  * TODO: describe the payload and return values more specifically?
  */
-type ViewSubmissionHandler = (payload: any) => any | Promise<any> | undefined;
+export type ViewSubmissionHandler = (payload: any) => any | Promise<any> | undefined;
 
 /**
  * A handler function for view closed requests.
  *
  * TODO: describe the payload and return values more specifically?
  */
-type ViewClosedHandler = (payload: any) => void;
+export type ViewClosedHandler = (payload: any) => void;
 
 type Callback = ActionHandler | OptionsHandler | ViewSubmissionHandler | ViewClosedHandler;
 

@@ -35,7 +35,7 @@ export class SlackEventAdapter extends EventEmitter {
   public waitForResponse: boolean;
 
   /**
-   * The HTTP server this adapter might be running, created in {@link start}.
+   * The HTTP server this adapter might be running, created in {@link SlackEventAdapter.start}.
    */
   private server?: http.Server;
 
@@ -84,7 +84,7 @@ export class SlackEventAdapter extends EventEmitter {
    * Starts a server on the specified port.
    *
    * @param port - The port number to listen on.
-   * @returns The {@link http.Server | server}.
+   * @returns The server from the built-in `http` module.
    */
   public start(port: number): Promise<http.Server> {
     return this.createServer()
@@ -97,7 +97,7 @@ export class SlackEventAdapter extends EventEmitter {
   }
 
   /**
-   * Stops the server started by {@link start}.
+   * Stops the server started by {@link SlackEventAdapter.start}.
    */
   public stop(): Promise<void> {
     return new Promise((resolve, reject) => {

@@ -41,7 +41,8 @@
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
     "lint": "tslint --project .",
     "test": "nyc mocha --config .mocharc.json src/*.spec.js test/integration/*.js",
-    "coverage": "codecov -F eventsapi --root=$PWD"
+    "coverage": "codecov -F eventsapi --root=$PWD",
+    "ref-docs:model": "api-extractor run"
   },
   "dependencies": {
     "@types/debug": "^4.1.4",
@@ -56,6 +57,7 @@
     "yargs": "^15.3.1"
   },
   "devDependencies": {
+    "@microsoft/api-extractor": "^7.3.4",
     "chai": "^4.2.0",
     "codecov": "^3.0.4",
     "express": "^4.14.0",

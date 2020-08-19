@@ -22,9 +22,9 @@ and to allow lerna to link them to each other.
 ### Testing
 
 This project has tests for individual packages inside of each's respective `test` directory. It also has
-integration tests in the `integration-tests` directory at the root. You can run the entire test suite using the npm
-script `npm test` at the top level. This script will use Lerna to invoke tests in each package and the integration
-tests.
+integration tests in the `integration-tests` directory under the root `support` directory. You can run the entire test
+suite using the npm script `npm test` at the top level. This script will use Lerna to invoke tests in each package and
+the integration tests.
 
 Tests are executed by Travis, our continuous integration system, slightly differently. Travis runs several, more
 granular builds in order to report on success and failure in a more useful (targeted) way. There is one build for each
@@ -44,9 +44,15 @@ We have included `launch.json` files that store configuration for `vscode` debug
 
 The documentation is built using [Jekyll](https://jekyllrb.com/) and hosted with GitHub Pages. The source files are
 contained in the `docs` directory. Reading the Jekyll configuration in `docs/_config.yml` is helpful to understand how
-the documentation is organized and built.
+the documentation is organized and built. To build the docs, you will have to run the command `bundle exec jekyll serve` 
+in the docs directory. A prerequisite to building the docs locally is to have ruby ~2.5.3 and install the dependencies by running `bundle install`.
 
-**TODO** add information regarding building reference documentation, once that process is revised.
+To build reference documentation, in the root of this repo, run `npm run ref-docs`. This will generate reference docs and put them in the `docs/_reference` directory.
+Currently, reference docs need to be built manually running this command and checked into GitHub.
+
+**TODO**: Update this doc once building of reference docs is automated to happen on each commit to the repo
+
+Reference docs are built by using various open source tools and formats. This includes [API-Extractor](https://api-extractor.com/), [mdast](https://github.com/syntax-tree/mdast), and [Remark](https://github.com/remarkjs/remark). [Read more about the reference docs pipeline](https://github.com/slackapi/node-slack-sdk/pull/831#issue-299509206).
 
 ### Releasing
 

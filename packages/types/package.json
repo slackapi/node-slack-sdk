@@ -32,9 +32,11 @@
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
     "lint": "tslint --project .",
-    "test": "npm run build && echo \"Tests are not implemented.\" && exit 0"
+    "test": "npm run build && echo \"Tests are not implemented.\" && exit 0",
+    "ref-docs:model": "api-extractor run"
   },
   "devDependencies": {
+    "@microsoft/api-extractor": "^7.3.4",
     "shx": "^0.3.2",
     "tslint": "^5.13.1",
     "tslint-config-airbnb": "^5.11.1",

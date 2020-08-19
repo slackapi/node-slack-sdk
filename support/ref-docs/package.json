@@ -1,0 +1,26 @@
+{
+  "name": "@slack/sdk-ref-docs",
+  "private": true,
+  "description": "Reference documentation generation for Node Slack SDK",
+  "author": "Slack Technologies, Inc.",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node ./src/index.ts"
+  },
+  "dependencies": {
+    "@microsoft/api-extractor-model": "^7.3.0",
+    "@types/hast": "^2.3.1",
+    "array.prototype.flat": "^1.2.1",
+    "array.prototype.flatmap": "^1.2.1",
+    "mdast-builder": "^1.1.1",
+    "rehype-stringify": "^6.0.0",
+    "remark-rehype": "^5.0.0",
+    "unified": "^8.3.2",
+    "unist-util-visit": "^2.0.2",
+    "vfile": "^4.0.1"
+  },
+  "devDependencies": {
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.2"
+  }
+}

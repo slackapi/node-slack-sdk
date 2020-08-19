@@ -14,6 +14,8 @@
         {% for doc in packages %}
             <li><a href="{{ doc.url | prepend: site.baseurl }}" class="sidebar_menu_list_item">{{ doc.title }}</a></li>
         {% endfor %}
+        
+        <li><a href="{{ '/reference/' | prepend: site.baseurl }}" class="sidebar_menu_list_item">Reference</a></li>
     </ul>
 </div>
 
