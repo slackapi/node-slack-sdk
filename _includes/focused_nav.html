@@ -1,0 +1,14 @@
+<div class="sidebar_menu">
+    <ul class="sidebar_menu_list">
+        <li><a href="{{ '/' | prepend: site.baseurl }}" class="sidebar_menu_list_item"><p class="nav_home"><ts-icon class="ts_icon_home nav_home_icon"></ts-icon> Node Slack SDK</p></a></li>
+    </ul>
+</div>
+
+<div class="sidebar_menu invisible_until_anchor">
+    {% if page.anchor_links_header %}
+    <h4 class="sidebar_menu_header">{{ page.anchor_links_header }}</h4>
+    {% endif %}
+    <ul class="sidebar_menu_list">
+        <li class="anchor_template"><a href="#" class="sidebar_menu_list_item"></a></li>
+    </ul>
+</div>

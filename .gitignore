@@ -1,0 +1,6 @@
+_site
+Gemfile.lock
+.env
+
+# Built reference docs need to be committed currently
+# /_reference/*.md
