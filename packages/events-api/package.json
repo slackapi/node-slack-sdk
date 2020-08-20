@@ -40,7 +40,7 @@
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
     "lint": "prettier 'src/**/*.ts' --check && eslint --ext .ts src",
-    "prettier-fix": "prettier --write 'src/**/*.ts'",
+    "lint-fix": "prettier --write 'src/**/*.ts' && eslint --ext .ts src --fix",
     "test": "nyc mocha --config .mocharc.json src/*.spec.js test/integration/*.js",
     "coverage": "codecov -F eventsapi --root=$PWD",
     "ref-docs:model": "api-extractor run"
@@ -81,8 +81,6 @@
     "source-map-support": "^0.5.12",
     "superagent": "^3.3.1",
     "ts-node": "^8.2.0",
-    "tslint": "^5.17.0",
-    "tslint-config-airbnb": "^5.11.1",
     "typescript": "^3.5.1",
     "uncaughtException": "^1.0.0"
   },

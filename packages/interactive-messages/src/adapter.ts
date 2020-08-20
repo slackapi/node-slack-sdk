@@ -28,7 +28,7 @@ function formatMatchingConstraints<C extends AnyConstraints>(matchingConstraints
   if (!isPlainObject(matchingConstraints)) {
     ret.callbackId = matchingConstraints as string | RegExp;
   } else {
-    ret = Object.assign({}, matchingConstraints as C);
+    ret = { ...matchingConstraints as C};
   }
   return ret as C;
 }
@@ -130,7 +130,9 @@ export class SlackMessageAdapter {
   public lateResponseFallbackEnabled: boolean;
 
   private callbacks: [StoredConstraints, Callback][];
+
   private axios: AxiosInstance;
+
   private server?: http.Server;
 
   /**

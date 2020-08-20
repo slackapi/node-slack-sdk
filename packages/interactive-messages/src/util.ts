@@ -1,5 +1,6 @@
 import os from 'os';
 import { ErrorCode, errorWithCode } from './errors';
+
 const pkg = require('../package.json'); // eslint-disable-line
 
 function escape(s: string): string {
@@ -36,14 +37,12 @@ export function promiseTimeout<T>(ms: number, promise: T | Promise<T>): Promise<
 // 3. tests
 // there will potentially be more named exports in this file
 export function packageIdentifier(addons: Record<string, string> = {}): string {
-  const identifierMap = Object.assign(
-    {
-      [pkg.name]: pkg.version,
+  const identifierMap = {
+    [pkg.name]: pkg.version,
       [os.platform()]: os.release(),
       node: process.version.replace('v', ''),
-    },
-    addons,
-  );
+    ...addons,
+  };
   return Object.keys(identifierMap).reduce((acc, k) => `${acc} ${escape(k)}/${escape(identifierMap[k])}`, '');
 }
 

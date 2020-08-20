@@ -34,7 +34,7 @@
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
     "lint": "prettier 'src/**/*.ts' --check && eslint --ext .ts src",
-    "prettier-fix": "prettier --write 'src/**/*.ts'",
+    "lint-fix": "prettier --write 'src/**/*.ts' && eslint --ext .ts src --fix",
     "test": "npm run build && nyc mocha --config .mocharc.json src/*.spec.js",
     "coverage": "codecov -F webhook --root=$PWD",
     "ref-docs:model": "api-extractor run"
@@ -65,8 +65,6 @@
     "sinon": "^7.2.7",
     "source-map-support": "^0.5.10",
     "ts-node": "^8.0.3",
-    "tslint": "^5.13.1",
-    "tslint-config-airbnb": "^5.11.1",
     "typescript": "^3.3.3333"
   }
 }

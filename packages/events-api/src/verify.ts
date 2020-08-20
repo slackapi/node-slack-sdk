@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 import yargs from 'yargs';
-import { createEventAdapter } from './index';
 import { AddressInfo } from 'net';
+import { createEventAdapter } from './index';
 
-const argv = yargs
+const {argv} = yargs
   .options({
     secret: {
       alias: 's',
@@ -28,7 +28,7 @@ const argv = yargs
       type: 'number',
     },
   })
-  .help().argv;
+  .help();
 
 const slackEvents = createEventAdapter(argv.secret);
 

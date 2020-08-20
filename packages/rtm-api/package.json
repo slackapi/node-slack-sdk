@@ -38,7 +38,7 @@
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
     "lint": "prettier 'src/**/*.ts' --check && eslint --ext .ts src",
-    "prettier-fix": "prettier --write 'src/**/*.ts'",
+    "lint-fix": "prettier --write 'src/**/*.ts' && eslint --ext .ts src --fix",
     "ref-docs:model": "api-extractor run",
     "test": "npm run build && echo \"Tests are not implemented.\" && exit 0"
   },
@@ -65,8 +65,6 @@
     "eslint-plugin-jsdoc": "^30.2.1",
     "prettier": "^2.0.5",
     "shx": "^0.3.2",
-    "tslint": "^5.13.1",
-    "tslint-config-airbnb": "^5.11.1",
     "typescript": "^3.3.3333"
   }
 }

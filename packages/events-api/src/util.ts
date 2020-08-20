@@ -1,4 +1,5 @@
 import os from 'os';
+
 const pkg = require('../package.json'); // eslint-disable-line
 
 // TODO: expose an API to extend this

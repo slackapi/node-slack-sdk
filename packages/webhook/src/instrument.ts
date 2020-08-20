@@ -1,4 +1,5 @@
 import * as os from 'os';
+
 const packageJson = require('../package.json'); // eslint-disable-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
 
 /**

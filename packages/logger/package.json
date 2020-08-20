@@ -30,7 +30,7 @@
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
     "lint": "prettier 'src/**/*.ts' --check && eslint --ext .ts src",
-    "prettier-fix": "prettier --write 'src/**/*.ts'",
+    "lint-fix": "prettier --write 'src/**/*.ts' && eslint --ext .ts src --fix",
     "ref-docs:model": "api-extractor run",
     "test": "npm run build && nyc mocha --config .mocharc.json src/*.spec.js"
   },
@@ -54,8 +54,6 @@
     "prettier": "^2.0.5",
     "shx": "^0.3.2",
     "ts-node": "^8.2.0",
-    "tslint": "^5.13.1",
-    "tslint-config-airbnb": "^5.11.1",
     "typescript": "^3.3.3333"
   }
 }
