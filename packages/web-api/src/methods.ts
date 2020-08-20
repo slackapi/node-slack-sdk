@@ -1,7 +1,7 @@
 import { Stream } from 'stream';
 import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser } from '@slack/types';
-import { WebAPICallOptions, WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
 import { EventEmitter } from 'eventemitter3';
+import { WebAPICallOptions, WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
 

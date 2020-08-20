@@ -51,7 +51,7 @@ export class IncomingWebhook {
    */
   public async send(message: string | IncomingWebhookSendArguments): Promise<IncomingWebhookResult> {
     // NOTE: no support for TLS config
-    let payload: IncomingWebhookSendArguments = { ...this.defaults};
+    let payload: IncomingWebhookSendArguments = { ...this.defaults };
 
     if (typeof message === 'string') {
       payload.text = message;

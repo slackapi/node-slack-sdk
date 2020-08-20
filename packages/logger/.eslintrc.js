@@ -14,11 +14,11 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: 'tsconfig.json',
-    sourceType: 'module',
+    project: './tsconfig.eslint.json',
+    tsconfigRootDir: __dirname,
   },
   plugins: ['@typescript-eslint'],
-  ignorePatterns: ['**/*.spec.ts', 'src/test-helpers.ts'],
+  ignorePatterns: ['**/*.spec.ts', 'src/test-helpers.ts', '*.js'],
   rules: {
     'import/first': ['off'],
     'import/prefer-default-export': ['off'],
@@ -27,5 +27,6 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': 'off',
     'no-nested-ternary': 'off',
     'consistent-return': 'off',
+    'no-console': 'off',
   },
 };

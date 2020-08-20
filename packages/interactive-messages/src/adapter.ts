@@ -28,7 +28,7 @@ function formatMatchingConstraints<C extends AnyConstraints>(matchingConstraints
   if (!isPlainObject(matchingConstraints)) {
     ret.callbackId = matchingConstraints as string | RegExp;
   } else {
-    ret = { ...matchingConstraints as C};
+    ret = { ...(matchingConstraints as C) };
   }
   return ret as C;
 }

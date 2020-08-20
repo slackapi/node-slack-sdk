@@ -2,8 +2,8 @@
 
 // polyfill for async iterable. see: https://stackoverflow.com/a/43694282/305340
 // can be removed once node v10 is the minimum target (node v8 and v9 require --harmony_async_iteration flag)
-if (Symbol['asyncIterator'] === undefined) {
-  (Symbol as any)['asyncIterator'] = Symbol.for('asyncIterator');
+if (Symbol.asyncIterator === undefined) {
+  (Symbol as any).asyncIterator = Symbol.for('asyncIterator');
 }
 
 import { stringify as qsStringify } from 'querystring';
@@ -123,12 +123,10 @@ export class WebClient extends Methods {
 
     this.axios = axios.create({
       baseURL: slackApiUrl,
-      headers: Object.assign(
-        {
-          'User-Agent': getUserAgent(),
-        },
-        headers,
-      ),
+      headers: {
+        'User-Agent': getUserAgent(),
+        ...headers,
+      },
       httpAgent: agent,
       httpsAgent: agent,
       transformRequest: [this.serializeApiCallOptions.bind(this)],
@@ -161,7 +159,7 @@ export class WebClient extends Methods {
       throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
     }
 
-    const response = await this.makeRequest(method, Object.assign({ token: this.token }, options));
+    const response = await this.makeRequest(method, { token: this.token, ...options });
     const result = this.buildResult(response);
 
     // log warnings in response metadata
@@ -236,7 +234,7 @@ export class WebClient extends Methods {
 
     const pageSize = (() => {
       if (options !== undefined && typeof options.limit === 'number') {
-        const limit = options.limit;
+        const { limit } = options;
         delete options.limit;
         return limit;
       }
@@ -245,7 +243,7 @@ export class WebClient extends Methods {
 
     async function* generatePages(this: WebClient): AsyncIterableIterator<WebAPICallResult> {
       // when result is undefined, that signals that the first of potentially many calls has not yet been made
-      let result: WebAPICallResult | undefined = undefined;
+      let result: WebAPICallResult | undefined;
       // paginationOptions stores pagination options not already stored in the options argument
       let paginationOptions: CursorPaginationEnabled | undefined = {
         limit: pageSize,
@@ -308,16 +306,10 @@ export class WebClient extends Methods {
       this.requestQueue.add(async () => {
         this.logger.debug('will perform http request');
         try {
-          const response = await this.axios.post(
-            url,
-            body,
-            Object.assign(
-              {
-                headers,
-              },
-              this.tlsConfig,
-            ),
-          );
+          const response = await this.axios.post(url, body, {
+            headers,
+            ...this.tlsConfig,
+          });
           this.logger.debug('http response received');
 
           if (response.status === 429) {
@@ -449,7 +441,7 @@ export class WebClient extends Methods {
    * @param response - an http response
    */
   private buildResult(response: AxiosResponse): WebAPICallResult {
-    const data = response.data;
+    const { data } = response;
 
     if (data.response_metadata === undefined) {
       data.response_metadata = {};
@@ -565,7 +557,7 @@ function paginationOptionsForNextPage(
       cursor: previousResult.response_metadata.next_cursor as string,
     };
   }
-  return;
+  return undefined;
 }
 
 /**

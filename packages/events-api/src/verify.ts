@@ -4,7 +4,7 @@ import yargs from 'yargs';
 import { AddressInfo } from 'net';
 import { createEventAdapter } from './index';
 
-const {argv} = yargs
+const { argv } = yargs
   .options({
     secret: {
       alias: 's',

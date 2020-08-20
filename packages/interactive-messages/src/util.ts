@@ -39,8 +39,8 @@ export function promiseTimeout<T>(ms: number, promise: T | Promise<T>): Promise<
 export function packageIdentifier(addons: Record<string, string> = {}): string {
   const identifierMap = {
     [pkg.name]: pkg.version,
-      [os.platform()]: os.release(),
-      node: process.version.replace('v', ''),
+    [os.platform()]: os.release(),
+    node: process.version.replace('v', ''),
     ...addons,
   };
   return Object.keys(identifierMap).reduce((acc, k) => `${acc} ${escape(k)}/${escape(identifierMap[k])}`, '');
