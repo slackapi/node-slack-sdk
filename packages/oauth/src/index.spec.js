@@ -5,12 +5,14 @@ const url = require('url');
 const rewiremock = require('rewiremock/node');
 const sinon = require('sinon');
 const { ErrorCode } = require('./errors');
+const { LogLevel } = require('./logger');
 
 // Stub WebClient api calls that the OAuth package makes
 rewiremock(() => require('@slack/web-api')).with({
   WebClient: class {
-    constructor(token, _options) {
+    constructor(token, options) {
       this.token = token;
+      this.options = options;
     };
     auth = {
       test: sinon.fake.resolves({ bot_id: '' }),
@@ -216,6 +218,43 @@ describe('OAuth', async () => {
               assert.fail(error.message);
           }
       });
+      it('should return a generated url when passed a custom authorizationUrl', async () => {
+        const fakeStateStore = {
+          generateStateParam: sinon.fake.resolves('fakeState'),
+          verifyStateParam: sinon.fake.resolves({})
+        }
+        const authorizationUrl = 'https://dev.slack.com/oauth/v2/authorize';
+        const installer = new InstallProvider({ clientId, clientSecret, stateStore: fakeStateStore, authorizationUrl });
+        const scopes = ['channels:read'];
+        const teamId = '1234Team';
+        const redirectUri = 'https://mysite.com/slack/redirect';
+        const userScopes = ['chat:write:user']
+        const installUrlOptions = {
+          scopes,
+          metadata: 'some_metadata',
+          teamId,
+          redirectUri,
+          userScopes,
+        }
+        try {
+            const generatedUrl = await installer.generateInstallUrl(installUrlOptions)
+            assert.exists(generatedUrl);
+            assert.equal(fakeStateStore.generateStateParam.callCount, 1);
+            assert.equal(fakeStateStore.verifyStateParam.callCount, 0);
+            assert.equal(fakeStateStore.generateStateParam.calledWith(installUrlOptions), true);
+
+            const parsedUrl = url.parse(generatedUrl, true);
+            assert.equal(parsedUrl.query.state, 'fakeState');
+            assert.equal(parsedUrl.pathname, '/oauth/v2/authorize');
+            assert.equal(parsedUrl.host, 'dev.slack.com')
+            assert.equal(scopes.join(','), parsedUrl.query.scope);
+            assert.equal(redirectUri, parsedUrl.query.redirect_uri);
+            assert.equal(teamId, parsedUrl.query.team);
+            assert.equal(userScopes.join(','), parsedUrl.query.user_scope);
+        } catch (error) {
+            assert.fail(error.message);
+        }
+    });
       it('should return a generated v1 url', async () => {
           const fakeStateStore = {
             generateStateParam: sinon.fake.resolves('fakeState'),
