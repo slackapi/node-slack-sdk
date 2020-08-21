@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { sign, verify } from 'jsonwebtoken';
-import { WebClient } from '@slack/web-api';
+import { WebClient, WebClientOptions } from '@slack/web-api';
 import { parse as parseUrl, URLSearchParams, URL } from 'url';
 import {
   CodedError,
@@ -35,6 +35,8 @@ export class InstallProvider {
   private authVersion: string;
 
   private logger: Logger;
+  private clientOptions: WebClientOptions;
+  private authorizationUrl: string;
 
   constructor({
     clientId,
@@ -45,6 +47,8 @@ export class InstallProvider {
     authVersion = 'v2',
     logger = undefined,
     logLevel = LogLevel.INFO,
+    clientOptions = {},
+    authorizationUrl = 'https://slack.com/oauth/v2/authorize',
   }: InstallProviderOptions) {
     if (clientId === undefined || clientSecret === undefined) {
       throw new InstallerInitializationError('You must provide a valid clientId and clientSecret');
@@ -75,6 +79,18 @@ export class InstallProvider {
     this.handleCallback = this.handleCallback.bind(this);
     this.authorize = this.authorize.bind(this);
     this.authVersion = authVersion;
+
+    this.authorizationUrl = authorizationUrl;
+    if (authorizationUrl !== 'https://slack.com/oauth/v2/authorize' && authVersion === 'v1') {
+      this.logger.info('You provided both an authorizationUrl and an authVersion! The authVersion will be ignored in favor of the authorizationUrl.');
+    } else if (authVersion === 'v1') {
+      this.authorizationUrl = 'https://slack.com/oauth/authorize';
+    }
+
+    this.clientOptions = {
+      logLevel: this.logger.getLevel(),
+      ...clientOptions,
+    };
   }
 
   /**
@@ -107,11 +123,7 @@ export class InstallProvider {
    * Uses stateStore to generate a value for the state query param.
    */
   public async generateInstallUrl(options: InstallURLOptions): Promise<string> {
-    // Base URL
-    const slackURL = new URL('https://slack.com/oauth/v2/authorize');
-    if (this.authVersion === 'v1') {
-      slackURL.href = 'https://slack.com/oauth/authorize';
-    }
+    const slackURL = new URL(this.authorizationUrl);
 
     if (options.scopes === undefined) {
       throw new GenerateInstallUrlError('You must provide a scope parameter when calling generateInstallUrl');
@@ -186,7 +198,7 @@ export class InstallProvider {
       }
 
       installOptions = await this.stateStore.verifyStateParam(new Date(), state);
-      const client = new WebClient();
+      const client = new WebClient('', this.clientOptions);
 
       let resp;
       let installation: Installation;
@@ -213,7 +225,7 @@ export class InstallProvider {
         // only can get botId if bot access token exists
         // need to create a botUser + request bot scope to have this be part of resp
         if (resp.bot !== undefined) {
-          const botId = await getBotId(resp.bot.bot_access_token);
+          const botId = await getBotId(resp.bot.bot_access_token, this.clientOptions);
           installation.bot = {
             id: botId,
             scopes: ['bot'],
@@ -237,7 +249,7 @@ export class InstallProvider {
         })) as unknown) as OAuthV2Response;
 
         // get botId
-        const botId = await getBotId(resp.access_token);
+        const botId = await getBotId(resp.access_token, this.clientOptions);
 
         // resp obj for v2 - https://api.slack.com/methods/oauth.v2.access#response
         installation = {
@@ -296,7 +308,7 @@ export class InstallProvider {
   }
 }
 
-interface InstallProviderOptions {
+export interface InstallProviderOptions {
   clientId: string;
   clientSecret: string;
   stateStore?: StateStore; // default ClearStateStore
@@ -305,6 +317,8 @@ interface InstallProviderOptions {
   authVersion: 'v1' | 'v2'; // default 'v2'
   logger?: Logger;
   logLevel?: LogLevel;
+  clientOptions?: Omit<WebClientOptions, 'logLevel' | 'logger'>;
+  authorizationUrl?: string;
 }
 
 export interface InstallURLOptions {
@@ -549,8 +563,8 @@ function callbackFailure(
 }
 
 // Gets the bot_id using the `auth.test` method.
-async function getBotId(token: string): Promise<string> {
-  const client = new WebClient(token);
+async function getBotId(token: string, clientOptions: WebClientOptions): Promise<string> {
+  const client = new WebClient(token, clientOptions);
   const authResult = await client.auth.test();
   if (authResult.bot_id !== undefined) {
     return authResult.bot_id as string;
