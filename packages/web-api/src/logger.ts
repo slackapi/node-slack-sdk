@@ -13,7 +13,7 @@ export function getLogger(name: string, level: LogLevel, existingLogger?: Logger
   instanceCount += 1;
 
   // Set up the logger.
-  const logger: Logger = (() => {
+  const logger: Logger = ((): Logger => {
     if (existingLogger !== undefined) {
       return existingLogger;
     }

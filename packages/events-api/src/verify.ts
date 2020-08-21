@@ -23,7 +23,7 @@ const { argv } = yargs
     port: {
       alias: 'l',
       describe:
-        'The local port for the HTTP server. The development proxy should be configured to forward to this ' + 'port.',
+        'The local port for the HTTP server. The development proxy should be configured to forward to this port.',
       default: 3000,
       type: 'number',
     },

@@ -240,7 +240,8 @@ export class RTMClient extends EventEmitter {
       this.authenticated = false;
 
       // clear data that is now stale
-      this.activeUserId = this.activeTeamId = undefined;
+      this.activeUserId = undefined;
+      this.activeTeamId = undefined;
 
       this.keepAlive.stop();
       this.outgoingEventQueue.pause();
@@ -531,10 +532,7 @@ export class RTMClient extends EventEmitter {
    * @param body - the message body
    */
   public send(type: string, body = {}): Promise<number> {
-    const message = Object.assign({}, body, {
-      type,
-      id: this.nextMessageId(),
-    });
+    const message = { ...body, type, id: this.nextMessageId() };
 
     return new Promise((resolve, reject) => {
       this.logger.debug(`send() in state: ${this.stateMachine.getStateHierarchy()}`);
@@ -577,12 +575,10 @@ export class RTMClient extends EventEmitter {
    */
   private setupWebsocket(url: string): void {
     // initialize the websocket
-    const options: WebSocket.ClientOptions = Object.assign(
-      {
-        perMessageDeflate: false,
-      },
-      this.tlsConfig,
-    );
+    const options: WebSocket.ClientOptions = {
+      perMessageDeflate: false,
+      ...this.tlsConfig,
+    };
     if (this.agentConfig !== undefined) {
       options.agent = this.agentConfig;
     }

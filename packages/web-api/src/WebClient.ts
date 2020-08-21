@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 /// <reference lib="esnext.asynciterable" />
 
 // polyfill for async iterable. see: https://stackoverflow.com/a/43694282/305340
@@ -27,7 +28,7 @@ import {
   rateLimitedErrorWithDelay,
 } from './errors';
 import { LogLevel, Logger, getLogger } from './logger';
-import retryPolicies, { RetryOptions } from './retry-policies';
+import { tenRetriesInAboutThirtyMinutes, RetryOptions } from './retry-policies';
 import { delay } from './helpers';
 
 /**
@@ -93,7 +94,7 @@ export class WebClient extends Methods {
       logger = undefined,
       logLevel = LogLevel.INFO,
       maxRequestConcurrency = 3,
-      retryConfig = retryPolicies.tenRetriesInAboutThirtyMinutes,
+      retryConfig = tenRetriesInAboutThirtyMinutes,
       agent = undefined,
       tls = undefined,
       rejectRateLimitedCalls = false,
@@ -232,9 +233,10 @@ export class WebClient extends Methods {
       this.logger.warn(`paginate() called with method ${method}, which is not known to be cursor pagination enabled.`);
     }
 
-    const pageSize = (() => {
+    const pageSize = ((): number => {
       if (options !== undefined && typeof options.limit === 'number') {
         const { limit } = options;
+        // eslint-disable-next-line no-param-reassign
         delete options.limit;
         return limit;
       }
@@ -255,6 +257,7 @@ export class WebClient extends Methods {
       // NOTE: test for the situation where you're resuming a pagination using and existing cursor
 
       while (result === undefined || paginationOptions !== undefined) {
+        // eslint-disable-next-line no-await-in-loop
         result = await this.apiCall(method, Object.assign(options !== undefined ? options : {}, paginationOptions));
         yield result;
         paginationOptions = paginationOptionsForNextPage(result, pageSize);
@@ -268,7 +271,7 @@ export class WebClient extends Methods {
     const pageReducer: PageReducer<A> = reduce !== undefined ? reduce : noopPageReducer;
     let index = 0;
 
-    return (async () => {
+    return (async (): Promise<A> => {
       // Unroll the first iteration of the iterator
       // This is done primarily because in order to satisfy the type system, we need a variable that is typed as A
       // (shown as accumulator before), but before the first iteration all we have is a variable typed A | undefined.
@@ -302,7 +305,7 @@ export class WebClient extends Methods {
    */
   private async makeRequest(url: string, body: any, headers: any = {}): Promise<AxiosResponse> {
     // TODO: better input types - remove any
-    const task = () =>
+    const task = (): Promise<AxiosResponse<any>> =>
       this.requestQueue.add(async () => {
         this.logger.debug('will perform http request');
         try {
@@ -390,10 +393,10 @@ export class WebClient extends Methods {
     // A body with binary content should be serialized as multipart/form-data
     if (containsBinaryData) {
       this.logger.debug('request arguments contain binary data');
-      const form = flattened.reduce((form, [key, value]) => {
+      const formObj = flattened.reduce((form, [key, value]) => {
         if (Buffer.isBuffer(value) || isStream(value)) {
-          const options: FormData.AppendOptions = {};
-          options.filename = (() => {
+          const appendedOptions: FormData.AppendOptions = {};
+          appendedOptions.filename = ((): string => {
             // attempt to find filename from `value`. adapted from:
             // eslint-disable-next-line max-len
             // https://github.com/form-data/form-data/blob/028c21e0f93c5fefa46a7bbf1ba753e4f627ab7a/lib/form_data.js#L227-L230
@@ -408,7 +411,7 @@ export class WebClient extends Methods {
             }
             return defaultFilename;
           })();
-          form.append(key as string, value, options);
+          form.append(key as string, value, appendedOptions);
         } else if (key !== undefined && value !== undefined) {
           form.append(key, value);
         }
@@ -416,13 +419,15 @@ export class WebClient extends Methods {
       }, new FormData());
       // Copying FormData-generated headers into headers param
       // not reassigning to headers param since it is passed by reference and behaves as an inout param
-      for (const [header, value] of Object.entries(form.getHeaders())) {
+      for (const [header, value] of Object.entries(formObj.getHeaders())) {
+        // eslint-disable-next-line no-param-reassign
         headers[header] = value;
       }
-      return form;
+      return formObj;
     }
 
     // Otherwise, a simple key-value object is returned
+    // eslint-disable-next-line no-param-reassign
     headers['Content-Type'] = 'application/x-www-form-urlencoded';
     const initialValue: { [key: string]: any } = {};
     return qsStringify(
@@ -440,6 +445,7 @@ export class WebClient extends Methods {
    * HTTP headers into the object.
    * @param response - an http response
    */
+  // eslint-disable-next-line class-methods-use-this
   private buildResult(response: AxiosResponse): WebAPICallResult {
     const { data } = response;
 

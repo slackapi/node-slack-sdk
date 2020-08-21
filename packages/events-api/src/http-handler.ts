@@ -59,7 +59,7 @@ export function createHTTPHandler(adapter: SlackEventAdapter): HTTPHandler {
   function sendResponse(res: ServerResponse): ResponseHandler {
     // This function is the completion handler for sending a response to an event. It can either
     // be invoked by automatically or by the user (when using the `waitForResponse` option).
-    return (err, responseOptions) => {
+    return (err, responseOptions): void => {
       debug('sending response - error: %s, responseOptions: %o', err, responseOptions);
       // Deal with errors up front
       if (!isFalsy(err)) {
@@ -137,7 +137,7 @@ export function createHTTPHandler(adapter: SlackEventAdapter): HTTPHandler {
    * @param req - The incoming request.
    * @param res - The outgoing response.
    */
-  return (req, res) => {
+  return (req, res): void => {
     debug('request recieved - method: %s, path: %s', req.method, req.url);
 
     // Bind a response function to this request's respond object.

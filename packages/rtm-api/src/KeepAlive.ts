@@ -24,6 +24,7 @@ export class KeepAlive extends EventEmitter {
    * message.
    */
   private clientPingTimeout: number;
+
   /**
    * The amount of time in milliseconds to wait after a ping message for the server to respond with a message that
    * replies to that ping (a pong) or some message after that.
@@ -126,8 +127,10 @@ export class KeepAlive extends EventEmitter {
       this.client.off('outgoing_message', this.setPingTimer);
       this.client.off('slack_event', this.attemptAcknowledgePong);
     }
-    this.lastPing = this.client = undefined;
-    this.recommendReconnect = this.isMonitoring = false;
+    this.lastPing = undefined;
+    this.client = undefined;
+    this.recommendReconnect = false;
+    this.isMonitoring = false;
   }
 
   /**

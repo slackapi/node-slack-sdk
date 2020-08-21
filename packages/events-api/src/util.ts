@@ -18,5 +18,6 @@ export function packageIdentifier(): string {
  */
 export function isFalsy(x: any): x is 0 | '' | null | undefined {
   // NOTE: there's no way to type `x is NaN` currently (as of TypeScript v3.5)
+  // eslint-disable-next-line no-restricted-globals
   return x === 0 || x === '' || x === null || x === undefined || (typeof x === 'number' && isNaN(x));
 }

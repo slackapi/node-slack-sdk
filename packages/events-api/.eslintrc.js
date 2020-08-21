@@ -28,5 +28,6 @@ module.exports = {
     'no-nested-ternary': 'off',
     'consistent-return': 'off',
     'no-console': 'off',
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
   },
 };

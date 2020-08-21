@@ -119,7 +119,7 @@ export class SlackEventAdapter extends EventEmitter {
    */
   public expressMiddleware(): RequestHandler {
     const requestListener = this.requestListener();
-    return (req, res, _next) => {
+    return (req, res, _next): void => {
       requestListener(req, res);
     };
   }

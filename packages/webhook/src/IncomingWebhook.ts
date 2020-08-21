@@ -77,6 +77,7 @@ export class IncomingWebhook {
   /**
    * Processes an HTTP response into an IncomingWebhookResult.
    */
+  // eslint-disable-next-line class-methods-use-this
   private buildResult(response: AxiosResponse): IncomingWebhookResult {
     return {
       text: response.data,
