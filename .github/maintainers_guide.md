@@ -104,29 +104,68 @@ If you make a mistake, don't fret. NPM allows you to unpublish a release within 
 7. (Slack Internal) Tweet? Not necessary for patch updates, might be needed for minor updates, definitely needed for
    major updates. Include a link to the GitHub Release(s).
 
-### Releasing Beta Releases
+### Beta Releases
 
-1. Make sure `main` has the latest changes from GitHub and rebase your branch from `main` by running `git rebase main` from your checked out branch. You can also `git merge main` if you are not comfortable with rebase.
+#### **Get Feature Branch Ready**
 
-2. Run the tests via `npm run test && npm run lint`
+1. Make sure your local `main` branch has the latest changes from GitHub
 
-3. Update version in `package.json`. Use the existing version and add a hyphen to name the beta release (ex: `5.10.0-workflowStepsBeta.1`) (Note: the beta version must be in the format of `Major.Minor.Patch-BetaNamespace.BetaVersion`)
+2. Run `git rebase main` from your feature branch. This command will rebase your feature branch from `main`. You can opt for `git merge main` if you are not comfortable with rebasing.
 
-4. Make a single commit for the version bump. The commit message should be similar to a [previous one](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594).
+3. Make sure all tests and linting pass by running `npm run test && npm run lint`
 
-5. Git tag, push commit and tag up to origin
-  * Add a Git tag for every package you are releasing. example: `git tag @slack/web-api@5.10.0-workflowStepsBeta.1`
-  * Push all tags and commits up to the feature branch on `origin` via `git push origin feature-branch --tags`
+#### **Update the Package Version**
 
-6. Publish to npm via `npm publish . --otp YOUR_OTP_CODE`
-  * We need to update the `dist-tags` on npm after a beta release. First update the `latest` `dist-tag` to the previous non beta release: `npm dist-tag add @slack/web-api@5.10.0 latest --otp YOUR_OTP_CODE`. Next, if you are adding/updating a feature/beta dist-tag, run `npm dist-tag add @slack/web-api@5.10.0-workflow-steps-beta.1 feat-workflow-steps --otp YOUR_OTP_CODE`
+1. Update the release version in `package.json`
+    - Use the existing version and add a hyphen to name the beta release (ex: `5.10.0-workflowStepsBeta.1`)
+    - Note: the beta version must be in the format of `Major.Minor.Patch-BetaNamespace.BetaVersion`
 
-7. Test by installing package from npm via `npm install @slack/web-api@feat-workflow-steps`
+2. Make a single commit for this version bump. The commit message should be in the following format:
 
-8. Create GitHub Release(s) and add release notes.
-  * Release notes should mention contributors (@-mentions) and issues/PRs (#-mentions).
-  * Check the `This is a pre-release` checkbox.
-  * Example release: https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Fweb-api%405.11.0
+```
+Publish
+
+- @slack/web-api@5.11.0--workflowStepsBeta.1
+- @slack/types@1.8.0-workflowStepsBeta.
+```
+
+#### **Add Git Tags**
+
+1. Add a git tag for every package you are releasing 
+
+    - Example: `git tag @slack/web-api@5.10.0-workflowStepsBeta.1`
+
+2. Push all tags and commits up to the feature branch on `origin` via `git push origin feature-branch --tags`
+
+#### **Publish to npm**
+
+1. Navigate to the specific package you wish to publish
+
+2. Publish to npm via `npm publish . --otp YOUR_OTP_CODE`
+
+    - To obtain an OTP (One Time Password) code, use a utility like Duo or 1Password
+
+3. Immediately after publishing to npm, update the `dist-tags`: 
+
+    - First update the `latest` `dist-tag` to the previous non-beta release: `npm dist-tag add @slack/web-api@5.10.0 latest --otp YOUR_OTP_CODE`.
+
+    - If you are adding or updating a specific feature/beta `dist-tag`, run: `npm dist-tag add @slack/web-api@5.10.0-workflow-steps-beta.1 feat-workflow-steps --otp YOUR_OTP_CODE`
+
+4. In order to test that the publish was successful, install the package from npm into a test project via `npm install @slack/web-api@feat-workflow-steps`. Verify that the `package.json` looks as you'd expect.
+
+#### **Create Release and Publish Release Notes**
+
+1. From the repository's Github, navigate to the **Releases** section and draft a new release
+  
+2. Summarize the release
+
+    - Release notes should mention what changes are present, including contributors (@mentions) and associated issues/PRs (#mentions) for each. 
+  
+    - Use the following as a template, viewable [here](https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Fweb-api%405.11.0). 
+
+3. Check the **This is a pre-release** checkbox
+
+4. And finally, go ahead and click **Update release** and celebrate! 🎉
 
 ## Workflow
 
