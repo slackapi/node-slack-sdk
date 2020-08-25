@@ -145,7 +145,7 @@ export class WebClient extends Methods {
    * @param options - options
    */
   public async apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult> {
-    const {stack: originalStack} = new Error('thrown by');
+    const { stack: originalStack } = new Error('thrown by');
 
     try {
       this.logger.debug(`apiCall('${method}') start`);
