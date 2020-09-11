@@ -20,9 +20,71 @@ slug: oauth
 </thead>
 <tbody>
 <tr>
-<td align="center">{ clientId, clientSecret, stateSecret, stateStore, installationStore, authVersion, logger, logLevel, }</td>
-<td align="center"><code>InstallProviderOptions</code></td>
+<td align="center">opts</td>
+<td align="center"><code><a href="#installprovideroptions" title="">InstallProviderOptions</a></code></td>
 <td align="center">✓</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<strong>Options:</strong>
+<table>
+<thead>
+<tr>
+<th align="center">Name</th>
+<th align="center">Type</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">authorizationUrl</td>
+<td align="center"><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">authVersion</td>
+<td align="center"><code>'v1' | 'v2'</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">clientId</td>
+<td align="center"><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">clientOptions</td>
+<td align="center"><code>Omit&#x3C;WebClientOptions, 'logLevel' | 'logger'></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">clientSecret</td>
+<td align="center"><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">installationStore</td>
+<td align="center"><code><a href="#installationstore" title="">InstallationStore</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">logger</td>
+<td align="center"><code>Logger</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">logLevel</td>
+<td align="center"><code>LogLevel</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">stateSecret</td>
+<td align="center"><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">stateStore</td>
+<td align="center"><code><a href="#statestore" title="">StateStore</a></code></td>
 <td></td>
 </tr>
 </tbody>
@@ -286,6 +348,69 @@ slug: oauth
 <tr>
 <td align="center">storeInstallation</td>
 <td align="center"><code>(installation: <a href="#installation" title="">Installation</a>, logger?: Logger) => Promise&#x3C;void></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="installprovideroptions">InstallProviderOptions</h2>
+<h3>Fields</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Name</th>
+<th align="center">Type</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">authorizationUrl</td>
+<td align="center"><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">authVersion</td>
+<td align="center"><code>'v1' | 'v2'</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">clientId</td>
+<td align="center"><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">clientOptions</td>
+<td align="center"><code>Omit&#x3C;WebClientOptions, 'logLevel' | 'logger'></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">clientSecret</td>
+<td align="center"><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">installationStore</td>
+<td align="center"><code><a href="#installationstore" title="">InstallationStore</a></code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">logger</td>
+<td align="center"><code>Logger</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">logLevel</td>
+<td align="center"><code>LogLevel</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">stateSecret</td>
+<td align="center"><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">stateStore</td>
+<td align="center"><code><a href="#statestore" title="">StateStore</a></code></td>
 <td></td>
 </tr>
 </tbody>
