@@ -1439,6 +1439,11 @@ slug: types
 <td></td>
 </tr>
 <tr>
+<td align="center">external_id</td>
+<td align="center"><code>string</code></td>
+<td></td>
+</tr>
+<tr>
 <td align="center">notify_on_close</td>
 <td align="center"><code>boolean</code></td>
 <td></td>
@@ -1446,6 +1451,11 @@ slug: types
 <tr>
 <td align="center">private_metadata</td>
 <td align="center"><code>string</code></td>
+<td></td>
+</tr>
+<tr>
+<td align="center">submit_disabled</td>
+<td align="center"><code>boolean</code></td>
 <td></td>
 </tr>
 <tr>
@@ -1460,7 +1470,7 @@ slug: types
 </tr>
 <tr>
 <td align="center">type</td>
-<td align="center"><code>'home' | 'modal'</code></td>
+<td align="center"><code>'home' | 'modal' | 'workflow_step'</code></td>
 <td></td>
 </tr>
 </tbody>

@@ -380,6 +380,12 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       set: bindApiCall<UsersProfileSetArguments, WebAPICallResult>(this, 'users.profile.set'),
     },
   };
+
+  public readonly workflows = {
+    stepCompleted: bindApiCall<WorkflowsStepCompletedArguments, WebAPICallResult>(this, 'workflows.stepCompleted'),
+    stepFailed: bindApiCall<WorkflowsStepFailedArguments, WebAPICallResult>(this, 'workflows.stepFailed'),
+    updateStep: bindApiCall<WorkflowsUpdateStepArguments, WebAPICallResult>(this, 'workflows.updateStep'),
+  };
 }
 
 /**
@@ -1405,6 +1411,31 @@ export interface ViewsUpdateArguments extends WebAPICallOptions, TokenOverridabl
   view: View;
   external_id?: string;
   hash?: string;
+}
+
+  /*
+   * `workflows.*`
+   */
+export interface WorkflowsStepCompletedArguments extends WebAPICallOptions, TokenOverridable {
+  workflow_step_execute_id: string;
+  outputs?: object;
+}
+
+export interface WorkflowsStepFailedArguments extends WebAPICallOptions, TokenOverridable {
+  workflow_step_execute_id: string;
+  error: {
+    message: string;
+  };
+}
+
+export interface WorkflowsUpdateStepArguments extends WebAPICallOptions, TokenOverridable {
+  workflow_step_edit_id: string;
+  inputs?: object;
+  outputs?: {
+    type: string;
+    name: string;
+    label: string;
+  }[];
 }
 
 export * from '@slack/types';

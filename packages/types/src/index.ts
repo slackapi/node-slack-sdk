@@ -34,7 +34,7 @@ export interface Dialog {
 
 export interface View {
   title?: PlainTextElement;
-  type: 'home' | 'modal';
+  type: 'home' | 'modal' | 'workflow_step';
   blocks: (KnownBlock | Block)[];
   callback_id?: string;
   close?: PlainTextElement;
@@ -42,6 +42,8 @@ export interface View {
   private_metadata?: string;
   clear_on_close?: boolean; // defaults to false
   notify_on_close?: boolean; // defaults to false
+  submit_disabled?: boolean; // defaults to false
+  external_id?: string;
 }
 
 /*
@@ -85,7 +87,7 @@ export interface Confirm {
  * Action Types
  */
 
- // Selects and Multiselects are available in different surface areas so I've seperated them here
+// Selects and Multiselects are available in different surface areas so I've seperated them here
 export type Select = UsersSelect | StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect;
 
 export type MultiSelect =
