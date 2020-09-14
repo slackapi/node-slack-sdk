@@ -2,9 +2,9 @@ const { SocketModeClient, LogLevel } = require('.');
 const { WebClient } = require('@slack/web-api');
 
 
-// const clientOptions = {
-//   slackApiUrl: 'https://dev.slack.com/api/',
-// }
+const clientOptions = {
+  // slackApiUrl: 'https://dev.slack.com/api/',
+}
 
 const socketModeClient = new SocketModeClient({
   logLevel: LogLevel.DEBUG, 
