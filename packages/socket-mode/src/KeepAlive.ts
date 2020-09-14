@@ -154,6 +154,7 @@ export class KeepAlive extends EventEmitter {
     this.logger.debug('setting ping timer');
 
     this.clearPreviousPingTimer();
+    console.log(this.clientPingTimeout);
     this.pingTimer = setTimeout(this.sendPing.bind(this), this.clientPingTimeout);
   }
 
@@ -162,7 +163,7 @@ export class KeepAlive extends EventEmitter {
    */
   private sendPing(): void {
     try {
-      if (this.client === undefined) {
+      if (this.client === undefined || this.client.websocket === undefined) {
         if (!this.isMonitoring) {
           // if monitoring stopped before the ping timer fires, its safe to return
           this.logger.debug('stopped monitoring before ping timer fired');
@@ -173,24 +174,21 @@ export class KeepAlive extends EventEmitter {
         throw error;
       }
       this.logger.debug('ping timer expired, sending ping');
-      this.client.send('ping')
-        .then(() => {
-          if (this.client === undefined) {
-            if (!this.isMonitoring) {
+      this.client.websocket.ping('ping', false, () => {
+        if (this.client === undefined) {
+          if (!this.isMonitoring) {
               // if monitoring stopped before the ping is sent, its safe to return
-              this.logger.debug('stopped monitoring before outgoing ping message was finished');
-              return;
-            }
-            const error = new Error('no client found');
-            (error as CodedError).code = ErrorCode.KeepAliveInconsistentState;
-            throw error;
+            this.logger.debug('stopped monitoring before outgoing ping message was finished');
+            return;
           }
+          const error = new Error('no client found');
+          (error as CodedError).code = ErrorCode.KeepAliveInconsistentState;
+          throw error;
+        }
 
-          // this.lastPing = messageId;
+        this.logger.debug('setting pong timer');
 
-          this.logger.debug('setting pong timer');
-
-          this.pongTimer = setTimeout(
+        this.pongTimer = setTimeout(
             () => {
               if (this.client === undefined) {
                 // if monitoring stopped before the pong timer fires, its safe to return
@@ -202,8 +200,6 @@ export class KeepAlive extends EventEmitter {
                 (error as CodedError).code = ErrorCode.KeepAliveInconsistentState;
                 throw error;
               }
-              // signal that this pong is done being handled
-              this.client.off('slack_event', this.attemptAcknowledgePong);
 
               // no pong received to acknowledge the last ping within the serverPongTimeout
               this.logger.debug('pong timer expired, recommend reconnect');
@@ -213,11 +209,8 @@ export class KeepAlive extends EventEmitter {
             this.serverPongTimeout,
           );
 
-          this.client.on('pong', this.attemptAcknowledgePong, this);
-        })
-        .catch((error) => {
-          this.logger.error(`Unhandled error: ${error.message}. Please report to @slack/socket-mode package maintainers.`);
-        });
+        this.client.on('pong', this.attemptAcknowledgePong, this);
+      })
     } catch (error) {
       this.logger.error(`Unhandled error: ${error.message}. Please report to @slack/socket-mode package maintainers.`);
     }
@@ -245,14 +238,13 @@ export class KeepAlive extends EventEmitter {
       throw error;
     }
 
-    if (this.lastPing !== undefined && event.reply_to !== undefined && (event.reply_to as number) >= this.lastPing) {
+    if (this.lastPing !== undefined) {
       // this message is a reply that acks the previous ping, clear the last ping
       this.logger.debug('received pong, clearing pong timer');
       delete this.lastPing;
 
       // signal that this pong is done being handled
       this.clearPreviousPongTimer();
-      this.client.off('slack_event', this.attemptAcknowledgePong);
     }
   }
 }

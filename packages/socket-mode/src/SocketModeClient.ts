@@ -12,7 +12,7 @@ import {
   WebClientOptions,
 } from '@slack/web-api';
 
-import { KeepAlive } from './KeepAlive';
+// import { KeepAlive } from './KeepAlive';
 import { LogLevel, Logger, getLogger } from './logger';
 import {
   websocketErrorWithOriginal,
@@ -71,7 +71,7 @@ export class SocketModeClient extends EventEmitter {
           .initialState('authenticating')
             .do(() => {
               // TODO: change this to apps.connections.open after rename
-              return this.webClient.apiCall('relay.connect').then((result: WebAPICallResult) => {
+              return this.webClient.apiCall('apps.connections.open').then((result: WebAPICallResult) => {
                 return result;
               }).catch((error) => {
                 console.log(error);
@@ -150,8 +150,7 @@ export class SocketModeClient extends EventEmitter {
             .submachine(Finity.configure()
             .initialState('authenticating')
               .do(() => {
-
-                return this.webClient.apiCall('relay.connect').then((result: WebAPICallResult) => {
+                return this.webClient.apiCall('apps.connections.open').then((result: WebAPICallResult) => {
                   return result;
                 }).catch((error) => {
                   console.log(error);
@@ -212,7 +211,7 @@ export class SocketModeClient extends EventEmitter {
           .on('explicit disconnect').transitionTo('disconnecting')
           .state('closing-socket')
             .do(() => {
-              this.keepAlive.stop();
+              // this.keepAlive.stop();
               return Promise.resolve(true);
             })
             .onSuccess().transitionTo('ready')
@@ -235,7 +234,7 @@ export class SocketModeClient extends EventEmitter {
           this.connected = false;
           this.authenticated = false;
 
-          this.keepAlive.stop();
+          // this.keepAlive.stop();
         })
       .state('disconnecting')
         .onEnter(() => {
@@ -251,7 +250,7 @@ export class SocketModeClient extends EventEmitter {
       // this state, and that the next state should be connecting.
       .state('reconnecting')
         .do(() => {
-          this.keepAlive.stop();
+          // this.keepAlive.stop();
           return Promise.resolve(true);
         })
           .onSuccess().transitionTo('connecting')
@@ -272,13 +271,13 @@ export class SocketModeClient extends EventEmitter {
   /**
    * The client's websockets
    */
-  private websocket?: WebSocket;
+  public websocket?: WebSocket;
   private secondaryWebsocket?: WebSocket;
 
   /**
    * The instance of KeepAlive used to monitor this client's connection.
    */
-  private keepAlive: KeepAlive;
+  // private keepAlive: KeepAlive;
 
   private webClient: WebClient;
 
@@ -333,12 +332,12 @@ export class SocketModeClient extends EventEmitter {
 
     this.autoReconnect = autoReconnect;
 
-    this.keepAlive = new KeepAlive({
-      clientPingTimeout,
-      serverPongTimeout,
-      logger,
-      logLevel,
-    });
+    // this.keepAlive = new KeepAlive({
+    //   clientPingTimeout,
+    //   serverPongTimeout,
+    //   logger,
+    //   logLevel,
+    // });
     // this.keepAlive.on(
     //   'recommend_reconnect',
     //   () => {
@@ -412,9 +411,8 @@ export class SocketModeClient extends EventEmitter {
    * @param id the envelope id
    * @param body the message body
    */
-  // TODO: rename relay_id to envelope_id
   public send(id: string, body = {}): Promise<void> {
-    const message = { relay_id: id, ...body };
+    const message = { envelope_id: id, ...body };
 
     return new Promise((resolve, reject) => {
       this.logger.debug(`send() in state: ${this.stateMachine.getStateHierarchy()}`);
@@ -453,7 +451,7 @@ export class SocketModeClient extends EventEmitter {
       ...this.clientOptions.agent,
     };
 
-    let websocket;
+    let websocket: WebSocket;
     if (this.websocket === undefined) {
       this.websocket = new WebSocket(url, options);
       websocket = this.websocket;
@@ -472,6 +470,16 @@ export class SocketModeClient extends EventEmitter {
       this.emit('error', websocketErrorWithOriginal(event.error));
     });
     websocket.addEventListener('message', this.onWebsocketMessage.bind(this));
+
+    // websocket.addEventListener('ping', ( event ) => {
+    //   console.log('ping');
+    //   this.websocket.ping(event);
+    // });
+
+    // websocket.addEventListener('pong', ( event ) => {
+    //   console.log('pong');
+    //   this.websocket.pong(event);
+    // });
   }
 
   /**
@@ -511,11 +519,12 @@ export class SocketModeClient extends EventEmitter {
       type: string;
       reason: string;
       payload: {[key: string]: any};
-      relay_id: string;
+      envelope_id: string;
     };
 
     try {
       event = JSON.parse(data);
+      console.log(event);
     } catch (parseError) {
       // prevent application from crashing on a bad message, but log an error to bring attention
       this.logger.error(
@@ -550,7 +559,7 @@ export class SocketModeClient extends EventEmitter {
     const ack = async (response: object): Promise<void> => {
       this.logger.debug('calling ack', event.type);
       // TODO: rename `relay_id` to `envelope_id` after rename
-      await this.send(event.relay_id, response);
+      await this.send(event.envelope_id, response);
     };
 
     // for events_api messages, expose the type of the event
