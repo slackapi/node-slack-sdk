@@ -6,8 +6,6 @@ import {
   WebAPICallResult,
   WebAPICallError,
   ErrorCode as APICallErrorCode,
-  RetryOptions,
-  // TLSOptions,
   addAppMetadata,
   WebClientOptions,
 } from '@slack/web-api';
@@ -328,10 +326,8 @@ export class SocketModeClient extends EventEmitter {
     logLevel = LogLevel.INFO,
     autoReconnect = true,
     clientPingTimeout = 30000,
-    // serverPongTimeout,
     token = undefined,
     clientOptions = {},
-    // retryConfig,
   }: SocketModeOptions = {}) {
     super();
 
@@ -642,10 +638,8 @@ export interface SocketModeOptions {
   token?: string; // app level token
   logger?: Logger;
   logLevel?: LogLevel;
-  retryConfig?: RetryOptions;
   autoReconnect?: boolean;
   clientPingTimeout?: number;
-  serverPongTimeout?: number;
   clientOptions?: Omit<WebClientOptions, 'logLevel' | 'logger'>;
 }
 

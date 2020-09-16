@@ -125,8 +125,8 @@ If you make a mistake, don't fret. NPM allows you to unpublish a release within 
 ```
 Publish
 
-- @slack/web-api@5.11.0--workflowStepsBeta.1
-- @slack/types@1.8.0-workflowStepsBeta.
+- @slack/web-api@5.11.0-workflowStepsBeta.1
+- @slack/types@1.8.0-workflowStepsBeta.1
 ```
 
 #### **Add Git Tags**
