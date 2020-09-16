@@ -11,8 +11,6 @@ import {
   addAppMetadata,
   WebClientOptions,
 } from '@slack/web-api';
-
-// import { KeepAlive } from './KeepAlive';
 import { LogLevel, Logger, getLogger } from './logger';
 import {
   websocketErrorWithOriginal,
@@ -70,11 +68,11 @@ export class SocketModeClient extends EventEmitter {
         .submachine(Finity.configure()
           .initialState('authenticating')
             .do(() => {
-              // TODO: change this to apps.connections.open after rename
+              // TODO: change this to webClient.apps.connections.open()
               return this.webClient.apiCall('apps.connections.open').then((result: WebAPICallResult) => {
                 return result;
               }).catch((error) => {
-                console.log(error);
+                this.logger.error(error);
               });
             })
               .onSuccess().transitionTo('authenticated')
@@ -137,7 +135,14 @@ export class SocketModeClient extends EventEmitter {
         .submachine(Finity.configure()
           .initialState('ready')
             .onEnter(() => {
-              // this.keepAlive.start(this);
+              if (this.badConnection) {
+                // arrived here because `server ping timeout` ocurred and a new connection was created
+                // tear down old connection
+                this.teardownWebsocket();
+                this.badConnection = false;
+              }
+              // start heartbeat to keep track of the websocket connection continuing to be alive
+              this.heartbeat();
               // the transition isn't done yet, so we delay the following statement until after the event loop returns
               setImmediate(() => {
                 this.emit('ready');
@@ -145,15 +150,18 @@ export class SocketModeClient extends EventEmitter {
             })
             // tslint:disable-next-line: max-line-length
             .on('server disconnect warning').transitionTo('refreshing-connection').withCondition(() => this.autoReconnect)
+            // tslint:disable-next-line: max-line-length
+            .on('server pings not received').transitionTo('refreshing-connection').withCondition(() => this.autoReconnect)
             .on('server disconnect old socket').transitionTo('closing-socket')
           .state('refreshing-connection')
             .submachine(Finity.configure()
             .initialState('authenticating')
               .do(() => {
+                // TODO: change this to webClient.apps.connections.open()
                 return this.webClient.apiCall('apps.connections.open').then((result: WebAPICallResult) => {
                   return result;
                 }).catch((error) => {
-                  console.log(error);
+                  this.logger.error(error);
                 });
               })
                 .onSuccess().transitionTo('authenticated')
@@ -211,7 +219,11 @@ export class SocketModeClient extends EventEmitter {
           .on('explicit disconnect').transitionTo('disconnecting')
           .state('closing-socket')
             .do(() => {
-              // this.keepAlive.stop();
+              // stop heartbeat
+              if (this.pingTimeout !== undefined) {
+                clearTimeout(this.pingTimeout);
+              }
+
               return Promise.resolve(true);
             })
             .onSuccess().transitionTo('ready')
@@ -234,7 +246,9 @@ export class SocketModeClient extends EventEmitter {
           this.connected = false;
           this.authenticated = false;
 
-          // this.keepAlive.stop();
+          if (this.pingTimeout !== undefined) {
+            clearTimeout(this.pingTimeout);
+          }
         })
       .state('disconnecting')
         .onEnter(() => {
@@ -250,7 +264,9 @@ export class SocketModeClient extends EventEmitter {
       // this state, and that the next state should be connecting.
       .state('reconnecting')
         .do(() => {
-          // this.keepAlive.stop();
+          if (this.pingTimeout !== undefined) {
+            clearTimeout(this.pingTimeout);
+          }
           return Promise.resolve(true);
         })
           .onSuccess().transitionTo('connecting')
@@ -274,11 +290,6 @@ export class SocketModeClient extends EventEmitter {
   public websocket?: WebSocket;
   private secondaryWebsocket?: WebSocket;
 
-  /**
-   * The instance of KeepAlive used to monitor this client's connection.
-   */
-  // private keepAlive: KeepAlive;
-
   private webClient: WebClient;
 
   /**
@@ -292,7 +303,23 @@ export class SocketModeClient extends EventEmitter {
   private logger: Logger;
 
   /**
-   *
+   * How long to wait for pings from server before timing out
+   */
+  private clientPingTimeout: number;
+
+  /**
+   * reference to the timeout timer we use to listen to pings from the server
+   */
+  private pingTimeout: NodeJS.Timeout | undefined;
+
+  /**
+   * Used to see if a websocket stops sending heartbeats and is deemed bad
+   */
+  private badConnection: boolean = false;
+
+  /**
+   * WebClient options we pass to our WebClient instance
+   * We also reuse agent and tls for our websocket connection
    */
   private clientOptions: WebClientOptions;
 
@@ -300,8 +327,8 @@ export class SocketModeClient extends EventEmitter {
     logger = undefined,
     logLevel = LogLevel.INFO,
     autoReconnect = true,
-    clientPingTimeout,
-    serverPongTimeout,
+    clientPingTimeout = 30000,
+    // serverPongTimeout,
     token = undefined,
     clientOptions = {},
     // retryConfig,
@@ -311,6 +338,8 @@ export class SocketModeClient extends EventEmitter {
     if (token === undefined) {
       throw new Error('Must provide an App Level Token when initalizing a Socket Mode Client');
     }
+
+    this.clientPingTimeout = clientPingTimeout;
 
     // Setup the logger
     if (typeof logger !== 'undefined') {
@@ -331,29 +360,6 @@ export class SocketModeClient extends EventEmitter {
     });
 
     this.autoReconnect = autoReconnect;
-
-    // this.keepAlive = new KeepAlive({
-    //   clientPingTimeout,
-    //   serverPongTimeout,
-    //   logger,
-    //   logLevel,
-    // });
-    // this.keepAlive.on(
-    //   'recommend_reconnect',
-    //   () => {
-    //     console.log('recommend_reconnect');
-    //     if (this.websocket !== undefined) {
-    //       // this will trigger the 'websocket close' event on the state machine, which transitions to clean up
-    //       this.websocket.close();
-
-    //       // if the websocket actually is no longer connected, the eventual 'websocket close' event will take a long
-    //    // time, because it won't fire until the close handshake completes. in the meantime, stop the keep alive so we
-    //       // don't send pings on a dead connection.
-    //       this.keepAlive.stop();
-    //     }
-    //   },
-    //   this,
-    // );
 
     this.stateMachine = Finity.start(this.stateMachineConfig);
 
@@ -471,15 +477,8 @@ export class SocketModeClient extends EventEmitter {
     });
     websocket.addEventListener('message', this.onWebsocketMessage.bind(this));
 
-    // websocket.addEventListener('ping', ( event ) => {
-    //   console.log('ping');
-    //   this.websocket.ping(event);
-    // });
-
-    // websocket.addEventListener('pong', ( event ) => {
-    //   console.log('pong');
-    //   this.websocket.pong(event);
-    // });
+    // Confirm websocket connection is still active
+    websocket.addEventListener('ping', this.heartbeat.bind(this));
   }
 
   /**
@@ -487,7 +486,7 @@ export class SocketModeClient extends EventEmitter {
    */
   private teardownWebsocket(): void {
     if (this.secondaryWebsocket !== undefined && this.websocket !== undefined) {
-      console.log('secondary websocket exists, tear down first and assign second');
+      this.logger.debug('secondary websocket exists, tear down first and assign second');
       // currently have two websockets, so tear down the older one
       this.websocket.removeAllListeners('open');
       this.websocket.removeAllListeners('close');
@@ -496,13 +495,37 @@ export class SocketModeClient extends EventEmitter {
       this.websocket = this.secondaryWebsocket;
       this.secondaryWebsocket = undefined;
     } else if (this.secondaryWebsocket === undefined && this.websocket !== undefined) {
-      console.log('only primary websocket exists, tear it down');
+      this.logger.debug('only primary websocket exists, tear it down');
       // only one websocket to tear down
       this.websocket.removeAllListeners('open');
       this.websocket.removeAllListeners('close');
       this.websocket.removeAllListeners('error');
       this.websocket.removeAllListeners('message');
       this.websocket = undefined;
+    }
+  }
+
+  /**
+   * confirms websocket connection is still active
+   * fires whenever a ping event is received
+   */
+  private heartbeat(): void {
+    if (this.pingTimeout !== undefined) {
+      clearTimeout(this.pingTimeout);
+    }
+
+    // Don't start heartbeat if connection is already deemed bad
+    if (!this.badConnection) {
+      this.pingTimeout = setTimeout(() => {
+        this.logger.info(`A ping wasn't received from the server before the timeout of ${this.clientPingTimeout}ms!`);
+        if (this.stateMachine.getCurrentState() === 'connected'
+          && this.stateMachine.getStateHierarchy()[1] === 'ready') {
+          this.badConnection = true;
+          // opens secondary websocket and teardown original once that is ready
+          this.stateMachine.handle('server pings not received');
+        }
+      // tslint:disable-next-line: align
+      }, this.clientPingTimeout);
     }
   }
 
@@ -524,7 +547,6 @@ export class SocketModeClient extends EventEmitter {
 
     try {
       event = JSON.parse(data);
-      console.log(event);
     } catch (parseError) {
       // prevent application from crashing on a bad message, but log an error to bring attention
       this.logger.error(
@@ -541,16 +563,16 @@ export class SocketModeClient extends EventEmitter {
 
     // open second websocket connection in preparation for the existing websocket disconnecting
     if (event.type === 'disconnect' && event.reason === 'warning') {
-      console.log('disconnect warning, creating second connection');
+      this.logger.debug('disconnect warning, creating second connection');
       this.stateMachine.handle('server disconnect warning');
       return;
     }
 
     // close primary websocket in favor of secondary websocket, assign secondary to primary
     if (event.type === 'disconnect' && event.reason === 'refresh_requested') {
-      console.log('disconnect refresh requested, closing old websocket');
+      this.logger.debug('disconnect refresh requested, closing old websocket');
       this.stateMachine.handle('server disconnect old socket');
-      // TODO: instead of using this event to reassign secondaryWebsocet to this.websocket,
+      // TODO: instead of using this event to reassign secondaryWebsocket to this.websocket,
       // use the websocket close event
       return;
     }
@@ -621,9 +643,7 @@ export interface SocketModeOptions {
   logger?: Logger;
   logLevel?: LogLevel;
   retryConfig?: RetryOptions;
-  autoReconnect?: boolean; // this is a simple yes or no. there is no limit to the number or reconnections. a simple
-                           // number is probably the wrong idea since reconnections can happen for uncontrollable
-                           // yet normal reasons such as team migrations and the keep-alive algorithm.
+  autoReconnect?: boolean;
   clientPingTimeout?: number;
   serverPongTimeout?: number;
   clientOptions?: Omit<WebClientOptions, 'logLevel' | 'logger'>;

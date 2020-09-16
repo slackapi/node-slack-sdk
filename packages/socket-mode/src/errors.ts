@@ -15,11 +15,6 @@ export enum ErrorCode {
   WebsocketError = 'slack_socket_mode_websocket_error',
   NoReplyReceivedError = 'slack_socket_mode_no_reply_received_error',
   InitializationError = 'slack_socket_mode_initialization_error',
-
-  // internal errors
-  KeepAliveConfigError = 'slack_socket_mode_keepalive_config_error',
-  KeepAliveClientNotConnected = 'slack_socket_mode_keepalive_client_not_connected',
-  KeepAliveInconsistentState = 'slack_socket_mode_keepalive_inconsistent_state',
 }
 
 export type SMCallError = SMPlatformError | SMWebsocketError | SMNoReplyReceivedError

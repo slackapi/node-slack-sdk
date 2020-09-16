@@ -135,6 +135,12 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     test: bindApiCall<APITestArguments, WebAPICallResult>(this, 'api.test'),
   };
 
+  public readonly apps = {
+    connections: {
+      open: bindApiCall<AppsConnectionsOpenArguments, WebAPICallResult>(this, 'apps.connections.open'),
+    },
+  };
+
   public readonly auth = {
     revoke: bindApiCall<AuthRevokeArguments, WebAPICallResult>(this, 'auth.revoke'),
     test: bindApiCall<AuthTestArguments, WebAPICallResult>(this, 'auth.test'),
@@ -620,6 +626,14 @@ export interface AdminUsersSessionResetArguments extends WebAPICallOptions, Toke
    * `api.*`
    */
 export interface APITestArguments extends WebAPICallOptions {}
+
+  /*
+  * `apps.*`
+  */
+export interface AppsConnectionsOpenArguments extends WebAPICallOptions {
+  // currently the method page lists Client id and client secret as optional arguments
+  // circle back here to see if they stay as optional or are removed
+}
 
   /*
    * `auth.*`
