@@ -174,6 +174,9 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly apps = {
+    connections: {
+      open: bindApiCall<AppsConnectionsOpenArguments, WebAPICallResult>(this, 'apps.connections.open'),
+    },
     event: {
       authorizations: {
         list: bindApiCall<AppsEventAuthorizationsListArguments, WebAPICallResult>(
@@ -783,6 +786,12 @@ export interface APITestArguments extends WebAPICallOptions { }
 /*
  * `apps.*`
  */
+
+export interface AppsConnectionsOpenArguments extends WebAPICallOptions {
+  // currently the method page lists Client id and client secret as optional arguments
+  // circle back here to see if they stay as optional or are removed
+}
+
 export interface AppsEventAuthorizationsListArguments
   extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   event_context: string;
@@ -793,9 +802,9 @@ export interface AppsUninstallArguments extends WebAPICallOptions {
   client_secret: string;
 }
 
-/*
- * `auth.*`
- */
+  /*
+   * `auth.*`
+   */
 export interface AuthRevokeArguments extends WebAPICallOptions, TokenOverridable {
   test: boolean;
 }
