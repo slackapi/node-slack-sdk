@@ -49,12 +49,11 @@
     "@slack/types": "^1.7.0",
     "@types/is-stream": "^1.1.0",
     "@types/node": ">=8.9.0",
-    "@types/p-queue": "^2.3.2",
     "axios": "^0.19.0",
     "eventemitter3": "^3.1.0",
     "form-data": "^2.5.0",
     "is-stream": "^1.1.0",
-    "p-queue": "^2.4.2",
+    "p-queue": "^6.6.1",
     "p-retry": "^4.0.0"
   },
   "devDependencies": {
