@@ -136,8 +136,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly apps = {
-    uninstall: bindApiCall<AppsUninstallArguments, WebAPICallResult>(this, 'apps.uninstall')
-  }
+    uninstall: bindApiCall<AppsUninstallArguments, WebAPICallResult>(this, 'apps.uninstall'),
+  };
 
   public readonly auth = {
     revoke: bindApiCall<AuthRevokeArguments, WebAPICallResult>(this, 'auth.revoke'),
