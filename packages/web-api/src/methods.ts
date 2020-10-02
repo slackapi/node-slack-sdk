@@ -135,6 +135,10 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     test: bindApiCall<APITestArguments, WebAPICallResult>(this, 'api.test'),
   };
 
+  public readonly apps = {
+    uninstall: bindApiCall<AppsUninstallArguments, WebAPICallResult>(this, 'apps.uninstall'),
+  };
+
   public readonly auth = {
     revoke: bindApiCall<AuthRevokeArguments, WebAPICallResult>(this, 'auth.revoke'),
     test: bindApiCall<AuthTestArguments, WebAPICallResult>(this, 'auth.test'),
@@ -626,6 +630,14 @@ export interface AdminUsersSessionResetArguments extends WebAPICallOptions, Toke
    * `api.*`
    */
 export interface APITestArguments extends WebAPICallOptions {}
+
+  /*
+   * `apps.*`
+   */
+export interface AppsUninstallArguments extends WebAPICallOptions {
+  client_id: string;
+  client_secret: string;
+}
 
   /*
    * `auth.*`
