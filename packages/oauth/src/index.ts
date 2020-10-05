@@ -315,7 +315,7 @@ export interface InstallProviderOptions {
   stateStore?: StateStore; // default ClearStateStore
   stateSecret?: string; // ClearStateStoreOptions['secret']; // required when using default stateStore
   installationStore?: InstallationStore; // default MemoryInstallationStore
-  authVersion: 'v1' | 'v2'; // default 'v2'
+  authVersion?: 'v1' | 'v2'; // default 'v2'
   logger?: Logger;
   logLevel?: LogLevel;
   clientOptions?: Omit<WebClientOptions, 'logLevel' | 'logger'>;

@@ -28,7 +28,7 @@ It may be helpful to read the tutorials on [getting started](https://slack.dev/n
 This package exposes an `InstallProvider` class, which sets up the required configuration and exposes methods such as `generateInstallUrl`, `handleCallback`, `authorize` for use within your apps. At a minimum, `InstallProvider` takes a `clientId` and `clientSecret` (both which can be obtained under the **Basic Information** of your app configuration). `InstallProvider` also requires a `stateSecret`, which is used to encode the generated state, and later used to decode that same state to verify it wasn't tampered with during the OAuth flow. **Note**: This example is not ready for production because it only stores installations (tokens) in memory. Please go to the [storing installations in a database](#storing-installations-in-a-database) section to learn how to plug in your own database.
 
 ```javascript
-const { InstallProvider } = require('@slack/oauth');;
+const { InstallProvider } = require('@slack/oauth');
 
 // initialize the installProvider
 const installer = new InstallProvider({
@@ -44,7 +44,7 @@ const installer = new InstallProvider({
 </summary>
 
   ```javascript
-  const { InstallProvider } = require('@slack/oauth');;
+  const { InstallProvider } = require('@slack/oauth');
 
   // initialize the installProvider
   const installer = new InstallProvider({
