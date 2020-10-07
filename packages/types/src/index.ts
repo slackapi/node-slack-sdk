@@ -300,6 +300,7 @@ export interface InputBlock extends Block {
   hint?: PlainTextElement;
   optional?: boolean;
   element: Select | MultiSelect | Datepicker | PlainTextInput | RadioButtons | Checkboxes;
+  dispatch_action?: boolean;
 }
 
 export interface MessageAttachment {
