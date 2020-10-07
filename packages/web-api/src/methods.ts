@@ -56,22 +56,50 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       },
     },
     conversations: {
-      setTeams:
-        bindApiCall<AdminConversationsSetTeamsArguments, WebAPICallResult>(this, 'admin.conversations.setTeams'),
-      restrictAccess: {
-        addGroup:
-          bindApiCall<AdminConversationsRestrictAccessAddGroupArguments, WebAPICallResult>(this, 'admin.conversations.restrictAccess.addGroup'),
-        listGroups:
-          bindApiCall<AdminConversationsRestrictAccessListGroupsArguments, WebAPICallResult>(this, 'admin.conversations.restrictAccess.listGroups'),
-        removeGroup:
-          bindApiCall<AdminConversationsRestrictAccessRemoveGroupArguments, WebAPICallResult>(this, 'admin.conversations.restrictAccess.removeGroup'),
+      archive: bindApiCall<AdminConversationsArchiveArguments, WebAPICallResult>(this, 'admin.conversations.archive'),
+      convertToPrivate: bindApiCall<AdminConversationsConvertToPrivateArguments, WebAPICallResult>(
+        this, 'admin.conversations.convertToPrivate'),
+      create: bindApiCall<AdminConversationsCreateArguments, WebAPICallResult>(this, 'admin.conversations.create'),
+      delete: bindApiCall<AdminConversationsDeleteArguments, WebAPICallResult>(this, 'admin.conversations.delete'),
+      disconnectShared: bindApiCall<AdminConversationsDisconnectSharedArguments, WebAPICallResult>(
+        this, 'admin.conversations.disconnectShared'),
+      ekm: {
+        listOriginalConnectedChannelInfo:
+          bindApiCall<AdminConversationsEKMListOriginalConnectedChannelInfoArguments, WebAPICallResult>(
+            this, 'admin.conversations.ekm.listOriginalConnectedChannelInfo'),
       },
+      getConversationPrefs: bindApiCall<AdminConversationsGetConversationPrefsArguments, WebAPICallResult>(
+        this, 'admin.conversations.getConversationPrefs'),
+      getTeams: bindApiCall<AdminConversationsGetTeamsArguments, WebAPICallResult>(
+        this, 'admin.conversations.getTeams'),
+      invite: bindApiCall<AdminConversationsInviteArguments, WebAPICallResult>(this, 'admin.conversations.invite'),
+      rename: bindApiCall<AdminConversationsRenameArguments, WebAPICallResult>(this, 'admin.conversations.rename'),
+      restrictAccess: {
+        addGroup: bindApiCall<AdminConversationsRestrictAccessAddGroupArguments, WebAPICallResult>(
+            this, 'admin.conversations.restrictAccess.addGroup'),
+        listGroups: bindApiCall<AdminConversationsRestrictAccessListGroupsArguments, WebAPICallResult>(
+            this, 'admin.conversations.restrictAccess.listGroups'),
+        removeGroup: bindApiCall<AdminConversationsRestrictAccessRemoveGroupArguments, WebAPICallResult>(
+            this, 'admin.conversations.restrictAccess.removeGroup'),
+      },
+      search: bindApiCall<AdminConversationsSearchArguments, WebAPICallResult>(this, 'admin.conversations.search'),
+      setConversationPrefs: bindApiCall<AdminConversationsSetConversationPrefsArguments, WebAPICallResult>(
+        this, 'admin.conversations.setConversationPrefs'),
+      setTeams: bindApiCall<AdminConversationsSetTeamsArguments, WebAPICallResult>(
+        this, 'admin.conversations.setTeams'),
+      unarchive: bindApiCall<AdminConversationsUnarchiveArguments, WebAPICallResult>(
+        this, 'admin.conversations.unarchive'),
+    },
+    emoji: {
+      add: bindApiCall<AdminEmojiAddArguments, WebAPICallResult>(this, 'admin.emoji.add'),
+      addAlias: bindApiCall<AdminEmojiAddAliasArguments, WebAPICallResult>(this, 'admin.emoji.addAlias'),
+      list: bindApiCall<AdminEmojiListArguments, WebAPICallResult>(this, 'admin.emoji.list'),
+      remove: bindApiCall<AdminEmojiRemoveArguments, WebAPICallResult>(this, 'admin.emoji.remove'),
+      rename: bindApiCall<AdminEmojiRenameArguments, WebAPICallResult>(this, 'admin.emoji.rename'),
     },
     inviteRequests: {
       approve: bindApiCall<AdminInviteRequestsApproveArguments, WebAPICallResult>(
         this, 'admin.inviteRequests.approve'),
-      deny: bindApiCall<AdminInviteRequestsDenyArguments, WebAPICallResult>(this, 'admin.inviteRequests.deny'),
-      list: bindApiCall<AdminInviteRequestsListArguments, WebAPICallResult>(this, 'admin.inviteRequests.list'),
       approved: {
         list: bindApiCall<AdminInviteRequestsApprovedListArguments, WebAPICallResult>(
           this, 'admin.inviteRequests.approved.list'),
@@ -80,6 +108,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         list: bindApiCall<AdminInviteRequestsDeniedListArguments, WebAPICallResult>(
           this, 'admin.inviteRequests.denied.list'),
       },
+      deny: bindApiCall<AdminInviteRequestsDenyArguments, WebAPICallResult>(this, 'admin.inviteRequests.deny'),
+      list: bindApiCall<AdminInviteRequestsListArguments, WebAPICallResult>(this, 'admin.inviteRequests.list'),
     },
     teams: {
       admins: {
@@ -98,7 +128,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
           this, 'admin.teams.settings.setDescription'),
         setDiscoverability: bindApiCall<AdminTeamsSettingsSetDiscoverabilityArguments, WebAPICallResult>(
           this, 'admin.teams.settings.setDiscoverability'),
-        setIcon: bindApiCall<AdminTeamsSettingseSetIconArguments, WebAPICallResult>(
+        setIcon: bindApiCall<AdminTeamsSettingsSetIconArguments, WebAPICallResult>(
           this, 'admin.teams.settings.setIcon'),
         setName: bindApiCall<AdminTeamsSettingsSetNameArguments, WebAPICallResult>(
           this, 'admin.teams.settings.setName'),
@@ -115,14 +145,15 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         this, 'admin.usergroups.removeChannels'),
     },
     users: {
-      session: {
-        reset:
-          bindApiCall<AdminUsersSessionResetArguments, WebAPICallResult>(this, 'admin.users.session.reset'),
-      },
       assign: bindApiCall<AdminUsersAssignArguments, WebAPICallResult>(this, 'admin.users.assign'),
       invite: bindApiCall<AdminUsersInviteArguments, WebAPICallResult>(this, 'admin.users.invite'),
       list: bindApiCall<AdminUsersListArguments, WebAPICallResult>(this, 'admin.users.list'),
       remove: bindApiCall<AdminUsersRemoveArguments, WebAPICallResult>(this, 'admin.users.remove'),
+      session: {
+        reset: bindApiCall<AdminUsersSessionResetArguments, WebAPICallResult>(this, 'admin.users.session.reset'),
+        invalidate: bindApiCall<AdminUsersSessionInvalidateArguments, WebAPICallResult>(
+          this, 'admin.users.session.invalidate'),
+      },
       setAdmin: bindApiCall<AdminUsersSetAdminArguments, WebAPICallResult>(this, 'admin.users.setAdmin'),
       setExpiration:
         bindApiCall<AdminUsersSetExpirationArguments, WebAPICallResult>(this, 'admin.users.setExpiration'),
@@ -136,6 +167,12 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly apps = {
+    event: {
+      authorizations: {
+        list: bindApiCall<AppsEventAuthorizationsListArguments, WebAPICallResult>(
+          this, 'apps.event.authorizations.list'),
+      },
+    },
     uninstall: bindApiCall<AppsUninstallArguments, WebAPICallResult>(this, 'apps.uninstall'),
   };
 
@@ -471,29 +508,100 @@ export interface AdminAppsRestrictedListArguments extends WebAPICallOptions, Tok
   enterprise_id?: string;
 }
 cursorPaginationEnabledMethods.add('admin.apps.restricted.list');
-
+export interface AdminConversationsArchiveArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+}
+export interface AdminConversationsConvertToPrivateArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+}
+export interface AdminConversationsCreateArguments extends WebAPICallOptions, TokenOverridable {
+  is_private: boolean;
+  name: string;
+  description?: string;
+  org_wide?: boolean;
+  team_id?: string;
+}
+export interface AdminConversationsDeleteArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+}
+export interface AdminConversationsDisconnectSharedArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+  leaving_team_ids?: string[];
+}
+export interface AdminConversationsEKMListOriginalConnectedChannelInfoArguments
+  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  channel_ids?: string[];
+  team_ids?: string[];
+}
+cursorPaginationEnabledMethods.add('admin.conversations.ekm.listOriginalConnectedChannelInfo');
+export interface AdminConversationsGetConversationPrefsArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+}
+export interface AdminConversationsGetTeamsArguments
+  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  channel_id: string;
+}
+cursorPaginationEnabledMethods.add('admin.conversations.getTeams');
+export interface AdminConversationsInviteArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+  user_ids: string[];
+}
+export interface AdminConversationsRenameArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+  name: string;
+}
 export interface AdminConversationsRestrictAccessAddGroupArguments extends WebAPICallOptions, TokenOverridable {
   channel_id: string;
   group_id: string;
   team_id?: string;
 }
-
 export interface AdminConversationsRestrictAccessListGroupsArguments extends WebAPICallOptions, TokenOverridable {
   channel_id: string;
   team_id?: string;
 }
-
 export interface AdminConversationsRestrictAccessRemoveGroupArguments extends WebAPICallOptions, TokenOverridable {
   channel_id: string;
   group_id: string;
   team_id: string;
 }
-
+export interface AdminConversationsSearchArguments
+  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  query?: string;
+  search_channel_types?: string[];
+  sort?: 'relevant' | 'name' | 'member_count' | 'created';
+  sort_dir?: 'asc' | 'desc';
+  team_ids?: string[];
+}
+cursorPaginationEnabledMethods.add('admin.conversations.search');
+export interface AdminConversationsSetConversationPrefsArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+  prefs: object; // TODO: we should be more specific here
+}
 export interface AdminConversationsSetTeamsArguments extends WebAPICallOptions, TokenOverridable {
   channel_id: string;
   team_id?: string;
   target_team_ids?: string[];
   org_channel?: boolean;
+}
+export interface AdminConversationsUnarchiveArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+}
+export interface AdminEmojiAddArguments extends WebAPICallOptions, TokenOverridable {
+  name: string;
+  url: string;
+}
+export interface AdminEmojiAddAliasArguments extends WebAPICallOptions, TokenOverridable {
+  name: string;
+  alias_for: string;
+}
+export interface AdminEmojiListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {}
+cursorPaginationEnabledMethods.add('admin.emoji.list');
+export interface AdminEmojiRemoveArguments extends WebAPICallOptions, TokenOverridable {
+  name: string;
+}
+export interface AdminEmojiRenameArguments extends WebAPICallOptions, TokenOverridable {
+  name: string;
+  new_name: string;
 }
 export interface AdminInviteRequestsApproveArguments
   extends WebAPICallOptions, TokenOverridable {
@@ -551,7 +659,7 @@ export interface AdminTeamsSettingsSetDiscoverabilityArguments extends WebAPICal
   team_id: string;
   discoverability: 'open' | 'invite_only' | 'closed' | 'unlisted';
 }
-export interface AdminTeamsSettingseSetIconArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminTeamsSettingsSetIconArguments extends WebAPICallOptions, TokenOverridable {
   team_id: string;
   image_url: string;
 }
@@ -625,6 +733,10 @@ export interface AdminUsersSessionResetArguments extends WebAPICallOptions, Toke
   mobile_only?: boolean;
   web_only?: boolean;
 }
+export interface AdminUsersSessionInvalidateArguments extends WebAPICallOptions, TokenOverridable {
+  session_id: string;
+  team_id: string;
+}
 
   /*
    * `api.*`
@@ -634,6 +746,11 @@ export interface APITestArguments extends WebAPICallOptions {}
   /*
    * `apps.*`
    */
+export interface AppsEventAuthorizationsListArguments
+  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  event_context: string;
+}
+cursorPaginationEnabledMethods.add('apps.event.authorizations.list');
 export interface AppsUninstallArguments extends WebAPICallOptions {
   client_id: string;
   client_secret: string;
