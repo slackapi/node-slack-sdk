@@ -219,7 +219,7 @@ export class InstallProvider {
           user: {
             token: resp.access_token,
             scopes: resp.scope.split(','),
-            id: '', // Todo: no value for this
+            id: resp.user_id !== undefined ? resp.user_id : '' ,
           },
         };
 
@@ -400,6 +400,7 @@ interface OAuthV1Response {
   error?: string;
   // app_id is currently undefined but leaving it in here incase the v1 method adds it
   app_id: string | undefined;
+  user_id?: string; // Not documented but showing up on responses
 }
 
 export interface StateStore {
