@@ -241,6 +241,11 @@ export interface PlainTextInput extends Action {
   multiline?: boolean;
   min_length?: number;
   max_length?: number;
+  dispatch_action_config?: DispatchActionConfig;
+}
+
+export interface DispatchActionConfig {
+  trigger_actions_on?: ('on_enter_pressed' | 'on_character_entered')[];
 }
 
 /*
