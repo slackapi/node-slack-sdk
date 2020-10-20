@@ -413,7 +413,7 @@ export class SocketModeClient extends EventEmitter {
    * @param id the envelope id
    * @param body the message body
    */
-  public send(id: string, body = {}): Promise<void> {
+  private send(id: string, body = {}): Promise<void> {
     const message = { envelope_id: id, ...body };
 
     return new Promise((resolve, reject) => {
