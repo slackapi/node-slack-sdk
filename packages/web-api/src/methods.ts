@@ -150,6 +150,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       list: bindApiCall<AdminUsersListArguments, WebAPICallResult>(this, 'admin.users.list'),
       remove: bindApiCall<AdminUsersRemoveArguments, WebAPICallResult>(this, 'admin.users.remove'),
       session: {
+        list: bindApiCall<AdminUsersSessionListArguments, WebAPICallResult>(this, 'admin.users.session.list'),
         reset: bindApiCall<AdminUsersSessionResetArguments, WebAPICallResult>(this, 'admin.users.session.reset'),
         invalidate: bindApiCall<AdminUsersSessionInvalidateArguments, WebAPICallResult>(
           this, 'admin.users.session.invalidate'),
@@ -727,6 +728,11 @@ export interface AdminUsersSetOwnerArguments extends WebAPICallOptions, TokenOve
 export interface AdminUsersSetRegularArguments extends WebAPICallOptions, TokenOverridable {
   team_id: string;
   user_id: string;
+}
+cursorPaginationEnabledMethods.add('admin.users.session.list');
+export interface AdminUsersSessionListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  user_id?: string;
+  team_id?: string;
 }
 export interface AdminUsersSessionResetArguments extends WebAPICallOptions, TokenOverridable {
   user_id: string;
