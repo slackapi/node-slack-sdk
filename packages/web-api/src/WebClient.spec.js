@@ -213,6 +213,7 @@ describe('WebClient', function () {
         r.catch((error) => {
           assert.instanceOf(error, Error);
           this.scope.done();
+          assert.match(error.stack, /Error: thrown by\n\s+at WebClient.apiCall/);
           done();
         });
       });

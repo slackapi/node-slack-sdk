@@ -145,50 +145,57 @@ export class WebClient extends Methods {
    * @param options - options
    */
   public async apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult> {
-    this.logger.debug(`apiCall('${method}') start`);
+    const { stack: originalStack } = new Error('thrown by');
 
-    warnDeprecations(method, this.logger);
+    try {
+      this.logger.debug(`apiCall('${method}') start`);
 
-    if (typeof options === 'string' || typeof options === 'number' || typeof options === 'boolean') {
-      throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
-    }
+      warnDeprecations(method, this.logger);
 
-    const response = await this.makeRequest(method, Object.assign(
-      { token: this.token },
-      options,
-    ));
-    const result = this.buildResult(response);
+      if (typeof options === 'string' || typeof options === 'number' || typeof options === 'boolean') {
+        throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
+      }
 
-    // log warnings in response metadata
-    if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
-      result.response_metadata.warnings.forEach(this.logger.warn.bind(this.logger));
-    }
+      const response = await this.makeRequest(method, Object.assign(
+        { token: this.token },
+        options,
+      ));
+      const result = this.buildResult(response);
 
-    // log warnings and errors in response metadata messages
-    // related to https://api.slack.com/changelog/2016-09-28-response-metadata-is-on-the-way
-    if (result.response_metadata !== undefined && result.response_metadata.messages !== undefined) {
-      result.response_metadata.messages.forEach((msg) => {
-        const errReg: RegExp = /\[ERROR\](.*)/;
-        const warnReg: RegExp = /\[WARN\](.*)/;
-        if (errReg.test(msg)) {
-          const errMatch = msg.match(errReg);
-          if (errMatch != null) {
-            this.logger.error(errMatch[1].trim());
+      // log warnings in response metadata
+      if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
+        result.response_metadata.warnings.forEach(this.logger.warn.bind(this.logger));
+      }
+
+      // log warnings and errors in response metadata messages
+      // related to https://api.slack.com/changelog/2016-09-28-response-metadata-is-on-the-way
+      if (result.response_metadata !== undefined && result.response_metadata.messages !== undefined) {
+        result.response_metadata.messages.forEach((msg) => {
+          const errReg: RegExp = /\[ERROR\](.*)/;
+          const warnReg: RegExp = /\[WARN\](.*)/;
+          if (errReg.test(msg)) {
+            const errMatch = msg.match(errReg);
+            if (errMatch != null) {
+              this.logger.error(errMatch[1].trim());
+            }
+          } else if (warnReg.test(msg)) {
+            const warnMatch = msg.match(warnReg);
+            if (warnMatch != null) {
+              this.logger.warn(warnMatch[1].trim());
+            }
           }
-        } else if (warnReg.test(msg)) {
-          const warnMatch = msg.match(warnReg);
-          if (warnMatch != null) {
-            this.logger.warn(warnMatch[1].trim());
-          }
-        }
-      });
-    }
+        });
+      }
 
-    if (!result.ok) {
-      throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
-    }
+      if (!result.ok) {
+        throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
+      }
 
-    return result;
+      return result;
+    } catch (err) {
+      err.stack += `\n${originalStack}`;
+      throw err;
+    }
   }
 
   /**
