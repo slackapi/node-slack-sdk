@@ -580,7 +580,6 @@ export interface Installation {
     id: string;
     name?: string;
   };
-  isEnterpriseInstall?: boolean;
   bot?: {
     token: string;
     scopes: string[];
@@ -600,13 +599,14 @@ export interface Installation {
   };
   appId: string | undefined;
   tokenType?: string;
+  isEnterpriseInstall?: boolean;
 }
 
 // this shape is for org installed apps
 export interface OrgInstallation {
   enterprise: {
     id: string;
-    name?: string;
+    name?: string; // is this ever not included for org apps?
   };
   bot?: {
     token: string;
@@ -672,6 +672,13 @@ function callbackSuccess(
     // redirect back to Slack native app
     // Changes to the workspace app was installed to, to the app home
     redirectUrl = `slack://app?team=${installation.team.id}&id=${installation.appId}`;
+  } else if (
+      installation.isEnterpriseInstall &&
+      installation.appId !== undefined &&
+      installation.enterprise !== undefined &&
+      installation.enterprise.name !== undefined) {
+    // org app install
+    redirectUrl = `https://${installation.enterprise.name}.enterprise.slack.com/manage/organization/apps/profile/${installation.appId}/workspaces/add`;
   } else {
     // redirect back to Slack native app
     // does not change the workspace the slack client was last in
