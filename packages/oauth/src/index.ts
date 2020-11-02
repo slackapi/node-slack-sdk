@@ -256,8 +256,10 @@ export class InstallProvider {
 
         // only can get botId if bot access token exists
         // need to create a botUser + request bot scope to have this be part of resp
-        if (resp.bot !== undefined) {
-          const botId = await getBotId(resp.bot.bot_access_token, this.clientOptions);
+        if (resp.bot !== undefined) { 
+          const authResult = await runAuthTest(resp.bot.bot_access_token, this.clientOptions);
+          const botId = authResult.bot_id !== undefined ? authResult.bot_id : '';
+
           installation.bot = {
             id: botId,
             scopes: ['bot'],
@@ -281,13 +283,16 @@ export class InstallProvider {
         }) as unknown as OAuthV2Response;
 
         // get botId
-        const botId = await getBotId(resp.access_token, this.clientOptions);
+        const authResult = await runAuthTest(resp.access_token, this.clientOptions);
+        const botId = authResult.bot_id !== undefined ? authResult.bot_id : '';
+        const orgDashboardGrantAccess = authResult.url !== undefined ? authResult.url : undefined;
 
         // resp obj for v2 - https://api.slack.com/methods/oauth.v2.access#response
 
         if (resp.is_enterprise_install) {
           // org installation
           installation = {
+            orgDashboardGrantAccess,
             enterprise: resp.enterprise!,
             appId: resp.app_id,
             user: {
@@ -600,6 +605,7 @@ export interface Installation {
   appId: string | undefined;
   tokenType?: string;
   isEnterpriseInstall?: boolean;
+  orgDashboardGrantAccess?: string;
 }
 
 // this shape is for org installed apps
@@ -628,6 +634,7 @@ export interface OrgInstallation {
   appId: string | undefined;
   tokenType?: string;
   isEnterpriseInstall: boolean;
+  orgDashboardGrantAccess?: string;
 }
 
 // This is intentionally structurally identical to AuthorizeSourceData
@@ -675,10 +682,9 @@ function callbackSuccess(
   } else if (
       installation.isEnterpriseInstall &&
       installation.appId !== undefined &&
-      installation.enterprise !== undefined &&
-      installation.enterprise.name !== undefined) {
+      installation.orgDashboardGrantAccess !== undefined) {
     // org app install
-    redirectUrl = `https://${installation.enterprise.name}.enterprise.slack.com/manage/organization/apps/profile/${installation.appId}/workspaces/add`;
+    redirectUrl = `${installation.orgDashboardGrantAccess}manage/organization/apps/profile/${installation.appId}/workspaces/add`;
   } else {
     // redirect back to Slack native app
     // does not change the workspace the slack client was last in
@@ -706,20 +712,21 @@ function callbackFailure(
 }
 
 // Gets the bot_id using the `auth.test` method.
-async function getBotId(token: string, clientOptions: WebClientOptions): Promise<string> {
+async function runAuthTest(token: string, clientOptions: WebClientOptions): Promise<AuthTestResult> {
   const client = new WebClient(token, clientOptions);
   const authResult = await client.auth.test();
-  if (authResult.bot_id !== undefined) {
-    return authResult.bot_id as string;
-  }
-  // If a user token was used for auth.test, there is no bot_id
-  // return an empty string in this case
-  return '';
+  return authResult as any as AuthTestResult;
 }
 
 // type guard to confirm an installation isn't an OrgInstallation
 function isNotOrgInstall(installation: Installation | OrgInstallation): installation is Installation {
   return (installation as Installation).team !== undefined && (installation as Installation).team !== null;
+}
+
+// TODO: add the rest of the auth.test payload
+interface AuthTestResult {
+  bot_id?: string;
+  url?: string;
 }
 
 export { Logger, LogLevel } from './logger';
