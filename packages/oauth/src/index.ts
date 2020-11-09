@@ -258,7 +258,7 @@ export class InstallProvider {
         // need to create a botUser + request bot scope to have this be part of resp
         if (resp.bot !== undefined) { 
           const authResult = await runAuthTest(resp.bot.bot_access_token, this.clientOptions);
-          const botId = authResult.bot_id !== undefined ? authResult.bot_id : '';
+          const botId = authResult.bot_id;
 
           installation.bot = {
             id: botId,
