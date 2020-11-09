@@ -313,7 +313,7 @@ export class InstallProvider {
           // workspace or non org enterprise installation
           installation = {
             team: resp.team!,
-            ...(resp.enterprise !== null && resp.enterprise !== undefined) ? { enterprise: resp.enterprise } : {},
+            enterprise: resp.enterprise ?? undefined, // sets enterprise to undefined if resp.enterprise is null
             appId: resp.app_id,
             user: {
               token: resp.authed_user.access_token,
@@ -327,7 +327,7 @@ export class InstallProvider {
               id: botId,
             },
             tokenType: resp.token_type,
-            ...(resp.is_enterprise_install !== undefined) ? { isEnterpriseInstall: resp.is_enterprise_install } : {},
+            isEnterpriseInstall: resp.is_enterprise_install,
           };
         }
       }
