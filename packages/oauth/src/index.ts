@@ -284,7 +284,7 @@ export class InstallProvider {
 
         // get botId
         const authResult = await runAuthTest(resp.access_token, this.clientOptions);
-        const botId = authResult.bot_id !== undefined ? authResult.bot_id : '';
+        const botId = authResult.bot_id;
         const orgDashboardGrantAccess = authResult.url;
 
         // resp obj for v2 - https://api.slack.com/methods/oauth.v2.access#response
