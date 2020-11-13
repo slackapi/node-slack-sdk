@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { sign, verify } from 'jsonwebtoken';
-import { WebClient, WebClientOptions } from '@slack/web-api';
+import { WebAPICallResult, WebClient, WebClientOptions } from '@slack/web-api';
 import {
   CodedError,
   InstallerInitializationError,
@@ -118,6 +118,13 @@ export class InstallProvider {
 
   /**
    * Fetches data from the installationStore for Org Installations.
+   *
+   * TODO: Can we fold this functionality into authorize without breaking the API? Specifically, any InstallQuery that
+   * we could have passed in before would continue to work (as a single workspace query to fetchInstallation) but an
+   * InstallQuery that contains an enterprise ID would first go to fetchOrgInstallation (if defined) and fallback to
+   * fetchInstallation (to handle single workspace installations that happened to have an enterprise ID). Bolt would
+   * still have two separate authorize and orgAuthorize callbacks, but the default implementation of those callbacks
+   * would just call into the one authorize method here.
    */
   public async orgAuthorize(source: OrgInstallationQuery): Promise<AuthorizeResult> {
     try {
@@ -230,7 +237,7 @@ export class InstallProvider {
       }
 
       installOptions = await this.stateStore.verifyStateParam(new Date(), state);
-      const client = new WebClient('', this.clientOptions);
+      const client = new WebClient(undefined, this.clientOptions);
 
       let resp;
       let installation: Installation | OrgInstallation;
@@ -250,18 +257,24 @@ export class InstallProvider {
           user: {
             token: resp.access_token,
             scopes: resp.scope.split(','),
-            id: resp.user_id !== undefined ? resp.user_id : '' ,
+            id: resp.user_id,
           },
+
+          // synthesized properties: enterprise installation is unsupported in v1 auth
+          enterprise: null,
+          isEnterpriseInstall: false,
         };
 
         // only can get botId if bot access token exists
         // need to create a botUser + request bot scope to have this be part of resp
-        if (resp.bot !== undefined) { 
+        if (resp.bot !== undefined) {
           const authResult = await runAuthTest(resp.bot.bot_access_token, this.clientOptions);
           const botId = authResult.bot_id;
 
           installation.bot = {
-            id: botId,
+            // TODO: should we adjust the type of AuthTestResult since we never use this runAuthTest when there isn't
+            // a bot user?
+            id: botId as string,
             scopes: ['bot'],
             token: resp.bot.bot_access_token,
             userId: resp.bot.bot_user_id,
@@ -293,7 +306,7 @@ export class InstallProvider {
           // org installation
           installation = {
             orgDashboardGrantAccess,
-            enterprise: resp.enterprise!,
+            enterprise: resp.enterprise,
             appId: resp.app_id,
             user: {
               token: resp.authed_user.access_token,
@@ -304,10 +317,14 @@ export class InstallProvider {
               scopes: resp.scope.split(','),
               token: resp.access_token,
               userId: resp.bot_user_id,
-              id: botId,
+              // TODO: see AuthTestResult comment above
+              id: botId as string,
             },
             tokenType: resp.token_type,
             isEnterpriseInstall: resp.is_enterprise_install,
+
+            // synthesized properties
+            team: null,
           };
         } else {
           // workspace or non org enterprise installation
@@ -416,56 +433,6 @@ export interface CallbackOptions {
   ) => void;
 }
 
-// Response shape from oauth.v2.access - https://api.slack.com/methods/oauth.v2.access#response
-interface OAuthV2Response {
-  ok: boolean;
-  app_id: string;
-  authed_user: {
-    id: string,
-    scope?: string,
-    access_token?: string,
-    token_type?: string,
-  };
-  scope: string;
-  token_type: string;
-  access_token: string;
-  bot_user_id: string;
-  team: { id: string, name: string } | null;
-  enterprise: { name: string, id: string } | null;
-  is_enterprise_install: boolean;
-  error?: string;
-  incoming_webhook?: {
-    url: string,
-    channel: string,
-    channel_id: string,
-    configuration_url: string,
-  };
-  response_metadata: object;
-}
-
-// Response shape from oauth.access - https://api.slack.com/methods/oauth.access#response
-interface OAuthV1Response {
-  ok: boolean;
-  access_token: string;
-  // scope parameter isn't returned in workspace apps
-  scope: string;
-  team_name: string;
-  team_id: string;
-  enterprise_id: string | null;
-  // if they request bot user token
-  bot?: { bot_user_id: string, bot_access_token: string };
-  incoming_webhook?: {
-    url: string,
-    channel: string,
-    channel_id: string,
-    configuration_url: string,
-  };
-  response_metadata: object;
-  error?: string;
-  // app_id is currently undefined but leaving it in here incase the v1 method adds it
-  app_id: string | undefined;
-  user_id?: string; // Not documented but showing up on responses
-}
 
 export interface StateStore {
   // Returned Promise resolves for a string which can be used as an
@@ -574,21 +541,29 @@ class MemoryInstallationStore implements InstallationStore {
   }
 }
 
+interface EnterpriseInfo {
+  id: string;
+  name?: string; // TODO: when is the name property not defined? copied as-is from previous code
+}
+
 // Needs to have all the data from OAuthV2Access result and OAuthAccess
 // result. This is a normalized shape.
-export interface Installation {
-  team: {
+// TODO: another generic argument for version? or for token type?
+// TODO: should we synthesize a property that contains the "v1" or "v2"?
+// TODO: what if we synthesize `undefined` instead of `null`? it would make our interfaces feel a lot more consistent,
+// and this interface is already a touched-up, normalized version of the true payloads.
+export interface Installation<IsEnterpriseInstall extends boolean = false> {
+  team: IsEnterpriseInstall extends true ? null : {
     id: string;
     name: string;
   };
-  enterprise?: {
-    id: string;
-    name?: string;
-  };
+  // the following property is always set for enterprise installs, and otherwise may be set for single workspace
+  // installs within an org and installs for org admin
+  enterprise: IsEnterpriseInstall extends true ? EnterpriseInfo : (EnterpriseInfo | null);
   bot?: {
     token: string;
     scopes: string[];
-    id?: string;
+    id: string; // retrieved from auth.test
     userId: string;
   };
   user: {
@@ -602,40 +577,15 @@ export interface Installation {
     channelId: string;
     configurationUrl: string;
   };
-  appId: string | undefined;
-  tokenType?: string;
-  isEnterpriseInstall?: boolean;
-  orgDashboardGrantAccess?: string;
+  appId?: string; //  not present in v1 (unless workspace apps, which is unsupported)
+  tokenType?: 'bot'; // undefined for v1 installs without a bot token
+  isEnterpriseInstall: IsEnterpriseInstall; // TODO: synthesized as `false` for v1
+  orgDashboardGrantAccess?: string; // not present in v1, retrieved from auth.test
 }
 
-// this shape is for org installed apps
-export interface OrgInstallation {
-  enterprise: {
-    id: string;
-    name?: string; // is this ever not included for org apps?
-  };
-  bot?: {
-    token: string;
-    scopes: string[];
-    id?: string;
-    userId: string;
-  };
-  user: {
-    token?: string;
-    scopes?: string[];
-    id: string;
-  };
-  incomingWebhook?: {
-    url: string;
-    channel: string;
-    channelId: string;
-    configurationUrl: string;
-  };
-  appId: string | undefined;
-  tokenType?: string;
-  isEnterpriseInstall: boolean;
-  orgDashboardGrantAccess?: string;
-}
+// TODO: the <true> feels ambiguous without a key like isEnterpriseInstall, any ideas on how to improve?
+export type OrgInstallation = Installation<true>;
+
 
 // This is intentionally structurally identical to AuthorizeSourceData
 // from App. It is redefined so that this class remains loosely coupled to
@@ -723,8 +673,53 @@ function isNotOrgInstall(installation: Installation | OrgInstallation): installa
   return (installation as Installation).team !== undefined && (installation as Installation).team !== null;
 }
 
-// TODO: add the rest of the auth.test payload
-interface AuthTestResult {
+// Response shape from oauth.v2.access - https://api.slack.com/methods/oauth.v2.access#response
+interface OAuthV2Response extends WebAPICallResult {
+  app_id: string;
+  authed_user: {
+    id: string,
+    scope?: string,
+    access_token?: string,
+    token_type?: string,
+  };
+  scope: string;
+  token_type: 'bot';
+  access_token: string;
+  bot_user_id: string;
+  team: { id: string, name: string } | null;
+  enterprise: { name: string, id: string } | null;
+  is_enterprise_install: boolean;
+  incoming_webhook?: {
+    url: string,
+    channel: string,
+    channel_id: string,
+    configuration_url: string,
+  };
+}
+
+// Response shape from oauth.access - https://api.slack.com/methods/oauth.access#response
+interface OAuthV1Response extends WebAPICallResult {
+  access_token: string;
+  // scope parameter isn't returned in workspace apps
+  scope: string;
+  team_name: string;
+  team_id: string;
+  enterprise_id: string | null;
+  // if they request bot user token
+  bot?: { bot_user_id: string, bot_access_token: string };
+  incoming_webhook?: {
+    url: string,
+    channel: string,
+    channel_id: string,
+    configuration_url: string,
+  };
+  // app_id is currently undefined but leaving it in here incase the v1 method adds it
+  app_id: string | undefined;
+  // TODO: removed the optional because logically there's no case where a user_id cannot be provided, but we need to verify this
+  user_id: string; // Not documented but showing up on responses
+}
+
+interface AuthTestResult extends WebAPICallResult {
   bot_id?: string;
   url?: string;
 }
