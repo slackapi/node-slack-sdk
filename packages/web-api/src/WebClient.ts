@@ -79,6 +79,11 @@ export class WebClient extends Methods {
   private logger: Logger;
 
   /**
+   * This object's teamId value
+   */
+  private teamId?: string;
+
+  /**
    * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`)
    */
   constructor(token?: string, {
@@ -91,6 +96,7 @@ export class WebClient extends Methods {
     tls = undefined,
     rejectRateLimitedCalls = false,
     headers = {},
+    teamId = undefined,
   }: WebClientOptions = {}) {
     super();
 
@@ -102,6 +108,7 @@ export class WebClient extends Methods {
     // NOTE: may want to filter the keys to only those acceptable for TLS options
     this.tlsConfig = tls !== undefined ? tls : {};
     this.rejectRateLimitedCalls = rejectRateLimitedCalls;
+    this.teamId = teamId;
 
     // Logging
     if (typeof logger !== 'undefined') {
@@ -154,7 +161,10 @@ export class WebClient extends Methods {
     }
 
     const response = await this.makeRequest(method, Object.assign(
-      { token: this.token },
+      {
+        token: this.token,
+        team_id: this.teamId,
+      },
       options,
     ));
     const result = this.buildResult(response);
@@ -490,6 +500,7 @@ export interface WebClientOptions {
   tls?: TLSOptions;
   rejectRateLimitedCalls?: boolean;
   headers?: object;
+  teamId?: string;
 }
 
 export type TLSOptions = Pick<SecureContextOptions, 'pfx' | 'key' | 'passphrase' | 'cert' | 'ca'>;
