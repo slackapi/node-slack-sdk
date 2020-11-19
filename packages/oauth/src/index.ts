@@ -265,7 +265,7 @@ export class InstallProvider {
 
         // only can get botId if bot access token exists
         // need to create a botUser + request bot scope to have this be part of resp
-        if (resp.bot !== undefined) { 
+        if (resp.bot !== undefined) {
           const authResult = await runAuthTest(resp.bot.bot_access_token, this.clientOptions);
           const botId = authResult.bot_id;
 
@@ -291,10 +291,21 @@ export class InstallProvider {
           redirect_uri: installOptions.redirectUri,
         }) as unknown as OAuthV2Response;
 
-        // get botId
-        const authResult = await runAuthTest(resp.access_token, this.clientOptions);
-        const botId = authResult.bot_id;
-        const orgDashboardGrantAccess = authResult.url;
+        let botId;
+        let orgDashboardGrantAccess;
+        // get botId and enterpriseUrl
+        if (resp.access_token !== undefined) {
+          const authResult = await runAuthTest(resp.access_token, this.clientOptions);
+          if (authResult.ok) {
+            botId = authResult.bot_id;
+            if (resp.is_enterprise_install) {
+              // TODO: rename this to enterpriseUrl
+              orgDashboardGrantAccess = authResult.url;
+            }
+
+          }
+
+        }
 
         // resp obj for v2 - https://api.slack.com/methods/oauth.v2.access#response
 
@@ -310,7 +321,7 @@ export class InstallProvider {
               id: resp.authed_user.id,
             },
             bot: {
-              scopes: resp.scope.split(','),
+              scopes: resp.scope !== undefined ? resp.scope.split(',') : [],
               token: resp.access_token,
               userId: resp.bot_user_id,
               id: botId,
@@ -330,7 +341,7 @@ export class InstallProvider {
               id: resp.authed_user.id,
             },
             bot: {
-              scopes: resp.scope.split(','),
+              scopes: resp.scope !== undefined ? resp.scope.split(',') : [],
               token: resp.access_token,
               userId: resp.bot_user_id,
               id: botId,
@@ -736,6 +747,7 @@ function isNotOrgInstall(installation: Installation | OrgInstallation): installa
 interface AuthTestResult {
   bot_id?: string;
   url?: string;
+  ok?: boolean;
 }
 
 export { Logger, LogLevel } from './logger';
