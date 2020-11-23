@@ -326,12 +326,18 @@ export class InstallProvider {
             token: v2Resp.access_token,
             userId: v2Resp.bot_user_id,
             id: authResult.bot_id as string,
+          };
+
+          if (v2Resp.is_enterprise_install) {
+            // if it is an org enterprise install, add the enterprise url
+            v2Installation.enterpriseUrl = authResult.url;
           }
-          v2Installation.orgDashboardGrantAccess = authResult.url;
-        } else if (v2Resp.authed_user.access_token !== undefined) {
-          // Only user scopes were requested
+
+        } else if (v2Resp.authed_user.access_token !== undefined && v2Resp.is_enterprise_install) {
+          // Only user scopes were requested & is an org enterprise install
+          // TODO: confirm if it is possible to do an org enterprise install without a bot user
           const authResult = await runAuthTest(v2Resp.authed_user.access_token, this.clientOptions);
-          v2Installation.orgDashboardGrantAccess = authResult.url;
+          v2Installation.enterpriseUrl = authResult.url;
         } else {
           // TODO: make this a coded error
           throw new Error('The response from the authorization URL contained inconsistent information. Please file a bug.');
@@ -429,7 +435,6 @@ export interface CallbackOptions {
   ) => void;
 }
 
-
 export interface StateStore {
   // Returned Promise resolves for a string which can be used as an
   // OAuth state param.
@@ -467,7 +472,9 @@ class ClearStateStore implements StateStore {
 }
 
 export interface InstallationStore {
-  storeInstallation<AuthVersion extends 'v1' | 'v2'>(installation: Installation<AuthVersion, false>, logger?: Logger): Promise<void>;
+  storeInstallation<AuthVersion extends 'v1' | 'v2'>(
+    installation: Installation<AuthVersion, false>,
+    logger?: Logger): Promise<void>;
   storeOrgInstallation?(installation: OrgInstallation, logger?: Logger): Promise<void>;
   fetchInstallation: (query: InstallationQuery, logger?: Logger) => Promise<Installation<'v1' | 'v2', false>>;
   fetchOrgInstallation?: (query: OrgInstallationQuery, logger?: Logger) => Promise<OrgInstallation>;
@@ -563,11 +570,15 @@ class MemoryInstallationStore implements InstallationStore {
  *
  * TODO: IsEnterpriseInstall is always false when AuthVersion is v1
  */
-export interface Installation<AuthVersion extends ('v1' | 'v2') = ('v1' | 'v2'), IsEnterpriseInstall extends boolean = boolean> {
-  // TODO: when performing a “single workspace” install with the admin scope on the enterprise, is the team property returned from oauth.access?
+export interface Installation<AuthVersion extends ('v1' | 'v2') = ('v1' | 'v2'),
+  IsEnterpriseInstall extends boolean = boolean> {
+  /**
+   * TODO: when performing a “single workspace” install with the admin scope on the enterprise,
+   * is the team property returned from oauth.access?
+   */
   team: IsEnterpriseInstall extends true ? undefined : {
     id: string;
-    /** Left as undefined when not returned from fetch.*/
+    /** Left as undefined when not returned from fetch. */
     name?: string;
   };
 
@@ -605,14 +616,17 @@ export interface Installation<AuthVersion extends ('v1' | 'v2') = ('v1' | 'v2'),
   /** When the installation contains a bot user, the token type. Left as undefined when not returned from fetch. */
   tokenType?: 'bot';
 
-  /** When the installation is an enterprise install, the URL of the landing page for all workspaces in the org. Left as undefined when not returned from fetch. */
-  orgDashboardGrantAccess?: AuthVersion extends 'v2' ? string : undefined;
+  /**
+   * When the installation is an enterprise org install, the URL of the landing page for all workspaces in the org.
+   * Left as undefined when not returned from fetch.
+   */
+  enterpriseUrl?: AuthVersion extends 'v2' ? string : undefined;
 
   /** Whether the installation was performed on an enterprise org. Synthesized as `false` when not present. */
   isEnterpriseInstall?: IsEnterpriseInstall;
 
   /** The version of Slack's auth flow that produced this installation. Synthesized as `v2` when not present. */
-  authVersion?: AuthVersion,
+  authVersion?: AuthVersion;
 }
 
 /**
@@ -670,7 +684,7 @@ function callbackSuccess(
     redirectUrl = `slack://app?team=${installation.team.id}&id=${installation.appId}`;
   } else if (isOrgInstall(installation)) {
     // redirect to Slack app management dashboard
-    redirectUrl = `${installation.orgDashboardGrantAccess}manage/organization/apps/profile/${installation.appId}/workspaces/add`;
+    redirectUrl = `${installation.enterpriseUrl}manage/organization/apps/profile/${installation.appId}/workspaces/add`;
   } else {
     // redirect back to Slack native app
     // does not change the workspace the slack client was last in
@@ -709,7 +723,7 @@ function isOrgInstall(installation: Installation): installation is OrgInstallati
   return installation.isEnterpriseInstall || false;
 }
 
-function isNotOrgInstall(installation: Installation): installation is Installation<'v1' |'v2', false> {
+function isNotOrgInstall(installation: Installation): installation is Installation<'v1' | 'v2', false> {
   return !(isOrgInstall(installation));
 }
 
@@ -755,7 +769,7 @@ interface OAuthV1Response extends WebAPICallResult {
   };
   // app_id is currently undefined but leaving it in here incase the v1 method adds it
   app_id: string | undefined;
-  // TODO: removed the optional because logically there's no case where a user_id cannot be provided, but we need to verify this
+  // TODO: removed optional because logically there's no case where a user_id cannot be provided, but needs verification
   user_id: string; // Not documented but showing up on responses
 }
 
