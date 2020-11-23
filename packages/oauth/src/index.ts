@@ -165,7 +165,7 @@ export class InstallProvider {
     }
 
     // scope
-    let scopes;
+    let scopes: string;
     if (options.scopes instanceof Array) {
       scopes = options.scopes.join(',');
     } else {
@@ -192,7 +192,7 @@ export class InstallProvider {
 
     // user scope, only available for OAuth v2
     if (options.userScopes !== undefined && this.authVersion === 'v2') {
-      let userScopes;
+      let userScopes: string;
       if (options.userScopes instanceof Array) {
         userScopes = options.userScopes.join(',');
       } else {
@@ -239,114 +239,97 @@ export class InstallProvider {
       installOptions = await this.stateStore.verifyStateParam(new Date(), state);
       const client = new WebClient(undefined, this.clientOptions);
 
-      let resp;
-      let installation: Installation | OrgInstallation;
+      // Start: Build the installation object
+      let installation: Installation;
+      let resp: OAuthV1Response | OAuthV2Response;
       if (this.authVersion === 'v1') {
         // convert response type from WebApiCallResult to OAuthResponse
-        resp = await client.oauth.access({
+        const v1Resp = await client.oauth.access({
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
           redirect_uri: installOptions.redirectUri,
-        }) as unknown as OAuthV1Response;
+        }) as OAuthV1Response;
 
         // resp obj for v1 - https://api.slack.com/methods/oauth.access#response
-        installation = {
-          team: { id: resp.team_id, name: resp.team_name },
-          appId: resp.app_id, // not included in v1 unless workspace apps, so most likely undefined
+        const v1Installation: Installation<'v1', false> = {
+          team: { id: v1Resp.team_id, name: v1Resp.team_name },
+          enterprise: v1Resp.enterprise_id === null ? undefined : { id: v1Resp.enterprise_id },
           user: {
-            token: resp.access_token,
-            scopes: resp.scope.split(','),
-            id: resp.user_id,
+            token: v1Resp.access_token,
+            scopes: v1Resp.scope.split(','),
+            id: v1Resp.user_id,
           },
 
           // synthesized properties: enterprise installation is unsupported in v1 auth
-          enterprise: null,
           isEnterpriseInstall: false,
+          authVersion: 'v1',
         };
 
         // only can get botId if bot access token exists
         // need to create a botUser + request bot scope to have this be part of resp
-        if (resp.bot !== undefined) {
-          const authResult = await runAuthTest(resp.bot.bot_access_token, this.clientOptions);
-          const botId = authResult.bot_id;
+        if (v1Resp.bot !== undefined) {
+          const authResult = await runAuthTest(v1Resp.bot.bot_access_token, this.clientOptions);
+          // We already tested that a bot user was in the response, so we know the following bot_id will be defined
+          const botId = authResult.bot_id as string;
 
-          installation.bot = {
-            // TODO: should we adjust the type of AuthTestResult since we never use this runAuthTest when there isn't
-            // a bot user?
-            id: botId as string,
+          v1Installation.bot = {
+            id: botId,
             scopes: ['bot'],
-            token: resp.bot.bot_access_token,
-            userId: resp.bot.bot_user_id,
+            token: v1Resp.bot.bot_access_token,
+            userId: v1Resp.bot.bot_user_id,
           };
         }
 
-        if (resp.enterprise_id !== null) {
-          installation.enterprise = {
-            id: resp.enterprise_id,
-          };
-        }
+        resp = v1Resp;
+        installation = v1Installation;
       } else {
         // convert response type from WebApiCallResult to OAuthResponse
-        resp = await client.oauth.v2.access({
+        const v2Resp = await client.oauth.v2.access({
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
           redirect_uri: installOptions.redirectUri,
-        }) as unknown as OAuthV2Response;
-
-        // get botId
-        const authResult = await runAuthTest(resp.access_token, this.clientOptions);
-        const botId = authResult.bot_id;
-        const orgDashboardGrantAccess = authResult.url;
+        }) as OAuthV2Response;
 
         // resp obj for v2 - https://api.slack.com/methods/oauth.v2.access#response
+        const v2Installation: Installation<'v2', boolean> = {
+          team: v2Resp.team === null ? undefined : v2Resp.team,
+          enterprise: v2Resp.enterprise == null ? undefined : v2Resp.enterprise,
+          user: {
+            token: v2Resp.authed_user.access_token,
+            scopes: v2Resp.authed_user.scope?.split(','),
+            id: v2Resp.authed_user.id,
+          },
+          tokenType: v2Resp.token_type,
+          isEnterpriseInstall: v2Resp.is_enterprise_install,
+          appId: v2Resp.app_id,
 
-        if (resp.is_enterprise_install) {
-          // org installation
-          installation = {
-            orgDashboardGrantAccess,
-            enterprise: resp.enterprise,
-            appId: resp.app_id,
-            user: {
-              token: resp.authed_user.access_token,
-              scopes: resp.authed_user.scope !== undefined ? resp.authed_user.scope.split(',') : undefined,
-              id: resp.authed_user.id,
-            },
-            bot: {
-              scopes: resp.scope.split(','),
-              token: resp.access_token,
-              userId: resp.bot_user_id,
-              // TODO: see AuthTestResult comment above
-              id: botId as string,
-            },
-            tokenType: resp.token_type,
-            isEnterpriseInstall: resp.is_enterprise_install,
+          // synthesized properties
+          authVersion: 'v2',
+        };
 
-            // synthesized properties
-            team: null,
-          };
+        if (v2Resp.access_token !== undefined && v2Resp.scope !== undefined && v2Resp.bot_user_id !== undefined) {
+          // A bot user/scope was requested
+          const authResult = await runAuthTest(v2Resp.access_token, this.clientOptions);
+          v2Installation.bot = {
+            scopes: v2Resp.scope.split(','),
+            token: v2Resp.access_token,
+            userId: v2Resp.bot_user_id,
+            id: authResult.bot_id as string,
+          }
+          v2Installation.orgDashboardGrantAccess = authResult.url;
+        } else if (v2Resp.authed_user.access_token !== undefined) {
+          // Only user scopes were requested
+          const authResult = await runAuthTest(v2Resp.authed_user.access_token, this.clientOptions);
+          v2Installation.orgDashboardGrantAccess = authResult.url;
         } else {
-          // workspace or non org enterprise installation
-          installation = {
-            team: resp.team!,
-            enterprise: resp.enterprise ?? undefined, // sets enterprise to undefined if resp.enterprise is null
-            appId: resp.app_id,
-            user: {
-              token: resp.authed_user.access_token,
-              scopes: resp.authed_user.scope !== undefined ? resp.authed_user.scope.split(',') : undefined,
-              id: resp.authed_user.id,
-            },
-            bot: {
-              scopes: resp.scope.split(','),
-              token: resp.access_token,
-              userId: resp.bot_user_id,
-              id: botId,
-            },
-            tokenType: resp.token_type,
-            isEnterpriseInstall: resp.is_enterprise_install,
-          };
+          // TODO: make this a coded error
+          throw new Error('The response from the authorization URL contained inconsistent information. Please file a bug.');
         }
+
+        resp = v2Resp;
+        installation = v2Installation;
       }
 
       if (resp.incoming_webhook !== undefined) {
@@ -357,18 +340,20 @@ export class InstallProvider {
           configurationUrl: resp.incoming_webhook.configuration_url,
         };
       }
+      // End: Build the installation object
 
+      // Save installation object to installation store
       if (installation.isEnterpriseInstall) {
         if (this.installationStore.storeOrgInstallation === undefined) {
+          // TODO: make this a coded error
           throw new Error('Installation store is missing the storeOrgInstallation method');
         }
-        // save token to orgInstallationStore
         await this.installationStore.storeOrgInstallation(installation as OrgInstallation, this.logger);
       } else {
-        // save token to InstallationStore
-        await this.installationStore.storeInstallation(installation as Installation, this.logger);
+        await this.installationStore.storeInstallation(installation as Installation<'v1' | 'v2', false>, this.logger);
       }
 
+      // Call the success callback
       if (options !== undefined && options.success !== undefined) {
         this.logger.debug('calling passed in options.success');
         options.success(installation, installOptions, req, res);
@@ -378,6 +363,8 @@ export class InstallProvider {
       }
     } catch (error) {
       this.logger.error(error);
+
+      // Call the failure callback
       if (options !== undefined && options.failure !== undefined) {
         this.logger.debug('calling passed in options.failure');
         options.failure(error, installOptions!, req, res);
@@ -471,15 +458,15 @@ class ClearStateStore implements StateStore {
 }
 
 export interface InstallationStore {
-  storeInstallation: (installation: Installation, logger?: Logger) => Promise<void>;
-  storeOrgInstallation?: (installation: OrgInstallation, logger?: Logger) => Promise<void>;
-  fetchInstallation: (query: InstallationQuery, logger?: Logger) => Promise<Installation>;
+  storeInstallation<AuthVersion extends 'v1' | 'v2'>(installation: Installation<AuthVersion, false>, logger?: Logger): Promise<void>;
+  storeOrgInstallation?(installation: OrgInstallation, logger?: Logger): Promise<void>;
+  fetchInstallation: (query: InstallationQuery, logger?: Logger) => Promise<Installation<'v1' | 'v2', false>>;
   fetchOrgInstallation?: (query: OrgInstallationQuery, logger?: Logger) => Promise<OrgInstallation>;
 }
 
 // using a javascript object as a makeshift database for development
 interface DevDatabase {
-  [key: string]: Installation | OrgInstallation;
+  [teamIdOrEnterpriseId: string]: Installation;
 }
 
 // Default Install Store. Should only be used for development
@@ -487,18 +474,19 @@ class MemoryInstallationStore implements InstallationStore {
   public devDB: DevDatabase = {};
 
   public async storeInstallation(installation: Installation, logger?: Logger): Promise<void> {
+    // NOTE: installations on a single workspace that happen to be within an enterprise organization are stored by
+    // the team ID as the key
+    // TODO: what about installations on an enterprise (acting as a single workspace) with `admin` scope, which is not
+    // an org install?
     if (logger !== undefined) {
       logger.warn('Storing Access Token. Please use a real Installation Store for production!');
     }
 
-    // db write
     if (isNotOrgInstall(installation)) {
       this.devDB[installation.team.id] = installation;
     } else {
       throw new Error('Failed saving installation data to installationStore');
     }
-
-    return Promise.resolve();
   }
 
   public async storeOrgInstallation(installation: OrgInstallation, logger?: Logger): Promise<void> {
@@ -506,29 +494,24 @@ class MemoryInstallationStore implements InstallationStore {
       logger.warn('Storing Access Token. Please use a real Installation Store for production!');
     }
 
-    // db write
-    if (installation.isEnterpriseInstall) {
+    if (isOrgInstall(installation)) {
       this.devDB[installation.enterprise.id] = installation;
     } else {
       throw new Error('Failed saving installation data to installationStore');
     }
-
-    return Promise.resolve();
   }
 
-  // non org app lookup
-  public async fetchInstallation(query: InstallationQuery, logger?: Logger): Promise<Installation> {
+  public async fetchInstallation(query: InstallationQuery, logger?: Logger): Promise<Installation<'v1' | 'v2', false>> {
     if (logger !== undefined) {
       logger.warn('Retrieving Access Token from DB. Please use a real Installation Store for production!');
     }
 
     if (query.teamId !== undefined) {
-      return this.devDB[query.teamId] as Installation;
+      return this.devDB[query.teamId] as Installation<'v1' | 'v2', false>;
     }
     throw new Error('Failed fetching installation');
   }
 
-  // enterprise org app installation lookup
   public async fetchOrgInstallation(query: OrgInstallationQuery, logger?: Logger): Promise<OrgInstallation> {
     if (logger !== undefined) {
       logger.warn('Retrieving Access Token from DB. Please use a real Installation Store for production!');
@@ -541,51 +524,98 @@ class MemoryInstallationStore implements InstallationStore {
   }
 }
 
-interface EnterpriseInfo {
-  id: string;
-  name?: string; // TODO: when is the name property not defined? copied as-is from previous code
-}
-
-// Needs to have all the data from OAuthV2Access result and OAuthAccess
-// result. This is a normalized shape.
-// TODO: another generic argument for version? or for token type?
-// TODO: should we synthesize a property that contains the "v1" or "v2"?
-// TODO: what if we synthesize `undefined` instead of `null`? it would make our interfaces feel a lot more consistent,
-// and this interface is already a touched-up, normalized version of the true payloads.
-export interface Installation<IsEnterpriseInstall extends boolean = false> {
-  team: IsEnterpriseInstall extends true ? null : {
+/**
+ * An individual installation of the Slack app.
+ *
+ * This interface creates a representation for installations that normalizes the responses from OAuth grant exchanges
+ * across auth versions (responses from the Web API methods `oauth.v2.access` and `oauth.access`). It describes some of
+ * these differences using the `AuthVersion` generic placeholder type.
+ *
+ * This interface also represents both installations which occur on individual Slack workspaces and on Slack enterprise
+ * organizations. The `IsEnterpriseInstall` generic placeholder type is used to describe some of those differences.
+ *
+ * This representation is designed to be used both when producing data that should be stored by an InstallationStore,
+ * and when consuming data that is fetched from an InstallationStore. Most often, InstallationStore implementations
+ * are a database. If you are going to implement an InstallationStore, it's advised that you **store as much of the
+ * data in these objects as possible so that you can return as much as possible inside `fetchInstallation()`**.
+ *
+ * A few properties are synthesized with a default value if they are not present when returned from
+ * `fetchInstallation()`. These properties are optional in the interface so that stored installations from previous
+ * versions of this library (from before those properties were introduced) continue to work without requiring a breaking
+ * change. However the synthesized default values are not always perfect and are based on some assumptions, so this is
+ * why it's recommended to store as much of that data as possible in any InstallationStore.
+ *
+ * Some of the properties (e.g. `team.name`) can change between when the installation occurred and when it is fetched
+ * from the InstallationStore. This can be seen as a reason not to store those properties. In most workspaces these
+ * properties rarely change, and for most Slack apps having a slightly out of date value has no impact. However if your
+ * app uses these values in a way where it must be up to date, it's recommended to implement a caching strategy in the
+ * InstallationStore to fetch the latest data from the Web API (using methods such as `auth.test`, `teams.info`, etc.)
+ * as often as it makes sense for your Slack app.
+ *
+ * TODO: IsEnterpriseInstall is always false when AuthVersion is v1
+ */
+export interface Installation<AuthVersion extends ('v1' | 'v2') = ('v1' | 'v2'), IsEnterpriseInstall extends boolean = boolean> {
+  // TODO: when performing a “single workspace” install with the admin scope on the enterprise, is the team property returned from oauth.access?
+  team: IsEnterpriseInstall extends true ? undefined : {
     id: string;
-    name: string;
+    /** Left as undefined when not returned from fetch.*/
+    name?: string;
   };
-  // the following property is always set for enterprise installs, and otherwise may be set for single workspace
-  // installs within an org and installs for org admin
-  enterprise: IsEnterpriseInstall extends true ? EnterpriseInfo : (EnterpriseInfo | null);
+
+  /**
+   * When the installation is an enterprise install or when the installation occurs on the org to acquire `admin` scope,
+   * the name and ID of the enterprise org.
+   */
+  enterprise: IsEnterpriseInstall extends true ? EnterpriseInfo : (EnterpriseInfo | undefined);
+
+  user: {
+    token: AuthVersion extends 'v1' ? string : (string | undefined);
+    scopes: AuthVersion extends 'v1' ? string[] : (string[] | undefined);
+    id: string;
+  };
+
   bot?: {
     token: string;
     scopes: string[];
     id: string; // retrieved from auth.test
     userId: string;
   };
-  user: {
-    token?: string;
-    scopes?: string[];
-    id: string;
-  };
   incomingWebhook?: {
     url: string;
-    channel: string;
-    channelId: string;
-    configurationUrl: string;
+    /** Left as undefined when not returned from fetch. */
+    channel?: string;
+    /** Left as undefined when not returned from fetch. */
+    channelId?: string;
+    /** Left as undefined when not returned from fetch. */
+    configurationUrl?: string;
   };
-  appId?: string; //  not present in v1 (unless workspace apps, which is unsupported)
-  tokenType?: 'bot'; // undefined for v1 installs without a bot token
-  isEnterpriseInstall: IsEnterpriseInstall; // TODO: synthesized as `false` for v1
-  orgDashboardGrantAccess?: string; // not present in v1, retrieved from auth.test
+
+  /** The App ID, which does not vary per installation. Left as undefined when not returned from fetch. */
+  appId?: AuthVersion extends 'v2' ? string : undefined;
+
+  /** When the installation contains a bot user, the token type. Left as undefined when not returned from fetch. */
+  tokenType?: 'bot';
+
+  /** When the installation is an enterprise install, the URL of the landing page for all workspaces in the org. Left as undefined when not returned from fetch. */
+  orgDashboardGrantAccess?: AuthVersion extends 'v2' ? string : undefined;
+
+  /** Whether the installation was performed on an enterprise org. Synthesized as `false` when not present. */
+  isEnterpriseInstall?: IsEnterpriseInstall;
+
+  /** The version of Slack's auth flow that produced this installation. Synthesized as `v2` when not present. */
+  authVersion?: AuthVersion,
 }
 
-// TODO: the <true> feels ambiguous without a key like isEnterpriseInstall, any ideas on how to improve?
-export type OrgInstallation = Installation<true>;
+/**
+ * A type to describe enterprise organization installations.
+ */
+export type OrgInstallation = Installation<'v2', true>;
 
+interface EnterpriseInfo {
+  id: string;
+  /* Not defined in v1 auth version. Left as undefined when not returned from fetch. */
+  name?: string;
+}
 
 // This is intentionally structurally identical to AuthorizeSourceData
 // from App. It is redefined so that this class remains loosely coupled to
@@ -618,22 +648,19 @@ export interface AuthorizeResult {
 
 // Default function to call when OAuth flow is successful
 function callbackSuccess(
-  installation: Installation | OrgInstallation,
+  installation: Installation,
   _options: InstallURLOptions | undefined,
   _req: IncomingMessage,
   res: ServerResponse,
 ): void {
-  let redirectUrl;
+  let redirectUrl: string;
 
   if (isNotOrgInstall(installation) && installation.appId !== undefined) {
     // redirect back to Slack native app
     // Changes to the workspace app was installed to, to the app home
     redirectUrl = `slack://app?team=${installation.team.id}&id=${installation.appId}`;
-  } else if (
-      installation.isEnterpriseInstall &&
-      installation.appId !== undefined &&
-      installation.orgDashboardGrantAccess !== undefined) {
-    // org app install
+  } else if (isOrgInstall(installation)) {
+    // redirect to Slack app management dashboard
     redirectUrl = `${installation.orgDashboardGrantAccess}manage/organization/apps/profile/${installation.appId}/workspaces/add`;
   } else {
     // redirect back to Slack native app
@@ -668,9 +695,13 @@ async function runAuthTest(token: string, clientOptions: WebClientOptions): Prom
   return authResult as any as AuthTestResult;
 }
 
-// type guard to confirm an installation isn't an OrgInstallation
-function isNotOrgInstall(installation: Installation | OrgInstallation): installation is Installation {
-  return (installation as Installation).team !== undefined && (installation as Installation).team !== null;
+// Type guard to narrow Installation type to OrgInstallation
+function isOrgInstall(installation: Installation): installation is OrgInstallation {
+  return installation.isEnterpriseInstall || false;
+}
+
+function isNotOrgInstall(installation: Installation): installation is Installation<'v1' |'v2', false> {
+  return !(isOrgInstall(installation));
 }
 
 // Response shape from oauth.v2.access - https://api.slack.com/methods/oauth.v2.access#response
@@ -682,10 +713,10 @@ interface OAuthV2Response extends WebAPICallResult {
     access_token?: string,
     token_type?: string,
   };
-  scope: string;
-  token_type: 'bot';
-  access_token: string;
-  bot_user_id: string;
+  scope?: string;
+  token_type?: 'bot';
+  access_token?: string;
+  bot_user_id?: string;
   team: { id: string, name: string } | null;
   enterprise: { name: string, id: string } | null;
   is_enterprise_install: boolean;
