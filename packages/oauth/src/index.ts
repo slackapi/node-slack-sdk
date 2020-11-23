@@ -121,6 +121,12 @@ export class InstallProvider {
         authResult.teamId = source.teamId;
       }
 
+      if (queryResult.enterprise !== undefined) {
+        authResult.enterpriseId = queryResult.enterprise.id;
+      } else if (source.enterpriseId !== undefined) {
+        authResult.enterpriseId = source.enterpriseId;
+      }
+
       if (queryResult.bot !== undefined) {
         authResult.botToken = queryResult.bot.token;
         authResult.botId = queryResult.bot.id;
@@ -636,6 +642,7 @@ export interface AuthorizeResult {
   botId?: string;
   botUserId?: string;
   teamId?: string;
+  enterpriseId?: string;
 }
 
 // Default function to call when OAuth flow is successful
