@@ -267,9 +267,9 @@ describe('WebClient', function () {
     it('should properly serialize simple API arguments', function () {
       const scope = nock('https://slack.com')
         // NOTE: this could create false negatives if the serialization order changes (it shouldn't matter)
-        .post(/api/, 'token=xoxb-faketoken&foo=stringval&bar=42&baz=false')
+        .post(/api/, 'token=xoxb-faketoken&team_id=T12345678&foo=stringval&bar=42&baz=false')
         .reply(200, { ok: true });
-      return this.client.apiCall('method', { foo: 'stringval', bar: 42, baz: false })
+      return this.client.apiCall('method', { foo: 'stringval', bar: 42, baz: false, team_id: 'T12345678' })
         .then(() => {
           scope.done();
         });

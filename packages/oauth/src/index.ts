@@ -103,6 +103,7 @@ export class InstallProvider {
 
       const authResult: AuthorizeResult = {};
       authResult.userToken = queryResult.user.token;
+      // Question: Should queryResult.team.id be passed in over source.teamId?
       authResult.teamId = queryResult.team.id;
       if (queryResult.bot !== undefined) {
         authResult.botToken = queryResult.bot.token;
@@ -144,6 +145,14 @@ export class InstallProvider {
         authResult.botToken = queryResult.bot.token;
         authResult.botId = queryResult.bot.id;
         authResult.botUserId = queryResult.bot.userId;
+      }
+
+      /**
+       *  since queryResult is a org installation, it won't have team.id. If one was passed in via source,
+       *  we should add it to the authResult
+       */
+      if (source.teamId !== undefined) {
+        authResult.teamId = source.teamId;
       }
 
       return authResult;
