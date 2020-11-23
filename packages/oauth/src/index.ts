@@ -74,7 +74,6 @@ export class InstallProvider {
     this.clientSecret = clientSecret;
     this.handleCallback = this.handleCallback.bind(this);
     this.authorize = this.authorize.bind(this);
-    this.orgAuthorize = this.orgAuthorize.bind(this);
     this.authVersion = authVersion;
 
     this.authorizationUrl = authorizationUrl;
@@ -93,9 +92,17 @@ export class InstallProvider {
   /**
    * Fetches data from the installationStore for non Org Installations.
    */
-  public async authorize(source: InstallationQuery): Promise<AuthorizeResult> {
+  public async authorize(source: InstallationQuery<boolean>): Promise<AuthorizeResult> {
     try {
-      const queryResult = await this.installationStore.fetchInstallation(source, this.logger);
+      let queryResult;
+      if (source.isEnterpriseInstall) {
+        if (this.installationStore.fetchOrgInstallation === undefined) {
+          throw new Error('Installation Store is missing the fetchOrgInstallation method');
+        }
+        queryResult = await this.installationStore.fetchOrgInstallation(source as InstallationQuery<true>, this.logger);
+      } else {
+        queryResult = await this.installationStore.fetchInstallation(source as InstallationQuery<false>, this.logger);
+      }
 
       if (queryResult === undefined) {
         throw new Error('Failed fetching data from the Installation Store');
@@ -103,56 +110,21 @@ export class InstallProvider {
 
       const authResult: AuthorizeResult = {};
       authResult.userToken = queryResult.user.token;
-      // Question: Should queryResult.team.id be passed in over source.teamId?
-      authResult.teamId = queryResult.team.id;
-      if (queryResult.bot !== undefined) {
-        authResult.botToken = queryResult.bot.token;
-        authResult.botId = queryResult.bot.id;
-        authResult.botUserId = queryResult.bot.userId;
-      }
 
-      return authResult;
-    } catch (error) {
-      throw new AuthorizationError(error.message);
-    }
-  }
-
-  /**
-   * Fetches data from the installationStore for Org Installations.
-   *
-   * TODO: Can we fold this functionality into authorize without breaking the API? Specifically, any InstallQuery that
-   * we could have passed in before would continue to work (as a single workspace query to fetchInstallation) but an
-   * InstallQuery that contains an enterprise ID would first go to fetchOrgInstallation (if defined) and fallback to
-   * fetchInstallation (to handle single workspace installations that happened to have an enterprise ID). Bolt would
-   * still have two separate authorize and orgAuthorize callbacks, but the default implementation of those callbacks
-   * would just call into the one authorize method here.
-   */
-  public async orgAuthorize(source: OrgInstallationQuery): Promise<AuthorizeResult> {
-    try {
-      if (this.installationStore.fetchOrgInstallation === undefined) {
-        throw new Error('Installation Store is missing the fetchOrgInstallation method');
-      }
-
-      const queryResult = await this.installationStore.fetchOrgInstallation(source, this.logger);
-
-      if (queryResult === undefined) {
-        throw new Error('Failed fetching data from the Installation Store');
-      }
-
-      const authResult: AuthorizeResult = {};
-      authResult.userToken = queryResult.user.token;
-      if (queryResult.bot !== undefined) {
-        authResult.botToken = queryResult.bot.token;
-        authResult.botId = queryResult.bot.id;
-        authResult.botUserId = queryResult.bot.userId;
-      }
-
-      /**
-       *  since queryResult is a org installation, it won't have team.id. If one was passed in via source,
-       *  we should add it to the authResult
-       */
-      if (source.teamId !== undefined) {
+      if (queryResult.team !== undefined) {
+        authResult.teamId = queryResult.team.id;
+      } else if (source.teamId !== undefined) {
+        /**
+         *  since queryResult is a org installation, it won't have team.id. If one was passed in via source,
+         *  we should add it to the authResult
+         */
         authResult.teamId = source.teamId;
+      }
+
+      if (queryResult.bot !== undefined) {
+        authResult.botToken = queryResult.bot.token;
+        authResult.botId = queryResult.bot.id;
+        authResult.botUserId = queryResult.bot.userId;
       }
 
       return authResult;
@@ -476,7 +448,7 @@ export interface InstallationStore {
     installation: Installation<AuthVersion, false>,
     logger?: Logger): Promise<void>;
   storeOrgInstallation?(installation: OrgInstallation, logger?: Logger): Promise<void>;
-  fetchInstallation: (query: InstallationQuery, logger?: Logger) => Promise<Installation<'v1' | 'v2', false>>;
+  fetchInstallation: (query: InstallationQuery<false>, logger?: Logger) => Promise<Installation<'v1' | 'v2', false>>;
   fetchOrgInstallation?: (query: OrgInstallationQuery, logger?: Logger) => Promise<OrgInstallation>;
 }
 
@@ -517,7 +489,9 @@ class MemoryInstallationStore implements InstallationStore {
     }
   }
 
-  public async fetchInstallation(query: InstallationQuery, logger?: Logger): Promise<Installation<'v1' | 'v2', false>> {
+  public async fetchInstallation(
+    query: InstallationQuery<false>,
+    logger?: Logger): Promise<Installation<'v1' | 'v2', false>> {
     if (logger !== undefined) {
       logger.warn('Retrieving Access Token from DB. Please use a real Installation Store for production!');
     }
@@ -643,20 +617,15 @@ interface EnterpriseInfo {
 // This is intentionally structurally identical to AuthorizeSourceData
 // from App. It is redefined so that this class remains loosely coupled to
 // the rest of Bolt.
-export interface InstallationQuery {
-  teamId: string;
-  enterpriseId?: string;
+export interface InstallationQuery<isEnterpriseInstall extends boolean> {
+  teamId: isEnterpriseInstall extends false ? string : undefined;
+  enterpriseId: isEnterpriseInstall extends true ? string : (string | undefined);
   userId?: string;
   conversationId?: string;
+  isEnterpriseInstall: isEnterpriseInstall;
 }
 
-// NOTE: `enterpriseId` is no longer optional, and `teamId` is optional
-export interface OrgInstallationQuery {
-  enterpriseId: string;
-  teamId?: string;
-  userId?: string;
-  conversationId?: string;
-}
+export type OrgInstallationQuery = InstallationQuery<true>;
 
 // This is intentionally structurally identical to AuthorizeResult from App
 // It is redefined so that this class remains loosely coupled to the rest

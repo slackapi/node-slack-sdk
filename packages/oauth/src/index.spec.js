@@ -373,39 +373,6 @@ describe('OAuth', async () => {
     });
   });
 
-  describe('installer.orgAuthorize', async () => {
-    it('should fail if database does not have an entry for authorize query', async () => {
-      const installer = new InstallProvider({clientId, clientSecret, stateSecret, installationStore});
-      try {
-          const authResult = await installer.orgAuthorize({enterpriseId:'non_existing_team_id'});
-          assert.fail('Should have failed');
-      } catch(error) {
-          assert.equal(error.code, ErrorCode.AuthorizationError);
-          assert.equal(error.message, 'Failed fetching data from the Installation Store');
-      }
-    });
-
-    it('should successfully return the Installation Object from the database', async () => {
-      const installer = new InstallProvider({clientId, clientSecret, stateSecret, installationStore});
-      const fakeAuthResult = {
-        userToken: 'userToken',
-        botToken: 'botToken',
-        botId: 'botId',
-        botUserId: 'botUserId'
-      };
-
-      try {
-        const authResult = await installer.orgAuthorize({enterpriseId:'test-enterprise-id'});
-        assert.equal(authResult.userToken, fakeAuthResult.userToken);
-        assert.equal(authResult.botToken, fakeAuthResult.botToken);
-        assert.equal(authResult.botId, fakeAuthResult.botId);
-        assert.equal(authResult.botUserId, fakeAuthResult.botUserId);
-      } catch(error) {
-        assert.fail(error.message);
-      }
-    });
-  });
-
   describe('installer.handleCallback', async () => {
     let fakeStateStore = undefined;
     beforeEach(() => {
