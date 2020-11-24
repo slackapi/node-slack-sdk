@@ -142,12 +142,12 @@ const callbackOptions = {
     // Do custom success logic here
     // tip: you can add javascript and css in the htmlResponse using the <script> and <style> tags
     const htmlResponse = `<html><body>Success!</body></html>`
-    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     res.end(htmlResponse);
   }, 
   failure: (error, installOptions , req, res) => {
     // Do custom failure logic here
-    res.writeHead(500, { 'Content-Type': 'text/html' });
+    res.writeHead(500, { 'Content-Type': 'text/html; charset=utf-8' });
     res.end('<html><body><h1>Oops, Something Went Wrong! Please Try Again or Contact the App Owner</h1></body></html>');
   }
 }
@@ -176,7 +176,7 @@ const installer = new InstallProvider({
   installationStore: {
     // takes in an installation object as an argument
     // returns nothing
-    storeInstallation: (installation) => {
+    storeInstallation: async (installation) => {
       // replace myDB.set with your own database or OEM setter
       if (installation.team.id !== undefined) {
         // non enterprise org app installation
@@ -195,7 +195,7 @@ const installer = new InstallProvider({
     },
     // takes in an installation object as an argument
     // returns nothing
-    storeOrgInstallation: (installation) => {
+    storeOrgInstallation: async (installation) => {
       // replace myDB.set with your own database or OEM setter
       if (installation.isEnterpriseInstall && installation.enterprise !== undefined) {
         // enterprise app, org wide installation
@@ -224,8 +224,8 @@ You can use the the `installationProvider.authorize()` function to fetch data th
 ```javascript
 // installer.authorize takes in an installQuery as an argument
 // installQuery = {teamId: 'string', enterpriseId: 'string', userId: string, conversationId: 'string'};
-const result = installer.authorize({teamId:'my-team-ID'});
-const orgResult = installer.orgAuthorize({enterpriseId:'my-enterprise-ID'});
+const result = installer.authorize({teamId: 'my-team-ID'});
+const orgResult = installer.orgAuthorize({enterpriseId: 'my-enterprise-ID'});
 /*
 result = {
   botToken: '',
@@ -247,8 +247,8 @@ The `installer.authorize()`/`installer.orgAuthorize()` methods only returns a su
 // installer.installationStore.fetchInstallation takes in an installQuery as an argument
 // installQuery = {teamId: 'string', enterpriseId: 'string', userId: string, conversationId: 'string'};
 // returns an installation object
-const result = installer.installationStore.fetchInstallation({teamId:'my-team-ID', enterpriseId:'my-enterprise-ID'});
-const orgResult = installer.installationStore.fetchOrgInstallation({enterpriseId:'my-enterprise-ID'});
+const result = await installer.installationStore.fetchInstallation({teamId:'my-team-ID', enterpriseId:'my-enterprise-ID'});
+const orgResult = await installer.installationStore.fetchOrgInstallation({enterpriseId:'my-enterprise-ID'});
 ```
 </details>
 
