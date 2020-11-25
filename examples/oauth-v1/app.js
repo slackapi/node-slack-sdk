@@ -59,7 +59,7 @@ app.get('/slack/oauth_redirect', async (req, res) => {
 slackEvents.on('app_home_opened', async (event, body) => {
   try {
     if (event.tab === 'home') {
-      const DBInstallData = await installer.authorize({teamId:body.team_id});
+      const DBInstallData = await installer.authorize({teamId:body.team_id, enterpriseId: body.enterprise_id});
       const web = new WebClient(DBInstallData.botToken);
       await web.views.publish({
         user_id: event.user,

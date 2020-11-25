@@ -9,6 +9,10 @@
 			"path": "packages/web-api"
 		},
 		{
+			"name": "OAuth",
+			"path": "packages/oauth"
+		},
+		{
 			"name": "Events API",
 			"path": "packages/events-api"
 		},

@@ -74,6 +74,20 @@ const installationStore = {
     return new Promise((resolve) => {
         resolve(item);
     });
+  },
+  storeOrgInstallation: (installation) => {
+    // db write
+    devDB[installation.enterprise.id] = installation;
+    return new Promise((resolve) => {
+        resolve();
+    });
+  },
+  fetchOrgInstallation: (query) => {
+    // db read
+    const item = devDB[query.enterpriseId];
+    return new Promise((resolve) => {
+        resolve(item);
+    });
   }
 }
 
@@ -103,11 +117,40 @@ const storedInstallation =  {
       configurationUrl: 'someConfigURL',
     },
     appId: undefined,
-    tokenType: 'tokenType'
+    tokenType: 'tokenType',
+    isEnterpriseInstall: false,
+}
+
+const storedOrgInstallation =  {
+  team: null,
+  enterprise: {
+    id: 'test-enterprise-id',
+    name: 'ent-name',
+  },
+  bot: {
+    token: 'botToken',
+    scopes: ['chat:write'],
+    id: 'botId',
+    userId: 'botUserId',
+  },
+  user: {
+    token: 'userToken',
+    id: 'userId',
+  },
+  incomingWebhook: {
+    url: 'someURL',
+    channel: 'someChannel',
+    channelId: 'someChannelID',
+    configurationUrl: 'someConfigURL',
+  },
+  appId: undefined,
+  tokenType: 'tokenType',
+  isEnterpriseInstall: true,
 }
 
 // store our fake installation Object to the memory database.
 devDB[storedInstallation.team.id] = storedInstallation;
+devDB[storedOrgInstallation.enterprise.id] = storedOrgInstallation;
 
 describe('OAuth', async () => {
   const noopLogger = {

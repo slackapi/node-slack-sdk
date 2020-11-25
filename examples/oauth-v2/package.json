@@ -11,7 +11,7 @@
   "repository": "slackapi/node-slack-sdk",
   "dependencies": {
     "@slack/events-api": "^2.3.2",
-    "@slack/oauth": "^1.0.0",
+    "@slack/oauth": "feat-org-apps",
     "@slack/web-api": "^5.8.0",
     "express": "^4.17.1",
     "keyv": "^4.0.0"
