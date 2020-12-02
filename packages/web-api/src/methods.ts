@@ -55,6 +55,12 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
           bindApiCall<AdminAppsRestrictedListArguments, WebAPICallResult>(this, 'admin.apps.restricted.list'),
       },
     },
+    barriers: {
+      create: bindApiCall<AdminBarriersCreateArguments, WebAPICallResult>(this, 'admin.barriers.create'),
+      delete: bindApiCall<AdminBarriersDeleteArguments, WebAPICallResult>(this, 'admin.barriers.delete'),
+      list: bindApiCall<AdminBarriersListArguments, WebAPICallResult>(this, 'admin.barriers.list'),
+      update: bindApiCall<AdminBarriersUpdateArguments, WebAPICallResult>(this, 'admin.barriers.update'),
+    },
     conversations: {
       archive: bindApiCall<AdminConversationsArchiveArguments, WebAPICallResult>(this, 'admin.conversations.archive'),
       convertToPrivate: bindApiCall<AdminConversationsConvertToPrivateArguments, WebAPICallResult>(
@@ -510,6 +516,27 @@ export interface AdminAppsRestrictedListArguments extends WebAPICallOptions, Tok
   enterprise_id?: string;
 }
 cursorPaginationEnabledMethods.add('admin.apps.restricted.list');
+
+export interface AdminBarriersCreateArguments extends WebAPICallOptions, TokenOverridable {
+  barriered_from_usergroup_ids: string[];
+  primary_usergroup_id: string;
+  restricted_subjects: string[];
+}
+
+export interface AdminBarriersDeleteArguments extends WebAPICallOptions, TokenOverridable {
+  barrier_id: string;
+}
+
+export interface AdminBarriersListArguments extends WebAPICallOptions, TokenOverridable { }
+cursorPaginationEnabledMethods.add('admin.barriers.list');
+
+export interface AdminBarriersUpdateArguments extends WebAPICallOptions, TokenOverridable {
+  barrier_id: string;
+  barriered_from_usergroup_ids: string[];
+  primary_usergroup_id: string;
+  restricted_subjects: string[];
+}
+
 export interface AdminConversationsArchiveArguments extends WebAPICallOptions, TokenOverridable {
   channel_id: string;
 }
