@@ -527,7 +527,7 @@ export interface AdminBarriersDeleteArguments extends WebAPICallOptions, TokenOv
   barrier_id: string;
 }
 
-export interface AdminBarriersListArguments extends WebAPICallOptions, TokenOverridable { }
+export interface AdminBarriersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled { }
 cursorPaginationEnabledMethods.add('admin.barriers.list');
 
 export interface AdminBarriersUpdateArguments extends WebAPICallOptions, TokenOverridable {
