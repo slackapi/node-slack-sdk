@@ -2,6 +2,7 @@
   "scripts": {
     "test": "lerna run test",
     "lint": "lerna run lint",
+    "setup": "lerna bootstrap --no-ci --hoist",
     "ref-docs": "lerna run ref-docs:model --no-bail; lerna run start --scope @slack/sdk-ref-docs"
   },
   "devDependencies": {
