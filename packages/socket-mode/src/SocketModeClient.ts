@@ -326,12 +326,12 @@ export class SocketModeClient extends EventEmitter {
     logLevel = LogLevel.INFO,
     autoReconnect = true,
     clientPingTimeout = 30000,
-    token = undefined,
+    appToken = undefined,
     clientOptions = {},
   }: SocketModeOptions = {}) {
     super();
 
-    if (token === undefined) {
+    if (appToken === undefined) {
       throw new Error('Must provide an App Level Token when initalizing a Socket Mode Client');
     }
 
@@ -351,7 +351,7 @@ export class SocketModeClient extends EventEmitter {
 
     this.webClient = new WebClient('', {
       logLevel: this.logger.getLevel(),
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${appToken}` },
       ...clientOptions,
     });
 
@@ -635,7 +635,7 @@ export default SocketModeClient;
  */
 
 export interface SocketModeOptions {
-  token?: string; // app level token
+  appToken?: string; // app level token
   logger?: Logger;
   logLevel?: LogLevel;
   autoReconnect?: boolean;

@@ -1,4 +1,4 @@
-const { SocketModeClient, LogLevel } = require('.');
+const { SocketModeClient, LogLevel } = require('@slack/socket-mode');
 const { WebClient } = require('@slack/web-api');
 
 
@@ -8,7 +8,7 @@ const clientOptions = {
 
 const socketModeClient = new SocketModeClient({
   logLevel: LogLevel.DEBUG, 
-  token: process.env.APP_TOKEN,  
+  appToken: process.env.APP_TOKEN,  
   // clientOptions
 })
 const botToken = process.env.BOT_TOKEN;

@@ -1,25 +1,18 @@
+---
+title: Socket Mode
+permalink: /socket-mode
+order: 7
+anchor_links_header: Usage
+---
+
 # Slack Socket Mode
 
-<!-- TODO: per-job badge https://github.com/bjfish/travis-matrix-badges/issues/4 -->
-[![Build Status](https://travis-ci.org/slackapi/node-slack-sdk.svg?branch=master)](https://travis-ci.org/slackapi/node-slack-sdk)
-<!-- TODO: per-flag badge https://docs.codecov.io/docs/flags#section-flag-badges-and-graphs -->
-[![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-sdk)
-<!-- TODO: npm versions with scoped packages: https://github.com/rvagg/nodei.co/issues/24 -->
 
 ## Installation
 
 ```shell
 $ npm install @slack/socket-mode
 ```
-
-<!-- START: Remove before copying into the docs directory -->
-
-## Usage
-
-These examples show the most common features of `Socket Mode`. You'll find even more extensive [documentation on the
-package's website](https://slack.dev/node-slack-sdk/socket-mode).
-
-<!-- END: Remove before copying into the docs directory -->
 
 ---
 
@@ -234,7 +227,7 @@ const socketModeClient = new SocketModeClient(appToken, {
 
 ## Requirements
 
-This package supports Node v10 LTS and higher. It's highly recommended to use [the latest LTS version of
+This package supports Node v12 LTS and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
 from that version.
 
