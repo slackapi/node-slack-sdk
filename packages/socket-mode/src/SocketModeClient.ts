@@ -41,7 +41,7 @@ export class SocketModeClient extends EventEmitter {
   /**
    * Whether this client will automatically reconnect when (not manually) disconnected
    */
-  private autoReconnect: boolean;
+  private autoReconnectEnabled: boolean;
 
   /**
    * The number of milliseconds to wait upon connection for reply messages from the previous connection. The default
@@ -93,7 +93,7 @@ export class SocketModeClient extends EventEmitter {
                     isRecoverable = false;
                   }
 
-                  return this.autoReconnect && isRecoverable;
+                  return this.autoReconnectEnabled && isRecoverable;
                 })
                 .transitionTo('failed')
           .state('authenticated')
@@ -118,7 +118,7 @@ export class SocketModeClient extends EventEmitter {
         .getConfig())
         .on('server hello').transitionTo('connected')
         .on('websocket close')
-          .transitionTo('reconnecting').withCondition(() => this.autoReconnect)
+          .transitionTo('reconnecting').withCondition(() => this.autoReconnectEnabled)
           .transitionTo('disconnected').withAction(() => {
             // this transition circumvents the 'disconnecting' state (since the websocket is already closed), so we need
             // to execute its onExit behavior here.
@@ -147,9 +147,9 @@ export class SocketModeClient extends EventEmitter {
               });
             })
             // tslint:disable-next-line: max-line-length
-            .on('server disconnect warning').transitionTo('refreshing-connection').withCondition(() => this.autoReconnect)
+            .on('server disconnect warning').transitionTo('refreshing-connection').withCondition(() => this.autoReconnectEnabled)
             // tslint:disable-next-line: max-line-length
-            .on('server pings not received').transitionTo('refreshing-connection').withCondition(() => this.autoReconnect)
+            .on('server pings not received').transitionTo('refreshing-connection').withCondition(() => this.autoReconnectEnabled)
             .on('server disconnect old socket').transitionTo('closing-socket')
           .state('refreshing-connection')
             .submachine(Finity.configure()
@@ -182,7 +182,7 @@ export class SocketModeClient extends EventEmitter {
                       isRecoverable = false;
                     }
 
-                    return this.autoReconnect && isRecoverable;
+                    return this.autoReconnectEnabled && isRecoverable;
                   })
                   .transitionTo('failed')
             .state('authenticated')
@@ -207,7 +207,7 @@ export class SocketModeClient extends EventEmitter {
           .getConfig())
           .on('server hello').transitionTo('ready')
           .on('websocket close')
-            .transitionTo('authenticating').withCondition(() => this.autoReconnect)
+            .transitionTo('authenticating').withCondition(() => this.autoReconnectEnabled)
             .transitionTo('disconnected').withAction(() => {
               // this transition circumvents the 'disconnecting' state (since the websocket is already closed),
               // so we need to execute its onExit behavior here.
@@ -231,9 +231,9 @@ export class SocketModeClient extends EventEmitter {
               this.logger.debug(`transitioning to state: connected:${state}`);
             })
         .getConfig())
-        .on('server disconnect warning').transitionTo('refreshing-connection').withCondition(() => this.autoReconnect)
+        .on('server disconnect warning').transitionTo('refreshing-connection').withCondition(() => this.autoReconnectEnabled)
         .on('websocket close')
-          .transitionTo('reconnecting').withCondition(() => this.autoReconnect)
+          .transitionTo('reconnecting').withCondition(() => this.autoReconnectEnabled)
           .transitionTo('disconnected').withAction(() => {
             // this transition circumvents the 'disconnecting' state (since the websocket is already closed), so we need
             // to execute its onExit behavior here.
@@ -324,7 +324,7 @@ export class SocketModeClient extends EventEmitter {
   constructor({
     logger = undefined,
     logLevel = LogLevel.INFO,
-    autoReconnect = true,
+    autoReconnectEnabled = true,
     clientPingTimeout = 30000,
     appToken = undefined,
     clientOptions = {},
@@ -355,7 +355,7 @@ export class SocketModeClient extends EventEmitter {
       ...clientOptions,
     });
 
-    this.autoReconnect = autoReconnect;
+    this.autoReconnectEnabled = autoReconnectEnabled;
 
     this.stateMachine = Finity.start(this.stateMachineConfig);
 
@@ -638,7 +638,7 @@ export interface SocketModeOptions {
   appToken?: string; // app level token
   logger?: Logger;
   logLevel?: LogLevel;
-  autoReconnect?: boolean;
+  autoReconnectEnabled?: boolean;
   clientPingTimeout?: number;
   clientOptions?: Omit<WebClientOptions, 'logLevel' | 'logger'>;
 }
