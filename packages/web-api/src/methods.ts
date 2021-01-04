@@ -185,6 +185,9 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly auth = {
     revoke: bindApiCall<AuthRevokeArguments, WebAPICallResult>(this, 'auth.revoke'),
+    teams: {
+      list: bindApiCall<AuthTeamsListArguments, WebAPICallResult>(this, 'auth.teams.list'),
+    },
     test: bindApiCall<AuthTestArguments, WebAPICallResult>(this, 'auth.test'),
   };
 
@@ -796,6 +799,10 @@ export interface AppsUninstallArguments extends WebAPICallOptions {
 export interface AuthRevokeArguments extends WebAPICallOptions, TokenOverridable {
   test: boolean;
 }
+export interface AuthTeamsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  include_icon?: boolean;
+}
+cursorPaginationEnabledMethods.add('auth.teams.list');
 export interface AuthTestArguments extends WebAPICallOptions, TokenOverridable { }
 
 /*
