@@ -1,6 +1,6 @@
 # Node Slack SDK
 
-[![Build Status](https://travis-ci.org/slackapi/node-slack-sdk.svg?branch=master)](https://travis-ci.org/slackapi/node-slack-sdk)
+[![build-ci](https://github.com/slackapi/node-slack-sdk/workflows/CI%20Build/badge.svg)](https://github.com/slackapi/node-slack-sdk/actions?query=workflow%3A%22CI+Build%22)
 [![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-sdk)
 <!-- TODO: npm versions with scoped packages: https://github.com/rvagg/nodei.co/issues/24 -->
 

@@ -26,13 +26,13 @@ integration tests in the `integration-tests` directory under the root `support` 
 suite using the npm script `npm test` at the top level. This script will use Lerna to invoke tests in each package and
 the integration tests.
 
-Tests are executed by Travis, our continuous integration system, slightly differently. Travis runs several, more
+Tests are executed by GitHub Actions, our continuous integration system, slightly differently. GitHub Actions runs several, more
 granular builds in order to report on success and failure in a more useful (targeted) way. There is one build for each
 package on each supported version of Node, as well as one for the integration tests on each supported version of Node.
-Travis also runs linting in each package, which is separate from tests so you can run tests locally frequently without
-having to block for fixing styling problems. Lastly, Travis uploads the coverage report for the tests ran within the
-build to Codecov, our coverage reporting system. Travis reports status on each PR. Codecov aggregates all the coverage
-reports, and separate reports status on each PR. The configuration is stored in `.travis.yml`.
+GitHub Actions also runs linting in each package, which is separate from tests so you can run tests locally frequently without
+having to block for fixing styling problems. Lastly, GitHub Actions uploads the coverage report for the tests ran within the
+build to Codecov, our coverage reporting system. GitHub reports status on each PR. Codecov aggregates all the coverage
+reports, and separate reports status on each PR. The configuration is stored in `.github/workflows/ci-build.yml`.
 
 Test code should be written in syntax that runs on the oldest supported Node.js version, without transpiling. This
 ensures that backwards compatibility is tested and the APIs look reasonable in versions of Node.js that do not support
