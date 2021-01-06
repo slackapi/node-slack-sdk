@@ -39,7 +39,7 @@ slackEvents
     server.listen(argv.port, () => {
       const { address, port } = server.address() as AddressInfo;
       console.log(`The verification server is now listening at the URL: http://${address}:${port}${argv.path}`);
-      resolve();
+      resolve(undefined);
     });
   }))
   .catch((error) => {

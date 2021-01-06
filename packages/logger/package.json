@@ -14,8 +14,8 @@
     "dist/**/*"
   ],
   "engines": {
-    "node": ">= 8.9.0",
-    "npm": ">= 5.5.1"
+    "node": ">= 12.13.0",
+    "npm": ">= 6.12.0"
   },
   "repository": "slackapi/node-slack-sdk",
   "homepage": "https://slack.dev/node-slack-sdk",
@@ -34,7 +34,7 @@
     "ref-docs:model": "api-extractor run"
   },
   "dependencies": {
-    "@types/node": ">=8.9.0"
+    "@types/node": ">=12.0.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.3.4",
@@ -47,6 +47,6 @@
     "ts-node": "^8.2.0",
     "tslint": "^5.13.1",
     "tslint-config-airbnb": "^5.11.1",
-    "typescript": "^3.3.3333"
+    "typescript": "^4.1.0"
   }
 }

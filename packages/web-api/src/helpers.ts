@@ -3,8 +3,8 @@
  * @param ms milliseconds to wait
  * @param value value for eventual resolution
  */
-export function delay<T>(ms: number, value?: T): Promise<T> {
+export function delay(ms: number): Promise<void> {
   return new Promise((resolve) => {
-    setTimeout(() => resolve(value), ms);
+    setTimeout(() => resolve(), ms);
   });
 }
