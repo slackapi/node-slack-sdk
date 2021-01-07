@@ -74,20 +74,6 @@ const installationStore = {
     return new Promise((resolve) => {
         resolve(item);
     });
-  },
-  storeOrgInstallation: (installation) => {
-    // db write
-    devDB[installation.enterprise.id] = installation;
-    return new Promise((resolve) => {
-        resolve();
-    });
-  },
-  fetchOrgInstallation: (query) => {
-    // db read
-    const item = devDB[query.enterpriseId];
-    return new Promise((resolve) => {
-        resolve(item);
-    });
   }
 }
 

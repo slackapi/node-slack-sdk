@@ -31,28 +31,27 @@ const installer = new InstallProvider({
   stateSecret: 'my-state-secret',
   installationStore: {
     storeInstallation: async (installation) => {
-      if (installation.team.id !== undefined) {
-        // non enterprise org app installation
-        return await keyv.set(installation.team.id, installation);
-      } else {
-        throw new Error('Failed saving installation data to installationStore');
-      }
-    },
-    storeOrgInstallation: async (installation) => {
-      if (installation.isEnterpriseInstall && installation.enterprise !== undefined) {
-        // enterprise app, org wide installation
+      if (installation.isEnterpriseInstall) {
+        // storing org installation
         return await keyv.set(installation.enterprise.id, installation);
-      } else {
-        throw new Error('Failed saving installation data to installationStore');
+      } else if (installation.team !== null && installation.team.id !== undefined) {
+        // storing single team installation
+        return await keyv.set(installation.team.id, installation);;
       }
+      throw new Error('Failed saving installation data to installationStore');
     },
     fetchInstallation: async (InstallQuery) => {
-      // non org app lookup
-      return await keyv.get(InstallQuery.teamId);
-    },
-    fetchOrgInstallation: async (InstallQuery) => {
-      // enterprise org app installation lookup
-      return await keyv.get(InstallQuery.enterpriseId);
+      if (query.isEnterpriseInstall) {
+        if (query.enterpriseId !== undefined) {       
+          // fetching org installation
+          return await keyv.get(InstallQuery.enterpriseId)
+        }
+      }
+      if (query.teamId !== undefined) {
+        // fetching single team installation
+        return await keyv.get(InstallQuery.teamId);
+      }
+      throw new Error('Failed fetching installation');
     },
   },
 });
@@ -101,10 +100,10 @@ slackEvents.on('app_home_opened', async (event, body) => {
       let DBInstallData;
       if (body.authorizations !== undefined && body.authorizations[0].is_enterprise_install) {
         //org wide installation
-        DBInstallData = await installer.orgAuthorize({enterpriseId: body.enterprise_id});
+        DBInstallData = await installer.authorize({enterpriseId: body.enterprise_id, isEnterpriseInstall: true});
       } else {
         // non org wide installation
-        DBInstallData = await installer.authorize({teamId:body.team_id});
+        DBInstallData = await installer.authorize({teamId:body.team_id, isEnterpriseInstall: false});
       }
       const web = new WebClient(DBInstallData.botToken);
       await web.views.publish({
