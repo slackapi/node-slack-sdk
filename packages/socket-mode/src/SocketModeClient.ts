@@ -414,7 +414,7 @@ export class SocketModeClient extends EventEmitter {
    * @param body the message body
    */
   private send(id: string, body = {}): Promise<void> {
-    const message = { envelope_id: id, ...body };
+    const message = { envelope_id: id, payload: { ...body } };
 
     return new Promise((resolve, reject) => {
       this.logger.debug(`send() in state: ${this.stateMachine.getStateHierarchy()}`);
