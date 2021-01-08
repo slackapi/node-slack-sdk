@@ -445,7 +445,7 @@ export class SocketModeClient extends EventEmitter {
   /**
    * Set up method for the client's websocket instance. This method will attach event listeners.
    */
-  private setupWebsocket(url: string): void {
+  private setupWebSocket(url: string): void {
     // initialize the websocket
     const options: WebSocket.ClientOptions = {
       perMessageDeflate: false,
