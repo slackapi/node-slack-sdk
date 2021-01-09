@@ -18,11 +18,10 @@ $ npm install @slack/socket-mode
 
 ### Initialize the client
 
-The package exports a `SocketModeClient` class. Your app will create an instance of the class for each workspace it
-communicates with. Creating an instance requires an `app level token` from Slack. Apps connect to the `Socket Mode` API using the newly introduced `app level token`, which starts with `xapp`.
+The package is designed for the newly released [**Socket Mode**](https://api.slack.com/socket-mode) feature. It exports a `SocketModeClient` class. Your app will create an instance of the class for each workspace it
+communicates with. Creating an instance requires an **app level token** from Slack. Apps connect to the **Socket Mode** API using the newly introduced **app level token**, which starts with `xapp`.
 
-Note: `Socket Mode` requires the scope `connections:write`. In your browser, navigate to your [app's app config](https://api.slack.com/apps) and go to the `OAuth and Permissions` section to add the scope.
-
+Note: **Socket Mode** requires the scope `connections:write`. In your browser, navigate to your [app's app config](https://api.slack.com/apps) and go to the **OAuth and Permissions** section to add the scope.
 
 
 ```javascript

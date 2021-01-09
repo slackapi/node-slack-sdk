@@ -99,7 +99,7 @@ export class SocketModeClient extends EventEmitter {
           .state('authenticated')
             .onEnter((_state, context) => {
               this.authenticated = true;
-              this.setupWebsocket(context.result.url);
+              this.setupWebSocket(context.result.url);
               setImmediate(() => {
                 this.emit('authenticated', context.result);
               });
@@ -188,7 +188,7 @@ export class SocketModeClient extends EventEmitter {
             .state('authenticated')
               .onEnter((_state, context) => {
                 this.authenticated = true;
-                this.setupWebsocket(context.result.url);
+                this.setupWebSocket(context.result.url);
                 setImmediate(() => {
                   this.emit('authenticated', context.result);
                 });
@@ -231,7 +231,8 @@ export class SocketModeClient extends EventEmitter {
               this.logger.debug(`transitioning to state: connected:${state}`);
             })
         .getConfig())
-        .on('server disconnect warning').transitionTo('refreshing-connection').withCondition(() => this.autoReconnectEnabled)
+        .on('server disconnect warning')
+          .transitionTo('refreshing-connection').withCondition(() => this.autoReconnectEnabled)
         .on('websocket close')
           .transitionTo('reconnecting').withCondition(() => this.autoReconnectEnabled)
           .transitionTo('disconnected').withAction(() => {
@@ -478,7 +479,7 @@ export class SocketModeClient extends EventEmitter {
   }
 
   /**
-   * Tear down method for the client's websocket instance. This method undoes the work in setupWebsocket(url).
+   * Tear down method for the client's websocket instance. This method undoes the work in setupWebSocket(url).
    */
   private teardownWebsocket(): void {
     if (this.secondaryWebsocket !== undefined && this.websocket !== undefined) {

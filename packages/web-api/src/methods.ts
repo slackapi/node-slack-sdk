@@ -802,9 +802,9 @@ export interface AppsUninstallArguments extends WebAPICallOptions {
   client_secret: string;
 }
 
-  /*
-   * `auth.*`
-   */
+/*
+ * `auth.*`
+ */
 export interface AuthRevokeArguments extends WebAPICallOptions, TokenOverridable {
   test: boolean;
 }
