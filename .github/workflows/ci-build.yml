@@ -3,15 +3,7 @@
 
 name: Node.js CI
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-<<<<<<< HEAD
-    branches:
-      - "**"
-=======
->>>>>>> b9567203a00f9414e05c64cab62ce6248732bf7b
+on: [push, pull_request]
 
 jobs:
   build:
