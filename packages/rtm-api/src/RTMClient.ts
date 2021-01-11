@@ -81,7 +81,7 @@ export class RTMClient extends EventEmitter {
    * The number of milliseconds to wait upon connection for reply messages from the previous connection. The default
    * value is 2 seconds.
    */
-  private replyAckOnReconnectTimeout: number;
+  private replyAckOnReconnectTimeout: number = 2000;
 
   /**
    * State machine that backs the transition and action behavior
