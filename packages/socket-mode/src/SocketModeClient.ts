@@ -531,10 +531,9 @@ export class SocketModeClient extends EventEmitter {
    * each incoming message.
    */
   private async onWebsocketMessage({ data }: { data: string }): Promise<void> {
-    this.logger.debug(`received message on websocket: ${data}`);
+    this.logger.debug('received a message on the WebSocket');
 
     // parse message into slack event
-    // TODO: rename relay_id to envelope_id
     let event: {
       type: string;
       reason: string;
@@ -547,7 +546,7 @@ export class SocketModeClient extends EventEmitter {
     } catch (parseError) {
       // prevent application from crashing on a bad message, but log an error to bring attention
       this.logger.error(
-        `unable to parse incoming websocket message: ${parseError.message}\n    message contents: "${data}"`,
+        `unable to parse incoming websocket message: ${parseError.message}`,
       );
       return;
     }
@@ -577,7 +576,6 @@ export class SocketModeClient extends EventEmitter {
     // Define Ack
     const ack = async (response: object): Promise<void> => {
       this.logger.debug('calling ack', event.type);
-      // TODO: rename `relay_id` to `envelope_id` after rename
       await this.send(event.envelope_id, response);
     };
 
@@ -592,39 +590,8 @@ export class SocketModeClient extends EventEmitter {
     // emitter for all slack events
     // used in tools like bolt-js
     this.emit('slack_event', { ack, type: event.type, body: event.payload });
-
-    // lifecycle events + slack events
-    // is eventemitter the wrong interface for slack events?
-    // separate these two, use eventemitter for lifecycle events
-    // use asyncInterators (for/await/of loop) to express slack events
-    // for await event of relayClient.listen { // deal with each individual event }
-    // library sends out data one time, no multiple listeners
-    // dev has to call ack function, not return promise
-    // this.listenerIterator = something(event);
-
-    // for await (const event of this.listenerIterator) {
-    //   console.log(event);
-    // }
   }
 }
-
-// test for async iterables
-// async function* something(event: Event) {
-//   console.log('something');
-//   let i = 0;
-//   while (i < 1) {
-//     // await something?
-//     yield event;
-//     i++;
-//   }
-// }
-
-// interface Event {
-//   type: string;
-//   reason: string;
-//   payload: {[key: string]: any};
-//   relay_id: string; subtype: undefined;
-// }
 
 /* Instrumentation */
 addAppMetadata({ name: packageJson.name, version: packageJson.version });
