@@ -1,6 +1,6 @@
 {
   "name": "@slack/logger",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Logging utility used by Node Slack SDK",
   "author": "Slack Technologies, Inc.",
   "license": "MIT",

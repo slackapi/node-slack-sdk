@@ -13,6 +13,8 @@ The following packages have been updated in the release being dubbed as `v6`:
 * `@slack/oauth@2.0.0`
 * `@slack/interactive-messages@2.0.0`
 * `@slack/events-api@3.0.0`
+* `@slack/types@2.0.0`
+* `@slack/logger@3.0.0`
 * `@slack/socket-mode@1.0.0`
 
 To migrate to the latest packages, updating your minimum Node.js to `12.13.0` is all that is required, except for `@slack/oauth` which has one additional breaking change. This migration should take less than 15 minutes.
