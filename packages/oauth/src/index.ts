@@ -96,10 +96,7 @@ export class InstallProvider {
     try {
       let queryResult;
       if (source.isEnterpriseInstall) {
-        if (this.installationStore.fetchOrgInstallation === undefined) {
-          throw new Error('Installation Store is missing the fetchOrgInstallation method');
-        }
-        queryResult = await this.installationStore.fetchOrgInstallation(source as InstallationQuery<true>, this.logger);
+        queryResult = await this.installationStore.fetchInstallation(source as InstallationQuery<true>, this.logger);
       } else {
         queryResult = await this.installationStore.fetchInstallation(source as InstallationQuery<false>, this.logger);
       }
@@ -337,11 +334,7 @@ export class InstallProvider {
 
       // Save installation object to installation store
       if (installation.isEnterpriseInstall) {
-        if (this.installationStore.storeOrgInstallation === undefined) {
-          // TODO: make this a coded error
-          throw new Error('Installation store is missing the storeOrgInstallation method');
-        }
-        await this.installationStore.storeOrgInstallation(installation as OrgInstallation, this.logger);
+        await this.installationStore.storeInstallation(installation as OrgInstallation, this.logger);
       } else {
         await this.installationStore.storeInstallation(installation as Installation<'v1' | 'v2', false>, this.logger);
       }
@@ -451,11 +444,10 @@ class ClearStateStore implements StateStore {
 
 export interface InstallationStore {
   storeInstallation<AuthVersion extends 'v1' | 'v2'>(
-    installation: Installation<AuthVersion, false>,
+    installation: Installation<AuthVersion, boolean>,
     logger?: Logger): Promise<void>;
-  storeOrgInstallation?(installation: OrgInstallation, logger?: Logger): Promise<void>;
-  fetchInstallation: (query: InstallationQuery<false>, logger?: Logger) => Promise<Installation<'v1' | 'v2', false>>;
-  fetchOrgInstallation?: (query: OrgInstallationQuery, logger?: Logger) => Promise<OrgInstallation>;
+  fetchInstallation:
+    (query: InstallationQuery<boolean>, logger?: Logger) => Promise<Installation<'v1' | 'v2', boolean>>;
 }
 
 // using a javascript object as a makeshift database for development
@@ -476,45 +468,40 @@ class MemoryInstallationStore implements InstallationStore {
       logger.warn('Storing Access Token. Please use a real Installation Store for production!');
     }
 
-    if (isNotOrgInstall(installation)) {
+    if (isOrgInstall(installation)) {
+      if (logger !== undefined) {
+        logger.debug('storing org installation');
+      }
+      this.devDB[installation.enterprise.id] = installation;
+    } else if (isNotOrgInstall(installation)) {
+      if (logger !== undefined) {
+        logger.debug('storing single team installation');
+      }
       this.devDB[installation.team.id] = installation;
     } else {
       throw new Error('Failed saving installation data to installationStore');
     }
   }
 
-  public async storeOrgInstallation(installation: OrgInstallation, logger?: Logger): Promise<void> {
-    if (logger !== undefined) {
-      logger.warn('Storing Access Token. Please use a real Installation Store for production!');
-    }
-
-    if (isOrgInstall(installation)) {
-      this.devDB[installation.enterprise.id] = installation;
-    } else {
-      throw new Error('Failed saving installation data to installationStore');
-    }
-  }
-
   public async fetchInstallation(
-    query: InstallationQuery<false>,
-    logger?: Logger): Promise<Installation<'v1' | 'v2', false>> {
+    query: InstallationQuery<boolean>,
+    logger?: Logger): Promise<Installation<'v1' | 'v2'>> {
     if (logger !== undefined) {
       logger.warn('Retrieving Access Token from DB. Please use a real Installation Store for production!');
     }
-
+    if (query.isEnterpriseInstall) {
+      if (query.enterpriseId !== undefined) {
+        if (logger !== undefined) {
+          logger.debug('fetching org installation');
+        }
+        return this.devDB[query.enterpriseId] as OrgInstallation;
+      }
+    }
     if (query.teamId !== undefined) {
+      if (logger !== undefined) {
+        logger.debug('fetching single team installation');
+      }
       return this.devDB[query.teamId] as Installation<'v1' | 'v2', false>;
-    }
-    throw new Error('Failed fetching installation');
-  }
-
-  public async fetchOrgInstallation(query: OrgInstallationQuery, logger?: Logger): Promise<OrgInstallation> {
-    if (logger !== undefined) {
-      logger.warn('Retrieving Access Token from DB. Please use a real Installation Store for production!');
-    }
-
-    if (query.enterpriseId !== undefined) {
-      return this.devDB[query.enterpriseId] as OrgInstallation;
     }
     throw new Error('Failed fetching installation');
   }
