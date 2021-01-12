@@ -1,0 +1,16 @@
+{
+  "name": "socket-mode-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Slack Technologies, Inc.",
+  "license": "MIT",
+  "repository": "slackapi/node-slack-sdk",
+  "dependencies": {
+    "@slack/socket-mode": "feat-socket-mode",
+    "@slack/web-api": "^5.14.0"
+  }
+}
