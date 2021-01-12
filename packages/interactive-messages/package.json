@@ -29,7 +29,8 @@
     "dist/**/*"
   ],
   "engines": {
-    "node": ">=4.2.0"
+    "node": ">=12.13.0",
+    "npm": ">=6.12.0"
   },
   "repository": "slackapi/node-slack-sdk",
   "homepage": "https://slack.dev/node-slack-sdk/interactive-messages",
@@ -55,7 +56,7 @@
     "@types/lodash.isplainobject": "^4.0.6",
     "@types/lodash.isregexp": "^4.0.6",
     "@types/lodash.isstring": "^4.0.6",
-    "@types/node": ">=4.2.0",
+    "@types/node": ">=12.0.0",
     "axios": "^0.21.1",
     "debug": "^3.1.0",
     "lodash.isfunction": "^3.0.9",
@@ -84,6 +85,6 @@
     "ts-node": "^8.2.0",
     "tslint": "^5.17.0",
     "tslint-config-airbnb": "^5.11.1",
-    "typescript": "^3.5.1"
+    "typescript": "^4.1.0"
   }
 }
