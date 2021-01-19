@@ -166,7 +166,7 @@ There are a few more types of errors that you might encounter, each with one of 
 
 * `ErrorCode.RateLimitedError`: The Web API cannot fulfill the API method call because your app has made too many
   requests too quickly. This error has a `retryAfter` property with the number of seconds you should wait before trying
-  again. See [the documentation on rate limit handling](https://slack.dev/node-slack-sdk/web-api/#rate-limits) to
+  again. See [the documentation on rate limit handling](https://slack.dev/node-slack-sdk/web-api#rate-limits) to
   understand how the client will automatically deal with these problems for you.
 
 * `ErrorCode.HTTPError`: The HTTP response contained an unfamiliar status code. The Web API only responds with `200`
