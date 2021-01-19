@@ -31,6 +31,7 @@ Select all that apply:
 - [ ] `@slack/rtm-api`
 - [ ] `@slack/webhooks`
 - [ ] `@slack/oauth`
+- [ ] `@slack/socket-mode`
 - [ ] I don't know
 
 #### Reproducible in:
