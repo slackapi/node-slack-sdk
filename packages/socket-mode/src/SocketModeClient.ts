@@ -66,7 +66,6 @@ export class SocketModeClient extends EventEmitter {
         .submachine(Finity.configure()
           .initialState('authenticating')
             .do(() => {
-              // TODO: change this to webClient.apps.connections.open()
               return this.webClient.apps.connections.open().then((result: WebAPICallResult) => {
                 return result;
               }).catch((error) => {
@@ -155,7 +154,6 @@ export class SocketModeClient extends EventEmitter {
             .submachine(Finity.configure()
             .initialState('authenticating')
               .do(() => {
-                // TODO: change this to webClient.apps.connections.open()
                 return this.webClient.apps.connections.open().then((result: WebAPICallResult) => {
                   return result;
                 }).catch((error) => {
