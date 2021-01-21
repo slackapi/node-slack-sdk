@@ -451,7 +451,7 @@ export class SocketModeClient extends EventEmitter {
     const options: WebSocket.ClientOptions = {
       perMessageDeflate: false,
       ...this.clientOptions.tls,
-      ...this.clientOptions.agent,
+      ...(this.clientOptions.agent !== undefined ? { agent: this.clientOptions.agent } : {}),
     };
 
     let websocket: WebSocket;
