@@ -67,22 +67,22 @@ export class SocketModeClient extends EventEmitter {
           .initialState('authenticating')
             .do(() => {
               // TODO: change this to webClient.apps.connections.open()
-              return this.webClient.apiCall('apps.connections.open').then((result: WebAPICallResult) => {
+              return this.webClient.apps.connections.open().then((result: WebAPICallResult) => {
                 return result;
               }).catch((error) => {
                 this.logger.error(error);
+                // throw error;
+                return Promise.reject(error);
               });
             })
               .onSuccess().transitionTo('authenticated')
               .onFailure()
                 .transitionTo('reconnecting').withCondition((context) => {
                   const error = context.error as WebAPICallError;
-                  this.logger.info('here');
                   this.logger.info(`unable to Socket Mode start: ${error.message}`);
 
                   // Observe this event when the error which causes reconnecting or disconnecting is meaningful
                   this.emit('unable_to_socket_mode_start', error);
-
                   let isRecoverable = true;
                   if (error.code === APICallErrorCode.PlatformError &&
                       (Object.values(UnrecoverableSocketModeStartError) as string[]).includes(error.data.error)) {
@@ -156,17 +156,18 @@ export class SocketModeClient extends EventEmitter {
             .initialState('authenticating')
               .do(() => {
                 // TODO: change this to webClient.apps.connections.open()
-                return this.webClient.apiCall('apps.connections.open').then((result: WebAPICallResult) => {
+                return this.webClient.apps.connections.open().then((result: WebAPICallResult) => {
                   return result;
                 }).catch((error) => {
                   this.logger.error(error);
+                  // throw error;
+                  return Promise.reject(error);
                 });
               })
                 .onSuccess().transitionTo('authenticated')
                 .onFailure()
                   .transitionTo('authenticating').withCondition((context) => {
                     const error = context.error as WebAPICallError;
-                    this.logger.info('here');
                     this.logger.info(`unable to Socket Mode start: ${error.message}`);
 
                     // Observe this event when the error which causes reconnecting or disconnecting is meaningful
