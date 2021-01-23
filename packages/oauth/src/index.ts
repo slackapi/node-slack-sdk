@@ -308,11 +308,13 @@ export class InstallProvider {
             v2Installation.enterpriseUrl = authResult.url;
           }
 
-        } else if (v2Resp.authed_user.access_token !== undefined && v2Resp.is_enterprise_install) {
-          // Only user scopes were requested & is an org enterprise install
+        } else if (v2Resp.authed_user.access_token !== undefined) {
+          // Only user scopes were requested
           // TODO: confirm if it is possible to do an org enterprise install without a bot user
           const authResult = await runAuthTest(v2Resp.authed_user.access_token, this.clientOptions);
-          v2Installation.enterpriseUrl = authResult.url;
+          if (v2Resp.is_enterprise_install) {
+            v2Installation.enterpriseUrl = authResult.url;
+          }
         } else {
           // TODO: make this a coded error
           throw new Error('The response from the authorization URL contained inconsistent information. Please file a bug.');
