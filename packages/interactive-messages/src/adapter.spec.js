@@ -662,7 +662,7 @@ describe('SlackMessageAdapter', function () {
         const timeout = this.adapter.syncResponseTimeout;
         this.timeout(timeout);
         this.adapter.action(requestPayload.callback_id, function () {
-          return delayed(timeout * 0.1, undefined, 'test error');
+          return delayed(0, undefined, 'test error');
         });
         dispatchResponse = this.adapter.dispatch(requestPayload);
         return assertResponseStatusAndMessage(dispatchResponse, 500);
