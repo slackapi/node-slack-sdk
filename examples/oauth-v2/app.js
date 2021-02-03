@@ -41,13 +41,13 @@ const installer = new InstallProvider({
       throw new Error('Failed saving installation data to installationStore');
     },
     fetchInstallation: async (InstallQuery) => {
-      if (query.isEnterpriseInstall) {
-        if (query.enterpriseId !== undefined) {       
+      if (InstallQuery.isEnterpriseInstall) {
+        if (InstallQuery.enterpriseId !== undefined) {       
           // fetching org installation
           return await keyv.get(InstallQuery.enterpriseId)
         }
       }
-      if (query.teamId !== undefined) {
+      if (InstallQuery.teamId !== undefined) {
         // fetching single team installation
         return await keyv.get(InstallQuery.teamId);
       }
