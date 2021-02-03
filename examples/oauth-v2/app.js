@@ -40,16 +40,16 @@ const installer = new InstallProvider({
       }
       throw new Error('Failed saving installation data to installationStore');
     },
-    fetchInstallation: async (InstallQuery) => {
-      if (InstallQuery.isEnterpriseInstall) {
-        if (InstallQuery.enterpriseId !== undefined) {       
+    fetchInstallation: async (installQuery) => {
+      if (installQuery.isEnterpriseInstall) {
+        if (installQuery.enterpriseId !== undefined) {       
           // fetching org installation
-          return await keyv.get(InstallQuery.enterpriseId)
+          return await keyv.get(installQuery.enterpriseId)
         }
       }
-      if (InstallQuery.teamId !== undefined) {
+      if (installQuery.teamId !== undefined) {
         // fetching single team installation
-        return await keyv.get(InstallQuery.teamId);
+        return await keyv.get(installQuery.teamId);
       }
       throw new Error('Failed fetching installation');
     },

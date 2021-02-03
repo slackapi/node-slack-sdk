@@ -41,19 +41,19 @@ installationStore: {
       // change the line below so it saves to your database
       return await database.set(installation.team.id, installation);
     },
-    fetchInstallation: async (InstallQuery) => {
+    fetchInstallation: async (installQuery) => {
       // change the line below so it fetches from your database
-      return await database.get(InstallQuery.teamId);
+      return await database.get(installQuery.teamId);
     },
     storeOrgInstallation: async (installation) => {
       // include this method if you want your app to support org wide installations
       // change the line below so it saves to your database
       return await database.set(installation.enterprise.id, installation);
     },
-    fetchOrgInstallation: async (InstallQuery) => {
+    fetchOrgInstallation: async (installQuery) => {
       // include this method if you want your app to support org wide installations
       // change the line below so it fetches from your database
-      return await database.get(InstallQuery.enterpriseId);
+      return await database.get(installQuery.enterpriseId);
     },
   },
 ```
@@ -72,15 +72,15 @@ installationStore: {
       }
       throw new Error('Failed saving installation data to installationStore');
     },
-    fetchInstallation: async (InstallQuery) => {
+    fetchInstallation: async (installQuery) => {
       // replace database.get so it fetches from your database
-      if (InstallQuery.isEnterpriseInstall && InstallQuery.enterpriseId !== undefined) {
+      if (installQuery.isEnterpriseInstall && installQuery.enterpriseId !== undefined) {
         // org wide app installation lookup
-        return await database.get(InstallQuery.enterpriseId);
+        return await database.get(installQuery.enterpriseId);
       }
-      if (InstallQuery.teamId !== undefined) {
+      if (installQuery.teamId !== undefined) {
         // single team app installation lookup
-        return await database.get(InstallQuery.teamId);
+        return await database.get(installQuery.teamId);
       }
       throw new Error('Failed fetching installation');
     },

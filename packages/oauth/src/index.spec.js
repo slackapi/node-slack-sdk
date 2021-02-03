@@ -68,9 +68,9 @@ const installationStore = {
         resolve();
     });
   },
-  fetchInstallation: (query) => {
+  fetchInstallation: (installQuery) => {
     // db read
-    const item = devDB[query.teamId];
+    const item = devDB[installQuery.teamId];
     return new Promise((resolve) => {
         resolve(item);
     });
