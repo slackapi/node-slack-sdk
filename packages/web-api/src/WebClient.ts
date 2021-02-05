@@ -61,7 +61,7 @@ export class WebClient extends Methods {
   /**
    * Configuration for custom TLS handling
    */
-  private tlsConfig: TLSOptions;
+  private tlsConfig: TLSOptions | {};
 
   /**
    * Preference for immediately rejecting API calls which result in a rate-limited response
