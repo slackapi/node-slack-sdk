@@ -1005,6 +1005,7 @@ export interface ChatUnfurlArguments extends WebAPICallOptions, TokenOverridable
   user_auth_message?: string;
   user_auth_required?: boolean;
   user_auth_url?: string;
+  user_auth_blocks?: (KnownBlock | Block)[];
 }
 export interface ChatUpdateArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
