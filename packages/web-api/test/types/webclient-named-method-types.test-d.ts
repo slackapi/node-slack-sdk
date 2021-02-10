@@ -9,10 +9,24 @@ expectType<Promise<WebAPICallResult>>(web.chat.postMessage({
   text: 'TEXT',
   key: 'VALUE',
 }));
+expectType<Promise<WebAPICallResult>>(web.chat.postMessage({
+  channel: 'CHANNEL',
+  blocks: [
+    {
+      type: 'section',
+      text: {
+        type: 'mrkdwn',
+        text:
+          'text',
+      },
+    },
+  ],
+  key: 'VALUE',
+}));
 
 // calling a method directly with under-specified arguments should not work
 expectError(web.chat.postMessage({
-  channel: 'CHANNEL',
+  text: 'TEXT',
 }));
 
 // assigning an object with a specific type that includes arbitrary arguments should not work

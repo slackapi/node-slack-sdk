@@ -961,7 +961,7 @@ export interface ChatPostEphemeralArguments extends WebAPICallOptions, TokenOver
 }
 export interface ChatPostMessageArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-  text: string;
+  text?: string;
   as_user?: boolean;
   attachments?: MessageAttachment[];
   blocks?: (KnownBlock | Block)[];
