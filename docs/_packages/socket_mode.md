@@ -32,7 +32,7 @@ const { SocketModeClient } = require('@slack/socket-mode');
 const appToken = process.env.SLACK_APP_TOKEN;
 
 // Initialize
-const client = new SocketModeClient({appToken});
+const socketModeClient = new SocketModeClient({ appToken });
 ```
 
 ### Connect to Slack
@@ -43,7 +43,7 @@ After your client establishes a connection, your app can send data to and receiv
 const { SocketModeClient } = require('@slack/socket-mode');
 const appToken = process.env.SLACK_APP_TOKEN;
 
-const socketModeClient = new SocketModeClient(appToken);
+const socketModeClient = new SocketModeClient({ appToken });
 
 (async () => {
   // Connect to Slack
@@ -66,7 +66,7 @@ event](https://api.slack.com/events) it's registered for.
 const { SocketModeClient } = require('@slack/socket-mode');
 const appToken = process.env.SLACK_APP_TOKEN;
 
-const socketModeClient = new SocketModeClient(appToken);
+const socketModeClient = new SocketModeClient({ appToken });
 
 // Attach listeners to events by type. See: https://api.slack.com/events/message
 socketModeClient.on('message', (event) => {
@@ -88,7 +88,8 @@ To respond to events and send messages back into Slack, we recommend using the `
 const { SocketModeClient } = require('@slack/socket-mode');
 const { WebClient } = require('@slack/web-api');
 
-const socketModeClient = new SocketModeClient(process.env.SLACK_APP_TOKEN);
+const appToken = process.env.SLACK_APP_TOKEN;
+const socketModeClient = new SocketModeClient({ appToken });
 const webClient = new WebClient(process.env.BOT_TOKEN);
 
 // Attach listeners to events by type. See: https://api.slack.com/events/message
@@ -194,7 +195,8 @@ A very simple custom logger might ignore the name and level, and write all messa
 const { createWriteStream } = require('fs');
 const logWritable = createWriteStream('/var/my_log_file'); // Not shown: close this stream
 
-const socketModeClient = new SocketModeClient(appToken, {
+const socketModeClient = new SocketModeClient({
+  appToken,
   // Creating a logger as a literal object. It's more likely that you'd create a class.
   logger: {
     debug(...msgs): { logWritable.write('debug: ' + JSON.stringify(msgs)); },
