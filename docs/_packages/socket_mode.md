@@ -69,7 +69,7 @@ const appToken = process.env.SLACK_APP_TOKEN;
 const socketModeClient = new SocketModeClient({ appToken });
 
 // Attach listeners to events by type. See: https://api.slack.com/events/message
-socketModeClient.on('message', (event) => {
+socketModeClient.on('message', async ({ event }) => {
   console.log(event);
 });
 
@@ -90,39 +90,95 @@ const { WebClient } = require('@slack/web-api');
 
 const appToken = process.env.SLACK_APP_TOKEN;
 const socketModeClient = new SocketModeClient({ appToken });
-const webClient = new WebClient(process.env.BOT_TOKEN);
+
+const { WebClient } = require('@slack/web-api');
+const webClient = new WebClient(process.env.SLACK_BOT_TOKEN);
 
 // Attach listeners to events by type. See: https://api.slack.com/events/message
 socketModeClient.on('member_joined_channel', async ({event, body, ack}) => {
-    try {
-      // send acknowledgement back to slack over the socketMode websocket connection
-      // this is so slack knows you have received the event and are processing it
-      await ack();
-      await webClient.chat.postMessage({
-          blocks: [
-          {
-            type: 'section',
-            text: {
-              type: 'mrkdwn',
-              text: `Welcome to the channel, <@${event.user}>. We're here to help. Let us know if you have an issue.`,
-            },
-            accessory: {
-              type: 'button',
-              text: {
-                type: 'plain_text',
-                text: 'Get Help',
-              },
-              value: 'get_help',
-            },
+  try {
+    // send acknowledgement back to slack over the socketMode websocket connection
+    // this is so slack knows you have received the event and are processing it
+    await ack();
+    await webClient.chat.postMessage({
+      blocks: [
+        {
+          type: 'section',
+          text: {
+            type: 'mrkdwn',
+            text: `Welcome to the channel, <@${event.user}>. We're here to help. Let us know if you have an issue.`,
           },
-        ],
-        channel: event.channel,
-      });
-    } catch (error) {
-      console.log('An error occurred', error);
-    }
-  });
+          accessory: {
+            type: 'button',
+            text: {
+              type: 'plain_text',
+              text: 'Get Help',
+            },
+            value: 'get_help',
+          },
+        },
+      ],
+      channel: event.channel,
+    });
+  } catch (error) {
+    console.log('An error occurred', error);
+  }
+});
 ```
+---
+
+
+### Listen for Interactivity Events
+
+To receive interactivity events such as shorcut invocations, button clicks, and modal data submission, your listener can subscribe to "interactive" events.
+
+```javascript
+const { WebClient } = require('@slack/web-api');
+const webClient = new WebClient(process.env.SLACK_BOT_TOKEN);
+
+socketModeClient.on('interactive', async ({ body, ack }) => {
+  await ack();
+  if (event.callback_id === "the-shortcut") {
+    // handle the shortcut here
+    await webClient.views.open({
+      trigger_id: body.trigger_id,
+      view: {
+        type: "modal",
+        title: {
+          type: "plain_text",
+          text: "My App"
+        },
+        close: {
+          type: "plain_text",
+          text: "Close"
+        },
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: "Hi there!"
+            }
+          }
+        ]
+      }
+    });
+  }
+});
+```
+
+For slash commands, you can subscribe to "slash_commands" events and dispatch requests inside the listener.
+
+```javascript
+client.on('slash_commands', async ({ body, ack }) => {
+  if (body.command === "/the-command") {
+    await ack({"text": "I got it!"});
+  }
+});
+```
+
+For more complex apps, it's worth considering to use Bolt framework. Bolt provides much easier ways to register listeners for events and user actions. Refer to [Bolt's document](https://slack.dev/bolt-js/concepts#socket-mode) for more details.
+
 ---
 
 ### Lifecycle events
