@@ -497,7 +497,7 @@ const web = new WebClient(token);
 const port = process.env.PORT || 3000;
 
 // Example of handling a global shortcut
-slackInteractions.shortcut({ callback: 'simple-modal', type: 'shortcut' }, (payload) => {
+slackInteractions.shortcut({ callbackId: 'simple-modal', type: 'shortcut' }, (payload) => {
 
   // This example shortcut opens a view (needs to complete under 2.5 seconds)
   return web.views.open({
