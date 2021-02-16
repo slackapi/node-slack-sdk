@@ -177,7 +177,7 @@ client.on('slash_commands', async ({ body, ack }) => {
 });
 ```
 
-For more complex apps, it's worth considering to use Bolt framework. Bolt provides much easier ways to register listeners for events and user actions. Refer to [Bolt's document](https://slack.dev/bolt-js/concepts#socket-mode) for more details.
+When your app has multiple interactive events or slash commands, you will need to include your own routing logic. This is a good time to consider using Slack's Bolt framework, which provides an easier ways to register listeners for events and user actions. You can learn more in [Bolt's Socket Mode documentation](https://slack.dev/bolt-js/concepts#socket-mode).
 
 ---
 
