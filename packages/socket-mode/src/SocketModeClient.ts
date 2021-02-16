@@ -529,7 +529,7 @@ export class SocketModeClient extends EventEmitter {
    * each incoming message.
    */
   private async onWebsocketMessage({ data }: { data: string }): Promise<void> {
-    this.logger.debug('received a message on the WebSocket');
+    this.logger.debug(`received a message on the WebSocket: ${data}`);
 
     // parse message into slack event
     let event: {
