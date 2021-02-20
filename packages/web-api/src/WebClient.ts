@@ -155,6 +155,7 @@ export class WebClient extends Methods {
     this.logger.debug(`apiCall('${method}') start`);
 
     warnDeprecations(method, this.logger);
+    warnMissingTextArgument(method, this.logger, options);
 
     if (typeof options === 'string' || typeof options === 'number' || typeof options === 'boolean') {
       throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
@@ -611,5 +612,27 @@ function warnDeprecations(method: string, logger: Logger): void {
     logger.warn(`${method} is deprecated. Please use the Conversations API instead. For more info, go to https://api.slack.com/changelog/2020-01-deprecating-antecedents-to-the-conversations-api`);
   } else if (isDeprecated) {
     logger.warn(`${method} is deprecated. Please check on https://api.slack.com/methods for an alternative.`);
+  }
+}
+
+/**
+ * Log a warning when using chat.postMessage without text argument
+ * @param method api method being called
+ * @param logger instance of we clients logger
+ */
+function warnMissingTextArgument(method: string, logger: Logger, options?: WebAPICallOptions): void {
+  const methodsWithOptionalText = ['chat.postEphemeral', 'chat.postMessage', 'chat.scheduleMessage', 'chat.update'];
+  const isNeededToCheckMethod = methodsWithOptionalText.includes(method);
+
+  const isEmptyText = (args: WebAPICallOptions) =>
+    args.text === undefined || args.text === null || args.text === '';
+
+  if (isNeededToCheckMethod && typeof options === 'object' && isEmptyText(options)) {
+    logger.warn(
+      `The \`text\` argument is missing in the request payload for a ${method} call - ` +
+      "It's a best practice to always provide a text argument when posting a message. " +
+      'The `text` is used in places where `blocks` cannot be rendered such as: ' +
+      'system push notifications, assistive technology such as screen readers, etc.',
+    );
   }
 }
