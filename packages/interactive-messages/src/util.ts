@@ -16,8 +16,9 @@ export const errorCodes = {
  */
 export function promiseTimeout<T>(ms: number, promise: T | Promise<T>): Promise<T> {
   // Create a promise that rejects in `ms` milliseconds
+  let id: ReturnType<typeof setTimeout>;
   const timeout = new Promise<never>((_resolve, reject) => {
-    const id = setTimeout(
+    id = setTimeout(
       () => {
         clearTimeout(id);
         reject(errorWithCode(new Error('Promise timed out'), ErrorCode.PromiseTimeout));
@@ -30,7 +31,10 @@ export function promiseTimeout<T>(ms: number, promise: T | Promise<T>): Promise<
   return Promise.race([
     promise as Promise<T>,
     timeout,
-  ]);
+  ]).then((value) => {
+    clearTimeout(id);
+    return value;
+  });
 }
 
 // NOTE: before this can be an external module:
