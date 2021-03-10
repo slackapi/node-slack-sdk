@@ -332,6 +332,11 @@ export class InstallProvider {
           configurationUrl: resp.incoming_webhook.configuration_url,
         };
       }
+      if (installOptions !== undefined && installOptions.metadata !== undefined) {
+        // Pass the metadata in state parameter if exists.
+        // Developers can use the value for additional/custom data associated with the installation.
+        installation.metadata = installOptions.metadata;
+      }
       // End: Build the installation object
 
       // Save installation object to installation store
@@ -596,6 +601,9 @@ export interface Installation<AuthVersion extends ('v1' | 'v2') = ('v1' | 'v2'),
 
   /** The version of Slack's auth flow that produced this installation. Synthesized as `v2` when not present. */
   authVersion?: AuthVersion;
+
+  /** A string value that can be held in the state parameter in the OAuth flow. */
+  metadata?: string;
 }
 
 /**
