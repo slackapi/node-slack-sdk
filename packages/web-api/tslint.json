@@ -3,7 +3,9 @@
   "rules": {
     /* modifications to base config */
     // adds statements, members, and elements to the base config
-    "align": [true, "parameters", "arguments", "statements", "members", "elements"],
+    // The 'align' rule threw an error in '~/node-slack-sdk/packages/web-api/src/WebClient.ts':
+    // TypeError: Cannot read property 'length' of undefined
+    /*"align": [true, "parameters", "arguments", "statements", "members", "elements"],*/
     // adds number of spaces so auto-fixing will work
     "indent": [true, "spaces", 2],
     // increase value from 100 in base config to 120

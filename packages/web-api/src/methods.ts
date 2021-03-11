@@ -3,6 +3,183 @@ import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUs
 import { WebAPICallOptions, WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
 import { EventEmitter } from 'eventemitter3';
 
+import { AdminAppsApproveResponse } from './response/AdminAppsApproveResponse';
+import { AdminAppsApprovedListResponse } from './response/AdminAppsApprovedListResponse';
+import { AdminAppsRequestsListResponse } from './response/AdminAppsRequestsListResponse';
+import { AdminAppsRestrictResponse } from './response/AdminAppsRestrictResponse';
+import { AdminAppsRestrictedListResponse } from './response/AdminAppsRestrictedListResponse';
+import { AdminBarriersCreateResponse } from './response/AdminBarriersCreateResponse';
+import { AdminBarriersDeleteResponse } from './response/AdminBarriersDeleteResponse';
+import { AdminBarriersListResponse } from './response/AdminBarriersListResponse';
+import { AdminBarriersUpdateResponse } from './response/AdminBarriersUpdateResponse';
+import { AdminConversationsArchiveResponse } from './response/AdminConversationsArchiveResponse';
+import { AdminConversationsConvertToPrivateResponse } from './response/AdminConversationsConvertToPrivateResponse';
+import { AdminConversationsCreateResponse } from './response/AdminConversationsCreateResponse';
+import { AdminConversationsDeleteResponse } from './response/AdminConversationsDeleteResponse';
+import { AdminConversationsDisconnectSharedResponse } from './response/AdminConversationsDisconnectSharedResponse';
+import { AdminConversationsEkmListOriginalConnectedChannelInfoResponse } from './response/AdminConversationsEkmListOriginalConnectedChannelInfoResponse';
+import { AdminConversationsGetConversationPrefsResponse } from './response/AdminConversationsGetConversationPrefsResponse';
+import { AdminConversationsGetTeamsResponse } from './response/AdminConversationsGetTeamsResponse';
+import { AdminConversationsInviteResponse } from './response/AdminConversationsInviteResponse';
+import { AdminConversationsRenameResponse } from './response/AdminConversationsRenameResponse';
+import { AdminConversationsRestrictAccessAddGroupResponse } from './response/AdminConversationsRestrictAccessAddGroupResponse';
+import { AdminConversationsRestrictAccessListGroupsResponse } from './response/AdminConversationsRestrictAccessListGroupsResponse';
+import { AdminConversationsRestrictAccessRemoveGroupResponse } from './response/AdminConversationsRestrictAccessRemoveGroupResponse';
+import { AdminConversationsSearchResponse } from './response/AdminConversationsSearchResponse';
+import { AdminConversationsSetConversationPrefsResponse } from './response/AdminConversationsSetConversationPrefsResponse';
+import { AdminConversationsSetTeamsResponse } from './response/AdminConversationsSetTeamsResponse';
+import { AdminConversationsUnarchiveResponse } from './response/AdminConversationsUnarchiveResponse';
+import { AdminEmojiAddResponse } from './response/AdminEmojiAddResponse';
+import { AdminEmojiAddAliasResponse } from './response/AdminEmojiAddAliasResponse';
+import { AdminEmojiListResponse } from './response/AdminEmojiListResponse';
+import { AdminEmojiRemoveResponse } from './response/AdminEmojiRemoveResponse';
+import { AdminEmojiRenameResponse } from './response/AdminEmojiRenameResponse';
+import { AdminInviteRequestsApproveResponse } from './response/AdminInviteRequestsApproveResponse';
+import { AdminInviteRequestsApprovedListResponse } from './response/AdminInviteRequestsApprovedListResponse';
+import { AdminInviteRequestsDeniedListResponse } from './response/AdminInviteRequestsDeniedListResponse';
+import { AdminInviteRequestsDenyResponse } from './response/AdminInviteRequestsDenyResponse';
+import { AdminInviteRequestsListResponse } from './response/AdminInviteRequestsListResponse';
+import { AdminTeamsAdminsListResponse } from './response/AdminTeamsAdminsListResponse';
+import { AdminTeamsCreateResponse } from './response/AdminTeamsCreateResponse';
+import { AdminTeamsListResponse } from './response/AdminTeamsListResponse';
+import { AdminTeamsOwnersListResponse } from './response/AdminTeamsOwnersListResponse';
+import { AdminTeamsSettingsInfoResponse } from './response/AdminTeamsSettingsInfoResponse';
+import { AdminTeamsSettingsSetDefaultChannelsResponse } from './response/AdminTeamsSettingsSetDefaultChannelsResponse';
+import { AdminTeamsSettingsSetDescriptionResponse } from './response/AdminTeamsSettingsSetDescriptionResponse';
+import { AdminTeamsSettingsSetDiscoverabilityResponse } from './response/AdminTeamsSettingsSetDiscoverabilityResponse';
+import { AdminTeamsSettingsSetIconResponse } from './response/AdminTeamsSettingsSetIconResponse';
+import { AdminTeamsSettingsSetNameResponse } from './response/AdminTeamsSettingsSetNameResponse';
+import { AdminUsergroupsAddChannelsResponse } from './response/AdminUsergroupsAddChannelsResponse';
+import { AdminUsergroupsAddTeamsResponse } from './response/AdminUsergroupsAddTeamsResponse';
+import { AdminUsergroupsListChannelsResponse } from './response/AdminUsergroupsListChannelsResponse';
+import { AdminUsergroupsRemoveChannelsResponse } from './response/AdminUsergroupsRemoveChannelsResponse';
+import { AdminUsersAssignResponse } from './response/AdminUsersAssignResponse';
+import { AdminUsersInviteResponse } from './response/AdminUsersInviteResponse';
+import { AdminUsersListResponse } from './response/AdminUsersListResponse';
+import { AdminUsersRemoveResponse } from './response/AdminUsersRemoveResponse';
+import { AdminUsersSessionListResponse } from './response/AdminUsersSessionListResponse';
+import { AdminUsersSessionResetResponse } from './response/AdminUsersSessionResetResponse';
+import { AdminUsersSessionInvalidateResponse } from './response/AdminUsersSessionInvalidateResponse';
+import { AdminUsersSetAdminResponse } from './response/AdminUsersSetAdminResponse';
+import { AdminUsersSetExpirationResponse } from './response/AdminUsersSetExpirationResponse';
+import { AdminUsersSetOwnerResponse } from './response/AdminUsersSetOwnerResponse';
+import { AdminUsersSetRegularResponse } from './response/AdminUsersSetRegularResponse';
+import { ApiTestResponse } from './response/ApiTestResponse';
+import { AppsConnectionsOpenResponse } from './response/AppsConnectionsOpenResponse';
+import { AppsEventAuthorizationsListResponse } from './response/AppsEventAuthorizationsListResponse';
+import { AppsUninstallResponse } from './response/AppsUninstallResponse';
+import { AuthRevokeResponse } from './response/AuthRevokeResponse';
+import { AuthTeamsListResponse } from './response/AuthTeamsListResponse';
+import { AuthTestResponse } from './response/AuthTestResponse';
+import { BotsInfoResponse } from './response/BotsInfoResponse';
+import { CallsAddResponse } from './response/CallsAddResponse';
+import { CallsEndResponse } from './response/CallsEndResponse';
+import { CallsInfoResponse } from './response/CallsInfoResponse';
+import { CallsUpdateResponse } from './response/CallsUpdateResponse';
+import { CallsParticipantsAddResponse } from './response/CallsParticipantsAddResponse';
+import { CallsParticipantsRemoveResponse } from './response/CallsParticipantsRemoveResponse';
+import { ChatDeleteResponse } from './response/ChatDeleteResponse';
+import { ChatDeleteScheduledMessageResponse } from './response/ChatDeleteScheduledMessageResponse';
+import { ChatGetPermalinkResponse } from './response/ChatGetPermalinkResponse';
+import { ChatMeMessageResponse } from './response/ChatMeMessageResponse';
+import { ChatPostEphemeralResponse } from './response/ChatPostEphemeralResponse';
+import { ChatPostMessageResponse } from './response/ChatPostMessageResponse';
+import { ChatScheduleMessageResponse } from './response/ChatScheduleMessageResponse';
+import { ChatScheduledMessagesListResponse } from './response/ChatScheduledMessagesListResponse';
+import { ChatUnfurlResponse } from './response/ChatUnfurlResponse';
+import { ChatUpdateResponse } from './response/ChatUpdateResponse';
+import { ConversationsArchiveResponse } from './response/ConversationsArchiveResponse';
+import { ConversationsCloseResponse } from './response/ConversationsCloseResponse';
+import { ConversationsCreateResponse } from './response/ConversationsCreateResponse';
+import { ConversationsHistoryResponse } from './response/ConversationsHistoryResponse';
+import { ConversationsInfoResponse } from './response/ConversationsInfoResponse';
+import { ConversationsInviteResponse } from './response/ConversationsInviteResponse';
+import { ConversationsJoinResponse } from './response/ConversationsJoinResponse';
+import { ConversationsKickResponse } from './response/ConversationsKickResponse';
+import { ConversationsLeaveResponse } from './response/ConversationsLeaveResponse';
+import { ConversationsListResponse } from './response/ConversationsListResponse';
+import { ConversationsMarkResponse } from './response/ConversationsMarkResponse';
+import { ConversationsMembersResponse } from './response/ConversationsMembersResponse';
+import { ConversationsOpenResponse } from './response/ConversationsOpenResponse';
+import { ConversationsRenameResponse } from './response/ConversationsRenameResponse';
+import { ConversationsRepliesResponse } from './response/ConversationsRepliesResponse';
+import { ConversationsSetPurposeResponse } from './response/ConversationsSetPurposeResponse';
+import { ConversationsSetTopicResponse } from './response/ConversationsSetTopicResponse';
+import { ConversationsUnarchiveResponse } from './response/ConversationsUnarchiveResponse';
+import { ViewsOpenResponse } from './response/ViewsOpenResponse';
+import { ViewsPublishResponse } from './response/ViewsPublishResponse';
+import { ViewsPushResponse } from './response/ViewsPushResponse';
+import { ViewsUpdateResponse } from './response/ViewsUpdateResponse';
+import { DialogOpenResponse } from './response/DialogOpenResponse';
+import { DndEndDndResponse } from './response/DndEndDndResponse';
+import { DndEndSnoozeResponse } from './response/DndEndSnoozeResponse';
+import { DndInfoResponse } from './response/DndInfoResponse';
+import { DndSetSnoozeResponse } from './response/DndSetSnoozeResponse';
+import { DndTeamInfoResponse } from './response/DndTeamInfoResponse';
+import { EmojiListResponse } from './response/EmojiListResponse';
+import { FilesDeleteResponse } from './response/FilesDeleteResponse';
+import { FilesInfoResponse } from './response/FilesInfoResponse';
+import { FilesListResponse } from './response/FilesListResponse';
+import { FilesRevokePublicURLResponse } from './response/FilesRevokePublicURLResponse';
+import { FilesSharedPublicURLResponse } from './response/FilesSharedPublicURLResponse';
+import { FilesUploadResponse } from './response/FilesUploadResponse';
+import { FilesCommentsDeleteResponse } from './response/FilesCommentsDeleteResponse';
+import { FilesRemoteInfoResponse } from './response/FilesRemoteInfoResponse';
+import { FilesRemoteListResponse } from './response/FilesRemoteListResponse';
+import { FilesRemoteAddResponse } from './response/FilesRemoteAddResponse';
+import { FilesRemoteUpdateResponse } from './response/FilesRemoteUpdateResponse';
+import { FilesRemoteRemoveResponse } from './response/FilesRemoteRemoveResponse';
+import { FilesRemoteShareResponse } from './response/FilesRemoteShareResponse';
+import { MigrationExchangeResponse } from './response/MigrationExchangeResponse';
+import { OauthAccessResponse } from './response/OauthAccessResponse';
+import { OauthV2AccessResponse } from './response/OauthV2AccessResponse';
+import { PinsAddResponse } from './response/PinsAddResponse';
+import { PinsListResponse } from './response/PinsListResponse';
+import { PinsRemoveResponse } from './response/PinsRemoveResponse';
+import { ReactionsAddResponse } from './response/ReactionsAddResponse';
+import { ReactionsGetResponse } from './response/ReactionsGetResponse';
+import { ReactionsListResponse } from './response/ReactionsListResponse';
+import { ReactionsRemoveResponse } from './response/ReactionsRemoveResponse';
+import { RemindersAddResponse } from './response/RemindersAddResponse';
+import { RemindersCompleteResponse } from './response/RemindersCompleteResponse';
+import { RemindersDeleteResponse } from './response/RemindersDeleteResponse';
+import { RemindersInfoResponse } from './response/RemindersInfoResponse';
+import { RemindersListResponse } from './response/RemindersListResponse';
+import { RtmConnectResponse } from './response/RtmConnectResponse';
+import { RtmStartResponse } from './response/RtmStartResponse';
+import { SearchAllResponse } from './response/SearchAllResponse';
+import { SearchFilesResponse } from './response/SearchFilesResponse';
+import { SearchMessagesResponse } from './response/SearchMessagesResponse';
+import { StarsAddResponse } from './response/StarsAddResponse';
+import { StarsListResponse } from './response/StarsListResponse';
+import { StarsRemoveResponse } from './response/StarsRemoveResponse';
+import { TeamAccessLogsResponse } from './response/TeamAccessLogsResponse';
+import { TeamBillableInfoResponse } from './response/TeamBillableInfoResponse';
+import { TeamInfoResponse } from './response/TeamInfoResponse';
+import { TeamIntegrationLogsResponse } from './response/TeamIntegrationLogsResponse';
+import { TeamProfileGetResponse } from './response/TeamProfileGetResponse';
+import { UsergroupsCreateResponse } from './response/UsergroupsCreateResponse';
+import { UsergroupsDisableResponse } from './response/UsergroupsDisableResponse';
+import { UsergroupsEnableResponse } from './response/UsergroupsEnableResponse';
+import { UsergroupsListResponse } from './response/UsergroupsListResponse';
+import { UsergroupsUpdateResponse } from './response/UsergroupsUpdateResponse';
+import { UsergroupsUsersListResponse } from './response/UsergroupsUsersListResponse';
+import { UsergroupsUsersUpdateResponse } from './response/UsergroupsUsersUpdateResponse';
+import { UsersConversationsResponse } from './response/UsersConversationsResponse';
+import { UsersDeletePhotoResponse } from './response/UsersDeletePhotoResponse';
+import { UsersGetPresenceResponse } from './response/UsersGetPresenceResponse';
+import { UsersIdentityResponse } from './response/UsersIdentityResponse';
+import { UsersInfoResponse } from './response/UsersInfoResponse';
+import { UsersListResponse } from './response/UsersListResponse';
+import { UsersLookupByEmailResponse } from './response/UsersLookupByEmailResponse';
+import { UsersSetPhotoResponse } from './response/UsersSetPhotoResponse';
+import { UsersSetPresenceResponse } from './response/UsersSetPresenceResponse';
+import { UsersProfileGetResponse } from './response/UsersProfileGetResponse';
+import { UsersProfileSetResponse } from './response/UsersProfileSetResponse';
+import { WorkflowsStepCompletedResponse } from './response/WorkflowsStepCompletedResponse';
+import { WorkflowsStepFailedResponse } from './response/WorkflowsStepFailedResponse';
+import { WorkflowsUpdateStepResponse } from './response/WorkflowsUpdateStepResponse';
+
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
 
 /**
@@ -42,170 +219,187 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly admin = {
     apps: {
-      approve: bindApiCall<AdminAppsApproveArguments, WebAPICallResult>(this, 'admin.apps.approve'),
+      approve: bindApiCall<AdminAppsApproveArguments, AdminAppsApproveResponse>(this, 'admin.apps.approve'),
       approved: {
-        list: bindApiCall<AdminAppsApprovedListArguments, WebAPICallResult>(this, 'admin.apps.approved.list'),
+        list: bindApiCall<AdminAppsApprovedListArguments, AdminAppsApprovedListResponse>(this, 'admin.apps.approved.list'),
       },
       requests: {
-        list: bindApiCall<AdminAppsRequestsListArguments, WebAPICallResult>(this, 'admin.apps.requests.list'),
+        list: bindApiCall<AdminAppsRequestsListArguments, AdminAppsRequestsListResponse>(this, 'admin.apps.requests.list'),
       },
-      restrict: bindApiCall<AdminAppsRestrictArguments, WebAPICallResult>(this, 'admin.apps.restrict'),
+      restrict: bindApiCall<AdminAppsRestrictArguments, AdminAppsRestrictResponse>(this, 'admin.apps.restrict'),
       restricted: {
         list:
-          bindApiCall<AdminAppsRestrictedListArguments, WebAPICallResult>(this, 'admin.apps.restricted.list'),
+          bindApiCall<AdminAppsRestrictedListArguments, AdminAppsRestrictedListResponse>(this, 'admin.apps.restricted.list'),
       },
     },
     barriers: {
-      create: bindApiCall<AdminBarriersCreateArguments, WebAPICallResult>(this, 'admin.barriers.create'),
-      delete: bindApiCall<AdminBarriersDeleteArguments, WebAPICallResult>(this, 'admin.barriers.delete'),
-      list: bindApiCall<AdminBarriersListArguments, WebAPICallResult>(this, 'admin.barriers.list'),
-      update: bindApiCall<AdminBarriersUpdateArguments, WebAPICallResult>(this, 'admin.barriers.update'),
+      create: bindApiCall<AdminBarriersCreateArguments, AdminBarriersCreateResponse>(this, 'admin.barriers.create'),
+      delete: bindApiCall<AdminBarriersDeleteArguments, AdminBarriersDeleteResponse>(this, 'admin.barriers.delete'),
+      list: bindApiCall<AdminBarriersListArguments, AdminBarriersListResponse>(this, 'admin.barriers.list'),
+      update: bindApiCall<AdminBarriersUpdateArguments, AdminBarriersUpdateResponse>(this, 'admin.barriers.update'),
     },
     conversations: {
-      archive: bindApiCall<AdminConversationsArchiveArguments, WebAPICallResult>(this, 'admin.conversations.archive'),
-      convertToPrivate: bindApiCall<AdminConversationsConvertToPrivateArguments, WebAPICallResult>(
-        this, 'admin.conversations.convertToPrivate'),
-      create: bindApiCall<AdminConversationsCreateArguments, WebAPICallResult>(this, 'admin.conversations.create'),
-      delete: bindApiCall<AdminConversationsDeleteArguments, WebAPICallResult>(this, 'admin.conversations.delete'),
-      disconnectShared: bindApiCall<AdminConversationsDisconnectSharedArguments, WebAPICallResult>(
-        this, 'admin.conversations.disconnectShared'),
+      archive: bindApiCall<AdminConversationsArchiveArguments, AdminConversationsArchiveResponse>(this, 'admin.conversations.archive'),
+      convertToPrivate:
+        bindApiCall<AdminConversationsConvertToPrivateArguments, AdminConversationsConvertToPrivateResponse>(
+          this, 'admin.conversations.convertToPrivate'),
+      create: bindApiCall<AdminConversationsCreateArguments, AdminConversationsCreateResponse>(this, 'admin.conversations.create'),
+      delete: bindApiCall<AdminConversationsDeleteArguments, AdminConversationsDeleteResponse>(this, 'admin.conversations.delete'),
+      disconnectShared:
+        bindApiCall<AdminConversationsDisconnectSharedArguments, AdminConversationsDisconnectSharedResponse>(
+          this, 'admin.conversations.disconnectShared'),
       ekm: {
         listOriginalConnectedChannelInfo:
-          bindApiCall<AdminConversationsEKMListOriginalConnectedChannelInfoArguments, WebAPICallResult>(
-            this, 'admin.conversations.ekm.listOriginalConnectedChannelInfo'),
+          bindApiCall<AdminConversationsEKMListOriginalConnectedChannelInfoArguments,
+            AdminConversationsEkmListOriginalConnectedChannelInfoResponse>(
+              this, 'admin.conversations.ekm.listOriginalConnectedChannelInfo'),
       },
-      getConversationPrefs: bindApiCall<AdminConversationsGetConversationPrefsArguments, WebAPICallResult>(
-        this, 'admin.conversations.getConversationPrefs'),
-      getTeams: bindApiCall<AdminConversationsGetTeamsArguments, WebAPICallResult>(
+      getConversationPrefs:
+        bindApiCall<AdminConversationsGetConversationPrefsArguments, AdminConversationsGetConversationPrefsResponse>(
+          this, 'admin.conversations.getConversationPrefs'),
+      getTeams: bindApiCall<AdminConversationsGetTeamsArguments, AdminConversationsGetTeamsResponse>(
         this, 'admin.conversations.getTeams'),
-      invite: bindApiCall<AdminConversationsInviteArguments, WebAPICallResult>(this, 'admin.conversations.invite'),
-      rename: bindApiCall<AdminConversationsRenameArguments, WebAPICallResult>(this, 'admin.conversations.rename'),
+      invite: bindApiCall<AdminConversationsInviteArguments, AdminConversationsInviteResponse>(this, 'admin.conversations.invite'),
+      rename: bindApiCall<AdminConversationsRenameArguments, AdminConversationsRenameResponse>(this, 'admin.conversations.rename'),
       restrictAccess: {
-        addGroup: bindApiCall<AdminConversationsRestrictAccessAddGroupArguments, WebAPICallResult>(
-          this, 'admin.conversations.restrictAccess.addGroup'),
-        listGroups: bindApiCall<AdminConversationsRestrictAccessListGroupsArguments, WebAPICallResult>(
-          this, 'admin.conversations.restrictAccess.listGroups'),
-        removeGroup: bindApiCall<AdminConversationsRestrictAccessRemoveGroupArguments, WebAPICallResult>(
-          this, 'admin.conversations.restrictAccess.removeGroup'),
+        addGroup: bindApiCall<AdminConversationsRestrictAccessAddGroupArguments,
+          AdminConversationsRestrictAccessAddGroupResponse>(
+            this, 'admin.conversations.restrictAccess.addGroup'),
+        listGroups:
+          bindApiCall<AdminConversationsRestrictAccessListGroupsArguments,
+            AdminConversationsRestrictAccessListGroupsResponse>(
+              this, 'admin.conversations.restrictAccess.listGroups'),
+        removeGroup:
+          bindApiCall<AdminConversationsRestrictAccessRemoveGroupArguments,
+            AdminConversationsRestrictAccessRemoveGroupResponse>(
+              this, 'admin.conversations.restrictAccess.removeGroup'),
       },
-      search: bindApiCall<AdminConversationsSearchArguments, WebAPICallResult>(this, 'admin.conversations.search'),
-      setConversationPrefs: bindApiCall<AdminConversationsSetConversationPrefsArguments, WebAPICallResult>(
-        this, 'admin.conversations.setConversationPrefs'),
-      setTeams: bindApiCall<AdminConversationsSetTeamsArguments, WebAPICallResult>(
+      search: bindApiCall<AdminConversationsSearchArguments, AdminConversationsSearchResponse>(this, 'admin.conversations.search'),
+      setConversationPrefs:
+        bindApiCall<AdminConversationsSetConversationPrefsArguments, AdminConversationsSetConversationPrefsResponse>(
+          this, 'admin.conversations.setConversationPrefs'),
+      setTeams: bindApiCall<AdminConversationsSetTeamsArguments, AdminConversationsSetTeamsResponse>(
         this, 'admin.conversations.setTeams'),
-      unarchive: bindApiCall<AdminConversationsUnarchiveArguments, WebAPICallResult>(
+      unarchive: bindApiCall<AdminConversationsUnarchiveArguments, AdminConversationsUnarchiveResponse>(
         this, 'admin.conversations.unarchive'),
     },
     emoji: {
-      add: bindApiCall<AdminEmojiAddArguments, WebAPICallResult>(this, 'admin.emoji.add'),
-      addAlias: bindApiCall<AdminEmojiAddAliasArguments, WebAPICallResult>(this, 'admin.emoji.addAlias'),
-      list: bindApiCall<AdminEmojiListArguments, WebAPICallResult>(this, 'admin.emoji.list'),
-      remove: bindApiCall<AdminEmojiRemoveArguments, WebAPICallResult>(this, 'admin.emoji.remove'),
-      rename: bindApiCall<AdminEmojiRenameArguments, WebAPICallResult>(this, 'admin.emoji.rename'),
+      add: bindApiCall<AdminEmojiAddArguments, AdminEmojiAddResponse>(this, 'admin.emoji.add'),
+      addAlias: bindApiCall<AdminEmojiAddAliasArguments, AdminEmojiAddAliasResponse>(this, 'admin.emoji.addAlias'),
+      list: bindApiCall<AdminEmojiListArguments, AdminEmojiListResponse>(this, 'admin.emoji.list'),
+      remove: bindApiCall<AdminEmojiRemoveArguments, AdminEmojiRemoveResponse>(this, 'admin.emoji.remove'),
+      rename: bindApiCall<AdminEmojiRenameArguments, AdminEmojiRenameResponse>(this, 'admin.emoji.rename'),
     },
     inviteRequests: {
-      approve: bindApiCall<AdminInviteRequestsApproveArguments, WebAPICallResult>(
+      approve: bindApiCall<AdminInviteRequestsApproveArguments, AdminInviteRequestsApproveResponse>(
         this, 'admin.inviteRequests.approve'),
       approved: {
-        list: bindApiCall<AdminInviteRequestsApprovedListArguments, WebAPICallResult>(
+        list: bindApiCall<AdminInviteRequestsApprovedListArguments, AdminInviteRequestsApprovedListResponse>(
           this, 'admin.inviteRequests.approved.list'),
       },
       denied: {
-        list: bindApiCall<AdminInviteRequestsDeniedListArguments, WebAPICallResult>(
+        list: bindApiCall<AdminInviteRequestsDeniedListArguments, AdminInviteRequestsDeniedListResponse>(
           this, 'admin.inviteRequests.denied.list'),
       },
-      deny: bindApiCall<AdminInviteRequestsDenyArguments, WebAPICallResult>(this, 'admin.inviteRequests.deny'),
-      list: bindApiCall<AdminInviteRequestsListArguments, WebAPICallResult>(this, 'admin.inviteRequests.list'),
+      deny: bindApiCall<AdminInviteRequestsDenyArguments, AdminInviteRequestsDenyResponse>(this, 'admin.inviteRequests.deny'),
+      list: bindApiCall<AdminInviteRequestsListArguments, AdminInviteRequestsListResponse>(this, 'admin.inviteRequests.list'),
     },
     teams: {
       admins: {
-        list: bindApiCall<AdminTeamsAdminsListArguments, WebAPICallResult>(this, 'admin.teams.admins.list'),
+        list: bindApiCall<AdminTeamsAdminsListArguments, AdminTeamsAdminsListResponse>(this, 'admin.teams.admins.list'),
       },
-      create: bindApiCall<AdminTeamsCreateArguments, WebAPICallResult>(this, 'admin.teams.create'),
-      list: bindApiCall<AdminTeamsListArguments, WebAPICallResult>(this, 'admin.teams.list'),
+      create: bindApiCall<AdminTeamsCreateArguments, AdminTeamsCreateResponse>(this, 'admin.teams.create'),
+      list: bindApiCall<AdminTeamsListArguments, AdminTeamsListResponse>(this, 'admin.teams.list'),
       owners: {
-        list: bindApiCall<AdminTeamsOwnersListArguments, WebAPICallResult>(this, 'admin.teams.owners.list'),
+        list: bindApiCall<AdminTeamsOwnersListArguments, AdminTeamsOwnersListResponse>(this, 'admin.teams.owners.list'),
       },
       settings: {
-        info: bindApiCall<AdminTeamsSettingsInfoArguments, WebAPICallResult>(this, 'admin.teams.settings.info'),
-        setDefaultChannels: bindApiCall<AdminTeamsSettingsSetDefaultChannelsArguments, WebAPICallResult>(
-          this, 'admin.teams.settings.setDefaultChannels'),
-        setDescription: bindApiCall<AdminTeamsSettingsSetDescriptionArguments, WebAPICallResult>(
-          this, 'admin.teams.settings.setDescription'),
-        setDiscoverability: bindApiCall<AdminTeamsSettingsSetDiscoverabilityArguments, WebAPICallResult>(
-          this, 'admin.teams.settings.setDiscoverability'),
-        setIcon: bindApiCall<AdminTeamsSettingsSetIconArguments, WebAPICallResult>(
+        info: bindApiCall<AdminTeamsSettingsInfoArguments, AdminTeamsSettingsInfoResponse>(this, 'admin.teams.settings.info'),
+        setDefaultChannels:
+          bindApiCall<AdminTeamsSettingsSetDefaultChannelsArguments, AdminTeamsSettingsSetDefaultChannelsResponse>(
+            this, 'admin.teams.settings.setDefaultChannels'),
+        setDescription:
+          bindApiCall<AdminTeamsSettingsSetDescriptionArguments, AdminTeamsSettingsSetDescriptionResponse>(
+            this, 'admin.teams.settings.setDescription'),
+        setDiscoverability:
+          bindApiCall<AdminTeamsSettingsSetDiscoverabilityArguments,
+            AdminTeamsSettingsSetDiscoverabilityResponse>(
+              this, 'admin.teams.settings.setDiscoverability'),
+        setIcon: bindApiCall<AdminTeamsSettingsSetIconArguments, AdminTeamsSettingsSetIconResponse>(
           this, 'admin.teams.settings.setIcon'),
-        setName: bindApiCall<AdminTeamsSettingsSetNameArguments, WebAPICallResult>(
+        setName: bindApiCall<AdminTeamsSettingsSetNameArguments, AdminTeamsSettingsSetNameResponse>(
           this, 'admin.teams.settings.setName'),
       },
     },
     usergroups: {
-      addChannels: bindApiCall<AdminUsergroupsAddChannelsArguments, WebAPICallResult>(
+      addChannels: bindApiCall<AdminUsergroupsAddChannelsArguments, AdminUsergroupsAddChannelsResponse>(
         this, 'admin.usergroups.addChannels'),
-      addTeams: bindApiCall<AdminUsergroupsAddTeamsArguments, WebAPICallResult>(
+      addTeams: bindApiCall<AdminUsergroupsAddTeamsArguments, AdminUsergroupsAddTeamsResponse>(
         this, 'admin.usergroups.addTeams'),
-      listChannels: bindApiCall<AdminUsergroupsListChannelsArguments, WebAPICallResult>(
+      listChannels: bindApiCall<AdminUsergroupsListChannelsArguments, AdminUsergroupsListChannelsResponse>(
         this, 'admin.usergroups.listChannels'),
-      removeChannels: bindApiCall<AdminUsergroupsRemoveChannelsArguments, WebAPICallResult>(
+      removeChannels: bindApiCall<AdminUsergroupsRemoveChannelsArguments, AdminUsergroupsRemoveChannelsResponse>(
         this, 'admin.usergroups.removeChannels'),
     },
     users: {
-      assign: bindApiCall<AdminUsersAssignArguments, WebAPICallResult>(this, 'admin.users.assign'),
-      invite: bindApiCall<AdminUsersInviteArguments, WebAPICallResult>(this, 'admin.users.invite'),
-      list: bindApiCall<AdminUsersListArguments, WebAPICallResult>(this, 'admin.users.list'),
-      remove: bindApiCall<AdminUsersRemoveArguments, WebAPICallResult>(this, 'admin.users.remove'),
+      assign: bindApiCall<AdminUsersAssignArguments, AdminUsersAssignResponse>(this, 'admin.users.assign'),
+      invite: bindApiCall<AdminUsersInviteArguments, AdminUsersInviteResponse>(this, 'admin.users.invite'),
+      list: bindApiCall<AdminUsersListArguments, AdminUsersListResponse>(this, 'admin.users.list'),
+      remove: bindApiCall<AdminUsersRemoveArguments, AdminUsersRemoveResponse>(this, 'admin.users.remove'),
       session: {
-        list: bindApiCall<AdminUsersSessionListArguments, WebAPICallResult>(this, 'admin.users.session.list'),
-        reset: bindApiCall<AdminUsersSessionResetArguments, WebAPICallResult>(this, 'admin.users.session.reset'),
-        invalidate: bindApiCall<AdminUsersSessionInvalidateArguments, WebAPICallResult>(
+        list: bindApiCall<AdminUsersSessionListArguments, AdminUsersSessionListResponse>(this, 'admin.users.session.list'),
+        reset: bindApiCall<AdminUsersSessionResetArguments, AdminUsersSessionResetResponse>(this, 'admin.users.session.reset'),
+        invalidate: bindApiCall<AdminUsersSessionInvalidateArguments, AdminUsersSessionInvalidateResponse>(
           this, 'admin.users.session.invalidate'),
       },
-      setAdmin: bindApiCall<AdminUsersSetAdminArguments, WebAPICallResult>(this, 'admin.users.setAdmin'),
+      setAdmin: bindApiCall<AdminUsersSetAdminArguments, AdminUsersSetAdminResponse>(this, 'admin.users.setAdmin'),
       setExpiration:
-        bindApiCall<AdminUsersSetExpirationArguments, WebAPICallResult>(this, 'admin.users.setExpiration'),
-      setOwner: bindApiCall<AdminUsersSetOwnerArguments, WebAPICallResult>(this, 'admin.users.setOwner'),
-      setRegular: bindApiCall<AdminUsersSetRegularArguments, WebAPICallResult>(this, 'admin.users.setRegular'),
+        bindApiCall<AdminUsersSetExpirationArguments, AdminUsersSetExpirationResponse>(
+          this, 'admin.users.setExpiration'),
+      setOwner: bindApiCall<AdminUsersSetOwnerArguments, AdminUsersSetOwnerResponse>(
+        this, 'admin.users.setOwner'),
+      setRegular: bindApiCall<AdminUsersSetRegularArguments, AdminUsersSetRegularResponse>(
+        this, 'admin.users.setRegular'),
     },
   };
 
   public readonly api = {
-    test: bindApiCall<APITestArguments, WebAPICallResult>(this, 'api.test'),
+    test: bindApiCall<APITestArguments, ApiTestResponse>(this, 'api.test'),
   };
 
   public readonly apps = {
     connections: {
-      open: bindApiCall<AppsConnectionsOpenArguments, WebAPICallResult>(this, 'apps.connections.open'),
+      open: bindApiCall<AppsConnectionsOpenArguments, AppsConnectionsOpenResponse>(this, 'apps.connections.open'),
     },
     event: {
       authorizations: {
-        list: bindApiCall<AppsEventAuthorizationsListArguments, WebAPICallResult>(
+        list: bindApiCall<AppsEventAuthorizationsListArguments, AppsEventAuthorizationsListResponse>(
           this, 'apps.event.authorizations.list'),
       },
     },
-    uninstall: bindApiCall<AppsUninstallArguments, WebAPICallResult>(this, 'apps.uninstall'),
+    uninstall: bindApiCall<AppsUninstallArguments, AppsUninstallResponse>(this, 'apps.uninstall'),
   };
 
   public readonly auth = {
-    revoke: bindApiCall<AuthRevokeArguments, WebAPICallResult>(this, 'auth.revoke'),
+    revoke: bindApiCall<AuthRevokeArguments, AuthRevokeResponse>(this, 'auth.revoke'),
     teams: {
-      list: bindApiCall<AuthTeamsListArguments, WebAPICallResult>(this, 'auth.teams.list'),
+      list: bindApiCall<AuthTeamsListArguments, AuthTeamsListResponse>(this, 'auth.teams.list'),
     },
-    test: bindApiCall<AuthTestArguments, WebAPICallResult>(this, 'auth.test'),
+    test: bindApiCall<AuthTestArguments, AuthTestResponse>(this, 'auth.test'),
   };
 
   public readonly bots = {
-    info: bindApiCall<BotsInfoArguments, WebAPICallResult>(this, 'bots.info'),
+    info: bindApiCall<BotsInfoArguments, BotsInfoResponse>(this, 'bots.info'),
   };
 
   public readonly calls = {
-    add: bindApiCall<CallsAddArguments, WebAPICallResult>(this, 'calls.add'),
-    end: bindApiCall<CallsEndArguments, WebAPICallResult>(this, 'calls.end'),
-    info: bindApiCall<CallsInfoArguments, WebAPICallResult>(this, 'calls.info'),
-    update: bindApiCall<CallsUpdateArguments, WebAPICallResult>(this, 'calls.update'),
+    add: bindApiCall<CallsAddArguments, CallsAddResponse>(this, 'calls.add'),
+    end: bindApiCall<CallsEndArguments, CallsEndResponse>(this, 'calls.end'),
+    info: bindApiCall<CallsInfoArguments, CallsInfoResponse>(this, 'calls.info'),
+    update: bindApiCall<CallsUpdateArguments, CallsUpdateResponse>(this, 'calls.update'),
     participants: {
-      add: bindApiCall<CallsParticipantsAddArguments, WebAPICallResult>(this, 'calls.participants.add'),
-      remove: bindApiCall<CallsParticipantsRemoveArguments, WebAPICallResult>(this, 'calls.participants.remove'),
+      add: bindApiCall<CallsParticipantsAddArguments, CallsParticipantsAddResponse>(this, 'calls.participants.add'),
+      remove: bindApiCall<CallsParticipantsRemoveArguments, CallsParticipantsRemoveResponse>(this, 'calls.participants.remove'),
     },
   };
 
@@ -228,86 +422,90 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly chat = {
-    delete: bindApiCall<ChatDeleteArguments, WebAPICallResult>(this, 'chat.delete'),
+    delete: bindApiCall<ChatDeleteArguments, ChatDeleteResponse>(this, 'chat.delete'),
     deleteScheduledMessage:
-      bindApiCall<ChatDeleteScheduledMessageArguments, WebAPICallResult>(this, 'chat.deleteScheduledMessage'),
-    getPermalink: bindApiCall<ChatGetPermalinkArguments, WebAPICallResult>(this, 'chat.getPermalink'),
-    meMessage: bindApiCall<ChatMeMessageArguments, WebAPICallResult>(this, 'chat.meMessage'),
-    postEphemeral: bindApiCall<ChatPostEphemeralArguments, WebAPICallResult>(this, 'chat.postEphemeral'),
-    postMessage: bindApiCall<ChatPostMessageArguments, WebAPICallResult>(this, 'chat.postMessage'),
-    scheduleMessage: bindApiCall<ChatScheduleMessageArguments, WebAPICallResult>(this, 'chat.scheduleMessage'),
+      bindApiCall<ChatDeleteScheduledMessageArguments, ChatDeleteScheduledMessageResponse>(this, 'chat.deleteScheduledMessage'),
+    getPermalink: bindApiCall<ChatGetPermalinkArguments, ChatGetPermalinkResponse>(this, 'chat.getPermalink'),
+    meMessage: bindApiCall<ChatMeMessageArguments, ChatMeMessageResponse>(this, 'chat.meMessage'),
+    postEphemeral: bindApiCall<ChatPostEphemeralArguments, ChatPostEphemeralResponse>(this, 'chat.postEphemeral'),
+    postMessage: bindApiCall<ChatPostMessageArguments, ChatPostMessageResponse>(this, 'chat.postMessage'),
+    scheduleMessage: bindApiCall<ChatScheduleMessageArguments, ChatScheduleMessageResponse>(
+      this, 'chat.scheduleMessage'),
     scheduledMessages: {
       list:
-        bindApiCall<ChatScheduledMessagesListArguments, WebAPICallResult>(this, 'chat.scheduledMessages.list'),
+        bindApiCall<ChatScheduledMessagesListArguments, ChatScheduledMessagesListResponse>(
+          this, 'chat.scheduledMessages.list'),
     },
-    unfurl: bindApiCall<ChatUnfurlArguments, WebAPICallResult>(this, 'chat.unfurl'),
-    update: bindApiCall<ChatUpdateArguments, WebAPICallResult>(this, 'chat.update'),
+    unfurl: bindApiCall<ChatUnfurlArguments, ChatUnfurlResponse>(this, 'chat.unfurl'),
+    update: bindApiCall<ChatUpdateArguments, ChatUpdateResponse>(this, 'chat.update'),
   };
 
   public readonly conversations = {
-    archive: bindApiCall<ConversationsArchiveArguments, WebAPICallResult>(this, 'conversations.archive'),
-    close: bindApiCall<ConversationsCloseArguments, WebAPICallResult>(this, 'conversations.close'),
-    create: bindApiCall<ConversationsCreateArguments, WebAPICallResult>(this, 'conversations.create'),
-    history: bindApiCall<ConversationsHistoryArguments, WebAPICallResult>(this, 'conversations.history'),
-    info: bindApiCall<ConversationsInfoArguments, WebAPICallResult>(this, 'conversations.info'),
-    invite: bindApiCall<ConversationsInviteArguments, WebAPICallResult>(this, 'conversations.invite'),
-    join: bindApiCall<ConversationsJoinArguments, WebAPICallResult>(this, 'conversations.join'),
-    kick: bindApiCall<ConversationsKickArguments, WebAPICallResult>(this, 'conversations.kick'),
-    leave: bindApiCall<ConversationsLeaveArguments, WebAPICallResult>(this, 'conversations.leave'),
-    list: bindApiCall<ConversationsListArguments, WebAPICallResult>(this, 'conversations.list'),
-    mark: bindApiCall<ConversationsMarkArguments, WebAPICallResult>(this, 'conversations.mark'),
-    members: bindApiCall<ConversationsMembersArguments, WebAPICallResult>(this, 'conversations.members'),
-    open: bindApiCall<ConversationsOpenArguments, WebAPICallResult>(this, 'conversations.open'),
-    rename: bindApiCall<ConversationsRenameArguments, WebAPICallResult>(this, 'conversations.rename'),
-    replies: bindApiCall<ConversationsRepliesArguments, WebAPICallResult>(this, 'conversations.replies'),
+    archive: bindApiCall<ConversationsArchiveArguments, ConversationsArchiveResponse>(this, 'conversations.archive'),
+    close: bindApiCall<ConversationsCloseArguments, ConversationsCloseResponse>(this, 'conversations.close'),
+    create: bindApiCall<ConversationsCreateArguments, ConversationsCreateResponse>(this, 'conversations.create'),
+    history: bindApiCall<ConversationsHistoryArguments, ConversationsHistoryResponse>(this, 'conversations.history'),
+    info: bindApiCall<ConversationsInfoArguments, ConversationsInfoResponse>(this, 'conversations.info'),
+    invite: bindApiCall<ConversationsInviteArguments, ConversationsInviteResponse>(this, 'conversations.invite'),
+    join: bindApiCall<ConversationsJoinArguments, ConversationsJoinResponse>(this, 'conversations.join'),
+    kick: bindApiCall<ConversationsKickArguments, ConversationsKickResponse>(this, 'conversations.kick'),
+    leave: bindApiCall<ConversationsLeaveArguments, ConversationsLeaveResponse>(this, 'conversations.leave'),
+    list: bindApiCall<ConversationsListArguments, ConversationsListResponse>(this, 'conversations.list'),
+    mark: bindApiCall<ConversationsMarkArguments, ConversationsMarkResponse>(this, 'conversations.mark'),
+    members: bindApiCall<ConversationsMembersArguments, ConversationsMembersResponse>(this, 'conversations.members'),
+    open: bindApiCall<ConversationsOpenArguments, ConversationsOpenResponse>(this, 'conversations.open'),
+    rename: bindApiCall<ConversationsRenameArguments, ConversationsRenameResponse>(this, 'conversations.rename'),
+    replies: bindApiCall<ConversationsRepliesArguments, ConversationsRepliesResponse>(this, 'conversations.replies'),
     setPurpose:
-      bindApiCall<ConversationsSetPurposeArguments, WebAPICallResult>(this, 'conversations.setPurpose'),
-    setTopic: bindApiCall<ConversationsSetTopicArguments, WebAPICallResult>(this, 'conversations.setTopic'),
-    unarchive: bindApiCall<ConversationsUnarchiveArguments, WebAPICallResult>(this, 'conversations.unarchive'),
+      bindApiCall<ConversationsSetPurposeArguments, ConversationsSetPurposeResponse>(this, 'conversations.setPurpose'),
+    setTopic: bindApiCall<ConversationsSetTopicArguments, ConversationsSetTopicResponse>(
+      this, 'conversations.setTopic'),
+    unarchive: bindApiCall<ConversationsUnarchiveArguments, ConversationsUnarchiveResponse>(
+      this, 'conversations.unarchive'),
   };
 
   public readonly views = {
-    open: bindApiCall<ViewsOpenArguments, WebAPICallResult>(this, 'views.open'),
-    publish: bindApiCall<ViewsPublishArguments, WebAPICallResult>(this, 'views.publish'),
-    push: bindApiCall<ViewsPushArguments, WebAPICallResult>(this, 'views.push'),
-    update: bindApiCall<ViewsUpdateArguments, WebAPICallResult>(this, 'views.update'),
+    open: bindApiCall<ViewsOpenArguments, ViewsOpenResponse>(this, 'views.open'),
+    publish: bindApiCall<ViewsPublishArguments, ViewsPublishResponse>(this, 'views.publish'),
+    push: bindApiCall<ViewsPushArguments, ViewsPushResponse>(this, 'views.push'),
+    update: bindApiCall<ViewsUpdateArguments, ViewsUpdateResponse>(this, 'views.update'),
   };
 
   public readonly dialog = {
-    open: bindApiCall<DialogOpenArguments, WebAPICallResult>(this, 'dialog.open'),
+    open: bindApiCall<DialogOpenArguments, DialogOpenResponse>(this, 'dialog.open'),
   };
 
   public readonly dnd = {
-    endDnd: bindApiCall<DndEndDndArguments, WebAPICallResult>(this, 'dnd.endDnd'),
-    endSnooze: bindApiCall<DndEndSnoozeArguments, WebAPICallResult>(this, 'dnd.endSnooze'),
-    info: bindApiCall<DndInfoArguments, WebAPICallResult>(this, 'dnd.info'),
-    setSnooze: bindApiCall<DndSetSnoozeArguments, WebAPICallResult>(this, 'dnd.setSnooze'),
-    teamInfo: bindApiCall<DndTeamInfoArguments, WebAPICallResult>(this, 'dnd.teamInfo'),
+    endDnd: bindApiCall<DndEndDndArguments, DndEndDndResponse>(this, 'dnd.endDnd'),
+    endSnooze: bindApiCall<DndEndSnoozeArguments, DndEndSnoozeResponse>(this, 'dnd.endSnooze'),
+    info: bindApiCall<DndInfoArguments, DndInfoResponse>(this, 'dnd.info'),
+    setSnooze: bindApiCall<DndSetSnoozeArguments, DndSetSnoozeResponse>(this, 'dnd.setSnooze'),
+    teamInfo: bindApiCall<DndTeamInfoArguments, DndTeamInfoResponse>(this, 'dnd.teamInfo'),
   };
 
   public readonly emoji = {
-    list: bindApiCall<EmojiListArguments, WebAPICallResult>(this, 'emoji.list'),
+    list: bindApiCall<EmojiListArguments, EmojiListResponse>(this, 'emoji.list'),
   };
 
   public readonly files = {
-    delete: bindApiCall<FilesDeleteArguments, WebAPICallResult>(this, 'files.delete'),
-    info: bindApiCall<FilesInfoArguments, WebAPICallResult>(this, 'files.info'),
-    list: bindApiCall<FilesListArguments, WebAPICallResult>(this, 'files.list'),
+    delete: bindApiCall<FilesDeleteArguments, FilesDeleteResponse>(this, 'files.delete'),
+    info: bindApiCall<FilesInfoArguments, FilesInfoResponse>(this, 'files.info'),
+    list: bindApiCall<FilesListArguments, FilesListResponse>(this, 'files.list'),
     revokePublicURL:
-      bindApiCall<FilesRevokePublicURLArguments, WebAPICallResult>(this, 'files.revokePublicURL'),
+      bindApiCall<FilesRevokePublicURLArguments, FilesRevokePublicURLResponse>(this, 'files.revokePublicURL'),
     sharedPublicURL:
-      bindApiCall<FilesSharedPublicURLArguments, WebAPICallResult>(this, 'files.sharedPublicURL'),
-    upload: bindApiCall<FilesUploadArguments, WebAPICallResult>(this, 'files.upload'),
+      bindApiCall<FilesSharedPublicURLArguments, FilesSharedPublicURLResponse>(this, 'files.sharedPublicURL'),
+    upload: bindApiCall<FilesUploadArguments, FilesUploadResponse>(this, 'files.upload'),
     comments: {
-      delete: bindApiCall<FilesCommentsDeleteArguments, WebAPICallResult>(this, 'files.comments.delete'),
+      delete: bindApiCall<FilesCommentsDeleteArguments, FilesCommentsDeleteResponse>(this, 'files.comments.delete'),
     },
     remote: {
-      info: bindApiCall<FilesRemoteInfoArguments, WebAPICallResult>(this, 'files.remote.info'),
-      list: bindApiCall<FilesRemoteListArguments, WebAPICallResult>(this, 'files.remote.list'),
-      add: bindApiCall<FilesRemoteAddArguments, WebAPICallResult>(this, 'files.remote.add'),
-      update: bindApiCall<FilesRemoteUpdateArguments, WebAPICallResult>(this, 'files.remote.update'),
-      remove: bindApiCall<FilesRemoteRemoveArguments, WebAPICallResult>(this, 'files.remote.remove'),
-      share: bindApiCall<FilesRemoteShareArguments, WebAPICallResult>(this, 'files.remote.share'),
+      info: bindApiCall<FilesRemoteInfoArguments, FilesRemoteInfoResponse>(this, 'files.remote.info'),
+      list: bindApiCall<FilesRemoteListArguments, FilesRemoteListResponse>(this, 'files.remote.list'),
+      add: bindApiCall<FilesRemoteAddArguments, FilesRemoteAddResponse>(this, 'files.remote.add'),
+      update: bindApiCall<FilesRemoteUpdateArguments, FilesRemoteUpdateResponse>(this, 'files.remote.update'),
+      remove: bindApiCall<FilesRemoteRemoveArguments, FilesRemoteRemoveResponse>(this, 'files.remote.remove'),
+      share: bindApiCall<FilesRemoteShareArguments, FilesRemoteShareResponse>(this, 'files.remote.share'),
     },
   };
 
@@ -340,7 +538,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly migration = {
-    exchange: bindApiCall<MigrationExchangeArguments, WebAPICallResult>(this, 'migration.exchange'),
+    exchange: bindApiCall<MigrationExchangeArguments, MigrationExchangeResponse>(this, 'migration.exchange'),
   };
 
   public readonly mpim = {
@@ -353,92 +551,96 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly oauth = {
-    access: bindApiCall<OAuthAccessArguments, WebAPICallResult>(this, 'oauth.access'),
+    access: bindApiCall<OAuthAccessArguments, OauthAccessResponse>(this, 'oauth.access'),
     v2: {
-      access: bindApiCall<OAuthV2AccessArguments, WebAPICallResult>(this, 'oauth.v2.access'),
+      access: bindApiCall<OAuthV2AccessArguments, OauthV2AccessResponse>(this, 'oauth.v2.access'),
     },
   };
 
   public readonly pins = {
-    add: bindApiCall<PinsAddArguments, WebAPICallResult>(this, 'pins.add'),
-    list: bindApiCall<PinsListArguments, WebAPICallResult>(this, 'pins.list'),
-    remove: bindApiCall<PinsRemoveArguments, WebAPICallResult>(this, 'pins.remove'),
+    add: bindApiCall<PinsAddArguments, PinsAddResponse>(this, 'pins.add'),
+    list: bindApiCall<PinsListArguments, PinsListResponse>(this, 'pins.list'),
+    remove: bindApiCall<PinsRemoveArguments, PinsRemoveResponse>(this, 'pins.remove'),
   };
 
   public readonly reactions = {
-    add: bindApiCall<ReactionsAddArguments, WebAPICallResult>(this, 'reactions.add'),
-    get: bindApiCall<ReactionsGetArguments, WebAPICallResult>(this, 'reactions.get'),
-    list: bindApiCall<ReactionsListArguments, WebAPICallResult>(this, 'reactions.list'),
-    remove: bindApiCall<ReactionsRemoveArguments, WebAPICallResult>(this, 'reactions.remove'),
+    add: bindApiCall<ReactionsAddArguments, ReactionsAddResponse>(this, 'reactions.add'),
+    get: bindApiCall<ReactionsGetArguments, ReactionsGetResponse>(this, 'reactions.get'),
+    list: bindApiCall<ReactionsListArguments, ReactionsListResponse>(this, 'reactions.list'),
+    remove: bindApiCall<ReactionsRemoveArguments, ReactionsRemoveResponse>(this, 'reactions.remove'),
   };
 
   public readonly reminders = {
-    add: bindApiCall<RemindersAddArguments, WebAPICallResult>(this, 'reminders.add'),
-    complete: bindApiCall<RemindersCompleteArguments, WebAPICallResult>(this, 'reminders.complete'),
-    delete: bindApiCall<RemindersDeleteArguments, WebAPICallResult>(this, 'reminders.delete'),
-    info: bindApiCall<RemindersInfoArguments, WebAPICallResult>(this, 'reminders.info'),
-    list: bindApiCall<RemindersListArguments, WebAPICallResult>(this, 'reminders.list'),
+    add: bindApiCall<RemindersAddArguments, RemindersAddResponse>(this, 'reminders.add'),
+    complete: bindApiCall<RemindersCompleteArguments, RemindersCompleteResponse>(this, 'reminders.complete'),
+    delete: bindApiCall<RemindersDeleteArguments, RemindersDeleteResponse>(this, 'reminders.delete'),
+    info: bindApiCall<RemindersInfoArguments, RemindersInfoResponse>(this, 'reminders.info'),
+    list: bindApiCall<RemindersListArguments, RemindersListResponse>(this, 'reminders.list'),
   };
 
   public readonly rtm = {
-    connect: bindApiCall<RTMConnectArguments, WebAPICallResult>(this, 'rtm.connect'),
-    start: bindApiCall<RTMStartArguments, WebAPICallResult>(this, 'rtm.start'),
+    connect: bindApiCall<RTMConnectArguments, RtmConnectResponse>(this, 'rtm.connect'),
+    start: bindApiCall<RTMStartArguments, RtmStartResponse>(this, 'rtm.start'),
   };
 
   public readonly search = {
-    all: bindApiCall<SearchAllArguments, WebAPICallResult>(this, 'search.all'),
-    files: bindApiCall<SearchFilesArguments, WebAPICallResult>(this, 'search.files'),
-    messages: bindApiCall<SearchMessagesArguments, WebAPICallResult>(this, 'search.messages'),
+    all: bindApiCall<SearchAllArguments, SearchAllResponse>(this, 'search.all'),
+    files: bindApiCall<SearchFilesArguments, SearchFilesResponse>(this, 'search.files'),
+    messages: bindApiCall<SearchMessagesArguments, SearchMessagesResponse>(this, 'search.messages'),
   };
 
   public readonly stars = {
-    add: bindApiCall<StarsAddArguments, WebAPICallResult>(this, 'stars.add'),
-    list: bindApiCall<StarsListArguments, WebAPICallResult>(this, 'stars.list'),
-    remove: bindApiCall<StarsRemoveArguments, WebAPICallResult>(this, 'stars.remove'),
+    add: bindApiCall<StarsAddArguments, StarsAddResponse>(this, 'stars.add'),
+    list: bindApiCall<StarsListArguments, StarsListResponse>(this, 'stars.list'),
+    remove: bindApiCall<StarsRemoveArguments, StarsRemoveResponse>(this, 'stars.remove'),
   };
 
   public readonly team = {
-    accessLogs: bindApiCall<TeamAccessLogsArguments, WebAPICallResult>(this, 'team.accessLogs'),
-    billableInfo: bindApiCall<TeamBillableInfoArguments, WebAPICallResult>(this, 'team.billableInfo'),
-    info: bindApiCall<TeamInfoArguments, WebAPICallResult>(this, 'team.info'),
-    integrationLogs: bindApiCall<TeamIntegrationLogsArguments, WebAPICallResult>(this, 'team.integrationLogs'),
+    accessLogs: bindApiCall<TeamAccessLogsArguments, TeamAccessLogsResponse>(this, 'team.accessLogs'),
+    billableInfo: bindApiCall<TeamBillableInfoArguments, TeamBillableInfoResponse>(this, 'team.billableInfo'),
+    info: bindApiCall<TeamInfoArguments, TeamInfoResponse>(this, 'team.info'),
+    integrationLogs:
+      bindApiCall<TeamIntegrationLogsArguments, TeamIntegrationLogsResponse>(this, 'team.integrationLogs'),
     profile: {
-      get: bindApiCall<TeamProfileGetArguments, WebAPICallResult>(this, 'team.profile.get'),
+      get: bindApiCall<TeamProfileGetArguments, TeamProfileGetResponse>(this, 'team.profile.get'),
     },
   };
 
   public readonly usergroups = {
-    create: bindApiCall<UsergroupsCreateArguments, WebAPICallResult>(this, 'usergroups.create'),
-    disable: bindApiCall<UsergroupsDisableArguments, WebAPICallResult>(this, 'usergroups.disable'),
-    enable: bindApiCall<UsergroupsEnableArguments, WebAPICallResult>(this, 'usergroups.enable'),
-    list: bindApiCall<UsergroupsListArguments, WebAPICallResult>(this, 'usergroups.list'),
-    update: bindApiCall<UsergroupsUpdateArguments, WebAPICallResult>(this, 'usergroups.update'),
+    create: bindApiCall<UsergroupsCreateArguments, UsergroupsCreateResponse>(this, 'usergroups.create'),
+    disable: bindApiCall<UsergroupsDisableArguments, UsergroupsDisableResponse>(this, 'usergroups.disable'),
+    enable: bindApiCall<UsergroupsEnableArguments, UsergroupsEnableResponse>(this, 'usergroups.enable'),
+    list: bindApiCall<UsergroupsListArguments, UsergroupsListResponse>(this, 'usergroups.list'),
+    update: bindApiCall<UsergroupsUpdateArguments, UsergroupsUpdateResponse>(this, 'usergroups.update'),
     users: {
-      list: bindApiCall<UsergroupsUsersListArguments, WebAPICallResult>(this, 'usergroups.users.list'),
-      update: bindApiCall<UsergroupsUsersUpdateArguments, WebAPICallResult>(this, 'usergroups.users.update'),
+      list: bindApiCall<UsergroupsUsersListArguments, UsergroupsUsersListResponse>(
+        this, 'usergroups.users.list'),
+      update: bindApiCall<UsergroupsUsersUpdateArguments, UsergroupsUsersUpdateResponse>(
+        this, 'usergroups.users.update'),
     },
   };
 
   public readonly users = {
-    conversations: bindApiCall<UsersConversationsArguments, WebAPICallResult>(this, 'users.conversations'),
-    deletePhoto: bindApiCall<UsersDeletePhotoArguments, WebAPICallResult>(this, 'users.deletePhoto'),
-    getPresence: bindApiCall<UsersGetPresenceArguments, WebAPICallResult>(this, 'users.getPresence'),
-    identity: bindApiCall<UsersIdentityArguments, WebAPICallResult>(this, 'users.identity'),
-    info: bindApiCall<UsersInfoArguments, WebAPICallResult>(this, 'users.info'),
-    list: bindApiCall<UsersListArguments, WebAPICallResult>(this, 'users.list'),
-    lookupByEmail: bindApiCall<UsersLookupByEmailArguments, WebAPICallResult>(this, 'users.lookupByEmail'),
-    setPhoto: bindApiCall<UsersSetPhotoArguments, WebAPICallResult>(this, 'users.setPhoto'),
-    setPresence: bindApiCall<UsersSetPresenceArguments, WebAPICallResult>(this, 'users.setPresence'),
+    conversations: bindApiCall<UsersConversationsArguments, UsersConversationsResponse>(this, 'users.conversations'),
+    deletePhoto: bindApiCall<UsersDeletePhotoArguments, UsersDeletePhotoResponse>(this, 'users.deletePhoto'),
+    getPresence: bindApiCall<UsersGetPresenceArguments, UsersGetPresenceResponse>(this, 'users.getPresence'),
+    identity: bindApiCall<UsersIdentityArguments, UsersIdentityResponse>(this, 'users.identity'),
+    info: bindApiCall<UsersInfoArguments, UsersInfoResponse>(this, 'users.info'),
+    list: bindApiCall<UsersListArguments, UsersListResponse>(this, 'users.list'),
+    lookupByEmail: bindApiCall<UsersLookupByEmailArguments, UsersLookupByEmailResponse>(this, 'users.lookupByEmail'),
+    setPhoto: bindApiCall<UsersSetPhotoArguments, UsersSetPhotoResponse>(this, 'users.setPhoto'),
+    setPresence: bindApiCall<UsersSetPresenceArguments, UsersSetPresenceResponse>(this, 'users.setPresence'),
     profile: {
-      get: bindApiCall<UsersProfileGetArguments, WebAPICallResult>(this, 'users.profile.get'),
-      set: bindApiCall<UsersProfileSetArguments, WebAPICallResult>(this, 'users.profile.set'),
+      get: bindApiCall<UsersProfileGetArguments, UsersProfileGetResponse>(this, 'users.profile.get'),
+      set: bindApiCall<UsersProfileSetArguments, UsersProfileSetResponse>(this, 'users.profile.set'),
     },
   };
 
   public readonly workflows = {
-    stepCompleted: bindApiCall<WorkflowsStepCompletedArguments, WebAPICallResult>(this, 'workflows.stepCompleted'),
-    stepFailed: bindApiCall<WorkflowsStepFailedArguments, WebAPICallResult>(this, 'workflows.stepFailed'),
-    updateStep: bindApiCall<WorkflowsUpdateStepArguments, WebAPICallResult>(this, 'workflows.updateStep'),
+    stepCompleted: bindApiCall<WorkflowsStepCompletedArguments, WorkflowsStepCompletedResponse>(
+      this, 'workflows.stepCompleted'),
+    stepFailed: bindApiCall<WorkflowsStepFailedArguments, WorkflowsStepFailedResponse>(this, 'workflows.stepFailed'),
+    updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
   };
 }
 
