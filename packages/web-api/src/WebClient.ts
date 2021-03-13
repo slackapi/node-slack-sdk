@@ -616,7 +616,7 @@ function warnDeprecations(method: string, logger: Logger): void {
 }
 
 /**
- * Log a warning when using chat.postMessage without text argument
+ * Log a warning when using chat.postMessage without text argument or attachments with fallback argument
  * @param method api method being called
  * @param logger instance of we clients logger
  */
@@ -624,15 +624,24 @@ function warnMissingTextArgument(method: string, logger: Logger, options?: WebAP
   const methodsWithOptionalText = ['chat.postEphemeral', 'chat.postMessage', 'chat.scheduleMessage', 'chat.update'];
   const isNeededToCheckMethod = methodsWithOptionalText.includes(method);
 
+  const isNoFallbackAttachments = (args: WebAPICallOptions) =>
+    Array.isArray(args.attachments)
+    && args.attachments.some(attachment => !attachment.fallback || attachment.fallback.trim() === 0);
+
   const isEmptyText = (args: WebAPICallOptions) =>
     args.text === undefined || args.text === null || args.text === '';
 
+  const buildWarningMessage = (missing: string) =>
+      `The \`${missing}\` argument is missing in the request payload for a ${method} call - ` +
+      `It's a best practice to always provide a \`${missing}\` argument when posting a message. ` +
+      `The \`${missing}\` is used in places where \`blocks\` cannot be rendered such as: ` +
+      'system push notifications, assistive technology such as screen readers, etc.';
+
   if (isNeededToCheckMethod && typeof options === 'object' && isEmptyText(options)) {
-    logger.warn(
-      `The \`text\` argument is missing in the request payload for a ${method} call - ` +
-      "It's a best practice to always provide a text argument when posting a message. " +
-      'The `text` is used in places where `blocks` cannot be rendered such as: ' +
-      'system push notifications, assistive technology such as screen readers, etc.',
-    );
+    if (isNoFallbackAttachments(options)) {
+      logger.warn(buildWarningMessage('fallback'));
+    } else {
+      logger.warn(buildWarningMessage('text'));
+    }
   }
 }

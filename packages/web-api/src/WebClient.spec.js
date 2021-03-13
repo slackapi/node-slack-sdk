@@ -113,7 +113,7 @@ describe('WebClient', function () {
             response_metadata: {
               warnings: ['testWarning1', 'testWarning2'],
               messages: [
-                "[ERROR] unsupported type: sections [json-pointer:/blocks/0/type]", 
+                "[ERROR] unsupported type: sections [json-pointer:/blocks/0/type]",
                 "[WARN] A Content-Type HTTP header was presented but did not declare a charset, such as a 'utf-8'"
               ]
             }
@@ -164,7 +164,9 @@ describe('WebClient', function () {
         { method: 'chat.postEphemeral', args: { channel: "C123", blocks: [] } },
         { method: 'chat.postMessage', args: { channel: "C123", blocks: [] } },
         { method: 'chat.scheduleMessage', args: { channel: "C123", post_at: "100000000", blocks: [] } },
-        { method: 'chat.update', args: { channel: "C123", ts: "123.456", blocks: [] } }
+        { method: 'chat.update', args: { channel: "C123", ts: "123.456", blocks: [] } },
+        { method: 'chat.postMessage', args: { channel: "C123", attachments: [{ blocks: [] }] } },
+        { method: 'chat.postMessage', args: { channel: "C123", attachments: [{ blocks: [], fallback: "  " }] } },
       ];
 
       warningTestPatterns.reduce((acc, { method, args }) => {
