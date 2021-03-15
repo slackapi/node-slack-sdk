@@ -87,7 +87,7 @@ export interface Confirm {
  * Action Types
  */
 
-// Selects and Multiselects are available in different surface areas so I've seperated them here
+// Selects and Multiselects are available in different surface areas so I've separated them here
 export type Select = UsersSelect | StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect;
 
 export type MultiSelect =

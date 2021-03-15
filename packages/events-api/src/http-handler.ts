@@ -51,7 +51,7 @@ export function createHTTPHandler(adapter: SlackEventAdapter): HTTPHandler {
    * Binds a response handler to the given response.
    *
    * @param res - The response object.
-   * @returns The responder funciton bound to the input response.
+   * @returns The responder function bound to the input response.
    */
   function sendResponse(res: ServerResponse): ResponseHandler {
     // This function is the completion handler for sending a response to an event. It can either
@@ -133,7 +133,7 @@ export function createHTTPHandler(adapter: SlackEventAdapter): HTTPHandler {
    * @param res - The outgoing response.
    */
   return (req, res) => {
-    debug('request recieved - method: %s, path: %s', req.method, req.url);
+    debug('request received - method: %s, path: %s', req.method, req.url);
 
     // Bind a response function to this request's respond object.
     const respond = sendResponse(res);
