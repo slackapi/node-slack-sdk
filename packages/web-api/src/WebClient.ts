@@ -454,7 +454,7 @@ export class WebClient extends Methods {
   }
 
   /**
-   * Processes an HTTP response into a WebAPICallResult by performing JSON parsing on the body and merging relevent
+   * Processes an HTTP response into a WebAPICallResult by performing JSON parsing on the body and merging relevant
    * HTTP headers into the object.
    * @param response - an http response
    */

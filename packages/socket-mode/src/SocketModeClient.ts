@@ -133,7 +133,7 @@ export class SocketModeClient extends EventEmitter {
           .initialState('ready')
             .onEnter(() => {
               if (this.badConnection) {
-                // arrived here because `server ping timeout` ocurred and a new connection was created
+                // arrived here because `server ping timeout` occurred and a new connection was created
                 // tear down old connection
                 this.teardownWebsocket();
                 this.badConnection = false;
@@ -332,7 +332,7 @@ export class SocketModeClient extends EventEmitter {
     super();
 
     if (appToken === undefined) {
-      throw new Error('Must provide an App Level Token when initalizing a Socket Mode Client');
+      throw new Error('Must provide an App Level Token when initializing a Socket Mode Client');
     }
 
     this.clientPingTimeout = clientPingTimeout;
