@@ -1,9 +1,10 @@
 import { expectType } from 'tsd';
-import { WebClient, WebAPICallResult } from '../../';
+import { WebClient } from '../../';
+import { OauthAccessResponse } from '../../src/response/OauthAccessResponse';
 
 const web = new WebClient();
 
-expectType<Promise<WebAPICallResult>>(web.oauth.access({
+expectType<Promise<OauthAccessResponse>>(web.oauth.access({
   client_id: 'CLIENT_ID',
   client_secret: 'CLIENT_SECRET',
   code: 'CODE',

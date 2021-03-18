@@ -1,0 +1,12 @@
+{
+  "name": "web-api-response-generator",
+  "version": "0.1",
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "quicktype": "^15.0.260"
+  }
+}
