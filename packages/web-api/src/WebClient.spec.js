@@ -113,7 +113,7 @@ describe('WebClient', function () {
             response_metadata: {
               warnings: ['testWarning1', 'testWarning2'],
               messages: [
-                "[ERROR] unsupported type: sections [json-pointer:/blocks/0/type]", 
+                "[ERROR] unsupported type: sections [json-pointer:/blocks/0/type]",
                 "[WARN] A Content-Type HTTP header was presented but did not declare a charset, such as a 'utf-8'"
               ]
             }
@@ -158,6 +158,59 @@ describe('WebClient', function () {
           .then(() => {
             assert.isTrue(logger.error.calledOnce);
           });
+      });
+
+      const warningTestPatterns = [
+        { method: 'chat.postEphemeral', args: { channel: "C123", blocks: [] } },
+        { method: 'chat.postMessage', args: { channel: "C123", blocks: [] } },
+        { method: 'chat.scheduleMessage', args: { channel: "C123", post_at: "100000000", blocks: [] } },
+        { method: 'chat.update', args: { channel: "C123", ts: "123.456", blocks: [] } },
+        { method: 'chat.postMessage', args: { channel: "C123", attachments: [{ blocks: [] }] } },
+        { method: 'chat.postMessage', args: { channel: "C123", attachments: [{ blocks: [], fallback: "  " }] } },
+      ];
+
+      warningTestPatterns.reduce((acc, { method, args }) => {
+        const textPatterns = [{ text: "text" }]
+          .map(v => ({ method, args: Object.assign({}, v, args) }))
+        return acc.concat(textPatterns)
+      }, []).forEach(({ method, args }) => {
+        it(`should not send warning to logs when client executes ${method} with text argument`, function () {
+          const logger = {
+            debug: sinon.spy(),
+            info: sinon.spy(),
+            warn: sinon.spy(),
+            error: sinon.spy(),
+            setLevel: sinon.spy(),
+            setName: sinon.spy(),
+          };
+          const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
+          return warnClient.apiCall(method, args)
+            .then(() => {
+              assert.isTrue(logger.warn.calledThrice);
+            });
+        });
+      });
+
+      warningTestPatterns.reduce((acc, { method, args }) => {
+        const textPatterns = [{ text: "" }, { text: null }, {}]
+          .map(v => ({ method, args: Object.assign({}, v, args) }))
+        return acc.concat(textPatterns)
+      }, []).forEach(({ method, args }) => {
+        it(`should send warning to logs when client executes ${method} without text argument(${args.text === "" ? "empty" : args.text})`, function () {
+          const logger = {
+            debug: sinon.spy(),
+            info: sinon.spy(),
+            warn: sinon.spy(),
+            error: sinon.spy(),
+            setLevel: sinon.spy(),
+            setName: sinon.spy(),
+          };
+          const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
+          return warnClient.apiCall(method, args)
+            .then(() => {
+              assert.isTrue(logger.warn.callCount === 4)
+            });
+        });
       });
     });
 

@@ -155,6 +155,7 @@ export class WebClient extends Methods {
     this.logger.debug(`apiCall('${method}') start`);
 
     warnDeprecations(method, this.logger);
+    warnIfFallbackIsMissing(method, this.logger, options);
 
     if (typeof options === 'string' || typeof options === 'number' || typeof options === 'boolean') {
       throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
@@ -611,5 +612,36 @@ function warnDeprecations(method: string, logger: Logger): void {
     logger.warn(`${method} is deprecated. Please use the Conversations API instead. For more info, go to https://api.slack.com/changelog/2020-01-deprecating-antecedents-to-the-conversations-api`);
   } else if (isDeprecated) {
     logger.warn(`${method} is deprecated. Please check on https://api.slack.com/methods for an alternative.`);
+  }
+}
+
+/**
+ * Log a warning when using chat.postMessage without text argument or attachments with fallback argument
+ * @param method api method being called
+ * @param logger instance of we clients logger
+ */
+function warnIfFallbackIsMissing(method: string, logger: Logger, options?: WebAPICallOptions): void {
+  const targetMethods = ['chat.postEphemeral', 'chat.postMessage', 'chat.scheduleMessage', 'chat.update'];
+  const isTargetMethod = targetMethods.includes(method);
+
+  const missingAttachmentFallbackDetected = (args: WebAPICallOptions) =>
+    Array.isArray(args.attachments)
+    && args.attachments.some(attachment => !attachment.fallback || attachment.fallback.trim() === 0);
+
+  const isEmptyText = (args: WebAPICallOptions) =>
+    args.text === undefined || args.text === null || args.text === '';
+
+  const buildWarningMessage = (missing: string) =>
+      `The \`${missing}\` argument is missing in the request payload for a ${method} call - ` +
+      `It's a best practice to always provide a \`${missing}\` argument when posting a message. ` +
+      `The \`${missing}\` is used in places where the content cannot be rendered such as: ` +
+      'system push notifications, assistive technology such as screen readers, etc.';
+
+  if (isTargetMethod && typeof options === 'object' && isEmptyText(options)) {
+    if (missingAttachmentFallbackDetected(options)) {
+      logger.warn(buildWarningMessage('fallback'));
+    } else {
+      logger.warn(buildWarningMessage('text'));
+    }
   }
 }
