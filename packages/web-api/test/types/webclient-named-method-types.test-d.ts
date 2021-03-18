@@ -1,8 +1,12 @@
 import { expectType, expectError } from 'tsd';
-import { WebClient } from '../../';
+import { WebClient, WebAPICallResult } from '../../';
 import { ChatPostMessageResponse } from '../../src/response/ChatPostMessageResponse';
 
 const web = new WebClient('TOKEN');
+
+const chatPostMesssageResult: ChatPostMessageResponse = { ok: true };
+const result: WebAPICallResult = chatPostMesssageResult;
+expectType<WebAPICallResult>(result);
 
 // calling a method directly with arbitrary arguments should work
 expectType<Promise<ChatPostMessageResponse>>(web.chat.postMessage({
@@ -10,7 +14,7 @@ expectType<Promise<ChatPostMessageResponse>>(web.chat.postMessage({
   text: 'TEXT',
   key: 'VALUE',
 }));
-expectType<Promise<WebAPICallResult>>(web.chat.postMessage({
+expectType<Promise<ChatPostMessageResponse>>(web.chat.postMessage({
   channel: 'CHANNEL',
   blocks: [
     {
