@@ -35,7 +35,7 @@ Now our app has described which scope it desires in the workspace, but we haven'
 Go ahead and click "Allow". This will install the app on the workspace and generate the token we'll need.
 
 When you return to the **OAuth & Permissions** page copy the **Bot User OAuth Access Token** (it should begin with `xoxb`). Treat
-this value like a password and keep it safe. The Web API uses tokens to to authenticate the requests your app makes. In
+this value like a password and keep it safe. The Web API uses tokens to authenticate the requests your app makes. In
 a later step, you'll be asked to use this token in your code.
 
 ## Set up your local project

@@ -661,7 +661,7 @@ configures the client to use the [`rtm.start`](https://api.slack.com/methods/rtm
 const { RTMClient } = require('@slack/rtm-api');
 const token = process.env.SLACK_BOT_TOKEN;
 
-// Initialize a client to recieve a snapshot of the workspace state
+// Initialize a client to receive a snapshot of the workspace state
 const rtm = new RTMClient(token, { useRtmConnect: false });
 
 // Listen for the authenticated event to capture the snapshot
