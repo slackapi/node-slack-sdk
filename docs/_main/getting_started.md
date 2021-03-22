@@ -30,12 +30,12 @@ amount of privilege for your app's needs. In this guide we will use the Web API 
 for this is called [`chat:write`](https://api.slack.com/scopes/chat:write). Use the dropdown under the "Bot Token Scopes" header and add the scope, then click
 "Save Changes".
 
-Now our app has described which scope it desires in the workspace, but we haven't added it to your workspace yet. To install your app, scroll up to the top of the page and click the green **Install App to Workspace** button. You'll be taken to the app installation page. This page is where you grant the bot user permission to install the app in your development workspace with specific capabilities.
+Now our app has described which scope it desires in the workspace, but we haven't added it to your workspace yet. To install your app, scroll up to the top of the page and click the **Install to Workspace** button. You'll be taken to the app installation page. This page is where you grant the bot user permission to install the app in your development workspace with specific capabilities.
 
 Go ahead and click "Allow". This will install the app on the workspace and generate the token we'll need.
 
 When you return to the **OAuth & Permissions** page copy the **Bot User OAuth Access Token** (it should begin with `xoxb`). Treat
-this value like a password and keep it safe. The Web API uses tokens to to authenticate the requests your app makes. In
+this value like a password and keep it safe. The Web API uses tokens to authenticate the requests your app makes. In
 a later step, you'll be asked to use this token in your code.
 
 ## Set up your local project

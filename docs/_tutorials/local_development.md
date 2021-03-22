@@ -8,7 +8,7 @@ slug: local_development
 
 This tutorial is meant to guide developers through setting up and configuring a Slack app for local development.
 
-Feel free to skip around to the specfic sections relevant to you — we won't mind 🙂
+Feel free to skip around to the specific sections relevant to you — we won't mind 🙂
 
 - [Create an app](#create-an-app)
 - [Tokens and installing apps](#tokens-and-installing-apps)
