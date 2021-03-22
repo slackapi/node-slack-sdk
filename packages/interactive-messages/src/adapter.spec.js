@@ -520,7 +520,8 @@ describe('SlackMessageAdapter', function () {
     beforeEach(function () {
       this.adapter = new SlackMessageAdapter(workingSigningSecret, {
         // using a short timeout to make tests finish faster
-        syncResponseTimeout: 50
+        // https://github.com/slackapi/node-slack-sdk/issues/1165
+        syncResponseTimeout: 200
       });
     });
 
