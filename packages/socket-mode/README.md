@@ -49,7 +49,7 @@ After your client establishes a connection, your app can send data to and receiv
 const { SocketModeClient } = require('@slack/socket-mode');
 const appToken = process.env.SLACK_APP_TOKEN;
 
-const socketModeClient = new SocketModeClient(appToken);
+const socketModeClient = new SocketModeClient({appToken});
 
 (async () => {
   // Connect to Slack
@@ -72,7 +72,7 @@ event](https://api.slack.com/events) it's registered for.
 const { SocketModeClient } = require('@slack/socket-mode');
 const appToken = process.env.SLACK_APP_TOKEN;
 
-const socketModeClient = new SocketModeClient(appToken);
+const socketModeClient = new SocketModeClient({appToken});
 
 // Attach listeners to events by type. See: https://api.slack.com/events/message
 socketModeClient.on('message', (event) => {
@@ -127,6 +127,10 @@ socketModeClient.on('member_joined_channel', async ({event, body, ack}) => {
       console.log('An error occurred', error);
     }
   });
+  
+(async () => {
+  await socketModeClient.start();
+})();
 ```
 ---
 
@@ -200,7 +204,8 @@ A very simple custom logger might ignore the name and level, and write all messa
 const { createWriteStream } = require('fs');
 const logWritable = createWriteStream('/var/my_log_file'); // Not shown: close this stream
 
-const socketModeClient = new SocketModeClient(appToken, {
+const socketModeClient = new SocketModeClient({
+  appToken,
   // Creating a logger as a literal object. It's more likely that you'd create a class.
   logger: {
     debug(...msgs): { logWritable.write('debug: ' + JSON.stringify(msgs)); },
