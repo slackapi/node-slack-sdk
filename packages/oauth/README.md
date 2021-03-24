@@ -1,10 +1,5 @@
 # Slack OAuth
 
-[![build-ci](https://github.com/slackapi/node-slack-sdk/workflows/CI%20Build/badge.svg)](https://github.com/slackapi/node-slack-sdk/actions?query=workflow%3A%22CI+Build%22)
-<!-- TODO: per-flag badge https://docs.codecov.io/docs/flags#section-flag-badges-and-graphs -->
-[![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-sdk)
-<!-- TODO: npm versions with scoped packages: https://github.com/rvagg/nodei.co/issues/24 -->
-
 The `@slack/oauth` package makes it simple to setup the OAuth flow for Slack apps. It supports [V2 OAuth](https://api.slack.com/authentication/oauth-v2) for Slack Apps as well as [V1 OAuth](https://api.slack.com/docs/oauth) for [Classic Slack apps](https://api.slack.com/authentication/quickstart). Slack apps that are installed in multiple workspaces, like in the App Directory or in an Enterprise Grid, will need to implement OAuth and store information about each of those installations (such as access tokens). 
 
 The package handles URL generation, state verification, and authorization code exchange for access tokens. It also provides an interface for easily plugging in your own database for saving and retrieving installation data.
