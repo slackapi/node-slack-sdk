@@ -1153,7 +1153,7 @@ export interface ChatMeMessageArguments extends WebAPICallOptions, TokenOverrida
 }
 export interface ChatPostEphemeralArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-  text: string;
+  text?: string;
   user: string;
   as_user?: boolean;
   attachments?: MessageAttachment[];
@@ -1180,7 +1180,7 @@ export interface ChatPostMessageArguments extends WebAPICallOptions, TokenOverri
 }
 export interface ChatScheduleMessageArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-  text: string;
+  text?: string;
   post_at: string;
   as_user?: boolean;
   attachments?: MessageAttachment[];
