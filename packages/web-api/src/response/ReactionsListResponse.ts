@@ -39,6 +39,7 @@ export interface Message {
   subtype?:           string;
   username?:          string;
   parent_user_id?:    string;
+  is_locked?:         boolean;
 }
 
 export interface Block {
