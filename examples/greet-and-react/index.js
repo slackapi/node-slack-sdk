@@ -1,4 +1,4 @@
-// Load environment variables from `.env` file (optional)
+// Load environment variables from `.env` file.
 require('dotenv').config();
 
 const { createEventAdapter } = require('@slack/events-api');
@@ -9,10 +9,15 @@ const SlackStrategy = require('@aoberoi/passport-slack').default.Strategy;
 const http = require('http');
 const express = require('express');
 
+let slackEvents;
 // *** Initialize event adapter using signing secret from environment variables ***
-const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET, {
-  includeBody: true
-});
+try {
+  slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET, {
+    includeBody: true
+  });
+} catch (error) {
+  return logConfigurationError(['SLACK_SIGNING_SECRET']);
+}
 
 // Initialize a Local Storage object to store authorization info
 // NOTE: This is an insecure method and thus for demo purposes only!
@@ -34,14 +39,20 @@ function getClientByTeamId(teamId) {
 }
 
 // Initialize Add to Slack (OAuth) helpers
-passport.use(new SlackStrategy({
-  clientID: process.env.SLACK_CLIENT_ID,
-  clientSecret: process.env.SLACK_CLIENT_SECRET,
-  skipUserProfile: true,
-}, (accessToken, scopes, team, extra, profiles, done) => {
-  botAuthorizationStorage.setItem(team.id, extra.bot.accessToken);
-  done(null, {});
-}));
+let strategy;
+try {
+  strategy = new SlackStrategy({
+    clientID: process.env.SLACK_CLIENT_ID,
+    clientSecret: process.env.SLACK_CLIENT_SECRET,
+    skipUserProfile: true,
+  }, (accessToken, scopes, team, extra, profiles, done) => {
+    botAuthorizationStorage.setItem(team.id, extra.bot.accessToken);
+    done(null, {});
+  });
+} catch (error) {
+  return logConfigurationError(['SLACK_CLIENT_ID', 'SLACK_CLIENT_SECRET']);
+}
+passport.use(strategy);
 
 // Initialize an Express application
 const app = express();
@@ -127,3 +138,14 @@ const port = process.env.PORT || 3000;
 http.createServer(app).listen(port, () => {
   console.log(`server listening on port ${port}`);
 });
+
+/**
+ * Logs a configuration error to console with given missing variable names.
+ * @param {Array} envVarNames
+ */
+function logConfigurationError(envVarNames) {
+  const description = envVarNames.length > 1 ?
+    `${envVarNames.join(', ')} environment variables` :
+    `${envVarNames[0]} environment variable`;
+  console.log(`***\nCould not start up the application. Have you set your ${description}?\n\nSee https://github.com/slackapi/node-slack-sdk/blob/master/examples/greet-and-react/README.md#run-locally-or-\n`);
+}
