@@ -203,7 +203,7 @@ has this concept built in, and in newer versions of the language there's syntax 
       break;
     }
   }
-});
+})();
 ```
 
 The `for await...of` syntax is available in Node v10.0.0 and above. If you're using an older version of Node, see
@@ -232,7 +232,7 @@ time it gets called, the `accumulator` is undefined.
     // The accumulator is initialized to undefined.
     (accumulator, page, index) => { /* ... */ },
   );
-});
+})();
 ```
 
 The returned value is a `Promise`, but what it resolves to depends on whether or not you include the fourth (optional)
