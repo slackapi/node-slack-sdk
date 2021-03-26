@@ -25,6 +25,7 @@ export interface Message {
   reply_users?:       string[];
   subscribed?:        boolean;
   parent_user_id?:    string;
+  is_locked?:         boolean;
 }
 
 export interface BotProfile {

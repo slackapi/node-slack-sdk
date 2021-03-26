@@ -135,6 +135,7 @@ export interface Message {
   files?:             FileElement[];
   upload?:            boolean;
   display_as_bot?:    boolean;
+  is_locked?:         boolean;
 }
 
 export interface Attachment {

@@ -179,6 +179,9 @@ import { UsersProfileSetResponse } from './response/UsersProfileSetResponse';
 import { WorkflowsStepCompletedResponse } from './response/WorkflowsStepCompletedResponse';
 import { WorkflowsStepFailedResponse } from './response/WorkflowsStepFailedResponse';
 import { WorkflowsUpdateStepResponse } from './response/WorkflowsUpdateStepResponse';
+import { AdminUsersSessionGetSettingsResponse } from './response/AdminUsersSessionGetSettingsResponse';
+import { AdminUsersSessionSetSettingsResponse } from './response/AdminUsersSessionSetSettingsResponse';
+import { AdminUsersSessionClearSettingsResponse } from './response/AdminUsersSessionClearSettingsResponse';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
 
@@ -351,6 +354,12 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         reset: bindApiCall<AdminUsersSessionResetArguments, AdminUsersSessionResetResponse>(this, 'admin.users.session.reset'),
         invalidate: bindApiCall<AdminUsersSessionInvalidateArguments, AdminUsersSessionInvalidateResponse>(
           this, 'admin.users.session.invalidate'),
+        getSettings: bindApiCall<AdminUsersSessionGetSettingsArguments, AdminUsersSessionGetSettingsResponse>(
+          this, 'admin.users.session.getSettings'),
+        setSettings: bindApiCall<AdminUsersSessionSetSettingsArguments, AdminUsersSessionSetSettingsResponse>(
+          this, 'admin.users.session.setSettings'),
+        clearSettings: bindApiCall<AdminUsersSessionClearSettingsArguments, AdminUsersSessionClearSettingsResponse>(
+          this, 'admin.users.session.clearSettings'),
       },
       setAdmin: bindApiCall<AdminUsersSetAdminArguments, AdminUsersSetAdminResponse>(this, 'admin.users.setAdmin'),
       setExpiration:
@@ -978,6 +987,17 @@ export interface AdminUsersSessionResetArguments extends WebAPICallOptions, Toke
 export interface AdminUsersSessionInvalidateArguments extends WebAPICallOptions, TokenOverridable {
   session_id: string;
   team_id: string;
+}
+export interface AdminUsersSessionGetSettingsArguments extends WebAPICallOptions, TokenOverridable {
+  user_ids: string[];
+}
+export interface AdminUsersSessionSetSettingsArguments extends WebAPICallOptions, TokenOverridable {
+  user_ids: string[];
+  desktop_app_browser_quit?: boolean;
+  duration?: number;
+}
+export interface AdminUsersSessionClearSettingsArguments extends WebAPICallOptions, TokenOverridable {
+  user_ids: string[];
 }
 
 /*
