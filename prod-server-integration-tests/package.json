@@ -1,0 +1,19 @@
+{
+  "name": "@slack/web-api-code-snippets",
+  "description": "Basic examples of using @slack/web-api package",
+  "scripts": {
+    "test": "mocha --timeout 10000",
+    "test:clean": "./link.sh && mocha --timeout 10000"
+  },
+  "repository": "https://github.com/slackapi/node-slack-sdk",
+  "author": "Slack Technologies, Inc.",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^4",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2"
+  }
+}
