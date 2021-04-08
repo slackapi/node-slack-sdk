@@ -21,7 +21,7 @@ and to allow lerna to link them to each other.
 
 ### Testing
 
-This project has tests for individual packages inside of each's respective `test` directory. It also has
+This project has tests for individual packages as `*.spec.js` files and inside of each's respective `test` directory. It also has
 integration tests in the `integration-tests` directory under the root `support` directory. You can run the entire test
 suite using the npm script `npm test` at the top level. This script will use Lerna to invoke tests in each package and
 the integration tests.
@@ -39,6 +39,8 @@ ensures that backwards compatibility is tested and the APIs look reasonable in v
 the most modern syntax.
 
 We have included `launch.json` files that store configuration for `vscode` debugging in each pacakge. This allows you to set breakpoints in test files and interactively debug. Open the project in `vscode` and navigate to the debug screen on the left sidebar. The icon for it looks like a little lock bug with an x inside. At the top in `vscode`, select the configuration to run and press the green play icon to start debugging. Alternatively, on mac, you can press `cmd + shift + d` to get to the debug screen and `F5` to start debugging. If you are using `vscode` debugging, don't forget to lint the source (`npm run lint`) manually.
+
+Also, for verifying the behavior with the real Slack server-side and developer experience with installed packages, you can run the tests amd scripts under `prod-server-integration-tests`. Refer to the README file in the directory for details. These tests are supposed to be run in the project maintainers' manual execution. They are not part of CI builds for now.
 
 ### Generating Documentation
 
