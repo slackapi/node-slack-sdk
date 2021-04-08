@@ -11,6 +11,7 @@ export type AdminUsersListResponse = WebAPICallResult & {
 
 export interface ResponseMetadata {
   next_cursor?: string;
+  messages?:    string[];
 }
 
 export interface User {
