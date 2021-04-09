@@ -40,6 +40,7 @@ export interface Message {
   username?:          string;
   parent_user_id?:    string;
   is_locked?:         boolean;
+  inviter?:           string;
 }
 
 export interface Block {
