@@ -323,7 +323,7 @@ export class SocketModeClient extends EventEmitter {
 
   constructor({
     logger = undefined,
-    logLevel = LogLevel.INFO,
+    logLevel = undefined,
     autoReconnectEnabled = true,
     clientPingTimeout = 30000,
     appToken = undefined,
@@ -344,12 +344,13 @@ export class SocketModeClient extends EventEmitter {
         this.logger.debug('The logLevel given to Socket Mode was ignored as you also gave logger');
       }
     } else {
-      this.logger = getLogger(SocketModeClient.loggerName, logLevel, logger);
+      this.logger = getLogger(SocketModeClient.loggerName, logLevel ?? LogLevel.INFO, logger);
     }
 
     this.clientOptions = clientOptions;
 
     this.webClient = new WebClient('', {
+      logger,
       logLevel: this.logger.getLevel(),
       headers: { Authorization: `Bearer ${appToken}` },
       ...clientOptions,

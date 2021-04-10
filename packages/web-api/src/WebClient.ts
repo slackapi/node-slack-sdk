@@ -89,7 +89,7 @@ export class WebClient extends Methods {
   constructor(token?: string, {
     slackApiUrl = 'https://slack.com/api/',
     logger = undefined,
-    logLevel = LogLevel.INFO,
+    logLevel = undefined,
     maxRequestConcurrency = 3,
     retryConfig = retryPolicies.tenRetriesInAboutThirtyMinutes,
     agent = undefined,
@@ -117,7 +117,7 @@ export class WebClient extends Methods {
         this.logger.debug('The logLevel given to WebClient was ignored as you also gave logger');
       }
     } else {
-      this.logger = getLogger(WebClient.loggerName, logLevel, logger);
+      this.logger = getLogger(WebClient.loggerName, logLevel ?? LogLevel.INFO, logger);
     }
 
     this.axios = axios.create({

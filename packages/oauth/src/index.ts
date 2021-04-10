@@ -41,7 +41,7 @@ export class InstallProvider {
     installationStore = new MemoryInstallationStore(),
     authVersion = 'v2',
     logger = undefined,
-    logLevel = LogLevel.INFO,
+    logLevel = undefined,
     clientOptions = {},
     authorizationUrl = 'https://slack.com/oauth/v2/authorize',
   }: InstallProviderOptions) {
@@ -57,7 +57,7 @@ export class InstallProvider {
         this.logger.debug('The logLevel given to OAuth was ignored as you also gave logger');
       }
     } else {
-      this.logger = getLogger('OAuth:InstallProvider', logLevel, logger);
+      this.logger = getLogger('OAuth:InstallProvider', logLevel ?? LogLevel.INFO, logger);
     }
 
     // Setup stateStore
@@ -84,6 +84,7 @@ export class InstallProvider {
     }
 
     this.clientOptions = {
+      logger,
       logLevel: this.logger.getLevel(),
       ...clientOptions,
     };
