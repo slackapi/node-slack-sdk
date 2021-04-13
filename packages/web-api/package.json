@@ -45,8 +45,8 @@
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
   },
   "dependencies": {
-    "@slack/logger": ">=1.0.0 <3.0.0",
-    "@slack/types": "^1.7.0",
+    "@slack/logger": "^3.0.0",
+    "@slack/types": "^2.0.0",
     "@types/is-stream": "^1.1.0",
     "@types/node": ">=12.0.0",
     "axios": "^0.21.1",
