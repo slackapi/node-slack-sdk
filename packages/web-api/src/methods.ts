@@ -1180,6 +1180,10 @@ export interface ChatPostEphemeralArguments extends WebAPICallOptions, TokenOver
   blocks?: (KnownBlock | Block)[];
   link_names?: boolean;
   parse?: 'full' | 'none';
+  thread_ts?: string;
+  icon_emoji?: string; // if specified, as_user must be false
+  icon_url?: string; // if specified, as_user must be false
+  username?: string; // if specified, as_user must be false
 }
 export interface ChatPostMessageArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
@@ -1188,7 +1192,7 @@ export interface ChatPostMessageArguments extends WebAPICallOptions, TokenOverri
   attachments?: MessageAttachment[];
   blocks?: (KnownBlock | Block)[];
   icon_emoji?: string; // if specified, as_user must be false
-  icon_url?: string;
+  icon_url?: string; // if specified, as_user must be false
   link_names?: boolean;
   mrkdwn?: boolean;
   parse?: 'full' | 'none';
@@ -1218,6 +1222,7 @@ export interface ChatScheduledMessagesListArguments extends WebAPICallOptions, T
   channel: string;
   latest: number;
   oldest: number;
+  team_id?: string; // required if org token is used
 }
 cursorPaginationEnabledMethods.add('chat.scheduledMessages.list');
 export interface ChatUnfurlArguments extends WebAPICallOptions, TokenOverridable {
@@ -1261,6 +1266,7 @@ export interface ConversationsHistoryArguments extends WebAPICallOptions, TokenO
 cursorPaginationEnabledMethods.add('conversations.history');
 export interface ConversationsInfoArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
   channel: string;
+  include_num_members?: boolean;
 }
 export interface ConversationsInviteArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
@@ -1363,6 +1369,7 @@ export interface FilesListArguments extends WebAPICallOptions, TokenOverridable,
   ts_from?: string;
   ts_to?: string;
   types?: string; // comma-separated list of file types
+  show_files_hidden_by_limit?: boolean;
   team_id?: string;
 }
 export interface FilesRevokePublicURLArguments extends WebAPICallOptions, TokenOverridable {
@@ -1707,7 +1714,11 @@ export interface TeamBillableInfoArguments extends WebAPICallOptions, TokenOverr
   user?: string;
   team_id?: string;
 }
-export interface TeamInfoArguments extends WebAPICallOptions, TokenOverridable { }
+export interface TeamInfoArguments extends WebAPICallOptions, TokenOverridable {
+  // Team to get info on, if omitted, will return information about the current team.
+  // Will only return team that the authenticated token is allowed to see through external shared channels
+  team?: string;
+}
 export interface TeamIntegrationLogsArguments extends WebAPICallOptions, TokenOverridable {
   app_id?: string;
   change_type?: string; // TODO: list types: 'x' | 'y' | 'z'
@@ -1849,7 +1860,15 @@ export interface WorkflowsStepFailedArguments extends WebAPICallOptions, TokenOv
 
 export interface WorkflowsUpdateStepArguments extends WebAPICallOptions, TokenOverridable {
   workflow_step_edit_id: string;
-  inputs?: object;
+  step_image_url?: string;
+  step_name?: string;
+  inputs?: {
+    [name: string]: {
+      value: object;
+      skip_variable_replacement?: boolean;
+      variables: object;
+    }
+  };
   outputs?: {
     type: string;
     name: string;
