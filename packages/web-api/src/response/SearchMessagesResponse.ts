@@ -32,6 +32,7 @@ export interface Match {
   blocks?:       Block[];
   attachments?:  MatchAttachment[];
   is_mpim?:      boolean;
+  score?:        number;
 }
 
 export interface MatchAttachment {
