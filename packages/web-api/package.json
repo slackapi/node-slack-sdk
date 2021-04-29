@@ -54,7 +54,8 @@
     "form-data": "^2.5.0",
     "is-stream": "^1.1.0",
     "p-queue": "^6.6.1",
-    "p-retry": "^4.0.0"
+    "p-retry": "^4.0.0",
+    "is-electron": "^2.2.0"
   },
   "devDependencies": {
     "@aoberoi/capture-console": "^1.1.0",
