@@ -32,4 +32,5 @@ export interface Conversation {
   is_pending_ext_shared?:         boolean;
   connected_team_ids?:            string[];
   conversation_host_id?:          string;
+  channel_email_addresses?:       string[];
 }
