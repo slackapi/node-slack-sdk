@@ -620,6 +620,7 @@ function warnDeprecations(method: string, logger: Logger): void {
  * Log a warning when using chat.postMessage without text argument or attachments with fallback argument
  * @param method api method being called
  * @param logger instance of we clients logger
+ * @param options arguments for the Web API method
  */
 function warnIfFallbackIsMissing(method: string, logger: Logger, options?: WebAPICallOptions): void {
   const targetMethods = ['chat.postEphemeral', 'chat.postMessage', 'chat.scheduleMessage', 'chat.update'];
