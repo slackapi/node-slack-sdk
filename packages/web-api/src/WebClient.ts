@@ -156,6 +156,7 @@ export class WebClient extends Methods {
 
     warnDeprecations(method, this.logger);
     warnIfFallbackIsMissing(method, this.logger, options);
+    warnIfThreadTsIsNotString(method, this.logger, options);
 
     if (typeof options === 'string' || typeof options === 'number' || typeof options === 'boolean') {
       throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
@@ -643,5 +644,20 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, options?: WebAP
     } else {
       logger.warn(buildWarningMessage('text'));
     }
+  }
+}
+
+/**
+ * Log a warning when thread_ts is not a string
+ * @param method api method being called
+ * @param logger instance of web clients logger
+ * @param options arguments for the Web API method
+ */
+function warnIfThreadTsIsNotString(method: string, logger: Logger, options?: WebAPICallOptions): void {
+  const targetMethods = ['chat.postEphemeral', 'chat.postMessage', 'chat.scheduleMessage', 'files.upload'];
+  const isTargetMethod = targetMethods.includes(method);
+
+  if (isTargetMethod && options?.thread_ts !== undefined && typeof options?.thread_ts !== 'string') {
+    logger.warn(`The given thread_ts value in the request payload for a ${method} call is a float value. We highly recommend using a string value instead.`);
   }
 }
