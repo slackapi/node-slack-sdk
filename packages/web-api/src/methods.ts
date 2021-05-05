@@ -183,6 +183,7 @@ import { AdminUsersSessionGetSettingsResponse } from './response/AdminUsersSessi
 import { AdminUsersSessionSetSettingsResponse } from './response/AdminUsersSessionSetSettingsResponse';
 import { AdminUsersSessionClearSettingsResponse } from './response/AdminUsersSessionClearSettingsResponse';
 import { AdminAppsClearResolutionResponse } from './response/AdminAppsClearResolutionResponse';
+import { AdminAppsUninstallResponse } from './response/AdminAppsUninstallResponse';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
 
@@ -237,8 +238,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         list:
           bindApiCall<AdminAppsRestrictedListArguments, AdminAppsRestrictedListResponse>(this, 'admin.apps.restricted.list'),
       },
-      // TODO: Use AdminAppsUninstallResponse when it's available
-      uninstall: bindApiCall<AdminAppsUninstallArguments, WebAPICallResult>(this, 'admin.apps.uninstall'),
+      uninstall: bindApiCall<AdminAppsUninstallArguments, AdminAppsUninstallResponse>(this, 'admin.apps.uninstall'),
     },
     barriers: {
       create: bindApiCall<AdminBarriersCreateArguments, AdminBarriersCreateResponse>(this, 'admin.barriers.create'),

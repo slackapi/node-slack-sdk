@@ -5,6 +5,7 @@ export { AdminAppsClearResolutionResponse } from './AdminAppsClearResolutionResp
 export { AdminAppsRequestsListResponse } from './AdminAppsRequestsListResponse';
 export { AdminAppsRestrictResponse } from './AdminAppsRestrictResponse';
 export { AdminAppsRestrictedListResponse } from './AdminAppsRestrictedListResponse';
+export { AdminAppsUninstallResponse } from './AdminAppsUninstallResponse';
 export { AdminBarriersCreateResponse } from './AdminBarriersCreateResponse';
 export { AdminBarriersDeleteResponse } from './AdminBarriersDeleteResponse';
 export { AdminBarriersListResponse } from './AdminBarriersListResponse';

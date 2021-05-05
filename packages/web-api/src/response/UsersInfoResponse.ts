@@ -30,6 +30,16 @@ export interface User {
   locale?:              string;
   has_2fa?:             boolean;
   is_email_confirmed?:  boolean;
+  enterprise_user?:     EnterpriseUser;
+}
+
+export interface EnterpriseUser {
+  id?:              string;
+  enterprise_id?:   string;
+  enterprise_name?: string;
+  is_admin?:        boolean;
+  is_owner?:        boolean;
+  teams?:           string[];
 }
 
 export interface Profile {
