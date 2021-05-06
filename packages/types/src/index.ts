@@ -1,4 +1,3 @@
-
 /*
  * Reusable shapes for argument values
  */
@@ -292,7 +291,16 @@ export interface SectionBlock extends Block {
   type: 'section';
   text?: PlainTextElement | MrkdwnElement; // either this or fields must be defined
   fields?: (PlainTextElement | MrkdwnElement)[]; // either this or text must be defined
-  accessory?: Button | Overflow | Datepicker | Timepicker | Select | MultiSelect | Action | ImageElement | RadioButtons | Checkboxes;
+  accessory?: Button
+    | Overflow
+    | Datepicker
+    | Timepicker
+    | Select
+    | MultiSelect
+    | Action
+    | ImageElement
+    | RadioButtons
+    | Checkboxes;
 }
 
 export interface FileBlock extends Block {
