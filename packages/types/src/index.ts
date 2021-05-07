@@ -410,12 +410,59 @@ export type SectionableElement = Button
   | RadioButtons
   | Checkboxes;
 
-export interface SectionBlock extends Block {
+/*
+Using discriminated union type to better control the construct of a section block
+
+SEE EXAMPLE BELOW
+ */
+
+export type SectionBlock = SectionBlockWithFields | SectionBlockWithText;
+
+export interface SectionBlockBase extends Block {
   type: BlockType.Section;
-  text?: AnyTextElement; // either this or fields must be defined
-  fields?: AnyTextElement[]; // either this or text must be defined
   accessory?: SectionableElement;
 }
+
+export interface SectionBlockWithFields extends SectionBlockBase {
+  fields: AnyTextElement[];
+  text?: AnyTextElement;
+}
+
+export interface SectionBlockWithText extends SectionBlockBase {
+  fields?: AnyTextElement[];
+  text: AnyTextElement;
+}
+
+
+/*
+const validSectionA: SectionBlock = {
+  type: BlockType.Section,
+  fields: [{
+    type: CompositionObjectType.Markdown,
+    text: 'hello',
+  }],
+};
+
+const validSectionB: SectionBlock = {
+  type: BlockType.Section,
+  text: {
+    type: CompositionObjectType.Markdown,
+    text: 'hello',
+  },
+};
+
+const invalidSection: SectionBlock = {
+  type: BlockType.Section,
+  accessory: {
+    type: ElementType.Button,
+    action_id: 'iAmInvalid',
+    text: {
+      type: CompositionObjectType.PlainText,
+      text: `I don't work`,
+    },
+  },
+};
+ */
 
 export interface FileBlock extends Block {
   type: BlockType.File;
