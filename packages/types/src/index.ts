@@ -61,7 +61,7 @@ export enum ViewType {
 export interface View {
   title?: PlainTextElement;
   type: ViewType;
-  blocks: (KnownBlock | Block)[];
+  blocks: AnyBlock[];
   callback_id?: string;
   close?: PlainTextElement;
   submit?: PlainTextElement;
@@ -113,6 +113,8 @@ export interface ImageElement {
   alt_text: string;
 }
 
+export type AnyTextElement = PlainTextElement | MrkdwnElement;
+
 export interface PlainTextElement {
   type: CompositionObjectType.PlainText;
   text: string;
@@ -126,7 +128,7 @@ export interface MrkdwnElement {
 }
 
 export interface Option {
-  text: PlainTextElement | MrkdwnElement;
+  text: AnyTextElement;
   value?: string;
   url?: string;
   description?: PlainTextElement;
@@ -134,7 +136,7 @@ export interface Option {
 
 export interface Confirm {
   title?: PlainTextElement;
-  text: PlainTextElement | MrkdwnElement;
+  text: AnyTextElement;
   confirm?: PlainTextElement;
   deny?: PlainTextElement;
   style?: Style;
@@ -145,10 +147,19 @@ export interface Confirm {
  */
 
 // Selects and Multiselects are available in different surface areas so I've separated them here
-export type Select = UsersSelect | StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect;
+export type Select =
+  UsersSelect
+  | StaticSelect
+  | ConversationsSelect
+  | ChannelsSelect
+  | ExternalSelect;
 
 export type MultiSelect =
-  MultiUsersSelect | MultiStaticSelect | MultiConversationsSelect | MultiChannelsSelect | MultiExternalSelect;
+  MultiUsersSelect
+  | MultiStaticSelect
+  | MultiConversationsSelect
+  | MultiChannelsSelect
+  | MultiExternalSelect;
 
 export interface Action {
   type: string;
@@ -339,8 +350,17 @@ export enum BlockType {
   Input = 'input',
 }
 
-export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock |
-  SectionBlock | InputBlock | FileBlock | HeaderBlock;
+export type KnownBlock =
+  ImageBlock
+  | ContextBlock
+  | ActionsBlock
+  | DividerBlock
+  | SectionBlock
+  | InputBlock
+  | FileBlock
+  | HeaderBlock;
+
+export type AnyBlock = KnownBlock | Block;
 
 export interface Block {
   type: string;
@@ -354,34 +374,47 @@ export interface ImageBlock extends Block {
   title?: PlainTextElement;
 }
 
+export type ContextableElement = ImageElement | AnyTextElement;
+
 export interface ContextBlock extends Block {
   type: BlockType.Context;
-  elements: (ImageElement | PlainTextElement | MrkdwnElement)[];
+  elements: ContextableElement[];
 }
+
+export type ActionsableElement = Button
+  | Overflow
+  | Datepicker
+  | Timepicker
+  | Select
+  | RadioButtons
+  | Checkboxes
+  | Action;
 
 export interface ActionsBlock extends Block {
   type: BlockType.Actions;
-  elements: (Button | Overflow | Datepicker | Timepicker | Select | RadioButtons | Checkboxes | Action)[];
+  elements: ActionsableElement[];
 }
 
 export interface DividerBlock extends Block {
   type: BlockType.Divider;
 }
 
+export type SectionableElement = Button
+  | Overflow
+  | Datepicker
+  | Timepicker
+  | Select
+  | MultiSelect
+  | Action
+  | ImageElement
+  | RadioButtons
+  | Checkboxes;
+
 export interface SectionBlock extends Block {
   type: BlockType.Section;
-  text?: PlainTextElement | MrkdwnElement; // either this or fields must be defined
-  fields?: (PlainTextElement | MrkdwnElement)[]; // either this or text must be defined
-  accessory?: Button
-    | Overflow
-    | Datepicker
-    | Timepicker
-    | Select
-    | MultiSelect
-    | Action
-    | ImageElement
-    | RadioButtons
-    | Checkboxes;
+  text?: AnyTextElement; // either this or fields must be defined
+  fields?: AnyTextElement[]; // either this or text must be defined
+  accessory?: SectionableElement;
 }
 
 export interface FileBlock extends Block {
@@ -395,12 +428,20 @@ export interface HeaderBlock extends Block {
   text: PlainTextElement;
 }
 
+export type InputableElement = Select
+  | MultiSelect
+  | Datepicker
+  | Timepicker
+  | PlainTextInput
+  | RadioButtons
+  | Checkboxes;
+
 export interface InputBlock extends Block {
   type: BlockType.Input;
   label: PlainTextElement;
   hint?: PlainTextElement;
   optional?: boolean;
-  element: Select | MultiSelect | Datepicker | Timepicker | PlainTextInput | RadioButtons | Checkboxes;
+  element: InputableElement;
   dispatch_action?: boolean;
 }
 
@@ -421,7 +462,7 @@ export enum AttachmentStyle {
 }
 
 export interface MessageAttachment {
-  blocks?: (KnownBlock | Block)[];
+  blocks?: AnyBlock[];
   fallback?: string; // either this or text must be defined
   color?: AttachmentColor | string;
   pretext?: string;
