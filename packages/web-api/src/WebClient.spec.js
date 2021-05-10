@@ -227,6 +227,57 @@ describe('WebClient', function () {
             });
         });
       });
+
+      const threadTsTestPatterns = [
+        { method: 'chat.postEphemeral' },
+        { method: 'chat.postMessage' },
+        { method: 'chat.scheduleMessage' },
+        { method: 'files.upload' },
+      ];
+
+      threadTsTestPatterns.reduce((acc, { method, args }) => {
+        const threadTs = [{ thread_ts: 1503435956.000247, text: 'text' }]
+          .map(v => ({ method, args: Object.assign({}, v, args) }))
+        return acc.concat(threadTs)
+      }, []).forEach(({ method, args }) => {
+        it(`should send warning to logs when thread_ts in ${method} arguments is a float`, function () {
+          const logger = {
+            debug: sinon.spy(),
+            info: sinon.spy(),
+            warn: sinon.spy(),
+            error: sinon.spy(),
+            setLevel: sinon.spy(),
+            setName: sinon.spy(),
+          };
+          const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
+          return warnClient.apiCall(method, args)
+            .then(() => {
+              assert.isTrue(logger.warn.callCount === 4);
+            });
+        });
+      });
+
+      threadTsTestPatterns.reduce((acc, { method, args }) => {
+        const threadTs = [{ thread_ts: '1503435956.000247', text: 'text' }]
+          .map(v => ({ method, args: Object.assign({}, v, args) }))
+        return acc.concat(threadTs)
+      }, []).forEach(({ method, args }) => {
+        it(`should not send warning to logs when thread_ts in ${method} arguments is a string`, function () {
+          const logger = {
+            debug: sinon.spy(),
+            info: sinon.spy(),
+            warn: sinon.spy(),
+            error: sinon.spy(),
+            setLevel: sinon.spy(),
+            setName: sinon.spy(),
+          };
+          const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
+          return warnClient.apiCall(method, args)
+            .then(() => {
+              assert.isTrue(logger.warn.calledThrice);
+            });
+        });
+      });
     });
 
     describe('with OAuth scopes in the response headers', function () {
