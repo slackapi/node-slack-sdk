@@ -15,6 +15,7 @@ import PQueue from 'p-queue'; // tslint:disable-line:import-name
 import pRetry, { AbortError } from 'p-retry';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData from 'form-data'; // tslint:disable-line:import-name
+import isElectron from 'is-electron';
 
 import { Methods, CursorPaginationEnabled, cursorPaginationEnabledMethods } from './methods';
 import { getUserAgent } from './instrument';
@@ -122,12 +123,7 @@ export class WebClient extends Methods {
 
     this.axios = axios.create({
       baseURL: slackApiUrl,
-      headers: Object.assign(
-        {
-          'User-Agent': getUserAgent(),
-        },
-        headers,
-      ),
+      headers: isElectron() ? headers : Object.assign({ 'User-Agent': getUserAgent() }, headers),
       httpAgent: agent,
       httpsAgent: agent,
       transformRequest: [this.serializeApiCallOptions.bind(this)],
