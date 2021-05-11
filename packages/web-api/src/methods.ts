@@ -1886,7 +1886,9 @@ export interface WorkflowsUpdateStepArguments extends WebAPICallOptions, TokenOv
     [name: string]: {
       value: any;
       skip_variable_replacement?: boolean;
-      variables: any;
+      variables?: {
+        [key: string]: any;
+      };
     },
   };
   outputs?: {
