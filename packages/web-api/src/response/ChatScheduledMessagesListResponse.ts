@@ -16,7 +16,7 @@ export interface ResponseMetadata {
 export interface ScheduledMessage {
   id?:           string;
   channel_id?:   string;
-  text?:         string;
   post_at?:      number;
   date_created?: number;
+  text?:         string;
 }
