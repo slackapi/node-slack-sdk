@@ -7,6 +7,7 @@ export type ChatScheduleMessageResponse = WebAPICallResult & {
   post_at?:              number;
   message?:              Message;
   error?:                string;
+  response_metadata?:    ResponseMetadata;
   needed?:               string;
   provided?:             string;
 };
@@ -115,4 +116,8 @@ export interface Icons {
   image_36?: string;
   image_48?: string;
   image_72?: string;
+}
+
+export interface ResponseMetadata {
+  messages?: string[];
 }
