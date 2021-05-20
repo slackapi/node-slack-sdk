@@ -65,7 +65,13 @@ expectType<Promise<ChatScheduleMessageResponse>>(web.chat.scheduleMessage({
 }));
 expectType<Promise<ChatScheduleMessageResponse>>(web.chat.scheduleMessage({
   channel: 'C111',
-  post_at: '11111',
+  post_at: '1621497568',
+  text: 'Hi there!',
+  blocks: [],
+}));
+expectType<Promise<ChatScheduleMessageResponse>>(web.chat.scheduleMessage({
+  channel: 'C111',
+  post_at: 1621497568,
   text: 'Hi there!',
   blocks: [],
 }));
