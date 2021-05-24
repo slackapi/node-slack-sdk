@@ -497,7 +497,7 @@ const token = process.env.SLACK_BOT_TOKEN;
 const rtm = new RTMClient(token);
 
 const trackedUserIds = [];
-function addPresenceSubscriptions(userIds) {
+async function addPresenceSubscriptions(userIds) {
   await rtm.subscribePresence(trackedUserIds.concat(userIds));
   trackedUserIds.push(...userIds);
 }
