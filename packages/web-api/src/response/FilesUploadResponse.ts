@@ -67,4 +67,6 @@ export interface Public {
   channel_name?:      string;
   team_id?:           string;
   share_user_id?:     string;
+  thread_ts?:         string;
+  latest_reply?:      string;
 }
