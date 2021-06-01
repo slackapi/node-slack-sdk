@@ -88,12 +88,14 @@ export class SlackEventAdapter extends EventEmitter {
    */
   public start(port: number): Promise<http.Server> {
     return this.createServer()
-      .then((server) => new Promise((resolve, reject) => {
-        this.server = server;
-        server.on('error', reject);
-        server.listen(port, () => resolve(server));
-        debug('server started - port: %s', port);
-      }));
+      .then((server) => {
+        return new Promise((resolve, reject) => {
+          this.server = server;
+          server.on('error', reject);
+          server.listen(port, () => resolve(server));
+          debug('server started - port: %s', port);
+        });
+      });
   }
 
   /**

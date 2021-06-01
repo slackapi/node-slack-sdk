@@ -189,12 +189,14 @@ export class SlackMessageAdapter {
    */
   public start(port: number): Promise<http.Server> {
     return this.createServer()
-      .then((server) => new Promise((resolve, reject) => {
-        this.server = server;
-        server.on('error', reject);
-        server.listen(port, () => resolve(server));
-        debug('server started - port: %s', port);
-      }));
+      .then((server) => {
+        return new Promise((resolve, reject) => {
+          this.server = server;
+          server.on('error', reject);
+          server.listen(port, () => resolve(server));
+          debug('server started - port: %s', port);
+        });
+      });
   }
 
   /**
@@ -432,7 +434,7 @@ export class SlackMessageAdapter {
 
     if (!isFalsy(callbackResult)) {
       return promiseTimeout(this.syncResponseTimeout, callbackResult)
-        .then((content) => ({ content, status: ResponseStatus.Ok }))
+        .then((content) => { return { content, status: ResponseStatus.Ok }; })
         .catch<DispatchResult>((error: CodedError) => {
           if (error.code === ErrorCode.PromiseTimeout) {
             // warn and continue for promises that cannot be saved with a later async response.
@@ -442,7 +444,7 @@ export class SlackMessageAdapter {
             if (!this.lateResponseFallbackEnabled || respond === undefined || payload.type === 'dialog_submission') {
               debug('WARNING: The response Promise did not resolve under the timeout.');
               return (callbackResult as Promise<any>)
-                .then((content) => ({ content, status: ResponseStatus.Ok }))
+                .then((content) => { return { content, status: ResponseStatus.Ok }; })
                 .catch(() => ({ status: ResponseStatus.Failure }));
             }
 

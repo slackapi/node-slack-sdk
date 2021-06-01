@@ -624,7 +624,7 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, options?: WebAP
 
   const missingAttachmentFallbackDetected = (args: WebAPICallOptions) =>
     Array.isArray(args.attachments)
-    && args.attachments.some((attachment) => !attachment.fallback || attachment.fallback.trim() === 0);
+    && args.attachments.some((attachment) => { return (!attachment.fallback || attachment.fallback.trim() === 0); });
 
   const isEmptyText = (args: WebAPICallOptions) =>
     args.text === undefined || args.text === null || args.text === '';
