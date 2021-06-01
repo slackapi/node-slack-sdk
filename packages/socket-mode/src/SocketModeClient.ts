@@ -573,6 +573,7 @@ export class SocketModeClient extends EventEmitter {
     }
 
     // Define Ack
+    // tslint:disable-next-line:ter-arrow-parens
     const ack = async (response: object): Promise<void> => {
       this.logger.debug('calling ack', event.type);
       await this.send(event.envelope_id, response);
