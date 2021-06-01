@@ -101,7 +101,7 @@ export class RTMClient extends EventEmitter {
           this.outgoingEventQueue.pause();
           // when a formerly connected client gets disconnected, all outgoing messages whose promises were waiting
           // for a reply from the server should be canceled
-          this.awaitingReplyList.forEach(p => p.cancel());
+          this.awaitingReplyList.forEach((p) => p.cancel());
         })
       .state('connecting')
         .submachine(Finity.configure()
@@ -190,7 +190,7 @@ export class RTMClient extends EventEmitter {
             .onExit(() => {
               // once all replay messages are processed, if there are any more messages awaiting a reply message, let
               // them know that there are none expected to arrive.
-              this.awaitingReplyList.forEach(p => p.cancel());
+              this.awaitingReplyList.forEach((p) => p.cancel());
             })
           .state('ready')
             .onEnter(() => {
@@ -563,8 +563,8 @@ export class RTMClient extends EventEmitter {
     this.websocket = new WebSocket(url, options);
 
     // attach event listeners
-    this.websocket.addEventListener('open', event => this.stateMachine.handle('websocket open', event));
-    this.websocket.addEventListener('close', event => this.stateMachine.handle('websocket close', event));
+    this.websocket.addEventListener('open', (event) => this.stateMachine.handle('websocket open', event));
+    this.websocket.addEventListener('close', (event) => this.stateMachine.handle('websocket close', event));
     this.websocket.addEventListener('error', (event) => {
       this.logger.error(`A websocket error occurred: ${event.message}`);
       this.emit('error', websocketErrorWithOriginal(event.error));

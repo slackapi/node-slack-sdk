@@ -465,8 +465,8 @@ export class SocketModeClient extends EventEmitter {
     }
 
     // attach event listeners
-    websocket.addEventListener('open', event => this.stateMachine.handle('websocket open', event));
-    websocket.addEventListener('close', event => this.stateMachine.handle('websocket close', event));
+    websocket.addEventListener('open', (event) => this.stateMachine.handle('websocket open', event));
+    websocket.addEventListener('close', (event) => this.stateMachine.handle('websocket close', event));
     websocket.addEventListener('error', (event) => {
       this.logger.error(`A websocket error occurred: ${event.message}`);
       this.emit('error', websocketErrorWithOriginal(event.error));

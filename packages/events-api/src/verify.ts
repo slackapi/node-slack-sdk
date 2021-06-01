@@ -34,7 +34,7 @@ const slackEvents = createEventAdapter(argv.secret);
 
 slackEvents
   .createServer()
-  .then(server => new Promise((resolve, reject) => {
+  .then((server) => new Promise((resolve, reject) => {
     server.on('error', reject);
     server.listen(argv.port, () => {
       const { address, port } = server.address() as AddressInfo;
