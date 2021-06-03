@@ -67,6 +67,7 @@ export interface File {
   thumb_1024?:           string;
   thumb_1024_w?:         number;
   thumb_1024_h?:         number;
+  thumb_video?:          string;
 }
 
 export interface Paging {

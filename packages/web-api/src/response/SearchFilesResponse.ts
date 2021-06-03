@@ -81,6 +81,7 @@ export interface Match {
   last_editor?:          string;
   non_owner_editable?:   boolean;
   updated?:              number;
+  thumb_video?:          string;
 }
 
 export interface Shares {
