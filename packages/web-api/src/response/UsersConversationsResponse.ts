@@ -13,7 +13,7 @@ export interface Channel {
   enterprise_id?:         string;
   id?:                    string;
   name?:                  string;
-  created?:               string;
+  created?:               number;
   creator?:               string;
   unlinked?:              number;
   name_normalized?:       string;
