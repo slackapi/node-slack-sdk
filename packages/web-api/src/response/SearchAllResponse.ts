@@ -83,6 +83,7 @@ export interface FilesMatch {
   last_editor?:          string;
   non_owner_editable?:   boolean;
   updated?:              number;
+  thumb_video?:          string;
 }
 
 export interface Shares {
@@ -286,6 +287,7 @@ export interface Element {
   default_to_current_conversation?: boolean;
   filter?:                          Filter;
   initial_date?:                    string;
+  initial_time?:                    string;
   initial_option?:                  InitialOption;
   min_query_length?:                number;
   image_url?:                       string;

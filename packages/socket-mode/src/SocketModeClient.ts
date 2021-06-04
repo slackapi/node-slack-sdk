@@ -3,7 +3,7 @@ import WebSocket from 'ws'; // tslint:disable-line:import-name
 import Finity, { StateMachine } from 'finity'; // tslint:disable-line:import-name
 import {
   WebClient,
-  WebAPICallResult,
+  AppsConnectionsOpenResponse,
   WebAPICallError,
   ErrorCode as APICallErrorCode,
   addAppMetadata,
@@ -66,7 +66,7 @@ export class SocketModeClient extends EventEmitter {
         .submachine(Finity.configure()
           .initialState('authenticating')
             .do(() => {
-              return this.webClient.apps.connections.open().then((result: WebAPICallResult) => {
+              return this.webClient.apps.connections.open().then((result: AppsConnectionsOpenResponse) => {
                 return result;
               }).catch((error) => {
                 this.logger.error(error);
@@ -154,7 +154,7 @@ export class SocketModeClient extends EventEmitter {
             .submachine(Finity.configure()
             .initialState('authenticating')
               .do(() => {
-                return this.webClient.apps.connections.open().then((result: WebAPICallResult) => {
+                return this.webClient.apps.connections.open().then((result: AppsConnectionsOpenResponse) => {
                   return result;
                 }).catch((error) => {
                   this.logger.error(error);
@@ -367,7 +367,7 @@ export class SocketModeClient extends EventEmitter {
    * Begin an Socket Mode session. This method must be called before any messages can
    * be sent or received.
    */
-  public start(): Promise<WebAPICallResult> {
+  public start(): Promise<AppsConnectionsOpenResponse> {
     this.logger.debug('start()');
 
     // delegate behavior to state machine

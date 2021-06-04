@@ -16,4 +16,5 @@ export interface Reminder {
   recurring?:   boolean;
   time?:        number;
   complete_ts?: number;
+  channel?:     string;
 }

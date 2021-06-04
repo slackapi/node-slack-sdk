@@ -1226,7 +1226,7 @@ export interface ChatPostMessageArguments extends WebAPICallOptions, TokenOverri
 export interface ChatScheduleMessageArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   text?: string;
-  post_at: string;
+  post_at: string | number;
   as_user?: boolean;
   attachments?: MessageAttachment[];
   blocks?: (KnownBlock | Block)[];

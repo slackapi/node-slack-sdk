@@ -2,17 +2,15 @@
 import { WebAPICallResult } from '../WebClient';
 export type MigrationExchangeResponse = WebAPICallResult & {
   ok?:               boolean;
+  warning?:          string;
   error?:            string;
+  needed?:           string;
+  provided?:         string;
   team_id?:          string;
   enterprise_id?:    string;
-  user_id_map?:      UseridMap;
   invalid_user_ids?: string[];
+  user_id_map?:      UseridMap;
 };
 
 export interface UseridMap {
-  U06UBSUN5?: string;
-  U06UEB62U?: string;
-  U06UBSVB3?: string;
-  U06UBSVDX?: string;
-  W06UAZ65Q?: string;
 }

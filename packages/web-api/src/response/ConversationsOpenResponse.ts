@@ -26,18 +26,21 @@ export interface Channel {
 }
 
 export interface Latest {
-  type?:    string;
-  subtype?: string;
-  text?:    string;
-  ts?:      string;
-  bot_id?:  string;
-  blocks?:  Block[];
+  type?:          string;
+  subtype?:       string;
+  text?:          string;
+  ts?:            string;
+  bot_id?:        string;
+  blocks?:        Block[];
+  client_msg_id?: string;
+  user?:          string;
+  team?:          string;
 }
 
 export interface Block {
   type?:         string;
-  elements?:     Element[];
   block_id?:     string;
+  elements?:     BlockElement[];
   fallback?:     string;
   image_url?:    string;
   image_width?:  number;
@@ -60,8 +63,9 @@ export interface Accessory {
   image_bytes?:  number;
 }
 
-export interface Element {
+export interface BlockElement {
   type?:                            string;
+  elements?:                        ElementElementClass[];
   text?:                            Text;
   action_id?:                       string;
   url?:                             string;
@@ -75,6 +79,7 @@ export interface Element {
   default_to_current_conversation?: boolean;
   filter?:                          Filter;
   initial_date?:                    string;
+  initial_time?:                    string;
   initial_option?:                  InitialOption;
   min_query_length?:                number;
   image_url?:                       string;
@@ -99,6 +104,11 @@ export interface Text {
   text?:     string;
   emoji?:    boolean;
   verbatim?: boolean;
+}
+
+export interface ElementElementClass {
+  type?: string;
+  text?: string;
 }
 
 export interface Filter {

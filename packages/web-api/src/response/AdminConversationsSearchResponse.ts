@@ -33,4 +33,5 @@ export interface Conversation {
   connected_team_ids?:            string[];
   conversation_host_id?:          string;
   channel_email_addresses?:       string[];
+  connected_limited_team_ids?:    string[];
 }
