@@ -200,7 +200,7 @@ export class InstallProvider {
    *
    * The return value is an Array of Promises made up of the resolution of each token refresh attempt.
    */
-  private async refreshExpiringTokens(tokensToRefresh: string[]): Promise<OAuthV2ExchangeResponse[]> {
+  private async refreshExpiringTokens(tokensToRefresh: string[]): Promise<OAuthV2TokenRefreshResponse[]> {
     const client = new WebClient(undefined, this.clientOptions);
 
     const refreshPromises = tokensToRefresh.map(async (refreshToken) => {
@@ -209,7 +209,7 @@ export class InstallProvider {
         client_secret: this.clientSecret,
         grant_type: 'refresh_token',
         refresh_token: refreshToken,
-      }).catch(e => e) as OAuthV2ExchangeResponse;
+      }).catch(e => e) as OAuthV2TokenRefreshResponse;
     });
 
     return Promise.all(refreshPromises);
@@ -859,7 +859,7 @@ export interface OAuthV2Response extends WebAPICallResult {
   };
 }
 
-export interface OAuthV2ExchangeResponse extends WebAPICallResult {
+export interface OAuthV2TokenRefreshResponse extends WebAPICallResult {
   app_id: string;
   scope: string;
   token_type: 'bot' | 'user';
