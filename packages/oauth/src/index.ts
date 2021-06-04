@@ -91,7 +91,7 @@ export class InstallProvider {
   }
 
   /**
-   * Fetches data from the installationStore for non Org Installations.
+   * Fetches data from the installationStore
    */
   public async authorize(source: InstallationQuery<boolean>): Promise<AuthorizeResult> {
     try {
@@ -129,12 +129,90 @@ export class InstallProvider {
         authResult.botToken = queryResult.bot.token;
         authResult.botId = queryResult.bot.id;
         authResult.botUserId = queryResult.bot.userId;
+
+        // Token Rotation Enabled (Bot Token)
+        if (queryResult.bot.refreshToken !== undefined) {
+          authResult.botRefreshToken = queryResult.bot.refreshToken;
+          authResult.botTokenExpiresAt = queryResult.bot.expiresAt; // utc, seconds
+        }
+      }
+
+      // Token Rotation Enabled (User Token)
+      if (queryResult.user.refreshToken !== undefined) {
+        authResult.userRefreshToken = queryResult.user.refreshToken;
+        authResult.userTokenExpiresAt = queryResult.user.expiresAt; // utc, seconds
+      }
+
+      /*
+      * Token Rotation (Expiry Check + Refresh)
+      * The presence of `(bot|user)TokenExpiresAt` indicates having opted into token rotation.
+      * If the token has expired, or will expire within 2 hours, the token is refreshed and
+      * the `authResult` and `Installation` are updated with the new values.
+      */
+      if (authResult.botRefreshToken !== undefined || authResult.userRefreshToken !== undefined) {
+        const currentUTCSec = Math.floor(Date.now() / 1000); // seconds
+        const tokensToRefresh: string[] = detectExpiredOrExpiringTokens(authResult, currentUTCSec);
+
+        if (tokensToRefresh.length > 0) {
+          const installationUpdates: any = { ...queryResult }; // TODO :: TS
+          const refreshResponses = await this.refreshExpiringTokens(tokensToRefresh);
+
+          for (const refreshResp of refreshResponses) {
+
+            const tokenType = refreshResp.token_type;
+
+            // Update Authorization
+            if (tokenType === 'bot') {
+              authResult.botToken = refreshResp.access_token;
+              authResult.botRefreshToken = refreshResp.refresh_token;
+              authResult.botTokenExpiresAt = currentUTCSec + refreshResp.expires_in;
+            }
+
+            if (tokenType === 'user') {
+              authResult.userToken = refreshResp.access_token;
+              authResult.userRefreshToken = refreshResp.refresh_token;
+              authResult.userTokenExpiresAt = currentUTCSec + refreshResp.expires_in;
+            }
+
+            // Update Installation
+            installationUpdates[tokenType].token = refreshResp.access_token;
+            installationUpdates[tokenType].refreshToken = refreshResp.refresh_token;
+            installationUpdates[tokenType].expiresAt = currentUTCSec + refreshResp.expires_in;
+
+            const updatedInstallation = {
+              ...installationUpdates,
+              [tokenType]: { ...queryResult[tokenType], ...installationUpdates[tokenType] },
+            };
+
+            await this.installationStore.storeInstallation(updatedInstallation);
+          }
+        }
       }
 
       return authResult;
     } catch (error) {
       throw new AuthorizationError(error.message);
     }
+  }
+
+  /**
+   * refreshExpiringTokens refreshes expired access tokens using the `oauth.v2.access` endpoint.
+   *
+   * The return value is an Array of Promises made up of the resolution of each token refresh attempt.
+   */
+  private async refreshExpiringTokens(tokensToRefresh: string[]): Promise<OAuthV2TokenRefreshResponse[]> {
+    const client = new WebClient(undefined, this.clientOptions);
+
+    const refreshPromises = tokensToRefresh.map(async (refreshToken) => {
+      return await client.oauth.v2.access({
+        client_id: this.clientId,
+        client_secret: this.clientSecret,
+        grant_type: 'refresh_token',
+        refresh_token: refreshToken,
+      }).catch(e => e) as OAuthV2TokenRefreshResponse;
+    });
+
+    return Promise.all(refreshPromises);
   }
 
   /**
@@ -227,6 +305,7 @@ export class InstallProvider {
       // Start: Build the installation object
       let installation: Installation;
       let resp: OAuthV1Response | OAuthV2Response;
+
       if (this.authVersion === 'v1') {
         // convert response type from WebApiCallResult to OAuthResponse
         const v1Resp = await client.oauth.access({
@@ -269,6 +348,7 @@ export class InstallProvider {
         resp = v1Resp;
         installation = v1Installation;
       } else {
+
         // convert response type from WebApiCallResult to OAuthResponse
         const v2Resp = await client.oauth.v2.access({
           code,
@@ -294,9 +374,13 @@ export class InstallProvider {
           authVersion: 'v2',
         };
 
+        const currentUTC = Math.floor(Date.now() / 1000); // utc, seconds
+
+        // Installation has Bot Token
         if (v2Resp.access_token !== undefined && v2Resp.scope !== undefined && v2Resp.bot_user_id !== undefined) {
-          // A bot user/scope was requested
+
           const authResult = await runAuthTest(v2Resp.access_token, this.clientOptions);
+
           v2Installation.bot = {
             scopes: v2Resp.scope.split(','),
             token: v2Resp.access_token,
@@ -305,20 +389,31 @@ export class InstallProvider {
           };
 
           if (v2Resp.is_enterprise_install) {
-            // if it is an org enterprise install, add the enterprise url
             v2Installation.enterpriseUrl = authResult.url;
           }
 
-        } else if (v2Resp.authed_user.access_token !== undefined) {
-          // Only user scopes were requested
+          // Token Rotation is Enabled
+          if (v2Resp.refresh_token !== undefined && v2Resp.expires_in !== undefined) {
+            v2Installation.bot.refreshToken = v2Resp.refresh_token;
+            v2Installation.bot.expiresAt = currentUTC + v2Resp.expires_in; // utc, seconds
+          }
+        }
+
+        // Installation has User Token
+        if (v2Resp.authed_user !== undefined && v2Resp.authed_user.access_token !== undefined) {
+
           // TODO: confirm if it is possible to do an org enterprise install without a bot user
           const authResult = await runAuthTest(v2Resp.authed_user.access_token, this.clientOptions);
-          if (v2Resp.is_enterprise_install) {
+
+          if (v2Resp.is_enterprise_install && v2Installation.enterpriseUrl === undefined) {
             v2Installation.enterpriseUrl = authResult.url;
           }
-        } else {
-          // TODO: make this a coded error
-          throw new Error('The response from the authorization URL contained inconsistent information. Please file a bug.');
+
+          // Token Rotation is Enabled
+          if (v2Resp.authed_user.refresh_token !== undefined && v2Resp.authed_user.expires_in !== undefined) {
+            v2Installation.user.refreshToken = v2Resp.authed_user.refresh_token;
+            v2Installation.user.expiresAt = currentUTC + v2Resp.authed_user.expires_in; // utc, seconds
+          }
         }
 
         resp = v2Resp;
@@ -333,6 +428,7 @@ export class InstallProvider {
           configurationUrl: resp.incoming_webhook.configuration_url,
         };
       }
+
       if (installOptions !== undefined && installOptions.metadata !== undefined) {
         // Pass the metadata in state parameter if exists.
         // Developers can use the value for additional/custom data associated with the installation.
@@ -455,7 +551,7 @@ export interface InstallationStore {
     installation: Installation<AuthVersion, boolean>,
     logger?: Logger): Promise<void>;
   fetchInstallation:
-    (query: InstallationQuery<boolean>, logger?: Logger) => Promise<Installation<'v1' | 'v2', boolean>>;
+  (query: InstallationQuery<boolean>, logger?: Logger) => Promise<Installation<'v1' | 'v2', boolean>>;
 }
 
 // using a javascript object as a makeshift database for development
@@ -565,12 +661,16 @@ export interface Installation<AuthVersion extends ('v1' | 'v2') = ('v1' | 'v2'),
 
   user: {
     token: AuthVersion extends 'v1' ? string : (string | undefined);
+    refreshToken?: AuthVersion extends 'v1' ? never : (string | undefined);
+    expiresAt?: AuthVersion extends 'v1' ? never : (number | undefined); // utc, seconds
     scopes: AuthVersion extends 'v1' ? string[] : (string[] | undefined);
     id: string;
   };
 
   bot?: {
     token: string;
+    refreshToken?: string;
+    expiresAt?: number; // utc, seconds
     scopes: string[];
     id: string; // retrieved from auth.test
     userId: string;
@@ -636,7 +736,11 @@ export type OrgInstallationQuery = InstallationQuery<true>;
 // of Bolt.
 export interface AuthorizeResult {
   botToken?: string;
+  botRefreshToken?: string;
+  botTokenExpiresAt?: number; // utc, seconds
   userToken?: string;
+  userRefreshToken?: string;
+  userTokenExpiresAt?: number; // utc, seconds
   botId?: string;
   botUserId?: string;
   teamId?: string;
@@ -701,18 +805,48 @@ function isNotOrgInstall(installation: Installation): installation is Installati
   return !(isOrgInstall(installation));
 }
 
+/**
+ * detectExpiredOrExpiringTokens determines access tokens' eligibility for refresh.
+ *
+ * The return value is an Array of expired or soon-to-expire access tokens.
+ */
+function detectExpiredOrExpiringTokens(authResult: AuthorizeResult, currentUTCSec: number): string[] {
+  const tokensToRefresh: string[] = [];
+  const EXPIRY_WINDOW: number = 7200; // 2 hours
+
+  if (authResult.botRefreshToken !== undefined && authResult.botTokenExpiresAt !== undefined) {
+    const botTokenExpiresIn = authResult.botTokenExpiresAt - currentUTCSec;
+    if (botTokenExpiresIn <= EXPIRY_WINDOW) {
+      tokensToRefresh.push(authResult.botRefreshToken);
+    }
+  }
+
+  if (authResult.userRefreshToken !== undefined && authResult.userTokenExpiresAt !== undefined) {
+    const userTokenExpiresIn = authResult.userTokenExpiresAt - currentUTCSec;
+    if (userTokenExpiresIn <= EXPIRY_WINDOW) {
+      tokensToRefresh.push(authResult.userRefreshToken);
+    }
+  }
+
+  return tokensToRefresh;
+}
+
 // Response shape from oauth.v2.access - https://api.slack.com/methods/oauth.v2.access#response
-interface OAuthV2Response extends WebAPICallResult {
+export interface OAuthV2Response extends WebAPICallResult {
   app_id: string;
   authed_user: {
     id: string,
     scope?: string,
     access_token?: string,
     token_type?: string,
+    refresh_token?: string,
+    expires_in?: number,
   };
   scope?: string;
   token_type?: 'bot';
   access_token?: string;
+  refresh_token?: string;
+  expires_in?: number;
   bot_user_id?: string;
   team: { id: string, name: string } | null;
   enterprise: { name: string, id: string } | null;
@@ -723,6 +857,20 @@ interface OAuthV2Response extends WebAPICallResult {
     channel_id: string,
     configuration_url: string,
   };
+}
+
+export interface OAuthV2TokenRefreshResponse extends WebAPICallResult {
+  app_id: string;
+  scope: string;
+  token_type: 'bot' | 'user';
+  access_token: string;
+  refresh_token: string;
+  expires_in: number;
+  bot_user_id?: string;
+  team: { id: string, name: string };
+  enterprise: { name: string, id: string } | null;
+  is_enterprise_install: boolean;
+  response_metadata: {}; // TODO
 }
 
 // Response shape from oauth.access - https://api.slack.com/methods/oauth.access#response

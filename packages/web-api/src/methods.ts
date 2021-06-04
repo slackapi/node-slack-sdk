@@ -506,6 +506,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     access: bindApiCall<OAuthAccessArguments, OauthAccessResponse>(this, 'oauth.access'),
     v2: {
       access: bindApiCall<OAuthV2AccessArguments, OauthV2AccessResponse>(this, 'oauth.v2.access'),
+      exchange: bindApiCall<OAuthV2ExchangeArguments, OauthV2AccessResponse>(this, 'oauth.v2.exchange'),
     },
   };
 
@@ -1596,8 +1597,17 @@ export interface OAuthAccessArguments extends WebAPICallOptions {
 export interface OAuthV2AccessArguments extends WebAPICallOptions {
   client_id: string;
   client_secret: string;
-  code: string;
+  code?: string; // not required for token rotation
   redirect_uri?: string;
+  grant_type?: string;
+  refresh_token?: string;
+}
+
+export interface OAuthV2ExchangeArguments extends WebAPICallOptions {
+  client_id: string;
+  client_secret: string;
+  grant_type: string;
+  refresh_token: string;
 }
 /*
  * `pins.*`
