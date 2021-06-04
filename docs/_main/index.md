@@ -10,6 +10,14 @@ headings:
     - title: Getting Help
 ---
 
+### **Deprecation Notice**
+
+_`@slack/events-api` and `@slack/interactive-messages` officially reached EOL on May 31st, 2021. Development has fully stopped for these packages and all remaining open issues and pull requests have been closed._
+
+_At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](https://slack.dev/node-slack-sdk/tutorials/migrating-to-v6) for those looking to convert their existing apps._
+
+---
+
 The Slack platform offers several APIs to build apps. Each Slack API delivers part of the capabilities from the
 platform, so that you can pick just those that fit for your needs. This SDK offers a corresponding package for each of
 Slack's APIs. They are small and powerful when used independently, and work seamlessly when used together, too.
