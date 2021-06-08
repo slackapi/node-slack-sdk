@@ -96,6 +96,7 @@ If you make a mistake, don't fret. NPM allows you to unpublish a release within 
   * If you are releasing without learna, change into the package directory and run `npm publish . --otp YOUR_OTP_CODE`.
 
 4. Close GitHub Milestone(s), create GitHub Release(s), and add release notes.
+  * Move any unfinished, open issues to the next GitHub Milestone
   * Close the relevant GitHub Milestone(s) for the release(s)
   * Release notes should mention contributors (@-mentions) and issues/PRs (#-mentions).
   * Example release: https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Fweb-api%406.2.0
