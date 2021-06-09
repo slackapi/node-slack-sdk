@@ -117,7 +117,7 @@ describe('WebClient', function () {
 
   describe('has an option to override the Axios timeout value', function () {
     it('should log warning and throw error if timeout exceeded', function (done) {
-      const timeoutOverride = 15; // ms, guaranteed failure
+      const timeoutOverride = 1; // ms, guaranteed failure
       
       const logger = {
         debug: sinon.spy(),
