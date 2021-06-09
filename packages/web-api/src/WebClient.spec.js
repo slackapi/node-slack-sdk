@@ -115,6 +115,46 @@ describe('WebClient', function () {
     });
   });
 
+  describe('has an option to override the Axios timeout value', function () {
+    it('should log warning and throw error if timeout exceeded', function (done) {
+      const timeoutOverride = 1; // ms, guaranteed failure
+      
+      const logger = {
+        debug: sinon.spy(),
+        info: sinon.spy(),
+        warn: sinon.spy(),
+        error: sinon.spy(),
+        setLevel: sinon.spy(),
+        setName: sinon.spy(),
+      };
+      
+      const client = new WebClient(undefined, { 
+        timeout: timeoutOverride, 
+        retryConfig: { retries: 0 },
+        logLevel: LogLevel.WARN, 
+        logger 
+      });  
+      
+      client.apiCall('users.list')
+        .then(_ => {
+          done(new Error("expected timeout to throw error"));
+        })
+        .catch(error => {
+          try {
+            assert.isTrue(logger.warn.calledOnce, 'expected Logger to be called once');
+            assert.instanceOf(error, Error);
+            assert.equal(error.code, ErrorCode.RequestError);
+            assert.equal(error.original.config.timeout, timeoutOverride);
+            assert.equal(error.original.isAxiosError, true);
+            assert.equal(error.original.request.aborted, true);
+            done();
+          } catch (err) {
+            done(err);
+          }
+        }); 
+    });
+  });
+
   describe('apiCall()', function () {
     beforeEach(function () {
       this.client = new WebClient(token, { retryConfig: rapidRetryPolicy });
@@ -321,15 +361,14 @@ describe('WebClient', function () {
     });
 
     describe('when an API call fails', function () {
-      beforeEach(function () {
-        this.scope = nock('https://slack.com')
-          .post(/api/)
-          .reply(500);
-      });
-
       it('should return a Promise which rejects on error', function (done) {
-        const r = this.client.apiCall('method')
-        r.catch((error) => {
+        const client = new WebClient(undefined, { retryConfig: { retries: 0 } });
+        
+        this.scope = nock('https://slack.com')
+            .post(/api/)
+            .reply(500);
+
+        client.apiCall('method').catch((error) => {
           assert.instanceOf(error, Error);
           this.scope.done();
           done();
