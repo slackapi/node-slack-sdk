@@ -8,7 +8,7 @@ Maintaining this project requires installing [Node.js](https://nodejs.org). All 
 ## ✅ Tasks
 
 ### ⚗️ Testing and Linting
-To run tests for a given package, navigate to the package directory and run `npm test`. To run linting, run `npm run lint`.
+The Node SDK is made up of multiple, individual packages, each with their own tests. As such, tests are run on a per-package basis. To run tests for a given package, navigate to the package's directory (ie, `packages/web-api`) and run `npm test`. To run linting, run `npm run lint`.
 
 This project has tests for individual packages as `*.spec.js` files and inside of each's respective `test` directory. It also has integration tests in the `integration-tests` directory under the root `support` directory. 
 
@@ -27,9 +27,7 @@ We have included `launch.json` files that store configuration for `vscode` debug
 Also, for verifying the behavior with the real Slack server-side and developer experience with installed packages, you can run the tests amd scripts under `prod-server-integration-tests`. Refer to the README file in the directory for details. These tests are supposed to be run in the project maintainers' manual execution. They are not part of CI builds for now.
 
 ### 📄 Generating Documentation
-The documentation is built using [Jekyll](https://jekyllrb.com/) and hosted with GitHub Pages. The source files are
-contained in the `docs` directory. Reading the Jekyll configuration in `docs/_config.yml` is helpful to understand how
-the documentation is organized and built. 
+The documentation is built using [Jekyll](https://jekyllrb.com/) and hosted with GitHub Pages. The source files are contained in the `docs` directory. Reading the Jekyll configuration in `docs/_config.yml` is helpful to understand how the documentation is organized and built. 
 
 To build the docs locally, navigate to the `docs` directory. First ensure you have Ruby ~2.5.3 and install the dependencies by running `bundle install`. Then, run the command `bundle exec jekyll serve`. You will then be provided with a local URL that you can use to view the build.
 
@@ -44,19 +42,25 @@ _For beta releases, see [**Beta Releases**](https://github.com/slackapi/node-sla
 
 Releasing can feel intimidaitng at first, but rest assured: if you make a mistake, don't fret! npm allows you to unpublish a release within the first 72 hours of publishing (you just won’t be able to use the same version number again). Venture on!
 
-1. Navigate to the specific package you're releasing in the `packages/` directory.
+1. Check the status of the package's GitHub Milestone for issues that should be shipped with the release.
 
-2. Run `npm run test && npm run lint` to verify that everything is working and free of linting errors.
+    - If all issues have been closed, continue with the release. 
+    
+    - If issues are still open, discuss with the team about whether the open issues should be moved to a future release or if the release should be held off until the issues are resolved.
 
-3. Bump the version in `package.json`.
+2. Navigate to the specific package you're releasing in the `packages/` directory.
 
-    - Make a single commit for the version bump [(Example)](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594)
+3. Run `npm run test && npm run lint` to verify that everything is working and free of linting errors.
 
-    - Create a pull request for the version change [(Example)](https://github.com/slackapi/node-slack-sdk/pull/1059)
+4. Bump the version in `package.json` (see [Versioning and Tags](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#versioning-and-tags))
+
+    - Make a single commit for the version bump ([Example](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594))
+
+    - Create a pull request for the version change ([Example](https://github.com/slackapi/node-slack-sdk/pull/1059))
 
     - Add appropriate labels, including `release`
 
-4. Once the PR has been approved and tests have passed, merge it into the main repository.
+5. Once the PR has been approved and tests have passed, merge it into the main repository.
 
     -  Update your local main branch: `git pull origin main`
 
@@ -64,25 +68,25 @@ Releasing can feel intimidaitng at first, but rest assured: if you make a mistak
 
     -  Push the new tag up to origin: `git push --tags origin`
 
-5. Publish the release to npm
+6. Publish the release to npm
 
     - Run `npm publish . --otp YOUR_OTP_CODE`
 
     - To generate an OTP (One Time Password), use your password generator of choice (Duo, 1Password)
 
-6. Close GitHub Milestone(s)
+7. Close GitHub Milestone(s)
 
     - Close the relevant GitHub Milestone(s) for the release(s)
     
     - Move any unfinished, open issues to the next GitHub Milestone
 
-7. Create GitHub Release(s) with release notes
+8. Create GitHub Release(s) with release notes
 
     - From the repository, navigate to the **Releases** section and draft a new release
 
-    - Release notes should mention contributors, issues and PRs [(Example)](https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Fweb-api%406.2.0)
+    - Release notes should mention contributors, issues and PRs ([Example](https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Fweb-api%406.2.0))
 
-8. Communicate the release (as appropriate)
+9. Communicate the release (as appropriate)
 
     - **Internal** 
       
@@ -107,9 +111,9 @@ Releasing can feel intimidaitng at first, but rest assured: if you make a mistak
 
     - The version must be in the format of `Major.Minor.Patch-BetaNamespace.BetaVersion` (ex: `5.10.0-workflowStepsBeta.1`)
 
-    - Make a single commit for the version bump [(Example)](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594)
+    - Make a single commit for the version bump ([Example](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594))
 
-    - Create a pull request for the version change against the corresponding feature branch in the main repository [(Example)](https://github.com/slackapi/node-slack-sdk/pull/1244)
+    - Create a pull request for the version change against the corresponding feature branch in the main repository ([Example](https://github.com/slackapi/node-slack-sdk/pull/1244))
 
     - Add appropriate labels, including `release`
 
@@ -141,7 +145,7 @@ Releasing can feel intimidaitng at first, but rest assured: if you make a mistak
 
     - From the repository, navigate to the **Releases** section and draft a new release
 
-    - Release notes should mention the beta feature (if applicable), contributors, issues and PRs [(Example)](https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Ftypes%401.8.0-workflowStepsBeta.2)
+    - Release notes should mention the beta feature (if applicable), contributors, issues and PRs ([Example](https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Ftypes%401.8.0-workflowStepsBeta.2))
 
     - Select the **This is a pre-release** checkbox
 
