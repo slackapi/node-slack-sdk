@@ -1,10 +1,10 @@
 const { assert } = require('chai');
 const sinon = require('sinon');
-const { Logger, ConsoleLogger, LogLevel } = require('./index');
+const { ConsoleLogger, LogLevel } = require('./index');
 
 describe('Logger', () => {
   describe('ConsoleLogger', () => {
-    let logger: Logger;
+    let logger; // Logger
 
     beforeEach(() => {
       logger = new ConsoleLogger();
@@ -67,10 +67,10 @@ describe('Logger', () => {
     });
 
     describe('log levels', () => {
-      let debugStub: sinon.SinonStub;
-      let infoStub: sinon.SinonStub;
-      let warnStub: sinon.SinonStub;
-      let errorStub: sinon.SinonStub;
+      let debugStub; // sinon.SinonStub
+      let infoStub; // sinon.SinonStub
+      let warnStub; // sinon.SinonStub
+      let errorStub; // sinon.SinonStub
 
       beforeEach(() => {
         debugStub = sinon.stub(console, 'debug');
