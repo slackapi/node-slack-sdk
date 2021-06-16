@@ -67,12 +67,21 @@ export interface MrkdwnElement {
   verbatim?: boolean;
 }
 
-export interface Option {
-  text: PlainTextElement | MrkdwnElement;
+export interface MrkdwnOption {
+  text: MrkdwnElement;
   value?: string;
   url?: string;
   description?: PlainTextElement;
 }
+
+export interface PlainTextOption {
+  text: PlainTextElement;
+  value?: string;
+  url?: string;
+  description?: PlainTextElement;
+}
+
+export type Option = MrkdwnOption | PlainTextOption;
 
 export interface Confirm {
   title?: PlainTextElement;
@@ -116,10 +125,10 @@ export interface StaticSelect extends Action {
   type: 'static_select';
   placeholder?: PlainTextElement;
   initial_option?: Option;
-  options?: Option[];
+  options?: PlainTextOption[];
   option_groups?: {
     label: PlainTextElement;
-    options: Option[];
+    options: PlainTextOption[];
   }[];
   confirm?: Confirm;
 }
@@ -127,11 +136,11 @@ export interface StaticSelect extends Action {
 export interface MultiStaticSelect extends Action {
   type: 'multi_static_select';
   placeholder?: PlainTextElement;
-  initial_options?: Option[];
-  options?: Option[];
+  initial_options?: PlainTextOption[];
+  options?: PlainTextOption[];
   option_groups?: {
     label: PlainTextElement;
-    options: Option[];
+    options: PlainTextOption[];
   }[];
   max_selected_items?: number;
   confirm?: Confirm;
@@ -182,7 +191,7 @@ export interface MultiChannelsSelect extends Action {
 
 export interface ExternalSelect extends Action {
   type: 'external_select';
-  initial_option?: Option;
+  initial_option?: PlainTextOption;
   placeholder?: PlainTextElement;
   min_query_length?: number;
   confirm?: Confirm;
@@ -190,7 +199,7 @@ export interface ExternalSelect extends Action {
 
 export interface MultiExternalSelect extends Action {
   type: 'multi_external_select';
-  initial_options?: Option[];
+  initial_options?: PlainTextOption[];
   placeholder?: PlainTextElement;
   min_query_length?: number;
   max_selected_items?: number;
@@ -208,7 +217,7 @@ export interface Button extends Action {
 
 export interface Overflow extends Action {
   type: 'overflow';
-  options: Option[];
+  options: PlainTextOption[];
   confirm?: Confirm;
 }
 
