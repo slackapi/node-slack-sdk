@@ -124,7 +124,7 @@ export interface MultiUsersSelect extends Action {
 export interface StaticSelect extends Action {
   type: 'static_select';
   placeholder?: PlainTextElement;
-  initial_option?: Option;
+  initial_option?: PlainTextOption;
   options?: PlainTextOption[];
   option_groups?: {
     label: PlainTextElement;
