@@ -520,17 +520,23 @@ class MemoryInstallationStore implements InstallationStore {
     if (logger !== undefined) {
       logger.warn('Deleting Access Token from DB. Please use a real Installation Store for production!');
     }
-    
+
     if (query.isEnterpriseInstall && query.enterpriseId !== undefined) {
       if (logger !== undefined) {
         logger.debug('deleting org installation');
       }
-      delete this.devDB[query.enterpriseId];
+
+      const { [query.enterpriseId]: _, ...devDB } = this.devDB;
+      this.devDB = devDB;
+
     } else if (query.teamId !== undefined) {
       if (logger !== undefined) {
         logger.debug('deleting single team installation');
       }
-      delete this.devDB[query.teamId];
+
+      const { [query.teamId]: _, ...devDB } = this.devDB;
+      this.devDB = devDB;
+
     } else {
       throw new Error('Failed to delete installation');
     }
