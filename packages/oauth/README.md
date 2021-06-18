@@ -184,15 +184,30 @@ const installer = new InstallProvider({
     // returns installation object from database
     fetchInstallation: async (installQuery) => {
       // replace myDB.get with your own database or OEM getter
-      if (query.isEnterpriseInstall && query.enterpriseId !== undefined) {
+      if (installQuery.isEnterpriseInstall && installQuery.enterpriseId !== undefined) {
         // org wide app installation lookup
         return await myDB.get(installQuery.enterpriseId);
       }
-      if (query.teamId !== undefined) {
+      if (installQuery.teamId !== undefined) {
         // single team app installation lookup
         return await myDB.get(installQuery.teamId);
       }
       throw new Error('Failed fetching installation');
+    },
+    // takes in an installQuery as an argument
+    // installQuery = {teamId: 'string', enterpriseId: 'string', userId: 'string', conversationId: 'string', isEnterpriseInstall: boolean};
+    // returns nothing
+    deleteInstallation: async (installQuery) => {
+      // replace myDB.get with your own database or OEM getter
+      if (query.isEnterpriseInstall && query.enterpriseId !== undefined) {
+        // org wide app installation deletion
+        return await myDB.delete(installQuery.enterpriseId);
+      }
+      if (query.teamId !== undefined) {
+        // single team app installation deletion
+        return await myDB.delete(installQuery.teamId);
+      }
+      throw new Error('Failed to delete installation');
     },
   },
 });
