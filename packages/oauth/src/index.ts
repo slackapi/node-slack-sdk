@@ -461,6 +461,7 @@ export interface InstallationStore {
 }
 
 // using a javascript object as a makeshift database for development
+// storing user tokens is not supported
 interface DevDatabase {
   [teamIdOrEnterpriseId: string]: Installation;
 }
