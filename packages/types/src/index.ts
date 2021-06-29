@@ -50,7 +50,6 @@ interface ModalView {
   clear_on_close?: boolean; // defaults to false
   notify_on_close?: boolean; // defaults to false
   external_id?: string;
-  submit_disabled?: boolean; // defaults to false
 }
 
 interface WorkflowStepView {
