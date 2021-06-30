@@ -1604,10 +1604,7 @@ export interface OAuthV2AccessArguments extends WebAPICallOptions {
  */
 export interface PinsAddArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-  // must supply one of:
-  file?: string; // file id
-  file_comment?: string;
-  timestamp?: string;
+  timestamp: string;
 }
 export interface PinsListArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
