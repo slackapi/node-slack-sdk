@@ -1611,10 +1611,7 @@ export interface PinsListArguments extends WebAPICallOptions, TokenOverridable {
 }
 export interface PinsRemoveArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-  // must supply one of:
-  file?: string; // file id
-  file_comment?: string;
-  timestamp?: string;
+  timestamp: string;
 }
 
 /*
