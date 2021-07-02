@@ -457,7 +457,7 @@ export interface InstallationStore {
     logger?: Logger): Promise<void>;
   fetchInstallation:
   (query: InstallationQuery<boolean>, logger?: Logger) => Promise<Installation<'v1' | 'v2', boolean>>;
-  deleteInstallation:
+  deleteInstallation?:
   (query: InstallationQuery<boolean>, logger?: Logger) => Promise<void>;
 }
 
