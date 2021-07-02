@@ -16,7 +16,7 @@ export class FileInstallationStore implements InstallationStore {
   private historicalDataEnabled: boolean;
 
   constructor({
-    baseDir = `${homedir()}/.bolt-app-installation`,
+    baseDir = `${homedir()}/.bolt-js-app-installation`,
     clientId,
     historicalDataEnabled = true,
   }: FileInstallationOptions = {}) {

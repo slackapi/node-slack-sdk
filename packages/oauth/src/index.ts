@@ -699,4 +699,4 @@ interface AuthTestResult extends WebAPICallResult {
 }
 
 export { Logger, LogLevel } from './logger';
-export { MemoryInstallationStore, FileInstallationStore } from './stores';
+export * from './stores';
