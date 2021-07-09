@@ -494,7 +494,7 @@ describe('OAuth', async () => {
       fsWriteFile = sinon.stub(fs, 'writeFile').returns({});
       fsReadFileSync = sinon.stub(fs, 'readFileSync').returns(Buffer.from(JSON.stringify(storedInstallation)));
       fsUnlink = sinon.stub(fs, 'unlink').returns({});
-      fsReaddirSync = sinon.stub(fs, 'readdirSync').returns([]);
+      fsReaddirSync = sinon.stub(fs, 'readdirSync').returns(['app-latest', 'user-userId-latest']);
     });
 
     afterEach(() => {
@@ -547,22 +547,37 @@ describe('OAuth', async () => {
       assert.deepEqual(installation, storedInstallation);
     });
 
-    it('should delete a stored installation', async () => {
+    it('should delete all records of installation if no userId is passed', async () => {
       const installationStore = new FileInstallationStore({ baseDir: '.' });
       const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
       const { enterprise, team } = storedInstallation;
       const fakeInstallDir = `/${enterprise.id}-${team.id}`;
       const query = { enterpriseId: enterprise.id, teamId: team.id };
 
-      installer.installationStore.storeInstallation(storedInstallation);
-      installer.installationStore.storeInstallation(storedInstallation);
-      installer.installationStore.storeInstallation(storedInstallation);
       await installer.installationStore.deleteInstallation(query);
 
-      assert.equal(fsUnlink.calledWith(sinon.match(`${fakeInstallDir}/app-latest`)), true);
+      assert.equal(fsReaddirSync.calledWith(sinon.match(fakeInstallDir)), true);
+      assert.equal(fsUnlink.calledWith(sinon.match(`app-latest`)), true);
+      assert.equal(fsUnlink.calledWith(sinon.match(`user-userId-latest`)), true);
 
-      // 1 store = 4 files = 2 latest + 2 timestamps
-      expect(fsWriteFile.callCount).equals(12);
+      // fsReaddirSync returns ['app-latest', 'user-userId-latest']
+      expect(fsUnlink.callCount).equals(2);
+    });
+
+    it('should delete only user records of installation if userId is passed', async () => {
+      const installationStore = new FileInstallationStore({ baseDir: '.' });
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
+      const { enterprise, team, user } = storedInstallation;
+      const fakeInstallDir = `/${enterprise.id}-${team.id}`;
+      const query = { enterpriseId: enterprise.id, teamId: team.id, userId: user.id };
+
+      await installer.installationStore.deleteInstallation(query);
+
+      assert.equal(fsReaddirSync.calledWith(sinon.match(fakeInstallDir)), true);
+      assert.equal(fsUnlink.calledWith(sinon.match(`user-${user.id}-latest`)), true);
+
+      // fsReaddirSync returns ['app-latest', 'user-userId-latest']
+      expect(fsUnlink.callCount).equals(1);
     });
   });
 

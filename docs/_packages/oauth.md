@@ -204,7 +204,7 @@ const installer = new InstallProvider({
         // org wide app installation deletion
         return await myDB.delete(installQuery.enterpriseId);
       }
-      if (query.teamId !== undefined) {
+      if (installQuery.teamId !== undefined) {
         // single team app installation deletion
         return await myDB.delete(installQuery.teamId);
       }

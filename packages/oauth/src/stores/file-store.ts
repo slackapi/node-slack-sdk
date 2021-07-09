@@ -29,7 +29,10 @@ export class FileInstallationStore implements InstallationStore {
     const installationData = JSON.stringify(installation);
     const installationDir = this.getInstallationDir(enterprise?.id, team?.id);
 
-    if (logger !== undefined) { logger.warn('Storing installation in FileInstallationStore'); }
+    if (logger !== undefined) {
+      logger.info(`Storing installation in ${installationDir} for ${JSON.stringify({ enterprise, team, user })}`);
+      logger.warn('FileInstallationStore is not intended for production purposes.');
+    }
 
     // Create Installation Directory
     fs.mkdir(installationDir, { recursive: true }, (err) => {
@@ -51,10 +54,18 @@ export class FileInstallationStore implements InstallationStore {
   }
 
   public async fetchInstallation(query: InstallationQuery<boolean>, logger?: Logger): Promise<Installation> {
-    const { enterpriseId, teamId } = query;
-    const installationDir = this.getInstallationDir(enterpriseId, teamId);
+    const { enterpriseId, teamId, isEnterpriseInstall } = query;
+    const installationDir = this.getInstallationDir(enterpriseId, teamId, isEnterpriseInstall);
 
-    if (logger !== undefined) { logger.warn('Retrieving installation from FileInstallationStore'); }
+    if (logger !== undefined) {
+      logger.info(`Retrieving installation from ${installationDir} with the following query: ${JSON.stringify(query)}`);
+    }
+
+    if (isEnterpriseInstall && enterpriseId === undefined) {
+      throw new Error('enterpriseId is required to fetch data of an enterprise installation');
+    }
+
+    // TODO :: introduce support for user tokens + querying using userId
 
     try {
       const data = fs.readFileSync(path.resolve(`${installationDir}/app-latest`));
@@ -69,14 +80,16 @@ export class FileInstallationStore implements InstallationStore {
     const { enterpriseId, teamId, userId } = query;
     const installationDir = this.getInstallationDir(enterpriseId, teamId);
 
-    if (logger !== undefined) { logger.warn('Deleting installation from FileInstallationStore'); }
+    if (logger !== undefined) {
+      logger.info(`Deleting installations in ${installationDir} with the following query: ${JSON.stringify(query)}`);
+    }
 
-    let filesToDelete: string[] = ['app-latest'];
+    let filesToDelete: string[] = [];
 
-    const appFiles = fs.readdirSync(installationDir).filter(file => file.includes('app-'));
-    filesToDelete = filesToDelete.concat(appFiles);
-
-    if (userId !== undefined) {
+    if (userId === undefined) {
+      const allFiles = fs.readdirSync(installationDir);
+      filesToDelete = filesToDelete.concat(allFiles);
+    } else {
       const userFiles = fs.readdirSync(installationDir).filter(file => file.includes(`user-${userId}-`));
       filesToDelete = filesToDelete.concat(userFiles);
     }
@@ -88,10 +101,10 @@ export class FileInstallationStore implements InstallationStore {
     }
   }
 
-  private getInstallationDir(enterpriseId = '', teamId = ''): string {
+  private getInstallationDir(enterpriseId = '', teamId = '', isEnterpriseInstall = false): string {
     let installDir = `${this.baseDir}/${enterpriseId}`;
 
-    if (teamId !== '') {
+    if (teamId !== '' && !isEnterpriseInstall) {
       installDir += (enterpriseId !== '') ? `-${teamId}` : `${teamId}`;
     }
 
