@@ -248,7 +248,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         assignEntities: bindApiCall<AdminAuthPolicyAssignEntitiesArguments, AdminAuthPolicyAssignEntitiesResponse>(this, 'admin.auth.policy.assignEntities'),
         getEntities: bindApiCall<AdminAuthPolicyGetEntitiesArguments, AdminAuthPolicyGetEntitiesResponse>(this, 'admin.auth.policy.getEntities'),
         removeEntities: bindApiCall<AdminAuthPolicyRemoveEntitiesArguments, AdminAuthPolicyRemoveEntitiesResponse>(this, 'admin.auth.policy.removeEntities'),
-      }
+      },
     },
     barriers: {
       create: bindApiCall<AdminBarriersCreateArguments, AdminBarriersCreateResponse>(this, 'admin.barriers.create'),
@@ -447,8 +447,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly conversations = {
-    acceptSharedInvite: bindApiCall<ConversationsAcceptSharedInviteArguments, WebAPICallResult>(this, 'conversations.acceptSharedInvite'), 
-    approveSharedInvite: bindApiCall<ConversationsApproveSharedInviteArguments, WebAPICallResult>(this, 'conversations.approveSharedInvite'), 
+    acceptSharedInvite: bindApiCall<ConversationsAcceptSharedInviteArguments, WebAPICallResult>(this, 'conversations.acceptSharedInvite'),
+    approveSharedInvite: bindApiCall<ConversationsApproveSharedInviteArguments, WebAPICallResult>(this, 'conversations.approveSharedInvite'),
     archive: bindApiCall<ConversationsArchiveArguments, ConversationsArchiveResponse>(this, 'conversations.archive'),
     close: bindApiCall<ConversationsCloseArguments, ConversationsCloseResponse>(this, 'conversations.close'),
     create: bindApiCall<ConversationsCreateArguments, ConversationsCreateResponse>(this, 'conversations.create'),
@@ -771,7 +771,7 @@ export interface AdminAppsUninstallArguments extends WebAPICallOptions {
 }
 export interface AdminAuthPolicyAssignEntitiesArguments extends WebAPICallOptions, TokenOverridable {
   entity_ids: string[];
-  entity_type: string; 
+  entity_type: string;
   policy_name: string;
 }
 export interface AdminAuthPolicyGetEntitiesArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
@@ -1340,8 +1340,8 @@ export interface ConversationsInviteArguments extends WebAPICallOptions, TokenOv
 }
 export interface ConversationsInviteSharedArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-  emails?: string[]; 
-  user_ids?: string[]; 
+  emails?: string[];
+  user_ids?: string[];
 }
 export interface ConversationsJoinArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
