@@ -177,7 +177,7 @@ describe('WebClient', function () {
 
       it('should return results in a Promise', function () {
         const r = this.client.apiCall('method');
-        return r.then(result => {
+        return r.then((result) => {
           assert(result.ok);
           this.scope.done();
         });
@@ -226,7 +226,7 @@ describe('WebClient', function () {
 
       warningTestPatterns.reduce((acc, { method, args }) => {
         const textPatterns = [{ text: "text" }]
-          .map(v => ({ method, args: Object.assign({}, v, args) }))
+          .map((v) => ({ method, args: Object.assign({}, v, args) }))
         return acc.concat(textPatterns)
       }, []).forEach(({ method, args }) => {
         it(`should not send warning to logs when client executes ${method} with text argument`, function () {
@@ -248,7 +248,7 @@ describe('WebClient', function () {
 
       warningTestPatterns.reduce((acc, { method, args }) => {
         const textPatterns = [{ text: "" }, { text: null }, {}]
-          .map(v => ({ method, args: Object.assign({}, v, args) }))
+          .map((v) => ({ method, args: Object.assign({}, v, args) }))
         return acc.concat(textPatterns)
       }, []).forEach(({ method, args }) => {
         it(`should send warning to logs when client executes ${method} without text argument(${args.text === "" ? "empty" : args.text})`, function () {
@@ -277,7 +277,7 @@ describe('WebClient', function () {
 
       threadTsTestPatterns.reduce((acc, { method, args }) => {
         const threadTs = [{ thread_ts: 1503435956.000247, text: 'text' }]
-          .map(v => ({ method, args: Object.assign({}, v, args) }))
+          .map((v) => ({ method, args: Object.assign({}, v, args) }))
         return acc.concat(threadTs)
       }, []).forEach(({ method, args }) => {
         it(`should send warning to logs when thread_ts in ${method} arguments is a float`, function () {
@@ -299,7 +299,7 @@ describe('WebClient', function () {
 
       threadTsTestPatterns.reduce((acc, { method, args }) => {
         const threadTs = [{ thread_ts: '1503435956.000247', text: 'text' }]
-          .map(v => ({ method, args: Object.assign({}, v, args) }))
+          .map((v) => ({ method, args: Object.assign({}, v, args) }))
         return acc.concat(threadTs)
       }, []).forEach(({ method, args }) => {
         it(`should not send warning to logs when thread_ts in ${method} arguments is a string`, function () {
@@ -344,7 +344,7 @@ describe('WebClient', function () {
           this.client.apiCall('method', 'a string'),
           this.client.apiCall('method', false),
         ];
-        const caughtErrors = results.map(r => {
+        const caughtErrors = results.map((r) => {
           return r
             .then(() => {
               // if any of these promises resolve, this test fails
@@ -909,12 +909,12 @@ describe('WebClient', function () {
 
           // verify that maxRequestConcurrency requests were all sent concurrently
           const concurrentResponses = responses.slice(0, 3); // the first 3 responses
-          concurrentResponses.forEach(r => assert.isBelow(r.diff, responseDelay));
+          concurrentResponses.forEach((r) => assert.isBelow(r.diff, responseDelay));
 
           // verify that any requests after maxRequestConcurrency were delayed by the responseDelay
           const queuedResponses = responses.slice(3);
           const minDiff = concurrentResponses[concurrentResponses.length - 1].diff + responseDelay;
-          queuedResponses.forEach(r => assert.isAtLeast(r.diff, minDiff));
+          queuedResponses.forEach((r) => assert.isAtLeast(r.diff, minDiff));
         });
     });
 
@@ -928,12 +928,12 @@ describe('WebClient', function () {
 
           // verify that maxRequestConcurrency requets were all sent concurrently
           const concurrentResponses = responses.slice(0, 1); // the first response
-          concurrentResponses.forEach(r => assert.isBelow(r.diff, responseDelay));
+          concurrentResponses.forEach((r) => assert.isBelow(r.diff, responseDelay));
 
           // verify that any requests after maxRequestConcurrency were delayed by the responseDelay
           const queuedResponses = responses.slice(1);// the second response
           const minDiff = concurrentResponses[concurrentResponses.length - 1].diff + responseDelay;
-          queuedResponses.forEach(r => { assert.isAtLeast(r.diff, minDiff) });
+          queuedResponses.forEach((r) => { assert.isAtLeast(r.diff, minDiff) });
         });
     });
 
