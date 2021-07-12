@@ -782,11 +782,10 @@ export interface AdminAppsUninstallArguments extends WebAPICallOptions {
 }
 export interface AdminAuthPolicyAssignEntitiesArguments extends WebAPICallOptions, TokenOverridable {
   entity_ids: string[];
-  entity_type: string;
+  entity_type: string; 
   policy_name: string;
 }
-export interface AdminAuthPolicyGetEntitiesArguments extends WebAPICallOptions, TokenOverridable,
-CursorPaginationEnabled {
+export interface AdminAuthPolicyGetEntitiesArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   policy_name: string;
   entity_type?: string;
 }
@@ -1353,8 +1352,8 @@ export interface ConversationsInviteArguments extends WebAPICallOptions, TokenOv
 }
 export interface ConversationsInviteSharedArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
-  emails?: string[];
-  user_ids?: string[];
+  emails?: string[]; 
+  user_ids?: string[]; 
 }
 export interface ConversationsJoinArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
