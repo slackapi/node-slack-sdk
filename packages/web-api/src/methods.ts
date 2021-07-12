@@ -785,7 +785,8 @@ export interface AdminAuthPolicyAssignEntitiesArguments extends WebAPICallOption
   entity_type: string;
   policy_name: string;
 }
-export interface AdminAuthPolicyGetEntitiesArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface AdminAuthPolicyGetEntitiesArguments extends WebAPICallOptions, TokenOverridable,
+CursorPaginationEnabled {
   policy_name: string;
   entity_type?: string;
 }
