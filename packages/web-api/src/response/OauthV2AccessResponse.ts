@@ -11,6 +11,8 @@ export type OauthV2AccessResponse = WebAPICallResult & {
   scope?:                 string;
   token_type?:            string;
   access_token?:          string;
+  refresh_token?:         string;
+  expires_in?:            number;
   bot_user_id?:           string;
   team?:                  Enterprise;
   enterprise?:            Enterprise;
@@ -19,10 +21,12 @@ export type OauthV2AccessResponse = WebAPICallResult & {
 };
 
 export interface AuthedUser {
-  id?:           string;
-  scope?:        string;
-  token_type?:   string;
-  access_token?: string;
+  id?:            string;
+  scope?:         string;
+  token_type?:    string;
+  access_token?:  string;
+  refresh_token?: string;
+  expires_in?:    number;
 }
 
 export interface Enterprise {
