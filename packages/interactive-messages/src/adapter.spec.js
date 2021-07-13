@@ -644,7 +644,7 @@ describe('SlackMessageAdapter', function () {
           expectedAsyncRequest
         ]);
       });
-      it('should handle the callback returning a promise that fails after the timeout with a ' +
+      xit('should handle the callback returning a promise that fails after the timeout with a ' +
          'synchronous response', function () {
         let dispatchResponse;
         const requestPayload = this.requestPayload;

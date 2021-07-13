@@ -89,6 +89,13 @@ const installationStore = {
     return new Promise((resolve) => {
       resolve(item);
     });
+  },
+  deleteInstallation: (installQuery) => {
+    // db delete
+    delete devDB[installQuery.teamId];
+    return new Promise((resolve) => {
+        resolve();
+    });
   }
 }
 
@@ -548,7 +555,7 @@ describe('OAuth', async () => {
     });
   });
 
-  describe('MemoryInstallStore', async () => {
+  describe('MemoryInstallationStore', async () => {
     it('should store and fetch an installation', async () => {
       const installer = new InstallProvider({ clientId, clientSecret, stateSecret });
       const fakeTeamId = storedInstallation.team.id;
@@ -557,6 +564,17 @@ describe('OAuth', async () => {
       const fetchedResult = await installer.installationStore.fetchInstallation({ teamId: fakeTeamId });
       assert.deepEqual(fetchedResult, storedInstallation);
       assert.deepEqual(storedInstallation, installer.installationStore.devDB[fakeTeamId]);
+    });
+
+    it('should delete a stored installation', async () => {
+      const installer = new InstallProvider({clientId, clientSecret, stateSecret});
+      const fakeTeamId = storedInstallation.team.id;
+
+      await installer.installationStore.storeInstallation(storedInstallation);
+      assert.isNotEmpty(installer.installationStore.devDB);
+      
+      await installer.installationStore.deleteInstallation({ teamId:fakeTeamId }); 
+      assert.isEmpty(installer.installationStore.devDB);
     });
   });
 

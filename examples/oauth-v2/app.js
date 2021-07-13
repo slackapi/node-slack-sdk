@@ -53,6 +53,19 @@ const installer = new InstallProvider({
       }
       throw new Error('Failed fetching installation');
     },
+    deleteInstallation: async (installQuery) => {
+      if (installQuery.isEnterpriseInstall) {
+        if (installQuery.enterpriseId !== undefined) {       
+          // delete org installation
+          return await keyv.delete(installQuery.enterpriseId)
+        }
+      }
+      if (installQuery.teamId !== undefined) {
+        // delete single team installation
+        return await keyv.delete(installQuery.teamId);
+      }
+      throw new Error('Failed to delete installation');
+    },
   },
 });
 

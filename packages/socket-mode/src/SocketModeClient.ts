@@ -465,8 +465,8 @@ export class SocketModeClient extends EventEmitter {
     }
 
     // attach event listeners
-    websocket.addEventListener('open', event => this.stateMachine.handle('websocket open', event));
-    websocket.addEventListener('close', event => this.stateMachine.handle('websocket close', event));
+    websocket.addEventListener('open', (event) => { this.stateMachine.handle('websocket open', event); });
+    websocket.addEventListener('close', (event) => { this.stateMachine.handle('websocket close', event); });
     websocket.addEventListener('error', (event) => {
       this.logger.error(`A websocket error occurred: ${event.message}`);
       this.emit('error', websocketErrorWithOriginal(event.error));
@@ -573,6 +573,7 @@ export class SocketModeClient extends EventEmitter {
     }
 
     // Define Ack
+    // tslint:disable-next-line:ter-arrow-parens
     const ack = async (response: object): Promise<void> => {
       this.logger.debug('calling ack', event.type);
       await this.send(event.envelope_id, response);

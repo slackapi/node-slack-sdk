@@ -95,6 +95,7 @@ export class WebClient extends Methods {
     retryConfig = retryPolicies.tenRetriesInAboutThirtyMinutes,
     agent = undefined,
     tls = undefined,
+    timeout = 0,
     rejectRateLimitedCalls = false,
     headers = {},
     teamId = undefined,
@@ -122,6 +123,7 @@ export class WebClient extends Methods {
     }
 
     this.axios = axios.create({
+      timeout,
       baseURL: slackApiUrl,
       headers: isElectron() ? headers : Object.assign({ 'User-Agent': getUserAgent() }, headers),
       httpAgent: agent,
@@ -496,6 +498,7 @@ export interface WebClientOptions {
   retryConfig?: RetryOptions;
   agent?: Agent;
   tls?: TLSOptions;
+  timeout?: number;
   rejectRateLimitedCalls?: boolean;
   headers?: object;
   teamId?: string;
@@ -624,7 +627,7 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, options?: WebAP
 
   const missingAttachmentFallbackDetected = (args: WebAPICallOptions) =>
     Array.isArray(args.attachments)
-    && args.attachments.some(attachment => !attachment.fallback || attachment.fallback.trim() === 0);
+    && args.attachments.some((attachment) => { return (!attachment.fallback || attachment.fallback.trim() === 0); });
 
   const isEmptyText = (args: WebAPICallOptions) =>
     args.text === undefined || args.text === null || args.text === '';
