@@ -210,7 +210,7 @@ export class InstallProvider {
         client_secret: this.clientSecret,
         grant_type: 'refresh_token',
         refresh_token: refreshToken,
-      }).catch(e => e) as OAuthV2TokenRefreshResponse;
+      }).catch((e) => e) as OAuthV2TokenRefreshResponse;
     });
 
     return Promise.all(refreshPromises);
