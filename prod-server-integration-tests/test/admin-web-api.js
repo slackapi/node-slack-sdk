@@ -80,16 +80,13 @@ describe('admin.* Web APIs', function () {
       export SLACK_SDK_TEST_GRID_USER_ID= 
      */
     it('should assign an entity', async function () {
-      try {
         const res = await orgAdminClient.admin.auth.policy.assignEntities({
           entity_ids: [process.env.SLACK_SDK_TEST_GRID_USER_ID],
           entity_type: "USER",
           policy_name: "email_password",
         });
         assert.equal(res.ok, true);
-      } catch (error) {
-        console.log(error);
-      }
+        assert.isUndefined(res.error);
     })
     it('should get entities', async function () {
       const res2 = await orgAdminClient.admin.auth.policy.getEntities({
@@ -97,18 +94,16 @@ describe('admin.* Web APIs', function () {
       });
       logger.info(res2);
       assert.equal(res2.ok, true);
+      assert.isUndefined(res2.error);
     })
     it('should remove entities', async function () {
-      try {
         const res3 = await orgAdminClient.admin.auth.policy.removeEntities({
           entity_ids: [process.env.SLACK_SDK_TEST_GRID_USER_ID], 
           entity_type: "USER",
           policy_name: "email_password",
         })
         assert.equal(res3.ok, true);
-      } catch (error) {
-        console.log(error);
-      }
+        assert.isUndefined(res3.error);
     })
   })
 });
