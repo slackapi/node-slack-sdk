@@ -199,11 +199,11 @@ const installer = new InstallProvider({
     // returns nothing
     deleteInstallation: async (installQuery) => {
       // replace myDB.get with your own database or OEM getter
-      if (query.isEnterpriseInstall && query.enterpriseId !== undefined) {
+      if (installQuery.isEnterpriseInstall && installQuery.enterpriseId !== undefined) {
         // org wide app installation deletion
         return await myDB.delete(installQuery.enterpriseId);
       }
-      if (query.teamId !== undefined) {
+      if (installQuery.teamId !== undefined) {
         // single team app installation deletion
         return await myDB.delete(installQuery.teamId);
       }

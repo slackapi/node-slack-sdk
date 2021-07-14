@@ -153,9 +153,11 @@ app.get('/slack/oauth_redirect', (req, res) => {
 
 ### Storing installations in a database
 
-Although this package uses a default `MemoryInstallationStore`, it isn't recommended for production use since the access tokens it stores would be lost when the process terminates or restarts. Instead, `InstallProvider` has an option for supplying your own installation store, which is used to save and retrieve install information (like tokens) to your own database.
+Although this package uses a default `MemoryInstallationStore`, it isn't recommended for production purposes since the access tokens it stores are lost when the process terminates or restarts. To override this default, `InstallProvider` allows for supplying your own `installationStore`, which is then used to save and retrieve installation information (like tokens) to your own database. 
 
-An installation store is an object that provides two methods: `storeInstallation`, and `fetchInstallation`. `storeInstallation` takes an `installation` as an argument, which is an object that contains all installation related data (like tokens, teamIds, enterpriseIds, etc). `fetchInstallation` takes in a `installQuery`, which is used to query the database. The `installQuery` can contain `teamId`, `enterpriseId`, `userId`, `conversationId` and `isEnterpriseInstall`. 
+For more persistent storage during development, `FileInstallationStore` is a provided alternative to `MemoryInstallationStore` and is available for import and use directly from the package. Customizable options for this store include specifying the `baseDir`, `clientId`, and `historicalDataEnabled`.
+
+An installation store is an object that provides three methods: `storeInstallation`, `fetchInstallation`, and `deleteInstallation`. `storeInstallation` takes an `installation` as an argument, which is an object that contains all installation related data (like tokens, teamIds, enterpriseIds, etc). `fetchInstallation` and `deleteInstallation` both take in an `installQuery`, which is used to query the database. The `installQuery` can contain `teamId`, `enterpriseId`, `userId`, `conversationId` and `isEnterpriseInstall`. 
 
 In the following example, the `installationStore` option is used and the object is defined in line. The methods are implemented by calling an example database library with simple get and set operations.
 
@@ -183,15 +185,30 @@ const installer = new InstallProvider({
     // returns installation object from database
     fetchInstallation: async (installQuery) => {
       // replace myDB.get with your own database or OEM getter
-      if (query.isEnterpriseInstall && query.enterpriseId !== undefined) {
+      if (installQuery.isEnterpriseInstall && installQuery.enterpriseId !== undefined) {
         // org wide app installation lookup
         return await myDB.get(installQuery.enterpriseId);
       }
-      if (query.teamId !== undefined) {
+      if (installQuery.teamId !== undefined) {
         // single team app installation lookup
         return await myDB.get(installQuery.teamId);
       }
       throw new Error('Failed fetching installation');
+    },
+    // takes in an installQuery as an argument
+    // installQuery = {teamId: 'string', enterpriseId: 'string', userId: 'string', conversationId: 'string', isEnterpriseInstall: boolean};
+    // returns nothing
+    deleteInstallation: async (installQuery) => {
+      // replace myDB.get with your own database or OEM getter
+      if (installQuery.isEnterpriseInstall && installQuery.enterpriseId !== undefined) {
+        // org wide app installation deletion
+        return await myDB.delete(installQuery.enterpriseId);
+      }
+      if (installQuery.teamId !== undefined) {
+        // single team app installation deletion
+        return await myDB.delete(installQuery.teamId);
+      }
+      throw new Error('Failed to delete installation');
     },
   },
 });
