@@ -85,7 +85,6 @@ describe('admin.* Web APIs', function () {
           entity_type: "USER",
           policy_name: "email_password",
         });
-        assert.equal(res.ok, true);
         assert.isUndefined(res.error);
     })
     it('should get entities', async function () {
@@ -93,7 +92,6 @@ describe('admin.* Web APIs', function () {
         policy_name: "email_password",
       });
       logger.info(res2);
-      assert.equal(res2.ok, true);
       assert.isUndefined(res2.error);
     })
     it('should remove entities', async function () {
@@ -102,7 +100,6 @@ describe('admin.* Web APIs', function () {
           entity_type: "USER",
           policy_name: "email_password",
         })
-        assert.equal(res3.ok, true);
         assert.isUndefined(res3.error);
     })
   })
