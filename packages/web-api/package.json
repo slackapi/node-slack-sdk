@@ -1,6 +1,6 @@
 {
   "name": "@slack/web-api",
-  "version": "6.2.4-tokenRotationBeta.1",
+  "version": "6.2.4",
   "description": "Official library for using the Slack Platform's Web API",
   "author": "Slack Technologies, Inc.",
   "license": "MIT",
