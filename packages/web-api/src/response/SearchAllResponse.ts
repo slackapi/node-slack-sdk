@@ -140,6 +140,7 @@ export interface MessagesMatch {
   attachments?:  MatchAttachment[];
   is_mpim?:      boolean;
   score?:        number;
+  files?:        File[];
 }
 
 export interface MatchAttachment {
@@ -341,6 +342,39 @@ export interface Channel {
   is_pending_ext_shared?: boolean;
   user?:                  string;
   name_normalized?:       string;
+}
+
+export interface File {
+  id?:                   string;
+  created?:              number;
+  timestamp?:            number;
+  name?:                 string;
+  title?:                string;
+  mimetype?:             string;
+  filetype?:             string;
+  pretty_type?:          string;
+  user?:                 string;
+  editable?:             boolean;
+  size?:                 number;
+  mode?:                 string;
+  is_external?:          boolean;
+  external_type?:        string;
+  is_public?:            boolean;
+  public_url_shared?:    boolean;
+  display_as_bot?:       boolean;
+  username?:             string;
+  url_private?:          string;
+  url_private_download?: string;
+  permalink?:            string;
+  permalink_public?:     string;
+  edit_link?:            string;
+  preview?:              string;
+  preview_highlight?:    string;
+  lines?:                number;
+  lines_more?:           number;
+  preview_is_truncated?: boolean;
+  is_starred?:           boolean;
+  has_rich_preview?:     boolean;
 }
 
 export interface Previous {

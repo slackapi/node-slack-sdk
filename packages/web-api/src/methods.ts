@@ -3,6 +3,9 @@ import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUs
 import { WebAPICallOptions, WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
 import { EventEmitter } from 'eventemitter3';
 
+import { AdminAuthPolicyAssignEntitiesResponse } from './response/AdminAuthPolicyAssignEntitiesResponse';
+import { AdminAuthPolicyGetEntitiesResponse } from './response/AdminAuthPolicyGetEntitiesResponse';
+import { AdminAuthPolicyRemoveEntitiesResponse } from './response/AdminAuthPolicyRemoveEntitiesResponse';
 import { AdminAppsApproveResponse } from './response/AdminAppsApproveResponse';
 import { AdminAppsApprovedListResponse } from './response/AdminAppsApprovedListResponse';
 import { AdminAppsRequestsListResponse } from './response/AdminAppsRequestsListResponse';
@@ -240,6 +243,13 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       },
       uninstall: bindApiCall<AdminAppsUninstallArguments, AdminAppsUninstallResponse>(this, 'admin.apps.uninstall'),
     },
+    auth: {
+      policy: {
+        assignEntities: bindApiCall<AdminAuthPolicyAssignEntitiesArguments, AdminAuthPolicyAssignEntitiesResponse>(this, 'admin.auth.policy.assignEntities'),
+        getEntities: bindApiCall<AdminAuthPolicyGetEntitiesArguments, AdminAuthPolicyGetEntitiesResponse>(this, 'admin.auth.policy.getEntities'),
+        removeEntities: bindApiCall<AdminAuthPolicyRemoveEntitiesArguments, AdminAuthPolicyRemoveEntitiesResponse>(this, 'admin.auth.policy.removeEntities'),
+      },
+    },
     barriers: {
       create: bindApiCall<AdminBarriersCreateArguments, AdminBarriersCreateResponse>(this, 'admin.barriers.create'),
       delete: bindApiCall<AdminBarriersDeleteArguments, AdminBarriersDeleteResponse>(this, 'admin.barriers.delete'),
@@ -437,16 +447,21 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly conversations = {
+    acceptSharedInvite: bindApiCall<ConversationsAcceptSharedInviteArguments, WebAPICallResult>(this, 'conversations.acceptSharedInvite'),
+    approveSharedInvite: bindApiCall<ConversationsApproveSharedInviteArguments, WebAPICallResult>(this, 'conversations.approveSharedInvite'),
     archive: bindApiCall<ConversationsArchiveArguments, ConversationsArchiveResponse>(this, 'conversations.archive'),
     close: bindApiCall<ConversationsCloseArguments, ConversationsCloseResponse>(this, 'conversations.close'),
     create: bindApiCall<ConversationsCreateArguments, ConversationsCreateResponse>(this, 'conversations.create'),
+    declineSharedInvite: bindApiCall<ConversationsDeclineSharedInviteArguments, WebAPICallResult>(this, 'conversations.declineSharedInvite'),
     history: bindApiCall<ConversationsHistoryArguments, ConversationsHistoryResponse>(this, 'conversations.history'),
     info: bindApiCall<ConversationsInfoArguments, ConversationsInfoResponse>(this, 'conversations.info'),
     invite: bindApiCall<ConversationsInviteArguments, ConversationsInviteResponse>(this, 'conversations.invite'),
+    inviteShared: bindApiCall<ConversationsInviteSharedArguments, WebAPICallResult>(this, 'conversations.inviteShared'),
     join: bindApiCall<ConversationsJoinArguments, ConversationsJoinResponse>(this, 'conversations.join'),
     kick: bindApiCall<ConversationsKickArguments, ConversationsKickResponse>(this, 'conversations.kick'),
     leave: bindApiCall<ConversationsLeaveArguments, ConversationsLeaveResponse>(this, 'conversations.leave'),
     list: bindApiCall<ConversationsListArguments, ConversationsListResponse>(this, 'conversations.list'),
+    listConnectInvites: bindApiCall<ConversationsListConnectInvitesArguments, WebAPICallResult>(this, 'conversations.listConnectInvites'),
     mark: bindApiCall<ConversationsMarkArguments, ConversationsMarkResponse>(this, 'conversations.mark'),
     members: bindApiCall<ConversationsMembersArguments, ConversationsMembersResponse>(this, 'conversations.members'),
     open: bindApiCall<ConversationsOpenArguments, ConversationsOpenResponse>(this, 'conversations.open'),
@@ -717,8 +732,8 @@ export interface TraditionalPagingEnabled {
  */
 
 /*
- * `admin.*`
- */
+* `admin.*`
+*/
 export interface AdminAppsApproveArguments extends WebAPICallOptions, TokenOverridable {
   app_id?: string;
   request_id?: string;
@@ -753,6 +768,22 @@ export interface AdminAppsUninstallArguments extends WebAPICallOptions {
   app_id: string;
   enterprise_id?: string;
   team_ids?: string[];
+}
+export interface AdminAuthPolicyAssignEntitiesArguments extends WebAPICallOptions, TokenOverridable {
+  entity_ids: string[];
+  entity_type: string;
+  policy_name: string;
+}
+export interface AdminAuthPolicyGetEntitiesArguments extends WebAPICallOptions, TokenOverridable,
+CursorPaginationEnabled {
+  policy_name: string;
+  entity_type?: string;
+}
+cursorPaginationEnabledMethods.add('admin.auth.policy.getEntities');
+export interface AdminAuthPolicyRemoveEntitiesArguments extends WebAPICallOptions, TokenOverridable {
+  entity_ids: string[];
+  entity_type: string;
+  policy_name: string;
 }
 export interface AdminBarriersCreateArguments extends WebAPICallOptions, TokenOverridable {
   barriered_from_usergroup_ids: string[];
@@ -1268,6 +1299,18 @@ export interface ChatUpdateArguments extends WebAPICallOptions, TokenOverridable
 /*
  * `conversations.*`
  */
+export interface ConversationsAcceptSharedInviteArguments extends WebAPICallOptions, TokenOverridable {
+  channel_name: string;
+  channel_id?: string;
+  free_trial_accepted?: boolean;
+  invite_id?: string;
+  is_private?: boolean;
+  team_id?: string;
+}
+export interface ConversationsApproveSharedInviteArguments extends WebAPICallOptions, TokenOverridable {
+  invite_id: string;
+  target_team?: string;
+}
 export interface ConversationsArchiveArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
 }
@@ -1278,6 +1321,10 @@ export interface ConversationsCreateArguments extends WebAPICallOptions, TokenOv
   name: string;
   is_private?: boolean;
   team_id?: string;
+}
+export interface ConversationsDeclineSharedInviteArguments extends WebAPICallOptions, TokenOverridable {
+  invite_id: string;
+  target_team?: string;
 }
 export interface ConversationsHistoryArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled,
   TimelinePaginationEnabled {
@@ -1291,6 +1338,11 @@ export interface ConversationsInfoArguments extends WebAPICallOptions, TokenOver
 export interface ConversationsInviteArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   users: string; // comma-separated list of users
+}
+export interface ConversationsInviteSharedArguments extends WebAPICallOptions, TokenOverridable {
+  channel: string;
+  emails?: string[];
+  user_ids?: string[];
 }
 export interface ConversationsJoinArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
@@ -1308,6 +1360,12 @@ export interface ConversationsListArguments extends WebAPICallOptions, TokenOver
   team_id?: string;
 }
 cursorPaginationEnabledMethods.add('conversations.list');
+export interface ConversationsListConnectInvitesArguments extends WebAPICallOptions, TokenOverridable {
+  count?: number;
+  cursor?: string;
+  team_id?: string;
+}
+cursorPaginationEnabledMethods.add('conversations.listConnectInvites');
 export interface ConversationsMarkArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   ts: string;
