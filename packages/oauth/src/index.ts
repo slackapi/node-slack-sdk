@@ -204,7 +204,7 @@ export class InstallProvider {
   private async refreshExpiringTokens(tokensToRefresh: string[]): Promise<OAuthV2TokenRefreshResponse[]> {
     const client = new WebClient(undefined, this.clientOptions);
 
-    // @ts-ignore
+    // tslint:disable-next-line:ter-arrow-parens
     const refreshPromises = tokensToRefresh.map(async (refreshToken) => {
       return await client.oauth.v2.access({
         client_id: this.clientId,
