@@ -67,7 +67,6 @@ describe('Web APIs', function () {
 
       export SLACK_SDK_TEST_BOT_TOKEN= inviting workspace
       export SLACK_SDK_TEST_BOT_TOKEN_SLACK_CONNECT= responding workspace
-      export SLACK_SDK_TEST_SLACK_CONNECT_CHANNEL_ID= inviting workspace channel to be connected
       export SLACK_SDK_TEST_SLACK_CONNECT_BOT_USER_ID=bot user id belonging to responding app
     */
     const botClientSlackConnect = new WebClient(process.env.SLACK_SDK_TEST_BOT_TOKEN_SLACK_CONNECT);
@@ -113,7 +112,7 @@ describe('Web APIs', function () {
     });
 
     /* 
-      To run this test, you need an additional admin scoped user token xoxp with conversations.connect:manage scope to approve a request that has been accepted by a user on the workspace. The user who issued the token must have the appropriate workspace permissions to approve Slack Connect channels at the time the token is used (Org Owner, Org Admin)
+      To run this test, you need an additional admin scoped user token xoxp with conversations.connect:manage scope to approve a request that has been accepted by a user on the workspace. The user who issued the token must have the appropriate workspace permissions to approve Slack Connect channels at the time the token is used (Org Owner, Org Admin).
     */
     // describe('approveSharedInvite', function () {
     //   it('should approve an invite', async function () {
