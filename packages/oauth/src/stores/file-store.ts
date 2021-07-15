@@ -90,12 +90,14 @@ export class FileInstallationStore implements InstallationStore {
       const allFiles = fs.readdirSync(installationDir);
       filesToDelete = filesToDelete.concat(allFiles);
     } else {
-      const userFiles = fs.readdirSync(installationDir).filter((file) => file.includes(`user-${userId}-`));
+      // tslint:disable-next-line:ter-arrow-parens
+      const userFiles = fs.readdirSync(installationDir).filter(file => file.includes(`user-${userId}-`));
       filesToDelete = filesToDelete.concat(userFiles);
     }
 
     try {
-      filesToDelete.map((filePath) => deleteFile(path.resolve(`${installationDir}/${filePath}`)));
+      // tslint:disable-next-line:ter-arrow-parens
+      filesToDelete.map(filePath => deleteFile(path.resolve(`${installationDir}/${filePath}`)));
     } catch (err) {
       throw new Error('Failed to delete installation from FileInstallationStore');
     }
