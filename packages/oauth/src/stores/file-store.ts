@@ -35,9 +35,7 @@ export class FileInstallationStore implements InstallationStore {
     }
 
     // Create Installation Directory
-    fs.mkdir(installationDir, { recursive: true }, (err) => {
-      if (err !== null) { return console.error(err); }
-    });
+    fs.mkdirSync(installationDir, { recursive: true });
 
     try {
       writeToFile(`${installationDir}/app-latest`, installationData);
