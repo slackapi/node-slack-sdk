@@ -31,23 +31,38 @@ rewiremock(() => require('@slack/web-api')).with({
         appId: 'fakeAppId',
       }),
       v2: {
-        access: sinon.fake.resolves({
-          team: { id: 'fake-v2-team-id', name: 'fake-team-name' },
-          access_token: 'botToken',
-          authed_user: {
-            id: 'userId',
-            access_token: 'userAccessToken',
-          },
-          bot_user_id: 'botUserId',
-          scope: 'chat:write,chat:read',
-          appId: 'fakeAppId',
-          token_type: 'bot',
-          enterprise: null,
-        })
+        access: (options) => mockedV2AccessResp(options),
       }
     }
   },
 });
+
+async function mockedV2AccessResp(options) {
+  const mockedResp = {
+    team: { id: 'fake-v2-team-id', name: 'fake-team-name' },
+    access_token: 'botToken',
+    bot_user_id: 'botUserId',
+    scope: 'chat:write,chat:read',
+    appId: 'fakeAppId',
+    enterprise: null,
+    token_type: 'bot',
+  };
+
+  // Token rotation payload has different shape than "normal" v2 access response
+  // See OAuthV2Response vs. OAuthV2TokenRefreshResponse for details
+  if (options.grant_type === 'refresh_token') {
+    mockedResp.refresh_token = 'newRefreshToken';
+    mockedResp.expires_in = 43200; // 12 hours
+
+    if (options.refresh_token.startsWith('user')) {
+      mockedResp.token_type = 'user';
+    }
+  } else {
+    mockedResp.authed_user = { id: 'userId', access_token: 'userAccessToken', };
+  }
+
+  return mockedResp;
+}
 
 rewiremock.enable();
 const { InstallProvider } = require('./index');
@@ -157,6 +172,7 @@ describe('OAuth', async () => {
     getLevel() { return LogLevel.DEBUG; },
     setName(_name) { /* noop */ },
   };
+
   describe('constructor()', async () => {
     it('should build a default installer given a clientID, client secret and stateSecret', async () => {
       const installer = new InstallProvider({ clientId, clientSecret, stateSecret });
@@ -256,6 +272,7 @@ describe('OAuth', async () => {
         assert.fail(error.message);
       }
     });
+
     it('should return a generated url when passed a custom authorizationUrl', async () => {
       const fakeStateStore = {
         generateStateParam: sinon.fake.resolves('fakeState'),
@@ -293,6 +310,7 @@ describe('OAuth', async () => {
         assert.fail(error.message);
       }
     });
+
     it('should return a generated v1 url', async () => {
       const fakeStateStore = {
         generateStateParam: sinon.fake.resolves('fakeState'),
@@ -324,6 +342,7 @@ describe('OAuth', async () => {
         assert.fail(error.message);
       }
     });
+
     it('should fail if missing scopes', async () => {
       const installer = new InstallProvider({ clientId, clientSecret, stateSecret });
       try {
@@ -335,6 +354,7 @@ describe('OAuth', async () => {
       }
     });
   });
+
   describe('installer.authorize', async () => {
     it('should fail if database does not have an entry for authorize query', async () => {
       const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
@@ -396,6 +416,7 @@ describe('OAuth', async () => {
 
       assert.isTrue(sent);
     });
+
     it('should call the failure callback due to missing code query parameter on the URL', async () => {
       const req = { url: 'someUrl' };
       let sent = false;
@@ -415,6 +436,7 @@ describe('OAuth', async () => {
 
       assert.isTrue(sent);
     });
+
     it('should call the success callback for a v2 url', async () => {
       let sent = false;
       const res = { send: () => { sent = true; } };

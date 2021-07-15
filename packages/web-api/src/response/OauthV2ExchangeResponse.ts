@@ -1,6 +1,6 @@
 /* tslint:disable */
 import { WebAPICallResult } from '../WebClient';
-export type OauthV2AccessResponse = WebAPICallResult & {
+export type OauthV2ExchangeResponse = WebAPICallResult & {
   ok?:                    boolean;
   warning?:               string;
   error?:                 string;
@@ -18,6 +18,7 @@ export type OauthV2AccessResponse = WebAPICallResult & {
   enterprise?:            Enterprise;
   is_enterprise_install?: boolean;
   incoming_webhook?:      IncomingWebhook;
+  response_metadata?:     ResponseMetadata;
 };
 
 export interface AuthedUser {
@@ -39,4 +40,8 @@ export interface IncomingWebhook {
   channel?:           string;
   channel_id?:        string;
   configuration_url?: string;
+}
+
+export interface ResponseMetadata {
+  messages?: string[];
 }
