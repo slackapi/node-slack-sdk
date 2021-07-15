@@ -189,6 +189,7 @@ export { MpimRepliesResponse } from './MpimRepliesResponse';
 export { OauthAccessResponse } from './OauthAccessResponse';
 export { OauthTokenResponse } from './OauthTokenResponse';
 export { OauthV2AccessResponse } from './OauthV2AccessResponse';
+export { OauthV2ExchangeResponse } from './OauthV2ExchangeResponse';
 export { PinsAddResponse } from './PinsAddResponse';
 export { PinsListResponse } from './PinsListResponse';
 export { PinsRemoveResponse } from './PinsRemoveResponse';
