@@ -996,6 +996,7 @@ export interface AdminUsersInviteArguments extends WebAPICallOptions, TokenOverr
   email: string;
   team_id: string;
   custom_message?: string;
+  email_password_policy_enabled?: boolean;
   guest_expiration_ts?: string;
   is_restricted?: boolean;
   is_ultra_restricted?: boolean;
