@@ -27,8 +27,8 @@ Some are broad and authorize your app to access lots of data, while others are v
 a tiny sliver. Your users (and their IT admins) will have opinions about which data your app should access, and only
 agree to install the app if the data permissions seem reasonable, so we recommend finding the scope(s) with the least
 amount of privilege for your app's needs. In this guide we will use the Web API to post a message. The scope required
-for this is called [`chat:write`](https://api.slack.com/scopes/chat:write). Use the dropdown under the "Bot Token Scopes" header and add the scope, then click
-"Save Changes".
+for this is called [`chat:write`](https://api.slack.com/scopes/chat:write). Scroll down to "Bot Token Scopes", ensure this section is expanded, then click "Add an OAuth Scope", find the
+[`chat:write`](https://api.slack.com/scopes/chat:write) scope and select it to add it to your app.
 
 Now our app has described which scope it desires in the workspace, but we haven't added it to your workspace yet. To install your app, scroll up to the top of the page and click the **Install to Workspace** button. You'll be taken to the app installation page. This page is where you grant the bot user permission to install the app in your development workspace with specific capabilities.
 
@@ -81,7 +81,7 @@ secrets outside of your code (do not hardcode sensitive data).
 Before we move forward, add the bot user you created above to the `#general` channel in your workspace. Bots need to be
 invited to channels to be able to post in them. You can do this by going to the `#general` channel inside slack in your workspace and
 type `/invite @YourBotUser` with the display name of your bot user.
- 
+
 Store the access token in a new environment variable. The following example works on Linux and MacOS; but [similar
 commands are available on Windows](https://superuser.com/a/212153/94970). Replace the value with OAuth Access Token that
 you copied earlier.
@@ -106,11 +106,11 @@ const currentTime = new Date().toTimeString();
       channel: '#general',
       text: `The current time is ${currentTime}`,
     });
+    console.log('Message posted!');
   } catch (error) {
     console.log(error);
   }
 
-  console.log('Message posted!');
 })();
 ```
 
