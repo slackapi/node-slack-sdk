@@ -69,6 +69,7 @@ export interface File {
   original_w?:           number;
   original_h?:           number;
   thumb_tiny?:           string;
+  media_display_type?:   string;
 }
 
 export interface Shares {

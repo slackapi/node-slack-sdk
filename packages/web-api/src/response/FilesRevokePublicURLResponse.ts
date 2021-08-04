@@ -53,6 +53,7 @@ export interface File {
   lines?:                number;
   lines_more?:           number;
   preview_is_truncated?: boolean;
+  media_display_type?:   string;
 }
 
 export interface Shares {

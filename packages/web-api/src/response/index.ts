@@ -190,6 +190,8 @@ export { OauthAccessResponse } from './OauthAccessResponse';
 export { OauthTokenResponse } from './OauthTokenResponse';
 export { OauthV2AccessResponse } from './OauthV2AccessResponse';
 export { OauthV2ExchangeResponse } from './OauthV2ExchangeResponse';
+export { OpenidConnectTokenResponse } from './OpenidConnectTokenResponse';
+export { OpenidConnectUserInfoResponse } from './OpenidConnectUserInfoResponse';
 export { PinsAddResponse } from './PinsAddResponse';
 export { PinsListResponse } from './PinsListResponse';
 export { PinsRemoveResponse } from './PinsRemoveResponse';
