@@ -188,6 +188,8 @@ import { AdminUsersSessionSetSettingsResponse } from './response/AdminUsersSessi
 import { AdminUsersSessionClearSettingsResponse } from './response/AdminUsersSessionClearSettingsResponse';
 import { AdminAppsClearResolutionResponse } from './response/AdminAppsClearResolutionResponse';
 import { AdminAppsUninstallResponse } from './response/AdminAppsUninstallResponse';
+import { OpenidConnectTokenResponse } from './response/OpenidConnectTokenResponse';
+import { OpenidConnectUserInfoResponse } from './response/OpenidConnectUserInfoResponse';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
 
@@ -523,6 +525,13 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     v2: {
       access: bindApiCall<OAuthV2AccessArguments, OauthV2AccessResponse>(this, 'oauth.v2.access'),
       exchange: bindApiCall<OAuthV2ExchangeArguments, OauthV2ExchangeResponse>(this, 'oauth.v2.exchange'),
+    },
+  };
+
+  public readonly openid = {
+    connect: {
+      token: bindApiCall<OpenidConnectTokenArguments, OpenidConnectTokenResponse>(this, 'openid.connect.token'),
+      userInfo: bindApiCall<OpenidConnectUserInfoArguments, OpenidConnectUserInfoResponse>(this, 'openid.connect.userInfo'),
     },
   };
 
@@ -1669,6 +1678,21 @@ export interface OAuthV2ExchangeArguments extends WebAPICallOptions {
   grant_type: string;
   refresh_token: string;
 }
+
+/*
+ * `openid.connect.*`
+ */
+export interface OpenidConnectTokenArguments extends WebAPICallOptions {
+  client_id: string;
+  client_secret: string;
+  code?: string;
+  redirect_uri?: string;
+  grant_type?: "authorization_code" | "refresh_token";
+  refresh_token?: string;
+}
+export interface OpenidConnectUserInfoArguments extends WebAPICallOptions {
+}
+
 /*
  * `pins.*`
  */
