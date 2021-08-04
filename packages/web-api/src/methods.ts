@@ -1687,7 +1687,7 @@ export interface OpenidConnectTokenArguments extends WebAPICallOptions {
   client_secret: string;
   code?: string;
   redirect_uri?: string;
-  grant_type?: "authorization_code" | "refresh_token";
+  grant_type?: 'authorization_code' | 'refresh_token';
   refresh_token?: string;
 }
 export interface OpenidConnectUserInfoArguments extends WebAPICallOptions {
