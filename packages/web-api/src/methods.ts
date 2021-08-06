@@ -188,8 +188,8 @@ import { AdminUsersSessionSetSettingsResponse } from './response/AdminUsersSessi
 import { AdminUsersSessionClearSettingsResponse } from './response/AdminUsersSessionClearSettingsResponse';
 import { AdminAppsClearResolutionResponse } from './response/AdminAppsClearResolutionResponse';
 import { AdminAppsUninstallResponse } from './response/AdminAppsUninstallResponse';
-import { OpenidConnectTokenResponse } from './response/OpenidConnectTokenResponse';
-import { OpenidConnectUserInfoResponse } from './response/OpenidConnectUserInfoResponse';
+import { OpenIDConnectTokenResponse } from './response/OpenIDConnectTokenResponse';
+import { OpenIDConnectUserInfoResponse } from './response/OpenIDConnectUserInfoResponse';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
 
@@ -530,8 +530,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly openid = {
     connect: {
-      token: bindApiCall<OpenidConnectTokenArguments, OpenidConnectTokenResponse>(this, 'openid.connect.token'),
-      userInfo: bindApiCall<OpenidConnectUserInfoArguments, OpenidConnectUserInfoResponse>(this, 'openid.connect.userInfo'),
+      token: bindApiCall<OpenIDConnectTokenArguments, OpenIDConnectTokenResponse>(this, 'openid.connect.token'),
+      userInfo: bindApiCall<OpenIDConnectUserInfoArguments, OpenIDConnectUserInfoResponse>(this, 'openid.connect.userInfo'),
     },
   };
 
@@ -1682,7 +1682,7 @@ export interface OAuthV2ExchangeArguments extends WebAPICallOptions {
 /*
  * `openid.connect.*`
  */
-export interface OpenidConnectTokenArguments extends WebAPICallOptions {
+export interface OpenIDConnectTokenArguments extends WebAPICallOptions {
   client_id: string;
   client_secret: string;
   code?: string;
@@ -1690,7 +1690,7 @@ export interface OpenidConnectTokenArguments extends WebAPICallOptions {
   grant_type?: 'authorization_code' | 'refresh_token';
   refresh_token?: string;
 }
-export interface OpenidConnectUserInfoArguments extends WebAPICallOptions {
+export interface OpenIDConnectUserInfoArguments extends WebAPICallOptions {
 }
 
 /*

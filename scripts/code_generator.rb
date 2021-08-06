@@ -54,6 +54,10 @@ Dir.glob(__dir__ + '/../tmp/java-slack-sdk/json-logs/samples/api/*').sort.each d
       end
       prev_c = c
     end
+    if root_class_name.start_with? 'Openid'
+      root_class_name.sub!('Openid', 'OpenID')
+    end
+
     root_class_name << 'Response'
     typedef_filepath = __dir__ + "/../packages/web-api/src/response/#{root_class_name}.ts"
     input_json = json_file.read

@@ -1,6 +1,6 @@
 /* tslint:disable */
 import { WebAPICallResult } from '../WebClient';
-export type OpenidConnectUserInfoResponse = WebAPICallResult & {
+export type OpenIDConnectUserInfoResponse = WebAPICallResult & {
   ok?:                                    boolean;
   warning?:                               string;
   error?:                                 string;
