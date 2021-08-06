@@ -1,0 +1,14 @@
+_metadata:
+  major_version: 1
+  minor_version: 1
+display_information:
+  name: my-openid-connect-app
+oauth_config:
+  redirect_urls:
+    # TODO: Replace the URL with our own one
+    - https://your-own-domain/slack/oauth_redirect
+  scopes:
+    user:
+      - openid
+      - email
+      - profile

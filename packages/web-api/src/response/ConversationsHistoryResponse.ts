@@ -82,6 +82,7 @@ export interface Attachment {
   thumb_url?:             string;
   thumb_width?:           number;
   thumb_height?:          number;
+  video_url?:             string;
   video_html?:            string;
   video_html_width?:      number;
   video_html_height?:     number;

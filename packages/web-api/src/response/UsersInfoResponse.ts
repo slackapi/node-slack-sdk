@@ -31,6 +31,7 @@ export interface User {
   has_2fa?:             boolean;
   is_email_confirmed?:  boolean;
   enterprise_user?:     EnterpriseUser;
+  is_stranger?:         boolean;
 }
 
 export interface EnterpriseUser {

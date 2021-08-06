@@ -59,6 +59,7 @@ export interface File {
   groups?:              string[];
   ims?:                 string[];
   comments_count?:      number;
+  media_display_type?:  string;
 }
 
 export interface ResponseMetadata {
