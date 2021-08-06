@@ -16,7 +16,7 @@ npm install
 
 ## Setup Environment Variables
 
-This app requires you setup a few environment variables. You can get these values by navigating to your app's [**BASIC INFORMATION** Page](https://api.slack.com/apps). 
+This app requires you to setup a few environment variables. You can get these values by navigating to your app's [**BASIC INFORMATION** Page](https://api.slack.com/apps). 
 
 ```
 export SLACK_CLIENT_ID=YOUR_SLACK_CLIENT_ID
