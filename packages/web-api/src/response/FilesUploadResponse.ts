@@ -57,10 +57,11 @@ export interface File {
 }
 
 export interface Shares {
-  public?: { [key: string]: Public[] };
+  public?:  { [key: string]: Private[] };
+  private?: { [key: string]: Private[] };
 }
 
-export interface Public {
+export interface Private {
   reply_users?:       string[];
   reply_users_count?: number;
   reply_count?:       number;
