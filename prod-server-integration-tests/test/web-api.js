@@ -1,5 +1,5 @@
 require('mocha');
-const { assert, AssertionError } = require('chai');
+const { assert } = require('chai');
 const { WebClient } = require('@slack/web-api');
 
 const winston = require('winston');
