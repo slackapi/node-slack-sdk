@@ -457,13 +457,15 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   public readonly conversations = {
     acceptSharedInvite: bindApiCall<ConversationsAcceptSharedInviteArguments, ConversationsAcceptSharedInviteResponse>(
       this, 'conversations.acceptSharedInvite'),
-    approveSharedInvite: bindApiCall<ConversationsApproveSharedInviteArguments, ConversationsApproveSharedInviteResponse>(
-      this, 'conversations.approveSharedInvite'),
+    approveSharedInvite:
+      bindApiCall<ConversationsApproveSharedInviteArguments, ConversationsApproveSharedInviteResponse>(
+        this, 'conversations.approveSharedInvite'),
     archive: bindApiCall<ConversationsArchiveArguments, ConversationsArchiveResponse>(this, 'conversations.archive'),
     close: bindApiCall<ConversationsCloseArguments, ConversationsCloseResponse>(this, 'conversations.close'),
     create: bindApiCall<ConversationsCreateArguments, ConversationsCreateResponse>(this, 'conversations.create'),
-    declineSharedInvite: bindApiCall<ConversationsDeclineSharedInviteArguments, ConversationsDeclineSharedInviteResponse>(
-      this, 'conversations.declineSharedInvite'),
+    declineSharedInvite:
+      bindApiCall<ConversationsDeclineSharedInviteArguments, ConversationsDeclineSharedInviteResponse>(
+        this, 'conversations.declineSharedInvite'),
     history: bindApiCall<ConversationsHistoryArguments, ConversationsHistoryResponse>(this, 'conversations.history'),
     info: bindApiCall<ConversationsInfoArguments, ConversationsInfoResponse>(this, 'conversations.info'),
     invite: bindApiCall<ConversationsInviteArguments, ConversationsInviteResponse>(this, 'conversations.invite'),
@@ -473,8 +475,9 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     kick: bindApiCall<ConversationsKickArguments, ConversationsKickResponse>(this, 'conversations.kick'),
     leave: bindApiCall<ConversationsLeaveArguments, ConversationsLeaveResponse>(this, 'conversations.leave'),
     list: bindApiCall<ConversationsListArguments, ConversationsListResponse>(this, 'conversations.list'),
-    listConnectInvites: bindApiCall<ConversationsListConnectInvitesArguments, ConversationsListConnectInvitesResponse>(
-      this, 'conversations.listConnectInvites'),
+    listConnectInvites:
+      bindApiCall<ConversationsListConnectInvitesArguments, ConversationsListConnectInvitesResponse>(
+        this, 'conversations.listConnectInvites'),
     mark: bindApiCall<ConversationsMarkArguments, ConversationsMarkResponse>(this, 'conversations.mark'),
     members: bindApiCall<ConversationsMembersArguments, ConversationsMembersResponse>(this, 'conversations.members'),
     open: bindApiCall<ConversationsOpenArguments, ConversationsOpenResponse>(this, 'conversations.open'),
