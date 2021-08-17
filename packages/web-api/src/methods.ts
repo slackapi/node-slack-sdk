@@ -1,5 +1,5 @@
 import { Stream } from 'stream';
-import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser } from '@slack/types';
+import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser, Metadata } from '@slack/types';
 import { WebAPICallOptions, WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
 import { EventEmitter } from 'eventemitter3';
 
@@ -1264,6 +1264,7 @@ export interface ChatPostMessageArguments extends WebAPICallOptions, TokenOverri
   unfurl_links?: boolean;
   unfurl_media?: boolean;
   username?: string; // if specified, as_user must be false
+  metadata?: Metadata;
 }
 export interface ChatScheduleMessageArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
