@@ -45,7 +45,6 @@ export interface View {
   external_id?: string;
 }
 
-// https://api.slack.com/partners/notifications-metadata
 export interface Metadata {
   event_type: string;
   event_payload: object;
