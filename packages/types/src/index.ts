@@ -363,6 +363,7 @@ export interface MessageAttachment {
   callback_id?: string;
   mrkdwn_in?: ('pretext' | 'text' | 'fields')[];
 }
+
 export interface AttachmentAction {
   id?: string;
   confirm?: Confirmation;
