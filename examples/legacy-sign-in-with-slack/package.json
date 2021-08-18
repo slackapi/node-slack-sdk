@@ -1,0 +1,17 @@
+{
+  "name": "legacy-sign-in-with-slack-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Slack Technologies, Inc.",
+  "license": "MIT",
+  "repository": "slackapi/node-slack-sdk",
+  "dependencies": {
+    "@koa/router": "^10.1.0",
+    "koa": "^2.13.1",
+    "uuid": "^8.3.2"
+  }
+}
