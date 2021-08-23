@@ -40,7 +40,7 @@ Reference docs are built by using various open source tools and formats. This in
 ### 🚀 Releases
 _For beta releases, see [**Beta Releases**](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#beta-releases) section below_
 
-Releasing can feel intimidaitng at first, but rest assured: if you make a mistake, don't fret! npm allows you to unpublish a release within the first 72 hours of publishing (you just won’t be able to use the same version number again). Venture on!
+Releasing can feel intimidating at first, but rest assured: if you make a mistake, don't fret! npm allows you to unpublish a release within the first 72 hours of publishing (you just won’t be able to use the same version number again). Venture on!
 
 1. Check the status of the package's GitHub Milestone for issues that should be shipped with the release.
 
