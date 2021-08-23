@@ -48,19 +48,21 @@ Releasing can feel intimidaitng at first, but rest assured: if you make a mistak
     
     - If issues are still open, discuss with the team about whether the open issues should be moved to a future release or if the release should be held off until the issues are resolved.
 
-2. Navigate to the specific package you're releasing in the `packages/` directory.
+2. Make sure your local `main` branch has the latest changes. 
 
-3. Run `npm run test && npm run lint` to verify that everything is working and free of linting errors.
+3. Navigate to the specific package(s) you're releasing in the `packages/` directory.
 
-4. Bump the version in `package.json` (see [Versioning and Tags](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#versioning-and-tags))
+4. For each package to be released, run `npm run test && npm run lint` to verify that tests are passing and code is free of linting errors.
 
-    - Make a single commit for the version bump ([Example](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594))
+5. Bump the version(s) in `package.json` (see [Versioning and Tags](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#versioning-and-tags))
+
+    - Make a single commit for the version(s) bump, following the format in: ([Example](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594))
 
     - Create a pull request for the version change ([Example](https://github.com/slackapi/node-slack-sdk/pull/1059))
 
-    - Add appropriate labels, including `release`
+    - Add appropriate labels on the pr, including `release`
 
-5. Once the PR has been approved and tests have passed, merge it into the main repository.
+6. Once the PR has been approved and tests have passed, merge it into the main repository.
 
     -  Update your local main branch: `git pull origin main`
 
@@ -68,25 +70,24 @@ Releasing can feel intimidaitng at first, but rest assured: if you make a mistak
 
     -  Push the new tag up to origin: `git push --tags origin`
 
-6. Publish the release to npm
+7. Publish the release to npm
+    - To publish, you need to be a member of the `slack Org` on npm and set up 2-Factor Auth with your passsword generator of choice. Before you can publish with npm, you must run `npm login` from the command line.
 
-    - Run `npm publish . --otp YOUR_OTP_CODE`
+    - Run `npm publish . --otp YOUR_OTP_CODE`. To generate an OTP (One Time Password), use your password generator of choice (Duo, 1Password)
 
-    - To generate an OTP (One Time Password), use your password generator of choice (Duo, 1Password)
-
-7. Close GitHub Milestone(s)
+8. Close GitHub Milestone(s)
 
     - Close the relevant GitHub Milestone(s) for the release(s)
     
     - Move any unfinished, open issues to the next GitHub Milestone
 
-8. Create GitHub Release(s) with release notes
+9. Create GitHub Release(s) with release notes
 
     - From the repository, navigate to the **Releases** section and draft a new release
 
     - Release notes should mention contributors, issues and PRs ([Example](https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Fweb-api%406.2.0))
 
-9. Communicate the release (as appropriate)
+10. Communicate the release (as appropriate)
 
     - **Internal** 
       
@@ -99,15 +100,15 @@ Releasing can feel intimidaitng at first, but rest assured: if you make a mistak
       - **Twitter**: Primarily for major updates. Coordinate with Developer Marketing.
 
 ### 🚧 Beta Releases
-1. Navigate to the specific package you're releasing in the `packages/` directory.
-
-2. Make sure your local `main` branch has the latest changes
+1. Make sure your local `main` branch has the latest changes
 
     - Run `git rebase main` from your feature branch (this will rebase your feature branch from `main`). You can opt for `git merge main` if you are not comfortable with rebasing.
 
-3. Run `npm run test && npm run lint` to verify that everything is working and free of linting errors.
+2. Navigate to the specific package(s) you're releasing in the `packages/` directory.
 
-4. Bump the version in `package.json`
+3. For each package to be released, run `npm run test && npm run lint` to verify that everything is working and free of linting errors. 
+
+4. Bump the version(s) in `package.json`
 
     - The version must be in the format of `Major.Minor.Patch-BetaNamespace.BetaVersion` (ex: `5.10.0-workflowStepsBeta.1`)
 
