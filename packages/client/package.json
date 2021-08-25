@@ -2,7 +2,7 @@
   "name": "@slack/client",
   "version": "5.0.2",
   "description": "Legacy wrapper for official Slack Platform's Web API, RTM API, and Incoming Webhook libraries. Use @slack/web-api, @slack/rtm-api, or @slack/webhook instead.",
-  "author": "Slack Technologies, Inc.",
+  "author": "Slack Technologies, LLC",
   "license": "MIT",
   "keywords": [
     "slack",

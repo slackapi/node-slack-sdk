@@ -2,7 +2,7 @@
   "name": "@slack/rtm-api",
   "version": "6.0.0",
   "description": "Official library for using the Slack Platform's Real Time Messaging API",
-  "author": "Slack Technologies, Inc.",
+  "author": "Slack Technologies, LLC",
   "license": "MIT",
   "keywords": [
     "slack",

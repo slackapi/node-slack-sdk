@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app.js"
   },
-  "author": "Slack Technologies, Inc.",
+  "author": "Slack Technologies, LLC",
   "license": "MIT",
   "repository": "slackapi/node-slack-sdk",
   "dependencies": {

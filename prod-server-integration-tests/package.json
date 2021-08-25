@@ -6,7 +6,7 @@
     "test:clean": "./link.sh && mocha --timeout 10000"
   },
   "repository": "https://github.com/slackapi/node-slack-sdk",
-  "author": "Slack Technologies, Inc.",
+  "author": "Slack Technologies, LLC",
   "license": "MIT",
   "dependencies": {
     "dotenv": "^4",

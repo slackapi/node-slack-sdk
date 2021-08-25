@@ -2,7 +2,7 @@
   "name": "@slack/sdk-ref-docs",
   "private": true,
   "description": "Reference documentation generation for Node Slack SDK",
-  "author": "Slack Technologies, Inc.",
+  "author": "Slack Technologies, LLC",
   "license": "MIT",
   "scripts": {
     "start": "ts-node ./src/index.ts"
