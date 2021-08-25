@@ -2,7 +2,7 @@
   "name": "@slack/web-api",
   "version": "6.4.0",
   "description": "Official library for using the Slack Platform's Web API",
-  "author": "Slack Technologies, Inc.",
+  "author": "Slack Technologies, LLC",
   "license": "MIT",
   "keywords": [
     "slack",

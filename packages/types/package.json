@@ -2,7 +2,7 @@
   "name": "@slack/types",
   "version": "2.2.0",
   "description": "Shared type definitions for the Node Slack SDK",
-  "author": "Slack Technologies, Inc.",
+  "author": "Slack Technologies, LLC",
   "license": "MIT",
   "keywords": [
     "slack",

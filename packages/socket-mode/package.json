@@ -2,7 +2,7 @@
   "name": "@slack/socket-mode",
   "version": "1.1.0",
   "description": "Official library for using the Slack Platform's Socket Mode API",
-  "author": "Slack Technologies, Inc.",
+  "author": "Slack Technologies, LLC",
   "license": "MIT",
   "keywords": [
     "slack",
