@@ -60,7 +60,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - Create a pull request for the version change ([Example](https://github.com/slackapi/node-slack-sdk/pull/1059))
 
-    - Add appropriate labels on the pr, including `release`
+    - Add appropriate labels on the PR, including `release`
 
 6. Once the PR has been approved and tests have passed, merge it into the main repository.
 
