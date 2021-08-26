@@ -471,7 +471,7 @@ export class SocketModeClient extends EventEmitter {
       this.logger.error(`A websocket error occurred: ${event.message}`);
       this.emit('error', websocketErrorWithOriginal(event.error));
     });
-    websocket.addEventListener('message', this.onWebsocketMessage.bind(this));
+    websocket.addEventListener('message', this.onWebSocketMessage.bind(this));
 
     // Confirm websocket connection is still active
     websocket.addEventListener('ping', this.heartbeat.bind(this));
@@ -529,7 +529,7 @@ export class SocketModeClient extends EventEmitter {
    * `onmessage` handler for the client's websocket. This will parse the payload and dispatch the relevant events for
    * each incoming message.
    */
-  private async onWebsocketMessage({ data }: { data: string }): Promise<void> {
+  protected async onWebSocketMessage({ data }: { data: string }): Promise<void> {
     this.logger.debug(`received a message on the WebSocket: ${data}`);
 
     // parse message into slack event
@@ -538,6 +538,9 @@ export class SocketModeClient extends EventEmitter {
       reason: string;
       payload: {[key: string]: any};
       envelope_id: string;
+      retry_attempt?: number; // type: events_api
+      retry_reason?: string; // type: events_api
+      accepts_response_payload?: boolean; // type: events_api, slash_commands, interactive
     };
 
     try {
@@ -581,15 +584,33 @@ export class SocketModeClient extends EventEmitter {
 
     // for events_api messages, expose the type of the event
     if (event.type === 'events_api') {
-      this.emit(event.payload.event.type, { ack, body: event.payload, event: event.payload.event });
+      this.emit(event.payload.event.type, {
+        ack,
+        body: event.payload,
+        event: event.payload.event,
+        retry_num: event.retry_attempt,
+        retry_reason: event.retry_reason,
+        accepts_response_payload: event.accepts_response_payload,
+      });
     } else {
       // emit just ack and body for all other types of messages
-      this.emit(event.type, { ack, body: event.payload });
+      this.emit(event.type, {
+        ack,
+        body: event.payload,
+        accepts_response_payload: event.accepts_response_payload,
+      });
     }
 
     // emitter for all slack events
     // used in tools like bolt-js
-    this.emit('slack_event', { ack, type: event.type, body: event.payload });
+    this.emit('slack_event', {
+      ack,
+      type: event.type,
+      body: event.payload,
+      retry_num: event.retry_attempt,
+      retry_reason: event.retry_reason,
+      accepts_response_payload: event.accepts_response_payload,
+    });
   }
 }
 
