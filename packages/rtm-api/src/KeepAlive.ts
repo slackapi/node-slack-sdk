@@ -217,7 +217,7 @@ export class KeepAlive extends EventEmitter {
         .catch((error) => {
           this.logger.error(`Unhandled error: ${error.message}. Please report to @slack/rtm-api package maintainers.`);
         });
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(`Unhandled error: ${error.message}. Please report to @slack/rtm-api package maintainers.`);
     }
   }

@@ -359,9 +359,11 @@ export class WebClient extends Methods {
 
         return response;
       } catch (error) {
-        this.logger.warn('http request failed', error.message);
-        if (error.request) {
-          throw requestErrorWithOriginal(error);
+        // To make this compatible with tsd, casting here instead of `catch (error: any)`
+        const e = error as any;
+        this.logger.warn('http request failed', e.message);
+        if (e.request) {
+          throw requestErrorWithOriginal(e);
         }
         throw error;
       }
@@ -571,7 +573,7 @@ function paginationOptionsForNextPage(
       cursor: previousResult.response_metadata.next_cursor as string,
     };
   }
-  return;
+  return undefined;
 }
 
 /**
