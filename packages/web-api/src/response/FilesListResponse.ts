@@ -31,19 +31,27 @@ export interface File {
   url_private?:          string;
   thumb_64?:             string;
   thumb_80?:             string;
+  thumb_160?:            string;
   thumb_360?:            string;
   thumb_360_w?:          number;
   thumb_360_h?:          number;
   thumb_480?:            string;
   thumb_480_w?:          number;
   thumb_480_h?:          number;
-  thumb_160?:            string;
   thumb_720?:            string;
   thumb_720_w?:          number;
   thumb_720_h?:          number;
   thumb_800?:            string;
   thumb_800_w?:          number;
   thumb_800_h?:          number;
+  thumb_960?:            string;
+  thumb_960_w?:          number;
+  thumb_960_h?:          number;
+  thumb_1024?:           string;
+  thumb_1024_w?:         number;
+  thumb_1024_h?:         number;
+  thumb_video?:          string;
+  thumb_360_gif?:        string;
   original_w?:           number;
   original_h?:           number;
   thumb_tiny?:           string;
@@ -61,13 +69,6 @@ export interface File {
   lines?:                number;
   lines_more?:           number;
   preview_is_truncated?: boolean;
-  thumb_960?:            string;
-  thumb_960_w?:          number;
-  thumb_960_h?:          number;
-  thumb_1024?:           string;
-  thumb_1024_w?:         number;
-  thumb_1024_h?:         number;
-  thumb_video?:          string;
   media_display_type?:   string;
 }
 

@@ -63,9 +63,10 @@ export interface File {
   thumb_64?:             string;
   thumb_80?:             string;
   thumb_360?:            string;
+  thumb_160?:            string;
   thumb_360_w?:          number;
   thumb_360_h?:          number;
-  thumb_160?:            string;
+  thumb_360_gif?:        string;
   original_w?:           number;
   original_h?:           number;
   thumb_tiny?:           string;
