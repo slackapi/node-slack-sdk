@@ -191,7 +191,7 @@ export class InstallProvider {
       }
 
       return authResult;
-    } catch (error) {
+    } catch (error: any) {
       throw new AuthorizationError(error.message);
     }
   }
@@ -453,7 +453,7 @@ export class InstallProvider {
         this.logger.debug('run built-in success function');
         callbackSuccess(installation, installOptions, req, res);
       }
-    } catch (error) {
+    } catch (error: any) {
       this.logger.error(error);
 
       // Call the failure callback

@@ -17,9 +17,10 @@ expectError(web.paginate('conversations.list', {}, () => 7));
 
 expectType<Promise<number>>(web.paginate('conversations.list', {}, () => false, () => 5));
 
+// NOTE: this error does not arise with TypeScript 4.4+
 // When there's no shouldStop predicate given but there is a reducer, the behavior is undefined.
 // (However in the current implementation, the return value is `AsyncIteratable<WebAPICallResult>`.)
-expectError(web.paginate('conversations.list', {}, undefined, () => 5));
+// expectError(web.paginate('conversations.list', {}, undefined, () => 5));
 
 // Ensure that it works in a for-await-of loop.
 async () => {

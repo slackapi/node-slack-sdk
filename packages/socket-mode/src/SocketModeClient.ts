@@ -542,7 +542,7 @@ export class SocketModeClient extends EventEmitter {
 
     try {
       event = JSON.parse(data);
-    } catch (parseError) {
+    } catch (parseError: any) {
       // prevent application from crashing on a bad message, but log an error to bring attention
       this.logger.error(
         `unable to parse incoming websocket message: ${parseError.message}`,

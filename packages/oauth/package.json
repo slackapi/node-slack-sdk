@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@slack/logger": "^3.0.0",
-    "@slack/web-api": "^6.0.0",
+    "@slack/web-api": "^6.3.0",
     "@types/jsonwebtoken": "^8.3.7",
     "@types/node": ">=12",
     "jsonwebtoken": "^8.5.1",
