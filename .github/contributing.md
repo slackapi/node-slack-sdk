@@ -13,6 +13,7 @@ There are many ways you can contribute! :heart:
 -  Issues that have already been identified as a bug (note: able to reproduce) will be labelled `bug`.
 -  If you'd like to submit a fix for a bug, [send a Pull Request](#creating_a_pull_request) and mention the Issue number.
   -  Include tests that isolate the bug and verifies that it was fixed.
+-  If you'd like to improve the files under `packages/web-api/src/response`, make changes to their source data instead. Refer to `scripts/generate-web-api-types.sh` to learn how to modify the source JSON data.
 
 ### New Features :bulb:
 -  If you'd like to add new functionality to this project, describe the problem you want to solve in a [new Issue](https://github.com/slackapi/node-slack-sdk/issues/new).
