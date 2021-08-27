@@ -470,7 +470,7 @@ export class WebClient extends Methods {
         data = JSON.parse(data);
       } catch (_) {
         // failed to parse the string value as JSON data
-        data = { ok: false, error: data};
+        data = {ok: false, error: data};
       }
     }
 
