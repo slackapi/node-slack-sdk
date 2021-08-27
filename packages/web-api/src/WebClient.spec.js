@@ -606,6 +606,37 @@ describe('WebClient', function () {
           });
       });
     });
+
+    describe('with string respnse body for some reason', function () {
+      it('should try to parse the body', function () {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(200, '{ "ok": true, "response_metadata": { "foo": "bar" } }', {
+            'X-OAuth-Scopes': 'files:read, chat:write:bot',
+            'X-Accepted-OAuth-Scopes': 'files:read'
+          });
+        return this.client.apiCall('method')
+          .then((result) => {
+            assert.deepNestedInclude(result.response_metadata, { scopes: ['files:read', 'chat:write:bot'] });
+            assert.deepNestedInclude(result.response_metadata, { acceptedScopes: ['files:read'] });
+            assert.deepNestedInclude(result.response_metadata, { foo: 'bar' });
+            scope.done();
+          })
+      });
+      it('should work even if the body is not a JSON data', function () {
+        const scope = nock('https://slack.com')
+          .post(/api/)
+          .reply(200, 'something wrong!', {
+            'X-OAuth-Scopes': 'files:read, chat:write:bot',
+            'X-Accepted-OAuth-Scopes': 'files:read'
+          });
+        return this.client.apiCall('method')
+          .catch(err => {
+            assert.equal(err.message, 'An API error occurred: something wrong!');
+            scope.done();
+          });
+      });
+    });
   });
 
   describe('apiCall() - without a token', function () {

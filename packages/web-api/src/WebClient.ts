@@ -462,7 +462,17 @@ export class WebClient extends Methods {
    * @param response - an http response
    */
   private buildResult(response: AxiosResponse): WebAPICallResult {
-    const data = response.data;
+    let data = response.data;
+
+    if (typeof data === 'string') {
+      // response.data can be a string, not an object for some reason
+      try {
+        data = JSON.parse(data);
+      } catch (_) {
+        // failed to parse the string value as JSON data
+        data = { ok: false, error: data};
+      }
+    }
 
     if (data.response_metadata === undefined) {
       data.response_metadata = {};
