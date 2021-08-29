@@ -607,7 +607,7 @@ describe('WebClient', function () {
       });
     });
 
-    describe('with string respnse body for some reason', function () {
+    describe('with string response body for some reason', function () {
       it('should try to parse the body', function () {
         const scope = nock('https://slack.com')
           .post(/api/)
