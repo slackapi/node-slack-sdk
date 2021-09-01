@@ -3,6 +3,7 @@ import { Options } from 'p-retry';
 /**
  * Options to create retry policies. Extends from https://github.com/tim-kos/node-retry.
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface RetryOptions extends Options {
 }
 
