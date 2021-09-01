@@ -30,17 +30,17 @@ class TsWriter
     Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
       stdin.write(input_json)
       stdin.close()
-      source = "/* tslint:disable */\n#{NOTICE}\nimport { WebAPICallResult } from '../WebClient';\n" + stdout.read
+      source = "/* eslint-disable */\n#{NOTICE}\nimport { WebAPICallResult } from '../WebClient';\n" + stdout.read
       source.gsub!(
-        "export interface #{root_class_name} {", 
+        "export interface #{root_class_name} {",
         "export type #{root_class_name} = WebAPICallResult & {"
       )
       source.gsub!(/^    /, '  ')
       source.gsub!('"', "'")
       source.sub!(/^}$/, '};')
-      File.open(typedef_filepath, 'w') { |f| 
+      File.open(typedef_filepath, 'w') { |f|
         f.write(source)
-      } 
+      }
     end
   end
 

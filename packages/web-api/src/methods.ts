@@ -1,200 +1,201 @@
 import { Stream } from 'stream';
 import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser } from '@slack/types';
-import { WebAPICallOptions, WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
 import { EventEmitter } from 'eventemitter3';
-
-import { AdminAuthPolicyAssignEntitiesResponse } from './response/AdminAuthPolicyAssignEntitiesResponse';
-import { AdminAuthPolicyGetEntitiesResponse } from './response/AdminAuthPolicyGetEntitiesResponse';
-import { AdminAuthPolicyRemoveEntitiesResponse } from './response/AdminAuthPolicyRemoveEntitiesResponse';
-import { AdminAppsApproveResponse } from './response/AdminAppsApproveResponse';
-import { AdminAppsApprovedListResponse } from './response/AdminAppsApprovedListResponse';
-import { AdminAppsRequestsListResponse } from './response/AdminAppsRequestsListResponse';
-import { AdminAppsRestrictResponse } from './response/AdminAppsRestrictResponse';
-import { AdminAppsRestrictedListResponse } from './response/AdminAppsRestrictedListResponse';
-import { AdminBarriersCreateResponse } from './response/AdminBarriersCreateResponse';
-import { AdminBarriersDeleteResponse } from './response/AdminBarriersDeleteResponse';
-import { AdminBarriersListResponse } from './response/AdminBarriersListResponse';
-import { AdminBarriersUpdateResponse } from './response/AdminBarriersUpdateResponse';
-import { AdminConversationsArchiveResponse } from './response/AdminConversationsArchiveResponse';
-import { AdminConversationsConvertToPrivateResponse } from './response/AdminConversationsConvertToPrivateResponse';
-import { AdminConversationsCreateResponse } from './response/AdminConversationsCreateResponse';
-import { AdminConversationsDeleteResponse } from './response/AdminConversationsDeleteResponse';
-import { AdminConversationsDisconnectSharedResponse } from './response/AdminConversationsDisconnectSharedResponse';
-import { AdminConversationsEkmListOriginalConnectedChannelInfoResponse } from './response/AdminConversationsEkmListOriginalConnectedChannelInfoResponse';
-import { AdminConversationsGetConversationPrefsResponse } from './response/AdminConversationsGetConversationPrefsResponse';
-import { AdminConversationsGetTeamsResponse } from './response/AdminConversationsGetTeamsResponse';
-import { AdminConversationsInviteResponse } from './response/AdminConversationsInviteResponse';
-import { AdminConversationsRenameResponse } from './response/AdminConversationsRenameResponse';
-import { AdminConversationsRestrictAccessAddGroupResponse } from './response/AdminConversationsRestrictAccessAddGroupResponse';
-import { AdminConversationsRestrictAccessListGroupsResponse } from './response/AdminConversationsRestrictAccessListGroupsResponse';
-import { AdminConversationsRestrictAccessRemoveGroupResponse } from './response/AdminConversationsRestrictAccessRemoveGroupResponse';
-import { AdminConversationsSearchResponse } from './response/AdminConversationsSearchResponse';
-import { AdminConversationsSetConversationPrefsResponse } from './response/AdminConversationsSetConversationPrefsResponse';
-import { AdminConversationsSetTeamsResponse } from './response/AdminConversationsSetTeamsResponse';
-import { AdminConversationsUnarchiveResponse } from './response/AdminConversationsUnarchiveResponse';
-import { AdminEmojiAddResponse } from './response/AdminEmojiAddResponse';
-import { AdminEmojiAddAliasResponse } from './response/AdminEmojiAddAliasResponse';
-import { AdminEmojiListResponse } from './response/AdminEmojiListResponse';
-import { AdminEmojiRemoveResponse } from './response/AdminEmojiRemoveResponse';
-import { AdminEmojiRenameResponse } from './response/AdminEmojiRenameResponse';
-import { AdminInviteRequestsApproveResponse } from './response/AdminInviteRequestsApproveResponse';
-import { AdminInviteRequestsApprovedListResponse } from './response/AdminInviteRequestsApprovedListResponse';
-import { AdminInviteRequestsDeniedListResponse } from './response/AdminInviteRequestsDeniedListResponse';
-import { AdminInviteRequestsDenyResponse } from './response/AdminInviteRequestsDenyResponse';
-import { AdminInviteRequestsListResponse } from './response/AdminInviteRequestsListResponse';
-import { AdminTeamsAdminsListResponse } from './response/AdminTeamsAdminsListResponse';
-import { AdminTeamsCreateResponse } from './response/AdminTeamsCreateResponse';
-import { AdminTeamsListResponse } from './response/AdminTeamsListResponse';
-import { AdminTeamsOwnersListResponse } from './response/AdminTeamsOwnersListResponse';
-import { AdminTeamsSettingsInfoResponse } from './response/AdminTeamsSettingsInfoResponse';
-import { AdminTeamsSettingsSetDefaultChannelsResponse } from './response/AdminTeamsSettingsSetDefaultChannelsResponse';
-import { AdminTeamsSettingsSetDescriptionResponse } from './response/AdminTeamsSettingsSetDescriptionResponse';
-import { AdminTeamsSettingsSetDiscoverabilityResponse } from './response/AdminTeamsSettingsSetDiscoverabilityResponse';
-import { AdminTeamsSettingsSetIconResponse } from './response/AdminTeamsSettingsSetIconResponse';
-import { AdminTeamsSettingsSetNameResponse } from './response/AdminTeamsSettingsSetNameResponse';
-import { AdminUsergroupsAddChannelsResponse } from './response/AdminUsergroupsAddChannelsResponse';
-import { AdminUsergroupsAddTeamsResponse } from './response/AdminUsergroupsAddTeamsResponse';
-import { AdminUsergroupsListChannelsResponse } from './response/AdminUsergroupsListChannelsResponse';
-import { AdminUsergroupsRemoveChannelsResponse } from './response/AdminUsergroupsRemoveChannelsResponse';
-import { AdminUsersAssignResponse } from './response/AdminUsersAssignResponse';
-import { AdminUsersInviteResponse } from './response/AdminUsersInviteResponse';
-import { AdminUsersListResponse } from './response/AdminUsersListResponse';
-import { AdminUsersRemoveResponse } from './response/AdminUsersRemoveResponse';
-import { AdminUsersSessionListResponse } from './response/AdminUsersSessionListResponse';
-import { AdminUsersSessionResetResponse } from './response/AdminUsersSessionResetResponse';
-import { AdminUsersSessionInvalidateResponse } from './response/AdminUsersSessionInvalidateResponse';
-import { AdminUsersSetAdminResponse } from './response/AdminUsersSetAdminResponse';
-import { AdminUsersSetExpirationResponse } from './response/AdminUsersSetExpirationResponse';
-import { AdminUsersSetOwnerResponse } from './response/AdminUsersSetOwnerResponse';
-import { AdminUsersSetRegularResponse } from './response/AdminUsersSetRegularResponse';
-import { ApiTestResponse } from './response/ApiTestResponse';
-import { AppsConnectionsOpenResponse } from './response/AppsConnectionsOpenResponse';
-import { AppsEventAuthorizationsListResponse } from './response/AppsEventAuthorizationsListResponse';
-import { AppsUninstallResponse } from './response/AppsUninstallResponse';
-import { AuthRevokeResponse } from './response/AuthRevokeResponse';
-import { AuthTeamsListResponse } from './response/AuthTeamsListResponse';
-import { AuthTestResponse } from './response/AuthTestResponse';
-import { BotsInfoResponse } from './response/BotsInfoResponse';
-import { CallsAddResponse } from './response/CallsAddResponse';
-import { CallsEndResponse } from './response/CallsEndResponse';
-import { CallsInfoResponse } from './response/CallsInfoResponse';
-import { CallsUpdateResponse } from './response/CallsUpdateResponse';
-import { CallsParticipantsAddResponse } from './response/CallsParticipantsAddResponse';
-import { CallsParticipantsRemoveResponse } from './response/CallsParticipantsRemoveResponse';
-import { ChatDeleteResponse } from './response/ChatDeleteResponse';
-import { ChatDeleteScheduledMessageResponse } from './response/ChatDeleteScheduledMessageResponse';
-import { ChatGetPermalinkResponse } from './response/ChatGetPermalinkResponse';
-import { ChatMeMessageResponse } from './response/ChatMeMessageResponse';
-import { ChatPostEphemeralResponse } from './response/ChatPostEphemeralResponse';
-import { ChatPostMessageResponse } from './response/ChatPostMessageResponse';
-import { ChatScheduleMessageResponse } from './response/ChatScheduleMessageResponse';
-import { ChatScheduledMessagesListResponse } from './response/ChatScheduledMessagesListResponse';
-import { ChatUnfurlResponse } from './response/ChatUnfurlResponse';
-import { ChatUpdateResponse } from './response/ChatUpdateResponse';
-import { ConversationsArchiveResponse } from './response/ConversationsArchiveResponse';
-import { ConversationsCloseResponse } from './response/ConversationsCloseResponse';
-import { ConversationsCreateResponse } from './response/ConversationsCreateResponse';
-import { ConversationsHistoryResponse } from './response/ConversationsHistoryResponse';
-import { ConversationsInfoResponse } from './response/ConversationsInfoResponse';
-import { ConversationsInviteResponse } from './response/ConversationsInviteResponse';
-import { ConversationsJoinResponse } from './response/ConversationsJoinResponse';
-import { ConversationsKickResponse } from './response/ConversationsKickResponse';
-import { ConversationsLeaveResponse } from './response/ConversationsLeaveResponse';
-import { ConversationsListResponse } from './response/ConversationsListResponse';
-import { ConversationsMarkResponse } from './response/ConversationsMarkResponse';
-import { ConversationsMembersResponse } from './response/ConversationsMembersResponse';
-import { ConversationsOpenResponse } from './response/ConversationsOpenResponse';
-import { ConversationsRenameResponse } from './response/ConversationsRenameResponse';
-import { ConversationsRepliesResponse } from './response/ConversationsRepliesResponse';
-import { ConversationsSetPurposeResponse } from './response/ConversationsSetPurposeResponse';
-import { ConversationsSetTopicResponse } from './response/ConversationsSetTopicResponse';
-import { ConversationsUnarchiveResponse } from './response/ConversationsUnarchiveResponse';
-import { ViewsOpenResponse } from './response/ViewsOpenResponse';
-import { ViewsPublishResponse } from './response/ViewsPublishResponse';
-import { ViewsPushResponse } from './response/ViewsPushResponse';
-import { ViewsUpdateResponse } from './response/ViewsUpdateResponse';
-import { DialogOpenResponse } from './response/DialogOpenResponse';
-import { DndEndDndResponse } from './response/DndEndDndResponse';
-import { DndEndSnoozeResponse } from './response/DndEndSnoozeResponse';
-import { DndInfoResponse } from './response/DndInfoResponse';
-import { DndSetSnoozeResponse } from './response/DndSetSnoozeResponse';
-import { DndTeamInfoResponse } from './response/DndTeamInfoResponse';
-import { EmojiListResponse } from './response/EmojiListResponse';
-import { FilesDeleteResponse } from './response/FilesDeleteResponse';
-import { FilesInfoResponse } from './response/FilesInfoResponse';
-import { FilesListResponse } from './response/FilesListResponse';
-import { FilesRevokePublicURLResponse } from './response/FilesRevokePublicURLResponse';
-import { FilesSharedPublicURLResponse } from './response/FilesSharedPublicURLResponse';
-import { FilesUploadResponse } from './response/FilesUploadResponse';
-import { FilesCommentsDeleteResponse } from './response/FilesCommentsDeleteResponse';
-import { FilesRemoteInfoResponse } from './response/FilesRemoteInfoResponse';
-import { FilesRemoteListResponse } from './response/FilesRemoteListResponse';
-import { FilesRemoteAddResponse } from './response/FilesRemoteAddResponse';
-import { FilesRemoteUpdateResponse } from './response/FilesRemoteUpdateResponse';
-import { FilesRemoteRemoveResponse } from './response/FilesRemoteRemoveResponse';
-import { FilesRemoteShareResponse } from './response/FilesRemoteShareResponse';
-import { MigrationExchangeResponse } from './response/MigrationExchangeResponse';
-import { OauthAccessResponse } from './response/OauthAccessResponse';
-import { OauthV2AccessResponse } from './response/OauthV2AccessResponse';
-import { OauthV2ExchangeResponse } from './response/OauthV2ExchangeResponse';
-import { PinsAddResponse } from './response/PinsAddResponse';
-import { PinsListResponse } from './response/PinsListResponse';
-import { PinsRemoveResponse } from './response/PinsRemoveResponse';
-import { ReactionsAddResponse } from './response/ReactionsAddResponse';
-import { ReactionsGetResponse } from './response/ReactionsGetResponse';
-import { ReactionsListResponse } from './response/ReactionsListResponse';
-import { ReactionsRemoveResponse } from './response/ReactionsRemoveResponse';
-import { RemindersAddResponse } from './response/RemindersAddResponse';
-import { RemindersCompleteResponse } from './response/RemindersCompleteResponse';
-import { RemindersDeleteResponse } from './response/RemindersDeleteResponse';
-import { RemindersInfoResponse } from './response/RemindersInfoResponse';
-import { RemindersListResponse } from './response/RemindersListResponse';
-import { RtmConnectResponse } from './response/RtmConnectResponse';
-import { RtmStartResponse } from './response/RtmStartResponse';
-import { SearchAllResponse } from './response/SearchAllResponse';
-import { SearchFilesResponse } from './response/SearchFilesResponse';
-import { SearchMessagesResponse } from './response/SearchMessagesResponse';
-import { StarsAddResponse } from './response/StarsAddResponse';
-import { StarsListResponse } from './response/StarsListResponse';
-import { StarsRemoveResponse } from './response/StarsRemoveResponse';
-import { TeamAccessLogsResponse } from './response/TeamAccessLogsResponse';
-import { TeamBillableInfoResponse } from './response/TeamBillableInfoResponse';
-import { TeamInfoResponse } from './response/TeamInfoResponse';
-import { TeamIntegrationLogsResponse } from './response/TeamIntegrationLogsResponse';
-import { TeamProfileGetResponse } from './response/TeamProfileGetResponse';
-import { UsergroupsCreateResponse } from './response/UsergroupsCreateResponse';
-import { UsergroupsDisableResponse } from './response/UsergroupsDisableResponse';
-import { UsergroupsEnableResponse } from './response/UsergroupsEnableResponse';
-import { UsergroupsListResponse } from './response/UsergroupsListResponse';
-import { UsergroupsUpdateResponse } from './response/UsergroupsUpdateResponse';
-import { UsergroupsUsersListResponse } from './response/UsergroupsUsersListResponse';
-import { UsergroupsUsersUpdateResponse } from './response/UsergroupsUsersUpdateResponse';
-import { UsersConversationsResponse } from './response/UsersConversationsResponse';
-import { UsersDeletePhotoResponse } from './response/UsersDeletePhotoResponse';
-import { UsersGetPresenceResponse } from './response/UsersGetPresenceResponse';
-import { UsersIdentityResponse } from './response/UsersIdentityResponse';
-import { UsersInfoResponse } from './response/UsersInfoResponse';
-import { UsersListResponse } from './response/UsersListResponse';
-import { UsersLookupByEmailResponse } from './response/UsersLookupByEmailResponse';
-import { UsersSetPhotoResponse } from './response/UsersSetPhotoResponse';
-import { UsersSetPresenceResponse } from './response/UsersSetPresenceResponse';
-import { UsersProfileGetResponse } from './response/UsersProfileGetResponse';
-import { UsersProfileSetResponse } from './response/UsersProfileSetResponse';
-import { WorkflowsStepCompletedResponse } from './response/WorkflowsStepCompletedResponse';
-import { WorkflowsStepFailedResponse } from './response/WorkflowsStepFailedResponse';
-import { WorkflowsUpdateStepResponse } from './response/WorkflowsUpdateStepResponse';
-import { AdminUsersSessionGetSettingsResponse } from './response/AdminUsersSessionGetSettingsResponse';
-import { AdminUsersSessionSetSettingsResponse } from './response/AdminUsersSessionSetSettingsResponse';
-import { AdminUsersSessionClearSettingsResponse } from './response/AdminUsersSessionClearSettingsResponse';
-import { AdminAppsClearResolutionResponse } from './response/AdminAppsClearResolutionResponse';
-import { AdminAppsUninstallResponse } from './response/AdminAppsUninstallResponse';
-import { OpenIDConnectTokenResponse } from './response/OpenIDConnectTokenResponse';
-import { OpenIDConnectUserInfoResponse } from './response/OpenIDConnectUserInfoResponse';
-import { ConversationsAcceptSharedInviteResponse } from './response/ConversationsAcceptSharedInviteResponse';
-import { ConversationsApproveSharedInviteResponse } from './response/ConversationsApproveSharedInviteResponse';
-import { ConversationsDeclineSharedInviteResponse } from './response/ConversationsDeclineSharedInviteResponse';
-import { ConversationsInviteSharedResponse } from './response/ConversationsInviteSharedResponse';
-import { ConversationsListConnectInvitesResponse } from './response/ConversationsListConnectInvitesResponse';
+import { WebAPICallOptions, WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
+import {
+  AdminAppsApproveResponse,
+  AdminAppsApprovedListResponse,
+  AdminAppsClearResolutionResponse,
+  AdminAppsRequestsListResponse,
+  AdminAppsRestrictResponse,
+  AdminAppsRestrictedListResponse,
+  AdminAppsUninstallResponse,
+  AdminAuthPolicyAssignEntitiesResponse,
+  AdminAuthPolicyGetEntitiesResponse,
+  AdminAuthPolicyRemoveEntitiesResponse,
+  AdminBarriersCreateResponse,
+  AdminBarriersDeleteResponse,
+  AdminBarriersListResponse,
+  AdminBarriersUpdateResponse,
+  AdminConversationsArchiveResponse,
+  AdminConversationsConvertToPrivateResponse,
+  AdminConversationsCreateResponse,
+  AdminConversationsDeleteResponse,
+  AdminConversationsDisconnectSharedResponse,
+  AdminConversationsEkmListOriginalConnectedChannelInfoResponse,
+  AdminConversationsGetConversationPrefsResponse,
+  AdminConversationsGetTeamsResponse,
+  AdminConversationsInviteResponse,
+  AdminConversationsRenameResponse,
+  AdminConversationsRestrictAccessAddGroupResponse,
+  AdminConversationsRestrictAccessListGroupsResponse,
+  AdminConversationsRestrictAccessRemoveGroupResponse,
+  AdminConversationsSearchResponse,
+  AdminConversationsSetConversationPrefsResponse,
+  AdminConversationsSetTeamsResponse,
+  AdminConversationsUnarchiveResponse,
+  AdminEmojiAddAliasResponse,
+  AdminEmojiAddResponse,
+  AdminEmojiListResponse,
+  AdminEmojiRemoveResponse,
+  AdminEmojiRenameResponse,
+  AdminInviteRequestsApproveResponse,
+  AdminInviteRequestsApprovedListResponse,
+  AdminInviteRequestsDeniedListResponse,
+  AdminInviteRequestsDenyResponse,
+  AdminInviteRequestsListResponse,
+  AdminTeamsAdminsListResponse,
+  AdminTeamsCreateResponse,
+  AdminTeamsListResponse,
+  AdminTeamsOwnersListResponse,
+  AdminTeamsSettingsInfoResponse,
+  AdminTeamsSettingsSetDefaultChannelsResponse,
+  AdminTeamsSettingsSetDescriptionResponse,
+  AdminTeamsSettingsSetDiscoverabilityResponse,
+  AdminTeamsSettingsSetIconResponse,
+  AdminTeamsSettingsSetNameResponse,
+  AdminUsergroupsAddChannelsResponse,
+  AdminUsergroupsAddTeamsResponse,
+  AdminUsergroupsListChannelsResponse,
+  AdminUsergroupsRemoveChannelsResponse,
+  AdminUsersAssignResponse,
+  AdminUsersInviteResponse,
+  AdminUsersListResponse,
+  AdminUsersRemoveResponse,
+  AdminUsersSessionGetSettingsResponse,
+  AdminUsersSessionSetSettingsResponse,
+  AdminUsersSessionClearSettingsResponse,
+  AdminUsersSessionInvalidateResponse,
+  AdminUsersSessionListResponse,
+  AdminUsersSessionResetResponse,
+  AdminUsersSetAdminResponse,
+  AdminUsersSetExpirationResponse,
+  AdminUsersSetOwnerResponse,
+  AdminUsersSetRegularResponse,
+  ApiTestResponse,
+  AppsConnectionsOpenResponse,
+  AppsEventAuthorizationsListResponse,
+  AppsUninstallResponse,
+  AuthRevokeResponse,
+  AuthTeamsListResponse,
+  AuthTestResponse,
+  BotsInfoResponse,
+  CallsAddResponse,
+  CallsEndResponse,
+  CallsInfoResponse,
+  CallsUpdateResponse,
+  CallsParticipantsAddResponse,
+  CallsParticipantsRemoveResponse,
+  ChatDeleteResponse,
+  ChatDeleteScheduledMessageResponse,
+  ChatGetPermalinkResponse,
+  ChatMeMessageResponse,
+  ChatPostEphemeralResponse,
+  ChatPostMessageResponse,
+  ChatScheduleMessageResponse,
+  ChatScheduledMessagesListResponse,
+  ChatUnfurlResponse,
+  ChatUpdateResponse,
+  ConversationsAcceptSharedInviteResponse,
+  ConversationsApproveSharedInviteResponse,
+  ConversationsDeclineSharedInviteResponse,
+  ConversationsInviteSharedResponse,
+  ConversationsListConnectInvitesResponse,
+  ConversationsArchiveResponse,
+  ConversationsCloseResponse,
+  ConversationsCreateResponse,
+  ConversationsHistoryResponse,
+  ConversationsInfoResponse,
+  ConversationsInviteResponse,
+  ConversationsJoinResponse,
+  ConversationsKickResponse,
+  ConversationsLeaveResponse,
+  ConversationsListResponse,
+  ConversationsMarkResponse,
+  ConversationsMembersResponse,
+  ConversationsOpenResponse,
+  ConversationsRenameResponse,
+  ConversationsRepliesResponse,
+  ConversationsSetPurposeResponse,
+  ConversationsSetTopicResponse,
+  ConversationsUnarchiveResponse,
+  DialogOpenResponse,
+  DndEndDndResponse,
+  DndEndSnoozeResponse,
+  DndInfoResponse,
+  DndSetSnoozeResponse,
+  DndTeamInfoResponse,
+  EmojiListResponse,
+  FilesCommentsDeleteResponse,
+  FilesDeleteResponse,
+  FilesInfoResponse,
+  FilesListResponse,
+  FilesRemoteAddResponse,
+  FilesRemoteInfoResponse,
+  FilesRemoteListResponse,
+  FilesRemoteRemoveResponse,
+  FilesRemoteShareResponse,
+  FilesRemoteUpdateResponse,
+  FilesRevokePublicURLResponse,
+  FilesSharedPublicURLResponse,
+  FilesUploadResponse,
+  MigrationExchangeResponse,
+  OauthAccessResponse,
+  OauthV2AccessResponse,
+  OauthV2ExchangeResponse,
+  OpenIDConnectTokenResponse,
+  OpenIDConnectUserInfoResponse,
+  PinsAddResponse,
+  PinsListResponse,
+  PinsRemoveResponse,
+  ReactionsAddResponse,
+  ReactionsGetResponse,
+  ReactionsListResponse,
+  ReactionsRemoveResponse,
+  RemindersAddResponse,
+  RemindersCompleteResponse,
+  RemindersDeleteResponse,
+  RemindersInfoResponse,
+  RemindersListResponse,
+  RtmConnectResponse,
+  RtmStartResponse,
+  SearchAllResponse,
+  SearchFilesResponse,
+  SearchMessagesResponse,
+  StarsAddResponse,
+  StarsListResponse,
+  StarsRemoveResponse,
+  TeamAccessLogsResponse,
+  TeamBillableInfoResponse,
+  TeamInfoResponse,
+  TeamIntegrationLogsResponse,
+  TeamProfileGetResponse,
+  UsergroupsCreateResponse,
+  UsergroupsDisableResponse,
+  UsergroupsEnableResponse,
+  UsergroupsListResponse,
+  UsergroupsUpdateResponse,
+  UsergroupsUsersListResponse,
+  UsergroupsUsersUpdateResponse,
+  UsersConversationsResponse,
+  UsersDeletePhotoResponse,
+  UsersGetPresenceResponse,
+  UsersIdentityResponse,
+  UsersInfoResponse,
+  UsersListResponse,
+  UsersLookupByEmailResponse,
+  UsersProfileGetResponse,
+  UsersProfileSetResponse,
+  UsersSetPhotoResponse,
+  UsersSetPresenceResponse,
+  ViewsOpenResponse,
+  ViewsPublishResponse,
+  ViewsPushResponse,
+  ViewsUpdateResponse,
+  WorkflowsStepCompletedResponse,
+  WorkflowsStepFailedResponse,
+  WorkflowsUpdateStepResponse,
+} from './response';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
 
@@ -268,46 +269,57 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       archive: bindApiCall<AdminConversationsArchiveArguments, AdminConversationsArchiveResponse>(this, 'admin.conversations.archive'),
       convertToPrivate:
         bindApiCall<AdminConversationsConvertToPrivateArguments, AdminConversationsConvertToPrivateResponse>(
-          this, 'admin.conversations.convertToPrivate'),
+          this, 'admin.conversations.convertToPrivate',
+        ),
       create: bindApiCall<AdminConversationsCreateArguments, AdminConversationsCreateResponse>(this, 'admin.conversations.create'),
       delete: bindApiCall<AdminConversationsDeleteArguments, AdminConversationsDeleteResponse>(this, 'admin.conversations.delete'),
       disconnectShared:
         bindApiCall<AdminConversationsDisconnectSharedArguments, AdminConversationsDisconnectSharedResponse>(
-          this, 'admin.conversations.disconnectShared'),
+          this, 'admin.conversations.disconnectShared',
+        ),
       ekm: {
         listOriginalConnectedChannelInfo:
           bindApiCall<AdminConversationsEKMListOriginalConnectedChannelInfoArguments,
-            AdminConversationsEkmListOriginalConnectedChannelInfoResponse>(
-              this, 'admin.conversations.ekm.listOriginalConnectedChannelInfo'),
+          AdminConversationsEkmListOriginalConnectedChannelInfoResponse>(
+            this, 'admin.conversations.ekm.listOriginalConnectedChannelInfo',
+          ),
       },
       getConversationPrefs:
         bindApiCall<AdminConversationsGetConversationPrefsArguments, AdminConversationsGetConversationPrefsResponse>(
-          this, 'admin.conversations.getConversationPrefs'),
+          this, 'admin.conversations.getConversationPrefs',
+        ),
       getTeams: bindApiCall<AdminConversationsGetTeamsArguments, AdminConversationsGetTeamsResponse>(
-        this, 'admin.conversations.getTeams'),
+        this, 'admin.conversations.getTeams',
+      ),
       invite: bindApiCall<AdminConversationsInviteArguments, AdminConversationsInviteResponse>(this, 'admin.conversations.invite'),
       rename: bindApiCall<AdminConversationsRenameArguments, AdminConversationsRenameResponse>(this, 'admin.conversations.rename'),
       restrictAccess: {
         addGroup: bindApiCall<AdminConversationsRestrictAccessAddGroupArguments,
-          AdminConversationsRestrictAccessAddGroupResponse>(
-            this, 'admin.conversations.restrictAccess.addGroup'),
+        AdminConversationsRestrictAccessAddGroupResponse>(
+          this, 'admin.conversations.restrictAccess.addGroup',
+        ),
         listGroups:
           bindApiCall<AdminConversationsRestrictAccessListGroupsArguments,
-            AdminConversationsRestrictAccessListGroupsResponse>(
-              this, 'admin.conversations.restrictAccess.listGroups'),
+          AdminConversationsRestrictAccessListGroupsResponse>(
+            this, 'admin.conversations.restrictAccess.listGroups',
+          ),
         removeGroup:
           bindApiCall<AdminConversationsRestrictAccessRemoveGroupArguments,
-            AdminConversationsRestrictAccessRemoveGroupResponse>(
-              this, 'admin.conversations.restrictAccess.removeGroup'),
+          AdminConversationsRestrictAccessRemoveGroupResponse>(
+            this, 'admin.conversations.restrictAccess.removeGroup',
+          ),
       },
       search: bindApiCall<AdminConversationsSearchArguments, AdminConversationsSearchResponse>(this, 'admin.conversations.search'),
       setConversationPrefs:
         bindApiCall<AdminConversationsSetConversationPrefsArguments, AdminConversationsSetConversationPrefsResponse>(
-          this, 'admin.conversations.setConversationPrefs'),
+          this, 'admin.conversations.setConversationPrefs',
+        ),
       setTeams: bindApiCall<AdminConversationsSetTeamsArguments, AdminConversationsSetTeamsResponse>(
-        this, 'admin.conversations.setTeams'),
+        this, 'admin.conversations.setTeams',
+      ),
       unarchive: bindApiCall<AdminConversationsUnarchiveArguments, AdminConversationsUnarchiveResponse>(
-        this, 'admin.conversations.unarchive'),
+        this, 'admin.conversations.unarchive',
+      ),
     },
     emoji: {
       add: bindApiCall<AdminEmojiAddArguments, AdminEmojiAddResponse>(this, 'admin.emoji.add'),
@@ -318,14 +330,17 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     },
     inviteRequests: {
       approve: bindApiCall<AdminInviteRequestsApproveArguments, AdminInviteRequestsApproveResponse>(
-        this, 'admin.inviteRequests.approve'),
+        this, 'admin.inviteRequests.approve',
+      ),
       approved: {
         list: bindApiCall<AdminInviteRequestsApprovedListArguments, AdminInviteRequestsApprovedListResponse>(
-          this, 'admin.inviteRequests.approved.list'),
+          this, 'admin.inviteRequests.approved.list',
+        ),
       },
       denied: {
         list: bindApiCall<AdminInviteRequestsDeniedListArguments, AdminInviteRequestsDeniedListResponse>(
-          this, 'admin.inviteRequests.denied.list'),
+          this, 'admin.inviteRequests.denied.list',
+        ),
       },
       deny: bindApiCall<AdminInviteRequestsDenyArguments, AdminInviteRequestsDenyResponse>(this, 'admin.inviteRequests.deny'),
       list: bindApiCall<AdminInviteRequestsListArguments, AdminInviteRequestsListResponse>(this, 'admin.inviteRequests.list'),
@@ -343,29 +358,38 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         info: bindApiCall<AdminTeamsSettingsInfoArguments, AdminTeamsSettingsInfoResponse>(this, 'admin.teams.settings.info'),
         setDefaultChannels:
           bindApiCall<AdminTeamsSettingsSetDefaultChannelsArguments, AdminTeamsSettingsSetDefaultChannelsResponse>(
-            this, 'admin.teams.settings.setDefaultChannels'),
+            this, 'admin.teams.settings.setDefaultChannels',
+          ),
         setDescription:
           bindApiCall<AdminTeamsSettingsSetDescriptionArguments, AdminTeamsSettingsSetDescriptionResponse>(
-            this, 'admin.teams.settings.setDescription'),
+            this, 'admin.teams.settings.setDescription',
+          ),
         setDiscoverability:
           bindApiCall<AdminTeamsSettingsSetDiscoverabilityArguments,
-            AdminTeamsSettingsSetDiscoverabilityResponse>(
-              this, 'admin.teams.settings.setDiscoverability'),
+          AdminTeamsSettingsSetDiscoverabilityResponse>(
+            this, 'admin.teams.settings.setDiscoverability',
+          ),
         setIcon: bindApiCall<AdminTeamsSettingsSetIconArguments, AdminTeamsSettingsSetIconResponse>(
-          this, 'admin.teams.settings.setIcon'),
+          this, 'admin.teams.settings.setIcon',
+        ),
         setName: bindApiCall<AdminTeamsSettingsSetNameArguments, AdminTeamsSettingsSetNameResponse>(
-          this, 'admin.teams.settings.setName'),
+          this, 'admin.teams.settings.setName',
+        ),
       },
     },
     usergroups: {
       addChannels: bindApiCall<AdminUsergroupsAddChannelsArguments, AdminUsergroupsAddChannelsResponse>(
-        this, 'admin.usergroups.addChannels'),
+        this, 'admin.usergroups.addChannels',
+      ),
       addTeams: bindApiCall<AdminUsergroupsAddTeamsArguments, AdminUsergroupsAddTeamsResponse>(
-        this, 'admin.usergroups.addTeams'),
+        this, 'admin.usergroups.addTeams',
+      ),
       listChannels: bindApiCall<AdminUsergroupsListChannelsArguments, AdminUsergroupsListChannelsResponse>(
-        this, 'admin.usergroups.listChannels'),
+        this, 'admin.usergroups.listChannels',
+      ),
       removeChannels: bindApiCall<AdminUsergroupsRemoveChannelsArguments, AdminUsergroupsRemoveChannelsResponse>(
-        this, 'admin.usergroups.removeChannels'),
+        this, 'admin.usergroups.removeChannels',
+      ),
     },
     users: {
       assign: bindApiCall<AdminUsersAssignArguments, AdminUsersAssignResponse>(this, 'admin.users.assign'),
@@ -376,22 +400,29 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         list: bindApiCall<AdminUsersSessionListArguments, AdminUsersSessionListResponse>(this, 'admin.users.session.list'),
         reset: bindApiCall<AdminUsersSessionResetArguments, AdminUsersSessionResetResponse>(this, 'admin.users.session.reset'),
         invalidate: bindApiCall<AdminUsersSessionInvalidateArguments, AdminUsersSessionInvalidateResponse>(
-          this, 'admin.users.session.invalidate'),
+          this, 'admin.users.session.invalidate',
+        ),
         getSettings: bindApiCall<AdminUsersSessionGetSettingsArguments, AdminUsersSessionGetSettingsResponse>(
-          this, 'admin.users.session.getSettings'),
+          this, 'admin.users.session.getSettings',
+        ),
         setSettings: bindApiCall<AdminUsersSessionSetSettingsArguments, AdminUsersSessionSetSettingsResponse>(
-          this, 'admin.users.session.setSettings'),
+          this, 'admin.users.session.setSettings',
+        ),
         clearSettings: bindApiCall<AdminUsersSessionClearSettingsArguments, AdminUsersSessionClearSettingsResponse>(
-          this, 'admin.users.session.clearSettings'),
+          this, 'admin.users.session.clearSettings',
+        ),
       },
       setAdmin: bindApiCall<AdminUsersSetAdminArguments, AdminUsersSetAdminResponse>(this, 'admin.users.setAdmin'),
       setExpiration:
         bindApiCall<AdminUsersSetExpirationArguments, AdminUsersSetExpirationResponse>(
-          this, 'admin.users.setExpiration'),
+          this, 'admin.users.setExpiration',
+        ),
       setOwner: bindApiCall<AdminUsersSetOwnerArguments, AdminUsersSetOwnerResponse>(
-        this, 'admin.users.setOwner'),
+        this, 'admin.users.setOwner',
+      ),
       setRegular: bindApiCall<AdminUsersSetRegularArguments, AdminUsersSetRegularResponse>(
-        this, 'admin.users.setRegular'),
+        this, 'admin.users.setRegular',
+      ),
     },
   };
 
@@ -406,7 +437,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     event: {
       authorizations: {
         list: bindApiCall<AppsEventAuthorizationsListArguments, AppsEventAuthorizationsListResponse>(
-          this, 'apps.event.authorizations.list'),
+          this, 'apps.event.authorizations.list',
+        ),
       },
     },
     uninstall: bindApiCall<AppsUninstallArguments, AppsUninstallResponse>(this, 'apps.uninstall'),
@@ -444,11 +476,13 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     postEphemeral: bindApiCall<ChatPostEphemeralArguments, ChatPostEphemeralResponse>(this, 'chat.postEphemeral'),
     postMessage: bindApiCall<ChatPostMessageArguments, ChatPostMessageResponse>(this, 'chat.postMessage'),
     scheduleMessage: bindApiCall<ChatScheduleMessageArguments, ChatScheduleMessageResponse>(
-      this, 'chat.scheduleMessage'),
+      this, 'chat.scheduleMessage',
+    ),
     scheduledMessages: {
       list:
         bindApiCall<ChatScheduledMessagesListArguments, ChatScheduledMessagesListResponse>(
-          this, 'chat.scheduledMessages.list'),
+          this, 'chat.scheduledMessages.list',
+        ),
     },
     unfurl: bindApiCall<ChatUnfurlArguments, ChatUnfurlResponse>(this, 'chat.unfurl'),
     update: bindApiCall<ChatUpdateArguments, ChatUpdateResponse>(this, 'chat.update'),
@@ -456,28 +490,33 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly conversations = {
     acceptSharedInvite: bindApiCall<ConversationsAcceptSharedInviteArguments, ConversationsAcceptSharedInviteResponse>(
-      this, 'conversations.acceptSharedInvite'),
+      this, 'conversations.acceptSharedInvite',
+    ),
     approveSharedInvite:
       bindApiCall<ConversationsApproveSharedInviteArguments, ConversationsApproveSharedInviteResponse>(
-        this, 'conversations.approveSharedInvite'),
+        this, 'conversations.approveSharedInvite',
+      ),
     archive: bindApiCall<ConversationsArchiveArguments, ConversationsArchiveResponse>(this, 'conversations.archive'),
     close: bindApiCall<ConversationsCloseArguments, ConversationsCloseResponse>(this, 'conversations.close'),
     create: bindApiCall<ConversationsCreateArguments, ConversationsCreateResponse>(this, 'conversations.create'),
     declineSharedInvite:
       bindApiCall<ConversationsDeclineSharedInviteArguments, ConversationsDeclineSharedInviteResponse>(
-        this, 'conversations.declineSharedInvite'),
+        this, 'conversations.declineSharedInvite',
+      ),
     history: bindApiCall<ConversationsHistoryArguments, ConversationsHistoryResponse>(this, 'conversations.history'),
     info: bindApiCall<ConversationsInfoArguments, ConversationsInfoResponse>(this, 'conversations.info'),
     invite: bindApiCall<ConversationsInviteArguments, ConversationsInviteResponse>(this, 'conversations.invite'),
     inviteShared: bindApiCall<ConversationsInviteSharedArguments, ConversationsInviteSharedResponse>(
-      this, 'conversations.inviteShared'),
+      this, 'conversations.inviteShared',
+    ),
     join: bindApiCall<ConversationsJoinArguments, ConversationsJoinResponse>(this, 'conversations.join'),
     kick: bindApiCall<ConversationsKickArguments, ConversationsKickResponse>(this, 'conversations.kick'),
     leave: bindApiCall<ConversationsLeaveArguments, ConversationsLeaveResponse>(this, 'conversations.leave'),
     list: bindApiCall<ConversationsListArguments, ConversationsListResponse>(this, 'conversations.list'),
     listConnectInvites:
       bindApiCall<ConversationsListConnectInvitesArguments, ConversationsListConnectInvitesResponse>(
-        this, 'conversations.listConnectInvites'),
+        this, 'conversations.listConnectInvites',
+      ),
     mark: bindApiCall<ConversationsMarkArguments, ConversationsMarkResponse>(this, 'conversations.mark'),
     members: bindApiCall<ConversationsMembersArguments, ConversationsMembersResponse>(this, 'conversations.members'),
     open: bindApiCall<ConversationsOpenArguments, ConversationsOpenResponse>(this, 'conversations.open'),
@@ -486,9 +525,11 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     setPurpose:
       bindApiCall<ConversationsSetPurposeArguments, ConversationsSetPurposeResponse>(this, 'conversations.setPurpose'),
     setTopic: bindApiCall<ConversationsSetTopicArguments, ConversationsSetTopicResponse>(
-      this, 'conversations.setTopic'),
+      this, 'conversations.setTopic',
+    ),
     unarchive: bindApiCall<ConversationsUnarchiveArguments, ConversationsUnarchiveResponse>(
-      this, 'conversations.unarchive'),
+      this, 'conversations.unarchive',
+    ),
   };
 
   public readonly dialog = {
@@ -605,9 +646,11 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     update: bindApiCall<UsergroupsUpdateArguments, UsergroupsUpdateResponse>(this, 'usergroups.update'),
     users: {
       list: bindApiCall<UsergroupsUsersListArguments, UsergroupsUsersListResponse>(
-        this, 'usergroups.users.list'),
+        this, 'usergroups.users.list',
+      ),
       update: bindApiCall<UsergroupsUsersUpdateArguments, UsergroupsUsersUpdateResponse>(
-        this, 'usergroups.users.update'),
+        this, 'usergroups.users.update',
+      ),
     },
   };
 
@@ -636,7 +679,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly workflows = {
     stepCompleted: bindApiCall<WorkflowsStepCompletedArguments, WorkflowsStepCompletedResponse>(
-      this, 'workflows.stepCompleted'),
+      this, 'workflows.stepCompleted',
+    ),
     stepFailed: bindApiCall<WorkflowsStepFailedArguments, WorkflowsStepFailedResponse>(this, 'workflows.stepFailed'),
     updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
   };
@@ -699,7 +743,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     open: bindApiCall<MPIMOpenArguments, WebAPICallResult>(this, 'mpim.open'),
     replies: bindApiCall<MPIMRepliesArguments, WebAPICallResult>(this, 'mpim.replies'),
   };
-
 }
 
 /**
@@ -707,8 +750,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
  */
 export default interface Method<
   MethodArguments extends WebAPICallOptions,
-  MethodResult extends WebAPICallResult = WebAPICallResult
-  > {
+  MethodResult extends WebAPICallResult = WebAPICallResult,
+> {
   (options?: MethodArguments): Promise<MethodResult>;
 }
 
@@ -799,7 +842,7 @@ export interface AdminAuthPolicyAssignEntitiesArguments extends WebAPICallOption
   policy_name: string;
 }
 export interface AdminAuthPolicyGetEntitiesArguments extends WebAPICallOptions, TokenOverridable,
-CursorPaginationEnabled {
+  CursorPaginationEnabled {
   policy_name: string;
   entity_type?: string;
 }
@@ -896,7 +939,7 @@ export interface AdminConversationsSearchArguments
 cursorPaginationEnabledMethods.add('admin.conversations.search');
 export interface AdminConversationsSetConversationPrefsArguments extends WebAPICallOptions, TokenOverridable {
   channel_id: string;
-  prefs: object; // TODO: we should be more specific here
+  prefs: Record<string, unknown>;
 }
 export interface AdminConversationsSetTeamsArguments extends WebAPICallOptions, TokenOverridable {
   channel_id: string;
@@ -1079,12 +1122,13 @@ export interface AdminUsersSessionClearSettingsArguments extends WebAPICallOptio
 /*
  * `api.*`
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface APITestArguments extends WebAPICallOptions { }
 
 /*
  * `apps.*`
  */
-
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AppsConnectionsOpenArguments extends WebAPICallOptions {
   // currently the method page lists Client id and client secret as optional arguments
   // circle back here to see if they stay as optional or are removed
@@ -1703,6 +1747,8 @@ export interface OpenIDConnectTokenArguments extends WebAPICallOptions {
   grant_type?: 'authorization_code' | 'refresh_token';
   refresh_token?: string;
 }
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface OpenIDConnectUserInfoArguments extends WebAPICallOptions {
 }
 
@@ -1969,7 +2015,7 @@ export interface ViewsUpdateArguments extends WebAPICallOptions, TokenOverridabl
  */
 export interface WorkflowsStepCompletedArguments extends WebAPICallOptions, TokenOverridable {
   workflow_step_execute_id: string;
-  outputs?: object;
+  outputs?: Record<string, unknown>;
 }
 
 export interface WorkflowsStepFailedArguments extends WebAPICallOptions, TokenOverridable {

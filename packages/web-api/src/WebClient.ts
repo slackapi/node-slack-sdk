@@ -1,9 +1,3 @@
-/// <reference lib="esnext.asynciterable" />
-
-// polyfill for async iterable. see: https://stackoverflow.com/a/43694282/305340
-// can be removed once node v10 is the minimum target (node v8 and v9 require --harmony_async_iteration flag)
-if (Symbol['asyncIterator'] === undefined) { ((Symbol as any)['asyncIterator']) = Symbol.for('asyncIterator'); }
-
 import { stringify as qsStringify } from 'querystring';
 import { Agent } from 'http';
 import { basename } from 'path';
@@ -23,8 +17,75 @@ import {
   requestErrorWithOriginal, httpErrorFromResponse, platformErrorFromResult, rateLimitedErrorWithDelay,
 } from './errors';
 import { LogLevel, Logger, getLogger } from './logger';
-import retryPolicies, { RetryOptions } from './retry-policies';
-import { delay } from './helpers';
+import { RetryOptions, tenRetriesInAboutThirtyMinutes } from './retry-policies';
+import delay from './helpers';
+
+/*
+ * Helpers
+ */
+
+const defaultFilename = 'Untitled';
+const defaultPageSize = 200;
+const noopPageReducer: PageReducer = () => undefined;
+
+/*
+ * Exported types
+ */
+
+export interface WebClientOptions {
+  slackApiUrl?: string;
+  logger?: Logger;
+  logLevel?: LogLevel;
+  maxRequestConcurrency?: number;
+  retryConfig?: RetryOptions;
+  agent?: Agent;
+  tls?: TLSOptions;
+  timeout?: number;
+  rejectRateLimitedCalls?: boolean;
+  headers?: Record<string, unknown>;
+  teamId?: string;
+}
+
+export type TLSOptions = Pick<SecureContextOptions, 'pfx' | 'key' | 'passphrase' | 'cert' | 'ca'>;
+
+export enum WebClientEvent {
+  // TODO: safe to rename this to conform to PascalCase enum type naming convention?
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  RATE_LIMITED = 'rate_limited',
+}
+
+export interface WebAPICallOptions {
+  [argument: string]: unknown;
+}
+
+export interface WebAPICallResult {
+  ok: boolean;
+  error?: string;
+  response_metadata?: {
+    warnings?: string[];
+    next_cursor?: string; // is this too specific to be encoded into this type?
+
+    // added from the headers of the http response
+    scopes?: string[];
+    acceptedScopes?: string[];
+    retryAfter?: number;
+    // `chat.postMessage` returns an array of error messages (e.g., "messages": ["[ERROR] invalid_keys"])
+    messages?: string[];
+  };
+  [key: string]: unknown;
+}
+
+// NOTE: should there be an async predicate?
+export interface PaginatePredicate {
+  (page: WebAPICallResult): boolean | undefined | void;
+}
+
+export interface PageReducer<A = any> {
+  (accumulator: A | undefined, page: WebAPICallResult, index: number): A;
+}
+
+export type PageAccumulator<R extends PageReducer> =
+  R extends (accumulator: (infer A) | undefined, page: WebAPICallResult, index: number) => infer A ? A : never;
 
 /**
  * A client for Slack's Web API
@@ -87,12 +148,12 @@ export class WebClient extends Methods {
   /**
    * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`)
    */
-  constructor(token?: string, {
+  public constructor(token?: string, {
     slackApiUrl = 'https://slack.com/api/',
     logger = undefined,
     logLevel = undefined,
     maxRequestConcurrency = 3,
-    retryConfig = retryPolicies.tenRetriesInAboutThirtyMinutes,
+    retryConfig = tenRetriesInAboutThirtyMinutes,
     agent = undefined,
     tls = undefined,
     timeout = 0,
@@ -125,7 +186,7 @@ export class WebClient extends Methods {
     this.axios = axios.create({
       timeout,
       baseURL: slackApiUrl,
-      headers: isElectron() ? headers : Object.assign({ 'User-Agent': getUserAgent() }, headers),
+      headers: isElectron() ? headers : { 'User-Agent': getUserAgent(), ...headers },
       httpAgent: agent,
       httpsAgent: agent,
       transformRequest: [this.serializeApiCallOptions.bind(this)],
@@ -160,13 +221,11 @@ export class WebClient extends Methods {
       throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
     }
 
-    const response = await this.makeRequest(method, Object.assign(
-      {
-        token: this.token,
-        team_id: this.teamId,
-      },
-      options,
-    ));
+    const response = await this.makeRequest(method, {
+      token: this.token,
+      team_id: this.teamId,
+      ...options,
+    });
     const result = this.buildResult(response);
 
     // log warnings in response metadata
@@ -239,14 +298,14 @@ export class WebClient extends Methods {
     shouldStop?: PaginatePredicate,
     reduce?: PageReducer<A>,
   ): (Promise<A> | AsyncIterable<WebAPICallResult>) {
-
     if (!cursorPaginationEnabledMethods.has(method)) {
       this.logger.warn(`paginate() called with method ${method}, which is not known to be cursor pagination enabled.`);
     }
 
     const pageSize = (() => {
       if (options !== undefined && typeof options.limit === 'number') {
-        const limit = options.limit;
+        const { limit } = options;
+        // eslint-disable-next-line no-param-reassign
         delete options.limit;
         return limit;
       }
@@ -255,7 +314,7 @@ export class WebClient extends Methods {
 
     async function* generatePages(this: WebClient): AsyncIterableIterator<WebAPICallResult> {
       // when result is undefined, that signals that the first of potentially many calls has not yet been made
-      let result: WebAPICallResult | undefined = undefined;
+      let result: WebAPICallResult | undefined;
       // paginationOptions stores pagination options not already stored in the options argument
       let paginationOptions: CursorPaginationEnabled | undefined = {
         limit: pageSize,
@@ -267,6 +326,7 @@ export class WebClient extends Methods {
       // NOTE: test for the situation where you're resuming a pagination using and existing cursor
 
       while (result === undefined || paginationOptions !== undefined) {
+        // eslint-disable-next-line no-await-in-loop
         result = await this.apiCall(method, Object.assign(options !== undefined ? options : {}, paginationOptions));
         yield result;
         paginationOptions = paginationOptionsForNextPage(result, pageSize);
@@ -298,6 +358,7 @@ export class WebClient extends Methods {
       }
 
       // Continue iteration
+      // eslint-disable-next-line no-restricted-syntax
       for await (const page of pageIterator) {
         accumulator = pageReducer(accumulator, page, index);
         if (shouldStop(page)) {
@@ -317,12 +378,10 @@ export class WebClient extends Methods {
     const task = () => this.requestQueue.add(async () => {
       this.logger.debug('will perform http request');
       try {
-        const response = await this.axios.post(url, body, Object.assign(
-          {
-            headers,
-          },
-          this.tlsConfig,
-        ));
+        const response = await this.axios.post(url, body, {
+          headers,
+          ...this.tlsConfig,
+        });
         this.logger.debug('http response received');
 
         if (response.status === 429) {
@@ -385,33 +444,32 @@ export class WebClient extends Methods {
     // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
     // binary content
     let containsBinaryData: boolean = false;
-    const flattened = Object.entries(options)
-      .map<[string, any] | []>(([key, value]) => {
-        if (value === undefined || value === null) {
-          return [];
-        }
+    const flattened = Object.entries(options).map<[string, any] | []>(([key, value]) => {
+      if (value === undefined || value === null) {
+        return [];
+      }
 
-        let serializedValue = value;
+      let serializedValue = value;
 
-        if (Buffer.isBuffer(value) || isStream(value)) {
-          containsBinaryData = true;
-        } else if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
-          // if value is anything other than string, number, boolean, binary data, a Stream, or a Buffer, then encode it
-          // as a JSON string.
-          serializedValue = JSON.stringify(value);
-        }
+      if (Buffer.isBuffer(value) || isStream(value)) {
+        containsBinaryData = true;
+      } else if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
+        // if value is anything other than string, number, boolean, binary data, a Stream, or a Buffer, then encode it
+        // as a JSON string.
+        serializedValue = JSON.stringify(value);
+      }
 
-        return [key, serializedValue];
-      });
+      return [key, serializedValue];
+    });
 
     // A body with binary content should be serialized as multipart/form-data
     if (containsBinaryData) {
       this.logger.debug('request arguments contain binary data');
       const form = flattened.reduce(
-        (form, [key, value]) => {
+        (frm, [key, value]) => {
           if (Buffer.isBuffer(value) || isStream(value)) {
-            const options: FormData.AppendOptions = {};
-            options.filename = (() => {
+            const opts: FormData.AppendOptions = {};
+            opts.filename = (() => {
               // attempt to find filename from `value`. adapted from:
               // tslint:disable-next-line:max-line-length
               // https://github.com/form-data/form-data/blob/028c21e0f93c5fefa46a7bbf1ba753e4f627ab7a/lib/form_data.js#L227-L230
@@ -426,23 +484,25 @@ export class WebClient extends Methods {
               }
               return defaultFilename;
             })();
-            form.append(key as string, value, options);
+            frm.append(key as string, value, opts);
           } else if (key !== undefined && value !== undefined) {
-            form.append(key, value);
+            frm.append(key, value);
           }
-          return form;
+          return frm;
         },
         new FormData(),
       );
       // Copying FormData-generated headers into headers param
       // not reassigning to headers param since it is passed by reference and behaves as an inout param
-      for (const [header, value] of Object.entries(form.getHeaders())) {
+      Object.entries(form.getHeaders()).forEach(([header, value]) => {
+        // eslint-disable-next-line no-param-reassign
         headers[header] = value;
-      }
+      });
       return form;
     }
 
     // Otherwise, a simple key-value object is returned
+    // eslint-disable-next-line no-param-reassign
     headers['Content-Type'] = 'application/x-www-form-urlencoded';
     const initialValue: { [key: string]: any; } = {};
     return qsStringify(flattened.reduce(
@@ -461,8 +521,9 @@ export class WebClient extends Methods {
    * HTTP headers into the object.
    * @param response - an http response
    */
+  // eslint-disable-next-line class-methods-use-this
   private buildResult(response: AxiosResponse): WebAPICallResult {
-    let data = response.data;
+    let { data } = response;
 
     if (typeof data === 'string') {
       // response.data can be a string, not an object for some reason
@@ -483,8 +544,7 @@ export class WebClient extends Methods {
       data.response_metadata.scopes = (response.headers['x-oauth-scopes'] as string).trim().split(/\s*,\s*/);
     }
     if (response.headers['x-accepted-oauth-scopes'] !== undefined) {
-      data.response_metadata.acceptedScopes =
-        (response.headers['x-accepted-oauth-scopes'] as string).trim().split(/\s*,\s*/);
+      data.response_metadata.acceptedScopes = (response.headers['x-accepted-oauth-scopes'] as string).trim().split(/\s*,\s*/);
     }
 
     // add retry metadata from headers
@@ -498,71 +558,6 @@ export class WebClient extends Methods {
 }
 
 export default WebClient;
-
-/*
- * Exported types
- */
-
-export interface WebClientOptions {
-  slackApiUrl?: string;
-  logger?: Logger;
-  logLevel?: LogLevel;
-  maxRequestConcurrency?: number;
-  retryConfig?: RetryOptions;
-  agent?: Agent;
-  tls?: TLSOptions;
-  timeout?: number;
-  rejectRateLimitedCalls?: boolean;
-  headers?: object;
-  teamId?: string;
-}
-
-export type TLSOptions = Pick<SecureContextOptions, 'pfx' | 'key' | 'passphrase' | 'cert' | 'ca'>;
-
-export enum WebClientEvent {
-  RATE_LIMITED = 'rate_limited',
-}
-
-export interface WebAPICallOptions {
-  [argument: string]: unknown;
-}
-
-export interface WebAPICallResult {
-  ok: boolean;
-  error?: string;
-  response_metadata?: {
-    warnings?: string[];
-    next_cursor?: string; // is this too specific to be encoded into this type?
-
-    // added from the headers of the http response
-    scopes?: string[];
-    acceptedScopes?: string[];
-    retryAfter?: number;
-    // `chat.postMessage` returns an array of error messages (e.g., "messages": ["[ERROR] invalid_keys"])
-    messages?: string[];
-  };
-  [key: string]: unknown;
-}
-
-// NOTE: should there be an async predicate?
-export interface PaginatePredicate {
-  (page: WebAPICallResult): boolean | undefined | void;
-}
-
-export interface PageReducer<A = any> {
-  (accumulator: A | undefined, page: WebAPICallResult, index: number): A;
-}
-
-export type PageAccumulator<R extends PageReducer> =
-  R extends (accumulator: (infer A) | undefined, page: WebAPICallResult, index: number) => infer A ? A : never;
-
-/*
- * Helpers
- */
-
-const defaultFilename = 'Untitled';
-const defaultPageSize = 200;
-const noopPageReducer: PageReducer = () => undefined;
 
 /**
  * Determines an appropriate set of cursor pagination options for the next request to a paginated API method.
@@ -638,18 +633,15 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, options?: WebAP
   const targetMethods = ['chat.postEphemeral', 'chat.postMessage', 'chat.scheduleMessage', 'chat.update'];
   const isTargetMethod = targetMethods.includes(method);
 
-  const missingAttachmentFallbackDetected = (args: WebAPICallOptions) =>
-    Array.isArray(args.attachments)
-    && args.attachments.some((attachment) => { return (!attachment.fallback || attachment.fallback.trim() === 0); });
+  const missingAttachmentFallbackDetected = (args: WebAPICallOptions) => Array.isArray(args.attachments) &&
+    args.attachments.some((attachment) => !attachment.fallback || attachment.fallback.trim() === 0);
 
-  const isEmptyText = (args: WebAPICallOptions) =>
-    args.text === undefined || args.text === null || args.text === '';
+  const isEmptyText = (args: WebAPICallOptions) => args.text === undefined || args.text === null || args.text === '';
 
-  const buildWarningMessage = (missing: string) =>
-      `The \`${missing}\` argument is missing in the request payload for a ${method} call - ` +
-      `It's a best practice to always provide a \`${missing}\` argument when posting a message. ` +
-      `The \`${missing}\` is used in places where the content cannot be rendered such as: ` +
-      'system push notifications, assistive technology such as screen readers, etc.';
+  const buildWarningMessage = (missing: string) => `The \`${missing}\` argument is missing in the request payload for a ${method} call - ` +
+    `It's a best practice to always provide a \`${missing}\` argument when posting a message. ` +
+    `The \`${missing}\` is used in places where the content cannot be rendered such as: ` +
+    'system push notifications, assistive technology such as screen readers, etc.';
 
   if (isTargetMethod && typeof options === 'object' && isEmptyText(options)) {
     if (missingAttachmentFallbackDetected(options)) {
