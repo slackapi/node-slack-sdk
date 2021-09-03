@@ -1,4 +1,5 @@
 import { Logger, LogLevel, ConsoleLogger } from '@slack/logger';
+
 export { Logger, LogLevel } from '@slack/logger';
 
 let instanceCount = 0;

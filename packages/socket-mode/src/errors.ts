@@ -18,7 +18,7 @@ export enum ErrorCode {
 }
 
 export type SMCallError = SMPlatformError | SMWebsocketError | SMNoReplyReceivedError
-  | SMSendWhileDisconnectedError | SMSendWhileNotReadyError;
+| SMSendWhileDisconnectedError | SMSendWhileNotReadyError;
 
 export interface SMPlatformError extends CodedError {
   code: ErrorCode.SendMessagePlatformError;
@@ -42,10 +42,6 @@ export interface SMSendWhileNotReadyError extends CodedError {
   code: ErrorCode.SendWhileNotReadyError;
 }
 
-export interface SMSendWhileNotReadyError extends CodedError {
-  code: ErrorCode.SendWhileNotReadyError;
-}
-
 /**
  * Factory for producing a {@link CodedError} from a generic error
  */
@@ -56,9 +52,9 @@ function errorWithCode(error: Error, code: ErrorCode): CodedError {
   return codedError as CodedError;
 }
 
- /**
-  * A factory to create SMWebsocketError objects.
-  */
+/**
+ * A factory to create SMWebsocketError objects.
+ */
 export function websocketErrorWithOriginal(original: Error): SMWebsocketError {
   const error = errorWithCode(
     new Error(`Failed to send message on websocket: ${original.message}`),
@@ -68,9 +64,9 @@ export function websocketErrorWithOriginal(original: Error): SMWebsocketError {
   return (error as SMWebsocketError);
 }
 
- /**
-  * A factory to create SMPlatformError objects.
-  */
+/**
+ * A factory to create SMPlatformError objects.
+ */
 export function platformErrorFromEvent(event: any & { error: { msg: string; } }): SMPlatformError {
   const error = errorWithCode(
     new Error(`An API error occurred: ${event.error.msg}`),
@@ -81,9 +77,9 @@ export function platformErrorFromEvent(event: any & { error: { msg: string; } })
 }
 
 // TODO: Is the below factory needed still?
- /**
-  * A factory to create SMNoReplyReceivedError objects.
-  */
+/**
+ * A factory to create SMNoReplyReceivedError objects.
+ */
 export function noReplyReceivedError(): SMNoReplyReceivedError {
   return errorWithCode(
     new Error('Message sent but no server acknowledgement was received. This may be caused by the client ' +
@@ -92,9 +88,9 @@ export function noReplyReceivedError(): SMNoReplyReceivedError {
   ) as SMNoReplyReceivedError;
 }
 
- /**
-  * A factory to create SMSendWhileDisconnectedError objects.
-  */
+/**
+ * A factory to create SMSendWhileDisconnectedError objects.
+ */
 export function sendWhileDisconnectedError(): SMSendWhileDisconnectedError {
   return errorWithCode(
     new Error('Cannot send message when client is not connected'),
@@ -102,9 +98,9 @@ export function sendWhileDisconnectedError(): SMSendWhileDisconnectedError {
   ) as SMSendWhileDisconnectedError;
 }
 
- /**
-  * A factory to create SMSendWhileNotReadyError objects.
-  */
+/**
+ * A factory to create SMSendWhileNotReadyError objects.
+ */
 export function sendWhileNotReadyError(): SMSendWhileNotReadyError {
   return errorWithCode(
     new Error('Cannot send message when client is not ready'),

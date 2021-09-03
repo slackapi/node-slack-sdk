@@ -38,9 +38,9 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
-    "build:clean": "shx rm -rf ./dist",
-    "lint": "tslint --project .",
-    "test": "npm run build && nyc mocha --config .mocharc.json src/*.spec.js",
+    "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
+    "lint": "eslint --ext .ts src",
+    "test": "npm run lint && npm run build && nyc mocha --config .mocharc.json src/*.spec.js",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
   },
   "dependencies": {
@@ -56,17 +56,23 @@
     "ws": "^7.5.3"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.4.1",
+    "@typescript-eslint/parser": "^4.4.0",
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
     "chai": "^4.2.0",
+    "eslint": "^7.26.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsdoc": "^30.6.1",
+    "eslint-plugin-node": "^11.1.0",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1",
     "shx": "^0.3.2",
     "ts-node": "^8.2.0",
     "sinon": "^7.3.2",
     "source-map-support": "^0.5.12",
-    "tslint": "^5.13.1",
-    "tslint-config-airbnb": "^5.11.1",
     "typescript": "^4.1.0"
   }
 }
