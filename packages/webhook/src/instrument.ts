@@ -1,5 +1,6 @@
 import * as os from 'os';
-const packageJson = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
+
+const packageJson = require('../package.json'); // eslint-disable-line import/no-commonjs, @typescript-eslint/no-var-requires
 
 /**
  * Replaces occurrences of '/' with ':' in a string, since '/' is meaningful inside User-Agent strings as a separator.
