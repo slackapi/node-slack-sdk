@@ -24,7 +24,7 @@ export enum ErrorCode {
 }
 
 export type RTMCallError = RTMPlatformError | RTMWebsocketError | RTMNoReplyReceivedError
-  | RTMSendWhileDisconnectedError | RTMSendWhileNotReadyError;
+| RTMSendWhileDisconnectedError | RTMSendWhileNotReadyError;
 
 export interface RTMPlatformError extends CodedError {
   code: ErrorCode.SendMessagePlatformError;
@@ -58,9 +58,9 @@ function errorWithCode(error: Error, code: ErrorCode): CodedError {
   return codedError as CodedError;
 }
 
- /**
-  * A factory to create RTMWebsocketError objects.
-  */
+/**
+ * A factory to create RTMWebsocketError objects.
+ */
 export function websocketErrorWithOriginal(original: Error): RTMWebsocketError {
   const error = errorWithCode(
     new Error(`Failed to send message on websocket: ${original.message}`),
@@ -70,9 +70,9 @@ export function websocketErrorWithOriginal(original: Error): RTMWebsocketError {
   return (error as RTMWebsocketError);
 }
 
- /**
-  * A factory to create RTMPlatformError objects.
-  */
+/**
+ * A factory to create RTMPlatformError objects.
+ */
 export function platformErrorFromEvent(event: RTMCallResult & { error: { msg: string; } }): RTMPlatformError {
   const error = errorWithCode(
     new Error(`An API error occurred: ${event.error.msg}`),
@@ -82,9 +82,9 @@ export function platformErrorFromEvent(event: RTMCallResult & { error: { msg: st
   return (error as RTMPlatformError);
 }
 
- /**
-  * A factory to create RTMNoReplyReceivedError objects.
-  */
+/**
+ * A factory to create RTMNoReplyReceivedError objects.
+ */
 export function noReplyReceivedError(): RTMNoReplyReceivedError {
   return errorWithCode(
     new Error('Message sent but no server acknowledgement was received. This may be caused by the client ' +
@@ -93,9 +93,9 @@ export function noReplyReceivedError(): RTMNoReplyReceivedError {
   ) as RTMNoReplyReceivedError;
 }
 
- /**
-  * A factory to create RTMSendWhileDisconnectedError objects.
-  */
+/**
+ * A factory to create RTMSendWhileDisconnectedError objects.
+ */
 export function sendWhileDisconnectedError(): RTMSendWhileDisconnectedError {
   return errorWithCode(
     new Error('Cannot send message when client is not connected'),
@@ -103,9 +103,9 @@ export function sendWhileDisconnectedError(): RTMSendWhileDisconnectedError {
   ) as RTMSendWhileDisconnectedError;
 }
 
- /**
-  * A factory to create RTMSendWhileNotReadyError objects.
-  */
+/**
+ * A factory to create RTMSendWhileNotReadyError objects.
+ */
 export function sendWhileNotReadyError(): RTMSendWhileNotReadyError {
   return errorWithCode(
     new Error('Cannot send message when client is not ready'),
