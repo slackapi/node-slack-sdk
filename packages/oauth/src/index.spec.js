@@ -398,7 +398,7 @@ describe('OAuth', async () => {
     });
 
     it('should call the failure callback due to missing state query parameter on the URL', async () => {
-      const req = { url: 'someUrl' };
+      const req = { url: 'http://someUrl.com' };
       let sent = false;
       const res = { send: () => { sent = true; } };
       const callbackOptions = {
@@ -418,7 +418,7 @@ describe('OAuth', async () => {
     });
 
     it('should call the failure callback due to missing code query parameter on the URL', async () => {
-      const req = { url: 'someUrl' };
+      const req = { url: 'http://someUrl.com' };
       let sent = false;
       const res = { send: () => { sent = true; } };
       const callbackOptions = {

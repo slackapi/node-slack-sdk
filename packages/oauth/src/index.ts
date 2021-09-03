@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
+import { URLSearchParams, URL } from 'url';
 import { sign, verify } from 'jsonwebtoken';
 import { WebAPICallResult, WebClient, WebClientOptions } from '@slack/web-api';
 import {
@@ -9,9 +10,30 @@ import {
   GenerateInstallUrlError,
   AuthorizationError,
 } from './errors';
-import { parse as parseUrl, URLSearchParams, URL } from 'url';
 import { Logger, LogLevel, getLogger } from './logger';
 import { MemoryInstallationStore } from './stores';
+
+// default implementation of StateStore
+class ClearStateStore implements StateStore {
+  private stateSecret: string;
+
+  public constructor(stateSecret: string) {
+    this.stateSecret = stateSecret;
+  }
+
+  public async generateStateParam(installOptions: InstallURLOptions, now: Date): Promise<string> {
+    const state = sign({ installOptions, now: now.toJSON() }, this.stateSecret);
+    return state;
+  }
+
+  public async verifyStateParam(_now: Date, state: string): Promise<InstallURLOptions> {
+    // decode the state using the secret
+    const decoded: StateObj = verify(state, this.stateSecret) as StateObj;
+
+    // return installOptions
+    return decoded.installOptions;
+  }
+}
 
 /**
  * InstallProvider Class.
@@ -26,15 +48,22 @@ import { MemoryInstallationStore } from './stores';
  */
 export class InstallProvider {
   public stateStore: StateStore;
+
   public installationStore: InstallationStore;
+
   private clientId: string;
+
   private clientSecret: string;
+
   private authVersion: string;
+
   private logger: Logger;
+
   private clientOptions: WebClientOptions;
+
   private authorizationUrl: string;
 
-  constructor({
+  public constructor({
     clientId,
     clientSecret,
     stateSecret = undefined,
@@ -46,7 +75,6 @@ export class InstallProvider {
     clientOptions = {},
     authorizationUrl = 'https://slack.com/oauth/v2/authorize',
   }: InstallProviderOptions) {
-
     if (clientId === undefined || clientSecret === undefined) {
       throw new InstallerInitializationError('You must provide a valid clientId and clientSecret');
     }
@@ -158,8 +186,11 @@ export class InstallProvider {
           const installationUpdates: any = { ...queryResult }; // TODO :: TS
           const refreshResponses = await this.refreshExpiringTokens(tokensToRefresh);
 
+          // TODO: perhaps this for..of loop could introduce an async delay due to await'ing once for each refreshResp?
+          // Could we rewrite to be more performant and not trigger the eslint warning? Perhaps a concurrent async
+          // map/reduce? But will the return value be the same? Does order of this array matter?
+          // eslint-disable-next-line no-restricted-syntax
           for (const refreshResp of refreshResponses) {
-
             const tokenType = refreshResp.token_type;
 
             // Update Authorization
@@ -185,6 +216,8 @@ export class InstallProvider {
               [tokenType]: { ...queryResult[tokenType], ...installationUpdates[tokenType] },
             };
 
+            // TODO: related to the above TODO comment as well
+            // eslint-disable-next-line no-await-in-loop
             await this.installationStore.storeInstallation(updatedInstallation);
           }
         }
@@ -204,15 +237,12 @@ export class InstallProvider {
   private async refreshExpiringTokens(tokensToRefresh: string[]): Promise<OAuthV2TokenRefreshResponse[]> {
     const client = new WebClient(undefined, this.clientOptions);
 
-    // tslint:disable-next-line:ter-arrow-parens
-    const refreshPromises = tokensToRefresh.map(async (refreshToken) => {
-      return await client.oauth.v2.access({
-        client_id: this.clientId,
-        client_secret: this.clientSecret,
-        grant_type: 'refresh_token',
-        refresh_token: refreshToken,
-      }).catch((e) => { return e; }) as OAuthV2TokenRefreshResponse;
-    });
+    const refreshPromises = tokensToRefresh.map(async (refreshToken) => await client.oauth.v2.access({
+      client_id: this.clientId,
+      client_secret: this.clientSecret,
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+    }).catch((e) => e) as OAuthV2TokenRefreshResponse);
 
     return Promise.all(refreshPromises);
   }
@@ -222,7 +252,6 @@ export class InstallProvider {
    * Uses stateStore to generate a value for the state query param.
    */
   public async generateInstallUrl(options: InstallURLOptions): Promise<string> {
-
     const slackURL = new URL(this.authorizationUrl);
 
     if (options.scopes === undefined) {
@@ -291,10 +320,10 @@ export class InstallProvider {
 
     try {
       if (req.url !== undefined) {
-        parsedUrl = parseUrl(req.url, true);
-        code = parsedUrl.query.code as string;
-        state = parsedUrl.query.state as string;
-        if (state === undefined || state === '' || code === undefined) {
+        parsedUrl = new URL(req.url);
+        code = parsedUrl.searchParams.get('code') as string;
+        state = parsedUrl.searchParams.get('state') as string;
+        if (!state || !code) {
           throw new MissingStateError('redirect url is missing state or code query parameters');
         }
       } else {
@@ -350,7 +379,6 @@ export class InstallProvider {
         resp = v1Resp;
         installation = v1Installation;
       } else {
-
         // convert response type from WebApiCallResult to OAuthResponse
         const v2Resp = await client.oauth.v2.access({
           code,
@@ -380,7 +408,6 @@ export class InstallProvider {
 
         // Installation has Bot Token
         if (v2Resp.access_token !== undefined && v2Resp.scope !== undefined && v2Resp.bot_user_id !== undefined) {
-
           const authResult = await runAuthTest(v2Resp.access_token, this.clientOptions);
 
           v2Installation.bot = {
@@ -403,7 +430,6 @@ export class InstallProvider {
 
         // Installation has User Token
         if (v2Resp.authed_user !== undefined && v2Resp.authed_user.access_token !== undefined) {
-
           // TODO: confirm if it is possible to do an org enterprise install without a bot user
           const authResult = await runAuthTest(v2Resp.authed_user.access_token, this.clientOptions);
 
@@ -526,26 +552,6 @@ export interface StateStore {
 interface StateObj {
   now: Date;
   installOptions: InstallURLOptions;
-}
-
-// default implementation of StateStore
-class ClearStateStore implements StateStore {
-  private stateSecret: string;
-  public constructor(stateSecret: string) {
-    this.stateSecret = stateSecret;
-  }
-
-  public async generateStateParam(installOptions: InstallURLOptions, now: Date): Promise<string> {
-    const state = sign({ installOptions, now: now.toJSON() }, this.stateSecret);
-    return state;
-  }
-  public async verifyStateParam(_now: Date, state: string): Promise<InstallURLOptions> {
-    // decode the state using the secret
-    const decoded: StateObj = verify(state, this.stateSecret) as StateObj;
-
-    // return installOptions
-    return decoded.installOptions;
-  }
 }
 
 export interface InstallationStore {
@@ -817,7 +823,7 @@ export interface OAuthV2TokenRefreshResponse extends WebAPICallResult {
   team: { id: string, name: string };
   enterprise: { name: string, id: string } | null;
   is_enterprise_install: boolean;
-  response_metadata: {}; // TODO
+  response_metadata: Record<string, never>; // TODO
 }
 
 // Response shape from oauth.access - https://api.slack.com/methods/oauth.access#response
