@@ -1,2 +1,2 @@
-export { MemoryInstallationStore } from './memory-store';
-export { FileInstallationStore } from './file-store';
+export { default as MemoryInstallationStore } from './memory-store';
+export { default as FileInstallationStore } from './file-store';

@@ -8,7 +8,7 @@ interface DevDatabase {
 }
 
 // Default Install Store. Should only be used for development
-export class MemoryInstallationStore implements InstallationStore {
+export default class MemoryInstallationStore implements InstallationStore {
   public devDB: DevDatabase = {};
 
   public async storeInstallation(installation: Installation, logger?: Logger): Promise<void> {
@@ -35,9 +35,7 @@ export class MemoryInstallationStore implements InstallationStore {
     }
   }
 
-  public async fetchInstallation(
-    query: InstallationQuery<boolean>,
-    logger?: Logger): Promise<Installation<'v1' | 'v2'>> {
+  public async fetchInstallation(query: InstallationQuery<boolean>, logger?: Logger): Promise<Installation<'v1' | 'v2'>> {
     if (logger !== undefined) {
       logger.warn('Retrieving Access Token from DB. Please use a real Installation Store for production!');
     }
@@ -71,7 +69,6 @@ export class MemoryInstallationStore implements InstallationStore {
       // Separate out installation from rest of database
       const { [query.enterpriseId]: _, ...devDB } = this.devDB;
       this.devDB = devDB;
-
     } else if (query.teamId !== undefined) {
       if (logger !== undefined) {
         logger.debug('deleting single team installation');
@@ -80,7 +77,6 @@ export class MemoryInstallationStore implements InstallationStore {
       // Separate out installation from rest of database
       const { [query.teamId]: _, ...devDB } = this.devDB;
       this.devDB = devDB;
-
     } else {
       throw new Error('Failed to delete installation');
     }

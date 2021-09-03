@@ -1,8 +1,8 @@
-import { Installation, InstallationStore, InstallationQuery } from '../index';
-import { Logger } from '../logger';
 import fs from 'fs';
 import path from 'path';
 import { homedir } from 'os';
+import { Installation, InstallationStore, InstallationQuery } from '../index';
+import { Logger } from '../logger';
 
 export interface FileInstallationOptions {
   baseDir?: string;
@@ -10,12 +10,12 @@ export interface FileInstallationOptions {
   clientId?: string;
 }
 
-export class FileInstallationStore implements InstallationStore {
-
+export default class FileInstallationStore implements InstallationStore {
   private baseDir: string;
+
   private historicalDataEnabled: boolean;
 
-  constructor({
+  public constructor({
     baseDir = `${homedir()}/.bolt-js-app-installation`,
     clientId,
     historicalDataEnabled = true,
@@ -88,14 +88,12 @@ export class FileInstallationStore implements InstallationStore {
       const allFiles = fs.readdirSync(installationDir);
       filesToDelete = filesToDelete.concat(allFiles);
     } else {
-      // tslint:disable-next-line:ter-arrow-parens
-      const userFiles = fs.readdirSync(installationDir).filter(file => file.includes(`user-${userId}-`));
+      const userFiles = fs.readdirSync(installationDir).filter((file) => file.includes(`user-${userId}-`));
       filesToDelete = filesToDelete.concat(userFiles);
     }
 
     try {
-      // tslint:disable-next-line:ter-arrow-parens
-      filesToDelete.map(filePath => deleteFile(path.resolve(`${installationDir}/${filePath}`)));
+      filesToDelete.map((filePath) => deleteFile(path.resolve(`${installationDir}/${filePath}`)));
     } catch (err) {
       throw new Error('Failed to delete installation from FileInstallationStore');
     }
