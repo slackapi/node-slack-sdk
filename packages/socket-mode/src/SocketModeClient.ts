@@ -16,7 +16,17 @@ import {
   sendWhileNotReadyError,
 } from './errors';
 
-const packageJson = require('../package.json'); // tslint:disable-line:no-require-imports no-var-requires
+const packageJson = require('../package.json'); // eslint-disable-line import/no-commonjs, @typescript-eslint/no-var-requires
+
+// NOTE: there may be a better way to add metadata to an error about being "unrecoverable" than to keep an
+// independent enum, probably a Set (this isn't used as a type).
+enum UnrecoverableSocketModeStartError {
+  NotAuthed = 'not_authed',
+  InvalidAuth = 'invalid_auth',
+  AccountInactive = 'account_inactive',
+  UserRemovedFromTeam = 'user_removed_from_team',
+  TeamDisabled = 'team_disabled',
+}
 
 /**
  * An Socket Mode Client allows programs to communicate with the
@@ -59,21 +69,20 @@ export class SocketModeClient extends EventEmitter {
    */
   private stateMachineConfig = Finity
     .configure()
+    /* eslint-disable @typescript-eslint/indent, newline-per-chained-call */
       .initialState('disconnected')
         .on('start').transitionTo('connecting')
         // .onEnter(() => {})
       .state('connecting')
         .submachine(Finity.configure()
           .initialState('authenticating')
-            .do(() => {
-              return this.webClient.apps.connections.open().then((result: AppsConnectionsOpenResponse) => {
-                return result;
-              }).catch((error) => {
+            .do(() => this.webClient.apps.connections.open()
+              .then((result: AppsConnectionsOpenResponse) => result)
+              .catch((error) => {
                 this.logger.error(error);
                 // throw error;
                 return Promise.reject(error);
-              });
-            })
+              }))
               .onSuccess().transitionTo('authenticated')
               .onFailure()
                 .transitionTo('reconnecting').withCondition((context) => {
@@ -153,15 +162,13 @@ export class SocketModeClient extends EventEmitter {
           .state('refreshing-connection')
             .submachine(Finity.configure()
             .initialState('authenticating')
-              .do(() => {
-                return this.webClient.apps.connections.open().then((result: AppsConnectionsOpenResponse) => {
-                  return result;
-                }).catch((error) => {
+              .do(() => this.webClient.apps.connections.open()
+                .then((result: AppsConnectionsOpenResponse) => result)
+                .catch((error) => {
                   this.logger.error(error);
                   // throw error;
                   return Promise.reject(error);
-                });
-              })
+                }))
                 .onSuccess().transitionTo('authenticated')
                 .onFailure()
                   .transitionTo('authenticating').withCondition((context) => {
@@ -281,11 +288,13 @@ export class SocketModeClient extends EventEmitter {
           }
         })
     .getConfig();
+    /* eslint-enable @typescript-eslint/indent, newline-per-chained-call */
 
   /**
    * The client's websockets
    */
   public websocket?: WebSocket;
+
   private secondaryWebsocket?: WebSocket;
 
   private webClient: WebClient;
@@ -321,7 +330,7 @@ export class SocketModeClient extends EventEmitter {
    */
   private clientOptions: WebClientOptions;
 
-  constructor({
+  public constructor({
     logger = undefined,
     logLevel = undefined,
     autoReconnectEnabled = true,
@@ -437,7 +446,7 @@ export class SocketModeClient extends EventEmitter {
             this.logger.error(`failed to send message on websocket: ${error.message}`);
             return reject(websocketErrorWithOriginal(error));
           }
-          resolve();
+          return resolve();
         });
       }
     });
@@ -514,8 +523,8 @@ export class SocketModeClient extends EventEmitter {
     if (!this.badConnection) {
       this.pingTimeout = setTimeout(() => {
         this.logger.info(`A ping wasn't received from the server before the timeout of ${this.clientPingTimeout}ms!`);
-        if (this.stateMachine.getCurrentState() === 'connected'
-          && this.stateMachine.getStateHierarchy()[1] === 'ready') {
+        if (this.stateMachine.getCurrentState() === 'connected' &&
+          this.stateMachine.getStateHierarchy()[1] === 'ready') {
           this.badConnection = true;
           // opens secondary websocket and teardown original once that is ready
           this.stateMachine.handle('server pings not received');
@@ -536,7 +545,7 @@ export class SocketModeClient extends EventEmitter {
     let event: {
       type: string;
       reason: string;
-      payload: {[key: string]: any};
+      payload: { [key: string]: any };
       envelope_id: string;
       retry_attempt?: number; // type: events_api
       retry_reason?: string; // type: events_api
@@ -576,8 +585,7 @@ export class SocketModeClient extends EventEmitter {
     }
 
     // Define Ack
-    // tslint:disable-next-line:ter-arrow-parens
-    const ack = async (response: object): Promise<void> => {
+    const ack = async (response: Record<string, unknown>): Promise<void> => {
       this.logger.debug('calling ack', event.type);
       await this.send(event.envelope_id, response);
     };
@@ -630,14 +638,4 @@ export interface SocketModeOptions {
   autoReconnectEnabled?: boolean;
   clientPingTimeout?: number;
   clientOptions?: Omit<WebClientOptions, 'logLevel' | 'logger'>;
-}
-
-// NOTE: there may be a better way to add metadata to an error about being "unrecoverable" than to keep an
-// independent enum, probably a Set (this isn't used as a type).
-enum UnrecoverableSocketModeStartError {
-  NotAuthed = 'not_authed',
-  InvalidAuth = 'invalid_auth',
-  AccountInactive = 'account_inactive',
-  UserRemovedFromTeam = 'user_removed_from_team',
-  TeamDisabled = 'team_disabled',
 }
