@@ -285,7 +285,7 @@ export interface DispatchActionConfig {
  */
 
 export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock |
-  SectionBlock | InputBlock | FileBlock | HeaderBlock;
+SectionBlock | InputBlock | FileBlock | HeaderBlock;
 
 export interface Block {
   type: string;
@@ -318,15 +318,15 @@ export interface SectionBlock extends Block {
   text?: PlainTextElement | MrkdwnElement; // either this or fields must be defined
   fields?: (PlainTextElement | MrkdwnElement)[]; // either this or text must be defined
   accessory?: Button
-    | Overflow
-    | Datepicker
-    | Timepicker
-    | Select
-    | MultiSelect
-    | Action
-    | ImageElement
-    | RadioButtons
-    | Checkboxes;
+  | Overflow
+  | Datepicker
+  | Timepicker
+  | Select
+  | MultiSelect
+  | Action
+  | ImageElement
+  | RadioButtons
+  | Checkboxes;
 }
 
 export interface FileBlock extends Block {
