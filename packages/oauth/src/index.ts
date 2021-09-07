@@ -348,11 +348,8 @@ export class InstallProvider {
         throw new UnknownError('Something went wrong');
       }
 
-      if (this.stateValidation === true) {
-        installOptions = await this.stateStore.verifyStateParam(new Date(), state);
-      } else {
-        installOptions = undefined;
-      }
+      installOptions =  this.stateValidation ? await this.stateStore.verifyStateParam(new Date(), state) : undefined;
+      
       const client = new WebClient(undefined, this.clientOptions);
 
       // Start: Build the installation object
@@ -406,7 +403,11 @@ export class InstallProvider {
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
+<<<<<<< HEAD
           redirect_uri: installOptions? installOptions.redirectUri : undefined,
+=======
+          redirect_uri: installOptions ? installOptions.redirectUri : null,
+>>>>>>> f1660e5 (Add type fixes)
         }) as OAuthV2Response;
 
         // resp obj for v2 - https://api.slack.com/methods/oauth.v2.access#response
@@ -478,8 +479,12 @@ export class InstallProvider {
           configurationUrl: resp.incoming_webhook.configuration_url,
         };
       }
+<<<<<<< HEAD
       // SJ Does this need to be handled if there's no metadata? 
       if (installOptions && installOptions.metadata !== undefined) {
+=======
+      if (installOptions !== undefined && installOptions.metadata !== undefined) {
+>>>>>>> f1660e5 (Add type fixes)
         // Pass the metadata in state parameter if exists.
         // Developers can use the value for additional/custom data associated with the installation.
         installation.metadata = installOptions.metadata;
