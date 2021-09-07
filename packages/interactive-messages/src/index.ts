@@ -1,4 +1,4 @@
-import { SlackMessageAdapter, MessageAdapterOptions } from './adapter';
+import SlackMessageAdapter, { MessageAdapterOptions } from './adapter';
 import { ErrorCode } from './errors';
 
 export {
@@ -12,7 +12,7 @@ export {
   ResponseStatus,
   ShortcutConstraints,
   ShortcutHandler,
-  SlackMessageAdapter,
+  default as SlackMessageAdapter,
   ViewClosedHandler,
   ViewConstraints,
   ViewSubmissionHandler,
@@ -23,6 +23,7 @@ export { ErrorCode } from './errors';
  * Dictionary of error codes that may appear on errors emitted from this package's objects
  */
 export const errorCodes = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   BODY_PARSER_NOT_PERMITTED: ErrorCode.BodyParserNotPermitted,
 } as const;
 // TODO: export other error codes

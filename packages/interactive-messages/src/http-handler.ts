@@ -1,4 +1,3 @@
-/* tslint:disable import-name */
 import { ServerResponse, IncomingHttpHeaders, IncomingMessage } from 'http';
 import * as querystring from 'querystring';
 import debugFactory from 'debug';
@@ -107,9 +106,9 @@ export function createHTTPHandler(adapter: SlackMessageAdapter): HTTPHandler {
     if (!isFalsy(req.body) && isFalsy(req.rawBody)) {
       respond({
         status: 500,
-        content: process.env.NODE_ENV === 'development'
-          ? 'Parsing request body prohibits request signature verification'
-          : undefined,
+        content: process.env.NODE_ENV === 'development' ?
+          'Parsing request body prohibits request signature verification' :
+          undefined,
       });
       return;
     }
@@ -178,7 +177,7 @@ type HTTPHandler = (req: IncomingMessage & { body?: any, rawBody?: Buffer }, res
  */
 type ResponseHandler = (dispatchResult: {
   status: number,
-  content?: string | object,
+  content?: string | Record<string, unknown>,
 }) => void;
 
 /**

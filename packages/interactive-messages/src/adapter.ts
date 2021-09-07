@@ -1,4 +1,3 @@
-/* tslint:disable import-name */
 import http, { RequestListener, Agent } from 'http';
 import axios, { AxiosInstance } from 'axios';
 import isString from 'lodash.isstring';
@@ -6,13 +5,29 @@ import isRegExp from 'lodash.isregexp';
 import isFunction from 'lodash.isfunction';
 import isPlainObject from 'lodash.isplainobject';
 import debugFactory from 'debug';
+import { RequestHandler } from 'express';
 import { ErrorCode, CodedError } from './errors';
 import { createHTTPHandler } from './http-handler';
 import { packageIdentifier, promiseTimeout, isFalsy } from './util';
-import { RequestHandler } from 'express'; // tslint:disable-line no-implicit-dependencies - only a type is imported
-/* tslint:enable import-name */
 
 const debug = debugFactory('@slack/interactive-messages:adapter');
+
+/**
+ * The type of stored constraints.
+ */
+const enum StoredConstraintsType {
+  Action = 'action',
+  Shortcut = 'shortcut',
+  Options = 'options',
+  ViewSubmission = 'view_submission',
+  ViewClosed = 'view_closed',
+}
+
+/** Some HTTP response statuses. */
+export enum ResponseStatus {
+  Ok = 200,
+  Failure = 500,
+}
 
 /**
  * Transforms various forms of matching constraints to a single standard object shape
@@ -28,7 +43,7 @@ function formatMatchingConstraints<C extends AnyConstraints>(matchingConstraints
   if (!isPlainObject(matchingConstraints)) {
     ret.callbackId = matchingConstraints as string | RegExp;
   } else {
-    ret = Object.assign({}, matchingConstraints as C);
+    ret = { ...matchingConstraints as C };
   }
   return ret as C;
 }
@@ -101,7 +116,7 @@ function validateViewConstraints(viewConstraints: ViewConstraints): Error | fals
 /**
  * An adapter for Slack's interactive message components such as buttons, menus, and dialogs.
  */
-export class SlackMessageAdapter {
+export default class SlackMessageAdapter {
   /**
    * Slack app signing secret used to authenticate request
    */
@@ -120,7 +135,9 @@ export class SlackMessageAdapter {
   public lateResponseFallbackEnabled: boolean;
 
   private callbacks: [StoredConstraints, Callback][];
+
   private axios: AxiosInstance;
+
   private server?: http.Server;
 
   /**
@@ -133,7 +150,7 @@ export class SlackMessageAdapter {
    *   fallback to a request for the response_url. this only works in cases where the semantic meaning of the response
    *   and the response_url are the same.
    */
-  constructor(signingSecret: string, {
+  public constructor(signingSecret: string, {
     syncResponseTimeout = 2500,
     lateResponseFallbackEnabled = true,
     agent = undefined,
@@ -189,14 +206,12 @@ export class SlackMessageAdapter {
    */
   public start(port: number): Promise<http.Server> {
     return this.createServer()
-      .then((server) => {
-        return new Promise((resolve, reject) => {
-          this.server = server;
-          server.on('error', reject);
-          server.listen(port, () => resolve(server));
-          debug('server started - port: %s', port);
-        });
-      });
+      .then((server) => new Promise((resolve, reject) => {
+        this.server = server;
+        server.on('error', reject);
+        server.listen(port, () => resolve(server));
+        debug('server started - port: %s', port);
+      }));
   }
 
   /**
@@ -245,7 +260,7 @@ export class SlackMessageAdapter {
 
   /* Interface for adding handlers */
 
-  /* tslint:disable max-line-length */
+  /* eslint-disable max-len */
   /**
    * Add a handler for an interactive message action.
    *
@@ -264,7 +279,7 @@ export class SlackMessageAdapter {
    * @param callback - the function to run when an action is matched
    * @returns this instance (for chaining)
    */
-  /* tslint:enable max-line-length */
+  /* eslint-enable max-len */
   public action(
     matchingConstraints: string | RegExp | ActionConstraints,
     callback: ActionHandler,
@@ -282,13 +297,13 @@ export class SlackMessageAdapter {
     return this.registerCallback(storableConstraints, callback);
   }
 
-  /* tslint:disable max-line-length */
+  /* eslint-disable max-len */
   /*
   * **Shortcut**|**Return `Promise<any>`**|**Return `any`**|**Notes**
   * :-----:|:-----:|:-----:|:-----:|
   * **Global Shortcut**| Empty response when Promise is resolved | Empty response | Returning a Promise that takes longer than 3 seconds to resolve can result in the user seeing an error.
   */
-  /* tslint:enable max-line-length */
+  /* eslint-enable max-len */
   public shortcut(
     matchingConstraints: string | RegExp | ShortcutConstraints,
     callback: ShortcutHandler,
@@ -306,7 +321,7 @@ export class SlackMessageAdapter {
     return this.registerCallback(storableConstraints, callback);
   }
 
-  /* tslint:disable max-line-length */
+  /* eslint-disable max-len */
   /**
    * Add a handler for an options request
    *
@@ -322,7 +337,7 @@ export class SlackMessageAdapter {
    * @param callback - the function to run when an options request is matched
    * @returns this instance (for chaining)
    */
-  /* tslint:enable max-line-length */
+  /* eslint-enable max-len */
   public options(
     matchingConstraints: string | RegExp | OptionsConstraints,
     callback: OptionsHandler,
@@ -434,32 +449,32 @@ export class SlackMessageAdapter {
 
     if (!isFalsy(callbackResult)) {
       return promiseTimeout(this.syncResponseTimeout, callbackResult)
-        .then((content) => { return { content, status: ResponseStatus.Ok }; })
+        .then((content) => ({ content, status: ResponseStatus.Ok }))
         .catch<DispatchResult>((error: CodedError) => {
-          if (error.code === ErrorCode.PromiseTimeout) {
-            // warn and continue for promises that cannot be saved with a later async response.
-            // this includes dialog submissions because the response_url doesn't have the same
-            // semantics as the response, any request that doesn't contain a response_url, and
-            // if this has been explicitly disabled in the configuration.
-            if (!this.lateResponseFallbackEnabled || respond === undefined || payload.type === 'dialog_submission') {
-              debug('WARNING: The response Promise did not resolve under the timeout.');
-              return (callbackResult as Promise<any>)
-                .then((content) => { return { content, status: ResponseStatus.Ok }; })
-                .catch(() => ({ status: ResponseStatus.Failure }));
-            }
-
-            // save a late promise by sending an empty body in the response, and then use the
-            // response_url to send the eventually resolved value
-            (callbackResult as Promise<any>).then(respond).catch((callbackError) => {
-              // when the promise is late and fails, we cannot do anything but log it
-              debug('ERROR: Promise was late and failed. Use `.catch()` to handle errors.');
-              throw callbackError;
-            });
-            return { status: ResponseStatus.Ok };
+        if (error.code === ErrorCode.PromiseTimeout) {
+          // warn and continue for promises that cannot be saved with a later async response.
+          // this includes dialog submissions because the response_url doesn't have the same
+          // semantics as the response, any request that doesn't contain a response_url, and
+          // if this has been explicitly disabled in the configuration.
+          if (!this.lateResponseFallbackEnabled || respond === undefined || payload.type === 'dialog_submission') {
+            debug('WARNING: The response Promise did not resolve under the timeout.');
+            return (callbackResult as Promise<any>)
+              .then((content) => ({ content, status: ResponseStatus.Ok }))
+              .catch(() => ({ status: ResponseStatus.Failure }));
           }
 
-          return { status: ResponseStatus.Failure };
-        });
+          // save a late promise by sending an empty body in the response, and then use the
+          // response_url to send the eventually resolved value
+          (callbackResult as Promise<any>).then(respond).catch((callbackError) => {
+            // when the promise is late and fails, we cannot do anything but log it
+            debug('ERROR: Promise was late and failed. Use `.catch()` to handle errors.');
+            throw callbackError;
+          });
+          return { status: ResponseStatus.Ok };
+        }
+
+        return { status: ResponseStatus.Failure };
+      });
     }
 
     // The following result value represents:
@@ -607,10 +622,10 @@ export class SlackMessageAdapter {
       ) {
         // a payload that represents a view submission always has a type property set to view_submission,
         // a payload that represents a view closed interaction always has a type property set to view_closed
-        if (!isFalsy(payload.type) &&
+        if (!isFalsy(payload.type) && (
           (constraints.handlerType === StoredConstraintsType.ViewSubmission && payload.type !== 'view_submission') ||
           (constraints.handlerType === StoredConstraintsType.ViewClosed && payload.type !== 'view_closed')
-        ) {
+        )) {
           return false;
         }
 
@@ -639,14 +654,6 @@ export class SlackMessageAdapter {
       return true;
     });
   }
-}
-
-export default SlackMessageAdapter;
-
-/** Some HTTP response statuses. */
-export enum ResponseStatus {
-  Ok = 200,
-  Failure = 500,
 }
 
 /**
@@ -759,17 +766,6 @@ export interface ViewConstraints {
 }
 
 export type AnyConstraints = ActionConstraints | OptionsConstraints | ViewConstraints | ShortcutConstraints;
-
-/**
- * The type of stored constraints.
- */
-const enum StoredConstraintsType {
-  Action = 'action',
-  Shortcut = 'shortcut',
-  Options = 'options',
-  ViewSubmission = 'view_submission',
-  ViewClosed = 'view_closed',
-}
 
 /**
  * Internal storage type that describes the constraints of an ActionHandler or OptionsHandler.
