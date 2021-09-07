@@ -489,9 +489,9 @@ export class RTMClient extends EventEmitter {
    * @param type - the message type
    * @param body - the message body
    */
-  public addOutgoingEvent(awaitReply: true, type: string, body?: Record<string, never>): Promise<RTMCallResult>;
-  public addOutgoingEvent(awaitReply: false, type: string, body?: Record<string, never>): Promise<void>;
-  public addOutgoingEvent(awaitReply: boolean, type: string, body?: Record<string, never>): Promise<RTMCallResult | void> { // eslint-disable-line max-len
+  public addOutgoingEvent(awaitReply: true, type: string, body?: Record<string, unknown>): Promise<RTMCallResult>;
+  public addOutgoingEvent(awaitReply: false, type: string, body?: Record<string, unknown>): Promise<void>;
+  public addOutgoingEvent(awaitReply: boolean, type: string, body?: Record<string, unknown>): Promise<RTMCallResult | void> { // eslint-disable-line max-len
     const awaitReplyTask = (messageId: number) => {
       const replyPromise = new PCancelable<RTMCallResult>((resolve, reject, onCancel) => {
         // We only want the event handler to resolve the Promise in the case the message IDs match
