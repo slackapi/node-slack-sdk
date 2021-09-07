@@ -1,3 +1,13 @@
+// Merge the two ErrorCode constants into one, to make this as similar to @slack/client@4 as possible
+import { ErrorCode as WebAPIErrorCode } from '@slack/web-api';
+import { ErrorCode as RTMAPIErrorCode } from '@slack/rtm-api';
+import { ErrorCode as WebhookErrorCode } from '@slack/webhook';
+
+export const ErrorCode = {
+  ...WebAPIErrorCode,
+  ...RTMAPIErrorCode,
+  ...WebhookErrorCode,
+};
 export {
   Logger,
   LogLevel,
@@ -49,10 +59,3 @@ export {
 export { ErrorCode as WebhookErrorCode } from '@slack/webhook';
 
 export * from '@slack/types';
-
-// Merge the two ErrorCode constants into one, to make this as similar to @slack/client@4 as possible
-import { ErrorCode as WebAPIErrorCode } from '@slack/web-api';
-import { ErrorCode as RTMAPIErrorCode } from '@slack/rtm-api';
-import { ErrorCode as WebhookErrorCode } from '@slack/webhook';
-// tslint:disable-next-line:variable-name
-export const ErrorCode = Object.assign({}, WebAPIErrorCode, RTMAPIErrorCode, WebhookErrorCode);
