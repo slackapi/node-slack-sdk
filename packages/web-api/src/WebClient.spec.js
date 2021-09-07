@@ -118,7 +118,7 @@ describe('WebClient', function () {
   describe('has an option to override the Axios timeout value', function () {
     it('should log warning and throw error if timeout exceeded', function (done) {
       const timeoutOverride = 1; // ms, guaranteed failure
-      
+
       const logger = {
         debug: sinon.spy(),
         info: sinon.spy(),
@@ -127,7 +127,7 @@ describe('WebClient', function () {
         setLevel: sinon.spy(),
         setName: sinon.spy(),
       };
-      
+ 
       const client = new WebClient(undefined, { 
         timeout: timeoutOverride, 
         retryConfig: { retries: 0 },
@@ -1136,6 +1136,7 @@ describe('WebClient', function () {
   });
 
   describe('has all admin.inviteRequests.* APIs', function () {
+    console.log('debug env is', process.env.DEBUG);
     function verify(runApiCall, methodName, expectedBody, done) {
       const scope = nock('https://slack.com')
         .post(`/api/${methodName}`)
@@ -1144,12 +1145,20 @@ describe('WebClient', function () {
         });
       runApiCall
         .then((res) => {
+          console.log('got a successful response', res.body);
           assert.equal(res.body, expectedBody);
+        })
+        .catch((err) => {
+          console.log('got an error', err);
+          assert.fail(err);
+        })
+        .finally(() => {
+          console.log('finally');
           scope.done();
           done();
         });
     }
-    const client = new WebClient(token);
+    const client = new WebClient(token, { logLevel: 'debug'});
 
     it('can call admin.inviteRequests.approve', function (done) {
       verify(
@@ -1204,6 +1213,11 @@ describe('WebClient', function () {
       runApiCall
         .then((res) => {
           assert.equal(res.body, expectedBody);
+        })
+        .catch((err) => {
+          assert.fail(err);
+        })
+        .finally(() => {
           scope.done();
           done();
         });
@@ -1235,7 +1249,7 @@ describe('WebClient', function () {
         done
       );
     });
-    it('can call admin.usergroups.removeChannels with a string "channe_ids"', function (done) {
+    it('can call admin.usergroups.removeChannels with a string "channel_ids"', function (done) {
       verify(
         client.admin.usergroups.removeChannels({ usergroup_id: 'S123', channel_ids: 'C123,C234' }),
         'admin.usergroups.removeChannels',
