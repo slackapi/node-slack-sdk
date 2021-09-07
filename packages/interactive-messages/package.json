@@ -44,8 +44,9 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
-    "lint": "tslint --project .",
-    "test": "nyc mocha --config .mocharc.json src/*.spec.js",
+    "lint": "eslint --ext .ts src",
+    "test": "npm run lint && npm run build && npm run test:mocha",
+    "test:mocha": "nyc mocha --config .mocharc.json src/*.spec.js",
     "coverage": "codecov -F interactivemessages --root=$PWD",
     "ref-docs:model": "api-extractor run"
   },
@@ -68,10 +69,17 @@
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.3.4",
+    "@typescript-eslint/eslint-plugin": "^4.4.1",
+    "@typescript-eslint/parser": "^4.4.0",
     "body-parser": "^1.18.2",
     "chai": "^4.2.0",
     "codecov": "^3.0.0",
-    "eslint": "^4.9.0",
+    "eslint": "^7.26.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsdoc": "^30.6.1",
+    "eslint-plugin-node": "^11.1.0",
     "estraverse": "^4.2.0",
     "get-random-port": "0.0.1",
     "jsdoc-to-markdown": "^5.0.0",
@@ -83,8 +91,6 @@
     "sinon": "^4.5.0",
     "source-map-support": "^0.5.12",
     "ts-node": "^8.2.0",
-    "tslint": "^5.17.0",
-    "tslint-config-airbnb": "^5.11.1",
     "typescript": "^4.1.0"
   }
 }
