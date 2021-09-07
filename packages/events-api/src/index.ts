@@ -1,4 +1,4 @@
-import { SlackEventAdapter, EventAdapterOptions } from './adapter';
+import SlackEventAdapter, { EventAdapterOptions } from './adapter';
 
 export {
   CodedError,
@@ -7,7 +7,7 @@ export {
   verifyRequestSignature,
   VerifyRequestSignatureParams,
 } from './http-handler';
-export { SlackEventAdapter, EventAdapterOptions } from './adapter';
+export { default as SlackEventAdapter, EventAdapterOptions } from './adapter';
 
 /**
  * Creates a new {@link SlackEventAdapter}.

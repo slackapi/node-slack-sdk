@@ -1,19 +1,17 @@
-/* tslint:disable import-name */
 import EventEmitter from 'events';
 import http, { RequestListener } from 'http';
 import debugFactory from 'debug';
 import isString from 'lodash.isstring';
+import { RequestHandler } from 'express'; // eslint-disable-line import/no-extraneous-dependencies
 import { createHTTPHandler } from './http-handler';
 import { isFalsy } from './util';
-import { RequestHandler } from 'express'; // tslint:disable-line: no-implicit-dependencies
-/* tslint:enable import-name */
 
 const debug = debugFactory('@slack/events-api:adapter');
 
 /**
  * An adapter for Slack's Events API.
  */
-export class SlackEventAdapter extends EventEmitter {
+export default class SlackEventAdapter extends EventEmitter {
   /**
    * The token used to authenticate signed requests from Slack's Events API.
    */
@@ -46,7 +44,7 @@ export class SlackEventAdapter extends EventEmitter {
    * @param opts.waitForResponse - When `true` prevents the adapter from responding by itself and leaves that up to
    *   listeners.
    */
-  constructor(
+  public constructor(
     signingSecret: string,
     {
       includeBody = false,
@@ -88,14 +86,12 @@ export class SlackEventAdapter extends EventEmitter {
    */
   public start(port: number): Promise<http.Server> {
     return this.createServer()
-      .then((server) => {
-        return new Promise((resolve, reject) => {
-          this.server = server;
-          server.on('error', reject);
-          server.listen(port, () => resolve(server));
-          debug('server started - port: %s', port);
-        });
-      });
+      .then((server) => new Promise((resolve, reject) => {
+        this.server = server;
+        server.on('error', reject);
+        server.listen(port, () => resolve(server));
+        debug('server started - port: %s', port);
+      }));
   }
 
   /**
@@ -145,8 +141,3 @@ export interface EventAdapterOptions {
   includeHeaders?: boolean;
   waitForResponse?: boolean;
 }
-
-/**
- * @alias module:adapter
- */
-export default SlackEventAdapter;

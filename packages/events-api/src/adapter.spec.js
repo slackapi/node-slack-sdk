@@ -7,7 +7,7 @@ const noop = require('nop');
 const getRandomPort = require('get-random-port');
 
 const { createStreamRequest } = require('../test/helpers');
-const { SlackEventAdapter } = require('./adapter');
+const { default: SlackEventAdapter } = require('./adapter');
 
 // fixtures and test helpers
 const workingSigningSecret = 'SIGNING_SECRET';
