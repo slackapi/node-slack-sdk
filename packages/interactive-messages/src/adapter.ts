@@ -5,6 +5,7 @@ import isRegExp from 'lodash.isregexp';
 import isFunction from 'lodash.isfunction';
 import isPlainObject from 'lodash.isplainobject';
 import debugFactory from 'debug';
+// eslint-disable-next-line import/no-extraneous-dependencies, node/no-extraneous-import
 import { RequestHandler } from 'express';
 import { ErrorCode, CodedError } from './errors';
 import { createHTTPHandler } from './http-handler';
