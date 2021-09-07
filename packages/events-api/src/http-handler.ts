@@ -1,14 +1,29 @@
-/* tslint:disable:import-name */
 import debugFactory from 'debug';
 import getRawBody from 'raw-body';
 import crypto from 'crypto';
 import timingSafeCompare from 'tsscmp';
+import { IncomingMessage, ServerResponse } from 'http';
 import { packageIdentifier, isFalsy } from './util';
 import SlackEventAdapter from './adapter';
-import { IncomingMessage, ServerResponse } from 'http';
-/* tslint:enable:import-name */
 
 const debug = debugFactory('@slack/events-api:http-handler');
+
+/**
+ * A dictionary of codes for errors produced by this package.
+ */
+export enum ErrorCode {
+  SignatureVerificationFailure = 'SLACKHTTPHANDLER_REQUEST_SIGNATURE_VERIFICATION_FAILURE',
+  RequestTimeFailure = 'SLACKHTTPHANDLER_REQUEST_TIMELIMIT_FAILURE',
+  BodyParserNotPermitted = 'SLACKADAPTER_BODY_PARSER_NOT_PERMITTED_FAILURE',
+}
+
+/** Some HTTP response statuses. */
+enum ResponseStatus {
+  Ok = 200,
+  Redirect = 302,
+  NotFound = 404,
+  Failure = 500,
+}
 
 /**
  * Verifies the signature of a request. Throws a {@link CodedError} if the signature is invalid.
@@ -217,14 +232,6 @@ export function createHTTPHandler(adapter: SlackEventAdapter): HTTPHandler {
   };
 }
 
-/** Some HTTP response statuses. */
-enum ResponseStatus {
-  Ok = 200,
-  Redirect = 302,
-  NotFound = 404,
-  Failure = 500,
-}
-
 /**
  * A RequestListener-compatible callback for creating response information from an incoming request.
  *
@@ -275,15 +282,6 @@ export interface VerifyRequestSignatureParams {
 }
 
 /**
- * A dictionary of codes for errors produced by this package.
- */
-export enum ErrorCode {
-  SignatureVerificationFailure = 'SLACKHTTPHANDLER_REQUEST_SIGNATURE_VERIFICATION_FAILURE',
-  RequestTimeFailure = 'SLACKHTTPHANDLER_REQUEST_TIMELIMIT_FAILURE',
-  BodyParserNotPermitted = 'SLACKADAPTER_BODY_PARSER_NOT_PERMITTED_FAILURE',
-}
-
-/**
  * All errors produced by this package are regular
  * {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error | Error} objects with
  * an extra {@link CodedError.code | `error`} field.
@@ -306,7 +304,9 @@ function errorWithCode(error: Error, code: ErrorCode): CodedError {
 
 // legacy export
 export const errorCodes = {
+  /* eslint-disable @typescript-eslint/naming-convention */
   SIGNATURE_VERIFICATION_FAILURE: ErrorCode.SignatureVerificationFailure,
   REQUEST_TIME_FAILURE: ErrorCode.RequestTimeFailure,
   BODY_PARSER_NOT_PERMITTED: ErrorCode.BodyParserNotPermitted,
+  /* eslint-enable @typescript-eslint/naming-convention */
 };
