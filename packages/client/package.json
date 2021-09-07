@@ -41,8 +41,8 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
-    "lint": "tslint --project .",
-    "test": "npm run build && echo \"Tests are not implemented.\" && exit 0"
+    "lint": "eslint --ext .ts src",
+    "test": "npm run lint && npm run build && echo \"Tests are not implemented.\" && exit 0"
   },
   "dependencies": {
     "@slack/logger": ">=1.0.0 <3.0.0",
@@ -52,9 +52,15 @@
     "@slack/webhook": "^5.0.2"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.4.1",
+    "@typescript-eslint/parser": "^4.4.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsdoc": "^30.6.1",
+    "eslint-plugin-node": "^11.1.0",
     "shx": "^0.3.2",
-    "tslint": "^5.13.1",
-    "tslint-config-airbnb": "^5.11.1",
     "typescript": "^3.3.3333"
   }
 }
