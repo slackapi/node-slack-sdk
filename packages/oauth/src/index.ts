@@ -95,11 +95,16 @@ export class InstallProvider {
 
     // SJ - If stateValidation = false, then no stateSecret is needed
     this.stateValidation = stateValidation;
+    if (this.stateValidation === false) {
+      this.logger.info('You\'ve disabled state validation during oauth. This means any custom metadata passed along as options will be ignored during the installation flow.'); 
+    }
 
     // Setup stateStore
-    if (stateStore !== undefined) {
-      this.stateStore = stateStore;
+    if (stateStore !== undefined) { // SJ they passed in a custom state store
+      this.stateStore = stateStore; // SJ with the custom store state secret is option
     } else if (stateSecret === undefined) {
+      // SJ could optionally make it so that when stateValidation is disabled, 
+      // SJ avoid this error, but that means state secret is req'd. poor experience?
       throw new InstallerInitializationError('You must provide a State Secret to use the built-in state store');
     } else {
       this.stateStore = new ClearStateStore(stateSecret);
