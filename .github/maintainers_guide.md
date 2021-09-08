@@ -8,26 +8,26 @@ Maintaining this project requires installing [Node.js](https://nodejs.org). All 
 ## ✅ Tasks
 
 ### ⚗️ Testing and Linting
-The Node SDK is made up of multiple, individual packages, each with their own tests. As such, tests are run on a per-package basis. To run tests for a given package, navigate to the package's directory (ie, `packages/web-api`) and run `npm test`. To run linting, run `npm run lint`.
+The Node SDK is made up of multiple, individual packages, each with their own tests. As such, tests are run on a per-package basis. However, the top-level directory contains some development dependencies applicable to all packages. As a result, to run tests for any package, first ensure you run `npm install` from the top-level directory. Then, for a given package, navigate to the package's directory (ie, `packages/web-api`) and run `npm install` to install that package's required dependencies. Finally, run `npm test` to run that package's tests. To run just the linting and not the entire test suite, run `npm run lint`.
 
-This project has tests for individual packages as `*.spec.js` files and inside of each's respective `test` directory. It also has integration tests in the `integration-tests` directory under the root `support` directory. 
+This project has tests for individual packages as `*.spec.js` files and inside of each's package's `src` directory. It also has integration tests in the `support/integration-tests` directory.
 
-Upon opening a PR, tests are executed by GitHub Actions, our continuous integration system. GitHub Actions runs several, more granular builds in order to report on success and failure in a more targeted way. 
+Upon opening a PR, tests are executed by GitHub Actions, our continuous integration system. GitHub Actions runs several, more granular builds in order to report on success and failure in a more targeted way.
 
-  - There is one build for each package on each supported version of Node, as well as one for the integration tests on each supported version of Node. 
-  
-  - GitHub Actions runs linting in each package, which is separate from tests so you can run tests locally frequently without having to block for fixing styling problems. 
-  
+  - There is one build for each package on each supported version of Node, as well as one for the integration tests on each supported version of Node.
+
+  - GitHub Actions runs linting in each package, which is separate from tests so you can run tests locally frequently without having to block for fixing styling problems.
+
   - GitHub Actions uploads the coverage report for the tests ran within the build to Codecov, our coverage reporting system. GitHub reports status on each PR. Codecov aggregates all the coverage reports, and separate reports status on each PR. The configuration is stored in `.github/workflows/ci-build.yml`.
 
 Test code should be written in syntax that runs on the oldest supported Node.js version. This ensures that backwards compatibility is tested and the APIs look reasonable in versions of Node.js that do not support the most modern syntax.
 
-We have included `launch.json` files that store configuration for `vscode` debugging in each pacakge. This allows you to set breakpoints in test files and interactively debug. Open the project in `vscode` and navigate to the debug screen on the left sidebar. The icon for it looks like a little lock bug with an x inside. At the top in `vscode`, select the configuration to run and press the green play icon to start debugging. Alternatively, on mac, you can press `cmd + shift + d` to get to the debug screen and `F5` to start debugging. If you are using `vscode` debugging, don't forget to lint the source (`npm run lint`) manually.
+We have included `launch.json` files that store configuration for `vscode` debugging in each package. This allows you to set breakpoints in test files and interactively debug. Open the project in `vscode` and navigate to the debug screen on the left sidebar. The icon for it looks like a little lock bug with an x inside. At the top in `vscode`, select the configuration to run and press the green play icon to start debugging. Alternatively, on mac, you can press `cmd + shift + d` to get to the debug screen and `F5` to start debugging. If you are using `vscode` debugging, don't forget to lint the source (`npm run lint`) manually.
 
 Also, for verifying the behavior with the real Slack server-side and developer experience with installed packages, you can run the tests amd scripts under `prod-server-integration-tests`. Refer to the README file in the directory for details. These tests are supposed to be run in the project maintainers' manual execution. They are not part of CI builds for now.
 
 ### 📄 Generating Documentation
-The documentation is built using [Jekyll](https://jekyllrb.com/) and hosted with GitHub Pages. The source files are contained in the `docs` directory. Reading the Jekyll configuration in `docs/_config.yml` is helpful to understand how the documentation is organized and built. 
+The documentation is built using [Jekyll](https://jekyllrb.com/) and hosted with GitHub Pages. The source files are contained in the `docs` directory. Reading the Jekyll configuration in `docs/_config.yml` is helpful to understand how the documentation is organized and built.
 
 To build the docs locally, navigate to the `docs` directory. First ensure you have Ruby ~2.5.3 and install the dependencies by running `bundle install`. Then, run the command `bundle exec jekyll serve`. You will then be provided with a local URL that you can use to view the build.
 
@@ -44,15 +44,15 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
 1. Check the status of the package's GitHub Milestone for issues that should be shipped with the release.
 
-    - If all issues have been closed, continue with the release. 
-    
+    - If all issues have been closed, continue with the release.
+
     - If issues are still open, discuss with the team about whether the open issues should be moved to a future release or if the release should be held off until the issues are resolved.
 
-2. Make sure your local `main` branch has the latest changes. 
+2. Make sure your local `main` branch has the latest changes.
 
 3. Navigate to the specific package(s) you're releasing in the `packages/` directory.
 
-4. For each package to be released, run `npm run test && npm run lint` to verify that tests are passing and code is free of linting errors.
+4. For each package to be released, run `npm run test` to verify that tests are passing and code is free of linting errors.
 
 5. Bump the version(s) in `package.json` (see [Versioning and Tags](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#versioning-and-tags))
 
@@ -78,7 +78,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 8. Close GitHub Milestone(s)
 
     - Close the relevant GitHub Milestone(s) for the release(s)
-    
+
     - Move any unfinished, open issues to the next GitHub Milestone
 
 9. Create GitHub Release(s) with release notes
@@ -89,14 +89,14 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
 10. Communicate the release (as appropriate)
 
-    - **Internal** 
-      
+    - **Internal**
+
       - Include a brief description and link to the GitHub release
 
-    - **External** 
+    - **External**
 
       - **Bot Developer Hangout** (`dev4slack.slack.com`) in **#slack-api**
-    
+
       - **Twitter**: Primarily for major updates. Coordinate with Developer Marketing.
 
 ### 🚧 Beta Releases
@@ -106,7 +106,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
 2. Navigate to the specific package(s) you're releasing in the `packages/` directory.
 
-3. For each package to be released, run `npm run test && npm run lint` to verify that everything is working and free of linting errors. 
+3. For each package to be released, run `npm run test` to verify that everything is working and free of linting errors.
 
 4. Bump the version(s) in `package.json`
 
@@ -132,7 +132,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - To generate an OTP (One Time Password), use your password generator of choice (Duo, 1Password)
 
-6. Immediately after publishing, update the `dist-tags` 
+6. Immediately after publishing, update the `dist-tags`
 
     - Update the `latest` `dist-tag` to the **previous non-beta release**: `npm dist-tag add @slack/web-api@5.10.0 latest --otp YOUR_OTP_CODE`.
 
