@@ -1,10 +1,10 @@
 import { Agent } from 'http';
 
 import { EventEmitter } from 'eventemitter3';
-import WebSocket from 'ws'; // tslint:disable-line:import-name
-import Finity, { StateMachine } from 'finity'; // tslint:disable-line:import-name
-import PQueue from 'p-queue'; // tslint:disable-line:import-name
-import PCancelable from 'p-cancelable'; // tslint:disable-line:import-name
+import WebSocket from 'ws';
+import Finity, { StateMachine } from 'finity';
+import PQueue from 'p-queue';
+import PCancelable from 'p-cancelable';
 import {
   WebClient,
   WebAPICallResult,

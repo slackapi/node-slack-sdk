@@ -129,7 +129,6 @@ export function createHTTPHandler(adapter: SlackEventAdapter): HTTPHandler {
         adapter.emit('error', error, respond);
       } else if (process.env.NODE_ENV === 'development') {
         adapter.emit('error', error);
-        // tslint:disable-next-line: no-object-literal-type-assertion
         respond({ status: ResponseStatus.Failure } as ResponseError, { content: error.message });
       } else {
         adapter.emit('error', error);

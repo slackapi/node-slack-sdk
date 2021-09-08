@@ -144,7 +144,6 @@ export function createHTTPHandler(adapter: SlackMessageAdapter): HTTPHandler {
 
           if (dispatchResult !== undefined) {
             // TODO: handle this after responding?
-            // tslint:disable-next-line no-floating-promises
             dispatchResult.then(respond);
           } else {
             // No callback was matched

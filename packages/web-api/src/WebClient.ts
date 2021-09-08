@@ -5,10 +5,10 @@ import { Readable } from 'stream';
 import { SecureContextOptions } from 'tls';
 
 import isStream from 'is-stream';
-import PQueue from 'p-queue'; // tslint:disable-line:import-name
+import PQueue from 'p-queue';
 import pRetry, { AbortError } from 'p-retry';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import FormData from 'form-data'; // tslint:disable-line:import-name
+import FormData from 'form-data';
 import isElectron from 'is-electron';
 
 import { Methods, CursorPaginationEnabled, cursorPaginationEnabledMethods } from './methods';
@@ -471,7 +471,6 @@ export class WebClient extends Methods {
             const opts: FormData.AppendOptions = {};
             opts.filename = (() => {
               // attempt to find filename from `value`. adapted from:
-              // tslint:disable-next-line:max-line-length
               // https://github.com/form-data/form-data/blob/028c21e0f93c5fefa46a7bbf1ba753e4f627ab7a/lib/form_data.js#L227-L230
               // formidable and the browser add a name property
               // fs- and request- streams have path property

@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
-import WebSocket from 'ws'; // tslint:disable-line:import-name
-import Finity, { StateMachine } from 'finity'; // tslint:disable-line:import-name
+import WebSocket from 'ws';
+import Finity, { StateMachine } from 'finity';
 import {
   WebClient,
   AppsConnectionsOpenResponse,
@@ -154,9 +154,7 @@ export class SocketModeClient extends EventEmitter {
                 this.emit('ready');
               });
             })
-            // tslint:disable-next-line: max-line-length
             .on('server disconnect warning').transitionTo('refreshing-connection').withCondition(() => this.autoReconnectEnabled)
-            // tslint:disable-next-line: max-line-length
             .on('server pings not received').transitionTo('refreshing-connection').withCondition(() => this.autoReconnectEnabled)
             .on('server disconnect old socket').transitionTo('closing-socket')
           .state('refreshing-connection')
@@ -529,7 +527,6 @@ export class SocketModeClient extends EventEmitter {
           // opens secondary websocket and teardown original once that is ready
           this.stateMachine.handle('server pings not received');
         }
-      // tslint:disable-next-line: align
       }, this.clientPingTimeout);
     }
   }

@@ -552,7 +552,6 @@ export default class SlackMessageAdapter {
         // actions have a type defined at the top level, and select actions don't have a type
         // defined, but type can be inferred by checking if a `selected_options` property exists in
         // the action.
-        // tslint:disable-next-line strict-boolean-expressions
         const type = action.type || payload.type || (action.selected_options && 'select');
         if (!type) {
           debug('no type found in dispatched action');
