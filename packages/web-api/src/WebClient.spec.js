@@ -917,11 +917,11 @@ describe('WebClient', function () {
         .persist()
         .post(/api/)
         .delay(responseDelay)
-        .reply(200, function (uri, requestBody, cb) {
+        .reply(function (uri, requestBody) {
           // NOTE: the assumption is that this function gets called right away when the request body is available,
           // not after the delay
           const diff = Date.now() - self.testStart;
-          return cb(null, [200, JSON.stringify({ ok: true, diff })]);
+          return [200, JSON.stringify({ ok: true, diff })];
         });
     });
 
@@ -1136,7 +1136,6 @@ describe('WebClient', function () {
   });
 
   describe('has all admin.inviteRequests.* APIs', function () {
-    console.log('debug env is', process.env.DEBUG);
     function verify(runApiCall, methodName, expectedBody, done) {
       const scope = nock('https://slack.com')
         .post(`/api/${methodName}`)
@@ -1145,20 +1144,17 @@ describe('WebClient', function () {
         });
       runApiCall
         .then((res) => {
-          console.log('got a successful response', res.body);
           assert.equal(res.body, expectedBody);
         })
         .catch((err) => {
-          console.log('got an error', err);
           assert.fail(err);
         })
         .finally(() => {
-          console.log('finally');
           scope.done();
           done();
         });
     }
-    const client = new WebClient(token, { logLevel: 'debug'});
+    const client = new WebClient(token);
 
     it('can call admin.inviteRequests.approve', function (done) {
       verify(
