@@ -42,7 +42,7 @@ class ClearStateStore implements StateStore {
  * @param clientSecret - Your apps client Secret
  * @param stateSecret - Used to sign and verify the generated state when using the built-in `stateStore`
  * @param stateStore - Replacement function for the built-in `stateStore`
- * @param stateValidation - Pass in false to disable state parameter validation during installation
+ * @param stateValidation - Pass in false to disable state parameter validation
  * @param installationStore - Interface to store and retrieve installation data from the database
  * @param authVersion - Can be either `v1` or `v2`. Determines which slack Oauth URL and method to use
  * @param logger - Pass in your own Logger if you don't want to use the built-in one
@@ -92,19 +92,14 @@ export class InstallProvider {
     } else {
       this.logger = getLogger('OAuth:InstallProvider', logLevel ?? LogLevel.INFO, logger);
     }
-
-    // SJ - If stateValidation = false, then no stateSecret is needed
     this.stateValidation = stateValidation;
-    if (this.stateValidation === false) {
-      this.logger.info('You\'ve disabled state validation during oauth. This means any custom metadata passed along as options will be ignored during the installation flow.'); 
+    if (!stateValidation) {
+      this.logger.info('You\'ve disabled mandatory state validation during oauth. When state is provided as a query param we will attempt to validate, when it is omitted, with this flag set to true, we will ignore validation. Custom metadata options will not be available when state is not supplied.');
     }
-
     // Setup stateStore
-    if (stateStore !== undefined) { // SJ they passed in a custom state store
-      this.stateStore = stateStore; // SJ with the custom store state secret is option
+    if (stateStore !== undefined) {
+      this.stateStore = stateStore;
     } else if (stateSecret === undefined) {
-      // SJ could optionally make it so that when stateValidation is disabled, 
-      // SJ avoid this error, but that means state secret is req'd. poor experience?
       throw new InstallerInitializationError('You must provide a State Secret to use the built-in state store');
     } else {
       this.stateStore = new ClearStateStore(stateSecret);
@@ -279,11 +274,10 @@ export class InstallProvider {
     }
     const params = new URLSearchParams(`scope=${scopes}`);
 
-    // SJ if stateValidation is disabled, we can still generate state params
     // generate state
     const state = await this.stateStore.generateStateParam(options, new Date());
     params.append('state', state);
-    
+
     // client id
     params.append('client_id', this.clientId);
 
@@ -331,11 +325,9 @@ export class InstallProvider {
     let state: string;
     let installOptions: InstallURLOptions | undefined;
 
-    // SJ This section checks for a state field
-    console.log('Inside handleCallback()', req.url);
-
     try {
       if (req.url !== undefined) {
+<<<<<<< HEAD
         parsedUrl = new URL(req.url);
         code = parsedUrl.searchParams.get('code') as string;
         state = parsedUrl.searchParams.get('state') as string;
@@ -345,16 +337,26 @@ export class InstallProvider {
         // }
         if ((state === undefined || state === '') && this.stateValidation === true) {
           throw new MissingStateError('Redirect url is missing the state query parameter')
+=======
+        parsedUrl = parseUrl(req.url, true);
+        code = parsedUrl.query.code as string;
+        state = parsedUrl.query.state as string;
+        if (!code) {
+          throw new MissingCodeError('Redirect url is missing the required code query parameter');
+>>>>>>> e03d4fb (Add stateValidation)
         }
-        if (code === undefined) {
-          throw new MissingCodeError('Redirect url is missing the code query parameter')
+        if (this.stateValidation && !state) {
+          throw new MissingStateError('Redirect url is missing the state query parameter. If this is intentional, see options for disabling default state validation.');
         }
       } else {
         throw new UnknownError('Something went wrong');
       }
 
-      installOptions =  this.stateValidation ? await this.stateStore.verifyStateParam(new Date(), state) : undefined;
-      
+      // If state validation is enabled OR state exists, attempt to validate, otherwise ignore validation
+      installOptions =  (this.stateValidation || state)
+        ? await this.stateStore.verifyStateParam(new Date(), state)
+        : undefined;
+
       const client = new WebClient(undefined, this.clientOptions);
 
       // Start: Build the installation object
@@ -367,7 +369,11 @@ export class InstallProvider {
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
+<<<<<<< HEAD
           redirect_uri: installOptions ? installOptions.redirectUri: undefined,
+=======
+          redirect_uri: installOptions ? installOptions.redirectUri : undefined,
+>>>>>>> e03d4fb (Add stateValidation)
         }) as OAuthV1Response;
 
         // resp obj for v1 - https://api.slack.com/methods/oauth.access#response
@@ -409,10 +415,14 @@ export class InstallProvider {
           client_id: this.clientId,
           client_secret: this.clientSecret,
 <<<<<<< HEAD
+<<<<<<< HEAD
           redirect_uri: installOptions? installOptions.redirectUri : undefined,
 =======
           redirect_uri: installOptions ? installOptions.redirectUri : null,
 >>>>>>> f1660e5 (Add type fixes)
+=======
+          redirect_uri: installOptions ? installOptions.redirectUri : undefined,
+>>>>>>> e03d4fb (Add stateValidation)
         }) as OAuthV2Response;
 
         // resp obj for v2 - https://api.slack.com/methods/oauth.v2.access#response
@@ -587,6 +597,28 @@ interface StateObj {
   installOptions: InstallURLOptions;
 }
 
+<<<<<<< HEAD
+=======
+// default implementation of StateStore
+class ClearStateStore implements StateStore {
+  private stateSecret: string;
+  public constructor(stateSecret: string) {
+    this.stateSecret = stateSecret;
+  }
+
+  public async generateStateParam(installOptions: InstallURLOptions, now: Date): Promise<string> {
+    const state = sign({ installOptions, now: now.toJSON() }, this.stateSecret);
+    return state;
+  }
+  public async verifyStateParam(_now: Date, state: string): Promise<InstallURLOptions> {
+    // decode the state using the secret
+    const decoded: StateObj = verify(state, this.stateSecret) as StateObj;
+    // return installOptions
+    return decoded.installOptions;
+  }
+}
+
+>>>>>>> e03d4fb (Add stateValidation)
 export interface InstallationStore {
   storeInstallation<AuthVersion extends 'v1' | 'v2'>(
     installation: Installation<AuthVersion, boolean>,

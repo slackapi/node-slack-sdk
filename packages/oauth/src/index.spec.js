@@ -444,7 +444,6 @@ describe('OAuth', async () => {
         },
         failure: async (error, installOptions, req, res) => {
           assert.fail(error.message);
-          res.send('failure');
         },
       }
 
