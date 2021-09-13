@@ -290,9 +290,9 @@ const installer = new InstallProvider({
 
 ### State validation
 
-By default, this package handles generating and validating a `state` parameter during OAuth installation. The state parameter helps to mitigate the risk of [CSRF attacks](https://auth0.com/docs/configure/attack-protection/state-parameters#csrf-attacks) and is strongly recommended. 
+By default, this package handles generating and validating a `state` parameter during OAuth installation. The state parameter helps to mitigate the risk of [Cross-Site Request Forgery](https://datatracker.ietf.org/doc/html/rfc6749#section-10.12) and is strongly recommended. 
 
-In specific installation scenarios, such as when an Org-Wide app is installed from an admin page, state validation cannot be completed. In this case, you can disable validation via setting the `InstallProvider#stateValidation` option to `false`. In this case, the installer will no longer require that `state` be present to proceed with installation. It will attempt to validate `state` only if it is provided in the request url parameters. 
+In specific installation scenarios, such as when an Org-Wide app is installed from an admin page, state validation cannot be completed because a `state` parameter isn't provided. In this case, you can disable `state` validation via setting the `InstallProvider#stateValidation` option to `false`. In this case, the installer will no longer require that `state` be present to proceed with installation. However, it will attempt to validate `state` only if it is provided in the request url parameters. 
 
 ```javascript
 const installer = new InstallProvider({
@@ -303,6 +303,8 @@ const installer = new InstallProvider({
   },
 });
 ```
+
+Please note that while setting `stateValidation` false will allow installation to proceed when the `state` query parameter isn't provided, any metadata you provide via installation URL options will not be available.
 ---
 
 

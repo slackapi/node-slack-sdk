@@ -95,7 +95,7 @@ export class InstallProvider {
     }
     this.stateValidation = stateValidation;
     if (!stateValidation) {
-      this.logger.info("You\'ve disabled state parameter validation by setting InstallProvider#stateValidation to false. The state parameter is intended to be used for org-wide app installations from admin pages. When state is provided as a query param we will attempt to validate, when it is omitted, we will ignore validation. Custom metadata options will not be available when state is not supplied. If this isn't the intended behavior, we recommend setting the flag to true and starting your ");
+      this.logger.info("You've set InstallProvider#stateValidation to false. This flag is intended to enable org-wide app installations from admin pages. If this isn't your scenario, we recommend setting stateValidation to true and starting your OAuth flow from the provided `/slack/install` or your own starting endpoint.");
     }
     // Setup stateStore
     if (stateStore !== undefined) {
