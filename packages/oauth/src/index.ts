@@ -327,23 +327,13 @@ export class InstallProvider {
 
     try {
       if (req.url !== undefined) {
-<<<<<<< HEAD
+
         parsedUrl = new URL(req.url);
         code = parsedUrl.searchParams.get('code') as string;
         state = parsedUrl.searchParams.get('state') as string;
-        // SJ This section checks for a state field or a code query, split?
-        // if (state === undefined || state === '' || code === undefined) {
-        //   throw new MissingStateError('redirect url is missing state or code query parameters');
-        // }
-        if ((state === undefined || state === '') && this.stateValidation === true) {
-          throw new MissingStateError('Redirect url is missing the state query parameter')
-=======
-        parsedUrl = parseUrl(req.url, true);
-        code = parsedUrl.query.code as string;
-        state = parsedUrl.query.state as string;
         if (!code) {
           throw new MissingCodeError('Redirect url is missing the required code query parameter');
->>>>>>> e03d4fb (Add stateValidation)
+
         }
         if (this.stateValidation && !state) {
           throw new MissingStateError('Redirect url is missing the state query parameter. If this is intentional, see options for disabling default state validation.');
@@ -369,11 +359,7 @@ export class InstallProvider {
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
-<<<<<<< HEAD
           redirect_uri: installOptions ? installOptions.redirectUri: undefined,
-=======
-          redirect_uri: installOptions ? installOptions.redirectUri : undefined,
->>>>>>> e03d4fb (Add stateValidation)
         }) as OAuthV1Response;
 
         // resp obj for v1 - https://api.slack.com/methods/oauth.access#response
@@ -414,15 +400,7 @@ export class InstallProvider {
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
-<<<<<<< HEAD
-<<<<<<< HEAD
           redirect_uri: installOptions? installOptions.redirectUri : undefined,
-=======
-          redirect_uri: installOptions ? installOptions.redirectUri : null,
->>>>>>> f1660e5 (Add type fixes)
-=======
-          redirect_uri: installOptions ? installOptions.redirectUri : undefined,
->>>>>>> e03d4fb (Add stateValidation)
         }) as OAuthV2Response;
 
         // resp obj for v2 - https://api.slack.com/methods/oauth.v2.access#response
@@ -494,12 +472,7 @@ export class InstallProvider {
           configurationUrl: resp.incoming_webhook.configuration_url,
         };
       }
-<<<<<<< HEAD
-      // SJ Does this need to be handled if there's no metadata? 
       if (installOptions && installOptions.metadata !== undefined) {
-=======
-      if (installOptions !== undefined && installOptions.metadata !== undefined) {
->>>>>>> f1660e5 (Add type fixes)
         // Pass the metadata in state parameter if exists.
         // Developers can use the value for additional/custom data associated with the installation.
         installation.metadata = installOptions.metadata;
@@ -597,28 +570,6 @@ interface StateObj {
   installOptions: InstallURLOptions;
 }
 
-<<<<<<< HEAD
-=======
-// default implementation of StateStore
-class ClearStateStore implements StateStore {
-  private stateSecret: string;
-  public constructor(stateSecret: string) {
-    this.stateSecret = stateSecret;
-  }
-
-  public async generateStateParam(installOptions: InstallURLOptions, now: Date): Promise<string> {
-    const state = sign({ installOptions, now: now.toJSON() }, this.stateSecret);
-    return state;
-  }
-  public async verifyStateParam(_now: Date, state: string): Promise<InstallURLOptions> {
-    // decode the state using the secret
-    const decoded: StateObj = verify(state, this.stateSecret) as StateObj;
-    // return installOptions
-    return decoded.installOptions;
-  }
-}
-
->>>>>>> e03d4fb (Add stateValidation)
 export interface InstallationStore {
   storeInstallation<AuthVersion extends 'v1' | 'v2'>(
     installation: Installation<AuthVersion, boolean>,
