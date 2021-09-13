@@ -417,6 +417,26 @@ describe('OAuth', async () => {
       assert.isTrue(sent);
     });
 
+    it('should call the failure callback due to missing code query parameter on the URL', async () => {
+      const req = { url: 'http://example.com' };
+      let sent = false;
+      const res = { send: () => { sent = true; } };
+      const callbackOptions = {
+        success: async (installation, installOptions, req, res) => {
+          res.send('successful!');
+          assert.fail('should have failed');
+        },
+        failure: async (error, installOptions, req, res) => {
+          assert.equal(error.code, ErrorCode.MissingStateError)
+          res.send('failure');
+        },
+      }
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore, logger: noopLogger });
+      await installer.handleCallback(req, res, callbackOptions);
+
+      assert.isTrue(sent);
+    });
+
     it('should call the failure callback if an access_denied error query parameter was returned on the URL', async () => {
       const req = { url: 'http://example.com?error=access_denied' };
       let sent = false;
