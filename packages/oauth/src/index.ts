@@ -823,7 +823,6 @@ export interface OAuthV2TokenRefreshResponse extends WebAPICallResult {
   team: { id: string, name: string };
   enterprise: { name: string, id: string } | null;
   is_enterprise_install: boolean;
-  response_metadata: Record<string, never>; // TODO
 }
 
 // Response shape from oauth.access - https://api.slack.com/methods/oauth.access#response
