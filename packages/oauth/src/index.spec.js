@@ -398,7 +398,7 @@ describe('OAuth', async () => {
     });
 
     it('should call the failure callback due to missing state query parameter on the URL', async () => {
-      const req = { url: 'http://example.com' };
+      const req = { url: 'http://example.com?code=1234' };
       let sent = false;
       const res = { send: () => { sent = true; } };
       const callbackOptions = {
@@ -417,21 +417,19 @@ describe('OAuth', async () => {
       assert.isTrue(sent);
     });
 
-    it('should call the failure callback due to missing code query parameter on the URL', async () => {
-      const req = { url: 'http://example.com' };
+    it('should call the success callback when state query param is missing but stateValidation disabled', async () => {
+      const req = { url: 'http://example.com?code=1234' };
       let sent = false;
       const res = { send: () => { sent = true; } };
       const callbackOptions = {
         success: async (installation, installOptions, req, res) => {
           res.send('successful!');
-          assert.fail('should have failed');
         },
         failure: async (error, installOptions, req, res) => {
-          assert.equal(error.code, ErrorCode.MissingStateError)
-          res.send('failure');
+          assert.fail('should have succeeded');
         },
       }
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore, logger: noopLogger });
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, stateValidation: false, installationStore, logger: noopLogger });
       await installer.handleCallback(req, res, callbackOptions);
 
       assert.isTrue(sent);

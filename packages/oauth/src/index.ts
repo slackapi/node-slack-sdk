@@ -7,6 +7,7 @@ import {
   InstallerInitializationError,
   UnknownError,
   MissingStateError,
+  MissingCodeError,
   GenerateInstallUrlError,
   AuthorizationError,
 } from './errors';
@@ -41,6 +42,7 @@ class ClearStateStore implements StateStore {
  * @param clientSecret - Your apps client Secret
  * @param stateSecret - Used to sign and verify the generated state when using the built-in `stateStore`
  * @param stateStore - Replacement function for the built-in `stateStore`
+ * @param stateValidation - Pass in false to disable state parameter validation during installation
  * @param installationStore - Interface to store and retrieve installation data from the database
  * @param authVersion - Can be either `v1` or `v2`. Determines which slack Oauth URL and method to use
  * @param logger - Pass in your own Logger if you don't want to use the built-in one
@@ -62,12 +64,14 @@ export class InstallProvider {
   private clientOptions: WebClientOptions;
 
   private authorizationUrl: string;
+  private stateValidation: boolean;
 
   public constructor({
     clientId,
     clientSecret,
     stateSecret = undefined,
     stateStore = undefined,
+    stateValidation = true,
     installationStore = new MemoryInstallationStore(),
     authVersion = 'v2',
     logger = undefined,
@@ -88,6 +92,9 @@ export class InstallProvider {
     } else {
       this.logger = getLogger('OAuth:InstallProvider', logLevel ?? LogLevel.INFO, logger);
     }
+
+    // SJ - If stateValidation = false, then no stateSecret is needed
+    this.stateValidation = stateValidation;
 
     // Setup stateStore
     if (stateStore !== undefined) {
@@ -267,10 +274,11 @@ export class InstallProvider {
     }
     const params = new URLSearchParams(`scope=${scopes}`);
 
+    // SJ if stateValidation is disabled, we can still generate state params
     // generate state
     const state = await this.stateStore.generateStateParam(options, new Date());
     params.append('state', state);
-
+    
     // client id
     params.append('client_id', this.clientId);
 
@@ -316,21 +324,35 @@ export class InstallProvider {
     let parsedUrl;
     let code: string;
     let state: string;
-    let installOptions: InstallURLOptions;
+    let installOptions: InstallURLOptions | undefined;
+
+    // SJ This section checks for a state field
+    console.log('Inside handleCallback()', req.url);
 
     try {
       if (req.url !== undefined) {
         parsedUrl = new URL(req.url);
         code = parsedUrl.searchParams.get('code') as string;
         state = parsedUrl.searchParams.get('state') as string;
-        if (!state || !code) {
-          throw new MissingStateError('redirect url is missing state or code query parameters');
+        // SJ This section checks for a state field or a code query, split?
+        // if (state === undefined || state === '' || code === undefined) {
+        //   throw new MissingStateError('redirect url is missing state or code query parameters');
+        // }
+        if ((state === undefined || state === '') && this.stateValidation === true) {
+          throw new MissingStateError('Redirect url is missing the state query parameter')
+        }
+        if (code === undefined) {
+          throw new MissingCodeError('Redirect url is missing the code query parameter')
         }
       } else {
         throw new UnknownError('Something went wrong');
       }
 
-      installOptions = await this.stateStore.verifyStateParam(new Date(), state);
+      if (this.stateValidation === true) {
+        installOptions = await this.stateStore.verifyStateParam(new Date(), state);
+      } else {
+        installOptions = undefined;
+      }
       const client = new WebClient(undefined, this.clientOptions);
 
       // Start: Build the installation object
@@ -343,7 +365,7 @@ export class InstallProvider {
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
-          redirect_uri: installOptions.redirectUri,
+          redirect_uri: installOptions ? installOptions.redirectUri: undefined,
         }) as OAuthV1Response;
 
         // resp obj for v1 - https://api.slack.com/methods/oauth.access#response
@@ -384,7 +406,7 @@ export class InstallProvider {
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
-          redirect_uri: installOptions.redirectUri,
+          redirect_uri: installOptions? installOptions.redirectUri : undefined,
         }) as OAuthV2Response;
 
         // resp obj for v2 - https://api.slack.com/methods/oauth.v2.access#response
@@ -456,8 +478,8 @@ export class InstallProvider {
           configurationUrl: resp.incoming_webhook.configuration_url,
         };
       }
-
-      if (installOptions !== undefined && installOptions.metadata !== undefined) {
+      // SJ Does this need to be handled if there's no metadata? 
+      if (installOptions && installOptions.metadata !== undefined) {
         // Pass the metadata in state parameter if exists.
         // Developers can use the value for additional/custom data associated with the installation.
         installation.metadata = installOptions.metadata;
@@ -499,6 +521,7 @@ export interface InstallProviderOptions {
   clientSecret: string;
   stateStore?: StateStore; // default ClearStateStore
   stateSecret?: string; // ClearStateStoreOptions['secret']; // required when using default stateStore
+  stateValidation?: boolean; // default true
   installationStore?: InstallationStore; // default MemoryInstallationStore
   authVersion?: 'v1' | 'v2'; // default 'v2'
   logger?: Logger;
@@ -521,7 +544,7 @@ export interface CallbackOptions {
   // callbackRes.
   success?: (
     installation: Installation | OrgInstallation,
-    options: InstallURLOptions,
+    options: InstallURLOptions | undefined,
     callbackReq: IncomingMessage,
     callbackRes: ServerResponse,
   ) => void;
@@ -532,7 +555,7 @@ export interface CallbackOptions {
   // serve a generic "Error" web page (show detailed cause in development)
   failure?: (
     error: CodedError,
-    options: InstallURLOptions,
+    options: InstallURLOptions | undefined,
     callbackReq: IncomingMessage,
     callbackRes: ServerResponse,
   ) => void;
