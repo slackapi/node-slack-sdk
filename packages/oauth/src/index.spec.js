@@ -121,7 +121,7 @@ const storedInstallation = {
     id: 'userId',
   },
   incomingWebhook: {
-    url: 'someURL',
+    url: 'example.com',
     channel: 'someChannel',
     channelId: 'someChannelID',
     configurationUrl: 'someConfigURL',
@@ -148,7 +148,7 @@ const storedOrgInstallation = {
     id: 'userId',
   },
   incomingWebhook: {
-    url: 'someURL',
+    url: 'example.com',
     channel: 'someChannel',
     channelId: 'someChannelID',
     configurationUrl: 'someConfigURL',
@@ -398,7 +398,7 @@ describe('OAuth', async () => {
     });
 
     it('should call the failure callback due to missing state query parameter on the URL', async () => {
-      const req = { url: 'http://someUrl.com' };
+      const req = { url: 'http://example.com' };
       let sent = false;
       const res = { send: () => { sent = true; } };
       const callbackOptions = {
@@ -418,7 +418,7 @@ describe('OAuth', async () => {
     });
 
     it('should call the failure callback due to missing code query parameter on the URL', async () => {
-      const req = { url: 'http://someUrl.com' };
+      const req = { url: 'http://example.com' };
       let sent = false;
       const res = { send: () => { sent = true; } };
       const callbackOptions = {
