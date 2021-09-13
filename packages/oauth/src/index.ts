@@ -64,6 +64,7 @@ export class InstallProvider {
   private clientOptions: WebClientOptions;
 
   private authorizationUrl: string;
+
   private stateValidation: boolean;
 
   public constructor({
@@ -324,16 +325,13 @@ export class InstallProvider {
     let code: string;
     let state: string;
     let installOptions: InstallURLOptions | undefined;
-
     try {
       if (req.url !== undefined) {
-
         parsedUrl = new URL(req.url);
         code = parsedUrl.searchParams.get('code') as string;
         state = parsedUrl.searchParams.get('state') as string;
         if (!code) {
           throw new MissingCodeError('Redirect url is missing the required code query parameter');
-
         }
         if (this.stateValidation && !state) {
           throw new MissingStateError('Redirect url is missing the state query parameter. If this is intentional, see options for disabling default state validation.');
@@ -341,11 +339,9 @@ export class InstallProvider {
       } else {
         throw new UnknownError('Something went wrong');
       }
-
       // If state validation is enabled OR state exists, attempt to validate, otherwise ignore validation
-      installOptions =  (this.stateValidation || state)
-        ? await this.stateStore.verifyStateParam(new Date(), state)
-        : undefined;
+      installOptions = this.stateValidation || state ?
+        await this.stateStore.verifyStateParam(new Date(), state) : undefined;
 
       const client = new WebClient(undefined, this.clientOptions);
 
@@ -359,7 +355,7 @@ export class InstallProvider {
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
-          redirect_uri: installOptions ? installOptions.redirectUri: undefined,
+          redirect_uri: installOptions ? installOptions.redirectUri : undefined,
         }) as OAuthV1Response;
 
         // resp obj for v1 - https://api.slack.com/methods/oauth.access#response
@@ -400,7 +396,7 @@ export class InstallProvider {
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
-          redirect_uri: installOptions? installOptions.redirectUri : undefined,
+          redirect_uri: installOptions ? installOptions.redirectUri : undefined,
         }) as OAuthV2Response;
 
         // resp obj for v2 - https://api.slack.com/methods/oauth.v2.access#response
