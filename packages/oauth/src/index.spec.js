@@ -417,8 +417,8 @@ describe('OAuth', async () => {
       assert.isTrue(sent);
     });
 
-    it('should call the failure callback due to missing code query parameter on the URL', async () => {
-      const req = { url: 'http://example.com' };
+    it('should call the failure callback if an access_denied error query parameter was returned on the URL', async () => {
+      const req = { url: 'http://example.com?error=access_denied' };
       let sent = false;
       const res = { send: () => { sent = true; } };
       const callbackOptions = {
@@ -427,7 +427,7 @@ describe('OAuth', async () => {
           assert.fail('should have failed');
         },
         failure: async (error, installOptions, req, res) => {
-          assert.equal(error.code, ErrorCode.MissingStateError)
+          assert.equal(error.code, ErrorCode.AuthorizationError)
           res.send('failure');
         },
       }
