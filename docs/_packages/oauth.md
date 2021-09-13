@@ -288,6 +288,24 @@ const installer = new InstallProvider({
 ```
 ---
 
+### State validation
+
+By default, this package handles generating and validating a `state` parameter during OAuth installation. The state parameter helps to mitigate the risk of [CSRF attacks](https://auth0.com/docs/configure/attack-protection/state-parameters#csrf-attacks) and is strongly recommended. 
+
+In specific installation scenarios, such as when an Org-Wide app is installed from an admin page, state validation cannot be completed. In this case, you can disable validation via setting the `InstallProvider#stateValidation` option to `false`. In this case, the installer will no longer require that `state` be present to proceed with installation. It will attempt to validate `state` only if it is provided in the request url parameters. 
+
+```javascript
+const installer = new InstallProvider({
+  clientId: process.env.SLACK_CLIENT_ID,
+  clientSecret: process.env.SLACK_CLIENT_SECRET,
+  stateSecret: 'my-state-secret',
+  stateValidation: false,
+  },
+});
+```
+---
+
+
 ### Setting the log level and using a custom logger
 
 The `InstallProvider` will log interesting information to the console by default. You can use the `logLevel` to decide how
