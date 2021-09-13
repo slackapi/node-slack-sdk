@@ -1,6 +1,12 @@
 {
   "packages": [
-    "packages/*",
+    "packages/logger",
+    "packages/oauth",
+    "packages/rtm-api",
+    "packages/socket-mode",
+    "packages/types",
+    "packages/web-api",
+    "packages/webhook",
     "support/*",
     "examples/*"
   ],
