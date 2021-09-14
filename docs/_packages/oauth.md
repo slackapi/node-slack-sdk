@@ -288,26 +288,6 @@ const installer = new InstallProvider({
 ```
 ---
 
-### State verification
-
-By default, this package handles generating and verifying a `state` parameter during OAuth installation. The state parameter helps to mitigate the risk of [Cross-Site Request Forgery](https://datatracker.ietf.org/doc/html/rfc6749#section-10.12) and is strongly recommended. 
-
-In specific installation scenarios, such as when an Org-Wide app is installed from an admin page, state verification cannot be completed because a `state` parameter isn't provided. In this case, you can disable `state` verification via setting the `InstallProvider#stateVerification` option to `false`. In this case, the installer will no longer require that `state` be present to proceed with installation. However, it will attempt to verify `state` only if it is provided in the request url parameters. 
-
-```javascript
-const installer = new InstallProvider({
-  clientId: process.env.SLACK_CLIENT_ID,
-  clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'my-state-secret',
-  stateVerification: false,
-  },
-});
-```
-
-Please note that while setting `stateVerification` false will allow installation to proceed when the `state` query parameter isn't provided, any metadata you provide via installation URL options will not be available.
----
-
-
 ### Setting the log level and using a custom logger
 
 The `InstallProvider` will log interesting information to the console by default. You can use the `logLevel` to decide how
