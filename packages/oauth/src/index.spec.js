@@ -417,7 +417,7 @@ describe('OAuth', async () => {
       assert.isTrue(sent);
     });
 
-    it('should call the success callback when state query param is missing but stateValidation disabled', async () => {
+    it('should call the success callback when state query param is missing but stateVerification disabled', async () => {
       const req = { url: 'http://example.com?code=1234' };
       let sent = false;
       const res = { send: () => { sent = true; } };

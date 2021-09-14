@@ -324,7 +324,7 @@ export class InstallProvider {
     let parsedUrl;
     let code: string;
     let state: string;
-    let installOptions: InstallURLOptions | undefined;
+    let installOptions: InstallURLOptions;
     try {
       if (req.url !== undefined) {
         parsedUrl = new URL(req.url);
@@ -340,8 +340,12 @@ export class InstallProvider {
         throw new UnknownError('Something went wrong');
       }
       // If state validation is enabled OR state exists, attempt to validate, otherwise ignore validation
-      installOptions = this.stateValidation || state ?
-        await this.stateStore.verifyStateParam(new Date(), state) : undefined;
+      if (this.stateValidation || state) {
+        installOptions = await this.stateStore.verifyStateParam(new Date(), state);
+      } else {
+        const emptyOptions: InstallURLOptions = { scopes: [] };
+        installOptions = emptyOptions;
+      }
 
       const client = new WebClient(undefined, this.clientOptions);
 
@@ -533,7 +537,7 @@ export interface CallbackOptions {
   // callbackRes.
   success?: (
     installation: Installation | OrgInstallation,
-    options: InstallURLOptions | undefined,
+    options: InstallURLOptions,
     callbackReq: IncomingMessage,
     callbackRes: ServerResponse,
   ) => void;
@@ -544,7 +548,7 @@ export interface CallbackOptions {
   // serve a generic "Error" web page (show detailed cause in development)
   failure?: (
     error: CodedError,
-    options: InstallURLOptions | undefined,
+    options: InstallURLOptions,
     callbackReq: IncomingMessage,
     callbackRes: ServerResponse,
   ) => void;

@@ -254,7 +254,7 @@ const result = await installer.installationStore.fetchInstallation({teamId:'my-t
 
 ### Using a custom state store
 
-A state store handles generating the OAuth `state` parameter in the installation URL for a given set of options, and verifying the `state` in the OAuth callback and returning those same options.
+A state store handles generating the OAuth `state` parameter in the installation URL for a given set of options, and validating the `state` in the OAuth callback and returning those same options.
 
 The default state store, `ClearStateStore`, does not use any storage. Instead, it signs the options (using the `stateSecret`) and encodes them along with a signature into `state`. Later during the OAuth callback, it verifies the signature.
 
@@ -290,16 +290,16 @@ const installer = new InstallProvider({
 
 ### State validation
 
-By default, this package handles generating and validating a `state` parameter during OAuth installation. The state parameter helps to mitigate the risk of [Cross-Site Request Forgery](https://datatracker.ietf.org/doc/html/rfc6749#section-10.12) and is strongly recommended. 
+By default, this package handles generating and verifying a `state` parameter during OAuth installation. The state parameter helps to mitigate the risk of [Cross-Site Request Forgery](https://datatracker.ietf.org/doc/html/rfc6749#section-10.12) and is strongly recommended. 
 
-In specific installation scenarios, such as when an Org-Wide app is installed from an admin page, state validation cannot be completed because a `state` parameter isn't provided. In this case, you can disable `state` validation via setting the `InstallProvider#stateValidation` option to `false`. In this case, the installer will no longer require that `state` be present to proceed with installation. However, it will attempt to validate `state` only if it is provided in the request url parameters. 
+In specific installation scenarios, such as when an Org-Wide app is installed from an admin page, state verification cannot be completed because a `state` parameter isn't provided. In this case, you can disable `state` verification via setting the `InstallProvider#stateValidation` option to `false`. In this case, the installer will no longer require that `state` be present to proceed with installation. However, it will attempt to verify `state` only if it is provided in the request url parameters. 
 
 ```javascript
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateSecret: 'my-state-secret',
-  stateValidation: false,
+  stateVerification: false,
   },
 });
 ```
