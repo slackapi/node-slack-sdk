@@ -323,11 +323,16 @@ export class InstallProvider {
   ): Promise<void> {
     let parsedUrl;
     let code: string;
+    let flowError: string;
     let state: string;
     let installOptions: InstallURLOptions;
     try {
       if (req.url !== undefined) {
         parsedUrl = new URL(req.url);
+        flowError = parsedUrl.searchParams.get('error') as string;
+        if (flowError === 'access_denied') {
+          throw new AuthorizationError('User cancelled the OAuth installation flow!');
+        }
         code = parsedUrl.searchParams.get('code') as string;
         state = parsedUrl.searchParams.get('state') as string;
         if (!code) {
