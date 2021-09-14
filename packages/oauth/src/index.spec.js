@@ -429,7 +429,7 @@ describe('OAuth', async () => {
           assert.fail('should have succeeded');
         },
       }
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, stateValidation: false, installationStore, logger: noopLogger });
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, stateVerification: false, installationStore, logger: noopLogger });
       await installer.handleCallback(req, res, callbackOptions);
 
       assert.isTrue(sent);

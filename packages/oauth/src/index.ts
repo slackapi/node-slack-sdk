@@ -42,7 +42,7 @@ class ClearStateStore implements StateStore {
  * @param clientSecret - Your apps client Secret
  * @param stateSecret - Used to sign and verify the generated state when using the built-in `stateStore`
  * @param stateStore - Replacement function for the built-in `stateStore`
- * @param stateValidation - Pass in false to disable state parameter validation
+ * @param stateVerification - Pass in false to disable state parameter validation
  * @param installationStore - Interface to store and retrieve installation data from the database
  * @param authVersion - Can be either `v1` or `v2`. Determines which slack Oauth URL and method to use
  * @param logger - Pass in your own Logger if you don't want to use the built-in one
@@ -65,14 +65,14 @@ export class InstallProvider {
 
   private authorizationUrl: string;
 
-  private stateValidation: boolean;
+  private stateVerification: boolean;
 
   public constructor({
     clientId,
     clientSecret,
     stateSecret = undefined,
     stateStore = undefined,
-    stateValidation = true,
+    stateVerification = true,
     installationStore = new MemoryInstallationStore(),
     authVersion = 'v2',
     logger = undefined,
@@ -93,9 +93,9 @@ export class InstallProvider {
     } else {
       this.logger = getLogger('OAuth:InstallProvider', logLevel ?? LogLevel.INFO, logger);
     }
-    this.stateValidation = stateValidation;
-    if (!stateValidation) {
-      this.logger.info("You've set InstallProvider#stateValidation to false. This flag is intended to enable org-wide app installations from admin pages. If this isn't your scenario, we recommend setting stateValidation to true and starting your OAuth flow from the provided `/slack/install` or your own starting endpoint.");
+    this.stateVerification = stateVerification;
+    if (!stateVerification) {
+      this.logger.info("You've set InstallProvider#stateVerification to false. This flag is intended to enable org-wide app installations from admin pages. If this isn't your scenario, we recommend setting stateVerification to true and starting your OAuth flow from the provided `/slack/install` or your own starting endpoint.");
     }
     // Setup stateStore
     if (stateStore !== undefined) {
@@ -333,14 +333,14 @@ export class InstallProvider {
         if (!code) {
           throw new MissingCodeError('Redirect url is missing the required code query parameter');
         }
-        if (this.stateValidation && !state) {
+        if (this.stateVerification && !state) {
           throw new MissingStateError('Redirect url is missing the state query parameter. If this is intentional, see options for disabling default state validation.');
         }
       } else {
         throw new UnknownError('Something went wrong');
       }
       // If state validation is enabled OR state exists, attempt to validate, otherwise ignore validation
-      if (this.stateValidation || state) {
+      if (this.stateVerification || state) {
         installOptions = await this.stateStore.verifyStateParam(new Date(), state);
       } else {
         const emptyOptions: InstallURLOptions = { scopes: [] };
@@ -514,7 +514,7 @@ export interface InstallProviderOptions {
   clientSecret: string;
   stateStore?: StateStore; // default ClearStateStore
   stateSecret?: string; // ClearStateStoreOptions['secret']; // required when using default stateStore
-  stateValidation?: boolean; // default true
+  stateVerification?: boolean; // default true
   installationStore?: InstallationStore; // default MemoryInstallationStore
   authVersion?: 'v1' | 'v2'; // default 'v2'
   logger?: Logger;
