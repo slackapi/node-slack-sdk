@@ -42,7 +42,7 @@ class ClearStateStore implements StateStore {
  * @param clientSecret - Your apps client Secret
  * @param stateSecret - Used to sign and verify the generated state when using the built-in `stateStore`
  * @param stateStore - Replacement function for the built-in `stateStore`
- * @param stateVerification - Pass in false to disable state parameter validation
+ * @param stateVerification - Pass in false to disable state parameter verification
  * @param installationStore - Interface to store and retrieve installation data from the database
  * @param authVersion - Can be either `v1` or `v2`. Determines which slack Oauth URL and method to use
  * @param logger - Pass in your own Logger if you don't want to use the built-in one
@@ -302,7 +302,6 @@ export class InstallProvider {
       }
       params.append('user_scope', userScopes);
     }
-
     slackURL.search = params.toString();
     return slackURL.toString();
   }
@@ -320,36 +319,41 @@ export class InstallProvider {
     req: IncomingMessage,
     res: ServerResponse,
     options?: CallbackOptions,
+    installOptions?: InstallURLOptions,
   ): Promise<void> {
     let parsedUrl;
     let code: string;
     let flowError: string;
     let state: string;
-    let installOptions: InstallURLOptions;
     try {
       if (req.url !== undefined) {
-        parsedUrl = new URL(req.url);
+        parsedUrl = new URL(req.url, `http://${req.headers.host}`);
         flowError = parsedUrl.searchParams.get('error') as string;
         if (flowError === 'access_denied') {
           throw new AuthorizationError('User cancelled the OAuth installation flow!');
         }
         code = parsedUrl.searchParams.get('code') as string;
         state = parsedUrl.searchParams.get('state') as string;
+        if (flowError === 'access_denied') {
+          throw new AuthorizationError('User cancelled the OAuth installation flow!');
+        }
         if (!code) {
           throw new MissingCodeError('Redirect url is missing the required code query parameter');
         }
         if (this.stateVerification && !state) {
-          throw new MissingStateError('Redirect url is missing the state query parameter. If this is intentional, see options for disabling default state validation.');
+          throw new MissingStateError('Redirect url is missing the state query parameter. If this is intentional, see options for disabling default state verification.');
         }
       } else {
         throw new UnknownError('Something went wrong');
       }
-      // If state validation is enabled OR state exists, attempt to validate, otherwise ignore validation
+      // If state verification is enabled OR state exists, attempt to verify, otherwise ignore
       if (this.stateVerification || state) {
+        // eslint-disable-next-line no-param-reassign
         installOptions = await this.stateStore.verifyStateParam(new Date(), state);
-      } else {
-        const emptyOptions: InstallURLOptions = { scopes: [] };
-        installOptions = emptyOptions;
+      } else if (!installOptions) {
+        const emptyInstallOptions: InstallURLOptions = { scopes: [] };
+        // eslint-disable-next-line no-param-reassign
+        installOptions = emptyInstallOptions;
       }
 
       const client = new WebClient(undefined, this.clientOptions);
@@ -364,7 +368,7 @@ export class InstallProvider {
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
-          redirect_uri: installOptions ? installOptions.redirectUri : undefined,
+          redirect_uri: installOptions.redirectUri,
         }) as OAuthV1Response;
 
         // resp obj for v1 - https://api.slack.com/methods/oauth.access#response
@@ -405,7 +409,7 @@ export class InstallProvider {
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
-          redirect_uri: installOptions ? installOptions.redirectUri : undefined,
+          redirect_uri: installOptions.redirectUri,
         }) as OAuthV2Response;
 
         // resp obj for v2 - https://api.slack.com/methods/oauth.v2.access#response

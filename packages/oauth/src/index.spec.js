@@ -398,7 +398,7 @@ describe('OAuth', async () => {
     });
 
     it('should call the failure callback due to missing state query parameter on the URL', async () => {
-      const req = { url: 'http://example.com?code=1234' };
+      const req = { headers: { host: 'example.com'},  url: 'http://example.com?code=1234' };
       let sent = false;
       const res = { send: () => { sent = true; } };
       const callbackOptions = {
@@ -418,7 +418,7 @@ describe('OAuth', async () => {
     });
 
     it('should call the success callback when state query param is missing but stateVerification disabled', async () => {
-      const req = { url: 'http://example.com?code=1234' };
+      const req = { headers: { host: 'example.com'}, url: 'http://example.com?code=1234' };
       let sent = false;
       const res = { send: () => { sent = true; } };
       const callbackOptions = {
@@ -436,7 +436,7 @@ describe('OAuth', async () => {
     });
 
     it('should call the failure callback if an access_denied error query parameter was returned on the URL', async () => {
-      const req = { url: 'http://example.com?error=access_denied' };
+      const req = { headers: { host: 'example.com'}, url: 'http://example.com?error=access_denied' };
       let sent = false;
       const res = { send: () => { sent = true; } };
       const callbackOptions = {
@@ -470,7 +470,7 @@ describe('OAuth', async () => {
       const installer = new InstallProvider({ clientId, clientSecret, installationStore, stateStore: fakeStateStore });
       const fakeState = 'fakeState';
       const fakeCode = 'fakeCode';
-      const req = { url: `http://example.com?state=${fakeState}&code=${fakeCode}` };
+      const req = { headers: { host: 'example.com'}, url: `http://example.com?state=${fakeState}&code=${fakeCode}` };
       await installer.handleCallback(req, res, callbackOptions);
       assert.isTrue(sent);
       assert.equal(fakeStateStore.verifyStateParam.callCount, 1);
@@ -491,7 +491,7 @@ describe('OAuth', async () => {
       const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore, stateStore: fakeStateStore, authVersion: 'v1' });
       const fakeState = 'fakeState';
       const fakeCode = 'fakeCode';
-      const req = { url: `http://example.com?state=${fakeState}&code=${fakeCode}` };
+      const req = { headers: { host: 'example.com'}, url: `http://example.com?state=${fakeState}&code=${fakeCode}` };
       await installer.handleCallback(req, res, callbackOptions);
       assert.isTrue(sent);
       assert.equal(fakeStateStore.verifyStateParam.callCount, 1);
