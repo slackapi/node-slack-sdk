@@ -254,7 +254,7 @@ const result = await installer.installationStore.fetchInstallation({teamId:'my-t
 
 ### Using a custom state store
 
-A state store handles generating the OAuth `state` parameter in the installation URL for a given set of options, and validating the `state` in the OAuth callback and returning those same options.
+A state store handles generating the OAuth `state` parameter in the installation URL for a given set of options, and verifying the `state` in the OAuth callback and returning those same options.
 
 The default state store, `ClearStateStore`, does not use any storage. Instead, it signs the options (using the `stateSecret`) and encodes them along with a signature into `state`. Later during the OAuth callback, it verifies the signature.
 
