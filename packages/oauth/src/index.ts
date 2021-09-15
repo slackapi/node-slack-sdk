@@ -334,9 +334,6 @@ export class InstallProvider {
         }
         code = parsedUrl.searchParams.get('code') as string;
         state = parsedUrl.searchParams.get('state') as string;
-        if (flowError === 'access_denied') {
-          throw new AuthorizationError('User cancelled the OAuth installation flow!');
-        }
         if (!code) {
           throw new MissingCodeError('Redirect url is missing the required code query parameter');
         }
