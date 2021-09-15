@@ -183,6 +183,9 @@ export class WebClient extends Methods {
       this.logger = getLogger(WebClient.loggerName, logLevel ?? LogLevel.INFO, logger);
     }
 
+    // eslint-disable-next-line no-param-reassign
+    if (!headers.Authorization) headers.Authorization = `Bearer ${this.token}`;
+
     this.axios = axios.create({
       timeout,
       baseURL: slackApiUrl,
@@ -222,7 +225,6 @@ export class WebClient extends Methods {
     }
 
     const response = await this.makeRequest(method, {
-      token: this.token,
       team_id: this.teamId,
       ...options,
     });

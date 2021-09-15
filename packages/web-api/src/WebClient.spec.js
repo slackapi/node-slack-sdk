@@ -25,6 +25,7 @@ describe('WebClient', function () {
       assert.instanceOf(client, WebClient);
       assert.equal(client.token, token);
       assert.equal(client.slackApiUrl, 'https://slack.com/api/')
+      assert.equal(client.axios.defaults.headers.Authorization, `Bearer ${token}`);
     });
 
     it('should build a client without a token', function () {
@@ -127,14 +128,14 @@ describe('WebClient', function () {
         setLevel: sinon.spy(),
         setName: sinon.spy(),
       };
- 
-      const client = new WebClient(undefined, { 
-        timeout: timeoutOverride, 
+
+      const client = new WebClient(undefined, {
+        timeout: timeoutOverride,
         retryConfig: { retries: 0 },
-        logLevel: LogLevel.WARN, 
-        logger 
-      });  
-      
+        logLevel: LogLevel.WARN,
+        logger
+      });
+
       client.apiCall('users.list')
         .then(_ => {
           done(new Error("expected timeout to throw error"));
@@ -151,7 +152,7 @@ describe('WebClient', function () {
           } catch (err) {
             done(err);
           }
-        }); 
+        });
     });
   });
 
@@ -363,7 +364,7 @@ describe('WebClient', function () {
     describe('when an API call fails', function () {
       it('should return a Promise which rejects on error', function (done) {
         const client = new WebClient(undefined, { retryConfig: { retries: 0 } });
-        
+
         this.scope = nock('https://slack.com')
             .post(/api/)
             .reply(500);
@@ -425,7 +426,7 @@ describe('WebClient', function () {
     it('should properly serialize simple API arguments', function () {
       const scope = nock('https://slack.com')
         // NOTE: this could create false negatives if the serialization order changes (it shouldn't matter)
-        .post(/api/, 'token=xoxb-faketoken&team_id=T12345678&foo=stringval&bar=42&baz=false')
+        .post(/api/, 'team_id=T12345678&foo=stringval&bar=42&baz=false')
         .reply(200, { ok: true });
       return this.client.apiCall('method', { foo: 'stringval', bar: 42, baz: false, team_id: 'T12345678' })
         .then(() => {
@@ -436,7 +437,7 @@ describe('WebClient', function () {
     it('should properly serialize complex API arguments', function () {
       const scope = nock('https://slack.com')
         // NOTE: this could create false negatives if the serialization order changes (it shouldn't matter)
-        .post(/api/, 'token=xoxb-faketoken&arraything=%5B%7B%22foo%22%3A%22stringval%22%2C%22bar%22%3A42%2C%22baz%22%3Afalse%2C%22zup%22%3A%5B%22one%22%2C%22two%22%2C%22three%22%5D%7D%5D&objectthing=%7B%22foo%22%3A7%2C%22hum%22%3Afalse%7D')
+        .post(/api/, 'arraything=%5B%7B%22foo%22%3A%22stringval%22%2C%22bar%22%3A42%2C%22baz%22%3Afalse%2C%22zup%22%3A%5B%22one%22%2C%22two%22%2C%22three%22%5D%7D%5D&objectthing=%7B%22foo%22%3A7%2C%22hum%22%3Afalse%7D')
         .reply(200, { ok: true });
       return this.client.apiCall('method', {
         // TODO: include things like quotes and emojis
@@ -458,7 +459,7 @@ describe('WebClient', function () {
 
     it('should remove undefined or null values from simple API arguments', function () {
       const scope = nock('https://slack.com')
-        .post(/api/, 'token=xoxb-faketoken&something=else')
+        .post(/api/, 'something=else')
         .reply(200, { ok: true });
       return this.client.apiCall('method', {
         something_undefined: undefined,
@@ -521,9 +522,6 @@ describe('WebClient', function () {
             const file = parts.files[0];
             // the filename is picked up from the the ReadableStream since it originates from fs
             assert.include(file, { fieldname: 'someBinaryField', filename: 'train.jpg' });
-
-            assert.lengthOf(parts.fields, 1);
-            assert.deepInclude(parts.fields, { fieldname: 'token', value: token });
           });
       });
 
@@ -553,8 +551,7 @@ describe('WebClient', function () {
           someUndefinedField: undefined,
         })
           .then((parts) => {
-            // the only field is the one related to the token
-            assert.lengthOf(parts.fields, 1);
+            assert.lengthOf(parts.fields, 0);
           })
       });
     });
@@ -680,10 +677,10 @@ describe('WebClient', function () {
       // This test doesn't exhaustively check all the method aliases, it just tries a couple.
       // This should be enough since all methods are mounted in the exact same way.
       const scope = nock('https://slack.com')
-        .post('/api/chat.postMessage', 'token=xoxb-faketoken&foo=stringval')
+        .post('/api/chat.postMessage', 'foo=stringval')
         .reply(200, { ok: true })
         // Trying this method because its mounted one layer "deeper"
-        .post('/api/team.profile.get', 'token=xoxb-faketoken')
+        .post('/api/team.profile.get')
         .reply(200, { ok: true });
       return Promise.all([this.client.chat.postMessage({ foo: 'stringval' }), this.client.team.profile.get()])
         .then(() => {
@@ -1160,7 +1157,7 @@ describe('WebClient', function () {
       verify(
         client.admin.inviteRequests.approve({ team_id: 'T123', invite_request_id: 'I123' }),
         'admin.inviteRequests.approve',
-        'token=xoxb-faketoken&team_id=T123&invite_request_id=I123',
+        'team_id=T123&invite_request_id=I123',
         done,
       );
     });
@@ -1168,7 +1165,7 @@ describe('WebClient', function () {
       verify(
         client.admin.inviteRequests.deny({ team_id: 'T123', invite_request_id: 'I123' }),
         'admin.inviteRequests.deny',
-        'token=xoxb-faketoken&team_id=T123&invite_request_id=I123',
+        'team_id=T123&invite_request_id=I123',
         done
       );
     });
@@ -1176,7 +1173,7 @@ describe('WebClient', function () {
       verify(
         client.admin.inviteRequests.list({ team_id: 'T123', limit: 10, cursor: 'position' }),
         'admin.inviteRequests.list',
-        'token=xoxb-faketoken&team_id=T123&limit=10&cursor=position',
+        'team_id=T123&limit=10&cursor=position',
         done
       );
     });
@@ -1184,7 +1181,7 @@ describe('WebClient', function () {
       verify(
         client.admin.inviteRequests.approved.list({ team_id: 'T123', limit: 10, cursor: 'position' }),
         'admin.inviteRequests.approved.list',
-        'token=xoxb-faketoken&team_id=T123&limit=10&cursor=position',
+        'team_id=T123&limit=10&cursor=position',
         done
       );
     });
@@ -1192,7 +1189,7 @@ describe('WebClient', function () {
       verify(
         client.admin.inviteRequests.denied.list({ team_id: 'T123', limit: 10, cursor: 'position' }),
         'admin.inviteRequests.denied.list',
-        'token=xoxb-faketoken&team_id=T123&limit=10&cursor=position',
+        'team_id=T123&limit=10&cursor=position',
         done
       );
     });
@@ -1224,7 +1221,7 @@ describe('WebClient', function () {
       verify(
         client.admin.usergroups.addChannels({ team_id: 'T123', usergroup_id: 'S123', channel_ids: 'C123,C234' }),
         'admin.usergroups.addChannels',
-        'token=xoxb-faketoken&team_id=T123&usergroup_id=S123&channel_ids=C123%2CC234',
+        'team_id=T123&usergroup_id=S123&channel_ids=C123%2CC234',
         done,
       );
     });
@@ -1233,7 +1230,7 @@ describe('WebClient', function () {
       verify(
         client.admin.usergroups.addChannels({ team_id: 'T123', usergroup_id: 'S123', channel_ids: ['C123','C234'] }),
         'admin.usergroups.addChannels',
-        'token=xoxb-faketoken&team_id=T123&usergroup_id=S123&channel_ids=%5B%22C123%22%2C%22C234%22%5D', // URL encoded "['C123','C234']"
+        'team_id=T123&usergroup_id=S123&channel_ids=%5B%22C123%22%2C%22C234%22%5D', // URL encoded "['C123','C234']"
         done,
       );
     });
@@ -1241,7 +1238,7 @@ describe('WebClient', function () {
       verify(
         client.admin.usergroups.listChannels({ team_id: 'T123', include_num_members: true, usergroup_id: 'S123' }),
         'admin.usergroups.listChannels',
-        'token=xoxb-faketoken&team_id=T123&include_num_members=true&usergroup_id=S123',
+        'team_id=T123&include_num_members=true&usergroup_id=S123',
         done
       );
     });
@@ -1249,7 +1246,7 @@ describe('WebClient', function () {
       verify(
         client.admin.usergroups.removeChannels({ usergroup_id: 'S123', channel_ids: 'C123,C234' }),
         'admin.usergroups.removeChannels',
-        'token=xoxb-faketoken&usergroup_id=S123&channel_ids=C123%2CC234',
+        'usergroup_id=S123&channel_ids=C123%2CC234',
         done,
       );
     });
@@ -1258,7 +1255,7 @@ describe('WebClient', function () {
       verify(
         client.admin.usergroups.removeChannels({ usergroup_id: 'S123', channel_ids: ['C123','C234'] }),
         'admin.usergroups.removeChannels',
-        'token=xoxb-faketoken&usergroup_id=S123&channel_ids=%5B%22C123%22%2C%22C234%22%5D', // URL encoded "['C123','C234']"
+        'usergroup_id=S123&channel_ids=%5B%22C123%22%2C%22C234%22%5D', // URL encoded "['C123','C234']"
         done,
       );
     });
