@@ -327,7 +327,7 @@ export class InstallProvider {
     let state: string;
     try {
       if (req.url !== undefined) {
-        parsedUrl = new URL(req.url, `http://${req.headers.host}`);
+        parsedUrl = new URL(req.url, `https://${req.headers.host}`);
         flowError = parsedUrl.searchParams.get('error') as string;
         if (flowError === 'access_denied') {
           throw new AuthorizationError('User cancelled the OAuth installation flow!');
