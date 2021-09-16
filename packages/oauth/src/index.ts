@@ -95,7 +95,7 @@ export class InstallProvider {
     }
     this.stateVerification = stateVerification;
     if (!stateVerification) {
-      this.logger.info("You've set InstallProvider#stateVerification to false. This flag is intended to enable org-wide app installations from admin pages. If this isn't your scenario, we recommend setting stateVerification to true and starting your OAuth flow from the provided `/slack/install` or your own starting endpoint.");
+      this.logger.warn("You've set InstallProvider#stateVerification to false. This flag is intended to enable org-wide app installations from admin pages. If this isn't your scenario, we recommend setting stateVerification to true and starting your OAuth flow from the provided `/slack/install` or your own starting endpoint.");
     }
     // Setup stateStore
     if (stateStore !== undefined) {
@@ -564,6 +564,7 @@ export interface CallbackOptions {
 export interface StateStore {
   // Returned Promise resolves for a string which can be used as an
   // OAuth state param.
+  // TODO: Revisit design. Does installOptions need to be encoded in state if metadata is static?
   generateStateParam: (installOptions: InstallURLOptions, now: Date) => Promise<string>;
 
   // Returned Promise resolves for InstallURLOptions that were stored in the state
