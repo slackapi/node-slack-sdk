@@ -347,7 +347,8 @@ export class InstallProvider {
       if (this.stateVerification || state) {
         // eslint-disable-next-line no-param-reassign
         installOptions = await this.stateStore.verifyStateParam(new Date(), state);
-      } else if (!installOptions) {
+      }
+      if (!installOptions) {
         const emptyInstallOptions: InstallURLOptions = { scopes: [] };
         // eslint-disable-next-line no-param-reassign
         installOptions = emptyInstallOptions;
