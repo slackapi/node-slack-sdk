@@ -184,7 +184,7 @@ export class WebClient extends Methods {
     }
 
     // eslint-disable-next-line no-param-reassign
-    if (!headers.Authorization) headers.Authorization = `Bearer ${this.token}`;
+    if (this.token && !headers.Authorization) headers.Authorization = `Bearer ${this.token}`;
 
     this.axios = axios.create({
       timeout,
@@ -213,7 +213,7 @@ export class WebClient extends Methods {
    * @param method - the Web API method to call {@link https://api.slack.com/methods}
    * @param options - options
    */
-  public async apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult> {
+  public async apiCall(method: string, options: WebAPICallOptions = {}): Promise<WebAPICallResult> {
     this.logger.debug(`apiCall('${method}') start`);
 
     warnDeprecations(method, this.logger);
@@ -224,10 +224,13 @@ export class WebClient extends Methods {
       throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
     }
 
+    const headers: Record<string, string> = {};
+    if (options.token) headers.Authorization = `Bearer ${options.token}`;
+
     const response = await this.makeRequest(method, {
       team_id: this.teamId,
       ...options,
-    });
+    }, headers);
     const result = this.buildResult(response);
 
     // log warnings in response metadata

@@ -31,6 +31,7 @@ describe('WebClient', function () {
     it('should build a client without a token', function () {
       const client = new WebClient();
       assert.instanceOf(client, WebClient);
+      assert.notExists(client.axios.defaults.headers.Authorization);
     });
     it('should not modify global defaults in axios', function () {
       // https://github.com/slackapi/node-slack-sdk/issues/1037
@@ -663,6 +664,21 @@ describe('WebClient', function () {
         .post(/api/)
         .reply(200, { ok: true });
       const r = client.apiCall('method');
+      return r.then((result) => {
+        scope.done();
+      });
+    });
+    it('should override Authorization header if passed as an option to apiCall()', function () {
+      const client = new WebClient(token, { headers: { 'X-XYZ': 'value' } });
+      const scope = nock('https://slack.com', {
+        reqheaders: {
+          'X-XYZ': 'value',
+          'Authorization': 'Bearer xoxp-superfake'
+        }
+      })
+        .post(/api/)
+        .reply(200, { ok: true });
+      const r = client.apiCall('method', { token: 'xoxp-superfake' });
       return r.then((result) => {
         scope.done();
       });
