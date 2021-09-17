@@ -7,7 +7,6 @@ import {
   InstallerInitializationError,
   UnknownError,
   MissingStateError,
-  MissingCodeError,
   GenerateInstallUrlError,
   AuthorizationError,
 } from './errors';
@@ -42,7 +41,6 @@ class ClearStateStore implements StateStore {
  * @param clientSecret - Your apps client Secret
  * @param stateSecret - Used to sign and verify the generated state when using the built-in `stateStore`
  * @param stateStore - Replacement function for the built-in `stateStore`
- * @param stateVerification - Pass in false to disable state parameter verification
  * @param installationStore - Interface to store and retrieve installation data from the database
  * @param authVersion - Can be either `v1` or `v2`. Determines which slack Oauth URL and method to use
  * @param logger - Pass in your own Logger if you don't want to use the built-in one
@@ -65,14 +63,11 @@ export class InstallProvider {
 
   private authorizationUrl: string;
 
-  private stateVerification: boolean;
-
   public constructor({
     clientId,
     clientSecret,
     stateSecret = undefined,
     stateStore = undefined,
-    stateVerification = true,
     installationStore = new MemoryInstallationStore(),
     authVersion = 'v2',
     logger = undefined,
@@ -93,10 +88,7 @@ export class InstallProvider {
     } else {
       this.logger = getLogger('OAuth:InstallProvider', logLevel ?? LogLevel.INFO, logger);
     }
-    this.stateVerification = stateVerification;
-    if (!stateVerification) {
-      this.logger.warn("You've set InstallProvider#stateVerification to false. This flag is intended to enable org-wide app installations from admin pages. If this isn't your scenario, we recommend setting stateVerification to true and starting your OAuth flow from the provided `/slack/install` or your own starting endpoint.");
-    }
+
     // Setup stateStore
     if (stateStore !== undefined) {
       this.stateStore = stateStore;
@@ -256,15 +248,6 @@ export class InstallProvider {
   }
 
   /**
-   * Returns search params from a URL and ignores protocol / hostname as those
-   * aren't guaranteed to be accurate e.g. in x-forwarded- scenarios
-   */
-  private static extractSearchParams(req: IncomingMessage): URLSearchParams {
-    const { searchParams } = new URL(req.url as string, `https://${req.headers.host}`);
-    return searchParams;
-  }
-
-  /**
    * Returns a URL that is suitable for including in an Add to Slack button
    * Uses stateStore to generate a value for the state query param.
    */
@@ -311,6 +294,7 @@ export class InstallProvider {
       }
       params.append('user_scope', userScopes);
     }
+
     slackURL.search = params.toString();
     return slackURL.toString();
   }
@@ -328,43 +312,30 @@ export class InstallProvider {
     req: IncomingMessage,
     res: ServerResponse,
     options?: CallbackOptions,
-    installOptions?: InstallURLOptions,
   ): Promise<void> {
+    let parsedUrl;
     let code: string;
     let flowError: string;
     let state: string;
+    let installOptions: InstallURLOptions;
+
     try {
       if (req.url !== undefined) {
-        // Note: Protocol/ host of object are not necessarily accurate
-        // and shouldn't be relied on
-        // intended only for accessing searchParams only
-        const searchParams = InstallProvider.extractSearchParams(req);
-        flowError = searchParams.get('error') as string;
+        parsedUrl = new URL(req.url);
+        flowError = parsedUrl.searchParams.get('error') as string;
         if (flowError === 'access_denied') {
           throw new AuthorizationError('User cancelled the OAuth installation flow!');
         }
-        code = searchParams.get('code') as string;
-        state = searchParams.get('state') as string;
-        if (!code) {
-          throw new MissingCodeError('Redirect url is missing the required code query parameter');
-        }
-        if (this.stateVerification && !state) {
-          throw new MissingStateError('Redirect url is missing the state query parameter. If this is intentional, see options for disabling default state verification.');
+        code = parsedUrl.searchParams.get('code') as string;
+        state = parsedUrl.searchParams.get('state') as string;
+        if (!state || !code) {
+          throw new MissingStateError('redirect url is missing state or code query parameters');
         }
       } else {
         throw new UnknownError('Something went wrong');
       }
-      // If state verification is enabled OR state exists, attempt to verify, otherwise ignore
-      if (this.stateVerification || state) {
-        // eslint-disable-next-line no-param-reassign
-        installOptions = await this.stateStore.verifyStateParam(new Date(), state);
-      }
-      if (!installOptions) {
-        const emptyInstallOptions: InstallURLOptions = { scopes: [] };
-        // eslint-disable-next-line no-param-reassign
-        installOptions = emptyInstallOptions;
-      }
 
+      installOptions = await this.stateStore.verifyStateParam(new Date(), state);
       const client = new WebClient(undefined, this.clientOptions);
 
       // Start: Build the installation object
@@ -490,7 +461,8 @@ export class InstallProvider {
           configurationUrl: resp.incoming_webhook.configuration_url,
         };
       }
-      if (installOptions && installOptions.metadata !== undefined) {
+
+      if (installOptions !== undefined && installOptions.metadata !== undefined) {
         // Pass the metadata in state parameter if exists.
         // Developers can use the value for additional/custom data associated with the installation.
         installation.metadata = installOptions.metadata;
@@ -532,7 +504,6 @@ export interface InstallProviderOptions {
   clientSecret: string;
   stateStore?: StateStore; // default ClearStateStore
   stateSecret?: string; // ClearStateStoreOptions['secret']; // required when using default stateStore
-  stateVerification?: boolean; // default true
   installationStore?: InstallationStore; // default MemoryInstallationStore
   authVersion?: 'v1' | 'v2'; // default 'v2'
   logger?: Logger;
@@ -575,7 +546,6 @@ export interface CallbackOptions {
 export interface StateStore {
   // Returned Promise resolves for a string which can be used as an
   // OAuth state param.
-  // TODO: Revisit design. Does installOptions need to be encoded in state if metadata is static?
   generateStateParam: (installOptions: InstallURLOptions, now: Date) => Promise<string>;
 
   // Returned Promise resolves for InstallURLOptions that were stored in the state
