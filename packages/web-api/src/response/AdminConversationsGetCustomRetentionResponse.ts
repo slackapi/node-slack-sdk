@@ -9,10 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 import { WebAPICallResult } from '../WebClient';
-export type AdminAppsApproveResponse = WebAPICallResult & {
-  ok?:       boolean;
-  warning?:  string;
-  error?:    string;
-  needed?:   string;
-  provided?: string;
+export type AdminConversationsGetCustomRetentionResponse = WebAPICallResult & {
+  ok?:                boolean;
+  error?:             string;
+  needed?:            string;
+  provided?:          string;
+  is_policy_enabled?: boolean;
+  duration_days?:     number;
 };

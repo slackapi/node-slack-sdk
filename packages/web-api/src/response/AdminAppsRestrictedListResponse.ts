@@ -11,15 +11,18 @@
 import { WebAPICallResult } from '../WebClient';
 export type AdminAppsRestrictedListResponse = WebAPICallResult & {
   ok?:                boolean;
-  restricted_apps?:   RestrictedApp[];
-  response_metadata?: ResponseMetadata;
+  warning?:           string;
   error?:             string;
   needed?:            string;
   provided?:          string;
+  restricted_apps?:   RestrictedApp[];
+  response_metadata?: ResponseMetadata;
 };
 
 export interface ResponseMetadata {
   next_cursor?: string;
+  messages?:    string[];
+  warnings?:    string[];
 }
 
 export interface RestrictedApp {
@@ -39,21 +42,22 @@ export interface App {
   app_directory_url?:         string;
   is_app_directory_approved?: boolean;
   is_internal?:               boolean;
-  icons?:                     Icons;
   additional_info?:           string;
+  icons?:                     Icons;
 }
 
 export interface Icons {
-  image_32?:   string;
-  image_36?:   string;
-  image_48?:   string;
-  image_64?:   string;
-  image_72?:   string;
-  image_96?:   string;
-  image_128?:  string;
-  image_192?:  string;
-  image_512?:  string;
-  image_1024?: string;
+  image_32?:       string;
+  image_36?:       string;
+  image_48?:       string;
+  image_64?:       string;
+  image_72?:       string;
+  image_96?:       string;
+  image_128?:      string;
+  image_192?:      string;
+  image_512?:      string;
+  image_1024?:     string;
+  image_original?: string;
 }
 
 export interface LastResolvedBy {

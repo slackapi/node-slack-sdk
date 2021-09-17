@@ -20,14 +20,17 @@ export { AdminConversationsDeleteResponse } from './AdminConversationsDeleteResp
 export { AdminConversationsDisconnectSharedResponse } from './AdminConversationsDisconnectSharedResponse';
 export { AdminConversationsEkmListOriginalConnectedChannelInfoResponse } from './AdminConversationsEkmListOriginalConnectedChannelInfoResponse';
 export { AdminConversationsGetConversationPrefsResponse } from './AdminConversationsGetConversationPrefsResponse';
+export { AdminConversationsGetCustomRetentionResponse } from './AdminConversationsGetCustomRetentionResponse';
 export { AdminConversationsGetTeamsResponse } from './AdminConversationsGetTeamsResponse';
 export { AdminConversationsInviteResponse } from './AdminConversationsInviteResponse';
+export { AdminConversationsRemoveCustomRetentionResponse } from './AdminConversationsRemoveCustomRetentionResponse';
 export { AdminConversationsRenameResponse } from './AdminConversationsRenameResponse';
 export { AdminConversationsRestrictAccessAddGroupResponse } from './AdminConversationsRestrictAccessAddGroupResponse';
 export { AdminConversationsRestrictAccessListGroupsResponse } from './AdminConversationsRestrictAccessListGroupsResponse';
 export { AdminConversationsRestrictAccessRemoveGroupResponse } from './AdminConversationsRestrictAccessRemoveGroupResponse';
 export { AdminConversationsSearchResponse } from './AdminConversationsSearchResponse';
 export { AdminConversationsSetConversationPrefsResponse } from './AdminConversationsSetConversationPrefsResponse';
+export { AdminConversationsSetCustomRetentionResponse } from './AdminConversationsSetCustomRetentionResponse';
 export { AdminConversationsSetTeamsResponse } from './AdminConversationsSetTeamsResponse';
 export { AdminConversationsUnarchiveResponse } from './AdminConversationsUnarchiveResponse';
 export { AdminConversationsWhitelistAddResponse } from './AdminConversationsWhitelistAddResponse';

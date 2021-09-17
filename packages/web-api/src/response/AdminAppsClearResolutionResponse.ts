@@ -11,6 +11,7 @@
 import { WebAPICallResult } from '../WebClient';
 export type AdminAppsClearResolutionResponse = WebAPICallResult & {
   ok?:       boolean;
+  warning?:  string;
   error?:    string;
   needed?:   string;
   provided?: string;

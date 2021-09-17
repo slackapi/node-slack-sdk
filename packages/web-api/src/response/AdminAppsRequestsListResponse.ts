@@ -11,21 +11,23 @@
 import { WebAPICallResult } from '../WebClient';
 export type AdminAppsRequestsListResponse = WebAPICallResult & {
   ok?:                boolean;
-  app_requests?:      AppRequest[];
-  response_metadata?: ResponseMetadata;
+  warning?:           string;
   error?:             string;
   needed?:            string;
   provided?:          string;
+  app_requests?:      AppRequest[];
+  response_metadata?: ResponseMetadata;
 };
 
 export interface AppRequest {
-  id?:                  string;
-  app?:                 App;
-  user?:                User;
-  team?:                Team;
-  previous_resolution?: PreviousResolution;
-  message?:             string;
-  date_created?:        number;
+  id?:                       string;
+  app?:                      App;
+  user?:                     User;
+  team?:                     Team;
+  previous_resolution?:      PreviousResolution;
+  is_user_app_collaborator?: boolean;
+  message?:                  string;
+  date_created?:             number;
 }
 
 export interface App {
@@ -74,4 +76,6 @@ export interface User {
 
 export interface ResponseMetadata {
   next_cursor?: string;
+  messages?:    string[];
+  warnings?:    string[];
 }
