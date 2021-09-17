@@ -321,19 +321,21 @@ export class InstallProvider {
     options?: CallbackOptions,
     installOptions?: InstallURLOptions,
   ): Promise<void> {
-    let parsedUrl;
     let code: string;
     let flowError: string;
     let state: string;
     try {
       if (req.url !== undefined) {
-        parsedUrl = new URL(req.url, `https://${req.headers.host}`);
-        flowError = parsedUrl.searchParams.get('error') as string;
+        // Note: Protocol/ host of object are not necessarily accurate
+        // and shouldn't be relied on
+        // intended only for accessing searchParams only
+        const { searchParams } = new URL(req.url, `https://${req.headers.host}`);
+        flowError = searchParams.get('error') as string;
         if (flowError === 'access_denied') {
           throw new AuthorizationError('User cancelled the OAuth installation flow!');
         }
-        code = parsedUrl.searchParams.get('code') as string;
-        state = parsedUrl.searchParams.get('state') as string;
+        code = searchParams.get('code') as string;
+        state = searchParams.get('state') as string;
         if (!code) {
           throw new MissingCodeError('Redirect url is missing the required code query parameter');
         }
