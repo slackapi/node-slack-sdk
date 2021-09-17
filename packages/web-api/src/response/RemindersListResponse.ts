@@ -26,4 +26,10 @@ export interface Reminder {
   time?:        number;
   complete_ts?: number;
   channel?:     string;
+  recurrence?:  Recurrence;
+}
+
+export interface Recurrence {
+  frequency?: string;
+  weekdays?:  string[];
 }

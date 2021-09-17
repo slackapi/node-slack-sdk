@@ -34,6 +34,9 @@ import {
   AdminConversationsSetConversationPrefsResponse,
   AdminConversationsSetTeamsResponse,
   AdminConversationsUnarchiveResponse,
+  AdminConversationsGetCustomRetentionResponse,
+  AdminConversationsSetCustomRetentionResponse,
+  AdminConversationsRemoveCustomRetentionResponse,
   AdminEmojiAddAliasResponse,
   AdminEmojiAddResponse,
   AdminEmojiListResponse,
@@ -309,6 +312,18 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
             this, 'admin.conversations.restrictAccess.removeGroup',
           ),
       },
+      getCustomRetention:
+        bindApiCall<AdminConversationsGetCustomRetentionArguments, AdminConversationsGetCustomRetentionResponse>(
+          this, 'admin.conversations.getCustomRetention',
+        ),
+      setCustomRetention:
+        bindApiCall<AdminConversationsSetCustomRetentionArguments, AdminConversationsSetCustomRetentionResponse>(
+          this, 'admin.conversations.setCustomRetention',
+        ),
+      removeCustomRetention:
+        bindApiCall<AdminConversationsRemoveCustomRetentionArguments, AdminConversationsRemoveCustomRetentionResponse>(
+          this, 'admin.conversations.removeCustomRetention',
+        ),
       search: bindApiCall<AdminConversationsSearchArguments, AdminConversationsSearchResponse>(this, 'admin.conversations.search'),
       setConversationPrefs:
         bindApiCall<AdminConversationsSetConversationPrefsArguments, AdminConversationsSetConversationPrefsResponse>(
@@ -927,6 +942,16 @@ export interface AdminConversationsRestrictAccessRemoveGroupArguments extends We
   channel_id: string;
   group_id: string;
   team_id: string;
+}
+export interface AdminConversationsGetCustomRetentionArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+}
+export interface AdminConversationsSetCustomRetentionArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+  duration_days: number;
+}
+export interface AdminConversationsRemoveCustomRetentionArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
 }
 export interface AdminConversationsSearchArguments
   extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {

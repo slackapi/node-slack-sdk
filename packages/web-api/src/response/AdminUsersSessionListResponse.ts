@@ -23,6 +23,7 @@ export interface ActiveSession {
   session_id?: number;
   team_id?:    string;
   created?:    Created;
+  recent?:     Created;
 }
 
 export interface Created {

@@ -11,11 +11,12 @@
 import { WebAPICallResult } from '../WebClient';
 export type AdminAppsApprovedListResponse = WebAPICallResult & {
   ok?:                boolean;
+  warning?:           string;
   error?:             string;
-  approved_apps?:     ApprovedApp[];
-  response_metadata?: ResponseMetadata;
   needed?:            string;
   provided?:          string;
+  approved_apps?:     ApprovedApp[];
+  response_metadata?: ResponseMetadata;
 };
 
 export interface ApprovedApp {
@@ -35,8 +36,8 @@ export interface App {
   app_directory_url?:         string;
   is_app_directory_approved?: boolean;
   is_internal?:               boolean;
-  icons?:                     Icons;
   additional_info?:           string;
+  icons?:                     Icons;
 }
 
 export interface Icons {
@@ -67,4 +68,6 @@ export interface Scope {
 
 export interface ResponseMetadata {
   next_cursor?: string;
+  messages?:    string[];
+  warnings?:    string[];
 }
