@@ -256,6 +256,15 @@ export class InstallProvider {
   }
 
   /**
+   * Returns search params from a URL and ignores protocol / hostname as those
+   * aren't guaranteed to be accurate e.g. in x-forwarded- scenarios
+   */
+  private static extractSearchParams(req: IncomingMessage): URLSearchParams {
+    const { searchParams } = new URL(req.url as string, `https://${req.headers.host}`);
+    return searchParams;
+  }
+
+  /**
    * Returns a URL that is suitable for including in an Add to Slack button
    * Uses stateStore to generate a value for the state query param.
    */
@@ -329,7 +338,7 @@ export class InstallProvider {
         // Note: Protocol/ host of object are not necessarily accurate
         // and shouldn't be relied on
         // intended only for accessing searchParams only
-        const { searchParams } = new URL(req.url, `https://${req.headers.host}`);
+        const searchParams = InstallProvider.extractSearchParams(req);
         flowError = searchParams.get('error') as string;
         if (flowError === 'access_denied') {
           throw new AuthorizationError('User cancelled the OAuth installation flow!');
