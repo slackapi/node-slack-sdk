@@ -21,7 +21,6 @@ export class InstallerInitializationError extends Error implements CodedError {
 export class GenerateInstallUrlError extends Error implements CodedError {
   public code = ErrorCode.GenerateInstallUrlError;
 }
-
 export class MissingStateError extends Error implements CodedError {
   public code = ErrorCode.MissingStateError;
 }

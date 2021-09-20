@@ -16,19 +16,20 @@ import { MemoryInstallationStore } from './stores';
 
 // default implementation of StateStore
 class ClearStateStore implements StateStore {
-  private stateSecret: string;
+  private stateSecret: string | undefined;
 
-  public constructor(stateSecret: string) {
+  public constructor(stateSecret?: string) {
     this.stateSecret = stateSecret;
   }
 
   public async generateStateParam(installOptions: InstallURLOptions, now: Date): Promise<string> {
-    const state = sign({ installOptions, now: now.toJSON() }, this.stateSecret);
-    return state;
+    if (!this.stateSecret) throw new GenerateInstallUrlError('Required state secret is missing');
+    return sign({ installOptions, now: now.toJSON() }, this.stateSecret);
   }
 
   public async verifyStateParam(_now: Date, state: string): Promise<InstallURLOptions> {
     // decode the state using the secret
+    if (!this.stateSecret) throw new MissingStateError('Cannot verify state without a state secret');
     const decoded: StateObj = verify(state, this.stateSecret) as StateObj;
 
     // return installOptions
@@ -268,7 +269,7 @@ export class InstallProvider {
    * Returns a URL that is suitable for including in an Add to Slack button
    * Uses stateStore to generate a value for the state query param.
    */
-  public async generateInstallUrl(options: InstallURLOptions, stateVerification: boolean): Promise<string> {
+  public async generateInstallUrl(options: InstallURLOptions, stateVerification: boolean = true): Promise<string> {
     const slackURL = new URL(this.authorizationUrl);
 
     if (options.scopes === undefined) {
@@ -533,8 +534,8 @@ export interface InstallProviderOptions {
   clientId: string;
   clientSecret: string;
   stateStore?: StateStore; // default ClearStateStore
-  stateSecret?: string; // ClearStateStoreOptions['secret']; // required when using default stateStore
-  stateVerification?: boolean; // default true
+  stateSecret?: string; // required with default ClearStateStore unless stateVerification is false
+  stateVerification?: boolean; // default true, disables state verification when false
   installationStore?: InstallationStore; // default MemoryInstallationStore
   authVersion?: 'v1' | 'v2'; // default 'v2'
   logger?: Logger;
