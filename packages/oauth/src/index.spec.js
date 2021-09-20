@@ -231,7 +231,7 @@ describe('OAuth', async () => {
         const installer = new InstallProvider({ clientId, clientSecret });
       } catch (error) {
         assert.equal(error.code, ErrorCode.InstallerInitializationError);
-        assert.equal(error.message, 'You must provide a State Secret to use the built-in state store');
+        assert.equal(error.message, 'You must provide a State Secret to use the built-in state store or disable state verification (strongly discouraged)');
       }
     });
   });

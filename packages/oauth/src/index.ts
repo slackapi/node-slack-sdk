@@ -16,7 +16,7 @@ import { MemoryInstallationStore } from './stores';
 
 // default implementation of StateStore
 export class ClearStateStore implements StateStore {
-  private stateSecret: string | undefined;
+  private stateSecret?: string;
 
   public constructor(stateSecret?: string) {
     this.stateSecret = stateSecret;
