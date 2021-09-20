@@ -101,10 +101,10 @@ export class InstallProvider {
       this.stateStore = stateStore;
     } else if (this.stateVerification) {
       // if state verification is disabled, state store is not necessary
-      if (stateSecret === undefined) {
-        throw new InstallerInitializationError('You must provide a State Secret to use the built-in state store or disable state verification (strongly discouraged)');
-      } else {
+      if (stateSecret !== undefined) {
         this.stateStore = new ClearStateStore(stateSecret);
+      } else {
+        throw new InstallerInitializationError('To use the built-in state store you must provide a State Secret');
       }
     }
 

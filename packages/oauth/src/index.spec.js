@@ -65,7 +65,7 @@ async function mockedV2AccessResp(options) {
 }
 
 rewiremock.enable();
-const { InstallProvider, ClearStateStore } = require('./index');
+const { InstallProvider } = require('./index');
 const { FileInstallationStore, MemoryInstallationStore } = require('./stores');
 rewiremock.disable();
 
@@ -231,7 +231,7 @@ describe('OAuth', async () => {
         const installer = new InstallProvider({ clientId, clientSecret });
       } catch (error) {
         assert.equal(error.code, ErrorCode.InstallerInitializationError);
-        assert.equal(error.message, 'You must provide a State Secret to use the built-in state store or disable state verification (strongly discouraged)');
+        assert.equal(error.message, 'To use the built-in state store you must provide a State Secret');
       }
     });
   });
