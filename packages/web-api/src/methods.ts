@@ -456,6 +456,13 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         ),
       },
     },
+    manifest: {
+      create: bindApiCall<AppsManifestCreateArguments, WebAPICallResult>(this, 'apps.manifest.create'),
+      delete: bindApiCall<AppsManifestDeleteArguments, WebAPICallResult>(this, 'apps.manifest.delete'),
+      export: bindApiCall<AppsManifestExportArguments, WebAPICallResult>(this, 'apps.manifest.export'),
+      update: bindApiCall<AppsManifestUpdateArguments, WebAPICallResult>(this, 'apps.manifest.update'),
+      validate: bindApiCall<AppsManifestValidateArguments, WebAPICallResult>(this, 'apps.manifest.validate'),
+    },
     uninstall: bindApiCall<AppsUninstallArguments, AppsUninstallResponse>(this, 'apps.uninstall'),
   };
 
@@ -1164,6 +1171,28 @@ export interface AppsEventAuthorizationsListArguments
   event_context: string;
 }
 cursorPaginationEnabledMethods.add('apps.event.authorizations.list');
+
+export interface AppsManifestCreateArguments extends WebAPICallOptions, TokenOverridable {
+  manifest: string;
+}
+
+export interface AppsManifestDeleteArguments extends WebAPICallOptions, TokenOverridable {
+  app_id: string;
+}
+
+export interface AppsManifestExportArguments extends WebAPICallOptions, TokenOverridable {
+  app_id: string;
+}
+
+export interface AppsManifestUpdateArguments extends WebAPICallOptions, TokenOverridable {
+  app_id: string;
+  manifest: string;
+}
+
+export interface AppsManifestValidateArguments extends WebAPICallOptions, TokenOverridable {
+  manifest: string;
+}
+
 export interface AppsUninstallArguments extends WebAPICallOptions {
   client_id: string;
   client_secret: string;
