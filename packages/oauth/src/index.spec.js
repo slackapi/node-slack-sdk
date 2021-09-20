@@ -693,24 +693,6 @@ describe('OAuth', async () => {
   });
 
   describe('ClearStateStore', async () => {
-    it('should fail in generateStateParam() when stateSecret is undefined', async () => {
-      try {
-        const store = new ClearStateStore();
-        await store.generateStateParam({ scopes: [] }, new Date());
-      } catch (error) {
-        assert.equal(error.message, 'Required state secret is missing');
-        assert.equal(error.code, ErrorCode.GenerateInstallUrlError);
-      }
-    });
-    it('should fail in verifyStateParam() when stateSecret is undefined', async () => {
-      try {
-        const store = new ClearStateStore();
-        await store.verifyStateParam('someState');
-      } catch (error) {
-        assert.equal(error.message, 'Cannot verify state without a state secret');
-        assert.equal(error.code, ErrorCode.MissingStateError);
-      }
-    });
     it('should generate a state and return install options once verified', async () => {
       const installer = new InstallProvider({ clientId, clientSecret, stateSecret });
       const installUrlOptions = { scopes: ['channels:read'] };

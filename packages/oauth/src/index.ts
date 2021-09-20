@@ -16,20 +16,18 @@ import { MemoryInstallationStore } from './stores';
 
 // default implementation of StateStore
 export class ClearStateStore implements StateStore {
-  private stateSecret?: string;
+  private stateSecret: string;
 
-  public constructor(stateSecret?: string) {
+  public constructor(stateSecret: string) {
     this.stateSecret = stateSecret;
   }
 
   public async generateStateParam(installOptions: InstallURLOptions, now: Date): Promise<string> {
-    if (!this.stateSecret) throw new GenerateInstallUrlError('Required state secret is missing');
     return sign({ installOptions, now: now.toJSON() }, this.stateSecret);
   }
 
   public async verifyStateParam(_now: Date, state: string): Promise<InstallURLOptions> {
     // decode the state using the secret
-    if (!this.stateSecret) throw new MissingStateError('Cannot verify state without a state secret');
     const decoded: StateObj = verify(state, this.stateSecret) as StateObj;
 
     // return installOptions
@@ -50,7 +48,7 @@ export class ClearStateStore implements StateStore {
  * @param logLevel - Pass in the log level you want (ERROR, WARN, INFO, DEBUG). Default is INFO
  */
 export class InstallProvider {
-  public stateStore: StateStore;
+  public stateStore?: StateStore;
 
   public installationStore: InstallationStore;
 
@@ -101,10 +99,13 @@ export class InstallProvider {
     // Setup stateStore
     if (stateStore !== undefined) {
       this.stateStore = stateStore;
-    } else if (stateSecret === undefined && this.stateVerification === true) {
-      throw new InstallerInitializationError('You must provide a State Secret to use the built-in state store or disable state verification (strongly discouraged)');
-    } else {
-      this.stateStore = new ClearStateStore(stateSecret);
+    } else if (this.stateVerification) {
+      // if state verification is disabled, state store is not necessary
+      if (stateSecret === undefined) {
+        throw new InstallerInitializationError('You must provide a State Secret to use the built-in state store or disable state verification (strongly discouraged)');
+      } else {
+        this.stateStore = new ClearStateStore(stateSecret);
+      }
     }
 
     this.installationStore = installationStore;
@@ -286,7 +287,7 @@ export class InstallProvider {
     const params = new URLSearchParams(`scope=${scopes}`);
 
     // generate state
-    if (stateVerification) {
+    if (stateVerification && this.stateStore) {
       const state = await this.stateStore.generateStateParam(options, new Date());
       params.append('state', state);
     }
@@ -358,7 +359,7 @@ export class InstallProvider {
         throw new UnknownError('Something went wrong');
       }
       // If state verification is enabled, attempt to verify, otherwise ignore
-      if (this.stateVerification) {
+      if (this.stateVerification && this.stateStore) {
         // eslint-disable-next-line no-param-reassign
         installOptions = await this.stateStore.verifyStateParam(new Date(), state);
       }
@@ -534,7 +535,7 @@ export interface InstallProviderOptions {
   clientId: string;
   clientSecret: string;
   stateStore?: StateStore; // default ClearStateStore
-  stateSecret?: string; // required with default ClearStateStore unless stateVerification is false
+  stateSecret?: string; // required with default ClearStateStore
   stateVerification?: boolean; // default true, disables state verification when false
   installationStore?: InstallationStore; // default MemoryInstallationStore
   authVersion?: 'v1' | 'v2'; // default 'v2'
