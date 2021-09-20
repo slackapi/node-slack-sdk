@@ -15,7 +15,7 @@ import { Logger, LogLevel, getLogger } from './logger';
 import { MemoryInstallationStore } from './stores';
 
 // default implementation of StateStore
-export class ClearStateStore implements StateStore {
+class ClearStateStore implements StateStore {
   private stateSecret: string;
 
   public constructor(stateSecret: string) {
