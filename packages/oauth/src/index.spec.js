@@ -65,7 +65,7 @@ async function mockedV2AccessResp(options) {
 }
 
 rewiremock.enable();
-const { InstallProvider } = require('./index');
+const { InstallProvider, ClearStateStore } = require('./index');
 const { FileInstallationStore, MemoryInstallationStore } = require('./stores');
 rewiremock.disable();
 
@@ -273,7 +273,34 @@ describe('OAuth', async () => {
         assert.fail(error.message);
       }
     });
-
+    it('should not call generate state param when state validation is false', async () => {
+      const fakeStateStore = {
+        generateStateParam: sinon.fake.resolves('fakeState'),
+        verifyStateParam: sinon.fake.resolves({})
+      }
+      const authorizationUrl = 'https://dev.slack.com/oauth/v2/authorize';
+      const installer = new InstallProvider({ clientId, clientSecret, stateStore: fakeStateStore, authorizationUrl });
+      const scopes = ['channels:read'];
+      const teamId = '1234Team';
+      const redirectUri = 'https://mysite.com/slack/redirect';
+      const userScopes = ['chat:write:user']
+      const stateVerification = false;
+      const installUrlOptions = {
+        scopes,
+        metadata: 'some_metadata',
+        teamId,
+        redirectUri,
+        userScopes,
+      };
+      try {
+        const generatedUrl = await installer.generateInstallUrl(installUrlOptions, stateVerification)
+        assert.exists(generatedUrl);
+        assert.equal(fakeStateStore.generateStateParam.callCount, 0);
+        assert.equal(fakeStateStore.verifyStateParam.callCount, 0);
+      } catch (error) {
+        assert.fail(error.message);
+      }
+    });
     it('should return a generated url when passed a custom authorizationUrl', async () => {
       const fakeStateStore = {
         generateStateParam: sinon.fake.resolves('fakeState'),
@@ -294,7 +321,7 @@ describe('OAuth', async () => {
         userScopes,
       };
       try {
-        const generatedUrl = await installer.generateInstallUrl(installUrlOptions, stateVerification)
+        const generatedUrl = await installer.generateInstallUrl(installUrlOptions)
         assert.exists(generatedUrl);
         assert.equal(fakeStateStore.generateStateParam.callCount, 1);
         assert.equal(fakeStateStore.verifyStateParam.callCount, 0);
@@ -517,6 +544,30 @@ describe('OAuth', async () => {
       assert.isTrue(sent);
       assert.equal(fakeStateStore.verifyStateParam.callCount, 1);
     });
+    it('should not verify state when stateVerification is false', async () => {
+      const fakeStateStore = {
+        generateStateParam: sinon.fake.resolves('fakeState'),
+        verifyStateParam: sinon.fake.resolves({})
+      };
+      let sent = false;
+      const res = { send: () => { sent = true; } };
+      const callbackOptions = {
+        success: async (installation, installOptions, req, res) => {
+          res.send('successful!');
+        },
+        failure: async (error, installOptions, req, res) => {
+          res.send('failure');
+          assert.fail('should have sent!');
+        },
+      };
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, stateVerification: false, installationStore, stateStore: fakeStateStore, });
+      const fakeState = 'fakeState';
+      const fakeCode = 'fakeCode';
+      const req = { headers: { host: 'example.com'}, url: `http://example.com?state=${fakeState}&code=${fakeCode}` };
+      await installer.handleCallback(req, res, callbackOptions);
+      assert.isTrue(sent);
+      assert.equal(fakeStateStore.verifyStateParam.callCount, 0);
+    });
   });
 
   describe('MemoryInstallationStore', async () => {
@@ -642,6 +693,24 @@ describe('OAuth', async () => {
   });
 
   describe('ClearStateStore', async () => {
+    it('should fail in generateStateParam() when stateSecret is undefined', async () => {
+      try {
+        const store = new ClearStateStore();
+        await store.generateStateParam({ scopes: [] }, new Date());
+      } catch (error) {
+        assert.equal(error.message, 'Required state secret is missing');
+        assert.equal(error.code, ErrorCode.GenerateInstallUrlError);
+      }
+    });
+    it('should fail in verifyStateParam() when stateSecret is undefined', async () => {
+      try {
+        const store = new ClearStateStore();
+        await store.verifyStateParam('someState');
+      } catch (error) {
+        assert.equal(error.message, 'Cannot verify state without a state secret');
+        assert.equal(error.code, ErrorCode.MissingStateError);
+      }
+    });
     it('should generate a state and return install options once verified', async () => {
       const installer = new InstallProvider({ clientId, clientSecret, stateSecret });
       const installUrlOptions = { scopes: ['channels:read'] };

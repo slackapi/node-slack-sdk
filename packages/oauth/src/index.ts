@@ -15,7 +15,7 @@ import { Logger, LogLevel, getLogger } from './logger';
 import { MemoryInstallationStore } from './stores';
 
 // default implementation of StateStore
-class ClearStateStore implements StateStore {
+export class ClearStateStore implements StateStore {
   private stateSecret: string | undefined;
 
   public constructor(stateSecret?: string) {
@@ -101,7 +101,7 @@ export class InstallProvider {
     // Setup stateStore
     if (stateStore !== undefined) {
       this.stateStore = stateStore;
-    } else if (stateSecret === undefined) {
+    } else if (stateSecret === undefined && this.stateVerification === true) {
       throw new InstallerInitializationError('You must provide a State Secret to use the built-in state store');
     } else {
       this.stateStore = new ClearStateStore(stateSecret);
