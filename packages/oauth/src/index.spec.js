@@ -246,16 +246,17 @@ describe('OAuth', async () => {
       const scopes = ['channels:read'];
       const teamId = '1234Team';
       const redirectUri = 'https://mysite.com/slack/redirect';
-      const userScopes = ['chat:write:user']
+      const userScopes = ['chat:write:user'];
+      const stateVerification = true;
       const installUrlOptions = {
         scopes,
         metadata: 'some_metadata',
         teamId,
         redirectUri,
         userScopes,
-      }
+      };
       try {
-        const generatedUrl = await installer.generateInstallUrl(installUrlOptions)
+        const generatedUrl = await installer.generateInstallUrl(installUrlOptions, stateVerification)
         assert.exists(generatedUrl);
         assert.equal(fakeStateStore.generateStateParam.callCount, 1);
         assert.equal(fakeStateStore.verifyStateParam.callCount, 0);
@@ -284,15 +285,16 @@ describe('OAuth', async () => {
       const teamId = '1234Team';
       const redirectUri = 'https://mysite.com/slack/redirect';
       const userScopes = ['chat:write:user']
+      const stateVerification = true;
       const installUrlOptions = {
         scopes,
         metadata: 'some_metadata',
         teamId,
         redirectUri,
         userScopes,
-      }
+      };
       try {
-        const generatedUrl = await installer.generateInstallUrl(installUrlOptions)
+        const generatedUrl = await installer.generateInstallUrl(installUrlOptions, stateVerification)
         assert.exists(generatedUrl);
         assert.equal(fakeStateStore.generateStateParam.callCount, 1);
         assert.equal(fakeStateStore.verifyStateParam.callCount, 0);
@@ -320,14 +322,15 @@ describe('OAuth', async () => {
       const scopes = ['bot'];
       const teamId = '1234Team';
       const redirectUri = 'https://mysite.com/slack/redirect';
+      const stateVerification = true;
       const installUrlOptions = {
         scopes,
         metadata: 'some_metadata',
         teamId,
         redirectUri,
-      }
+      };
       try {
-        const generatedUrl = await installer.generateInstallUrl(installUrlOptions)
+        const generatedUrl = await installer.generateInstallUrl(installUrlOptions, stateVerification)
         assert.exists(generatedUrl);
         const parsedUrl = url.parse(generatedUrl, true);
         assert.equal(fakeStateStore.generateStateParam.callCount, 1);

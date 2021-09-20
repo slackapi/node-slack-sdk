@@ -268,7 +268,7 @@ export class InstallProvider {
    * Returns a URL that is suitable for including in an Add to Slack button
    * Uses stateStore to generate a value for the state query param.
    */
-  public async generateInstallUrl(options: InstallURLOptions): Promise<string> {
+  public async generateInstallUrl(options: InstallURLOptions, stateVerification: boolean): Promise<string> {
     const slackURL = new URL(this.authorizationUrl);
 
     if (options.scopes === undefined) {
@@ -285,8 +285,10 @@ export class InstallProvider {
     const params = new URLSearchParams(`scope=${scopes}`);
 
     // generate state
-    const state = await this.stateStore.generateStateParam(options, new Date());
-    params.append('state', state);
+    if (stateVerification) {
+      const state = await this.stateStore.generateStateParam(options, new Date());
+      params.append('state', state);
+    }
 
     // client id
     params.append('client_id', this.clientId);
@@ -354,8 +356,8 @@ export class InstallProvider {
       } else {
         throw new UnknownError('Something went wrong');
       }
-      // If state verification is enabled OR state exists, attempt to verify, otherwise ignore
-      if (this.stateVerification || state) {
+      // If state verification is enabled, attempt to verify, otherwise ignore
+      if (this.stateVerification) {
         // eslint-disable-next-line no-param-reassign
         installOptions = await this.stateStore.verifyStateParam(new Date(), state);
       }
