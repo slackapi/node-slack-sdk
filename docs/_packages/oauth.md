@@ -292,7 +292,7 @@ const installer = new InstallProvider({
 
 By default, this package handles generating and verifying a `state` parameter during OAuth installation. This added measure helps to mitigate the risk of [Cross-Site Request Forgery](https://datatracker.ietf.org/doc/html/rfc6749#section-10.12) and is strongly recommended. 
 
-In specific installation scenarios, such as when an Org-wide app is installed from an admin page, state verification cannot be completed because a `state` parameter isn't provided. In this case, you can disable `state` verification via setting the `InstallProvider#stateVerification` option to `false`. In this case, the installer will no longer require that `state` be present to proceed with installation.
+In specific installation scenarios with Enterprise Grid organizations, such as when an Org-wide app is installed from an admin page, state verification cannot be completed because a `state` parameter isn't provided. In this case, you can disable `state` verification via setting the `InstallProvider#stateVerification` option to `false`. Now, the installer will no longer require that `state` be present to proceed with installation.
 
 ```javascript
 const installer = new InstallProvider({
