@@ -43,6 +43,7 @@ export interface Profile {
   image_512?:               string;
   image_1024?:              string;
   status_text_canonical?:   string;
+  status_emoji_url?:        string;
 }
 
 export interface Field {

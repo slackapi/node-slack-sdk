@@ -82,4 +82,5 @@ export interface Profile {
   first_name?:              string;
   last_name?:               string;
   image_1024?:              string;
+  status_emoji_url?:        string;
 }
