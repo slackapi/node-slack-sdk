@@ -31,7 +31,7 @@ export interface Dialog {
   state?: string;
 }
 
-interface HomeView {
+export interface HomeView {
   type: 'home';
   blocks: (KnownBlock | Block)[];
   private_metadata?: string;
@@ -39,7 +39,7 @@ interface HomeView {
   external_id?: string;
 }
 
-interface ModalView {
+export interface ModalView {
   type: 'modal';
   title: PlainTextElement;
   blocks: (KnownBlock | Block)[];
@@ -52,7 +52,7 @@ interface ModalView {
   external_id?: string;
 }
 
-interface WorkflowStepView {
+export interface WorkflowStepView {
   type: 'workflow_step';
   blocks: (KnownBlock | Block)[];
   private_metadata?: string;
