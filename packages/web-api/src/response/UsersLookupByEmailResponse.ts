@@ -68,4 +68,5 @@ export interface Profile {
   status_text_canonical?:   string;
   team?:                    string;
   status_emoji_url?:        string;
+  pronouns?:                string;
 }

@@ -44,6 +44,7 @@ export interface Profile {
   image_1024?:              string;
   status_text_canonical?:   string;
   status_emoji_url?:        string;
+  pronouns?:                string;
 }
 
 export interface Field {
