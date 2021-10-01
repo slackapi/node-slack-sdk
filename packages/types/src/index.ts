@@ -443,3 +443,9 @@ export interface CallUserExternal {
   display_name: string;
   avatar_url: string;
 }
+
+export interface Metadata {
+  event_type: string;
+  event_payload: object;
+  notification_subscription_id: string;
+}
