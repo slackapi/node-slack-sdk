@@ -468,10 +468,8 @@ export class InstallProvider {
 
         // Installation has User Token
         if (v2Resp.authed_user !== undefined && v2Resp.authed_user.access_token !== undefined) {
-          // TODO: confirm if it is possible to do an org enterprise install without a bot user
-          const authResult = await runAuthTest(v2Resp.authed_user.access_token, this.clientOptions);
-
           if (v2Resp.is_enterprise_install && v2Installation.enterpriseUrl === undefined) {
+            const authResult = await runAuthTest(v2Resp.authed_user.access_token, this.clientOptions);
             v2Installation.enterpriseUrl = authResult.url;
           }
 
