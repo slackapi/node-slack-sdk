@@ -9,11 +9,14 @@ const { ErrorCode } = require('./errors');
 const { LogLevel } = require('./logger');
 
 // Stub WebClient api calls that the OAuth package makes
+// expose clientOptions passed in to WebClient as global so we can assert on its contents
+let webClientOptions;
 rewiremock(() => require('@slack/web-api')).with({
   WebClient: class {
     constructor(token, options) {
       this.token = token;
       this.options = options;
+      webClientOptions = options;
     };
     auth = {
       test: sinon.fake.resolves({ bot_id: '' }),
@@ -178,6 +181,14 @@ describe('OAuth', async () => {
       const installer = new InstallProvider({ clientId, clientSecret, stateSecret });
       assert.instanceOf(installer, InstallProvider);
       assert.equal(installer.authVersion, 'v2');
+    });
+
+    it('should build a default installer given a clientID, client secret, stateSecret and clientOptions', async () => {
+      const clientOptions = { foo: 'bar' };
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, clientOptions });
+      assert.instanceOf(installer, InstallProvider);
+      assert.equal(installer.authVersion, 'v2');
+      assert.equal(installer.clientOptions.foo, 'bar');
     });
 
     it('should build a default installer given a clientID, client secret and state store', async () => {
@@ -523,6 +534,29 @@ describe('OAuth', async () => {
       assert.isTrue(sent);
       assert.equal(fakeStateStore.verifyStateParam.callCount, 1);
     });
+
+    it('should call the success callback for a v2 url and client options passed into InstallProvider should be propagated to the underlying @web-api WebClient', async () => {
+      let sent = false;
+      const res = { send: () => { sent = true; } };
+      const callbackOptions = {
+        success: async (installation, installOptions, req, res) => {
+          res.send('successful!');
+        },
+        failure: async (error, installOptions, req, res) => {
+          assert.fail(error.message);
+        },
+      }
+      const clientOptions = { foo: 'baz' };
+      const installer = new InstallProvider({ clientId, clientSecret, installationStore, stateStore: fakeStateStore, clientOptions });
+      const fakeState = 'fakeState';
+      const fakeCode = 'fakeCode';
+      const req = { headers: { host: 'example.com'}, url: `http://example.com?state=${fakeState}&code=${fakeCode}` };
+      await installer.handleCallback(req, res, callbackOptions);
+      assert.isTrue(sent);
+      assert.equal(fakeStateStore.verifyStateParam.callCount, 1);
+      assert.equal(webClientOptions.foo, clientOptions.foo);
+    });
+
     it('should call the success callback for a v1 url', async () => {
       let sent = false;
       const res = { send: () => { sent = true; } };
@@ -544,6 +578,31 @@ describe('OAuth', async () => {
       assert.isTrue(sent);
       assert.equal(fakeStateStore.verifyStateParam.callCount, 1);
     });
+
+    it('should call the success callback for a v1 url and client options passed into InstallProvider should be propagated to the underlying @web-api WebClient', async () => {
+      let sent = false;
+      const res = { send: () => { sent = true; } };
+      const callbackOptions = {
+        success: async (installation, installOptions, req, res) => {
+          res.send('successful!');
+        },
+        failure: async (error, installOptions, req, res) => {
+          assert.fail(error.message);
+          res.send('failure');
+        },
+      }
+
+      const clientOptions = { foo: 'bar' };
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore, stateStore: fakeStateStore, authVersion: 'v1', clientOptions });
+      const fakeState = 'fakeState';
+      const fakeCode = 'fakeCode';
+      const req = { headers: { host: 'example.com'}, url: `http://example.com?state=${fakeState}&code=${fakeCode}` };
+      await installer.handleCallback(req, res, callbackOptions);
+      assert.isTrue(sent);
+      assert.equal(fakeStateStore.verifyStateParam.callCount, 1);
+      assert.equal(webClientOptions.foo, clientOptions.foo);
+    });
+
     it('should not verify state when stateVerification is false', async () => {
       const fakeStateStore = {
         generateStateParam: sinon.fake.resolves('fakeState'),
