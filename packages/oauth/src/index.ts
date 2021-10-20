@@ -158,10 +158,8 @@ export class InstallProvider {
         authResult.teamId = source.teamId;
       }
 
-      if (queryResult.enterprise !== undefined) {
-        authResult.enterpriseId = queryResult.enterprise.id;
-      } else if (source.enterpriseId !== undefined) {
-        authResult.enterpriseId = source.enterpriseId;
+      if (queryResult?.enterprise?.id || source?.enterpriseId) {
+        authResult.enterpriseId = queryResult?.enterprise?.id || source?.enterpriseId;
       }
 
       if (queryResult.bot !== undefined) {
