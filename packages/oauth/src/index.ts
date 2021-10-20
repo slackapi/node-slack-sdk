@@ -158,7 +158,7 @@ export class InstallProvider {
         authResult.teamId = source.teamId;
       }
 
-      if (queryResult?.enterprise?.id || source?.enterpriseId ) {
+      if (queryResult?.enterprise?.id || source?.enterpriseId) {
         authResult.enterpriseId = queryResult?.enterprise?.id || source?.enterpriseId;
       }
 
