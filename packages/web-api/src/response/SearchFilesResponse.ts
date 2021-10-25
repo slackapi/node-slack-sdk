@@ -92,6 +92,7 @@ export interface Match {
   updated?:              number;
   thumb_video?:          string;
   media_display_type?:   string;
+  comments_count?:       number;
 }
 
 export interface Shares {

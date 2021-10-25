@@ -18,36 +18,43 @@ export type UsersProfileGetResponse = WebAPICallResult & {
 };
 
 export interface Profile {
-  title?:                   string;
-  phone?:                   string;
-  skype?:                   string;
-  real_name?:               string;
-  real_name_normalized?:    string;
-  display_name?:            string;
-  display_name_normalized?: string;
-  fields?:                  { [key: string]: Field };
-  status_text?:             string;
-  status_emoji?:            string;
-  status_expiration?:       number;
-  avatar_hash?:             string;
-  image_original?:          string;
-  is_custom_image?:         boolean;
-  email?:                   string;
-  first_name?:              string;
-  last_name?:               string;
-  image_24?:                string;
-  image_32?:                string;
-  image_48?:                string;
-  image_72?:                string;
-  image_192?:               string;
-  image_512?:               string;
-  image_1024?:              string;
-  status_text_canonical?:   string;
-  status_emoji_url?:        string;
-  pronouns?:                string;
+  title?:                     string;
+  phone?:                     string;
+  skype?:                     string;
+  real_name?:                 string;
+  real_name_normalized?:      string;
+  display_name?:              string;
+  display_name_normalized?:   string;
+  fields?:                    { [key: string]: Field };
+  status_text?:               string;
+  status_emoji?:              string;
+  status_expiration?:         number;
+  avatar_hash?:               string;
+  image_original?:            string;
+  is_custom_image?:           boolean;
+  email?:                     string;
+  first_name?:                string;
+  last_name?:                 string;
+  image_24?:                  string;
+  image_32?:                  string;
+  image_48?:                  string;
+  image_72?:                  string;
+  image_192?:                 string;
+  image_512?:                 string;
+  image_1024?:                string;
+  status_text_canonical?:     string;
+  status_emoji_url?:          string;
+  pronouns?:                  string;
+  status_emoji_display_info?: StatusEmojiDisplayInfo[];
 }
 
 export interface Field {
   value?: string;
   alt?:   string;
+}
+
+export interface StatusEmojiDisplayInfo {
+  emoji_name?:    string;
+  display_alias?: string;
+  display_url?:   string;
 }
