@@ -122,4 +122,18 @@ describe('Web APIs', function () {
         });
       });
     });
+
+    describe('team.* for rtm.start migration', function () {
+
+      it('should work with a bot token (team.billing.info)', async function () {
+        const response = await botClient.team.billing.info();
+        logger.info(response);
+        assert.isUndefined(response.error);
+      });
+      it('should work with a bot token (team.preferences.list)', async function () {
+        const response = await botClient.team.preferences.list();
+        logger.info(response);
+        assert.isUndefined(response.error);
+      });
+    });
   });
