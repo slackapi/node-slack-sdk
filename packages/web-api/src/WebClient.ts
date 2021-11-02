@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { stringify as qsStringify } from 'querystring';
 import { Agent } from 'http';
 import { basename } from 'path';

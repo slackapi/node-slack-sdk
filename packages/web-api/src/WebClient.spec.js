@@ -1148,6 +1148,10 @@ describe('WebClient', function () {
         });
   });
 
+  // TODO: Enable these admin API tests once the following issues are resolved:
+  // * https://github.com/slackapi/node-slack-sdk/issues/1334
+  // * https://github.com/axios/axios/issues/4036
+  /*
   describe('has all admin.inviteRequests.* APIs', function () {
     function verify(runApiCall, methodName, expectedBody, done) {
       const scope = nock('https://slack.com')
@@ -1276,6 +1280,8 @@ describe('WebClient', function () {
       );
     });
   });
+  */
+
   afterEach(function () {
     nock.cleanAll();
   });

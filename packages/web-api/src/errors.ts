@@ -38,6 +38,7 @@ export interface WebAPIHTTPError extends CodedError {
   statusCode: number;
   statusMessage: string;
   headers: IncomingHttpHeaders;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   body?: any;
 }
 
