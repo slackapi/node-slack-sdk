@@ -15,6 +15,7 @@ export type ConversationsAcceptSharedInviteResponse = WebAPICallResult & {
   implicit_approval?: boolean;
   channel_id?:        string;
   invite_id?:         string;
+  can_open_scdm?:     boolean;
   needed?:            string;
   provided?:          string;
 };

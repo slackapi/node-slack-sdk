@@ -9,14 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 import { WebAPICallResult } from '../WebClient';
-export type AppsUninstallResponse = WebAPICallResult & {
-  ok?:                boolean;
-  error?:             string;
-  response_metadata?: ResponseMetadata;
-  needed?:            string;
-  provided?:          string;
+export type TeamPreferencesListResponse = WebAPICallResult & {
+  ok?:                     boolean;
+  msg_edit_window_mins?:   number;
+  allow_message_deletion?: boolean;
+  display_real_names?:     boolean;
+  disable_file_uploads?:   string;
+  who_can_post_general?:   string;
+  error?:                  string;
+  needed?:                 string;
+  provided?:               string;
 };
-
-export interface ResponseMetadata {
-  messages?: string[];
-}

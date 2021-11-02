@@ -170,8 +170,10 @@ import {
   StarsRemoveResponse,
   TeamAccessLogsResponse,
   TeamBillableInfoResponse,
+  TeamBillingInfoResponse,
   TeamInfoResponse,
   TeamIntegrationLogsResponse,
+  TeamPreferencesListResponse,
   TeamProfileGetResponse,
   UsergroupsCreateResponse,
   UsergroupsDisableResponse,
@@ -645,9 +647,15 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   public readonly team = {
     accessLogs: bindApiCall<TeamAccessLogsArguments, TeamAccessLogsResponse>(this, 'team.accessLogs'),
     billableInfo: bindApiCall<TeamBillableInfoArguments, TeamBillableInfoResponse>(this, 'team.billableInfo'),
+    billing: {
+      info: bindApiCall<TeamBillingInfoArguments, TeamBillingInfoResponse>(this, 'team.billing.info'),
+    },
     info: bindApiCall<TeamInfoArguments, TeamInfoResponse>(this, 'team.info'),
     integrationLogs:
       bindApiCall<TeamIntegrationLogsArguments, TeamIntegrationLogsResponse>(this, 'team.integrationLogs'),
+    preferences: {
+      list: bindApiCall<TeamPreferencesListArguments, TeamPreferencesListResponse>(this, 'team.preferences.list'),
+    },
     profile: {
       get: bindApiCall<TeamProfileGetArguments, TeamProfileGetResponse>(this, 'team.profile.get'),
     },
@@ -1906,6 +1914,8 @@ export interface TeamBillableInfoArguments extends WebAPICallOptions, TokenOverr
   user?: string;
   team_id?: string;
 }
+export interface TeamBillingInfoArguments extends WebAPICallOptions, TokenOverridable {
+}
 export interface TeamInfoArguments extends WebAPICallOptions, TokenOverridable {
   // Team to get info on, if omitted, will return information about the current team.
   // Will only return team that the authenticated token is allowed to see through external shared channels
@@ -1923,6 +1933,8 @@ export interface TeamIntegrationLogsArguments extends WebAPICallOptions, TokenOv
 export interface TeamProfileGetArguments extends WebAPICallOptions, TokenOverridable {
   visibility?: 'all' | 'visible' | 'hidden';
   team_id?: string;
+}
+export interface TeamPreferencesListArguments extends WebAPICallOptions, TokenOverridable {
 }
 
 /*

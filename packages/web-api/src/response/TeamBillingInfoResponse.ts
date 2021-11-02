@@ -9,14 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 import { WebAPICallResult } from '../WebClient';
-export type AppsUninstallResponse = WebAPICallResult & {
-  ok?:                boolean;
-  error?:             string;
-  response_metadata?: ResponseMetadata;
-  needed?:            string;
-  provided?:          string;
+export type TeamBillingInfoResponse = WebAPICallResult & {
+  ok?:       boolean;
+  error?:    string;
+  needed?:   string;
+  provided?: string;
+  plan?:     string;
 };
-
-export interface ResponseMetadata {
-  messages?: string[];
-}
