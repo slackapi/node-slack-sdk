@@ -12,7 +12,7 @@
   "dependencies": {
     "@slack/interactive-messages": "^1.1.1",
     "@slack/web-api": "^5.0.0",
-    "axios": "^0.21.4",
+    "axios": "^0.21.1",
     "body-parser": "^1.18.2",
     "dotenv": "^5.0.1",
     "express": "^4.16.3"
