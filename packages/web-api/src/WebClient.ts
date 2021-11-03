@@ -42,7 +42,7 @@ export interface WebClientOptions {
   tls?: TLSOptions;
   timeout?: number;
   rejectRateLimitedCalls?: boolean;
-  headers?: Record<string, unknown>;
+  headers?: Record<string, string>;
   teamId?: string;
 }
 
