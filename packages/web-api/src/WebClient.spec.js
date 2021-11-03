@@ -1148,132 +1148,79 @@ describe('WebClient', function () {
         });
   });
 
-  describe('has all admin.inviteRequests.* APIs', function () {
-    function verify(runApiCall, methodName, expectedBody, done) {
-      const scope = nock('https://slack.com')
-        .post(`/api/${methodName}`)
+  describe('admin.inviteRequests.* APIs', function () {
+    const client = new WebClient(token);
+
+    beforeEach(function() {
+      this.scope = nock('https://slack.com')
+        .post(/api/)
         .reply(200, function (_uri, body) {
           return { ok: true, body: body };
         });
-      runApiCall
-        .then((res) => {
-          assert.equal(res.body, expectedBody);
-        })
-        .catch((err) => {
-          assert.fail(err);
-        })
-        .finally(() => {
-          scope.done();
-          done();
-        });
-    }
-    const client = new WebClient(token);
+    });
 
-    it('can call admin.inviteRequests.approve', function (done) {
-      verify(
-        client.admin.inviteRequests.approve({ team_id: 'T123', invite_request_id: 'I123' }),
-        'admin.inviteRequests.approve',
-        'team_id=T123&invite_request_id=I123',
-        done,
-      );
+    it('properly serializes arguments to admin.inviteRequests.approve', async function () {
+      const res = await client.admin.inviteRequests.approve({ team_id: 'T123', invite_request_id: 'I123' });
+      assert.equal(res.body, 'team_id=T123&invite_request_id=I123');
+      this.scope.done();
     });
-    it('can call admin.inviteRequests.deny', function (done) {
-      verify(
-        client.admin.inviteRequests.deny({ team_id: 'T123', invite_request_id: 'I123' }),
-        'admin.inviteRequests.deny',
-        'team_id=T123&invite_request_id=I123',
-        done
-      );
+    it('properly serializes arguments to admin.inviteRequests.deny', async function () {
+      const res = await client.admin.inviteRequests.deny({ team_id: 'T123', invite_request_id: 'I123' });
+      assert.equal(res.body, 'team_id=T123&invite_request_id=I123');
+      this.scope.done();
     });
-    it('can call admin.inviteRequests.list', function (done) {
-      verify(
-        client.admin.inviteRequests.list({ team_id: 'T123', limit: 10, cursor: 'position' }),
-        'admin.inviteRequests.list',
-        'team_id=T123&limit=10&cursor=position',
-        done
-      );
+    it('properly serializes arguments to admin.inviteRequests.list', async function () {
+      const res = await client.admin.inviteRequests.list({ team_id: 'T123', limit: 10, cursor: 'position' });
+      assert.equal(res.body, 'team_id=T123&limit=10&cursor=position');
+      this.scope.done();
     });
-    it('can call admin.inviteRequests.approved.list', function (done) {
-      verify(
-        client.admin.inviteRequests.approved.list({ team_id: 'T123', limit: 10, cursor: 'position' }),
-        'admin.inviteRequests.approved.list',
-        'team_id=T123&limit=10&cursor=position',
-        done
-      );
+    it('properly serializes arguments to admin.inviteRequests.approved.list', async function () {
+      const res = await client.admin.inviteRequests.approved.list({ team_id: 'T123', limit: 10, cursor: 'position' });
+      assert.equal(res.body, 'team_id=T123&limit=10&cursor=position');
+      this.scope.done();
     });
-    it('can call admin.inviteRequests.denied.list', function (done) {
-      verify(
-        client.admin.inviteRequests.denied.list({ team_id: 'T123', limit: 10, cursor: 'position' }),
-        'admin.inviteRequests.denied.list',
-        'team_id=T123&limit=10&cursor=position',
-        done
-      );
+    it('properly serializes arguments to admin.inviteRequests.denied.list', async function () {
+      const res = await client.admin.inviteRequests.denied.list({ team_id: 'T123', limit: 10, cursor: 'position' });
+      assert.equal(res.body, 'team_id=T123&limit=10&cursor=position');
+      this.scope.done();
     });
   });
 
-  describe('has all admin.usergroups.* APIs', function () {
-    function verify(runApiCall, methodName, expectedBody, done) {
-      const scope = nock('https://slack.com')
-        .post(`/api/${methodName}`)
+  describe('admin.usergroups.* APIs', function () {
+    const client = new WebClient(token);
+
+    beforeEach(function() {
+      this.scope = nock('https://slack.com')
+        .post(/api/)
         .reply(200, function (_uri, body) {
           return { ok: true, body: body };
         });
-
-      runApiCall
-        .then((res) => {
-          assert.equal(res.body, expectedBody);
-        })
-        .catch((err) => {
-          assert.fail(err);
-        })
-        .finally(() => {
-          scope.done();
-          done();
-        });
-    }
-    const client = new WebClient(token);
-
-    it('can call admin.usergroups.addChannels with a string "channel_ids"', function (done) {
-      verify(
-        client.admin.usergroups.addChannels({ team_id: 'T123', usergroup_id: 'S123', channel_ids: 'C123,C234' }),
-        'admin.usergroups.addChannels',
-        'team_id=T123&usergroup_id=S123&channel_ids=C123%2CC234',
-        done,
-      );
     });
 
-    it('can call admin.usergroups.addChannels', function (done) {
-      verify(
-        client.admin.usergroups.addChannels({ team_id: 'T123', usergroup_id: 'S123', channel_ids: ['C123','C234'] }),
-        'admin.usergroups.addChannels',
-        'team_id=T123&usergroup_id=S123&channel_ids=%5B%22C123%22%2C%22C234%22%5D', // URL encoded "['C123','C234']"
-        done,
-      );
+    it('properly serializes string of comma-separated channel_ids argument to admin.usergroups.addChannels', async function () {
+      const res = await client.admin.usergroups.addChannels({ team_id: 'T123', usergroup_id: 'S123', channel_ids: 'C123,C234' });
+      assert.equal(res.body, 'team_id=T123&usergroup_id=S123&channel_ids=C123%2CC234');
+      this.scope.done();
     });
-    it('can call admin.usergroups.listChannels', function (done) {
-      verify(
-        client.admin.usergroups.listChannels({ team_id: 'T123', include_num_members: true, usergroup_id: 'S123' }),
-        'admin.usergroups.listChannels',
-        'team_id=T123&include_num_members=true&usergroup_id=S123',
-        done
-      );
+    it('properly serializes array of channel_ids argument to admin.usergroups.addChannels', async function () {
+      const res = await client.admin.usergroups.addChannels({ team_id: 'T123', usergroup_id: 'S123', channel_ids: ['C123','C234'] }); // URL encoded "['C123','C234']"
+      assert.equal(res.body, 'team_id=T123&usergroup_id=S123&channel_ids=%5B%22C123%22%2C%22C234%22%5D');
+      this.scope.done();
     });
-    it('can call admin.usergroups.removeChannels with a string "channel_ids"', function (done) {
-      verify(
-        client.admin.usergroups.removeChannels({ usergroup_id: 'S123', channel_ids: 'C123,C234' }),
-        'admin.usergroups.removeChannels',
-        'usergroup_id=S123&channel_ids=C123%2CC234',
-        done,
-      );
+    it('properly serializes arguments to admin.usergroups.listChannels', async function () {
+      const res = await client.admin.usergroups.listChannels({ team_id: 'T123', include_num_members: true, usergroup_id: 'S123' });
+      assert.equal(res.body, 'team_id=T123&include_num_members=true&usergroup_id=S123');
+      this.scope.done();
     });
-
-    it('can call admin.usergroups.removeChannels', function (done) {
-      verify(
-        client.admin.usergroups.removeChannels({ usergroup_id: 'S123', channel_ids: ['C123','C234'] }),
-        'admin.usergroups.removeChannels',
-        'usergroup_id=S123&channel_ids=%5B%22C123%22%2C%22C234%22%5D', // URL encoded "['C123','C234']"
-        done,
-      );
+    it('properly serializes string of comma-separated channel_ids argument to admin.usergroups.removeChannels', async function () {
+      const res = await client.admin.usergroups.removeChannels({ usergroup_id: 'S123', channel_ids: 'C123,C234' });
+      assert.equal(res.body, 'usergroup_id=S123&channel_ids=C123%2CC234'); // URL encoded "C123,C234"
+      this.scope.done();
+    });
+    it('properly serializes array of channel_ids argument to admin.usergroups.removeChannels', async function () {
+      const res = await client.admin.usergroups.removeChannels({ usergroup_id: 'S123', channel_ids: ['C123','C234'] });
+      assert.equal(res.body, 'usergroup_id=S123&channel_ids=%5B%22C123%22%2C%22C234%22%5D'); // URL encoded "['C123','C234']"
+      this.scope.done();
     });
   });
   afterEach(function () {
