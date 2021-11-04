@@ -682,3 +682,16 @@ const clientSecret = process.env.SLACK_CLIENT_SECRET;
 **Note**: If you're looking for a more complete solution that handles more of the OAuth process for your app, take a
 look at the [@aoberoi/passport-slack Passport Strategy](https://github.com/aoberoi/passport-slack).
 
+---
+
+### Sign in with Slack via OpenID Connect
+
+By leveraging two APIs provided by `@slack/web-api`, [`openid.connect.token`](https://api.slack.com/methods/openid.connect.token)
+and [`openid.connect.userInfo`](https://api.slack.com/methods/openid.connect.userInfo), you can provide users the
+ability to sign into your service using their Slack profile.
+
+A fully functioning [application example is available](https://github.com/slackapi/node-slack-sdk/blob/main/examples/openid-connect) for your perusal!
+
+Full details on how the Sign in with Slack flow works, application setup, as well as helpful resources like a Sign in With Slack
+button generator and other design assets are available on the [Authentication: Sign in with Slack](https://api.slack.com/authentication/sign-in-with-slack)
+documentation page.
