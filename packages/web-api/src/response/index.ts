@@ -69,6 +69,7 @@ export { AdminUsersSessionGetSettingsResponse } from './AdminUsersSessionGetSett
 export { AdminUsersSessionInvalidateResponse } from './AdminUsersSessionInvalidateResponse';
 export { AdminUsersSessionListResponse } from './AdminUsersSessionListResponse';
 export { AdminUsersSessionResetResponse } from './AdminUsersSessionResetResponse';
+export { AdminUsersSessionResetBulkResponse } from './AdminUsersSessionResetBulkResponse';
 export { AdminUsersSessionSetSettingsResponse } from './AdminUsersSessionSetSettingsResponse';
 export { AdminUsersSetAdminResponse } from './AdminUsersSetAdminResponse';
 export { AdminUsersSetExpirationResponse } from './AdminUsersSetExpirationResponse';

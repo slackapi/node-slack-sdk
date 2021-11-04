@@ -71,6 +71,7 @@ import {
   AdminUsersSessionInvalidateResponse,
   AdminUsersSessionListResponse,
   AdminUsersSessionResetResponse,
+  AdminUsersSessionResetBulkResponse,
   AdminUsersSetAdminResponse,
   AdminUsersSetExpirationResponse,
   AdminUsersSetOwnerResponse,
@@ -416,6 +417,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       session: {
         list: bindApiCall<AdminUsersSessionListArguments, AdminUsersSessionListResponse>(this, 'admin.users.session.list'),
         reset: bindApiCall<AdminUsersSessionResetArguments, AdminUsersSessionResetResponse>(this, 'admin.users.session.reset'),
+        resetBulk: bindApiCall<AdminUsersSessionResetBulkArguments, AdminUsersSessionResetBulkResponse>(this, 'admin.users.session.resetBulk'),
         invalidate: bindApiCall<AdminUsersSessionInvalidateArguments, AdminUsersSessionInvalidateResponse>(
           this, 'admin.users.session.invalidate',
         ),
@@ -1133,6 +1135,11 @@ export interface AdminUsersSessionListArguments extends WebAPICallOptions, Token
 }
 export interface AdminUsersSessionResetArguments extends WebAPICallOptions, TokenOverridable {
   user_id: string;
+  mobile_only?: boolean;
+  web_only?: boolean;
+}
+export interface AdminUsersSessionResetBulkArguments extends WebAPICallOptions, TokenOverridable {
+  user_ids: string[];
   mobile_only?: boolean;
   web_only?: boolean;
 }
