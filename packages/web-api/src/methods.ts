@@ -2,7 +2,6 @@ import { Stream } from 'stream';
 import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser } from '@slack/types';
 import { EventEmitter } from 'eventemitter3';
 import { WebAPICallOptions, WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
-import { AdminUsersSessionResetBulkResponse } from './response/AdminUsersSessionResetBulkResponse';
 import {
   AdminAppsApproveResponse,
   AdminAppsApprovedListResponse,
@@ -72,6 +71,7 @@ import {
   AdminUsersSessionInvalidateResponse,
   AdminUsersSessionListResponse,
   AdminUsersSessionResetResponse,
+  AdminUsersSessionResetBulkResponse,
   AdminUsersSetAdminResponse,
   AdminUsersSetExpirationResponse,
   AdminUsersSetOwnerResponse,
