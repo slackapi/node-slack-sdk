@@ -686,16 +686,12 @@ look at the [@aoberoi/passport-slack Passport Strategy](https://github.com/aober
 
 ### Sign in with Slack via OpenID Connect
 
-**Sign in With Slack** via OpenID Connect gives users the ability to sign into your service using their Slack profile.
+**Sign in With Slack** via [OpenID Connect](https://openid.net/specs/openid-connect-core-1_0.html) gives users the ability to sign into your service using their Slack profile.
 
 The `@slack/web-api` package supports the following API methods which you can use to implement **Sign in With Slack**: 
 
 - [`openid.connect.token`](https://api.slack.com/methods/openid.connect.token)
-
-
-- [`openid.connect.userInfo`](https://api.slack.com/methods/openid.connect.userInfo).
-
-ability to sign into your service using their Slack profile.
+- [`openid.connect.userInfo`](https://api.slack.com/methods/openid.connect.userInfo)
 
 Here's a fully-functioning [sample application implementation](https://github.com/slackapi/node-slack-sdk/blob/main/examples/openid-connect) for your perusal!
 
