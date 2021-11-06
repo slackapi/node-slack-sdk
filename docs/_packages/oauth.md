@@ -11,6 +11,10 @@ The `@slack/oauth` package makes it simple to setup the OAuth flow for Slack app
 
 The package handles URL generation, state verification, and authorization code exchange for access tokens. It also provides an interface for easily plugging in your own database for saving and retrieving installation data.
 
+## Limitations
+
+At this time, the `@slack/oauth` package does not support [Sign in with Slack](https://api.slack.com/authentication/sign-in-with-slack). However, there are APIs available in the [`@slack/web-api` package](./web-api) that make it easy to implement Sign in With Slack; for more information, have a look at the [`@slack/web-api` Sign in with Slack documentation](./web-api#sign-in-with-slack-via-openid-connect).
+
 ## Installation
 
 ```shell
