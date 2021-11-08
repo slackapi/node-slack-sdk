@@ -2075,9 +2075,11 @@ export interface WorkflowsUpdateStepArguments extends WebAPICallOptions, TokenOv
   step_name?: string;
   inputs?: {
     [name: string]: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       value: any;
       skip_variable_replacement?: boolean;
       variables?: {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         [key: string]: any;
       };
     },
