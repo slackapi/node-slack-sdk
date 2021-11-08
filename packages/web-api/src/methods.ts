@@ -1772,8 +1772,6 @@ export interface OAuthV2AccessArguments extends WebAPICallOptions {
 export interface OAuthV2ExchangeArguments extends WebAPICallOptions {
   client_id: string;
   client_secret: string;
-  grant_type: string;
-  refresh_token: string;
 }
 
 /*
