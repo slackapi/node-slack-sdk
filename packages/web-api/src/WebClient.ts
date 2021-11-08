@@ -80,6 +80,7 @@ export interface PaginatePredicate {
   (page: WebAPICallResult): boolean | undefined | void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface PageReducer<A = any> {
   (accumulator: A | undefined, page: WebAPICallResult, index: number): A;
 }
@@ -378,6 +379,7 @@ export class WebClient extends Methods {
   /**
    * Low-level function to make a single API request. handles queuing, retries, and http-level errors
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private async makeRequest(url: string, body: any, headers: any = {}): Promise<AxiosResponse> {
     // TODO: better input types - remove any
     const task = () => this.requestQueue.add(async () => {
@@ -424,6 +426,7 @@ export class WebClient extends Methods {
         return response;
       } catch (error) {
         // To make this compatible with tsd, casting here instead of `catch (error: any)`
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const e = error as any;
         this.logger.warn('http request failed', e.message);
         if (e.request) {
@@ -445,10 +448,12 @@ export class WebClient extends Methods {
    * @param options - arguments for the Web API method
    * @param headers - a mutable object representing the HTTP headers for the outgoing request
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private serializeApiCallOptions(options: WebAPICallOptions, headers?: any): string | Readable {
     // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
     // binary content
     let containsBinaryData: boolean = false;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const flattened = Object.entries(options).map<[string, any] | []>(([key, value]) => {
       if (value === undefined || value === null) {
         return [];
@@ -479,6 +484,7 @@ export class WebClient extends Methods {
               // https://github.com/form-data/form-data/blob/028c21e0f93c5fefa46a7bbf1ba753e4f627ab7a/lib/form_data.js#L227-L230
               // formidable and the browser add a name property
               // fs- and request- streams have path property
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               const streamOrBuffer: any = (value as any);
               if (typeof streamOrBuffer.name === 'string') {
                 return basename(streamOrBuffer.name);
@@ -508,6 +514,7 @@ export class WebClient extends Methods {
     // Otherwise, a simple key-value object is returned
     // eslint-disable-next-line no-param-reassign
     headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const initialValue: { [key: string]: any; } = {};
     return qsStringify(flattened.reduce(
       (accumulator, [key, value]) => {
