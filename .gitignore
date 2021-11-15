@@ -11,3 +11,5 @@ tmp/
 # npm pack outputs
 *.tgz
 *.bk
+
+.DS_Store
