@@ -2881,7 +2881,7 @@ var require_package = __commonJS({
   "package.json"(exports, module) {
     module.exports = {
       name: "@slack/web-api",
-      version: "6.5.0",
+      version: "6.5.1",
       description: "Official library for using the Slack Platform's Web API",
       author: "Slack Technologies, LLC",
       license: "MIT",
