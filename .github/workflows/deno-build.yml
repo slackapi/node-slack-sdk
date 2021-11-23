@@ -15,8 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-    - name: Echo Tag Name
-      run: echo "$GITHUB_REF_NAME"
     - uses: actions/checkout@v2
       with:
         # pull all tags/branches with full history;
@@ -26,6 +24,8 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 16
+    - name: Echo Tag Name
+      run: echo "$GITHUB_REF_NAME"
     - name: Inject browser field and add dependencies to package.json
       run: |
         perl -pi.bak -e 's/"tsd": {/"browser":{"os":"os-browserify","path":"path-browserify","querystring":".\/deno-shims\/qs-shim.js"},"tsd": {/g' package.json
