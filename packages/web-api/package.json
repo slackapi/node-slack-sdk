@@ -43,7 +43,7 @@
     "coverage": "codecov -F webapi --root=$PWD",
     "ref-docs:model": "api-extractor run",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build",
-    "build:deno": "esbuild --bundle --define:process.cwd=String --define:process.version='\"v16.0.0\"' --define:Buffer=dummy_buffer --inject:./deno-shims/buffer-shim.js --target=esnext --format=esm --outfile=./mod.js src/index.ts"
+    "build:deno": "esbuild --bundle --define:process.cwd=String --define:process.version='\"v16.0.0\"' --define:Buffer=dummy_buffer --inject:./deno-shims/buffer-shim.js --inject:./deno-shims/xhr-shim.js --target=esnext --format=esm --outfile=./mod.js src/index.ts"
   },
   "dependencies": {
     "@slack/logger": "^3.0.0",
