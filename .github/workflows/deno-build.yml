@@ -41,6 +41,6 @@ jobs:
         git checkout deno-web-api
         mv ../../mod.js .
         git add mod.js
-        git commit -m 'Adding transpiled deno release artifact.'
+        git commit -m "Adding transpiled deno ${GITHUB_REF_NAME} release artifact."
         git tag "deno/${GITHUB_REF_NAME}"
         git push --tags
