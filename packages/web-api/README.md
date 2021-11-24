@@ -4,10 +4,27 @@ The `@slack/web-api` package contains a simple, convenient, and configurable HTT
 [Web API](https://api.slack.com/web). Use it in your app to call any of the over 130
 [methods](https://api.slack.com/methods), and let it handle formatting, queuing, retrying, pagination, and more.
 
+## Requirements
+
+This package supports Node v12.13 and higher. It's highly recommended to use [the latest LTS version of
+node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
+from that version.
+
+This package also has experimental support for Deno v1.15.2 and higher, though not all features are supported at this
+time.
+
 ## Installation
+
+### Node.js
 
 ```shell
 $ npm install @slack/web-api
+```
+
+### Deno
+
+```typescript
+import { WebClient } from 'https://deno.land/x/slack_web_api/mod.js';
 ```
 
 <!-- START: Remove before copying into the docs directory -->
@@ -370,12 +387,6 @@ the `WebClient`:
 *  Exchange an OAuth grant for a token
 
 ---
-
-## Requirements
-
-This package supports Node v8 LTS and higher. It's highly recommended to use [the latest LTS version of
-node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
-from that version.
 
 ## Getting Help
 
