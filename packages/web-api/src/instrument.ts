@@ -1,4 +1,5 @@
 import * as os from 'os';
+import { basename } from 'path';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs
 const packageJson = require('../package.json');
@@ -10,8 +11,14 @@ function replaceSlashes(s: string): string {
   return s.replace('/', ':');
 }
 
+// TODO: for the deno build (see the `npm run build:deno` npm run script), we could replace the `os-browserify` npm
+// module shim with our own shim leveraging the deno beta compatibility layer for node's `os` module (for more info
+// see https://deno.land/std@0.116.0/node/os.ts). At the time of writing this TODO (2021/11/25), this required deno
+// v1.16.2 and use of the --unstable flag. Once support for this exists without the --unstable flag, we can improve
+// the `os` module deno shim to correctly report operating system from a deno runtime. Until then, the below `os`-
+// based code will report "browser/undefined" from a deno runtime.
 const baseUserAgent = `${replaceSlashes(packageJson.name)}/${packageJson.version} ` +
-                      `node/${process.version.replace('v', '')} ` +
+                      `${basename(process.title)}/${process.version.replace('v', '')} ` +
                       `${os.platform()}/${os.release()}`;
 
 const appMetadata: { [key: string]: string } = {};
