@@ -101,7 +101,7 @@ $ ./node_modules/.bin/slack-verify --secret <signing_secret> [--path=/slack/even
 ```
 
 Run the command with your own signing secret (provided by Slack in the "Basic Information"), and optionally a path or a
-port. A web server will be listening for requests containing a challenge and respond to them the way Slack expects. 
+port. A web server will be listening for requests containing a challenge and respond to them the way Slack expects.
 
 If your app's signing secret is "xxx123", any of the following works for you.
 
