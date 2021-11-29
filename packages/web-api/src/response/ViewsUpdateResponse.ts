@@ -86,6 +86,7 @@ export interface Element {
   min_length?:                      number;
   max_length?:                      number;
   dispatch_action_config?:          DispatchActionConfig;
+  focus_on_load?:                   boolean;
   options?:                         Option[];
   initial_option?:                  Option;
   confirm?:                         Confirm;
