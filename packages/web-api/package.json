@@ -34,16 +34,17 @@
   },
   "scripts": {
     "prepare": "npm run build",
+    "prepare:deno": "perl -pi.bak -e 's/\"tsd\": {/\"browser\":{\"os\":\".\\/deno-shims\\/os-shim.js\",\"path\":\".\\/deno-shims\\/path-shim.js\",\"querystring\":\".\\/deno-shims\\/qs-shim.js\"},\"tsd\": {/g' package.json",
     "build": "npm run build:clean && tsc",
-    "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
+    "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output mod.js",
+    "build:deno": "rm -f mod.js mod.d.ts && esbuild src/index.ts --bundle --define:Buffer=dummy_buffer --inject:./deno-shims/buffer-shim.js --inject:./deno-shims/xhr-shim.js --define:process=dummy_process --inject:./deno-shims/process-shim.js --target=esnext --format=esm --outfile=./mod.js",
     "lint": "eslint --ext .ts src",
     "test": "npm run lint && npm run build && npm run test:mocha && npm run test:types",
     "test:mocha": "nyc mocha --config .mocharc.json src/*.spec.js",
     "test:types": "tsd",
     "coverage": "codecov -F webapi --root=$PWD",
     "ref-docs:model": "api-extractor run",
-    "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build",
-    "build:deno": "esbuild --bundle --define:process.cwd=String --define:process.version='\"v1.15.2\"' --define:process.title='\"deno\"' --define:Buffer=dummy_buffer --inject:./deno-shims/buffer-shim.js --inject:./deno-shims/xhr-shim.js --target=esnext --format=esm --outfile=./mod.js src/index.ts"
+    "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
   },
   "dependencies": {
     "@slack/logger": "^3.0.0",

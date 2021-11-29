@@ -26,21 +26,22 @@ jobs:
         node-version: 16
     - name: Echo Tag Name
       run: echo "$GITHUB_REF_NAME"
-    - name: Inject browser field and add dependencies to package.json
-      run: |
-        perl -pi.bak -e 's/"tsd": {/"browser":{"os":"os-browserify","path":"path-browserify","querystring":".\/deno-shims\/qs-shim.js"},"tsd": {/g' package.json
-        perl -pi.bak -e 's/"axios": /"path-browserify":"1.0.1","os-browserify":"0.3.0","axios": /g' package.json
+    - name: Inject browser field to package.json
+      run: npm run prepare:deno
     - run: npm install
     - run: npm run build:deno
-    - run: mv mod.js ../../.
+    - name: Concatenate .d.ts files into one declaration file for use in Deno
+      run: |
+        find dist -type f -name '*.d.ts' -exec cat {} \; > mod.d.ts
+    - run: mv mod.js mod.d.ts ../../.
     - name: Commit and tag built artifact to separate branch
       run: |
         git config user.name slack-cicd
         git config user.email github-cicd@slack.com
         git checkout -- package.json
         git checkout deno-web-api
-        mv ../../mod.js .
-        git add mod.js
-        git commit -m "Adding transpiled deno ${GITHUB_REF_NAME} release artifact."
+        mv ../../mod.js ../../mod.d.ts .
+        git add mod.js mod.d.ts
+        git commit -m "Adding transpiled deno ${GITHUB_REF_NAME} release artifacts."
         git tag "deno/${GITHUB_REF_NAME}"
         git push --tags
