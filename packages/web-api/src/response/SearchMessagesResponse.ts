@@ -187,6 +187,7 @@ export interface Element {
   placeholder?:                     Text;
   initial_channel?:                 string;
   response_url_enabled?:            boolean;
+  focus_on_load?:                   boolean;
   initial_conversation?:            string;
   default_to_current_conversation?: boolean;
   filter?:                          Filter;

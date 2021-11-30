@@ -18,12 +18,17 @@ export type TeamInfoResponse = WebAPICallResult & {
 };
 
 export interface Team {
-  id?:           string;
-  name?:         string;
-  domain?:       string;
-  email_domain?: string;
-  icon?:         Icon;
-  is_verified?:  boolean;
+  id?:                string;
+  name?:              string;
+  domain?:            string;
+  email_domain?:      string;
+  icon?:              Icon;
+  is_verified?:       boolean;
+  url?:               string;
+  enterprise_id?:     string;
+  enterprise_name?:   string;
+  enterprise_domain?: string;
+  discoverable?:      string;
 }
 
 export interface Icon {

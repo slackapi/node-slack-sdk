@@ -28,6 +28,7 @@ export interface Team {
   default_channels?:  string[];
   is_verified?:       boolean;
   enterprise_domain?: string;
+  url?:               string;
 }
 
 export interface Icon {
