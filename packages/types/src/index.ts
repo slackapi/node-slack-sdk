@@ -128,6 +128,7 @@ export interface UsersSelect extends Action {
   initial_user?: string;
   placeholder?: PlainTextElement;
   confirm?: Confirm;
+  focus_on_load?: boolean;
 }
 
 export interface MultiUsersSelect extends Action {
@@ -136,6 +137,7 @@ export interface MultiUsersSelect extends Action {
   placeholder?: PlainTextElement;
   max_selected_items?: number;
   confirm?: Confirm;
+  focus_on_load?: boolean;
 }
 
 export interface StaticSelect extends Action {
@@ -148,6 +150,7 @@ export interface StaticSelect extends Action {
     options: PlainTextOption[];
   }[];
   confirm?: Confirm;
+  focus_on_load?: boolean;
 }
 
 export interface MultiStaticSelect extends Action {
@@ -161,6 +164,7 @@ export interface MultiStaticSelect extends Action {
   }[];
   max_selected_items?: number;
   confirm?: Confirm;
+  focus_on_load?: boolean;
 }
 
 export interface ConversationsSelect extends Action {
@@ -175,6 +179,7 @@ export interface ConversationsSelect extends Action {
     exclude_external_shared_channels?: boolean;
     exclude_bot_users?: boolean;
   };
+  focus_on_load?: boolean;
 }
 
 export interface MultiConversationsSelect extends Action {
@@ -189,6 +194,7 @@ export interface MultiConversationsSelect extends Action {
     exclude_external_shared_channels?: boolean;
     exclude_bot_users?: boolean;
   };
+  focus_on_load?: boolean;
 }
 
 export interface ChannelsSelect extends Action {
@@ -196,6 +202,7 @@ export interface ChannelsSelect extends Action {
   initial_channel?: string;
   placeholder?: PlainTextElement;
   confirm?: Confirm;
+  focus_on_load?: boolean;
 }
 
 export interface MultiChannelsSelect extends Action {
@@ -204,6 +211,7 @@ export interface MultiChannelsSelect extends Action {
   placeholder?: PlainTextElement;
   max_selected_items?: number;
   confirm?: Confirm;
+  focus_on_load?: boolean;
 }
 
 export interface ExternalSelect extends Action {
@@ -212,6 +220,7 @@ export interface ExternalSelect extends Action {
   placeholder?: PlainTextElement;
   min_query_length?: number;
   confirm?: Confirm;
+  focus_on_load?: boolean;
 }
 
 export interface MultiExternalSelect extends Action {
@@ -221,6 +230,7 @@ export interface MultiExternalSelect extends Action {
   min_query_length?: number;
   max_selected_items?: number;
   confirm?: Confirm;
+  focus_on_load?: boolean;
 }
 
 export interface Button extends Action {
@@ -243,6 +253,7 @@ export interface Datepicker extends Action {
   initial_date?: string;
   placeholder?: PlainTextElement;
   confirm?: Confirm;
+  focus_on_load?: boolean;
 }
 
 export interface Timepicker extends Action {
@@ -250,6 +261,7 @@ export interface Timepicker extends Action {
   initial_time?: string;
   placeholder?: PlainTextElement;
   confirm?: Confirm;
+  focus_on_load?: boolean;
 }
 
 export interface RadioButtons extends Action {
@@ -257,6 +269,7 @@ export interface RadioButtons extends Action {
   initial_option?: Option;
   options: Option[];
   confirm?: Confirm;
+  focus_on_load?: boolean;
 }
 
 export interface Checkboxes extends Action {
@@ -264,6 +277,7 @@ export interface Checkboxes extends Action {
   initial_options?: Option[];
   options: Option[];
   confirm?: Confirm;
+  focus_on_load?: boolean;
 }
 
 export interface PlainTextInput extends Action {
@@ -274,6 +288,7 @@ export interface PlainTextInput extends Action {
   min_length?: number;
   max_length?: number;
   dispatch_action_config?: DispatchActionConfig;
+  focus_on_load?: boolean;
 }
 
 export interface DispatchActionConfig {
