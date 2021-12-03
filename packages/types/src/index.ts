@@ -58,6 +58,8 @@ export interface WorkflowStepView {
   private_metadata?: string;
   callback_id?: string;
   submit_disabled?: boolean; // defaults to false
+  external_id?: string; 
+  view_id?: string;
 }
 
 export type View = HomeView | ModalView | WorkflowStepView;
