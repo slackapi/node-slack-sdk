@@ -23,7 +23,12 @@ export class IncomingWebhook {
    */
   private axios: AxiosInstance;
 
-  public constructor(url: string, defaults: IncomingWebhookDefaultArguments = {}) {
+  public constructor(
+    url: string,
+    defaults: IncomingWebhookDefaultArguments = {
+      timeout: 0,
+    },
+  ) {
     if (url === undefined) {
       throw new Error('Incoming webhook URL is required');
     }
@@ -37,6 +42,7 @@ export class IncomingWebhook {
       httpsAgent: defaults.agent,
       maxRedirects: 0,
       proxy: false,
+      timeout: defaults.timeout,
       headers: {
         'User-Agent': getUserAgent(),
       },
@@ -97,6 +103,7 @@ export interface IncomingWebhookDefaultArguments {
   text?: string;
   link_names?: boolean;
   agent?: Agent;
+  timeout?: number;
 }
 
 export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArguments {
