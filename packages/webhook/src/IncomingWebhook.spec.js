@@ -15,6 +15,17 @@ describe('IncomingWebhook', function () {
       const webhook = new IncomingWebhook(url);
       assert.instanceOf(webhook, IncomingWebhook);
     });
+
+    it('should create a default webhook with a default timeout', function () {
+      const webhook = new IncomingWebhook(url);
+      assert.equal(webhook.defaults.timeout, 0);
+    });
+
+    it('should create an axios instance that has the timeout passed by the user', function () {
+      const givenTimeout = 100;
+      const webhook = new IncomingWebhook(url, { timeout: givenTimeout })
+      assert.equal(webhook.axios.defaults.timeout, givenTimeout)
+    })
   });
 
   describe('send()', function () {
@@ -71,9 +82,9 @@ describe('IncomingWebhook', function () {
 
     describe('lifecycle', function () {
       it('should not overwrite the default parameters after a call', function () {
-        const defaultParams  = { channel: 'default' };
+        const defaultParams = { channel: 'default' };
         const expectedParams = Object.assign({}, defaultParams);
-        const webhook        = new IncomingWebhook(url, defaultParams);
+        const webhook = new IncomingWebhook(url, defaultParams);
 
         const result = webhook.send({ channel: 'different' });
         return result.catch((error) => {
