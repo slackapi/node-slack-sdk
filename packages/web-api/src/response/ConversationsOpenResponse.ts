@@ -48,8 +48,8 @@ export interface Latest {
 
 export interface Block {
   type?:         string;
-  elements?:     Element[];
   block_id?:     string;
+  elements?:     BlockElement[];
   fallback?:     string;
   image_url?:    string;
   image_width?:  number;
@@ -72,8 +72,9 @@ export interface Accessory {
   image_bytes?:  number;
 }
 
-export interface Element {
+export interface BlockElement {
   type?:                            string;
+  elements?:                        ElementElementClass[];
   text?:                            Text;
   action_id?:                       string;
   url?:                             string;
@@ -113,6 +114,11 @@ export interface Text {
   text?:     string;
   emoji?:    boolean;
   verbatim?: boolean;
+}
+
+export interface ElementElementClass {
+  type?: string;
+  text?: string;
 }
 
 export interface Filter {

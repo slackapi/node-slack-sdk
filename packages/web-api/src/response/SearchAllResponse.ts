@@ -154,24 +154,30 @@ export interface MessagesMatch {
 }
 
 export interface Attachment {
-  msg_subtype?:           string;
+  service_name?:          string;
+  title?:                 string;
+  title_link?:            string;
+  text?:                  string;
   fallback?:              string;
+  thumb_url?:             string;
+  from_url?:              string;
+  thumb_width?:           number;
+  thumb_height?:          number;
+  service_icon?:          string;
+  id?:                    number;
+  original_url?:          string;
+  msg_subtype?:           string;
   callback_id?:           string;
   color?:                 string;
   pretext?:               string;
   service_url?:           string;
-  service_name?:          string;
-  service_icon?:          string;
   author_id?:             string;
   author_name?:           string;
   author_link?:           string;
   author_icon?:           string;
-  from_url?:              string;
-  original_url?:          string;
   author_subname?:        string;
   channel_id?:            string;
   channel_name?:          string;
-  id?:                    number;
   bot_id?:                string;
   indent?:                boolean;
   is_msg_unfurl?:         boolean;
@@ -179,17 +185,11 @@ export interface Attachment {
   is_thread_root_unfurl?: boolean;
   is_app_unfurl?:         boolean;
   app_unfurl_url?:        string;
-  title?:                 string;
-  title_link?:            string;
-  text?:                  string;
   fields?:                Field[];
   image_url?:             string;
   image_width?:           number;
   image_height?:          number;
   image_bytes?:           number;
-  thumb_url?:             string;
-  thumb_width?:           number;
-  thumb_height?:          number;
   video_url?:             string;
   video_html?:            string;
   video_html_width?:      number;
