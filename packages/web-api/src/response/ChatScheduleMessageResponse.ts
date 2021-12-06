@@ -33,9 +33,8 @@ export interface Message {
 
 export interface Block {
   type?:         string;
-  block_id?:     string;
-  text?:         Text;
   elements?:     Element[];
+  block_id?:     string;
   fallback?:     string;
   image_url?:    string;
   image_width?:  number;
@@ -43,6 +42,7 @@ export interface Block {
   image_bytes?:  number;
   alt_text?:     string;
   title?:        Text;
+  text?:         Text;
   fields?:       Text[];
   accessory?:    Accessory;
 }

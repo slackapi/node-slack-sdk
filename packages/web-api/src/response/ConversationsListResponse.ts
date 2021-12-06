@@ -50,6 +50,9 @@ export interface Channel {
   shared_team_ids?:            string[];
   internal_team_ids?:          string[];
   previous_names?:             string[];
+  user?:                       string;
+  is_user_deleted?:            boolean;
+  priority?:                   number;
 }
 
 export interface Purpose {
