@@ -37,15 +37,15 @@ export interface Match {
   permalink?:    string;
   no_reactions?: boolean;
   previous?:     Previous;
-  previous_2?:   Previous2;
+  previous_2?:   Previous;
   blocks?:       Block[];
-  attachments?:  MatchAttachment[];
+  attachments?:  Attachment[];
   is_mpim?:      boolean;
   score?:        number;
   files?:        File[];
 }
 
-export interface MatchAttachment {
+export interface Attachment {
   msg_subtype?:           string;
   fallback?:              string;
   callback_id?:           string;
@@ -382,73 +382,8 @@ export interface Previous {
   text?:        string;
   iid?:         string;
   permalink?:   string;
-  attachments?: MatchAttachment[];
+  attachments?: Attachment[];
   blocks?:      Block[];
-}
-
-export interface Previous2 {
-  type?:        string;
-  user?:        string;
-  username?:    string;
-  ts?:          string;
-  text?:        string;
-  iid?:         string;
-  permalink?:   string;
-  attachments?: Previous2_Attachment[];
-  blocks?:      Block[];
-}
-
-export interface Previous2_Attachment {
-  service_name?:          string;
-  title?:                 string;
-  title_link?:            string;
-  text?:                  string;
-  fallback?:              string;
-  image_url?:             string;
-  ts?:                    number | string;
-  from_url?:              string;
-  image_width?:           number;
-  image_height?:          number;
-  image_bytes?:           number;
-  service_icon?:          string;
-  id?:                    number;
-  original_url?:          string;
-  msg_subtype?:           string;
-  callback_id?:           string;
-  color?:                 string;
-  pretext?:               string;
-  service_url?:           string;
-  author_id?:             string;
-  author_name?:           string;
-  author_link?:           string;
-  author_icon?:           string;
-  author_subname?:        string;
-  channel_id?:            string;
-  channel_name?:          string;
-  bot_id?:                string;
-  indent?:                boolean;
-  is_msg_unfurl?:         boolean;
-  is_reply_unfurl?:       boolean;
-  is_thread_root_unfurl?: boolean;
-  is_app_unfurl?:         boolean;
-  app_unfurl_url?:        string;
-  fields?:                Field[];
-  thumb_url?:             string;
-  thumb_width?:           number;
-  thumb_height?:          number;
-  video_url?:             string;
-  video_html?:            string;
-  video_html_width?:      number;
-  video_html_height?:     number;
-  footer?:                string;
-  footer_icon?:           string;
-  mrkdwn_in?:             string[];
-  actions?:               Action[];
-  filename?:              string;
-  size?:                  number;
-  mimetype?:              string;
-  url?:                   string;
-  metadata?:              Metadata;
 }
 
 export interface Pagination {
