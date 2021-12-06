@@ -1,6 +1,6 @@
 {
   "name": "@slack/webhook",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "description": "Official library for using the Slack Platform's Incoming Webhooks",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
