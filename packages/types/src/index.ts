@@ -446,6 +446,6 @@ export interface CallUserExternal {
 
 export interface Metadata {
   event_type: string;
-  event_payload: object;
+  event_payload: Record<string, unknown>;
   notification_subscription_id: string;
 }
