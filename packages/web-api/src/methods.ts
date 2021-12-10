@@ -1191,7 +1191,10 @@ export interface AppsNotificationsSubscriptionsCreateArguments extends WebAPICal
   trigger_id: string;
   channel_id: string;
   name: string;
-  type?: string;
+  type?: {
+    name: string;
+    label: string;
+  };
   resource_link?: string;
 }
 
