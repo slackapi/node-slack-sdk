@@ -1,5 +1,5 @@
 import { Stream } from 'stream';
-import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser } from '@slack/types';
+import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser, Metadata } from '@slack/types';
 import { EventEmitter } from 'eventemitter3';
 import { WebAPICallOptions, WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
 import {
@@ -293,9 +293,9 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       ekm: {
         listOriginalConnectedChannelInfo:
           bindApiCall<AdminConversationsEKMListOriginalConnectedChannelInfoArguments,
-          AdminConversationsEkmListOriginalConnectedChannelInfoResponse>(
-            this, 'admin.conversations.ekm.listOriginalConnectedChannelInfo',
-          ),
+            AdminConversationsEkmListOriginalConnectedChannelInfoResponse>(
+              this, 'admin.conversations.ekm.listOriginalConnectedChannelInfo',
+            ),
       },
       getConversationPrefs:
         bindApiCall<AdminConversationsGetConversationPrefsArguments, AdminConversationsGetConversationPrefsResponse>(
@@ -308,19 +308,19 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       rename: bindApiCall<AdminConversationsRenameArguments, AdminConversationsRenameResponse>(this, 'admin.conversations.rename'),
       restrictAccess: {
         addGroup: bindApiCall<AdminConversationsRestrictAccessAddGroupArguments,
-        AdminConversationsRestrictAccessAddGroupResponse>(
-          this, 'admin.conversations.restrictAccess.addGroup',
-        ),
+          AdminConversationsRestrictAccessAddGroupResponse>(
+            this, 'admin.conversations.restrictAccess.addGroup',
+          ),
         listGroups:
           bindApiCall<AdminConversationsRestrictAccessListGroupsArguments,
-          AdminConversationsRestrictAccessListGroupsResponse>(
-            this, 'admin.conversations.restrictAccess.listGroups',
-          ),
+            AdminConversationsRestrictAccessListGroupsResponse>(
+              this, 'admin.conversations.restrictAccess.listGroups',
+            ),
         removeGroup:
           bindApiCall<AdminConversationsRestrictAccessRemoveGroupArguments,
-          AdminConversationsRestrictAccessRemoveGroupResponse>(
-            this, 'admin.conversations.restrictAccess.removeGroup',
-          ),
+            AdminConversationsRestrictAccessRemoveGroupResponse>(
+              this, 'admin.conversations.restrictAccess.removeGroup',
+            ),
       },
       getCustomRetention:
         bindApiCall<AdminConversationsGetCustomRetentionArguments, AdminConversationsGetCustomRetentionResponse>(
@@ -391,9 +391,9 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
           ),
         setDiscoverability:
           bindApiCall<AdminTeamsSettingsSetDiscoverabilityArguments,
-          AdminTeamsSettingsSetDiscoverabilityResponse>(
-            this, 'admin.teams.settings.setDiscoverability',
-          ),
+            AdminTeamsSettingsSetDiscoverabilityResponse>(
+              this, 'admin.teams.settings.setDiscoverability',
+            ),
         setIcon: bindApiCall<AdminTeamsSettingsSetIconArguments, AdminTeamsSettingsSetIconResponse>(
           this, 'admin.teams.settings.setIcon',
         ),
@@ -470,6 +470,13 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         list: bindApiCall<AppsEventAuthorizationsListArguments, AppsEventAuthorizationsListResponse>(
           this, 'apps.event.authorizations.list',
         ),
+      },
+    },
+    notifications: {
+      subscriptions: {
+        create: bindApiCall<AppsNotificationsSubscriptionsCreateArguments, WebAPICallResult>(this, 'apps.notifications.subscriptions.create'),
+        delete: bindApiCall<AppsNotificationsSubscriptionsDeleteArguments, WebAPICallResult>(this, 'apps.notifications.subscriptions.delete'),
+        update: bindApiCall<AppsNotificationsSubscriptionsUpdateArguments, WebAPICallResult>(this, 'apps.notifications.subscriptions.update'),
       },
     },
     uninstall: bindApiCall<AppsUninstallArguments, AppsUninstallResponse>(this, 'apps.uninstall'),
@@ -795,7 +802,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 export default interface Method<
   MethodArguments extends WebAPICallOptions,
   MethodResult extends WebAPICallResult = WebAPICallResult,
-> {
+  > {
   (options?: MethodArguments): Promise<MethodResult>;
 }
 
@@ -1208,6 +1215,28 @@ export interface AppsEventAuthorizationsListArguments
   event_context: string;
 }
 cursorPaginationEnabledMethods.add('apps.event.authorizations.list');
+
+export interface AppsNotificationsSubscriptionsCreateArguments extends WebAPICallOptions {
+  trigger_id: string;
+  channel_id: string;
+  name: string;
+  type?: {
+    name: string;
+    label: string;
+  };
+  resource_link?: string;
+}
+
+export interface AppsNotificationsSubscriptionsDeleteArguments extends WebAPICallOptions {
+  notification_subscription_id: string;
+}
+
+export interface AppsNotificationsSubscriptionsUpdateArguments extends WebAPICallOptions {
+  notification_subscription_id: string;
+  channel_id: string;
+  trigger_id: string;
+}
+
 export interface AppsUninstallArguments extends WebAPICallOptions {
   client_id: string;
   client_secret: string;
@@ -1420,6 +1449,7 @@ export interface ChatPostMessageArguments extends WebAPICallOptions, TokenOverri
   unfurl_links?: boolean;
   unfurl_media?: boolean;
   username?: string; // if specified, as_user must be false
+  metadata?: Metadata;
 }
 export interface ChatScheduleMessageArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
@@ -1464,6 +1494,7 @@ export interface ChatUpdateArguments extends WebAPICallOptions, TokenOverridable
   file_ids?: string[];
   reply_broadcast?: boolean;
   text?: string;
+  metadata?: Metadata;
 }
 
 /*
