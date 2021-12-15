@@ -161,8 +161,10 @@ export interface Metadata {
 
 export interface Block {
   type?:         string;
-  elements?:     Element[];
   block_id?:     string;
+  text?:         Text;
+  accessory?:    Accessory;
+  elements?:     Element[];
   fallback?:     string;
   image_url?:    string;
   image_width?:  number;
@@ -170,27 +172,25 @@ export interface Block {
   image_bytes?:  number;
   alt_text?:     string;
   title?:        Text;
-  text?:         Text;
   fields?:       Text[];
-  accessory?:    Accessory;
 }
 
 export interface Accessory {
-  type?:         string;
-  image_url?:    string;
-  alt_text?:     string;
   fallback?:     string;
+  image_url?:    string;
   image_width?:  number;
   image_height?: number;
   image_bytes?:  number;
+  type?:         string;
+  alt_text?:     string;
 }
 
 export interface Element {
   type?:                            string;
-  text?:                            Text;
   action_id?:                       string;
-  url?:                             string;
+  text?:                            Text;
   value?:                           string;
+  url?:                             string;
   style?:                           string;
   confirm?:                         ElementConfirm;
   placeholder?:                     Text;
