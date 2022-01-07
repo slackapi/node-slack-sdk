@@ -515,13 +515,20 @@ export class InstallProvider {
     } catch (error: any) {
       this.logger.error(error);
 
+      if (!installOptions) {
+        // To make the `installOptions` type compatible with `CallbackOptions#failure` signature
+        const emptyInstallOptions: InstallURLOptions = { scopes: [] };
+        // eslint-disable-next-line no-param-reassign
+        installOptions = emptyInstallOptions;
+      }
+
       // Call the failure callback
       if (options !== undefined && options.failure !== undefined) {
         this.logger.debug('calling passed in options.failure');
-        options.failure(error, installOptions!, req, res);
+        options.failure(error, installOptions, req, res);
       } else {
         this.logger.debug('run built-in failure function');
-        callbackFailure(error, installOptions!, req, res);
+        callbackFailure(error, installOptions, req, res);
       }
     }
   }

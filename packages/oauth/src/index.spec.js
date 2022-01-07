@@ -447,6 +447,7 @@ describe('OAuth', async () => {
           assert.fail('should have failed');
         },
         failure: async (error, installOptions, req, res) => {
+          assert.isDefined(installOptions);
           assert.equal(error.code, ErrorCode.MissingCodeError)
           res.send('failure');
         },
@@ -466,6 +467,7 @@ describe('OAuth', async () => {
           assert.fail('should have failed');
         },
         failure: async (error, installOptions, req, res) => {
+          assert.isDefined(installOptions);
           assert.equal(error.code, ErrorCode.MissingStateError)
           res.send('failure');
         },
@@ -504,6 +506,7 @@ describe('OAuth', async () => {
           assert.fail('should have failed');
         },
         failure: async (error, installOptions, req, res) => {
+          assert.isDefined(installOptions);
           assert.equal(error.code, ErrorCode.AuthorizationError)
           res.send('failure');
         },
@@ -566,7 +569,6 @@ describe('OAuth', async () => {
         },
         failure: async (error, installOptions, req, res) => {
           assert.fail(error.message);
-          res.send('failure');
         },
       }
 
@@ -588,7 +590,6 @@ describe('OAuth', async () => {
         },
         failure: async (error, installOptions, req, res) => {
           assert.fail(error.message);
-          res.send('failure');
         },
       }
 
