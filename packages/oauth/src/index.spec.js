@@ -752,6 +752,102 @@ describe('OAuth', async () => {
       // fsReaddirSync returns ['app-latest', 'user-userId-latest']
       expect(fsUnlink.callCount).equals(1);
     });
+
+    it('should run authorize with triage-bot\'s MongoDB data', async () => {
+      // Refer to https://github.com/slackapi/bolt-js/issues/1265 to learn the context
+      const storedInstallation = {
+        "_id": "6.....",
+        "id": "T....",
+        "__v": 0,
+        "appId": "A...",
+        "authVersion": "v2",
+        "bot": {
+          "scopes": [
+            "channels:history",
+            "channels:join",
+            "channels:read",
+            "chat:write",
+            "commands",
+            "files:write"
+          ],
+          "token": "xoxb-...",
+          "userId": "U...",
+          "id": "B02SS7QU407"
+        },
+        "db_record_created_at": "2022-01-08T02:24:40.470Z",
+        "db_record_updated_at": "2022-01-08T02:24:40.470Z",
+        "enterprise": null,
+        "isEnterpriseInstall": false,
+        "name": "My Team",
+        "tokenType": "bot",
+        "user": {
+          "scopes": null,
+          "id": "U..."
+        }
+      };
+      const installationStore = {
+        fetchInstallation: (_) => {
+          return new Promise((resolve) => {
+            resolve(storedInstallation);
+          });
+        },
+        storeInstallation: () => {},
+        deleteInstallation: (_) => {},
+      }
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
+      const authorizeResult = await installer.authorize({ teamId: 'T111' });
+      assert.deepEqual(authorizeResult, {
+        "teamId": "T111",
+        "botId": "B02SS7QU407",
+        "botUserId": "U...",
+        "botToken": "xoxb-...",
+        "userToken": undefined,
+      });
+    });
+    it('should run authorize even if there are null objects in data', async () => {
+      const storedInstallation = {
+        // https://github.com/slackapi/template-triage-bot/blob/c1e54fb9d760b46cc8809c57e307061fdb3e0a91/app.js#L51-L55
+        id: "T999", // template-triage-bot specific
+        name: 'My Team', // template-triage-bot specific
+        appId: 'A111',
+        tokenType: 'bot',
+        authVersion: 'v2',
+        bot: {
+          id: 'B111',
+          userId: 'U111',
+          scopes: [
+            'channels:history',
+            'channels:join',
+            'channels:read',
+            'chat:write',
+            'commands',
+            'files:write',
+          ],
+          token: 'xoxb-____',
+        },
+        enterprise: null,
+        team: null, // v2.3 does not work with this data due to "Error: Cannot read property 'id' of null"
+        isEnterpriseInstall: false,
+        user: null,
+      }
+      const installationStore = {
+        fetchInstallation: (_) => {
+          return new Promise((resolve) => {
+            resolve(storedInstallation);
+          });
+        },
+        storeInstallation: () => {},
+        deleteInstallation: (_) => {},
+      }
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
+      const authorizeResult = await installer.authorize({ teamId: 'T111' });
+      assert.deepEqual(authorizeResult, {
+        "teamId": "T111",
+        "botId": "B111",
+        "botUserId": "U111",
+        "botToken": "xoxb-____",
+      });
+    });
   });
 
   describe('ClearStateStore', async () => {

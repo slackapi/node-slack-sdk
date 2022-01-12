@@ -134,6 +134,9 @@ export class InstallProvider {
    */
   public async authorize(source: InstallationQuery<boolean>): Promise<AuthorizeResult> {
     try {
+      // Note that `queryResult` may unexpectedly include null values for some properties.
+      // For example, MongoDB can often save properties as null for some reasons.
+      // Inside this method, we should alwayss check if a value is either undefined or null.
       let queryResult;
       if (source.isEnterpriseInstall) {
         queryResult = await this.installationStore.fetchInstallation(source as InstallationQuery<true>, this.logger);
@@ -141,19 +144,22 @@ export class InstallProvider {
         queryResult = await this.installationStore.fetchInstallation(source as InstallationQuery<false>, this.logger);
       }
 
-      if (queryResult === undefined) {
+      if (queryResult === undefined || queryResult === null) {
         throw new Error('Failed fetching data from the Installation Store');
       }
 
       const authResult: AuthorizeResult = {};
-      authResult.userToken = queryResult.user.token;
 
-      if (queryResult.team !== undefined) {
+      if (queryResult.user) {
+        authResult.userToken = queryResult.user.token;
+      }
+
+      if (queryResult.team?.id) {
         authResult.teamId = queryResult.team.id;
-      } else if (source.teamId !== undefined) {
+      } else if (source?.teamId) {
         /**
-         *  since queryResult is a org installation, it won't have team.id. If one was passed in via source,
-         *  we should add it to the authResult
+         * Since queryResult is a org installation, it won't have team.id.
+         * If one was passed in via source, we should add it to the authResult.
          */
         authResult.teamId = source.teamId;
       }
@@ -162,20 +168,20 @@ export class InstallProvider {
         authResult.enterpriseId = queryResult?.enterprise?.id || source?.enterpriseId;
       }
 
-      if (queryResult.bot !== undefined) {
+      if (queryResult.bot) {
         authResult.botToken = queryResult.bot.token;
         authResult.botId = queryResult.bot.id;
         authResult.botUserId = queryResult.bot.userId;
 
         // Token Rotation Enabled (Bot Token)
-        if (queryResult.bot.refreshToken !== undefined) {
+        if (queryResult.bot.refreshToken) {
           authResult.botRefreshToken = queryResult.bot.refreshToken;
           authResult.botTokenExpiresAt = queryResult.bot.expiresAt; // utc, seconds
         }
       }
 
       // Token Rotation Enabled (User Token)
-      if (queryResult.user.refreshToken !== undefined) {
+      if (queryResult.user?.refreshToken) {
         authResult.userRefreshToken = queryResult.user.refreshToken;
         authResult.userTokenExpiresAt = queryResult.user.expiresAt; // utc, seconds
       }
@@ -186,7 +192,7 @@ export class InstallProvider {
       * If the token has expired, or will expire within 2 hours, the token is refreshed and
       * the `authResult` and `Installation` are updated with the new values.
       */
-      if (authResult.botRefreshToken !== undefined || authResult.userRefreshToken !== undefined) {
+      if (authResult.botRefreshToken || authResult.userRefreshToken) {
         const currentUTCSec = Math.floor(Date.now() / 1000); // seconds
         const tokensToRefresh: string[] = detectExpiredOrExpiringTokens(authResult, currentUTCSec);
 
@@ -271,7 +277,7 @@ export class InstallProvider {
   public async generateInstallUrl(options: InstallURLOptions, stateVerification: boolean = true): Promise<string> {
     const slackURL = new URL(this.authorizationUrl);
 
-    if (options.scopes === undefined) {
+    if (options.scopes === undefined || options.scopes === null) {
       throw new GenerateInstallUrlError('You must provide a scope parameter when calling generateInstallUrl');
     }
 
@@ -809,14 +815,16 @@ function detectExpiredOrExpiringTokens(authResult: AuthorizeResult, currentUTCSe
   const tokensToRefresh: string[] = [];
   const EXPIRY_WINDOW: number = 7200; // 2 hours
 
-  if (authResult.botRefreshToken !== undefined && authResult.botTokenExpiresAt !== undefined) {
+  if (authResult.botRefreshToken &&
+    (authResult.botTokenExpiresAt !== undefined && authResult.botTokenExpiresAt !== null)) {
     const botTokenExpiresIn = authResult.botTokenExpiresAt - currentUTCSec;
     if (botTokenExpiresIn <= EXPIRY_WINDOW) {
       tokensToRefresh.push(authResult.botRefreshToken);
     }
   }
 
-  if (authResult.userRefreshToken !== undefined && authResult.userTokenExpiresAt !== undefined) {
+  if (authResult.userRefreshToken &&
+    (authResult.userTokenExpiresAt !== undefined && authResult.userTokenExpiresAt !== null)) {
     const userTokenExpiresIn = authResult.userTokenExpiresAt - currentUTCSec;
     if (userTokenExpiresIn <= EXPIRY_WINDOW) {
       tokensToRefresh.push(authResult.userRefreshToken);
