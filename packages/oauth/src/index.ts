@@ -154,7 +154,7 @@ export class InstallProvider {
         authResult.userToken = queryResult.user.token;
       }
 
-      if (queryResult?.team?.id) {
+      if (queryResult.team?.id) {
         authResult.teamId = queryResult.team.id;
       } else if (source?.teamId) {
         /**
