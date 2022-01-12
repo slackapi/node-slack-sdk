@@ -437,7 +437,7 @@ describe('OAuth', async () => {
         verifyStateParam: sinon.fake.resolves({})
       }
     });
-    it('should call the failure callback due to missing code query parameter on the URL', async () => {
+    it('should call the failure callback with a valid installOptions due to missing code query parameter on the URL', async () => {
       const req = { headers: { host: 'example.com'},  url: 'http://example.com' };
       let sent = false;
       const res = { send: () => { sent = true; } };
@@ -447,8 +447,10 @@ describe('OAuth', async () => {
           assert.fail('should have failed');
         },
         failure: async (error, installOptions, req, res) => {
+          // To detect future regressions, we verify if there is a valid installOptions here
+          // Refer to https://github.com/slackapi/node-slack-sdk/pull/1410 for the context
           assert.isDefined(installOptions);
-          assert.equal(error.code, ErrorCode.MissingCodeError)
+          assert.equal(error.code, ErrorCode.MissingCodeError);
           res.send('failure');
         },
       }
