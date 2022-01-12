@@ -44,12 +44,13 @@ export interface Latest {
   client_msg_id?: string;
   user?:          string;
   team?:          string;
+  bot_profile?:   BotProfile;
 }
 
 export interface Block {
   type?:         string;
+  elements?:     Element[];
   block_id?:     string;
-  elements?:     BlockElement[];
   fallback?:     string;
   image_url?:    string;
   image_width?:  number;
@@ -72,9 +73,8 @@ export interface Accessory {
   image_bytes?:  number;
 }
 
-export interface BlockElement {
+export interface Element {
   type?:                            string;
-  elements?:                        ElementElementClass[];
   text?:                            Text;
   action_id?:                       string;
   url?:                             string;
@@ -116,11 +116,6 @@ export interface Text {
   verbatim?: boolean;
 }
 
-export interface ElementElementClass {
-  type?: string;
-  text?: string;
-}
-
 export interface Filter {
   exclude_external_shared_channels?: boolean;
   exclude_bot_users?:                boolean;
@@ -131,4 +126,20 @@ export interface InitialOption {
   value?:       string;
   description?: Text;
   url?:         string;
+}
+
+export interface BotProfile {
+  id?:      string;
+  deleted?: boolean;
+  name?:    string;
+  updated?: number;
+  app_id?:  string;
+  icons?:   Icons;
+  team_id?: string;
+}
+
+export interface Icons {
+  image_36?: string;
+  image_48?: string;
+  image_72?: string;
 }

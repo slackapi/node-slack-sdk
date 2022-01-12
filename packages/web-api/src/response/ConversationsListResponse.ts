@@ -20,39 +20,39 @@ export type ConversationsListResponse = WebAPICallResult & {
 
 export interface Channel {
   id?:                         string;
+  created?:                    number;
+  is_archived?:                boolean;
+  is_im?:                      boolean;
+  is_org_shared?:              boolean;
+  user?:                       string;
+  is_user_deleted?:            boolean;
+  priority?:                   number;
   name?:                       string;
   is_channel?:                 boolean;
   is_group?:                   boolean;
-  is_im?:                      boolean;
-  created?:                    number;
-  is_archived?:                boolean;
+  is_mpim?:                    boolean;
+  is_private?:                 boolean;
   is_general?:                 boolean;
   unlinked?:                   number;
   name_normalized?:            string;
   is_shared?:                  boolean;
+  is_pending_ext_shared?:      boolean;
+  pending_shared?:             string[];
   creator?:                    string;
-  is_moved?:                   number;
   is_ext_shared?:              boolean;
+  shared_team_ids?:            string[];
+  pending_connected_team_ids?: string[];
+  is_member?:                  boolean;
+  topic?:                      Purpose;
+  purpose?:                    Purpose;
+  previous_names?:             string[];
+  num_members?:                number;
+  is_moved?:                   number;
   is_global_shared?:           boolean;
   is_org_default?:             boolean;
   is_org_mandatory?:           boolean;
-  is_org_shared?:              boolean;
-  pending_shared?:             string[];
-  pending_connected_team_ids?: string[];
-  is_pending_ext_shared?:      boolean;
   conversation_host_id?:       string;
-  is_member?:                  boolean;
-  is_private?:                 boolean;
-  is_mpim?:                    boolean;
-  topic?:                      Purpose;
-  purpose?:                    Purpose;
-  num_members?:                number;
-  shared_team_ids?:            string[];
   internal_team_ids?:          string[];
-  previous_names?:             string[];
-  user?:                       string;
-  is_user_deleted?:            boolean;
-  priority?:                   number;
 }
 
 export interface Purpose {

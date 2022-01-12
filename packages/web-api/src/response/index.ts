@@ -2,6 +2,7 @@ export { AdminAnalyticsGetFileResponse } from './AdminAnalyticsGetFileResponse';
 export { AdminAppsApproveResponse } from './AdminAppsApproveResponse';
 export { AdminAppsApprovedListResponse } from './AdminAppsApprovedListResponse';
 export { AdminAppsClearResolutionResponse } from './AdminAppsClearResolutionResponse';
+export { AdminAppsRequestsCancelResponse } from './AdminAppsRequestsCancelResponse';
 export { AdminAppsRequestsListResponse } from './AdminAppsRequestsListResponse';
 export { AdminAppsRestrictResponse } from './AdminAppsRestrictResponse';
 export { AdminAppsRestrictedListResponse } from './AdminAppsRestrictedListResponse';
