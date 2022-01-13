@@ -201,6 +201,7 @@ import {
   WorkflowsStepCompletedResponse,
   WorkflowsStepFailedResponse,
   WorkflowsUpdateStepResponse,
+  AdminAppsRequestsCancelResponse,
 } from './response';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
@@ -249,6 +250,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       },
       clearResolution: bindApiCall<AdminAppsClearResolutionArguments, AdminAppsClearResolutionResponse>(this, 'admin.apps.clearResolution'),
       requests: {
+        cancel: bindApiCall<AdminAppsRequestsCancelArguments, AdminAppsRequestsCancelResponse>(this, 'admin.apps.requests.cancel'),
         list: bindApiCall<AdminAppsRequestsListArguments, AdminAppsRequestsListResponse>(this, 'admin.apps.requests.list'),
       },
       restrict: bindApiCall<AdminAppsRestrictArguments, AdminAppsRestrictResponse>(this, 'admin.apps.restrict'),
@@ -841,6 +843,11 @@ export interface AdminAppsClearResolutionArguments extends WebAPICallOptions {
   team_id?: string;
 }
 cursorPaginationEnabledMethods.add('admin.apps.approved.list');
+export interface AdminAppsRequestsCancelArguments extends WebAPICallOptions, TokenOverridable {
+  request_id: string;
+  enterprise_id?: string;
+  team_id?: string;
+}
 export interface AdminAppsRequestsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   team_id?: string;
 }
