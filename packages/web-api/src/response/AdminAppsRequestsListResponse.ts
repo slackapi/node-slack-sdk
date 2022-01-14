@@ -24,6 +24,7 @@ export interface AppRequest {
   app?:                      App;
   user?:                     User;
   team?:                     Team;
+  scopes?:                   any[];
   previous_resolution?:      PreviousResolution;
   is_user_app_collaborator?: boolean;
   message?:                  string;
@@ -60,6 +61,7 @@ export interface Icons {
 
 export interface PreviousResolution {
   status?: string;
+  scopes?: any[];
 }
 
 export interface Team {

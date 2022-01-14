@@ -50,11 +50,11 @@ export interface Block {
   type?:            string;
   block_id?:        string;
   label?:           Close;
-  element?:         Element;
+  element?:         PurpleElement;
   dispatch_action?: boolean;
   hint?:            Close;
   optional?:        boolean;
-  elements?:        Element[];
+  elements?:        ElementElement[];
   fallback?:        string;
   image_url?:       string;
   image_width?:     number;
@@ -77,7 +77,7 @@ export interface Accessory {
   image_bytes?:  number;
 }
 
-export interface Element {
+export interface PurpleElement {
   type?:                            string;
   action_id?:                       string;
   placeholder?:                     Close;
@@ -108,6 +108,7 @@ export interface Element {
   image_width?:                     number;
   image_height?:                    number;
   image_bytes?:                     number;
+  option_groups?:                   OptionGroup[];
   initial_user?:                    string;
 }
 
@@ -137,6 +138,7 @@ export interface DispatchActionConfig {
 }
 
 export interface Filter {
+  include?:                          any[];
   exclude_external_shared_channels?: boolean;
   exclude_bot_users?:                boolean;
 }
@@ -146,6 +148,46 @@ export interface Option {
   value?:       string;
   description?: Close;
   url?:         string;
+}
+
+export interface OptionGroup {
+  label?:   Close;
+  options?: Option[];
+}
+
+export interface ElementElement {
+  type?:                            string;
+  text?:                            Close;
+  action_id?:                       string;
+  url?:                             string;
+  value?:                           string;
+  style?:                           string;
+  confirm?:                         Confirm;
+  options?:                         Option[];
+  initial_options?:                 Option[];
+  focus_on_load?:                   boolean;
+  initial_option?:                  Option;
+  placeholder?:                     Close;
+  initial_channel?:                 string;
+  response_url_enabled?:            boolean;
+  initial_channels?:                string[];
+  max_selected_items?:              number;
+  initial_conversation?:            string;
+  default_to_current_conversation?: boolean;
+  filter?:                          Filter;
+  initial_conversations?:           string[];
+  initial_date?:                    string;
+  initial_time?:                    string;
+  min_query_length?:                number;
+  image_url?:                       string;
+  alt_text?:                        string;
+  fallback?:                        string;
+  image_width?:                     number;
+  image_height?:                    number;
+  image_bytes?:                     number;
+  option_groups?:                   OptionGroup[];
+  initial_user?:                    string;
+  initial_users?:                   string[];
 }
 
 export interface State {

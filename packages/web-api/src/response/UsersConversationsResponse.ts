@@ -54,6 +54,7 @@ export interface Channel {
   priority?:                   number;
   user?:                       string;
   is_user_deleted?:            boolean;
+  parent_conversation?:        string;
 }
 
 export interface Purpose {
