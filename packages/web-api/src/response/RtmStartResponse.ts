@@ -1020,6 +1020,7 @@ export interface SelfPrefs {
   user_expectations_survey_last_trigger_attempt?:             number;
   tz?:                                                        string;
   locales_enabled?:                                           LocalesEnabled;
+  phc_viewed?:                                                string;
 }
 
 export interface LocalesEnabled {

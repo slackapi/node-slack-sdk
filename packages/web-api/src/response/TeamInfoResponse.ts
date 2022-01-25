@@ -29,6 +29,7 @@ export interface Team {
   enterprise_name?:   string;
   enterprise_domain?: string;
   discoverable?:      string;
+  avatar_base_url?:   string;
 }
 
 export interface Icon {

@@ -29,6 +29,7 @@ export interface Team {
   is_verified?:       boolean;
   enterprise_domain?: string;
   url?:               string;
+  avatar_base_url?:   string;
 }
 
 export interface Icon {
