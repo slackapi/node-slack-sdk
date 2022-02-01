@@ -49,8 +49,10 @@ export interface Latest {
 
 export interface Block {
   type?:         string;
-  elements?:     Accessory[];
   block_id?:     string;
+  text?:         Text;
+  accessory?:    Accessory;
+  elements?:     Accessory[];
   fallback?:     string;
   image_url?:    string;
   image_width?:  number;
@@ -58,20 +60,20 @@ export interface Block {
   image_bytes?:  number;
   alt_text?:     string;
   title?:        Text;
-  text?:         Text;
   fields?:       Text[];
-  accessory?:    Accessory;
 }
 
 export interface Accessory {
   type?:                            string;
-  text?:                            Text;
   action_id?:                       string;
+  options?:                         Option[];
+  min_query_length?:                number;
+  text?:                            Text;
   url?:                             string;
   value?:                           string;
   style?:                           string;
   confirm?:                         Confirm;
-  options?:                         Option[];
+  accessibility_label?:             string;
   initial_options?:                 Option[];
   focus_on_load?:                   boolean;
   initial_option?:                  Option;
@@ -86,7 +88,6 @@ export interface Accessory {
   initial_conversations?:           string[];
   initial_date?:                    string;
   initial_time?:                    string;
-  min_query_length?:                number;
   image_url?:                       string;
   alt_text?:                        string;
   fallback?:                        string;

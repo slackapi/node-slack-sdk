@@ -155,6 +155,7 @@ export interface Accessory {
   value?:                           string;
   style?:                           string;
   confirm?:                         AccessoryConfirm;
+  accessibility_label?:             string;
   options?:                         InitialOptionElement[];
   initial_options?:                 InitialOptionElement[];
   focus_on_load?:                   boolean;

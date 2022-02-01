@@ -152,6 +152,7 @@ export interface Accessory {
   value?:                           string;
   style?:                           string;
   confirm?:                         AccessoryConfirm;
+  accessibility_label?:             string;
   options?:                         InitialOptionElement[];
   initial_options?:                 InitialOptionElement[];
   focus_on_load?:                   boolean;
@@ -177,6 +178,7 @@ export interface Accessory {
   option_groups?:                   AccessoryOptionGroup[];
   initial_user?:                    string;
   initial_users?:                   string[];
+  emoji?:                           boolean;
   verbatim?:                        boolean;
 }
 
