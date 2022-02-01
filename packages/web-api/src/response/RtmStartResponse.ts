@@ -265,6 +265,7 @@ export interface Accessory {
   value?:                           string;
   style?:                           string;
   confirm?:                         AccessoryConfirm;
+  accessibility_label?:             string;
   options?:                         InitialOptionElement[];
   initial_options?:                 InitialOptionElement[];
   focus_on_load?:                   boolean;
@@ -1292,6 +1293,7 @@ export interface TeamPrefs {
   identity_links_prefs?:                               EnterpriseTeamCreationRequest;
   magic_unfurls_enabled?:                              boolean;
   invites_limit?:                                      boolean;
+  show_mobile_promos?:                                 boolean;
 }
 
 export interface CallsApps {

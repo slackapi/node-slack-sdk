@@ -94,6 +94,7 @@ export interface PurpleElement {
   url?:                             string;
   value?:                           string;
   style?:                           string;
+  accessibility_label?:             string;
   initial_channel?:                 string;
   response_url_enabled?:            boolean;
   initial_conversation?:            string;
@@ -163,6 +164,7 @@ export interface ElementElement {
   value?:                           string;
   style?:                           string;
   confirm?:                         Confirm;
+  accessibility_label?:             string;
   options?:                         Option[];
   initial_options?:                 Option[];
   focus_on_load?:                   boolean;

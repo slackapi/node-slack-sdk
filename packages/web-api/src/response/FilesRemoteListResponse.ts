@@ -39,11 +39,6 @@ export interface File {
   username?:                  string;
   url_private?:               string;
   media_display_type?:        string;
-  permalink?:                 string;
-  channels?:                  string[];
-  groups?:                    string[];
-  ims?:                       string[];
-  comments_count?:            number;
   thumb_64?:                  string;
   thumb_80?:                  string;
   thumb_360?:                 string;
@@ -69,6 +64,11 @@ export interface File {
   original_w?:                number;
   original_h?:                number;
   thumb_tiny?:                string;
+  permalink?:                 string;
+  channels?:                  string[];
+  groups?:                    string[];
+  ims?:                       string[];
+  comments_count?:            number;
   subject?:                   string;
   non_owner_editable?:        boolean;
   editor?:                    string;
@@ -157,6 +157,7 @@ export interface Accessory {
   value?:                           string;
   style?:                           string;
   confirm?:                         Confirm;
+  accessibility_label?:             string;
   options?:                         Option[];
   initial_options?:                 Option[];
   focus_on_load?:                   boolean;

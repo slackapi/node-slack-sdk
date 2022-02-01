@@ -76,6 +76,7 @@ export interface Accessory {
   value?:                           string;
   style?:                           string;
   confirm?:                         Confirm;
+  accessibility_label?:             string;
   options?:                         Option[];
   initial_options?:                 Option[];
   focus_on_load?:                   boolean;
