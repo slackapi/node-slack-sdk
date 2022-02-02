@@ -5,7 +5,6 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "dependencies": {},
   "devDependencies": {
     "quicktype": "^15.0.260"
   }

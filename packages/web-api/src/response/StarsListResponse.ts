@@ -152,7 +152,7 @@ export interface ItemFile {
   reactions?:                 Reaction[];
   comments_count?:            number;
   attachments?:               Attachment[];
-  blocks?:                    Block[];
+  blocks?:                    PurpleBlock[];
 }
 
 export interface Attachment {
@@ -201,7 +201,7 @@ export interface Attachment {
   ts?:                    string;
   mrkdwn_in?:             string[];
   actions?:               Action[];
-  blocks?:                Block[];
+  blocks?:                AttachmentBlock[];
   files?:                 FileElement[];
   filename?:              string;
   size?:                  number;
@@ -243,20 +243,30 @@ export interface SelectedOptionElement {
   value?: string;
 }
 
-export interface Block {
-  type?:         string;
-  elements?:     Accessory[];
-  block_id?:     string;
-  fallback?:     string;
-  image_url?:    string;
-  image_width?:  number;
-  image_height?: number;
-  image_bytes?:  number;
-  alt_text?:     string;
-  title?:        Text;
-  text?:         Text;
-  fields?:       Text[];
-  accessory?:    Accessory;
+export interface AttachmentBlock {
+  type?:                     string;
+  elements?:                 Accessory[];
+  block_id?:                 string;
+  call_id?:                  string;
+  api_decoration_available?: boolean;
+  call?:                     Call;
+  external_id?:              string;
+  source?:                   string;
+  text?:                     Text;
+  fallback?:                 string;
+  image_url?:                string;
+  image_width?:              number;
+  image_height?:             number;
+  image_bytes?:              number;
+  alt_text?:                 string;
+  title?:                    Text;
+  fields?:                   Text[];
+  accessory?:                Accessory;
+  label?:                    Text;
+  element?:                  Accessory;
+  dispatch_action?:          boolean;
+  hint?:                     Text;
+  optional?:                 boolean;
 }
 
 export interface Accessory {
@@ -332,6 +342,53 @@ export interface InitialOptionElement {
 export interface AccessoryOptionGroup {
   label?:   Text;
   options?: InitialOptionElement[];
+}
+
+export interface Call {
+  v1?:                 V1;
+  media_backend_type?: string;
+}
+
+export interface V1 {
+  id?:                   string;
+  app_id?:               string;
+  app_icon_urls?:        AppIconUrls;
+  date_start?:           number;
+  active_participants?:  Participant[];
+  all_participants?:     Participant[];
+  display_id?:           string;
+  join_url?:             string;
+  desktop_app_join_url?: string;
+  name?:                 string;
+  created_by?:           string;
+  date_end?:             number;
+  channels?:             string[];
+  is_dm_call?:           boolean;
+  was_rejected?:         boolean;
+  was_missed?:           boolean;
+  was_accepted?:         boolean;
+  has_ended?:            boolean;
+}
+
+export interface Participant {
+  slack_id?:     string;
+  external_id?:  string;
+  display_name?: string;
+  avatar_url?:   string;
+}
+
+export interface AppIconUrls {
+  image_32?:       string;
+  image_36?:       string;
+  image_48?:       string;
+  image_64?:       string;
+  image_72?:       string;
+  image_96?:       string;
+  image_128?:      string;
+  image_192?:      string;
+  image_512?:      string;
+  image_1024?:     string;
+  image_original?: string;
 }
 
 export interface Field {
@@ -452,7 +509,7 @@ export interface FileElement {
   pinned_to?:                 string[];
   reactions?:                 Reaction[];
   comments_count?:            number;
-  blocks?:                    Block[];
+  blocks?:                    AttachmentBlock[];
 }
 
 export interface Cc {
@@ -506,6 +563,22 @@ export interface Metadata {
   thumb_tiny?:  string;
 }
 
+export interface PurpleBlock {
+  type?:         string;
+  elements?:     Accessory[];
+  block_id?:     string;
+  fallback?:     string;
+  image_url?:    string;
+  image_width?:  number;
+  image_height?: number;
+  image_bytes?:  number;
+  alt_text?:     string;
+  title?:        Text;
+  text?:         Text;
+  fields?:       Text[];
+  accessory?:    Accessory;
+}
+
 export interface Message {
   bot_id?:            string;
   type?:              string;
@@ -518,7 +591,7 @@ export interface Message {
   permalink?:         string;
   subtype?:           string;
   username?:          string;
-  blocks?:            Block[];
+  blocks?:            AttachmentBlock[];
   client_msg_id?:     string;
   thread_ts?:         string;
   reply_count?:       number;
