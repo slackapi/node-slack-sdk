@@ -1080,6 +1080,7 @@ export interface SelfPrefs {
   locales_enabled?:                                           LocalesEnabled;
   phc_viewed?:                                                string;
   seen_a11y_pref_setup_coachmark?:                            boolean;
+  enable_file_browser_view_for_docs?:                         boolean;
 }
 
 export interface LocalesEnabled {
@@ -1352,6 +1353,9 @@ export interface TeamPrefs {
   magic_unfurls_enabled?:                              boolean;
   invites_limit?:                                      boolean;
   show_mobile_promos?:                                 boolean;
+  dm_retention_redaction_duration?:                    number;
+  private_retention_redaction_duration?:               number;
+  public_retention_redaction_duration?:                number;
 }
 
 export interface CallsApps {

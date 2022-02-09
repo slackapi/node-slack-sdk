@@ -57,17 +57,17 @@ export interface File {
   thumb_360?:                 string;
   thumb_360_w?:               number;
   thumb_360_h?:               number;
+  thumb_160?:                 string;
+  original_w?:                number;
+  original_h?:                number;
+  thumb_tiny?:                string;
   thumb_480?:                 string;
   thumb_480_w?:               number;
   thumb_480_h?:               number;
-  thumb_160?:                 string;
   thumb_360_gif?:             string;
   thumb_480_gif?:             string;
-  original_w?:                number;
-  original_h?:                number;
   deanimate?:                 string;
   deanimate_gif?:             string;
-  thumb_tiny?:                string;
   thumb_720?:                 string;
   thumb_720_w?:               number;
   thumb_720_h?:               number;
@@ -80,6 +80,7 @@ export interface File {
   thumb_1024?:                string;
   thumb_1024_w?:              number;
   thumb_1024_h?:              number;
+  image_exif_rotation?:       number;
   subject?:                   string;
   non_owner_editable?:        boolean;
   editor?:                    string;
@@ -109,7 +110,6 @@ export interface File {
   thumb_pdf_w?:               string;
   thumb_pdf_h?:               string;
   converted_pdf?:             string;
-  image_exif_rotation?:       number;
   pjpeg?:                     string;
   has_rich_preview?:          boolean;
   plain_text?:                string;
