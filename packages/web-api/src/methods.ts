@@ -76,6 +76,7 @@ import {
   AdminUsersSetExpirationResponse,
   AdminUsersSetOwnerResponse,
   AdminUsersSetRegularResponse,
+  AdminUsersUnsupportedVersionsExportResponse,
   ApiTestResponse,
   AppsConnectionsOpenResponse,
   AppsEventAuthorizationsListResponse,
@@ -431,6 +432,11 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         ),
         clearSettings: bindApiCall<AdminUsersSessionClearSettingsArguments, AdminUsersSessionClearSettingsResponse>(
           this, 'admin.users.session.clearSettings',
+        ),
+      },
+      unsupportedVersions: {
+        export: bindApiCall<AdminUsersUnsupportedVersionsExportArguments, AdminUsersUnsupportedVersionsExportResponse>(
+          this, 'admin.users.unsupportedVersions.export',
         ),
       },
       setAdmin: bindApiCall<AdminUsersSetAdminArguments, AdminUsersSetAdminResponse>(this, 'admin.users.setAdmin'),
@@ -1164,6 +1170,11 @@ export interface AdminUsersSessionSetSettingsArguments extends WebAPICallOptions
 }
 export interface AdminUsersSessionClearSettingsArguments extends WebAPICallOptions, TokenOverridable {
   user_ids: string[];
+}
+
+export interface AdminUsersUnsupportedVersionsExportArguments extends WebAPICallOptions, TokenOverridable {
+  date_end_of_support?: number;
+  date_sessions_started?: number;
 }
 
 /*

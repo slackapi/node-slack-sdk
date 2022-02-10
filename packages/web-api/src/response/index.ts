@@ -76,6 +76,7 @@ export { AdminUsersSetAdminResponse } from './AdminUsersSetAdminResponse';
 export { AdminUsersSetExpirationResponse } from './AdminUsersSetExpirationResponse';
 export { AdminUsersSetOwnerResponse } from './AdminUsersSetOwnerResponse';
 export { AdminUsersSetRegularResponse } from './AdminUsersSetRegularResponse';
+export { AdminUsersUnsupportedVersionsExportResponse } from './AdminUsersUnsupportedVersionsExportResponse';
 export { ApiTestResponse } from './ApiTestResponse';
 export { AppsConnectionsOpenResponse } from './AppsConnectionsOpenResponse';
 export { AppsEventAuthorizationsListResponse } from './AppsEventAuthorizationsListResponse';
