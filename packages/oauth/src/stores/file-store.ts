@@ -63,11 +63,24 @@ export default class FileInstallationStore implements InstallationStore {
       throw new Error('enterpriseId is required to fetch data of an enterprise installation');
     }
 
-    // TODO :: introduce support for user tokens + querying using userId
-
     try {
       const data = fs.readFileSync(path.resolve(`${installationDir}/app-latest`));
       const installation: Installation = JSON.parse(data.toString());
+      if (query.userId && installation.user.id !== query.userId) {
+        try {
+          const userData = fs.readFileSync(path.resolve(`${installationDir}/user-${query.userId}-latest`));
+          if (userData !== undefined && userData !== null) {
+            const userInstallation: Installation = JSON.parse(userData.toString());
+            installation.user = userInstallation.user;
+          }
+        } catch (err) {
+          logger?.debug(`The user-token installation for the request user (user_id: ${query.userId}) was not found.`);
+          delete installation.user.token;
+          delete installation.user.refreshToken;
+          delete installation.user.expiresAt;
+          delete installation.user.scopes;
+        }
+      }
       return installation;
     } catch (err) {
       throw new Error('Failed to fetch data from FileInstallationStore');
