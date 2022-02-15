@@ -203,6 +203,10 @@ import {
   WorkflowsStepFailedResponse,
   WorkflowsUpdateStepResponse,
   AdminAppsRequestsCancelResponse,
+  BookmarksAddResponse,
+  BookmarksEditResponse,
+  BookmarksListResponse,
+  BookmarksRemoveResponse,
 } from './response';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
@@ -481,6 +485,13 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly bots = {
     info: bindApiCall<BotsInfoArguments, BotsInfoResponse>(this, 'bots.info'),
+  };
+
+  public readonly bookmarks = {
+    add: bindApiCall<BookmarksAddArguments, BookmarksAddResponse>(this, 'bookmarks.add'),
+    edit: bindApiCall<BookmarksEditArguments, BookmarksEditResponse>(this, 'bookmarks.edit'),
+    list: bindApiCall<BookmarksListArguments, BookmarksListResponse>(this, 'bookmarks.list'),
+    remove: bindApiCall<BookmarksRemoveArguments, BookmarksRemoveResponse>(this, 'bookmarks.remove'),
   };
 
   public readonly calls = {
@@ -1220,6 +1231,36 @@ export interface AuthTestArguments extends WebAPICallOptions, TokenOverridable {
 export interface BotsInfoArguments extends WebAPICallOptions, TokenOverridable {
   bot?: string;
   team_id?: string;
+}
+
+/*
+ * `bookmarks.*`
+ */
+export interface BookmarksAddArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+  title: string;
+  type: string;
+  emoji?: string;
+  entity_id?: string;
+  link?: string;
+  parent_id?: string;
+}
+
+export interface BookmarksEditArguments extends WebAPICallOptions, TokenOverridable {
+  bookmark_id: string;
+  channel_id: string;
+  emoji?: string;
+  link?: string;
+  title?: string;
+}
+
+export interface BookmarksListArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+}
+
+export interface BookmarksRemoveArguments extends WebAPICallOptions, TokenOverridable {
+  bookmark_id: string;
+  channel_id: string;
 }
 
 /*
