@@ -1081,6 +1081,7 @@ export interface SelfPrefs {
   phc_viewed?:                                                string;
   seen_a11y_pref_setup_coachmark?:                            boolean;
   enable_file_browser_view_for_docs?:                         boolean;
+  enable_shortcuts_view?:                                     boolean;
 }
 
 export interface LocalesEnabled {

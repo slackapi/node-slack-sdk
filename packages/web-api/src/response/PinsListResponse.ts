@@ -22,6 +22,7 @@ export interface Item {
   created?:    number;
   created_by?: string;
   file?:       File;
+  comment?:    string;
 }
 
 export interface File {
