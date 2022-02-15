@@ -414,7 +414,7 @@ export class WebClient extends Methods {
             throw Error(`A rate limit was exceeded (url: ${url}, retry-after: ${retrySec})`);
           } else {
             // TODO: turn this into some CodedError
-            throw new AbortError(new Error(`Retry header did not contain a valid timeout (url: ${url})`));
+            throw new AbortError(new Error(`Retry header did not contain a valid timeout (url: ${url}, retry-after header: ${response.headers['retry-after']})`));
           }
         }
 

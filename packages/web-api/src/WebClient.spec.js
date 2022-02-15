@@ -1143,6 +1143,7 @@ describe('WebClient', function () {
       client.apiCall('method')
         .catch((err) => {
           assert.instanceOf(err, Error);
+          assert.include(err.message, 'retry-after header: notanumber', 'Raw retry-after header value included in error');
           scope.done();
           done();
         });
