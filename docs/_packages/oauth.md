@@ -7,7 +7,7 @@ anchor_links_header: Usage
 
 # Slack OAuth
 
-The `@slack/oauth` package makes it simple to setup the OAuth flow for Slack apps. It supports [V2 OAuth](https://api.slack.com/authentication/oauth-v2) for Slack Apps as well as [V1 OAuth](https://api.slack.com/docs/oauth) for [Classic Slack apps](https://api.slack.com/authentication/quickstart). Slack apps that are installed in multiple workspaces, like in the App Directory or in an Enterprise Grid, will need to implement OAuth and store information about each of those installations (such as access tokens). 
+The `@slack/oauth` package makes it simple to setup the OAuth flow for Slack apps. It supports [V2 OAuth](https://api.slack.com/authentication/oauth-v2) for Slack Apps as well as [V1 OAuth](https://api.slack.com/docs/oauth) for [Classic Slack apps](https://api.slack.com/authentication/quickstart). Slack apps that are installed in multiple workspaces, like in the App Directory or in an Enterprise Grid, will need to implement OAuth and store information about each of those installations (such as access tokens).
 
 The package handles URL generation, state verification, and authorization code exchange for access tokens. It also provides an interface for easily plugging in your own database for saving and retrieving installation data.
 
@@ -66,7 +66,7 @@ const installer = new InstallProvider({
 
 You'll need an installation URL when you want to test your own installation, in order to submit your app to the App Directory, and if you need an additional authorizations (user tokens) from users inside a team when your app is already installed. These URLs are also commonly used on your own webpages as the link for an ["Add to Slack" button](https://api.slack.com/docs/slack-button). You may also need to generate an installation URL dynamically when an option's value is only known at runtime, and in this case you would redirect the user to the installation URL.
 
-The `installProvider.generateInstallUrl()` method will create an installation URL for you. It takes in an options argument which at a minimum contains a `scopes` property. `installProvider.generateInstallUrl()` options argument also supports `metadata`, `teamId`, `redirectUri` and `userScopes` properties. 
+The `installProvider.generateInstallUrl()` method will create an installation URL for you. It takes in an options argument which at a minimum contains a `scopes` property. `installProvider.generateInstallUrl()` options argument also supports `metadata`, `teamId`, `redirectUri` and `userScopes` properties.
 
 ```javascript
 installer.generateInstallUrl({
@@ -79,7 +79,7 @@ installer.generateInstallUrl({
 <strong><i>Adding custom metadata to the installation URL</i></strong>
 </summary>
 
-You might want to present an "Add to Slack" button while the user is in the middle of some other tasks (e.g. linking their Slack account to your service). In these situations, you want to bring the user back to where they left off after the app installation is complete. Custom metadata can be used to capture partial (incomplete) information about the task (like which page they were on or inputs to form elements the user began to fill out) in progress. Then when the installation is complete, that custom metadata will be available for your app to recreate exactly where they left off. You must also use a [custom success handler when handling the OAuth redirect](#handling-the-oauth-redirect) to read the custom metadata after the installation is complete. 
+You might want to present an "Add to Slack" button while the user is in the middle of some other tasks (e.g. linking their Slack account to your service). In these situations, you want to bring the user back to where they left off after the app installation is complete. Custom metadata can be used to capture partial (incomplete) information about the task (like which page they were on or inputs to form elements the user began to fill out) in progress. Then when the installation is complete, that custom metadata will be available for your app to recreate exactly where they left off. You must also use a [custom success handler when handling the OAuth redirect](#handling-the-oauth-redirect) to read the custom metadata after the installation is complete.
 
 ```javascript
 installer.generateInstallUrl({
@@ -135,13 +135,15 @@ If you decide you need custom success or failure behaviors (ex: wanting to show 
 
 ```javascript
 const callbackOptions = {
-  success: (installation, metadata, req, res) => {
+  success: (installation, installOptions, req, res) => {
     // Do custom success logic here
-    // tip: you can add javascript and css in the htmlResponse using the <script> and <style> tags
+    // Tips:
+    // - Inspect the metadata with `installOptions.metadata`
+    // - Add javascript and css in the htmlResponse using the <script> and <style> tags
     const htmlResponse = `<html><body>Success!</body></html>`
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
     res.end(htmlResponse);
-  }, 
+  },
   failure: (error, installOptions , req, res) => {
     // Do custom failure logic here
     res.writeHead(500, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -157,11 +159,11 @@ app.get('/slack/oauth_redirect', (req, res) => {
 
 ### Storing installations in a database
 
-Although this package uses a default `MemoryInstallationStore`, it isn't recommended for production purposes since the access tokens it stores are lost when the process terminates or restarts. To override this default, `InstallProvider` allows for supplying your own `installationStore`, which is then used to save and retrieve installation information (like tokens) to your own database. 
+Although this package uses a default `MemoryInstallationStore`, it isn't recommended for production purposes since the access tokens it stores are lost when the process terminates or restarts. To override this default, `InstallProvider` allows for supplying your own `installationStore`, which is then used to save and retrieve installation information (like tokens) to your own database.
 
 For more persistent storage during development, `FileInstallationStore` is a provided alternative to `MemoryInstallationStore` and is available for import and use directly from the package. Customizable options for this store include specifying the `baseDir`, `clientId`, and `historicalDataEnabled`.
 
-An installation store is an object that provides three methods: `storeInstallation`, `fetchInstallation`, and `deleteInstallation`. `storeInstallation` takes an `installation` as an argument, which is an object that contains all installation related data (like tokens, teamIds, enterpriseIds, etc). `fetchInstallation` and `deleteInstallation` both take in an `installQuery`, which is used to query the database. The `installQuery` can contain `teamId`, `enterpriseId`, `userId`, `conversationId` and `isEnterpriseInstall`. 
+An installation store is an object that provides three methods: `storeInstallation`, `fetchInstallation`, and `deleteInstallation`. `storeInstallation` takes an `installation` as an argument, which is an object that contains all installation related data (like tokens, teamIds, enterpriseIds, etc). `fetchInstallation` and `deleteInstallation` both take in an `installQuery`, which is used to query the database. The `installQuery` can contain `teamId`, `enterpriseId`, `userId`, `conversationId` and `isEnterpriseInstall`.
 
 In the following example, the `installationStore` option is used and the object is defined in line. The methods are implemented by calling an example database library with simple get and set operations.
 
@@ -244,7 +246,7 @@ result = {
 <strong><i>Reading extended installation data</i></strong>
 </summary>
 
-The `installer.authorize()` method only returns a subset of the installation data returned by the installation store. To fetch the entire saved installation, use the `installer.installationStore.fetchInstallation()` method. 
+The `installer.authorize()` method only returns a subset of the installation data returned by the installation store. To fetch the entire saved installation, use the `installer.installationStore.fetchInstallation()` method.
 
 ```javascript
 // installer.installationStore.fetchInstallation takes in an installQuery as an argument
@@ -294,7 +296,7 @@ const installer = new InstallProvider({
 
 ### State verification
 
-By default, this package handles generating and verifying a `state` parameter during OAuth installation. This added measure helps to mitigate the risk of [Cross-Site Request Forgery](https://datatracker.ietf.org/doc/html/rfc6749#section-10.12) and is strongly recommended. 
+By default, this package handles generating and verifying a `state` parameter during OAuth installation. This added measure helps to mitigate the risk of [Cross-Site Request Forgery](https://datatracker.ietf.org/doc/html/rfc6749#section-10.12) and is strongly recommended.
 
 In specific installation scenarios with Enterprise Grid organizations, such as when an Org-wide app is installed from an admin page, state verification cannot be completed because a `state` parameter isn't provided. In this case, you can disable `state` verification via setting the `InstallProvider#stateVerification` option to `false`. Now, the installer will no longer require that `state` be present to proceed with installation.
 
