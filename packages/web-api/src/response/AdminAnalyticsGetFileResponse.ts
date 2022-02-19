@@ -10,8 +10,13 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AdminAnalyticsGetFileResponse = WebAPICallResult & {
-  ok?:       boolean;
-  error?:    string;
-  needed?:   string;
-  provided?: string;
+  ok?:                boolean;
+  error?:             string;
+  needed?:            string;
+  provided?:          string;
+  response_metadata?: ResponseMetadata;
 };
+
+export interface ResponseMetadata {
+  messages?: string[];
+}
