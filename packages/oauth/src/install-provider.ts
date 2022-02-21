@@ -3,6 +3,7 @@ import { URLSearchParams, URL } from 'url';
 
 import { WebAPICallResult, WebClient, WebClientOptions } from '@slack/web-api';
 
+import { AuthorizeResult } from './authorize-result';
 import { CallbackOptions, defaultCallbackFailure, defaultCallbackSuccess } from './callback-options';
 import {
   InstallerInitializationError,
@@ -523,22 +524,6 @@ export class InstallProvider {
       }
     }
   }
-}
-
-// This is intentionally structurally identical to AuthorizeResult from App
-// It is redefined so that this class remains loosely coupled to the rest
-// of Bolt.
-export interface AuthorizeResult {
-  botToken?: string;
-  botRefreshToken?: string;
-  botTokenExpiresAt?: number; // utc, seconds
-  userToken?: string;
-  userRefreshToken?: string;
-  userTokenExpiresAt?: number; // utc, seconds
-  botId?: string;
-  botUserId?: string;
-  teamId?: string;
-  enterpriseId?: string;
 }
 
 // Response shape from oauth.v2.access - https://api.slack.com/methods/oauth.v2.access#response

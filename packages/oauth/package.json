@@ -47,7 +47,7 @@
     "lodash.isstring": "^4.0.1"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.3.4",
+    "@microsoft/api-extractor": "^7.19.4",
     "@types/chai": "^4.2.11",
     "@types/mocha": "^9.1.0",
     "@types/sinon": "^10.0.11",
@@ -61,7 +61,7 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsdoc": "^30.6.1",
     "eslint-plugin-node": "^11.1.0",
-    "mocha": "^9.1.0",
+    "mocha": "^9.2.1",
     "nop": "^1.0.0",
     "nyc": "^15.1.0",
     "rewiremock": "^3.13.9",

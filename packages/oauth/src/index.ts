@@ -2,10 +2,10 @@
 // export * from './errors';
 
 export { Logger, LogLevel } from './logger';
+export { AuthorizeResult } from './authorize-result';
 export { CallbackOptions } from './callback-options';
 export {
   InstallProvider,
-  AuthorizeResult,
   OAuthV2TokenRefreshResponse,
   OAuthV2Response,
 } from './install-provider';
