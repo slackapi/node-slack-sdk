@@ -33,7 +33,7 @@
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
     "lint": "eslint --ext .ts src",
     "test": "npm run lint && npm run test:mocha",
-    "test:mocha": "nyc mocha --config .mocharc.json src/*.spec.js",
+    "test:mocha": "nyc mocha --config .mocharc.json src/*.spec.js src/**/*.spec.js src/*.spec.ts src/**/*.spec.ts",
     "coverage": "codecov -F oauthhelper --root=$PWD",
     "ref-docs:model": "api-extractor run",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
@@ -47,8 +47,10 @@
     "lodash.isstring": "^4.0.1"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.11",
     "@microsoft/api-extractor": "^7.3.4",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^9.1.0",
+    "@types/sinon": "^10.0.11",
     "@typescript-eslint/eslint-plugin": "^4.4.1",
     "@typescript-eslint/parser": "^4.4.0",
     "chai": "^4.2.0",
@@ -61,7 +63,7 @@
     "eslint-plugin-node": "^11.1.0",
     "mocha": "^9.1.0",
     "nop": "^1.0.0",
-    "nyc": "^14.1.1",
+    "nyc": "^15.1.0",
     "rewiremock": "^3.13.9",
     "shx": "^0.3.2",
     "sinon": "^9.0.2",

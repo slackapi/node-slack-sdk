@@ -1,10 +1,9 @@
 require('mocha');
-const { assert, expect } = require('chai');
+const { assert } = require('chai');
 
 const url = require('url');
 const rewiremock = require('rewiremock/node');
 const sinon = require('sinon');
-const fs = require('fs');
 const { ErrorCode } = require('./errors');
 const { LogLevel } = require('./logger');
 
@@ -69,7 +68,6 @@ async function mockedV2AccessResp(options) {
 
 rewiremock.enable();
 const { InstallProvider } = require('./index');
-const { FileInstallationStore, MemoryInstallationStore } = require('./stores');
 rewiremock.disable();
 
 const clientSecret = 'MY_SECRET';
@@ -165,7 +163,7 @@ const storedOrgInstallation = {
 devDB[storedInstallation.team.id] = storedInstallation;
 devDB[storedOrgInstallation.enterprise.id] = storedOrgInstallation;
 
-describe('OAuth', async () => {
+describe('InstallProvider', async () => {
   const noopLogger = {
     debug(..._msg) { /* noop */ },
     info(..._msg) { /* noop */ },
@@ -629,234 +627,6 @@ describe('OAuth', async () => {
       await installer.handleCallback(req, res, callbackOptions);
       assert.isTrue(sent);
       assert.equal(fakeStateStore.verifyStateParam.callCount, 0);
-    });
-  });
-
-  describe('MemoryInstallationStore', async () => {
-    it('should store and fetch an installation', async () => {
-      const installationStore = new MemoryInstallationStore();
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
-      const fakeTeamId = storedInstallation.team.id;
-
-      assert.deepEqual({}, installer.installationStore.devDB);
-
-      await installer.installationStore.storeInstallation(storedInstallation);
-      const fetchedResult = await installer.installationStore.fetchInstallation({ teamId: fakeTeamId });
-      assert.deepEqual(fetchedResult, storedInstallation);
-      assert.deepEqual(storedInstallation, installer.installationStore.devDB[fakeTeamId]);
-    });
-
-    it('should delete a stored installation', async () => {
-      const installationStore = new MemoryInstallationStore();
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
-      const fakeTeamId = storedInstallation.team.id;
-
-      await installer.installationStore.storeInstallation(storedInstallation);
-      assert.isNotEmpty(installer.installationStore.devDB);
-
-      await installer.installationStore.deleteInstallation({ teamId: fakeTeamId });
-      assert.isEmpty(installer.installationStore.devDB);
-    });
-  });
-
-  describe('FileInstallationStore', async () => {
-    let fsMakeDir, fsWriteFile, fsReadFileSync, unlink;
-
-    beforeEach(() => {
-      fsMakeDir = sinon.stub(fs, 'mkdir').returns({});
-      fsWriteFile = sinon.stub(fs, 'writeFile').returns({});
-      fsReadFileSync = sinon.stub(fs, 'readFileSync').returns(Buffer.from(JSON.stringify(storedInstallation)));
-      fsUnlink = sinon.stub(fs, 'unlink').returns({});
-      fsReaddirSync = sinon.stub(fs, 'readdirSync').returns(['app-latest', 'user-userId-latest']);
-    });
-
-    afterEach(() => {
-      fsMakeDir.restore();
-      fsWriteFile.restore();
-      fsReadFileSync.restore();
-      fsUnlink.restore();
-      fsReaddirSync.restore();
-    });
-
-    it('should store the latest installation', async () => {
-      const installationStore = new FileInstallationStore({ baseDir: '.' });
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
-      const { enterprise, team, user } = storedInstallation;
-      const fakeInstallDir = `./${enterprise.id}-${team.id}`;
-      const installationJSON = JSON.stringify(storedInstallation);
-
-      installer.installationStore.storeInstallation(storedInstallation);
-      assert.equal(fsWriteFile.calledWith(`${fakeInstallDir}/app-latest`, installationJSON), true);
-      assert.equal(fsWriteFile.calledWith(sinon.match(`${fakeInstallDir}/user-${user.id}-latest`), installationJSON), true);
-    });
-
-    it('should store additional records for each installation with historicalDataEnabled', async () => {
-      const installationStore = new FileInstallationStore({ baseDir: '.', historicalDataEnabled: true });
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
-      const { enterprise, team, user } = storedInstallation;
-      const fakeInstallDir = `./${enterprise.id}-${team.id}`;
-      const installationJSON = JSON.stringify(storedInstallation);
-
-      installer.installationStore.storeInstallation(storedInstallation);
-
-      assert.equal(fsWriteFile.calledWith(sinon.match(`${fakeInstallDir}/app-`), installationJSON), true);
-      assert.equal(fsWriteFile.calledWith(sinon.match(`${fakeInstallDir}/user-${user.id}-`), installationJSON), true);
-
-      // 1 store = 4 files = 2 latest + 2 timestamps
-      expect(fsWriteFile.callCount).equals(4);
-    });
-
-    it('should fetch a stored installation', async () => {
-      const installationStore = new FileInstallationStore({ baseDir: '.' });
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
-      const { enterprise, team, user } = storedInstallation;
-      const fakeInstallDir = `/${enterprise.id}-${team.id}`;
-      const query = { enterpriseId: enterprise.id, teamId: team.id };
-
-      installer.installationStore.storeInstallation(storedInstallation);
-      const installation = await installer.installationStore.fetchInstallation(query);
-
-      assert.equal(fsReadFileSync.calledWith(sinon.match(`${fakeInstallDir}/app-latest`)), true);
-      assert.deepEqual(installation, storedInstallation);
-    });
-
-    it('should delete all records of installation if no userId is passed', async () => {
-      const installationStore = new FileInstallationStore({ baseDir: '.' });
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
-      const { enterprise, team } = storedInstallation;
-      const fakeInstallDir = `/${enterprise.id}-${team.id}`;
-      const query = { enterpriseId: enterprise.id, teamId: team.id };
-
-      await installer.installationStore.deleteInstallation(query);
-
-      assert.equal(fsReaddirSync.calledWith(sinon.match(fakeInstallDir)), true);
-      assert.equal(fsUnlink.calledWith(sinon.match(`app-latest`)), true);
-      assert.equal(fsUnlink.calledWith(sinon.match(`user-userId-latest`)), true);
-
-      // fsReaddirSync returns ['app-latest', 'user-userId-latest']
-      expect(fsUnlink.callCount).equals(2);
-    });
-
-    it('should delete only user records of installation if userId is passed', async () => {
-      const installationStore = new FileInstallationStore({ baseDir: '.' });
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
-      const { enterprise, team, user } = storedInstallation;
-      const fakeInstallDir = `/${enterprise.id}-${team.id}`;
-      const query = { enterpriseId: enterprise.id, teamId: team.id, userId: user.id };
-
-      await installer.installationStore.deleteInstallation(query);
-
-      assert.equal(fsReaddirSync.calledWith(sinon.match(fakeInstallDir)), true);
-      assert.equal(fsUnlink.calledWith(sinon.match(`user-${user.id}-latest`)), true);
-
-      // fsReaddirSync returns ['app-latest', 'user-userId-latest']
-      expect(fsUnlink.callCount).equals(1);
-    });
-
-    it('should run authorize with triage-bot\'s MongoDB data', async () => {
-      // Refer to https://github.com/slackapi/bolt-js/issues/1265 to learn the context
-      const storedInstallation = {
-        "_id": "6.....",
-        "id": "T....",
-        "__v": 0,
-        "appId": "A...",
-        "authVersion": "v2",
-        "bot": {
-          "scopes": [
-            "channels:history",
-            "channels:join",
-            "channels:read",
-            "chat:write",
-            "commands",
-            "files:write"
-          ],
-          "token": "xoxb-...",
-          "userId": "U...",
-          "id": "B02SS7QU407"
-        },
-        "db_record_created_at": "2022-01-08T02:24:40.470Z",
-        "db_record_updated_at": "2022-01-08T02:24:40.470Z",
-        "enterprise": null,
-        "isEnterpriseInstall": false,
-        "name": "My Team",
-        "tokenType": "bot",
-        "user": {
-          "scopes": null,
-          "id": "U..."
-        }
-      };
-      const installationStore = {
-        fetchInstallation: (_) => {
-          return new Promise((resolve) => {
-            resolve(storedInstallation);
-          });
-        },
-        storeInstallation: () => {},
-        deleteInstallation: (_) => {},
-      }
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
-      const authorizeResult = await installer.authorize({ teamId: 'T111' });
-      assert.deepEqual(authorizeResult, {
-        "teamId": "T111",
-        "botId": "B02SS7QU407",
-        "botUserId": "U...",
-        "botToken": "xoxb-...",
-        "userToken": undefined,
-      });
-    });
-    it('should run authorize even if there are null objects in data', async () => {
-      const storedInstallation = {
-        // https://github.com/slackapi/template-triage-bot/blob/c1e54fb9d760b46cc8809c57e307061fdb3e0a91/app.js#L51-L55
-        id: "T999", // template-triage-bot specific
-        name: 'My Team', // template-triage-bot specific
-        appId: 'A111',
-        tokenType: 'bot',
-        authVersion: 'v2',
-        bot: {
-          id: 'B111',
-          userId: 'U111',
-          scopes: [
-            'channels:history',
-            'channels:join',
-            'channels:read',
-            'chat:write',
-            'commands',
-            'files:write',
-          ],
-          token: 'xoxb-____',
-        },
-        enterprise: null,
-        team: null, // v2.3 does not work with this data due to "Error: Cannot read property 'id' of null"
-        isEnterpriseInstall: false,
-        user: null,
-      }
-      const installationStore = {
-        fetchInstallation: (_) => {
-          return new Promise((resolve) => {
-            resolve(storedInstallation);
-          });
-        },
-        storeInstallation: () => {},
-        deleteInstallation: (_) => {},
-      }
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
-      const authorizeResult = await installer.authorize({ teamId: 'T111' });
-      assert.deepEqual(authorizeResult, {
-        "teamId": "T111",
-        "botId": "B111",
-        "botUserId": "U111",
-        "botToken": "xoxb-____",
-      });
-    });
-  });
-
-  describe('ClearStateStore', async () => {
-    it('should generate a state and return install options once verified', async () => {
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret });
-      const installUrlOptions = { scopes: ['channels:read'] };
-      const state = await installer.stateStore.generateStateParam(installUrlOptions, new Date());
-      const returnedInstallUrlOptions = await installer.stateStore.verifyStateParam(new Date(), state);
-      assert.deepEqual(installUrlOptions, returnedInstallUrlOptions);
     });
   });
 });
