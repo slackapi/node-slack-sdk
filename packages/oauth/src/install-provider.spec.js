@@ -132,6 +132,7 @@ const storedInstallation = {
   isEnterpriseInstall: false,
 }
 
+// TODO: valid tests with org-wide installations
 const storedOrgInstallation = {
   team: null,
   enterprise: {
