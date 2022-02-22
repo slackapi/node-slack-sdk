@@ -403,7 +403,7 @@ describe('InstallProvider', async () => {
         assert.fail('Should have failed');
       } catch (error) {
         assert.equal(error.code, ErrorCode.AuthorizationError);
-        assert.equal(error.message, 'Failed fetching data from the Installation Store');
+        assert.equal(error.message, 'Failed fetching data from the Installation Store (source: {"teamId":"non_existing_team_id"})');
       }
     });
 

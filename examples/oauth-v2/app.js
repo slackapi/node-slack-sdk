@@ -1,14 +1,10 @@
-const { InstallProvider } = require('@slack/oauth');
+const { InstallProvider, LogLevel, FileInstallationStore } = require('@slack/oauth');
 const { createEventAdapter } = require('@slack/events-api');
 const { WebClient } = require('@slack/web-api');
 const express = require('express');
-// Using Keyv as an interface to our database
-// see https://github.com/lukechilds/keyv for more info
-const Keyv = require('keyv');
 
 const app = express();
 const port = 3000;
-
 
 // Initialize slack events adapter
 const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET, {
@@ -17,56 +13,18 @@ const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET, {
 // Set path to receive events
 app.use('/slack/events', slackEvents.requestListener());
 
-// can use different keyv db adapters here
-// ex: const keyv = new Keyv('redis://user:pass@localhost:6379');
-// using the basic in-memory one below
-const keyv = new Keyv();
-
-keyv.on('error', err => console.log('Connection Error', err));
+const scopes = ['channels:read', 'groups:read', 'channels:manage', 'chat:write', 'incoming-webhook'];
+const userScopes = ['chat:write'];
 
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   authVersion: 'v2',
   stateSecret: 'my-state-secret',
-  installationStore: {
-    storeInstallation: async (installation) => {
-      if (installation.isEnterpriseInstall) {
-        // storing org installation
-        return await keyv.set(installation.enterprise.id, installation);
-      } else if (installation.team !== null && installation.team.id !== undefined) {
-        // storing single team installation
-        return await keyv.set(installation.team.id, installation);;
-      }
-      throw new Error('Failed saving installation data to installationStore');
-    },
-    fetchInstallation: async (installQuery) => {
-      if (installQuery.isEnterpriseInstall) {
-        if (installQuery.enterpriseId !== undefined) {       
-          // fetching org installation
-          return await keyv.get(installQuery.enterpriseId)
-        }
-      }
-      if (installQuery.teamId !== undefined) {
-        // fetching single team installation
-        return await keyv.get(installQuery.teamId);
-      }
-      throw new Error('Failed fetching installation');
-    },
-    deleteInstallation: async (installQuery) => {
-      if (installQuery.isEnterpriseInstall) {
-        if (installQuery.enterpriseId !== undefined) {       
-          // delete org installation
-          return await keyv.delete(installQuery.enterpriseId)
-        }
-      }
-      if (installQuery.teamId !== undefined) {
-        // delete single team installation
-        return await keyv.delete(installQuery.teamId);
-      }
-      throw new Error('Failed to delete installation');
-    },
-  },
+  scopes,
+  userScopes,
+  installationStore: new FileInstallationStore(),
+  logLevel: LogLevel.DEBUG,
 });
 
 app.get('/', (req, res) => res.send('go to /slack/install'));
@@ -75,7 +33,8 @@ app.get('/slack/install', async (req, res, next) => {
   try {
     // feel free to modify the scopes
     const url = await installer.generateInstallUrl({
-      scopes: ['channels:read', 'groups:read', 'channels:manage', 'chat:write', 'incoming-webhook'],
+      scopes,
+      userScopes,
       metadata: 'some_metadata',
     })
     
@@ -108,15 +67,25 @@ app.get('/slack/oauth_redirect', async (req, res) => {
 
 // When a user navigates to the app home, grab the token from our database and publish a view
 slackEvents.on('app_home_opened', async (event, body) => {
+  console.log(event);
   try {
     if (event.tab === 'home') {
       let DBInstallData;
       if (body.authorizations !== undefined && body.authorizations[0].is_enterprise_install) {
         //org wide installation
-        DBInstallData = await installer.authorize({enterpriseId: body.enterprise_id, isEnterpriseInstall: true});
+        DBInstallData = await installer.authorize({
+          enterpriseId: body.enterprise_id,
+          userId: event.user,
+          isEnterpriseInstall: true,
+        });
       } else {
         // non org wide installation
-        DBInstallData = await installer.authorize({teamId:body.team_id, isEnterpriseInstall: false});
+        DBInstallData = await installer.authorize({
+          enterpriseId: body.enterprise_id,
+          teamId: body.team_id,
+          userId: event.user,
+          isEnterpriseInstall: false,
+        });
       }
       const web = new WebClient(DBInstallData.botToken);
       await web.views.publish({
@@ -141,5 +110,4 @@ slackEvents.on('app_home_opened', async (event, body) => {
     console.error(error);
   }
 });
-
 app.listen(port, () => console.log(`Example app listening on port ${port}! Go to http://localhost:3000/slack/install to initiate oauth flow`))

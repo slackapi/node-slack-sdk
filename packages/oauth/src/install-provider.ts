@@ -12,6 +12,8 @@ import {
   MissingCodeError,
   GenerateInstallUrlError,
   AuthorizationError,
+  CodedError,
+  ErrorCode,
 } from './errors';
 import { Installation, OrgInstallation } from './installation';
 import { InstallationQuery } from './installation-query';
@@ -119,7 +121,9 @@ export class InstallProvider {
    * Fetches data from the installationStore
    */
   public async authorize(source: InstallationQuery<boolean>): Promise<AuthorizeResult> {
+    const sourceForLogging = JSON.stringify(source);
     try {
+      this.logger.debug(`Starting authorize() execution (source: ${sourceForLogging})`);
       // Note that `queryResult` may unexpectedly include null values for some properties.
       // For example, MongoDB can often save properties as null for some reasons.
       // Inside this method, we should alwayss check if a value is either undefined or null.
@@ -131,7 +135,7 @@ export class InstallProvider {
       }
 
       if (queryResult === undefined || queryResult === null) {
-        throw new Error('Failed fetching data from the Installation Store');
+        throw new Error(`Failed fetching data from the Installation Store (source: ${sourceForLogging})`);
       }
 
       const authResult: AuthorizeResult = {};
@@ -183,14 +187,17 @@ export class InstallProvider {
         const tokensToRefresh: string[] = detectExpiredOrExpiringTokens(authResult, currentUTCSec);
 
         if (tokensToRefresh.length > 0) {
-          const installationUpdates: any = { ...queryResult }; // TODO :: TS
-          const refreshResponses = await this.refreshExpiringTokens(tokensToRefresh);
-
-          // TODO: perhaps this for..of loop could introduce an async delay due to await'ing once for each refreshResp?
-          // Could we rewrite to be more performant and not trigger the eslint warning? Perhaps a concurrent async
-          // map/reduce? But will the return value be the same? Does order of this array matter?
-          // eslint-disable-next-line no-restricted-syntax
-          for (const refreshResp of refreshResponses) {
+          if (queryResult.authVersion !== 'v2') {
+            const errorMessage = 'Unexpected data structure detected. ' +
+              'The data returned by your InstallationStore#fetchInstallation() method must have "authVersion": "v2" ' +
+              'if it has a refresh token';
+            throw new UnknownError(errorMessage);
+          }
+          const installationUpdates: TokenRefreshInstallationUpdates = {
+            ...queryResult as Installation<'v2', boolean>,
+          };
+          const refreshResponses: OAuthV2TokenRefreshResponse[] = await this.refreshExpiringTokens(tokensToRefresh);
+          refreshResponses.forEach((refreshResp) => {
             const tokenType = refreshResp.token_type;
 
             // Update Authorization
@@ -207,25 +214,28 @@ export class InstallProvider {
             }
 
             // Update Installation
-            installationUpdates[tokenType].token = refreshResp.access_token;
-            installationUpdates[tokenType].refreshToken = refreshResp.refresh_token;
-            installationUpdates[tokenType].expiresAt = currentUTCSec + refreshResp.expires_in;
-
-            const updatedInstallation = {
-              ...installationUpdates,
-              [tokenType]: { ...queryResult[tokenType], ...installationUpdates[tokenType] },
-            };
-
-            // TODO: related to the above TODO comment as well
-            // eslint-disable-next-line no-await-in-loop
-            await this.installationStore.storeInstallation(updatedInstallation);
-          }
+            const botOrUser = installationUpdates[tokenType];
+            if (botOrUser !== undefined) {
+              this.logger.debug(`Saving ${tokenType} token and its refresh token in InstallationStore`);
+              botOrUser.token = refreshResp.access_token;
+              botOrUser.refreshToken = refreshResp.refresh_token;
+              botOrUser.expiresAt = currentUTCSec + refreshResp.expires_in;
+            } else {
+              const errorMessage = `Unexpected data structure detected. The data returned by your InstallationStore#fetchInstallation() method must have ${tokenType} at top-level`;
+              throw new UnknownError(errorMessage);
+            }
+          });
+          await this.installationStore.storeInstallation(installationUpdates);
+          this.logger.debug('Refreshed tokens have been saved in InstallationStore');
         }
       }
 
       return authResult;
-    } catch (error: any) {
-      throw new AuthorizationError(error.message);
+    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      throw new AuthorizationError((error as any).message);
+    } finally {
+      this.logger.debug(`Completed authorize() execution (source: ${sourceForLogging})`);
     }
   }
 
@@ -504,7 +514,7 @@ export class InstallProvider {
         this.logger.debug('run built-in success function');
         defaultCallbackSuccess(installation, installOptions, req, res);
       }
-    } catch (error: any) {
+    } catch (error) {
       this.logger.error(error);
 
       if (!installOptions) {
@@ -515,12 +525,16 @@ export class InstallProvider {
       }
 
       // Call the failure callback
+      const codedError: CodedError = error as CodedError;
+      if (codedError.code === undefined) {
+        codedError.code = ErrorCode.UnknownError;
+      }
       if (options !== undefined && options.failure !== undefined) {
         this.logger.debug('calling passed in options.failure');
-        options.failure(error, installOptions, req, res);
+        options.failure(codedError, installOptions, req, res);
       } else {
         this.logger.debug('run built-in failure function');
-        defaultCallbackFailure(error, installOptions, req, res);
+        defaultCallbackFailure(codedError, installOptions, req, res);
       }
     }
   }
@@ -604,11 +618,25 @@ interface AuthTestResult extends WebAPICallResult {
 async function runAuthTest(token: string, clientOptions: WebClientOptions): Promise<AuthTestResult> {
   const client = new WebClient(token, clientOptions);
   const authResult = await client.auth.test();
-  return authResult as any as AuthTestResult;
+  return authResult as unknown as AuthTestResult;
 }
 
 // ---------------------
 // token rotation
+
+// This type is used only in this source file
+type TokenRefreshInstallationUpdates = Installation<'v2', boolean> & {
+  bot?: {
+    token: string,
+    refreshToken?: string;
+    expiresAt?: number;
+  };
+  user: {
+    token?: string,
+    refreshToken?: string;
+    expiresAt?: number;
+  };
+};
 
 /**
  * detectExpiredOrExpiringTokens determines access tokens' eligibility for refresh.
