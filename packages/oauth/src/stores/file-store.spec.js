@@ -3,6 +3,7 @@ const { assert, expect } = require('chai');
 
 const sinon = require('sinon');
 const fs = require('fs');
+const os = require('os');
 
 const { InstallProvider } = require('../index');
 const { FileInstallationStore } = require('./index');
@@ -90,10 +91,10 @@ describe('FileInstallationStore', async () => {
   });
 
   it('should store the latest installation', async () => {
-    const installationStore = new FileInstallationStore({ baseDir: './tmp' });
+    const installationStore = new FileInstallationStore({ baseDir: os.tmpdir() });
     const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
     const { enterprise, team, user } = storedInstallation;
-    const fakeInstallDir = `./tmp/${enterprise.id}-${team.id}`;
+    const fakeInstallDir = `${os.tmpdir()}/${enterprise.id}-${team.id}`;
     const installationJSON = JSON.stringify(storedInstallation);
 
     installer.installationStore.storeInstallation(storedInstallation);
@@ -102,10 +103,10 @@ describe('FileInstallationStore', async () => {
   });
 
   it('should store additional records for each installation with historicalDataEnabled', async () => {
-    const installationStore = new FileInstallationStore({ baseDir: './tmp', historicalDataEnabled: true });
+    const installationStore = new FileInstallationStore({ baseDir: os.tmpdir(), historicalDataEnabled: true });
     const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
     const { enterprise, team, user } = storedInstallation;
-    const fakeInstallDir = `./tmp/${enterprise.id}-${team.id}`;
+    const fakeInstallDir = `${os.tmpdir()}/${enterprise.id}-${team.id}`;
     const installationJSON = JSON.stringify(storedInstallation);
 
     installer.installationStore.storeInstallation(storedInstallation);
@@ -118,10 +119,10 @@ describe('FileInstallationStore', async () => {
   });
 
   it('should fetch a stored installation', async () => {
-    const installationStore = new FileInstallationStore({ baseDir: './tmp' });
+    const installationStore = new FileInstallationStore({ baseDir: os.tmpdir() });
     const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
     const { enterprise, team } = storedInstallation;
-    const fakeInstallDir = `/${enterprise.id}-${team.id}`;
+    const fakeInstallDir = `${os.tmpdir()}/${enterprise.id}-${team.id}`;
     const query = { enterpriseId: enterprise.id, teamId: team.id };
 
     installer.installationStore.storeInstallation(storedInstallation);
@@ -132,10 +133,10 @@ describe('FileInstallationStore', async () => {
   });
 
   it('should delete all records of installation if no userId is passed', async () => {
-    const installationStore = new FileInstallationStore({ baseDir: './tmp' });
+    const installationStore = new FileInstallationStore({ baseDir: os.tmpdir() });
     const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
     const { enterprise, team } = storedInstallation;
-    const fakeInstallDir = `./tmp/${enterprise.id}-${team.id}`;
+    const fakeInstallDir = `${os.tmpdir()}/${enterprise.id}-${team.id}`;
     const query = { enterpriseId: enterprise.id, teamId: team.id };
 
     await installer.installationStore.deleteInstallation(query);
@@ -149,10 +150,10 @@ describe('FileInstallationStore', async () => {
   });
 
   it('should delete only user records of installation if userId is passed', async () => {
-    const installationStore = new FileInstallationStore({ baseDir: './tmp' });
+    const installationStore = new FileInstallationStore({ baseDir: os.tmpdir() });
     const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
     const { enterprise, team, user } = storedInstallation;
-    const fakeInstallDir = `/${enterprise.id}-${team.id}`;
+    const fakeInstallDir = `${os.tmpdir()}/${enterprise.id}-${team.id}`;
     const query = { enterpriseId: enterprise.id, teamId: team.id, userId: user.id };
 
     await installer.installationStore.deleteInstallation(query);
