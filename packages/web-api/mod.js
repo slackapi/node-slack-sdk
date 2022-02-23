@@ -37,10 +37,18 @@ var init_buffer_shim = __esm({
   }
 });
 
+// deno-shims/xhr-shim.js
+import "https://deno.land/x/xhr@0.1.0/mod.ts";
+var init_xhr_shim = __esm({
+  "deno-shims/xhr-shim.js"() {
+  }
+});
+
 // node_modules/path-browserify/index.js
 var require_path_browserify = __commonJS({
   "node_modules/path-browserify/index.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     function assertPath(path) {
       if (typeof path !== "string") {
@@ -287,7 +295,7 @@ var require_path_browserify = __commonJS({
           return "//";
         return path.slice(0, end);
       },
-      basename: function basename2(path, ext) {
+      basename: function basename3(path, ext) {
         if (ext !== void 0 && typeof ext !== "string")
           throw new TypeError('"ext" argument must be a string');
         assertPath(path);
@@ -465,6 +473,7 @@ var require_path_browserify = __commonJS({
 var require_is_stream = __commonJS({
   "node_modules/is-stream/index.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var isStream2 = module.exports = function(stream) {
       return stream !== null && typeof stream === "object" && typeof stream.pipe === "function";
@@ -488,6 +497,7 @@ var require_is_stream = __commonJS({
 var require_eventemitter3 = __commonJS({
   "node_modules/p-queue/node_modules/eventemitter3/index.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var has = Object.prototype.hasOwnProperty;
     var prefix = "~";
@@ -671,6 +681,7 @@ var require_eventemitter3 = __commonJS({
 var require_p_finally = __commonJS({
   "node_modules/p-finally/index.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     module.exports = (promise, onFinally) => {
       onFinally = onFinally || (() => {
@@ -690,6 +701,7 @@ var require_p_finally = __commonJS({
 var require_p_timeout = __commonJS({
   "node_modules/p-timeout/index.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var pFinally = require_p_finally();
     var TimeoutError = class extends Error {
@@ -736,6 +748,7 @@ var require_p_timeout = __commonJS({
 var require_lower_bound = __commonJS({
   "node_modules/p-queue/dist/lower-bound.js"(exports) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function lowerBound(array, value, comparator) {
@@ -761,6 +774,7 @@ var require_lower_bound = __commonJS({
 var require_priority_queue = __commonJS({
   "node_modules/p-queue/dist/priority-queue.js"(exports) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var lower_bound_1 = require_lower_bound();
@@ -800,6 +814,7 @@ var require_priority_queue = __commonJS({
 var require_dist = __commonJS({
   "node_modules/p-queue/dist/index.js"(exports) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var EventEmitter2 = require_eventemitter3();
@@ -1025,6 +1040,7 @@ var require_dist = __commonJS({
 var require_retry_operation = __commonJS({
   "node_modules/retry/lib/retry_operation.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     function RetryOperation(timeouts, options) {
       if (typeof options === "boolean") {
         options = { forever: options };
@@ -1161,6 +1177,7 @@ var require_retry_operation = __commonJS({
 var require_retry = __commonJS({
   "node_modules/retry/lib/retry.js"(exports) {
     init_buffer_shim();
+    init_xhr_shim();
     var RetryOperation = require_retry_operation();
     exports.operation = function(options) {
       var timeouts = exports.timeouts(options);
@@ -1248,6 +1265,7 @@ var require_retry = __commonJS({
 var require_retry2 = __commonJS({
   "node_modules/retry/index.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     module.exports = require_retry();
   }
 });
@@ -1256,6 +1274,7 @@ var require_retry2 = __commonJS({
 var require_p_retry = __commonJS({
   "node_modules/p-retry/index.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var retry = require_retry2();
     var networkErrorMsgs = [
@@ -1332,6 +1351,7 @@ var require_p_retry = __commonJS({
 var require_bind = __commonJS({
   "node_modules/axios/lib/helpers/bind.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     module.exports = function bind(fn, thisArg) {
       return function wrap() {
@@ -1349,11 +1369,12 @@ var require_bind = __commonJS({
 var require_utils = __commonJS({
   "node_modules/axios/lib/utils.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var bind = require_bind();
     var toString = Object.prototype.toString;
     function isArray(val) {
-      return toString.call(val) === "[object Array]";
+      return Array.isArray(val);
     }
     function isUndefined(val) {
       return typeof val === "undefined";
@@ -1365,14 +1386,14 @@ var require_utils = __commonJS({
       return toString.call(val) === "[object ArrayBuffer]";
     }
     function isFormData(val) {
-      return typeof FormData !== "undefined" && val instanceof FormData;
+      return toString.call(val) === "[object FormData]";
     }
     function isArrayBufferView(val) {
       var result;
       if (typeof ArrayBuffer !== "undefined" && ArrayBuffer.isView) {
         result = ArrayBuffer.isView(val);
       } else {
-        result = val && val.buffer && val.buffer instanceof ArrayBuffer;
+        result = val && val.buffer && isArrayBuffer(val.buffer);
       }
       return result;
     }
@@ -1408,7 +1429,7 @@ var require_utils = __commonJS({
       return isObject(val) && isFunction(val.pipe);
     }
     function isURLSearchParams(val) {
-      return typeof URLSearchParams !== "undefined" && val instanceof URLSearchParams;
+      return toString.call(val) === "[object URLSearchParams]";
     }
     function trim(str) {
       return str.trim ? str.trim() : str.replace(/^\s+|\s+$/g, "");
@@ -1503,6 +1524,7 @@ var require_utils = __commonJS({
 var require_buildURL = __commonJS({
   "node_modules/axios/lib/helpers/buildURL.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var utils = require_utils();
     function encode(val) {
@@ -1555,6 +1577,7 @@ var require_buildURL = __commonJS({
 var require_InterceptorManager = __commonJS({
   "node_modules/axios/lib/core/InterceptorManager.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var utils = require_utils();
     function InterceptorManager() {
@@ -1589,6 +1612,7 @@ var require_InterceptorManager = __commonJS({
 var require_normalizeHeaderName = __commonJS({
   "node_modules/axios/lib/helpers/normalizeHeaderName.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var utils = require_utils();
     module.exports = function normalizeHeaderName(headers, normalizedName) {
@@ -1606,6 +1630,7 @@ var require_normalizeHeaderName = __commonJS({
 var require_enhanceError = __commonJS({
   "node_modules/axios/lib/core/enhanceError.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     module.exports = function enhanceError(error, config, code, request, response) {
       error.config = config;
@@ -1639,6 +1664,7 @@ var require_enhanceError = __commonJS({
 var require_createError = __commonJS({
   "node_modules/axios/lib/core/createError.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var enhanceError = require_enhanceError();
     module.exports = function createError(message, config, code, request, response) {
@@ -1652,6 +1678,7 @@ var require_createError = __commonJS({
 var require_settle = __commonJS({
   "node_modules/axios/lib/core/settle.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var createError = require_createError();
     module.exports = function settle(resolve, reject, response) {
@@ -1669,6 +1696,7 @@ var require_settle = __commonJS({
 var require_cookies = __commonJS({
   "node_modules/axios/lib/helpers/cookies.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var utils = require_utils();
     module.exports = utils.isStandardBrowserEnv() ? function standardBrowserEnv() {
@@ -1716,9 +1744,10 @@ var require_cookies = __commonJS({
 var require_isAbsoluteURL = __commonJS({
   "node_modules/axios/lib/helpers/isAbsoluteURL.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     module.exports = function isAbsoluteURL(url) {
-      return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+      return /^([a-z][a-z\d+\-.]*:)?\/\//i.test(url);
     };
   }
 });
@@ -1727,6 +1756,7 @@ var require_isAbsoluteURL = __commonJS({
 var require_combineURLs = __commonJS({
   "node_modules/axios/lib/helpers/combineURLs.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     module.exports = function combineURLs(baseURL, relativeURL) {
       return relativeURL ? baseURL.replace(/\/+$/, "") + "/" + relativeURL.replace(/^\/+/, "") : baseURL;
@@ -1738,6 +1768,7 @@ var require_combineURLs = __commonJS({
 var require_buildFullPath = __commonJS({
   "node_modules/axios/lib/core/buildFullPath.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var isAbsoluteURL = require_isAbsoluteURL();
     var combineURLs = require_combineURLs();
@@ -1754,6 +1785,7 @@ var require_buildFullPath = __commonJS({
 var require_parseHeaders = __commonJS({
   "node_modules/axios/lib/helpers/parseHeaders.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var utils = require_utils();
     var ignoreDuplicateOf = [
@@ -1807,6 +1839,7 @@ var require_parseHeaders = __commonJS({
 var require_isURLSameOrigin = __commonJS({
   "node_modules/axios/lib/helpers/isURLSameOrigin.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var utils = require_utils();
     module.exports = utils.isStandardBrowserEnv() ? function standardBrowserEnv() {
@@ -1848,6 +1881,7 @@ var require_isURLSameOrigin = __commonJS({
 var require_Cancel = __commonJS({
   "node_modules/axios/lib/cancel/Cancel.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     function Cancel(message) {
       this.message = message;
@@ -1864,6 +1898,7 @@ var require_Cancel = __commonJS({
 var require_xhr = __commonJS({
   "node_modules/axios/lib/adapters/xhr.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var utils = require_utils();
     var settle = require_settle();
@@ -2011,6 +2046,7 @@ var require_xhr = __commonJS({
 var require_defaults = __commonJS({
   "node_modules/axios/lib/defaults.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var utils = require_utils();
     var normalizeHeaderName = require_normalizeHeaderName();
@@ -2118,6 +2154,7 @@ var require_defaults = __commonJS({
 var require_transformData = __commonJS({
   "node_modules/axios/lib/core/transformData.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var utils = require_utils();
     var defaults = require_defaults();
@@ -2135,6 +2172,7 @@ var require_transformData = __commonJS({
 var require_isCancel = __commonJS({
   "node_modules/axios/lib/cancel/isCancel.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     module.exports = function isCancel(value) {
       return !!(value && value.__CANCEL__);
@@ -2146,6 +2184,7 @@ var require_isCancel = __commonJS({
 var require_dispatchRequest = __commonJS({
   "node_modules/axios/lib/core/dispatchRequest.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var utils = require_utils();
     var transformData = require_transformData();
@@ -2190,6 +2229,7 @@ var require_dispatchRequest = __commonJS({
 var require_mergeConfig = __commonJS({
   "node_modules/axios/lib/core/mergeConfig.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var utils = require_utils();
     module.exports = function mergeConfig(config1, config2) {
@@ -2273,8 +2313,9 @@ var require_mergeConfig = __commonJS({
 var require_data = __commonJS({
   "node_modules/axios/lib/env/data.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     module.exports = {
-      "version": "0.24.0"
+      "version": "0.25.0"
     };
   }
 });
@@ -2283,6 +2324,7 @@ var require_data = __commonJS({
 var require_validator = __commonJS({
   "node_modules/axios/lib/helpers/validator.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var VERSION = require_data().version;
     var validators = {};
@@ -2340,6 +2382,7 @@ var require_validator = __commonJS({
 var require_Axios = __commonJS({
   "node_modules/axios/lib/core/Axios.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var utils = require_utils();
     var buildURL = require_buildURL();
@@ -2355,12 +2398,15 @@ var require_Axios = __commonJS({
         response: new InterceptorManager()
       };
     }
-    Axios.prototype.request = function request(config) {
-      if (typeof config === "string") {
-        config = arguments[1] || {};
-        config.url = arguments[0];
-      } else {
+    Axios.prototype.request = function request(configOrUrl, config) {
+      if (typeof configOrUrl === "string") {
         config = config || {};
+        config.url = configOrUrl;
+      } else {
+        config = configOrUrl || {};
+      }
+      if (!config.url) {
+        throw new Error("Provided config url is not valid");
       }
       config = mergeConfig(this.defaults, config);
       if (config.method) {
@@ -2424,6 +2470,9 @@ var require_Axios = __commonJS({
       return promise;
     };
     Axios.prototype.getUri = function getUri(config) {
+      if (!config.url) {
+        throw new Error("Provided config url is not valid");
+      }
       config = mergeConfig(this.defaults, config);
       return buildURL(config.url, config.params, config.paramsSerializer).replace(/^\?/, "");
     };
@@ -2453,6 +2502,7 @@ var require_Axios = __commonJS({
 var require_CancelToken = __commonJS({
   "node_modules/axios/lib/cancel/CancelToken.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var Cancel = require_Cancel();
     function CancelToken(executor) {
@@ -2536,6 +2586,7 @@ var require_CancelToken = __commonJS({
 var require_spread = __commonJS({
   "node_modules/axios/lib/helpers/spread.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     module.exports = function spread(callback) {
       return function wrap(arr) {
@@ -2549,9 +2600,11 @@ var require_spread = __commonJS({
 var require_isAxiosError = __commonJS({
   "node_modules/axios/lib/helpers/isAxiosError.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
+    var utils = require_utils();
     module.exports = function isAxiosError(payload) {
-      return typeof payload === "object" && payload.isAxiosError === true;
+      return utils.isObject(payload) && payload.isAxiosError === true;
     };
   }
 });
@@ -2560,6 +2613,7 @@ var require_isAxiosError = __commonJS({
 var require_axios = __commonJS({
   "node_modules/axios/lib/axios.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var utils = require_utils();
     var bind = require_bind();
@@ -2596,6 +2650,7 @@ var require_axios = __commonJS({
 var require_axios2 = __commonJS({
   "node_modules/axios/index.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     module.exports = require_axios();
   }
 });
@@ -2604,6 +2659,7 @@ var require_axios2 = __commonJS({
 var require_browser = __commonJS({
   "node_modules/form-data/lib/browser.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     module.exports = typeof self == "object" ? self.FormData : window.FormData;
   }
 });
@@ -2612,6 +2668,7 @@ var require_browser = __commonJS({
 var require_is_electron = __commonJS({
   "node_modules/is-electron/index.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     function isElectron2() {
       if (typeof window !== "undefined" && typeof window.process === "object" && window.process.type === "renderer") {
         return true;
@@ -2632,6 +2689,7 @@ var require_is_electron = __commonJS({
 var require_eventemitter32 = __commonJS({
   "node_modules/eventemitter3/index.js"(exports, module) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     var has = Object.prototype.hasOwnProperty;
     var prefix = "~";
@@ -2815,6 +2873,7 @@ var require_eventemitter32 = __commonJS({
 var require_dist2 = __commonJS({
   "node_modules/@slack/types/dist/index.js"(exports) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
   }
@@ -2824,6 +2883,7 @@ var require_dist2 = __commonJS({
 var require_browser2 = __commonJS({
   "node_modules/os-browserify/browser.js"(exports) {
     init_buffer_shim();
+    init_xhr_shim();
     exports.endianness = function() {
       return "LE";
     };
@@ -2881,7 +2941,7 @@ var require_package = __commonJS({
   "package.json"(exports, module) {
     module.exports = {
       name: "@slack/web-api",
-      version: "6.5.0",
+      version: "6.7.0",
       description: "Official library for using the Slack Platform's Web API",
       author: "Slack Technologies, LLC",
       license: "MIT",
@@ -2924,7 +2984,7 @@ var require_package = __commonJS({
         coverage: "codecov -F webapi --root=$PWD",
         "ref-docs:model": "api-extractor run",
         watch: "npx nodemon --watch 'src' --ext 'ts' --exec npm run build",
-        "build:deno": `esbuild --bundle --define:process.cwd=String --define:process.version='"v16.0.0"' --define:Buffer=dummy_buffer --inject:./deno-shims/buffer-shim.js --target=esnext --format=esm --outfile=./mod.js src/index.ts`
+        "build:deno": `esbuild --bundle --define:process.cwd=String --define:process.version='"v1.15.2"' --define:process.title='"deno"' --define:Buffer=dummy_buffer --inject:./deno-shims/buffer-shim.js --inject:./deno-shims/xhr-shim.js --target=esnext --format=esm --outfile=./mod.js src/index.ts`
       },
       dependencies: {
         "@slack/logger": "^3.0.0",
@@ -2933,13 +2993,13 @@ var require_package = __commonJS({
         "@types/node": ">=12.0.0",
         "path-browserify": "1.0.1",
         "os-browserify": "0.3.0",
-        axios: "^0.24.0",
+        axios: "^0.25.0",
         eventemitter3: "^3.1.0",
         "form-data": "^2.5.0",
+        "is-electron": "2.2.0",
         "is-stream": "^1.1.0",
         "p-queue": "^6.6.1",
-        "p-retry": "^4.0.0",
-        "is-electron": "2.2.0"
+        "p-retry": "^4.0.0"
       },
       devDependencies: {
         "@aoberoi/capture-console": "^1.1.0",
@@ -2960,7 +3020,7 @@ var require_package = __commonJS({
         "eslint-plugin-node": "^11.1.0",
         mocha: "^9.1.0",
         nock: "^13.1.0",
-        nyc: "^14.1.1",
+        nyc: "^15.1.0",
         shelljs: "^0.8.3",
         shx: "^0.3.2",
         sinon: "^7.2.7",
@@ -2981,6 +3041,7 @@ var require_package = __commonJS({
 var require_dist3 = __commonJS({
   "node_modules/@slack/logger/dist/index.js"(exports) {
     init_buffer_shim();
+    init_xhr_shim();
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.ConsoleLogger = exports.LogLevel = void 0;
@@ -3061,19 +3122,22 @@ __export(src_exports, {
   retryPolicies: () => retry_policies_default
 });
 init_buffer_shim();
+init_xhr_shim();
 
 // src/WebClient.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // deno-shims/qs-shim.js
 var qs_shim_exports = {};
 __markAsModule(qs_shim_exports);
 init_buffer_shim();
+init_xhr_shim();
 __reExport(qs_shim_exports, querystring_star);
 import * as querystring_star from "https://deno.land/std@0.112.0/node/querystring.ts";
 
 // src/WebClient.ts
-var import_path = __toModule(require_path_browserify());
+var import_path2 = __toModule(require_path_browserify());
 var import_is_stream = __toModule(require_is_stream());
 var import_p_queue = __toModule(require_dist());
 var import_p_retry = __toModule(require_p_retry());
@@ -3088,6 +3152,7 @@ __export(methods_exports, {
   cursorPaginationEnabledMethods: () => cursorPaginationEnabledMethods
 });
 init_buffer_shim();
+init_xhr_shim();
 var import_eventemitter3 = __toModule(require_eventemitter32());
 __reExport(methods_exports, __toModule(require_dist2()));
 function bindApiCall(self2, method) {
@@ -3104,6 +3169,7 @@ var Methods = class extends import_eventemitter3.EventEmitter {
         },
         clearResolution: bindApiCall(this, "admin.apps.clearResolution"),
         requests: {
+          cancel: bindApiCall(this, "admin.apps.requests.cancel"),
           list: bindApiCall(this, "admin.apps.requests.list")
         },
         restrict: bindApiCall(this, "admin.apps.restrict"),
@@ -3207,6 +3273,9 @@ var Methods = class extends import_eventemitter3.EventEmitter {
           setSettings: bindApiCall(this, "admin.users.session.setSettings"),
           clearSettings: bindApiCall(this, "admin.users.session.clearSettings")
         },
+        unsupportedVersions: {
+          export: bindApiCall(this, "admin.users.unsupportedVersions.export")
+        },
         setAdmin: bindApiCall(this, "admin.users.setAdmin"),
         setExpiration: bindApiCall(this, "admin.users.setExpiration"),
         setOwner: bindApiCall(this, "admin.users.setOwner"),
@@ -3236,6 +3305,12 @@ var Methods = class extends import_eventemitter3.EventEmitter {
     };
     this.bots = {
       info: bindApiCall(this, "bots.info")
+    };
+    this.bookmarks = {
+      add: bindApiCall(this, "bookmarks.add"),
+      edit: bindApiCall(this, "bookmarks.edit"),
+      list: bindApiCall(this, "bookmarks.list"),
+      remove: bindApiCall(this, "bookmarks.remove")
     };
     this.calls = {
       add: bindApiCall(this, "calls.add"),
@@ -3513,12 +3588,14 @@ cursorPaginationEnabledMethods.add("users.list");
 
 // src/instrument.ts
 init_buffer_shim();
+init_xhr_shim();
 var os = __toModule(require_browser2());
+var import_path = __toModule(require_path_browserify());
 var packageJson = require_package();
 function replaceSlashes(s) {
   return s.replace("/", ":");
 }
-var baseUserAgent = `${replaceSlashes(packageJson.name)}/${packageJson.version} node/${"v16.0.0".replace("v", "")} ${os.platform()}/${os.release()}`;
+var baseUserAgent = `${replaceSlashes(packageJson.name)}/${packageJson.version} ${(0, import_path.basename)("deno")}/${"v1.15.2".replace("v", "")} ${os.platform()}/${os.release()}`;
 var appMetadata = {};
 function addAppMetadata({ name, version }) {
   appMetadata[replaceSlashes(name)] = version;
@@ -3530,6 +3607,7 @@ function getUserAgent() {
 
 // src/errors.ts
 init_buffer_shim();
+init_xhr_shim();
 var ErrorCode;
 (function(ErrorCode2) {
   ErrorCode2["RequestError"] = "slack_webapi_request_error";
@@ -3568,6 +3646,7 @@ function rateLimitedErrorWithDelay(retrySec) {
 
 // src/logger.ts
 init_buffer_shim();
+init_xhr_shim();
 var import_logger = __toModule(require_dist3());
 var import_logger2 = __toModule(require_dist3());
 var instanceCount = 0;
@@ -3589,6 +3668,7 @@ function getLogger(name, level, existingLogger) {
 
 // src/retry-policies.ts
 init_buffer_shim();
+init_xhr_shim();
 var tenRetriesInAboutThirtyMinutes = {
   retries: 10,
   factor: 1.96821,
@@ -3611,6 +3691,7 @@ var retry_policies_default = policies;
 
 // src/helpers.ts
 init_buffer_shim();
+init_xhr_shim();
 function delay(ms) {
   return new Promise((resolve) => {
     setTimeout(() => resolve(), ms);
@@ -3784,7 +3865,7 @@ var _WebClient = class extends Methods {
             this.requestQueue.start();
             throw Error(`A rate limit was exceeded (url: ${url}, retry-after: ${retrySec})`);
           } else {
-            throw new import_p_retry.AbortError(new Error(`Retry header did not contain a valid timeout (url: ${url})`));
+            throw new import_p_retry.AbortError(new Error(`Retry header did not contain a valid timeout (url: ${url}, retry-after header: ${response.headers["retry-after"]})`));
           }
         }
         if (response.status !== 200) {
@@ -3824,10 +3905,10 @@ var _WebClient = class extends Methods {
           opts.filename = (() => {
             const streamOrBuffer = value;
             if (typeof streamOrBuffer.name === "string") {
-              return (0, import_path.basename)(streamOrBuffer.name);
+              return (0, import_path2.basename)(streamOrBuffer.name);
             }
             if (typeof streamOrBuffer.path === "string") {
-              return (0, import_path.basename)(streamOrBuffer.path);
+              return (0, import_path2.basename)(streamOrBuffer.path);
             }
             return defaultFilename;
           })();
@@ -3940,798 +4021,1145 @@ __reExport(src_exports, methods_exports);
 
 // src/response/index.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminAnalyticsGetFileResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminAppsApproveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminAppsApprovedListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminAppsClearResolutionResponse.ts
 init_buffer_shim();
+init_xhr_shim();
+
+// src/response/AdminAppsRequestsCancelResponse.ts
+init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminAppsRequestsListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminAppsRestrictResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminAppsRestrictedListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminAppsUninstallResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminAuthPolicyAssignEntitiesResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminAuthPolicyGetEntitiesResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminAuthPolicyRemoveEntitiesResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminBarriersCreateResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminBarriersDeleteResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminBarriersListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminBarriersUpdateResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsArchiveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsConvertToPrivateResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsCreateResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsDeleteResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsDisconnectSharedResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsEkmListOriginalConnectedChannelInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsGetConversationPrefsResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsGetCustomRetentionResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsGetTeamsResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsInviteResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsRemoveCustomRetentionResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsRenameResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsRestrictAccessAddGroupResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsRestrictAccessListGroupsResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsRestrictAccessRemoveGroupResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsSearchResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsSetConversationPrefsResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsSetCustomRetentionResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsSetTeamsResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsUnarchiveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsWhitelistAddResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsWhitelistListGroupsLinkedToChannelResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminConversationsWhitelistRemoveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminEmojiAddResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminEmojiAddAliasResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminEmojiListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminEmojiRemoveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminEmojiRenameResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminInviteRequestsApproveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminInviteRequestsApprovedListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminInviteRequestsDeniedListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminInviteRequestsDenyResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminInviteRequestsListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminTeamsAdminsListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminTeamsCreateResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminTeamsListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminTeamsOwnersListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminTeamsSettingsInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminTeamsSettingsSetDefaultChannelsResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminTeamsSettingsSetDescriptionResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminTeamsSettingsSetDiscoverabilityResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminTeamsSettingsSetIconResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminTeamsSettingsSetNameResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsergroupsAddChannelsResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsergroupsAddTeamsResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsergroupsListChannelsResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsergroupsRemoveChannelsResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsersAssignResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsersInviteResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsersListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsersRemoveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsersSessionClearSettingsResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsersSessionGetSettingsResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsersSessionInvalidateResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsersSessionListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsersSessionResetResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsersSessionResetBulkResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsersSessionSetSettingsResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsersSetAdminResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsersSetExpirationResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsersSetOwnerResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AdminUsersSetRegularResponse.ts
 init_buffer_shim();
+init_xhr_shim();
+
+// src/response/AdminUsersUnsupportedVersionsExportResponse.ts
+init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ApiTestResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AppsConnectionsOpenResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AppsEventAuthorizationsListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AppsPermissionsInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AppsPermissionsRequestResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AppsPermissionsResourcesListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AppsPermissionsScopesListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AppsPermissionsUsersListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AppsPermissionsUsersRequestResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AppsUninstallResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AuthRevokeResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AuthTeamsListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/AuthTestResponse.ts
 init_buffer_shim();
+init_xhr_shim();
+
+// src/response/BookmarksAddResponse.ts
+init_buffer_shim();
+init_xhr_shim();
+
+// src/response/BookmarksEditResponse.ts
+init_buffer_shim();
+init_xhr_shim();
+
+// src/response/BookmarksListResponse.ts
+init_buffer_shim();
+init_xhr_shim();
+
+// src/response/BookmarksRemoveResponse.ts
+init_buffer_shim();
+init_xhr_shim();
 
 // src/response/BotsInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/CallsAddResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/CallsEndResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/CallsInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/CallsParticipantsAddResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/CallsParticipantsRemoveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/CallsUpdateResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChannelsArchiveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChannelsCreateResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChannelsHistoryResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChannelsInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChannelsInviteResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChannelsJoinResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChannelsKickResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChannelsLeaveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChannelsListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChannelsMarkResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChannelsRenameResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChannelsRepliesResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChannelsSetPurposeResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChannelsSetTopicResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChannelsUnarchiveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChatDeleteResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChatDeleteScheduledMessageResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChatGetPermalinkResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChatMeMessageResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChatPostEphemeralResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChatPostMessageResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChatScheduleMessageResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChatScheduledMessagesListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChatUnfurlResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ChatUpdateResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsAcceptSharedInviteResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsApproveSharedInviteResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsArchiveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsCloseResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsCreateResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsDeclineSharedInviteResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsHistoryResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsInviteResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsInviteSharedResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsJoinResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsKickResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsLeaveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsListConnectInvitesResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsMarkResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsMembersResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsOpenResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsRenameResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsRepliesResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsSetPurposeResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsSetTopicResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ConversationsUnarchiveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/DialogOpenResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/DndEndDndResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/DndEndSnoozeResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/DndInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/DndSetSnoozeResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/DndTeamInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/EmojiListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/FilesCommentsAddResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/FilesCommentsDeleteResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/FilesCommentsEditResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/FilesDeleteResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/FilesInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
+var Type;
+(function(Type15) {
+  Type15["Mrkdwn"] = "mrkdwn";
+  Type15["PlainText"] = "plain_text";
+})(Type || (Type = {}));
 
 // src/response/FilesListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/FilesRemoteAddResponse.ts
 init_buffer_shim();
+init_xhr_shim();
+var Type2;
+(function(Type15) {
+  Type15["Mrkdwn"] = "mrkdwn";
+  Type15["PlainText"] = "plain_text";
+})(Type2 || (Type2 = {}));
 
 // src/response/FilesRemoteInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
+var Type3;
+(function(Type15) {
+  Type15["Mrkdwn"] = "mrkdwn";
+  Type15["PlainText"] = "plain_text";
+})(Type3 || (Type3 = {}));
 
 // src/response/FilesRemoteListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/FilesRemoteRemoveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/FilesRemoteShareResponse.ts
 init_buffer_shim();
+init_xhr_shim();
+var Type4;
+(function(Type15) {
+  Type15["Mrkdwn"] = "mrkdwn";
+  Type15["PlainText"] = "plain_text";
+})(Type4 || (Type4 = {}));
 
 // src/response/FilesRemoteUpdateResponse.ts
 init_buffer_shim();
+init_xhr_shim();
+var Type5;
+(function(Type15) {
+  Type15["Mrkdwn"] = "mrkdwn";
+  Type15["PlainText"] = "plain_text";
+})(Type5 || (Type5 = {}));
 
 // src/response/FilesRevokePublicURLResponse.ts
 init_buffer_shim();
+init_xhr_shim();
+var Type6;
+(function(Type15) {
+  Type15["Mrkdwn"] = "mrkdwn";
+  Type15["PlainText"] = "plain_text";
+})(Type6 || (Type6 = {}));
 
 // src/response/FilesSharedPublicURLResponse.ts
 init_buffer_shim();
+init_xhr_shim();
+var Type7;
+(function(Type15) {
+  Type15["Mrkdwn"] = "mrkdwn";
+  Type15["PlainText"] = "plain_text";
+})(Type7 || (Type7 = {}));
 
 // src/response/FilesUploadResponse.ts
 init_buffer_shim();
+init_xhr_shim();
+var Type8;
+(function(Type15) {
+  Type15["Mrkdwn"] = "mrkdwn";
+  Type15["PlainText"] = "plain_text";
+})(Type8 || (Type8 = {}));
 
 // src/response/GroupsArchiveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/GroupsCloseResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/GroupsCreateResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/GroupsCreateChildResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/GroupsHistoryResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/GroupsInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/GroupsInviteResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/GroupsKickResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/GroupsLeaveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/GroupsListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/GroupsMarkResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/GroupsOpenResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/GroupsRenameResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/GroupsRepliesResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/GroupsSetPurposeResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/GroupsSetTopicResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/GroupsUnarchiveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ImCloseResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ImHistoryResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ImListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ImMarkResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ImOpenResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ImRepliesResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/MigrationExchangeResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/MpimCloseResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/MpimHistoryResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/MpimListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/MpimMarkResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/MpimOpenResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/MpimRepliesResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/OauthAccessResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/OauthTokenResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/OauthV2AccessResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/OauthV2ExchangeResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/OpenIDConnectTokenResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/OpenIDConnectUserInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/PinsAddResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/PinsListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
+var Type9;
+(function(Type15) {
+  Type15["Mrkdwn"] = "mrkdwn";
+  Type15["PlainText"] = "plain_text";
+})(Type9 || (Type9 = {}));
 
 // src/response/PinsRemoveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ReactionsAddResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ReactionsGetResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ReactionsListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ReactionsRemoveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/RemindersAddResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/RemindersCompleteResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/RemindersDeleteResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/RemindersInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/RemindersListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/RtmConnectResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/RtmStartResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/SearchAllResponse.ts
 init_buffer_shim();
+init_xhr_shim();
+var LastEditor;
+(function(LastEditor2) {
+  LastEditor2["Empty"] = "";
+  LastEditor2["U00000000"] = "U00000000";
+})(LastEditor || (LastEditor = {}));
+var Team;
+(function(Team2) {
+  Team2["Empty"] = "";
+  Team2["T00000000"] = "T00000000";
+})(Team || (Team = {}));
+var Ts;
+(function(Ts2) {
+  Ts2["Empty"] = "";
+  Ts2["The0000000000000000"] = "0000000000.000000";
+})(Ts || (Ts = {}));
 
 // src/response/SearchFilesResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/SearchMessagesResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/StarsAddResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/StarsListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
+var Type10;
+(function(Type15) {
+  Type15["Empty"] = "";
+  Type15["Mrkdwn"] = "mrkdwn";
+  Type15["PlainText"] = "plain_text";
+})(Type10 || (Type10 = {}));
 
 // src/response/StarsRemoveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/TeamAccessLogsResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/TeamBillableInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/TeamBillingInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/TeamInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/TeamIntegrationLogsResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/TeamPreferencesListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/TeamProfileGetResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsergroupsCreateResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsergroupsDisableResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsergroupsEnableResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsergroupsListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsergroupsUpdateResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsergroupsUsersListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsergroupsUsersUpdateResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsersConversationsResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsersDeletePhotoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsersGetPresenceResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsersIdentityResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsersInfoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsersListResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsersLookupByEmailResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsersProfileGetResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsersProfileSetResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsersSetActiveResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsersSetPhotoResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/UsersSetPresenceResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/ViewsOpenResponse.ts
 init_buffer_shim();
-var Type;
-(function(Type5) {
-  Type5["Empty"] = "";
-  Type5["Mrkdwn"] = "mrkdwn";
-  Type5["PlainText"] = "plain_text";
-})(Type || (Type = {}));
+init_xhr_shim();
+var Type11;
+(function(Type15) {
+  Type15["Empty"] = "";
+  Type15["Mrkdwn"] = "mrkdwn";
+  Type15["PlainText"] = "plain_text";
+})(Type11 || (Type11 = {}));
 
 // src/response/ViewsPublishResponse.ts
 init_buffer_shim();
-var Type2;
-(function(Type5) {
-  Type5["Empty"] = "";
-  Type5["Mrkdwn"] = "mrkdwn";
-  Type5["PlainText"] = "plain_text";
-})(Type2 || (Type2 = {}));
+init_xhr_shim();
+var Type12;
+(function(Type15) {
+  Type15["Empty"] = "";
+  Type15["Mrkdwn"] = "mrkdwn";
+  Type15["PlainText"] = "plain_text";
+})(Type12 || (Type12 = {}));
 
 // src/response/ViewsPushResponse.ts
 init_buffer_shim();
-var Type3;
-(function(Type5) {
-  Type5["Empty"] = "";
-  Type5["Mrkdwn"] = "mrkdwn";
-  Type5["PlainText"] = "plain_text";
-})(Type3 || (Type3 = {}));
+init_xhr_shim();
+var Type13;
+(function(Type15) {
+  Type15["Empty"] = "";
+  Type15["Mrkdwn"] = "mrkdwn";
+  Type15["PlainText"] = "plain_text";
+})(Type13 || (Type13 = {}));
 
 // src/response/ViewsUpdateResponse.ts
 init_buffer_shim();
-var Type4;
-(function(Type5) {
-  Type5["Empty"] = "";
-  Type5["Mrkdwn"] = "mrkdwn";
-  Type5["PlainText"] = "plain_text";
-})(Type4 || (Type4 = {}));
+init_xhr_shim();
+var Type14;
+(function(Type15) {
+  Type15["Empty"] = "";
+  Type15["Mrkdwn"] = "mrkdwn";
+  Type15["PlainText"] = "plain_text";
+})(Type14 || (Type14 = {}));
 
 // src/response/WorkflowsStepCompletedResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/WorkflowsStepFailedResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 
 // src/response/WorkflowsUpdateStepResponse.ts
 init_buffer_shim();
+init_xhr_shim();
 var export_LogLevel = import_logger2.LogLevel;
 var export_Logger = import_logger2.Logger;
 var export_Method = methods_exports.default;
