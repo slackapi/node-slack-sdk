@@ -1,6 +1,4 @@
-// TODO: export CodedError and its implementations
-// export * from './errors';
-
+export * from './errors';
 export { Logger, LogLevel } from './logger';
 export { AuthorizeResult } from './authorize-result';
 export { CallbackOptions } from './callback-options';
