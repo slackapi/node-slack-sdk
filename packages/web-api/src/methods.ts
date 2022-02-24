@@ -1461,6 +1461,8 @@ export interface ChatUpdateArguments extends WebAPICallOptions, TokenOverridable
   blocks?: (KnownBlock | Block)[];
   link_names?: boolean;
   parse?: 'full' | 'none';
+  file_ids?: string[];
+  reply_broadcast?: boolean;
   text?: string;
 }
 
