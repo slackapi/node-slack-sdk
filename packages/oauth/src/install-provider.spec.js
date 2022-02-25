@@ -245,6 +245,57 @@ describe('InstallProvider', async () => {
     });
   });
 
+  describe('installer.handleInstallPath', async () => {
+    it('should fail if installUrlOptions are not given', async () => {
+      const installer = new InstallProvider({
+        clientId,
+        clientSecret,
+        installUrlOptions: undefined,
+        stateStore: {
+          generateStateParam: sinon.fake.resolves('fakeState'),
+          verifyStateParam: sinon.fake.resolves({})
+        },
+        logger: noopLogger,
+      });
+      const req = {};
+      const headers = {};
+      const res = { setHeader(n, v) { headers[n] = v; }, writeHead: () => {}, end: () => {}, };
+      try {
+        await installer.handleInstallPath(req, res);
+        assert.fail('Exception should be thrown')
+      } catch (e) {
+        assert.equal(e.code, ErrorCode.GenerateInstallUrlError);
+      }
+    });
+    it('should redirect installers to valid authorize URL with state param', async () => {
+      const installer = new InstallProvider({
+        clientId,
+        clientSecret,
+        directInstall: true,
+        installUrlOptions: {
+          scopes: ['channels:read'],
+          metadata: 'some_metadata',
+          teamId: 'T12345',
+          redirectUri: 'https://mysite.com/slack/redirect',
+          userScopes: ['chat:write:user'],
+          metadata: 'foo',
+        },
+        stateStore: {
+          generateStateParam: sinon.fake.resolves('fakeState'),
+          verifyStateParam: sinon.fake.resolves({})
+        },
+        logger: noopLogger,
+      });
+      const req = {};
+      const headers = {};
+      const res = { setHeader(n, v) { headers[n] = v; }, writeHead: () => {}, end: () => {}, };
+      await installer.handleInstallPath(req, res);
+
+      assert.equal(headers['Location'], 'https://slack.com/oauth/v2/authorize?scope=channels%3Aread&state=fakeState&client_id=MY_ID&redirect_uri=https%3A%2F%2Fmysite.com%2Fslack%2Fredirect&team=T12345&user_scope=chat%3Awrite%3Auser');
+      assert.equal(headers['Set-Cookie'], 'slack-app-oauth-state=fakeState; Secure; HttpOnly; Path=/; Max-Age=600');
+    });
+  });
+
   describe('installer.generateInstallUrl', async () => {
     it('should return a generated v2 url', async () => {
       const fakeStateStore = {
@@ -633,6 +684,117 @@ describe('InstallProvider', async () => {
       assert.isTrue(sent);
       assert.equal(fakeStateStore.verifyStateParam.callCount, 0);
     });
+  });
+
+  it('should fail if the state value is not in cookies', async () => {
+    const fakeStateStore = {
+      generateStateParam: sinon.fake.resolves('fakeState'),
+      verifyStateParam: sinon.fake.resolves({})
+    };
+    let sent = false;
+    const res = {
+      send: () => { sent = true; },
+      setHeader: () => {},
+    };
+    const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore, stateStore: fakeStateStore, authVersion: 'v2', logger: noopLogger, clientOptions: fooClientOptions });
+    const fakeState = 'fakeState';
+    const fakeCode = 'fakeCode';
+    const req = {
+      headers: {
+        host: 'example.com',
+        // cookie: `slack-app-oauth-state=${fakeState}`,
+      },
+      url: `http://example.com?state=${fakeState}&code=${fakeCode}`,
+    };
+    await installer.handleCallback(req, res, failureExpectedCallbackOptions);
+    assert.isTrue(sent);
+  });
+  it('should fail if there is a different state value in cookies', async () => {
+    const fakeStateStore = {
+      generateStateParam: sinon.fake.resolves('fakeState'),
+      verifyStateParam: sinon.fake.resolves({})
+    };
+    let sent = false;
+    const res = {
+      send: () => { sent = true; },
+      setHeader: () => {},
+    };
+    const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore, stateStore: fakeStateStore, authVersion: 'v2', logger: noopLogger, clientOptions: fooClientOptions });
+    const fakeState = 'fakeState';
+    const fakeCode = 'fakeCode';
+    const req = {
+      headers: {
+        host: 'example.com',
+        cookie: `slack-app-oauth-state=something-different`,
+      },
+      url: `http://example.com?state=${fakeState}&code=${fakeCode}`,
+    };
+    await installer.handleCallback(req, res, failureExpectedCallbackOptions);
+    assert.isTrue(sent);
+  });
+  it('should not fail if no state cookie returned and legacyStateVerification is enabled', async () => {
+    const fakeStateStore = {
+      generateStateParam: sinon.fake.resolves('fakeState'),
+      verifyStateParam: sinon.fake.resolves({})
+    };
+    let sent = false;
+    const res = {
+      send: () => { sent = true; },
+      setHeader: () => {},
+    };
+    const installer = new InstallProvider({
+      clientId,
+      clientSecret,
+      stateSecret,
+      installationStore,
+      logger: noopLogger,
+      stateStore: fakeStateStore,
+      clientOptions: fooClientOptions,
+      legacyStateVerification: true, // this is the key configuration in this test
+    });
+    const fakeState = 'fakeState';
+    const fakeCode = 'fakeCode';
+    const req = {
+      headers: {
+        host: 'example.com',
+        // cookie: `slack-app-oauth-state=${fakeState}`,
+      },
+      url: `http://example.com?state=${fakeState}&code=${fakeCode}`,
+    };
+    await installer.handleCallback(req, res, successExpectedCallbackOptions);
+    assert.isTrue(sent);
+  });
+  it('should not fail if a different state cookie returned and legacyStateVerification is enabled', async () => {
+    const fakeStateStore = {
+      generateStateParam: sinon.fake.resolves('fakeState'),
+      verifyStateParam: sinon.fake.resolves({})
+    };
+    let sent = false;
+    const res = {
+      send: () => { sent = true; },
+      setHeader: () => {},
+    };
+    const installer = new InstallProvider({
+      clientId,
+      clientSecret,
+      stateSecret,
+      installationStore,
+      logger: noopLogger,
+      stateStore: fakeStateStore,
+      clientOptions: fooClientOptions,
+      legacyStateVerification: true, // this is the key configuration in this test
+    });
+    const fakeState = 'fakeState';
+    const fakeCode = 'fakeCode';
+    const req = {
+      headers: {
+        host: 'example.com',
+        cookie: `slack-app-oauth-state=something-different`,
+      },
+      url: `http://example.com?state=${fakeState}&code=${fakeCode}`,
+    };
+    await installer.handleCallback(req, res, successExpectedCallbackOptions);
+    assert.isTrue(sent);
   });
 });
 

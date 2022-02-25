@@ -30,7 +30,13 @@ export default class FileInstallationStore implements InstallationStore {
     const installationDir = this.getInstallationDir(enterprise?.id, team?.id);
 
     if (logger !== undefined) {
-      logger.info(`Storing installation in ${installationDir} for ${JSON.stringify({ enterprise, team, user })}`);
+      const dataForLogging = {
+        enterprise,
+        team,
+        // user object can include token values
+        user: { id: user.id },
+      };
+      logger.info(`Storing installation in ${installationDir} for ${JSON.stringify(dataForLogging)}`);
       logger.warn('FileInstallationStore is not intended for production purposes.');
     }
 
