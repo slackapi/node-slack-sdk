@@ -83,7 +83,7 @@ export default class FileInstallationStore implements InstallationStore {
       }
       return installation;
     } catch (err) {
-      throw new Error(`Failed to fetch data from FileInstallationStore (error: ${err})`);
+      throw new Error(`No installation data found (enterprise_id: ${query.enterpriseId}, team_id: ${query.teamId}, user_id: ${query.userId})`);
     }
   }
 
@@ -105,36 +105,28 @@ export default class FileInstallationStore implements InstallationStore {
       filesToDelete = filesToDelete.concat(userFiles);
     }
 
-    try {
-      filesToDelete.map((filePath) => deleteFile(path.resolve(`${installationDir}/${filePath}`)));
-    } catch (err) {
-      throw new Error(`Failed to delete installation from FileInstallationStore (error: ${err})`);
-    }
+    filesToDelete.forEach((filePath) => {
+      try {
+        deleteFile(path.resolve(`${installationDir}/${filePath}`));
+      } catch (err) {
+        logger?.error(`Failed to delete installation from FileInstallationStore (error: ${err})`);
+      }
+    });
   }
 
   private getInstallationDir(enterpriseId = '', teamId = '', isEnterpriseInstall = false): string {
     let installDir = `${this.baseDir}/${enterpriseId}`;
-
     if (teamId !== '' && !isEnterpriseInstall) {
       installDir += (enterpriseId !== '') ? `-${teamId}` : `${teamId}`;
     }
-
     return installDir;
   }
 }
 
 function writeToFile(filePath: string, data: string): void {
-  fs.writeFile(filePath, data, (err) => {
-    if (err !== null) {
-      throw new Error(`There was an error writing to the InstallationStore (error: ${err})`);
-    }
-  });
+  fs.writeFileSync(filePath, data);
 }
 
 function deleteFile(filePath: string): void {
-  fs.unlink(path.resolve(filePath), (err) => {
-    if (err !== null) {
-      throw new Error(`Failed to delete installation from FileInstallationStore (error: ${err})`);
-    }
-  });
+  fs.unlinkSync(path.resolve(filePath));
 }
