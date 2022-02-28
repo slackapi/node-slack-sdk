@@ -24,6 +24,7 @@ export default class ClearStateStore implements StateStore {
     const source = {
       installOptions,
       now: now.toJSON(),
+      random: Math.floor(Math.random() * 1000000),
     };
     return sign(source, this.stateSecret);
   }

@@ -33,7 +33,6 @@ export class FileStateStore implements StateStore {
     const source: StateObj = {
       installOptions,
       now,
-      random: Math.floor(Math.random() * 1000000),
     };
     this.writeToFile(state, source);
     return state;
