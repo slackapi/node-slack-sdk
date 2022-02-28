@@ -4,6 +4,7 @@ import { InstallURLOptions } from '../install-url-options';
 export interface StateObj {
   now: Date;
   installOptions: InstallURLOptions;
+  random?: string | number;
 }
 
 export interface StateStore {
