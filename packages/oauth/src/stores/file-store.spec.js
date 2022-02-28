@@ -72,97 +72,127 @@ const storedOrgInstallation = {
 
 describe('FileInstallationStore', async () => {
 
-  let fsMakeDir, fsWriteFile, fsReadFileSync;
+  let fsMakeDirSync,
+    fsWriteFileSync, fsReadFileSync,
+    fsUnlinkSync, fsReaddirSync;
 
   beforeEach(() => {
-    fsMakeDir = sinon.stub(fs, 'mkdir').returns({});
-    fsWriteFile = sinon.stub(fs, 'writeFile').returns({});
+    // Note that these sinon stubs affect the `os` package behaviors
+    // in the tests in this file
+    fsMakeDirSync = sinon.stub(fs, 'mkdirSync').returns({});
+    fsWriteFileSync = sinon.stub(fs, 'writeFileSync').returns({});
     fsReadFileSync = sinon.stub(fs, 'readFileSync').returns(Buffer.from(JSON.stringify(storedInstallation)));
-    fsUnlink = sinon.stub(fs, 'unlink').returns({});
+    fsUnlinkSync = sinon.stub(fs, 'unlinkSync').returns({});
     fsReaddirSync = sinon.stub(fs, 'readdirSync').returns(['app-latest', 'user-userId-latest']);
   });
 
   afterEach(() => {
-    fsMakeDir.restore();
-    fsWriteFile.restore();
+    fsMakeDirSync.restore();
+    fsWriteFileSync.restore();
     fsReadFileSync.restore();
-    fsUnlink.restore();
+    fsUnlinkSync.restore();
     fsReaddirSync.restore();
   });
 
   it('should store the latest installation', async () => {
     const installationStore = new FileInstallationStore({ baseDir: os.tmpdir() });
-    const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
     const { enterprise, team, user } = storedInstallation;
     const fakeInstallDir = `${os.tmpdir()}/${enterprise.id}-${team.id}`;
     const installationJSON = JSON.stringify(storedInstallation);
 
-    installer.installationStore.storeInstallation(storedInstallation);
-    assert.equal(fsWriteFile.calledWith(`${fakeInstallDir}/app-latest`, installationJSON), true);
-    assert.equal(fsWriteFile.calledWith(sinon.match(`${fakeInstallDir}/user-${user.id}-latest`), installationJSON), true);
+    await installationStore.storeInstallation(storedInstallation);
+    assert.equal(fsWriteFileSync.calledWith(`${fakeInstallDir}/app-latest`, installationJSON), true);
+    assert.equal(fsWriteFileSync.calledWith(sinon.match(`${fakeInstallDir}/user-${user.id}-latest`), installationJSON), true);
+  });
+  it('should throw an exception with sufficient information when failing to store data', async () => {
+    fsWriteFileSync.restore(); // disable sinon stub for this test case
+    fsWriteFileSync = sinon.stub(fs, 'writeFileSync').throws(new Error('The original error message'));
+    const installationStore = new FileInstallationStore({
+      baseDir: os.tmpdir(),
+      clientId: '11111.22222',
+    });
+    try {
+      await installationStore.storeInstallation(storedInstallation);
+      assert.fail('An exception should be thrown');
+    } catch (e) {
+      assert.equal(e.message, 'Failed to save installation to FileInstallationStore (error: Error: The original error message)');
+    }
   });
 
   it('should store additional records for each installation with historicalDataEnabled', async () => {
     const installationStore = new FileInstallationStore({ baseDir: os.tmpdir(), historicalDataEnabled: true });
-    const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
     const { enterprise, team, user } = storedInstallation;
     const fakeInstallDir = `${os.tmpdir()}/${enterprise.id}-${team.id}`;
     const installationJSON = JSON.stringify(storedInstallation);
 
-    installer.installationStore.storeInstallation(storedInstallation);
+    await installationStore.storeInstallation(storedInstallation);
 
-    assert.equal(fsWriteFile.calledWith(sinon.match(`${fakeInstallDir}/app-`), installationJSON), true);
-    assert.equal(fsWriteFile.calledWith(sinon.match(`${fakeInstallDir}/user-${user.id}-`), installationJSON), true);
+    assert.equal(fsWriteFileSync.calledWith(sinon.match(`${fakeInstallDir}/app-`), installationJSON), true);
+    assert.equal(fsWriteFileSync.calledWith(sinon.match(`${fakeInstallDir}/user-${user.id}-`), installationJSON), true);
 
     // 1 store = 4 files = 2 latest + 2 timestamps
-    expect(fsWriteFile.callCount).equals(4);
+    expect(fsWriteFileSync.callCount).equals(4);
   });
 
   it('should fetch a stored installation', async () => {
     const installationStore = new FileInstallationStore({ baseDir: os.tmpdir() });
-    const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
     const { enterprise, team } = storedInstallation;
     const fakeInstallDir = `${os.tmpdir()}/${enterprise.id}-${team.id}`;
     const query = { enterpriseId: enterprise.id, teamId: team.id };
 
-    installer.installationStore.storeInstallation(storedInstallation);
-    const installation = await installer.installationStore.fetchInstallation(query);
+    await installationStore.storeInstallation(storedInstallation);
+    const installation = await installationStore.fetchInstallation(query);
 
     assert.equal(fsReadFileSync.calledWith(sinon.match(`${fakeInstallDir}/app-latest`)), true);
     assert.deepEqual(installation, storedInstallation);
   });
+  it('should throw an exception with sufficient information when failing to fetch data', async () => {
+    fsReadFileSync.restore(); // disable sinon stub for this test case
+    const installationStore = new FileInstallationStore({
+      baseDir: os.tmpdir(),
+      clientId: '111.222',
+    });
+    try {
+      const res = await installationStore.fetchInstallation({
+        enterpriseId: 'E999',
+        teamId: 'T111',
+      });
+      assert.fail(`An exception should be thrown ${JSON.stringify(res)}`);
+    } catch (e) {
+      assert.equal(e.message, 
+        'No installation data found (enterprise_id: E999, team_id: T111, user_id: undefined)');
+    }
+  });
 
   it('should delete all records of installation if no userId is passed', async () => {
     const installationStore = new FileInstallationStore({ baseDir: os.tmpdir() });
-    const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
     const { enterprise, team } = storedInstallation;
     const fakeInstallDir = `${os.tmpdir()}/${enterprise.id}-${team.id}`;
     const query = { enterpriseId: enterprise.id, teamId: team.id };
 
-    await installer.installationStore.deleteInstallation(query);
+    await installationStore.deleteInstallation(query);
 
     assert.equal(fsReaddirSync.calledWith(sinon.match(fakeInstallDir)), true);
-    assert.equal(fsUnlink.calledWith(sinon.match(`app-latest`)), true);
-    assert.equal(fsUnlink.calledWith(sinon.match(`user-userId-latest`)), true);
+    assert.equal(fsUnlinkSync.calledWith(sinon.match(`app-latest`)), true);
+    assert.equal(fsUnlinkSync.calledWith(sinon.match(`user-userId-latest`)), true);
 
     // fsReaddirSync returns ['app-latest', 'user-userId-latest']
-    expect(fsUnlink.callCount).equals(2);
+    expect(fsUnlinkSync.callCount).equals(2);
   });
 
   it('should delete only user records of installation if userId is passed', async () => {
     const installationStore = new FileInstallationStore({ baseDir: os.tmpdir() });
-    const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
     const { enterprise, team, user } = storedInstallation;
     const fakeInstallDir = `${os.tmpdir()}/${enterprise.id}-${team.id}`;
     const query = { enterpriseId: enterprise.id, teamId: team.id, userId: user.id };
 
-    await installer.installationStore.deleteInstallation(query);
+    await installationStore.deleteInstallation(query);
 
     assert.equal(fsReaddirSync.calledWith(sinon.match(fakeInstallDir)), true);
-    assert.equal(fsUnlink.calledWith(sinon.match(`user-${user.id}-latest`)), true);
+    assert.equal(fsUnlinkSync.calledWith(sinon.match(`user-${user.id}-latest`)), true);
 
     // fsReaddirSync returns ['app-latest', 'user-userId-latest']
-    expect(fsUnlink.callCount).equals(1);
+    expect(fsUnlinkSync.callCount).equals(1);
   });
 
   it('should run authorize with triage-bot\'s MongoDB data', async () => {
