@@ -105,13 +105,11 @@ export default class FileInstallationStore implements InstallationStore {
       filesToDelete = filesToDelete.concat(userFiles);
     }
 
-    filesToDelete.forEach((filePath) => {
-      try {
-        deleteFile(path.resolve(`${installationDir}/${filePath}`));
-      } catch (err) {
-        logger?.error(`Failed to delete installation from FileInstallationStore (error: ${err})`);
-      }
-    });
+    try {
+      filesToDelete.forEach((filePath) => deleteFile(path.resolve(`${installationDir}/${filePath}`)));
+    } catch (err) {
+      logger?.error(`Failed to delete installation from FileInstallationStore (error: ${err})`);
+    }
   }
 
   private getInstallationDir(enterpriseId = '', teamId = '', isEnterpriseInstall = false): string {
