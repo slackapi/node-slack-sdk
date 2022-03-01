@@ -2,6 +2,7 @@ import { homedir } from 'os';
 import fs from 'fs';
 import path from 'path';
 import { randomUUID } from 'crypto';
+import { ConsoleLogger, Logger } from '@slack/logger';
 import { StateStore, StateObj } from './interface';
 import { InstallURLOptions } from '../install-url-options';
 import { InvalidStateError } from '../errors';
@@ -9,12 +10,15 @@ import { InvalidStateError } from '../errors';
 export interface FileStateStoreArgs {
   stateExpirationSeconds?: number;
   baseDir?: string;
+  logger?: Logger;
 }
 
 export class FileStateStore implements StateStore {
   private baseDir: string;
 
   private stateExpirationSeconds: number;
+
+  private logger: Logger;
 
   public constructor(args: FileStateStoreArgs) {
     this.baseDir = args.baseDir !== undefined ?
@@ -23,6 +27,7 @@ export class FileStateStore implements StateStore {
     this.stateExpirationSeconds = args.stateExpirationSeconds !== undefined ?
       args.stateExpirationSeconds :
       600;
+    this.logger = args.logger !== undefined ? args.logger : new ConsoleLogger();
   }
 
   public async generateStateParam(
@@ -43,27 +48,25 @@ export class FileStateStore implements StateStore {
     state: string,
   ): Promise<InstallURLOptions> {
     try {
-      if (this.findFile(state)) {
-        // decode the state using the secret
-        let decoded: StateObj | undefined;
-        try {
-          decoded = this.readFile(state);
-        } catch (e) {
-          const message = `Failed to load the data represented by the state parameter (error: ${e})`;
-          throw new InvalidStateError(message);
+      // decode the state using the secret
+      let decoded: StateObj | undefined;
+      try {
+        decoded = this.readFile(state);
+      } catch (e) {
+        const message = `Failed to load the data represented by the state parameter (error: ${e})`;
+        throw new InvalidStateError(message);
+      }
+      if (decoded !== undefined) {
+        // Check if the state value is not too old
+        const generatedAt = new Date(decoded.now);
+        const passedSeconds = Math.floor(
+          (now.getTime() - generatedAt.getTime()) / 1000,
+        );
+        if (passedSeconds > this.stateExpirationSeconds) {
+          throw new InvalidStateError('The state value is already expired');
         }
-        if (decoded !== undefined) {
-          // Check if the state value is not too old
-          const generatedAt = new Date(decoded.now);
-          const passedSeconds = Math.floor(
-            (now.getTime() - generatedAt.getTime()) / 1000,
-          );
-          if (passedSeconds > this.stateExpirationSeconds) {
-            throw new InvalidStateError('The state value is already expired');
-          }
-          // return installOptions
-          return decoded.installOptions;
-        }
+        // return installOptions
+        return decoded.installOptions;
       }
     } finally {
       this.deleteFile(state);
@@ -81,11 +84,6 @@ export class FileStateStore implements StateStore {
     fs.writeFileSync(fullpath, JSON.stringify(data));
   }
 
-  private findFile(filename: string): boolean {
-    const fullpath = path.resolve(`${this.baseDir}/${filename}`);
-    return fs.existsSync(fullpath);
-  }
-
   private readFile(filename: string): StateObj | undefined {
     const fullpath = path.resolve(`${this.baseDir}/${filename}`);
     try {
@@ -94,7 +92,8 @@ export class FileStateStore implements StateStore {
         return JSON.parse(data.toString());
       }
       return undefined;
-    } catch (_) {
+    } catch (e) {
+      this.logger.debug(`Failed to load state data from file (error: ${e})`);
       return undefined;
     }
   }
