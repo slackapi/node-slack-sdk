@@ -177,14 +177,13 @@ describe('InstallProvider', async () => {
 
   describe('constructor()', async () => {
     it('should build a default installer given a clientID, client secret and stateSecret', async () => {
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret });
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, logger: noopLogger, });
       assert.instanceOf(installer, InstallProvider);
       assert.equal(installer.authVersion, 'v2');
     });
 
     it('should build a default installer given a clientID, client secret, stateSecret and clientOptions', async () => {
-      const clientOptions = { foo: 'bar' };
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, clientOptions });
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, logger: noopLogger, clientOptions: fooClientOptions });
       assert.instanceOf(installer, InstallProvider);
       assert.equal(installer.authVersion, 'v2');
       assert.equal(installer.clientOptions.foo, 'bar');
@@ -197,30 +196,30 @@ describe('InstallProvider', async () => {
         verifyStateParam: sinon.fake.resolves({})
       }
 
-      const installer = new InstallProvider({ clientId, clientSecret, stateStore: fakeStateStore });
+      const installer = new InstallProvider({ clientId, clientSecret, stateStore: fakeStateStore, logger: noopLogger, });
       assert.instanceOf(installer, InstallProvider);
     });
 
     it('should build a default installer given a clientID, client secret, stateSecrect and installationStore', async () => {
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore, logger: noopLogger, });
       assert.instanceOf(installer, InstallProvider);
     });
 
     it('should build a default installer given a clientID, client secret, stateSecrect and authVersion v2', async () => {
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, authVersion: 'v2' });
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, authVersion: 'v2', logger: noopLogger, });
       assert.instanceOf(installer, InstallProvider);
       assert.equal(installer.authVersion, 'v2');
     });
 
     it('should build a default installer given a clientID, client secret, stateSecrect and authVersion v1', async () => {
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, authVersion: 'v1' });
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, authVersion: 'v1', logger: noopLogger, });
       assert.instanceOf(installer, InstallProvider);
       assert.equal(installer.authVersion, 'v1');
     });
 
     it('should throw an error if missing a clientSecret', async () => {
       try {
-        const installer = new InstallProvider({ clientId, stateSecret });
+        new InstallProvider({ clientId, stateSecret, logger: noopLogger, });
       } catch (error) {
         assert.equal(error.code, ErrorCode.InstallerInitializationError);
         assert.equal(error.message, 'You must provide a valid clientId and clientSecret');
@@ -229,7 +228,7 @@ describe('InstallProvider', async () => {
 
     it('should throw an error if missing a clientID', async () => {
       try {
-        const installer = new InstallProvider({ clientSecret, stateSecret });
+        new InstallProvider({ clientSecret, stateSecret, logger: noopLogger, });
       } catch (error) {
         assert.equal(error.code, ErrorCode.InstallerInitializationError);
         assert.equal(error.message, 'You must provide a valid clientId and clientSecret');
@@ -238,7 +237,7 @@ describe('InstallProvider', async () => {
 
     it('should throw an error if missing a stateSecret when using default state store', async () => {
       try {
-        const installer = new InstallProvider({ clientId, clientSecret });
+        new InstallProvider({ clientId, clientSecret, logger: noopLogger, });
       } catch (error) {
         assert.equal(error.code, ErrorCode.InstallerInitializationError);
         assert.equal(error.message, 'To use the built-in state store you must provide a State Secret');
@@ -252,7 +251,7 @@ describe('InstallProvider', async () => {
         generateStateParam: sinon.fake.resolves('fakeState'),
         verifyStateParam: sinon.fake.resolves({})
       }
-      const installer = new InstallProvider({ clientId, clientSecret, stateStore: fakeStateStore });
+      const installer = new InstallProvider({ clientId, clientSecret, stateStore: fakeStateStore, logger: noopLogger, });
       const scopes = ['channels:read'];
       const teamId = '1234Team';
       const redirectUri = 'https://mysite.com/slack/redirect';
@@ -289,7 +288,7 @@ describe('InstallProvider', async () => {
         verifyStateParam: sinon.fake.resolves({})
       }
       const authorizationUrl = 'https://dev.slack.com/oauth/v2/authorize';
-      const installer = new InstallProvider({ clientId, clientSecret, stateStore: fakeStateStore, authorizationUrl });
+      const installer = new InstallProvider({ clientId, clientSecret, stateStore: fakeStateStore, authorizationUrl, logger: noopLogger, });
       const scopes = ['channels:read'];
       const teamId = '1234Team';
       const redirectUri = 'https://mysite.com/slack/redirect';
@@ -317,12 +316,11 @@ describe('InstallProvider', async () => {
         verifyStateParam: sinon.fake.resolves({})
       }
       const authorizationUrl = 'https://dev.slack.com/oauth/v2/authorize';
-      const installer = new InstallProvider({ clientId, clientSecret, stateStore: fakeStateStore, authorizationUrl });
+      const installer = new InstallProvider({ clientId, clientSecret, stateStore: fakeStateStore, authorizationUrl, logger: noopLogger, });
       const scopes = ['channels:read'];
       const teamId = '1234Team';
       const redirectUri = 'https://mysite.com/slack/redirect';
       const userScopes = ['chat:write:user']
-      const stateVerification = true;
       const installUrlOptions = {
         scopes,
         metadata: 'some_metadata',
@@ -355,7 +353,7 @@ describe('InstallProvider', async () => {
         generateStateParam: sinon.fake.resolves('fakeState'),
         verifyStateParam: sinon.fake.resolves({})
       }
-      const installer = new InstallProvider({ clientId, clientSecret, 'stateStore': fakeStateStore, authVersion: 'v1' });
+      const installer = new InstallProvider({ clientId, clientSecret, 'stateStore': fakeStateStore, authVersion: 'v1', logger: noopLogger, });
       const scopes = ['bot'];
       const teamId = '1234Team';
       const redirectUri = 'https://mysite.com/slack/redirect';
@@ -384,7 +382,7 @@ describe('InstallProvider', async () => {
     });
 
     it('should fail if missing scopes', async () => {
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret });
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, logger: noopLogger, });
       try {
         const generatedUrl = await installer.generateInstallUrl({})
         assert.exists(generatedUrl);
@@ -397,7 +395,7 @@ describe('InstallProvider', async () => {
 
   describe('installer.authorize', async () => {
     it('should fail if database does not have an entry for authorize query', async () => {
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore,logger: noopLogger, });
       try {
         const authResult = await installer.authorize({ teamId: 'non_existing_team_id' });
         assert.fail('Should have failed');
@@ -408,7 +406,7 @@ describe('InstallProvider', async () => {
     });
 
     it('should successfully return the Installation Object from the database', async () => {
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore,logger: noopLogger, });
       const fakeAuthResult = {
         userToken: 'userToken',
         botToken: 'botToken',
@@ -436,10 +434,14 @@ describe('InstallProvider', async () => {
         verifyStateParam: sinon.fake.resolves({})
       }
     });
+
     it('should call the failure callback with a valid installOptions due to missing code query parameter on the URL', async () => {
       const req = { headers: { host: 'example.com'},  url: 'http://example.com' };
       let sent = false;
-      const res = { send: () => { sent = true; } };
+      const res = {
+        send: () => { sent = true; },
+        setHeader: () => {},
+      };
       const callbackOptions = {
         success: async (installation, installOptions, req, res) => {
           res.send('successful!');
@@ -453,15 +455,24 @@ describe('InstallProvider', async () => {
           res.send('failure');
         },
       }
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore, logger: noopLogger });
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore, logger: noopLogger, });
       await installer.handleCallback(req, res, callbackOptions);
 
       assert.isTrue(sent);
     });
     it('should call the failure callback due to missing state query parameter on the URL', async () => {
-      const req = { headers: { host: 'example.com'},  url: 'http://example.com?code=1234' };
+      const req = {
+        headers: {
+          host: 'example.com',
+          cookie: 'slack-app-oauth-state=fakeState',
+        },
+        url: 'http://example.com?code=1234',
+      };
       let sent = false;
-      const res = { send: () => { sent = true; } };
+      const res = {
+        send: () => { sent = true; },
+        setHeader: () => {},
+      };
       const callbackOptions = {
         success: async (installation, installOptions, req, res) => {
           res.send('successful!');
@@ -473,7 +484,7 @@ describe('InstallProvider', async () => {
           res.send('failure');
         },
       }
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore, logger: noopLogger });
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore, logger: noopLogger, });
       await installer.handleCallback(req, res, callbackOptions);
 
       assert.isTrue(sent);
@@ -482,25 +493,22 @@ describe('InstallProvider', async () => {
     it('should call the success callback when state query param is missing but stateVerification disabled', async () => {
       const req = { headers: { host: 'example.com'}, url: 'http://example.com?code=1234' };
       let sent = false;
-      const res = { send: () => { sent = true; } };
-      const callbackOptions = {
-        success: async (installation, installOptions, req, res) => {
-          res.send('successful!');
-        },
-        failure: async (error, installOptions, req, res) => {
-          assert.fail('should have succeeded');
-        },
-      }
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, stateVerification: false, installationStore, logger: noopLogger });
-      await installer.handleCallback(req, res, callbackOptions);
-
+      const res = {
+        send: () => { sent = true; },
+        setHeader: () => {},
+      };
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, stateVerification: false, installationStore, logger: noopLogger, });
+      await installer.handleCallback(req, res, successExpectedCallbackOptions);
       assert.isTrue(sent);
     });
 
     it('should call the failure callback if an access_denied error query parameter was returned on the URL', async () => {
       const req = { headers: { host: 'example.com'}, url: 'http://example.com?error=access_denied' };
       let sent = false;
-      const res = { send: () => { sent = true; } };
+      const res = {
+        send: () => { sent = true; },
+        setHeader: () => {},
+      };
       const callbackOptions = {
         success: async (installation, installOptions, req, res) => {
           res.send('successful!');
@@ -512,7 +520,7 @@ describe('InstallProvider', async () => {
           res.send('failure');
         },
       }
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore, logger: noopLogger });
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore, logger: noopLogger, });
       await installer.handleCallback(req, res, callbackOptions);
 
       assert.isTrue(sent);
@@ -520,89 +528,88 @@ describe('InstallProvider', async () => {
 
     it('should call the success callback for a v2 url', async () => {
       let sent = false;
-      const res = { send: () => { sent = true; } };
-      const callbackOptions = {
-        success: async (installation, installOptions, req, res) => {
-          res.send('successful!');
-        },
-        failure: async (error, installOptions, req, res) => {
-          assert.fail(error.message);
-        },
-      }
-
-      const installer = new InstallProvider({ clientId, clientSecret, installationStore, stateStore: fakeStateStore });
+      const res = {
+        send: () => { sent = true; },
+        setHeader: () => {},
+      };
+      const installer = new InstallProvider({ clientId, clientSecret, installationStore, stateStore: fakeStateStore, logger: noopLogger, });
       const fakeState = 'fakeState';
       const fakeCode = 'fakeCode';
-      const req = { headers: { host: 'example.com'}, url: `http://example.com?state=${fakeState}&code=${fakeCode}` };
-      await installer.handleCallback(req, res, callbackOptions);
+      const req = {
+        headers: {
+          host: 'example.com',
+          cookie: `slack-app-oauth-state=${fakeState}`,
+        },
+        url: `http://example.com?state=${fakeState}&code=${fakeCode}`,
+      };
+      await installer.handleCallback(req, res, successExpectedCallbackOptions);
       assert.isTrue(sent);
       assert.equal(fakeStateStore.verifyStateParam.callCount, 1);
     });
 
     it('should call the success callback for a v2 url and client options passed into InstallProvider should be propagated to the underlying @web-api WebClient', async () => {
       let sent = false;
-      const res = { send: () => { sent = true; } };
-      const callbackOptions = {
-        success: async (installation, installOptions, req, res) => {
-          res.send('successful!');
-        },
-        failure: async (error, installOptions, req, res) => {
-          assert.fail(error.message);
-        },
-      }
-      const clientOptions = { foo: 'baz' };
-      const installer = new InstallProvider({ clientId, clientSecret, installationStore, stateStore: fakeStateStore, clientOptions });
+      const res = {
+        send: () => { sent = true; },
+        setHeader: () => {},
+      };
+      const installer = new InstallProvider({ clientId, clientSecret, installationStore, stateStore: fakeStateStore, logger: noopLogger, clientOptions: fooClientOptions });
       const fakeState = 'fakeState';
       const fakeCode = 'fakeCode';
-      const req = { headers: { host: 'example.com'}, url: `http://example.com?state=${fakeState}&code=${fakeCode}` };
-      await installer.handleCallback(req, res, callbackOptions);
+      const req = {
+        headers: {
+          host: 'example.com',
+          cookie: `slack-app-oauth-state=${fakeState}`,
+        },
+        url: `http://example.com?state=${fakeState}&code=${fakeCode}`,
+      };
+      await installer.handleCallback(req, res, successExpectedCallbackOptions);
       assert.isTrue(sent);
       assert.equal(fakeStateStore.verifyStateParam.callCount, 1);
-      assert.equal(webClientOptions.foo, clientOptions.foo);
+      assert.equal(webClientOptions.foo, fooClientOptions.foo);
     });
 
     it('should call the success callback for a v1 url', async () => {
       let sent = false;
-      const res = { send: () => { sent = true; } };
-      const callbackOptions = {
-        success: async (installation, installOptions, req, res) => {
-          res.send('successful!');
-        },
-        failure: async (error, installOptions, req, res) => {
-          assert.fail(error.message);
-        },
-      }
-
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore, stateStore: fakeStateStore, authVersion: 'v1' });
+      const res = {
+        send: () => { sent = true; },
+        setHeader: () => {},
+      };
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore, stateStore: fakeStateStore, authVersion: 'v1', logger: noopLogger, });
       const fakeState = 'fakeState';
       const fakeCode = 'fakeCode';
-      const req = { headers: { host: 'example.com'}, url: `http://example.com?state=${fakeState}&code=${fakeCode}` };
-      await installer.handleCallback(req, res, callbackOptions);
+      const req = {
+        headers: {
+          host: 'example.com',
+          cookie: `slack-app-oauth-state=${fakeState}`,
+        },
+        url: `http://example.com?state=${fakeState}&code=${fakeCode}`,
+      };
+      await installer.handleCallback(req, res, successExpectedCallbackOptions);
       assert.isTrue(sent);
       assert.equal(fakeStateStore.verifyStateParam.callCount, 1);
     });
 
     it('should call the success callback for a v1 url and client options passed into InstallProvider should be propagated to the underlying @web-api WebClient', async () => {
       let sent = false;
-      const res = { send: () => { sent = true; } };
-      const callbackOptions = {
-        success: async (installation, installOptions, req, res) => {
-          res.send('successful!');
-        },
-        failure: async (error, installOptions, req, res) => {
-          assert.fail(error.message);
-        },
-      }
-
-      const clientOptions = { foo: 'bar' };
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore, stateStore: fakeStateStore, authVersion: 'v1', clientOptions });
+      const res = {
+        send: () => { sent = true; },
+        setHeader: () => {},
+      };
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore, stateStore: fakeStateStore, authVersion: 'v1', logger: noopLogger, clientOptions: fooClientOptions });
       const fakeState = 'fakeState';
       const fakeCode = 'fakeCode';
-      const req = { headers: { host: 'example.com'}, url: `http://example.com?state=${fakeState}&code=${fakeCode}` };
-      await installer.handleCallback(req, res, callbackOptions);
+      const req = {
+        headers: {
+          host: 'example.com',
+          cookie: `slack-app-oauth-state=${fakeState}`,
+        },
+        url: `http://example.com?state=${fakeState}&code=${fakeCode}`,
+      };
+      await installer.handleCallback(req, res, successExpectedCallbackOptions);
       assert.isTrue(sent);
       assert.equal(fakeStateStore.verifyStateParam.callCount, 1);
-      assert.equal(webClientOptions.foo, clientOptions.foo);
+      assert.equal(webClientOptions.foo, fooClientOptions.foo);
     });
 
     it('should not verify state when stateVerification is false', async () => {
@@ -612,22 +619,39 @@ describe('InstallProvider', async () => {
       };
       let sent = false;
       const res = { send: () => { sent = true; } };
-      const callbackOptions = {
-        success: async (installation, installOptions, req, res) => {
-          res.send('successful!');
-        },
-        failure: async (error, installOptions, req, res) => {
-          res.send('failure');
-          assert.fail('should have sent!');
-        },
-      };
-      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, stateVerification: false, installationStore, stateStore: fakeStateStore, });
+      const installer = new InstallProvider({ clientId, clientSecret, stateSecret, stateVerification: false, installationStore, stateStore: fakeStateStore, logger: noopLogger, });
       const fakeState = 'fakeState';
       const fakeCode = 'fakeCode';
-      const req = { headers: { host: 'example.com'}, url: `http://example.com?state=${fakeState}&code=${fakeCode}` };
-      await installer.handleCallback(req, res, callbackOptions);
+      const req = {
+        headers: {
+          host: 'example.com',
+          // cookie: `slack-app-oauth-state=${fakeState}`,
+        },
+        url: `http://example.com?state=${fakeState}&code=${fakeCode}`,
+      };
+      await installer.handleCallback(req, res, successExpectedCallbackOptions);
       assert.isTrue(sent);
       assert.equal(fakeStateStore.verifyStateParam.callCount, 0);
     });
   });
 });
+
+const successExpectedCallbackOptions = {
+  success: async (_installation, _options, _req, res) => {
+    res.send('success as expected!');
+  },
+  failure: async (error, _options, _req, _res) => {
+    assert.fail(error.message);
+  },
+};
+
+const failureExpectedCallbackOptions = {
+  success: async (_installation, _ptions, _req, _res) => {
+    assert.fail('should fail');
+  },
+  failure: async (_error, _options, _req, res) => {
+    res.send('failed as expected!');
+  },
+};
+
+const fooClientOptions = { foo: 'bar' };
