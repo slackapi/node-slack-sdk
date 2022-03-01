@@ -1,7 +1,6 @@
 import { homedir } from 'os';
 import fs from 'fs';
 import path from 'path';
-import { randomUUID } from 'crypto';
 import { ConsoleLogger, Logger } from '@slack/logger';
 import { StateStore, StateObj } from './interface';
 import { InstallURLOptions } from '../install-url-options';
@@ -34,11 +33,12 @@ export class FileStateStore implements StateStore {
     installOptions: InstallURLOptions,
     now: Date,
   ): Promise<string> {
-    const state = randomUUID();
-    const source: StateObj = {
-      installOptions,
-      now,
-    };
+    let state = generateRandomString();
+    while (this.alreadyExists(state)) {
+      // Still race condition can arise here
+      state = generateRandomString();
+    }
+    const source: StateObj = { installOptions, now };
     this.writeToFile(state, source);
     return state;
   }
@@ -78,6 +78,11 @@ export class FileStateStore implements StateStore {
   // private methods
   // -------------------------------------------
 
+  private alreadyExists(filename: string): boolean {
+    const fullpath = path.resolve(`${this.baseDir}/${filename}`);
+    return fs.existsSync(fullpath);
+  }
+
   private writeToFile(filename: string, data: StateObj): void {
     fs.mkdirSync(this.baseDir, { recursive: true });
     const fullpath = path.resolve(`${this.baseDir}/${filename}`);
@@ -104,4 +109,15 @@ export class FileStateStore implements StateStore {
       fs.unlinkSync(fullpath);
     }
   }
+}
+
+const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+function generateRandomString(length: number = 10): string {
+  let generated = '';
+  for (let i = 0; i < length; i += 1) {
+    const position = Math.floor(Math.random() * chars.length);
+    generated += chars.charAt(position);
+  }
+  return generated;
 }
