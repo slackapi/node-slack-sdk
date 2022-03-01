@@ -24,6 +24,7 @@ import { Logger, LogLevel, getLogger } from './logger';
 import { ClearStateStore, StateStore } from './state-stores';
 import { InstallationStore, MemoryInstallationStore } from './stores';
 import defaultRenderHtmlForInstallPath from './default-render-html-for-install-path';
+import { InstallPathOptions } from './install-path-options';
 
 /**
  * InstallProvider Class. Refer to InsallProviderOptions interface for the details of constructor arguments.
@@ -317,8 +318,9 @@ export class InstallProvider {
    * Handles the install path (the default is /slack/install) requests from an app installer.
   */
   public async handleInstallPath(
-    _req: IncomingMessage,
+    req: IncomingMessage,
     res: ServerResponse,
+    options?: InstallPathOptions,
     installOptions?: InstallURLOptions,
   ): Promise<void> {
     if (installOptions === undefined && this.installUrlOptions === undefined) {
@@ -335,9 +337,16 @@ export class InstallProvider {
     }
 
     try {
+      let shouldProceed = true;
+      if (options?.beforeRedirection !== undefined) {
+        shouldProceed = await options.beforeRedirection(req, res, installOptions);
+      }
+      if (!shouldProceed) {
+        this.logger.debug('Skipped to proceed with the built-in redirection as beforeRedirection returned false');
+        return;
+      }
       const state = await this.stateStore.generateStateParam(_installOptions, new Date());
       res.setHeader('Set-Cookie', this.buildSetCookieHeaderForNewState(state));
-
       const url = await this.generateInstallUrl(_installOptions, this.stateVerification, state);
       this.logger.debug(`Generated authorize URL: ${url}`);
 
@@ -501,6 +510,19 @@ export class InstallProvider {
         installOptions = emptyInstallOptions;
       }
 
+      // beforeInstallation/afterInstallation may return false
+      let shouldProceed = true;
+      if (options?.beforeInstallation !== undefined) {
+        shouldProceed = await options.beforeInstallation(installOptions, req, res);
+      }
+
+      if (!shouldProceed) {
+        // When options.beforeInstallation returns false,
+        // the app installation is cancelled
+        // The beforeInstallation method is responsible for building a complete HTTP response.
+        return;
+      }
+
       // Start: Build the installation object
       let installation: Installation;
       let resp: OAuthV1Response | OAuthV2Response;
@@ -629,13 +651,33 @@ export class InstallProvider {
       }
       // End: Build the installation object
 
+      if (options?.afterInstallation !== undefined) {
+        shouldProceed = await options.afterInstallation(
+          installation, installOptions, req, res,
+        );
+      }
+      if (!shouldProceed) {
+        // When options.beforeInstallation returns false,
+        // the app installation is cancelled
+        // The afterInstallation method is responsible for building a complete HTTP response.
+        return;
+      }
+
       // Save installation object to installation store
       await this.installationStore.storeInstallation(installation, this.logger);
 
       // Call the success callback
-      if (options !== undefined && options.success !== undefined) {
-        this.logger.debug('Calling passed function as callbackOptions.success');
-        options.success(installation, installOptions, req, res);
+      if (options !== undefined && (
+        options.success !== undefined || options.successAsync !== undefined
+      )) {
+        if (options.success !== undefined) {
+          this.logger.debug('Calling passed function as callbackOptions.success');
+          options.success(installation, installOptions, req, res);
+        }
+        if (options.successAsync !== undefined) {
+          this.logger.debug('Calling passed function as callbackOptions.successAsync');
+          await options.successAsync(installation, installOptions, req, res);
+        }
       } else {
         this.logger.debug('Running built-in success function');
         defaultCallbackSuccess(installation, installOptions, req, res);
@@ -655,9 +697,17 @@ export class InstallProvider {
       if (codedError.code === undefined) {
         codedError.code = ErrorCode.UnknownError;
       }
-      if (options !== undefined && options.failure !== undefined) {
-        this.logger.debug('Calling passed function as callbackOptions.failure');
-        options.failure(codedError, installOptions, req, res);
+      if (options !== undefined && (
+        options.failure !== undefined || options.failureAsync !== undefined
+      )) {
+        if (options.failure !== undefined) {
+          this.logger.debug('Calling passed function as callbackOptions.failure');
+          options.failure(codedError, installOptions, req, res);
+        }
+        if (options.failureAsync !== undefined) {
+          this.logger.debug('Calling passed function as callbackOptions.failureAsync');
+          await options.failureAsync(codedError, installOptions, req, res);
+        }
       } else {
         this.logger.debug('Running built-in failure function');
         defaultCallbackFailure(codedError, installOptions, req, res);
