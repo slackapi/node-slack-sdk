@@ -9,10 +9,10 @@ export interface CallbackOptions {
    * An additional logic to run right before executing the Slack app installation with the given code parameter.
    *
    * When this method returns false, the InstallProvider skips the installation.
-   * You can set false when the visiting user is not eligible for proceeding the Slack app installation flow.
+   * You can set false when the visiting user is not eligible to proceed with the Slack app installation flow.
    *
-   * Also, when returning false, this method is responsible to call response#end() method
-   * to build complete HTTP response for end-users.
+   * Also, when returning false, this method is responsible for calling the response#end() method
+   * to build a complete HTTP response for end-users.
    */
   beforeInstallation?: (
     options: InstallURLOptions,
