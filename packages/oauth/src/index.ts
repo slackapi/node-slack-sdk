@@ -11,5 +11,5 @@ export { Installation, OrgInstallation } from './installation';
 export { InstallationQuery, OrgInstallationQuery } from './installation-query';
 export { InstallProviderOptions } from './install-provider-options';
 export { InstallURLOptions } from './install-url-options';
-export * from './stores';
+export * from './installation-stores';
 export * from './state-stores';

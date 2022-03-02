@@ -22,7 +22,7 @@ import { InstallURLOptions } from './install-url-options';
 import { InstallProviderOptions } from './install-provider-options';
 import { Logger, LogLevel, getLogger } from './logger';
 import { ClearStateStore, StateStore } from './state-stores';
-import { InstallationStore, MemoryInstallationStore } from './stores';
+import { InstallationStore, MemoryInstallationStore } from './installation-stores';
 import defaultRenderHtmlForInstallPath from './default-render-html-for-install-path';
 import { InstallPathOptions } from './install-path-options';
 
