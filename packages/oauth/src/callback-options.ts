@@ -6,12 +6,12 @@ import { Installation, OrgInstallation } from './installation';
 export interface CallbackOptions {
 
   /**
-   * An additional logic to run right before executing the Slack app installation with the given code parameter.
+   * An additional logic to run right before executing the Slack app installation with the given OAuth code parameter.
    *
    * When this method returns false, the InstallProvider skips the installation.
    * You can set false when the visiting user is not eligible to proceed with the Slack app installation flow.
    *
-   * Also, when returning false, this method is responsible for calling the response#end() method
+   * Also, when returning false, this method is responsible for calling the callbackRes#end() method
    * to build a complete HTTP response for end-users.
    */
   beforeInstallation?: (
@@ -21,13 +21,13 @@ export interface CallbackOptions {
   ) => Promise<boolean>;
 
   /**
-   * An additional logic to run right after executing the Slack app installation with the given code parameter.
+   * An additional logic to run right after executing the Slack app installation with the given OAuth code parameter.
    *
    * When this method returns false, the InstallProvider skips storing the installation in database.
    * You can set false when your app needs to cancel the installation (you can call auth.revoke API method for it)
    * and then, the app needs to display an error page to the installing user.
    *
-   * Also, when returning false, this method is responsible to call response#end() method
+   * Also, when returning false, this method is responsible to call callbackRes#end() method
    * to build complete HTTP response for end-users.
    */
   afterInstallation?: (
