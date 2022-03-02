@@ -9,50 +9,79 @@ import {
   InstallerInitializationError,
   UnknownError,
   MissingStateError,
+  InvalidStateError,
   MissingCodeError,
   GenerateInstallUrlError,
   AuthorizationError,
   CodedError,
   ErrorCode,
 } from './errors';
-import { Installation, OrgInstallation } from './installation';
+import { Installation } from './installation';
 import { InstallationQuery } from './installation-query';
 import { InstallURLOptions } from './install-url-options';
 import { InstallProviderOptions } from './install-provider-options';
 import { Logger, LogLevel, getLogger } from './logger';
 import { ClearStateStore, StateStore } from './state-stores';
 import { InstallationStore, MemoryInstallationStore } from './stores';
+import defaultRenderHtmlForInstallPath from './default-render-html-for-install-path';
 
 /**
- * InstallProvider Class.
- * @param clientId - Your apps client ID
- * @param clientSecret - Your apps client Secret
- * @param stateSecret - Used to sign and verify the generated state when using the built-in `stateStore`
- * @param stateStore - Replacement function for the built-in `stateStore`
- * @param stateVerification - Pass in false to disable state parameter verification
- * @param installationStore - Interface to store and retrieve installation data from the database
- * @param authVersion - Can be either `v1` or `v2`. Determines which slack Oauth URL and method to use
- * @param logger - Pass in your own Logger if you don't want to use the built-in one
- * @param logLevel - Pass in the log level you want (ERROR, WARN, INFO, DEBUG). Default is INFO
+ * InstallProvider Class. Refer to InsallProviderOptions interface for the details of constructor arguments.
  */
 export class InstallProvider {
+  // Stores state issued to authorization server and
+  // verifies the value returned at redirection during OAuth flow to prevent CSRF
   public stateStore?: StateStore;
 
+  // Manages installation data, which can be called by both the OAuth flow and authorize() in event handling
   public installationStore: InstallationStore;
 
+  // Client ID, which can be found under the Basic Information section of your application on https://api.slack.com/apps
   private clientId: string;
 
+  // Client Secret, which can be found under the Basic Information section of your application on https://api.slack.com/apps
   private clientSecret: string;
 
+  // The default is "v2" (a.k.a. Granular Bot Permissions), different from "v1" (a.k.a. "Classic Apps").
+  // More details here:
+  // - https://medium.com/slack-developer-blog/more-precision-less-restrictions-a3550006f9c3
+  // - https://api.slack.com/authentication/migration
   private authVersion: string;
 
+  // @slack/logger logging used in this class
   private logger: Logger;
 
-  private clientOptions: WebClientOptions;
+  // The initialization options for the OAuth flow
+  private installUrlOptions?: InstallURLOptions;
 
+  // The install path web page rendering will be skipped if true (default: false)
+  private directInstall: boolean;
+
+  // The function for rendering the web page for the install path URL
+  private renderHtmlForInstallPath: (url: string) => string;
+
+  // The slack.com authorize URL
   private authorizationUrl: string;
 
+  // handleCallback() verifies the state parameter if true (default: true)
   private stateVerification: boolean;
+
+  // handleCallback() skips checking browser cookies if true (default: false)
+  // Enabling this option is not really recommended.
+  // This is supposed to be used only for backward-compatibility with v2.4 and olders.
+  private legacyStateVerification: boolean;
+
+  // The cookie name used for setting state parameter value in cookies
+  private stateCookieName: string;
+
+  // The expinary time for the state parameter value in cookies
+  private stateCookieExpirationSeconds: number;
+
+  // The customization options for WebClient
+  private clientOptions: WebClientOptions;
+
+  // The singleton WebClient instance, which is used in this class
+  private noTokenClient: WebClient;
 
   public constructor({
     clientId,
@@ -60,7 +89,15 @@ export class InstallProvider {
     stateSecret = undefined,
     stateStore = undefined,
     stateVerification = true,
+    // this option is only for the backward-compatibility with v2.4 and older
+    legacyStateVerification = false,
+    stateCookieName = 'slack-app-oauth-state',
+    stateCookieExpirationSeconds = 600, // 10 minutes
+    directInstall = false,
     installationStore = new MemoryInstallationStore(),
+    // If installURLOptions is undefined here, handleInstallPath() does not work for you
+    installUrlOptions = undefined,
+    renderHtmlForInstallPath = defaultRenderHtmlForInstallPath,
     authVersion = 'v2',
     logger = undefined,
     logLevel = undefined,
@@ -81,6 +118,11 @@ export class InstallProvider {
       this.logger = getLogger('OAuth:InstallProvider', logLevel ?? LogLevel.INFO, logger);
     }
     this.stateVerification = stateVerification;
+    this.legacyStateVerification = legacyStateVerification;
+    this.stateCookieName = stateCookieName;
+    this.stateCookieExpirationSeconds = stateCookieExpirationSeconds;
+
+    this.directInstall = directInstall;
     if (!stateVerification) {
       this.logger.warn("You've set InstallProvider#stateVerification to false. This flag is intended to enable org-wide app installations from admin pages. If this isn't your scenario, we recommend setting stateVerification to true and starting your OAuth flow from the provided `/slack/install` or your own starting endpoint.");
     }
@@ -90,13 +132,15 @@ export class InstallProvider {
     } else if (this.stateVerification) {
       // if state verification is disabled, state store is not necessary
       if (stateSecret !== undefined) {
-        this.stateStore = new ClearStateStore(stateSecret);
+        this.stateStore = new ClearStateStore(stateSecret, this.stateCookieExpirationSeconds);
       } else {
         throw new InstallerInitializationError('To use the built-in state store you must provide a State Secret');
       }
     }
 
     this.installationStore = installationStore;
+    this.installUrlOptions = installUrlOptions;
+    this.renderHtmlForInstallPath = renderHtmlForInstallPath;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
     this.handleCallback = this.handleCallback.bind(this);
@@ -115,7 +159,12 @@ export class InstallProvider {
       logLevel: this.logger.getLevel(),
       ...clientOptions,
     };
+    this.noTokenClient = new WebClient(undefined, this.clientOptions);
   }
+
+  // ------------------------------------------------------
+  // Handling incoming requests from Slack API servers
+  // ------------------------------------------------------
 
   /**
    * Fetches data from the installationStore
@@ -127,12 +176,7 @@ export class InstallProvider {
       // Note that `queryResult` may unexpectedly include null values for some properties.
       // For example, MongoDB can often save properties as null for some reasons.
       // Inside this method, we should alwayss check if a value is either undefined or null.
-      let queryResult;
-      if (source.isEnterpriseInstall) {
-        queryResult = await this.installationStore.fetchInstallation(source as InstallationQuery<true>, this.logger);
-      } else {
-        queryResult = await this.installationStore.fetchInstallation(source as InstallationQuery<false>, this.logger);
-      }
+      const queryResult = await this.installationStore.fetchInstallation(source, this.logger);
 
       if (queryResult === undefined || queryResult === null) {
         throw new Error(`Failed fetching data from the Installation Store (source: ${sourceForLogging})`);
@@ -245,32 +289,93 @@ export class InstallProvider {
    * The return value is an Array of Promises made up of the resolution of each token refresh attempt.
    */
   private async refreshExpiringTokens(tokensToRefresh: string[]): Promise<OAuthV2TokenRefreshResponse[]> {
-    const client = new WebClient(undefined, this.clientOptions);
+    const refreshPromises = tokensToRefresh.map((token) => this.refreshExpiringToken(token));
+    return (await Promise.all(refreshPromises))
+      .filter((res) => !(res instanceof Error))
+      .map((res) => res as OAuthV2TokenRefreshResponse);
+  }
 
-    const refreshPromises = tokensToRefresh.map(async (refreshToken) => await client.oauth.v2.access({
+  private async refreshExpiringToken(refreshToken: string): Promise<OAuthV2TokenRefreshResponse | Error> {
+    return this.noTokenClient.oauth.v2.access({
       client_id: this.clientId,
       client_secret: this.clientSecret,
       grant_type: 'refresh_token',
       refresh_token: refreshToken,
-    }).catch((e) => e) as OAuthV2TokenRefreshResponse);
-
-    return Promise.all(refreshPromises);
+    })
+      .then((res) => res as OAuthV2TokenRefreshResponse)
+      .catch((e) => {
+        this.logger.error(`Failed to perform oauth.v2.access API call for token rotation: (error: ${e})`);
+        return e; // this one will be filtered out later
+      });
   }
 
+  // ------------------------------------------------------
+  // Handling web browser requests form end-users
+  // ------------------------------------------------------
+
   /**
-   * Returns search params from a URL and ignores protocol / hostname as those
-   * aren't guaranteed to be accurate e.g. in x-forwarded- scenarios
-   */
-  private static extractSearchParams(req: IncomingMessage): URLSearchParams {
-    const { searchParams } = new URL(req.url as string, `https://${req.headers.host}`);
-    return searchParams;
+   * Handles the install path (the default is /slack/install) requests from an app installer.
+  */
+  public async handleInstallPath(
+    _req: IncomingMessage,
+    res: ServerResponse,
+    installOptions?: InstallURLOptions,
+  ): Promise<void> {
+    if (installOptions === undefined && this.installUrlOptions === undefined) {
+      const errorMessage = 'To enable the built-in install path handler, you need to pass InstallURLOptions to InstallProvider. ' +
+      "If you're using @slack/bolt, please upgrade the framework to the latest version.";
+      throw new GenerateInstallUrlError(errorMessage);
+    }
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const _installOptions: InstallURLOptions = installOptions! || this.installUrlOptions!;
+    this.logger.debug(`Running handleInstallPath() with ${_installOptions}`);
+
+    if (this.stateStore === undefined) {
+      throw new GenerateInstallUrlError('StateStore is not properly configured');
+    }
+
+    try {
+      const state = await this.stateStore.generateStateParam(_installOptions, new Date());
+      res.setHeader('Set-Cookie', this.buildSetCookieHeaderForNewState(state));
+
+      const url = await this.generateInstallUrl(_installOptions, this.stateVerification, state);
+      this.logger.debug(`Generated authorize URL: ${url}`);
+
+      if (this.directInstall !== undefined && this.directInstall) {
+        // If a Slack app sets "Direct Install URL" in the Slack app configruation,
+        // the installation flow of the app should start with the Slack authorize URL.
+        // See https://api.slack.com/start/distributing/directory#direct_install for more details.
+        res.setHeader('Location', url);
+        res.writeHead(302);
+        res.end('');
+      } else {
+        // The installation starts from a landing page served by this app.
+        // Generate HTML response body
+        const body = this.renderHtmlForInstallPath(url);
+        // Serve a basic HTML page including the "Add to Slack" button.
+        // Regarding headers:
+        // - Content-Length is not used because Transfer-Encoding='chunked' is automatically used.
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.writeHead(200);
+        res.end(body);
+      }
+    } catch (e: unknown) {
+      const message = `An unhandled error occurred while processing an install path request (error: ${e})`;
+      this.logger.error(message);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      throw new GenerateInstallUrlError((e as any).message);
+    }
   }
 
   /**
    * Returns a URL that is suitable for including in an Add to Slack button
    * Uses stateStore to generate a value for the state query param.
    */
-  public async generateInstallUrl(options: InstallURLOptions, stateVerification: boolean = true): Promise<string> {
+  public async generateInstallUrl(
+    options: InstallURLOptions,
+    stateVerification: boolean = true,
+    state?: string,
+  ): Promise<string> {
     const slackURL = new URL(this.authorizationUrl);
 
     if (options.scopes === undefined || options.scopes === null) {
@@ -287,9 +392,17 @@ export class InstallProvider {
     const params = new URLSearchParams(`scope=${scopes}`);
 
     // generate state
-    if (stateVerification && this.stateStore) {
-      const state = await this.stateStore.generateStateParam(options, new Date());
-      params.append('state', state);
+    if (stateVerification) {
+      let _state = state;
+      if (_state === undefined) {
+        if (this.stateStore) {
+          _state = await this.stateStore.generateStateParam(options, new Date());
+        } else {
+          const errorMessage = 'StateStore needs to be set for generating a valid authorize URL';
+          throw new InstallerInitializationError(errorMessage);
+        }
+      }
+      params.append('state', _state);
     }
 
     // client id
@@ -336,32 +449,51 @@ export class InstallProvider {
   ): Promise<void> {
     let code: string;
     let flowError: string;
-    let state: string;
+    let stateInQueryString: string;
     try {
       if (req.url !== undefined) {
         // Note: Protocol/ host of object are not necessarily accurate
         // and shouldn't be relied on
         // intended only for accessing searchParams only
-        const searchParams = InstallProvider.extractSearchParams(req);
+        const searchParams = extractSearchParams(req);
         flowError = searchParams.get('error') as string;
         if (flowError === 'access_denied') {
           throw new AuthorizationError('User cancelled the OAuth installation flow!');
         }
         code = searchParams.get('code') as string;
-        state = searchParams.get('state') as string;
+        stateInQueryString = searchParams.get('state') as string;
         if (!code) {
           throw new MissingCodeError('Redirect url is missing the required code query parameter');
         }
-        if (this.stateVerification && !state) {
+        if (this.stateVerification && !stateInQueryString) {
           throw new MissingStateError('Redirect url is missing the state query parameter. If this is intentional, see options for disabling default state verification.');
         }
       } else {
         throw new UnknownError('Something went wrong');
       }
       // If state verification is enabled, attempt to verify, otherwise ignore
-      if (this.stateVerification && this.stateStore) {
-        // eslint-disable-next-line no-param-reassign
-        installOptions = await this.stateStore.verifyStateParam(new Date(), state);
+      if (this.stateVerification) {
+        try {
+          if (this.legacyStateVerification) {
+            // This mode is not enabled by default
+            // This option is for some of the existing developers that need time for migration
+            this.logger.warn('Enabling legacyStateVerification is not recommended as it does not properly work for OAuth CSRF protection. Please consider migrating from directly using InstallProvider#generateInstallUrl() to InstallProvider#handleInstallPath() for serving the install path.');
+          } else {
+            const stateInBrowserSession: string | undefined = extractCookieValue(req, this.stateCookieName);
+            if (!stateInBrowserSession || (stateInBrowserSession !== stateInQueryString)) {
+              throw new InvalidStateError('The state parameter is not for this browser session.');
+            }
+          }
+          if (this.stateStore) {
+            // eslint-disable-next-line no-param-reassign
+            installOptions = await this.stateStore.verifyStateParam(new Date(), stateInQueryString);
+          } else {
+            throw new InstallerInitializationError('StateStore is not properly configured');
+          }
+        } finally {
+          // Delete the state value in cookies in any case
+          res.setHeader('Set-Cookie', this.buildSetCookieHeaderForStateDeletion());
+        }
       }
       if (!installOptions) {
         const emptyInstallOptions: InstallURLOptions = { scopes: [] };
@@ -369,15 +501,13 @@ export class InstallProvider {
         installOptions = emptyInstallOptions;
       }
 
-      const client = new WebClient(undefined, this.clientOptions);
-
       // Start: Build the installation object
       let installation: Installation;
       let resp: OAuthV1Response | OAuthV2Response;
 
       if (this.authVersion === 'v1') {
         // convert response type from WebApiCallResult to OAuthResponse
-        const v1Resp = await client.oauth.access({
+        const v1Resp = await this.noTokenClient.oauth.access({
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
@@ -418,7 +548,7 @@ export class InstallProvider {
         installation = v1Installation;
       } else {
         // convert response type from WebApiCallResult to OAuthResponse
-        const v2Resp = await client.oauth.v2.access({
+        const v2Resp = await this.noTokenClient.oauth.v2.access({
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
@@ -500,18 +630,14 @@ export class InstallProvider {
       // End: Build the installation object
 
       // Save installation object to installation store
-      if (installation.isEnterpriseInstall) {
-        await this.installationStore.storeInstallation(installation as OrgInstallation, this.logger);
-      } else {
-        await this.installationStore.storeInstallation(installation as Installation<'v1' | 'v2', false>, this.logger);
-      }
+      await this.installationStore.storeInstallation(installation, this.logger);
 
       // Call the success callback
       if (options !== undefined && options.success !== undefined) {
-        this.logger.debug('calling passed in options.success');
+        this.logger.debug('Calling passed function as callbackOptions.success');
         options.success(installation, installOptions, req, res);
       } else {
-        this.logger.debug('run built-in success function');
+        this.logger.debug('Running built-in success function');
         defaultCallbackSuccess(installation, installOptions, req, res);
       }
     } catch (error) {
@@ -530,13 +656,27 @@ export class InstallProvider {
         codedError.code = ErrorCode.UnknownError;
       }
       if (options !== undefined && options.failure !== undefined) {
-        this.logger.debug('calling passed in options.failure');
+        this.logger.debug('Calling passed function as callbackOptions.failure');
         options.failure(codedError, installOptions, req, res);
       } else {
-        this.logger.debug('run built-in failure function');
+        this.logger.debug('Running built-in failure function');
         defaultCallbackFailure(codedError, installOptions, req, res);
       }
     }
+  }
+
+  // -----------------------
+  // Internal methods
+
+  private buildSetCookieHeaderForNewState(state: string): string {
+    const name = this.stateCookieName;
+    const maxAge = this.stateCookieExpirationSeconds;
+    return `${name}=${state}; Secure; HttpOnly; Path=/; Max-Age=${maxAge}`;
+  }
+
+  private buildSetCookieHeaderForStateDeletion(): string {
+    const name = this.stateCookieName;
+    return `${name}=deleted; Secure; HttpOnly; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT`;
   }
 }
 
@@ -664,4 +804,24 @@ function detectExpiredOrExpiringTokens(authResult: AuthorizeResult, currentUTCSe
   }
 
   return tokensToRefresh;
+}
+
+/**
+ * Returns search params from a URL and ignores protocol / hostname as those
+ * aren't guaranteed to be accurate e.g. in x-forwarded- scenarios
+ */
+function extractSearchParams(req: IncomingMessage): URLSearchParams {
+  const { searchParams } = new URL(req.url as string, `https://${req.headers.host}`);
+  return searchParams;
+}
+
+function extractCookieValue(req: IncomingMessage, name: string): string | undefined {
+  const allCookies = req.headers.cookie;
+  if (allCookies) {
+    const found = allCookies.split(';').find((c) => c.trim().startsWith(`${name}=`));
+    if (found) {
+      return found.split('=')[1].trim();
+    }
+  }
+  return undefined;
 }

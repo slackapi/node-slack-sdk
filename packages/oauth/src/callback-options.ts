@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { CodedError } from './errors';
+import { CodedError, ErrorCode } from './errors';
 import { InstallURLOptions } from './install-url-options';
 import { Installation, OrgInstallation } from './installation';
 
@@ -47,25 +47,64 @@ export function defaultCallbackSuccess(
     // does not change the workspace the slack client was last in
     redirectUrl = 'slack://open';
   }
+  let browserUrl = redirectUrl;
+  if (isNotOrgInstall(installation)) {
+    browserUrl = `https://app.slack.com/client/${installation.team.id}`;
+  }
   const htmlResponse = `<html>
+  <head>
   <meta http-equiv="refresh" content="0; URL=${redirectUrl}">
+  <style>
+  body {
+    padding: 10px 15px;
+    font-family: verdana;
+    text-align: center;
+  }
+  </style>
+  </head>
   <body>
-    <h1>Success! Redirecting to the Slack App...</h1>
-    <button onClick="window.location = '${redirectUrl}'">Click here to redirect</button>
-  </body></html>`;
-  res.writeHead(200, { 'Content-Type': 'text/html' });
+  <h2>Thank you!</h2>
+  <p>Redirecting to the Slack App... click <a href="${redirectUrl}">here</a>. If you use the browser version of Slack, click <a href="${browserUrl}" target="_blank">this link</a> instead.</p>
+  </body>
+  </html>`;
+  res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
   res.end(htmlResponse);
 }
 
 // Default function to call when OAuth flow is unsuccessful
 export function defaultCallbackFailure(
-  _error: CodedError,
+  error: CodedError,
   _options: InstallURLOptions,
   _req: IncomingMessage,
   res: ServerResponse,
 ): void {
-  res.writeHead(500, { 'Content-Type': 'text/html' });
-  res.end('<html><body><h1>Oops, Something Went Wrong! Please Try Again or Contact the App Owner</h1></body></html>');
+  let httpStatus: number;
+  switch (error.code) {
+    case ErrorCode.MissingStateError:
+    case ErrorCode.InvalidStateError:
+    case ErrorCode.MissingCodeError:
+      httpStatus = 400;
+      break;
+    default:
+      httpStatus = 500;
+  }
+  res.writeHead(httpStatus, { 'Content-Type': 'text/html; charset=utf-8' });
+  const html = `<html>
+  <head>
+  <style>
+  body {
+    padding: 10px 15px;
+    font-family: verdana;
+    text-align: center;
+  }
+  </style>
+  </head>
+  <body>
+  <h2>Oops, Something Went Wrong!</h2>
+  <p>Please try again or contact the app owner (reason: ${error.code})</p>
+  </body>
+  </html>`;
+  res.end(html);
 }
 
 // ------------------------------------------

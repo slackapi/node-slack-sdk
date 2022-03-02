@@ -13,7 +13,7 @@ const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET, {
 // Set path to receive events
 app.use('/slack/events', slackEvents.requestListener());
 
-const scopes = ['channels:read', 'groups:read', 'channels:manage', 'chat:write', 'incoming-webhook'];
+const scopes = ['app_mentions:read', 'channels:read', 'groups:read', 'channels:manage', 'chat:write', 'incoming-webhook'];
 const userScopes = ['chat:write'];
 
 const installer = new InstallProvider({
@@ -44,6 +44,17 @@ app.get('/slack/install', async (req, res, next) => {
   }
 });
 
+// This works since @slack/oauth@2.5.0 or newer
+/*
+app.get('/slack/install', async (req, res) => {
+  await installer.handleInstallPath(req, res, {
+    scopes,
+    userScopes,
+    metadata: 'some_metadata',
+  });
+});
+*/
+
 // example 1
 // use default success and failure handlers
 app.get('/slack/oauth_redirect', async (req, res) => {
@@ -64,6 +75,32 @@ app.get('/slack/oauth_redirect', async (req, res) => {
 // app.get('/slack/oauth_redirect', async (req, res) => {
 //   await installer.handleCallback(req, res, callbackOptions);
 // });
+
+slackEvents.on('app_mention', async (event, body) => {
+  console.log(event);
+  let DBInstallData;
+  if (body.authorizations !== undefined && body.authorizations[0].is_enterprise_install) {
+    //org wide installation
+    DBInstallData = await installer.authorize({
+      enterpriseId: body.enterprise_id,
+      userId: event.user,
+      isEnterpriseInstall: true,
+    });
+  } else {
+    // non org wide installation
+    DBInstallData = await installer.authorize({
+      enterpriseId: body.enterprise_id,
+      teamId: body.team_id,
+      userId: event.user,
+      isEnterpriseInstall: false,
+    });
+  }
+  const web = new WebClient(DBInstallData.botToken);
+  await web.chat.postMessage({
+    channel: event.channel,
+    text: 'Hi there!',
+  });
+});
 
 // When a user navigates to the app home, grab the token from our database and publish a view
 slackEvents.on('app_home_opened', async (event, body) => {
