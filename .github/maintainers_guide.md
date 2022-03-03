@@ -106,13 +106,15 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - Run `git rebase main` from your feature branch (this will rebase your feature branch from `main`). You can opt for `git merge main` if you are not comfortable with rebasing.
 
+    - If you do not have a feature branch, you can also use generic release candidate branch name like `<next-version>rc`, i.e. `2.5.0rc`.
+
 2. Navigate to the specific package(s) you're releasing in the `packages/` directory.
 
-3. For each package to be released, run `npm run test` to verify that everything is working and free of linting errors.
+3. For each package to be released, run `npm it` to install the latest dependencies and verify that everything is working and free of linting errors.
 
 4. Bump the version(s) in `package.json`
 
-    - The version must be in the format of `Major.Minor.Patch-BetaNamespace.BetaVersion` (ex: `5.10.0-workflowStepsBeta.1`)
+    - The version must be in the format of `Major.Minor.Patch-BetaNamespace.BetaVersion` (ex: `5.10.0-workflowStepsBeta.1`, `2.5.0-rc.1`)
 
     - Make a single commit for the version bump ([Example](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594))
 
@@ -130,21 +132,17 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
 5. Publish the release to npm
 
-    - Run `npm publish . --otp YOUR_OTP_CODE`
+    - Run `npm publish --tag <dist-tag> . --otp YOUR_OTP_CODE`
+
+      - `<dist-tag>` should be a label representative of the beta release. It could be feature-specific (i.e. `feat-token-rotation`) or it can be a generic release candidate (i.e. `2.5.0rc`). Whatever you decide: it must _not_ be `latest`, as that is reserved for non-beta releases.
 
     - To generate an OTP (One Time Password), use your password generator of choice (Duo, 1Password)
 
-6. Immediately after publishing, update the `dist-tags`
-
-    - Update the `latest` `dist-tag` to the **previous non-beta release**: `npm dist-tag add @slack/web-api@5.10.0 latest --otp YOUR_OTP_CODE`.
-
-    - Add a `dist-tag` name for the beta feature: `npm dist-tag add @slack/web-api@5.10.0-workflow-steps-beta.1 feat-workflow-steps --otp YOUR_OTP_CODE`
-
-7. Test that the publish was successful
+6. Test that the publish was successful
 
     - Run `npm info <PACKAGE_NAME> dist-tags`
 
-8. Create GitHub Release(s) with release notes
+7. Create GitHub Release(s) with release notes
 
     - From the repository, navigate to the **Releases** section and draft a new release
 
