@@ -29,5 +29,5 @@ export {
 
 // InstallationStore interface and built-in implementations
 export * from './installation-stores';
-// StateSTore interface and built-in implementations
+// StateStore interface and built-in implementations
 export * from './state-stores';
