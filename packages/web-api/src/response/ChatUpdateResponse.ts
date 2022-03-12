@@ -10,14 +10,15 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ChatUpdateResponse = WebAPICallResult & {
-  ok?:       boolean;
-  channel?:  string;
-  ts?:       string;
-  text?:     string;
-  message?:  Message;
-  error?:    string;
-  needed?:   string;
-  provided?: string;
+  ok?:                boolean;
+  channel?:           string;
+  ts?:                string;
+  text?:              string;
+  message?:           Message;
+  error?:             string;
+  needed?:            string;
+  provided?:          string;
+  response_metadata?: ResponseMetadata;
 };
 
 export interface Message {
@@ -32,6 +33,7 @@ export interface Message {
   files?:          File[];
   upload?:         boolean;
   display_as_bot?: boolean;
+  x_files?:        string[];
 }
 
 export interface Block {
@@ -203,44 +205,61 @@ export interface File {
   timestamp?:                 number;
   name?:                      string;
   title?:                     string;
-  subject?:                   string;
   mimetype?:                  string;
   filetype?:                  string;
   pretty_type?:               string;
   user?:                      string;
-  mode?:                      string;
   editable?:                  boolean;
+  size?:                      number;
+  mode?:                      string;
+  is_external?:               boolean;
+  external_type?:             string;
+  is_public?:                 boolean;
+  public_url_shared?:         boolean;
+  display_as_bot?:            boolean;
+  username?:                  string;
+  url_private?:               string;
+  url_private_download?:      string;
+  media_display_type?:        string;
+  thumb_64?:                  string;
+  thumb_80?:                  string;
+  thumb_360?:                 string;
+  thumb_360_w?:               number;
+  thumb_360_h?:               number;
+  thumb_160?:                 string;
+  original_w?:                number;
+  original_h?:                number;
+  thumb_tiny?:                string;
+  permalink?:                 string;
+  permalink_public?:          string;
+  is_starred?:                boolean;
+  has_rich_preview?:          boolean;
+  edit_link?:                 string;
+  preview?:                   string;
+  preview_highlight?:         string;
+  lines?:                     number;
+  lines_more?:                number;
+  preview_is_truncated?:      boolean;
+  subject?:                   string;
   non_owner_editable?:        boolean;
   editor?:                    string;
   last_editor?:               string;
   updated?:                   number;
   original_attachment_count?: number;
-  is_external?:               boolean;
-  external_type?:             string;
   external_id?:               string;
   external_url?:              string;
-  username?:                  string;
-  size?:                      number;
-  url_private?:               string;
-  url_private_download?:      string;
   app_id?:                    string;
   app_name?:                  string;
-  thumb_64?:                  string;
   thumb_64_gif?:              string;
   thumb_64_w?:                string;
   thumb_64_h?:                string;
-  thumb_80?:                  string;
   thumb_80_gif?:              string;
   thumb_80_w?:                string;
   thumb_80_h?:                string;
-  thumb_160?:                 string;
   thumb_160_gif?:             string;
   thumb_160_w?:               string;
   thumb_160_h?:               string;
-  thumb_360?:                 string;
   thumb_360_gif?:             string;
-  thumb_360_w?:               string;
-  thumb_360_h?:               string;
   thumb_480?:                 string;
   thumb_480_gif?:             string;
   thumb_480_w?:               string;
@@ -266,31 +285,15 @@ export interface File {
   thumb_pdf?:                 string;
   thumb_pdf_w?:               string;
   thumb_pdf_h?:               string;
-  thumb_tiny?:                string;
   converted_pdf?:             string;
   image_exif_rotation?:       number;
-  original_w?:                string;
-  original_h?:                string;
   deanimate?:                 string;
   deanimate_gif?:             string;
   pjpeg?:                     string;
-  permalink?:                 string;
-  permalink_public?:          string;
-  edit_link?:                 string;
-  has_rich_preview?:          boolean;
-  media_display_type?:        string;
-  preview_is_truncated?:      boolean;
-  preview?:                   string;
-  preview_highlight?:         string;
   plain_text?:                string;
   preview_plain_text?:        string;
   has_more?:                  boolean;
   sent_to_self?:              boolean;
-  lines?:                     number;
-  lines_more?:                number;
-  is_public?:                 boolean;
-  public_url_shared?:         boolean;
-  display_as_bot?:            boolean;
   channels?:                  string[];
   groups?:                    string[];
   ims?:                       string[];
@@ -305,7 +308,6 @@ export interface File {
   bot_id?:                    string;
   initial_comment?:           InitialComment;
   num_stars?:                 number;
-  is_starred?:                boolean;
   pinned_to?:                 string[];
   reactions?:                 Reaction[];
   comments_count?:            number;
@@ -357,4 +359,8 @@ export interface Private {
   latest_reply?:      string;
   channel_name?:      string;
   team_id?:           string;
+}
+
+export interface ResponseMetadata {
+  messages?: string[];
 }

@@ -1082,6 +1082,9 @@ export interface SelfPrefs {
   seen_a11y_pref_setup_coachmark?:                            boolean;
   enable_file_browser_view_for_docs?:                         boolean;
   enable_shortcuts_view?:                                     boolean;
+  show_gov_slack_context_bar_banner?:                         boolean;
+  who_can_see_account_by_searching_email?:                    string;
+  contextual_help_reset_count?:                               number;
 }
 
 export interface LocalesEnabled {
@@ -1357,6 +1360,9 @@ export interface TeamPrefs {
   dm_retention_redaction_duration?:                    number;
   private_retention_redaction_duration?:               number;
   public_retention_redaction_duration?:                number;
+  slack_connect_account_visibility?:                   string;
+  rich_previews_default?:                              string;
+  sign_in_with_slack_default?:                         string;
 }
 
 export interface CallsApps {
