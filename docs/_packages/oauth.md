@@ -29,7 +29,7 @@ It may be helpful to read the tutorials on [getting started](https://slack.dev/n
 
 ### Initialize the installer
 
-This package exposes an `InstallProvider` class, which sets up the required configuration and exposes methods such as `generateInstallUrl`, `handleCallback`, `authorize` and `handleInstallPath` for use within your apps. At a minimum, `InstallProvider` takes a `clientId` and `clientSecret` (both which can be obtained under the **Basic Information** of your app configuration). `InstallProvider` also requires a `stateSecret`, which is used to encode the generated state, and later used to decode that same state to verify it wasn't tampered with during the OAuth flow. **Note**: This example is not ready for production because it only stores installations (tokens) in memory. Please go to the [storing installations in a database](#storing-installations-in-a-database) section to learn how to plug in your own database.
+This package exposes an `InstallProvider` class, which sets up the required configuration and exposes methods such as `handleInstallPath` (which calls `generateInstallUrl` internally), `handleCallback`, and `authorize` for use within your apps. At a minimum, `InstallProvider` takes a `clientId` and `clientSecret` (both which can be obtained under the **Basic Information** of your app configuration). `InstallProvider` also requires a `stateSecret`, which is used to encode the generated state, and later used to decode that same state to verify it wasn't tampered with during the OAuth flow. **Note**: This example is not ready for production because it only stores installations (tokens) in memory. Please go to the [storing installations in a database](#storing-installations-in-a-database) section to learn how to plug in your own database.
 
 ```javascript
 const { InstallProvider } = require('@slack/oauth');
@@ -69,7 +69,7 @@ You'll need an installation URL when you want to test your own installation in o
 There are two approaches the `InstallProvider` provides to show an installation page to the user prior to beginning the OAuth process:
 
 1. You can let `InstallProvider` render the installation page at a URL/path of your choosing [using the `handleInstallPath()` method](#using-handleinstallpath). It will automatically display an "Add to Slack" button and encode any desired user or bot scopes and metadata you specify.
-2. You can render the installation page yourself and [call `generateInstallUrl()`](#using-generateinstallurl) to generate a secure slack.com-based URL to initiate the OAuth process. You would use this generated URL in your own installation page's links/buttons/UI elements.
+2. You can customize the installation page by passing `renderHtmlForInstallPath` function to the `InstallProvider` constructor. Also, if your app supports Direct Install URL in the App Directory page, you can pass `directInstall: true` when initializing `InstallProvider`.
 
 #### Using `handleInstallPath`
 
@@ -126,7 +126,7 @@ installer.generateInstallUrl({
 
 ### Handling the OAuth redirect
 
-After the user approves the request to install your app (and grants access to the required permissions), Slack will redirect the user to your specified **redirect URL**. You can either set the redirect URL in the app’s **OAuth and Permissions** page or pass a `redirectUri` when calling `installProvider.generateInstallUrl`. Your HTTP server should handle requests to the redirect URL by calling the `installProvider.handleCallback()` method. The first two arguments (`req`, `res`) to `installProvider.handleCallback` are required. By default, if the installation is successful the user will be redirected back to your App Home in Slack (or redirected back to the last open workspace in your slack app for classic Slack apps). If the installation is not successful the user will be shown an error page.
+After the user approves the request to install your app (and grants access to the required permissions), Slack will redirect the user to your specified **Redirect URL**. You can either set the redirect URL in the app’s **OAuth and Permissions** page or pass a `redirectUri` when calling `installProvider.generateInstallUrl`. Your HTTP server should handle requests to the redirect URL by calling the `installProvider.handleCallback()` method. The first two arguments (`req`, `res`) to `installProvider.handleCallback` are required. By default, if the installation is successful the user will be redirected back to your App Home in Slack (or redirected back to the last open workspace in your slack app for classic Slack apps). If the installation is not successful the user will be shown an error page.
 
 ```javascript
 const { createServer } = require('http');
