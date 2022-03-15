@@ -50,8 +50,8 @@ slug: oauth
 </tbody>
 </table>
 <h3>Methods</h3>
-<h4>authorize(source)</h4>
-<p>Fetches installation data from the instance's <a href="#installationstore">installationStore</a>.</p>
+<h4>handleInstallPath(req, res, options, installOptions)</h4>
+<p>This method handles HTTP requests to the application's installation page. It can be used to automatically render a typical installation page with an "Add to Slack" button.</p>
 <strong>Parameters:</strong>
 <table>
 <thead>
@@ -64,14 +64,32 @@ slug: oauth
 </thead>
 <tbody>
 <tr>
-<td align="center">source</td>
-<td align="center"><code><a href="#installationquery" title="">InstallationQuery</a></code></td>
+<td align="center">req</td>
+<td align="center"><a href="https://nodejs.org/api/http.html#class-httpincomingmessage"><code>IncomingMessage</code></a></td>
 <td align="center">✓</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">res</td>
+<td align="center"><a href="https://nodejs.org/api/http.html#class-httpserverresponse"><code>ServerResponse</code></a></td>
+<td align="center">✓</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">options</td>
+<td align="center"><code><a href="#installpathoptions" title="">InstallPathOptions</a></code></td>
+<td align="center">✗</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">installOptions</td>
+<td align="center"><code><a href="#installurloptions" title="">InstallURLOptions</a></code></td>
+<td align="center">✗</td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Returns</strong> <code>Promise&#x3C;<a href="#authorizeresult" title="">AuthorizeResult</a>></code></p>
+<p><strong>Returns</strong> <code>Promise&#x3C;void></code></p>
 <h4>generateInstallUrl(options)</h4>
 <p>Returns a URL that is suitable for including in an Add to Slack button. Uses the instance's <a href="#statestore">stateStore</a> to generate a value for the <code>state</code> OAuth parameter. Can disable state generation by setting <code>stateVerification</code> to <code>false</code>. Can prescribe a specific <code>state</code> OAuth parameter value by setting the <code>state</code> argument to this function explicitly.</p>
 <strong>Parameters:</strong>
@@ -148,8 +166,8 @@ slug: oauth
 </tbody>
 </table>
 <p><strong>Returns</strong> <code>Promise&#x3C;void></code></p>
-<h4>handleInstallPath(req, res, options, installOptions)</h4>
-<p>This method handles HTTP requests to the application's installation page. It can be used to automatically render a typical installation page with an "Add to Slack" button.</p>
+<h4>authorize(source)</h4>
+<p>Fetches installation data from the instance's <a href="#installationstore">installationStore</a>.</p>
 <strong>Parameters:</strong>
 <table>
 <thead>
@@ -162,32 +180,14 @@ slug: oauth
 </thead>
 <tbody>
 <tr>
-<td align="center">req</td>
-<td align="center"><a href="https://nodejs.org/api/http.html#class-httpincomingmessage"><code>IncomingMessage</code></a></td>
+<td align="center">source</td>
+<td align="center"><code><a href="#installationquery" title="">InstallationQuery</a></code></td>
 <td align="center">✓</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">res</td>
-<td align="center"><a href="https://nodejs.org/api/http.html#class-httpserverresponse"><code>ServerResponse</code></a></td>
-<td align="center">✓</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">options</td>
-<td align="center"><code><a href="#installpathoptions" title="">InstallPathOptions</a></code></td>
-<td align="center">✗</td>
-<td></td>
-</tr>
-<tr>
-<td align="center">installOptions</td>
-<td align="center"><code><a href="#installurloptions" title="">InstallURLOptions</a></code></td>
-<td align="center">✗</td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Returns</strong> <code>Promise&#x3C;void></code></p>
+<p><strong>Returns</strong> <code>Promise&#x3C;<a href="#authorizeresult" title="">AuthorizeResult</a>></code></p>
 <h1 id="interfaces" class="undefined auto-anchor-strong">Interfaces</h1>
 <h2 id="authorizeresult">AuthorizeResult</h2>
 <h3>Fields</h3>
