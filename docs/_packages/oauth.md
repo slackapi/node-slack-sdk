@@ -62,7 +62,7 @@ const installer = new InstallProvider({
 
 ---
 
-## Showing an Installation Page
+### Showing an Installation Page
 
 You'll need an installation URL when you want to test your own installation in order to submit your app to the App Directory and in case you need additional authorizations (such as user tokens) from users inside a team where your app is already installed. These URLs are also commonly used on your own webpages as the link for an ["Add to Slack" button](https://api.slack.com/docs/slack-button).
 
@@ -168,9 +168,62 @@ app.get('/slack/oauth_redirect', (req, res) => {
 ```
 </details>
 
+### Persisting data during the OAuth flow
+
+There are many situations where you may want to persist some custom data relevant to your application across the entire OAuth flow. For example, you may want to map Slack resources (like users) to your own application's resources, or verify and gate eligibility for proceeding with installing your Slack application to a workspace based on your application's requirements. To this end, this package provides a series of hooks, or callbacks, that allow your application to integrate throughout key points of the OAuth flow.
+
+These are all callbacks customizable via the [`CallbackOptions`](reference/oauth#callbackoptions) and [`InstallPathOptions`](reference/oauth#installpathoptions) interfaces - check their [reference documentation](reference/oauth) for more details.
+
+For example, you may wish to store some information relevant to your application in a cookie before starting the OAuth flow and redirecting the user to the slack.com authorize URL. Once the user completes the authorization process on slack.com and is redirected back to your application, you can read this cookie and determine if the user has the appropriate permissions to proceed with installation of your application:
+
+```javascript
+const { InstallProvider } = require('@slack/oauth');
+const { createServer } = require('http');
+
+// initialize the installProvider
+const installer = new InstallProvider({
+  clientId: process.env.SLACK_CLIENT_ID,
+  clientSecret: process.env.SLACK_CLIENT_SECRET,
+  stateSecret: 'my-state-secret'
+});
+
+const server = createServer(async (req, res) =>  {
+  // our installation path is /slack/install
+  if (req.url === '/slack/install') {
+    // call installer.handleInstallPath and write a cookie using beforeRedirection
+    await installer.handleInstallPath(req, res, {
+      beforeRedirection: async (req, res) => {
+        req.setHeader('Cookie', 'mycookie=something');
+        return true; // return true to continue with the OAuth flow
+      }
+    });
+  }
+  // our redirect_uri is /slack/oauth_redirect
+  if (req.url === '/slack/oauth_redirect') {
+    // call installer.handleCallback but check our custom cookie before
+    // wrapping up the install flow
+    await installer.handleCallback(req, res, {
+      beforeInstallation: async (opts, req, res) => {
+        if (checkCookieForInstallElibility(req)) {
+          // the user is allowed to install the app
+          return true;
+        } else {
+          // user is not allowed to install! end the http response and return false
+          // to stop the installation
+          res.end();
+          return false;
+        }
+      }
+    });
+  }
+})
+
+server.listen(3000);
+```
+
 <details>
 <summary markdown="span">
-<strong><i>Using a custom success handler and custom failure handler</i></strong>
+<strong><i>Using custom success or failure handlers</i></strong>
 </summary>
 
 If you decide you need custom success or failure behaviors (ex: wanting to show a page on your site with instructions on how to use the app), you can pass in your own success/failure functions.
