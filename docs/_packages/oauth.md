@@ -66,10 +66,7 @@ const installer = new InstallProvider({
 
 You'll need an installation URL when you want to test your own installation in order to submit your app to the App Directory and in case you need additional authorizations (such as user tokens) from users inside a team where your app is already installed. These URLs are also commonly used on your own webpages as the link for an ["Add to Slack" button](https://api.slack.com/docs/slack-button).
 
-There are two approaches the `InstallProvider` provides to show an installation page to the user prior to beginning the OAuth process:
-
-1. You can let `InstallProvider` render the installation page at a URL/path of your choosing [using the `handleInstallPath()` method](#using-handleinstallpath). It will automatically display an "Add to Slack" button and encode any desired user or bot scopes and metadata you specify.
-2. You can customize the installation page by passing `renderHtmlForInstallPath` function to the `InstallProvider` constructor. Also, if your app supports Direct Install URL in the App Directory page, you can pass `directInstall: true` when initializing `InstallProvider`.
+The recommended and simplest approach is for `InstallProvider` to render the installation page at a URL/path of your choosing [using the `handleInstallPath()` method](#using-handleinstallpath). It will automatically display an "Add to Slack" button and encode any desired user or bot scopes and metadata you specify. If you wish to further customize the installation page, you can do so by passing a `renderHtmlForInstallPath` function to the `InstallProvider` constructor. Also, if your app supports Direct Install URL in the App Directory page, you can pass `directInstall: true` when initializing `InstallProvider`.
 
 #### Using `handleInstallPath`
 
@@ -88,7 +85,24 @@ app.get('/slack/install', async (req, res) => {
 
 The `handleInstallPath` method accepts an options object as its third argument which supports `scopes`, `metadata`, `userScopes`, `teamId` and `redirectUri` properties (check out the [source code for this interface](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-url-options.ts) for more details).
 
-#### Using `generateInstallUrl`
+To have more control over the installation page contents, you can pass a `renderHtmlForInstallPath` function that takes a URL argument as a string and returns an HTML string that will be sent in the HTTP response body. This function will be invoked as part of `handleInstallPath` execution:
+
+```javascript
+const { InstallProvider } = require('@slack/oauth');
+
+// initialize the installProvider
+const installer = new InstallProvider({
+  clientId: process.env.SLACK_CLIENT_ID,
+  clientSecret: process.env.SLACK_CLIENT_SECRET,
+  stateSecret: 'my-state-secret',
+  renderHtmlForInstallPath: (url) => `<html><body><a href="${url}">Install my app!</a></body></html>`
+});
+```
+
+<details>
+<summary markdown="span">
+<strong><i>Manually generating installation page URL and contents</i></strong>
+</summary>
 
 If you want to customize the installation page users will be shown, you may generate an installation URL dynamically and use the generated URL as part of the installation page displayed to the user.
 
@@ -104,12 +118,8 @@ app.get('/slack/install', async (req, res, next) => {
   res.send(`<a href=${url}><img alt=""Add to Slack"" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>`);
 });
 ```
-<details>
-<summary markdown="span">
-<strong><i>Adding custom metadata to the installation URL</i></strong>
-</summary>
 
-You might want to present an "Add to Slack" button while the user is in the middle of some other tasks (e.g. linking their Slack account to your service). In these situations, you want to bring the user back to where they left off after the app installation is complete. Custom metadata can be used to capture partial (incomplete) information about the task (like which page they were on or inputs to form elements the user began to fill out) in progress. Then when the installation is complete, that custom metadata will be available for your app to recreate exactly where they left off. You must also use a [custom success handler when handling the OAuth redirect](#handling-the-oauth-redirect) to read the custom metadata after the installation is complete.
+Additionally, you might want to present an "Add to Slack" button while the user is in the middle of some other tasks (e.g. linking their Slack account to your service). In these situations, you want to bring the user back to where they left off after the app installation is complete. Custom metadata can be used to capture partial (incomplete) information about the task (like which page they were on or inputs to form elements the user began to fill out) in progress. Then when the installation is complete, that custom metadata will be available for your app to recreate exactly where they left off. You must also use a [custom success handler when handling the OAuth redirect](#handling-the-oauth-redirect) to read the custom metadata after the installation is complete.
 
 ```javascript
 installer.generateInstallUrl({
@@ -126,7 +136,9 @@ installer.generateInstallUrl({
 
 ### Handling the OAuth redirect
 
-After the user approves the request to install your app (and grants access to the required permissions), Slack will redirect the user to your specified **Redirect URL**. You can either set the redirect URL in the app’s **OAuth and Permissions** page or pass a `redirectUri` when calling `installProvider.generateInstallUrl`. Your HTTP server should handle requests to the redirect URL by calling the `installProvider.handleCallback()` method. The first two arguments (`req`, `res`) to `installProvider.handleCallback` are required. By default, if the installation is successful the user will be redirected back to your App Home in Slack (or redirected back to the last open workspace in your slack app for classic Slack apps). If the installation is not successful the user will be shown an error page.
+After the user approves the request to install your app (and grants access to the required permissions), Slack will redirect the user to your specified **Redirect URL**. You can either set the redirect URL in the app’s **OAuth and Permissions** page or pass a `redirectUri` when calling `installProvider.handleInstallPath`.
+
+Your HTTP server should handle requests to this redirect URL by calling the `installProvider.handleCallback()` method. The first two arguments (`req`, `res`) to `installProvider.handleCallback` are required. By default, if the installation is successful the user will be redirected back to your App Home in Slack (or redirected back to the last open workspace in your slack app for classic Slack apps). If the installation is not successful the user will be shown an error page.
 
 ```javascript
 const { createServer } = require('http');
