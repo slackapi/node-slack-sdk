@@ -56,6 +56,15 @@ export interface ItemFile {
   editor?:                    string;
   last_editor?:               string;
   updated?:                   number;
+  subtype?:                   string;
+  transcription?:             Transcription;
+  mp4?:                       string;
+  vtt?:                       string;
+  hls?:                       string;
+  hls_embed?:                 string;
+  duration_ms?:               number;
+  thumb_video_w?:             number;
+  thumb_video_h?:             number;
   original_attachment_count?: number;
   is_external?:               boolean;
   external_type?:             string;
@@ -414,6 +423,15 @@ export interface FileElement {
   editor?:                    string;
   last_editor?:               string;
   updated?:                   number;
+  subtype?:                   string;
+  transcription?:             Transcription;
+  mp4?:                       string;
+  vtt?:                       string;
+  hls?:                       string;
+  hls_embed?:                 string;
+  duration_ms?:               number;
+  thumb_video_w?:             number;
+  thumb_video_h?:             number;
   original_attachment_count?: number;
   is_external?:               boolean;
   external_type?:             string;
@@ -547,6 +565,11 @@ export interface Private {
   latest_reply?:      string;
   channel_name?:      string;
   team_id?:           string;
+}
+
+export interface Transcription {
+  status?: string;
+  locale?: string;
 }
 
 export interface Metadata {

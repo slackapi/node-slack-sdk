@@ -85,6 +85,15 @@ export interface File {
   editor?:                    string;
   last_editor?:               string;
   updated?:                   number;
+  subtype?:                   string;
+  transcription?:             Transcription;
+  mp4?:                       string;
+  vtt?:                       string;
+  hls?:                       string;
+  hls_embed?:                 string;
+  duration_ms?:               number;
+  thumb_video_w?:             number;
+  thumb_video_h?:             number;
   original_attachment_count?: number;
   external_id?:               string;
   external_url?:              string;
@@ -320,6 +329,11 @@ export interface Private {
   latest_reply?:      string;
   channel_name?:      string;
   team_id?:           string;
+}
+
+export interface Transcription {
+  status?: string;
+  locale?: string;
 }
 
 export interface Paging {

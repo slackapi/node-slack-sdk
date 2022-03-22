@@ -406,6 +406,15 @@ export interface File {
   editor?:                    string;
   last_editor?:               string;
   updated?:                   number;
+  subtype?:                   string;
+  transcription?:             Transcription;
+  mp4?:                       string;
+  vtt?:                       string;
+  hls?:                       string;
+  hls_embed?:                 string;
+  duration_ms?:               number;
+  thumb_video_w?:             number;
+  thumb_video_h?:             number;
   original_attachment_count?: number;
   is_external?:               boolean;
   external_type?:             string;
@@ -549,6 +558,11 @@ export interface Private {
   latest_reply?:      string;
   channel_name?:      string;
   team_id?:           string;
+}
+
+export interface Transcription {
+  status?: string;
+  locale?: string;
 }
 
 export interface Metadata {
@@ -1085,6 +1099,7 @@ export interface SelfPrefs {
   show_gov_slack_context_bar_banner?:                         boolean;
   who_can_see_account_by_searching_email?:                    string;
   contextual_help_reset_count?:                               number;
+  mobile_channel_list_show_all_dms?:                          boolean;
 }
 
 export interface LocalesEnabled {
@@ -1363,6 +1378,7 @@ export interface TeamPrefs {
   slack_connect_account_visibility?:                   string;
   rich_previews_default?:                              string;
   sign_in_with_slack_default?:                         string;
+  mobile_session_duration?:                            number;
 }
 
 export interface CallsApps {
