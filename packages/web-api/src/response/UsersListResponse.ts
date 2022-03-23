@@ -90,6 +90,7 @@ export interface Profile {
   always_active?:             boolean;
   guest_invited_by?:          string;
   guest_expiration_ts?:       number;
+  huddle_state?:              string;
 }
 
 export interface StatusEmojiDisplayInfo {

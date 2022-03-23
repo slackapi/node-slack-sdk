@@ -189,6 +189,7 @@ export interface Accessory {
   initial_user?:                    string;
   initial_users?:                   string[];
   verbatim?:                        boolean;
+  emoji?:                           boolean;
 }
 
 export interface AccessoryConfirm {

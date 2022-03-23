@@ -1467,6 +1467,7 @@ export interface Profile {
   bot_id?:                    string;
   always_active?:             boolean;
   guest_invited_by?:          string;
+  huddle_state?:              string;
 }
 
 export interface Fields {

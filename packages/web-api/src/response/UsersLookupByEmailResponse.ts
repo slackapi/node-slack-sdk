@@ -70,6 +70,7 @@ export interface Profile {
   status_emoji_url?:          string;
   pronouns?:                  string;
   status_emoji_display_info?: StatusEmojiDisplayInfo[];
+  huddle_state?:              string;
 }
 
 export interface StatusEmojiDisplayInfo {
