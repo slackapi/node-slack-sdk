@@ -311,7 +311,7 @@ export class InstallProvider {
   }
 
   // ------------------------------------------------------
-  // Handling web browser requests form end-users
+  // Handling web browser requests from end-users
   // ------------------------------------------------------
 
   /**
