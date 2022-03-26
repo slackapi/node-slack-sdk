@@ -30,18 +30,11 @@ const installer = new InstallProvider({
 app.get('/', (req, res) => res.send('go to /slack/install'));
 
 app.get('/slack/install', async (req, res, next) => {
-  try {
-    // feel free to modify the scopes
-    const url = await installer.generateInstallUrl({
-      scopes,
-      userScopes,
-      metadata: 'some_metadata',
-    })
-    
-    res.send(`<a href=${url}><img alt=""Add to Slack"" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcset="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>`);
-  } catch(error) {
-    console.log(error)
-  }
+  await installer.handleInstallPath(req, res, {}, {
+    scopes,
+    userScopes,
+    metadata: 'some_metadata',
+  });
 });
 
 // This works since @slack/oauth@2.5.0 or newer

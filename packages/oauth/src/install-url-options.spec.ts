@@ -14,4 +14,15 @@ describe('InstallURLOptions', async () => {
       options.scopes.sort();
     assert.deepEqual(actual, ['chat:write', 'commands']);
   });
+
+  it('should be stringified without any issues', async () => {
+    const options: InstallURLOptions = {
+      teamId: 'T111',
+      redirectUri: 'https://www.example.com/slack/oauth_redirect',
+      scopes: ['commands', 'chat:write'],
+      userScopes: ['chat:write'],
+      metadata: 'meta',
+    };
+    assert.deepEqual(JSON.stringify(options), '{"teamId":"T111","redirectUri":"https://www.example.com/slack/oauth_redirect","scopes":["commands","chat:write"],"userScopes":["chat:write"],"metadata":"meta"}');
+  });
 });
