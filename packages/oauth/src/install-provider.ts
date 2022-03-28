@@ -330,7 +330,8 @@ export class InstallProvider {
     }
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const _installOptions: InstallURLOptions = installOptions! || this.installUrlOptions!;
-    this.logger.debug(`Running handleInstallPath() with ${_installOptions}`);
+    const _printableOptions = JSON.stringify(_installOptions);
+    this.logger.debug(`Running handleInstallPath() with ${_printableOptions}`);
 
     if (this.stateStore === undefined) {
       throw new GenerateInstallUrlError('StateStore is not properly configured');
