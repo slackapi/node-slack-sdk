@@ -52,6 +52,7 @@ export interface Profile {
 export interface Field {
   value?: string;
   alt?:   string;
+  label?: string;
 }
 
 export interface StatusEmojiDisplayInfo {
