@@ -22,12 +22,6 @@ Select all that apply:
 
 ### Reproducible in:
 
-```bash
-npm ls | grep -o "\S\+@\S\+$" | tr @ ' ' | awk -v q='"' '{print q$1q": "q"^"$2q","}' | grep slack
-node --version
-sw_vers && uname -v # or `ver`
-```
-
 #### The Slack SDK version
 
 (Paste the output of 
@@ -36,7 +30,7 @@ npm ls | grep -o "\S\+@\S\+$" | tr @ ' ' | awk -v q='"' '{print q$1q": "q"^"$2q"
 ```
 or refer to your `package.json`)
 
-#### Python runtime version
+#### Node.js runtime version
 
 (Paste the output of `node --version`)
 
