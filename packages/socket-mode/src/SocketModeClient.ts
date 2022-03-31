@@ -419,10 +419,11 @@ export class SocketModeClient extends EventEmitter {
    * Method for sending an outgoing message of an arbitrary type over the websocket connection.
    * Primarily used to send acknowledgements back to slack for incoming events
    * @param id the envelope id
-   * @param body the message body
+   * @param body the message body or string text
    */
   private send(id: string, body = {}): Promise<void> {
-    const message = { envelope_id: id, payload: { ...body } };
+    const _body = typeof body === 'string' ? { text: body } : body;
+    const message = { envelope_id: id, payload: { ..._body } };
 
     return new Promise((resolve, reject) => {
       this.logger.debug(`send() in state: ${this.stateMachine.getStateHierarchy()}`);
