@@ -1986,6 +1986,7 @@ export interface TeamInfoArguments extends WebAPICallOptions, TokenOverridable {
   // Team to get info on, if omitted, will return information about the current team.
   // Will only return team that the authenticated token is allowed to see through external shared channels
   team?: string;
+  domain?: string; // available only for Enterprise Grid
 }
 export interface TeamIntegrationLogsArguments extends WebAPICallOptions, TokenOverridable {
   app_id?: string;
