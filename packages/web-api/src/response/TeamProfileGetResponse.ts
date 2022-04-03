@@ -23,13 +23,14 @@ export interface Profile {
 }
 
 export interface Field {
-  id?:         string;
-  ordering?:   number;
-  field_name?: string;
-  label?:      string;
-  hint?:       string;
-  type?:       string;
-  is_hidden?:  boolean;
+  id?:              string;
+  ordering?:        number;
+  field_name?:      string;
+  label?:           string;
+  hint?:            string;
+  type?:            string;
+  is_hidden?:       boolean;
+  possible_values?: string[];
 }
 
 export interface Section {
