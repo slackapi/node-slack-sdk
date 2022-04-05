@@ -2,6 +2,15 @@ const { assert } = require('chai');
 const { SocketModeClient } = require('./SocketModeClient');
 
 describe('SocketModeClient', () => {
+  describe('public APIs', () => {
+    describe('isActive()', () => {
+      it('should return false when initialized', async () => {
+        const client = new SocketModeClient({ appToken: 'xapp-' });
+        assert.isFalse(client.isActive());
+      });
+    });
+  });
+
   describe('onWebsocketMessage', () => {
     beforeEach(() => {
     });
