@@ -46,6 +46,14 @@ export class SocketModeClient extends EventEmitter {
    */
   public authenticated: boolean = false;
 
+  /**
+   * Returns true if the underlying WebSocket connection is active.
+   */
+  public isActive(): boolean {
+    this.logger.debug(`The connection state (connected: ${this.connected}, authenticated: ${this.authenticated}, badConnection: ${this.badConnection})`);
+    return this.connected && this.authenticated && !this.badConnection;
+  }
+
   // public listenerIterator: AsyncGenerator | undefined;
 
   /**
