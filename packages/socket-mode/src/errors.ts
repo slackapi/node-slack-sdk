@@ -22,6 +22,7 @@ export type SMCallError = SMPlatformError | SMWebsocketError | SMNoReplyReceived
 
 export interface SMPlatformError extends CodedError {
   code: ErrorCode.SendMessagePlatformError;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any;
 }
 
@@ -67,7 +68,10 @@ export function websocketErrorWithOriginal(original: Error): SMWebsocketError {
 /**
  * A factory to create SMPlatformError objects.
  */
-export function platformErrorFromEvent(event: any & { error: { msg: string; } }): SMPlatformError {
+export function platformErrorFromEvent(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  event: any & { error: { msg: string; } },
+): SMPlatformError {
   const error = errorWithCode(
     new Error(`An API error occurred: ${event.error.msg}`),
     ErrorCode.SendMessagePlatformError,

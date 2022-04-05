@@ -551,6 +551,7 @@ export class SocketModeClient extends EventEmitter {
     let event: {
       type: string;
       reason: string;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       payload: { [key: string]: any };
       envelope_id: string;
       retry_attempt?: number; // type: events_api
@@ -560,6 +561,7 @@ export class SocketModeClient extends EventEmitter {
 
     try {
       event = JSON.parse(data);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (parseError: any) {
       // prevent application from crashing on a bad message, but log an error to bring attention
       this.logger.error(
