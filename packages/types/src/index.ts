@@ -389,6 +389,20 @@ export interface MessageAttachment {
   actions?: AttachmentAction[];
   callback_id?: string;
   mrkdwn_in?: ('pretext' | 'text' | 'fields')[];
+  app_unfurl_url?: string;
+  is_app_unfurl?: boolean;
+  app_id?: string;
+  bot_id?: string;
+  preview?: MessageAttachmentPreview; // https://api.slack.com/methods/chat.unfurl#markdown
+}
+
+// https://api.slack.com/methods/chat.unfurl#markdown
+export interface MessageAttachmentPreview {
+  type?: string;
+  can_remove?: boolean;
+  title?: PlainTextElement;
+  subtitle?: PlainTextElement;
+  iconUrl?: string;
 }
 
 export interface AttachmentAction {
