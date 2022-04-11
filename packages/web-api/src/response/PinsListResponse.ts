@@ -169,6 +169,7 @@ export interface Attachment {
   channel_id?:            string;
   channel_name?:          string;
   id?:                    number;
+  app_id?:                string;
   bot_id?:                string;
   indent?:                boolean;
   is_msg_unfurl?:         boolean;
@@ -197,6 +198,7 @@ export interface Attachment {
   mrkdwn_in?:             string[];
   actions?:               Action[];
   blocks?:                any[];
+  preview?:               Preview;
   files?:                 any[];
   filename?:              string;
   size?:                  number;
@@ -258,6 +260,26 @@ export interface Metadata {
   thumb_tiny?:  string;
 }
 
+export interface Preview {
+  type?:       string;
+  can_remove?: boolean;
+  title?:      Text;
+  subtitle?:   Text;
+  icon_url?:   string;
+}
+
+export interface Text {
+  type?:     Type;
+  text?:     string;
+  emoji?:    boolean;
+  verbatim?: boolean;
+}
+
+export enum Type {
+  Mrkdwn = 'mrkdwn',
+  PlainText = 'plain_text',
+}
+
 export interface Block {
   type?:         string;
   elements?:     Accessory[];
@@ -316,18 +338,6 @@ export interface AccessoryConfirm {
   confirm?: Text;
   deny?:    Text;
   style?:   string;
-}
-
-export interface Text {
-  type?:     Type;
-  text?:     string;
-  emoji?:    boolean;
-  verbatim?: boolean;
-}
-
-export enum Type {
-  Mrkdwn = 'mrkdwn',
-  PlainText = 'plain_text',
 }
 
 export interface Filter {

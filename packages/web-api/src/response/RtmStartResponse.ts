@@ -172,6 +172,7 @@ export interface Attachment {
   channel_id?:            string;
   channel_name?:          string;
   id?:                    number;
+  app_id?:                string;
   bot_id?:                string;
   indent?:                boolean;
   is_msg_unfurl?:         boolean;
@@ -200,6 +201,7 @@ export interface Attachment {
   mrkdwn_in?:             string[];
   actions?:               Action[];
   blocks?:                Block[];
+  preview?:               Preview;
   files?:                 File[];
   filename?:              string;
   size?:                  number;
@@ -577,6 +579,14 @@ export interface Metadata {
   extension?:   string;
   rotation?:    number;
   thumb_tiny?:  string;
+}
+
+export interface Preview {
+  type?:       string;
+  can_remove?: boolean;
+  title?:      Hint;
+  subtitle?:   Hint;
+  icon_url?:   string;
 }
 
 export interface Edited {
@@ -1100,6 +1110,7 @@ export interface SelfPrefs {
   who_can_see_account_by_searching_email?:                    string;
   contextual_help_reset_count?:                               number;
   mobile_channel_list_show_all_dms?:                          boolean;
+  enable_quip_file_browser_view?:                             boolean;
 }
 
 export interface LocalesEnabled {
@@ -1379,6 +1390,8 @@ export interface TeamPrefs {
   rich_previews_default?:                              string;
   sign_in_with_slack_default?:                         string;
   mobile_session_duration?:                            number;
+  uneditable_user_profile_fields?:                     string[];
+  thorn_safer_scan?:                                   boolean;
 }
 
 export interface CallsApps {

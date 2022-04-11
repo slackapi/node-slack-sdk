@@ -64,6 +64,7 @@ export interface Attachment {
   channel_id?:            string;
   channel_name?:          string;
   id?:                    number;
+  app_id?:                string;
   bot_id?:                string;
   indent?:                boolean;
   is_msg_unfurl?:         boolean;
@@ -92,6 +93,7 @@ export interface Attachment {
   mrkdwn_in?:             string[];
   actions?:               Action[];
   blocks?:                Block[];
+  preview?:               Preview;
   files?:                 File[];
   filename?:              string;
   size?:                  number;
@@ -469,6 +471,14 @@ export interface Metadata {
   extension?:   string;
   rotation?:    number;
   thumb_tiny?:  string;
+}
+
+export interface Preview {
+  type?:       string;
+  can_remove?: boolean;
+  title?:      Hint;
+  subtitle?:   Hint;
+  icon_url?:   string;
 }
 
 export interface Channel {

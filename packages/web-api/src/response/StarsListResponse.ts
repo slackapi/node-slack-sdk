@@ -183,6 +183,7 @@ export interface Attachment {
   channel_id?:            string;
   channel_name?:          string;
   id?:                    number;
+  app_id?:                string;
   bot_id?:                string;
   indent?:                boolean;
   is_msg_unfurl?:         boolean;
@@ -211,6 +212,7 @@ export interface Attachment {
   mrkdwn_in?:             string[];
   actions?:               Action[];
   blocks?:                AttachmentBlock[];
+  preview?:               Preview;
   files?:                 FileElement[];
   filename?:              string;
   size?:                  number;
@@ -584,6 +586,14 @@ export interface Metadata {
   extension?:   string;
   rotation?:    number;
   thumb_tiny?:  string;
+}
+
+export interface Preview {
+  type?:       string;
+  can_remove?: boolean;
+  title?:      Text;
+  subtitle?:   Text;
+  icon_url?:   string;
 }
 
 export interface PurpleBlock {

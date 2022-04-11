@@ -80,6 +80,10 @@ export interface File {
   thumb_1024?:                string;
   thumb_1024_w?:              number;
   thumb_1024_h?:              number;
+  thumb_pdf?:                 string;
+  thumb_pdf_w?:               number;
+  thumb_pdf_h?:               number;
+  converted_pdf?:             string;
   subject?:                   string;
   non_owner_editable?:        boolean;
   editor?:                    string;
@@ -114,10 +118,6 @@ export interface File {
   thumb_1024_gif?:            string;
   thumb_video?:               string;
   thumb_gif?:                 string;
-  thumb_pdf?:                 string;
-  thumb_pdf_w?:               string;
-  thumb_pdf_h?:               string;
-  converted_pdf?:             string;
   image_exif_rotation?:       number;
   pjpeg?:                     string;
   has_rich_preview?:          boolean;
