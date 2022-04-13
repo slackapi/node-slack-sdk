@@ -53,6 +53,7 @@ export interface Message {
   purpose?:           string;
   client_msg_id?:     string;
   reactions?:         Reaction[];
+  app_id?:            string;
 }
 
 export interface Attachment {

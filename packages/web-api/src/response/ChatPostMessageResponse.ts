@@ -38,6 +38,7 @@ export interface Message {
   root?:           Root;
   blocks?:         Block[];
   attachments?:    Attachment[];
+  app_id?:         string;
 }
 
 export interface Attachment {

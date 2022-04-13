@@ -50,6 +50,7 @@ export interface Message {
   parent_user_id?:    string;
   is_locked?:         boolean;
   inviter?:           string;
+  app_id?:            string;
 }
 
 export interface Block {

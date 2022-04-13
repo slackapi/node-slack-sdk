@@ -29,6 +29,7 @@ export interface Message {
   bot_profile?: BotProfile;
   reactions?:   Reaction[];
   permalink?:   string;
+  app_id?:      string;
 }
 
 export interface BotProfile {

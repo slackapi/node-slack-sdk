@@ -41,6 +41,7 @@ export interface Message {
   files?:             File[];
   upload?:            boolean;
   display_as_bot?:    boolean;
+  app_id?:            string;
 }
 
 export interface Attachment {

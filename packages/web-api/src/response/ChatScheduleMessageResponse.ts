@@ -29,6 +29,7 @@ export interface Message {
   team?:        string;
   bot_profile?: BotProfile;
   blocks?:      Block[];
+  app_id?:      string;
 }
 
 export interface Block {

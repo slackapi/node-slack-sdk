@@ -34,6 +34,7 @@ export interface Message {
   upload?:         boolean;
   display_as_bot?: boolean;
   x_files?:        string[];
+  app_id?:         string;
 }
 
 export interface Block {
