@@ -7,5 +7,7 @@ export interface SocketModeOptions {
   logLevel?: LogLevel;
   autoReconnectEnabled?: boolean;
   clientPingTimeout?: number;
+  serverPingTimeout?: number;
+  pingPongLoggingEnabled?: boolean;
   clientOptions?: Omit<WebClientOptions, 'logLevel' | 'logger'>;
 }
