@@ -138,7 +138,7 @@ const webClient = new WebClient(process.env.SLACK_BOT_TOKEN);
 
 socketModeClient.on('interactive', async ({ body, ack }) => {
   await ack();
-  if (event.callback_id === "the-shortcut") {
+  if (body.callback_id === "the-shortcut") {
     // handle the shortcut here
     await webClient.views.open({
       trigger_id: body.trigger_id,
