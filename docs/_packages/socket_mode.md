@@ -170,7 +170,7 @@ socketModeClient.on('interactive', async ({ body, ack }) => {
 For slash commands, you can subscribe to "slash_commands" events and dispatch requests inside the listener.
 
 ```javascript
-client.on('slash_commands', async ({ body, ack }) => {
+socketModeClient.on('slash_commands', async ({ body, ack }) => {
   if (body.command === "/the-command") {
     await ack({"text": "I got it!"});
   }
