@@ -5,7 +5,7 @@ const socketModeClient = new SocketModeClient({
   appToken: process.env.SLACK_APP_TOKEN,
   logLevel: LogLevel.DEBUG,
   pingPongLoggingEnabled: true,
-  serverPingTimeout: 60000,
+  serverPingTimeout: 50000,
   clientPingTimeout: 5000,
 });
 const webClient = new WebClient(process.env.SLACK_BOT_TOKEN, {
@@ -13,8 +13,12 @@ const webClient = new WebClient(process.env.SLACK_BOT_TOKEN, {
 });
 
 socketModeClient.on("slack_event", async ({ ack, body }) => {
-  console.log(body);
-  await ack();
+  try {
+    console.log(body);
+    await ack();
+  } catch (e) {
+    console.error(e);
+  }
 });
 
 (async () => {
