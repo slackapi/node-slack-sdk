@@ -602,6 +602,7 @@ export class SocketModeClient extends EventEmitter {
     if (event.type === 'events_api') {
       this.emit(event.payload.event.type, {
         ack,
+        envelope_id: event.envelope_id,
         body: event.payload,
         event: event.payload.event,
         retry_num: event.retry_attempt,
@@ -612,6 +613,7 @@ export class SocketModeClient extends EventEmitter {
       // emit just ack and body for all other types of messages
       this.emit(event.type, {
         ack,
+        envelope_id: event.envelope_id,
         body: event.payload,
         accepts_response_payload: event.accepts_response_payload,
       });
@@ -621,6 +623,7 @@ export class SocketModeClient extends EventEmitter {
     // used in tools like bolt-js
     this.emit('slack_event', {
       ack,
+      envelope_id: event.envelope_id,
       type: event.type,
       body: event.payload,
       retry_num: event.retry_attempt,
