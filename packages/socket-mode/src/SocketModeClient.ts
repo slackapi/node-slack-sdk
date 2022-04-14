@@ -15,18 +15,10 @@ import {
   sendWhileDisconnectedError,
   sendWhileNotReadyError,
 } from './errors';
+import { UnrecoverableSocketModeStartError } from './UnrecoverableSocketModeStartError';
+import { SocketModeOptions } from './SocketModeOptions';
 
 const packageJson = require('../package.json'); // eslint-disable-line import/no-commonjs, @typescript-eslint/no-var-requires
-
-// NOTE: there may be a better way to add metadata to an error about being "unrecoverable" than to keep an
-// independent enum, probably a Set (this isn't used as a type).
-enum UnrecoverableSocketModeStartError {
-  NotAuthed = 'not_authed',
-  InvalidAuth = 'invalid_auth',
-  AccountInactive = 'account_inactive',
-  UserRemovedFromTeam = 'user_removed_from_team',
-  TeamDisabled = 'team_disabled',
-}
 
 /**
  * An Socket Mode Client allows programs to communicate with the
@@ -634,16 +626,3 @@ export class SocketModeClient extends EventEmitter {
 addAppMetadata({ name: packageJson.name, version: packageJson.version });
 
 export default SocketModeClient;
-
-/*
- * Exported types
- */
-
-export interface SocketModeOptions {
-  appToken?: string; // app level token
-  logger?: Logger;
-  logLevel?: LogLevel;
-  autoReconnectEnabled?: boolean;
-  clientPingTimeout?: number;
-  clientOptions?: Omit<WebClientOptions, 'logLevel' | 'logger'>;
-}
