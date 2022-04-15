@@ -97,7 +97,7 @@ export function noReplyReceivedError(): SMNoReplyReceivedError {
  */
 export function sendWhileDisconnectedError(): SMSendWhileDisconnectedError {
   return errorWithCode(
-    new Error('Cannot send message when client is not connected'),
+    new Error('Failed to send a WebSocket message as the client is not connected'),
     ErrorCode.NoReplyReceivedError,
   ) as SMSendWhileDisconnectedError;
 }
@@ -107,7 +107,7 @@ export function sendWhileDisconnectedError(): SMSendWhileDisconnectedError {
  */
 export function sendWhileNotReadyError(): SMSendWhileNotReadyError {
   return errorWithCode(
-    new Error('Cannot send message when client is not ready'),
+    new Error('Failed to send a WebSocket message as the client is not ready'),
     ErrorCode.NoReplyReceivedError,
   ) as SMSendWhileNotReadyError;
 }
