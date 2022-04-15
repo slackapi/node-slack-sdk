@@ -239,6 +239,9 @@ export class SocketModeClient extends EventEmitter {
       .on(Event.Start)
         .transitionTo(State.Connecting)
     .state(State.Connecting)
+      .onEnter(() => {
+        this.logger.info('Going to establish a new connectiont to Slack ...');
+      })
       .submachine(this.connectingStateMachineConfig)
       .on(Event.ServerHello)
         .transitionTo(State.Connected)
@@ -252,6 +255,7 @@ export class SocketModeClient extends EventEmitter {
     .state(State.Connected)
       .onEnter(() => {
         this.connected = true;
+        this.logger.info('Now connected to Slack');
       })
       .submachine(this.connectedStateMachineConfig)
       .on(Event.ServerDisconnectWarning)
@@ -288,7 +292,7 @@ export class SocketModeClient extends EventEmitter {
       .onExit(() => this.tearDownWebSocket())
     .state(State.Reconnecting)
       .onEnter(() => {
-        this.logger.debug('Reconnecting to Slack ...');
+        this.logger.info('Reconnecting to Slack ...');
       })
       .do(async () => {
         this.badConnection = true;
@@ -516,7 +520,7 @@ export class SocketModeClient extends EventEmitter {
    */
   private tearDownWebSocket(): void {
     if (this.secondaryWebsocket !== undefined && this.websocket !== undefined) {
-      this.logger.debug('Since the secondary WebSocket exists, going to tear down the first and assign second...');
+      this.logger.debug('Since the secondary WebSocket exists, going to tear down the first and assign second ...');
       // Currently have two WebSocket objects, so tear down the older one
       const oldWebsocket = this.websocket;
       // Switch to the new one here
@@ -534,7 +538,7 @@ export class SocketModeClient extends EventEmitter {
         this.logger.error(`Failed to terminate the old WS connection (error: ${e})`);
       }
     } else if (this.secondaryWebsocket === undefined && this.websocket !== undefined) {
-      this.logger.debug('Since only the primary WebSocket exists, going to tear it down...');
+      this.logger.debug('Since only the primary WebSocket exists, going to tear it down ...');
       // The only one WebSocket to tear down
       try {
         this.websocket.removeAllListeners('open');
