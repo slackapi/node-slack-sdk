@@ -15,7 +15,7 @@ const webClient = new WebClient(process.env.SLACK_BOT_TOKEN, {
 socketModeClient.on("slack_event", async ({ ack, body }) => {
   try {
     console.log(body);
-    await ack();
+    // setTimeout(() => { ack(); }, 2000);
   } catch (e) {
     console.error(e);
   }
