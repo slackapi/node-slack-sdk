@@ -521,25 +521,30 @@ export class SocketModeClient extends EventEmitter {
   private tearDownWebSocket(): void {
     if (this.secondaryWebsocket !== undefined && this.websocket !== undefined) {
       this.logger.debug('Since the secondary WebSocket exists, going to tear down the first and assign second...');
-      // currently have two WebSocket objects, so tear down the older one
-      this.websocket.removeAllListeners('open');
-      this.websocket.removeAllListeners('close');
-      this.websocket.removeAllListeners('error');
-      this.websocket.removeAllListeners('message');
-      this.websocket.close();
+      // Currently have two WebSocket objects, so tear down the older one
+      const oldWebsocket = this.websocket;
+      // Switch to the new one here
       this.websocket = this.secondaryWebsocket;
       this.secondaryWebsocket = undefined;
+      // Clean up the old one
+      oldWebsocket.removeAllListeners('open');
+      oldWebsocket.removeAllListeners('close');
+      oldWebsocket.removeAllListeners('error');
+      oldWebsocket.removeAllListeners('message');
+      oldWebsocket.close();
+      oldWebsocket.terminate();
     } else if (this.secondaryWebsocket === undefined && this.websocket !== undefined) {
       this.logger.debug('Since only the primary WebSocket exists, going to tear it down...');
-      // only one WebSocket to tear down
+      // The only one WebSocket to tear down
       this.websocket.removeAllListeners('open');
       this.websocket.removeAllListeners('close');
       this.websocket.removeAllListeners('error');
       this.websocket.removeAllListeners('message');
       this.websocket.close();
+      this.websocket.terminate();
       this.websocket = undefined;
     }
-    this.logger.debug('Tearing down WebSocket connections finished');
+    this.logger.debug('Tearing down the old WebSocket connection has finished');
   }
 
   private startPeriodicallySendingPingToSlack(): void {

@@ -16,6 +16,7 @@ socketModeClient.on("slack_event", async ({ ack, body }) => {
   try {
     console.log(body);
     // setTimeout(() => { ack(); }, 2000);
+    await ack();
   } catch (e) {
     console.error(e);
   }
