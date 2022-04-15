@@ -31,7 +31,6 @@ enum State {
   Reconnecting = 'reconnecting',
   Disconnecting = 'disconnecting',
   Disconnected = 'disconnected',
-  ClosingSocket = 'closing-socket',
   Failed = 'failed',
 }
 
@@ -176,7 +175,7 @@ export class SocketModeClient extends EventEmitter {
 
   /* eslint-disable @typescript-eslint/indent, newline-per-chained-call */
 
-  private connectingStateMachine: Configuration<State, Event> = Finity.configure<State, Event>()
+  private connectingStateMachineConfig: Configuration<State, Event> = Finity.configure<State, Event>()
     .global()
       .onStateEnter((state) => {
         this.logger.debug(`Transitioning to state: ${State.Connecting}:${state}`);
@@ -195,7 +194,7 @@ export class SocketModeClient extends EventEmitter {
       .onEnter(this.handleConnectionFailure.bind(this))
   .getConfig();
 
-  private connectedStateMachine: Configuration<State, Event> = Finity.configure<State, Event>()
+  private connectedStateMachineConfig: Configuration<State, Event> = Finity.configure<State, Event>()
     .global()
       .onStateEnter((state) => {
         this.logger.debug(`Transitioning to state: ${State.Connected}:${state}`);
@@ -219,13 +218,6 @@ export class SocketModeClient extends EventEmitter {
           this.emit(State.Ready);
         });
       })
-    .state(State.ClosingSocket)
-      .onEnter(() => {
-        this.logger.debug('Closing the current connection...');
-      })
-      .do(async () => this.tearDownHeartBeatJobs())
-        .onSuccess().transitionTo(State.Ready)
-        .onExit(() => this.tearDownWebSocket())
   .getConfig();
 
   /**
@@ -247,11 +239,11 @@ export class SocketModeClient extends EventEmitter {
       .on(Event.Start)
         .transitionTo(State.Connecting)
     .state(State.Connecting)
-      .submachine(this.connectingStateMachine)
+      .submachine(this.connectingStateMachineConfig)
       .on(Event.ServerHello)
         .transitionTo(State.Connected)
       .on(Event.WebSocketClose)
-        .transitionTo(State.Reconnecting).withCondition(() => this.autoReconnectEnabled)
+        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
         .transitionTo(State.Disconnected).withAction(this.handleDisconnection.bind(this))
       .on(Event.Failure)
         .transitionTo(State.Disconnected)
@@ -261,22 +253,22 @@ export class SocketModeClient extends EventEmitter {
       .onEnter(() => {
         this.connected = true;
       })
-      .submachine(this.connectedStateMachine)
+      .submachine(this.connectedStateMachineConfig)
       .on(Event.ServerDisconnectWarning)
-        .transitionTo(State.Reconnecting).withCondition(() => this.autoReconnectEnabled)
+        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
       .on(Event.WebSocketClose)
-        .transitionTo(State.Reconnecting).withCondition(() => this.autoReconnectEnabled)
+        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
         .transitionTo(State.Disconnected).withAction(this.handleDisconnection.bind(this))
       .on(Event.ExplicitDisconnect)
         .transitionTo(State.Disconnecting)
       .on(Event.ServerDisconnectWarning)
-        .transitionTo(State.Reconnecting).withCondition(() => this.autoReconnectEnabled)
+        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
       .on(Event.ServerPingsNotReceived)
-        .transitionTo(State.Reconnecting).withCondition(() => this.autoReconnectEnabled)
+        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
       .on(Event.ServerPongsNotReceived)
-        .transitionTo(State.Reconnecting).withCondition(() => this.autoReconnectEnabled)
+        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
       .on(Event.ServerDisconnectOldSocket)
-        .transitionTo(State.ClosingSocket)
+        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
       .onExit(() => {
         this.connected = false;
         this.authenticated = false;
@@ -411,6 +403,10 @@ export class SocketModeClient extends EventEmitter {
     }
   }
 
+  private autoReconnectCondition(): boolean {
+    return this.autoReconnectEnabled;
+  }
+
   private reconnectingCondition(context: Context<string, string>): boolean {
     const error = context.error as WebAPICallError;
     this.logger.warn(`Failed to start a Socket Mode connection (error: ${error.message})`);
@@ -527,21 +523,29 @@ export class SocketModeClient extends EventEmitter {
       this.websocket = this.secondaryWebsocket;
       this.secondaryWebsocket = undefined;
       // Clean up the old one
-      oldWebsocket.removeAllListeners('open');
-      oldWebsocket.removeAllListeners('close');
-      oldWebsocket.removeAllListeners('error');
-      oldWebsocket.removeAllListeners('message');
-      oldWebsocket.close();
-      oldWebsocket.terminate();
+      try {
+        oldWebsocket.removeAllListeners('open');
+        oldWebsocket.removeAllListeners('close');
+        oldWebsocket.removeAllListeners('error');
+        oldWebsocket.removeAllListeners('message');
+        oldWebsocket.close();
+        oldWebsocket.terminate();
+      } catch (e) {
+        this.logger.error(`Failed to terminate the old WS connection (error: ${e})`);
+      }
     } else if (this.secondaryWebsocket === undefined && this.websocket !== undefined) {
       this.logger.debug('Since only the primary WebSocket exists, going to tear it down...');
       // The only one WebSocket to tear down
-      this.websocket.removeAllListeners('open');
-      this.websocket.removeAllListeners('close');
-      this.websocket.removeAllListeners('error');
-      this.websocket.removeAllListeners('message');
-      this.websocket.close();
-      this.websocket.terminate();
+      try {
+        this.websocket.removeAllListeners('open');
+        this.websocket.removeAllListeners('close');
+        this.websocket.removeAllListeners('error');
+        this.websocket.removeAllListeners('message');
+        this.websocket.close();
+        this.websocket.terminate();
+      } catch (e) {
+        this.logger.error(`Failed to terminate the old WS connection (error: ${e})`);
+      }
       this.websocket = undefined;
     }
     this.logger.debug('Tearing down the old WebSocket connection has finished');
@@ -591,7 +595,7 @@ export class SocketModeClient extends EventEmitter {
     try {
       this.stateMachine.handle(Event.ServerPongsNotReceived);
     } catch (e) {
-      this.logger.debug(`Failed to reconnect to Slack (error: ${e})`);
+      this.logger.error(`Failed to reconnect to Slack (error: ${e})`);
     }
   }
 
