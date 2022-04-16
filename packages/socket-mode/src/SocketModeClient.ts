@@ -150,7 +150,7 @@ export class SocketModeClient extends EventEmitter {
    * It may take a few milliseconds before being connected.
    * This method must be called before any messages can be sent or received.
    */
-  public async connect(): Promise<void> {
+  public connect(): Promise<void> {
     return new Promise((resolve, reject) => {
       try {
         // The state machine handles all the WebSocket releated operations.
@@ -255,7 +255,7 @@ export class SocketModeClient extends EventEmitter {
         .transitionTo(State.Connecting)
     .state(State.Connecting)
       .onEnter(() => {
-        this.logger.info('Going to establish a new connectiont to Slack ...');
+        this.logger.info('Going to establish a new connection to Slack ...');
       })
       .submachine(this.connectingStateMachineConfig)
       .on(Event.ServerHello)
