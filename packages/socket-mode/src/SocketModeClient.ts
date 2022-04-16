@@ -124,11 +124,12 @@ export class SocketModeClient extends EventEmitter {
   }
 
   /**
-   * Begin a Socket Mode session.
+   * Start a Socket Mode session app.
+   * It may take a few milliseconds before being connected.
    * This method must be called before any messages can be sent or received.
    */
   public start(): Promise<AppsConnectionsOpenResponse> {
-    this.logger.debug('Starting a Socket Mode client');
+    this.logger.debug('Starting a Socket Mode client ...');
     // Delegate behavior to state machine
     this.stateMachine.handle(Event.Start);
     // Return a promise that resolves with the connection information
@@ -141,6 +142,23 @@ export class SocketModeClient extends EventEmitter {
         this.removeListener(State.Authenticated, resolve);
         reject(err);
       });
+    });
+  }
+
+  /**
+   * Start a Socket Mode session asynchronously.
+   * It may take a few milliseconds before being connected.
+   * This method must be called before any messages can be sent or received.
+   */
+  public async connect(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      try {
+        // The state machine handles all the WebSocket releated operations.
+        this.stateMachine.handle(Event.Start);
+        resolve();
+      } catch (e) {
+        reject(e);
+      }
     });
   }
 
@@ -201,11 +219,8 @@ export class SocketModeClient extends EventEmitter {
       })
     .initialState(State.Ready)
       .onEnter(() => {
-        if (this.badConnection) {
-          // The state arrived here because Event.ServerPingTimeout occurred
-          // and a new connection was created.
-          // Tearing down the old connection.
-          this.tearDownWebSocket();
+        if (this.isSwitchingConnection) {
+          this.switchWebSocketConnection();
           this.badConnection = false;
         }
         // Start heartbeat to keep track of the WebSocket connection continuing to be alive
@@ -247,58 +262,60 @@ export class SocketModeClient extends EventEmitter {
         .transitionTo(State.Connected)
       .on(Event.WebSocketClose)
         .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
-        .transitionTo(State.Disconnected).withAction(this.handleDisconnection.bind(this))
-      .on(Event.Failure)
-        .transitionTo(State.Disconnected)
+        .transitionTo(State.Disconnecting)
       .on(Event.ExplicitDisconnect)
         .transitionTo(State.Disconnecting)
+      .on(Event.Failure)
+        .transitionTo(State.Disconnected)
     .state(State.Connected)
       .onEnter(() => {
         this.connected = true;
         this.logger.info('Now connected to Slack');
       })
       .submachine(this.connectedStateMachineConfig)
-      .on(Event.ServerDisconnectWarning)
-        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
       .on(Event.WebSocketClose)
-        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
-        .transitionTo(State.Disconnected).withAction(this.handleDisconnection.bind(this))
+        .transitionTo(State.Reconnecting)
+          .withCondition(this.autoReconnectCondition.bind(this))
+          .withAction(() => this.markCurrentWebSocketAsInactive())
+        .transitionTo(State.Disconnecting)
       .on(Event.ExplicitDisconnect)
+        .transitionTo(State.Disconnecting)
+        .withAction(() => this.markCurrentWebSocketAsInactive())
+      .on(Event.ServerPingsNotReceived)
+        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
+        .transitionTo(State.Disconnecting)
+      .on(Event.ServerPongsNotReceived)
+        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
         .transitionTo(State.Disconnecting)
       .on(Event.ServerDisconnectWarning)
         .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
-      .on(Event.ServerPingsNotReceived)
-        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
-      .on(Event.ServerPongsNotReceived)
-        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
+        .transitionTo(State.Disconnecting)
       .on(Event.ServerDisconnectOldSocket)
         .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
+        .transitionTo(State.Disconnecting)
       .onExit(() => {
-        this.connected = false;
-        this.authenticated = false;
-        this.tearDownHeartBeatJobs();
+        this.terminateActiveHeartBeatJobs();
       })
-    .state(State.Disconnecting)
-      .onEnter(() => {
-        // Most of the time, a WebSocket will exist.
-        // The only time it does not is when transitioning from connecting,
-        // before the client.start() has finished and the WebSocket hasn't been set up.
-        if (this.websocket !== undefined) {
-          this.websocket.close();
-        }
-      })
-      .on(Event.WebSocketClose)
-        .transitionTo(State.Disconnected)
-      .onExit(() => this.tearDownWebSocket())
     .state(State.Reconnecting)
       .onEnter(() => {
         this.logger.info('Reconnecting to Slack ...');
       })
       .do(async () => {
-        this.badConnection = true;
-        this.tearDownHeartBeatJobs();
+        this.isSwitchingConnection = true;
       })
         .onSuccess().transitionTo(State.Connecting)
+        .onFailure().transitionTo(State.Failed)
+    .state(State.Disconnecting)
+      .onEnter(() => {
+        this.logger.info('Disconnecting ...');
+      })
+      .do(async () => {
+        this.terminateActiveHeartBeatJobs();
+        this.terminateAllConnections();
+        this.logger.info('Disconnected from Slack');
+      })
+        .onSuccess().transitionTo(State.Disconnected)
+        .onFailure().transitionTo(State.Failed)
   .getConfig();
 
   /* eslint-enable @typescript-eslint/indent, newline-per-chained-call */
@@ -356,6 +373,11 @@ export class SocketModeClient extends EventEmitter {
    * Used to see if a WebSocket stops sending heartbeats and is deemed bad
    */
   private badConnection: boolean = false;
+
+  /**
+   * This flag can be true when this client is switching to a new connection.
+   */
+  private isSwitchingConnection: boolean = false;
 
   /**
    * WebClient options we pass to our WebClient instance
@@ -438,14 +460,32 @@ export class SocketModeClient extends EventEmitter {
   }
 
   private handleConnectionFailure(_state: string, context: Context<string, string>) {
+    this.logger.error(`The internal logic unexpectedly failed (error: ${context.error})`);
+    // Terminate everything, just in case
+    this.terminateActiveHeartBeatJobs();
+    this.terminateAllConnections();
     // dispatch 'failure' on parent machine to transition out of this submachine's states
     this.stateMachine.handle(Event.Failure, context.error);
   }
 
-  private handleDisconnection() {
-    // This transition circumvents the 'disconnecting' state
-    // (since the websocket is already closed), so we need to execute its onExit behavior here.
-    this.tearDownWebSocket();
+  private markCurrentWebSocketAsInactive(): void {
+    this.badConnection = true;
+    this.connected = false;
+    this.authenticated = false;
+  }
+
+  /**
+   * Clean up all the remaining connections.
+   */
+  private terminateAllConnections() {
+    if (this.secondaryWebsocket !== undefined) {
+      this.terminateWebSocketSafely(this.secondaryWebsocket);
+      this.secondaryWebsocket = undefined;
+    }
+    if (this.websocket !== undefined) {
+      this.terminateWebSocketSafely(this.websocket);
+      this.websocket = undefined;
+    }
   }
 
   /**
@@ -463,13 +503,13 @@ export class SocketModeClient extends EventEmitter {
       this.websocket = new WebSocket(url, options);
       websocket = this.websocket;
     } else {
-      // setup secondary websocket
-      // this is used when creating a new connection because the first is about to disconnect
+      // Set up secondary websocket
+      // This is used when creating a new connection because the first is about to disconnect
       this.secondaryWebsocket = new WebSocket(url, options);
       websocket = this.secondaryWebsocket;
     }
 
-    // attach event listeners
+    // Attach event listeners
     websocket.addEventListener('open', (event) => {
       this.stateMachine.handle(Event.WebSocketOpen, event);
     });
@@ -505,12 +545,37 @@ export class SocketModeClient extends EventEmitter {
   /**
    * Tear down the currently working heartbeat jobs.
    */
-  private tearDownHeartBeatJobs() {
+  private terminateActiveHeartBeatJobs() {
     if (this.serverPingTimeout !== undefined) {
       clearTimeout(this.serverPingTimeout);
+      this.serverPingTimeout = undefined;
+      this.logger.debug('Cancelled the job waiting for ping from Slack');
     }
     if (this.clientPingTimeout !== undefined) {
       clearTimeout(this.clientPingTimeout);
+      this.clientPingTimeout = undefined;
+      this.logger.debug('Terminated the heart beat job');
+    }
+  }
+
+  /**
+   * Switch the active connection to the secondary if exists.
+   */
+  private switchWebSocketConnection(): void {
+    if (this.secondaryWebsocket !== undefined && this.websocket !== undefined) {
+      this.logger.debug('Switching to the secondary connection ...');
+      // Currently have two WebSocket objects, so tear down the older one
+      const oldWebsocket = this.websocket;
+      // Switch to the new one here
+      this.websocket = this.secondaryWebsocket;
+      this.secondaryWebsocket = undefined;
+      this.logger.debug('Switched to the secondary connection');
+      // Swithcing the connection is done
+      this.isSwitchingConnection = false;
+
+      // Clean up the old one
+      this.terminateWebSocketSafely(oldWebsocket);
+      this.logger.debug('Terminated the old connection');
     }
   }
 
@@ -518,41 +583,18 @@ export class SocketModeClient extends EventEmitter {
    * Tear down method for the client's WebSocket instance.
    * This method undoes the work in setupWebSocket(url).
    */
-  private tearDownWebSocket(): void {
-    if (this.secondaryWebsocket !== undefined && this.websocket !== undefined) {
-      this.logger.debug('Since the secondary WebSocket exists, going to tear down the first and assign second ...');
-      // Currently have two WebSocket objects, so tear down the older one
-      const oldWebsocket = this.websocket;
-      // Switch to the new one here
-      this.websocket = this.secondaryWebsocket;
-      this.secondaryWebsocket = undefined;
-      // Clean up the old one
+  private terminateWebSocketSafely(websocket: WebSocket): void {
+    if (websocket !== undefined) {
       try {
-        oldWebsocket.removeAllListeners('open');
-        oldWebsocket.removeAllListeners('close');
-        oldWebsocket.removeAllListeners('error');
-        oldWebsocket.removeAllListeners('message');
-        oldWebsocket.close();
-        oldWebsocket.terminate();
+        websocket.removeAllListeners('open');
+        websocket.removeAllListeners('close');
+        websocket.removeAllListeners('error');
+        websocket.removeAllListeners('message');
+        websocket.terminate();
       } catch (e) {
-        this.logger.error(`Failed to terminate the old WS connection (error: ${e})`);
+        this.logger.error(`Failed to terminate a connection (error: ${e})`);
       }
-    } else if (this.secondaryWebsocket === undefined && this.websocket !== undefined) {
-      this.logger.debug('Since only the primary WebSocket exists, going to tear it down ...');
-      // The only one WebSocket to tear down
-      try {
-        this.websocket.removeAllListeners('open');
-        this.websocket.removeAllListeners('close');
-        this.websocket.removeAllListeners('error');
-        this.websocket.removeAllListeners('message');
-        this.websocket.close();
-        this.websocket.terminate();
-      } catch (e) {
-        this.logger.error(`Failed to terminate the old WS connection (error: ${e})`);
-      }
-      this.websocket = undefined;
     }
-    this.logger.debug('Tearing down the old WebSocket connection has finished');
   }
 
   private startPeriodicallySendingPingToSlack(): void {
@@ -592,11 +634,13 @@ export class SocketModeClient extends EventEmitter {
           this.handlePingPongErrorReconnection();
         }
       }, this.clientPingTimeoutMillis / 3);
+      this.logger.debug('Started running a new heart beat job');
     }
   }
 
   private handlePingPongErrorReconnection() {
     try {
+      this.badConnection = true;
       this.stateMachine.handle(Event.ServerPongsNotReceived);
     } catch (e) {
       this.logger.error(`Failed to reconnect to Slack (error: ${e})`);
@@ -680,8 +724,6 @@ export class SocketModeClient extends EventEmitter {
     if (event.type === 'disconnect' && event.reason === 'refresh_requested') {
       this.logger.debug('Received "disconnect" (refresh requested) message - closing the old WebSocket connection');
       this.stateMachine.handle(Event.ServerDisconnectOldSocket);
-      // TODO: instead of using this event to reassign secondaryWebsocket to this.websocket,
-      // use the WebSocket close event
       return;
     }
 
