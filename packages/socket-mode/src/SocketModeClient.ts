@@ -46,6 +46,7 @@ enum Event {
   ServerPingsNotReceived = 'server pings not received',
   ServerPongsNotReceived = 'server pongs not received',
   ExplicitDisconnect = 'explicit disconnect',
+  UnableToSocketModeStart = 'unable_to_socket_mode_start',
 }
 
 /**
@@ -142,23 +143,6 @@ export class SocketModeClient extends EventEmitter {
         this.removeListener(State.Authenticated, resolve);
         reject(err);
       });
-    });
-  }
-
-  /**
-   * Start a Socket Mode session asynchronously.
-   * It may take a few milliseconds before being connected.
-   * This method must be called before any messages can be sent or received.
-   */
-  public connect(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      try {
-        // The state machine handles all the WebSocket releated operations.
-        this.stateMachine.handle(Event.Start);
-        resolve();
-      } catch (e) {
-        reject(e);
-      }
     });
   }
 
@@ -438,7 +422,7 @@ export class SocketModeClient extends EventEmitter {
     this.logger.warn(`Failed to start a Socket Mode connection (error: ${error.message})`);
 
     // Observe this event when the error which causes reconnecting or disconnecting is meaningful
-    this.emit('unable_to_socket_mode_start', error);
+    this.emit(Event.UnableToSocketModeStart, error);
     let isRecoverable = true;
     if (error.code === APICallErrorCode.PlatformError &&
         (Object.values(UnrecoverableSocketModeStartError) as string[]).includes(error.data.error)) {

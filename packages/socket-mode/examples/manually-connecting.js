@@ -24,10 +24,12 @@ socketModeClient.on("slack_event", async ({ ack, body }) => {
 });
 
 (async () => {
-  await socketModeClient.connect();
+  socketModeClient.start()
+    .then(() => console.log("Connected"))
+    .catch(() => console.log("Failed"));
   setTimeout(() => socketModeClient.disconnect(), 5000)
-  setTimeout(() => socketModeClient.connect(), 10000)
+  setTimeout(() => socketModeClient.start(), 10000)
   setTimeout(() => socketModeClient.disconnect(), 15000)
-  setTimeout(() => socketModeClient.connect(), 20000)
-  setTimeout(() => {}, Number.MAX_VALUE)
+  setTimeout(() => socketModeClient.start(), 20000)
+  setTimeout(() => {}, 1000000)
 })();
