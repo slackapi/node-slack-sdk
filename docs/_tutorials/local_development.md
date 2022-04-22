@@ -43,7 +43,7 @@ Setting up your Node.js application for Socket Mode development is fast and easy
 
 ### HTTP
 
-#### What is a Request URL
+#### What is a Request URL?
 A Request URL is a public URL where Slack can send HTTP POST requests.
 
 When a button is clicked, a dialog is submitted, or a user interacts with your app [using another interactive feature](https://api.slack.com/messaging/interactivity), Slack will send information about that event to your app's Request URL, like who clicked it in what channel.
