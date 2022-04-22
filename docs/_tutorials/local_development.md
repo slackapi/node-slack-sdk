@@ -60,7 +60,7 @@ Once you've installed a development proxy, run it to begin forwarding requests t
 The output should show a generated URL that you can use (Use the one that starts with `https://`). This URL will be the base of your request URL, in this case `https://8e8ec2d7.ngrok.io`.
 
 #### Add the URL to your app configuration
-At this point you have a public-facing URL. Now, let's add that to the **Interactive Components** page. Under the **Request URL** box, go ahead and paste in your accessible URL.
+At this point you have a public-facing URL. Now, let's add that to the **Interactivity and Shortcuts** and **Events Subscriptions** page. Under the **Request URL** box, go ahead and paste in your accessible URL.
 
 ![Configuring a Request URL](request-url-config.png "Configuring a Request URL")
 
