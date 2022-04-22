@@ -39,7 +39,7 @@ This tutorial will cover how to set up your app using either approach.
 
 ### Socket Mode
 
-Setting up your node.js application for Socket Mode development is fast and easy with the [`@slack/socket-mode`](https://slack.dev/node-slack-sdk/socket-mode) package. In the previous [Tokens and installing apps](#tokens-and-installing-apps) section, you should have created and saved an App Token. You'll need that when following the [socket mode package setup instructions](../socket-mode).
+Setting up your Node.js application for Socket Mode development is fast and easy with the [`@slack/socket-mode`](https://slack.dev/node-slack-sdk/socket-mode) package. In the previous [Tokens and installing apps](#tokens-and-installing-apps) section, you should have created and saved an App Token. You'll need that when following the [Socket Mode package setup instructions](../socket-mode).
 
 ### HTTP
 
