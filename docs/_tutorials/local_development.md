@@ -33,7 +33,7 @@ Head over to our [Bolt JS Getting Started Guide's section "Tokens and installing
 Your app can [communicate with Slack using one of two methods](https://api.slack.com/apis/connections):
 
 1. [Socket Mode](https://api.slack.com/apis/connections/socket). Connect to Slack using a direct and long-lived socket connection. This is our recommended approach when getting started in local development because of its convenience. However apps cannot use Socket Mode and also be listed in the [App Directory](https://api.slack.com/start/distributing/directory). For that, you'll need to use [HTTP](#http)). It is also important to remember that Socket Mode is more prone to network faults because the connection is a long-lived one.
-2. [HTTP](https://api.slack.com/apis/connections/events-api). Expose your app using a public-facing URL that Slack will send HTTP POST requests to. A bit harder to set up, but more resilient to network disruptions.
+2. [HTTP](https://api.slack.com/apis/connections/events-api). Expose your app using a public-facing URL that Slack will send HTTP requests to. This requires a few [additional steps](https://slack.dev/bolt-js/tutorial/getting-started-http#setting-up-events-with-http) to set up, but may be more resilient to network disruptions than communication via Socket Mode.  
 
 This tutorial will cover how to set up your app using either approach.
 
