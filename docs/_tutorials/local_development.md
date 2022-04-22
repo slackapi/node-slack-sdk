@@ -46,7 +46,7 @@ Setting up your Node.js application for Socket Mode development is fast and easy
 #### What is a Request URL?
 A Request URL is a public URL where Slack can send HTTP POST requests with information about events, interactions and other happenings inside your Slack workspace.
 
-When a button is clicked, a dialog is submitted, or a user interacts with your app [using another interactive feature](https://api.slack.com/messaging/interactivity), Slack will send information about that event to your app's Request URL, like who clicked it in what channel.
+For example, when a message is posted, a button is clicked, a dialog is submitted, or a user interacts with your app [using another interactive feature](https://api.slack.com/messaging/interactivity), Slack will send relevant information about that event to your app's Request URL such as the user who initiated the event, channel where the event occurred and other contextual details.
 
 #### Using a local Request URL for development
 If you're just getting started with your app development, you probably don't have a publicly accessible URL yet. Eventually, you'll want to set that up, but for now a development proxy like [ngrok](https://ngrok.com/) will do the job.
