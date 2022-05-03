@@ -61,17 +61,7 @@ export interface WorkflowStepView {
   external_id?: string;
 }
 
-export interface SubscriptionConfigureView {
-  type: 'app_notification_subscription_configuration';
-  title: PlainTextElement;
-  blocks: (KnownBlock | Block)[];
-  close?: PlainTextElement;
-  submit?: PlainTextElement;
-  callback_id?: string;
-  private_metadata?: string;
-}
-
-export type View = HomeView | ModalView | WorkflowStepView | SubscriptionConfigureView;
+export type View = HomeView | ModalView | WorkflowStepView;
 
 /*
  * Block Elements
