@@ -472,13 +472,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         ),
       },
     },
-    notifications: {
-      subscriptions: {
-        create: bindApiCall<AppsNotificationsSubscriptionsCreateArguments, WebAPICallResult>(this, 'apps.notifications.subscriptions.create'),
-        delete: bindApiCall<AppsNotificationsSubscriptionsDeleteArguments, WebAPICallResult>(this, 'apps.notifications.subscriptions.delete'),
-        update: bindApiCall<AppsNotificationsSubscriptionsUpdateArguments, WebAPICallResult>(this, 'apps.notifications.subscriptions.update'),
-      },
-    },
     uninstall: bindApiCall<AppsUninstallArguments, AppsUninstallResponse>(this, 'apps.uninstall'),
   };
 
@@ -1215,27 +1208,6 @@ export interface AppsEventAuthorizationsListArguments
   event_context: string;
 }
 cursorPaginationEnabledMethods.add('apps.event.authorizations.list');
-
-export interface AppsNotificationsSubscriptionsCreateArguments extends WebAPICallOptions {
-  trigger_id: string;
-  channel_id: string;
-  name: string;
-  type?: {
-    name: string;
-    label: string;
-  };
-  resource_link?: string;
-}
-
-export interface AppsNotificationsSubscriptionsDeleteArguments extends WebAPICallOptions {
-  notification_subscription_id: string;
-}
-
-export interface AppsNotificationsSubscriptionsUpdateArguments extends WebAPICallOptions {
-  notification_subscription_id: string;
-  channel_id: string;
-  trigger_id: string;
-}
 
 export interface AppsUninstallArguments extends WebAPICallOptions {
   client_id: string;
