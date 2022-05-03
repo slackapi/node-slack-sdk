@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "@slack/logger": "^3.0.0",
-    "@slack/types": "2.4.0-hermesBeta.1",
+    "@slack/types": "^2.4.0",
     "@types/is-stream": "^1.1.0",
     "@types/node": ">=12.0.0",
     "axios": "^0.26.1",
