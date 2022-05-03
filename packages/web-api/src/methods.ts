@@ -293,9 +293,9 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       ekm: {
         listOriginalConnectedChannelInfo:
           bindApiCall<AdminConversationsEKMListOriginalConnectedChannelInfoArguments,
-            AdminConversationsEkmListOriginalConnectedChannelInfoResponse>(
-              this, 'admin.conversations.ekm.listOriginalConnectedChannelInfo',
-            ),
+          AdminConversationsEkmListOriginalConnectedChannelInfoResponse>(
+            this, 'admin.conversations.ekm.listOriginalConnectedChannelInfo',
+          ),
       },
       getConversationPrefs:
         bindApiCall<AdminConversationsGetConversationPrefsArguments, AdminConversationsGetConversationPrefsResponse>(
@@ -308,19 +308,19 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       rename: bindApiCall<AdminConversationsRenameArguments, AdminConversationsRenameResponse>(this, 'admin.conversations.rename'),
       restrictAccess: {
         addGroup: bindApiCall<AdminConversationsRestrictAccessAddGroupArguments,
-          AdminConversationsRestrictAccessAddGroupResponse>(
-            this, 'admin.conversations.restrictAccess.addGroup',
-          ),
+        AdminConversationsRestrictAccessAddGroupResponse>(
+          this, 'admin.conversations.restrictAccess.addGroup',
+        ),
         listGroups:
           bindApiCall<AdminConversationsRestrictAccessListGroupsArguments,
-            AdminConversationsRestrictAccessListGroupsResponse>(
-              this, 'admin.conversations.restrictAccess.listGroups',
-            ),
+          AdminConversationsRestrictAccessListGroupsResponse>(
+            this, 'admin.conversations.restrictAccess.listGroups',
+          ),
         removeGroup:
           bindApiCall<AdminConversationsRestrictAccessRemoveGroupArguments,
-            AdminConversationsRestrictAccessRemoveGroupResponse>(
-              this, 'admin.conversations.restrictAccess.removeGroup',
-            ),
+          AdminConversationsRestrictAccessRemoveGroupResponse>(
+            this, 'admin.conversations.restrictAccess.removeGroup',
+          ),
       },
       getCustomRetention:
         bindApiCall<AdminConversationsGetCustomRetentionArguments, AdminConversationsGetCustomRetentionResponse>(
@@ -391,9 +391,9 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
           ),
         setDiscoverability:
           bindApiCall<AdminTeamsSettingsSetDiscoverabilityArguments,
-            AdminTeamsSettingsSetDiscoverabilityResponse>(
-              this, 'admin.teams.settings.setDiscoverability',
-            ),
+          AdminTeamsSettingsSetDiscoverabilityResponse>(
+            this, 'admin.teams.settings.setDiscoverability',
+          ),
         setIcon: bindApiCall<AdminTeamsSettingsSetIconArguments, AdminTeamsSettingsSetIconResponse>(
           this, 'admin.teams.settings.setIcon',
         ),
