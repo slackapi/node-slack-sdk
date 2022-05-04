@@ -160,8 +160,79 @@ export interface ItemFile {
   pinned_to?:                 string[];
   reactions?:                 Reaction[];
   comments_count?:            number;
-  attachments?:               Attachment[];
-  blocks?:                    PurpleBlock[];
+}
+
+export interface Cc {
+  address?:  string;
+  name?:     string;
+  original?: string;
+}
+
+export interface Headers {
+  date?:        string;
+  in_reply_to?: string;
+  reply_to?:    string;
+  message_id?:  string;
+}
+
+export interface Reaction {
+  name?:  string;
+  count?: number;
+  users?: string[];
+  url?:   string;
+}
+
+export interface Shares {
+  public?:  { [key: string]: Private[] };
+  private?: { [key: string]: Private[] };
+}
+
+export interface Private {
+  share_user_id?:     string;
+  reply_users?:       string[];
+  reply_users_count?: number;
+  reply_count?:       number;
+  ts?:                string;
+  thread_ts?:         string;
+  latest_reply?:      string;
+  channel_name?:      string;
+  team_id?:           string;
+}
+
+export interface Transcription {
+  status?: string;
+  locale?: string;
+}
+
+export interface Message {
+  bot_id?:            string;
+  type?:              string;
+  text?:              string;
+  user?:              string;
+  ts?:                string;
+  team?:              string;
+  attachments?:       Attachment[];
+  is_starred?:        boolean;
+  permalink?:         string;
+  subtype?:           string;
+  username?:          string;
+  blocks?:            Block[];
+  client_msg_id?:     string;
+  thread_ts?:         string;
+  reply_count?:       number;
+  reply_users_count?: number;
+  latest_reply?:      string;
+  reply_users?:       string[];
+  subscribed?:        boolean;
+  last_read?:         string;
+  reactions?:         Reaction[];
+  bot_profile?:       BotProfile;
+  edited?:            Edited;
+  files?:             FileElement[];
+  upload?:            boolean;
+  display_as_bot?:    boolean;
+  is_locked?:         boolean;
+  inviter?:           string;
 }
 
 export interface Attachment {
@@ -211,7 +282,7 @@ export interface Attachment {
   ts?:                    string;
   mrkdwn_in?:             string[];
   actions?:               Action[];
-  blocks?:                AttachmentBlock[];
+  blocks?:                Block[];
   preview?:               Preview;
   files?:                 FileElement[];
   filename?:              string;
@@ -254,7 +325,7 @@ export interface SelectedOptionElement {
   value?: string;
 }
 
-export interface AttachmentBlock {
+export interface Block {
   type?:                     string;
   elements?:                 Accessory[];
   block_id?:                 string;
@@ -263,32 +334,28 @@ export interface AttachmentBlock {
   call?:                     Call;
   external_id?:              string;
   source?:                   string;
-  text?:                     Text;
+  file_id?:                  string;
+  file?:                     ItemFile;
+  text?:                     Hint;
   fallback?:                 string;
   image_url?:                string;
   image_width?:              number;
   image_height?:             number;
   image_bytes?:              number;
   alt_text?:                 string;
-  title?:                    Text;
-  fields?:                   Text[];
+  title?:                    Hint;
+  fields?:                   Hint[];
   accessory?:                Accessory;
-  label?:                    Text;
+  label?:                    Hint;
   element?:                  Accessory;
   dispatch_action?:          boolean;
-  hint?:                     Text;
+  hint?:                     Hint;
   optional?:                 boolean;
 }
 
 export interface Accessory {
   type?:                            string;
-  image_url?:                       string;
-  alt_text?:                        string;
-  fallback?:                        string;
-  image_width?:                     number;
-  image_height?:                    number;
-  image_bytes?:                     number;
-  text?:                            Text;
+  text?:                            Hint;
   action_id?:                       string;
   url?:                             string;
   value?:                           string;
@@ -299,7 +366,7 @@ export interface Accessory {
   initial_options?:                 InitialOptionElement[];
   focus_on_load?:                   boolean;
   initial_option?:                  InitialOptionElement;
-  placeholder?:                     Text;
+  placeholder?:                     Hint;
   initial_channel?:                 string;
   response_url_enabled?:            boolean;
   initial_channels?:                string[];
@@ -311,30 +378,30 @@ export interface Accessory {
   initial_date?:                    string;
   initial_time?:                    string;
   min_query_length?:                number;
+  image_url?:                       string;
+  alt_text?:                        string;
+  fallback?:                        string;
+  image_width?:                     number;
+  image_height?:                    number;
+  image_bytes?:                     number;
   option_groups?:                   AccessoryOptionGroup[];
   initial_user?:                    string;
   initial_users?:                   string[];
 }
 
 export interface AccessoryConfirm {
-  title?:   Text;
-  text?:    Text;
-  confirm?: Text;
-  deny?:    Text;
+  title?:   Hint;
+  text?:    Hint;
+  confirm?: Hint;
+  deny?:    Hint;
   style?:   string;
 }
 
-export interface Text {
-  type?:     Type;
+export interface Hint {
+  type?:     string;
   text?:     string;
   emoji?:    boolean;
   verbatim?: boolean;
-}
-
-export enum Type {
-  Empty = '',
-  Mrkdwn = 'mrkdwn',
-  PlainText = 'plain_text',
 }
 
 export interface Filter {
@@ -344,14 +411,14 @@ export interface Filter {
 }
 
 export interface InitialOptionElement {
-  text?:        Text;
+  text?:        Hint;
   value?:       string;
-  description?: Text;
+  description?: Hint;
   url?:         string;
 }
 
 export interface AccessoryOptionGroup {
-  label?:   Text;
+  label?:   Hint;
   options?: InitialOptionElement[];
 }
 
@@ -529,49 +596,6 @@ export interface FileElement {
   pinned_to?:                 string[];
   reactions?:                 Reaction[];
   comments_count?:            number;
-  blocks?:                    AttachmentBlock[];
-}
-
-export interface Cc {
-  address?:  string;
-  name?:     string;
-  original?: string;
-}
-
-export interface Headers {
-  date?:        string;
-  in_reply_to?: string;
-  reply_to?:    string;
-  message_id?:  string;
-}
-
-export interface Reaction {
-  name?:  string;
-  count?: number;
-  users?: string[];
-  url?:   string;
-}
-
-export interface Shares {
-  public?:  { [key: string]: Private[] };
-  private?: { [key: string]: Private[] };
-}
-
-export interface Private {
-  share_user_id?:     string;
-  reply_users?:       string[];
-  reply_users_count?: number;
-  reply_count?:       number;
-  ts?:                string;
-  thread_ts?:         string;
-  latest_reply?:      string;
-  channel_name?:      string;
-  team_id?:           string;
-}
-
-export interface Transcription {
-  status?: string;
-  locale?: string;
 }
 
 export interface Metadata {
@@ -591,56 +615,9 @@ export interface Metadata {
 export interface Preview {
   type?:       string;
   can_remove?: boolean;
-  title?:      Text;
-  subtitle?:   Text;
+  title?:      Hint;
+  subtitle?:   Hint;
   icon_url?:   string;
-}
-
-export interface PurpleBlock {
-  type?:         string;
-  elements?:     Accessory[];
-  block_id?:     string;
-  fallback?:     string;
-  image_url?:    string;
-  image_width?:  number;
-  image_height?: number;
-  image_bytes?:  number;
-  alt_text?:     string;
-  title?:        Text;
-  text?:         Text;
-  fields?:       Text[];
-  accessory?:    Accessory;
-}
-
-export interface Message {
-  bot_id?:            string;
-  type?:              string;
-  text?:              string;
-  user?:              string;
-  ts?:                string;
-  team?:              string;
-  attachments?:       Attachment[];
-  is_starred?:        boolean;
-  permalink?:         string;
-  subtype?:           string;
-  username?:          string;
-  blocks?:            AttachmentBlock[];
-  client_msg_id?:     string;
-  thread_ts?:         string;
-  reply_count?:       number;
-  reply_users_count?: number;
-  latest_reply?:      string;
-  reply_users?:       string[];
-  subscribed?:        boolean;
-  last_read?:         string;
-  reactions?:         Reaction[];
-  bot_profile?:       BotProfile;
-  edited?:            Edited;
-  files?:             FileElement[];
-  upload?:            boolean;
-  display_as_bot?:    boolean;
-  is_locked?:         boolean;
-  inviter?:           string;
 }
 
 export interface BotProfile {

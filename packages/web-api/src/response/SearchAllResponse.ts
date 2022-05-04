@@ -269,6 +269,8 @@ export interface Block {
   call?:                     Call;
   external_id?:              string;
   source?:                   string;
+  file_id?:                  string;
+  file?:                     File;
   text?:                     Hint;
   fallback?:                 string;
   image_url?:                string;
@@ -402,12 +404,6 @@ export interface AppIconUrls {
   image_original?: string;
 }
 
-export interface Field {
-  title?: string;
-  value?: string;
-  short?: boolean;
-}
-
 export interface File {
   id?:                        string;
   created?:                   number;
@@ -529,7 +525,6 @@ export interface File {
   pinned_to?:                 string[];
   reactions?:                 Reaction[];
   comments_count?:            number;
-  blocks?:                    Block[];
 }
 
 export interface Cc {
@@ -570,6 +565,12 @@ export interface FileShares {
 export interface Transcription {
   status?: string;
   locale?: string;
+}
+
+export interface Field {
+  title?: string;
+  value?: string;
+  short?: boolean;
 }
 
 export interface Metadata {
