@@ -44,13 +44,13 @@ export interface Block {
   text?:                     Hint;
   accessory?:                Accessory;
   elements?:                 Accessory[];
+  call_id?:                  string;
+  api_decoration_available?: boolean;
+  call?:                     Call;
   external_id?:              string;
   source?:                   string;
   file_id?:                  string;
   file?:                     BlockFile;
-  call_id?:                  string;
-  api_decoration_available?: boolean;
-  call?:                     Call;
   fallback?:                 string;
   image_url?:                string;
   image_width?:              number;

@@ -194,8 +194,9 @@ export interface Accessory {
   option_groups?:                   AccessoryOptionGroup[];
   initial_user?:                    string;
   initial_users?:                   string[];
-  verbatim?:                        boolean;
   emoji?:                           boolean;
+  verbatim?:                        boolean;
+  elements?:                        Element[];
 }
 
 export interface AccessoryConfirm {
@@ -211,6 +212,13 @@ export interface Hint {
   text?:     string;
   emoji?:    boolean;
   verbatim?: boolean;
+}
+
+export interface Element {
+  type?: string;
+  text?: string;
+  url?:  string;
+  name?: string;
 }
 
 export interface Filter {

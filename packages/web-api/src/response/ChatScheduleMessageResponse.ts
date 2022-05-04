@@ -35,8 +35,9 @@ export interface Message {
 
 export interface Block {
   type?:                     string;
-  elements?:                 Accessory[];
   block_id?:                 string;
+  text?:                     Hint;
+  elements?:                 Accessory[];
   call_id?:                  string;
   api_decoration_available?: boolean;
   call?:                     Call;
@@ -44,7 +45,6 @@ export interface Block {
   source?:                   string;
   file_id?:                  string;
   file?:                     File;
-  text?:                     Hint;
   fallback?:                 string;
   image_url?:                string;
   image_width?:              number;
@@ -95,6 +95,7 @@ export interface Accessory {
   option_groups?:                   OptionGroup[];
   initial_user?:                    string;
   initial_users?:                   string[];
+  elements?:                        Element[];
 }
 
 export interface Confirm {
@@ -110,6 +111,11 @@ export interface Hint {
   text?:     string;
   emoji?:    boolean;
   verbatim?: boolean;
+}
+
+export interface Element {
+  type?: string;
+  text?: string;
 }
 
 export interface Filter {

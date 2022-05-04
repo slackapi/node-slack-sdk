@@ -50,9 +50,9 @@ export interface Latest {
 export interface Block {
   type?:                     string;
   block_id?:                 string;
-  elements?:                 Accessory[];
   text?:                     Hint;
   accessory?:                Accessory;
+  elements?:                 Accessory[];
   call_id?:                  string;
   api_decoration_available?: boolean;
   call?:                     Call;
