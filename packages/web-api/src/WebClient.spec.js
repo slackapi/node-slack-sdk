@@ -217,14 +217,17 @@ describe('WebClient', function () {
           });
       });
 
-      const warningTestPatterns = [
+      const attachmentWarningTestPatterns = [
+        { method: 'chat.postMessage', args: { channel: "C123", attachments: [{ blocks: [] }] } },
+        { method: 'chat.postMessage', args: { channel: "C123", attachments: [{ blocks: [], fallback: "  " }] } },
+      ];
+      const textWarningTestPatterns = [
         { method: 'chat.postEphemeral', args: { channel: "C123", blocks: [] } },
         { method: 'chat.postMessage', args: { channel: "C123", blocks: [] } },
         { method: 'chat.scheduleMessage', args: { channel: "C123", post_at: "100000000", blocks: [] } },
         { method: 'chat.update', args: { channel: "C123", ts: "123.456", blocks: [] } },
-        { method: 'chat.postMessage', args: { channel: "C123", attachments: [{ blocks: [] }] } },
-        { method: 'chat.postMessage', args: { channel: "C123", attachments: [{ blocks: [], fallback: "  " }] } },
       ];
+      const warningTestPatterns = textWarningTestPatterns.concat(attachmentWarningTestPatterns);
 
       warningTestPatterns.reduce((acc, { method, args }) => {
         const textPatterns = [{ text: "text" }]
@@ -248,12 +251,12 @@ describe('WebClient', function () {
         });
       });
 
-      warningTestPatterns.reduce((acc, { method, args }) => {
+      textWarningTestPatterns.reduce((acc, { method, args }) => {
         const textPatterns = [{ text: "" }, { text: null }, {}]
           .map((v) => ({ method, args: Object.assign({}, v, args) }))
         return acc.concat(textPatterns)
       }, []).forEach(({ method, args }) => {
-        it(`should send warning to logs when client executes ${method} without text argument(${args.text === "" ? "empty" : args.text})`, function () {
+        it(`should send a text-argument-specific warning to logs when client executes ${method} without text argument(${args.text === "" ? "empty" : args.text})`, function () {
           const logger = {
             debug: sinon.spy(),
             info: sinon.spy(),
@@ -265,7 +268,29 @@ describe('WebClient', function () {
           const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
           return warnClient.apiCall(method, args)
             .then(() => {
-              assert.isTrue(logger.warn.callCount === 4)
+              assert.equal(logger.warn.callCount, 4)
+            });
+        });
+      });
+
+      attachmentWarningTestPatterns.reduce((acc, { method, args }) => {
+        const textPatterns = [{ text: "" }, { text: null }, {}]
+          .map((v) => ({ method, args: Object.assign({}, v, args) }))
+        return acc.concat(textPatterns)
+      }, []).forEach(({ method, args }) => {
+        it(`should send both text and fallback-argument-specific warning to logs when client executes ${method} without text argument(${args.text === "" ? "empty" : args.text}) nor without attachment-level fallback argument (${args.attachments[0].fallback === "  " ? "empty" : args.attachments[0].fallback})`, function () {
+          const logger = {
+            debug: sinon.spy(),
+            info: sinon.spy(),
+            warn: sinon.spy(),
+            error: sinon.spy(),
+            setLevel: sinon.spy(),
+            setName: sinon.spy(),
+          };
+          const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
+          return warnClient.apiCall(method, args)
+            .then(() => {
+              assert.equal(logger.warn.callCount, 5)
             });
         });
       });

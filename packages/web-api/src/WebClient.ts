@@ -645,20 +645,24 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, options?: WebAP
   const isTargetMethod = targetMethods.includes(method);
 
   const missingAttachmentFallbackDetected = (args: WebAPICallOptions) => Array.isArray(args.attachments) &&
-    args.attachments.some((attachment) => !attachment.fallback || attachment.fallback.trim() === 0);
+    args.attachments.some((attachment) => !attachment.fallback || attachment.fallback.trim() === '');
 
   const isEmptyText = (args: WebAPICallOptions) => args.text === undefined || args.text === null || args.text === '';
 
-  const buildWarningMessage = (missing: string) => `The \`${missing}\` argument is missing in the request payload for a ${method} call - ` +
-    `It's a best practice to always provide a \`${missing}\` argument when posting a message. ` +
-    `The \`${missing}\` is used in places where the content cannot be rendered such as: ` +
+  const buildMissingTextWarning = () => `The top-level \`text\` argument is missing in the request payload for a ${method} call - ` +
+    'It\'s a best practice to always provide a `text` argument when posting a message. ' +
+    'The `text` is used in places where the content cannot be rendered such as: ' +
     'system push notifications, assistive technology such as screen readers, etc.';
 
-  if (isTargetMethod && typeof options === 'object' && isEmptyText(options)) {
-    if (missingAttachmentFallbackDetected(options)) {
-      logger.warn(buildWarningMessage('fallback'));
-    } else {
-      logger.warn(buildWarningMessage('text'));
+  const buildMissingFallbackWarning = () => `Additionally, the attachment-level \`fallback\` argument is missing in the request payload for a ${method} call - ` +
+    'To avoid this warning, it is recommended to always provide a top-level `text` argument when posting a message. ' +
+    'Alternatively, you can provide an attachment-level `fallback` argument, though this is now considered a legacy field (see https://api.slack.com/reference/messaging/attachments#legacy_fields for more details).';
+  if (isTargetMethod && typeof options === 'object') {
+    if (isEmptyText(options)) {
+      logger.warn(buildMissingTextWarning());
+      if (missingAttachmentFallbackDetected(options)) {
+        logger.warn(buildMissingFallbackWarning());
+      }
     }
   }
 }
