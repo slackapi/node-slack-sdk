@@ -241,6 +241,7 @@ export interface Button extends Action {
   url?: string;
   style?: 'danger' | 'primary';
   confirm?: Confirm;
+  accessibility_label?: string;
 }
 
 export interface Overflow extends Action {
