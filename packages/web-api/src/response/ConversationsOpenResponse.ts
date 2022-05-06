@@ -50,9 +50,9 @@ export interface Latest {
 export interface Block {
   type?:                     string;
   block_id?:                 string;
+  elements?:                 Accessory[];
   text?:                     Hint;
   accessory?:                Accessory;
-  elements?:                 Accessory[];
   call_id?:                  string;
   api_decoration_available?: boolean;
   call?:                     Call;
@@ -192,6 +192,7 @@ export interface AppIconUrls {
 }
 
 export interface File {
+  preview_highlight?:         string;
   id?:                        string;
   created?:                   number;
   timestamp?:                 number;
@@ -284,7 +285,6 @@ export interface File {
   media_display_type?:        string;
   preview_is_truncated?:      boolean;
   preview?:                   string;
-  preview_highlight?:         string;
   plain_text?:                string;
   preview_plain_text?:        string;
   has_more?:                  boolean;

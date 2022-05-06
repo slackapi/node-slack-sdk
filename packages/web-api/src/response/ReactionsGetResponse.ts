@@ -184,6 +184,7 @@ export interface AppIconUrls {
 }
 
 export interface File {
+  preview_highlight?:         string;
   id?:                        string;
   created?:                   number;
   timestamp?:                 number;
@@ -276,7 +277,6 @@ export interface File {
   media_display_type?:        string;
   preview_is_truncated?:      boolean;
   preview?:                   string;
-  preview_highlight?:         string;
   plain_text?:                string;
   preview_plain_text?:        string;
   has_more?:                  boolean;

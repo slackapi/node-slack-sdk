@@ -194,8 +194,8 @@ export interface Accessory {
   option_groups?:                   AccessoryOptionGroup[];
   initial_user?:                    string;
   initial_users?:                   string[];
-  emoji?:                           boolean;
   verbatim?:                        boolean;
+  emoji?:                           boolean;
   elements?:                        Element[];
 }
 
@@ -287,6 +287,7 @@ export interface AppIconUrls {
 }
 
 export interface BlockFile {
+  preview_highlight?:         string;
   id?:                        string;
   created?:                   number;
   timestamp?:                 number;
@@ -379,7 +380,6 @@ export interface BlockFile {
   media_display_type?:        string;
   preview_is_truncated?:      boolean;
   preview?:                   string;
-  preview_highlight?:         string;
   plain_text?:                string;
   preview_plain_text?:        string;
   has_more?:                  boolean;
