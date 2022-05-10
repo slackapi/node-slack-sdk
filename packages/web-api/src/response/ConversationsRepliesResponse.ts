@@ -42,6 +42,8 @@ export interface Message {
   upload?:            boolean;
   display_as_bot?:    boolean;
   app_id?:            string;
+  x_files?:           string[];
+  edited?:            Edited;
 }
 
 export interface Attachment {
@@ -279,7 +281,6 @@ export interface AppIconUrls {
 }
 
 export interface BlockFile {
-  preview_highlight?:         string;
   id?:                        string;
   created?:                   number;
   timestamp?:                 number;
@@ -372,6 +373,7 @@ export interface BlockFile {
   media_display_type?:        string;
   preview_is_truncated?:      boolean;
   preview?:                   string;
+  preview_highlight?:         string;
   plain_text?:                string;
   preview_plain_text?:        string;
   has_more?:                  boolean;
@@ -618,6 +620,11 @@ export interface Icons {
   image_36?: string;
   image_48?: string;
   image_72?: string;
+}
+
+export interface Edited {
+  user?: string;
+  ts?:   string;
 }
 
 export interface ResponseMetadata {

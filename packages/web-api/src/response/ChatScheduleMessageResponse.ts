@@ -35,8 +35,9 @@ export interface Message {
 
 export interface Block {
   type?:                     string;
-  elements?:                 Accessory[];
   block_id?:                 string;
+  text?:                     Hint;
+  elements?:                 Accessory[];
   call_id?:                  string;
   api_decoration_available?: boolean;
   call?:                     Call;
@@ -44,7 +45,6 @@ export interface Block {
   source?:                   string;
   file_id?:                  string;
   file?:                     File;
-  text?:                     Hint;
   fallback?:                 string;
   image_url?:                string;
   image_width?:              number;
@@ -95,6 +95,7 @@ export interface Accessory {
   option_groups?:                   OptionGroup[];
   initial_user?:                    string;
   initial_users?:                   string[];
+  elements?:                        Element[];
 }
 
 export interface Confirm {
@@ -110,6 +111,11 @@ export interface Hint {
   text?:     string;
   emoji?:    boolean;
   verbatim?: boolean;
+}
+
+export interface Element {
+  type?: string;
+  text?: string;
 }
 
 export interface Filter {
@@ -178,7 +184,6 @@ export interface AppIconUrls {
 }
 
 export interface File {
-  preview_highlight?:         string;
   id?:                        string;
   created?:                   number;
   timestamp?:                 number;
@@ -271,6 +276,7 @@ export interface File {
   media_display_type?:        string;
   preview_is_truncated?:      boolean;
   preview?:                   string;
+  preview_highlight?:         string;
   plain_text?:                string;
   preview_plain_text?:        string;
   has_more?:                  boolean;

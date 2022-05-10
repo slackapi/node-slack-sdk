@@ -388,8 +388,6 @@ export interface AppIconUrls {
 }
 
 export interface BlockFile {
-  preview_highlight?:         string;
-  id?:                        string;
   created?:                   number;
   timestamp?:                 number;
   name?:                      string;
@@ -481,6 +479,7 @@ export interface BlockFile {
   media_display_type?:        string;
   preview_is_truncated?:      boolean;
   preview?:                   string;
+  preview_highlight?:         string;
   plain_text?:                string;
   preview_plain_text?:        string;
   has_more?:                  boolean;
@@ -508,6 +507,7 @@ export interface BlockFile {
   pinned_to?:                 string[];
   reactions?:                 Reaction[];
   comments_count?:            number;
+  id?:                        string;
 }
 
 export interface Cc {
@@ -1573,39 +1573,40 @@ export interface User {
 }
 
 export interface Profile {
-  title?:                     string;
-  phone?:                     string;
-  skype?:                     string;
-  real_name?:                 string;
-  real_name_normalized?:      string;
-  display_name?:              string;
-  display_name_normalized?:   string;
-  fields?:                    Fields;
-  status_text?:               string;
-  status_emoji?:              string;
-  status_emoji_display_info?: StatusEmojiDisplayInfo[];
-  status_expiration?:         number;
-  avatar_hash?:               string;
-  image_original?:            string;
-  is_custom_image?:           boolean;
-  email?:                     string;
-  pronouns?:                  string;
-  first_name?:                string;
-  last_name?:                 string;
-  image_24?:                  string;
-  image_32?:                  string;
-  image_48?:                  string;
-  image_72?:                  string;
-  image_192?:                 string;
-  image_512?:                 string;
-  image_1024?:                string;
-  status_text_canonical?:     string;
-  team?:                      string;
-  api_app_id?:                string;
-  bot_id?:                    string;
-  always_active?:             boolean;
-  guest_invited_by?:          string;
-  huddle_state?:              string;
+  title?:                      string;
+  phone?:                      string;
+  skype?:                      string;
+  real_name?:                  string;
+  real_name_normalized?:       string;
+  display_name?:               string;
+  display_name_normalized?:    string;
+  fields?:                     Fields;
+  status_text?:                string;
+  status_emoji?:               string;
+  status_emoji_display_info?:  StatusEmojiDisplayInfo[];
+  status_expiration?:          number;
+  avatar_hash?:                string;
+  image_original?:             string;
+  is_custom_image?:            boolean;
+  email?:                      string;
+  pronouns?:                   string;
+  first_name?:                 string;
+  last_name?:                  string;
+  image_24?:                   string;
+  image_32?:                   string;
+  image_48?:                   string;
+  image_72?:                   string;
+  image_192?:                  string;
+  image_512?:                  string;
+  image_1024?:                 string;
+  status_text_canonical?:      string;
+  team?:                       string;
+  api_app_id?:                 string;
+  bot_id?:                     string;
+  always_active?:              boolean;
+  guest_invited_by?:           string;
+  huddle_state?:               string;
+  huddle_state_expiration_ts?: number;
 }
 
 export interface Fields {

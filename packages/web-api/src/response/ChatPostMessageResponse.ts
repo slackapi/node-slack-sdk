@@ -43,10 +43,14 @@ export interface Message {
 }
 
 export interface Attachment {
-  msg_subtype?:           string;
+  id?:                    number;
   fallback?:              string;
+  text?:                  string;
   callback_id?:           string;
+  footer?:                string;
+  blocks?:                Block[];
   color?:                 string;
+  msg_subtype?:           string;
   pretext?:               string;
   service_url?:           string;
   service_name?:          string;
@@ -60,7 +64,6 @@ export interface Attachment {
   author_subname?:        string;
   channel_id?:            string;
   channel_name?:          string;
-  id?:                    number;
   app_id?:                string;
   bot_id?:                string;
   indent?:                boolean;
@@ -71,7 +74,6 @@ export interface Attachment {
   app_unfurl_url?:        string;
   title?:                 string;
   title_link?:            string;
-  text?:                  string;
   fields?:                Field[];
   image_url?:             string;
   image_width?:           number;
@@ -84,12 +86,10 @@ export interface Attachment {
   video_html?:            string;
   video_html_width?:      number;
   video_html_height?:     number;
-  footer?:                string;
   footer_icon?:           string;
   ts?:                    string;
   mrkdwn_in?:             string[];
   actions?:               Action[];
-  blocks?:                Block[];
   preview?:               Preview;
   files?:                 FileElement[];
   filename?:              string;
@@ -287,8 +287,6 @@ export interface AppIconUrls {
 }
 
 export interface BlockFile {
-  preview_highlight?:         string;
-  id?:                        string;
   created?:                   number;
   timestamp?:                 number;
   name?:                      string;
@@ -380,6 +378,7 @@ export interface BlockFile {
   media_display_type?:        string;
   preview_is_truncated?:      boolean;
   preview?:                   string;
+  preview_highlight?:         string;
   plain_text?:                string;
   preview_plain_text?:        string;
   has_more?:                  boolean;
@@ -407,6 +406,7 @@ export interface BlockFile {
   pinned_to?:                 string[];
   reactions?:                 Reaction[];
   comments_count?:            number;
+  id?:                        string;
 }
 
 export interface Cc {

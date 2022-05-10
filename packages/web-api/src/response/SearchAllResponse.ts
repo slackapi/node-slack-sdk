@@ -406,7 +406,9 @@ export interface AppIconUrls {
 }
 
 export interface File {
-  preview_highlight?:         string;
+  thumb_960_w?:               string;
+  thumb_960_h?:               string;
+  thumb_1024_h?:              string;
   id?:                        string;
   created?:                   number;
   timestamp?:                 number;
@@ -473,12 +475,9 @@ export interface File {
   thumb_800_h?:               string;
   thumb_960?:                 string;
   thumb_960_gif?:             string;
-  thumb_960_w?:               string;
-  thumb_960_h?:               string;
   thumb_1024?:                string;
   thumb_1024_gif?:            string;
   thumb_1024_w?:              string;
-  thumb_1024_h?:              string;
   thumb_video?:               string;
   thumb_gif?:                 string;
   thumb_pdf?:                 string;
@@ -499,6 +498,7 @@ export interface File {
   media_display_type?:        string;
   preview_is_truncated?:      boolean;
   preview?:                   string;
+  preview_highlight?:         string;
   plain_text?:                string;
   preview_plain_text?:        string;
   has_more?:                  boolean;

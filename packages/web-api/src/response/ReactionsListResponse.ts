@@ -198,8 +198,6 @@ export interface AppIconUrls {
 }
 
 export interface BlockFile {
-  preview_highlight?:         string;
-  id?:                        string;
   created?:                   number;
   timestamp?:                 number;
   name?:                      string;
@@ -291,6 +289,7 @@ export interface BlockFile {
   media_display_type?:        string;
   preview_is_truncated?:      boolean;
   preview?:                   string;
+  preview_highlight?:         string;
   plain_text?:                string;
   preview_plain_text?:        string;
   has_more?:                  boolean;
@@ -318,6 +317,7 @@ export interface BlockFile {
   pinned_to?:                 string[];
   reactions?:                 Reaction[];
   comments_count?:            number;
+  id?:                        string;
 }
 
 export interface Cc {
