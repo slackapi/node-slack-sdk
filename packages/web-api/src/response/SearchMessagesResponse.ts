@@ -280,25 +280,31 @@ export interface AppIconUrls {
 }
 
 export interface BlockFile {
+  updated?:                   number;
+  bot_id?:                    string;
   created?:                   number;
   timestamp?:                 number;
-  name?:                      string;
   title?:                     string;
+  user?:                      string;
+  transcription?:             Transcription;
+  vtt?:                       string;
+  username?:                  string;
+  url_private?:               string;
+  url_private_download?:      string;
+  to?:                        Cc[];
+  id?:                        string;
+  name?:                      string;
   subject?:                   string;
   mimetype?:                  string;
   filetype?:                  string;
   pretty_type?:               string;
-  user?:                      string;
   mode?:                      string;
   editable?:                  boolean;
   non_owner_editable?:        boolean;
   editor?:                    string;
   last_editor?:               string;
-  updated?:                   number;
   subtype?:                   string;
-  transcription?:             Transcription;
   mp4?:                       string;
-  vtt?:                       string;
   hls?:                       string;
   hls_embed?:                 string;
   duration_ms?:               number;
@@ -309,10 +315,7 @@ export interface BlockFile {
   external_type?:             string;
   external_id?:               string;
   external_url?:              string;
-  username?:                  string;
   size?:                      number;
-  url_private?:               string;
-  url_private_download?:      string;
   app_id?:                    string;
   app_name?:                  string;
   thumb_64?:                  string;
@@ -385,21 +388,18 @@ export interface BlockFile {
   groups?:                    string[];
   ims?:                       string[];
   shares?:                    Shares;
-  to?:                        Cc[];
   from?:                      Cc[];
   cc?:                        Cc[];
   channel_actions_ts?:        string;
   channel_actions_count?:     number;
   headers?:                   Headers;
   simplified_html?:           string;
-  bot_id?:                    string;
   initial_comment?:           InitialComment;
   num_stars?:                 number;
   is_starred?:                boolean;
   pinned_to?:                 string[];
   reactions?:                 Reaction[];
   comments_count?:            number;
-  id?:                        string;
 }
 
 export interface Cc {

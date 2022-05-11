@@ -287,6 +287,9 @@ export interface AppIconUrls {
 }
 
 export interface BlockFile {
+  updated?:                   number;
+  bot_id?:                    string;
+  id?:                        string;
   created?:                   number;
   timestamp?:                 number;
   name?:                      string;
@@ -301,7 +304,6 @@ export interface BlockFile {
   non_owner_editable?:        boolean;
   editor?:                    string;
   last_editor?:               string;
-  updated?:                   number;
   subtype?:                   string;
   transcription?:             Transcription;
   mp4?:                       string;
@@ -399,14 +401,12 @@ export interface BlockFile {
   channel_actions_count?:     number;
   headers?:                   Headers;
   simplified_html?:           string;
-  bot_id?:                    string;
   initial_comment?:           InitialComment;
   num_stars?:                 number;
   is_starred?:                boolean;
   pinned_to?:                 string[];
   reactions?:                 Reaction[];
   comments_count?:            number;
-  id?:                        string;
 }
 
 export interface Cc {
