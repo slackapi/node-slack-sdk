@@ -259,7 +259,11 @@ describe('InstallProvider', async () => {
       });
       const req = {};
       const headers = {};
-      const res = { setHeader(n, v) { headers[n] = v; }, writeHead: () => {}, end: () => {}, };
+      const res = {
+        getHeader(n) { return headers[n]; },
+        setHeader(n, v) { headers[n] = v; },
+        writeHead: () => {}, end: () => {},
+      };
       try {
         await installer.handleInstallPath(req, res);
         assert.fail('Exception should be thrown')
@@ -291,7 +295,12 @@ describe('InstallProvider', async () => {
       });
       const req = {};
       const headers = {};
-      const res = { setHeader(n, v) { headers[n] = v; }, writeHead: () => {}, end: () => {}, };
+      const res = {
+        getHeader(n) { return headers[n]; },
+        setHeader(n, v) { headers[n] = v; },
+        writeHead: () => {}, end: () => {},
+        end: () => {},
+      };
       await installer.handleInstallPath(req, res);
 
       assert.equal(headers['Location'], 'https://slack.com/oauth/v2/authorize?scope=channels%3Aread&state=fakeState&client_id=MY_ID&redirect_uri=https%3A%2F%2Fmysite.com%2Fslack%2Fredirect&team=T12345&user_scope=chat%3Awrite%3Auser');
@@ -312,11 +321,10 @@ describe('InstallProvider', async () => {
       const req = {};
       const headers = {};
       const res = {
-        setHeader(n, v) {
-          if (headers[n] === undefined) headers[n] = [];
-          headers[n].push(v);
-        },
-        writeHead: () => {}, end: () => {},
+        getHeader(n) { return headers[n]; },
+        setHeader(n, v) { headers[n] = v; },
+        writeHead: () => {},
+        end: () => {},
       };
       const installPathOptions = {
         beforeRedirection: async (_, res) => {

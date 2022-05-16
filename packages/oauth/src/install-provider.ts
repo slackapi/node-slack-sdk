@@ -347,7 +347,24 @@ export class InstallProvider {
         return;
       }
       const state = await this.stateStore.generateStateParam(_installOptions, new Date());
-      res.setHeader('Set-Cookie', this.buildSetCookieHeaderForNewState(state));
+      const stateCookie: string = this.buildSetCookieHeaderForNewState(state);
+      if (res.getHeader('Set-Cookie')) {
+        // If the cookies already exist
+        const existingCookies = res.getHeader('Set-Cookie') || [];
+        const allCookies: string[] = [];
+        if (Array.isArray(existingCookies)) {
+          allCookies.push(...existingCookies);
+        } else if (typeof existingCookies === 'string') {
+          allCookies.push(existingCookies);
+        } else {
+          allCookies.push(existingCookies.toString());
+        }
+        // Append the state cookie
+        allCookies.push(stateCookie);
+        res.setHeader('Set-Cookie', allCookies);
+      } else {
+        res.setHeader('Set-Cookie', stateCookie);
+      }
       const url = await this.generateInstallUrl(_installOptions, this.stateVerification, state);
       this.logger.debug(`Generated authorize URL: ${url}`);
 
