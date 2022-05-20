@@ -10,18 +10,18 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type FilesCommentsEditResponse = WebAPICallResult & {
-  ok?:       boolean;
   comment?:  Comment;
   error?:    string;
   needed?:   string;
+  ok?:       boolean;
   provided?: string;
 };
 
 export interface Comment {
-  id?:        string;
+  comment?:   string;
   created?:   number;
+  id?:        string;
+  is_intro?:  boolean;
   timestamp?: number;
   user?:      string;
-  is_intro?:  boolean;
-  comment?:   string;
 }

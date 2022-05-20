@@ -10,10 +10,10 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AdminConversationsInviteResponse = WebAPICallResult & {
-  ok?:              boolean;
   error?:           string;
   failed_user_ids?: FailedUserids;
   needed?:          string;
+  ok?:              boolean;
   provided?:        string;
 };
 

@@ -10,23 +10,23 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type GroupsHistoryResponse = WebAPICallResult & {
-  ok?:                    boolean;
-  messages?:              Message[];
-  has_more?:              boolean;
   channel_actions_count?: number;
-  warning?:               string;
-  response_metadata?:     ResponseMetadata;
   error?:                 string;
+  has_more?:              boolean;
+  messages?:              Message[];
   needed?:                string;
+  ok?:                    boolean;
   provided?:              string;
+  response_metadata?:     ResponseMetadata;
+  warning?:               string;
 };
 
 export interface Message {
-  type?:    string;
   subtype?: string;
-  ts?:      string;
-  user?:    string;
   text?:    string;
+  ts?:      string;
+  type?:    string;
+  user?:    string;
 }
 
 export interface ResponseMetadata {

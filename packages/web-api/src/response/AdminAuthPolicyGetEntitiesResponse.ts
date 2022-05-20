@@ -10,16 +10,16 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AdminAuthPolicyGetEntitiesResponse = WebAPICallResult & {
-  ok?:                 boolean;
-  error?:              string;
   entities?:           Entity[];
   entity_total_count?: number;
+  error?:              string;
   needed?:             string;
+  ok?:                 boolean;
   provided?:           string;
 };
 
 export interface Entity {
+  date_added?:  number;
   entity_id?:   string;
   entity_type?: string;
-  date_added?:  number;
 }

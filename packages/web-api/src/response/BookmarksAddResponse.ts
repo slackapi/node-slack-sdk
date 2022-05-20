@@ -10,30 +10,30 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type BookmarksAddResponse = WebAPICallResult & {
-  ok?:                boolean;
-  error?:             string;
-  response_metadata?: ResponseMetadata;
-  needed?:            string;
-  provided?:          string;
   bookmark?:          Bookmark;
+  error?:             string;
+  needed?:            string;
+  ok?:                boolean;
+  provided?:          string;
+  response_metadata?: ResponseMetadata;
 };
 
 export interface Bookmark {
-  id?:                      string;
+  app_id?:                  string;
   channel_id?:              string;
-  title?:                   string;
-  link?:                    string;
-  emoji?:                   string;
-  icon_url?:                string;
-  entity_id?:               string;
-  type?:                    string;
   date_created?:            number;
   date_updated?:            number;
-  rank?:                    string;
-  last_updated_by_user_id?: string;
+  emoji?:                   string;
+  entity_id?:               string;
+  icon_url?:                string;
+  id?:                      string;
   last_updated_by_team_id?: string;
+  last_updated_by_user_id?: string;
+  link?:                    string;
+  rank?:                    string;
   shortcut_id?:             string;
-  app_id?:                  string;
+  title?:                   string;
+  type?:                    string;
 }
 
 export interface ResponseMetadata {

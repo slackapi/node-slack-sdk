@@ -10,9 +10,9 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AdminInviteRequestsListResponse = WebAPICallResult & {
-  ok?:              boolean;
-  invite_requests?: string[];
   error?:           string;
+  invite_requests?: string[];
   needed?:          string;
+  ok?:              boolean;
   provided?:        string;
 };

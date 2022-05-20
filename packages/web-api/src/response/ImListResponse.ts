@@ -10,28 +10,28 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ImListResponse = WebAPICallResult & {
-  ok?:                boolean;
-  ims?:               Im[];
-  warning?:           string;
-  response_metadata?: ResponseMetadata;
   error?:             string;
+  ims?:               Im[];
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
+  warning?:           string;
 };
 
 export interface Im {
-  id?:              string;
   created?:         number;
+  id?:              string;
   is_archived?:     boolean;
   is_im?:           boolean;
   is_org_shared?:   boolean;
-  user?:            string;
   is_user_deleted?: boolean;
   priority?:        number;
+  user?:            string;
 }
 
 export interface ResponseMetadata {
-  next_cursor?: string;
   messages?:    string[];
+  next_cursor?: string;
   warnings?:    string[];
 }

@@ -10,12 +10,12 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ConversationsMembersResponse = WebAPICallResult & {
-  ok?:                boolean;
-  members?:           string[];
-  response_metadata?: ResponseMetadata;
   error?:             string;
+  members?:           string[];
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
 };
 
 export interface ResponseMetadata {

@@ -10,9 +10,9 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ChannelsSetTopicResponse = WebAPICallResult & {
-  topic?:    string;
-  ok?:       boolean;
   error?:    string;
   needed?:   string;
+  ok?:       boolean;
   provided?: string;
+  topic?:    string;
 };

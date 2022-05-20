@@ -10,57 +10,57 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type UsersConversationsResponse = WebAPICallResult & {
-  ok?:                boolean;
   channels?:          Channel[];
-  response_metadata?: ResponseMetadata;
   error?:             string;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
 };
 
 export interface Channel {
+  conversation_host_id?:       string;
+  created?:                    number;
+  creator?:                    string;
+  enterprise_id?:              string;
   id?:                         string;
-  name?:                       string;
+  internal_team_ids?:          string[];
+  is_archived?:                boolean;
   is_channel?:                 boolean;
+  is_ext_shared?:              boolean;
+  is_general?:                 boolean;
+  is_global_shared?:           boolean;
   is_group?:                   boolean;
   is_im?:                      boolean;
-  created?:                    number;
-  is_archived?:                boolean;
-  is_general?:                 boolean;
-  unlinked?:                   number;
-  name_normalized?:            string;
-  is_shared?:                  boolean;
-  creator?:                    string;
-  is_ext_shared?:              boolean;
-  is_org_shared?:              boolean;
-  shared_team_ids?:            string[];
-  pending_shared?:             string[];
-  pending_connected_team_ids?: string[];
-  is_pending_ext_shared?:      boolean;
-  is_private?:                 boolean;
-  is_mpim?:                    boolean;
-  topic?:                      Purpose;
-  purpose?:                    Purpose;
-  previous_names?:             string[];
-  conversation_host_id?:       string;
   is_moved?:                   number;
-  internal_team_ids?:          string[];
-  is_global_shared?:           boolean;
+  is_mpim?:                    boolean;
+  is_open?:                    boolean;
   is_org_default?:             boolean;
   is_org_mandatory?:           boolean;
-  enterprise_id?:              string;
-  last_read?:                  string;
-  is_open?:                    boolean;
-  priority?:                   number;
-  user?:                       string;
+  is_org_shared?:              boolean;
+  is_pending_ext_shared?:      boolean;
+  is_private?:                 boolean;
+  is_shared?:                  boolean;
   is_user_deleted?:            boolean;
+  last_read?:                  string;
+  name?:                       string;
+  name_normalized?:            string;
   parent_conversation?:        string;
+  pending_connected_team_ids?: string[];
+  pending_shared?:             string[];
+  previous_names?:             string[];
+  priority?:                   number;
+  purpose?:                    Purpose;
+  shared_team_ids?:            string[];
+  topic?:                      Purpose;
+  unlinked?:                   number;
+  user?:                       string;
 }
 
 export interface Purpose {
-  value?:    string;
   creator?:  string;
   last_set?: number;
+  value?:    string;
 }
 
 export interface ResponseMetadata {

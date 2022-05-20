@@ -10,21 +10,21 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type BotsInfoResponse = WebAPICallResult & {
-  ok?:       boolean;
   bot?:      Bot;
   error?:    string;
   needed?:   string;
+  ok?:       boolean;
   provided?: string;
 };
 
 export interface Bot {
-  id?:      string;
+  app_id?:  string;
   deleted?: boolean;
+  icons?:   Icons;
+  id?:      string;
   name?:    string;
   updated?: number;
-  app_id?:  string;
   user_id?: string;
-  icons?:   Icons;
 }
 
 export interface Icons {

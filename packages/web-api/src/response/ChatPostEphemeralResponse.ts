@@ -10,9 +10,9 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ChatPostEphemeralResponse = WebAPICallResult & {
-  ok?:         boolean;
-  message_ts?: string;
   error?:      string;
+  message_ts?: string;
   needed?:     string;
+  ok?:         boolean;
   provided?:   string;
 };

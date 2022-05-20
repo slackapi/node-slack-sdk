@@ -10,29 +10,29 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type CallsEndResponse = WebAPICallResult & {
-  ok?:       boolean;
   call?:     Call;
   error?:    string;
   needed?:   string;
+  ok?:       boolean;
   provided?: string;
 };
 
 export interface Call {
-  id?:                   string;
-  date_start?:           number;
-  external_unique_id?:   string;
-  join_url?:             string;
-  date_end?:             number;
   channels?:             string[];
-  external_display_id?:  string;
-  title?:                string;
+  date_end?:             number;
+  date_start?:           number;
   desktop_app_join_url?: string;
+  external_display_id?:  string;
+  external_unique_id?:   string;
+  id?:                   string;
+  join_url?:             string;
+  title?:                string;
   users?:                User[];
 }
 
 export interface User {
-  external_id?:  string;
   avatar_url?:   string;
   display_name?: string;
+  external_id?:  string;
   slack_id?:     string;
 }

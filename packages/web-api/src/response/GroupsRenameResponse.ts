@@ -11,32 +11,32 @@
 import { WebAPICallResult } from '../WebClient';
 export type GroupsRenameResponse = WebAPICallResult & {
   channel?:           Channel;
-  ok?:                boolean;
-  warning?:           string;
-  response_metadata?: ResponseMetadata;
   error?:             string;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
+  warning?:           string;
 };
 
 export interface Channel {
-  id?:              string;
-  name?:            string;
-  is_group?:        boolean;
   created?:         number;
   creator?:         string;
+  id?:              string;
   is_archived?:     boolean;
-  name_normalized?: string;
+  is_group?:        boolean;
   is_mpim?:         boolean;
   members?:         string[];
-  topic?:           Purpose;
+  name?:            string;
+  name_normalized?: string;
   purpose?:         Purpose;
+  topic?:           Purpose;
 }
 
 export interface Purpose {
-  value?:    string;
   creator?:  string;
   last_set?: number;
+  value?:    string;
 }
 
 export interface ResponseMetadata {

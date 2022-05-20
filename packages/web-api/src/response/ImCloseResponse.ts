@@ -10,12 +10,12 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ImCloseResponse = WebAPICallResult & {
-  ok?:                boolean;
-  warning?:           string;
-  response_metadata?: ResponseMetadata;
   error?:             string;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
+  warning?:           string;
 };
 
 export interface ResponseMetadata {

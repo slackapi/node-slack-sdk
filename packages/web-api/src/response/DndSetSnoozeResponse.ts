@@ -10,12 +10,12 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type DndSetSnoozeResponse = WebAPICallResult & {
-  ok?:                   boolean;
   error?:                string;
+  needed?:               string;
+  ok?:                   boolean;
+  provided?:             string;
   snooze_enabled?:       boolean;
   snooze_endtime?:       number;
-  snooze_remaining?:     number;
   snooze_is_indefinite?: boolean;
-  needed?:               string;
-  provided?:             string;
+  snooze_remaining?:     number;
 };

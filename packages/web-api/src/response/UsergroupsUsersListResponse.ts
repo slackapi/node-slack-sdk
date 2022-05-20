@@ -10,9 +10,9 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type UsergroupsUsersListResponse = WebAPICallResult & {
-  ok?:       boolean;
-  users?:    string[];
   error?:    string;
   needed?:   string;
+  ok?:       boolean;
   provided?: string;
+  users?:    string[];
 };

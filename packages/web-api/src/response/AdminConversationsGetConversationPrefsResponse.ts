@@ -10,16 +10,16 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AdminConversationsGetConversationPrefsResponse = WebAPICallResult & {
-  ok?:       boolean;
-  prefs?:    Prefs;
   error?:    string;
   needed?:   string;
+  ok?:       boolean;
+  prefs?:    Prefs;
   provided?: string;
 };
 
 export interface Prefs {
-  who_can_post?: CanThread;
   can_thread?:   CanThread;
+  who_can_post?: CanThread;
 }
 
 export interface CanThread {

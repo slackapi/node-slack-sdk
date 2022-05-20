@@ -10,31 +10,31 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type UsergroupsEnableResponse = WebAPICallResult & {
-  ok?:        boolean;
-  usergroup?: Usergroup;
   error?:     string;
   needed?:    string;
+  ok?:        boolean;
   provided?:  string;
+  usergroup?: Usergroup;
 };
 
 export interface Usergroup {
-  id?:                    string;
-  team_id?:               string;
-  is_usergroup?:          boolean;
-  is_subteam?:            boolean;
-  name?:                  string;
-  description?:           string;
-  handle?:                string;
-  is_external?:           boolean;
-  date_create?:           number;
-  date_update?:           number;
-  date_delete?:           number;
   auto_provision?:        boolean;
-  enterprise_subteam_id?: string;
-  created_by?:            string;
-  updated_by?:            string;
-  prefs?:                 Prefs;
   channel_count?:         number;
+  created_by?:            string;
+  date_create?:           number;
+  date_delete?:           number;
+  date_update?:           number;
+  description?:           string;
+  enterprise_subteam_id?: string;
+  handle?:                string;
+  id?:                    string;
+  is_external?:           boolean;
+  is_subteam?:            boolean;
+  is_usergroup?:          boolean;
+  name?:                  string;
+  prefs?:                 Prefs;
+  team_id?:               string;
+  updated_by?:            string;
   users?:                 string[];
 }
 

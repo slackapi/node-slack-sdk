@@ -10,12 +10,12 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ConversationsInviteSharedResponse = WebAPICallResult & {
-  ok?:                       boolean;
-  error?:                    string;
-  url?:                      string;
-  invite_id?:                string;
   conf_code?:                string;
+  error?:                    string;
+  invite_id?:                string;
   is_legacy_shared_channel?: boolean;
   needed?:                   string;
+  ok?:                       boolean;
   provided?:                 string;
+  url?:                      string;
 };

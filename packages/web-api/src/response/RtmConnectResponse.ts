@@ -10,13 +10,13 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type RtmConnectResponse = WebAPICallResult & {
-  ok?:       boolean;
-  url?:      string;
-  team?:     Team;
-  self?:     Self;
   error?:    string;
   needed?:   string;
+  ok?:       boolean;
   provided?: string;
+  self?:     Self;
+  team?:     Team;
+  url?:      string;
 };
 
 export interface Self {
@@ -25,7 +25,7 @@ export interface Self {
 }
 
 export interface Team {
+  domain?: string;
   id?:     string;
   name?:   string;
-  domain?: string;
 }

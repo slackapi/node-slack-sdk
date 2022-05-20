@@ -10,9 +10,9 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AdminAppsRestrictResponse = WebAPICallResult & {
-  ok?:       boolean;
-  warning?:  string;
   error?:    string;
   needed?:   string;
+  ok?:       boolean;
   provided?: string;
+  warning?:  string;
 };

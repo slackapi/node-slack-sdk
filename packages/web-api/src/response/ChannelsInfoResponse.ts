@@ -10,127 +10,127 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ChannelsInfoResponse = WebAPICallResult & {
-  ok?:       boolean;
   channel?:  Channel;
   error?:    string;
   needed?:   string;
+  ok?:       boolean;
   provided?: string;
 };
 
 export interface Channel {
-  id?:                   string;
-  name?:                 string;
-  is_channel?:           boolean;
   created?:              number;
-  is_archived?:          boolean;
-  is_general?:           boolean;
-  unlinked?:             number;
   creator?:              string;
-  name_normalized?:      string;
-  is_shared?:            boolean;
-  is_org_shared?:        boolean;
+  id?:                   string;
+  is_archived?:          boolean;
+  is_channel?:           boolean;
+  is_general?:           boolean;
   is_member?:            boolean;
-  is_private?:           boolean;
   is_mpim?:              boolean;
+  is_org_shared?:        boolean;
+  is_private?:           boolean;
+  is_shared?:            boolean;
   last_read?:            string;
   latest?:               Latest;
+  members?:              string[];
+  name?:                 string;
+  name_normalized?:      string;
+  previous_names?:       string[];
+  purpose?:              Purpose;
+  topic?:                Purpose;
+  unlinked?:             number;
   unread_count?:         number;
   unread_count_display?: number;
-  members?:              string[];
-  topic?:                Purpose;
-  purpose?:              Purpose;
-  previous_names?:       string[];
 }
 
 export interface Latest {
-  type?:           string;
-  text?:           string;
+  attachments?:    Attachment[];
+  blocks?:         Block[];
+  bot_id?:         string;
+  display_as_bot?: boolean;
+  edited?:         Edited;
   files?:          File[];
+  subtype?:        string;
+  text?:           string;
+  ts?:             string;
+  type?:           string;
   upload?:         boolean;
   user?:           string;
-  display_as_bot?: boolean;
-  ts?:             string;
-  subtype?:        string;
   username?:       string;
-  bot_id?:         string;
-  blocks?:         Block[];
   x_files?:        string[];
-  attachments?:    Attachment[];
-  edited?:         Edited;
 }
 
 export interface Attachment {
-  msg_subtype?:           string;
-  fallback?:              string;
-  callback_id?:           string;
-  color?:                 string;
-  pretext?:               string;
-  service_url?:           string;
-  service_name?:          string;
-  service_icon?:          string;
-  author_name?:           string;
-  author_link?:           string;
+  actions?:               Action[];
+  app_unfurl_url?:        string;
   author_icon?:           string;
-  from_url?:              string;
-  original_url?:          string;
+  author_link?:           string;
+  author_name?:           string;
   author_subname?:        string;
+  bot_id?:                string;
+  callback_id?:           string;
   channel_id?:            string;
   channel_name?:          string;
+  color?:                 string;
+  fallback?:              string;
+  fields?:                Field[];
+  filename?:              string;
+  footer?:                string;
+  footer_icon?:           string;
+  from_url?:              string;
   id?:                    number;
-  bot_id?:                string;
+  image_bytes?:           number;
+  image_height?:          number;
+  image_url?:             string;
+  image_width?:           number;
   indent?:                boolean;
+  is_app_unfurl?:         boolean;
   is_msg_unfurl?:         boolean;
   is_reply_unfurl?:       boolean;
   is_thread_root_unfurl?: boolean;
-  is_app_unfurl?:         boolean;
-  app_unfurl_url?:        string;
-  title?:                 string;
-  title_link?:            string;
+  metadata?:              Metadata;
+  mimetype?:              string;
+  mrkdwn_in?:             string[];
+  msg_subtype?:           string;
+  original_url?:          string;
+  pretext?:               string;
+  service_icon?:          string;
+  service_name?:          string;
+  service_url?:           string;
+  size?:                  number;
   text?:                  string;
-  fields?:                Field[];
-  image_url?:             string;
-  image_width?:           number;
-  image_height?:          number;
-  image_bytes?:           number;
+  thumb_height?:          number;
   thumb_url?:             string;
   thumb_width?:           number;
-  thumb_height?:          number;
-  video_html?:            string;
-  video_html_width?:      number;
-  video_html_height?:     number;
-  footer?:                string;
-  footer_icon?:           string;
+  title?:                 string;
+  title_link?:            string;
   ts?:                    string;
-  mrkdwn_in?:             string[];
-  actions?:               Action[];
-  filename?:              string;
-  size?:                  number;
-  mimetype?:              string;
   url?:                   string;
-  metadata?:              Metadata;
+  video_html?:            string;
+  video_html_height?:     number;
+  video_html_width?:      number;
 }
 
 export interface Action {
-  id?:               string;
-  name?:             string;
-  text?:             string;
-  style?:            string;
-  type?:             string;
-  value?:            string;
   confirm?:          ActionConfirm;
+  data_source?:      string;
+  id?:               string;
+  min_query_length?: number;
+  name?:             string;
+  option_groups?:    OptionGroup[];
   options?:          Option[];
   selected_options?: Option[];
-  data_source?:      string;
-  min_query_length?: number;
-  option_groups?:    OptionGroup[];
+  style?:            string;
+  text?:             string;
+  type?:             string;
   url?:              string;
+  value?:            string;
 }
 
 export interface ActionConfirm {
-  title?:        string;
-  text?:         string;
-  ok_text?:      string;
   dismiss_text?: string;
+  ok_text?:      string;
+  text?:         string;
+  title?:        string;
 }
 
 export interface OptionGroup {
@@ -143,135 +143,135 @@ export interface Option {
 }
 
 export interface Field {
+  short?: boolean;
   title?: string;
   value?: string;
-  short?: boolean;
 }
 
 export interface Metadata {
+  extension?:   string;
+  format?:      string;
+  original_h?:  number;
+  original_w?:  number;
+  rotation?:    number;
+  thumb_160?:   boolean;
+  thumb_360_h?: number;
+  thumb_360_w?: number;
   thumb_64?:    boolean;
   thumb_80?:    boolean;
-  thumb_160?:   boolean;
-  original_w?:  number;
-  original_h?:  number;
-  thumb_360_w?: number;
-  thumb_360_h?: number;
-  format?:      string;
-  extension?:   string;
-  rotation?:    number;
   thumb_tiny?:  string;
 }
 
 export interface Block {
-  type?:         string;
-  block_id?:     string;
-  text?:         Text;
   accessory?:    Accessory;
+  alt_text?:     string;
+  block_id?:     string;
   elements?:     Element[];
   fallback?:     string;
+  fields?:       Text[];
+  image_bytes?:  number;
+  image_height?: number;
   image_url?:    string;
   image_width?:  number;
-  image_height?: number;
-  image_bytes?:  number;
-  alt_text?:     string;
+  text?:         Text;
   title?:        Text;
-  fields?:       Text[];
+  type?:         string;
 }
 
 export interface Accessory {
+  alt_text?:     string;
   fallback?:     string;
+  image_bytes?:  number;
+  image_height?: number;
   image_url?:    string;
   image_width?:  number;
-  image_height?: number;
-  image_bytes?:  number;
   type?:         string;
-  alt_text?:     string;
 }
 
 export interface Element {
-  type?:                 string;
   action_id?:            string;
-  text?:                 Text;
-  value?:                string;
-  url?:                  string;
-  style?:                string;
+  alt_text?:             string;
   confirm?:              ElementConfirm;
-  placeholder?:          Text;
+  fallback?:             string;
+  image_bytes?:          number;
+  image_height?:         number;
+  image_url?:            string;
+  image_width?:          number;
   initial_channel?:      string;
   initial_conversation?: string;
   initial_date?:         string;
   initial_option?:       InitialOption;
-  min_query_length?:     number;
-  image_url?:            string;
-  alt_text?:             string;
-  fallback?:             string;
-  image_width?:          number;
-  image_height?:         number;
-  image_bytes?:          number;
   initial_user?:         string;
+  min_query_length?:     number;
+  placeholder?:          Text;
+  style?:                string;
+  text?:                 Text;
+  type?:                 string;
+  url?:                  string;
+  value?:                string;
 }
 
 export interface ElementConfirm {
-  title?:   Text;
-  text?:    Text;
   confirm?: Text;
   deny?:    Text;
+  text?:    Text;
+  title?:   Text;
 }
 
 export interface Text {
-  type?:     string;
-  text?:     string;
   emoji?:    boolean;
+  text?:     string;
+  type?:     string;
   verbatim?: boolean;
 }
 
 export interface InitialOption {
-  text?:        Text;
-  value?:       string;
   description?: Text;
+  text?:        Text;
   url?:         string;
+  value?:       string;
 }
 
 export interface Edited {
-  user?: string;
   ts?:   string;
+  user?: string;
 }
 
 export interface File {
-  id?:                   string;
   created?:              number;
-  timestamp?:            number;
-  name?:                 string;
-  title?:                string;
-  mimetype?:             string;
-  filetype?:             string;
-  pretty_type?:          string;
-  user?:                 string;
-  editable?:             boolean;
-  size?:                 number;
-  mode?:                 string;
-  is_external?:          boolean;
-  external_type?:        string;
-  is_public?:            boolean;
-  public_url_shared?:    boolean;
   display_as_bot?:       boolean;
-  username?:             string;
-  url_private?:          string;
-  url_private_download?: string;
-  permalink?:            string;
-  permalink_public?:     string;
   edit_link?:            string;
-  preview?:              string;
-  preview_highlight?:    string;
+  editable?:             boolean;
+  external_type?:        string;
+  filetype?:             string;
+  has_rich_preview?:     boolean;
+  id?:                   string;
+  is_external?:          boolean;
+  is_public?:            boolean;
+  is_starred?:           boolean;
   lines?:                number;
   lines_more?:           number;
+  mimetype?:             string;
+  mode?:                 string;
+  name?:                 string;
+  permalink?:            string;
+  permalink_public?:     string;
+  pretty_type?:          string;
+  preview?:              string;
+  preview_highlight?:    string;
   preview_is_truncated?: boolean;
-  is_starred?:           boolean;
-  has_rich_preview?:     boolean;
+  public_url_shared?:    boolean;
+  size?:                 number;
+  timestamp?:            number;
+  title?:                string;
+  url_private?:          string;
+  url_private_download?: string;
+  user?:                 string;
+  username?:             string;
 }
 
 export interface Purpose {
-  value?:    string;
   creator?:  string;
   last_set?: number;
+  value?:    string;
 }

@@ -10,14 +10,14 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type OpenIDConnectTokenResponse = WebAPICallResult & {
-  ok?:            boolean;
-  warning?:       string;
-  error?:         string;
-  needed?:        string;
-  provided?:      string;
   access_token?:  string;
-  token_type?:    string;
-  id_token?:      string;
-  refresh_token?: string;
+  error?:         string;
   expires_in?:    number;
+  id_token?:      string;
+  needed?:        string;
+  ok?:            boolean;
+  provided?:      string;
+  refresh_token?: string;
+  token_type?:    string;
+  warning?:       string;
 };

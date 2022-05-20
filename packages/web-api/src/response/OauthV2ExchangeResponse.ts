@@ -10,33 +10,33 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type OauthV2ExchangeResponse = WebAPICallResult & {
-  ok?:                    boolean;
-  warning?:               string;
-  error?:                 string;
-  needed?:                string;
-  provided?:              string;
+  access_token?:          string;
   app_id?:                string;
   authed_user?:           AuthedUser;
-  scope?:                 string;
-  token_type?:            string;
-  access_token?:          string;
-  refresh_token?:         string;
-  expires_in?:            number;
   bot_user_id?:           string;
-  team?:                  Enterprise;
   enterprise?:            Enterprise;
-  is_enterprise_install?: boolean;
+  error?:                 string;
+  expires_in?:            number;
   incoming_webhook?:      IncomingWebhook;
+  is_enterprise_install?: boolean;
+  needed?:                string;
+  ok?:                    boolean;
+  provided?:              string;
+  refresh_token?:         string;
   response_metadata?:     ResponseMetadata;
+  scope?:                 string;
+  team?:                  Enterprise;
+  token_type?:            string;
+  warning?:               string;
 };
 
 export interface AuthedUser {
+  access_token?:  string;
+  expires_in?:    number;
   id?:            string;
+  refresh_token?: string;
   scope?:         string;
   token_type?:    string;
-  access_token?:  string;
-  refresh_token?: string;
-  expires_in?:    number;
 }
 
 export interface Enterprise {
@@ -45,10 +45,10 @@ export interface Enterprise {
 }
 
 export interface IncomingWebhook {
-  url?:               string;
   channel?:           string;
   channel_id?:        string;
   configuration_url?: string;
+  url?:               string;
 }
 
 export interface ResponseMetadata {

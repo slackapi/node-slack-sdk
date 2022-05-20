@@ -10,11 +10,11 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AdminTeamsSettingsSetDefaultChannelsResponse = WebAPICallResult & {
-  ok?:                boolean;
   error?:             string;
-  response_metadata?: ResponseMetadata;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
 };
 
 export interface ResponseMetadata {

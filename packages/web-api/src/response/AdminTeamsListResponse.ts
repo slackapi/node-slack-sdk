@@ -10,12 +10,12 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AdminTeamsListResponse = WebAPICallResult & {
-  ok?:                boolean;
-  teams?:             Team[];
-  response_metadata?: ResponseMetadata;
   error?:             string;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
+  teams?:             Team[];
 };
 
 export interface ResponseMetadata {
@@ -23,14 +23,14 @@ export interface ResponseMetadata {
 }
 
 export interface Team {
+  discoverability?: string;
   id?:              string;
   name?:            string;
-  discoverability?: string;
   primary_owner?:   PrimaryOwner;
   team_url?:        string;
 }
 
 export interface PrimaryOwner {
-  user_id?: string;
   email?:   string;
+  user_id?: string;
 }

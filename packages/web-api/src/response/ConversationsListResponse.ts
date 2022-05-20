@@ -10,55 +10,55 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ConversationsListResponse = WebAPICallResult & {
-  ok?:                boolean;
   channels?:          Channel[];
-  response_metadata?: ResponseMetadata;
   error?:             string;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
 };
 
 export interface Channel {
-  id?:                         string;
+  conversation_host_id?:       string;
   created?:                    number;
-  is_archived?:                boolean;
-  is_im?:                      boolean;
-  is_org_shared?:              boolean;
-  user?:                       string;
-  is_user_deleted?:            boolean;
-  priority?:                   number;
-  name?:                       string;
-  is_channel?:                 boolean;
-  is_group?:                   boolean;
-  is_mpim?:                    boolean;
-  is_private?:                 boolean;
-  is_general?:                 boolean;
-  unlinked?:                   number;
-  name_normalized?:            string;
-  is_shared?:                  boolean;
-  is_pending_ext_shared?:      boolean;
-  pending_shared?:             string[];
   creator?:                    string;
+  id?:                         string;
+  internal_team_ids?:          string[];
+  is_archived?:                boolean;
+  is_channel?:                 boolean;
   is_ext_shared?:              boolean;
-  shared_team_ids?:            string[];
-  pending_connected_team_ids?: string[];
-  is_member?:                  boolean;
-  topic?:                      Purpose;
-  purpose?:                    Purpose;
-  previous_names?:             string[];
-  num_members?:                number;
-  is_moved?:                   number;
+  is_general?:                 boolean;
   is_global_shared?:           boolean;
+  is_group?:                   boolean;
+  is_im?:                      boolean;
+  is_member?:                  boolean;
+  is_moved?:                   number;
+  is_mpim?:                    boolean;
   is_org_default?:             boolean;
   is_org_mandatory?:           boolean;
-  conversation_host_id?:       string;
-  internal_team_ids?:          string[];
+  is_org_shared?:              boolean;
+  is_pending_ext_shared?:      boolean;
+  is_private?:                 boolean;
+  is_shared?:                  boolean;
+  is_user_deleted?:            boolean;
+  name?:                       string;
+  name_normalized?:            string;
+  num_members?:                number;
+  pending_connected_team_ids?: string[];
+  pending_shared?:             string[];
+  previous_names?:             string[];
+  priority?:                   number;
+  purpose?:                    Purpose;
+  shared_team_ids?:            string[];
+  topic?:                      Purpose;
+  unlinked?:                   number;
+  user?:                       string;
 }
 
 export interface Purpose {
-  value?:    string;
   creator?:  string;
   last_set?: number;
+  value?:    string;
 }
 
 export interface ResponseMetadata {

@@ -10,42 +10,42 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type GroupsRepliesResponse = WebAPICallResult & {
-  messages?:          Message[];
-  has_more?:          boolean;
-  ok?:                boolean;
-  warning?:           string;
-  response_metadata?: ResponseMetadata;
   error?:             string;
+  has_more?:          boolean;
+  messages?:          Message[];
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
+  warning?:           string;
 };
 
 export interface Message {
   bot_id?:            string;
-  type?:              string;
-  text?:              string;
-  user?:              string;
-  ts?:                string;
-  team?:              string;
   bot_profile?:       BotProfile;
-  thread_ts?:         string;
-  reply_count?:       number;
-  reply_users_count?: number;
-  latest_reply?:      string;
-  reply_users?:       string[];
-  subscribed?:        boolean;
   last_read?:         string;
+  latest_reply?:      string;
   parent_user_id?:    string;
+  reply_count?:       number;
+  reply_users?:       string[];
+  reply_users_count?: number;
+  subscribed?:        boolean;
+  team?:              string;
+  text?:              string;
+  thread_ts?:         string;
+  ts?:                string;
+  type?:              string;
+  user?:              string;
 }
 
 export interface BotProfile {
-  id?:      string;
-  deleted?: boolean;
-  name?:    string;
-  updated?: number;
   app_id?:  string;
+  deleted?: boolean;
   icons?:   Icons;
+  id?:      string;
+  name?:    string;
   team_id?: string;
+  updated?: number;
 }
 
 export interface Icons {

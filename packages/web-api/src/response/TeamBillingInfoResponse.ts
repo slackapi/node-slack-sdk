@@ -10,9 +10,9 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type TeamBillingInfoResponse = WebAPICallResult & {
-  ok?:       boolean;
   error?:    string;
   needed?:   string;
-  provided?: string;
+  ok?:       boolean;
   plan?:     string;
+  provided?: string;
 };

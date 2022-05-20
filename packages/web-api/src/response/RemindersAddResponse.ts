@@ -10,22 +10,22 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type RemindersAddResponse = WebAPICallResult & {
-  ok?:                boolean;
-  reminder?:          Reminder;
   error?:             string;
-  response_metadata?: ResponseMetadata;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  reminder?:          Reminder;
+  response_metadata?: ResponseMetadata;
 };
 
 export interface Reminder {
-  id?:          string;
-  creator?:     string;
-  text?:        string;
-  user?:        string;
-  recurring?:   boolean;
-  time?:        number;
   complete_ts?: number;
+  creator?:     string;
+  id?:          string;
+  recurring?:   boolean;
+  text?:        string;
+  time?:        number;
+  user?:        string;
 }
 
 export interface ResponseMetadata {

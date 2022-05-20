@@ -10,12 +10,12 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AuthTeamsListResponse = WebAPICallResult & {
-  ok?:                boolean;
-  teams?:             Team[];
   error?:             string;
-  response_metadata?: ResponseMetadata;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
+  teams?:             Team[];
 };
 
 export interface ResponseMetadata {

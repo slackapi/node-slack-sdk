@@ -10,27 +10,27 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AdminUsersListResponse = WebAPICallResult & {
-  ok?:                boolean;
-  users?:             User[];
-  response_metadata?: ResponseMetadata;
   error?:             string;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
+  users?:             User[];
 };
 
 export interface ResponseMetadata {
-  next_cursor?: string;
   messages?:    string[];
+  next_cursor?: string;
 }
 
 export interface User {
-  id?:                  string;
   email?:               string;
+  expiration_ts?:       number;
+  id?:                  string;
   is_admin?:            boolean;
+  is_bot?:              boolean;
   is_owner?:            boolean;
   is_primary_owner?:    boolean;
   is_restricted?:       boolean;
   is_ultra_restricted?: boolean;
-  is_bot?:              boolean;
-  expiration_ts?:       number;
 }

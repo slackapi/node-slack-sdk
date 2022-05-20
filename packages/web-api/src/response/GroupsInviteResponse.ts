@@ -10,47 +10,47 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type GroupsInviteResponse = WebAPICallResult & {
-  ok?:                boolean;
-  group?:             Group;
-  warning?:           string;
-  response_metadata?: ResponseMetadata;
   error?:             string;
+  group?:             Group;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
+  warning?:           string;
 };
 
 export interface Group {
-  id?:                   string;
-  name?:                 string;
-  is_group?:             boolean;
   created?:              number;
   creator?:              string;
+  id?:                   string;
   is_archived?:          boolean;
-  name_normalized?:      string;
+  is_group?:             boolean;
   is_mpim?:              boolean;
   is_open?:              boolean;
   last_read?:            string;
   latest?:               Latest;
+  name?:                 string;
+  name_normalized?:      string;
+  priority?:             number;
+  purpose?:              Purpose;
+  topic?:                Purpose;
   unread_count?:         number;
   unread_count_display?: number;
-  topic?:                Purpose;
-  purpose?:              Purpose;
-  priority?:             number;
 }
 
 export interface Latest {
-  type?:    string;
   subtype?: string;
-  ts?:      string;
-  user?:    string;
   text?:    string;
   topic?:   string;
+  ts?:      string;
+  type?:    string;
+  user?:    string;
 }
 
 export interface Purpose {
-  value?:    string;
   creator?:  string;
   last_set?: number;
+  value?:    string;
 }
 
 export interface ResponseMetadata {

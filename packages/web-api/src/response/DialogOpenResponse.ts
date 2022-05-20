@@ -10,12 +10,12 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type DialogOpenResponse = WebAPICallResult & {
-  ok?:                boolean;
-  warning?:           string;
   error?:             string;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
   response_metadata?: ResponseMetadata;
+  warning?:           string;
 };
 
 export interface ResponseMetadata {

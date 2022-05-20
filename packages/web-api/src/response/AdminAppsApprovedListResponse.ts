@@ -10,47 +10,47 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AdminAppsApprovedListResponse = WebAPICallResult & {
-  ok?:                boolean;
-  warning?:           string;
+  approved_apps?:     ApprovedApp[];
   error?:             string;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
-  approved_apps?:     ApprovedApp[];
   response_metadata?: ResponseMetadata;
+  warning?:           string;
 };
 
 export interface ApprovedApp {
   app?:              App;
-  scopes?:           Scope[];
   date_updated?:     number;
   last_resolved_by?: LastResolvedBy;
+  scopes?:           Scope[];
 }
 
 export interface App {
-  id?:                        string;
-  name?:                      string;
+  additional_info?:           string;
+  app_directory_url?:         string;
+  app_homepage_url?:          string;
   description?:               string;
   help_url?:                  string;
-  privacy_policy_url?:        string;
-  app_homepage_url?:          string;
-  app_directory_url?:         string;
+  icons?:                     Icons;
+  id?:                        string;
   is_app_directory_approved?: boolean;
   is_internal?:               boolean;
-  additional_info?:           string;
-  icons?:                     Icons;
+  name?:                      string;
+  privacy_policy_url?:        string;
 }
 
 export interface Icons {
+  image_1024?:     string;
+  image_128?:      string;
+  image_192?:      string;
   image_32?:       string;
   image_36?:       string;
   image_48?:       string;
+  image_512?:      string;
   image_64?:       string;
   image_72?:       string;
   image_96?:       string;
-  image_128?:      string;
-  image_192?:      string;
-  image_512?:      string;
-  image_1024?:     string;
   image_original?: string;
 }
 
@@ -60,14 +60,14 @@ export interface LastResolvedBy {
 }
 
 export interface Scope {
-  name?:         string;
   description?:  string;
   is_sensitive?: boolean;
+  name?:         string;
   token_type?:   string;
 }
 
 export interface ResponseMetadata {
-  next_cursor?: string;
   messages?:    string[];
+  next_cursor?: string;
   warnings?:    string[];
 }

@@ -10,10 +10,10 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ApiTestResponse = WebAPICallResult & {
-  ok?:       boolean;
-  error?:    string;
   args?:     Args;
+  error?:    string;
   needed?:   string;
+  ok?:       boolean;
   provided?: string;
 };
 

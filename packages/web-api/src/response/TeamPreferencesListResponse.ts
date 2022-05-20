@@ -10,13 +10,13 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type TeamPreferencesListResponse = WebAPICallResult & {
-  ok?:                     boolean;
-  msg_edit_window_mins?:   number;
   allow_message_deletion?: boolean;
-  display_real_names?:     boolean;
   disable_file_uploads?:   string;
-  who_can_post_general?:   string;
+  display_real_names?:     boolean;
   error?:                  string;
+  msg_edit_window_mins?:   number;
   needed?:                 string;
+  ok?:                     boolean;
   provided?:               string;
+  who_can_post_general?:   string;
 };

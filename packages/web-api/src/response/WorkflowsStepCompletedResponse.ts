@@ -10,8 +10,8 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type WorkflowsStepCompletedResponse = WebAPICallResult & {
-  ok?:       boolean;
   error?:    string;
   needed?:   string;
+  ok?:       boolean;
   provided?: string;
 };

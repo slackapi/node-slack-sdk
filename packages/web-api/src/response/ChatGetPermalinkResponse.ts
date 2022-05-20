@@ -10,10 +10,10 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ChatGetPermalinkResponse = WebAPICallResult & {
-  ok?:        boolean;
-  permalink?: string;
   channel?:   string;
   error?:     string;
   needed?:    string;
+  ok?:        boolean;
+  permalink?: string;
   provided?:  string;
 };

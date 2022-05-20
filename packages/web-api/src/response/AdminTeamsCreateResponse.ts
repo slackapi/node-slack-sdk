@@ -10,12 +10,12 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AdminTeamsCreateResponse = WebAPICallResult & {
-  ok?:                boolean;
   error?:             string;
+  needed?:            string;
+  ok?:                boolean;
+  provided?:          string;
   response_metadata?: ResponseMetadata;
   team?:              string;
-  needed?:            string;
-  provided?:          string;
 };
 
 export interface ResponseMetadata {

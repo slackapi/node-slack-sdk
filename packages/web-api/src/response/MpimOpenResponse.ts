@@ -10,55 +10,55 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type MpimOpenResponse = WebAPICallResult & {
-  ok?:                boolean;
-  group?:             Group;
-  warning?:           string;
-  response_metadata?: ResponseMetadata;
   error?:             string;
+  group?:             Group;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
+  warning?:           string;
 };
 
 export interface Group {
-  id?:                   string;
-  name?:                 string;
-  is_group?:             boolean;
   created?:              number;
   creator?:              string;
+  id?:                   string;
   is_archived?:          boolean;
-  name_normalized?:      string;
+  is_group?:             boolean;
   is_mpim?:              boolean;
   is_open?:              boolean;
   last_read?:            string;
   latest?:               Latest;
+  members?:              string[];
+  name?:                 string;
+  name_normalized?:      string;
+  priority?:             number;
+  purpose?:              Purpose;
+  topic?:                Purpose;
   unread_count?:         number;
   unread_count_display?: number;
-  members?:              string[];
-  topic?:                Purpose;
-  purpose?:              Purpose;
-  priority?:             number;
 }
 
 export interface Latest {
   bot_id?:         string;
-  type?:           string;
-  text?:           string;
-  user?:           string;
-  ts?:             string;
-  team?:           string;
   bot_profile?:    BotProfile;
-  thread_ts?:      string;
   parent_user_id?: string;
+  team?:           string;
+  text?:           string;
+  thread_ts?:      string;
+  ts?:             string;
+  type?:           string;
+  user?:           string;
 }
 
 export interface BotProfile {
-  id?:      string;
-  deleted?: boolean;
-  name?:    string;
-  updated?: number;
   app_id?:  string;
+  deleted?: boolean;
   icons?:   Icons;
+  id?:      string;
+  name?:    string;
   team_id?: string;
+  updated?: number;
 }
 
 export interface Icons {
@@ -68,9 +68,9 @@ export interface Icons {
 }
 
 export interface Purpose {
-  value?:    string;
   creator?:  string;
   last_set?: number;
+  value?:    string;
 }
 
 export interface ResponseMetadata {

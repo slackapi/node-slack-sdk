@@ -10,14 +10,14 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type GroupsOpenResponse = WebAPICallResult & {
-  ok?:                boolean;
-  no_op?:             boolean;
   already_open?:      boolean;
-  warning?:           string;
-  response_metadata?: ResponseMetadata;
   error?:             string;
   needed?:            string;
+  no_op?:             boolean;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
+  warning?:           string;
 };
 
 export interface ResponseMetadata {

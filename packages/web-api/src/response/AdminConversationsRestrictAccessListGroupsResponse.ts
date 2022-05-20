@@ -10,12 +10,12 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AdminConversationsRestrictAccessListGroupsResponse = WebAPICallResult & {
-  ok?:                boolean;
-  group_ids?:         string[];
   error?:             string;
-  response_metadata?: ResponseMetadata;
+  group_ids?:         string[];
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
 };
 
 export interface ResponseMetadata {

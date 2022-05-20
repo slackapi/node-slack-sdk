@@ -10,9 +10,9 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ChannelsSetPurposeResponse = WebAPICallResult & {
-  ok?:       boolean;
-  purpose?:  string;
   error?:    string;
   needed?:   string;
+  ok?:       boolean;
   provided?: string;
+  purpose?:  string;
 };

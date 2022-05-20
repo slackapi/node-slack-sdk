@@ -10,124 +10,124 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ImHistoryResponse = WebAPICallResult & {
-  ok?:                    boolean;
-  messages?:              Message[];
-  has_more?:              boolean;
   channel_actions_count?: number;
-  warning?:               string;
-  response_metadata?:     ResponseMetadata;
   error?:                 string;
+  has_more?:              boolean;
+  messages?:              Message[];
   needed?:                string;
+  ok?:                    boolean;
   provided?:              string;
+  response_metadata?:     ResponseMetadata;
+  warning?:               string;
 };
 
 export interface Message {
+  blocks?:            Block[];
   bot_id?:            string;
-  type?:              string;
-  text?:              string;
-  user?:              string;
-  ts?:                string;
-  team?:              string;
   bot_profile?:       BotProfile;
-  thread_ts?:         string;
+  client_msg_id?:     string;
+  last_read?:         string;
+  latest_reply?:      string;
   parent_user_id?:    string;
   reply_count?:       number;
-  reply_users_count?: number;
-  latest_reply?:      string;
   reply_users?:       string[];
+  reply_users_count?: number;
   subscribed?:        boolean;
-  last_read?:         string;
-  client_msg_id?:     string;
-  blocks?:            Block[];
+  team?:              string;
+  text?:              string;
+  thread_ts?:         string;
+  ts?:                string;
+  type?:              string;
+  user?:              string;
 }
 
 export interface Block {
-  type?:         string;
-  elements?:     Element[];
+  accessory?:    Accessory;
+  alt_text?:     string;
   block_id?:     string;
+  elements?:     Element[];
   fallback?:     string;
+  fields?:       Text[];
+  image_bytes?:  number;
+  image_height?: number;
   image_url?:    string;
   image_width?:  number;
-  image_height?: number;
-  image_bytes?:  number;
-  alt_text?:     string;
-  title?:        Text;
   text?:         Text;
-  fields?:       Text[];
-  accessory?:    Accessory;
+  title?:        Text;
+  type?:         string;
 }
 
 export interface Accessory {
-  type?:         string;
-  image_url?:    string;
   alt_text?:     string;
   fallback?:     string;
-  image_width?:  number;
-  image_height?: number;
   image_bytes?:  number;
+  image_height?: number;
+  image_url?:    string;
+  image_width?:  number;
+  type?:         string;
 }
 
 export interface Element {
-  type?:                            string;
-  text?:                            Text;
   action_id?:                       string;
-  url?:                             string;
-  value?:                           string;
-  style?:                           string;
+  alt_text?:                        string;
   confirm?:                         Confirm;
-  placeholder?:                     Text;
-  initial_channel?:                 string;
-  response_url_enabled?:            boolean;
-  initial_conversation?:            string;
   default_to_current_conversation?: boolean;
+  fallback?:                        string;
   filter?:                          Filter;
+  image_bytes?:                     number;
+  image_height?:                    number;
+  image_url?:                       string;
+  image_width?:                     number;
+  initial_channel?:                 string;
+  initial_conversation?:            string;
   initial_date?:                    string;
   initial_option?:                  InitialOption;
-  min_query_length?:                number;
-  image_url?:                       string;
-  alt_text?:                        string;
-  fallback?:                        string;
-  image_width?:                     number;
-  image_height?:                    number;
-  image_bytes?:                     number;
   initial_user?:                    string;
+  min_query_length?:                number;
+  placeholder?:                     Text;
+  response_url_enabled?:            boolean;
+  style?:                           string;
+  text?:                            Text;
+  type?:                            string;
+  url?:                             string;
+  value?:                           string;
 }
 
 export interface Confirm {
-  title?:   Text;
-  text?:    Text;
   confirm?: Text;
   deny?:    Text;
   style?:   string;
+  text?:    Text;
+  title?:   Text;
 }
 
 export interface Text {
-  type?:     string;
-  text?:     string;
   emoji?:    boolean;
+  text?:     string;
+  type?:     string;
   verbatim?: boolean;
 }
 
 export interface Filter {
-  exclude_external_shared_channels?: boolean;
   exclude_bot_users?:                boolean;
+  exclude_external_shared_channels?: boolean;
 }
 
 export interface InitialOption {
-  text?:        Text;
-  value?:       string;
   description?: Text;
+  text?:        Text;
   url?:         string;
+  value?:       string;
 }
 
 export interface BotProfile {
-  id?:      string;
-  deleted?: boolean;
-  name?:    string;
-  updated?: number;
   app_id?:  string;
+  deleted?: boolean;
   icons?:   Icons;
+  id?:      string;
+  name?:    string;
   team_id?: string;
+  updated?: number;
 }
 
 export interface Icons {

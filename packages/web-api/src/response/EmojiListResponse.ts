@@ -10,10 +10,10 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type EmojiListResponse = WebAPICallResult & {
-  ok?:       boolean;
-  emoji?:    { [key: string]: string };
   cache_ts?: string;
+  emoji?:    { [key: string]: string };
   error?:    string;
   needed?:   string;
+  ok?:       boolean;
   provided?: string;
 };

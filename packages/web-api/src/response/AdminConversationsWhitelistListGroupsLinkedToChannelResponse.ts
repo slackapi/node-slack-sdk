@@ -10,13 +10,13 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AdminConversationsWhitelistListGroupsLinkedToChannelResponse = WebAPICallResult & {
-  ok?:                boolean;
   error?:             string;
   group_ids?:         string[];
+  needed?:            string;
+  ok?:                boolean;
+  provided?:          string;
   response_metadata?: ResponseMetadata;
   warning?:           string;
-  needed?:            string;
-  provided?:          string;
 };
 
 export interface ResponseMetadata {

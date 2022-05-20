@@ -10,28 +10,28 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type UsersIdentityResponse = WebAPICallResult & {
-  ok?:       boolean;
-  warning?:  string;
   error?:    string;
   needed?:   string;
+  ok?:       boolean;
   provided?: string;
-  user?:     User;
   team?:     Team;
+  user?:     User;
+  warning?:  string;
 };
 
 export interface Team {
-  name?: string;
   id?:   string;
+  name?: string;
 }
 
 export interface User {
-  name?:      string;
-  id?:        string;
   email?:     string;
+  id?:        string;
+  image_192?: string;
   image_24?:  string;
   image_32?:  string;
   image_48?:  string;
-  image_72?:  string;
-  image_192?: string;
   image_512?: string;
+  image_72?:  string;
+  name?:      string;
 }

@@ -10,10 +10,10 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ConversationsCloseResponse = WebAPICallResult & {
-  ok?:             boolean;
   already_closed?: boolean;
-  no_op?:          boolean;
   error?:          string;
   needed?:         string;
+  no_op?:          boolean;
+  ok?:             boolean;
   provided?:       string;
 };

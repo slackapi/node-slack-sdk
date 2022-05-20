@@ -10,10 +10,10 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AdminConversationsGetCustomRetentionResponse = WebAPICallResult & {
-  ok?:                boolean;
-  error?:             string;
-  needed?:            string;
-  provided?:          string;
-  is_policy_enabled?: boolean;
   duration_days?:     number;
+  error?:             string;
+  is_policy_enabled?: boolean;
+  needed?:            string;
+  ok?:                boolean;
+  provided?:          string;
 };

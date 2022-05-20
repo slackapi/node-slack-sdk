@@ -10,42 +10,42 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ConversationsListConnectInvitesResponse = WebAPICallResult & {
-  ok?:                boolean;
-  error?:             string;
   arg?:               string;
+  error?:             string;
   invites?:           InviteElement[];
-  response_metadata?: ResponseMetadata;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
 };
 
 export interface InviteElement {
-  direction?:         string;
-  status?:            string;
-  date_last_updated?: number;
-  invite_type?:       string;
-  invite?:            InviteInvite;
-  channel?:           Channel;
   acceptances?:       Acceptance[];
+  channel?:           Channel;
+  date_last_updated?: number;
+  direction?:         string;
+  invite?:            InviteInvite;
+  invite_type?:       string;
+  status?:            string;
 }
 
 export interface Acceptance {
+  accepting_team?:    IngTeam;
+  accepting_user?:    TingUser;
   approval_status?:   string;
   date_accepted?:     number;
   date_invalid?:      number;
   date_last_updated?: number;
-  accepting_team?:    IngTeam;
-  accepting_user?:    TingUser;
   reviews?:           Review[];
 }
 
 export interface IngTeam {
-  id?:           string;
-  name?:         string;
-  icon?:         Icon;
-  is_verified?:  boolean;
-  domain?:       string;
   date_created?: number;
+  domain?:       string;
+  icon?:         Icon;
+  id?:           string;
+  is_verified?:  boolean;
+  name?:         string;
 }
 
 export interface Icon {
@@ -56,41 +56,41 @@ export interface Icon {
   image_44?:       string;
   image_68?:       string;
   image_88?:       string;
-  image_original?: string;
   image_default?:  boolean;
+  image_original?: string;
 }
 
 export interface TingUser {
   id?:      string;
-  team_id?: string;
   name?:    string;
-  updated?: number;
   profile?: Profile;
+  team_id?: string;
+  updated?: number;
 }
 
 export interface Profile {
-  real_name?:               string;
-  display_name?:            string;
-  real_name_normalized?:    string;
-  display_name_normalized?: string;
-  team?:                    string;
   avatar_hash?:             string;
+  display_name?:            string;
+  display_name_normalized?: string;
   email?:                   string;
+  image_1024?:              string;
+  image_192?:               string;
   image_24?:                string;
   image_32?:                string;
   image_48?:                string;
-  image_72?:                string;
-  image_192?:               string;
   image_512?:               string;
-  image_1024?:              string;
+  image_72?:                string;
   image_original?:          string;
   is_custom_image?:         boolean;
+  real_name?:               string;
+  real_name_normalized?:    string;
+  team?:                    string;
 }
 
 export interface Review {
-  type?:           string;
   date_review?:    number;
   reviewing_team?: IngTeam;
+  type?:           string;
 }
 
 export interface Channel {
@@ -101,17 +101,17 @@ export interface Channel {
 }
 
 export interface InviteInvite {
-  id?:                string;
   date_created?:      number;
   date_invalid?:      number;
+  id?:                string;
   inviting_team?:     IngTeam;
   inviting_user?:     TingUser;
   link?:              string;
-  recipient_user_id?: string;
   recipient_email?:   string;
+  recipient_user_id?: string;
 }
 
 export interface ResponseMetadata {
-  next_cursor?: string;
   messages?:    string[];
+  next_cursor?: string;
 }

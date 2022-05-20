@@ -10,45 +10,45 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ChannelsListResponse = WebAPICallResult & {
-  ok?:                boolean;
   channels?:          Channel[];
-  warning?:           string;
-  response_metadata?: ResponseMetadata;
   error?:             string;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
+  warning?:           string;
 };
 
 export interface Channel {
-  id?:              string;
-  name?:            string;
-  is_channel?:      boolean;
   created?:         number;
-  is_archived?:     boolean;
-  is_general?:      boolean;
-  unlinked?:        number;
   creator?:         string;
-  name_normalized?: string;
-  is_shared?:       boolean;
-  is_org_shared?:   boolean;
+  id?:              string;
+  is_archived?:     boolean;
+  is_channel?:      boolean;
+  is_general?:      boolean;
   is_member?:       boolean;
-  is_private?:      boolean;
   is_mpim?:         boolean;
+  is_org_shared?:   boolean;
+  is_private?:      boolean;
+  is_shared?:       boolean;
   members?:         string[];
-  topic?:           Purpose;
-  purpose?:         Purpose;
-  previous_names?:  string[];
+  name?:            string;
+  name_normalized?: string;
   num_members?:     number;
+  previous_names?:  string[];
+  purpose?:         Purpose;
+  topic?:           Purpose;
+  unlinked?:        number;
 }
 
 export interface Purpose {
-  value?:    string;
   creator?:  string;
   last_set?: number;
+  value?:    string;
 }
 
 export interface ResponseMetadata {
-  next_cursor?: string;
   messages?:    string[];
+  next_cursor?: string;
   warnings?:    string[];
 }

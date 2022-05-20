@@ -10,9 +10,9 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type OauthTokenResponse = WebAPICallResult & {
-  ok?:         boolean;
   error?:      string;
-  req_method?: string;
   needed?:     string;
+  ok?:         boolean;
   provided?:   string;
+  req_method?: string;
 };

@@ -10,15 +10,15 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type UsersGetPresenceResponse = WebAPICallResult & {
-  ok?:               boolean;
-  warning?:          string;
-  error?:            string;
-  needed?:           string;
-  provided?:         string;
-  presence?:         string;
-  online?:           boolean;
   auto_away?:        boolean;
-  manual_away?:      boolean;
   connection_count?: number;
+  error?:            string;
   last_activity?:    number;
+  manual_away?:      boolean;
+  needed?:           string;
+  ok?:               boolean;
+  online?:           boolean;
+  presence?:         string;
+  provided?:         string;
+  warning?:          string;
 };

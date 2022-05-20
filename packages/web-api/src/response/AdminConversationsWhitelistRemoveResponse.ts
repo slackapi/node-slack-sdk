@@ -10,12 +10,12 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AdminConversationsWhitelistRemoveResponse = WebAPICallResult & {
-  ok?:                boolean;
   error?:             string;
+  needed?:            string;
+  ok?:                boolean;
+  provided?:          string;
   response_metadata?: ResponseMetadata;
   warning?:           string;
-  needed?:            string;
-  provided?:          string;
 };
 
 export interface ResponseMetadata {

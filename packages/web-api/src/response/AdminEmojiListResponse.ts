@@ -10,18 +10,18 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AdminEmojiListResponse = WebAPICallResult & {
-  ok?:                boolean;
   emoji?:             { [key: string]: Emoji };
-  response_metadata?: ResponseMetadata;
   error?:             string;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
 };
 
 export interface Emoji {
-  url?:          string;
   date_created?: number;
   uploaded_by?:  string;
+  url?:          string;
 }
 
 export interface ResponseMetadata {

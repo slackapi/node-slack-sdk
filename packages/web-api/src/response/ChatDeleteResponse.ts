@@ -10,10 +10,10 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ChatDeleteResponse = WebAPICallResult & {
-  ok?:       boolean;
   channel?:  string;
-  ts?:       string;
   error?:    string;
   needed?:   string;
+  ok?:       boolean;
   provided?: string;
+  ts?:       string;
 };

@@ -10,16 +10,16 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type AdminUsersSessionGetSettingsResponse = WebAPICallResult & {
-  ok?:                  boolean;
-  session_settings?:    SessionSetting[];
-  no_settings_applied?: string[];
   error?:               string;
   needed?:              string;
+  no_settings_applied?: string[];
+  ok?:                  boolean;
   provided?:            string;
+  session_settings?:    SessionSetting[];
 };
 
 export interface SessionSetting {
-  user_id?:                  string;
   desktop_app_browser_quit?: boolean;
   duration?:                 number;
+  user_id?:                  string;
 }

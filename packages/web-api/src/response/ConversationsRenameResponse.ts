@@ -11,45 +11,45 @@
 import { WebAPICallResult } from '../WebClient';
 export type ConversationsRenameResponse = WebAPICallResult & {
   channel?:  Channel;
-  ok?:       boolean;
   error?:    string;
   needed?:   string;
+  ok?:       boolean;
   provided?: string;
 };
 
 export interface Channel {
+  created?:                    number;
+  creator?:                    string;
   id?:                         string;
-  name?:                       string;
+  internal_team_ids?:          string[];
+  is_archived?:                boolean;
   is_channel?:                 boolean;
+  is_ext_shared?:              boolean;
+  is_general?:                 boolean;
   is_group?:                   boolean;
   is_im?:                      boolean;
-  created?:                    number;
-  is_archived?:                boolean;
-  is_general?:                 boolean;
-  unlinked?:                   number;
-  name_normalized?:            string;
-  is_shared?:                  boolean;
-  creator?:                    string;
-  is_ext_shared?:              boolean;
-  is_org_shared?:              boolean;
-  shared_team_ids?:            string[];
-  pending_shared?:             string[];
-  pending_connected_team_ids?: string[];
-  is_pending_ext_shared?:      boolean;
   is_member?:                  boolean;
-  is_private?:                 boolean;
-  is_mpim?:                    boolean;
-  last_read?:                  string;
-  topic?:                      Purpose;
-  purpose?:                    Purpose;
-  previous_names?:             string[];
   is_moved?:                   number;
-  internal_team_ids?:          string[];
+  is_mpim?:                    boolean;
   is_open?:                    boolean;
+  is_org_shared?:              boolean;
+  is_pending_ext_shared?:      boolean;
+  is_private?:                 boolean;
+  is_shared?:                  boolean;
+  last_read?:                  string;
+  name?:                       string;
+  name_normalized?:            string;
+  pending_connected_team_ids?: string[];
+  pending_shared?:             string[];
+  previous_names?:             string[];
+  purpose?:                    Purpose;
+  shared_team_ids?:            string[];
+  topic?:                      Purpose;
+  unlinked?:                   number;
 }
 
 export interface Purpose {
-  value?:    string;
   creator?:  string;
   last_set?: number;
+  value?:    string;
 }

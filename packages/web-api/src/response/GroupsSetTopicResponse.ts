@@ -10,13 +10,13 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type GroupsSetTopicResponse = WebAPICallResult & {
-  topic?:             string;
-  ok?:                boolean;
-  warning?:           string;
-  response_metadata?: ResponseMetadata;
   error?:             string;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
+  topic?:             string;
+  warning?:           string;
 };
 
 export interface ResponseMetadata {

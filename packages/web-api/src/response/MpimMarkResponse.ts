@@ -10,12 +10,12 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type MpimMarkResponse = WebAPICallResult & {
-  ok?:                boolean;
   error?:             string;
-  warning?:           string;
-  response_metadata?: ResponseMetadata;
   needed?:            string;
+  ok?:                boolean;
   provided?:          string;
+  response_metadata?: ResponseMetadata;
+  warning?:           string;
 };
 
 export interface ResponseMetadata {
