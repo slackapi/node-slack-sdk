@@ -406,16 +406,34 @@ export interface AppIconUrls {
 }
 
 export interface PurpleFile {
-  app_id?:             string;
-  converted_pdf?:      string;
-  filetype?:           string;
-  non_owner_editable?: boolean;
-  subject?:            string;
-  thumb_1024_w?:       string;
-  thumb_64_w?:         string;
-  thumb_pdf_h?:        string;
-  thumb_pdf_w?:        string;
-  thumb_tiny?:         string;
+  cc?:                        Cc[];
+  created?:                   number;
+  edit_link?:                 string;
+  external_url?:              string;
+  has_rich_preview?:          boolean;
+  is_starred?:                boolean;
+  last_editor?:               string;
+  original_attachment_count?: number;
+  original_w?:                string;
+  shares?:                    FileShares;
+  simplified_html?:           string;
+  thumb_1024_w?:              string;
+  thumb_pdf_h?:               string;
+  thumb_pdf_w?:               string;
+  thumb_video?:               string;
+  thumb_video_h?:             number;
+  user?:                      string;
+}
+
+export interface Cc {
+  address?:  string;
+  name?:     string;
+  original?: string;
+}
+
+export interface FileShares {
+  private?: { [key: string]: Public[] };
+  public?:  { [key: string]: Public[] };
 }
 
 export interface Field {
@@ -547,12 +565,6 @@ export interface FileElement {
   vtt?:                       string;
 }
 
-export interface Cc {
-  address?:  string;
-  name?:     string;
-  original?: string;
-}
-
 export interface Headers {
   date?:        string;
   in_reply_to?: string;
@@ -575,11 +587,6 @@ export interface Reaction {
   name?:  string;
   url?:   string;
   users?: string[];
-}
-
-export interface FileShares {
-  private?: { [key: string]: Public[] };
-  public?:  { [key: string]: Public[] };
 }
 
 export interface Transcription {

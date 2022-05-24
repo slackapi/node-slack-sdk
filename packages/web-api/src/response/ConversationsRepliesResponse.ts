@@ -281,68 +281,13 @@ export interface AppIconUrls {
 }
 
 export interface BlockFile {
-  app_id?:                    string;
-  app_name?:                  string;
-  created?:                   number;
-  deanimate?:                 string;
-  duration_ms?:               number;
-  external_id?:               string;
-  external_type?:             string;
-  external_url?:              string;
-  filetype?:                  string;
-  hls?:                       string;
-  hls_embed?:                 string;
-  id?:                        string;
-  ims?:                       string[];
-  is_external?:               boolean;
-  mimetype?:                  string;
-  mp4?:                       string;
-  name?:                      string;
-  original_attachment_count?: number;
-  pretty_type?:               string;
-  preview_plain_text?:        string;
-  subject?:                   string;
-  subtype?:                   string;
-  thumb_1024_gif?:            string;
-  thumb_1024_h?:              string;
-  thumb_1024_w?:              string;
-  thumb_160?:                 string;
-  thumb_160_gif?:             string;
-  thumb_160_h?:               string;
-  thumb_160_w?:               string;
-  thumb_360_gif?:             string;
-  thumb_360_h?:               string;
-  thumb_360_w?:               string;
-  thumb_480?:                 string;
-  thumb_480_gif?:             string;
-  thumb_480_w?:               string;
-  thumb_64?:                  string;
-  thumb_64_gif?:              string;
-  thumb_64_h?:                string;
-  thumb_64_w?:                string;
-  thumb_80?:                  string;
-  thumb_800?:                 string;
-  thumb_800_gif?:             string;
-  thumb_80_gif?:              string;
-  thumb_80_h?:                string;
-  thumb_80_w?:                string;
-  thumb_tiny?:                string;
-  thumb_video?:               string;
-  thumb_video_h?:             number;
-  thumb_video_w?:             number;
-  title?:                     string;
-  transcription?:             Transcription;
-  updated?:                   number;
-  url_private?:               string;
-  url_private_download?:      string;
-  user?:                      string;
-  username?:                  string;
-  vtt?:                       string;
-}
-
-export interface Transcription {
-  locale?: string;
-  status?: string;
+  thumb_960_gif?: string;
+  thumb_960_h?:   string;
+  thumb_960_w?:   string;
+  thumb_video?:   string;
+  thumb_video_h?: number;
+  thumb_video_w?: number;
+  title?:         string;
 }
 
 export interface Field {
@@ -519,6 +464,11 @@ export interface Private {
   team_id?:           string;
   thread_ts?:         string;
   ts?:                string;
+}
+
+export interface Transcription {
+  locale?: string;
+  status?: string;
 }
 
 export interface Metadata {

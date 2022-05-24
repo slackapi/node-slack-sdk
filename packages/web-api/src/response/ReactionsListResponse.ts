@@ -198,16 +198,46 @@ export interface AppIconUrls {
 }
 
 export interface BlockFile {
-  app_id?:             string;
-  converted_pdf?:      string;
-  filetype?:           string;
-  non_owner_editable?: boolean;
-  subject?:            string;
-  thumb_1024_w?:       string;
-  thumb_64_w?:         string;
-  thumb_pdf_h?:        string;
-  thumb_pdf_w?:        string;
-  thumb_tiny?:         string;
+  cc?:                        Cc[];
+  created?:                   number;
+  edit_link?:                 string;
+  external_url?:              string;
+  has_rich_preview?:          boolean;
+  is_starred?:                boolean;
+  last_editor?:               string;
+  original_attachment_count?: number;
+  original_w?:                string;
+  shares?:                    Shares;
+  simplified_html?:           string;
+  thumb_1024_w?:              string;
+  thumb_pdf_h?:               string;
+  thumb_pdf_w?:               string;
+  thumb_video?:               string;
+  thumb_video_h?:             number;
+  user?:                      string;
+}
+
+export interface Cc {
+  address?:  string;
+  name?:     string;
+  original?: string;
+}
+
+export interface Shares {
+  private?: { [key: string]: Private[] };
+  public?:  { [key: string]: Private[] };
+}
+
+export interface Private {
+  channel_name?:      string;
+  latest_reply?:      string;
+  reply_count?:       number;
+  reply_users?:       string[];
+  reply_users_count?: number;
+  share_user_id?:     string;
+  team_id?:           string;
+  thread_ts?:         string;
+  ts?:                string;
 }
 
 export interface BotProfile {
@@ -349,12 +379,6 @@ export interface FileElement {
   vtt?:                       string;
 }
 
-export interface Cc {
-  address?:  string;
-  name?:     string;
-  original?: string;
-}
-
 export interface Headers {
   date?:        string;
   in_reply_to?: string;
@@ -377,23 +401,6 @@ export interface Reaction {
   name?:  string;
   url?:   string;
   users?: string[];
-}
-
-export interface Shares {
-  private?: { [key: string]: Private[] };
-  public?:  { [key: string]: Private[] };
-}
-
-export interface Private {
-  channel_name?:      string;
-  latest_reply?:      string;
-  reply_count?:       number;
-  reply_users?:       string[];
-  reply_users_count?: number;
-  share_user_id?:     string;
-  team_id?:           string;
-  thread_ts?:         string;
-  ts?:                string;
 }
 
 export interface Transcription {
