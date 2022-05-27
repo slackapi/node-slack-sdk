@@ -338,7 +338,7 @@ export interface Block {
   external_id?:              string;
   fallback?:                 string;
   fields?:                   Hint[];
-  file?:                     BlockFile;
+  file?:                     ItemFile;
   file_id?:                  string;
   hint?:                     Hint;
   image_bytes?:              number;
@@ -467,26 +467,6 @@ export interface AppIconUrls {
   image_72?:       string;
   image_96?:       string;
   image_original?: string;
-}
-
-export interface BlockFile {
-  cc?:                        Cc[];
-  created?:                   number;
-  edit_link?:                 string;
-  external_url?:              string;
-  has_rich_preview?:          boolean;
-  is_starred?:                boolean;
-  last_editor?:               string;
-  original_attachment_count?: number;
-  original_w?:                string;
-  shares?:                    Shares;
-  simplified_html?:           string;
-  thumb_1024_w?:              string;
-  thumb_pdf_h?:               string;
-  thumb_pdf_w?:               string;
-  thumb_video?:               string;
-  thumb_video_h?:             number;
-  user?:                      string;
 }
 
 export interface Field {

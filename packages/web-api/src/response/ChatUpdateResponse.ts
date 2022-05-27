@@ -72,7 +72,6 @@ export interface Accessory {
   alt_text?:                        string;
   confirm?:                         Confirm;
   default_to_current_conversation?: boolean;
-  elements?:                        Element[];
   fallback?:                        string;
   filter?:                          Filter;
   focus_on_load?:                   boolean;
@@ -116,12 +115,6 @@ export interface Hint {
   text?:     string;
   type?:     string;
   verbatim?: boolean;
-}
-
-export interface Element {
-  text?: string;
-  type?: string;
-  url?:  string;
 }
 
 export interface Filter {

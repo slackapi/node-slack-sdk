@@ -153,9 +153,9 @@ export interface Messages {
 
 export interface MessagesMatch {
   attachments?:  Attachment[];
-  blocks?:       MatchBlock[];
+  blocks?:       Block[];
   channel?:      Channel;
-  files?:        FileElement[];
+  files?:        File[];
   iid?:          string;
   is_mpim?:      boolean;
   no_reactions?: boolean;
@@ -180,7 +180,7 @@ export interface Attachment {
   author_link?:           string;
   author_name?:           string;
   author_subname?:        string;
-  blocks?:                AttachmentBlock[];
+  blocks?:                Block[];
   bot_id?:                string;
   callback_id?:           string;
   channel_id?:            string;
@@ -189,7 +189,7 @@ export interface Attachment {
   fallback?:              string;
   fields?:                Field[];
   filename?:              string;
-  files?:                 FileElement[];
+  files?:                 File[];
   footer?:                string;
   footer_icon?:           string;
   from_url?:              string;
@@ -261,7 +261,7 @@ export interface SelectedOptionElement {
   value?: string;
 }
 
-export interface AttachmentBlock {
+export interface Block {
   accessory?:                Accessory;
   alt_text?:                 string;
   api_decoration_available?: boolean;
@@ -274,7 +274,7 @@ export interface AttachmentBlock {
   external_id?:              string;
   fallback?:                 string;
   fields?:                   Hint[];
-  file?:                     PurpleFile;
+  file?:                     File;
   file_id?:                  string;
   hint?:                     Hint;
   image_bytes?:              number;
@@ -405,44 +405,7 @@ export interface AppIconUrls {
   image_original?: string;
 }
 
-export interface PurpleFile {
-  cc?:                        Cc[];
-  created?:                   number;
-  edit_link?:                 string;
-  external_url?:              string;
-  has_rich_preview?:          boolean;
-  is_starred?:                boolean;
-  last_editor?:               string;
-  original_attachment_count?: number;
-  original_w?:                string;
-  shares?:                    FileShares;
-  simplified_html?:           string;
-  thumb_1024_w?:              string;
-  thumb_pdf_h?:               string;
-  thumb_pdf_w?:               string;
-  thumb_video?:               string;
-  thumb_video_h?:             number;
-  user?:                      string;
-}
-
-export interface Cc {
-  address?:  string;
-  name?:     string;
-  original?: string;
-}
-
-export interface FileShares {
-  private?: { [key: string]: Public[] };
-  public?:  { [key: string]: Public[] };
-}
-
-export interface Field {
-  short?: boolean;
-  title?: string;
-  value?: string;
-}
-
-export interface FileElement {
+export interface File {
   app_id?:                    string;
   app_name?:                  string;
   bot_id?:                    string;
@@ -565,6 +528,12 @@ export interface FileElement {
   vtt?:                       string;
 }
 
+export interface Cc {
+  address?:  string;
+  name?:     string;
+  original?: string;
+}
+
 export interface Headers {
   date?:        string;
   in_reply_to?: string;
@@ -589,9 +558,20 @@ export interface Reaction {
   users?: string[];
 }
 
+export interface FileShares {
+  private?: { [key: string]: Public[] };
+  public?:  { [key: string]: Public[] };
+}
+
 export interface Transcription {
   locale?: string;
   status?: string;
+}
+
+export interface Field {
+  short?: boolean;
+  title?: string;
+  value?: string;
 }
 
 export interface Metadata {
@@ -616,34 +596,6 @@ export interface Preview {
   type?:       string;
 }
 
-export interface MatchBlock {
-  accessory?:                Accessory;
-  alt_text?:                 string;
-  api_decoration_available?: boolean;
-  block_id?:                 string;
-  call?:                     Call;
-  call_id?:                  string;
-  dispatch_action?:          boolean;
-  element?:                  Accessory;
-  elements?:                 Accessory[];
-  external_id?:              string;
-  fallback?:                 string;
-  fields?:                   Hint[];
-  file?:                     FileElement;
-  file_id?:                  string;
-  hint?:                     Hint;
-  image_bytes?:              number;
-  image_height?:             number;
-  image_url?:                string;
-  image_width?:              number;
-  label?:                    Hint;
-  optional?:                 boolean;
-  source?:                   string;
-  text?:                     Hint;
-  title?:                    Hint;
-  type?:                     string;
-}
-
 export interface Channel {
   id?:                    string;
   is_channel?:            boolean;
@@ -663,7 +615,7 @@ export interface Channel {
 
 export interface Previous {
   attachments?: Attachment[];
-  blocks?:      AttachmentBlock[];
+  blocks?:      Block[];
   iid?:         string;
   permalink?:   string;
   text?:        string;
