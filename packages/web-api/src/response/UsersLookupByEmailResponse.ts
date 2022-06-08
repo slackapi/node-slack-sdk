@@ -10,12 +10,17 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type UsersLookupByEmailResponse = WebAPICallResult & {
-  error?:    string;
-  needed?:   string;
-  ok?:       boolean;
-  provided?: string;
-  user?:     User;
+  error?:             string;
+  needed?:            string;
+  ok?:                boolean;
+  provided?:          string;
+  response_metadata?: ResponseMetadata;
+  user?:              User;
 };
+
+export interface ResponseMetadata {
+  messages?: string[];
+}
 
 export interface User {
   color?:                      string;
@@ -26,6 +31,7 @@ export interface User {
   is_app_user?:                boolean;
   is_bot?:                     boolean;
   is_email_confirmed?:         boolean;
+  is_invited_user?:            boolean;
   is_owner?:                   boolean;
   is_primary_owner?:           boolean;
   is_restricted?:              boolean;
@@ -47,6 +53,7 @@ export interface Profile {
   display_name_normalized?:    string;
   email?:                      string;
   first_name?:                 string;
+  guest_invited_by?:           string;
   huddle_state?:               string;
   huddle_state_expiration_ts?: number;
   image_1024?:                 string;

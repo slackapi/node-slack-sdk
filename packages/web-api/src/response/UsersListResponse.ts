@@ -65,6 +65,7 @@ export interface Profile {
   display_name?:               string;
   display_name_normalized?:    string;
   email?:                      string;
+  fields?:                     Fields;
   first_name?:                 string;
   guest_expiration_ts?:        number;
   guest_invited_by?:           string;
@@ -92,6 +93,9 @@ export interface Profile {
   status_text_canonical?:      string;
   team?:                       string;
   title?:                      string;
+}
+
+export interface Fields {
 }
 
 export interface StatusEmojiDisplayInfo {

@@ -27,11 +27,13 @@ export interface User {
   is_app_user?:                boolean;
   is_bot?:                     boolean;
   is_email_confirmed?:         boolean;
+  is_invited_user?:            boolean;
   is_owner?:                   boolean;
   is_primary_owner?:           boolean;
   is_restricted?:              boolean;
   is_stranger?:                boolean;
   is_ultra_restricted?:        boolean;
+  is_workflow_bot?:            boolean;
   locale?:                     string;
   name?:                       string;
   profile?:                    Profile;
@@ -62,6 +64,7 @@ export interface Profile {
   display_name_normalized?:    string;
   email?:                      string;
   first_name?:                 string;
+  guest_invited_by?:           string;
   huddle_state?:               string;
   huddle_state_expiration_ts?: number;
   image_1024?:                 string;
