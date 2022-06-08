@@ -905,6 +905,7 @@ export interface SelfPrefs {
   enable_app_browser_view?:                                   boolean;
   enable_app_config_redesign?:                                boolean;
   enable_channel_browser_view?:                               boolean;
+  enable_drafts_view?:                                        boolean;
   enable_file_browser_view?:                                  boolean;
   enable_file_browser_view_for_docs?:                         boolean;
   enable_hq_view?:                                            boolean;
@@ -915,6 +916,7 @@ export interface SelfPrefs {
   enable_react_emoji_picker?:                                 boolean;
   enable_reminders_view?:                                     boolean;
   enable_saved_items_view?:                                   boolean;
+  enable_scheduled_view?:                                     boolean;
   enable_sent_view?:                                          boolean;
   enable_shortcuts_view?:                                     boolean;
   enable_slack_connect_view?:                                 boolean;
@@ -932,6 +934,8 @@ export interface SelfPrefs {
   f_key_search?:                                              boolean;
   failover_proxy_check_completed?:                            number;
   file_picker_variant?:                                       number;
+  first_seen_new_badge_in_more_menu_sidebar?:                 number;
+  first_seen_sent_page_in_sidebar?:                           number;
   flannel_server_pool?:                                       string;
   folder_data?:                                               string;
   folders_enabled?:                                           boolean;
@@ -1140,6 +1144,7 @@ export interface SelfPrefs {
   seen_member_invite_reminder?:                               boolean;
   seen_message_navigation_educational_toast?:                 boolean;
   seen_name_tagging_coachmark?:                               boolean;
+  seen_new_badge_in_more_menu_sidebar?:                       boolean;
   seen_new_search_ui?:                                        boolean;
   seen_onboarding_banner?:                                    boolean;
   seen_onboarding_channels?:                                  boolean;
@@ -1151,6 +1156,7 @@ export interface SelfPrefs {
   seen_onboarding_slackbot_conversation?:                     boolean;
   seen_onboarding_starred_items?:                             boolean;
   seen_onboarding_start?:                                     boolean;
+  seen_onboarding_synth_view?:                                boolean;
   seen_p3_locale_change_message_ko_kr?:                       number;
   seen_people_search?:                                        boolean;
   seen_people_search_count?:                                  number;
@@ -1160,6 +1166,7 @@ export interface SelfPrefs {
   seen_sc_page_banner?:                                       boolean;
   seen_schedule_send_coachmark?:                              boolean;
   seen_sections_unreads_only_prompt_count?:                   number;
+  seen_sent_page_in_sidebar?:                                 boolean;
   seen_shared_channels_coachmark?:                            boolean;
   seen_shared_channels_opt_in_change_message?:                boolean;
   seen_shdep_slackbot_message?:                               boolean;
@@ -1483,6 +1490,7 @@ export interface TeamPrefs {
   use_browser_picker?:                                 boolean;
   uses_customized_custom_status_presets?:              boolean;
   warn_before_at_channel?:                             string;
+  warn_user_before_logout?:                            boolean;
   welcome_place_enabled?:                              boolean;
   who_can_accept_slack_connect_channel_invites?:       SlackConnectAllowedWorkspaces;
   who_can_archive_channels?:                           string;

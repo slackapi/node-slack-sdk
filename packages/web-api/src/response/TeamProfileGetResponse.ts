@@ -28,9 +28,16 @@ export interface Field {
   id?:              string;
   is_hidden?:       boolean;
   label?:           string;
+  options?:         Options;
   ordering?:        number;
   possible_values?: string[];
+  section_id?:      string;
   type?:            string;
+}
+
+export interface Options {
+  is_protected?: boolean;
+  is_scim?:      boolean;
 }
 
 export interface Section {
