@@ -497,6 +497,7 @@ describe('WebClient', function () {
       });
     });
 
+    // TODO: Upgrading busboy to 1.x breaks these tests
     describe('when API arguments contain binary to upload', function () {
       beforeEach(function () {
         const self = this;
