@@ -1157,6 +1157,7 @@ export interface SelfPrefs {
   seen_onboarding_starred_items?:                             boolean;
   seen_onboarding_start?:                                     boolean;
   seen_onboarding_synth_view?:                                boolean;
+  seen_onboarding_synth_view_count?:                          number;
   seen_p3_locale_change_message_ko_kr?:                       number;
   seen_people_search?:                                        boolean;
   seen_people_search_count?:                                  number;
@@ -1566,6 +1567,7 @@ export interface User {
   is_app_user?:                boolean;
   is_bot?:                     boolean;
   is_email_confirmed?:         boolean;
+  is_invited_user?:            boolean;
   is_owner?:                   boolean;
   is_primary_owner?:           boolean;
   is_restricted?:              boolean;
