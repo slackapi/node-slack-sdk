@@ -408,7 +408,7 @@ export class SocketModeClient extends EventEmitter {
       this.logger.debug('Going to retrieve a new WSS URL ...');
       return await this.webClient.apps.connections.open();
     } catch (error) {
-      this.logger.error(`Faled to retrieve a new WSS URL for reconnection (error: ${error})`);
+      this.logger.error(`Failed to retrieve a new WSS URL for reconnection (error: ${error})`);
       throw error;
     }
   }
