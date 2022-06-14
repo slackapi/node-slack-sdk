@@ -22,15 +22,23 @@ const packageJson = require('../package.json'); // eslint-disable-line import/no
 
 // These enum values are used only in the state machine
 enum State {
-  Ready = 'ready',
   Connecting = 'connecting',
   Connected = 'connected',
+  Reconnecting = 'reconnecting',
+  Disconnecting = 'disconnecting',
+  Disconnected = 'disconnected',
+  Failed = 'failed',
+}
+enum ConnectingState {
   Handshaking = 'handshaking',
   Authenticating = 'authenticating',
   Authenticated = 'authenticated',
   Reconnecting = 'reconnecting',
-  Disconnecting = 'disconnecting',
-  Disconnected = 'disconnected',
+  Failed = 'failed',
+}
+enum ConnectedState {
+  Preparing = 'preparing',
+  Ready = 'ready',
   Failed = 'failed',
 }
 
@@ -135,12 +143,12 @@ export class SocketModeClient extends EventEmitter {
     this.stateMachine.handle(Event.Start);
     // Return a promise that resolves with the connection information
     return new Promise((resolve, reject) => {
-      this.once(State.Authenticated, (result) => {
+      this.once(ConnectingState.Authenticated, (result) => {
         this.removeListener(State.Disconnected, reject);
         resolve(result);
       });
       this.once(State.Disconnected, (err) => {
-        this.removeListener(State.Authenticated, resolve);
+        this.removeListener(ConnectingState.Authenticated, resolve);
         reject(err);
       });
     });
@@ -175,34 +183,50 @@ export class SocketModeClient extends EventEmitter {
    */
   private stateMachine: StateMachine<State, Event>;
 
-  /* eslint-disable @typescript-eslint/indent, newline-per-chained-call */
+  /**
+   * Internal count for managing the reconnection state
+   */
+  private numOfConsecutiveReconnectionFailures: number = 0;
 
-  private connectingStateMachineConfig: Configuration<State, Event> = Finity.configure<State, Event>()
+  /* eslint-disable @typescript-eslint/indent, newline-per-chained-call */
+  private connectingStateMachineConfig: Configuration<ConnectingState, Event>
+    = Finity.configure<ConnectingState, Event>()
     .global()
       .onStateEnter((state) => {
         this.logger.debug(`Transitioning to state: ${State.Connecting}:${state}`);
       })
-    .initialState(State.Authenticating)
+    .initialState(ConnectingState.Authenticating)
       .do(this.retrieveWSSURL.bind(this))
-        .onSuccess().transitionTo(State.Authenticated)
+        .onSuccess().transitionTo(ConnectingState.Authenticated)
         .onFailure()
-          .transitionTo(State.Reconnecting).withCondition(this.reconnectingCondition.bind(this))
-          .transitionTo(State.Failed)
-    .state(State.Authenticated)
+          .transitionTo(ConnectingState.Reconnecting).withCondition(this.reconnectingCondition.bind(this))
+          .transitionTo(ConnectingState.Failed)
+    .state(ConnectingState.Reconnecting)
+      .do(async () => {
+        // Trying to reconnect after waiting for a bit...
+        this.numOfConsecutiveReconnectionFailures += 1;
+        const millisBeforeRetry = this.clientPingTimeoutMillis * this.numOfConsecutiveReconnectionFailures;
+        this.logger.debug(`Before trying to reconnect, this client will wait for ${millisBeforeRetry} milliseconds`);
+        setTimeout(() => {
+          this.emit(ConnectingState.Authenticating);
+        }, millisBeforeRetry);
+      })
+      .onFailure().transitionTo(ConnectingState.Failed)
+    .state(ConnectingState.Authenticated)
       .onEnter(this.configureAuthenticatedWebSocket.bind(this))
-      .on(Event.WebSocketOpen).transitionTo(State.Handshaking)
-    .state(State.Handshaking) // a state in which to wait until the Event.ServerHello event
-    .state(State.Failed)
+      .on(Event.WebSocketOpen).transitionTo(ConnectingState.Handshaking)
+    .state(ConnectingState.Handshaking) // a state in which to wait until the Event.ServerHello event
+    .state(ConnectingState.Failed)
       .onEnter(this.handleConnectionFailure.bind(this))
   .getConfig();
 
-  private connectedStateMachineConfig: Configuration<State, Event> = Finity.configure<State, Event>()
+  private connectedStateMachineConfig: Configuration<ConnectedState, Event> = Finity.configure<ConnectedState, Event>()
     .global()
       .onStateEnter((state) => {
         this.logger.debug(`Transitioning to state: ${State.Connected}:${state}`);
       })
-    .initialState(State.Ready)
-      .onEnter(() => {
+    .initialState(ConnectedState.Preparing)
+      .do(async () => {
         if (this.isSwitchingConnection) {
           this.switchWebSocketConnection();
           this.badConnection = false;
@@ -212,12 +236,12 @@ export class SocketModeClient extends EventEmitter {
         this.startPeriodicallySendingPingToSlack();
         // Reactively verifying the connection health by checking the interval of ping from Slack
         this.startMonitoringPingFromSlack();
-        // The transition isn't done yet, so we delay the following statement until after the event loop returns
-        setImmediate(() => {
-          this.emit(State.Ready);
-        });
       })
-  .getConfig();
+      .onSuccess().transitionTo(ConnectedState.Ready)
+      .onFailure().transitionTo(ConnectedState.Failed)
+    .state(ConnectedState.Failed)
+      .onEnter(this.handleConnectionFailure.bind(this))
+    .getConfig();
 
   /**
    * Configuration for the state machine
@@ -436,10 +460,11 @@ export class SocketModeClient extends EventEmitter {
   }
 
   private configureAuthenticatedWebSocket(_state: string, context: Context<string, string>) {
+    this.numOfConsecutiveReconnectionFailures = 0; // Reset the failure count
     this.authenticated = true;
     this.setupWebSocket(context.result.url);
     setImmediate(() => {
-      this.emit(State.Authenticated, context.result);
+      this.emit(ConnectingState.Authenticated, context.result);
     });
   }
 
@@ -658,7 +683,8 @@ export class SocketModeClient extends EventEmitter {
     return currentState === State.Connected &&
       stateHierarchy !== undefined &&
       stateHierarchy.length >= 2 &&
-      stateHierarchy[1] === State.Ready;
+      // When the primary state is State.Connected, the second one is always set by the sub state machine
+      stateHierarchy[1].toString() === ConnectedState.Ready;
   }
 
   /**
