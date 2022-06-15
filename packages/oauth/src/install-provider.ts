@@ -238,40 +238,45 @@ export class InstallProvider {
               'if it has a refresh token';
             throw new UnknownError(errorMessage);
           }
-          const installationUpdates: TokenRefreshInstallationUpdates = {
-            ...queryResult as Installation<'v2', boolean>,
-          };
           const refreshResponses: OAuthV2TokenRefreshResponse[] = await this.refreshExpiringTokens(tokensToRefresh);
-          refreshResponses.forEach((refreshResp) => {
-            const tokenType = refreshResp.token_type;
+          if (refreshResponses.length) {
+            const installationUpdates: TokenRefreshInstallationUpdates = {
+              ...queryResult as Installation<'v2', boolean>,
+            };
+            refreshResponses.forEach((refreshResp) => {
+              const tokenType = refreshResp.token_type;
 
-            // Update Authorization
-            if (tokenType === 'bot') {
-              authResult.botToken = refreshResp.access_token;
-              authResult.botRefreshToken = refreshResp.refresh_token;
-              authResult.botTokenExpiresAt = currentUTCSec + refreshResp.expires_in;
-            }
+              // Update Authorization
+              if (tokenType === 'bot') {
+                authResult.botToken = refreshResp.access_token;
+                authResult.botRefreshToken = refreshResp.refresh_token;
+                authResult.botTokenExpiresAt = currentUTCSec + refreshResp.expires_in;
+              }
 
-            if (tokenType === 'user') {
-              authResult.userToken = refreshResp.access_token;
-              authResult.userRefreshToken = refreshResp.refresh_token;
-              authResult.userTokenExpiresAt = currentUTCSec + refreshResp.expires_in;
-            }
+              if (tokenType === 'user') {
+                authResult.userToken = refreshResp.access_token;
+                authResult.userRefreshToken = refreshResp.refresh_token;
+                authResult.userTokenExpiresAt = currentUTCSec + refreshResp.expires_in;
+              }
 
-            // Update Installation
-            const botOrUser = installationUpdates[tokenType];
-            if (botOrUser !== undefined) {
-              this.logger.debug(`Saving ${tokenType} token and its refresh token in InstallationStore`);
-              botOrUser.token = refreshResp.access_token;
-              botOrUser.refreshToken = refreshResp.refresh_token;
-              botOrUser.expiresAt = currentUTCSec + refreshResp.expires_in;
-            } else {
-              const errorMessage = `Unexpected data structure detected. The data returned by your InstallationStore#fetchInstallation() method must have ${tokenType} at top-level`;
-              throw new UnknownError(errorMessage);
-            }
-          });
-          await this.installationStore.storeInstallation(installationUpdates);
-          this.logger.debug('Refreshed tokens have been saved in InstallationStore');
+              // Update Installation
+              const botOrUser = installationUpdates[tokenType];
+              if (botOrUser !== undefined) {
+                this.logger.debug(`Saving ${tokenType} token and its refresh token in InstallationStore`);
+                botOrUser.token = refreshResp.access_token;
+                botOrUser.refreshToken = refreshResp.refresh_token;
+                botOrUser.expiresAt = currentUTCSec + refreshResp.expires_in;
+              } else {
+                const errorMessage = `Unexpected data structure detected. The data returned by your InstallationStore#fetchInstallation() method must have ${tokenType} at top-level`;
+                throw new UnknownError(errorMessage);
+              }
+            });
+            await this.installationStore.storeInstallation(installationUpdates);
+            this.logger.debug('Refreshed tokens have been saved in InstallationStore');
+          }
+          else {
+            this.logger.debug('No tokens were refreshed');
+          }
         }
       }
 
@@ -325,7 +330,7 @@ export class InstallProvider {
   ): Promise<void> {
     if (installOptions === undefined && this.installUrlOptions === undefined) {
       const errorMessage = 'To enable the built-in install path handler, you need to pass InstallURLOptions to InstallProvider. ' +
-      "If you're using @slack/bolt, please upgrade the framework to the latest version.";
+        "If you're using @slack/bolt, please upgrade the framework to the latest version.";
       throw new GenerateInstallUrlError(errorMessage);
     }
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
