@@ -213,8 +213,10 @@ export interface Hint {
 }
 
 export interface Element {
-  text?: string;
-  type?: string;
+  name?:    string;
+  text?:    string;
+  type?:    string;
+  unicode?: string;
 }
 
 export interface Filter {

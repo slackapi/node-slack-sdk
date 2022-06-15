@@ -10,12 +10,13 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type ReactionsListResponse = WebAPICallResult & {
-  error?:    string;
-  items?:    Item[];
-  needed?:   string;
-  ok?:       boolean;
-  paging?:   Paging;
-  provided?: string;
+  error?:             string;
+  items?:             Item[];
+  needed?:            string;
+  ok?:                boolean;
+  paging?:            Paging;
+  provided?:          string;
+  response_metadata?: ResponseMetadata;
 };
 
 export interface Item {
@@ -516,4 +517,8 @@ export interface Paging {
   page?:  number;
   pages?: number;
   total?: number;
+}
+
+export interface ResponseMetadata {
+  next_cursor?: string;
 }

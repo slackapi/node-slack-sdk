@@ -30,6 +30,7 @@ export interface Files {
 export interface FilesMatch {
   channels?:             string[];
   comments_count?:       number;
+  converted_pdf?:        string;
   created?:              number;
   display_as_bot?:       boolean;
   edit_link?:            string;
@@ -86,6 +87,9 @@ export interface FilesMatch {
   thumb_960?:            string;
   thumb_960_h?:          number;
   thumb_960_w?:          number;
+  thumb_pdf?:            string;
+  thumb_pdf_h?:          number;
+  thumb_pdf_w?:          number;
   thumb_tiny?:           string;
   thumb_video?:          string;
   timestamp?:            number;
