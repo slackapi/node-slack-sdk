@@ -273,8 +273,7 @@ export class InstallProvider {
             });
             await this.installationStore.storeInstallation(installationUpdates);
             this.logger.debug('Refreshed tokens have been saved in InstallationStore');
-          }
-          else {
+          } else {
             this.logger.debug('No tokens were refreshed');
           }
         }
