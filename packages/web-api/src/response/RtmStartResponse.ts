@@ -277,6 +277,7 @@ export interface Accessory {
   alt_text?:                        string;
   confirm?:                         AccessoryConfirm;
   default_to_current_conversation?: boolean;
+  elements?:                        AccessoryElement[];
   fallback?:                        string;
   filter?:                          Filter;
   focus_on_load?:                   boolean;
@@ -284,6 +285,7 @@ export interface Accessory {
   image_height?:                    number;
   image_url?:                       string;
   image_width?:                     number;
+  indent?:                          number;
   initial_channel?:                 string;
   initial_channels?:                string[];
   initial_conversation?:            string;
@@ -320,6 +322,37 @@ export interface Hint {
   text?:     string;
   type?:     string;
   verbatim?: boolean;
+}
+
+export interface AccessoryElement {
+  elements?: PurpleElement[];
+  indent?:   number;
+  style?:    string;
+  type?:     string;
+}
+
+export interface PurpleElement {
+  channel_id?:   string;
+  name?:         string;
+  range?:        string;
+  skin_tone?:    number;
+  style?:        Style;
+  team_id?:      string;
+  text?:         string;
+  timestamp?:    string;
+  type?:         string;
+  unicode?:      string;
+  url?:          string;
+  user_id?:      string;
+  usergroup_id?: string;
+  value?:        string;
+}
+
+export interface Style {
+  bold?:   boolean;
+  code?:   boolean;
+  italic?: boolean;
+  strike?: boolean;
 }
 
 export interface Filter {
@@ -1218,6 +1251,7 @@ export interface SelfPrefs {
   sunset_interactive_message_views?:                          number;
   suppress_external_invites_from_compose_warning?:            boolean;
   suppress_link_warning?:                                     boolean;
+  synth_view_prefs?:                                          string;
   tab_ui_return_selects?:                                     boolean;
   tasks_view?:                                                string;
   threads_everything?:                                        boolean;

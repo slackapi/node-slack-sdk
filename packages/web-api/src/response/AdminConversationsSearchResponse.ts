@@ -25,7 +25,9 @@ export interface Conversation {
   conversation_host_id?:          string;
   created?:                       number;
   creator_id?:                    string;
+  external_user_count?:           number;
   id?:                            string;
+  internal_team_ids?:             string[];
   internal_team_ids_count?:       number;
   internal_team_ids_sample_team?: string;
   is_archived?:                   boolean;
