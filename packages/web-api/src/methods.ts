@@ -1,5 +1,5 @@
 import { Stream } from 'stream';
-import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser } from '@slack/types';
+import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser, MessageMetadata } from '@slack/types';
 import { EventEmitter } from 'eventemitter3';
 import { WebAPICallOptions, WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
 import {
@@ -1412,6 +1412,7 @@ export interface ChatPostMessageArguments extends WebAPICallOptions, TokenOverri
   blocks?: (KnownBlock | Block)[];
   icon_emoji?: string; // if specified, as_user must be false
   icon_url?: string; // if specified, as_user must be false
+  metadata?: MessageMetadata;
   link_names?: boolean;
   mrkdwn?: boolean;
   parse?: 'full' | 'none';
@@ -1428,6 +1429,7 @@ export interface ChatScheduleMessageArguments extends WebAPICallOptions, TokenOv
   as_user?: boolean;
   attachments?: MessageAttachment[];
   blocks?: (KnownBlock | Block)[];
+  metadata?: MessageMetadata;
   link_names?: boolean;
   parse?: 'full' | 'none';
   reply_broadcast?: boolean; // if specified, thread_ts must be set
@@ -1460,6 +1462,7 @@ export interface ChatUpdateArguments extends WebAPICallOptions, TokenOverridable
   attachments?: MessageAttachment[];
   blocks?: (KnownBlock | Block)[];
   link_names?: boolean;
+  metadata?: MessageMetadata;
   parse?: 'full' | 'none';
   file_ids?: string[];
   reply_broadcast?: boolean;
