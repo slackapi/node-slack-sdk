@@ -369,8 +369,12 @@ export interface InputBlock extends Block {
 export interface MessageMetadata {
   event_type: string;
   event_payload: {
-      [key: string]: any;
+    [key: string]: string | number | boolean | MessageMetadataEventPayloadObject | MessageMetadataEventPayloadObject[];
   }
+}
+
+export interface MessageMetadataEventPayloadObject {
+  [key: string]: string | number | boolean
 }
 
 export interface MessageAttachment {
