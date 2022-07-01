@@ -20,6 +20,7 @@ export type ConversationsJoinResponse = WebAPICallResult & {
 };
 
 export interface Channel {
+  context_team_id?:            string;
   created?:                    number;
   creator?:                    string;
   id?:                         string;

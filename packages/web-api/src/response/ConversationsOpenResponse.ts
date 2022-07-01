@@ -20,6 +20,7 @@ export type ConversationsOpenResponse = WebAPICallResult & {
 };
 
 export interface Channel {
+  context_team_id?:      string;
   created?:              number;
   id?:                   string;
   is_archived?:          boolean;

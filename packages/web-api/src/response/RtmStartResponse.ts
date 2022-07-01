@@ -59,6 +59,7 @@ export interface BotIcons {
 export interface Channel {
   connected_limited_team_ids?: string[];
   connected_team_ids?:         string[];
+  context_team_id?:            string;
   conversation_host_id?:       string;
   created?:                    number;
   creator?:                    string;
@@ -785,16 +786,17 @@ export interface Root {
 }
 
 export interface Im {
-  created?:       number;
-  has_pins?:      boolean;
-  id?:            string;
-  is_archived?:   boolean;
-  is_im?:         boolean;
-  is_open?:       boolean;
-  is_org_shared?: boolean;
-  last_read?:     string;
-  priority?:      number;
-  user?:          string;
+  context_team_id?: string;
+  created?:         number;
+  has_pins?:        boolean;
+  id?:              string;
+  is_archived?:     boolean;
+  is_im?:           boolean;
+  is_open?:         boolean;
+  is_org_shared?:   boolean;
+  last_read?:       string;
+  priority?:        number;
+  user?:            string;
 }
 
 export interface Links {
@@ -861,6 +863,7 @@ export interface SelfPrefs {
   channel_sort?:                                              string;
   chime_access_check_completed?:                              number;
   client_logs_pri?:                                           string;
+  clips_feedback_survey_last_trigger_attempt?:                number;
   color_names_in_list?:                                       boolean;
   composer_nux?:                                              string;
   confirm_clear_all_unreads?:                                 boolean;
@@ -1457,6 +1460,8 @@ export interface TeamPrefs {
   enterprise_mdm_level?:                               number;
   enterprise_mobile_device_check?:                     boolean;
   enterprise_team_creation_request?:                   EnterpriseTeamCreationRequest;
+  ext_audit_log_retention_duration?:                   number;
+  ext_audit_log_retention_type?:                       number;
   file_limit_whitelisted?:                             boolean;
   file_retention_duration?:                            number;
   file_retention_type?:                                number;

@@ -19,6 +19,7 @@ export type ConversationsListResponse = WebAPICallResult & {
 };
 
 export interface Channel {
+  context_team_id?:            string;
   conversation_host_id?:       string;
   created?:                    number;
   creator?:                    string;
