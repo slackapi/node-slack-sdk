@@ -11,7 +11,7 @@ const url = 'https://hooks.slack.com/services/FAKEWEBHOOK';
 describe('IncomingWebhook', function () {
 
   describe('constructor()', function () {
-    it('should build a default wehbook given a URL', function () {
+    it('should build a default webhook given a URL', function () {
       const webhook = new IncomingWebhook(url);
       assert.instanceOf(webhook, IncomingWebhook);
     });
