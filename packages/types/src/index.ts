@@ -366,6 +366,17 @@ export interface InputBlock extends Block {
   dispatch_action?: boolean;
 }
 
+export interface MessageMetadata {
+  event_type: string;
+  event_payload: {
+    [key: string]: string | number | boolean | MessageMetadataEventPayloadObject | MessageMetadataEventPayloadObject[];
+  }
+}
+
+export interface MessageMetadataEventPayloadObject {
+  [key: string]: string | number | boolean
+}
+
 export interface MessageAttachment {
   blocks?: (KnownBlock | Block)[];
   fallback?: string; // either this or text must be defined
