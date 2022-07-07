@@ -337,10 +337,6 @@ export class InstallProvider {
     const _printableOptions = JSON.stringify(_installOptions);
     this.logger.debug(`Running handleInstallPath() with ${_printableOptions}`);
 
-    if (this.stateStore === undefined) {
-      throw new GenerateInstallUrlError('StateStore is not properly configured');
-    }
-
     try {
       let shouldProceed = true;
       if (options?.beforeRedirection !== undefined) {
@@ -350,24 +346,31 @@ export class InstallProvider {
         this.logger.debug('Skipped to proceed with the built-in redirection as beforeRedirection returned false');
         return;
       }
-      const state = await this.stateStore.generateStateParam(_installOptions, new Date());
-      const stateCookie: string = this.buildSetCookieHeaderForNewState(state);
-      if (res.getHeader('Set-Cookie')) {
-        // If the cookies already exist
-        const existingCookies = res.getHeader('Set-Cookie') || [];
-        const allCookies: string[] = [];
-        if (Array.isArray(existingCookies)) {
-          allCookies.push(...existingCookies);
-        } else if (typeof existingCookies === 'string') {
-          allCookies.push(existingCookies);
-        } else {
-          allCookies.push(existingCookies.toString());
+      let state: string | undefined;
+      if (this.stateVerification) {
+        if (this.stateStore) {
+          state = await this.stateStore.generateStateParam(_installOptions, new Date());
+          const stateCookie: string = this.buildSetCookieHeaderForNewState(state);
+          if (res.getHeader('Set-Cookie')) {
+            // If the cookies already exist
+            const existingCookies = res.getHeader('Set-Cookie') || [];
+            const allCookies: string[] = [];
+            if (Array.isArray(existingCookies)) {
+              allCookies.push(...existingCookies);
+            } else if (typeof existingCookies === 'string') {
+              allCookies.push(existingCookies);
+            } else {
+              allCookies.push(existingCookies.toString());
+            }
+            // Append the state cookie
+            allCookies.push(stateCookie);
+            res.setHeader('Set-Cookie', allCookies);
+          } else {
+            res.setHeader('Set-Cookie', stateCookie);
+          }
+        } else if (this.stateStore === undefined) {
+          throw new GenerateInstallUrlError('StateStore is not properly configured');
         }
-        // Append the state cookie
-        allCookies.push(stateCookie);
-        res.setHeader('Set-Cookie', allCookies);
-      } else {
-        res.setHeader('Set-Cookie', stateCookie);
       }
       const url = await this.generateInstallUrl(_installOptions, this.stateVerification, state);
       this.logger.debug(`Generated authorize URL: ${url}`);
