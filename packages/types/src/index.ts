@@ -264,6 +264,7 @@ export interface Timepicker extends Action {
   placeholder?: PlainTextElement;
   confirm?: Confirm;
   focus_on_load?: boolean;
+  timezone?: string;
 }
 
 export interface RadioButtons extends Action {
