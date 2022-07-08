@@ -105,7 +105,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - **External**
 
-      - **Slack Community Hangout** (`https://community.slack.com/`) in **#lang-javascript**. Include a link to the package on NPM as well as the release notes.
+      - **Slack Community Hangout** (`community.slack.com/`) in **#lang-javascript**. Include a link to the package on NPM as well as the release notes.
 
       - **Twitter**: Primarily for major updates. Coordinate with Developer Marketing.
 
