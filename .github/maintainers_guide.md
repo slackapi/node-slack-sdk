@@ -50,7 +50,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - Take a look at all issues under the Milestone to make sure that the type of issues included aligns with the Milestone name based on [semantic versioning](https://semver.org/). If the issues do not align with the naming of the Milestone (ex: if the issues are all bug fixes, but the Milestone is labeled as a minor release), then you can tweak the Milestone name to reflect the correct versioning.
 
-2. Make sure your local `main` branch has the latest changes. Then, open a new branch off of your local `main` branch for the release.
+2. Make sure your local `main` branch has the latest changes (i.e. `git checkout main && git pull --tags origin main`). Then, open a new branch off of your local `main` branch for the release (i.e. `git checkout -b <package>-<release>`).
 
 3. Navigate to the specific package(s) you're releasing in the `packages/` directory.
 
@@ -66,7 +66,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
 6. Once the PR has been approved and tests have passed, merge it into the main repository.
 
-    -  Check out your local `main` branch and update it to get the latest changes: `git pull origin main`
+    -  Check out your local `main` branch and update it to get the latest changes: `git checkout main && git pull origin main`
 
     -  Add a version tag (ie, `git tag @slack/web-api@5.6.0`)
 
@@ -83,7 +83,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - Close the relevant GitHub Milestone(s) for the release(s)
 
-    - Create a new GitHub Milestone for new issues to live. Typically, you'll create a new minor version - however, if there are any bugs that need to be carried over from the current GitHub Milestone, you could make a Milestone for a patch version to reflect those issues
+    - Check the existing GitHub Milestones to see if the next minor version exists. If it doesn't, then create a GitHub Milestone for new issues to live in. Typically, you'll create a new minor version - however, if there are any bugs that need to be carried over from the current GitHub Milestone, you could make a Milestone for a patch version to reflect those issues
 
     - Move any unfinished, open issues to the next GitHub Milestone
 
@@ -105,7 +105,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - **External**
 
-      - **Slack Community Hangout** (`community.slack.com/`) in **#lang-javascript**. Include a link to the package on NPM as well as the release notes.
+      - **Slack Community Hangout** (`community.slack.com/`) in **#lang-javascript**. Include a link to the package on `npmjs.com/package/@slack/` as well as the release notes. ([Example](https://community.slack.com/archives/CHF1FKX4J/p1657293144932579))
 
       - **Twitter**: Primarily for major updates. Coordinate with Developer Marketing.
 
