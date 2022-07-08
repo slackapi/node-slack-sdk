@@ -305,6 +305,7 @@ export interface Accessory {
   response_url_enabled?:            boolean;
   style?:                           string;
   text?:                            Hint;
+  timezone?:                        string;
   type?:                            string;
   url?:                             string;
   value?:                           string;
@@ -945,6 +946,7 @@ export interface SelfPrefs {
   enable_file_browser_view?:                                  boolean;
   enable_file_browser_view_for_docs?:                         boolean;
   enable_hq_view?:                                            boolean;
+  enable_later_view?:                                         boolean;
   enable_media_captions?:                                     boolean;
   enable_mentions_and_reactions_view?:                        boolean;
   enable_people_browser_view?:                                boolean;

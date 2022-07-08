@@ -198,6 +198,7 @@ export interface Accessory {
   response_url_enabled?:            boolean;
   style?:                           string;
   text?:                            Hint;
+  timezone?:                        string;
   type?:                            string;
   url?:                             string;
   value?:                           string;

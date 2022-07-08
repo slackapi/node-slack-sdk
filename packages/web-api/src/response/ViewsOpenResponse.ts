@@ -108,6 +108,7 @@ export interface PurpleElement {
   response_url_enabled?:            boolean;
   style?:                           string;
   text?:                            Close;
+  timezone?:                        string;
   type?:                            string;
   url?:                             string;
   value?:                           string;
@@ -187,6 +188,7 @@ export interface ElementElement {
   response_url_enabled?:            boolean;
   style?:                           string;
   text?:                            Close;
+  timezone?:                        string;
   type?:                            string;
   url?:                             string;
   value?:                           string;
