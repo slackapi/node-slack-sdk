@@ -130,7 +130,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - Add appropriate labels, including `release`
 
-5. Once the PR has been approved and tests have passed, merge it into the corresponding feature branch on the main repository.
+5. Once the PR's checks and tests have passed, merge it into the corresponding feature branch on the main repository. If you would like a review on the pull request or feel that the specific release you're doing requires extra attention, you can wait for an approval, but it is optional for this type of PR.
 
     -  Update your local main branch: `git pull origin <beta-feature-branch>`
 
