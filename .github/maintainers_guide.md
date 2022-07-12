@@ -48,13 +48,15 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - If issues are still open, discuss with the team about whether the open issues should be moved to a future release or if the release should be held off until the issues are resolved.
 
-2. Make sure your local `main` branch has the latest changes.
+    - Take a look at all issues under the Milestone to make sure that the type of issues included aligns with the Milestone name based on [semantic versioning](https://semver.org/). If the issues do not align with the naming of the Milestone (ex: if the issues are all bug fixes, but the Milestone is labeled as a minor release), then you can tweak the Milestone name to reflect the correct versioning.
+
+2. Make sure your local `main` branch has the latest changes (i.e. `git checkout main && git pull --tags origin main`). Then, open a new branch off of your local `main` branch for the release (i.e. `git checkout -b <package>-<release>`).
 
 3. Navigate to the specific package(s) you're releasing in the `packages/` directory.
 
 4. For each package to be released, run `npm run test` to verify that tests are passing and code is free of linting errors.
 
-5. Bump the version(s) in `package.json` (see [Versioning and Tags](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#versioning-and-tags))
+5. On your new branch, bump the version(s) in `package.json` (see [Versioning and Tags](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#versioning-and-tags))
 
     - Make a single commit for the version(s) bump, following the format in: ([Example](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594))
 
@@ -64,7 +66,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
 6. Once the PR has been approved and tests have passed, merge it into the main repository.
 
-    -  Update your local main branch: `git pull origin main`
+    -  Check out your local `main` branch and update it to get the latest changes: `git checkout main && git pull origin main`
 
     -  Add a version tag (ie, `git tag @slack/web-api@5.6.0`)
 
@@ -81,13 +83,19 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - Close the relevant GitHub Milestone(s) for the release(s)
 
+    - Check the existing GitHub Milestones to see if the next minor version exists. If it doesn't, then create a GitHub Milestone for new issues to live in. Typically, you'll create a new minor version - however, if there are any bugs that need to be carried over from the current GitHub Milestone, you could make a Milestone for a patch version to reflect those issues
+
     - Move any unfinished, open issues to the next GitHub Milestone
 
 9. Create GitHub Release(s) with release notes
 
     - From the repository, navigate to the **Releases** section and draft a new release
 
+    - When creating the release notes, select the tag you generated earlier for your release and title the release the same name as the tag
+
     - Release notes should mention contributors, issues and PRs ([Example](https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Fweb-api%406.2.0))
+
+    - Once the release notes are ready, click the "Publish Release" button to make them public
 
 10. Communicate the release (as appropriate)
 
@@ -97,7 +105,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - **External**
 
-      - **Bot Developer Hangout** (`dev4slack.slack.com`) in **#slack-api**
+      - **Slack Community Hangout** (`community.slack.com/`) in **#lang-javascript**. Include a link to the package on `npmjs.com/package/@slack/` as well as the release notes. ([Example](https://community.slack.com/archives/CHF1FKX4J/p1657293144932579))
 
       - **Twitter**: Primarily for major updates. Coordinate with Developer Marketing.
 
@@ -122,7 +130,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - Add appropriate labels, including `release`
 
-5. Once the PR has been approved and tests have passed, merge it into the corresponding feature branch on the main repository.
+5. Once the PR's checks and tests have passed, merge it into the corresponding feature branch on the main repository. If you would like a review on the pull request or feel that the specific release you're doing requires extra attention, you can wait for an approval, but it is optional for this type of PR.
 
     -  Update your local main branch: `git pull origin <beta-feature-branch>`
 
