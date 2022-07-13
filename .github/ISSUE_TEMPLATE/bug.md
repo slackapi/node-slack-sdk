@@ -18,6 +18,7 @@ Select all that apply:
 - [ ] `@slack/webhooks`
 - [ ] `@slack/oauth`
 - [ ] `@slack/socket-mode`
+- [ ] `@slack/types`
 - [ ] I don't know
 
 ### Reproducible in:
