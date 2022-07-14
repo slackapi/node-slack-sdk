@@ -26,12 +26,11 @@ Filling out the following details about bugs will help us solve your issue soone
 Select all that apply:
 
 - [ ] `@slack/web-api`
-- [ ] `@slack/events-api`
-- [ ] `@slack/interactive-messages`
 - [ ] `@slack/rtm-api`
 - [ ] `@slack/webhooks`
 - [ ] `@slack/oauth`
 - [ ] `@slack/socket-mode`
+- [ ] `@slack/types`
 - [ ] I don't know
 
 #### Reproducible in:
