@@ -136,28 +136,35 @@ export interface Block {
   accessory?:                Accessory;
   alt_text?:                 string;
   api_decoration_available?: boolean;
+  author_name?:              string;
   block_id?:                 string;
   call?:                     Call;
   call_id?:                  string;
+  description?:              Description;
   dispatch_action?:          boolean;
   element?:                  Accessory;
   elements?:                 Accessory[];
   external_id?:              string;
   fallback?:                 string;
-  fields?:                   Hint[];
+  fields?:                   Description[];
   file?:                     BlockFile;
   file_id?:                  string;
-  hint?:                     Hint;
+  hint?:                     Description;
   image_bytes?:              number;
   image_height?:             number;
   image_url?:                string;
   image_width?:              number;
-  label?:                    Hint;
+  label?:                    Description;
   optional?:                 boolean;
+  provider_icon_url?:        string;
+  provider_name?:            string;
   source?:                   string;
-  text?:                     Hint;
-  title?:                    Hint;
+  text?:                     Description;
+  thumbnail_url?:            string;
+  title?:                    Description;
+  title_url?:                string;
   type?:                     string;
+  video_url?:                string;
 }
 
 export interface Accessory {
@@ -189,10 +196,10 @@ export interface Accessory {
   min_query_length?:                number;
   option_groups?:                   AccessoryOptionGroup[];
   options?:                         InitialOptionElement[];
-  placeholder?:                     Hint;
+  placeholder?:                     Description;
   response_url_enabled?:            boolean;
   style?:                           string;
-  text?:                            Hint;
+  text?:                            Description;
   timezone?:                        string;
   type?:                            string;
   url?:                             string;
@@ -200,14 +207,14 @@ export interface Accessory {
 }
 
 export interface AccessoryConfirm {
-  confirm?: Hint;
-  deny?:    Hint;
+  confirm?: Description;
+  deny?:    Description;
   style?:   string;
-  text?:    Hint;
-  title?:   Hint;
+  text?:    Description;
+  title?:   Description;
 }
 
-export interface Hint {
+export interface Description {
   emoji?:    boolean;
   text?:     string;
   type?:     string;
@@ -253,14 +260,14 @@ export interface Filter {
 }
 
 export interface InitialOptionElement {
-  description?: Hint;
-  text?:        Hint;
+  description?: Description;
+  text?:        Description;
   url?:         string;
   value?:       string;
 }
 
 export interface AccessoryOptionGroup {
-  label?:   Hint;
+  label?:   Description;
   options?: InitialOptionElement[];
 }
 
@@ -632,8 +639,8 @@ export interface AttachmentMetadata {
 export interface Preview {
   can_remove?: boolean;
   icon_url?:   string;
-  subtitle?:   Hint;
-  title?:      Hint;
+  subtitle?:   Description;
+  title?:      Description;
   type?:       string;
 }
 

@@ -47,24 +47,31 @@ export interface View {
 }
 
 export interface Block {
-  accessory?:       Accessory;
-  alt_text?:        string;
-  block_id?:        string;
-  dispatch_action?: boolean;
-  element?:         PurpleElement;
-  elements?:        ElementElement[];
-  fallback?:        string;
-  fields?:          Close[];
-  hint?:            Close;
-  image_bytes?:     number;
-  image_height?:    number;
-  image_url?:       string;
-  image_width?:     number;
-  label?:           Close;
-  optional?:        boolean;
-  text?:            Close;
-  title?:           Close;
-  type?:            string;
+  accessory?:         Accessory;
+  alt_text?:          string;
+  author_name?:       string;
+  block_id?:          string;
+  description?:       Close;
+  dispatch_action?:   boolean;
+  element?:           PurpleElement;
+  elements?:          ElementElement[];
+  fallback?:          string;
+  fields?:            Close[];
+  hint?:              Close;
+  image_bytes?:       number;
+  image_height?:      number;
+  image_url?:         string;
+  image_width?:       number;
+  label?:             Close;
+  optional?:          boolean;
+  provider_icon_url?: string;
+  provider_name?:     string;
+  text?:              Close;
+  thumbnail_url?:     string;
+  title?:             Close;
+  title_url?:         string;
+  type?:              string;
+  video_url?:         string;
 }
 
 export interface Accessory {
@@ -75,6 +82,19 @@ export interface Accessory {
   image_url?:    string;
   image_width?:  number;
   type?:         string;
+}
+
+export interface Close {
+  emoji?:    boolean;
+  text?:     string;
+  type?:     Type;
+  verbatim?: boolean;
+}
+
+export enum Type {
+  Empty = '',
+  Mrkdwn = 'mrkdwn',
+  PlainText = 'plain_text',
 }
 
 export interface PurpleElement {
@@ -120,19 +140,6 @@ export interface Confirm {
   style?:   string;
   text?:    Close;
   title?:   Close;
-}
-
-export interface Close {
-  emoji?:    boolean;
-  text?:     string;
-  type?:     Type;
-  verbatim?: boolean;
-}
-
-export enum Type {
-  Empty = '',
-  Mrkdwn = 'mrkdwn',
-  PlainText = 'plain_text',
 }
 
 export interface DispatchActionConfig {
