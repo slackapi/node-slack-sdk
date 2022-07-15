@@ -303,7 +303,7 @@ export interface DispatchActionConfig {
  */
 
 export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock |
-SectionBlock | InputBlock | FileBlock | HeaderBlock;
+SectionBlock | InputBlock | FileBlock | HeaderBlock | VideoBlock;
 
 export interface Block {
   type: string;
@@ -469,4 +469,17 @@ export interface CallUserExternal {
   external_id: string;
   display_name: string;
   avatar_url: string;
+}
+
+export interface VideoBlock extends Block {
+  type: 'video';
+  video_url: string;
+  thumbnail_url: string;
+  alt_text: string;
+  title: PlainTextElement;
+  title_url?: string;
+  author_name?: string;
+  provider_name?: string;
+  provider_icon_url?: string;
+  description?: PlainTextElement;
 }
