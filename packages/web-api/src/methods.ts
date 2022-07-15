@@ -3,6 +3,7 @@ import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUs
 import { EventEmitter } from 'eventemitter3';
 import { WebAPICallOptions, WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
 import {
+  AdminAnalyticsGetFileResponse,
   AdminAppsApproveResponse,
   AdminAppsApprovedListResponse,
   AdminAppsClearResolutionResponse,
@@ -247,7 +248,9 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   public abstract apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult>;
 
   public readonly admin = {
-    // TODO: admin.analytics.getFile
+    analytics: {
+      getFile: bindApiCall<AdminAnalyticsGetFileArguments, AdminAnalyticsGetFileResponse>(this, 'admin.analytics.getFile'),
+    },
     apps: {
       approve: bindApiCall<AdminAppsApproveArguments, AdminAppsApproveResponse>(this, 'admin.apps.approve'),
       approved: {
@@ -845,6 +848,11 @@ export interface TraditionalPagingEnabled {
 /*
 * `admin.*`
 */
+export interface AdminAnalyticsGetFileArguments extends WebAPICallOptions, TokenOverridable {
+  type: string;
+  date?: string;
+  metadata_only?: boolean;
+}
 export interface AdminAppsApproveArguments extends WebAPICallOptions, TokenOverridable {
   app_id?: string;
   request_id?: string;

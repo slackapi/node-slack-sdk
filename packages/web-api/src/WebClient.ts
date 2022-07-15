@@ -10,6 +10,7 @@ import pRetry, { AbortError } from 'p-retry';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData from 'form-data';
 import isElectron from 'is-electron';
+import zlib from 'zlib';
 
 import { Methods, CursorPaginationEnabled, cursorPaginationEnabledMethods } from './methods';
 import { getUserAgent } from './instrument';
@@ -259,7 +260,13 @@ export class WebClient extends Methods {
       });
     }
 
-    if (!result.ok) {
+    // If result's content is gzip, "ok" property is not returned with successful response
+    // In this case, check for the presence of "ok" property and if it's false
+    if (response.headers['content-type'] === 'application/gzip') {
+      if ('ok' in result && result.ok === false) {
+        throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
+      }
+    } else if (!result.ok) {
       throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
     }
 
@@ -385,10 +392,17 @@ export class WebClient extends Methods {
     const task = () => this.requestQueue.add(async () => {
       this.logger.debug('will perform http request');
       try {
-        const response = await this.axios.post(url, body, {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const config: any = {
           headers,
           ...this.tlsConfig,
-        });
+        };
+        // admin.analytics.getFile returns a binary response
+        // To be able to parse it, it should be read as an ArrayBuffer
+        if (url.endsWith('admin.analytics.getFile')) {
+          config.responseType = 'arraybuffer';
+        }
+        const response = await this.axios.post(url, body, config);
         this.logger.debug('http response received');
 
         if (response.status === 429) {
@@ -535,6 +549,23 @@ export class WebClient extends Methods {
   // eslint-disable-next-line class-methods-use-this
   private buildResult(response: AxiosResponse): WebAPICallResult {
     let { data } = response;
+
+    // Check for GZIP response - if so, it is a successful response from admin.analytics.getFile
+    if (response.headers['content-type'] === 'application/gzip') {
+      // admin.analytics.getFile will return a Buffer that can be unzipped
+      try {
+        const unzippedData = zlib.unzipSync(data).toString().split('\n');
+        const fileData: string[] = [];
+        unzippedData.forEach((dataset) => {
+          if (dataset && dataset.length > 0) {
+            fileData.push(JSON.parse(dataset));
+          }
+        });
+        data = { file_data: fileData };
+      } catch (err) {
+        data = { ok: false, error: err };
+      }
+    }
 
     if (typeof data === 'string') {
       // response.data can be a string, not an object for some reason
