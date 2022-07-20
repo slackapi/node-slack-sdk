@@ -261,12 +261,7 @@ export class WebClient extends Methods {
     }
 
     // If result's content is gzip, "ok" property is not returned with successful response
-    // In this case, check for the presence of "ok" property and if it's false
-    if (response.headers['content-type'] === 'application/gzip') {
-      if ('ok' in result && result.ok === false) {
-        throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
-      }
-    } else if (!result.ok) {
+    if (!result.ok && (response.headers['content-type'] !== 'application/gzip')) {
       throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
     }
 
@@ -549,9 +544,10 @@ export class WebClient extends Methods {
   // eslint-disable-next-line class-methods-use-this
   private buildResult(response: AxiosResponse): WebAPICallResult {
     let { data } = response;
+    const isGzipResponse = response.headers['content-type'] === 'application/gzip';
 
     // Check for GZIP response - if so, it is a successful response from admin.analytics.getFile
-    if (response.headers['content-type'] === 'application/gzip') {
+    if (isGzipResponse) {
       // admin.analytics.getFile will return a Buffer that can be unzipped
       try {
         const unzippedData = zlib.unzipSync(data).toString().split('\n');
@@ -565,6 +561,10 @@ export class WebClient extends Methods {
       } catch (err) {
         data = { ok: false, error: err };
       }
+    } else if (!isGzipResponse && response.request.path === '/api/admin.analytics.getFile') {
+      // if it isn't a Gzip response but is from the admin.analytics.getFile request,
+      // decode the ArrayBuffer to JSON read the error
+      data = JSON.parse(new TextDecoder().decode(data));
     }
 
     if (typeof data === 'string') {
