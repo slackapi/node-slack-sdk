@@ -11,6 +11,7 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData from 'form-data';
 import isElectron from 'is-electron';
 import zlib from 'zlib';
+import { TextDecoder } from 'util';
 
 import { Methods, CursorPaginationEnabled, cursorPaginationEnabledMethods } from './methods';
 import { getUserAgent } from './instrument';
