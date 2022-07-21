@@ -12,6 +12,11 @@ import FormData from 'form-data';
 import isElectron from 'is-electron';
 import zlib from 'zlib';
 import { TextDecoder } from 'util';
+import {
+  MemberDetails,
+  PublicChannelDetails,
+  PublicChannelMetadataDetails,
+} from './response';
 
 import { Methods, CursorPaginationEnabled, cursorPaginationEnabledMethods } from './methods';
 import { getUserAgent } from './instrument';
@@ -234,7 +239,7 @@ export class WebClient extends Methods {
       team_id: this.teamId,
       ...options,
     }, headers);
-    const result = this.buildResult(response);
+    const result = await this.buildResult(response);
 
     // log warnings in response metadata
     if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
@@ -263,6 +268,8 @@ export class WebClient extends Methods {
 
     // If result's content is gzip, "ok" property is not returned with successful response
     if (!result.ok && (response.headers['content-type'] !== 'application/gzip')) {
+      throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
+    } else if ('ok' in result && result.ok === false) {
       throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
     }
 
@@ -543,7 +550,7 @@ export class WebClient extends Methods {
    * @param response - an http response
    */
   // eslint-disable-next-line class-methods-use-this
-  private buildResult(response: AxiosResponse): WebAPICallResult {
+  private async buildResult(response: AxiosResponse): Promise<WebAPICallResult> {
     let { data } = response;
     const isGzipResponse = response.headers['content-type'] === 'application/gzip';
 
@@ -551,13 +558,25 @@ export class WebClient extends Methods {
     if (isGzipResponse) {
       // admin.analytics.getFile will return a Buffer that can be unzipped
       try {
-        const unzippedData = zlib.unzipSync(data).toString().split('\n');
-        const fileData: string[] = [];
-        unzippedData.forEach((dataset) => {
-          if (dataset && dataset.length > 0) {
-            fileData.push(JSON.parse(dataset));
-          }
-        });
+        const unzippedData = await new Promise((resolve, reject) => {
+          zlib.unzip(data, (err, buf) => {
+            if (err) {
+              return reject(err);
+            }
+            return resolve(buf.toString().split('\n'));
+          });
+        }).then((res) => res)
+          .catch((err) => {
+            throw err;
+          });
+        const fileData: Array<MemberDetails | PublicChannelDetails | PublicChannelMetadataDetails> = [];
+        if (Array.isArray(unzippedData)) {
+          unzippedData.forEach((dataset) => {
+            if (dataset && dataset.length > 0) {
+              fileData.push(JSON.parse(dataset));
+            }
+          });
+        }
         data = { file_data: fileData };
       } catch (err) {
         data = { ok: false, error: err };

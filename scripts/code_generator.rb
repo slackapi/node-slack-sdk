@@ -57,25 +57,27 @@ Dir.glob(__dir__ + '/../tmp/java-slack-sdk/json-logs/samples/api/*').sort.each d
     root_class_name = ''
     prev_c = nil
     filename = json_path.split('/').last.gsub(/\.json$/, '')
-    filename.split('').each do |c|
-      if prev_c.nil? || prev_c == '.'
-        root_class_name << c.upcase
-      elsif c == '.'
-        # noop
-      else
-        root_class_name << c
+    if !filename.include? "admin.analytics.getFile"
+      filename.split('').each do |c|
+        if prev_c.nil? || prev_c == '.'
+          root_class_name << c.upcase
+        elsif c == '.'
+          # noop
+        else
+          root_class_name << c
+        end
+        prev_c = c
       end
-      prev_c = c
-    end
-    if root_class_name.start_with? 'Openid'
-      root_class_name.sub!('Openid', 'OpenID')
-    end
+      if root_class_name.start_with? 'Openid'
+        root_class_name.sub!('Openid', 'OpenID')
+      end
 
-    root_class_name << 'Response'
-    typedef_filepath = __dir__ + "/../packages/web-api/src/response/#{root_class_name}.ts"
-    input_json = json_file.read
-    ts_writer.write(root_class_name, json_path, typedef_filepath, input_json)
-    ts_writer.append_to_index(root_class_name, index_file)
+      root_class_name << 'Response'
+      typedef_filepath = __dir__ + "/../packages/web-api/src/response/#{root_class_name}.ts"
+      input_json = json_file.read
+      ts_writer.write(root_class_name, json_path, typedef_filepath, input_json)
+      ts_writer.append_to_index(root_class_name, index_file)
+    end
   end
 end
 

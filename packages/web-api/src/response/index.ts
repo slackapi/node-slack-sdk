@@ -1,4 +1,4 @@
-export { AdminAnalyticsGetFileResponse } from './AdminAnalyticsGetFileResponse';
+export { AdminAnalyticsGetFileResponse, MemberDetails, PublicChannelDetails, PublicChannelMetadataDetails } from './AdminAnalyticsGetFileResponse';
 export { AdminAppsApproveResponse } from './AdminAppsApproveResponse';
 export { AdminAppsApprovedListResponse } from './AdminAppsApprovedListResponse';
 export { AdminAppsClearResolutionResponse } from './AdminAppsClearResolutionResponse';
