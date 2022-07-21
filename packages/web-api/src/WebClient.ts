@@ -13,9 +13,9 @@ import isElectron from 'is-electron';
 import zlib from 'zlib';
 import { TextDecoder } from 'util';
 import {
-  MemberDetails,
-  PublicChannelDetails,
-  PublicChannelMetadataDetails,
+  AdminAnalyticsMemberDetails,
+  AdminAnalyticsPublicChannelDetails,
+  AdminAnalyticsPublicChannelMetadataDetails,
 } from './response';
 
 import { Methods, CursorPaginationEnabled, cursorPaginationEnabledMethods } from './methods';
@@ -267,6 +267,8 @@ export class WebClient extends Methods {
     }
 
     // If result's content is gzip, "ok" property is not returned with successful response
+    // TODO: look into simplifying this code block to only check for the second condition
+    // if an { ok: false } body applies for all API errors
     if (!result.ok && (response.headers['content-type'] !== 'application/gzip')) {
       throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
     } else if ('ok' in result && result.ok === false) {
@@ -569,7 +571,9 @@ export class WebClient extends Methods {
           .catch((err) => {
             throw err;
           });
-        const fileData: Array<MemberDetails | PublicChannelDetails | PublicChannelMetadataDetails> = [];
+        const fileData: Array<AdminAnalyticsMemberDetails |
+        AdminAnalyticsPublicChannelDetails |
+        AdminAnalyticsPublicChannelMetadataDetails> = [];
         if (Array.isArray(unzippedData)) {
           unzippedData.forEach((dataset) => {
             if (dataset && dataset.length > 0) {

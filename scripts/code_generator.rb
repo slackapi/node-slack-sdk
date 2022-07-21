@@ -48,6 +48,12 @@ class TsWriter
       index_f.puts("export { #{root_class_name} } from './#{root_class_name}';")
     end
   end
+
+  def append_multiple_classes_to_index(root_class_name, root_file_name, index_file)
+    File.open(index_file, 'a') do |index_f|
+      index_f.puts("export { #{root_class_name} } from './#{root_file_name}';")
+    end
+  end
 end
 
 ts_writer = TsWriter.new
@@ -77,7 +83,10 @@ Dir.glob(__dir__ + '/../tmp/java-slack-sdk/json-logs/samples/api/*').sort.each d
       input_json = json_file.read
       ts_writer.write(root_class_name, json_path, typedef_filepath, input_json)
       ts_writer.append_to_index(root_class_name, index_file)
-    end
+    else
+      puts "Generating AdminAnalyticsGetFileResponse, AdminAnalyticsMemberDetails, AdminAnalyticsPublicChannelDetails, AdminAnalyticsPublicChannelMetadataDetails from #{json_path}"
+      ts_writer.append_multiple_classes_to_index("AdminAnalyticsGetFileResponse, AdminAnalyticsMemberDetails, AdminAnalyticsPublicChannelDetails, AdminAnalyticsPublicChannelMetadataDetails", "AdminAnalyticsGetFileResponse", index_file)
+    end 
   end
 end
 
