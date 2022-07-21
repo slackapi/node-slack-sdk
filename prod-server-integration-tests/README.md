@@ -1,8 +1,10 @@
 First off, you need to link `@slack/*` packages to `../packages/*` to verify the latest revision's behavior.
 
 ```bash
-./link.sh
+./link-web-api.sh
 ```
+
+If you would like to run `scripts/socket-mode.js` with the latest revision of code in this repo, run `./link-socket-mode.sh` instead.
 
 ### How to run tests
 
