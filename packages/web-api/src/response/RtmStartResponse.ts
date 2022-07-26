@@ -1004,6 +1004,7 @@ export interface SelfPrefs {
   has_dismissed_google_directory_coachmark?:                  boolean;
   has_drafted_message?:                                       boolean;
   has_invited?:                                               boolean;
+  has_joined_huddle?:                                         boolean;
   has_received_mention_or_reaction?:                          boolean;
   has_received_threaded_message?:                             boolean;
   has_recently_shared_a_channel?:                             boolean;
