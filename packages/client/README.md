@@ -1,3 +1,5 @@
+> ### ⚠️ This package has been deprecated. View it on [npm](https://www.npmjs.com/package/@slack/client) for more information.
+
 # Slack Client (legacy)
 
 Legacy wrapper for official Slack Platform's Web API, RTM API, and Incoming Webhook libraries.
