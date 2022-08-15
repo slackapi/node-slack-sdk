@@ -275,6 +275,8 @@ export class SocketModeClient extends EventEmitter {
         .transitionTo(State.Disconnecting)
       .on(Event.Failure)
         .transitionTo(State.Disconnected)
+      .on(Event.WebSocketOpen)
+        .ignore()
     .state(State.Connected)
       .onEnter(() => {
         this.connected = true;
