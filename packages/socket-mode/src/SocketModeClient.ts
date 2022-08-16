@@ -276,6 +276,7 @@ export class SocketModeClient extends EventEmitter {
       .on(Event.Failure)
         .transitionTo(State.Disconnected)
       .on(Event.WebSocketOpen)
+        // If submachine not `authenticated` ignore event
         .ignore()
     .state(State.Connected)
       .onEnter(() => {
