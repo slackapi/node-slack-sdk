@@ -283,6 +283,7 @@ export interface Accessory {
   accessibility_label?:             string;
   action_id?:                       string;
   alt_text?:                        string;
+  border?:                          number;
   confirm?:                         AccessoryConfirm;
   default_to_current_conversation?: boolean;
   elements?:                        AccessoryElement[];
@@ -306,6 +307,7 @@ export interface Accessory {
   initial_users?:                   string[];
   max_selected_items?:              number;
   min_query_length?:                number;
+  offset?:                          number;
   option_groups?:                   AccessoryOptionGroup[];
   options?:                         InitialOptionElement[];
   placeholder?:                     Description;
@@ -334,8 +336,10 @@ export interface Description {
 }
 
 export interface AccessoryElement {
+  border?:   number;
   elements?: PurpleElement[];
   indent?:   number;
+  offset?:   number;
   style?:    string;
   type?:     string;
 }
@@ -1009,6 +1013,7 @@ export interface SelfPrefs {
   has_received_threaded_message?:                             boolean;
   has_recently_shared_a_channel?:                             boolean;
   has_searched?:                                              boolean;
+  has_sent_ten_messages?:                                     number;
   has_starred_item?:                                          boolean;
   has_uploaded?:                                              boolean;
   has_used_quickswitcher_shortcut?:                           boolean;
@@ -1017,6 +1022,7 @@ export interface SelfPrefs {
   help_menu_open_timestamp?:                                  number;
   help_modal_consult_banner_dismissed?:                       boolean;
   help_modal_open_timestamp?:                                 number;
+  hidden_users?:                                              string;
   hide_external_members_sharing_speed_bump?:                  boolean;
   hide_hex_swatch?:                                           boolean;
   hide_user_group_info_pane?:                                 boolean;
@@ -1264,6 +1270,7 @@ export interface SelfPrefs {
   sunset_interactive_message_views?:                          number;
   suppress_external_invites_from_compose_warning?:            boolean;
   suppress_link_warning?:                                     boolean;
+  suppress_thread_mention_warning?:                           boolean;
   synth_view_prefs?:                                          string;
   tab_ui_return_selects?:                                     boolean;
   tasks_view?:                                                string;
@@ -1385,9 +1392,11 @@ export interface TeamPrefs {
   allow_free_automated_trials?:                        boolean;
   allow_huddles?:                                      boolean;
   allow_huddles_transcriptions?:                       boolean;
+  allow_huddles_video?:                                boolean;
   allow_media_transcriptions?:                         boolean;
   allow_message_deletion?:                             boolean;
   allow_retention_override?:                           boolean;
+  allow_spaceship?:                                    string;
   allow_sponsored_slack_connections?:                  boolean;
   allow_video_clip_sharing_slack_connect?:             boolean;
   allow_video_clips?:                                  boolean;
@@ -1420,10 +1429,12 @@ export interface TeamPrefs {
   disable_sidebar_install_prompts?:                    string[];
   disallow_public_file_urls?:                          boolean;
   discoverable?:                                       string;
+  display_anniversary_celebration?:                    boolean;
   display_default_phone?:                              boolean;
   display_email_addresses?:                            boolean;
   display_external_email_addresses?:                   boolean;
   display_name_pronunciation?:                         boolean;
+  display_new_hire_celebration?:                       boolean;
   display_pronouns?:                                   boolean;
   display_real_names?:                                 boolean;
   dm_retention_duration?:                              number;
@@ -1529,6 +1540,7 @@ export interface TeamPrefs {
   slack_connect_dm_only_verified_orgs?:                boolean;
   slack_connect_file_upload_sharing_enabled?:          boolean;
   slackbot_responses_disabled?:                        boolean;
+  spaceship_workspace_setting_visible?:                boolean;
   sso_disable_emails?:                                 boolean;
   sso_optional?:                                       boolean;
   sso_signup_restrictions?:                            number;

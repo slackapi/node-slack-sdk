@@ -93,6 +93,7 @@ export interface Accessory {
   accessibility_label?:             string;
   action_id?:                       string;
   alt_text?:                        string;
+  border?:                          number;
   confirm?:                         Confirm;
   default_to_current_conversation?: boolean;
   elements?:                        AccessoryElement[];
@@ -116,6 +117,7 @@ export interface Accessory {
   initial_users?:                   string[];
   max_selected_items?:              number;
   min_query_length?:                number;
+  offset?:                          number;
   option_groups?:                   OptionGroup[];
   options?:                         Option[];
   placeholder?:                     Description;
@@ -144,8 +146,10 @@ export interface Description {
 }
 
 export interface AccessoryElement {
+  border?:   number;
   elements?: PurpleElement[];
   indent?:   number;
+  offset?:   number;
   style?:    string;
   type?:     string;
 }
