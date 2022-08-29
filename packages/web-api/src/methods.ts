@@ -2104,12 +2104,14 @@ export interface UsersProfileSetArguments extends WebAPICallOptions, TokenOverri
 }
 
 export interface ViewsOpenArguments extends WebAPICallOptions, TokenOverridable {
-  trigger_id: string;
+  trigger_id?: string;
+  interactivity_pointer?: string;
   view: View;
 }
 
 export interface ViewsPushArguments extends WebAPICallOptions, TokenOverridable {
-  trigger_id: string;
+  trigger_id?: string;
+  interactivity_pointer?: string;
   view: View;
 }
 
