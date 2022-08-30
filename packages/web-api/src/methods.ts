@@ -2103,17 +2103,33 @@ export interface UsersProfileSetArguments extends WebAPICallOptions, TokenOverri
   value?: string; // usable if `profile` is not passed
 }
 
-export interface ViewsOpenArguments extends WebAPICallOptions, TokenOverridable {
-  trigger_id?: string;
-  interactivity_pointer?: string;
+interface ViewsOpenTriggerRequired extends WebAPICallOptions, TokenOverridable {
+  trigger_id: string;
+  interactivity_pointer?: never;
   view: View;
 }
 
-export interface ViewsPushArguments extends WebAPICallOptions, TokenOverridable {
-  trigger_id?: string;
-  interactivity_pointer?: string;
+interface ViewsOpenInteractivityRequired extends WebAPICallOptions, TokenOverridable {
+  interactivity_pointer: string;
+  trigger_id?: never;
   view: View;
 }
+
+export type ViewsOpenArguments = ViewsOpenTriggerRequired | ViewsOpenInteractivityRequired;
+
+interface ViewsPushTriggerRequired extends WebAPICallOptions, TokenOverridable {
+  trigger_id: string;
+  interactivity_pointer?: never;
+  view: View;
+}
+
+interface ViewsPushInteractivityRequired extends WebAPICallOptions, TokenOverridable {
+  interactivity_pointer: string;
+  trigger_id?: never;
+  view: View;
+}
+
+export type ViewsPushArguments = ViewsPushTriggerRequired | ViewsPushInteractivityRequired;
 
 export interface ViewsPublishArguments extends WebAPICallOptions, TokenOverridable {
   user_id: string;
