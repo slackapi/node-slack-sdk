@@ -357,6 +357,7 @@ export interface BlockFile {
   external_id?:               string;
   external_type?:             string;
   external_url?:              string;
+  file_access?:               string;
   filetype?:                  string;
   from?:                      Cc[];
   groups?:                    string[];
@@ -538,6 +539,7 @@ export interface FileElement {
   external_id?:               string;
   external_type?:             string;
   external_url?:              string;
+  file_access?:               string;
   filetype?:                  string;
   from?:                      Cc[];
   groups?:                    string[];

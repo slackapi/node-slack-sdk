@@ -38,6 +38,7 @@ export interface FilesMatch {
   external_id?:          string;
   external_type?:        string;
   external_url?:         string;
+  file_access?:          string;
   filetype?:             string;
   groups?:               string[];
   has_rich_preview?:     boolean;
@@ -475,6 +476,7 @@ export interface File {
   external_id?:               string;
   external_type?:             string;
   external_url?:              string;
+  file_access?:               string;
   filetype?:                  string;
   from?:                      Cc[];
   groups?:                    string[];

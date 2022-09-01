@@ -454,6 +454,7 @@ export interface BlockFile {
   external_id?:               string;
   external_type?:             string;
   external_url?:              string;
+  file_access?:               string;
   filetype?:                  string;
   from?:                      Cc[];
   groups?:                    string[];
@@ -635,6 +636,7 @@ export interface FileElement {
   external_id?:               string;
   external_type?:             string;
   external_url?:              string;
+  file_access?:               string;
   filetype?:                  string;
   from?:                      Cc[];
   groups?:                    string[];
@@ -902,6 +904,7 @@ export interface SelfPrefs {
   dismissed_installed_app_dm_suggestions?:                    string;
   dismissed_scdm_education?:                                  boolean;
   dismissed_scroll_search_tooltip_count?:                     number;
+  dismissed_sent_page_education?:                             boolean;
   display_display_names?:                                     boolean;
   display_real_names_override?:                               number;
   dnd_after_friday?:                                          string;
@@ -988,6 +991,7 @@ export interface SelfPrefs {
   flannel_server_pool?:                                       string;
   folder_data?:                                               string;
   folders_enabled?:                                           boolean;
+  frecency?:                                                  string;
   frecency_ent_jumper?:                                       string;
   frecency_jumper?:                                           string;
   fuller_timestamps?:                                         boolean;

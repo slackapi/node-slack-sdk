@@ -49,12 +49,13 @@ export interface Member {
 }
 
 export interface EnterpriseUser {
-  enterprise_id?:   string;
-  enterprise_name?: string;
-  id?:              string;
-  is_admin?:        boolean;
-  is_owner?:        boolean;
-  teams?:           string[];
+  enterprise_id?:    string;
+  enterprise_name?:  string;
+  id?:               string;
+  is_admin?:         boolean;
+  is_owner?:         boolean;
+  is_primary_owner?: boolean;
+  teams?:            string[];
 }
 
 export interface Profile {

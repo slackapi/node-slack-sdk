@@ -36,6 +36,7 @@ export interface Match {
   external_id?:          string;
   external_type?:        string;
   external_url?:         string;
+  file_access?:          string;
   filetype?:             string;
   groups?:               string[];
   has_rich_preview?:     boolean;
