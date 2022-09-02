@@ -278,7 +278,7 @@ describe('WebClient', function () {
           .map((v) => ({ method, args: Object.assign({}, v, args) }))
         return acc.concat(textPatterns)
       }, []).forEach(({ method, args }) => {
-        it(`should send both text and fallback-argument-specific warning to logs when client executes ${method} without text argument(${args.text === "" ? "empty" : args.text}) nor without attachment-level fallback argument (${args.attachments[0].fallback === "  " ? "empty" : args.attachments[0].fallback})`, function () {
+        it(`should send attachment fallback warning to logs when client executes ${method} without text argument(${args.text === "" ? "empty" : args.text}) nor without attachment-level fallback argument (${args.attachments[0].fallback === "  " ? "empty" : args.attachments[0].fallback})`, function () {
           const logger = {
             debug: sinon.spy(),
             info: sinon.spy(),
@@ -290,7 +290,7 @@ describe('WebClient', function () {
           const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
           return warnClient.apiCall(method, args)
             .then(() => {
-              assert.equal(logger.warn.callCount, 5)
+              assert.equal(logger.warn.callCount, 4)
             });
         });
       });
