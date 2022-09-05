@@ -229,6 +229,32 @@ describe('WebClient', function () {
       ];
       const warningTestPatterns = textWarningTestPatterns.concat(attachmentWarningTestPatterns);
 
+      attachmentWarningTestPatterns.reduce((acc, { method, args }) => {
+        const attachmentPatterns = [{ fallback: "fallback" }].map((attachmentOverrides) => {
+          const attachments = args.attachments.map( attachment => {
+            return Object.assign({}, attachment, attachmentOverrides);
+          })
+          return { method, args: Object.assign({}, args, { attachments }) };
+        });
+
+        return acc.concat(attachmentPatterns)
+      }, []).forEach(({ method, args }) => {
+        it(`should not send warning to logs when client executes ${method} without text but with attachment fallback argument`, function () {
+          const logger = {
+            debug: sinon.spy(),
+            info: sinon.spy(),
+            warn: sinon.spy(),
+            error: sinon.spy(),
+            setLevel: sinon.spy(),
+            setName: sinon.spy(),
+          };
+          const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
+          return warnClient.apiCall(method, args).then(() => {
+            assert.equal(logger.warn.callCount, 3)
+          });
+        });
+      });
+
       warningTestPatterns.reduce((acc, { method, args }) => {
         const textPatterns = [{ text: "text" }]
           .map((v) => ({ method, args: Object.assign({}, v, args) }))
@@ -278,7 +304,7 @@ describe('WebClient', function () {
           .map((v) => ({ method, args: Object.assign({}, v, args) }))
         return acc.concat(textPatterns)
       }, []).forEach(({ method, args }) => {
-        it(`should send attachment fallback warning to logs when client executes ${method} without text argument(${args.text === "" ? "empty" : args.text}) nor without attachment-level fallback argument (${args.attachments[0].fallback === "  " ? "empty" : args.attachments[0].fallback})`, function () {
+        it(`should send both text and fallback-argument-specific warning to logs when client executes ${method} without text argument(${args.text === "" ? "empty" : args.text}) nor without attachment-level fallback argument (${args.attachments[0].fallback === "  " ? "empty" : args.attachments[0].fallback})`, function () {
           const logger = {
             debug: sinon.spy(),
             info: sinon.spy(),
@@ -290,7 +316,7 @@ describe('WebClient', function () {
           const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
           return warnClient.apiCall(method, args)
             .then(() => {
-              assert.equal(logger.warn.callCount, 4)
+              assert.equal(logger.warn.callCount, 5)
             });
         });
       });

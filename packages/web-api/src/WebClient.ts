@@ -699,8 +699,10 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, options?: WebAP
   const targetMethods = ['chat.postEphemeral', 'chat.postMessage', 'chat.scheduleMessage', 'chat.update'];
   const isTargetMethod = targetMethods.includes(method);
 
+  const hasAttachments = (args: WebAPICallOptions) => Array.isArray(args.attachments) && args.attachments.length;
+
   const missingAttachmentFallbackDetected = (args: WebAPICallOptions) => Array.isArray(args.attachments) &&
-    args.attachments.length && args.attachments.some((attachment) => !attachment.fallback || attachment.fallback.trim() === '');
+    args.attachments.some((attachment) => !attachment.fallback || attachment.fallback.trim() === '');
 
   const isEmptyText = (args: WebAPICallOptions) => args.text === undefined || args.text === null || args.text === '';
 
@@ -713,12 +715,13 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, options?: WebAP
     'To avoid this warning, it is recommended to always provide a top-level `text` argument when posting a message. ' +
     'Alternatively, you can provide an attachment-level `fallback` argument, though this is now considered a legacy field (see https://api.slack.com/reference/messaging/attachments#legacy_fields for more details).';
   if (isTargetMethod && typeof options === 'object') {
-    if (isEmptyText(options)) {
-      if (missingAttachmentFallbackDetected(options)) {
-        logger.warn(buildMissingFallbackWarning());
-      } else {
+    if (hasAttachments(options)) {
+      if (missingAttachmentFallbackDetected(options) && isEmptyText(options)) {
         logger.warn(buildMissingTextWarning());
+        logger.warn(buildMissingFallbackWarning());
       }
+    } else if (isEmptyText(options)) {
+      logger.warn(buildMissingTextWarning());
     }
   }
 }
