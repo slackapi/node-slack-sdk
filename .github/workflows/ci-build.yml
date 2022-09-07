@@ -25,6 +25,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    # - TODO run npm install and test on individual packages
     # - run: npm install
     # - run: npm run setup
     # - run: npm run test
