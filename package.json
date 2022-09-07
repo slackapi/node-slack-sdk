@@ -1,6 +1,13 @@
 {
+  "scripts": {
+    "test": "lerna run test",
+    "lint": "lerna run lint",
+    "setup": "lerna bootstrap --no-ci --hoist",
+    "ref-docs": "lerna run ref-docs:model --no-bail; lerna run start --scope @slack/sdk-ref-docs"
+  },
   "devDependencies": {
     "eslint": "^7.32.0",
-    "eslint-plugin-jsdoc": "^30.6.1"
+    "eslint-plugin-jsdoc": "^30.6.1",
+    "lerna": "^5.5.0"
   }
 }
