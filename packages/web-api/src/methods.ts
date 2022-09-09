@@ -2115,6 +2115,10 @@ interface ViewsOpenInteractivityRequired extends WebAPICallOptions, TokenOverrid
   view: View;
 }
 
+// If you are trying to open or update a modal from a Slack Function interactivity handler,
+// `interactivity_pointer` is required. If you are launching a modal from a slash command,
+// clicking a button, or using another or using another interactive action,
+// then `trigger_id` is required.
 export type ViewsOpenArguments = ViewsOpenTriggerRequired | ViewsOpenInteractivityRequired;
 
 interface ViewsPushTriggerRequired extends WebAPICallOptions, TokenOverridable {
@@ -2129,6 +2133,10 @@ interface ViewsPushInteractivityRequired extends WebAPICallOptions, TokenOverrid
   view: View;
 }
 
+// If you are trying to open or update a modal from a Slack Function interactivity handler,
+// `interactivity_pointer` is required. If you are launching a modal from a slash command,
+// clicking a button, or using another or using another interactive action,
+// then `trigger_id` is required.
 export type ViewsPushArguments = ViewsPushTriggerRequired | ViewsPushInteractivityRequired;
 
 export interface ViewsPublishArguments extends WebAPICallOptions, TokenOverridable {

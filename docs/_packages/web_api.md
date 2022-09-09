@@ -248,15 +248,14 @@ pattern for people that use _functional programming_.
 ### Opening modals
 [Modals](https://api.slack.com/block-kit/surfaces/modals) can be created by calling the `views.open` method. The method requires you to pass a valid [view payload](https://api.slack.com/reference/block-kit/views).
 
-#### Handling modals during Slack Function handling (beta)
-If you are trying to open or update a modal from a Slack Function [interactivity handler](https://api.slack.com/future/view-events), pass the `interactivity_pointer` you received from your event payload in your `views.open` method.
+#### Handling modals from a Slack Function (beta)
+If you are trying to open or update a modal from a Slack Function interactivity handler, pass the `interactivity_pointer` you received from your event payload in your `views.open` method.
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
 
 // interactivity_pointers can be obtained when a user invokes your app.
 // They are found inside the interactivity object.
-// Find more information on interactivity: https://api.slack.com/future/view-events
 const pointer = 'VALID_INTERACTIVITY_POINTER';
 
 (async () => {
@@ -298,7 +297,7 @@ const pointer = 'VALID_INTERACTIVITY_POINTER';
 ```
 
 #### Handling modals using interactive components
-If you are launching a modal from a slash command, clicking a button, or using [another interactive action](https://api.slack.com/reference/messaging/interactive-components), pass in the  `trigger_id` you received from your event payload in your `views.open` method.
+If you are launching a modal from a slash command, clicking a button, or using another or using [another interactive action](https://api.slack.com/reference/messaging/interactive-components), pass in the  `trigger_id` you received from your event payload in your `views.open` method.
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
