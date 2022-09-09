@@ -297,7 +297,7 @@ const pointer = 'VALID_INTERACTIVITY_POINTER';
 ```
 
 #### Handling modals using interactive components
-If you are launching a modal from a slash command, clicking a button, or using another or using [another interactive action](https://api.slack.com/reference/messaging/interactive-components), pass in the  `trigger_id` you received from your event payload in your `views.open` method.
+If you are launching a modal from a slash command, clicking a button, or using [another interactive action](https://api.slack.com/reference/messaging/interactive-components), pass in the  `trigger_id` you received from your event payload in your `views.open` method.
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
