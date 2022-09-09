@@ -1,6 +1,6 @@
 {
   "name": "@slack/web-api",
-  "version": "6.7.2",
+  "version": "6.7.2-nextGen.1",
   "description": "Official library for using the Slack Platform's Web API",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
