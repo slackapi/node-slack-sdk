@@ -246,7 +246,58 @@ pattern for people that use _functional programming_.
 ---
 
 ### Opening modals
-[Modals](https://api.slack.com/block-kit/surfaces/modals) can be created by calling the `views.open` method. The method requires you to pass a valid [view payload](https://api.slack.com/reference/block-kit/views) in addition to a `trigger_id`, which can be obtained when a user invokes your app using a slash command, clicking a button, or using [another interactive action](https://api.slack.com/reference/messaging/interactive-components).
+[Modals](https://api.slack.com/block-kit/surfaces/modals) can be created by calling the `views.open` method. The method requires you to pass a valid [view payload](https://api.slack.com/reference/block-kit/views).
+
+#### Handling modals from a Slack Function (beta)
+If you are trying to open or update a modal from a Slack Function interactivity handler, pass the `interactivity_pointer` you received from your event payload in your `views.open` method.
+
+```javascript
+const { WebClient } = require('@slack/web-api');
+
+// interactivity_pointers can be obtained when a user invokes your app.
+// They are found inside the interactivity object.
+const pointer = 'VALID_INTERACTIVITY_POINTER';
+
+(async () => {
+
+  // Open a modal.
+  // Find more arguments and details of the response: https://api.slack.com/methods/views.open
+  const result = await web.views.open({
+    interactivity_pointer: pointer,
+    view: {
+      type: 'modal',
+      callback_id: 'view_identifier',
+      title: {
+        type: 'plain_text',
+        text: 'Modal title'
+      },
+      submit: {
+        type: 'plain_text',
+        text: 'Submit'
+      },
+      blocks: [
+        {
+          type: 'input',
+          label: {
+            type: 'plain_text',
+            text: 'Input label'
+          },
+          element: {
+            type: 'plain_text_input',
+            action_id: 'value_indentifier'
+          }
+        }
+      ]
+    }
+  });
+
+  // The result contains an identifier for the root view, view.id
+  console.log(`Successfully opened root view ${result.view.id}`);
+})();
+```
+
+#### Handling modals using interactive components
+If you are launching a modal from a slash command, clicking a button, or using [another interactive action](https://api.slack.com/reference/messaging/interactive-components), pass in the  `trigger_id` you received from your event payload in your `views.open` method.
 
 ```javascript
 const { WebClient } = require('@slack/web-api');

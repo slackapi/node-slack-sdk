@@ -2103,15 +2103,41 @@ export interface UsersProfileSetArguments extends WebAPICallOptions, TokenOverri
   value?: string; // usable if `profile` is not passed
 }
 
-export interface ViewsOpenArguments extends WebAPICallOptions, TokenOverridable {
+interface ViewsOpenTriggerRequired extends WebAPICallOptions, TokenOverridable {
   trigger_id: string;
+  interactivity_pointer?: never;
   view: View;
 }
 
-export interface ViewsPushArguments extends WebAPICallOptions, TokenOverridable {
-  trigger_id: string;
+interface ViewsOpenInteractivityRequired extends WebAPICallOptions, TokenOverridable {
+  interactivity_pointer: string;
+  trigger_id?: never;
   view: View;
 }
+
+// If you are trying to open a modal from a Slack Function interactivity handler,
+// `interactivity_pointer` is required. If you are launching a modal from a slash command,
+// clicking a button, or using another or using another interactive action,
+// then `trigger_id` is required.
+export type ViewsOpenArguments = ViewsOpenTriggerRequired | ViewsOpenInteractivityRequired;
+
+interface ViewsPushTriggerRequired extends WebAPICallOptions, TokenOverridable {
+  trigger_id: string;
+  interactivity_pointer?: never;
+  view: View;
+}
+
+interface ViewsPushInteractivityRequired extends WebAPICallOptions, TokenOverridable {
+  interactivity_pointer: string;
+  trigger_id?: never;
+  view: View;
+}
+
+// If you are trying to update a modal from a Slack Function interactivity handler,
+// `interactivity_pointer` is required. If you are launching a modal from a slash command,
+// clicking a button, or using another or using another interactive action,
+// then `trigger_id` is required.
+export type ViewsPushArguments = ViewsPushTriggerRequired | ViewsPushInteractivityRequired;
 
 export interface ViewsPublishArguments extends WebAPICallOptions, TokenOverridable {
   user_id: string;
