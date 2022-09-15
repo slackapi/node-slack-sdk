@@ -876,6 +876,7 @@ export interface SelfPrefs {
   channel_sidebar_hide_invite?:                               boolean;
   channel_sort?:                                              string;
   chime_access_check_completed?:                              number;
+  clicked_close_onboarding_synth_view_banner?:                boolean;
   client_logs_pri?:                                           string;
   clips_feedback_survey_last_trigger_attempt?:                number;
   color_names_in_list?:                                       boolean;
@@ -1214,6 +1215,8 @@ export interface SelfPrefs {
   seen_onboarding_start?:                                     boolean;
   seen_onboarding_synth_view?:                                boolean;
   seen_onboarding_synth_view_count?:                          number;
+  seen_onboarding_synth_view_count_v2?:                       number;
+  seen_onboarding_synth_view_v2?:                             boolean;
   seen_p3_locale_change_message_ko_kr?:                       number;
   seen_people_search?:                                        boolean;
   seen_people_search_count?:                                  number;
@@ -1422,6 +1425,7 @@ export interface TeamPrefs {
   created_with_google?:                                boolean;
   custom_status_default_emoji?:                        string;
   custom_status_presets?:                              Array<string[]>;
+  daily_prompts_enabled?:                              boolean;
   default_channel_creation_enabled?:                   boolean;
   default_channels?:                                   string[];
   default_rxns?:                                       string[];
@@ -1471,6 +1475,7 @@ export interface TeamPrefs {
   dnd_start_hour?:                                     string;
   dnd_weekdays_off_allday?:                            boolean;
   dropbox_legacy_picker?:                              boolean;
+  emoji_only_admins?:                                  boolean;
   enable_connect_dm_early_access?:                     boolean;
   enable_domain_allowlist_for_cea?:                    boolean;
   enable_info_barriers?:                               boolean;
@@ -1508,6 +1513,7 @@ export interface TeamPrefs {
   invites_limit?:                                      boolean;
   invites_only_admins?:                                boolean;
   joiner_notifications_enabled?:                       boolean;
+  loading_only_admins?:                                boolean;
   locale?:                                             string;
   loud_channel_mentions_limit?:                        number;
   magic_unfurls_enabled?:                              boolean;

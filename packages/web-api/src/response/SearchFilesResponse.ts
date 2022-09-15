@@ -97,6 +97,7 @@ export interface Match {
   url_private?:          string;
   url_private_download?: string;
   user?:                 string;
+  user_team?:            string;
   username?:             string;
 }
 

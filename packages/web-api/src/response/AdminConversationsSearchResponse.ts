@@ -20,6 +20,7 @@ export type AdminConversationsSearchResponse = WebAPICallResult & {
 
 export interface Conversation {
   channel_email_addresses?:       string[];
+  channel_manager_count?:         number;
   connected_limited_team_ids?:    string[];
   connected_team_ids?:            string[];
   conversation_host_id?:          string;

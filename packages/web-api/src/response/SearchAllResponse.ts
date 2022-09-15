@@ -99,6 +99,7 @@ export interface FilesMatch {
   url_private?:          string;
   url_private_download?: string;
   user?:                 LastEditor;
+  user_team?:            UserTeam;
   username?:             string;
 }
 
@@ -118,12 +119,12 @@ export interface Public {
   reply_users?:       string[];
   reply_users_count?: number;
   share_user_id?:     LastEditor;
-  team_id?:           Team;
+  team_id?:           UserTeam;
   thread_ts?:         string;
   ts?:                Ts;
 }
 
-export enum Team {
+export enum UserTeam {
   Empty = '',
   T00000000 = 'T00000000',
 }
@@ -168,7 +169,7 @@ export interface MessagesMatch {
   previous?:     Previous;
   previous_2?:   Previous;
   score?:        number;
-  team?:         Team;
+  team?:         UserTeam;
   text?:         string;
   ts?:           Ts;
   type?:         string;
@@ -575,6 +576,7 @@ export interface File {
   url_private?:               string;
   url_private_download?:      string;
   user?:                      string;
+  user_team?:                 string;
   username?:                  string;
   vtt?:                       string;
 }

@@ -138,6 +138,7 @@ export interface File {
   url_private?:               string;
   url_private_download?:      string;
   user?:                      string;
+  user_team?:                 string;
   username?:                  string;
   vtt?:                       string;
 }
