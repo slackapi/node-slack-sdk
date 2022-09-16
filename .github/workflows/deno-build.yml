@@ -2,8 +2,6 @@ name: deno.land Continuous Deployment
 
 on:
   push:
-    branches:
-      - main
     tags:
       - '@slack/web-api*'
       - '!@slack/web-api*nextGen*'
