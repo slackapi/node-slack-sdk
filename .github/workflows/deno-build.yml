@@ -4,9 +4,6 @@ on:
   push:
     tags:
       - '@slack/web-api*'
-      - '!@slack/web-api*nextGen*'
-      - '!@slack/web-api*Beta*'
-      - '!@slack/web-api*beta*'
 
 defaults:
   run:
@@ -33,7 +30,17 @@ jobs:
       run: |
         perl -pi.bak -e 's/"tsd": {/"browser":{"os":"os-browserify","path":"path-browserify","querystring":".\/deno-shims\/qs-shim.js"},"tsd": {/g' package.json
         perl -pi.bak -e 's/"axios": /"path-browserify":"1.0.1","os-browserify":"0.3.0","axios": /g' package.json
-        perl -pi.bak -e 's/"p-retry":/"zlib":".\/deno-shims\/zlib-shim.js","util":".\/deno-shims\/util-shim.js","p-retry":/g' package.json
     - run: npm install
     - run: npm run build:deno
-  
+    - run: mv mod.js ../../.
+    - name: Commit and tag built artifact to separate branch
+      run: |
+        git config user.name slack-cicd
+        git config user.email github-cicd@slack.com
+        git checkout -- package.json
+        git checkout deno-web-api
+        mv ../../mod.js .
+        git add mod.js
+        git commit -m "Adding transpiled deno ${GITHUB_REF_NAME} release artifact."
+        git tag "deno/${GITHUB_REF_NAME}"
+        git push --tags
