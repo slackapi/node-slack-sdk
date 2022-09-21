@@ -248,8 +248,12 @@ export interface Block {
   accessory?:                Accessory;
   alt_text?:                 string;
   api_decoration_available?: boolean;
+  app_collaborators?:        string[];
+  app_id?:                   string;
   author_name?:              string;
   block_id?:                 string;
+  bot_user_id?:              string;
+  button_label?:             string;
   call?:                     Call;
   call_id?:                  string;
   description?:              Description;
@@ -261,11 +265,13 @@ export interface Block {
   fields?:                   Description[];
   file?:                     BlockFile;
   file_id?:                  string;
+  function_trigger_id?:      string;
   hint?:                     Description;
   image_bytes?:              number;
   image_height?:             number;
   image_url?:                string;
   image_width?:              number;
+  is_workflow_app?:          boolean;
   label?:                    Description;
   optional?:                 boolean;
   provider_icon_url?:        string;
@@ -276,6 +282,7 @@ export interface Block {
   title?:                    Description;
   title_url?:                string;
   type?:                     string;
+  url?:                      string;
   video_url?:                string;
 }
 
@@ -553,6 +560,7 @@ export interface BlockFile {
   url_private?:               string;
   url_private_download?:      string;
   user?:                      string;
+  user_team?:                 string;
   username?:                  string;
   vtt?:                       string;
 }
@@ -735,6 +743,7 @@ export interface FileElement {
   url_private?:               string;
   url_private_download?:      string;
   user?:                      string;
+  user_team?:                 string;
   username?:                  string;
   vtt?:                       string;
 }
@@ -851,6 +860,7 @@ export interface SelfPrefs {
   allow_cmd_tab_iss?:                                         boolean;
   allowed_unfurl_senders?:                                    string;
   analytics_upsell_coachmark_seen?:                           boolean;
+  app_manifest_schema_format?:                                string;
   app_subdomain_check_completed?:                             number;
   arrow_history?:                                             boolean;
   at_channel_suppressed_channels?:                            string;
@@ -1428,6 +1438,7 @@ export interface TeamPrefs {
   daily_prompts_enabled?:                              boolean;
   default_channel_creation_enabled?:                   boolean;
   default_channels?:                                   string[];
+  default_create_private_channel?:                     boolean;
   default_rxns?:                                       string[];
   disable_email_ingestion?:                            boolean;
   disable_file_deleting?:                              boolean;
@@ -1488,6 +1499,7 @@ export interface TeamPrefs {
   enterprise_mdm_date_enabled?:                        number;
   enterprise_mdm_disable_file_download?:               boolean;
   enterprise_mdm_level?:                               number;
+  enterprise_mdm_token?:                               string;
   enterprise_mobile_device_check?:                     boolean;
   enterprise_team_creation_request?:                   EnterpriseTeamCreationRequest;
   ext_audit_log_retention_duration?:                   number;
@@ -1595,7 +1607,7 @@ export interface TeamPrefs {
   who_can_post_in_shared_channels?:                    SlackConnectAllowedWorkspaces;
   who_can_request_ext_shared_channels?:                SlackConnectAllowedWorkspaces;
   who_can_review_flagged_content?:                     SlackConnectAllowedWorkspaces;
-  who_can_use_hermes?:                                 SlackConnectAllowedWorkspaces;
+  who_can_use_hermes?:                                 WhoCanUseHermes;
   who_can_view_message_activity?:                      SlackConnectAllowedWorkspaces;
   workflow_builder_enabled?:                           boolean;
   workflow_extension_steps_beta_opt_in?:               boolean;
@@ -1630,6 +1642,12 @@ export interface SlackConnectAllowedWorkspaces {
 export interface WhoCanManageP {
   type?: string[];
   user?: string[];
+}
+
+export interface WhoCanUseHermes {
+  subteam?: string[];
+  type?:    string[];
+  user?:    string[];
 }
 
 export interface User {
