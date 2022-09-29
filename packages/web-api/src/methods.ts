@@ -1569,6 +1569,7 @@ export interface ConversationsRepliesArguments extends WebAPICallOptions, TokenO
   TimelinePaginationEnabled {
   channel: string;
   ts: string;
+  include_all_metadata?: boolean;
 }
 cursorPaginationEnabledMethods.add('conversations.replies');
 export interface ConversationsSetPurposeArguments extends WebAPICallOptions, TokenOverridable {
