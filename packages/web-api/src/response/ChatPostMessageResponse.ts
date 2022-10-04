@@ -330,6 +330,7 @@ export interface AppIconUrls {
 }
 
 export interface BlockFile {
+  alt_txt?:                   string;
   app_id?:                    string;
   app_name?:                  string;
   bot_id?:                    string;
@@ -513,6 +514,7 @@ export interface Field {
 }
 
 export interface FileElement {
+  alt_txt?:                   string;
   app_id?:                    string;
   app_name?:                  string;
   bot_id?:                    string;

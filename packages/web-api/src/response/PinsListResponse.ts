@@ -26,6 +26,7 @@ export interface Item {
 }
 
 export interface File {
+  alt_txt?:                   string;
   app_id?:                    string;
   app_name?:                  string;
   bot_id?:                    string;

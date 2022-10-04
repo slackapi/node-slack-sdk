@@ -307,6 +307,9 @@ describe('WebClient', function () {
           .map((v) => ({ method, args: Object.assign({}, v, args) }))
         return acc.concat(threadTs)
       }, []).forEach(({ method, args }) => {
+        // TODO: This test is pretty easily broken, since adding any unrelated logging to these
+        // methods that are being warned against adds to the total count
+        // Instead this could test that a specific warning text is outputted
         it(`should send warning to logs when thread_ts in ${method} arguments is a float`, function () {
           const logger = {
             debug: sinon.spy(),
@@ -319,7 +322,7 @@ describe('WebClient', function () {
           const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
           return warnClient.apiCall(method, args)
             .then(() => {
-              assert.isTrue(logger.warn.callCount === 4);
+              assert.equal(logger.warn.callCount, 4);
             });
         });
       });
@@ -329,6 +332,9 @@ describe('WebClient', function () {
           .map((v) => ({ method, args: Object.assign({}, v, args) }))
         return acc.concat(threadTs)
       }, []).forEach(({ method, args }) => {
+        // TODO: This test is pretty easily broken, since adding any unrelated logging to these
+        // methods that are being warned against adds to the total count
+        // Instead this could test that a specific warning text is outputted
         it(`should not send warning to logs when thread_ts in ${method} arguments is a string`, function () {
           const logger = {
             debug: sinon.spy(),
@@ -341,7 +347,7 @@ describe('WebClient', function () {
           const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
           return warnClient.apiCall(method, args)
             .then(() => {
-              assert.isTrue(logger.warn.calledThrice);
+              assert.equal(logger.warn.callCount, 3);
             });
         });
       });
@@ -1249,6 +1255,189 @@ describe('WebClient', function () {
       this.scope.done();
     });
   });
+
+  describe('getAllFileUploads', () => {
+    const client = new WebClient(token);
+    it('adds a single file data to uploads with content supplied', async () => {
+      const testWithContent = {
+        content: 'Happiness!', // test string
+        filename: 'happiness.txt',
+        title: 'Testing Happiness',
+        channels: 'C1234', 
+      };
+
+      // returns exactly one file upload
+      const res = await client.getAllFileUploads(testWithContent);
+      assert.equal(res.length, 1);
+    });
+    it('adds a single file data to uploads with file supplied', async () => {
+      const testWithFile = {
+        file: './test/fixtures/test-txt.txt', // test string
+        filename: 'test.txt',
+        title: 'Test file',
+        channels: 'C1234', 
+      };
+
+      const res = await client.getAllFileUploads(testWithFile);
+      assert.equal(res.length, 1);
+    });
+    it('adds single file data with multiple channels supplied as csv with `channels`', async () => {
+      const channels = 'C1234,C5678';
+      const testWithFileAndChannels = {
+        file: './test/fixtures/test-txt.txt', // test string
+        filename: 'test.txt',
+        title: 'Test file',
+        channels, 
+      };
+
+      // two entries added
+      const res = await client.getAllFileUploads(testWithFileAndChannels);
+      assert.equal(res.length, 2);
+
+      // entries contain correct channel ids
+      channels.split(',').forEach((channelId, idx) => {
+        // check the result 
+        assert.equal(res[idx].channel_id, channelId);
+      });
+    });
+    it('adds multiple files data to uploads', async () => {
+      const files = ['txt', 'jpg', 'svg', 'png'];
+      const fileUploads = files.map((ext) => {
+        const filename = `test-${ext}.${ext}`;
+        return {
+          file: fs.createReadStream(`./test/fixtures/${filename}`),
+          filename,
+          channel_id: 'C1234',
+          initial_comment: `Doo ba doo here is the: ${filename}`,
+          title: `Spaghetti ${filename}`,
+        }
+      });
+      const entryWithFileUploads = {
+        file_uploads: fileUploads,
+      };
+       // 4 entries added
+       const res = await client.getAllFileUploads(entryWithFileUploads);
+       assert.equal(res.length, 4);
+
+       // check the filename of each entry matches
+       files.forEach((ext, idx) => {
+        const filename = `test-${ext}.${ext}`;
+        assert.equal(res[idx].filename, filename);
+       });
+    });
+    it('adds single and multiple files data to uploads', async () => {
+      const files = ['txt', 'jpg', 'svg', 'png'];
+      const fileUploads = files.map((ext) => {
+        const filename = `test-${ext}.${ext}`;
+        return {
+          file: fs.createReadStream(`./test/fixtures/${filename}`),
+          filename,
+          channel_id: 'C1234',
+          initial_comment: `Doo ba doo here is the: ${filename}`,
+          title: `Spaghetti ${filename}`,
+        }
+      });
+      const entryWithFileUploadsAndSingleFile = {
+        file_uploads: fileUploads,
+        file: './test/fixtures/test-txt.txt', // test string
+        filename: 'test.txt',
+        title: 'Test file',
+        channels: 'C1234,C5678',
+      };
+      // 2 entries for each channel in channels + 4 entries in files_uploads
+      const res = await client.getAllFileUploads(entryWithFileUploadsAndSingleFile);
+      assert.equal(res.length, 6);
+    });
+  });
+
+  describe('fetchAllUploadURLExternal', () => {
+
+    const client = new WebClient(token);
+    it('makes calls to files.getUploadURLExternal for each fileUpload', async () => {
+      const testFileUploads = [{
+        channel_id: 'C1234',
+        filename: 'test-txt.txt',
+        initial_comment: 'Doo ba doo here is the: test-txt.txt',
+        title: 'Spaghetti test-txt.txt',
+        data: Buffer.from('Here is a txt file'),
+        length: 18,
+      }];
+
+      var spy = sinon.spy();
+      client.files.getUploadURLExternal = spy;
+      await client.fetchAllUploadURLExternal(testFileUploads);
+      assert.isTrue(spy.calledOnce);
+    });
+  });
+
+  describe('postCompletedFileUploads', () => {
+    const client = new WebClient(token);
+
+    it('rejects with an error when missing required file id', async () => {
+      const invalidTestFileUploadsToComplete = [{
+        channel_id: 'C1234',
+        // missing file_id field
+        filename: 'test-txt.txt',
+        initial_comment: 'Doo ba doo here is the: test-txt.txt',
+        title: 'Spaghetti test-txt.txt',
+      }];
+
+      // should reject because of missing file_id
+      const res = await client.postCompletedFileUploads(invalidTestFileUploadsToComplete);
+      assert.equal(res[0].status, 'rejected');
+
+    });
+    it('makes calls to files.completeUploadExternal for each fileUpload', async () => {
+      const testFileUploadsToComplete = [{
+        channel_id: 'C1234',
+        file_id: 'test',
+        filename: 'test-txt.txt',
+        initial_comment: 'Doo ba doo here is the: test-txt.txt',
+        title: 'Spaghetti test-txt.txt',
+      }];
+
+      var spy = sinon.spy();
+      client.files.completeUploadExternal = spy;
+      await client.postCompletedFileUploads(testFileUploadsToComplete);
+      assert.isTrue(spy.calledOnce);
+    });
+  });
+  
+  describe('postFileUploadsToExternalURL', () => {
+    const client = new WebClient(token);
+
+    it('rejects with an error when missing required upload_url', async () => {
+      const invalidTestFileUploadsToComplete = [{
+        channel_id: 'C1234',
+        // missing upload_url field
+        filename: 'test-txt.txt',
+        initial_comment: 'Doo ba doo here is the: test-txt.txt',
+        title: 'Spaghetti test-txt.txt',
+      }];
+
+      // should reject because of missing file_id
+      const res = await client.postFileUploadsToExternalURL(invalidTestFileUploadsToComplete);
+      assert.equal(res[0].status, 'rejected');
+    });
+    it('makes a POST request for each fileUpload upload_url', async () => {
+      const testFileUploadsToComplete = [{
+        channel_id: 'C1234',
+        file_id: 'test',
+        filename: 'test-txt.txt',
+        upload_url: 'dummy-url',
+        initial_comment: 'Doo ba doo here is the: test-txt.txt',
+        title: 'Spaghetti test-txt.txt',
+      }];
+
+      var spy = sinon.spy(() => ({ status: 200 }));
+      client.makeRequest = spy;
+
+      // ensure that make request is  called 
+      await client.makeRequest(testFileUploadsToComplete);
+      assert.isTrue(spy.calledOnce);
+    });
+  });
+
   afterEach(function () {
     nock.cleanAll();
   });

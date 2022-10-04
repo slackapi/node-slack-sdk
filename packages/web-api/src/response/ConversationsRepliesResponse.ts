@@ -31,6 +31,7 @@ export interface Message {
   is_locked?:         boolean;
   last_read?:         string;
   latest_reply?:      string;
+  metadata?:          MessageMetadata;
   parent_user_id?:    string;
   reactions?:         Reaction[];
   reply_count?:       number;
@@ -79,7 +80,7 @@ export interface Attachment {
   is_msg_unfurl?:         boolean;
   is_reply_unfurl?:       boolean;
   is_thread_root_unfurl?: boolean;
-  metadata?:              Metadata;
+  metadata?:              AttachmentMetadata;
   mimetype?:              string;
   mrkdwn_in?:             string[];
   msg_subtype?:           string;
@@ -334,6 +335,7 @@ export interface AppIconUrls {
 }
 
 export interface BlockFile {
+  alt_txt?:                   string;
   app_id?:                    string;
   app_name?:                  string;
   bot_id?:                    string;
@@ -517,6 +519,7 @@ export interface Field {
 }
 
 export interface FileElement {
+  alt_txt?:                   string;
   app_id?:                    string;
   app_name?:                  string;
   bot_id?:                    string;
@@ -641,7 +644,7 @@ export interface FileElement {
   vtt?:                       string;
 }
 
-export interface Metadata {
+export interface AttachmentMetadata {
   extension?:   string;
   format?:      string;
   original_h?:  number;
@@ -682,6 +685,14 @@ export interface Icons {
 export interface Edited {
   ts?:   string;
   user?: string;
+}
+
+export interface MessageMetadata {
+  event_payload?: EventPayload;
+  event_type?:    string;
+}
+
+export interface EventPayload {
 }
 
 export interface ResponseMetadata {

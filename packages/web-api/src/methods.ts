@@ -133,7 +133,9 @@ import {
   DndTeamInfoResponse,
   EmojiListResponse,
   FilesCommentsDeleteResponse,
+  FilesCompleteUploadExternalResponse,
   FilesDeleteResponse,
+  FilesGetUploadURLExternalResponse,
   FilesInfoResponse,
   FilesListResponse,
   FilesRemoteAddResponse,
@@ -224,6 +226,12 @@ function bindApiCall<Arguments extends WebAPICallOptions, Result extends WebAPIC
   return self.apiCall.bind(self, method) as Method<Arguments, Result>;
 }
 
+function bindFilesUploadV2<Arguments extends WebAPICallOptions, Result extends WebAPICallResult>(
+  self: Methods,
+): Method<Arguments, Result> {
+  return self.filesUploadV2.bind(self) as unknown as Method<Arguments, Result>;
+}
+
 /**
  * A class that defines all Web API methods, their arguments type, their response type, and binds those methods to the
  * `apiCall` class method.
@@ -246,6 +254,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   }
 
   public abstract apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult>;
+  public abstract filesUploadV2(options?: WebAPICallOptions): Promise<WebAPICallResult>;
 
   public readonly admin = {
     analytics: {
@@ -598,6 +607,23 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     sharedPublicURL:
       bindApiCall<FilesSharedPublicURLArguments, FilesSharedPublicURLResponse>(this, 'files.sharedPublicURL'),
     upload: bindApiCall<FilesUploadArguments, FilesUploadResponse>(this, 'files.upload'),
+    /**
+     * Custom method to support files upload v2 way of uploading files to Slack
+     * Supports a single file upload
+     * Supply:
+     * - (required) single file or content
+     * - (optional) channel, alt_text, snippet_type,
+     * Supports multiple file uploads
+     * Supply:
+     * - multiple upload_files
+     * Will try to honor both single file or content data supplied as well
+     * as multiple file uploads property.
+    */
+    uploadV2: bindFilesUploadV2<FilesUploadV2Arguments, WebAPICallResult>(this),
+    getUploadURLExternal:
+      bindApiCall<FilesGetUploadURLExternalArguments, FilesGetUploadURLExternalResponse>(this, 'files.getUploadURLExternal'),
+    completeUploadExternal:
+      bindApiCall<FilesCompleteUploadExternalArguments, FilesCompleteUploadExternalResponse>(this, 'files.completeUploadExternal'),
     comments: {
       delete: bindApiCall<FilesCommentsDeleteArguments, FilesCommentsDeleteResponse>(this, 'files.comments.delete'),
     },
@@ -1639,15 +1665,61 @@ export interface FilesRevokePublicURLArguments extends WebAPICallOptions, TokenO
 export interface FilesSharedPublicURLArguments extends WebAPICallOptions, TokenOverridable {
   file: string; // file id
 }
-export interface FilesUploadArguments extends WebAPICallOptions, TokenOverridable {
+/**
+ * Legacy files.upload API method
+ * */
+export interface FilesUploadArguments extends FileUpload, WebAPICallOptions, TokenOverridable {}
+interface FileUpload {
   channels?: string; // comma-separated list of channels
-  content?: string; // if absent, must provide `file`
-  file?: Buffer | Stream; // if absent, must provide `content`
+  content?: string; // if omitted, must provide `file`
+  file?: Buffer | Stream | string; // if omitted, must provide `content`
   filename?: string;
   filetype?: string;
   initial_comment?: string;
-  title?: string;
   thread_ts?: string; // if specified, `channels` must be set
+  title?: string;
+}
+
+export interface FilesUploadV2Arguments extends FileUploadV2, WebAPICallOptions, TokenOverridable {
+  file_uploads?: FileUploadV2[]; // upload multiple files
+}
+// V2 File upload item minus multiple channels and filetype properties
+export type FileUploadV2 = FileUpload & {
+  alt_text?: string;
+  channel_id?: string;
+  snippet_type?: string;
+};
+
+// Helper type intended for internal use in filesUploadV2 client method
+export interface FileUploadV2Entry extends FileUploadV2,
+  Pick<FilesGetUploadURLExternalResponse, 'file_id' | 'upload_url' | 'error'>,
+  Pick<FilesGetUploadURLExternalArguments, 'length'> {
+  data: Buffer;
+}
+
+/**
+ * Gets a URL for an edge external file upload.
+ * https://api.slack.com/methods/files.getUploadURLExternal
+*/
+export interface FilesGetUploadURLExternalArguments extends WebAPICallOptions, TokenOverridable {
+  filename: string;
+  length: number;
+  alt_text?: string;
+  snippet_type?: string;
+}
+/**
+ * Finishes an upload started with files.getUploadURLExternal
+ * https://api.slack.com/methods/files.completeUploadExternal
+ * */
+export interface FilesCompleteUploadExternalArguments extends WebAPICallOptions, TokenOverridable {
+  files: FileUploadComplete[];
+  channel_id?: string, // if omitted, file will be private
+  initial_comment?: string,
+  thread_ts?: string
+}
+interface FileUploadComplete {
+  id: string, // file id
+  title?: string // filename
 }
 export interface FilesCommentsDeleteArguments extends WebAPICallOptions, TokenOverridable {
   file: string; // file id
