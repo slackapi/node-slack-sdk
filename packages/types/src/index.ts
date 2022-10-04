@@ -63,15 +63,9 @@ export interface WorkflowStepView {
 
 export type View = HomeView | ModalView | WorkflowStepView;
 
-/*
- * Block Elements
+/**
+ * Composition Objects: https://api.slack.com/reference/block-kit/composition-objects
  */
-
-export interface ImageElement {
-  type: 'image';
-  image_url: string;
-  alt_text: string;
-}
 
 export interface PlainTextElement {
   type: 'plain_text';
@@ -87,31 +81,51 @@ export interface MrkdwnElement {
 
 export interface MrkdwnOption {
   text: MrkdwnElement;
-  value?: string;
+  value: string;
   url?: string;
   description?: PlainTextElement;
 }
 
 export interface PlainTextOption {
   text: PlainTextElement;
-  value?: string;
+  value: string;
   url?: string;
   description?: PlainTextElement;
 }
 
+export interface Confirm {
+  title: PlainTextElement;
+  text: PlainTextElement | MrkdwnElement;
+  confirm: PlainTextElement;
+  deny: PlainTextElement;
+  style?: 'primary' | 'danger'; // TODO: factor out into own type
+}
+
 export type Option = MrkdwnOption | PlainTextOption;
 
-export interface Confirm {
-  title?: PlainTextElement;
-  text: PlainTextElement | MrkdwnElement;
-  confirm?: PlainTextElement;
-  deny?: PlainTextElement;
-  style?: 'primary' | 'danger';
+export interface DispatchActionConfig {
+  trigger_actions_on?: ('on_enter_pressed' | 'on_character_entered')[];
 }
 
 /*
- * Action Types
+ * Block Elements: https://api.slack.com/reference/block-kit/block-elements
+ * Also known as interactive elements
+ * Exported below as Action
  */
+
+export type KnownAction =
+  Select | MultiSelect | Button | Overflow | Datepicker | Timepicker | RadioButtons | Checkboxes | PlainTextInput;
+
+export interface Action {
+  type: string;
+  /**
+   * @description: A string acting as a unique identifier for a block.
+   */
+  block_id?: string; // TODO: in event payloads, this property will always be present. When defining a block, however,
+  // it is optional. If not defined when the block is created, Slack will auto-assign a block_id for you - thus why it
+  // is always present in payloads. So: how can we capture that? Differentiate between the event payload vs. the block
+  // element?
+}
 
 // Selects and Multiselects are available in different surface areas so I've separated them here
 export type Select = UsersSelect | StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect;
@@ -119,23 +133,20 @@ export type Select = UsersSelect | StaticSelect | ConversationsSelect | Channels
 export type MultiSelect =
   MultiUsersSelect | MultiStaticSelect | MultiConversationsSelect | MultiChannelsSelect | MultiExternalSelect;
 
-export interface Action {
-  type: string;
-  action_id?: string;
-}
-
 export interface UsersSelect extends Action {
   type: 'users_select';
+  action_id: string;
   initial_user?: string;
-  placeholder?: PlainTextElement;
+  placeholder: PlainTextElement;
   confirm?: Confirm;
   focus_on_load?: boolean;
 }
 
 export interface MultiUsersSelect extends Action {
   type: 'multi_users_select';
+  action_id: string;
   initial_users?: string[];
-  placeholder?: PlainTextElement;
+  placeholder: PlainTextElement;
   max_selected_items?: number;
   confirm?: Confirm;
   focus_on_load?: boolean;
@@ -143,7 +154,8 @@ export interface MultiUsersSelect extends Action {
 
 export interface StaticSelect extends Action {
   type: 'static_select';
-  placeholder?: PlainTextElement;
+  placeholder: PlainTextElement;
+  action_id: string;
   initial_option?: PlainTextOption;
   options?: PlainTextOption[];
   option_groups?: {
@@ -156,9 +168,10 @@ export interface StaticSelect extends Action {
 
 export interface MultiStaticSelect extends Action {
   type: 'multi_static_select';
-  placeholder?: PlainTextElement;
+  placeholder: PlainTextElement;
+  action_id: string;
   initial_options?: PlainTextOption[];
-  options?: PlainTextOption[];
+  options?: PlainTextOption[]; // TODO: options and option_groups are mutually exclusive
   option_groups?: {
     label: PlainTextElement;
     options: PlainTextOption[];
@@ -171,7 +184,8 @@ export interface MultiStaticSelect extends Action {
 export interface ConversationsSelect extends Action {
   type: 'conversations_select';
   initial_conversation?: string;
-  placeholder?: PlainTextElement;
+  action_id: string;
+  placeholder: PlainTextElement;
   confirm?: Confirm;
   response_url_enabled?: boolean;
   default_to_current_conversation?: boolean;
@@ -186,7 +200,7 @@ export interface ConversationsSelect extends Action {
 export interface MultiConversationsSelect extends Action {
   type: 'multi_conversations_select';
   initial_conversations?: string[];
-  placeholder?: PlainTextElement;
+  placeholder: PlainTextElement;
   max_selected_items?: number;
   confirm?: Confirm;
   default_to_current_conversation?: boolean;
@@ -200,16 +214,19 @@ export interface MultiConversationsSelect extends Action {
 
 export interface ChannelsSelect extends Action {
   type: 'channels_select';
+  action_id: string;
   initial_channel?: string;
-  placeholder?: PlainTextElement;
+  placeholder: PlainTextElement;
+  response_url_enabled?: boolean;
   confirm?: Confirm;
   focus_on_load?: boolean;
 }
 
 export interface MultiChannelsSelect extends Action {
   type: 'multi_channels_select';
+  action_id: string;
   initial_channels?: string[];
-  placeholder?: PlainTextElement;
+  placeholder: PlainTextElement;
   max_selected_items?: number;
   confirm?: Confirm;
   focus_on_load?: boolean;
@@ -217,8 +234,9 @@ export interface MultiChannelsSelect extends Action {
 
 export interface ExternalSelect extends Action {
   type: 'external_select';
+  action_id: string;
   initial_option?: PlainTextOption;
-  placeholder?: PlainTextElement;
+  placeholder: PlainTextElement;
   min_query_length?: number;
   confirm?: Confirm;
   focus_on_load?: boolean;
@@ -226,8 +244,9 @@ export interface ExternalSelect extends Action {
 
 export interface MultiExternalSelect extends Action {
   type: 'multi_external_select';
+  action_id: string;
   initial_options?: PlainTextOption[];
-  placeholder?: PlainTextElement;
+  placeholder: PlainTextElement;
   min_query_length?: number;
   max_selected_items?: number;
   confirm?: Confirm;
@@ -235,23 +254,35 @@ export interface MultiExternalSelect extends Action {
 }
 
 export interface Button extends Action {
-  type: 'button';
-  text: PlainTextElement;
-  value?: string;
-  url?: string;
-  style?: 'danger' | 'primary';
-  confirm?: Confirm;
   accessibility_label?: string;
+  /**
+   * @description: An identifier for this button action. You can use this when you receive an interaction payload to
+   * identify the source of the action. Should be unique among all other `action_id`s in the containing block. Maximum
+   * length for this field is 255 characters.
+   */
+  action_id: string;
+  confirm?: Confirm;
+  style?: 'danger' | 'primary';
+  text: PlainTextElement;
+  type: 'button';
+  /**
+   * @description: A URL to load in the user's browser when the button is clicked. Maximum length for this field is
+   * 3000 characters.
+   */
+  url?: string;
+  value?: string;
 }
 
 export interface Overflow extends Action {
   type: 'overflow';
+  action_id: string;
   options: PlainTextOption[];
   confirm?: Confirm;
 }
 
 export interface Datepicker extends Action {
   type: 'datepicker';
+  action_id: string;
   initial_date?: string;
   placeholder?: PlainTextElement;
   confirm?: Confirm;
@@ -260,15 +291,17 @@ export interface Datepicker extends Action {
 
 export interface Timepicker extends Action {
   type: 'timepicker';
+  action_id: string;
   initial_time?: string;
   placeholder?: PlainTextElement;
   confirm?: Confirm;
   focus_on_load?: boolean;
-  timezone?: string;
+  timezone?: string; // TODO: this is not listed? https://api.slack.com/reference/block-kit/block-elements#timepicker__fields
 }
 
 export interface RadioButtons extends Action {
   type: 'radio_buttons';
+  action_id: string;
   initial_option?: Option;
   options: Option[];
   confirm?: Confirm;
@@ -277,6 +310,7 @@ export interface RadioButtons extends Action {
 
 export interface Checkboxes extends Action {
   type: 'checkboxes';
+  action_id: string;
   initial_options?: Option[];
   options: Option[];
   confirm?: Confirm;
@@ -285,6 +319,7 @@ export interface Checkboxes extends Action {
 
 export interface PlainTextInput extends Action {
   type: 'plain_text_input';
+  action_id: string;
   placeholder?: PlainTextElement;
   initial_value?: string;
   multiline?: boolean;
@@ -294,21 +329,29 @@ export interface PlainTextInput extends Action {
   focus_on_load?: boolean;
 }
 
-export interface DispatchActionConfig {
-  trigger_actions_on?: ('on_enter_pressed' | 'on_character_entered')[];
+export interface ImageElement {
+  type: 'image';
+  image_url: string;
+  alt_text: string;
 }
 
-/*
- * Block Types
+/**
+ * Layout Blocks: https://api.slack.com/reference/block-kit/blocks
  */
-
-export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock |
-SectionBlock | InputBlock | FileBlock | HeaderBlock | VideoBlock;
 
 export interface Block {
   type: string;
+  /**
+   * @description: A string acting as a unique identifier for a block. If not specified, a `block_id` will be generated.
+   * You can use this `block_id` when you receive an interaction payload to identify the source of the action. Maximum
+   * length for this field is 255 characters. block_id should be unique for each message and each iteration of a
+   * message. If a message is updated, use a new block_id.
+   */
   block_id?: string;
 }
+
+export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock |
+SectionBlock | InputBlock | FileBlock | HeaderBlock | VideoBlock;
 
 export interface ImageBlock extends Block {
   type: 'image';
@@ -324,7 +367,7 @@ export interface ContextBlock extends Block {
 
 export interface ActionsBlock extends Block {
   type: 'actions';
-  elements: (Button | Overflow | Datepicker | Timepicker | Select | RadioButtons | Checkboxes | Action)[];
+  elements: (Button | Overflow | Datepicker | Timepicker | Select | MultiSelect | RadioButtons | Checkboxes | Action)[];
 }
 
 export interface DividerBlock extends Block {
@@ -339,6 +382,7 @@ export interface SectionBlock extends Block {
   | Overflow
   | Datepicker
   | Timepicker
+  | PlainTextInput
   | Select
   | MultiSelect
   | Action
