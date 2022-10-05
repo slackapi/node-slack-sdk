@@ -2,6 +2,7 @@
  * Reusable shapes for argument values
  */
 // TODO: dialogs are deprecated https://api.slack.com/dialogs
+// Guide on upgrading dialogs to modals: https://api.slack.com/block-kit/dialogs-to-modals
 export interface Dialog {
   title: string;
   callback_id: string;
