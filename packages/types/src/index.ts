@@ -242,7 +242,6 @@ export interface ExternalSelect extends Action {
 
 export interface MultiExternalSelect extends Action {
   type: 'multi_external_select';
-  // event to return option data. so de-facto this is necessary
   initial_options?: PlainTextOption[];
   placeholder?: PlainTextElement;
   min_query_length?: number;
