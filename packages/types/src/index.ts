@@ -1,6 +1,7 @@
 /*
  * Reusable shapes for argument values
  */
+// TODO: dialogs are deprecated https://api.slack.com/dialogs
 export interface Dialog {
   title: string;
   callback_id: string;
@@ -88,7 +89,8 @@ export interface MrkdwnOption {
 
 export interface PlainTextOption {
   text: PlainTextElement;
-  value: string;
+  value: string; // TODO: technically this property is optional, but if it is not provided, if the option is selected
+  // as a value in e.g. a static menu, then the returned value will be `null`
   url?: string;
   description?: PlainTextElement;
 }
@@ -125,6 +127,7 @@ export interface Action {
   // it is optional. If not defined when the block is created, Slack will auto-assign a block_id for you - thus why it
   // is always present in payloads. So: how can we capture that? Differentiate between the event payload vs. the block
   // element?
+  action_id?: string;
 }
 
 // Selects and Multiselects are available in different surface areas so I've separated them here
@@ -135,18 +138,16 @@ export type MultiSelect =
 
 export interface UsersSelect extends Action {
   type: 'users_select';
-  action_id: string;
   initial_user?: string;
-  placeholder: PlainTextElement;
+  placeholder?: PlainTextElement;
   confirm?: Confirm;
   focus_on_load?: boolean;
 }
 
 export interface MultiUsersSelect extends Action {
   type: 'multi_users_select';
-  action_id: string;
   initial_users?: string[];
-  placeholder: PlainTextElement;
+  placeholder?: PlainTextElement;
   max_selected_items?: number;
   confirm?: Confirm;
   focus_on_load?: boolean;
@@ -154,13 +155,13 @@ export interface MultiUsersSelect extends Action {
 
 export interface StaticSelect extends Action {
   type: 'static_select';
-  placeholder: PlainTextElement;
-  action_id: string;
+  placeholder?: PlainTextElement;
   initial_option?: PlainTextOption;
-  options?: PlainTextOption[];
-  option_groups?: {
+  options?: PlainTextOption[]; // TODO: mutually exclusive with option_groups but one of them is required
+  // TODO: minimum length of 1
+  option_groups?: { // todo: factor into own interface
     label: PlainTextElement;
-    options: PlainTextOption[];
+    options: PlainTextOption[]; // TODO: min length 1
   }[];
   confirm?: Confirm;
   focus_on_load?: boolean;
@@ -168,13 +169,13 @@ export interface StaticSelect extends Action {
 
 export interface MultiStaticSelect extends Action {
   type: 'multi_static_select';
-  placeholder: PlainTextElement;
-  action_id: string;
+  placeholder?: PlainTextElement;
   initial_options?: PlainTextOption[];
-  options?: PlainTextOption[]; // TODO: options and option_groups are mutually exclusive
-  option_groups?: {
+  options?: PlainTextOption[]; // TODO: options and option_groups are mutually exclusive but one of them is required
+  // TODO: minimum length of 1
+  option_groups?: { // todo: factor into own interface
     label: PlainTextElement;
-    options: PlainTextOption[];
+    options: PlainTextOption[]; // TODO: min length 1
   }[];
   max_selected_items?: number;
   confirm?: Confirm;
@@ -184,8 +185,7 @@ export interface MultiStaticSelect extends Action {
 export interface ConversationsSelect extends Action {
   type: 'conversations_select';
   initial_conversation?: string;
-  action_id: string;
-  placeholder: PlainTextElement;
+  placeholder?: PlainTextElement;
   confirm?: Confirm;
   response_url_enabled?: boolean;
   default_to_current_conversation?: boolean;
@@ -200,7 +200,7 @@ export interface ConversationsSelect extends Action {
 export interface MultiConversationsSelect extends Action {
   type: 'multi_conversations_select';
   initial_conversations?: string[];
-  placeholder: PlainTextElement;
+  placeholder?: PlainTextElement;
   max_selected_items?: number;
   confirm?: Confirm;
   default_to_current_conversation?: boolean;
@@ -214,9 +214,8 @@ export interface MultiConversationsSelect extends Action {
 
 export interface ChannelsSelect extends Action {
   type: 'channels_select';
-  action_id: string;
   initial_channel?: string;
-  placeholder: PlainTextElement;
+  placeholder?: PlainTextElement;
   response_url_enabled?: boolean;
   confirm?: Confirm;
   focus_on_load?: boolean;
@@ -224,9 +223,8 @@ export interface ChannelsSelect extends Action {
 
 export interface MultiChannelsSelect extends Action {
   type: 'multi_channels_select';
-  action_id: string;
   initial_channels?: string[];
-  placeholder: PlainTextElement;
+  placeholder?: PlainTextElement;
   max_selected_items?: number;
   confirm?: Confirm;
   focus_on_load?: boolean;
@@ -234,9 +232,8 @@ export interface MultiChannelsSelect extends Action {
 
 export interface ExternalSelect extends Action {
   type: 'external_select';
-  action_id: string;
   initial_option?: PlainTextOption;
-  placeholder: PlainTextElement;
+  placeholder?: PlainTextElement;
   min_query_length?: number;
   confirm?: Confirm;
   focus_on_load?: boolean;
@@ -244,9 +241,9 @@ export interface ExternalSelect extends Action {
 
 export interface MultiExternalSelect extends Action {
   type: 'multi_external_select';
-  action_id: string;
+  // event to return option data. so de-facto this is necessary
   initial_options?: PlainTextOption[];
-  placeholder: PlainTextElement;
+  placeholder?: PlainTextElement;
   min_query_length?: number;
   max_selected_items?: number;
   confirm?: Confirm;
@@ -255,12 +252,6 @@ export interface MultiExternalSelect extends Action {
 
 export interface Button extends Action {
   accessibility_label?: string;
-  /**
-   * @description: An identifier for this button action. You can use this when you receive an interaction payload to
-   * identify the source of the action. Should be unique among all other `action_id`s in the containing block. Maximum
-   * length for this field is 255 characters.
-   */
-  action_id: string;
   confirm?: Confirm;
   style?: 'danger' | 'primary';
   text: PlainTextElement;
@@ -275,14 +266,12 @@ export interface Button extends Action {
 
 export interface Overflow extends Action {
   type: 'overflow';
-  action_id: string;
-  options: PlainTextOption[];
+  options: PlainTextOption[]; // TODO: min length 1
   confirm?: Confirm;
 }
 
 export interface Datepicker extends Action {
   type: 'datepicker';
-  action_id: string;
   initial_date?: string;
   placeholder?: PlainTextElement;
   confirm?: Confirm;
@@ -291,35 +280,31 @@ export interface Datepicker extends Action {
 
 export interface Timepicker extends Action {
   type: 'timepicker';
-  action_id: string;
   initial_time?: string;
   placeholder?: PlainTextElement;
   confirm?: Confirm;
   focus_on_load?: boolean;
-  timezone?: string; // TODO: this is not listed? https://api.slack.com/reference/block-kit/block-elements#timepicker__fields
+  timezone?: string;
 }
 
 export interface RadioButtons extends Action {
   type: 'radio_buttons';
-  action_id: string;
   initial_option?: Option;
-  options: Option[];
+  options: Option[]; // TODO: min length 1
   confirm?: Confirm;
   focus_on_load?: boolean;
 }
 
 export interface Checkboxes extends Action {
   type: 'checkboxes';
-  action_id: string;
   initial_options?: Option[];
-  options: Option[];
+  options: Option[]; // TODO: min length 1
   confirm?: Confirm;
   focus_on_load?: boolean;
 }
 
 export interface PlainTextInput extends Action {
   type: 'plain_text_input';
-  action_id: string;
   placeholder?: PlainTextElement;
   initial_value?: string;
   multiline?: boolean;
