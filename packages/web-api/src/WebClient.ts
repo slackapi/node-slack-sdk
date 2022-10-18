@@ -27,7 +27,7 @@ import {
 import { LogLevel, Logger, getLogger } from './logger';
 import { RetryOptions, tenRetriesInAboutThirtyMinutes } from './retry-policies';
 import delay from './helpers';
-import { /* warnIfNotUsingFilesUploadV2, */ getFileUpload } from './file-upload';
+import { warnIfNotUsingFilesUploadV2, getFileUpload } from './file-upload';
 
 /*
  * Helpers
@@ -226,7 +226,6 @@ export class WebClient extends Methods {
   public async apiCall(method: string, options: WebAPICallOptions = {}): Promise<WebAPICallResult> {
     this.logger.debug(`apiCall('${method}') start`);
 
-    // warnIfNotUsingFilesUploadV2(method, this.logger);
     warnDeprecations(method, this.logger);
     warnIfFallbackIsMissing(method, this.logger, options);
     warnIfThreadTsIsNotString(method, this.logger, options);
@@ -235,10 +234,9 @@ export class WebClient extends Methods {
       throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
     }
 
+    warnIfNotUsingFilesUploadV2(method, this.logger);
     // if method is files.uploadV2 call private helper Webclient.filesUploadV2 instead
-    if (method === 'files.uploadV2') {
-      return this.filesUploadV2(options);
-    }
+    if (method === 'files.uploadV2') return this.filesUploadV2(options);
 
     const headers: Record<string, string> = {};
     if (options.token) headers.Authorization = `Bearer ${options.token}`;
@@ -894,6 +892,8 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, options?: WebAP
   }
 }
 
+export const buildThreadTsWarningMessage = (method: string): string => `The given thread_ts value in the request payload for a ${method} call is a float value. We highly recommend using a string value instead.`;
+
 /**
  * Log a warning when thread_ts is not a string
  * @param method api method being called
@@ -903,8 +903,8 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, options?: WebAP
 function warnIfThreadTsIsNotString(method: string, logger: Logger, options?: WebAPICallOptions): void {
   const targetMethods = ['chat.postEphemeral', 'chat.postMessage', 'chat.scheduleMessage', 'files.upload'];
   const isTargetMethod = targetMethods.includes(method);
-
+  
   if (isTargetMethod && options?.thread_ts !== undefined && typeof options?.thread_ts !== 'string') {
-    logger.warn(`The given thread_ts value in the request payload for a ${method} call is a float value. We highly recommend using a string value instead.`);
+    logger.warn(buildThreadTsWarningMessage(method));
   }
 }

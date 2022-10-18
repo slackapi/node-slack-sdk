@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { Agent } = require('https');
 const { assert } = require('chai');
-const { WebClient } = require('./WebClient');
+const { WebClient, buildThreadTsWarningMessage } = require('./WebClient');
 const { ErrorCode } = require('./errors');
 const { LogLevel } = require('./logger');
 const { addAppMetadata } = require('./instrument');
@@ -300,6 +300,7 @@ describe('WebClient', function () {
         { method: 'chat.postMessage' },
         { method: 'chat.scheduleMessage' },
         { method: 'files.upload' },
+        // { method: 'files.uploadV2' },
       ];
 
       threadTsTestPatterns.reduce((acc, { method, args }) => {
@@ -307,9 +308,6 @@ describe('WebClient', function () {
           .map((v) => ({ method, args: Object.assign({}, v, args) }))
         return acc.concat(threadTs)
       }, []).forEach(({ method, args }) => {
-        // TODO: This test is pretty easily broken, since adding any unrelated logging to these
-        // methods that are being warned against adds to the total count
-        // Instead this could test that a specific warning text is outputted
         it(`should send warning to logs when thread_ts in ${method} arguments is a float`, function () {
           const logger = {
             debug: sinon.spy(),
@@ -322,7 +320,21 @@ describe('WebClient', function () {
           const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
           return warnClient.apiCall(method, args)
             .then(() => {
-              assert.equal(logger.warn.callCount, 4);
+              // assume no warning about thread_ts has been sent
+              let warnedAboutThreadTS = false;
+
+              // for each of the calls made of this method's spy function
+              const spyCalls = logger.warn.getCalls();
+              for (const call of spyCalls) {
+                // determine whether it was called with the correct warning as arguments
+                if (call.args[0] === buildThreadTsWarningMessage(method)) {
+                  warnedAboutThreadTS = true;
+                  break;
+                }
+              }
+              if (!warnedAboutThreadTS) {
+                assert.fail(`Expected a warning when thread_ts in ${method} is a float but got none`);
+              }
             });
         });
       });
@@ -332,9 +344,6 @@ describe('WebClient', function () {
           .map((v) => ({ method, args: Object.assign({}, v, args) }))
         return acc.concat(threadTs)
       }, []).forEach(({ method, args }) => {
-        // TODO: This test is pretty easily broken, since adding any unrelated logging to these
-        // methods that are being warned against adds to the total count
-        // Instead this could test that a specific warning text is outputted
         it(`should not send warning to logs when thread_ts in ${method} arguments is a string`, function () {
           const logger = {
             debug: sinon.spy(),
@@ -347,7 +356,9 @@ describe('WebClient', function () {
           const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
           return warnClient.apiCall(method, args)
             .then(() => {
-              assert.equal(logger.warn.callCount, 3);
+              logger.warn.getCalls().forEach((call) => { 
+                  assert.notEqual(call.args[0], buildThreadTsWarningMessage(method));
+              });
             });
         });
       });
