@@ -100,7 +100,7 @@ Refer to [the module document page](https://slack.dev/node-slack-sdk/socket-mode
 
 ## Requirements
 
-This package supports Node v12 LTS and higher. It's highly recommended to use [the latest LTS version of
+This package supports Node v14 and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
 from that version.
 
