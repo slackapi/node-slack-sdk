@@ -13,6 +13,7 @@ const { CaptureConsole } = require('@aoberoi/capture-console');
 const nock = require('nock');
 const Busboy = require('busboy');
 const sinon = require('sinon');
+const { buildLegacyMethodWarning, buildGeneralFilesUploadWarning } = require('./file-upload');
 const axios = require('axios').default;
 
 const token = 'xoxb-faketoken';
@@ -361,6 +362,40 @@ describe('WebClient', function () {
             });
         });
       });
+
+      it('warns when user is accessing the files.upload (legacy) method', async () => {
+        const logger = {
+          info: sinon.spy(),
+          warn: sinon.spy(),
+          debug: sinon.spy(),
+          error: sinon.spy(),
+          setLevel: sinon.spy(),
+          setName: sinon.spy(),
+        }
+        const client = new WebClient(token, { logLevel: LogLevel.INFO, logger });
+        const res = await client.apiCall('files.upload', {});
+
+        // both must be true to pass this test
+        let warnedAboutLegacyFilesUpload = false;
+        let infoAboutRecommendedFilesUploadV2 = false;
+
+        // check the warn spy for whether it was called with the correct warning
+        logger.warn.getCalls().forEach(call => {
+          if (call.args[0] === buildLegacyMethodWarning('files.upload')) {
+            warnedAboutLegacyFilesUpload = true;
+          }
+        });
+        // check the info spy for whether it was called with the correct warning
+        logger.info.getCalls().forEach(call => {
+          if (call.args[0] === buildGeneralFilesUploadWarning()) {
+            infoAboutRecommendedFilesUploadV2 = true;
+          }
+        })
+        if (!warnedAboutLegacyFilesUpload || !infoAboutRecommendedFilesUploadV2) {
+          assert.fail('Should have logged a warning and info when files.upload is used');
+        }
+      });
+
     });
 
     describe('with OAuth scopes in the response headers', function () {

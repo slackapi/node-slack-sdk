@@ -36,6 +36,10 @@ export async function getFileUpload(
   return fileUploadEntry;
 }
 
+export const buildLegacyMethodWarning = (method: string): string => `${method} is now a legacy Slack API method.`;
+export const buildGeneralFilesUploadWarning = (): string => 'We recommend using files.uploadV2 for files uploads. ' +
+  'This can be done with client.files.uploadV2 or via the general Web API utility, client.apiCall(\'files.uploadV2\')';
+
 /**
  * Advise to use the files.uploadV2 method over legacy files.upload method and over
  * lower-level utilities.
@@ -45,11 +49,7 @@ export async function getFileUpload(
 export function warnIfNotUsingFilesUploadV2(method: string, logger: Logger): void {
   const targetMethods = ['files.upload'];
   const isTargetMethod = targetMethods.includes(method);
-  const buildLegacyMethodWarning = () => `${method} is now a legacy Slack API method.`;
-  const buildGeneralFilesUploadWarning = () => 'We recommend using files.uploadV2 for files uploads. ' +
-    'This can be done with client.files.uploadV2 or via the general Web API utility, client.apiCall(\'files.uploadV2\')';
-
-  if (method === 'files.upload') logger.warn(buildLegacyMethodWarning());
+  if (method === 'files.upload') logger.warn(buildLegacyMethodWarning(method));
   if (isTargetMethod) logger.info(buildGeneralFilesUploadWarning());
 }
 
