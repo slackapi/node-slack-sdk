@@ -235,7 +235,6 @@ export class WebClient extends Methods {
     }
 
     warnIfNotUsingFilesUploadV2(method, this.logger);
-    // if method is files.uploadV2 call private helper Webclient.filesUploadV2 instead
     if (method === 'files.uploadV2') return this.filesUploadV2(options);
 
     const headers: Record<string, string> = {};
