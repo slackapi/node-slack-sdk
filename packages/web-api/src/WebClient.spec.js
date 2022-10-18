@@ -300,7 +300,6 @@ describe('WebClient', function () {
         { method: 'chat.postMessage' },
         { method: 'chat.scheduleMessage' },
         { method: 'files.upload' },
-        // { method: 'files.uploadV2' },
       ];
 
       threadTsTestPatterns.reduce((acc, { method, args }) => {
