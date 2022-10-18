@@ -28,7 +28,7 @@ export async function getFileUpload(
     initial_comment: options.initial_comment,
     snippet_type: options.snippet_type,
     thread_ts: options.thread_ts,
-    title: options.title,
+    title: options.title ?? (options.filename ?? fileName),
     // calculated
     data: fileData,
     length: fileDataBytesLength,
