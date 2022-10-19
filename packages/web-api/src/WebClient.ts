@@ -471,9 +471,7 @@ export class WebClient extends Methods {
 
   private async getFileInfo(fileUploads: FileUploadV2Entry[]):
   Promise<Array<WebAPICallResult>> {
-    return Promise.all(fileUploads.map((upload: FileUploadV2Entry) => {
-      return this.files.info({ file: upload.file_id! });
-    }))
+    return Promise.all(fileUploads.map((upload: FileUploadV2Entry) => this.files.info({ file: upload.file_id! })));
   }
 
   /**

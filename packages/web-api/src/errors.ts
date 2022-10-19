@@ -22,9 +22,6 @@ export enum ErrorCode {
   // file uploads errors
   FileUploadInvalidArgumentsError = 'slack_webapi_file_upload_invalid_args_error',
   FileUploadReadFileDataError = 'slack_webapi_file_upload_read_file_data_error',
-  // FileUploadExternalURLError = 'slack_webapi_file_upload_external_upload_url_error',
-  // FileUploadError = 'slack_webapi_file_upload_error',
-  // FileUploadCompleteError = 'slack_webapi_file_upload_complete_error'
 }
 
 export type WebAPICallError = WebAPIPlatformError | WebAPIRequestError | WebAPIHTTPError | WebAPIRateLimitedError;
