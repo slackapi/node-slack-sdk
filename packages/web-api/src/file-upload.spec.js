@@ -3,7 +3,16 @@ const { assert } = require('chai');
 const sinon = require('sinon');
 const { createReadStream } = require('fs');
 const { ErrorCode } = require('./errors');
-const { getFileDataAsStream, getFileDataLength, getFileData, getFileUpload, buildLegacyFileTypeWarning, buildMissingExtensionWarning, buildMissingFileNameWarning, buildFileSizeErrorMsg } = require('./file-upload');
+const { getFileDataAsStream,
+  getFileDataLength,
+  getFileData,
+  getFileUpload,
+  getAllFileUploadsToComplete,
+  buildLegacyFileTypeWarning,
+  buildMissingExtensionWarning,
+  buildMissingFileNameWarning,
+  buildMissingFileIdError,
+} = require('./file-upload');
 
 describe('file-upload', () => {
   describe('getFileUpload', () =>{
@@ -202,4 +211,220 @@ describe('file-upload', () => {
       }
     });
   });
+  describe('getAllFileUploadsToComplete', () => {
+    describe('when channel_id is the same', () => {
+      it('should group uploads with matching thread_ts and initial_comment together', () => {
+        const fileUpload1 = {
+          file: Buffer.from('test'),
+          filename: 'test.txt',
+          file_id: 'id1',
+          title: 'test1',
+          // same as below in fileUpload2
+          channel_id: '1',
+          initial_comment: 'Hi',
+          thread_ts: '1.0'
+        }
+        const fileUpload2 = {
+          file: Buffer.from('test'),
+          filename: 'test.txt',
+          file_id: 'id2',
+          title: 'test2',
+          // same as above in fileUpload1
+          channel_id: '1',
+          initial_comment: 'Hi',
+          thread_ts: '1.0'
+        }
+        const fileUploads = [fileUpload1, fileUpload2];
+        const toComplete = getAllFileUploadsToComplete(fileUploads);
+
+        // there should be one job to complete 
+        assert.equal(Object.keys(toComplete).length, 1);
+        
+        // that job should contain two file uploads 
+        // we can verity this by checking files
+        const job = Object.values(toComplete)[0];
+        assert.equal(job.files.length, 2);
+
+        // check that each upload contains correct file_ids and title
+        job.files.forEach((file, idx) => {
+          assert.equal(fileUploads[idx].file_id, file.id);
+          assert.equal(fileUploads[idx].title, file.title);
+        });
+      });
+      it('should group uploads with matching thread_ts and different initial_comments separately', () => {
+        // in this case the behavior should be to post in the same thread separate comments with each file upload
+        // respectively
+        const fileUpload1 = {
+          file: Buffer.from('test'),
+          filename: 'test.txt',
+          file_id: 'id1',
+          title: 'test1',
+          // same as below in fileUpload2
+          channel_id: '1',
+          thread_ts: '1.0',
+          // different from fileUpload2
+          initial_comment: 'Hi',
+        }
+        const fileUpload2 = {
+          file: Buffer.from('test'),
+          filename: 'test.txt',
+          file_id: 'id2',
+          title: 'test2',
+          // same as above in fileUpload1
+          channel_id: '1',
+          thread_ts: '1.0',
+          // different from fileUpload1
+          initial_comment: 'Bye',
+        }
+        const fileUploads = [fileUpload1, fileUpload2];
+        const toComplete = getAllFileUploadsToComplete(fileUploads);
+
+        // there should be two jobs to complete 
+        assert.equal(Object.keys(toComplete).length, 2);
+
+        // each job should contain one file upload
+        // we can verity this by checking files
+        const jobs = Object.values(toComplete);
+        jobs.forEach((job, idx) => {
+          // checks there's one upload in `files`
+          assert.equal(job.files.length, 1);
+          // checks that this upload matches the original fileUploads entry
+          assert.equal(fileUploads[idx].file_id, job.files[0].id);
+          assert.equal(fileUploads[idx].title, job.files[0].title);
+        })
+      });
+      it('should group uploads with non matching thread_ts separately regardless of whether initial_comments match', () => {
+        const fileUpload1 = {
+          file: Buffer.from('test'),
+          filename: 'test.txt',
+          file_id: 'id1',
+          title: 'test1',
+          // same as below in fileUpload2
+          channel_id: '1',
+          initial_comment: 'Hi',
+          // different from fileUpload2
+          thread_ts: '1.0',
+        }
+        const fileUpload2 = {
+          file: Buffer.from('test'),
+          filename: 'test.txt',
+          file_id: 'id2',
+          title: 'test2',
+          // same as above in fileUpload1
+          channel_id: '1',
+          initial_comment: 'Hi',
+          // different from fileUpload1
+          thread_ts: '2.0',
+        }
+        const fileUploads = [fileUpload1, fileUpload2];
+        const toComplete = getAllFileUploadsToComplete(fileUploads);
+
+        // there should be two jobs to complete 
+        assert.equal(Object.keys(toComplete).length, 2);
+
+        // each job should contain one file upload
+        // we can verity this by checking files
+        const jobs = Object.values(toComplete);
+        jobs.forEach((job, idx) => {
+          // checks there's one upload in `files`
+          assert.equal(job.files.length, 1);
+          // checks that this upload matches the original fileUploads entry
+          assert.equal(fileUploads[idx].file_id, job.files[0].id);
+          assert.equal(fileUploads[idx].title, job.files[0].title);
+        })
+      });
+    })
+    describe('when channel_id is different', () => {
+      it('should not group uploads', () => {
+        // even if all other details are the same, it should never group uploads if the channel_id doesn't match
+        const fileUpload1 = {
+          file: Buffer.from('test'),
+          filename: 'test.txt',
+          file_id: 'id1',
+          title: 'test1',
+          initial_comment: 'Hi',
+          thread_ts: '1.0',
+
+          channel_id: '1'
+        }
+        const fileUpload2 = {
+          file: Buffer.from('test'),
+          filename: 'test.txt',
+          file_id: 'id1',
+          title: 'test1',
+          initial_comment: 'Hi',
+          thread_ts: '1.0',
+
+          channel_id: 'Not 1'
+        }
+        const fileUploads = [fileUpload1, fileUpload2];
+        const toComplete = getAllFileUploadsToComplete(fileUploads);
+
+        // there should be 2 jobs to complete 
+        assert.equal(Object.keys(toComplete).length, 2);
+      });
+    });
+    it('should correctly group entries with matching channel_ids, non-matching channel_ids, missing, channel_id', () => {
+      // fileUpload1 and 2 should be grouped together in one job because their channel_id and initial comment match 
+      const fileUpload1 = {
+        file: Buffer.from('test'),
+        filename: 'test.txt',
+        file_id: 'id1',
+        title: 'test1',
+
+        channel_id: '1',
+        initial_comment: 'Hi',
+      }
+      const fileUpload2 = {
+        file: Buffer.from('test'),
+        filename: 'test.txt',
+        file_id: 'id2',
+        title: 'test2',
+
+        channel_id: '1',
+        initial_comment: 'Hi',
+      }
+      // should be it's own job even though the channel id matches because it's missing thread_ts and initial_comment
+      const fileUpload3 = {
+        file: Buffer.from('test'),
+        filename: 'test.txt',
+        file_id: 'id3',
+        title: 'test3',
+
+        channel_id: '1',
+      }
+      // should be it's own job, it's missing a channel id, so its private and cant be grouped in a message
+      const fileUpload4 = {
+        file: Buffer.from('test'),
+        filename: 'test.txt',
+        file_id: 'id4',
+        title: 'test4',
+
+        thread_ts: '1.0',
+        initial_comment: 'Bye',
+      }
+      const fileUploads = [fileUpload1, fileUpload2, fileUpload3, fileUpload4];
+      const toComplete = getAllFileUploadsToComplete(fileUploads);
+
+      // there should be 3 total jobs to complete 
+      assert.equal(Object.keys(toComplete).length, 3);
+    })
+    it('should error if a file_id is missing from any fileUpload entry', () => {
+      const fileUpload1 = {
+        file: Buffer.from('test'),
+        filename: 'test.txt',
+        title: 'test1',
+        initial_comment: 'Hi',
+        thread_ts: '1.0',
+        channel_id: '1'
+      }
+      const fileUploads = [fileUpload1];
+      try {
+        const toComplete = getAllFileUploadsToComplete(fileUploads);
+        assert.fail('Should fail with error because of missing file_id but did not');
+      } catch (error) {
+        assert.equal(error.message, buildMissingFileIdError());
+      }
+    })
+  })
 })

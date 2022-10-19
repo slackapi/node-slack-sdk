@@ -27,7 +27,7 @@ import {
 import { LogLevel, Logger, getLogger } from './logger';
 import { RetryOptions, tenRetriesInAboutThirtyMinutes } from './retry-policies';
 import delay from './helpers';
-import { warnIfNotUsingFilesUploadV2, getFileUpload } from './file-upload';
+import { warnIfNotUsingFilesUploadV2, getFileUpload, getMultipleFileUploads, getAllFileUploadsToComplete } from './file-upload';
 
 /*
  * Helpers
@@ -414,35 +414,15 @@ export class WebClient extends Methods {
     const fileUploads = await this.getAllFileUploads(options);
     const fileUploadsURLRes = await this.fetchAllUploadURLExternal(fileUploads);
     fileUploadsURLRes.forEach((res, idx) => {
-      const { status } = res;
-      if (status === 'rejected') {
-        this.logger.error(`Error initiating upload for ${fileUploads[idx].filename}`);
-      } else if (status === 'fulfilled') {
-        // set upload url and file id
-        fileUploads[idx].upload_url = (res as PromiseFulfilledResult<FilesGetUploadURLExternalResponse>)
-          .value.upload_url;
-        fileUploads[idx].file_id = (res as PromiseFulfilledResult<FilesGetUploadURLExternalResponse>)
-          .value.file_id;
-      }
+      fileUploads[idx].upload_url = res.upload_url;
+      fileUploads[idx].file_id = res.file_id;
     });
 
     // 2
-    const fileUploadsRes = await this.postFileUploadsToExternalURL(fileUploads, options);
-    fileUploadsRes.forEach((res, idx) => {
-      const { status } = res;
-      if (status === 'rejected') {
-        this.logger.error(`Error uploading file contents for: ${fileUploads[idx].filename} (id: ${fileUploads[idx].file_id}) `);
-      }
-    });
+    await this.postFileUploadsToExternalURL(fileUploads, options);
 
     // 3
-    const fileUploadsCompleteRes = await this.postCompletedFileUploads(fileUploads);
-    fileUploadsCompleteRes.forEach((res, idx) => {
-      const { status } = res;
-      if (status === 'rejected') {
-        this.logger.error(`Error completing file upload for: ${fileUploads[idx].filename} (id: ${fileUploads[idx].file_id})`);
-      }
-    });
+    await this.postCompletedFileUploads(fileUploads);
 
     // this method executes multiple WebAPICalls, including this here
     // to satisfy Method and WebClient typed interfaces
@@ -458,8 +438,8 @@ export class WebClient extends Methods {
    * @returns
    */
   private async fetchAllUploadURLExternal(fileUploads: FileUploadV2Entry[]):
-  Promise<Array<PromiseSettledResult<FilesGetUploadURLExternalResponse>>> {
-    return Promise.allSettled(fileUploads.map((upload: FileUploadV2Entry) => {
+  Promise<Array<FilesGetUploadURLExternalResponse>> {
+    return Promise.all(fileUploads.map((upload: FileUploadV2Entry) => {
       /* eslint-disable @typescript-eslint/consistent-type-assertions */
       const options = {
         filename: upload.filename,
@@ -479,20 +459,13 @@ export class WebClient extends Methods {
    * @returns
    */
   private async postCompletedFileUploads(fileUploads: FileUploadV2Entry[]):
-  Promise<Array<PromiseSettledResult<WebAPICallResult>>> {
-    return Promise.allSettled(fileUploads.map((upload: FileUploadV2Entry) => {
-      const { file_id, channel_id, initial_comment, thread_ts, title } = upload;
-      if (file_id) {
-        const options: FilesCompleteUploadExternalArguments = {
-          files: [{ id: file_id, title }],
-          channel_id,
-          initial_comment,
-          thread_ts,
-        };
-        return this.files.completeUploadExternal(options);
-      }
-      return Promise.reject(Error('Missing required file id for file upload completion'));
-    }));
+  Promise<Array<WebAPICallResult>> {  
+    const jobs = getAllFileUploadsToComplete(fileUploads);
+    const jobsValues = Object.values(jobs);
+
+    return Promise.all(
+      jobsValues.map((job: FilesCompleteUploadExternalArguments) => this.files.completeUploadExternal(job)),
+    );
   }
 
   /**
@@ -501,8 +474,8 @@ export class WebClient extends Methods {
    * @returns
    */
   private async postFileUploadsToExternalURL(fileUploads: FileUploadV2Entry[], options: FilesUploadV2Arguments)
-    : Promise<Array<PromiseSettledResult<FilesGetUploadURLExternalResponse>>> {
-    return Promise.allSettled(fileUploads.map(async (upload: FileUploadV2Entry) => {
+    : Promise<Array<FilesGetUploadURLExternalResponse>> {
+    return Promise.all(fileUploads.map(async (upload: FileUploadV2Entry) => {
       const { upload_url, file_id, filename, data } = upload;
       // either file or content will be defined
       const body = data;
@@ -532,7 +505,7 @@ export class WebClient extends Methods {
   private async getAllFileUploads(options: FilesUploadV2Arguments): Promise<FileUploadV2Entry[]> {
     let fileUploads: FileUploadV2Entry[] = [];
 
-    // add single file data to uploads
+    // add single file data to uploads if file or content exists at the top level
     if (options.file || options.content) {
       const channels = options.channels ? options.channels.split(',') : [];
       if (channels.length > 1) {
@@ -546,13 +519,7 @@ export class WebClient extends Methods {
     }
     // add multiple files data to uploads
     if (options.file_uploads) {
-      fileUploads = fileUploads.concat(await Promise.all(options.file_uploads.map(async (upload) => {
-        try {
-          return await getFileUpload(upload, this.logger, upload.channel_id);
-        } catch (error) {
-          return Promise.reject();
-        }
-      })));
+      fileUploads = fileUploads.concat(await getMultipleFileUploads(options, this.logger));
     }
     return fileUploads;
   }

@@ -1393,6 +1393,56 @@ describe('WebClient', function () {
       const res = await client.getAllFileUploads(entryWithFileUploadsAndSingleFile);
       assert.equal(res.length, 6);
     });
+    it('handles multiple files with a single channel_id, initial_comment and/or thread_ts', async () => {
+      const pattern1 = {
+        initial_comment: 'Here are the files!',
+        thread_ts: '1223313423434.131321',
+        channel_id: 'C123',
+        file_uploads: [
+          {
+            file: './test/fixtures/test-txt.txt',
+            filename: 'test-txt.txt',
+          },
+          {
+            file: './test/fixtures/test-png.png',
+            filename: 'test-png.png',
+          },
+        ],
+      };
+      const pattern2 = {
+        file_uploads: [
+          {
+            file: './test/fixtures/test-txt.txt',
+            filename: 'test-txt.txt',
+            initial_comment: 'Here are the files!',
+            thread_ts: '1223313423434.131321',
+            channel_id: 'C123',
+          },
+          {
+            file: './test/fixtures/test-png.png',
+            filename: 'test-png.png',
+            initial_comment: 'Here are the files!',
+            thread_ts: '1223313423434.131321',
+            channel_id: 'C123',
+          },
+        ],
+      };
+      // in this case the two file uploads should be sent along with a single
+      // message corresponding to initial_comment 
+      const res = await client.getAllFileUploads(pattern1);
+      res.forEach((entry) => {
+        assert.equal(entry.initial_comment, pattern1.initial_comment);
+        assert.equal(entry.thread_ts, pattern1.thread_ts);
+        assert.equal(entry.channel_id, pattern1.channel_id);
+      });
+
+      const res2 = await client.getAllFileUploads(pattern2);
+      res2.forEach(entry => {
+        assert.equal(entry.initial_comment, pattern1.initial_comment);
+        assert.equal(entry.thread_ts, pattern1.thread_ts);
+        assert.equal(entry.channel_id, pattern1.channel_id);
+      });
+    });
   });
 
   describe('fetchAllUploadURLExternal', () => {
@@ -1428,8 +1478,12 @@ describe('WebClient', function () {
       }];
 
       // should reject because of missing file_id
-      const res = await client.postCompletedFileUploads(invalidTestFileUploadsToComplete);
-      assert.equal(res[0].status, 'rejected');
+      try {
+        const res = await client.postCompletedFileUploads(invalidTestFileUploadsToComplete);
+        assert.fail('Should haave errored but did not');
+      } catch (err) {
+        assert.equal(err.message, 'Missing required file id for file upload completion');
+      }
 
     });
     it('makes calls to files.completeUploadExternal for each fileUpload', async () => {
@@ -1460,9 +1514,13 @@ describe('WebClient', function () {
         title: 'Spaghetti test-txt.txt',
       }];
 
-      // should reject because of missing file_id
-      const res = await client.postFileUploadsToExternalURL(invalidTestFileUploadsToComplete);
-      assert.equal(res[0].status, 'rejected');
+      // should reject because of missing upload_url
+      try {
+        const res = await client.postFileUploadsToExternalURL(invalidTestFileUploadsToComplete);
+        assert.fail('Should have rejected with an error but did not');
+      } catch (error) {
+        assert.equal(error.message, 'No upload url found for file');
+      }
     });
     it('makes a POST request for each fileUpload upload_url', async () => {
       const testFileUploadsToComplete = [{

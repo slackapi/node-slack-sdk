@@ -1680,15 +1680,16 @@ interface FileUpload {
   title?: string;
 }
 
-export interface FilesUploadV2Arguments extends FileUploadV2, WebAPICallOptions, TokenOverridable {
-  file_uploads?: FileUploadV2[]; // upload multiple files
-}
 // V2 File upload item minus multiple channels and filetype properties
 export type FileUploadV2 = FileUpload & {
   alt_text?: string;
   channel_id?: string;
   snippet_type?: string;
 };
+
+export interface FilesUploadV2Arguments extends FileUploadV2, WebAPICallOptions, TokenOverridable {
+  file_uploads?: FileUploadV2[]; // upload multiple files
+}
 
 // Helper type intended for internal use in filesUploadV2 client method
 export interface FileUploadV2Entry extends FileUploadV2,

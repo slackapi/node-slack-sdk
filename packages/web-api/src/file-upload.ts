@@ -1,7 +1,7 @@
 import { Logger } from '@slack/logger';
 import { readFileSync, ReadStream } from 'fs';
 import { errorWithCode, ErrorCode } from './errors';
-import { FilesUploadV2Arguments, FileUploadV2, FileUploadV2Entry } from './methods';
+import { FilesCompleteUploadExternalArguments, FilesUploadV2Arguments, FileUploadV2, FileUploadV2Entry } from './methods';
 
 /**
  * Returns a fileUploadEntry used internally to store state of the file upload
@@ -14,7 +14,7 @@ export async function getFileUpload(
   logger: Logger, channelId?: string,
 ): Promise<FileUploadV2Entry> {
   warnIfLegacyFileType(options, logger);
-  const fileName = warnIfMissingOrInvalidFileName(options, logger);
+  const fileName = warnIfMissingOrInvalidFileNameAndDefault(options, logger);
   const fileData = await getFileData(options);
   const fileDataBytesLength = getFileDataLength(fileData);
 
@@ -36,9 +36,73 @@ export async function getFileUpload(
   return fileUploadEntry;
 }
 
-export const buildLegacyMethodWarning = (method: string): string => `${method} is now a legacy Slack API method.`;
-export const buildGeneralFilesUploadWarning = (): string => 'We recommend using files.uploadV2 for files uploads. ' +
-  'This can be done with client.files.uploadV2 or via the general Web API utility, client.apiCall(\'files.uploadV2\')';
+/**
+ * Returns an array of files upload entries when `file_uploads` is supplied.
+ * **Note**
+ * file_uploads can be set as options that are intended to be attached to a
+ * single message. To support this, we will handle options supplied either
+ * in both following patterns:
+ * ### Pattern 1
+ * Top level `initial_comment`, `thread_ts`, `channel_id`
+ * ```javascript
+ * const res = await client.files.uploadV2({
+ *   initial_comment: 'Here are the files!',
+ *   thread_ts: '1223313423434.131321',
+ *   channel_id: 'C123',
+ *   file_uploads: [
+ *     {
+ *       file: './test/fixtures/test-txt.txt',
+ *       filename: 'test-txt.txt',
+ *     },
+ *     {
+ *       file: './test/fixtures/test-png.png',
+ *       filename: 'test-png.png',
+ *     },
+ *   ],
+ * });
+ * ```
+ * ### Pattern 2
+ * Nested `initial_comment`, `thread_ts`, `channel_id`
+ * ```javascript
+ * const res = await client.files.uploadV2({
+ *   file_uploads: [
+ *     {
+ *       file: './test/fixtures/test-txt.txt',
+ *       filename: 'test-txt.txt',
+ *       initial_comment: 'Here are the files!',
+ *       thread_ts: '1223313423434.131321',
+ *       channel_id: 'C123',
+ *     },
+ *     {
+ *       file: './test/fixtures/test-png.png',
+ *       filename: 'test-png.png',
+ *       initial_comment: 'Here are the files!',
+ *       thread_ts: '1223313423434.131321',
+ *       channels: 'C123',
+ *     },
+ *   ],
+ * });
+ * ```
+ * @param options provided by user
+*/
+export async function getMultipleFileUploads(
+  options: FilesUploadV2Arguments,
+  logger: Logger,
+): Promise<FileUploadV2Entry[]> {
+  if (options.file_uploads) {
+    return Promise.all(options.file_uploads.map((upload) => {
+      const modifiedUpload = {
+        ...upload,
+      };
+      // if channel_id, initial_comment, thread_ts is missing, assume the top level option
+      modifiedUpload.channel_id = upload.channel_id ?? options.channel_id;
+      modifiedUpload.initial_comment = upload.initial_comment ?? options.initial_comment;
+      modifiedUpload.thread_ts = upload.thread_ts ?? options.thread_ts;
+      return getFileUpload(modifiedUpload, logger, modifiedUpload.channel_id);
+    }));
+  }
+  throw new Error(buildFilesUploadMissingMessage());
+}
 
 /**
  * Advise to use the files.uploadV2 method over legacy files.upload method and over
@@ -53,6 +117,10 @@ export function warnIfNotUsingFilesUploadV2(method: string, logger: Logger): voi
   if (isTargetMethod) logger.info(buildGeneralFilesUploadWarning());
 }
 
+/**
+ * Checks for either a file or content property and errors if missing
+ * @param options
+ */
 export function errorIfInvalidOrMissingFileData(options: FilesUploadV2Arguments | FileUploadV2): void {
   const { file, content } = options;
 
@@ -77,11 +145,12 @@ export function errorIfInvalidOrMissingFileData(options: FilesUploadV2Arguments 
   }
 }
 
-export const buildMissingFileNameWarning = (): string => 'filename is a required field for files.uploadV2. \n For backwards compatibility and ease of migration, ' +
-'defaulting the filename. For best experience and consistent unfurl behavior, you' +
-' should set the filename property with correct file extension, e.g. image.png, text.txt';
-export const buildMissingExtensionWarning = (filename: string): string => `filename supplied '${filename}' may be missing a proper extension. Missing extenions may result in unexpected unfurl behavior when shared`;
-export function warnIfMissingOrInvalidFileName(
+/**
+ * @param options
+ * @param logger
+ * @returns filename if it exists
+ */
+export function warnIfMissingOrInvalidFileNameAndDefault(
   options: FilesUploadV2Arguments | FileUploadV2,
   logger: Logger,
 ): string {
@@ -100,9 +169,10 @@ export function warnIfMissingOrInvalidFileName(
   return filename;
 }
 
-export const buildLegacyFileTypeWarning = (): string => 'filetype is no longer a supported field in files.uploadV2.' +
-' \nPlease remove this field. To indicate file type, please do so via the required filename property' +
-' using the appropriate file extension, e.g. image.png, text.txt';
+/**
+ * @param options
+ * @param logger
+ */
 export function warnIfLegacyFileType(options: FilesUploadV2Arguments | FileUploadV2, logger: Logger): void {
   if (options.filetype) {
     logger.warn(buildLegacyFileTypeWarning());
@@ -149,7 +219,6 @@ export async function getFileData(options: FilesUploadV2Arguments | FileUploadV2
   );
 }
 
-export const buildFileSizeErrorMsg = (): string => 'There was an issue calculating the size of your file';
 export function getFileDataLength(data: Buffer): number {
   if (data) {
     return Buffer.byteLength(data, 'utf8');
@@ -178,4 +247,69 @@ export async function getFileDataAsStream(readable: ReadStream): Promise<Buffer>
       }
     });
   });
+}
+
+export function getAllFileUploadsToComplete(fileUploads: FileUploadV2Entry[]):
+Record<string, FilesCompleteUploadExternalArguments> {
+  const toComplete: Record<string, FilesCompleteUploadExternalArguments> = {};
+  fileUploads.forEach((upload) => {
+    const { channel_id, thread_ts, initial_comment, file_id, title } = upload;
+    if (file_id) {
+      const compareString = `:::${channel_id}:::${thread_ts}:::${initial_comment}`;
+      if (!Object.prototype.hasOwnProperty.call(toComplete, compareString)) {
+        toComplete[compareString] = {
+          files: [{ id: file_id, title }],
+          channel_id,
+          initial_comment,
+          thread_ts,
+        };
+      } else {
+        toComplete[compareString].files.push({
+          id: file_id,
+          title,
+        });
+      }
+    } else {
+      throw new Error(buildMissingFileIdError());
+    }
+  });
+  return toComplete;
+}
+
+/* Error and warning message utils */
+export function buildMissingFileIdError(): string {
+  return 'Missing required file id for file upload completion';
+}
+
+export function buildFileSizeErrorMsg(): string {
+  return 'There was an issue calculating the size of your file';
+}
+
+export function buildLegacyFileTypeWarning(): string {
+  return 'filetype is no longer a supported field in files.uploadV2.' +
+    ' \nPlease remove this field. To indicate file type, please do so via the required filename property' +
+    ' using the appropriate file extension, e.g. image.png, text.txt';
+}
+
+export function buildMissingFileNameWarning(): string {
+  return 'filename is a required field for files.uploadV2. \n For backwards compatibility and ease of migration, ' +
+    'defaulting the filename. For best experience and consistent unfurl behavior, you' +
+    ' should set the filename property with correct file extension, e.g. image.png, text.txt';
+}
+
+export function buildMissingExtensionWarning(filename: string): string {
+  return `filename supplied '${filename}' may be missing a proper extension. Missing extenions may result in unexpected unfurl behavior when shared`;
+}
+
+export function buildLegacyMethodWarning(method: string): string {
+  return `${method} is now a legacy Slack API method.`;
+}
+
+export function buildGeneralFilesUploadWarning(): string {
+  return 'We recommend using files.uploadV2 for files uploads. ' +
+  'This can be done with client.files.uploadV2 or via the general Web API utility, client.apiCall(\'files.uploadV2\')';
+}
+
+export function buildFilesUploadMissingMessage(): string {
+  return 'Something went wrong with processing file_uploads';
 }
