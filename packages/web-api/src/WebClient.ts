@@ -413,6 +413,7 @@ export class WebClient extends Methods {
     // 1
     const fileUploads = await this.getAllFileUploads(options);
     const fileUploadsURLRes = await this.fetchAllUploadURLExternal(fileUploads);
+    // set the upload_url and file_id returned from Slack
     fileUploadsURLRes.forEach((res, idx) => {
       fileUploads[idx].upload_url = res.upload_url;
       fileUploads[idx].file_id = res.file_id;
@@ -424,10 +425,10 @@ export class WebClient extends Methods {
     // 3
     await this.postCompletedFileUploads(fileUploads);
 
-    // this method executes multiple WebAPICalls, including this here
-    // to satisfy Method and WebClient typed interfaces
-    const res: WebAPICallResult = { ok: true };
-    return res;
+    // 4
+    const res = await this.getFileInfo(fileUploads);
+
+    return { ok: true, data: res };
   }
 
   /**
@@ -466,6 +467,13 @@ export class WebClient extends Methods {
     return Promise.all(
       jobsValues.map((job: FilesCompleteUploadExternalArguments) => this.files.completeUploadExternal(job)),
     );
+  }
+
+  private async getFileInfo(fileUploads: FileUploadV2Entry[]):
+  Promise<Array<WebAPICallResult>> {
+    return Promise.all(fileUploads.map((upload: FileUploadV2Entry) => {
+      return this.files.info({ file: upload.file_id! });
+    }))
   }
 
   /**
