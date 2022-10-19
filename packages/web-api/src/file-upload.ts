@@ -249,6 +249,17 @@ export async function getFileDataAsStream(readable: ReadStream): Promise<Buffer>
   });
 }
 
+/**
+ * Filters through all fileUploads and groups them into jobs for completion
+ * based on combination of channel_id, thread_ts, initial_comment if supplied
+ * 
+ * https://api.slack.com/methods/files.completeUploadExternal allows for multiple
+ * files to be uploaded with a message (`initial_comment`), and as a threaded message (`thread_ts`)
+ * 
+ * In order to be grouped together, file uploads must have like properties.
+ * @param fileUploads 
+ * @returns 
+ */
 export function getAllFileUploadsToComplete(fileUploads: FileUploadV2Entry[]):
 Record<string, FilesCompleteUploadExternalArguments> {
   const toComplete: Record<string, FilesCompleteUploadExternalArguments> = {};
