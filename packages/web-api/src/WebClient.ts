@@ -495,12 +495,12 @@ export class WebClient extends Methods {
           body,
         }, headers);
         if (uploadRes.status !== 200) {
-          return Promise.reject(Error(`Failed to upload file id:${file_id}, ${filename}`));
+          return Promise.reject(Error(`Failed to upload file (id:${file_id}, filename: ${filename})`));
         } 
         const returnData = { ok: true, body: uploadRes.data } as WebAPICallResult;
         return Promise.resolve(returnData);
       } 
-      return Promise.reject(Error('No upload url found for file'));
+      return Promise.reject(Error(`No upload url found for file (id: ${file_id}, filename: ${filename}`));
     }));
   }
 

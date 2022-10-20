@@ -1519,7 +1519,7 @@ describe('WebClient', function () {
         const res = await client.postFileUploadsToExternalURL(invalidTestFileUploadsToComplete);
         assert.fail('Should have rejected with an error but did not');
       } catch (error) {
-        assert.equal(error.message, 'No upload url found for file');
+        assert.equal(error.message.startsWith('No upload url found for file'), true);
       }
     });
     it('makes a POST request for each fileUpload upload_url', async () => {

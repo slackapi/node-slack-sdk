@@ -426,5 +426,27 @@ describe('file-upload', () => {
         assert.equal(error.message, buildMissingFileIdError());
       }
     })
+    it('should correctly group entries with no channel_ids', () => {
+      const fileUpload1 = {
+        file: Buffer.from('test'),
+        filename: 'test.txt',
+        file_id: 'id1',
+        title: 'test1',
+        initial_comment: 'Hi',
+      }
+      const fileUpload2 = {
+        file: Buffer.from('test'),
+        filename: 'test.txt',
+        file_id: 'id2',
+        title: 'test2',
+        initial_comment: 'Hi',
+      }
+      const fileUploads = [fileUpload1, fileUpload2];
+      const toComplete = getAllFileUploadsToComplete(fileUploads);
+
+
+      // there should be 1 total jobs to complete
+      assert.equal(Object.keys(toComplete).length, 1);
+    })
   })
 })
