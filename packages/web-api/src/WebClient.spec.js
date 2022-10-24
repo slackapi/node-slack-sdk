@@ -1444,7 +1444,7 @@ describe('WebClient', function () {
     });
   });
 
-  describe('postCompletedFileUploads', () => {
+  describe('completeFileUploads', () => {
     const client = new WebClient(token);
 
     it('rejects with an error when missing required file id', async () => {
@@ -1458,7 +1458,7 @@ describe('WebClient', function () {
 
       // should reject because of missing file_id
       try {
-        const res = await client.postCompletedFileUploads(invalidTestFileUploadsToComplete);
+        const res = await client.completeFileUploads(invalidTestFileUploadsToComplete);
         assert.fail('Should haave errored but did not');
       } catch (err) {
         assert.equal(err.message, 'Missing required file id for file upload completion');
@@ -1476,7 +1476,7 @@ describe('WebClient', function () {
 
       var spy = sinon.spy();
       client.files.completeUploadExternal = spy;
-      await client.postCompletedFileUploads(testFileUploadsToComplete);
+      await client.completeFileUploads(testFileUploadsToComplete);
       assert.isTrue(spy.calledOnce);
     });
   });
@@ -1501,22 +1501,48 @@ describe('WebClient', function () {
         assert.equal(error.message.startsWith('No upload url found for file'), true);
       }
     });
-    it('makes a POST request for each fileUpload upload_url', async () => {
-      const testFileUploadsToComplete = [{
-        channel_id: 'C1234',
-        file_id: 'test',
-        filename: 'test-txt.txt',
-        upload_url: 'dummy-url',
-        initial_comment: 'Doo ba doo here is the: test-txt.txt',
-        title: 'Spaghetti test-txt.txt',
-      }];
+  });
 
-      var spy = sinon.spy(() => ({ status: 200 }));
-      client.makeRequest = spy;
+  describe('getFileInfo', () => {
+    const client = new WebClient(token);
+    client.getAllFileUploads = sinon.spy();
+    client.completeFileUploads = sinon.spy();
+    client.fetchAllUploadURLExternal = sinon.spy(() => {
+      return [];
+    });
+    client.postFileUploadsToExternalURL = sinon.spy(() => {
+      return [{
+        files: [{ id: 'F123', title: 'test.txt'}],
+      }]
+    });
 
-      // ensure that make request is  called 
-      await client.makeRequest(testFileUploadsToComplete);
-      assert.isTrue(spy.calledOnce);
+    it('is called when request_file_info is true or undefined', async () => {
+      client.getFileInfo = sinon.spy();
+      // set initial files upload arguments with request_file_info true
+      const withRequestFileInfoTrue = {
+        file: Buffer.from('test'),
+        filename: 'test.txt',
+        request_file_info: true,
+      };
+      await client.filesUploadV2(withRequestFileInfoTrue);
+      assert.equal(client.getFileInfo.called, true);
+
+      const withRequestFileInfoOmitted = {
+        file: Buffer.from('test'),
+        filename: 'test.txt',
+      }
+      await client.filesUploadV2(withRequestFileInfoOmitted);
+      assert.equal(client.getFileInfo.calledTwice, true);
+    });
+    it('is not called when request_file_info is set as false', async () => {
+      client.getFileInfo = sinon.spy();
+      const withRequestFileInfoFalse = {
+        file: Buffer.from('test'),
+        filename: 'test.txt',
+        request_file_info: false,
+      };
+      await client.filesUploadV2(withRequestFileInfoFalse);
+      assert.equal(client.getFileInfo.called, false);
     });
   });
 

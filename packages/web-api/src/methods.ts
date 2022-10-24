@@ -1682,6 +1682,7 @@ interface FileUpload {
 
 export interface FilesUploadV2Arguments extends FileUploadV2, WebAPICallOptions, TokenOverridable {
   file_uploads?: Omit<FileUploadV2, 'channel_id' | 'channels' | 'initial_comment' | 'thread_ts'>[];
+  request_file_info?: boolean;
 }
 
 export type FileUploadV2 = FileUpload & {

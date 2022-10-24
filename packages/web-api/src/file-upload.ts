@@ -73,6 +73,8 @@ export async function getMultipleFileUploadJobs(
     // go through each file_upload and create a job for it
     return Promise.all(options.file_uploads.map((upload) => {
       // ensure no omitted properties included in files_upload entry
+      // these properties are valid only at the top-level, not
+      // inside file_uploads.
       const { channel_id, channels, initial_comment, thread_ts } = upload as FileUploadV2;
       if (channel_id || channels || initial_comment || thread_ts) {
         throw errorWithCode(
@@ -85,6 +87,7 @@ export async function getMultipleFileUploadJobs(
       // supplied at the top level.
       return getFileUploadJob({
         ...upload,
+        channels: options.channels,
         channel_id: options.channel_id,
         initial_comment: options.initial_comment,
         thread_ts: options.thread_ts,
@@ -332,12 +335,12 @@ export function buildMissingExtensionWarning(filename: string): string {
 }
 
 export function buildLegacyMethodWarning(method: string): string {
-  return `${method} is now a legacy Slack API method.`;
+  return `${method} may cause some issues like timeouts for relatively large files.`;
 }
 
 export function buildGeneralFilesUploadWarning(): string {
-  return 'We recommend using files.uploadV2 for files uploads. ' +
-  'This can be done with client.files.uploadV2 or via the general Web API utility, client.apiCall(\'files.uploadV2\')';
+  return 'Our latest recommendation is to use client.files.uploadV2() method, ' +
+    'which is mostly compatible and much stabler, instead.';
 }
 
 export function buildFilesUploadMissingMessage(): string {

@@ -16,6 +16,7 @@ import {
   AdminAnalyticsMemberDetails,
   AdminAnalyticsPublicChannelDetails,
   AdminAnalyticsPublicChannelMetadataDetails,
+  FilesCompleteUploadExternalResponse,
   FilesGetUploadURLExternalResponse,
 } from './response';
 
@@ -395,21 +396,22 @@ export class WebClient extends Methods {
 
   /* eslint-disable no-trailing-spaces */
   /**
-   * Handles steps required to upload single or multiple files to Slack.
-   * This is a replacement for the (now legacy) files.upload method of uploading
-   * a single file.
+   * This wrapper method provides an easy way to upload files using the following endpoints:
    * 
    * **#1**: For each file submitted with this method, submit filenames
-   * and file metadata to files.getUploadURLExternal to request a URL to
+   * and file metadata to {@link https://api.slack.com/methods/files.getUploadURLExternal files.getUploadURLExternal} to request a URL to
    * which to send the file data to and an id for the file
    * 
-   * **#2**: for each returned file upload URL, upload corresponding file
+   * **#2**: for each returned file `upload_url`, upload corresponding file to
+   * URLs returned from step 1 (e.g. https://files.slack.com/upload/v1/...\")
    * 
-   * **#3**: For each successful upload, completeUploadExternal endpoint,
-   * with a list of completed - channel id, initial comment, thread_ts
+   * **#3**: Complete uploads {@link https://api.slack.com/methods/files.completeUploadExternal files.completeUploadExternal}
+   * 
+   * **#4**: Unless `request_file_info` set to false, call {@link https://api.slack.com/methods/files.info files.info} for
+   * each file uploaded and returns that data. Requires that your app have `files:read` scope.
    * @param options
    */
-  public async filesUploadV2(options: FilesUploadV2Arguments = {}): Promise<WebAPICallResult> {
+  public async filesUploadV2(options: FilesUploadV2Arguments): Promise<WebAPICallResult> {
     // 1
     const fileUploads = await this.getAllFileUploads(options);
     const fileUploadsURLRes = await this.fetchAllUploadURLExternal(fileUploads);
@@ -423,10 +425,13 @@ export class WebClient extends Methods {
     await this.postFileUploadsToExternalURL(fileUploads, options);
 
     // 3
-    await this.postCompletedFileUploads(fileUploads);
-
-    // 4
-    const res = await this.getFileInfo(fileUploads);
+    const completion = await this.completeFileUploads(fileUploads);
+    
+    // 4 
+    let res = completion;
+    if (options.request_file_info ?? true) {
+      res = await this.getFileInfo(fileUploads);
+    }
 
     return { ok: true, data: res };
   }
@@ -454,24 +459,29 @@ export class WebClient extends Methods {
   }
 
   /**
-   * For each successful upload, completeUploadExternal endpoint,
-   * with a list of completed uploads - opt. channel id, initial comment, thread_ts
+   * Complete uploads.
    * @param fileUploads
    * @returns
    */
-  private async postCompletedFileUploads(fileUploads: FileUploadV2Job[]):
-  Promise<Array<WebAPICallResult>> {  
+  private async completeFileUploads(fileUploads: FileUploadV2Job[]):
+  Promise<Array<FilesCompleteUploadExternalResponse>> {  
     const toComplete: FilesCompleteUploadExternalArguments[] = Object.values(getAllFileUploadsToComplete(fileUploads));
-
     return Promise.all(
       toComplete.map((job: FilesCompleteUploadExternalArguments) => this.files.completeUploadExternal(job)),
     );
   }
 
+  /**
+   * Call {@link https://api.slack.com/methods/files.info files.info} for
+   * each file uploaded and returns relevant data. Requires that your app have `files:read` scope, to
+   * turn off, set `request_file_info` set to false.
+   * @param fileUploads
+   * @returns
+   */
   private async getFileInfo(fileUploads: FileUploadV2Job[]):
   Promise<Array<WebAPICallResult>> {
     /* eslint-disable @typescript-eslint/no-non-null-assertion */
-    return Promise.all(fileUploads.map((upload: FileUploadV2Job) => this.files.info({ file: upload.file_id! })));
+    return Promise.all(fileUploads.map((job) => this.files.info({ file: job.file_id! })));
   }
 
   /**
