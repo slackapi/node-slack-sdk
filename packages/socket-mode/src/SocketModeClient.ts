@@ -420,7 +420,7 @@ export class SocketModeClient extends EventEmitter {
         const flatMessage = JSON.stringify(message);
         this.logger.debug(`Sending a WebSocket message: ${flatMessage}`);
         this.websocket.send(flatMessage, (error) => {
-          if (error !== undefined) {
+          if (error !== undefined && error !== null) {
             this.logger.error(`Failed to send a WebSocket message (error: ${error.message})`);
             return reject(websocketErrorWithOriginal(error));
           }
