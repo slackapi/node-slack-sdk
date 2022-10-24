@@ -1666,7 +1666,7 @@ export interface FilesSharedPublicURLArguments extends WebAPICallOptions, TokenO
   file: string; // file id
 }
 /**
- * Legacy files.upload API method
+ * Legacy files.upload API files upload arguments
  * */
 export interface FilesUploadArguments extends FileUpload, WebAPICallOptions, TokenOverridable {}
 interface FileUpload {
@@ -1680,27 +1680,27 @@ interface FileUpload {
   title?: string;
 }
 
-// V2 File upload item minus multiple channels and filetype properties
-export type FileUploadV2 = FileUpload & {
-  alt_text?: string;
-  channel_id?: string;
-  snippet_type?: string;
-};
-
 export interface FilesUploadV2Arguments extends FileUploadV2, WebAPICallOptions, TokenOverridable {
-  file_uploads?: FileUploadV2[]; // upload multiple files
+  file_uploads?: Omit<FileUploadV2, 'channel_id' | 'channels' | 'initial_comment' | 'thread_ts'>[];
 }
 
+export type FileUploadV2 = FileUpload & {
+  alt_text?: string; // for image uploads
+  channel_id?: string;
+  snippet_type?: string; // for code snippets
+};
+
 // Helper type intended for internal use in filesUploadV2 client method
-export interface FileUploadV2Entry extends FileUploadV2,
-  Pick<FilesGetUploadURLExternalResponse, 'file_id' | 'upload_url' | 'error'>,
-  Pick<FilesGetUploadURLExternalArguments, 'length'> {
-  data: Buffer;
+// Includes additional metadata required to complete a single file upload job
+export interface FileUploadV2Job extends FileUploadV2,
+  Pick<FilesGetUploadURLExternalResponse, 'file_id' | 'upload_url' | 'error'> {
+  length?: number;
+  data?: Buffer;
 }
 
 /**
- * Gets a URL for an edge external file upload.
- * https://api.slack.com/methods/files.getUploadURLExternal
+ * Gets a URL for an edge external file upload. Method:
+ * {@link https://api.slack.com/methods/files.getUploadURLExternal files.getUploadURLExternal}
 */
 export interface FilesGetUploadURLExternalArguments extends WebAPICallOptions, TokenOverridable {
   filename: string;
@@ -1709,8 +1709,8 @@ export interface FilesGetUploadURLExternalArguments extends WebAPICallOptions, T
   snippet_type?: string;
 }
 /**
- * Finishes an upload started with files.getUploadURLExternal
- * https://api.slack.com/methods/files.completeUploadExternal
+ * Finishes an upload started with files.getUploadURLExternal. Method:
+ * {@link https://api.slack.com/methods/files.completeUploadExternal files.completeUploadExternal}
  * */
 export interface FilesCompleteUploadExternalArguments extends WebAPICallOptions, TokenOverridable {
   files: FileUploadComplete[];

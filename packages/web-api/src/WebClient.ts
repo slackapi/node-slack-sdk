@@ -19,7 +19,7 @@ import {
   FilesGetUploadURLExternalResponse,
 } from './response';
 
-import { Methods, CursorPaginationEnabled, cursorPaginationEnabledMethods, FilesUploadV2Arguments, FileUploadV2Entry, FilesGetUploadURLExternalArguments, FilesCompleteUploadExternalArguments } from './methods';
+import { Methods, CursorPaginationEnabled, cursorPaginationEnabledMethods, FilesUploadV2Arguments, FileUploadV2Job, FilesGetUploadURLExternalArguments, FilesCompleteUploadExternalArguments } from './methods';
 import { getUserAgent } from './instrument';
 import {
   requestErrorWithOriginal, httpErrorFromResponse, platformErrorFromResult, rateLimitedErrorWithDelay,
@@ -27,7 +27,7 @@ import {
 import { LogLevel, Logger, getLogger } from './logger';
 import { RetryOptions, tenRetriesInAboutThirtyMinutes } from './retry-policies';
 import delay from './helpers';
-import { warnIfNotUsingFilesUploadV2, getFileUpload, getMultipleFileUploads, getAllFileUploadsToComplete } from './file-upload';
+import { warnIfNotUsingFilesUploadV2, getFileUploadJob, getMultipleFileUploadJobs, getAllFileUploadsToComplete } from './file-upload';
 
 /*
  * Helpers
@@ -438,9 +438,9 @@ export class WebClient extends Methods {
    * @param fileUploads
    * @returns
    */
-  private async fetchAllUploadURLExternal(fileUploads: FileUploadV2Entry[]):
+  private async fetchAllUploadURLExternal(fileUploads: FileUploadV2Job[]):
   Promise<Array<FilesGetUploadURLExternalResponse>> {
-    return Promise.all(fileUploads.map((upload: FileUploadV2Entry) => {
+    return Promise.all(fileUploads.map((upload: FileUploadV2Job) => {
       /* eslint-disable @typescript-eslint/consistent-type-assertions */
       const options = {
         filename: upload.filename,
@@ -459,19 +459,19 @@ export class WebClient extends Methods {
    * @param fileUploads
    * @returns
    */
-  private async postCompletedFileUploads(fileUploads: FileUploadV2Entry[]):
+  private async postCompletedFileUploads(fileUploads: FileUploadV2Job[]):
   Promise<Array<WebAPICallResult>> {  
-    const jobs = getAllFileUploadsToComplete(fileUploads);
-    const jobsValues = Object.values(jobs);
+    const toComplete: FilesCompleteUploadExternalArguments[] = Object.values(getAllFileUploadsToComplete(fileUploads));
 
     return Promise.all(
-      jobsValues.map((job: FilesCompleteUploadExternalArguments) => this.files.completeUploadExternal(job)),
+      toComplete.map((job: FilesCompleteUploadExternalArguments) => this.files.completeUploadExternal(job)),
     );
   }
 
-  private async getFileInfo(fileUploads: FileUploadV2Entry[]):
+  private async getFileInfo(fileUploads: FileUploadV2Job[]):
   Promise<Array<WebAPICallResult>> {
-    return Promise.all(fileUploads.map((upload: FileUploadV2Entry) => this.files.info({ file: upload.file_id! })));
+    /* eslint-disable @typescript-eslint/no-non-null-assertion */
+    return Promise.all(fileUploads.map((upload: FileUploadV2Job) => this.files.info({ file: upload.file_id! })));
   }
 
   /**
@@ -479,9 +479,9 @@ export class WebClient extends Methods {
    * @param fileUploads
    * @returns
    */
-  private async postFileUploadsToExternalURL(fileUploads: FileUploadV2Entry[], options: FilesUploadV2Arguments)
+  private async postFileUploadsToExternalURL(fileUploads: FileUploadV2Job[], options: FilesUploadV2Arguments)
     : Promise<Array<FilesGetUploadURLExternalResponse>> {
-    return Promise.all(fileUploads.map(async (upload: FileUploadV2Entry) => {
+    return Promise.all(fileUploads.map(async (upload: FileUploadV2Job) => {
       const { upload_url, file_id, filename, data } = upload;
       // either file or content will be defined
       const body = data;
@@ -508,24 +508,17 @@ export class WebClient extends Methods {
    * @param options All file uploads arguments
    * @returns An array of file upload entries
    */
-  private async getAllFileUploads(options: FilesUploadV2Arguments): Promise<FileUploadV2Entry[]> {
-    let fileUploads: FileUploadV2Entry[] = [];
+  private async getAllFileUploads(options: FilesUploadV2Arguments): Promise<FileUploadV2Job[]> {
+    let fileUploads: FileUploadV2Job[] = [];
 
     // add single file data to uploads if file or content exists at the top level
     if (options.file || options.content) {
-      const channels = options.channels ? options.channels.split(',') : [];
-      if (channels.length > 1) {
-        await Promise.all(channels.map(async (id) => {
-          fileUploads.push(await getFileUpload(options, this.logger, id));
-        }));
-        // when there are multiple channels provided, create 1 upload entry / channel
-      } else {
-        fileUploads.push(await getFileUpload(options, this.logger, channels[0]));
-      }
+      fileUploads.push(await getFileUploadJob(options, this.logger));
     }
-    // add multiple files data to uploads
+    
+    // add multiple files data when file_uploads is supplied
     if (options.file_uploads) {
-      fileUploads = fileUploads.concat(await getMultipleFileUploads(options, this.logger));
+      fileUploads = fileUploads.concat(await getMultipleFileUploadJobs(options, this.logger));
     }
     return fileUploads;
   }
@@ -864,8 +857,6 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, options?: WebAP
   }
 }
 
-export const buildThreadTsWarningMessage = (method: string): string => `The given thread_ts value in the request payload for a ${method} call is a float value. We highly recommend using a string value instead.`;
-
 /**
  * Log a warning when thread_ts is not a string
  * @param method api method being called
@@ -879,4 +870,8 @@ function warnIfThreadTsIsNotString(method: string, logger: Logger, options?: Web
   if (isTargetMethod && options?.thread_ts !== undefined && typeof options?.thread_ts !== 'string') {
     logger.warn(buildThreadTsWarningMessage(method));
   }
+}
+
+export function buildThreadTsWarningMessage(method: string): string { 
+  return `The given thread_ts value in the request payload for a ${method} call is a float value. We highly recommend using a string value instead.`;
 }

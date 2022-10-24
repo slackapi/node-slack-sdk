@@ -3,19 +3,22 @@ const { assert } = require('chai');
 const sinon = require('sinon');
 const { createReadStream } = require('fs');
 const { ErrorCode } = require('./errors');
-const { getFileDataAsStream,
+const { 
+  getFileDataAsStream,
   getFileDataLength,
   getFileData,
-  getFileUpload,
+  getFileUploadJob,
   getAllFileUploadsToComplete,
   buildLegacyFileTypeWarning,
   buildMissingExtensionWarning,
   buildMissingFileNameWarning,
   buildMissingFileIdError,
+  buildChannelsWarning,
+  buildMultipleChannelsErrorMsg,
 } = require('./file-upload');
 
 describe('file-upload', () => {
-  describe('getFileUpload', () =>{
+  describe('getFileUploadJob', () =>{
     it('returns a fileUploadEntry', async () => {
       const valid = {
         filename: 'test.txt',
@@ -24,7 +27,7 @@ describe('file-upload', () => {
         alt_text: 'an image of a thing',
         initial_comment: 'lorem ipsum',
       };
-      const res = await getFileUpload(valid);
+      const res = await getFileUploadJob(valid);
       // supplied values
       assert.equal(valid.initial_comment, res.initial_comment);
       assert.equal(valid.alt_text, res.alt_text);
@@ -44,7 +47,7 @@ describe('file-upload', () => {
         file: Buffer.from('test'),
         filetype: 'txt',
       };
-      await getFileUpload(containsFileType, this.logger);
+      await getFileUploadJob(containsFileType, this.logger);
       assert.isTrue(this.logger.warn.calledOnceWith(buildLegacyFileTypeWarning()));
     });
     it('warns when missing or invalid filename', async () => {
@@ -54,7 +57,7 @@ describe('file-upload', () => {
       const missingFileName = {
         file: Buffer.from('test'),
       };
-      await getFileUpload(missingFileName, this.logger);
+      await getFileUploadJob(missingFileName, this.logger);
       assert.isTrue(this.logger.warn.calledOnceWith(buildMissingFileNameWarning()));
     });
     it('warns when possibly missing a file extension in filename supplied', async () => {
@@ -66,8 +69,33 @@ describe('file-upload', () => {
         file: Buffer.from('test'),
         filename,
       };
-      await getFileUpload(missingFileNameExtension, this.logger);
+      await getFileUploadJob(missingFileNameExtension, this.logger);
       assert.isTrue(this.logger.warn.calledOnceWith(buildMissingExtensionWarning(filename)));
+    });
+    it('warns when channels is supplied', async () => {
+      this.logger = {
+        warn: sinon.spy(),
+      };
+      const channelsSupplied = {
+        file: Buffer.from('test'),
+        filename: 'test',
+        channels: 'C1234'
+      };
+      await getFileUploadJob(channelsSupplied, this.logger);
+      assert.isTrue(this.logger.warn.calledWith(buildChannelsWarning()));
+    });
+    it('errors when channels is supplied with csv value, aka multiple channels', async () => {
+      const multipleChannelsSuppliedAsCsv = {
+        file: Buffer.from('test'),
+        filename: 'test',
+        channels: 'C1234,C5678' // multiple chnanel
+      };
+      try {
+        await getFileUploadJob(multipleChannelsSuppliedAsCsv, this.logger);
+        assert.fail('Should have errored out but didnt');
+      } catch (error) {
+        assert.equal(error.message, buildMultipleChannelsErrorMsg());
+      }
     });
   });
   describe('getFileData', () => {
@@ -214,28 +242,28 @@ describe('file-upload', () => {
   describe('getAllFileUploadsToComplete', () => {
     describe('when channel_id is the same', () => {
       it('should group uploads with matching thread_ts and initial_comment together', () => {
-        const fileUpload1 = {
+        const fileUploadJob1 = {
           file: Buffer.from('test'),
           filename: 'test.txt',
           file_id: 'id1',
           title: 'test1',
-          // same as below in fileUpload2
+          // same as below in fileUploadJob2
           channel_id: '1',
           initial_comment: 'Hi',
           thread_ts: '1.0'
         }
-        const fileUpload2 = {
+        const fileUploadJob2 = {
           file: Buffer.from('test'),
           filename: 'test.txt',
           file_id: 'id2',
           title: 'test2',
-          // same as above in fileUpload1
+          // same as above in fileUploadJob1
           channel_id: '1',
           initial_comment: 'Hi',
           thread_ts: '1.0'
         }
-        const fileUploads = [fileUpload1, fileUpload2];
-        const toComplete = getAllFileUploadsToComplete(fileUploads);
+        const fileUploadJobs = [fileUploadJob1, fileUploadJob2];
+        const toComplete = getAllFileUploadsToComplete(fileUploadJobs);
 
         // there should be one job to complete 
         assert.equal(Object.keys(toComplete).length, 1);
@@ -247,8 +275,8 @@ describe('file-upload', () => {
 
         // check that each upload contains correct file_ids and title
         job.files.forEach((file, idx) => {
-          assert.equal(fileUploads[idx].file_id, file.id);
-          assert.equal(fileUploads[idx].title, file.title);
+          assert.equal(fileUploadJobs[idx].file_id, file.id);
+          assert.equal(fileUploadJobs[idx].title, file.title);
         });
       });
       it('should group uploads with matching thread_ts and different initial_comments separately', () => {
@@ -448,5 +476,5 @@ describe('file-upload', () => {
       // there should be 1 total jobs to complete
       assert.equal(Object.keys(toComplete).length, 1);
     })
-  })
-})
+  });
+});

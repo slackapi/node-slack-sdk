@@ -13,7 +13,7 @@ const { CaptureConsole } = require('@aoberoi/capture-console');
 const nock = require('nock');
 const Busboy = require('busboy');
 const sinon = require('sinon');
-const { buildLegacyMethodWarning, buildGeneralFilesUploadWarning } = require('./file-upload');
+const { buildLegacyMethodWarning, buildGeneralFilesUploadWarning, buildInvalidFilesUploadParamError } = require('./file-upload');
 const axios = require('axios').default;
 
 const token = 'xoxb-faketoken';
@@ -1326,38 +1326,19 @@ describe('WebClient', function () {
       const res = await client.getAllFileUploads(testWithFile);
       assert.equal(res.length, 1);
     });
-    it('adds single file data with multiple channels supplied as csv with `channels`', async () => {
-      const channels = 'C1234,C5678';
-      const testWithFileAndChannels = {
-        file: './test/fixtures/test-txt.txt', // test string
-        filename: 'test.txt',
-        title: 'Test file',
-        channels, 
-      };
-
-      // two entries added
-      const res = await client.getAllFileUploads(testWithFileAndChannels);
-      assert.equal(res.length, 2);
-
-      // entries contain correct channel ids
-      channels.split(',').forEach((channelId, idx) => {
-        // check the result 
-        assert.equal(res[idx].channel_id, channelId);
-      });
-    });
-    it('adds multiple files data to uploads', async () => {
+    it('adds multiple files data to an upload', async () => {
       const files = ['txt', 'jpg', 'svg', 'png'];
       const fileUploads = files.map((ext) => {
         const filename = `test-${ext}.${ext}`;
         return {
           file: fs.createReadStream(`./test/fixtures/${filename}`),
-          filename,
-          channel_id: 'C1234',
-          initial_comment: `Doo ba doo here is the: ${filename}`,
-          title: `Spaghetti ${filename}`,
+          filename
         }
       });
       const entryWithFileUploads = {
+        channel_id: 'C1234',
+        initial_comment: `Here is a single comment wit many files attached`,
+        title: `Many files`,
         file_uploads: fileUploads,
       };
        // 4 entries added
@@ -1376,10 +1357,7 @@ describe('WebClient', function () {
         const filename = `test-${ext}.${ext}`;
         return {
           file: fs.createReadStream(`./test/fixtures/${filename}`),
-          filename,
-          channel_id: 'C1234',
-          initial_comment: `Doo ba doo here is the: ${filename}`,
-          title: `Spaghetti ${filename}`,
+          filename
         }
       });
       const entryWithFileUploadsAndSingleFile = {
@@ -1387,14 +1365,14 @@ describe('WebClient', function () {
         file: './test/fixtures/test-txt.txt', // test string
         filename: 'test.txt',
         title: 'Test file',
-        channels: 'C1234,C5678',
+        channels: 'C1234',
       };
-      // 2 entries for each channel in channels + 4 entries in files_uploads
+      // 1 entry at the top level + 4 jobs from files in files_uploads
       const res = await client.getAllFileUploads(entryWithFileUploadsAndSingleFile);
-      assert.equal(res.length, 6);
+      assert.equal(res.length, 5);
     });
     it('handles multiple files with a single channel_id, initial_comment and/or thread_ts', async () => {
-      const pattern1 = {
+      const validPattern = {
         initial_comment: 'Here are the files!',
         thread_ts: '1223313423434.131321',
         channel_id: 'C123',
@@ -1409,7 +1387,7 @@ describe('WebClient', function () {
           },
         ],
       };
-      const pattern2 = {
+      const invalidPattern = {
         file_uploads: [
           {
             file: './test/fixtures/test-txt.txt',
@@ -1429,19 +1407,20 @@ describe('WebClient', function () {
       };
       // in this case the two file uploads should be sent along with a single
       // message corresponding to initial_comment 
-      const res = await client.getAllFileUploads(pattern1);
+      const res = await client.getAllFileUploads(validPattern);
       res.forEach((entry) => {
-        assert.equal(entry.initial_comment, pattern1.initial_comment);
-        assert.equal(entry.thread_ts, pattern1.thread_ts);
-        assert.equal(entry.channel_id, pattern1.channel_id);
+        assert.equal(entry.initial_comment, validPattern.initial_comment);
+        assert.equal(entry.thread_ts, validPattern.thread_ts);
+        assert.equal(entry.channel_id, validPattern.channel_id);
       });
 
-      const res2 = await client.getAllFileUploads(pattern2);
-      res2.forEach(entry => {
-        assert.equal(entry.initial_comment, pattern1.initial_comment);
-        assert.equal(entry.thread_ts, pattern1.thread_ts);
-        assert.equal(entry.channel_id, pattern1.channel_id);
-      });
+      // in this case, there should be an error 
+      try {
+        const res2 = await client.getAllFileUploads(invalidPattern);
+        assert.fail('Should have thrown an error for invalid arguments but didnt');
+      } catch (error) {
+        assert.equal(error.message, buildInvalidFilesUploadParamError());
+      }
     });
   });
 
