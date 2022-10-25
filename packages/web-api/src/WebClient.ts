@@ -433,7 +433,7 @@ export class WebClient extends Methods {
       res = await this.getFileInfo(fileUploads);
     }
 
-    return { ok: true, data: res };
+    return { ok: true, files: res };
   }
 
   /**
