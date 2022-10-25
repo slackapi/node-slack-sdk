@@ -448,15 +448,90 @@ retrying the API call. If you'd like to opt out of that behavior, set the `rejec
 ---
 
 ### Upload a file
+As of @slack/web-api v6.8.0, we have introduced a modified way to upload files. 
 
-A couple methods, `files.upload` and `users.setPhoto`, allow you to upload a file over the API. In Node, there are a few
+We've received many reports on the performance issue of the existing `files.upload` API. So, to cope with the problem, our Platform team decided to unlock a new way to upload files to Slack via public APIs. To utilize the new approach, developers need to implement the following steps on their code side:
+
+* Call WebClient#files.getUploadURLExternal() method to receive a URL to use for each file
+* Perform an HTTP POST request to the URL you received in step 1 for each file
+* Call WebClient#files.completeUploadExternal() method with the pairs of file ID and title to complete the whole process, plus share the files in a channel
+* If you would like the full metadata of the files, call WebClient#files.info() method for each file
+
+We understand that writing the above code requires many lines of code. Also, existing WebClient#files.upload() users have to take a certain amount of time for migration. To mitigate the pain, we've added a wrapper method named WebClient#files.uploadV2().
+
+Also, in addition to the performance improvements, another good news is that 3rd party apps can now upload multiple files at a time!
+
+See the following code examples demonstrating how the wrapper method works:
+
+##### Legacy way
+```javascript
+const { WebClient } = require('@slack/web-api');
+
+const token = process.env.SLACK_TOKEN;
+const web = new WebClient(token);
+
+const result = await web.files.upload({
+  file: './path/to/logo.png',  // also accepts Buffer or ReadStream
+  filename: 'logo.png',
+  channels: 'C12345',
+  initial_comment: 'Here is the new company logo',
+});
+
+// `result` contains information about the uploaded file
+console.log('File uploaded: ', result.file.id);
+```
+
+#### New way 
+```javascript
+const { WebClient } = require('@slack/web-api');
+
+const token = process.env.SLACK_TOKEN;
+const web = new WebClient(token);
+const result = await web.files.uploadV2({
+  file: './path/to/logo.png',  // also accepts Buffer or ReadStream
+  filename: 'logo.png',
+  // Note that channels still works but going with channel_id="C12345" is recommended.
+  // channels="C111,C222" is no longer supported. In this case, an exception will be thrown 
+  channels: 'C12345',
+  initial_comment: 'Here is the new company logo',
+});
+
+// `result may contain multiple files uploaded
+console.log('File(s) uploaded: ', result.files);
+```
+
+#### New way - upload multiple files
+```javascript
+const { WebClient } = require('@slack/web-api');
+
+const token = process.env.SLACK_TOKEN;
+const web = new WebClient(token);
+const result = await web.files.uploadV2({
+  initial_comment: 'Here are the new company assets!',
+  thread_ts: '1223313423434.131321',
+  channel_id: 'C12345',
+  file_uploads: [
+    {
+      file: './path/to/logo.png',
+      filename: 'logo.png',
+    },
+    {
+      file: './path/to/logo-sm.png',
+      filename: 'logo-sm.png',
+    },
+  ],
+ });
+ ```
+
+### Handling binary data
+Several methods, `files.uploadV2`, `files.upload (legacy)`, and `users.setPhoto`, allow you to upload a file. In Node, there are a few
 ways you might be dealing with files, or more generally, binary data. When you have the whole file in memory (like when
 you've just generated or processed an image), then in Node you'd have a `Buffer` that contains that binary data. Or,
 when you are reading the file from disk or a network (like when you have a path to file name), then you'd typically have
-a `ReadableStream`. The client can handle both of these binary data types for you, and it looks like any other API call.
+a `ReadStream`. The client can handle both of these binary data types for you, and it looks like any other API call.
 
 The following example shows how you can use [`files.upload`](https://api.slack.com/methods/files.upload) to upload a
-file that is read from disk (as a `ReadableStream`).
+file that is read from disk (as a `ReadStream`).
 
 ```javascript
 const { createReadStream } = require('fs');
@@ -473,7 +548,7 @@ const filename = 'test_file.csv';
   // See: https://api.slack.com/methods/files.upload
   const result = await web.files.upload({
     filename,
-    // You can use a ReadableStream or a Buffer for the file option
+    // You can use a ReadStream or a Buffer for the file option
     // This file is located in the current directory (`process.pwd()`), so the relative path resolves
     file: createReadStream(`./${fileName}`),
   })
