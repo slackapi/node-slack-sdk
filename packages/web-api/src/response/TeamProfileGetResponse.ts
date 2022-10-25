@@ -30,6 +30,7 @@ export interface Field {
   label?:           string;
   options?:         Options;
   ordering?:        number;
+  permissions?:     Permissions;
   possible_values?: string[];
   section_id?:      string;
   type?:            string;
@@ -38,6 +39,12 @@ export interface Field {
 export interface Options {
   is_protected?: boolean;
   is_scim?:      boolean;
+}
+
+export interface Permissions {
+  api?:  string[];
+  scim?: boolean;
+  ui?:   boolean;
 }
 
 export interface Section {

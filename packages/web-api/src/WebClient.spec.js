@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { Agent } = require('https');
 const { assert } = require('chai');
-const { WebClient } = require('./WebClient');
+const { WebClient, buildThreadTsWarningMessage } = require('./WebClient');
 const { ErrorCode } = require('./errors');
 const { LogLevel } = require('./logger');
 const { addAppMetadata } = require('./instrument');
@@ -13,6 +13,7 @@ const { CaptureConsole } = require('@aoberoi/capture-console');
 const nock = require('nock');
 const Busboy = require('busboy');
 const sinon = require('sinon');
+const { buildLegacyMethodWarning, buildGeneralFilesUploadWarning, buildInvalidFilesUploadParamError } = require('./file-upload');
 const axios = require('axios').default;
 
 const token = 'xoxb-faketoken';
@@ -319,7 +320,21 @@ describe('WebClient', function () {
           const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
           return warnClient.apiCall(method, args)
             .then(() => {
-              assert.isTrue(logger.warn.callCount === 4);
+              // assume no warning about thread_ts has been sent
+              let warnedAboutThreadTS = false;
+
+              // for each of the calls made of this method's spy function
+              const spyCalls = logger.warn.getCalls();
+              for (const call of spyCalls) {
+                // determine whether it was called with the correct warning as arguments
+                if (call.args[0] === buildThreadTsWarningMessage(method)) {
+                  warnedAboutThreadTS = true;
+                  break;
+                }
+              }
+              if (!warnedAboutThreadTS) {
+                assert.fail(`Expected a warning when thread_ts in ${method} is a float but got none`);
+              }
             });
         });
       });
@@ -341,10 +356,46 @@ describe('WebClient', function () {
           const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
           return warnClient.apiCall(method, args)
             .then(() => {
-              assert.isTrue(logger.warn.calledThrice);
+              logger.warn.getCalls().forEach((call) => { 
+                  assert.notEqual(call.args[0], buildThreadTsWarningMessage(method));
+              });
             });
         });
       });
+
+      it('warns when user is accessing the files.upload (legacy) method', async () => {
+        const logger = {
+          info: sinon.spy(),
+          warn: sinon.spy(),
+          debug: sinon.spy(),
+          error: sinon.spy(),
+          setLevel: sinon.spy(),
+          setName: sinon.spy(),
+        }
+        const client = new WebClient(token, { logLevel: LogLevel.INFO, logger });
+        const res = await client.apiCall('files.upload', {});
+
+        // both must be true to pass this test
+        let warnedAboutLegacyFilesUpload = false;
+        let infoAboutRecommendedFilesUploadV2 = false;
+
+        // check the warn spy for whether it was called with the correct warning
+        logger.warn.getCalls().forEach(call => {
+          if (call.args[0] === buildLegacyMethodWarning('files.upload')) {
+            warnedAboutLegacyFilesUpload = true;
+          }
+        });
+        // check the info spy for whether it was called with the correct warning
+        logger.info.getCalls().forEach(call => {
+          if (call.args[0] === buildGeneralFilesUploadWarning()) {
+            infoAboutRecommendedFilesUploadV2 = true;
+          }
+        })
+        if (!warnedAboutLegacyFilesUpload || !infoAboutRecommendedFilesUploadV2) {
+          assert.fail('Should have logged a warning and info when files.upload is used');
+        }
+      });
+
     });
 
     describe('with OAuth scopes in the response headers', function () {
@@ -1249,6 +1300,252 @@ describe('WebClient', function () {
       this.scope.done();
     });
   });
+
+  describe('getAllFileUploads', () => {
+    const client = new WebClient(token);
+    it('adds a single file data to uploads with content supplied', async () => {
+      const testWithContent = {
+        content: 'Happiness!', // test string
+        filename: 'happiness.txt',
+        title: 'Testing Happiness',
+        channels: 'C1234', 
+      };
+
+      // returns exactly one file upload
+      const res = await client.getAllFileUploads(testWithContent);
+      assert.equal(res.length, 1);
+    });
+    it('adds a single file data to uploads with file supplied', async () => {
+      const testWithFile = {
+        file: './test/fixtures/test-txt.txt', // test string
+        filename: 'test.txt',
+        title: 'Test file',
+        channels: 'C1234', 
+      };
+
+      const res = await client.getAllFileUploads(testWithFile);
+      assert.equal(res.length, 1);
+    });
+    it('adds multiple files data to an upload', async () => {
+      const files = ['txt', 'jpg', 'svg', 'png'];
+      const fileUploads = files.map((ext) => {
+        const filename = `test-${ext}.${ext}`;
+        return {
+          file: fs.createReadStream(`./test/fixtures/${filename}`),
+          filename
+        }
+      });
+      const entryWithFileUploads = {
+        channel_id: 'C1234',
+        initial_comment: `Here is a single comment wit many files attached`,
+        title: `Many files`,
+        file_uploads: fileUploads,
+      };
+       // 4 entries added
+       const res = await client.getAllFileUploads(entryWithFileUploads);
+       assert.equal(res.length, 4);
+
+       // check the filename of each entry matches
+       files.forEach((ext, idx) => {
+        const filename = `test-${ext}.${ext}`;
+        assert.equal(res[idx].filename, filename);
+       });
+    });
+    it('adds single and multiple files data to uploads', async () => {
+      const files = ['txt', 'jpg', 'svg', 'png'];
+      const fileUploads = files.map((ext) => {
+        const filename = `test-${ext}.${ext}`;
+        return {
+          file: fs.createReadStream(`./test/fixtures/${filename}`),
+          filename
+        }
+      });
+      const entryWithFileUploadsAndSingleFile = {
+        file_uploads: fileUploads,
+        file: './test/fixtures/test-txt.txt', // test string
+        filename: 'test.txt',
+        title: 'Test file',
+        channels: 'C1234',
+      };
+      // 1 entry at the top level + 4 jobs from files in files_uploads
+      const res = await client.getAllFileUploads(entryWithFileUploadsAndSingleFile);
+      assert.equal(res.length, 5);
+    });
+    it('handles multiple files with a single channel_id, initial_comment and/or thread_ts', async () => {
+      const validPattern = {
+        initial_comment: 'Here are the files!',
+        thread_ts: '1223313423434.131321',
+        channel_id: 'C123',
+        file_uploads: [
+          {
+            file: './test/fixtures/test-txt.txt',
+            filename: 'test-txt.txt',
+          },
+          {
+            file: './test/fixtures/test-png.png',
+            filename: 'test-png.png',
+          },
+        ],
+      };
+      const invalidPattern = {
+        file_uploads: [
+          {
+            file: './test/fixtures/test-txt.txt',
+            filename: 'test-txt.txt',
+            initial_comment: 'Here are the files!',
+            thread_ts: '1223313423434.131321',
+            channel_id: 'C123',
+          },
+          {
+            file: './test/fixtures/test-png.png',
+            filename: 'test-png.png',
+            initial_comment: 'Here are the files!',
+            thread_ts: '1223313423434.131321',
+            channel_id: 'C123',
+          },
+        ],
+      };
+      // in this case the two file uploads should be sent along with a single
+      // message corresponding to initial_comment 
+      const res = await client.getAllFileUploads(validPattern);
+      res.forEach((entry) => {
+        assert.equal(entry.initial_comment, validPattern.initial_comment);
+        assert.equal(entry.thread_ts, validPattern.thread_ts);
+        assert.equal(entry.channel_id, validPattern.channel_id);
+      });
+
+      // in this case, there should be an error 
+      try {
+        const res2 = await client.getAllFileUploads(invalidPattern);
+        assert.fail('Should have thrown an error for invalid arguments but didnt');
+      } catch (error) {
+        assert.equal(error.message, buildInvalidFilesUploadParamError());
+      }
+    });
+  });
+
+  describe('fetchAllUploadURLExternal', () => {
+
+    const client = new WebClient(token);
+    it('makes calls to files.getUploadURLExternal for each fileUpload', async () => {
+      const testFileUploads = [{
+        channel_id: 'C1234',
+        filename: 'test-txt.txt',
+        initial_comment: 'Doo ba doo here is the: test-txt.txt',
+        title: 'Spaghetti test-txt.txt',
+        data: Buffer.from('Here is a txt file'),
+        length: 18,
+      }];
+
+      var spy = sinon.spy();
+      client.files.getUploadURLExternal = spy;
+      await client.fetchAllUploadURLExternal(testFileUploads);
+      assert.isTrue(spy.calledOnce);
+    });
+  });
+
+  describe('completeFileUploads', () => {
+    const client = new WebClient(token);
+
+    it('rejects with an error when missing required file id', async () => {
+      const invalidTestFileUploadsToComplete = [{
+        channel_id: 'C1234',
+        // missing file_id field
+        filename: 'test-txt.txt',
+        initial_comment: 'Doo ba doo here is the: test-txt.txt',
+        title: 'Spaghetti test-txt.txt',
+      }];
+
+      // should reject because of missing file_id
+      try {
+        const res = await client.completeFileUploads(invalidTestFileUploadsToComplete);
+        assert.fail('Should haave errored but did not');
+      } catch (err) {
+        assert.equal(err.message, 'Missing required file id for file upload completion');
+      }
+
+    });
+    it('makes calls to files.completeUploadExternal for each fileUpload', async () => {
+      const testFileUploadsToComplete = [{
+        channel_id: 'C1234',
+        file_id: 'test',
+        filename: 'test-txt.txt',
+        initial_comment: 'Doo ba doo here is the: test-txt.txt',
+        title: 'Spaghetti test-txt.txt',
+      }];
+
+      var spy = sinon.spy();
+      client.files.completeUploadExternal = spy;
+      await client.completeFileUploads(testFileUploadsToComplete);
+      assert.isTrue(spy.calledOnce);
+    });
+  });
+  
+  describe('postFileUploadsToExternalURL', () => {
+    const client = new WebClient(token);
+
+    it('rejects with an error when missing required upload_url', async () => {
+      const invalidTestFileUploadsToComplete = [{
+        channel_id: 'C1234',
+        // missing upload_url field
+        filename: 'test-txt.txt',
+        initial_comment: 'Doo ba doo here is the: test-txt.txt',
+        title: 'Spaghetti test-txt.txt',
+      }];
+
+      // should reject because of missing upload_url
+      try {
+        const res = await client.postFileUploadsToExternalURL(invalidTestFileUploadsToComplete);
+        assert.fail('Should have rejected with an error but did not');
+      } catch (error) {
+        assert.equal(error.message.startsWith('No upload url found for file'), true);
+      }
+    });
+  });
+
+  describe('getFileInfo', () => {
+    const client = new WebClient(token);
+    client.getAllFileUploads = sinon.spy();
+    client.completeFileUploads = sinon.spy();
+    client.fetchAllUploadURLExternal = sinon.spy(() => {
+      return [];
+    });
+    client.postFileUploadsToExternalURL = sinon.spy(() => {
+      return [{
+        files: [{ id: 'F123', title: 'test.txt'}],
+      }]
+    });
+
+    it('is called when request_file_info is true or undefined', async () => {
+      client.getFileInfo = sinon.spy();
+      // set initial files upload arguments with request_file_info true
+      const withRequestFileInfoTrue = {
+        file: Buffer.from('test'),
+        filename: 'test.txt',
+        request_file_info: true,
+      };
+      await client.filesUploadV2(withRequestFileInfoTrue);
+      assert.equal(client.getFileInfo.called, true);
+
+      const withRequestFileInfoOmitted = {
+        file: Buffer.from('test'),
+        filename: 'test.txt',
+      }
+      await client.filesUploadV2(withRequestFileInfoOmitted);
+      assert.equal(client.getFileInfo.calledTwice, true);
+    });
+    it('is not called when request_file_info is set as false', async () => {
+      client.getFileInfo = sinon.spy();
+      const withRequestFileInfoFalse = {
+        file: Buffer.from('test'),
+        filename: 'test.txt',
+        request_file_info: false,
+      };
+      await client.filesUploadV2(withRequestFileInfoFalse);
+      assert.equal(client.getFileInfo.called, false);
+    });
+  });
+
   afterEach(function () {
     nock.cleanAll();
   });

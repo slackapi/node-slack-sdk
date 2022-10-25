@@ -16,9 +16,11 @@ import {
   AdminAnalyticsMemberDetails,
   AdminAnalyticsPublicChannelDetails,
   AdminAnalyticsPublicChannelMetadataDetails,
+  FilesCompleteUploadExternalResponse,
+  FilesGetUploadURLExternalResponse,
 } from './response';
 
-import { Methods, CursorPaginationEnabled, cursorPaginationEnabledMethods } from './methods';
+import { Methods, CursorPaginationEnabled, cursorPaginationEnabledMethods, FilesUploadV2Arguments, FileUploadV2Job, FilesGetUploadURLExternalArguments, FilesCompleteUploadExternalArguments } from './methods';
 import { getUserAgent } from './instrument';
 import {
   requestErrorWithOriginal, httpErrorFromResponse, platformErrorFromResult, rateLimitedErrorWithDelay,
@@ -26,6 +28,7 @@ import {
 import { LogLevel, Logger, getLogger } from './logger';
 import { RetryOptions, tenRetriesInAboutThirtyMinutes } from './retry-policies';
 import delay from './helpers';
+import { warnIfNotUsingFilesUploadV2, getFileUploadJob, getMultipleFileUploadJobs, getAllFileUploadsToComplete } from './file-upload';
 
 /*
  * Helpers
@@ -232,6 +235,9 @@ export class WebClient extends Methods {
       throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
     }
 
+    warnIfNotUsingFilesUploadV2(method, this.logger);
+    if (method === 'files.uploadV2') return this.filesUploadV2(options);
+
     const headers: Record<string, string> = {};
     if (options.token) headers.Authorization = `Bearer ${options.token}`;
 
@@ -386,6 +392,145 @@ export class WebClient extends Methods {
       }
       return accumulator;
     })();
+  }
+
+  /* eslint-disable no-trailing-spaces */
+  /**
+   * This wrapper method provides an easy way to upload files using the following endpoints:
+   * 
+   * **#1**: For each file submitted with this method, submit filenames
+   * and file metadata to {@link https://api.slack.com/methods/files.getUploadURLExternal files.getUploadURLExternal} to request a URL to
+   * which to send the file data to and an id for the file
+   * 
+   * **#2**: for each returned file `upload_url`, upload corresponding file to
+   * URLs returned from step 1 (e.g. https://files.slack.com/upload/v1/...\")
+   * 
+   * **#3**: Complete uploads {@link https://api.slack.com/methods/files.completeUploadExternal files.completeUploadExternal}
+   * 
+   * **#4**: Unless `request_file_info` set to false, call {@link https://api.slack.com/methods/files.info files.info} for
+   * each file uploaded and returns that data. Requires that your app have `files:read` scope.
+   * @param options
+   */
+  public async filesUploadV2(options: FilesUploadV2Arguments): Promise<WebAPICallResult> {
+    // 1
+    const fileUploads = await this.getAllFileUploads(options);
+    const fileUploadsURLRes = await this.fetchAllUploadURLExternal(fileUploads);
+    // set the upload_url and file_id returned from Slack
+    fileUploadsURLRes.forEach((res, idx) => {
+      fileUploads[idx].upload_url = res.upload_url;
+      fileUploads[idx].file_id = res.file_id;
+    });
+
+    // 2
+    await this.postFileUploadsToExternalURL(fileUploads, options);
+
+    // 3
+    const completion = await this.completeFileUploads(fileUploads);
+    
+    // 4 
+    let res = completion;
+    if (options.request_file_info ?? true) {
+      res = await this.getFileInfo(fileUploads);
+    }
+
+    return { ok: true, files: res };
+  }
+
+  /**
+   * For each file submitted with this method, submits filenames
+   * and file metadata to files.getUploadURLExternal to request a URL to
+   * which to send the file data to and an id for the file
+   * @param fileUploads
+   * @returns
+   */
+  private async fetchAllUploadURLExternal(fileUploads: FileUploadV2Job[]):
+  Promise<Array<FilesGetUploadURLExternalResponse>> {
+    return Promise.all(fileUploads.map((upload: FileUploadV2Job) => {
+      /* eslint-disable @typescript-eslint/consistent-type-assertions */
+      const options = {
+        filename: upload.filename,
+        length: upload.length,
+        alt_text: upload.alt_text,
+        snippet_type: upload.snippet_type,
+      } as FilesGetUploadURLExternalArguments;
+
+      return this.files.getUploadURLExternal(options);
+    }));
+  }
+
+  /**
+   * Complete uploads.
+   * @param fileUploads
+   * @returns
+   */
+  private async completeFileUploads(fileUploads: FileUploadV2Job[]):
+  Promise<Array<FilesCompleteUploadExternalResponse>> {  
+    const toComplete: FilesCompleteUploadExternalArguments[] = Object.values(getAllFileUploadsToComplete(fileUploads));
+    return Promise.all(
+      toComplete.map((job: FilesCompleteUploadExternalArguments) => this.files.completeUploadExternal(job)),
+    );
+  }
+
+  /**
+   * Call {@link https://api.slack.com/methods/files.info files.info} for
+   * each file uploaded and returns relevant data. Requires that your app have `files:read` scope, to
+   * turn off, set `request_file_info` set to false.
+   * @param fileUploads
+   * @returns
+   */
+  private async getFileInfo(fileUploads: FileUploadV2Job[]):
+  Promise<Array<WebAPICallResult>> {
+    /* eslint-disable @typescript-eslint/no-non-null-assertion */
+    return Promise.all(fileUploads.map((job) => this.files.info({ file: job.file_id! })));
+  }
+
+  /**
+   * for each returned file upload URL, upload corresponding file
+   * @param fileUploads
+   * @returns
+   */
+  private async postFileUploadsToExternalURL(fileUploads: FileUploadV2Job[], options: FilesUploadV2Arguments)
+    : Promise<Array<FilesGetUploadURLExternalResponse>> {
+    return Promise.all(fileUploads.map(async (upload: FileUploadV2Job) => {
+      const { upload_url, file_id, filename, data } = upload;
+      // either file or content will be defined
+      const body = data;
+
+      // try to post to external url
+      if (upload_url) {
+        const headers: Record<string, string> = {};
+        if (options.token) headers.Authorization = `Bearer ${options.token}`;
+
+        const uploadRes = await this.makeRequest(upload_url, {
+          body,
+        }, headers);
+        if (uploadRes.status !== 200) {
+          return Promise.reject(Error(`Failed to upload file (id:${file_id}, filename: ${filename})`));
+        } 
+        const returnData = { ok: true, body: uploadRes.data } as WebAPICallResult;
+        return Promise.resolve(returnData);
+      } 
+      return Promise.reject(Error(`No upload url found for file (id: ${file_id}, filename: ${filename}`));
+    }));
+  }
+
+  /**
+   * @param options All file uploads arguments
+   * @returns An array of file upload entries
+   */
+  private async getAllFileUploads(options: FilesUploadV2Arguments): Promise<FileUploadV2Job[]> {
+    let fileUploads: FileUploadV2Job[] = [];
+
+    // add single file data to uploads if file or content exists at the top level
+    if (options.file || options.content) {
+      fileUploads.push(await getFileUploadJob(options, this.logger));
+    }
+    
+    // add multiple files data when file_uploads is supplied
+    if (options.file_uploads) {
+      fileUploads = fileUploads.concat(await getMultipleFileUploadJobs(options, this.logger));
+    }
+    return fileUploads;
   }
 
   /**
@@ -731,8 +876,12 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, options?: WebAP
 function warnIfThreadTsIsNotString(method: string, logger: Logger, options?: WebAPICallOptions): void {
   const targetMethods = ['chat.postEphemeral', 'chat.postMessage', 'chat.scheduleMessage', 'files.upload'];
   const isTargetMethod = targetMethods.includes(method);
-
+  
   if (isTargetMethod && options?.thread_ts !== undefined && typeof options?.thread_ts !== 'string') {
-    logger.warn(`The given thread_ts value in the request payload for a ${method} call is a float value. We highly recommend using a string value instead.`);
+    logger.warn(buildThreadTsWarningMessage(method));
   }
+}
+
+export function buildThreadTsWarningMessage(method: string): string { 
+  return `The given thread_ts value in the request payload for a ${method} call is a float value. We highly recommend using a string value instead.`;
 }

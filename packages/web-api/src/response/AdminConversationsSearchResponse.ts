@@ -32,6 +32,7 @@ export interface Conversation {
   internal_team_ids_count?:       number;
   internal_team_ids_sample_team?: string;
   is_archived?:                   boolean;
+  is_disconnect_in_progress?:     boolean;
   is_ext_shared?:                 boolean;
   is_frozen?:                     boolean;
   is_general?:                    boolean;

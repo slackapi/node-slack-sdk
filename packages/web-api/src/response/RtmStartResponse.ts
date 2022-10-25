@@ -441,6 +441,7 @@ export interface AppIconUrls {
 }
 
 export interface BlockFile {
+  alt_txt?:                   string;
   app_id?:                    string;
   app_name?:                  string;
   bot_id?:                    string;
@@ -624,6 +625,7 @@ export interface Field {
 }
 
 export interface FileElement {
+  alt_txt?:                   string;
   app_id?:                    string;
   app_name?:                  string;
   bot_id?:                    string;
@@ -881,6 +883,7 @@ export interface SelfPrefs {
   browsers_seen_initial_user_groups_education?:               boolean;
   calls_disconnect_on_lock?:                                  boolean;
   calls_survey_last_seen?:                                    string;
+  channel_canvas_variant?:                                    number;
   channel_sections?:                                          string;
   channel_sidebar_hide_browse_dms_link?:                      boolean;
   channel_sidebar_hide_invite?:                               boolean;
@@ -1546,6 +1549,7 @@ export interface TeamPrefs {
   retention_duration?:                                 number;
   retention_type?:                                     number;
   rich_previews_default?:                              string;
+  saml_enable?:                                        boolean;
   search_feedback_opt_out?:                            boolean;
   self_serve_select?:                                  boolean;
   session_duration?:                                   number;
@@ -1562,14 +1566,17 @@ export interface TeamPrefs {
   slack_connect_dm_only_verified_orgs?:                boolean;
   slack_connect_file_upload_sharing_enabled?:          boolean;
   slackbot_responses_disabled?:                        boolean;
+  slackbot_responses_only_admins?:                     boolean;
   spaceship_workspace_setting_visible?:                boolean;
   sso_disable_emails?:                                 boolean;
   sso_optional?:                                       boolean;
   sso_signup_restrictions?:                            number;
   sso_sync_with_provider?:                             boolean;
+  stats_only_admins?:                                  boolean;
   subteams_auto_create_admin?:                         boolean;
   subteams_auto_create_owner?:                         boolean;
   thorn_safer_scan?:                                   boolean;
+  two_factor_auth_required?:                           number;
   uneditable_user_profile_fields?:                     string[];
   use_browser_picker?:                                 boolean;
   uses_customized_custom_status_presets?:              boolean;
