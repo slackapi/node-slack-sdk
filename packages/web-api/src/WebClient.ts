@@ -246,6 +246,7 @@ export class WebClient extends Methods {
       ...options,
     }, headers);
     const result = await this.buildResult(response);
+    this.logger.debug(`http request result: ${JSON.stringify(result)}`);
 
     // log warnings in response metadata
     if (result.response_metadata !== undefined && result.response_metadata.warnings !== undefined) {
@@ -280,7 +281,7 @@ export class WebClient extends Methods {
     } else if ('ok' in result && result.ok === false) {
       throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
     }
-
+    this.logger.debug(`apiCall('${method}') end`);
     return result;
   }
 
@@ -412,6 +413,7 @@ export class WebClient extends Methods {
    * @param options
    */
   public async filesUploadV2(options: FilesUploadV2Arguments): Promise<WebAPICallResult> {
+    this.logger.debug('files.uploadV2() start');
     // 1
     const fileUploads = await this.getAllFileUploads(options);
     const fileUploadsURLRes = await this.fetchAllUploadURLExternal(fileUploads);
@@ -441,7 +443,6 @@ export class WebClient extends Methods {
    * and file metadata to files.getUploadURLExternal to request a URL to
    * which to send the file data to and an id for the file
    * @param fileUploads
-   * @returns
    */
   private async fetchAllUploadURLExternal(fileUploads: FileUploadV2Job[]):
   Promise<Array<FilesGetUploadURLExternalResponse>> {
@@ -540,7 +541,11 @@ export class WebClient extends Methods {
   private async makeRequest(url: string, body: any, headers: any = {}): Promise<AxiosResponse> {
     // TODO: better input types - remove any
     const task = () => this.requestQueue.add(async () => {
-      this.logger.debug('will perform http request');
+      const requestURL = (url.startsWith('https' || 'http')) ? url : `${this.axios.getUri() + url}`;
+      this.logger.debug(`http request url: ${requestURL}`);
+      this.logger.debug(`http request body: ${JSON.stringify(redact(body))}`);
+      this.logger.debug(`http request headers: ${JSON.stringify(redact(headers))}`);
+
       try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const config: any = {
@@ -638,7 +643,7 @@ export class WebClient extends Methods {
 
     // A body with binary content should be serialized as multipart/form-data
     if (containsBinaryData) {
-      this.logger.debug('request arguments contain binary data');
+      this.logger.debug('Request arguments contain binary data');
       const form = flattened.reduce(
         (frm, [key, value]) => {
           if (Buffer.isBuffer(value) || isStream(value)) {
@@ -888,4 +893,45 @@ function warnIfThreadTsIsNotString(method: string, logger: Logger, options?: Web
 
 export function buildThreadTsWarningMessage(method: string): string { 
   return `The given thread_ts value in the request payload for a ${method} call is a float value. We highly recommend using a string value instead.`;
+}
+
+/**
+ * Takes an object and redacts specific items
+ * @param body 
+ * @returns 
+ */
+function redact(body: any): any {
+  const flattened = Object.entries(body).map<[string, any] | []>(([key, value]) => {
+    // no value provided
+    if (value === undefined || value === null) {
+      return [];
+    }
+    
+    let serializedValue = value;
+
+    // redact possible tokens
+    if (key.match(/.*token.*/) !== null || key.match(/[Aa]uthorization/)) {
+      serializedValue = '[[REDACTED]]';
+    }
+
+    // when value is buffer or stream we can avoid logging it
+    if (Buffer.isBuffer(value) || isStream(value)) {
+      serializedValue = '[[BINARY VALUE OMITTED]]';
+    } else if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
+      serializedValue = JSON.stringify(value);
+    }
+    return [key, serializedValue];
+  });
+
+  // return as object 
+  const initialValue: { [key: string]: any; } = {};
+  return flattened.reduce(
+    (accumulator, [key, value]) => {
+      if (key !== undefined && value !== undefined) {
+        accumulator[key] = value;
+      }
+      return accumulator;
+    },
+    initialValue,
+  );
 }
