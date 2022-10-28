@@ -288,12 +288,24 @@ export interface RadioButtons extends Action, Confirmable, Focusable {
   initial_option?: Option;
   options: Option[];
 }
+
+/**
+ * @description An element that allows the selection of a time of day formatted as a UNIX timestamp. On desktop
+ * clients, this time picker will take the form of a dropdown list and the date picker will take the form of a dropdown
+ * calendar. Both options will have free-text entry for precise choices. On mobile clients, the time picker and date
+ * picker will use native UIs.
+ * {@link https://api.slack.com/reference/block-kit/block-elements#datetimepicker}
+ */
 export interface DateTimepicker extends Action {
   type: 'datetimepicker';
+  /**
+   * @description The initial date and time that is selected when the element is loaded, represented as a UNIX
+   * timestamp in seconds. This should be in the format of 10 digits, for example 1628633820 represents the date and
+   * time August 10th, 2021 at 03:17pm PST.
+   */
   initial_date_time?: number;
   confirm?: Confirm;
   focus_on_load?: boolean;
-  timezone?: string;
 }
 
 export interface Checkboxes extends Action, Confirmable, Focusable {
@@ -312,28 +324,62 @@ export interface PlainTextInput extends Action, Dispatchable, Focusable, Placeho
   focus_on_load?: boolean;
 }
 
+/**
+ * @description A URL input element, similar to the {@see PlainTextInput} element, creates a single line field where
+ * a user can enter URL-encoded data.
+ * {@link https://api.slack.com/reference/block-kit/block-elements#url}
+ */
 export interface URLInput extends Action {
   type: 'url_text_input';
   placeholder?: PlainTextElement;
+  /**
+   * @description The initial value in the URL input when it is loaded.
+   */
   initial_value?: string;
   dispatch_action_config?: DispatchActionConfig;
   focus_on_load?: boolean;
 }
 
+/**
+ * @description An email input element, similar to the {@see PlainTextInput} element, creates a single line field where
+ * a user can enter an email address.
+ * {@link https://api.slack.com/reference/block-kit/block-elements#email}
+ */
 export interface EmailInput extends Action {
   type: 'email_text_input';
   placeholder?: PlainTextElement;
+  /**
+   * @description The initial value in the email input when it is loaded.
+   */
   initial_value?: string;
   dispatch_action_config?: DispatchActionConfig;
   focus_on_load?: boolean;
 }
 
+/**
+ * @description A number input element, similar to the {@see PlainTextInput} element, creates a single line field where
+ * a user can a number. This input elements accepts floating point numbers, for example, 0.25, 5.5, and -10 are all
+ * valid input values. Decimal numbers are only allowed when `is_decimal_allowed` is equal to `true`.
+ * {@link https://api.slack.com/reference/block-kit/block-elements#number}
+ */
 export interface NumberInput extends Action {
   type: 'number_input';
+  /**
+   * @description Decimal numbers are allowed if this property is `true`, set the value to `false` otherwise.
+   */
   is_decimal_allowed: boolean;
   placeholder?: PlainTextElement;
+  /**
+   * @description The initial value in the input when it is loaded.
+   */
   initial_value?: string;
+  /**
+   * @description The minimum value, cannot be greater than `max_value`.
+   */
   min_value?: string;
+  /**
+   * @description The maximum value, cannot be less than `min_value`.
+   */
   max_value?: string;
   dispatch_action_config?: DispatchActionConfig;
   focus_on_load?: boolean;
