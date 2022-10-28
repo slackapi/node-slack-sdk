@@ -443,7 +443,6 @@ export class WebClient extends Methods {
    * and file metadata to files.getUploadURLExternal to request a URL to
    * which to send the file data to and an id for the file
    * @param fileUploads
-   * @returns
    */
   private async fetchAllUploadURLExternal(fileUploads: FileUploadV2Job[]):
   Promise<Array<FilesGetUploadURLExternalResponse>> {
@@ -899,7 +898,7 @@ export function buildThreadTsWarningMessage(method: string): string {
  */
 function redact(body: any): any {
   const flattened = Object.entries(body).map<[string, any] | []>(([key, value]) => {
-    // no value provide
+    // no value provided
     if (value === undefined || value === null) {
       return [];
     }
@@ -911,7 +910,7 @@ function redact(body: any): any {
       serializedValue = '[[REDACTED]]';
     }
 
-    // whem value is buffer or stream we can avoid logging it
+    // when value is buffer or stream we can avoid logging it
     if (Buffer.isBuffer(value) || isStream(value)) {
       serializedValue = '[[BINARY VALUE OMITTED]]';
     } else if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
