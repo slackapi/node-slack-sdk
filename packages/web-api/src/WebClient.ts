@@ -545,7 +545,7 @@ export class WebClient extends Methods {
       const requestURL = (url.startsWith('https' || 'http')) ? url : `${this.axios.getUri() + url}`;
       this.logger.debug(`http request url: ${requestURL}`);
       this.logger.debug(`http request body: ${JSON.stringify(redact(body))}`);
-      this.logger.debug(`http request headers: ${JSON.stringify(headers)}`);
+      this.logger.debug(`http request headers: ${JSON.stringify(redact(headers))}`);
 
       try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -893,7 +893,7 @@ export function buildThreadTsWarningMessage(method: string): string {
 }
 
 /**
- * 
+ * Takes an object and redacts specific items
  * @param body 
  * @returns 
  */
@@ -907,20 +907,20 @@ function redact(body: any): any {
     let serializedValue = value;
 
     // redact possible tokens
-    if (key.match(/.*token.*/) !== null) {
+    if (key.match(/.*token.*/) !== null || key.match(/[Aa]uthorization/)) {
       serializedValue = '[[REDACTED]]';
     }
 
-    // value is buffer or stream
+    // whem value is buffer or stream we can avoid logging it
     if (Buffer.isBuffer(value) || isStream(value)) {
       serializedValue = '[[BINARY VALUE OMITTED]]';
     } else if (typeof value !== 'string' && typeof value !== 'number' && typeof value !== 'boolean') {
-      // value is
       serializedValue = JSON.stringify(value);
     }
     return [key, serializedValue];
   });
 
+  // return as object 
   const initialValue: { [key: string]: any; } = {};
   return flattened.reduce(
     (accumulator, [key, value]) => {
