@@ -162,7 +162,7 @@ export interface Focusable {
   focus_on_load?: boolean;
 }
 
-export interface Placeholderable {
+export interface Placeholdable {
   /**
    * @description A {@see PlainTextElement} object that defines the placeholder text shown on the element. Maximum
    * length for the `text` field in this object is 150 characters.
