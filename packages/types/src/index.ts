@@ -288,6 +288,13 @@ export interface RadioButtons extends Action, Confirmable, Focusable {
   initial_option?: Option;
   options: Option[];
 }
+export interface DateTimepicker extends Action {
+  type: 'datetimepicker';
+  initial_date_time?: number;
+  confirm?: Confirm;
+  focus_on_load?: boolean;
+  timezone?: string;
+}
 
 export interface Checkboxes extends Action, Confirmable, Focusable {
   type: 'checkboxes';
@@ -301,6 +308,39 @@ export interface PlainTextInput extends Action, Dispatchable, Focusable, Placeho
   multiline?: boolean;
   min_length?: number;
   max_length?: number;
+  dispatch_action_config?: DispatchActionConfig;
+  focus_on_load?: boolean;
+}
+
+export interface URLInput extends Action {
+  type: 'url_text_input';
+  placeholder?: PlainTextElement;
+  initial_value?: string;
+  dispatch_action_config?: DispatchActionConfig;
+  focus_on_load?: boolean;
+}
+
+export interface EmailInput extends Action {
+  type: 'email_text_input';
+  placeholder?: PlainTextElement;
+  initial_value?: string;
+  dispatch_action_config?: DispatchActionConfig;
+  focus_on_load?: boolean;
+}
+
+export interface NumberInput extends Action {
+  type: 'number_input';
+  is_decimal_allowed: boolean;
+  placeholder?: PlainTextElement;
+  initial_value?: string;
+  min_value?: string;
+  max_value?: string;
+  dispatch_action_config?: DispatchActionConfig;
+  focus_on_load?: boolean;
+}
+
+export interface DispatchActionConfig {
+  trigger_actions_on?: ('on_enter_pressed' | 'on_character_entered')[];
 }
 
 /*
