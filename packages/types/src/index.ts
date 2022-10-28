@@ -415,7 +415,8 @@ export interface ContextBlock extends Block {
 
 export interface ActionsBlock extends Block {
   type: 'actions';
-  elements: (Button | Overflow | Datepicker | Timepicker | Select | RadioButtons | Checkboxes | Action)[];
+  elements: (Button | Overflow | Datepicker | Timepicker | DateTimepicker | Select | RadioButtons | Checkboxes
+  | Action)[];
 }
 
 export interface DividerBlock extends Block {
@@ -430,6 +431,7 @@ export interface SectionBlock extends Block {
   | Overflow
   | Datepicker
   | Timepicker
+  | DateTimepicker
   | Select
   | MultiSelect
   | Action
@@ -454,7 +456,8 @@ export interface InputBlock extends Block {
   label: PlainTextElement;
   hint?: PlainTextElement;
   optional?: boolean;
-  element: Select | MultiSelect | Datepicker | Timepicker | PlainTextInput | RadioButtons | Checkboxes;
+  element: Select | MultiSelect | Datepicker | Timepicker | DateTimepicker | PlainTextInput | URLInput | EmailInput
+  | NumberInput | RadioButtons | Checkboxes;
   dispatch_action?: boolean;
 }
 
