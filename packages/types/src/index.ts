@@ -109,6 +109,22 @@ export interface Confirm {
   style?: 'primary' | 'danger';
 }
 
+/**
+ * @description Determines when an input element will return a
+ * {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions` interaction payload}.
+ */
+export interface DispatchActionConfig {
+  /**
+   * @description An array of interaction types that you would like to receive a
+   * {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions` payload} for. Should be
+   * one or both of:
+   *   `on_enter_pressed` — payload is dispatched when user presses the enter key while the input is in focus. Hint
+   *   text will appear underneath the input explaining to the user to press enter to submit.
+   *   `on_character_entered` — payload is dispatched when a character is entered (or removed) in the input.
+   */
+  trigger_actions_on?: ('on_enter_pressed' | 'on_character_entered')[];
+}
+
 /*
  * Action Types
  */
@@ -121,42 +137,70 @@ export type MultiSelect =
 
 export interface Action {
   type: string;
+  /**
+   * @description: An identifier for this action. You can use this when you receive an interaction payload to
+   * {@link https://api.slack.com/interactivity/handling#payloads identify the source of the action}. Should be unique
+   * among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
+   */
   action_id?: string;
 }
 
-export interface UsersSelect extends Action {
+export interface Confirmable {
+  /**
+   * @description A {@see Confirm} object that defines an optional confirmation dialog after the element is interacted
+   * with.
+   */
+  confirm?: Confirm;
+}
+
+export interface Focusable {
+  /**
+   * @description Indicates whether the element will be set to auto focus within the
+   * {@link https://api.slack.com/reference/surfaces/views `view` object}. Only one element can be set to `true`.
+   * Defaults to false.
+   */
+  focus_on_load?: boolean;
+}
+
+export interface Placeholderable {
+  /**
+   * @description A {@see PlainTextElement} object that defines the placeholder text shown on the element. Maximum
+   * length for the `text` field in this object is 150 characters.
+   */
+  placeholder?: PlainTextElement;
+}
+
+export interface Dispatchable {
+  /**
+   * @description A {@see DispatchActionConfig} object that determines when during text input the element returns a
+   * {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions` payload}.
+   */
+  dispatch_action_config?: DispatchActionConfig;
+}
+
+export interface UsersSelect extends Action, Confirmable, Focusable, Placeholderable {
   type: 'users_select';
   initial_user?: string;
-  placeholder?: PlainTextElement;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface MultiUsersSelect extends Action {
+export interface MultiUsersSelect extends Action, Confirmable, Focusable, Placeholderable {
   type: 'multi_users_select';
   initial_users?: string[];
-  placeholder?: PlainTextElement;
   max_selected_items?: number;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface StaticSelect extends Action {
+export interface StaticSelect extends Action, Confirmable, Focusable, Placeholderable {
   type: 'static_select';
-  placeholder?: PlainTextElement;
   initial_option?: PlainTextOption;
   options?: PlainTextOption[];
   option_groups?: {
     label: PlainTextElement;
     options: PlainTextOption[];
   }[];
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface MultiStaticSelect extends Action {
+export interface MultiStaticSelect extends Action, Confirmable, Focusable, Placeholderable {
   type: 'multi_static_select';
-  placeholder?: PlainTextElement;
   initial_options?: PlainTextOption[];
   options?: PlainTextOption[];
   option_groups?: {
@@ -164,15 +208,11 @@ export interface MultiStaticSelect extends Action {
     options: PlainTextOption[];
   }[];
   max_selected_items?: number;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface ConversationsSelect extends Action {
+export interface ConversationsSelect extends Action, Confirmable, Focusable, Placeholderable {
   type: 'conversations_select';
   initial_conversation?: string;
-  placeholder?: PlainTextElement;
-  confirm?: Confirm;
   response_url_enabled?: boolean;
   default_to_current_conversation?: boolean;
   filter?: {
@@ -180,122 +220,87 @@ export interface ConversationsSelect extends Action {
     exclude_external_shared_channels?: boolean;
     exclude_bot_users?: boolean;
   };
-  focus_on_load?: boolean;
 }
 
-export interface MultiConversationsSelect extends Action {
+export interface MultiConversationsSelect extends Action, Confirmable, Focusable, Placeholderable {
   type: 'multi_conversations_select';
   initial_conversations?: string[];
-  placeholder?: PlainTextElement;
   max_selected_items?: number;
-  confirm?: Confirm;
   default_to_current_conversation?: boolean;
   filter?: {
     include?: ('im' | 'mpim' | 'private' | 'public')[];
     exclude_external_shared_channels?: boolean;
     exclude_bot_users?: boolean;
   };
-  focus_on_load?: boolean;
 }
 
-export interface ChannelsSelect extends Action {
+export interface ChannelsSelect extends Action, Confirmable, Focusable, Placeholderable {
   type: 'channels_select';
   initial_channel?: string;
-  placeholder?: PlainTextElement;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface MultiChannelsSelect extends Action {
+export interface MultiChannelsSelect extends Action, Confirmable, Focusable, Placeholderable {
   type: 'multi_channels_select';
   initial_channels?: string[];
-  placeholder?: PlainTextElement;
   max_selected_items?: number;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface ExternalSelect extends Action {
+export interface ExternalSelect extends Action, Confirmable, Focusable, Placeholderable {
   type: 'external_select';
   initial_option?: PlainTextOption;
-  placeholder?: PlainTextElement;
   min_query_length?: number;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface MultiExternalSelect extends Action {
+export interface MultiExternalSelect extends Action, Confirmable, Focusable, Placeholderable {
   type: 'multi_external_select';
   initial_options?: PlainTextOption[];
-  placeholder?: PlainTextElement;
   min_query_length?: number;
   max_selected_items?: number;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface Button extends Action {
+export interface Button extends Action, Confirmable {
   type: 'button';
   text: PlainTextElement;
   value?: string;
   url?: string;
   style?: 'danger' | 'primary';
-  confirm?: Confirm;
   accessibility_label?: string;
 }
 
-export interface Overflow extends Action {
+export interface Overflow extends Action, Confirmable {
   type: 'overflow';
   options: PlainTextOption[];
-  confirm?: Confirm;
 }
 
-export interface Datepicker extends Action {
+export interface Datepicker extends Action, Confirmable, Focusable, Placeholderable {
   type: 'datepicker';
   initial_date?: string;
-  placeholder?: PlainTextElement;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface Timepicker extends Action {
+export interface Timepicker extends Action, Confirmable, Focusable, Placeholderable {
   type: 'timepicker';
   initial_time?: string;
-  placeholder?: PlainTextElement;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
   timezone?: string;
 }
 
-export interface RadioButtons extends Action {
+export interface RadioButtons extends Action, Confirmable, Focusable {
   type: 'radio_buttons';
   initial_option?: Option;
   options: Option[];
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface Checkboxes extends Action {
+export interface Checkboxes extends Action, Confirmable, Focusable {
   type: 'checkboxes';
   initial_options?: Option[];
   options: Option[];
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface PlainTextInput extends Action {
+export interface PlainTextInput extends Action, Dispatchable, Focusable, Placeholderable {
   type: 'plain_text_input';
-  placeholder?: PlainTextElement;
   initial_value?: string;
   multiline?: boolean;
   min_length?: number;
   max_length?: number;
-  dispatch_action_config?: DispatchActionConfig;
-  focus_on_load?: boolean;
-}
-
-export interface DispatchActionConfig {
-  trigger_actions_on?: ('on_enter_pressed' | 'on_character_entered')[];
 }
 
 /*
