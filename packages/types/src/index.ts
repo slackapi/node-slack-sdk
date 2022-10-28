@@ -1,6 +1,8 @@
 /*
  * Reusable shapes for argument values
  */
+// TODO: dialogs are deprecated https://api.slack.com/dialogs
+// Guide on upgrading dialogs to modals: https://api.slack.com/block-kit/dialogs-to-modals
 export interface Dialog {
   title: string;
   callback_id: string;
@@ -63,15 +65,9 @@ export interface WorkflowStepView {
 
 export type View = HomeView | ModalView | WorkflowStepView;
 
-/*
- * Block Elements
+/**
+ * Composition Objects: https://api.slack.com/reference/block-kit/composition-objects
  */
-
-export interface ImageElement {
-  type: 'image';
-  image_url: string;
-  alt_text: string;
-}
 
 export interface PlainTextElement {
   type: 'plain_text';
@@ -87,42 +83,59 @@ export interface MrkdwnElement {
 
 export interface MrkdwnOption {
   text: MrkdwnElement;
-  value?: string;
+  value: string;
   url?: string;
   description?: PlainTextElement;
 }
 
 export interface PlainTextOption {
   text: PlainTextElement;
-  value?: string;
+  value: string; // TODO: technically this property is optional, but if it is not provided, if the option is selected
+  // as a value in e.g. a static menu, then the returned value will be `null`
   url?: string;
   description?: PlainTextElement;
 }
 
+export interface Confirm {
+  title: PlainTextElement;
+  text: PlainTextElement | MrkdwnElement;
+  confirm: PlainTextElement;
+  deny: PlainTextElement;
+  style?: 'primary' | 'danger'; // TODO: factor out into own type
+}
+
 export type Option = MrkdwnOption | PlainTextOption;
 
-export interface Confirm {
-  title?: PlainTextElement;
-  text: PlainTextElement | MrkdwnElement;
-  confirm?: PlainTextElement;
-  deny?: PlainTextElement;
-  style?: 'primary' | 'danger';
+export interface DispatchActionConfig {
+  trigger_actions_on?: ('on_enter_pressed' | 'on_character_entered')[];
 }
 
 /*
- * Action Types
+ * Block Elements: https://api.slack.com/reference/block-kit/block-elements
+ * Also known as interactive elements
+ * Exported below as Action
  */
+
+export type KnownAction =
+  Select | MultiSelect | Button | Overflow | Datepicker | Timepicker | RadioButtons | Checkboxes | PlainTextInput;
+
+export interface Action {
+  type: string;
+  /**
+   * @description: A string acting as a unique identifier for a block.
+   */
+  block_id?: string; // TODO: in event payloads, this property will always be present. When defining a block, however,
+  // it is optional. If not defined when the block is created, Slack will auto-assign a block_id for you - thus why it
+  // is always present in payloads. So: how can we capture that? Differentiate between the event payload vs. the block
+  // element?
+  action_id?: string;
+}
 
 // Selects and Multiselects are available in different surface areas so I've separated them here
 export type Select = UsersSelect | StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect;
 
 export type MultiSelect =
   MultiUsersSelect | MultiStaticSelect | MultiConversationsSelect | MultiChannelsSelect | MultiExternalSelect;
-
-export interface Action {
-  type: string;
-  action_id?: string;
-}
 
 export interface UsersSelect extends Action {
   type: 'users_select';
@@ -145,10 +158,11 @@ export interface StaticSelect extends Action {
   type: 'static_select';
   placeholder?: PlainTextElement;
   initial_option?: PlainTextOption;
-  options?: PlainTextOption[];
-  option_groups?: {
+  options?: PlainTextOption[]; // TODO: mutually exclusive with option_groups but one of them is required
+  // TODO: minimum length of 1
+  option_groups?: { // todo: factor into own interface
     label: PlainTextElement;
-    options: PlainTextOption[];
+    options: PlainTextOption[]; // TODO: min length 1
   }[];
   confirm?: Confirm;
   focus_on_load?: boolean;
@@ -158,10 +172,11 @@ export interface MultiStaticSelect extends Action {
   type: 'multi_static_select';
   placeholder?: PlainTextElement;
   initial_options?: PlainTextOption[];
-  options?: PlainTextOption[];
-  option_groups?: {
+  options?: PlainTextOption[]; // TODO: options and option_groups are mutually exclusive but one of them is required
+  // TODO: minimum length of 1
+  option_groups?: { // todo: factor into own interface
     label: PlainTextElement;
-    options: PlainTextOption[];
+    options: PlainTextOption[]; // TODO: min length 1
   }[];
   max_selected_items?: number;
   confirm?: Confirm;
@@ -202,6 +217,7 @@ export interface ChannelsSelect extends Action {
   type: 'channels_select';
   initial_channel?: string;
   placeholder?: PlainTextElement;
+  response_url_enabled?: boolean;
   confirm?: Confirm;
   focus_on_load?: boolean;
 }
@@ -235,18 +251,22 @@ export interface MultiExternalSelect extends Action {
 }
 
 export interface Button extends Action {
-  type: 'button';
-  text: PlainTextElement;
-  value?: string;
-  url?: string;
-  style?: 'danger' | 'primary';
-  confirm?: Confirm;
   accessibility_label?: string;
+  confirm?: Confirm;
+  style?: 'danger' | 'primary';
+  text: PlainTextElement;
+  type: 'button';
+  /**
+   * @description: A URL to load in the user's browser when the button is clicked. Maximum length for this field is
+   * 3000 characters.
+   */
+  url?: string;
+  value?: string;
 }
 
 export interface Overflow extends Action {
   type: 'overflow';
-  options: PlainTextOption[];
+  options: PlainTextOption[]; // TODO: min length 1
   confirm?: Confirm;
 }
 
@@ -270,7 +290,7 @@ export interface Timepicker extends Action {
 export interface RadioButtons extends Action {
   type: 'radio_buttons';
   initial_option?: Option;
-  options: Option[];
+  options: Option[]; // TODO: min length 1
   confirm?: Confirm;
   focus_on_load?: boolean;
 }
@@ -278,7 +298,7 @@ export interface RadioButtons extends Action {
 export interface Checkboxes extends Action {
   type: 'checkboxes';
   initial_options?: Option[];
-  options: Option[];
+  options: Option[]; // TODO: min length 1
   confirm?: Confirm;
   focus_on_load?: boolean;
 }
@@ -294,21 +314,29 @@ export interface PlainTextInput extends Action {
   focus_on_load?: boolean;
 }
 
-export interface DispatchActionConfig {
-  trigger_actions_on?: ('on_enter_pressed' | 'on_character_entered')[];
+export interface ImageElement {
+  type: 'image';
+  image_url: string;
+  alt_text: string;
 }
 
-/*
- * Block Types
+/**
+ * Layout Blocks: https://api.slack.com/reference/block-kit/blocks
  */
-
-export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock |
-SectionBlock | InputBlock | FileBlock | HeaderBlock | VideoBlock;
 
 export interface Block {
   type: string;
+  /**
+   * @description: A string acting as a unique identifier for a block. If not specified, a `block_id` will be generated.
+   * You can use this `block_id` when you receive an interaction payload to identify the source of the action. Maximum
+   * length for this field is 255 characters. block_id should be unique for each message and each iteration of a
+   * message. If a message is updated, use a new block_id.
+   */
   block_id?: string;
 }
+
+export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock |
+SectionBlock | InputBlock | FileBlock | HeaderBlock | VideoBlock;
 
 export interface ImageBlock extends Block {
   type: 'image';
@@ -324,7 +352,7 @@ export interface ContextBlock extends Block {
 
 export interface ActionsBlock extends Block {
   type: 'actions';
-  elements: (Button | Overflow | Datepicker | Timepicker | Select | RadioButtons | Checkboxes | Action)[];
+  elements: (Button | Overflow | Datepicker | Timepicker | Select | MultiSelect | RadioButtons | Checkboxes | Action)[];
 }
 
 export interface DividerBlock extends Block {
@@ -339,6 +367,7 @@ export interface SectionBlock extends Block {
   | Overflow
   | Datepicker
   | Timepicker
+  | PlainTextInput
   | Select
   | MultiSelect
   | Action
