@@ -157,7 +157,7 @@ export interface Focusable {
   /**
    * @description Indicates whether the element will be set to auto focus within the
    * {@link https://api.slack.com/reference/surfaces/views `view` object}. Only one element can be set to `true`.
-   * Defaults to false.
+   * Defaults to `false`.
    */
   focus_on_load?: boolean;
 }
