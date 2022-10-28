@@ -1481,8 +1481,10 @@ export interface ChatScheduledMessagesListArguments extends WebAPICallOptions, T
 }
 cursorPaginationEnabledMethods.add('chat.scheduledMessages.list');
 export interface ChatUnfurlArguments extends WebAPICallOptions, TokenOverridable {
-  channel: string;
-  ts: string;
+  channel?: string; // if specified, `ts` must be specified too. otherwise, `unfurl_id` and `source` must be specified.
+  ts?: string;
+  unfurl_id?: string; // if specified, `source` must be specified too. otherwise, `channel` and `ts` must be specified.
+  source?: 'composer' | 'conversations_history';
   unfurls: LinkUnfurls;
   user_auth_message?: string;
   user_auth_required?: boolean;
