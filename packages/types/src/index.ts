@@ -178,18 +178,18 @@ export interface Dispatchable {
   dispatch_action_config?: DispatchActionConfig;
 }
 
-export interface UsersSelect extends Action, Confirmable, Focusable, Placeholderable {
+export interface UsersSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'users_select';
   initial_user?: string;
 }
 
-export interface MultiUsersSelect extends Action, Confirmable, Focusable, Placeholderable {
+export interface MultiUsersSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'multi_users_select';
   initial_users?: string[];
   max_selected_items?: number;
 }
 
-export interface StaticSelect extends Action, Confirmable, Focusable, Placeholderable {
+export interface StaticSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'static_select';
   initial_option?: PlainTextOption;
   options?: PlainTextOption[];
@@ -199,7 +199,7 @@ export interface StaticSelect extends Action, Confirmable, Focusable, Placeholde
   }[];
 }
 
-export interface MultiStaticSelect extends Action, Confirmable, Focusable, Placeholderable {
+export interface MultiStaticSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'multi_static_select';
   initial_options?: PlainTextOption[];
   options?: PlainTextOption[];
@@ -210,7 +210,7 @@ export interface MultiStaticSelect extends Action, Confirmable, Focusable, Place
   max_selected_items?: number;
 }
 
-export interface ConversationsSelect extends Action, Confirmable, Focusable, Placeholderable {
+export interface ConversationsSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'conversations_select';
   initial_conversation?: string;
   response_url_enabled?: boolean;
@@ -222,7 +222,7 @@ export interface ConversationsSelect extends Action, Confirmable, Focusable, Pla
   };
 }
 
-export interface MultiConversationsSelect extends Action, Confirmable, Focusable, Placeholderable {
+export interface MultiConversationsSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'multi_conversations_select';
   initial_conversations?: string[];
   max_selected_items?: number;
@@ -234,24 +234,24 @@ export interface MultiConversationsSelect extends Action, Confirmable, Focusable
   };
 }
 
-export interface ChannelsSelect extends Action, Confirmable, Focusable, Placeholderable {
+export interface ChannelsSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'channels_select';
   initial_channel?: string;
 }
 
-export interface MultiChannelsSelect extends Action, Confirmable, Focusable, Placeholderable {
+export interface MultiChannelsSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'multi_channels_select';
   initial_channels?: string[];
   max_selected_items?: number;
 }
 
-export interface ExternalSelect extends Action, Confirmable, Focusable, Placeholderable {
+export interface ExternalSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'external_select';
   initial_option?: PlainTextOption;
   min_query_length?: number;
 }
 
-export interface MultiExternalSelect extends Action, Confirmable, Focusable, Placeholderable {
+export interface MultiExternalSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'multi_external_select';
   initial_options?: PlainTextOption[];
   min_query_length?: number;
@@ -272,12 +272,12 @@ export interface Overflow extends Action, Confirmable {
   options: PlainTextOption[];
 }
 
-export interface Datepicker extends Action, Confirmable, Focusable, Placeholderable {
+export interface Datepicker extends Action, Confirmable, Focusable, Placeholdable {
   type: 'datepicker';
   initial_date?: string;
 }
 
-export interface Timepicker extends Action, Confirmable, Focusable, Placeholderable {
+export interface Timepicker extends Action, Confirmable, Focusable, Placeholdable {
   type: 'timepicker';
   initial_time?: string;
   timezone?: string;
@@ -295,7 +295,7 @@ export interface Checkboxes extends Action, Confirmable, Focusable {
   options: Option[];
 }
 
-export interface PlainTextInput extends Action, Dispatchable, Focusable, Placeholderable {
+export interface PlainTextInput extends Action, Dispatchable, Focusable, Placeholdable {
   type: 'plain_text_input';
   initial_value?: string;
   multiline?: boolean;
