@@ -374,10 +374,6 @@ export interface NumberInput extends Action, Dispatchable, Focusable, Placeholda
   max_value?: string;
 }
 
-export interface DispatchActionConfig {
-  trigger_actions_on?: ('on_enter_pressed' | 'on_character_entered')[];
-}
-
 /*
  * Block Types
  */
@@ -420,7 +416,6 @@ export interface SectionBlock extends Block {
   | Overflow
   | Datepicker
   | Timepicker
-  | DateTimepicker
   | Select
   | MultiSelect
   | Action
