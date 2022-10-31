@@ -296,7 +296,7 @@ export interface RadioButtons extends Action, Confirmable, Focusable {
  * picker will use native UIs.
  * {@link https://api.slack.com/reference/block-kit/block-elements#datetimepicker}
  */
-export interface DateTimepicker extends Action {
+export interface DateTimepicker extends Action, Confirmable, Focusable {
   type: 'datetimepicker';
   /**
    * @description The initial date and time that is selected when the element is loaded, represented as a UNIX
@@ -304,8 +304,6 @@ export interface DateTimepicker extends Action {
    * time August 10th, 2021 at 03:17pm PST.
    */
   initial_date_time?: number;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
 export interface Checkboxes extends Action, Confirmable, Focusable {
@@ -329,15 +327,12 @@ export interface PlainTextInput extends Action, Dispatchable, Focusable, Placeho
  * a user can enter URL-encoded data.
  * {@link https://api.slack.com/reference/block-kit/block-elements#url}
  */
-export interface URLInput extends Action {
+export interface URLInput extends Action, Dispatchable, Focusable, Placeholdable {
   type: 'url_text_input';
-  placeholder?: PlainTextElement;
   /**
    * @description The initial value in the URL input when it is loaded.
    */
   initial_value?: string;
-  dispatch_action_config?: DispatchActionConfig;
-  focus_on_load?: boolean;
 }
 
 /**
@@ -345,15 +340,12 @@ export interface URLInput extends Action {
  * a user can enter an email address.
  * {@link https://api.slack.com/reference/block-kit/block-elements#email}
  */
-export interface EmailInput extends Action {
+export interface EmailInput extends Action, Dispatchable, Focusable, Placeholdable {
   type: 'email_text_input';
-  placeholder?: PlainTextElement;
   /**
    * @description The initial value in the email input when it is loaded.
    */
   initial_value?: string;
-  dispatch_action_config?: DispatchActionConfig;
-  focus_on_load?: boolean;
 }
 
 /**
@@ -362,13 +354,12 @@ export interface EmailInput extends Action {
  * valid input values. Decimal numbers are only allowed when `is_decimal_allowed` is equal to `true`.
  * {@link https://api.slack.com/reference/block-kit/block-elements#number}
  */
-export interface NumberInput extends Action {
+export interface NumberInput extends Action, Dispatchable, Focusable, Placeholdable {
   type: 'number_input';
   /**
    * @description Decimal numbers are allowed if this property is `true`, set the value to `false` otherwise.
    */
   is_decimal_allowed: boolean;
-  placeholder?: PlainTextElement;
   /**
    * @description The initial value in the input when it is loaded.
    */
@@ -381,8 +372,6 @@ export interface NumberInput extends Action {
    * @description The maximum value, cannot be less than `min_value`.
    */
   max_value?: string;
-  dispatch_action_config?: DispatchActionConfig;
-  focus_on_load?: boolean;
 }
 
 export interface DispatchActionConfig {
