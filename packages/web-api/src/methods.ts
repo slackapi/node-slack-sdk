@@ -133,7 +133,9 @@ import {
   DndTeamInfoResponse,
   EmojiListResponse,
   FilesCommentsDeleteResponse,
+  FilesCompleteUploadExternalResponse,
   FilesDeleteResponse,
+  FilesGetUploadURLExternalResponse,
   FilesInfoResponse,
   FilesListResponse,
   FilesRemoteAddResponse,
@@ -224,6 +226,12 @@ function bindApiCall<Arguments extends WebAPICallOptions, Result extends WebAPIC
   return self.apiCall.bind(self, method) as Method<Arguments, Result>;
 }
 
+function bindFilesUploadV2<Arguments extends WebAPICallOptions, Result extends WebAPICallResult>(
+  self: Methods,
+): Method<Arguments, Result> {
+  return self.filesUploadV2.bind(self) as unknown as Method<Arguments, Result>;
+}
+
 /**
  * A class that defines all Web API methods, their arguments type, their response type, and binds those methods to the
  * `apiCall` class method.
@@ -246,6 +254,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   }
 
   public abstract apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult>;
+  public abstract filesUploadV2(options?: WebAPICallOptions): Promise<WebAPICallResult>;
 
   public readonly admin = {
     analytics: {
@@ -598,6 +607,23 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     sharedPublicURL:
       bindApiCall<FilesSharedPublicURLArguments, FilesSharedPublicURLResponse>(this, 'files.sharedPublicURL'),
     upload: bindApiCall<FilesUploadArguments, FilesUploadResponse>(this, 'files.upload'),
+    /**
+     * Custom method to support files upload v2 way of uploading files to Slack
+     * Supports a single file upload
+     * Supply:
+     * - (required) single file or content
+     * - (optional) channel, alt_text, snippet_type,
+     * Supports multiple file uploads
+     * Supply:
+     * - multiple upload_files
+     * Will try to honor both single file or content data supplied as well
+     * as multiple file uploads property.
+    */
+    uploadV2: bindFilesUploadV2<FilesUploadV2Arguments, WebAPICallResult>(this),
+    getUploadURLExternal:
+      bindApiCall<FilesGetUploadURLExternalArguments, FilesGetUploadURLExternalResponse>(this, 'files.getUploadURLExternal'),
+    completeUploadExternal:
+      bindApiCall<FilesCompleteUploadExternalArguments, FilesCompleteUploadExternalResponse>(this, 'files.completeUploadExternal'),
     comments: {
       delete: bindApiCall<FilesCommentsDeleteArguments, FilesCommentsDeleteResponse>(this, 'files.comments.delete'),
     },
@@ -1454,15 +1480,60 @@ export interface ChatScheduledMessagesListArguments extends WebAPICallOptions, T
   team_id?: string; // required if org token is used
 }
 cursorPaginationEnabledMethods.add('chat.scheduledMessages.list');
-export interface ChatUnfurlArguments extends WebAPICallOptions, TokenOverridable {
+// ChannelAndTS and SourceAndUnfurlID are used as either-or mixins for ChatUnfurlArguments
+interface ChannelAndTSArguments {
+  /**
+   * @description Channel ID of the message. Both `channel` and `ts` must be provided together, or `unfurl_id` and
+   * `source` must be provided together.
+   */
   channel: string;
+  /**
+   * @description Timestamp of the message to add unfurl behavior to.
+   */
   ts: string;
-  unfurls: LinkUnfurls;
-  user_auth_message?: string;
-  user_auth_required?: boolean;
-  user_auth_url?: string;
-  user_auth_blocks?: (KnownBlock | Block)[];
 }
+
+interface SourceAndUnfurlIDArguments {
+  /**
+   * @description The source of the link to unfurl. The source may either be `composer`, when the link is inside the
+   * message composer, or `conversations_history`, when the link has been posted to a conversation.
+   */
+  source: 'composer' | 'conversations_history';
+  /**
+   * @description The ID of the link to unfurl. Both `unfurl_id` and `source` must be provided together, or `channel`
+   * and `ts` must be provided together.
+   */
+  unfurl_id: string;
+}
+export type ChatUnfurlArguments = (ChannelAndTSArguments | SourceAndUnfurlIDArguments) & WebAPICallOptions
+& TokenOverridable
+& {
+  /**
+   * @description URL-encoded JSON map with keys set to URLs featured in the the message, pointing to their unfurl
+   * blocks or message attachments.
+   */
+  unfurls: LinkUnfurls;
+  /**
+   * @description Provide a simply-formatted string to send as an ephemeral message to the user as invitation to
+   * authenticate further and enable full unfurling behavior. Provides two buttons, Not now or Never ask me again.
+   */
+  user_auth_message?: string;
+  /**
+   * @description Set to `true` to indicate the user must install your Slack app to trigger unfurls for this domain.
+   * Defaults to `false`.
+   */
+  user_auth_required?: boolean;
+  /**
+   * @description Send users to this custom URL where they will complete authentication in your app to fully trigger
+   * unfurling. Value should be properly URL-encoded.
+   */
+  user_auth_url?: string;
+  /**
+   * @description Provide a JSON based array of structured blocks presented as URL-encoded string to send as an
+   * ephemeral message to the user as invitation to authenticate further and enable full unfurling behavior.
+   */
+  user_auth_blocks?: (KnownBlock | Block)[];
+};
 export interface ChatUpdateArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   ts: string;
@@ -1569,6 +1640,7 @@ export interface ConversationsRepliesArguments extends WebAPICallOptions, TokenO
   TimelinePaginationEnabled {
   channel: string;
   ts: string;
+  include_all_metadata?: boolean;
 }
 cursorPaginationEnabledMethods.add('conversations.replies');
 export interface ConversationsSetPurposeArguments extends WebAPICallOptions, TokenOverridable {
@@ -1638,15 +1710,63 @@ export interface FilesRevokePublicURLArguments extends WebAPICallOptions, TokenO
 export interface FilesSharedPublicURLArguments extends WebAPICallOptions, TokenOverridable {
   file: string; // file id
 }
-export interface FilesUploadArguments extends WebAPICallOptions, TokenOverridable {
+/**
+ * Legacy files.upload API files upload arguments
+ * */
+export interface FilesUploadArguments extends FileUpload, WebAPICallOptions, TokenOverridable {}
+interface FileUpload {
   channels?: string; // comma-separated list of channels
-  content?: string; // if absent, must provide `file`
-  file?: Buffer | Stream; // if absent, must provide `content`
+  content?: string; // if omitted, must provide `file`
+  file?: Buffer | Stream | string; // if omitted, must provide `content`
   filename?: string;
   filetype?: string;
   initial_comment?: string;
-  title?: string;
   thread_ts?: string; // if specified, `channels` must be set
+  title?: string;
+}
+
+export interface FilesUploadV2Arguments extends FileUploadV2, WebAPICallOptions, TokenOverridable {
+  file_uploads?: Omit<FileUploadV2, 'channel_id' | 'channels' | 'initial_comment' | 'thread_ts'>[];
+  request_file_info?: boolean;
+}
+
+export type FileUploadV2 = FileUpload & {
+  alt_text?: string; // for image uploads
+  channel_id?: string;
+  snippet_type?: string; // for code snippets
+};
+
+// Helper type intended for internal use in filesUploadV2 client method
+// Includes additional metadata required to complete a single file upload job
+export interface FileUploadV2Job extends FileUploadV2,
+  Pick<FilesGetUploadURLExternalResponse, 'file_id' | 'upload_url' | 'error'> {
+  length?: number;
+  data?: Buffer;
+}
+
+/**
+ * Gets a URL for an edge external file upload. Method:
+ * {@link https://api.slack.com/methods/files.getUploadURLExternal files.getUploadURLExternal}
+*/
+export interface FilesGetUploadURLExternalArguments extends WebAPICallOptions, TokenOverridable {
+  filename: string;
+  length: number;
+  alt_text?: string;
+  snippet_type?: string;
+}
+/**
+ * Finishes an upload started with files.getUploadURLExternal. Method:
+ * {@link https://api.slack.com/methods/files.completeUploadExternal files.completeUploadExternal}
+ * */
+export interface FilesCompleteUploadExternalArguments extends WebAPICallOptions, TokenOverridable {
+  files: FileUploadComplete[];
+  channel_id?: string, // if omitted, file will be private
+  initial_comment?: string,
+  thread_ts?: string
+}
+interface FileUploadComplete {
+  id: string, // file id
+  title?: string // filename
 }
 export interface FilesCommentsDeleteArguments extends WebAPICallOptions, TokenOverridable {
   file: string; // file id

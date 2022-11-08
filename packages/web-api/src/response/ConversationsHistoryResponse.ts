@@ -34,6 +34,8 @@ export interface Message {
   edited?:            Edited;
   files?:             FileElement[];
   icons?:             MessageIcons;
+  inviter?:           string;
+  is_locked?:         boolean;
   latest_reply?:      string;
   metadata?:          MessageMetadata;
   parent_user_id?:    string;
@@ -151,8 +153,12 @@ export interface Block {
   accessory?:                Accessory;
   alt_text?:                 string;
   api_decoration_available?: boolean;
+  app_collaborators?:        string[];
+  app_id?:                   string;
   author_name?:              string;
   block_id?:                 string;
+  bot_user_id?:              string;
+  button_label?:             string;
   call?:                     Call;
   call_id?:                  string;
   description?:              Description;
@@ -164,11 +170,13 @@ export interface Block {
   fields?:                   Description[];
   file?:                     BlockFile;
   file_id?:                  string;
+  function_trigger_id?:      string;
   hint?:                     Description;
   image_bytes?:              number;
   image_height?:             number;
   image_url?:                string;
   image_width?:              number;
+  is_workflow_app?:          boolean;
   label?:                    Description;
   optional?:                 boolean;
   provider_icon_url?:        string;
@@ -179,6 +187,7 @@ export interface Block {
   title?:                    Description;
   title_url?:                string;
   type?:                     string;
+  url?:                      string;
   video_url?:                string;
 }
 
@@ -337,6 +346,7 @@ export interface AppIconUrls {
 }
 
 export interface BlockFile {
+  alt_txt?:                   string;
   app_id?:                    string;
   app_name?:                  string;
   bot_id?:                    string;
@@ -520,6 +530,7 @@ export interface Field {
 }
 
 export interface FileElement {
+  alt_txt?:                   string;
   app_id?:                    string;
   app_name?:                  string;
   bot_id?:                    string;
@@ -689,7 +700,10 @@ export interface Edited {
 
 export interface MessageIcons {
   emoji?:    string;
+  image_36?: string;
+  image_48?: string;
   image_64?: string;
+  image_72?: string;
 }
 
 export interface MessageMetadata {
@@ -702,7 +716,7 @@ export interface EventPayload {
 
 export interface Root {
   bot_id?:            string;
-  icons?:             MessageIcons;
+  icons?:             RootIcons;
   latest_reply?:      string;
   parent_user_id?:    string;
   reply_count?:       number;
@@ -715,6 +729,11 @@ export interface Root {
   ts?:                string;
   type?:              string;
   username?:          string;
+}
+
+export interface RootIcons {
+  emoji?:    string;
+  image_64?: string;
 }
 
 export interface ResponseMetadata {

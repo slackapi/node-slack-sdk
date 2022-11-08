@@ -109,6 +109,22 @@ export interface Confirm {
   style?: 'primary' | 'danger';
 }
 
+/**
+ * @description Determines when an input element will return a
+ * {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions` interaction payload}.
+ */
+export interface DispatchActionConfig {
+  /**
+   * @description An array of interaction types that you would like to receive a
+   * {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions` payload} for. Should be
+   * one or both of:
+   *   `on_enter_pressed` — payload is dispatched when user presses the enter key while the input is in focus. Hint
+   *   text will appear underneath the input explaining to the user to press enter to submit.
+   *   `on_character_entered` — payload is dispatched when a character is entered (or removed) in the input.
+   */
+  trigger_actions_on?: ('on_enter_pressed' | 'on_character_entered')[];
+}
+
 /*
  * Action Types
  */
@@ -121,42 +137,70 @@ export type MultiSelect =
 
 export interface Action {
   type: string;
+  /**
+   * @description: An identifier for this action. You can use this when you receive an interaction payload to
+   * {@link https://api.slack.com/interactivity/handling#payloads identify the source of the action}. Should be unique
+   * among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
+   */
   action_id?: string;
 }
 
-export interface UsersSelect extends Action {
+export interface Confirmable {
+  /**
+   * @description A {@see Confirm} object that defines an optional confirmation dialog after the element is interacted
+   * with.
+   */
+  confirm?: Confirm;
+}
+
+export interface Focusable {
+  /**
+   * @description Indicates whether the element will be set to auto focus within the
+   * {@link https://api.slack.com/reference/surfaces/views `view` object}. Only one element can be set to `true`.
+   * Defaults to `false`.
+   */
+  focus_on_load?: boolean;
+}
+
+export interface Placeholdable {
+  /**
+   * @description A {@see PlainTextElement} object that defines the placeholder text shown on the element. Maximum
+   * length for the `text` field in this object is 150 characters.
+   */
+  placeholder?: PlainTextElement;
+}
+
+export interface Dispatchable {
+  /**
+   * @description A {@see DispatchActionConfig} object that determines when during text input the element returns a
+   * {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions` payload}.
+   */
+  dispatch_action_config?: DispatchActionConfig;
+}
+
+export interface UsersSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'users_select';
   initial_user?: string;
-  placeholder?: PlainTextElement;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface MultiUsersSelect extends Action {
+export interface MultiUsersSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'multi_users_select';
   initial_users?: string[];
-  placeholder?: PlainTextElement;
   max_selected_items?: number;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface StaticSelect extends Action {
+export interface StaticSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'static_select';
-  placeholder?: PlainTextElement;
   initial_option?: PlainTextOption;
   options?: PlainTextOption[];
   option_groups?: {
     label: PlainTextElement;
     options: PlainTextOption[];
   }[];
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface MultiStaticSelect extends Action {
+export interface MultiStaticSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'multi_static_select';
-  placeholder?: PlainTextElement;
   initial_options?: PlainTextOption[];
   options?: PlainTextOption[];
   option_groups?: {
@@ -164,15 +208,11 @@ export interface MultiStaticSelect extends Action {
     options: PlainTextOption[];
   }[];
   max_selected_items?: number;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface ConversationsSelect extends Action {
+export interface ConversationsSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'conversations_select';
   initial_conversation?: string;
-  placeholder?: PlainTextElement;
-  confirm?: Confirm;
   response_url_enabled?: boolean;
   default_to_current_conversation?: boolean;
   filter?: {
@@ -180,112 +220,100 @@ export interface ConversationsSelect extends Action {
     exclude_external_shared_channels?: boolean;
     exclude_bot_users?: boolean;
   };
-  focus_on_load?: boolean;
 }
 
-export interface MultiConversationsSelect extends Action {
+export interface MultiConversationsSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'multi_conversations_select';
   initial_conversations?: string[];
-  placeholder?: PlainTextElement;
   max_selected_items?: number;
-  confirm?: Confirm;
   default_to_current_conversation?: boolean;
   filter?: {
     include?: ('im' | 'mpim' | 'private' | 'public')[];
     exclude_external_shared_channels?: boolean;
     exclude_bot_users?: boolean;
   };
-  focus_on_load?: boolean;
 }
 
-export interface ChannelsSelect extends Action {
+export interface ChannelsSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'channels_select';
   initial_channel?: string;
-  placeholder?: PlainTextElement;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface MultiChannelsSelect extends Action {
+export interface MultiChannelsSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'multi_channels_select';
   initial_channels?: string[];
-  placeholder?: PlainTextElement;
   max_selected_items?: number;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface ExternalSelect extends Action {
+export interface ExternalSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'external_select';
   initial_option?: PlainTextOption;
-  placeholder?: PlainTextElement;
   min_query_length?: number;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface MultiExternalSelect extends Action {
+export interface MultiExternalSelect extends Action, Confirmable, Focusable, Placeholdable {
   type: 'multi_external_select';
   initial_options?: PlainTextOption[];
-  placeholder?: PlainTextElement;
   min_query_length?: number;
   max_selected_items?: number;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface Button extends Action {
+export interface Button extends Action, Confirmable {
   type: 'button';
   text: PlainTextElement;
   value?: string;
   url?: string;
   style?: 'danger' | 'primary';
-  confirm?: Confirm;
   accessibility_label?: string;
 }
 
-export interface Overflow extends Action {
+export interface Overflow extends Action, Confirmable {
   type: 'overflow';
   options: PlainTextOption[];
-  confirm?: Confirm;
 }
 
-export interface Datepicker extends Action {
+export interface Datepicker extends Action, Confirmable, Focusable, Placeholdable {
   type: 'datepicker';
   initial_date?: string;
-  placeholder?: PlainTextElement;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface Timepicker extends Action {
+export interface Timepicker extends Action, Confirmable, Focusable, Placeholdable {
   type: 'timepicker';
   initial_time?: string;
-  placeholder?: PlainTextElement;
-  confirm?: Confirm;
-  focus_on_load?: boolean;
   timezone?: string;
 }
 
-export interface RadioButtons extends Action {
+export interface RadioButtons extends Action, Confirmable, Focusable {
   type: 'radio_buttons';
   initial_option?: Option;
   options: Option[];
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface Checkboxes extends Action {
+/**
+ * @description An element that allows the selection of a time of day formatted as a UNIX timestamp. On desktop
+ * clients, this time picker will take the form of a dropdown list and the date picker will take the form of a dropdown
+ * calendar. Both options will have free-text entry for precise choices. On mobile clients, the time picker and date
+ * picker will use native UIs.
+ * {@link https://api.slack.com/reference/block-kit/block-elements#datetimepicker}
+ */
+export interface DateTimepicker extends Action, Confirmable, Focusable {
+  type: 'datetimepicker';
+  /**
+   * @description The initial date and time that is selected when the element is loaded, represented as a UNIX
+   * timestamp in seconds. This should be in the format of 10 digits, for example 1628633820 represents the date and
+   * time August 10th, 2021 at 03:17pm PST.
+   */
+  initial_date_time?: number;
+}
+
+export interface Checkboxes extends Action, Confirmable, Focusable {
   type: 'checkboxes';
   initial_options?: Option[];
   options: Option[];
-  confirm?: Confirm;
-  focus_on_load?: boolean;
 }
 
-export interface PlainTextInput extends Action {
+export interface PlainTextInput extends Action, Dispatchable, Focusable, Placeholdable {
   type: 'plain_text_input';
-  placeholder?: PlainTextElement;
   initial_value?: string;
   multiline?: boolean;
   min_length?: number;
@@ -294,8 +322,56 @@ export interface PlainTextInput extends Action {
   focus_on_load?: boolean;
 }
 
-export interface DispatchActionConfig {
-  trigger_actions_on?: ('on_enter_pressed' | 'on_character_entered')[];
+/**
+ * @description A URL input element, similar to the {@see PlainTextInput} element, creates a single line field where
+ * a user can enter URL-encoded data.
+ * {@link https://api.slack.com/reference/block-kit/block-elements#url}
+ */
+export interface URLInput extends Action, Dispatchable, Focusable, Placeholdable {
+  type: 'url_text_input';
+  /**
+   * @description The initial value in the URL input when it is loaded.
+   */
+  initial_value?: string;
+}
+
+/**
+ * @description An email input element, similar to the {@see PlainTextInput} element, creates a single line field where
+ * a user can enter an email address.
+ * {@link https://api.slack.com/reference/block-kit/block-elements#email}
+ */
+export interface EmailInput extends Action, Dispatchable, Focusable, Placeholdable {
+  type: 'email_text_input';
+  /**
+   * @description The initial value in the email input when it is loaded.
+   */
+  initial_value?: string;
+}
+
+/**
+ * @description A number input element, similar to the {@see PlainTextInput} element, creates a single line field where
+ * a user can a number. This input elements accepts floating point numbers, for example, 0.25, 5.5, and -10 are all
+ * valid input values. Decimal numbers are only allowed when `is_decimal_allowed` is equal to `true`.
+ * {@link https://api.slack.com/reference/block-kit/block-elements#number}
+ */
+export interface NumberInput extends Action, Dispatchable, Focusable, Placeholdable {
+  type: 'number_input';
+  /**
+   * @description Decimal numbers are allowed if this property is `true`, set the value to `false` otherwise.
+   */
+  is_decimal_allowed: boolean;
+  /**
+   * @description The initial value in the input when it is loaded.
+   */
+  initial_value?: string;
+  /**
+   * @description The minimum value, cannot be greater than `max_value`.
+   */
+  min_value?: string;
+  /**
+   * @description The maximum value, cannot be less than `min_value`.
+   */
+  max_value?: string;
 }
 
 /*
@@ -324,7 +400,8 @@ export interface ContextBlock extends Block {
 
 export interface ActionsBlock extends Block {
   type: 'actions';
-  elements: (Button | Overflow | Datepicker | Timepicker | Select | RadioButtons | Checkboxes | Action)[];
+  elements: (Button | Overflow | Datepicker | Timepicker | DateTimepicker | Select | RadioButtons | Checkboxes
+  | Action)[];
 }
 
 export interface DividerBlock extends Block {
@@ -363,7 +440,8 @@ export interface InputBlock extends Block {
   label: PlainTextElement;
   hint?: PlainTextElement;
   optional?: boolean;
-  element: Select | MultiSelect | Datepicker | Timepicker | PlainTextInput | RadioButtons | Checkboxes;
+  element: Select | MultiSelect | Datepicker | Timepicker | DateTimepicker | PlainTextInput | URLInput | EmailInput
+  | NumberInput | RadioButtons | Checkboxes;
   dispatch_action?: boolean;
 }
 

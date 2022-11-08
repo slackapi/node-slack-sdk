@@ -248,8 +248,12 @@ export interface Block {
   accessory?:                Accessory;
   alt_text?:                 string;
   api_decoration_available?: boolean;
+  app_collaborators?:        string[];
+  app_id?:                   string;
   author_name?:              string;
   block_id?:                 string;
+  bot_user_id?:              string;
+  button_label?:             string;
   call?:                     Call;
   call_id?:                  string;
   description?:              Description;
@@ -261,11 +265,13 @@ export interface Block {
   fields?:                   Description[];
   file?:                     BlockFile;
   file_id?:                  string;
+  function_trigger_id?:      string;
   hint?:                     Description;
   image_bytes?:              number;
   image_height?:             number;
   image_url?:                string;
   image_width?:              number;
+  is_workflow_app?:          boolean;
   label?:                    Description;
   optional?:                 boolean;
   provider_icon_url?:        string;
@@ -276,6 +282,7 @@ export interface Block {
   title?:                    Description;
   title_url?:                string;
   type?:                     string;
+  url?:                      string;
   video_url?:                string;
 }
 
@@ -434,6 +441,7 @@ export interface AppIconUrls {
 }
 
 export interface BlockFile {
+  alt_txt?:                   string;
   app_id?:                    string;
   app_name?:                  string;
   bot_id?:                    string;
@@ -553,6 +561,7 @@ export interface BlockFile {
   url_private?:               string;
   url_private_download?:      string;
   user?:                      string;
+  user_team?:                 string;
   username?:                  string;
   vtt?:                       string;
 }
@@ -616,6 +625,7 @@ export interface Field {
 }
 
 export interface FileElement {
+  alt_txt?:                   string;
   app_id?:                    string;
   app_name?:                  string;
   bot_id?:                    string;
@@ -735,6 +745,7 @@ export interface FileElement {
   url_private?:               string;
   url_private_download?:      string;
   user?:                      string;
+  user_team?:                 string;
   username?:                  string;
   vtt?:                       string;
 }
@@ -851,6 +862,7 @@ export interface SelfPrefs {
   allow_cmd_tab_iss?:                                         boolean;
   allowed_unfurl_senders?:                                    string;
   analytics_upsell_coachmark_seen?:                           boolean;
+  app_manifest_schema_format?:                                string;
   app_subdomain_check_completed?:                             number;
   arrow_history?:                                             boolean;
   at_channel_suppressed_channels?:                            string;
@@ -871,6 +883,7 @@ export interface SelfPrefs {
   browsers_seen_initial_user_groups_education?:               boolean;
   calls_disconnect_on_lock?:                                  boolean;
   calls_survey_last_seen?:                                    string;
+  channel_canvas_variant?:                                    number;
   channel_sections?:                                          string;
   channel_sidebar_hide_browse_dms_link?:                      boolean;
   channel_sidebar_hide_invite?:                               boolean;
@@ -1428,6 +1441,7 @@ export interface TeamPrefs {
   daily_prompts_enabled?:                              boolean;
   default_channel_creation_enabled?:                   boolean;
   default_channels?:                                   string[];
+  default_create_private_channel?:                     boolean;
   default_rxns?:                                       string[];
   disable_email_ingestion?:                            boolean;
   disable_file_deleting?:                              boolean;
@@ -1488,6 +1502,7 @@ export interface TeamPrefs {
   enterprise_mdm_date_enabled?:                        number;
   enterprise_mdm_disable_file_download?:               boolean;
   enterprise_mdm_level?:                               number;
+  enterprise_mdm_token?:                               string;
   enterprise_mobile_device_check?:                     boolean;
   enterprise_team_creation_request?:                   EnterpriseTeamCreationRequest;
   ext_audit_log_retention_duration?:                   number;
@@ -1534,6 +1549,7 @@ export interface TeamPrefs {
   retention_duration?:                                 number;
   retention_type?:                                     number;
   rich_previews_default?:                              string;
+  saml_enable?:                                        boolean;
   search_feedback_opt_out?:                            boolean;
   self_serve_select?:                                  boolean;
   session_duration?:                                   number;
@@ -1550,14 +1566,17 @@ export interface TeamPrefs {
   slack_connect_dm_only_verified_orgs?:                boolean;
   slack_connect_file_upload_sharing_enabled?:          boolean;
   slackbot_responses_disabled?:                        boolean;
+  slackbot_responses_only_admins?:                     boolean;
   spaceship_workspace_setting_visible?:                boolean;
   sso_disable_emails?:                                 boolean;
   sso_optional?:                                       boolean;
   sso_signup_restrictions?:                            number;
   sso_sync_with_provider?:                             boolean;
+  stats_only_admins?:                                  boolean;
   subteams_auto_create_admin?:                         boolean;
   subteams_auto_create_owner?:                         boolean;
   thorn_safer_scan?:                                   boolean;
+  two_factor_auth_required?:                           number;
   uneditable_user_profile_fields?:                     string[];
   use_browser_picker?:                                 boolean;
   uses_customized_custom_status_presets?:              boolean;
@@ -1595,7 +1614,7 @@ export interface TeamPrefs {
   who_can_post_in_shared_channels?:                    SlackConnectAllowedWorkspaces;
   who_can_request_ext_shared_channels?:                SlackConnectAllowedWorkspaces;
   who_can_review_flagged_content?:                     SlackConnectAllowedWorkspaces;
-  who_can_use_hermes?:                                 SlackConnectAllowedWorkspaces;
+  who_can_use_hermes?:                                 WhoCanUseHermes;
   who_can_view_message_activity?:                      SlackConnectAllowedWorkspaces;
   workflow_builder_enabled?:                           boolean;
   workflow_extension_steps_beta_opt_in?:               boolean;
@@ -1630,6 +1649,12 @@ export interface SlackConnectAllowedWorkspaces {
 export interface WhoCanManageP {
   type?: string[];
   user?: string[];
+}
+
+export interface WhoCanUseHermes {
+  subteam?: string[];
+  type?:    string[];
+  user?:    string[];
 }
 
 export interface User {

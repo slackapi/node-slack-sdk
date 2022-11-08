@@ -13,13 +13,26 @@ export interface CodedError extends NodeJS.ErrnoException {
  * A dictionary of codes for errors produced by this package
  */
 export enum ErrorCode {
+  // general error
   RequestError = 'slack_webapi_request_error',
   HTTPError = 'slack_webapi_http_error',
   PlatformError = 'slack_webapi_platform_error',
   RateLimitedError = 'slack_webapi_rate_limited_error',
+
+  // file uploads errors
+  FileUploadInvalidArgumentsError = 'slack_webapi_file_upload_invalid_args_error',
+  FileUploadReadFileDataError = 'slack_webapi_file_upload_read_file_data_error',
 }
 
 export type WebAPICallError = WebAPIPlatformError | WebAPIRequestError | WebAPIHTTPError | WebAPIRateLimitedError;
+export type WebAPIFilesUploadError = WebAPIFileUploadInvalidArgumentsError;
+
+export interface WebAPIFileUploadInvalidArgumentsError extends CodedError {
+  code: ErrorCode.FileUploadInvalidArgumentsError;
+  data: WebAPICallResult & {
+    error: string;
+  }
+}
 
 export interface WebAPIPlatformError extends CodedError {
   code: ErrorCode.PlatformError;
@@ -50,7 +63,7 @@ export interface WebAPIRateLimitedError extends CodedError {
 /**
  * Factory for producing a {@link CodedError} from a generic error
  */
-function errorWithCode(error: Error, code: ErrorCode): CodedError {
+export function errorWithCode(error: Error, code: ErrorCode): CodedError {
   // NOTE: might be able to return something more specific than a CodedError with conditional typing
   const codedError = error as Partial<CodedError>;
   codedError.code = code;

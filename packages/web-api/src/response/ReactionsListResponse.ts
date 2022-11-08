@@ -58,8 +58,12 @@ export interface Block {
   accessory?:                Accessory;
   alt_text?:                 string;
   api_decoration_available?: boolean;
+  app_collaborators?:        string[];
+  app_id?:                   string;
   author_name?:              string;
   block_id?:                 string;
+  bot_user_id?:              string;
+  button_label?:             string;
   call?:                     Call;
   call_id?:                  string;
   description?:              Description;
@@ -71,11 +75,13 @@ export interface Block {
   fields?:                   Description[];
   file?:                     BlockFile;
   file_id?:                  string;
+  function_trigger_id?:      string;
   hint?:                     Description;
   image_bytes?:              number;
   image_height?:             number;
   image_url?:                string;
   image_width?:              number;
+  is_workflow_app?:          boolean;
   label?:                    Description;
   optional?:                 boolean;
   provider_icon_url?:        string;
@@ -86,6 +92,7 @@ export interface Block {
   title?:                    Description;
   title_url?:                string;
   type?:                     string;
+  url?:                      string;
   video_url?:                string;
 }
 
@@ -244,6 +251,7 @@ export interface AppIconUrls {
 }
 
 export interface BlockFile {
+  alt_txt?:                   string;
   app_id?:                    string;
   app_name?:                  string;
   bot_id?:                    string;
@@ -437,6 +445,7 @@ export interface Icons {
 }
 
 export interface FileElement {
+  alt_txt?:                   string;
   app_id?:                    string;
   app_name?:                  string;
   bot_id?:                    string;

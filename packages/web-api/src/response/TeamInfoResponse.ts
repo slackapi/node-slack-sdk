@@ -40,5 +40,6 @@ export interface Icon {
   image_44?:       string;
   image_68?:       string;
   image_88?:       string;
+  image_default?:  boolean;
   image_original?: string;
 }
