@@ -1480,15 +1480,60 @@ export interface ChatScheduledMessagesListArguments extends WebAPICallOptions, T
   team_id?: string; // required if org token is used
 }
 cursorPaginationEnabledMethods.add('chat.scheduledMessages.list');
-export interface ChatUnfurlArguments extends WebAPICallOptions, TokenOverridable {
+// ChannelAndTS and SourceAndUnfurlID are used as either-or mixins for ChatUnfurlArguments
+interface ChannelAndTSArguments {
+  /**
+   * @description Channel ID of the message. Both `channel` and `ts` must be provided together, or `unfurl_id` and
+   * `source` must be provided together.
+   */
   channel: string;
+  /**
+   * @description Timestamp of the message to add unfurl behavior to.
+   */
   ts: string;
-  unfurls: LinkUnfurls;
-  user_auth_message?: string;
-  user_auth_required?: boolean;
-  user_auth_url?: string;
-  user_auth_blocks?: (KnownBlock | Block)[];
 }
+
+interface SourceAndUnfurlIDArguments {
+  /**
+   * @description The source of the link to unfurl. The source may either be `composer`, when the link is inside the
+   * message composer, or `conversations_history`, when the link has been posted to a conversation.
+   */
+  source: 'composer' | 'conversations_history';
+  /**
+   * @description The ID of the link to unfurl. Both `unfurl_id` and `source` must be provided together, or `channel`
+   * and `ts` must be provided together.
+   */
+  unfurl_id: string;
+}
+export type ChatUnfurlArguments = (ChannelAndTSArguments | SourceAndUnfurlIDArguments) & WebAPICallOptions
+& TokenOverridable
+& {
+  /**
+   * @description URL-encoded JSON map with keys set to URLs featured in the the message, pointing to their unfurl
+   * blocks or message attachments.
+   */
+  unfurls: LinkUnfurls;
+  /**
+   * @description Provide a simply-formatted string to send as an ephemeral message to the user as invitation to
+   * authenticate further and enable full unfurling behavior. Provides two buttons, Not now or Never ask me again.
+   */
+  user_auth_message?: string;
+  /**
+   * @description Set to `true` to indicate the user must install your Slack app to trigger unfurls for this domain.
+   * Defaults to `false`.
+   */
+  user_auth_required?: boolean;
+  /**
+   * @description Send users to this custom URL where they will complete authentication in your app to fully trigger
+   * unfurling. Value should be properly URL-encoded.
+   */
+  user_auth_url?: string;
+  /**
+   * @description Provide a JSON based array of structured blocks presented as URL-encoded string to send as an
+   * ephemeral message to the user as invitation to authenticate further and enable full unfurling behavior.
+   */
+  user_auth_blocks?: (KnownBlock | Block)[];
+};
 export interface ChatUpdateArguments extends WebAPICallOptions, TokenOverridable {
   channel: string;
   ts: string;
