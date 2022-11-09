@@ -75,7 +75,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 7. Publish the release to npm
     - To publish, you need to be a member of the `slack Org` on npm and set up 2-Factor Auth with your passsword generator of choice. Before you can publish with npm, you must run `npm login` from the command line.
 
-    - As the final validation, run `mv package-lock.json package-lock.json.bk && rm -rf node_modules/ dist/ && npm i && npm test && npm pack` and confirm if there are `*.js`, `*.d.ts` files under the `dist` directory.
+    - As the final validation, within the package directory (ex: `packages/types`), run `mv package-lock.json package-lock.json.bk && rm -rf node_modules/ dist/ && npm i && npm test && npm pack` and confirm if there are `*.js`, `*.d.ts` files under the `dist` directory.
 
     - Run `npm publish . --otp YOUR_OTP_CODE`. To generate an OTP (One Time Password), use your password generator of choice (Duo, 1Password)
 
