@@ -1251,7 +1251,7 @@ export interface AppsUninstallArguments extends WebAPICallOptions {
  * `auth.*`
  */
 export interface AuthRevokeArguments extends WebAPICallOptions, TokenOverridable {
-  test: boolean;
+  test?: boolean;
 }
 export interface AuthTeamsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   include_icon?: boolean;
