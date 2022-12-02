@@ -103,6 +103,7 @@ export interface StatusEmojiDisplayInfo {
   display_alias?: string;
   display_url?:   string;
   emoji_name?:    string;
+  unicode?:       string;
 }
 
 export interface ResponseMetadata {

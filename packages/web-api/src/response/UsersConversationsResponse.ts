@@ -55,6 +55,7 @@ export interface Channel {
   shared_team_ids?:            string[];
   topic?:                      Purpose;
   unlinked?:                   number;
+  updated?:                    number;
   user?:                       string;
 }
 

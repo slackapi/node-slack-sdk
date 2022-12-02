@@ -48,6 +48,7 @@ export interface Channel {
   purpose?:                    Purpose;
   topic?:                      Purpose;
   unlinked?:                   number;
+  updated?:                    number;
 }
 
 export interface Purpose {

@@ -96,6 +96,7 @@ export interface Accessory {
   initial_conversation?:            string;
   initial_conversations?:           string[];
   initial_date?:                    string;
+  initial_date_time?:               number;
   initial_option?:                  Option;
   initial_options?:                 Option[];
   initial_time?:                    string;
@@ -137,7 +138,6 @@ export interface AccessoryElement {
   indent?:   number;
   offset?:   number;
   style?:    string;
-  text?:     string;
   type?:     string;
 }
 
