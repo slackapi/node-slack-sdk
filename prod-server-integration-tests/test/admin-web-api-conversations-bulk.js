@@ -22,7 +22,6 @@ describe('admin.* Web APIs', function () {
   const orgAdminClient = new WebClient(process.env.SLACK_SDK_TEST_GRID_ORG_ADMIN_USER_TOKEN, { logger, });
 
   describe('admin.conversations.bulk{Archive|Move|Delete}', function () {
-    // Test bulkArchive
     it('should bulk archive conversations using admin.conversations.bulkArchive', async function () {
       const testChannel = await teamAdminClient.conversations.create({
         name: `test-bulk-archive-${new Date().getTime()}`,
