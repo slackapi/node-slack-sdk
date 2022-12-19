@@ -11,13 +11,13 @@ const logger = winston.createLogger({
 });
 
 // Note: to run this test, you must have 2 workspaces on your Enterprise Grid and
-// you must have the SLACK_SDK_TEST_GRID_WORKSPACE_TEAM_ID environment variable configured.
+// you must have the SLACK_SDK_TEST_GRID_SECONDARY_WORKSPACE_ID environment variable configured.
 describe('admin.* Web APIs', function () {
   // admin user's token for a workspace in an Enterprise Grid org
   const teamAdminClient = new WebClient(process.env.SLACK_SDK_TEST_GRID_WORKSPACE_ADMIN_USER_TOKEN, { logger, });
   // admin user's team ID for a secondary workspace in an Enterprise Grid org
   // (must be in same org as workspace for teamAdminClient, but a different workspace)
-  const secondaryTeamId = process.env.SLACK_SDK_TEST_GRID_WORKSPACE_TEAM_ID;
+  const secondaryTeamId = process.env.SLACK_SDK_TEST_GRID_SECONDARY_WORKSPACE_ID;
   // org-level admin user's token
   const orgAdminClient = new WebClient(process.env.SLACK_SDK_TEST_GRID_ORG_ADMIN_USER_TOKEN, { logger, });
 

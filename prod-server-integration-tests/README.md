@@ -18,7 +18,7 @@ export SLACK_SDK_TEST_GRID_WORKSPACE_ADMIN_USER_TOKEN=xoxp-
 # org-level admin user's token
 export SLACK_SDK_TEST_GRID_ORG_ADMIN_USER_TOKEN=xoxp-
 # admin user's token for a secondary workspace in an Enterprise Grid org (must be in same org as workspace for SLACK_SDK_TEST_GRID_WORKSPACE_ADMIN_USER_TOKEN, but a different workspace) - required for admin.conversations.bulkMove test
-export SLACK_SDK_TEST_GRID_WORKSPACE_TEAM_ID=T0123456789
+export SLACK_SDK_TEST_GRID_SECONDARY_WORKSPACE_ID=T0123456789
 
 npm test
 ```
