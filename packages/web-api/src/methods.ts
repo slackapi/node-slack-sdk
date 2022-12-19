@@ -38,6 +38,9 @@ import {
   AdminConversationsGetCustomRetentionResponse,
   AdminConversationsSetCustomRetentionResponse,
   AdminConversationsRemoveCustomRetentionResponse,
+  AdminConversationsBulkArchiveResponse,
+  AdminConversationsBulkDeleteResponse,
+  AdminConversationsBulkMoveResponse,
   AdminEmojiAddAliasResponse,
   AdminEmojiAddResponse,
   AdminEmojiListResponse,
@@ -292,6 +295,9 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     },
     conversations: {
       archive: bindApiCall<AdminConversationsArchiveArguments, AdminConversationsArchiveResponse>(this, 'admin.conversations.archive'),
+      bulkArchive: bindApiCall<AdminConversationsBulkArchiveArguments, AdminConversationsBulkArchiveResponse>(this, 'admin.conversations.bulkArchive'),
+      bulkDelete: bindApiCall<AdminConversationsBulkDeleteArguments, AdminConversationsBulkDeleteResponse>(this, 'admin.conversations.bulkDelete'),
+      bulkMove: bindApiCall<AdminConversationsBulkMoveArguments, AdminConversationsBulkMoveResponse>(this, 'admin.conversations.bulkMove'),
       convertToPrivate:
         bindApiCall<AdminConversationsConvertToPrivateArguments, AdminConversationsConvertToPrivateResponse>(
           this, 'admin.conversations.convertToPrivate',
@@ -957,6 +963,16 @@ export interface AdminBarriersUpdateArguments extends WebAPICallOptions, TokenOv
 
 export interface AdminConversationsArchiveArguments extends WebAPICallOptions, TokenOverridable {
   channel_id: string;
+}
+export interface AdminConversationsBulkArchiveArguments extends WebAPICallOptions, TokenOverridable {
+  channel_ids: string[];
+}
+export interface AdminConversationsBulkDeleteArguments extends WebAPICallOptions, TokenOverridable {
+  channel_ids: string[];
+}
+export interface AdminConversationsBulkMoveArguments extends WebAPICallOptions, TokenOverridable {
+  channel_ids: string[];
+  target_team_id: string;
 }
 export interface AdminConversationsConvertToPrivateArguments extends WebAPICallOptions, TokenOverridable {
   channel_id: string;
