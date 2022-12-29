@@ -135,7 +135,7 @@ describe('file-upload', () => {
         const res = await getFileData(invalidFileUpload);
         assert.fail(res, "an error", "Was expecting an error, but got a result");
       } catch (err) {
-        assert.equal(err.message, 'file must be a valid string path, buffer or ReadStream');
+        assert.equal(err.message, 'file must be a valid string path, buffer or Readable');
         assert.equal(err.code, ErrorCode.FileUploadInvalidArgumentsError);
       }
 
