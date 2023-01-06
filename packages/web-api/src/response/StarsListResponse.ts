@@ -81,6 +81,7 @@ export interface ItemFile {
   lines?:                     number;
   lines_more?:                number;
   media_display_type?:        string;
+  media_progress?:            MediaProgress;
   mimetype?:                  string;
   mode?:                      string;
   mp4?:                       string;
@@ -176,6 +177,12 @@ export interface Headers {
   in_reply_to?: string;
   message_id?:  string;
   reply_to?:    string;
+}
+
+export interface MediaProgress {
+  duration_ms?:   number;
+  max_offset_ms?: number;
+  offset_ms?:     number;
 }
 
 export interface Reaction {
@@ -573,6 +580,7 @@ export interface FileElement {
   lines?:                     number;
   lines_more?:                number;
   media_display_type?:        string;
+  media_progress?:            MediaProgress;
   mimetype?:                  string;
   mode?:                      string;
   mp4?:                       string;

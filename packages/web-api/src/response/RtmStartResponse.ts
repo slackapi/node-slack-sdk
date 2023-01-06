@@ -483,6 +483,7 @@ export interface BlockFile {
   lines?:                     number;
   lines_more?:                number;
   media_display_type?:        string;
+  media_progress?:            MediaProgress;
   mimetype?:                  string;
   mode?:                      string;
   mp4?:                       string;
@@ -590,6 +591,12 @@ export interface InitialComment {
   user?:      string;
 }
 
+export interface MediaProgress {
+  duration_ms?:   number;
+  max_offset_ms?: number;
+  offset_ms?:     number;
+}
+
 export interface Reaction {
   count?: number;
   name?:  string;
@@ -667,6 +674,7 @@ export interface FileElement {
   lines?:                     number;
   lines_more?:                number;
   media_display_type?:        string;
+  media_progress?:            MediaProgress;
   mimetype?:                  string;
   mode?:                      string;
   mp4?:                       string;

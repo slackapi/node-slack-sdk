@@ -272,6 +272,7 @@ export interface File {
   lines?:                     number;
   lines_more?:                number;
   media_display_type?:        string;
+  media_progress?:            MediaProgress;
   mimetype?:                  string;
   mode?:                      string;
   mp4?:                       string;
@@ -377,6 +378,12 @@ export interface InitialComment {
   is_intro?:  boolean;
   timestamp?: number;
   user?:      string;
+}
+
+export interface MediaProgress {
+  duration_ms?:   number;
+  max_offset_ms?: number;
+  offset_ms?:     number;
 }
 
 export interface Reaction {
