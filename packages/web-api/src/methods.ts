@@ -1697,7 +1697,9 @@ export interface DndTeamInfoArguments extends WebAPICallOptions, TokenOverridabl
 /*
  * `emoji.*`
  */
-export interface EmojiListArguments extends WebAPICallOptions, TokenOverridable { }
+export interface EmojiListArguments extends WebAPICallOptions, TokenOverridable {
+  include_categories?: boolean;
+}
 
 /*
  * `files.*`
