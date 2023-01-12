@@ -237,7 +237,6 @@ export interface AccessoryElement {
   indent?:   number;
   offset?:   number;
   style?:    string;
-  text?:     string;
   type?:     string;
 }
 
