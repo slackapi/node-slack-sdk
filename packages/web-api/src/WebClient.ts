@@ -163,7 +163,7 @@ export class WebClient extends Methods {
     slackApiUrl = 'https://slack.com/api/',
     logger = undefined,
     logLevel = undefined,
-    maxRequestConcurrency = 3,
+    maxRequestConcurrency = 100,
     retryConfig = tenRetriesInAboutThirtyMinutes,
     agent = undefined,
     tls = undefined,

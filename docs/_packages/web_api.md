@@ -642,8 +642,8 @@ Each of the API method calls the client starts are happening **concurrently**, o
 to perform a lot of method calls, let's say 100 of them, at the same time, each one of them would be competing for the
 same network resources (such as bandwidth). By competing, they might negatively affect the performance of all the rest,
 and therefore negatively affect the performance of your app. This is one of the reasons why the `WebClient` limits the
-**concurrency** of requests by default to ten, which means it keeps track of how many requests are waiting, and only
-starts an eleventh request when one of them completes. The exact number of requests the client allows at the same time
+**concurrency** of requests by default to one hundred, which means it keeps track of how many requests are waiting, and only
+starts an additional request when one of them completes. The exact number of requests the client allows at the same time
 can be set using the `maxRequestConcurrency` option.
 
 ```javascript

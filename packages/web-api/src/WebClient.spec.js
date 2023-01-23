@@ -1040,25 +1040,23 @@ describe('WebClient', function () {
         });
     });
 
-    it('should have a default conncurrency of 3', function () {
+    it('should have a default conncurrency of 100', function () {
       const client = new WebClient(token);
-      const requests = [
-        client.apiCall('1'),
-        client.apiCall('2'),
-        client.apiCall('3'),
-        client.apiCall('4'),
-      ];
+      const requests = [];
+      for (let i = 0; i < 101; i++) {
+        requests.push(client.apiCall(`${i}`));
+      }
       return Promise.all(requests)
         .then((responses) => {
           // verify all responses are present
-          assert.lengthOf(responses, 4);
+          assert.lengthOf(responses, 101);
 
           // verify that maxRequestConcurrency requests were all sent concurrently
-          const concurrentResponses = responses.slice(0, 3); // the first 3 responses
+          const concurrentResponses = responses.slice(0, 100); // the first 100 responses
           concurrentResponses.forEach((r) => assert.isBelow(r.diff, responseDelay));
 
           // verify that any requests after maxRequestConcurrency were delayed by the responseDelay
-          const queuedResponses = responses.slice(3);
+          const queuedResponses = responses.slice(100);
           const minDiff = concurrentResponses[concurrentResponses.length - 1].diff + responseDelay;
           queuedResponses.forEach((r) => assert.isAtLeast(r.diff, minDiff));
         });
