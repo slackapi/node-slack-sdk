@@ -1,5 +1,6 @@
 import { Logger } from '@slack/logger';
-import { readFileSync, ReadStream } from 'fs';
+import { readFileSync } from 'fs';
+import { Readable } from 'stream';
 import { errorWithCode, ErrorCode } from './errors';
 import { FilesCompleteUploadExternalArguments, FilesUploadV2Arguments, FileUploadV2, FileUploadV2Job } from './methods';
 
@@ -126,8 +127,8 @@ export async function getFileData(options: FilesUploadV2Arguments | FileUploadV2
       }
     }
 
-    // try to handle as ReadStream
-    const data = await getFileDataAsStream(file as ReadStream);
+    // try to handle as Readable
+    const data = await getFileDataAsStream(file as Readable);
     if (data) return data;
   }
   if (content) return Buffer.from(content);
@@ -149,7 +150,7 @@ export function getFileDataLength(data: Buffer): number {
   );
 }
 
-export async function getFileDataAsStream(readable: ReadStream): Promise<Buffer> {
+export async function getFileDataAsStream(readable: Readable): Promise<Buffer> {
   const chunks: Uint8Array[] = [];
 
   return new Promise((resolve, reject) => {
@@ -259,9 +260,9 @@ export function errorIfInvalidOrMissingFileData(options: FilesUploadV2Arguments 
     );
   }
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  if (file && !(typeof file === 'string' || Buffer.isBuffer(file) || (file as any) instanceof ReadStream)) {
+  if (file && !(typeof file === 'string' || Buffer.isBuffer(file) || (file as any) instanceof Readable)) {
     throw errorWithCode(
-      new Error('file must be a valid string path, buffer or ReadStream'),
+      new Error('file must be a valid string path, buffer or Readable'),
       ErrorCode.FileUploadInvalidArgumentsError,
     );
   }
