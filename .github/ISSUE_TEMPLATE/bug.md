@@ -1,5 +1,5 @@
 ---
-name: Bug
+name: SDK Bug
 about: Report an SDK bug
 title: "(Set a clear title describing the issue)"
 labels: untriaged
