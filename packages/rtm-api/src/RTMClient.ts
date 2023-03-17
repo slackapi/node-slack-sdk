@@ -561,7 +561,7 @@ export class RTMClient extends EventEmitter {
         this.logger.debug(`sending message on websocket: ${flatMessage}`);
 
         this.websocket.send(flatMessage, (error) => {
-          if (error !== undefined) {
+          if (error) {
             this.logger.error(`failed to send message on websocket: ${error.message}`);
             return reject(websocketErrorWithOriginal(error));
           }
