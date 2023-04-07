@@ -56,6 +56,7 @@ export interface Attachment {
   callback_id?:           string;
   channel_id?:            string;
   channel_name?:          string;
+  channel_team?:          string;
   color?:                 string;
   fallback?:              string;
   fields?:                Field[];
@@ -237,6 +238,7 @@ export interface AccessoryElement {
   indent?:   number;
   offset?:   number;
   style?:    string;
+  text?:     string;
   type?:     string;
 }
 
@@ -356,6 +358,7 @@ export interface BlockFile {
   from?:                      Cc[];
   groups?:                    string[];
   has_more?:                  boolean;
+  has_more_shares?:           boolean;
   has_rich_preview?:          boolean;
   headers?:                   Headers;
   hls?:                       string;
@@ -397,6 +400,7 @@ export interface BlockFile {
   shares?:                    Shares;
   simplified_html?:           string;
   size?:                      number;
+  source_team?:               string;
   subject?:                   string;
   subtype?:                   string;
   thumb_1024?:                string;
@@ -547,6 +551,7 @@ export interface FileElement {
   from?:                      Cc[];
   groups?:                    string[];
   has_more?:                  boolean;
+  has_more_shares?:           boolean;
   has_rich_preview?:          boolean;
   headers?:                   Headers;
   hls?:                       string;
@@ -588,6 +593,7 @@ export interface FileElement {
   shares?:                    Shares;
   simplified_html?:           string;
   size?:                      number;
+  source_team?:               string;
   subject?:                   string;
   subtype?:                   string;
   thumb_1024?:                string;

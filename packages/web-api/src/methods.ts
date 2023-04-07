@@ -213,6 +213,11 @@ import {
   BookmarksEditResponse,
   BookmarksListResponse,
   BookmarksRemoveResponse,
+  AdminConversationsConvertToPublicResponse,
+  AdminConversationsLookupResponse,
+  AdminRolesAddAssignmentsResponse,
+  AdminRolesListAssignmentsResponse,
+  AdminRolesRemoveAssignmentsResponse,
 } from './response';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
@@ -302,6 +307,10 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         bindApiCall<AdminConversationsConvertToPrivateArguments, AdminConversationsConvertToPrivateResponse>(
           this, 'admin.conversations.convertToPrivate',
         ),
+      convertToPublic:
+        bindApiCall<AdminConversationsConvertToPublicArguments, AdminConversationsConvertToPublicResponse>(
+          this, 'admin.conversations.convertToPublic',
+        ),
       create: bindApiCall<AdminConversationsCreateArguments, AdminConversationsCreateResponse>(this, 'admin.conversations.create'),
       delete: bindApiCall<AdminConversationsDeleteArguments, AdminConversationsDeleteResponse>(this, 'admin.conversations.delete'),
       disconnectShared:
@@ -352,6 +361,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         bindApiCall<AdminConversationsRemoveCustomRetentionArguments, AdminConversationsRemoveCustomRetentionResponse>(
           this, 'admin.conversations.removeCustomRetention',
         ),
+      lookup: bindApiCall<AdminConversationsLookupArguments, AdminConversationsLookupResponse>(this, 'admin.conversations.lookup'),
       search: bindApiCall<AdminConversationsSearchArguments, AdminConversationsSearchResponse>(this, 'admin.conversations.search'),
       setConversationPrefs:
         bindApiCall<AdminConversationsSetConversationPrefsArguments, AdminConversationsSetConversationPrefsResponse>(
@@ -419,6 +429,11 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
           this, 'admin.teams.settings.setName',
         ),
       },
+    },
+    roles: {
+      addAssignments: bindApiCall<AdminRolesAddAssignmentsArguments, AdminRolesAddAssignmentsResponse>(this, 'admin.roles.addAssignments'),
+      listAssignments: bindApiCall<AdminRolesListAssignmentsArguments, AdminRolesListAssignmentsResponse>(this, 'admin.roles.listAssignments'),
+      removeAssignments: bindApiCall<AdminRolesRemoveAssignmentsArguments, AdminRolesRemoveAssignmentsResponse>(this, 'admin.roles.removeAssignments'),
     },
     usergroups: {
       addChannels: bindApiCall<AdminUsergroupsAddChannelsArguments, AdminUsergroupsAddChannelsResponse>(
@@ -977,6 +992,9 @@ export interface AdminConversationsBulkMoveArguments extends WebAPICallOptions, 
 export interface AdminConversationsConvertToPrivateArguments extends WebAPICallOptions, TokenOverridable {
   channel_id: string;
 }
+export interface AdminConversationsConvertToPublicArguments extends WebAPICallOptions, TokenOverridable {
+  channel_id: string;
+}
 export interface AdminConversationsCreateArguments extends WebAPICallOptions, TokenOverridable {
   is_private: boolean;
   name: string;
@@ -991,6 +1009,13 @@ export interface AdminConversationsDisconnectSharedArguments extends WebAPICallO
   channel_id: string;
   leaving_team_ids?: string[];
 }
+export interface AdminConversationsLookupArguments
+  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  last_message_activity_before: number;
+  team_ids: string[];
+  max_member_count?: number;
+}
+cursorPaginationEnabledMethods.add('admin.conversations.lookup');
 export interface AdminConversationsEKMListOriginalConnectedChannelInfoArguments
   extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   channel_ids?: string[];
@@ -1099,6 +1124,26 @@ cursorPaginationEnabledMethods.add('admin.inviteRequests.denied.list');
 export interface AdminInviteRequestsListArguments
   extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   team_id: string;
+}
+cursorPaginationEnabledMethods.add('admin.inviteRequests.list');
+export interface AdminRolesAddAssignmentsArguments
+  extends WebAPICallOptions, TokenOverridable {
+  role_id: string;
+  entity_ids: string[];
+  user_ids: string[];
+}
+export interface AdminRolesListAssignmentsArguments
+  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  entity_ids?: string[];
+  role_ids?: string[];
+  sort_dir?: string;
+}
+cursorPaginationEnabledMethods.add('admin.roles.listAssignments');
+export interface AdminRolesRemoveAssignmentsArguments
+  extends WebAPICallOptions, TokenOverridable {
+  role_id: string;
+  entity_ids: string[];
+  user_ids: string[];
 }
 cursorPaginationEnabledMethods.add('admin.inviteRequests.list');
 export interface AdminTeamsAdminsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {

@@ -39,6 +39,7 @@ export interface Match {
   file_access?:          string;
   filetype?:             string;
   groups?:               string[];
+  has_more_shares?:      boolean;
   has_rich_preview?:     boolean;
   id?:                   string;
   image_exif_rotation?:  number;

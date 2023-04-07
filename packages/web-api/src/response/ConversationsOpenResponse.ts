@@ -273,6 +273,7 @@ export interface File {
   from?:                      Cc[];
   groups?:                    string[];
   has_more?:                  boolean;
+  has_more_shares?:           boolean;
   has_rich_preview?:          boolean;
   headers?:                   Headers;
   hls?:                       string;
@@ -314,6 +315,7 @@ export interface File {
   shares?:                    Shares;
   simplified_html?:           string;
   size?:                      number;
+  source_team?:               string;
   subject?:                   string;
   subtype?:                   string;
   thumb_1024?:                string;

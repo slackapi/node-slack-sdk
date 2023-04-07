@@ -31,7 +31,7 @@ export interface InviteElement {
 
 export interface Acceptance {
   accepting_team?:    IngTeam;
-  accepting_user?:    AcceptingUser;
+  accepting_user?:    TingUser;
   approval_status?:   string;
   date_accepted?:     number;
   date_invalid?:      number;
@@ -40,12 +40,13 @@ export interface Acceptance {
 }
 
 export interface IngTeam {
-  date_created?: number;
-  domain?:       string;
-  icon?:         Icon;
-  id?:           string;
-  is_verified?:  boolean;
-  name?:         string;
+  avatar_base_url?: string;
+  date_created?:    number;
+  domain?:          string;
+  icon?:            Icon;
+  id?:              string;
+  is_verified?:     boolean;
+  name?:            string;
 }
 
 export interface Icon {
@@ -60,12 +61,13 @@ export interface Icon {
   image_original?: string;
 }
 
-export interface AcceptingUser {
-  id?:      string;
-  name?:    string;
-  profile?: Profile;
-  team_id?: string;
-  updated?: number;
+export interface TingUser {
+  id?:                         string;
+  name?:                       string;
+  profile?:                    Profile;
+  team_id?:                    string;
+  updated?:                    number;
+  who_can_share_contact_card?: string;
 }
 
 export interface Profile {
@@ -104,30 +106,11 @@ export interface InviteInvite {
   date_created?:      number;
   date_invalid?:      number;
   id?:                string;
-  inviting_team?:     InvitingTeam;
-  inviting_user?:     InvitingUser;
+  inviting_team?:     IngTeam;
+  inviting_user?:     TingUser;
   link?:              string;
   recipient_email?:   string;
   recipient_user_id?: string;
-}
-
-export interface InvitingTeam {
-  avatar_base_url?: string;
-  date_created?:    number;
-  domain?:          string;
-  icon?:            Icon;
-  id?:              string;
-  is_verified?:     boolean;
-  name?:            string;
-}
-
-export interface InvitingUser {
-  id?:                         string;
-  name?:                       string;
-  profile?:                    Profile;
-  team_id?:                    string;
-  updated?:                    number;
-  who_can_share_contact_card?: string;
 }
 
 export interface ResponseMetadata {
