@@ -45,6 +45,7 @@ export interface File {
   from?:                      Cc[];
   groups?:                    string[];
   has_more?:                  boolean;
+  has_more_shares?:           boolean;
   has_rich_preview?:          boolean;
   headers?:                   Headers;
   hls?:                       string;
@@ -60,6 +61,7 @@ export interface File {
   lines?:                     number;
   lines_more?:                number;
   media_display_type?:        string;
+  media_progress?:            MediaProgress;
   mimetype?:                  string;
   mode?:                      string;
   mp4?:                       string;
@@ -85,6 +87,7 @@ export interface File {
   shares?:                    Shares;
   simplified_html?:           string;
   size?:                      number;
+  source_team?:               string;
   subject?:                   string;
   subtype?:                   string;
   thumb_1024?:                string;
@@ -165,6 +168,12 @@ export interface InitialComment {
   is_intro?:  boolean;
   timestamp?: number;
   user?:      string;
+}
+
+export interface MediaProgress {
+  duration_ms?:   number;
+  max_offset_ms?: number;
+  offset_ms?:     number;
 }
 
 export interface Reaction {

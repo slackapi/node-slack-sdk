@@ -12,6 +12,7 @@ import { WebAPICallResult } from '../WebClient';
 export type ConversationsInviteResponse = WebAPICallResult & {
   channel?:  Channel;
   error?:    string;
+  errors?:   Error[];
   needed?:   string;
   ok?:       boolean;
   provided?: string;
@@ -54,4 +55,9 @@ export interface Purpose {
   creator?:  string;
   last_set?: number;
   value?:    string;
+}
+
+export interface Error {
+  error?: string;
+  ok?:    boolean;
 }

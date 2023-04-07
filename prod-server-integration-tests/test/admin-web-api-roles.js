@@ -1,4 +1,4 @@
-// npx mocha --timeout 10000 test/admin-web-api-users-unsupportedVersions-export.js
+// npx mocha --timeout 10000 npm test test/admin-web-api-roles.js
 // tail -f logs/console.log | jq
 require('mocha');
 const { assert } = require('chai');
@@ -12,14 +12,16 @@ const logger = winston.createLogger({
   ],
 });
 
-describe('admin.users.unsupportedVersions.export', function () {
+describe('admin.roles.*', function () {
   it('should work', async function () {
     const orgAdminClient = new WebClient(process.env.SLACK_SDK_TEST_GRID_ORG_ADMIN_USER_TOKEN, { logger, });
-    const response = await orgAdminClient.admin.users.unsupportedVersions.export({
-      date_end_of_support: Math.floor(+new Date() / 1000) + 60 * 60 * 24 *365,
-      date_sessions_started: 0,
-    });
+    const response = await orgAdminClient.admin.roles.listAssignments({
+      role_ids: ["Rl0A"],
+      limit: 3,
+      sort_dir: "desc",
+    })
     logger.info(response);
     assert.isUndefined(response.error);
+    // TODO: add/removeAssignments
   });
 });

@@ -900,7 +900,9 @@ export function buildThreadTsWarningMessage(method: string): string {
  * @param body 
  * @returns 
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function redact(body: any): any {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const flattened = Object.entries(body).map<[string, any] | []>(([key, value]) => {
     // no value provided
     if (value === undefined || value === null) {
@@ -924,6 +926,7 @@ function redact(body: any): any {
   });
 
   // return as object 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const initialValue: { [key: string]: any; } = {};
   return flattened.reduce(
     (accumulator, [key, value]) => {

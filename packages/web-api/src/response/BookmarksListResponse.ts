@@ -19,6 +19,7 @@ export type BookmarksListResponse = WebAPICallResult & {
 };
 
 export interface Bookmark {
+  app_action_id?:           string;
   app_id?:                  string;
   channel_id?:              string;
   date_created?:            number;

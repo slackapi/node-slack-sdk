@@ -19,6 +19,7 @@ export { AdminConversationsBulkArchiveResponse } from './AdminConversationsBulkA
 export { AdminConversationsBulkDeleteResponse } from './AdminConversationsBulkDeleteResponse';
 export { AdminConversationsBulkMoveResponse } from './AdminConversationsBulkMoveResponse';
 export { AdminConversationsConvertToPrivateResponse } from './AdminConversationsConvertToPrivateResponse';
+export { AdminConversationsConvertToPublicResponse } from './AdminConversationsConvertToPublicResponse';
 export { AdminConversationsCreateResponse } from './AdminConversationsCreateResponse';
 export { AdminConversationsDeleteResponse } from './AdminConversationsDeleteResponse';
 export { AdminConversationsDisconnectSharedResponse } from './AdminConversationsDisconnectSharedResponse';
@@ -27,6 +28,7 @@ export { AdminConversationsGetConversationPrefsResponse } from './AdminConversat
 export { AdminConversationsGetCustomRetentionResponse } from './AdminConversationsGetCustomRetentionResponse';
 export { AdminConversationsGetTeamsResponse } from './AdminConversationsGetTeamsResponse';
 export { AdminConversationsInviteResponse } from './AdminConversationsInviteResponse';
+export { AdminConversationsLookupResponse } from './AdminConversationsLookupResponse';
 export { AdminConversationsRemoveCustomRetentionResponse } from './AdminConversationsRemoveCustomRetentionResponse';
 export { AdminConversationsRenameResponse } from './AdminConversationsRenameResponse';
 export { AdminConversationsRestrictAccessAddGroupResponse } from './AdminConversationsRestrictAccessAddGroupResponse';
@@ -50,6 +52,9 @@ export { AdminInviteRequestsApprovedListResponse } from './AdminInviteRequestsAp
 export { AdminInviteRequestsDeniedListResponse } from './AdminInviteRequestsDeniedListResponse';
 export { AdminInviteRequestsDenyResponse } from './AdminInviteRequestsDenyResponse';
 export { AdminInviteRequestsListResponse } from './AdminInviteRequestsListResponse';
+export { AdminRolesAddAssignmentsResponse } from './AdminRolesAddAssignmentsResponse';
+export { AdminRolesListAssignmentsResponse } from './AdminRolesListAssignmentsResponse';
+export { AdminRolesRemoveAssignmentsResponse } from './AdminRolesRemoveAssignmentsResponse';
 export { AdminTeamsAdminsListResponse } from './AdminTeamsAdminsListResponse';
 export { AdminTeamsCreateResponse } from './AdminTeamsCreateResponse';
 export { AdminTeamsListResponse } from './AdminTeamsListResponse';
