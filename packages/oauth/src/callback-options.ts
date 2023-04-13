@@ -104,7 +104,7 @@ export function defaultCallbackSuccess(
   }
   const htmlResponse = `<html>
   <head>
-  <meta http-equiv="refresh" content="0; URL=${redirectUrl}">
+  <meta http-equiv="refresh" content="0; URL=${escapeHtml(redirectUrl)}">
   <style>
   body {
     padding: 10px 15px;
@@ -115,7 +115,7 @@ export function defaultCallbackSuccess(
   </head>
   <body>
   <h2>Thank you!</h2>
-  <p>Redirecting to the Slack App... click <a href="${redirectUrl}">here</a>. If you use the browser version of Slack, click <a href="${browserUrl}" target="_blank">this link</a> instead.</p>
+  <p>Redirecting to the Slack App... click <a href="${escapeHtml(redirectUrl)}">here</a>. If you use the browser version of Slack, click <a href="${escapeHtml(browserUrl)}" target="_blank">this link</a> instead.</p>
   </body>
   </html>`;
   res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
@@ -152,7 +152,7 @@ export function defaultCallbackFailure(
   </head>
   <body>
   <h2>Oops, Something Went Wrong!</h2>
-  <p>Please try again or contact the app owner (reason: ${error.code})</p>
+  <p>Please try again or contact the app owner (reason: ${escapeHtml(error.code)})</p>
   </body>
   </html>`;
   res.end(html);
@@ -169,4 +169,15 @@ function isOrgInstall(installation: Installation): installation is OrgInstallati
 
 function isNotOrgInstall(installation: Installation): installation is Installation<'v1' | 'v2', false> {
   return !(isOrgInstall(installation));
+}
+
+export function escapeHtml(input: string | undefined | null): string {
+  if (input) {
+    return input.replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;');
+  }
+  return '';
 }
