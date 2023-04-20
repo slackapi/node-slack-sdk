@@ -16,14 +16,19 @@ $ npm install @slack/socket-mode
 
 ---
 
+### Prerequisites
+
+This package requires a Slack app with an **App-level token**.
+
+To create a new Slack app, head over to [api.slack.com/apps/new](https://api.slack.com/apps?new_app=1).
+
+To generate an **App Token** for your app, on your app's page on [api.slack.com/apps](https://api.slack.com/apps), under the main **Basic Information** page, scroll down to **App-Level Tokens**. Click **Generate Token and Scopes**, add a name for your app token, and click **Add Scope**. Choose `connections:write` and then click **Generate**. Copy and safely store the generated token!
+
 ### Initialize the client
 
 This package is designed to support [**Socket Mode**](https://api.slack.com/socket-mode), which allows your app to receive events from Slack over a WebSocket connection.
 
-The package exports a `SocketModeClient` class. Your app will create an instance of the class for each workspace it communicates with. Creating an instance requires an **app-level token** from Slack. Apps connect to the **Socket Mode** API using an **app-level token**, which starts with `xapp`.
-
-Note: **Socket Mode** requires the `connections:write` scope. Navigate to your [app configuration](https://api.slack.com/apps) and go to the **OAuth and Permissions** section to add the scope.
-
+The package exports a `SocketModeClient` class. Your app will create an instance of the class for each workspace it communicates with.
 
 ```javascript
 const { SocketModeClient } = require('@slack/socket-mode');

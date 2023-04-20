@@ -21,12 +21,30 @@ $ npm install @slack/web-api
 
 ---
 
+### Prerequisites
+
+To use this package, you must have a Slack access token. Access tokens are issued
+to Slack applications. Each application _installation_, that is, the unique combination
+of an application and a specific Slack workspace it is installed to, will generate
+a workspace-specific access token for the application.
+
+We recommend you read our documentation on [Basic app setup](https://api.slack.com/authentication/basics).
+This article contains the steps you must follow to get your access token:
+
+1. [Create a new Slack application](https://api.slack.com/authentication/basics#creating)
+2. [Set permissions your app will request](https://api.slack.com/authentication/basics#scopes)
+3. [Install the app to a workspace](https://api.slack.com/authentication/basics#installing)
+4. Finally, [get your access token](https://api.slack.com/authentication/basics#getting-your-authentication-token)
+
+You can also read the [Getting Started guide](../getting-started) which guides
+you through creating an app, retrieving an access token, and using this `@slack/web-api`
+package to post a message.
+
 ### Initialize the client
 
-The package exports a `WebClient` class. All you need to do is instantiate it, and you're ready to go. You'll typically
-initialize it with a `token`, so that you don't have to provide the token each time you call a method. A token usually
-begins with `xoxb` or `xoxp`. You get them from each workspace an app is installed onto. The app configuration pages
-help you get your first token for your development workspace.
+The package exports a `WebClient` class. You must initialize it with an access
+token so that you don't have to provide the token each time you call a method. A
+token usually begins with `xoxb` or `xoxp`.
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
@@ -43,7 +61,7 @@ const web = new WebClient(token);
 <strong><i>Initializing without a token</i></strong>
 </summary>
 
-Alternatively, you can create a client without an token, and use it with multiple workspaces as long as you supply a
+Alternatively, you can create a client without a token, and use it with multiple workspaces as long as you supply a
 `token` when you call a method.
 
 ```javascript
@@ -448,7 +466,7 @@ retrying the API call. If you'd like to opt out of that behavior, set the `rejec
 ---
 
 ### Upload a file
-As of @slack/web-api v6.8.0, we have introduced a modified way to upload files. 
+As of @slack/web-api v6.8.0, we have introduced a modified way to upload files.
 
 We've received many reports on the performance issue of the existing `files.upload` API. So, to cope with the problem, our Platform team decided to unlock a new way to upload files to Slack via public APIs. To utilize the new approach, developers need to implement the following steps on their code side:
 
@@ -481,7 +499,7 @@ const result = await web.files.upload({
 console.log('File uploaded: ', result.file.id);
 ```
 
-#### New way 
+#### New way
 ```javascript
 const { WebClient } = require('@slack/web-api');
 
@@ -491,7 +509,7 @@ const result = await web.files.uploadV2({
   file: './path/to/logo.png',  // also accepts Buffer or ReadStream
   filename: 'logo.png',
   // Note that channels still works but going with channel_id="C12345" is recommended.
-  // channels="C111,C222" is no longer supported. In this case, an exception will be thrown 
+  // channels="C111,C222" is no longer supported. In this case, an exception will be thrown
   channels: 'C12345',
   initial_comment: 'Here is the new company logo',
 });
@@ -763,7 +781,7 @@ look at the [@aoberoi/passport-slack Passport Strategy](https://github.com/aober
 
 **Sign in With Slack** via [OpenID Connect](https://openid.net/specs/openid-connect-core-1_0.html) gives users the ability to sign into your service using their Slack profile.
 
-The `@slack/web-api` package supports the following API methods which you can use to implement **Sign in With Slack**: 
+The `@slack/web-api` package supports the following API methods which you can use to implement **Sign in With Slack**:
 
 - [`openid.connect.token`](https://api.slack.com/methods/openid.connect.token)
 - [`openid.connect.userInfo`](https://api.slack.com/methods/openid.connect.userInfo)
