@@ -24,7 +24,7 @@ slug: web-api
 <td align="center">token</td>
 <td align="center"><code>string</code></td>
 <td align="center">✗</td>
-<td><p>An API token to authenticate/authorize with Slack (usually start with <code>xoxp</code>, <code>xoxb</code>)</p></td>
+<td><p>An API token to authenticate/authorize with Slack (usually start with <code>xoxp</code>, <code>xoxb</code>). To learn how to get an access token, check out our <a href="https://api.slack.com/authentication/basics">Authentication Basics documentation</a>, and in particular the <a href="https://api.slack.com/authentication/basics#getting-your-authentication-token">Getting your access token section</a>.</p></td>
 </tr>
 <tr>
 <td align="center">opts</td>
@@ -109,7 +109,7 @@ slug: web-api
 <tr>
 <td align="center">token</td>
 <td align="center"><code>string</code></td>
-<td><p>Authentication and authorization token for accessing Slack Web API (usually begins with <code>xoxp</code> or <code>xoxb</code>)</p></td>
+<td><p>An API token to authenticate/authorize with Slack (usually start with <code>xoxp</code>, <code>xoxb</code>). To learn how to get an access token, check out our <a href="https://api.slack.com/authentication/basics">Authentication Basics documentation</a>, and in particular the <a href="https://api.slack.com/authentication/basics#getting-your-authentication-token">Getting your access token section</a>.</p></td>
 </tr>
 </tbody>
 </table>

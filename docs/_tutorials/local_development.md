@@ -27,7 +27,7 @@ Feel free to skip around to the specific sections relevant to you — we won't m
 Head over to our [Bolt JS Getting Started Guide's section "Create an App"](https://slack.dev/bolt-js/tutorial/getting-started#create-an-app) for the latest up-to-date instructions on how to create a new app on [api.slack.com/apps](https://api.slack.com/apps).
 
 ## Tokens and installing apps
-Head over to our [Bolt JS Getting Started Guide's section "Tokens and installing apps"](https://slack.dev/bolt-js/tutorial/getting-started#tokens-and-installing-apps) for the latest up-to-date information on what tokens are, the [different kinds of tokens available](https://api.slack.com/docs/token-types), how to create them on [api.slack.com/apps](https://api.slack.com/apps) and finally how to install your app to a live Slack workspace.
+Head over to our [Bolt JS Getting Started Guide's section "Tokens and installing apps"](https://slack.dev/bolt-js/tutorial/getting-started#tokens-and-installing-apps) for the latest up-to-date information on what tokens are, the [different kinds of tokens available](https://api.slack.com/docs/token-types), how to create them on [api.slack.com/apps](https://api.slack.com/apps), how to install your app to a live Slack workspace and finally how to retrieve your access token.
 
 ## Socket Mode vs. HTTP
 Your app can [communicate with Slack using one of two methods](https://api.slack.com/apis/connections):
@@ -39,7 +39,9 @@ This tutorial will cover how to set up your app using either approach.
 
 ### Socket Mode
 
-Setting up your Node.js application for Socket Mode development is fast and easy with the [`@slack/socket-mode`](https://slack.dev/node-slack-sdk/socket-mode) package. In the previous [Tokens and installing apps](#tokens-and-installing-apps) section, you should have created and saved an App Token. You'll need that when following the [Socket Mode package setup instructions](../socket-mode).
+Setting up your Node.js application for Socket Mode development is fast and easy with the [`@slack/socket-mode`](https://slack.dev/node-slack-sdk/socket-mode) package.
+
+Once you've [created an app](#create-an-app), you will need to generate an **App Token**. On your app's page on [api.slack.com/apps](https://api.slack.com/apps), under the main **Basic Information** page, scroll down to **App-Level Tokens**. Click **Generate Token and Scopes**, add a name for your app token, and click **Add Scope**. Choose `connections:write` and then click **Generate**. Copy and safely store the generated token - you'll need that when following the [Socket Mode package setup instructions](../socket-mode).
 
 ### HTTP
 
