@@ -45,10 +45,19 @@ export interface Channel {
   pending_connected_team_ids?: string[];
   pending_shared?:             string[];
   previous_names?:             string[];
+  properties?:                 Properties;
   purpose?:                    Purpose;
   topic?:                      Purpose;
   unlinked?:                   number;
   updated?:                    number;
+}
+
+export interface Properties {
+  posting_restricted_to?: PostingRestrictedTo;
+}
+
+export interface PostingRestrictedTo {
+  type?: string[];
 }
 
 export interface Purpose {

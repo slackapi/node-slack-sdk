@@ -49,12 +49,23 @@ export interface Channel {
   pending_shared?:             string[];
   previous_names?:             string[];
   priority?:                   number;
+  properties?:                 Properties;
   purpose?:                    Purpose;
   shared_team_ids?:            string[];
   topic?:                      Purpose;
   unlinked?:                   number;
   updated?:                    number;
   user?:                       string;
+}
+
+export interface Properties {
+  posting_restricted_to?: RestrictedTo;
+  threads_restricted_to?: RestrictedTo;
+}
+
+export interface RestrictedTo {
+  type?: string[];
+  user?: string[];
 }
 
 export interface Purpose {

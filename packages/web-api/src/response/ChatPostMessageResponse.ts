@@ -396,6 +396,7 @@ export interface BlockFile {
   preview_plain_text?:        string;
   public_url_shared?:         boolean;
   reactions?:                 Reaction[];
+  saved?:                     Saved;
   sent_to_self?:              boolean;
   shares?:                    Shares;
   simplified_html?:           string;
@@ -496,6 +497,13 @@ export interface Reaction {
   users?: string[];
 }
 
+export interface Saved {
+  date_completed?: number;
+  date_due?:       number;
+  is_archived?:    boolean;
+  state?:          string;
+}
+
 export interface Shares {
   private?: { [key: string]: Private[] };
   public?:  { [key: string]: Private[] };
@@ -589,6 +597,7 @@ export interface FileElement {
   preview_plain_text?:        string;
   public_url_shared?:         boolean;
   reactions?:                 Reaction[];
+  saved?:                     Saved;
   sent_to_self?:              boolean;
   shares?:                    Shares;
   simplified_html?:           string;
