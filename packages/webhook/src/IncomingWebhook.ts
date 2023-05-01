@@ -68,6 +68,7 @@ export class IncomingWebhook {
     try {
       const response = await this.axios.post(this.url, payload);
       return this.buildResult(response);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       // Wrap errors in this packages own error types (abstract the implementation details' types)
       if (error.response !== undefined) {
@@ -111,6 +112,11 @@ export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArgu
   blocks?: (KnownBlock | Block)[];
   unfurl_links?: boolean;
   unfurl_media?: boolean;
+  metadata?: {
+    event_type: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    event_payload: Record<string, any>;
+  };
 }
 
 export interface IncomingWebhookResult {
