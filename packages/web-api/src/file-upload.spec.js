@@ -1,7 +1,7 @@
 require('mocha');
 const { assert } = require('chai');
 const sinon = require('sinon');
-const { createReadStream } = require('fs');
+const { createReadStream, writeFileSync, unlinkSync, statSync, read } = require('fs');
 const { ErrorCode } = require('./errors');
 const { 
   getFileDataAsStream,
@@ -236,6 +236,24 @@ describe('file-upload', () => {
         const res = await getFileDataAsStream(await createReadStream('./test/fixtures/test-txt-empty.txt'));
       } catch (err) {
         assert.equal(err.message, 'No data in supplied file');
+      }
+    });
+    it('ensures complete file is uploaded', async () => {
+      try {
+        // create a large file
+        let largeBuffer = Buffer.alloc(100000, '0123456789876543210\n');
+        writeFileSync('./test/fixtures/test-txt-large.txt', largeBuffer); 
+
+        const res = await getFileDataAsStream(createReadStream('./test/fixtures/test-txt-large.txt'));
+
+        // assert file size of the res is the same as the file size of the buffer
+        const expectedSize = statSync('./test/fixtures/test-txt-large.txt').size
+        const actualSize = Buffer.byteLength(res)
+        assert.equal(actualSize, expectedSize);
+
+      } finally {
+        // cleanup large file
+        unlinkSync('./test/fixtures/test-txt-large.txt');
       }
     });
   });
