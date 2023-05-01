@@ -1,7 +1,7 @@
 require('mocha');
 const { assert } = require('chai');
 const sinon = require('sinon');
-const { createReadStream, writeFileSync, unlinkSync, statSync, read } = require('fs');
+const { createReadStream, statSync, writeFileSync, unlinkSync } = require('fs');
 const { ErrorCode } = require('./errors');
 const { 
   getFileDataAsStream,
