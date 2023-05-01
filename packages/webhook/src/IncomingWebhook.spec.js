@@ -47,6 +47,21 @@ describe('IncomingWebhook', function () {
           this.scope.done();
         });
       });
+
+      it('should send metadata', function () {
+        const result = this.webhook.send({
+          text: 'Hello',
+          response_type: 'in_channel',
+          metadata: {
+            event_type: 'foo',
+            event_payload: { foo: 'bar'},
+          }
+        });
+        return result.then((result) => {
+          assert.strictEqual(result.text, 'ok');
+          this.scope.done();
+        });
+      });
     });
 
     describe('when the call fails', function () {
