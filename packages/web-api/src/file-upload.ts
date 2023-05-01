@@ -160,6 +160,8 @@ export async function getFileDataAsStream(readable: Readable): Promise<Buffer> {
       while ((chunk = readable.read()) !== null) {
         chunks.push(chunk);
       }
+    });
+    readable.on('end', () => {
       if (chunks.length > 0) {
         const content = Buffer.concat(chunks);
         resolve(content);
