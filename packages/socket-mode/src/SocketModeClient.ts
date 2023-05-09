@@ -742,7 +742,9 @@ export class SocketModeClient extends EventEmitter {
 
     // Define Ack
     const ack = async (response: Record<string, unknown>): Promise<void> => {
-      this.logger.debug(`Calling ack() - type: ${event.type}, envelope_id: ${event.envelope_id}, data: ${response}`);
+      if (this.logger.getLevel() === LogLevel.DEBUG) {
+        this.logger.debug(`Calling ack() - type: ${event.type}, envelope_id: ${event.envelope_id}, data: ${JSON.stringify(response)}`);
+      }
       await this.send(event.envelope_id, response);
     };
 
