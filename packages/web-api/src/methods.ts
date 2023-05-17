@@ -2165,12 +2165,14 @@ export interface StarsRemoveArguments extends WebAPICallOptions, TokenOverridabl
 /*
  * `team.*`
  */
-export interface TeamAccessLogsArguments extends WebAPICallOptions, TokenOverridable {
+export interface TeamAccessLogsArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   before?: number;
   count?: number;
   page?: number;
   team_id?: string;
 }
+cursorPaginationEnabledMethods.add('team.accessLogs');
+
 export interface TeamBillableInfoArguments extends WebAPICallOptions, TokenOverridable {
   user?: string;
   team_id?: string;
