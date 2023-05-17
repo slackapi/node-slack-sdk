@@ -19,6 +19,7 @@ export type AdminConversationsSearchResponse = WebAPICallResult & {
 };
 
 export interface Conversation {
+  canvas?:                        Canvas;
   channel_email_addresses?:       string[];
   channel_manager_count?:         number;
   connected_limited_team_ids?:    string[];
@@ -47,4 +48,14 @@ export interface Conversation {
   name?:                          string;
   pending_connected_team_ids?:    string[];
   purpose?:                       string;
+}
+
+export interface Canvas {
+  ownership_details?: OwnershipDetail[];
+  total_count?:       number;
+}
+
+export interface OwnershipDetail {
+  count?:   number;
+  team_id?: string;
 }

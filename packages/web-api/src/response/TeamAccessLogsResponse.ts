@@ -10,12 +10,13 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type TeamAccessLogsResponse = WebAPICallResult & {
-  error?:    string;
-  logins?:   Login[];
-  needed?:   string;
-  ok?:       boolean;
-  paging?:   Paging;
-  provided?: string;
+  error?:             string;
+  logins?:            Login[];
+  needed?:            string;
+  ok?:                boolean;
+  paging?:            Paging;
+  provided?:          string;
+  response_metadata?: ResponseMetadata;
 };
 
 export interface Login {
@@ -36,4 +37,8 @@ export interface Paging {
   page?:  number;
   pages?: number;
   total?: number;
+}
+
+export interface ResponseMetadata {
+  next_cursor?: string;
 }

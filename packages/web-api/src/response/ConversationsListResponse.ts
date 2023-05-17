@@ -59,8 +59,15 @@ export interface Channel {
 }
 
 export interface Properties {
+  canvas?:                Canvas;
   posting_restricted_to?: RestrictedTo;
   threads_restricted_to?: RestrictedTo;
+}
+
+export interface Canvas {
+  file_id?:        string;
+  is_empty?:       boolean;
+  quip_thread_id?: string;
 }
 
 export interface RestrictedTo {
