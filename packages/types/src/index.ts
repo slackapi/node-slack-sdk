@@ -464,6 +464,7 @@ export interface MessageAttachment {
   author_name?: string;
   author_link?: string; // author_name must be present
   author_icon?: string; // author_name must be present
+  author_subname?: string;
   title?: string;
   title_link?: string; // title must be present
   text?: string; // either this or fallback must be defined
