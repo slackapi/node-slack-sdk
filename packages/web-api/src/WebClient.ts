@@ -820,7 +820,7 @@ function parseRetryHeaders(response: AxiosResponse): number | undefined {
 function warnDeprecations(method: string, logger: Logger): void {
   const deprecatedConversationsMethods = ['channels.', 'groups.', 'im.', 'mpim.'];
 
-  const deprecatedMethods = ['admin.conversations.whitelist.'];
+  const deprecatedMethods = ['admin.conversations.whitelist.', 'stars.'];
 
   const isDeprecatedConversations = deprecatedConversationsMethods.some((depMethod) => {
     const re = new RegExp(`^${depMethod}`);
