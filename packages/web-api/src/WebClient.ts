@@ -563,7 +563,7 @@ export class WebClient extends Methods {
         if (response.status === 429) {
           const retrySec = parseRetryHeaders(response);
           if (retrySec !== undefined) {
-            this.emit(WebClientEvent.RATE_LIMITED, retrySec);
+            this.emit(WebClientEvent.RATE_LIMITED, retrySec, { url, body });
             if (this.rejectRateLimitedCalls) {
               throw new AbortError(rateLimitedErrorWithDelay(retrySec));
             }

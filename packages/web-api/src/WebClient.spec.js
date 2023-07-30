@@ -1143,9 +1143,9 @@ describe('WebClient', function () {
           .reply(429, {}, { 'retry-after': 0 });
         const client = new WebClient(token, { rejectRateLimitedCalls: true });
         client.on('rate_limited', spy);
-        client.apiCall('method')
+        client.apiCall('method', { foo: 'bar' })
           .catch((err) => {
-            assert(spy.calledOnceWith(0))
+            assert(spy.calledOnceWith(0, sinon.match({ url: 'method', body: { foo: 'bar' } })))
             scope.done();
             done();
           });
@@ -1213,9 +1213,9 @@ describe('WebClient', function () {
         .reply(429, {}, { 'retry-after': 0 });
       const client = new WebClient(token, { retryConfig: { retries: 0 } });
       client.on('rate_limited', spy);
-      client.apiCall('method')
+      client.apiCall('method', { foo: 'bar' })
         .catch((err) => {
-          assert(spy.calledOnceWith(0))
+          assert(spy.calledOnceWith(0, sinon.match({ url: 'method', body: { foo: 'bar' } })))
           scope.done();
           done();
         });
