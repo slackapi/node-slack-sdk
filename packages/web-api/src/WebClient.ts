@@ -4,14 +4,14 @@ import { basename } from 'path';
 import { Readable } from 'stream';
 import { SecureContextOptions } from 'tls';
 
+import zlib from 'zlib';
+import { TextDecoder } from 'util';
 import isStream from 'is-stream';
 import PQueue from 'p-queue';
 import pRetry, { AbortError } from 'p-retry';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import FormData from 'form-data';
 import isElectron from 'is-electron';
-import zlib from 'zlib';
-import { TextDecoder } from 'util';
 import {
   AdminAnalyticsMemberDetails,
   AdminAnalyticsPublicChannelDetails,
