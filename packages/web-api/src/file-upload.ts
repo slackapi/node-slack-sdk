@@ -1,6 +1,6 @@
-import { Logger } from '@slack/logger';
 import { readFileSync } from 'fs';
 import { Readable } from 'stream';
+import { Logger } from '@slack/logger';
 import { errorWithCode, ErrorCode } from './errors';
 import { FilesCompleteUploadExternalArguments, FilesUploadV2Arguments, FileUploadV2, FileUploadV2Job } from './methods';
 
