@@ -673,3 +673,10 @@ export interface WorkflowButton extends Confirmable {
    */
   accessibility_label?: string;
 }
+
+export interface RichTextInput extends Action, Dispatchable, Focusable, Placeholdable {
+  type: 'rich_text_input';
+  initial_value?: RichTextBlock;
+  dispatch_action_config?: DispatchActionConfig;
+  focus_on_load?: boolean;
+}
