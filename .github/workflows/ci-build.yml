@@ -1,4 +1,4 @@
-name: Node.js Build and Test
+name: Node.js
 
 on:
   push:
@@ -7,12 +7,13 @@ on:
   pull_request:
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
       matrix:
         node-version: [18.x, 20.x]
+        package: [packages/logger, packages/oauth, packages/rtm-api, packages/socket-mode, packages/types, packages/web-api, packages/webhook]
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
@@ -22,10 +23,7 @@ jobs:
     - name: Get Development Dependencies
       run: npm i
     - name: Build and Run Tests in Each Package
+      working-directory: ${{ matrix.package }}
       run: |
-        for pkg in packages/logger packages/oauth packages/rtm-api packages/socket-mode packages/types packages/web-api packages/webhook; do
-          pushd ${pkg}
-          npm install || npm list
-          npm test
-          popd
-        done
+        npm install || npm list
+        npm test
