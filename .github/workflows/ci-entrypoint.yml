@@ -1,0 +1,39 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js Build and Test
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/**'
+  pull_request:
+    paths:
+      - 'packages/**'
+
+jobs:
+  changed_files:
+    name: Find changed packages
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - name: Get changed directories in the packages/ folder
+      id: packages-files
+      uses: tj-actions/changed-files@v38
+      with:
+        files: packages/**
+        files_ignore: |
+          packages/client/**
+          packages/events-api/**
+          packages/interactive-messages/**
+        dir_names: true
+        dir_names_max_depth: 2
+
+    - name: Run step if any file(s) in any packages/ folder changed
+      if: steps.packages-files.outputs.any_changed == 'true'
+      run: |
+        echo "One or more files in the docs folder has changed."
+        echo "List all the files that have changed: ${{ steps.changed-f
