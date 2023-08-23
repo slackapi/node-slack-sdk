@@ -32,7 +32,7 @@
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
     "lint": "eslint --ext .ts src",
-    "test": "npm run lint && npm run build && echo \"Tests are not implemented.\" && exit 0",
+    "test": "npm run lint && npm run build && echo \"Tests are not implemented.\"",
     "ref-docs:model": "api-extractor run"
   },
   "devDependencies": {
