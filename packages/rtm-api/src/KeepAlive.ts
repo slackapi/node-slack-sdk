@@ -39,12 +39,12 @@ export class KeepAlive extends EventEmitter {
   /**
    * A timer for when to send the next ping if no other outgoing message is sent.
    */
-  private pingTimer?: NodeJS.Timer;
+  private pingTimer?: NodeJS.Timeout;
 
   /**
    * A timer for when to stop listening for an incoming event that acknowledges the ping (counts as a pong)
    */
-  private pongTimer?: NodeJS.Timer;
+  private pongTimer?: NodeJS.Timeout;
 
   /**
    * The message ID of the latest ping sent, or undefined is there hasn't been one sent.
