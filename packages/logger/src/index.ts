@@ -16,36 +16,35 @@ export enum LogLevel {
 export interface Logger {
   /**
    * Output debug message
-   *
    * @param msg any data to log
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   debug(...msg: any[]): void;
 
   /**
    * Output info message
-   *
    * @param msg any data to log
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   info(...msg: any[]): void;
 
   /**
    * Output warn message
-   *
    * @param msg any data to log
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   warn(...msg: any[]): void;
 
   /**
    * Output error message
-   *
    * @param msg any data to log
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error(...msg: any[]): void;
 
   /**
    * This disables all logging below the given level, so that after a log.setLevel("warn") call log.warn("something")
    * or log.error("something") will output messages, but log.info("something") will not.
-   *
    * @param level as a string, like 'error' (case-insensitive)
    */
   setLevel(level: LogLevel): void;
@@ -58,7 +57,6 @@ export interface Logger {
   /**
    * This allows the instance to be named so that they can easily be filtered when many loggers are sending output
    * to the same destination.
-   *
    * @param name as a string, will be output with every log after the level
    */
   setName(name: string): void;
@@ -115,6 +113,7 @@ export class ConsoleLogger implements Logger {
   /**
    * Log a debug message
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public debug(...msg: any[]): void {
     if (ConsoleLogger.isMoreOrEqualSevere(LogLevel.DEBUG, this.level)) {
       console.debug(ConsoleLogger.labels.get(LogLevel.DEBUG), this.name, ...msg);
@@ -124,6 +123,7 @@ export class ConsoleLogger implements Logger {
   /**
    * Log an info message
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public info(...msg: any[]): void {
     if (ConsoleLogger.isMoreOrEqualSevere(LogLevel.INFO, this.level)) {
       console.info(ConsoleLogger.labels.get(LogLevel.INFO), this.name, ...msg);
@@ -133,6 +133,7 @@ export class ConsoleLogger implements Logger {
   /**
    * Log a warning message
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public warn(...msg: any[]): void {
     if (ConsoleLogger.isMoreOrEqualSevere(LogLevel.WARN, this.level)) {
       console.warn(ConsoleLogger.labels.get(LogLevel.WARN), this.name, ...msg);
@@ -142,6 +143,7 @@ export class ConsoleLogger implements Logger {
   /**
    * Log an error message
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public error(...msg: any[]): void {
     if (ConsoleLogger.isMoreOrEqualSevere(LogLevel.ERROR, this.level)) {
       console.error(ConsoleLogger.labels.get(LogLevel.ERROR), this.name, ...msg);
