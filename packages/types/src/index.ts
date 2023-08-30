@@ -1,5 +1,6 @@
-/*
+/**
  * Reusable shapes for argument values
+ * @deprecated Dialogs are a deprecated surface in Slack. For more details on how to upgrade, check out our {@link https://api.slack.com/block-kit/dialogs-to-modals Upgrading outmoded dialogs to modals guide}. This will be removed in the next major version.
  */
 export interface Dialog {
   title: string;
@@ -52,6 +53,10 @@ export interface ModalView {
   external_id?: string;
 }
 
+/**
+ * {@link https://api.slack.com/legacy/workflows/steps#handle_config_view Configuration modal} for {@link https://api.slack.com/legacy/workflows/steps legacy Workflow Steps from Apps}.
+ * @deprecated Steps from Apps are deprecated and will no longer be executed starting September 12, 2024. For more information, see our {@link https://api.slack.com/changelog/2023-08-workflow-steps-from-apps-step-back deprecation announcement}.
+ */
 export interface WorkflowStepView {
   type: 'workflow_step';
   blocks: (KnownBlock | Block)[];
@@ -456,6 +461,10 @@ export interface MessageMetadataEventPayloadObject {
   [key: string]: string | number | boolean
 }
 
+/**
+ * Add {@link https://api.slack.com/messaging/composing/layouts#attachments secondary attachments} to your messages in Slack.
+ * Message attachments are considered a legacy part of messaging functionality. They are not deprecated per se, but they may change in the future, in ways that reduce their visibility or utility. We recommend moving to {@see Block} constructs instead. Read more about {@link https://api.slack.com/messaging/composing/layouts#when-to-use-attachments when to use message attachments}.
+ */
 export interface MessageAttachment {
   blocks?: (KnownBlock | Block)[];
   fallback?: string; // either this or text must be defined
