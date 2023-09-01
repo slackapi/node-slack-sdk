@@ -5,5 +5,5 @@ export * from './message-attachments';
 export * from './views';
 export * from './block-kit/blocks';
 export * from './block-kit/composition-objects';
-export * from './block-kit/elements';
+export * from './block-kit/block-elements';
 export * from './block-kit/extensions';

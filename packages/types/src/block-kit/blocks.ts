@@ -5,7 +5,7 @@
 // - add further TODOs for future improvements / breaking changes, in prep for next major release
 
 import { PlainTextElement, MrkdwnElement } from './composition-objects';
-import { Button, Checkboxes, Datepicker, DateTimepicker, EmailInput, ImageElement, MultiSelect, NumberInput, Overflow, PlainTextInput, RadioButtons, Select, Timepicker, URLInput } from './elements';
+import { Button, Checkboxes, Datepicker, DateTimepicker, EmailInput, ImageElement, MultiSelect, NumberInput, Overflow, PlainTextInput, RadioButtons, Select, Timepicker, URLInput } from './block-elements';
 import { Action } from './extensions';
 
 export interface Block {
