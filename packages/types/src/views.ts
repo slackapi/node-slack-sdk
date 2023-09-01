@@ -10,6 +10,7 @@ export interface HomeView {
   external_id?: string;
 }
 
+// Reference: https://api.slack.com/surfaces/modals#composing_views
 export interface ModalView {
   type: 'modal';
   title: PlainTextElement;
