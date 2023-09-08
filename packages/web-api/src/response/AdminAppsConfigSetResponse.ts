@@ -9,14 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 import { WebAPICallResult } from '../WebClient';
-export type AdminAppsRequestsCancelResponse = WebAPICallResult & {
-  error?:             string;
-  needed?:            string;
-  ok?:                boolean;
-  provided?:          string;
-  response_metadata?: ResponseMetadata;
+export type AdminAppsConfigSetResponse = WebAPICallResult & {
+  error?:    string;
+  needed?:   string;
+  ok?:       boolean;
+  provided?: string;
 };
-
-export interface ResponseMetadata {
-  messages?: string[];
-}

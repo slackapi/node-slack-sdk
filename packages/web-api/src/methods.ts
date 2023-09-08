@@ -218,6 +218,15 @@ import {
   AdminRolesAddAssignmentsResponse,
   AdminRolesListAssignmentsResponse,
   AdminRolesRemoveAssignmentsResponse,
+  AdminAppsActivitiesListResponse,
+  AdminFunctionsListResponse,
+  AdminFunctionsPermissionsLookupResponse,
+  AdminFunctionsPermissionsSetResponse,
+  AdminWorkflowsSearchResponse,
+  AdminWorkflowsUnpublishResponse,
+  AdminWorkflowsCollaboratorsAddResponse,
+  AdminWorkflowsCollaboratorsRemoveResponse,
+  AdminWorkflowsPermissionsLookupResponse,
 } from './response';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
@@ -229,7 +238,7 @@ function bindApiCall<Arguments extends WebAPICallOptions, Result extends WebAPIC
   self: Methods,
   method: string,
 ): Method<Arguments, Result> {
-  // We have to "assert" that the bound method does indeed return the more specific `Result` type instead of just
+  // We have to 'assert' that the bound method does indeed return the more specific `Result` type instead of just
   // `WebAPICallResult`
   return self.apiCall.bind(self, method) as Method<Arguments, Result>;
 }
@@ -284,6 +293,9 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
           bindApiCall<AdminAppsRestrictedListArguments, AdminAppsRestrictedListResponse>(this, 'admin.apps.restricted.list'),
       },
       uninstall: bindApiCall<AdminAppsUninstallArguments, AdminAppsUninstallResponse>(this, 'admin.apps.uninstall'),
+      activities: {
+        list: bindApiCall<AdminAppsActivitiesListArguments, AdminAppsActivitiesListResponse>(this, 'admin.apps.activities.list'),
+      },
     },
     auth: {
       policy: {
@@ -380,6 +392,13 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       list: bindApiCall<AdminEmojiListArguments, AdminEmojiListResponse>(this, 'admin.emoji.list'),
       remove: bindApiCall<AdminEmojiRemoveArguments, AdminEmojiRemoveResponse>(this, 'admin.emoji.remove'),
       rename: bindApiCall<AdminEmojiRenameArguments, AdminEmojiRenameResponse>(this, 'admin.emoji.rename'),
+    },
+    functions: {
+      list: bindApiCall<AdminFunctionsListArguments, AdminFunctionsListResponse>(this, 'admin.functions.list'),
+      permissions: {
+        lookup: bindApiCall<AdminFunctionsPermissionsLookupArguments, AdminFunctionsPermissionsLookupResponse>(this, 'admin.functions.permissions.lookup'),
+        set: bindApiCall<AdminFunctionsPermissionsSetArguments, AdminFunctionsPermissionsSetResponse>(this, 'admin.functions.permissions.set'),
+      },
     },
     inviteRequests: {
       approve: bindApiCall<AdminInviteRequestsApproveArguments, AdminInviteRequestsApproveResponse>(
@@ -487,6 +506,17 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       setRegular: bindApiCall<AdminUsersSetRegularArguments, AdminUsersSetRegularResponse>(
         this, 'admin.users.setRegular',
       ),
+    },
+    workflows: {
+      search: bindApiCall<AdminWorkflowsSearchArguments, AdminWorkflowsSearchResponse>(this, 'admin.workflows.search'),
+      unpublish: bindApiCall<AdminWorkflowsUnpublishArguments, AdminWorkflowsUnpublishResponse>(this, 'admin.workflows.unpublish'),
+      collaborators: {
+        add: bindApiCall<AdminWorkflowsCollaboratorsAddArguments, AdminWorkflowsCollaboratorsAddResponse>(this, 'admin.workflows.collaborators.add'),
+        remove: bindApiCall<AdminWorkflowsCollaboratorsRemoveArguments, AdminWorkflowsCollaboratorsRemoveResponse>(this, 'admin.workflows.collaborators.remove'),
+      },
+      permissions: {
+        lookup: bindApiCall<AdminWorkflowsPermissionsLookupArguments, AdminWorkflowsPermissionsLookupResponse>(this, 'admin.workflows.permissions.lookup'),
+      },
     },
   };
 
@@ -850,7 +880,7 @@ export default interface Method<
 }
 
 /*
- * Reusable "protocols" that some MethodArguments types can conform to
+ * Reusable 'protocols' that some MethodArguments types can conform to
  */
 export interface TokenOverridable {
   token?: string;
@@ -939,6 +969,26 @@ export interface AdminAppsUninstallArguments extends WebAPICallOptions {
   app_id: string;
   enterprise_id?: string;
   team_ids?: string[];
+}
+export interface AdminAppsActivitiesListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  app_id?: string;
+  component_id?: string;
+  component_type?: string;
+  log_event_type?: string;
+  max_date_created?: number;
+  min_date_created?: number;
+  min_log_level?: string;
+  sort_direction?: string;
+  source?: string;
+  team_id?: string;
+  trace_id?: string;
+}
+cursorPaginationEnabledMethods.add('admin.apps.activities.list');
+export interface AdminAppsConfigLookupArguments extends WebAPICallOptions, TokenOverridable {
+  app_ids: string[];
+}
+export interface AdminAppsConfigSetArguments extends WebAPICallOptions, TokenOverridable {
+  app_id: string;
 }
 export interface AdminAuthPolicyAssignEntitiesArguments extends WebAPICallOptions, TokenOverridable {
   entity_ids: string[];
@@ -1100,6 +1150,19 @@ export interface AdminEmojiRemoveArguments extends WebAPICallOptions, TokenOverr
 export interface AdminEmojiRenameArguments extends WebAPICallOptions, TokenOverridable {
   name: string;
   new_name: string;
+}
+export interface AdminFunctionsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  app_ids: string[];
+  team_id?: string;
+}
+export interface AdminFunctionsPermissionsLookupArguments
+  extends WebAPICallOptions, TokenOverridable {
+  function_ids: string[];
+}
+export interface AdminFunctionsPermissionsSetArguments extends WebAPICallOptions, TokenOverridable {
+  function_id: string;
+  visibility: string;
+  user_ids?: string[];
 }
 export interface AdminInviteRequestsApproveArguments
   extends WebAPICallOptions, TokenOverridable {
@@ -1283,6 +1346,35 @@ export interface AdminUsersUnsupportedVersionsExportArguments extends WebAPICall
   date_sessions_started?: number;
 }
 
+export interface AdminWorkflowsCollaboratorsAddArguments
+  extends WebAPICallOptions, TokenOverridable {
+  collaborator_ids: string[];
+  workflow_ids: string[];
+}
+export interface AdminWorkflowsCollaboratorsRemoveArguments
+  extends WebAPICallOptions, TokenOverridable {
+  collaborator_ids: string[];
+  workflow_ids: string[];
+}
+export interface AdminWorkflowsPermissionsLookupArguments
+  extends WebAPICallOptions, TokenOverridable {
+  workflow_ids: string[];
+  max_workflow_triggers?: number;
+}
+export interface AdminWorkflowsSearchArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  app_id?: string;
+  collaborator_ids?: string[];
+  no_collaborators?: boolean;
+  num_trigger_ids?: number;
+  query?: string;
+  sort?: string;
+  sort_dir?: string;
+  source?: string;
+}
+cursorPaginationEnabledMethods.add('admin.worfklows.search');
+export interface AdminWorkflowsUnpublishArguments extends WebAPICallOptions, TokenOverridable {
+  workflow_ids: string[];
+}
 /*
  * `api.*`
  */

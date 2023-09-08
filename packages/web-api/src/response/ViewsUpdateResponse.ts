@@ -201,6 +201,21 @@ export interface ElementElement {
   type?:                            string;
   url?:                             string;
   value?:                           string;
+  workflow?:                        Workflow;
+}
+
+export interface Workflow {
+  trigger?: Trigger;
+}
+
+export interface Trigger {
+  customizable_input_parameters?: CustomizableInputParameter[];
+  url?:                           string;
+}
+
+export interface CustomizableInputParameter {
+  name?:  string;
+  value?: string;
 }
 
 export interface State {

@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 import { WebAPICallResult } from '../WebClient';
-export type AdminAppsRequestsCancelResponse = WebAPICallResult & {
+export type AdminWorkflowsUnpublishResponse = WebAPICallResult & {
   error?:             string;
   needed?:            string;
   ok?:                boolean;
