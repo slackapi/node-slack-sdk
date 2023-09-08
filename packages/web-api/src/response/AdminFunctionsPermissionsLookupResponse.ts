@@ -9,13 +9,29 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 import { WebAPICallResult } from '../WebClient';
-export type AdminAppsRequestsCancelResponse = WebAPICallResult & {
+export type AdminFunctionsPermissionsLookupResponse = WebAPICallResult & {
   error?:             string;
+  errors?:            Errors;
   needed?:            string;
   ok?:                boolean;
+  permissions?:       { [key: string]: Permission };
   provided?:          string;
   response_metadata?: ResponseMetadata;
 };
+
+export interface Errors {
+}
+
+export interface Permission {
+  allowed_by_admin?: AllowedByAdmin;
+  allowed_entities?: AllowedByAdmin;
+  distribution?:     AllowedByAdmin;
+}
+
+export interface AllowedByAdmin {
+  type?:     string;
+  user_ids?: string[];
+}
 
 export interface ResponseMetadata {
   messages?: string[];

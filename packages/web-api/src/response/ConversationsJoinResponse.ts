@@ -46,11 +46,22 @@ export interface Channel {
   pending_shared?:             string[];
   previous_names?:             string[];
   priority?:                   number;
+  properties?:                 Properties;
   purpose?:                    Purpose;
   shared_team_ids?:            string[];
   topic?:                      Purpose;
   unlinked?:                   number;
   updated?:                    number;
+}
+
+export interface Properties {
+  canvas?: Canvas;
+}
+
+export interface Canvas {
+  file_id?:        string;
+  is_empty?:       boolean;
+  quip_thread_id?: string;
 }
 
 export interface Purpose {

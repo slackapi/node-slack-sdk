@@ -36,6 +36,7 @@ export interface Match {
   display_as_bot?:            boolean;
   edit_link?:                 string;
   editable?:                  boolean;
+  editors?:                   string[];
   external_id?:               string;
   external_type?:             string;
   external_url?:              string;
@@ -133,7 +134,7 @@ export interface Attachment {
   fallback?:              string;
   fields?:                Field[];
   filename?:              string;
-  files?:                 File[];
+  files?:                 FileElement[];
   footer?:                string;
   footer_icon?:           string;
   from_url?:              string;
@@ -147,6 +148,7 @@ export interface Attachment {
   is_msg_unfurl?:         boolean;
   is_reply_unfurl?:       boolean;
   is_thread_root_unfurl?: boolean;
+  message_blocks?:        MessageBlock[];
   metadata?:              Metadata;
   mimetype?:              string;
   mrkdwn_in?:             string[];
@@ -224,7 +226,7 @@ export interface Block {
   external_id?:              string;
   fallback?:                 string;
   fields?:                   Subtitle[];
-  file?:                     File;
+  file?:                     BlockFile;
   file_id?:                  string;
   function_trigger_id?:      string;
   hint?:                     Subtitle;
@@ -287,6 +289,7 @@ export interface Accessory {
   type?:                            string;
   url?:                             string;
   value?:                           string;
+  workflow?:                        Workflow;
 }
 
 export interface AccessoryConfirm {
@@ -300,8 +303,14 @@ export interface AccessoryConfirm {
 export interface Subtitle {
   emoji?:    boolean;
   text?:     string;
-  type?:     string;
+  type?:     SubtitleType;
   verbatim?: boolean;
+}
+
+export enum SubtitleType {
+  Empty = '',
+  Mrkdwn = 'mrkdwn',
+  PlainText = 'plain_text',
 }
 
 export interface AccessoryElement {
@@ -310,7 +319,7 @@ export interface AccessoryElement {
   indent?:   number;
   offset?:   number;
   style?:    string;
-  type?:     string;
+  type?:     FluffyType;
 }
 
 export interface PurpleElement {
@@ -322,7 +331,7 @@ export interface PurpleElement {
   team_id?:      string;
   text?:         string;
   timestamp?:    string;
-  type?:         string;
+  type?:         PurpleType;
   unicode?:      string;
   url?:          string;
   user_id?:      string;
@@ -335,6 +344,28 @@ export interface Style {
   code?:   boolean;
   italic?: boolean;
   strike?: boolean;
+}
+
+export enum PurpleType {
+  Broadcast = 'broadcast',
+  Channel = 'channel',
+  Color = 'color',
+  Date = 'date',
+  Emoji = 'emoji',
+  Empty = '',
+  Link = 'link',
+  Team = 'team',
+  Text = 'text',
+  User = 'user',
+  Usergroup = 'usergroup',
+}
+
+export enum FluffyType {
+  Empty = '',
+  RichTextList = 'rich_text_list',
+  RichTextPreformatted = 'rich_text_preformatted',
+  RichTextQuote = 'rich_text_quote',
+  RichTextSection = 'rich_text_section',
 }
 
 export interface Filter {
@@ -353,6 +384,20 @@ export interface InitialOptionElement {
 export interface AccessoryOptionGroup {
   label?:   Subtitle;
   options?: InitialOptionElement[];
+}
+
+export interface Workflow {
+  trigger?: Trigger;
+}
+
+export interface Trigger {
+  customizable_input_parameters?: CustomizableInputParameter[];
+  url?:                           string;
+}
+
+export interface CustomizableInputParameter {
+  name?:  string;
+  value?: string;
 }
 
 export interface Call {
@@ -402,141 +447,157 @@ export interface AppIconUrls {
   image_original?: string;
 }
 
-export interface File {
-  alt_txt?:                   string;
-  app_id?:                    string;
-  app_name?:                  string;
-  bot_id?:                    string;
-  cc?:                        Cc[];
-  channel_actions_count?:     number;
-  channel_actions_ts?:        string;
-  channels?:                  string[];
-  comments_count?:            number;
-  converted_pdf?:             string;
-  created?:                   number;
-  deanimate?:                 string;
-  deanimate_gif?:             string;
-  display_as_bot?:            boolean;
-  duration_ms?:               number;
-  edit_link?:                 string;
-  editable?:                  boolean;
-  editor?:                    string;
-  external_id?:               string;
-  external_type?:             string;
-  external_url?:              string;
-  file_access?:               string;
-  filetype?:                  string;
-  from?:                      Cc[];
-  groups?:                    string[];
-  has_more?:                  boolean;
-  has_more_shares?:           boolean;
-  has_rich_preview?:          boolean;
-  headers?:                   FileHeaders;
-  hls?:                       string;
-  hls_embed?:                 string;
-  id?:                        string;
-  image_exif_rotation?:       number;
-  ims?:                       string[];
-  initial_comment?:           InitialComment;
-  is_external?:               boolean;
-  is_public?:                 boolean;
-  is_starred?:                boolean;
-  last_editor?:               string;
-  lines?:                     number;
-  lines_more?:                number;
-  media_display_type?:        string;
-  media_progress?:            MediaProgress;
-  mimetype?:                  string;
-  mode?:                      string;
-  mp4?:                       string;
-  mp4_low?:                   string;
-  name?:                      string;
-  non_owner_editable?:        boolean;
-  num_stars?:                 number;
-  original_attachment_count?: number;
-  original_h?:                string;
-  original_w?:                string;
-  permalink?:                 string;
-  permalink_public?:          string;
-  pinned_to?:                 string[];
-  pjpeg?:                     string;
-  plain_text?:                string;
-  pretty_type?:               string;
-  preview?:                   string;
-  preview_highlight?:         string;
-  preview_is_truncated?:      boolean;
-  preview_plain_text?:        string;
-  public_url_shared?:         boolean;
-  reactions?:                 Reaction[];
-  saved?:                     Saved;
-  sent_to_self?:              boolean;
-  shares?:                    FileShares;
-  simplified_html?:           string;
-  size?:                      number;
-  source_team?:               string;
-  subject?:                   string;
-  subtype?:                   string;
-  thumb_1024?:                string;
-  thumb_1024_gif?:            string;
-  thumb_1024_h?:              string;
-  thumb_1024_w?:              string;
-  thumb_160?:                 string;
-  thumb_160_gif?:             string;
-  thumb_160_h?:               string;
-  thumb_160_w?:               string;
-  thumb_360?:                 string;
-  thumb_360_gif?:             string;
-  thumb_360_h?:               string;
-  thumb_360_w?:               string;
-  thumb_480?:                 string;
-  thumb_480_gif?:             string;
-  thumb_480_h?:               string;
-  thumb_480_w?:               string;
-  thumb_64?:                  string;
-  thumb_64_gif?:              string;
-  thumb_64_h?:                string;
-  thumb_64_w?:                string;
-  thumb_720?:                 string;
-  thumb_720_gif?:             string;
-  thumb_720_h?:               string;
-  thumb_720_w?:               string;
-  thumb_80?:                  string;
-  thumb_800?:                 string;
-  thumb_800_gif?:             string;
-  thumb_800_h?:               string;
-  thumb_800_w?:               string;
-  thumb_80_gif?:              string;
-  thumb_80_h?:                string;
-  thumb_80_w?:                string;
-  thumb_960?:                 string;
-  thumb_960_gif?:             string;
-  thumb_960_h?:               string;
-  thumb_960_w?:               string;
-  thumb_gif?:                 string;
-  thumb_pdf?:                 string;
-  thumb_pdf_h?:               string;
-  thumb_pdf_w?:               string;
-  thumb_tiny?:                string;
-  thumb_video?:               string;
-  thumb_video_h?:             number;
-  thumb_video_w?:             number;
-  timestamp?:                 number;
-  title?:                     string;
-  to?:                        Cc[];
-  transcription?:             Transcription;
-  updated?:                   number;
-  url_private?:               string;
-  url_private_download?:      string;
-  user?:                      string;
-  user_team?:                 string;
-  username?:                  string;
-  vtt?:                       string;
+export interface BlockFile {
+  access?:                                  string;
+  alt_txt?:                                 string;
+  app_id?:                                  string;
+  app_name?:                                string;
+  bot_id?:                                  string;
+  cc?:                                      Cc[];
+  channel_actions_count?:                   number;
+  channel_actions_ts?:                      string;
+  channels?:                                string[];
+  comments_count?:                          number;
+  converted_pdf?:                           string;
+  created?:                                 number;
+  deanimate?:                               string;
+  deanimate_gif?:                           string;
+  display_as_bot?:                          boolean;
+  dm_mpdm_users_with_file_access?:          DmMpdmUsersWithFileAccess[];
+  duration_ms?:                             number;
+  edit_link?:                               string;
+  editable?:                                boolean;
+  editor?:                                  string;
+  external_id?:                             string;
+  external_type?:                           string;
+  external_url?:                            string;
+  file_access?:                             string;
+  filetype?:                                string;
+  from?:                                    Cc[];
+  groups?:                                  string[];
+  has_more?:                                boolean;
+  has_more_shares?:                         boolean;
+  has_rich_preview?:                        boolean;
+  headers?:                                 FileHeaders;
+  hls?:                                     string;
+  hls_embed?:                               string;
+  id?:                                      string;
+  image_exif_rotation?:                     number;
+  ims?:                                     string[];
+  initial_comment?:                         InitialComment;
+  is_channel_space?:                        boolean;
+  is_external?:                             boolean;
+  is_public?:                               boolean;
+  is_starred?:                              boolean;
+  last_editor?:                             string;
+  last_read?:                               number;
+  lines?:                                   number;
+  lines_more?:                              number;
+  linked_channel_id?:                       string;
+  media_display_type?:                      string;
+  media_progress?:                          MediaProgress;
+  mimetype?:                                string;
+  mode?:                                    string;
+  mp4?:                                     string;
+  mp4_low?:                                 string;
+  name?:                                    string;
+  non_owner_editable?:                      boolean;
+  num_stars?:                               number;
+  org_or_workspace_access?:                 string;
+  original_attachment_count?:               number;
+  original_h?:                              string;
+  original_w?:                              string;
+  permalink?:                               string;
+  permalink_public?:                        string;
+  pinned_to?:                               string[];
+  pjpeg?:                                   string;
+  plain_text?:                              string;
+  pretty_type?:                             string;
+  preview?:                                 string;
+  preview_highlight?:                       string;
+  preview_is_truncated?:                    boolean;
+  preview_plain_text?:                      string;
+  private_channels_with_file_access_count?: number;
+  public_url_shared?:                       boolean;
+  quip_thread_id?:                          string;
+  reactions?:                               Reaction[];
+  saved?:                                   Saved;
+  sent_to_self?:                            boolean;
+  shares?:                                  FileShares;
+  simplified_html?:                         string;
+  size?:                                    number;
+  source_team?:                             string;
+  subject?:                                 string;
+  subtype?:                                 string;
+  teams_shared_with?:                       any[];
+  thumb_1024?:                              string;
+  thumb_1024_gif?:                          string;
+  thumb_1024_h?:                            string;
+  thumb_1024_w?:                            string;
+  thumb_160?:                               string;
+  thumb_160_gif?:                           string;
+  thumb_160_h?:                             string;
+  thumb_160_w?:                             string;
+  thumb_360?:                               string;
+  thumb_360_gif?:                           string;
+  thumb_360_h?:                             string;
+  thumb_360_w?:                             string;
+  thumb_480?:                               string;
+  thumb_480_gif?:                           string;
+  thumb_480_h?:                             string;
+  thumb_480_w?:                             string;
+  thumb_64?:                                string;
+  thumb_64_gif?:                            string;
+  thumb_64_h?:                              string;
+  thumb_64_w?:                              string;
+  thumb_720?:                               string;
+  thumb_720_gif?:                           string;
+  thumb_720_h?:                             string;
+  thumb_720_w?:                             string;
+  thumb_80?:                                string;
+  thumb_800?:                               string;
+  thumb_800_gif?:                           string;
+  thumb_800_h?:                             string;
+  thumb_800_w?:                             string;
+  thumb_80_gif?:                            string;
+  thumb_80_h?:                              string;
+  thumb_80_w?:                              string;
+  thumb_960?:                               string;
+  thumb_960_gif?:                           string;
+  thumb_960_h?:                             string;
+  thumb_960_w?:                             string;
+  thumb_gif?:                               string;
+  thumb_pdf?:                               string;
+  thumb_pdf_h?:                             string;
+  thumb_pdf_w?:                             string;
+  thumb_tiny?:                              string;
+  thumb_video?:                             string;
+  thumb_video_h?:                           number;
+  thumb_video_w?:                           number;
+  timestamp?:                               number;
+  title?:                                   string;
+  title_blocks?:                            TitleBlock[];
+  to?:                                      Cc[];
+  transcription?:                           Transcription;
+  updated?:                                 number;
+  url_private?:                             string;
+  url_private_download?:                    string;
+  url_static_preview?:                      string;
+  user?:                                    string;
+  user_team?:                               string;
+  username?:                                string;
+  vtt?:                                     string;
 }
 
 export interface Cc {
   address?:  string;
   name?:     string;
   original?: string;
+}
+
+export interface DmMpdmUsersWithFileAccess {
+  access?:  string;
+  user_id?: string;
 }
 
 export interface FileHeaders {
@@ -608,6 +669,36 @@ export enum Ts {
   The0000000000000000 = '0000000000.000000',
 }
 
+export interface TitleBlock {
+  accessory?:           Accessory;
+  alt_text?:            string;
+  app_collaborators?:   string[];
+  app_id?:              string;
+  author_name?:         string;
+  block_id?:            string;
+  bot_user_id?:         string;
+  button_label?:        string;
+  description?:         Subtitle | string;
+  elements?:            Accessory[];
+  fallback?:            string;
+  fields?:              Subtitle[];
+  function_trigger_id?: string;
+  image_bytes?:         number;
+  image_height?:        number;
+  image_url?:           string;
+  image_width?:         number;
+  is_workflow_app?:     boolean;
+  provider_icon_url?:   string;
+  provider_name?:       string;
+  text?:                Subtitle;
+  thumbnail_url?:       string;
+  title?:               Subtitle | string;
+  title_url?:           string;
+  type?:                string;
+  url?:                 string;
+  video_url?:           string;
+}
+
 export interface Transcription {
   locale?: string;
   status?: string;
@@ -617,6 +708,178 @@ export interface Field {
   short?: boolean;
   title?: string;
   value?: string;
+}
+
+export interface FileElement {
+  access?:                                  string;
+  alt_txt?:                                 string;
+  app_id?:                                  string;
+  app_name?:                                string;
+  bot_id?:                                  string;
+  cc?:                                      Cc[];
+  channel_actions_count?:                   number;
+  channel_actions_ts?:                      string;
+  channels?:                                string[];
+  comments_count?:                          number;
+  converted_pdf?:                           string;
+  created?:                                 number;
+  deanimate?:                               string;
+  deanimate_gif?:                           string;
+  display_as_bot?:                          boolean;
+  dm_mpdm_users_with_file_access?:          DmMpdmUsersWithFileAccess[];
+  duration_ms?:                             number;
+  edit_link?:                               string;
+  editable?:                                boolean;
+  editor?:                                  string;
+  external_id?:                             string;
+  external_type?:                           string;
+  external_url?:                            string;
+  file_access?:                             string;
+  filetype?:                                string;
+  from?:                                    Cc[];
+  groups?:                                  string[];
+  has_more?:                                boolean;
+  has_more_shares?:                         boolean;
+  has_rich_preview?:                        boolean;
+  headers?:                                 FileHeaders;
+  hls?:                                     string;
+  hls_embed?:                               string;
+  id?:                                      string;
+  image_exif_rotation?:                     number;
+  ims?:                                     string[];
+  initial_comment?:                         InitialComment;
+  is_channel_space?:                        boolean;
+  is_external?:                             boolean;
+  is_public?:                               boolean;
+  is_starred?:                              boolean;
+  last_editor?:                             string;
+  last_read?:                               number;
+  lines?:                                   number;
+  lines_more?:                              number;
+  linked_channel_id?:                       string;
+  media_display_type?:                      string;
+  media_progress?:                          MediaProgress;
+  mimetype?:                                string;
+  mode?:                                    string;
+  mp4?:                                     string;
+  mp4_low?:                                 string;
+  name?:                                    string;
+  non_owner_editable?:                      boolean;
+  num_stars?:                               number;
+  org_or_workspace_access?:                 string;
+  original_attachment_count?:               number;
+  original_h?:                              string;
+  original_w?:                              string;
+  permalink?:                               string;
+  permalink_public?:                        string;
+  pinned_to?:                               string[];
+  pjpeg?:                                   string;
+  plain_text?:                              string;
+  pretty_type?:                             string;
+  preview?:                                 string;
+  preview_highlight?:                       string;
+  preview_is_truncated?:                    boolean;
+  preview_plain_text?:                      string;
+  private_channels_with_file_access_count?: number;
+  public_url_shared?:                       boolean;
+  quip_thread_id?:                          string;
+  reactions?:                               Reaction[];
+  saved?:                                   Saved;
+  sent_to_self?:                            boolean;
+  shares?:                                  FileShares;
+  simplified_html?:                         string;
+  size?:                                    number;
+  source_team?:                             string;
+  subject?:                                 string;
+  subtype?:                                 string;
+  teams_shared_with?:                       string[];
+  thumb_1024?:                              string;
+  thumb_1024_gif?:                          string;
+  thumb_1024_h?:                            string;
+  thumb_1024_w?:                            string;
+  thumb_160?:                               string;
+  thumb_160_gif?:                           string;
+  thumb_160_h?:                             string;
+  thumb_160_w?:                             string;
+  thumb_360?:                               string;
+  thumb_360_gif?:                           string;
+  thumb_360_h?:                             string;
+  thumb_360_w?:                             string;
+  thumb_480?:                               string;
+  thumb_480_gif?:                           string;
+  thumb_480_h?:                             string;
+  thumb_480_w?:                             string;
+  thumb_64?:                                string;
+  thumb_64_gif?:                            string;
+  thumb_64_h?:                              string;
+  thumb_64_w?:                              string;
+  thumb_720?:                               string;
+  thumb_720_gif?:                           string;
+  thumb_720_h?:                             string;
+  thumb_720_w?:                             string;
+  thumb_80?:                                string;
+  thumb_800?:                               string;
+  thumb_800_gif?:                           string;
+  thumb_800_h?:                             string;
+  thumb_800_w?:                             string;
+  thumb_80_gif?:                            string;
+  thumb_80_h?:                              string;
+  thumb_80_w?:                              string;
+  thumb_960?:                               string;
+  thumb_960_gif?:                           string;
+  thumb_960_h?:                             string;
+  thumb_960_w?:                             string;
+  thumb_gif?:                               string;
+  thumb_pdf?:                               string;
+  thumb_pdf_h?:                             string;
+  thumb_pdf_w?:                             string;
+  thumb_tiny?:                              string;
+  thumb_video?:                             string;
+  thumb_video_h?:                           number;
+  thumb_video_w?:                           number;
+  timestamp?:                               number;
+  title?:                                   string;
+  title_blocks?:                            Block[];
+  to?:                                      Cc[];
+  transcription?:                           Transcription;
+  updated?:                                 number;
+  url_private?:                             string;
+  url_private_download?:                    string;
+  url_static_preview?:                      string;
+  user?:                                    string;
+  user_team?:                               string;
+  username?:                                string;
+  vtt?:                                     string;
+}
+
+export interface MessageBlock {
+  accessory?:           Accessory;
+  alt_text?:            string;
+  app_collaborators?:   string[];
+  app_id?:              string;
+  author_name?:         string;
+  block_id?:            string;
+  bot_user_id?:         string;
+  button_label?:        string;
+  description?:         Subtitle;
+  elements?:            Accessory[];
+  fallback?:            string;
+  fields?:              Subtitle[];
+  function_trigger_id?: string;
+  image_bytes?:         number;
+  image_height?:        number;
+  image_url?:           string;
+  image_width?:         number;
+  is_workflow_app?:     boolean;
+  provider_icon_url?:   string;
+  provider_name?:       string;
+  text?:                Subtitle;
+  thumbnail_url?:       string;
+  title?:               Subtitle;
+  title_url?:           string;
+  type?:                string;
+  url?:                 string;
+  video_url?:           string;
 }
 
 export interface Metadata {

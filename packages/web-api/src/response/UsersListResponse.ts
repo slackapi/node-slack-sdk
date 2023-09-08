@@ -10,6 +10,7 @@
 
 import { WebAPICallResult } from '../WebClient';
 export type UsersListResponse = WebAPICallResult & {
+  arg?:               string;
   cache_ts?:          number;
   error?:             string;
   members?:           Member[];
