@@ -138,6 +138,7 @@ export interface MessageAttachmentField {
   short?: boolean;
 }
 
+// TODO: unclear what this is or how to use this
 // https://api.slack.com/methods/chat.unfurl#markdown
 export interface MessageAttachmentPreview {
   type?: string;
@@ -147,7 +148,7 @@ export interface MessageAttachmentPreview {
   iconUrl?: string;
 }
 
-// TODO: unclear what or how to use this
+// TODO: unclear what this is or how to use this
 export interface AttachmentAction {
   id?: string;
   confirm?: Confirmation;
