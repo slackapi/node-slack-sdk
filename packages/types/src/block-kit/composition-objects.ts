@@ -1,9 +1,6 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/composition-objects
-// TODO: go through https://api.slack.com/reference/block-kit/composition-objects and
-// - define missing objects, and
-// - add further TODOs for future improvements / breaking changes, in prep for next major release
 
-// TODO: maybe consider this as a breaking change, but, what about aliasing Confirm to ConfirmationDialog or some such?
+// TODO: maybe a breaking change, but, what about aliasing Confirm to ConfirmationDialog or some such?
 // and deprecating this interface? this would line up the terms between these types and api.slack.com
 /**
  * @description Defines a dialog that adds a confirmation step to interactive elements.
@@ -59,7 +56,7 @@ interface OptionDescriptor {
    * @description A unique string value that will be passed to your app when this option is chosen.
    * Maximum length for this field is 75 characters.
    */
-  value?: string; // TODO: breaking change - this value is required according to https://api.slack.com/reference/block-kit/composition-objects#option
+  value?: string; // TODO: breaking change - value is required according to https://api.slack.com/reference/block-kit/composition-objects#option
   /**
    * @description Only available in overflow menus! A URL to load in the user's browser when the option is clicked.
    * Maximum length for this field is 3000 characters.
@@ -95,8 +92,24 @@ export interface PlainTextOption extends OptionDescriptor {
  */
 export type Option = MrkdwnOption | PlainTextOption;
 
-// TODO: (additive change) maybe worth adding a TextObject union for them, if they are meant to be used this way,
-// as they seem to be documented together? https://api.slack.com/reference/block-kit/composition-objects#text
+/**
+ * @description Defines a way to group options in a select or multi-select menu.
+ * @see {@link https://api.slack.com/reference/block-kit/composition-objects#option_group Option group object reference}.
+ */
+export interface OptionGroup {
+  /**
+   * @description A {@link PlainTextElement} text object that defines the label shown above this group of options.
+   * Maximum length for the `text` in this field is 75 characters.
+   */
+  label: PlainTextElement;
+  /**
+   * @description An array of {@link Option} that belong to this specific group. Maximum of 100 items.
+   */
+  options: Option[];
+}
+
+// TODO: (additive change) maybe worth adding a TextObject union for both PlainTextElement and MrkdwnElement, if they
+// are meant to be used this way, as they seem to be documented together? https://api.slack.com/reference/block-kit/composition-objects#text
 /**
  * @description Defines an object containing some text.
  * @see {@link https://api.slack.com/reference/block-kit/composition-objects#text Text object reference}.
@@ -139,5 +152,29 @@ export interface MrkdwnElement {
   verbatim?: boolean;
 }
 
-// TODO: add Option group type, and use it in this package. https://api.slack.com/reference/block-kit/composition-objects#option_group
-// TODO: add Conversation filter type, and use it in this package. https://api.slack.com/reference/block-kit/composition-objects#filter_conversations
+type Conversation = 'im' | 'mpim' | 'private' | 'public';
+
+interface BaseConversationFilter {
+  /**
+  * @description Indicates which type of conversations should be included in the list. When this field is provided, any
+  * conversations that do not match will be excluded. You should provide an array of strings from the following options:
+  * `im`, `mpim`, `private`, and `public`. The array cannot be empty.
+  */
+  include?: [Conversation, ...Conversation[]]; // TS gymnastics for "at least one item"
+  /**
+   * @description Indicates whether to exclude external {@link https://api.slack.com/enterprise/shared-channels shared channels}
+   * from conversation lists. This field will not exclude users from shared channels. Defaults to `false`.
+   */
+  exclude_external_shared_channels?: boolean;
+  /**
+   * @description Indicates whether to exclude bot users from conversation lists. Defaults to `false`.
+   */
+  exclude_bot_users?: boolean;
+}
+
+/**
+ * @description Defines a filter for the list of options in a conversation selector menu. The menu can be either a
+ * conversations select menu or a conversations multi-select menu.
+ * @see {@link https://api.slack.com/reference/block-kit/composition-objects#filter_conversations Conversation filter object reference}.
+ */
+export type ConversationFilter = (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'include'>>) | (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'exclude_bot_users'>>) | (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'exclude_external_shared_channels'>>);

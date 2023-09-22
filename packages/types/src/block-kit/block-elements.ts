@@ -110,7 +110,7 @@ export interface ConversationsSelect extends Action, Confirmable, Focusable, Pla
   initial_conversation?: string;
   response_url_enabled?: boolean;
   default_to_current_conversation?: boolean;
-  filter?: {
+  filter?: { // TODO: breaking change: replace with ConversationFilter object from composition-objects
     include?: ('im' | 'mpim' | 'private' | 'public')[];
     exclude_external_shared_channels?: boolean;
     exclude_bot_users?: boolean;
@@ -122,7 +122,7 @@ export interface MultiConversationsSelect extends Action, Confirmable, Focusable
   initial_conversations?: string[];
   max_selected_items?: number;
   default_to_current_conversation?: boolean;
-  filter?: {
+  filter?: { // TODO: breaking change: replace with ConversationFilter object from composition-objects
     include?: ('im' | 'mpim' | 'private' | 'public')[];
     exclude_external_shared_channels?: boolean;
     exclude_bot_users?: boolean;
