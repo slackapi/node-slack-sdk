@@ -8,12 +8,12 @@ export interface Action {
    * {@link https://api.slack.com/interactivity/handling#payloads identify the source of the action}. Should be unique
    * among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
    */
-  action_id?: string;
+  action_id?: string; // TODO: this field is required in many cases, validate if that is always the case
 }
 
 export interface Confirmable {
   /**
-   * @description A {@see Confirm} object that defines an optional confirmation dialog after the element is interacted
+   * @description A {@link Confirm} object that defines an optional confirmation dialog after the element is interacted
    * with.
    */
   confirm?: Confirm;
@@ -30,7 +30,7 @@ export interface Focusable {
 
 export interface Placeholdable {
   /**
-   * @description A {@see PlainTextElement} object that defines the placeholder text shown on the element. Maximum
+   * @description A {@link PlainTextElement} object that defines the placeholder text shown on the element. Maximum
    * length for the `text` field in this object is 150 characters.
    */
   placeholder?: PlainTextElement;
@@ -38,7 +38,7 @@ export interface Placeholdable {
 
 export interface Dispatchable {
   /**
-   * @description A {@see DispatchActionConfig} object that determines when during text input the element returns a
+   * @description A {@link DispatchActionConfig} object that determines when during text input the element returns a
    * {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions` payload}.
    */
   dispatch_action_config?: DispatchActionConfig;
