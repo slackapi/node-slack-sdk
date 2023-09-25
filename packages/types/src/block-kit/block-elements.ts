@@ -648,3 +648,64 @@ export interface URLInput extends Action, Dispatchable, Focusable, Placeholdable
    */
   initial_value?: string;
 }
+
+/**
+ * @description Allows users to run a {@link https://api.slack.com/automation/triggers/link#workflow_buttons link trigger} with customizable inputs.
+ * @see {@link https://api.slack.com/reference/block-kit/block-elements#workflow_button Workflow button element reference}.
+ */
+export interface WorkflowButton extends Confirmable {
+  /**
+   * @description The type of element. In this case `type` is always `workflow_button`.
+   */
+  type: 'workflow_button';
+  /**
+   * @description A {@link PlainTextElement} that defines the button's text. `text` may truncate with ~30 characters.
+   * Maximum length for the `text` in this field is 75 characters.
+   */
+  text: PlainTextElement;
+  /**
+   * @description A workflow object that contains details about the workflow that will run when the button is clicked.
+   */
+  workflow: {
+    /**
+     * @description Properties of the {@link https://api.slack.com/automation/triggers/link#workflow_buttons link trigger}
+     * that will be invoked via this button.
+     */
+    trigger: {
+      /**
+       * @description The trigger URL of the {@link https://api.slack.com/automation/triggers/link#workflow_buttons link trigger}
+       */
+      url: string;
+      /**
+       * @description List of customizable input parameters and their values. Should match input parameters specified on
+       * the provided trigger.
+       */
+      customizable_input_parameters?: {
+        /**
+         * @description Name of the customizable input, which should be the name of a workflow input parameter for the
+         * matching workflow of the link trigger.
+         */
+        name: string;
+        /**
+         * @description The value of the customizable input parameter. The type of the value is expected to match the
+         * specified type for the matching workflow input parameter.
+         */
+        value: string;
+      }[];
+    }
+  };
+  /**
+   * @description Decorates buttons with alternative visual color schemes. Use this option with restraint.
+   * `primary` gives buttons a green outline and text, ideal for affirmation or confirmation actions. `primary` should
+   * only be used for one button within a set.
+   * `danger` gives buttons a red outline and text, and should be used when the action is destructive. Use `danger` even
+   * more sparingly than primary.
+   * If you don't include this field, the default button style will be used.
+   */
+  style?: 'danger' | 'primary';
+  /**
+   * @description A label for longer descriptive text about a button element. This label will be read out by screen
+   * readers instead of the button `text` object. Maximum length for this field is 75 characters.
+   */
+  accessibility_label?: string;
+}
