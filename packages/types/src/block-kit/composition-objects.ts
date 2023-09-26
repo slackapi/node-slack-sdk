@@ -1,8 +1,9 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/composition-objects
 
-// TODO: maybe a breaking change, but, what about aliasing Confirm to ConfirmationDialog or some such?
-// and deprecating this interface? this would line up the terms between these types and api.slack.com
+// TODO: breaking change: remove `Confirm` and move properties to `ConfirmationDialog` below on next major release.
 /**
+ * @deprecated {@link Confirm} has been aliased to {@link ConfirmationDialog} in order to make the construct clearer
+ * and line up terminology with api.slack.com.
  * @description Defines a dialog that adds a confirmation step to interactive elements.
  * @see {@link https://api.slack.com/reference/block-kit/composition-objects#confirm Confirmation dialog object reference}.
  */
@@ -34,6 +35,12 @@ export interface Confirm {
    */
   style?: 'primary' | 'danger';
 }
+
+/**
+ * @description Defines a dialog that adds a confirmation step to interactive elements.
+ * @see {@link https://api.slack.com/reference/block-kit/composition-objects#confirm Confirmation dialog object reference}.
+ */
+export type ConfirmationDialog = Confirm;
 
 /**
  * @description Defines when a {@link PlainTextElement} will return a {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions` interaction payload}.
