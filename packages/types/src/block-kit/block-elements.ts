@@ -3,7 +3,6 @@
 import { Action, Confirmable, Dispatchable, Focusable, Placeholdable } from './extensions';
 import { Option, PlainTextElement, PlainTextOption } from './composition-objects';
 
-// TODO: breaking change: `Action` the button extends from has an optional action_id, but is required for buttons.
 /**
  * @description Allows users a direct path to performing basic actions.
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#button Button element reference}.
@@ -46,7 +45,6 @@ export interface Button extends Action, Confirmable {
   accessibility_label?: string;
 }
 
-// TODO: breaking change: `Action` the checkbox extends from has an optional action_id, but is required for checkboxes.
 /**
  * @description Allows users to choose multiple items from a list of options.
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#checkboxes Checkboxes element reference}.
@@ -68,8 +66,6 @@ export interface Checkboxes extends Action, Confirmable, Focusable {
   options: Option[];
 }
 
-// TODO: breaking change: `Action` the datepicker extends from has an optional action_id, but is required for
-// datepicker.
 /**
  * @description Allows users to select a date from a calendar style UI.
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#datepicker Date picker element reference}.
@@ -87,8 +83,6 @@ export interface Datepicker extends Action, Confirmable, Focusable, Placeholdabl
   initial_date?: string;
 }
 
-// TODO: breaking change: `Action` the datetimepicker extends from has an optional action_id, but is required for
-// datetimepicker.
 /**
  * @description Allows users to select both a date and a time of day, formatted as a Unix timestamp. On desktop
  * clients, this time picker will take the form of a dropdown list and the date picker will take the form of a dropdown
@@ -110,7 +104,6 @@ export interface DateTimepicker extends Action, Confirmable, Focusable {
   initial_date_time?: number;
 }
 
-// TODO: breaking change: `Action` the email extends from has an optional action_id, but is required for email inputs.
 /**
  * @description Allows user to enter an email into a single-line field.
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#email Email input element reference}.
@@ -176,8 +169,6 @@ export type Select = UsersSelect | StaticSelect | ConversationsSelect | Channels
 export type MultiSelect =
   MultiUsersSelect | MultiStaticSelect | MultiConversationsSelect | MultiChannelsSelect | MultiExternalSelect;
 
-// TODO: breaking change: `Action` the user select extends from has an optional action_id, but is required for
-// user select.
 /**
  * @description This select menu will populate its options with a list of Slack users visible to the current user in the
  * active workspace.
@@ -195,8 +186,6 @@ export interface UsersSelect extends Action, Confirmable, Focusable, Placeholdab
   initial_user?: string;
 }
 
-// TODO: breaking change: `Action` the user select extends from has an optional action_id, but is required for
-// user select.
 /**
  * @description This multi-select menu will populate its options with a list of Slack users visible to the current user
  * in the active workspace.
@@ -218,8 +207,6 @@ export interface MultiUsersSelect extends Action, Confirmable, Focusable, Placeh
   max_selected_items?: number;
 }
 
-// TODO: breaking change: `Action` the statuc select extends from has an optional action_id, but is required for
-// static select.
 /**
  * @description This is the simplest form of select menu, with a static list of options passed in when defining the
  * element.
@@ -257,8 +244,6 @@ export interface StaticSelect extends Action, Confirmable, Focusable, Placeholda
   }[];
 }
 
-// TODO: breaking change: `Action` the statuc select extends from has an optional action_id, but is required for
-// static select.
 /**
  * @description This is the simplest form of select menu, with a static list of options passed in when defining the
  * element.
@@ -300,8 +285,6 @@ export interface MultiStaticSelect extends Action, Confirmable, Focusable, Place
   max_selected_items?: number;
 }
 
-// TODO: breaking change: `Action` the convo select extends from has an optional action_id, but is required for
-// convo select.
 /**
  * @description This select menu will populate its options with a list of public and private channels, DMs, and MPIMs
  * visible to the current user in the active workspace.
@@ -342,8 +325,6 @@ export interface ConversationsSelect extends Action, Confirmable, Focusable, Pla
   };
 }
 
-// TODO: breaking change: `Action` the convo select extends from has an optional action_id, but is required for
-// convo select.
 // TODO: breaking change: maybe can use a discriminative union to differentiate between a multi-select convo element
 // that uses `default_to_current_conversation` vs. `initial_conversation`?
 /**
@@ -383,8 +364,6 @@ export interface MultiConversationsSelect extends Action, Confirmable, Focusable
   };
 }
 
-// TODO: breaking change: `Action` the channel select extends from has an optional action_id, but is required for
-// channel select.
 /**
  * @description This select menu will populate its options with a list of public channels visible to the current user
  * in the active workspace.
@@ -411,8 +390,6 @@ export interface ChannelsSelect extends Action, Confirmable, Focusable, Placehol
   response_url_enabled?: boolean;
 }
 
-// TODO: breaking change: `Action` the channel select extends from has an optional action_id, but is required for
-// channel select.
 /**
  * @description This multi-select menu will populate its options with a list of public channels visible to the current
  * user in the active workspace.
@@ -436,8 +413,6 @@ export interface MultiChannelsSelect extends Action, Confirmable, Focusable, Pla
   max_selected_items?: number;
 }
 
-// TODO: breaking change: `Action` the external select extends from has an optional action_id, but is required for
-// external select.
 /**
  * @description This select menu will load its options from an external data source, allowing for a dynamic list of
  * options.
@@ -462,8 +437,6 @@ export interface ExternalSelect extends Action, Confirmable, Focusable, Placehol
   min_query_length?: number;
 }
 
-// TODO: breaking change: `Action` the external select extends from has an optional action_id, but is required for
-// external select.
 /**
  * @description This menu will load its options from an external data source, allowing for a dynamic list of options.
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#external_multi_select Multi-select menu of external data source reference}.
@@ -496,7 +469,6 @@ export interface MultiExternalSelect extends Action, Confirmable, Focusable, Pla
  * End of select/multi-select menus
  */
 
-// TODO: the action_id inherited from Action type here IS apparently optional, unlike everywhere else!
 /**
  * @description Allows user to enter a number into a single-line field. The number input element accepts both whole and
  * decimal numbers. For example, 0.25, 5.5, and -10 are all valid input values. Decimal numbers are only allowed when
@@ -548,8 +520,6 @@ export interface Overflow extends Action, Confirmable {
   options: PlainTextOption[];
 }
 
-// TODO: breaking change: `Action` the plaintext input extends from has an optional action_id, but is required for
-// plaintext input.
 /**
  * @description Allows users to enter freeform text data into a single-line or multi-line field.
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#input Plain-text input element reference}.
@@ -581,8 +551,6 @@ export interface PlainTextInput extends Action, Dispatchable, Focusable, Placeho
   max_length?: number;
 }
 
-// TODO: breaking change: `Action` the radio input extends from has an optional action_id, but is required for
-// radio input.
 /**
  * @description Allows users to choose one item from a list of possible options.
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#radio Radio button group element reference}.
@@ -604,8 +572,6 @@ export interface RadioButtons extends Action, Confirmable, Focusable {
   options: Option[];
 }
 
-// TODO: breaking change: `Action` the time input extends from has an optional action_id, but is required for
-// time input.
 /**
  * @description Allows users to choose a time from a rich dropdown UI. On desktop clients, this time picker will take
  * the form of a dropdown list with free-text entry for precise choices. On mobile clients, the time picker will use
@@ -631,8 +597,6 @@ export interface Timepicker extends Action, Confirmable, Focusable, Placeholdabl
   timezone?: string;
 }
 
-// TODO: breaking change: `Action` the URL input extends from has an optional action_id, but is required for
-// URL input.
 /**
  * @description Allows user to enter a URL into a single-line field.
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#url URL input element reference}.

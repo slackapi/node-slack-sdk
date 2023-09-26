@@ -1,6 +1,8 @@
 // This file contains reusable extensions/mixins that other Block Kit elements will extend from.
 import { Confirm, PlainTextElement, DispatchActionConfig } from './composition-objects';
 
+// TODO: what about aliasing this to `Actionable` to line up the mixin terms in this file?
+// And deprecate the old `Action` interface?
 export interface Action {
   type: string;
   /**
@@ -8,7 +10,7 @@ export interface Action {
    * {@link https://api.slack.com/interactivity/handling#payloads identify the source of the action}. Should be unique
    * among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
    */
-  action_id?: string; // TODO: this field is required in many cases, validate if that is always the case
+  action_id?: string;
 }
 
 export interface Confirmable {
