@@ -2,7 +2,7 @@
 
 // TODO: breaking change: remove `Confirm` and move properties to `ConfirmationDialog` below on next major release.
 /**
- * @deprecated {@link Confirm} has been aliased to {@link ConfirmationDialog} in order to make the construct clearer
+ * @deprecated {@link Confirm} aliased to {@link ConfirmationDialog} in order to make the construct clearer
  * and line up terminology with api.slack.com.
  * @description Defines a dialog that adds a confirmation step to interactive elements.
  * @see {@link https://api.slack.com/reference/block-kit/composition-objects#confirm Confirmation dialog object reference}.
@@ -40,7 +40,7 @@ export interface Confirm {
  * @description Defines a dialog that adds a confirmation step to interactive elements.
  * @see {@link https://api.slack.com/reference/block-kit/composition-objects#confirm Confirmation dialog object reference}.
  */
-export type ConfirmationDialog = Confirm;
+export interface ConfirmationDialog extends Confirm {} // eslint-disable-line @typescript-eslint/no-empty-interface
 
 /**
  * @description Defines when a {@link PlainTextElement} will return a {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions` interaction payload}.

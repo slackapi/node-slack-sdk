@@ -1,8 +1,10 @@
 // This file contains reusable extensions/mixins that other Block Kit elements will extend from.
 import { Confirm, PlainTextElement, DispatchActionConfig } from './composition-objects';
 
-// TODO: what about aliasing this to `Actionable` to line up the mixin terms in this file?
-// And deprecate the old `Action` interface?
+// TODO: breaking change: remove `Action` and move properties to `Actionable` on next major release.
+/**
+ * @deprecated {@link Action} aliased to {@link Actionable} in order to name the mixins in this file consistently.
+ */
 export interface Action {
   type: string;
   /**
@@ -12,6 +14,8 @@ export interface Action {
    */
   action_id?: string;
 }
+
+export interface Actionable extends Action {} // eslint-disable-line @typescript-eslint/no-empty-interface
 
 export interface Confirmable {
   /**
