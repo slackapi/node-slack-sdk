@@ -1,5 +1,5 @@
 // This file contains reusable extensions/mixins that other Block Kit elements will extend from.
-import { Confirm, PlainTextElement, DispatchActionConfig } from './composition-objects';
+import { ConfirmationDialog, PlainTextElement, DispatchActionConfig } from './composition-objects';
 
 // TODO: breaking change: remove `Action` and move properties to `Actionable` on next major release.
 /**
@@ -22,7 +22,7 @@ export interface Confirmable {
    * @description A {@link Confirm} object that defines an optional confirmation dialog after the element is interacted
    * with.
    */
-  confirm?: Confirm;
+  confirm?: ConfirmationDialog;
 }
 
 export interface Focusable {
