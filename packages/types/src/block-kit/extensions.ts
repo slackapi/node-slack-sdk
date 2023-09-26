@@ -1,6 +1,10 @@
 // This file contains reusable extensions/mixins that other Block Kit elements will extend from.
 import { Confirm, PlainTextElement, DispatchActionConfig } from './composition-objects';
 
+// TODO: breaking change: remove `Action` and move properties to `Actionable` on next major release.
+/**
+ * @deprecated {@link Action} aliased to {@link Actionable} in order to name the mixins in this file consistently.
+ */
 export interface Action {
   type: string;
   /**
@@ -11,9 +15,11 @@ export interface Action {
   action_id?: string;
 }
 
+export interface Actionable extends Action {} // eslint-disable-line @typescript-eslint/no-empty-interface
+
 export interface Confirmable {
   /**
-   * @description A {@see Confirm} object that defines an optional confirmation dialog after the element is interacted
+   * @description A {@link Confirm} object that defines an optional confirmation dialog after the element is interacted
    * with.
    */
   confirm?: Confirm;
@@ -30,7 +36,7 @@ export interface Focusable {
 
 export interface Placeholdable {
   /**
-   * @description A {@see PlainTextElement} object that defines the placeholder text shown on the element. Maximum
+   * @description A {@link PlainTextElement} object that defines the placeholder text shown on the element. Maximum
    * length for the `text` field in this object is 150 characters.
    */
   placeholder?: PlainTextElement;
@@ -38,7 +44,7 @@ export interface Placeholdable {
 
 export interface Dispatchable {
   /**
-   * @description A {@see DispatchActionConfig} object that determines when during text input the element returns a
+   * @description A {@link DispatchActionConfig} object that determines when during text input the element returns a
    * {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions` payload}.
    */
   dispatch_action_config?: DispatchActionConfig;
