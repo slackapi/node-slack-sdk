@@ -261,6 +261,9 @@ export interface VideoBlock extends Block {
 }
 
 export interface RichTextBlock extends Block {
+  /**
+   * @description The type of block. For a rich text block, `type` is always `rich_text`.
+   */
   type: 'rich_text',
   elements: {
     type: 'rich_text_section' | 'rich_text_list' | 'rich_text_quote' | 'rich_text_performatted';

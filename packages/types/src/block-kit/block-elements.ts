@@ -674,6 +674,17 @@ export interface WorkflowButton extends Confirmable {
   accessibility_label?: string;
 }
 
+/**
+ * @description A section block within a rich text field.
+ */
+export interface RichTextSection {
+  /**
+   * @description The type of element. In this case `type` is always `rich_text_section`.
+   */
+  type: 'rich_text_section';
+  elements: {}[];
+}
+
 export interface RichTextInput extends Action, Dispatchable, Focusable, Placeholdable {
   type: 'rich_text_input';
   initial_value?: RichTextBlock;
