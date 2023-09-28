@@ -1,6 +1,6 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/block-elements
 
-import { Action, Confirmable, Dispatchable, Focusable, Placeholdable } from './extensions';
+import { Actionable, Confirmable, Dispatchable, Focusable, Placeholdable } from './extensions';
 import { Option, PlainTextElement, PlainTextOption } from './composition-objects';
 
 /**
@@ -8,7 +8,7 @@ import { Option, PlainTextElement, PlainTextOption } from './composition-objects
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#button Button element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface Button extends Action, Confirmable {
+export interface Button extends Actionable, Confirmable {
   /**
    * @description The type of element. In this case `type` is always `button`.
    */
@@ -50,7 +50,7 @@ export interface Button extends Action, Confirmable {
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#checkboxes Checkboxes element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface Checkboxes extends Action, Confirmable, Focusable {
+export interface Checkboxes extends Actionable, Confirmable, Focusable {
   /**
    * @description The type of element. In this case `type` is always `checkboxes`.
    */
@@ -71,7 +71,7 @@ export interface Checkboxes extends Action, Confirmable, Focusable {
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#datepicker Date picker element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface Datepicker extends Action, Confirmable, Focusable, Placeholdable {
+export interface Datepicker extends Actionable, Confirmable, Focusable, Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `datepicker`.
    */
@@ -91,7 +91,7 @@ export interface Datepicker extends Action, Confirmable, Focusable, Placeholdabl
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#datetimepicker Datetime picker element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface DateTimepicker extends Action, Confirmable, Focusable {
+export interface DateTimepicker extends Actionable, Confirmable, Focusable {
   /**
    * @description The type of element. In this case `type` is always `datetimepicker`.
    */
@@ -109,7 +109,7 @@ export interface DateTimepicker extends Action, Confirmable, Focusable {
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#email Email input element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface EmailInput extends Action, Dispatchable, Focusable, Placeholdable {
+export interface EmailInput extends Actionable, Dispatchable, Focusable, Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `email_text_input`.
    */
@@ -175,7 +175,7 @@ export type MultiSelect =
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#users_select Select menu of users reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface UsersSelect extends Action, Confirmable, Focusable, Placeholdable {
+export interface UsersSelect extends Actionable, Confirmable, Focusable, Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `users_select`.
    */
@@ -192,7 +192,7 @@ export interface UsersSelect extends Action, Confirmable, Focusable, Placeholdab
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#users_multi_select Multi-select menu of users reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface MultiUsersSelect extends Action, Confirmable, Focusable, Placeholdable {
+export interface MultiUsersSelect extends Actionable, Confirmable, Focusable, Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `multi_users_select`.
    */
@@ -213,7 +213,7 @@ export interface MultiUsersSelect extends Action, Confirmable, Focusable, Placeh
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#static_select Select menu of static options reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface StaticSelect extends Action, Confirmable, Focusable, Placeholdable {
+export interface StaticSelect extends Actionable, Confirmable, Focusable, Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `static_select`.
    */
@@ -250,7 +250,7 @@ export interface StaticSelect extends Action, Confirmable, Focusable, Placeholda
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#static_multi_select Multi-select menu of static options reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface MultiStaticSelect extends Action, Confirmable, Focusable, Placeholdable {
+export interface MultiStaticSelect extends Actionable, Confirmable, Focusable, Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `multi_static_select`.
    */
@@ -291,7 +291,7 @@ export interface MultiStaticSelect extends Action, Confirmable, Focusable, Place
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#conversations_select Select menu of conversations reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface ConversationsSelect extends Action, Confirmable, Focusable, Placeholdable {
+export interface ConversationsSelect extends Actionable, Confirmable, Focusable, Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `conversations_select`.
    */
@@ -333,7 +333,7 @@ export interface ConversationsSelect extends Action, Confirmable, Focusable, Pla
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#conversation_multi_select Multi-select menu of conversations reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface MultiConversationsSelect extends Action, Confirmable, Focusable, Placeholdable {
+export interface MultiConversationsSelect extends Actionable, Confirmable, Focusable, Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `conversations_select`.
    */
@@ -370,7 +370,7 @@ export interface MultiConversationsSelect extends Action, Confirmable, Focusable
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#channels_select Select menu of public channels reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface ChannelsSelect extends Action, Confirmable, Focusable, Placeholdable {
+export interface ChannelsSelect extends Actionable, Confirmable, Focusable, Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `channels_select`.
    */
@@ -396,7 +396,7 @@ export interface ChannelsSelect extends Action, Confirmable, Focusable, Placehol
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#channel_multi_select Multi-select menu of public channels reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface MultiChannelsSelect extends Action, Confirmable, Focusable, Placeholdable {
+export interface MultiChannelsSelect extends Actionable, Confirmable, Focusable, Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `multi_channels_select`.
    */
@@ -419,7 +419,7 @@ export interface MultiChannelsSelect extends Action, Confirmable, Focusable, Pla
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#external_select Select menu of external data source reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface ExternalSelect extends Action, Confirmable, Focusable, Placeholdable {
+export interface ExternalSelect extends Actionable, Confirmable, Focusable, Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `external_select`.
    */
@@ -442,7 +442,7 @@ export interface ExternalSelect extends Action, Confirmable, Focusable, Placehol
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#external_multi_select Multi-select menu of external data source reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface MultiExternalSelect extends Action, Confirmable, Focusable, Placeholdable {
+export interface MultiExternalSelect extends Actionable, Confirmable, Focusable, Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `multi_external_select`.
    */
@@ -476,7 +476,7 @@ export interface MultiExternalSelect extends Action, Confirmable, Focusable, Pla
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#number Number input element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface NumberInput extends Action, Dispatchable, Focusable, Placeholdable {
+export interface NumberInput extends Actionable, Dispatchable, Focusable, Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `number_input`.
    */
@@ -508,7 +508,7 @@ export interface NumberInput extends Action, Dispatchable, Focusable, Placeholda
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#overflow Overflow menu element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface Overflow extends Action, Confirmable {
+export interface Overflow extends Actionable, Confirmable {
   /**
    * @description The type of element. In this case `type` is always `number_input`.
    */
@@ -525,7 +525,7 @@ export interface Overflow extends Action, Confirmable {
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#input Plain-text input element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface PlainTextInput extends Action, Dispatchable, Focusable, Placeholdable {
+export interface PlainTextInput extends Actionable, Dispatchable, Focusable, Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `plain_text_input`.
    */
@@ -556,7 +556,7 @@ export interface PlainTextInput extends Action, Dispatchable, Focusable, Placeho
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#radio Radio button group element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface RadioButtons extends Action, Confirmable, Focusable {
+export interface RadioButtons extends Actionable, Confirmable, Focusable {
   /**
    * @description The type of element. In this case `type` is always `radio_buttons`.
    */
@@ -579,7 +579,7 @@ export interface RadioButtons extends Action, Confirmable, Focusable {
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#timepicker Time picker element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface Timepicker extends Action, Confirmable, Focusable, Placeholdable {
+export interface Timepicker extends Actionable, Confirmable, Focusable, Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `timepicker`.
    */
@@ -602,7 +602,7 @@ export interface Timepicker extends Action, Confirmable, Focusable, Placeholdabl
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#url URL input element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
-export interface URLInput extends Action, Dispatchable, Focusable, Placeholdable {
+export interface URLInput extends Actionable, Dispatchable, Focusable, Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `url_text_input`.
    */

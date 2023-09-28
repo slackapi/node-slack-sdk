@@ -2,7 +2,7 @@
 
 import { PlainTextElement, MrkdwnElement } from './composition-objects';
 import { Button, Checkboxes, Datepicker, DateTimepicker, EmailInput, ImageElement, MultiSelect, NumberInput, Overflow, PlainTextInput, RadioButtons, Select, Timepicker, URLInput, WorkflowButton } from './block-elements';
-import { Action } from './extensions';
+import { Actionable } from './extensions';
 
 export interface Block {
   type: string;
@@ -203,7 +203,7 @@ export interface SectionBlock extends Block {
   | Timepicker
   | Select
   | MultiSelect
-  | Action
+  | Actionable
   | ImageElement
   | RadioButtons
   | Checkboxes;
