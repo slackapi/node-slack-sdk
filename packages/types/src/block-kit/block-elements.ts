@@ -912,6 +912,20 @@ export interface RichTextList {
   border?: 0 | 1;
 }
 
+/**
+ * @description A quote block within a rich text field.
+ */
+export interface RichTextQuote {
+  /**
+   * @description The type of element. In this case `type` is always `rich_text_quote`.
+   */
+  type: 'rich_text_quote';
+  /**
+   * @description An array of {@link RichTextElement} comprising the quote block.
+   */
+  elements: RichTextElement[];
+}
+
 /*
 export interface RichTextInput extends Action, Dispatchable, Focusable, Placeholdable {
   type: 'rich_text_input';
