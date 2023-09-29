@@ -926,6 +926,25 @@ export interface RichTextQuote {
   elements: RichTextElement[];
 }
 
+/**
+ * @description A block of preformatted text within a rich text field.
+ */
+export interface RichTextPreformatted {
+  /**
+   * @description The type of element. In this case `type` is always `rich_text_preformatted`.
+   */
+  type: 'rich_text_preformatted';
+  /**
+   * @description An array of either {@link RichTextLink} or {@link RichTextText} comprising the preformatted text.
+   */
+  elements: (RichTextText | RichTextLink)[];
+  /**
+   * @description Whether to render a quote-block-like border on the inline side of the preformatted text.
+   * `0` renders no border, while `1` renders a border. Defaults to `0`.
+   */
+  border?: 0 | 1;
+}
+
 /*
 export interface RichTextInput extends Action, Dispatchable, Focusable, Placeholdable {
   type: 'rich_text_input';
