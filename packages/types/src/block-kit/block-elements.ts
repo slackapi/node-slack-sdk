@@ -1,6 +1,6 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/block-elements
 
-import { Actionable, Confirmable, Dispatchable, Focusable, Placeholdable } from './extensions';
+import { Actionable, Confirmable, Dispatchable, Focusable, Placeholdable, RichTextStyleable } from './extensions';
 import { Option, PlainTextElement, PlainTextOption } from './composition-objects';
 
 /**
@@ -675,6 +675,200 @@ export interface WorkflowButton extends Confirmable {
 }
 
 /**
+ * @description A broadcast mention element for use in a rich text message.
+ */
+export interface RichTextBroadcastMention extends RichTextStyleable {
+  /**
+   * @description The type of element. In this case `type` is always `broadcast`.
+   */
+  type: 'broadcast';
+  /**
+   * @description The range of the broadcast; can be one of `here`, `channel` and `everyone`.
+   */
+  range: 'here' | 'channel' | 'everyone';
+}
+
+/**
+ * @description A hex color element for use in a rich text message.
+ */
+export interface RichTextColor extends RichTextStyleable {
+  /**
+   * @description The type of element. In this case `type` is always `color`.
+   */
+  type: 'color';
+  /**
+   * @description The hex value for the color.
+   */
+  value: string;
+}
+
+/**
+ * @description A channel mention element for use in a rich text message.
+ */
+export interface RichTextChannelMention extends RichTextStyleable {
+  /**
+   * @description The type of element. In this case `type` is always `channel`.
+   */
+  type: 'channel';
+  /**
+   * @description The encoded channel ID, e.g. C1234ABCD.
+   */
+  channel_id: string;
+}
+
+/**
+ * @description A date element for use in a rich text message.
+ */
+export interface RichTextDate extends RichTextStyleable {
+  /**
+   * @description The type of element. In this case `type` is always `date`.
+   */
+  type: 'date';
+  /**
+   * @description A UNIX timestamp for the date to be displayed in seconds.
+   */
+  timestamp: number;
+  /**
+   * @description A template string containing curly-brace-enclosed tokens to substitute your provided `timestamp`
+   * in a particularly-formatted way. For example: `Posted at {date_long}`. The available date formatting tokens are:
+   * - `{day_divider_pretty}`: Shows `today`, `yesterday` or `tomorrow` if applicable. Otherwise, if the date is in
+   *   current year, uses the `{date_long}` format without the year. Otherwise, falls back to using the `{date_long}`
+   *   format.
+   * - `{date_num}`: Shows date as YYYY-MM-DD.
+   * - `{date_slash}`: Shows date as DD/MM/YYYY (subject to locale preferences).
+   * - `{date_long}`: Shows date as a long-form sentence including day-of-week, e.g. `Monday, December 23rd, 2013`.
+   * - `{date_long_full}`: Shows date as a long-form sentence without day-of-week, e.g. `August 9, 2020`.
+   * - `{date_long_pretty}`: Shows `yesterday`, `today` or `tomorrow`, otherwise uses the `{date_long}` format.
+   * - `{date}`: Same as `{date_long_full}` but without the year.
+   * - `{date_pretty}`: Shows `today`, `yesterday` or `tomorrow` if applicable, otherwise uses the `{date}` format.
+   * - `{date_short}`: Shows date using short month names without day-of-week, e.g. `Aug 9, 2020`.
+   * - `{date_short_pretty}`: Shows `today`, `yesterday` or `tomorrow` if applicable, otherwise uses the `{date_short}`
+   *   format.
+   * - `{time}`: Depending on user preferences, shows just the time-of-day portion of the timestamp using either 12 or
+   *   24 hour clock formats, e.g. `2:34 PM` or `14:34`.
+   * - `{time_secs}`: Depending on user preferences, shows just the time-of-day portion of the timestamp using either 12
+   *   or 24 hour clock formats, including seconds, e.g. `2:34:56 PM` or `14:34:56`.
+   * - `{ago}`: A human-readable period of time, e.g. `3 minutes ago`, `4 hours ago`, `2 days ago`.
+   * TODO: test/document `{member_local_time}`, `{status_expiration}` and `{calendar_header}`
+   */
+  format: string;
+  /**
+   * @description URL to link the entire `format` string to.
+   */
+  url?: string;
+  /**
+   * @description Text to display in place of the date should parsing, formatting or displaying fails.
+   */
+  fallback?: string;
+}
+
+/**
+ * @description An emoji element for use in a rich text message.
+ */
+export interface RichTextEmoji extends RichTextStyleable {
+  /**
+   * @description The type of element. In this case `type` is always `emoji`.
+   */
+  type: 'emoji';
+  /**
+   * @description Name of emoji, without colons or skin tones, e.g. `wave`
+   */
+  name: string;
+  /**
+   * @description Lowercase hexadecimal Unicode representation of a standard emoji (not for use with custom emoji).
+   */
+  unicode?: string;
+  /**
+   * @description URL of emoji asset. Only used when sharing custom emoji across workspaces.
+   */
+  url?: string;
+}
+
+/**
+ * @description A link element for use in a rich text message.
+ */
+export interface RichTextLink extends RichTextStyleable {
+  /**
+   * @description The type of element. In this case `type` is always `link`.
+   */
+  type: 'link';
+  /**
+   * @description The text to link.
+   */
+  text?: string;
+  /**
+   * @description TODO: ?
+   */
+  unsafe?: boolean;
+  /**
+   * @description URL to link to.
+   */
+  url: string;
+}
+
+/**
+ * @description A workspace or team mention element for use in a rich text message.
+ */
+export interface RichTextTeamMention extends RichTextStyleable {
+  /**
+   * @description The type of element. In this case `type` is always `team`.
+   */
+  type: 'team';
+  /**
+   * @description The encoded team ID, e.g. T1234ABCD.
+   */
+  team_id: string;
+}
+
+/**
+ * @description A generic text element for use in a rich text message.
+ */
+export interface RichTextText extends RichTextStyleable {
+  /**
+   * @description The type of element. In this case `type` is always `text`.
+   */
+  type: 'text';
+  /**
+   * @description The text to render.
+   */
+  text: string;
+}
+
+/**
+ * @description A user mention element for use in a rich text message.
+ */
+export interface RichTextUserMention extends RichTextStyleable {
+  /**
+   * @description The type of element. In this case `type` is always `user`.
+   */
+  type: 'user';
+  /**
+   * @description The encoded user ID, e.g. U1234ABCD.
+   */
+  user_id: string;
+}
+
+/**
+ * @description A usergroup mention element for use in a rich text message.
+ */
+export interface RichTextUsergroupMention extends RichTextStyleable {
+  /**
+   * @description The type of element. In this case `type` is always `usergroup`.
+   */
+  type: 'usergroup';
+  /**
+   * @description The encoded usergroup ID, e.g. S1234ABCD.
+   */
+  usergroup_id: string;
+}
+
+/**
+ * @description Union of rich text sub-elements for use within rich text blocks.
+ */
+export type RichTextElement = RichTextBroadcastMention | RichTextColor | RichTextChannelMention | RichTextDate |
+RichTextEmoji | RichTextLink | RichTextTeamMention | RichTextText | RichTextUserMention | RichTextUsergroupMention;
+
+/**
  * @description A section block within a rich text field.
  */
 export interface RichTextSection {
@@ -682,12 +876,47 @@ export interface RichTextSection {
    * @description The type of element. In this case `type` is always `rich_text_section`.
    */
   type: 'rich_text_section';
-  elements: {}[];
+  elements: RichTextElement[];
 }
 
+/**
+ * @description A list block within a rich text field.
+ */
+export interface RichTextList {
+  /**
+   * @description The type of element. In this case `type` is always `rich_text_list`.
+   */
+  type: 'rich_text_list';
+  /**
+   * @description An array of {@link RichTextSection} elements comprising each list item.
+   */
+  elements: RichTextSection[];
+  /**
+   * @description The type of list. Can be either `bullet` (the list points are all rendered the same way) or `ordered`
+   * (the list points increase numerically from 1).
+   */
+  style: 'bullet' | 'ordered';
+  /**
+   * @description The style of the list points. Can be a number from `0` (default) to `8`. Yields a different character
+   * or characters rendered as the list points. Also affected by the `style` property.
+   */
+  indent?: number;
+  /**
+   * @description TODO: The offset of the list. Must be a number that is at least `0`.
+   */
+  offset?: number;
+  /**
+   * @description Whether to render a quote-block-like border on the inline side of the list. `0` renders no border
+   * while `1` renders a border.
+   */
+  border?: 0 | 1;
+}
+
+/*
 export interface RichTextInput extends Action, Dispatchable, Focusable, Placeholdable {
   type: 'rich_text_input';
   initial_value?: RichTextBlock;
   dispatch_action_config?: DispatchActionConfig;
   focus_on_load?: boolean;
 }
+*/

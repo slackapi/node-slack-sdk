@@ -1,7 +1,7 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/blocks
 
 import { PlainTextElement, MrkdwnElement } from './composition-objects';
-import { Button, Checkboxes, Datepicker, DateTimepicker, EmailInput, ImageElement, MultiSelect, NumberInput, Overflow, PlainTextInput, RadioButtons, Select, Timepicker, URLInput, WorkflowButton, RichTextInput } from './block-elements';
+import { Button, Checkboxes, Datepicker, DateTimepicker, EmailInput, ImageElement, MultiSelect, NumberInput, Overflow, PlainTextInput, RadioButtons, Select, Timepicker, URLInput, WorkflowButton, RichTextSection, RichTextList, RichTextInput } from './block-elements';
 import { Actionable } from './extensions';
 
 export interface Block {
@@ -33,7 +33,7 @@ export interface ActionsBlock extends Block {
    * There is a maximum of 25 elements in each action block.
    */
   elements: (Button | Checkboxes | Datepicker | DateTimepicker | MultiSelect | Overflow | RadioButtons | Select |
-  Timepicker | WorkflowButton | RichTextInput)[];
+  Timepicker | WorkflowButton)[]; // TODO: add RichTextInput
 }
 
 /**
@@ -265,8 +265,5 @@ export interface RichTextBlock extends Block {
    * @description The type of block. For a rich text block, `type` is always `rich_text`.
    */
   type: 'rich_text',
-  elements: {
-    type: 'rich_text_section' | 'rich_text_list' | 'rich_text_quote' | 'rich_text_performatted';
-    elements: object[];
-  }[];
+  elements: (RichTextSection | RichTextList)[]; // TODO: 'rich_text_quote' | 'rich_text_performatted';
 }
