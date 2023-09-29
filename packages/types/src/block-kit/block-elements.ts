@@ -2,6 +2,7 @@
 
 import { Actionable, Confirmable, Dispatchable, Focusable, Placeholdable, RichTextStyleable } from './extensions';
 import { Option, PlainTextElement, PlainTextOption } from './composition-objects';
+import { RichTextBlock } from './blocks';
 
 /**
  * @description Allows users a direct path to performing basic actions.
@@ -902,10 +903,6 @@ export interface RichTextList {
    */
   indent?: number;
   /**
-   * @description TODO: The offset of the list. Must be a number that is at least `0`.
-   */
-  offset?: number;
-  /**
    * @description Whether to render a quote-block-like border on the inline side of the list. `0` renders no border
    * while `1` renders a border.
    */
@@ -945,11 +942,19 @@ export interface RichTextPreformatted {
   border?: 0 | 1;
 }
 
-/*
-export interface RichTextInput extends Action, Dispatchable, Focusable, Placeholdable {
+/**
+ * @description A rich text input creates a composer/WYSIWYG editor for entering formatted text, offering nearly the
+ * same experience you have writing messages in Slack.
+ * @see {@link https://api.slack.com/reference/block-kit/block-elements#rich_text_input Rich-text input element reference}.
+ * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
+ */
+export interface RichTextInput extends Actionable, Dispatchable, Focusable, Placeholdable {
+  /**
+   * @description The type of element. In this case `type` is always `rich_text_input`.
+   */
   type: 'rich_text_input';
+  /**
+   * @description Initial contents of the input when it is loaded.
+   */
   initial_value?: RichTextBlock;
-  dispatch_action_config?: DispatchActionConfig;
-  focus_on_load?: boolean;
 }
-*/

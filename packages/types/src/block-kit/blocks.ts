@@ -1,8 +1,8 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/blocks
 
 import { PlainTextElement, MrkdwnElement } from './composition-objects';
-import { Button, Checkboxes, Datepicker, DateTimepicker, EmailInput, ImageElement, MultiSelect, NumberInput, Overflow, PlainTextInput, RadioButtons, Select, Timepicker, URLInput, WorkflowButton, RichTextSection, RichTextList, RichTextInput, RichTextQuote, RichTextPreformatted } from './block-elements';
 import { Actionable } from './extensions';
+import { Button, Checkboxes, Datepicker, DateTimepicker, EmailInput, ImageElement, MultiSelect, NumberInput, Overflow, PlainTextInput, RadioButtons, Select, Timepicker, URLInput, WorkflowButton, RichTextSection, RichTextList, RichTextQuote, RichTextPreformatted, RichTextInput } from './block-elements';
 
 export interface Block {
   type: string;
@@ -33,7 +33,7 @@ export interface ActionsBlock extends Block {
    * There is a maximum of 25 elements in each action block.
    */
   elements: (Button | Checkboxes | Datepicker | DateTimepicker | MultiSelect | Overflow | RadioButtons | Select |
-  Timepicker | WorkflowButton)[]; // TODO: add RichTextInput
+  Timepicker | WorkflowButton | RichTextInput)[];
 }
 
 /**
@@ -159,7 +159,7 @@ export interface InputBlock extends Block {
    * @description A block element.
    */
   element: Select | MultiSelect | Datepicker | Timepicker | DateTimepicker | PlainTextInput | URLInput | EmailInput
-  | NumberInput | RadioButtons | Checkboxes;
+  | NumberInput | RadioButtons | Checkboxes | RichTextInput;
   /**
    * @description A boolean that indicates whether or not the use of elements in this block should dispatch a
    * {@link https://api.slack.com/reference/interaction-payloads/block-actions block_actions payload}. Defaults to `false`.
