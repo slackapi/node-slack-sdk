@@ -1,8 +1,8 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/blocks
 
 import { PlainTextElement, MrkdwnElement } from './composition-objects';
-import { Button, Checkboxes, Datepicker, DateTimepicker, EmailInput, ImageElement, MultiSelect, NumberInput, Overflow, PlainTextInput, RadioButtons, Select, Timepicker, URLInput, WorkflowButton } from './block-elements';
 import { Actionable } from './extensions';
+import { Button, Checkboxes, Datepicker, DateTimepicker, EmailInput, ImageElement, MultiSelect, NumberInput, Overflow, PlainTextInput, RadioButtons, Select, Timepicker, URLInput, WorkflowButton, RichTextSection, RichTextList, RichTextQuote, RichTextPreformatted, RichTextInput } from './block-elements';
 
 export interface Block {
   type: string;
@@ -17,7 +17,7 @@ export interface Block {
 }
 
 export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock |
-SectionBlock | InputBlock | FileBlock | HeaderBlock | VideoBlock;
+SectionBlock | InputBlock | FileBlock | HeaderBlock | VideoBlock | RichTextBlock;
 
 /**
  * @description Holds multiple interactive elements.
@@ -28,13 +28,12 @@ export interface ActionsBlock extends Block {
    * @description The type of block. For an actions block, `type` is always `actions`.
    */
   type: 'actions';
-  // TODO: add rich text input to this list once ready
   /**
    * @description An array of {@link InteractiveElements} objects.
    * There is a maximum of 25 elements in each action block.
    */
   elements: (Button | Checkboxes | Datepicker | DateTimepicker | MultiSelect | Overflow | RadioButtons | Select |
-  Timepicker | WorkflowButton)[];
+  Timepicker | WorkflowButton | RichTextInput)[];
 }
 
 /**
@@ -160,7 +159,7 @@ export interface InputBlock extends Block {
    * @description A block element.
    */
   element: Select | MultiSelect | Datepicker | Timepicker | DateTimepicker | PlainTextInput | URLInput | EmailInput
-  | NumberInput | RadioButtons | Checkboxes;
+  | NumberInput | RadioButtons | Checkboxes | RichTextInput;
   /**
    * @description A boolean that indicates whether or not the use of elements in this block should dispatch a
    * {@link https://api.slack.com/reference/interaction-payloads/block-actions block_actions payload}. Defaults to `false`.
@@ -259,4 +258,12 @@ export interface VideoBlock extends Block {
    * @description Description for video using a {@link PlainTextElement} object.
    */
   description?: PlainTextElement;
+}
+
+export interface RichTextBlock extends Block {
+  /**
+   * @description The type of block. For a rich text block, `type` is always `rich_text`.
+   */
+  type: 'rich_text',
+  elements: (RichTextSection | RichTextList | RichTextQuote | RichTextPreformatted)[];
 }

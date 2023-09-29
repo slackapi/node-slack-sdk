@@ -49,3 +49,23 @@ export interface Dispatchable {
    */
   dispatch_action_config?: DispatchActionConfig;
 }
+
+/**
+ * @description For use styling Rich Text message sub-elements.
+ */
+export interface RichTextStyleable {
+  /**
+   * @description A limited style object for styling rich text message elements
+   * (excluding pre-formatted, or code, elements).
+   */
+  style?: {
+    bold?: boolean;
+    italic?: boolean;
+    strike?: boolean;
+    highlight?: boolean;
+    /* TODO: model these?
+    client_highlight?: boolean;
+    unlink?: boolean;
+    */
+  };
+}
