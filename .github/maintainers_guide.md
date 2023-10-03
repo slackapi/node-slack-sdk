@@ -93,6 +93,8 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - When creating the release notes, select the tag you generated earlier for your release and title the release the same name as the tag
 
+    - To see a list of changes between the last tag for the specific package, you can use this `git` command: `git log --oneline --full-history @slack/types@2.8.0..@slack/types@2.9.0 -- packages/types`. Sub in the correct tags and the last argument should be the path to the sub-package you are releasing (in order to filter commits just to the specific path).
+
     - Release notes should mention contributors, issues and PRs ([Example](https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Fweb-api%406.2.0))
 
     - Once the release notes are ready, click the "Publish Release" button to make them public
