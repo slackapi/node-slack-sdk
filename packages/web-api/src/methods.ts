@@ -317,73 +317,88 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       bulkMove: bindApiCall<AdminConversationsBulkMoveArguments, AdminConversationsBulkMoveResponse>(this, 'admin.conversations.bulkMove'),
       convertToPrivate:
         bindApiCall<AdminConversationsConvertToPrivateArguments, AdminConversationsConvertToPrivateResponse>(
-          this, 'admin.conversations.convertToPrivate',
+          this,
+          'admin.conversations.convertToPrivate',
         ),
       convertToPublic:
         bindApiCall<AdminConversationsConvertToPublicArguments, AdminConversationsConvertToPublicResponse>(
-          this, 'admin.conversations.convertToPublic',
+          this,
+          'admin.conversations.convertToPublic',
         ),
       create: bindApiCall<AdminConversationsCreateArguments, AdminConversationsCreateResponse>(this, 'admin.conversations.create'),
       delete: bindApiCall<AdminConversationsDeleteArguments, AdminConversationsDeleteResponse>(this, 'admin.conversations.delete'),
       disconnectShared:
         bindApiCall<AdminConversationsDisconnectSharedArguments, AdminConversationsDisconnectSharedResponse>(
-          this, 'admin.conversations.disconnectShared',
+          this,
+          'admin.conversations.disconnectShared',
         ),
       ekm: {
         listOriginalConnectedChannelInfo:
           bindApiCall<AdminConversationsEKMListOriginalConnectedChannelInfoArguments,
           AdminConversationsEkmListOriginalConnectedChannelInfoResponse>(
-            this, 'admin.conversations.ekm.listOriginalConnectedChannelInfo',
+            this,
+            'admin.conversations.ekm.listOriginalConnectedChannelInfo',
           ),
       },
       getConversationPrefs:
         bindApiCall<AdminConversationsGetConversationPrefsArguments, AdminConversationsGetConversationPrefsResponse>(
-          this, 'admin.conversations.getConversationPrefs',
+          this,
+          'admin.conversations.getConversationPrefs',
         ),
       getTeams: bindApiCall<AdminConversationsGetTeamsArguments, AdminConversationsGetTeamsResponse>(
-        this, 'admin.conversations.getTeams',
+        this,
+        'admin.conversations.getTeams',
       ),
       invite: bindApiCall<AdminConversationsInviteArguments, AdminConversationsInviteResponse>(this, 'admin.conversations.invite'),
       rename: bindApiCall<AdminConversationsRenameArguments, AdminConversationsRenameResponse>(this, 'admin.conversations.rename'),
       restrictAccess: {
         addGroup: bindApiCall<AdminConversationsRestrictAccessAddGroupArguments,
         AdminConversationsRestrictAccessAddGroupResponse>(
-          this, 'admin.conversations.restrictAccess.addGroup',
+          this,
+          'admin.conversations.restrictAccess.addGroup',
         ),
         listGroups:
           bindApiCall<AdminConversationsRestrictAccessListGroupsArguments,
           AdminConversationsRestrictAccessListGroupsResponse>(
-            this, 'admin.conversations.restrictAccess.listGroups',
+            this,
+            'admin.conversations.restrictAccess.listGroups',
           ),
         removeGroup:
           bindApiCall<AdminConversationsRestrictAccessRemoveGroupArguments,
           AdminConversationsRestrictAccessRemoveGroupResponse>(
-            this, 'admin.conversations.restrictAccess.removeGroup',
+            this,
+            'admin.conversations.restrictAccess.removeGroup',
           ),
       },
       getCustomRetention:
         bindApiCall<AdminConversationsGetCustomRetentionArguments, AdminConversationsGetCustomRetentionResponse>(
-          this, 'admin.conversations.getCustomRetention',
+          this,
+          'admin.conversations.getCustomRetention',
         ),
       setCustomRetention:
         bindApiCall<AdminConversationsSetCustomRetentionArguments, AdminConversationsSetCustomRetentionResponse>(
-          this, 'admin.conversations.setCustomRetention',
+          this,
+          'admin.conversations.setCustomRetention',
         ),
       removeCustomRetention:
         bindApiCall<AdminConversationsRemoveCustomRetentionArguments, AdminConversationsRemoveCustomRetentionResponse>(
-          this, 'admin.conversations.removeCustomRetention',
+          this,
+          'admin.conversations.removeCustomRetention',
         ),
       lookup: bindApiCall<AdminConversationsLookupArguments, AdminConversationsLookupResponse>(this, 'admin.conversations.lookup'),
       search: bindApiCall<AdminConversationsSearchArguments, AdminConversationsSearchResponse>(this, 'admin.conversations.search'),
       setConversationPrefs:
         bindApiCall<AdminConversationsSetConversationPrefsArguments, AdminConversationsSetConversationPrefsResponse>(
-          this, 'admin.conversations.setConversationPrefs',
+          this,
+          'admin.conversations.setConversationPrefs',
         ),
       setTeams: bindApiCall<AdminConversationsSetTeamsArguments, AdminConversationsSetTeamsResponse>(
-        this, 'admin.conversations.setTeams',
+        this,
+        'admin.conversations.setTeams',
       ),
       unarchive: bindApiCall<AdminConversationsUnarchiveArguments, AdminConversationsUnarchiveResponse>(
-        this, 'admin.conversations.unarchive',
+        this,
+        'admin.conversations.unarchive',
       ),
     },
     emoji: {
@@ -402,16 +417,19 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     },
     inviteRequests: {
       approve: bindApiCall<AdminInviteRequestsApproveArguments, AdminInviteRequestsApproveResponse>(
-        this, 'admin.inviteRequests.approve',
+        this,
+        'admin.inviteRequests.approve',
       ),
       approved: {
         list: bindApiCall<AdminInviteRequestsApprovedListArguments, AdminInviteRequestsApprovedListResponse>(
-          this, 'admin.inviteRequests.approved.list',
+          this,
+          'admin.inviteRequests.approved.list',
         ),
       },
       denied: {
         list: bindApiCall<AdminInviteRequestsDeniedListArguments, AdminInviteRequestsDeniedListResponse>(
-          this, 'admin.inviteRequests.denied.list',
+          this,
+          'admin.inviteRequests.denied.list',
         ),
       },
       deny: bindApiCall<AdminInviteRequestsDenyArguments, AdminInviteRequestsDenyResponse>(this, 'admin.inviteRequests.deny'),
@@ -430,22 +448,27 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         info: bindApiCall<AdminTeamsSettingsInfoArguments, AdminTeamsSettingsInfoResponse>(this, 'admin.teams.settings.info'),
         setDefaultChannels:
           bindApiCall<AdminTeamsSettingsSetDefaultChannelsArguments, AdminTeamsSettingsSetDefaultChannelsResponse>(
-            this, 'admin.teams.settings.setDefaultChannels',
+            this,
+            'admin.teams.settings.setDefaultChannels',
           ),
         setDescription:
           bindApiCall<AdminTeamsSettingsSetDescriptionArguments, AdminTeamsSettingsSetDescriptionResponse>(
-            this, 'admin.teams.settings.setDescription',
+            this,
+            'admin.teams.settings.setDescription',
           ),
         setDiscoverability:
           bindApiCall<AdminTeamsSettingsSetDiscoverabilityArguments,
           AdminTeamsSettingsSetDiscoverabilityResponse>(
-            this, 'admin.teams.settings.setDiscoverability',
+            this,
+            'admin.teams.settings.setDiscoverability',
           ),
         setIcon: bindApiCall<AdminTeamsSettingsSetIconArguments, AdminTeamsSettingsSetIconResponse>(
-          this, 'admin.teams.settings.setIcon',
+          this,
+          'admin.teams.settings.setIcon',
         ),
         setName: bindApiCall<AdminTeamsSettingsSetNameArguments, AdminTeamsSettingsSetNameResponse>(
-          this, 'admin.teams.settings.setName',
+          this,
+          'admin.teams.settings.setName',
         ),
       },
     },
@@ -456,16 +479,20 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     },
     usergroups: {
       addChannels: bindApiCall<AdminUsergroupsAddChannelsArguments, AdminUsergroupsAddChannelsResponse>(
-        this, 'admin.usergroups.addChannels',
+        this,
+        'admin.usergroups.addChannels',
       ),
       addTeams: bindApiCall<AdminUsergroupsAddTeamsArguments, AdminUsergroupsAddTeamsResponse>(
-        this, 'admin.usergroups.addTeams',
+        this,
+        'admin.usergroups.addTeams',
       ),
       listChannels: bindApiCall<AdminUsergroupsListChannelsArguments, AdminUsergroupsListChannelsResponse>(
-        this, 'admin.usergroups.listChannels',
+        this,
+        'admin.usergroups.listChannels',
       ),
       removeChannels: bindApiCall<AdminUsergroupsRemoveChannelsArguments, AdminUsergroupsRemoveChannelsResponse>(
-        this, 'admin.usergroups.removeChannels',
+        this,
+        'admin.usergroups.removeChannels',
       ),
     },
     users: {
@@ -478,33 +505,41 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         reset: bindApiCall<AdminUsersSessionResetArguments, AdminUsersSessionResetResponse>(this, 'admin.users.session.reset'),
         resetBulk: bindApiCall<AdminUsersSessionResetBulkArguments, AdminUsersSessionResetBulkResponse>(this, 'admin.users.session.resetBulk'),
         invalidate: bindApiCall<AdminUsersSessionInvalidateArguments, AdminUsersSessionInvalidateResponse>(
-          this, 'admin.users.session.invalidate',
+          this,
+          'admin.users.session.invalidate',
         ),
         getSettings: bindApiCall<AdminUsersSessionGetSettingsArguments, AdminUsersSessionGetSettingsResponse>(
-          this, 'admin.users.session.getSettings',
+          this,
+          'admin.users.session.getSettings',
         ),
         setSettings: bindApiCall<AdminUsersSessionSetSettingsArguments, AdminUsersSessionSetSettingsResponse>(
-          this, 'admin.users.session.setSettings',
+          this,
+          'admin.users.session.setSettings',
         ),
         clearSettings: bindApiCall<AdminUsersSessionClearSettingsArguments, AdminUsersSessionClearSettingsResponse>(
-          this, 'admin.users.session.clearSettings',
+          this,
+          'admin.users.session.clearSettings',
         ),
       },
       unsupportedVersions: {
         export: bindApiCall<AdminUsersUnsupportedVersionsExportArguments, AdminUsersUnsupportedVersionsExportResponse>(
-          this, 'admin.users.unsupportedVersions.export',
+          this,
+          'admin.users.unsupportedVersions.export',
         ),
       },
       setAdmin: bindApiCall<AdminUsersSetAdminArguments, AdminUsersSetAdminResponse>(this, 'admin.users.setAdmin'),
       setExpiration:
         bindApiCall<AdminUsersSetExpirationArguments, AdminUsersSetExpirationResponse>(
-          this, 'admin.users.setExpiration',
+          this,
+          'admin.users.setExpiration',
         ),
       setOwner: bindApiCall<AdminUsersSetOwnerArguments, AdminUsersSetOwnerResponse>(
-        this, 'admin.users.setOwner',
+        this,
+        'admin.users.setOwner',
       ),
       setRegular: bindApiCall<AdminUsersSetRegularArguments, AdminUsersSetRegularResponse>(
-        this, 'admin.users.setRegular',
+        this,
+        'admin.users.setRegular',
       ),
     },
     workflows: {
@@ -531,7 +566,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     event: {
       authorizations: {
         list: bindApiCall<AppsEventAuthorizationsListArguments, AppsEventAuthorizationsListResponse>(
-          this, 'apps.event.authorizations.list',
+          this,
+          'apps.event.authorizations.list',
         ),
       },
     },
@@ -577,12 +613,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     postEphemeral: bindApiCall<ChatPostEphemeralArguments, ChatPostEphemeralResponse>(this, 'chat.postEphemeral'),
     postMessage: bindApiCall<ChatPostMessageArguments, ChatPostMessageResponse>(this, 'chat.postMessage'),
     scheduleMessage: bindApiCall<ChatScheduleMessageArguments, ChatScheduleMessageResponse>(
-      this, 'chat.scheduleMessage',
+      this,
+      'chat.scheduleMessage',
     ),
     scheduledMessages: {
       list:
         bindApiCall<ChatScheduledMessagesListArguments, ChatScheduledMessagesListResponse>(
-          this, 'chat.scheduledMessages.list',
+          this,
+          'chat.scheduledMessages.list',
         ),
     },
     unfurl: bindApiCall<ChatUnfurlArguments, ChatUnfurlResponse>(this, 'chat.unfurl'),
@@ -591,24 +629,28 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly conversations = {
     acceptSharedInvite: bindApiCall<ConversationsAcceptSharedInviteArguments, ConversationsAcceptSharedInviteResponse>(
-      this, 'conversations.acceptSharedInvite',
+      this,
+      'conversations.acceptSharedInvite',
     ),
     approveSharedInvite:
       bindApiCall<ConversationsApproveSharedInviteArguments, ConversationsApproveSharedInviteResponse>(
-        this, 'conversations.approveSharedInvite',
+        this,
+        'conversations.approveSharedInvite',
       ),
     archive: bindApiCall<ConversationsArchiveArguments, ConversationsArchiveResponse>(this, 'conversations.archive'),
     close: bindApiCall<ConversationsCloseArguments, ConversationsCloseResponse>(this, 'conversations.close'),
     create: bindApiCall<ConversationsCreateArguments, ConversationsCreateResponse>(this, 'conversations.create'),
     declineSharedInvite:
       bindApiCall<ConversationsDeclineSharedInviteArguments, ConversationsDeclineSharedInviteResponse>(
-        this, 'conversations.declineSharedInvite',
+        this,
+        'conversations.declineSharedInvite',
       ),
     history: bindApiCall<ConversationsHistoryArguments, ConversationsHistoryResponse>(this, 'conversations.history'),
     info: bindApiCall<ConversationsInfoArguments, ConversationsInfoResponse>(this, 'conversations.info'),
     invite: bindApiCall<ConversationsInviteArguments, ConversationsInviteResponse>(this, 'conversations.invite'),
     inviteShared: bindApiCall<ConversationsInviteSharedArguments, ConversationsInviteSharedResponse>(
-      this, 'conversations.inviteShared',
+      this,
+      'conversations.inviteShared',
     ),
     join: bindApiCall<ConversationsJoinArguments, ConversationsJoinResponse>(this, 'conversations.join'),
     kick: bindApiCall<ConversationsKickArguments, ConversationsKickResponse>(this, 'conversations.kick'),
@@ -616,7 +658,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     list: bindApiCall<ConversationsListArguments, ConversationsListResponse>(this, 'conversations.list'),
     listConnectInvites:
       bindApiCall<ConversationsListConnectInvitesArguments, ConversationsListConnectInvitesResponse>(
-        this, 'conversations.listConnectInvites',
+        this,
+        'conversations.listConnectInvites',
       ),
     mark: bindApiCall<ConversationsMarkArguments, ConversationsMarkResponse>(this, 'conversations.mark'),
     members: bindApiCall<ConversationsMembersArguments, ConversationsMembersResponse>(this, 'conversations.members'),
@@ -626,10 +669,12 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     setPurpose:
       bindApiCall<ConversationsSetPurposeArguments, ConversationsSetPurposeResponse>(this, 'conversations.setPurpose'),
     setTopic: bindApiCall<ConversationsSetTopicArguments, ConversationsSetTopicResponse>(
-      this, 'conversations.setTopic',
+      this,
+      'conversations.setTopic',
     ),
     unarchive: bindApiCall<ConversationsUnarchiveArguments, ConversationsUnarchiveResponse>(
-      this, 'conversations.unarchive',
+      this,
+      'conversations.unarchive',
     ),
   };
 
@@ -770,10 +815,12 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     update: bindApiCall<UsergroupsUpdateArguments, UsergroupsUpdateResponse>(this, 'usergroups.update'),
     users: {
       list: bindApiCall<UsergroupsUsersListArguments, UsergroupsUsersListResponse>(
-        this, 'usergroups.users.list',
+        this,
+        'usergroups.users.list',
       ),
       update: bindApiCall<UsergroupsUsersUpdateArguments, UsergroupsUsersUpdateResponse>(
-        this, 'usergroups.users.update',
+        this,
+        'usergroups.users.update',
       ),
     },
   };
@@ -803,7 +850,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly workflows = {
     stepCompleted: bindApiCall<WorkflowsStepCompletedArguments, WorkflowsStepCompletedResponse>(
-      this, 'workflows.stepCompleted',
+      this,
+      'workflows.stepCompleted',
     ),
     stepFailed: bindApiCall<WorkflowsStepFailedArguments, WorkflowsStepFailedResponse>(this, 'workflows.stepFailed'),
     updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
@@ -1869,7 +1917,7 @@ export interface FilesSharedPublicURLArguments extends WebAPICallOptions, TokenO
 }
 /**
  * Legacy files.upload API files upload arguments
- * */
+ */
 export interface FilesUploadArguments extends FileUpload, WebAPICallOptions, TokenOverridable {}
 interface FileUpload {
   channels?: string; // comma-separated list of channels
@@ -1914,7 +1962,7 @@ export interface FilesGetUploadURLExternalArguments extends WebAPICallOptions, T
 /**
  * Finishes an upload started with files.getUploadURLExternal. Method:
  * {@link https://api.slack.com/methods/files.completeUploadExternal files.completeUploadExternal}
- * */
+ */
 export interface FilesCompleteUploadExternalArguments extends WebAPICallOptions, TokenOverridable {
   files: FileUploadComplete[];
   channel_id?: string, // if omitted, file will be private

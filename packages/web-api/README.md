@@ -6,25 +6,14 @@ The `@slack/web-api` package contains a simple, convenient, and configurable HTT
 
 ## Requirements
 
-This package supports Node v14 and higher. It's highly recommended to use [the latest LTS version of
+This package supports Node v18 and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
 from that version.
 
-This package also has experimental support for Deno v1.15.2 and higher, though not all features are supported at this
-time.
-
 ## Installation
-
-### Node.js
 
 ```shell
 $ npm install @slack/web-api
-```
-
-### Deno
-
-```typescript
-import { WebClient } from 'https://deno.land/x/slack_web_api/mod.js';
 ```
 
 <!-- START: Remove before copying into the docs directory -->
@@ -394,6 +383,6 @@ If you get stuck, we're here to help. The following are the best ways to get ass
 
   * [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and
     general discussion related to these packages. Try searching before you create a new issue.
-  * [Email us](mailto:developers@slack.com) in Slack developer support: `developers@slack.com`
-  * [Bot Developers Hangout](https://community.botkit.ai/): a Slack community for developers
-    building all types of bots. You can find the maintainers and users of these packages in **#sdk-node-slack-sdk**.
+  * [Email us](mailto:feedback@slack.com): `feedback@slack.com`
+  * [Community Slack](https://community.slack.com/): a Slack community for developers
+    building all kinds of Slack apps. You can find the maintainers and users of these packages in **#lang-javascript**.

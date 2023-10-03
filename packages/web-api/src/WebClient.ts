@@ -200,6 +200,7 @@ export class WebClient extends Methods {
     this.axios = axios.create({
       timeout,
       baseURL: slackApiUrl,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       headers: isElectron() ? headers : { 'User-Agent': getUserAgent(), ...headers },
       httpAgent: agent,
       httpsAgent: agent,
@@ -220,7 +221,6 @@ export class WebClient extends Methods {
 
   /**
    * Generic method for calling a Web API method
-   *
    * @param method - the Web API method to call {@link https://api.slack.com/methods}
    * @param options - options
    */
@@ -299,7 +299,6 @@ export class WebClient extends Methods {
    * The for-await-of syntax is part of ES2018. It is available natively in Node starting with v10.0.0. You may be able
    * to use it in earlier JavaScript runtimes by transpiling your source with a tool like Babel. However, the
    * transpiled code will likely sacrifice performance.
-   *
    * @param method - the cursor-paginated Web API method to call {@link https://api.slack.com/docs/pagination}
    * @param options - options
    * @param shouldStop - a predicate that is called with each page, and should return true when pagination can end.
@@ -613,7 +612,6 @@ export class WebClient extends Methods {
    * a string, used when posting with a content-type of url-encoded. Or, it can be a readable stream, used
    * when the options contain a binary (a stream or a buffer) and the upload should be done with content-type
    * multipart/form-data.
-   *
    * @param options - arguments for the Web API method
    * @param headers - a mutable object representing the HTTP headers for the outgoing request
    */
@@ -781,7 +779,8 @@ export default WebClient;
  * @param pageSize - the maximum number of additional items to fetch in the next request.
  */
 function paginationOptionsForNextPage(
-  previousResult: WebAPICallResult | undefined, pageSize: number,
+  previousResult: WebAPICallResult | undefined,
+  pageSize: number,
 ): CursorPaginationEnabled | undefined {
   if (
     previousResult !== undefined &&
