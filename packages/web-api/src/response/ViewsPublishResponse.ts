@@ -54,7 +54,7 @@ export interface Block {
   description?:       Close;
   dispatch_action?:   boolean;
   element?:           PurpleElement;
-  elements?:          ElementElement[];
+  elements?:          StickyElement[];
   fallback?:          string;
   fields?:            Close[];
   hint?:              Close;
@@ -87,11 +87,11 @@ export interface Accessory {
 export interface Close {
   emoji?:    boolean;
   text?:     string;
-  type?:     Type;
+  type?:     CloseType;
   verbatim?: boolean;
 }
 
-export enum Type {
+export enum CloseType {
   Empty = '',
   Mrkdwn = 'mrkdwn',
   PlainText = 'plain_text',
@@ -118,7 +118,7 @@ export interface PurpleElement {
   initial_option?:                  Option;
   initial_time?:                    string;
   initial_user?:                    string;
-  initial_value?:                   string;
+  initial_value?:                   InitialValueClass | string;
   max_length?:                      number;
   min_length?:                      number;
   min_query_length?:                number;
@@ -160,12 +160,73 @@ export interface Option {
   value?:       string;
 }
 
+export interface InitialValueClass {
+  block_id?: string;
+  elements?: InitialValueElement[];
+  type?:     string;
+}
+
+export interface InitialValueElement {
+  border?:   number;
+  elements?: FluffyElement[];
+  indent?:   number;
+  offset?:   number;
+  style?:    string;
+  type?:     string;
+}
+
+export interface FluffyElement {
+  border?:   number;
+  elements?: TentacledElement[];
+  indent?:   number;
+  offset?:   number;
+  style?:    string;
+  type?:     string;
+}
+
+export interface TentacledElement {
+  channel_id?:   string;
+  name?:         string;
+  range?:        string;
+  skin_tone?:    number;
+  style?:        Style;
+  team_id?:      string;
+  text?:         string;
+  timestamp?:    string;
+  type?:         ElementType;
+  unicode?:      string;
+  url?:          string;
+  user_id?:      string;
+  usergroup_id?: string;
+  value?:        string;
+}
+
+export interface Style {
+  bold?:   boolean;
+  code?:   boolean;
+  italic?: boolean;
+  strike?: boolean;
+}
+
+export enum ElementType {
+  Broadcast = 'broadcast',
+  Channel = 'channel',
+  Color = 'color',
+  Date = 'date',
+  Emoji = 'emoji',
+  Link = 'link',
+  Team = 'team',
+  Text = 'text',
+  User = 'user',
+  Usergroup = 'usergroup',
+}
+
 export interface OptionGroup {
   label?:   Close;
   options?: Option[];
 }
 
-export interface ElementElement {
+export interface StickyElement {
   accessibility_label?:             string;
   action_id?:                       string;
   alt_text?:                        string;

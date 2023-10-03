@@ -233,33 +233,40 @@ export interface Private {
 }
 
 export interface TitleBlock {
-  accessory?:           Accessory;
-  alt_text?:            string;
-  app_collaborators?:   string[];
-  app_id?:              string;
-  author_name?:         string;
-  block_id?:            string;
-  bot_user_id?:         string;
-  button_label?:        string;
-  description?:         Text | string;
-  elements?:            Accessory[];
-  fallback?:            string;
-  fields?:              Text[];
-  function_trigger_id?: string;
-  image_bytes?:         number;
-  image_height?:        number;
-  image_url?:           string;
-  image_width?:         number;
-  is_workflow_app?:     boolean;
-  provider_icon_url?:   string;
-  provider_name?:       string;
-  text?:                Text;
-  thumbnail_url?:       string;
-  title?:               Text | string;
-  title_url?:           string;
-  type?:                string;
-  url?:                 string;
-  video_url?:           string;
+  accessory?:                    Accessory;
+  alt_text?:                     string;
+  app_collaborators?:            string[];
+  app_id?:                       string;
+  author_name?:                  string;
+  block_id?:                     string;
+  bot_user_id?:                  string;
+  button_label?:                 string;
+  description?:                  Text | string;
+  developer_trace_id?:           string;
+  elements?:                     Accessory[];
+  fallback?:                     string;
+  fields?:                       Text[];
+  function_trigger_id?:          string;
+  image_bytes?:                  number;
+  image_height?:                 number;
+  image_url?:                    string;
+  image_width?:                  number;
+  is_workflow_app?:              boolean;
+  owning_team_id?:               string;
+  provider_icon_url?:            string;
+  provider_name?:                string;
+  sales_home_workflow_app_type?: number;
+  share_url?:                    string;
+  text?:                         Text;
+  thumbnail_url?:                string;
+  title?:                        Text | string;
+  title_url?:                    string;
+  trigger_subtype?:              string;
+  trigger_type?:                 string;
+  type?:                         string;
+  url?:                          string;
+  video_url?:                    string;
+  workflow_id?:                  string;
 }
 
 export interface Accessory {

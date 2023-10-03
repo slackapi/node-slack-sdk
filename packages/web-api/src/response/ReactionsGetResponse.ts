@@ -35,45 +35,52 @@ export interface Message {
 }
 
 export interface Block {
-  accessory?:                Accessory;
-  alt_text?:                 string;
-  api_decoration_available?: boolean;
-  app_collaborators?:        string[];
-  app_id?:                   string;
-  author_name?:              string;
-  block_id?:                 string;
-  bot_user_id?:              string;
-  button_label?:             string;
-  call?:                     Call;
-  call_id?:                  string;
-  description?:              DescriptionElement;
-  dispatch_action?:          boolean;
-  element?:                  Accessory;
-  elements?:                 Accessory[];
-  external_id?:              string;
-  fallback?:                 string;
-  fields?:                   DescriptionElement[];
-  file?:                     File;
-  file_id?:                  string;
-  function_trigger_id?:      string;
-  hint?:                     DescriptionElement;
-  image_bytes?:              number;
-  image_height?:             number;
-  image_url?:                string;
-  image_width?:              number;
-  is_workflow_app?:          boolean;
-  label?:                    DescriptionElement;
-  optional?:                 boolean;
-  provider_icon_url?:        string;
-  provider_name?:            string;
-  source?:                   string;
-  text?:                     DescriptionElement;
-  thumbnail_url?:            string;
-  title?:                    DescriptionElement;
-  title_url?:                string;
-  type?:                     string;
-  url?:                      string;
-  video_url?:                string;
+  accessory?:                    Accessory;
+  alt_text?:                     string;
+  api_decoration_available?:     boolean;
+  app_collaborators?:            string[];
+  app_id?:                       string;
+  author_name?:                  string;
+  block_id?:                     string;
+  bot_user_id?:                  string;
+  button_label?:                 string;
+  call?:                         Call;
+  call_id?:                      string;
+  description?:                  Description;
+  developer_trace_id?:           string;
+  dispatch_action?:              boolean;
+  element?:                      Accessory;
+  elements?:                     Accessory[];
+  external_id?:                  string;
+  fallback?:                     string;
+  fields?:                       Description[];
+  file?:                         File;
+  file_id?:                      string;
+  function_trigger_id?:          string;
+  hint?:                         Description;
+  image_bytes?:                  number;
+  image_height?:                 number;
+  image_url?:                    string;
+  image_width?:                  number;
+  is_workflow_app?:              boolean;
+  label?:                        Description;
+  optional?:                     boolean;
+  owning_team_id?:               string;
+  provider_icon_url?:            string;
+  provider_name?:                string;
+  sales_home_workflow_app_type?: number;
+  share_url?:                    string;
+  source?:                       string;
+  text?:                         Description;
+  thumbnail_url?:                string;
+  title?:                        Description;
+  title_url?:                    string;
+  trigger_subtype?:              string;
+  trigger_type?:                 string;
+  type?:                         string;
+  url?:                          string;
+  video_url?:                    string;
+  workflow_id?:                  string;
 }
 
 export interface Accessory {
@@ -108,10 +115,10 @@ export interface Accessory {
   offset?:                          number;
   option_groups?:                   OptionGroup[];
   options?:                         Option[];
-  placeholder?:                     DescriptionElement;
+  placeholder?:                     Description;
   response_url_enabled?:            boolean;
   style?:                           string;
-  text?:                            DescriptionElement;
+  text?:                            Description;
   timezone?:                        string;
   type?:                            string;
   url?:                             string;
@@ -120,14 +127,14 @@ export interface Accessory {
 }
 
 export interface Confirm {
-  confirm?: DescriptionElement;
-  deny?:    DescriptionElement;
+  confirm?: Description;
+  deny?:    Description;
   style?:   string;
-  text?:    DescriptionElement;
-  title?:   DescriptionElement;
+  text?:    Description;
+  title?:   Description;
 }
 
-export interface DescriptionElement {
+export interface Description {
   emoji?:    boolean;
   text?:     string;
   type?:     DescriptionType;
@@ -135,7 +142,6 @@ export interface DescriptionElement {
 }
 
 export enum DescriptionType {
-  Empty = '',
   Mrkdwn = 'mrkdwn',
   PlainText = 'plain_text',
 }
@@ -146,7 +152,6 @@ export interface AccessoryElement {
   indent?:   number;
   offset?:   number;
   style?:    string;
-  text?:     string;
   type?:     string;
 }
 
@@ -180,7 +185,6 @@ export enum ElementType {
   Color = 'color',
   Date = 'date',
   Emoji = 'emoji',
-  Empty = '',
   Link = 'link',
   Team = 'team',
   Text = 'text',
@@ -191,18 +195,18 @@ export enum ElementType {
 export interface Filter {
   exclude_bot_users?:                boolean;
   exclude_external_shared_channels?: boolean;
-  include?:                          string[];
+  include?:                          any[];
 }
 
 export interface Option {
-  description?: DescriptionElement;
-  text?:        DescriptionElement;
+  description?: Description;
+  text?:        Description;
   url?:         string;
   value?:       string;
 }
 
 export interface OptionGroup {
-  label?:   DescriptionElement;
+  label?:   Description;
   options?: Option[];
 }
 
@@ -272,18 +276,20 @@ export interface File {
   alt_txt?:                                 string;
   app_id?:                                  string;
   app_name?:                                string;
+  attachments?:                             any[];
+  blocks?:                                  any[];
   bot_id?:                                  string;
-  cc?:                                      Cc[];
+  cc?:                                      any[];
   channel_actions_count?:                   number;
   channel_actions_ts?:                      string;
-  channels?:                                string[];
+  channels?:                                any[];
   comments_count?:                          number;
   converted_pdf?:                           string;
   created?:                                 number;
   deanimate?:                               string;
   deanimate_gif?:                           string;
   display_as_bot?:                          boolean;
-  dm_mpdm_users_with_file_access?:          DmMpdmUsersWithFileAccess[];
+  dm_mpdm_users_with_file_access?:          any[];
   duration_ms?:                             number;
   edit_link?:                               string;
   editable?:                                boolean;
@@ -293,8 +299,8 @@ export interface File {
   external_url?:                            string;
   file_access?:                             string;
   filetype?:                                string;
-  from?:                                    Cc[];
-  groups?:                                  string[];
+  from?:                                    any[];
+  groups?:                                  any[];
   has_more?:                                boolean;
   has_more_shares?:                         boolean;
   has_rich_preview?:                        boolean;
@@ -303,7 +309,7 @@ export interface File {
   hls_embed?:                               string;
   id?:                                      string;
   image_exif_rotation?:                     number;
-  ims?:                                     string[];
+  ims?:                                     any[];
   initial_comment?:                         InitialComment;
   is_channel_space?:                        boolean;
   is_external?:                             boolean;
@@ -329,7 +335,7 @@ export interface File {
   original_w?:                              string;
   permalink?:                               string;
   permalink_public?:                        string;
-  pinned_to?:                               string[];
+  pinned_to?:                               any[];
   pjpeg?:                                   string;
   plain_text?:                              string;
   pretty_type?:                             string;
@@ -340,10 +346,10 @@ export interface File {
   private_channels_with_file_access_count?: number;
   public_url_shared?:                       boolean;
   quip_thread_id?:                          string;
-  reactions?:                               Reaction[];
+  reactions?:                               any[];
   saved?:                                   Saved;
   sent_to_self?:                            boolean;
-  shares?:                                  Shares;
+  shares?:                                  PendingInvitees;
   simplified_html?:                         string;
   size?:                                    number;
   source_team?:                             string;
@@ -396,8 +402,8 @@ export interface File {
   thumb_video_w?:                           number;
   timestamp?:                               number;
   title?:                                   string;
-  title_blocks?:                            TitleBlock[];
-  to?:                                      Cc[];
+  title_blocks?:                            any[];
+  to?:                                      any[];
   transcription?:                           Transcription;
   updated?:                                 number;
   url_private?:                             string;
@@ -407,17 +413,6 @@ export interface File {
   user_team?:                               string;
   username?:                                string;
   vtt?:                                     string;
-}
-
-export interface Cc {
-  address?:  string;
-  name?:     string;
-  original?: string;
-}
-
-export interface DmMpdmUsersWithFileAccess {
-  access?:  string;
-  user_id?: string;
 }
 
 export interface Headers {
@@ -443,13 +438,6 @@ export interface MediaProgress {
   offset_ms?:     number;
 }
 
-export interface Reaction {
-  count?: number;
-  name?:  string;
-  url?:   string;
-  users?: string[];
-}
-
 export interface Saved {
   date_completed?: number;
   date_due?:       number;
@@ -457,51 +445,7 @@ export interface Saved {
   state?:          string;
 }
 
-export interface Shares {
-  private?: { [key: string]: Private[] };
-  public?:  { [key: string]: Private[] };
-}
-
-export interface Private {
-  channel_name?:      string;
-  latest_reply?:      string;
-  reply_count?:       number;
-  reply_users?:       string[];
-  reply_users_count?: number;
-  share_user_id?:     string;
-  team_id?:           string;
-  thread_ts?:         string;
-  ts?:                string;
-}
-
-export interface TitleBlock {
-  accessory?:           Accessory;
-  alt_text?:            string;
-  app_collaborators?:   string[];
-  app_id?:              string;
-  author_name?:         string;
-  block_id?:            string;
-  bot_user_id?:         string;
-  button_label?:        string;
-  description?:         DescriptionElement | string;
-  elements?:            Accessory[];
-  fallback?:            string;
-  fields?:              DescriptionElement[];
-  function_trigger_id?: string;
-  image_bytes?:         number;
-  image_height?:        number;
-  image_url?:           string;
-  image_width?:         number;
-  is_workflow_app?:     boolean;
-  provider_icon_url?:   string;
-  provider_name?:       string;
-  text?:                DescriptionElement;
-  thumbnail_url?:       string;
-  title?:               DescriptionElement | string;
-  title_url?:           string;
-  type?:                string;
-  url?:                 string;
-  video_url?:           string;
+export interface PendingInvitees {
 }
 
 export interface Transcription {
@@ -523,6 +467,12 @@ export interface Icons {
   image_36?: string;
   image_48?: string;
   image_72?: string;
+}
+
+export interface Reaction {
+  count?: number;
+  name?:  string;
+  users?: string[];
 }
 
 export interface Room {
@@ -557,7 +507,4 @@ export interface Room {
   was_accepted?:                 boolean;
   was_missed?:                   boolean;
   was_rejected?:                 boolean;
-}
-
-export interface PendingInvitees {
 }

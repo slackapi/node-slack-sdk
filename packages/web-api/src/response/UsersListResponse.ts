@@ -30,6 +30,7 @@ export interface Member {
   is_admin?:                   boolean;
   is_app_user?:                boolean;
   is_bot?:                     boolean;
+  is_connector_bot?:           boolean;
   is_email_confirmed?:         boolean;
   is_invited_user?:            boolean;
   is_owner?:                   boolean;

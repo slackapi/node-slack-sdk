@@ -20,7 +20,8 @@ export type AdminWorkflowsSearchResponse = WebAPICallResult & {
 };
 
 export interface ResponseMetadata {
-  messages?: string[];
+  messages?:    string[];
+  next_cursor?: string;
 }
 
 export interface Workflow {
