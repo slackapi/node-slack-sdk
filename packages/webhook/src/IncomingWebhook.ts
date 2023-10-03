@@ -44,6 +44,7 @@ export class IncomingWebhook {
       proxy: false,
       timeout: defaults.timeout,
       headers: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         'User-Agent': getUserAgent(),
       },
     });

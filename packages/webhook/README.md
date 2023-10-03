@@ -1,7 +1,12 @@
 # Slack Incoming Webhooks
 
 The `@slack/webhook` package contains a helper for making requests to Slack's [Incoming
-Webhooks](https://api.slack.com/incoming-webhooks). Use it in your app to send a notification to a channel.
+Webhooks](https://api.slack.com/messaging/webhooks). Use it in your app to send a notification to a channel.
+
+## Requirements
+This package supports Node v18 and higher. It's highly recommended to use [the latest LTS version of
+node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
+from that version.
 
 ## Installation
 
@@ -15,15 +20,11 @@ $ npm install @slack/webhook
 
 <!-- END: Remove before copying into the docs directory -->
 
----
-
 ### Initialize the webhook
 
-The package exports a `IncomingWebhook` class. You'll need to initialize it with the URL you received from Slack.
-
-The URL can come from installation in your development workspace, which is shown right in the app configuration pages.
-Or, the URL could be in the response from [`oauth.v2.access`](https://api.slack.com/methods/oauth.v2.access) when the app is
-distributed and installed into another workspace.
+The package exports an `IncomingWebhook` class. You'll need to initialize it with the URL you received from Slack.
+To create a webhook URL, follow the instructions in the [Getting started with Incoming Webhooks](https://api.slack.com/messaging/webhooks#getting_started)
+guide.
 
 ```javascript
 const { IncomingWebhook } = require('@slack/webhook');
@@ -59,7 +60,7 @@ const webhook = new IncomingWebhook(url, {
 
 ### Send a notification
 
-Something interesting just happened in your app, so its time to send the notification! Just call the
+Something interesting just happened in your app, so it's time to send the notification! Just call the
 `.send(options)` method on the webhook. The `options` parameter is an object that should describe the contents of
 the message. The method returns a `Promise` that resolves once the notification is sent.
 
@@ -83,7 +84,7 @@ const webhook = new IncomingWebhook(url);
 
 The webhook allows you to customize the HTTP
 [`Agent`](https://nodejs.org/docs/latest/api/http.html#http_class_http_agent) used to create the connection to Slack.
-Using this option is the best way to make all requests from your app through a proxy, which is a common requirement in
+Using this option is the best way to make all requests from your app go through a proxy, which is a common requirement in
 many corporate settings.
 
 In order to create an `Agent` from some proxy information (such as a host, port, username, and password), you can use
@@ -99,7 +100,7 @@ Import the `HttpsProxyAgent` class, and create an instance that can be used as t
 
 ```javascript
 const { IncomingWebhook } = require('@slack/webhook');
-const HttpsProxyAgent = require('https-proxy-agent');
+const { HttpsProxyAgent } = require('https-proxy-agent');
 const url = process.env.SLACK_WEBHOOK_URL;
 
 // One of the ways you can configure HttpsProxyAgent is using a simple string.
