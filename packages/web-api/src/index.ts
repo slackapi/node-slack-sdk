@@ -3,7 +3,6 @@
 export {
   WebClient,
   WebClientOptions,
-  WebAPICallOptions,
   WebAPICallResult,
   PageAccumulator,
   PageReducer,

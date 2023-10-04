@@ -1,7 +1,7 @@
 import { Stream } from 'stream';
 import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser, MessageMetadata } from '@slack/types';
 import { EventEmitter } from 'eventemitter3';
-import { WebAPICallOptions, WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
+import { WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
 import {
   AdminAnalyticsGetFileResponse,
   AdminAppsApproveResponse,
@@ -236,7 +236,7 @@ import {
 /**
  * Binds a certain `method` and its arguments and result types to the `apiCall` method in `WebClient`.
  */
-function bindApiCall<Arguments extends WebAPICallOptions, Result extends WebAPICallResult>(
+function bindApiCall<Arguments, Result extends WebAPICallResult>(
   self: Methods,
   method: string,
 ): Method<Arguments, Result> {
@@ -245,7 +245,7 @@ function bindApiCall<Arguments extends WebAPICallOptions, Result extends WebAPIC
   return self.apiCall.bind(self, method) as Method<Arguments, Result>;
 }
 
-function bindFilesUploadV2<Arguments extends WebAPICallOptions, Result extends WebAPICallResult>(
+function bindFilesUploadV2<Arguments, Result extends WebAPICallResult>(
   self: Methods,
 ): Method<Arguments, Result> {
   return self.filesUploadV2.bind(self) as unknown as Method<Arguments, Result>;
@@ -272,8 +272,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     }
   }
 
-  public abstract apiCall(method: string, options?: WebAPICallOptions): Promise<WebAPICallResult>;
-  public abstract filesUploadV2(options?: WebAPICallOptions): Promise<WebAPICallResult>;
+  public abstract apiCall(method: string, options?: Record<string, unknown>): Promise<WebAPICallResult>;
+  public abstract filesUploadV2(options: Record<string, unknown>): Promise<WebAPICallResult>;
 
   public readonly admin = {
     analytics: {
@@ -927,7 +927,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
  * Generic method definition
  */
 export default interface Method<
-  MethodArguments extends WebAPICallOptions,
+  MethodArguments,
   MethodResult extends WebAPICallResult = WebAPICallResult,
 > {
   (options?: MethodArguments): Promise<MethodResult>;
@@ -979,52 +979,52 @@ export interface TraditionalPagingEnabled {
 /*
 * `admin.*`
 */
-export interface AdminAnalyticsGetFileArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminAnalyticsGetFileArguments extends TokenOverridable {
   type: string;
   date?: string;
   metadata_only?: boolean;
 }
-export interface AdminAppsApproveArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminAppsApproveArguments extends TokenOverridable {
   app_id?: string;
   request_id?: string;
   team_id?: string;
 }
-export interface AdminAppsApprovedListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface AdminAppsApprovedListArguments extends TokenOverridable, CursorPaginationEnabled {
   team_id?: string;
   enterprise_id?: string;
 }
-export interface AdminAppsClearResolutionArguments extends WebAPICallOptions {
+export interface AdminAppsClearResolutionArguments {
   app_id: string;
   enterprise_id?: string;
   team_id?: string;
 }
 cursorPaginationEnabledMethods.add('admin.apps.approved.list');
-export interface AdminAppsRequestsCancelArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminAppsRequestsCancelArguments extends TokenOverridable {
   request_id: string;
   enterprise_id?: string;
   team_id?: string;
 }
-export interface AdminAppsRequestsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface AdminAppsRequestsListArguments extends TokenOverridable, CursorPaginationEnabled {
   team_id?: string;
 }
 cursorPaginationEnabledMethods.add('admin.apps.requests.list');
-export interface AdminAppsRestrictArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminAppsRestrictArguments extends TokenOverridable {
   app_id?: string;
   request_id?: string;
   team_id?: string;
 }
-export interface AdminAppsRestrictedListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface AdminAppsRestrictedListArguments extends TokenOverridable, CursorPaginationEnabled {
   team_id?: string;
   enterprise_id?: string;
 }
 cursorPaginationEnabledMethods.add('admin.apps.restricted.list');
 
-export interface AdminAppsUninstallArguments extends WebAPICallOptions {
+export interface AdminAppsUninstallArguments {
   app_id: string;
   enterprise_id?: string;
   team_ids?: string[];
 }
-export interface AdminAppsActivitiesListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface AdminAppsActivitiesListArguments extends TokenOverridable, CursorPaginationEnabled {
   app_id?: string;
   component_id?: string;
   component_type?: string;
@@ -1038,10 +1038,10 @@ export interface AdminAppsActivitiesListArguments extends WebAPICallOptions, Tok
   trace_id?: string;
 }
 cursorPaginationEnabledMethods.add('admin.apps.activities.list');
-export interface AdminAppsConfigLookupArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminAppsConfigLookupArguments extends TokenOverridable {
   app_ids: string[];
 }
-export interface AdminAppsConfigSetArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminAppsConfigSetArguments extends TokenOverridable {
   app_id: string;
   domain_restrictions?: {
     urls?: string[];
@@ -1049,130 +1049,130 @@ export interface AdminAppsConfigSetArguments extends WebAPICallOptions, TokenOve
   };
   workflow_auth_strategy?: 'builder_choice' | 'end_user_strategy';
 }
-export interface AdminAuthPolicyAssignEntitiesArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminAuthPolicyAssignEntitiesArguments extends TokenOverridable {
   entity_ids: string[];
   entity_type: string;
   policy_name: string;
 }
-export interface AdminAuthPolicyGetEntitiesArguments extends WebAPICallOptions, TokenOverridable,
+export interface AdminAuthPolicyGetEntitiesArguments extends TokenOverridable,
   CursorPaginationEnabled {
   policy_name: string;
   entity_type?: string;
 }
 cursorPaginationEnabledMethods.add('admin.auth.policy.getEntities');
-export interface AdminAuthPolicyRemoveEntitiesArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminAuthPolicyRemoveEntitiesArguments extends TokenOverridable {
   entity_ids: string[];
   entity_type: string;
   policy_name: string;
 }
-export interface AdminBarriersCreateArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminBarriersCreateArguments extends TokenOverridable {
   barriered_from_usergroup_ids: string[];
   primary_usergroup_id: string;
   restricted_subjects: string[];
 }
 
-export interface AdminBarriersDeleteArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminBarriersDeleteArguments extends TokenOverridable {
   barrier_id: string;
 }
 
-export interface AdminBarriersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled { }
+export interface AdminBarriersListArguments extends TokenOverridable, CursorPaginationEnabled { }
 cursorPaginationEnabledMethods.add('admin.barriers.list');
 
-export interface AdminBarriersUpdateArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminBarriersUpdateArguments extends TokenOverridable {
   barrier_id: string;
   barriered_from_usergroup_ids: string[];
   primary_usergroup_id: string;
   restricted_subjects: string[];
 }
 
-export interface AdminConversationsArchiveArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsArchiveArguments extends TokenOverridable {
   channel_id: string;
 }
-export interface AdminConversationsBulkArchiveArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsBulkArchiveArguments extends TokenOverridable {
   channel_ids: string[];
 }
-export interface AdminConversationsBulkDeleteArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsBulkDeleteArguments extends TokenOverridable {
   channel_ids: string[];
 }
-export interface AdminConversationsBulkMoveArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsBulkMoveArguments extends TokenOverridable {
   channel_ids: string[];
   target_team_id: string;
 }
-export interface AdminConversationsConvertToPrivateArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsConvertToPrivateArguments extends TokenOverridable {
   channel_id: string;
 }
-export interface AdminConversationsConvertToPublicArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsConvertToPublicArguments extends TokenOverridable {
   channel_id: string;
 }
-export interface AdminConversationsCreateArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsCreateArguments extends TokenOverridable {
   is_private: boolean;
   name: string;
   description?: string;
   org_wide?: boolean;
   team_id?: string;
 }
-export interface AdminConversationsDeleteArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsDeleteArguments extends TokenOverridable {
   channel_id: string;
 }
-export interface AdminConversationsDisconnectSharedArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsDisconnectSharedArguments extends TokenOverridable {
   channel_id: string;
   leaving_team_ids?: string[];
 }
 export interface AdminConversationsLookupArguments
-  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  extends TokenOverridable, CursorPaginationEnabled {
   last_message_activity_before: number;
   team_ids: string[];
   max_member_count?: number;
 }
 cursorPaginationEnabledMethods.add('admin.conversations.lookup');
 export interface AdminConversationsEKMListOriginalConnectedChannelInfoArguments
-  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  extends TokenOverridable, CursorPaginationEnabled {
   channel_ids?: string[];
   team_ids?: string[];
 }
 cursorPaginationEnabledMethods.add('admin.conversations.ekm.listOriginalConnectedChannelInfo');
-export interface AdminConversationsGetConversationPrefsArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsGetConversationPrefsArguments extends TokenOverridable {
   channel_id: string;
 }
 export interface AdminConversationsGetTeamsArguments
-  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  extends TokenOverridable, CursorPaginationEnabled {
   channel_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.conversations.getTeams');
-export interface AdminConversationsInviteArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsInviteArguments extends TokenOverridable {
   channel_id: string;
   user_ids: string[];
 }
-export interface AdminConversationsRenameArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsRenameArguments extends TokenOverridable {
   channel_id: string;
   name: string;
 }
-export interface AdminConversationsRestrictAccessAddGroupArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsRestrictAccessAddGroupArguments extends TokenOverridable {
   channel_id: string;
   group_id: string;
   team_id?: string;
 }
-export interface AdminConversationsRestrictAccessListGroupsArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsRestrictAccessListGroupsArguments extends TokenOverridable {
   channel_id: string;
   team_id?: string;
 }
-export interface AdminConversationsRestrictAccessRemoveGroupArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsRestrictAccessRemoveGroupArguments extends TokenOverridable {
   channel_id: string;
   group_id: string;
   team_id: string;
 }
-export interface AdminConversationsGetCustomRetentionArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsGetCustomRetentionArguments extends TokenOverridable {
   channel_id: string;
 }
-export interface AdminConversationsSetCustomRetentionArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsSetCustomRetentionArguments extends TokenOverridable {
   channel_id: string;
   duration_days: number;
 }
-export interface AdminConversationsRemoveCustomRetentionArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsRemoveCustomRetentionArguments extends TokenOverridable {
   channel_id: string;
 }
 export interface AdminConversationsSearchArguments
-  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  extends TokenOverridable, CursorPaginationEnabled {
   query?: string;
   search_channel_types?: string[];
   sort?: 'relevant' | 'name' | 'member_count' | 'created';
@@ -1180,159 +1180,159 @@ export interface AdminConversationsSearchArguments
   team_ids?: string[];
 }
 cursorPaginationEnabledMethods.add('admin.conversations.search');
-export interface AdminConversationsSetConversationPrefsArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsSetConversationPrefsArguments extends TokenOverridable {
   channel_id: string;
   prefs: Record<string, unknown>;
 }
-export interface AdminConversationsSetTeamsArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsSetTeamsArguments extends TokenOverridable {
   channel_id: string;
   team_id?: string;
   target_team_ids?: string[];
   org_channel?: boolean;
 }
-export interface AdminConversationsUnarchiveArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminConversationsUnarchiveArguments extends TokenOverridable {
   channel_id: string;
 }
-export interface AdminEmojiAddArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminEmojiAddArguments extends TokenOverridable {
   name: string;
   url: string;
 }
-export interface AdminEmojiAddAliasArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminEmojiAddAliasArguments extends TokenOverridable {
   name: string;
   alias_for: string;
 }
-export interface AdminEmojiListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled { }
+export interface AdminEmojiListArguments extends TokenOverridable, CursorPaginationEnabled { }
 cursorPaginationEnabledMethods.add('admin.emoji.list');
-export interface AdminEmojiRemoveArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminEmojiRemoveArguments extends TokenOverridable {
   name: string;
 }
-export interface AdminEmojiRenameArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminEmojiRenameArguments extends TokenOverridable {
   name: string;
   new_name: string;
 }
-export interface AdminFunctionsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface AdminFunctionsListArguments extends TokenOverridable, CursorPaginationEnabled {
   app_ids: string[];
   team_id?: string;
 }
 export interface AdminFunctionsPermissionsLookupArguments
-  extends WebAPICallOptions, TokenOverridable {
+  extends TokenOverridable {
   function_ids: string[];
 }
-export interface AdminFunctionsPermissionsSetArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminFunctionsPermissionsSetArguments extends TokenOverridable {
   function_id: string;
   visibility: string;
   user_ids?: string[];
 }
 export interface AdminInviteRequestsApproveArguments
-  extends WebAPICallOptions, TokenOverridable {
+  extends TokenOverridable {
   invite_request_id: string;
   team_id: string;
 }
 export interface AdminInviteRequestsApprovedListArguments
-  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  extends TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.inviteRequests.approved.list');
 export interface AdminInviteRequestsDenyArguments
-  extends WebAPICallOptions, TokenOverridable {
+  extends TokenOverridable {
   invite_request_id: string;
   team_id: string;
 }
 export interface AdminInviteRequestsDeniedListArguments
-  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  extends TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.inviteRequests.denied.list');
 export interface AdminInviteRequestsListArguments
-  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  extends TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.inviteRequests.list');
 export interface AdminRolesAddAssignmentsArguments
-  extends WebAPICallOptions, TokenOverridable {
+  extends TokenOverridable {
   role_id: string;
   entity_ids: string[];
   user_ids: string[];
 }
 export interface AdminRolesListAssignmentsArguments
-  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  extends TokenOverridable, CursorPaginationEnabled {
   entity_ids?: string[];
   role_ids?: string[];
   sort_dir?: string;
 }
 cursorPaginationEnabledMethods.add('admin.roles.listAssignments');
 export interface AdminRolesRemoveAssignmentsArguments
-  extends WebAPICallOptions, TokenOverridable {
+  extends TokenOverridable {
   role_id: string;
   entity_ids: string[];
   user_ids: string[];
 }
 cursorPaginationEnabledMethods.add('admin.inviteRequests.list');
-export interface AdminTeamsAdminsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface AdminTeamsAdminsListArguments extends TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.teams.admins.list');
-export interface AdminTeamsCreateArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminTeamsCreateArguments extends TokenOverridable {
   team_domain: string;
   team_name: string;
   team_description?: string;
   team_discoverability?: string;
 }
-export interface AdminTeamsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled { }
+export interface AdminTeamsListArguments extends TokenOverridable, CursorPaginationEnabled { }
 cursorPaginationEnabledMethods.add('admin.teams.list');
-export interface AdminTeamsOwnersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface AdminTeamsOwnersListArguments extends TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.teams.owners.list');
-export interface AdminTeamsSettingsInfoArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminTeamsSettingsInfoArguments extends TokenOverridable {
   team_id: string;
 }
-export interface AdminTeamsSettingsSetDefaultChannelsArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminTeamsSettingsSetDefaultChannelsArguments extends TokenOverridable {
   team_id: string;
   channel_ids: string[];
 }
-export interface AdminTeamsSettingsSetDescriptionArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminTeamsSettingsSetDescriptionArguments extends TokenOverridable {
   team_id: string;
   description: string;
 }
-export interface AdminTeamsSettingsSetDiscoverabilityArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminTeamsSettingsSetDiscoverabilityArguments extends TokenOverridable {
   team_id: string;
   discoverability: 'open' | 'invite_only' | 'closed' | 'unlisted';
 }
-export interface AdminTeamsSettingsSetIconArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminTeamsSettingsSetIconArguments extends TokenOverridable {
   team_id: string;
   image_url: string;
 }
-export interface AdminTeamsSettingsSetNameArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminTeamsSettingsSetNameArguments extends TokenOverridable {
   team_id: string;
   name: string;
 }
-export interface AdminUsergroupsAddChannelsArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsergroupsAddChannelsArguments extends TokenOverridable {
   usergroup_id: string;
   team_id?: string;
   channel_ids: string | string[];
 }
-export interface AdminUsergroupsAddTeamsArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsergroupsAddTeamsArguments extends TokenOverridable {
   usergroup_id: string;
   team_ids: string | string[];
   auto_provision?: boolean;
 }
-export interface AdminUsergroupsListChannelsArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsergroupsListChannelsArguments extends TokenOverridable {
   usergroup_id: string;
   include_num_members?: boolean;
   team_id?: string;
 }
-export interface AdminUsergroupsRemoveChannelsArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsergroupsRemoveChannelsArguments extends TokenOverridable {
   usergroup_id: string;
   channel_ids: string | string[];
 }
-export interface AdminUsersAssignArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsersAssignArguments extends TokenOverridable {
   team_id: string;
   user_id: string;
   is_restricted?: boolean;
   is_ultra_restricted?: boolean;
 }
-export interface AdminUsersInviteArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsersInviteArguments extends TokenOverridable {
   channel_ids: string;
   email: string;
   team_id: string;
@@ -1344,83 +1344,83 @@ export interface AdminUsersInviteArguments extends WebAPICallOptions, TokenOverr
   real_name?: string;
   resend?: boolean;
 }
-export interface AdminUsersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface AdminUsersListArguments extends TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.users.list');
-export interface AdminUsersRemoveArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsersRemoveArguments extends TokenOverridable {
   team_id: string;
   user_id: string;
 }
-export interface AdminUsersSetAdminArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsersSetAdminArguments extends TokenOverridable {
   team_id: string;
   user_id: string;
 }
-export interface AdminUsersSetExpirationArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsersSetExpirationArguments extends TokenOverridable {
   team_id: string;
   user_id: string;
   expiration_ts: number;
 }
-export interface AdminUsersSetOwnerArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsersSetOwnerArguments extends TokenOverridable {
   team_id: string;
   user_id: string;
 }
-export interface AdminUsersSetRegularArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsersSetRegularArguments extends TokenOverridable {
   team_id: string;
   user_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.users.session.list');
-export interface AdminUsersSessionListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface AdminUsersSessionListArguments extends TokenOverridable, CursorPaginationEnabled {
   user_id?: string;
   team_id?: string;
 }
-export interface AdminUsersSessionResetArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsersSessionResetArguments extends TokenOverridable {
   user_id: string;
   mobile_only?: boolean;
   web_only?: boolean;
 }
-export interface AdminUsersSessionResetBulkArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsersSessionResetBulkArguments extends TokenOverridable {
   user_ids: string[];
   mobile_only?: boolean;
   web_only?: boolean;
 }
-export interface AdminUsersSessionInvalidateArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsersSessionInvalidateArguments extends TokenOverridable {
   session_id: string;
   team_id: string;
 }
-export interface AdminUsersSessionGetSettingsArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsersSessionGetSettingsArguments extends TokenOverridable {
   user_ids: string[];
 }
-export interface AdminUsersSessionSetSettingsArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsersSessionSetSettingsArguments extends TokenOverridable {
   user_ids: string[];
   desktop_app_browser_quit?: boolean;
   duration?: number;
 }
-export interface AdminUsersSessionClearSettingsArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsersSessionClearSettingsArguments extends TokenOverridable {
   user_ids: string[];
 }
 
-export interface AdminUsersUnsupportedVersionsExportArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminUsersUnsupportedVersionsExportArguments extends TokenOverridable {
   date_end_of_support?: number;
   date_sessions_started?: number;
 }
 
 export interface AdminWorkflowsCollaboratorsAddArguments
-  extends WebAPICallOptions, TokenOverridable {
+  extends TokenOverridable {
   collaborator_ids: string[];
   workflow_ids: string[];
 }
 export interface AdminWorkflowsCollaboratorsRemoveArguments
-  extends WebAPICallOptions, TokenOverridable {
+  extends TokenOverridable {
   collaborator_ids: string[];
   workflow_ids: string[];
 }
 export interface AdminWorkflowsPermissionsLookupArguments
-  extends WebAPICallOptions, TokenOverridable {
+  extends TokenOverridable {
   workflow_ids: string[];
   max_workflow_triggers?: number;
 }
-export interface AdminWorkflowsSearchArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface AdminWorkflowsSearchArguments extends TokenOverridable, CursorPaginationEnabled {
   app_id?: string;
   collaborator_ids?: string[];
   no_collaborators?: boolean;
@@ -1431,30 +1431,30 @@ export interface AdminWorkflowsSearchArguments extends WebAPICallOptions, TokenO
   source?: string;
 }
 cursorPaginationEnabledMethods.add('admin.worfklows.search');
-export interface AdminWorkflowsUnpublishArguments extends WebAPICallOptions, TokenOverridable {
+export interface AdminWorkflowsUnpublishArguments extends TokenOverridable {
   workflow_ids: string[];
 }
 /*
  * `api.*`
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface APITestArguments extends WebAPICallOptions { }
+export interface APITestArguments { }
 
 /*
  * `apps.*`
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AppsConnectionsOpenArguments extends WebAPICallOptions {
+export interface AppsConnectionsOpenArguments {
   // currently the method page lists Client id and client secret as optional arguments
   // circle back here to see if they stay as optional or are removed
 }
 
 export interface AppsEventAuthorizationsListArguments
-  extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+  extends TokenOverridable, CursorPaginationEnabled {
   event_context: string;
 }
 cursorPaginationEnabledMethods.add('apps.event.authorizations.list');
-export interface AppsUninstallArguments extends WebAPICallOptions {
+export interface AppsUninstallArguments {
   client_id: string;
   client_secret: string;
 }
@@ -1462,19 +1462,19 @@ export interface AppsUninstallArguments extends WebAPICallOptions {
 /*
  * `auth.*`
  */
-export interface AuthRevokeArguments extends WebAPICallOptions, TokenOverridable {
+export interface AuthRevokeArguments extends TokenOverridable {
   test?: boolean;
 }
-export interface AuthTeamsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface AuthTeamsListArguments extends TokenOverridable, CursorPaginationEnabled {
   include_icon?: boolean;
 }
 cursorPaginationEnabledMethods.add('auth.teams.list');
-export interface AuthTestArguments extends WebAPICallOptions, TokenOverridable { }
+export interface AuthTestArguments extends TokenOverridable { }
 
 /*
  * `bots.*`
  */
-export interface BotsInfoArguments extends WebAPICallOptions, TokenOverridable {
+export interface BotsInfoArguments extends TokenOverridable {
   bot?: string;
   team_id?: string;
 }
@@ -1482,7 +1482,7 @@ export interface BotsInfoArguments extends WebAPICallOptions, TokenOverridable {
 /*
  * `bookmarks.*`
  */
-export interface BookmarksAddArguments extends WebAPICallOptions, TokenOverridable {
+export interface BookmarksAddArguments extends TokenOverridable {
   channel_id: string;
   title: string;
   type: string;
@@ -1492,7 +1492,7 @@ export interface BookmarksAddArguments extends WebAPICallOptions, TokenOverridab
   parent_id?: string;
 }
 
-export interface BookmarksEditArguments extends WebAPICallOptions, TokenOverridable {
+export interface BookmarksEditArguments extends TokenOverridable {
   bookmark_id: string;
   channel_id: string;
   emoji?: string;
@@ -1500,11 +1500,11 @@ export interface BookmarksEditArguments extends WebAPICallOptions, TokenOverrida
   title?: string;
 }
 
-export interface BookmarksListArguments extends WebAPICallOptions, TokenOverridable {
+export interface BookmarksListArguments extends TokenOverridable {
   channel_id: string;
 }
 
-export interface BookmarksRemoveArguments extends WebAPICallOptions, TokenOverridable {
+export interface BookmarksRemoveArguments extends TokenOverridable {
   bookmark_id: string;
   channel_id: string;
 }
@@ -1512,7 +1512,7 @@ export interface BookmarksRemoveArguments extends WebAPICallOptions, TokenOverri
 /*
 * `calls.*`
 */
-export interface CallsAddArguments extends WebAPICallOptions, TokenOverridable {
+export interface CallsAddArguments extends TokenOverridable {
   external_unique_id: string;
   join_url: string;
   created_by?: string;
@@ -1523,28 +1523,28 @@ export interface CallsAddArguments extends WebAPICallOptions, TokenOverridable {
   users?: CallUser[];
 }
 
-export interface CallsEndArguments extends WebAPICallOptions, TokenOverridable {
+export interface CallsEndArguments extends TokenOverridable {
   id: string;
   duration?: number;
 }
 
-export interface CallsInfoArguments extends WebAPICallOptions, TokenOverridable {
+export interface CallsInfoArguments extends TokenOverridable {
   id: string;
 }
 
-export interface CallsUpdateArguments extends WebAPICallOptions, TokenOverridable {
+export interface CallsUpdateArguments extends TokenOverridable {
   id: string;
   join_url?: string;
   desktop_app_join_url?: string;
   title?: string;
 }
 
-export interface CallsParticipantsAddArguments extends WebAPICallOptions, TokenOverridable {
+export interface CallsParticipantsAddArguments extends TokenOverridable {
   id: string;
   users: CallUser[];
 }
 
-export interface CallsParticipantsRemoveArguments extends WebAPICallOptions, TokenOverridable {
+export interface CallsParticipantsRemoveArguments extends TokenOverridable {
   id: string;
   users: CallUser[];
 }
@@ -1552,91 +1552,91 @@ export interface CallsParticipantsRemoveArguments extends WebAPICallOptions, Tok
 /*
  * `channels.*`
  */
-export interface ChannelsArchiveArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChannelsArchiveArguments extends TokenOverridable {
   channel: string;
 }
 
-export interface ChannelsCreateArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChannelsCreateArguments extends TokenOverridable {
   name: string;
   validate?: boolean;
   team_id?: string;
 }
-export interface ChannelsHistoryArguments extends WebAPICallOptions, TokenOverridable, TimelinePaginationEnabled {
+export interface ChannelsHistoryArguments extends TokenOverridable, TimelinePaginationEnabled {
   channel: string;
   count?: number;
   unreads?: boolean;
 }
-export interface ChannelsInfoArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
+export interface ChannelsInfoArguments extends TokenOverridable, LocaleAware {
   channel: string;
 }
-export interface ChannelsInviteArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChannelsInviteArguments extends TokenOverridable {
   channel: string;
   user: string;
 }
-export interface ChannelsJoinArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChannelsJoinArguments extends TokenOverridable {
   name: string;
   validate?: boolean;
 }
-export interface ChannelsKickArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChannelsKickArguments extends TokenOverridable {
   channel: string;
   user: string;
 }
-export interface ChannelsLeaveArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChannelsLeaveArguments extends TokenOverridable {
   channel: string;
 }
-export interface ChannelsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface ChannelsListArguments extends TokenOverridable, CursorPaginationEnabled {
   exclude_archived?: boolean;
   exclude_members?: boolean;
   team_id?: string;
 }
 cursorPaginationEnabledMethods.add('channels.list');
-export interface ChannelsMarkArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChannelsMarkArguments extends TokenOverridable {
   channel: string;
   ts: string;
 }
-export interface ChannelsRenameArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChannelsRenameArguments extends TokenOverridable {
   channel: string;
   name: string;
   validate?: boolean;
 }
-export interface ChannelsRepliesArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChannelsRepliesArguments extends TokenOverridable {
   channel: string;
   thread_ts: string;
 }
-export interface ChannelsSetPurposeArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChannelsSetPurposeArguments extends TokenOverridable {
   channel: string;
   purpose: string;
 }
-export interface ChannelsSetTopicArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChannelsSetTopicArguments extends TokenOverridable {
   channel: string;
   topic: string;
 }
-export interface ChannelsUnarchiveArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChannelsUnarchiveArguments extends TokenOverridable {
   channel: string;
 }
 
 /*
  * `chat.*`
  */
-export interface ChatDeleteArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChatDeleteArguments extends TokenOverridable {
   channel: string;
   ts: string;
   as_user?: boolean;
 }
-export interface ChatDeleteScheduledMessageArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChatDeleteScheduledMessageArguments extends TokenOverridable {
   channel: string;
   scheduled_message_id: string;
   as_user?: boolean;
 }
-export interface ChatGetPermalinkArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChatGetPermalinkArguments extends TokenOverridable {
   channel: string;
   message_ts: string;
 }
-export interface ChatMeMessageArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChatMeMessageArguments extends TokenOverridable {
   channel: string;
   text: string;
 }
-export interface ChatPostEphemeralArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChatPostEphemeralArguments extends TokenOverridable {
   channel: string;
   text?: string;
   user: string;
@@ -1650,7 +1650,7 @@ export interface ChatPostEphemeralArguments extends WebAPICallOptions, TokenOver
   icon_url?: string; // if specified, as_user must be false
   username?: string; // if specified, as_user must be false
 }
-export interface ChatPostMessageArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChatPostMessageArguments extends TokenOverridable {
   channel: string;
   text?: string;
   as_user?: boolean;
@@ -1668,7 +1668,7 @@ export interface ChatPostMessageArguments extends WebAPICallOptions, TokenOverri
   unfurl_media?: boolean;
   username?: string; // if specified, as_user must be false
 }
-export interface ChatScheduleMessageArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChatScheduleMessageArguments extends TokenOverridable {
   channel: string;
   text?: string;
   post_at: string | number;
@@ -1684,7 +1684,7 @@ export interface ChatScheduleMessageArguments extends WebAPICallOptions, TokenOv
   unfurl_media?: boolean;
   team_id?: string;
 }
-export interface ChatScheduledMessagesListArguments extends WebAPICallOptions, TokenOverridable,
+export interface ChatScheduledMessagesListArguments extends TokenOverridable,
   CursorPaginationEnabled {
   channel: string;
   latest: number;
@@ -1717,8 +1717,7 @@ interface SourceAndUnfurlIDArguments {
    */
   unfurl_id: string;
 }
-export type ChatUnfurlArguments = (ChannelAndTSArguments | SourceAndUnfurlIDArguments) & WebAPICallOptions
-& TokenOverridable
+export type ChatUnfurlArguments = (ChannelAndTSArguments | SourceAndUnfurlIDArguments) & TokenOverridable
 & {
   /**
    * @description URL-encoded JSON map with keys set to URLs featured in the the message, pointing to their unfurl
@@ -1746,7 +1745,7 @@ export type ChatUnfurlArguments = (ChannelAndTSArguments | SourceAndUnfurlIDArgu
    */
   user_auth_blocks?: (KnownBlock | Block)[];
 };
-export interface ChatUpdateArguments extends WebAPICallOptions, TokenOverridable {
+export interface ChatUpdateArguments extends TokenOverridable {
   channel: string;
   ts: string;
   as_user?: boolean;
@@ -1763,7 +1762,7 @@ export interface ChatUpdateArguments extends WebAPICallOptions, TokenOverridable
 /*
  * `conversations.*`
  */
-export interface ConversationsAcceptSharedInviteArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsAcceptSharedInviteArguments extends TokenOverridable {
   channel_name: string;
   channel_id?: string;
   free_trial_accepted?: boolean;
@@ -1771,106 +1770,106 @@ export interface ConversationsAcceptSharedInviteArguments extends WebAPICallOpti
   is_private?: boolean;
   team_id?: string;
 }
-export interface ConversationsApproveSharedInviteArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsApproveSharedInviteArguments extends TokenOverridable {
   invite_id: string;
   target_team?: string;
 }
-export interface ConversationsArchiveArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsArchiveArguments extends TokenOverridable {
   channel: string;
 }
-export interface ConversationsCloseArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsCloseArguments extends TokenOverridable {
   channel: string;
 }
-export interface ConversationsCreateArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsCreateArguments extends TokenOverridable {
   name: string;
   is_private?: boolean;
   team_id?: string;
 }
-export interface ConversationsDeclineSharedInviteArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsDeclineSharedInviteArguments extends TokenOverridable {
   invite_id: string;
   target_team?: string;
 }
-export interface ConversationsHistoryArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled,
+export interface ConversationsHistoryArguments extends TokenOverridable, CursorPaginationEnabled,
   TimelinePaginationEnabled {
   channel: string;
   include_all_metadata?: boolean;
 }
 cursorPaginationEnabledMethods.add('conversations.history');
-export interface ConversationsInfoArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
+export interface ConversationsInfoArguments extends TokenOverridable, LocaleAware {
   channel: string;
   include_num_members?: boolean;
 }
-export interface ConversationsInviteArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsInviteArguments extends TokenOverridable {
   channel: string;
   users: string; // comma-separated list of users
 }
-export interface ConversationsInviteSharedArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsInviteSharedArguments extends TokenOverridable {
   channel: string;
   emails?: string[];
   user_ids?: string[];
 }
-export interface ConversationsJoinArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsJoinArguments extends TokenOverridable {
   channel: string;
 }
-export interface ConversationsKickArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsKickArguments extends TokenOverridable {
   channel: string;
   user: string;
 }
-export interface ConversationsLeaveArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsLeaveArguments extends TokenOverridable {
   channel: string;
 }
-export interface ConversationsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface ConversationsListArguments extends TokenOverridable, CursorPaginationEnabled {
   exclude_archived?: boolean;
   types?: string; // comma-separated list of conversation types
   team_id?: string;
 }
 cursorPaginationEnabledMethods.add('conversations.list');
-export interface ConversationsListConnectInvitesArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsListConnectInvitesArguments extends TokenOverridable {
   count?: number;
   cursor?: string;
   team_id?: string;
 }
 cursorPaginationEnabledMethods.add('conversations.listConnectInvites');
-export interface ConversationsMarkArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsMarkArguments extends TokenOverridable {
   channel: string;
   ts: string;
 }
-export interface ConversationsMembersArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface ConversationsMembersArguments extends TokenOverridable, CursorPaginationEnabled {
   channel: string;
 }
 cursorPaginationEnabledMethods.add('conversations.members');
-export interface ConversationsOpenArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsOpenArguments extends TokenOverridable {
   channel?: string;
   users?: string; // comma-separated list of users
   return_im?: boolean;
 }
-export interface ConversationsRenameArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsRenameArguments extends TokenOverridable {
   channel: string;
   name: string;
 }
-export interface ConversationsRepliesArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled,
+export interface ConversationsRepliesArguments extends TokenOverridable, CursorPaginationEnabled,
   TimelinePaginationEnabled {
   channel: string;
   ts: string;
   include_all_metadata?: boolean;
 }
 cursorPaginationEnabledMethods.add('conversations.replies');
-export interface ConversationsSetPurposeArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsSetPurposeArguments extends TokenOverridable {
   channel: string;
   purpose: string;
 }
-export interface ConversationsSetTopicArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsSetTopicArguments extends TokenOverridable {
   channel: string;
   topic: string;
 }
-export interface ConversationsUnarchiveArguments extends WebAPICallOptions, TokenOverridable {
+export interface ConversationsUnarchiveArguments extends TokenOverridable {
   channel: string;
 }
 
 /*
  * `dialog.*`
  */
-export interface DialogOpenArguments extends WebAPICallOptions, TokenOverridable {
+export interface DialogOpenArguments extends TokenOverridable {
   trigger_id: string;
   dialog: Dialog;
 }
@@ -1878,38 +1877,38 @@ export interface DialogOpenArguments extends WebAPICallOptions, TokenOverridable
 /*
  * `dnd.*`
  */
-export interface DndEndDndArguments extends WebAPICallOptions, TokenOverridable { }
-export interface DndEndSnoozeArguments extends WebAPICallOptions, TokenOverridable { }
-export interface DndInfoArguments extends WebAPICallOptions, TokenOverridable {
+export interface DndEndDndArguments extends TokenOverridable { }
+export interface DndEndSnoozeArguments extends TokenOverridable { }
+export interface DndInfoArguments extends TokenOverridable {
   user: string;
 }
-export interface DndSetSnoozeArguments extends WebAPICallOptions, TokenOverridable {
+export interface DndSetSnoozeArguments extends TokenOverridable {
   num_minutes: number;
 }
-export interface DndTeamInfoArguments extends WebAPICallOptions, TokenOverridable {
+export interface DndTeamInfoArguments extends TokenOverridable {
   users?: string; // comma-separated list of users
 }
 
 /*
  * `emoji.*`
  */
-export interface EmojiListArguments extends WebAPICallOptions, TokenOverridable {
+export interface EmojiListArguments extends TokenOverridable {
   include_categories?: boolean;
 }
 
 /*
  * `files.*`
  */
-export interface FilesDeleteArguments extends WebAPICallOptions, TokenOverridable {
+export interface FilesDeleteArguments extends TokenOverridable {
   file: string; // file id
 }
-export interface FilesInfoArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface FilesInfoArguments extends TokenOverridable, CursorPaginationEnabled {
   file: string; // file id
   count?: number;
   page?: number;
 }
 cursorPaginationEnabledMethods.add('files.info');
-export interface FilesListArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled {
+export interface FilesListArguments extends TokenOverridable, TraditionalPagingEnabled {
   channel?: string;
   user?: string;
   ts_from?: string;
@@ -1918,16 +1917,16 @@ export interface FilesListArguments extends WebAPICallOptions, TokenOverridable,
   show_files_hidden_by_limit?: boolean;
   team_id?: string;
 }
-export interface FilesRevokePublicURLArguments extends WebAPICallOptions, TokenOverridable {
+export interface FilesRevokePublicURLArguments extends TokenOverridable {
   file: string; // file id
 }
-export interface FilesSharedPublicURLArguments extends WebAPICallOptions, TokenOverridable {
+export interface FilesSharedPublicURLArguments extends TokenOverridable {
   file: string; // file id
 }
 /**
  * Legacy files.upload API files upload arguments
  */
-export interface FilesUploadArguments extends FileUpload, WebAPICallOptions, TokenOverridable {}
+export interface FilesUploadArguments extends FileUpload, TokenOverridable {}
 interface FileUpload {
   channels?: string; // comma-separated list of channels
   content?: string; // if omitted, must provide `file`
@@ -1939,7 +1938,7 @@ interface FileUpload {
   title?: string;
 }
 
-export interface FilesUploadV2Arguments extends FileUploadV2, WebAPICallOptions, TokenOverridable {
+export interface FilesUploadV2Arguments extends FileUploadV2, TokenOverridable {
   file_uploads?: Omit<FileUploadV2, 'channel_id' | 'channels' | 'initial_comment' | 'thread_ts'>[];
   /**
    * @deprecated Since v7, this flag is no longer used. You can safely remove it from your code.
@@ -1965,7 +1964,7 @@ export interface FileUploadV2Job extends FileUploadV2,
  * Gets a URL for an edge external file upload. Method:
  * {@link https://api.slack.com/methods/files.getUploadURLExternal files.getUploadURLExternal}
 */
-export interface FilesGetUploadURLExternalArguments extends WebAPICallOptions, TokenOverridable {
+export interface FilesGetUploadURLExternalArguments extends TokenOverridable {
   filename: string;
   length: number;
   alt_text?: string;
@@ -1975,7 +1974,7 @@ export interface FilesGetUploadURLExternalArguments extends WebAPICallOptions, T
  * Finishes an upload started with files.getUploadURLExternal. Method:
  * {@link https://api.slack.com/methods/files.completeUploadExternal files.completeUploadExternal}
  */
-export interface FilesCompleteUploadExternalArguments extends WebAPICallOptions, TokenOverridable {
+export interface FilesCompleteUploadExternalArguments extends TokenOverridable {
   files: FileUploadComplete[];
   channel_id?: string, // if omitted, file will be private
   initial_comment?: string,
@@ -1985,23 +1984,23 @@ interface FileUploadComplete {
   id: string, // file id
   title?: string // filename
 }
-export interface FilesCommentsDeleteArguments extends WebAPICallOptions, TokenOverridable {
+export interface FilesCommentsDeleteArguments extends TokenOverridable {
   file: string; // file id
   id: string; // comment id
 }
 // either file or external_id is required
-export interface FilesRemoteInfoArguments extends WebAPICallOptions, TokenOverridable {
+export interface FilesRemoteInfoArguments extends TokenOverridable {
   // either one of the file or external_id arguments are required
   file?: string;
   external_id?: string;
 }
-export interface FilesRemoteListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface FilesRemoteListArguments extends TokenOverridable, CursorPaginationEnabled {
   ts_from?: string;
   ts_to?: string;
   channel?: string;
 }
 cursorPaginationEnabledMethods.add('files.remote.list');
-export interface FilesRemoteAddArguments extends WebAPICallOptions, TokenOverridable {
+export interface FilesRemoteAddArguments extends TokenOverridable {
   title: string;
   external_url: string;
   external_id: string; // a unique identifier for the file in your system
@@ -2009,7 +2008,7 @@ export interface FilesRemoteAddArguments extends WebAPICallOptions, TokenOverrid
   preview_image?: Buffer | Stream;
   indexable_file_contents?: Buffer | Stream;
 }
-export interface FilesRemoteUpdateArguments extends WebAPICallOptions, TokenOverridable {
+export interface FilesRemoteUpdateArguments extends TokenOverridable {
   title?: string;
   external_url?: string;
   filetype?: string; // possible values (except for 'auto'): https://api.slack.com/types/file#file_types
@@ -2020,12 +2019,12 @@ export interface FilesRemoteUpdateArguments extends WebAPICallOptions, TokenOver
   file?: string;
   external_id?: string;
 }
-export interface FilesRemoteRemoveArguments extends WebAPICallOptions, TokenOverridable {
+export interface FilesRemoteRemoveArguments extends TokenOverridable {
   // either one of the file or external_id arguments are required
   file?: string;
   external_id?: string;
 }
-export interface FilesRemoteShareArguments extends WebAPICallOptions, TokenOverridable {
+export interface FilesRemoteShareArguments extends TokenOverridable {
   channels: string; // comma-separated list of channel ids
 
   // either one of the file or external_id arguments are required
@@ -2036,92 +2035,92 @@ export interface FilesRemoteShareArguments extends WebAPICallOptions, TokenOverr
 /*
  * `groups.*`
  */
-export interface GroupsArchiveArguments extends WebAPICallOptions, TokenOverridable {
+export interface GroupsArchiveArguments extends TokenOverridable {
   channel: string;
 }
-export interface GroupsCreateArguments extends WebAPICallOptions, TokenOverridable {
+export interface GroupsCreateArguments extends TokenOverridable {
   name: string;
   validate?: boolean;
   team_id?: string;
 }
-export interface GroupsCreateChildArguments extends WebAPICallOptions, TokenOverridable {
+export interface GroupsCreateChildArguments extends TokenOverridable {
   channel: string;
 }
-export interface GroupsHistoryArguments extends WebAPICallOptions, TokenOverridable, TimelinePaginationEnabled {
+export interface GroupsHistoryArguments extends TokenOverridable, TimelinePaginationEnabled {
   channel: string;
   unreads?: boolean;
   count?: number;
 }
-export interface GroupsInfoArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
+export interface GroupsInfoArguments extends TokenOverridable, LocaleAware {
   channel: string;
 }
-export interface GroupsInviteArguments extends WebAPICallOptions, TokenOverridable {
-  channel: string;
-  user: string;
-}
-export interface GroupsKickArguments extends WebAPICallOptions, TokenOverridable {
+export interface GroupsInviteArguments extends TokenOverridable {
   channel: string;
   user: string;
 }
-export interface GroupsLeaveArguments extends WebAPICallOptions, TokenOverridable {
+export interface GroupsKickArguments extends TokenOverridable {
+  channel: string;
+  user: string;
+}
+export interface GroupsLeaveArguments extends TokenOverridable {
   channel: string;
 }
-export interface GroupsListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface GroupsListArguments extends TokenOverridable, CursorPaginationEnabled {
   exclude_archived?: boolean;
   exclude_members?: boolean;
   team_id?: string;
 }
 cursorPaginationEnabledMethods.add('groups.list');
-export interface GroupsMarkArguments extends WebAPICallOptions, TokenOverridable {
+export interface GroupsMarkArguments extends TokenOverridable {
   channel: string;
   ts: string;
 }
-export interface GroupsOpenArguments extends WebAPICallOptions, TokenOverridable {
+export interface GroupsOpenArguments extends TokenOverridable {
   channel: string;
 }
-export interface GroupsRenameArguments extends WebAPICallOptions, TokenOverridable {
+export interface GroupsRenameArguments extends TokenOverridable {
   channel: string;
   name: string;
   validate?: boolean;
 }
-export interface GroupsRepliesArguments extends WebAPICallOptions, TokenOverridable {
+export interface GroupsRepliesArguments extends TokenOverridable {
   channel: string;
   thread_ts: boolean;
 }
-export interface GroupsSetPurposeArguments extends WebAPICallOptions, TokenOverridable {
+export interface GroupsSetPurposeArguments extends TokenOverridable {
   channel: string;
   purpose: string;
 }
-export interface GroupsSetTopicArguments extends WebAPICallOptions, TokenOverridable {
+export interface GroupsSetTopicArguments extends TokenOverridable {
   channel: string;
   topic: string;
 }
-export interface GroupsUnarchiveArguments extends WebAPICallOptions, TokenOverridable {
+export interface GroupsUnarchiveArguments extends TokenOverridable {
   channel: string;
 }
 
 /*
  * `im.*`
  */
-export interface IMCloseArguments extends WebAPICallOptions, TokenOverridable {
+export interface IMCloseArguments extends TokenOverridable {
   channel: string;
 }
-export interface IMHistoryArguments extends WebAPICallOptions, TokenOverridable, TimelinePaginationEnabled {
+export interface IMHistoryArguments extends TokenOverridable, TimelinePaginationEnabled {
   channel: string;
   count?: number;
   unreads?: boolean;
 }
-export interface IMListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled { }
+export interface IMListArguments extends TokenOverridable, CursorPaginationEnabled { }
 cursorPaginationEnabledMethods.add('im.list');
-export interface IMMarkArguments extends WebAPICallOptions, TokenOverridable {
+export interface IMMarkArguments extends TokenOverridable {
   channel: string;
   ts: string;
 }
-export interface IMOpenArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
+export interface IMOpenArguments extends TokenOverridable, LocaleAware {
   user: string;
   return_im?: boolean;
 }
-export interface IMRepliesArguments extends WebAPICallOptions, TokenOverridable {
+export interface IMRepliesArguments extends TokenOverridable {
   channel: string;
   thread_ts?: string;
 }
@@ -2129,7 +2128,7 @@ export interface IMRepliesArguments extends WebAPICallOptions, TokenOverridable 
 /*
  * `migration.*`
  */
-export interface MigrationExchangeArguments extends WebAPICallOptions, TokenOverridable {
+export interface MigrationExchangeArguments extends TokenOverridable {
   users: string; // comma-separated list of users
   to_old?: boolean;
   team_id?: string;
@@ -2138,24 +2137,24 @@ export interface MigrationExchangeArguments extends WebAPICallOptions, TokenOver
 /*
  * `mpim.*`
  */
-export interface MPIMCloseArguments extends WebAPICallOptions, TokenOverridable {
+export interface MPIMCloseArguments extends TokenOverridable {
   channel: string;
 }
-export interface MPIMHistoryArguments extends WebAPICallOptions, TokenOverridable, TimelinePaginationEnabled {
+export interface MPIMHistoryArguments extends TokenOverridable, TimelinePaginationEnabled {
   channel: string;
   count?: number;
   unreads?: boolean;
 }
-export interface MPIMListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled { }
+export interface MPIMListArguments extends TokenOverridable, CursorPaginationEnabled { }
 cursorPaginationEnabledMethods.add('mpim.list');
-export interface MPIMMarkArguments extends WebAPICallOptions, TokenOverridable {
+export interface MPIMMarkArguments extends TokenOverridable {
   channel: string;
   ts: string;
 }
-export interface MPIMOpenArguments extends WebAPICallOptions, TokenOverridable {
+export interface MPIMOpenArguments extends TokenOverridable {
   users: string; // comma-separated list of users
 }
-export interface MPIMRepliesArguments extends WebAPICallOptions, TokenOverridable {
+export interface MPIMRepliesArguments extends TokenOverridable {
   channel: string;
   thread_ts: string;
 }
@@ -2163,14 +2162,14 @@ export interface MPIMRepliesArguments extends WebAPICallOptions, TokenOverridabl
 /*
  * `oauth.*`
  */
-export interface OAuthAccessArguments extends WebAPICallOptions {
+export interface OAuthAccessArguments {
   client_id: string;
   client_secret: string;
   code: string;
   redirect_uri?: string;
   single_channel?: string;
 }
-export interface OAuthV2AccessArguments extends WebAPICallOptions {
+export interface OAuthV2AccessArguments {
   client_id: string;
   client_secret: string;
   code?: string; // not required for token rotation
@@ -2179,7 +2178,7 @@ export interface OAuthV2AccessArguments extends WebAPICallOptions {
   refresh_token?: string;
 }
 
-export interface OAuthV2ExchangeArguments extends WebAPICallOptions {
+export interface OAuthV2ExchangeArguments {
   client_id: string;
   client_secret: string;
 }
@@ -2187,7 +2186,7 @@ export interface OAuthV2ExchangeArguments extends WebAPICallOptions {
 /*
  * `openid.connect.*`
  */
-export interface OpenIDConnectTokenArguments extends WebAPICallOptions {
+export interface OpenIDConnectTokenArguments {
   client_id: string;
   client_secret: string;
   code?: string;
@@ -2197,20 +2196,20 @@ export interface OpenIDConnectTokenArguments extends WebAPICallOptions {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface OpenIDConnectUserInfoArguments extends WebAPICallOptions {
+export interface OpenIDConnectUserInfoArguments {
 }
 
 /*
  * `pins.*`
  */
-export interface PinsAddArguments extends WebAPICallOptions, TokenOverridable {
+export interface PinsAddArguments extends TokenOverridable {
   channel: string;
   timestamp: string;
 }
-export interface PinsListArguments extends WebAPICallOptions, TokenOverridable {
+export interface PinsListArguments extends TokenOverridable {
   channel: string;
 }
-export interface PinsRemoveArguments extends WebAPICallOptions, TokenOverridable {
+export interface PinsRemoveArguments extends TokenOverridable {
   channel: string;
   timestamp: string;
 }
@@ -2218,7 +2217,7 @@ export interface PinsRemoveArguments extends WebAPICallOptions, TokenOverridable
 /*
  * `reactions.*`
  */
-export interface ReactionsAddArguments extends WebAPICallOptions, TokenOverridable {
+export interface ReactionsAddArguments extends TokenOverridable {
   name: string;
   // must supply one of:
   channel?: string; // paired with timestamp
@@ -2226,7 +2225,7 @@ export interface ReactionsAddArguments extends WebAPICallOptions, TokenOverridab
   file?: string; // file id
   file_comment?: string;
 }
-export interface ReactionsGetArguments extends WebAPICallOptions, TokenOverridable {
+export interface ReactionsGetArguments extends TokenOverridable {
   full?: boolean;
   // must supply one of:
   channel?: string; // paired with timestamp
@@ -2234,14 +2233,14 @@ export interface ReactionsGetArguments extends WebAPICallOptions, TokenOverridab
   file?: string; // file id
   file_comment?: string;
 }
-export interface ReactionsListArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled,
+export interface ReactionsListArguments extends TokenOverridable, TraditionalPagingEnabled,
   CursorPaginationEnabled {
   user?: string;
   full?: boolean;
   team_id?: string;
 }
 cursorPaginationEnabledMethods.add('reactions.list');
-export interface ReactionsRemoveArguments extends WebAPICallOptions, TokenOverridable {
+export interface ReactionsRemoveArguments extends TokenOverridable {
   name: string;
   // must supply one of:
   channel?: string; // paired with timestamp
@@ -2253,30 +2252,30 @@ export interface ReactionsRemoveArguments extends WebAPICallOptions, TokenOverri
 /*
  * `reminders.*`
  */
-export interface RemindersAddArguments extends WebAPICallOptions, TokenOverridable {
+export interface RemindersAddArguments extends TokenOverridable {
   text: string;
   time: string | number;
   user?: string;
 }
-export interface RemindersCompleteArguments extends WebAPICallOptions, TokenOverridable {
+export interface RemindersCompleteArguments extends TokenOverridable {
   reminder: string;
 }
-export interface RemindersDeleteArguments extends WebAPICallOptions, TokenOverridable {
+export interface RemindersDeleteArguments extends TokenOverridable {
   reminder: string;
 }
-export interface RemindersInfoArguments extends WebAPICallOptions, TokenOverridable {
+export interface RemindersInfoArguments extends TokenOverridable {
   reminder: string;
 }
-export interface RemindersListArguments extends WebAPICallOptions, TokenOverridable { }
+export interface RemindersListArguments extends TokenOverridable { }
 
 /*
  * `rtm.*`
  */
-export interface RTMConnectArguments extends WebAPICallOptions, TokenOverridable {
+export interface RTMConnectArguments extends TokenOverridable {
   batch_presence_aware?: boolean;
   presence_sub?: boolean;
 }
-export interface RTMStartArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
+export interface RTMStartArguments extends TokenOverridable, LocaleAware {
   batch_presence_aware?: boolean;
   mpim_aware?: boolean;
   no_latest?: '0' | '1';
@@ -2288,27 +2287,27 @@ export interface RTMStartArguments extends WebAPICallOptions, TokenOverridable, 
 /*
  * `search.*`
  */
-export interface SearchAllArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled,
+export interface SearchAllArguments extends TokenOverridable, TraditionalPagingEnabled,
   Searchable { }
-export interface SearchFilesArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled,
+export interface SearchFilesArguments extends TokenOverridable, TraditionalPagingEnabled,
   Searchable { }
-export interface SearchMessagesArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled,
+export interface SearchMessagesArguments extends TokenOverridable, TraditionalPagingEnabled,
   Searchable { }
 
 /*
  * `stars.*`
  */
-export interface StarsAddArguments extends WebAPICallOptions, TokenOverridable {
+export interface StarsAddArguments extends TokenOverridable {
   // must supply one of:
   channel?: string; // paired with `timestamp`
   timestamp?: string; // paired with `channel`
   file?: string; // file id
   file_comment?: string;
 }
-export interface StarsListArguments extends WebAPICallOptions, TokenOverridable, TraditionalPagingEnabled,
+export interface StarsListArguments extends TokenOverridable, TraditionalPagingEnabled,
   CursorPaginationEnabled { }
 cursorPaginationEnabledMethods.add('stars.list');
-export interface StarsRemoveArguments extends WebAPICallOptions, TokenOverridable {
+export interface StarsRemoveArguments extends TokenOverridable {
   // must supply one of:
   channel?: string; // paired with `timestamp`
   timestamp?: string; // paired with `channel`
@@ -2319,7 +2318,7 @@ export interface StarsRemoveArguments extends WebAPICallOptions, TokenOverridabl
 /*
  * `team.*`
  */
-export interface TeamAccessLogsArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface TeamAccessLogsArguments extends TokenOverridable, CursorPaginationEnabled {
   before?: number;
   count?: number;
   page?: number;
@@ -2327,19 +2326,19 @@ export interface TeamAccessLogsArguments extends WebAPICallOptions, TokenOverrid
 }
 cursorPaginationEnabledMethods.add('team.accessLogs');
 
-export interface TeamBillableInfoArguments extends WebAPICallOptions, TokenOverridable {
+export interface TeamBillableInfoArguments extends TokenOverridable {
   user?: string;
   team_id?: string;
 }
-export interface TeamBillingInfoArguments extends WebAPICallOptions, TokenOverridable {
+export interface TeamBillingInfoArguments extends TokenOverridable {
 }
-export interface TeamInfoArguments extends WebAPICallOptions, TokenOverridable {
+export interface TeamInfoArguments extends TokenOverridable {
   // Team to get info on, if omitted, will return information about the current team.
   // Will only return team that the authenticated token is allowed to see through external shared channels
   team?: string;
   domain?: string; // available only for Enterprise Grid
 }
-export interface TeamIntegrationLogsArguments extends WebAPICallOptions, TokenOverridable {
+export interface TeamIntegrationLogsArguments extends TokenOverridable {
   app_id?: string;
   change_type?: string; // TODO: list types: 'x' | 'y' | 'z'
   count?: number;
@@ -2348,37 +2347,37 @@ export interface TeamIntegrationLogsArguments extends WebAPICallOptions, TokenOv
   user?: string;
   team_id?: string;
 }
-export interface TeamProfileGetArguments extends WebAPICallOptions, TokenOverridable {
+export interface TeamProfileGetArguments extends TokenOverridable {
   visibility?: 'all' | 'visible' | 'hidden';
   team_id?: string;
 }
-export interface TeamPreferencesListArguments extends WebAPICallOptions, TokenOverridable {
+export interface TeamPreferencesListArguments extends TokenOverridable {
 }
 
 /*
  * `usergroups.*`
  */
-export interface UsergroupsCreateArguments extends WebAPICallOptions, TokenOverridable {
+export interface UsergroupsCreateArguments extends TokenOverridable {
   name: string;
   channels?: string; // comma-separated list of channels
   description?: string;
   handle?: string;
   include_count?: boolean;
 }
-export interface UsergroupsDisableArguments extends WebAPICallOptions, TokenOverridable {
+export interface UsergroupsDisableArguments extends TokenOverridable {
   usergroup: string;
   include_count?: boolean;
 }
-export interface UsergroupsEnableArguments extends WebAPICallOptions, TokenOverridable {
+export interface UsergroupsEnableArguments extends TokenOverridable {
   usergroup: string;
   include_count?: boolean;
 }
-export interface UsergroupsListArguments extends WebAPICallOptions, TokenOverridable {
+export interface UsergroupsListArguments extends TokenOverridable {
   include_count?: boolean;
   include_disabled?: boolean;
   include_users?: boolean;
 }
-export interface UsergroupsUpdateArguments extends WebAPICallOptions, TokenOverridable {
+export interface UsergroupsUpdateArguments extends TokenOverridable {
   usergroup: string;
   channels?: string; // comma-separated list of channels
   description?: string;
@@ -2386,11 +2385,11 @@ export interface UsergroupsUpdateArguments extends WebAPICallOptions, TokenOverr
   include_count?: boolean;
   name?: string;
 }
-export interface UsergroupsUsersListArguments extends WebAPICallOptions, TokenOverridable {
+export interface UsergroupsUsersListArguments extends TokenOverridable {
   usergroup: string;
   include_disabled?: boolean;
 }
-export interface UsergroupsUsersUpdateArguments extends WebAPICallOptions, TokenOverridable {
+export interface UsergroupsUsersUpdateArguments extends TokenOverridable {
   usergroup: string;
   users: string; // comma-separated list of users
   include_count?: boolean;
@@ -2399,66 +2398,66 @@ export interface UsergroupsUsersUpdateArguments extends WebAPICallOptions, Token
 /*
  * `users.*`
  */
-export interface UsersConversationsArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
+export interface UsersConversationsArguments extends TokenOverridable, CursorPaginationEnabled {
   exclude_archived?: boolean;
   types?: string; // comma-separated list of conversation types
   user?: string;
   team_id?: string;
 }
 cursorPaginationEnabledMethods.add('users.conversations');
-export interface UsersDeletePhotoArguments extends WebAPICallOptions, TokenOverridable { }
-export interface UsersGetPresenceArguments extends WebAPICallOptions, TokenOverridable {
+export interface UsersDeletePhotoArguments extends TokenOverridable { }
+export interface UsersGetPresenceArguments extends TokenOverridable {
   user: string;
 }
-export interface UsersIdentityArguments extends WebAPICallOptions, TokenOverridable { }
-export interface UsersInfoArguments extends WebAPICallOptions, TokenOverridable, LocaleAware {
+export interface UsersIdentityArguments extends TokenOverridable { }
+export interface UsersInfoArguments extends TokenOverridable, LocaleAware {
   user: string;
 }
-export interface UsersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled, LocaleAware {
+export interface UsersListArguments extends TokenOverridable, CursorPaginationEnabled, LocaleAware {
   presence?: boolean; // deprecated, defaults to false
   team_id?: string;
 }
 cursorPaginationEnabledMethods.add('users.list');
-export interface UsersLookupByEmailArguments extends WebAPICallOptions, TokenOverridable {
+export interface UsersLookupByEmailArguments extends TokenOverridable {
   email: string;
 }
-export interface UsersSetPhotoArguments extends WebAPICallOptions, TokenOverridable {
+export interface UsersSetPhotoArguments extends TokenOverridable {
   image: Buffer | Stream;
   crop_w?: number;
   crop_x?: number;
   crop_y?: number;
 }
-export interface UsersSetPresenceArguments extends WebAPICallOptions, TokenOverridable {
+export interface UsersSetPresenceArguments extends TokenOverridable {
   presence: 'auto' | 'away';
 }
-export interface UsersProfileGetArguments extends WebAPICallOptions, TokenOverridable {
+export interface UsersProfileGetArguments extends TokenOverridable {
   include_labels?: boolean;
   user?: string;
 }
-export interface UsersProfileSetArguments extends WebAPICallOptions, TokenOverridable {
+export interface UsersProfileSetArguments extends TokenOverridable {
   profile?: string; // url-encoded json
   user?: string;
   name?: string; // usable if `profile` is not passed
   value?: string; // usable if `profile` is not passed
 }
 
-export interface ViewsOpenArguments extends WebAPICallOptions, TokenOverridable {
+export interface ViewsOpenArguments extends TokenOverridable {
   trigger_id: string;
   view: View;
 }
 
-export interface ViewsPushArguments extends WebAPICallOptions, TokenOverridable {
+export interface ViewsPushArguments extends TokenOverridable {
   trigger_id: string;
   view: View;
 }
 
-export interface ViewsPublishArguments extends WebAPICallOptions, TokenOverridable {
+export interface ViewsPublishArguments extends TokenOverridable {
   user_id: string;
   view: View;
   hash?: string;
 }
 
-export interface ViewsUpdateArguments extends WebAPICallOptions, TokenOverridable {
+export interface ViewsUpdateArguments extends TokenOverridable {
   view_id?: string;
   view: View;
   external_id?: string;
@@ -2468,19 +2467,19 @@ export interface ViewsUpdateArguments extends WebAPICallOptions, TokenOverridabl
 /*
  * `workflows.*`
  */
-export interface WorkflowsStepCompletedArguments extends WebAPICallOptions, TokenOverridable {
+export interface WorkflowsStepCompletedArguments extends TokenOverridable {
   workflow_step_execute_id: string;
   outputs?: Record<string, unknown>;
 }
 
-export interface WorkflowsStepFailedArguments extends WebAPICallOptions, TokenOverridable {
+export interface WorkflowsStepFailedArguments extends TokenOverridable {
   workflow_step_execute_id: string;
   error: {
     message: string;
   };
 }
 
-export interface WorkflowsUpdateStepArguments extends WebAPICallOptions, TokenOverridable {
+export interface WorkflowsUpdateStepArguments extends TokenOverridable {
   workflow_step_edit_id: string;
   step_image_url?: string;
   step_name?: string;
