@@ -924,7 +924,7 @@ export default interface Method<
   MethodArguments,
   MethodResult extends WebAPICallResult = WebAPICallResult,
 > {
-  (options?: MethodArguments): Promise<MethodResult>;
+  (options: MethodArguments): Promise<MethodResult>;
 }
 
 /*
