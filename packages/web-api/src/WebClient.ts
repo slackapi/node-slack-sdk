@@ -78,7 +78,6 @@ export interface WebAPICallResult {
     // `chat.postMessage` returns an array of error messages (e.g., "messages": ["[ERROR] invalid_keys"])
     messages?: string[];
   };
-  [key: string]: unknown;
 }
 
 // NOTE: should there be an async predicate?
@@ -406,7 +405,9 @@ export class WebClient extends Methods {
    * each file uploaded and returns that data. Requires that your app have `files:read` scope.
    * @param options
    */
-  public async filesUploadV2(options: FilesUploadV2Arguments): Promise<WebAPICallResult> {
+  public async filesUploadV2(options: FilesUploadV2Arguments): Promise<
+  WebAPICallResult & { files: FilesCompleteUploadExternalResponse[] | WebAPICallResult[] }
+  > {
     this.logger.debug('files.uploadV2() start');
     // 1
     const fileUploads = await this.getAllFileUploads(options);
