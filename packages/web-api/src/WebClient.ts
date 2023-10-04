@@ -78,7 +78,6 @@ export interface WebAPICallResult {
     // `chat.postMessage` returns an array of error messages (e.g., "messages": ["[ERROR] invalid_keys"])
     messages?: string[];
   };
-  [key: string]: unknown;
 }
 
 // NOTE: should there be an async predicate?
@@ -403,7 +402,9 @@ export class WebClient extends Methods {
    * **#3**: Complete uploads {@link https://api.slack.com/methods/files.completeUploadExternal files.completeUploadExternal}
    * @param options
    */
-  public async filesUploadV2(options: FilesUploadV2Arguments): Promise<WebAPICallResult> {
+  public async filesUploadV2(options: FilesUploadV2Arguments): Promise<
+  WebAPICallResult & { files: FilesCompleteUploadExternalResponse[] | WebAPICallResult[] }
+  > {
     this.logger.debug('files.uploadV2() start');
     // 1
     const fileUploads = await this.getAllFileUploads(options);
