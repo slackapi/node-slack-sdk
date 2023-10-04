@@ -1540,7 +1540,8 @@ describe('WebClient', function () {
       }]
     });
 
-    it('is called when request_file_info is true or undefined', async () => {
+    // since v7, the behavior has been changed
+    it('is not called when request_file_info is true or undefined', async () => {
       client.getFileInfo = sinon.spy();
       // set initial files upload arguments with request_file_info true
       const withRequestFileInfoTrue = {
@@ -1549,14 +1550,16 @@ describe('WebClient', function () {
         request_file_info: true,
       };
       await client.filesUploadV2(withRequestFileInfoTrue);
-      assert.equal(client.getFileInfo.called, true);
+      // since v7, the behavior has been changed
+      assert.equal(client.getFileInfo.called, false);
 
       const withRequestFileInfoOmitted = {
         file: Buffer.from('test'),
         filename: 'test.txt',
       }
       await client.filesUploadV2(withRequestFileInfoOmitted);
-      assert.equal(client.getFileInfo.calledTwice, true);
+      // since v7, the behavior has been changed
+      assert.equal(client.getFileInfo.calledTwice, false);
     });
     it('is not called when request_file_info is set as false', async () => {
       client.getFileInfo = sinon.spy();

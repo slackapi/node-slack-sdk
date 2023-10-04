@@ -408,8 +408,6 @@ export class WebClient extends Methods {
    * 
    * **#3**: Complete uploads {@link https://api.slack.com/methods/files.completeUploadExternal files.completeUploadExternal}
    * 
-   * **#4**: Unless `request_file_info` set to false, call {@link https://api.slack.com/methods/files.info files.info} for
-   * each file uploaded and returns that data. Requires that your app have `files:read` scope.
    * @param options
    */
   public async filesUploadV2(options: FilesUploadV2Arguments): Promise<WebAPICallResult> {
@@ -429,13 +427,7 @@ export class WebClient extends Methods {
     // 3
     const completion = await this.completeFileUploads(fileUploads);
     
-    // 4 
-    let res = completion;
-    if (options.request_file_info ?? true) {
-      res = await this.getFileInfo(fileUploads);
-    }
-
-    return { ok: true, files: res };
+    return { ok: true, files: completion };
   }
 
   /**
@@ -470,19 +462,6 @@ export class WebClient extends Methods {
     return Promise.all(
       toComplete.map((job: FilesCompleteUploadExternalArguments) => this.files.completeUploadExternal(job)),
     );
-  }
-
-  /**
-   * Call {@link https://api.slack.com/methods/files.info files.info} for
-   * each file uploaded and returns relevant data. Requires that your app have `files:read` scope, to
-   * turn off, set `request_file_info` set to false.
-   * @param fileUploads
-   * @returns
-   */
-  private async getFileInfo(fileUploads: FileUploadV2Job[]):
-  Promise<Array<WebAPICallResult>> {
-    /* eslint-disable @typescript-eslint/no-non-null-assertion */
-    return Promise.all(fileUploads.map((job) => this.files.info({ file: job.file_id! })));
   }
 
   /**
