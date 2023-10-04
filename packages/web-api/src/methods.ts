@@ -1641,24 +1641,173 @@ export interface ChatPostEphemeralArguments extends TokenOverridable {
   icon_url?: string; // if specified, as_user must be false
   username?: string; // if specified, as_user must be false
 }
-export interface ChatPostMessageArguments extends TokenOverridable {
+
+interface ChatPostMessageArgumentsBase extends TokenOverridable {
+  /**
+   * @description Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name.
+   * @see {@link https://api.slack.com/methods/chat.postMessage#channels `chat.postMessage` Channels reference for more details}.
+   */
   channel: string;
-  text?: string;
-  as_user?: boolean;
-  attachments?: MessageAttachment[];
-  blocks?: (KnownBlock | Block)[];
-  icon_emoji?: string; // if specified, as_user must be false
-  icon_url?: string; // if specified, as_user must be false
-  metadata?: MessageMetadata;
+  /**
+   * @description Find and link user groups. No longer supports linking individual users; use syntax shown in
+   * {@link https://api.slack.com/reference/surfaces/formatting#mentioning-users Mentioning Users} instead.
+   */
   link_names?: boolean;
+  /**
+   * @description Attach metadata to your message. Metadata you post to Slack is accessible to any app or user who is a
+   * member of that workspace.
+   * @see {@link https://api.slack.com/metadata Message Metadata}.
+   */
+  metadata?: MessageMetadata;
+  /**
+   * @description Disable Slack markup parsing by setting to `false`. Enabled by default.
+   */
   mrkdwn?: boolean;
+  /**
+   * @description Change how messages are treated and formatted, depending on the contents of the message and the value
+   * of this property.
+   * @see {@link https://api.slack.com/methods/chat.postMessage#formatting `chat.postMessage` Formatting reference}.
+   */
   parse?: 'full' | 'none';
-  reply_broadcast?: boolean; // if specified, thread_ts must be set
-  thread_ts?: string;
+  /**
+   * @description Pass `true` to enable unfurling of primarily text-based content.
+   */
   unfurl_links?: boolean;
+  /**
+   * @description Pass `false` to disable unfurling of media content.
+   */
   unfurl_media?: boolean;
-  username?: string; // if specified, as_user must be false
 }
+
+/**
+ * @description `chat.postMessage` arguments where the `text` property captures the message contents.
+ */
+interface ChatPostMessageArgumentsTextBased extends ChatPostMessageArgumentsBase {
+  /**
+   * @description The formatted text of the message to be published.
+   */
+  text: string;
+  attachments?: never;
+  blocks?: never;
+}
+
+/**
+ * @description `chat.postMessage` arguments where the `attachments` property captures the message contents.
+ */
+interface ChatPostMessageArgumentsAttachmentsBased extends ChatPostMessageArgumentsBase {
+  /**
+   * @description The fallback text used in notifications.
+   */
+  text?: string;
+  attachments: [MessageAttachment, ...MessageAttachment[]];
+}
+
+/**
+ * @description `chat.postMessage` arguments where the `blocks` property captures the message contents.
+ */
+interface ChatPostMessageArgumentsBlocksBased extends ChatPostMessageArgumentsBase {
+  /**
+   * @description The fallback text used in notifications.
+   */
+  text?: string;
+  blocks: [(KnownBlock | Block), ...(KnownBlock | Block)[]];
+}
+
+type ChatPostMessageArgumentsContents = ChatPostMessageArgumentsTextBased | ChatPostMessageArgumentsAttachmentsBased |
+ChatPostMessageArgumentsBlocksBased;
+
+interface ChatPostMessageArgumentsIdentityBase {
+  /**
+   * @description (Legacy) Pass `true` to post the message as the authed user instead of as a bot. Defaults to `false`.
+   * Can only be used by classic Slack apps.
+   * @see {@link https://api.slack.com/methods/chat.postMessage#legacy_authorship Legacy Concerns and Authorship when using `chat.postMessage`}.
+   */
+  as_user?: boolean; // Legacy
+}
+
+/**
+ * @description `chat.postMessage` arguments for specifying the message icon using a URL.
+ */
+interface ChatPostMessageArgumentsIconURL extends ChatPostMessageArgumentsIdentityBase {
+  as_user: false;
+  /**
+   * @description URL to an image to use as the icon for this message.
+   */
+  icon_url: string;
+}
+
+/**
+ * @description `chat.postMessage` arguments for specifying the message icon using an emoji.
+ */
+interface ChatPostMessageArgumentsIconEmoji extends ChatPostMessageArgumentsIdentityBase {
+  as_user: false;
+  /**
+   * @description Emoji to use as the icon for this message. Overrides `icon_url`. E.g. `:chart_with_upwards_trend:`
+   */
+  icon_emoji: string;
+}
+
+/**
+ * @description `chat.postMessage` arguments for specifying the message username.
+ */
+interface ChatPostMessageArgumentsUsername extends ChatPostMessageArgumentsIdentityBase {
+  as_user: false;
+  /**
+   * @description Set your bot's user name.
+   */
+  username: string;
+}
+
+type ChatPostMessageArgumentsIdentity = ChatPostMessageArgumentsIdentityBase | ChatPostMessageArgumentsIconEmoji |
+ChatPostMessageArgumentsIconURL | ChatPostMessageArgumentsUsername;
+
+/**
+ * @description `chat.postMessage` arguments for specifying a thread reply, with optional conversation broadcast.
+ */
+interface ChatPostMessageArgumentsThreadReply {
+  thread_ts: string;
+  reply_broadcast?: boolean;
+}
+
+/**
+ * @description `chat.postMessage` arguments for specifying a 'normal' message - not a thread reply - which will never
+ * have a `thread_ts`.
+ */
+interface ChatPostMessageArgumentsConversationMessage {
+  thread_ts?: never;
+  reply_broadcast?: never;
+}
+
+type ChatPostMessageArgumentsType = ChatPostMessageArgumentsThreadReply | ChatPostMessageArgumentsConversationMessage;
+
+type ChatPostMessageArguments =
+  // Must provide one of the following to determine message contents
+  ChatPostMessageArgumentsContents &
+  // Controls the username/identity and icon display for the message
+  ChatPostMessageArgumentsIdentity &
+  // Controls whether a message is a thread reply or not
+  ChatPostMessageArgumentsType;
+
+const textOnly: ChatPostMessageArguments = {
+  channel: 'C1234',
+  text: 'hi',
+};
+const attachments: ChatPostMessageArguments = {
+  channel: 'C1234',
+  attachments: [{}],
+  text: 'some fallback',
+};
+const bs: ChatPostMessageArguments = {
+  channel: 'C1234',
+  blocks: [{
+    type: '',
+  }],
+  thread_ts: '123',
+  reply_broadcast: true,
+  icon_url: '1234',
+};
+console.log(textOnly, attachments, bs);
+
 export interface ChatScheduleMessageArguments extends TokenOverridable {
   channel: string;
   text?: string;
