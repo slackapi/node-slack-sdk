@@ -26,4 +26,11 @@ jobs:
       working-directory: ${{ matrix.package }}
       run: |
         npm install || npm list
+        # depending on which package we are testing, also npm link up other dependent packages
+        case "$PWD" in
+          */webhook) npm link ../types;;
+          */web-api) npm link ../types && npm link ../logger;;
+          # TODO: add oauth and socket-mode here once those packages have new major versions released
+          *) ;; # default
+        esac
         npm test
