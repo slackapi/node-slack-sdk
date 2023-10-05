@@ -824,7 +824,7 @@ function warnDeprecations(method: string, logger: Logger): void {
  * @param options arguments for the Web API method
  */
 function warnIfFallbackIsMissing(method: string, logger: Logger, options?: WebAPICallOptions): void {
-  const targetMethods = ['chat.postEphemeral', 'chat.postMessage', 'chat.scheduleMessage', 'chat.update'];
+  const targetMethods = ['chat.postEphemeral', 'chat.postMessage', 'chat.scheduleMessage'];
   const isTargetMethod = targetMethods.includes(method);
 
   const hasAttachments = (args: WebAPICallOptions) => Array.isArray(args.attachments) && args.attachments.length;
