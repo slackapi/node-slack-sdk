@@ -406,7 +406,6 @@ export class WebClient extends Methods {
    * URLs returned from step 1 (e.g. https://files.slack.com/upload/v1/...\")
    * 
    * **#3**: Complete uploads {@link https://api.slack.com/methods/files.completeUploadExternal files.completeUploadExternal}
-   * 
    * @param options
    */
   public async filesUploadV2(options: FilesUploadV2Arguments): Promise<WebAPICallResult> {
