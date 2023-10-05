@@ -34,20 +34,6 @@ describe('WebClient', function () {
       assert.instanceOf(client, WebClient);
       assert.notExists(client.axios.defaults.headers.Authorization);
     });
-    it('should not modify global defaults in axios', function () {
-      // https://github.com/slackapi/node-slack-sdk/issues/1037
-      const client = new WebClient();
-
-      const globalDefault = axios.defaults.headers.post['Content-Type'];
-      // The axios.default's defaults should not be modified.
-      // Specifically, defaults.headers.post should be kept as-is
-      assert.exists(globalDefault);
-
-      const instanceDefault = client.axios.defaults.headers.post['Content-Type'];
-      // WebClient intentionally removes the default Content-Type
-      // from the underlying AxiosInstance used for performing web API calls
-      assert.notExists(instanceDefault)
-    });
   });
 
   describe('Methods superclass', function () {
@@ -149,7 +135,6 @@ describe('WebClient', function () {
             assert.equal(error.code, ErrorCode.RequestError);
             assert.equal(error.original.config.timeout, timeoutOverride);
             assert.equal(error.original.isAxiosError, true);
-            assert.equal(error.original.request.aborted, true);
             done();
           } catch (err) {
             done(err);

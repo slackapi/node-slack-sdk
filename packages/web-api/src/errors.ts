@@ -94,7 +94,13 @@ export function httpErrorFromResponse(response: AxiosResponse): WebAPIHTTPError 
   ) as Partial<WebAPIHTTPError>;
   error.statusCode = response.status;
   error.statusMessage = response.statusText;
-  error.headers = response.headers;
+  const nonNullHeaders: Record<string, string> = {};
+  Object.keys(response.headers).forEach((k) => {
+    if (k && response.headers[k]) {
+      nonNullHeaders[k] = response.headers[k];
+    }
+  });
+  error.headers = nonNullHeaders;
   error.body = response.data;
   return (error as WebAPIHTTPError);
 }
