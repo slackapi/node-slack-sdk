@@ -979,6 +979,11 @@ export interface TraditionalPagingEnabled {
 /*
 * `admin.*`
 */
+// TODO: breaking change - potential type improvements:
+// - date is required _except_ if metadata_only=true
+// - metadata_only=true only works with type=public_channel
+// - type is either `public_channel` or `member`
+// https://api.slack.com/methods/admin.analytics.getFile
 export interface AdminAnalyticsGetFileArguments extends TokenOverridable {
   type: string;
   date?: string;
