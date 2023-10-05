@@ -403,7 +403,7 @@ export class WebClient extends Methods {
    * @param options
    */
   public async filesUploadV2(options: FilesUploadV2Arguments): Promise<
-  WebAPICallResult & { files: FilesCompleteUploadExternalResponse[] | WebAPICallResult[] }
+  WebAPICallResult & { files: FilesCompleteUploadExternalResponse[] }
   > {
     this.logger.debug('files.uploadV2() start');
     // 1
