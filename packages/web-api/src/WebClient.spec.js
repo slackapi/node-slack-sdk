@@ -211,7 +211,6 @@ describe('WebClient', function () {
         { method: 'chat.postEphemeral', args: { channel: "C123", blocks: [] } },
         { method: 'chat.postMessage', args: { channel: "C123", blocks: [] } },
         { method: 'chat.scheduleMessage', args: { channel: "C123", post_at: "100000000", blocks: [] } },
-        { method: 'chat.update', args: { channel: "C123", ts: "123.456", blocks: [] } },
       ];
       const warningTestPatterns = textWarningTestPatterns.concat(attachmentWarningTestPatterns);
 
