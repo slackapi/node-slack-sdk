@@ -979,73 +979,103 @@ export interface TraditionalPagingEnabled {
 /*
 * `admin.*`
 */
-// TODO: breaking change - potential type improvements:
+// TODO: breaking changes - potential type improvements:
 // - date is required _except_ if metadata_only=true
 // - metadata_only=true only works with type=public_channel
-// - type is either `public_channel` or `member`
 // https://api.slack.com/methods/admin.analytics.getFile
 export interface AdminAnalyticsGetFileArguments extends TokenOverridable {
-  type: string;
+  type: 'public_channel' | 'member';
   date?: string;
   metadata_only?: boolean;
 }
+// TODO: breaking changes - potential type improvements:
+// - exactly one of `team_id` or `enterprise_id` is required - but not both
+// - either `app_id` or `request_id` is required
+// https://api.slack.com/methods/admin.apps.approve
 export interface AdminAppsApproveArguments extends TokenOverridable {
   app_id?: string;
+  enterprise_id?: string;
   request_id?: string;
   team_id?: string;
 }
+// TODO: breaking changes - potential type improvements:
+// - cannot provide both `team_id` or `enterprise_id` (but can provide neither, will infer from token)
+// https://api.slack.com/methods/admin.apps.approved.list
 export interface AdminAppsApprovedListArguments extends TokenOverridable, CursorPaginationEnabled {
   team_id?: string;
   enterprise_id?: string;
+  certified?: boolean;
 }
+// TODO: breaking changes - potential type improvements:
+// - exactly one of `team_id` or `enterprise_id` is required - but not both
+// https://api.slack.com/methods/admin.apps.clearResolution
 export interface AdminAppsClearResolutionArguments {
   app_id: string;
   enterprise_id?: string;
   team_id?: string;
 }
 cursorPaginationEnabledMethods.add('admin.apps.approved.list');
+// https://api.slack.com/methods/admin.apps.requests.cancel
 export interface AdminAppsRequestsCancelArguments extends TokenOverridable {
   request_id: string;
   enterprise_id?: string;
   team_id?: string;
 }
+// https://api.slack.com/methods/admin.apps.requests.list
 export interface AdminAppsRequestsListArguments extends TokenOverridable, CursorPaginationEnabled {
-  team_id?: string;
+  certified?: boolean;
+  enterprise_id?: string;
+  team_id?: string; // required if your enterprise grid contains more than one workspace
 }
 cursorPaginationEnabledMethods.add('admin.apps.requests.list');
+// TODO: breaking changes - potential type improvements:
+// - exactly one of `team_id` or `enterprise_id` is required - but not both
+// - either `app_id` or `request_id` is required
+// https://api.slack.com/methods/admin.apps.restrict
 export interface AdminAppsRestrictArguments extends TokenOverridable {
   app_id?: string;
   request_id?: string;
   team_id?: string;
+  enterprise_id?: string;
 }
+// TODO: breaking changes - potential type improvements:
+// - cannot provide both `team_id` or `enterprise_id` (but can provide neither, will infer from token)
+// https://api.slack.com/methods/admin.apps.restricted.list
 export interface AdminAppsRestrictedListArguments extends TokenOverridable, CursorPaginationEnabled {
+  certified?: boolean;
   team_id?: string;
   enterprise_id?: string;
 }
 cursorPaginationEnabledMethods.add('admin.apps.restricted.list');
 
+// TODO: breaking changes - potential type improvements:
+// - exactly one of `team_id` or `enterprise_id` is required - but not both
+// https://api.slack.com/methods/admin.apps.uninstall
 export interface AdminAppsUninstallArguments {
   app_id: string;
   enterprise_id?: string;
   team_ids?: string[];
 }
+// https://api.slack.com/methods/admin.apps.activities.list
 export interface AdminAppsActivitiesListArguments extends TokenOverridable, CursorPaginationEnabled {
   app_id?: string;
   component_id?: string;
-  component_type?: string;
+  component_type?: 'events_api' | 'workflows' | 'functions' | 'tables';
   log_event_type?: string;
   max_date_created?: number;
   min_date_created?: number;
-  min_log_level?: string;
+  min_log_level?: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal';
   sort_direction?: string;
-  source?: string;
+  source?: 'slack' | 'developer';
   team_id?: string;
   trace_id?: string;
 }
 cursorPaginationEnabledMethods.add('admin.apps.activities.list');
+// TODO: does not get used, should add method implementation, see https://github.com/slackapi/node-slack-sdk/issues/1675
 export interface AdminAppsConfigLookupArguments extends TokenOverridable {
   app_ids: string[];
 }
+// TODO: does not get used, should add method implementation, see https://github.com/slackapi/node-slack-sdk/issues/1675
 export interface AdminAppsConfigSetArguments extends TokenOverridable {
   app_id: string;
   domain_restrictions?: {
@@ -1054,42 +1084,48 @@ export interface AdminAppsConfigSetArguments extends TokenOverridable {
   };
   workflow_auth_strategy?: 'builder_choice' | 'end_user_strategy';
 }
+// https://api.slack.com/methods/admin.auth.policy.assignEntities
 export interface AdminAuthPolicyAssignEntitiesArguments extends TokenOverridable {
   entity_ids: string[];
-  entity_type: string;
-  policy_name: string;
+  entity_type: 'USER';
+  policy_name: 'email_password';
 }
+// https://api.slack.com/methods/admin.auth.policy.getEntities
 export interface AdminAuthPolicyGetEntitiesArguments extends TokenOverridable,
   CursorPaginationEnabled {
-  policy_name: string;
-  entity_type?: string;
+  policy_name: 'email_password';
+  entity_type?: 'USER';
 }
 cursorPaginationEnabledMethods.add('admin.auth.policy.getEntities');
+// https://api.slack.com/methods/admin.auth.policy.removeEntities
 export interface AdminAuthPolicyRemoveEntitiesArguments extends TokenOverridable {
   entity_ids: string[];
-  entity_type: string;
-  policy_name: string;
+  entity_type: 'USER';
+  policy_name: 'email_password';
 }
+// https://api.slack.com/methods/admin.barriers.create
 export interface AdminBarriersCreateArguments extends TokenOverridable {
   barriered_from_usergroup_ids: string[];
   primary_usergroup_id: string;
-  restricted_subjects: string[];
+  restricted_subjects: string[]; // TODO: this should always be ['im','mpim','call'] according to the docs
 }
-
+// https://api.slack.com/methods/admin.barriers.delete
 export interface AdminBarriersDeleteArguments extends TokenOverridable {
   barrier_id: string;
 }
-
+// https://api.slack.com/methods/admin.barriers.list
 export interface AdminBarriersListArguments extends TokenOverridable, CursorPaginationEnabled { }
 cursorPaginationEnabledMethods.add('admin.barriers.list');
 
+// https://api.slack.com/methods/admin.barriers.update
 export interface AdminBarriersUpdateArguments extends TokenOverridable {
   barrier_id: string;
   barriered_from_usergroup_ids: string[];
   primary_usergroup_id: string;
-  restricted_subjects: string[];
+  restricted_subjects: string[]; // TODO: this should always be ['im','mpim','call'] according to the docs
 }
 
+// https://api.slack.com/methods/admin.conversations.archive
 export interface AdminConversationsArchiveArguments extends TokenOverridable {
   channel_id: string;
 }
