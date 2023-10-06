@@ -1043,8 +1043,11 @@ export interface AdminAppsConfigLookupArguments extends WebAPICallOptions, Token
 }
 export interface AdminAppsConfigSetArguments extends WebAPICallOptions, TokenOverridable {
   app_id: string;
-  domain_restrictions?: Record<string, unknown>;
-  workflow_auth_strategy?: string;
+  domain_restrictions?: {
+    urls?: string[];
+    emails?: string[];
+  };
+  workflow_auth_strategy?: 'builder_choice' | 'end_user_strategy';
 }
 export interface AdminAuthPolicyAssignEntitiesArguments extends WebAPICallOptions, TokenOverridable {
   entity_ids: string[];
