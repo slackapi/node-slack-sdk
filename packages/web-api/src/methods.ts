@@ -1583,18 +1583,22 @@ export interface AppsUninstallArguments {
 /*
  * `auth.*`
  */
+// https://api.slack.com/methods/auth.revoke
 export interface AuthRevokeArguments extends TokenOverridable {
   test?: boolean;
 }
+// https://api.slack.com/methods/auth.teams.list
 export interface AuthTeamsListArguments extends TokenOverridable, CursorPaginationEnabled {
   include_icon?: boolean;
 }
+// https://api.slack.com/methods/auth.test
 cursorPaginationEnabledMethods.add('auth.teams.list');
 export interface AuthTestArguments extends TokenOverridable { }
 
 /*
  * `bots.*`
  */
+// https://api.slack.com/methods/bots.info
 export interface BotsInfoArguments extends TokenOverridable {
   bot?: string;
   team_id?: string;
