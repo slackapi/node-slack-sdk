@@ -1053,8 +1053,8 @@ cursorPaginationEnabledMethods.add('admin.apps.restricted.list');
 // https://api.slack.com/methods/admin.apps.uninstall
 export interface AdminAppsUninstallArguments {
   app_id: string;
-  enterprise_id?: string;
-  team_ids?: string[];
+  enterprise_id?: string; // TODO: breaking change, enforce at least one array item?
+  team_ids?: string[]; // TODO: breaking change, enforce at least one array item?
 }
 // https://api.slack.com/methods/admin.apps.activities.list
 export interface AdminAppsActivitiesListArguments extends TokenOverridable, CursorPaginationEnabled {
@@ -1065,7 +1065,7 @@ export interface AdminAppsActivitiesListArguments extends TokenOverridable, Curs
   max_date_created?: number;
   min_date_created?: number;
   min_log_level?: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal';
-  sort_direction?: string;
+  sort_direction?: string; // TODO: change to 'asc' | 'desc'?
   source?: 'slack' | 'developer';
   team_id?: string;
   trace_id?: string;
@@ -1079,14 +1079,14 @@ export interface AdminAppsConfigLookupArguments extends TokenOverridable {
 export interface AdminAppsConfigSetArguments extends TokenOverridable {
   app_id: string;
   domain_restrictions?: {
-    urls?: string[];
-    emails?: string[];
+    urls?: string[]; // TODO: breaking change, enforce at least one array item?
+    emails?: string[]; // TODO: breaking change, enforce at least one array item?
   };
   workflow_auth_strategy?: 'builder_choice' | 'end_user_strategy';
 }
 // https://api.slack.com/methods/admin.auth.policy.assignEntities
 export interface AdminAuthPolicyAssignEntitiesArguments extends TokenOverridable {
-  entity_ids: string[];
+  entity_ids: string[]; // TODO: breaking change, enforce at least one array item?
   entity_type: 'USER';
   policy_name: 'email_password';
 }
@@ -1099,7 +1099,7 @@ export interface AdminAuthPolicyGetEntitiesArguments extends TokenOverridable,
 cursorPaginationEnabledMethods.add('admin.auth.policy.getEntities');
 // https://api.slack.com/methods/admin.auth.policy.removeEntities
 export interface AdminAuthPolicyRemoveEntitiesArguments extends TokenOverridable {
-  entity_ids: string[];
+  entity_ids: string[]; // TODO: breaking change, enforce at least one array item?
   entity_type: 'USER';
   policy_name: 'email_password';
 }
@@ -1129,22 +1129,30 @@ export interface AdminBarriersUpdateArguments extends TokenOverridable {
 export interface AdminConversationsArchiveArguments extends TokenOverridable {
   channel_id: string;
 }
+// https://api.slack.com/methods/admin.conversations.bulkArchive
 export interface AdminConversationsBulkArchiveArguments extends TokenOverridable {
-  channel_ids: string[];
+  channel_ids: string[]; // TODO: breaking change, enforce at least one array item?
 }
+// https://api.slack.com/methods/admin.conversations.bulkDelete
 export interface AdminConversationsBulkDeleteArguments extends TokenOverridable {
-  channel_ids: string[];
+  channel_ids: string[]; // TODO: breaking change, enforce at least one array item?
 }
+// https://api.slack.com/methods/admin.conversations.bulkMove
 export interface AdminConversationsBulkMoveArguments extends TokenOverridable {
-  channel_ids: string[];
+  channel_ids: string[]; // TODO: breaking change, enforce at least one array item?
   target_team_id: string;
 }
+// https://api.slack.com/methods/admin.conversations.convertToPrivate
 export interface AdminConversationsConvertToPrivateArguments extends TokenOverridable {
   channel_id: string;
+  name?: string;
 }
+// https://api.slack.com/methods/admin.conversations.convertToPublic
 export interface AdminConversationsConvertToPublicArguments extends TokenOverridable {
   channel_id: string;
 }
+// TODO: breaking change; if org_wide=false then team_id is required.
+// https://api.slack.com/methods/admin.conversations.create
 export interface AdminConversationsCreateArguments extends TokenOverridable {
   is_private: boolean;
   name: string;
@@ -1152,13 +1160,16 @@ export interface AdminConversationsCreateArguments extends TokenOverridable {
   org_wide?: boolean;
   team_id?: string;
 }
+// https://api.slack.com/methods/admin.conversations.delete
 export interface AdminConversationsDeleteArguments extends TokenOverridable {
   channel_id: string;
 }
+// https://api.slack.com/methods/admin.conversations.disconnectShared
 export interface AdminConversationsDisconnectSharedArguments extends TokenOverridable {
   channel_id: string;
   leaving_team_ids?: string[];
 }
+// https://api.slack.com/methods/admin.conversations.lookup
 export interface AdminConversationsLookupArguments
   extends TokenOverridable, CursorPaginationEnabled {
   last_message_activity_before: number;
@@ -1166,142 +1177,175 @@ export interface AdminConversationsLookupArguments
   max_member_count?: number;
 }
 cursorPaginationEnabledMethods.add('admin.conversations.lookup');
+// https://api.slack.com/methods/admin.conversations.ekm.listOriginalConnectedChannelInfo
 export interface AdminConversationsEKMListOriginalConnectedChannelInfoArguments
   extends TokenOverridable, CursorPaginationEnabled {
   channel_ids?: string[];
   team_ids?: string[];
 }
 cursorPaginationEnabledMethods.add('admin.conversations.ekm.listOriginalConnectedChannelInfo');
+// https://api.slack.com/methods/admin.conversations.getConversationPrefs
 export interface AdminConversationsGetConversationPrefsArguments extends TokenOverridable {
   channel_id: string;
 }
+// https://api.slack.com/methods/admin.conversations.getTeams
 export interface AdminConversationsGetTeamsArguments
   extends TokenOverridable, CursorPaginationEnabled {
   channel_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.conversations.getTeams');
+// https://api.slack.com/methods/admin.conversations.invite
 export interface AdminConversationsInviteArguments extends TokenOverridable {
   channel_id: string;
   user_ids: string[];
 }
+// https://api.slack.com/methods/admin.conversations.rename
 export interface AdminConversationsRenameArguments extends TokenOverridable {
   channel_id: string;
   name: string;
 }
+// https://api.slack.com/methods/admin.conversations.restrictAccess.addGroup
 export interface AdminConversationsRestrictAccessAddGroupArguments extends TokenOverridable {
   channel_id: string;
   group_id: string;
   team_id?: string;
 }
+// https://api.slack.com/methods/admin.conversations.restrictAccess.listGroups
 export interface AdminConversationsRestrictAccessListGroupsArguments extends TokenOverridable {
   channel_id: string;
   team_id?: string;
 }
+// https://api.slack.com/methods/admin.conversations.restrictAccess.removeGroup
 export interface AdminConversationsRestrictAccessRemoveGroupArguments extends TokenOverridable {
   channel_id: string;
   group_id: string;
-  team_id: string;
+  team_id?: string;
 }
+// https://api.slack.com/methods/admin.conversations.getCustomRetention
 export interface AdminConversationsGetCustomRetentionArguments extends TokenOverridable {
   channel_id: string;
 }
+// https://api.slack.com/methods/admin.conversations.setCustomRetention
 export interface AdminConversationsSetCustomRetentionArguments extends TokenOverridable {
   channel_id: string;
   duration_days: number;
 }
+// https://api.slack.com/methods/admin.conversations.removeCustomRetention
 export interface AdminConversationsRemoveCustomRetentionArguments extends TokenOverridable {
   channel_id: string;
 }
+// https://api.slack.com/methods/admin.conversations.search
 export interface AdminConversationsSearchArguments
   extends TokenOverridable, CursorPaginationEnabled {
   query?: string;
-  search_channel_types?: string[];
+  search_channel_types?: string[]; // TODO: breaking change: turn into an array of string literals? See all options here: https://api.slack.com/methods/admin.conversations.search#types
   sort?: 'relevant' | 'name' | 'member_count' | 'created';
   sort_dir?: 'asc' | 'desc';
   team_ids?: string[];
+  connected_team_ids?: string[];
+  total_count_only?: boolean;
 }
 cursorPaginationEnabledMethods.add('admin.conversations.search');
+// https://api.slack.com/methods/admin.conversations.setConversationPrefs
 export interface AdminConversationsSetConversationPrefsArguments extends TokenOverridable {
   channel_id: string;
-  prefs: Record<string, unknown>;
+  prefs: Record<string, unknown>; // TODO: should this be Record<string, string>? See https://api.slack.com/methods/admin.conversations.setConversationPrefs#markdown
 }
+// https://api.slack.com/methods/admin.conversations.setTeams
 export interface AdminConversationsSetTeamsArguments extends TokenOverridable {
   channel_id: string;
   team_id?: string;
   target_team_ids?: string[];
   org_channel?: boolean;
 }
+// https://api.slack.com/methods/admin.conversations.unarchive
 export interface AdminConversationsUnarchiveArguments extends TokenOverridable {
   channel_id: string;
 }
+// https://api.slack.com/methods/admin.emoji.add
 export interface AdminEmojiAddArguments extends TokenOverridable {
   name: string;
   url: string;
 }
+// https://api.slack.com/methods/admin.emoji.addAlias
 export interface AdminEmojiAddAliasArguments extends TokenOverridable {
   name: string;
   alias_for: string;
 }
+// https://api.slack.com/methods/admin.emoji.list
 export interface AdminEmojiListArguments extends TokenOverridable, CursorPaginationEnabled { }
 cursorPaginationEnabledMethods.add('admin.emoji.list');
+// https://api.slack.com/methods/admin.emoji.remove
 export interface AdminEmojiRemoveArguments extends TokenOverridable {
   name: string;
 }
+// https://api.slack.com/methods/admin.emoji.rename
 export interface AdminEmojiRenameArguments extends TokenOverridable {
   name: string;
   new_name: string;
 }
+// https://api.slack.com/methods/admin.functions.list
 export interface AdminFunctionsListArguments extends TokenOverridable, CursorPaginationEnabled {
   app_ids: string[];
   team_id?: string;
 }
+// https://api.slack.com/methods/admin.functions.permissions.lookup
 export interface AdminFunctionsPermissionsLookupArguments
   extends TokenOverridable {
   function_ids: string[];
 }
+// https://api.slack.com/methods/admin.functions.permissions.set
 export interface AdminFunctionsPermissionsSetArguments extends TokenOverridable {
   function_id: string;
   visibility: string;
   user_ids?: string[];
 }
+// https://api.slack.com/methods/admin.inviteRequests.approve
 export interface AdminInviteRequestsApproveArguments
   extends TokenOverridable {
   invite_request_id: string;
   team_id: string;
 }
+// https://api.slack.com/methods/admin.inviteRequests.approved.list
 export interface AdminInviteRequestsApprovedListArguments
   extends TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.inviteRequests.approved.list');
+// https://api.slack.com/methods/admin.inviteRequests.deny
 export interface AdminInviteRequestsDenyArguments
   extends TokenOverridable {
   invite_request_id: string;
   team_id: string;
 }
+// https://api.slack.com/methods/admin.inviteRequests.denied.list
 export interface AdminInviteRequestsDeniedListArguments
   extends TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.inviteRequests.denied.list');
+// https://api.slack.com/methods/admin.inviteRequests.list
 export interface AdminInviteRequestsListArguments
   extends TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.inviteRequests.list');
+// https://api.slack.com/methods/admin.roles.addAssignments
 export interface AdminRolesAddAssignmentsArguments
   extends TokenOverridable {
   role_id: string;
   entity_ids: string[];
   user_ids: string[];
 }
+// https://api.slack.com/methods/admin.roles.listAssignments
 export interface AdminRolesListAssignmentsArguments
   extends TokenOverridable, CursorPaginationEnabled {
   entity_ids?: string[];
   role_ids?: string[];
-  sort_dir?: string;
+  sort_dir?: string; // TODO: breaking change - turn to `asc` | `desc`? tho docs say this should be capital letters...
 }
 cursorPaginationEnabledMethods.add('admin.roles.listAssignments');
+// https://api.slack.com/methods/admin.roles.removeAssignments
 export interface AdminRolesRemoveAssignmentsArguments
   extends TokenOverridable {
   role_id: string;
@@ -1309,72 +1353,90 @@ export interface AdminRolesRemoveAssignmentsArguments
   user_ids: string[];
 }
 cursorPaginationEnabledMethods.add('admin.inviteRequests.list');
+// https://api.slack.com/methods/admin.teams.admins.list
 export interface AdminTeamsAdminsListArguments extends TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.teams.admins.list');
+type TeamDiscoverability = 'open' | 'closed' | 'invite_only' | 'unlisted';
+// https://api.slack.com/methods/admin.teams.create
 export interface AdminTeamsCreateArguments extends TokenOverridable {
   team_domain: string;
   team_name: string;
   team_description?: string;
-  team_discoverability?: string;
+  team_discoverability?: TeamDiscoverability;
 }
+// https://api.slack.com/methods/admin.teams.list
 export interface AdminTeamsListArguments extends TokenOverridable, CursorPaginationEnabled { }
 cursorPaginationEnabledMethods.add('admin.teams.list');
+// https://api.slack.com/methods/admin.teams.owners.list
 export interface AdminTeamsOwnersListArguments extends TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.teams.owners.list');
+// https://api.slack.com/methods/admin.teams.settings.info
 export interface AdminTeamsSettingsInfoArguments extends TokenOverridable {
   team_id: string;
 }
+// https://api.slack.com/methods/admin.teams.settings.setDefaultChannels
 export interface AdminTeamsSettingsSetDefaultChannelsArguments extends TokenOverridable {
   team_id: string;
   channel_ids: string[];
 }
+// https://api.slack.com/methods/admin.teams.settings.setDescription
 export interface AdminTeamsSettingsSetDescriptionArguments extends TokenOverridable {
   team_id: string;
   description: string;
 }
+// https://api.slack.com/methods/admin.teams.settings.setDiscoverability
 export interface AdminTeamsSettingsSetDiscoverabilityArguments extends TokenOverridable {
   team_id: string;
-  discoverability: 'open' | 'invite_only' | 'closed' | 'unlisted';
+  discoverability: TeamDiscoverability;
 }
+// https://api.slack.com/methods/admin.teams.settings.setIcon
 export interface AdminTeamsSettingsSetIconArguments extends TokenOverridable {
   team_id: string;
   image_url: string;
 }
+// https://api.slack.com/methods/admin.teams.settings.setName
 export interface AdminTeamsSettingsSetNameArguments extends TokenOverridable {
   team_id: string;
   name: string;
 }
+// https://api.slack.com/methods/admin.usergroups.addChannels
 export interface AdminUsergroupsAddChannelsArguments extends TokenOverridable {
   usergroup_id: string;
   team_id?: string;
   channel_ids: string | string[];
 }
+// https://api.slack.com/methods/admin.usergroups.addTeams
 export interface AdminUsergroupsAddTeamsArguments extends TokenOverridable {
   usergroup_id: string;
   team_ids: string | string[];
   auto_provision?: boolean;
 }
+// https://api.slack.com/methods/admin.usergroups.listChannels
 export interface AdminUsergroupsListChannelsArguments extends TokenOverridable {
   usergroup_id: string;
   include_num_members?: boolean;
   team_id?: string;
 }
+// https://api.slack.com/methods/admin.usergroups.removeChannels
 export interface AdminUsergroupsRemoveChannelsArguments extends TokenOverridable {
   usergroup_id: string;
   channel_ids: string | string[];
 }
+// https://api.slack.com/methods/admin.users.assign
 export interface AdminUsersAssignArguments extends TokenOverridable {
   team_id: string;
   user_id: string;
+  channel_ids?: string | string[];
   is_restricted?: boolean;
   is_ultra_restricted?: boolean;
 }
+// https://api.slack.com/methods/admin.users.invite
 export interface AdminUsersInviteArguments extends TokenOverridable {
-  channel_ids: string;
+  channel_ids: string | string[];
   email: string;
   team_id: string;
   custom_message?: string;
@@ -1385,82 +1447,99 @@ export interface AdminUsersInviteArguments extends TokenOverridable {
   real_name?: string;
   resend?: boolean;
 }
+// https://api.slack.com/methods/admin.users.list
 export interface AdminUsersListArguments extends TokenOverridable, CursorPaginationEnabled {
-  team_id: string;
+  team_id?: string; // Only required if org-level token is used
 }
 cursorPaginationEnabledMethods.add('admin.users.list');
+// https://api.slack.com/methods/admin.users.remove
 export interface AdminUsersRemoveArguments extends TokenOverridable {
   team_id: string;
   user_id: string;
 }
+// https://api.slack.com/methods/admin.users.setAdmin
 export interface AdminUsersSetAdminArguments extends TokenOverridable {
   team_id: string;
   user_id: string;
 }
+// https://api.slack.com/methods/admin.users.setExpiration
 export interface AdminUsersSetExpirationArguments extends TokenOverridable {
-  team_id: string;
+  team_id?: string;
   user_id: string;
   expiration_ts: number;
 }
+// https://api.slack.com/methods/admin.users.setOwner
 export interface AdminUsersSetOwnerArguments extends TokenOverridable {
   team_id: string;
   user_id: string;
 }
+// https://api.slack.com/methods/admin.users.setRegular
 export interface AdminUsersSetRegularArguments extends TokenOverridable {
   team_id: string;
   user_id: string;
 }
 cursorPaginationEnabledMethods.add('admin.users.session.list');
+// TODO: breaking change: if user_id is provided, team_id must be provided, too.
+// https://api.slack.com/methods/admin.users.session.list
 export interface AdminUsersSessionListArguments extends TokenOverridable, CursorPaginationEnabled {
   user_id?: string;
   team_id?: string;
 }
+// https://api.slack.com/methods/admin.users.session.reset
 export interface AdminUsersSessionResetArguments extends TokenOverridable {
   user_id: string;
   mobile_only?: boolean;
   web_only?: boolean;
 }
+// https://api.slack.com/methods/admin.users.session.resetBulk
 export interface AdminUsersSessionResetBulkArguments extends TokenOverridable {
   user_ids: string[];
   mobile_only?: boolean;
   web_only?: boolean;
 }
+// https://api.slack.com/methods/admin.users.session.invalidate
 export interface AdminUsersSessionInvalidateArguments extends TokenOverridable {
   session_id: string;
   team_id: string;
 }
+// https://api.slack.com/methods/admin.users.session.getSettings
 export interface AdminUsersSessionGetSettingsArguments extends TokenOverridable {
   user_ids: string[];
 }
+// https://api.slack.com/methods/admin.users.session.setSettings
 export interface AdminUsersSessionSetSettingsArguments extends TokenOverridable {
   user_ids: string[];
   desktop_app_browser_quit?: boolean;
   duration?: number;
 }
+// https://api.slack.com/methods/admin.users.session.clearSettings
 export interface AdminUsersSessionClearSettingsArguments extends TokenOverridable {
   user_ids: string[];
 }
-
+// https://api.slack.com/methods/admin.users.unsupportedVersions.export
 export interface AdminUsersUnsupportedVersionsExportArguments extends TokenOverridable {
   date_end_of_support?: number;
   date_sessions_started?: number;
 }
-
+// https://api.slack.com/methods/admin.workflows.collaborators.add
 export interface AdminWorkflowsCollaboratorsAddArguments
   extends TokenOverridable {
   collaborator_ids: string[];
   workflow_ids: string[];
 }
+// https://api.slack.com/methods/admin.workflows.collaborators.remove
 export interface AdminWorkflowsCollaboratorsRemoveArguments
   extends TokenOverridable {
   collaborator_ids: string[];
   workflow_ids: string[];
 }
+// https://api.slack.com/methods/admin.workflows.permissions.lookup
 export interface AdminWorkflowsPermissionsLookupArguments
   extends TokenOverridable {
   workflow_ids: string[];
   max_workflow_triggers?: number;
 }
+// https://api.slack.com/methods/admin.workflows.search
 export interface AdminWorkflowsSearchArguments extends TokenOverridable, CursorPaginationEnabled {
   app_id?: string;
   collaborator_ids?: string[];
@@ -1468,10 +1547,11 @@ export interface AdminWorkflowsSearchArguments extends TokenOverridable, CursorP
   num_trigger_ids?: number;
   query?: string;
   sort?: string;
-  sort_dir?: string;
-  source?: string;
+  sort_dir?: 'asc' | 'desc';
+  source?: 'code' | 'workflow_builder';
 }
 cursorPaginationEnabledMethods.add('admin.worfklows.search');
+// https://api.slack.com/methods/admin.workflows.unpublish
 export interface AdminWorkflowsUnpublishArguments extends TokenOverridable {
   workflow_ids: string[];
 }
