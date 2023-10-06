@@ -1558,23 +1558,23 @@ export interface AdminWorkflowsUnpublishArguments extends TokenOverridable {
 /*
  * `api.*`
  */
+// https://api.slack.com/methods/api.test
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface APITestArguments { }
 
 /*
  * `apps.*`
  */
+// https://api.slack.com/methods/apps.connections.open
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AppsConnectionsOpenArguments {
-  // currently the method page lists Client id and client secret as optional arguments
-  // circle back here to see if they stay as optional or are removed
-}
-
+export interface AppsConnectionsOpenArguments { }
+// https://api.slack.com/methods/apps.event.authorizations.list
 export interface AppsEventAuthorizationsListArguments
   extends TokenOverridable, CursorPaginationEnabled {
   event_context: string;
 }
 cursorPaginationEnabledMethods.add('apps.event.authorizations.list');
+// https://api.slack.com/methods/apps.uninstall
 export interface AppsUninstallArguments {
   client_id: string;
   client_secret: string;
