@@ -227,6 +227,8 @@ import {
   AdminWorkflowsCollaboratorsAddResponse,
   AdminWorkflowsCollaboratorsRemoveResponse,
   AdminWorkflowsPermissionsLookupResponse,
+  AdminAppsConfigLookupResponse,
+  AdminAppsConfigSetResponse,
 } from './response';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
@@ -295,6 +297,10 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       uninstall: bindApiCall<AdminAppsUninstallArguments, AdminAppsUninstallResponse>(this, 'admin.apps.uninstall'),
       activities: {
         list: bindApiCall<AdminAppsActivitiesListArguments, AdminAppsActivitiesListResponse>(this, 'admin.apps.activities.list'),
+      },
+      config: {
+        lookup: bindApiCall<AdminAppsConfigLookupArguments, AdminAppsConfigLookupResponse>(this, 'admin.apps.config.lookup'),
+        set: bindApiCall<AdminAppsConfigSetArguments, AdminAppsConfigSetResponse>(this, 'admin.apps.config.set'),
       },
     },
     auth: {
@@ -1037,8 +1043,11 @@ export interface AdminAppsConfigLookupArguments extends WebAPICallOptions, Token
 }
 export interface AdminAppsConfigSetArguments extends WebAPICallOptions, TokenOverridable {
   app_id: string;
-  domain_restrictions?: Record<string, unknown>;
-  workflow_auth_strategy?: string;
+  domain_restrictions?: {
+    urls?: string[];
+    emails?: string[];
+  };
+  workflow_auth_strategy?: 'builder_choice' | 'end_user_strategy';
 }
 export interface AdminAuthPolicyAssignEntitiesArguments extends WebAPICallOptions, TokenOverridable {
   entity_ids: string[];
