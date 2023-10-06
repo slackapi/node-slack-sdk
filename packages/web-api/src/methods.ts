@@ -227,6 +227,8 @@ import {
   AdminWorkflowsCollaboratorsAddResponse,
   AdminWorkflowsCollaboratorsRemoveResponse,
   AdminWorkflowsPermissionsLookupResponse,
+  AdminAppsConfigLookupResponse,
+  AdminAppsConfigSetResponse,
 } from './response';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
@@ -295,6 +297,10 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       uninstall: bindApiCall<AdminAppsUninstallArguments, AdminAppsUninstallResponse>(this, 'admin.apps.uninstall'),
       activities: {
         list: bindApiCall<AdminAppsActivitiesListArguments, AdminAppsActivitiesListResponse>(this, 'admin.apps.activities.list'),
+      },
+      config: {
+        lookup: bindApiCall<AdminAppsConfigLookupArguments, AdminAppsConfigLookupResponse>(this, 'admin.apps.config.lookup'),
+        set: bindApiCall<AdminAppsConfigSetArguments, AdminAppsConfigSetResponse>(this, 'admin.apps.config.set'),
       },
     },
     auth: {
