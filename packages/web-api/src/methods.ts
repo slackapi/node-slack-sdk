@@ -1607,16 +1607,18 @@ export interface BotsInfoArguments extends TokenOverridable {
 /*
  * `bookmarks.*`
  */
+// https://api.slack.com/methods/bookmarks.add
 export interface BookmarksAddArguments extends TokenOverridable {
   channel_id: string;
   title: string;
-  type: string;
+  type: 'link';
+  link: string; // TODO: Today, `link` is required. As more bookmarking options get added in the future,
+  // this will change. So should we update the above property, or no?
   emoji?: string;
   entity_id?: string;
-  link?: string;
   parent_id?: string;
 }
-
+// https://api.slack.com/methods/bookmarks.edit
 export interface BookmarksEditArguments extends TokenOverridable {
   bookmark_id: string;
   channel_id: string;
@@ -1624,11 +1626,11 @@ export interface BookmarksEditArguments extends TokenOverridable {
   link?: string;
   title?: string;
 }
-
+// https://api.slack.com/methods/bookmarks.list
 export interface BookmarksListArguments extends TokenOverridable {
   channel_id: string;
 }
-
+// https://api.slack.com/methods/bookmarks.remove
 export interface BookmarksRemoveArguments extends TokenOverridable {
   bookmark_id: string;
   channel_id: string;
