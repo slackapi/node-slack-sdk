@@ -875,7 +875,7 @@ export default interface Method<
 }
 
 /*
- * Reusable 'protocols' that some MethodArguments types can conform to
+ * Reusable mixins or extensions that some MethodArguments types can extend from
  */
 export interface TokenOverridable {
   token?: string;
@@ -885,12 +885,15 @@ export interface LocaleAware {
   include_locale?: boolean;
 }
 
-export interface Searchable {
+interface OptionalTeamAssignable {
+  team_id?: string; // typically models the "team_id is required if org token is used" constraint
+}
+
+export interface Searchable extends OptionalTeamAssignable {
   query: string;
   highlight?: boolean;
   sort: 'score' | 'timestamp';
   sort_dir: 'asc' | 'desc';
-  team_id?: string;
 }
 
 // A set of method names is initialized here and added to each time an argument type extends the CursorPaginationEnabled
@@ -1540,9 +1543,8 @@ export interface AuthTestArguments extends TokenOverridable { }
  * `bots.*`
  */
 // https://api.slack.com/methods/bots.info
-export interface BotsInfoArguments extends TokenOverridable {
+export interface BotsInfoArguments extends TokenOverridable, OptionalTeamAssignable {
   bot?: string;
-  team_id?: string;
 }
 
 /*
@@ -1690,7 +1692,7 @@ export interface ChatPostMessageArguments extends TokenOverridable {
 // for an in-code example for chat.postMessage: https://github.com/slackapi/node-slack-sdk/pull/1670/files#r1346453396
 // Many of these arguments can be shared with ChatPostEphemeralArguments
 // https://api.slack.com/methods/chat.scheduleMessage
-export interface ChatScheduleMessageArguments extends TokenOverridable {
+export interface ChatScheduleMessageArguments extends TokenOverridable, OptionalTeamAssignable {
   channel: string;
   text?: string;
   post_at: string | number;
@@ -1704,15 +1706,13 @@ export interface ChatScheduleMessageArguments extends TokenOverridable {
   thread_ts?: string;
   unfurl_links?: boolean;
   unfurl_media?: boolean;
-  team_id?: string;
 }
 // https://api.slack.com/methods/chat.scheduledMessages.list
 export interface ChatScheduledMessagesListArguments extends TokenOverridable,
-  CursorPaginationEnabled {
+  CursorPaginationEnabled, OptionalTeamAssignable {
   channel?: string;
   latest?: number;
   oldest?: number;
-  team_id?: string; // required if org token is used
 }
 cursorPaginationEnabledMethods.add('chat.scheduledMessages.list');
 // ChannelAndTS and SourceAndUnfurlID are used as either-or mixins for ChatUnfurlArguments
@@ -1793,13 +1793,12 @@ export interface ChatUpdateArguments extends TokenOverridable {
  */
 // TODO: breaking change: must provide either channel_id or invite_id
 // https://api.slack.com/methods/conversations.acceptSharedInvite
-export interface ConversationsAcceptSharedInviteArguments extends TokenOverridable {
+export interface ConversationsAcceptSharedInviteArguments extends TokenOverridable, OptionalTeamAssignable {
   channel_name: string;
   channel_id?: string;
   free_trial_accepted?: boolean;
   invite_id?: string;
   is_private?: boolean;
-  team_id?: string; // required if org token is used
 }
 // https://api.slack.com/methods/conversations.approveSharedInvite
 export interface ConversationsApproveSharedInviteArguments extends TokenOverridable {
@@ -1815,10 +1814,9 @@ export interface ConversationsCloseArguments extends TokenOverridable {
   channel: string;
 }
 // https://api.slack.com/methods/conversations.create
-export interface ConversationsCreateArguments extends TokenOverridable {
+export interface ConversationsCreateArguments extends TokenOverridable, OptionalTeamAssignable {
   name: string;
   is_private?: boolean;
-  team_id?: string; // required if org token is used
 }
 // https://api.slack.com/methods/conversations.declineSharedInvite
 export interface ConversationsDeclineSharedInviteArguments extends TokenOverridable {
@@ -1864,17 +1862,15 @@ export interface ConversationsLeaveArguments extends TokenOverridable {
   channel: string;
 }
 // https://api.slack.com/methods/conversations.list
-export interface ConversationsListArguments extends TokenOverridable, CursorPaginationEnabled {
+export interface ConversationsListArguments extends TokenOverridable, CursorPaginationEnabled, OptionalTeamAssignable {
   exclude_archived?: boolean;
   types?: string; // comma-separated list of conversation types
-  team_id?: string; // required if org token is used
 }
 cursorPaginationEnabledMethods.add('conversations.list');
 // https://api.slack.com/methods/conversations.listConnectInvites
-export interface ConversationsListConnectInvitesArguments extends TokenOverridable {
+export interface ConversationsListConnectInvitesArguments extends TokenOverridable, OptionalTeamAssignable {
   count?: number; // lol we use `limit` everywhere else
   cursor?: string;
-  team_id?: string; // required if org token is used
 }
 cursorPaginationEnabledMethods.add('conversations.listConnectInvites');
 // https://api.slack.com/methods/conversations.mark
@@ -1940,18 +1936,16 @@ export interface DndEndDndArguments extends TokenOverridable { }
 // https://api.slack.com/methods/dnd.endSnooze
 export interface DndEndSnoozeArguments extends TokenOverridable { }
 // https://api.slack.com/methods/dnd.info
-export interface DndInfoArguments extends TokenOverridable {
+export interface DndInfoArguments extends TokenOverridable, OptionalTeamAssignable {
   user?: string;
-  team_id?: string; // required if org token is used
 }
 // https://api.slack.com/methods/dnd.setSnooze
 export interface DndSetSnoozeArguments extends TokenOverridable {
   num_minutes: number;
 }
 // https://api.slack.com/methods/dnd.teamInfo
-export interface DndTeamInfoArguments extends TokenOverridable {
+export interface DndTeamInfoArguments extends TokenOverridable, OptionalTeamAssignable {
   users: string; // comma-separated list of users
-  team_id?: string; // required if org token is used
 }
 
 /*
@@ -1975,14 +1969,13 @@ export interface FilesInfoArguments extends TokenOverridable, CursorPaginationEn
 }
 cursorPaginationEnabledMethods.add('files.info');
 // https://api.slack.com/methods/files.list
-export interface FilesListArguments extends TokenOverridable, TraditionalPagingEnabled {
+export interface FilesListArguments extends TokenOverridable, TraditionalPagingEnabled, OptionalTeamAssignable {
   channel?: string;
   user?: string;
   ts_from?: string;
   ts_to?: string;
   types?: string; // comma-separated list of file types
   show_files_hidden_by_limit?: boolean;
-  team_id?: string; // required if org token is used
 }
 // https://api.slack.com/methods/files.revokePublicURL
 export interface FilesRevokePublicURLArguments extends TokenOverridable {
@@ -2112,10 +2105,9 @@ export interface FilesRemoteShareArguments extends TokenOverridable {
  * `migration.*`
  */
 // https://api.slack.com/methods/migration.exchange
-export interface MigrationExchangeArguments extends TokenOverridable {
+export interface MigrationExchangeArguments extends TokenOverridable, OptionalTeamAssignable {
   users: string; // comma-separated list of users
   to_old?: boolean;
-  team_id?: string;
 }
 
 /*
@@ -2202,10 +2194,9 @@ export interface ReactionsGetArguments extends TokenOverridable {
 }
 // https://api.slack.com/methods/reactions.list
 export interface ReactionsListArguments extends TokenOverridable, TraditionalPagingEnabled,
-  CursorPaginationEnabled {
+  CursorPaginationEnabled, OptionalTeamAssignable {
   user?: string;
   full?: boolean;
-  team_id?: string; // required with org token
 }
 cursorPaginationEnabledMethods.add('reactions.list');
 // TODO: must supply either channel and timestamp or a file id or file comment id
@@ -2222,21 +2213,36 @@ export interface ReactionsRemoveArguments extends TokenOverridable {
 /*
  * `reminders.*`
  */
-export interface RemindersAddArguments extends TokenOverridable {
+interface ReminderRecurrenceDailyMonthlyYearly {
+  frequency: 'daily' | 'monthly' | 'yearly';
+}
+type DaysOfTheWeek = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+interface ReminderRecurrenceWeekly {
+  frequency: 'weekly';
+  weekdays: [DaysOfTheWeek, ...DaysOfTheWeek[]]
+}
+type ReminderRecurrence = ReminderRecurrenceWeekly | ReminderRecurrenceDailyMonthlyYearly;
+// https://api.slack.com/methods/reminders.add
+export interface RemindersAddArguments extends TokenOverridable, OptionalTeamAssignable {
   text: string;
   time: string | number;
   user?: string;
+  recurrence?: ReminderRecurrence;
 }
-export interface RemindersCompleteArguments extends TokenOverridable {
+// https://api.slack.com/methods/reminders.complete
+export interface RemindersCompleteArguments extends TokenOverridable, OptionalTeamAssignable {
   reminder: string;
 }
-export interface RemindersDeleteArguments extends TokenOverridable {
+// https://api.slack.com/methods/reminders.delete
+export interface RemindersDeleteArguments extends TokenOverridable, OptionalTeamAssignable {
   reminder: string;
 }
-export interface RemindersInfoArguments extends TokenOverridable {
+// https://api.slack.com/methods/reminders.info
+export interface RemindersInfoArguments extends TokenOverridable, OptionalTeamAssignable {
   reminder: string;
 }
-export interface RemindersListArguments extends TokenOverridable { }
+// https://api.slack.com/methods/reminders.list
+export interface RemindersListArguments extends TokenOverridable, OptionalTeamAssignable { }
 
 /*
  * `rtm.*`
