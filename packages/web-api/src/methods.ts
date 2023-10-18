@@ -2477,21 +2477,23 @@ export type ViewsUpdateArguments = BaseViewsArguments & TokenOverridable & (View
   hash?: string;
 };
 
+// TODO: docs state workflows.* methods are deprecated. should we mark them as such?
 /*
  * `workflows.*`
  */
+// https://api.slack.com/methods/workflows.stepCompleted
 export interface WorkflowsStepCompletedArguments extends TokenOverridable {
   workflow_step_execute_id: string;
   outputs?: Record<string, unknown>;
 }
-
+// https://api.slack.com/methods/workflows.stepFailed
 export interface WorkflowsStepFailedArguments extends TokenOverridable {
   workflow_step_execute_id: string;
   error: {
     message: string;
   };
 }
-
+// https://api.slack.com/methods/workflows.updateStep
 export interface WorkflowsUpdateStepArguments extends TokenOverridable {
   workflow_step_edit_id: string;
   step_image_url?: string;
