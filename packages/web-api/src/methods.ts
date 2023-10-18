@@ -862,18 +862,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     stepFailed: bindApiCall<WorkflowsStepFailedArguments, WorkflowsStepFailedResponse>(this, 'workflows.stepFailed'),
     updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
   };
-
-  // ---------------------------------
-  // Deprecated methods
-  // ---------------------------------
-  public readonly mpim = {
-    close: bindApiCall<MPIMCloseArguments, WebAPICallResult>(this, 'mpim.close'),
-    history: bindApiCall<MPIMHistoryArguments, WebAPICallResult>(this, 'mpim.history'),
-    list: bindApiCall<MPIMListArguments, WebAPICallResult>(this, 'mpim.list'),
-    mark: bindApiCall<MPIMMarkArguments, WebAPICallResult>(this, 'mpim.mark'),
-    open: bindApiCall<MPIMOpenArguments, WebAPICallResult>(this, 'mpim.open'),
-    replies: bindApiCall<MPIMRepliesArguments, WebAPICallResult>(this, 'mpim.replies'),
-  };
 }
 
 /**
@@ -2123,35 +2111,11 @@ export interface FilesRemoteShareArguments extends TokenOverridable {
 /*
  * `migration.*`
  */
+// https://api.slack.com/methods/migration.exchange
 export interface MigrationExchangeArguments extends TokenOverridable {
   users: string; // comma-separated list of users
   to_old?: boolean;
   team_id?: string;
-}
-
-/*
- * `mpim.*`
- */
-export interface MPIMCloseArguments extends TokenOverridable {
-  channel: string;
-}
-export interface MPIMHistoryArguments extends TokenOverridable, TimelinePaginationEnabled {
-  channel: string;
-  count?: number;
-  unreads?: boolean;
-}
-export interface MPIMListArguments extends TokenOverridable, CursorPaginationEnabled { }
-cursorPaginationEnabledMethods.add('mpim.list');
-export interface MPIMMarkArguments extends TokenOverridable {
-  channel: string;
-  ts: string;
-}
-export interface MPIMOpenArguments extends TokenOverridable {
-  users: string; // comma-separated list of users
-}
-export interface MPIMRepliesArguments extends TokenOverridable {
-  channel: string;
-  thread_ts: string;
 }
 
 /*
