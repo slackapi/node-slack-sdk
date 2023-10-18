@@ -866,26 +866,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   // ---------------------------------
   // Deprecated methods
   // ---------------------------------
-
-  public readonly groups = {
-    archive: bindApiCall<GroupsArchiveArguments, WebAPICallResult>(this, 'groups.archive'),
-    create: bindApiCall<GroupsCreateArguments, WebAPICallResult>(this, 'groups.create'),
-    createChild: bindApiCall<GroupsCreateChildArguments, WebAPICallResult>(this, 'groups.createChild'),
-    history: bindApiCall<GroupsHistoryArguments, WebAPICallResult>(this, 'groups.history'),
-    info: bindApiCall<GroupsInfoArguments, WebAPICallResult>(this, 'groups.info'),
-    invite: bindApiCall<GroupsInviteArguments, WebAPICallResult>(this, 'groups.invite'),
-    kick: bindApiCall<GroupsKickArguments, WebAPICallResult>(this, 'groups.kick'),
-    leave: bindApiCall<GroupsLeaveArguments, WebAPICallResult>(this, 'groups.leave'),
-    list: bindApiCall<GroupsListArguments, WebAPICallResult>(this, 'groups.list'),
-    mark: bindApiCall<GroupsMarkArguments, WebAPICallResult>(this, 'groups.mark'),
-    open: bindApiCall<GroupsOpenArguments, WebAPICallResult>(this, 'groups.open'),
-    rename: bindApiCall<GroupsRenameArguments, WebAPICallResult>(this, 'groups.rename'),
-    replies: bindApiCall<GroupsRepliesArguments, WebAPICallResult>(this, 'groups.replies'),
-    setPurpose: bindApiCall<GroupsSetPurposeArguments, WebAPICallResult>(this, 'groups.setPurpose'),
-    setTopic: bindApiCall<GroupsSetTopicArguments, WebAPICallResult>(this, 'groups.setTopic'),
-    unarchive: bindApiCall<GroupsUnarchiveArguments, WebAPICallResult>(this, 'groups.unarchive'),
-  };
-
   public readonly im = {
     close: bindApiCall<IMCloseArguments, WebAPICallResult>(this, 'im.close'),
     history: bindApiCall<IMHistoryArguments, WebAPICallResult>(this, 'im.history'),
@@ -2147,73 +2127,6 @@ export interface FilesRemoteShareArguments extends TokenOverridable {
   // TODO: breaking change: either one of the file or external_id arguments are required
   file?: string;
   external_id?: string;
-}
-
-/*
- * `groups.*`
- */
-export interface GroupsArchiveArguments extends TokenOverridable {
-  channel: string;
-}
-export interface GroupsCreateArguments extends TokenOverridable {
-  name: string;
-  validate?: boolean;
-  team_id?: string;
-}
-export interface GroupsCreateChildArguments extends TokenOverridable {
-  channel: string;
-}
-export interface GroupsHistoryArguments extends TokenOverridable, TimelinePaginationEnabled {
-  channel: string;
-  unreads?: boolean;
-  count?: number;
-}
-export interface GroupsInfoArguments extends TokenOverridable, LocaleAware {
-  channel: string;
-}
-export interface GroupsInviteArguments extends TokenOverridable {
-  channel: string;
-  user: string;
-}
-export interface GroupsKickArguments extends TokenOverridable {
-  channel: string;
-  user: string;
-}
-export interface GroupsLeaveArguments extends TokenOverridable {
-  channel: string;
-}
-export interface GroupsListArguments extends TokenOverridable, CursorPaginationEnabled {
-  exclude_archived?: boolean;
-  exclude_members?: boolean;
-  team_id?: string;
-}
-cursorPaginationEnabledMethods.add('groups.list');
-export interface GroupsMarkArguments extends TokenOverridable {
-  channel: string;
-  ts: string;
-}
-export interface GroupsOpenArguments extends TokenOverridable {
-  channel: string;
-}
-export interface GroupsRenameArguments extends TokenOverridable {
-  channel: string;
-  name: string;
-  validate?: boolean;
-}
-export interface GroupsRepliesArguments extends TokenOverridable {
-  channel: string;
-  thread_ts: boolean;
-}
-export interface GroupsSetPurposeArguments extends TokenOverridable {
-  channel: string;
-  purpose: string;
-}
-export interface GroupsSetTopicArguments extends TokenOverridable {
-  channel: string;
-  topic: string;
-}
-export interface GroupsUnarchiveArguments extends TokenOverridable {
-  channel: string;
 }
 
 /*
