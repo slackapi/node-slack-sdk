@@ -2148,15 +2148,16 @@ export interface OAuthV2ExchangeArguments {
 /*
  * `openid.connect.*`
  */
+// https://api.slack.com/methods/openid.connect.token
 export interface OpenIDConnectTokenArguments {
-  client_id: string;
-  client_secret: string;
+  client_id: string; // TODO: docs state this is optional
+  client_secret: string; // TODO: docs state this is optional
   code?: string;
   redirect_uri?: string;
   grant_type?: 'authorization_code' | 'refresh_token';
   refresh_token?: string;
 }
-
+// https://api.slack.com/methods/openid.connect.userInfo
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface OpenIDConnectUserInfoArguments {
 }
@@ -2164,13 +2165,17 @@ export interface OpenIDConnectUserInfoArguments {
 /*
  * `pins.*`
  */
+// TODO: there's a quip_component_id parameter documented publicly but probably we shouldnt expose just yet
+// https://api.slack.com/methods/pins.add
 export interface PinsAddArguments extends TokenOverridable {
   channel: string;
   timestamp: string;
 }
+// https://api.slack.com/methods/pins.list
 export interface PinsListArguments extends TokenOverridable {
   channel: string;
 }
+// https://api.slack.com/methods/pins.remove
 export interface PinsRemoveArguments extends TokenOverridable {
   channel: string;
   timestamp: string;
