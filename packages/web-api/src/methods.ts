@@ -2121,22 +2121,25 @@ export interface MigrationExchangeArguments extends TokenOverridable {
 /*
  * `oauth.*`
  */
+// https://api.slack.com/methods/oauth.access
+// TODO: this method is marked as a 'legacy' method; should we add it as a 'deprecated' method?
 export interface OAuthAccessArguments {
-  client_id: string;
-  client_secret: string;
-  code: string;
+  client_id: string; // TODO: docs state this is optional
+  client_secret: string; // TODO: docs state this is optional
+  code: string; // TODO: docs state this is optional
   redirect_uri?: string;
-  single_channel?: string;
+  single_channel?: string; // TODO: docs state this is a boolean, only valid for legacy apps
 }
+// https://api.slack.com/methods/oauth.v2.access
 export interface OAuthV2AccessArguments {
-  client_id: string;
-  client_secret: string;
+  client_id: string; // TODO: docs state this is optional
+  client_secret: string; // TODO: docs state this is optional
   code?: string; // not required for token rotation
   redirect_uri?: string;
   grant_type?: string;
   refresh_token?: string;
 }
-
+// https://api.slack.com/methods/oauth.v2.exchange
 export interface OAuthV2ExchangeArguments {
   client_id: string;
   client_secret: string;
