@@ -867,24 +867,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   // Deprecated methods
   // ---------------------------------
 
-  public readonly channels = {
-    archive: bindApiCall<ChannelsArchiveArguments, WebAPICallResult>(this, 'channels.archive'),
-    create: bindApiCall<ChannelsCreateArguments, WebAPICallResult>(this, 'channels.create'),
-    history: bindApiCall<ChannelsHistoryArguments, WebAPICallResult>(this, 'channels.history'),
-    info: bindApiCall<ChannelsInfoArguments, WebAPICallResult>(this, 'channels.info'),
-    invite: bindApiCall<ChannelsInviteArguments, WebAPICallResult>(this, 'channels.invite'),
-    join: bindApiCall<ChannelsJoinArguments, WebAPICallResult>(this, 'channels.join'),
-    kick: bindApiCall<ChannelsKickArguments, WebAPICallResult>(this, 'channels.kick'),
-    leave: bindApiCall<ChannelsLeaveArguments, WebAPICallResult>(this, 'channels.leave'),
-    list: bindApiCall<ChannelsListArguments, WebAPICallResult>(this, 'channels.list'),
-    mark: bindApiCall<ChannelsMarkArguments, WebAPICallResult>(this, 'channels.mark'),
-    rename: bindApiCall<ChannelsRenameArguments, WebAPICallResult>(this, 'channels.rename'),
-    replies: bindApiCall<ChannelsRepliesArguments, WebAPICallResult>(this, 'channels.replies'),
-    setPurpose: bindApiCall<ChannelsSetPurposeArguments, WebAPICallResult>(this, 'channels.setPurpose'),
-    setTopic: bindApiCall<ChannelsSetTopicArguments, WebAPICallResult>(this, 'channels.setTopic'),
-    unarchive: bindApiCall<ChannelsUnarchiveArguments, WebAPICallResult>(this, 'channels.unarchive'),
-  };
-
   public readonly groups = {
     archive: bindApiCall<GroupsArchiveArguments, WebAPICallResult>(this, 'groups.archive'),
     create: bindApiCall<GroupsCreateArguments, WebAPICallResult>(this, 'groups.create'),
@@ -1612,8 +1594,8 @@ export interface BookmarksAddArguments extends TokenOverridable {
   channel_id: string;
   title: string;
   type: 'link';
-  link: string; // TODO: Today, `link` is required. As more bookmarking options get added in the future,
-  // this will change. So should we update the above property, or no?
+  link: string; // TODO: Today, `link` is a required field because we only support type:link.
+  // As more bookmarking options get added in the future, this will change.
   emoji?: string;
   entity_id?: string;
   parent_id?: string;
@@ -1639,130 +1621,74 @@ export interface BookmarksRemoveArguments extends TokenOverridable {
 /*
 * `calls.*`
 */
+// https://api.slack.com/methods/calls.add
 export interface CallsAddArguments extends TokenOverridable {
   external_unique_id: string;
   join_url: string;
-  created_by?: string;
+  created_by?: string; // TODO: optional only if a user token is used, required otherwise
   date_start?: number;
   desktop_app_join_url?: string;
   external_display_id?: string;
   title?: string;
   users?: CallUser[];
 }
-
+// https://api.slack.com/methods/calls.end
 export interface CallsEndArguments extends TokenOverridable {
   id: string;
   duration?: number;
 }
-
+// https://api.slack.com/methods/calls.info
 export interface CallsInfoArguments extends TokenOverridable {
   id: string;
 }
-
+// https://api.slack.com/methods/calls.update
 export interface CallsUpdateArguments extends TokenOverridable {
   id: string;
   join_url?: string;
   desktop_app_join_url?: string;
   title?: string;
 }
-
+// https://api.slack.com/methods/calls.participants.add
 export interface CallsParticipantsAddArguments extends TokenOverridable {
   id: string;
   users: CallUser[];
 }
-
+// https://api.slack.com/methods/calls.participants.remove
 export interface CallsParticipantsRemoveArguments extends TokenOverridable {
   id: string;
   users: CallUser[];
 }
 
 /*
- * `channels.*`
- */
-export interface ChannelsArchiveArguments extends TokenOverridable {
-  channel: string;
-}
-
-export interface ChannelsCreateArguments extends TokenOverridable {
-  name: string;
-  validate?: boolean;
-  team_id?: string;
-}
-export interface ChannelsHistoryArguments extends TokenOverridable, TimelinePaginationEnabled {
-  channel: string;
-  count?: number;
-  unreads?: boolean;
-}
-export interface ChannelsInfoArguments extends TokenOverridable, LocaleAware {
-  channel: string;
-}
-export interface ChannelsInviteArguments extends TokenOverridable {
-  channel: string;
-  user: string;
-}
-export interface ChannelsJoinArguments extends TokenOverridable {
-  name: string;
-  validate?: boolean;
-}
-export interface ChannelsKickArguments extends TokenOverridable {
-  channel: string;
-  user: string;
-}
-export interface ChannelsLeaveArguments extends TokenOverridable {
-  channel: string;
-}
-export interface ChannelsListArguments extends TokenOverridable, CursorPaginationEnabled {
-  exclude_archived?: boolean;
-  exclude_members?: boolean;
-  team_id?: string;
-}
-cursorPaginationEnabledMethods.add('channels.list');
-export interface ChannelsMarkArguments extends TokenOverridable {
-  channel: string;
-  ts: string;
-}
-export interface ChannelsRenameArguments extends TokenOverridable {
-  channel: string;
-  name: string;
-  validate?: boolean;
-}
-export interface ChannelsRepliesArguments extends TokenOverridable {
-  channel: string;
-  thread_ts: string;
-}
-export interface ChannelsSetPurposeArguments extends TokenOverridable {
-  channel: string;
-  purpose: string;
-}
-export interface ChannelsSetTopicArguments extends TokenOverridable {
-  channel: string;
-  topic: string;
-}
-export interface ChannelsUnarchiveArguments extends TokenOverridable {
-  channel: string;
-}
-
-/*
  * `chat.*`
  */
+// https://api.slack.com/methods/chat.delete
 export interface ChatDeleteArguments extends TokenOverridable {
   channel: string;
   ts: string;
   as_user?: boolean;
 }
+// https://api.slack.com/methods/chat.deleteScheduledMessage
 export interface ChatDeleteScheduledMessageArguments extends TokenOverridable {
   channel: string;
   scheduled_message_id: string;
   as_user?: boolean;
 }
+// https://api.slack.com/methods/chat.getPermalink
 export interface ChatGetPermalinkArguments extends TokenOverridable {
   channel: string;
   message_ts: string;
 }
+// https://api.slack.com/methods/chat.meMessage
 export interface ChatMeMessageArguments extends TokenOverridable {
   channel: string;
   text: string;
 }
+// https://api.slack.com/methods/chat.postEphemeral
+// TODO: breaking change: could use unions of types to better model either/or arguments (e.g. either channel and text
+// is required OR channel and blocks OR channel and attachments)
+// for an in-code example for chat.postMessage: https://github.com/slackapi/node-slack-sdk/pull/1670/files#r1346453396
+// Many of these arguments can be shared with ChatPostMessageArguments
 export interface ChatPostEphemeralArguments extends TokenOverridable {
   channel: string;
   text?: string;
@@ -1777,6 +1703,11 @@ export interface ChatPostEphemeralArguments extends TokenOverridable {
   icon_url?: string; // if specified, as_user must be false
   username?: string; // if specified, as_user must be false
 }
+// https://api.slack.com/methods/chat.postMessage
+// TODO: breaking change: could use unions of types to better model either/or arguments (e.g. either channel and text
+// is required OR channel and blocks OR channel and attachments)
+// for an in-code example for chat.postMessage: https://github.com/slackapi/node-slack-sdk/pull/1670/files#r1346453396
+// Many of these arguments can be shared with ChatPostEphemeralArguments
 export interface ChatPostMessageArguments extends TokenOverridable {
   channel: string;
   text?: string;
@@ -1795,6 +1726,11 @@ export interface ChatPostMessageArguments extends TokenOverridable {
   unfurl_media?: boolean;
   username?: string; // if specified, as_user must be false
 }
+// TODO: breaking change: could use unions of types to better model either/or arguments (e.g. either channel and text
+// is required OR channel and blocks OR channel and attachments)
+// for an in-code example for chat.postMessage: https://github.com/slackapi/node-slack-sdk/pull/1670/files#r1346453396
+// Many of these arguments can be shared with ChatPostEphemeralArguments
+// https://api.slack.com/methods/chat.scheduleMessage
 export interface ChatScheduleMessageArguments extends TokenOverridable {
   channel: string;
   text?: string;
@@ -1811,11 +1747,12 @@ export interface ChatScheduleMessageArguments extends TokenOverridable {
   unfurl_media?: boolean;
   team_id?: string;
 }
+// https://api.slack.com/methods/chat.scheduledMessages.list
 export interface ChatScheduledMessagesListArguments extends TokenOverridable,
   CursorPaginationEnabled {
-  channel: string;
-  latest: number;
-  oldest: number;
+  channel?: string;
+  latest?: number;
+  oldest?: number;
   team_id?: string; // required if org token is used
 }
 cursorPaginationEnabledMethods.add('chat.scheduledMessages.list');
@@ -1844,6 +1781,7 @@ interface SourceAndUnfurlIDArguments {
    */
   unfurl_id: string;
 }
+// https://api.slack.com/methods/chat.unfurl
 export type ChatUnfurlArguments = (ChannelAndTSArguments | SourceAndUnfurlIDArguments) & TokenOverridable
 & {
   /**
@@ -1872,6 +1810,11 @@ export type ChatUnfurlArguments = (ChannelAndTSArguments | SourceAndUnfurlIDArgu
    */
   user_auth_blocks?: (KnownBlock | Block)[];
 };
+// TODO: breaking change: could use unions of types to better model either/or arguments (e.g. either channel and text
+// is required OR channel and blocks OR channel and attachments)
+// for an in-code example for chat.postMessage: https://github.com/slackapi/node-slack-sdk/pull/1670/files#r1346453396
+// Many of these arguments can be shared with ChatPostEphemeralArguments
+// https://api.slack.com/methods/chat.update
 export interface ChatUpdateArguments extends TokenOverridable {
   channel: string;
   ts: string;
