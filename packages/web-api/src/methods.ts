@@ -2265,10 +2265,13 @@ export interface RTMStartArguments extends TokenOverridable, LocaleAware {
 /*
  * `search.*`
  */
+// https://api.slack.com/methods/search.all
 export interface SearchAllArguments extends TokenOverridable, TraditionalPagingEnabled,
   Searchable { }
+// https://api.slack.com/methods/search.files
 export interface SearchFilesArguments extends TokenOverridable, TraditionalPagingEnabled,
   Searchable { }
+// https://api.slack.com/methods/search.messages
 export interface SearchMessagesArguments extends TokenOverridable, TraditionalPagingEnabled,
   Searchable { }
 
