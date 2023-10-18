@@ -2305,41 +2305,42 @@ export interface StarsRemoveArguments extends TokenOverridable {
 /*
  * `team.*`
  */
-export interface TeamAccessLogsArguments extends TokenOverridable, CursorPaginationEnabled {
+// https://api.slack.com/methods/team.accessLogs
+export interface TeamAccessLogsArguments extends TokenOverridable, CursorPaginationEnabled,
+  TraditionalPagingEnabled, OptionalTeamAssignable {
   before?: number;
-  count?: number;
-  page?: number;
-  team_id?: string;
 }
 cursorPaginationEnabledMethods.add('team.accessLogs');
-
-export interface TeamBillableInfoArguments extends TokenOverridable {
+// https://api.slack.com/methods/team.billableInfo
+export interface TeamBillableInfoArguments extends TokenOverridable, CursorPaginationEnabled, OptionalTeamAssignable {
   user?: string;
-  team_id?: string;
 }
+// https://api.slack.com/methods/team.billing.info
 export interface TeamBillingInfoArguments extends TokenOverridable {
+  domain?: string;
+  team?: string;
 }
+// https://api.slack.com/methods/team.info
 export interface TeamInfoArguments extends TokenOverridable {
   // Team to get info on, if omitted, will return information about the current team.
   // Will only return team that the authenticated token is allowed to see through external shared channels
   team?: string;
   domain?: string; // available only for Enterprise Grid
 }
-export interface TeamIntegrationLogsArguments extends TokenOverridable {
+// https://api.slack.com/methods/team.integrationLogs
+export interface TeamIntegrationLogsArguments extends TokenOverridable,
+  OptionalTeamAssignable, TraditionalPagingEnabled {
   app_id?: string;
-  change_type?: string; // TODO: list types: 'x' | 'y' | 'z'
-  count?: number;
-  page?: number;
+  change_type?: 'added' | 'removed' | 'enabled' | 'disabled' | 'updated';
   service_id?: string;
   user?: string;
-  team_id?: string;
 }
+// https://api.slack.com/methods/team.profile.get
 export interface TeamProfileGetArguments extends TokenOverridable {
   visibility?: 'all' | 'visible' | 'hidden';
-  team_id?: string;
 }
-export interface TeamPreferencesListArguments extends TokenOverridable {
-}
+// https://api.slack.com/methods/team.preferences.list
+export interface TeamPreferencesListArguments extends TokenOverridable { }
 
 /*
  * `usergroups.*`
