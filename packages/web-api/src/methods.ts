@@ -2184,14 +2184,14 @@ export interface PinsRemoveArguments extends TokenOverridable {
 /*
  * `reactions.*`
  */
+// https://api.slack.com/methods/reactions.add
 export interface ReactionsAddArguments extends TokenOverridable {
   name: string;
-  // must supply one of:
-  channel?: string; // paired with timestamp
-  timestamp?: string; // paired with channel
-  file?: string; // file id
-  file_comment?: string;
+  channel: string;
+  timestamp: string;
 }
+// TODO: must supply either channel and timestamp or a file id or file comment id
+// https://api.slack.com/methods/reactions.get
 export interface ReactionsGetArguments extends TokenOverridable {
   full?: boolean;
   // must supply one of:
@@ -2200,13 +2200,16 @@ export interface ReactionsGetArguments extends TokenOverridable {
   file?: string; // file id
   file_comment?: string;
 }
+// https://api.slack.com/methods/reactions.list
 export interface ReactionsListArguments extends TokenOverridable, TraditionalPagingEnabled,
   CursorPaginationEnabled {
   user?: string;
   full?: boolean;
-  team_id?: string;
+  team_id?: string; // required with org token
 }
 cursorPaginationEnabledMethods.add('reactions.list');
+// TODO: must supply either channel and timestamp or a file id or file comment id
+// https://api.slack.com/methods/reactions.remove
 export interface ReactionsRemoveArguments extends TokenOverridable {
   name: string;
   // must supply one of:
