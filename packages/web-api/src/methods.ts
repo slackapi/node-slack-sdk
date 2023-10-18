@@ -2448,28 +2448,34 @@ export interface UsersProfileSetArguments extends TokenOverridable {
 /*
  * `views.*`
  */
-export interface ViewsOpenArguments extends TokenOverridable {
-  trigger_id: string;
+interface BaseViewsArguments {
   view: View;
 }
-
-export interface ViewsPushArguments extends TokenOverridable {
+interface ViewTriggerId {
   trigger_id: string;
-  view: View;
 }
-
-export interface ViewsPublishArguments extends TokenOverridable {
+interface ViewInteractivityPointer {
+  interactivity_pointer: string;
+}
+// https://api.slack.com/methods/views.open
+export type ViewsOpenArguments = BaseViewsArguments & TokenOverridable & (ViewTriggerId | ViewInteractivityPointer);
+// https://api.slack.com/methods/views.push
+export type ViewsPushArguments = BaseViewsArguments & TokenOverridable & (ViewTriggerId | ViewInteractivityPointer);
+// https://api.slack.com/methods/views.publish
+export interface ViewsPublishArguments extends BaseViewsArguments, TokenOverridable {
   user_id: string;
-  view: View;
   hash?: string;
 }
-
-export interface ViewsUpdateArguments extends TokenOverridable {
-  view_id?: string;
-  view: View;
-  external_id?: string;
-  hash?: string;
+interface ViewExternalId {
+  external_id: string;
 }
+interface ViewViewId {
+  view_id: string;
+}
+// https://api.slack.com/methods/views.update
+export type ViewsUpdateArguments = BaseViewsArguments & TokenOverridable & (ViewExternalId | ViewViewId) & {
+  hash?: string;
+};
 
 /*
  * `workflows.*`
