@@ -866,15 +866,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   // ---------------------------------
   // Deprecated methods
   // ---------------------------------
-  public readonly im = {
-    close: bindApiCall<IMCloseArguments, WebAPICallResult>(this, 'im.close'),
-    history: bindApiCall<IMHistoryArguments, WebAPICallResult>(this, 'im.history'),
-    list: bindApiCall<IMListArguments, WebAPICallResult>(this, 'im.list'),
-    mark: bindApiCall<IMMarkArguments, WebAPICallResult>(this, 'im.mark'),
-    open: bindApiCall<IMOpenArguments, WebAPICallResult>(this, 'im.open'),
-    replies: bindApiCall<IMRepliesArguments, WebAPICallResult>(this, 'im.replies'),
-  };
-
   public readonly mpim = {
     close: bindApiCall<MPIMCloseArguments, WebAPICallResult>(this, 'mpim.close'),
     history: bindApiCall<MPIMHistoryArguments, WebAPICallResult>(this, 'mpim.history'),
@@ -2127,32 +2118,6 @@ export interface FilesRemoteShareArguments extends TokenOverridable {
   // TODO: breaking change: either one of the file or external_id arguments are required
   file?: string;
   external_id?: string;
-}
-
-/*
- * `im.*`
- */
-export interface IMCloseArguments extends TokenOverridable {
-  channel: string;
-}
-export interface IMHistoryArguments extends TokenOverridable, TimelinePaginationEnabled {
-  channel: string;
-  count?: number;
-  unreads?: boolean;
-}
-export interface IMListArguments extends TokenOverridable, CursorPaginationEnabled { }
-cursorPaginationEnabledMethods.add('im.list');
-export interface IMMarkArguments extends TokenOverridable {
-  channel: string;
-  ts: string;
-}
-export interface IMOpenArguments extends TokenOverridable, LocaleAware {
-  user: string;
-  return_im?: boolean;
-}
-export interface IMRepliesArguments extends TokenOverridable {
-  channel: string;
-  thread_ts?: string;
 }
 
 /*
