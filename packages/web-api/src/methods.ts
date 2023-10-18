@@ -1998,6 +1998,7 @@ export interface DndTeamInfoArguments extends TokenOverridable {
 /*
  * `emoji.*`
  */
+// https://api.slack.com/methods/emoji.list
 export interface EmojiListArguments extends TokenOverridable {
   include_categories?: boolean;
 }
@@ -2005,15 +2006,16 @@ export interface EmojiListArguments extends TokenOverridable {
 /*
  * `files.*`
  */
+// https://api.slack.com/methods/files.delete
 export interface FilesDeleteArguments extends TokenOverridable {
   file: string; // file id
 }
-export interface FilesInfoArguments extends TokenOverridable, CursorPaginationEnabled {
+// https://api.slack.com/methods/files.info
+export interface FilesInfoArguments extends TokenOverridable, CursorPaginationEnabled, TraditionalPagingEnabled {
   file: string; // file id
-  count?: number;
-  page?: number;
 }
 cursorPaginationEnabledMethods.add('files.info');
+// https://api.slack.com/methods/files.list
 export interface FilesListArguments extends TokenOverridable, TraditionalPagingEnabled {
   channel?: string;
   user?: string;
@@ -2021,17 +2023,21 @@ export interface FilesListArguments extends TokenOverridable, TraditionalPagingE
   ts_to?: string;
   types?: string; // comma-separated list of file types
   show_files_hidden_by_limit?: boolean;
-  team_id?: string;
+  team_id?: string; // required if org token is used
 }
+// https://api.slack.com/methods/files.revokePublicURL
 export interface FilesRevokePublicURLArguments extends TokenOverridable {
   file: string; // file id
 }
+// https://api.slack.com/methods/files.sharedPublicURL
 export interface FilesSharedPublicURLArguments extends TokenOverridable {
   file: string; // file id
 }
 /**
  * Legacy files.upload API files upload arguments
  */
+// TODO: breaking change: must provide content or file
+// https://api.slack.com/methods/files.upload
 export interface FilesUploadArguments extends FileUpload, TokenOverridable {}
 interface FileUpload {
   channels?: string; // comma-separated list of channels
@@ -2040,7 +2046,7 @@ interface FileUpload {
   filename?: string;
   filetype?: string;
   initial_comment?: string;
-  thread_ts?: string; // if specified, `channels` must be set
+  thread_ts?: string; // TODO: breaking change: if specified, `channels` must be set
   title?: string;
 }
 
@@ -2068,7 +2074,7 @@ export interface FileUploadV2Job extends FileUploadV2,
 
 /**
  * Gets a URL for an edge external file upload. Method:
- * {@link https://api.slack.com/methods/files.getUploadURLExternal files.getUploadURLExternal}
+ * @see {@link https://api.slack.com/methods/files.getUploadURLExternal `files.getUploadURLExternal` API reference}
 */
 export interface FilesGetUploadURLExternalArguments extends TokenOverridable {
   filename: string;
@@ -2077,8 +2083,8 @@ export interface FilesGetUploadURLExternalArguments extends TokenOverridable {
   snippet_type?: string;
 }
 /**
- * Finishes an upload started with files.getUploadURLExternal. Method:
- * {@link https://api.slack.com/methods/files.completeUploadExternal files.completeUploadExternal}
+ * Finishes an upload started with {@link https://api.slack.com/methods/files.getUploadURLExternal `files.getUploadURLExternal`}.
+ * @see {@link https://api.slack.com/methods/files.completeUploadExternal `files.completeUploadExternal` API reference}
  */
 export interface FilesCompleteUploadExternalArguments extends TokenOverridable {
   files: FileUploadComplete[];
@@ -2090,50 +2096,55 @@ interface FileUploadComplete {
   id: string, // file id
   title?: string // filename
 }
+// https://api.slack.com/methods/files.comments.delete
 export interface FilesCommentsDeleteArguments extends TokenOverridable {
   file: string; // file id
   id: string; // comment id
 }
-// either file or external_id is required
+// https://api.slack.com/methods/files.remote.info
 export interface FilesRemoteInfoArguments extends TokenOverridable {
-  // either one of the file or external_id arguments are required
+  // TODO: breaking change: either one of the file or external_id arguments are required
+  // This either/or relationship for files.remote.* APIs can be modeled once and re-used for all these methods
   file?: string;
   external_id?: string;
 }
+// https://api.slack.com/methods/files.remote.list
 export interface FilesRemoteListArguments extends TokenOverridable, CursorPaginationEnabled {
   ts_from?: string;
   ts_to?: string;
   channel?: string;
 }
 cursorPaginationEnabledMethods.add('files.remote.list');
+// https://api.slack.com/methods/files.remote.add
 export interface FilesRemoteAddArguments extends TokenOverridable {
   title: string;
   external_url: string;
   external_id: string; // a unique identifier for the file in your system
-  filetype: string; // possible values (except for 'auto'): https://api.slack.com/types/file#file_types
+  filetype?: string; // possible values (except for 'auto'): https://api.slack.com/types/file#file_types
   preview_image?: Buffer | Stream;
   indexable_file_contents?: Buffer | Stream;
 }
+// https://api.slack.com/methods/files.remote.update
 export interface FilesRemoteUpdateArguments extends TokenOverridable {
   title?: string;
   external_url?: string;
   filetype?: string; // possible values (except for 'auto'): https://api.slack.com/types/file#file_types
   preview_image?: Buffer | Stream;
   indexable_file_contents?: Buffer | Stream;
-
-  // either one of the file or external_id arguments are required
+  // TODO: breaking change: either one of the file or external_id arguments are required
   file?: string;
   external_id?: string;
 }
+// https://api.slack.com/methods/files.remote.remove
 export interface FilesRemoteRemoveArguments extends TokenOverridable {
-  // either one of the file or external_id arguments are required
+  // TODO: breaking change: either one of the file or external_id arguments are required
   file?: string;
   external_id?: string;
 }
+// https://api.slack.com/methods/files.remote.share
 export interface FilesRemoteShareArguments extends TokenOverridable {
   channels: string; // comma-separated list of channel ids
-
-  // either one of the file or external_id arguments are required
+  // TODO: breaking change: either one of the file or external_id arguments are required
   file?: string;
   external_id?: string;
 }
