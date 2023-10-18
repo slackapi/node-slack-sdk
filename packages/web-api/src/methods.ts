@@ -2345,39 +2345,46 @@ export interface TeamPreferencesListArguments extends TokenOverridable { }
 /*
  * `usergroups.*`
  */
-export interface UsergroupsCreateArguments extends TokenOverridable {
+// https://api.slack.com/methods/usergroups.create
+export interface UsergroupsCreateArguments extends TokenOverridable, OptionalTeamAssignable {
   name: string;
-  channels?: string; // comma-separated list of channels
+  channels?: string; // comma-separated list of channels, TODO: docs say this is an array
   description?: string;
   handle?: string;
   include_count?: boolean;
 }
-export interface UsergroupsDisableArguments extends TokenOverridable {
+// https://api.slack.com/methods/usergroups.disable
+export interface UsergroupsDisableArguments extends TokenOverridable, OptionalTeamAssignable {
   usergroup: string;
   include_count?: boolean;
 }
-export interface UsergroupsEnableArguments extends TokenOverridable {
+// https://api.slack.com/methods/usergroups.enable
+export interface UsergroupsEnableArguments extends TokenOverridable, OptionalTeamAssignable {
   usergroup: string;
   include_count?: boolean;
 }
-export interface UsergroupsListArguments extends TokenOverridable {
+// https://api.slack.com/methods/usergroups.list
+export interface UsergroupsListArguments extends TokenOverridable, OptionalTeamAssignable {
   include_count?: boolean;
   include_disabled?: boolean;
   include_users?: boolean;
 }
-export interface UsergroupsUpdateArguments extends TokenOverridable {
+// https://api.slack.com/methods/usergroups.update
+export interface UsergroupsUpdateArguments extends TokenOverridable, OptionalTeamAssignable {
   usergroup: string;
-  channels?: string; // comma-separated list of channels
+  channels?: string; // comma-separated list of channels, TODO: docs say this is an array
   description?: string;
   handle?: string;
   include_count?: boolean;
   name?: string;
 }
-export interface UsergroupsUsersListArguments extends TokenOverridable {
+// https://api.slack.com/methods/usergroups.users.list
+export interface UsergroupsUsersListArguments extends TokenOverridable, OptionalTeamAssignable {
   usergroup: string;
   include_disabled?: boolean;
 }
-export interface UsergroupsUsersUpdateArguments extends TokenOverridable {
+// https://api.slack.com/methods/usergroups.users.update
+export interface UsergroupsUsersUpdateArguments extends TokenOverridable, OptionalTeamAssignable {
   usergroup: string;
   users: string; // comma-separated list of users
   include_count?: boolean;
@@ -2429,6 +2436,9 @@ export interface UsersProfileSetArguments extends TokenOverridable {
   value?: string; // usable if `profile` is not passed
 }
 
+/*
+ * `views.*`
+ */
 export interface ViewsOpenArguments extends TokenOverridable {
   trigger_id: string;
   view: View;
