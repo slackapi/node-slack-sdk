@@ -2247,15 +2247,17 @@ export interface RemindersListArguments extends TokenOverridable, OptionalTeamAs
 /*
  * `rtm.*`
  */
+// https://api.slack.com/methods/rtm.connect
 export interface RTMConnectArguments extends TokenOverridable {
   batch_presence_aware?: boolean;
   presence_sub?: boolean;
 }
+// https://api.slack.com/methods/rtm.start
 export interface RTMStartArguments extends TokenOverridable, LocaleAware {
   batch_presence_aware?: boolean;
   mpim_aware?: boolean;
   no_latest?: '0' | '1';
-  no_unreads?: string;
+  no_unreads?: string; // TODO: docs say this is a boolean
   presence_sub?: boolean;
   simple_latest?: boolean;
 }
