@@ -1832,91 +1832,116 @@ export interface ChatUpdateArguments extends TokenOverridable {
 /*
  * `conversations.*`
  */
+// TODO: breaking change: must provide either channel_id or invite_id
+// https://api.slack.com/methods/conversations.acceptSharedInvite
 export interface ConversationsAcceptSharedInviteArguments extends TokenOverridable {
   channel_name: string;
   channel_id?: string;
   free_trial_accepted?: boolean;
   invite_id?: string;
   is_private?: boolean;
-  team_id?: string;
+  team_id?: string; // required if org token is used
 }
+// https://api.slack.com/methods/conversations.approveSharedInvite
 export interface ConversationsApproveSharedInviteArguments extends TokenOverridable {
   invite_id: string;
   target_team?: string;
 }
+// https://api.slack.com/methods/conversations.archive
 export interface ConversationsArchiveArguments extends TokenOverridable {
   channel: string;
 }
+// https://api.slack.com/methods/conversations.close
 export interface ConversationsCloseArguments extends TokenOverridable {
   channel: string;
 }
+// https://api.slack.com/methods/conversations.create
 export interface ConversationsCreateArguments extends TokenOverridable {
   name: string;
   is_private?: boolean;
-  team_id?: string;
+  team_id?: string; // required if org token is used
 }
+// https://api.slack.com/methods/conversations.declineSharedInvite
 export interface ConversationsDeclineSharedInviteArguments extends TokenOverridable {
   invite_id: string;
   target_team?: string;
 }
+// https://api.slack.com/methods/conversations.history
 export interface ConversationsHistoryArguments extends TokenOverridable, CursorPaginationEnabled,
   TimelinePaginationEnabled {
   channel: string;
   include_all_metadata?: boolean;
 }
 cursorPaginationEnabledMethods.add('conversations.history');
+// https://api.slack.com/methods/conversations.info
 export interface ConversationsInfoArguments extends TokenOverridable, LocaleAware {
   channel: string;
   include_num_members?: boolean;
 }
+// https://api.slack.com/methods/conversations.invite
 export interface ConversationsInviteArguments extends TokenOverridable {
   channel: string;
   users: string; // comma-separated list of users
 }
+// TODO: breaking change: either emails or user_ids must be provided
+// https://api.slack.com/methods/conversations.inviteShared
 export interface ConversationsInviteSharedArguments extends TokenOverridable {
   channel: string;
   emails?: string[];
+  external_limited?: boolean;
   user_ids?: string[];
 }
+// https://api.slack.com/methods/conversations.join
 export interface ConversationsJoinArguments extends TokenOverridable {
   channel: string;
 }
+// https://api.slack.com/methods/conversations.kick
 export interface ConversationsKickArguments extends TokenOverridable {
   channel: string;
   user: string;
 }
+// https://api.slack.com/methods/conversations.leave
 export interface ConversationsLeaveArguments extends TokenOverridable {
   channel: string;
 }
+// https://api.slack.com/methods/conversations.list
 export interface ConversationsListArguments extends TokenOverridable, CursorPaginationEnabled {
   exclude_archived?: boolean;
   types?: string; // comma-separated list of conversation types
-  team_id?: string;
+  team_id?: string; // required if org token is used
 }
 cursorPaginationEnabledMethods.add('conversations.list');
+// https://api.slack.com/methods/conversations.listConnectInvites
 export interface ConversationsListConnectInvitesArguments extends TokenOverridable {
-  count?: number;
+  count?: number; // lol we use `limit` everywhere else
   cursor?: string;
-  team_id?: string;
+  team_id?: string; // required if org token is used
 }
 cursorPaginationEnabledMethods.add('conversations.listConnectInvites');
+// https://api.slack.com/methods/conversations.mark
 export interface ConversationsMarkArguments extends TokenOverridable {
   channel: string;
   ts: string;
 }
+// https://api.slack.com/methods/conversations.members
 export interface ConversationsMembersArguments extends TokenOverridable, CursorPaginationEnabled {
   channel: string;
 }
 cursorPaginationEnabledMethods.add('conversations.members');
+// TODO: breaking change: must supply either channel or users
+// https://api.slack.com/methods/conversations.open
 export interface ConversationsOpenArguments extends TokenOverridable {
   channel?: string;
   users?: string; // comma-separated list of users
   return_im?: boolean;
+  prevent_creation?: boolean;
 }
+// https://api.slack.com/methods/conversations.rename
 export interface ConversationsRenameArguments extends TokenOverridable {
   channel: string;
   name: string;
 }
+// https://api.slack.com/methods/conversations.replies
 export interface ConversationsRepliesArguments extends TokenOverridable, CursorPaginationEnabled,
   TimelinePaginationEnabled {
   channel: string;
@@ -1924,14 +1949,17 @@ export interface ConversationsRepliesArguments extends TokenOverridable, CursorP
   include_all_metadata?: boolean;
 }
 cursorPaginationEnabledMethods.add('conversations.replies');
+// https://api.slack.com/methods/conversations.setPurpose
 export interface ConversationsSetPurposeArguments extends TokenOverridable {
   channel: string;
   purpose: string;
 }
+// https://api.slack.com/methods/conversations.setTopic
 export interface ConversationsSetTopicArguments extends TokenOverridable {
   channel: string;
   topic: string;
 }
+// https://api.slack.com/methods/conversations.unarchive
 export interface ConversationsUnarchiveArguments extends TokenOverridable {
   channel: string;
 }
@@ -1939,6 +1967,7 @@ export interface ConversationsUnarchiveArguments extends TokenOverridable {
 /*
  * `dialog.*`
  */
+// https://api.slack.com/methods/dialog.open
 export interface DialogOpenArguments extends TokenOverridable {
   trigger_id: string;
   dialog: Dialog;
