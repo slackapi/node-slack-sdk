@@ -1976,16 +1976,23 @@ export interface DialogOpenArguments extends TokenOverridable {
 /*
  * `dnd.*`
  */
+// https://api.slack.com/methods/dnd.endDnd
 export interface DndEndDndArguments extends TokenOverridable { }
+// https://api.slack.com/methods/dnd.endSnooze
 export interface DndEndSnoozeArguments extends TokenOverridable { }
+// https://api.slack.com/methods/dnd.info
 export interface DndInfoArguments extends TokenOverridable {
-  user: string;
+  user?: string;
+  team_id?: string; // required if org token is used
 }
+// https://api.slack.com/methods/dnd.setSnooze
 export interface DndSetSnoozeArguments extends TokenOverridable {
   num_minutes: number;
 }
+// https://api.slack.com/methods/dnd.teamInfo
 export interface DndTeamInfoArguments extends TokenOverridable {
-  users?: string; // comma-separated list of users
+  users: string; // comma-separated list of users
+  team_id?: string; // required if org token is used
 }
 
 /*
