@@ -2275,25 +2275,31 @@ export interface SearchFilesArguments extends TokenOverridable, TraditionalPagin
 export interface SearchMessagesArguments extends TokenOverridable, TraditionalPagingEnabled,
   Searchable { }
 
+// TODO: usage info for stars.add recommends retiring use of any stars APIs
+// https://api.slack.com/methods/stars.add#markdown
+// should we mark these methods as deprecated?
 /*
  * `stars.*`
  */
+// https://api.slack.com/methods/stars.add
 export interface StarsAddArguments extends TokenOverridable {
-  // must supply one of:
-  channel?: string; // paired with `timestamp`
+  // TODO: breaking change: must supply one of:
+  channel?: string; // optionally paired with `timestamp`
   timestamp?: string; // paired with `channel`
   file?: string; // file id
-  file_comment?: string;
+  file_comment?: string; // file comment id
 }
+// https://api.slack.com/methods/stars.list
 export interface StarsListArguments extends TokenOverridable, TraditionalPagingEnabled,
-  CursorPaginationEnabled { }
+  CursorPaginationEnabled, OptionalTeamAssignable { }
 cursorPaginationEnabledMethods.add('stars.list');
+// https://api.slack.com/methods/stars.remove
 export interface StarsRemoveArguments extends TokenOverridable {
-  // must supply one of:
-  channel?: string; // paired with `timestamp`
+  // TODO: breaking change: must supply one of:
+  channel?: string; // optionally paired with `timestamp`
   timestamp?: string; // paired with `channel`
   file?: string; // file id
-  file_comment?: string;
+  file_comment?: string; // file comment id
 }
 
 /*
