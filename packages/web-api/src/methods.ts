@@ -997,7 +997,7 @@ cursorPaginationEnabledMethods.add('admin.apps.restricted.list');
 // https://api.slack.com/methods/admin.apps.uninstall
 export interface AdminAppsUninstallArguments {
   app_id: string;
-  enterprise_id?: string; // TODO: breaking change, enforce at least one array item?
+  enterprise_id?: string;
   team_ids?: string[]; // TODO: breaking change, enforce at least one array item?
 }
 // https://api.slack.com/methods/admin.apps.activities.list
