@@ -2120,7 +2120,7 @@ export interface OAuthAccessArguments {
   client_secret: string; // TODO: docs state this is optional
   code: string; // TODO: docs state this is optional
   redirect_uri?: string;
-  single_channel?: string; // TODO: docs state this is a boolean, only valid for legacy apps
+  single_channel?: boolean;
 }
 // https://api.slack.com/methods/oauth.v2.access
 export interface OAuthV2AccessArguments {
