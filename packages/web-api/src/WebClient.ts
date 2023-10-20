@@ -18,7 +18,7 @@ import {
   AdminAnalyticsPublicChannelMetadataDetails,
   FilesCompleteUploadExternalResponse,
   FilesGetUploadURLExternalResponse,
-} from './response';
+} from './types/response';
 
 import { Methods, CursorPaginationEnabled, cursorPaginationEnabledMethods, FilesUploadV2Arguments, FileUploadV2Job, FilesGetUploadURLExternalArguments, FilesCompleteUploadExternalArguments } from './methods';
 import { getUserAgent } from './instrument';

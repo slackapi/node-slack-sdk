@@ -229,7 +229,7 @@ import {
   AdminWorkflowsPermissionsLookupResponse,
   AdminAppsConfigLookupResponse,
   AdminAppsConfigSetResponse,
-} from './response';
+} from './types/response';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
 
