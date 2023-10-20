@@ -19,8 +19,8 @@ import {
   FilesCompleteUploadExternalResponse,
   FilesGetUploadURLExternalResponse,
 } from './types/response';
-
-import { Methods, CursorPaginationEnabled, cursorPaginationEnabledMethods, FilesUploadV2Arguments, FileUploadV2Job, FilesGetUploadURLExternalArguments, FilesCompleteUploadExternalArguments } from './methods';
+import { CursorPaginationEnabled } from './types/request/common';
+import { Methods, cursorPaginationEnabledMethods, FilesUploadV2Arguments, FileUploadV2Job, FilesGetUploadURLExternalArguments, FilesCompleteUploadExternalArguments } from './methods';
 import { getUserAgent } from './instrument';
 import {
   requestErrorWithOriginal, httpErrorFromResponse, platformErrorFromResult, rateLimitedErrorWithDelay,
