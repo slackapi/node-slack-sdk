@@ -1,7 +1,8 @@
 import { Stream } from 'stream';
-import { Dialog, View, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser, MessageMetadata } from '@slack/types';
+import { Dialog, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser, MessageMetadata } from '@slack/types';
 import { EventEmitter } from 'eventemitter3';
 import { WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
+import { TokenOverridable, LocaleAware, OptionalTeamAssignable, TraditionalPagingEnabled, CursorPaginationEnabled, TimelinePaginationEnabled } from './types/request/common';
 import {
   AdminAnalyticsGetFileResponse,
   AdminAppsApproveResponse,
@@ -230,8 +231,26 @@ import {
   AdminAppsConfigLookupResponse,
   AdminAppsConfigSetResponse,
 } from './types/response';
+import { WorkflowsStepCompletedArguments, WorkflowsStepFailedArguments, WorkflowsUpdateStepArguments } from './types/request/workflows';
+import { SearchAllArguments, SearchFilesArguments, SearchMessagesArguments } from './types/request/search';
+import { ViewsUpdateArguments, ViewsOpenArguments, ViewsPushArguments, ViewsPublishArguments } from './types/request/views';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
+
+/**
+ * Generic method definition
+ */
+export default interface Method<
+  MethodArguments,
+  MethodResult extends WebAPICallResult = WebAPICallResult,
+> {
+  (options: MethodArguments): Promise<MethodResult>;
+}
+
+// A set of method names is initialized here and added to each time an argument type extends the CursorPaginationEnabled
+// interface, so that methods are checked against this set when using the pagination helper. If the method name is not
+// found, a warning is emitted to guide the developer to using the method correctly.
+export const cursorPaginationEnabledMethods: Set<string> = new Set();
 
 /**
  * Binds a certain `method` and its arguments and result types to the `apiCall` method in `WebClient`.
@@ -256,13 +275,6 @@ function bindFilesUploadV2<Arguments, Result extends WebAPICallResult>(
  * `apiCall` class method.
  */
 export abstract class Methods extends EventEmitter<WebClientEvent> {
-  // TODO: As of writing, `WebClient` already extends EventEmitter...
-  // and I want WebClient to extend this class...
-  // and multiple inheritance in JS is cursed...
-  // so I'm just making this class extend EventEmitter.
-  //
-  // It shouldn't be here, indeed. Nothing here uses it, indeed. But it must be here for the sake of sanity.
-
   protected constructor() {
     super();
 
@@ -854,6 +866,12 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     update: bindApiCall<ViewsUpdateArguments, ViewsUpdateResponse>(this, 'views.update'),
   };
 
+  // ------------------
+  // Deprecated methods
+  // TODO: breaking changes for future majors:
+  // - workflows.* methods, Sep 12 2024: https://api.slack.com/changelog/2023-08-workflow-steps-from-apps-step-back
+  // ------------------
+
   public readonly workflows = {
     stepCompleted: bindApiCall<WorkflowsStepCompletedArguments, WorkflowsStepCompletedResponse>(
       this,
@@ -862,58 +880,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     stepFailed: bindApiCall<WorkflowsStepFailedArguments, WorkflowsStepFailedResponse>(this, 'workflows.stepFailed'),
     updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
   };
-}
-
-/**
- * Generic method definition
- */
-export default interface Method<
-  MethodArguments,
-  MethodResult extends WebAPICallResult = WebAPICallResult,
-> {
-  (options: MethodArguments): Promise<MethodResult>;
-}
-
-/*
- * Reusable mixins or extensions that some MethodArguments types can extend from
- */
-export interface TokenOverridable {
-  token?: string;
-}
-
-export interface LocaleAware {
-  include_locale?: boolean;
-}
-
-interface OptionalTeamAssignable {
-  team_id?: string; // typically models the "team_id is required if org token is used" constraint
-}
-
-export interface Searchable extends OptionalTeamAssignable {
-  query: string;
-  highlight?: boolean;
-  sort: 'score' | 'timestamp';
-  sort_dir: 'asc' | 'desc';
-}
-
-// A set of method names is initialized here and added to each time an argument type extends the CursorPaginationEnabled
-// interface, so that methods are checked against this set when using the pagination helper. If the method name is not
-// found, a warning is emitted to guide the developer to using the method correctly.
-export const cursorPaginationEnabledMethods: Set<string> = new Set();
-export interface CursorPaginationEnabled {
-  limit?: number; // natural integer, max of 1000
-  cursor?: string; // find this in a response's `response_metadata.next_cursor`
-}
-
-export interface TimelinePaginationEnabled {
-  oldest?: string;
-  latest?: string;
-  inclusive?: boolean;
-}
-
-export interface TraditionalPagingEnabled {
-  page?: number; // default: 1
-  count?: number; // default: 100
 }
 
 /*
@@ -2262,19 +2228,6 @@ export interface RTMStartArguments extends TokenOverridable, LocaleAware {
   simple_latest?: boolean;
 }
 
-/*
- * `search.*`
- */
-// https://api.slack.com/methods/search.all
-export interface SearchAllArguments extends TokenOverridable, TraditionalPagingEnabled,
-  Searchable { }
-// https://api.slack.com/methods/search.files
-export interface SearchFilesArguments extends TokenOverridable, TraditionalPagingEnabled,
-  Searchable { }
-// https://api.slack.com/methods/search.messages
-export interface SearchMessagesArguments extends TokenOverridable, TraditionalPagingEnabled,
-  Searchable { }
-
 // TODO: usage info for stars.add recommends retiring use of any stars APIs
 // https://api.slack.com/methods/stars.add#markdown
 // should we mark these methods as deprecated?
@@ -2443,77 +2396,6 @@ export interface UsersProfileSetArguments extends TokenOverridable {
   user?: string; // must be an admin user and must be on a paid plan
   name?: string; // usable if `profile` is not passed
   value?: string; // usable if `profile` is not passed
-}
-
-/*
- * `views.*`
- */
-interface BaseViewsArguments {
-  view: View;
-}
-interface ViewTriggerId {
-  trigger_id: string;
-}
-interface ViewInteractivityPointer {
-  interactivity_pointer: string;
-}
-// https://api.slack.com/methods/views.open
-export type ViewsOpenArguments = BaseViewsArguments & TokenOverridable & (ViewTriggerId | ViewInteractivityPointer);
-// https://api.slack.com/methods/views.push
-export type ViewsPushArguments = BaseViewsArguments & TokenOverridable & (ViewTriggerId | ViewInteractivityPointer);
-// https://api.slack.com/methods/views.publish
-export interface ViewsPublishArguments extends BaseViewsArguments, TokenOverridable {
-  user_id: string;
-  hash?: string;
-}
-interface ViewExternalId {
-  external_id: string;
-}
-interface ViewViewId {
-  view_id: string;
-}
-// https://api.slack.com/methods/views.update
-export type ViewsUpdateArguments = BaseViewsArguments & TokenOverridable & (ViewExternalId | ViewViewId) & {
-  hash?: string;
-};
-
-// TODO: docs state workflows.* methods are deprecated. should we mark them as such?
-/*
- * `workflows.*`
- */
-// https://api.slack.com/methods/workflows.stepCompleted
-export interface WorkflowsStepCompletedArguments extends TokenOverridable {
-  workflow_step_execute_id: string;
-  outputs?: Record<string, unknown>;
-}
-// https://api.slack.com/methods/workflows.stepFailed
-export interface WorkflowsStepFailedArguments extends TokenOverridable {
-  workflow_step_execute_id: string;
-  error: {
-    message: string;
-  };
-}
-// https://api.slack.com/methods/workflows.updateStep
-export interface WorkflowsUpdateStepArguments extends TokenOverridable {
-  workflow_step_edit_id: string;
-  step_image_url?: string;
-  step_name?: string;
-  inputs?: {
-    [name: string]: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      value: any;
-      skip_variable_replacement?: boolean;
-      variables?: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        [key: string]: any;
-      };
-    },
-  };
-  outputs?: {
-    type: string;
-    name: string;
-    label: string;
-  }[];
 }
 
 export * from '@slack/types';
