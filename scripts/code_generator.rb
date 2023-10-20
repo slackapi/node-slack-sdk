@@ -5,7 +5,7 @@
 
 require 'open3'
 
-index_file = __dir__ + '/../packages/web-api/src/response/index.ts'
+index_file = __dir__ + '/../packages/web-api/src/types/response/index.ts'
 File.truncate(index_file, 0)
 
 class TsWriter
@@ -29,7 +29,7 @@ class TsWriter
     Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
       stdin.write(input_json)
       stdin.close()
-      source = "/* eslint-disable */\n#{NOTICE}\nimport { WebAPICallResult } from '../WebClient';\n" + stdout.read
+      source = "/* eslint-disable */\n#{NOTICE}\nimport { WebAPICallResult } from '../../WebClient';\n" + stdout.read
       source.gsub!(
         "export interface #{root_class_name} {",
         "export type #{root_class_name} = WebAPICallResult & {"
@@ -90,7 +90,7 @@ Dir.glob(__dir__ + '/../tmp/java-slack-sdk/json-logs/samples/api/*').sort.each d
     end
 
     root_class_name << 'Response'
-    typedef_filepath = __dir__ + "/../packages/web-api/src/response/#{root_class_name}.ts"
+    typedef_filepath = __dir__ + "/../packages/web-api/src/types/response/#{root_class_name}.ts"
     input_json = json_file.read
     ts_writer.write(root_class_name, json_path, typedef_filepath, input_json)
     ts_writer.append_to_index(root_class_name, index_file)
