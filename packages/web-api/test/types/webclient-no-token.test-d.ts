@@ -1,6 +1,6 @@
 import { expectType } from 'tsd';
 import { WebClient } from '../../';
-import { OauthAccessResponse } from '../../src/response/OauthAccessResponse';
+import { OauthAccessResponse } from '../../src/types/response/OauthAccessResponse';
 
 const web = new WebClient();
 

@@ -1,7 +1,7 @@
 import { expectType, expectError } from 'tsd';
 import { WebClient, WebAPICallResult } from '../../';
-import { ChatPostMessageResponse } from '../../src/response/ChatPostMessageResponse';
-import { ChatPostEphemeralResponse } from '../../src/response/ChatPostEphemeralResponse';
+import { ChatPostMessageResponse } from '../../src/types/response/ChatPostMessageResponse';
+import { ChatPostEphemeralResponse } from '../../src/types/response/ChatPostEphemeralResponse';
 // import { ChatScheduleMessageResponse } from '../../src/response/ChatScheduleMessageResponse';
 // import { ChatUpdateResponse } from '../../src/response/ChatUpdateResponse';
 
