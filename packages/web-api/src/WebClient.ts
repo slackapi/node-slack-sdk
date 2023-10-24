@@ -20,7 +20,7 @@ import {
   FilesGetUploadURLExternalResponse,
 } from './types/response';
 import { CursorPaginationEnabled } from './types/request/common';
-import { Methods, cursorPaginationEnabledMethods, FilesUploadV2Arguments, FileUploadV2Job, FilesGetUploadURLExternalArguments, FilesCompleteUploadExternalArguments } from './methods';
+import { Methods, FilesUploadV2Arguments, FileUploadV2Job, FilesGetUploadURLExternalArguments, FilesCompleteUploadExternalArguments } from './methods';
 import { getUserAgent } from './instrument';
 import {
   requestErrorWithOriginal, httpErrorFromResponse, platformErrorFromResult, rateLimitedErrorWithDelay,
@@ -317,10 +317,6 @@ export class WebClient extends Methods {
     shouldStop?: PaginatePredicate,
     reduce?: PageReducer<A>,
   ): (Promise<A> | AsyncIterable<WebAPICallResult>) {
-    if (!cursorPaginationEnabledMethods.has(method)) {
-      this.logger.warn(`paginate() called with method ${method}, which is not known to be cursor pagination enabled.`);
-    }
-
     const pageSize = (() => {
       if (options !== undefined && typeof options.limit === 'number') {
         const { limit } = options;

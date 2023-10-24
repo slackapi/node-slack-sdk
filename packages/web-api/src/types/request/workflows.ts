@@ -1,4 +1,4 @@
-import { TokenOverridable } from '../../methods';
+import { TokenOverridable } from './common';
 
 // TODO: breaking change: to be removed after Sep 12 2024
 // https://api.slack.com/changelog/2023-08-workflow-steps-from-apps-step-back

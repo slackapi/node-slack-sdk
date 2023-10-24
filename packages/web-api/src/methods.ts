@@ -1,4 +1,4 @@
-import { Stream } from 'stream';
+import { Stream } from 'node:stream';
 import { Dialog, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser, MessageMetadata } from '@slack/types';
 import { EventEmitter } from 'eventemitter3';
 import { WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
@@ -232,8 +232,9 @@ import {
   AdminAppsConfigSetResponse,
 } from './types/response';
 import { WorkflowsStepCompletedArguments, WorkflowsStepFailedArguments, WorkflowsUpdateStepArguments } from './types/request/workflows';
-import { SearchAllArguments, SearchFilesArguments, SearchMessagesArguments } from './types/request/search';
 import { ViewsUpdateArguments, ViewsOpenArguments, ViewsPushArguments, ViewsPublishArguments } from './types/request/views';
+import { UsersConversationsArguments, UsersInfoArguments, UsersListArguments, UsersIdentityArguments, UsersSetPhotoArguments, UsersProfileGetArguments, UsersProfileSetArguments, UsersDeletePhotoArguments, UsersGetPresenceArguments, UsersSetPresenceArguments, UsersLookupByEmailArguments } from './types/request/users';
+import { SearchAllArguments, SearchFilesArguments, SearchMessagesArguments } from './types/request/search';
 
 // NOTE: could create a named type alias like data types like `SlackUserID: string`
 
@@ -246,11 +247,6 @@ export default interface Method<
 > {
   (options: MethodArguments): Promise<MethodResult>;
 }
-
-// A set of method names is initialized here and added to each time an argument type extends the CursorPaginationEnabled
-// interface, so that methods are checked against this set when using the pagination helper. If the method name is not
-// found, a warning is emitted to guide the developer to using the method correctly.
-export const cursorPaginationEnabledMethods: Set<string> = new Set();
 
 /**
  * Binds a certain `method` and its arguments and result types to the `apiCall` method in `WebClient`.
@@ -924,7 +920,6 @@ export interface AdminAppsClearResolutionArguments {
   enterprise_id?: string;
   team_id?: string;
 }
-cursorPaginationEnabledMethods.add('admin.apps.approved.list');
 // https://api.slack.com/methods/admin.apps.requests.cancel
 export interface AdminAppsRequestsCancelArguments extends TokenOverridable {
   request_id: string;
@@ -937,7 +932,6 @@ export interface AdminAppsRequestsListArguments extends TokenOverridable, Cursor
   enterprise_id?: string;
   team_id?: string; // required if your enterprise grid contains more than one workspace
 }
-cursorPaginationEnabledMethods.add('admin.apps.requests.list');
 // TODO: breaking changes - potential type improvements:
 // - exactly one of `team_id` or `enterprise_id` is required - but not both
 // - either `app_id` or `request_id` is required
@@ -956,7 +950,6 @@ export interface AdminAppsRestrictedListArguments extends TokenOverridable, Curs
   team_id?: string;
   enterprise_id?: string;
 }
-cursorPaginationEnabledMethods.add('admin.apps.restricted.list');
 
 // TODO: breaking changes - potential type improvements:
 // - exactly one of `team_id` or `enterprise_id` is required - but not both
@@ -980,7 +973,6 @@ export interface AdminAppsActivitiesListArguments extends TokenOverridable, Curs
   team_id?: string;
   trace_id?: string;
 }
-cursorPaginationEnabledMethods.add('admin.apps.activities.list');
 // TODO: does not get used, should add method implementation, see https://github.com/slackapi/node-slack-sdk/issues/1675
 export interface AdminAppsConfigLookupArguments extends TokenOverridable {
   app_ids: string[];
@@ -1006,7 +998,6 @@ export interface AdminAuthPolicyGetEntitiesArguments extends TokenOverridable,
   policy_name: 'email_password';
   entity_type?: 'USER';
 }
-cursorPaginationEnabledMethods.add('admin.auth.policy.getEntities');
 // https://api.slack.com/methods/admin.auth.policy.removeEntities
 export interface AdminAuthPolicyRemoveEntitiesArguments extends TokenOverridable {
   entity_ids: string[]; // TODO: breaking change, enforce at least one array item?
@@ -1025,7 +1016,6 @@ export interface AdminBarriersDeleteArguments extends TokenOverridable {
 }
 // https://api.slack.com/methods/admin.barriers.list
 export interface AdminBarriersListArguments extends TokenOverridable, CursorPaginationEnabled { }
-cursorPaginationEnabledMethods.add('admin.barriers.list');
 
 // https://api.slack.com/methods/admin.barriers.update
 export interface AdminBarriersUpdateArguments extends TokenOverridable {
@@ -1086,14 +1076,12 @@ export interface AdminConversationsLookupArguments
   team_ids: string[];
   max_member_count?: number;
 }
-cursorPaginationEnabledMethods.add('admin.conversations.lookup');
 // https://api.slack.com/methods/admin.conversations.ekm.listOriginalConnectedChannelInfo
 export interface AdminConversationsEKMListOriginalConnectedChannelInfoArguments
   extends TokenOverridable, CursorPaginationEnabled {
   channel_ids?: string[];
   team_ids?: string[];
 }
-cursorPaginationEnabledMethods.add('admin.conversations.ekm.listOriginalConnectedChannelInfo');
 // https://api.slack.com/methods/admin.conversations.getConversationPrefs
 export interface AdminConversationsGetConversationPrefsArguments extends TokenOverridable {
   channel_id: string;
@@ -1103,7 +1091,6 @@ export interface AdminConversationsGetTeamsArguments
   extends TokenOverridable, CursorPaginationEnabled {
   channel_id: string;
 }
-cursorPaginationEnabledMethods.add('admin.conversations.getTeams');
 // https://api.slack.com/methods/admin.conversations.invite
 export interface AdminConversationsInviteArguments extends TokenOverridable {
   channel_id: string;
@@ -1155,7 +1142,6 @@ export interface AdminConversationsSearchArguments
   connected_team_ids?: string[];
   total_count_only?: boolean;
 }
-cursorPaginationEnabledMethods.add('admin.conversations.search');
 // https://api.slack.com/methods/admin.conversations.setConversationPrefs
 export interface AdminConversationsSetConversationPrefsArguments extends TokenOverridable {
   channel_id: string;
@@ -1184,7 +1170,6 @@ export interface AdminEmojiAddAliasArguments extends TokenOverridable {
 }
 // https://api.slack.com/methods/admin.emoji.list
 export interface AdminEmojiListArguments extends TokenOverridable, CursorPaginationEnabled { }
-cursorPaginationEnabledMethods.add('admin.emoji.list');
 // https://api.slack.com/methods/admin.emoji.remove
 export interface AdminEmojiRemoveArguments extends TokenOverridable {
   name: string;
@@ -1221,7 +1206,6 @@ export interface AdminInviteRequestsApprovedListArguments
   extends TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
-cursorPaginationEnabledMethods.add('admin.inviteRequests.approved.list');
 // https://api.slack.com/methods/admin.inviteRequests.deny
 export interface AdminInviteRequestsDenyArguments
   extends TokenOverridable {
@@ -1233,13 +1217,11 @@ export interface AdminInviteRequestsDeniedListArguments
   extends TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
-cursorPaginationEnabledMethods.add('admin.inviteRequests.denied.list');
 // https://api.slack.com/methods/admin.inviteRequests.list
 export interface AdminInviteRequestsListArguments
   extends TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
-cursorPaginationEnabledMethods.add('admin.inviteRequests.list');
 // https://api.slack.com/methods/admin.roles.addAssignments
 export interface AdminRolesAddAssignmentsArguments
   extends TokenOverridable {
@@ -1254,7 +1236,6 @@ export interface AdminRolesListAssignmentsArguments
   role_ids?: string[];
   sort_dir?: string; // TODO: breaking change - turn to `asc` | `desc`? tho docs say this should be capital letters...
 }
-cursorPaginationEnabledMethods.add('admin.roles.listAssignments');
 // https://api.slack.com/methods/admin.roles.removeAssignments
 export interface AdminRolesRemoveAssignmentsArguments
   extends TokenOverridable {
@@ -1262,12 +1243,10 @@ export interface AdminRolesRemoveAssignmentsArguments
   entity_ids: string[];
   user_ids: string[];
 }
-cursorPaginationEnabledMethods.add('admin.inviteRequests.list');
 // https://api.slack.com/methods/admin.teams.admins.list
 export interface AdminTeamsAdminsListArguments extends TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
-cursorPaginationEnabledMethods.add('admin.teams.admins.list');
 type TeamDiscoverability = 'open' | 'closed' | 'invite_only' | 'unlisted';
 // https://api.slack.com/methods/admin.teams.create
 export interface AdminTeamsCreateArguments extends TokenOverridable {
@@ -1278,12 +1257,10 @@ export interface AdminTeamsCreateArguments extends TokenOverridable {
 }
 // https://api.slack.com/methods/admin.teams.list
 export interface AdminTeamsListArguments extends TokenOverridable, CursorPaginationEnabled { }
-cursorPaginationEnabledMethods.add('admin.teams.list');
 // https://api.slack.com/methods/admin.teams.owners.list
 export interface AdminTeamsOwnersListArguments extends TokenOverridable, CursorPaginationEnabled {
   team_id: string;
 }
-cursorPaginationEnabledMethods.add('admin.teams.owners.list');
 // https://api.slack.com/methods/admin.teams.settings.info
 export interface AdminTeamsSettingsInfoArguments extends TokenOverridable {
   team_id: string;
@@ -1361,7 +1338,6 @@ export interface AdminUsersInviteArguments extends TokenOverridable {
 export interface AdminUsersListArguments extends TokenOverridable, CursorPaginationEnabled {
   team_id?: string; // Only required if org-level token is used
 }
-cursorPaginationEnabledMethods.add('admin.users.list');
 // https://api.slack.com/methods/admin.users.remove
 export interface AdminUsersRemoveArguments extends TokenOverridable {
   team_id: string;
@@ -1388,7 +1364,6 @@ export interface AdminUsersSetRegularArguments extends TokenOverridable {
   team_id: string;
   user_id: string;
 }
-cursorPaginationEnabledMethods.add('admin.users.session.list');
 // TODO: breaking change: if user_id is provided, team_id must be provided, too.
 // https://api.slack.com/methods/admin.users.session.list
 export interface AdminUsersSessionListArguments extends TokenOverridable, CursorPaginationEnabled {
@@ -1460,7 +1435,6 @@ export interface AdminWorkflowsSearchArguments extends TokenOverridable, CursorP
   sort_dir?: 'asc' | 'desc';
   source?: 'code' | 'workflow_builder';
 }
-cursorPaginationEnabledMethods.add('admin.worfklows.search');
 // https://api.slack.com/methods/admin.workflows.unpublish
 export interface AdminWorkflowsUnpublishArguments extends TokenOverridable {
   workflow_ids: string[];
@@ -1483,7 +1457,6 @@ export interface AppsEventAuthorizationsListArguments
   extends TokenOverridable, CursorPaginationEnabled {
   event_context: string;
 }
-cursorPaginationEnabledMethods.add('apps.event.authorizations.list');
 // https://api.slack.com/methods/apps.uninstall
 export interface AppsUninstallArguments {
   client_id: string;
@@ -1502,7 +1475,6 @@ export interface AuthTeamsListArguments extends TokenOverridable, CursorPaginati
   include_icon?: boolean;
 }
 // https://api.slack.com/methods/auth.test
-cursorPaginationEnabledMethods.add('auth.teams.list');
 export interface AuthTestArguments extends TokenOverridable { }
 
 /*
@@ -1680,7 +1652,6 @@ export interface ChatScheduledMessagesListArguments extends TokenOverridable,
   latest?: number;
   oldest?: number;
 }
-cursorPaginationEnabledMethods.add('chat.scheduledMessages.list');
 // ChannelAndTS and SourceAndUnfurlID are used as either-or mixins for ChatUnfurlArguments
 interface ChannelAndTSArguments {
   /**
@@ -1795,7 +1766,6 @@ export interface ConversationsHistoryArguments extends TokenOverridable, CursorP
   channel: string;
   include_all_metadata?: boolean;
 }
-cursorPaginationEnabledMethods.add('conversations.history');
 // https://api.slack.com/methods/conversations.info
 export interface ConversationsInfoArguments extends TokenOverridable, LocaleAware {
   channel: string;
@@ -1832,13 +1802,11 @@ export interface ConversationsListArguments extends TokenOverridable, CursorPagi
   exclude_archived?: boolean;
   types?: string; // comma-separated list of conversation types
 }
-cursorPaginationEnabledMethods.add('conversations.list');
 // https://api.slack.com/methods/conversations.listConnectInvites
 export interface ConversationsListConnectInvitesArguments extends TokenOverridable, OptionalTeamAssignable {
   count?: number; // lol we use `limit` everywhere else
   cursor?: string;
 }
-cursorPaginationEnabledMethods.add('conversations.listConnectInvites');
 // https://api.slack.com/methods/conversations.mark
 export interface ConversationsMarkArguments extends TokenOverridable {
   channel: string;
@@ -1848,7 +1816,6 @@ export interface ConversationsMarkArguments extends TokenOverridable {
 export interface ConversationsMembersArguments extends TokenOverridable, CursorPaginationEnabled {
   channel: string;
 }
-cursorPaginationEnabledMethods.add('conversations.members');
 // TODO: breaking change: must supply either channel or users
 // https://api.slack.com/methods/conversations.open
 export interface ConversationsOpenArguments extends TokenOverridable {
@@ -1869,7 +1836,6 @@ export interface ConversationsRepliesArguments extends TokenOverridable, CursorP
   ts: string;
   include_all_metadata?: boolean;
 }
-cursorPaginationEnabledMethods.add('conversations.replies');
 // https://api.slack.com/methods/conversations.setPurpose
 export interface ConversationsSetPurposeArguments extends TokenOverridable {
   channel: string;
@@ -1933,7 +1899,6 @@ export interface FilesDeleteArguments extends TokenOverridable {
 export interface FilesInfoArguments extends TokenOverridable, CursorPaginationEnabled, TraditionalPagingEnabled {
   file: string; // file id
 }
-cursorPaginationEnabledMethods.add('files.info');
 // https://api.slack.com/methods/files.list
 export interface FilesListArguments extends TokenOverridable, TraditionalPagingEnabled, OptionalTeamAssignable {
   channel?: string;
@@ -2032,7 +1997,6 @@ export interface FilesRemoteListArguments extends TokenOverridable, CursorPagina
   ts_to?: string;
   channel?: string;
 }
-cursorPaginationEnabledMethods.add('files.remote.list');
 // https://api.slack.com/methods/files.remote.add
 export interface FilesRemoteAddArguments extends TokenOverridable {
   title: string;
@@ -2164,7 +2128,6 @@ export interface ReactionsListArguments extends TokenOverridable, TraditionalPag
   user?: string;
   full?: boolean;
 }
-cursorPaginationEnabledMethods.add('reactions.list');
 // TODO: must supply either channel and timestamp or a file id or file comment id
 // https://api.slack.com/methods/reactions.remove
 export interface ReactionsRemoveArguments extends TokenOverridable {
@@ -2245,7 +2208,6 @@ export interface StarsAddArguments extends TokenOverridable {
 // https://api.slack.com/methods/stars.list
 export interface StarsListArguments extends TokenOverridable, TraditionalPagingEnabled,
   CursorPaginationEnabled, OptionalTeamAssignable { }
-cursorPaginationEnabledMethods.add('stars.list');
 // https://api.slack.com/methods/stars.remove
 export interface StarsRemoveArguments extends TokenOverridable {
   // TODO: breaking change: must supply one of:
@@ -2263,7 +2225,6 @@ export interface TeamAccessLogsArguments extends TokenOverridable, CursorPaginat
   TraditionalPagingEnabled, OptionalTeamAssignable {
   before?: number;
 }
-cursorPaginationEnabledMethods.add('team.accessLogs');
 // https://api.slack.com/methods/team.billableInfo
 export interface TeamBillableInfoArguments extends TokenOverridable, CursorPaginationEnabled, OptionalTeamAssignable {
   user?: string;
@@ -2341,61 +2302,6 @@ export interface UsergroupsUsersUpdateArguments extends TokenOverridable, Option
   usergroup: string;
   users: string; // comma-separated list of users
   include_count?: boolean;
-}
-
-/*
- * `users.*`
- */
-// https://api.slack.com/methods/users.conversations
-export interface UsersConversationsArguments extends TokenOverridable, CursorPaginationEnabled, OptionalTeamAssignable {
-  exclude_archived?: boolean;
-  types?: string; // comma-separated list of conversation types
-  user?: string;
-}
-cursorPaginationEnabledMethods.add('users.conversations');
-// https://api.slack.com/methods/users.deletePhoto
-export interface UsersDeletePhotoArguments extends TokenOverridable { }
-// https://api.slack.com/methods/users.getPresence
-export interface UsersGetPresenceArguments extends TokenOverridable {
-  user?: string;
-}
-// https://api.slack.com/methods/users.identity
-export interface UsersIdentityArguments extends TokenOverridable { }
-// https://api.slack.com/methods/users.info
-export interface UsersInfoArguments extends TokenOverridable, LocaleAware {
-  user: string;
-}
-// https://api.slack.com/methods/users.list
-export interface UsersListArguments extends TokenOverridable, CursorPaginationEnabled,
-  LocaleAware, OptionalTeamAssignable { }
-cursorPaginationEnabledMethods.add('users.list');
-// https://api.slack.com/methods/users.lookupByEmail
-export interface UsersLookupByEmailArguments extends TokenOverridable {
-  email: string;
-}
-// https://api.slack.com/methods/users.setPhoto
-export interface UsersSetPhotoArguments extends TokenOverridable {
-  image: Buffer | Stream;
-  crop_w?: number;
-  crop_x?: number;
-  crop_y?: number;
-}
-// https://api.slack.com/methods/users.setPresence
-export interface UsersSetPresenceArguments extends TokenOverridable {
-  presence: 'auto' | 'away';
-}
-// https://api.slack.com/methods/users.profile.get
-export interface UsersProfileGetArguments extends TokenOverridable {
-  include_labels?: boolean;
-  user?: string;
-}
-// TODO: breaking change: either profile or name/value pair must be provided
-// https://api.slack.com/methods/users.profile.set
-export interface UsersProfileSetArguments extends TokenOverridable {
-  profile?: string; // url-encoded json
-  user?: string; // must be an admin user and must be on a paid plan
-  name?: string; // usable if `profile` is not passed
-  value?: string; // usable if `profile` is not passed
 }
 
 export * from '@slack/types';
