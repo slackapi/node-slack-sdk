@@ -205,6 +205,10 @@ module.exports = {
             leadingUnderscore: 'allow',
           },
           {
+            selector: 'import',
+            format: null, // do not force conventions on imports
+          },
+          {
             selector: 'variable',
             // PascalCase for variables is added to allow exporting a singleton, function library, or bare object as in
             // section 23.8 of the AirBnB style guide
