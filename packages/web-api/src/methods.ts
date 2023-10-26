@@ -237,6 +237,7 @@ import type { WorkflowsStepCompletedArguments, WorkflowsStepFailedArguments, Wor
 import type { ViewsUpdateArguments, ViewsOpenArguments, ViewsPushArguments, ViewsPublishArguments } from './types/request/views';
 import type { UsersConversationsArguments, UsersInfoArguments, UsersListArguments, UsersIdentityArguments, UsersSetPhotoArguments, UsersProfileGetArguments, UsersProfileSetArguments, UsersDeletePhotoArguments, UsersGetPresenceArguments, UsersSetPresenceArguments, UsersLookupByEmailArguments } from './types/request/users';
 import type { SearchAllArguments, SearchFilesArguments, SearchMessagesArguments } from './types/request/search';
+import type { UsergroupsCreateArguments, UsergroupsDisableArguments, UsergroupsEnableArguments, UsergroupsListArguments, UsergroupsUpdateArguments, UsergroupsUsersListArguments, UsergroupsUsersUpdateArguments } from './types/request/usergroups';
 
 /**
  * Generic method definition
@@ -834,16 +835,44 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly usergroups = {
+    /**
+     * @description Create a User Group.
+     * @see {@link https://api.slack.com/methods/usergroups.create `usergroups.create` API reference}.
+     */
     create: bindApiCall<UsergroupsCreateArguments, UsergroupsCreateResponse>(this, 'usergroups.create'),
+    /**
+     * @description Disable an existing User Group.
+     * @see {@link https://api.slack.com/methods/usergroups.disable `usergroups.disable` API reference}.
+     */
     disable: bindApiCall<UsergroupsDisableArguments, UsergroupsDisableResponse>(this, 'usergroups.disable'),
+    /**
+     * @description Enable an existing User Group.
+     * @see {@link https://api.slack.com/methods/usergroups.enable `usergroups.enable` API reference}.
+     */
     enable: bindApiCall<UsergroupsEnableArguments, UsergroupsEnableResponse>(this, 'usergroups.enable'),
+    /**
+     * @description List all User Groups for a team.
+     * @see {@link https://api.slack.com/methods/usergroups.list `usergroups.list` API reference}.
+     */
     list: bindApiCall<UsergroupsListArguments, UsergroupsListResponse>(this, 'usergroups.list'),
+    /**
+     * @description Update an existing User Group.
+     * @see {@link https://api.slack.com/methods/usergroups.update `usergroups.update` API reference}.
+     */
     update: bindApiCall<UsergroupsUpdateArguments, UsergroupsUpdateResponse>(this, 'usergroups.update'),
     users: {
+      /**
+       * @description List all users in a User Group.
+       * @see {@link https://api.slack.com/methods/usergroups.users.list `usergroups.users.list` API reference}.
+       */
       list: bindApiCall<UsergroupsUsersListArguments, UsergroupsUsersListResponse>(
         this,
         'usergroups.users.list',
       ),
+      /**
+       * @description Update the list of users in a User Group.
+       * @see {@link https://api.slack.com/methods/usergroups.users.update `usergroups.users.update` API reference}.
+       */
       update: bindApiCall<UsergroupsUsersUpdateArguments, UsergroupsUsersUpdateResponse>(
         this,
         'usergroups.users.update',
@@ -2338,53 +2367,5 @@ export interface TeamProfileGetArguments extends TokenOverridable {
 }
 // https://api.slack.com/methods/team.preferences.list
 export interface TeamPreferencesListArguments extends TokenOverridable { }
-
-/*
- * `usergroups.*`
- */
-// https://api.slack.com/methods/usergroups.create
-export interface UsergroupsCreateArguments extends TokenOverridable, OptionalTeamAssignable {
-  name: string;
-  channels?: string; // comma-separated list of channels, TODO: docs say this is an array
-  description?: string;
-  handle?: string;
-  include_count?: boolean;
-}
-// https://api.slack.com/methods/usergroups.disable
-export interface UsergroupsDisableArguments extends TokenOverridable, OptionalTeamAssignable {
-  usergroup: string;
-  include_count?: boolean;
-}
-// https://api.slack.com/methods/usergroups.enable
-export interface UsergroupsEnableArguments extends TokenOverridable, OptionalTeamAssignable {
-  usergroup: string;
-  include_count?: boolean;
-}
-// https://api.slack.com/methods/usergroups.list
-export interface UsergroupsListArguments extends TokenOverridable, OptionalTeamAssignable {
-  include_count?: boolean;
-  include_disabled?: boolean;
-  include_users?: boolean;
-}
-// https://api.slack.com/methods/usergroups.update
-export interface UsergroupsUpdateArguments extends TokenOverridable, OptionalTeamAssignable {
-  usergroup: string;
-  channels?: string; // comma-separated list of channels, TODO: docs say this is an array
-  description?: string;
-  handle?: string;
-  include_count?: boolean;
-  name?: string;
-}
-// https://api.slack.com/methods/usergroups.users.list
-export interface UsergroupsUsersListArguments extends TokenOverridable, OptionalTeamAssignable {
-  usergroup: string;
-  include_disabled?: boolean;
-}
-// https://api.slack.com/methods/usergroups.users.update
-export interface UsergroupsUsersUpdateArguments extends TokenOverridable, OptionalTeamAssignable {
-  usergroup: string;
-  users: string; // comma-separated list of users
-  include_count?: boolean;
-}
 
 export * from '@slack/types';
