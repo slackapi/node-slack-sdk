@@ -238,6 +238,7 @@ import type { ViewsUpdateArguments, ViewsOpenArguments, ViewsPushArguments, View
 import type { UsersConversationsArguments, UsersInfoArguments, UsersListArguments, UsersIdentityArguments, UsersSetPhotoArguments, UsersProfileGetArguments, UsersProfileSetArguments, UsersDeletePhotoArguments, UsersGetPresenceArguments, UsersSetPresenceArguments, UsersLookupByEmailArguments } from './types/request/users';
 import type { SearchAllArguments, SearchFilesArguments, SearchMessagesArguments } from './types/request/search';
 import type { UsergroupsCreateArguments, UsergroupsDisableArguments, UsergroupsEnableArguments, UsergroupsListArguments, UsergroupsUpdateArguments, UsergroupsUsersListArguments, UsergroupsUsersUpdateArguments } from './types/request/usergroups';
+import type { TeamAccessLogsArguments, TeamBillableInfoArguments, TeamBillingInfoArguments, TeamInfoArguments, TeamIntegrationLogsArguments, TeamPreferencesListArguments, TeamProfileGetArguments } from './types/request/team';
 
 /**
  * Generic method definition
@@ -818,18 +819,46 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly team = {
+    /**
+     * @description Gets the access logs for the current team.
+     * @see {@link https://api.slack.com/methods/team.accessLogs `team.accessLogs` API reference}.
+     */
     accessLogs: bindApiCall<TeamAccessLogsArguments, TeamAccessLogsResponse>(this, 'team.accessLogs'),
+    /**
+     * @description Gets billable users information for the current team.
+     * @see {@link https://api.slack.com/methods/team.billableInfo `team.billableInfo` API reference}.
+     */
     billableInfo: bindApiCall<TeamBillableInfoArguments, TeamBillableInfoResponse>(this, 'team.billableInfo'),
     billing: {
+      /**
+       * @description Reads a workspace's billing plan information.
+       * @see {@link https://api.slack.com/methods/team.billing.info `team.billing.info` API reference}.
+       */
       info: bindApiCall<TeamBillingInfoArguments, TeamBillingInfoResponse>(this, 'team.billing.info'),
     },
+    /**
+     * @description Gets information about the current team.
+     * @see {@link https://api.slack.com/methods/team.info `team.info` API reference}.
+     */
     info: bindApiCall<TeamInfoArguments, TeamInfoResponse>(this, 'team.info'),
+    /**
+     * @description Gets the integration logs for the current team.
+     * @see {@link https://api.slack.com/methods/team.integrationLogs `team.integrationLogs` API reference}.
+     */
     integrationLogs:
       bindApiCall<TeamIntegrationLogsArguments, TeamIntegrationLogsResponse>(this, 'team.integrationLogs'),
     preferences: {
+      /**
+       * @description Retrieve a list of a workspace's team preferences.
+       * @see {@link https://api.slack.com/methods/team.preferences.list `team.preferences.list` API reference}.
+       */
       list: bindApiCall<TeamPreferencesListArguments, TeamPreferencesListResponse>(this, 'team.preferences.list'),
     },
     profile: {
+      /**
+       * @description Retrieve a team's profile.
+       * @see {@link https://api.slack.com/methods/team.profile.get `team.profile.get` API reference}.
+       */
       get: bindApiCall<TeamProfileGetArguments, TeamProfileGetResponse>(this, 'team.profile.get'),
     },
   };
@@ -2328,44 +2357,5 @@ export interface StarsRemoveArguments extends TokenOverridable {
   file?: string; // file id
   file_comment?: string; // file comment id
 }
-
-/*
- * `team.*`
- */
-// https://api.slack.com/methods/team.accessLogs
-export interface TeamAccessLogsArguments extends TokenOverridable, CursorPaginationEnabled,
-  TraditionalPagingEnabled, OptionalTeamAssignable {
-  before?: number;
-}
-// https://api.slack.com/methods/team.billableInfo
-export interface TeamBillableInfoArguments extends TokenOverridable, CursorPaginationEnabled, OptionalTeamAssignable {
-  user?: string;
-}
-// https://api.slack.com/methods/team.billing.info
-export interface TeamBillingInfoArguments extends TokenOverridable {
-  domain?: string;
-  team?: string;
-}
-// https://api.slack.com/methods/team.info
-export interface TeamInfoArguments extends TokenOverridable {
-  // Team to get info on, if omitted, will return information about the current team.
-  // Will only return team that the authenticated token is allowed to see through external shared channels
-  team?: string;
-  domain?: string; // available only for Enterprise Grid
-}
-// https://api.slack.com/methods/team.integrationLogs
-export interface TeamIntegrationLogsArguments extends TokenOverridable,
-  OptionalTeamAssignable, TraditionalPagingEnabled {
-  app_id?: string;
-  change_type?: 'added' | 'removed' | 'enabled' | 'disabled' | 'updated';
-  service_id?: string;
-  user?: string;
-}
-// https://api.slack.com/methods/team.profile.get
-export interface TeamProfileGetArguments extends TokenOverridable {
-  visibility?: 'all' | 'visible' | 'hidden';
-}
-// https://api.slack.com/methods/team.preferences.list
-export interface TeamPreferencesListArguments extends TokenOverridable { }
 
 export * from '@slack/types';
