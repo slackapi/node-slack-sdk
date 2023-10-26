@@ -2,8 +2,8 @@ import { Stream } from 'node:stream';
 import { Dialog, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser, MessageMetadata } from '@slack/types';
 import { EventEmitter } from 'eventemitter3';
 import { WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
-import { TokenOverridable, LocaleAware, OptionalTeamAssignable, TraditionalPagingEnabled, CursorPaginationEnabled, TimelinePaginationEnabled } from './types/request/common';
-import {
+// Response types
+import type {
   AdminAnalyticsGetFileResponse,
   AdminAppsApproveResponse,
   AdminAppsApprovedListResponse,
@@ -231,12 +231,12 @@ import {
   AdminAppsConfigLookupResponse,
   AdminAppsConfigSetResponse,
 } from './types/response';
-import { WorkflowsStepCompletedArguments, WorkflowsStepFailedArguments, WorkflowsUpdateStepArguments } from './types/request/workflows';
-import { ViewsUpdateArguments, ViewsOpenArguments, ViewsPushArguments, ViewsPublishArguments } from './types/request/views';
-import { UsersConversationsArguments, UsersInfoArguments, UsersListArguments, UsersIdentityArguments, UsersSetPhotoArguments, UsersProfileGetArguments, UsersProfileSetArguments, UsersDeletePhotoArguments, UsersGetPresenceArguments, UsersSetPresenceArguments, UsersLookupByEmailArguments } from './types/request/users';
-import { SearchAllArguments, SearchFilesArguments, SearchMessagesArguments } from './types/request/search';
-
-// NOTE: could create a named type alias like data types like `SlackUserID: string`
+// Request types
+import type { TokenOverridable, LocaleAware, OptionalTeamAssignable, TraditionalPagingEnabled, CursorPaginationEnabled, TimelinePaginationEnabled } from './types/request/common';
+import type { WorkflowsStepCompletedArguments, WorkflowsStepFailedArguments, WorkflowsUpdateStepArguments } from './types/request/workflows';
+import type { ViewsUpdateArguments, ViewsOpenArguments, ViewsPushArguments, ViewsPublishArguments } from './types/request/views';
+import type { UsersConversationsArguments, UsersInfoArguments, UsersListArguments, UsersIdentityArguments, UsersSetPhotoArguments, UsersProfileGetArguments, UsersProfileSetArguments, UsersDeletePhotoArguments, UsersGetPresenceArguments, UsersSetPresenceArguments, UsersLookupByEmailArguments } from './types/request/users';
+import type { SearchAllArguments, SearchFilesArguments, SearchMessagesArguments } from './types/request/search';
 
 /**
  * Generic method definition
@@ -840,17 +840,61 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly users = {
+    /**
+     * @description List conversations the calling user may access.
+     * @see {@link https://api.slack.com/methods/users.conversations `users.conversations` API reference}.
+     */
     conversations: bindApiCall<UsersConversationsArguments, UsersConversationsResponse>(this, 'users.conversations'),
+    /**
+     * @description Delete the user profile photo.
+     * @see {@link https://api.slack.com/methods/users.deletePhoto `users.deletePhoto` API reference}.
+     */
     deletePhoto: bindApiCall<UsersDeletePhotoArguments, UsersDeletePhotoResponse>(this, 'users.deletePhoto'),
+    /**
+     * @description Gets user presence information.
+     * @see {@link https://api.slack.com/methods/users.getPresence `users.getPresence` API reference}.
+     */
     getPresence: bindApiCall<UsersGetPresenceArguments, UsersGetPresenceResponse>(this, 'users.getPresence'),
+    /**
+     * @description Get a user's identity.
+     * @see {@link https://api.slack.com/methods/users.identity `users.identity` API reference}.
+     */
     identity: bindApiCall<UsersIdentityArguments, UsersIdentityResponse>(this, 'users.identity'),
+    /**
+     * @description Gets information about a user.
+     * @see {@link https://api.slack.com/methods/users.info `users.info` API reference}.
+     */
     info: bindApiCall<UsersInfoArguments, UsersInfoResponse>(this, 'users.info'),
+    /**
+     * @description Lists all users in a Slack team.
+     * @see {@link https://api.slack.com/methods/users.list `users.list` API reference}.
+     */
     list: bindApiCall<UsersListArguments, UsersListResponse>(this, 'users.list'),
+    /**
+     * @description Find a user with an email address.
+     * @see {@link https://api.slack.com/methods/users.lookupByEmail `users.lookupByEmail` API reference}.
+     */
     lookupByEmail: bindApiCall<UsersLookupByEmailArguments, UsersLookupByEmailResponse>(this, 'users.lookupByEmail'),
+    /**
+     * @description Set the user profile photo.
+     * @see {@link https://api.slack.com/methods/users.setPhoto `users.setPhoto` API reference}.
+     */
     setPhoto: bindApiCall<UsersSetPhotoArguments, UsersSetPhotoResponse>(this, 'users.setPhoto'),
+    /**
+     * @description Manually sets user presence.
+     * @see {@link https://api.slack.com/methods/users.setPresence `users.setPresence` API reference}.
+     */
     setPresence: bindApiCall<UsersSetPresenceArguments, UsersSetPresenceResponse>(this, 'users.setPresence'),
     profile: {
+      /**
+       * @description Retrieve a user's profile information, including their custom status.
+       * @see {@link https://api.slack.com/methods/users.profile.get `users.profile.get` API reference}.
+       */
       get: bindApiCall<UsersProfileGetArguments, UsersProfileGetResponse>(this, 'users.profile.get'),
+      /**
+       * @description Set a user's profile information, including custom status.
+       * @see {@link https://api.slack.com/methods/users.profile.set `users.profile.set` API reference}.
+       */
       set: bindApiCall<UsersProfileSetArguments, UsersProfileSetResponse>(this, 'users.profile.set'),
     },
   };

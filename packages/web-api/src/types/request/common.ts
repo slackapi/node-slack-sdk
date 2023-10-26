@@ -3,8 +3,18 @@
 // Cursor, timeline and traditional pagination extensions.
 
 export interface CursorPaginationEnabled {
-  limit?: number; // natural integer, max of 1000
-  cursor?: string; // find this in a response's `response_metadata.next_cursor`
+  /**
+   * @description The maximum number of items to return. Fewer than the requested number of items may be returned,
+   * even if the end of the list hasn't been reached. Must be an integer with a max value of `999`. Default is `100`.
+   */
+  limit?: number;
+  /**
+   * @description Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute
+   * returned by a previous request's `response_metadata`.
+   * Default value fetches the first "page" of the collection.
+   * @see {@link https://api.slack.com/docs/pagination pagination} for more detail.
+   */
+  cursor?: string;
 }
 
 export interface TimelinePaginationEnabled {
