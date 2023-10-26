@@ -900,9 +900,25 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly views = {
+    /**
+     * @description Open a view for a user.
+     * @see {@link https://api.slack.com/methods/views.open `views.open` API reference}.
+     */
     open: bindApiCall<ViewsOpenArguments, ViewsOpenResponse>(this, 'views.open'),
+    /**
+     * @description Publish a static view for a user.
+     * @see {@link https://api.slack.com/methods/views.publish `views.publish` API reference}.
+     */
     publish: bindApiCall<ViewsPublishArguments, ViewsPublishResponse>(this, 'views.publish'),
+    /**
+     * @description Push a view onto the stack of a root view.
+     * @see {@link https://api.slack.com/methods/views.push `views.push` API reference}.
+     */
     push: bindApiCall<ViewsPushArguments, ViewsPushResponse>(this, 'views.push'),
+    /**
+     * @description Update an existing view.
+     * @see {@link https://api.slack.com/methods/views.update `views.update` API reference}.
+     */
     update: bindApiCall<ViewsUpdateArguments, ViewsUpdateResponse>(this, 'views.update'),
   };
 
@@ -936,10 +952,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
   };
 }
-
-/*
- * MethodArguments types (no formal relationship other than the generic constraint in Method<>)
- */
 
 /*
 * `admin.*`
