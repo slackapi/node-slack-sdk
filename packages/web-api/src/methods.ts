@@ -793,8 +793,20 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly search = {
+    /**
+     * @description Searches for messages and files matching a query.
+     * @see {@link https://api.slack.com/methods/search.all search.all` API reference}.
+     */
     all: bindApiCall<SearchAllArguments, SearchAllResponse>(this, 'search.all'),
+    /**
+     * @description Searches for files matching a query.
+     * @see {@link https://api.slack.com/methods/search.files search.files` API reference}.
+     */
     files: bindApiCall<SearchFilesArguments, SearchFilesResponse>(this, 'search.files'),
+    /**
+     * @description Searches for messages matching a query.
+     * @see {@link https://api.slack.com/methods/search.messages search.messages` API reference}.
+     */
     messages: bindApiCall<SearchMessagesArguments, SearchMessagesResponse>(this, 'search.messages'),
   };
 
