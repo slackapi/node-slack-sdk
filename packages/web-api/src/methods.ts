@@ -913,11 +913,26 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   // ------------------
 
   public readonly workflows = {
+    /**
+     * @description Indicate that an app's step in a workflow completed execution.
+     * @deprecated
+     * @see {@link https://api.slack.com/methods/workflows.stepCompleted `workflows.stepCompleted` API reference}.
+     */
     stepCompleted: bindApiCall<WorkflowsStepCompletedArguments, WorkflowsStepCompletedResponse>(
       this,
       'workflows.stepCompleted',
     ),
+    /**
+     * @description Indicate that an app's step in a workflow failed to execute.
+     * @deprecated
+     * @see {@link https://api.slack.com/methods/workflows.stepFailed `workflows.stepFailed` API reference}.
+     */
     stepFailed: bindApiCall<WorkflowsStepFailedArguments, WorkflowsStepFailedResponse>(this, 'workflows.stepFailed'),
+    /**
+     * @description Update the configuration for a workflow step.
+     * @deprecated
+     * @see {@link https://api.slack.com/methods/workflows.updateStep `workflows.updateStep` API reference}.
+     */
     updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
   };
 }
