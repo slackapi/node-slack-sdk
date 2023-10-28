@@ -42,7 +42,7 @@
   "dependencies": {
     "@slack/types": "^2.9.0",
     "@types/node": ">=18.0.0",
-    "axios": "^1.5.1"
+    "axios": "^1.6.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.38.0",
