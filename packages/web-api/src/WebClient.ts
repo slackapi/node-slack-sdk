@@ -7,9 +7,10 @@ import { SecureContextOptions } from 'tls';
 import zlib from 'zlib';
 import { TextDecoder } from 'util';
 import isStream from 'is-stream';
-import PQueue from 'p-queue';
+import pQueue from 'p-queue';
 import pRetry, { AbortError } from 'p-retry';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
+// eslint-disable-next-line @typescript-eslint/naming-convention
 import FormData from 'form-data';
 import isElectron from 'is-electron';
 import {
@@ -124,7 +125,7 @@ export class WebClient extends Methods {
    * Queue of requests in which a maximum of {@link WebClientOptions.maxRequestConcurrency} can concurrently be
    * in-flight.
    */
-  private requestQueue: PQueue;
+  private requestQueue: pQueue;
 
   /**
    * Axios HTTP client instance used by this client
@@ -178,7 +179,8 @@ export class WebClient extends Methods {
     this.slackApiUrl = slackApiUrl;
 
     this.retryConfig = retryConfig;
-    this.requestQueue = new PQueue({ concurrency: maxRequestConcurrency });
+    // eslint-disable-next-line new-cap
+    this.requestQueue = new pQueue({ concurrency: maxRequestConcurrency });
     // NOTE: may want to filter the keys to only those acceptable for TLS options
     this.tlsConfig = tls !== undefined ? tls : {};
     this.rejectRateLimitedCalls = rejectRateLimitedCalls;
