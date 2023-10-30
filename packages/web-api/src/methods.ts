@@ -240,6 +240,7 @@ import type { SearchAllArguments, SearchFilesArguments, SearchMessagesArguments 
 import type { UsergroupsCreateArguments, UsergroupsDisableArguments, UsergroupsEnableArguments, UsergroupsListArguments, UsergroupsUpdateArguments, UsergroupsUsersListArguments, UsergroupsUsersUpdateArguments } from './types/request/usergroups';
 import type { TeamAccessLogsArguments, TeamBillableInfoArguments, TeamBillingInfoArguments, TeamInfoArguments, TeamIntegrationLogsArguments, TeamPreferencesListArguments, TeamProfileGetArguments } from './types/request/team';
 import type { StarsAddRemoveArguments, StarsListArguments } from './types/request/stars';
+import type { RTMConnectArguments, RTMStartArguments } from './types/request/rtm';
 
 /**
  * Generic method definition
@@ -791,7 +792,16 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly rtm = {
+    /**
+     * @description Starts a Real Time Messaging session.
+     * @see {@link https://api.slack.com/methods/rtm.connect `rtm.connect` API reference}.
+     */
     connect: bindApiCall<RTMConnectArguments, RtmConnectResponse>(this, 'rtm.connect'),
+    /**
+     * @description Starts a Real Time Messaging session.
+     * @deprecated Use `rtm.connect` instead.
+     * @see {@link https://api.slack.com/methods/rtm.start `rtm.start` API reference}.
+     */
     start: bindApiCall<RTMStartArguments, RtmStartResponse>(this, 'rtm.start'),
   };
 
@@ -2330,23 +2340,5 @@ export interface RemindersInfoArguments extends TokenOverridable, OptionalTeamAs
 }
 // https://api.slack.com/methods/reminders.list
 export interface RemindersListArguments extends TokenOverridable, OptionalTeamAssignable { }
-
-/*
- * `rtm.*`
- */
-// https://api.slack.com/methods/rtm.connect
-export interface RTMConnectArguments extends TokenOverridable {
-  batch_presence_aware?: boolean;
-  presence_sub?: boolean;
-}
-// https://api.slack.com/methods/rtm.start
-export interface RTMStartArguments extends TokenOverridable, LocaleAware {
-  batch_presence_aware?: boolean;
-  mpim_aware?: boolean;
-  no_latest?: '0' | '1';
-  no_unreads?: string; // TODO: docs say this is a boolean
-  presence_sub?: boolean;
-  simple_latest?: boolean;
-}
 
 export * from '@slack/types';
