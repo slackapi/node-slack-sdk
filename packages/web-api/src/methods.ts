@@ -239,6 +239,7 @@ import type { UsersConversationsArguments, UsersInfoArguments, UsersListArgument
 import type { SearchAllArguments, SearchFilesArguments, SearchMessagesArguments } from './types/request/search';
 import type { UsergroupsCreateArguments, UsergroupsDisableArguments, UsergroupsEnableArguments, UsergroupsListArguments, UsergroupsUpdateArguments, UsergroupsUsersListArguments, UsergroupsUsersUpdateArguments } from './types/request/usergroups';
 import type { TeamAccessLogsArguments, TeamBillableInfoArguments, TeamBillingInfoArguments, TeamInfoArguments, TeamIntegrationLogsArguments, TeamPreferencesListArguments, TeamProfileGetArguments } from './types/request/team';
+import type { StarsAddRemoveArguments, StarsListArguments } from './types/request/stars';
 
 /**
  * Generic method definition
@@ -812,12 +813,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     messages: bindApiCall<SearchMessagesArguments, SearchMessagesResponse>(this, 'search.messages'),
   };
 
-  public readonly stars = {
-    add: bindApiCall<StarsAddArguments, StarsAddResponse>(this, 'stars.add'),
-    list: bindApiCall<StarsListArguments, StarsListResponse>(this, 'stars.list'),
-    remove: bindApiCall<StarsRemoveArguments, StarsRemoveResponse>(this, 'stars.remove'),
-  };
-
   public readonly team = {
     /**
      * @description Gets the access logs for the current team.
@@ -994,9 +989,31 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   // ------------------
   // Deprecated methods
-  // TODO: breaking changes for future majors:
-  // - workflows.* methods, Sep 12 2024: https://api.slack.com/changelog/2023-08-workflow-steps-from-apps-step-back
   // ------------------
+  // TODO: breaking changes for future majors:
+  // - stars.* methods are marked as deprecated; once Later has APIs, these will see an official sunsetting timeline
+  // - workflows.* methods, Sep 12 2024: https://api.slack.com/changelog/2023-08-workflow-steps-from-apps-step-back
+
+  public readonly stars = {
+    /**
+     * @description Save an item for later. Formerly known as adding a star.
+     * @deprecated
+     * @see {@link https://api.slack.com/methods/stars.add `stars.add` API reference}.
+     */
+    add: bindApiCall<StarsAddRemoveArguments, StarsAddResponse>(this, 'stars.add'),
+    /**
+     * @description List a user's saved items, formerly known as stars.
+     * @deprecated
+     * @see {@link https://api.slack.com/methods/stars.list `stars.list` API reference}.
+     */
+    list: bindApiCall<StarsListArguments, StarsListResponse>(this, 'stars.list'),
+    /**
+     * @description Remove a saved item from a user's saved items, formerly known as stars.
+     * @deprecated
+     * @see {@link https://api.slack.com/methods/stars.remove `stars.remove` API reference}.
+     */
+    remove: bindApiCall<StarsAddRemoveArguments, StarsRemoveResponse>(this, 'stars.remove'),
+  };
 
   public readonly workflows = {
     /**
@@ -2330,32 +2347,6 @@ export interface RTMStartArguments extends TokenOverridable, LocaleAware {
   no_unreads?: string; // TODO: docs say this is a boolean
   presence_sub?: boolean;
   simple_latest?: boolean;
-}
-
-// TODO: usage info for stars.add recommends retiring use of any stars APIs
-// https://api.slack.com/methods/stars.add#markdown
-// should we mark these methods as deprecated?
-/*
- * `stars.*`
- */
-// https://api.slack.com/methods/stars.add
-export interface StarsAddArguments extends TokenOverridable {
-  // TODO: breaking change: must supply one of:
-  channel?: string; // optionally paired with `timestamp`
-  timestamp?: string; // paired with `channel`
-  file?: string; // file id
-  file_comment?: string; // file comment id
-}
-// https://api.slack.com/methods/stars.list
-export interface StarsListArguments extends TokenOverridable, TraditionalPagingEnabled,
-  CursorPaginationEnabled, OptionalTeamAssignable { }
-// https://api.slack.com/methods/stars.remove
-export interface StarsRemoveArguments extends TokenOverridable {
-  // TODO: breaking change: must supply one of:
-  channel?: string; // optionally paired with `timestamp`
-  timestamp?: string; // paired with `channel`
-  file?: string; // file id
-  file_comment?: string; // file comment id
 }
 
 export * from '@slack/types';
