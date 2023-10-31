@@ -1,7 +1,6 @@
-// Reusable mixins or extensions that some Method Arguments types can extend from
+// Reusable mixins or extensions that Method Arguments types can extend from
 
 // Cursor, timeline and traditional pagination extensions.
-
 export interface CursorPaginationEnabled {
   /**
    * @description The maximum number of items to return. Fewer than the requested number of items may be returned,
@@ -18,8 +17,14 @@ export interface CursorPaginationEnabled {
 }
 
 export interface TimelinePaginationEnabled {
+  /** @description Only messages after this Unix timestamp will be included in results. */
   oldest?: string;
+  /** @description Only messages before this Unix timestamp will be included in results. */
   latest?: string;
+  /**
+   * @description Include messages with `oldest` or `latest` timestamps in results.
+   * Ignored unless either timestamp is specified. Defaults to `false`.
+   */
   inclusive?: boolean;
 }
 
@@ -52,4 +57,26 @@ export interface LocaleAware {
 export interface OptionalTeamAssignable {
   /** @description If using an org token, `team_id` is required. */
   team_id?: string;
+}
+
+/**
+ * Some API methods use arguments for specifying a message, file or file comment.
+ * E.g. `stars.*` and `reactions.*`
+ */
+
+export interface MessageArgument {
+  /** @description Channel where the message was posted. */
+  channel: string;
+  /** @description Timestamp of the message. */
+  timestamp: string;
+}
+
+export interface FileArgument {
+  /** @description Encoded file ID reacted to. */
+  file: string;
+}
+
+export interface FileCommentArgument {
+  /** @description Encoded file comment ID reacted to. */
+  file_comment: string;
 }

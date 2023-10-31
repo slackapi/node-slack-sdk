@@ -242,6 +242,7 @@ import type { TeamAccessLogsArguments, TeamBillableInfoArguments, TeamBillingInf
 import type { StarsAddRemoveArguments, StarsListArguments } from './types/request/stars';
 import type { RTMConnectArguments, RTMStartArguments } from './types/request/rtm';
 import type { RemindersAddArguments, RemindersInfoArguments, RemindersListArguments, RemindersDeleteArguments, RemindersCompleteArguments } from './types/request/reminders';
+import type { ReactionsAddArguments, ReactionsGetArguments, ReactionsListArguments, ReactionsRemoveArguments } from './types/request/reactions';
 
 /**
  * Generic method definition
@@ -778,12 +779,30 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly reactions = {
+    /**
+     * @description Adds a reaction to an item.
+     * @see {@link https://api.slack.com/methods/reactions.add `reactions.add` API reference}.
+     */
     add: bindApiCall<ReactionsAddArguments, ReactionsAddResponse>(this, 'reactions.add'),
+    /**
+     * @description Gets reactions for an item.
+     * @see {@link https://api.slack.com/methods/reactions.get `reactions.get` API reference}.
+     */
     get: bindApiCall<ReactionsGetArguments, ReactionsGetResponse>(this, 'reactions.get'),
+    /**
+     * @description List reactions made by a user.
+     * @see {@link https://api.slack.com/methods/reactions.list `reactions.list` API reference}.
+     */
     list: bindApiCall<ReactionsListArguments, ReactionsListResponse>(this, 'reactions.list'),
+    /**
+     * @description Removes a reaction from an item.
+     * @see {@link https://api.slack.com/methods/reactions.remove `reactions.remove` API reference}.
+     */
     remove: bindApiCall<ReactionsRemoveArguments, ReactionsRemoveResponse>(this, 'reactions.remove'),
   };
 
+  // TODO: keep tabs on reminders APIs, may be deprecated once Later list APIs land
+  // See: https://api.slack.com/changelog/2023-07-its-later-already-for-stars-and-reminders
   public readonly reminders = {
     /**
      * @description Creates a reminder.
@@ -2290,42 +2309,6 @@ export interface PinsListArguments extends TokenOverridable {
 export interface PinsRemoveArguments extends TokenOverridable {
   channel: string;
   timestamp: string;
-}
-
-/*
- * `reactions.*`
- */
-// https://api.slack.com/methods/reactions.add
-export interface ReactionsAddArguments extends TokenOverridable {
-  name: string;
-  channel: string;
-  timestamp: string;
-}
-// TODO: must supply either channel and timestamp or a file id or file comment id
-// https://api.slack.com/methods/reactions.get
-export interface ReactionsGetArguments extends TokenOverridable {
-  full?: boolean;
-  // must supply one of:
-  channel?: string; // paired with timestamp
-  timestamp?: string; // paired with channel
-  file?: string; // file id
-  file_comment?: string;
-}
-// https://api.slack.com/methods/reactions.list
-export interface ReactionsListArguments extends TokenOverridable, TraditionalPagingEnabled,
-  CursorPaginationEnabled, OptionalTeamAssignable {
-  user?: string;
-  full?: boolean;
-}
-// TODO: must supply either channel and timestamp or a file id or file comment id
-// https://api.slack.com/methods/reactions.remove
-export interface ReactionsRemoveArguments extends TokenOverridable {
-  name: string;
-  // must supply one of:
-  channel?: string; // paired with timestamp
-  timestamp?: string; // paired with channel
-  file?: string; // file id
-  file_comment?: string;
 }
 
 export * from '@slack/types';
