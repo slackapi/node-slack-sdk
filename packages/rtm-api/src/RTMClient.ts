@@ -483,7 +483,6 @@ export class RTMClient extends EventEmitter {
    *
    * If the awaitReply parameter is set to false, then the returned Promise is resolved as soon as the message is sent
    * from the websocket.
-   *
    * @param awaitReply - whether to wait for an acknowledgement response from the platform before resolving the returned
    * Promise.
    * @param type - the message type
@@ -628,6 +627,7 @@ export class RTMClient extends EventEmitter {
     let event;
     try {
       event = JSON.parse(data);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (parseError: any) {
       // prevent application from crashing on a bad message, but log an error to bring attention
       this.logger.error(
