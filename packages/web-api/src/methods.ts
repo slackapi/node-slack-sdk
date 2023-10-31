@@ -243,6 +243,7 @@ import type { StarsAddRemoveArguments, StarsListArguments } from './types/reques
 import type { RTMConnectArguments, RTMStartArguments } from './types/request/rtm';
 import type { RemindersAddArguments, RemindersInfoArguments, RemindersListArguments, RemindersDeleteArguments, RemindersCompleteArguments } from './types/request/reminders';
 import type { ReactionsAddArguments, ReactionsGetArguments, ReactionsListArguments, ReactionsRemoveArguments } from './types/request/reactions';
+import type { PinsAddArguments, PinsListArguments, PinsRemoveArguments } from './types/request/pins';
 
 /**
  * Generic method definition
@@ -773,8 +774,20 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly pins = {
+    /**
+     * @description Pins an item to a channel.
+     * @see {@link https://api.slack.com/methods/pins.add `pins.add` API reference}.
+     */
     add: bindApiCall<PinsAddArguments, PinsAddResponse>(this, 'pins.add'),
+    /**
+     * @description Lists items pinned to a channel.
+     * @see {@link https://api.slack.com/methods/pins.list `pins.list` API reference}.
+     */
     list: bindApiCall<PinsListArguments, PinsListResponse>(this, 'pins.list'),
+    /**
+     * @description Un-pins an item from a channel.
+     * @see {@link https://api.slack.com/methods/pins.remove `pins.remove` API reference}.
+     */
     remove: bindApiCall<PinsRemoveArguments, PinsRemoveResponse>(this, 'pins.remove'),
   };
 
@@ -2290,25 +2303,6 @@ export interface OpenIDConnectTokenArguments {
 // https://api.slack.com/methods/openid.connect.userInfo
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface OpenIDConnectUserInfoArguments {
-}
-
-/*
- * `pins.*`
- */
-// TODO: there's a quip_component_id parameter documented publicly but probably we shouldnt expose just yet
-// https://api.slack.com/methods/pins.add
-export interface PinsAddArguments extends TokenOverridable {
-  channel: string;
-  timestamp: string;
-}
-// https://api.slack.com/methods/pins.list
-export interface PinsListArguments extends TokenOverridable {
-  channel: string;
-}
-// https://api.slack.com/methods/pins.remove
-export interface PinsRemoveArguments extends TokenOverridable {
-  channel: string;
-  timestamp: string;
 }
 
 export * from '@slack/types';
