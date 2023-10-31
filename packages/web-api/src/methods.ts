@@ -245,6 +245,7 @@ import type { RemindersAddArguments, RemindersInfoArguments, RemindersListArgume
 import type { ReactionsAddArguments, ReactionsGetArguments, ReactionsListArguments, ReactionsRemoveArguments } from './types/request/reactions';
 import type { PinsAddArguments, PinsListArguments, PinsRemoveArguments } from './types/request/pins';
 import type { OpenIDConnectTokenArguments, OpenIDConnectUserInfoArguments } from './types/request/openid';
+import type { OAuthAccessArguments, OAuthV2AccessArguments, OAuthV2ExchangeArguments } from './types/request/oauth';
 
 /**
  * Generic method definition
@@ -760,9 +761,22 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly oauth = {
+    /**
+     * @description Exchanges a temporary OAuth verifier code for an access token.
+     * @deprecated This is a legacy method only used by classic Slack apps. Use `oauth.v2.access` for new Slack apps.
+     * @see {@link https://api.slack.com/methods/oauth.access `oauth.access` API reference}.
+     */
     access: bindApiCall<OAuthAccessArguments, OauthAccessResponse>(this, 'oauth.access'),
     v2: {
+      /**
+       * @description Exchanges a temporary OAuth verifier code for an access token.
+       * @see {@link https://api.slack.com/methods/oauth.v2.access `oauth.v2.access` API reference}.
+       */
       access: bindApiCall<OAuthV2AccessArguments, OauthV2AccessResponse>(this, 'oauth.v2.access'),
+      /**
+       * @description Exchanges a legacy access token for a new expiring access token and refresh token.
+       * @see {@link https://api.slack.com/methods/oauth.v2.exchange `oauth.v2.exchange` API reference}.
+       */
       exchange: bindApiCall<OAuthV2ExchangeArguments, OauthV2ExchangeResponse>(this, 'oauth.v2.exchange'),
     },
   };
@@ -861,7 +875,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     connect: bindApiCall<RTMConnectArguments, RtmConnectResponse>(this, 'rtm.connect'),
     /**
      * @description Starts a Real Time Messaging session.
-     * @deprecated Use `rtm.connect` instead.
+     * @deprecated Use `rtm.connect` instead. See {@link https://api.slack.com/changelog/2021-10-rtm-start-to-stop our post on retiring `rtm.start`}.
      * @see {@link https://api.slack.com/methods/rtm.start `rtm.start` API reference}.
      */
     start: bindApiCall<RTMStartArguments, RtmStartResponse>(this, 'rtm.start'),
@@ -1069,19 +1083,22 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   public readonly stars = {
     /**
      * @description Save an item for later. Formerly known as adding a star.
-     * @deprecated
+     * @deprecated Stars can still be added but they can no longer be viewed or interacted with by end-users.
+     * See {@link https://api.slack.com/changelog/2023-07-its-later-already-for-stars-and-reminders our post on stars and the Later list}.
      * @see {@link https://api.slack.com/methods/stars.add `stars.add` API reference}.
      */
     add: bindApiCall<StarsAddRemoveArguments, StarsAddResponse>(this, 'stars.add'),
     /**
      * @description List a user's saved items, formerly known as stars.
-     * @deprecated
+     * @deprecated Stars can still be listed but they can no longer be viewed or interacted with by end-users.
+     * See {@link https://api.slack.com/changelog/2023-07-its-later-already-for-stars-and-reminders our post on stars and the Later list}.
      * @see {@link https://api.slack.com/methods/stars.list `stars.list` API reference}.
      */
     list: bindApiCall<StarsListArguments, StarsListResponse>(this, 'stars.list'),
     /**
      * @description Remove a saved item from a user's saved items, formerly known as stars.
-     * @deprecated
+     * @deprecated Stars can still be removed but they can no longer be viewed or interacted with by end-users.
+     * See {@link https://api.slack.com/changelog/2023-07-its-later-already-for-stars-and-reminders our post on stars and the Later list}.
      * @see {@link https://api.slack.com/methods/stars.remove `stars.remove` API reference}.
      */
     remove: bindApiCall<StarsAddRemoveArguments, StarsRemoveResponse>(this, 'stars.remove'),
@@ -1090,7 +1107,9 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   public readonly workflows = {
     /**
      * @description Indicate that an app's step in a workflow completed execution.
-     * @deprecated
+     * @deprecated Steps from Apps is deprecated.
+     * We're retiring all Slack app functionality around Steps from Apps in September 2024.
+     * See {@link https://api.slack.com/changelog/2023-08-workflow-steps-from-apps-step-back our post on deprecating Steps from Apps}.
      * @see {@link https://api.slack.com/methods/workflows.stepCompleted `workflows.stepCompleted` API reference}.
      */
     stepCompleted: bindApiCall<WorkflowsStepCompletedArguments, WorkflowsStepCompletedResponse>(
@@ -1099,13 +1118,17 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     ),
     /**
      * @description Indicate that an app's step in a workflow failed to execute.
-     * @deprecated
+     * @deprecated Steps from Apps is deprecated.
+     * We're retiring all Slack app functionality around Steps from Apps in September 2024.
+     * See {@link https://api.slack.com/changelog/2023-08-workflow-steps-from-apps-step-back our post on deprecating Steps from Apps}.
      * @see {@link https://api.slack.com/methods/workflows.stepFailed `workflows.stepFailed` API reference}.
      */
     stepFailed: bindApiCall<WorkflowsStepFailedArguments, WorkflowsStepFailedResponse>(this, 'workflows.stepFailed'),
     /**
      * @description Update the configuration for a workflow step.
-     * @deprecated
+     * @deprecated Steps from Apps is deprecated.
+     * We're retiring all Slack app functionality around Steps from Apps in September 2024.
+     * See {@link https://api.slack.com/changelog/2023-08-workflow-steps-from-apps-step-back our post on deprecating Steps from Apps}.
      * @see {@link https://api.slack.com/methods/workflows.updateStep `workflows.updateStep` API reference}.
      */
     updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
@@ -2268,33 +2291,6 @@ export interface FilesRemoteShareArguments extends TokenOverridable {
 export interface MigrationExchangeArguments extends TokenOverridable, OptionalTeamAssignable {
   users: string; // comma-separated list of users
   to_old?: boolean;
-}
-
-/*
- * `oauth.*`
- */
-// https://api.slack.com/methods/oauth.access
-// TODO: this method is marked as a 'legacy' method; should we add it as a 'deprecated' method?
-export interface OAuthAccessArguments {
-  client_id: string; // TODO: docs state this is optional
-  client_secret: string; // TODO: docs state this is optional
-  code: string; // TODO: docs state this is optional
-  redirect_uri?: string;
-  single_channel?: boolean;
-}
-// https://api.slack.com/methods/oauth.v2.access
-export interface OAuthV2AccessArguments {
-  client_id: string; // TODO: docs state this is optional
-  client_secret: string; // TODO: docs state this is optional
-  code?: string; // not required for token rotation
-  redirect_uri?: string;
-  grant_type?: string;
-  refresh_token?: string;
-}
-// https://api.slack.com/methods/oauth.v2.exchange
-export interface OAuthV2ExchangeArguments {
-  client_id: string;
-  client_secret: string;
 }
 
 export * from '@slack/types';

@@ -80,3 +80,29 @@ export interface FileCommentArgument {
   /** @description Encoded file comment ID reacted to. */
   file_comment: string;
 }
+
+/**
+ * Some API methods use arguments related to OAuth flows.
+ * E.g. `openid.*` and `oauth.*`
+ */
+
+export interface OAuthCredentials {
+  /** @description Issued when you created your application. */
+  client_id: string;
+  /** @description Issued when you created your application. */
+  client_secret: string;
+  /** @description The `code` parameter returned via the OAuth callback. */
+  code?: string;
+  /**
+   * @description While optional, it is _required_ if your app passed it as a parameter to the OpenID/OAuth flow's
+   * first step and must match the originally submitted URI.
+   */
+  redirect_uri?: string;
+}
+
+export interface OAuthGrantRefresh {
+  /** @description The `grant_type` param as described in the OAuth spec. */
+  grant_type?: 'authorization_code' | 'refresh_token';
+  /** @description The `refresh_token` param as described in the OAuth spec. */
+  refresh_token?: string;
+}
