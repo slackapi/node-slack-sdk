@@ -241,6 +241,7 @@ import type { UsergroupsCreateArguments, UsergroupsDisableArguments, UsergroupsE
 import type { TeamAccessLogsArguments, TeamBillableInfoArguments, TeamBillingInfoArguments, TeamInfoArguments, TeamIntegrationLogsArguments, TeamPreferencesListArguments, TeamProfileGetArguments } from './types/request/team';
 import type { StarsAddRemoveArguments, StarsListArguments } from './types/request/stars';
 import type { RTMConnectArguments, RTMStartArguments } from './types/request/rtm';
+import type { RemindersAddArguments, RemindersInfoArguments, RemindersListArguments, RemindersDeleteArguments, RemindersCompleteArguments } from './types/request/reminders';
 
 /**
  * Generic method definition
@@ -784,10 +785,30 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly reminders = {
+    /**
+     * @description Creates a reminder.
+     * @see {@link https://api.slack.com/methods/reminders.add `reminders.add` API reference}.
+     */
     add: bindApiCall<RemindersAddArguments, RemindersAddResponse>(this, 'reminders.add'),
+    /**
+     * @description Marks a reminder as complete.
+     * @see {@link https://api.slack.com/methods/reminders.complete `reminders.complete` API reference}.
+     */
     complete: bindApiCall<RemindersCompleteArguments, RemindersCompleteResponse>(this, 'reminders.complete'),
+    /**
+     * @description Deletes a reminder.
+     * @see {@link https://api.slack.com/methods/reminders.delete `reminders.delete` API reference}.
+     */
     delete: bindApiCall<RemindersDeleteArguments, RemindersDeleteResponse>(this, 'reminders.delete'),
+    /**
+     * @description Gets information about a reminder.
+     * @see {@link https://api.slack.com/methods/reminders.info `reminders.info` API reference}.
+     */
     info: bindApiCall<RemindersInfoArguments, RemindersInfoResponse>(this, 'reminders.info'),
+    /**
+     * @description Lists all reminders created by or for a given user.
+     * @see {@link https://api.slack.com/methods/reminders.list `reminders.list` API reference}.
+     */
     list: bindApiCall<RemindersListArguments, RemindersListResponse>(this, 'reminders.list'),
   };
 
@@ -2306,39 +2327,5 @@ export interface ReactionsRemoveArguments extends TokenOverridable {
   file?: string; // file id
   file_comment?: string;
 }
-
-/*
- * `reminders.*`
- */
-interface ReminderRecurrenceDailyMonthlyYearly {
-  frequency: 'daily' | 'monthly' | 'yearly';
-}
-type DaysOfTheWeek = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
-interface ReminderRecurrenceWeekly {
-  frequency: 'weekly';
-  weekdays: [DaysOfTheWeek, ...DaysOfTheWeek[]]
-}
-type ReminderRecurrence = ReminderRecurrenceWeekly | ReminderRecurrenceDailyMonthlyYearly;
-// https://api.slack.com/methods/reminders.add
-export interface RemindersAddArguments extends TokenOverridable, OptionalTeamAssignable {
-  text: string;
-  time: string | number;
-  user?: string;
-  recurrence?: ReminderRecurrence;
-}
-// https://api.slack.com/methods/reminders.complete
-export interface RemindersCompleteArguments extends TokenOverridable, OptionalTeamAssignable {
-  reminder: string;
-}
-// https://api.slack.com/methods/reminders.delete
-export interface RemindersDeleteArguments extends TokenOverridable, OptionalTeamAssignable {
-  reminder: string;
-}
-// https://api.slack.com/methods/reminders.info
-export interface RemindersInfoArguments extends TokenOverridable, OptionalTeamAssignable {
-  reminder: string;
-}
-// https://api.slack.com/methods/reminders.list
-export interface RemindersListArguments extends TokenOverridable, OptionalTeamAssignable { }
 
 export * from '@slack/types';
