@@ -677,9 +677,7 @@ export class InstallProvider {
       // End: Build the installation object
 
       if (options?.afterInstallation !== undefined) {
-        shouldProceed = await options.afterInstallation(
-          installation, installOptions, req, res,
-        );
+        shouldProceed = await options.afterInstallation(installation, installOptions, req, res);
       }
       if (!shouldProceed) {
         // When options.beforeInstallation returns false,
