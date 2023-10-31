@@ -246,6 +246,7 @@ import type { ReactionsAddArguments, ReactionsGetArguments, ReactionsListArgumen
 import type { PinsAddArguments, PinsListArguments, PinsRemoveArguments } from './types/request/pins';
 import type { OpenIDConnectTokenArguments, OpenIDConnectUserInfoArguments } from './types/request/openid';
 import type { OAuthAccessArguments, OAuthV2AccessArguments, OAuthV2ExchangeArguments } from './types/request/oauth';
+import type { MigrationExchangeArguments } from './types/request/migration';
 
 /**
  * Generic method definition
@@ -757,6 +758,10 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly migration = {
+    /**
+     * @description For Enterprise Grid workspaces, map local user IDs to global user IDs.
+     * @see {@link https://api.slack.com/methods/migration.exchange `migration.exchange` API reference}.
+     */
     exchange: bindApiCall<MigrationExchangeArguments, MigrationExchangeResponse>(this, 'migration.exchange'),
   };
 
@@ -2282,15 +2287,6 @@ export interface FilesRemoteShareArguments extends TokenOverridable {
   // TODO: breaking change: either one of the file or external_id arguments are required
   file?: string;
   external_id?: string;
-}
-
-/*
- * `migration.*`
- */
-// https://api.slack.com/methods/migration.exchange
-export interface MigrationExchangeArguments extends TokenOverridable, OptionalTeamAssignable {
-  users: string; // comma-separated list of users
-  to_old?: boolean;
 }
 
 export * from '@slack/types';
