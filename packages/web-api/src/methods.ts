@@ -244,6 +244,7 @@ import type { RTMConnectArguments, RTMStartArguments } from './types/request/rtm
 import type { RemindersAddArguments, RemindersInfoArguments, RemindersListArguments, RemindersDeleteArguments, RemindersCompleteArguments } from './types/request/reminders';
 import type { ReactionsAddArguments, ReactionsGetArguments, ReactionsListArguments, ReactionsRemoveArguments } from './types/request/reactions';
 import type { PinsAddArguments, PinsListArguments, PinsRemoveArguments } from './types/request/pins';
+import type { OpenIDConnectTokenArguments, OpenIDConnectUserInfoArguments } from './types/request/openid';
 
 /**
  * Generic method definition
@@ -768,7 +769,15 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly openid = {
     connect: {
+      /**
+       * @description Exchanges a temporary OAuth verifier code for an access token for {@link https://api.slack.com/authentication/sign-in-with-slack Sign in with Slack}.
+       * @see {@link https://api.slack.com/methods/openid.connect.token `openid.connect.token` API reference}.
+       */
       token: bindApiCall<OpenIDConnectTokenArguments, OpenIDConnectTokenResponse>(this, 'openid.connect.token'),
+      /**
+       * @description Get the identity of a user who has authorized {@link https://api.slack.com/authentication/sign-in-with-slack Sign in with Slack}.
+       * @see {@link https://api.slack.com/methods/openid.connect.userInfo `openid.connect.userInfo` API reference}.
+       */
       userInfo: bindApiCall<OpenIDConnectUserInfoArguments, OpenIDConnectUserInfoResponse>(this, 'openid.connect.userInfo'),
     },
   };
@@ -2286,23 +2295,6 @@ export interface OAuthV2AccessArguments {
 export interface OAuthV2ExchangeArguments {
   client_id: string;
   client_secret: string;
-}
-
-/*
- * `openid.connect.*`
- */
-// https://api.slack.com/methods/openid.connect.token
-export interface OpenIDConnectTokenArguments {
-  client_id: string; // TODO: docs state this is optional
-  client_secret: string; // TODO: docs state this is optional
-  code?: string;
-  redirect_uri?: string;
-  grant_type?: 'authorization_code' | 'refresh_token';
-  refresh_token?: string;
-}
-// https://api.slack.com/methods/openid.connect.userInfo
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface OpenIDConnectUserInfoArguments {
 }
 
 export * from '@slack/types';
