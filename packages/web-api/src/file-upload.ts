@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import { Readable } from 'stream';
 import { Logger } from '@slack/logger';
 import { errorWithCode, ErrorCode } from './errors';
-import { FilesCompleteUploadExternalArguments, FilesUploadV2Arguments, FileUploadV2, FileUploadV2Job } from './methods';
+import { FilesCompleteUploadExternalArguments, FilesUploadV2Arguments, FileUploadV2, FileUploadV2Job } from './types/request/files';
 
 /**
  * Returns a fileUploadJob used to represent the of the file upload job and
@@ -23,22 +23,31 @@ export async function getFileUploadJob(
   const fileData = await getFileData(options);
   const fileDataBytesLength = getFileDataLength(fileData);
 
-  const fileUploadJob = {
+  const fileUploadJob: Record<string, unknown> = {
     // supplied by user
     alt_text: options.alt_text,
     channel_id: options.channels ?? options.channel_id,
-    content: options.content,
-    file: options.file,
     filename: options.filename ?? fileName,
     initial_comment: options.initial_comment,
     snippet_type: options.snippet_type,
-    thread_ts: options.thread_ts,
     title: options.title ?? (options.filename ?? fileName), // default title to filename unless otherwise specified
     // calculated
     data: fileData,
     length: fileDataBytesLength,
   };
-  return fileUploadJob;
+  if ('thread_ts' in options) {
+    fileUploadJob.thread_ts = options.thread_ts;
+  }
+  if ('content' in options) {
+    return {
+      content: options.content,
+      ...fileUploadJob,
+    };
+  }
+  return {
+    file: options.file,
+    ...fileUploadJob,
+  };
 }
 
 /**
@@ -108,8 +117,8 @@ export async function getMultipleFileUploadJobs(
 export async function getFileData(options: FilesUploadV2Arguments | FileUploadV2): Promise<Buffer> {
   errorIfInvalidOrMissingFileData(options);
 
-  const { file, content } = options;
-  if (file) {
+  if ('file' in options) {
+    const { file } = options;
     // try to handle as buffer
     if (Buffer.isBuffer(file)) return file;
 
@@ -131,7 +140,7 @@ export async function getFileData(options: FilesUploadV2Arguments | FileUploadV2
     const data = await getFileDataAsStream(file as Readable);
     if (data) return data;
   }
-  if (content) return Buffer.from(content);
+  if ('content' in options) return Buffer.from(options.content);
 
   // general catch-all error
   throw errorWithCode(

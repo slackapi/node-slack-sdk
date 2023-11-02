@@ -1,4 +1,3 @@
-import { Stream } from 'node:stream';
 import { Dialog, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser, MessageMetadata } from '@slack/types';
 import { EventEmitter } from 'eventemitter3';
 import { WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
@@ -232,7 +231,7 @@ import type {
   AdminAppsConfigSetResponse,
 } from './types/response';
 // Request types
-import type { TokenOverridable, LocaleAware, OptionalTeamAssignable, TraditionalPagingEnabled, CursorPaginationEnabled, TimelinePaginationEnabled } from './types/request/common';
+import type { TokenOverridable, LocaleAware, OptionalTeamAssignable, CursorPaginationEnabled, TimelinePaginationEnabled } from './types/request/common';
 import type { WorkflowsStepCompletedArguments, WorkflowsStepFailedArguments, WorkflowsUpdateStepArguments } from './types/request/workflows';
 import type { ViewsUpdateArguments, ViewsOpenArguments, ViewsPushArguments, ViewsPublishArguments } from './types/request/views';
 import type { UsersConversationsArguments, UsersInfoArguments, UsersListArguments, UsersIdentityArguments, UsersSetPhotoArguments, UsersProfileGetArguments, UsersProfileSetArguments, UsersDeletePhotoArguments, UsersGetPresenceArguments, UsersSetPresenceArguments, UsersLookupByEmailArguments } from './types/request/users';
@@ -247,6 +246,7 @@ import type { PinsAddArguments, PinsListArguments, PinsRemoveArguments } from '.
 import type { OpenIDConnectTokenArguments, OpenIDConnectUserInfoArguments } from './types/request/openid';
 import type { OAuthAccessArguments, OAuthV2AccessArguments, OAuthV2ExchangeArguments } from './types/request/oauth';
 import type { MigrationExchangeArguments } from './types/request/migration';
+import type { FilesDeleteArguments, FilesInfoArguments, FilesListArguments, FilesRevokePublicURLArguments, FilesSharedPublicURLArguments, FilesUploadArguments, FilesUploadV2Arguments, FilesCompleteUploadExternalArguments, FilesGetUploadURLExternalArguments, FilesCommentsDeleteArguments, FilesRemoteUpdateArguments, FilesRemoteRemoveArguments, FilesRemoteShareArguments, FilesRemoteListArguments, FilesRemoteInfoArguments, FilesRemoteAddArguments } from './types/request/files';
 
 /**
  * Generic method definition
@@ -719,16 +719,52 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly files = {
+    /**
+     * @description Finishes an upload started with {@link https://api.slack.com/methods/files.getUploadURLExternal `files.getUploadURLExternal`}.
+     * @see {@link https://api.slack.com/methods/files.completeUploadExternal `files.completeUploadExternal` API reference}.
+     */
+    completeUploadExternal:
+      bindApiCall<FilesCompleteUploadExternalArguments, FilesCompleteUploadExternalResponse>(this, 'files.completeUploadExternal'),
+    /**
+     * @description Deletes a file.
+     * @see {@link https://api.slack.com/methods/files.delete `files.delete` API reference}.
+     */
     delete: bindApiCall<FilesDeleteArguments, FilesDeleteResponse>(this, 'files.delete'),
+    /**
+     * @description Gets a URL for an edge external file upload.
+     * @see {@link https://api.slack.com/methods/files.getUploadURLExternal `files.getUploadURLExternal` API reference}.
+     */
+    getUploadURLExternal:
+      bindApiCall<FilesGetUploadURLExternalArguments, FilesGetUploadURLExternalResponse>(this, 'files.getUploadURLExternal'),
+    /**
+     * @description Gets information about a file.
+     * @see {@link https://api.slack.com/methods/files.info `files.info` API reference}.
+     */
     info: bindApiCall<FilesInfoArguments, FilesInfoResponse>(this, 'files.info'),
+    /**
+     * @description List files for a team, in a channel, or from a user with applied filters.
+     * @see {@link https://api.slack.com/methods/files.list `files.list` API reference}.
+     */
     list: bindApiCall<FilesListArguments, FilesListResponse>(this, 'files.list'),
+    /**
+     * @description Revokes public/external sharing access for a file.
+     * @see {@link https://api.slack.com/methods/files.revokePublicURL `files.revokePublicURL` API reference}.
+     */
     revokePublicURL:
       bindApiCall<FilesRevokePublicURLArguments, FilesRevokePublicURLResponse>(this, 'files.revokePublicURL'),
+    /**
+     * @description Enables a file for public/external sharing.
+     * @see {@link https://api.slack.com/methods/files.revokePublicURL `files.revokePublicURL` API reference}.
+     */
     sharedPublicURL:
       bindApiCall<FilesSharedPublicURLArguments, FilesSharedPublicURLResponse>(this, 'files.sharedPublicURL'),
+    /**
+     * @description Uploads or creates a file.
+     * @see {@link https://api.slack.com/methods/files.upload `files.upload` API reference}.
+     */
     upload: bindApiCall<FilesUploadArguments, FilesUploadResponse>(this, 'files.upload'),
     /**
-     * Custom method to support files upload v2 way of uploading files to Slack
+     * @description Custom method to support a new way of uploading files to Slack.
      * Supports a single file upload
      * Supply:
      * - (required) single file or content
@@ -738,12 +774,9 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * - multiple upload_files
      * Will try to honor both single file or content data supplied as well
      * as multiple file uploads property.
+     * @see {@link https://slack.dev/node-slack-sdk/web-api#upload-a-file `@slack/web-api` Upload a file documentation}.
     */
     uploadV2: bindFilesUploadV2<FilesUploadV2Arguments, WebAPICallResult>(this),
-    getUploadURLExternal:
-      bindApiCall<FilesGetUploadURLExternalArguments, FilesGetUploadURLExternalResponse>(this, 'files.getUploadURLExternal'),
-    completeUploadExternal:
-      bindApiCall<FilesCompleteUploadExternalArguments, FilesCompleteUploadExternalResponse>(this, 'files.completeUploadExternal'),
     comments: {
       delete: bindApiCall<FilesCommentsDeleteArguments, FilesCommentsDeleteResponse>(this, 'files.comments.delete'),
     },
@@ -2144,149 +2177,6 @@ export interface DndTeamInfoArguments extends TokenOverridable, OptionalTeamAssi
 // https://api.slack.com/methods/emoji.list
 export interface EmojiListArguments extends TokenOverridable {
   include_categories?: boolean;
-}
-
-/*
- * `files.*`
- */
-// https://api.slack.com/methods/files.delete
-export interface FilesDeleteArguments extends TokenOverridable {
-  file: string; // file id
-}
-// https://api.slack.com/methods/files.info
-export interface FilesInfoArguments extends TokenOverridable, CursorPaginationEnabled, TraditionalPagingEnabled {
-  file: string; // file id
-}
-// https://api.slack.com/methods/files.list
-export interface FilesListArguments extends TokenOverridable, TraditionalPagingEnabled, OptionalTeamAssignable {
-  channel?: string;
-  user?: string;
-  ts_from?: string;
-  ts_to?: string;
-  types?: string; // comma-separated list of file types
-  show_files_hidden_by_limit?: boolean;
-}
-// https://api.slack.com/methods/files.revokePublicURL
-export interface FilesRevokePublicURLArguments extends TokenOverridable {
-  file: string; // file id
-}
-// https://api.slack.com/methods/files.sharedPublicURL
-export interface FilesSharedPublicURLArguments extends TokenOverridable {
-  file: string; // file id
-}
-/**
- * Legacy files.upload API files upload arguments
- */
-// TODO: breaking change: must provide content or file
-// https://api.slack.com/methods/files.upload
-export interface FilesUploadArguments extends FileUpload, TokenOverridable {}
-interface FileUpload {
-  channels?: string; // comma-separated list of channels
-  content?: string; // if omitted, must provide `file`
-  file?: Buffer | Stream | string; // if omitted, must provide `content`
-  filename?: string;
-  filetype?: string;
-  initial_comment?: string;
-  thread_ts?: string; // TODO: breaking change: if specified, `channels` must be set
-  title?: string;
-}
-
-export interface FilesUploadV2Arguments extends FileUploadV2, TokenOverridable {
-  file_uploads?: Omit<FileUploadV2, 'channel_id' | 'channels' | 'initial_comment' | 'thread_ts'>[];
-  /**
-   * @deprecated Since v7, this flag is no longer used. You can safely remove it from your code.
-   */
-  request_file_info?: boolean;
-}
-
-export type FileUploadV2 = FileUpload & {
-  alt_text?: string; // for image uploads
-  channel_id?: string;
-  snippet_type?: string; // for code snippets
-};
-
-// Helper type intended for internal use in filesUploadV2 client method
-// Includes additional metadata required to complete a single file upload job
-export interface FileUploadV2Job extends FileUploadV2,
-  Pick<FilesGetUploadURLExternalResponse, 'file_id' | 'upload_url' | 'error'> {
-  length?: number;
-  data?: Buffer;
-}
-
-/**
- * Gets a URL for an edge external file upload. Method:
- * @see {@link https://api.slack.com/methods/files.getUploadURLExternal `files.getUploadURLExternal` API reference}
-*/
-export interface FilesGetUploadURLExternalArguments extends TokenOverridable {
-  filename: string;
-  length: number;
-  alt_text?: string;
-  snippet_type?: string;
-}
-/**
- * Finishes an upload started with {@link https://api.slack.com/methods/files.getUploadURLExternal `files.getUploadURLExternal`}.
- * @see {@link https://api.slack.com/methods/files.completeUploadExternal `files.completeUploadExternal` API reference}
- */
-export interface FilesCompleteUploadExternalArguments extends TokenOverridable {
-  files: FileUploadComplete[];
-  channel_id?: string, // if omitted, file will be private
-  initial_comment?: string,
-  thread_ts?: string
-}
-interface FileUploadComplete {
-  id: string, // file id
-  title?: string // filename
-}
-// https://api.slack.com/methods/files.comments.delete
-export interface FilesCommentsDeleteArguments extends TokenOverridable {
-  file: string; // file id
-  id: string; // comment id
-}
-// https://api.slack.com/methods/files.remote.info
-export interface FilesRemoteInfoArguments extends TokenOverridable {
-  // TODO: breaking change: either one of the file or external_id arguments are required
-  // This either/or relationship for files.remote.* APIs can be modeled once and re-used for all these methods
-  file?: string;
-  external_id?: string;
-}
-// https://api.slack.com/methods/files.remote.list
-export interface FilesRemoteListArguments extends TokenOverridable, CursorPaginationEnabled {
-  ts_from?: string;
-  ts_to?: string;
-  channel?: string;
-}
-// https://api.slack.com/methods/files.remote.add
-export interface FilesRemoteAddArguments extends TokenOverridable {
-  title: string;
-  external_url: string;
-  external_id: string; // a unique identifier for the file in your system
-  filetype?: string; // possible values (except for 'auto'): https://api.slack.com/types/file#file_types
-  preview_image?: Buffer | Stream;
-  indexable_file_contents?: Buffer | Stream;
-}
-// https://api.slack.com/methods/files.remote.update
-export interface FilesRemoteUpdateArguments extends TokenOverridable {
-  title?: string;
-  external_url?: string;
-  filetype?: string; // possible values (except for 'auto'): https://api.slack.com/types/file#file_types
-  preview_image?: Buffer | Stream;
-  indexable_file_contents?: Buffer | Stream;
-  // TODO: breaking change: either one of the file or external_id arguments are required
-  file?: string;
-  external_id?: string;
-}
-// https://api.slack.com/methods/files.remote.remove
-export interface FilesRemoteRemoveArguments extends TokenOverridable {
-  // TODO: breaking change: either one of the file or external_id arguments are required
-  file?: string;
-  external_id?: string;
-}
-// https://api.slack.com/methods/files.remote.share
-export interface FilesRemoteShareArguments extends TokenOverridable {
-  channels: string; // comma-separated list of channel ids
-  // TODO: breaking change: either one of the file or external_id arguments are required
-  file?: string;
-  external_id?: string;
 }
 
 export * from '@slack/types';

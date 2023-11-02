@@ -20,7 +20,8 @@ import {
   FilesGetUploadURLExternalResponse,
 } from './types/response';
 import { CursorPaginationEnabled } from './types/request/common';
-import { Methods, FilesUploadV2Arguments, FileUploadV2Job, FilesGetUploadURLExternalArguments, FilesCompleteUploadExternalArguments } from './methods';
+import { Methods } from './methods';
+import type { FilesUploadV2Arguments, FileUploadV2Job, FilesGetUploadURLExternalArguments, FilesCompleteUploadExternalArguments } from './types/request/files';
 import { getUserAgent } from './instrument';
 import {
   requestErrorWithOriginal, httpErrorFromResponse, platformErrorFromResult, rateLimitedErrorWithDelay,
