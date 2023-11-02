@@ -99,11 +99,11 @@ export interface FilesRevokePublicURLArguments extends FileArgument, TokenOverri
 // https://api.slack.com/methods/files.sharedPublicURL
 export interface FilesSharedPublicURLArguments extends FileArgument, TokenOverridable {}
 
-interface FileUploadStringContents {
+export interface FileUploadStringContents {
   /** @description File contents. If omitted, you must provide the `file` argument. */
   content: string;
 }
-interface FileUploadBinaryContents {
+export interface FileUploadBinaryContents {
   /**
    * @description File contents as a `Buffer` or `Stream`.
    * If providing a `string`, this parameter will be interpreted as a _path_ to a file, which will be read from disk

@@ -232,6 +232,8 @@ export class WebClient extends Methods {
     }
 
     warnIfNotUsingFilesUploadV2(method, this.logger);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     if (method === 'files.uploadV2') return this.filesUploadV2(options);
 
     const headers: Record<string, string> = {};
@@ -493,7 +495,7 @@ export class WebClient extends Methods {
     let fileUploads: FileUploadV2Job[] = [];
 
     // add single file data to uploads if file or content exists at the top level
-    if (options.file || options.content) {
+    if ('file' in options || 'content' in options) {
       fileUploads.push(await getFileUploadJob(options, this.logger));
     }
 

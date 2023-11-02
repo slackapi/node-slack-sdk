@@ -291,7 +291,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   }
 
   public abstract apiCall(method: string, options?: Record<string, unknown>): Promise<WebAPICallResult>;
-  public abstract filesUploadV2(options: Record<string, unknown>): Promise<WebAPICallResult>;
+  public abstract filesUploadV2(options: FilesUploadV2Arguments): Promise<WebAPICallResult>;
 
   public readonly admin = {
     analytics: {
