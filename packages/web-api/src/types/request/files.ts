@@ -6,6 +6,24 @@ interface FileArgument {
   /** @description Encoded file ID. */
   file: string;
 }
+interface ExternalIDArgument {
+  /** @description Creator defined GUID for the file. */
+  external_id: string;
+}
+interface ChannelsArgument {
+  /**
+   * @description Comma-seperated list of channel IDs where the file will be shared. If not specified the file will
+   * be private.
+   */
+  channels?: string;
+}
+interface FileType {
+  /**
+   * @description A file type identifier.
+   * @see {@link https://api.slack.com/types/file#file_types File types} for a complete list of supported file types.
+   */
+  filetype?: string;
+}
 interface FileUploadComplete {
   /** @description Encoded file ID. */
   id: string;
@@ -27,20 +45,10 @@ interface FileThreadDestinationArgument {
 // Some file APIs allow you to upload a file to a channel as its own message, or to a thread as a reply.
 type FileDestinationArgument = FileChannelDestinationArgument | FileThreadDestinationArgument;
 // Exact same as the above `FileDestinationArgument`, but with a `channels` property instead of `channel_id`.
-interface FileChannelDestinationArgumentChannels {
-  /**
-   * @description Comma-seperated list of channel IDs where the file will be shared. If not specified the file will
-   * be private.
-   */
-  channels?: string;
+interface FileChannelDestinationArgumentChannels extends ChannelsArgument {
   thread_ts?: never;
 }
-interface FileThreadDestinationArgumentChannels {
-  /**
-   * @description Comma-seperated list of channel IDs where the file will be shared. If not specified the file will
-   * be private.
-   */
-  channels?: string;
+interface FileThreadDestinationArgumentChannels extends ChannelsArgument {
   /** @description Provide another message's `ts` value to upload this file as a reply. */
   thread_ts: string;
 }
@@ -114,14 +122,9 @@ export interface FileUploadBinaryContents {
 // File upload contents can be provided using either `content` or `file` arguments - and one of these is required.
 type FileUploadContents = FileUploadStringContents | FileUploadBinaryContents;
 
-type FileUpload = FileUploadContents & FileDestinationArgumentChannels & {
+type FileUpload = FileUploadContents & FileDestinationArgumentChannels & FileType & {
   /** @description Name of the file. */
   filename?: string;
-  /**
-   * @description A file type identifier.
-   * @see {@link https://api.slack.com/types/file#file_types File types} for a complete list of supported file types.
-   */
-  filetype?: string;
   /** @description The message text introducing the file in specified channel(s). */
   initial_comment?: string;
   /** @description File title. */
@@ -153,53 +156,40 @@ Pick<FilesGetUploadURLExternalResponse, 'file_id' | 'upload_url' | 'error'> & {
 };
 
 // https://api.slack.com/methods/files.comments.delete
-export interface FilesCommentsDeleteArguments extends TokenOverridable {
-  file: string; // file id
-  id: string; // comment id
-}
-// https://api.slack.com/methods/files.remote.info
-export interface FilesRemoteInfoArguments extends TokenOverridable {
-  // TODO: breaking change: either one of the file or external_id arguments are required
-  // This either/or relationship for files.remote.* APIs can be modeled once and re-used for all these methods
-  file?: string;
-  external_id?: string;
-}
-// https://api.slack.com/methods/files.remote.list
-export interface FilesRemoteListArguments extends TokenOverridable, CursorPaginationEnabled {
-  ts_from?: string;
-  ts_to?: string;
-  channel?: string;
+export interface FilesCommentsDeleteArguments extends FileArgument, TokenOverridable {
+  /** @description The ID of the comment to delete. */
+  id: string;
 }
 // https://api.slack.com/methods/files.remote.add
-export interface FilesRemoteAddArguments extends TokenOverridable {
+export interface FilesRemoteAddArguments extends FileType, ExternalIDArgument, TokenOverridable {
+  /** @description Title of the file being shared. */
   title: string;
+  /** @description URL of the remote file. */
   external_url: string;
-  external_id: string; // a unique identifier for the file in your system
-  filetype?: string; // possible values (except for 'auto'): https://api.slack.com/types/file#file_types
+  /** @description Preview of the document. */
   preview_image?: Buffer | Stream;
+  /**
+   * @description A text file (txt, pdf, doc, etc.) containing textual search terms that are used to improve discovery
+   * of the remote file.
+   */
   indexable_file_contents?: Buffer | Stream;
 }
-// https://api.slack.com/methods/files.remote.update
-export interface FilesRemoteUpdateArguments extends TokenOverridable {
-  title?: string;
-  external_url?: string;
-  filetype?: string; // possible values (except for 'auto'): https://api.slack.com/types/file#file_types
-  preview_image?: Buffer | Stream;
-  indexable_file_contents?: Buffer | Stream;
-  // TODO: breaking change: either one of the file or external_id arguments are required
-  file?: string;
-  external_id?: string;
+// Either the encoded file ID or the external ID must be used as an argument.
+type FileOrExternalID = FileArgument | ExternalIDArgument;
+// https://api.slack.com/methods/files.remote.info
+export type FilesRemoteInfoArguments = FileOrExternalID & TokenOverridable;
+// https://api.slack.com/methods/files.remote.list
+export interface FilesRemoteListArguments extends TokenOverridable, CursorPaginationEnabled {
+  /** @description Filter files appearing in a specific channel, indicated by its ID. */
+  channel?: string;
+  /** @description Filter files created after this timestamp (inclusive). */
+  ts_from?: string;
+  /** @description Filter files created before this timestamp (inclusive). */
+  ts_to?: string;
 }
 // https://api.slack.com/methods/files.remote.remove
-export interface FilesRemoteRemoveArguments extends TokenOverridable {
-  // TODO: breaking change: either one of the file or external_id arguments are required
-  file?: string;
-  external_id?: string;
-}
+export type FilesRemoteRemoveArguments = FileOrExternalID & TokenOverridable;
 // https://api.slack.com/methods/files.remote.share
-export interface FilesRemoteShareArguments extends TokenOverridable {
-  channels: string; // comma-separated list of channel ids
-  // TODO: breaking change: either one of the file or external_id arguments are required
-  file?: string;
-  external_id?: string;
-}
+export type FilesRemoteShareArguments = Required<ChannelsArgument> & FileOrExternalID & TokenOverridable;
+// https://api.slack.com/methods/files.remote.update
+export type FilesRemoteUpdateArguments = FileOrExternalID & TokenOverridable & FileType & Pick<FilesRemoteAddArguments, 'title' | 'external_url' | 'preview_image' | 'indexable_file_contents'>;

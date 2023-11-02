@@ -778,15 +778,43 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     */
     uploadV2: bindFilesUploadV2<FilesUploadV2Arguments, WebAPICallResult>(this),
     comments: {
+      /**
+       * @description Deletes an existing comment on a file.
+       * @see {@link https://api.slack.com/methods/files.comments.delete `files.comments.delete` API reference}.
+       */
       delete: bindApiCall<FilesCommentsDeleteArguments, FilesCommentsDeleteResponse>(this, 'files.comments.delete'),
     },
     remote: {
-      info: bindApiCall<FilesRemoteInfoArguments, FilesRemoteInfoResponse>(this, 'files.remote.info'),
-      list: bindApiCall<FilesRemoteListArguments, FilesRemoteListResponse>(this, 'files.remote.list'),
+      /**
+       * @description Adds a file from a remote service.
+       * @see {@link https://api.slack.com/methods/files.remote.add `files.remote.add` API reference}.
+       */
       add: bindApiCall<FilesRemoteAddArguments, FilesRemoteAddResponse>(this, 'files.remote.add'),
-      update: bindApiCall<FilesRemoteUpdateArguments, FilesRemoteUpdateResponse>(this, 'files.remote.update'),
+      /**
+       * @description Retrieve information about a remote file added to Slack.
+       * @see {@link https://api.slack.com/methods/files.remote.info `files.remote.info` API reference}.
+       */
+      info: bindApiCall<FilesRemoteInfoArguments, FilesRemoteInfoResponse>(this, 'files.remote.info'),
+      /**
+       * @description List remote files added to Slack.
+       * @see {@link https://api.slack.com/methods/files.remote.list `files.remote.list` API reference}.
+       */
+      list: bindApiCall<FilesRemoteListArguments, FilesRemoteListResponse>(this, 'files.remote.list'),
+      /**
+       * @description Remove a remote file.
+       * @see {@link https://api.slack.com/methods/files.remote.remove `files.remote.remove` API reference}.
+       */
       remove: bindApiCall<FilesRemoteRemoveArguments, FilesRemoteRemoveResponse>(this, 'files.remote.remove'),
+      /**
+       * @description Share a remote file into a channel.
+       * @see {@link https://api.slack.com/methods/files.remote.share `files.remote.share` API reference}.
+       */
       share: bindApiCall<FilesRemoteShareArguments, FilesRemoteShareResponse>(this, 'files.remote.share'),
+      /**
+       * @description Updates an existing remote file.
+       * @see {@link https://api.slack.com/methods/files.remote.update `files.remote.update` API reference}.
+       */
+      update: bindApiCall<FilesRemoteUpdateArguments, FilesRemoteUpdateResponse>(this, 'files.remote.update'),
     },
   };
 
