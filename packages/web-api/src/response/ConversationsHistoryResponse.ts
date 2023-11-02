@@ -82,6 +82,7 @@ export interface Attachment {
   footer?:                string;
   footer_icon?:           string;
   from_url?:              string;
+  hide_color?:            boolean;
   id?:                    number;
   image_bytes?:           number;
   image_height?:          number;
@@ -89,6 +90,7 @@ export interface Attachment {
   image_width?:           number;
   indent?:                boolean;
   is_app_unfurl?:         boolean;
+  is_file_attachment?:    boolean;
   is_msg_unfurl?:         boolean;
   is_reply_unfurl?:       boolean;
   is_thread_root_unfurl?: boolean;
@@ -361,6 +363,7 @@ export interface FileElement {
   attachments?:                             any[];
   blocks?:                                  TitleBlockElement[];
   bot_id?:                                  string;
+  canvas_template_mode?:                    string;
   cc?:                                      Cc[];
   channel_actions_count?:                   number;
   channel_actions_ts?:                      string;
@@ -374,8 +377,10 @@ export interface FileElement {
   dm_mpdm_users_with_file_access?:          DmMpdmUsersWithFileAccess[];
   duration_ms?:                             number;
   edit_link?:                               string;
+  edit_timestamp?:                          number;
   editable?:                                boolean;
   editor?:                                  string;
+  editors?:                                 string[];
   external_id?:                             string;
   external_type?:                           string;
   external_url?:                            string;
@@ -438,6 +443,11 @@ export interface FileElement {
   subject?:                                 string;
   subtype?:                                 string;
   teams_shared_with?:                       any[];
+  template_conversion_ts?:                  number;
+  template_description?:                    string;
+  template_icon?:                           string;
+  template_name?:                           string;
+  template_title?:                          string;
   thumb_1024?:                              string;
   thumb_1024_gif?:                          string;
   thumb_1024_h?:                            string;
@@ -487,6 +497,7 @@ export interface FileElement {
   title_blocks?:                            TitleBlockElement[];
   to?:                                      Cc[];
   transcription?:                           Transcription;
+  update_notification?:                     number;
   updated?:                                 number;
   url_private?:                             string;
   url_private_download?:                    string;
@@ -551,6 +562,7 @@ export interface Shares {
 }
 
 export interface Private {
+  access?:            string;
   channel_name?:      string;
   latest_reply?:      string;
   reply_count?:       number;
@@ -693,6 +705,7 @@ export interface BlockFile {
   attachments?:                             any[];
   blocks?:                                  any[];
   bot_id?:                                  string;
+  canvas_template_mode?:                    string;
   cc?:                                      any[];
   channel_actions_count?:                   number;
   channel_actions_ts?:                      string;
@@ -706,8 +719,10 @@ export interface BlockFile {
   dm_mpdm_users_with_file_access?:          any[];
   duration_ms?:                             number;
   edit_link?:                               string;
+  edit_timestamp?:                          number;
   editable?:                                boolean;
   editor?:                                  string;
+  editors?:                                 any[];
   external_id?:                             string;
   external_type?:                           string;
   external_url?:                            string;
@@ -770,6 +785,11 @@ export interface BlockFile {
   subject?:                                 string;
   subtype?:                                 string;
   teams_shared_with?:                       any[];
+  template_conversion_ts?:                  number;
+  template_description?:                    string;
+  template_icon?:                           string;
+  template_name?:                           string;
+  template_title?:                          string;
   thumb_1024?:                              string;
   thumb_1024_gif?:                          string;
   thumb_1024_h?:                            string;
@@ -819,6 +839,7 @@ export interface BlockFile {
   title_blocks?:                            any[];
   to?:                                      any[];
   transcription?:                           Transcription;
+  update_notification?:                     number;
   updated?:                                 number;
   url_private?:                             string;
   url_private_download?:                    string;

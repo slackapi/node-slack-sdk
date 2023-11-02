@@ -1346,6 +1346,8 @@ export interface AdminUsersInviteArguments extends WebAPICallOptions, TokenOverr
 }
 export interface AdminUsersListArguments extends WebAPICallOptions, TokenOverridable, CursorPaginationEnabled {
   team_id: string;
+  include_deactivated_user_workspaces?: boolean;
+  is_active?: boolean;
 }
 cursorPaginationEnabledMethods.add('admin.users.list');
 export interface AdminUsersRemoveArguments extends WebAPICallOptions, TokenOverridable {

@@ -35,6 +35,8 @@ export interface Activity {
 export interface Payload {
   actor?:                 string;
   billing_reason?:        string[];
+  bot_user_id?:           string;
+  channel_id?:            string;
   current_step?:          number;
   error?:                 string;
   exec_outcome?:          string;
@@ -42,12 +44,16 @@ export interface Payload {
   function_id?:           string;
   function_name?:         string;
   function_type?:         string;
+  inputs?:                Inputs;
   is_billing_excluded?:   boolean;
   log?:                   string;
   total_steps?:           number;
   trigger?:               Trigger;
   type?:                  string;
   workflow_name?:         string;
+}
+
+export interface Inputs {
 }
 
 export interface Trigger {
@@ -60,6 +66,7 @@ export interface Trigger {
 export interface Config {
   description?: string;
   name?:        string;
+  schema?:      Inputs;
 }
 
 export interface TripInformation {
