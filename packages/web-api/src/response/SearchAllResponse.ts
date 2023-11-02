@@ -56,7 +56,7 @@ export interface FilesMatch {
   is_external?:               boolean;
   is_public?:                 boolean;
   is_starred?:                boolean;
-  last_editor?:               LastEditor;
+  last_editor?:               string;
   lines?:                     number;
   lines_more?:                number;
   media_display_type?:        string;
@@ -112,8 +112,8 @@ export interface FilesMatch {
   updated?:                   number;
   url_private?:               string;
   url_private_download?:      string;
-  user?:                      LastEditor;
-  user_team?:                 UserTeam;
+  user?:                      string;
+  user_team?:                 string;
   username?:                  string;
 }
 
@@ -140,6 +140,7 @@ export interface Attachment {
   footer?:                string;
   footer_icon?:           string;
   from_url?:              string;
+  hide_color?:            boolean;
   id?:                    number;
   image_bytes?:           number;
   image_height?:          number;
@@ -147,6 +148,7 @@ export interface Attachment {
   image_width?:           number;
   indent?:                boolean;
   is_app_unfurl?:         boolean;
+  is_file_attachment?:    boolean;
   is_msg_unfurl?:         boolean;
   is_reply_unfurl?:       boolean;
   is_thread_root_unfurl?: boolean;
@@ -438,6 +440,7 @@ export interface FileElement {
   attachments?:                             any[];
   blocks?:                                  TitleBlockElement[];
   bot_id?:                                  string;
+  canvas_template_mode?:                    string;
   cc?:                                      Cc[];
   channel_actions_count?:                   number;
   channel_actions_ts?:                      string;
@@ -451,8 +454,10 @@ export interface FileElement {
   dm_mpdm_users_with_file_access?:          DmMpdmUsersWithFileAccess[];
   duration_ms?:                             number;
   edit_link?:                               string;
+  edit_timestamp?:                          number;
   editable?:                                boolean;
   editor?:                                  string;
+  editors?:                                 string[];
   external_id?:                             string;
   external_type?:                           string;
   external_url?:                            string;
@@ -515,6 +520,11 @@ export interface FileElement {
   subject?:                                 string;
   subtype?:                                 string;
   teams_shared_with?:                       any[];
+  template_conversion_ts?:                  number;
+  template_description?:                    string;
+  template_icon?:                           string;
+  template_name?:                           string;
+  template_title?:                          string;
   thumb_1024?:                              string;
   thumb_1024_gif?:                          string;
   thumb_1024_h?:                            string;
@@ -564,6 +574,7 @@ export interface FileElement {
   title_blocks?:                            TitleBlockElement[];
   to?:                                      Cc[];
   transcription?:                           Transcription;
+  update_notification?:                     number;
   updated?:                                 number;
   url_private?:                             string;
   url_private_download?:                    string;
@@ -623,35 +634,21 @@ export interface Saved {
 }
 
 export interface PurpleShares {
-  private?: { [key: string]: Public[] };
-  public?:  { [key: string]: Public[] };
+  private?: { [key: string]: Private[] };
+  public?:  { [key: string]: Private[] };
 }
 
-export interface Public {
+export interface Private {
+  access?:            string;
   channel_name?:      string;
   latest_reply?:      string;
   reply_count?:       number;
   reply_users?:       string[];
   reply_users_count?: number;
-  share_user_id?:     LastEditor;
-  team_id?:           UserTeam;
+  share_user_id?:     string;
+  team_id?:           string;
   thread_ts?:         string;
-  ts?:                Ts;
-}
-
-export enum LastEditor {
-  Empty = '',
-  U00000000 = 'U00000000',
-}
-
-export enum UserTeam {
-  Empty = '',
-  T00000000 = 'T00000000',
-}
-
-export enum Ts {
-  Empty = '',
-  The0000000000000000 = '0000000000.000000',
+  ts?:                string;
 }
 
 export interface Transcription {
@@ -785,6 +782,7 @@ export interface MessageFile {
   attachments?:                             any[];
   blocks?:                                  any[];
   bot_id?:                                  string;
+  canvas_template_mode?:                    string;
   cc?:                                      any[];
   channel_actions_count?:                   number;
   channel_actions_ts?:                      string;
@@ -798,8 +796,10 @@ export interface MessageFile {
   dm_mpdm_users_with_file_access?:          any[];
   duration_ms?:                             number;
   edit_link?:                               string;
+  edit_timestamp?:                          number;
   editable?:                                boolean;
   editor?:                                  string;
+  editors?:                                 any[];
   external_id?:                             string;
   external_type?:                           string;
   external_url?:                            string;
@@ -862,6 +862,11 @@ export interface MessageFile {
   subject?:                                 string;
   subtype?:                                 string;
   teams_shared_with?:                       any[];
+  template_conversion_ts?:                  number;
+  template_description?:                    string;
+  template_icon?:                           string;
+  template_name?:                           string;
+  template_title?:                          string;
   thumb_1024?:                              string;
   thumb_1024_gif?:                          string;
   thumb_1024_h?:                            string;
@@ -911,6 +916,7 @@ export interface MessageFile {
   title_blocks?:                            any[];
   to?:                                      any[];
   transcription?:                           Transcription;
+  update_notification?:                     number;
   updated?:                                 number;
   url_private?:                             string;
   url_private_download?:                    string;
@@ -1026,6 +1032,16 @@ export interface MatchShares {
   public?: { [key: string]: Public[] };
 }
 
+export interface Public {
+  channel_name?:      string;
+  reply_count?:       number;
+  reply_users?:       string[];
+  reply_users_count?: number;
+  share_user_id?:     string;
+  team_id?:           string;
+  ts?:                string;
+}
+
 export interface Pagination {
   first?:       number;
   last?:        number;
@@ -1061,11 +1077,11 @@ export interface MessagesMatch {
   previous?:     Previous;
   previous_2?:   Previous;
   score?:        number;
-  team?:         UserTeam;
+  team?:         string;
   text?:         string;
-  ts?:           Ts;
+  ts?:           string;
   type?:         string;
-  user?:         LastEditor;
+  user?:         string;
   username?:     string;
 }
 
@@ -1180,7 +1196,7 @@ export interface Channel {
   name?:                  string;
   name_normalized?:       string;
   pending_shared?:        string[];
-  user?:                  LastEditor;
+  user?:                  string;
 }
 
 export interface Previous {
@@ -1189,9 +1205,9 @@ export interface Previous {
   iid?:         string;
   permalink?:   string;
   text?:        string;
-  ts?:          Ts;
+  ts?:          string;
   type?:        string;
-  user?:        LastEditor;
+  user?:        string;
   username?:    string;
 }
 
