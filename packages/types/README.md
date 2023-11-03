@@ -17,7 +17,7 @@ $ npm install @slack/types
 
 ## Usage
 
-This package exports a many different types and interfaces. It is best to peruse the source code to see what is
+This package exports many different types and interfaces. It is best to peruse the source code to see what is
 available, but a brief list:
 
 - Block Kit blocks and elements (`./src/block-kit/*`)

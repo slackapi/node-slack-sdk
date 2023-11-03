@@ -24,13 +24,21 @@ export interface ResponseMetadata {
 }
 
 export interface User {
+  date_created?:        number;
   email?:               string;
   expiration_ts?:       number;
+  full_name?:           string;
+  has_2fa?:             boolean;
+  has_sso?:             boolean;
   id?:                  string;
+  is_active?:           boolean;
   is_admin?:            boolean;
   is_bot?:              boolean;
   is_owner?:            boolean;
   is_primary_owner?:    boolean;
   is_restricted?:       boolean;
   is_ultra_restricted?: boolean;
+  roles?:               string[];
+  username?:            string;
+  workspaces?:          string[];
 }

@@ -1656,6 +1656,8 @@ export interface AdminUsersInviteArguments extends TokenOverridable {
 // https://api.slack.com/methods/admin.users.list
 export interface AdminUsersListArguments extends TokenOverridable, CursorPaginationEnabled {
   team_id?: string; // Only required if org-level token is used
+  include_deactivated_user_workspaces?: boolean;
+  is_active?: boolean;
 }
 // https://api.slack.com/methods/admin.users.remove
 export interface AdminUsersRemoveArguments extends TokenOverridable {
