@@ -175,7 +175,7 @@ export interface FilesRemoteAddArguments extends FileType, ExternalIDArgument, T
   indexable_file_contents?: Buffer | Stream;
 }
 // Either the encoded file ID or the external ID must be used as an argument.
-type FileOrExternalID = FileArgument | ExternalIDArgument;
+type FileOrExternalID = (FileArgument & { external_id?: never; }) | (ExternalIDArgument & { file?: never; });
 // https://api.slack.com/methods/files.remote.info
 export type FilesRemoteInfoArguments = FileOrExternalID & TokenOverridable;
 // https://api.slack.com/methods/files.remote.list

@@ -1,5 +1,5 @@
 import { expectAssignable, expectError } from 'tsd';
-import { WebClient } from '../../..';
+import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
 
@@ -10,8 +10,6 @@ const file = { id: 'F1234', title: 'Choose Boring Technology' };
 // ---- correct destinations
 const destinationChannel = { channel_id: 'C1234' };
 const destinationThread = { ...destinationChannel, thread_ts: '1234.456' };
-const destinationChannels = { channels: 'C1234' };
-const destinationThreadChannels = { ...destinationChannels, thread_ts: '1234.456' };
 // ---- invalid destinations
 const destinationThreadWithMissingChannel = { thread_ts: '1234.567' };
 
@@ -126,8 +124,36 @@ expectError(web.files.comments.delete({ file: 'F123' })); // missing comment ID
 expectError(web.files.comments.delete({ id: 'Fc123' })); // missing file ID
 // -- happy path
 expectAssignable<Parameters<typeof web.files.comments.delete>>([{
-  file: 'test.png', // must specify either a file...
+  file: 'F1234',
+  id: 'Fc1234',
 }]);
-expectAssignable<Parameters<typeof web.files.comments.delete>>([{
-  content: 'text', // or file contents...
+
+// files.remote.add
+// -- sad path
+expectError(web.files.remote.add()); // lacking argument
+expectError(web.files.remote.add({})); // empty argument
+expectError(web.files.remote.add({ external_id: '1234' })); // missing url and title
+expectError(web.files.remote.add({ external_url: 'https://example.com' })); // missing id and title
+expectError(web.files.remote.add({ title: 'my document' })); // missing id and url
+expectError(web.files.remote.add({ external_id: '1234', external_url: 'https://example.com' })); // missing title
+expectError(web.files.remote.add({ external_id: '1234', title: 'this is a test' })); // missing url
+expectError(web.files.remote.add({ external_url: '1234', title: 'this is a test' })); // missing id
+// -- happy path
+expectAssignable<Parameters<typeof web.files.remote.add>>([{
+  external_id: '1234',
+  external_url: 'https://example.com',
+  title: 'my document',
+}]);
+
+// files.remote.info
+// -- sad path
+expectError(web.files.remote.info()); // lacking argument
+expectError(web.files.remote.info({})); // empty argument
+expectError(web.files.remote.info({ external_id: '1234', file: 'F1234' })); // either external ID, or file ID, but not both
+// -- happy path
+expectAssignable<Parameters<typeof web.files.remote.info>>([{
+  external_id: '1234',
+}]);
+expectAssignable<Parameters<typeof web.files.remote.info>>([{
+  file: 'F1234',
 }]);
