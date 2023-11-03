@@ -2,7 +2,7 @@
 
 import { PlainTextElement, MrkdwnElement } from './composition-objects';
 import { Actionable } from './extensions';
-import { Button, Checkboxes, Datepicker, DateTimepicker, EmailInput, ImageElement, MultiSelect, NumberInput, Overflow, PlainTextInput, RadioButtons, Select, Timepicker, URLInput, WorkflowButton, RichTextSection, RichTextList, RichTextQuote, RichTextPreformatted, RichTextInput } from './block-elements';
+import { Button, Checkboxes, Datepicker, DateTimepicker, EmailInput, FileInput, ImageElement, MultiSelect, NumberInput, Overflow, PlainTextInput, RadioButtons, Select, Timepicker, URLInput, WorkflowButton, RichTextSection, RichTextList, RichTextQuote, RichTextPreformatted, RichTextInput } from './block-elements';
 
 export interface Block {
   type: string;
@@ -159,7 +159,7 @@ export interface InputBlock extends Block {
    * @description A block element.
    */
   element: Select | MultiSelect | Datepicker | Timepicker | DateTimepicker | PlainTextInput | URLInput | EmailInput
-  | NumberInput | RadioButtons | Checkboxes | RichTextInput;
+  | NumberInput | RadioButtons | Checkboxes | RichTextInput | FileInput;
   /**
    * @description A boolean that indicates whether or not the use of elements in this block should dispatch a
    * {@link https://api.slack.com/reference/interaction-payloads/block-actions block_actions payload}. Defaults to `false`.
