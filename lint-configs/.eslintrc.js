@@ -300,6 +300,10 @@ module.exports = {
         'symbol-description': 'off',
       },
     },
+    {
+      files: ['test/types/**/*.test-d.ts'],
+      extends: ['plugin:@typescript-eslint/disable-type-checked'],
+    },
   ],
 };
 

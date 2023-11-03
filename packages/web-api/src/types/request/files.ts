@@ -48,7 +48,7 @@ type FileDestinationArgument = FileChannelDestinationArgument | FileThreadDestin
 interface FileChannelDestinationArgumentChannels extends ChannelsArgument {
   thread_ts?: never;
 }
-interface FileThreadDestinationArgumentChannels extends ChannelsArgument {
+interface FileThreadDestinationArgumentChannels extends Required<ChannelsArgument> {
   /** @description Provide another message's `ts` value to upload this file as a reply. */
   thread_ts: string;
 }
