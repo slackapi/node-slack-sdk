@@ -150,6 +150,8 @@ import {
   FilesRevokePublicURLResponse,
   FilesSharedPublicURLResponse,
   FilesUploadResponse,
+  FunctionCompleteErrorResponse,
+  FunctionCompleteSuccessResponse,
   MigrationExchangeResponse,
   OauthAccessResponse,
   OauthV2AccessResponse,
@@ -738,6 +740,15 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       share: bindApiCall<FilesRemoteShareArguments, FilesRemoteShareResponse>(this, 'files.remote.share'),
     },
   };
+
+  public readonly functions = {
+    completeError: bindApiCall<FunctionCompleteErrorArguments, FunctionCompleteErrorResponse>(this, 'functions.completeError'),
+    completeSuccess: bindApiCall<FunctionCompleteSuccessArguments, FunctionCompleteSuccessResponse>(
+      this,
+      'functions.completeSuccess',
+    ),
+  };
+
 
   public readonly migration = {
     exchange: bindApiCall<MigrationExchangeArguments, MigrationExchangeResponse>(this, 'migration.exchange'),
@@ -2034,6 +2045,20 @@ export interface FilesRemoteShareArguments extends WebAPICallOptions, TokenOverr
   file?: string;
   external_id?: string;
 }
+
+/*
+ * `functions.*`
+ */
+export interface FunctionCompleteSuccessArguments extends WebAPICallOptions, TokenOverridable {
+  function_execution_id: string;
+  outputs?: Record<string, unknown>;
+}
+
+export interface FunctionCompleteErrorArguments extends WebAPICallOptions, TokenOverridable {
+  function_execution_id: string;
+  error: string;
+}
+
 
 /*
  * `groups.*`
