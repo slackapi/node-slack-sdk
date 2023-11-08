@@ -1494,6 +1494,7 @@ export interface AppsManifestUpdateArguments extends WebAPICallOptions, TokenOve
 }
 
 export interface AppsManifestValidateArguments extends WebAPICallOptions, TokenOverridable {
+  app_id?: string;
   manifest: string;
 }
 
