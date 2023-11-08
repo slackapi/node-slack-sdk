@@ -150,8 +150,8 @@ import {
   FilesRevokePublicURLResponse,
   FilesSharedPublicURLResponse,
   FilesUploadResponse,
-  FunctionCompleteErrorResponse,
-  FunctionCompleteSuccessResponse,
+  // FunctionCompleteErrorResponse,
+  // FunctionCompleteSuccessResponse,
   MigrationExchangeResponse,
   OauthAccessResponse,
   OauthV2AccessResponse,
@@ -742,8 +742,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly functions = {
-    completeError: bindApiCall<FunctionCompleteErrorArguments, FunctionCompleteErrorResponse>(this, 'functions.completeError'),
-    completeSuccess: bindApiCall<FunctionCompleteSuccessArguments, FunctionCompleteSuccessResponse>(
+    completeError: bindApiCall<FunctionCompleteErrorArguments, WebAPICallResult>(this, 'functions.completeError'),
+    completeSuccess: bindApiCall<FunctionCompleteSuccessArguments, WebAPICallResult>(
       this,
       'functions.completeSuccess',
     ),
