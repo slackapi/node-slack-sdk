@@ -9,7 +9,7 @@ if (process.env.SLACK_SDK_TEST_DEV_API_URL !== undefined) {
   options.slackApiUrl = process.env.SLACK_SDK_TEST_DEV_API_URL;
 }
 
-const client = new WebClient(BOT_TOKEN, options);
+const client = new WebClient(options);
 
 (async () => {
   const manifest = `{
