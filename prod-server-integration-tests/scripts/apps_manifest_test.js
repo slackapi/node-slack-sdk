@@ -2,7 +2,6 @@ const { WebClient } = require('@slack/web-api');
 
 const options = {};
 
-const BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 const TOOLING_TOKEN = process.env.SLACK_TOOLING_TOKEN;
 
 if (process.env.SLACK_SDK_TEST_DEV_API_URL !== undefined) {
