@@ -10,6 +10,8 @@ const file = { id: 'F1234', title: 'Choose Boring Technology' };
 // ---- correct destinations
 const destinationChannel = { channel_id: 'C1234' };
 const destinationThread = { ...destinationChannel, thread_ts: '1234.456' };
+const destinationChannels = { channels: 'C1234' }; // same as above but different property name
+const destinationThreadChannels = { ...destinationChannels, thread_ts: '1234.456' };
 // ---- invalid destinations
 const destinationThreadWithMissingChannel = { thread_ts: '1234.567' };
 
@@ -96,24 +98,44 @@ expectAssignable<Parameters<typeof web.files.sharedPublicURL>>([{
 // -- sad path
 expectError(web.files.upload()); // lacking argument
 expectError(web.files.upload({})); // empty argument
+expectError(web.files.upload({ file: 'test.png', thread_ts: '123.456' })); // if providing thread_ts, must provide channels
 // -- happy path
 expectAssignable<Parameters<typeof web.files.upload>>([{
   file: 'test.png', // must specify either a file...
 }]);
 expectAssignable<Parameters<typeof web.files.upload>>([{
-  content: 'text', // or file contents...
+  content: 'text', // or file contents
+}]);
+expectAssignable<Parameters<typeof web.files.upload>>([{
+  content: 'text',
+  channels: 'C1234', // optionally share to a channel
+}]);
+expectAssignable<Parameters<typeof web.files.upload>>([{
+  content: 'text',
+  channels: 'C1234',
+  thread_ts: '12345.678', // or even to a specific thread
 }]);
 
 // files.uploadV2
 // -- sad path
 expectError(web.files.uploadV2()); // lacking argument
 expectError(web.files.uploadV2({})); // empty argument
+expectError(web.files.uploadV2({ file: 'test.png', thread_ts: '123.456' })); // if providing thread_ts, must provide channels
 // -- happy path
 expectAssignable<Parameters<typeof web.files.uploadV2>>([{
   file: 'test.png', // must specify either a file...
 }]);
 expectAssignable<Parameters<typeof web.files.uploadV2>>([{
   content: 'text', // or file contents...
+}]);
+expectAssignable<Parameters<typeof web.files.uploadV2>>([{
+  content: 'text',
+  channels: 'C1234', // optionally share to a channel
+}]);
+expectAssignable<Parameters<typeof web.files.uploadV2>>([{
+  content: 'text',
+  channels: 'C1234',
+  thread_ts: '12345.678', // or even to a specific thread
 }]);
 
 // files.comments.delete
