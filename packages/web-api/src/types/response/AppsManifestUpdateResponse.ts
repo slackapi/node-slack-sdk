@@ -8,7 +8,7 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../WebClient';
+import { WebAPICallResult } from '../../WebClient';
 export type AppsManifestUpdateResponse = WebAPICallResult & {
   app_id?:              string;
   error?:               string;

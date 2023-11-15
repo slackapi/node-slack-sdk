@@ -107,13 +107,12 @@ expectAssignable<Parameters<typeof web.files.upload>>([{
   content: 'text', // or file contents
 }]);
 expectAssignable<Parameters<typeof web.files.upload>>([{
+  ...destinationChannels, // optionally share to one or more channels
   content: 'text',
-  channels: 'C1234', // optionally share to a channel
 }]);
 expectAssignable<Parameters<typeof web.files.upload>>([{
+  ...destinationThreadChannels, // or even to a specific thread
   content: 'text',
-  channels: 'C1234',
-  thread_ts: '12345.678', // or even to a specific thread
 }]);
 
 // files.uploadV2
@@ -129,13 +128,12 @@ expectAssignable<Parameters<typeof web.files.uploadV2>>([{
   content: 'text', // or file contents...
 }]);
 expectAssignable<Parameters<typeof web.files.uploadV2>>([{
+  ...destinationChannels, // optionally share to one or more channels
   content: 'text',
-  channels: 'C1234', // optionally share to a channel
 }]);
 expectAssignable<Parameters<typeof web.files.uploadV2>>([{
+  ...destinationThreadChannels, // or even to a specific thread
   content: 'text',
-  channels: 'C1234',
-  thread_ts: '12345.678', // or even to a specific thread
 }]);
 
 // files.comments.delete

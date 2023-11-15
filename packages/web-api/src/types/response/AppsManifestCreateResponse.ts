@@ -8,7 +8,7 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../WebClient';
+import { WebAPICallResult } from '../../WebClient';
 export type AppsManifestCreateResponse = WebAPICallResult & {
   app_id?:              string;
   credentials?:         Credentials;
