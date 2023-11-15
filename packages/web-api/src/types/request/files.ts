@@ -160,8 +160,7 @@ export interface FilesCommentsDeleteArguments extends FileArgument, TokenOverrid
   /** @description The ID of the comment to delete. */
   id: string;
 }
-// https://api.slack.com/methods/files.remote.add
-export interface FilesRemoteAddArguments extends FileType, ExternalIDArgument, TokenOverridable {
+interface SharedFile {
   /** @description Title of the file being shared. */
   title: string;
   /** @description URL of the remote file. */
@@ -174,6 +173,9 @@ export interface FilesRemoteAddArguments extends FileType, ExternalIDArgument, T
    */
   indexable_file_contents?: Buffer | Stream;
 }
+
+// https://api.slack.com/methods/files.remote.add
+export interface FilesRemoteAddArguments extends SharedFile, FileType, ExternalIDArgument, TokenOverridable {}
 // Either the encoded file ID or the external ID must be used as an argument.
 type FileOrExternalID = (FileArgument & { external_id?: never; }) | (ExternalIDArgument & { file?: never; });
 // https://api.slack.com/methods/files.remote.info
@@ -192,4 +194,4 @@ export type FilesRemoteRemoveArguments = FileOrExternalID & TokenOverridable;
 // https://api.slack.com/methods/files.remote.share
 export type FilesRemoteShareArguments = Required<ChannelsArgument> & FileOrExternalID & TokenOverridable;
 // https://api.slack.com/methods/files.remote.update
-export type FilesRemoteUpdateArguments = FileOrExternalID & TokenOverridable & FileType & Pick<FilesRemoteAddArguments, 'title' | 'external_url' | 'preview_image' | 'indexable_file_contents'>;
+export type FilesRemoteUpdateArguments = Partial<SharedFile> & FileOrExternalID & FileType & TokenOverridable;

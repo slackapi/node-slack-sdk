@@ -5,15 +5,6 @@ const web = new WebClient('TOKEN');
 
 // Reusable files.* API partial argument objects for these tests
 const file = { id: 'F1234', title: 'Choose Boring Technology' };
-// -- File upload target/destination types: channels, threads or private files
-//    Some of these use a `channel_id` prop vs. a `channels` prop :/
-// ---- correct destinations
-const destinationChannel = { channel_id: 'C1234' };
-const destinationThread = { ...destinationChannel, thread_ts: '1234.456' };
-const destinationChannels = { channels: 'C1234' }; // same as above but different property name
-const destinationThreadChannels = { ...destinationChannels, thread_ts: '1234.456' };
-// ---- invalid destinations
-const destinationThreadWithMissingChannel = { thread_ts: '1234.567' };
 
 // files.completeUploadExternal
 // -- sad path
@@ -21,7 +12,7 @@ expectError(web.files.completeUploadExternal()); // lacking argument
 expectError(web.files.completeUploadExternal({})); // empty argument
 expectError(web.files.completeUploadExternal({
   files: [file],
-  ...destinationThreadWithMissingChannel, // has thread_ts but no channel
+  thread_ts: '1234.567', // has thread_ts but no channel
 }));
 expectError(web.files.completeUploadExternal({
   files: [], // must specify at least one file
@@ -33,11 +24,12 @@ expectAssignable<Parameters<typeof web.files.completeUploadExternal>>([{
 }]);
 expectAssignable<Parameters<typeof web.files.completeUploadExternal>>([{
   files: [file],
-  ...destinationChannel, // share to a channel
+  channel_id: 'C1234', // share to a channel
 }]);
 expectAssignable<Parameters<typeof web.files.completeUploadExternal>>([{
   files: [file],
-  ...destinationThread, // share to a thread
+  channel_id: 'C1234',
+  thread_ts: '1234.567', // share to a thread
 }]);
 
 // files.delete
@@ -107,11 +99,11 @@ expectAssignable<Parameters<typeof web.files.upload>>([{
   content: 'text', // or file contents
 }]);
 expectAssignable<Parameters<typeof web.files.upload>>([{
-  ...destinationChannels, // optionally share to one or more channels
+  channels: 'C1234', // optionally share to one or more channels
   content: 'text',
 }]);
 expectAssignable<Parameters<typeof web.files.upload>>([{
-  ...destinationThreadChannels, // or even to a specific thread
+  channels: 'C1234', // or even to a specific thread
   content: 'text',
 }]);
 
@@ -128,11 +120,12 @@ expectAssignable<Parameters<typeof web.files.uploadV2>>([{
   content: 'text', // or file contents...
 }]);
 expectAssignable<Parameters<typeof web.files.uploadV2>>([{
-  ...destinationChannels, // optionally share to one or more channels
+  channels: 'C1234', // optionally share to one or more channels
   content: 'text',
 }]);
 expectAssignable<Parameters<typeof web.files.uploadV2>>([{
-  ...destinationThreadChannels, // or even to a specific thread
+  channels: 'C1234',
+  thread_ts: '12345.67', // or even to a specific thread
   content: 'text',
 }]);
 
@@ -176,4 +169,55 @@ expectAssignable<Parameters<typeof web.files.remote.info>>([{
 }]);
 expectAssignable<Parameters<typeof web.files.remote.info>>([{
   file: 'F1234',
+}]);
+
+// files.remote.list
+// -- sad path
+expectError(web.files.remote.list()); // lacking argument
+// -- happy path
+expectAssignable<Parameters<typeof web.files.remote.list>>([{}]); // able to call it with empty argument
+
+// files.remote.remove
+// -- sad path
+expectError(web.files.remote.remove()); // lacking argument
+expectError(web.files.remote.remove({})); // empty argument
+expectError(web.files.remote.remove({ external_id: '1234', file: 'F1234' })); // either external ID, or file ID, but not both
+// -- happy path
+expectAssignable<Parameters<typeof web.files.remote.remove>>([{
+  external_id: '1234',
+}]);
+expectAssignable<Parameters<typeof web.files.remote.remove>>([{
+  file: 'F1234',
+}]);
+
+// files.remote.share
+// -- sad path
+expectError(web.files.remote.share()); // lacking argument
+expectError(web.files.remote.share({})); // empty argument
+expectError(web.files.remote.share({ external_id: '1234', file: 'F1234' })); // either external ID, or file ID, but not both
+expectError(web.files.remote.share({ channels: 'C1234' })); // missing one of external ID or file ID
+// -- happy path
+expectAssignable<Parameters<typeof web.files.remote.share>>([{
+  channels: 'C123',
+  external_id: '1234',
+}]);
+expectAssignable<Parameters<typeof web.files.remote.share>>([{
+  channels: 'C123',
+  file: 'F1234',
+}]);
+
+// files.remote.update
+// -- sad path
+expectError(web.files.remote.update()); // lacking argument
+expectError(web.files.remote.update({})); // empty argument
+expectError(web.files.remote.update({ external_id: '1234', file: 'F1234' })); // either external ID, or file ID, but not both
+expectError(web.files.remote.update({ title: 'Fear and Loathing in Las Vegas' })); // missing one of external ID or file ID
+// -- happy path
+expectAssignable<Parameters<typeof web.files.remote.update>>([{
+  external_id: '1234',
+  title: 'Moby Dick',
+}]);
+expectAssignable<Parameters<typeof web.files.remote.update>>([{
+  file: 'F1234',
+  external_url: 'https://someurl.com',
 }]);
