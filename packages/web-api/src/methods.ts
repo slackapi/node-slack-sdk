@@ -84,6 +84,11 @@ import type {
   ApiTestResponse,
   AppsConnectionsOpenResponse,
   AppsEventAuthorizationsListResponse,
+  AppsManifestCreateResponse,
+  AppsManifestDeleteResponse,
+  AppsManifestExportResponse,
+  AppsManifestUpdateResponse,
+  AppsManifestValidateResponse,
   AppsUninstallResponse,
   AuthRevokeResponse,
   AuthTeamsListResponse,
@@ -183,6 +188,7 @@ import type {
   TeamIntegrationLogsResponse,
   TeamPreferencesListResponse,
   TeamProfileGetResponse,
+  ToolingTokensRotateResponse,
   UsergroupsCreateResponse,
   UsergroupsDisableResponse,
   UsergroupsEnableResponse,
@@ -594,6 +600,13 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
           'apps.event.authorizations.list',
         ),
       },
+    },
+    manifest: {
+      create: bindApiCall<AppsManifestCreateArguments, AppsManifestCreateResponse>(this, 'apps.manifest.create'),
+      delete: bindApiCall<AppsManifestDeleteArguments, AppsManifestDeleteResponse>(this, 'apps.manifest.delete'),
+      export: bindApiCall<AppsManifestExportArguments, AppsManifestExportResponse>(this, 'apps.manifest.export'),
+      update: bindApiCall<AppsManifestUpdateArguments, AppsManifestUpdateResponse>(this, 'apps.manifest.update'),
+      validate: bindApiCall<AppsManifestValidateArguments, AppsManifestValidateResponse>(this, 'apps.manifest.validate'),
     },
     uninstall: bindApiCall<AppsUninstallArguments, AppsUninstallResponse>(this, 'apps.uninstall'),
   };
@@ -1007,6 +1020,12 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @see {@link https://api.slack.com/methods/team.profile.get `team.profile.get` API reference}.
        */
       get: bindApiCall<TeamProfileGetArguments, TeamProfileGetResponse>(this, 'team.profile.get'),
+    },
+  };
+
+  public readonly tooling = {
+    tokens: {
+      rotate: bindApiCall<ToolingTokensRotateArguments, ToolingTokensRotateResponse>(this, 'tooling.tokens.rotate'),
     },
   };
 
@@ -1778,6 +1797,28 @@ export interface AppsEventAuthorizationsListArguments
   extends TokenOverridable, CursorPaginationEnabled {
   event_context: string;
 }
+
+export interface AppsManifestCreateArguments extends TokenOverridable {
+  manifest: string;
+}
+
+export interface AppsManifestDeleteArguments extends TokenOverridable {
+  app_id: string;
+}
+
+export interface AppsManifestExportArguments extends TokenOverridable {
+  app_id: string;
+}
+
+export interface AppsManifestUpdateArguments extends TokenOverridable {
+  app_id: string;
+  manifest: string;
+}
+
+export interface AppsManifestValidateArguments extends TokenOverridable {
+  app_id?: string;
+  manifest: string;
+}
 // https://api.slack.com/methods/apps.uninstall
 export interface AppsUninstallArguments {
   client_id: string;
@@ -2207,6 +2248,13 @@ export interface DndTeamInfoArguments extends TokenOverridable, OptionalTeamAssi
 // https://api.slack.com/methods/emoji.list
 export interface EmojiListArguments extends TokenOverridable {
   include_categories?: boolean;
+}
+
+/*
+ * `tooling.*`
+ */
+export interface ToolingTokensRotateArguments extends TokenOverridable {
+  refresh_token: string;
 }
 
 export * from '@slack/types';
