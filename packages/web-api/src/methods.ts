@@ -241,6 +241,7 @@ import type { TokenOverridable, LocaleAware, OptionalTeamAssignable, CursorPagin
 import type { WorkflowsStepCompletedArguments, WorkflowsStepFailedArguments, WorkflowsUpdateStepArguments } from './types/request/workflows';
 import type { ViewsUpdateArguments, ViewsOpenArguments, ViewsPushArguments, ViewsPublishArguments } from './types/request/views';
 import type { UsersConversationsArguments, UsersInfoArguments, UsersListArguments, UsersIdentityArguments, UsersSetPhotoArguments, UsersProfileGetArguments, UsersProfileSetArguments, UsersDeletePhotoArguments, UsersGetPresenceArguments, UsersSetPresenceArguments, UsersLookupByEmailArguments } from './types/request/users';
+import type { ToolingTokensRotateArguments } from './types/request/tooling';
 import type { SearchAllArguments, SearchFilesArguments, SearchMessagesArguments } from './types/request/search';
 import type { UsergroupsCreateArguments, UsergroupsDisableArguments, UsergroupsEnableArguments, UsergroupsListArguments, UsergroupsUpdateArguments, UsergroupsUsersListArguments, UsergroupsUsersUpdateArguments } from './types/request/usergroups';
 import type { TeamAccessLogsArguments, TeamBillableInfoArguments, TeamBillingInfoArguments, TeamInfoArguments, TeamIntegrationLogsArguments, TeamPreferencesListArguments, TeamProfileGetArguments } from './types/request/team';
@@ -1025,6 +1026,10 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly tooling = {
     tokens: {
+      /**
+       * @description Exchanges a refresh token for a new app configuration token.
+       * @see {@link https://api.slack.com/methods/tooling.tokens.rotate `tooling.tokens.rotate` API reference}.
+       */
       rotate: bindApiCall<ToolingTokensRotateArguments, ToolingTokensRotateResponse>(this, 'tooling.tokens.rotate'),
     },
   };
@@ -2248,13 +2253,6 @@ export interface DndTeamInfoArguments extends TokenOverridable, OptionalTeamAssi
 // https://api.slack.com/methods/emoji.list
 export interface EmojiListArguments extends TokenOverridable {
   include_categories?: boolean;
-}
-
-/*
- * `tooling.*`
- */
-export interface ToolingTokensRotateArguments extends TokenOverridable {
-  refresh_token: string;
 }
 
 export * from '@slack/types';
