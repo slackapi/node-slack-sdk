@@ -9,9 +9,9 @@ interface Searchable extends OptionalTeamAssignable {
    */
   highlight?: boolean;
   /** @description Return matches sorted by either `score` or `timestamp`. Defaults to `score`. */
-  sort: 'score' | 'timestamp';
+  sort?: 'score' | 'timestamp';
   /** @description Change sort direction to ascending (`asc`) or descending (`desc`). Defaults to `desc`. */
-  sort_dir: 'asc' | 'desc';
+  sort_dir?: 'asc' | 'desc';
 }
 
 // https://api.slack.com/methods/search.all
