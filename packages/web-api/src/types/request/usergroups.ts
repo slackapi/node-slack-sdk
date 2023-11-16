@@ -34,7 +34,8 @@ export interface UsergroupsListArguments extends TokenOverridable, OptionalTeamA
   include_users?: boolean;
 }
 // https://api.slack.com/methods/usergroups.update
-export interface UsergroupsUpdateArguments extends TokenOverridable, OptionalTeamAssignable, UsergroupsCreateArguments {
+export interface UsergroupsUpdateArguments extends TokenOverridable, OptionalTeamAssignable,
+  Partial<UsergroupsCreateArguments> {
   /** @description The encoded ID of the User Group to update. */
   usergroup: string;
 }
