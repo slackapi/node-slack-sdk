@@ -3,7 +3,7 @@ import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
 
-// Reusable reactions.* API partial argument objects for these tests
+// Reusable pins.* API partial argument objects for these tests
 const message = { channel: 'C1234', timestamp: '1234.567' };
 
 // pins.add
