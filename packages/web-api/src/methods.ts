@@ -1,4 +1,4 @@
-import { Dialog, KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser, MessageMetadata } from '@slack/types';
+import type { KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser, MessageMetadata } from '@slack/types';
 import { EventEmitter } from 'eventemitter3';
 import { WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
 // Response types
@@ -256,6 +256,7 @@ import type { MigrationExchangeArguments } from './types/request/migration';
 import type { FilesDeleteArguments, FilesInfoArguments, FilesListArguments, FilesRevokePublicURLArguments, FilesSharedPublicURLArguments, FilesUploadArguments, FilesUploadV2Arguments, FilesCompleteUploadExternalArguments, FilesGetUploadURLExternalArguments, FilesCommentsDeleteArguments, FilesRemoteUpdateArguments, FilesRemoteRemoveArguments, FilesRemoteShareArguments, FilesRemoteListArguments, FilesRemoteInfoArguments, FilesRemoteAddArguments } from './types/request/files';
 import type { EmojiListArguments } from './types/request/emoji';
 import type { DndEndDndArguments, DndEndSnoozeArguments, DndInfoArguments, DndSetSnoozeArguments, DndTeamInfoArguments } from './types/request/dnd';
+import type { DialogOpenArguments } from './types/request/dialog';
 
 /**
  * Generic method definition
@@ -719,6 +720,10 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly dialog = {
+    /**
+     * @description Open a dialog with a user.
+     * @see {@link https://api.slack.com/methods/dialog.open `dialog.open` API reference}.
+     */
     open: bindApiCall<DialogOpenArguments, DialogOpenResponse>(this, 'dialog.open'),
   };
 
@@ -2242,15 +2247,6 @@ export interface ConversationsSetTopicArguments extends TokenOverridable {
 // https://api.slack.com/methods/conversations.unarchive
 export interface ConversationsUnarchiveArguments extends TokenOverridable {
   channel: string;
-}
-
-/*
- * `dialog.*`
- */
-// https://api.slack.com/methods/dialog.open
-export interface DialogOpenArguments extends TokenOverridable {
-  trigger_id: string;
-  dialog: Dialog;
 }
 
 export * from '@slack/types';
