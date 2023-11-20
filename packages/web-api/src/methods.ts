@@ -255,6 +255,7 @@ import type { OAuthAccessArguments, OAuthV2AccessArguments, OAuthV2ExchangeArgum
 import type { MigrationExchangeArguments } from './types/request/migration';
 import type { FilesDeleteArguments, FilesInfoArguments, FilesListArguments, FilesRevokePublicURLArguments, FilesSharedPublicURLArguments, FilesUploadArguments, FilesUploadV2Arguments, FilesCompleteUploadExternalArguments, FilesGetUploadURLExternalArguments, FilesCommentsDeleteArguments, FilesRemoteUpdateArguments, FilesRemoteRemoveArguments, FilesRemoteShareArguments, FilesRemoteListArguments, FilesRemoteInfoArguments, FilesRemoteAddArguments } from './types/request/files';
 import type { EmojiListArguments } from './types/request/emoji';
+import type { DndEndDndArguments, DndEndSnoozeArguments, DndInfoArguments, DndSetSnoozeArguments, DndTeamInfoArguments } from './types/request/dnd';
 
 /**
  * Generic method definition
@@ -722,10 +723,30 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly dnd = {
+    /**
+     * @description Ends the current user's Do Not Disturb session immediately.
+     * @see {@link https://api.slack.com/methods/dnd.endDnd `dnd.endDnd` API reference}.
+     */
     endDnd: bindApiCall<DndEndDndArguments, DndEndDndResponse>(this, 'dnd.endDnd'),
+    /**
+     * @description Ends the current user's snooze mode immediately.
+     * @see {@link https://api.slack.com/methods/dnd.endSnooze `dnd.endSnooze` API reference}.
+     */
     endSnooze: bindApiCall<DndEndSnoozeArguments, DndEndSnoozeResponse>(this, 'dnd.endSnooze'),
+    /**
+     * @description Retrieves a user's current Do Not Disturb status.
+     * @see {@link https://api.slack.com/methods/dnd.info `dnd.info` API reference}.
+     */
     info: bindApiCall<DndInfoArguments, DndInfoResponse>(this, 'dnd.info'),
+    /**
+     * @description Turns on Do Not Disturb mode for the current user, or changes its duration.
+     * @see {@link https://api.slack.com/methods/dnd.setSnooze `dnd.setSnooze` API reference}.
+     */
     setSnooze: bindApiCall<DndSetSnoozeArguments, DndSetSnoozeResponse>(this, 'dnd.setSnooze'),
+    /**
+     * @description Retrieves the Do Not Disturb status for up to 50 users on a team.
+     * @see {@link https://api.slack.com/methods/dnd.teamInfo `dnd.teamInfo` API reference}.
+     */
     teamInfo: bindApiCall<DndTeamInfoArguments, DndTeamInfoResponse>(this, 'dnd.teamInfo'),
   };
 
@@ -2230,26 +2251,6 @@ export interface ConversationsUnarchiveArguments extends TokenOverridable {
 export interface DialogOpenArguments extends TokenOverridable {
   trigger_id: string;
   dialog: Dialog;
-}
-
-/*
- * `dnd.*`
- */
-// https://api.slack.com/methods/dnd.endDnd
-export interface DndEndDndArguments extends TokenOverridable { }
-// https://api.slack.com/methods/dnd.endSnooze
-export interface DndEndSnoozeArguments extends TokenOverridable { }
-// https://api.slack.com/methods/dnd.info
-export interface DndInfoArguments extends TokenOverridable, OptionalTeamAssignable {
-  user?: string;
-}
-// https://api.slack.com/methods/dnd.setSnooze
-export interface DndSetSnoozeArguments extends TokenOverridable {
-  num_minutes: number;
-}
-// https://api.slack.com/methods/dnd.teamInfo
-export interface DndTeamInfoArguments extends TokenOverridable, OptionalTeamAssignable {
-  users: string; // comma-separated list of users
 }
 
 export * from '@slack/types';
