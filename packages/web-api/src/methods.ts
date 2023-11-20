@@ -254,6 +254,7 @@ import type { OpenIDConnectTokenArguments, OpenIDConnectUserInfoArguments } from
 import type { OAuthAccessArguments, OAuthV2AccessArguments, OAuthV2ExchangeArguments } from './types/request/oauth';
 import type { MigrationExchangeArguments } from './types/request/migration';
 import type { FilesDeleteArguments, FilesInfoArguments, FilesListArguments, FilesRevokePublicURLArguments, FilesSharedPublicURLArguments, FilesUploadArguments, FilesUploadV2Arguments, FilesCompleteUploadExternalArguments, FilesGetUploadURLExternalArguments, FilesCommentsDeleteArguments, FilesRemoteUpdateArguments, FilesRemoteRemoveArguments, FilesRemoteShareArguments, FilesRemoteListArguments, FilesRemoteInfoArguments, FilesRemoteAddArguments } from './types/request/files';
+import type { EmojiListArguments } from './types/request/emoji';
 
 /**
  * Generic method definition
@@ -729,6 +730,10 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly emoji = {
+    /**
+     * @description Lists custom emoji for a team.
+     * @see {@link https://api.slack.com/methods/emoji.list `emoji.list` API reference}.
+     */
     list: bindApiCall<EmojiListArguments, EmojiListResponse>(this, 'emoji.list'),
   };
 
@@ -2245,14 +2250,6 @@ export interface DndSetSnoozeArguments extends TokenOverridable {
 // https://api.slack.com/methods/dnd.teamInfo
 export interface DndTeamInfoArguments extends TokenOverridable, OptionalTeamAssignable {
   users: string; // comma-separated list of users
-}
-
-/*
- * `emoji.*`
- */
-// https://api.slack.com/methods/emoji.list
-export interface EmojiListArguments extends TokenOverridable {
-  include_categories?: boolean;
 }
 
 export * from '@slack/types';
