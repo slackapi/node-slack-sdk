@@ -803,6 +803,10 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       this,
       'conversations.setTopic',
     ),
+    /**
+     * @description Reverses conversation archival.
+     * @see {@link https://api.slack.com/methods/conversations.unarchive `conversations.unarchive` API reference}.
+     */
     unarchive: bindApiCall<ConversationsUnarchiveArguments, ConversationsUnarchiveResponse>(
       this,
       'conversations.unarchive',
