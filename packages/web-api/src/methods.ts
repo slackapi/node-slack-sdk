@@ -237,7 +237,7 @@ import type {
   AdminAppsConfigSetResponse,
 } from './types/response';
 // Request types
-import type { TokenOverridable, LocaleAware, OptionalTeamAssignable, CursorPaginationEnabled, TimelinePaginationEnabled } from './types/request/common';
+import type { TokenOverridable, OptionalTeamAssignable, CursorPaginationEnabled } from './types/request/common';
 import type { WorkflowsStepCompletedArguments, WorkflowsStepFailedArguments, WorkflowsUpdateStepArguments } from './types/request/workflows';
 import type { ViewsUpdateArguments, ViewsOpenArguments, ViewsPushArguments, ViewsPublishArguments } from './types/request/views';
 import type { UsersConversationsArguments, UsersInfoArguments, UsersListArguments, UsersIdentityArguments, UsersSetPhotoArguments, UsersProfileGetArguments, UsersProfileSetArguments, UsersDeletePhotoArguments, UsersGetPresenceArguments, UsersSetPresenceArguments, UsersLookupByEmailArguments } from './types/request/users';
@@ -257,6 +257,7 @@ import type { FilesDeleteArguments, FilesInfoArguments, FilesListArguments, File
 import type { EmojiListArguments } from './types/request/emoji';
 import type { DndEndDndArguments, DndEndSnoozeArguments, DndInfoArguments, DndSetSnoozeArguments, DndTeamInfoArguments } from './types/request/dnd';
 import type { DialogOpenArguments } from './types/request/dialog';
+import type { ConversationsAcceptSharedInviteArguments, ConversationsApproveSharedInviteArguments, ConversationsArchiveArguments, ConversationsCloseArguments, ConversationsCreateArguments, ConversationsDeclineSharedInviteArguments, ConversationsHistoryArguments, ConversationsInfoArguments, ConversationsInviteArguments, ConversationsInviteSharedArguments, ConversationsJoinArguments, ConversationsKickArguments, ConversationsLeaveArguments, ConversationsListArguments, ConversationsListConnectInvitesArguments, ConversationsMarkArguments, ConversationsMembersArguments, ConversationsOpenArguments, ConversationsRenameArguments, ConversationsRepliesArguments, ConversationsSetPurposeArguments, ConversationsSetTopicArguments, ConversationsUnarchiveArguments } from './types/request/conversations';
 
 /**
  * Generic method definition
@@ -669,46 +670,135 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly conversations = {
+    /**
+     * @description Accepts an invitation to a Slack Connect channel.
+     * @see {@link https://api.slack.com/methods/conversations.acceptSharedInvite `conversations.acceptSharedInvite` API reference}.
+     */
     acceptSharedInvite: bindApiCall<ConversationsAcceptSharedInviteArguments, ConversationsAcceptSharedInviteResponse>(
       this,
       'conversations.acceptSharedInvite',
     ),
+    /**
+     * @description Approves an invitation to a Slack Connect channel.
+     * @see {@link https://api.slack.com/methods/conversations.approveSharedInvite `conversations.approveSharedInvite` API reference}.
+     */
     approveSharedInvite:
       bindApiCall<ConversationsApproveSharedInviteArguments, ConversationsApproveSharedInviteResponse>(
         this,
         'conversations.approveSharedInvite',
       ),
+    /**
+     * @description Archives a conversation.
+     * @see {@link https://api.slack.com/methods/conversations.archive `conversations.archive` API reference}.
+     */
     archive: bindApiCall<ConversationsArchiveArguments, ConversationsArchiveResponse>(this, 'conversations.archive'),
+    /**
+     * @description Closes a direct message or multi-person direct message.
+     * @see {@link https://api.slack.com/methods/conversations.close `conversations.close` API reference}.
+     */
     close: bindApiCall<ConversationsCloseArguments, ConversationsCloseResponse>(this, 'conversations.close'),
+    /**
+     * @description Initiates a public or private channel-based conversation.
+     * @see {@link https://api.slack.com/methods/conversations.create `conversations.create` API reference}.
+     */
     create: bindApiCall<ConversationsCreateArguments, ConversationsCreateResponse>(this, 'conversations.create'),
+    /**
+     * @description Declines an invitation to a Slack Connect channel.
+     * @see {@link https://api.slack.com/methods/conversations.declineSharedInvite `conversations.declineSharedInvite` API reference}.
+     */
     declineSharedInvite:
       bindApiCall<ConversationsDeclineSharedInviteArguments, ConversationsDeclineSharedInviteResponse>(
         this,
         'conversations.declineSharedInvite',
       ),
+    /**
+     * @description Fetches a conversation's history of messages and events.
+     * @see {@link https://api.slack.com/methods/conversations.history `conversations.history` API reference}.
+     */
     history: bindApiCall<ConversationsHistoryArguments, ConversationsHistoryResponse>(this, 'conversations.history'),
+    /**
+     * @description Retrieve information about a conversation.
+     * @see {@link https://api.slack.com/methods/conversations.info `conversations.info` API reference}.
+     */
     info: bindApiCall<ConversationsInfoArguments, ConversationsInfoResponse>(this, 'conversations.info'),
+    /**
+     * @description Invites users to a channel.
+     * @see {@link https://api.slack.com/methods/conversations.invite `conversations.invite` API reference}.
+     */
     invite: bindApiCall<ConversationsInviteArguments, ConversationsInviteResponse>(this, 'conversations.invite'),
+    /**
+     * @description Sends an invitation to a Slack Connect channel.
+     * @see {@link https://api.slack.com/methods/conversations.inviteShared `conversations.inviteShared` API reference}.
+     */
     inviteShared: bindApiCall<ConversationsInviteSharedArguments, ConversationsInviteSharedResponse>(
       this,
       'conversations.inviteShared',
     ),
+    /**
+     * @description Joins an existing conversation.
+     * @see {@link https://api.slack.com/methods/conversations.join `conversations.join` API reference}.
+     */
     join: bindApiCall<ConversationsJoinArguments, ConversationsJoinResponse>(this, 'conversations.join'),
+    /**
+     * @description Removes a user from a conversation.
+     * @see {@link https://api.slack.com/methods/conversations.kick `conversations.kick` API reference}.
+     */
     kick: bindApiCall<ConversationsKickArguments, ConversationsKickResponse>(this, 'conversations.kick'),
+    /**
+     * @description Leaves a conversation.
+     * @see {@link https://api.slack.com/methods/conversations.leave `conversations.leave` API reference}.
+     */
     leave: bindApiCall<ConversationsLeaveArguments, ConversationsLeaveResponse>(this, 'conversations.leave'),
+    /**
+     * @description List all channels in a Slack team.
+     * @see {@link https://api.slack.com/methods/conversations.list `conversations.list` API reference}.
+     */
     list: bindApiCall<ConversationsListArguments, ConversationsListResponse>(this, 'conversations.list'),
+    /**
+     * @description Lists shared channel invites that have been generated or received but have not been approved by
+     * all parties.
+     * @see {@link https://api.slack.com/methods/conversations.listConnectInvites `conversations.listConnectInvites` API reference}.
+     */
     listConnectInvites:
       bindApiCall<ConversationsListConnectInvitesArguments, ConversationsListConnectInvitesResponse>(
         this,
         'conversations.listConnectInvites',
       ),
+    /**
+     * @description Sets the read cursor in a channel.
+     * @see {@link https://api.slack.com/methods/conversations.mark `conversations.mark` API reference}.
+     */
     mark: bindApiCall<ConversationsMarkArguments, ConversationsMarkResponse>(this, 'conversations.mark'),
+    /**
+     * @description Retrieve members of a conversation.
+     * @see {@link https://api.slack.com/methods/conversations.members `conversations.members` API reference}.
+     */
     members: bindApiCall<ConversationsMembersArguments, ConversationsMembersResponse>(this, 'conversations.members'),
+    /**
+     * @description Opens or resumes a direct message or multi-person direct message.
+     * @see {@link https://api.slack.com/methods/conversations.open `conversations.open` API reference}.
+     */
     open: bindApiCall<ConversationsOpenArguments, ConversationsOpenResponse>(this, 'conversations.open'),
+    /**
+     * @description Renames a conversation.
+     * @see {@link https://api.slack.com/methods/conversations.rename `conversations.rename` API reference}.
+     */
     rename: bindApiCall<ConversationsRenameArguments, ConversationsRenameResponse>(this, 'conversations.rename'),
+    /**
+     * @description Retrieve a thread of messages posted to a conversation.
+     * @see {@link https://api.slack.com/methods/conversations.replies `conversations.replies` API reference}.
+     */
     replies: bindApiCall<ConversationsRepliesArguments, ConversationsRepliesResponse>(this, 'conversations.replies'),
+    /**
+     * @description Sets the purpose for a conversation.
+     * @see {@link https://api.slack.com/methods/conversations.setPurpose `conversations.setPurpose` API reference}.
+     */
     setPurpose:
       bindApiCall<ConversationsSetPurposeArguments, ConversationsSetPurposeResponse>(this, 'conversations.setPurpose'),
+    /**
+     * @description Sets the topic for a conversation.
+     * @see {@link https://api.slack.com/methods/conversations.setTopic `conversations.setTopic` API reference}.
+     */
     setTopic: bindApiCall<ConversationsSetTopicArguments, ConversationsSetTopicResponse>(
       this,
       'conversations.setTopic',
@@ -2121,132 +2211,6 @@ export interface ChatUpdateArguments extends TokenOverridable {
   file_ids?: string[];
   reply_broadcast?: boolean;
   text?: string;
-}
-
-/*
- * `conversations.*`
- */
-// TODO: breaking change: must provide either channel_id or invite_id
-// https://api.slack.com/methods/conversations.acceptSharedInvite
-export interface ConversationsAcceptSharedInviteArguments extends TokenOverridable, OptionalTeamAssignable {
-  channel_name: string;
-  channel_id?: string;
-  free_trial_accepted?: boolean;
-  invite_id?: string;
-  is_private?: boolean;
-}
-// https://api.slack.com/methods/conversations.approveSharedInvite
-export interface ConversationsApproveSharedInviteArguments extends TokenOverridable {
-  invite_id: string;
-  target_team?: string;
-}
-// https://api.slack.com/methods/conversations.archive
-export interface ConversationsArchiveArguments extends TokenOverridable {
-  channel: string;
-}
-// https://api.slack.com/methods/conversations.close
-export interface ConversationsCloseArguments extends TokenOverridable {
-  channel: string;
-}
-// https://api.slack.com/methods/conversations.create
-export interface ConversationsCreateArguments extends TokenOverridable, OptionalTeamAssignable {
-  name: string;
-  is_private?: boolean;
-}
-// https://api.slack.com/methods/conversations.declineSharedInvite
-export interface ConversationsDeclineSharedInviteArguments extends TokenOverridable {
-  invite_id: string;
-  target_team?: string;
-}
-// https://api.slack.com/methods/conversations.history
-export interface ConversationsHistoryArguments extends TokenOverridable, CursorPaginationEnabled,
-  TimelinePaginationEnabled {
-  channel: string;
-  include_all_metadata?: boolean;
-}
-// https://api.slack.com/methods/conversations.info
-export interface ConversationsInfoArguments extends TokenOverridable, LocaleAware {
-  channel: string;
-  include_num_members?: boolean;
-}
-// https://api.slack.com/methods/conversations.invite
-export interface ConversationsInviteArguments extends TokenOverridable {
-  channel: string;
-  users: string; // comma-separated list of users
-}
-// TODO: breaking change: either emails or user_ids must be provided
-// https://api.slack.com/methods/conversations.inviteShared
-export interface ConversationsInviteSharedArguments extends TokenOverridable {
-  channel: string;
-  emails?: string[];
-  external_limited?: boolean;
-  user_ids?: string[];
-}
-// https://api.slack.com/methods/conversations.join
-export interface ConversationsJoinArguments extends TokenOverridable {
-  channel: string;
-}
-// https://api.slack.com/methods/conversations.kick
-export interface ConversationsKickArguments extends TokenOverridable {
-  channel: string;
-  user: string;
-}
-// https://api.slack.com/methods/conversations.leave
-export interface ConversationsLeaveArguments extends TokenOverridable {
-  channel: string;
-}
-// https://api.slack.com/methods/conversations.list
-export interface ConversationsListArguments extends TokenOverridable, CursorPaginationEnabled, OptionalTeamAssignable {
-  exclude_archived?: boolean;
-  types?: string; // comma-separated list of conversation types
-}
-// https://api.slack.com/methods/conversations.listConnectInvites
-export interface ConversationsListConnectInvitesArguments extends TokenOverridable, OptionalTeamAssignable {
-  count?: number; // lol we use `limit` everywhere else
-  cursor?: string;
-}
-// https://api.slack.com/methods/conversations.mark
-export interface ConversationsMarkArguments extends TokenOverridable {
-  channel: string;
-  ts: string;
-}
-// https://api.slack.com/methods/conversations.members
-export interface ConversationsMembersArguments extends TokenOverridable, CursorPaginationEnabled {
-  channel: string;
-}
-// TODO: breaking change: must supply either channel or users
-// https://api.slack.com/methods/conversations.open
-export interface ConversationsOpenArguments extends TokenOverridable {
-  channel?: string;
-  users?: string; // comma-separated list of users
-  return_im?: boolean;
-  prevent_creation?: boolean;
-}
-// https://api.slack.com/methods/conversations.rename
-export interface ConversationsRenameArguments extends TokenOverridable {
-  channel: string;
-  name: string;
-}
-// https://api.slack.com/methods/conversations.replies
-export interface ConversationsRepliesArguments extends TokenOverridable, CursorPaginationEnabled,
-  TimelinePaginationEnabled {
-  channel: string;
-  ts: string;
-  include_all_metadata?: boolean;
-}
-// https://api.slack.com/methods/conversations.setPurpose
-export interface ConversationsSetPurposeArguments extends TokenOverridable {
-  channel: string;
-  purpose: string;
-}
-// https://api.slack.com/methods/conversations.setTopic
-export interface ConversationsSetTopicArguments extends TokenOverridable {
-  channel: string;
-  topic: string;
-}
-// https://api.slack.com/methods/conversations.unarchive
-export interface ConversationsUnarchiveArguments extends TokenOverridable {
-  channel: string;
 }
 
 export * from '@slack/types';
