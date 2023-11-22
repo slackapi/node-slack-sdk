@@ -121,7 +121,7 @@ expectError(web.chat.postEphemeral({
   user: 'U1234',
   attachments: [],
   icon_emoji: 'smile',
-  as_user: true, // cannot set both as_user=true and icon_url
+  as_user: true, // cannot set both as_user=true and icon_emoji
 }));
 // -- happy path
 expectAssignable<Parameters<typeof web.chat.postEphemeral>>([{
@@ -170,4 +170,95 @@ expectAssignable<Parameters<typeof web.chat.postEphemeral>>([{
   attachments: [],
   icon_emoji: 'someurl.png',
   as_user: false, // ... or with as_user=false
+}]);
+
+// chat.postMessage
+// -- sad path
+expectError(web.chat.postMessage()); // lacking argument
+expectError(web.chat.postMessage({})); // empty argument
+expectError(web.chat.postMessage({
+  channel: 'C1234', // missing text/attachments/blocks
+}));
+expectError(web.chat.postMessage({
+  text: 'U1234', // missing channel
+}));
+expectError(web.chat.postMessage({
+  blocks: [], // missing channel
+}));
+expectError(web.chat.postMessage({
+  attachments: [], // missing channel
+}));
+expectError(web.chat.postMessage({
+  channel: 'C123',
+  attachments: [],
+  icon_url: 'someurl.png',
+  icon_emoji: 'smile', // cannot use both icon_url and icon_emoji
+}));
+expectError(web.chat.postMessage({
+  channel: 'C123',
+  attachments: [],
+  icon_url: 'someurl.png',
+  as_user: true, // cannot set both as_user=true and icon_url
+}));
+expectError(web.chat.postMessage({
+  channel: 'C123',
+  attachments: [],
+  icon_emoji: 'smile',
+  as_user: true, // cannot set both as_user=true and icon_emoji
+}));
+expectError(web.chat.postMessage({
+  channel: 'C123',
+  attachments: [],
+  reply_broadcast: true, // cannot reply_broadcast=true without setting thread_ts
+}));
+// -- happy path
+expectAssignable<Parameters<typeof web.chat.postMessage>>([{
+  channel: 'C1234',
+  text: '1234.56',
+}]);
+expectAssignable<Parameters<typeof web.chat.postMessage>>([{
+  channel: 'C1234',
+  blocks: [],
+}]);
+expectAssignable<Parameters<typeof web.chat.postMessage>>([{
+  channel: 'C1234',
+  attachments: [],
+}]);
+expectAssignable<Parameters<typeof web.chat.postMessage>>([{
+  channel: 'C1234',
+  attachments: [],
+  as_user: true, // can pass as_user=true if no icon or username fields set
+}]);
+expectAssignable<Parameters<typeof web.chat.postMessage>>([{
+  channel: 'C1234',
+  attachments: [],
+  icon_emoji: 'smile', // icon can be set on its own...
+}]);
+expectAssignable<Parameters<typeof web.chat.postMessage>>([{
+  channel: 'C1234',
+  attachments: [],
+  icon_emoji: 'smile',
+  as_user: false, // ... or with as_user=false
+}]);
+expectAssignable<Parameters<typeof web.chat.postMessage>>([{
+  channel: 'C1234',
+  attachments: [],
+  icon_url: 'someurl.png', // icon can be set on its own...
+}]);
+expectAssignable<Parameters<typeof web.chat.postMessage>>([{
+  channel: 'C1234',
+  attachments: [],
+  icon_emoji: 'someurl.png',
+  as_user: false, // ... or with as_user=false
+}]);
+expectAssignable<Parameters<typeof web.chat.postMessage>>([{
+  channel: 'C1234',
+  text: 'hello',
+  thread_ts: '1234.56', // can send a threaded message
+}]);
+expectAssignable<Parameters<typeof web.chat.postMessage>>([{
+  channel: 'C1234',
+  text: 'hello',
+  thread_ts: '1234.56',
+  reply_broadcast: true, // can send a threaded message and broadcast it, too
 }]);

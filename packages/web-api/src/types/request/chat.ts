@@ -146,8 +146,8 @@ export type ChatPostEphemeralArguments = TokenOverridable & MessageContents & Pa
 };
 
 // https://api.slack.com/methods/chat.postMessage
-export type ChatPostMessageArguments = TokenOverridable & MessageContents & AsUser & Parse & LinkNames & Icon
-& Username & Metadata & ReplyInThread & {
+export type ChatPostMessageArguments = TokenOverridable & MessageContents & Parse & LinkNames & Authorship & Metadata
+& ReplyInThread & {
   /** @description Disable Slack markup parsing by setting to `false`. Enabled by default. */
   mrkdwn?: boolean;
   /** @description Pass `true` to enable unfurling of primarily text-based content. */
