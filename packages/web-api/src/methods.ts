@@ -1,4 +1,4 @@
-import type { KnownBlock, Block, MessageAttachment, LinkUnfurls, CallUser, MessageMetadata } from '@slack/types';
+import type { CallUser } from '@slack/types';
 import { EventEmitter } from 'eventemitter3';
 import { WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
 // Response types
@@ -258,6 +258,7 @@ import type { EmojiListArguments } from './types/request/emoji';
 import type { DndEndDndArguments, DndEndSnoozeArguments, DndInfoArguments, DndSetSnoozeArguments, DndTeamInfoArguments } from './types/request/dnd';
 import type { DialogOpenArguments } from './types/request/dialog';
 import type { ConversationsAcceptSharedInviteArguments, ConversationsApproveSharedInviteArguments, ConversationsArchiveArguments, ConversationsCloseArguments, ConversationsCreateArguments, ConversationsDeclineSharedInviteArguments, ConversationsHistoryArguments, ConversationsInfoArguments, ConversationsInviteArguments, ConversationsInviteSharedArguments, ConversationsJoinArguments, ConversationsKickArguments, ConversationsLeaveArguments, ConversationsListArguments, ConversationsListConnectInvitesArguments, ConversationsMarkArguments, ConversationsMembersArguments, ConversationsOpenArguments, ConversationsRenameArguments, ConversationsRepliesArguments, ConversationsSetPurposeArguments, ConversationsSetTopicArguments, ConversationsUnarchiveArguments } from './types/request/conversations';
+import type { ChatDeleteArguments, ChatDeleteScheduledMessageArguments, ChatGetPermalinkArguments, ChatMeMessageArguments, ChatPostEphemeralArguments, ChatPostMessageArguments, ChatScheduleMessageArguments, ChatScheduledMessagesListArguments, ChatUnfurlArguments, ChatUpdateArguments } from './types/request/chat';
 
 /**
  * Generic method definition
@@ -2088,173 +2089,6 @@ export interface CallsParticipantsAddArguments extends TokenOverridable {
 export interface CallsParticipantsRemoveArguments extends TokenOverridable {
   id: string;
   users: CallUser[];
-}
-
-/*
- * `chat.*`
- */
-// https://api.slack.com/methods/chat.delete
-export interface ChatDeleteArguments extends TokenOverridable {
-  channel: string;
-  ts: string;
-  as_user?: boolean;
-}
-// https://api.slack.com/methods/chat.deleteScheduledMessage
-export interface ChatDeleteScheduledMessageArguments extends TokenOverridable {
-  channel: string;
-  scheduled_message_id: string;
-  as_user?: boolean;
-}
-// https://api.slack.com/methods/chat.getPermalink
-export interface ChatGetPermalinkArguments extends TokenOverridable {
-  channel: string;
-  message_ts: string;
-}
-// https://api.slack.com/methods/chat.meMessage
-export interface ChatMeMessageArguments extends TokenOverridable {
-  channel: string;
-  text: string;
-}
-// https://api.slack.com/methods/chat.postEphemeral
-// TODO: breaking change: could use unions of types to better model either/or arguments (e.g. either channel and text
-// is required OR channel and blocks OR channel and attachments)
-// for an in-code example for chat.postMessage: https://github.com/slackapi/node-slack-sdk/pull/1670/files#r1346453396
-// Many of these arguments can be shared with ChatPostMessageArguments
-export interface ChatPostEphemeralArguments extends TokenOverridable {
-  channel: string;
-  text?: string;
-  user: string;
-  as_user?: boolean;
-  attachments?: MessageAttachment[];
-  blocks?: (KnownBlock | Block)[];
-  link_names?: boolean;
-  parse?: 'full' | 'none';
-  thread_ts?: string;
-  icon_emoji?: string; // if specified, as_user must be false
-  icon_url?: string; // if specified, as_user must be false
-  username?: string; // if specified, as_user must be false
-}
-// https://api.slack.com/methods/chat.postMessage
-// TODO: breaking change: could use unions of types to better model either/or arguments (e.g. either channel and text
-// is required OR channel and blocks OR channel and attachments)
-// for an in-code example for chat.postMessage: https://github.com/slackapi/node-slack-sdk/pull/1670/files#r1346453396
-// Many of these arguments can be shared with ChatPostEphemeralArguments
-export interface ChatPostMessageArguments extends TokenOverridable {
-  channel: string;
-  text?: string;
-  as_user?: boolean;
-  attachments?: MessageAttachment[];
-  blocks?: (KnownBlock | Block)[];
-  icon_emoji?: string; // if specified, as_user must be false
-  icon_url?: string; // if specified, as_user must be false
-  metadata?: MessageMetadata;
-  link_names?: boolean;
-  mrkdwn?: boolean;
-  parse?: 'full' | 'none';
-  reply_broadcast?: boolean; // if specified, thread_ts must be set
-  thread_ts?: string;
-  unfurl_links?: boolean;
-  unfurl_media?: boolean;
-  username?: string; // if specified, as_user must be false
-}
-// TODO: breaking change: could use unions of types to better model either/or arguments (e.g. either channel and text
-// is required OR channel and blocks OR channel and attachments)
-// for an in-code example for chat.postMessage: https://github.com/slackapi/node-slack-sdk/pull/1670/files#r1346453396
-// Many of these arguments can be shared with ChatPostEphemeralArguments
-// https://api.slack.com/methods/chat.scheduleMessage
-export interface ChatScheduleMessageArguments extends TokenOverridable, OptionalTeamAssignable {
-  channel: string;
-  text?: string;
-  post_at: string | number;
-  as_user?: boolean;
-  attachments?: MessageAttachment[];
-  blocks?: (KnownBlock | Block)[];
-  metadata?: MessageMetadata;
-  link_names?: boolean;
-  parse?: 'full' | 'none';
-  reply_broadcast?: boolean; // if specified, thread_ts must be set
-  thread_ts?: string;
-  unfurl_links?: boolean;
-  unfurl_media?: boolean;
-}
-// https://api.slack.com/methods/chat.scheduledMessages.list
-export interface ChatScheduledMessagesListArguments extends TokenOverridable,
-  CursorPaginationEnabled, OptionalTeamAssignable {
-  channel?: string;
-  latest?: number;
-  oldest?: number;
-}
-// ChannelAndTS and SourceAndUnfurlID are used as either-or mixins for ChatUnfurlArguments
-interface ChannelAndTSArguments {
-  /**
-   * @description Channel ID of the message. Both `channel` and `ts` must be provided together, or `unfurl_id` and
-   * `source` must be provided together.
-   */
-  channel: string;
-  /**
-   * @description Timestamp of the message to add unfurl behavior to.
-   */
-  ts: string;
-}
-
-interface SourceAndUnfurlIDArguments {
-  /**
-   * @description The source of the link to unfurl. The source may either be `composer`, when the link is inside the
-   * message composer, or `conversations_history`, when the link has been posted to a conversation.
-   */
-  source: 'composer' | 'conversations_history';
-  /**
-   * @description The ID of the link to unfurl. Both `unfurl_id` and `source` must be provided together, or `channel`
-   * and `ts` must be provided together.
-   */
-  unfurl_id: string;
-}
-// https://api.slack.com/methods/chat.unfurl
-export type ChatUnfurlArguments = (ChannelAndTSArguments | SourceAndUnfurlIDArguments) & TokenOverridable
-& {
-  /**
-   * @description URL-encoded JSON map with keys set to URLs featured in the the message, pointing to their unfurl
-   * blocks or message attachments.
-   */
-  unfurls: LinkUnfurls;
-  /**
-   * @description Provide a simply-formatted string to send as an ephemeral message to the user as invitation to
-   * authenticate further and enable full unfurling behavior. Provides two buttons, Not now or Never ask me again.
-   */
-  user_auth_message?: string;
-  /**
-   * @description Set to `true` to indicate the user must install your Slack app to trigger unfurls for this domain.
-   * Defaults to `false`.
-   */
-  user_auth_required?: boolean;
-  /**
-   * @description Send users to this custom URL where they will complete authentication in your app to fully trigger
-   * unfurling. Value should be properly URL-encoded.
-   */
-  user_auth_url?: string;
-  /**
-   * @description Provide a JSON based array of structured blocks presented as URL-encoded string to send as an
-   * ephemeral message to the user as invitation to authenticate further and enable full unfurling behavior.
-   */
-  user_auth_blocks?: (KnownBlock | Block)[];
-};
-// TODO: breaking change: could use unions of types to better model either/or arguments (e.g. either channel and text
-// is required OR channel and blocks OR channel and attachments)
-// for an in-code example for chat.postMessage: https://github.com/slackapi/node-slack-sdk/pull/1670/files#r1346453396
-// Many of these arguments can be shared with ChatPostEphemeralArguments
-// https://api.slack.com/methods/chat.update
-export interface ChatUpdateArguments extends TokenOverridable {
-  channel: string;
-  ts: string;
-  as_user?: boolean;
-  attachments?: MessageAttachment[];
-  blocks?: (KnownBlock | Block)[];
-  link_names?: boolean;
-  metadata?: MessageMetadata;
-  parse?: 'full' | 'none';
-  file_ids?: string[];
-  reply_broadcast?: boolean;
-  text?: string;
 }
 
 export * from '@slack/types';

@@ -107,7 +107,18 @@ interface Username {
   /** @description Set your bot's username. Can only be used with `as_user` set to `false`. */
   username?: string;
 }
-type Authorship = (Icon & Username) | AsUser;
+// This union keys on as_user: if it is undefined or false, then the Icon and Username types should be available
+// and adhered to. Otherwise if true, then no icon or username fields should be available.
+type Authorship = (Icon & Username) | {
+  /**
+   * @description Pass `true` to act as the authed user with {@link https://api.slack.com/scopes/chat:write:user `chat:write:user` scope}.
+   * Bot users in this context are considered authed users. If unused or `false`, the message will be acted upon with
+   * {@link https://api.slack.com/scopes/chat:write:bot `chat:write:bot` scope}.
+   */
+  as_user: true;
+  icon_emoji?: never;
+  icon_url?: never;
+};
 
 // https://api.slack.com/methods/chat.delete
 export interface ChatDeleteArguments extends ChannelAndTS, AsUser, TokenOverridable {}
