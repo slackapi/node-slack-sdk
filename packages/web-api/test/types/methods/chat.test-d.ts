@@ -1,91 +1,36 @@
-import { expectType, expectError } from 'tsd';
-import { WebClient, WebAPICallResult } from '../../../';
-import { ChatPostMessageResponse } from '../../../src/types/response/ChatPostMessageResponse';
-import { ChatPostEphemeralResponse } from '../../../src/types/response/ChatPostEphemeralResponse';
-// import { ChatScheduleMessageResponse } from '../../src/response/ChatScheduleMessageResponse';
-// import { ChatUpdateResponse } from '../../src/response/ChatUpdateResponse';
+import { expectError, expectAssignable } from 'tsd';
+import { WebClient } from '../../..';
 
 const web = new WebClient('TOKEN');
 
-const chatPostMesssageResult: ChatPostMessageResponse = { ok: true };
-const result: WebAPICallResult = chatPostMesssageResult;
-expectType<WebAPICallResult>(result);
-
-// TODO: Parameter type Promise<ChatPostMessageResponse> is not identical to argument type Promise<ChatPostMessageResponse>
-// // calling a method directly with arbitrary arguments should work
-// expectType<Promise<ChatPostMessageResponse>>(web.chat.postMessage({
-//   channel: 'CHANNEL',
-//   text: 'TEXT',
-//   key: 'VALUE',
-// }));
-// expectType<Promise<ChatPostMessageResponse>>(web.chat.postMessage({
-//   channel: 'CHANNEL',
-//   blocks: [
-//     {
-//       type: 'section',
-//       text: {
-//         type: 'mrkdwn',
-//         text:
-//           'text',
-//       },
-//     },
-//   ],
-//   key: 'VALUE',
-// }));
-
-// calling a method directly with under-specified arguments should not work
-expectError(web.chat.postMessage({
-  text: 'TEXT',
+// chat.delete
+// -- sad path
+expectError(web.chat.delete()); // lacking argument
+expectError(web.chat.delete({})); // empty argument
+expectError(web.chat.delete({
+  channel: 'C1234', // missing ts
 }));
-
-// assigning an object with a specific type that includes arbitrary arguments should not work
-// TODO: can typescript even reliably do that? ^
-// expectError(web.chat.postMessage({
-//   text: 'TEXT',
-//   channel: 'CHANNEL',
-//   key: 'VALUE',
-// }));
-
-// expectType<Promise<ChatPostMessageResponse>>(web.chat.postMessage({
-//   channel: 'C111',
-//   blocks: [],
-//   // no text should be accepted
-// }));
-// expectType<Promise<ChatUpdateResponse>>(web.chat.update({
-//   channel: 'C111',
-//   ts: '111.222',
-//   blocks: [],
-//   // no text should be accepted
-// }));
-
-// expectType<Promise<ChatScheduleMessageResponse>>(web.chat.scheduleMessage({
-//   channel: 'C111',
-//   post_at: '11111',
-//   blocks: [],
-//   // no text should be accepted
-// }));
-// expectType<Promise<ChatScheduleMessageResponse>>(web.chat.scheduleMessage({
-//   channel: 'C111',
-//   post_at: '1621497568',
-//   text: 'Hi there!',
-//   blocks: [],
-// }));
-// expectType<Promise<ChatScheduleMessageResponse>>(web.chat.scheduleMessage({
-//   channel: 'C111',
-//   post_at: 1621497568,
-//   text: 'Hi there!',
-//   blocks: [],
-// }));
-
-expectType<Promise<ChatPostEphemeralResponse>>(web.chat.postEphemeral({
-  channel: 'C111',
-  user: 'U111',
-  blocks: [],
-  // no text should be accepted
+expectError(web.chat.delete({
+  ts: '1234.56', // missing channel
 }));
-expectType<Promise<ChatPostEphemeralResponse>>(web.chat.postEphemeral({
-  channel: 'C111',
-  user: 'U111',
-  text: 'Hi there!',
-  blocks: [],
+// -- happy path
+expectAssignable<Parameters<typeof web.chat.delete>>([{
+  channel: 'C1234',
+  ts: '1234.56',
+}]);
+
+// chat.deleteScheduledMessage
+// -- sad path
+expectError(web.chat.deleteScheduledMessage()); // lacking argument
+expectError(web.chat.deleteScheduledMessage({})); // empty argument
+expectError(web.chat.deleteScheduledMessage({
+  channel: 'C1234', // missing scheduled_message_id
 }));
+expectError(web.chat.deleteScheduledMessage({
+  scheduled_message_id: 'Q1234', // missing channel
+}));
+// -- happy path
+expectAssignable<Parameters<typeof web.chat.deleteScheduledMessage>>([{
+  channel: 'C1234',
+  scheduled_message_id: 'Q1234',
+}]);
