@@ -647,25 +647,65 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly chat = {
+    /**
+     * @description Deletes a message.
+     * @see {@link https://api.slack.com/methods/chat.delete `chat.delete` API reference}.
+     */
     delete: bindApiCall<ChatDeleteArguments, ChatDeleteResponse>(this, 'chat.delete'),
+    /**
+     * @description Deletes a pending scheduled message from the queue.
+     * @see {@link https://api.slack.com/methods/chat.deleteScheduledMessage `chat.deleteScheduledMessage` API reference}.
+     */
     deleteScheduledMessage:
       bindApiCall<ChatDeleteScheduledMessageArguments, ChatDeleteScheduledMessageResponse>(this, 'chat.deleteScheduledMessage'),
+    /**
+     * @description Retrieve a permalink URL for a specific extant message.
+     * @see {@link https://api.slack.com/methods/chat.getPermalink `chat.getPermalink` API reference}.
+     */
     getPermalink: bindApiCall<ChatGetPermalinkArguments, ChatGetPermalinkResponse>(this, 'chat.getPermalink'),
+    /**
+     * @description Share a me message into a channel.
+     * @see {@link https://api.slack.com/methods/chat.meMessage `chat.meMessage` API reference}.
+     */
     meMessage: bindApiCall<ChatMeMessageArguments, ChatMeMessageResponse>(this, 'chat.meMessage'),
+    /**
+     * @description Sends an ephemeral message to a user in a channel.
+     * @see {@link https://api.slack.com/methods/chat.postEphemeral `chat.postEphemeral` API reference}.
+     */
     postEphemeral: bindApiCall<ChatPostEphemeralArguments, ChatPostEphemeralResponse>(this, 'chat.postEphemeral'),
+    /**
+     * @description Sends a message to a channel.
+     * @see {@link https://api.slack.com/methods/chat.postMessage `chat.postMessage` API reference}.
+     */
     postMessage: bindApiCall<ChatPostMessageArguments, ChatPostMessageResponse>(this, 'chat.postMessage'),
+    /**
+     * @description Schedules a message to be sent to a channel.
+     * @see {@link https://api.slack.com/methods/chat.scheduleMessage `chat.scheduleMessage` API reference}.
+     */
     scheduleMessage: bindApiCall<ChatScheduleMessageArguments, ChatScheduleMessageResponse>(
       this,
       'chat.scheduleMessage',
     ),
     scheduledMessages: {
+      /**
+       * @description Returns a list of scheduled messages.
+       * @see {@link https://api.slack.com/methods/chat.scheduledMessages.list `chat.scheduledMessages.list` API reference}.
+       */
       list:
         bindApiCall<ChatScheduledMessagesListArguments, ChatScheduledMessagesListResponse>(
           this,
           'chat.scheduledMessages.list',
         ),
     },
+    /**
+     * @description Provide custom unfurl behavior for user-posted URLs.
+     * @see {@link https://api.slack.com/methods/chat.unfurl `chat.unfurl` API reference}.
+     */
     unfurl: bindApiCall<ChatUnfurlArguments, ChatUnfurlResponse>(this, 'chat.unfurl'),
+    /**
+     * @description Updates a message.
+     * @see {@link https://api.slack.com/methods/chat.update `chat.update` API reference}.
+     */
     update: bindApiCall<ChatUpdateArguments, ChatUpdateResponse>(this, 'chat.update'),
   };
 
