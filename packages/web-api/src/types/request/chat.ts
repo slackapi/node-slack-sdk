@@ -119,6 +119,12 @@ type Authorship = (Icon & Username) | {
   icon_emoji?: never;
   icon_url?: never;
 };
+interface Unfurls {
+  /** @description Pass `true` to enable unfurling of primarily text-based content. */
+  unfurl_links?: boolean;
+  /** @description Pass `false` to disable unfurling of media content. */
+  unfurl_media?: boolean;
+}
 
 // https://api.slack.com/methods/chat.delete
 export interface ChatDeleteArguments extends ChannelAndTS, AsUser, TokenOverridable {}
@@ -147,35 +153,16 @@ export type ChatPostEphemeralArguments = TokenOverridable & MessageContents & Pa
 
 // https://api.slack.com/methods/chat.postMessage
 export type ChatPostMessageArguments = TokenOverridable & MessageContents & Parse & LinkNames & Authorship & Metadata
-& ReplyInThread & {
+& ReplyInThread & Unfurls & {
   /** @description Disable Slack markup parsing by setting to `false`. Enabled by default. */
   mrkdwn?: boolean;
-  /** @description Pass `true` to enable unfurling of primarily text-based content. */
-  unfurl_links?: boolean;
-  /** @description Pass `false` to disable unfurling of media content. */
-  unfurl_media?: boolean;
 };
 
-// TODO: breaking change: could use unions of types to better model either/or arguments (e.g. either channel and text
-// is required OR channel and blocks OR channel and attachments)
-// for an in-code example for chat.postMessage: https://github.com/slackapi/node-slack-sdk/pull/1670/files#r1346453396
-// Many of these arguments can be shared with ChatPostEphemeralArguments
 // https://api.slack.com/methods/chat.scheduleMessage
-export interface ChatScheduleMessageArguments extends TokenOverridable, OptionalTeamAssignable {
-  channel: string;
-  text?: string;
+export type ChatScheduleMessageArguments = TokenOverridable & MessageContents & Parse & LinkNames & AsUser & Metadata
+& ReplyInThread & Unfurls & {
   post_at: string | number;
-  as_user?: boolean;
-  attachments?: MessageAttachment[];
-  blocks?: (KnownBlock | Block)[];
-  metadata?: MessageMetadata;
-  link_names?: boolean;
-  parse?: 'full' | 'none';
-  reply_broadcast?: boolean; // if specified, thread_ts must be set
-  thread_ts?: string;
-  unfurl_links?: boolean;
-  unfurl_media?: boolean;
-}
+};
 // https://api.slack.com/methods/chat.scheduledMessages.list
 export interface ChatScheduledMessagesListArguments extends TokenOverridable,
   CursorPaginationEnabled, OptionalTeamAssignable {
