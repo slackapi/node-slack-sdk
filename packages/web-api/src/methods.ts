@@ -236,7 +236,7 @@ import type {
   AdminAppsConfigSetResponse,
 } from './types/response';
 // Request types
-import type { TokenOverridable, OptionalTeamAssignable, CursorPaginationEnabled } from './types/request/common';
+import type { TokenOverridable, CursorPaginationEnabled } from './types/request/common';
 import type { WorkflowsStepCompletedArguments, WorkflowsStepFailedArguments, WorkflowsUpdateStepArguments } from './types/request/workflows';
 import type { ViewsUpdateArguments, ViewsOpenArguments, ViewsPushArguments, ViewsPublishArguments } from './types/request/views';
 import type { UsersConversationsArguments, UsersInfoArguments, UsersListArguments, UsersIdentityArguments, UsersSetPhotoArguments, UsersProfileGetArguments, UsersProfileSetArguments, UsersDeletePhotoArguments, UsersGetPresenceArguments, UsersSetPresenceArguments, UsersLookupByEmailArguments } from './types/request/users';
@@ -259,6 +259,8 @@ import type { DialogOpenArguments } from './types/request/dialog';
 import type { ConversationsAcceptSharedInviteArguments, ConversationsApproveSharedInviteArguments, ConversationsArchiveArguments, ConversationsCloseArguments, ConversationsCreateArguments, ConversationsDeclineSharedInviteArguments, ConversationsHistoryArguments, ConversationsInfoArguments, ConversationsInviteArguments, ConversationsInviteSharedArguments, ConversationsJoinArguments, ConversationsKickArguments, ConversationsLeaveArguments, ConversationsListArguments, ConversationsListConnectInvitesArguments, ConversationsMarkArguments, ConversationsMembersArguments, ConversationsOpenArguments, ConversationsRenameArguments, ConversationsRepliesArguments, ConversationsSetPurposeArguments, ConversationsSetTopicArguments, ConversationsUnarchiveArguments } from './types/request/conversations';
 import type { ChatDeleteArguments, ChatDeleteScheduledMessageArguments, ChatGetPermalinkArguments, ChatMeMessageArguments, ChatPostEphemeralArguments, ChatPostMessageArguments, ChatScheduleMessageArguments, ChatScheduledMessagesListArguments, ChatUnfurlArguments, ChatUpdateArguments } from './types/request/chat';
 import type { CallsAddArguments, CallsEndArguments, CallsInfoArguments, CallsUpdateArguments, CallsParticipantsAddArguments, CallsParticipantsRemoveArguments } from './types/request/calls';
+import type { BotsInfoArguments } from './types/request/bots';
+import type { BookmarksAddArguments, BookmarksEditArguments, BookmarksListArguments, BookmarksRemoveArguments } from './types/request/bookmarks';
 
 /**
  * Generic method definition
@@ -625,15 +627,35 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     test: bindApiCall<AuthTestArguments, AuthTestResponse>(this, 'auth.test'),
   };
 
-  public readonly bots = {
-    info: bindApiCall<BotsInfoArguments, BotsInfoResponse>(this, 'bots.info'),
+  public readonly bookmarks = {
+    /**
+     * @description Add bookmark to a channel.
+     * @see {@link https://api.slack.com/methods/bookmarks.add `bookmarks.add` API reference}.
+     */
+    add: bindApiCall<BookmarksAddArguments, BookmarksAddResponse>(this, 'bookmarks.add'),
+    /**
+     * @description Edit bookmark.
+     * @see {@link https://api.slack.com/methods/bookmarks.edit `bookmarks.edit` API reference}.
+     */
+    edit: bindApiCall<BookmarksEditArguments, BookmarksEditResponse>(this, 'bookmarks.edit'),
+    /**
+     * @description List bookmarks for a channel.
+     * @see {@link https://api.slack.com/methods/bookmarks.list `bookmarks.list` API reference}.
+     */
+    list: bindApiCall<BookmarksListArguments, BookmarksListResponse>(this, 'bookmarks.list'),
+    /**
+     * @description Remove bookmark from a channel.
+     * @see {@link https://api.slack.com/methods/bookmarks.remove `bookmarks.remove` API reference}.
+     */
+    remove: bindApiCall<BookmarksRemoveArguments, BookmarksRemoveResponse>(this, 'bookmarks.remove'),
   };
 
-  public readonly bookmarks = {
-    add: bindApiCall<BookmarksAddArguments, BookmarksAddResponse>(this, 'bookmarks.add'),
-    edit: bindApiCall<BookmarksEditArguments, BookmarksEditResponse>(this, 'bookmarks.edit'),
-    list: bindApiCall<BookmarksListArguments, BookmarksListResponse>(this, 'bookmarks.list'),
-    remove: bindApiCall<BookmarksRemoveArguments, BookmarksRemoveResponse>(this, 'bookmarks.remove'),
+  public readonly bots = {
+    /**
+     * @description Gets information about a bot user.
+     * @see {@link https://api.slack.com/methods/bots.info `bots.info` API reference}.
+     */
+    info: bindApiCall<BotsInfoArguments, BotsInfoResponse>(this, 'bots.info'),
   };
 
   public readonly calls = {
@@ -2029,45 +2051,5 @@ export interface AuthTeamsListArguments extends TokenOverridable, CursorPaginati
 }
 // https://api.slack.com/methods/auth.test
 export interface AuthTestArguments extends TokenOverridable { }
-
-/*
- * `bots.*`
- */
-// https://api.slack.com/methods/bots.info
-export interface BotsInfoArguments extends TokenOverridable, OptionalTeamAssignable {
-  bot?: string;
-}
-
-/*
- * `bookmarks.*`
- */
-// https://api.slack.com/methods/bookmarks.add
-export interface BookmarksAddArguments extends TokenOverridable {
-  channel_id: string;
-  title: string;
-  type: 'link';
-  link: string; // TODO: Today, `link` is a required field because we only support type:link.
-  // As more bookmarking options get added in the future, this will change.
-  emoji?: string;
-  entity_id?: string;
-  parent_id?: string;
-}
-// https://api.slack.com/methods/bookmarks.edit
-export interface BookmarksEditArguments extends TokenOverridable {
-  bookmark_id: string;
-  channel_id: string;
-  emoji?: string;
-  link?: string;
-  title?: string;
-}
-// https://api.slack.com/methods/bookmarks.list
-export interface BookmarksListArguments extends TokenOverridable {
-  channel_id: string;
-}
-// https://api.slack.com/methods/bookmarks.remove
-export interface BookmarksRemoveArguments extends TokenOverridable {
-  bookmark_id: string;
-  channel_id: string;
-}
 
 export * from '@slack/types';
