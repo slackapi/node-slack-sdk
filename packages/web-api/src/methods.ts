@@ -261,6 +261,7 @@ import type { ChatDeleteArguments, ChatDeleteScheduledMessageArguments, ChatGetP
 import type { CallsAddArguments, CallsEndArguments, CallsInfoArguments, CallsUpdateArguments, CallsParticipantsAddArguments, CallsParticipantsRemoveArguments } from './types/request/calls';
 import type { BotsInfoArguments } from './types/request/bots';
 import type { BookmarksAddArguments, BookmarksEditArguments, BookmarksListArguments, BookmarksRemoveArguments } from './types/request/bookmarks';
+import type { AuthRevokeArguments, AuthTestArguments, AuthTeamsListArguments } from './types/request/auth';
 
 /**
  * Generic method definition
@@ -620,8 +621,16 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly auth = {
+    /**
+     * @description Revokes a token.
+     * @see {@link https://api.slack.com/methods/auth.revoke `auth.revoke` API reference}.
+     */
     revoke: bindApiCall<AuthRevokeArguments, AuthRevokeResponse>(this, 'auth.revoke'),
     teams: {
+      /**
+       * @description Obtain a full list of workspaces your org-wide app has been approved for.
+       * @see {@link https://api.slack.com/methods/auth.teams.list `auth.teams.list` API reference}.
+       */
       list: bindApiCall<AuthTeamsListArguments, AuthTeamsListResponse>(this, 'auth.teams.list'),
     },
     test: bindApiCall<AuthTestArguments, AuthTestResponse>(this, 'auth.test'),
@@ -2037,19 +2046,5 @@ export interface AppsUninstallArguments {
   client_id: string;
   client_secret: string;
 }
-
-/*
- * `auth.*`
- */
-// https://api.slack.com/methods/auth.revoke
-export interface AuthRevokeArguments extends TokenOverridable {
-  test?: boolean;
-}
-// https://api.slack.com/methods/auth.teams.list
-export interface AuthTeamsListArguments extends TokenOverridable, CursorPaginationEnabled {
-  include_icon?: boolean;
-}
-// https://api.slack.com/methods/auth.test
-export interface AuthTestArguments extends TokenOverridable { }
 
 export * from '@slack/types';
