@@ -385,3 +385,70 @@ expectAssignable<Parameters<typeof web.chat.unfurl>>([{
   channel: 'C1234',
   ts: '1234.56',
 }]);
+
+// chat.update
+// -- sad path
+expectError(web.chat.update()); // lacking argument
+expectError(web.chat.update({})); // empty argument
+expectError(web.chat.update({
+  channel: 'C1234', // missing text/attachments/blocks and ts
+}));
+expectError(web.chat.update({
+  channel: 'C1234', // missing text/attachments/blocks
+  ts: '1234.56',
+}));
+expectError(web.chat.update({
+  text: 'U1234', // missing channel and ts
+}));
+expectError(web.chat.update({
+  text: 'U1234', // missing channel
+  ts: '1234.56',
+}));
+expectError(web.chat.update({
+  text: 'U1234', // missing ts
+  channel: 'C1234',
+}));
+expectError(web.chat.update({
+  blocks: [], // missing channel and ts
+}));
+expectError(web.chat.update({
+  blocks: [], // missing channel
+  ts: '1234.56',
+}));
+expectError(web.chat.update({
+  blocks: [], // missing ts
+  channel: 'C1234',
+}));
+expectError(web.chat.update({
+  attachments: [], // missing channel and ts
+}));
+expectError(web.chat.update({
+  attachments: [], // missing channel
+  ts: '1234.56',
+}));
+expectError(web.chat.update({
+  attachments: [], // missing ts
+  channel: 'C1234',
+}));
+// -- happy path
+expectAssignable<Parameters<typeof web.chat.update>>([{
+  channel: 'C1234',
+  ts: '1234.56',
+  text: '1234.56',
+}]);
+expectAssignable<Parameters<typeof web.chat.update>>([{
+  channel: 'C1234',
+  ts: '1234.56',
+  blocks: [],
+}]);
+expectAssignable<Parameters<typeof web.chat.update>>([{
+  channel: 'C1234',
+  ts: '1234.56',
+  attachments: [],
+}]);
+expectAssignable<Parameters<typeof web.chat.update>>([{
+  channel: 'C1234',
+  ts: '1234.56',
+  text: 'hello',
+  reply_broadcast: true, // can broadcast a threaded msg
+}]);

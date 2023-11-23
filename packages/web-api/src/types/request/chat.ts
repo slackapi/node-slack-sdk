@@ -211,21 +211,14 @@ export type ChatUnfurlArguments = {
    */
   user_auth_blocks?: (KnownBlock | Block)[];
 };
-// TODO: breaking change: could use unions of types to better model either/or arguments (e.g. either channel and text
-// is required OR channel and blocks OR channel and attachments)
-// for an in-code example for chat.postMessage: https://github.com/slackapi/node-slack-sdk/pull/1670/files#r1346453396
-// Many of these arguments can be shared with ChatPostEphemeralArguments
+
 // https://api.slack.com/methods/chat.update
-export interface ChatUpdateArguments extends TokenOverridable {
-  channel: string;
+export type ChatUpdateArguments = MessageContents & {
+  /** @description Timestamp of the message to be updated. */
   ts: string;
-  as_user?: boolean;
-  attachments?: MessageAttachment[];
-  blocks?: (KnownBlock | Block)[];
-  link_names?: boolean;
-  metadata?: MessageMetadata;
-  parse?: 'full' | 'none';
+} & TokenOverridable & AsUser & LinkNames & Metadata & Parse & {
+  /** @description Array of new file ids that will be sent with this message. */
   file_ids?: string[];
+  /** @description Broadcast an existing thread reply to make it visible to everyone in the channel or conversation. */
   reply_broadcast?: boolean;
-  text?: string;
-}
+};
