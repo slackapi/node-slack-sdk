@@ -262,3 +262,74 @@ expectAssignable<Parameters<typeof web.chat.postMessage>>([{
   thread_ts: '1234.56',
   reply_broadcast: true, // can send a threaded message and broadcast it, too
 }]);
+
+// chat.scheduleMessage
+// -- sad path
+expectError(web.chat.scheduleMessage()); // lacking argument
+expectError(web.chat.scheduleMessage({})); // empty argument
+expectError(web.chat.scheduleMessage({
+  channel: 'C1234', // missing text/attachments/blocks and post_at
+}));
+expectError(web.chat.scheduleMessage({
+  channel: 'C1234', // missing text/attachments/blocks
+  post_at: 'U1234',
+}));
+expectError(web.chat.scheduleMessage({
+  channel: 'C1234', // missing post_at
+  text: 'U1234',
+}));
+expectError(web.chat.scheduleMessage({
+  post_at: 'U1234', // missing channel
+  text: 'U1234',
+}));
+expectError(web.chat.scheduleMessage({
+  channel: 'C1234', // missing post_at
+  blocks: [],
+}));
+expectError(web.chat.scheduleMessage({
+  post_at: 'U1234', // missing channel
+  blocks: [],
+}));
+expectError(web.chat.scheduleMessage({
+  channel: 'C1234', // missing post_at
+  attachments: [],
+}));
+expectError(web.chat.scheduleMessage({
+  post_at: 'U1234', // missing channel
+  attachments: [],
+}));
+expectError(web.chat.scheduleMessage({
+  post_at: 17000000000,
+  channel: 'C123',
+  attachments: [],
+  reply_broadcast: true, // cannot reply_broadcast=true without setting thread_ts
+}));
+// -- happy path
+expectAssignable<Parameters<typeof web.chat.scheduleMessage>>([{
+  channel: 'C1234',
+  post_at: 'U1234',
+  text: '1234.56',
+}]);
+expectAssignable<Parameters<typeof web.chat.scheduleMessage>>([{
+  channel: 'C1234',
+  post_at: 'U1234',
+  blocks: [],
+}]);
+expectAssignable<Parameters<typeof web.chat.scheduleMessage>>([{
+  channel: 'C1234',
+  post_at: 'U1234',
+  attachments: [],
+}]);
+expectAssignable<Parameters<typeof web.chat.scheduleMessage>>([{
+  channel: 'C1234',
+  text: 'hello',
+  post_at: 180000000,
+  thread_ts: '1234.56', // can send a threaded message
+}]);
+expectAssignable<Parameters<typeof web.chat.scheduleMessage>>([{
+  channel: 'C1234',
+  text: 'hello',
+  thread_ts: '1234.56',
+  post_at: 19000000,
+  reply_broadcast: true, // can send a threaded message and broadcast it, too
+}]);

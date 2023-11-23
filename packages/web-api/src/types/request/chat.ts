@@ -142,27 +142,27 @@ export interface ChatGetPermalinkArguments extends ChannelAndMessageTS, TokenOve
 export interface ChatMeMessageArguments extends ChannelAndText, TokenOverridable {}
 
 // https://api.slack.com/methods/chat.postEphemeral
-export type ChatPostEphemeralArguments = TokenOverridable & MessageContents & Parse & LinkNames & Authorship
-& Partial<ThreadTS> & {
+export type ChatPostEphemeralArguments = TokenOverridable & MessageContents & {
   /**
    * @description `id` of the user who will receive the ephemeral message.
    * The user should be in the channel specified by the `channel` argument.
    */
   user: string;
-};
+} & Authorship & Parse & LinkNames & Partial<ThreadTS>;
 
 // https://api.slack.com/methods/chat.postMessage
-export type ChatPostMessageArguments = TokenOverridable & MessageContents & Parse & LinkNames & Authorship & Metadata
-& ReplyInThread & Unfurls & {
+export type ChatPostMessageArguments = TokenOverridable & MessageContents & ReplyInThread & Authorship & Parse
+& LinkNames & Metadata & Unfurls & {
   /** @description Disable Slack markup parsing by setting to `false`. Enabled by default. */
   mrkdwn?: boolean;
 };
 
 // https://api.slack.com/methods/chat.scheduleMessage
-export type ChatScheduleMessageArguments = TokenOverridable & MessageContents & Parse & LinkNames & AsUser & Metadata
-& ReplyInThread & Unfurls & {
+export type ChatScheduleMessageArguments = TokenOverridable & MessageContents & {
+  /** @description Unix EPOCH timestamp of time in future to send the message. */
   post_at: string | number;
-};
+} & ReplyInThread & Parse & LinkNames & AsUser & Metadata & Unfurls;
+
 // https://api.slack.com/methods/chat.scheduledMessages.list
 export interface ChatScheduledMessagesListArguments extends TokenOverridable,
   CursorPaginationEnabled, OptionalTeamAssignable {
