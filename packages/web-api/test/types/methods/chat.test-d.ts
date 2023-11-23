@@ -333,3 +333,55 @@ expectAssignable<Parameters<typeof web.chat.scheduleMessage>>([{
   post_at: 19000000,
   reply_broadcast: true, // can send a threaded message and broadcast it, too
 }]);
+
+// chat.scheduledMessages.list
+// -- sad path
+expectError(web.chat.scheduledMessages.list()); // lacking argument
+// -- happy path
+expectAssignable<Parameters<typeof web.chat.scheduledMessages.list>>([{}]); // all optional args
+
+// chat.unfurl
+// -- sad path
+expectError(web.chat.unfurl()); // lacking argument
+expectError(web.chat.unfurl({})); // empty argument
+expectError(web.chat.unfurl({
+  channel: 'C1234', // missing ts and unfurls
+}));
+expectError(web.chat.unfurl({
+  channel: 'C1234', // missing unfurls
+  ts: '1234.56',
+}));
+expectError(web.chat.unfurl({
+  ts: '1234.56',
+  unfurls: {},
+}));
+expectError(web.chat.unfurl({
+  channel: 'C1234',
+  unfurls: {},
+}));
+expectError(web.chat.unfurl({
+  source: 'composer', // missing unfurl_id and unfurls
+}));
+expectError(web.chat.unfurl({
+  source: 'composer', // missing unfurls
+  unfurl_id: '1234',
+}));
+expectError(web.chat.unfurl({
+  unfurl_id: '1234.56',
+  unfurls: {},
+}));
+expectError(web.chat.unfurl({
+  source: 'conversations_history',
+  unfurls: {},
+}));
+// -- happy path
+expectAssignable<Parameters<typeof web.chat.unfurl>>([{
+  unfurls: {},
+  source: 'conversations_history',
+  unfurl_id: '12345',
+}]);
+expectAssignable<Parameters<typeof web.chat.unfurl>>([{
+  unfurls: {},
+  channel: 'C1234',
+  ts: '1234.56',
+}]);

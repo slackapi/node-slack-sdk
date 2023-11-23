@@ -1,5 +1,5 @@
 import type { KnownBlock, Block, MessageAttachment, LinkUnfurls, MessageMetadata } from '@slack/types';
-import type { CursorPaginationEnabled, OptionalTeamAssignable, TokenOverridable } from './common';
+import type { CursorPaginationEnabled, OptionalTeamAssignable, TimelinePaginationEnabled, TokenOverridable } from './common';
 
 interface Channel {
   /** @description Channel ID for the message. */
@@ -164,12 +164,8 @@ export type ChatScheduleMessageArguments = TokenOverridable & MessageContents & 
 } & ReplyInThread & Parse & LinkNames & AsUser & Metadata & Unfurls;
 
 // https://api.slack.com/methods/chat.scheduledMessages.list
-export interface ChatScheduledMessagesListArguments extends TokenOverridable,
-  CursorPaginationEnabled, OptionalTeamAssignable {
-  channel?: string;
-  latest?: number;
-  oldest?: number;
-}
+export interface ChatScheduledMessagesListArguments extends TokenOverridable, CursorPaginationEnabled,
+  OptionalTeamAssignable, Pick<TimelinePaginationEnabled, 'latest' | 'oldest'>, Partial<Channel> {}
 
 interface SourceAndUnfurlID {
   /**
@@ -183,14 +179,17 @@ interface SourceAndUnfurlID {
    */
   unfurl_id: string;
 }
+type UnfurlTarget = ChannelAndTS | SourceAndUnfurlID;
+
 // https://api.slack.com/methods/chat.unfurl
-export type ChatUnfurlArguments = (ChannelAndTS | SourceAndUnfurlID) & TokenOverridable
-& {
+export type ChatUnfurlArguments = {
   /**
    * @description URL-encoded JSON map with keys set to URLs featured in the the message, pointing to their unfurl
    * blocks or message attachments.
    */
   unfurls: LinkUnfurls;
+} & UnfurlTarget & TokenOverridable
+& {
   /**
    * @description Provide a simply-formatted string to send as an ephemeral message to the user as invitation to
    * authenticate further and enable full unfurling behavior. Provides two buttons, Not now or Never ask me again.
