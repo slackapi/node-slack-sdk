@@ -593,7 +593,12 @@ export class RTMClient extends EventEmitter {
     if (this.agentConfig !== undefined) {
       options.agent = this.agentConfig;
     }
-    this.websocket = new WebSocket(url, options);
+    this.websocket = new WebSocket(url, {
+      ...options,
+      headers: {
+        ...(this.webClient.headers || {}),
+      },
+    });
 
     // attach event listeners
     this.websocket.addEventListener('open', (event) => this.stateMachine.handle('websocket open', event));
