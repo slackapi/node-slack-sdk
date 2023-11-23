@@ -1,4 +1,3 @@
-import type { CallUser } from '@slack/types';
 import { EventEmitter } from 'eventemitter3';
 import { WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
 // Response types
@@ -259,6 +258,7 @@ import type { DndEndDndArguments, DndEndSnoozeArguments, DndInfoArguments, DndSe
 import type { DialogOpenArguments } from './types/request/dialog';
 import type { ConversationsAcceptSharedInviteArguments, ConversationsApproveSharedInviteArguments, ConversationsArchiveArguments, ConversationsCloseArguments, ConversationsCreateArguments, ConversationsDeclineSharedInviteArguments, ConversationsHistoryArguments, ConversationsInfoArguments, ConversationsInviteArguments, ConversationsInviteSharedArguments, ConversationsJoinArguments, ConversationsKickArguments, ConversationsLeaveArguments, ConversationsListArguments, ConversationsListConnectInvitesArguments, ConversationsMarkArguments, ConversationsMembersArguments, ConversationsOpenArguments, ConversationsRenameArguments, ConversationsRepliesArguments, ConversationsSetPurposeArguments, ConversationsSetTopicArguments, ConversationsUnarchiveArguments } from './types/request/conversations';
 import type { ChatDeleteArguments, ChatDeleteScheduledMessageArguments, ChatGetPermalinkArguments, ChatMeMessageArguments, ChatPostEphemeralArguments, ChatPostMessageArguments, ChatScheduleMessageArguments, ChatScheduledMessagesListArguments, ChatUnfurlArguments, ChatUpdateArguments } from './types/request/chat';
+import type { CallsAddArguments, CallsEndArguments, CallsInfoArguments, CallsUpdateArguments, CallsParticipantsAddArguments, CallsParticipantsRemoveArguments } from './types/request/calls';
 
 /**
  * Generic method definition
@@ -637,11 +637,31 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly calls = {
+    /**
+     * @description Registers a new Call.
+     * @see {@link https://api.slack.com/methods/calls.add `calls.add` API reference}.
+     */
     add: bindApiCall<CallsAddArguments, CallsAddResponse>(this, 'calls.add'),
+    /**
+     * @description Ends a Call.
+     * @see {@link https://api.slack.com/methods/calls.end `calls.end` API reference}.
+     */
     end: bindApiCall<CallsEndArguments, CallsEndResponse>(this, 'calls.end'),
+    /**
+     * @description Returns information about a Call.
+     * @see {@link https://api.slack.com/methods/calls.info `calls.info` API reference}.
+     */
     info: bindApiCall<CallsInfoArguments, CallsInfoResponse>(this, 'calls.info'),
+    /**
+     * @description Updates information about a Call.
+     * @see {@link https://api.slack.com/methods/calls.info `calls.info` API reference}.
+     */
     update: bindApiCall<CallsUpdateArguments, CallsUpdateResponse>(this, 'calls.update'),
     participants: {
+      /**
+       * @description Registers new participants added to a Call.
+       * @see {@link https://api.slack.com/methods/calls.participants.add `calls.participants.add` API reference}.
+       */
       add: bindApiCall<CallsParticipantsAddArguments, CallsParticipantsAddResponse>(this, 'calls.participants.add'),
       remove: bindApiCall<CallsParticipantsRemoveArguments, CallsParticipantsRemoveResponse>(this, 'calls.participants.remove'),
     },
@@ -2048,47 +2068,6 @@ export interface BookmarksListArguments extends TokenOverridable {
 export interface BookmarksRemoveArguments extends TokenOverridable {
   bookmark_id: string;
   channel_id: string;
-}
-
-/*
-* `calls.*`
-*/
-// https://api.slack.com/methods/calls.add
-export interface CallsAddArguments extends TokenOverridable {
-  external_unique_id: string;
-  join_url: string;
-  created_by?: string; // TODO: optional only if a user token is used, required otherwise
-  date_start?: number;
-  desktop_app_join_url?: string;
-  external_display_id?: string;
-  title?: string;
-  users?: CallUser[];
-}
-// https://api.slack.com/methods/calls.end
-export interface CallsEndArguments extends TokenOverridable {
-  id: string;
-  duration?: number;
-}
-// https://api.slack.com/methods/calls.info
-export interface CallsInfoArguments extends TokenOverridable {
-  id: string;
-}
-// https://api.slack.com/methods/calls.update
-export interface CallsUpdateArguments extends TokenOverridable {
-  id: string;
-  join_url?: string;
-  desktop_app_join_url?: string;
-  title?: string;
-}
-// https://api.slack.com/methods/calls.participants.add
-export interface CallsParticipantsAddArguments extends TokenOverridable {
-  id: string;
-  users: CallUser[];
-}
-// https://api.slack.com/methods/calls.participants.remove
-export interface CallsParticipantsRemoveArguments extends TokenOverridable {
-  id: string;
-  users: CallUser[];
 }
 
 export * from '@slack/types';
