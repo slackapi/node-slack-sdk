@@ -263,6 +263,7 @@ import type { BotsInfoArguments } from './types/request/bots';
 import type { BookmarksAddArguments, BookmarksEditArguments, BookmarksListArguments, BookmarksRemoveArguments } from './types/request/bookmarks';
 import type { AuthRevokeArguments, AuthTestArguments, AuthTeamsListArguments } from './types/request/auth';
 import type { AppsConnectionsOpenArguments, AppsEventAuthorizationsListArguments, AppsManifestCreateArguments, AppsManifestDeleteArguments, AppsManifestExportArguments, AppsManifestUpdateArguments, AppsManifestValidateArguments, AppsUninstallArguments } from './types/request/apps';
+import type { APITestArguments } from './types/request/api';
 
 /**
  * Generic method definition
@@ -596,6 +597,10 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly api = {
+    /**
+     * @description Checks API calling code.
+     * @see {@link https://api.slack.com/methods/api.test `api.test` API reference}.
+     */
     test: bindApiCall<APITestArguments, ApiTestResponse>(this, 'api.test'),
   };
 
@@ -2036,11 +2041,5 @@ export interface AdminWorkflowsSearchArguments extends TokenOverridable, CursorP
 export interface AdminWorkflowsUnpublishArguments extends TokenOverridable {
   workflow_ids: string[];
 }
-/*
- * `api.*`
- */
-// https://api.slack.com/methods/api.test
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface APITestArguments { }
 
 export * from '@slack/types';
