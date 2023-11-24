@@ -266,6 +266,7 @@ import type { AppsConnectionsOpenArguments, AppsEventAuthorizationsListArguments
 import type { APITestArguments } from './types/request/api';
 import type { AdminAnalyticsGetFileArguments } from './types/request/admin/analytics';
 import type { AdminAppsActivitiesListArguments, AdminAppsApproveArguments, AdminAppsApprovedListArguments, AdminAppsClearResolutionArguments, AdminAppsConfigLookupArguments, AdminAppsConfigSetArguments, AdminAppsRequestsCancelArguments, AdminAppsRequestsListArguments, AdminAppsRestrictArguments, AdminAppsRestrictedListArguments, AdminAppsUninstallArguments } from './types/request/admin/apps';
+import type { AdminAuthPolicyAssignEntitiesArguments, AdminAuthPolicyGetEntitiesArguments, AdminAuthPolicyRemoveEntitiesArguments } from './types/request/admin/auth';
 
 /**
  * Generic method definition
@@ -390,8 +391,20 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     },
     auth: {
       policy: {
+        /**
+         * @description Assign entities to a particular authentication policy.
+         * @see {@link https://api.slack.com/methods/admin.auth.policy.assignEntities `admin.auth.policy.assignEntities` API reference}.
+         */
         assignEntities: bindApiCall<AdminAuthPolicyAssignEntitiesArguments, AdminAuthPolicyAssignEntitiesResponse>(this, 'admin.auth.policy.assignEntities'),
+        /**
+         * @description Fetch all the entities assigned to a particular authentication policy by name.
+         * @see {@link https://api.slack.com/methods/admin.auth.policy.getEntities `admin.auth.policy.getEntities` API reference}.
+         */
         getEntities: bindApiCall<AdminAuthPolicyGetEntitiesArguments, AdminAuthPolicyGetEntitiesResponse>(this, 'admin.auth.policy.getEntities'),
+        /**
+         * @description Remove specified entities from a specified authentication policy.
+         * @see {@link https://api.slack.com/methods/admin.auth.policy.removeEntities `admin.auth.policy.removeEntities` API reference}.
+         */
         removeEntities: bindApiCall<AdminAuthPolicyRemoveEntitiesArguments, AdminAuthPolicyRemoveEntitiesResponse>(this, 'admin.auth.policy.removeEntities'),
       },
     },
@@ -1532,24 +1545,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 }
 
-// https://api.slack.com/methods/admin.auth.policy.assignEntities
-export interface AdminAuthPolicyAssignEntitiesArguments extends TokenOverridable {
-  entity_ids: string[]; // TODO: breaking change, enforce at least one array item?
-  entity_type: 'USER';
-  policy_name: 'email_password';
-}
-// https://api.slack.com/methods/admin.auth.policy.getEntities
-export interface AdminAuthPolicyGetEntitiesArguments extends TokenOverridable,
-  CursorPaginationEnabled {
-  policy_name: 'email_password';
-  entity_type?: 'USER';
-}
-// https://api.slack.com/methods/admin.auth.policy.removeEntities
-export interface AdminAuthPolicyRemoveEntitiesArguments extends TokenOverridable {
-  entity_ids: string[]; // TODO: breaking change, enforce at least one array item?
-  entity_type: 'USER';
-  policy_name: 'email_password';
-}
 // https://api.slack.com/methods/admin.barriers.create
 export interface AdminBarriersCreateArguments extends TokenOverridable {
   barriered_from_usergroup_ids: string[];
