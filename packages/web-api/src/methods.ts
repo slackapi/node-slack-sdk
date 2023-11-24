@@ -262,6 +262,7 @@ import type { CallsAddArguments, CallsEndArguments, CallsInfoArguments, CallsUpd
 import type { BotsInfoArguments } from './types/request/bots';
 import type { BookmarksAddArguments, BookmarksEditArguments, BookmarksListArguments, BookmarksRemoveArguments } from './types/request/bookmarks';
 import type { AuthRevokeArguments, AuthTestArguments, AuthTeamsListArguments } from './types/request/auth';
+import type { AppsConnectionsOpenArguments, AppsEventAuthorizationsListArguments, AppsManifestCreateArguments, AppsManifestDeleteArguments, AppsManifestExportArguments, AppsManifestUpdateArguments, AppsManifestValidateArguments, AppsUninstallArguments } from './types/request/apps';
 
 /**
  * Generic method definition
@@ -600,10 +601,20 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly apps = {
     connections: {
+      /**
+       * @description Generate a temporary Socket Mode WebSocket URL that your app can connect to in order to receive
+       * events and interactive payloads over.
+       * @see {@link https://api.slack.com/methods/apps.connections.open `apps.connections.open` API reference}.
+       */
       open: bindApiCall<AppsConnectionsOpenArguments, AppsConnectionsOpenResponse>(this, 'apps.connections.open'),
     },
     event: {
       authorizations: {
+        /**
+         * @description Get a list of authorizations for the given event context.
+         * Each authorization represents an app installation that the event is visible to.
+         * @see {@link https://api.slack.com/methods/apps.event.authorizations.list `apps.event.authorizations.list` API reference}.
+         */
         list: bindApiCall<AppsEventAuthorizationsListArguments, AppsEventAuthorizationsListResponse>(
           this,
           'apps.event.authorizations.list',
@@ -611,12 +622,36 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       },
     },
     manifest: {
+      /**
+       * @description Create an app from an app manifest.
+       * @see {@link https://api.slack.com/methods/apps.manifest.create `apps.manifest.create` API reference}.
+       */
       create: bindApiCall<AppsManifestCreateArguments, AppsManifestCreateResponse>(this, 'apps.manifest.create'),
+      /**
+       * @description Permanently deletes an app created through app manifests.
+       * @see {@link https://api.slack.com/methods/apps.manifest.delete `apps.manifest.delete` API reference}.
+       */
       delete: bindApiCall<AppsManifestDeleteArguments, AppsManifestDeleteResponse>(this, 'apps.manifest.delete'),
+      /**
+       * @description Export an app manifest from an existing app.
+       * @see {@link https://api.slack.com/methods/apps.manifest.export `apps.manifest.export` API reference}.
+       */
       export: bindApiCall<AppsManifestExportArguments, AppsManifestExportResponse>(this, 'apps.manifest.export'),
+      /**
+       * @description Update an app from an app manifest.
+       * @see {@link https://api.slack.com/methods/apps.manifest.update `apps.manifest.update` API reference}.
+       */
       update: bindApiCall<AppsManifestUpdateArguments, AppsManifestUpdateResponse>(this, 'apps.manifest.update'),
+      /**
+       * @description Validate an app manifest.
+       * @see {@link https://api.slack.com/methods/apps.manifest.validate `apps.manifest.validate` API reference}.
+       */
       validate: bindApiCall<AppsManifestValidateArguments, AppsManifestValidateResponse>(this, 'apps.manifest.validate'),
     },
+    /**
+     * @description Uninstalls your app from a workspace.
+     * @see {@link https://api.slack.com/methods/apps.uninstall `apps.uninstall` API reference}.
+     */
     uninstall: bindApiCall<AppsUninstallArguments, AppsUninstallResponse>(this, 'apps.uninstall'),
   };
 
@@ -2007,44 +2042,5 @@ export interface AdminWorkflowsUnpublishArguments extends TokenOverridable {
 // https://api.slack.com/methods/api.test
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface APITestArguments { }
-
-/*
- * `apps.*`
- */
-// https://api.slack.com/methods/apps.connections.open
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface AppsConnectionsOpenArguments { }
-// https://api.slack.com/methods/apps.event.authorizations.list
-export interface AppsEventAuthorizationsListArguments
-  extends TokenOverridable, CursorPaginationEnabled {
-  event_context: string;
-}
-
-export interface AppsManifestCreateArguments extends TokenOverridable {
-  manifest: string;
-}
-
-export interface AppsManifestDeleteArguments extends TokenOverridable {
-  app_id: string;
-}
-
-export interface AppsManifestExportArguments extends TokenOverridable {
-  app_id: string;
-}
-
-export interface AppsManifestUpdateArguments extends TokenOverridable {
-  app_id: string;
-  manifest: string;
-}
-
-export interface AppsManifestValidateArguments extends TokenOverridable {
-  app_id?: string;
-  manifest: string;
-}
-// https://api.slack.com/methods/apps.uninstall
-export interface AppsUninstallArguments {
-  client_id: string;
-  client_secret: string;
-}
 
 export * from '@slack/types';
