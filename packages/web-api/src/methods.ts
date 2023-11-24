@@ -264,6 +264,7 @@ import type { BookmarksAddArguments, BookmarksEditArguments, BookmarksListArgume
 import type { AuthRevokeArguments, AuthTestArguments, AuthTeamsListArguments } from './types/request/auth';
 import type { AppsConnectionsOpenArguments, AppsEventAuthorizationsListArguments, AppsManifestCreateArguments, AppsManifestDeleteArguments, AppsManifestExportArguments, AppsManifestUpdateArguments, AppsManifestValidateArguments, AppsUninstallArguments } from './types/request/apps';
 import type { APITestArguments } from './types/request/api';
+import type { AdminAnalyticsGetFileArguments } from './types/request/admin/analytics';
 
 /**
  * Generic method definition
@@ -312,6 +313,10 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly admin = {
     analytics: {
+      /**
+       * @description Retrieve analytics data for a given date, presented as a compressed JSON file.
+       * @see {@link https://api.slack.com/methods/api.test `api.test` API reference}.
+       */
       getFile: bindApiCall<AdminAnalyticsGetFileArguments, AdminAnalyticsGetFileResponse>(this, 'admin.analytics.getFile'),
     },
     apps: {
@@ -1482,18 +1487,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 }
 
-/*
-* `admin.*`
-*/
-// TODO: breaking changes - potential type improvements:
-// - date is required _except_ if metadata_only=true
-// - metadata_only=true only works with type=public_channel
-// https://api.slack.com/methods/admin.analytics.getFile
-export interface AdminAnalyticsGetFileArguments extends TokenOverridable {
-  type: 'public_channel' | 'member';
-  date?: string;
-  metadata_only?: boolean;
-}
 // TODO: breaking changes - potential type improvements:
 // - exactly one of `team_id` or `enterprise_id` is required - but not both
 // - either `app_id` or `request_id` is required
