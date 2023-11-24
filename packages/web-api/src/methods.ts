@@ -265,6 +265,7 @@ import type { AuthRevokeArguments, AuthTestArguments, AuthTeamsListArguments } f
 import type { AppsConnectionsOpenArguments, AppsEventAuthorizationsListArguments, AppsManifestCreateArguments, AppsManifestDeleteArguments, AppsManifestExportArguments, AppsManifestUpdateArguments, AppsManifestValidateArguments, AppsUninstallArguments } from './types/request/apps';
 import type { APITestArguments } from './types/request/api';
 import type { AdminAnalyticsGetFileArguments } from './types/request/admin/analytics';
+import type { AdminAppsActivitiesListArguments, AdminAppsApproveArguments, AdminAppsApprovedListArguments, AdminAppsClearResolutionArguments, AdminAppsConfigLookupArguments, AdminAppsConfigSetArguments, AdminAppsRequestsCancelArguments, AdminAppsRequestsListArguments, AdminAppsRestrictArguments, AdminAppsRestrictedListArguments, AdminAppsUninstallArguments } from './types/request/admin/apps';
 
 /**
  * Generic method definition
@@ -320,28 +321,72 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       getFile: bindApiCall<AdminAnalyticsGetFileArguments, AdminAnalyticsGetFileResponse>(this, 'admin.analytics.getFile'),
     },
     apps: {
+      activities: {
+        /**
+         * @description Get logs for a specified team/org.
+         * @see {@link https://api.slack.com/methods/admin.apps.activities.list `admin.apps.activities.list` API reference}.
+         */
+        list: bindApiCall<AdminAppsActivitiesListArguments, AdminAppsActivitiesListResponse>(this, 'admin.apps.activities.list'),
+      },
+      /**
+       * @description Approve an app for installation on a workspace.
+       * @see {@link https://api.slack.com/methods/admin.apps.approve `admin.apps.approve` API reference}.
+       */
       approve: bindApiCall<AdminAppsApproveArguments, AdminAppsApproveResponse>(this, 'admin.apps.approve'),
       approved: {
+        /**
+         * @description List approved apps for an org or workspace.
+         * @see {@link https://api.slack.com/methods/admin.apps.approved.list `admin.apps.approved.list` API reference}.
+         */
         list: bindApiCall<AdminAppsApprovedListArguments, AdminAppsApprovedListResponse>(this, 'admin.apps.approved.list'),
       },
+      /**
+       * @description Clear an app resolution.
+       * @see {@link https://api.slack.com/methods/admin.apps.clearResolution `admin.apps.clearResolution` API reference}.
+       */
       clearResolution: bindApiCall<AdminAppsClearResolutionArguments, AdminAppsClearResolutionResponse>(this, 'admin.apps.clearResolution'),
+      config: {
+        /**
+         * @description Look up the app config for connectors by their IDs.
+         * @see {@link https://api.slack.com/methods/admin.apps.config.lookup `admin.apps.config.lookup` API reference}.
+         */
+        lookup: bindApiCall<AdminAppsConfigLookupArguments, AdminAppsConfigLookupResponse>(this, 'admin.apps.config.lookup'),
+        /**
+         * @description Set the app config for a connector.
+         * @see {@link https://api.slack.com/methods/admin.apps.config.set `admin.apps.config.set` API reference}.
+         */
+        set: bindApiCall<AdminAppsConfigSetArguments, AdminAppsConfigSetResponse>(this, 'admin.apps.config.set'),
+      },
       requests: {
+        /**
+         * @description Cancel app request for team.
+         * @see {@link https://api.slack.com/methods/admin.apps.requests.cancel `admin.apps.requests.cancel` API reference}.
+         */
         cancel: bindApiCall<AdminAppsRequestsCancelArguments, AdminAppsRequestsCancelResponse>(this, 'admin.apps.requests.cancel'),
+        /**
+         * @description List app requests for a team/workspace.
+         * @see {@link https://api.slack.com/methods/admin.apps.requests.list `admin.apps.requests.list` API reference}.
+         */
         list: bindApiCall<AdminAppsRequestsListArguments, AdminAppsRequestsListResponse>(this, 'admin.apps.requests.list'),
       },
+      /**
+       * @description Restrict an app for installation on a workspace.
+       * @see {@link https://api.slack.com/methods/admin.apps.restrict `admin.apps.restrict` API reference}.
+       */
       restrict: bindApiCall<AdminAppsRestrictArguments, AdminAppsRestrictResponse>(this, 'admin.apps.restrict'),
       restricted: {
+        /**
+         * @description List restricted apps for an org or workspace.
+         * @see {@link https://api.slack.com/methods/admin.apps.restricted.list `admin.apps.restricted.list` API reference}.
+         */
         list:
           bindApiCall<AdminAppsRestrictedListArguments, AdminAppsRestrictedListResponse>(this, 'admin.apps.restricted.list'),
       },
+      /**
+       * @description Uninstall an app from one or many workspaces, or an entire enterprise organization.
+       * @see {@link https://api.slack.com/methods/admin.apps.uninstall `admin.apps.uninstall` API reference}.
+       */
       uninstall: bindApiCall<AdminAppsUninstallArguments, AdminAppsUninstallResponse>(this, 'admin.apps.uninstall'),
-      activities: {
-        list: bindApiCall<AdminAppsActivitiesListArguments, AdminAppsActivitiesListResponse>(this, 'admin.apps.activities.list'),
-      },
-      config: {
-        lookup: bindApiCall<AdminAppsConfigLookupArguments, AdminAppsConfigLookupResponse>(this, 'admin.apps.config.lookup'),
-        set: bindApiCall<AdminAppsConfigSetArguments, AdminAppsConfigSetResponse>(this, 'admin.apps.config.set'),
-      },
     },
     auth: {
       policy: {
@@ -1487,98 +1532,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 }
 
-// TODO: breaking changes - potential type improvements:
-// - exactly one of `team_id` or `enterprise_id` is required - but not both
-// - either `app_id` or `request_id` is required
-// https://api.slack.com/methods/admin.apps.approve
-export interface AdminAppsApproveArguments extends TokenOverridable {
-  app_id?: string;
-  enterprise_id?: string;
-  request_id?: string;
-  team_id?: string;
-}
-// TODO: breaking changes - potential type improvements:
-// - cannot provide both `team_id` or `enterprise_id` (but can provide neither, will infer from token)
-// https://api.slack.com/methods/admin.apps.approved.list
-export interface AdminAppsApprovedListArguments extends TokenOverridable, CursorPaginationEnabled {
-  team_id?: string;
-  enterprise_id?: string;
-  certified?: boolean;
-}
-// TODO: breaking changes - potential type improvements:
-// - exactly one of `team_id` or `enterprise_id` is required - but not both
-// https://api.slack.com/methods/admin.apps.clearResolution
-export interface AdminAppsClearResolutionArguments {
-  app_id: string;
-  enterprise_id?: string;
-  team_id?: string;
-}
-// https://api.slack.com/methods/admin.apps.requests.cancel
-export interface AdminAppsRequestsCancelArguments extends TokenOverridable {
-  request_id: string;
-  enterprise_id?: string;
-  team_id?: string;
-}
-// https://api.slack.com/methods/admin.apps.requests.list
-export interface AdminAppsRequestsListArguments extends TokenOverridable, CursorPaginationEnabled {
-  certified?: boolean;
-  enterprise_id?: string;
-  team_id?: string; // required if your enterprise grid contains more than one workspace
-}
-// TODO: breaking changes - potential type improvements:
-// - exactly one of `team_id` or `enterprise_id` is required - but not both
-// - either `app_id` or `request_id` is required
-// https://api.slack.com/methods/admin.apps.restrict
-export interface AdminAppsRestrictArguments extends TokenOverridable {
-  app_id?: string;
-  request_id?: string;
-  team_id?: string;
-  enterprise_id?: string;
-}
-// TODO: breaking changes - potential type improvements:
-// - cannot provide both `team_id` or `enterprise_id` (but can provide neither, will infer from token)
-// https://api.slack.com/methods/admin.apps.restricted.list
-export interface AdminAppsRestrictedListArguments extends TokenOverridable, CursorPaginationEnabled {
-  certified?: boolean;
-  team_id?: string;
-  enterprise_id?: string;
-}
-
-// TODO: breaking changes - potential type improvements:
-// - exactly one of `team_id` or `enterprise_id` is required - but not both
-// https://api.slack.com/methods/admin.apps.uninstall
-export interface AdminAppsUninstallArguments {
-  app_id: string;
-  enterprise_id?: string;
-  team_ids?: string[]; // TODO: breaking change, enforce at least one array item?
-}
-// https://api.slack.com/methods/admin.apps.activities.list
-export interface AdminAppsActivitiesListArguments extends TokenOverridable, CursorPaginationEnabled {
-  app_id?: string;
-  component_id?: string;
-  component_type?: 'events_api' | 'workflows' | 'functions' | 'tables';
-  log_event_type?: string;
-  max_date_created?: number;
-  min_date_created?: number;
-  min_log_level?: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'fatal';
-  sort_direction?: string; // TODO: change to 'asc' | 'desc'?
-  source?: 'slack' | 'developer';
-  team_id?: string;
-  trace_id?: string;
-}
-// TODO: does not get used, should add method implementation, see https://github.com/slackapi/node-slack-sdk/issues/1675
-export interface AdminAppsConfigLookupArguments extends TokenOverridable {
-  app_ids: string[];
-}
-// TODO: does not get used, should add method implementation, see https://github.com/slackapi/node-slack-sdk/issues/1675
-export interface AdminAppsConfigSetArguments extends TokenOverridable {
-  app_id: string;
-  domain_restrictions?: {
-    urls?: string[]; // TODO: breaking change, enforce at least one array item?
-    emails?: string[]; // TODO: breaking change, enforce at least one array item?
-  };
-  workflow_auth_strategy?: 'builder_choice' | 'end_user_strategy';
-}
 // https://api.slack.com/methods/admin.auth.policy.assignEntities
 export interface AdminAuthPolicyAssignEntitiesArguments extends TokenOverridable {
   entity_ids: string[]; // TODO: breaking change, enforce at least one array item?
