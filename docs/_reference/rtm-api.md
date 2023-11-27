@@ -34,9 +34,9 @@ slug: rtm-api
 </tr>
 <tr>
 <td align="center">webClient</td>
-<td align="center"><code><a href="https://github.com/slackapi/node-slack-sdk/blob/main/docs/_reference/web-api.md#webclient" title="">WebClient</a></code></td>
+<td align="center"><code><a href="web-api#webclient" title="">WebClient</a></code></td>
 <td align="center">✗</td>
-<td align="center">An optional parameter to provide a customized <a href="https://github.com/slackapi/node-slack-sdk/blob/main/docs/_reference/web-api.md#webclient">WebClient</a>. Any desired options for the custom client must be set in this parameter (<code>webClient</code>) as they will take precedence over other arguments passed into <code>RTMClient</code>.</td>
+<td align="center">An optional parameter to provide a customized <a href="web-api#webclient">WebClient</a>. Any desired options for the custom client must be set in this parameter (<code>webClient</code>) as they will take precedence over other arguments passed into <code>RTMClient</code>.</td>
 <td></td>
 </tr>
 </tbody>

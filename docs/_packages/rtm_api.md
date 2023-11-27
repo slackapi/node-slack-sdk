@@ -646,7 +646,7 @@ const rtm = new RTMClient(token, options);
 
 ### Custom WebClient
 
-In some cases, you might want flexibility with the WebClient construction beyond the provided RTMClient options
+In some cases, you might want to customize the underlying component making HTTP requests to the Slack API, the [`WebClient`](reference/web-api#webclient), beyond the provided [`RTMClientOptions`](reference/rtm-api#rtmclientoptions). Note that overriding the [`WebClient`](reference/web-api#webclient) instance takes precedence over any other [`RTMClientOptions`](reference/rtm-api#rtmclientoptions) specified.
 
 ```javascript
 const { RTMClient } = require('@slack/rtm-api');
@@ -663,7 +663,7 @@ const options = {
 const webClient = new WebClient(token, options);
 
 // Initialize a client using the configuration
-const rtm = new RTMClient(token, {webClient});
+const rtm = new RTMClient(token, { webClient });
 ```
 
 ---
