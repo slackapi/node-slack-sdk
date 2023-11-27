@@ -267,6 +267,7 @@ import type { APITestArguments } from './types/request/api';
 import type { AdminAnalyticsGetFileArguments } from './types/request/admin/analytics';
 import type { AdminAppsActivitiesListArguments, AdminAppsApproveArguments, AdminAppsApprovedListArguments, AdminAppsClearResolutionArguments, AdminAppsConfigLookupArguments, AdminAppsConfigSetArguments, AdminAppsRequestsCancelArguments, AdminAppsRequestsListArguments, AdminAppsRestrictArguments, AdminAppsRestrictedListArguments, AdminAppsUninstallArguments } from './types/request/admin/apps';
 import type { AdminAuthPolicyAssignEntitiesArguments, AdminAuthPolicyGetEntitiesArguments, AdminAuthPolicyRemoveEntitiesArguments } from './types/request/admin/auth';
+import type { AdminBarriersCreateArguments, AdminBarriersDeleteArguments, AdminBarriersListArguments, AdminBarriersUpdateArguments } from './types/request/admin/barriers';
 
 /**
  * Generic method definition
@@ -409,6 +410,10 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       },
     },
     barriers: {
+      /**
+       * @description Create an Information Barrier.
+       * @see {@link https://api.slack.com/methods/admin.barriers.create `admin.barriers.create` API reference}.
+       */
       create: bindApiCall<AdminBarriersCreateArguments, AdminBarriersCreateResponse>(this, 'admin.barriers.create'),
       delete: bindApiCall<AdminBarriersDeleteArguments, AdminBarriersDeleteResponse>(this, 'admin.barriers.delete'),
       list: bindApiCall<AdminBarriersListArguments, AdminBarriersListResponse>(this, 'admin.barriers.list'),
@@ -1543,27 +1548,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      */
     updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
   };
-}
-
-// https://api.slack.com/methods/admin.barriers.create
-export interface AdminBarriersCreateArguments extends TokenOverridable {
-  barriered_from_usergroup_ids: string[];
-  primary_usergroup_id: string;
-  restricted_subjects: string[]; // TODO: this should always be ['im','mpim','call'] according to the docs
-}
-// https://api.slack.com/methods/admin.barriers.delete
-export interface AdminBarriersDeleteArguments extends TokenOverridable {
-  barrier_id: string;
-}
-// https://api.slack.com/methods/admin.barriers.list
-export interface AdminBarriersListArguments extends TokenOverridable, CursorPaginationEnabled { }
-
-// https://api.slack.com/methods/admin.barriers.update
-export interface AdminBarriersUpdateArguments extends TokenOverridable {
-  barrier_id: string;
-  barriered_from_usergroup_ids: string[];
-  primary_usergroup_id: string;
-  restricted_subjects: string[]; // TODO: this should always be ['im','mpim','call'] according to the docs
 }
 
 // https://api.slack.com/methods/admin.conversations.archive
