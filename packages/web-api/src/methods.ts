@@ -415,8 +415,20 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @see {@link https://api.slack.com/methods/admin.barriers.create `admin.barriers.create` API reference}.
        */
       create: bindApiCall<AdminBarriersCreateArguments, AdminBarriersCreateResponse>(this, 'admin.barriers.create'),
+      /**
+       * @description Delete an existing Information Barrier.
+       * @see {@link https://api.slack.com/methods/admin.barriers.delete `admin.barriers.delete` API reference}.
+       */
       delete: bindApiCall<AdminBarriersDeleteArguments, AdminBarriersDeleteResponse>(this, 'admin.barriers.delete'),
+      /**
+       * @description Get all Information Barriers for your organization.
+       * @see {@link https://api.slack.com/methods/admin.barriers.list `admin.barriers.list` API reference}.
+       */
       list: bindApiCall<AdminBarriersListArguments, AdminBarriersListResponse>(this, 'admin.barriers.list'),
+      /**
+       * @description Update an existing Information Barrier.
+       * @see {@link https://api.slack.com/methods/admin.barriers.update `admin.barriers.update` API reference}.
+       */
       update: bindApiCall<AdminBarriersUpdateArguments, AdminBarriersUpdateResponse>(this, 'admin.barriers.update'),
     },
     conversations: {

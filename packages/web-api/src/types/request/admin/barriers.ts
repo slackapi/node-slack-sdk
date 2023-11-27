@@ -1,23 +1,28 @@
 import type { CursorPaginationEnabled, TokenOverridable } from '../common';
 
-// https://api.slack.com/methods/admin.barriers.create
-export interface AdminBarriersCreateArguments extends TokenOverridable {
-  barriered_from_usergroup_ids: string[];
-  primary_usergroup_id: string;
-  restricted_subjects: string[]; // TODO: this should always be ['im','mpim','call'] according to the docs
-}
-// https://api.slack.com/methods/admin.barriers.delete
-export interface AdminBarriersDeleteArguments extends TokenOverridable {
+interface BarrierID {
+  /** @description The ID of the barrier. */
   barrier_id: string;
 }
+
+// https://api.slack.com/methods/admin.barriers.create
+export interface AdminBarriersCreateArguments extends TokenOverridable {
+  /** @description A list of {@link https://slack.com/help/articles/115001435788-Connect-identity-provider-groups-to-your-Enterprise-Grid-org IDP Groups} IDs ti associate with the barrier. */
+  barriered_from_usergroup_ids: string[];
+  /** @description The ID of the primary {@link https://slack.com/help/articles/115001435788-Connect-identity-provider-groups-to-your-Enterprise-Grid-org IDP Group}. */
+  primary_usergroup_id: string;
+  /**
+   * @description What kind of interactions are blocked by this barrier?
+   * Currently you must provide all three: `im`, `mpim`, `call`.
+   */
+  restricted_subjects: ['im', 'mpim', 'call'];
+}
+
+// https://api.slack.com/methods/admin.barriers.delete
+export interface AdminBarriersDeleteArguments extends BarrierID, TokenOverridable {}
+
 // https://api.slack.com/methods/admin.barriers.list
 export interface AdminBarriersListArguments extends TokenOverridable, CursorPaginationEnabled { }
 
 // https://api.slack.com/methods/admin.barriers.update
-export interface AdminBarriersUpdateArguments extends TokenOverridable {
-  barrier_id: string;
-  barriered_from_usergroup_ids: string[];
-  primary_usergroup_id: string;
-  restricted_subjects: string[]; // TODO: this should always be ['im','mpim','call'] according to the docs
-}
-
+export interface AdminBarriersUpdateArguments extends AdminBarriersCreateArguments, BarrierID {}
