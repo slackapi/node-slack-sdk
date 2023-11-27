@@ -15,6 +15,7 @@ slug: rtm-api
 <th align="center">Name</th>
 <th align="center">Type</th>
 <th align="center">Required</th>
+<th align="center">Description</th>
 <th></th>
 </tr>
 </thead>
@@ -29,6 +30,13 @@ slug: rtm-api
 <td align="center">opts</td>
 <td align="center"><code><a href="#rtmclientoptions" title="">RTMClientOptions</a></code></td>
 <td align="center">✗</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">webClient</td>
+<td align="center"><code><a href="web-api#webclient" title="">WebClient</a></code></td>
+<td align="center">✗</td>
+<td align="center">An optional parameter to provide a customized <a href="web-api#webclient">WebClient</a>. Any desired options for the custom client must be set in this parameter (<code>webClient</code>) as they will take precedence over other arguments passed into <code>RTMClient</code>.</td>
 <td></td>
 </tr>
 </tbody>
