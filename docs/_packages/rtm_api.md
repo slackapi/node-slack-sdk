@@ -644,6 +644,30 @@ const rtm = new RTMClient(token, options);
 
 ---
 
+### Custom WebClient
+
+In some cases, you might want flexibility with the WebClient construction beyond the provided RTMClient options
+
+```javascript
+const { RTMClient } = require('@slack/rtm-api');
+const { WebClient, WebClientOptions } = require('@slack/web-api');
+const token = process.env.SLACK_BOT_TOKEN;
+
+// Configure the client to have custom headers
+const options = {
+  headers: {
+     'Cookie': 'myCookie=cookieValue;'
+  }
+} as WebClientOptions;
+
+const webClient = new WebClient(token, options);
+
+// Initialize a client using the configuration
+const rtm = new RTMClient(token, {webClient});
+```
+
+---
+
 ### Workspace state snapshot
 
 The client can receive a snapshot of a portion of the workspace's state while its connecting. This can be useful if your
