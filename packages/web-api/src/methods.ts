@@ -268,6 +268,7 @@ import type { AdminAnalyticsGetFileArguments } from './types/request/admin/analy
 import type { AdminAppsActivitiesListArguments, AdminAppsApproveArguments, AdminAppsApprovedListArguments, AdminAppsClearResolutionArguments, AdminAppsConfigLookupArguments, AdminAppsConfigSetArguments, AdminAppsRequestsCancelArguments, AdminAppsRequestsListArguments, AdminAppsRestrictArguments, AdminAppsRestrictedListArguments, AdminAppsUninstallArguments } from './types/request/admin/apps';
 import type { AdminAuthPolicyAssignEntitiesArguments, AdminAuthPolicyGetEntitiesArguments, AdminAuthPolicyRemoveEntitiesArguments } from './types/request/admin/auth';
 import type { AdminBarriersCreateArguments, AdminBarriersDeleteArguments, AdminBarriersListArguments, AdminBarriersUpdateArguments } from './types/request/admin/barriers';
+import type { AdminConversationsArchiveArguments, AdminConversationsBulkArchiveArguments, AdminConversationsBulkDeleteArguments, AdminConversationsBulkMoveArguments, AdminConversationsConvertToPrivateArguments, AdminConversationsConvertToPublicArguments, AdminConversationsCreateArguments, AdminConversationsDeleteArguments, AdminConversationsDisconnectSharedArguments, AdminConversationsEKMListOriginalConnectedChannelInfoArguments, AdminConversationsGetConversationPrefsArguments, AdminConversationsGetCustomRetentionArguments, AdminConversationsGetTeamsArguments, AdminConversationsInviteArguments, AdminConversationsLookupArguments, AdminConversationsRemoveCustomRetentionArguments, AdminConversationsRenameArguments, AdminConversationsRestrictAccessAddGroupArguments, AdminConversationsRestrictAccessListGroupsArguments, AdminConversationsRestrictAccessRemoveGroupArguments, AdminConversationsSearchArguments, AdminConversationsSetConversationPrefsArguments, AdminConversationsSetCustomRetentionArguments, AdminConversationsSetTeamsArguments, AdminConversationsUnarchiveArguments } from './types/request/admin/conversations';
 
 /**
  * Generic method definition
@@ -432,15 +433,39 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       update: bindApiCall<AdminBarriersUpdateArguments, AdminBarriersUpdateResponse>(this, 'admin.barriers.update'),
     },
     conversations: {
+      /**
+       * @description Archive a public or private channel.
+       * @see {@link https://api.slack.com/methods/admin.conversations.archive `admin.conversations.archive` API reference}.
+       */
       archive: bindApiCall<AdminConversationsArchiveArguments, AdminConversationsArchiveResponse>(this, 'admin.conversations.archive'),
+      /**
+       * @description Archive public or private channels in bulk.
+       * @see {@link https://api.slack.com/methods/admin.conversations.bulkArchive `admin.conversations.bulkArchive` API reference}.
+       */
       bulkArchive: bindApiCall<AdminConversationsBulkArchiveArguments, AdminConversationsBulkArchiveResponse>(this, 'admin.conversations.bulkArchive'),
+      /**
+       * @description Delete public or private channels in bulk.
+       * @see {@link https://api.slack.com/methods/admin.conversations.bulkDelet `admin.conversations.bulkDelete` API reference}.
+       */
       bulkDelete: bindApiCall<AdminConversationsBulkDeleteArguments, AdminConversationsBulkDeleteResponse>(this, 'admin.conversations.bulkDelete'),
+      /**
+       * @description Move public or private channels in bulk.
+       * @see {@link https://api.slack.com/methods/admin.conversations.bulkMove `admin.conversations.bulkMove` API reference}.
+       */
       bulkMove: bindApiCall<AdminConversationsBulkMoveArguments, AdminConversationsBulkMoveResponse>(this, 'admin.conversations.bulkMove'),
+      /**
+       * @description Convert a public channel to a private channel.
+       * @see {@link https://api.slack.com/methods/admin.conversations.convertToPrivate `admin.conversations.convertToPrivate` API reference}.
+       */
       convertToPrivate:
         bindApiCall<AdminConversationsConvertToPrivateArguments, AdminConversationsConvertToPrivateResponse>(
           this,
           'admin.conversations.convertToPrivate',
         ),
+      /**
+       * @description Convert a private channel to a public channel.
+       * @see {@link https://api.slack.com/methods/admin.conversations.convertToPublic `admin.conversations.convertToPublic` API reference}.
+       */
       convertToPublic:
         bindApiCall<AdminConversationsConvertToPublicArguments, AdminConversationsConvertToPublicResponse>(
           this,
@@ -466,11 +491,22 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
           this,
           'admin.conversations.getConversationPrefs',
         ),
+      getCustomRetention:
+        bindApiCall<AdminConversationsGetCustomRetentionArguments, AdminConversationsGetCustomRetentionResponse>(
+          this,
+          'admin.conversations.getCustomRetention',
+        ),
       getTeams: bindApiCall<AdminConversationsGetTeamsArguments, AdminConversationsGetTeamsResponse>(
         this,
         'admin.conversations.getTeams',
       ),
       invite: bindApiCall<AdminConversationsInviteArguments, AdminConversationsInviteResponse>(this, 'admin.conversations.invite'),
+      lookup: bindApiCall<AdminConversationsLookupArguments, AdminConversationsLookupResponse>(this, 'admin.conversations.lookup'),
+      removeCustomRetention:
+        bindApiCall<AdminConversationsRemoveCustomRetentionArguments, AdminConversationsRemoveCustomRetentionResponse>(
+          this,
+          'admin.conversations.removeCustomRetention',
+        ),
       rename: bindApiCall<AdminConversationsRenameArguments, AdminConversationsRenameResponse>(this, 'admin.conversations.rename'),
       restrictAccess: {
         addGroup: bindApiCall<AdminConversationsRestrictAccessAddGroupArguments,
@@ -491,27 +527,16 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
             'admin.conversations.restrictAccess.removeGroup',
           ),
       },
-      getCustomRetention:
-        bindApiCall<AdminConversationsGetCustomRetentionArguments, AdminConversationsGetCustomRetentionResponse>(
-          this,
-          'admin.conversations.getCustomRetention',
-        ),
-      setCustomRetention:
-        bindApiCall<AdminConversationsSetCustomRetentionArguments, AdminConversationsSetCustomRetentionResponse>(
-          this,
-          'admin.conversations.setCustomRetention',
-        ),
-      removeCustomRetention:
-        bindApiCall<AdminConversationsRemoveCustomRetentionArguments, AdminConversationsRemoveCustomRetentionResponse>(
-          this,
-          'admin.conversations.removeCustomRetention',
-        ),
-      lookup: bindApiCall<AdminConversationsLookupArguments, AdminConversationsLookupResponse>(this, 'admin.conversations.lookup'),
       search: bindApiCall<AdminConversationsSearchArguments, AdminConversationsSearchResponse>(this, 'admin.conversations.search'),
       setConversationPrefs:
         bindApiCall<AdminConversationsSetConversationPrefsArguments, AdminConversationsSetConversationPrefsResponse>(
           this,
           'admin.conversations.setConversationPrefs',
+        ),
+      setCustomRetention:
+        bindApiCall<AdminConversationsSetCustomRetentionArguments, AdminConversationsSetCustomRetentionResponse>(
+          this,
+          'admin.conversations.setCustomRetention',
         ),
       setTeams: bindApiCall<AdminConversationsSetTeamsArguments, AdminConversationsSetTeamsResponse>(
         this,
@@ -1560,140 +1585,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      */
     updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
   };
-}
-
-// https://api.slack.com/methods/admin.conversations.archive
-export interface AdminConversationsArchiveArguments extends TokenOverridable {
-  channel_id: string;
-}
-// https://api.slack.com/methods/admin.conversations.bulkArchive
-export interface AdminConversationsBulkArchiveArguments extends TokenOverridable {
-  channel_ids: string[]; // TODO: breaking change, enforce at least one array item?
-}
-// https://api.slack.com/methods/admin.conversations.bulkDelete
-export interface AdminConversationsBulkDeleteArguments extends TokenOverridable {
-  channel_ids: string[]; // TODO: breaking change, enforce at least one array item?
-}
-// https://api.slack.com/methods/admin.conversations.bulkMove
-export interface AdminConversationsBulkMoveArguments extends TokenOverridable {
-  channel_ids: string[]; // TODO: breaking change, enforce at least one array item?
-  target_team_id: string;
-}
-// https://api.slack.com/methods/admin.conversations.convertToPrivate
-export interface AdminConversationsConvertToPrivateArguments extends TokenOverridable {
-  channel_id: string;
-  name?: string;
-}
-// https://api.slack.com/methods/admin.conversations.convertToPublic
-export interface AdminConversationsConvertToPublicArguments extends TokenOverridable {
-  channel_id: string;
-}
-// TODO: breaking change; if org_wide=false then team_id is required.
-// https://api.slack.com/methods/admin.conversations.create
-export interface AdminConversationsCreateArguments extends TokenOverridable {
-  is_private: boolean;
-  name: string;
-  description?: string;
-  org_wide?: boolean;
-  team_id?: string;
-}
-// https://api.slack.com/methods/admin.conversations.delete
-export interface AdminConversationsDeleteArguments extends TokenOverridable {
-  channel_id: string;
-}
-// https://api.slack.com/methods/admin.conversations.disconnectShared
-export interface AdminConversationsDisconnectSharedArguments extends TokenOverridable {
-  channel_id: string;
-  leaving_team_ids?: string[];
-}
-// https://api.slack.com/methods/admin.conversations.lookup
-export interface AdminConversationsLookupArguments
-  extends TokenOverridable, CursorPaginationEnabled {
-  last_message_activity_before: number;
-  team_ids: string[];
-  max_member_count?: number;
-}
-// https://api.slack.com/methods/admin.conversations.ekm.listOriginalConnectedChannelInfo
-export interface AdminConversationsEKMListOriginalConnectedChannelInfoArguments
-  extends TokenOverridable, CursorPaginationEnabled {
-  channel_ids?: string[];
-  team_ids?: string[];
-}
-// https://api.slack.com/methods/admin.conversations.getConversationPrefs
-export interface AdminConversationsGetConversationPrefsArguments extends TokenOverridable {
-  channel_id: string;
-}
-// https://api.slack.com/methods/admin.conversations.getTeams
-export interface AdminConversationsGetTeamsArguments
-  extends TokenOverridable, CursorPaginationEnabled {
-  channel_id: string;
-}
-// https://api.slack.com/methods/admin.conversations.invite
-export interface AdminConversationsInviteArguments extends TokenOverridable {
-  channel_id: string;
-  user_ids: string[];
-}
-// https://api.slack.com/methods/admin.conversations.rename
-export interface AdminConversationsRenameArguments extends TokenOverridable {
-  channel_id: string;
-  name: string;
-}
-// https://api.slack.com/methods/admin.conversations.restrictAccess.addGroup
-export interface AdminConversationsRestrictAccessAddGroupArguments extends TokenOverridable {
-  channel_id: string;
-  group_id: string;
-  team_id?: string;
-}
-// https://api.slack.com/methods/admin.conversations.restrictAccess.listGroups
-export interface AdminConversationsRestrictAccessListGroupsArguments extends TokenOverridable {
-  channel_id: string;
-  team_id?: string;
-}
-// https://api.slack.com/methods/admin.conversations.restrictAccess.removeGroup
-export interface AdminConversationsRestrictAccessRemoveGroupArguments extends TokenOverridable {
-  channel_id: string;
-  group_id: string;
-  team_id?: string;
-}
-// https://api.slack.com/methods/admin.conversations.getCustomRetention
-export interface AdminConversationsGetCustomRetentionArguments extends TokenOverridable {
-  channel_id: string;
-}
-// https://api.slack.com/methods/admin.conversations.setCustomRetention
-export interface AdminConversationsSetCustomRetentionArguments extends TokenOverridable {
-  channel_id: string;
-  duration_days: number;
-}
-// https://api.slack.com/methods/admin.conversations.removeCustomRetention
-export interface AdminConversationsRemoveCustomRetentionArguments extends TokenOverridable {
-  channel_id: string;
-}
-// https://api.slack.com/methods/admin.conversations.search
-export interface AdminConversationsSearchArguments
-  extends TokenOverridable, CursorPaginationEnabled {
-  query?: string;
-  search_channel_types?: string[]; // TODO: breaking change: turn into an array of string literals? See all options here: https://api.slack.com/methods/admin.conversations.search#types
-  sort?: 'relevant' | 'name' | 'member_count' | 'created';
-  sort_dir?: 'asc' | 'desc';
-  team_ids?: string[];
-  connected_team_ids?: string[];
-  total_count_only?: boolean;
-}
-// https://api.slack.com/methods/admin.conversations.setConversationPrefs
-export interface AdminConversationsSetConversationPrefsArguments extends TokenOverridable {
-  channel_id: string;
-  prefs: Record<string, unknown>; // TODO: should this be Record<string, string>? See https://api.slack.com/methods/admin.conversations.setConversationPrefs#markdown
-}
-// https://api.slack.com/methods/admin.conversations.setTeams
-export interface AdminConversationsSetTeamsArguments extends TokenOverridable {
-  channel_id: string;
-  team_id?: string;
-  target_team_ids?: string[];
-  org_channel?: boolean;
-}
-// https://api.slack.com/methods/admin.conversations.unarchive
-export interface AdminConversationsUnarchiveArguments extends TokenOverridable {
-  channel_id: string;
 }
 // https://api.slack.com/methods/admin.emoji.add
 export interface AdminEmojiAddArguments extends TokenOverridable {
