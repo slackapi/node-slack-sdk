@@ -269,6 +269,7 @@ import type { AdminAppsActivitiesListArguments, AdminAppsApproveArguments, Admin
 import type { AdminAuthPolicyAssignEntitiesArguments, AdminAuthPolicyGetEntitiesArguments, AdminAuthPolicyRemoveEntitiesArguments } from './types/request/admin/auth';
 import type { AdminBarriersCreateArguments, AdminBarriersDeleteArguments, AdminBarriersListArguments, AdminBarriersUpdateArguments } from './types/request/admin/barriers';
 import type { AdminConversationsArchiveArguments, AdminConversationsBulkArchiveArguments, AdminConversationsBulkDeleteArguments, AdminConversationsBulkMoveArguments, AdminConversationsConvertToPrivateArguments, AdminConversationsConvertToPublicArguments, AdminConversationsCreateArguments, AdminConversationsDeleteArguments, AdminConversationsDisconnectSharedArguments, AdminConversationsEKMListOriginalConnectedChannelInfoArguments, AdminConversationsGetConversationPrefsArguments, AdminConversationsGetCustomRetentionArguments, AdminConversationsGetTeamsArguments, AdminConversationsInviteArguments, AdminConversationsLookupArguments, AdminConversationsRemoveCustomRetentionArguments, AdminConversationsRenameArguments, AdminConversationsRestrictAccessAddGroupArguments, AdminConversationsRestrictAccessListGroupsArguments, AdminConversationsRestrictAccessRemoveGroupArguments, AdminConversationsSearchArguments, AdminConversationsSetConversationPrefsArguments, AdminConversationsSetCustomRetentionArguments, AdminConversationsSetTeamsArguments, AdminConversationsUnarchiveArguments } from './types/request/admin/conversations';
+import type { AdminEmojiAddArguments, AdminEmojiAddAliasArguments, AdminEmojiListArguments, AdminEmojiRemoveArguments, AdminEmojiRenameArguments } from './types/request/admin/emoji';
 
 /**
  * Generic method definition
@@ -626,10 +627,30 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       ),
     },
     emoji: {
+      /**
+       * @description Add an emoji.
+       * @see {@link https://api.slack.com/methods/admin.emoji.add `admin.emoji.add` API reference}.
+       */
       add: bindApiCall<AdminEmojiAddArguments, AdminEmojiAddResponse>(this, 'admin.emoji.add'),
+      /**
+       * @description Add an emoji alias.
+       * @see {@link https://api.slack.com/methods/admin.emoji.addAlias `admin.emoji.addAlias` API reference}.
+       */
       addAlias: bindApiCall<AdminEmojiAddAliasArguments, AdminEmojiAddAliasResponse>(this, 'admin.emoji.addAlias'),
+      /**
+       * @description List emoji for an Enterprise Grid organization.
+       * @see {@link https://api.slack.com/methods/admin.emoji.list `admin.emoji.list` API reference}.
+       */
       list: bindApiCall<AdminEmojiListArguments, AdminEmojiListResponse>(this, 'admin.emoji.list'),
+      /**
+       * @description Remove an emoji across an Enterprise Grid organization.
+       * @see {@link https://api.slack.com/methods/admin.emoji.remove `admin.emoji.remove` API reference}.
+       */
       remove: bindApiCall<AdminEmojiRemoveArguments, AdminEmojiRemoveResponse>(this, 'admin.emoji.remove'),
+      /**
+       * @description Rename an emoji.
+       * @see {@link https://api.slack.com/methods/admin.emoji.rename `admin.emoji.rename` API reference}.
+       */
       rename: bindApiCall<AdminEmojiRenameArguments, AdminEmojiRenameResponse>(this, 'admin.emoji.rename'),
     },
     functions: {
@@ -1663,27 +1684,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      */
     updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
   };
-}
-// https://api.slack.com/methods/admin.emoji.add
-export interface AdminEmojiAddArguments extends TokenOverridable {
-  name: string;
-  url: string;
-}
-// https://api.slack.com/methods/admin.emoji.addAlias
-export interface AdminEmojiAddAliasArguments extends TokenOverridable {
-  name: string;
-  alias_for: string;
-}
-// https://api.slack.com/methods/admin.emoji.list
-export interface AdminEmojiListArguments extends TokenOverridable, CursorPaginationEnabled { }
-// https://api.slack.com/methods/admin.emoji.remove
-export interface AdminEmojiRemoveArguments extends TokenOverridable {
-  name: string;
-}
-// https://api.slack.com/methods/admin.emoji.rename
-export interface AdminEmojiRenameArguments extends TokenOverridable {
-  name: string;
-  new_name: string;
 }
 // https://api.slack.com/methods/admin.functions.list
 export interface AdminFunctionsListArguments extends TokenOverridable, CursorPaginationEnabled {
