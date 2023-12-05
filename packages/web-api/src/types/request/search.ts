@@ -1,6 +1,6 @@
-import { OptionalTeamAssignable, TokenOverridable, TraditionalPagingEnabled } from './common';
+import { OptionalTeamAssignable, SortDir, TokenOverridable, TraditionalPagingEnabled } from './common';
 
-interface Searchable extends OptionalTeamAssignable {
+interface Searchable extends OptionalTeamAssignable, SortDir {
   /** @description Search query. */
   query: string;
   /**
@@ -10,8 +10,6 @@ interface Searchable extends OptionalTeamAssignable {
   highlight?: boolean;
   /** @description Return matches sorted by either `score` or `timestamp`. Defaults to `score`. */
   sort?: 'score' | 'timestamp';
-  /** @description Change sort direction to ascending (`asc`) or descending (`desc`). Defaults to `desc`. */
-  sort_dir?: 'asc' | 'desc';
 }
 
 // https://api.slack.com/methods/search.all

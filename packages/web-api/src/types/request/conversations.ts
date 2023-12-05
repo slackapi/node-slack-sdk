@@ -83,7 +83,13 @@ export interface ConversationsInfoArguments extends Channel, TokenOverridable, L
 }
 
 // https://api.slack.com/methods/conversations.invite
-export interface ConversationsInviteArguments extends Channel, Users, TokenOverridable { }
+export interface ConversationsInviteArguments extends Channel, Users, TokenOverridable {
+  /**
+   * @description When set to `true` and multiple user IDs are provided, continue inviting the valid ones while
+   * disregarding invalid IDs. Defaults to `false`.
+   */
+  force?: boolean;
+}
 
 // https://api.slack.com/methods/conversations.inviteShared
 export type ConversationsInviteSharedArguments = Channel & TokenOverridable & (Emails | UserIDs) & {

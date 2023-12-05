@@ -81,10 +81,15 @@ export interface FileCommentArgument {
   file_comment: string;
 }
 
-/**
- * Some API methods use arguments related to OAuth flows.
- * E.g. `openid.*` and `oauth.*`
- */
+// Some API methods offer search functionality whose sort order can be customized.
+// E.g. `admin.conversations.search` and `search.*`
+export interface SortDir {
+  /** @description Change sort direction to ascending (`asc`) or descending (`desc`). Defaults to `desc`. */
+  sort_dir?: 'asc' | 'desc';
+}
+
+// Some API methods use arguments related to OAuth flows.
+// E.g. `openid.*` and `oauth.*`
 
 export interface OAuthCredentials {
   /** @description Issued when you created your application. */

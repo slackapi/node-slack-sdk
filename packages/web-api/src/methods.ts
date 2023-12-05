@@ -471,14 +471,31 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
           this,
           'admin.conversations.convertToPublic',
         ),
+      /**
+       * @description Create a public or private channel-based conversation.
+       * @see {@link https://api.slack.com/methods/admin.conversations.create `admin.conversations.create` API reference}.
+       */
       create: bindApiCall<AdminConversationsCreateArguments, AdminConversationsCreateResponse>(this, 'admin.conversations.create'),
+      /**
+       * @description Delete a public or private channel.
+       * @see {@link https://api.slack.com/methods/admin.conversations.delete `admin.conversations.delete` API reference}.
+       */
       delete: bindApiCall<AdminConversationsDeleteArguments, AdminConversationsDeleteResponse>(this, 'admin.conversations.delete'),
+      /**
+       * @description Disconnect a connected channel from one or more workspaces.
+       * @see {@link https://api.slack.com/methods/admin.conversations.disconnectShared `admin.conversations.disconnectShared` API reference}.
+       */
       disconnectShared:
         bindApiCall<AdminConversationsDisconnectSharedArguments, AdminConversationsDisconnectSharedResponse>(
           this,
           'admin.conversations.disconnectShared',
         ),
       ekm: {
+        /**
+         * @description List all disconnected channels — i.e., channels that were once connected to other workspaces
+         * and then disconnected — and the corresponding original channel IDs for key revocation with EKM.
+         * @see {@link https://api.slack.com/methods/admin.conversations.ekm.listOriginalConnectedChannelInfo `admin.conversations.ekm.listOriginalConnectedChannelInfo` API reference}.
+         */
         listOriginalConnectedChannelInfo:
           bindApiCall<AdminConversationsEKMListOriginalConnectedChannelInfoArguments,
           AdminConversationsEkmListOriginalConnectedChannelInfoResponse>(
@@ -486,40 +503,81 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
             'admin.conversations.ekm.listOriginalConnectedChannelInfo',
           ),
       },
+      /**
+       * @description Get conversation preferences for a public or private channel.
+       * @see {@link https://api.slack.com/methods/admin.conversations.getConversationPrefs `admin.conversations.getConversationPrefs` API reference}.
+       */
       getConversationPrefs:
         bindApiCall<AdminConversationsGetConversationPrefsArguments, AdminConversationsGetConversationPrefsResponse>(
           this,
           'admin.conversations.getConversationPrefs',
         ),
+      /**
+       * @description Get a conversation's retention policy.
+       * @see {@link https://api.slack.com/methods/admin.conversations.getCustomRetention `admin.conversations.getCustomRetention` API reference}.
+       */
       getCustomRetention:
         bindApiCall<AdminConversationsGetCustomRetentionArguments, AdminConversationsGetCustomRetentionResponse>(
           this,
           'admin.conversations.getCustomRetention',
         ),
+      /**
+       * @description Get all the workspaces a given public or private channel is connected to within
+       * this Enterprise org.
+       * @see {@link https://api.slack.com/methods/admin.conversations.getTeams `admin.conversations.getTeams` API reference}.
+       */
       getTeams: bindApiCall<AdminConversationsGetTeamsArguments, AdminConversationsGetTeamsResponse>(
         this,
         'admin.conversations.getTeams',
       ),
+      /**
+       * @description Invite a user to a public or private channel.
+       * @see {@link https://api.slack.com/methods/admin.conversations.invite `admin.conversations.invite` API reference}.
+       */
       invite: bindApiCall<AdminConversationsInviteArguments, AdminConversationsInviteResponse>(this, 'admin.conversations.invite'),
+      /**
+       * @description Returns channels on the given team using the filters.
+       * @see {@link https://api.slack.com/methods/admin.conversations.lookup `admin.conversations.lookup` API reference}.
+       */
       lookup: bindApiCall<AdminConversationsLookupArguments, AdminConversationsLookupResponse>(this, 'admin.conversations.lookup'),
+      /**
+       * @description Remove a conversation's retention policy.
+       * @see {@link https://api.slack.com/methods/admin.conversations.removeCustomRetention `admin.conversations.removeCustomRetention` API reference}.
+       */
       removeCustomRetention:
         bindApiCall<AdminConversationsRemoveCustomRetentionArguments, AdminConversationsRemoveCustomRetentionResponse>(
           this,
           'admin.conversations.removeCustomRetention',
         ),
+      /**
+       * @description Rename a public or private channel.
+       * @see {@link https://api.slack.com/methods/admin.conversations.rename `admin.conversations.rename` API reference}.
+       */
       rename: bindApiCall<AdminConversationsRenameArguments, AdminConversationsRenameResponse>(this, 'admin.conversations.rename'),
       restrictAccess: {
+        /**
+         * @description Add an allowlist of IDP groups for accessing a channel.
+         * @see {@link https://api.slack.com/methods/admin.conversations.restrictAccess.addGroup `admin.conversations.restrictAccess.addGroup` API reference}.
+         */
         addGroup: bindApiCall<AdminConversationsRestrictAccessAddGroupArguments,
         AdminConversationsRestrictAccessAddGroupResponse>(
           this,
           'admin.conversations.restrictAccess.addGroup',
         ),
+        /**
+         * @description List all IDP Groups linked to a channel.
+         * @see {@link https://api.slack.com/methods/admin.conversations.restrictAccess.listGroups `admin.conversations.restrictAccess.listGroups` API reference}.
+         */
         listGroups:
           bindApiCall<AdminConversationsRestrictAccessListGroupsArguments,
           AdminConversationsRestrictAccessListGroupsResponse>(
             this,
             'admin.conversations.restrictAccess.listGroups',
           ),
+        /**
+         * @description Remove a linked IDP group linked from a private channel.
+         * @see {@link https://api.slack.com/methods/admin.conversations.restrictAccess.removeGroup `admin.conversations.restrictAccess.removeGroup` API reference}.
+         */
         removeGroup:
           bindApiCall<AdminConversationsRestrictAccessRemoveGroupArguments,
           AdminConversationsRestrictAccessRemoveGroupResponse>(
@@ -527,21 +585,41 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
             'admin.conversations.restrictAccess.removeGroup',
           ),
       },
+      /**
+       * @description Search for public or private channels in an Enterprise organization.
+       * @see {@link https://api.slack.com/methods/admin.conversations.search `admin.conversations.search` API reference}.
+       */
       search: bindApiCall<AdminConversationsSearchArguments, AdminConversationsSearchResponse>(this, 'admin.conversations.search'),
+      /**
+       * @description Set the posting permissions for a public or private channel.
+       * @see {@link https://api.slack.com/methods/admin.conversations.setConversationPrefs `admin.conversations.setConversationPrefs` API reference}.
+       */
       setConversationPrefs:
         bindApiCall<AdminConversationsSetConversationPrefsArguments, AdminConversationsSetConversationPrefsResponse>(
           this,
           'admin.conversations.setConversationPrefs',
         ),
+      /**
+       * @description Set a conversation's retention policy.
+       * @see {@link https://api.slack.com/methods/admin.conversations.setCustomRetention `admin.conversations.setCustomRetention` API reference}.
+       */
       setCustomRetention:
         bindApiCall<AdminConversationsSetCustomRetentionArguments, AdminConversationsSetCustomRetentionResponse>(
           this,
           'admin.conversations.setCustomRetention',
         ),
+      /**
+       * @description Set the workspaces in an Enterprise grid org that connect to a public or private channel.
+       * @see {@link https://api.slack.com/methods/admin.conversations.setTeams `admin.conversations.setTeams` API reference}.
+       */
       setTeams: bindApiCall<AdminConversationsSetTeamsArguments, AdminConversationsSetTeamsResponse>(
         this,
         'admin.conversations.setTeams',
       ),
+      /**
+       * @description Unarchive a public or private channel.
+       * @see {@link https://api.slack.com/methods/admin.conversations.unarchive `admin.conversations.unarchive` API reference}.
+       */
       unarchive: bindApiCall<AdminConversationsUnarchiveArguments, AdminConversationsUnarchiveResponse>(
         this,
         'admin.conversations.unarchive',
