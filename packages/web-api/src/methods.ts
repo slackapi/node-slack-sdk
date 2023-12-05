@@ -762,7 +762,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     ),
   };
 
-
   public readonly migration = {
     exchange: bindApiCall<MigrationExchangeArguments, MigrationExchangeResponse>(this, 'migration.exchange'),
   };
@@ -2100,7 +2099,6 @@ export interface FunctionsCompleteSuccessArguments extends WebAPICallOptions, To
   function_execution_id: string;
   outputs?: Record<string, unknown>;
 }
-
 
 /*
  * `groups.*`
