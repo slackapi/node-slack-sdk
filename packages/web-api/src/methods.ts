@@ -150,8 +150,8 @@ import {
   FilesRevokePublicURLResponse,
   FilesSharedPublicURLResponse,
   FilesUploadResponse,
-  FunctionCompleteErrorResponse,
-  FunctionCompleteSuccessResponse,
+  FunctionsCompleteErrorResponse,
+  FunctionsCompleteSuccessResponse,
   MigrationExchangeResponse,
   OauthAccessResponse,
   OauthV2AccessResponse,
@@ -742,8 +742,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly functions = {
-    completeError: bindApiCall<FunctionCompleteErrorArguments, WebAPICallResult>(this, 'functions.completeError'),
-    completeSuccess: bindApiCall<FunctionCompleteSuccessArguments, WebAPICallResult>(
+    completeError: bindApiCall<FunctionsCompleteErrorArguments, FunctionsCompleteErrorResponse>(this, 'functions.completeError'),
+    completeSuccess: bindApiCall<FunctionsCompleteSuccessArguments, FunctionsCompleteSuccessResponse>(
       this,
       'functions.completeSuccess',
     ),
@@ -2049,14 +2049,14 @@ export interface FilesRemoteShareArguments extends WebAPICallOptions, TokenOverr
 /*
  * `functions.*`
  */
-export interface FunctionCompleteSuccessArguments extends WebAPICallOptions, TokenOverridable {
-  function_execution_id: string;
-  outputs?: Record<string, unknown>;
-}
-
-export interface FunctionCompleteErrorArguments extends WebAPICallOptions, TokenOverridable {
+export interface FunctionsCompleteErrorArguments extends WebAPICallOptions, TokenOverridable {
   function_execution_id: string;
   error: string;
+}
+
+export interface FunctionsCompleteSuccessArguments extends WebAPICallOptions, TokenOverridable {
+  function_execution_id: string;
+  outputs?: Record<string, unknown>;
 }
 
 
