@@ -27,8 +27,8 @@ export interface Manifest {
 }
 
 export interface Metadata {
-  major_version?: string;
-  minor_version?: string;
+  major_version?: number;
+  minor_version?: number;
 }
 
 export interface DisplayInformation {
