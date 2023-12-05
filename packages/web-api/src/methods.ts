@@ -84,6 +84,11 @@ import {
   ApiTestResponse,
   AppsConnectionsOpenResponse,
   AppsEventAuthorizationsListResponse,
+  AppsManifestCreateResponse,
+  AppsManifestDeleteResponse,
+  AppsManifestExportResponse,
+  AppsManifestUpdateResponse,
+  AppsManifestValidateResponse,
   AppsUninstallResponse,
   AuthRevokeResponse,
   AuthTeamsListResponse,
@@ -185,6 +190,7 @@ import {
   TeamIntegrationLogsResponse,
   TeamPreferencesListResponse,
   TeamProfileGetResponse,
+  ToolingTokensRotateResponse,
   UsergroupsCreateResponse,
   UsergroupsDisableResponse,
   UsergroupsEnableResponse,
@@ -579,6 +585,13 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         ),
       },
     },
+    manifest: {
+      create: bindApiCall<AppsManifestCreateArguments, AppsManifestCreateResponse>(this, 'apps.manifest.create'),
+      delete: bindApiCall<AppsManifestDeleteArguments, AppsManifestDeleteResponse>(this, 'apps.manifest.delete'),
+      export: bindApiCall<AppsManifestExportArguments, AppsManifestExportResponse>(this, 'apps.manifest.export'),
+      update: bindApiCall<AppsManifestUpdateArguments, AppsManifestUpdateResponse>(this, 'apps.manifest.update'),
+      validate: bindApiCall<AppsManifestValidateArguments, AppsManifestValidateResponse>(this, 'apps.manifest.validate'),
+    },
     uninstall: bindApiCall<AppsUninstallArguments, AppsUninstallResponse>(this, 'apps.uninstall'),
   };
 
@@ -821,6 +834,12 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     },
     profile: {
       get: bindApiCall<TeamProfileGetArguments, TeamProfileGetResponse>(this, 'team.profile.get'),
+    },
+  };
+
+  public readonly tooling = {
+    tokens: {
+      rotate: bindApiCall<ToolingTokensRotateArguments, ToolingTokensRotateResponse>(this, 'tooling.tokens.rotate'),
     },
   };
 
@@ -1467,6 +1486,29 @@ export interface AppsEventAuthorizationsListArguments
   event_context: string;
 }
 cursorPaginationEnabledMethods.add('apps.event.authorizations.list');
+
+export interface AppsManifestCreateArguments extends WebAPICallOptions, TokenOverridable {
+  manifest: string;
+}
+
+export interface AppsManifestDeleteArguments extends WebAPICallOptions, TokenOverridable {
+  app_id: string;
+}
+
+export interface AppsManifestExportArguments extends WebAPICallOptions, TokenOverridable {
+  app_id: string;
+}
+
+export interface AppsManifestUpdateArguments extends WebAPICallOptions, TokenOverridable {
+  app_id: string;
+  manifest: string;
+}
+
+export interface AppsManifestValidateArguments extends WebAPICallOptions, TokenOverridable {
+  app_id?: string;
+  manifest: string;
+}
+
 export interface AppsUninstallArguments extends WebAPICallOptions {
   client_id: string;
   client_secret: string;
@@ -2380,6 +2422,13 @@ export interface TeamProfileGetArguments extends WebAPICallOptions, TokenOverrid
   team_id?: string;
 }
 export interface TeamPreferencesListArguments extends WebAPICallOptions, TokenOverridable {
+}
+
+/*
+ * `tooling.*`
+ */
+export interface ToolingTokensRotateArguments extends WebAPICallOptions, TokenOverridable {
+  refresh_token: string;
 }
 
 /*

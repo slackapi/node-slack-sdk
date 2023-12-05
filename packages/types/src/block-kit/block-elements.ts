@@ -122,6 +122,29 @@ export interface EmailInput extends Actionable, Dispatchable, Focusable, Placeho
 }
 
 /**
+ * @description Allows user to upload files. In order to use the `file_input` element within your app,
+ * your app must have the `files:read` scope.
+ * @see {@link https://api.slack.com/reference/block-kit/block-elements#file_input File input element reference}.
+ */
+export interface FileInput extends Actionable {
+  /**
+   * @description The type of element. In this case `type` is always `file_input`.
+   */
+  type: 'file_input';
+  /**
+   * @description An array of valid {@link https://api.slack.com/types/file#types file extensions} that will be accepted
+   * for this element. All file extensions will be accepted if `filetypes` is not specified. This validation is provided
+   * for convenience only, and you should perform your own file type validation based on what you expect to receive.
+   */
+  filetypes?: string[];
+  /**
+   * @description Maximum number of files that can be uploaded for this `file_input` element. Minimum of `1`, maximum of
+   * `10`. Defaults to `10` if not specified.
+   */
+  max_files?: number;
+}
+
+/**
  * @description Displays an image as part of a larger block of content. Use this `image` block if you want a block with
  * only an image in it.
  * @see {@link https://api.slack.com/reference/block-kit/block-elements#image Image element reference}.
