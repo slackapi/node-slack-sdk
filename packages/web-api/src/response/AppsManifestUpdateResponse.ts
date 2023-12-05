@@ -9,19 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 import { WebAPICallResult } from '../WebClient';
-export type TeamBillableInfoResponse = WebAPICallResult & {
-  billable_info?:     { [key: string]: BillableInfo };
-  error?:             string;
-  needed?:            string;
-  ok?:                boolean;
-  provided?:          string;
-  response_metadata?: ResponseMetadata;
+export type AppsManifestUpdateResponse = WebAPICallResult & {
+  app_id?:              string;
+  error?:               string;
+  needed?:              string;
+  ok?:                  boolean;
+  permissions_updated?: boolean;
+  provided?:            string;
 };
-
-export interface BillableInfo {
-  billing_active?: boolean;
-}
-
-export interface ResponseMetadata {
-  next_cursor?: string;
-}

@@ -9,39 +9,22 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 import { WebAPICallResult } from '../WebClient';
-export type AdminFunctionsListResponse = WebAPICallResult & {
+export type AppsManifestValidateResponse = WebAPICallResult & {
   error?:             string;
-  functions?:         Function[];
+  errors?:            Error[];
   needed?:            string;
   ok?:                boolean;
   provided?:          string;
   response_metadata?: ResponseMetadata;
 };
 
-export interface Function {
-  app_id?:            string;
-  callback_id?:       string;
-  date_created?:      number;
-  date_deleted?:      number;
-  date_updated?:      number;
-  description?:       string;
-  form_enabled?:      boolean;
-  id?:                string;
-  input_parameters?:  PutParameter[];
-  output_parameters?: PutParameter[];
-  title?:             string;
-  type?:              string;
-}
-
-export interface PutParameter {
-  description?: string;
-  is_required?: boolean;
-  name?:        string;
-  title?:       string;
-  type?:        string;
+export interface Error {
+  code?:              string;
+  message?:           string;
+  pointer?:           string;
+  related_component?: string;
 }
 
 export interface ResponseMetadata {
-  messages?:    string[];
-  next_cursor?: string;
+  messages?: string[];
 }

@@ -9,39 +9,20 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 import { WebAPICallResult } from '../WebClient';
-export type AdminFunctionsListResponse = WebAPICallResult & {
+export type ToolingTokensRotateResponse = WebAPICallResult & {
   error?:             string;
-  functions?:         Function[];
+  exp?:               number;
+  iat?:               number;
   needed?:            string;
   ok?:                boolean;
   provided?:          string;
+  refresh_token?:     string;
   response_metadata?: ResponseMetadata;
+  team_id?:           string;
+  token?:             string;
+  user_id?:           string;
 };
 
-export interface Function {
-  app_id?:            string;
-  callback_id?:       string;
-  date_created?:      number;
-  date_deleted?:      number;
-  date_updated?:      number;
-  description?:       string;
-  form_enabled?:      boolean;
-  id?:                string;
-  input_parameters?:  PutParameter[];
-  output_parameters?: PutParameter[];
-  title?:             string;
-  type?:              string;
-}
-
-export interface PutParameter {
-  description?: string;
-  is_required?: boolean;
-  name?:        string;
-  title?:       string;
-  type?:        string;
-}
-
 export interface ResponseMetadata {
-  messages?:    string[];
-  next_cursor?: string;
+  messages?: string[];
 }
