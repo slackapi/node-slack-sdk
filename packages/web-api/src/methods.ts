@@ -2097,7 +2097,7 @@ export interface FunctionsCompleteErrorArguments extends WebAPICallOptions, Toke
 
 export interface FunctionsCompleteSuccessArguments extends WebAPICallOptions, TokenOverridable {
   function_execution_id: string;
-  outputs?: Record<string, unknown>;
+  outputs: Record<string, unknown>;
 }
 
 /*
