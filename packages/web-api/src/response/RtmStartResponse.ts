@@ -537,6 +537,7 @@ export interface FileElement {
   source_team?:                             string;
   subject?:                                 string;
   subtype?:                                 string;
+  team_pref_version_history_enabled?:       boolean;
   teams_shared_with?:                       any[];
   template_conversion_ts?:                  number;
   template_description?:                    string;
@@ -659,11 +660,13 @@ export interface PurpleShares {
 export interface Private {
   access?:            string;
   channel_name?:      string;
+  date_last_shared?:  number;
   latest_reply?:      string;
   reply_count?:       number;
   reply_users?:       string[];
   reply_users_count?: number;
   share_user_id?:     string;
+  source?:            string;
   team_id?:           string;
   thread_ts?:         string;
   ts?:                string;
@@ -863,6 +866,7 @@ export interface MessageFile {
   source_team?:                             string;
   subject?:                                 string;
   subtype?:                                 string;
+  team_pref_version_history_enabled?:       boolean;
   teams_shared_with?:                       any[];
   template_conversion_ts?:                  number;
   template_description?:                    string;
