@@ -28,93 +28,106 @@ export interface Files {
 }
 
 export interface FilesMatch {
-  attachments?:               Attachment[];
-  bot_id?:                    string;
-  cc?:                        Cc[];
-  channels?:                  string[];
-  comments_count?:            number;
-  converted_pdf?:             string;
-  created?:                   number;
-  display_as_bot?:            boolean;
-  edit_link?:                 string;
-  editable?:                  boolean;
-  editors?:                   string[];
-  external_id?:               string;
-  external_type?:             string;
-  external_url?:              string;
-  file_access?:               string;
-  filetype?:                  string;
-  from?:                      Cc[];
-  groups?:                    string[];
-  has_more?:                  boolean;
-  has_more_shares?:           boolean;
-  has_rich_preview?:          boolean;
-  headers?:                   MatchHeaders;
-  id?:                        string;
-  image_exif_rotation?:       number;
-  ims?:                       string[];
-  is_external?:               boolean;
-  is_public?:                 boolean;
-  is_starred?:                boolean;
-  last_editor?:               string;
-  lines?:                     number;
-  lines_more?:                number;
-  media_display_type?:        string;
-  mimetype?:                  string;
-  mode?:                      string;
-  name?:                      string;
-  non_owner_editable?:        boolean;
-  original_attachment_count?: number;
-  original_h?:                number;
-  original_w?:                number;
-  permalink?:                 string;
-  permalink_public?:          string;
-  plain_text?:                string;
-  pretty_type?:               string;
-  preview?:                   string;
-  preview_highlight?:         string;
-  preview_is_truncated?:      boolean;
-  preview_plain_text?:        string;
-  public_url_shared?:         boolean;
-  sent_to_self?:              boolean;
-  shares?:                    MatchShares;
-  size?:                      number;
-  subject?:                   string;
-  thumb_1024?:                string;
-  thumb_1024_h?:              number;
-  thumb_1024_w?:              number;
-  thumb_160?:                 string;
-  thumb_360?:                 string;
-  thumb_360_h?:               number;
-  thumb_360_w?:               number;
-  thumb_480?:                 string;
-  thumb_480_h?:               number;
-  thumb_480_w?:               number;
-  thumb_64?:                  string;
-  thumb_720?:                 string;
-  thumb_720_h?:               number;
-  thumb_720_w?:               number;
-  thumb_80?:                  string;
-  thumb_800?:                 string;
-  thumb_800_h?:               number;
-  thumb_800_w?:               number;
-  thumb_960?:                 string;
-  thumb_960_h?:               number;
-  thumb_960_w?:               number;
-  thumb_pdf?:                 string;
-  thumb_pdf_h?:               number;
-  thumb_pdf_w?:               number;
-  thumb_tiny?:                string;
-  thumb_video?:               string;
-  timestamp?:                 number;
-  title?:                     string;
-  to?:                        Cc[];
-  updated?:                   number;
-  url_private?:               string;
-  url_private_download?:      string;
-  user?:                      string;
-  user_team?:                 string;
-  username?:                  string;
+  access?:                                  string;
+  attachments?:                             Attachment[];
+  bot_id?:                                  string;
+  cc?:                                      Cc[];
+  channels?:                                string[];
+  comments_count?:                          number;
+  converted_pdf?:                           string;
+  created?:                                 number;
+  display_as_bot?:                          boolean;
+  dm_mpdm_users_with_file_access?:          DmMpdmUsersWithFileAccess[];
+  edit_link?:                               string;
+  editable?:                                boolean;
+  editors?:                                 string[];
+  editors_count?:                           number;
+  external_id?:                             string;
+  external_type?:                           string;
+  external_url?:                            string;
+  file_access?:                             string;
+  filetype?:                                string;
+  from?:                                    Cc[];
+  groups?:                                  string[];
+  has_more?:                                boolean;
+  has_more_shares?:                         boolean;
+  has_rich_preview?:                        boolean;
+  headers?:                                 MatchHeaders;
+  id?:                                      string;
+  image_exif_rotation?:                     number;
+  ims?:                                     string[];
+  is_channel_space?:                        boolean;
+  is_external?:                             boolean;
+  is_public?:                               boolean;
+  is_starred?:                              boolean;
+  last_editor?:                             string;
+  lines?:                                   number;
+  lines_more?:                              number;
+  linked_channel_id?:                       string;
+  media_display_type?:                      string;
+  mimetype?:                                string;
+  mode?:                                    string;
+  name?:                                    string;
+  non_owner_editable?:                      boolean;
+  org_or_workspace_access?:                 string;
+  original_attachment_count?:               number;
+  original_h?:                              number;
+  original_w?:                              number;
+  permalink?:                               string;
+  permalink_public?:                        string;
+  plain_text?:                              string;
+  pretty_type?:                             string;
+  preview?:                                 string;
+  preview_highlight?:                       string;
+  preview_is_truncated?:                    boolean;
+  preview_plain_text?:                      string;
+  private_channels_with_file_access_count?: number;
+  public_url_shared?:                       boolean;
+  quip_thread_id?:                          string;
+  sent_to_self?:                            boolean;
+  shares?:                                  MatchShares;
+  size?:                                    number;
+  subject?:                                 string;
+  team_pref_version_history_enabled?:       boolean;
+  teams_shared_with?:                       string[];
+  thumb_1024?:                              string;
+  thumb_1024_h?:                            number;
+  thumb_1024_w?:                            number;
+  thumb_160?:                               string;
+  thumb_360?:                               string;
+  thumb_360_h?:                             number;
+  thumb_360_w?:                             number;
+  thumb_480?:                               string;
+  thumb_480_h?:                             number;
+  thumb_480_w?:                             number;
+  thumb_64?:                                string;
+  thumb_720?:                               string;
+  thumb_720_h?:                             number;
+  thumb_720_w?:                             number;
+  thumb_80?:                                string;
+  thumb_800?:                               string;
+  thumb_800_h?:                             number;
+  thumb_800_w?:                             number;
+  thumb_960?:                               string;
+  thumb_960_h?:                             number;
+  thumb_960_w?:                             number;
+  thumb_pdf?:                               string;
+  thumb_pdf_h?:                             number;
+  thumb_pdf_w?:                             number;
+  thumb_tiny?:                              string;
+  thumb_video?:                             string;
+  timestamp?:                               number;
+  title?:                                   string;
+  title_blocks?:                            MatchTitleBlock[];
+  to?:                                      Cc[];
+  update_notification?:                     number;
+  updated?:                                 number;
+  url_private?:                             string;
+  url_private_download?:                    string;
+  url_static_preview?:                      string;
+  user?:                                    string;
+  user_team?:                               string;
+  username?:                                string;
 }
 
 export interface Attachment {
@@ -126,7 +139,7 @@ export interface Attachment {
   author_link?:           string;
   author_name?:           string;
   author_subname?:        string;
-  blocks?:                TitleBlockElement[];
+  blocks?:                AttachmentBlock[];
   bot_id?:                string;
   callback_id?:           string;
   channel_id?:            string;
@@ -237,7 +250,7 @@ export enum ActionType {
   WorkflowButton = 'workflow_button',
 }
 
-export interface TitleBlockElement {
+export interface AttachmentBlock {
   accessory?:                    Accessory;
   alt_text?:                     string;
   app_collaborators?:            string[];
@@ -438,7 +451,7 @@ export interface FileElement {
   app_id?:                                  string;
   app_name?:                                string;
   attachments?:                             any[];
-  blocks?:                                  TitleBlockElement[];
+  blocks?:                                  AttachmentBlock[];
   bot_id?:                                  string;
   canvas_template_mode?:                    string;
   cc?:                                      Cc[];
@@ -519,6 +532,7 @@ export interface FileElement {
   source_team?:                             string;
   subject?:                                 string;
   subtype?:                                 string;
+  team_pref_version_history_enabled?:       boolean;
   teams_shared_with?:                       any[];
   template_conversion_ts?:                  number;
   template_description?:                    string;
@@ -571,7 +585,7 @@ export interface FileElement {
   thumb_video_w?:                           number;
   timestamp?:                               number;
   title?:                                   string;
-  title_blocks?:                            TitleBlockElement[];
+  title_blocks?:                            AttachmentBlock[];
   to?:                                      Cc[];
   transcription?:                           Transcription;
   update_notification?:                     number;
@@ -641,11 +655,13 @@ export interface PurpleShares {
 export interface Private {
   access?:            string;
   channel_name?:      string;
+  date_last_shared?:  number;
   latest_reply?:      string;
   reply_count?:       number;
   reply_users?:       string[];
   reply_users_count?: number;
   share_user_id?:     string;
+  source?:            string;
   team_id?:           string;
   thread_ts?:         string;
   ts?:                string;
@@ -666,7 +682,7 @@ export interface MessageBlock {
 export interface Message {
   app_id?:              string;
   attachments?:         any[];
-  blocks?:              TitleBlockElement[];
+  blocks?:              AttachmentBlock[];
   bot_id?:              string;
   bot_link?:            string;
   bot_profile?:         BotProfile;
@@ -861,6 +877,7 @@ export interface MessageFile {
   source_team?:                             string;
   subject?:                                 string;
   subtype?:                                 string;
+  team_pref_version_history_enabled?:       boolean;
   teams_shared_with?:                       any[];
   template_conversion_ts?:                  number;
   template_description?:                    string;
@@ -1038,54 +1055,12 @@ export interface Public {
   reply_users?:       string[];
   reply_users_count?: number;
   share_user_id?:     string;
+  source?:            string;
   team_id?:           string;
   ts?:                string;
 }
 
-export interface Pagination {
-  first?:       number;
-  last?:        number;
-  page?:        number;
-  page_count?:  number;
-  per_page?:    number;
-  total_count?: number;
-}
-
-export interface Paging {
-  count?: number;
-  page?:  number;
-  pages?: number;
-  total?: number;
-}
-
-export interface Messages {
-  matches?:    MessagesMatch[];
-  pagination?: Pagination;
-  paging?:     Paging;
-  total?:      number;
-}
-
-export interface MessagesMatch {
-  attachments?:  Attachment[];
-  blocks?:       MatchBlock[];
-  channel?:      Channel;
-  files?:        FileElement[];
-  iid?:          string;
-  is_mpim?:      boolean;
-  no_reactions?: boolean;
-  permalink?:    string;
-  previous?:     Previous;
-  previous_2?:   Previous;
-  score?:        number;
-  team?:         string;
-  text?:         string;
-  ts?:           string;
-  type?:         string;
-  user?:         string;
-  username?:     string;
-}
-
-export interface MatchBlock {
+export interface MatchTitleBlock {
   accessory?:                    Accessory;
   alt_text?:                     string;
   api_decoration_available?:     boolean;
@@ -1181,6 +1156,49 @@ export interface AppIconUrls {
   image_original?: string;
 }
 
+export interface Pagination {
+  first?:       number;
+  last?:        number;
+  page?:        number;
+  page_count?:  number;
+  per_page?:    number;
+  total_count?: number;
+}
+
+export interface Paging {
+  count?: number;
+  page?:  number;
+  pages?: number;
+  total?: number;
+}
+
+export interface Messages {
+  matches?:    MessagesMatch[];
+  pagination?: Pagination;
+  paging?:     Paging;
+  total?:      number;
+}
+
+export interface MessagesMatch {
+  attachments?:  Attachment[];
+  blocks?:       MatchTitleBlock[];
+  channel?:      Channel;
+  files?:        FileElement[];
+  iid?:          string;
+  is_mpim?:      boolean;
+  no_reactions?: boolean;
+  permalink?:    string;
+  previous?:     Previous;
+  previous_2?:   Previous;
+  score?:        number;
+  team?:         string;
+  text?:         string;
+  ts?:           string;
+  type?:         string;
+  user?:         string;
+  username?:     string;
+}
+
 export interface Channel {
   id?:                    string;
   is_channel?:            boolean;
@@ -1201,7 +1219,7 @@ export interface Channel {
 
 export interface Previous {
   attachments?: Attachment[];
-  blocks?:      MatchBlock[];
+  blocks?:      MatchTitleBlock[];
   iid?:         string;
   permalink?:   string;
   text?:        string;

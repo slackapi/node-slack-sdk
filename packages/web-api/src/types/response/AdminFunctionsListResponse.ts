@@ -25,6 +25,7 @@ export interface Function {
   date_deleted?:      number;
   date_updated?:      number;
   description?:       string;
+  form_enabled?:      boolean;
   id?:                string;
   input_parameters?:  PutParameter[];
   output_parameters?: PutParameter[];

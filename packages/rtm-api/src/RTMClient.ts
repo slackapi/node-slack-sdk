@@ -348,9 +348,10 @@ export class RTMClient extends EventEmitter {
     serverPongTimeout,
     replyAckOnReconnectTimeout = 2000,
     tls = undefined,
+    webClient,
   }: RTMClientOptions = {}) {
     super();
-    this.webClient = new WebClient(token, {
+    this.webClient = webClient || new WebClient(token, {
       slackApiUrl,
       logger,
       logLevel,
@@ -672,6 +673,7 @@ export default RTMClient;
  */
 
 export interface RTMClientOptions {
+  webClient?: WebClient;
   slackApiUrl?: string;
   logger?: Logger;
   logLevel?: LogLevel;

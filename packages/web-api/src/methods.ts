@@ -154,6 +154,8 @@ import type {
   FilesRevokePublicURLResponse,
   FilesSharedPublicURLResponse,
   FilesUploadResponse,
+  FunctionsCompleteErrorResponse,
+  FunctionsCompleteSuccessResponse,
   MigrationExchangeResponse,
   OauthAccessResponse,
   OauthV2AccessResponse,
@@ -1308,6 +1310,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     },
   };
 
+  public readonly functions = {
+    completeError: bindApiCall<FunctionsCompleteErrorArguments, FunctionsCompleteErrorResponse>(this, 'functions.completeError'),
+    completeSuccess: bindApiCall<FunctionsCompleteSuccessArguments, FunctionsCompleteSuccessResponse>(
+      this,
+      'functions.completeSuccess',
+    ),
+  };
+
   public readonly migration = {
     /**
      * @description For Enterprise Grid workspaces, map local user IDs to global user IDs.
@@ -1945,6 +1955,19 @@ export interface AdminWorkflowsSearchArguments extends TokenOverridable, CursorP
 // https://api.slack.com/methods/admin.workflows.unpublish
 export interface AdminWorkflowsUnpublishArguments extends TokenOverridable {
   workflow_ids: string[];
+}
+
+/*
+ * `functions.*`
+ */
+export interface FunctionsCompleteErrorArguments extends TokenOverridable {
+  function_execution_id: string;
+  error: string;
+}
+
+export interface FunctionsCompleteSuccessArguments extends TokenOverridable {
+  function_execution_id: string;
+  outputs: Record<string, unknown>;
 }
 
 export * from '@slack/types';

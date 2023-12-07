@@ -21,13 +21,14 @@ export interface Manifest {
   _metadata?:           Metadata;
   display_information?: DisplayInformation;
   features?:            Features;
+  functions?:           { [key: string]: Function };
   oauth_config?:        OauthConfig;
   settings?:            Settings;
 }
 
 export interface Metadata {
-  major_version?: string;
-  minor_version?: string;
+  major_version?: number;
+  minor_version?: number;
 }
 
 export interface DisplayInformation {
@@ -71,9 +72,30 @@ export interface SlashCommand {
   usage_hint?:    string;
 }
 
+export interface Function {
+  description?:       string;
+  input_parameters?:  { [key: string]: PutParameter };
+  output_parameters?: { [key: string]: PutParameter };
+  title?:             string;
+}
+
+export interface PutParameter {
+  description?: string;
+  hint?:        string;
+  is_required?: boolean;
+  maxLength?:   number;
+  maximum?:     number;
+  minLength?:   number;
+  minimum?:     number;
+  name?:        string;
+  title?:       string;
+  type?:        string;
+}
+
 export interface OauthConfig {
-  redirect_urls?: string[];
-  scopes?:        Scopes;
+  redirect_urls?:            string[];
+  scopes?:                   Scopes;
+  token_management_enabled?: boolean;
 }
 
 export interface Scopes {
@@ -86,6 +108,8 @@ export interface Settings {
   background_color?:          string;
   description?:               string;
   event_subscriptions?:       EventSubscriptions;
+  function_runtime?:          string;
+  hermes_app_type?:           string;
   interactivity?:             Interactivity;
   long_description?:          string;
   org_deploy_enabled?:        boolean;
