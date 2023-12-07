@@ -270,6 +270,7 @@ import type { AdminAuthPolicyAssignEntitiesArguments, AdminAuthPolicyGetEntities
 import type { AdminBarriersCreateArguments, AdminBarriersDeleteArguments, AdminBarriersListArguments, AdminBarriersUpdateArguments } from './types/request/admin/barriers';
 import type { AdminConversationsArchiveArguments, AdminConversationsBulkArchiveArguments, AdminConversationsBulkDeleteArguments, AdminConversationsBulkMoveArguments, AdminConversationsConvertToPrivateArguments, AdminConversationsConvertToPublicArguments, AdminConversationsCreateArguments, AdminConversationsDeleteArguments, AdminConversationsDisconnectSharedArguments, AdminConversationsEKMListOriginalConnectedChannelInfoArguments, AdminConversationsGetConversationPrefsArguments, AdminConversationsGetCustomRetentionArguments, AdminConversationsGetTeamsArguments, AdminConversationsInviteArguments, AdminConversationsLookupArguments, AdminConversationsRemoveCustomRetentionArguments, AdminConversationsRenameArguments, AdminConversationsRestrictAccessAddGroupArguments, AdminConversationsRestrictAccessListGroupsArguments, AdminConversationsRestrictAccessRemoveGroupArguments, AdminConversationsSearchArguments, AdminConversationsSetConversationPrefsArguments, AdminConversationsSetCustomRetentionArguments, AdminConversationsSetTeamsArguments, AdminConversationsUnarchiveArguments } from './types/request/admin/conversations';
 import type { AdminEmojiAddArguments, AdminEmojiAddAliasArguments, AdminEmojiListArguments, AdminEmojiRemoveArguments, AdminEmojiRenameArguments } from './types/request/admin/emoji';
+import type { AdminFunctionsListArguments, AdminFunctionsPermissionsLookupArguments, AdminFunctionsPermissionsSetArguments } from './types/request/admin/functions';
 
 /**
  * Generic method definition
@@ -654,9 +655,23 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       rename: bindApiCall<AdminEmojiRenameArguments, AdminEmojiRenameResponse>(this, 'admin.emoji.rename'),
     },
     functions: {
+      /**
+       * @description Look up functions by a set of apps.
+       * @see {@link https://api.slack.com/methods/admin.functions.list `admin.functions.list` API reference}.
+       */
       list: bindApiCall<AdminFunctionsListArguments, AdminFunctionsListResponse>(this, 'admin.functions.list'),
       permissions: {
+        /**
+         * @description Lookup the visibility of multiple Slack functions and include the users if
+         * it is limited to particular named entities.
+         * @see {@link https://api.slack.com/methods/admin.functions.permissions.lookup `admin.functions.permissions.lookup` API reference}.
+         */
         lookup: bindApiCall<AdminFunctionsPermissionsLookupArguments, AdminFunctionsPermissionsLookupResponse>(this, 'admin.functions.permissions.lookup'),
+        /**
+         * @description Set the visibility of a Slack function and define the users or workspaces if
+         * it is set to named_entities.
+         * @see {@link https://api.slack.com/methods/admin.functions.permissions.set `admin.functions.permissions.set` API reference}.
+         */
         set: bindApiCall<AdminFunctionsPermissionsSetArguments, AdminFunctionsPermissionsSetResponse>(this, 'admin.functions.permissions.set'),
       },
     },
@@ -1684,22 +1699,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      */
     updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
   };
-}
-// https://api.slack.com/methods/admin.functions.list
-export interface AdminFunctionsListArguments extends TokenOverridable, CursorPaginationEnabled {
-  app_ids: string[];
-  team_id?: string;
-}
-// https://api.slack.com/methods/admin.functions.permissions.lookup
-export interface AdminFunctionsPermissionsLookupArguments
-  extends TokenOverridable {
-  function_ids: string[];
-}
-// https://api.slack.com/methods/admin.functions.permissions.set
-export interface AdminFunctionsPermissionsSetArguments extends TokenOverridable {
-  function_id: string;
-  visibility: string;
-  user_ids?: string[];
 }
 // https://api.slack.com/methods/admin.inviteRequests.approve
 export interface AdminInviteRequestsApproveArguments
