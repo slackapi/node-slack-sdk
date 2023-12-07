@@ -275,6 +275,7 @@ import type { AdminEmojiAddArguments, AdminEmojiAddAliasArguments, AdminEmojiLis
 import type { AdminFunctionsListArguments, AdminFunctionsPermissionsLookupArguments, AdminFunctionsPermissionsSetArguments } from './types/request/admin/functions';
 import type { FunctionsCompleteErrorArguments, FunctionsCompleteSuccessArguments } from './types/request/functions';
 import type { AdminInviteRequestsApproveArguments, AdminInviteRequestsApprovedListArguments, AdminInviteRequestsDeniedListArguments, AdminInviteRequestsDenyArguments, AdminInviteRequestsListArguments } from './types/request/admin/inviteRequests';
+import type { AdminRolesAddAssignmentsArguments, AdminRolesListAssignmentsArguments, AdminRolesRemoveAssignmentsArguments } from './types/request/admin/roles';
 
 /**
  * Generic method definition
@@ -1739,27 +1740,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      */
     updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
   };
-}
-// https://api.slack.com/methods/admin.roles.addAssignments
-export interface AdminRolesAddAssignmentsArguments
-  extends TokenOverridable {
-  role_id: string;
-  entity_ids: string[];
-  user_ids: string[];
-}
-// https://api.slack.com/methods/admin.roles.listAssignments
-export interface AdminRolesListAssignmentsArguments
-  extends TokenOverridable, CursorPaginationEnabled {
-  entity_ids?: string[];
-  role_ids?: string[];
-  sort_dir?: string; // TODO: breaking change - turn to `asc` | `desc`? tho docs say this should be capital letters...
-}
-// https://api.slack.com/methods/admin.roles.removeAssignments
-export interface AdminRolesRemoveAssignmentsArguments
-  extends TokenOverridable {
-  role_id: string;
-  entity_ids: string[];
-  user_ids: string[];
 }
 // https://api.slack.com/methods/admin.teams.admins.list
 export interface AdminTeamsAdminsListArguments extends TokenOverridable, CursorPaginationEnabled {

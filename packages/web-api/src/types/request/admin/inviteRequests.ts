@@ -1,4 +1,3 @@
-import { Option } from 'src/types/response/ChannelsHistoryResponse';
 import type { CursorPaginationEnabled, OptionalTeamAssignable, TokenOverridable } from '../common';
 
 interface InviteRequestID {
