@@ -27,6 +27,7 @@ export interface Field {
   hint?:            string;
   id?:              string;
   is_hidden?:       boolean;
+  is_inverse?:      boolean;
   label?:           string;
   options?:         Options;
   ordering?:        number;

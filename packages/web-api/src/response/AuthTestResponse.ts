@@ -15,6 +15,7 @@ export type AuthTestResponse = WebAPICallResult & {
   bot_id?:                string;
   enterprise_id?:         string;
   error?:                 string;
+  expires_in?:            number;
   is_enterprise_install?: boolean;
   needed?:                string;
   ok?:                    boolean;
