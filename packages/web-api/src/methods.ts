@@ -273,6 +273,7 @@ import type { AdminBarriersCreateArguments, AdminBarriersDeleteArguments, AdminB
 import type { AdminConversationsArchiveArguments, AdminConversationsBulkArchiveArguments, AdminConversationsBulkDeleteArguments, AdminConversationsBulkMoveArguments, AdminConversationsConvertToPrivateArguments, AdminConversationsConvertToPublicArguments, AdminConversationsCreateArguments, AdminConversationsDeleteArguments, AdminConversationsDisconnectSharedArguments, AdminConversationsEKMListOriginalConnectedChannelInfoArguments, AdminConversationsGetConversationPrefsArguments, AdminConversationsGetCustomRetentionArguments, AdminConversationsGetTeamsArguments, AdminConversationsInviteArguments, AdminConversationsLookupArguments, AdminConversationsRemoveCustomRetentionArguments, AdminConversationsRenameArguments, AdminConversationsRestrictAccessAddGroupArguments, AdminConversationsRestrictAccessListGroupsArguments, AdminConversationsRestrictAccessRemoveGroupArguments, AdminConversationsSearchArguments, AdminConversationsSetConversationPrefsArguments, AdminConversationsSetCustomRetentionArguments, AdminConversationsSetTeamsArguments, AdminConversationsUnarchiveArguments } from './types/request/admin/conversations';
 import type { AdminEmojiAddArguments, AdminEmojiAddAliasArguments, AdminEmojiListArguments, AdminEmojiRemoveArguments, AdminEmojiRenameArguments } from './types/request/admin/emoji';
 import type { AdminFunctionsListArguments, AdminFunctionsPermissionsLookupArguments, AdminFunctionsPermissionsSetArguments } from './types/request/admin/functions';
+import type { FunctionsCompleteErrorArguments, FunctionsCompleteSuccessArguments } from './types/request/functions';
 
 /**
  * Generic method definition
@@ -1311,7 +1312,15 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly functions = {
+    /**
+     * @description Signal the failure to execute a Custom Function.
+     * @see {@link https://api.slack.com/methods/functions.completeError `functions.completeError` API reference}.
+     */
     completeError: bindApiCall<FunctionsCompleteErrorArguments, FunctionsCompleteErrorResponse>(this, 'functions.completeError'),
+    /**
+     * @description Signal the successful completion of a Custom Function.
+     * @see {@link https://api.slack.com/methods/functions.completeSuccess `functions.completeSuccess` API reference}.
+     */
     completeSuccess: bindApiCall<FunctionsCompleteSuccessArguments, FunctionsCompleteSuccessResponse>(
       this,
       'functions.completeSuccess',
@@ -1955,19 +1964,6 @@ export interface AdminWorkflowsSearchArguments extends TokenOverridable, CursorP
 // https://api.slack.com/methods/admin.workflows.unpublish
 export interface AdminWorkflowsUnpublishArguments extends TokenOverridable {
   workflow_ids: string[];
-}
-
-/*
- * `functions.*`
- */
-export interface FunctionsCompleteErrorArguments extends TokenOverridable {
-  function_execution_id: string;
-  error: string;
-}
-
-export interface FunctionsCompleteSuccessArguments extends TokenOverridable {
-  function_execution_id: string;
-  outputs: Record<string, unknown>;
 }
 
 export * from '@slack/types';
