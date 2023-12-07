@@ -274,6 +274,7 @@ import type { AdminConversationsArchiveArguments, AdminConversationsBulkArchiveA
 import type { AdminEmojiAddArguments, AdminEmojiAddAliasArguments, AdminEmojiListArguments, AdminEmojiRemoveArguments, AdminEmojiRenameArguments } from './types/request/admin/emoji';
 import type { AdminFunctionsListArguments, AdminFunctionsPermissionsLookupArguments, AdminFunctionsPermissionsSetArguments } from './types/request/admin/functions';
 import type { FunctionsCompleteErrorArguments, FunctionsCompleteSuccessArguments } from './types/request/functions';
+import type { AdminInviteRequestsApproveArguments, AdminInviteRequestsApprovedListArguments, AdminInviteRequestsDeniedListArguments, AdminInviteRequestsDenyArguments, AdminInviteRequestsListArguments } from './types/request/admin/inviteRequests';
 
 /**
  * Generic method definition
@@ -679,23 +680,43 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       },
     },
     inviteRequests: {
+      /**
+       * @description Approve a workspace invite request.
+       * @see {@link https://api.slack.com/methods/admin.inviteRequests.approve `admin.inviteRequests.approve` API reference}.
+       */
       approve: bindApiCall<AdminInviteRequestsApproveArguments, AdminInviteRequestsApproveResponse>(
         this,
         'admin.inviteRequests.approve',
       ),
       approved: {
+        /**
+         * @description List all approved workspace invite requests.
+         * @see {@link https://api.slack.com/methods/admin.inviteRequests.approved.list `admin.inviteRequests.approved.list` API reference}.
+         */
         list: bindApiCall<AdminInviteRequestsApprovedListArguments, AdminInviteRequestsApprovedListResponse>(
           this,
           'admin.inviteRequests.approved.list',
         ),
       },
       denied: {
+        /**
+         * @description List all denied workspace invite requests.
+         * @see {@link https://api.slack.com/methods/admin.inviteRequests.denied.list `admin.inviteRequests.denied.list` API reference}.
+         */
         list: bindApiCall<AdminInviteRequestsDeniedListArguments, AdminInviteRequestsDeniedListResponse>(
           this,
           'admin.inviteRequests.denied.list',
         ),
       },
+      /**
+       * @description Deny a workspace invite request.
+       * @see {@link https://api.slack.com/methods/admin.inviteRequests.deny `admin.inviteRequests.deny` API reference}.
+       */
       deny: bindApiCall<AdminInviteRequestsDenyArguments, AdminInviteRequestsDenyResponse>(this, 'admin.inviteRequests.deny'),
+      /**
+       * @description List all pending workspace invite requests.
+       * @see {@link https://api.slack.com/methods/admin.inviteRequests.list `admin.inviteRequests.list` API reference}.
+       */
       list: bindApiCall<AdminInviteRequestsListArguments, AdminInviteRequestsListResponse>(this, 'admin.inviteRequests.list'),
     },
     teams: {
@@ -1718,33 +1739,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      */
     updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
   };
-}
-// https://api.slack.com/methods/admin.inviteRequests.approve
-export interface AdminInviteRequestsApproveArguments
-  extends TokenOverridable {
-  invite_request_id: string;
-  team_id: string;
-}
-// https://api.slack.com/methods/admin.inviteRequests.approved.list
-export interface AdminInviteRequestsApprovedListArguments
-  extends TokenOverridable, CursorPaginationEnabled {
-  team_id: string;
-}
-// https://api.slack.com/methods/admin.inviteRequests.deny
-export interface AdminInviteRequestsDenyArguments
-  extends TokenOverridable {
-  invite_request_id: string;
-  team_id: string;
-}
-// https://api.slack.com/methods/admin.inviteRequests.denied.list
-export interface AdminInviteRequestsDeniedListArguments
-  extends TokenOverridable, CursorPaginationEnabled {
-  team_id: string;
-}
-// https://api.slack.com/methods/admin.inviteRequests.list
-export interface AdminInviteRequestsListArguments
-  extends TokenOverridable, CursorPaginationEnabled {
-  team_id: string;
 }
 // https://api.slack.com/methods/admin.roles.addAssignments
 export interface AdminRolesAddAssignmentsArguments
