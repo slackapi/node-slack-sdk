@@ -8,7 +8,7 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../WebClient';
+import { WebAPICallResult } from '../../WebClient';
 export type FunctionsCompleteSuccessResponse = WebAPICallResult & {
   error?:    string;
   needed?:   string;
