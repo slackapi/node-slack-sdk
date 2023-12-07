@@ -276,6 +276,7 @@ import type { AdminFunctionsListArguments, AdminFunctionsPermissionsLookupArgume
 import type { FunctionsCompleteErrorArguments, FunctionsCompleteSuccessArguments } from './types/request/functions';
 import type { AdminInviteRequestsApproveArguments, AdminInviteRequestsApprovedListArguments, AdminInviteRequestsDeniedListArguments, AdminInviteRequestsDenyArguments, AdminInviteRequestsListArguments } from './types/request/admin/inviteRequests';
 import type { AdminRolesAddAssignmentsArguments, AdminRolesListAssignmentsArguments, AdminRolesRemoveAssignmentsArguments } from './types/request/admin/roles';
+import type { AdminTeamsAdminsListArguments, AdminTeamsCreateArguments, AdminTeamsListArguments, AdminTeamsOwnersListArguments, AdminTeamsSettingsInfoArguments, AdminTeamsSettingsSetDefaultChannelsArguments, AdminTeamsSettingsSetDescriptionArguments, AdminTeamsSettingsSetDiscoverabilityArguments, AdminTeamsSettingsSetIconArguments, AdminTeamsSettingsSetNameArguments } from './types/request/admin/teams';
 
 /**
  * Generic method definition
@@ -720,47 +721,100 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        */
       list: bindApiCall<AdminInviteRequestsListArguments, AdminInviteRequestsListResponse>(this, 'admin.inviteRequests.list'),
     },
+    roles: {
+      /**
+       * @description Adds members to the specified role with the specified scopes.
+       * @see {@link https://api.slack.com/methods/admin.roles.addAssignments `admin.roles.addAssignments` API reference}.
+       */
+      addAssignments: bindApiCall<AdminRolesAddAssignmentsArguments, AdminRolesAddAssignmentsResponse>(this, 'admin.roles.addAssignments'),
+      /**
+       * @description Lists assignments for all roles across entities.
+       * Options to scope results by any combination of roles or entities.
+       * @see {@link https://api.slack.com/methods/admin.roles.listAssignments `admin.roles.listAssignments` API reference}.
+       */
+      listAssignments: bindApiCall<AdminRolesListAssignmentsArguments, AdminRolesListAssignmentsResponse>(this, 'admin.roles.listAssignments'),
+      /**
+       * @description Removes a set of users from a role for the given scopes and entities.
+       * @see {@link https://api.slack.com/methods/admin.roles.removeAssignments `admin.roles.removeAssignments` API reference}.
+       */
+      removeAssignments: bindApiCall<AdminRolesRemoveAssignmentsArguments, AdminRolesRemoveAssignmentsResponse>(this, 'admin.roles.removeAssignments'),
+    },
     teams: {
       admins: {
+        /**
+         * @description List all of the admins on a given workspace.
+         * @see {@link https://api.slack.com/methods/admin.teams.admins.list `admin.teams.admins.list` API reference}.
+         */
         list: bindApiCall<AdminTeamsAdminsListArguments, AdminTeamsAdminsListResponse>(this, 'admin.teams.admins.list'),
       },
+      /**
+       * @description Create an Enterprise team.
+       * @see {@link https://api.slack.com/methods/admin.teams.create `admin.teams.create` API reference}.
+       */
       create: bindApiCall<AdminTeamsCreateArguments, AdminTeamsCreateResponse>(this, 'admin.teams.create'),
+      /**
+       * @description List all teams on an Enterprise organization.
+       * @see {@link https://api.slack.com/methods/admin.teams.list `admin.teams.list` API reference}.
+       */
       list: bindApiCall<AdminTeamsListArguments, AdminTeamsListResponse>(this, 'admin.teams.list'),
       owners: {
+        /**
+         * @description List all of the owners on a given workspace.
+         * @see {@link https://api.slack.com/methods/admin.teams.owners.list `admin.teams.owners.list` API reference}.
+         */
         list: bindApiCall<AdminTeamsOwnersListArguments, AdminTeamsOwnersListResponse>(this, 'admin.teams.owners.list'),
       },
       settings: {
+        /**
+         * @description Fetch information about settings in a workspace.
+         * @see {@link https://api.slack.com/methods/admin.teams.owners.list `admin.teams.owners.list` API reference}.
+         */
         info: bindApiCall<AdminTeamsSettingsInfoArguments, AdminTeamsSettingsInfoResponse>(this, 'admin.teams.settings.info'),
+        /**
+         * @description Set the default channels of a workspace.
+         * @see {@link https://api.slack.com/methods/admin.teams.settings.setDefaultChannels `admin.teams.settings.setDefaultChannels` API reference}.
+         */
         setDefaultChannels:
           bindApiCall<AdminTeamsSettingsSetDefaultChannelsArguments, AdminTeamsSettingsSetDefaultChannelsResponse>(
             this,
             'admin.teams.settings.setDefaultChannels',
           ),
+        /**
+         * @description Set the description of a given workspace.
+         * @see {@link https://api.slack.com/methods/admin.teams.settings.setDescription `admin.teams.settings.setDescription` API reference}.
+         */
         setDescription:
           bindApiCall<AdminTeamsSettingsSetDescriptionArguments, AdminTeamsSettingsSetDescriptionResponse>(
             this,
             'admin.teams.settings.setDescription',
           ),
+        /**
+         * @description Set the discoverability of a given workspace.
+         * @see {@link https://api.slack.com/methods/admin.teams.settings.setDiscoverability `admin.teams.settings.setDiscoverability` API reference}.
+         */
         setDiscoverability:
           bindApiCall<AdminTeamsSettingsSetDiscoverabilityArguments,
           AdminTeamsSettingsSetDiscoverabilityResponse>(
             this,
             'admin.teams.settings.setDiscoverability',
           ),
+        /**
+         * @description Sets the icon of a workspace.
+         * @see {@link https://api.slack.com/methods/admin.teams.settings.setIcon `admin.teams.settings.setIcon` API reference}.
+         */
         setIcon: bindApiCall<AdminTeamsSettingsSetIconArguments, AdminTeamsSettingsSetIconResponse>(
           this,
           'admin.teams.settings.setIcon',
         ),
+        /**
+         * @description Set the name of a given workspace.
+         * @see {@link https://api.slack.com/methods/admin.teams.settings.setName `admin.teams.settings.setName` API reference}.
+         */
         setName: bindApiCall<AdminTeamsSettingsSetNameArguments, AdminTeamsSettingsSetNameResponse>(
           this,
           'admin.teams.settings.setName',
         ),
       },
-    },
-    roles: {
-      addAssignments: bindApiCall<AdminRolesAddAssignmentsArguments, AdminRolesAddAssignmentsResponse>(this, 'admin.roles.addAssignments'),
-      listAssignments: bindApiCall<AdminRolesListAssignmentsArguments, AdminRolesListAssignmentsResponse>(this, 'admin.roles.listAssignments'),
-      removeAssignments: bindApiCall<AdminRolesRemoveAssignmentsArguments, AdminRolesRemoveAssignmentsResponse>(this, 'admin.roles.removeAssignments'),
     },
     usergroups: {
       addChannels: bindApiCall<AdminUsergroupsAddChannelsArguments, AdminUsergroupsAddChannelsResponse>(
@@ -1740,53 +1794,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      */
     updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
   };
-}
-// https://api.slack.com/methods/admin.teams.admins.list
-export interface AdminTeamsAdminsListArguments extends TokenOverridable, CursorPaginationEnabled {
-  team_id: string;
-}
-type TeamDiscoverability = 'open' | 'closed' | 'invite_only' | 'unlisted';
-// https://api.slack.com/methods/admin.teams.create
-export interface AdminTeamsCreateArguments extends TokenOverridable {
-  team_domain: string;
-  team_name: string;
-  team_description?: string;
-  team_discoverability?: TeamDiscoverability;
-}
-// https://api.slack.com/methods/admin.teams.list
-export interface AdminTeamsListArguments extends TokenOverridable, CursorPaginationEnabled { }
-// https://api.slack.com/methods/admin.teams.owners.list
-export interface AdminTeamsOwnersListArguments extends TokenOverridable, CursorPaginationEnabled {
-  team_id: string;
-}
-// https://api.slack.com/methods/admin.teams.settings.info
-export interface AdminTeamsSettingsInfoArguments extends TokenOverridable {
-  team_id: string;
-}
-// https://api.slack.com/methods/admin.teams.settings.setDefaultChannels
-export interface AdminTeamsSettingsSetDefaultChannelsArguments extends TokenOverridable {
-  team_id: string;
-  channel_ids: string[];
-}
-// https://api.slack.com/methods/admin.teams.settings.setDescription
-export interface AdminTeamsSettingsSetDescriptionArguments extends TokenOverridable {
-  team_id: string;
-  description: string;
-}
-// https://api.slack.com/methods/admin.teams.settings.setDiscoverability
-export interface AdminTeamsSettingsSetDiscoverabilityArguments extends TokenOverridable {
-  team_id: string;
-  discoverability: TeamDiscoverability;
-}
-// https://api.slack.com/methods/admin.teams.settings.setIcon
-export interface AdminTeamsSettingsSetIconArguments extends TokenOverridable {
-  team_id: string;
-  image_url: string;
-}
-// https://api.slack.com/methods/admin.teams.settings.setName
-export interface AdminTeamsSettingsSetNameArguments extends TokenOverridable {
-  team_id: string;
-  name: string;
 }
 // https://api.slack.com/methods/admin.usergroups.addChannels
 export interface AdminUsergroupsAddChannelsArguments extends TokenOverridable {

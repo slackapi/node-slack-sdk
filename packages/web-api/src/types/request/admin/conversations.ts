@@ -1,13 +1,8 @@
-import type { CursorPaginationEnabled, SortDir, TokenOverridable } from '../common';
+import type { ChannelIDs, CursorPaginationEnabled, SortDir, TokenOverridable } from '../common';
 
 interface ChannelID { // an identical interface exists in src/types/request/conversations.ts, but it is only for invites
   /** @description Encoded channel ID. */
   channel_id: string;
-}
-
-interface ChannelIDs {
-  /** @description An array of channel IDs (must include at least one ID). */
-  channel_ids: [string, ...string[]];
 }
 
 type ChannelType = 'private' | 'private_exclude' | 'archived' | 'exclude_archived' | 'private_exclude_archived' | 'multi_workspace' | 'org_wide' | 'external_shared_exclude' | 'external_shared' | 'external_shared_private' | 'external_shared_archived' | 'exclude_org_shared';

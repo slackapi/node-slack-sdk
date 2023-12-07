@@ -111,3 +111,10 @@ export interface OAuthGrantRefresh {
   /** @description The `refresh_token` param as described in the OAuth spec. */
   refresh_token?: string;
 }
+
+// Some APIs (admin.teams.settings.setDefaultChannels, admin.conversations.*) require a minimum-1-item channel array
+
+export interface ChannelIDs {
+  /** @description An array of channel IDs (must include at least one ID). */
+  channel_ids: [string, ...string[]];
+}
