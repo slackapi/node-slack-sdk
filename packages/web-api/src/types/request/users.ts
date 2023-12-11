@@ -68,11 +68,11 @@ export interface UsersProfileGetArguments extends TokenOverridable {
 export interface UsersProfileSetArguments extends TokenOverridable {
   /**
    * @description Sets profile fields using a single argument.
-   * Collection of key:value pairs presented as a URL-encoded JSON hash.
-   * At most 50 fields may be set. Each field `name` is limited to 255 characters.
+   * Collection of key:value pairs presented.
+   * At most 50 fields may be set. Each field name is limited to 255 characters.
    * @see {@link https://api.slack.com/methods/users.profile.set#profile-fields `users.profile.set` Profile fields usage info}.
    */
-  profile?: string; // TODO: allow for an object (eg use Record<string, unknown>) and add code to JSON encoded properly?
+  profile?: Record<string, unknown>;
   /** @description ID of user to change. This argument may only be specified by admins on paid teams. */
   user?: string; // must be an admin user and must be on a paid plan
   /**
