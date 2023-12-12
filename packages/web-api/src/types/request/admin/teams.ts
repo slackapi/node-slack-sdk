@@ -1,9 +1,4 @@
-import type { ChannelIDs, CursorPaginationEnabled, TokenOverridable } from '../common';
-
-interface TeamID {
-  /** @description The encoded team ID to query. */
-  team_id: string;
-}
+import type { ChannelIDs, CursorPaginationEnabled, TeamID, TokenOverridable } from '../common';
 
 type TeamDiscoverability = 'open' | 'closed' | 'invite_only' | 'unlisted';
 

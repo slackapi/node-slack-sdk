@@ -278,6 +278,7 @@ import type { AdminInviteRequestsApproveArguments, AdminInviteRequestsApprovedLi
 import type { AdminRolesAddAssignmentsArguments, AdminRolesListAssignmentsArguments, AdminRolesRemoveAssignmentsArguments } from './types/request/admin/roles';
 import type { AdminTeamsAdminsListArguments, AdminTeamsCreateArguments, AdminTeamsListArguments, AdminTeamsOwnersListArguments, AdminTeamsSettingsInfoArguments, AdminTeamsSettingsSetDefaultChannelsArguments, AdminTeamsSettingsSetDescriptionArguments, AdminTeamsSettingsSetDiscoverabilityArguments, AdminTeamsSettingsSetIconArguments, AdminTeamsSettingsSetNameArguments } from './types/request/admin/teams';
 import type { AdminUsergroupsAddChannelsArguments, AdminUsergroupsAddTeamsArguments, AdminUsergroupsListChannelsArguments, AdminUsergroupsRemoveChannelsArguments } from './types/request/admin/usergroups';
+import type { AdminUsersAssignArguments, AdminUsersInviteArguments, AdminUsersListArguments, AdminUsersRemoveArguments, AdminUsersSessionListArguments, AdminUsersSessionClearSettingsArguments, AdminUsersSessionGetSettingsArguments, AdminUsersSessionInvalidateArguments, AdminUsersSessionResetArguments, AdminUsersSessionResetBulkArguments, AdminUsersSessionSetSettingsArguments, AdminUsersSetAdminArguments, AdminUsersSetExpirationArguments, AdminUsersSetOwnerArguments, AdminUsersSetRegularArguments, AdminUsersUnsupportedVersionsExportArguments } from './types/request/admin/users';
 
 /**
  * Generic method definition
@@ -852,51 +853,119 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       ),
     },
     users: {
+      /**
+       * @description Add an Enterprise user to a workspace.
+       * @see {@link https://api.slack.com/methods/admin.users.assign `admin.users.assign` API reference}.
+       */
       assign: bindApiCall<AdminUsersAssignArguments, AdminUsersAssignResponse>(this, 'admin.users.assign'),
+      /**
+       * @description Invite a user to a workspace.
+       * @see {@link https://api.slack.com/methods/admin.users.invite `admin.users.invite` API reference}.
+       */
       invite: bindApiCall<AdminUsersInviteArguments, AdminUsersInviteResponse>(this, 'admin.users.invite'),
+      /**
+       * @description List users on a workspace.
+       * @see {@link https://api.slack.com/methods/admin.users.list `admin.users.list` API reference}.
+       */
       list: bindApiCall<AdminUsersListArguments, AdminUsersListResponse>(this, 'admin.users.list'),
+      /**
+       * @description Remove a user from a workspace.
+       * @see {@link https://api.slack.com/methods/admin.users.remove `admin.users.remove` API reference}.
+       */
       remove: bindApiCall<AdminUsersRemoveArguments, AdminUsersRemoveResponse>(this, 'admin.users.remove'),
       session: {
-        list: bindApiCall<AdminUsersSessionListArguments, AdminUsersSessionListResponse>(this, 'admin.users.session.list'),
-        reset: bindApiCall<AdminUsersSessionResetArguments, AdminUsersSessionResetResponse>(this, 'admin.users.session.reset'),
-        resetBulk: bindApiCall<AdminUsersSessionResetBulkArguments, AdminUsersSessionResetBulkResponse>(this, 'admin.users.session.resetBulk'),
-        invalidate: bindApiCall<AdminUsersSessionInvalidateArguments, AdminUsersSessionInvalidateResponse>(
-          this,
-          'admin.users.session.invalidate',
-        ),
-        getSettings: bindApiCall<AdminUsersSessionGetSettingsArguments, AdminUsersSessionGetSettingsResponse>(
-          this,
-          'admin.users.session.getSettings',
-        ),
-        setSettings: bindApiCall<AdminUsersSessionSetSettingsArguments, AdminUsersSessionSetSettingsResponse>(
-          this,
-          'admin.users.session.setSettings',
-        ),
+        /**
+         * @description Clear user-specific session settings—the session duration and what happens when the client
+         * closes—for a list of users.
+         * @see {@link https://api.slack.com/methods/admin.users.session.clearSettings `admin.users.session.clearSettings` API reference}.
+         */
         clearSettings: bindApiCall<AdminUsersSessionClearSettingsArguments, AdminUsersSessionClearSettingsResponse>(
           this,
           'admin.users.session.clearSettings',
         ),
-      },
-      unsupportedVersions: {
-        export: bindApiCall<AdminUsersUnsupportedVersionsExportArguments, AdminUsersUnsupportedVersionsExportResponse>(
+        /**
+         * @description Get user-specific session settings—the session duration and what happens when the client
+         * closes—given a list of users.
+         * @see {@link https://api.slack.com/methods/admin.users.session.getSettings `admin.users.session.getSettings` API reference}.
+         */
+        getSettings: bindApiCall<AdminUsersSessionGetSettingsArguments, AdminUsersSessionGetSettingsResponse>(
           this,
-          'admin.users.unsupportedVersions.export',
+          'admin.users.session.getSettings',
+        ),
+        /**
+         * @description Revoke a single session for a user. The user will be forced to login to Slack.
+         * @see {@link https://api.slack.com/methods/admin.users.session.invalidate `admin.users.session.invalidate` API reference}.
+         */
+        invalidate: bindApiCall<AdminUsersSessionInvalidateArguments, AdminUsersSessionInvalidateResponse>(
+          this,
+          'admin.users.session.invalidate',
+        ),
+        /**
+         * @description List active user sessions for an organization.
+         * @see {@link https://api.slack.com/methods/admin.users.session.list `admin.users.session.list` API reference}.
+         */
+        list: bindApiCall<AdminUsersSessionListArguments, AdminUsersSessionListResponse>(this, 'admin.users.session.list'),
+        /**
+         * @description Wipes all valid sessions on all devices for a given user.
+         * @see {@link https://api.slack.com/methods/admin.users.session.reset `admin.users.session.reset` API reference}.
+         */
+        reset: bindApiCall<AdminUsersSessionResetArguments, AdminUsersSessionResetResponse>(this, 'admin.users.session.reset'),
+        /**
+         * @description Enqueues an asynchronous job to wipe all valid sessions on all devices for a given user list.
+         * @see {@link https://api.slack.com/methods/admin.users.session.resetBulk `admin.users.session.resetBulk` API reference}.
+         */
+        resetBulk: bindApiCall<AdminUsersSessionResetBulkArguments, AdminUsersSessionResetBulkResponse>(this, 'admin.users.session.resetBulk'),
+        /**
+         * @description Configure the user-level session settings—the session duration and what happens when the client
+         * closes—for one or more users.
+         * @see {@link https://api.slack.com/methods/admin.users.session.setSettings `admin.users.session.setSettings` API reference}.
+         */
+        setSettings: bindApiCall<AdminUsersSessionSetSettingsArguments, AdminUsersSessionSetSettingsResponse>(
+          this,
+          'admin.users.session.setSettings',
         ),
       },
+      /**
+       * @description Set an existing guest, regular user, or owner to be an admin user.
+       * @see {@link https://api.slack.com/methods/admin.users.setAdmin `admin.users.setAdmin` API reference}.
+       */
       setAdmin: bindApiCall<AdminUsersSetAdminArguments, AdminUsersSetAdminResponse>(this, 'admin.users.setAdmin'),
+      /**
+       * @description Set an expiration for a guest user.
+       * @see {@link https://api.slack.com/methods/admin.users.setExpiration `admin.users.setExpiration` API reference}.
+       */
       setExpiration:
         bindApiCall<AdminUsersSetExpirationArguments, AdminUsersSetExpirationResponse>(
           this,
           'admin.users.setExpiration',
         ),
+      /**
+       * @description Set an existing guest, regular user, or admin user to be a workspace owner.
+       * @see {@link https://api.slack.com/methods/admin.users.setOwner `admin.users.setOwner` API reference}.
+       */
       setOwner: bindApiCall<AdminUsersSetOwnerArguments, AdminUsersSetOwnerResponse>(
         this,
         'admin.users.setOwner',
       ),
+      /**
+       * @description Set an existing guest user, admin user, or owner to be a regular user.
+       * @see {@link https://api.slack.com/methods/admin.users.setRegular `admin.users.setRegular` API reference}.
+       */
       setRegular: bindApiCall<AdminUsersSetRegularArguments, AdminUsersSetRegularResponse>(
         this,
         'admin.users.setRegular',
       ),
+      unsupportedVersions: {
+        /**
+         * @description Ask Slackbot to send you an export listing all workspace members using unsupported software,
+         * presented as a zipped CSV file.
+         * @see {@link https://api.slack.com/methods/admin.users.unsupportedVersions.export `admin.users.unsupportedVersions.export` API reference}.
+         */
+        export: bindApiCall<AdminUsersUnsupportedVersionsExportArguments, AdminUsersUnsupportedVersionsExportResponse>(
+          this,
+          'admin.users.unsupportedVersions.export',
+        ),
+      },
     },
     workflows: {
       search: bindApiCall<AdminWorkflowsSearchArguments, AdminWorkflowsSearchResponse>(this, 'admin.workflows.search'),
@@ -1811,101 +1880,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      */
     updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
   };
-}
-// https://api.slack.com/methods/admin.users.assign
-export interface AdminUsersAssignArguments extends TokenOverridable {
-  team_id: string;
-  user_id: string;
-  channel_ids?: string | string[];
-  is_restricted?: boolean;
-  is_ultra_restricted?: boolean;
-}
-// https://api.slack.com/methods/admin.users.invite
-export interface AdminUsersInviteArguments extends TokenOverridable {
-  channel_ids: string | string[];
-  email: string;
-  team_id: string;
-  custom_message?: string;
-  email_password_policy_enabled?: boolean;
-  guest_expiration_ts?: string;
-  is_restricted?: boolean;
-  is_ultra_restricted?: boolean;
-  real_name?: string;
-  resend?: boolean;
-}
-// https://api.slack.com/methods/admin.users.list
-export interface AdminUsersListArguments extends TokenOverridable, CursorPaginationEnabled {
-  team_id?: string; // Only required if org-level token is used
-  include_deactivated_user_workspaces?: boolean;
-  is_active?: boolean;
-}
-// https://api.slack.com/methods/admin.users.remove
-export interface AdminUsersRemoveArguments extends TokenOverridable {
-  team_id: string;
-  user_id: string;
-}
-// https://api.slack.com/methods/admin.users.setAdmin
-export interface AdminUsersSetAdminArguments extends TokenOverridable {
-  team_id: string;
-  user_id: string;
-}
-// https://api.slack.com/methods/admin.users.setExpiration
-export interface AdminUsersSetExpirationArguments extends TokenOverridable {
-  team_id?: string;
-  user_id: string;
-  expiration_ts: number;
-}
-// https://api.slack.com/methods/admin.users.setOwner
-export interface AdminUsersSetOwnerArguments extends TokenOverridable {
-  team_id: string;
-  user_id: string;
-}
-// https://api.slack.com/methods/admin.users.setRegular
-export interface AdminUsersSetRegularArguments extends TokenOverridable {
-  team_id: string;
-  user_id: string;
-}
-// TODO: breaking change: if user_id is provided, team_id must be provided, too.
-// https://api.slack.com/methods/admin.users.session.list
-export interface AdminUsersSessionListArguments extends TokenOverridable, CursorPaginationEnabled {
-  user_id?: string;
-  team_id?: string;
-}
-// https://api.slack.com/methods/admin.users.session.reset
-export interface AdminUsersSessionResetArguments extends TokenOverridable {
-  user_id: string;
-  mobile_only?: boolean;
-  web_only?: boolean;
-}
-// https://api.slack.com/methods/admin.users.session.resetBulk
-export interface AdminUsersSessionResetBulkArguments extends TokenOverridable {
-  user_ids: string[];
-  mobile_only?: boolean;
-  web_only?: boolean;
-}
-// https://api.slack.com/methods/admin.users.session.invalidate
-export interface AdminUsersSessionInvalidateArguments extends TokenOverridable {
-  session_id: string;
-  team_id: string;
-}
-// https://api.slack.com/methods/admin.users.session.getSettings
-export interface AdminUsersSessionGetSettingsArguments extends TokenOverridable {
-  user_ids: string[];
-}
-// https://api.slack.com/methods/admin.users.session.setSettings
-export interface AdminUsersSessionSetSettingsArguments extends TokenOverridable {
-  user_ids: string[];
-  desktop_app_browser_quit?: boolean;
-  duration?: number;
-}
-// https://api.slack.com/methods/admin.users.session.clearSettings
-export interface AdminUsersSessionClearSettingsArguments extends TokenOverridable {
-  user_ids: string[];
-}
-// https://api.slack.com/methods/admin.users.unsupportedVersions.export
-export interface AdminUsersUnsupportedVersionsExportArguments extends TokenOverridable {
-  date_end_of_support?: number;
-  date_sessions_started?: number;
 }
 // https://api.slack.com/methods/admin.workflows.collaborators.add
 export interface AdminWorkflowsCollaboratorsAddArguments

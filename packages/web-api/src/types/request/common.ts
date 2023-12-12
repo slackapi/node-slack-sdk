@@ -52,11 +52,31 @@ export interface LocaleAware {
 }
 
 /**
- * Some API methods optionally require a `team_id` if an org token is used.
+ * Some API methods take a `team_id` - different interfaces here so that we can provide a different JSDoc.
  */
+
+export interface TeamID {
+  /** @description The encoded team ID. */
+  team_id: string;
+}
+
 export interface OptionalTeamAssignable {
   /** @description If using an org token, `team_id` is required. */
   team_id?: string;
+}
+
+// Some APIs (admin.teams.settings.setDefaultChannels, admin.conversations.*) require a minimum-1-item channel array
+
+export interface ChannelIDs {
+  /** @description An array of channel IDs (must include at least one ID). */
+  channel_ids: [string, ...string[]];
+}
+
+// Same for user IDs
+
+export interface UserIDs {
+  /** @description List of encoded user IDs. */
+  user_ids: [string, ...string[]];
 }
 
 /**
@@ -110,11 +130,4 @@ export interface OAuthGrantRefresh {
   grant_type?: 'authorization_code' | 'refresh_token';
   /** @description The `refresh_token` param as described in the OAuth spec. */
   refresh_token?: string;
-}
-
-// Some APIs (admin.teams.settings.setDefaultChannels, admin.conversations.*) require a minimum-1-item channel array
-
-export interface ChannelIDs {
-  /** @description An array of channel IDs (must include at least one ID). */
-  channel_ids: [string, ...string[]];
 }

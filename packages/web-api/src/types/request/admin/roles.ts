@@ -1,4 +1,4 @@
-import type { CursorPaginationEnabled, SortDir, TokenOverridable } from '../common';
+import type { CursorPaginationEnabled, SortDir, TokenOverridable, UserIDs } from '../common';
 
 interface EntityIDs {
   /**
@@ -14,11 +14,6 @@ interface RoleID {
    * @see {@link https://api.slack.com/methods/admin.roles.addAssignments#markdown Admin Roles under Usage info}.
    */
   role_id: string;
-}
-
-interface UserIDs {
-  /** @description List of IDs from the users to be added to/removed from the given role. */
-  user_ids: [string, ...string[]];
 }
 
 // https://api.slack.com/methods/admin.roles.addAssignments

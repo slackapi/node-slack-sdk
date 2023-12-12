@@ -1,4 +1,4 @@
-import type { ChannelIDs, CursorPaginationEnabled, SortDir, TokenOverridable } from '../common';
+import type { ChannelIDs, CursorPaginationEnabled, SortDir, TokenOverridable, UserIDs } from '../common';
 
 interface ChannelID { // an identical interface exists in src/types/request/conversations.ts, but it is only for invites
   /** @description Encoded channel ID. */
@@ -106,10 +106,7 @@ export interface AdminConversationsGetTeamsArguments
   extends ChannelID, TokenOverridable, CursorPaginationEnabled {}
 
 // https://api.slack.com/methods/admin.conversations.invite
-export interface AdminConversationsInviteArguments extends ChannelID, TokenOverridable {
-  /** @description The users to invite. */
-  user_ids: [string, ...string[]];
-}
+export interface AdminConversationsInviteArguments extends ChannelID, UserIDs, TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.lookup
 export interface AdminConversationsLookupArguments
