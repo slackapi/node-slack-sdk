@@ -1,9 +1,5 @@
-import type { CursorPaginationEnabled, TokenOverridable } from '../common';
+import type { AppID, CursorPaginationEnabled, TokenOverridable } from '../common';
 
-interface AppID {
-  /** @description The ID of the app. */
-  app_id: string;
-}
 interface RequestID {
   /** @description The id of the request. */
   request_id: string;

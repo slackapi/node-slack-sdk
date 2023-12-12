@@ -238,7 +238,6 @@ import type {
   AdminAppsConfigSetResponse,
 } from './types/response';
 // Request types
-import type { TokenOverridable, CursorPaginationEnabled } from './types/request/common';
 import type { WorkflowsStepCompletedArguments, WorkflowsStepFailedArguments, WorkflowsUpdateStepArguments } from './types/request/workflows';
 import type { ViewsUpdateArguments, ViewsOpenArguments, ViewsPushArguments, ViewsPublishArguments } from './types/request/views';
 import type { UsersConversationsArguments, UsersInfoArguments, UsersListArguments, UsersIdentityArguments, UsersSetPhotoArguments, UsersProfileGetArguments, UsersProfileSetArguments, UsersDeletePhotoArguments, UsersGetPresenceArguments, UsersSetPresenceArguments, UsersLookupByEmailArguments } from './types/request/users';
@@ -279,6 +278,7 @@ import type { AdminRolesAddAssignmentsArguments, AdminRolesListAssignmentsArgume
 import type { AdminTeamsAdminsListArguments, AdminTeamsCreateArguments, AdminTeamsListArguments, AdminTeamsOwnersListArguments, AdminTeamsSettingsInfoArguments, AdminTeamsSettingsSetDefaultChannelsArguments, AdminTeamsSettingsSetDescriptionArguments, AdminTeamsSettingsSetDiscoverabilityArguments, AdminTeamsSettingsSetIconArguments, AdminTeamsSettingsSetNameArguments } from './types/request/admin/teams';
 import type { AdminUsergroupsAddChannelsArguments, AdminUsergroupsAddTeamsArguments, AdminUsergroupsListChannelsArguments, AdminUsergroupsRemoveChannelsArguments } from './types/request/admin/usergroups';
 import type { AdminUsersAssignArguments, AdminUsersInviteArguments, AdminUsersListArguments, AdminUsersRemoveArguments, AdminUsersSessionListArguments, AdminUsersSessionClearSettingsArguments, AdminUsersSessionGetSettingsArguments, AdminUsersSessionInvalidateArguments, AdminUsersSessionResetArguments, AdminUsersSessionResetBulkArguments, AdminUsersSessionSetSettingsArguments, AdminUsersSetAdminArguments, AdminUsersSetExpirationArguments, AdminUsersSetOwnerArguments, AdminUsersSetRegularArguments, AdminUsersUnsupportedVersionsExportArguments } from './types/request/admin/users';
+import type { AdminWorkflowsCollaboratorsAddArguments, AdminWorkflowsCollaboratorsRemoveArguments, AdminWorkflowsPermissionsLookupArguments, AdminWorkflowsSearchArguments, AdminWorkflowsUnpublishArguments } from './types/request/admin/workflows';
 
 /**
  * Generic method definition
@@ -968,15 +968,35 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       },
     },
     workflows: {
-      search: bindApiCall<AdminWorkflowsSearchArguments, AdminWorkflowsSearchResponse>(this, 'admin.workflows.search'),
-      unpublish: bindApiCall<AdminWorkflowsUnpublishArguments, AdminWorkflowsUnpublishResponse>(this, 'admin.workflows.unpublish'),
       collaborators: {
+        /**
+         * @description Add collaborators to workflows within the team or enterprise.
+         * @see {@link https://api.slack.com/methods/admin.workflows.collaborators.add `admin.workflows.collaborators.add` API reference}.
+         */
         add: bindApiCall<AdminWorkflowsCollaboratorsAddArguments, AdminWorkflowsCollaboratorsAddResponse>(this, 'admin.workflows.collaborators.add'),
+        /**
+         * @description Remove collaborators from workflows within the team or enterprise.
+         * @see {@link https://api.slack.com/methods/admin.workflows.collaborators.remove `admin.workflows.collaborators.remove` API reference}.
+         */
         remove: bindApiCall<AdminWorkflowsCollaboratorsRemoveArguments, AdminWorkflowsCollaboratorsRemoveResponse>(this, 'admin.workflows.collaborators.remove'),
       },
       permissions: {
+        /**
+         * @description Look up the permissions for a set of workflows.
+         * @see {@link https://api.slack.com/methods/admin.workflows.permissions.lookup `admin.workflows.permissions.lookup` API reference}.
+         */
         lookup: bindApiCall<AdminWorkflowsPermissionsLookupArguments, AdminWorkflowsPermissionsLookupResponse>(this, 'admin.workflows.permissions.lookup'),
       },
+      /**
+       * @description Search workflows within the team or enterprise.
+       * @see {@link https://api.slack.com/methods/admin.workflows.search `admin.workflows.search` API reference}.
+       */
+      search: bindApiCall<AdminWorkflowsSearchArguments, AdminWorkflowsSearchResponse>(this, 'admin.workflows.search'),
+      /**
+       * @description Unpublish workflows within the team or enterprise.
+       * @see {@link https://api.slack.com/methods/admin.workflows.unpublish `admin.workflows.unpublish` API reference}.
+       */
+      unpublish: bindApiCall<AdminWorkflowsUnpublishArguments, AdminWorkflowsUnpublishResponse>(this, 'admin.workflows.unpublish'),
     },
   };
 
@@ -1880,39 +1900,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      */
     updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
   };
-}
-// https://api.slack.com/methods/admin.workflows.collaborators.add
-export interface AdminWorkflowsCollaboratorsAddArguments
-  extends TokenOverridable {
-  collaborator_ids: string[];
-  workflow_ids: string[];
-}
-// https://api.slack.com/methods/admin.workflows.collaborators.remove
-export interface AdminWorkflowsCollaboratorsRemoveArguments
-  extends TokenOverridable {
-  collaborator_ids: string[];
-  workflow_ids: string[];
-}
-// https://api.slack.com/methods/admin.workflows.permissions.lookup
-export interface AdminWorkflowsPermissionsLookupArguments
-  extends TokenOverridable {
-  workflow_ids: string[];
-  max_workflow_triggers?: number;
-}
-// https://api.slack.com/methods/admin.workflows.search
-export interface AdminWorkflowsSearchArguments extends TokenOverridable, CursorPaginationEnabled {
-  app_id?: string;
-  collaborator_ids?: string[];
-  no_collaborators?: boolean;
-  num_trigger_ids?: number;
-  query?: string;
-  sort?: string;
-  sort_dir?: 'asc' | 'desc';
-  source?: 'code' | 'workflow_builder';
-}
-// https://api.slack.com/methods/admin.workflows.unpublish
-export interface AdminWorkflowsUnpublishArguments extends TokenOverridable {
-  workflow_ids: string[];
 }
 
 export * from '@slack/types';

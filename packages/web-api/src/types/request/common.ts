@@ -79,6 +79,11 @@ export interface UserIDs {
   user_ids: [string, ...string[]];
 }
 
+export interface AppID {
+  /** @description The ID of the app. */
+  app_id: string;
+}
+
 /**
  * Some API methods use arguments for specifying a message, file or file comment.
  * E.g. `stars.*` and `reactions.*`

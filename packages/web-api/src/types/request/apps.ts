@@ -1,4 +1,4 @@
-import type { CursorPaginationEnabled, TokenOverridable, OAuthCredentials } from './common';
+import type { AppID, CursorPaginationEnabled, TokenOverridable, OAuthCredentials } from './common';
 
 // https://api.slack.com/methods/apps.connections.open
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -21,24 +21,18 @@ export interface AppsManifestCreateArguments extends TokenOverridable {
 }
 
 // https://api.slack.com/methods/apps.manifest.delete
-export interface AppsManifestDeleteArguments extends TokenOverridable {
-  app_id: string;
-}
+export interface AppsManifestDeleteArguments extends AppID, TokenOverridable {}
 
 // https://api.slack.com/methods/apps.manifest.export
-export interface AppsManifestExportArguments extends TokenOverridable {
-  app_id: string;
-}
+export interface AppsManifestExportArguments extends AppID, TokenOverridable {}
 
 // https://api.slack.com/methods/apps.manifest.update
-export interface AppsManifestUpdateArguments extends TokenOverridable {
-  app_id: string;
+export interface AppsManifestUpdateArguments extends AppID, TokenOverridable {
   manifest: string;
 }
 
 // https://api.slack.com/methods/apps.manifest.validate
-export interface AppsManifestValidateArguments extends TokenOverridable {
-  app_id?: string;
+export interface AppsManifestValidateArguments extends Partial<AppID>, TokenOverridable {
   manifest: string;
 }
 

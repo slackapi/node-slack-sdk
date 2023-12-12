@@ -1,4 +1,4 @@
-import { OptionalTeamAssignable, TokenOverridable, CursorPaginationEnabled, TraditionalPagingEnabled } from './common';
+import { AppID, OptionalTeamAssignable, TokenOverridable, CursorPaginationEnabled, TraditionalPagingEnabled } from './common';
 
 // https://api.slack.com/methods/team.accessLogs
 export interface TeamAccessLogsArguments extends TokenOverridable, CursorPaginationEnabled,
@@ -28,10 +28,8 @@ export interface TeamInfoArguments extends TokenOverridable {
   team?: string;
 }
 // https://api.slack.com/methods/team.integrationLogs
-export interface TeamIntegrationLogsArguments extends TokenOverridable,
+export interface TeamIntegrationLogsArguments extends Partial<AppID>, TokenOverridable,
   OptionalTeamAssignable, TraditionalPagingEnabled {
-  /** @description Filter logs to this Slack app. Defaults to all logs. */
-  app_id?: string;
   /** @description Filter logs with this change type. Defaults to all logs. */
   change_type?: 'added' | 'removed' | 'enabled' | 'disabled' | 'updated';
   /** @description Filter logs to this service. Defaults to all logs. */
