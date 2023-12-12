@@ -277,6 +277,7 @@ import type { FunctionsCompleteErrorArguments, FunctionsCompleteSuccessArguments
 import type { AdminInviteRequestsApproveArguments, AdminInviteRequestsApprovedListArguments, AdminInviteRequestsDeniedListArguments, AdminInviteRequestsDenyArguments, AdminInviteRequestsListArguments } from './types/request/admin/inviteRequests';
 import type { AdminRolesAddAssignmentsArguments, AdminRolesListAssignmentsArguments, AdminRolesRemoveAssignmentsArguments } from './types/request/admin/roles';
 import type { AdminTeamsAdminsListArguments, AdminTeamsCreateArguments, AdminTeamsListArguments, AdminTeamsOwnersListArguments, AdminTeamsSettingsInfoArguments, AdminTeamsSettingsSetDefaultChannelsArguments, AdminTeamsSettingsSetDescriptionArguments, AdminTeamsSettingsSetDiscoverabilityArguments, AdminTeamsSettingsSetIconArguments, AdminTeamsSettingsSetNameArguments } from './types/request/admin/teams';
+import type { AdminUsergroupsAddChannelsArguments, AdminUsergroupsAddTeamsArguments, AdminUsergroupsListChannelsArguments, AdminUsergroupsRemoveChannelsArguments } from './types/request/admin/usergroups';
 
 /**
  * Generic method definition
@@ -817,18 +818,34 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       },
     },
     usergroups: {
+      /**
+       * @description Add up to one hundred default channels to an IDP group.
+       * @see {@link https://api.slack.com/methods/admin.usergroups.addChannels `admin.teams.usergroups.addChannels` API reference}.
+       */
       addChannels: bindApiCall<AdminUsergroupsAddChannelsArguments, AdminUsergroupsAddChannelsResponse>(
         this,
         'admin.usergroups.addChannels',
       ),
+      /**
+       * @description Associate one or more default workspaces with an organization-wide IDP group.
+       * @see {@link https://api.slack.com/methods/admin.usergroups.addTeams `admin.teams.usergroups.addTeams` API reference}.
+       */
       addTeams: bindApiCall<AdminUsergroupsAddTeamsArguments, AdminUsergroupsAddTeamsResponse>(
         this,
         'admin.usergroups.addTeams',
       ),
+      /**
+       * @description List the channels linked to an org-level IDP group (user group).
+       * @see {@link https://api.slack.com/methods/admin.usergroups.listChannels `admin.teams.usergroups.listChannels` API reference}.
+       */
       listChannels: bindApiCall<AdminUsergroupsListChannelsArguments, AdminUsergroupsListChannelsResponse>(
         this,
         'admin.usergroups.listChannels',
       ),
+      /**
+       * @description Remove one or more default channels from an org-level IDP group (user group).
+       * @see {@link https://api.slack.com/methods/admin.usergroups.removeChannels `admin.teams.usergroups.removeChannels` API reference}.
+       */
       removeChannels: bindApiCall<AdminUsergroupsRemoveChannelsArguments, AdminUsergroupsRemoveChannelsResponse>(
         this,
         'admin.usergroups.removeChannels',
@@ -1794,29 +1811,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      */
     updateStep: bindApiCall<WorkflowsUpdateStepArguments, WorkflowsUpdateStepResponse>(this, 'workflows.updateStep'),
   };
-}
-// https://api.slack.com/methods/admin.usergroups.addChannels
-export interface AdminUsergroupsAddChannelsArguments extends TokenOverridable {
-  usergroup_id: string;
-  team_id?: string;
-  channel_ids: string | string[];
-}
-// https://api.slack.com/methods/admin.usergroups.addTeams
-export interface AdminUsergroupsAddTeamsArguments extends TokenOverridable {
-  usergroup_id: string;
-  team_ids: string | string[];
-  auto_provision?: boolean;
-}
-// https://api.slack.com/methods/admin.usergroups.listChannels
-export interface AdminUsergroupsListChannelsArguments extends TokenOverridable {
-  usergroup_id: string;
-  include_num_members?: boolean;
-  team_id?: string;
-}
-// https://api.slack.com/methods/admin.usergroups.removeChannels
-export interface AdminUsergroupsRemoveChannelsArguments extends TokenOverridable {
-  usergroup_id: string;
-  channel_ids: string | string[];
 }
 // https://api.slack.com/methods/admin.users.assign
 export interface AdminUsersAssignArguments extends TokenOverridable {
