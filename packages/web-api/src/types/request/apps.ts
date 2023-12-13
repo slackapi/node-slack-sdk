@@ -1,7 +1,7 @@
 import type { AppID, CursorPaginationEnabled, TokenOverridable, OAuthCredentials } from './common';
+import type { Manifest } from './manifest';
 
 // https://api.slack.com/methods/apps.connections.open
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface AppsConnectionsOpenArguments { }
 
 // https://api.slack.com/methods/apps.event.authorizations.list
@@ -10,14 +10,9 @@ export interface AppsEventAuthorizationsListArguments
   event_context: string;
 }
 
-// TODO:determine how to type the `manifest` field: string? actual interface?
-// some prior art we can borrow/steal from:
-// - https://github.com/seratch/slack-web-api-client/blob/main/src/manifest/manifest-params.ts
-// - https://github.com/slackapi/deno-slack-sdk/blob/main/src/manifest/manifest_schema.ts#L14
-// TODO:should also link to https://api.slack.com/reference/manifests#fields throughout
 // https://api.slack.com/methods/apps.manifest.create
 export interface AppsManifestCreateArguments extends TokenOverridable {
-  manifest: string;
+  manifest: Manifest;
 }
 
 // https://api.slack.com/methods/apps.manifest.delete
@@ -28,12 +23,12 @@ export interface AppsManifestExportArguments extends AppID, TokenOverridable {}
 
 // https://api.slack.com/methods/apps.manifest.update
 export interface AppsManifestUpdateArguments extends AppID, TokenOverridable {
-  manifest: string;
+  manifest: Manifest;
 }
 
 // https://api.slack.com/methods/apps.manifest.validate
 export interface AppsManifestValidateArguments extends Partial<AppID>, TokenOverridable {
-  manifest: string;
+  manifest: Manifest;
 }
 
 // https://api.slack.com/methods/apps.uninstall
