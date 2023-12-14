@@ -137,7 +137,19 @@ expectAssignable<Parameters<typeof web.chat.postEphemeral>>([{
 expectAssignable<Parameters<typeof web.chat.postEphemeral>>([{
   channel: 'C1234',
   user: 'U1234',
+  blocks: [],
+  text: 'fallback',
+}]);
+expectAssignable<Parameters<typeof web.chat.postEphemeral>>([{
+  channel: 'C1234',
+  user: 'U1234',
   attachments: [],
+}]);
+expectAssignable<Parameters<typeof web.chat.postEphemeral>>([{
+  channel: 'C1234',
+  user: 'U1234',
+  attachments: [],
+  text: 'fallback',
 }]);
 expectAssignable<Parameters<typeof web.chat.postEphemeral>>([{
   channel: 'C1234',
@@ -222,7 +234,17 @@ expectAssignable<Parameters<typeof web.chat.postMessage>>([{
 }]);
 expectAssignable<Parameters<typeof web.chat.postMessage>>([{
   channel: 'C1234',
+  blocks: [],
+  text: 'fallback',
+}]);
+expectAssignable<Parameters<typeof web.chat.postMessage>>([{
+  channel: 'C1234',
   attachments: [],
+}]);
+expectAssignable<Parameters<typeof web.chat.postMessage>>([{
+  channel: 'C1234',
+  attachments: [],
+  text: 'fallback',
 }]);
 expectAssignable<Parameters<typeof web.chat.postMessage>>([{
   channel: 'C1234',
@@ -318,7 +340,19 @@ expectAssignable<Parameters<typeof web.chat.scheduleMessage>>([{
 expectAssignable<Parameters<typeof web.chat.scheduleMessage>>([{
   channel: 'C1234',
   post_at: 'U1234',
+  blocks: [],
+  text: 'fallback',
+}]);
+expectAssignable<Parameters<typeof web.chat.scheduleMessage>>([{
+  channel: 'C1234',
+  post_at: 'U1234',
   attachments: [],
+}]);
+expectAssignable<Parameters<typeof web.chat.scheduleMessage>>([{
+  channel: 'C1234',
+  post_at: 'U1234',
+  attachments: [],
+  text: 'fallback',
 }]);
 expectAssignable<Parameters<typeof web.chat.scheduleMessage>>([{
   channel: 'C1234',
@@ -444,7 +478,19 @@ expectAssignable<Parameters<typeof web.chat.update>>([{
 expectAssignable<Parameters<typeof web.chat.update>>([{
   channel: 'C1234',
   ts: '1234.56',
+  blocks: [],
+  text: 'fallback',
+}]);
+expectAssignable<Parameters<typeof web.chat.update>>([{
+  channel: 'C1234',
+  ts: '1234.56',
   attachments: [],
+}]);
+expectAssignable<Parameters<typeof web.chat.update>>([{
+  channel: 'C1234',
+  ts: '1234.56',
+  attachments: [],
+  text: 'fallback',
 }]);
 expectAssignable<Parameters<typeof web.chat.update>>([{
   channel: 'C1234',

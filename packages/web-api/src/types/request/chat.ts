@@ -33,18 +33,21 @@ interface Parse {
   parse?: 'full' | 'none';
 }
 interface Text {
-  /** @description Text of the message. */
+  /**
+   * @description Text of the message. If used in conjunction with `blocks` or `attachments`, `text` will be used
+   * as fallback text for notifications only.
+   */
   text: string;
 }
 interface ChannelAndText extends Channel, Text {}
-interface ChannelAndBlocks extends Channel {
+interface ChannelAndBlocks extends Channel, Partial<Text> {
   /**
    * @description An array of structured Blocks.
    * @see {@link https://api.slack.com/reference/block-kit/blocks Blocks reference}.
    */
   blocks: (KnownBlock | Block)[];
 }
-interface ChannelAndAttachments extends Channel {
+interface ChannelAndAttachments extends Channel, Partial<Text> {
   /**
    * @description An array of structured attachments.
    * @see {@link https://api.slack.com/messaging/composing/layouts#attachments Adding secondary attachments}.

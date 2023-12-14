@@ -97,12 +97,12 @@ export interface MessageArgument {
 }
 
 export interface FileArgument {
-  /** @description Encoded file ID reacted to. */
+  /** @description Encoded file ID. */
   file: string;
 }
 
 export interface FileCommentArgument {
-  /** @description Encoded file comment ID reacted to. */
+  /** @description Encoded file comment ID. */
   file_comment: string;
 }
 
