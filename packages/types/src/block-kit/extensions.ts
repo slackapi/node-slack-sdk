@@ -51,21 +51,20 @@ export interface Dispatchable {
 }
 
 /**
- * @description For use styling Rich Text message sub-elements.
+ * @description For use styling Rich Text sub-elements.
  */
 export interface RichTextStyleable {
   /**
-   * @description A limited style object for styling rich text message elements
-   * (excluding pre-formatted, or code, elements).
+   * @description A limited style object for styling rich text `text` elements.
    */
   style?: {
+    /** @description When `true`, boldens the text in this element. Defaults to `false`. */
     bold?: boolean;
+    /** @description When `true`, the text is preformatted in an inline code style. Defaults to `false. */
+    code?: boolean;
+    /** @description When `true`, italicizes the text in this element. Defaults to `false`. */
     italic?: boolean;
+    /** @description When `true`, strikes through the text in this element. Defaults to `false`. */
     strike?: boolean;
-    highlight?: boolean;
-    /* TODO: model these?
-    client_highlight?: boolean;
-    unlink?: boolean;
-    */
   };
 }
