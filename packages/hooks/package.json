@@ -1,0 +1,37 @@
+{
+  "name": "@slack/hooks",
+  "version": "0.0.1",
+  "description": "Node implementations of the contract between the Slack CLI and Bolt for JavaScript",
+  "author": "Slack Technologies, LLC",
+  "license": "MIT",
+  "keywords": [
+    "slack",
+    "cli",
+    "hooks"
+  ],
+  "main": "src/get-hooks.js",
+  "files": [
+    "src/*.js"
+  ],
+  "engines": {
+    "node": ">= 18",
+    "npm": ">= 8.6.0"
+  },
+  "repository": "slackapi/node-slack-sdk",
+  "homepage": "https://slack.dev/node-slack-sdk",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/slackapi/node-slack-sdk/issues"
+  },
+  "scripts": {
+    "test": "echo \"Tests are not implemented.\" && exit 0"
+  },
+  "bin": {
+    "slack-cli-get-hooks": "./src/get-hooks.js",
+    "slack-cli-get-manifest": "./src/get-manifest.js",
+    "slack-cli-check-update": "./src/check-update.js",
+    "slack-cli-start": "./src/start.js"
+  }
+}
