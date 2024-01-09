@@ -17,7 +17,10 @@
     "node": ">= 18",
     "npm": ">= 8.6.0"
   },
-  "repository": "slackapi/node-slack-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slackapi/node-slack-sdk.git"
+  },
   "homepage": "https://slack.dev/node-slack-sdk",
   "publishConfig": {
     "access": "public"
@@ -29,9 +32,9 @@
     "test": "echo \"Tests are not implemented.\" && exit 0"
   },
   "bin": {
-    "slack-cli-get-hooks": "./src/get-hooks.js",
-    "slack-cli-get-manifest": "./src/get-manifest.js",
-    "slack-cli-check-update": "./src/check-update.js",
-    "slack-cli-start": "./src/start.js"
+    "slack-cli-get-hooks": "src/get-hooks.js",
+    "slack-cli-get-manifest": "src/get-manifest.js",
+    "slack-cli-check-update": "src/check-update.js",
+    "slack-cli-start": "src/start.js"
   }
 }
