@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "dist",
+
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["./types/*"]
+    },
+    "esModuleInterop" : true,
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "src/**/*.spec.js",
+    "src/**/*.js"
+  ],
+  "jsdoc": {
+    "out": "support/jsdoc",
+    "access": "public"
+  }
+}
+

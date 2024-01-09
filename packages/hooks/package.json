@@ -1,6 +1,6 @@
 {
   "name": "@slack/hooks",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Node implementations of the contract between the Slack CLI and Bolt for JavaScript",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -9,9 +9,9 @@
     "cli",
     "hooks"
   ],
-  "main": "src/get-hooks.js",
+  "main": "dist/get-hooks.js",
   "files": [
-    "src/*.js"
+    "dist/*.js"
   ],
   "engines": {
     "node": ">= 18",
@@ -29,12 +29,26 @@
     "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
   "scripts": {
+    "clean": "shx rm -rf ./dist",
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "postbuild": "shx chmod +x dist/*.js",
+    "lint": "eslint --ext .ts src",
     "test": "echo \"Tests are not implemented.\" && exit 0"
   },
   "bin": {
-    "slack-cli-get-hooks": "src/get-hooks.js",
-    "slack-cli-get-manifest": "src/get-manifest.js",
-    "slack-cli-check-update": "src/check-update.js",
-    "slack-cli-start": "src/start.js"
+    "slack-cli-get-hooks": "dist/get-hooks.js",
+    "slack-cli-get-manifest": "dist/get-manifest.js",
+    "slack-cli-check-update": "dist/check-update.js",
+    "slack-cli-start": "dist/start.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-plugin-jsdoc": "^48.0.2",
+    "eslint-plugin-node": "^11.1.0",
+    "shx": "^0.3.4"
   }
 }
