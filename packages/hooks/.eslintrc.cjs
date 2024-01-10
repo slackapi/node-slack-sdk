@@ -19,8 +19,8 @@ module.exports = {
 
     // These environments contain lists of global variables which are allowed to be accessed
     env: {
-        // The target node version (v18) supports all important ES2021 features: https://node.green
-        es2021: true,
+        // The target node version (v18) supports all important ES2022 features: https://node.green
+        es2022: true,
         node: true,
     },
 
@@ -170,6 +170,10 @@ module.exports = {
                 // In tests, don't force constructing a Symbol with a descriptor, as
                 // it's probably just for tests
                 'symbol-description': 'off',
+
+                'node/no-unpublished-import': ['error', {
+                    "allowModules": ["mocha"],
+                }],
             },
         },
     ],

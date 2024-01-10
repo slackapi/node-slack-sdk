@@ -1,3 +1,6 @@
-# node / npm stuff
+# Node and NPM stuff
 /node_modules
 package-lock.json
+
+# Coverage carryover
+/coverage

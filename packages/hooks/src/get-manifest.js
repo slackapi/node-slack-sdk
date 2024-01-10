@@ -40,6 +40,7 @@ function readManifestJSONFile(searchDir, filename) {
     }
   } catch (error) {
     console.error(error); // eslint-disable-line no-console
+    throw new Error('Failed to parse the manifest file for this project');
   }
   return undefined;
 }
@@ -59,15 +60,21 @@ function find(currentPath, targetFilename) {
     return currentPath;
   }
 
+  /** @type {string | undefined} */
+  let targetPath;
   if (fs.existsSync(currentPath) && fs.lstatSync(currentPath).isDirectory()) {
     const dirents = fs.readdirSync(currentPath);
-    return dirents.find((entry) => {
+    dirents.some((entry) => {
       if (entry !== 'node_modules') {
         const newPath = path.resolve(currentPath, entry);
-        return find(newPath, targetFilename);
+        const foundEntry = find(newPath, targetFilename);
+        if (foundEntry) {
+          targetPath = foundEntry;
+          return true;
+        }
       }
       return false;
     });
   }
-  return undefined;
+  return targetPath;
 }

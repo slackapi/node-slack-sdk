@@ -229,11 +229,22 @@ function getReleaseNotesUrl(packageName, latestVersion) {
  * @param {string | undefined} latest - Most up-to-date dependency version available.
  * @returns {boolean} If the update will result in a breaking change.
  */
-function hasAvailableUpdates(current, latest) {
+export function hasAvailableUpdates(current, latest) {
   if (!current || !latest) {
     return false;
   }
-  return current !== latest;
+  const [currMajor, currMinor, currPatch] = current
+    .split('.')
+    .map((val) => Number(val));
+  const [targetMajor, targetMinor, targetPatch] = latest
+    .split('.')
+    .map((val) => Number(val));
+  if (targetMajor !== currMajor) {
+    return targetMajor > currMajor;
+  } if (targetMinor !== currMinor) {
+    return targetMinor > currMinor;
+  }
+  return targetPatch > currPatch;
 }
 
 /**
@@ -242,11 +253,13 @@ function hasAvailableUpdates(current, latest) {
  * @param {string | undefined} latest - Most up-to-date dependency version available.
  * @returns {boolean} If the update will result in a breaking change.
  */
-function hasBreakingChange(current, latest) {
+export function hasBreakingChange(current, latest) {
   if (!current || !latest) {
     return false;
   }
-  return current !== latest;
+  const currMajor = current.split('.')[0];
+  const latestMajor = latest.split('.')[0];
+  return +latestMajor - +currMajor >= 1;
 }
 
 /**
@@ -301,7 +314,7 @@ function createCheckUpdateResponse(versionMap, inaccessibleFiles) {
  * @param {InaccessibleFile[]} inaccessibleFiles - Array of files that could not be read.
  * @returns {ErrorInfo | undefined} Formatted information about errors.
  */
-function createUpdateErrorMessage(dependencyErrors, inaccessibleFiles) {
+export function createUpdateErrorMessage(dependencyErrors, inaccessibleFiles) {
   if (dependencyErrors.length === 0 && inaccessibleFiles.length === 0) {
     return undefined;
   }
@@ -309,8 +322,8 @@ function createUpdateErrorMessage(dependencyErrors, inaccessibleFiles) {
   if (dependencyErrors.length > 0) {
     message = `An error occurred fetching updates for the following packages: ${dependencyErrors.join(', ')}\n`;
   }
-  const fileErrors = inaccessibleFiles.map((file) => `\n   ${file.name}: ${file.error}`);
-  if (dependencyErrors.length > 0) {
+  const fileErrors = inaccessibleFiles.map((file) => `  ${file.name}: ${file.error}\n`);
+  if (inaccessibleFiles.length > 0) {
     message += `An error occurred while reading the following files:\n${fileErrors.join('')}`;
   }
   return { message };
