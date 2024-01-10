@@ -6,68 +6,46 @@ import childProcess from 'child_process';
 const exec = util.promisify(childProcess.exec);
 
 const SLACK_BOLT_SDK = '@slack/bolt';
-const SLACK_DENO_SDK = '@slack/deno-slack-sdk';
 const SLACK_CLI_HOOKS = '@slack/hooks';
-
-interface UpdateInfo {
-  /** Overall package identifier */
-  name: string;
-  /** Collection of new releases */
-  releases: ReleaseInfo[];
-  /** Details about any updates */
-  message: string | undefined;
-  /** Additional notes to inspect */
-  url: string | undefined;
-  /** Information of happened failures */
-  error: ErrorInfo | undefined;
-}
-
-interface ReleaseInfo {
-  /** Dependency identifier on known registry. */
-  name: string;
-  /** Version present in the current project. */
-  current: string | undefined;
-  /** Most recent version available to download. */
-  latest: string | undefined;
-  /** If latest version is newer than current. */
-  update: boolean;
-  /** If latest version requires a major bump. */
-  breaking: boolean;
-  /** Additional information for the dependency. */
-  message: string | undefined;
-  /** Web address containing update information. */
-  url: string | undefined;
-  /** Information of failures found gathering. */
-  error: ErrorInfo | undefined;
-}
-
-interface ErrorInfo {
-  message: string;
-}
+const SLACK_DENO_SDK = '@slack/deno-slack-sdk';
 
 /**
- * Mappings from dependencies to installed packages for the project.
+ * @typedef {object} UpdateInfo
+ * @property {string} name - Overall identifier of the package.
+ * @property {ReleaseInfo[]} releases - Collection of new releases.
+ * @property {string | undefined} message - Details about updates.
+ * @property {string | undefined} url - More information to inspect.
+ * @property {ErrorInfo | undefined} error - Notes of any failures.
  */
-interface ProjectDependencies {
-  /** The file contianing package information. Often package.json. */
-  fileName: string;
-  /** Pairs of packages and the matching values in a package.json. */
-  dependencies: Record<string, string>;
-}
+
+/**
+ * @typedef {object} ReleaseInfo
+ * @property {string} name - Dependency identifier on registry.
+ * @property {string | undefined} current - Version in current project.
+ * @property {string | undefined} latest - Most recent version available.
+ * @property {boolean} update - If latest version is newer than current.
+ * @property {boolean} breaking - If latest version requires a major bump.
+ * @property {string | undefined} message - Details about the dependency.
+ * @property {string | undefined} url - More information to inspect.
+ * @property {ErrorInfo | undefined} error - Notes of any failures.
+ */
+
+/**
+ * @typedef {object} ErrorInfo
+ * @property {string} message - Details about the error.
+ */
 
 /**
  * File that cannot be accessed for some unexpected reason.
+ * @typedef {object} InaccessibleFile
+ * @property {string} name - Identifier of the file.
+ * @property {unknown} error - Cause of the failure.
  */
-interface InaccessibleFile {
-  /** Identifier of the file */
-  name: string;
-  /** Reason for the failure */
-  error: unknown;
-}
 
 /**
  * Implementation of the check-update hook that finds available SDK updates.
  * Prints an object detailing information on Slack dependencies for the CLI.
+ * @param {string} cwd - The current working directory of the project.
  */
 (async function _(cwd) {
   const updates = await checkForSDKUpdates(cwd);
@@ -77,26 +55,31 @@ interface InaccessibleFile {
 
 /**
  * Checks for available SDK updates of specified Slack dependencies.
- * @param cwd the current working directory of the CLI project
- * @returns a formatted response with dependency information for the CLI
+ * @param {string} cwd - The current working directory of the CLI project.
+ * @returns {Promise<UpdateInfo>} Formatted package version information.
  */
-async function checkForSDKUpdates(cwd: string) {
+async function checkForSDKUpdates(cwd) {
   const { versionMap, inaccessibleFiles } = await getProjectDependencies(cwd);
   const checkUpdateResponse = createCheckUpdateResponse(versionMap, inaccessibleFiles);
   return checkUpdateResponse;
 }
 
 /**
- * Gathers version information about Slack packages that are project dependencies.
- * @param cwd the current working directory of the CLI project
- * @returns a map of version information and any encountered errors
+ * @typedef ProjectDependencies
+ * @property {Record<string, ReleaseInfo>} versionMap -
+ * @property {InaccessibleFile[]} inaccessibleFiles -
+ *   Array of files that could not be read or accessed.
  */
-async function getProjectDependencies(cwd: string): Promise<{
-  versionMap: Record<string, ReleaseInfo>,
-  inaccessibleFiles: InaccessibleFile[],
-}> {
+
+/**
+ * Gathers version information about Slack packages that are project dependencies.
+ * @param {string} cwd - The current working directory of the CLI project.
+ * @returns {Promise<ProjectDependencies>} a map of version information and any encountered errors
+ */
+async function getProjectDependencies(cwd) {
+  /** @type {Record<string, ReleaseInfo>} */
+  const versionMap = {};
   const { projectDependencies, inaccessibleFiles } = await gatherDependencyFile(cwd);
-  const versionMap: Record<string, ReleaseInfo> = {};
   try {
     if (projectDependencies.dependencies[SLACK_BOLT_SDK]) {
       versionMap[SLACK_BOLT_SDK] = await collectVersionInfo(SLACK_BOLT_SDK);
@@ -114,16 +97,27 @@ async function getProjectDependencies(cwd: string): Promise<{
 }
 
 /**
- * Gathers dependencies and version information from the project (package.json).
- * @param cwd the current working directory of the CLI project
- * @returns dependencies found for the project and any encountered errors
+ * Details about the dependencies and versioning for the current project.
+ * @typedef DependencyFile
+ * @property {ProjectPackages} projectDependencies - Installation information of packages.
+ * @property {InaccessibleFile[]} inaccessibleFiles - Array of files that could not be read.
  */
-async function gatherDependencyFile(cwd: string): Promise<{
-  projectDependencies: ProjectDependencies,
-  inaccessibleFiles: InaccessibleFile[],
-}> {
+
+/**
+ * Mappings from dependencies to installed package information for the project.
+ * @typedef {object} ProjectPackages
+ * @property {string} fileName - The file with package information (package.json).
+ * @property {Record<string, string>} dependencies - Install details for packages.
+ */
+
+/**
+ * Gathers dependencies and version information from the project (package.json).
+ * @param {string} cwd - The current working directory of the CLI project.
+ * @returns {Promise<DependencyFile>} Dependencies found for the project and any encountered errors.
+ */
+async function gatherDependencyFile(cwd) {
   const packageJSONFileName = 'package.json';
-  const projectDependencies: ProjectDependencies = {
+  const projectDependencies = {
     fileName: packageJSONFileName,
     dependencies: {},
   };
@@ -134,16 +128,13 @@ async function gatherDependencyFile(cwd: string): Promise<{
             typeof packageJSONFile.devDependencies === 'object' &&
             packageJSONFile.devDependencies !== null &&
             Object.values(packageJSONFile.devDependencies).every((value) => (typeof value === 'string'))) {
-      projectDependencies.dependencies = packageJSONFile.devDependencies as Record<string, string>;
+      Object.assign(projectDependencies.dependencies, packageJSONFile.devDependencies);
     }
     if ('dependencies' in packageJSONFile &&
             typeof packageJSONFile.dependencies === 'object' &&
             packageJSONFile.dependencies !== null &&
             Object.values(packageJSONFile.dependencies).every((value) => (typeof value === 'string'))) {
-      projectDependencies.dependencies = {
-        ...projectDependencies.dependencies,
-        ...packageJSONFile.dependencies as Record<string, string>,
-      };
+      Object.assign(projectDependencies.dependencies, packageJSONFile.dependencies);
     }
   } catch (err) {
     inaccessibleFiles.push({ name: packageJSONFileName, error: err });
@@ -153,21 +144,25 @@ async function gatherDependencyFile(cwd: string): Promise<{
 
 /**
  * Finds version information for a package and prepares release information.
- * @param packageName name of the package to lookup
- * @returns current version and latest release information for the package
+ * @param {string} packageName - Name of the package to lookup.
+ * @returns {Promise<ReleaseInfo>} Current version and release information for the package.
  */
-async function collectVersionInfo(packageName: string): Promise<ReleaseInfo> {
-  let currentVersion: string | undefined;
-  let latestVersion: string | undefined;
-  let releaseNotesUrl: string | undefined;
-  let dependencyError: ErrorInfo | undefined;
+async function collectVersionInfo(packageName) {
+  /** @type {string | undefined} */
+  let currentVersion;
+  /** @type {string | undefined} */
+  let latestVersion;
+  /** @type {string | undefined} */
+  let releaseNotesUrl;
+  /** @type {ErrorInfo | undefined} */
+  let dependencyError;
   try {
     currentVersion = await getProjectPackageVersion(packageName);
     latestVersion = await fetchLatestPackageVersion(packageName);
     if (hasAvailableUpdates(currentVersion, latestVersion)) {
       releaseNotesUrl = getReleaseNotesUrl(packageName, latestVersion);
     }
-  } catch (err: unknown) {
+  } catch (err) {
     if (typeof err === 'string') {
       dependencyError = { message: err };
     } else if (err instanceof Error) {
@@ -188,10 +183,10 @@ async function collectVersionInfo(packageName: string): Promise<ReleaseInfo> {
 
 /**
  * Finds the current version of a local project package.
- * @param packageName name of the package to lookup
- * @returns a stringified semver of the found version
+ * @param {string} packageName - Name of the package to lookup.
+ * @returns {Promise<string>} A stringified semver of the found version.
  */
-async function getProjectPackageVersion(packageName: string): Promise<string> {
+async function getProjectPackageVersion(packageName) {
   const stdout = await execWrapper(`npm list ${packageName} --depth=0 --json`);
   const currentVersionOutput = JSON.parse(stdout);
   if (!currentVersionOutput.dependencies || !currentVersionOutput.dependencies[packageName]) {
@@ -202,10 +197,10 @@ async function getProjectPackageVersion(packageName: string): Promise<string> {
 
 /**
  * Gets the latest package version.
- * @param packageName the package that the latest version is being queried for
- * @returns the most recent version of the published package
+ * @param {string} packageName - Package to search for the latest version of.
+ * @returns {Promise<string>} The most recent version of the published package.
  */
-async function fetchLatestPackageVersion(packageName: string): Promise<string> {
+async function fetchLatestPackageVersion(packageName) {
   const command = `npm info ${packageName} version --tag latest`;
   const stdout = await execWrapper(command);
   return stdout;
@@ -213,11 +208,11 @@ async function fetchLatestPackageVersion(packageName: string): Promise<string> {
 
 /**
  * Formats the URL with the release notes for a package.
- * @param packageName the package with the release
- * @param latestVersion the version of the recent release
- * @returns a URL with release notes
+ * @param {string} packageName - The package with the release.
+ * @param {string} latestVersion - Recent release version.
+ * @returns {string | undefined} A URL with release notes.
  */
-function getReleaseNotesUrl(packageName: string, latestVersion: string): string | undefined {
+function getReleaseNotesUrl(packageName, latestVersion) {
   if (packageName === SLACK_BOLT_SDK) {
     return `https://github.com/slackapi/bolt-js/releases/tag/@slack/bolt@${latestVersion}`;
   } if (packageName === SLACK_DENO_SDK) {
@@ -230,10 +225,11 @@ function getReleaseNotesUrl(packageName: string, latestVersion: string): string 
 
 /**
  * Checks if the latest version is more recent than the current version.
- * @param current package version available in the project
- * @param latest most up-to-date dependency version available on NPM
+ * @param {string | undefined} current - Package version available in the project.
+ * @param {string | undefined} latest - Most up-to-date dependency version available.
+ * @returns {boolean} If the update will result in a breaking change.
  */
-function hasAvailableUpdates(current: string | undefined, latest: string | undefined): boolean {
+function hasAvailableUpdates(current, latest) {
   if (!current || !latest) {
     return false;
   }
@@ -242,11 +238,11 @@ function hasAvailableUpdates(current: string | undefined, latest: string | undef
 
 /**
  * Checks if updating a dependency to the latest version causes a breaking change.
- * @param current package version available in the project
- * @param latest most up-to-date dependency version available on NPM
- * @returns if the update will result in a breaking change
+ * @param {string | undefined} current - Package version available in the project.
+ * @param {string | undefined} latest - Most up-to-date dependency version available.
+ * @returns {boolean} If the update will result in a breaking change.
  */
-function hasBreakingChange(current: string | undefined, latest: string | undefined): boolean {
+function hasBreakingChange(current, latest) {
   if (!current || !latest) {
     return false;
   }
@@ -255,20 +251,20 @@ function hasBreakingChange(current: string | undefined, latest: string | undefin
 
 /**
  * Wraps and parses the output of the exec() function
- * @param command the command being run by the exec() function
- * @returns the output from the command
+ * @param {string} command - The command to soon be executed.
+ * @returns {Promise<string>} the output from the command.
  */
-async function execWrapper(command: string): Promise<string> {
+async function execWrapper(command) {
   const { stdout } = await exec(command);
   return stdout.trim();
 }
 
 /**
- * Reads and parses a JSON file to return the contents
- * @param filePath the path of the file being read
- * @returns the file contents or a thrown error
+ * Reads and parses a JSON file to return the contents.
+ * @param {string} filePath - The path of the file being read.
+ * @returns {Promise<object>} - The parsed file contents.
  */
-async function getJSON(filePath: string): Promise<object> {
+async function getJSON(filePath) {
   if (fs.existsSync(filePath)) {
     return JSON.parse(fs.readFileSync(filePath, 'utf8'));
   }
@@ -277,15 +273,13 @@ async function getJSON(filePath: string): Promise<object> {
 
 /**
  * Creates the check update response in the format expected by the CLI.
- * @param versionMap information about package versions and potential updates
- * @param inaccessibleFiles array of files that could not be read or accessed
- * @returns update information formatted in the expected manner
+ * @param {Record<string, ReleaseInfo>} versionMap - Information about packages and updates.
+ * @param {InaccessibleFile[]} inaccessibleFiles - Array of files that could not be read.
+ * @returns {UpdateInfo} Update information formatted in the expected manner.
  */
-function createCheckUpdateResponse(
-  versionMap: Record<string, ReleaseInfo>,
-  inaccessibleFiles: InaccessibleFile[],
-): UpdateInfo {
-  const dependencyErrors: string[] = [];
+function createCheckUpdateResponse(versionMap, inaccessibleFiles) {
+  /** @type {string[]} */
+  const dependencyErrors = [];
   const releases = Object.entries(versionMap).map(([dependency, version]) => {
     if (version.error) {
       dependencyErrors.push(dependency);
@@ -303,18 +297,15 @@ function createCheckUpdateResponse(
 
 /**
  * Prepares a message about any errors encountered.
- * @param dependencyErrors array of packages that failed by unexpected reason
- * @param inaccessibleFiles array of files that could not be read or accessed
- * @returns information about errors in a formatted message
+ * @param {string[]} dependencyErrors - Packages that failed for some unexpected reason.
+ * @param {InaccessibleFile[]} inaccessibleFiles - Array of files that could not be read.
+ * @returns {ErrorInfo | undefined} Formatted information about errors.
  */
-function createUpdateErrorMessage(
-  dependencyErrors: string[],
-  inaccessibleFiles: InaccessibleFile[],
-): ErrorInfo | undefined {
+function createUpdateErrorMessage(dependencyErrors, inaccessibleFiles) {
   if (dependencyErrors.length === 0 && inaccessibleFiles.length === 0) {
     return undefined;
   }
-  let message: string = '';
+  let message = '';
   if (dependencyErrors.length > 0) {
     message = `An error occurred fetching updates for the following packages: ${dependencyErrors.join(', ')}\n`;
   }

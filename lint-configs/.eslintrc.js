@@ -65,9 +65,6 @@ module.exports = {
     // Allow safe references to functions before the declaration. Overrides AirBnB config. Not located in the override
     // section below because a distinct override is necessary in TypeScript files.
     'no-use-before-define': ['error', 'nofunc'],
-
-    // Allow scripts for hooks implementations.
-    'node/shebang': 'off',
   },
 
   overrides: [

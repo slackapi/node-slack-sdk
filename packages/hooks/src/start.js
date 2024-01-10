@@ -5,13 +5,15 @@ import fs from 'fs';
 
 const { main: pkgJSONMain } = JSON.parse(fs.readFileSync('./package.json', 'utf-8'));
 
-// Run script hook verifies that requirements for running an App in
-// in developerMode (via Socket Mode) are met
-(function _(cwd, customPath): void {
+/**
+ * Start hook implementation that verifies and runs an app in Socket Mode.
+ * @param {string} cwd - The current working directory of the project.
+ * @param {string | undefined} customPath - An optional path for the app.
+ */
+(function _(cwd, customPath) {
   // TODO - Format so that its less miss-able in output
   console.log('Preparing local run in developer mode (Socket Mode)'); // eslint-disable-line no-console
-  // Check required local run tokens
-  validate();
+  validateEnvironment();
 
   // tries the provided path, then package.json main, then defaults to index.js in the current
   // working directory
@@ -34,7 +36,10 @@ const { main: pkgJSONMain } = JSON.parse(fs.readFileSync('./package.json', 'utf-
   });
 }(process.cwd(), process.env.SLACK_CLI_CUSTOM_FILE_PATH));
 
-function validate(): void {
+/**
+ * Confirms environment variables are prepared by the CLI.
+ */
+function validateEnvironment() {
   if (!process.env.SLACK_CLI_XOXB) {
     throw new Error('Missing local run bot token. Please see slack-cli maintainers to troubleshoot.');
   }
