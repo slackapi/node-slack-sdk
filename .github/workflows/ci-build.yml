@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x, 20.x]
-        package: [packages/logger, packages/oauth, packages/rtm-api, packages/socket-mode, packages/types, packages/web-api, packages/webhook]
+        package: [packages/hooks, packages/logger, packages/oauth, packages/rtm-api, packages/socket-mode, packages/types, packages/web-api, packages/webhook]
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
