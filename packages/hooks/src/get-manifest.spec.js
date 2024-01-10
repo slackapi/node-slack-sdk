@@ -48,7 +48,9 @@ describe('get-manifest implementation', async () => {
         await exec('./src/get-manifest.js');
       } catch (err) {
         if (err instanceof Error) {
-          assert(err.message.includes("SyntaxError: Expected property name or '}' in JSON at position 1"));
+          const nodeV18Error = 'SyntaxError: Unexpected end of JSON input';
+          const nodeV20Error = "SyntaxError: Expected property name or '}' in JSON at position 1";
+          assert(err.message.includes(nodeV20Error) || err.message.includes(nodeV18Error));
           assert(err.message.includes('Error: Failed to parse the manifest file for this project'));
           return;
         }
