@@ -3,6 +3,18 @@
 The `@slack/hooks` package contains scripts that implement the contract between
 the [Slack CLI][cli] and [Bolt for JavaScript][bolt].
 
+## Overview
+
+This library enables inter-process communication between the Slack CLI and
+applications built with Bolt for JavaScript.
+
+When used together, the CLI delegates various tasks to the Bolt application by
+invoking processes ("hooks") and then making use of the responses provided by
+each hook's `stdout`.
+
+For a complete list of available hooks, read the [Supported Hooks][supported]
+section.
+
 ## Requirements
 
 This package supports Node v18 and higher. It's highly recommended to use [the
@@ -24,60 +36,48 @@ run the scripts included in this package.
 
 ## Usage
 
-Scripts in this package are used by the Slack CLI when running certain commands.
+A Slack CLI-compatible Slack application includes a `slack.json` file that
+contains hooks specific to that project. Each hook is associated with commands
+that are available in the Slack CLI. By default, `get-hooks` retrieves all of
+the [supported hooks][supported] and their corresponding scripts as defined in
+this package.
+
+The CLI will always use the version of the `@slack/hooks` specified in the
+project's `package.json`.
 
 These scripts are automatically added to the `./node_modules/.bin` directory of
 a project when this package is installed.
 
-### Preparing a project manifest
+### Supported Hooks
 
-Define the [manifest of your application][manifest] in a `manifest.json` file:
+The hooks that are currently supported for use within the Slack CLI include
+`check-update`, `get-hooks`, `get-manifest`, and `start`:
 
-```json
-{
-  "display_information": {
-    "name": "Hooks"
-  },
-  "settings": {
-    "org_deploy_enabled": true,
-    "socket_mode_enabled": true,
-  },
-  "features": {
-    "bot_user": {
-      "display_name": "Hooks"
-    }
-  },
-  "oauth_config": {
-    "scopes": {
-      "bot": ["chat:write"]
-    }
-  }
-}
-```
+| Hook Name      | CLI Command      | File |Description |
+| -------------- | ---------------- | ---- | ----------- |
+| `check-update` | `slack update`   | [`check-update.js`](./src/check-update.js) | Checks the project's Slack dependencies to determine whether or not any packages need to be updated. |
+| `get-hooks`    | All              | [`get-hooks.js`](./src/get-hooks.js) | Fetches the list of available hooks for the CLI from this repository. |
+| `get-manifest` | `slack manifest` | [`get-manifest.js`](./src/get-manifest.js) | Converts a `manifest.json` file into a valid manifest JSON payload. |
+| `start`        | `slack run`      | [`start.js`](./src/start.js) | While developing locally, the CLI manages a socket connection with Slack's backend and utilizes this hook for events received via this connection. |
 
-Or collect an existing manifest for your app from the **App Manifest** tab on
-[App Config][config].
+### Overriding Hooks
 
-### Configuring the hooks interface
+To customize the behavior of a hook, add the hook to your application's
+`slack.json` file and provide a corresponding script to be executed.
 
-Configure a Bolt project to use these scripts by creating a `slack.json` file in
-the root directory of your project:
+When commands are run, the Slack CLI will look to the project's hook definitions
+and use those instead of what's defined in this library, if provided. Only
+[supported hooks][supported] will be recognized and executed by the Slack CLI.
+
+Below is an example `slack.json` file that overrides the default `start` hook:
 
 ```json
 {
   "hooks": {
-    "get-hooks": "npx -q --no-install -p @slack/hooks slack-cli-get-hooks"
+    "get-hooks": "npx -q --no-install -p @slack/hooks slack-cli-get-hooks",
+    "start": "npm run dev"
   }
 }
-```
-
-### Running the app
-
-With this package configured and the Slack CLI installed, you're ready to run
-your app:
-
-```sh
-$ slack run
 ```
 
 ## Getting help
@@ -103,3 +103,4 @@ assistance working through your issue:
 [issues]: http://github.com/slackapi/node-slack-sdk/issues
 [manifest]: https://api.slack.com/reference/manifests
 [node]: https://github.com/nodejs/Release#release-schedule
+[supported]: #supported-hooks
