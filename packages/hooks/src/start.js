@@ -32,7 +32,7 @@ const { main: pkgJSONMain } = JSON.parse(fs.readFileSync('./package.json', 'utf-
   });
 
   app.on('close', (code) => {
-    console.log(`bolt-app local run exited with code ${code}`); // eslint-disable-line no-console
+    console.log(`Local run exited with code ${code}`); // eslint-disable-line no-console
   });
 }(process.cwd(), process.env.SLACK_CLI_CUSTOM_FILE_PATH));
 
