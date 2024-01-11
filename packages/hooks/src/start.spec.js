@@ -43,7 +43,7 @@ console.error("sips");
       assert(stdout.includes('Preparing local run in developer mode (Socket Mode)'));
       assert(stdout.includes('coffee'));
       assert(stderr.includes('sips'));
-      assert(stdout.includes('bolt-app local run exited with code 0'));
+      assert(stdout.includes('Local run exited with code 0'));
     });
   });
 
