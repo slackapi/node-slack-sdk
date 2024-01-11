@@ -6,7 +6,7 @@ import childProcess from 'child_process';
 const exec = util.promisify(childProcess.exec);
 
 const SLACK_BOLT_SDK = '@slack/bolt';
-const SLACK_CLI_HOOKS = '@slack/hooks';
+const SLACK_CLI_HOOKS = '@slack/cli-hooks';
 const SLACK_DENO_SDK = '@slack/deno-slack-sdk';
 
 /**
@@ -218,7 +218,7 @@ function getReleaseNotesUrl(packageName, latestVersion) {
   } if (packageName === SLACK_DENO_SDK) {
     return `https://github.com/slackapi/deno-slack-sdk/releases/tag/${latestVersion}`;
   } if (packageName === SLACK_CLI_HOOKS) {
-    return `https://github.com/slackapi/node-slack-sdk/releases/tag/@slack/hooks@${latestVersion}`;
+    return `https://github.com/slackapi/node-slack-sdk/releases/tag/@slack/cli-hooks@${latestVersion}`;
   }
   return undefined;
 }

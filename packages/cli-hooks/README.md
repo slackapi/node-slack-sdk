@@ -1,7 +1,7 @@
 # Slack CLI Hooks
 
-The `@slack/hooks` package contains scripts that implement the contract between
-the [Slack CLI][cli] and [Bolt for JavaScript][bolt].
+The `@slack/cli-hooks` package contains scripts that implement the contract
+between the [Slack CLI][cli] and [Bolt for JavaScript][bolt].
 
 ## Overview
 
@@ -28,7 +28,7 @@ Add this package as a development dependency for your project with the following
 command:
 
 ```sh
-$ npm install --save-dev @slack/hooks
+$ npm install --save-dev @slack/cli-hooks
 ```
 
 Follow [the installation guide][install] to download the Slack CLI and easily
@@ -42,7 +42,7 @@ that are available in the Slack CLI. By default, `get-hooks` retrieves all of
 the [supported hooks][supported] and their corresponding scripts as defined in
 this package.
 
-The CLI will always use the version of the `@slack/hooks` specified in the
+The CLI will always use the version of the `@slack/cli-hooks` specified in the
 project's `package.json`.
 
 These scripts are automatically added to the `./node_modules/.bin` directory of
@@ -74,7 +74,7 @@ Below is an example `slack.json` file that overrides the default `start` hook:
 ```json
 {
   "hooks": {
-    "get-hooks": "npx -q --no-install -p @slack/hooks slack-cli-get-hooks",
+    "get-hooks": "npx -q --no-install -p @slack/cli-hooks slack-cli-get-hooks",
     "start": "npm run dev"
   }
 }

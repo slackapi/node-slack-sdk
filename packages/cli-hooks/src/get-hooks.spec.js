@@ -9,9 +9,9 @@ describe('get-hooks implementation', async () => {
   it('should return scripts for required hooks', async () => {
     const { stdout } = await exec('./src/get-hooks.js');
     const { hooks } = JSON.parse(stdout.trim());
-    assert(hooks['get-manifest'] === 'npx -q --no-install -p @slack/hooks slack-cli-get-manifest');
-    assert(hooks['check-update'] === 'npx -q --no-install -p @slack/hooks slack-cli-check-update');
-    assert(hooks.start === 'npx -q --no-install -p @slack/hooks slack-cli-start');
+    assert(hooks['get-manifest'] === 'npx -q --no-install -p @slack/cli-hooks slack-cli-get-manifest');
+    assert(hooks['check-update'] === 'npx -q --no-install -p @slack/cli-hooks slack-cli-check-update');
+    assert(hooks.start === 'npx -q --no-install -p @slack/cli-hooks slack-cli-start');
   });
 
   it('should return a true managed connection', async () => {
