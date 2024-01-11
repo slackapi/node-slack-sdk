@@ -15,7 +15,7 @@ jobs:
       matrix:
         node-version: [18.x, 20.x]
         package:
-          - packages/hooks
+          - packages/cli-hooks
           - packages/logger
           - packages/oauth
           - packages/rtm-api
