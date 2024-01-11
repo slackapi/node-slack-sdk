@@ -8,7 +8,7 @@ console.log(JSON.stringify({
   },
   config: {
     watch: {
-      'filter-regex': '^manifest\\.(ts|js|json)$',
+      'filter-regex': '^manifest\\.json$',
       paths: [
         '.',
       ],
