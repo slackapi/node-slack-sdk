@@ -15,9 +15,8 @@ const { main: pkgJSONMain } = JSON.parse(fs.readFileSync('./package.json', 'utf-
   console.log('Preparing local run in developer mode (Socket Mode)'); // eslint-disable-line no-console
   validateEnvironment();
 
-  // tries the provided path, then package.json main, then defaults to index.js in the current
-  // working directory
-  const pkgJSONDefault = 'index.js';
+  // Tries the provided path, then package.json main, then defaults to app.js
+  const pkgJSONDefault = 'app.js';
   const fullPath = path.resolve(cwd, customPath || (pkgJSONMain || pkgJSONDefault));
   console.log(fullPath); // eslint-disable-line no-console
 
