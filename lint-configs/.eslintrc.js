@@ -205,6 +205,10 @@ module.exports = {
             leadingUnderscore: 'allow',
           },
           {
+            selector: 'import',
+            format: null, // do not force conventions on imports
+          },
+          {
             selector: 'variable',
             // PascalCase for variables is added to allow exporting a singleton, function library, or bare object as in
             // section 23.8 of the AirBnB style guide
@@ -246,8 +250,7 @@ module.exports = {
           allow: [
             '**/middleware/*', // the src/middleware directory doesn't export a module, it's just a namespace.
             '**/receivers/*', // the src/receivers directory doesn't export a module, it's just a namespace.
-            '**/types/**/*',
-            '**/types/*', // type heirarchies should be used however one wants
+            '**/types/**/*', // type heirarchies should be used however one wants
           ],
         }],
 
@@ -295,6 +298,19 @@ module.exports = {
         // it's probably just for tests
         'symbol-description': 'off',
       },
+    },
+    {
+      files: ['test/types/**/*.test-d.ts'],
+      extends: ['plugin:@typescript-eslint/disable-type-checked'],
+      rules: {
+        'import/no-internal-modules': ['error', {
+          // Use the following option to set a list of allowable globs in this project.
+          allow: [
+            '**/src/**/*', // allow type tests to reach into src/
+            '**/types/**/*', // type heirarchies should be used however one wants
+          ],
+        }],
+      }
     },
   ],
 };

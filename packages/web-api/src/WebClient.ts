@@ -19,9 +19,10 @@ import {
   AdminAnalyticsPublicChannelMetadataDetails,
   FilesCompleteUploadExternalResponse,
   FilesGetUploadURLExternalResponse,
-} from './response';
-
-import { Methods, CursorPaginationEnabled, cursorPaginationEnabledMethods, FilesUploadV2Arguments, FileUploadV2Job, FilesGetUploadURLExternalArguments, FilesCompleteUploadExternalArguments } from './methods';
+} from './types/response';
+import { CursorPaginationEnabled } from './types/request/common';
+import { Methods } from './methods';
+import type { FilesUploadV2Arguments, FileUploadV2Job, FilesGetUploadURLExternalArguments, FilesCompleteUploadExternalArguments } from './types/request/files';
 import { getUserAgent } from './instrument';
 import {
   requestErrorWithOriginal, httpErrorFromResponse, platformErrorFromResult, rateLimitedErrorWithDelay,
@@ -65,10 +66,6 @@ export enum WebClientEvent {
   RATE_LIMITED = 'rate_limited',
 }
 
-export interface WebAPICallOptions {
-  [argument: string]: unknown;
-}
-
 export interface WebAPICallResult {
   ok: boolean;
   error?: string;
@@ -83,7 +80,6 @@ export interface WebAPICallResult {
     // `chat.postMessage` returns an array of error messages (e.g., "messages": ["[ERROR] invalid_keys"])
     messages?: string[];
   };
-  [key: string]: unknown;
 }
 
 // NOTE: should there be an async predicate?
@@ -226,7 +222,7 @@ export class WebClient extends Methods {
    * @param method - the Web API method to call {@link https://api.slack.com/methods}
    * @param options - options
    */
-  public async apiCall(method: string, options: WebAPICallOptions = {}): Promise<WebAPICallResult> {
+  public async apiCall(method: string, options: Record<string, unknown> = {}): Promise<WebAPICallResult> {
     this.logger.debug(`apiCall('${method}') start`);
 
     warnDeprecations(method, this.logger);
@@ -238,6 +234,8 @@ export class WebClient extends Methods {
     }
 
     warnIfNotUsingFilesUploadV2(method, this.logger);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     if (method === 'files.uploadV2') return this.filesUploadV2(options);
 
     const headers: Record<string, string> = {};
@@ -306,28 +304,24 @@ export class WebClient extends Methods {
    * @param shouldStop - a predicate that is called with each page, and should return true when pagination can end.
    * @param reduce - a callback that can be used to accumulate a value that the return promise is resolved to
    */
-  public paginate(method: string, options?: WebAPICallOptions): AsyncIterable<WebAPICallResult>;
+  public paginate(method: string, options?: Record<string, unknown>): AsyncIterable<WebAPICallResult>;
   public paginate(
     method: string,
-    options: WebAPICallOptions,
+    options: Record<string, unknown>,
     shouldStop: PaginatePredicate,
   ): Promise<void>;
   public paginate<R extends PageReducer, A extends PageAccumulator<R>>(
     method: string,
-    options: WebAPICallOptions,
+    options: Record<string, unknown>,
     shouldStop: PaginatePredicate,
     reduce?: PageReducer<A>,
   ): Promise<A>;
   public paginate<R extends PageReducer, A extends PageAccumulator<R>>(
     method: string,
-    options?: WebAPICallOptions,
+    options?: Record<string, unknown>,
     shouldStop?: PaginatePredicate,
     reduce?: PageReducer<A>,
   ): (Promise<A> | AsyncIterable<WebAPICallResult>) {
-    if (!cursorPaginationEnabledMethods.has(method)) {
-      this.logger.warn(`paginate() called with method ${method}, which is not known to be cursor pagination enabled.`);
-    }
-
     const pageSize = (() => {
       if (options !== undefined && typeof options.limit === 'number') {
         const { limit } = options;
@@ -396,21 +390,22 @@ export class WebClient extends Methods {
     })();
   }
 
-  /* eslint-disable no-trailing-spaces */
   /**
    * This wrapper method provides an easy way to upload files using the following endpoints:
-   * 
+   *
    * **#1**: For each file submitted with this method, submit filenames
    * and file metadata to {@link https://api.slack.com/methods/files.getUploadURLExternal files.getUploadURLExternal} to request a URL to
    * which to send the file data to and an id for the file
-   * 
+   *
    * **#2**: for each returned file `upload_url`, upload corresponding file to
    * URLs returned from step 1 (e.g. https://files.slack.com/upload/v1/...\")
-   * 
+   *
    * **#3**: Complete uploads {@link https://api.slack.com/methods/files.completeUploadExternal files.completeUploadExternal}
    * @param options
    */
-  public async filesUploadV2(options: FilesUploadV2Arguments): Promise<WebAPICallResult> {
+  public async filesUploadV2(options: FilesUploadV2Arguments): Promise<
+  WebAPICallResult & { files: FilesCompleteUploadExternalResponse[] }
+  > {
     this.logger.debug('files.uploadV2() start');
     // 1
     const fileUploads = await this.getAllFileUploads(options);
@@ -426,7 +421,7 @@ export class WebClient extends Methods {
 
     // 3
     const completion = await this.completeFileUploads(fileUploads);
-    
+
     return { ok: true, files: completion };
   }
 
@@ -457,7 +452,7 @@ export class WebClient extends Methods {
    * @returns
    */
   private async completeFileUploads(fileUploads: FileUploadV2Job[]):
-  Promise<Array<FilesCompleteUploadExternalResponse>> {  
+  Promise<Array<FilesCompleteUploadExternalResponse>> {
     const toComplete: FilesCompleteUploadExternalArguments[] = Object.values(getAllFileUploadsToComplete(fileUploads));
     return Promise.all(
       toComplete.map((job: FilesCompleteUploadExternalArguments) => this.files.completeUploadExternal(job)),
@@ -486,10 +481,10 @@ export class WebClient extends Methods {
         }, headers);
         if (uploadRes.status !== 200) {
           return Promise.reject(Error(`Failed to upload file (id:${file_id}, filename: ${filename})`));
-        } 
+        }
         const returnData = { ok: true, body: uploadRes.data } as WebAPICallResult;
         return Promise.resolve(returnData);
-      } 
+      }
       return Promise.reject(Error(`No upload url found for file (id: ${file_id}, filename: ${filename}`));
     }));
   }
@@ -502,10 +497,10 @@ export class WebClient extends Methods {
     let fileUploads: FileUploadV2Job[] = [];
 
     // add single file data to uploads if file or content exists at the top level
-    if (options.file || options.content) {
+    if ('file' in options || 'content' in options) {
       fileUploads.push(await getFileUploadJob(options, this.logger));
     }
-    
+
     // add multiple files data when file_uploads is supplied
     if (options.file_uploads) {
       fileUploads = fileUploads.concat(await getMultipleFileUploadJobs(options, this.logger));
@@ -595,8 +590,8 @@ export class WebClient extends Methods {
    * @param options - arguments for the Web API method
    * @param headers - a mutable object representing the HTTP headers for the outgoing request
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private serializeApiCallOptions(options: WebAPICallOptions, headers?: any): string | Readable {
+  private serializeApiCallOptions(options: Record<string, unknown>, headers?: Record<string, string>): string |
+  Readable {
     // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
     // binary content
     let containsBinaryData: boolean = false;
@@ -649,18 +644,20 @@ export class WebClient extends Methods {
         },
         new FormData(),
       );
-      // Copying FormData-generated headers into headers param
-      // not reassigning to headers param since it is passed by reference and behaves as an inout param
-      Object.entries(form.getHeaders()).forEach(([header, value]) => {
-        // eslint-disable-next-line no-param-reassign
-        headers[header] = value;
-      });
+      if (headers) {
+        // Copying FormData-generated headers into headers param
+        // not reassigning to headers param since it is passed by reference and behaves as an inout param
+        Object.entries(form.getHeaders()).forEach(([header, value]) => {
+          // eslint-disable-next-line no-param-reassign
+          headers[header] = value;
+        });
+      }
       return form;
     }
 
     // Otherwise, a simple key-value object is returned
     // eslint-disable-next-line no-param-reassign
-    headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    if (headers) headers['Content-Type'] = 'application/x-www-form-urlencoded';
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const initialValue: { [key: string]: any; } = {};
     return qsStringify(flattened.reduce(
@@ -797,23 +794,14 @@ function parseRetryHeaders(response: AxiosResponse): number | undefined {
  * @param logger instance of web clients logger
  */
 function warnDeprecations(method: string, logger: Logger): void {
-  const deprecatedConversationsMethods = ['channels.', 'groups.', 'im.', 'mpim.'];
-
-  const deprecatedMethods = ['admin.conversations.whitelist.', 'stars.'];
-
-  const isDeprecatedConversations = deprecatedConversationsMethods.some((depMethod) => {
-    const re = new RegExp(`^${depMethod}`);
-    return re.test(method);
-  });
+  const deprecatedMethods = ['workflows.'];
 
   const isDeprecated = deprecatedMethods.some((depMethod) => {
     const re = new RegExp(`^${depMethod}`);
     return re.test(method);
   });
 
-  if (isDeprecatedConversations) {
-    logger.warn(`${method} is deprecated. Please use the Conversations API instead. For more info, go to https://api.slack.com/changelog/2020-01-deprecating-antecedents-to-the-conversations-api`);
-  } else if (isDeprecated) {
+  if (isDeprecated) {
     logger.warn(`${method} is deprecated. Please check on https://api.slack.com/methods for an alternative.`);
   }
 }
@@ -824,16 +812,16 @@ function warnDeprecations(method: string, logger: Logger): void {
  * @param logger instance of we clients logger
  * @param options arguments for the Web API method
  */
-function warnIfFallbackIsMissing(method: string, logger: Logger, options?: WebAPICallOptions): void {
+function warnIfFallbackIsMissing(method: string, logger: Logger, options?: Record<string, unknown>): void {
   const targetMethods = ['chat.postEphemeral', 'chat.postMessage', 'chat.scheduleMessage'];
   const isTargetMethod = targetMethods.includes(method);
 
-  const hasAttachments = (args: WebAPICallOptions) => Array.isArray(args.attachments) && args.attachments.length;
+  const hasAttachments = (args: Record<string, unknown>) => Array.isArray(args.attachments) && args.attachments.length;
 
-  const missingAttachmentFallbackDetected = (args: WebAPICallOptions) => Array.isArray(args.attachments) &&
+  const missingAttachmentFallbackDetected = (args: Record<string, unknown>) => Array.isArray(args.attachments) &&
     args.attachments.some((attachment) => !attachment.fallback || attachment.fallback.trim() === '');
 
-  const isEmptyText = (args: WebAPICallOptions) => args.text === undefined || args.text === null || args.text === '';
+  const isEmptyText = (args: Record<string, unknown>) => args.text === undefined || args.text === null || args.text === '';
 
   const buildMissingTextWarning = () => `The top-level \`text\` argument is missing in the request payload for a ${method} call - ` +
     'It\'s a best practice to always provide a `text` argument when posting a message. ' +
@@ -861,23 +849,23 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, options?: WebAP
  * @param logger instance of web clients logger
  * @param options arguments for the Web API method
  */
-function warnIfThreadTsIsNotString(method: string, logger: Logger, options?: WebAPICallOptions): void {
+function warnIfThreadTsIsNotString(method: string, logger: Logger, options?: Record<string, unknown>): void {
   const targetMethods = ['chat.postEphemeral', 'chat.postMessage', 'chat.scheduleMessage', 'files.upload'];
   const isTargetMethod = targetMethods.includes(method);
-  
+
   if (isTargetMethod && options?.thread_ts !== undefined && typeof options?.thread_ts !== 'string') {
     logger.warn(buildThreadTsWarningMessage(method));
   }
 }
 
-export function buildThreadTsWarningMessage(method: string): string { 
+export function buildThreadTsWarningMessage(method: string): string {
   return `The given thread_ts value in the request payload for a ${method} call is a float value. We highly recommend using a string value instead.`;
 }
 
 /**
  * Takes an object and redacts specific items
- * @param body 
- * @returns 
+ * @param body
+ * @returns
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function redact(body: any): any {
@@ -887,7 +875,7 @@ function redact(body: any): any {
     if (value === undefined || value === null) {
       return [];
     }
-    
+
     let serializedValue = value;
 
     // redact possible tokens
@@ -904,7 +892,7 @@ function redact(body: any): any {
     return [key, serializedValue];
   });
 
-  // return as object 
+  // return as object
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const initialValue: { [key: string]: any; } = {};
   return flattened.reduce(

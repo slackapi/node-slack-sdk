@@ -189,8 +189,8 @@ export class SocketModeClient extends EventEmitter {
   private numOfConsecutiveReconnectionFailures: number = 0;
 
   /* eslint-disable @typescript-eslint/indent, newline-per-chained-call */
-  private connectingStateMachineConfig: Configuration<ConnectingState, Event>
-    = Finity.configure<ConnectingState, Event>()
+  private connectingStateMachineConfig: Configuration<ConnectingState, Event> = Finity
+    .configure<ConnectingState, Event>()
     .global()
       .onStateEnter((state) => {
         this.logger.debug(`Transitioning to state: ${State.Connecting}:${state}`);

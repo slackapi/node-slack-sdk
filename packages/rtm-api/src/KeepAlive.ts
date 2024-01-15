@@ -219,6 +219,7 @@ export class KeepAlive extends EventEmitter {
         .catch((error) => {
           this.logger.error(`Unhandled error: ${error.message}. Please report to @slack/rtm-api package maintainers.`);
         });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       this.logger.error(`Unhandled error: ${error.message}. Please report to @slack/rtm-api package maintainers.`);
     }

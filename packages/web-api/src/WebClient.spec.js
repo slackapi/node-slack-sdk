@@ -797,26 +797,6 @@ describe('WebClient', function () {
       this.method = 'conversations.list';
     });
 
-    describe('logging', function () {
-      beforeEach(function () {
-        this.capture = new CaptureConsole();
-        this.capture.startCapture();
-      });
-      it('should log a warning when called with a method not known to be cursor pagination enabled', function () {
-        this.client.paginate('method');
-        const output = this.capture.getCapturedText();
-        assert.isNotEmpty(output);
-      });
-      it('should not log a warning when called with a known cursor pagination enabled', function () {
-        this.client.paginate(this.method);
-        const output = this.capture.getCapturedText();
-        assert.isEmpty(output);
-      });
-      afterEach(function () {
-        this.capture.stopCapture();
-      });
-    });
-
     describe('when not given shouldStop predicate', function () {
       it('should return an AsyncIterator', function () {
         const iterator = this.client.paginate(this.method);

@@ -3,7 +3,6 @@
 export {
   WebClient,
   WebClientOptions,
-  WebAPICallOptions,
   WebAPICallResult,
   PageAccumulator,
   PageReducer,
@@ -31,4 +30,4 @@ export { addAppMetadata } from './instrument';
 export * from './methods';
 export { default as Method } from './methods';
 
-export * from './response';
+export * from './types/response';
