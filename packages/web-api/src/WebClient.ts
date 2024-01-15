@@ -441,6 +441,9 @@ export class WebClient extends Methods {
         alt_text: upload.alt_text,
         snippet_type: upload.snippet_type,
       } as FilesGetUploadURLExternalArguments;
+      if ('token' in upload) {
+        options.token = upload.token;
+      }
 
       return this.files.getUploadURLExternal(options);
     }));

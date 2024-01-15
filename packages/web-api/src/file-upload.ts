@@ -38,6 +38,9 @@ export async function getFileUploadJob(
   if ('thread_ts' in options) {
     fileUploadJob.thread_ts = options.thread_ts;
   }
+  if ('token' in options) {
+    fileUploadJob.token = options.token;
+  }
   if ('content' in options) {
     return {
       content: options.content,
@@ -216,6 +219,9 @@ Record<string, FilesCompleteUploadExternalArguments> {
         };
         if (thread_ts) {
           toComplete[compareString].thread_ts = upload.thread_ts;
+        }
+        if ('token' in upload) {
+          toComplete[compareString].token = upload.token;
         }
       } else {
         toComplete[compareString].files.push({
