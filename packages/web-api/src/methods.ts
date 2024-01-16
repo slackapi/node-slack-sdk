@@ -236,7 +236,7 @@ import type {
   AdminWorkflowsPermissionsLookupResponse,
   AdminAppsConfigLookupResponse,
   AdminAppsConfigSetResponse,
-} from './types/response';
+} from './types/response/index';
 // Request types
 import type { WorkflowsStepCompletedArguments, WorkflowsStepFailedArguments, WorkflowsUpdateStepArguments } from './types/request/workflows';
 import type { ViewsUpdateArguments, ViewsOpenArguments, ViewsPushArguments, ViewsPublishArguments } from './types/request/views';

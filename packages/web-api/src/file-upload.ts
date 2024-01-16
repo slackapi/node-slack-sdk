@@ -4,13 +4,6 @@ import { Logger } from '@slack/logger';
 import { errorWithCode, ErrorCode } from './errors';
 import { FilesCompleteUploadExternalArguments, FilesUploadV2Arguments, FileUploadBinaryContents, FileUploadStringContents, FileUploadV2, FileUploadV2Job } from './types/request/files';
 
-/**
- * Returns a fileUploadJob used to represent the of the file upload job and
- * required metadata.
- * @param options Options provided by user
- * @param channelId optional channel id to share file with, omitted, channel is private
- * @returns
-*/
 export async function getFileUploadJob(
   options: FilesUploadV2Arguments | FileUploadV2,
   logger: Logger,

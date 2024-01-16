@@ -9,7 +9,6 @@ const { LogLevel } = require('./logger');
 const { addAppMetadata } = require('./instrument');
 const { rapidRetryPolicy } = require('./retry-policies');
 const { Methods } = require('./methods');
-const { CaptureConsole } = require('@aoberoi/capture-console');
 const nock = require('nock');
 const Busboy = require('busboy');
 const sinon = require('sinon');
@@ -61,24 +60,24 @@ describe('WebClient', function () {
   });
 
   describe('has an option to change the log output severity', function () {
+    let sandbox = null;
     beforeEach(function () {
-      this.capture = new CaptureConsole();
-      this.capture.startCapture();
+      sandbox = sinon.createSandbox();
+      sandbox.stub(console, 'debug');
+    });
+    afterEach(function () {
+      sandbox.restore();
     });
     it('outputs a debug log on initialization', function () {
       const debuggingClient = new WebClient(token, { logLevel: LogLevel.DEBUG });
-      const output = this.capture.getCapturedText();
+      const output = console.debug.getCalls()[0].args.join(' ');
       assert.isNotEmpty(output); // should have at least 1 log line, but not asserting since that is an implementation detail
-    });
-    afterEach(function () {
-      this.capture.stopCapture();
     });
   });
 
   describe('has a logger option', function () {
+    let sandbox = null;
     beforeEach(function () {
-      this.capture = new CaptureConsole();
-      this.capture.startCapture();
       this.logger = {
         debug: sinon.spy(),
         info: sinon.spy(),
@@ -87,20 +86,21 @@ describe('WebClient', function () {
         setLevel: sinon.spy(),
         setName: sinon.spy(),
       };
+      sandbox = sinon.createSandbox();
+      sandbox.stub(console, 'debug');
+    });
+    afterEach(function () {
+      sandbox.restore();
     });
     it('sends logs to a logger and not to stdout', function () {
       const debuggingClient = new WebClient(token, { logLevel: LogLevel.DEBUG, logger: this.logger });
       assert.isTrue(this.logger.debug.called);
-      const capturedOutput = this.capture.getCapturedText();
-      assert.isEmpty(capturedOutput);
+      assert.isEmpty(console.debug.getCalls());
     });
     it('never modifies the original logger', function () {
       new WebClient(token, { logger: this.logger });
       // Calling #setName of the given logger is destructive
       assert.isFalse(this.logger.setName.called);
-    });
-    afterEach(function () {
-      this.capture.stopCapture();
     });
   });
 
@@ -558,7 +558,6 @@ describe('WebClient', function () {
       });
     });
 
-    // TODO: Upgrading busboy to 1.x breaks these tests
     describe('when API arguments contain binary to upload', function () {
       beforeEach(function () {
         const self = this;
@@ -566,9 +565,9 @@ describe('WebClient', function () {
           .post(/api/)
           // rather than matching on the body, that nock cannot do for content-type multipart/form-data, we use the
           // response to signal that the body was correctly serialized
-          .reply(function (uri, requestBody, cb) {
+          .reply(function (_uri, requestBody, cb) {
             // busboy is a parser for for multipart/form-data bodies
-            const busboy = new Busboy({ headers: this.req.headers });
+            const busboy = Busboy({ headers: this.req.headers });
             // capture state about all the parts that are in the body
             const parts = { files: [], fields: [], errors: [] };
 

@@ -581,8 +581,8 @@ export class WebClient extends Methods {
         throw error;
       }
     });
-
-    return pRetry(task, this.retryConfig);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return pRetry(task, this.retryConfig) as Promise<AxiosResponse<any, any>>;
   }
 
   /**

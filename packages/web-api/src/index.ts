@@ -30,4 +30,4 @@ export { addAppMetadata } from './instrument';
 export * from './methods';
 export { default as Method } from './methods';
 
-export * from './types/response';
+export * from './types/response/index';
