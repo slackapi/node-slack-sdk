@@ -1413,8 +1413,13 @@ describe('WebClient', function () {
   });
 
   describe('fetchAllUploadURLExternal', () => {
-
-    const client = new WebClient(token);
+    let client;
+    beforeEach(() => {
+      client = new WebClient(token);
+    });
+    afterEach(() => {
+      client = null;
+    });
     it('makes calls to files.getUploadURLExternal for each fileUpload', async () => {
       const testFileUploads = [{
         channel_id: 'C1234',
@@ -1430,11 +1435,33 @@ describe('WebClient', function () {
       await client.fetchAllUploadURLExternal(testFileUploads);
       assert.isTrue(spy.calledOnce);
     });
+    it('honours overriden token provided as an argument', async () => {
+      const tokenOverride = 'overriden-token';
+      const testFileUploads = [{
+        channel_id: 'C1234',
+        filename: 'test-txt.txt',
+        initial_comment: 'Doo ba doo here is the: test-txt.txt',
+        title: 'Spaghetti test-txt.txt',
+        data: Buffer.from('Here is a txt file'),
+        length: 18,
+        token: tokenOverride,
+      }];
+
+      var spy = sinon.spy();
+      client.files.getUploadURLExternal = spy;
+      await client.fetchAllUploadURLExternal(testFileUploads);
+      assert.isTrue(spy.calledWith(sinon.match({ token: tokenOverride })), 'token override not passed through to underlying `files.getUploadURLExternal` API method');
+    });
   });
 
   describe('completeFileUploads', () => {
-    const client = new WebClient(token);
-
+    let client;
+    beforeEach(() => {
+      client = new WebClient(token);
+    });
+    afterEach(() => {
+      client = null;
+    });
     it('rejects with an error when missing required file id', async () => {
       const invalidTestFileUploadsToComplete = [{
         channel_id: 'C1234',
@@ -1447,7 +1474,7 @@ describe('WebClient', function () {
       // should reject because of missing file_id
       try {
         const res = await client.completeFileUploads(invalidTestFileUploadsToComplete);
-        assert.fail('Should haave errored but did not');
+        assert.fail('Should have errored but did not');
       } catch (err) {
         assert.equal(err.message, 'Missing required file id for file upload completion');
       }
@@ -1466,6 +1493,22 @@ describe('WebClient', function () {
       client.files.completeUploadExternal = spy;
       await client.completeFileUploads(testFileUploadsToComplete);
       assert.isTrue(spy.calledOnce);
+    });
+    it('honours overriden token provided as an argument', async () => {
+      const tokenOverride = 'overriden-token';
+      const testFileUploadsToComplete = [{
+        channel_id: 'C1234',
+        file_id: 'test',
+        filename: 'test-txt.txt',
+        initial_comment: 'Doo ba doo here is the: test-txt.txt',
+        title: 'Spaghetti test-txt.txt',
+        token: tokenOverride,
+      }];
+
+      var spy = sinon.spy();
+      client.files.completeUploadExternal = spy;
+      await client.completeFileUploads(testFileUploadsToComplete);
+      assert.isTrue(spy.calledWith(sinon.match({ token: tokenOverride })), 'token override not passed through to underlying `files.completeUploadExternal` API method');
     });
   });
   

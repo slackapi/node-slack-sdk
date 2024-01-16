@@ -149,7 +149,7 @@ export type FilesUploadV2Arguments = FileUploadV2 & TokenOverridable & {
 
 // Helper type intended for internal use in filesUploadV2 client method
 // Includes additional metadata required to complete a single file upload job
-export type FileUploadV2Job = FileUploadV2 &
+export type FileUploadV2Job = FileUploadV2 & TokenOverridable &
 Pick<FilesGetUploadURLExternalResponse, 'file_id' | 'upload_url' | 'error'> & {
   length?: number;
   data?: Buffer;
