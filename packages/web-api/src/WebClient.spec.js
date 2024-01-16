@@ -558,7 +558,6 @@ describe('WebClient', function () {
       });
     });
 
-    // TODO: Upgrading busboy to 1.x breaks these tests
     describe('when API arguments contain binary to upload', function () {
       beforeEach(function () {
         const self = this;
@@ -566,9 +565,9 @@ describe('WebClient', function () {
           .post(/api/)
           // rather than matching on the body, that nock cannot do for content-type multipart/form-data, we use the
           // response to signal that the body was correctly serialized
-          .reply(function (uri, requestBody, cb) {
+          .reply(function (_uri, requestBody, cb) {
             // busboy is a parser for for multipart/form-data bodies
-            const busboy = new Busboy({ headers: this.req.headers });
+            const busboy = Busboy({ headers: this.req.headers });
             // capture state about all the parts that are in the body
             const parts = { files: [], fields: [], errors: [] };
 
