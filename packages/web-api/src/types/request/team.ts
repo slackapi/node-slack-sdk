@@ -1,4 +1,10 @@
-import { AppID, OptionalTeamAssignable, TokenOverridable, CursorPaginationEnabled, TraditionalPagingEnabled } from './common';
+import {
+  AppID,
+  OptionalTeamAssignable,
+  TokenOverridable,
+  CursorPaginationEnabled,
+  TraditionalPagingEnabled,
+} from './common';
 
 // https://api.slack.com/methods/team.accessLogs
 export interface TeamAccessLogsArguments extends TokenOverridable, CursorPaginationEnabled,

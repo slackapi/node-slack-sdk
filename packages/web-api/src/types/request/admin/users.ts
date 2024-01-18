@@ -1,4 +1,11 @@
-import type { ChannelIDs, CursorPaginationEnabled, OptionalTeamAssignable, TeamID, TokenOverridable, UserIDs } from '../common';
+import type {
+  ChannelIDs,
+  CursorPaginationEnabled,
+  OptionalTeamAssignable,
+  TeamID,
+  TokenOverridable,
+  UserIDs,
+} from '../common';
 
 interface UserID {
   /** @description The ID of the user. */

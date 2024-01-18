@@ -2,7 +2,29 @@
 
 import { PlainTextElement, MrkdwnElement } from './composition-objects';
 import { Actionable } from './extensions';
-import { Button, Checkboxes, Datepicker, DateTimepicker, EmailInput, FileInput, ImageElement, MultiSelect, NumberInput, Overflow, PlainTextInput, RadioButtons, Select, Timepicker, URLInput, WorkflowButton, RichTextSection, RichTextList, RichTextQuote, RichTextPreformatted, RichTextInput } from './block-elements';
+import {
+  Button,
+  Checkboxes,
+  Datepicker,
+  DateTimepicker,
+  EmailInput,
+  FileInput,
+  ImageElement,
+  MultiSelect,
+  NumberInput,
+  Overflow,
+  PlainTextInput,
+  RadioButtons,
+  Select,
+  Timepicker,
+  URLInput,
+  WorkflowButton,
+  RichTextSection,
+  RichTextList,
+  RichTextQuote,
+  RichTextPreformatted,
+  RichTextInput,
+} from './block-elements';
 
 export interface Block {
   type: string;

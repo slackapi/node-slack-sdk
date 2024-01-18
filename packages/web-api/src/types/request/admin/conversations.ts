@@ -1,4 +1,10 @@
-import type { ChannelIDs, CursorPaginationEnabled, SortDir, TokenOverridable, UserIDs } from '../common';
+import type {
+  ChannelIDs,
+  CursorPaginationEnabled,
+  SortDir,
+  TokenOverridable,
+  UserIDs,
+} from '../common';
 
 interface ChannelID { // an identical interface exists in src/types/request/conversations.ts, but it is only for invites
   /** @description Encoded channel ID. */

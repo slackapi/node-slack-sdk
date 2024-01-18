@@ -1,5 +1,16 @@
-import type { KnownBlock, Block, MessageAttachment, LinkUnfurls, MessageMetadata } from '@slack/types';
-import type { CursorPaginationEnabled, OptionalTeamAssignable, TimelinePaginationEnabled, TokenOverridable } from './common';
+import type {
+  KnownBlock,
+  Block,
+  MessageAttachment,
+  LinkUnfurls,
+  MessageMetadata,
+} from '@slack/types';
+import type {
+  CursorPaginationEnabled,
+  OptionalTeamAssignable,
+  TimelinePaginationEnabled,
+  TokenOverridable,
+} from './common';
 
 interface Channel {
   /** @description Channel ID for the message. */

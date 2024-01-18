@@ -22,15 +22,28 @@ import {
 } from './types/response';
 import { CursorPaginationEnabled } from './types/request/common';
 import { Methods } from './methods';
-import type { FilesUploadV2Arguments, FileUploadV2Job, FilesGetUploadURLExternalArguments, FilesCompleteUploadExternalArguments } from './types/request/files';
+import type {
+  FilesUploadV2Arguments,
+  FileUploadV2Job,
+  FilesGetUploadURLExternalArguments,
+  FilesCompleteUploadExternalArguments,
+} from './types/request/files';
 import { getUserAgent } from './instrument';
 import {
-  requestErrorWithOriginal, httpErrorFromResponse, platformErrorFromResult, rateLimitedErrorWithDelay,
+  requestErrorWithOriginal,
+  httpErrorFromResponse,
+  platformErrorFromResult,
+  rateLimitedErrorWithDelay,
 } from './errors';
 import { LogLevel, Logger, getLogger } from './logger';
 import { RetryOptions, tenRetriesInAboutThirtyMinutes } from './retry-policies';
 import delay from './helpers';
-import { warnIfNotUsingFilesUploadV2, getFileUploadJob, getMultipleFileUploadJobs, getAllFileUploadsToComplete } from './file-upload';
+import {
+  warnIfNotUsingFilesUploadV2,
+  getFileUploadJob,
+  getMultipleFileUploadJobs,
+  getAllFileUploadsToComplete,
+} from './file-upload';
 
 /*
  * Helpers

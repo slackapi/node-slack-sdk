@@ -1,4 +1,12 @@
-import { CursorPaginationEnabled, FileArgument, FileCommentArgument, MessageArgument, OptionalTeamAssignable, TokenOverridable, TraditionalPagingEnabled } from './common';
+import {
+  CursorPaginationEnabled,
+  FileArgument,
+  FileCommentArgument,
+  MessageArgument,
+  OptionalTeamAssignable,
+  TokenOverridable,
+  TraditionalPagingEnabled,
+} from './common';
 
 interface ReactionsFull {
   /** @description If `true`, return the complete reaction list. */
