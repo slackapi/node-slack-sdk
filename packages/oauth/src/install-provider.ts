@@ -830,7 +830,7 @@ interface AuthTestResult extends WebAPICallResult {
 
 async function runAuthTest(token: string, clientOptions: WebClientOptions): Promise<AuthTestResult> {
   const client = new WebClient(token, clientOptions);
-  const authResult = await client.auth.test();
+  const authResult = await client.auth.test({});
   return authResult as unknown as AuthTestResult;
 }
 
