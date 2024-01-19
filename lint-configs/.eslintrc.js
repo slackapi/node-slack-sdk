@@ -13,6 +13,8 @@ const jsDocRecommendedRulesOff = Object.assign(
   ...Object.keys(jsDocPlugin.configs.recommended.rules).map((rule) => ({ [rule]: 'off' })),
 );
 
+const MAX_LINE_LENGTH = 120;
+
 module.exports = {
   // This is a root of the project, ESLint should not look through parent directories to find more config
   root: true,
@@ -77,7 +79,7 @@ module.exports = {
         project: './tsconfig.eslint.json',
       },
       // Allow ESLint to load rules from the TypeScript plugin
-      plugins: ['@typescript-eslint'],
+      plugins: ['@typescript-eslint', 'import-newlines'],
       extends: [
         // TypeScript plugin's recommended rules
         'plugin:@typescript-eslint/recommended',
@@ -108,6 +110,12 @@ module.exports = {
         // NOTE: Consider contributing this to the `airbnb-typescript` config.
         'import/named': 'off',
         'node/no-missing-import': 'off',
+        // Enforce how `import`s can be organized across multiple lines / maximum char lengths
+        'import-newlines/enforce': ['error', {
+          items: 4, // maximum number of import items per line, but all imports must fit within max-len
+          'max-len': MAX_LINE_LENGTH, // if imports can be kept to one line AND fit within max-len, great
+          forceSingleLine: false, // dont force single-line imports as long as the previous two rules are OK
+        }],
 
         // Prefer an interface declaration over a type alias because interfaces can be extended, implemented, and merged
         '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
@@ -169,7 +177,7 @@ module.exports = {
         // configurations in both JavaScript and TypeScript.
 
         // Increase the max line length to 120. The rest of this setting is copied from the AirBnB config.
-        'max-len': ['error', 120, 2, {
+        'max-len': ['error', MAX_LINE_LENGTH, 2, {
           ignoreUrls: true,
           ignoreComments: false,
           ignoreRegExpLiterals: true,

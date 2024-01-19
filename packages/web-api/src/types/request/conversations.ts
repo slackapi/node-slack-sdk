@@ -1,4 +1,10 @@
-import type { CursorPaginationEnabled, LocaleAware, OptionalTeamAssignable, TimelinePaginationEnabled, TokenOverridable } from './common';
+import type {
+  CursorPaginationEnabled,
+  LocaleAware,
+  OptionalTeamAssignable,
+  TimelinePaginationEnabled,
+  TokenOverridable,
+} from './common';
 
 interface Channel {
   /** @description ID of conversation. */

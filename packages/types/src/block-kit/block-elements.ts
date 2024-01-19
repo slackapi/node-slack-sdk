@@ -1,6 +1,13 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/block-elements
 
-import { Actionable, Confirmable, Dispatchable, Focusable, Placeholdable, RichTextStyleable } from './extensions';
+import {
+  Actionable,
+  Confirmable,
+  Dispatchable,
+  Focusable,
+  Placeholdable,
+  RichTextStyleable,
+} from './extensions';
 import { Option, PlainTextElement, PlainTextOption } from './composition-objects';
 import { RichTextBlock } from './blocks';
 

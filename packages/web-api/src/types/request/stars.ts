@@ -1,4 +1,12 @@
-import { CursorPaginationEnabled, FileCommentArgument, FileArgument, MessageArgument, OptionalTeamAssignable, TokenOverridable, TraditionalPagingEnabled } from './common';
+import {
+  CursorPaginationEnabled,
+  FileCommentArgument,
+  FileArgument,
+  MessageArgument,
+  OptionalTeamAssignable,
+  TokenOverridable,
+  TraditionalPagingEnabled,
+} from './common';
 
 /** @description When starring something, it can be starred _to_ a channel. */
 interface StarsChannelDestination {

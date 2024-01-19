@@ -1,5 +1,10 @@
 import type { Stream } from 'node:stream';
-import type { CursorPaginationEnabled, OptionalTeamAssignable, TokenOverridable, TraditionalPagingEnabled } from './common';
+import type {
+  CursorPaginationEnabled,
+  OptionalTeamAssignable,
+  TokenOverridable,
+  TraditionalPagingEnabled,
+} from './common';
 import type { FilesGetUploadURLExternalResponse } from '../response/index';
 
 interface FileArgument {
