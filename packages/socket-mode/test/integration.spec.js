@@ -19,12 +19,13 @@ let wss = null;
 let exposed_ws_connection = null;
 
 // Socket mode client pointing to the above two posers
-const client = new SocketModeClient({ appToken: 'whatever', logLevel:  LogLevel.ERROR, clientOptions: {
-  slackApiUrl: 'http://localhost:8080/'
-}});
+let client = null;
 
 describe('Integration tests with a WebSocket server', () => {
   beforeEach(() => {
+    client = new SocketModeClient({ appToken: 'whatever', logLevel:  LogLevel.ERROR, clientOptions: {
+      slackApiUrl: 'http://localhost:8080/'
+    }});
     server.listen(HTTP_PORT);
     wss = new WebSocketServer({ port: WSS_PORT });
     wss.on('connection', (ws) => {
@@ -39,6 +40,8 @@ describe('Integration tests with a WebSocket server', () => {
   afterEach(() => {
     server.close();
     wss.close();
+    exposed_ws_connection = null;
+    client = null;
   });
   it('connects to a server', async () => {
     await client.start();
@@ -66,5 +69,33 @@ describe('Integration tests with a WebSocket server', () => {
       });
     });
     await client.disconnect();
+  });
+  describe.skip('failure modes / unexpected messages sent to client', () => { 
+    it('should deal with empty/binary messages', async () => {
+      await client.start();
+      client.on('connected', () => {
+        exposed_ws_connection.send(null);
+      });
+      // TODO: will be stuck here and the error "Unexpected binary message received!' will be raised as an ERROR log
+      await new Promise((res, _rej) => {
+        client.on('slack_event', (evt) => {
+          res();
+        });
+      });
+      await client.disconnect();
+    });
+    it('should deal with empty string messages', async () => {
+      await client.start();
+      client.on('connected', () => {
+        exposed_ws_connection.send('');
+      });
+      // TODO: will be stuck here and the error "Unable to parse an incoming WebSocket message: Unexpected end of JSON input,' will be raised as an ERROR log
+      await new Promise((res, _rej) => {
+        client.on('slack_event', (evt) => {
+          res();
+        });
+      });
+      await client.disconnect();
+    });
   });
 });
