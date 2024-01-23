@@ -41,7 +41,8 @@
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
     "lint": "eslint --ext .ts src",
     "mocha": "mocha --config .mocharc.json src/*.spec.js",
-    "test": "npm run lint && npm run build && nyc --reporter=text-summary npm run mocha",
+    "test:integration": "mocha --config .mocharc.json --timeout 10000 test/integration.spec.js",
+    "test": "npm run lint && npm run build && nyc --reporter=text-summary npm run mocha && npm run test:integration",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
   },
   "dependencies": {
