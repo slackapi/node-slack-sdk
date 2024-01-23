@@ -56,8 +56,8 @@ function find(currentPath, targetFilename) {
   //  This guards against rare edge case of a subdir in the file tree which is
   //  symlinked back to root or in such a way that creates a cycle. Can also implement
   //  max depth check.
-  if (currentPath.endsWith(`/${targetFilename}`)) {
-    return currentPath;
+  if (fs.existsSync(path.join(currentPath, targetFilename))) {
+    return path.join(currentPath, targetFilename);
   }
 
   /** @type {string | undefined} */
