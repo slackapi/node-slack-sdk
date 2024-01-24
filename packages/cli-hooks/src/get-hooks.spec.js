@@ -11,6 +11,11 @@ describe('get-hooks implementation', async () => {
     assert(hooks.start === 'npx -q --no-install -p @slack/cli-hooks slack-cli-start');
   });
 
+  it('should return every protocol version', async () => {
+    const { config } = getHooks();
+    assert.deepEqual(config['protocol-version'], ['message-boundaries', 'default']);
+  });
+
   it('should return a true managed connection', async () => {
     const { config } = getHooks();
     assert(config['sdk-managed-connection-enabled']);

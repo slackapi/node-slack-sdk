@@ -46,7 +46,11 @@
     "slack-cli-check-update": "src/check-update.js",
     "slack-cli-start": "src/start.js"
   },
+  "dependencies": {
+    "minimist": "^1.2.8"
+  },
   "devDependencies": {
+    "@types/minimist": "^1.2.5",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.10.8",
     "@types/sinon": "^17.0.3",

@@ -53,7 +53,7 @@ export default function getHooks() {
           '.',
         ],
       },
-      'protocol-version': ['default'],
+      'protocol-version': ['message-boundaries', 'default'],
       'sdk-managed-connection-enabled': true,
     },
     runtime: 'node',
