@@ -48,16 +48,11 @@ function mockNPM(command) {
   throw new Error('Unknown NPM command mocked');
 }
 
-/**
- * @typedef MockExecProcess
- * @property {string} stdout - Output logged to standard output streams.
- * @property {string} stderr - Output logged to standard error streams.
- */
-
 describe('check-update implementation', async () => {
   describe('collects recent package versions', async () => {
     const tempDir = path.join(process.cwd(), 'tmp');
     const packageJSONFilePath = path.join(tempDir, 'package.json');
+
     before(() => {
       sinon.stub(util, 'promisify')
         .returns((/** @type {string} */ command) => {
