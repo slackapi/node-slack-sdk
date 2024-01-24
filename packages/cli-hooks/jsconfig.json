@@ -1,11 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2022",
-    "module": "commonjs",
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "outDir": "dist",
+    "module": "es2022",
+    "moduleResolution": "node",
+    "esModuleInterop" : true,
     "checkJs": true,
 
     "strict": true,
@@ -14,12 +11,10 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
 
-    "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
       "*": ["./types/*"]
     },
-    "esModuleInterop" : true,
   },
   "include": [
     "src/**/*"

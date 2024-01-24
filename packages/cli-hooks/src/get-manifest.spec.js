@@ -1,20 +1,18 @@
 import { after, before, describe, it } from 'mocha';
 import assert from 'assert';
-import childProcess from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import util from 'util';
 
-const exec = util.promisify(childProcess.exec);
+import getManifestData from './get-manifest.js';
 
 describe('get-manifest implementation', async () => {
   describe('missing project manifest file', async () => {
     it('should error if no manifest.json exists', async () => {
       try {
-        await exec('./src/get-manifest.js');
+        getManifestData(process.cwd());
       } catch (err) {
         if (err instanceof Error) {
-          assert(err.message.includes('Error: Failed to find a manifest file in this project'));
+          assert(err.message.includes('Failed to find a manifest file in this project'));
           return;
         }
       }
@@ -23,18 +21,17 @@ describe('get-manifest implementation', async () => {
   });
 
   describe('broken project manifest file exists', async () => {
+    const tempDir = path.join(process.cwd(), 'tmp');
+    const filePath = path.join(tempDir, 'manifest.json');
+
     before(() => {
-      const tempDir = path.join(process.cwd(), 'tmp');
       if (!fs.existsSync(tempDir)) {
         fs.mkdirSync(tempDir);
       }
-      const filePath = path.join(tempDir, 'manifest.json');
       fs.writeFileSync(filePath, '{');
     });
 
     after(() => {
-      const tempDir = path.join(process.cwd(), 'tmp');
-      const filePath = path.join(tempDir, 'manifest.json');
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
       }
@@ -45,13 +42,13 @@ describe('get-manifest implementation', async () => {
 
     it('should error for invalid manifest.json', async () => {
       try {
-        await exec('./src/get-manifest.js');
+        getManifestData(process.cwd());
       } catch (err) {
         if (err instanceof Error) {
           const nodeV18Error = 'SyntaxError: Unexpected end of JSON input';
           const nodeV20Error = "SyntaxError: Expected property name or '}' in JSON at position 1";
           assert(err.message.includes(nodeV20Error) || err.message.includes(nodeV18Error));
-          assert(err.message.includes('Error: Failed to parse the manifest file for this project'));
+          assert(err.message.includes('Failed to parse the manifest file for this project'));
           return;
         }
       }
@@ -60,6 +57,8 @@ describe('get-manifest implementation', async () => {
   });
 
   describe('contains project manifest file', async () => {
+    const tempDir = path.join(process.cwd(), 'tmp');
+    const filePath = path.join(tempDir, 'manifest.json');
     const manifest = {
       display_information: {
         name: 'Example app',
@@ -78,17 +77,13 @@ describe('get-manifest implementation', async () => {
     };
 
     before(() => {
-      const tempDir = path.join(process.cwd(), 'tmp');
       if (!fs.existsSync(tempDir)) {
         fs.mkdirSync(tempDir);
       }
-      const filePath = path.join(tempDir, 'manifest.json');
       fs.writeFileSync(filePath, JSON.stringify(manifest, null, 2));
     });
 
     after(() => {
-      const tempDir = path.join(process.cwd(), 'tmp');
-      const filePath = path.join(tempDir, 'manifest.json');
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
       }
@@ -99,8 +94,7 @@ describe('get-manifest implementation', async () => {
 
     it('should return existing manifest values', async () => {
       try {
-        const { stdout } = await exec('./src/get-manifest.js');
-        const parsedManifest = JSON.parse(stdout);
+        const parsedManifest = getManifestData(process.cwd());
         assert.deepEqual(manifest, parsedManifest);
       } catch (err) {
         console.error(err); // eslint-disable-line no-console

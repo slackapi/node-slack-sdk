@@ -1,24 +1,26 @@
 #!/usr/bin/env node
+
+import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
 
 /**
- * Implements the get-manifest script hook required by the Slack CLI.
- * Prints a well-formatted structure of manifest data to stdout.
- * @param {string} cwd - The current working directory of the project.
+ * Implemention of the get-manifest hook that provides manifest information.
+ * Printed as a well-formatted structure of project manifest data to stdout.
  */
-(function _(cwd) {
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const cwd = process.cwd();
   const manifest = getManifestData(cwd);
-  // eslint-disable-next-line no-console
-  console.log(JSON.stringify(manifest));
-}(process.cwd()));
+  console.log(JSON.stringify(manifest)); // eslint-disable-line no-console
+}
 
 /**
  * Returns parsed manifest data for a project.
  * @param {string} searchDir - The path to begin searching in.
  * @returns {object} Parsed values of the project manifest.
  */
-function getManifestData(searchDir) {
+export default function getManifestData(searchDir) {
   const manifestJSON = readManifestJSONFile(searchDir, 'manifest.json');
   if (!manifestJSON) {
     throw new Error('Failed to find a manifest file in this project');
@@ -38,9 +40,12 @@ function readManifestJSONFile(searchDir, filename) {
     if (jsonFilePath && fs.existsSync(jsonFilePath)) {
       return JSON.parse(fs.readFileSync(jsonFilePath, 'utf8'));
     }
-  } catch (error) {
-    console.error(error); // eslint-disable-line no-console
-    throw new Error('Failed to parse the manifest file for this project');
+  } catch (err) {
+    let message = 'Failed to parse the manifest file for this project';
+    if (err instanceof Error) {
+      message += `\n${err.name}: ${err.message}`;
+    }
+    throw new Error(message);
   }
   return undefined;
 }

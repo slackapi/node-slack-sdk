@@ -35,7 +35,7 @@
   "scripts": {
     "prebuild": "shx rm -rf ./coverage",
     "build": "shx chmod +x src/*.js",
-    "prelint": "tsc --noemit --project ./jsconfig.json",
+    "prelint": "tsc --noemit --module es2022 --project ./jsconfig.json",
     "lint": "eslint --ext .js src",
     "pretest": "npm run lint -- --fix",
     "test": "c8 mocha src/*.spec.js"
@@ -49,11 +49,13 @@
   "devDependencies": {
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.10.8",
+    "@types/sinon": "^17.0.3",
     "c8": "^9.0.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-jsdoc": "^48.0.2",
     "eslint-plugin-node": "^11.1.0",
     "mocha": "^10.2.0",
-    "shx": "^0.3.4"
+    "shx": "^0.3.4",
+    "sinon": "^17.0.1"
   }
 }

@@ -9,17 +9,20 @@
 // These styles are a subset of the shared JavaScript and TypeScript configurations to only target JavaScript packages.
 
 module.exports = {
-    // This is a root of the project, ESLint should not look through parent directories to find more config
     root: true,
+    parserOptions: {
+        ecmaVersion: 2022
+    },
 
+    // Ignore all build outputs and artifacts (node_modules, dotfiles, and dot directories are implicitly ignored)
     ignorePatterns: [
-        // Ignore all build outputs and artifacts (node_modules, dotfiles, and dot directories are implicitly ignored)
         '/coverage',
     ],
 
     // These environments contain lists of global variables which are allowed to be accessed
+    //
+    // The target node version (v18) supports all needed ES2022 features: https://node.green
     env: {
-        // The target node version (v18) supports all important ES2022 features: https://node.green
         es2022: true,
         node: true,
     },
@@ -75,6 +78,11 @@ module.exports = {
         // TypeScript compiler will already perform this check, so it is redundant.
         'import/named': 'off',
         'node/no-missing-import': 'off',
+
+        // Require extensions for imported modules
+        'import/extensions': ['error', 'ignorePackages', {
+            'js': 'always',
+        }],
 
         // Allow use of import and export syntax, despite it not being supported in the node versions. Since this
         // project is transpiled, the ignore option is used. Overrides node/recommended.

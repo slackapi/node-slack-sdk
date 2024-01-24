@@ -1,19 +1,15 @@
 import { after, before, describe, it } from 'mocha';
 import assert from 'assert';
-import childProcess from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import sinon from 'sinon';
 import util from 'util';
 
-// Gather certain functions to test specifics without logging.
-//
-// eslint-disable-next-line import/extensions
-import { hasAvailableUpdates, hasBreakingChange, createUpdateErrorMessage } from './check-update.js';
-
-// eslint-disable-next-line no-console
-console.log = function () { };
-
-const exec = util.promisify(childProcess.exec);
+import checkForSDKUpdates, {
+  hasAvailableUpdates,
+  hasBreakingChange,
+  createUpdateErrorMessage,
+} from './check-update.js';
 
 /**
  * Mock dependency information for packages of the project.
@@ -31,45 +27,55 @@ const packageJSON = {
 
 /**
  * Example package information provided as a mocked npm command.
+ * @param {string} command - Command to mock a result for.
+ * @returns {string} - Stringified result of the mocked command.
  */
-const mockNPM = `\
-#!/usr/bin/env node
-const args = process.argv.slice(2).join(' ');
-if (args === 'info @slack/bolt version --tag latest') {
-    console.log('3.1.4');
-} else if (args === 'info @slack/deno-slack-sdk version --tag latest') {
-    console.log('2.0.0');
-} else if (args === 'info @slack/cli-hooks version --tag latest') {
-    console.log('1.0.1');
+function mockNPM(command) {
+  if (command === 'npm info @slack/bolt version --tag latest') {
+    return '3.1.4';
+  } if (command === 'npm info @slack/deno-slack-sdk version --tag latest') {
+    return '2.0.0';
+  } if (command === 'npm info @slack/cli-hooks version --tag latest') {
+    return '1.0.1';
+  }
+  if (command === 'npm list @slack/bolt --depth=0 --json') {
+    return '{"dependencies":{"@slack/bolt":{"version":"3.0.0"}}}';
+  } if (command === 'npm list @slack/deno-slack-sdk --depth=0 --json') {
+    return '{"dependencies":{"@slack/deno-slack-sdk":{"version":"2.0.0"}}}';
+  } if (command === 'npm list @slack/cli-hooks --depth=0 --json') {
+    return '{"dependencies":{"@slack/cli-hooks":{"version":"0.0.1"}}}';
+  }
+  throw new Error('Unknown NPM command mocked');
 }
-if (args === 'list @slack/bolt --depth=0 --json') {
-    console.log('{"dependencies":{"@slack/bolt":{"version":"3.0.0"}}}');
-} else if (args === 'list @slack/deno-slack-sdk --depth=0 --json') {
-    console.log('{"dependencies":{"@slack/deno-slack-sdk":{"version":"2.0.0"}}}');
-} else if (args === 'list @slack/cli-hooks --depth=0 --json') {
-    console.log('{"dependencies":{"@slack/cli-hooks":{"version":"0.0.1"}}}');
-}
-`;
+
+/**
+ * @typedef MockExecProcess
+ * @property {string} stdout - Output logged to standard output streams.
+ * @property {string} stderr - Output logged to standard error streams.
+ */
 
 describe('check-update implementation', async () => {
   describe('collects recent package versions', async () => {
+    const tempDir = path.join(process.cwd(), 'tmp');
+    const packageJSONFilePath = path.join(tempDir, 'package.json');
     before(() => {
-      const tempDir = path.join(process.cwd(), 'tmp');
+      sinon.stub(util, 'promisify')
+        .returns((/** @type {string} */ command) => {
+          const info = mockNPM(command);
+          return Promise.resolve({ stdout: info });
+        });
       if (!fs.existsSync(tempDir)) {
         fs.mkdirSync(tempDir);
       }
-      const packageJSONFilePath = path.join(tempDir, 'package.json');
-      fs.writeFileSync(packageJSONFilePath, JSON.stringify(packageJSON, null, 2));
-      const npmFilePath = path.join(tempDir, 'npm');
-      fs.writeFileSync(npmFilePath, mockNPM);
-      fs.chmodSync(npmFilePath, 0o755);
+      if (!fs.existsSync(packageJSONFilePath)) {
+        fs.writeFileSync(packageJSONFilePath, JSON.stringify(packageJSON, null, 2));
+      }
     });
 
     after(() => {
-      const tempDir = path.join(process.cwd(), 'tmp');
-      const filePath = path.join(tempDir, 'npm');
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
+      sinon.restore();
+      if (fs.existsSync(packageJSONFilePath)) {
+        fs.unlinkSync(packageJSONFilePath);
       }
       if (fs.existsSync(tempDir)) {
         fs.rmSync(tempDir, { recursive: true });
@@ -77,19 +83,19 @@ describe('check-update implementation', async () => {
     });
 
     it('shows version information for packages', async () => {
-      const env = { ...process.env };
-      env.PATH = `./:${env.PATH}`;
-      const { stdout } = await exec('../src/check-update.js', { cwd: './tmp', env });
-      const updates = JSON.parse(stdout);
+      const updates = await checkForSDKUpdates('./tmp');
       const expected = {
         name: 'the Slack SDK',
+        error: undefined,
         message: '',
         releases: [
           {
             name: '@slack/bolt',
             current: '3.0.0',
             latest: '3.1.4',
+            error: undefined,
             update: true,
+            message: undefined,
             breaking: false,
             url: 'https://github.com/slackapi/bolt-js/releases/tag/@slack/bolt@3.1.4',
           },
@@ -97,14 +103,19 @@ describe('check-update implementation', async () => {
             name: '@slack/deno-slack-sdk',
             current: '2.0.0',
             latest: '2.0.0',
+            error: undefined,
             update: false,
+            message: undefined,
             breaking: false,
+            url: undefined,
           },
           {
             name: '@slack/cli-hooks',
             current: '0.0.1',
             latest: '1.0.1',
+            error: undefined,
             update: true,
+            message: undefined,
             breaking: true,
             url: 'https://github.com/slackapi/node-slack-sdk/releases/tag/@slack/cli-hooks@1.0.1',
           },

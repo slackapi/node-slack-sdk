@@ -1,13 +1,22 @@
 #!/usr/bin/env node
+
+import { fileURLToPath } from 'url';
+import childProcess from 'child_process';
 import fs from 'fs';
 import util from 'util';
-import childProcess from 'child_process';
-
-const exec = util.promisify(childProcess.exec);
 
 const SLACK_BOLT_SDK = '@slack/bolt';
 const SLACK_CLI_HOOKS = '@slack/cli-hooks';
 const SLACK_DENO_SDK = '@slack/deno-slack-sdk';
+
+/**
+ * Implementation of the check-update hook that finds available SDK updates.
+ * Prints an object detailing information on Slack dependencies for the CLI.
+ */
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  checkForSDKUpdates(process.cwd()).then(JSON.stringify).then(console.log); // eslint-disable-line no-console
+}
 
 /**
  * @typedef {object} UpdateInfo
@@ -43,22 +52,11 @@ const SLACK_DENO_SDK = '@slack/deno-slack-sdk';
  */
 
 /**
- * Implementation of the check-update hook that finds available SDK updates.
- * Prints an object detailing information on Slack dependencies for the CLI.
- * @param {string} cwd - The current working directory of the project.
- */
-(async function _(cwd) {
-  const updates = await checkForSDKUpdates(cwd);
-  // eslint-disable-next-line no-console
-  console.log(JSON.stringify(updates)); // stdout
-}(process.cwd()));
-
-/**
  * Checks for available SDK updates of specified Slack dependencies.
  * @param {string} cwd - The current working directory of the CLI project.
  * @returns {Promise<UpdateInfo>} Formatted package version information.
  */
-async function checkForSDKUpdates(cwd) {
+export default async function checkForSDKUpdates(cwd) {
   const { versionMap, inaccessibleFiles } = await getProjectDependencies(cwd);
   const checkUpdateResponse = createCheckUpdateResponse(versionMap, inaccessibleFiles);
   return checkUpdateResponse;
@@ -268,6 +266,7 @@ export function hasBreakingChange(current, latest) {
  * @returns {Promise<string>} the output from the command.
  */
 async function execWrapper(command) {
+  const exec = util.promisify(childProcess.exec);
   const { stdout } = await exec(command);
   return stdout.trim();
 }
