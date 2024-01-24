@@ -39,7 +39,7 @@ describe('SocketModeClient', () => {
         "accepts_response_payload": true
       }));
 
-      it('should be sent to two listeners', async () => {
+      it('should be sent to both slash_commands and slack_event listeners', async () => {
         const client = new SocketModeClient({ appToken: 'xapp-' });
         let commandListenerCalled = false;
         client.on("slash_commands", async (args) => {
@@ -135,10 +135,10 @@ describe('SocketModeClient', () => {
         "retry_reason": "timeout"
       }));
 
-      it('should be sent to two listeners', async () => {
+      it('should be sent to the specific and generic event listeners, and should not trip an unrelated event listener', async () => {
         const client = new SocketModeClient({ appToken: 'xapp-' });
         let otherListenerCalled = false;
-        client.on("app_home_opend", async () => {
+        client.on("app_home_opened", async () => {
           otherListenerCalled = true;
         });
         let eventsApiListenerCalled = false;
@@ -208,7 +208,7 @@ describe('SocketModeClient', () => {
         "accepts_response_payload": false
       }));
 
-      it('should be sent to two listeners', async () => {
+      it('should be sent to the specific and generic event type listeners, and should not trip an unrelated event listener', async () => {
         const client = new SocketModeClient({ appToken: 'xapp-' });
         let otherListenerCalled = false;
         client.on("slash_commands", async () => {

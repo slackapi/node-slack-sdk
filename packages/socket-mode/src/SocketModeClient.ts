@@ -134,8 +134,8 @@ export class SocketModeClient extends EventEmitter {
 
   /**
    * Start a Socket Mode session app.
-   * It may take a few milliseconds before being connected.
-   * This method must be called before any messages can be sent or received.
+   * This method must be called before any messages can be sent or received,
+   * or to disconnect the client via the `disconnect` method.
    */
   public start(): Promise<AppsConnectionsOpenResponse> {
     this.logger.debug('Starting a Socket Mode client ...');
@@ -143,12 +143,12 @@ export class SocketModeClient extends EventEmitter {
     this.stateMachine.handle(Event.Start);
     // Return a promise that resolves with the connection information
     return new Promise((resolve, reject) => {
-      this.once(ConnectingState.Authenticated, (result) => {
+      this.once(State.Connected, (result) => {
         this.removeListener(State.Disconnected, reject);
         resolve(result);
       });
       this.once(State.Disconnected, (err) => {
-        this.removeListener(ConnectingState.Authenticated, resolve);
+        this.removeListener(State.Connected, resolve);
         reject(err);
       });
     });
@@ -696,7 +696,7 @@ export class SocketModeClient extends EventEmitter {
    */
   protected async onWebSocketMessage(data: WebSocket.RawData, isBinary: boolean): Promise<void> {
     if (isBinary) {
-      this.logger.error('Unexpected binary message received!');
+      this.logger.debug('Unexpected binary message received, ignoring.');
       return;
     }
     this.logger.debug(`Received a message on the WebSocket: ${data.toString()}`);
@@ -718,8 +718,8 @@ export class SocketModeClient extends EventEmitter {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (parseError: any) {
       // Prevent application from crashing on a bad message, but log an error to bring attention
-      this.logger.error(
-        `Unable to parse an incoming WebSocket message: ${parseError.message}, ${data.toString()}`,
+      this.logger.debug(
+        `Unable to parse an incoming WebSocket message (will ignore): ${parseError.message}, ${data.toString()}`,
       );
       return;
     }
