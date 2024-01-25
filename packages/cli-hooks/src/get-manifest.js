@@ -9,7 +9,7 @@ import path from 'path';
  * Printed as a well-formatted structure of project manifest data to stdout.
  */
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
+if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const cwd = process.cwd();
   const manifest = getManifestData(cwd);
   console.log(JSON.stringify(manifest)); // eslint-disable-line no-console

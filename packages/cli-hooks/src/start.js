@@ -10,7 +10,7 @@ import fs from 'fs';
  * The child processes will continue until exited or interrupted by the caller.
  */
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
+if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   start(process.cwd());
 }
 

@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 
 import { fileURLToPath } from 'url';
+import fs from 'fs';
 
 /**
  * Implementation the get-hooks script hook required by the Slack CLI.
  * Printed as an object containing featured provided by the SDK.
  */
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
+if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   console.log(JSON.stringify(getHooks())); // eslint-disable-line no-console
 }
 
