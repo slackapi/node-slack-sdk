@@ -7,7 +7,6 @@ import util from 'util';
 
 const SLACK_BOLT_SDK = '@slack/bolt';
 const SLACK_CLI_HOOKS = '@slack/cli-hooks';
-const SLACK_DENO_SDK = '@slack/deno-slack-sdk';
 
 /**
  * Implementation of the check-update hook that finds available SDK updates.
@@ -81,9 +80,6 @@ async function getProjectDependencies(cwd) {
   try {
     if (projectDependencies.dependencies[SLACK_BOLT_SDK]) {
       versionMap[SLACK_BOLT_SDK] = await collectVersionInfo(SLACK_BOLT_SDK);
-    }
-    if (projectDependencies.dependencies[SLACK_DENO_SDK]) {
-      versionMap[SLACK_DENO_SDK] = await collectVersionInfo(SLACK_DENO_SDK);
     }
     if (projectDependencies.dependencies[SLACK_CLI_HOOKS]) {
       versionMap[SLACK_CLI_HOOKS] = await collectVersionInfo(SLACK_CLI_HOOKS);
@@ -213,8 +209,6 @@ async function fetchLatestPackageVersion(packageName) {
 function getReleaseNotesUrl(packageName, latestVersion) {
   if (packageName === SLACK_BOLT_SDK) {
     return `https://github.com/slackapi/bolt-js/releases/tag/@slack/bolt@${latestVersion}`;
-  } if (packageName === SLACK_DENO_SDK) {
-    return `https://github.com/slackapi/deno-slack-sdk/releases/tag/${latestVersion}`;
   } if (packageName === SLACK_CLI_HOOKS) {
     return `https://github.com/slackapi/node-slack-sdk/releases/tag/@slack/cli-hooks@${latestVersion}`;
   }

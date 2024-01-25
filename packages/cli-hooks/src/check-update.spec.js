@@ -18,7 +18,6 @@ const packageJSON = {
   name: 'Example application',
   dependencies: {
     '@slack/bolt': '^3.0.0',
-    '@slack/deno-slack-sdk': '^2.0.0',
   },
   devDependencies: {
     '@slack/cli-hooks': '^0.0.1',
@@ -33,15 +32,11 @@ const packageJSON = {
 function mockNPM(command) {
   if (command === 'npm info @slack/bolt version --tag latest') {
     return '3.1.4';
-  } if (command === 'npm info @slack/deno-slack-sdk version --tag latest') {
-    return '2.0.0';
   } if (command === 'npm info @slack/cli-hooks version --tag latest') {
     return '1.0.1';
   }
   if (command === 'npm list @slack/bolt --depth=0 --json') {
     return '{"dependencies":{"@slack/bolt":{"version":"3.0.0"}}}';
-  } if (command === 'npm list @slack/deno-slack-sdk --depth=0 --json') {
-    return '{"dependencies":{"@slack/deno-slack-sdk":{"version":"2.0.0"}}}';
   } if (command === 'npm list @slack/cli-hooks --depth=0 --json') {
     return '{"dependencies":{"@slack/cli-hooks":{"version":"0.0.1"}}}';
   }
@@ -93,16 +88,6 @@ describe('check-update implementation', async () => {
             message: undefined,
             breaking: false,
             url: 'https://github.com/slackapi/bolt-js/releases/tag/@slack/bolt@3.1.4',
-          },
-          {
-            name: '@slack/deno-slack-sdk',
-            current: '2.0.0',
-            latest: '2.0.0',
-            error: undefined,
-            update: false,
-            message: undefined,
-            breaking: false,
-            url: undefined,
           },
           {
             name: '@slack/cli-hooks',
