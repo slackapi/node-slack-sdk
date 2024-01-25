@@ -202,15 +202,16 @@ export class SocketModeClient extends EventEmitter {
           .transitionTo(ConnectingState.Reconnecting).withCondition(this.reconnectingCondition.bind(this))
           .transitionTo(ConnectingState.Failed)
     .state(ConnectingState.Reconnecting)
-      .do(async () => {
-        // Trying to reconnect after waiting for a bit...
+      .do(() => new Promise((res, _rej) => {
         this.numOfConsecutiveReconnectionFailures += 1;
         const millisBeforeRetry = this.clientPingTimeoutMillis * this.numOfConsecutiveReconnectionFailures;
         this.logger.debug(`Before trying to reconnect, this client will wait for ${millisBeforeRetry} milliseconds`);
         setTimeout(() => {
-          this.emit(ConnectingState.Authenticating);
+          this.logger.debug('Resolving reconnecting state to continue with reconnect...');
+          res(true);
         }, millisBeforeRetry);
-      })
+      }))
+      .onSuccess().transitionTo(ConnectingState.Authenticating)
       .onFailure().transitionTo(ConnectingState.Failed)
     .state(ConnectingState.Authenticated)
       .onEnter(this.configureAuthenticatedWebSocket.bind(this))

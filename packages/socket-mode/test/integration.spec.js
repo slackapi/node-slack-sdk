@@ -8,13 +8,7 @@ const sinon = require('sinon');
 const HTTP_PORT = 12345;
 const WSS_PORT = 23456;
 // Basic HTTP server to 'fake' behaviour of `apps.connections.open` endpoint
-const server = createServer((req, res) => {
-  res.writeHead(200, { 'content-type': 'application/json' });
-  res.end(JSON.stringify({
-    ok: true,
-    url: `ws://localhost:${WSS_PORT}/`,
-  }));
-});
+let server = null;
 
 // Basic WS server to fake slack WS endpoint
 let wss = null;
@@ -25,6 +19,13 @@ let client = null;
 
 describe('Integration tests with a WebSocket server', () => {
   beforeEach(() => {
+    server = createServer((req, res) => {
+      res.writeHead(200, { 'content-type': 'application/json' });
+      res.end(JSON.stringify({
+        ok: true,
+        url: `ws://localhost:${WSS_PORT}/`,
+      }));
+    });
     server.listen(HTTP_PORT);
     wss = new WebSocketServer({ port: WSS_PORT });
     wss.on('connection', (ws) => {
@@ -38,7 +39,9 @@ describe('Integration tests with a WebSocket server', () => {
   });
   afterEach(() => {
     server.close();
+    server = null;
     wss.close();
+    wss = null;
     exposed_ws_connection = null;
     client = null;
   });
@@ -66,6 +69,37 @@ describe('Integration tests with a WebSocket server', () => {
           res();
         });
       });
+      await client.disconnect();
+    });
+  });
+  describe('catastrophic server behaviour', () => {
+    beforeEach(() => {
+      client = new SocketModeClient({ appToken: 'whatever', logLevel: LogLevel.ERROR, clientOptions: {
+        slackApiUrl: `http://localhost:${HTTP_PORT}/`
+      }, clientPingTimeout: 25});
+    });
+    it('should retry if retrieving a WSS URL fails', async () => {
+      // Shut down the main WS-endpoint-retrieval server - we will customize its behaviour for this test
+      server.close();
+      let num_attempts = 0;
+      server = createServer((req, res) => {
+        num_attempts += 1;
+        res.writeHead(200, { 'content-type': 'application/json' });
+        if (num_attempts < 3) { 
+          res.end(JSON.stringify({
+            ok: false,
+            error: "fatal_error",
+          }));
+        } else {
+          res.end(JSON.stringify({
+            ok: true,
+            url: `ws://localhost:${WSS_PORT}/`,
+          }));
+        }
+      });
+      server.listen(HTTP_PORT);
+      await client.start();
+      assert.equal(num_attempts, 3);
       await client.disconnect();
     });
   });
