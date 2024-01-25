@@ -11,7 +11,7 @@ $ npm install @slack/socket-mode
 ## Usage
 
 These examples show the most common features of `Socket Mode`. You'll find even more extensive [documentation on the
-package's website](https://slack.dev/node-slack-sdk/socket-mode) and our [api site](https://api.slack.com/socket-mode).
+package's website](https://slack.dev/node-slack-sdk/socket-mode) and our [api site][socket-mode].
 
 <!-- END: Remove before copying into the docs directory -->
 
@@ -19,9 +19,9 @@ package's website](https://slack.dev/node-slack-sdk/socket-mode) and our [api si
 
 ### Initialize the client
 
-This package is designed to support [**Socket Mode**](https://api.slack.com/socket-mode), which allows your app to receive events from Slack over a WebSocket connection.
+This package is designed to support [**Socket Mode**][socket-mode], which allows your app to receive events from Slack over a WebSocket connection.
 
-The package exports a `SocketModeClient` class. Your app will create an instance of the class for each workspace it communicates with. Creating an instance requires an **app-level token** from Slack. Apps connect to the **Socket Mode** API using an **app-level token**, which starts with `xapp`.
+The package exports a `SocketModeClient` class. Your app will create an instance of the class for each workspace it communicates with. Creating an instance requires an [**app-level token**][app-token] from Slack. Apps connect to the **Socket Mode** API using an [**app-level token**][app-token], which starts with `xapp`.
 
 Note: **Socket Mode** requires the `connections:write` scope. Navigate to your [app configuration](https://api.slack.com/apps) and go to the **OAuth and Permissions** section to add the scope.
 
@@ -83,7 +83,7 @@ socketModeClient.on('message', (event) => {
 
 ### Send a message
 
-To respond to events and send messages back into Slack, we recommend using the `@slack/web-api` package with a `bot token`.
+To respond to events and send messages back into Slack, we recommend using the `@slack/web-api` package with a [bot token](https://api.slack.com/authentication/token-types#bot).
 
 ```javascript
 const { SocketModeClient } = require('@slack/socket-mode');
@@ -140,7 +140,6 @@ In the table below, the client's states are listed, which are also the names of 
 | `connecting`    |  | The client is in the process of connecting to the platform. |
 | `authenticated` | `(connectData)` - the response from `apps.connections.open` | The client has authenticated with the platform. This is a sub-state of `connecting`. |
 | `connected`     |  | The client is connected to the platform and incoming events will start being emitted. |
-| `ready`         |  | The client is ready to send outgoing messages. This is a sub-state of `connected` |
 | `disconnecting` |  | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `disconnected`. |
 | `reconnecting`  |  | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `connecting`. |
 | `disconnected`  | `(error)` | The client is not connected to the platform. This is a steady state - no attempt to connect is occurring. The `error` argument will be `undefined` when the client initiated the disconnect (normal). |
@@ -182,10 +181,11 @@ All the log levels, in order of most to least information are: `DEBUG`, `INFO`, 
 <strong><i>Sending log output somewhere besides the console</i></strong>
 </summary>
 
-You can also choose to have logs sent to a custom logger using the `logger` option. A custom logger needs to implement specific methods (known as the `Logger` interface):
+You can also choose to have logs sent to a custom logger using the `logger` option. A custom logger needs to implement specific methods (known as the `Logger` interface, see the [`@slack/logger` package](https://www.npmjs.com/package/@slack/logger) for details). A minimal interface should implement the following methods:
 
 | Method       | Parameters        | Return type |
 |--------------|-------------------|-------------|
+| `getLevel()` | n/a               | `LogLevel`  |
 | `setLevel()` | `level: LogLevel` | `void`      |
 | `setName()`  | `name: string`    | `void`      |
 | `debug()`    | `...msgs: any[]`  | `void`      |
@@ -207,6 +207,7 @@ const socketModeClient = new SocketModeClient({
     info(...msgs): { logWritable.write('info: ' + JSON.stringify(msgs)); },
     warn(...msgs): { logWritable.write('warn: ' + JSON.stringify(msgs)); },
     error(...msgs): { logWritable.write('error: ' + JSON.stringify(msgs)); },
+    getLevel(): { return 'info'; },
     setLevel(): { },
     setName(): { },
   },
@@ -222,7 +223,7 @@ const socketModeClient = new SocketModeClient({
 
 ## Requirements
 
-This package supports Node v14 and higher. It's highly recommended to use [the latest LTS version of
+This package supports Node v18 and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features from that version.
 
 ## Getting Help
@@ -230,3 +231,6 @@ node](https://github.com/nodejs/Release#release-schedule), and the documentation
 If you get stuck, we're here to help. The following are the best ways to get assistance working through your issue:
 
   * [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and general discussion related to these packages. Try searching before you create a new issue.
+
+[socket-mode]: https://api.slack.com/apis/connections/socket
+[app-token]: https://api.slack.com/authentication/token-types#app

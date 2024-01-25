@@ -19,7 +19,7 @@ describe('SocketModeClient', () => {
     });
 
     describe('slash_commands messages', () => {
-      const message = {
+      const message = Buffer.from(JSON.stringify({
         "envelope_id": "1d3c79ab-0ffb-41f3-a080-d19e85f53649",
         "payload": {
           "token": "verification-token",
@@ -37,9 +37,9 @@ describe('SocketModeClient', () => {
         },
         "type": "slash_commands",
         "accepts_response_payload": true
-      };
+      }));
 
-      it('should be sent to two listeners', async () => {
+      it('should be sent to both slash_commands and slack_event listeners', async () => {
         const client = new SocketModeClient({ appToken: 'xapp-' });
         let commandListenerCalled = false;
         client.on("slash_commands", async (args) => {
@@ -52,7 +52,7 @@ describe('SocketModeClient', () => {
             && args.retry_num === undefined
             && args.retry_reason === undefined;
         });
-        await client.onWebSocketMessage({ data: JSON.stringify(message) });
+        await client.onWebSocketMessage(message);
         await sleep(30);
         assert.isTrue(commandListenerCalled);
         assert.isTrue(slackEventListenerCalled);
@@ -64,7 +64,7 @@ describe('SocketModeClient', () => {
         client.on("slash_commands", async ({ envelope_id }) => {
           passedEnvelopeId = envelope_id;
         });
-        await client.onWebSocketMessage({ data: JSON.stringify(message) });
+        await client.onWebSocketMessage(message);
         await sleep(30);
         assert.equal(passedEnvelopeId, '1d3c79ab-0ffb-41f3-a080-d19e85f53649');
       });
@@ -74,14 +74,14 @@ describe('SocketModeClient', () => {
         client.on("slack_event", async ({ envelope_id }) => {
           passedEnvelopeId = envelope_id;
         });
-        await client.onWebSocketMessage({ data: JSON.stringify(message) });
+        await client.onWebSocketMessage(message);
         await sleep(30);
         assert.equal(passedEnvelopeId, '1d3c79ab-0ffb-41f3-a080-d19e85f53649');
       });
     });
 
     describe('events_api messages', () => {
-      const message = {
+      const message = Buffer.from(JSON.stringify({
         "envelope_id": "cda4159a-72a5-4744-aba3-4d66eb52682b",
         "payload": {
           "token": "verification-token",
@@ -133,12 +133,12 @@ describe('SocketModeClient', () => {
         "accepts_response_payload": false,
         "retry_attempt": 2,
         "retry_reason": "timeout"
-      };
+      }));
 
-      it('should be sent to two listeners', async () => {
+      it('should be sent to the specific and generic event listeners, and should not trip an unrelated event listener', async () => {
         const client = new SocketModeClient({ appToken: 'xapp-' });
         let otherListenerCalled = false;
-        client.on("app_home_opend", async () => {
+        client.on("app_home_opened", async () => {
           otherListenerCalled = true;
         });
         let eventsApiListenerCalled = false;
@@ -154,7 +154,7 @@ describe('SocketModeClient', () => {
             && args.retry_num === 2
             && args.retry_reason === 'timeout';
         });
-        await client.onWebSocketMessage({ data: JSON.stringify(message) });
+        await client.onWebSocketMessage(message);
         await sleep(30);
         assert.isFalse(otherListenerCalled);
         assert.isTrue(eventsApiListenerCalled);
@@ -167,7 +167,7 @@ describe('SocketModeClient', () => {
         client.on("app_mention", async ({ envelope_id }) => {
           passedEnvelopeId = envelope_id;
         });
-        await client.onWebSocketMessage({ data: JSON.stringify(message) });
+        await client.onWebSocketMessage(message);
         await sleep(30);
         assert.equal(passedEnvelopeId, 'cda4159a-72a5-4744-aba3-4d66eb52682b');
       });
@@ -177,14 +177,14 @@ describe('SocketModeClient', () => {
         client.on("slack_event", async ({ envelope_id }) => {
           passedEnvelopeId = envelope_id;
         });
-        await client.onWebSocketMessage({ data: JSON.stringify(message) });
+        await client.onWebSocketMessage(message);
         await sleep(30);
         assert.equal(passedEnvelopeId, 'cda4159a-72a5-4744-aba3-4d66eb52682b');
       });
     });
 
     describe('interactivity messages', () => {
-      const message = {
+      const message = Buffer.from(JSON.stringify({
         "envelope_id": "57d6a792-4d35-4d0b-b6aa-3361493e1caf",
         "payload": {
           "type": "shortcut",
@@ -206,9 +206,9 @@ describe('SocketModeClient', () => {
         },
         "type": "interactive",
         "accepts_response_payload": false
-      };
+      }));
 
-      it('should be sent to two listeners', async () => {
+      it('should be sent to the specific and generic event type listeners, and should not trip an unrelated event listener', async () => {
         const client = new SocketModeClient({ appToken: 'xapp-' });
         let otherListenerCalled = false;
         client.on("slash_commands", async () => {
@@ -222,7 +222,7 @@ describe('SocketModeClient', () => {
         client.on("slack_event", async (args) => {
           slackEventListenerCalled = args.ack !== undefined && args.body !== undefined;
         });
-        await client.onWebSocketMessage({ data: JSON.stringify(message) });
+        await client.onWebSocketMessage(message);
         await sleep(30);
         assert.isFalse(otherListenerCalled);
         assert.isTrue(interactiveListenerCalled);
@@ -235,7 +235,7 @@ describe('SocketModeClient', () => {
         client.on("interactive", async ({ envelope_id }) => {
           passedEnvelopeId = envelope_id;
         });
-        await client.onWebSocketMessage({ data: JSON.stringify(message) });
+        await client.onWebSocketMessage(message);
         await sleep(30);
         assert.equal(passedEnvelopeId, '57d6a792-4d35-4d0b-b6aa-3361493e1caf');
       });
@@ -245,7 +245,7 @@ describe('SocketModeClient', () => {
         client.on("slack_event", async ({ envelope_id }) => {
           passedEnvelopeId = envelope_id;
         });
-        await client.onWebSocketMessage({ data: JSON.stringify(message) });
+        await client.onWebSocketMessage(message);
         await sleep(30);
         assert.equal(passedEnvelopeId, '57d6a792-4d35-4d0b-b6aa-3361493e1caf');
       });
