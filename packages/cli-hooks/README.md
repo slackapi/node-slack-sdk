@@ -42,11 +42,10 @@ that are available in the Slack CLI. By default, `get-hooks` retrieves all of
 the [supported hooks][supported] and their corresponding scripts as defined in
 this package.
 
-The CLI will always use the version of the `@slack/cli-hooks` specified in the
-project's `package.json`.
-
-These scripts are automatically added to the `./node_modules/.bin` directory of
-a project when this package is installed.
+The CLI will try to use the version of the `@slack/cli-hooks` specified in your
+application's `package.json`. The hooks in this package are automatically added
+to the `./node_modules/.bin` directory of your application when this package is
+installed.
 
 ### Supported Hooks
 
@@ -79,6 +78,23 @@ Below is an example `slack.json` file that overrides the default `start` hook:
   }
 }
 ```
+
+### Troubleshooting
+
+Sometimes the hook scripts are installed globally and might not be automatically
+updated. To determine the source of these scripts, check the `node_modules/.bin`
+directory of your project then run the following command:
+
+```sh
+$ which npx slack-cli-get-hooks # macOS / Linux
+```
+
+```cmd
+C:\> where.exe npx slack-cli-get-hooks # Windows
+```
+
+These hooks can be safely removed and reinstalled at your application directory
+to ensure you're using the correct version for your project.
 
 ## Getting help
 
