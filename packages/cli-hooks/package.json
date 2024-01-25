@@ -15,6 +15,7 @@
     "src/check-update.js",
     "src/get-hooks.js",
     "src/get-manifest.js",
+    "src/protocols.js",
     "src/start.js"
   ],
   "engines": {
