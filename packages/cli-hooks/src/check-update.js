@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { clean, gt, major } from 'semver';
 import { fileURLToPath } from 'url';
 import childProcess from 'child_process';
 import fs from 'fs';
@@ -222,21 +223,10 @@ function getReleaseNotesUrl(packageName, latestVersion) {
  * @returns {boolean} If the update will result in a breaking change.
  */
 export function hasAvailableUpdates(current, latest) {
-  if (!current || !latest) {
+  if (!current || !latest || !clean(current) || !clean(latest)) {
     return false;
   }
-  const [currMajor, currMinor, currPatch] = current
-    .split('.')
-    .map((val) => Number(val));
-  const [targetMajor, targetMinor, targetPatch] = latest
-    .split('.')
-    .map((val) => Number(val));
-  if (targetMajor !== currMajor) {
-    return targetMajor > currMajor;
-  } if (targetMinor !== currMinor) {
-    return targetMinor > currMinor;
-  }
-  return targetPatch > currPatch;
+  return gt(latest, current);
 }
 
 /**
@@ -246,12 +236,10 @@ export function hasAvailableUpdates(current, latest) {
  * @returns {boolean} If the update will result in a breaking change.
  */
 export function hasBreakingChange(current, latest) {
-  if (!current || !latest) {
+  if (!current || !latest || !clean(current) || !clean(latest)) {
     return false;
   }
-  const currMajor = current.split('.')[0];
-  const latestMajor = latest.split('.')[0];
-  return +latestMajor - +currMajor >= 1;
+  return major(latest) > major(current);
 }
 
 /**

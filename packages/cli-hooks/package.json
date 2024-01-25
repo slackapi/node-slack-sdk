@@ -47,7 +47,8 @@
     "slack-cli-start": "src/start.js"
   },
   "dependencies": {
-    "minimist": "^1.2.8"
+    "minimist": "^1.2.8",
+    "semver": "^7.5.4"
   },
   "devDependencies": {
     "@types/minimist": "^1.2.5",

@@ -119,6 +119,8 @@ describe('check-update implementation', async () => {
       assert(hasAvailableUpdates('1.0.0', '1.1.1'));
       assert(hasAvailableUpdates('1.0.0', '2.0.0'));
       assert(hasAvailableUpdates('0.0.2', '0.0.13'));
+      assert(hasAvailableUpdates('0.0.2-rc.0', '0.0.2-rc.1'));
+      assert(hasAvailableUpdates('0.0.3-rc.2', '0.0.3'));
       assert(!hasAvailableUpdates('0.0.1', '0.0.1'));
       assert(!hasAvailableUpdates('0.1.0', '0.1.0'));
       assert(!hasAvailableUpdates('0.1.1', '0.1.1'));
@@ -126,6 +128,7 @@ describe('check-update implementation', async () => {
       assert(!hasAvailableUpdates('1.0.1', '1.0.1'));
       assert(!hasAvailableUpdates('1.1.1', '1.1.1'));
       assert(!hasAvailableUpdates(undefined, undefined));
+      assert(!hasAvailableUpdates(undefined, '1.0.0'));
       assert(!hasAvailableUpdates('1.0.0', undefined));
       assert(!hasAvailableUpdates('2.0.0', '1.0.0'));
       assert(!hasAvailableUpdates('2.0.0', '0.1.0'));
@@ -143,6 +146,8 @@ describe('check-update implementation', async () => {
       assert(!hasAvailableUpdates('0.2.0', '0.1.3'));
       assert(!hasAvailableUpdates('0.0.2', '0.0.1'));
       assert(!hasAvailableUpdates('0.0.20', '0.0.13'));
+      assert(!hasAvailableUpdates('0.0.2-rc.0', '0.0.2-rc.0'));
+      assert(!hasAvailableUpdates('0.0.2', '0.0.2-rc.4'));
     });
 
     it('should return if the update is major', () => {
@@ -153,6 +158,9 @@ describe('check-update implementation', async () => {
       assert(!hasBreakingChange('1.0.0', '1.0.0'));
       assert(!hasBreakingChange('1.0.0', '1.0.1'));
       assert(!hasBreakingChange('1.0.0', '1.2.3'));
+      assert(!hasBreakingChange(undefined, '1.0.0'));
+      assert(!hasBreakingChange('1.0.0', undefined));
+      assert(!hasBreakingChange(undefined, undefined));
     });
   });
 
