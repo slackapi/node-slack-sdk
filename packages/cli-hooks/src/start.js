@@ -19,15 +19,12 @@ if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
  * @param {string} cwd - The current working directory of the project.
  */
 export default function start(cwd) {
-  // TODO - Format so that its less miss-able in output
-  console.log('Preparing local run in developer mode (Socket Mode)'); // eslint-disable-line no-console
   validateEnvironment();
 
   const customPath = process.env.SLACK_CLI_CUSTOM_FILE_PATH;
   const pkgJSONMain = getPackageJSONMain(cwd);
   const pkgJSONDefault = 'app.js';
   const fullPath = path.resolve(cwd, customPath || pkgJSONMain || pkgJSONDefault);
-  console.log(fullPath); // eslint-disable-line no-console
 
   const app = childProcess.spawn('node', [`${fullPath}`]);
   app.stdout.setEncoding('utf-8');

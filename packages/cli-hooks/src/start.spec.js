@@ -80,7 +80,6 @@ describe('start implementation', async () => {
         mockSpawnProcess.stderr.on.callArgWith(1, 'warning');
         mockSpawnProcess.on.callArgWith(1, 0);
 
-        assert.ok(consoleLogStub.calledWith('Preparing local run in developer mode (Socket Mode)'));
         assert.ok(spawnStub.called);
         assert.ok(spawnStub.calledWith('node', [path.resolve('tmp', 'start.js')]));
         assert.ok(stdoutWriteStub.calledWith('message'));
@@ -96,7 +95,6 @@ describe('start implementation', async () => {
         mockSpawnProcess.stderr.on.callArgWith(1, 'watch out');
         mockSpawnProcess.on.callArgWith(1, 2);
 
-        assert.ok(consoleLogStub.calledWith('Preparing local run in developer mode (Socket Mode)'));
         assert.ok(spawnStub.called);
         assert.ok(spawnStub.calledWith('node', [path.resolve('tmp', 'app.js')]));
         assert.ok(stdoutWriteStub.calledWith('defaults'));
@@ -120,7 +118,6 @@ describe('start implementation', async () => {
         mockSpawnProcess.stderr.on.callArgWith(1, 'erroneous');
         mockSpawnProcess.on.callArgWith(1, 4);
 
-        assert.ok(consoleLogStub.calledWith('Preparing local run in developer mode (Socket Mode)'));
         assert.ok(spawnStub.called);
         assert.ok(spawnStub.calledWith('node', [path.resolve('application.js')]));
         assert.ok(stdoutWriteStub.calledWith('startled'));
