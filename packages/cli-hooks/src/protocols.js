@@ -30,13 +30,13 @@ const MSG_BOUNDARY_PROTOCOL = 'message-boundaries';
 export const SUPPORTED_NAMED_PROTOCOLS = [MSG_BOUNDARY_PROTOCOL];
 
 /**
- * The baseline CLI-SDK protocol. All responses in this protocol go to stdout.
+ * The default CLI-SDK protocol. All responses in this protocol go to stdout.
  * The CLI combines both stdout and stderr to interpret the hook response.
  * This simplistic protocol has inherent limitation: no logging diagnostics!
  * @param {string[]} args - Command-line arguments passed to this process.
  * @returns {Protocol} Specified communication rules for the SDK to follow.
  */
-export function BaseProtocol(args) {
+export function DefaultProtocol(args) {
   const { manifest: manifestOnly = false } = parseArgs(args);
 
   // If the particular hook invocation is requesting manifest generation we
@@ -105,8 +105,8 @@ export function getProtocolInterface(args) {
     }
   }
 
-  // If protocol negotiation fails for any reason, return the base protocol
-  return BaseProtocol(args);
+  // If protocol negotiation fails for any reason, return the default protocol
+  return DefaultProtocol(args);
 }
 
 /**

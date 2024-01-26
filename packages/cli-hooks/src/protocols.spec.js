@@ -5,7 +5,7 @@ import assert from 'assert';
 import sinon from 'sinon';
 
 import {
-  BaseProtocol,
+  DefaultProtocol,
   MessageBoundaryProtocol,
   getProtocolInterface,
 } from './protocols.js';
@@ -13,7 +13,7 @@ import {
 describe('protocol implementations', () => {
   describe('default protocol', () => {
     it('stubs logging methods with a manifest flag', () => {
-      const protocol = BaseProtocol(['--manifest']);
+      const protocol = DefaultProtocol(['--manifest']);
       assert.notEqual(protocol.log, console.log);
       assert.notEqual(protocol.error, console.error);
       assert.notEqual(protocol.warn, console.warn);
@@ -21,7 +21,7 @@ describe('protocol implementations', () => {
     });
 
     it('uses console log methods without a manifest', () => {
-      const protocol = BaseProtocol(['--flag']);
+      const protocol = DefaultProtocol(['--flag']);
       assert.equal(protocol.log, console.log);
       assert.equal(protocol.error, console.log);
       assert.equal(protocol.warn, console.log);
@@ -65,12 +65,12 @@ describe('protocol implementations', () => {
   });
 
   describe('get protocol interface', () => {
-    it('returns the base protocol by default', () => {
+    it('returns the default protocol by default', () => {
       const protocol = getProtocolInterface([]).name;
       assert.equal(protocol, 'default');
     });
 
-    it('returns the base protocol if unrecognized', () => {
+    it('returns the default protocol if unrecognized', () => {
       const protocol = getProtocolInterface(['--protocol=cryptics']).name;
       assert.equal(protocol, 'default');
     });
