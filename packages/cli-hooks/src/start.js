@@ -58,10 +58,15 @@ function getPackageJSONMain(cwd) {
  * Confirms environment variables are prepared by the CLI.
  */
 function validateEnvironment() {
+  const missingTokenError = `Missing the {type} token needed to start the app with Socket Mode.
+Hints: Setting the {token} environment variable is required.
+Check: Confirm that you are using the latest version of the Slack CLI.`;
   if (!process.env.SLACK_CLI_XOXB) {
-    throw new Error('Missing local run bot token. Please see Slack CLI maintainers to troubleshoot.');
+    const missingBotTokenError = missingTokenError.replace('{type}', 'bot').replace('{token}', 'SLACK_CLI_XOXB');
+    throw new Error(missingBotTokenError);
   }
   if (!process.env.SLACK_CLI_XAPP) {
-    throw new Error('Missing local run app token. Please see Slack CLI maintainers to troubleshoot');
+    const missingAppTokenError = missingTokenError.replace('{type}', 'app').replace('{token}', 'SLACK_CLI_XAPP');
+    throw new Error(missingAppTokenError);
   }
 }

@@ -145,7 +145,9 @@ describe('start implementation', async () => {
         start('./');
       } catch (err) {
         if (err instanceof Error) {
-          assert(err.message.includes('Missing local run bot token'));
+          assert(err.message.includes('Missing the bot token needed to start the app with Socket Mode.'));
+          assert(err.message.includes('Hints: Setting the SLACK_CLI_XOXB environment variable is required.'));
+          assert(err.message.includes('Check: Confirm that you are using the latest version of the Slack CLI.'));
           return;
         }
       }
@@ -158,7 +160,9 @@ describe('start implementation', async () => {
         start('./');
       } catch (err) {
         if (err instanceof Error) {
-          assert(err.message.includes('Missing local run app token'));
+          assert(err.message.includes('Missing the app token needed to start the app with Socket Mode.'));
+          assert(err.message.includes('Hints: Setting the SLACK_CLI_XAPP environment variable is required.'));
+          assert(err.message.includes('Check: Confirm that you are using the latest version of the Slack CLI.'));
           return;
         }
       }
