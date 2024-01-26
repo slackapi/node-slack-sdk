@@ -155,6 +155,8 @@ import {
   FilesRevokePublicURLResponse,
   FilesSharedPublicURLResponse,
   FilesUploadResponse,
+  FunctionsCompleteErrorResponse,
+  FunctionsCompleteSuccessResponse,
   MigrationExchangeResponse,
   OauthAccessResponse,
   OauthV2AccessResponse,
@@ -699,6 +701,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       remove: bindApiCall<FilesRemoteRemoveArguments, FilesRemoteRemoveResponse>(this, 'files.remote.remove'),
       share: bindApiCall<FilesRemoteShareArguments, FilesRemoteShareResponse>(this, 'files.remote.share'),
     },
+  };
+
+  public readonly functions = {
+    completeError: bindApiCall<FunctionsCompleteErrorArguments, FunctionsCompleteErrorResponse>(this, 'functions.completeError'),
+    completeSuccess: bindApiCall<FunctionsCompleteSuccessArguments, FunctionsCompleteSuccessResponse>(
+      this,
+      'functions.completeSuccess',
+    ),
   };
 
   public readonly migration = {
@@ -2018,6 +2028,19 @@ export interface FilesRemoteShareArguments extends WebAPICallOptions, TokenOverr
   // either one of the file or external_id arguments are required
   file?: string;
   external_id?: string;
+}
+
+/*
+ * `functions.*`
+ */
+export interface FunctionsCompleteErrorArguments extends WebAPICallOptions, TokenOverridable {
+  function_execution_id: string;
+  error: string;
+}
+
+export interface FunctionsCompleteSuccessArguments extends WebAPICallOptions, TokenOverridable {
+  function_execution_id: string;
+  outputs: Record<string, unknown>;
 }
 
 /*

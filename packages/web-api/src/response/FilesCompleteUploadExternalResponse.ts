@@ -18,6 +18,7 @@ export type FilesCompleteUploadExternalResponse = WebAPICallResult & {
 };
 
 export interface File {
+  alt_txt?:              string;
   channels?:             string[];
   comments_count?:       number;
   created?:              number;
@@ -41,6 +42,8 @@ export interface File {
   mimetype?:             string;
   mode?:                 string;
   name?:                 string;
+  original_h?:           number;
+  original_w?:           number;
   permalink?:            string;
   permalink_public?:     string;
   pretty_type?:          string;
@@ -50,6 +53,13 @@ export interface File {
   public_url_shared?:    boolean;
   shares?:               Shares;
   size?:                 number;
+  thumb_160?:            string;
+  thumb_360?:            string;
+  thumb_360_h?:          number;
+  thumb_360_w?:          number;
+  thumb_64?:             string;
+  thumb_80?:             string;
+  thumb_tiny?:           string;
   timestamp?:            number;
   title?:                string;
   url_private?:          string;
@@ -65,10 +75,13 @@ export interface Shares {
 
 export interface Public {
   channel_name?:      string;
+  latest_reply?:      string;
   reply_count?:       number;
   reply_users?:       string[];
   reply_users_count?: number;
   share_user_id?:     string;
+  source?:            string;
   team_id?:           string;
+  thread_ts?:         string;
   ts?:                string;
 }
