@@ -4,15 +4,18 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
 
+import { getProtocolInterface } from './protocols.js';
+
 /**
  * Implemention of the get-manifest hook that provides manifest information.
  * Printed as a well-formatted structure of project manifest data to stdout.
  */
 
 if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const protocol = getProtocolInterface(process.argv.slice(1));
   const cwd = process.cwd();
   const manifest = getManifestData(cwd);
-  console.log(JSON.stringify(manifest)); // eslint-disable-line no-console
+  protocol.respond(JSON.stringify(manifest));
 }
 
 /**
