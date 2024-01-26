@@ -13,7 +13,7 @@ describe('get-hooks implementation', async () => {
 
   it('should return every protocol version', async () => {
     const { config } = getHooks();
-    assert.deepEqual(config['protocol-version'], ['message-boundaries', 'default']);
+    assert.deepEqual(config['protocol-version'], ['message-boundaries']);
   });
 
   it('should return a true managed connection', async () => {

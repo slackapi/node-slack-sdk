@@ -27,7 +27,7 @@ import minimist from 'minimist';
 
 const DEFAULT_PROTOCOL = 'default';
 const MSG_BOUNDARY_PROTOCOL = 'message-boundaries';
-const SUPPORTED_NAMED_PROTOCOLS = [MSG_BOUNDARY_PROTOCOL];
+export const SUPPORTED_NAMED_PROTOCOLS = [MSG_BOUNDARY_PROTOCOL];
 
 /**
  * The baseline CLI-SDK protocol. All responses in this protocol go to stdout.

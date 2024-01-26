@@ -3,6 +3,8 @@
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 
+import { SUPPORTED_NAMED_PROTOCOLS } from './protocols.js';
+
 /**
  * Implementation the get-hooks script hook required by the Slack CLI.
  * Printed as an object containing featured provided by the SDK.
@@ -54,7 +56,7 @@ export default function getHooks() {
           '.',
         ],
       },
-      'protocol-version': ['message-boundaries', 'default'],
+      'protocol-version': SUPPORTED_NAMED_PROTOCOLS,
       'sdk-managed-connection-enabled': true,
     },
     runtime: 'node',
