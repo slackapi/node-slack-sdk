@@ -1,0 +1,68 @@
+{
+  "name": "@slack/cli-hooks",
+  "version": "1.0.0",
+  "description": "Node implementation of the contract between the Slack CLI and Bolt for JavaScript",
+  "author": "Slack Technologies, LLC",
+  "license": "MIT",
+  "keywords": [
+    "slack",
+    "cli",
+    "hooks"
+  ],
+  "type": "module",
+  "main": "src/get-hooks.js",
+  "files": [
+    "src/check-update.js",
+    "src/get-hooks.js",
+    "src/get-manifest.js",
+    "src/protocols.js",
+    "src/start.js"
+  ],
+  "engines": {
+    "node": ">= 18",
+    "npm": ">= 8.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slackapi/node-slack-sdk.git"
+  },
+  "homepage": "https://slack.dev/node-slack-sdk",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/slackapi/node-slack-sdk/issues"
+  },
+  "scripts": {
+    "prebuild": "shx rm -rf ./coverage",
+    "build": "shx chmod +x src/*.js",
+    "prelint": "tsc --noemit --module es2022 --project ./jsconfig.json",
+    "lint": "eslint --ext .js src",
+    "pretest": "npm run lint -- --fix",
+    "test": "c8 mocha src/*.spec.js"
+  },
+  "bin": {
+    "slack-cli-get-hooks": "src/get-hooks.js",
+    "slack-cli-get-manifest": "src/get-manifest.js",
+    "slack-cli-check-update": "src/check-update.js",
+    "slack-cli-start": "src/start.js"
+  },
+  "dependencies": {
+    "minimist": "^1.2.8",
+    "semver": "^7.5.4"
+  },
+  "devDependencies": {
+    "@types/minimist": "^1.2.5",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.10.8",
+    "@types/semver": "^7.5.6",
+    "@types/sinon": "^17.0.3",
+    "c8": "^9.0.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-jsdoc": "^48.0.2",
+    "eslint-plugin-node": "^11.1.0",
+    "mocha": "^10.2.0",
+    "shx": "^0.3.4",
+    "sinon": "^17.0.1"
+  }
+}
