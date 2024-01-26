@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import {
   DefaultProtocol,
   MessageBoundaryProtocol,
-  getProtocolInterface,
+  getProtocol,
 } from './protocols.js';
 
 describe('protocol implementations', () => {
@@ -66,18 +66,18 @@ describe('protocol implementations', () => {
 
   describe('get protocol interface', () => {
     it('returns the default protocol by default', () => {
-      const protocol = getProtocolInterface([]).name;
+      const protocol = getProtocol([]).name;
       assert.equal(protocol, 'default');
     });
 
     it('returns the default protocol if unrecognized', () => {
-      const protocol = getProtocolInterface(['--protocol=cryptics']).name;
+      const protocol = getProtocol(['--protocol=cryptics']).name;
       assert.equal(protocol, 'default');
     });
 
     it('returns the specified message boundary protocol', () => {
       const args = ['--protocol=message-boundaries', '--boundary=racecar'];
-      const protocol = getProtocolInterface(args).name;
+      const protocol = getProtocol(args).name;
       assert.equal(protocol, 'message-boundaries');
     });
   });

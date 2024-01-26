@@ -84,24 +84,25 @@ const PROTOCOL_MAP = {
 };
 
 /**
- * Determines the protocol interface to use when communicating with the CLI.
+ * Determines the protocol implementation to use for communicating with the CLI.
  * Based on the arguments provided by the CLI to the SDK hook process.
  * @param {string[]} args - Command-line flags and arguments passed to the hook.
  * @returns {Protocol} The interface to follow when messaging to the CLI.
  */
-export function getProtocolInterface(args) {
+export function getProtocol(args) {
   const { protocol: protocolRequestedByCLI } = parseArgs(args);
   if (protocolRequestedByCLI) {
     if (SUPPORTED_NAMED_PROTOCOLS.includes(protocolRequestedByCLI)) {
-      const iface = PROTOCOL_MAP[protocolRequestedByCLI];
+      const protocol = PROTOCOL_MAP[protocolRequestedByCLI];
+
       // Allow support for protocol implementations to either be:
       // - a function, using arguments passed to this process to
       //   dynamically instantiate a Protocol interface
       // - an object implementing the Protocol interface directly
-      if (typeof iface === 'function') {
-        return iface(args);
+      if (typeof protocol === 'function') {
+        return protocol(args);
       }
-      return iface;
+      return protocol;
     }
   }
 

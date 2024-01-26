@@ -6,7 +6,7 @@ import childProcess from 'child_process';
 import fs from 'fs';
 import util from 'util';
 
-import { getProtocolInterface } from './protocols.js';
+import { getProtocol } from './protocols.js';
 
 const SLACK_BOLT_SDK = '@slack/bolt';
 const SLACK_CLI_HOOKS = '@slack/cli-hooks';
@@ -17,7 +17,7 @@ const SLACK_CLI_HOOKS = '@slack/cli-hooks';
  */
 
 if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const protocol = getProtocolInterface(process.argv.slice(1));
+  const protocol = getProtocol(process.argv.slice(1));
   checkForSDKUpdates(process.cwd()).then(JSON.stringify).then(protocol.respond);
 }
 

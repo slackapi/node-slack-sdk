@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
 
-import { getProtocolInterface } from './protocols.js';
+import { getProtocol } from './protocols.js';
 
 /**
  * Implemention of the get-manifest hook that provides manifest information.
@@ -12,7 +12,7 @@ import { getProtocolInterface } from './protocols.js';
  */
 
 if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const protocol = getProtocolInterface(process.argv.slice(1));
+  const protocol = getProtocol(process.argv.slice(1));
   const cwd = process.cwd();
   const manifest = getManifestData(cwd);
   protocol.respond(JSON.stringify(manifest));
