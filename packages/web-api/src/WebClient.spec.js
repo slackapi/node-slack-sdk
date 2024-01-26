@@ -1288,6 +1288,39 @@ describe('WebClient', function () {
     });
   });
 
+  describe('apps.event.authorizations.list API', function () {
+    it('should not send the token in the body if token is passed as a method argument', function () {
+      const client = new WebClient();
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(200, (_uri, body) => {
+          assert.notInclude(body, token);
+          console.log('body is', body);
+          return { ok: true }
+        });
+      return client.apps.event.authorizations.list({
+        token,
+      })
+        .then(() => {
+          scope.done();
+        });
+    });
+    it('should not send the token in the body if token passed as client constructor', function () {
+      const client = new WebClient(token);
+      const scope = nock('https://slack.com')
+        .post(/api/)
+        .reply(200, (_uri, body) => {
+          assert.notInclude(body, token);
+          return { ok: true }
+        });
+      return client.apps.event.authorizations.list({
+      })
+        .then(() => {
+          scope.done();
+        });
+    });
+  });
+
   describe('getAllFileUploads', () => {
     const client = new WebClient(token);
     it('adds a single file data to uploads with content supplied', async () => {
