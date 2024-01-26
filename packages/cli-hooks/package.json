@@ -1,6 +1,6 @@
 {
   "name": "@slack/cli-hooks",
-  "version": "0.0.13",
+  "version": "1.0.0",
   "description": "Node implementation of the contract between the Slack CLI and Bolt for JavaScript",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
