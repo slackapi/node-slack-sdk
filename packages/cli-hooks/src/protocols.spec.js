@@ -42,9 +42,12 @@ describe('protocol implementations', () => {
     });
 
     it('errors if no boundary is specified', () => {
-      assert.throws(() => {
-        MessageBoundaryProtocol([]);
-      });
+      assert.throws(
+        () => {
+          MessageBoundaryProtocol([]);
+        },
+        /^Error: No boundary argument provided!$/,
+      );
     });
 
     it('uses the corresponding console methods', () => {

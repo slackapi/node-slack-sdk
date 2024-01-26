@@ -61,7 +61,7 @@ export function BaseProtocol(args) {
  */
 export function MessageBoundaryProtocol(args) {
   const { boundary } = parseArgs(args);
-  if (!boundary) throw new Error('no boundary argument provided!');
+  if (!boundary) throw new Error('No boundary argument provided!');
   const protocol = {
     name: MSG_BOUNDARY_PROTOCOL,
     log: console.log, // eslint-disable-line no-console
