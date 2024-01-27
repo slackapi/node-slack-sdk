@@ -1,7 +1,7 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/blocks
 
-import { PlainTextElement, MrkdwnElement } from './composition-objects';
-import { Actionable } from './extensions';
+import { PlainTextElement, MrkdwnElement } from "./composition-objects";
+import { Actionable } from "./extensions";
 import {
   Button,
   Checkboxes,
@@ -24,7 +24,7 @@ import {
   RichTextQuote,
   RichTextPreformatted,
   RichTextInput,
-} from './block-elements';
+} from "./block-elements";
 
 export interface Block {
   type: string;
@@ -38,8 +38,17 @@ export interface Block {
   block_id?: string;
 }
 
-export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock |
-SectionBlock | InputBlock | FileBlock | HeaderBlock | VideoBlock | RichTextBlock;
+export type KnownBlock =
+  | ImageBlock
+  | ContextBlock
+  | ActionsBlock
+  | DividerBlock
+  | SectionBlock
+  | InputBlock
+  | FileBlock
+  | HeaderBlock
+  | VideoBlock
+  | RichTextBlock;
 
 /**
  * @description Holds multiple interactive elements.
@@ -49,13 +58,24 @@ export interface ActionsBlock extends Block {
   /**
    * @description The type of block. For an actions block, `type` is always `actions`.
    */
-  type: 'actions';
+  type: "actions";
   /**
    * @description An array of {@link InteractiveElements} objects.
    * There is a maximum of 25 elements in each action block.
    */
-  elements: (Button | Checkboxes | Datepicker | DateTimepicker | MultiSelect | Overflow | RadioButtons | Select |
-  Timepicker | WorkflowButton | RichTextInput)[];
+  elements: (
+    | Button
+    | Checkboxes
+    | Datepicker
+    | DateTimepicker
+    | MultiSelect
+    | Overflow
+    | RadioButtons
+    | Select
+    | Timepicker
+    | WorkflowButton
+    | RichTextInput
+  )[];
 }
 
 /**
@@ -66,7 +86,7 @@ export interface ContextBlock extends Block {
   /**
    * @description The type of block. For a context block, `type` is always `context`.
    */
-  type: 'context';
+  type: "context";
   // TODO: use the future planned plaintext/mrkdwn union here instead
   /**
    * @description An array of {@link ImageElement}, {@link PlainTextElement} or {@link MrkdwnElement} objects.
@@ -84,7 +104,7 @@ export interface DividerBlock extends Block {
   /**
    * @description The type of block. For a divider block, `type` is always `divider`.
    */
-  type: 'divider';
+  type: "divider";
 }
 
 /**
@@ -98,7 +118,7 @@ export interface FileBlock extends Block {
   /**
    * @description The type of block. For a file block, `type` is always `file`.
    */
-  type: 'file';
+  type: "file";
   /**
    * @description At the moment, source will always be `remote` for a remote file.
    */
@@ -118,7 +138,7 @@ export interface HeaderBlock extends Block {
   /**
    * @description The type of block. For a header block, `type` is always `header`.
    */
-  type: 'header';
+  type: "header";
   /**
    * @description The text for the block, in the form of a {@link PlainTextElement}.
    * Maximum length for the text in this field is 150 characters.
@@ -134,11 +154,24 @@ export interface ImageBlock extends Block {
   /**
    * @description The type of block. For an image block, `type` is always `image`.
    */
-  type: 'image';
+  type: "image";
   /**
    * @description The URL of the image to be displayed. Maximum length for this field is 3000 characters.
    */
-  image_url: string;
+  image_url?: string;
+  /**
+   * @description A Slack image file object that defines the source of the image.
+   */
+  slack_file?: {
+    /**
+     * @description This URL can be the url_private or the permalink of the Slack file.
+     */
+    url?: string;
+    /**
+     * @description Slack ID of the file.
+     */
+    id?: string;
+  };
   /**
    * @description A plain-text summary of the image. This should not contain any markup.
    * Maximum length for this field is 2000 characters.
@@ -161,7 +194,7 @@ export interface InputBlock extends Block {
   /**
    * @description The type of block. For an input block, `type` is always `input`.
    */
-  type: 'input';
+  type: "input";
   /**
    * @description A label that appears above an input element in the form of a {@link PlainTextElement} object.
    * Maximum length for the text in this field is 2000 characters.
@@ -180,8 +213,20 @@ export interface InputBlock extends Block {
   /**
    * @description A block element.
    */
-  element: Select | MultiSelect | Datepicker | Timepicker | DateTimepicker | PlainTextInput | URLInput | EmailInput
-  | NumberInput | RadioButtons | Checkboxes | RichTextInput | FileInput;
+  element:
+    | Select
+    | MultiSelect
+    | Datepicker
+    | Timepicker
+    | DateTimepicker
+    | PlainTextInput
+    | URLInput
+    | EmailInput
+    | NumberInput
+    | RadioButtons
+    | Checkboxes
+    | RichTextInput
+    | FileInput;
   /**
    * @description A boolean that indicates whether or not the use of elements in this block should dispatch a
    * {@link https://api.slack.com/reference/interaction-payloads/block-actions block_actions payload}. Defaults to `false`.
@@ -201,7 +246,7 @@ export interface SectionBlock extends Block {
   /**
    * @description The type of block. For a section block, `type` is always `section`.
    */
-  type: 'section';
+  type: "section";
   /**
    * @description The text for the block, in the form of a text object. Minimum length for the `text` in this field is
    * 1 and maximum length is 3000 characters. This field is not required if a valid array of `fields` objects is
@@ -218,16 +263,17 @@ export interface SectionBlock extends Block {
   /**
    * @description One of the compatible element objects.
    */
-  accessory?: Button
-  | Overflow
-  | Datepicker
-  | Timepicker
-  | Select
-  | MultiSelect
-  | Actionable
-  | ImageElement
-  | RadioButtons
-  | Checkboxes;
+  accessory?:
+    | Button
+    | Overflow
+    | Datepicker
+    | Timepicker
+    | Select
+    | MultiSelect
+    | Actionable
+    | ImageElement
+    | RadioButtons
+    | Checkboxes;
 }
 
 /**
@@ -240,7 +286,7 @@ export interface VideoBlock extends Block {
   /**
    * @description The type of block. For a video block, `type` is always `video`.
    */
-  type: 'video';
+  type: "video";
   /**
    * @description The URL to be embedded. Must match any existing
    * {@link https://api.slack.com/reference/messaging/link-unfurling#configuring_domains unfurl domains} within the app
@@ -286,6 +332,11 @@ export interface RichTextBlock extends Block {
   /**
    * @description The type of block. For a rich text block, `type` is always `rich_text`.
    */
-  type: 'rich_text',
-  elements: (RichTextSection | RichTextList | RichTextQuote | RichTextPreformatted)[];
+  type: "rich_text";
+  elements: (
+    | RichTextSection
+    | RichTextList
+    | RichTextQuote
+    | RichTextPreformatted
+  )[];
 }
