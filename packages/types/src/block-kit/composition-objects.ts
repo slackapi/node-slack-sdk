@@ -163,11 +163,11 @@ type Conversation = 'im' | 'mpim' | 'private' | 'public';
 
 interface BaseConversationFilter {
   /**
-  * @description Indicates which type of conversations should be included in the list. When this field is provided, any
-  * conversations that do not match will be excluded. You should provide an array of strings from the following options:
-  * `im`, `mpim`, `private`, and `public`. The array cannot be empty.
-  */
-  include?: [Conversation, ...Conversation[]]; // TS gymnastics for "at least one item"
+   * @description Indicates which type of conversations should be included in the list. When this field is provided, any
+   * conversations that do not match will be excluded. You should provide an array of strings from the following options:
+   * `im`, `mpim`, `private`, and `public`. The array cannot be empty.
+   */
+  include?: [Conversation, ...Conversation[]]; // TS gymnastics for 'at least one item'
   /**
    * @description Indicates whether to exclude external {@link https://api.slack.com/enterprise/shared-channels shared channels}
    * from conversation lists. This field will not exclude users from shared channels. Defaults to `false`.
@@ -184,4 +184,33 @@ interface BaseConversationFilter {
  * conversations select menu or a conversations multi-select menu.
  * @see {@link https://api.slack.com/reference/block-kit/composition-objects#filter_conversations Conversation filter object reference}.
  */
-export type ConversationFilter = (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'include'>>) | (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'exclude_bot_users'>>) | (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'exclude_external_shared_channels'>>);
+export type ConversationFilter =
+  | (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'include'>>)
+  | (BaseConversationFilter &
+      Required<Pick<BaseConversationFilter, 'exclude_bot_users'>>)
+  | (BaseConversationFilter &
+      Required<
+        Pick<BaseConversationFilter, 'exclude_external_shared_channels'>
+      >);
+
+/**
+ * @description This URL can be the url_private or the permalink of the Slack file.
+ */
+interface SlackFileViaUrl {
+  url: string;
+}
+/**
+ * @description This ID can be the file ID or the file comment ID.
+ */
+interface SlackFileViaId {
+  id: string;
+}
+
+/**
+ * @description Defines an object containing Slack file information to be used in an image block or image element.
+ * This file must be an image and you must provide either the URL or ID. In addition, the user posting these blocks must
+ * have access to this file. If both are provided then the payload will be rejected. Currently only png, jpg, jpeg, and
+ *  gif Slack image files are supported.
+ * @see {@link https://api.slack.com/reference/block-kit/composition-objects#slack_file Slack File object reference}.
+ */
+export type SlackFile = SlackFileViaUrl | SlackFileViaId;
