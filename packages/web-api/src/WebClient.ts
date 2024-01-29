@@ -549,6 +549,7 @@ export class WebClient extends Methods {
           config.responseType = 'arraybuffer';
         }
         // apps.event.authorizations.list will reject HTTP requests that send token in the body
+        // TODO: consider applying this change to all methods - though that will require thorough integration testing
         if (url.endsWith('apps.event.authorizations.list')) {
           // eslint-disable-next-line no-param-reassign
           delete body.token;
