@@ -200,7 +200,7 @@ interface SlackFileViaUrl {
   url: string;
 }
 /**
- * @description This ID can be the file ID or the file comment ID.
+ * @description `id` of the {@link Slack file https://api.slack.com/types/file}.
  */
 interface SlackFileViaId {
   id: string;
