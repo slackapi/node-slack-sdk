@@ -163,11 +163,11 @@ type Conversation = 'im' | 'mpim' | 'private' | 'public';
 
 interface BaseConversationFilter {
   /**
-   * @description Indicates which type of conversations should be included in the list. When this field is provided, any
-   * conversations that do not match will be excluded. You should provide an array of strings from the following options:
-   * `im`, `mpim`, `private`, and `public`. The array cannot be empty.
-   */
-  include?: [Conversation, ...Conversation[]]; // TS gymnastics for 'at least one item'
+  * @description Indicates which type of conversations should be included in the list. When this field is provided, any
+  * conversations that do not match will be excluded. You should provide an array of strings from the following options:
+  * `im`, `mpim`, `private`, and `public`. The array cannot be empty.
+  */
+  include?: [Conversation, ...Conversation[]]; // TS gymnastics for "at least one item"
   /**
    * @description Indicates whether to exclude external {@link https://api.slack.com/enterprise/shared-channels shared channels}
    * from conversation lists. This field will not exclude users from shared channels. Defaults to `false`.
@@ -184,14 +184,26 @@ interface BaseConversationFilter {
  * conversations select menu or a conversations multi-select menu.
  * @see {@link https://api.slack.com/reference/block-kit/composition-objects#filter_conversations Conversation filter object reference}.
  */
-export type ConversationFilter =
-  | (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'include'>>)
-  | (BaseConversationFilter &
-      Required<Pick<BaseConversationFilter, 'exclude_bot_users'>>)
-  | (BaseConversationFilter &
-      Required<
-        Pick<BaseConversationFilter, 'exclude_external_shared_channels'>
-      >);
+export type ConversationFilter = (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'include'>>) | (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'exclude_bot_users'>>) | (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'exclude_external_shared_channels'>>);
+/**
+ * @description Object for image which contains a image_url.
+ */
+export interface UrlImageObject {
+  /**
+   * @description The URL of the image to be displayed.
+   */
+  image_url: string;
+}
+
+/**
+ * @description Object for image which contains a slack_file.
+ */
+export interface SlackFileImageObject {
+  /**
+   * @description The slack file of the image to be displayed.
+   */
+  slack_file: SlackFile;
+}
 
 /**
  * @description This URL can be the `url_private` or the `permalink` of the {@link Slack file https://api.slack.com/types/file}.
