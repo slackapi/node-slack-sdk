@@ -1,6 +1,7 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/blocks
 
-import { PlainTextElement, MrkdwnElement} from './composition-objects';
+import { PlainTextElement, MrkdwnElement, UrlImageObject,
+  SlackFileImageObject} from './composition-objects';
 import { Actionable } from './extensions';
 import {
   Button,
@@ -24,11 +25,9 @@ import {
   RichTextQuote,
   RichTextPreformatted,
   RichTextInput,
-  UrlImageObject,
-  SlackFileImageObject
 } from './block-elements';
 
-export type Block = {
+export interface Block {
   type: string;
   /**
    * @description A string acting as a unique identifier for a block. If not specified, a `block_id` will be generated.
@@ -132,7 +131,7 @@ export interface HeaderBlock extends Block {
  * @description Displays an image. A simple image block, designed to make those cat photos really pop.
  * @see {@link https://api.slack.com/reference/block-kit/blocks#image Image block reference}.
  */
-type ImageBlock = {
+export type ImageBlock = {
   /**
    * @description The type of block. For an image block, `type` is always `image`.
    */
@@ -148,7 +147,6 @@ type ImageBlock = {
    */
   title?: PlainTextElement;
 } & Block & (UrlImageObject | SlackFileImageObject)
-
 
 /**
  * @description Collects information from users via block elements.

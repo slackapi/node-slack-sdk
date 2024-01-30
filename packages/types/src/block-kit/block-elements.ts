@@ -12,7 +12,8 @@ import {
   Option,
   PlainTextElement,
   PlainTextOption,
-  SlackFile,
+  UrlImageObject,
+  SlackFileImageObject,
 } from './composition-objects';
 import { RichTextBlock } from './blocks';
 
@@ -162,26 +163,6 @@ export interface FileInput extends Actionable {
    * `10`. Defaults to `10` if not specified.
    */
   max_files?: number;
-}
-
-/**
- * @description Object for image which contains a image_url.
- */
-export interface UrlImageObject {
-  /**
-   * @description The URL of the image to be displayed.
-   */
-  image_url: string;
-}
-
-/**
- * @description Object for image which contains a slack_file.
- */
-export interface SlackFileImageObject {
-  /**
-   * @description The slack file of the image to be displayed.
-   */
-  slack_file: SlackFile;
 }
 
 /**
