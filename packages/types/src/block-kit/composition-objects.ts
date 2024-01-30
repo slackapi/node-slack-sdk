@@ -194,7 +194,7 @@ export type ConversationFilter =
       >);
 
 /**
- * @description This URL can be the url_private or the permalink of the Slack file.
+ * @description This URL can be the `url_private` or the `permalink` of the {@link Slack file https://api.slack.com/types/file}.
  */
 interface SlackFileViaUrl {
   url: string;
