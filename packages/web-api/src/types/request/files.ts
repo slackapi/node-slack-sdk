@@ -6,6 +6,7 @@ import type {
   TraditionalPagingEnabled,
 } from './common';
 import type { FilesGetUploadURLExternalResponse } from '../response/index';
+import type { ExcludeFromUnion } from '../helpers';
 
 interface FileArgument {
   /** @description Encoded file ID. */
@@ -149,7 +150,7 @@ export type FileUploadV2 = FileUpload & {
 
 // https://slack.dev/node-slack-sdk/web-api#upload-a-file
 export type FilesUploadV2Arguments = FileUploadV2 & TokenOverridable & {
-  file_uploads?: Omit<FileUploadV2, 'channel_id' | 'channels' | 'initial_comment' | 'thread_ts'>[];
+  file_uploads?: ExcludeFromUnion<FileUploadV2, 'channel_id' | 'channels' | 'initial_comment' | 'thread_ts'>[];
 };
 
 // Helper type intended for internal use in filesUploadV2 client method
