@@ -106,6 +106,9 @@ export async function getMultipleFileUploadJobs(
       if ('thread_ts' in options) {
         uploadJobArgs.thread_ts = options.thread_ts;
       }
+      if ('token' in options) {
+        uploadJobArgs.token = options.token;
+      }
       if ('content' in upload) {
         return getFileUploadJob({
           content: (upload as FileUploadStringContents).content,

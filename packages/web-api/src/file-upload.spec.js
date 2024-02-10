@@ -3,12 +3,13 @@ const { assert } = require('chai');
 const sinon = require('sinon');
 const { createReadStream, statSync, writeFileSync, unlinkSync } = require('fs');
 const { ErrorCode } = require('./errors');
-const { 
+const {
   getFileDataAsStream,
   getFileDataLength,
   getFileData,
   getFileUploadJob,
   getAllFileUploadsToComplete,
+  getMultipleFileUploadJobs,
   buildLegacyFileTypeWarning,
   buildMissingExtensionWarning,
   buildMissingFileNameWarning,
@@ -18,7 +19,7 @@ const {
 } = require('./file-upload');
 
 describe('file-upload', () => {
-  describe('getFileUploadJob', () =>{
+  describe('getFileUploadJob', () => {
     it('returns a fileUploadEntry', async () => {
       const valid = {
         filename: 'test.txt',
@@ -33,7 +34,7 @@ describe('file-upload', () => {
       assert.equal(valid.alt_text, res.alt_text);
       assert.equal(valid.title, res.title);
       assert.equal(valid.filename, res.filename);
-        
+
       // calculated values
       assert.isDefined(res.data);
       assert.isDefined(res.length);
@@ -98,6 +99,51 @@ describe('file-upload', () => {
       }
     });
   });
+  describe('getMultipleFileUploadJobs', () => {
+    it('uses the shared options in upload jobs', async () => {
+      const valid = {
+        initial_comment: 'Here are the files!',
+        thread_ts: '1223313423434.131321',
+        channel_id: 'C12345',
+        token: 'xoxb-000000-111111-0000000',
+        file_uploads: [
+          {
+            file: './test/fixtures/test-png.png',
+            filename: 'watermelon.png',
+            alt_text: 'cubed fruit for box eats',
+          },
+          {
+            content: 'howdy world!',
+            filename: 'hello.txt',
+          },
+        ],
+      };
+      this.logger = {
+        warn: sinon.spy(),
+      };
+      const res = await getMultipleFileUploadJobs(valid, this.logger);
+      // supplied values
+      assert.equal(valid.initial_comment, res[0].initial_comment);
+      assert.equal(valid.initial_comment, res[1].initial_comment);
+      assert.equal(valid.thread_ts, res[0].thread_ts);
+      assert.equal(valid.thread_ts, res[1].thread_ts);
+      assert.equal(valid.channel_id, res[0].channel_id);
+      assert.equal(valid.channel_id, res[1].channel_id);
+      assert.equal(valid.token, res[0].token);
+      assert.equal(valid.token, res[1].token);
+      assert.equal(valid.file_uploads[0].file, res[0].file);
+      assert.equal(valid.file_uploads[0].filename, res[0].filename);
+      assert.equal(valid.file_uploads[0].alt_text, res[0].alt_text);
+      assert.equal(valid.file_uploads[1].content, res[1].content);
+      assert.equal(valid.file_uploads[1].filename, res[1].filename);
+
+      // calculated values
+      assert.isDefined(res[0].data);
+      assert.isDefined(res[1].data);
+      assert.isDefined(res[0].length);
+      assert.isDefined(res[1].length);
+    });
+  });
   describe('getFileData', () => {
     it('throws an error with missing file or content', async () => {
       const invalidFileUpload = {};
@@ -157,7 +203,7 @@ describe('file-upload', () => {
         file: Buffer.from('Hello'),
         filename: 'It\'s me',
       };
-      const res = await getFileData(fileUpload); 
+      const res = await getFileData(fileUpload);
       res.forEach((int, idx) => {
         assert.equal(int, fileUpload.file[idx])
       });
@@ -167,7 +213,7 @@ describe('file-upload', () => {
         file: './test/fixtures/test-jpg.jpg',
         filename: 'Test File',
       };
-      
+
       try {
         const res = await getFileData(fileUpload);
         // should return a buffer
@@ -181,10 +227,10 @@ describe('file-upload', () => {
         file: './a/bad/path',
         filename: 'Test File',
       };
-       try {
+      try {
         const res = await getFileData(fileUpload);
         assert.fail(res, "no error", "Expected no error, but got one");
-       } catch (err) {
+      } catch (err) {
         assert.equal(err.message, `Unable to resolve file data for ${fileUpload.file}. Please supply a filepath string, or binary data Buffer or String directly.`);
         assert.equal(err.code, ErrorCode.FileUploadInvalidArgumentsError);
       }
@@ -242,7 +288,7 @@ describe('file-upload', () => {
       try {
         // create a large file
         let largeBuffer = Buffer.alloc(100000, '0123456789876543210\n');
-        writeFileSync('./test/fixtures/test-txt-large.txt', largeBuffer); 
+        writeFileSync('./test/fixtures/test-txt-large.txt', largeBuffer);
 
         const res = await getFileDataAsStream(createReadStream('./test/fixtures/test-txt-large.txt'));
 
@@ -285,7 +331,7 @@ describe('file-upload', () => {
 
         // there should be one job to complete 
         assert.equal(Object.keys(toComplete).length, 1);
-        
+
         // that job should contain two file uploads 
         // we can verity this by checking files
         const job = Object.values(toComplete)[0];
