@@ -5,8 +5,6 @@ import { errorWithCode, ErrorCode } from './errors';
 import {
   FilesCompleteUploadExternalArguments,
   FilesUploadV2Arguments,
-  FileUploadBinaryContents,
-  FileUploadStringContents,
   FileUploadV2,
   FileUploadV2Job,
 } from './types/request/files';
@@ -47,10 +45,16 @@ export async function getFileUploadJob(
       ...fileUploadJob,
     };
   }
-  return {
-    file: options.file,
-    ...fileUploadJob,
-  };
+  if ('file' in options) {
+    return {
+      file: options.file,
+      ...fileUploadJob,
+    };
+  }
+  throw errorWithCode(
+    new Error('Either a file or content field is required for valid file upload. You must supply one'),
+    ErrorCode.FileUploadInvalidArgumentsError,
+  );
 }
 
 /**
@@ -82,7 +86,7 @@ export async function getMultipleFileUploadJobs(
   options: FilesUploadV2Arguments,
   logger: Logger,
 ): Promise<FileUploadV2Job[]> {
-  if (options.file_uploads) {
+  if ('file_uploads' in options) {
     // go through each file_upload and create a job for it
     return Promise.all(options.file_uploads.map((upload) => {
       // ensure no omitted properties included in files_upload entry
@@ -108,14 +112,20 @@ export async function getMultipleFileUploadJobs(
       }
       if ('content' in upload) {
         return getFileUploadJob({
-          content: (upload as FileUploadStringContents).content,
+          content: upload.content,
           ...uploadJobArgs,
         }, logger);
       }
-      return getFileUploadJob({
-        file: (upload as FileUploadBinaryContents).file,
-        ...uploadJobArgs,
-      }, logger);
+      if ('file' in upload) {
+        return getFileUploadJob({
+          file: upload.file,
+          ...uploadJobArgs,
+        }, logger);
+      }
+      throw errorWithCode(
+        new Error('Either a file or content field is required for valid file upload. You must supply one'),
+        ErrorCode.FileUploadInvalidArgumentsError,
+      );
     }));
   }
   throw new Error(buildFilesUploadMissingMessage());

@@ -148,10 +148,15 @@ export type FileUploadV2 = FileUpload & {
   snippet_type?: string;
 };
 
+interface FilesUploadV2ArgumentsMultipleFiles {
+  file_uploads: ExcludeFromUnion<FileUploadV2, 'channel_id' | 'channels' | 'initial_comment' | 'thread_ts'>[];
+}
+
 // https://slack.dev/node-slack-sdk/web-api#upload-a-file
-export type FilesUploadV2Arguments = FileUploadV2 & TokenOverridable & {
-  file_uploads?: ExcludeFromUnion<FileUploadV2, 'channel_id' | 'channels' | 'initial_comment' | 'thread_ts'>[];
-};
+export type FilesUploadV2Arguments = TokenOverridable & (
+  | FileUploadV2
+  | (Omit<FileUploadV2, 'file' | 'content'> & FilesUploadV2ArgumentsMultipleFiles)
+);
 
 // Helper type intended for internal use in filesUploadV2 client method
 // Includes additional metadata required to complete a single file upload job
