@@ -519,7 +519,7 @@ export class WebClient extends Methods {
     }
 
     // add multiple files data when file_uploads is supplied
-    if (options.file_uploads) {
+    if ('file_uploads' in options) {
       fileUploads = fileUploads.concat(await getMultipleFileUploadJobs(options, this.logger));
     }
     return fileUploads;
