@@ -110,4 +110,4 @@ If you get stuck, we're here to help. The following are the best ways to get ass
 
   * [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and
     general discussion related to these packages. Try searching before you create a new issue.
-  * [Email us](mailto:developers@slack.com) in Slack developer support: `developers@slack.com`
+  * [Send us Email](mailto:developers@slack.com) in Slack developer support: `developers@slack.com`
