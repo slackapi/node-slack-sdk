@@ -951,6 +951,11 @@ export interface RichTextQuote {
    * @description An array of {@link RichTextElement} comprising the quote block.
    */
   elements: RichTextElement[];
+  /**
+   * @description Whether to render a quote-block-like border on the inline side of the text quote.
+   * `0` renders no border, while `1` renders a border. Defaults to `0`.
+   */
+  border?: 0 | 1;
 }
 
 /**
