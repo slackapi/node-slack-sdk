@@ -594,7 +594,7 @@ export class WebClient extends Methods {
             // resume the request queue and throw a non-abort error to signal a retry
             this.requestQueue.start();
             // TODO: We may want to have more detailed info such as team_id, params except tokens, and so on.
-            throw Error(`A rate limit was exceeded (url: ${url}, retry-after: ${retrySec})`);
+            throw new Error(`A rate limit was exceeded (url: ${url}, retry-after: ${retrySec})`);
           } else {
             // TODO: turn this into some CodedError
             throw new AbortError(new Error(`Retry header did not contain a valid timeout (url: ${url}, retry-after header: ${response.headers['retry-after']})`));
