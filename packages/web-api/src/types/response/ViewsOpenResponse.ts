@@ -62,10 +62,12 @@ export interface Block {
   image_height?:      number;
   image_url?:         string;
   image_width?:       number;
+  is_animated?:       boolean;
   label?:             Close;
   optional?:          boolean;
   provider_icon_url?: string;
   provider_name?:     string;
+  slack_file?:        SlackFile;
   text?:              Close;
   thumbnail_url?:     string;
   title?:             Close;
@@ -81,7 +83,13 @@ export interface Accessory {
   image_height?: number;
   image_url?:    string;
   image_width?:  number;
+  slack_file?:   SlackFile;
   type?:         string;
+}
+
+export interface SlackFile {
+  id?:  string;
+  url?: string;
 }
 
 export interface Close {
@@ -127,6 +135,7 @@ export interface PurpleElement {
   options?:                         Option[];
   placeholder?:                     Close;
   response_url_enabled?:            boolean;
+  slack_file?:                      SlackFile;
   style?:                           string;
   text?:                            Close;
   timezone?:                        string;
@@ -256,6 +265,7 @@ export interface StickyElement {
   options?:                         Option[];
   placeholder?:                     Close;
   response_url_enabled?:            boolean;
+  slack_file?:                      SlackFile;
   style?:                           string;
   text?:                            Close;
   timezone?:                        string;

@@ -22,6 +22,8 @@ export interface File {
   channels?:             string[];
   comments_count?:       number;
   created?:              number;
+  deanimate?:            string;
+  deanimate_gif?:        string;
   display_as_bot?:       boolean;
   edit_link?:            string;
   editable?:             boolean;
@@ -55,8 +57,13 @@ export interface File {
   size?:                 number;
   thumb_160?:            string;
   thumb_360?:            string;
+  thumb_360_gif?:        string;
   thumb_360_h?:          number;
   thumb_360_w?:          number;
+  thumb_480?:            string;
+  thumb_480_gif?:        string;
+  thumb_480_h?:          number;
+  thumb_480_w?:          number;
   thumb_64?:             string;
   thumb_80?:             string;
   thumb_tiny?:           string;

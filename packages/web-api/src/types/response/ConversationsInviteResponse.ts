@@ -60,4 +60,5 @@ export interface Purpose {
 export interface Error {
   error?: string;
   ok?:    boolean;
+  user?:  string;
 }

@@ -43,6 +43,7 @@ export interface Member {
   profile?:                    Profile;
   real_name?:                  string;
   team_id?:                    string;
+  two_factor_type?:            string;
   tz?:                         string;
   tz_label?:                   string;
   tz_offset?:                  number;

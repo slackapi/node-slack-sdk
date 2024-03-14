@@ -34,6 +34,8 @@ export interface Match {
   comments_count?:                          number;
   converted_pdf?:                           string;
   created?:                                 number;
+  deanimate?:                               string;
+  deanimate_gif?:                           string;
   display_as_bot?:                          boolean;
   dm_mpdm_users_with_file_access?:          DmMpdmUsersWithFileAccess[];
   edit_link?:                               string;
@@ -93,9 +95,11 @@ export interface Match {
   thumb_1024_w?:                            number;
   thumb_160?:                               string;
   thumb_360?:                               string;
+  thumb_360_gif?:                           string;
   thumb_360_h?:                             number;
   thumb_360_w?:                             number;
   thumb_480?:                               string;
+  thumb_480_gif?:                           string;
   thumb_480_h?:                             number;
   thumb_480_w?:                             number;
   thumb_64?:                                string;
@@ -241,12 +245,14 @@ export interface Block {
   image_height?:                 number;
   image_url?:                    string;
   image_width?:                  number;
+  is_animated?:                  boolean;
   is_workflow_app?:              boolean;
   owning_team_id?:               string;
   provider_icon_url?:            string;
   provider_name?:                string;
   sales_home_workflow_app_type?: number;
   share_url?:                    string;
+  slack_file?:                   SlackFile;
   text?:                         DescriptionElement;
   thumbnail_url?:                string;
   title?:                        DescriptionElement | string;
@@ -293,6 +299,7 @@ export interface Accessory {
   options?:                         InitialOptionElement[];
   placeholder?:                     DescriptionElement;
   response_url_enabled?:            boolean;
+  slack_file?:                      SlackFile;
   style?:                           string;
   text?:                            DescriptionElement;
   timezone?:                        string;
@@ -391,6 +398,11 @@ export interface InitialOptionElement {
 export interface AccessoryOptionGroup {
   label?:   DescriptionElement;
   options?: InitialOptionElement[];
+}
+
+export interface SlackFile {
+  id?:  string;
+  url?: string;
 }
 
 export interface Workflow {
@@ -506,6 +518,7 @@ export interface FileElement {
   saved?:                                   Saved;
   sent_to_self?:                            boolean;
   shares?:                                  PurpleShares;
+  show_badge?:                              boolean;
   simplified_html?:                         string;
   size?:                                    number;
   source_team?:                             string;
@@ -627,11 +640,11 @@ export interface Saved {
 }
 
 export interface PurpleShares {
-  private?: { [key: string]: Private[] };
-  public?:  { [key: string]: Private[] };
+  private?: { [key: string]: Public[] };
+  public?:  { [key: string]: Public[] };
 }
 
-export interface Private {
+export interface Public {
   access?:            string;
   channel_name?:      string;
   date_last_shared?:  number;
@@ -851,6 +864,7 @@ export interface MessageFile {
   saved?:                                   Saved;
   sent_to_self?:                            boolean;
   shares?:                                  FluffyShares;
+  show_badge?:                              boolean;
   simplified_html?:                         string;
   size?:                                    number;
   source_team?:                             string;
@@ -1028,17 +1042,6 @@ export interface MatchShares {
   public?: { [key: string]: Public[] };
 }
 
-export interface Public {
-  channel_name?:      string;
-  reply_count?:       number;
-  reply_users?:       string[];
-  reply_users_count?: number;
-  share_user_id?:     string;
-  source?:            string;
-  team_id?:           string;
-  ts?:                string;
-}
-
 export interface TitleBlock {
   accessory?:                    Accessory;
   alt_text?:                     string;
@@ -1067,6 +1070,7 @@ export interface TitleBlock {
   image_height?:                 number;
   image_url?:                    string;
   image_width?:                  number;
+  is_animated?:                  boolean;
   is_workflow_app?:              boolean;
   label?:                        DescriptionElement;
   optional?:                     boolean;
@@ -1075,6 +1079,7 @@ export interface TitleBlock {
   provider_name?:                string;
   sales_home_workflow_app_type?: number;
   share_url?:                    string;
+  slack_file?:                   SlackFile;
   source?:                       string;
   text?:                         DescriptionElement;
   thumbnail_url?:                string;

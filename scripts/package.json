@@ -6,6 +6,6 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "quicktype": "^15.0.260"
+    "quicktype": "^23.0.106"
   }
 }

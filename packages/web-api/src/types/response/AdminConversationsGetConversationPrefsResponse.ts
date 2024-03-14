@@ -18,11 +18,23 @@ export type AdminConversationsGetConversationPrefsResponse = WebAPICallResult & 
 };
 
 export interface Prefs {
-  can_thread?:   CanThread;
-  who_can_post?: CanThread;
+  can_huddle?:        CanHuddle;
+  can_thread?:        CanThread;
+  enable_at_channel?: CanHuddle;
+  enable_at_here?:    CanHuddle;
+  membership_limit?:  MembershipLimit;
+  who_can_post?:      CanThread;
+}
+
+export interface CanHuddle {
+  enabled?: boolean;
 }
 
 export interface CanThread {
   type?: string[];
   user?: string[];
+}
+
+export interface MembershipLimit {
+  value?: number;
 }

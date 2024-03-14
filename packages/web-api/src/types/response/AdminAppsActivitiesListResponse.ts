@@ -33,11 +33,15 @@ export interface Activity {
 }
 
 export interface Payload {
+  action?:                string;
   actor?:                 string;
   billing_reason?:        string[];
   bot_user_id?:           string;
+  bundle_size_kb?:        number;
   channel_id?:            string;
   current_step?:          number;
+  datastore_name?:        string;
+  details?:               string;
   error?:                 string;
   exec_outcome?:          string;
   function_execution_id?: string;
@@ -47,9 +51,12 @@ export interface Payload {
   inputs?:                Inputs;
   is_billing_excluded?:   boolean;
   log?:                   string;
+  request_type?:          string;
+  team_id?:               string;
   total_steps?:           number;
   trigger?:               Trigger;
   type?:                  string;
+  user_id?:               string;
   workflow_name?:         string;
 }
 
@@ -65,12 +72,15 @@ export interface Trigger {
 
 export interface Config {
   description?: string;
+  event_type?:  string;
   name?:        string;
   schema?:      Inputs;
 }
 
 export interface TripInformation {
   channel_id?: string;
+  message_ts?: string;
+  reaction?:   string;
   user_id?:    string;
 }
 

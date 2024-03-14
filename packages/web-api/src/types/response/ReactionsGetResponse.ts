@@ -62,6 +62,7 @@ export interface Block {
   image_height?:                 number;
   image_url?:                    string;
   image_width?:                  number;
+  is_animated?:                  boolean;
   is_workflow_app?:              boolean;
   label?:                        Description;
   optional?:                     boolean;
@@ -70,6 +71,7 @@ export interface Block {
   provider_name?:                string;
   sales_home_workflow_app_type?: number;
   share_url?:                    string;
+  slack_file?:                   SlackFile;
   source?:                       string;
   text?:                         Description;
   thumbnail_url?:                string;
@@ -117,6 +119,7 @@ export interface Accessory {
   options?:                         Option[];
   placeholder?:                     Description;
   response_url_enabled?:            boolean;
+  slack_file?:                      SlackFile;
   style?:                           string;
   text?:                            Description;
   timezone?:                        string;
@@ -208,6 +211,11 @@ export interface Option {
 export interface OptionGroup {
   label?:   Description;
   options?: Option[];
+}
+
+export interface SlackFile {
+  id?:  string;
+  url?: string;
 }
 
 export interface Workflow {
@@ -352,7 +360,8 @@ export interface File {
   reactions?:                               any[];
   saved?:                                   Saved;
   sent_to_self?:                            boolean;
-  shares?:                                  PendingInvitees;
+  shares?:                                  Knocks;
+  show_badge?:                              boolean;
   simplified_html?:                         string;
   size?:                                    number;
   source_team?:                             string;
@@ -455,7 +464,7 @@ export interface Saved {
   state?:          string;
 }
 
-export interface PendingInvitees {
+export interface Knocks {
 }
 
 export interface Transcription {
@@ -503,6 +512,8 @@ export interface Room {
   is_dm_call?:                   boolean;
   is_prewarmed?:                 boolean;
   is_scheduled?:                 boolean;
+  knocks?:                       Knocks;
+  last_invite_status_by_user?:   Knocks;
   media_backend_type?:           string;
   media_server?:                 string;
   name?:                         string;
@@ -512,7 +523,7 @@ export interface Room {
   participants_camera_on?:       string[];
   participants_screenshare_off?: string[];
   participants_screenshare_on?:  string[];
-  pending_invitees?:             PendingInvitees;
+  pending_invitees?:             Knocks;
   thread_root_ts?:               string;
   was_accepted?:                 boolean;
   was_missed?:                   boolean;

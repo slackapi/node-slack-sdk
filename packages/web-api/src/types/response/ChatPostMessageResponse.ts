@@ -156,12 +156,14 @@ export interface TitleBlockElement {
   image_height?:                 number;
   image_url?:                    string;
   image_width?:                  number;
+  is_animated?:                  boolean;
   is_workflow_app?:              boolean;
   owning_team_id?:               string;
   provider_icon_url?:            string;
   provider_name?:                string;
   sales_home_workflow_app_type?: number;
   share_url?:                    string;
+  slack_file?:                   SlackFile;
   text?:                         DescriptionElement;
   thumbnail_url?:                string;
   title?:                        DescriptionElement | string;
@@ -208,6 +210,7 @@ export interface Accessory {
   options?:                         InitialOptionElement[];
   placeholder?:                     DescriptionElement;
   response_url_enabled?:            boolean;
+  slack_file?:                      SlackFile;
   style?:                           string;
   text?:                            DescriptionElement;
   timezone?:                        string;
@@ -306,6 +309,11 @@ export interface InitialOptionElement {
 export interface AccessoryOptionGroup {
   label?:   DescriptionElement;
   options?: InitialOptionElement[];
+}
+
+export interface SlackFile {
+  id?:  string;
+  url?: string;
 }
 
 export interface Workflow {
@@ -421,6 +429,7 @@ export interface FileElement {
   saved?:                                   Saved;
   sent_to_self?:                            boolean;
   shares?:                                  Shares;
+  show_badge?:                              boolean;
   simplified_html?:                         string;
   size?:                                    number;
   source_team?:                             string;
@@ -766,6 +775,7 @@ export interface MessageFile {
   saved?:                                   Saved;
   sent_to_self?:                            boolean;
   shares?:                                  EventPayload;
+  show_badge?:                              boolean;
   simplified_html?:                         string;
   size?:                                    number;
   source_team?:                             string;
@@ -871,6 +881,8 @@ export interface Room {
   is_dm_call?:                   boolean;
   is_prewarmed?:                 boolean;
   is_scheduled?:                 boolean;
+  knocks?:                       EventPayload;
+  last_invite_status_by_user?:   EventPayload;
   media_backend_type?:           string;
   media_server?:                 string;
   name?:                         string;
@@ -964,6 +976,7 @@ export interface PurpleBlock {
   image_height?:                 number;
   image_url?:                    string;
   image_width?:                  number;
+  is_animated?:                  boolean;
   is_workflow_app?:              boolean;
   label?:                        DescriptionElement;
   optional?:                     boolean;
@@ -972,6 +985,7 @@ export interface PurpleBlock {
   provider_name?:                string;
   sales_home_workflow_app_type?: number;
   share_url?:                    string;
+  slack_file?:                   SlackFile;
   source?:                       string;
   text?:                         DescriptionElement;
   thumbnail_url?:                string;
