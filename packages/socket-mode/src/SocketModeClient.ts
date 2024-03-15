@@ -512,33 +512,38 @@ export class SocketModeClient extends EventEmitter {
     };
 
     let websocket: WebSocket;
+    let socketId: string;
     if (this.websocket === undefined) {
       this.websocket = new WebSocket(url, options);
+      socketId = 'Primary';
       websocket = this.websocket;
     } else {
       // Set up secondary websocket
       // This is used when creating a new connection because the first is about to disconnect
       this.secondaryWebsocket = new WebSocket(url, options);
+      socketId = 'Secondary';
       websocket = this.secondaryWebsocket;
     }
 
     // Attach event listeners
     websocket.addEventListener('open', (event) => {
+      this.logger.debug(`${socketId} WebSocket open event received (connection established)`);
       this.stateMachine.handle(Event.WebSocketOpen, event);
     });
     websocket.addEventListener('error', (event) => {
-      this.logger.error(`A WebSocket error occurred: ${event.message}`);
+      this.logger.error(`${socketId} WebSocket error occurred: ${event.message}`);
       this.emit('error', websocketErrorWithOriginal(event.error));
     });
     websocket.on('message', this.onWebSocketMessage.bind(this));
     websocket.on('close', (code: number, _data: Buffer) => {
+      this.logger.debug(`${socketId} WebSocket close event received (code: ${code}, reason: ${_data.toString()})`);
       this.stateMachine.handle(Event.WebSocketClose, code);
     });
 
     // Confirm WebSocket connection is still active
     websocket.on('ping', ((data: Buffer) => {
       if (this.pingPongLoggingEnabled) {
-        this.logger.debug(`Received ping from Slack server (data: ${data})`);
+        this.logger.debug(`${socketId} WebSocket received ping from Slack server (data: ${data})`);
       }
       this.startMonitoringPingFromSlack();
       // Since the `addEventListener` method does not accept listener with data arg in TypeScript,
@@ -547,7 +552,7 @@ export class SocketModeClient extends EventEmitter {
 
     websocket.on('pong', ((data: Buffer) => {
       if (this.pingPongLoggingEnabled) {
-        this.logger.debug(`Received pong from Slack server (data: ${data})`);
+        this.logger.debug(`${socketId} WebSocket received pong from Slack server (data: ${data})`);
       }
       this.lastPongReceivedTimestamp = new Date().getTime();
       // Since the `addEventListener` method does not accept listener with data arg in TypeScript,
