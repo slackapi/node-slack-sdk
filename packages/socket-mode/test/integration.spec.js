@@ -180,19 +180,55 @@ describe('Integration tests with a WebSocket server', () => {
       assert.isTrue(raised);
     });
     describe('including reconnection ability', () => {
-      // Testing reconnection is trickier as we have to force disconnects from the peer (server)
-      it.only('raises reconnecting event after peer disconnects', async () => {
+      it('raises reconnecting event after peer disconnects', async () => {
         const reconnectingWaiter = new Promise((res) => client.on('reconnecting', res));
         await client.start();
         // force a WS disconnect from the server
-        console.log('Terminating connection');
         exposed_ws_connection.terminate();
         // create another waiter for post-reconnect connected event
         const reconnectedWaiter = new Promise((res) => client.on('connected', res));
+        // if we pass the point where the reconnectingWaiter succeeded, then we have verified the reconnecting event is raised
+        // and this test can be considered passing. if we time out here, then that is an indication of a failure.
         await reconnectingWaiter;
-        // if we pass the point where the reconnectingWaiter succeeded, then we have verified the reconnecting event is raised.
         await reconnectedWaiter; // wait for this to ensure we dont raise an unexpected error by calling `disconnect` mid-reconnect.
         await client.disconnect();
+      });
+      it('should reconnect gracefully if server sends a disconnect (warning) message', async () => {
+        await client.start();
+        // force a WS disconnect from the server
+        exposed_ws_connection.send(JSON.stringify({type:"disconnect",reason:"warning"}));
+        // create a waiter for post-reconnect connected event
+        const reconnectedWaiter = new Promise((res) => client.on('connected', res));
+        // if we pass the point where the reconnectedWaiter succeeded, then we have verified the reconnection succeeded
+        // and this test can be considered passing. if we time out here, then that is an indication of a failure.
+        await reconnectedWaiter;
+        await client.disconnect();
+      });
+      it('should reconnect gracefully if server sends a disconnect (refresh_requested) message', async () => {
+        await client.start();
+        // force a WS disconnect from the server
+        exposed_ws_connection.send(JSON.stringify({type:"disconnect",reason:"refresh_requested"}));
+        // create a waiter for post-reconnect connected event
+        const reconnectedWaiter = new Promise((res) => client.on('connected', res));
+        // if we pass the point where the reconnectedWaiter succeeded, then we have verified the reconnection succeeded
+        // and this test can be considered passing. if we time out here, then that is an indication of a failure.
+        await reconnectedWaiter;
+        await client.disconnect();
+      });
+      it.skip('should somehow handle a disconnect (too_many_websockets) message - but how?', async () => {
+        await client.start();
+        // force a WS disconnect from the server
+        exposed_ws_connection.send(JSON.stringify({type:"disconnect",reason:"too_many_websockets"}));
+        // TODO: what is the expected behaviour when receiving a too_many_websockets message? 
+        // reconnecting seems bad, as we may just cause a loop of reconnecting -> triggering too_many_websockets -> reconnecting.
+        /*
+        // create a waiter for post-reconnect connected event
+        const reconnectedWaiter = new Promise((res) => client.on('connected', res));
+        // if we pass the point where the reconnectedWaiter succeeded, then we have verified the reconnection succeeded
+        // and this test can be considered passing. if we time out here, then that is an indication of a failure.
+        await reconnectedWaiter;
+        await client.disconnect();
+        */
       });
     });
   });
