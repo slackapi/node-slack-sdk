@@ -19,7 +19,7 @@ let client = null;
 
 describe('Integration tests with a WebSocket server', () => {
   beforeEach(() => {
-    server = createServer((req, res) => {
+    server = createServer((_req, res) => {
       res.writeHead(200, { 'content-type': 'application/json' });
       res.end(JSON.stringify({
         ok: true,
@@ -103,7 +103,7 @@ describe('Integration tests with a WebSocket server', () => {
       await client.disconnect();
     });
   });
-  describe('failure modes / unexpected messages sent to client', () => { 
+  describe('failure modes / unexpected messages sent to client', () => {
     let debugLoggerSpy = sinon.stub();
     const noop = () => {};
     beforeEach(() => {
@@ -140,7 +140,7 @@ describe('Integration tests with a WebSocket server', () => {
   });
   describe('lifecycle events', () => {
     beforeEach(() => {
-      client = new SocketModeClient({ appToken: 'whatever', logLevel: LogLevel.ERROR, clientOptions: {
+      client = new SocketModeClient({ appToken: 'whatever', logLevel: LogLevel.DEBUG, clientOptions: {
         slackApiUrl: `http://localhost:${HTTP_PORT}/`
       }});
     });
@@ -172,20 +172,28 @@ describe('Integration tests with a WebSocket server', () => {
       await client.disconnect();
       assert.isTrue(raised);
     });
-    it.skip('raises reconnecting event after `disconnect()`', async () => {
-      // TODO: doesnt seem to work, maybe need to set up client with reconnecting configuration
-      let raised = false;
-      client.on('reconnecting', () => { raised = true; });
-      await client.start();
-      await client.disconnect();
-      assert.isTrue(raised);
-    });
     it('raises disconnected event after `disconnect()`', async () => {
       let raised = false;
       client.on('disconnected', () => { raised = true; });
       await client.start();
       await client.disconnect();
       assert.isTrue(raised);
+    });
+    describe('including reconnection ability', () => {
+      // Testing reconnection is trickier as we have to force disconnects from the peer (server)
+      it.only('raises reconnecting event after peer disconnects', async () => {
+        const reconnectingWaiter = new Promise((res) => client.on('reconnecting', res));
+        await client.start();
+        // force a WS disconnect from the server
+        console.log('Terminating connection');
+        exposed_ws_connection.terminate();
+        // create another waiter for post-reconnect connected event
+        const reconnectedWaiter = new Promise((res) => client.on('connected', res));
+        await reconnectingWaiter;
+        // if we pass the point where the reconnectingWaiter succeeded, then we have verified the reconnecting event is raised.
+        await reconnectedWaiter; // wait for this to ensure we dont raise an unexpected error by calling `disconnect` mid-reconnect.
+        await client.disconnect();
+      });
     });
   });
 });
