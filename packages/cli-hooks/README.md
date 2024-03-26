@@ -50,11 +50,12 @@ installed.
 ### Supported Hooks
 
 The hooks that are currently supported for use within the Slack CLI include
-`check-update`, `get-hooks`, `get-manifest`, and `start`:
+`check-update`, `doctor`, `get-hooks`, `get-manifest`, and `start`:
 
 | Hook Name      | CLI Command      | File |Description |
 | -------------- | ---------------- | ---- | ----------- |
 | `check-update` | `slack update`   | [`check-update.js`](./src/check-update.js) | Checks the project's Slack dependencies to determine whether or not any packages need to be updated. |
+| `doctor`       | `slack doctor`   | [`doctor.js`](./src/doctor.js) | Returns runtime versions and other system dependencies required by the application. |
 | `get-hooks`    | All              | [`get-hooks.js`](./src/get-hooks.js) | Fetches the list of available hooks for the CLI from this repository. |
 | `get-manifest` | `slack manifest` | [`get-manifest.js`](./src/get-manifest.js) | Converts a `manifest.json` file into a valid manifest JSON payload. |
 | `start`        | `slack run`      | [`start.js`](./src/start.js) | While developing locally, the CLI manages a socket connection with Slack's backend and utilizes this hook for events received via this connection. |
