@@ -6,8 +6,8 @@ import fs from 'fs';
 import { SUPPORTED_NAMED_PROTOCOLS } from './protocols.js';
 
 /**
- * Implementation the get-hooks script hook required by the Slack CLI.
- * Printed as an object containing featured provided by the SDK.
+ * Implementation of the get-hooks script hook required by the Slack CLI.
+ * Printed as an object containing features provided by the SDK.
  */
 
 if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
@@ -45,8 +45,9 @@ if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
 export default function getHooks() {
   return {
     hooks: {
-      'get-manifest': 'npx -q --no-install -p @slack/cli-hooks slack-cli-get-manifest',
+      doctor: 'npx -q --no-install -p @slack/cli-hooks slack-cli-doctor',
       'check-update': 'npx -q --no-install -p @slack/cli-hooks slack-cli-check-update',
+      'get-manifest': 'npx -q --no-install -p @slack/cli-hooks slack-cli-get-manifest',
       start: 'npx -q --no-install -p @slack/cli-hooks slack-cli-start',
     },
     config: {

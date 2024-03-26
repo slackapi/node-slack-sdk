@@ -1,6 +1,6 @@
 {
   "name": "@slack/cli-hooks",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Node implementation of the contract between the Slack CLI and Bolt for JavaScript",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -13,6 +13,7 @@
   "main": "src/get-hooks.js",
   "files": [
     "src/check-update.js",
+    "src/doctor.js",
     "src/get-hooks.js",
     "src/get-manifest.js",
     "src/protocols.js",
@@ -42,9 +43,10 @@
     "test": "c8 mocha src/*.spec.js"
   },
   "bin": {
+    "slack-cli-check-update": "src/check-update.js",
+    "slack-cli-doctor": "src/doctor.js",
     "slack-cli-get-hooks": "src/get-hooks.js",
     "slack-cli-get-manifest": "src/get-manifest.js",
-    "slack-cli-check-update": "src/check-update.js",
     "slack-cli-start": "src/start.js"
   },
   "dependencies": {
