@@ -621,13 +621,13 @@ export class RTMClient extends EventEmitter {
    * `onmessage` handler for the client's websocket. This will parse the payload and dispatch the relevant events for
    * each incoming message.
    */
-  private onWebsocketMessage({ data }: { data: string }): void {
-    this.logger.debug(`received message on websocket: ${data}`);
+  private onWebsocketMessage(data: WebSocket.RawData): void {
+    this.logger.debug(`received message on websocket: ${data.toString()}`);
 
     // parse message into slack event
     let event;
     try {
-      event = JSON.parse(data);
+      event = JSON.parse(data.toString());
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (parseError: any) {
       // prevent application from crashing on a bad message, but log an error to bring attention
