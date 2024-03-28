@@ -430,7 +430,7 @@ const rtm = new RTMClient(token, {
 
 ## Requirements
 
-This package supports Node v14 and higher. It's highly recommended to use [the latest LTS version of
+This package supports Node v18 and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
 from that version.
 
@@ -440,6 +440,3 @@ If you get stuck, we're here to help. The following are the best ways to get ass
 
   * [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and
     general discussion related to these packages. Try searching before you create a new issue.
-  * [Email us](mailto:developers@slack.com) in Slack developer support: `developers@slack.com`
-  * [Bot Developers Hangout](https://community.botkit.ai/): a Slack community for developers
-    building all types of bots. You can find the maintainers and users of these packages in **#sdk-node-slack-sdk**.

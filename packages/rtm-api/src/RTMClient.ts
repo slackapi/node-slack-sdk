@@ -137,7 +137,7 @@ export class RTMClient extends EventEmitter {
               // determine which Web API method to use for the connection
               const connectMethod = this.useRtmConnect ? 'rtm.connect' : 'rtm.start';
 
-              return this.webClient.apiCall(connectMethod, this.startOpts !== undefined ? this.startOpts : {})
+              return this.webClient.apiCall(connectMethod, this.startOpts !== undefined ? { ...this.startOpts } : {})
                 .then((result: WebAPICallResult) => {
                   const startData = result as RTMStartResult;
 
@@ -601,7 +601,7 @@ export class RTMClient extends EventEmitter {
       this.logger.error(`A websocket error occurred: ${event.message}`);
       this.emit('error', websocketErrorWithOriginal(event.error));
     });
-    this.websocket.addEventListener('message', this.onWebsocketMessage.bind(this));
+    this.websocket.on('message', this.onWebsocketMessage.bind(this));
   }
 
   /**

@@ -22,8 +22,8 @@
     "dist/**/*"
   ],
   "engines": {
-    "node": ">= 12.13.0",
-    "npm": ">= 6.12.0"
+    "node": ">=18",
+    "npm": ">=8.6.0"
   },
   "repository": "slackapi/node-slack-sdk",
   "homepage": "https://slack.dev/node-slack-sdk/rtm-api",
@@ -37,34 +37,33 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
-    "lint": "eslint --ext .ts src",
-    "test": "npm run lint && npm run build && echo \"Tests are not implemented.\" && exit 0",
+    "lint": "eslint --fix --ext .ts src",
+    "test": "npm run lint && npm run build",
     "ref-docs:model": "api-extractor run"
   },
   "dependencies": {
-    "@slack/logger": ">=1.0.0 <3.0.0",
-    "@slack/web-api": "^6.11.2",
-    "@types/node": ">=12.0.0",
-    "@types/p-queue": "^2.3.2",
-    "@types/ws": "^7.4.7",
-    "eventemitter3": "^3.1.0",
+    "@slack/logger": "^4",
+    "@slack/web-api": "^7",
+    "@types/node": ">=18",
+    "eventemitter3": "^5",
     "finity": "^0.5.4",
-    "p-cancelable": "^1.1.0",
-    "p-queue": "^2.4.2",
-    "ws": "^7.5.3"
+    "p-cancelable": "^2",
+    "p-queue": "^6",
+    "ws": "^8"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.38.0",
-    "@typescript-eslint/eslint-plugin": "^6.4.1",
-    "@typescript-eslint/parser": "^6.4.0",
-    "eslint": "^8.47.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-airbnb-typescript": "^17.1.0",
-    "eslint-plugin-import": "^2.28.1",
+    "@microsoft/api-extractor": "^7",
+    "@typescript-eslint/eslint-plugin": "^6",
+    "@typescript-eslint/parser": "^6",
+    "@types/ws": "^8",
+    "eslint": "^8",
+    "eslint-config-airbnb-base": "^15",
+    "eslint-config-airbnb-typescript": "^17",
+    "eslint-plugin-import": "^2",
     "eslint-plugin-import-newlines": "^1.3.4",
-    "eslint-plugin-jsdoc": "^46.5.0",
-    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-jsdoc": "^48",
+    "eslint-plugin-node": "^11",
     "shx": "^0.3.2",
-    "typescript": "^4.1.0"
+    "typescript": "5.3.3"
   }
 }
