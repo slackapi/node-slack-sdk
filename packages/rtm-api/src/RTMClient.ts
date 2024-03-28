@@ -122,6 +122,7 @@ export class RTMClient extends EventEmitter {
     /* eslint-disable @typescript-eslint/indent, newline-per-chained-call */
       .initialState('disconnected')
         .on('start').transitionTo('connecting')
+        .on('explicit disconnect').transitionTo('disconnected')
         .onEnter(() => {
           // each client should start out with the outgoing event queue paused
           this.logger.debug('pausing outgoing event queue');

@@ -77,7 +77,7 @@ describe('Integration tests with a WebSocket server', () => {
       });
       await client.disconnect();
     });
-    it.only('should not raise an exception if calling disconnect() when already disconnected', async () => {
+    it('should not raise an exception if calling disconnect() when already disconnected', async () => {
       // https://github.com/slackapi/node-slack-sdk/issues/842
       await client.disconnect();
     });
