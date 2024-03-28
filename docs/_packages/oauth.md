@@ -193,7 +193,7 @@ const server = createServer(async (req, res) =>  {
     // call installer.handleInstallPath and write a cookie using beforeRedirection
     await installer.handleInstallPath(req, res, {
       beforeRedirection: async (req, res) => {
-        res.setHeader('Cookie', 'mycookie=something');
+        res.setHeader('Set-Cookie', 'mycookie=something');
         return true; // return true to continue with the OAuth flow
       }
     });
