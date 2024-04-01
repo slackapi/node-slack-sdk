@@ -1,6 +1,6 @@
 {
   "name": "@slack/rtm-api",
-  "version": "6.2.1",
+  "version": "7.0.0",
   "description": "Official library for using the Slack Platform's Real Time Messaging API",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
