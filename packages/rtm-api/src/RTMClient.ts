@@ -122,6 +122,7 @@ export class RTMClient extends EventEmitter {
     /* eslint-disable @typescript-eslint/indent, newline-per-chained-call */
       .initialState('disconnected')
         .on('start').transitionTo('connecting')
+        .on('explicit disconnect').transitionTo('disconnected')
         .onEnter(() => {
           // each client should start out with the outgoing event queue paused
           this.logger.debug('pausing outgoing event queue');
@@ -137,7 +138,7 @@ export class RTMClient extends EventEmitter {
               // determine which Web API method to use for the connection
               const connectMethod = this.useRtmConnect ? 'rtm.connect' : 'rtm.start';
 
-              return this.webClient.apiCall(connectMethod, this.startOpts !== undefined ? this.startOpts : {})
+              return this.webClient.apiCall(connectMethod, this.startOpts !== undefined ? { ...this.startOpts } : {})
                 .then((result: WebAPICallResult) => {
                   const startData = result as RTMStartResult;
 
@@ -601,7 +602,7 @@ export class RTMClient extends EventEmitter {
       this.logger.error(`A websocket error occurred: ${event.message}`);
       this.emit('error', websocketErrorWithOriginal(event.error));
     });
-    this.websocket.addEventListener('message', this.onWebsocketMessage.bind(this));
+    this.websocket.on('message', this.onWebsocketMessage.bind(this));
   }
 
   /**
@@ -621,13 +622,13 @@ export class RTMClient extends EventEmitter {
    * `onmessage` handler for the client's websocket. This will parse the payload and dispatch the relevant events for
    * each incoming message.
    */
-  private onWebsocketMessage({ data }: { data: string }): void {
-    this.logger.debug(`received message on websocket: ${data}`);
+  private onWebsocketMessage(data: WebSocket.RawData): void {
+    this.logger.debug(`received message on websocket: ${data.toString()}`);
 
     // parse message into slack event
     let event;
     try {
-      event = JSON.parse(data);
+      event = JSON.parse(data.toString());
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (parseError: any) {
       // prevent application from crashing on a bad message, but log an error to bring attention
