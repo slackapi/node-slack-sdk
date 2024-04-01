@@ -55,6 +55,9 @@ describe('Integration tests with a WebSocket server', () => {
       await client.start();
       await client.disconnect();
     });
+    it('can call `disconnect()` even if already disconnected without issue', async () => {
+      await client.disconnect();
+    });
     it('can listen on random event types and receive payload properties', async () => {
       client.on('connected', () => {
         exposed_ws_connection.send(JSON.stringify({
@@ -140,7 +143,7 @@ describe('Integration tests with a WebSocket server', () => {
   });
   describe('lifecycle events', () => {
     beforeEach(() => {
-      client = new SocketModeClient({ appToken: 'whatever', logLevel: LogLevel.DEBUG, clientOptions: {
+      client = new SocketModeClient({ appToken: 'whatever', logLevel: LogLevel.ERROR, clientOptions: {
         slackApiUrl: `http://localhost:${HTTP_PORT}/`
       }});
     });
@@ -179,6 +182,32 @@ describe('Integration tests with a WebSocket server', () => {
       await client.disconnect();
       assert.isTrue(raised);
     });
+    describe('slack_event', () => {
+      beforeEach(() => {
+        // Disable auto reconnect for these tests
+        client = new SocketModeClient({ appToken: 'whatever', logLevel: LogLevel.ERROR, autoReconnectEnabled: false, clientOptions: {
+          slackApiUrl: `http://localhost:${HTTP_PORT}/`
+        }});
+      });
+      afterEach(async () => {
+        await client.disconnect();
+      });
+      // These tests check that specific type:disconnect events, of various reasons, sent by Slack backend are not raised as slack_events for apps to consume.
+      ['warning', 'refresh_requested', 'too_many_websockets'].forEach((reason) => {
+        it(`should not raise a type:disconnect reason:${reason} message as a slack_event`, async () => {
+          let raised = false;
+          client.on('connected', () => {
+            exposed_ws_connection.send(JSON.stringify({type:'disconnect', reason}));
+          });
+          client.on('slack_event', () => {
+            raised = true;
+          });
+          await client.start();
+          await sleep(10);
+          assert.isFalse(raised);
+        });
+      });
+    });
     describe('including reconnection ability', () => {
       it('raises reconnecting event after peer disconnects', async () => {
         const reconnectingWaiter = new Promise((res) => client.on('reconnecting', res));
@@ -215,20 +244,18 @@ describe('Integration tests with a WebSocket server', () => {
         await reconnectedWaiter;
         await client.disconnect();
       });
-      it.skip('should somehow handle a disconnect (too_many_websockets) message - but how?', async () => {
+      it('should not reconnect if server sends a disconnect (too_many_websockets) message', async () => {
         await client.start();
+        const disconnectedWaiter = new Promise((res) => client.on('disconnected', res));
+        let raised = false;
+        client.on('connected', () => {
+          raised = true;
+        });
         // force a WS disconnect from the server
         exposed_ws_connection.send(JSON.stringify({type:"disconnect",reason:"too_many_websockets"}));
-        // TODO: what is the expected behaviour when receiving a too_many_websockets message? 
-        // reconnecting seems bad, as we may just cause a loop of reconnecting -> triggering too_many_websockets -> reconnecting.
-        /*
-        // create a waiter for post-reconnect connected event
-        const reconnectedWaiter = new Promise((res) => client.on('connected', res));
-        // if we pass the point where the reconnectedWaiter succeeded, then we have verified the reconnection succeeded
-        // and this test can be considered passing. if we time out here, then that is an indication of a failure.
-        await reconnectedWaiter;
+        await disconnectedWaiter;
+        assert.isFalse(raised);
         await client.disconnect();
-        */
       });
     });
   });

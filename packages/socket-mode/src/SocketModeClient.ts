@@ -49,7 +49,7 @@ enum Event {
   WebSocketOpen = 'websocket open',
   WebSocketClose = 'websocket close',
   ServerHello = 'server hello',
-  ServerDisconnectWarning = 'server disconnect warning',
+  ServerDisconnectTooManyWebSockets = 'server disconnect too many websockets',
   ServerDisconnectOldSocket = 'server disconnect old socket',
   ServerPingsNotReceived = 'server pings not received',
   ServerPongsNotReceived = 'server pongs not received',
@@ -262,6 +262,8 @@ export class SocketModeClient extends EventEmitter {
     .initialState(State.Disconnected)
       .on(Event.Start)
         .transitionTo(State.Connecting)
+      .on(Event.ExplicitDisconnect)
+        .transitionTo(State.Disconnected)
     .state(State.Connecting)
       .onEnter(() => {
         this.logger.info('Going to establish a new connection to Slack ...');
@@ -299,8 +301,7 @@ export class SocketModeClient extends EventEmitter {
       .on(Event.ServerPongsNotReceived)
         .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
         .transitionTo(State.Disconnecting)
-      .on(Event.ServerDisconnectWarning)
-        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
+      .on(Event.ServerDisconnectTooManyWebSockets)
         .transitionTo(State.Disconnecting)
       .on(Event.ServerDisconnectOldSocket)
         .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
@@ -736,17 +737,17 @@ export class SocketModeClient extends EventEmitter {
       return;
     }
 
-    // Open the second WebSocket connection in preparation for the existing WebSocket disconnecting
-    if (event.type === 'disconnect' && event.reason === 'warning') {
-      this.logger.debug('Received "disconnect" (warning) message - creating the second connection');
-      this.stateMachine.handle(Event.ServerDisconnectWarning);
-      return;
-    }
-
-    // Close the primary WebSocket in favor of secondary WebSocket, assign secondary to primary
-    if (event.type === 'disconnect' && event.reason === 'refresh_requested') {
-      this.logger.debug('Received "disconnect" (refresh requested) message - closing the old WebSocket connection');
-      this.stateMachine.handle(Event.ServerDisconnectOldSocket);
+    if (event.type === 'disconnect') {
+      if (event.reason === 'refresh_requested' || event.reason === 'warning') {
+        // Refresh the WebSocket connection when prompted by Slack backend
+        this.logger.debug(`Received "disconnect" (${event.reason}) message - will ${this.autoReconnectEnabled ? 'attempt reconnect' : 'disconnect (due to autoReconnectEnabled=false)'}`);
+        this.stateMachine.handle(Event.ServerDisconnectOldSocket);
+        return;
+      }
+      // General condition for other type:disconnect events; currently only aware of reason:too_many_websockets,
+      // but in all other cases, let's shut down
+      this.logger.debug(`Received "disconnect" (${event.reason}) message - terminating connection permanently due to application having more than 10 parallel WebSocket connections`);
+      this.stateMachine.handle(Event.ServerDisconnectTooManyWebSockets);
       return;
     }
 
