@@ -17,6 +17,9 @@ let exposed_ws_connection = null;
 // Socket mode client pointing to the above two posers
 let client = null;
 
+
+const DISCONNECT_REASONS = ['warning', 'refresh_requested', 'too_many_websockets'];
+
 describe('Integration tests with a WebSocket server', () => {
   beforeEach(() => {
     server = createServer((_req, res) => {
@@ -85,7 +88,7 @@ describe('Integration tests with a WebSocket server', () => {
       // Shut down the main WS-endpoint-retrieval server - we will customize its behaviour for this test
       server.close();
       let num_attempts = 0;
-      server = createServer((req, res) => {
+      server = createServer((_req, res) => {
         num_attempts += 1;
         res.writeHead(200, { 'content-type': 'application/json' });
         if (num_attempts < 3) { 
@@ -193,7 +196,7 @@ describe('Integration tests with a WebSocket server', () => {
         await client.disconnect();
       });
       // These tests check that specific type:disconnect events, of various reasons, sent by Slack backend are not raised as slack_events for apps to consume.
-      ['warning', 'refresh_requested', 'too_many_websockets'].forEach((reason) => {
+      DISCONNECT_REASONS.forEach((reason) => {
         it(`should not raise a type:disconnect reason:${reason} message as a slack_event`, async () => {
           let raised = false;
           client.on('connected', () => {
@@ -209,7 +212,7 @@ describe('Integration tests with a WebSocket server', () => {
       });
     });
     describe('including reconnection ability', () => {
-      it('raises reconnecting event after peer disconnects', async () => {
+      it('raises reconnecting event after peer disconnects underlying WS connection', async () => {
         const reconnectingWaiter = new Promise((res) => client.on('reconnecting', res));
         await client.start();
         // force a WS disconnect from the server
@@ -222,40 +225,18 @@ describe('Integration tests with a WebSocket server', () => {
         await reconnectedWaiter; // wait for this to ensure we dont raise an unexpected error by calling `disconnect` mid-reconnect.
         await client.disconnect();
       });
-      it('should reconnect gracefully if server sends a disconnect (warning) message', async () => {
-        await client.start();
-        // force a WS disconnect from the server
-        exposed_ws_connection.send(JSON.stringify({type:"disconnect",reason:"warning"}));
-        // create a waiter for post-reconnect connected event
-        const reconnectedWaiter = new Promise((res) => client.on('connected', res));
-        // if we pass the point where the reconnectedWaiter succeeded, then we have verified the reconnection succeeded
-        // and this test can be considered passing. if we time out here, then that is an indication of a failure.
-        await reconnectedWaiter;
-        await client.disconnect();
-      });
-      it('should reconnect gracefully if server sends a disconnect (refresh_requested) message', async () => {
-        await client.start();
-        // force a WS disconnect from the server
-        exposed_ws_connection.send(JSON.stringify({type:"disconnect",reason:"refresh_requested"}));
-        // create a waiter for post-reconnect connected event
-        const reconnectedWaiter = new Promise((res) => client.on('connected', res));
-        // if we pass the point where the reconnectedWaiter succeeded, then we have verified the reconnection succeeded
-        // and this test can be considered passing. if we time out here, then that is an indication of a failure.
-        await reconnectedWaiter;
-        await client.disconnect();
-      });
-      it('should not reconnect if server sends a disconnect (too_many_websockets) message', async () => {
-        await client.start();
-        const disconnectedWaiter = new Promise((res) => client.on('disconnected', res));
-        let raised = false;
-        client.on('connected', () => {
-          raised = true;
+      DISCONNECT_REASONS.forEach((reason) => {
+        it(`should reconnect gracefully if server sends a disconnect (reason: ${reason}) message`, async () => {
+          await client.start();
+          // force a WS disconnect from the server
+          exposed_ws_connection.send(JSON.stringify({type:"disconnect", reason}));
+          // create a waiter for post-reconnect connected event
+          const reconnectedWaiter = new Promise((res) => client.on('connected', res));
+          // if we pass the point where the reconnectedWaiter succeeded, then we have verified the reconnection succeeded
+          // and this test can be considered passing. if we time out here, then that is an indication of a failure.
+          await reconnectedWaiter;
+          await client.disconnect();
         });
-        // force a WS disconnect from the server
-        exposed_ws_connection.send(JSON.stringify({type:"disconnect",reason:"too_many_websockets"}));
-        await disconnectedWaiter;
-        assert.isFalse(raised);
-        await client.disconnect();
       });
     });
   });
