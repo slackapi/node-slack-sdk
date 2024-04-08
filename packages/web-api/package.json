@@ -55,7 +55,7 @@
     "is-electron": "2.2.2",
     "is-stream": "^2",
     "p-queue": "^6",
-    "p-retry": "^4",
+    "p-retry": "^6",
     "retry": "^0.13.1"
   },
   "devDependencies": {
