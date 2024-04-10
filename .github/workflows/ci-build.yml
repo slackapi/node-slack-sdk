@@ -39,7 +39,8 @@ jobs:
         case "$PWD" in
           */webhook) pushd ../types && npm i && popd && npm link ../types;;
           */web-api) pushd ../types && npm i && popd && npm link ../types && pushd ../logger && npm i && popd && npm link ../logger;;
-          # TODO: add oauth and socket-mode here once those packages have new major versions released
+          */oauth) pushd ../logger && npm i && popd && npm link ../logger && pushd ../web-api && npm i && popd && npm link ../web-api;;
+          # TODO: add socket-mode here once new major version released
           *) ;; # default
         esac
         npm test
