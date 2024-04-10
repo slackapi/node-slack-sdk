@@ -1630,6 +1630,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       bindApiCall<FilesSharedPublicURLArguments, FilesSharedPublicURLResponse>(this, 'files.sharedPublicURL'),
     /**
      * @description Uploads or creates a file.
+     * @deprecated Use `uploadV2` instead. See {@link https://api.slack.com/changelog/2024-04-a-better-way-to-upload-files-is-here-to-stay our post on retiring `files.upload`}.
      * @see {@link https://api.slack.com/methods/files.upload `files.upload` API reference}.
      */
     upload: bindApiCall<FilesUploadArguments, FilesUploadResponse>(this, 'files.upload'),
