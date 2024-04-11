@@ -3,7 +3,9 @@ import { OperationOptions } from 'retry';
 /**
  * Options to create retry policies. Extends from https://github.com/tim-kos/node-retry.
  */
-export type RetryOptions = OperationOptions;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface RetryOptions extends OperationOptions {
+}
 
 /**
  * The default retry policy. Retry up to 10 times, over the span of about 30 minutes. It's not exact because
