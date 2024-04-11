@@ -1020,8 +1020,15 @@ describe('WebClient', function () {
 
           // verify that any requests after maxRequestConcurrency were delayed by the responseDelay
           const queuedResponses = responses.slice(100);
+          console.log('queuedResponses', queuedResponses);
+          console.log('responseDelay', responseDelay);
+          console.log('concurrentResponses', concurrentResponses);
           const minDiff = concurrentResponses[concurrentResponses.length - 1].diff + responseDelay;
-          queuedResponses.forEach((r) => assert.isAtLeast(r.diff, minDiff));
+          queuedResponses.forEach((r) => {
+            console.log("minDiff", minDiff);
+            console.log("r.diff", r.diff);
+            assert.isAtLeast(r.diff, minDiff)
+          });
         });
     });
 
