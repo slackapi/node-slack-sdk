@@ -64,16 +64,71 @@ enum Event {
  */
 export class SocketModeClient extends EventEmitter {
   /**
-   * Whether or not the client is currently connected to the web socket
+   * Whether this client will automatically reconnect when (not manually) disconnected
    */
-  public connected: boolean = false;
+  private autoReconnectEnabled: boolean;
 
   /**
-   * Whether or not the client has authenticated to the Socket Mode API.
-   * This occurs when the connect method completes,
-   * and a WebSocket URL is available for the client's connection.
+   * Whether or not the client is currently connected to the Slack web socket backend
    */
-  public authenticated: boolean = false;
+  public connected: boolean = false; // TODO: python equiv: `closed` ?
+
+  /**
+   * This class' logger instance
+   */
+  private logger: Logger;
+
+  /**
+   * The name used to prefix all logging generated from this class
+   */
+  private static loggerName = 'SocketModeClient';
+
+  /**
+   * The HTTP client to use to interact with the Slack API
+   */
+  private webClient: WebClient;
+
+  /**
+   * WebClient options we pass to our WebClient instance
+   * We also reuse agent and tls for our WebSocket connection
+   */
+  private webClientOptions: WebClientOptions;
+
+  /**
+   * The underlying WebSocket client instance
+   */
+  public websocket?: WebSocket;
+
+  // TODO: do we need to keep these?
+  /**
+   * Enables ping-pong detailed logging if true
+   */
+  private pingPongLoggingEnabled: boolean;
+
+  /**
+   * How long to wait for pings from server before timing out
+   */
+  private serverPingTimeoutMillis: number;
+
+  /**
+   * Reference to the timeout timer we use to listen to pings from the server
+   */
+  private serverPingTimeout: NodeJS.Timeout | undefined;
+
+  /**
+   * How long to wait for pings from server before timing out
+  */
+  private clientPingTimeoutMillis: number;
+
+  /**
+   * Reference to the timeout timer we use to listen to pongs from the server
+   */
+  private clientPingTimeout: NodeJS.Timeout | undefined;
+
+  /**
+   * The last timetamp that this WebSocket client received pong from the server
+   */
+  private lastPongReceivedTimestamp: number | undefined;
 
   /**
    * Returns true if the underlying WebSocket connection is active.
@@ -82,11 +137,6 @@ export class SocketModeClient extends EventEmitter {
     this.logger.debug(`Details of isActive() response (connected: ${this.connected}, authenticated: ${this.authenticated}, badConnection: ${this.badConnection})`);
     return this.connected && this.authenticated && !this.badConnection;
   }
-
-  /**
-   * The underlying WebSocket client instance
-   */
-  public websocket?: WebSocket;
 
   public constructor({
     logger = undefined,
@@ -329,71 +379,6 @@ export class SocketModeClient extends EventEmitter {
   .getConfig();
 
   /* eslint-enable @typescript-eslint/indent, newline-per-chained-call */
-
-  /**
-   * Whether this client will automatically reconnect when (not manually) disconnected
-   */
-  private autoReconnectEnabled: boolean;
-
-  private secondaryWebsocket?: WebSocket;
-
-  private webClient: WebClient;
-
-  /**
-   * The name used to prefix all logging generated from this object
-   */
-  private static loggerName = 'SocketModeClient';
-
-  /**
-   * This object's logger instance
-   */
-  private logger: Logger;
-
-  /**
-   * Enables ping-pong detailed logging if true
-   */
-  private pingPongLoggingEnabled: boolean;
-
-  /**
-   * How long to wait for pings from server before timing out
-   */
-  private serverPingTimeoutMillis: number;
-
-  /**
-   * Reference to the timeout timer we use to listen to pings from the server
-   */
-  private serverPingTimeout: NodeJS.Timeout | undefined;
-
-  /**
-   * How long to wait for pings from server before timing out
-  */
-  private clientPingTimeoutMillis: number;
-
-  /**
-   * Reference to the timeout timer we use to listen to pongs from the server
-   */
-  private clientPingTimeout: NodeJS.Timeout | undefined;
-
-  /**
-   * The last timetamp that this WebSocket client received pong from the server
-   */
-  private lastPongReceivedTimestamp: number | undefined;
-
-  /**
-   * Used to see if a WebSocket stops sending heartbeats and is deemed bad
-   */
-  private badConnection: boolean = false;
-
-  /**
-   * This flag can be true when this client is switching to a new connection.
-   */
-  private isSwitchingConnection: boolean = false;
-
-  /**
-   * WebClient options we pass to our WebClient instance
-   * We also reuse agent and tls for our WebSocket connection
-   */
-  private clientOptions: WebClientOptions;
 
   /**
    * Method for sending an outgoing message of an arbitrary type over the WebSocket connection.
