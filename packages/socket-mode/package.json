@@ -48,12 +48,9 @@
     "@slack/logger": "^3.0.0",
     "@slack/web-api": "^6.11.2",
     "@types/node": ">=12.0.0",
-    "@types/p-queue": "^2.3.2",
     "@types/ws": "^7.4.7",
-    "eventemitter3": "^3.1.0",
+    "eventemitter3": "^5",
     "finity": "^0.5.4",
-    "p-cancelable": "^1.1.0",
-    "p-queue": "^2.4.2",
     "ws": "^7.5.3"
   },
   "devDependencies": {

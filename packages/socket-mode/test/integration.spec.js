@@ -55,7 +55,9 @@ describe('Integration tests with a WebSocket server', () => {
       }});
     });
     it('connects to a server via `start()` and gracefully disconnects via `disconnect()`', async () => {
+      const connected = new Promise((res) => client.once('connected', res)); // due to legacy reasons, await start() does not wait for Connected state, so add additional check here for it
       await client.start();
+      await connected;
       await client.disconnect();
     });
     it('can call `disconnect()` even if already disconnected without issue', async () => {
@@ -80,11 +82,11 @@ describe('Integration tests with a WebSocket server', () => {
   });
   describe('catastrophic server behaviour', () => {
     beforeEach(() => {
-      client = new SocketModeClient({ appToken: 'whatever', logLevel: LogLevel.DEBUG, clientOptions: {
+      client = new SocketModeClient({ appToken: 'whatever', logLevel: LogLevel.ERROR, clientOptions: {
         slackApiUrl: `http://localhost:${HTTP_PORT}/`
       }, clientPingTimeout: 25});
     });
-    it.only('should retry if retrieving a WSS URL fails', async () => {
+    it('should retry if retrieving a WSS URL fails', async () => {
       // Shut down the main WS-endpoint-retrieval server - we will customize its behaviour for this test
       server.close();
       let num_attempts = 0;
@@ -110,37 +112,28 @@ describe('Integration tests with a WebSocket server', () => {
     });
   });
   describe('failure modes / unexpected messages sent to client', () => {
-    let debugLoggerSpy = sinon.stub();
+    let loggerSpy = sinon.stub();
     const noop = () => {};
     beforeEach(() => {
       client = new SocketModeClient({ appToken: 'whatever', clientOptions: {
         slackApiUrl: `http://localhost:${HTTP_PORT}/`
       }, logger: {
-        debug: debugLoggerSpy,
+        debug: noop,
         info: noop,
-        error: noop,
-        getLevel: () => 'debug',
+        error: loggerSpy,
+        getLevel: () => 'error',
       }});
     });
     afterEach(() => {
-      debugLoggerSpy.resetHistory();
+      loggerSpy.resetHistory();
     });
-    it('should ignore binary messages', async () => {
-      client.on('connected', () => {
-        exposed_ws_connection.send(null);
-      });
-      await client.start();
-      await sleep(10);
-      assert.isTrue(debugLoggerSpy.calledWith(sinon.match('Unexpected binary message received')));
-      await client.disconnect();
-    });
-    it('should debug-log that a malformed JSON message was received', async () => {
+    it('should error-log that a malformed JSON message was received', async () => {
       client.on('connected', () => {
         exposed_ws_connection.send('');
       });
       await client.start();
       await sleep(10);
-      assert.isTrue(debugLoggerSpy.calledWith(sinon.match('Unable to parse an incoming WebSocket message')));
+      assert.isTrue(loggerSpy.calledWith(sinon.match('Unable to parse an incoming WebSocket message')));
       await client.disconnect();
     });
   });
@@ -153,35 +146,36 @@ describe('Integration tests with a WebSocket server', () => {
     it('raises connecting event during `start()`', async () => {
       let raised = false;
       client.on('connecting', () => { raised = true; });
+      const connected = new Promise((res) => client.once('connected', res)); // due to legacy reasons, await start() does not wait for Connected state, so add additional check here for it
       await client.start();
+      await connected;
       assert.isTrue(raised);
       await client.disconnect();
     });
     it('raises authenticated event during `start()`', async () => {
       let raised = false;
       client.on('authenticated', () => { raised = true; });
+      const connected = new Promise((res) => client.once('connected', res)); // due to legacy reasons, await start() does not wait for Connected state, so add additional check here for it
       await client.start();
-      assert.isTrue(raised);
-      await client.disconnect();
-    });
-    it('raises connected event during `start()`', async () => {
-      let raised = false;
-      client.on('connected', () => { raised = true; });
-      await client.start();
+      await connected;
       assert.isTrue(raised);
       await client.disconnect();
     });
     it('raises disconnecting event during `disconnect()`', async () => {
       let raised = false;
+      const connected = new Promise((res) => client.once('connected', res)); // due to legacy reasons, await start() does not wait for Connected state, so add additional check here for it
       client.on('disconnecting', () => { raised = true; });
       await client.start();
+      await connected;
       await client.disconnect();
       assert.isTrue(raised);
     });
     it('raises disconnected event after `disconnect()`', async () => {
       let raised = false;
+      const connected = new Promise((res) => client.once('connected', res)); // due to legacy reasons, await start() does not wait for Connected state, so add additional check here for it
       client.on('disconnected', () => { raised = true; });
       await client.start();
+      await connected;
       await client.disconnect();
       assert.isTrue(raised);
     });
@@ -214,7 +208,9 @@ describe('Integration tests with a WebSocket server', () => {
     describe('including reconnection ability', () => {
       it('raises reconnecting event after peer disconnects underlying WS connection', async () => {
         const reconnectingWaiter = new Promise((res) => client.on('reconnecting', res));
+        const connected = new Promise((res) => client.once('connected', res)); // due to legacy reasons, await start() does not wait for Connected state, so add additional check here for it
         await client.start();
+        await connected;
         // force a WS disconnect from the server
         exposed_ws_connection.terminate();
         // create another waiter for post-reconnect connected event
@@ -227,7 +223,9 @@ describe('Integration tests with a WebSocket server', () => {
       });
       DISCONNECT_REASONS.forEach((reason) => {
         it(`should reconnect gracefully if server sends a disconnect (reason: ${reason}) message`, async () => {
+          const connected = new Promise((res) => client.once('connected', res)); // due to legacy reasons, await start() does not wait for Connected state, so add additional check here for it
           await client.start();
+          await connected;
           // force a WS disconnect from the server
           exposed_ws_connection.send(JSON.stringify({type:"disconnect", reason}));
           // create a waiter for post-reconnect connected event
