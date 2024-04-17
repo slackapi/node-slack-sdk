@@ -40,7 +40,7 @@
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
     "lint": "eslint --ext .ts src",
-    "test": "npm run lint && npm run build && nyc mocha --config .mocharc.json src/*.spec.js",
+    "test": "npm run lint && npm run build && nyc mocha --config .mocharc.json src/*.spec.js && npm run test:integration",
     "test:integration": "mocha --config .mocharc.json test/integration.spec.js",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
   },
