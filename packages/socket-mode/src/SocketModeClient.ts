@@ -49,11 +49,10 @@ enum Event {
   WebSocketOpen = 'websocket open',
   WebSocketClose = 'websocket close',
   ServerHello = 'server hello',
-  ServerDisconnectWarning = 'server disconnect warning',
-  ServerDisconnectOldSocket = 'server disconnect old socket',
+  ServerExplicitDisconnect = 'server explicit disconnect',
   ServerPingsNotReceived = 'server pings not received',
   ServerPongsNotReceived = 'server pongs not received',
-  ExplicitDisconnect = 'explicit disconnect',
+  ClientExplicitDisconnect = 'client explicit disconnect',
   UnableToSocketModeStart = 'unable_to_socket_mode_start',
 }
 
@@ -170,7 +169,7 @@ export class SocketModeClient extends EventEmitter {
         }
       });
       // Delegate behavior to state machine
-      this.stateMachine.handle(Event.ExplicitDisconnect);
+      this.stateMachine.handle(Event.ClientExplicitDisconnect);
     });
   }
 
@@ -262,6 +261,8 @@ export class SocketModeClient extends EventEmitter {
     .initialState(State.Disconnected)
       .on(Event.Start)
         .transitionTo(State.Connecting)
+      .on(Event.ClientExplicitDisconnect)
+        .transitionTo(State.Disconnected)
     .state(State.Connecting)
       .onEnter(() => {
         this.logger.info('Going to establish a new connection to Slack ...');
@@ -272,7 +273,7 @@ export class SocketModeClient extends EventEmitter {
       .on(Event.WebSocketClose)
         .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
         .transitionTo(State.Disconnecting)
-      .on(Event.ExplicitDisconnect)
+      .on(Event.ClientExplicitDisconnect)
         .transitionTo(State.Disconnecting)
       .on(Event.Failure)
         .transitionTo(State.Disconnected)
@@ -290,7 +291,7 @@ export class SocketModeClient extends EventEmitter {
           .withCondition(this.autoReconnectCondition.bind(this))
           .withAction(() => this.markCurrentWebSocketAsInactive())
         .transitionTo(State.Disconnecting)
-      .on(Event.ExplicitDisconnect)
+      .on(Event.ClientExplicitDisconnect)
         .transitionTo(State.Disconnecting)
         .withAction(() => this.markCurrentWebSocketAsInactive())
       .on(Event.ServerPingsNotReceived)
@@ -299,10 +300,7 @@ export class SocketModeClient extends EventEmitter {
       .on(Event.ServerPongsNotReceived)
         .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
         .transitionTo(State.Disconnecting)
-      .on(Event.ServerDisconnectWarning)
-        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
-        .transitionTo(State.Disconnecting)
-      .on(Event.ServerDisconnectOldSocket)
+      .on(Event.ServerExplicitDisconnect)
         .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
         .transitionTo(State.Disconnecting)
       .onExit(() => {
@@ -736,17 +734,10 @@ export class SocketModeClient extends EventEmitter {
       return;
     }
 
-    // Open the second WebSocket connection in preparation for the existing WebSocket disconnecting
-    if (event.type === 'disconnect' && event.reason === 'warning') {
-      this.logger.debug('Received "disconnect" (warning) message - creating the second connection');
-      this.stateMachine.handle(Event.ServerDisconnectWarning);
-      return;
-    }
-
-    // Close the primary WebSocket in favor of secondary WebSocket, assign secondary to primary
-    if (event.type === 'disconnect' && event.reason === 'refresh_requested') {
-      this.logger.debug('Received "disconnect" (refresh requested) message - closing the old WebSocket connection');
-      this.stateMachine.handle(Event.ServerDisconnectOldSocket);
+    if (event.type === 'disconnect') {
+      // Refresh the WebSocket connection when prompted by Slack backend
+      this.logger.debug(`Received "disconnect" (reason: ${event.reason}) message - will ${this.autoReconnectEnabled ? 'attempt reconnect' : 'disconnect (due to autoReconnectEnabled=false)'}`);
+      this.stateMachine.handle(Event.ServerExplicitDisconnect);
       return;
     }
 
