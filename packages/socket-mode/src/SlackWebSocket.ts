@@ -5,7 +5,7 @@ import { LogLevel, Logger, getLogger } from './logger';
 import { websocketErrorWithOriginal } from './errors';
 
 // Maps ws `readyState` to human readable labels https://github.com/websockets/ws/blob/HEAD/doc/ws.md#ready-state-constants
-const WS_READY_STATES = ['CONNECTING', 'OPEN', 'CLOSING', 'CLOSED'];
+export const WS_READY_STATES = ['CONNECTING', 'OPEN', 'CLOSING', 'CLOSED'];
 
 export interface SlackWebSocketOptions {
   /** @description The Slack WebSocket URL to connect to. */
@@ -45,12 +45,21 @@ export class SlackWebSocket { // python equiv: Connection
 
   private websocket: WebSocket | null;
 
+  /**
+   * The last timetamp that this WebSocket received pong from the server
+   */
   private lastPongReceivedTimestamp: number | undefined;
 
   private closeFrameReceived: boolean;
 
+  /**
+   * Reference to the timeout timer we use to listen to pings from the server
+   */
   private serverPingTimeout: NodeJS.Timeout | undefined;
 
+  /**
+   * Reference to the timeout timer we use to listen to pongs from the server
+   */
   private clientPingTimeout: NodeJS.Timeout | undefined;
 
   public constructor({
@@ -164,6 +173,21 @@ export class SlackWebSocket { // python equiv: Connection
     }
     this.logger.debug(`isActive(): websocket ready state is ${WS_READY_STATES[this.websocket.readyState]}`);
     return this.websocket.readyState === 1; // readyState=1 is "OPEN"
+  }
+
+  /**
+   * Retrieve the underlying WebSocket readyState. Returns `undefined` if the WebSocket has not been instantiated,
+   * otherwise will return a number between 0 and 3 inclusive representing the ready states.
+   */
+  public get readyState(): number | undefined {
+    return this.websocket?.readyState;
+  }
+
+  /**
+   * Sends data via the underlying WebSocket. Accepts an errorback argument.
+   */
+  public send(data: string, cb: ((err: Error | undefined) => void)): void {
+    return this.websocket?.send(data, cb);
   }
 
   /**

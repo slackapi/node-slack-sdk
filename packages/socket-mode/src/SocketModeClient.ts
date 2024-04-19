@@ -1,6 +1,5 @@
 import { EventEmitter } from 'eventemitter3';
 import WebSocket from 'ws';
-import Finity, { Context, StateMachine, Configuration } from 'finity';
 import {
   WebClient,
   AppsConnectionsOpenResponse,
@@ -17,7 +16,7 @@ import {
 } from './errors';
 import { UnrecoverableSocketModeStartError } from './UnrecoverableSocketModeStartError';
 import { SocketModeOptions } from './SocketModeOptions';
-import { SlackWebSocket } from './SlackWebSocket';
+import { SlackWebSocket, WS_READY_STATES } from './SlackWebSocket';
 
 const packageJson = require('../package.json'); // eslint-disable-line import/no-commonjs, @typescript-eslint/no-var-requires
 
@@ -29,32 +28,6 @@ enum State {
   Disconnecting = 'disconnecting',
   Disconnected = 'disconnected',
   Failed = 'failed',
-}
-enum ConnectingState {
-  Handshaking = 'handshaking',
-  Authenticating = 'authenticating',
-  Authenticated = 'authenticated',
-  Reconnecting = 'reconnecting',
-  Failed = 'failed',
-}
-enum ConnectedState {
-  Preparing = 'preparing',
-  Ready = 'ready',
-  Failed = 'failed',
-}
-
-// These enum values are used only in the state machine
-enum Event {
-  Start = 'start',
-  Failure = 'failure',
-  WebSocketOpen = 'websocket open',
-  WebSocketClose = 'websocket close',
-  ServerHello = 'server hello',
-  ServerExplicitDisconnect = 'server explicit disconnect',
-  ServerPingsNotReceived = 'server pings not received',
-  ServerPongsNotReceived = 'server pongs not received',
-  ClientExplicitDisconnect = 'client explicit disconnect',
-  UnableToSocketModeStart = 'unable_to_socket_mode_start',
 }
 
 /**
@@ -80,11 +53,6 @@ export class SocketModeClient extends EventEmitter {
   private static loggerName = 'SocketModeClient';
 
   /**
-   * The URL with which to establish a socket connection with Slack
-   */
-  private wssURL?: string;
-
-  /**
    * The HTTP client used to interact with the Slack API
    */
   private webClient: WebClient;
@@ -100,7 +68,6 @@ export class SocketModeClient extends EventEmitter {
    */
   public websocket?: SlackWebSocket;
 
-  // TODO: do we need to keep these?
   /**
    * Enables ping-pong detailed logging if true
    */
@@ -109,27 +76,17 @@ export class SocketModeClient extends EventEmitter {
   /**
    * How long to wait for pings from server before timing out
    */
-  private serverPingTimeoutMillis: number;
-
-  /**
-   * Reference to the timeout timer we use to listen to pings from the server
-   */
-  private serverPingTimeout: NodeJS.Timeout | undefined;
+  private serverPingTimeoutMS: number;
 
   /**
    * How long to wait for pings from server before timing out
   */
-  private clientPingTimeoutMillis: number;
+  private clientPingTimeoutMS: number;
 
   /**
-   * Reference to the timeout timer we use to listen to pongs from the server
+   * Internal count for managing the reconnection state
    */
-  private clientPingTimeout: NodeJS.Timeout | undefined;
-
-  /**
-   * The last timetamp that this WebSocket client received pong from the server
-   */
-  private lastPongReceivedTimestamp: number | undefined;
+  private numOfConsecutiveReconnectionFailures: number = 0;
 
   public constructor({
     logger = undefined,
@@ -146,9 +103,8 @@ export class SocketModeClient extends EventEmitter {
       throw new Error('Must provide an App-Level Token when initializing a Socket Mode Client');
     }
     this.pingPongLoggingEnabled = pingPongLoggingEnabled;
-    this.clientPingTimeoutMillis = clientPingTimeout;
-    this.lastPongReceivedTimestamp = undefined;
-    this.serverPingTimeoutMillis = serverPingTimeout;
+    this.clientPingTimeoutMS = clientPingTimeout;
+    this.serverPingTimeoutMS = serverPingTimeout;
     // Setup the logger
     if (typeof logger !== 'undefined') {
       this.logger = logger;
@@ -170,17 +126,39 @@ export class SocketModeClient extends EventEmitter {
       ...clientOptions,
     });
     this.autoReconnectEnabled = autoReconnectEnabled;
-    this.stateMachine = Finity.start(this.stateMachineConfig);
-    this.logger.debug('The Socket Mode client is successfully initialized');
+
     // bind to error, message and close events emitted from the web socket
     this.on('error', (err) => {
-      // TODO: what do if error raised by socket?
-      throw err;
+      this.logger.error(`WebSocket error! ${err}`);
     });
     this.on('close', () => {
-      // TODO: Underlying WebSocket connection was closed, possibly reconnect.
+      // Underlying WebSocket connection was closed, possibly reconnect.
+      if (this.autoReconnectEnabled) {
+        this.delayReconnectAttempt(this.start);
+      } else {
+        // If reconnect is disabled, emit a disconnected state.
+        this.emit(State.Disconnected);
+      }
     });
     this.on('message', this.onWebSocketMessage.bind(this));
+    this.logger.debug('The Socket Mode client has successfully initialized');
+  }
+
+  /**
+   * Initiates a reconnect, taking into account configurable delays and number of reconnect attempts and failures.
+   * Accepts a callback to invoke after any calculated delays.
+   */
+  private delayReconnectAttempt<T>(cb: () => Promise<T>): Promise<T> {
+    this.numOfConsecutiveReconnectionFailures += 1;
+    const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
+    this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
+    return new Promise((res, _rej) => {
+      setTimeout(async () => {
+        this.logger.debug('Continuing with reconnect...');
+        this.emit(State.Reconnecting);
+        res(await cb());
+      }, msBeforeRetry);
+    });
   }
 
   /**
@@ -195,10 +173,24 @@ export class SocketModeClient extends EventEmitter {
         this.logger.error(msg);
         throw new Error(msg);
       }
+      this.numOfConsecutiveReconnectionFailures = 0;
       return resp.url;
     } catch (error) {
       // TODO: Python catches rate limit errors when interacting with this API: https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/socket_mode/client.py#L51
-      this.logger.error(`Failed to retrieve a new WSS URL for reconnection (error: ${error})`);
+      this.logger.error(`Failed to retrieve a new WSS URL (error: ${error})`);
+      const err = error as WebAPICallError;
+      let isRecoverable = true;
+      if (err.code === APICallErrorCode.PlatformError &&
+          (Object.values(UnrecoverableSocketModeStartError) as string[]).includes(err.data.error)) {
+        isRecoverable = false;
+      } else if (err.code === APICallErrorCode.RequestError) {
+        isRecoverable = false;
+      } else if (err.code === APICallErrorCode.HTTPError) {
+        isRecoverable = false;
+      }
+      if (this.autoReconnectEnabled && isRecoverable) {
+        return this.delayReconnectAttempt(this.retrieveWSSURL);
+      }
       throw error;
     }
   }
@@ -210,30 +202,37 @@ export class SocketModeClient extends EventEmitter {
    */
   public async start(): Promise<AppsConnectionsOpenResponse> { // python equiv: SocketModeClient.connect
     this.logger.debug('Starting a Socket Mode client ...');
-    if (!this.wssURL) {
-      this.wssURL = await this.retrieveWSSURL();
-    }
     // create a socket connection using SlackWebSocket
     this.websocket = new SlackWebSocket({
-      url: this.wssURL,
-      client: this, // web socket events relevant to socket mode client will be emitted into the instance of this class
+      url: await this.retrieveWSSURL(),
+      // web socket events relevant to this client will be emitted into the instance of this class
+      // see bottom of constructor for where we bind to these events
+      client: this,
       logLevel: this.logger.getLevel(),
-      httpAgent: this.webClientOptions.agent
+      httpAgent: this.webClientOptions.agent,
+      clientPingTimeoutMS: this.clientPingTimeoutMS,
+      serverPingTimeoutMS: this.serverPingTimeoutMS,
+      pingPongLoggingEnabled: this.pingPongLoggingEnabled,
     });
 
     // Return a promise that resolves with the connection information
     return new Promise((resolve, reject) => {
-      const connectedCallback = (result: any) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let connectedCallback = (_res: any) => {};
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let disconnectedCallback = (_err: any) => {};
+      connectedCallback = (result) => {
         this.removeListener(State.Disconnected, disconnectedCallback);
         resolve(result);
       };
-      const disconnectedCallback = (err: any) => {
+      disconnectedCallback = (err) => {
         this.removeListener(State.Connected, connectedCallback);
         reject(err);
       };
       this.once(State.Connected, connectedCallback);
       this.once(State.Disconnected, disconnectedCallback);
-      this.websocket.connect();
+      this.emit(State.Connecting);
+      this.websocket?.connect();
     });
   }
 
@@ -242,9 +241,8 @@ export class SocketModeClient extends EventEmitter {
    * unless you call start() again later.
    */
   public disconnect(): Promise<void> {
+    this.logger.debug('Manually disconnecting this Socket Mode client');
     return new Promise((resolve, reject) => {
-      this.logger.debug('Manually disconnecting this Socket Mode client');
-      // TODO: will listening to this state for promise resolution still work?
       // Resolve (or reject) on disconnect
       this.once(State.Disconnected, (err) => {
         if (err instanceof Error) {
@@ -253,17 +251,20 @@ export class SocketModeClient extends EventEmitter {
           resolve();
         }
       });
-      this.websocket.disconnect();
+      this.websocket?.disconnect();
     });
   }
 
   /**
    * `onmessage` handler for the client's WebSocket.
-   * This will parse the payload and dispatch the relevant events for each incoming message.
+   * This will parse the payload and dispatch the application-relevant events for each incoming message.
+   * Mediates:
+   * - raising the State.Connected event (when Slack sends a type:hello message)
+   * - disconnecting the underlying socket (when Slack sends a type:disconnect message)
    */
   protected async onWebSocketMessage(data: WebSocket.RawData, isBinary: boolean): Promise<void> {
     if (isBinary) {
-      this.logger.debug(`Unexpected binary message received, ignoring.`);
+      this.logger.debug('Unexpected binary message received, ignoring.');
       return;
     }
     const payload = data.toString();
@@ -291,17 +292,16 @@ export class SocketModeClient extends EventEmitter {
       return;
     }
 
-    // Internal event handlers
+    // Slack has finalized the handshake with a hello message; we are good to go.
     if (event.type === 'hello') {
-      // TODO: we are now fully ready - what do?
-      this.stateMachine.handle(Event.ServerHello);
+      this.emit(State.Connected);
       return;
     }
 
-    // Open the second WebSocket connection in preparation for the existing WebSocket disconnecting
+    // Slack is recycling the pod handling the connection (or otherwise requires the client to reconnect)
     if (event.type === 'disconnect') {
       this.logger.debug(`Received "${event.type}" (${event.reason}) message - disonnecting.`);
-      this.websocket.disconnect();
+      this.websocket?.disconnect();
       return;
     }
 
@@ -347,163 +347,6 @@ export class SocketModeClient extends EventEmitter {
     });
   }
 
-  // --------------------------------------------
-  // Private methods / properties
-  // --------------------------------------------
-
-  /**
-   * State machine that backs the transition and action behavior
-   */
-  private stateMachine: StateMachine<State, Event>;
-
-  /**
-   * Internal count for managing the reconnection state
-   */
-  private numOfConsecutiveReconnectionFailures: number = 0;
-
-  /* eslint-disable @typescript-eslint/indent, newline-per-chained-call */
-  private connectingStateMachineConfig: Configuration<ConnectingState, Event> = Finity
-    .configure<ConnectingState, Event>()
-    .global()
-      .onStateEnter((state) => {
-        this.logger.debug(`Transitioning to state: ${State.Connecting}:${state}`);
-      })
-    .initialState(ConnectingState.Authenticating)
-      .do(this.retrieveWSSURL.bind(this))
-        .onSuccess().transitionTo(ConnectingState.Authenticated)
-        .onFailure()
-          .transitionTo(ConnectingState.Reconnecting).withCondition(this.reconnectingCondition.bind(this))
-          .transitionTo(ConnectingState.Failed)
-    .state(ConnectingState.Reconnecting)
-      .do(() => new Promise((res, _rej) => {
-        this.numOfConsecutiveReconnectionFailures += 1;
-        const millisBeforeRetry = this.clientPingTimeoutMillis * this.numOfConsecutiveReconnectionFailures;
-        this.logger.debug(`Before trying to reconnect, this client will wait for ${millisBeforeRetry} milliseconds`);
-        setTimeout(() => {
-          this.logger.debug('Resolving reconnecting state to continue with reconnect...');
-          res(true);
-        }, millisBeforeRetry);
-      }))
-      .onSuccess().transitionTo(ConnectingState.Authenticating)
-      .onFailure().transitionTo(ConnectingState.Failed)
-    .state(ConnectingState.Authenticated)
-      .onEnter(this.configureAuthenticatedWebSocket.bind(this))
-      .on(Event.WebSocketOpen).transitionTo(ConnectingState.Handshaking)
-    .state(ConnectingState.Handshaking) // a state in which to wait until the Event.ServerHello event
-    .state(ConnectingState.Failed)
-      .onEnter(this.handleConnectionFailure.bind(this))
-  .getConfig();
-
-  private connectedStateMachineConfig: Configuration<ConnectedState, Event> = Finity.configure<ConnectedState, Event>()
-    .global()
-      .onStateEnter((state) => {
-        this.logger.debug(`Transitioning to state: ${State.Connected}:${state}`);
-      })
-    .initialState(ConnectedState.Preparing)
-      .do(async () => {
-        if (this.isSwitchingConnection) {
-          this.switchWebSocketConnection();
-          this.badConnection = false;
-        }
-        // Start heartbeat to keep track of the WebSocket connection continuing to be alive
-        // Proactively verifying the connection health by sending ping from this client side
-        this.startPeriodicallySendingPingToSlack();
-        // Reactively verifying the connection health by checking the interval of ping from Slack
-        this.startMonitoringPingFromSlack();
-      })
-      .onSuccess().transitionTo(ConnectedState.Ready)
-      .onFailure().transitionTo(ConnectedState.Failed)
-    .state(ConnectedState.Failed)
-      .onEnter(this.handleConnectionFailure.bind(this))
-    .getConfig();
-
-  /**
-   * Configuration for the state machine
-   */
-  private stateMachineConfig: Configuration<State, Event> = Finity.configure<State, Event>()
-    .global()
-      .onStateEnter((state, context) => {
-        this.logger.debug(`Transitioning to state: ${state}`);
-        if (state === State.Disconnected) {
-          // Emits a `disconnected` event with a possible error object (might be undefined)
-          this.emit(state, context.eventPayload);
-        } else {
-          // Emits events: `connecting`, `connected`, `disconnecting`, `reconnecting`
-          this.emit(state);
-        }
-      })
-    .initialState(State.Disconnected)
-      .on(Event.Start)
-        .transitionTo(State.Connecting)
-      .on(Event.ClientExplicitDisconnect)
-        .transitionTo(State.Disconnected)
-    .state(State.Connecting)
-      .onEnter(() => {
-        this.logger.info('Going to establish a new connection to Slack ...');
-      })
-      .submachine(this.connectingStateMachineConfig)
-      .on(Event.ServerHello)
-        .transitionTo(State.Connected)
-      .on(Event.WebSocketClose)
-        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
-        .transitionTo(State.Disconnecting)
-      .on(Event.ClientExplicitDisconnect)
-        .transitionTo(State.Disconnecting)
-      .on(Event.Failure)
-        .transitionTo(State.Disconnected)
-      .on(Event.WebSocketOpen)
-        // If submachine not `authenticated` ignore event
-        .ignore()
-    .state(State.Connected)
-      .onEnter(() => {
-        this.connected = true;
-        this.logger.info('Now connected to Slack');
-      })
-      .submachine(this.connectedStateMachineConfig)
-      .on(Event.WebSocketClose)
-        .transitionTo(State.Reconnecting)
-          .withCondition(this.autoReconnectCondition.bind(this))
-          .withAction(() => this.markCurrentWebSocketAsInactive())
-        .transitionTo(State.Disconnecting)
-      .on(Event.ClientExplicitDisconnect)
-        .transitionTo(State.Disconnecting)
-        .withAction(() => this.markCurrentWebSocketAsInactive())
-      .on(Event.ServerPingsNotReceived)
-        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
-        .transitionTo(State.Disconnecting)
-      .on(Event.ServerPongsNotReceived)
-        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
-        .transitionTo(State.Disconnecting)
-      .on(Event.ServerExplicitDisconnect)
-        .transitionTo(State.Reconnecting).withCondition(this.autoReconnectCondition.bind(this))
-        .transitionTo(State.Disconnecting)
-      .onExit(() => {
-        this.terminateActiveHeartBeatJobs();
-      })
-    .state(State.Reconnecting)
-      .onEnter(() => {
-        this.logger.info('Reconnecting to Slack ...');
-      })
-      .do(async () => {
-        this.isSwitchingConnection = true;
-      })
-        .onSuccess().transitionTo(State.Connecting)
-        .onFailure().transitionTo(State.Failed)
-    .state(State.Disconnecting)
-      .onEnter(() => {
-        this.logger.info('Disconnecting ...');
-      })
-      .do(async () => {
-        this.terminateActiveHeartBeatJobs();
-        this.terminateAllConnections();
-        this.logger.info('Disconnected from Slack');
-      })
-        .onSuccess().transitionTo(State.Disconnected)
-        .onFailure().transitionTo(State.Failed)
-  .getConfig();
-
-  /* eslint-enable @typescript-eslint/indent, newline-per-chained-call */
-
   /**
    * Method for sending an outgoing message of an arbitrary type over the WebSocket connection.
    * Primarily used to send acknowledgements back to slack for incoming events
@@ -515,12 +358,13 @@ export class SocketModeClient extends EventEmitter {
     const message = { envelope_id: id, payload: { ..._body } };
 
     return new Promise((resolve, reject) => {
-      this.logger.debug(`send() method was called in state: ${this.stateMachine.getCurrentState()}, state hierarchy: ${this.stateMachine.getStateHierarchy()}`);
+      const wsState = this.websocket?.readyState;
+      this.logger.debug(`send() method was called (WebSocket state: ${wsState ? WS_READY_STATES[wsState] : 'uninitialized'})`);
       if (this.websocket === undefined) {
         this.logger.error('Failed to send a message as the client is not connected');
         reject(sendWhileDisconnectedError());
-      } else if (!this.isConnectionReady()) {
-        this.logger.error('Failed to send a message as the client is not ready');
+      } else if (!this.websocket.isActive()) {
+        this.logger.error('Failed to send a message as the client has no active connection');
         reject(sendWhileNotReadyError());
       } else {
         this.emit('outgoing_message', message);
@@ -528,60 +372,14 @@ export class SocketModeClient extends EventEmitter {
         const flatMessage = JSON.stringify(message);
         this.logger.debug(`Sending a WebSocket message: ${flatMessage}`);
         this.websocket.send(flatMessage, (error) => {
-          if (error !== undefined && error !== null) {
-            this.logger.error(`Failed to send a WebSocket message (error: ${error.message})`);
+          if (error) {
+            this.logger.error(`Failed to send a WebSocket message (error: ${error})`);
             return reject(websocketErrorWithOriginal(error));
           }
           return resolve();
         });
       }
     });
-  }
-
-  private autoReconnectCondition(): boolean {
-    return this.autoReconnectEnabled;
-  }
-
-  private reconnectingCondition(context: Context<string, string>): boolean {
-    const error = context.error as WebAPICallError;
-    this.logger.warn(`Failed to start a Socket Mode connection (error: ${error.message})`);
-
-    // Observe this event when the error which causes reconnecting or disconnecting is meaningful
-    this.emit(Event.UnableToSocketModeStart, error);
-    let isRecoverable = true;
-    if (error.code === APICallErrorCode.PlatformError &&
-        (Object.values(UnrecoverableSocketModeStartError) as string[]).includes(error.data.error)) {
-      isRecoverable = false;
-    } else if (error.code === APICallErrorCode.RequestError) {
-      isRecoverable = false;
-    } else if (error.code === APICallErrorCode.HTTPError) {
-      isRecoverable = false;
-    }
-    return this.autoReconnectEnabled && isRecoverable;
-  }
-
-  private configureAuthenticatedWebSocket(_state: string, context: Context<string, string>) {
-    this.numOfConsecutiveReconnectionFailures = 0; // Reset the failure count
-    this.authenticated = true;
-    this.setupWebSocket(context.result.url);
-    setImmediate(() => {
-      this.emit(ConnectingState.Authenticated, context.result);
-    });
-  }
-
-  private handleConnectionFailure(_state: string, context: Context<string, string>) {
-    this.logger.error(`The internal logic unexpectedly failed (error: ${context.error})`);
-    // Terminate everything, just in case
-    this.terminateActiveHeartBeatJobs();
-    this.terminateAllConnections();
-    // dispatch 'failure' on parent machine to transition out of this submachine's states
-    this.stateMachine.handle(Event.Failure, context.error);
-  }
-
-  private markCurrentWebSocketAsInactive(): void {
-    this.badConnection = true;
-    this.connected = false;
-    this.authenticated = false;
   }
 }
 
