@@ -172,6 +172,15 @@ export class SocketModeClient extends EventEmitter {
     this.autoReconnectEnabled = autoReconnectEnabled;
     this.stateMachine = Finity.start(this.stateMachineConfig);
     this.logger.debug('The Socket Mode client is successfully initialized');
+    // bind to error, message and close events emitted from the web socket
+    this.on('error', (err) => {
+      // TODO: what do if error raised by socket?
+      throw err;
+    });
+    this.on('close', () => {
+      // TODO: Underlying WebSocket connection was closed, possibly reconnect.
+    });
+    this.on('message', this.onWebSocketMessage.bind(this));
   }
 
   /**
@@ -211,16 +220,6 @@ export class SocketModeClient extends EventEmitter {
       logLevel: this.logger.getLevel(),
       httpAgent: this.webClientOptions.agent
     });
-    // bind to error, message and close events, which will be emitted from the web socket
-    this.on('error', (err) => {
-      // TODO: what do if error raised by socket?
-      throw err;
-    });
-    this.on('close', (_code: number, _data: Buffer) => {
-      // TODO: what do when close raised by socket?
-    });
-    this.on('message', this.onWebSocketMessage.bind(this));
-    // TODO: start the app monitor - or maybe this should be at the socket level?
 
     // Return a promise that resolves with the connection information
     return new Promise((resolve, reject) => {
@@ -234,6 +233,7 @@ export class SocketModeClient extends EventEmitter {
       };
       this.once(State.Connected, connectedCallback);
       this.once(State.Disconnected, disconnectedCallback);
+      this.websocket.connect();
     });
   }
 
@@ -244,6 +244,7 @@ export class SocketModeClient extends EventEmitter {
   public disconnect(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.logger.debug('Manually disconnecting this Socket Mode client');
+      // TODO: will listening to this state for promise resolution still work?
       // Resolve (or reject) on disconnect
       this.once(State.Disconnected, (err) => {
         if (err instanceof Error) {
@@ -252,8 +253,7 @@ export class SocketModeClient extends EventEmitter {
           resolve();
         }
       });
-      // Delegate behavior to state machine
-      this.stateMachine.handle(Event.ClientExplicitDisconnect);
+      this.websocket.disconnect();
     });
   }
 
@@ -293,21 +293,15 @@ export class SocketModeClient extends EventEmitter {
 
     // Internal event handlers
     if (event.type === 'hello') {
+      // TODO: we are now fully ready - what do?
       this.stateMachine.handle(Event.ServerHello);
       return;
     }
 
     // Open the second WebSocket connection in preparation for the existing WebSocket disconnecting
-    if (event.type === 'disconnect' && event.reason === 'warning') {
-      this.logger.debug('Received "disconnect" (warning) message - creating the second connection');
-      this.stateMachine.handle(Event.ServerDisconnectWarning);
-      return;
-    }
-
-    // Close the primary WebSocket in favor of secondary WebSocket, assign secondary to primary
-    if (event.type === 'disconnect' && event.reason === 'refresh_requested') {
-      this.logger.debug('Received "disconnect" (refresh requested) message - closing the old WebSocket connection');
-      this.stateMachine.handle(Event.ServerDisconnectOldSocket);
+    if (event.type === 'disconnect') {
+      this.logger.debug(`Received "${event.type}" (${event.reason}) message - disonnecting.`);
+      this.websocket.disconnect();
       return;
     }
 
@@ -588,156 +582,6 @@ export class SocketModeClient extends EventEmitter {
     this.badConnection = true;
     this.connected = false;
     this.authenticated = false;
-  }
-
-  /**
-   * Clean up all the remaining connections.
-   */
-  private terminateAllConnections() {
-    if (this.secondaryWebsocket !== undefined) {
-      this.terminateWebSocketSafely(this.secondaryWebsocket);
-      this.secondaryWebsocket = undefined;
-    }
-    if (this.websocket !== undefined) {
-      this.terminateWebSocketSafely(this.websocket);
-      this.websocket = undefined;
-    }
-  }
-
-  /**
-   * Tear down the currently working heartbeat jobs.
-   */
-  private terminateActiveHeartBeatJobs() {
-    if (this.serverPingTimeout !== undefined) {
-      clearTimeout(this.serverPingTimeout);
-      this.serverPingTimeout = undefined;
-      this.logger.debug('Cancelled the job waiting for ping from Slack');
-    }
-    if (this.clientPingTimeout !== undefined) {
-      clearTimeout(this.clientPingTimeout);
-      this.clientPingTimeout = undefined;
-      this.logger.debug('Terminated the heart beat job');
-    }
-  }
-
-  /**
-   * Switch the active connection to the secondary if exists.
-   */
-  private switchWebSocketConnection(): void {
-    if (this.secondaryWebsocket !== undefined && this.websocket !== undefined) {
-      this.logger.debug('Switching to the secondary connection ...');
-      // Currently have two WebSocket objects, so tear down the older one
-      const oldWebsocket = this.websocket;
-      // Switch to the new one here
-      this.websocket = this.secondaryWebsocket;
-      this.secondaryWebsocket = undefined;
-      this.logger.debug('Switched to the secondary connection');
-      // Swithcing the connection is done
-      this.isSwitchingConnection = false;
-
-      // Clean up the old one
-      this.terminateWebSocketSafely(oldWebsocket);
-      this.logger.debug('Terminated the old connection');
-    }
-  }
-
-  /**
-   * Tear down method for the client's WebSocket instance.
-   * This method undoes the work in setupWebSocket(url).
-   */
-  private terminateWebSocketSafely(websocket: WebSocket): void {
-    if (websocket !== undefined) {
-      try {
-        websocket.removeAllListeners('open');
-        websocket.removeAllListeners('close');
-        websocket.removeAllListeners('error');
-        websocket.removeAllListeners('message');
-        websocket.terminate();
-      } catch (e) {
-        this.logger.error(`Failed to terminate a connection (error: ${e})`);
-      }
-    }
-  }
-
-  private startPeriodicallySendingPingToSlack(): void {
-    if (this.clientPingTimeout !== undefined) {
-      clearTimeout(this.clientPingTimeout);
-    }
-    // re-init for new monitoring loop
-    this.lastPongReceivedTimestamp = undefined;
-    let pingAttemptCount = 0;
-
-    if (!this.badConnection) {
-      this.clientPingTimeout = setInterval(() => {
-        const nowMillis = new Date().getTime();
-        try {
-          const pingMessage = `Ping from client (${nowMillis})`;
-          this.websocket?.ping(pingMessage);
-          if (this.lastPongReceivedTimestamp === undefined) {
-            pingAttemptCount += 1;
-          } else {
-            pingAttemptCount = 0;
-          }
-          if (this.pingPongLoggingEnabled) {
-            this.logger.debug(`Sent ping to Slack: ${pingMessage}`);
-          }
-        } catch (e) {
-          this.logger.error(`Failed to send ping to Slack (error: ${e})`);
-          this.handlePingPongErrorReconnection();
-          return;
-        }
-        let isInvalid: boolean = pingAttemptCount > 5;
-        if (this.lastPongReceivedTimestamp !== undefined) {
-          const millis = nowMillis - this.lastPongReceivedTimestamp;
-          isInvalid = millis > this.clientPingTimeoutMillis;
-        }
-        if (isInvalid) {
-          this.logger.info(`A pong wasn't received from the server before the timeout of ${this.clientPingTimeoutMillis}ms!`);
-          this.handlePingPongErrorReconnection();
-        }
-      }, this.clientPingTimeoutMillis / 3);
-      this.logger.debug('Started running a new heart beat job');
-    }
-  }
-
-  private handlePingPongErrorReconnection() {
-    try {
-      this.badConnection = true;
-      this.stateMachine.handle(Event.ServerPongsNotReceived);
-    } catch (e) {
-      this.logger.error(`Failed to reconnect to Slack (error: ${e})`);
-    }
-  }
-
-  /**
-   * Confirms WebSocket connection is still active
-   * fires whenever a ping event is received
-   */
-  private startMonitoringPingFromSlack(): void {
-    if (this.serverPingTimeout !== undefined) {
-      clearTimeout(this.serverPingTimeout);
-    }
-    // Don't start heartbeat if connection is already deemed bad
-    if (!this.badConnection) {
-      this.serverPingTimeout = setTimeout(() => {
-        this.logger.info(`A ping wasn't received from the server before the timeout of ${this.serverPingTimeoutMillis}ms!`);
-        if (this.isConnectionReady()) {
-          this.badConnection = true;
-          // Opens secondary WebSocket and teardown original once that is ready
-          this.stateMachine.handle(Event.ServerPingsNotReceived);
-        }
-      }, this.serverPingTimeoutMillis);
-    }
-  }
-
-  private isConnectionReady() {
-    const currentState = this.stateMachine.getCurrentState();
-    const stateHierarchy = this.stateMachine.getStateHierarchy();
-    return currentState === State.Connected &&
-      stateHierarchy !== undefined &&
-      stateHierarchy.length >= 2 &&
-      // When the primary state is State.Connected, the second one is always set by the sub state machine
-      stateHierarchy[1].toString() === ConnectedState.Ready;
   }
 }
 

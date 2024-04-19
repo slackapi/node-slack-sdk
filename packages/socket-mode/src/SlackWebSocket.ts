@@ -18,85 +18,115 @@ export interface SlackWebSocketOptions {
   pingInterval?: number;
   /** @description The HTTP Agent to use when establishing a WebSocket connection. */
   httpAgent?: Agent;
+  /** @description Whether this WebSocket should DEBUG log ping and pong events. `false` by default. */
+  pingPongLoggingEnabled?: boolean;
+  /** @description How many milliseconds to wait between ping events from the server before deeming the connection stale. Defaults to 30,000. */
+  serverPingTimeoutMS: number;
+  /** @description How many milliseconds to wait between ping events from the server before deeming the connection stale. Defaults to 5,000. */
+  clientPingTimeoutMS: number;
 }
 
 /**
  * Encapsulates the Slack-specific details around establishing a WebSocket connection with the Slack backend.
+ * Manages the ping/pong heartbeat of the connection.
  */
 export class SlackWebSocket { // python equiv: Connection
   private static loggerName = 'SlackWebSocket';
-  private url: SlackWebSocketOptions["url"]; 
-  private pingInterval: SlackWebSocketOptions["pingInterval"];
-  private httpAgent: SlackWebSocketOptions["httpAgent"];
-  private client: SlackWebSocketOptions["client"];
+  private options: SlackWebSocketOptions;
 
   private logger: Logger;
   private websocket: WebSocket | null;
+  private lastPongReceivedTimestamp: number | undefined;
+  private closeFrameReceived: boolean;
+  private serverPingTimeout: NodeJS.Timeout | undefined; 
+  private clientPingTimeout: NodeJS.Timeout | undefined; 
 
   public constructor({
     url,
     client,
-    logLevel = LogLevel.INFO,
     httpAgent,
+    logLevel = LogLevel.INFO,
     pingInterval = 5000,
+    pingPongLoggingEnabled = false,
+    serverPingTimeoutMS = 30000,
+    clientPingTimeoutMS = 5000,
   }: SlackWebSocketOptions) {
-    this.url = url;
-    this.client = client;
+    this.options = { url, client, httpAgent, logLevel, pingInterval, pingPongLoggingEnabled, serverPingTimeoutMS, clientPingTimeoutMS };
     this.logger = getLogger(SlackWebSocket.loggerName, logLevel);
-    this.httpAgent = httpAgent;
-    this.pingInterval = pingInterval;
     this.websocket = null;
+    this.closeFrameReceived = false;
   }
 
   /**
    * Establishes a connection with the Slack backend
    */
   public connect() {
+    this.logger.debug('Initiating new WebSocket connection.');
     const options: WebSocket.ClientOptions = {
       perMessageDeflate: false,
-      agent: this.httpAgent,
+      agent: this.options.httpAgent,
     };
 
-    const ws = new WebSocket(this.url, options);
+    const ws = new WebSocket(this.options.url, options);
 
     ws.addEventListener('open', (_event) => {
-      this.logger.debug('WebSocket open event received (connection established)');
+      this.logger.debug('WebSocket open event received (connection established)!');
       this.websocket = ws;
+      this.monitorPingToSlack();
+      // TODO: do we need to emit open? or should the connection readiness just be judged by the hello text message sent by server?
+      // this.options.client.emit('open', event);
     });
     ws.addEventListener('error', (event) => {
       this.logger.error(`WebSocket error occurred: ${event.message}`);
-      this.client.emit('error', websocketErrorWithOriginal(event.error));
+      this.disconnect();
+      this.options.client.emit('error', websocketErrorWithOriginal(event.error));
     });
-    ws.on('message', this.client.emit);
+    ws.on('message', this.options.client.emit);
     ws.on('close', (code: number, data: Buffer) => {
       this.logger.debug(`WebSocket close event received (code: ${code}, reason: ${data.toString()})`);
-      this.client.emit('close', code, data);
+      this.closeFrameReceived = true;
+      this.disconnect();
     });
 
     // Confirm WebSocket connection is still active
     ws.on('ping', (data) => {
-      if (this.pingPongLoggingEnabled) {
+      // Note that ws' `autoPong` option is true by default, so no need to respond to ping.
+      // see https://github.com/websockets/ws/blob/2aa0405a5e96754b296fef6bd6ebdfb2f11967fc/doc/ws.md#new-websocketaddress-protocols-options
+      if (this.options.pingPongLoggingEnabled) {
         this.logger.debug(`WebSocket received ping from Slack server (data: ${data.toString()})`);
       }
-      this.startMonitoringPingFromSlack();
-      // Since the `addEventListener` method does not accept listener with data arg in TypeScript,
-      // we cast this function to any as a workaround
+      this.monitorPingFromSlack();
     });
 
     ws.on('pong', (data) => {
-      if (this.pingPongLoggingEnabled) {
+      if (this.options.pingPongLoggingEnabled) {
         this.logger.debug(`WebSocket received pong from Slack server (data: ${data.toString()})`);
       }
       this.lastPongReceivedTimestamp = new Date().getTime();
-      // Since the `addEventListener` method does not accept listener with data arg in TypeScript,
-      // we cast this function to any as a workaround
     });
   }
 
+  /**
+   * Disconnects the WebSocket connection with Slack, if connected.
+   */
   public disconnect() {
     if (this.websocket) {
-      this.websocket.removeAllListeners();
-      this.websocket = null;
+      // Disconnecting a WebSocket involves a close frame handshake, so we check if we've already received a close frame.
+      // If so, we can terminate the underlying socket connection and let the client know.
+      if (this.closeFrameReceived) {
+        this.logger.debug('Terminating WebSocket as close frame already received.');
+        this.websocket.removeAllListeners();
+        this.websocket.terminate();
+        this.websocket = null;
+        // Emit event back to client letting it know connection has closed (in case it needs to reconnect if reconnecting is enabled)
+        this.options.client.emit('close');
+      } else {
+        // If we haven't received a close frame yet, then we send one to the peer, expecting to receive a close frame in response.
+        this.logger.debug('Sending close frame (status=1000).');
+        this.websocket.close(1000); // send a close frame, 1000=Normal Closure
+      }
+    } else {
+      this.logger.debug('WebSocket already disconnected.');
     }
   }
 
@@ -105,10 +135,61 @@ export class SlackWebSocket { // python equiv: Connection
    */
   public isActive(): boolean { // python equiv: SocketModeClient.is_connected
     if (!this.websocket) {
-      this.logger.debug(`isActive() response: websocket not instantiated!`);
+      this.logger.debug(`isActive(): websocket not instantiated!`);
       return false;
     }
-    this.logger.debug(`isActive() response: websocket ready state is ${WS_READY_STATES[this.websocket.readyState]}`);
+    this.logger.debug(`isActive(): websocket ready state is ${WS_READY_STATES[this.websocket.readyState]}`);
     return this.websocket.readyState === 1; // readyState=1 is "OPEN"
+  }
+
+  /**
+   * Confirms WebSocket connection is still active; fires whenever a ping event is received
+   * If we don't receive another ping from the peer before the timeout, we initiate closing the connection.
+   */
+  private monitorPingFromSlack(): void {
+    clearTimeout(this.serverPingTimeout);
+    this.serverPingTimeout = setTimeout(() => {
+      this.logger.warn(`A ping wasn't received from the server before the timeout of ${this.options.serverPingTimeoutMS}ms!`);
+      this.disconnect();
+    }, this.options.serverPingTimeoutMS);
+  }
+
+  /**
+   * Monitors WebSocket connection health; sends a ping to peer, and expects a pong within a certain timeframe.
+   * If that expectation is not met, we disconnect the websocket.
+   */
+  private monitorPingToSlack(): void {
+    this.lastPongReceivedTimestamp = undefined;
+    let pingAttemptCount = 0;
+    clearTimeout(this.clientPingTimeout);
+    this.clientPingTimeout = setInterval(() => {
+      const now = new Date().getTime();
+      try {
+        const pingMessage = `Ping from client (${now})`;
+        this.websocket?.ping(pingMessage);
+        if (this.lastPongReceivedTimestamp === undefined) {
+          pingAttemptCount += 1;
+        } else {
+          pingAttemptCount = 0;
+        }
+        if (this.options.pingPongLoggingEnabled) {
+          this.logger.debug(`Sent ping to Slack: ${pingMessage}`);
+        }
+      } catch (e) {
+        this.logger.error(`Failed to send ping to Slack (error: ${e})`);
+        this.disconnect();
+        return;
+      }
+      let isInvalid: boolean = pingAttemptCount > 5;
+      if (this.lastPongReceivedTimestamp !== undefined) {
+        const millis = now - this.lastPongReceivedTimestamp;
+        isInvalid = millis > this.options.clientPingTimeoutMS;
+      }
+      if (isInvalid) {
+        this.logger.warn(`A pong wasn't received from the server before the timeout of ${this.options.clientPingTimeoutMS}ms!`);
+        this.disconnect();
+      }
+    }, this.options.clientPingTimeoutMS / 3);
+    this.logger.debug('Started monitoring pings to and pongs from Slack.');
   }
 }
