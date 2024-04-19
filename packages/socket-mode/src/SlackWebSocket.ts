@@ -1,8 +1,8 @@
-import { LogLevel, Logger, getLogger } from './logger';
-import { websocketErrorWithOriginal } from './errors';
 import WebSocket from 'ws';
 import { Agent } from 'http';
 import { EventEmitter } from 'eventemitter3';
+import { LogLevel, Logger, getLogger } from './logger';
+import { websocketErrorWithOriginal } from './errors';
 
 // Maps ws `readyState` to human readable labels https://github.com/websockets/ws/blob/HEAD/doc/ws.md#ready-state-constants
 const WS_READY_STATES = ['CONNECTING', 'OPEN', 'CLOSING', 'CLOSED'];
@@ -20,9 +20,15 @@ export interface SlackWebSocketOptions {
   httpAgent?: Agent;
   /** @description Whether this WebSocket should DEBUG log ping and pong events. `false` by default. */
   pingPongLoggingEnabled?: boolean;
-  /** @description How many milliseconds to wait between ping events from the server before deeming the connection stale. Defaults to 30,000. */
+  /**
+   * @description How many milliseconds to wait between ping events from the server before deeming the connection
+   * stale. Defaults to 30,000.
+   */
   serverPingTimeoutMS: number;
-  /** @description How many milliseconds to wait between ping events from the server before deeming the connection stale. Defaults to 5,000. */
+  /**
+   * @description How many milliseconds to wait between ping events from the server before deeming the connection
+   * stale. Defaults to 5,000.
+   */
   clientPingTimeoutMS: number;
 }
 
@@ -32,14 +38,20 @@ export interface SlackWebSocketOptions {
  */
 export class SlackWebSocket { // python equiv: Connection
   private static loggerName = 'SlackWebSocket';
+
   private options: SlackWebSocketOptions;
 
   private logger: Logger;
+
   private websocket: WebSocket | null;
+
   private lastPongReceivedTimestamp: number | undefined;
+
   private closeFrameReceived: boolean;
-  private serverPingTimeout: NodeJS.Timeout | undefined; 
-  private clientPingTimeout: NodeJS.Timeout | undefined; 
+
+  private serverPingTimeout: NodeJS.Timeout | undefined;
+
+  private clientPingTimeout: NodeJS.Timeout | undefined;
 
   public constructor({
     url,
@@ -51,7 +63,16 @@ export class SlackWebSocket { // python equiv: Connection
     serverPingTimeoutMS = 30000,
     clientPingTimeoutMS = 5000,
   }: SlackWebSocketOptions) {
-    this.options = { url, client, httpAgent, logLevel, pingInterval, pingPongLoggingEnabled, serverPingTimeoutMS, clientPingTimeoutMS };
+    this.options = {
+      url,
+      client,
+      httpAgent,
+      logLevel,
+      pingInterval,
+      pingPongLoggingEnabled,
+      serverPingTimeoutMS,
+      clientPingTimeoutMS,
+    };
     this.logger = getLogger(SlackWebSocket.loggerName, logLevel);
     this.websocket = null;
     this.closeFrameReceived = false;
@@ -60,7 +81,7 @@ export class SlackWebSocket { // python equiv: Connection
   /**
    * Establishes a connection with the Slack backend
    */
-  public connect() {
+  public connect(): void {
     this.logger.debug('Initiating new WebSocket connection.');
     const options: WebSocket.ClientOptions = {
       perMessageDeflate: false,
@@ -73,7 +94,8 @@ export class SlackWebSocket { // python equiv: Connection
       this.logger.debug('WebSocket open event received (connection established)!');
       this.websocket = ws;
       this.monitorPingToSlack();
-      // TODO: do we need to emit open? or should the connection readiness just be judged by the hello text message sent by server?
+      // TODO: do we need to emit open? or should the connection readiness just be judged by the hello text message
+      // sent by server?
       // this.options.client.emit('open', event);
     });
     ws.addEventListener('error', (event) => {
@@ -109,19 +131,21 @@ export class SlackWebSocket { // python equiv: Connection
   /**
    * Disconnects the WebSocket connection with Slack, if connected.
    */
-  public disconnect() {
+  public disconnect(): void {
     if (this.websocket) {
-      // Disconnecting a WebSocket involves a close frame handshake, so we check if we've already received a close frame.
+      // Disconnecting a WebSocket involves a close frame handshake so we check if we've already received a close frame.
       // If so, we can terminate the underlying socket connection and let the client know.
       if (this.closeFrameReceived) {
         this.logger.debug('Terminating WebSocket as close frame already received.');
         this.websocket.removeAllListeners();
         this.websocket.terminate();
         this.websocket = null;
-        // Emit event back to client letting it know connection has closed (in case it needs to reconnect if reconnecting is enabled)
+        // Emit event back to client letting it know connection has closed (in case it needs to reconnect if
+        // reconnecting is enabled)
         this.options.client.emit('close');
       } else {
-        // If we haven't received a close frame yet, then we send one to the peer, expecting to receive a close frame in response.
+        // If we haven't received a close frame yet, then we send one to the peer, expecting to receive a close frame
+        // in response.
         this.logger.debug('Sending close frame (status=1000).');
         this.websocket.close(1000); // send a close frame, 1000=Normal Closure
       }
@@ -135,7 +159,7 @@ export class SlackWebSocket { // python equiv: Connection
    */
   public isActive(): boolean { // python equiv: SocketModeClient.is_connected
     if (!this.websocket) {
-      this.logger.debug(`isActive(): websocket not instantiated!`);
+      this.logger.debug('isActive(): websocket not instantiated!');
       return false;
     }
     this.logger.debug(`isActive(): websocket ready state is ${WS_READY_STATES[this.websocket.readyState]}`);
