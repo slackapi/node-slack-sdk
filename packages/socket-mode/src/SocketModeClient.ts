@@ -17,6 +17,7 @@ import {
 } from './errors';
 import { UnrecoverableSocketModeStartError } from './UnrecoverableSocketModeStartError';
 import { SocketModeOptions } from './SocketModeOptions';
+import { SlackWebSocket } from './SlackWebSocket';
 
 const packageJson = require('../package.json'); // eslint-disable-line import/no-commonjs, @typescript-eslint/no-var-requires
 
@@ -57,7 +58,7 @@ enum Event {
 }
 
 /**
- * An Socket Mode Client allows programs to communicate with the
+ * A Socket Mode Client allows programs to communicate with the
  * [Slack Platform's Events API](https://api.slack.com/events-api) over WebSocket connections.
  * This object uses the EventEmitter pattern to dispatch incoming events
  * and has a built in send method to acknowledge incoming events over the WebSocket connection.
@@ -67,11 +68,6 @@ export class SocketModeClient extends EventEmitter {
    * Whether this client will automatically reconnect when (not manually) disconnected
    */
   private autoReconnectEnabled: boolean;
-
-  /**
-   * Whether or not the client is currently connected to the Slack web socket backend
-   */
-  public connected: boolean = false; // TODO: python equiv: `closed` ?
 
   /**
    * This class' logger instance
@@ -84,7 +80,12 @@ export class SocketModeClient extends EventEmitter {
   private static loggerName = 'SocketModeClient';
 
   /**
-   * The HTTP client to use to interact with the Slack API
+   * The URL with which to establish a socket connection with Slack
+   */
+  private wssURL?: string;
+
+  /**
+   * The HTTP client used to interact with the Slack API
    */
   private webClient: WebClient;
 
@@ -97,7 +98,7 @@ export class SocketModeClient extends EventEmitter {
   /**
    * The underlying WebSocket client instance
    */
-  public websocket?: WebSocket;
+  public websocket?: SlackWebSocket;
 
   // TODO: do we need to keep these?
   /**
@@ -130,14 +131,6 @@ export class SocketModeClient extends EventEmitter {
    */
   private lastPongReceivedTimestamp: number | undefined;
 
-  /**
-   * Returns true if the underlying WebSocket connection is active.
-   */
-  public isActive(): boolean {
-    this.logger.debug(`Details of isActive() response (connected: ${this.connected}, authenticated: ${this.authenticated}, badConnection: ${this.badConnection})`);
-    return this.connected && this.authenticated && !this.badConnection;
-  }
-
   public constructor({
     logger = undefined,
     logLevel = undefined,
@@ -165,10 +158,10 @@ export class SocketModeClient extends EventEmitter {
     } else {
       this.logger = getLogger(SocketModeClient.loggerName, logLevel ?? LogLevel.INFO, logger);
     }
-    this.clientOptions = clientOptions;
-    if (this.clientOptions.retryConfig === undefined) {
+    this.webClientOptions = clientOptions;
+    if (this.webClientOptions.retryConfig === undefined) {
       // For faster retries of apps.connections.open API calls for reconnecting
-      this.clientOptions.retryConfig = { retries: 100, factor: 1.3 };
+      this.webClientOptions.retryConfig = { retries: 100, factor: 1.3 };
     }
     this.webClient = new WebClient('', {
       logger,
@@ -182,24 +175,65 @@ export class SocketModeClient extends EventEmitter {
   }
 
   /**
+   * Retrieves a new WebSocket URL to connect to.
+   */
+  private async retrieveWSSURL(): Promise<string> { // python equiv: BaseSocketModeClient.issue_new_wss_url
+    try {
+      this.logger.debug('Going to retrieve a new WSS URL ...');
+      const resp = await this.webClient.apps.connections.open({});
+      if (!resp.url) {
+        const msg = `apps.connections.open did not return a URL! (response: ${resp})`;
+        this.logger.error(msg);
+        throw new Error(msg);
+      }
+      return resp.url;
+    } catch (error) {
+      // TODO: Python catches rate limit errors when interacting with this API: https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/socket_mode/client.py#L51
+      this.logger.error(`Failed to retrieve a new WSS URL for reconnection (error: ${error})`);
+      throw error;
+    }
+  }
+
+  /**
    * Start a Socket Mode session app.
    * This method must be called before any messages can be sent or received,
    * or to disconnect the client via the `disconnect` method.
    */
-  public start(): Promise<AppsConnectionsOpenResponse> {
+  public async start(): Promise<AppsConnectionsOpenResponse> { // python equiv: SocketModeClient.connect
     this.logger.debug('Starting a Socket Mode client ...');
-    // Delegate behavior to state machine
-    this.stateMachine.handle(Event.Start);
+    if (!this.wssURL) {
+      this.wssURL = await this.retrieveWSSURL();
+    }
+    // create a socket connection using SlackWebSocket
+    this.websocket = new SlackWebSocket({
+      url: this.wssURL,
+      client: this, // web socket events relevant to socket mode client will be emitted into the instance of this class
+      logLevel: this.logger.getLevel(),
+      httpAgent: this.webClientOptions.agent
+    });
+    // bind to error, message and close events, which will be emitted from the web socket
+    this.on('error', (err) => {
+      // TODO: what do if error raised by socket?
+      throw err;
+    });
+    this.on('close', (_code: number, _data: Buffer) => {
+      // TODO: what do when close raised by socket?
+    });
+    this.on('message', this.onWebSocketMessage.bind(this));
+    // TODO: start the app monitor - or maybe this should be at the socket level?
+
     // Return a promise that resolves with the connection information
     return new Promise((resolve, reject) => {
-      this.once(State.Connected, (result) => {
-        this.removeListener(State.Disconnected, reject);
+      const connectedCallback = (result: any) => {
+        this.removeListener(State.Disconnected, disconnectedCallback);
         resolve(result);
-      });
-      this.once(State.Disconnected, (err) => {
-        this.removeListener(State.Connected, resolve);
+      };
+      const disconnectedCallback = (err: any) => {
+        this.removeListener(State.Connected, connectedCallback);
         reject(err);
-      });
+      };
+      this.once(State.Connected, connectedCallback);
+      this.once(State.Disconnected, disconnectedCallback);
     });
   }
 
@@ -220,6 +254,102 @@ export class SocketModeClient extends EventEmitter {
       });
       // Delegate behavior to state machine
       this.stateMachine.handle(Event.ClientExplicitDisconnect);
+    });
+  }
+
+  /**
+   * `onmessage` handler for the client's WebSocket.
+   * This will parse the payload and dispatch the relevant events for each incoming message.
+   */
+  protected async onWebSocketMessage(data: WebSocket.RawData, isBinary: boolean): Promise<void> {
+    if (isBinary) {
+      this.logger.debug(`Unexpected binary message received, ignoring.`);
+      return;
+    }
+    const payload = data.toString();
+    this.logger.debug(`Received a message on the WebSocket: ${payload}`);
+
+    // Parse message into slack event
+    let event: {
+      type: string;
+      reason: string;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      payload: Record<string, any>;
+      envelope_id: string;
+      retry_attempt?: number; // type: events_api
+      retry_reason?: string; // type: events_api
+      accepts_response_payload?: boolean; // type: events_api, slash_commands, interactive
+    };
+
+    try {
+      event = JSON.parse(payload);
+    } catch (parseError) {
+      // Prevent application from crashing on a bad message, but log an error to bring attention
+      this.logger.debug(
+        `Unable to parse an incoming WebSocket message (will ignore): ${parseError}, ${payload}`,
+      );
+      return;
+    }
+
+    // Internal event handlers
+    if (event.type === 'hello') {
+      this.stateMachine.handle(Event.ServerHello);
+      return;
+    }
+
+    // Open the second WebSocket connection in preparation for the existing WebSocket disconnecting
+    if (event.type === 'disconnect' && event.reason === 'warning') {
+      this.logger.debug('Received "disconnect" (warning) message - creating the second connection');
+      this.stateMachine.handle(Event.ServerDisconnectWarning);
+      return;
+    }
+
+    // Close the primary WebSocket in favor of secondary WebSocket, assign secondary to primary
+    if (event.type === 'disconnect' && event.reason === 'refresh_requested') {
+      this.logger.debug('Received "disconnect" (refresh requested) message - closing the old WebSocket connection');
+      this.stateMachine.handle(Event.ServerDisconnectOldSocket);
+      return;
+    }
+
+    // Define Ack
+    const ack = async (response: Record<string, unknown>): Promise<void> => {
+      if (this.logger.getLevel() === LogLevel.DEBUG) {
+        this.logger.debug(`Calling ack() - type: ${event.type}, envelope_id: ${event.envelope_id}, data: ${JSON.stringify(response)}`);
+      }
+      await this.send(event.envelope_id, response);
+    };
+
+    // For events_api messages, expose the type of the event
+    if (event.type === 'events_api') {
+      this.emit(event.payload.event.type, {
+        ack,
+        envelope_id: event.envelope_id,
+        body: event.payload,
+        event: event.payload.event,
+        retry_num: event.retry_attempt,
+        retry_reason: event.retry_reason,
+        accepts_response_payload: event.accepts_response_payload,
+      });
+    } else {
+      // Emit just ack and body for all other types of messages
+      this.emit(event.type, {
+        ack,
+        envelope_id: event.envelope_id,
+        body: event.payload,
+        accepts_response_payload: event.accepts_response_payload,
+      });
+    }
+
+    // Emitter for all slack events
+    // (this can be used in tools like bolt-js)
+    this.emit('slack_event', {
+      ack,
+      envelope_id: event.envelope_id,
+      type: event.type,
+      body: event.payload,
+      retry_num: event.retry_attempt,
+      retry_reason: event.retry_reason,
+      accepts_response_payload: event.accepts_response_payload,
     });
   }
 
@@ -414,16 +544,6 @@ export class SocketModeClient extends EventEmitter {
     });
   }
 
-  private async retrieveWSSURL(): Promise<AppsConnectionsOpenResponse> {
-    try {
-      this.logger.debug('Going to retrieve a new WSS URL ...');
-      return await this.webClient.apps.connections.open({});
-    } catch (error) {
-      this.logger.error(`Failed to retrieve a new WSS URL for reconnection (error: ${error})`);
-      throw error;
-    }
-  }
-
   private autoReconnectCondition(): boolean {
     return this.autoReconnectEnabled;
   }
@@ -482,65 +602,6 @@ export class SocketModeClient extends EventEmitter {
       this.terminateWebSocketSafely(this.websocket);
       this.websocket = undefined;
     }
-  }
-
-  /**
-   * Set up method for the client's WebSocket instance. This method will attach event listeners.
-   */
-  private setupWebSocket(url: string): void {
-    // initialize the websocket
-    const options: WebSocket.ClientOptions = {
-      perMessageDeflate: false,
-      agent: this.clientOptions.agent,
-    };
-
-    let websocket: WebSocket;
-    let socketId: string;
-    if (this.websocket === undefined) {
-      this.websocket = new WebSocket(url, options);
-      socketId = 'Primary';
-      websocket = this.websocket;
-    } else {
-      // Set up secondary websocket
-      // This is used when creating a new connection because the first is about to disconnect
-      this.secondaryWebsocket = new WebSocket(url, options);
-      socketId = 'Secondary';
-      websocket = this.secondaryWebsocket;
-    }
-
-    // Attach event listeners
-    websocket.addEventListener('open', (event) => {
-      this.logger.debug(`${socketId} WebSocket open event received (connection established)`);
-      this.stateMachine.handle(Event.WebSocketOpen, event);
-    });
-    websocket.addEventListener('error', (event) => {
-      this.logger.error(`${socketId} WebSocket error occurred: ${event.message}`);
-      this.emit('error', websocketErrorWithOriginal(event.error));
-    });
-    websocket.on('message', this.onWebSocketMessage.bind(this));
-    websocket.on('close', (code: number, _data: Buffer) => {
-      this.logger.debug(`${socketId} WebSocket close event received (code: ${code}, reason: ${_data.toString()})`);
-      this.stateMachine.handle(Event.WebSocketClose, code);
-    });
-
-    // Confirm WebSocket connection is still active
-    websocket.on('ping', ((data: Buffer) => {
-      if (this.pingPongLoggingEnabled) {
-        this.logger.debug(`${socketId} WebSocket received ping from Slack server (data: ${data})`);
-      }
-      this.startMonitoringPingFromSlack();
-      // Since the `addEventListener` method does not accept listener with data arg in TypeScript,
-      // we cast this function to any as a workaround
-    }) as any); // eslint-disable-line @typescript-eslint/no-explicit-any
-
-    websocket.on('pong', ((data: Buffer) => {
-      if (this.pingPongLoggingEnabled) {
-        this.logger.debug(`${socketId} WebSocket received pong from Slack server (data: ${data})`);
-      }
-      this.lastPongReceivedTimestamp = new Date().getTime();
-      // Since the `addEventListener` method does not accept listener with data arg in TypeScript,
-      // we cast this function to any as a workaround
-    }) as any); // eslint-disable-line @typescript-eslint/no-explicit-any
   }
 
   /**
@@ -677,95 +738,6 @@ export class SocketModeClient extends EventEmitter {
       stateHierarchy.length >= 2 &&
       // When the primary state is State.Connected, the second one is always set by the sub state machine
       stateHierarchy[1].toString() === ConnectedState.Ready;
-  }
-
-  /**
-   * `onmessage` handler for the client's WebSocket.
-   * This will parse the payload and dispatch the relevant events for each incoming message.
-   */
-  protected async onWebSocketMessage(data: WebSocket.RawData, isBinary: boolean): Promise<void> {
-    if (isBinary) {
-      this.logger.debug('Unexpected binary message received, ignoring.');
-      return;
-    }
-    this.logger.debug(`Received a message on the WebSocket: ${data.toString()}`);
-
-    // Parse message into slack event
-    let event: {
-      type: string;
-      reason: string;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      payload: { [key: string]: any };
-      envelope_id: string;
-      retry_attempt?: number; // type: events_api
-      retry_reason?: string; // type: events_api
-      accepts_response_payload?: boolean; // type: events_api, slash_commands, interactive
-    };
-
-    try {
-      event = JSON.parse(data.toString());
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (parseError: any) {
-      // Prevent application from crashing on a bad message, but log an error to bring attention
-      this.logger.debug(
-        `Unable to parse an incoming WebSocket message (will ignore): ${parseError.message}, ${data.toString()}`,
-      );
-      return;
-    }
-
-    // Internal event handlers
-    if (event.type === 'hello') {
-      this.stateMachine.handle(Event.ServerHello);
-      return;
-    }
-
-    if (event.type === 'disconnect') {
-      // Refresh the WebSocket connection when prompted by Slack backend
-      this.logger.debug(`Received "disconnect" (reason: ${event.reason}) message - will ${this.autoReconnectEnabled ? 'attempt reconnect' : 'disconnect (due to autoReconnectEnabled=false)'}`);
-      this.stateMachine.handle(Event.ServerExplicitDisconnect);
-      return;
-    }
-
-    // Define Ack
-    const ack = async (response: Record<string, unknown>): Promise<void> => {
-      if (this.logger.getLevel() === LogLevel.DEBUG) {
-        this.logger.debug(`Calling ack() - type: ${event.type}, envelope_id: ${event.envelope_id}, data: ${JSON.stringify(response)}`);
-      }
-      await this.send(event.envelope_id, response);
-    };
-
-    // For events_api messages, expose the type of the event
-    if (event.type === 'events_api') {
-      this.emit(event.payload.event.type, {
-        ack,
-        envelope_id: event.envelope_id,
-        body: event.payload,
-        event: event.payload.event,
-        retry_num: event.retry_attempt,
-        retry_reason: event.retry_reason,
-        accepts_response_payload: event.accepts_response_payload,
-      });
-    } else {
-      // Emit just ack and body for all other types of messages
-      this.emit(event.type, {
-        ack,
-        envelope_id: event.envelope_id,
-        body: event.payload,
-        accepts_response_payload: event.accepts_response_payload,
-      });
-    }
-
-    // Emitter for all slack events
-    // (this can be used in tools like bolt-js)
-    this.emit('slack_event', {
-      ack,
-      envelope_id: event.envelope_id,
-      type: event.type,
-      body: event.payload,
-      retry_num: event.retry_attempt,
-      retry_reason: event.retry_reason,
-      accepts_response_payload: event.accepts_response_payload,
-    });
   }
 }
 
