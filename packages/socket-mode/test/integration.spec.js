@@ -110,7 +110,7 @@ describe('Integration tests with a WebSocket server', () => {
     });
   });
   describe('failure modes / unexpected messages sent to client', () => {
-    let debugLoggerSpy = sinon.stub();
+    let debugLoggerSpy = sinon.stub(); // add the following to expose further logging: .callsFake(console.log);
     const noop = () => {};
     beforeEach(() => {
       client = new SocketModeClient({ appToken: 'whatever', clientOptions: {
@@ -127,7 +127,7 @@ describe('Integration tests with a WebSocket server', () => {
     });
     it('should ignore binary messages', async () => {
       client.on('connected', () => {
-        exposed_ws_connection.send(null);
+        exposed_ws_connection.send(Buffer.from([1,2,3,4]), { binary: true });
       });
       await client.start();
       await sleep(10);
@@ -148,7 +148,7 @@ describe('Integration tests with a WebSocket server', () => {
     beforeEach(() => {
       client = new SocketModeClient({ appToken: 'whatever', logLevel: LogLevel.ERROR, clientOptions: {
         slackApiUrl: `http://localhost:${HTTP_PORT}/`
-      }});
+      }, clientPingTimeout: 25});
     });
     it('raises connecting event during `start()`', async () => {
       let raised = false;

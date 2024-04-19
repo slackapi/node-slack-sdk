@@ -20,13 +20,14 @@ import { SlackWebSocket, WS_READY_STATES } from './SlackWebSocket';
 
 const packageJson = require('../package.json'); // eslint-disable-line import/no-commonjs, @typescript-eslint/no-var-requires
 
-// These enum values are used only in the state machine
+// Lifecycle events as described in the README
 enum State {
   Connecting = 'connecting',
   Connected = 'connected',
   Reconnecting = 'reconnecting',
   Disconnecting = 'disconnecting',
   Disconnected = 'disconnected',
+  Authenticated = 'authenticated',
   Failed = 'failed',
 }
 
@@ -88,6 +89,14 @@ export class SocketModeClient extends EventEmitter {
    */
   private numOfConsecutiveReconnectionFailures: number = 0;
 
+  private customLoggerProvided: boolean = false;
+
+  /**
+   * Sentinel tracking if user invoked `disconnect()`; for enforcing shutting down of client
+   * even if `autoReconnectEnabled` is `true`.
+   */
+  private shuttingDown: boolean = false;
+
   public constructor({
     logger = undefined,
     logLevel = undefined,
@@ -107,6 +116,7 @@ export class SocketModeClient extends EventEmitter {
     this.serverPingTimeoutMS = serverPingTimeout;
     // Setup the logger
     if (typeof logger !== 'undefined') {
+      this.customLoggerProvided = true;
       this.logger = logger;
       if (typeof logLevel !== 'undefined') {
         this.logger.debug('The logLevel given to Socket Mode was ignored as you also gave logger');
@@ -133,10 +143,10 @@ export class SocketModeClient extends EventEmitter {
     });
     this.on('close', () => {
       // Underlying WebSocket connection was closed, possibly reconnect.
-      if (this.autoReconnectEnabled) {
+      if (!this.shuttingDown && this.autoReconnectEnabled) {
         this.delayReconnectAttempt(this.start);
       } else {
-        // If reconnect is disabled, emit a disconnected state.
+        // If reconnect is disabled or user explicitly called `disconnect()`, emit a disconnected state.
         this.emit(State.Disconnected);
       }
     });
@@ -153,10 +163,10 @@ export class SocketModeClient extends EventEmitter {
     const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
     return new Promise((res, _rej) => {
-      setTimeout(async () => {
+      setTimeout(() => {
         this.logger.debug('Continuing with reconnect...');
         this.emit(State.Reconnecting);
-        res(await cb());
+        cb.apply(this).then(res);
       }, msBeforeRetry);
     });
   }
@@ -174,6 +184,7 @@ export class SocketModeClient extends EventEmitter {
         throw new Error(msg);
       }
       this.numOfConsecutiveReconnectionFailures = 0;
+      this.emit(State.Authenticated, resp);
       return resp.url;
     } catch (error) {
       // TODO: Python catches rate limit errors when interacting with this API: https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/socket_mode/client.py#L51
@@ -189,7 +200,7 @@ export class SocketModeClient extends EventEmitter {
         isRecoverable = false;
       }
       if (this.autoReconnectEnabled && isRecoverable) {
-        return this.delayReconnectAttempt(this.retrieveWSSURL);
+        return await this.delayReconnectAttempt(this.retrieveWSSURL);
       }
       throw error;
     }
@@ -201,6 +212,7 @@ export class SocketModeClient extends EventEmitter {
    * or to disconnect the client via the `disconnect` method.
    */
   public async start(): Promise<AppsConnectionsOpenResponse> { // python equiv: SocketModeClient.connect
+    this.shuttingDown = false;
     this.logger.debug('Starting a Socket Mode client ...');
     // create a socket connection using SlackWebSocket
     this.websocket = new SlackWebSocket({
@@ -209,6 +221,7 @@ export class SocketModeClient extends EventEmitter {
       // see bottom of constructor for where we bind to these events
       client: this,
       logLevel: this.logger.getLevel(),
+      logger: this.customLoggerProvided ? this.logger : undefined,
       httpAgent: this.webClientOptions.agent,
       clientPingTimeoutMS: this.clientPingTimeoutMS,
       serverPingTimeoutMS: this.serverPingTimeoutMS,
@@ -241,17 +254,18 @@ export class SocketModeClient extends EventEmitter {
    * unless you call start() again later.
    */
   public disconnect(): Promise<void> {
+    this.shuttingDown = true;
     this.logger.debug('Manually disconnecting this Socket Mode client');
-    return new Promise((resolve, reject) => {
-      // Resolve (or reject) on disconnect
-      this.once(State.Disconnected, (err) => {
-        if (err instanceof Error) {
-          reject(err);
-        } else {
-          resolve();
-        }
-      });
-      this.websocket?.disconnect();
+    this.emit(State.Disconnecting);
+    return new Promise((resolve, _reject) => {
+      if (!this.websocket) {
+        this.emit(State.Disconnected);
+        resolve();
+      } else {
+        // Resolve (or reject) on disconnect
+        this.once(State.Disconnected, resolve);
+        this.websocket?.disconnect();
+      }
     });
   }
 

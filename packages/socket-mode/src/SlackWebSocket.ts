@@ -12,8 +12,10 @@ export interface SlackWebSocketOptions {
   url: string;
   /** @description An instance of EventEmitter where socket-related events can be emitted to. */
   client: EventEmitter;
-  /** @description A Logger instance used to log activity to. */
+  /** @description A LogLevel at which this class should log to. */
   logLevel?: LogLevel;
+  /** @description A Logger instance used to log activity to. */
+  logger?: Logger,
   /** @description Delay between this client sending a `ping` message, in milliseconds. */
   pingInterval?: number;
   /** @description The HTTP Agent to use when establishing a WebSocket connection. */
@@ -50,6 +52,10 @@ export class SlackWebSocket { // python equiv: Connection
    */
   private lastPongReceivedTimestamp: number | undefined;
 
+  /**
+   * Sentinel checking if Slack sent us a close frame or not, in order to be able
+   * to terminate underlying socket gracefully.
+   */
   private closeFrameReceived: boolean;
 
   /**
@@ -66,6 +72,7 @@ export class SlackWebSocket { // python equiv: Connection
     url,
     client,
     httpAgent,
+    logger,
     logLevel = LogLevel.INFO,
     pingInterval = 5000,
     pingPongLoggingEnabled = false,
@@ -82,7 +89,11 @@ export class SlackWebSocket { // python equiv: Connection
       serverPingTimeoutMS,
       clientPingTimeoutMS,
     };
-    this.logger = getLogger(SlackWebSocket.loggerName, logLevel);
+    if (logger) {
+      this.logger = logger;
+    } else {
+      this.logger = getLogger(SlackWebSocket.loggerName, logLevel);
+    }
     this.websocket = null;
     this.closeFrameReceived = false;
   }
@@ -103,16 +114,15 @@ export class SlackWebSocket { // python equiv: Connection
       this.logger.debug('WebSocket open event received (connection established)!');
       this.websocket = ws;
       this.monitorPingToSlack();
-      // TODO: do we need to emit open? or should the connection readiness just be judged by the hello text message
-      // sent by server?
-      // this.options.client.emit('open', event);
     });
     ws.addEventListener('error', (event) => {
       this.logger.error(`WebSocket error occurred: ${event.message}`);
       this.disconnect();
       this.options.client.emit('error', websocketErrorWithOriginal(event.error));
     });
-    ws.on('message', this.options.client.emit);
+    ws.on('message', (msg, isBinary) => {
+      this.options.client.emit('message', msg, isBinary);
+    });
     ws.on('close', (code: number, data: Buffer) => {
       this.logger.debug(`WebSocket close event received (code: ${code}, reason: ${data.toString()})`);
       this.closeFrameReceived = true;
@@ -146,12 +156,7 @@ export class SlackWebSocket { // python equiv: Connection
       // If so, we can terminate the underlying socket connection and let the client know.
       if (this.closeFrameReceived) {
         this.logger.debug('Terminating WebSocket as close frame already received.');
-        this.websocket.removeAllListeners();
-        this.websocket.terminate();
-        this.websocket = null;
-        // Emit event back to client letting it know connection has closed (in case it needs to reconnect if
-        // reconnecting is enabled)
-        this.options.client.emit('close');
+        this.terminate();
       } else {
         // If we haven't received a close frame yet, then we send one to the peer, expecting to receive a close frame
         // in response.
@@ -159,8 +164,23 @@ export class SlackWebSocket { // python equiv: Connection
         this.websocket.close(1000); // send a close frame, 1000=Normal Closure
       }
     } else {
-      this.logger.debug('WebSocket already disconnected.');
+      this.logger.debug('WebSocket already disconnected, flushing remainder.');
+      this.terminate();
     }
+  }
+
+  /**
+   * Clean up any underlying intervals, timeouts and the WebSocket.
+   */
+  private terminate(): void {
+    this.websocket?.removeAllListeners();
+    this.websocket?.terminate();
+    this.websocket = null;
+    clearTimeout(this.serverPingTimeout);
+    clearInterval(this.clientPingTimeout);
+    // Emit event back to client letting it know connection has closed (in case it needs to reconnect if
+    // reconnecting is enabled)
+    this.options.client.emit('close');
   }
 
   /**
@@ -209,7 +229,7 @@ export class SlackWebSocket { // python equiv: Connection
   private monitorPingToSlack(): void {
     this.lastPongReceivedTimestamp = undefined;
     let pingAttemptCount = 0;
-    clearTimeout(this.clientPingTimeout);
+    clearInterval(this.clientPingTimeout);
     this.clientPingTimeout = setInterval(() => {
       const now = new Date().getTime();
       try {
