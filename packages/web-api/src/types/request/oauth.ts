@@ -8,4 +8,7 @@ export interface OAuthAccessArguments extends OAuthCredentials {
 // https://api.slack.com/methods/oauth.v2.access
 export interface OAuthV2AccessArguments extends OAuthCredentials, OAuthGrantRefresh {}
 // https://api.slack.com/methods/oauth.v2.exchange
-export interface OAuthV2ExchangeArguments extends Pick<OAuthCredentials, 'client_id' | 'client_secret'> {}
+export interface OAuthV2ExchangeArguments extends Pick<OAuthCredentials, 'client_id' | 'client_secret'> {
+  /** @description The legacy xoxb or xoxp token being migrated. */
+  token: string;
+}

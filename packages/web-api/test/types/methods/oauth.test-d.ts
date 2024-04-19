@@ -41,12 +41,28 @@ expectAssignable<Parameters<typeof web.oauth.v2.access>>([{
 expectError(web.oauth.v2.exchange()); // lacking argument
 expectError(web.oauth.v2.exchange({})); // empty argument
 expectError(web.oauth.v2.exchange({
-  client_id: 'C1234', // missing client_secret
+  client_id: 'C1234', // missing client_secret, token
 }));
 expectError(web.oauth.v2.exchange({
-  client_secret: '1234.567', // missing `client_id`
+  client_secret: '1234.567', // missing `client_id`, token
+}));
+expectError(web.oauth.v2.exchange({
+  token: 'xoxp-blah', // missing `client_id`, client_secret
+}));
+expectError(web.oauth.v2.exchange({
+  client_id: 'C1234',
+  client_secret: '1234.567', // missing token
+}));
+expectError(web.oauth.v2.exchange({
+  client_id: 'C1234',
+  token: 'xoxb-blah', // missing client_secret
+}));
+expectError(web.oauth.v2.exchange({
+  client_secret: '1234.567',
+  token: 'xoxb-blah', // missing client_id
 }));
 // -- happy path
 expectAssignable<Parameters<typeof web.oauth.v2.exchange>>([{
+  token: 'xoxb-blah',
   ...creds,
 }]);
