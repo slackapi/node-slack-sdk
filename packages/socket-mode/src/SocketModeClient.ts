@@ -8,7 +8,7 @@ import {
   addAppMetadata,
   WebClientOptions,
 } from '@slack/web-api';
-import { LogLevel, Logger, getLogger } from './logger';
+import log, { LogLevel, Logger } from './logger';
 import {
   websocketErrorWithOriginal,
   sendWhileDisconnectedError,
@@ -17,8 +17,7 @@ import {
 import { UnrecoverableSocketModeStartError } from './UnrecoverableSocketModeStartError';
 import { SocketModeOptions } from './SocketModeOptions';
 import { SlackWebSocket, WS_READY_STATES } from './SlackWebSocket';
-
-const packageJson = require('../package.json'); // eslint-disable-line import/no-commonjs, @typescript-eslint/no-var-requires
+import packageJson from '../package.json';
 
 // Lifecycle events as described in the README
 enum State {
@@ -44,7 +43,7 @@ export class SocketModeClient extends EventEmitter {
   private autoReconnectEnabled: boolean;
 
   /**
-   * This class' logger instance
+   * This class' logging instance
    */
   private logger: Logger;
 
@@ -80,7 +79,7 @@ export class SocketModeClient extends EventEmitter {
   private serverPingTimeoutMS: number;
 
   /**
-   * How long to wait for pings from server before timing out
+   * How long to wait for pongs from server before timing out
   */
   private clientPingTimeoutMS: number;
 
@@ -104,11 +103,11 @@ export class SocketModeClient extends EventEmitter {
     pingPongLoggingEnabled = false,
     clientPingTimeout = 5000,
     serverPingTimeout = 30000,
-    appToken = undefined,
+    appToken = '',
     clientOptions = {},
-  }: SocketModeOptions = {}) {
+  }: SocketModeOptions = { appToken: '' }) {
     super();
-    if (appToken === undefined) {
+    if (!appToken) {
       throw new Error('Must provide an App-Level Token when initializing a Socket Mode Client');
     }
     this.pingPongLoggingEnabled = pingPongLoggingEnabled;
@@ -122,7 +121,7 @@ export class SocketModeClient extends EventEmitter {
         this.logger.debug('The logLevel given to Socket Mode was ignored as you also gave logger');
       }
     } else {
-      this.logger = getLogger(SocketModeClient.loggerName, logLevel ?? LogLevel.INFO, logger);
+      this.logger = log.getLogger(SocketModeClient.loggerName, logLevel ?? LogLevel.INFO, logger);
     }
     this.webClientOptions = clientOptions;
     if (this.webClientOptions.retryConfig === undefined) {
@@ -154,57 +153,7 @@ export class SocketModeClient extends EventEmitter {
     this.logger.debug('The Socket Mode client has successfully initialized');
   }
 
-  /**
-   * Initiates a reconnect, taking into account configurable delays and number of reconnect attempts and failures.
-   * Accepts a callback to invoke after any calculated delays.
-   */
-  private delayReconnectAttempt<T>(cb: () => Promise<T>): Promise<T> {
-    this.numOfConsecutiveReconnectionFailures += 1;
-    const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
-    this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
-    return new Promise((res, _rej) => {
-      setTimeout(() => {
-        this.logger.debug('Continuing with reconnect...');
-        this.emit(State.Reconnecting);
-        cb.apply(this).then(res);
-      }, msBeforeRetry);
-    });
-  }
-
-  /**
-   * Retrieves a new WebSocket URL to connect to.
-   */
-  private async retrieveWSSURL(): Promise<string> { // python equiv: BaseSocketModeClient.issue_new_wss_url
-    try {
-      this.logger.debug('Going to retrieve a new WSS URL ...');
-      const resp = await this.webClient.apps.connections.open({});
-      if (!resp.url) {
-        const msg = `apps.connections.open did not return a URL! (response: ${resp})`;
-        this.logger.error(msg);
-        throw new Error(msg);
-      }
-      this.numOfConsecutiveReconnectionFailures = 0;
-      this.emit(State.Authenticated, resp);
-      return resp.url;
-    } catch (error) {
-      // TODO: Python catches rate limit errors when interacting with this API: https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/socket_mode/client.py#L51
-      this.logger.error(`Failed to retrieve a new WSS URL (error: ${error})`);
-      const err = error as WebAPICallError;
-      let isRecoverable = true;
-      if (err.code === APICallErrorCode.PlatformError &&
-          (Object.values(UnrecoverableSocketModeStartError) as string[]).includes(err.data.error)) {
-        isRecoverable = false;
-      } else if (err.code === APICallErrorCode.RequestError) {
-        isRecoverable = false;
-      } else if (err.code === APICallErrorCode.HTTPError) {
-        isRecoverable = false;
-      }
-      if (this.autoReconnectEnabled && isRecoverable) {
-        return await this.delayReconnectAttempt(this.retrieveWSSURL);
-      }
-      throw error;
-    }
-  }
+  // PUBLIC METHODS
 
   /**
    * Start a Socket Mode session app.
@@ -269,6 +218,60 @@ export class SocketModeClient extends EventEmitter {
     });
   }
 
+  // PRIVATE/PROTECTED METHODS
+
+  /**
+   * Initiates a reconnect, taking into account configurable delays and number of reconnect attempts and failures.
+   * Accepts a callback to invoke after any calculated delays.
+   */
+  private delayReconnectAttempt<T>(cb: () => Promise<T>): Promise<T> {
+    this.numOfConsecutiveReconnectionFailures += 1;
+    const msBeforeRetry = this.clientPingTimeoutMS * this.numOfConsecutiveReconnectionFailures;
+    this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
+    return new Promise((res, _rej) => {
+      setTimeout(() => {
+        this.logger.debug('Continuing with reconnect...');
+        this.emit(State.Reconnecting);
+        cb.apply(this).then(res);
+      }, msBeforeRetry);
+    });
+  }
+
+  /**
+   * Retrieves a new WebSocket URL to connect to.
+   */
+  private async retrieveWSSURL(): Promise<string> { // python equiv: BaseSocketModeClient.issue_new_wss_url
+    try {
+      this.logger.debug('Going to retrieve a new WSS URL ...');
+      const resp = await this.webClient.apps.connections.open({});
+      if (!resp.url) {
+        const msg = `apps.connections.open did not return a URL! (response: ${resp})`;
+        this.logger.error(msg);
+        throw new Error(msg);
+      }
+      this.numOfConsecutiveReconnectionFailures = 0;
+      this.emit(State.Authenticated, resp);
+      return resp.url;
+    } catch (error) {
+      // TODO: Python catches rate limit errors when interacting with this API: https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/socket_mode/client.py#L51
+      this.logger.error(`Failed to retrieve a new WSS URL (error: ${error})`);
+      const err = error as WebAPICallError;
+      let isRecoverable = true;
+      if (err.code === APICallErrorCode.PlatformError &&
+          (Object.values(UnrecoverableSocketModeStartError) as string[]).includes(err.data.error)) {
+        isRecoverable = false;
+      } else if (err.code === APICallErrorCode.RequestError) {
+        isRecoverable = false;
+      } else if (err.code === APICallErrorCode.HTTPError) {
+        isRecoverable = false;
+      }
+      if (this.autoReconnectEnabled && isRecoverable) {
+        return await this.delayReconnectAttempt(this.retrieveWSSURL);
+      }
+      throw error;
+    }
+  }
+
   /**
    * `onmessage` handler for the client's WebSocket.
    * This will parse the payload and dispatch the application-relevant events for each incoming message.
@@ -319,7 +322,7 @@ export class SocketModeClient extends EventEmitter {
       return;
     }
 
-    // Define Ack
+    // Define Ack, a helper method for acknowledging events incoming from Slack
     const ack = async (response: Record<string, unknown>): Promise<void> => {
       if (this.logger.getLevel() === LogLevel.DEBUG) {
         this.logger.debug(`Calling ack() - type: ${event.type}, envelope_id: ${event.envelope_id}, data: ${JSON.stringify(response)}`);

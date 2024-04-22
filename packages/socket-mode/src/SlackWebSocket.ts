@@ -1,7 +1,7 @@
-import WebSocket from 'ws';
+import { ClientOptions as WebSocketClientOptions, WebSocket } from 'ws';
 import { Agent } from 'http';
 import { EventEmitter } from 'eventemitter3';
-import { LogLevel, Logger, getLogger } from './logger';
+import log, { LogLevel, Logger } from './logger';
 import { websocketErrorWithOriginal } from './errors';
 
 // Maps ws `readyState` to human readable labels https://github.com/websockets/ws/blob/HEAD/doc/ws.md#ready-state-constants
@@ -92,7 +92,7 @@ export class SlackWebSocket { // python equiv: Connection
     if (logger) {
       this.logger = logger;
     } else {
-      this.logger = getLogger(SlackWebSocket.loggerName, logLevel);
+      this.logger = log.getLogger(SlackWebSocket.loggerName, logLevel);
     }
     this.websocket = null;
     this.closeFrameReceived = false;
@@ -103,7 +103,7 @@ export class SlackWebSocket { // python equiv: Connection
    */
   public connect(): void {
     this.logger.debug('Initiating new WebSocket connection.');
-    const options: WebSocket.ClientOptions = {
+    const options: WebSocketClientOptions = {
       perMessageDeflate: false,
       agent: this.options.httpAgent,
     };
