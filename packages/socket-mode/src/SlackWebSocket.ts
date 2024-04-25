@@ -124,7 +124,7 @@ export class SlackWebSocket { // python equiv: Connection
       this.options.client.emit('message', msg, isBinary);
     });
     ws.on('close', (code: number, data: Buffer) => {
-      this.logger.debug(`WebSocket close event received (code: ${code}, reason: ${data.toString()})`);
+      this.logger.debug(`WebSocket close frame received (code: ${code}, reason: ${data.toString()})`);
       this.closeFrameReceived = true;
       this.disconnect();
     });
@@ -155,7 +155,7 @@ export class SlackWebSocket { // python equiv: Connection
       // Disconnecting a WebSocket involves a close frame handshake so we check if we've already received a close frame.
       // If so, we can terminate the underlying socket connection and let the client know.
       if (this.closeFrameReceived) {
-        this.logger.debug('Terminating WebSocket as close frame already received.');
+        this.logger.debug('Terminating WebSocket (close frame received).');
         this.terminate();
       } else {
         // If we haven't received a close frame yet, then we send one to the peer, expecting to receive a close frame

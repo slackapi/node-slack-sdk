@@ -162,7 +162,7 @@ export class SocketModeClient extends EventEmitter {
    */
   public async start(): Promise<AppsConnectionsOpenResponse> { // python equiv: SocketModeClient.connect
     this.shuttingDown = false;
-    this.logger.debug('Starting a Socket Mode client ...');
+    this.logger.debug('Starting Socket Mode session ...');
     // create a socket connection using SlackWebSocket
     this.websocket = new SlackWebSocket({
       url: await this.retrieveWSSURL(),
@@ -317,7 +317,7 @@ export class SocketModeClient extends EventEmitter {
 
     // Slack is recycling the pod handling the connection (or otherwise requires the client to reconnect)
     if (event.type === 'disconnect') {
-      this.logger.debug(`Received "${event.type}" (${event.reason}) message - disonnecting.`);
+      this.logger.debug(`Received "${event.type}" (${event.reason}) message - disconnecting.${this.autoReconnectEnabled ? ' Will reconnect.' : ''}`);
       this.websocket?.disconnect();
       return;
     }
