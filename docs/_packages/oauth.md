@@ -366,9 +366,11 @@ const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   stateStore: {
-    // generateStateParam's first argument is the entire InstallUrlOptions object which was passed into generateInstallUrl method
-    // the second argument is a date object
-    // the method is expected to return a string representing the state
+    /**
+     * generateStateParam's first argument is the entire InstallUrlOptions object which was passed into generateInstallUrl method
+     * the second argument is a date object
+     * the method is expected to return a string representing the state
+     */
     generateStateParam: (installUrlOptions, date) => {
       // generate a random string to use as state in the URL
       const randomState = randomStringGenerator();
@@ -377,13 +379,16 @@ const installer = new InstallProvider({
       // return a state string that references saved options in DB
       return randomState;
     },
-    // verifyStateParam's first argument is a date object and the second argument is a string representing the state
-    // verifyStateParam is expected to return an object representing installUrlOptions
-    verifyStateParam:  (date, state) => {
+    /**
+     * verifyStateParam's first argument is a date object and the second argument is a string representing the state
+     * verifyStateParam is expected to return an object representing installUrlOptions
+     * @note You must set `legacyStateVerification: true` if you want `verifyStateParam` to be called on the server side
+     */
+    verifyStateParam: (date, state) => {
       // fetch saved installOptions from DB using state reference
       const installUrlOptions = myDB.get(randomState);
       return installUrlOptions;
-    }
+    },
   },
 });
 ```
