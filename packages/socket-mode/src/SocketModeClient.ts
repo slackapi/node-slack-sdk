@@ -27,7 +27,6 @@ enum State {
   Disconnecting = 'disconnecting',
   Disconnected = 'disconnected',
   Authenticated = 'authenticated',
-  Failed = 'failed',
 }
 
 /**

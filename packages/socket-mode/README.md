@@ -1,29 +1,25 @@
 # Slack Socket Mode
 
+This package is designed to support [**Socket Mode**][socket-mode], which allows your app to receive events from Slack over a WebSocket connection.
+
+## Requirements
+
+This package supports Node v18 and higher. It's highly recommended to use [the latest LTS version of
+node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features from that version.
+
 ## Installation
 
 ```shell
 $ npm install @slack/socket-mode
 ```
 
-<!-- START: Remove before copying into the docs directory -->
-
 ## Usage
-
-These examples show the most common features of `Socket Mode`. You'll find even more extensive [documentation on the
-package's website](https://slack.dev/node-slack-sdk/socket-mode) and our [api site][socket-mode].
-
-<!-- END: Remove before copying into the docs directory -->
-
----
 
 ### Initialize the client
 
-This package is designed to support [**Socket Mode**][socket-mode], which allows your app to receive events from Slack over a WebSocket connection.
-
 The package exports a `SocketModeClient` class. Your app will create an instance of the class for each workspace it communicates with. Creating an instance requires an [**app-level token**][app-token] from Slack. Apps connect to the **Socket Mode** API using an [**app-level token**][app-token], which starts with `xapp`.
 
-Note: **Socket Mode** requires the `connections:write` scope. Navigate to your [app configuration](https://api.slack.com/apps) and go to the **OAuth and Permissions** section to add the scope.
+Note: **Socket Mode** requires the `connections:write` scope. Navigate to your [app configuration](https://api.slack.com/apps) and go to the bottom of the **Basic Information** section to create an App token with the `connections:write` scope.
 
 
 ```javascript
@@ -38,7 +34,7 @@ const client = new SocketModeClient({appToken});
 
 ### Connect to Slack
 
-After your client establishes a connection, your app can send data to and receive data from Slack. Connecting is as easy as calling the `.start()` method.
+Connecting is as easy as calling the `.start()` method.
 
 ```javascript
 const { SocketModeClient } = require('@slack/socket-mode');
@@ -51,16 +47,13 @@ const socketModeClient = new SocketModeClient({appToken});
   await socketModeClient.start();
 })();
 ```
----
 
 ### Listen for an event
-
-Bolt apps register [listener functions](https://slack.dev/bolt-js/reference#listener-functions), which are triggered when a specific event type is received by the client.
 
 If you've used Node's [`EventEmitter`](https://nodejs.org/api/events.html#events_class_eventemitter) pattern
 before, then you're already familiar with how this works, since the client is an `EventEmitter`.
 
-The `event` argument passed to the listener is an object. Its content corresponds to the [type of
+The `event` argument passed to the listener is an object. Its contents correspond to the [type of
 event](https://api.slack.com/events) it's registered for.
 
 ```javascript
@@ -78,8 +71,6 @@ socketModeClient.on('message', (event) => {
   await socketModeClient.start();
 })();
 ```
-
----
 
 ### Send a message
 
@@ -127,18 +118,16 @@ socketModeClient.on('member_joined_channel', async ({event, body, ack}) => {
   await socketModeClient.start();
 })();
 ```
----
 
 ### Lifecycle events
 
-The client's connection to Slack has a lifecycle. This means the client can be seen as a state machine which transitions through a few states as it connects, disconnects, reconnects, and synchronizes with Slack. The client emits an event for each state it transitions to throughout its lifecycle. If your app simply needs to know whether the client is connected or not, the `.connected` boolean property can be checked.
+The client's connection to Slack has a lifecycle. This means the client can be seen as a state machine which transitions through a few states as it connects, disconnects and possibly reconnects with Slack. The client emits an event for each state it transitions to throughout its lifecycle. If your app simply needs to know whether the client is connected or not, the `.connected` boolean property can be checked.
 
 In the table below, the client's states are listed, which are also the names of the events you can use to observe the transition to that state. The table also includes descriptions for the states and arguments that a listener would receive.
 
 | Event Name      | Arguments | Description |
 |-----------------|-----------------|-------------|
 | `connecting`    |  | The client is in the process of connecting to the platform. |
-| `authenticated` | `(connectData)` - the response from `apps.connections.open` | The client has authenticated with the platform. This is a sub-state of `connecting`. |
 | `connected`     |  | The client is connected to the platform and incoming events will start being emitted. |
 | `disconnecting` |  | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `disconnected`. |
 | `reconnecting`  |  | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `connecting`. |
@@ -148,15 +137,14 @@ The client also emits events that are part of its lifecycle, but aren't states. 
 
 | Event Name      | Arguments | Description |
 |-----------------|-----------|-------------|
-| `error`         | `(error)` | An error has occurred. See [error handling](#handle-errors) for details. |
+| `error`         | `(error)` | An error has occurred. |
 | `slack_event`   | `(eventType, event)` | An incoming Slack event has been received. |
-| `unable_to_socket_mode_start` | `(error)` | A problem occurred while connecting, a reconnect may or may not occur. |
 
 ---
 
 ### Logging
 
-The `SocketModeClient` will log interesting information to the console by default. You can use the `logLevel` to decide how much or what kind of information should be output. There are a few possible log levels, which you can find in the `LogLevel` export. By default, the value is set to `LogLevel.INFO`. While you're in development, it's sometimes helpful to set this to the most verbose: `LogLevel.DEBUG`.
+The `SocketModeClient` will log information to the console by default. You can use the `logLevel` to decide how much or what kind of information should be output. There are a few possible log levels, which you can find in the `LogLevel` export. By default, the value is set to `LogLevel.INFO`. While you're in development, it's sometimes helpful to set this to the most verbose: `LogLevel.DEBUG`.
 
 ```javascript
 // Import LogLevel from the package
@@ -220,11 +208,6 @@ const socketModeClient = new SocketModeClient({
 </details>
 
 ---
-
-## Requirements
-
-This package supports Node v18 and higher. It's highly recommended to use [the latest LTS version of
-node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features from that version.
 
 ## Getting Help
 
