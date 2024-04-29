@@ -238,6 +238,7 @@ export class SlackWebSocket { // python equiv: Connection
         if (this.lastPongReceivedTimestamp === undefined) {
           pingAttemptCount += 1;
         } else {
+          // if lastPongReceivedTimestamp is defined, then the server has responded to pings at some point in the past
           pingAttemptCount = 0;
         }
         if (this.options.pingPongLoggingEnabled) {
@@ -248,8 +249,11 @@ export class SlackWebSocket { // python equiv: Connection
         this.disconnect();
         return;
       }
-      let isInvalid: boolean = pingAttemptCount > 5;
+      // default invalid state is: sent > 3 pings to the server and it never responded with a pong
+      let isInvalid: boolean = pingAttemptCount > 3;
       if (this.lastPongReceivedTimestamp !== undefined) {
+        // secondary invalid state is: if we did receive a pong from the server,
+        // has the elapsed time since the last pong exceeded the client ping timeout
         const millis = now - this.lastPongReceivedTimestamp;
         isInvalid = millis > this.options.clientPingTimeoutMS;
       }
