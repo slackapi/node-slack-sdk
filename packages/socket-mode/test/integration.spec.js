@@ -256,7 +256,7 @@ describe('Integration tests with a WebSocket server', () => {
           await reconnectedWaiter;
           await client.disconnect();
         });
-        it.only('should reconnect if server does not respond with `pong` message within specified client ping timeout ', async () => {
+        it('should reconnect if server does not respond with `pong` message within specified client ping timeout ', async () => {
           wss.close();
           // override the web socket server so that it DOESNT auto-respond to ping messages with a pong
           wss = new WebSocketServer({ port: WSS_PORT, autoPong: false });
