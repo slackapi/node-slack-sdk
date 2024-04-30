@@ -249,13 +249,13 @@ describe('Integration tests with a WebSocket server', () => {
             slackApiUrl: `http://localhost:${HTTP_PORT}/`
           }, clientPingTimeout: 25, serverPingTimeout: 25, pingPongLoggingEnabled: false });
         });
-        it.only('should reconnect if server does not send `ping` message within specified server ping timeout', async () => {
+        it('should reconnect if server does not send `ping` message within specified server ping timeout', async () => {
           await client.start();
+          // create a waiter for post-reconnect connected event
+          const reconnectedWaiter = new Promise((res) => client.on('connected', res));
           exposed_ws_connection.ping();
          // we set server and client ping timeout to 25, so waiting for 50 + a bit should force a reconnect
           await sleep(60);
-          // create a waiter for post-reconnect connected event
-          const reconnectedWaiter = new Promise((res) => client.on('connected', res));
           // if we pass the point where the reconnectedWaiter succeeded, then we have verified the reconnection succeeded
           // and this test can be considered passing. if we time out here, then that is an indication of a failure.
           await reconnectedWaiter;
@@ -274,10 +274,10 @@ describe('Integration tests with a WebSocket server', () => {
             exposed_ws_connection = ws;
           });
           await client.start();
-         // we set server and client ping timeout to 25, so waiting for 50 + a bit should force a reconnect
-          await sleep(60);
           // create a waiter for post-reconnect connected event
           const reconnectedWaiter = new Promise((res) => client.on('connected', res));
+         // we set server and client ping timeout to 25, so waiting for 50 + a bit should force a reconnect
+          await sleep(60);
           // if we pass the point where the reconnectedWaiter succeeded, then we have verified the reconnection succeeded
           // and this test can be considered passing. if we time out here, then that is an indication of a failure.
           await reconnectedWaiter;
@@ -305,10 +305,10 @@ describe('Integration tests with a WebSocket server', () => {
             exposed_ws_connection = ws;
           });
           await client.start();
-         // we set server and client ping timeout to 25, so waiting for 50 + a bit should force a reconnect
-          await sleep(60);
           // create a waiter for post-reconnect connected event
           const reconnectedWaiter = new Promise((res) => client.on('connected', res));
+         // we set server and client ping timeout to 25, so waiting for 50 + a bit should force a reconnect
+          await sleep(60);
           // if we pass the point where the reconnectedWaiter succeeded, then we have verified the reconnection succeeded
           // and this test can be considered passing. if we time out here, then that is an indication of a failure.
           await reconnectedWaiter;
