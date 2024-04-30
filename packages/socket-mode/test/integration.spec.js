@@ -245,11 +245,11 @@ describe('Integration tests with a WebSocket server', () => {
       });
       describe('related to ping/pong events', () => {
         beforeEach(() => {
-          client = new SocketModeClient({ appToken: 'whatever', logLevel: LogLevel.ERROR, clientOptions: {
+          client = new SocketModeClient({ appToken: 'whatever', logLevel: LogLevel.DEBUG, clientOptions: {
             slackApiUrl: `http://localhost:${HTTP_PORT}/`
           }, clientPingTimeout: 25, serverPingTimeout: 25, pingPongLoggingEnabled: false });
         });
-        it('should reconnect if server does not send `ping` message within specified server ping timeout', async () => {
+        it.only('should reconnect if server does not send `ping` message within specified server ping timeout', async () => {
           await client.start();
           exposed_ws_connection.ping();
          // we set server and client ping timeout to 25, so waiting for 50 + a bit should force a reconnect
