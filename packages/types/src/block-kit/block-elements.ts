@@ -87,9 +87,9 @@ export interface Checkboxes extends Actionable, Confirmable, Focusable {
  */
 export interface Datepicker
   extends Actionable,
-    Confirmable,
-    Focusable,
-    Placeholdable {
+  Confirmable,
+  Focusable,
+  Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `datepicker`.
    */
@@ -129,9 +129,9 @@ export interface DateTimepicker extends Actionable, Confirmable, Focusable {
  */
 export interface EmailInput
   extends Actionable,
-    Dispatchable,
-    Focusable,
-    Placeholdable {
+  Dispatchable,
+  Focusable,
+  Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `email_text_input`.
    */
@@ -227,9 +227,9 @@ export type MultiSelect =
  */
 export interface UsersSelect
   extends Actionable,
-    Confirmable,
-    Focusable,
-    Placeholdable {
+  Confirmable,
+  Focusable,
+  Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `users_select`.
    */
@@ -248,9 +248,9 @@ export interface UsersSelect
  */
 export interface MultiUsersSelect
   extends Actionable,
-    Confirmable,
-    Focusable,
-    Placeholdable {
+  Confirmable,
+  Focusable,
+  Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `multi_users_select`.
    */
@@ -273,9 +273,9 @@ export interface MultiUsersSelect
  */
 export interface StaticSelect
   extends Actionable,
-    Confirmable,
-    Focusable,
-    Placeholdable {
+  Confirmable,
+  Focusable,
+  Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `static_select`.
    */
@@ -314,9 +314,9 @@ export interface StaticSelect
  */
 export interface MultiStaticSelect
   extends Actionable,
-    Confirmable,
-    Focusable,
-    Placeholdable {
+  Confirmable,
+  Focusable,
+  Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `multi_static_select`.
    */
@@ -359,9 +359,9 @@ export interface MultiStaticSelect
  */
 export interface ConversationsSelect
   extends Actionable,
-    Confirmable,
-    Focusable,
-    Placeholdable {
+  Confirmable,
+  Focusable,
+  Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `conversations_select`.
    */
@@ -406,9 +406,9 @@ export interface ConversationsSelect
  */
 export interface MultiConversationsSelect
   extends Actionable,
-    Confirmable,
-    Focusable,
-    Placeholdable {
+  Confirmable,
+  Focusable,
+  Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `conversations_select`.
    */
@@ -448,9 +448,9 @@ export interface MultiConversationsSelect
  */
 export interface ChannelsSelect
   extends Actionable,
-    Confirmable,
-    Focusable,
-    Placeholdable {
+  Confirmable,
+  Focusable,
+  Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `channels_select`.
    */
@@ -478,9 +478,9 @@ export interface ChannelsSelect
  */
 export interface MultiChannelsSelect
   extends Actionable,
-    Confirmable,
-    Focusable,
-    Placeholdable {
+  Confirmable,
+  Focusable,
+  Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `multi_channels_select`.
    */
@@ -505,9 +505,9 @@ export interface MultiChannelsSelect
  */
 export interface ExternalSelect
   extends Actionable,
-    Confirmable,
-    Focusable,
-    Placeholdable {
+  Confirmable,
+  Focusable,
+  Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `external_select`.
    */
@@ -532,9 +532,9 @@ export interface ExternalSelect
  */
 export interface MultiExternalSelect
   extends Actionable,
-    Confirmable,
-    Focusable,
-    Placeholdable {
+  Confirmable,
+  Focusable,
+  Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `multi_external_select`.
    */
@@ -570,9 +570,9 @@ export interface MultiExternalSelect
  */
 export interface NumberInput
   extends Actionable,
-    Dispatchable,
-    Focusable,
-    Placeholdable {
+  Dispatchable,
+  Focusable,
+  Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `number_input`.
    */
@@ -623,9 +623,9 @@ export interface Overflow extends Actionable, Confirmable {
  */
 export interface PlainTextInput
   extends Actionable,
-    Dispatchable,
-    Focusable,
-    Placeholdable {
+  Dispatchable,
+  Focusable,
+  Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `plain_text_input`.
    */
@@ -681,9 +681,9 @@ export interface RadioButtons extends Actionable, Confirmable, Focusable {
  */
 export interface Timepicker
   extends Actionable,
-    Confirmable,
-    Focusable,
-    Placeholdable {
+  Confirmable,
+  Focusable,
+  Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `timepicker`.
    */
@@ -708,9 +708,9 @@ export interface Timepicker
  */
 export interface URLInput
   extends Actionable,
-    Dispatchable,
-    Focusable,
-    Placeholdable {
+  Dispatchable,
+  Focusable,
+  Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `url_text_input`.
    */
@@ -1071,9 +1071,9 @@ export interface RichTextPreformatted {
  */
 export interface RichTextInput
   extends Actionable,
-    Dispatchable,
-    Focusable,
-    Placeholdable {
+  Dispatchable,
+  Focusable,
+  Placeholdable {
   /**
    * @description The type of element. In this case `type` is always `rich_text_input`.
    */

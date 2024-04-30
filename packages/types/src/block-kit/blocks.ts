@@ -1,7 +1,11 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/blocks
 
-import { PlainTextElement, MrkdwnElement, UrlImageObject,
-  SlackFileImageObject} from './composition-objects';
+import {
+  PlainTextElement,
+  MrkdwnElement,
+  UrlImageObject,
+  SlackFileImageObject,
+} from './composition-objects';
 import { Actionable } from './extensions';
 import {
   Button,
@@ -146,7 +150,7 @@ export type ImageBlock = {
    * Maximum length for the text in this field is 2000 characters.
    */
   title?: PlainTextElement;
-} & Block & (UrlImageObject | SlackFileImageObject)
+} & Block & (UrlImageObject | SlackFileImageObject);
 
 /**
  * @description Collects information from users via block elements.
