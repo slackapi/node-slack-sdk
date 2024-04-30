@@ -225,7 +225,7 @@ module.exports = {
           },
           {
             selector: 'parameter',
-            format: ['camelCase'],
+            format: ['camelCase', 'snake_case'],
             leadingUnderscore: 'allow',
           },
           {
@@ -271,7 +271,7 @@ module.exports = {
       },
     },
     {
-      files: ['src/**/*.spec.ts'],
+      files: ['src/**/*.spec.ts', 'src/**/*.spec.js'],
       rules: {
         // Test-specific rules
         // ---
@@ -302,6 +302,8 @@ module.exports = {
         '@typescript-eslint/no-non-null-assertion': 'off',
         // Using ununamed functions (e.g., null logger) in tests is fine
         'func-names': 'off',
+        // Some packages, like socket-mode, use classes, and to test constructors, it may be useful to just create a new Whatever()
+        'no-new': 'off',
         // In tests, don't force constructing a Symbol with a descriptor, as
         // it's probably just for tests
         'symbol-description': 'off',
