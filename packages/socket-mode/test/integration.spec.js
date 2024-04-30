@@ -40,12 +40,17 @@ describe('Integration tests with a WebSocket server', () => {
       exposed_ws_connection = ws;
     });
   });
-  afterEach(() => {
+  afterEach(async () => {
     server.close();
     server = null;
     wss.close();
     wss = null;
     exposed_ws_connection = null;
+    if (client) {
+      // if client is still defined, force disconnect, in case a test times out and the test was unable to call disconnect
+      // prevents test process from freezing due to open connections
+      await client.disconnect();
+    }
     client = null;
   });
   describe('establishing connection, receiving valid messages', () => {
