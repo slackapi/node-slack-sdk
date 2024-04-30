@@ -184,7 +184,8 @@ export class SlackWebSocket { // python equiv: Connection
   }
 
   /**
-   * Returns true if the underlying WebSocket connection is active.
+   * Returns true if the underlying WebSocket connection is active, meaning the underlying
+   * {@link https://github.com/websockets/ws/blob/master/doc/ws.md#ready-state-constants WebSocket ready state is "OPEN"}.
    */
   public isActive(): boolean { // python equiv: SocketModeClient.is_connected
     if (!this.websocket) {
@@ -198,6 +199,7 @@ export class SlackWebSocket { // python equiv: Connection
   /**
    * Retrieve the underlying WebSocket readyState. Returns `undefined` if the WebSocket has not been instantiated,
    * otherwise will return a number between 0 and 3 inclusive representing the ready states.
+   * The ready state constants are documented in the {@link https://github.com/websockets/ws/blob/master/doc/ws.md#ready-state-constants `ws` API docs }
    */
   public get readyState(): number | undefined {
     return this.websocket?.readyState;

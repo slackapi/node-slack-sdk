@@ -245,7 +245,7 @@ describe('Integration tests with a WebSocket server', () => {
       });
       describe('related to ping/pong events', () => {
         beforeEach(() => {
-          client = new SocketModeClient({ appToken: 'whatever', logLevel: LogLevel.DEBUG, clientOptions: {
+          client = new SocketModeClient({ appToken: 'whatever', logLevel: LogLevel.ERROR, clientOptions: {
             slackApiUrl: `http://localhost:${HTTP_PORT}/`
           }, clientPingTimeout: 25, serverPingTimeout: 25, pingPongLoggingEnabled: false });
         });
