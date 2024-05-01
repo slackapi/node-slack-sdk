@@ -1,6 +1,11 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/blocks
 
-import { PlainTextElement, MrkdwnElement } from './composition-objects';
+import {
+  PlainTextElement,
+  MrkdwnElement,
+  UrlImageObject,
+  SlackFileImageObject,
+} from './composition-objects';
 import { Actionable } from './extensions';
 import {
   Button,
@@ -130,15 +135,11 @@ export interface HeaderBlock extends Block {
  * @description Displays an image. A simple image block, designed to make those cat photos really pop.
  * @see {@link https://api.slack.com/reference/block-kit/blocks#image Image block reference}.
  */
-export interface ImageBlock extends Block {
+export type ImageBlock = {
   /**
    * @description The type of block. For an image block, `type` is always `image`.
    */
   type: 'image';
-  /**
-   * @description The URL of the image to be displayed. Maximum length for this field is 3000 characters.
-   */
-  image_url: string;
   /**
    * @description A plain-text summary of the image. This should not contain any markup.
    * Maximum length for this field is 2000 characters.
@@ -149,7 +150,7 @@ export interface ImageBlock extends Block {
    * Maximum length for the text in this field is 2000 characters.
    */
   title?: PlainTextElement;
-}
+} & Block & (UrlImageObject | SlackFileImageObject);
 
 /**
  * @description Collects information from users via block elements.

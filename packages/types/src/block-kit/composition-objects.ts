@@ -185,3 +185,45 @@ interface BaseConversationFilter {
  * @see {@link https://api.slack.com/reference/block-kit/composition-objects#filter_conversations Conversation filter object reference}.
  */
 export type ConversationFilter = (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'include'>>) | (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'exclude_bot_users'>>) | (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'exclude_external_shared_channels'>>);
+/**
+ * @description Object for image which contains a image_url.
+ */
+export interface UrlImageObject {
+  /**
+   * @description The URL of the image to be displayed.
+   */
+  image_url: string;
+}
+
+/**
+ * @description Object for image which contains a slack_file.
+ */
+export interface SlackFileImageObject {
+  /**
+   * @description The slack file of the image to be displayed.
+   */
+  slack_file: SlackFile;
+}
+
+interface SlackFileViaUrl {
+  /**
+   * @description This URL can be the `url_private` or the `permalink` of the {@link Slack file https://api.slack.com/types/file}.
+   */
+  url: string;
+}
+
+interface SlackFileViaId {
+  /**
+   * @description `id` of the {@link Slack file https://api.slack.com/types/file}.
+   */
+  id: string;
+}
+
+/**
+ * @description Defines an object containing Slack file information to be used in an image block or image element.
+ * This {@link file https://api.slack.com/types/file} must be an image and you must provide either the URL or ID. In addition,
+ * the user posting these blocks must have access to this file. If both are provided then the payload will be rejected.
+ * Currently only `png`, `jpg`, `jpeg`, and `gif` Slack image files are supported.
+ * @see {@link https://api.slack.com/reference/block-kit/composition-objects#slack_file Slack File object reference}.
+ */
+export type SlackFile = SlackFileViaUrl | SlackFileViaId;
