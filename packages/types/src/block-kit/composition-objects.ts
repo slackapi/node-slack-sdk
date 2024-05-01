@@ -205,16 +205,17 @@ export interface SlackFileImageObject {
   slack_file: SlackFile;
 }
 
-/**
- * @description This URL can be the `url_private` or the `permalink` of the {@link Slack file https://api.slack.com/types/file}.
- */
 interface SlackFileViaUrl {
+  /**
+   * @description This URL can be the `url_private` or the `permalink` of the {@link Slack file https://api.slack.com/types/file}.
+   */
   url: string;
 }
-/**
- * @description `id` of the {@link Slack file https://api.slack.com/types/file}.
- */
+
 interface SlackFileViaId {
+  /**
+   * @description `id` of the {@link Slack file https://api.slack.com/types/file}.
+   */
   id: string;
 }
 
