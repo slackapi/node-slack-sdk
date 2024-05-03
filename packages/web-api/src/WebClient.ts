@@ -166,6 +166,12 @@ export class WebClient extends Methods {
    * This object's teamId value
    */
   private teamId?: string;
+  
+  /**
+   * Configuration to opt-out of attaching the original property to WebAPIRequestError.
+   * See {@link https://github.com/slackapi/node-slack-sdk/issues/1751} for more details.
+   */
+  private attachOriginalToWebAPIRequestError: boolean;
 
   /**
    * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`)
@@ -182,6 +188,7 @@ export class WebClient extends Methods {
     rejectRateLimitedCalls = false,
     headers = {},
     teamId = undefined,
+    attachOriginalToWebAPIRequestError = true,
   }: WebClientOptions = {}) {
     super();
 
@@ -195,6 +202,7 @@ export class WebClient extends Methods {
     this.tlsConfig = tls !== undefined ? tls : {};
     this.rejectRateLimitedCalls = rejectRateLimitedCalls;
     this.teamId = teamId;
+    this.attachOriginalToWebAPIRequestError = attachOriginalToWebAPIRequestError;
 
     // Logging
     if (typeof logger !== 'undefined') {
@@ -613,7 +621,7 @@ export class WebClient extends Methods {
         const e = error as any;
         this.logger.warn('http request failed', e.message);
         if (e.request) {
-          throw requestErrorWithOriginal(e);
+          throw requestErrorWithOriginal(e, this.attachOriginalToWebAPIRequestError);
         }
         throw error;
       }
