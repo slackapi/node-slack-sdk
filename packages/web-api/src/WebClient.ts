@@ -70,6 +70,13 @@ export interface WebClientOptions {
   rejectRateLimitedCalls?: boolean;
   headers?: Record<string, string>;
   teamId?: string;
+  /**
+ * Indicates whether to attach the original error to a Web API request error.
+ * When set to true, the original error object will be attached to the Web API request error.
+ * @type {boolean}
+ * @default true
+ */
+  attachOriginalToWebAPIRequestError?: boolean,
 }
 
 export type TLSOptions = Pick<SecureContextOptions, 'pfx' | 'key' | 'passphrase' | 'cert' | 'ca'>;
@@ -168,8 +175,8 @@ export class WebClient extends Methods {
   private teamId?: string;
   
   /**
-   * Configuration to opt-out of attaching the original property to WebAPIRequestError.
-   * See {@link https://github.com/slackapi/node-slack-sdk/issues/1751} for more details.
+   * Configuration to opt-out of attaching the original error
+   * (obtained from the HTTP client) to WebAPIRequestError.
    */
   private attachOriginalToWebAPIRequestError: boolean;
 

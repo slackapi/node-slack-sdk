@@ -2,7 +2,7 @@ require('mocha');
 const fs = require('fs');
 const path = require('path');
 const { Agent } = require('https');
-const { assert } = require('chai');
+const { assert, expect } = require('chai');
 const { WebClient, buildThreadTsWarningMessage } = require('./WebClient');
 const { ErrorCode } = require('./errors');
 const { LogLevel } = require('./logger');
@@ -1609,6 +1609,46 @@ describe('WebClient', function () {
       };
       await client.filesUploadV2(withRequestFileInfoFalse);
       assert.equal(client.getFileInfo.called, false);
+    });
+  });
+
+  describe('has an option to suppress request error from Axios', () => {
+    it('the \'original\' property is attached when the option, attachOriginalToWebAPIRequestError is absent', async () => {
+      const client = new WebClient(token,  {
+        timeout: 10,
+        retryConfig: rapidRetryPolicy,
+      });
+      try {
+        await client.conversations.list()
+      } catch(err) {
+        expect(err).to.haveOwnProperty('original')
+      }
+    });
+
+    it('the \'original\' property is attached when the option, attachOriginalToWebAPIRequestError is set to true', async () => {
+      const client = new WebClient(token,  {
+        timeout: 10,
+        retryConfig: rapidRetryPolicy,
+        attachOriginalToWebAPIRequestError: true,
+      });
+      try {
+        await client.conversations.list()
+      } catch(err) {
+        expect(err).to.haveOwnProperty('original')
+      }
+    });
+
+    it('the \'original\' property is not attached when the option, attachOriginalToWebAPIRequestError is set to false', async () => {
+      const client = new WebClient(token,  {
+        timeout: 10,
+        retryConfig: rapidRetryPolicy,
+        attachOriginalToWebAPIRequestError: false,
+      });
+      try {
+        await client.conversations.list()
+      } catch(err) {
+        expect(err).not.to.haveOwnProperty('original')
+      }
     });
   });
 
