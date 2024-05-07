@@ -1613,42 +1613,46 @@ describe('WebClient', function () {
   });
 
   describe('has an option to suppress request error from Axios', () => {
+
+    beforeEach(function () {
+      this.scope = nock('https://slack.com')
+      .post(/api/)
+      .replyWithError('Request failed!!')
+    })
+
     it('the \'original\' property is attached when the option, attachOriginalToWebAPIRequestError is absent', async () => {
-      const client = new WebClient(token,  {
-        timeout: 10,
-        retryConfig: rapidRetryPolicy,
+      const client = new WebClient(token);
+
+      client.apiCall('conversations/list').catch((error) => {
+        expect(error).to.haveOwnProperty('original')
+        this.scope.done();
+        done();
       });
-      try {
-        await client.conversations.list()
-      } catch(err) {
-        expect(err).to.haveOwnProperty('original')
-      }
+
     });
 
     it('the \'original\' property is attached when the option, attachOriginalToWebAPIRequestError is set to true', async () => {
       const client = new WebClient(token,  {
-        timeout: 10,
-        retryConfig: rapidRetryPolicy,
         attachOriginalToWebAPIRequestError: true,
       });
-      try {
-        await client.conversations.list()
-      } catch(err) {
-        expect(err).to.haveOwnProperty('original')
-      }
+
+      client.apiCall('conversations/list').catch((error) => {
+        expect(error).to.haveOwnProperty('original')
+        this.scope.done();
+        done();
+      });
     });
 
     it('the \'original\' property is not attached when the option, attachOriginalToWebAPIRequestError is set to false', async () => {
       const client = new WebClient(token,  {
-        timeout: 10,
-        retryConfig: rapidRetryPolicy,
         attachOriginalToWebAPIRequestError: false,
       });
-      try {
-        await client.conversations.list()
-      } catch(err) {
-        expect(err).not.to.haveOwnProperty('original')
-      }
+
+      client.apiCall('conversations/list').catch((error) => {
+        expect(error).not.to.haveOwnProperty('original')
+        this.scope.done();
+        done();
+      });
     });
   });
 
