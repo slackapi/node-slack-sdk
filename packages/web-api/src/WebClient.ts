@@ -173,7 +173,7 @@ export class WebClient extends Methods {
    * This object's teamId value
    */
   private teamId?: string;
-  
+
   /**
    * Configuration to opt-out of attaching the original error
    * (obtained from the HTTP client) to WebAPIRequestError.

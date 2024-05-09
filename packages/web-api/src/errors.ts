@@ -80,8 +80,8 @@ export function requestErrorWithOriginal(original: Error, attachOriginal: boolea
     new Error(`A request error occurred: ${original.message}`),
     ErrorCode.RequestError,
   ) as Partial<WebAPIRequestError>;
-  if(attachOriginal) {
-    error.original = original
+  if (attachOriginal) {
+    error.original = original;
   }
   return (error as WebAPIRequestError);
 }
