@@ -1621,7 +1621,9 @@ describe('WebClient', function () {
     })
 
     it('the \'original\' property is attached when the option, attachOriginalToWebAPIRequestError is absent', async () => {
-      const client = new WebClient(token);
+      const client = new WebClient(token, {
+        retryConfig: { retries: 0 },
+      });
 
       client.apiCall('conversations/list').catch((error) => {
         expect(error).to.haveOwnProperty('original')
@@ -1634,6 +1636,7 @@ describe('WebClient', function () {
     it('the \'original\' property is attached when the option, attachOriginalToWebAPIRequestError is set to true', async () => {
       const client = new WebClient(token,  {
         attachOriginalToWebAPIRequestError: true,
+        retryConfig: { retries: 0 },
       });
 
       client.apiCall('conversations/list').catch((error) => {
@@ -1646,6 +1649,7 @@ describe('WebClient', function () {
     it('the \'original\' property is not attached when the option, attachOriginalToWebAPIRequestError is set to false', async () => {
       const client = new WebClient(token,  {
         attachOriginalToWebAPIRequestError: false,
+        retryConfig: { retries: 0 },
       });
 
       client.apiCall('conversations/list').catch((error) => {
