@@ -15,14 +15,14 @@ jobs:
       matrix:
         node-version: [18.x, 20.x]
         package:
-          - packages/cli-hooks
-          - packages/logger
-          - packages/oauth
-          - packages/rtm-api
-          - packages/socket-mode
-          - packages/types
-          - packages/web-api
-          - packages/webhook
+          - cli-hooks
+          - logger
+          - oauth
+          - rtm-api
+          - socket-mode
+          - types
+          - web-api
+          - webhook
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
@@ -48,10 +48,13 @@ jobs:
       id: check_coverage
       uses: andstor/file-existence-action@v3
       with:
-        files: ${{ matrix.package }}/coverage/lcov.info
-    - name: Test file existence output
-      working-directory: ${{ matrix.package }}
+        files: packages/${{ matrix.package }}/coverage/lcov.info
+    - name: Upload code coverage
       if: matrix.node-version == '20.x' && steps.check_coverage.outputs.files_exists == 'true'
-      run: |
-          echo "coverage report exists!"
-
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        directory: packages/${{ matrix.package }}/coverage
+        flags: ${{ matrix.package }}
+        dry_run: true
+        verbose: true
