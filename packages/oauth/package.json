@@ -63,7 +63,6 @@
     "eslint-plugin-jsdoc": "^48",
     "eslint-plugin-node": "^11",
     "mocha": "^10",
-    "nyc": "^15",
     "rewiremock": "^3",
     "shx": "^0.3.2",
     "sinon": "^17",

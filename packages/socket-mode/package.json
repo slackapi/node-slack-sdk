@@ -38,10 +38,10 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
-    "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
+    "build:clean": "shx rm -rf ./dist ./coverage",
     "lint": "eslint --ext .ts src",
     "test:unit": "mocha --config .mocharc.json src/**/*.spec.ts",
-    "test:coverage": "nyc --reporter=text npm run test:unit",
+    "test:coverage": "c8 npm run test:unit",
     "test:integration": "mocha --config .mocharc.json test/integration.spec.js",
     "test": "npm run lint && npm run build && npm run test:coverage && npm run test:integration",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm test"
@@ -61,6 +61,7 @@
     "@types/sinon": "^17",
     "@typescript-eslint/eslint-plugin": "^6",
     "@typescript-eslint/parser": "^6",
+    "c8": "^9.1.0",
     "chai": "^4",
     "eslint": "^8",
     "eslint-config-airbnb-base": "^15",
@@ -71,7 +72,6 @@
     "eslint-plugin-node": "^11",
     "mocha": "^10",
     "nodemon": "^3.1.0",
-    "nyc": "^15",
     "shx": "^0.3.2",
     "sinon": "^17",
     "source-map-support": "^0.5.21",
