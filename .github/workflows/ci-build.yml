@@ -40,7 +40,7 @@ jobs:
           */webhook) pushd ../types && npm i && popd && npm link ../types;;
           */web-api) pushd ../types && npm i && popd && npm link ../types && pushd ../logger && npm i && popd && npm link ../logger;;
           */oauth) pushd ../logger && npm i && popd && npm link ../logger && pushd ../web-api && npm i && popd && npm link ../web-api;;
-          # TODO: add socket-mode here once new major version released
+          */socket-mode) pushd ../logger && npm i && popd && npm link ../logger && pushd ../web-api && npm i && popd && npm link ../web-api;;
           *) ;; # default
         esac
         npm test
