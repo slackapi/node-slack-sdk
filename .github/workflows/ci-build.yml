@@ -32,7 +32,7 @@ jobs:
     - name: Get Development Dependencies
       run: npm i
     - name: Build and Run Tests in Each Package
-      working-directory: ${{ matrix.package }}
+      working-directory: packages/${{ matrix.package }}
       run: |
         npm install || npm list
         # depending on which package we are testing, also npm link up other dependent packages
