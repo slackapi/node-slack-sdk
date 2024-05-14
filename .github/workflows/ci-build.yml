@@ -44,3 +44,14 @@ jobs:
           *) ;; # default
         esac
         npm test
+    - name: Check for coverage report existence
+      id: check_coverage
+      uses: andstor/file-existence-action@v3
+      with:
+        files: ${{ matrix.package }}/coverage/lcov.info
+    - name: Test file existence output
+      working-directory: ${{ matrix.package }}
+      if: steps.check_coverage.outputs.files_exists == 'true'
+      run: |
+          echo "coverage report exists!"
+
