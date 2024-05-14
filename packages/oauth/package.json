@@ -30,10 +30,11 @@
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
-    "build:clean": "shx rm -rf ./dist ./coverage ./.nyc_output",
+    "build:clean": "shx rm -rf ./dist ./coverage",
     "lint": "eslint --fix --ext .ts src",
-    "test": "npm run build && npm run lint && npm run test:mocha",
-    "test:mocha": "nyc --reporter=text-summary mocha --config .mocharc.json src/*.spec.js src/**/*.spec.js src/*.spec.ts src/**/*.spec.ts",
+    "test": "npm run lint && npm run coverage",
+    "coverage": "npm run build && c8 npm run test:mocha",
+    "test:mocha": "mocha --config .mocharc.json src/*.spec.js src/**/*.spec.js src/*.spec.ts src/**/*.spec.ts",
     "ref-docs:model": "api-extractor run",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
   },
@@ -52,6 +53,7 @@
     "@types/sinon": "^17",
     "@typescript-eslint/eslint-plugin": "^6",
     "@typescript-eslint/parser": "^6",
+    "c8": "^9.1.0",
     "chai": "^4",
     "eslint": "^8",
     "eslint-config-airbnb-base": "^15",
