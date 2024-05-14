@@ -51,7 +51,7 @@ jobs:
         files: ${{ matrix.package }}/coverage/lcov.info
     - name: Test file existence output
       working-directory: ${{ matrix.package }}
-      if: steps.check_coverage.outputs.files_exists == 'true'
+      if: matrix.node-version == '20.x' && steps.check_coverage.outputs.files_exists == 'true'
       run: |
           echo "coverage report exists!"
 
