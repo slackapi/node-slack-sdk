@@ -56,5 +56,4 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         directory: packages/${{ matrix.package }}/coverage
         flags: ${{ matrix.package }}
-        dry_run: true
         verbose: true
