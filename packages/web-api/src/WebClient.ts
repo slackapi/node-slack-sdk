@@ -70,6 +70,13 @@ export interface WebClientOptions {
   rejectRateLimitedCalls?: boolean;
   headers?: Record<string, string>;
   teamId?: string;
+  /**
+ * Indicates whether to attach the original error to a Web API request error.
+ * When set to true, the original error object will be attached to the Web API request error.
+ * @type {boolean}
+ * @default true
+ */
+  attachOriginalToWebAPIRequestError?: boolean,
 }
 
 export type TLSOptions = Pick<SecureContextOptions, 'pfx' | 'key' | 'passphrase' | 'cert' | 'ca'>;
@@ -168,6 +175,12 @@ export class WebClient extends Methods {
   private teamId?: string;
 
   /**
+   * Configuration to opt-out of attaching the original error
+   * (obtained from the HTTP client) to WebAPIRequestError.
+   */
+  private attachOriginalToWebAPIRequestError: boolean;
+
+  /**
    * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`)
    */
   public constructor(token?: string, {
@@ -182,6 +195,7 @@ export class WebClient extends Methods {
     rejectRateLimitedCalls = false,
     headers = {},
     teamId = undefined,
+    attachOriginalToWebAPIRequestError = true,
   }: WebClientOptions = {}) {
     super();
 
@@ -195,6 +209,7 @@ export class WebClient extends Methods {
     this.tlsConfig = tls !== undefined ? tls : {};
     this.rejectRateLimitedCalls = rejectRateLimitedCalls;
     this.teamId = teamId;
+    this.attachOriginalToWebAPIRequestError = attachOriginalToWebAPIRequestError;
 
     // Logging
     if (typeof logger !== 'undefined') {
@@ -613,7 +628,7 @@ export class WebClient extends Methods {
         const e = error as any;
         this.logger.warn('http request failed', e.message);
         if (e.request) {
-          throw requestErrorWithOriginal(e);
+          throw requestErrorWithOriginal(e, this.attachOriginalToWebAPIRequestError);
         }
         throw error;
       }

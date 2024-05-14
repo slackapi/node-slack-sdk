@@ -73,13 +73,16 @@ export function errorWithCode(error: Error, code: ErrorCode): CodedError {
 /**
  * A factory to create WebAPIRequestError objects
  * @param original - original error
+ * @param attachOriginal - config indicating if 'original' property should be added on the error object
  */
-export function requestErrorWithOriginal(original: Error): WebAPIRequestError {
+export function requestErrorWithOriginal(original: Error, attachOriginal: boolean): WebAPIRequestError {
   const error = errorWithCode(
     new Error(`A request error occurred: ${original.message}`),
     ErrorCode.RequestError,
   ) as Partial<WebAPIRequestError>;
-  error.original = original;
+  if (attachOriginal) {
+    error.original = original;
+  }
   return (error as WebAPIRequestError);
 }
 

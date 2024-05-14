@@ -2,7 +2,7 @@ require('mocha');
 const fs = require('fs');
 const path = require('path');
 const { Agent } = require('https');
-const { assert } = require('chai');
+const { assert, expect } = require('chai');
 const { WebClient, buildThreadTsWarningMessage } = require('./WebClient');
 const { ErrorCode } = require('./errors');
 const { LogLevel } = require('./logger');
@@ -1609,6 +1609,54 @@ describe('WebClient', function () {
       };
       await client.filesUploadV2(withRequestFileInfoFalse);
       assert.equal(client.getFileInfo.called, false);
+    });
+  });
+
+  describe('has an option to suppress request error from Axios', () => {
+
+    beforeEach(function () {
+      this.scope = nock('https://slack.com')
+      .post(/api/)
+      .replyWithError('Request failed!!')
+    })
+
+    it('the \'original\' property is attached when the option, attachOriginalToWebAPIRequestError is absent', async () => {
+      const client = new WebClient(token, {
+        retryConfig: { retries: 0 },
+      });
+
+      client.apiCall('conversations/list').catch((error) => {
+        expect(error).to.haveOwnProperty('original')
+        this.scope.done();
+        done();
+      });
+
+    });
+
+    it('the \'original\' property is attached when the option, attachOriginalToWebAPIRequestError is set to true', async () => {
+      const client = new WebClient(token,  {
+        attachOriginalToWebAPIRequestError: true,
+        retryConfig: { retries: 0 },
+      });
+
+      client.apiCall('conversations/list').catch((error) => {
+        expect(error).to.haveOwnProperty('original')
+        this.scope.done();
+        done();
+      });
+    });
+
+    it('the \'original\' property is not attached when the option, attachOriginalToWebAPIRequestError is set to false', async () => {
+      const client = new WebClient(token,  {
+        attachOriginalToWebAPIRequestError: false,
+        retryConfig: { retries: 0 },
+      });
+
+      client.apiCall('conversations/list').catch((error) => {
+        expect(error).not.to.haveOwnProperty('original')
+        this.scope.done();
+        done();
+      });
     });
   });
 
