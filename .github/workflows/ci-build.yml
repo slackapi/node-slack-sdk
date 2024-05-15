@@ -15,14 +15,14 @@ jobs:
       matrix:
         node-version: [18.x, 20.x]
         package:
-          - packages/cli-hooks
-          - packages/logger
-          - packages/oauth
-          - packages/rtm-api
-          - packages/socket-mode
-          - packages/types
-          - packages/web-api
-          - packages/webhook
+          - cli-hooks
+          - logger
+          - oauth
+          - rtm-api
+          - socket-mode
+          - types
+          - web-api
+          - webhook
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
@@ -32,7 +32,7 @@ jobs:
     - name: Get Development Dependencies
       run: npm i
     - name: Build and Run Tests in Each Package
-      working-directory: ${{ matrix.package }}
+      working-directory: packages/${{ matrix.package }}
       run: |
         npm install || npm list
         # depending on which package we are testing, also npm link up other dependent packages
@@ -40,7 +40,20 @@ jobs:
           */webhook) pushd ../types && npm i && popd && npm link ../types;;
           */web-api) pushd ../types && npm i && popd && npm link ../types && pushd ../logger && npm i && popd && npm link ../logger;;
           */oauth) pushd ../logger && npm i && popd && npm link ../logger && pushd ../web-api && npm i && popd && npm link ../web-api;;
-          # TODO: add socket-mode here once new major version released
+          */socket-mode) pushd ../logger && npm i && popd && npm link ../logger && pushd ../web-api && npm i && popd && npm link ../web-api;;
           *) ;; # default
         esac
         npm test
+    - name: Check for coverage report existence
+      id: check_coverage
+      uses: andstor/file-existence-action@v3
+      with:
+        files: packages/${{ matrix.package }}/coverage/lcov.info
+    - name: Upload code coverage
+      if: matrix.node-version == '20.x' && steps.check_coverage.outputs.files_exists == 'true'
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        directory: packages/${{ matrix.package }}/coverage
+        flags: ${{ matrix.package }}
+        verbose: true

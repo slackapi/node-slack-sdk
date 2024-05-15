@@ -1,0 +1,28 @@
+comment:
+  layout: "condensed_header, diff, flags"
+  
+flags:
+  cli-hooks:
+    paths:
+      - packages/cli-hooks/**
+    carryforward: true
+  logger:
+    paths:
+      - packages/logger/**
+    carryforward: true
+  oauth:
+    paths:
+      - packages/oauth/**
+    carryforward: true
+  socket-mode:
+    paths:
+      - packages/socket-mode/**
+    carryforward: true
+  web-api:
+    paths:
+      - packages/web-api/**
+    carryforward: true
+  webhook:
+    paths:
+      - packages/webhook/**
+    carryforward: true
