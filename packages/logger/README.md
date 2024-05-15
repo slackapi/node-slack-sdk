@@ -1,5 +1,7 @@
 # Slack Logger
 
+[![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/graph/badge.svg?token=OcQREPvC7r&flag=logger)](https://codecov.io/gh/slackapi/node-slack-sdk)
+
 The `@slack/logger` package is intended to be used as a simple logging interface that supports verbosity levels.
 
 ## Requirements

@@ -1,5 +1,7 @@
 # Slack Web API
 
+[![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/graph/badge.svg?token=OcQREPvC7r&flag=web-api)](https://codecov.io/gh/slackapi/node-slack-sdk)
+
 The `@slack/web-api` package contains a simple, convenient, and configurable HTTP client for making requests to Slack's
 [Web API](https://api.slack.com/web). Use it in your app to call any of the over 130
 [methods](https://api.slack.com/methods), and let it handle formatting, queuing, retrying, pagination, and more.

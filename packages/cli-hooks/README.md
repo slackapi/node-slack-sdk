@@ -1,5 +1,7 @@
 # Slack CLI Hooks
 
+[![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/graph/badge.svg?token=OcQREPvC7r&flag=cli-hooks)](https://codecov.io/gh/slackapi/node-slack-sdk)
+
 The `@slack/cli-hooks` package contains scripts that implement the contract
 between the [Slack CLI][cli] and [Bolt for JavaScript][bolt].
 

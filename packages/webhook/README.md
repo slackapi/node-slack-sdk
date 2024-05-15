@@ -1,5 +1,7 @@
 # Slack Incoming Webhooks
 
+[![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/graph/badge.svg?token=OcQREPvC7r&flag=webhook)](https://codecov.io/gh/slackapi/node-slack-sdk)
+
 The `@slack/webhook` package contains a helper for making requests to Slack's [Incoming
 Webhooks](https://api.slack.com/messaging/webhooks). Use it in your app to send a notification to a channel.
 

@@ -1,5 +1,7 @@
 # Slack Socket Mode
 
+[![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/graph/badge.svg?token=OcQREPvC7r&flag=socket-mode)](https://codecov.io/gh/slackapi/node-slack-sdk)
+
 This package is designed to support [**Socket Mode**][socket-mode], which allows your app to receive events from Slack over a WebSocket connection.
 
 ## Requirements
