@@ -3,8 +3,28 @@ import * as child from 'child_process';
 import { CustomError } from '../utils/custom-errors';
 import { slackCLILibConfig } from '../utils/slack-cli-config';
 import logger from '../utils/logger';
-import type { ShellProcess, LoginNoPromptResult } from '../utils/cli-lib-helper';
+import type { ShellProcess } from '../utils/cli-lib-helper';
 import { SlackTracerId } from '../utils/constants';
+
+/**
+ * login --no-prompt command results type
+ */
+interface LoginNoPromptResult {
+  /**
+   * Command output
+   */
+  shellOutput: ShellProcess['output'];
+  /**
+   * Slash command with auth ticket, e.g. '/slackauthticket MTMxNjgxMDUtYTYwOC00NzRhLWE3M2YtMjVmZTQyMjc1MDg4'
+   */
+  authTicketSlashCommand: string;
+  /**
+   * An auth ticket is a A UUID sequence granted by Slack to a CLI auth requestor.
+   * That ticket must then be submitted via slash command by a user logged in to Slack and permissions accepted to be
+   * granted a token for use.
+   */
+  authTicket: string;
+}
 
 /**
  * Class to spawn and interact with Slack Platform CLI processes and commands
@@ -962,11 +982,6 @@ export class SlackCLI {
     });
     return newError;
   }
-
-  /**
-   * ******** PRIVATE METHODS ********
-   * Used internally only
-   */
 
   /**
    * Run shell command

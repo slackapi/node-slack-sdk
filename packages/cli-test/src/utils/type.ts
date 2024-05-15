@@ -1,31 +1,4 @@
-/**
- * Test fixture types!
- */
-
-export interface TestFixture {
-  team?: TestTeam; // team(s) for test to occur with
-  user?: TestUser; // actor(s) performing test actions
-}
-
-export interface TestTeam {
-  id: string;
-  subdomain: string;
-  name: string;
-  product: string;
-  loginUrl?: string; // URL to access for login
-  isOktaLogin?: boolean; // true - CLI should attempt to login via Okta
-}
-
-export interface TestUser {
-  id: string;
-  email: string;
-  password: string;
-  username: string;
-}
-
-/**
- * Constants
- */
+import type { ChildProcessWithoutNullStreams } from 'child_process';
 
 export const SlackProduct = {
   FREE: 'FREE',
@@ -35,3 +8,22 @@ export const SlackProduct = {
   ENTERPRISE_SANDBOX: 'ENTERPRISE_SANDBOX',
   ENTERPRISE_SELECT: 'ENTERPRISE_SELECT',
 };
+
+export interface ShellProcess {
+  /**
+   * Child process object
+   */
+  process: ChildProcessWithoutNullStreams;
+  /**
+   * Command output
+   */
+  output: string;
+  /**
+   * Process state
+   */
+  finished: boolean;
+  /**
+   * Command string
+   */
+  command: string;
+}

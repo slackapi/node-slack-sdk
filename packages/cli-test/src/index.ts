@@ -3,7 +3,7 @@ export {
   shouldContainString,
   shouldContainStrings,
   shouldNotContainStrings,
-} from './utils/verification-helper';
+} from './utils/assertion-helpers';
 export { SlackTracerId } from './utils/constants';
 
 // Check for cli binary path
