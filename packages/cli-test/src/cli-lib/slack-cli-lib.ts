@@ -1,10 +1,9 @@
 import kill from 'tree-kill';
 import * as child from 'child_process';
 import { CustomError } from '../utils/custom-errors';
-import { slackCLILibConfig } from '../utils/slack-cli-config';
+import { timeouts, SlackTracerId } from '../utils/constants';
 import logger from '../utils/logger';
-import type { ShellProcess } from '../utils/cli-lib-helper';
-import { SlackTracerId } from '../utils/constants';
+import type { ShellProcess } from '../utils/types';
 
 /**
  * login --no-prompt command results type
@@ -1114,11 +1113,11 @@ export class SlackCLI {
         break;
       }
       waitedFor += timeout;
-      if (waitedFor > slackCLILibConfig.waitingTimeoutGlobal) {
+      if (waitedFor > timeouts.waitingGlobal) {
         // Kill the process
         kill(shell.process.pid!);
         throw new Error(
-          `checkIfFinished\nFailed to finish after ${slackCLILibConfig.waitingTimeoutAction} ms.\nCommand: ${shell.command}\nCurrent output: \n${shell.output}`,
+          `checkIfFinished\nFailed to finish after ${timeouts.waitingGlobal} ms.\nCommand: ${shell.command}\nCurrent output: \n${shell.output}`,
         );
       }
     }
@@ -1167,7 +1166,7 @@ export class SlackCLI {
         break;
       }
       waitedFor += timeout;
-      if (waitedFor > slackCLILibConfig.waitingTimeoutAction) {
+      if (waitedFor > timeouts.waitingAction) {
         // Kill the process
         kill(shell.process.pid!);
         throw new Error(
