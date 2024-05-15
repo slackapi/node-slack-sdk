@@ -1,0 +1,7 @@
+# Node and NPM stuff
+/node_modules
+package-lock.json
+dist
+
+# Coverage carryover
+/coverage
