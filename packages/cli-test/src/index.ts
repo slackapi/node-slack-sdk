@@ -1,9 +1,4 @@
 export { SlackCLI } from './cli';
-export {
-  shouldContainString,
-  shouldContainStrings,
-  shouldNotContainStrings,
-} from './utils/assertion-helpers';
 export { SlackTracerId } from './utils/constants';
 
 // Check for cli binary path
