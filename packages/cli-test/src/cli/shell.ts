@@ -4,15 +4,12 @@ import logger from '../utils/logger';
 import { timeouts } from '../utils/constants';
 import type { ShellProcess } from '../utils/types';
 
-// TODO: create a CLI command wrapper, maybe a class or something, that interacts with `shell` below.
-
 export const shell = {
   /**
    * Run shell command
    * - Start child process with the command
    * - Listen to data output events and collect them
-   * @param command cli command, e.g. <cli> --version or any shell command
-   * @param skipUpdate skip auto update notification
+   * @param command The command to run, e.g. `echo "hi"`
    * @returns command output
    */
   runCommandAsync: async function runAsyncCommand(command: string, skipUpdate = true): Promise<ShellProcess> {
