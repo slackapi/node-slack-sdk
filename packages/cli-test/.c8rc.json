@@ -1,5 +1,5 @@
 {
-  "include": ["src/*.js"],
+  "include": ["src/**/*.js"],
   "exclude": ["**/*.spec.js"],
   "reporter": ["lcov", "text"],
   "all": false,

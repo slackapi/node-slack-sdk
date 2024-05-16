@@ -1,4 +1,4 @@
-export { SlackCLI } from './cli-lib/slack-cli-lib';
+export { SlackCLI } from './cli';
 export {
   shouldContainString,
   shouldContainStrings,

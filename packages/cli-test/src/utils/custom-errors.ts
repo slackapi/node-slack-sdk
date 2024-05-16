@@ -1,3 +1,8 @@
+// TODO: refactor this error class:
+// - reuse nodejs error `cause` to encode the 'wrapping' behaviour this class intends to implement https://nodejs.org/api/errors.html#errorcause
+// - instead of `name`, consider reusing node error `code` https://nodejs.org/api/errors.html#errorcode
+// - review how stack traces present themselves and possibly consider using `captureStackTrace` https://nodejs.org/api/errors.html#errorcapturestacktracetargetobject-constructoropt
+
 /**
  * Custom error class for cli methods
  */

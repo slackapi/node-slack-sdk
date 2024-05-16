@@ -1,4 +1,4 @@
-import { SlackCLI } from '../cli-lib/slack-cli-lib';
+import { SlackCLI } from '../cli/slack-cli-lib';
 
 /**
  * Verify that `actual` contains `expected` string
