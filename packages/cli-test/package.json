@@ -15,7 +15,7 @@
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
     "prepare": "npm run build",
-    "mocha": "mocha --config .mocharc.json src/*.spec.ts src/**/*.spec.ts",
+    "mocha": "cross-env SLACK_CLI_PATH=/doesnt/matter mocha --config .mocharc.json src/*.spec.ts src/**/*.spec.ts",
     "test": "npm run lint && npm run build && c8 npm run mocha"
   },
   "keywords": [],
@@ -35,6 +35,7 @@
     "@typescript-eslint/parser": "^6",
     "c8": "^9.1.0",
     "chai": "^4.4.1",
+    "cross-env": "^7.0.3",
     "eslint": "^8",
     "eslint-config-airbnb-base": "^15",
     "eslint-config-airbnb-typescript": "^17",

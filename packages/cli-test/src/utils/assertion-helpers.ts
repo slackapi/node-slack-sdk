@@ -1,5 +1,8 @@
 import { SlackCLI } from '../cli';
 
+// TODO: is this even useful? developers writing tests will likely
+// want to use their own assertion libraries (chai, sinon, should, etc)
+
 /**
  * Verify that `actual` contains `expected` string
  * - throw custom error, if fail
