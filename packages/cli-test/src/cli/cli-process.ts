@@ -5,16 +5,22 @@ import type { ShellProcess } from '../utils/types';
   * @param skipUpdate skip auto update notification
   */
 
-interface GlobalSlackCLIOptions {
+interface SlackCLIGlobalOptions {
   /**
-   * @description Whether the command should interact with dev.slack
+   * @description Whether the command should interact with dev.slack (`--slackdev`)
+   */
+  dev?: boolean;
+  /**
+   * @description Whether the command should interact with dev.slack (`--slackdev`)
    */
   qa?: boolean;
   /**
-   * @description Whether the command should interact with dev.slack
+   * @description Whether the CLI should skip updating (`--skip-update`). Defaults to `true`.
    */
-  dev?: boolean;
+  skipUpdate?: boolean;
 }
+
+type SlackCLICommandOptions = Record<string, string | null>;
 
 export class SlackCLIProcess {
   /**
@@ -23,16 +29,22 @@ export class SlackCLIProcess {
   public command: string;
 
   /**
-   * @description The global CLI options associated with the command
+   * @description The global CLI options to pass to the command
    */
-  public globalOptions: GlobalSlackCLIOptions | undefined;
+  public globalOptions: SlackCLIGlobalOptions | undefined;
 
-  public constructor(command: string, options?: GlobalSlackCLIOptions) {
+  /**
+   * @description The CLI command-specific options to pass to the command
+   */
+  public commandOptions: SlackCLICommandOptions | undefined;
+
+  public constructor(command: string, globalOptions?: SlackCLIGlobalOptions, commandOptions?: SlackCLICommandOptions) {
     if (!process.env.SLACK_CLI_PATH) {
       throw new Error('`SLACK_CLI_PATH` environment variable not found! Aborting!');
     }
     this.command = command;
-    this.globalOptions = options;
+    this.globalOptions = globalOptions;
+    this.commandOptions = commandOptions;
   }
 
   /**
@@ -46,12 +58,26 @@ export class SlackCLIProcess {
   }
 
   private assembleShellInvocation(): string {
-    let cmd = `${process.env.SLACK_CLI_PATH} ${this.command}`;
+    let cmd = `${process.env.SLACK_CLI_PATH}`;
     if (this.globalOptions) {
       const opts = this.globalOptions;
       if (opts.qa || opts.dev) {
         cmd += ' --slackdev';
       }
+      if (!opts.skipUpdate || opts.skipUpdate === true) {
+        cmd += ' --skip-update';
+      }
+    }
+    cmd += ` ${this.command}`;
+    if (this.commandOptions) {
+      Object.entries(this.commandOptions).forEach(([key, value]) => {
+        if (key) {
+          cmd += ` ${key}`;
+          if (value) {
+            cmd += ` ${value}`;
+          }
+        }
+      });
     }
     return cmd;
   }

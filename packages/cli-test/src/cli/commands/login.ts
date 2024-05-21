@@ -1,5 +1,5 @@
 import type { ShellProcess } from '../../utils/types';
-import { shell } from '../shell';
+import { SlackCLIProcess } from '../cli-process';
 import commandError from '../command-error';
 
 export default {
@@ -22,23 +22,15 @@ export default {
      */
     authTicket: string;
   }> {
-    // add no-prompt login flag
-    let command = `${process.env.SLACK_CLI_PATH} login --no-prompt`;
-    // TODO: dev login option should be encoded in a CLI shell command wrapper
-    // Dev login
-    if (options?.qa) {
-      command = `${command} --slackdev`;
-    }
+    const cmd = new SlackCLIProcess('login', options, {
+      '--no-prompt': null,
+    });
     try {
-      const proc = await shell.runCommandAsync(command);
+      const proc = await cmd.execAsync();
 
       // Get auth token
-      await shell.waitForOutput('/slackauthticket', proc);
       const authTicketSlashCommand = proc.output.match('/slackauthticket(.*)')![0];
       const authTicket = authTicketSlashCommand.split(' ')[1];
-
-      // Wait for shell.finished state
-      await shell.checkIfFinished(proc);
 
       return {
         shellOutput: proc.output,
@@ -48,7 +40,7 @@ export default {
     } catch (error) {
       throw commandError(
         error,
-        'loginChallenge',
+        this.loginNoPrompt.name,
         'Error running command. \nTip: You must have no active authenticated sessions in cli',
       );
     }
@@ -67,26 +59,18 @@ export default {
       qa?: boolean;
     },
   ): Promise<string> {
-    let command = `${process.env.SLACK_CLI_PATH} login`;
-    // TODO: dev login option should be encoded in a CLI shell command wrapper
-    // Dev login
-    if (options?.qa) {
-      command = `${command} --slackdev`;
-    }
+    const cmd = new SlackCLIProcess('login', options, {
+      '--no-prompt': null,
+      '--challenge': challenge,
+      '--ticket': authTicket,
+    });
     try {
-      // Exchange the challenge code and ticket # for a token
-      const exchangeTicketCommand = `${command} --no-prompt --challenge ${challenge} --ticket ${authTicket}`;
-      const proc = await shell.runCommandAsync(exchangeTicketCommand);
-
-      // Wait for shell.finished state
-      await shell.checkIfFinished(proc);
-
-      // Return output
+      const proc = await cmd.execAsync();
       return proc.output;
     } catch (error) {
       throw commandError(
         error,
-        'loginChallengeExchange',
+        this.loginChallengeExchange.name,
         'Error running command. \nTip: You must be authenticated in Slack client and have valid challenge and authTicket',
       );
     }
