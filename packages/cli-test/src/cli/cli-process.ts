@@ -64,16 +64,18 @@ export class SlackCLIProcess {
       if (opts.qa || opts.dev) {
         cmd += ' --slackdev';
       }
-      if (!opts.skipUpdate || opts.skipUpdate === true) {
+      if (opts.skipUpdate) {
         cmd += ' --skip-update';
       }
+    } else {
+      cmd += ' --skip-update';
     }
     cmd += ` ${this.command}`;
     if (this.commandOptions) {
       Object.entries(this.commandOptions).forEach(([key, value]) => {
         if (key) {
           cmd += ` ${key}`;
-          if (value) {
+          if (value !== null) {
             cmd += ` ${value}`;
           }
         }

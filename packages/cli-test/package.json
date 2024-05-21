@@ -1,6 +1,6 @@
 {
   "name": "@slack/cli-test",
-  "version": "0.0.1",
+  "version": "0.0.1-cli.2.24.0",
   "description": "Node.js bindings for the Slack CLI for use in automated testing",
   "engines": {
     "node": ">=18.15.5"
