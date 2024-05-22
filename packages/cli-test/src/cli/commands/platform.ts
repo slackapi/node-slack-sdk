@@ -3,6 +3,9 @@ import { SlackCLIProcess } from '../cli-process';
 import { shell } from '../shell';
 import type { ShellProcess } from '../../utils/types';
 import commandError from '../command-error';
+import { SlackTracerId } from '../../utils/constants';
+
+// TODO: the options for these methods could be DRYed up
 
 export default {
   /**
@@ -136,6 +139,67 @@ export default {
       return proc.output;
     } catch (error) {
       throw commandError(error, 'deploy');
+    }
+  },
+
+  /**
+   * start `slack run`
+   * - `runStop` must be used to stop `run` process
+   * @returns shell object to kill it explicitly in the test case
+   */
+  runStart: async function runStart({
+    appPath,
+    teamFlag,
+    cleanup = true,
+    hideTriggers = true,
+    orgWorkspaceGrantFlag,
+  }: {
+    /** Path to app */
+    appPath: string;
+    /** workspace or organization name or ID to deploy the app to */
+    teamFlag: string;
+    /** delete the app after `run` completes */
+    cleanup?: boolean;
+    /** hides output and prompts related to triggers. Defaults to `true`. */
+    hideTriggers?: boolean;
+    /**
+     * Org workspace ID, or the string `all` to request access to all workspaces in the org,
+     * to request grant access to in AAA scenarios
+     */
+    orgWorkspaceGrantFlag?: string;
+  }): Promise<ShellProcess> {
+    const cmd = new SlackCLIProcess('run', { team: teamFlag }, {
+      '--cleanup': cleanup,
+      '--hide-triggers': hideTriggers,
+      '--org-workspace-grant': orgWorkspaceGrantFlag,
+    });
+    try {
+      const proc = await cmd.execAsyncUntilOutputPresent('Connected, awaiting events', {
+        cwd: appPath,
+      });
+      return proc;
+    } catch (error) {
+      throw commandError(error, 'runStart');
+    }
+  },
+
+  /**
+   * stop `slack run`
+   * @param shell object with process to kill
+   * @param teamName to check that app was deleted from that team
+   */
+  runStop: async function runStop(proc: ShellProcess, teamName?: string): Promise<void> {
+    try {
+      // Kill the process
+      kill(proc.process.pid!);
+
+      // Check if local app was deleted automatically, if --cleanup was passed to `runStart`
+      if (teamName) {
+        // Wait for the output to verify process stopped
+        await shell.waitForOutput(SlackTracerId.SLACK_TRACE_PLATFORM_RUN_STOP, proc);
+      }
+    } catch (error) {
+      throw commandError(error, 'runStop', 'Could not kill run process');
     }
   },
 };

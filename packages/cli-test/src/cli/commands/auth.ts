@@ -1,5 +1,5 @@
 import type { ShellProcess } from '../../utils/types';
-import { SlackCLIProcess } from '../cli-process';
+import { SlackCLIProcess, SlackCLIGlobalOptions, SlackCLICommandOptions } from '../cli-process';
 import commandError from '../command-error';
 
 export default {
@@ -45,9 +45,10 @@ export default {
       );
     }
   },
+
   // TODO: (breaking change) inconsistent use of object-as-params vs. separate parameters
   /**
-   * login --no-prompt --challenge --ticket command
+   * `slack login --no-prompt --challenge --ticket`
    * @param challenge challenge string from UI
    * @param authTicket authTicket string from loginNoPrompt
    * @param options
@@ -74,6 +75,35 @@ export default {
         this.loginChallengeExchange.name,
         'Error running command. \nTip: You must be authenticated in Slack client and have valid challenge and authTicket',
       );
+    }
+  },
+
+  /**
+   * `slack logout`
+   * @returns command output
+   */
+  logout: async function logout(options?: {
+    // TODO: (breaking change) the two flags here are mutually exclusive; model better using an `|` of types
+    /** team domain to logout from */
+    teamFlag?: string;
+    /** perform the logout for all authentications */
+    allWorkspaces?: boolean
+  }): Promise<string> {
+    // TODO: (breaking change) inconsistent use of object-as-params vs. separate parameters
+    // Create the command with workspaces to logout of
+    const globalOpts: SlackCLIGlobalOptions = {};
+    const cmdOpts: SlackCLICommandOptions = {};
+    if (options?.teamFlag) {
+      globalOpts.team = options.teamFlag;
+    } else if (options?.allWorkspaces) {
+      cmdOpts['--all'] = true;
+    }
+    const cmd = new SlackCLIProcess('logout', globalOpts, cmdOpts);
+    try {
+      const proc = await cmd.execAsync();
+      return proc.output;
+    } catch (error) {
+      throw commandError(error, 'logout');
     }
   },
 };

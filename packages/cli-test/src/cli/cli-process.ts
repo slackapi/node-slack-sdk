@@ -6,7 +6,7 @@ import type { ShellProcess } from '../utils/types';
   * @param skipUpdate skip auto update notification
   */
 
-interface SlackCLIGlobalOptions {
+export interface SlackCLIGlobalOptions {
   /**
    * @description Whether the command should interact with dev.slack (`--slackdev`)
    */
@@ -25,7 +25,7 @@ interface SlackCLIGlobalOptions {
   team?: string;
 }
 
-type SlackCLICommandOptions = Record<string, string | boolean | undefined>;
+export type SlackCLICommandOptions = Record<string, string | boolean | undefined>;
 
 export class SlackCLIProcess {
   /**
