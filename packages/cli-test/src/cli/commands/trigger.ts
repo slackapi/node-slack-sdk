@@ -5,6 +5,26 @@ import commandError from '../command-error';
 // Perhaps expose the SlackCommandOptions type directly?
 
 /**
+ * `slack trigger access`
+ * @param appPath path to app
+ * @param teamFlag team domain of the updating trigger
+ * @param flags specification of trigger access, e.g. --trigger-id Ft0143UPTAV8 --everyone
+ * @returns command output
+ */
+export const access = async function triggerAccess(appPath: string, teamFlag: string, flags: string): Promise<string> {
+  // TODO: (breaking change) separate params vs. single-param-object
+  // TODO: access requires --trigger-id so add that to parameters (breaking change)
+  const cmd = new SlackCLIProcess(`trigger access ${flags}`, { team: teamFlag });
+  try {
+    const proc = await cmd.execAsync({
+      cwd: appPath,
+    });
+    return proc.output;
+  } catch (error) {
+    throw commandError(error, 'triggerAccess');
+  }
+};
+/**
  * `slack trigger create`
  * @returns command output
  */
@@ -42,6 +62,27 @@ export const create = async function triggerCreate({
     return proc.output;
   } catch (error) {
     throw commandError(error, 'triggerCreate');
+  }
+};
+
+/**
+ * `slack trigger delete`
+ * @param appPath path to the app
+ * @param teamFlag team domain to delete trigger from
+ * @param flag
+ * @returns command output
+ */
+export const del = async function triggerDelete(appPath: string, teamFlag: string, flag: string): Promise<string> {
+  // TODO: (breaking change) separate params vs. single-param-object
+  // TODO: delete requires --trigger-id so add that to parameters (breaking change)
+  const cmd = new SlackCLIProcess(`trigger delete ${flag}`, { team: teamFlag });
+  try {
+    const proc = await cmd.execAsync({
+      cwd: appPath,
+    });
+    return proc.output;
+  } catch (error) {
+    throw commandError(error, 'triggerDelete');
   }
 };
 
@@ -108,7 +149,9 @@ export const update = async function triggerUpdate(appPath: string, teamFlag: st
 
 // TODO: (breaking change): rename properties of this default export to match actual command names
 export default {
+  triggerAccess: access,
   triggerCreate: create,
+  triggerDelete: del,
   triggerInfo: info,
   triggerList: list,
   triggerUpdate: update,

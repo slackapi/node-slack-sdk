@@ -63,6 +63,19 @@ export class SlackCLIProcess {
   }
 
   /**
+   * @description Executes the command asynchronously, returning the process details once the process finishes executing
+   */
+  public async execAsyncUntilOutputPresent(
+    output: string,
+    shellOpts?: Partial<SpawnOptionsWithoutStdio>,
+  ): Promise<ShellProcess> {
+    const cmd = this.assembleShellInvocation();
+    const proc = await shell.runCommandAsync(cmd, shellOpts);
+    await shell.waitForOutput(output, proc);
+    return proc;
+  }
+
+  /**
    * @description Executes the command synchronously, returning the process standard output
    */
   public execSync(shellOpts?: Partial<SpawnOptionsWithoutStdio>): string {

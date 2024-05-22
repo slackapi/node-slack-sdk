@@ -155,23 +155,18 @@ export const shell = {
     expString: string,
     proc: ShellProcess,
   ): Promise<void | Error> {
-    const timeout = 1000;
+    const delay = 1000;
     let waitedFor = 0;
 
-    // TODO: test for the condition in the `while` clause
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
+    while (!proc.output.includes(expString)) {
       // eslint-disable-next-line no-await-in-loop
-      await this.sleep(timeout);
-      if (proc.output.includes(expString)) {
-        break;
-      }
-      waitedFor += timeout;
+      await this.sleep(delay);
+      waitedFor += delay;
       if (waitedFor > timeouts.waitingAction) {
         // Kill the process
         kill(proc.process.pid!);
         throw new Error(
-          `waitForOutput\nCouldn't wait for output. ${timeout} milliseconds passed. \nExpected: ${expString}\nActual: ${proc.output}`,
+          `waitForOutput\nCouldn't wait for output. ${waitedFor} milliseconds passed. \nExpected: ${expString}\nActual: ${proc.output}`,
         );
       }
     }
