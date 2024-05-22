@@ -4,7 +4,11 @@ import logger from '../utils/logger';
 import type { ShellProcess } from '../utils/types';
 import { shell } from './shell';
 import commandError from './command-error';
-import loginCommands from './commands/login';
+import authCommands from './commands/auth';
+import collaboratorCommands from './commands/collaborator';
+import envCommands from './commands/env';
+import platformCommands from './commands/platform';
+import triggerCommands from './commands/trigger';
 
 // TODO: many of the functions exported have the same structure:
 // run command async, wait for process to stop, return output. could probably dry it up.
@@ -13,332 +17,28 @@ import loginCommands from './commands/login';
  * Set of functions to spawn and interact with Slack Platform CLI processes and commands
  */
 export const SlackCLI = {
-  ...loginCommands,
-
-  /**
-   * deploy command
-   * @param appPath path to app
-   * @param teamFlag team domain to deploy the app to
-   * @param hideTriggers hides output and prompts related to triggers via flag
-   * @param orgWorkspaceGrantFlag Org workspace to request grant access to in AAA scenarios
-   * @returns command output
-   */
-  deploy: async function deploy({
-    appPath,
-    teamFlag,
-    hideTriggers = true,
-    orgWorkspaceGrantFlag,
-  }: {
-    appPath: string;
-    teamFlag: string;
-    /**
-     * The deploy command will prompt the user to create a trigger if at least one
-     * trigger definition file is found in the app.
-     * If SlackCLI value is true, trigger outputs and prompts will be hidden
-     */
-    hideTriggers?: boolean;
-    orgWorkspaceGrantFlag?: string;
-  }): Promise<string> {
-    try {
-      // Configure command for different envs
-      let command = `cd ${appPath} && ${process.env.SLACK_CLI_PATH} deploy --team ${teamFlag}`;
-      if (hideTriggers) {
-        command += ' --hide-triggers';
-      }
-      if (orgWorkspaceGrantFlag) {
-        command += ` --org-workspace-grant ${orgWorkspaceGrantFlag}`;
-      }
-
-      return shell.runCommandSync(command);
-    } catch (error) {
-      throw SlackCLI.commandError(error, 'deploy');
-    }
+  ...authCommands,
+  auth: authCommands,
+  ...collaboratorCommands, // TODO: (breaking change) remove, mimic same 'namespacing' as the actual CLI
+  collaborators: {
+    add: collaboratorCommands.collaboratorsAdd,
+    list: collaboratorCommands.collaboratorsList,
+    remove: collaboratorCommands.collaboratorsRemove,
   },
-
-  /**
-   * collaborators list command
-   * @param appPath path to app
-   * @param teamFlag team domain to list collaborators for
-   * @returns command output
-   */
-  collaboratorsList: async function collaboratorsList(appPath: string, teamFlag: string): Promise<string> {
-    try {
-      // Start child process and run command
-      // TODO: instead of `cd` into app path, should move SlackCLI to setting `cwd` on the child process
-      const proc = await shell.runCommandAsync(
-        `cd ${appPath} && ${process.env.SLACK_CLI_PATH} collaborators list --team ${teamFlag}`,
-      );
-
-      // Check if process finished
-      await shell.checkIfFinished(proc);
-
-      // Return output
-      return proc.output;
-    } catch (error) {
-      throw SlackCLI.commandError(error, 'collaboratorsList', 'Error running command');
-    }
+  ...envCommands, // TODO: (breaking change) remove, mimic same 'namespacing' as the actual CLI
+  env: {
+    add: envCommands.envAdd,
+    list: envCommands.envList,
+    remove: envCommands.envRemove,
   },
-
-  /**
-   * collaborators add command
-   * @param appPath path to app
-   * @param teamFlag team domain to add collaborators to
-   * @param collaboratorEmail email of the user to be added as a collaborator
-   * @returns command output
-   */
-  collaboratorsAdd: async function collaboratorsAdd(
-    appPath: string,
-    teamFlag: string,
-    collaboratorEmail: string,
-  ): Promise<string> {
-    try {
-      // Start child process and run command
-      // TODO: instead of `cd` into app path, should move SlackCLI to setting `cwd` on the child process
-      const proc = await shell.runCommandAsync(
-        `cd ${appPath} && ${process.env.SLACK_CLI_PATH} collaborators add ${collaboratorEmail} --team ${teamFlag}`,
-      );
-
-      // Check if process finished
-      await shell.checkIfFinished(proc);
-
-      // Return output
-      return proc.output;
-    } catch (error) {
-      throw SlackCLI.commandError(error, 'collaboratorsAdd');
-    }
-  },
-
-  /**
-   * collaborators remove command
-   * @param appPath path to app
-   * @param teamFlag team domain to remove collaborators from
-   * @param collaboratorEmail email of the user to be removed as a collaborator
-   * @returns command output
-   */
-  collaboratorsRemove: async function collaboratorsRemove(
-    appPath: string,
-    teamFlag: string,
-    collaboratorEmail: string,
-  ): Promise<string> {
-    try {
-      // Start child process and run command
-      // TODO: instead of `cd` into app path, should move SlackCLI to setting `cwd` on the child process
-      const proc = await shell.runCommandAsync(
-        `cd ${appPath} && ${process.env.SLACK_CLI_PATH} collaborators remove ${collaboratorEmail} --team ${teamFlag}`,
-      );
-
-      // Check if process finished
-      await shell.checkIfFinished(proc);
-
-      // Return output
-      return proc.output;
-    } catch (error) {
-      throw SlackCLI.commandError(error, 'collaboratorsRemove');
-    }
-  },
-
-  /**
-   * env list command
-   * @param appPath path to app
-   * @param teamFlag team domain where variables were added
-   * @returns command output
-   */
-  envList: async function envList(appPath: string, teamFlag: string): Promise<string> {
-    try {
-      // Start child process and run command
-      // TODO: instead of `cd` into app path, should move SlackCLI to setting `cwd` on the child process
-      const proc = await shell.runCommandAsync(
-        `cd ${appPath} && ${process.env.SLACK_CLI_PATH} env list --team ${teamFlag}`,
-      );
-
-      // Check if process finished
-      await shell.checkIfFinished(proc);
-
-      // Return output
-      return proc.output;
-    } catch (error) {
-      throw SlackCLI.commandError(error, 'envList');
-    }
-  },
-
-  /**
-   * env add command
-   * @param appPath path to app
-   * @param teamFlag team domain to add environment variables to
-   * @param secretKey environment variable key
-   * @param secretValue environment variable value
-   * @returns command output
-   */
-  envAdd: async function envAdd(
-    appPath: string,
-    teamFlag: string,
-    secretKey: string,
-    secretValue: string,
-  ): Promise<string> {
-    try {
-      // Start child process and run command
-      // TODO: instead of `cd` into app path, should move SlackCLI to setting `cwd` on the child process
-      const proc = await shell.runCommandAsync(
-        `cd ${appPath} && ${process.env.SLACK_CLI_PATH} env add ${secretKey} ${secretValue} --team ${teamFlag}`,
-      );
-
-      // Check if process finished
-      await shell.checkIfFinished(proc);
-
-      // Return output
-      return proc.output;
-    } catch (error) {
-      throw SlackCLI.commandError(error, 'envAdd');
-    }
-  },
-
-  /**
-   * env remove command
-   * @param appPath path to app
-   * @param teamFlag team domain to remove environment variables from
-   * @param secretKey environment variable key
-   * @returns command output
-   */
-  envRemove: async function envRemove(appPath: string, teamFlag: string, secretKey: string): Promise<string> {
-    try {
-      // Start child process and run command
-      // TODO: instead of `cd` into app path, should move SlackCLI to setting `cwd` on the child process
-      const proc = await shell.runCommandAsync(
-        `cd ${appPath} && ${process.env.SLACK_CLI_PATH} env remove ${secretKey} --team ${teamFlag}`,
-      );
-
-      // Check if process finished
-      await shell.checkIfFinished(proc);
-
-      // Return output
-      return proc.output;
-    } catch (error) {
-      throw SlackCLI.commandError(error, 'envRemove');
-    }
-  },
-
-  /**
-   * trigger create command
-   * @param appPath path to app
-   * @param teamFlag team domain where the trigger will be created
-   * @param flag method of trigger creation + ref, i.e. --trigger-def triggers/add-pin.json, etc
-   * @param orgWorkspaceGrantFlag trigger create command will attempt to install an app. This flag
-   * supplies additional workspace within an org to grant app access to as part of install
-   * @returns command output
-   */
-  // TODO: SlackCLI does not need to be async; why was it implemented using sync shell command?
-  triggerCreate: async function triggerCreate({
-    appPath,
-    teamFlag,
-    flag,
-    orgWorkspaceGrantFlag,
-    options,
-  }: {
-    appPath: string;
-    teamFlag: string;
-    flag: string;
-    orgWorkspaceGrantFlag?: string;
-    options?: {
-      /**
-       * Local app for local run sessions
-       */
-      localApp?: boolean;
-      /**
-       * Install app by selecting "Install to a new team"
-       */
-      installApp?: boolean;
-    };
-  }): Promise<string> {
-    try {
-      const appEnvironment = options?.localApp ? 'local' : 'deployed';
-
-      // Start child process and run command
-      // TODO: instead of `cd` into app path, should move SlackCLI to setting `cwd` on the child process
-      let command = `cd ${appPath} && ${process.env.SLACK_CLI_PATH} trigger create ${flag} --team ${teamFlag} --app ${appEnvironment}`;
-
-      if (orgWorkspaceGrantFlag) {
-        command += ` --org-workspace-grant ${orgWorkspaceGrantFlag}`;
-      }
-
-      return shell.runCommandSync(command);
-    } catch (error) {
-      throw SlackCLI.commandError(error, 'triggerCreate');
-    }
-  },
-
-  /**
-   * trigger list command
-   * @param appPath path to app
-   * @param teamFlag team domain for listing all triggers
-   * @param flag of trigger list
-   * @returns command output
-   */
-  triggerList: async function triggerList(appPath: string, teamFlag: string, flag: string): Promise<string> {
-    try {
-      // Start child process and run command
-      // TODO: instead of `cd` into app path, should move SlackCLI to setting `cwd` on the child process
-      const proc = await shell.runCommandAsync(
-        `cd ${appPath} && ${process.env.SLACK_CLI_PATH} triggers list ${flag} --team ${teamFlag}`,
-      );
-
-      // Check if process is finished
-      await shell.checkIfFinished(proc);
-
-      // Return output
-      return proc.output;
-    } catch (error) {
-      throw SlackCLI.commandError(error, 'triggerList');
-    }
-  },
-
-  /**
-   * trigger update command
-   * @param appPath path to the app
-   * @param teamFlag team domain for the updating trigger
-   * @param flag specification of trigger update, e.g --trigger-id Ft0143UPTAV8
-   * @returns command output
-   */
-  triggerUpdate: async function triggerUpdate(appPath: string, teamFlag: string, flag: string): Promise<string> {
-    try {
-      // Start child process and run command
-      // TODO: instead of `cd` into app path, should move SlackCLI to setting `cwd` on the child process
-      const proc = await shell.runCommandAsync(
-        `cd ${appPath} && ${process.env.SLACK_CLI_PATH} trigger update ${flag} --team ${teamFlag}`,
-      );
-
-      // Check if process is finished
-      await shell.checkIfFinished(proc);
-
-      // Return output
-      return proc.output;
-    } catch (error) {
-      throw SlackCLI.commandError(error, 'triggerUpdate');
-    }
-  },
-
-  /**
-   * trigger info command
-   * @param appPath path to the app
-   * @param teamFlag team domain of the trigger
-   * @param flag
-   * @returns command output
-   */
-  triggerInfo: async function triggerInfo(appPath: string, teamFlag: string, flag: string): Promise<string> {
-    try {
-      // Start child process and run command
-      // TODO: instead of `cd` into app path, should move SlackCLI to setting `cwd` on the child process
-      const proc = await shell.runCommandAsync(
-        `cd ${appPath} && ${process.env.SLACK_CLI_PATH} trigger info ${flag} --team ${teamFlag}`,
-      );
-
-      // Check if process is finished
-      await shell.checkIfFinished(proc);
-
-      // Return output
-      return proc.output;
-    } catch (error) {
-      throw SlackCLI.commandError(error, 'triggerInfo');
-    }
+  ...platformCommands,
+  platform: platformCommands,
+  ...triggerCommands,
+  trigger: {
+    create: triggerCommands.triggerCreate,
+    info: triggerCommands.triggerInfo,
+    list: triggerCommands.triggerList,
+    update: triggerCommands.triggerUpdate,
   },
 
   /**
