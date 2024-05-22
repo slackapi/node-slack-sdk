@@ -23,7 +23,7 @@ export default {
     authTicket: string;
   }> {
     const cmd = new SlackCLIProcess('login', options, {
-      '--no-prompt': null,
+      '--no-prompt': true,
     });
     try {
       const proc = await cmd.execAsync();
@@ -45,6 +45,7 @@ export default {
       );
     }
   },
+  // TODO: (breaking change) inconsistent use of object-as-params vs. separate parameters
   /**
    * login --no-prompt --challenge --ticket command
    * @param challenge challenge string from UI
@@ -60,7 +61,7 @@ export default {
     },
   ): Promise<string> {
     const cmd = new SlackCLIProcess('login', options, {
-      '--no-prompt': null,
+      '--no-prompt': true,
       '--challenge': challenge,
       '--ticket': authTicket,
     });
