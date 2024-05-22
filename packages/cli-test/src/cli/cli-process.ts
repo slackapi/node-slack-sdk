@@ -1,3 +1,4 @@
+import type { SpawnOptionsWithoutStdio } from 'node:child_process';
 import { shell } from './shell';
 import type { ShellProcess } from '../utils/types';
 /*
@@ -18,9 +19,13 @@ interface SlackCLIGlobalOptions {
    * @description Whether the CLI should skip updating (`--skip-update`). Defaults to `true`.
    */
   skipUpdate?: boolean;
+  /**
+   * @description workspace or organization name or ID to scope command to
+   */
+  team?: string;
 }
 
-type SlackCLICommandOptions = Record<string, string | null>;
+type SlackCLICommandOptions = Record<string, string | boolean | undefined>;
 
 export class SlackCLIProcess {
   /**
@@ -50,11 +55,19 @@ export class SlackCLIProcess {
   /**
    * @description Executes the command asynchronously, returning the process details once the process finishes executing
    */
-  public async execAsync(): Promise<ShellProcess> {
+  public async execAsync(shellOpts?: Partial<SpawnOptionsWithoutStdio>): Promise<ShellProcess> {
     const cmd = this.assembleShellInvocation();
-    const proc = await shell.runCommandAsync(cmd);
+    const proc = await shell.runCommandAsync(cmd, shellOpts);
     await shell.checkIfFinished(proc);
     return proc;
+  }
+
+  /**
+   * @description Executes the command synchronously, returning the process standard output
+   */
+  public execSync(shellOpts?: Partial<SpawnOptionsWithoutStdio>): string {
+    const cmd = this.assembleShellInvocation();
+    return shell.runCommandSync(cmd, shellOpts);
   }
 
   private assembleShellInvocation(): string {
@@ -67,15 +80,18 @@ export class SlackCLIProcess {
       if (opts.skipUpdate) {
         cmd += ' --skip-update';
       }
+      if (opts.team) {
+        cmd += ` --team ${opts.team}`;
+      }
     } else {
       cmd += ' --skip-update';
     }
     cmd += ` ${this.command}`;
     if (this.commandOptions) {
       Object.entries(this.commandOptions).forEach(([key, value]) => {
-        if (key) {
+        if (key && value) {
           cmd += ` ${key}`;
-          if (value !== null) {
+          if (value !== true) {
             cmd += ` ${value}`;
           }
         }

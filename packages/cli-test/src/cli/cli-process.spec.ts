@@ -61,10 +61,23 @@ describe('SlackCLIProcess class', () => {
         await cmd.execAsync();
         sandbox.assert.calledWithMatch(runAsyncSpy, '--awesome yes');
       });
-      it('should only pass command-level key option if value is null in the form `--key`', async () => {
-        const cmd = new SlackCLIProcess('help', {}, { '--no-prompt': null });
+      it('should only pass command-level key option if value is true in the form `--key`', async () => {
+        const cmd = new SlackCLIProcess('help', {}, { '--no-prompt': true });
         await cmd.execAsync();
         sandbox.assert.calledWithMatch(runAsyncSpy, '--no-prompt');
+      });
+      it('should not pass command-level key option if value is falsy', async () => {
+        let cmd = new SlackCLIProcess('help', {}, { '--no-prompt': false });
+        await cmd.execAsync();
+        sandbox.assert.neverCalledWithMatch(runAsyncSpy, '--no-prompt');
+        runAsyncSpy.resetHistory();
+        cmd = new SlackCLIProcess('help', {}, { '--no-prompt': '' });
+        await cmd.execAsync();
+        sandbox.assert.neverCalledWithMatch(runAsyncSpy, '--no-prompt');
+        runAsyncSpy.resetHistory();
+        cmd = new SlackCLIProcess('help', {}, { '--no-prompt': undefined });
+        await cmd.execAsync();
+        sandbox.assert.neverCalledWithMatch(runAsyncSpy, '--no-prompt');
       });
     });
   });
