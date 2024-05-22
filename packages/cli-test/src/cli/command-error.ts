@@ -1,5 +1,7 @@
 import { CustomError } from '../utils/custom-errors';
 
+// TODO: this error wrapper should maybe look at official node docs for how to extend errors
+// https://nodejs.org/api/errors.html#errors
 /**
  * Error handler for Lib
  * @param error error object to wrap

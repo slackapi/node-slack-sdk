@@ -12,30 +12,16 @@ export const shell = {
    * @param command The command to run, e.g. `echo "hi"`
    * @returns command output
    */
-  runCommandAsync: async function runAsyncCommand(command: string, skipUpdate = true): Promise<ShellProcess> {
+  runCommandAsync: async function runAsyncCommand(
+    command: string,
+    shellOpts?: Partial<child.SpawnOptionsWithoutStdio>,
+  ): Promise<ShellProcess> {
     try {
-      // TODO: if these methods are for interacting with generic shell processes,
-      // then we should not encode CLI specifics like CLI env vars and flags.
-      // can move that to a separate class to clean up the abstraction boundaries
-      if (skipUpdate) {
-        // eslint-disable-next-line no-param-reassign
-        command += ' --skip-update';
-      }
-
-      const spawnedEnv = { ...process.env };
-      // Always enable test trace output
-      spawnedEnv.SLACK_TEST_TRACE = 'true';
-      // When this flag is set, the CLI will
-      // Skip prompts for AAA request and directly
-      // Send a request
-      spawnedEnv.SLACK_AUTO_REQUEST_AAA = 'true';
-      // Never post to metrics store
-      spawnedEnv.SLACK_DISABLE_TELEMETRY = 'true';
-
       // Start child process
       const childProcess = child.spawn(`${command}`, {
         shell: true,
-        env: spawnedEnv,
+        env: shell.assembleShellEnv(),
+        ...shellOpts,
       });
 
       // Set shell object
@@ -80,40 +66,30 @@ export const shell = {
   /**
    * Run shell command synchronously
    * - Execute child process with the command
-   * - Wait for the command to complete and return the output
+   * - Wait for the command to complete and return the standard output
    * @param command cli command, e.g. <cli> --version or any shell command
    * @param skipUpdate skip auto update notification
-   * @returns command output
+   * @returns command stdout
    */
-  runCommandSync: function runSyncCommand(command: string, skipUpdate = true): string {
+  runCommandSync: function runSyncCommand(
+    command: string,
+    shellOpts?: Partial<child.SpawnOptionsWithoutStdio>,
+  ): string {
     try {
-      if (skipUpdate) {
-        // eslint-disable-next-line no-param-reassign
-        command += ' --skip-update';
-      }
-
-      const spawnedEnv = { ...process.env };
-      // Always enable test trace output
-      spawnedEnv.SLACK_TEST_TRACE = 'true';
-      // When this flag is set, the CLI will
-      // Skip prompts for AAA request and directly
-      // Send a request
-      spawnedEnv.SLACK_AUTO_REQUEST_AAA = 'true';
-      // Never post to metrics store
-      spawnedEnv.SLACK_DISABLE_TELEMETRY = 'true';
-
       // Log command
       logger.info(`CLI Command started: ${command}`);
 
       // Start child process
       const result = child.spawnSync(`${command}`, {
         shell: true,
-        env: spawnedEnv,
+        env: shell.assembleShellEnv(),
+        ...shellOpts,
       });
 
       // Log command
       logger.info(`CLI Command finished: ${command}`);
 
+      // TODO: this method only returns stdout and not stderr...
       return this.removeANSIcolors(result.stdout.toString());
     } catch (error) {
       throw new Error(`runCommand\nFailed to run command.\nCommand: ${command}`);
@@ -199,5 +175,17 @@ export const shell = {
         );
       }
     }
+  },
+  assembleShellEnv: function assembleShellEnv(): Record<string, string | undefined> {
+    const spawnedEnv = { ...process.env };
+    // Always enable test trace output
+    spawnedEnv.SLACK_TEST_TRACE = 'true';
+    // When this flag is set, the CLI will
+    // Skip prompts for AAA request and directly
+    // Send a request
+    spawnedEnv.SLACK_AUTO_REQUEST_AAA = 'true';
+    // Never post to metrics store
+    spawnedEnv.SLACK_DISABLE_TELEMETRY = 'true';
+    return spawnedEnv;
   },
 };
