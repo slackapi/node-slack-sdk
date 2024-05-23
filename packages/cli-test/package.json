@@ -1,15 +1,25 @@
 {
   "name": "@slack/cli-test",
-  "version": "0.0.1-cli.2.24.0",
+  "version": "0.0.1-rc.2.cli.2.24.0",
   "description": "Node.js bindings for the Slack CLI for use in automated testing",
-  "engines": {
-    "node": ">=18.15.5"
-  },
+  "author": "Salesforce, Inc.",
+  "license": "MIT",
+  "keywords": ["slack", "cli", "test"],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*"
   ],
+  "engines": {
+    "node": ">=18.15.5"
+  },
+  "repository": "slackapi/node-slack-sdk",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/slackapi/node-slack-sdk/issues"
+  },
   "scripts": {
     "lint": "eslint --ext .ts src",
     "build": "npm run build:clean && tsc",
@@ -18,9 +28,6 @@
     "mocha": "cross-env SLACK_CLI_PATH=/doesnt/matter mocha --config .mocharc.json src/*.spec.ts src/**/*.spec.ts",
     "test": "npm run lint && npm run build && c8 npm run mocha"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "dependencies": {
     "tree-kill": "^1.2.2",
     "winston": "^3.8.2"

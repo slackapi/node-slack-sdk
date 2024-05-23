@@ -31,6 +31,15 @@ export const SlackTracerId = {
   SLACK_TRACE_TRIGGERS_CREATE_URL: 'SLACK_TRACE_TRIGGERS_CREATE_URL',
 };
 
+export const SlackProduct = {
+  FREE: 'FREE',
+  PRO: 'PRO',
+  BUSINESS_PLUS: 'PLUS',
+  ENTERPRISE: 'ENTERPRISE',
+  ENTERPRISE_SANDBOX: 'ENTERPRISE_SANDBOX',
+  ENTERPRISE_SELECT: 'ENTERPRISE_SELECT',
+};
+
 /**
  * See https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797 for more info on keypress encodings
  */

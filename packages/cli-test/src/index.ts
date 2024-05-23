@@ -1,5 +1,5 @@
 export { SlackCLI } from './cli';
-export { SlackTracerId } from './utils/constants';
+export { SlackTracerId, SlackProduct } from './utils/constants';
 
 // Check for cli binary path
 if (!process.env.SLACK_CLI_PATH) {
