@@ -20,12 +20,12 @@ npm install @slack/cli-test
 2. Set the path to the CLI executable using the environment variable `SLACK_CLI_PATH`
     - supply a link to a binary on the global path, like `slack-cli`
     - it will default to using `slack` otherwise
-3. Import and use `SlackCLI`, `SlackTracerId` or any of the assertion helper functions (`should*`) exported by this package
+3. Import and use `SlackCLI` to automate the CLI!
 
 ```ts
 import { SlackCLI } from '@slack/cli-test';
 ...
-const actualOutput = await SlackCLI.runSimpleCommand('echo "hi"');
+const createOutput = await SlackCLI.createAppFromTemplate('slackapi/deno-hello-world');
 ```
 
 # API / Usage
@@ -34,39 +34,30 @@ This package exports the following:
 
 1. `SlackCLI` - an object containing a variety of methods to interact with the CLI
   - methods are named after [Slack CLI commands][commands], e.g. `SlackCLI.deploy()`
-2. Assertion helper methods to verify process output:
-  - `shouldContainString`
-  - `shouldContainStrings`
-  - `shouldNotContainStrings`
-3. `SlackTracerId` - trace IDs to verify CLI command output
+2. `SlackTracerId` - trace IDs to verify CLI command output
   - see available exported IDs on `SlackTracerId` object
-  - to enable the CLI to show this output, ensure any CLI commands are executed with the following environment variable set: `SLACK_TEST_TRACE=true`
+  - to enable the CLI to show this output, any CLI commands executed by this library are invoked with the environment variable set: `SLACK_TEST_TRACE=true`
 
 ```ts
 // Import available objects from the package
-import { SlackCLI, SlackTracerId, shouldContainStrings } from '@slack/cli-test';
+import { SlackCLI, SlackTracerId } from '@slack/cli-test';
 
-describe('CLI - Feedback', () => {
-  // Create a variable with a link to cli binary installed on your machine
-  const cli = process.env.SLACK_CLI_PATH;
-
+describe('Login with the CLI', () => {
   it('can successfully follow the feedback survey link', async function () {
-    // Create command
-    const command = `${cli} feedback`;
+    // `login --no-prompt` to get challenge
+    const loginChallengeResult = await SlackCLI.loginNoPrompt();
 
-    // Collect actual output from the command
-    const actual = await SlackCLI.runSimpleCommand(command);
+    // Submit auth ticket in Slack UI
+    const challenge = await this.submitCLIAuthTicket(
+      loginUrlToMyWorkspace,
+      loginChallengeResult.authTicketSlashCommand
+    );
 
-    // Set expected array of strings
-    const expected = [
-	    // Expected string
-	    'Feedback survey',
-	    // Available trace
-	    SlackTracerId.SLACK_TRACE_FEEDBACK_MESSAGE
-    ];
-
-    // Check results with helper command
-    shouldContainStrings(actual, expected, command);
+    // login with challenge and auth ticket
+    const loginChallengeExchangeResult = await SlackCLI.loginChallengeExchange(
+      challenge,
+      loginChallengeResult.authTicket
+    );
   });
 });
 ```
