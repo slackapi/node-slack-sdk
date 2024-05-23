@@ -1,4 +1,5 @@
 import kill from 'tree-kill';
+import logger from '../../utils/logger';
 import { SlackCLIProcess } from '../cli-process';
 import { shell } from '../shell';
 import type { ShellProcess } from '../../utils/types';
@@ -89,22 +90,21 @@ export default {
     /** expected string to be present in the output before process is killed */
     stringToWait: string;
   }): Promise<string> {
-    try {
+    return new Promise((resolve, reject) => {
       // Wait for output
-      await shell.waitForOutput(stringToWait, proc);
-
-      // kill the shell process
-      kill(proc.process.pid!);
-
-      // Return output
-      return proc.output;
-    } catch (error) {
-      throw commandError(
-        error,
-        'activityTailStop',
-        'Failed in attempt to stop the process',
-      );
-    }
+      shell.waitForOutput(stringToWait, proc).then(() => {
+        // kill the shell process
+        kill(proc.process.pid!, (err) => {
+          if (err) {
+            const msg = `activityTailStop command failed to kill process: ${err}`;
+            logger.warn(msg);
+            reject(new Error(msg));
+          } else {
+            resolve(proc.output);
+          }
+        });
+      }, reject);
+    });
   },
 
   /**
@@ -189,17 +189,23 @@ export default {
    * @param teamName to check that app was deleted from that team
    */
   runStop: async function runStop(proc: ShellProcess, teamName?: string): Promise<void> {
-    try {
-      // Kill the process
-      kill(proc.process.pid!);
-
-      // Check if local app was deleted automatically, if --cleanup was passed to `runStart`
-      if (teamName) {
-        // Wait for the output to verify process stopped
-        await shell.waitForOutput(SlackTracerId.SLACK_TRACE_PLATFORM_RUN_STOP, proc);
-      }
-    } catch (error) {
-      throw commandError(error, 'runStop', 'Could not kill run process');
-    }
+    // TODO: teamName param should be changed to something else. 'wait for shutdown' or some such (breaking change)
+    return new Promise((resolve, reject) => {
+      // kill the shell process
+      kill(proc.process.pid!, (err) => {
+        if (err) {
+          const msg = `runStop command failed to kill process: ${err}`;
+          logger.warn(msg);
+          reject(new Error(msg));
+        } else if (teamName) {
+          // TODO: this is messed up. does not match to parameter name at all - team name has nothing to do with this.
+          // Check if local app was deleted automatically, if --cleanup was passed to `runStart`
+          // Wait for the output to verify process stopped
+          shell.waitForOutput(SlackTracerId.SLACK_TRACE_PLATFORM_RUN_STOP, proc).then(resolve, reject);
+        } else {
+          resolve();
+        }
+      });
+    });
   },
 };

@@ -5,10 +5,10 @@ import { SlackCLIProcess } from './cli-process';
 
 describe('SlackCLIProcess class', () => {
   const sandbox = sinon.createSandbox();
-  let runAsyncSpy: sinon.SinonStub;
+  let spawnProcessSpy: sinon.SinonStub;
 
   beforeEach(() => {
-    runAsyncSpy = sandbox.stub(shell, 'runCommandAsync');
+    spawnProcessSpy = sandbox.stub(shell, 'spawnProcess');
     sandbox.stub(shell, 'checkIfFinished');
   });
   afterEach(() => {
@@ -31,57 +31,57 @@ describe('SlackCLIProcess class', () => {
       it('should map qa or dev options to --slackdev', async () => {
         let cmd = new SlackCLIProcess('help', { qa: true });
         await cmd.execAsync();
-        sandbox.assert.calledWithMatch(runAsyncSpy, '--slackdev');
-        runAsyncSpy.resetHistory();
+        sandbox.assert.calledWithMatch(spawnProcessSpy, '--slackdev');
+        spawnProcessSpy.resetHistory();
         cmd = new SlackCLIProcess('help');
         await cmd.execAsync();
-        sandbox.assert.neverCalledWithMatch(runAsyncSpy, '--slackdev');
-        runAsyncSpy.resetHistory();
+        sandbox.assert.neverCalledWithMatch(spawnProcessSpy, '--slackdev');
+        spawnProcessSpy.resetHistory();
         cmd = new SlackCLIProcess('help', { dev: true });
         await cmd.execAsync();
-        sandbox.assert.calledWithMatch(runAsyncSpy, '--slackdev');
+        sandbox.assert.calledWithMatch(spawnProcessSpy, '--slackdev');
       });
       it('should default to passing --skip-update but allow overriding that', async () => {
         let cmd = new SlackCLIProcess('help');
         await cmd.execAsync();
-        sandbox.assert.calledWithMatch(runAsyncSpy, '--skip-update');
-        runAsyncSpy.resetHistory();
+        sandbox.assert.calledWithMatch(spawnProcessSpy, '--skip-update');
+        spawnProcessSpy.resetHistory();
         cmd = new SlackCLIProcess('help', { skipUpdate: false });
         await cmd.execAsync();
-        sandbox.assert.neverCalledWithMatch(runAsyncSpy, '--skip-update');
-        runAsyncSpy.resetHistory();
+        sandbox.assert.neverCalledWithMatch(spawnProcessSpy, '--skip-update');
+        spawnProcessSpy.resetHistory();
         cmd = new SlackCLIProcess('help', { skipUpdate: true });
         await cmd.execAsync();
-        sandbox.assert.calledWithMatch(runAsyncSpy, '--skip-update');
-        runAsyncSpy.resetHistory();
+        sandbox.assert.calledWithMatch(spawnProcessSpy, '--skip-update');
+        spawnProcessSpy.resetHistory();
         cmd = new SlackCLIProcess('help', {}); // empty global options; so undefined skipUpdate option
         await cmd.execAsync();
-        sandbox.assert.calledWithMatch(runAsyncSpy, '--skip-update');
+        sandbox.assert.calledWithMatch(spawnProcessSpy, '--skip-update');
       });
     });
     describe('command options', () => {
       it('should pass command-level key/value options to command in the form `--<key> value`', async () => {
         const cmd = new SlackCLIProcess('help', {}, { '--awesome': 'yes' });
         await cmd.execAsync();
-        sandbox.assert.calledWithMatch(runAsyncSpy, '--awesome yes');
+        sandbox.assert.calledWithMatch(spawnProcessSpy, '--awesome yes');
       });
       it('should only pass command-level key option if value is true in the form `--key`', async () => {
         const cmd = new SlackCLIProcess('help', {}, { '--no-prompt': true });
         await cmd.execAsync();
-        sandbox.assert.calledWithMatch(runAsyncSpy, '--no-prompt');
+        sandbox.assert.calledWithMatch(spawnProcessSpy, '--no-prompt');
       });
       it('should not pass command-level key option if value is falsy', async () => {
         let cmd = new SlackCLIProcess('help', {}, { '--no-prompt': false });
         await cmd.execAsync();
-        sandbox.assert.neverCalledWithMatch(runAsyncSpy, '--no-prompt');
-        runAsyncSpy.resetHistory();
+        sandbox.assert.neverCalledWithMatch(spawnProcessSpy, '--no-prompt');
+        spawnProcessSpy.resetHistory();
         cmd = new SlackCLIProcess('help', {}, { '--no-prompt': '' });
         await cmd.execAsync();
-        sandbox.assert.neverCalledWithMatch(runAsyncSpy, '--no-prompt');
-        runAsyncSpy.resetHistory();
+        sandbox.assert.neverCalledWithMatch(spawnProcessSpy, '--no-prompt');
+        spawnProcessSpy.resetHistory();
         cmd = new SlackCLIProcess('help', {}, { '--no-prompt': undefined });
         await cmd.execAsync();
-        sandbox.assert.neverCalledWithMatch(runAsyncSpy, '--no-prompt');
+        sandbox.assert.neverCalledWithMatch(spawnProcessSpy, '--no-prompt');
       });
     });
   });
