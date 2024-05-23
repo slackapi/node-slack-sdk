@@ -53,6 +53,10 @@ describe('SlackCLIProcess class', () => {
         cmd = new SlackCLIProcess('help', { skipUpdate: true });
         await cmd.execAsync();
         sandbox.assert.calledWithMatch(runAsyncSpy, '--skip-update');
+        runAsyncSpy.resetHistory();
+        cmd = new SlackCLIProcess('help', {}); // empty global options; so undefined skipUpdate option
+        await cmd.execAsync();
+        sandbox.assert.calledWithMatch(runAsyncSpy, '--skip-update');
       });
     });
     describe('command options', () => {
