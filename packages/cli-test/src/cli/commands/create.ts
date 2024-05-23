@@ -1,4 +1,5 @@
-import { SlackCLIProcess, SlackCLICommandOptions } from '../cli-process';
+import { SpawnOptionsWithoutStdio } from 'node:child_process';
+import { SlackCLIProcess, SlackCLICommandOptions, SlackCLIGlobalOptions } from '../cli-process';
 import commandError from '../command-error';
 
 /**
@@ -6,14 +7,20 @@ import commandError from '../command-error';
  * @param opts generic command options to pass to `create`
  * @returns command output
  */
-export const create = async function create(appName?: string, opts?: SlackCLICommandOptions): Promise<string> {
+export const create = async function create(
+  appName?: string,
+  globalOpts?: SlackCLIGlobalOptions,
+  commandOpts?: SlackCLICommandOptions,
+  shellOpts?: SpawnOptionsWithoutStdio,
+): Promise<string> {
+  // TODO: single object param vs separate params (breaking change)
   let cmdStr = 'create';
   if (appName) {
     cmdStr += ` ${appName}`;
   }
-  const cmd = new SlackCLIProcess(cmdStr, {}, opts);
+  const cmd = new SlackCLIProcess(cmdStr, globalOpts, commandOpts);
   try {
-    const proc = await cmd.execAsync();
+    const proc = await cmd.execAsync(shellOpts);
     return proc.output;
   } catch (error) {
     throw commandError(error, 'create');
@@ -33,16 +40,18 @@ export const createAppFromTemplate = async function createAppFromTemplate({
   templateString,
   appName = '',
   branchName = 'main',
+  shellOpts = {},
 }: {
   templateString: string;
   appName?: string;
   branchName?: string;
+  shellOpts?: SpawnOptionsWithoutStdio;
 }): Promise<string> {
   try {
-    return await create(appName, {
+    return await create(appName, {}, {
       '--template': templateString,
       '--branch': branchName,
-    });
+    }, shellOpts);
   } catch (error) {
     throw commandError(error, 'createAppFromTemplate');
   }
