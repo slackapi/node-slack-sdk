@@ -235,11 +235,11 @@ module.exports = {
           },
           {
             selector: 'typeProperty',
-            format: ['snake_case', 'camelCase'],
+            format: ['snake_case', 'camelCase', 'UPPER_CASE'],
           },
           {
             'selector': 'objectLiteralProperty',
-            format: ['camelCase', 'snake_case', 'PascalCase'],
+            format: ['camelCase', 'snake_case', 'PascalCase', 'UPPER_CASE'],
           },
           {
             selector: ['enumMember'],
@@ -250,17 +250,7 @@ module.exports = {
         // Allow cyclical imports. Turning this rule on is mainly a way to manage the performance concern for linting
         // time. Our projects are not large enough to warrant this. Overrides AirBnB styles.
         'import/no-cycle': 'off',
-
-        // Prevent importing submodules of other modules. Using the internal structure of a module exposes
-        // implementation details that can potentially change in breaking ways. Overrides AirBnB styles.
-        'import/no-internal-modules': ['error', {
-          // Use the following option to set a list of allowable globs in this project.
-          allow: [
-            '**/middleware/*', // the src/middleware directory doesn't export a module, it's just a namespace.
-            '**/receivers/*', // the src/receivers directory doesn't export a module, it's just a namespace.
-            '**/types/**/*', // type heirarchies should be used however one wants
-          ],
-        }],
+        'import/prefer-default-export': 'off',
 
         // Remove the minProperties option for enforcing line breaks between braces. The AirBnB config sets this to 4,
         // which is arbitrary and not backed by anything specific in the style guide. If we just remove it, we can

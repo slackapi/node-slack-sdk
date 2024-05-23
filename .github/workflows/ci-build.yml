@@ -16,6 +16,7 @@ jobs:
         node-version: [18.x, 20.x]
         package:
           - cli-hooks
+          - cli-test
           - logger
           - oauth
           - rtm-api
