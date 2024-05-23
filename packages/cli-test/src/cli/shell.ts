@@ -6,16 +6,17 @@ import type { ShellProcess } from '../utils/types';
 
 export const shell = {
   /**
-   * Run shell command
+   * Spawns a shell command
    * - Start child process with the command
    * - Listen to data output events and collect them
    * @param command The command to run, e.g. `echo "hi"`
+   * @param shellOpts Options to customize shell execution
    * @returns command output
    */
-  runCommandAsync: async function runAsyncCommand(
+  spawnProcess: function spawnProcess(
     command: string,
     shellOpts?: Partial<child.SpawnOptionsWithoutStdio>,
-  ): Promise<ShellProcess> {
+  ): ShellProcess {
     try {
       // Start child process
       const childProcess = child.spawn(`${command}`, {
@@ -59,7 +60,7 @@ export const shell = {
 
       return sh;
     } catch (error) {
-      throw new Error(`runCommand\nFailed to run command.\nCommand: ${command}`);
+      throw new Error(`runCommandAsync\nFailed to run command.\nCommand: ${command}`);
     }
   },
 
@@ -92,7 +93,7 @@ export const shell = {
       // TODO: this method only returns stdout and not stderr...
       return this.removeANSIcolors(result.stdout.toString());
     } catch (error) {
-      throw new Error(`runCommand\nFailed to run command.\nCommand: ${command}`);
+      throw new Error(`runCommandSync\nFailed to run command.\nCommand: ${command}`);
     }
   },
 
@@ -102,26 +103,44 @@ export const shell = {
    * - Error out if > 30 sec
    * @param shell shell object
    */
-  checkIfFinished: async function checkIfFinished(proc: ShellProcess): Promise<void | Error> {
-    const timeout = 1000;
-    let waitedFor = 0;
+  checkIfFinished: async function checkIfFinished(proc: ShellProcess): Promise<void> {
+    return new Promise((resolve, reject) => {
+      let timeout: NodeJS.Timeout;
 
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      // eslint-disable-next-line no-await-in-loop
-      await this.sleep(timeout);
-      if (proc.finished) {
-        break;
-      }
-      waitedFor += timeout;
-      if (waitedFor > timeouts.waitingGlobal) {
-        // Kill the process
-        kill(proc.process.pid!);
-        throw new Error(
-          `checkIfFinished\nFailed to finish after ${timeouts.waitingGlobal} ms.\nCommand: ${proc.command}\nCurrent output: \n${proc.output}`,
-        );
-      }
-    }
+      const killIt = (reason: string) => {
+        kill(proc.process.pid!, (err) => {
+          let msg = `${reason}\nCommand: ${proc.command}\nOutput: \n${proc.output}`;
+          if (err) {
+            msg += `\nAdditionally, further attempting to kill the process errored with ${err.message}`;
+          }
+          reject(new Error(msg));
+        });
+      };
+
+      const closeHandler = (code: number | null, signal: NodeJS.Signals | null) => {
+        clearTimeout(timeout);
+        logger.debug(`CLI Command "${proc.command}" closed with code ${code}, signal ${signal}`);
+        resolve();
+      };
+
+      const errorHandler = (err: Error) => {
+        clearTimeout(timeout);
+        proc.process.off('close', closeHandler);
+        logger.error(`CLI Command "${proc.command}" errored with ${err}`);
+        killIt('Command raised an error!');
+      };
+
+      // Timeout the process if necessary
+      timeout = setTimeout(() => {
+        // Remove process event listeners
+        proc.process.off('close', closeHandler);
+        proc.process.off('error', errorHandler);
+        killIt(`shell.checkIfFinished timed out after ${timeouts.waitingGlobal} ms.`);
+      }, timeouts.waitingGlobal);
+
+      proc.process.on('close', closeHandler);
+      proc.process.on('error', errorHandler);
+    });
   },
 
   /**
@@ -154,30 +173,39 @@ export const shell = {
   waitForOutput: async function waitForOutput(
     expString: string,
     proc: ShellProcess,
-  ): Promise<void | Error> {
+  ): Promise<void> {
     const delay = 1000;
     let waitedFor = 0;
-
+    let timedOut = false;
     while (!proc.output.includes(expString)) {
       // eslint-disable-next-line no-await-in-loop
       await this.sleep(delay);
       waitedFor += delay;
       if (waitedFor > timeouts.waitingAction) {
-        // Kill the process
-        kill(proc.process.pid!);
-        throw new Error(
-          `waitForOutput\nCouldn't wait for output. ${waitedFor} milliseconds passed. \nExpected: ${expString}\nActual: ${proc.output}`,
-        );
+        timedOut = true;
+        break;
       }
     }
+    return new Promise((resolve, reject) => {
+      if (timedOut) {
+        // Kill the process
+        kill(proc.process.pid!, (err) => {
+          let msg = `shell.waitForOutput timed out after ${waitedFor} ms. \nExpected output to include: ${expString}\nActual: ${proc.output}`;
+          if (err) {
+            msg += `\nAdditionally, killing the process errored with ${err.message}`;
+          }
+          reject(new Error(msg));
+        });
+      } else {
+        resolve();
+      }
+    });
   },
   assembleShellEnv: function assembleShellEnv(): Record<string, string | undefined> {
     const spawnedEnv = { ...process.env };
     // Always enable test trace output
     spawnedEnv.SLACK_TEST_TRACE = 'true';
-    // When this flag is set, the CLI will
-    // Skip prompts for AAA request and directly
-    // Send a request
+    // Skip prompts for AAA request and directly send a request
     spawnedEnv.SLACK_AUTO_REQUEST_AAA = 'true';
     // Never post to metrics store
     spawnedEnv.SLACK_DISABLE_TELEMETRY = 'true';

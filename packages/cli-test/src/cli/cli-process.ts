@@ -57,7 +57,7 @@ export class SlackCLIProcess {
    */
   public async execAsync(shellOpts?: Partial<SpawnOptionsWithoutStdio>): Promise<ShellProcess> {
     const cmd = this.assembleShellInvocation();
-    const proc = await shell.runCommandAsync(cmd, shellOpts);
+    const proc = shell.spawnProcess(cmd, shellOpts);
     await shell.checkIfFinished(proc);
     return proc;
   }
@@ -70,7 +70,7 @@ export class SlackCLIProcess {
     shellOpts?: Partial<SpawnOptionsWithoutStdio>,
   ): Promise<ShellProcess> {
     const cmd = this.assembleShellInvocation();
-    const proc = await shell.runCommandAsync(cmd, shellOpts);
+    const proc = shell.spawnProcess(cmd, shellOpts);
     await shell.waitForOutput(output, proc);
     return proc;
   }
