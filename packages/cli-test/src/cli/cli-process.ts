@@ -90,7 +90,7 @@ export class SlackCLIProcess {
       if (opts.qa || opts.dev) {
         cmd += ' --slackdev';
       }
-      if (opts.skipUpdate) {
+      if (opts.skipUpdate || opts.skipUpdate === undefined) {
         cmd += ' --skip-update';
       }
       if (opts.team) {
