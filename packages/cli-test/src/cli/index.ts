@@ -71,12 +71,13 @@ export const SlackCLI = {
     // and isLocalApp are not needed either
     /** Path to app. If not provided, will not interact with any app */
     appPath?: string;
-    /** Team domain where app is installed */
+    /** Team domain or ID where app is installed */
     appTeamID: string;
     isLocalApp?: boolean;
   }): Promise<void> {
     if (appPath) {
       // List instances of app installation if app path provided
+      // TODO: refactor this into standalone workspace list command
       const cmd = new SlackCLIProcess('workspace list');
       const { output: installedAppsOutput } = await cmd.execAsync({ cwd: appPath });
       // If app is installed
@@ -85,7 +86,7 @@ export const SlackCLI = {
         try {
           await SlackCLI.app.delete(appPath, appTeamID, { isLocalApp });
         } catch (error) {
-          logger.info(`Could not delete gracefully. Error: ${error}`);
+          logger.warn(`stopSession could not delete app gracefully, continuing. Error: ${error}`);
         }
 
         // Delete app.json file. Needed for retries. Otherwise asks for collaborator, if old file is present

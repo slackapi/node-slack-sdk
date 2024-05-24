@@ -1,4 +1,4 @@
-import * as child from 'child_process';
+import child from 'child_process';
 import kill from 'tree-kill';
 import logger from '../utils/logger';
 import { timeouts } from '../utils/constants';
@@ -60,7 +60,7 @@ export const shell = {
 
       return sh;
     } catch (error) {
-      throw new Error(`runCommandAsync\nFailed to run command.\nCommand: ${command}`);
+      throw new Error(`spawnProcess failed!\nCommand: ${command}\nError: ${error}`);
     }
   },
 
@@ -93,7 +93,7 @@ export const shell = {
       // TODO: this method only returns stdout and not stderr...
       return this.removeANSIcolors(result.stdout.toString());
     } catch (error) {
-      throw new Error(`runCommandSync\nFailed to run command.\nCommand: ${command}`);
+      throw new Error(`runCommandSync failed!\nCommand: ${command}\nError: ${error}`);
     }
   },
 
