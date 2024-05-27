@@ -4,18 +4,20 @@ import child from 'child_process';
 import stream from 'stream';
 import EventEmitter from 'events';
 import { shell } from './shell';
+import type { ShellProcess } from '../utils/types';
 
 describe('shell module', () => {
   const sandbox = sinon.createSandbox();
   let spawnSpy: sinon.SinonStub;
-  let spawnProcess: child.ChildProcess;
+  let spawnProcess: child.ChildProcessWithoutNullStreams;
   let runSpy: sinon.SinonStub;
   let runOutput: child.SpawnSyncReturns<Buffer>;
 
   beforeEach(() => {
-    spawnProcess = new EventEmitter() as child.ChildProcess;
+    spawnProcess = new EventEmitter() as child.ChildProcessWithoutNullStreams;
     spawnProcess.stdout = new EventEmitter() as stream.Readable;
     spawnProcess.stderr = new EventEmitter() as stream.Readable;
+    spawnProcess.stdin = new stream.Writable();
     spawnSpy = sandbox.stub(child, 'spawn').returns(spawnProcess);
     runOutput = { pid: 1337, output: [], stdout: Buffer.from([]), stderr: Buffer.from([]), status: 0, signal: null };
     runSpy = sandbox.stub(child, 'spawnSync').returns(runOutput);
@@ -55,6 +57,29 @@ describe('shell module', () => {
       assert.throw(() => {
         shell.runCommandSync('about to explode');
       }, /this is bat country/);
+    });
+  });
+
+  describe('checkIfFinished method', () => {
+    it('should resolve if underlying process raises a `close` event', (done) => {
+      const proc: ShellProcess = {
+        process: spawnProcess,
+        output: '',
+        finished: true,
+        command: 'echo "hi"',
+      };
+      shell.checkIfFinished(proc).then(done);
+      spawnProcess.emit('close', 0);
+    });
+    it('should reject if underlying process raises an `error` event', (done) => {
+      const proc: ShellProcess = {
+        process: spawnProcess,
+        output: '',
+        finished: true,
+        command: 'echo "hi"',
+      };
+      shell.checkIfFinished(proc).catch(done);
+      spawnProcess.emit('error', new Error('boom'));
     });
   });
 });
