@@ -21,6 +21,7 @@ export const SlackCLI = {
   app: {
     delete: appCommands.workspaceDelete,
     install: appCommands.workspaceInstall,
+    list: appCommands.workspaceList,
   },
   ...authCommands,
   auth: authCommands,

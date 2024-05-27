@@ -46,8 +46,27 @@ export const install = async function workspaceInstall(appPath: string, teamFlag
   }
 };
 
+/**
+ * `slack app list`
+ * @param appPath path to app
+ * @returns command output
+ */
+export const list = async function appList(appPath: string): Promise<string> {
+  // TODO: (breaking change) separate parameters vs single-param-object
+  const cmd = new SlackCLIProcess('app list');
+  try {
+    const proc = await cmd.execAsync({
+      cwd: appPath,
+    });
+    return proc.output;
+  } catch (error) {
+    throw commandError(error, 'appList');
+  }
+};
+
 // TODO: (breaking change): rename properties of this default export to match actual command names
 export default {
   workspaceDelete: del,
   workspaceInstall: install,
+  workspaceList: list,
 };
