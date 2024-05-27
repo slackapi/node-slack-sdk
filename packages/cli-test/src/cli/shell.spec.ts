@@ -21,6 +21,7 @@ describe('shell module', () => {
     spawnSpy = sandbox.stub(child, 'spawn').returns(spawnProcess);
     runOutput = { pid: 1337, output: [], stdout: Buffer.from([]), stderr: Buffer.from([]), status: 0, signal: null };
     runSpy = sandbox.stub(child, 'spawnSync').returns(runOutput);
+    sandbox.stub(shell, 'kill').resolves(true);
   });
   afterEach(() => {
     sandbox.restore();
@@ -61,6 +62,8 @@ describe('shell module', () => {
   });
 
   describe('checkIfFinished method', () => {
+    beforeEach(() => {
+    });
     it('should resolve if underlying process raises a `close` event', (done) => {
       const proc: ShellProcess = {
         process: spawnProcess,
@@ -78,7 +81,12 @@ describe('shell module', () => {
         finished: true,
         command: 'echo "hi"',
       };
-      shell.checkIfFinished(proc).catch(done);
+      shell.checkIfFinished(proc).then(() => {
+        assert.fail('checkIfFinished resolved unexpectedly');
+      }, (err) => {
+        assert.include(err.message, 'boom');
+        done();
+      });
       spawnProcess.emit('error', new Error('boom'));
     });
   });

@@ -1,4 +1,3 @@
-import kill from 'tree-kill';
 import logger from '../../utils/logger';
 import { SlackCLIProcess } from '../cli-process';
 import { shell } from '../shell';
@@ -94,14 +93,12 @@ export default {
       // Wait for output
       shell.waitForOutput(stringToWait, proc).then(() => {
         // kill the shell process
-        kill(proc.process.pid!, (err) => {
-          if (err) {
-            const msg = `activityTailStop command failed to kill process: ${err}`;
-            logger.warn(msg);
-            reject(new Error(msg));
-          } else {
-            resolve(proc.output);
-          }
+        shell.kill(proc).then(() => {
+          resolve(proc.output);
+        }, (err) => {
+          const msg = `activityTailStop command failed to kill process: ${err}`;
+          logger.warn(msg);
+          reject(new Error(msg));
         });
       }, reject);
     });
@@ -192,12 +189,8 @@ export default {
     // TODO: teamName param should be changed to something else. 'wait for shutdown' or some such (breaking change)
     return new Promise((resolve, reject) => {
       // kill the shell process
-      kill(proc.process.pid!, (err) => {
-        if (err) {
-          const msg = `runStop command failed to kill process: ${err}`;
-          logger.warn(msg);
-          reject(new Error(msg));
-        } else if (teamName) {
+      shell.kill(proc).then(() => {
+        if (teamName) {
           // TODO: this is messed up. does not match to parameter name at all - team name has nothing to do with this.
           // Check if local app was deleted automatically, if --cleanup was passed to `runStart`
           // Wait for the output to verify process stopped
@@ -205,6 +198,10 @@ export default {
         } else {
           resolve();
         }
+      }, (err) => {
+        const msg = `runStop command failed to kill process: ${err}`;
+        logger.warn(msg);
+        reject(new Error(msg));
       });
     });
   },
