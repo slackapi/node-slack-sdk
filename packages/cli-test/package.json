@@ -1,6 +1,6 @@
 {
   "name": "@slack/cli-test",
-  "version": "0.0.2-cli.2.24.0",
+  "version": "0.1.0-cli.2.25.0",
   "description": "Node.js bindings for the Slack CLI for use in automated testing",
   "author": "Salesforce, Inc.",
   "license": "MIT",
