@@ -11,7 +11,6 @@ import functionCommands from './commands/function';
 import manifestCommands from './commands/manifest';
 import platformCommands from './commands/platform';
 import triggerCommands from './commands/trigger';
-import { SlackCLIProcess } from './cli-process';
 
 /**
  * Set of functions to spawn and interact with Slack Platform CLI processes and commands
@@ -78,9 +77,7 @@ export const SlackCLI = {
   }): Promise<void> {
     if (appPath) {
       // List instances of app installation if app path provided
-      // TODO: refactor this into standalone workspace list command
-      const cmd = new SlackCLIProcess('workspace list');
-      const { output: installedAppsOutput } = await cmd.execAsync({ cwd: appPath });
+      const installedAppsOutput = await SlackCLI.app.list(appPath);
       // If app is installed
       if (!installedAppsOutput.includes('This project has no apps')) {
         // Soft app delete
