@@ -100,7 +100,7 @@ export const SlackCLI = {
       await SlackCLI.logout({ allWorkspaces: true });
     } catch (error) {
       // TODO: maybe should error instead? this seems pretty bad
-      logger.info(`Could not logout gracefully. Error: ${error}`);
+      logger.warn(`Could not logout gracefully. Error: ${error}`);
     }
   },
 };
