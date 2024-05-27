@@ -1,5 +1,5 @@
-import * as child from 'child_process';
-import kill from 'tree-kill';
+import child from 'child_process';
+import treekill from 'tree-kill';
 import logger from '../utils/logger';
 import { timeouts } from '../utils/constants';
 import type { ShellProcess } from '../utils/types';
@@ -60,7 +60,7 @@ export const shell = {
 
       return sh;
     } catch (error) {
-      throw new Error(`runCommandAsync\nFailed to run command.\nCommand: ${command}`);
+      throw new Error(`spawnProcess failed!\nCommand: ${command}\nError: ${error}`);
     }
   },
 
@@ -93,7 +93,7 @@ export const shell = {
       // TODO: this method only returns stdout and not stderr...
       return this.removeANSIcolors(result.stdout.toString());
     } catch (error) {
-      throw new Error(`runCommandSync\nFailed to run command.\nCommand: ${command}`);
+      throw new Error(`runCommandSync failed!\nCommand: ${command}\nError: ${error}`);
     }
   },
 
@@ -108,12 +108,10 @@ export const shell = {
       let timeout: NodeJS.Timeout;
 
       const killIt = (reason: string) => {
-        kill(proc.process.pid!, (err) => {
-          let msg = `${reason}\nCommand: ${proc.command}\nOutput: \n${proc.output}`;
-          if (err) {
-            msg += `\nAdditionally, further attempting to kill the process errored with ${err.message}`;
-          }
-          reject(new Error(msg));
+        shell.kill(proc).then(() => {
+          reject(new Error(`${reason}\nCommand: ${proc.command}, output: ${proc.output}`));
+        }, (err) => {
+          reject(new Error(`${reason}\nCommand: ${proc.command}, output: ${proc.output}\nAlso errored killing process: ${err.message}`));
         });
       };
 
@@ -127,7 +125,7 @@ export const shell = {
         clearTimeout(timeout);
         proc.process.off('close', closeHandler);
         logger.error(`CLI Command "${proc.command}" errored with ${err}`);
-        killIt('Command raised an error!');
+        killIt(`Command raised an error: ${err.message}`);
       };
 
       // Timeout the process if necessary
@@ -189,12 +187,11 @@ export const shell = {
     return new Promise((resolve, reject) => {
       if (timedOut) {
         // Kill the process
-        kill(proc.process.pid!, (err) => {
-          let msg = `shell.waitForOutput timed out after ${waitedFor} ms. \nExpected output to include: ${expString}\nActual: ${proc.output}`;
-          if (err) {
-            msg += `\nAdditionally, killing the process errored with ${err.message}`;
-          }
-          reject(new Error(msg));
+        const reason = `shell.waitForOutput timed out after ${waitedFor} ms. \nExpected output to include: ${expString}\nActual: ${proc.output}`;
+        shell.kill(proc).then(() => {
+          reject(new Error(`${reason}\nCommand: ${proc.command}, output: ${proc.output}`));
+        }, (err) => {
+          reject(new Error(`${reason}\nCommand: ${proc.command}, output: ${proc.output}\nAlso errored killing process: ${err.message}`));
         });
       } else {
         resolve();
@@ -210,5 +207,16 @@ export const shell = {
     // Never post to metrics store
     spawnedEnv.SLACK_DISABLE_TELEMETRY = 'true';
     return spawnedEnv;
+  },
+  kill: async function kill(proc: ShellProcess): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      treekill(proc.process.pid!, (err) => {
+        if (err) {
+          reject(new Error(`Failed to kill command "${proc.command}": errored with ${err.message}\nOutput: ${proc.output}`));
+        } else {
+          resolve(true);
+        }
+      });
+    });
   },
 };
