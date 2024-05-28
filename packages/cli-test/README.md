@@ -34,7 +34,8 @@ This package exports the following:
 
 1. `SlackCLI` - an object containing a variety of methods to interact with the CLI
   - methods are named after [Slack CLI commands][commands], e.g. `SlackCLI.deploy()`
-2. `SlackTracerId` - trace IDs to verify CLI command output
+2. `SlackCLIProcess` - a class that can be instantiated that exposes the ability to run arbitrary commands, with optional global flags as well as command-specific flags.
+3. `SlackTracerId` - trace IDs to verify CLI command output
   - see available exported IDs on `SlackTracerId` object
   - to enable the CLI to show this output, any CLI commands executed by this library are invoked with the environment variable set: `SLACK_TEST_TRACE=true`
 
@@ -48,7 +49,7 @@ describe('Login with the CLI', () => {
     const loginChallengeResult = await SlackCLI.loginNoPrompt();
 
     // Submit auth ticket in Slack UI
-    const challenge = await this.submitCLIAuthTicket(
+    const challenge = await submitCLIAuthTicket(
       loginUrlToMyWorkspace,
       loginChallengeResult.authTicketSlashCommand
     );
