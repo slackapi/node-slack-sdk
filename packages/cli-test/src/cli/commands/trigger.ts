@@ -11,10 +11,15 @@ import commandError from '../command-error';
  * @param flags specification of trigger access, e.g. --trigger-id Ft0143UPTAV8 --everyone
  * @returns command output
  */
-export const access = async function triggerAccess(appPath: string, teamFlag: string, flags: string): Promise<string> {
+export const access = async function triggerAccess(
+  appPath: string,
+  teamFlag: string,
+  flags: string,
+  options?: { qa?: boolean },
+): Promise<string> {
   // TODO: (breaking change) separate params vs. single-param-object
   // TODO: access requires --trigger-id so add that to parameters (breaking change)
-  const cmd = new SlackCLIProcess(`trigger access ${flags}`, { team: teamFlag });
+  const cmd = new SlackCLIProcess(`trigger access ${flags}`, { team: teamFlag, qa: options?.qa });
   try {
     const proc = await cmd.execAsync({
       cwd: appPath,
@@ -46,12 +51,12 @@ export const create = async function triggerCreate({
   options?: { // TODO: must be a better way of exposing these options
     /** Local app for local run sessions */
     localApp?: boolean;
-    /** Install app by selecting "Install to a new team" */
-    installApp?: boolean; // TODO: this isn't even used?
+    /** Whether to run against --slackdev or production */
+    qa?: boolean;
   };
 }): Promise<string> {
   const appEnvironment = options?.localApp ? 'local' : 'deployed';
-  const cmd = new SlackCLIProcess(`trigger create ${flag}`, { team: teamFlag }, {
+  const cmd = new SlackCLIProcess(`trigger create ${flag}`, { team: teamFlag, qa: options?.qa }, {
     '--app': appEnvironment,
     '--org-workspace-grant': orgWorkspaceGrantFlag,
   });
@@ -72,10 +77,15 @@ export const create = async function triggerCreate({
  * @param flag
  * @returns command output
  */
-export const del = async function triggerDelete(appPath: string, teamFlag: string, flag: string): Promise<string> {
+export const del = async function triggerDelete(
+  appPath: string,
+  teamFlag: string,
+  flag: string,
+  options?: { qa?: boolean },
+): Promise<string> {
   // TODO: (breaking change) separate params vs. single-param-object
   // TODO: delete requires --trigger-id so add that to parameters (breaking change)
-  const cmd = new SlackCLIProcess(`trigger delete ${flag}`, { team: teamFlag });
+  const cmd = new SlackCLIProcess(`trigger delete ${flag}`, { team: teamFlag, qa: options?.qa });
   try {
     const proc = await cmd.execAsync({
       cwd: appPath,
@@ -93,10 +103,15 @@ export const del = async function triggerDelete(appPath: string, teamFlag: strin
  * @param flag arbitrary additional flags
  * @returns command output
  */
-export const info = async function triggerInfo(appPath: string, teamFlag: string, flag: string): Promise<string> {
+export const info = async function triggerInfo(
+  appPath: string,
+  teamFlag: string,
+  flag: string,
+  options?: { qa?: boolean },
+): Promise<string> {
   // TODO: getting trigger info necessitates passing a trigger ID, so that should be exposed in the parameters here
   // TODO: (breaking change) separate params vs. single-param-object
-  const cmd = new SlackCLIProcess(`trigger info ${flag}`, { team: teamFlag });
+  const cmd = new SlackCLIProcess(`trigger info ${flag}`, { team: teamFlag, qa: options?.qa });
   try {
     const proc = await cmd.execAsync({
       cwd: appPath,
@@ -114,9 +129,14 @@ export const info = async function triggerInfo(appPath: string, teamFlag: string
  * @param flag arbitrary additional flags to pass
  * @returns command output
  */
-export const list = async function triggerList(appPath: string, teamFlag: string, flag: string): Promise<string> {
+export const list = async function triggerList(
+  appPath: string,
+  teamFlag: string,
+  flag: string,
+  options?: { qa?: boolean },
+): Promise<string> {
   // TODO: (breaking change) separate params vs. single-param-object
-  const cmd = new SlackCLIProcess(`trigger list ${flag}`, { team: teamFlag });
+  const cmd = new SlackCLIProcess(`trigger list ${flag}`, { team: teamFlag, qa: options?.qa });
   try {
     const proc = await cmd.execAsync({
       cwd: appPath,
@@ -134,9 +154,14 @@ export const list = async function triggerList(appPath: string, teamFlag: string
  * @param flag arbitrary additional flags to pass to command
  * @returns command output
  */
-export const update = async function triggerUpdate(appPath: string, teamFlag: string, flag: string): Promise<string> {
+export const update = async function triggerUpdate(
+  appPath: string,
+  teamFlag: string,
+  flag: string,
+  options?: { qa?: boolean },
+): Promise<string> {
   // TODO: (breaking change) separate params vs. single-param-object
-  const cmd = new SlackCLIProcess(`trigger update ${flag}`, { team: teamFlag });
+  const cmd = new SlackCLIProcess(`trigger update ${flag}`, { team: teamFlag, qa: options?.qa });
   try {
     const proc = await cmd.execAsync({
       cwd: appPath,

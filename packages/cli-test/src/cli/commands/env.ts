@@ -14,9 +14,10 @@ export const add = async function envAdd(
   teamFlag: string,
   secretKey: string,
   secretValue: string,
+  options?: { qa?: boolean },
 ): Promise<string> {
   // TODO: (breaking change) separate parameters vs single-param-object
-  const cmd = new SlackCLIProcess(`env add ${secretKey} ${secretValue}`, { team: teamFlag });
+  const cmd = new SlackCLIProcess(`env add ${secretKey} ${secretValue}`, { team: teamFlag, qa: options?.qa });
   try {
     const proc = await cmd.execAsync({
       cwd: appPath,
@@ -33,9 +34,13 @@ export const add = async function envAdd(
  * @param teamFlag team domain to list env vars for
  * @returns command output
  */
-export const list = async function envList(appPath: string, teamFlag: string): Promise<string> {
+export const list = async function envList(
+  appPath: string,
+  teamFlag: string,
+  options?: { qa?: boolean },
+): Promise<string> {
   // TODO: (breaking change) separate parameters vs single-param-object
-  const cmd = new SlackCLIProcess('env list', { team: teamFlag });
+  const cmd = new SlackCLIProcess('env list', { team: teamFlag, qa: options?.qa });
   try {
     const proc = await cmd.execAsync({
       cwd: appPath,
@@ -57,9 +62,10 @@ export const remove = async function envRemove(
   appPath: string,
   teamFlag: string,
   secretKey: string,
+  options?: { qa?: boolean },
 ): Promise<string> {
   // TODO: (breaking change) separate parameters vs single-param-object
-  const cmd = new SlackCLIProcess(`env remove ${secretKey}`, { team: teamFlag });
+  const cmd = new SlackCLIProcess(`env remove ${secretKey}`, { team: teamFlag, qa: options?.qa });
   try {
     const proc = await cmd.execAsync({
       cwd: appPath,

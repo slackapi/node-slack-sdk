@@ -18,6 +18,7 @@ export default {
     teamFlag,
     flag,
     localApp = true,
+    qa = false,
   }: {
     /** Path to app */
     appPath: string;
@@ -27,9 +28,11 @@ export default {
     flag?: string;
     /** Whether to operate on the local or deployed app */
     localApp?: boolean; // TODO: this option is provided inconsistently across commands (breaking change)
+    /** Whether to operate against --slackdev or production */
+    qa?: boolean; // TODO: this option is provided inconsistently across commands (breaking change)
   }): Promise<string> {
     const appEnvironment = localApp ? 'local' : 'deployed';
-    const cmd = new SlackCLIProcess(`activity ${flag}`, { team: teamFlag }, {
+    const cmd = new SlackCLIProcess(`activity ${flag}`, { team: teamFlag, qa }, {
       '--app': appEnvironment,
     });
     try {
@@ -52,6 +55,7 @@ export default {
     teamFlag,
     stringToWaitFor,
     localApp = true,
+    qa = false,
   }: {
     /** Path to app */
     appPath: string;
@@ -61,9 +65,11 @@ export default {
     stringToWaitFor: string;
     /** Whether to operate on the local or deployed app */
     localApp?: boolean;
+    /** Whether to operate against --slackdev or production */
+    qa?: boolean; // TODO: this option is provided inconsistently across commands (breaking change)
   }): Promise<ShellProcess> {
     const appEnvironment = localApp ? 'local' : 'deployed';
-    const cmd = new SlackCLIProcess('activity --tail', { team: teamFlag }, {
+    const cmd = new SlackCLIProcess('activity --tail', { team: teamFlag, qa }, {
       '--app': appEnvironment,
     });
     try {
@@ -112,6 +118,7 @@ export default {
     teamFlag,
     hideTriggers = true,
     orgWorkspaceGrantFlag,
+    qa = false,
   }: {
     /** Path to app */
     appPath: string;
@@ -124,8 +131,10 @@ export default {
      * to request grant access to in AAA scenarios
      */
     orgWorkspaceGrantFlag?: string;
+    /** Whether to operate against --slackdev or production */
+    qa?: boolean; // TODO: this option is provided inconsistently across commands (breaking change)
   }): Promise<string> {
-    const cmd = new SlackCLIProcess('deploy', { team: teamFlag }, {
+    const cmd = new SlackCLIProcess('deploy', { team: teamFlag, qa }, {
       '--hide-triggers': hideTriggers,
       '--org-workspace-grant': orgWorkspaceGrantFlag,
     });
@@ -150,6 +159,7 @@ export default {
     cleanup = true,
     hideTriggers = true,
     orgWorkspaceGrantFlag,
+    qa = false,
   }: {
     /** Path to app */
     appPath: string;
@@ -164,8 +174,10 @@ export default {
      * to request grant access to in AAA scenarios
      */
     orgWorkspaceGrantFlag?: string;
+    /** Whether to operate against --slackdev or production */
+    qa?: boolean; // TODO: this option is provided inconsistently across commands (breaking change)
   }): Promise<ShellProcess> {
-    const cmd = new SlackCLIProcess('run', { team: teamFlag }, {
+    const cmd = new SlackCLIProcess('run', { team: teamFlag, qa }, {
       '--cleanup': cleanup,
       '--hide-triggers': hideTriggers,
       '--org-workspace-grant': orgWorkspaceGrantFlag,

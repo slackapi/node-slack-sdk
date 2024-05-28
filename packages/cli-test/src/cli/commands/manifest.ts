@@ -8,9 +8,10 @@ import commandError from '../command-error';
  */
 export const validate = async function manifestValidate(
   appPath: string,
+  options?: { qa?: boolean },
 ): Promise<string> {
   // TODO: breaking change, separate params vs single-param-object
-  const cmd = new SlackCLIProcess('manifest validate');
+  const cmd = new SlackCLIProcess('manifest validate', options);
   try {
     const proc = await cmd.execAsync({
       cwd: appPath,
