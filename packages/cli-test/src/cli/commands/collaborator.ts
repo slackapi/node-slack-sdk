@@ -12,9 +12,10 @@ export const add = async function collaboratorsAdd(
   appPath: string,
   teamFlag: string,
   collaboratorEmail: string,
+  options?: { qa?: boolean },
 ): Promise<string> {
   // TODO: (breaking change) separate parameters vs single-param-object
-  const cmd = new SlackCLIProcess(`collaborators add ${collaboratorEmail}`, { team: teamFlag });
+  const cmd = new SlackCLIProcess(`collaborators add ${collaboratorEmail}`, { team: teamFlag, qa: options?.qa });
   try {
     const proc = await cmd.execAsync({
       cwd: appPath,
@@ -31,9 +32,13 @@ export const add = async function collaboratorsAdd(
  * @param teamFlag team domain to list collaborators for
  * @returns command output
  */
-export const list = async function collaboratorsList(appPath: string, teamFlag: string): Promise<string> {
+export const list = async function collaboratorsList(
+  appPath: string,
+  teamFlag: string,
+  options?: { qa?: boolean },
+): Promise<string> {
   // TODO: (breaking change) separate parameters vs single-param-object
-  const cmd = new SlackCLIProcess('collaborators list', { team: teamFlag });
+  const cmd = new SlackCLIProcess('collaborators list', { team: teamFlag, qa: options?.qa });
   try {
     const proc = await cmd.execAsync({
       cwd: appPath,
@@ -55,9 +60,10 @@ export const remove = async function collaboratorsRemove(
   appPath: string,
   teamFlag: string,
   collaboratorEmail: string,
+  options?: { qa?: boolean },
 ): Promise<string> {
   // TODO: (breaking change) separate parameters vs single-param-object
-  const cmd = new SlackCLIProcess(`collaborators remove ${collaboratorEmail}`, { team: teamFlag });
+  const cmd = new SlackCLIProcess(`collaborators remove ${collaboratorEmail}`, { team: teamFlag, qa: options?.qa });
   try {
     const proc = await cmd.execAsync({
       cwd: appPath,

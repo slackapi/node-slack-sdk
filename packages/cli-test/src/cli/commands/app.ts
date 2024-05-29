@@ -10,11 +10,11 @@ import commandError from '../command-error';
 export const del = async function appDelete(
   appPath: string,
   teamFlag: string,
-  options?: { isLocalApp?: boolean },
+  options?: { isLocalApp?: boolean, qa?: boolean },
 ): Promise<string> {
-  // TODO: breaking change, separate params vs single-param-object
+  // TODO: breaking change, separate params vs single-param-object, probably should reflect global vs command CLI flags
   const appEnvironment = options?.isLocalApp ? 'local' : 'deployed';
-  const cmd = new SlackCLIProcess('app delete --force', { team: teamFlag }, {
+  const cmd = new SlackCLIProcess('app delete --force', { team: teamFlag, qa: options?.qa }, {
     '--app': appEnvironment,
   });
   try {
@@ -33,9 +33,13 @@ export const del = async function appDelete(
  * @param teamFlag team domain where the app will be installed
  * @returns command output
  */
-export const install = async function workspaceInstall(appPath: string, teamFlag: string): Promise<string> {
-  // TODO: breaking change, separate params vs single-param-object
-  const cmd = new SlackCLIProcess('app install', { team: teamFlag });
+export const install = async function workspaceInstall(
+  appPath: string,
+  teamFlag: string,
+  options?: { qa?: boolean },
+): Promise<string> {
+  // TODO: breaking change, separate params vs single-param-object, probably should reflect global vs command CLI flags
+  const cmd = new SlackCLIProcess('app install', { team: teamFlag, qa: options?.qa });
   try {
     const proc = await cmd.execAsync({
       cwd: appPath,

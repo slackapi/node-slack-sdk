@@ -15,9 +15,10 @@ export const access = async function functionAccess(
   appPath: string,
   teamFlag: string,
   flags: string,
+  options?: { qa?: boolean },
 ): Promise<string> {
   // TODO: breaking change, separate params vs single-param-object
-  const cmd = new SlackCLIProcess(`function access ${flags}`, { team: teamFlag });
+  const cmd = new SlackCLIProcess(`function access ${flags}`, { team: teamFlag, qa: options?.qa });
   try {
     const proc = await cmd.execAsync({
       cwd: appPath,

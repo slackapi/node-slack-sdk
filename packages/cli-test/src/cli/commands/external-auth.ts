@@ -14,11 +14,12 @@ export const externalAuth = async function externalAuth(
   teamFlag: string,
   provider: string,
   flags: string,
+  options?: { qa?: boolean },
 ): Promise<string> {
   // TODO: (breaking change) separate parameters vs single-param-object
   // TODO: this is a generic entry point to the `external-auth` suite of commands, and today `flags` is abused to
   // specify the actual sub-command. easy, but lazy, not sure if best approach
-  const cmd = new SlackCLIProcess(`external-auth ${flags}`, { team: teamFlag }, {
+  const cmd = new SlackCLIProcess(`external-auth ${flags}`, { team: teamFlag, qa: options?.qa }, {
     '--provider': provider,
   });
   try {
