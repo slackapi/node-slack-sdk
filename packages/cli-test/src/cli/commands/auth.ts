@@ -87,11 +87,12 @@ export default {
     /** team domain to logout from */
     teamFlag?: string;
     /** perform the logout for all authentications */
-    allWorkspaces?: boolean
+    allWorkspaces?: boolean;
+    qa?: boolean;
   }): Promise<string> {
     // TODO: (breaking change) inconsistent use of object-as-params vs. separate parameters
     // Create the command with workspaces to logout of
-    const globalOpts: SlackCLIGlobalOptions = {};
+    const globalOpts: SlackCLIGlobalOptions = { qa: options?.qa };
     const cmdOpts: SlackCLICommandOptions = {};
     if (options?.teamFlag) {
       globalOpts.team = options.teamFlag;

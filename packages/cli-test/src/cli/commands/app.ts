@@ -55,9 +55,12 @@ export const install = async function workspaceInstall(
  * @param appPath path to app
  * @returns command output
  */
-export const list = async function appList(appPath: string): Promise<string> {
+export const list = async function appList(
+  appPath: string,
+  options?: { qa?: boolean },
+): Promise<string> {
   // TODO: (breaking change) separate parameters vs single-param-object
-  const cmd = new SlackCLIProcess('app list');
+  const cmd = new SlackCLIProcess('app list', options);
   try {
     const proc = await cmd.execAsync({
       cwd: appPath,
