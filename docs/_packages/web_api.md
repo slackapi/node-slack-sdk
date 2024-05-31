@@ -493,6 +493,8 @@ The `channel_id` and `initial_comment` aren't required, but the file either won'
 posted with a message if these aren't included.
 
 In a successful response, the `result.files` contains an array of [shared files](https://api.slack.com/types/file).
+These files are "private" and available to just the `token` holder if no `channel_id` is included in the request, and
+are marked "public" when shared to a provided `channel_id`.
 
 Multiple files can also be uploaded at once, without needing to write a loop, using the `files_uploads` parameter. This
 accepts similar attributes as a single file:
