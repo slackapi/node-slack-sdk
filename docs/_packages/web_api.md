@@ -466,68 +466,52 @@ retrying the API call. If you'd like to opt out of that behavior, set the `rejec
 ---
 
 ### Upload a file
-As of @slack/web-api v6.8.0, we have introduced a modified way to upload files.
 
-We've received many reports on the performance issue of the existing `files.upload` API. So, to cope with the problem, our Platform team decided to unlock a new way to upload files to Slack via public APIs. To utilize the new approach, developers need to implement the following steps on their code side:
+Blobs of binary data, sometimes structured, sometimes called a "file", can be useful to upload and share to a channel.
+Such files can be uploaded and shared to a channel with the nifty `filesUploadV2` API:
 
-* Call WebClient#files.getUploadURLExternal() method to receive a URL to use for each file
-* Perform an HTTP POST request to the URL you received in step 1 for each file
-* Call WebClient#files.completeUploadExternal() method with the pairs of file ID and title to complete the whole process, plus share the files in a channel
-* If you would like the full metadata of the files, call WebClient#files.info() method for each file
-
-We understand that writing the above code requires many lines of code. Also, existing WebClient#files.upload() users have to take a certain amount of time for migration. To mitigate the pain, we've added a wrapper method named WebClient#files.uploadV2().
-
-Also, in addition to the performance improvements, another good news is that 3rd party apps can now upload multiple files at a time!
-
-See the following code examples demonstrating how the wrapper method works:
-
-##### Legacy way
 ```javascript
 const { WebClient } = require('@slack/web-api');
 
 const token = process.env.SLACK_TOKEN;
 const web = new WebClient(token);
 
-const result = await web.files.upload({
-  file: './path/to/logo.png',  // also accepts Buffer or ReadStream
+const result = await web.filesUploadV2({
+  channel_id: 'C0123456789',
+  initial_comment: 'Here is the new company logo!',
+  file: './path/to/logo.png',
   filename: 'logo.png',
-  channels: 'C12345',
-  initial_comment: 'Here is the new company logo',
 });
 
-// `result` contains information about the uploaded file
-console.log('File uploaded: ', result.file.id);
+console.log('File uploaded:', result.files);
 ```
 
-#### New way
+The `file` parameter accepts either the path to a file, a Buffer, or a ReadStream. Details on handling different forms
+of binary data follow soon!
+
+The `channel_id` and `initial_comment` aren't required, but the file either won't be shared to a channel or it won't be
+posted with a message if these aren't included.
+
+In a successful response, the `result.files` contains an array of [shared files](https://api.slack.com/types/file).
+These files are "private" and available to just the `token` holder if no `channel_id` is included in the request, and
+are marked "public" when shared to a provided `channel_id`.
+
+Multiple files can also be uploaded at once, without needing to write a loop, using the `files_uploads` parameter. This
+accepts similar attributes as a single file:
+
+* `alt_text`: A description of images for a screen-reader.
+* `content`: The file contents as a string. If omitted, `file` must be provided.
+* `file`: The file path or data to upload. If omitted, `content` must be provided.
+* `filename`: The name of the file.
+* `filetype`: A file type identifier. [Reference](https://api.slack.com/types/file#file_types).
+* `snippet_type`: Syntax type of the snippet being uploaded. E.g. `python`.
+* `title`: The title of the file.
+
 ```javascript
-const { WebClient } = require('@slack/web-api');
-
-const token = process.env.SLACK_TOKEN;
-const web = new WebClient(token);
-const result = await web.files.uploadV2({
-  file: './path/to/logo.png',  // also accepts Buffer or ReadStream
-  filename: 'logo.png',
-  // Note that channels still works but going with channel_id="C12345" is recommended.
-  // channels="C111,C222" is no longer supported. In this case, an exception will be thrown
-  channels: 'C12345',
-  initial_comment: 'Here is the new company logo',
-});
-
-// `result may contain multiple files uploaded
-console.log('File(s) uploaded: ', result.files);
-```
-
-#### New way - upload multiple files
-```javascript
-const { WebClient } = require('@slack/web-api');
-
-const token = process.env.SLACK_TOKEN;
-const web = new WebClient(token);
-const result = await web.files.uploadV2({
-  initial_comment: 'Here are the new company assets!',
+const result = await web.filesUploadV2({
+  channel_id: 'C0123456789',
   thread_ts: '1223313423434.131321',
-  channel_id: 'C12345',
+  initial_comment: 'Here are the new company assets!',
   file_uploads: [
     {
       file: './path/to/logo.png',
@@ -538,18 +522,22 @@ const result = await web.files.uploadV2({
       filename: 'logo-sm.png',
     },
   ],
- });
- ```
+});
+```
 
-### Handling binary data
-Several methods, `files.uploadV2`, `files.upload (legacy)`, and `users.setPhoto`, allow you to upload a file. In Node, there are a few
-ways you might be dealing with files, or more generally, binary data. When you have the whole file in memory (like when
-you've just generated or processed an image), then in Node you'd have a `Buffer` that contains that binary data. Or,
-when you are reading the file from disk or a network (like when you have a path to file name), then you'd typically have
-a `ReadStream`. The client can handle both of these binary data types for you, and it looks like any other API call.
+Notice a `thread_ts` even snuck into that last example just for those threaded uploaded needs.
 
-The following example shows how you can use [`files.upload`](https://api.slack.com/methods/files.upload) to upload a
-file that is read from disk (as a `ReadStream`).
+**Handling binary data:**
+
+Several methods, `filesUploadV2`, `files.upload (deprecated)`, and `users.setPhoto`, allow you to upload a file. In
+Node, there are a few ways you might be dealing with files, or more generally, binary data. When you have the whole file
+in memory (like when you've just generated or processed an image), then in Node you'd have a
+[`Buffer`](https://nodejs.org/api/buffer.html) that contains that binary data. Or, when you are reading the file from
+disk or a network (like when you have a path to file name), then you'd typically have a
+[`ReadStream`](https://nodejs.org/api/fs.html#class-fsreadstream). The client can handle both of these binary data types
+for you, and it looks like any other API call.
+
+The following example shows how you can use `filesUploadV2` to upload a file that is read from disk (as a `ReadStream`).
 
 ```javascript
 const { createReadStream } = require('fs');
@@ -562,21 +550,87 @@ const web = new WebClient(token);
 const filename = 'test_file.csv';
 
 (async () => {
-  // Just use the `file` argument as the documentation suggests
-  // See: https://api.slack.com/methods/files.upload
-  const result = await web.files.upload({
+  const result = await web.filesUploadV2({
     filename,
     // You can use a ReadStream or a Buffer for the file option
     // This file is located in the current directory (`process.pwd()`), so the relative path resolves
     file: createReadStream(`./${fileName}`),
-  })
+  });
 
-  // `res` contains information about the uploaded file
-  console.log('File uploaded: ', result.file.id);
+  console.log('File uploaded:', result.files);
 })();
 ```
 
 In the example above, you could also use a `Buffer` object as the value for the `file` property of the options object.
+
+**Migrating from the `files.upload` API method:**
+
+Prior to @slack/web-api v6.8.0, `files.upload` was the recommended way to upload files. Release @slack/web-api v6.8.0
+introduced the now recommended `filesUploadV2` above.
+
+At that time we were receiving many reports on the performance issue of the prior `files.upload` API. So, to cope with
+the problem, our Platform team decided to unlock a new way to upload files to Slack via public APIs.
+
+To utilize this new approach, developers need to implement the following steps on their code side:
+
+* Call WebClient#files.getUploadURLExternal() method to receive a URL to use for each file
+* Perform an HTTP POST request to the URL you received in step 1 for each file
+* Call WebClient#files.completeUploadExternal() method with the pairs of file ID and title to complete the whole
+  process, plus share the files in a channel
+* If you would like the full metadata of the files, call WebClient#files.info() method for each file
+
+We understand that writing the above code requires many lines of code. Also, existing WebClient#files.upload() users
+have to take a certain amount of time for migration. To mitigate the pain, we've added a wrapper method named
+WebClient#filesUploadV2().
+
+Also, in addition to the performance improvements, another good news is that 3rd party apps can now upload multiple
+files at a time!
+
+Changes needed to migrate from `files.upload` to `filesUploadV2` are detailed after this example of a `files.upload`
+call:
+
+```javascript
+const { WebClient } = require('@slack/web-api');
+
+const token = process.env.SLACK_TOKEN;
+const web = new WebClient(token);
+
+const result = await web.files.upload({
+  file: './path/to/logo.png',
+  filename: 'logo.png',
+  channels: 'C0123456789',
+  initial_comment: 'Here is the new company logo!',
+});
+
+console.log('File uploaded:', result.file);
+```
+
+To update that snippet to `filesUploadV2`, the following changes are needed:
+
+* Replace `web.files.upload` with `web.filesUploadV2`
+* Swap `channels` for `channel_id` and ensure only one channel is provided
+* Change `result.file` to `result.files`
+
+```javascript
+const { WebClient } = require('@slack/web-api');
+
+const token = process.env.SLACK_TOKEN;
+const web = new WebClient(token);
+
+const result = await web.filesUploadV2({
+  file: './path/to/logo.png',
+  filename: 'logo.png',
+  channel_id: 'C0123456789',
+  initial_comment: 'Here is the new company logo!',
+});
+
+console.log('File uploaded:', result.files);
+```
+
+Please note
+[the planned sunset date](https://api.slack.com/changelog/2024-04-a-better-way-to-upload-files-is-here-to-stay) of
+2024-03-11 for the `files.upload` method if you're using it at this time. Migrating when possible is recommended and
+`filesUploadV2` offers advantages that we're excited to share!
 
 ---
 
