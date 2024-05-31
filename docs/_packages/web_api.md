@@ -628,9 +628,9 @@ console.log('File uploaded:', result.files);
 ```
 
 Please note
-[the planned sunset date](https://api.slack.com/changelog/2024-04-a-better-way-to-upload-files-is-here-to-stay) for the
-`files.upload` method if you're using it at this time. Migrating when possible is recommended and `filesUploadV2` offers
-advantages that we're excited to share!
+[the planned sunset date](https://api.slack.com/changelog/2024-04-a-better-way-to-upload-files-is-here-to-stay) of
+2024-03-11 for the `files.upload` method if you're using it at this time. Migrating when possible is recommended and
+`filesUploadV2` offers advantages that we're excited to share!
 
 ---
 
