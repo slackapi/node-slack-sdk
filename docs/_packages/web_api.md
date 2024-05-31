@@ -529,11 +529,13 @@ Notice a `thread_ts` even snuck into that last example just for those threaded u
 
 **Handling binary data:**
 
-Several methods, `filesUploadV2`, `files.upload (deprecated)`, and `users.setPhoto`, allow you to upload a file. In Node, there are a few
-ways you might be dealing with files, or more generally, binary data. When you have the whole file in memory (like when
-you've just generated or processed an image), then in Node you'd have a `Buffer` that contains that binary data. Or,
-when you are reading the file from disk or a network (like when you have a path to file name), then you'd typically have
-a `ReadStream`. The client can handle both of these binary data types for you, and it looks like any other API call.
+Several methods, `filesUploadV2`, `files.upload (deprecated)`, and `users.setPhoto`, allow you to upload a file. In
+Node, there are a few ways you might be dealing with files, or more generally, binary data. When you have the whole file
+in memory (like when you've just generated or processed an image), then in Node you'd have a
+[`Buffer`](https://nodejs.org/api/buffer.html) that contains that binary data. Or, when you are reading the file from
+disk or a network (like when you have a path to file name), then you'd typically have a
+[`ReadStream`](https://nodejs.org/api/fs.html#class-fsreadstream). The client can handle both of these binary data types
+for you, and it looks like any other API call.
 
 The following example shows how you can use `filesUploadV2` to upload a file that is read from disk (as a `ReadStream`).
 
