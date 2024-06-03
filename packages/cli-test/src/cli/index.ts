@@ -66,6 +66,7 @@ export const SlackCLI = {
     appPath,
     appTeamID,
     isLocalApp,
+    qa,
   }: {
     // TODO: (breaking change) model these types better, if appPath isn't provided then appTeamId
     // and isLocalApp are not needed either
@@ -74,15 +75,16 @@ export const SlackCLI = {
     /** Team domain or ID where app is installed */
     appTeamID: string;
     isLocalApp?: boolean;
+    qa?: boolean;
   }): Promise<void> {
     if (appPath) {
       // List instances of app installation if app path provided
-      const installedAppsOutput = await SlackCLI.app.list(appPath);
+      const installedAppsOutput = await SlackCLI.app.list(appPath, { qa });
       // If app is installed
       if (!installedAppsOutput.includes('This project has no apps')) {
         // Soft app delete
         try {
-          await SlackCLI.app.delete(appPath, appTeamID, { isLocalApp });
+          await SlackCLI.app.delete(appPath, appTeamID, { isLocalApp, qa });
         } catch (error) {
           logger.warn(`stopSession could not delete app gracefully, continuing. Error: ${error}`);
         }
@@ -97,7 +99,7 @@ export const SlackCLI = {
 
     // Log out if logged in
     try {
-      await SlackCLI.logout({ allWorkspaces: true });
+      await SlackCLI.logout({ allWorkspaces: true, qa });
     } catch (error) {
       // TODO: maybe should error instead? this seems pretty bad
       logger.warn(`Could not logout gracefully. Error: ${error}`);

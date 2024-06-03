@@ -8,7 +8,7 @@ import commandError from '../command-error';
  * @returns command output
  */
 export const create = async function create(
-  appName?: string,
+  appName?: string, // TODO: bad arg name. it should be app path, because this is effectively how it is used
   globalOpts?: SlackCLIGlobalOptions,
   commandOpts?: SlackCLICommandOptions,
   shellOpts?: SpawnOptionsWithoutStdio,
@@ -43,7 +43,7 @@ export const createAppFromTemplate = async function createAppFromTemplate({
   shellOpts = {},
 }: {
   templateString: string;
-  appName?: string;
+  appName?: string; // TODO: bad arg name. it should be app path, because this is effectively how it is used
   branchName?: string;
   shellOpts?: SpawnOptionsWithoutStdio;
 }): Promise<string> {

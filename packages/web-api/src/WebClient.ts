@@ -10,7 +10,6 @@ import isStream from 'is-stream';
 import pQueue from 'p-queue';
 import pRetry, { AbortError } from 'p-retry';
 import axios, { AxiosHeaderValue, AxiosInstance, AxiosResponse } from 'axios';
-// eslint-disable-next-line @typescript-eslint/naming-convention
 import FormData from 'form-data';
 import isElectron from 'is-electron';
 import {
