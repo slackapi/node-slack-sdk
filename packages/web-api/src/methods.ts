@@ -355,6 +355,7 @@ import type {
   ChatScheduledMessagesListArguments,
   ChatUnfurlArguments,
   ChatUpdateArguments,
+  CanvasesCreateArguments,
   CallsAddArguments,
   CallsEndArguments,
   CallsInfoArguments,
@@ -1335,6 +1336,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       add: bindApiCall<CallsParticipantsAddArguments, CallsParticipantsAddResponse>(this, 'calls.participants.add'),
       remove: bindApiCall<CallsParticipantsRemoveArguments, CallsParticipantsRemoveResponse>(this, 'calls.participants.remove'),
     },
+  };
+
+  public readonly canvases = {
+    /**
+     * @description Create Canvas for a user.
+     * @see {@link https://api.slack.com/methods/canvases.create `canvases.create` API reference}.
+     */
+    add: bindApiCall<CanvasesCreateArguments, CallsAddResponse>(this, 'calls.add'),
   };
 
   public readonly chat = {
