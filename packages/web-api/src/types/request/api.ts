@@ -1,5 +1,7 @@
 // https://api.slack.com/methods/api.test
-export interface APITestArguments {
+import { OptionalArgument } from '../helpers';
+
+export type APITestArguments = OptionalArgument<{
   /** @description Error response to return. */
   error?: string;
-}
+}>;

@@ -1,4 +1,5 @@
 import { OptionalTeamAssignable, TokenOverridable } from './common';
+import { OptionalArgument } from '../helpers';
 
 interface UsergroupsIncludeCount {
   /** @description Include the number of users in each User Group. */
@@ -27,12 +28,14 @@ export interface UsergroupsEnableArguments extends TokenOverridable, OptionalTea
   usergroup: string;
 }
 // https://api.slack.com/methods/usergroups.list
-export interface UsergroupsListArguments extends TokenOverridable, OptionalTeamAssignable, UsergroupsIncludeCount {
+export type UsergroupsListArguments = OptionalArgument<TokenOverridable & OptionalTeamAssignable &
+UsergroupsIncludeCount & {
   /** @description Include disabled User Groups. */
   include_disabled?: boolean;
   /** @description Include the list of users for each User Group. */
   include_users?: boolean;
-}
+}>;
+
 // https://api.slack.com/methods/usergroups.update
 export interface UsergroupsUpdateArguments extends TokenOverridable, OptionalTeamAssignable,
   Partial<UsergroupsCreateArguments> {

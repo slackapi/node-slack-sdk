@@ -7,6 +7,7 @@ import {
   TokenOverridable,
   TraditionalPagingEnabled,
 } from './common';
+import { OptionalArgument } from '../helpers';
 
 interface ReactionsFull {
   /** @description If `true`, return the complete reaction list. */
@@ -23,11 +24,11 @@ export type ReactionsGetArguments = ReactionsFull & TokenOverridable &
 (MessageArgument | FileArgument | FileCommentArgument);
 
 // https://api.slack.com/methods/reactions.list
-export interface ReactionsListArguments extends ReactionsFull, TokenOverridable, TraditionalPagingEnabled,
-  CursorPaginationEnabled, OptionalTeamAssignable {
+export type ReactionsListArguments = OptionalArgument<ReactionsFull & TokenOverridable & TraditionalPagingEnabled &
+CursorPaginationEnabled & OptionalTeamAssignable & {
   /** @description Show reactions made by this user. Defaults to the authed user. */
   user?: string;
-}
+}>;
 // https://api.slack.com/methods/reactions.remove
 export type ReactionsRemoveArguments = TokenOverridable & ReactionName &
 (MessageArgument | FileArgument | FileCommentArgument);

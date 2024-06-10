@@ -370,9 +370,9 @@ expectAssignable<Parameters<typeof web.chat.scheduleMessage>>([{
 
 // chat.scheduledMessages.list
 // -- sad path
-expectError(web.chat.scheduledMessages.list()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.chat.scheduledMessages.list>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.chat.scheduledMessages.list>>([]); // no arg is fine
 
 // chat.unfurl
 // -- sad path

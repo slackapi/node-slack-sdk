@@ -65,12 +65,12 @@ expectAssignable<Parameters<typeof web.admin.workflows.permissions.lookup>>([{
 
 // admin.workflows.search
 // -- sad path
-expectError(web.admin.workflows.search()); // lacking argument
 expectError(web.admin.workflows.search({
   collaborator_ids: [], // must provide at least 1 ID
 }));
 // -- happy path
 expectAssignable<Parameters<typeof web.admin.workflows.search>>([{}]); // all optional args OK
+expectAssignable<Parameters<typeof web.admin.workflows.search>>([]); // no arg is fine
 
 // admin.workflows.unpublish
 // -- sad path

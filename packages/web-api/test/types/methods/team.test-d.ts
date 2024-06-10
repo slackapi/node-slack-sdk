@@ -1,40 +1,46 @@
-import { expectAssignable, expectError } from 'tsd';
+import { expectAssignable } from 'tsd';
 import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
 
 // team.accessLogs
 // -- sad path
-expectError(web.team.accessLogs()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.team.accessLogs>>([{}]); // all optional arguments
+expectAssignable<Parameters<typeof web.team.accessLogs>>([]); // no arg is fine
 
 // team.billableInfo
 // -- sad path
-expectError(web.team.billableInfo()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.team.billableInfo>>([{}]); // all optional arguments
+expectAssignable<Parameters<typeof web.team.billableInfo>>([]); // no arg is fine
 
 // team.billing.info
 // -- sad path
-expectError(web.team.billing.info()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.team.billing.info>>([{}]); // all optional arguments
+expectAssignable<Parameters<typeof web.team.billing.info>>([]); // no arg is fine
+
+// team.info
+// -- sad path
+// -- happy path
+expectAssignable<Parameters<typeof web.team.info>>([{}]); // all optional arguments
+expectAssignable<Parameters<typeof web.team.info>>([]); // no arg is fine
 
 // team.integrationLogs
 // -- sad path
-expectError(web.team.integrationLogs()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.team.integrationLogs>>([{}]); // all optional arguments
+expectAssignable<Parameters<typeof web.team.integrationLogs>>([]); // no arg is fine
 
 // team.profile.get
 // -- sad path
-expectError(web.team.profile.get()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.team.profile.get>>([{}]); // all optional arguments
+expectAssignable<Parameters<typeof web.team.profile.get>>([]); // no arg is fine
 
 // team.preferences.list
 // -- sad path
-expectError(web.team.preferences.list()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.team.preferences.list>>([{}]); // all optional arguments
+expectAssignable<Parameters<typeof web.team.preferences.list>>([]); // no arg is fine

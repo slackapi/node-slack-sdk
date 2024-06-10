@@ -67,7 +67,6 @@ expectAssignable<Parameters<typeof web.admin.users.invite>>([{
 
 // admin.users.list
 // -- sad path
-expectError(web.admin.users.list()); // lacking argument
 expectError(web.admin.users.list({
   team_id: 'T1234',
   include_deactivated_user_workspaces: true, // cannot set both team_id and include_deactivated=true
@@ -77,6 +76,7 @@ expectError(web.admin.users.list({
 }));
 // -- happy path
 expectAssignable<Parameters<typeof web.admin.users.list>>([{}]); // all optional args is ok
+expectAssignable<Parameters<typeof web.admin.users.list>>([]); // no args is fine
 expectAssignable<Parameters<typeof web.admin.users.list>>([{
   team_id: 'T1234',
   include_deactivated_user_workspaces: false, // team_id and include_deactivated=false is ok
@@ -146,7 +146,6 @@ expectAssignable<Parameters<typeof web.admin.users.session.invalidate>>([{
 
 // admin.users.session.list
 // -- sad path
-expectError(web.admin.users.session.list()); // lacking argument
 expectError(web.admin.users.session.list({
   team_id: 'T1234', // if team_id is provided, must also provide user_id
 }));
@@ -155,6 +154,7 @@ expectError(web.admin.users.session.list({
 }));
 // -- happy path
 expectAssignable<Parameters<typeof web.admin.users.session.list>>([{}]); // all optional args is OK
+expectAssignable<Parameters<typeof web.admin.users.session.list>>([]); // no arg is fine
 expectAssignable<Parameters<typeof web.admin.users.session.list>>([{
   team_id: 'T1234',
   user_id: 'U1234', // also providing both team and user id - but has to be both

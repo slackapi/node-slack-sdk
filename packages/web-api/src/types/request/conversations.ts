@@ -5,6 +5,7 @@ import type {
   TimelinePaginationEnabled,
   TokenOverridable,
 } from './common';
+import { OptionalArgument } from '../helpers';
 
 interface Channel {
   /** @description ID of conversation. */
@@ -115,7 +116,8 @@ export interface ConversationsKickArguments extends Channel, TokenOverridable {
 export interface ConversationsLeaveArguments extends Channel, TokenOverridable {}
 
 // https://api.slack.com/methods/conversations.list
-export interface ConversationsListArguments extends TokenOverridable, CursorPaginationEnabled, OptionalTeamAssignable {
+export type ConversationsListArguments = OptionalArgument<TokenOverridable & CursorPaginationEnabled &
+OptionalTeamAssignable & {
   /** @description Set to `true` to exclude archived channels from the list. Defaults to `false`. */
   exclude_archived?: boolean;
   /**
@@ -123,15 +125,15 @@ export interface ConversationsListArguments extends TokenOverridable, CursorPagi
    * `public_channel`, `private_channel`, `mpim` or `im`. Defaults to `public_channel`.
    */
   types?: string;
-}
+}>;
 
 // https://api.slack.com/methods/conversations.listConnectInvites
-export interface ConversationsListConnectInvitesArguments extends TokenOverridable, OptionalTeamAssignable {
+export type ConversationsListConnectInvitesArguments = OptionalArgument<TokenOverridable & OptionalTeamAssignable & {
   /** @description Maximum number of invites to return. Defaults to `100`. */
   count?: number;
   /** @description Set to `next_cursor` returned by previous call to list items in subsequent page. */
   cursor?: string;
-}
+}>;
 
 // https://api.slack.com/methods/conversations.mark
 export interface ConversationsMarkArguments extends Message, TokenOverridable { }

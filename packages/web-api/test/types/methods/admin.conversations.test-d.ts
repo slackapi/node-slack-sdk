@@ -154,10 +154,10 @@ expectAssignable<Parameters<typeof web.admin.conversations.disconnectShared>>([{
 
 // admin.conversations.ekm.listOriginalConnectedChannelInfo
 // -- sad path
-expectError(web.admin.conversations.ekm.listOriginalConnectedChannelInfo()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.admin.conversations.ekm.listOriginalConnectedChannelInfo>>([{
 }]); // all optional args
+expectAssignable<Parameters<typeof web.admin.conversations.ekm.listOriginalConnectedChannelInfo>>([]); // all optional args
 
 // admin.conversations.getConversationPrefs
 // -- sad path
@@ -287,10 +287,10 @@ expectAssignable<Parameters<typeof web.admin.conversations.restrictAccess.remove
 
 // admin.conversations.search
 // -- sad path
-expectError(web.admin.conversations.search()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.admin.conversations.search>>([{
 }]); // all optional args
+expectAssignable<Parameters<typeof web.admin.conversations.search>>([]); // no arg is fine
 
 // admin.conversations.setConversationPrefs
 // -- sad path

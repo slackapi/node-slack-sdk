@@ -1,7 +1,8 @@
 import { LocaleAware, TokenOverridable } from './common';
+import { OptionalArgument } from '../helpers';
 
 // https://api.slack.com/methods/rtm.connect
-export interface RTMConnectArguments extends TokenOverridable {
+export type RTMConnectArguments = OptionalArgument<TokenOverridable & {
   /**
    * @description Batch presence deliveries via subscription. Enabling changes the shape of `presence_change` events.
    * @see {@link https://api.slack.com/docs/presence-and-status#batching batch presence}.
@@ -12,9 +13,9 @@ export interface RTMConnectArguments extends TokenOverridable {
    * @see {@link Only deliver presence events when requested by subscription. presence subscriptions}.
    */
   presence_sub?: boolean;
-}
+}>;
 // https://api.slack.com/methods/rtm.start
-export interface RTMStartArguments extends RTMConnectArguments, LocaleAware {
+export type RTMStartArguments = OptionalArgument<RTMConnectArguments & LocaleAware & {
   /** @description Returns MPIMs to the client in the API response. */
   mpim_aware?: boolean;
   /**
@@ -26,4 +27,4 @@ export interface RTMStartArguments extends RTMConnectArguments, LocaleAware {
   no_unreads?: boolean;
   /** @description Return timestamp only for latest message object of each channel (improves performance). */
   simple_latest?: boolean;
-}
+}>;

@@ -30,9 +30,9 @@ expectAssignable<Parameters<typeof web.admin.teams.create>>([{
 
 // admin.teams.list
 // -- sad path
-expectError(web.admin.teams.list()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.admin.teams.list>>([{}]); // all optional
+expectAssignable<Parameters<typeof web.admin.teams.list>>([]); // no arg is fine
 
 // admin.teams.owners.list
 // -- sad path

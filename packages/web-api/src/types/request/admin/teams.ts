@@ -1,4 +1,5 @@
 import type { ChannelIDs, CursorPaginationEnabled, TeamID, TokenOverridable } from '../common';
+import { OptionalArgument } from '../../helpers';
 
 type TeamDiscoverability = 'open' | 'closed' | 'invite_only' | 'unlisted';
 
@@ -18,7 +19,7 @@ export interface AdminTeamsCreateArguments extends TokenOverridable {
 }
 
 // https://api.slack.com/methods/admin.teams.list
-export interface AdminTeamsListArguments extends TokenOverridable, CursorPaginationEnabled {}
+export type AdminTeamsListArguments = OptionalArgument<TokenOverridable & CursorPaginationEnabled>;
 
 // https://api.slack.com/methods/admin.teams.owners.list
 export interface AdminTeamsOwnersListArguments extends TeamID, TokenOverridable, CursorPaginationEnabled {}

@@ -11,6 +11,7 @@ import type {
   TimelinePaginationEnabled,
   TokenOverridable,
 } from './common';
+import { OptionalArgument } from '../helpers';
 
 interface Channel {
   /** @description Channel ID for the message. */
@@ -178,8 +179,8 @@ export type ChatScheduleMessageArguments = TokenOverridable & MessageContents & 
 } & ReplyInThread & Parse & LinkNames & AsUser & Metadata & Unfurls;
 
 // https://api.slack.com/methods/chat.scheduledMessages.list
-export interface ChatScheduledMessagesListArguments extends TokenOverridable, CursorPaginationEnabled,
-  OptionalTeamAssignable, Pick<TimelinePaginationEnabled, 'latest' | 'oldest'>, Partial<Channel> {}
+export type ChatScheduledMessagesListArguments = OptionalArgument<TokenOverridable & CursorPaginationEnabled &
+OptionalTeamAssignable & Pick<TimelinePaginationEnabled, 'latest' | 'oldest'> & Partial<Channel>>;
 
 interface SourceAndUnfurlID {
   /**

@@ -1,8 +1,9 @@
 import type { AppID, CursorPaginationEnabled, TokenOverridable, OAuthCredentials } from './common';
 import type { Manifest } from './manifest';
+import { OptionalArgument } from '../helpers';
 
 // https://api.slack.com/methods/apps.connections.open
-export interface AppsConnectionsOpenArguments { }
+export type AppsConnectionsOpenArguments = OptionalArgument<object>;
 
 // https://api.slack.com/methods/apps.event.authorizations.list
 export interface AppsEventAuthorizationsListArguments

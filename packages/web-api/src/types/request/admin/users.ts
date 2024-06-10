@@ -6,6 +6,7 @@ import type {
   TokenOverridable,
   UserIDs,
 } from '../common';
+import { OptionalArgument } from '../../helpers';
 
 interface UserID {
   /** @description The ID of the user. */
@@ -83,13 +84,14 @@ export interface AdminUsersInviteArguments extends ChannelIDs, TeamID, IsRestric
 }
 
 // https://api.slack.com/methods/admin.users.list
-export type AdminUsersListArguments = TeamIDOrDeactivatedWorkspaces & TokenOverridable & CursorPaginationEnabled & {
+export type AdminUsersListArguments = OptionalArgument<TeamIDOrDeactivatedWorkspaces & TokenOverridable &
+CursorPaginationEnabled & {
   /**
    * @description If `true`, only active users will be returned. If `false`, only deactivated users will be returned.
    * Default is `true`.
    */
   is_active?: boolean;
-};
+}>;
 
 // https://api.slack.com/methods/admin.users.remove
 export interface AdminUsersRemoveArguments extends TeamID, UserID, TokenOverridable {}
@@ -107,7 +109,8 @@ export interface AdminUsersSessionInvalidateArguments extends TeamID, TokenOverr
 }
 
 // https://api.slack.com/methods/admin.users.session.list
-export type AdminUsersSessionListArguments = EitherTeamAndUserIDOrNeither & TokenOverridable & CursorPaginationEnabled;
+export type AdminUsersSessionListArguments = OptionalArgument<EitherTeamAndUserIDOrNeither & TokenOverridable &
+CursorPaginationEnabled>;
 
 // https://api.slack.com/methods/admin.users.session.reset
 export interface AdminUsersSessionResetArguments extends UserID, SessionExpirationTarget, TokenOverridable {}
