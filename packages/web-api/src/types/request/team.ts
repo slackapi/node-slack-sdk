@@ -1,8 +1,8 @@
 import {
   AppID,
-  CursorPaginationEnabled,
   OptionalTeamAssignable,
   TokenOverridable,
+  CursorPaginationEnabled,
   TraditionalPagingEnabled,
 } from './common';
 import { OptionalArgument } from '../helpers';

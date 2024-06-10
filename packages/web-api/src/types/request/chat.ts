@@ -1,8 +1,8 @@
 import type {
-  Block,
   KnownBlock,
-  LinkUnfurls,
+  Block,
   MessageAttachment,
+  LinkUnfurls,
   MessageMetadata,
 } from '@slack/types';
 import type {

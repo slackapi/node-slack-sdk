@@ -1,4 +1,4 @@
-import type { AppID, CursorPaginationEnabled, OAuthCredentials, TokenOverridable } from './common';
+import type { AppID, CursorPaginationEnabled, TokenOverridable, OAuthCredentials } from './common';
 import type { Manifest } from './manifest';
 import { OptionalArgument } from '../helpers';
 
