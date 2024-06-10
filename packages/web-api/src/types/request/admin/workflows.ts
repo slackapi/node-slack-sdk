@@ -1,4 +1,5 @@
 import type { AppID, CursorPaginationEnabled, SortDir, TokenOverridable } from '../common';
+import { OptionalArgument } from '../../helpers';
 
 interface CollaboratorIDs {
   /** @description Array of collaborators (encoded user IDs) - maximum of 50 items. */
@@ -26,8 +27,8 @@ export interface AdminWorkflowsPermissionsLookupArguments extends WorkflowIDs, T
 }
 
 // https://api.slack.com/methods/admin.workflows.search
-export interface AdminWorkflowsSearchArguments extends Partial<AppID>, Partial<CollaboratorIDs>, SortDir,
-  TokenOverridable, CursorPaginationEnabled {
+export type AdminWorkflowsSearchArguments = OptionalArgument<Partial<AppID> & Partial<CollaboratorIDs> & SortDir &
+TokenOverridable & CursorPaginationEnabled & {
   /** @description Only include workflows with no collaborators in the result; default is `false`. */
   no_collaborators?: boolean;
   /** @description Number of trigger IDs to fetch for each workflow; default is `0`. */
@@ -38,7 +39,7 @@ export interface AdminWorkflowsSearchArguments extends Partial<AppID>, Partial<C
   sort?: 'premium_runs';
   /** @description Source of workflow creation, either from `code` or `workflow_builder`. */
   source?: 'code' | 'workflow_builder';
-}
+}>;
 
 // https://api.slack.com/methods/admin.workflows.unpublish
 export interface AdminWorkflowsUnpublishArguments extends WorkflowIDs, TokenOverridable {}

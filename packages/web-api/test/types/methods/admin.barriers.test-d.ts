@@ -51,9 +51,9 @@ expectAssignable<Parameters<typeof web.admin.barriers.delete>>([{
 
 // admin.barriers.list
 // -- sad path
-expectError(web.admin.barriers.list()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.admin.barriers.list>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.admin.barriers.list>>([]); // no arg is fine
 
 // admin.barriers.update
 // -- sad path

@@ -5,9 +5,9 @@ const web = new WebClient('TOKEN');
 
 // admin.apps.activities.list
 // -- sad path
-expectError(web.admin.apps.activities.list()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.admin.apps.activities.list>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.admin.apps.activities.list>>([]); // no arg is fine
 
 // admin.apps.approve
 // -- sad path

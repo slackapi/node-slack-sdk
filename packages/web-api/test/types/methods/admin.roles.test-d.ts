@@ -47,9 +47,9 @@ expectAssignable<Parameters<typeof web.admin.roles.addAssignments>>([{
 
 // admin.roles.listAssignments
 // -- sad path
-expectError(web.admin.roles.listAssignments()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.admin.roles.listAssignments>>([{}]); // all optional
+expectAssignable<Parameters<typeof web.admin.roles.listAssignments>>([]); // no arg is fine
 
 // admin.roles.removeAssignments
 // -- sad path

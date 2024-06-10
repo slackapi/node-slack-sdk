@@ -5,6 +5,7 @@ import type {
   TokenOverridable,
   UserIDs,
 } from '../common';
+import { OptionalArgument } from '../../helpers';
 
 interface ChannelID { // an identical interface exists in src/types/request/conversations.ts, but it is only for invites
   /** @description Encoded channel ID. */
@@ -95,11 +96,11 @@ export interface AdminConversationsDisconnectSharedArguments extends ChannelID, 
 }
 
 // https://api.slack.com/methods/admin.conversations.ekm.listOriginalConnectedChannelInfo
-export interface AdminConversationsEKMListOriginalConnectedChannelInfoArguments
-  extends Partial<TeamIDs>, TokenOverridable, CursorPaginationEnabled {
+export type AdminConversationsEKMListOriginalConnectedChannelInfoArguments = OptionalArgument<Partial<TeamIDs> &
+TokenOverridable & CursorPaginationEnabled & {
   /** @description A comma-separated list of channels to filter to. */
   channel_ids?: string[];
-}
+}>;
 
 // https://api.slack.com/methods/admin.conversations.getConversationPrefs
 export interface AdminConversationsGetConversationPrefsArguments extends ChannelID, TokenOverridable {}
@@ -148,8 +149,8 @@ export interface AdminConversationsRestrictAccessRemoveGroupArguments extends Ch
   RestrictAccessTeamID, TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.search
-export interface AdminConversationsSearchArguments
-  extends SortDir, Partial<TeamIDs>, TokenOverridable, CursorPaginationEnabled {
+export type AdminConversationsSearchArguments = OptionalArgument<SortDir & Partial<TeamIDs> & TokenOverridable &
+CursorPaginationEnabled & {
   /** @description Array of encoded team IDs, signifying the external orgs to search through. */
   connected_team_ids?: string[];
   /** @description Name of the channel to query by. */
@@ -175,7 +176,7 @@ export interface AdminConversationsSearchArguments
    * Omits channel data and allows access for admins without channel manager permissions. Defaults to `false`.
    */
   total_count_only?: boolean;
-}
+}>;
 
 // https://api.slack.com/methods/admin.conversations.setConversationPrefs
 export interface AdminConversationsSetConversationPrefsArguments extends ChannelID, TokenOverridable {

@@ -37,9 +37,9 @@ expectAssignable<Parameters<typeof web.admin.emoji.addAlias>>([{
 
 // admin.emoji.list
 // -- sad path
-expectError(web.admin.emoji.list()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.admin.emoji.list>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.admin.emoji.list>>([]); // no arg is fine
 
 // admin.emoji.remove
 // -- sad path

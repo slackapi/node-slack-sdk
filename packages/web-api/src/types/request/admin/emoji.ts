@@ -1,4 +1,5 @@
 import type { CursorPaginationEnabled, TokenOverridable } from '../common';
+import { OptionalArgument } from '../../helpers';
 
 interface Name {
   /**
@@ -27,7 +28,7 @@ export interface AdminEmojiAddAliasArguments extends Name, TokenOverridable {
 }
 
 // https://api.slack.com/methods/admin.emoji.list
-export interface AdminEmojiListArguments extends TokenOverridable, CursorPaginationEnabled {}
+export type AdminEmojiListArguments = OptionalArgument<TokenOverridable & CursorPaginationEnabled>;
 
 // https://api.slack.com/methods/admin.emoji.remove
 export interface AdminEmojiRemoveArguments extends Name, TokenOverridable {}

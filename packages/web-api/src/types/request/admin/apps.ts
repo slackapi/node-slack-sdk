@@ -1,4 +1,5 @@
 import type { AppID, CursorPaginationEnabled, TokenOverridable } from '../common';
+import { OptionalArgument } from '../../helpers';
 
 interface RequestID {
   /** @description The id of the request. */
@@ -24,8 +25,8 @@ interface Certified {
 }
 
 // https://api.slack.com/methods/admin.apps.activities.list
-export interface AdminAppsActivitiesListArguments extends Partial<AppID>, Partial<TeamID>, TokenOverridable,
-  CursorPaginationEnabled {
+export type AdminAppsActivitiesListArguments = OptionalArgument<Partial<AppID> & Partial<TeamID> & TokenOverridable &
+CursorPaginationEnabled & {
   /**
    * @description The component ID of log events to be returned. Will be `FnXXXXXX` for functions,
    * and `WfXXXXXX` for worflows.
@@ -47,7 +48,7 @@ export interface AdminAppsActivitiesListArguments extends Partial<AppID>, Partia
   source?: 'slack' | 'developer';
   /** @description The trace ID of log events to be returned. */
   trace_id?: string;
-}
+}>;
 
 // https://api.slack.com/methods/admin.apps.approve
 export type AdminAppsApproveArguments = AppOrRequestID & TeamOrEnterpriseID & TokenOverridable;
