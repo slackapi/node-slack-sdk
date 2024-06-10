@@ -12,7 +12,9 @@ This page helps describe how to use this package from a project that also uses T
 
 ### Minimum version
 
-The latest major versions of the `@slack/web-api`, `@slack/rtm-api`, and `@slack/webhook` packages (v6.x) are supported to build against the minimum TypeScript version v4.1.0. See also: https://slack.dev/node-slack-sdk/tutorials/migrating-to-v6
+Latest major versions of `@slack/web-api`, `@slack/rtm-api`, and `@slack/webhook` packages are supported to build against TypeScript version 5.3.x. You can try to use a greater minor version of Typescript like 5.4 or above, but beware that [API Breaking Changes](https://github.com/microsoft/TypeScript/wiki/API-Breaking-Changes) can be introduced in minor Typescript versions that break compatibility.
+
+The v6 versions of `@slack/web-api`, `@slack/rtm-api`, and `@slack/webhook` packages are supported to build against the minimum TypeScript version v4.1.0. See also [v5 to v6 migration guide](https://slack.dev/node-slack-sdk/tutorials/migrating-to-v6) for more details.
 
 The v5 versions of `@slack/web-api`, `@slack/rtm-api`, and `@slack/webhook` packages are supported to build against TypeScript v3.3.0 or higher. The v4 versions of the `@slack/web-api`, `@slack/rtm-api`, and `@slack/webhook` packages are supported to build against TypeScript v2.7.0 or higher.
 
