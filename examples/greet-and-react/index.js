@@ -147,5 +147,5 @@ function logConfigurationError(envVarNames) {
   const description = envVarNames.length > 1 ?
     `${envVarNames.join(', ')} environment variables` :
     `${envVarNames[0]} environment variable`;
-  console.log(`***\nCould not start up the application. Have you set your ${description}?\n\nSee https://github.com/slackapi/node-slack-sdk/blob/master/examples/greet-and-react/README.md#run-locally-or-\n`);
+  console.log(`***\nCould not start up the application. Have you set your ${description}?\n\nSee https://github.com/slackapi/node-slack-sdk/blob/main/examples/greet-and-react/README.md#run-locally-or-\n`);
 }
