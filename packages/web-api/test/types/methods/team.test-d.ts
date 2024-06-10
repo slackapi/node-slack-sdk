@@ -21,6 +21,12 @@ expectAssignable<Parameters<typeof web.team.billableInfo>>([]); // no arg is fin
 expectAssignable<Parameters<typeof web.team.billing.info>>([{}]); // all optional arguments
 expectAssignable<Parameters<typeof web.team.billing.info>>([]); // no arg is fine
 
+// team.info
+// -- sad path
+// -- happy path
+expectAssignable<Parameters<typeof web.team.info>>([{}]); // all optional arguments
+expectAssignable<Parameters<typeof web.team.info>>([]); // no arg is fine
+
 // team.integrationLogs
 // -- sad path
 // -- happy path
