@@ -74,6 +74,6 @@ expectAssignable<Parameters<typeof web.reminders.info>>([{
 
 // reminders.list
 // -- sad path
-expectError(web.reminders.list()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.reminders.list>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.reminders.list>>([]); // no arg is fine

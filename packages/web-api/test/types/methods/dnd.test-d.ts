@@ -5,21 +5,21 @@ const web = new WebClient('TOKEN');
 
 // dnd.endDnd
 // -- sad path
-expectError(web.dnd.endDnd()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.dnd.endDnd>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.dnd.endDnd>>([]); // no arg is fine
 
 // dnd.endSnooze
 // -- sad path
-expectError(web.dnd.endSnooze()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.dnd.endSnooze>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.dnd.endSnooze>>([]); // no arg is fine
 
 // dnd.info
 // -- sad path
-expectError(web.dnd.info()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.dnd.info>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.dnd.info>>([]); // no arg is fine
 
 // dnd.setSnooze
 // -- sad path

@@ -169,15 +169,15 @@ expectAssignable<Parameters<typeof web.conversations.leave>>([{
 
 // conversations.list
 // -- sad path
-expectError(web.conversations.list()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.conversations.list>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.conversations.list>>([]); // no arg is fine
 
 // conversations.listConnectInvites
 // -- sad path
-expectError(web.conversations.listConnectInvites()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.conversations.listConnectInvites>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.conversations.listConnectInvites>>([]); // no arg is fine
 
 // conversations.mark
 // -- sad path

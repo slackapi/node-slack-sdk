@@ -5,9 +5,9 @@ const web = new WebClient('TOKEN');
 
 // apps.connections.open
 // -- sad path
-expectError(web.apps.connections.open()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.apps.connections.open>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.apps.connections.open>>([]); // no arg is fine
 
 // apps.event.authorizations.list
 // -- sad path

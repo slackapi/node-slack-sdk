@@ -23,6 +23,6 @@ expectAssignable<Parameters<typeof web.openid.connect.token>>([{
 
 // openid.connect.userInfo
 // -- sad path
-expectError(web.openid.connect.userInfo()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.openid.connect.userInfo>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.openid.connect.userInfo>>([]); // no arg is fine

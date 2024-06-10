@@ -53,9 +53,9 @@ expectAssignable<Parameters<typeof web.reactions.get>>([{
 
 // reactions.list
 // -- sad path
-expectError(web.reactions.list()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.reactions.list>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.reactions.list>>([]); // no arg is fine
 
 // reactions.remove
 // -- sad path

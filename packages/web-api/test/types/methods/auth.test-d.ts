@@ -1,19 +1,19 @@
-import { expectAssignable, expectError } from 'tsd';
+import { expectAssignable } from 'tsd';
 import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
 
 // auth.revoke
 // -- sad path
-expectError(web.auth.revoke()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.auth.revoke>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.auth.revoke>>([]); // no arg is fine
 
 // auth.teams.list
 // -- sad path
-expectError(web.auth.teams.list()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.auth.teams.list>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.auth.teams.list>>([]); // no arg is fine
 
 // auth.test
 // -- sad path

@@ -1,4 +1,5 @@
 import { OptionalTeamAssignable, TokenOverridable } from './common';
+import { OptionalArgument } from '../helpers';
 
 interface ReminderRecurrenceDailyMonthlyYearly {
   /** @description Specifies the repeating behavior of a reminder. */
@@ -51,4 +52,4 @@ export interface RemindersInfoArguments extends TokenOverridable, OptionalTeamAs
   reminder: string;
 }
 // https://api.slack.com/methods/reminders.list
-export interface RemindersListArguments extends TokenOverridable, OptionalTeamAssignable { }
+export type RemindersListArguments = OptionalArgument<TokenOverridable & OptionalTeamAssignable>;

@@ -32,9 +32,9 @@ expectAssignable<Parameters<typeof web.usergroups.enable>>([{
 
 // usergroups.list
 // -- sad path
-expectError(web.usergroups.list()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.usergroups.list>>([{}]); // all optional properties
+expectAssignable<Parameters<typeof web.usergroups.list>>([]); // no arg is fine
 
 // usergroups.update
 // -- sad path
