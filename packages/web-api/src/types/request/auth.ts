@@ -20,4 +20,4 @@ export interface AuthTeamsListArguments extends TokenOverridable, CursorPaginati
 }
 
 // https://api.slack.com/methods/auth.test
-export interface AuthTestArguments extends TokenOverridable { }
+export type AuthTestArguments = TokenOverridable | void;

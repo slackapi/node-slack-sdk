@@ -1,5 +1,5 @@
 // https://api.slack.com/methods/api.test
-export interface APITestArguments {
+export type APITestArguments = {
   /** @description Error response to return. */
   error?: string;
-}
+} | void;

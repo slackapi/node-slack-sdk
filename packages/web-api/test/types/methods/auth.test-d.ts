@@ -17,6 +17,6 @@ expectAssignable<Parameters<typeof web.auth.teams.list>>([{}]); // all optional 
 
 // auth.test
 // -- sad path
-expectError(web.auth.test()); // lacking argument
 // -- happy path
 expectAssignable<Parameters<typeof web.auth.test>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.auth.test>>([]); // no arg is fine
