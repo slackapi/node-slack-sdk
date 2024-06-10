@@ -1,4 +1,5 @@
 import type { CursorPaginationEnabled, TokenOverridable } from './common';
+import { OptionalArgument } from '../helpers';
 
 // https://api.slack.com/methods/auth.revoke
 export interface AuthRevokeArguments extends TokenOverridable {
@@ -20,4 +21,4 @@ export interface AuthTeamsListArguments extends TokenOverridable, CursorPaginati
 }
 
 // https://api.slack.com/methods/auth.test
-export type AuthTestArguments = TokenOverridable | void;
+export type AuthTestArguments = OptionalArgument<TokenOverridable>;
