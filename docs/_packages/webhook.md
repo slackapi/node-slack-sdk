@@ -8,7 +8,7 @@ order: 6
 
 # Slack Incoming Webhooks
 
-[![build-ci](https://github.com/slackapi/node-slack-sdk/workflows/CI%20Build/badge.svg)](https://github.com/slackapi/node-slack-sdk/actions?query=workflow%3A%22CI+Build%22)
+[![build-ci](https://github.com/slackapi/node-slack-sdk/actions/workflows/ci-build.yml/badge.svg)](https://github.com/slackapi/node-slack-sdk/actions/workflows/ci-build.yml)
 <!-- TODO: per-flag badge https://docs.codecov.io/docs/flags#section-flag-badges-and-graphs -->
 [![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/branch/main/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-sdk)
 <!-- TODO: npm versions with scoped packages: https://github.com/rvagg/nodei.co/issues/24 -->
