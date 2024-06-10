@@ -10,7 +10,7 @@ order: 6
 
 [![build-ci](https://github.com/slackapi/node-slack-sdk/workflows/CI%20Build/badge.svg)](https://github.com/slackapi/node-slack-sdk/actions?query=workflow%3A%22CI+Build%22)
 <!-- TODO: per-flag badge https://docs.codecov.io/docs/flags#section-flag-badges-and-graphs -->
-[![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-sdk)
+[![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/branch/main/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-sdk)
 <!-- TODO: npm versions with scoped packages: https://github.com/rvagg/nodei.co/issues/24 -->
 
 The `@slack/webhook` package contains a helper for making requests to Slack's [Incoming
