@@ -12,11 +12,10 @@ import { WebAPICallResult } from '../../WebClient';
 export type CanvasesAccessSetResponse = WebAPICallResult & {
   error?:                        string;
   failed_to_update_channel_ids?: string[];
+  failed_to_update_user_ids?:    string[];
   ok?:                           boolean;
   response_metadata?:            ResponseMetadata;
 };
 
 export interface ResponseMetadata {
-  acceptedScopes?: string[];
-  scopes?:         string[];
 }

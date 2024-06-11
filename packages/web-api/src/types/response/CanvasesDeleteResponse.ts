@@ -16,6 +16,4 @@ export type CanvasesDeleteResponse = WebAPICallResult & {
 };
 
 export interface ResponseMetadata {
-  acceptedScopes?: string[];
-  scopes?:         string[];
 }

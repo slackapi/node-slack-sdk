@@ -10,12 +10,12 @@
 
 import { WebAPICallResult } from '../../WebClient';
 export type CanvasesAccessDeleteResponse = WebAPICallResult & {
-  error?:             string;
-  ok?:                boolean;
-  response_metadata?: ResponseMetadata;
+  error?:                        string;
+  failed_to_update_channel_ids?: string[];
+  failed_to_update_user_ids?:    string[];
+  ok?:                           boolean;
+  response_metadata?:            ResponseMetadata;
 };
 
 export interface ResponseMetadata {
-  acceptedScopes?: string[];
-  scopes?:         string[];
 }

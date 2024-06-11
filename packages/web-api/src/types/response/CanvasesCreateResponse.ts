@@ -11,12 +11,12 @@
 import { WebAPICallResult } from '../../WebClient';
 export type CanvasesCreateResponse = WebAPICallResult & {
   canvas_id?:         string;
+  detail?:            string;
   error?:             string;
   ok?:                boolean;
   response_metadata?: ResponseMetadata;
 };
 
 export interface ResponseMetadata {
-  acceptedScopes?: string[];
-  messages?:       string[];
+  messages?: string[];
 }
