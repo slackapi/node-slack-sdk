@@ -9,3 +9,16 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 import { WebAPICallResult } from '../../WebClient';
+export type CanvasesSectionsLookupResponse = WebAPICallResult & {
+  error?:             string;
+  ok?:                boolean;
+  response_metadata?: ResponseMetadata;
+  sections?:          Section[];
+};
+
+export interface ResponseMetadata {
+}
+
+export interface Section {
+  id?: string;
+}
