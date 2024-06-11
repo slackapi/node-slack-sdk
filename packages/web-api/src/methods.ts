@@ -1479,7 +1479,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @description Create a Channel Canvas for a channel.
        * @see {@link https://api.slack.com/methods/conversations.canvases.create `conversations.canvases.create` API reference}.
        */
-      create: bindApiCall<ConversationsCanvasesCreateArguments, ConversationsCanvasesCreateResponse>(this, 'canvases.sections.lookup'),
+      create: bindApiCall<ConversationsCanvasesCreateArguments, ConversationsCanvasesCreateResponse>(this, 'conversations.canvases.create'),
     },
     /**
      * @description Closes a direct message or multi-person direct message.
