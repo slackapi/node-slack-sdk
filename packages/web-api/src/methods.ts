@@ -99,6 +99,12 @@ import type {
   CallsUpdateResponse,
   CallsParticipantsAddResponse,
   CallsParticipantsRemoveResponse,
+  CanvasesAccessDeleteResponse,
+  CanvasesAccessSetResponse,
+  CanvasesCreateResponse,
+  CanvasesDeleteResponse,
+  CanvasesEditResponse,
+  CanvasesSectionsLookupResponse,
   ChatDeleteResponse,
   ChatDeleteScheduledMessageResponse,
   ChatGetPermalinkResponse,
@@ -111,6 +117,7 @@ import type {
   ChatUpdateResponse,
   ConversationsAcceptSharedInviteResponse,
   ConversationsApproveSharedInviteResponse,
+  ConversationsCanvasesCreateResponse,
   ConversationsDeclineSharedInviteResponse,
   ConversationsInviteSharedResponse,
   ConversationsListConnectInvitesResponse,
@@ -325,6 +332,7 @@ import type {
   ConversationsAcceptSharedInviteArguments,
   ConversationsApproveSharedInviteArguments,
   ConversationsArchiveArguments,
+  ConversationsCanvasesCreateArguments,
   ConversationsCloseArguments,
   ConversationsCreateArguments,
   ConversationsDeclineSharedInviteArguments,
@@ -355,6 +363,12 @@ import type {
   ChatScheduledMessagesListArguments,
   ChatUnfurlArguments,
   ChatUpdateArguments,
+  CanvasesAccessDeleteArguments,
+  CanvasesAccessSetArguments,
+  CanvasesCreateArguments,
+  CanvasesDeleteArguments,
+  CanvasesEditArguments,
+  CanvasesSectionsLookupArguments,
   CallsAddArguments,
   CallsEndArguments,
   CallsInfoArguments,
@@ -1337,6 +1351,43 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     },
   };
 
+  public readonly canvases = {
+    access: {
+      /**
+       * @description Remove access to a canvas for specified entities.
+       * @see {@link https://api.slack.com/methods/canvases.access.delete `canvases.access.delete` API reference}.
+       */
+      delete: bindApiCall<CanvasesAccessDeleteArguments, CanvasesAccessDeleteResponse>(this, 'canvases.access.delete'),
+      /**
+       * @description Sets the access level to a canvas for specified entities.
+       * @see {@link https://api.slack.com/methods/canvases.access.set `canvases.access.set` API reference}.
+       */
+      set: bindApiCall<CanvasesAccessSetArguments, CanvasesAccessSetResponse>(this, 'canvases.access.set'),
+    },
+    /**
+     * @description Create Canvas for a user.
+     * @see {@link https://api.slack.com/methods/canvases.create `canvases.create` API reference}.
+     */
+    create: bindApiCall<CanvasesCreateArguments, CanvasesCreateResponse>(this, 'canvases.create'),
+    /**
+     * @description Deletes a canvas.
+     * @see {@link https://api.slack.com/methods/canvases.delete `canvases.delete` API reference}.
+     */
+    delete: bindApiCall<CanvasesDeleteArguments, CanvasesDeleteResponse>(this, 'canvases.delete'),
+    /**
+     * @description Update an existing canvas.
+     * @see {@link https://api.slack.com/methods/canvases.edit `canvases.edit` API reference}.
+     */
+    edit: bindApiCall<CanvasesEditArguments, CanvasesEditResponse>(this, 'canvases.edit'),
+    sections: {
+      /**
+       * @description Find sections matching the provided criteria.
+       * @see {@link https://api.slack.com/methods/canvases.sections.lookup `canvases.sections.lookup` API reference}.
+       */
+      lookup: bindApiCall<CanvasesSectionsLookupArguments, CanvasesSectionsLookupResponse>(this, 'canvases.sections.lookup'),
+    },
+  };
+
   public readonly chat = {
     /**
      * @description Deletes a message.
@@ -1423,6 +1474,13 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://api.slack.com/methods/conversations.archive `conversations.archive` API reference}.
      */
     archive: bindApiCall<ConversationsArchiveArguments, ConversationsArchiveResponse>(this, 'conversations.archive'),
+    canvases: {
+      /**
+       * @description Create a Channel Canvas for a channel.
+       * @see {@link https://api.slack.com/methods/conversations.canvases.create `conversations.canvases.create` API reference}.
+       */
+      create: bindApiCall<ConversationsCanvasesCreateArguments, ConversationsCanvasesCreateResponse>(this, 'conversations.canvases.create'),
+    },
     /**
      * @description Closes a direct message or multi-person direct message.
      * @see {@link https://api.slack.com/methods/conversations.close `conversations.close` API reference}.

@@ -1,5 +1,5 @@
 import type { CursorPaginationEnabled, TokenOverridable } from './common';
-import { OptionalArgument } from '../helpers';
+import type { OptionalArgument } from '../helpers';
 
 // https://api.slack.com/methods/auth.revoke
 export type AuthRevokeArguments = OptionalArgument<TokenOverridable & {
