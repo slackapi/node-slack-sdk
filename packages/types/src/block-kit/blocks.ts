@@ -1,12 +1,10 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/blocks
 import {
   PlainTextElement,
-  MrkdwnElement,
   TextObject,
   UrlImageObject,
   SlackFileImageObject,
 } from './composition-objects';
-import { Actionable } from './extensions';
 import {
   Button,
   Checkboxes,
@@ -32,6 +30,9 @@ import {
 } from './block-elements';
 
 export interface Block {
+  /**
+   * @description The type of block.
+   */
   type: string;
   /**
    * @description A string acting as a unique identifier for a block. If not specified, a `block_id` will be generated.
@@ -43,8 +44,24 @@ export interface Block {
   block_id?: string;
 }
 
+/**
+ * A helper union type of all known Blocks, as listed out on the
+ * {@link https://api.slack.com/reference/block-kit/blocks Blocks reference}.
+ */
 export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock |
 SectionBlock | InputBlock | FileBlock | HeaderBlock | VideoBlock | RichTextBlock;
+/**
+ * A helper union type of all known Blocks as well as the generic {@link Block} interface. A full list of known blocks
+ * is available here: {@link https://api.slack.com/reference/block-kit/blocks Blocks reference}.
+ */
+export type AnyBlock = KnownBlock | Block;
+
+/**
+ * A helper union type of all Block Elements that can be used in an {@link ActionsBlock}.
+ * @see {@link https://api.slack.com/reference/block-kit/blocks#actions Actions block reference}.
+ */
+export type ActionsBlockElement = Button | Checkboxes | Datepicker | DateTimepicker | MultiSelect | Overflow |
+RadioButtons | Select | Timepicker | WorkflowButton | RichTextInput;
 
 /**
  * @description Holds multiple interactive elements.
@@ -59,9 +76,14 @@ export interface ActionsBlock extends Block {
    * @description An array of {@link InteractiveElements} objects.
    * There is a maximum of 25 elements in each action block.
    */
-  elements: (Button | Checkboxes | Datepicker | DateTimepicker | MultiSelect | Overflow | RadioButtons | Select |
-  Timepicker | WorkflowButton | RichTextInput)[];
+  elements: ActionsBlockElement[]; // TODO: breaking change: min 1 item
 }
+
+/**
+ * A helper union type of all Block Elements that can be used in a {@link ContextBlock}.
+ * @see {@link https://api.slack.com/reference/block-kit/blocks#context Context block reference}.
+ */
+export type ContextBlockElement = ImageElement | TextObject;
 
 /**
  * @description Displays contextual info, which can include both images and text.
@@ -76,7 +98,7 @@ export interface ContextBlock extends Block {
    * @description An array of {@link ImageElement}, {@link PlainTextElement} or {@link MrkdwnElement} objects.
    * Maximum number of items is 10.
    */
-  elements: (ImageElement | TextObject)[];
+  elements: ContextBlockElement[]; // TODO: breaking change: min 1 item
 }
 
 /**
@@ -106,7 +128,7 @@ export interface FileBlock extends Block {
   /**
    * @description At the moment, source will always be `remote` for a remote file.
    */
-  source: string; // TODO: breaking change: set this to the string literal 'remote' ?
+  source: string; // TODO: breaking change: set this to the string literal 'remote'
   /**
    * @description The external unique ID for this file.
    */
@@ -152,6 +174,13 @@ export type ImageBlock = {
 } & Block & (UrlImageObject | SlackFileImageObject);
 
 /**
+ * A helper union type of all Block Elements that can be used in an {@link InputBlock}.
+ * @see {@link https://api.slack.com/reference/block-kit/blocks#input Input block reference}.
+ */
+export type InputBlockElement = Checkboxes | Datepicker | DateTimepicker | EmailInput | FileInput | MultiSelect |
+NumberInput | PlainTextInput | RadioButtons | RichTextInput | Select | Timepicker | URLInput;
+
+/**
  * @description Collects information from users via block elements.
  * @see {@link https://api.slack.com/reference/block-kit/blocks#input Input block reference}.
  * @see {@link https://api.slack.com/surfaces/modals#gathering_input Collecting input in modals guide}.
@@ -180,14 +209,42 @@ export interface InputBlock extends Block {
   /**
    * @description A block element.
    */
-  element: Select | MultiSelect | Datepicker | Timepicker | DateTimepicker | PlainTextInput | URLInput | EmailInput
-  | NumberInput | RadioButtons | Checkboxes | RichTextInput | FileInput;
+  element: InputBlockElement;
   /**
    * @description A boolean that indicates whether or not the use of elements in this block should dispatch a
    * {@link https://api.slack.com/reference/interaction-payloads/block-actions block_actions payload}. Defaults to `false`.
    */
   dispatch_action?: boolean;
 }
+
+/**
+ * A helper union type of all Block Elements that can be used in a {@link RichTextBlock}.
+ * @see {@link https://api.slack.com/reference/block-kit/blocks#rich_text Rich text block reference}.
+ */
+export type RichTextBlockElement = RichTextSection | RichTextList | RichTextQuote | RichTextPreformatted;
+
+/**
+ * @description Displays formatted, structured representation of text. It is also the output of the Slack client's
+ * WYSIWYG message composer, so all messages sent by end-users will have this format. Use this block to include
+ * user-defined formatted text in your Block Kit payload. While it is possible to format text with `mrkdwn`,
+ * `rich_text` is strongly preferred and allows greater flexibility.
+ * You might encounter a `rich_text` block in a message payload, as a built-in type in workflow apps, or as output of the {@link RichTextInput}.
+ * @see {@link https://api.slack.com/reference/block-kit/blocks#rich_text Rich text block reference}.
+ */
+export interface RichTextBlock extends Block {
+  /**
+   * @description The type of block. For a rich text block, `type` is always `rich_text`.
+   */
+  type: 'rich_text',
+  elements: RichTextBlockElement[];
+}
+
+/**
+ * A helper union type of all Block Elements that can be used as an accessory in a {@link SectionBlock}.
+ * @see {@link https://api.slack.com/reference/block-kit/blocks#section Section block reference}.
+ */
+export type SectionBlockAccessory = Button | Checkboxes | Datepicker | ImageElement | MultiSelect | Overflow |
+RadioButtons | Select | Timepicker | WorkflowButton;
 
 // TODO: breaking change: use a discriminative union to represent section block using `text` or `fields` but
 // not both or neither.
@@ -203,9 +260,9 @@ export interface SectionBlock extends Block {
    */
   type: 'section';
   /**
-   * @description The text for the block, in the form of a {@link TextObject}. Minimum length for the `text` in this field is
-   * 1 and maximum length is 3000 characters. This field is not required if a valid array of `fields` objects is
-   * provided instead.
+   * @description The text for the block, in the form of a {@link TextObject}. Minimum length for the `text` in this
+   * field is 1 and maximum length is 3000 characters. This field is not required if a valid array of `fields` objects
+   * is provided instead.
    */
   text?: TextObject;
   /**
@@ -214,20 +271,11 @@ export interface SectionBlock extends Block {
    * Maximum length for the text in each item is 2000 characters.
    * {@link https://app.slack.com/block-kit-builder/#%7B%22blocks%22:%5B%7B%22type%22:%22section%22,%22text%22:%7B%22text%22:%22A%20message%20*with%20some%20bold%20text*%20and%20_some%20italicized%20text_.%22,%22type%22:%22mrkdwn%22%7D,%22fields%22:%5B%7B%22type%22:%22mrkdwn%22,%22text%22:%22*Priority*%22%7D,%7B%22type%22:%22mrkdwn%22,%22text%22:%22*Type*%22%7D,%7B%22type%22:%22plain_text%22,%22text%22:%22High%22%7D,%7B%22type%22:%22plain_text%22,%22text%22:%22String%22%7D%5D%7D%5D%7D Click here for an example}.
    */
-  fields?: (TextObject)[]; // either this or text must be defined
+  fields?: TextObject[]; // either this or text must be defined, also min 1 item
   /**
    * @description One of the compatible element objects.
    */
-  accessory?: Button
-  | Overflow
-  | Datepicker
-  | Timepicker
-  | Select
-  | MultiSelect
-  | Actionable
-  | ImageElement
-  | RadioButtons
-  | Checkboxes;
+  accessory?: SectionBlockAccessory;
 }
 
 /**
@@ -280,12 +328,4 @@ export interface VideoBlock extends Block {
    * @description Description for video using a {@link PlainTextElement} object.
    */
   description?: PlainTextElement;
-}
-
-export interface RichTextBlock extends Block {
-  /**
-   * @description The type of block. For a rich text block, `type` is always `rich_text`.
-   */
-  type: 'rich_text',
-  elements: (RichTextSection | RichTextList | RichTextQuote | RichTextPreformatted)[];
 }
