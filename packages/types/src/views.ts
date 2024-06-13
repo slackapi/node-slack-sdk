@@ -1,10 +1,10 @@
-import { Block, KnownBlock } from './block-kit/blocks';
+import { AnyBlock } from './block-kit/blocks';
 import { PlainTextElement } from './block-kit/composition-objects';
 
 // Reference: https://api.slack.com/surfaces/app-home#composing
 export interface HomeView {
   type: 'home';
-  blocks: (KnownBlock | Block)[];
+  blocks: AnyBlock[];
   private_metadata?: string;
   callback_id?: string;
   external_id?: string;
@@ -14,7 +14,7 @@ export interface HomeView {
 export interface ModalView {
   type: 'modal';
   title: PlainTextElement;
-  blocks: (KnownBlock | Block)[];
+  blocks: AnyBlock[];
   close?: PlainTextElement;
   submit?: PlainTextElement;
   private_metadata?: string;
@@ -30,7 +30,7 @@ export interface ModalView {
  */
 export interface WorkflowStepView {
   type: 'workflow_step';
-  blocks: (KnownBlock | Block)[];
+  blocks: AnyBlock[];
   private_metadata?: string;
   callback_id?: string;
   submit_disabled?: boolean; // defaults to false
