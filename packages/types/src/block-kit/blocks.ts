@@ -228,7 +228,8 @@ export type RichTextBlockElement = RichTextSection | RichTextList | RichTextQuot
  * WYSIWYG message composer, so all messages sent by end-users will have this format. Use this block to include
  * user-defined formatted text in your Block Kit payload. While it is possible to format text with `mrkdwn`,
  * `rich_text` is strongly preferred and allows greater flexibility.
- * You might encounter a `rich_text` block in a message payload, as a built-in type in workflow apps, or as output of the {@link RichTextInput}.
+ * You might encounter a `rich_text` block in a message payload, as a built-in type in workflow apps, or as output of
+ * the {@link RichTextInput}.
  * @see {@link https://api.slack.com/reference/block-kit/blocks#rich_text Rich text block reference}.
  */
 export interface RichTextBlock extends Block {
