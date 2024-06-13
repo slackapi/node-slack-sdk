@@ -115,8 +115,13 @@ export interface OptionGroup {
   options: Option[];
 }
 
-// TODO: (additive change) maybe worth adding a TextObject union for both PlainTextElement and MrkdwnElement, if they
-// are meant to be used this way, as they seem to be documented together? https://api.slack.com/reference/block-kit/composition-objects#text
+/**
+ * @description Defines an object containing some text. Can be either a {@link PlainTextElement} or a
+ * {@link MrkdwnElement}.
+ * @see {@link https://api.slack.com/reference/block-kit/composition-objects#text Text object reference}.
+ */
+export type TextObject = PlainTextElement | MrkdwnElement;
+
 /**
  * @description Defines an object containing some text.
  * @see {@link https://api.slack.com/reference/block-kit/composition-objects#text Text object reference}.

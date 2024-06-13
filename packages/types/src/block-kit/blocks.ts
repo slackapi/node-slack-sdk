@@ -1,8 +1,8 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/blocks
-
 import {
   PlainTextElement,
   MrkdwnElement,
+  TextObject,
   UrlImageObject,
   SlackFileImageObject,
 } from './composition-objects';
@@ -72,12 +72,11 @@ export interface ContextBlock extends Block {
    * @description The type of block. For a context block, `type` is always `context`.
    */
   type: 'context';
-  // TODO: use the future planned plaintext/mrkdwn union here instead
   /**
    * @description An array of {@link ImageElement}, {@link PlainTextElement} or {@link MrkdwnElement} objects.
    * Maximum number of items is 10.
    */
-  elements: (ImageElement | PlainTextElement | MrkdwnElement)[];
+  elements: (ImageElement | TextObject)[];
 }
 
 /**
@@ -204,18 +203,18 @@ export interface SectionBlock extends Block {
    */
   type: 'section';
   /**
-   * @description The text for the block, in the form of a text object. Minimum length for the `text` in this field is
+   * @description The text for the block, in the form of a {@link TextObject}. Minimum length for the `text` in this field is
    * 1 and maximum length is 3000 characters. This field is not required if a valid array of `fields` objects is
    * provided instead.
    */
-  text?: PlainTextElement | MrkdwnElement;
+  text?: TextObject;
   /**
    * @description Required if no `text` is provided. An array of text objects. Any text objects included with `fields`
    * will be rendered in a compact format that allows for 2 columns of side-by-side text. Maximum number of items is 10.
    * Maximum length for the text in each item is 2000 characters.
    * {@link https://app.slack.com/block-kit-builder/#%7B%22blocks%22:%5B%7B%22type%22:%22section%22,%22text%22:%7B%22text%22:%22A%20message%20*with%20some%20bold%20text*%20and%20_some%20italicized%20text_.%22,%22type%22:%22mrkdwn%22%7D,%22fields%22:%5B%7B%22type%22:%22mrkdwn%22,%22text%22:%22*Priority*%22%7D,%7B%22type%22:%22mrkdwn%22,%22text%22:%22*Type*%22%7D,%7B%22type%22:%22plain_text%22,%22text%22:%22High%22%7D,%7B%22type%22:%22plain_text%22,%22text%22:%22String%22%7D%5D%7D%5D%7D Click here for an example}.
    */
-  fields?: (PlainTextElement | MrkdwnElement)[]; // either this or text must be defined
+  fields?: (TextObject)[]; // either this or text must be defined
   /**
    * @description One of the compatible element objects.
    */
