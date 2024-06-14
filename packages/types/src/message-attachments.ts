@@ -1,5 +1,5 @@
 import { PlainTextElement } from './block-kit/composition-objects';
-import { Block, KnownBlock } from './block-kit/blocks';
+import { AnyBlock } from './block-kit/blocks';
 
 // TODO: breaking changes, use discriminated union for `fallback`, `text` and `block` properties, maybe LegacyAttachment
 // vs. BlocksAttachment? as per https://api.slack.com/reference/messaging/attachments#legacy_fields
@@ -18,7 +18,7 @@ export interface MessageAttachment {
    * @description An array of {@link KnownBlock layout blocks} in the same format
    * {@link https://api.slack.com/block-kit/building as described in the building blocks guide}.
    */
-  blocks?: (KnownBlock | Block)[];
+  blocks?: AnyBlock[];
   /**
    * @description A plain text summary of the attachment used in clients that
    * don't show formatted text (e.g. mobile notifications).
