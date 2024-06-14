@@ -32,7 +32,8 @@
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
     "lint": "eslint --ext .ts src",
-    "test": "npm run lint && npm run build && echo \"Tests are not implemented.\" && exit 0",
+    "test": "npm run lint && npm run build && npm run test:types",
+    "test:types": "tsd",
     "ref-docs:model": "api-extractor run"
   },
   "devDependencies": {
@@ -47,6 +48,10 @@
     "eslint-plugin-jsdoc": "^46.5.0",
     "eslint-plugin-node": "^11.1.0",
     "shx": "^0.3.2",
+    "tsd": "^0.31.0",
     "typescript": "^4.1.0"
+  },
+  "tsd": {
+    "directory": "test"
   }
 }
