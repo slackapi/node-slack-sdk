@@ -279,6 +279,7 @@ export { UsergroupsUsersListResponse } from './UsergroupsUsersListResponse';
 export { UsergroupsUsersUpdateResponse } from './UsergroupsUsersUpdateResponse';
 export { UsersConversationsResponse } from './UsersConversationsResponse';
 export { UsersDeletePhotoResponse } from './UsersDeletePhotoResponse';
+export { UsersDiscoverableContactsLookupResponse } from './UsersDiscoverableContactsLookupResponse';
 export { UsersGetPresenceResponse } from './UsersGetPresenceResponse';
 export { UsersIdentityResponse } from './UsersIdentityResponse';
 export { UsersInfoResponse } from './UsersInfoResponse';

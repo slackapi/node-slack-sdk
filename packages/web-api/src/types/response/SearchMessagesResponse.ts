@@ -397,6 +397,7 @@ export interface FileElement {
   external_id?:                             string;
   external_type?:                           string;
   external_url?:                            string;
+  favorites?:                               Favorite[];
   file_access?:                             string;
   filetype?:                                string;
   from?:                                    Cc[];
@@ -444,6 +445,7 @@ export interface FileElement {
   preview_is_truncated?:                    boolean;
   preview_plain_text?:                      string;
   private_channels_with_file_access_count?: number;
+  private_file_with_access_count?:          number;
   public_url_shared?:                       boolean;
   quip_thread_id?:                          string;
   reactions?:                               Reaction[];
@@ -532,6 +534,12 @@ export interface Cc {
 export interface DmMpdmUsersWithFileAccess {
   access?:  string;
   user_id?: string;
+}
+
+export interface Favorite {
+  collection_id?:   string;
+  collection_name?: string;
+  position?:        string;
 }
 
 export interface Headers {
@@ -743,6 +751,7 @@ export interface MessageFile {
   external_id?:                             string;
   external_type?:                           string;
   external_url?:                            string;
+  favorites?:                               any[];
   file_access?:                             string;
   filetype?:                                string;
   from?:                                    any[];
@@ -790,6 +799,7 @@ export interface MessageFile {
   preview_is_truncated?:                    boolean;
   preview_plain_text?:                      string;
   private_channels_with_file_access_count?: number;
+  private_file_with_access_count?:          number;
   public_url_shared?:                       boolean;
   quip_thread_id?:                          string;
   reactions?:                               any[];

@@ -47,6 +47,7 @@ export interface Conversation {
   is_pending_ext_shared?:         boolean;
   is_private?:                    boolean;
   last_activity_ts?:              number;
+  lists?:                         Canvas;
   member_count?:                  number;
   name?:                          string;
   pending_connected_team_ids?:    string[];

@@ -324,6 +324,7 @@ export interface File {
   external_id?:                             string;
   external_type?:                           string;
   external_url?:                            string;
+  favorites?:                               any[];
   file_access?:                             string;
   filetype?:                                string;
   from?:                                    any[];
@@ -371,6 +372,7 @@ export interface File {
   preview_is_truncated?:                    boolean;
   preview_plain_text?:                      string;
   private_channels_with_file_access_count?: number;
+  private_file_with_access_count?:          number;
   public_url_shared?:                       boolean;
   quip_thread_id?:                          string;
   reactions?:                               any[];

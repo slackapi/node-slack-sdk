@@ -11,7 +11,9 @@
 import { WebAPICallResult } from '../../WebClient';
 export type CanvasesDeleteResponse = WebAPICallResult & {
   error?:             string;
+  needed?:            string;
   ok?:                boolean;
+  provided?:          string;
   response_metadata?: ResponseMetadata;
 };
 
