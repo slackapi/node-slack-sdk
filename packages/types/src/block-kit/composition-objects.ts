@@ -1,5 +1,14 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/composition-objects
 
+/**
+ * Re-usable labels for common color schemes present in Slack. `danger` displays with a red background (red text on
+ * mobile), while `primary` displays with a green background (green text on mobile).
+ */
+export type ColorScheme = 'primary' | 'danger';
+
+/** The conversation type as available within the Slack UI. */
+export type Conversation = 'im' | 'mpim' | 'private' | 'public';
+
 // TODO: breaking change: remove `Confirm` and move properties to `ConfirmationDialog` below on next major release.
 /**
  * @deprecated {@link Confirm} aliased to {@link ConfirmationDialog} in order to make the construct clearer
@@ -17,12 +26,12 @@ export interface Confirm {
    * @description A {@link PlainTextElement} text object that defines the explanatory text that appears in the confirm
    * dialog. Maximum length for the `text` in this field is 300 characters.
    */
-  text: PlainTextElement | MrkdwnElement;
+  text: PlainTextElement | MrkdwnElement; // TODO: breaking change: this should not be a mrkdwnelement
   /**
    * @description A {@link PlainTextElement} text object to define the text of the button that confirms the action.
    * Maximum length for the `text` in this field is 30 characters.
    */
-  confirm?: PlainTextElement; // TODO: breaking change, text is required according to https://api.slack.com/reference/block-kit/composition-objects#confirm
+  confirm?: PlainTextElement; // TODO: breaking change, confirm is required according to https://api.slack.com/reference/block-kit/composition-objects#confirm
   /**
    * @description A {@link PlainTextElement} text object to define the text of the button that cancels the action.
    * Maximum length for the `text` in this field is 30 characters.
@@ -33,7 +42,7 @@ export interface Confirm {
    * with a red background on desktop, or red text on mobile. A value of `primary` will display the button with a green
    * background on desktop, or blue text on mobile. If this field is not provided, the default value will be `primary`.
    */
-  style?: 'primary' | 'danger';
+  style?: ColorScheme;
 }
 
 /**
@@ -164,15 +173,13 @@ export interface MrkdwnElement {
   verbatim?: boolean;
 }
 
-type Conversation = 'im' | 'mpim' | 'private' | 'public';
-
 interface BaseConversationFilter {
   /**
   * @description Indicates which type of conversations should be included in the list. When this field is provided, any
   * conversations that do not match will be excluded. You should provide an array of strings from the following options:
   * `im`, `mpim`, `private`, and `public`. The array cannot be empty.
   */
-  include?: [Conversation, ...Conversation[]]; // TS gymnastics for "at least one item"
+  include?: [Conversation, ...Conversation[]];
   /**
    * @description Indicates whether to exclude external {@link https://api.slack.com/enterprise/shared-channels shared channels}
    * from conversation lists. This field will not exclude users from shared channels. Defaults to `false`.

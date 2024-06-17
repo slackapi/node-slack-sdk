@@ -1,6 +1,6 @@
 import type {
   KnownBlock,
-  Block,
+  Block, // TODO: these will be combined into one in a new types release
   MessageAttachment,
   LinkUnfurls,
   MessageMetadata,

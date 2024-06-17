@@ -50,6 +50,7 @@ export interface Block {
  */
 export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock |
 SectionBlock | InputBlock | FileBlock | HeaderBlock | VideoBlock | RichTextBlock;
+
 /**
  * A helper union type of all known Blocks as well as the generic {@link Block} interface. A full list of known blocks
  * is available here: {@link https://api.slack.com/reference/block-kit/blocks Blocks reference}.
