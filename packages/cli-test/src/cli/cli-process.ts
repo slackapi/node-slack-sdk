@@ -12,7 +12,7 @@ export interface SlackCLIGlobalOptions {
    */
   dev?: boolean;
   /**
-   * @description Whether the command should interact with dev.slack (`--slackdev`)
+   * @description Whether the command should interact with qa.slack (`--apihost qa.slack.com`)
    */
   qa?: boolean;
   /**
@@ -87,7 +87,10 @@ export class SlackCLIProcess {
     let cmd = `${process.env.SLACK_CLI_PATH}`;
     if (this.globalOptions) {
       const opts = this.globalOptions;
-      if (opts.qa || opts.dev) {
+      if (opts.qa) {
+        cmd += ' --apihost qa.slack.com';
+      }
+      if (opts.dev) {
         cmd += ' --slackdev';
       }
       if (opts.skipUpdate || opts.skipUpdate === undefined) {
