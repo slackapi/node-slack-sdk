@@ -28,8 +28,8 @@ describe('SlackCLIProcess class', () => {
 
   describe('CLI flag handling', () => {
     describe('global options', () => {
-      it('should map qa or dev options to --slackdev', async () => {
-        let cmd = new SlackCLIProcess('help', { qa: true });
+      it('should map dev option to --slackdev', async () => {
+        let cmd = new SlackCLIProcess('help', { dev: true });
         await cmd.execAsync();
         sandbox.assert.calledWithMatch(spawnProcessSpy, '--slackdev');
         spawnProcessSpy.resetHistory();
@@ -37,9 +37,16 @@ describe('SlackCLIProcess class', () => {
         await cmd.execAsync();
         sandbox.assert.neverCalledWithMatch(spawnProcessSpy, '--slackdev');
         spawnProcessSpy.resetHistory();
-        cmd = new SlackCLIProcess('help', { dev: true });
+      });
+      it('should map qa option to QA host', async () => {
+        let cmd = new SlackCLIProcess('help', { qa: true });
         await cmd.execAsync();
-        sandbox.assert.calledWithMatch(spawnProcessSpy, '--slackdev');
+        sandbox.assert.calledWithMatch(spawnProcessSpy, '--apihost qa.slack.com');
+        spawnProcessSpy.resetHistory();
+        cmd = new SlackCLIProcess('help');
+        await cmd.execAsync();
+        sandbox.assert.neverCalledWithMatch(spawnProcessSpy, '--apihost qa.slack.com');
+        spawnProcessSpy.resetHistory();
       });
       it('should default to passing --skip-update but allow overriding that', async () => {
         let cmd = new SlackCLIProcess('help');
