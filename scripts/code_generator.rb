@@ -24,7 +24,7 @@ class TsWriter
 
 
   def write(root_class_name, json_path, typedef_filepath, input_json)
-    cmd = "npx quicktype --just-types --alphabetize-properties --all-properties-optional --acronym-style original -t #{root_class_name} -l ts"
+    cmd = "npx quicktype --just-types --prefer-const-values --alphabetize-properties --all-properties-optional --acronym-style original -t #{root_class_name} -l ts"
     puts "Generating #{root_class_name} from #{json_path}"
     Open3.popen3(cmd) do |stdin, stdout, stderr, wait_thr|
       stdin.write(input_json)
