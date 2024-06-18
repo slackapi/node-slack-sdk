@@ -13,7 +13,9 @@ export type CanvasesCreateResponse = WebAPICallResult & {
   canvas_id?:         string;
   detail?:            string;
   error?:             string;
+  needed?:            string;
   ok?:                boolean;
+  provided?:          string;
   response_metadata?: ResponseMetadata;
 };
 

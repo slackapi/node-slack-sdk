@@ -10,11 +10,12 @@
 
 import { WebAPICallResult } from '../../WebClient';
 export type AdminInviteRequestsDeniedListResponse = WebAPICallResult & {
-  denied_requests?: DeniedRequest[];
-  error?:           string;
-  needed?:          string;
-  ok?:              boolean;
-  provided?:        string;
+  denied_requests?:   DeniedRequest[];
+  error?:             string;
+  needed?:            string;
+  ok?:                boolean;
+  provided?:          string;
+  response_metadata?: ResponseMetadata;
 };
 
 export interface DeniedRequest {
@@ -35,4 +36,8 @@ export interface InviteRequest {
   invite_type?:    string;
   request_reason?: string;
   requester_ids?:  string[];
+}
+
+export interface ResponseMetadata {
+  next_cursor?: string;
 }

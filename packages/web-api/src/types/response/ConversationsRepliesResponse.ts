@@ -65,12 +65,14 @@ export interface Attachment {
   channel_team?:          string;
   color?:                 string;
   fallback?:              string;
-  fields?:                Field[];
+  fields?:                AttachmentField[];
+  file_id?:               string;
   filename?:              string;
   files?:                 FileElement[];
   footer?:                string;
   footer_icon?:           string;
   from_url?:              string;
+  hide_border?:           boolean;
   hide_color?:            boolean;
   id?:                    number;
   image_bytes?:           number;
@@ -83,6 +85,13 @@ export interface Attachment {
   is_msg_unfurl?:         boolean;
   is_reply_unfurl?:       boolean;
   is_thread_root_unfurl?: boolean;
+  list?:                  List;
+  list_record?:           PurpleListRecord;
+  list_record_id?:        string;
+  list_records?:          ListRecordElement[];
+  list_schema?:           Schema[];
+  list_view?:             View;
+  list_view_id?:          string;
   message_blocks?:        MessageBlock[];
   metadata?:              AttachmentMetadata;
   mimetype?:              string;
@@ -346,7 +355,7 @@ export enum BlockType {
   Video = 'video',
 }
 
-export interface Field {
+export interface AttachmentField {
   short?: boolean;
   title?: string;
   value?: string;
@@ -381,6 +390,7 @@ export interface FileElement {
   external_id?:                             string;
   external_type?:                           string;
   external_url?:                            string;
+  favorites?:                               Favorite[];
   file_access?:                             string;
   filetype?:                                string;
   from?:                                    Cc[];
@@ -404,6 +414,8 @@ export interface FileElement {
   lines?:                                   number;
   lines_more?:                              number;
   linked_channel_id?:                       string;
+  list_limits?:                             ListLimits;
+  list_metadata?:                           ListMetadata;
   media_display_type?:                      string;
   media_progress?:                          MediaProgress;
   mimetype?:                                string;
@@ -428,6 +440,7 @@ export interface FileElement {
   preview_is_truncated?:                    boolean;
   preview_plain_text?:                      string;
   private_channels_with_file_access_count?: number;
+  private_file_with_access_count?:          number;
   public_url_shared?:                       boolean;
   quip_thread_id?:                          string;
   reactions?:                               Reaction[];
@@ -518,6 +531,12 @@ export interface DmMpdmUsersWithFileAccess {
   user_id?: string;
 }
 
+export interface Favorite {
+  collection_id?:   string;
+  collection_name?: string;
+  position?:        string;
+}
+
 export interface Headers {
   date?:        string;
   in_reply_to?: string;
@@ -533,6 +552,104 @@ export interface InitialComment {
   is_intro?:  boolean;
   timestamp?: number;
   user?:      string;
+}
+
+export interface ListLimits {
+  column_count?:        number;
+  column_count_limit?:  number;
+  over_column_maximum?: boolean;
+  over_row_maximum?:    boolean;
+  over_view_maximum?:   boolean;
+  row_count?:           number;
+  row_count_limit?:     number;
+  view_count?:          number;
+  view_count_limit?:    number;
+}
+
+export interface ListMetadata {
+  creation_source?: CreationSource;
+  description?:     string;
+  icon?:            string;
+  icon_team_id?:    string;
+  icon_url?:        string;
+  integrations?:    string[];
+  is_trial?:        boolean;
+  schema?:          Schema[];
+  views?:           View[];
+}
+
+export interface CreationSource {
+  reference_id?:         string;
+  type?:                 string;
+  workflow_function_id?: string;
+}
+
+export interface Schema {
+  id?:                string;
+  is_primary_column?: boolean;
+  key?:               string;
+  name?:              string;
+  options?:           Options;
+  type?:              string;
+}
+
+export interface Options {
+  canvas_id?:                  string;
+  canvas_placeholder_mapping?: CanvasPlaceholderMapping[];
+  choices?:                    Choice[];
+  currency?:                   string;
+  currency_format?:            string;
+  date_format?:                string;
+  default_value?:              string;
+  default_value_typed?:        DefaultValueTyped;
+  emoji?:                      string;
+  emoji_team_id?:              string;
+  for_assignment?:             boolean;
+  format?:                     string;
+  linked_to?:                  string[];
+  mark_as_done_when_checked?:  boolean;
+  max?:                        number;
+  notify_users?:               boolean;
+  precision?:                  number;
+  rounding?:                   string;
+  show_member_name?:           boolean;
+  time_format?:                string;
+}
+
+export interface CanvasPlaceholderMapping {
+  column?:   string;
+  variable?: string;
+}
+
+export interface Choice {
+  color?: string;
+  label?: string;
+  value?: string;
+}
+
+export interface DefaultValueTyped {
+  select?: string[];
+}
+
+export interface View {
+  columns?:           Column[];
+  created_by?:        string;
+  date_created?:      number;
+  id?:                string;
+  is_all_items_view?: boolean;
+  is_locked?:         boolean;
+  name?:              string;
+  position?:          string;
+  stick_column_left?: boolean;
+  type?:              string;
+}
+
+export interface Column {
+  id?:       string;
+  key?:      string;
+  position?: string;
+  visible?:  boolean;
+  width?:    number;
 }
 
 export interface MediaProgress {
@@ -580,14 +697,81 @@ export interface Transcription {
   status?: string;
 }
 
-export interface MessageBlock {
-  channel?: string;
-  message?: MessageBlockMessage;
-  team?:    string;
-  ts?:      string;
+export interface List {
+  channels?:                                string[];
+  comments_count?:                          number;
+  created?:                                 number;
+  display_as_bot?:                          boolean;
+  dm_mpdm_users_with_file_access?:          DmMpdmUsersWithFileAccess[];
+  editable?:                                boolean;
+  external_type?:                           string;
+  file_access?:                             string;
+  filetype?:                                string;
+  groups?:                                  string[];
+  has_more_shares?:                         boolean;
+  has_rich_preview?:                        boolean;
+  id?:                                      string;
+  ims?:                                     string[];
+  is_external?:                             boolean;
+  is_public?:                               boolean;
+  last_editor?:                             string;
+  list_limits?:                             ListLimits;
+  list_metadata?:                           ListMetadata;
+  mimetype?:                                string;
+  mode?:                                    string;
+  name?:                                    string;
+  permalink?:                               string;
+  permalink_public?:                        string;
+  pretty_type?:                             string;
+  private_channels_with_file_access_count?: number;
+  private_file_with_access_count?:          number;
+  public_url_shared?:                       boolean;
+  shares?:                                  EventPayload;
+  size?:                                    number;
+  timestamp?:                               number;
+  title?:                                   string;
+  updated?:                                 number;
+  url_private?:                             string;
+  url_private_download?:                    string;
+  user?:                                    string;
+  user_team?:                               string;
+  username?:                                string;
 }
 
-export interface MessageBlockMessage {
+export interface EventPayload {
+}
+
+export interface PurpleListRecord {
+  record?: Record;
+  schema?: Schema[];
+}
+
+export interface Record {
+  fields?:    RecordField[];
+  record_id?: string;
+}
+
+export interface RecordField {
+  attachment?: any[];
+  channel?:    any[];
+  checkbox?:   boolean;
+  column_id?:  string;
+  date?:       any[];
+  email?:      any[];
+  key?:        string;
+  message?:    FieldMessage;
+  number?:     any[];
+  phone?:      any[];
+  rating?:     any[];
+  rich_text?:  any[];
+  select?:     any[];
+  text?:       string;
+  timestamp?:  any[];
+  user?:       any[];
+  value?:      string;
+}
+
+export interface FieldMessage {
   app_id?:              string;
   attachments?:         any[];
   blocks?:              TitleBlockElement[];
@@ -599,7 +783,7 @@ export interface MessageBlockMessage {
   comment?:             Comment;
   display_as_bot?:      boolean;
   edited?:              Edited;
-  file?:                BlockFile;
+  file?:                PurpleFile;
   files?:               any[];
   hidden?:              boolean;
   icons?:               MessageIcons;
@@ -698,7 +882,7 @@ export interface Edited {
   user?: string;
 }
 
-export interface BlockFile {
+export interface PurpleFile {
   access?:                                  string;
   alt_txt?:                                 string;
   app_id?:                                  string;
@@ -727,6 +911,7 @@ export interface BlockFile {
   external_id?:                             string;
   external_type?:                           string;
   external_url?:                            string;
+  favorites?:                               any[];
   file_access?:                             string;
   filetype?:                                string;
   from?:                                    any[];
@@ -750,6 +935,8 @@ export interface BlockFile {
   lines?:                                   number;
   lines_more?:                              number;
   linked_channel_id?:                       string;
+  list_limits?:                             ListLimits;
+  list_metadata?:                           ListMetadata;
   media_display_type?:                      string;
   media_progress?:                          MediaProgress;
   mimetype?:                                string;
@@ -774,6 +961,7 @@ export interface BlockFile {
   preview_is_truncated?:                    boolean;
   preview_plain_text?:                      string;
   private_channels_with_file_access_count?: number;
+  private_file_with_access_count?:          number;
   public_url_shared?:                       boolean;
   quip_thread_id?:                          string;
   reactions?:                               any[];
@@ -853,9 +1041,6 @@ export interface BlockFile {
   vtt?:                                     string;
 }
 
-export interface EventPayload {
-}
-
 export interface MessageIcons {
   emoji?:    string;
   image_36?: string;
@@ -928,6 +1113,34 @@ export interface Root {
   username?:          string;
 }
 
+export interface ListRecordElement {
+  created_by?:        string;
+  date_created?:      number;
+  fields?:            RecordField[];
+  id?:                string;
+  is_subscribed?:     boolean;
+  list_id?:           string;
+  platform_refs?:     PlatformRefs;
+  position?:          string;
+  saved?:             Saved;
+  thread_ts?:         string;
+  updated_by?:        string;
+  updated_timestamp?: string;
+}
+
+export interface PlatformRefs {
+  bot_created_by?: string;
+  bot_deleted_by?: string;
+  bot_updated_by?: string;
+}
+
+export interface MessageBlock {
+  channel?: string;
+  message?: FieldMessage;
+  team?:    string;
+  ts?:      string;
+}
+
 export interface AttachmentMetadata {
   extension?:   string;
   format?:      string;
@@ -970,7 +1183,7 @@ export interface PurpleBlock {
   external_id?:                  string;
   fallback?:                     string;
   fields?:                       DescriptionElement[];
-  file?:                         BlockFile;
+  file?:                         FileElement;
   file_id?:                      string;
   function_trigger_id?:          string;
   hint?:                         DescriptionElement;

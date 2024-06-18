@@ -64,6 +64,7 @@ export interface Properties {
   canvas?:                Canvas;
   huddles_restricted?:    boolean;
   posting_restricted_to?: PostingRestrictedTo;
+  threads_restricted_to?: ThreadsRestrictedTo;
 }
 
 export interface Canvas {
@@ -75,6 +76,10 @@ export interface Canvas {
 export interface PostingRestrictedTo {
   type?: string[];
   user?: string[];
+}
+
+export interface ThreadsRestrictedTo {
+  type?: string[];
 }
 
 export interface Purpose {

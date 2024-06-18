@@ -10,11 +10,12 @@
 
 import { WebAPICallResult } from '../../WebClient';
 export type AdminInviteRequestsListResponse = WebAPICallResult & {
-  error?:           string;
-  invite_requests?: InviteRequest[];
-  needed?:          string;
-  ok?:              boolean;
-  provided?:        string;
+  error?:             string;
+  invite_requests?:   InviteRequest[];
+  needed?:            string;
+  ok?:                boolean;
+  provided?:          string;
+  response_metadata?: ResponseMetadata;
 };
 
 export interface InviteRequest {
@@ -26,4 +27,8 @@ export interface InviteRequest {
   invite_type?:    string;
   request_reason?: string;
   requester_ids?:  string[];
+}
+
+export interface ResponseMetadata {
+  next_cursor?: string;
 }

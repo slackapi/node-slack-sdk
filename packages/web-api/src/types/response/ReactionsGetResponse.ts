@@ -21,7 +21,7 @@ export type ReactionsGetResponse = WebAPICallResult & {
 
 export interface Message {
   app_id?:      string;
-  blocks?:      Block[];
+  blocks?:      MessageBlock[];
   bot_id?:      string;
   bot_profile?: BotProfile;
   permalink?:   string;
@@ -34,7 +34,7 @@ export interface Message {
   user?:        string;
 }
 
-export interface Block {
+export interface MessageBlock {
   accessory?:                    Accessory;
   alt_text?:                     string;
   api_decoration_available?:     boolean;
@@ -46,25 +46,25 @@ export interface Block {
   button_label?:                 string;
   call?:                         Call;
   call_id?:                      string;
-  description?:                  Description;
+  description?:                  DescriptionElement;
   developer_trace_id?:           string;
   dispatch_action?:              boolean;
   element?:                      Accessory;
   elements?:                     Accessory[];
   external_id?:                  string;
   fallback?:                     string;
-  fields?:                       Description[];
+  fields?:                       DescriptionElement[];
   file?:                         File;
   file_id?:                      string;
   function_trigger_id?:          string;
-  hint?:                         Description;
+  hint?:                         DescriptionElement;
   image_bytes?:                  number;
   image_height?:                 number;
   image_url?:                    string;
   image_width?:                  number;
   is_animated?:                  boolean;
   is_workflow_app?:              boolean;
-  label?:                        Description;
+  label?:                        DescriptionElement;
   optional?:                     boolean;
   owning_team_id?:               string;
   provider_icon_url?:            string;
@@ -73,9 +73,9 @@ export interface Block {
   share_url?:                    string;
   slack_file?:                   SlackFile;
   source?:                       string;
-  text?:                         Description;
+  text?:                         DescriptionElement;
   thumbnail_url?:                string;
-  title?:                        Description;
+  title?:                        DescriptionElement;
   title_url?:                    string;
   trigger_subtype?:              string;
   trigger_type?:                 string;
@@ -117,11 +117,11 @@ export interface Accessory {
   offset?:                          number;
   option_groups?:                   OptionGroup[];
   options?:                         Option[];
-  placeholder?:                     Description;
+  placeholder?:                     DescriptionElement;
   response_url_enabled?:            boolean;
   slack_file?:                      SlackFile;
   style?:                           string;
-  text?:                            Description;
+  text?:                            DescriptionElement;
   timezone?:                        string;
   type?:                            string;
   url?:                             string;
@@ -130,14 +130,14 @@ export interface Accessory {
 }
 
 export interface Confirm {
-  confirm?: Description;
-  deny?:    Description;
+  confirm?: DescriptionElement;
+  deny?:    DescriptionElement;
   style?:   string;
-  text?:    Description;
-  title?:   Description;
+  text?:    DescriptionElement;
+  title?:   DescriptionElement;
 }
 
-export interface Description {
+export interface DescriptionElement {
   emoji?:    boolean;
   text?:     string;
   type?:     DescriptionType;
@@ -155,7 +155,7 @@ export interface AccessoryElement {
   indent?:   number;
   offset?:   number;
   style?:    string;
-  type?:     string;
+  type?:     FluffyType;
 }
 
 export interface PurpleElement {
@@ -167,7 +167,7 @@ export interface PurpleElement {
   team_id?:      string;
   text?:         string;
   timestamp?:    string;
-  type?:         ElementType;
+  type?:         PurpleType;
   unicode?:      string;
   url?:          string;
   user_id?:      string;
@@ -182,7 +182,7 @@ export interface Style {
   strike?: boolean;
 }
 
-export enum ElementType {
+export enum PurpleType {
   Broadcast = 'broadcast',
   Channel = 'channel',
   Color = 'color',
@@ -195,6 +195,13 @@ export enum ElementType {
   Usergroup = 'usergroup',
 }
 
+export enum FluffyType {
+  RichTextList = 'rich_text_list',
+  RichTextPreformatted = 'rich_text_preformatted',
+  RichTextQuote = 'rich_text_quote',
+  RichTextSection = 'rich_text_section',
+}
+
 export interface Filter {
   exclude_bot_users?:                boolean;
   exclude_external_shared_channels?: boolean;
@@ -202,14 +209,14 @@ export interface Filter {
 }
 
 export interface Option {
-  description?: Description;
-  text?:        Description;
+  description?: DescriptionElement;
+  text?:        DescriptionElement;
   url?:         string;
   value?:       string;
 }
 
 export interface OptionGroup {
-  label?:   Description;
+  label?:   DescriptionElement;
   options?: Option[];
 }
 
@@ -285,33 +292,34 @@ export interface File {
   app_id?:                                  string;
   app_name?:                                string;
   attachments?:                             any[];
-  blocks?:                                  any[];
+  blocks?:                                  TitleBlockElement[];
   bot_id?:                                  string;
   canvas_template_mode?:                    string;
-  cc?:                                      any[];
+  cc?:                                      Cc[];
   channel_actions_count?:                   number;
   channel_actions_ts?:                      string;
-  channels?:                                any[];
+  channels?:                                string[];
   comments_count?:                          number;
   converted_pdf?:                           string;
   created?:                                 number;
   deanimate?:                               string;
   deanimate_gif?:                           string;
   display_as_bot?:                          boolean;
-  dm_mpdm_users_with_file_access?:          any[];
+  dm_mpdm_users_with_file_access?:          DmMpdmUsersWithFileAccess[];
   duration_ms?:                             number;
   edit_link?:                               string;
   edit_timestamp?:                          number;
   editable?:                                boolean;
   editor?:                                  string;
-  editors?:                                 any[];
+  editors?:                                 string[];
   external_id?:                             string;
   external_type?:                           string;
   external_url?:                            string;
+  favorites?:                               Favorite[];
   file_access?:                             string;
   filetype?:                                string;
-  from?:                                    any[];
-  groups?:                                  any[];
+  from?:                                    Cc[];
+  groups?:                                  string[];
   has_more?:                                boolean;
   has_more_shares?:                         boolean;
   has_rich_preview?:                        boolean;
@@ -320,7 +328,7 @@ export interface File {
   hls_embed?:                               string;
   id?:                                      string;
   image_exif_rotation?:                     number;
-  ims?:                                     any[];
+  ims?:                                     string[];
   initial_comment?:                         InitialComment;
   is_channel_space?:                        boolean;
   is_external?:                             boolean;
@@ -331,6 +339,8 @@ export interface File {
   lines?:                                   number;
   lines_more?:                              number;
   linked_channel_id?:                       string;
+  list_limits?:                             ListLimits;
+  list_metadata?:                           ListMetadata;
   media_display_type?:                      string;
   media_progress?:                          MediaProgress;
   mimetype?:                                string;
@@ -346,7 +356,7 @@ export interface File {
   original_w?:                              string;
   permalink?:                               string;
   permalink_public?:                        string;
-  pinned_to?:                               any[];
+  pinned_to?:                               string[];
   pjpeg?:                                   string;
   plain_text?:                              string;
   pretty_type?:                             string;
@@ -355,12 +365,13 @@ export interface File {
   preview_is_truncated?:                    boolean;
   preview_plain_text?:                      string;
   private_channels_with_file_access_count?: number;
+  private_file_with_access_count?:          number;
   public_url_shared?:                       boolean;
   quip_thread_id?:                          string;
-  reactions?:                               any[];
+  reactions?:                               Reaction[];
   saved?:                                   Saved;
   sent_to_self?:                            boolean;
-  shares?:                                  Knocks;
+  shares?:                                  Shares;
   show_badge?:                              boolean;
   simplified_html?:                         string;
   size?:                                    number;
@@ -420,8 +431,8 @@ export interface File {
   thumb_video_w?:                           number;
   timestamp?:                               number;
   title?:                                   string;
-  title_blocks?:                            any[];
-  to?:                                      any[];
+  title_blocks?:                            TitleBlockElement[];
+  to?:                                      Cc[];
   transcription?:                           Transcription;
   update_notification?:                     number;
   updated?:                                 number;
@@ -432,6 +443,62 @@ export interface File {
   user_team?:                               string;
   username?:                                string;
   vtt?:                                     string;
+}
+
+export interface TitleBlockElement {
+  accessory?:                    Accessory;
+  alt_text?:                     string;
+  app_collaborators?:            string[];
+  app_id?:                       string;
+  author_name?:                  string;
+  block_id?:                     string;
+  bot_user_id?:                  string;
+  button_label?:                 string;
+  description?:                  DescriptionElement | string;
+  developer_trace_id?:           string;
+  elements?:                     Accessory[];
+  fallback?:                     string;
+  fields?:                       DescriptionElement[];
+  function_trigger_id?:          string;
+  image_bytes?:                  number;
+  image_height?:                 number;
+  image_url?:                    string;
+  image_width?:                  number;
+  is_animated?:                  boolean;
+  is_workflow_app?:              boolean;
+  owning_team_id?:               string;
+  provider_icon_url?:            string;
+  provider_name?:                string;
+  sales_home_workflow_app_type?: number;
+  share_url?:                    string;
+  slack_file?:                   SlackFile;
+  text?:                         DescriptionElement;
+  thumbnail_url?:                string;
+  title?:                        DescriptionElement | string;
+  title_url?:                    string;
+  trigger_subtype?:              string;
+  trigger_type?:                 string;
+  type?:                         string;
+  url?:                          string;
+  video_url?:                    string;
+  workflow_id?:                  string;
+}
+
+export interface Cc {
+  address?:  string;
+  name?:     string;
+  original?: string;
+}
+
+export interface DmMpdmUsersWithFileAccess {
+  access?:  string;
+  user_id?: string;
+}
+
+export interface Favorite {
+  collection_id?:   string;
+  collection_name?: string;
+  position?:        string;
 }
 
 export interface Headers {
@@ -451,10 +518,115 @@ export interface InitialComment {
   user?:      string;
 }
 
+export interface ListLimits {
+  column_count?:        number;
+  column_count_limit?:  number;
+  over_column_maximum?: boolean;
+  over_row_maximum?:    boolean;
+  over_view_maximum?:   boolean;
+  row_count?:           number;
+  row_count_limit?:     number;
+  view_count?:          number;
+  view_count_limit?:    number;
+}
+
+export interface ListMetadata {
+  creation_source?: CreationSource;
+  description?:     string;
+  icon?:            string;
+  icon_team_id?:    string;
+  icon_url?:        string;
+  integrations?:    string[];
+  is_trial?:        boolean;
+  schema?:          Schema[];
+  views?:           View[];
+}
+
+export interface CreationSource {
+  reference_id?:         string;
+  type?:                 string;
+  workflow_function_id?: string;
+}
+
+export interface Schema {
+  id?:                string;
+  is_primary_column?: boolean;
+  key?:               string;
+  name?:              string;
+  options?:           Options;
+  type?:              string;
+}
+
+export interface Options {
+  canvas_id?:                  string;
+  canvas_placeholder_mapping?: CanvasPlaceholderMapping[];
+  choices?:                    Choice[];
+  currency?:                   string;
+  currency_format?:            string;
+  date_format?:                string;
+  default_value?:              string;
+  default_value_typed?:        DefaultValueTyped;
+  emoji?:                      string;
+  emoji_team_id?:              string;
+  for_assignment?:             boolean;
+  format?:                     string;
+  linked_to?:                  string[];
+  mark_as_done_when_checked?:  boolean;
+  max?:                        number;
+  notify_users?:               boolean;
+  precision?:                  number;
+  rounding?:                   string;
+  show_member_name?:           boolean;
+  time_format?:                string;
+}
+
+export interface CanvasPlaceholderMapping {
+  column?:   string;
+  variable?: string;
+}
+
+export interface Choice {
+  color?: string;
+  label?: string;
+  value?: string;
+}
+
+export interface DefaultValueTyped {
+  select?: string[];
+}
+
+export interface View {
+  columns?:           Column[];
+  created_by?:        string;
+  date_created?:      number;
+  id?:                string;
+  is_all_items_view?: boolean;
+  is_locked?:         boolean;
+  name?:              string;
+  position?:          string;
+  stick_column_left?: boolean;
+  type?:              string;
+}
+
+export interface Column {
+  id?:       string;
+  key?:      string;
+  position?: string;
+  visible?:  boolean;
+  width?:    number;
+}
+
 export interface MediaProgress {
   duration_ms?:   number;
   max_offset_ms?: number;
   offset_ms?:     number;
+}
+
+export interface Reaction {
+  count?: number;
+  name?:  string;
+  url?:   string;
+  users?: string[];
 }
 
 export interface Saved {
@@ -464,7 +636,24 @@ export interface Saved {
   state?:          string;
 }
 
-export interface Knocks {
+export interface Shares {
+  private?: { [key: string]: Private[] };
+  public?:  { [key: string]: Private[] };
+}
+
+export interface Private {
+  access?:            string;
+  channel_name?:      string;
+  date_last_shared?:  number;
+  latest_reply?:      string;
+  reply_count?:       number;
+  reply_users?:       string[];
+  reply_users_count?: number;
+  share_user_id?:     string;
+  source?:            string;
+  team_id?:           string;
+  thread_ts?:         string;
+  ts?:                string;
 }
 
 export interface Transcription {
@@ -486,12 +675,6 @@ export interface Icons {
   image_36?: string;
   image_48?: string;
   image_72?: string;
-}
-
-export interface Reaction {
-  count?: number;
-  name?:  string;
-  users?: string[];
 }
 
 export interface Room {
@@ -528,4 +711,7 @@ export interface Room {
   was_accepted?:                 boolean;
   was_missed?:                   boolean;
   was_rejected?:                 boolean;
+}
+
+export interface Knocks {
 }
