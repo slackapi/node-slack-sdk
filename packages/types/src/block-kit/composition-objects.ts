@@ -7,7 +7,7 @@
 export type ColorScheme = 'primary' | 'danger';
 
 /** The conversation type as available within the Slack UI. */
-export type Conversation = 'im' | 'mpim' | 'private' | 'public';
+export type ConversationType = 'im' | 'mpim' | 'private' | 'public';
 
 // TODO: breaking change: remove `Confirm` and move properties to `ConfirmationDialog` below on next major release.
 /**
