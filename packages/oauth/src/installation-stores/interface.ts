@@ -1,4 +1,5 @@
 import { Logger } from '@slack/logger';
+
 import { Installation, InstallationQuery } from '..';
 
 export interface InstallationStore {

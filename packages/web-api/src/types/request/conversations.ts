@@ -1,3 +1,5 @@
+import { OptionalArgument } from '../helpers';
+
 import type {
   CursorPaginationEnabled,
   LocaleAware,
@@ -5,7 +7,6 @@ import type {
   TimelinePaginationEnabled,
   TokenOverridable,
 } from './common';
-import { OptionalArgument } from '../helpers';
 
 interface Channel {
   /** @description ID of conversation. */

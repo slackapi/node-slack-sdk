@@ -1,22 +1,23 @@
-import { EventEmitter } from 'eventemitter3';
-import WebSocket from 'ws';
 import {
-  WebClient,
+  ErrorCode as APICallErrorCode,
   AppsConnectionsOpenResponse,
   WebAPICallError,
-  ErrorCode as APICallErrorCode,
-  addAppMetadata,
+  WebClient,
   WebClientOptions,
+  addAppMetadata,
 } from '@slack/web-api';
-import log, { LogLevel, Logger } from './logger';
+import { EventEmitter } from 'eventemitter3';
+import WebSocket from 'ws';
+
 import {
-  websocketErrorWithOriginal,
   sendWhileDisconnectedError,
   sendWhileNotReadyError,
+  websocketErrorWithOriginal,
 } from './errors';
-import { UnrecoverableSocketModeStartError } from './UnrecoverableSocketModeStartError';
-import { SocketModeOptions } from './SocketModeOptions';
+import log, { LogLevel, Logger } from './logger';
 import { SlackWebSocket, WS_READY_STATES } from './SlackWebSocket';
+import { SocketModeOptions } from './SocketModeOptions';
+import { UnrecoverableSocketModeStartError } from './UnrecoverableSocketModeStartError';
 import packageJson from '../package.json';
 
 // Lifecycle events as described in the README

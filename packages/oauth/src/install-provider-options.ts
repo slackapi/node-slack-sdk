@@ -1,8 +1,9 @@
-import { Logger, LogLevel } from '@slack/logger';
+import { LogLevel, Logger } from '@slack/logger';
 import { WebClientOptions } from '@slack/web-api';
-import { StateStore } from './state-stores';
-import { InstallationStore } from './installation-stores';
+
 import { InstallURLOptions } from './install-url-options';
+import { InstallationStore } from './installation-stores';
+import { StateStore } from './state-stores';
 
 export interface InstallProviderOptions {
 

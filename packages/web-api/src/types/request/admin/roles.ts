@@ -1,5 +1,6 @@
-import type { CursorPaginationEnabled, SortDir, TokenOverridable, UserIDs } from '../common';
 import { OptionalArgument } from '../../helpers';
+
+import type { CursorPaginationEnabled, SortDir, TokenOverridable, UserIDs } from '../common';
 
 interface EntityIDs {
   /**

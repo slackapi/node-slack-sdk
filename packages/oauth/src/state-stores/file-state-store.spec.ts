@@ -1,4 +1,5 @@
 import os from 'os';
+
 import { FileStateStore } from './file-state-store';
 import { StateStoreChaiTestRunner } from './spec-utils';
 

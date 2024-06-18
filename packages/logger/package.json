@@ -29,7 +29,7 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
-    "lint": "eslint --ext .ts src",
+    "lint": "eslint --fix --ext .ts src",
     "mocha": "mocha --config .mocharc.json src/*.spec.js",
     "test:unit": "npm run build && npm run mocha",
     "test": "npm run lint && npm run coverage",

@@ -1,7 +1,8 @@
 import fs from 'fs';
-import path from 'path';
 import { homedir } from 'os';
-import { Installation, InstallationStore, InstallationQuery } from '../index';
+import path from 'path';
+
+import { Installation, InstallationQuery, InstallationStore } from '../index';
 import { Logger } from '../logger';
 
 export interface FileInstallationOptions {

@@ -1,5 +1,6 @@
 import { assert } from 'chai';
 import { describe, it } from 'mocha';
+
 import { InstallProviderOptions } from './install-provider-options';
 
 describe('InstallProviderOptions', async () => {

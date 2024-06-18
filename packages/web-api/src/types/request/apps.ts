@@ -1,6 +1,7 @@
-import type { AppID, CursorPaginationEnabled, TokenOverridable, OAuthCredentials } from './common';
-import type { Manifest } from './manifest';
 import { OptionalArgument } from '../helpers';
+
+import type { AppID, CursorPaginationEnabled, OAuthCredentials, TokenOverridable } from './common';
+import type { Manifest } from './manifest';
 
 // https://api.slack.com/methods/apps.connections.open
 export type AppsConnectionsOpenArguments = OptionalArgument<object>;

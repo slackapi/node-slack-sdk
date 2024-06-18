@@ -1,5 +1,5 @@
 // This file contains reusable extensions/mixins that other Block Kit elements will extend from.
-import { ConfirmationDialog, PlainTextElement, DispatchActionConfig } from './composition-objects';
+import { ConfirmationDialog, DispatchActionConfig, PlainTextElement } from './composition-objects';
 
 // TODO: breaking change: remove `Action` and move properties to `Actionable` on next major release.
 /**

@@ -1,12 +1,14 @@
 import { readFileSync } from 'fs';
 import { Readable } from 'stream';
+
 import { Logger } from '@slack/logger';
-import { errorWithCode, ErrorCode } from './errors';
+
+import { ErrorCode, errorWithCode } from './errors';
 import {
-  FilesCompleteUploadExternalArguments,
-  FilesUploadV2Arguments,
   FileUploadV2,
   FileUploadV2Job,
+  FilesCompleteUploadExternalArguments,
+  FilesUploadV2Arguments,
 } from './types/request/files';
 
 export async function getFileUploadJob(

@@ -1,17 +1,18 @@
-import type {
-  KnownBlock,
-  Block, // TODO: these will be combined into one in a new types release
-  MessageAttachment,
-  LinkUnfurls,
-  MessageMetadata,
-} from '@slack/types';
+import { OptionalArgument } from '../helpers';
+
 import type {
   CursorPaginationEnabled,
   OptionalTeamAssignable,
   TimelinePaginationEnabled,
   TokenOverridable,
 } from './common';
-import { OptionalArgument } from '../helpers';
+import type {
+  Block, // TODO: these will be combined into one in a new types release
+  KnownBlock,
+  LinkUnfurls,
+  MessageAttachment,
+  MessageMetadata,
+} from '@slack/types';
 
 interface Channel {
   /** @description Channel ID for the message. */

@@ -1,48 +1,50 @@
-import { stringify as qsStringify } from 'querystring';
 import { Agent } from 'http';
 import { basename } from 'path';
+import { stringify as qsStringify } from 'querystring';
 import { Readable } from 'stream';
 import { SecureContextOptions } from 'tls';
-
-import zlib from 'zlib';
 import { TextDecoder } from 'util';
-import isStream from 'is-stream';
-import pQueue from 'p-queue';
-import pRetry, { AbortError } from 'p-retry';
+import zlib from 'zlib';
+
 import axios, { AxiosHeaderValue, AxiosInstance, AxiosResponse } from 'axios';
 import FormData from 'form-data';
 import isElectron from 'is-electron';
+import isStream from 'is-stream';
+import pQueue from 'p-queue';
+import pRetry, { AbortError } from 'p-retry';
+
 import {
+  httpErrorFromResponse,
+  platformErrorFromResult,
+  rateLimitedErrorWithDelay,
+  requestErrorWithOriginal,
+} from './errors';
+import {
+  getAllFileUploadsToComplete,
+  getFileUploadJob,
+  getMultipleFileUploadJobs,
+  warnIfNotUsingFilesUploadV2,
+} from './file-upload';
+import delay from './helpers';
+import { getUserAgent } from './instrument';
+import { LogLevel, Logger, getLogger } from './logger';
+import { Methods } from './methods';
+import { RetryOptions, tenRetriesInAboutThirtyMinutes } from './retry-policies';
+import { CursorPaginationEnabled } from './types/request/common';
+
+import type {
+  FileUploadV2Job,
+  FilesCompleteUploadExternalArguments,
+  FilesGetUploadURLExternalArguments,
+  FilesUploadV2Arguments,
+} from './types/request/files';
+import type {
   AdminAnalyticsMemberDetails,
   AdminAnalyticsPublicChannelDetails,
   AdminAnalyticsPublicChannelMetadataDetails,
   FilesCompleteUploadExternalResponse,
   FilesGetUploadURLExternalResponse,
 } from './types/response';
-import { CursorPaginationEnabled } from './types/request/common';
-import { Methods } from './methods';
-import type {
-  FilesUploadV2Arguments,
-  FileUploadV2Job,
-  FilesGetUploadURLExternalArguments,
-  FilesCompleteUploadExternalArguments,
-} from './types/request/files';
-import { getUserAgent } from './instrument';
-import {
-  requestErrorWithOriginal,
-  httpErrorFromResponse,
-  platformErrorFromResult,
-  rateLimitedErrorWithDelay,
-} from './errors';
-import { LogLevel, Logger, getLogger } from './logger';
-import { RetryOptions, tenRetriesInAboutThirtyMinutes } from './retry-policies';
-import delay from './helpers';
-import {
-  warnIfNotUsingFilesUploadV2,
-  getFileUploadJob,
-  getMultipleFileUploadJobs,
-  getAllFileUploadsToComplete,
-} from './file-upload';
 
 /*
  * Helpers

@@ -1,4 +1,4 @@
-import { Installation, InstallationStore, InstallationQuery, OrgInstallation } from '../index';
+import { Installation, InstallationQuery, InstallationStore, OrgInstallation } from '../index';
 import { Logger } from '../logger';
 
 // using a javascript object as a makeshift database for development

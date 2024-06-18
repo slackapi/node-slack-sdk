@@ -1,4 +1,4 @@
-import { createLogger, format, transports, Logger } from 'winston';
+import { Logger, createLogger, format, transports } from 'winston';
 
 // Configure CLI log level
 // Winston logging levels, see: https://github.com/winstonjs/winston#logging

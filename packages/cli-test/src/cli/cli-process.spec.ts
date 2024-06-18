@@ -1,7 +1,8 @@
 import { assert } from 'chai';
 import sinon from 'sinon';
-import { shell } from './shell';
+
 import { SlackCLIProcess } from './cli-process';
+import { shell } from './shell';
 
 describe('SlackCLIProcess class', () => {
   const sandbox = sinon.createSandbox();

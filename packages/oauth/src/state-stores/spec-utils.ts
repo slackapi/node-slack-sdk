@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/no-extraneous-dependencies */
 import { assert } from 'chai';
+
 import { StateStore } from './interface';
 import { InstallURLOptions } from '../install-url-options';
 

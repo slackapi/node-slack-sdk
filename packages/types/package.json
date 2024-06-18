@@ -31,7 +31,7 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
-    "lint": "eslint --ext .ts src",
+    "lint": "eslint --fix --ext .ts src",
     "test": "npm run lint && npm run build && npm run test:types",
     "test:types": "tsd",
     "ref-docs:model": "api-extractor run"

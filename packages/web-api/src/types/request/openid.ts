@@ -1,5 +1,6 @@
-import type { OAuthCredentials, OAuthGrantRefresh } from './common';
 import { OptionalArgument } from '../helpers';
+
+import type { OAuthCredentials, OAuthGrantRefresh } from './common';
 
 // https://api.slack.com/methods/openid.connect.token
 export interface OpenIDConnectTokenArguments extends OAuthCredentials, OAuthGrantRefresh {}

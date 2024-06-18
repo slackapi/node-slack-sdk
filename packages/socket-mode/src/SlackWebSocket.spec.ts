@@ -1,7 +1,8 @@
-import { assert } from 'chai';
-import sinon from 'sinon';
-import EventEmitter from 'eventemitter3';
 import { ConsoleLogger } from '@slack/logger';
+import { assert } from 'chai';
+import EventEmitter from 'eventemitter3';
+import sinon from 'sinon';
+
 import logModule from './logger';
 import { SlackWebSocket } from './SlackWebSocket';
 

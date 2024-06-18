@@ -1,6 +1,7 @@
-import type { SpawnOptionsWithoutStdio } from 'node:child_process';
 import { shell } from './shell';
+
 import type { ShellProcess } from '../utils/types';
+import type { SpawnOptionsWithoutStdio } from 'node:child_process';
 /*
  * some parameters used in the 'shell' calls that are CLI-specific and probably should not exist there:
   * @param skipUpdate skip auto update notification

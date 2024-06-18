@@ -1,5 +1,14 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/block-elements
 
+import { RichTextBlock } from './blocks';
+import {
+  ColorScheme,
+  Option,
+  PlainTextElement,
+  PlainTextOption,
+  SlackFileImageObject,
+  UrlImageObject,
+} from './composition-objects';
 import {
   Actionable,
   Confirmable,
@@ -11,15 +20,6 @@ import {
   RichTextStyleable,
   URLRespondable,
 } from './extensions';
-import {
-  ColorScheme,
-  Option,
-  PlainTextElement,
-  PlainTextOption,
-  SlackFileImageObject,
-  UrlImageObject,
-} from './composition-objects';
-import { RichTextBlock } from './blocks';
 
 /**
  * @description Allows users a direct path to performing basic actions.

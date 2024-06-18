@@ -247,6 +247,23 @@ module.exports = {
           },
         ],
 
+        // Rules about import ordering/sorting
+        'import/order': ['error', {
+          'groups': [
+            'builtin',
+            'external',
+            'internal',
+            ['parent', 'sibling', 'index'],
+            'object',
+            'type'
+          ],
+          'newlines-between': 'always',
+          'alphabetize': {
+            'order': 'asc',
+            'caseInsensitive': true
+          }
+        }],
+        'sort-imports': ['error', { 'ignoreDeclarationSort': true }],
         // Allow cyclical imports. Turning this rule on is mainly a way to manage the performance concern for linting
         // time. Our projects are not large enough to warrant this. Overrides AirBnB styles.
         'import/no-cycle': 'off',

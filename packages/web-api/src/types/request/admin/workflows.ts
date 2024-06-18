@@ -1,5 +1,6 @@
-import type { AppID, CursorPaginationEnabled, SortDir, TokenOverridable } from '../common';
 import { OptionalArgument } from '../../helpers';
+
+import type { AppID, CursorPaginationEnabled, SortDir, TokenOverridable } from '../common';
 
 interface CollaboratorIDs {
   /** @description Array of collaborators (encoded user IDs) - maximum of 50 items. */

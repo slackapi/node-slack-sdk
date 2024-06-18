@@ -1,6 +1,7 @@
-import type { ShellProcess } from '../../utils/types';
-import { SlackCLIProcess, SlackCLIGlobalOptions, SlackCLICommandOptions } from '../cli-process';
+import { SlackCLICommandOptions, SlackCLIGlobalOptions, SlackCLIProcess } from '../cli-process';
 import commandError from '../command-error';
+
+import type { ShellProcess } from '../../utils/types';
 
 export default {
   /**

@@ -1,5 +1,6 @@
-import type { CursorPaginationEnabled, TokenOverridable } from '../common';
 import { OptionalArgument } from '../../helpers';
+
+import type { CursorPaginationEnabled, TokenOverridable } from '../common';
 
 interface Name {
   /**

@@ -1,5 +1,5 @@
-import type { WebClientOptions } from '@slack/web-api';
 import type { LogLevel, Logger } from './logger';
+import type { WebClientOptions } from '@slack/web-api';
 
 export interface SocketModeOptions {
   /**

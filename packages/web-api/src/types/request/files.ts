@@ -1,12 +1,12 @@
-import type { Stream } from 'node:stream';
 import type {
   CursorPaginationEnabled,
   OptionalTeamAssignable,
   TokenOverridable,
   TraditionalPagingEnabled,
 } from './common';
-import type { FilesGetUploadURLExternalResponse } from '../response/index';
 import type { ExcludeFromUnion } from '../helpers';
+import type { FilesGetUploadURLExternalResponse } from '../response/index';
+import type { Stream } from 'node:stream';
 
 interface FileArgument {
   /** @description Encoded file ID. */

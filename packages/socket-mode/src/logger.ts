@@ -1,4 +1,4 @@
-import { Logger, LogLevel, ConsoleLogger } from '@slack/logger';
+import { ConsoleLogger, LogLevel, Logger } from '@slack/logger';
 
 export { Logger, LogLevel };
 

@@ -1,15 +1,9 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/blocks
 import {
-  PlainTextElement,
-  TextObject,
-  UrlImageObject,
-  SlackFileImageObject,
-} from './composition-objects';
-import {
   Button,
   Checkboxes,
-  Datepicker,
   DateTimepicker,
+  Datepicker,
   EmailInput,
   FileInput,
   ImageElement,
@@ -18,16 +12,22 @@ import {
   Overflow,
   PlainTextInput,
   RadioButtons,
+  RichTextInput,
+  RichTextList,
+  RichTextPreformatted,
+  RichTextQuote,
+  RichTextSection,
   Select,
   Timepicker,
   URLInput,
   WorkflowButton,
-  RichTextSection,
-  RichTextList,
-  RichTextQuote,
-  RichTextPreformatted,
-  RichTextInput,
 } from './block-elements';
+import {
+  PlainTextElement,
+  SlackFileImageObject,
+  TextObject,
+  UrlImageObject,
+} from './composition-objects';
 
 export interface Block {
   /**

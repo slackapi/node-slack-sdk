@@ -1,10 +1,12 @@
-import { homedir } from 'os';
 import fs from 'fs';
+import { homedir } from 'os';
 import path from 'path';
+
 import { ConsoleLogger, Logger } from '@slack/logger';
-import { StateStore, StateObj } from './interface';
-import { InstallURLOptions } from '../install-url-options';
+
+import { StateObj, StateStore } from './interface';
 import { InvalidStateError } from '../errors';
+import { InstallURLOptions } from '../install-url-options';
 
 export interface FileStateStoreArgs {
   stateExpirationSeconds?: number;
