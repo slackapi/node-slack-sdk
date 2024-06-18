@@ -1,8 +1,9 @@
 import {
   AppID,
-  OptionalTeamAssignable,
-  TokenOverridable,
   CursorPaginationEnabled,
+  OptionalTeamAssignable,
+  SortDir,
+  TokenOverridable,
   TraditionalPagingEnabled,
 } from './common';
 import { OptionalArgument } from '../helpers';
@@ -24,6 +25,19 @@ OptionalTeamAssignable & {
 }>;
 // https://api.slack.com/methods/team.billing.info
 export type TeamBillingInfoArguments = OptionalArgument<TokenOverridable>;
+// https://api.slack.com/methods/team.externalTeams.list
+export type TeamExternalTeamsListArguments = OptionalArgument<TokenOverridable & CursorPaginationEnabled & {
+  /** @description Status of the connected team. */
+  connection_status_filter?: 'CONNECTED' | 'DISCONNECTED' | 'BLOCKED' | 'IN_REVIEW';
+  /** @description Filters connected orgs by Slack Connect pref override(s) */
+  slack_connect_pref_filter?: 'approved_orgs_only' | 'allow_sc_file_uploads' | 'profile_visibility' | 'away_team_sc_invite_permissions' | 'accept_sc_invites' | 'sc_mpdm_to_private' | 'require_sc_channel_for_sc_dm' | 'external_awareness_context_bar';
+  /** @description Direction to sort in asc or desc. */
+  sort_direction?: SortDir['sort_dir'];
+  /** @description Name of the parameter that we are sorting by. Defaults to `team_name`. */
+  sort_field?: 'team_name' | 'last_active_timestamp' | 'connection_status';
+  /** @description Shows connected orgs which are connected on a specified encoded workspace ID. */
+  workspace_filter?: string[];
+}>;
 // https://api.slack.com/methods/team.info
 export type TeamInfoArguments = OptionalArgument<TokenOverridable & {
   /**

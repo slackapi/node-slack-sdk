@@ -1,6 +1,11 @@
 import { Stream } from 'node:stream';
 import { TokenOverridable, CursorPaginationEnabled, OptionalTeamAssignable, LocaleAware } from './common';
 
+interface Email {
+  /** @description An email address belonging to a user in the workspace */
+  email: string;
+}
+
 // https://api.slack.com/methods/users.conversations
 export interface UsersConversationsArguments extends TokenOverridable, CursorPaginationEnabled, OptionalTeamAssignable {
   /** @description Set to `true` to exclude archived channels from the list. Default is `false`. */
@@ -18,6 +23,8 @@ export interface UsersConversationsArguments extends TokenOverridable, CursorPag
 }
 // https://api.slack.com/methods/users.deletePhoto
 export interface UsersDeletePhotoArguments extends TokenOverridable { }
+// https://api.slack.com/methods/users.discoverableContacts.lookup
+export interface UsersDiscoverableContactsLookupArguments extends Email, TokenOverridable { }
 // https://api.slack.com/methods/users.getPresence
 export interface UsersGetPresenceArguments extends TokenOverridable {
   /** @description User to get presence info on. Defaults to the authed user. */
@@ -34,10 +41,7 @@ export interface UsersInfoArguments extends TokenOverridable, LocaleAware {
 export interface UsersListArguments extends TokenOverridable, CursorPaginationEnabled,
   LocaleAware, OptionalTeamAssignable { }
 // https://api.slack.com/methods/users.lookupByEmail
-export interface UsersLookupByEmailArguments extends TokenOverridable {
-  /** @description An email address belonging to a user in the workspace */
-  email: string;
-}
+export interface UsersLookupByEmailArguments extends Email, TokenOverridable {}
 // https://api.slack.com/methods/users.setPhoto
 export interface UsersSetPhotoArguments extends TokenOverridable {
   /** @description Image file contents. */

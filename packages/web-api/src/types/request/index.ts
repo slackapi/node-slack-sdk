@@ -1,10 +1,10 @@
 export type { WorkflowsStepCompletedArguments, WorkflowsStepFailedArguments, WorkflowsUpdateStepArguments } from './workflows';
 export type { ViewsUpdateArguments, ViewsOpenArguments, ViewsPushArguments, ViewsPublishArguments } from './views';
-export type { UsersConversationsArguments, UsersInfoArguments, UsersListArguments, UsersIdentityArguments, UsersSetPhotoArguments, UsersProfileGetArguments, UsersProfileSetArguments, UsersDeletePhotoArguments, UsersGetPresenceArguments, UsersSetPresenceArguments, UsersLookupByEmailArguments } from './users';
+export type { UsersConversationsArguments, UsersDiscoverableContactsLookupArguments, UsersInfoArguments, UsersListArguments, UsersIdentityArguments, UsersSetPhotoArguments, UsersProfileGetArguments, UsersProfileSetArguments, UsersDeletePhotoArguments, UsersGetPresenceArguments, UsersSetPresenceArguments, UsersLookupByEmailArguments } from './users';
 export type { ToolingTokensRotateArguments } from './tooling';
 export type { SearchAllArguments, SearchFilesArguments, SearchMessagesArguments } from './search';
 export type { UsergroupsCreateArguments, UsergroupsDisableArguments, UsergroupsEnableArguments, UsergroupsListArguments, UsergroupsUpdateArguments, UsergroupsUsersListArguments, UsergroupsUsersUpdateArguments } from './usergroups';
-export type { TeamAccessLogsArguments, TeamBillableInfoArguments, TeamBillingInfoArguments, TeamInfoArguments, TeamIntegrationLogsArguments, TeamPreferencesListArguments, TeamProfileGetArguments } from './team';
+export type { TeamAccessLogsArguments, TeamBillableInfoArguments, TeamBillingInfoArguments, TeamExternalTeamsListArguments, TeamInfoArguments, TeamIntegrationLogsArguments, TeamPreferencesListArguments, TeamProfileGetArguments } from './team';
 export type { StarsAddRemoveArguments, StarsListArguments } from './stars';
 export type { RTMConnectArguments, RTMStartArguments } from './rtm';
 export type { RemindersAddArguments, RemindersInfoArguments, RemindersListArguments, RemindersDeleteArguments, RemindersCompleteArguments } from './reminders';
