@@ -2,7 +2,7 @@ import { EventEmitter } from 'eventemitter3';
 
 import { WebAPICallResult, WebClient, WebClientEvent } from './WebClient';
 
-// Response types
+// Request, followed by response, types
 import type {
   APITestArguments,
   AdminAnalyticsGetFileArguments,
@@ -493,7 +493,6 @@ import type {
   WorkflowsStepFailedResponse,
   WorkflowsUpdateStepResponse,
 } from './types/response/index';
-// Request types
 
 /**
  * Generic method definition
