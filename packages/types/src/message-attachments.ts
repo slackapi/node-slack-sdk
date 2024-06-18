@@ -102,8 +102,8 @@ export interface MessageAttachment {
    * relative to the present. Form factors, like mobile versus desktop may also transform its rendered appearance.
    */
   ts?: string;
-  actions?: AttachmentAction[]; // TODO: not documented in https://api.slack.com/reference/messaging/attachments
-  callback_id?: string; // TODO: not documented in https://api.slack.com/reference/messaging/attachments
+  actions?: AttachmentAction[]; // TODO: https://api.slack.com/legacy/message-buttons#crafting_your_message
+  callback_id?: string; // TODO: https://api.slack.com/legacy/message-buttons#crafting_your_message
   /**
    * @description Field names that should be {@link https://api.slack.com/reference/surfaces/formatting#basics formatted by `mrkdwn` syntax}.
    * The fields that can be formatted in this way include the names of the `fields` property, or
@@ -138,9 +138,8 @@ export interface MessageAttachmentField {
   short?: boolean;
 }
 
-// TODO: unclear what this is or how to use this
 // https://api.slack.com/methods/chat.unfurl#markdown
-export interface MessageAttachmentPreview {
+interface MessageAttachmentPreview {
   type?: string;
   can_remove?: boolean;
   title?: PlainTextElement;
@@ -148,8 +147,7 @@ export interface MessageAttachmentPreview {
   iconUrl?: string;
 }
 
-// TODO: unclear what this is or how to use this
-export interface AttachmentAction {
+interface AttachmentAction {
   id?: string;
   confirm?: Confirmation;
   data_source?: 'static' | 'channels' | 'conversations' | 'users' | 'external';
@@ -168,7 +166,7 @@ export interface AttachmentAction {
   url?: string;
 }
 
-export interface OptionField {
+interface OptionField {
   description?: string;
   text: string;
   value: string;
@@ -182,6 +180,7 @@ export interface Confirmation {
   title?: string;
 }
 
+// Used in web-api chat.* API method request parameters
 export interface LinkUnfurls {
   [linkUrl: string]: MessageAttachment;
 }

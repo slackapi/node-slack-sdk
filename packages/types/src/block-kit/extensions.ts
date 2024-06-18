@@ -25,6 +25,14 @@ export interface Confirmable {
   confirm?: ConfirmationDialog;
 }
 
+export interface Dispatchable {
+  /**
+   * @description A {@link DispatchActionConfig} object that determines when during text input the element returns a
+   * {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions` payload}.
+   */
+  dispatch_action_config?: DispatchActionConfig;
+}
+
 export interface Focusable {
   /**
    * @description Indicates whether the element will be set to auto focus within the
@@ -32,6 +40,13 @@ export interface Focusable {
    * Defaults to `false`.
    */
   focus_on_load?: boolean;
+}
+
+export interface MaxItemsSelectable {
+  /**
+   * @description Specifies the maximum number of items that can be selected. Minimum number is 1.
+   */
+  max_selected_items?: number;
 }
 
 export interface Placeholdable {
@@ -42,12 +57,23 @@ export interface Placeholdable {
   placeholder?: PlainTextElement;
 }
 
-export interface Dispatchable {
+export interface URLRespondable {
   /**
-   * @description A {@link DispatchActionConfig} object that determines when during text input the element returns a
-   * {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions` payload}.
+   * @description When set to `true`, the {@link https://api.slack.com/reference/interaction-payloads/views#view_submission `view_submission` payload}
+   * from the menu's parent view will contain a `response_url`. This `response_url` can be used for
+   * {@link https://api.slack.com/interactivity/handling#message_responses message responses}. The target conversation
+   * for the message will be determined by the value of this select menu.
    */
-  dispatch_action_config?: DispatchActionConfig;
+  response_url_enabled?: boolean;
+}
+
+/** For use in setting border style details on certain Rich Text elements. */
+export interface RichTextBorderable {
+  /**
+   * @description Whether to render a quote-block-like border on the inline side of the list. `0` renders no border
+   * while `1` renders a border.
+   */
+  border?: 0 | 1;
 }
 
 /**
