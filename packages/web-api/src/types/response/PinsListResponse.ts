@@ -52,6 +52,7 @@ export interface File {
   external_id?:                             string;
   external_type?:                           string;
   external_url?:                            string;
+  favorites?:                               Favorite[];
   file_access?:                             string;
   filetype?:                                string;
   from?:                                    Cc[];
@@ -75,6 +76,8 @@ export interface File {
   lines?:                                   number;
   lines_more?:                              number;
   linked_channel_id?:                       string;
+  list_limits?:                             ListLimits;
+  list_metadata?:                           ListMetadata;
   media_display_type?:                      string;
   media_progress?:                          MediaProgress;
   mimetype?:                                string;
@@ -99,6 +102,7 @@ export interface File {
   preview_is_truncated?:                    boolean;
   preview_plain_text?:                      string;
   private_channels_with_file_access_count?: number;
+  private_file_with_access_count?:          number;
   public_url_shared?:                       boolean;
   quip_thread_id?:                          string;
   reactions?:                               Reaction[];
@@ -189,6 +193,12 @@ export interface DmMpdmUsersWithFileAccess {
   user_id?: string;
 }
 
+export interface Favorite {
+  collection_id?:   string;
+  collection_name?: string;
+  position?:        string;
+}
+
 export interface Headers {
   date?:        string;
   in_reply_to?: string;
@@ -204,6 +214,104 @@ export interface InitialComment {
   is_intro?:  boolean;
   timestamp?: number;
   user?:      string;
+}
+
+export interface ListLimits {
+  column_count?:        number;
+  column_count_limit?:  number;
+  over_column_maximum?: boolean;
+  over_row_maximum?:    boolean;
+  over_view_maximum?:   boolean;
+  row_count?:           number;
+  row_count_limit?:     number;
+  view_count?:          number;
+  view_count_limit?:    number;
+}
+
+export interface ListMetadata {
+  creation_source?: CreationSource;
+  description?:     string;
+  icon?:            string;
+  icon_team_id?:    string;
+  icon_url?:        string;
+  integrations?:    string[];
+  is_trial?:        boolean;
+  schema?:          Schema[];
+  views?:           View[];
+}
+
+export interface CreationSource {
+  reference_id?:         string;
+  type?:                 string;
+  workflow_function_id?: string;
+}
+
+export interface Schema {
+  id?:                string;
+  is_primary_column?: boolean;
+  key?:               string;
+  name?:              string;
+  options?:           Options;
+  type?:              string;
+}
+
+export interface Options {
+  canvas_id?:                  string;
+  canvas_placeholder_mapping?: CanvasPlaceholderMapping[];
+  choices?:                    Choice[];
+  currency?:                   string;
+  currency_format?:            string;
+  date_format?:                string;
+  default_value?:              string;
+  default_value_typed?:        DefaultValueTyped;
+  emoji?:                      string;
+  emoji_team_id?:              string;
+  for_assignment?:             boolean;
+  format?:                     string;
+  linked_to?:                  string[];
+  mark_as_done_when_checked?:  boolean;
+  max?:                        number;
+  notify_users?:               boolean;
+  precision?:                  number;
+  rounding?:                   string;
+  show_member_name?:           boolean;
+  time_format?:                string;
+}
+
+export interface CanvasPlaceholderMapping {
+  column?:   string;
+  variable?: string;
+}
+
+export interface Choice {
+  color?: string;
+  label?: string;
+  value?: string;
+}
+
+export interface DefaultValueTyped {
+  select?: string[];
+}
+
+export interface View {
+  columns?:           Column[];
+  created_by?:        string;
+  date_created?:      number;
+  id?:                string;
+  is_all_items_view?: boolean;
+  is_locked?:         boolean;
+  name?:              string;
+  position?:          string;
+  stick_column_left?: boolean;
+  type?:              string;
+}
+
+export interface Column {
+  id?:       string;
+  key?:      string;
+  position?: string;
+  visible?:  boolean;
+  width?:    number;
 }
 
 export interface MediaProgress {

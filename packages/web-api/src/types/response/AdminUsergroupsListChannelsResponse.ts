@@ -53,10 +53,11 @@ export interface Channel {
 }
 
 export interface Properties {
-  posting_restricted_to?: PostingRestrictedTo;
+  posting_restricted_to?: RestrictedTo;
+  threads_restricted_to?: RestrictedTo;
 }
 
-export interface PostingRestrictedTo {
+export interface RestrictedTo {
   type?: string[];
 }
 
