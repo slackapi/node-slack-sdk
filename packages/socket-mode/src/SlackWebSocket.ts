@@ -1,8 +1,10 @@
-import { ClientOptions as WebSocketClientOptions, WebSocket } from 'ws';
 import { Agent } from 'http';
+
 import { EventEmitter } from 'eventemitter3';
-import log, { LogLevel, Logger } from './logger';
+import { WebSocket, ClientOptions as WebSocketClientOptions } from 'ws';
+
 import { websocketErrorWithOriginal } from './errors';
+import log, { LogLevel, Logger } from './logger';
 
 // Maps ws `readyState` to human readable labels https://github.com/websockets/ws/blob/HEAD/doc/ws.md#ready-state-constants
 export const WS_READY_STATES = ['CONNECTING', 'OPEN', 'CLOSING', 'CLOSED'];

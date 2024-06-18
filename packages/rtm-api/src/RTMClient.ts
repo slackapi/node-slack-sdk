@@ -1,31 +1,31 @@
 import { Agent } from 'http';
 
-import { EventEmitter } from 'eventemitter3';
-import WebSocket from 'ws';
-import Finity, { StateMachine } from 'finity';
-import PQueue from 'p-queue';
-import PCancelable from 'p-cancelable';
 import {
-  WebClient,
-  WebAPICallResult,
-  WebAPICallError,
   ErrorCode as APICallErrorCode,
-  RetryOptions,
-  TLSOptions,
   RTMConnectArguments,
   RTMStartArguments,
+  RetryOptions,
+  TLSOptions,
+  WebAPICallError,
+  WebAPICallResult,
+  WebClient,
   addAppMetadata,
 } from '@slack/web-api';
+import { EventEmitter } from 'eventemitter3';
+import Finity, { StateMachine } from 'finity';
+import PCancelable from 'p-cancelable';
+import PQueue from 'p-queue';
+import WebSocket from 'ws';
 
-import { KeepAlive } from './KeepAlive';
-import { LogLevel, Logger, getLogger } from './logger';
 import {
-  websocketErrorWithOriginal,
-  platformErrorFromEvent,
   noReplyReceivedError,
+  platformErrorFromEvent,
   sendWhileDisconnectedError,
   sendWhileNotReadyError,
+  websocketErrorWithOriginal,
 } from './errors';
+import { KeepAlive } from './KeepAlive';
+import { LogLevel, Logger, getLogger } from './logger';
 
 const packageJson = require('../package.json'); // eslint-disable-line import/no-commonjs, @typescript-eslint/no-var-requires
 

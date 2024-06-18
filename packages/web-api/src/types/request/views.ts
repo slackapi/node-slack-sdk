@@ -1,4 +1,5 @@
 import { View } from '@slack/types';
+
 import { TokenOverridable } from './common';
 
 interface BaseViewsArguments {

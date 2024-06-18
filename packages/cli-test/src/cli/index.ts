@@ -1,6 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import logger from '../utils/logger';
+
 import appCommands from './commands/app';
 import authCommands from './commands/auth';
 import collaboratorCommands from './commands/collaborator';
@@ -11,6 +11,7 @@ import functionCommands from './commands/function';
 import manifestCommands from './commands/manifest';
 import platformCommands from './commands/platform';
 import triggerCommands from './commands/trigger';
+import logger from '../utils/logger';
 
 /**
  * Set of functions to spawn and interact with Slack Platform CLI processes and commands

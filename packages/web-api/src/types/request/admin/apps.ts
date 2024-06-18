@@ -1,5 +1,6 @@
-import type { AppID, CursorPaginationEnabled, TokenOverridable } from '../common';
 import { OptionalArgument } from '../../helpers';
+
+import type { AppID, CursorPaginationEnabled, TokenOverridable } from '../common';
 
 interface RequestID {
   /** @description The id of the request. */

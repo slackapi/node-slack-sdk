@@ -1,5 +1,6 @@
 import { Stream } from 'node:stream';
-import { TokenOverridable, CursorPaginationEnabled, OptionalTeamAssignable, LocaleAware } from './common';
+
+import { CursorPaginationEnabled, LocaleAware, OptionalTeamAssignable, TokenOverridable } from './common';
 
 interface Email {
   /** @description An email address belonging to a user in the workspace */

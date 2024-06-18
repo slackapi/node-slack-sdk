@@ -1,7 +1,7 @@
 import {
   CursorPaginationEnabled,
-  FileCommentArgument,
   FileArgument,
+  FileCommentArgument,
   MessageArgument,
   OptionalTeamAssignable,
   TokenOverridable,

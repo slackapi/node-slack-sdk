@@ -1,5 +1,6 @@
 import { SpawnOptionsWithoutStdio } from 'node:child_process';
-import { SlackCLIProcess, SlackCLICommandOptions, SlackCLIGlobalOptions } from '../cli-process';
+
+import { SlackCLICommandOptions, SlackCLIGlobalOptions, SlackCLIProcess } from '../cli-process';
 import commandError from '../command-error';
 
 /**

@@ -1,5 +1,6 @@
 import { assert } from 'chai';
 import { describe, it } from 'mocha';
+
 import { InstallationQuery } from './installation-query';
 
 describe('InstallationQuery', async () => {

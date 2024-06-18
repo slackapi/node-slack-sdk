@@ -1,5 +1,5 @@
-import type { CallUser } from '@slack/types';
 import type { TokenOverridable } from './common';
+import type { CallUser } from '@slack/types';
 
 interface ID {
   /** @description `id` returned when registering the call using the `calls.add` method. */

@@ -1,5 +1,6 @@
 import { assert } from 'chai';
 import { describe, it } from 'mocha';
+
 import { InstallURLOptions } from './install-url-options';
 
 describe('InstallURLOptions', async () => {

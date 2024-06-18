@@ -1,7 +1,8 @@
 import { sign, verify } from 'jsonwebtoken';
-import { InstallURLOptions } from '../install-url-options';
-import { StateStore, StateObj } from './interface';
+
+import { StateObj, StateStore } from './interface';
 import { InvalidStateError } from '../errors';
+import { InstallURLOptions } from '../install-url-options';
 
 // default implementation of StateStore
 export default class ClearStateStore implements StateStore {

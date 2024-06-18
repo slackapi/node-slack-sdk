@@ -1,9 +1,10 @@
+import { SlackTracerId } from '../../utils/constants';
 import logger from '../../utils/logger';
 import { SlackCLIProcess } from '../cli-process';
-import { shell } from '../shell';
-import type { ShellProcess } from '../../utils/types';
 import commandError from '../command-error';
-import { SlackTracerId } from '../../utils/constants';
+import { shell } from '../shell';
+
+import type { ShellProcess } from '../../utils/types';
 
 // TODO: the options for these methods could be DRYed up
 

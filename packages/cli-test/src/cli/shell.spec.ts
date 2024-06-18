@@ -1,9 +1,12 @@
+import child from 'child_process';
+import EventEmitter from 'events';
+import stream from 'stream';
+
 import { assert } from 'chai';
 import sinon from 'sinon';
-import child from 'child_process';
-import stream from 'stream';
-import EventEmitter from 'events';
+
 import { shell } from './shell';
+
 import type { ShellProcess } from '../utils/types';
 
 describe('shell module', () => {

@@ -1,3 +1,5 @@
+import { OptionalArgument } from '../../helpers';
+
 import type {
   ChannelIDs,
   CursorPaginationEnabled,
@@ -6,7 +8,6 @@ import type {
   TokenOverridable,
   UserIDs,
 } from '../common';
-import { OptionalArgument } from '../../helpers';
 
 interface UserID {
   /** @description The ID of the user. */

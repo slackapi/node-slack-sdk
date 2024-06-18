@@ -1,5 +1,6 @@
-import type { ChannelIDs, CursorPaginationEnabled, TeamID, TokenOverridable } from '../common';
 import { OptionalArgument } from '../../helpers';
+
+import type { ChannelIDs, CursorPaginationEnabled, TeamID, TokenOverridable } from '../common';
 
 type TeamDiscoverability = 'open' | 'closed' | 'invite_only' | 'unlisted';
 

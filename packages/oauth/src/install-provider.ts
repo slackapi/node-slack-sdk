@@ -1,30 +1,30 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { URLSearchParams, URL } from 'url';
+import { URL, URLSearchParams } from 'url';
 
 import { WebAPICallResult, WebClient, WebClientOptions } from '@slack/web-api';
 
 import { AuthorizeResult } from './authorize-result';
 import { CallbackOptions, defaultCallbackFailure, defaultCallbackSuccess } from './callback-options';
+import defaultRenderHtmlForInstallPath from './default-render-html-for-install-path';
 import {
-  InstallerInitializationError,
-  UnknownError,
-  MissingStateError,
-  InvalidStateError,
-  MissingCodeError,
-  GenerateInstallUrlError,
   AuthorizationError,
   CodedError,
   ErrorCode,
+  GenerateInstallUrlError,
+  InstallerInitializationError,
+  InvalidStateError,
+  MissingCodeError,
+  MissingStateError,
+  UnknownError,
 } from './errors';
+import { InstallPathOptions } from './install-path-options';
+import { InstallProviderOptions } from './install-provider-options';
+import { InstallURLOptions } from './install-url-options';
 import { Installation } from './installation';
 import { InstallationQuery } from './installation-query';
-import { InstallURLOptions } from './install-url-options';
-import { InstallProviderOptions } from './install-provider-options';
-import { Logger, LogLevel, getLogger } from './logger';
-import { ClearStateStore, StateStore } from './state-stores';
 import { InstallationStore, MemoryInstallationStore } from './installation-stores';
-import defaultRenderHtmlForInstallPath from './default-render-html-for-install-path';
-import { InstallPathOptions } from './install-path-options';
+import { LogLevel, Logger, getLogger } from './logger';
+import { ClearStateStore, StateStore } from './state-stores';
 
 /**
  * InstallProvider Class. Refer to InsallProviderOptions interface for the details of constructor arguments.

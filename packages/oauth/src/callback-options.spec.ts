@@ -1,7 +1,8 @@
+import { IncomingMessage, ServerResponse } from 'http';
+
 import { assert } from 'chai';
 import { describe, it } from 'mocha';
 import sinon from 'sinon';
-import { IncomingMessage, ServerResponse } from 'http';
 
 import { CallbackOptions, escapeHtml } from './callback-options';
 import { MissingStateError } from './errors';

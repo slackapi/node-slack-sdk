@@ -39,7 +39,7 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
-    "lint": "eslint --ext .ts src",
+    "lint": "eslint --fix --ext .ts src",
     "test:unit": "mocha --config .mocharc.json src/**/*.spec.ts",
     "test:coverage": "c8 npm run test:unit",
     "test:integration": "mocha --config .mocharc.json test/integration.spec.js",

@@ -1,3 +1,5 @@
+import { OptionalArgument } from '../../helpers';
+
 import type {
   ChannelIDs,
   CursorPaginationEnabled,
@@ -5,7 +7,6 @@ import type {
   TokenOverridable,
   UserIDs,
 } from '../common';
-import { OptionalArgument } from '../../helpers';
 
 interface ChannelID { // an identical interface exists in src/types/request/conversations.ts, but it is only for invites
   /** @description Encoded channel ID. */
