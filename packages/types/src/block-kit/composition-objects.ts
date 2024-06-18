@@ -179,7 +179,7 @@ interface BaseConversationFilter {
   * conversations that do not match will be excluded. You should provide an array of strings from the following options:
   * `im`, `mpim`, `private`, and `public`. The array cannot be empty.
   */
-  include?: [Conversation, ...Conversation[]];
+  include?: [ConversationType, ...ConversationType[]];
   /**
    * @description Indicates whether to exclude external {@link https://api.slack.com/enterprise/shared-channels shared channels}
    * from conversation lists. This field will not exclude users from shared channels. Defaults to `false`.
