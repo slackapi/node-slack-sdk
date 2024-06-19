@@ -51,7 +51,7 @@ jobs:
         with:
           files: packages/${{ matrix.package }}/coverage/lcov.info
       - name: Upload code coverage
-        if: matrix.node-version == '20.x' && steps.check_coverage.outputs.files_exists == 'true'
+        if: matrix.node-version == '22.x' && steps.check_coverage.outputs.files_exists == 'true'
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
