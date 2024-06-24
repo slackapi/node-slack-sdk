@@ -417,9 +417,8 @@ export class SocketModeClient extends EventEmitter {
       } else {
         this.emit('outgoing_message', message);
 
-        const flatMessage = JSON.stringify(message);
-        this.logger.debug(`Sending a WebSocket message: ${flatMessage}`);
-        this.websocket.send(flatMessage, (error) => {
+        this.logger.debug(`Sending a WebSocket message: ${JSON.stringify(SocketModeClient.redact(message))}`);
+        this.websocket.send(JSON.stringify(message), (error) => {
           if (error !== undefined && error !== null) {
             this.logger.error(`Failed to send a WebSocket message (error: ${error.message})`);
             return reject(websocketErrorWithOriginal(error));
@@ -700,8 +699,6 @@ export class SocketModeClient extends EventEmitter {
    * This will parse the payload and dispatch the relevant events for each incoming message.
    */
   protected async onWebSocketMessage({ data }: { data: string }): Promise<void> {
-    this.logger.debug(`Received a message on the WebSocket: ${data}`);
-
     // Parse message into slack event
     let event: {
       type: string;
@@ -716,9 +713,11 @@ export class SocketModeClient extends EventEmitter {
 
     try {
       event = JSON.parse(data);
+      this.logger.debug(`Received a message on the WebSocket: ${JSON.stringify(SocketModeClient.redact(event))}`);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (parseError: any) {
       // Prevent application from crashing on a bad message, but log an error to bring attention
+      this.logger.debug(`Received a message on the WebSocket: ${data}`);
       this.logger.error(
         `Unable to parse an incoming WebSocket message: ${parseError.message}`,
       );
@@ -741,7 +740,7 @@ export class SocketModeClient extends EventEmitter {
     // Define Ack
     const ack = async (response: Record<string, unknown>): Promise<void> => {
       if (this.logger.getLevel() === LogLevel.DEBUG) {
-        this.logger.debug(`Calling ack() - type: ${event.type}, envelope_id: ${event.envelope_id}, data: ${JSON.stringify(response)}`);
+        this.logger.debug(`Calling ack() - type: ${event.type}, envelope_id: ${event.envelope_id}, data: ${JSON.stringify(SocketModeClient.redact(response))}`);
       }
       await this.send(event.envelope_id, response);
     };
@@ -778,6 +777,37 @@ export class SocketModeClient extends EventEmitter {
       retry_reason: event.retry_reason,
       accepts_response_payload: event.accepts_response_payload,
     });
+  }
+
+  /**
+   * Removes secrets and tokens from socket request and response objects
+   * before logging.
+   * @param body - the object with values for redaction.
+   * @returns the same object with redacted values.
+   */
+  private static redact(body?: Record<string, unknown>): Record<string, unknown> | unknown[] | undefined {
+    if (body === undefined || body === null) {
+      return body;
+    }
+    const records = Object.create(body);
+    if (Array.isArray(body)) {
+      return body.map((item) => (
+        (typeof item === 'object' && item !== null) ?
+          SocketModeClient.redact(item as Record<string, unknown>) :
+          item
+      ));
+    }
+    Object.keys(body).forEach((key: string) => {
+      const value = body[key];
+      if (typeof value === 'object' && value !== null) {
+        records[key] = SocketModeClient.redact(value as Record<string, unknown>);
+      } else if (key.match(/.*token.*/) !== null || key.match(/secret/)) {
+        records[key] = '[[REDACTED]]';
+      } else {
+        records[key] = value;
+      }
+    });
+    return records;
   }
 }
 
