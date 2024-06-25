@@ -78,6 +78,7 @@ export const SlackCLI = {
     isLocalApp?: boolean;
     qa?: boolean;
   }): Promise<void> {
+    // TODO: perhaps appPath does not exist, should guard against that.
     if (appPath) {
       // List instances of app installation if app path provided
       const installedAppsOutput = await SlackCLI.app.list(appPath, { qa });
