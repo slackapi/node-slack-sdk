@@ -1513,7 +1513,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * Connect channel or vice versa.
        * @see {@link https://api.slack.com/methods/conversations.externalInvitePermissions.set `conversations.externalInvitePermissions.set` API reference}.
        */
-      create: bindApiCall<ConversationsExternalInvitePermissionsSetArguments, ConversationsExternalInvitePermissionsSetResponse>(this, 'conversations.externalInvitePermissions.set'),
+      set: bindApiCall<ConversationsExternalInvitePermissionsSetArguments, ConversationsExternalInvitePermissionsSetResponse>(this, 'conversations.externalInvitePermissions.set'),
     },
     /**
      * @description Fetches a conversation's history of messages and events.
