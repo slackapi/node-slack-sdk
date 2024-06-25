@@ -10,17 +10,18 @@
 
 import { WebAPICallResult } from '../../WebClient';
 export type FilesInfoResponse = WebAPICallResult & {
-  comments?:               Comment[];
-  content?:                string;
-  content_highlight_css?:  string;
-  content_highlight_html?: string;
-  error?:                  string;
-  file?:                   File;
-  is_truncated?:           boolean;
-  needed?:                 string;
-  ok?:                     boolean;
-  paging?:                 Paging;
-  provided?:               string;
+  comments?:                         Comment[];
+  content?:                          string;
+  content_highlight_css?:            string;
+  content_highlight_html?:           string;
+  content_highlight_html_truncated?: boolean;
+  error?:                            string;
+  file?:                             File;
+  is_truncated?:                     boolean;
+  needed?:                           string;
+  ok?:                               boolean;
+  paging?:                           Paging;
+  provided?:                         string;
 };
 
 export interface Comment {
@@ -39,6 +40,7 @@ export interface File {
   app_id?:                                  string;
   app_name?:                                string;
   bot_id?:                                  string;
+  canvas_template_mode?:                    string;
   cc?:                                      Cc[];
   channel_actions_count?:                   number;
   channel_actions_ts?:                      string;
@@ -52,11 +54,14 @@ export interface File {
   dm_mpdm_users_with_file_access?:          DmMpdmUsersWithFileAccess[];
   duration_ms?:                             number;
   edit_link?:                               string;
+  edit_timestamp?:                          number;
   editable?:                                boolean;
   editor?:                                  string;
+  editors?:                                 string[];
   external_id?:                             string;
   external_type?:                           string;
   external_url?:                            string;
+  favorites?:                               Favorite[];
   file_access?:                             string;
   filetype?:                                string;
   from?:                                    Cc[];
@@ -80,6 +85,8 @@ export interface File {
   lines?:                                   number;
   lines_more?:                              number;
   linked_channel_id?:                       string;
+  list_limits?:                             ListLimits;
+  list_metadata?:                           ListMetadata;
   media_display_type?:                      string;
   media_progress?:                          MediaProgress;
   mimetype?:                                string;
@@ -104,18 +111,26 @@ export interface File {
   preview_is_truncated?:                    boolean;
   preview_plain_text?:                      string;
   private_channels_with_file_access_count?: number;
+  private_file_with_access_count?:          number;
   public_url_shared?:                       boolean;
   quip_thread_id?:                          string;
   reactions?:                               Reaction[];
   saved?:                                   Saved;
   sent_to_self?:                            boolean;
   shares?:                                  Shares;
+  show_badge?:                              boolean;
   simplified_html?:                         string;
   size?:                                    number;
   source_team?:                             string;
   subject?:                                 string;
   subtype?:                                 string;
+  team_pref_version_history_enabled?:       boolean;
   teams_shared_with?:                       any[];
+  template_conversion_ts?:                  number;
+  template_description?:                    string;
+  template_icon?:                           string;
+  template_name?:                           string;
+  template_title?:                          string;
   thumb_1024?:                              string;
   thumb_1024_gif?:                          string;
   thumb_1024_h?:                            string;
@@ -165,6 +180,7 @@ export interface File {
   title_blocks?:                            TitleBlock[];
   to?:                                      Cc[];
   transcription?:                           Transcription;
+  update_notification?:                     number;
   updated?:                                 number;
   url_private?:                             string;
   url_private_download?:                    string;
@@ -186,11 +202,115 @@ export interface DmMpdmUsersWithFileAccess {
   user_id?: string;
 }
 
+export interface Favorite {
+  collection_id?:   string;
+  collection_name?: string;
+  position?:        string;
+}
+
 export interface Headers {
   date?:        string;
   in_reply_to?: string;
   message_id?:  string;
   reply_to?:    string;
+}
+
+export interface ListLimits {
+  column_count?:        number;
+  column_count_limit?:  number;
+  over_column_maximum?: boolean;
+  over_row_maximum?:    boolean;
+  over_view_maximum?:   boolean;
+  row_count?:           number;
+  row_count_limit?:     number;
+  view_count?:          number;
+  view_count_limit?:    number;
+}
+
+export interface ListMetadata {
+  creation_source?: CreationSource;
+  description?:     string;
+  icon?:            string;
+  icon_team_id?:    string;
+  icon_url?:        string;
+  integrations?:    string[];
+  is_trial?:        boolean;
+  schema?:          Schema[];
+  views?:           View[];
+}
+
+export interface CreationSource {
+  reference_id?:         string;
+  type?:                 string;
+  workflow_function_id?: string;
+}
+
+export interface Schema {
+  id?:                string;
+  is_primary_column?: boolean;
+  key?:               string;
+  name?:              string;
+  options?:           Options;
+  type?:              string;
+}
+
+export interface Options {
+  canvas_id?:                  string;
+  canvas_placeholder_mapping?: CanvasPlaceholderMapping[];
+  choices?:                    Choice[];
+  currency?:                   string;
+  currency_format?:            string;
+  date_format?:                string;
+  default_value?:              string;
+  default_value_typed?:        DefaultValueTyped;
+  emoji?:                      string;
+  emoji_team_id?:              string;
+  for_assignment?:             boolean;
+  format?:                     string;
+  linked_to?:                  string[];
+  mark_as_done_when_checked?:  boolean;
+  max?:                        number;
+  notify_users?:               boolean;
+  precision?:                  number;
+  rounding?:                   string;
+  show_member_name?:           boolean;
+  time_format?:                string;
+}
+
+export interface CanvasPlaceholderMapping {
+  column?:   string;
+  variable?: string;
+}
+
+export interface Choice {
+  color?: string;
+  label?: string;
+  value?: string;
+}
+
+export interface DefaultValueTyped {
+  select?: string[];
+}
+
+export interface View {
+  columns?:           Column[];
+  created_by?:        string;
+  date_created?:      number;
+  id?:                string;
+  is_all_items_view?: boolean;
+  is_locked?:         boolean;
+  name?:              string;
+  position?:          string;
+  stick_column_left?: boolean;
+  type?:              string;
+}
+
+export interface Column {
+  id?:       string;
+  key?:      string;
+  position?: string;
+  visible?:  boolean;
+  width?:    number;
 }
 
 export interface MediaProgress {
@@ -219,45 +339,57 @@ export interface Shares {
 }
 
 export interface Private {
+  access?:            string;
   channel_name?:      string;
+  date_last_shared?:  number;
   latest_reply?:      string;
   reply_count?:       number;
   reply_users?:       string[];
   reply_users_count?: number;
   share_user_id?:     string;
+  source?:            string;
   team_id?:           string;
   thread_ts?:         string;
   ts?:                string;
 }
 
 export interface TitleBlock {
-  accessory?:           Accessory;
-  alt_text?:            string;
-  app_collaborators?:   string[];
-  app_id?:              string;
-  author_name?:         string;
-  block_id?:            string;
-  bot_user_id?:         string;
-  button_label?:        string;
-  description?:         Text | string;
-  elements?:            Accessory[];
-  fallback?:            string;
-  fields?:              Text[];
-  function_trigger_id?: string;
-  image_bytes?:         number;
-  image_height?:        number;
-  image_url?:           string;
-  image_width?:         number;
-  is_workflow_app?:     boolean;
-  provider_icon_url?:   string;
-  provider_name?:       string;
-  text?:                Text;
-  thumbnail_url?:       string;
-  title?:               Text | string;
-  title_url?:           string;
-  type?:                string;
-  url?:                 string;
-  video_url?:           string;
+  accessory?:                    Accessory;
+  alt_text?:                     string;
+  app_collaborators?:            string[];
+  app_id?:                       string;
+  author_name?:                  string;
+  block_id?:                     string;
+  bot_user_id?:                  string;
+  button_label?:                 string;
+  description?:                  Text | string;
+  developer_trace_id?:           string;
+  elements?:                     Accessory[];
+  fallback?:                     string;
+  fields?:                       Text[];
+  function_trigger_id?:          string;
+  image_bytes?:                  number;
+  image_height?:                 number;
+  image_url?:                    string;
+  image_width?:                  number;
+  is_animated?:                  boolean;
+  is_workflow_app?:              boolean;
+  owning_team_id?:               string;
+  provider_icon_url?:            string;
+  provider_name?:                string;
+  sales_home_workflow_app_type?: number;
+  share_url?:                    string;
+  slack_file?:                   SlackFile;
+  text?:                         Text;
+  thumbnail_url?:                string;
+  title?:                        Text | string;
+  title_url?:                    string;
+  trigger_subtype?:              string;
+  trigger_type?:                 string;
+  type?:                         string;
+  url?:                          string;
+  video_url?:                    string;
+  workflow_id?:                  string;
 }
 
 export interface Accessory {
@@ -294,6 +426,7 @@ export interface Accessory {
   options?:                         Option[];
   placeholder?:                     Text;
   response_url_enabled?:            boolean;
+  slack_file?:                      SlackFile;
   style?:                           string;
   text?:                            Text;
   timezone?:                        string;
@@ -385,6 +518,11 @@ export interface Option {
 export interface OptionGroup {
   label?:   Text;
   options?: Option[];
+}
+
+export interface SlackFile {
+  id?:  string;
+  url?: string;
 }
 
 export interface Workflow {

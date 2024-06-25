@@ -10,8 +10,11 @@
 
 import { WebAPICallResult } from '../../WebClient';
 export type TeamExternalTeamsListResponse = WebAPICallResult & {
+  error?:             string;
+  needed?:            string;
   ok?:                boolean;
   organizations?:     Organization[];
+  provided?:          string;
   response_metadata?: ResponseMetadata;
   total_count?:       number;
 };
@@ -34,8 +37,13 @@ export interface Organization {
 }
 
 export interface Canvas {
-  ownership_details?: any[];
+  ownership_details?: OwnershipDetail[];
   total_count?:       number;
+}
+
+export interface OwnershipDetail {
+  count?:   number;
+  team_id?: string;
 }
 
 export interface ConnectedWorkspace {
@@ -44,8 +52,80 @@ export interface ConnectedWorkspace {
 }
 
 export interface SlackConnectPrefs {
+  accept_sc_invites?:               AcceptScInvites;
+  allow_sc_file_uploads?:           AllowScFileUploads;
+  allowed_canvas_sharing?:          AllowScFileUploads;
+  allowed_list_sharing?:            AllowScFileUploads;
+  allowed_workspaces?:              AllowedWorkspaces;
+  approved_org_info?:               AllowScFileUploads;
+  away_team_sc_invite_permissions?: AllowedWorkspaces;
+  away_team_sc_invite_require_2fa?: AllowScFileUploads;
+  external_awareness_context_bar?:  AllowScFileUploads;
+  profile_visibility?:              AllowScFileUploads;
+  require_sc_channel_for_sc_dm?:    AllowScFileUploads;
+  sc_channel_limited_access?:       AllowScFileUploads;
+  sc_mpdm_to_private?:              ScMpdmToPrivate;
+  shared_channel_invite_requested?: SharedChannelInviteRequested;
+}
+
+export interface AcceptScInvites {
+  accept_in_workspace_ids?: string[];
+  accept_private?:          boolean;
+  actor?:                   string;
+  date_update?:             number;
+  invalid_workspace_ids?:   string[];
+  source?:                  string;
+  type?:                    string;
+  use_allowed_workspaces?:  boolean;
+}
+
+export interface AllowScFileUploads {
+  actor?:         string;
+  approval_type?: string;
+  date_update?:   number;
+  source?:        string;
+  type?:          boolean | string;
+  value?:         boolean;
+}
+
+export interface AllowedWorkspaces {
+  actor?:       string;
+  date_update?: number;
+  source?:      string;
+  team_ids?:    string[];
+  type?:        string;
+}
+
+export interface ScMpdmToPrivate {
+  accept_in_workspace_id?: string;
+  actor?:                  string;
+  date_update?:            number;
+  invalid_workspace_ids?:  string[];
+  source?:                 string;
+  type?:                   string;
+}
+
+export interface SharedChannelInviteRequested {
+  actor?:                string;
+  approval_destination?: ApprovalDestination;
+  date_update?:          number;
+  enabled?:              boolean;
+  source?:               string;
+  usergroup_exclude?:    UsergroupClude;
+  usergroup_include?:    UsergroupClude;
+}
+
+export interface ApprovalDestination {
+  all_who_can_manage_shared_channels?: boolean;
+  channel_id?:                         string;
+}
+
+export interface UsergroupClude {
+  id?:      string;
+  team_id?: string;
 }
 
 export interface ResponseMetadata {
+  messages?:    string[];
   next_cursor?: string;
 }
