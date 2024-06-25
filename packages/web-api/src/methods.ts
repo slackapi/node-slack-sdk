@@ -145,6 +145,7 @@ import type {
   ConversationsCloseArguments,
   ConversationsCreateArguments,
   ConversationsDeclineSharedInviteArguments,
+  ConversationsExternalInvitePermissionsSetArguments,
   ConversationsHistoryArguments,
   ConversationsInfoArguments,
   ConversationsInviteArguments,
@@ -390,6 +391,7 @@ import type {
   ConversationsCloseResponse,
   ConversationsCreateResponse,
   ConversationsDeclineSharedInviteResponse,
+  ConversationsExternalInvitePermissionsSetResponse,
   ConversationsHistoryResponse,
   ConversationsInfoResponse,
   ConversationsInviteResponse,
@@ -1505,6 +1507,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         this,
         'conversations.declineSharedInvite',
       ),
+    externalInvitePermissions: {
+      /**
+       * @description Convert a team in a shared channel from an External Limited channel to a fully shared Slack
+       * Connect channel or vice versa.
+       * @see {@link https://api.slack.com/methods/conversations.externalInvitePermissions.set `conversations.externalInvitePermissions.set` API reference}.
+       */
+      create: bindApiCall<ConversationsExternalInvitePermissionsSetArguments, ConversationsExternalInvitePermissionsSetResponse>(this, 'conversations.externalInvitePermissions.set'),
+    },
     /**
      * @description Fetches a conversation's history of messages and events.
      * @see {@link https://api.slack.com/methods/conversations.history `conversations.history` API reference}.
