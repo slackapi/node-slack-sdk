@@ -789,7 +789,7 @@ export class SocketModeClient extends EventEmitter {
     if (body === undefined || body === null) {
       return body;
     }
-    const records = Object.create(body);
+    const record = Object.create(body);
     if (Array.isArray(body)) {
       return body.map((item) => (
         (typeof item === 'object' && item !== null) ?
@@ -800,14 +800,14 @@ export class SocketModeClient extends EventEmitter {
     Object.keys(body).forEach((key: string) => {
       const value = body[key];
       if (typeof value === 'object' && value !== null) {
-        records[key] = SocketModeClient.redact(value as Record<string, unknown>);
+        record[key] = SocketModeClient.redact(value as Record<string, unknown>);
       } else if (key.match(/.*token.*/) !== null || key.match(/secret/)) {
-        records[key] = '[[REDACTED]]';
+        record[key] = '[[REDACTED]]';
       } else {
-        records[key] = value;
+        record[key] = value;
       }
     });
-    return records;
+    return record;
   }
 }
 
