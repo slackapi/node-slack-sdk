@@ -31,6 +31,21 @@ enum State {
 }
 
 /**
+ * Recursive definition for what a value might contain.
+ */
+interface Nesting {
+  [key: string]: NestedRecord | unknown;
+}
+
+/**
+ * Recursive definiton for possible JSON object values.
+ *
+ * FIXME: Prefer using a circular reference if allowed:
+ *   Record<string, NestedRecord> | NestedRecord[]
+ */
+type NestedRecord = Nesting | NestedRecord[];
+
+/**
  * A Socket Mode Client allows programs to communicate with the
  * [Slack Platform's Events API](https://api.slack.com/events-api) over WebSocket connections.
  * This object uses the EventEmitter pattern to dispatch incoming events
@@ -405,22 +420,22 @@ export class SocketModeClient extends EventEmitter {
    * @param body - the object with values for redaction.
    * @returns the same object with redacted values.
    */
-  private static redact(body?: Record<string, unknown>): Record<string, unknown> | unknown[] | undefined {
-    if (body === undefined || body === null) {
+  private static redact(body: NestedRecord): NestedRecord {
+    if (body === undefined) {
       return body;
     }
     const record = Object.create(body);
     if (Array.isArray(body)) {
       return body.map((item) => (
         (typeof item === 'object' && item !== null) ?
-          SocketModeClient.redact(item as Record<string, unknown>) :
+          SocketModeClient.redact(item) :
           item
       ));
     }
     Object.keys(body).forEach((key: string) => {
       const value = body[key];
       if (typeof value === 'object' && value !== null) {
-        record[key] = SocketModeClient.redact(value as Record<string, unknown>);
+        record[key] = SocketModeClient.redact(value as NestedRecord);
       } else if (key.match(/.*token.*/) !== null || key.match(/secret/)) {
         record[key] = '[[REDACTED]]';
       } else {
