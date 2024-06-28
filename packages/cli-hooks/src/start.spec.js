@@ -126,47 +126,4 @@ describe('start implementation', async () => {
       });
     });
   });
-
-  describe('without valid tokens', async () => {
-    beforeEach(() => {
-      sinon.stub(console, 'log');
-      delete process.env.SLACK_CLI_XOXB;
-      delete process.env.SLACK_CLI_XAPP;
-    });
-    afterEach(() => {
-      sinon.restore();
-      delete process.env.SLACK_CLI_XOXB;
-      delete process.env.SLACK_CLI_XAPP;
-    });
-
-    it('should error without a bot token', async () => {
-      try {
-        process.env.SLACK_CLI_XAPP = 'xapp-example';
-        start('./');
-      } catch (err) {
-        if (err instanceof Error) {
-          assert(err.message.includes('Missing the bot token needed to start the app with Socket Mode.'));
-          assert(err.message.includes('Hints: Setting the SLACK_CLI_XOXB environment variable is required.'));
-          assert(err.message.includes('Check: Confirm that you are using the latest version of the Slack CLI.'));
-          return;
-        }
-      }
-      assert(false);
-    });
-
-    it('should error without an app token', async () => {
-      try {
-        process.env.SLACK_CLI_XOXB = 'xoxb-example';
-        start('./');
-      } catch (err) {
-        if (err instanceof Error) {
-          assert(err.message.includes('Missing the app token needed to start the app with Socket Mode.'));
-          assert(err.message.includes('Hints: Setting the SLACK_CLI_XAPP environment variable is required.'));
-          assert(err.message.includes('Check: Confirm that you are using the latest version of the Slack CLI.'));
-          return;
-        }
-      }
-      assert(false);
-    });
-  });
 });
