@@ -80,13 +80,22 @@ export interface ConversationsCreateArguments extends IsPrivate, TokenOverridabl
 // https://api.slack.com/methods/conversations.declineSharedInvite
 export interface ConversationsDeclineSharedInviteArguments extends InviteID, TargetTeam, TokenOverridable {}
 
+// https://api.slack.com/methods/conversations.externalInvitePermissions.set
+export interface ConversationsExternalInvitePermissionsSetArguments extends Channel, Required<TargetTeam>,
+  TokenOverridable {
+  /** @description The type of action be taken: `upgrade` or `downgrade`. */
+  action: 'downgrade' | 'upgrade';
+}
+
 // https://api.slack.com/methods/conversations.history
 export interface ConversationsHistoryArguments extends Channel, IncludeAllMetadata, TokenOverridable,
   CursorPaginationEnabled, TimelinePaginationEnabled {}
 
 // https://api.slack.com/methods/conversations.info
 export interface ConversationsInfoArguments extends Channel, TokenOverridable, LocaleAware {
-  /** @description Set to `true` to include the member count for the specified conversation. Defaults to `false`. */
+  /**
+   @description Set to `true` to include the member count for the specified conversation. Defaults to `false`.
+  */
   include_num_members?: boolean;
 }
 

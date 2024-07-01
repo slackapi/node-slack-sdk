@@ -1,4 +1,5 @@
 import { expectAssignable, expectError } from 'tsd';
+
 import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
@@ -69,6 +70,23 @@ expectError(web.conversations.declineSharedInvite({})); // empty argument
 // -- happy path
 expectAssignable<Parameters<typeof web.conversations.declineSharedInvite>>([{
   invite_id: 'I1234',
+}]);
+
+// conversations.externalInvitePermissions.set
+// -- sad path
+expectError(web.conversations.externalInvitePermissions.set()); // lacking argument
+expectError(web.conversations.externalInvitePermissions.set({})); // empty argument
+expectError(web.conversations.externalInvitePermissions.set({ action: 'upgrade' })); // missing target_team, channel
+expectError(web.conversations.externalInvitePermissions.set({ channel: 'C1234' })); // missing target_team, action
+expectError(web.conversations.externalInvitePermissions.set({ target_team: 'T1234' })); // missing channel, action
+expectError(web.conversations.externalInvitePermissions.set({ action: 'upgrade', channel: 'C1234' })); // missing target_team
+expectError(web.conversations.externalInvitePermissions.set({ channel: 'C1234', target_team: 'T1234' })); // missing action
+expectError(web.conversations.externalInvitePermissions.set({ target_team: 'T1234', action: 'downgrade' })); // missing channel
+// -- happy path
+expectAssignable<Parameters<typeof web.conversations.externalInvitePermissions.set>>([{
+  channel: 'C1234',
+  target_team: 'T1234',
+  action: 'upgrade',
 }]);
 
 // conversations.history
