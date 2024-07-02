@@ -163,6 +163,7 @@ export { ConversationsCanvasesCreateResponse } from './ConversationsCanvasesCrea
 export { ConversationsCloseResponse } from './ConversationsCloseResponse';
 export { ConversationsCreateResponse } from './ConversationsCreateResponse';
 export { ConversationsDeclineSharedInviteResponse } from './ConversationsDeclineSharedInviteResponse';
+export { ConversationsExternalInvitePermissionsSetResponse } from './ConversationsExternalInvitePermissionsSetResponse';
 export { ConversationsHistoryResponse } from './ConversationsHistoryResponse';
 export { ConversationsInfoResponse } from './ConversationsInfoResponse';
 export { ConversationsInviteResponse } from './ConversationsInviteResponse';
