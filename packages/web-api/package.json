@@ -36,7 +36,7 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
-    "lint": "eslint --fix --ext .ts src",
+    "lint": "eslint --fix --ext .ts src test",
     "mocha": "mocha --config .mocharc.json src/*.spec.js",
     "test": "npm run lint && npm run test:types && npm run test:integration && npm run test:unit",
     "test:integration": "npm run build && node test/integration/commonjs-project/index.js && node test/integration/esm-project/index.mjs",

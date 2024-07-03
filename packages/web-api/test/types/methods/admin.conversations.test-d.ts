@@ -1,4 +1,5 @@
 import { expectAssignable, expectError } from 'tsd';
+
 import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
@@ -157,7 +158,7 @@ expectAssignable<Parameters<typeof web.admin.conversations.disconnectShared>>([{
 // -- happy path
 expectAssignable<Parameters<typeof web.admin.conversations.ekm.listOriginalConnectedChannelInfo>>([{
 }]); // all optional args
-expectAssignable<Parameters<typeof web.admin.conversations.ekm.listOriginalConnectedChannelInfo>>([]); // all optional args
+expectAssignable<Parameters<typeof web.admin.conversations.ekm.listOriginalConnectedChannelInfo>>([]); // all optnl args
 
 // admin.conversations.getConversationPrefs
 // -- sad path

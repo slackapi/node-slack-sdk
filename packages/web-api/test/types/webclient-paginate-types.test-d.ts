@@ -1,7 +1,8 @@
 /// <reference lib="esnext.asynciterable" />
 
-import { expectType, expectError } from 'tsd';
-import { WebClient, WebAPICallResult } from '../../';
+import { expectError, expectType } from 'tsd';
+
+import { WebAPICallResult, WebClient } from '../..';
 
 const web = new WebClient();
 
@@ -23,7 +24,9 @@ expectType<Promise<number>>(web.paginate('conversations.list', {}, () => false, 
 // expectError(web.paginate('conversations.list', {}, undefined, () => 5));
 
 // Ensure that it works in a for-await-of loop.
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 async () => {
+  // eslint-disable-next-line no-restricted-syntax
   for await (const page of web.paginate('conversations.list')) {
     expectType<WebAPICallResult>(page);
   }
@@ -54,5 +57,5 @@ expectType<Promise<Dummy>>(web.paginate(
     expectType<number>(pageNumber);
 
     return d;
-  }
+  },
 ));

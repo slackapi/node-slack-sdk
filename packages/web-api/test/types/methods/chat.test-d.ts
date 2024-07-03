@@ -1,4 +1,5 @@
-import { expectError, expectAssignable } from 'tsd';
+import { expectAssignable, expectError } from 'tsd';
+
 import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');

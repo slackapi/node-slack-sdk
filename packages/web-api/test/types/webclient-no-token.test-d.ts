@@ -1,4 +1,5 @@
 import { expectType } from 'tsd';
+
 import { WebClient } from '../..';
 import { OauthAccessResponse } from '../../src/types/response/OauthAccessResponse';
 
