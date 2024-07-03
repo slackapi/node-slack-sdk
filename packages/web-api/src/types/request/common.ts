@@ -53,16 +53,20 @@ export interface LocaleAware {
 
 /**
  * Some API methods take a `team_id` - different interfaces here so that we can provide a different JSDoc.
+ * Unfortunately some of our APIs don't use a consistent team ID parameter name.
  */
 
 export interface TeamID {
   /** @description The encoded team ID. */
   team_id: string;
 }
-
 export interface OptionalTeamAssignable {
   /** @description If using an org token, `team_id` is required. */
   team_id?: string;
+}
+export interface TargetTeam {
+  /** @description The team or enterprise id of the other party. */
+  target_team?: string;
 }
 
 // Some APIs (admin.teams.settings.setDefaultChannels, admin.conversations.*) require a minimum-1-item channel array

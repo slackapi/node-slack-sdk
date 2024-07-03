@@ -4,6 +4,7 @@ import type {
   CursorPaginationEnabled,
   LocaleAware,
   OptionalTeamAssignable,
+  TargetTeam,
   TimelinePaginationEnabled,
   TokenOverridable,
 } from './common';
@@ -36,10 +37,6 @@ interface IsPrivate {
 interface Message extends Channel {
   /** @description Unique identifier of message. */
   ts: string;
-}
-interface TargetTeam {
-  /** @description The team or enterprise id of the other party involved in the invitation. */
-  target_team?: string;
 }
 interface UserIDs {
   /** List of user IDs to receive this invite. Either `emails` or `user_ids` must be provided. */

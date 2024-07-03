@@ -3,6 +3,7 @@ import {
   CursorPaginationEnabled,
   OptionalTeamAssignable,
   SortDir,
+  TargetTeam,
   TokenOverridable,
   TraditionalPagingEnabled,
 } from './common';
@@ -25,6 +26,8 @@ OptionalTeamAssignable & {
 }>;
 // https://api.slack.com/methods/team.billing.info
 export type TeamBillingInfoArguments = OptionalArgument<TokenOverridable>;
+// https://api.slack.com/methods/team.externalTeams.disconnect
+export type TeamExternalTeamsDisconnectArguments = TokenOverridable & Required<TargetTeam>;
 // https://api.slack.com/methods/team.externalTeams.list
 export type TeamExternalTeamsListArguments = OptionalArgument<TokenOverridable & CursorPaginationEnabled & {
   /** @description Status of the connected team. */

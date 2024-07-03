@@ -266,6 +266,7 @@ export { StarsRemoveResponse } from './StarsRemoveResponse';
 export { TeamAccessLogsResponse } from './TeamAccessLogsResponse';
 export { TeamBillableInfoResponse } from './TeamBillableInfoResponse';
 export { TeamBillingInfoResponse } from './TeamBillingInfoResponse';
+export { TeamExternalTeamsDisconnectResponse } from './TeamExternalTeamsDisconnectResponse';
 export { TeamExternalTeamsListResponse } from './TeamExternalTeamsListResponse';
 export { TeamInfoResponse } from './TeamInfoResponse';
 export { TeamIntegrationLogsResponse } from './TeamIntegrationLogsResponse';

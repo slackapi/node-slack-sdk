@@ -9,9 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 import { WebAPICallResult } from '../../WebClient';
-export type UsersDiscoverableContactsLookupResponse = WebAPICallResult & {
+export type TeamExternalTeamsDisconnectResponse = WebAPICallResult & {
   error?:             string;
-  is_discoverable?:   boolean;
   needed?:            string;
   ok?:                boolean;
   provided?:          string;
