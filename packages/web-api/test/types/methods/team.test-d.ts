@@ -1,4 +1,5 @@
-import { expectAssignable } from 'tsd';
+import { expectAssignable, expectError } from 'tsd';
+
 import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
@@ -19,7 +20,20 @@ expectAssignable<Parameters<typeof web.team.billableInfo>>([]); // no arg is fin
 // -- sad path
 // -- happy path
 expectAssignable<Parameters<typeof web.team.billing.info>>([{}]); // all optional arguments
-expectAssignable<Parameters<typeof web.team.billing.info>>([]); // no arg is fine
+
+// team.externalTeams.disconnect
+// -- sad path
+expectError(web.team.externalTeams.disconnect()); // lacking argument
+expectError(web.team.externalTeams.disconnect({})); // missing `target_team`
+// -- happy path
+expectAssignable<Parameters<typeof web.team.externalTeams.disconnect>>([{
+  target_team: 'T1234',
+}]);
+
+// team.externalTeams.list
+// -- sad path
+// -- happy path
+expectAssignable<Parameters<typeof web.team.externalTeams.list>>([{}]); // all optional args
 
 // team.info
 // -- sad path

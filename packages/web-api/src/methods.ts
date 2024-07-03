@@ -216,6 +216,7 @@ import type {
   TeamAccessLogsArguments,
   TeamBillableInfoArguments,
   TeamBillingInfoArguments,
+  TeamExternalTeamsDisconnectArguments,
   TeamExternalTeamsListArguments,
   TeamInfoArguments,
   TeamIntegrationLogsArguments,
@@ -462,6 +463,7 @@ import type {
   TeamAccessLogsResponse,
   TeamBillableInfoResponse,
   TeamBillingInfoResponse,
+  TeamExternalTeamsDisconnectResponse,
   TeamExternalTeamsListResponse,
   TeamInfoResponse,
   TeamIntegrationLogsResponse,
@@ -1945,10 +1947,15 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     },
     externalTeams: {
       /**
+       * @description Disconnect an external organization.
+       * @see {@link https://api.slack.com/methods/team.externalTeams.disconnect `team.externalTeams.disconnect` API reference}.
+       */
+      disconnect: bindApiCall<TeamExternalTeamsDisconnectArguments, TeamExternalTeamsDisconnectResponse>(this, 'team.externalTeams.disconnect'),
+      /**
        * @description Returns a list of all the external teams connected and details about the connection.
        * @see {@link https://api.slack.com/methods/team.externalTeams.list `team.externalTeams.list` API reference}.
        */
-      lookup: bindApiCall<TeamExternalTeamsListArguments, TeamExternalTeamsListResponse>(this, 'team.externalTeams.list'),
+      list: bindApiCall<TeamExternalTeamsListArguments, TeamExternalTeamsListResponse>(this, 'team.externalTeams.list'),
     },
     /**
      * @description Gets information about the current team.
