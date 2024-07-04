@@ -108,6 +108,8 @@ export type {
   ConversationsOpenArguments,
   ConversationsRenameArguments,
   ConversationsRepliesArguments,
+  ConversationsRequestSharedInviteApproveArguments,
+  ConversationsRequestSharedInviteDenyArguments,
   ConversationsSetPurposeArguments,
   ConversationsSetTopicArguments,
   ConversationsUnarchiveArguments,
