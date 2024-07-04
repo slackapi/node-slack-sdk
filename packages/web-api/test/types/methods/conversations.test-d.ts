@@ -266,6 +266,24 @@ expectAssignable<Parameters<typeof web.conversations.replies>>([{
   ts: '12345.67',
 }]);
 
+// conversations.requestSharedInvite.approve
+// -- sad path
+expectError(web.conversations.requestSharedInvite.approve()); // lacking argument
+expectError(web.conversations.requestSharedInvite.approve({})); // empty argument
+// -- happy path
+expectAssignable<Parameters<typeof web.conversations.requestSharedInvite.approve>>([{
+  invite_id: 'I1234',
+}]);
+
+// conversations.requestSharedInvite.deny
+// -- sad path
+expectError(web.conversations.requestSharedInvite.deny()); // lacking argument
+expectError(web.conversations.requestSharedInvite.deny({})); // empty argument
+// -- happy path
+expectAssignable<Parameters<typeof web.conversations.requestSharedInvite.deny>>([{
+  invite_id: 'I1234',
+}]);
+
 // conversations.setPurpose
 // -- sad path
 expectError(web.conversations.setPurpose()); // lacking argument
