@@ -8,3 +8,6 @@ package-lock.json
 # coverage
 /.nyc_output
 /coverage
+
+# test fixtures
+test/integration/**/dist
