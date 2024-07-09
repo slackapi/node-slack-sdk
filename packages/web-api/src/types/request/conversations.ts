@@ -39,10 +39,6 @@ interface MessageSpecifier extends Channel {
   /** @description Unique identifier of message. */
   ts: string;
 }
-interface Message {
-  /** @description A message to send to the user who requested the invite. */
-  message?: string;
-}
 interface UserIDs {
   /** List of user IDs to receive this invite. Either `emails` or `user_ids` must be provided. */
   user_ids: string[];
@@ -175,16 +171,29 @@ export interface ConversationsRepliesArguments extends MessageSpecifier, Include
   CursorPaginationEnabled, TimelinePaginationEnabled {}
 
 // https://api.slack.com/methods/conversations.requestSharedInvite.approve
-export interface ConversationsRequestSharedInviteApproveArguments extends InviteID, Partial<ChannelID>, Message {
+export interface ConversationsRequestSharedInviteApproveArguments extends InviteID, Partial<ChannelID> {
   /**
    * @description Whether the invited team will have post-only permissions in the channel.
    * Will override the value on the requested invite.
    */
   is_external_limited?: boolean;
+  /** @description Optional additional messaging to attach to the invite approval message. */
+  message?: {
+    /**
+     * @description When `true`, will override the user specified message. Otherwise, `text` will be appended to the
+     * user specified message on the invite request.
+     */
+    is_override: boolean;
+    /** @description Text to include along with the email invite. */
+    text: string;
+  };
 }
 
 // https://api.slack.com/methods/conversations.requestSharedInvite.deny
-export interface ConversationsRequestSharedInviteDenyArguments extends InviteID, Message {}
+export interface ConversationsRequestSharedInviteDenyArguments extends InviteID {
+  /** @description A message explaining the denial to send to the user who requested the invite. */
+  message?: string;
+}
 
 // https://api.slack.com/methods/conversations.setPurpose
 export interface ConversationsSetPurposeArguments extends Channel, TokenOverridable {
