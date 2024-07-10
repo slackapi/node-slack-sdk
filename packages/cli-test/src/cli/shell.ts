@@ -203,6 +203,9 @@ export const shell = {
   },
   assembleShellEnv: function assembleShellEnv(): Record<string, string | undefined> {
     const spawnedEnv = { ...process.env };
+    if (process.platform === "win32"){
+      spawnedEnv.PATH = process.env.PATH;
+    }
     // Always enable test trace output
     spawnedEnv.SLACK_TEST_TRACE = 'true';
     // Skip prompts for AAA request and directly send a request
