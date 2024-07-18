@@ -124,7 +124,16 @@ expectAssignable<Parameters<typeof web.files.uploadV2>>([{
   content: 'text',
 }]);
 expectAssignable<Parameters<typeof web.files.uploadV2>>([{
+  channel_id: 'C1234', // optionally share to one or more channels
+  content: 'text',
+}]);
+expectAssignable<Parameters<typeof web.files.uploadV2>>([{
   channels: 'C1234',
+  thread_ts: '12345.67', // or even to a specific thread
+  content: 'text',
+}]);
+expectAssignable<Parameters<typeof web.files.uploadV2>>([{
+  channel_id: 'C1234',
   thread_ts: '12345.67', // or even to a specific thread
   content: 'text',
 }]);
