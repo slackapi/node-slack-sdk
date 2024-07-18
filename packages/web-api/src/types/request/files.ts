@@ -128,7 +128,7 @@ export interface FileUploadBinaryContents {
 // File upload contents can be provided using either `content` or `file` arguments - and one of these is required.
 type FileUploadContents = FileUploadStringContents | FileUploadBinaryContents;
 
-type FileUpload = FileUploadContents & FileDestinationArgumentChannels & FileType & {
+type FileUpload = FileUploadContents & (FileDestinationArgumentChannels | FileDestinationArgument) & FileType & {
   /** @description Name of the file. */
   filename?: string;
   /** @description The message text introducing the file in specified channel(s). */
@@ -144,6 +144,8 @@ export type FileUploadV2 = FileUpload & {
   alt_text?: string;
   /** @description Channel ID where the file will be shared. If not specified the file will be private. */
   channel_id?: string;
+  /** @deprecated use channel_id instead */
+  channels?: string;
   /** @description Syntax type of the snippet being uploaded. E.g. `python`. */
   snippet_type?: string;
 };
