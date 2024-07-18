@@ -24,12 +24,18 @@ jobs:
           - types
           - web-api
           - webhook
+        include:
+          - node-version: 22.x
+          # npm 10.8, which comes w/ node 22, seems to cause issues when running npm i
+            npm: 10.7.0
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+      - if: ${{ matrix.npm }}
+        run: npm install -g npm@${{ matrix.npm }}
       - name: Get Development Dependencies
         run: npm i
       - name: Build and Run Tests in Each Package
