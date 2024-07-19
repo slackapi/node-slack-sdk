@@ -16,18 +16,23 @@ jobs:
         node-version: [22.x]
         package:
           - logger
+        include:
+          - node-version: 22.x
+            npm: 10.7.0
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+      - if: ${{ matrix.npm }}
+        run: npm install -g npm@${{ matrix.npm }}
+      - run: npm --version
       - name: Get Development Dependencies
         run: npm i
       - name: Build and Run Tests in Each Package
         working-directory: packages/${{ matrix.package }}
         run: |
-          npm --version
           npm install
           # depending on which package we are testing, also npm link up other dependent packages
           case "$PWD" in
