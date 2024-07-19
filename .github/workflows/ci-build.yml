@@ -18,7 +18,7 @@ jobs:
           - logger
         include:
           - node-version: 22.x
-            npm: 10.7.0
+            npm: 10.6.0
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
