@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [18.x, 20.x, 22.4.x]
         package:
           - cli-hooks
           - cli-test
@@ -30,12 +30,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+      - run: npm --version
       - name: Get Development Dependencies
         run: npm i
       - name: Build and Run Tests in Each Package
         working-directory: packages/${{ matrix.package }}
         run: |
-          npm install || npm list
+          npm install
           # depending on which package we are testing, also npm link up other dependent packages
           case "$PWD" in
             */webhook) pushd ../types && npm i && popd && npm link ../types;;
