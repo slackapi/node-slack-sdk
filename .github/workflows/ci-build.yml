@@ -13,9 +13,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [22.4.x]
+        node-version: [18.x, 20.x, 22.4.x]
         package:
+          - cli-hooks
+          - cli-test
           - logger
+          - oauth
+          - rtm-api
+          - socket-mode
+          - types
+          - web-api
+          - webhook
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
