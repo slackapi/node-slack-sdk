@@ -203,7 +203,7 @@ export const shell = {
   },
   assembleShellEnv: function assembleShellEnv(): Record<string, string | undefined> {
     const spawnedEnv = { ...process.env };
-    if (process.platform === "win32"){
+    if (process.platform === 'win32') {
       spawnedEnv.PATH = process.env.PATH;
     }
     // Always enable test trace output

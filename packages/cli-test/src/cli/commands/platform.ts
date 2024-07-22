@@ -203,10 +203,9 @@ export default {
     return new Promise((resolve, reject) => {
       // kill the shell process
       shell.kill(proc).then(() => {
-
         // Due to the complexity of gracefully shutting down processes on Windows / lack of interrupt signal support,
         // we don't wait for the SLACK_TRACE_PLATFORM_RUN_STOP trace on Windows
-        if (process.platform === "win32") {
+        if (process.platform === 'win32') {
           resolve();
         }
 
