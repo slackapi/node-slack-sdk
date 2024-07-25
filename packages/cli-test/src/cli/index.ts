@@ -60,12 +60,13 @@ export const SlackCLI = {
   },
 
   /**
-   * Delete app and Log out of all sessions
+   * Delete app and Log out of current team session
    * @param options
    */
   stopSession: async function stopSession({
     appPath,
     appTeamID,
+    shouldLogOut = true,
     isLocalApp,
     qa,
   }: {
@@ -75,6 +76,8 @@ export const SlackCLI = {
     appPath?: string;
     /** Team domain or ID where app is installed */
     appTeamID: string;
+    /** Should the CLI log out of its session with the team specified by `appTeamID`. Defaults to `true` */
+    shouldLogOut?: boolean;
     isLocalApp?: boolean;
     qa?: boolean;
   }): Promise<void> {
@@ -99,12 +102,13 @@ export const SlackCLI = {
       }
     }
 
-    // Log out if logged in
-    try {
-      await SlackCLI.logout({ allWorkspaces: true, qa });
-    } catch (error) {
-      // TODO: maybe should error instead? this seems pretty bad
-      logger.warn(`Could not logout gracefully. Error: ${error}`);
+    if (shouldLogOut) {
+      try {
+        await SlackCLI.logout({ teamFlag: appTeamID, qa });
+      } catch (error) {
+        // TODO: maybe should error instead? this seems pretty bad
+        logger.warn(`Could not logout gracefully. Error: ${error}`);
+      }
     }
   },
 };
