@@ -178,6 +178,8 @@ export { ConversationsMembersResponse } from './ConversationsMembersResponse';
 export { ConversationsOpenResponse } from './ConversationsOpenResponse';
 export { ConversationsRenameResponse } from './ConversationsRenameResponse';
 export { ConversationsRepliesResponse } from './ConversationsRepliesResponse';
+export { ConversationsRequestSharedInviteApproveResponse } from './ConversationsRequestSharedInviteApproveResponse';
+export { ConversationsRequestSharedInviteDenyResponse } from './ConversationsRequestSharedInviteDenyResponse';
 export { ConversationsSetPurposeResponse } from './ConversationsSetPurposeResponse';
 export { ConversationsSetTopicResponse } from './ConversationsSetTopicResponse';
 export { ConversationsUnarchiveResponse } from './ConversationsUnarchiveResponse';

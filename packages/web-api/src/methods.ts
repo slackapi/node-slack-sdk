@@ -160,6 +160,8 @@ import type {
   ConversationsOpenArguments,
   ConversationsRenameArguments,
   ConversationsRepliesArguments,
+  ConversationsRequestSharedInviteApproveArguments,
+  ConversationsRequestSharedInviteDenyArguments,
   ConversationsSetPurposeArguments,
   ConversationsSetTopicArguments,
   ConversationsUnarchiveArguments,
@@ -407,6 +409,8 @@ import type {
   ConversationsOpenResponse,
   ConversationsRenameResponse,
   ConversationsRepliesResponse,
+  ConversationsRequestSharedInviteApproveResponse,
+  ConversationsRequestSharedInviteDenyResponse,
   ConversationsSetPurposeResponse,
   ConversationsSetTopicResponse,
   ConversationsUnarchiveResponse,
@@ -1595,6 +1599,18 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://api.slack.com/methods/conversations.replies `conversations.replies` API reference}.
      */
     replies: bindApiCall<ConversationsRepliesArguments, ConversationsRepliesResponse>(this, 'conversations.replies'),
+    requestSharedInvite: {
+      /**
+       * @description Approves a request to add an external user to a channel and sends them a Slack Connect invite.
+       * @see {@link https://api.slack.com/methods/conversations.requestSharedInvite.approve `conversations.requestSharedInvite.approve` API reference}.
+       */
+      approve: bindApiCall<ConversationsRequestSharedInviteApproveArguments, ConversationsRequestSharedInviteApproveResponse>(this, 'conversations.requestSharedInvite.approve'),
+      /**
+       * @description Denies a request to invite an external user to a channel.
+       * @see {@link https://api.slack.com/methods/conversations.requestSharedInvite.deny `conversations.requestSharedInvite.deny` API reference}.
+       */
+      deny: bindApiCall<ConversationsRequestSharedInviteDenyArguments, ConversationsRequestSharedInviteDenyResponse>(this, 'conversations.requestSharedInvite.deny'),
+    },
     /**
      * @description Sets the purpose for a conversation.
      * @see {@link https://api.slack.com/methods/conversations.setPurpose `conversations.setPurpose` API reference}.

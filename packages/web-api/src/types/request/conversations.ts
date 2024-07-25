@@ -13,8 +13,9 @@ interface Channel {
   /** @description ID of conversation. */
   channel: string;
 }
+// TODO: should factor ChannelID out to `common.ts` at some point, though having argument-specific JSdoc is nice...
 interface ChannelID {
-  /** @description ID of the channel that you'd like to accept. Must provide either `invite_id` or `channel_id`. */
+  /** @description ID of the channel. */
   channel_id: string;
 }
 interface Emails {
@@ -34,7 +35,7 @@ interface IsPrivate {
   /** @description Whether the channel should be private. */
   is_private?: boolean;
 }
-interface Message extends Channel {
+interface MessageSpecifier extends Channel {
   /** @description Unique identifier of message. */
   ts: string;
 }
@@ -143,7 +144,7 @@ export type ConversationsListConnectInvitesArguments = OptionalArgument<TokenOve
 }>;
 
 // https://api.slack.com/methods/conversations.mark
-export interface ConversationsMarkArguments extends Message, TokenOverridable { }
+export interface ConversationsMarkArguments extends MessageSpecifier, TokenOverridable { }
 
 // https://api.slack.com/methods/conversations.members
 export interface ConversationsMembersArguments extends Channel, TokenOverridable, CursorPaginationEnabled {}
@@ -166,8 +167,33 @@ export interface ConversationsRenameArguments extends Channel, TokenOverridable 
 }
 
 // https://api.slack.com/methods/conversations.replies
-export interface ConversationsRepliesArguments extends Message, IncludeAllMetadata, TokenOverridable,
+export interface ConversationsRepliesArguments extends MessageSpecifier, IncludeAllMetadata, TokenOverridable,
   CursorPaginationEnabled, TimelinePaginationEnabled {}
+
+// https://api.slack.com/methods/conversations.requestSharedInvite.approve
+export interface ConversationsRequestSharedInviteApproveArguments extends InviteID, Partial<ChannelID> {
+  /**
+   * @description Whether the invited team will have post-only permissions in the channel.
+   * Will override the value on the requested invite.
+   */
+  is_external_limited?: boolean;
+  /** @description Optional additional messaging to attach to the invite approval message. */
+  message?: {
+    /**
+     * @description When `true`, will override the user specified message. Otherwise, `text` will be appended to the
+     * user specified message on the invite request.
+     */
+    is_override: boolean;
+    /** @description Text to include along with the email invite. */
+    text: string;
+  };
+}
+
+// https://api.slack.com/methods/conversations.requestSharedInvite.deny
+export interface ConversationsRequestSharedInviteDenyArguments extends InviteID {
+  /** @description A message explaining the denial to send to the user who requested the invite. */
+  message?: string;
+}
 
 // https://api.slack.com/methods/conversations.setPurpose
 export interface ConversationsSetPurposeArguments extends Channel, TokenOverridable {
