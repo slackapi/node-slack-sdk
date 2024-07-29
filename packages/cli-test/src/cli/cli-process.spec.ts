@@ -49,6 +49,16 @@ describe('SlackCLIProcess class', () => {
         sandbox.assert.neverCalledWithMatch(spawnProcessSpy, '--apihost qa.slack.com');
         spawnProcessSpy.resetHistory();
       });
+      it('should map apihost option to provided host', async () => {
+        let cmd = new SlackCLIProcess('help', { apihost: 'dev123.slack.com' });
+        await cmd.execAsync();
+        sandbox.assert.calledWithMatch(spawnProcessSpy, '--apihost dev123.slack.com');
+        spawnProcessSpy.resetHistory();
+        cmd = new SlackCLIProcess('help');
+        await cmd.execAsync();
+        sandbox.assert.neverCalledWithMatch(spawnProcessSpy, '--apihost dev123.slack.com');
+        spawnProcessSpy.resetHistory();
+      });
       it('should default to passing --skip-update but allow overriding that', async () => {
         let cmd = new SlackCLIProcess('help');
         await cmd.execAsync();

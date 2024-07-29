@@ -2,18 +2,22 @@ import { shell } from './shell';
 
 import type { ShellProcess } from '../utils/types';
 import type { SpawnOptionsWithoutStdio } from 'node:child_process';
-/*
- * some parameters used in the 'shell' calls that are CLI-specific and probably should not exist there:
-  * @param skipUpdate skip auto update notification
-  */
 
 export interface SlackCLIGlobalOptions {
   /**
+   * @description The API host the command should interact with, full domain name. (`--apihost qa1234.slack.com`)
+   * Takes precendence over `qa` and `dev` options.
+   * @example `qa1234.slack.com` or `dev2345.slack.com`
+   */
+  apihost?: string;
+  /**
    * @description Whether the command should interact with dev.slack (`--slackdev`)
+   * `qa` and `apihost` will both supersede this option.
    */
   dev?: boolean;
   /**
    * @description Whether the command should interact with qa.slack (`--apihost qa.slack.com`)
+   * Takes precendence over `dev` option but is superseded by `apihost`.
    */
   qa?: boolean;
   /**
@@ -88,11 +92,11 @@ export class SlackCLIProcess {
     let cmd = `${process.env.SLACK_CLI_PATH}`;
     if (this.globalOptions) {
       const opts = this.globalOptions;
-      // TODO: how to expose arbitrary apihost better?
-      if (opts.qa) {
+      if (opts.apihost) {
+        cmd += ` --apihost ${opts.apihost}`;
+      } else if (opts.qa) {
         cmd += ' --apihost qa.slack.com';
-      }
-      if (opts.dev) {
+      } else if (opts.dev) {
         cmd += ' --slackdev';
       }
       if (opts.skipUpdate || opts.skipUpdate === undefined) {
