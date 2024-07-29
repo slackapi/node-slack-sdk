@@ -1,7 +1,6 @@
 import { SpawnOptionsWithoutStdio } from 'node:child_process';
 
 import { SlackCLICommandOptions, SlackCLIGlobalOptions, SlackCLIProcess } from '../cli-process';
-import commandError from '../command-error';
 
 /**
  * `slack create`
@@ -20,12 +19,8 @@ export const create = async function create(
     cmdStr += ` ${appName}`;
   }
   const cmd = new SlackCLIProcess(cmdStr, globalOpts, commandOpts);
-  try {
-    const proc = await cmd.execAsync(shellOpts);
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'create');
-  }
+  const proc = await cmd.execAsync(shellOpts);
+  return proc.output;
 };
 
 // TODO: (breaking change) remove this method
@@ -48,14 +43,10 @@ export const createAppFromTemplate = async function createAppFromTemplate({
   branchName?: string;
   shellOpts?: SpawnOptionsWithoutStdio;
 }): Promise<string> {
-  try {
-    return await create(appName, {}, {
-      '--template': templateString,
-      '--branch': branchName,
-    }, shellOpts);
-  } catch (error) {
-    throw commandError(error, 'createAppFromTemplate');
-  }
+  return create(appName, {}, {
+    '--template': templateString,
+    '--branch': branchName,
+  }, shellOpts);
 };
 
 // TODO: (breaking change): rename properties of this default export to match actual command names

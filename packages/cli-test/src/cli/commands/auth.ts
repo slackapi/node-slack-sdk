@@ -1,5 +1,4 @@
 import { SlackCLICommandOptions, SlackCLIGlobalOptions, SlackCLIProcess } from '../cli-process';
-import commandError from '../command-error';
 
 import type { ShellProcess } from '../../utils/types';
 
@@ -26,25 +25,17 @@ export default {
     const cmd = new SlackCLIProcess('login', options, {
       '--no-prompt': true,
     });
-    try {
-      const proc = await cmd.execAsync();
+    const proc = await cmd.execAsync();
 
-      // Get auth token
-      const authTicketSlashCommand = proc.output.match('/slackauthticket(.*)')![0];
-      const authTicket = authTicketSlashCommand.split(' ')[1];
+    // Get auth token
+    const authTicketSlashCommand = proc.output.match('/slackauthticket(.*)')![0];
+    const authTicket = authTicketSlashCommand.split(' ')[1];
 
-      return {
-        shellOutput: proc.output,
-        authTicketSlashCommand,
-        authTicket,
-      };
-    } catch (error) {
-      throw commandError(
-        error,
-        this.loginNoPrompt.name,
-        'Error running command. \nTip: You must have no active authenticated sessions in cli',
-      );
-    }
+    return {
+      shellOutput: proc.output,
+      authTicketSlashCommand,
+      authTicket,
+    };
   },
 
   // TODO: (breaking change) inconsistent use of object-as-params vs. separate parameters
@@ -67,16 +58,8 @@ export default {
       '--challenge': challenge,
       '--ticket': authTicket,
     });
-    try {
-      const proc = await cmd.execAsync();
-      return proc.output;
-    } catch (error) {
-      throw commandError(
-        error,
-        this.loginChallengeExchange.name,
-        'Error running command. \nTip: You must be authenticated in Slack client and have valid challenge and authTicket',
-      );
-    }
+    const proc = await cmd.execAsync();
+    return proc.output;
   },
 
   /**
@@ -101,11 +84,7 @@ export default {
       cmdOpts['--all'] = true;
     }
     const cmd = new SlackCLIProcess('logout', globalOpts, cmdOpts);
-    try {
-      const proc = await cmd.execAsync();
-      return proc.output;
-    } catch (error) {
-      throw commandError(error, 'logout');
-    }
+    const proc = await cmd.execAsync();
+    return proc.output;
   },
 };

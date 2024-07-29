@@ -88,6 +88,7 @@ export class SlackCLIProcess {
     let cmd = `${process.env.SLACK_CLI_PATH}`;
     if (this.globalOptions) {
       const opts = this.globalOptions;
+      // TODO: how to expose arbitrary apihost better?
       if (opts.qa) {
         cmd += ' --apihost qa.slack.com';
       }

@@ -93,7 +93,6 @@ export const shell = {
       // Log command
       logger.info(`CLI Command finished: ${command}`);
 
-      // TODO: this method only returns stdout and not stderr...
       return this.removeANSIcolors(result.stdout.toString());
     } catch (error) {
       throw new Error(`runCommandSync failed!\nCommand: ${command}\nError: ${error}`);
