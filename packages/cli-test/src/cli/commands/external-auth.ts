@@ -1,5 +1,4 @@
 import { SlackCLIProcess } from '../cli-process';
-import commandError from '../command-error';
 
 /**
  * `slack external-auth`
@@ -22,14 +21,10 @@ export const externalAuth = async function externalAuth(
   const cmd = new SlackCLIProcess(`external-auth ${flags}`, { team: teamFlag, qa: options?.qa }, {
     '--provider': provider,
   });
-  try {
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'externalAuth');
-  }
+  const proc = await cmd.execAsync({
+    cwd: appPath,
+  });
+  return proc.output;
 };
 
 export default {

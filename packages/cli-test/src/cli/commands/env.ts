@@ -1,5 +1,4 @@
 import { SlackCLIProcess } from '../cli-process';
-import commandError from '../command-error';
 
 /**
  * `slack env add`
@@ -18,14 +17,10 @@ export const add = async function envAdd(
 ): Promise<string> {
   // TODO: (breaking change) separate parameters vs single-param-object
   const cmd = new SlackCLIProcess(`env add ${secretKey} ${secretValue}`, { team: teamFlag, qa: options?.qa });
-  try {
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'envAdd');
-  }
+  const proc = await cmd.execAsync({
+    cwd: appPath,
+  });
+  return proc.output;
 };
 
 /**
@@ -41,14 +36,10 @@ export const list = async function envList(
 ): Promise<string> {
   // TODO: (breaking change) separate parameters vs single-param-object
   const cmd = new SlackCLIProcess('env list', { team: teamFlag, qa: options?.qa });
-  try {
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'envList');
-  }
+  const proc = await cmd.execAsync({
+    cwd: appPath,
+  });
+  return proc.output;
 };
 
 /**
@@ -66,14 +57,10 @@ export const remove = async function envRemove(
 ): Promise<string> {
   // TODO: (breaking change) separate parameters vs single-param-object
   const cmd = new SlackCLIProcess(`env remove ${secretKey}`, { team: teamFlag, qa: options?.qa });
-  try {
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'envRemove');
-  }
+  const proc = await cmd.execAsync({
+    cwd: appPath,
+  });
+  return proc.output;
 };
 
 // TODO: (breaking change): rename properties of this default export to match actual command names

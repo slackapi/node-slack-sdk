@@ -1,7 +1,6 @@
 import { SlackTracerId } from '../../utils/constants';
 import logger from '../../utils/logger';
 import { SlackCLIProcess } from '../cli-process';
-import commandError from '../command-error';
 import { shell } from '../shell';
 
 import type { ShellProcess } from '../../utils/types';
@@ -36,14 +35,10 @@ export default {
     const cmd = new SlackCLIProcess(`activity ${flag}`, { team: teamFlag, qa }, {
       '--app': appEnvironment,
     });
-    try {
-      const proc = await cmd.execAsync({
-        cwd: appPath,
-      });
-      return proc.output;
-    } catch (error) {
-      throw commandError(error, 'activity');
-    }
+    const proc = await cmd.execAsync({
+      cwd: appPath,
+    });
+    return proc.output;
   },
 
   /**
@@ -73,14 +68,10 @@ export default {
     const cmd = new SlackCLIProcess('activity --tail', { team: teamFlag, qa }, {
       '--app': appEnvironment,
     });
-    try {
-      const proc = await cmd.execAsyncUntilOutputPresent(stringToWaitFor, {
-        cwd: appPath,
-      });
-      return proc;
-    } catch (error) {
-      throw commandError(error, 'activityTailStart');
-    }
+    const proc = await cmd.execAsyncUntilOutputPresent(stringToWaitFor, {
+      cwd: appPath,
+    });
+    return proc;
   },
 
   /**
@@ -139,14 +130,10 @@ export default {
       '--hide-triggers': hideTriggers,
       '--org-workspace-grant': orgWorkspaceGrantFlag,
     });
-    try {
-      const proc = await cmd.execAsync({
-        cwd: appPath,
-      });
-      return proc.output;
-    } catch (error) {
-      throw commandError(error, 'deploy');
-    }
+    const proc = await cmd.execAsync({
+      cwd: appPath,
+    });
+    return proc.output;
   },
 
   /**
@@ -183,14 +170,10 @@ export default {
       '--hide-triggers': hideTriggers,
       '--org-workspace-grant': orgWorkspaceGrantFlag,
     });
-    try {
-      const proc = await cmd.execAsyncUntilOutputPresent('Connected, awaiting events', {
-        cwd: appPath,
-      });
-      return proc;
-    } catch (error) {
-      throw commandError(error, 'runStart');
-    }
+    const proc = await cmd.execAsyncUntilOutputPresent('Connected, awaiting events', {
+      cwd: appPath,
+    });
+    return proc;
   },
 
   /**

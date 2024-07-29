@@ -1,5 +1,4 @@
 import { SlackCLIProcess } from '../cli-process';
-import commandError from '../command-error';
 
 /**
  * `slack app delete`
@@ -17,14 +16,10 @@ export const del = async function appDelete(
   const cmd = new SlackCLIProcess('app delete --force', { team: teamFlag, qa: options?.qa }, {
     '--app': appEnvironment,
   });
-  try {
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'appDelete');
-  }
+  const proc = await cmd.execAsync({
+    cwd: appPath,
+  });
+  return proc.output;
 };
 
 /**
@@ -40,14 +35,10 @@ export const install = async function workspaceInstall(
 ): Promise<string> {
   // TODO: breaking change, separate params vs single-param-object, probably should reflect global vs command CLI flags
   const cmd = new SlackCLIProcess('app install', { team: teamFlag, qa: options?.qa });
-  try {
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'appInstall');
-  }
+  const proc = await cmd.execAsync({
+    cwd: appPath,
+  });
+  return proc.output;
 };
 
 /**
@@ -61,14 +52,10 @@ export const list = async function appList(
 ): Promise<string> {
   // TODO: (breaking change) separate parameters vs single-param-object
   const cmd = new SlackCLIProcess('app list', options);
-  try {
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'appList');
-  }
+  const proc = await cmd.execAsync({
+    cwd: appPath,
+  });
+  return proc.output;
 };
 
 // TODO: (breaking change): rename properties of this default export to match actual command names
