@@ -1,5 +1,4 @@
 import { SlackCLIProcess } from '../cli-process';
-import commandError from '../command-error';
 
 /**
  * `slack collaborators add`
@@ -16,14 +15,10 @@ export const add = async function collaboratorsAdd(
 ): Promise<string> {
   // TODO: (breaking change) separate parameters vs single-param-object
   const cmd = new SlackCLIProcess(`collaborators add ${collaboratorEmail}`, { team: teamFlag, qa: options?.qa });
-  try {
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'collaboratorsAdd');
-  }
+  const proc = await cmd.execAsync({
+    cwd: appPath,
+  });
+  return proc.output;
 };
 
 /**
@@ -39,14 +34,10 @@ export const list = async function collaboratorsList(
 ): Promise<string> {
   // TODO: (breaking change) separate parameters vs single-param-object
   const cmd = new SlackCLIProcess('collaborators list', { team: teamFlag, qa: options?.qa });
-  try {
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'collaboratorsList');
-  }
+  const proc = await cmd.execAsync({
+    cwd: appPath,
+  });
+  return proc.output;
 };
 
 /**
@@ -64,14 +55,10 @@ export const remove = async function collaboratorsRemove(
 ): Promise<string> {
   // TODO: (breaking change) separate parameters vs single-param-object
   const cmd = new SlackCLIProcess(`collaborators remove ${collaboratorEmail}`, { team: teamFlag, qa: options?.qa });
-  try {
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'collaboratorsRemove');
-  }
+  const proc = await cmd.execAsync({
+    cwd: appPath,
+  });
+  return proc.output;
 };
 
 // TODO: (breaking change): rename properties of this default export to match actual command names

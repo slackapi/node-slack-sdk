@@ -1,5 +1,4 @@
 import { SlackCLIProcess } from '../cli-process';
-import commandError from '../command-error';
 
 // TODO: the "flag" param throughout here should be done in a better way.
 // Perhaps expose the SlackCommandOptions type directly?
@@ -20,14 +19,10 @@ export const access = async function triggerAccess(
   // TODO: (breaking change) separate params vs. single-param-object
   // TODO: access requires --trigger-id so add that to parameters (breaking change)
   const cmd = new SlackCLIProcess(`trigger access ${flags}`, { team: teamFlag, qa: options?.qa });
-  try {
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'triggerAccess');
-  }
+  const proc = await cmd.execAsync({
+    cwd: appPath,
+  });
+  return proc.output;
 };
 /**
  * `slack trigger create`
@@ -60,14 +55,10 @@ export const create = async function triggerCreate({
     '--app': appEnvironment,
     '--org-workspace-grant': orgWorkspaceGrantFlag,
   });
-  try {
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'triggerCreate');
-  }
+  const proc = await cmd.execAsync({
+    cwd: appPath,
+  });
+  return proc.output;
 };
 
 /**
@@ -86,14 +77,10 @@ export const del = async function triggerDelete(
   // TODO: (breaking change) separate params vs. single-param-object
   // TODO: delete requires --trigger-id so add that to parameters (breaking change)
   const cmd = new SlackCLIProcess(`trigger delete ${flag}`, { team: teamFlag, qa: options?.qa });
-  try {
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'triggerDelete');
-  }
+  const proc = await cmd.execAsync({
+    cwd: appPath,
+  });
+  return proc.output;
 };
 
 /**
@@ -112,14 +99,10 @@ export const info = async function triggerInfo(
   // TODO: getting trigger info necessitates passing a trigger ID, so that should be exposed in the parameters here
   // TODO: (breaking change) separate params vs. single-param-object
   const cmd = new SlackCLIProcess(`trigger info ${flag}`, { team: teamFlag, qa: options?.qa });
-  try {
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'triggerInfo');
-  }
+  const proc = await cmd.execAsync({
+    cwd: appPath,
+  });
+  return proc.output;
 };
 
 /**
@@ -137,14 +120,10 @@ export const list = async function triggerList(
 ): Promise<string> {
   // TODO: (breaking change) separate params vs. single-param-object
   const cmd = new SlackCLIProcess(`trigger list ${flag}`, { team: teamFlag, qa: options?.qa });
-  try {
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'triggerList');
-  }
+  const proc = await cmd.execAsync({
+    cwd: appPath,
+  });
+  return proc.output;
 };
 
 /**
@@ -162,14 +141,10 @@ export const update = async function triggerUpdate(
 ): Promise<string> {
   // TODO: (breaking change) separate params vs. single-param-object
   const cmd = new SlackCLIProcess(`trigger update ${flag}`, { team: teamFlag, qa: options?.qa });
-  try {
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'triggerUpdate');
-  }
+  const proc = await cmd.execAsync({
+    cwd: appPath,
+  });
+  return proc.output;
 };
 
 // TODO: (breaking change): rename properties of this default export to match actual command names
