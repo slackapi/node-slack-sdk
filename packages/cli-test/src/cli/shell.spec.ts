@@ -7,7 +7,7 @@ import sinon from 'sinon';
 
 import { shell } from './shell';
 
-import type { ShellProcess } from '../utils/types';
+import type { ShellProcess } from '../types/shell';
 
 describe('shell module', () => {
   const sandbox = sinon.createSandbox();

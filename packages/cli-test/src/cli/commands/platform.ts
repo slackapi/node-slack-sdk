@@ -3,7 +3,7 @@ import logger from '../../utils/logger';
 import { SlackCLIProcess } from '../cli-process';
 import { shell } from '../shell';
 
-import type { ShellProcess } from '../../utils/types';
+import type { ShellProcess } from '../../types/shell';
 
 // TODO: the options for these methods could be DRYed up
 
