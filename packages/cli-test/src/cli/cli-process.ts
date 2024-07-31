@@ -30,6 +30,8 @@ export interface SlackCLIGlobalOptions {
   team?: string;
 }
 
+export type SlackCLIHostTargetOptions = Pick<SlackCLIGlobalOptions, 'qa' | 'dev' | 'apihost'>;
+
 export type SlackCLICommandOptions = Record<string, string | boolean | undefined>;
 
 export class SlackCLIProcess {

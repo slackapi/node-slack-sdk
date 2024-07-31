@@ -1,22 +1,17 @@
+import { ProjectCommandArguments } from '../../types/commands/common_arguments';
 import { SlackCLIProcess } from '../cli-process';
 
 /**
  * `slack collaborators add`
- * @param appPath path to app
- * @param teamFlag team domain to add collaborators to
- * @param collaboratorEmail email of the user to be added as a collaborator
  * @returns command output
  */
-export const add = async function collaboratorsAdd(
-  appPath: string,
-  teamFlag: string,
+export const add = async function collaboratorsAdd(args: ProjectCommandArguments & {
+  /** @description email of the user to be added as a collaborator */
   collaboratorEmail: string,
-  options?: { qa?: boolean },
-): Promise<string> {
-  // TODO: (breaking change) separate parameters vs single-param-object
-  const cmd = new SlackCLIProcess(`collaborators add ${collaboratorEmail}`, { team: teamFlag, qa: options?.qa });
+}): Promise<string> {
+  const cmd = new SlackCLIProcess(`collaborators add ${args.collaboratorEmail}`, args);
   const proc = await cmd.execAsync({
-    cwd: appPath,
+    cwd: args.appPath,
   });
   return proc.output;
 };

@@ -10,7 +10,7 @@ describe('cli module', () => {
   let deleteSpy: sinon.SinonStub;
 
   beforeEach(() => {
-    logoutSpy = sandbox.stub(SlackCLI, 'logout').resolves();
+    logoutSpy = sandbox.stub(SlackCLI.auth, 'logout').resolves();
     warnSpy = sandbox.stub(logger, 'warn');
     sandbox.stub(SlackCLI.app, 'list').resolves('This thing has so many apps you would not believe');
     deleteSpy = sandbox.stub(SlackCLI.app, 'delete').resolves();

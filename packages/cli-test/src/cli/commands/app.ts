@@ -1,66 +1,54 @@
-import { SlackCLIProcess } from '../cli-process';
+import { SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
 
-/**
- * `slack app delete`
- * @param appPath path to app
- * @param teamFlag team domain for the function's app
- * @returns command output
- */
-export const del = async function appDelete(
-  appPath: string,
-  teamFlag: string,
-  options?: { isLocalApp?: boolean, qa?: boolean },
-): Promise<string> {
-  // TODO: breaking change, separate params vs single-param-object, probably should reflect global vs command CLI flags
-  const appEnvironment = options?.isLocalApp ? 'local' : 'deployed';
-  const cmd = new SlackCLIProcess('app delete --force', { team: teamFlag, qa: options?.qa }, {
-    '--app': appEnvironment,
-  });
-  const proc = await cmd.execAsync({
-    cwd: appPath,
-  });
-  return proc.output;
-};
+import type { ProjectCommandArguments } from '../../types/commands/common_arguments';
 
-/**
- * `slack app install`
- * @param appPath path to app
- * @param teamFlag team domain where the app will be installed
- * @returns command output
- */
-export const install = async function workspaceInstall(
-  appPath: string,
-  teamFlag: string,
-  options?: { qa?: boolean },
-): Promise<string> {
-  // TODO: breaking change, separate params vs single-param-object, probably should reflect global vs command CLI flags
-  const cmd = new SlackCLIProcess('app install', { team: teamFlag, qa: options?.qa });
-  const proc = await cmd.execAsync({
-    cwd: appPath,
-  });
-  return proc.output;
-};
-
-/**
- * `slack app list`
- * @param appPath path to app
- * @returns command output
- */
-export const list = async function appList(
-  appPath: string,
-  options?: { qa?: boolean },
-): Promise<string> {
-  // TODO: (breaking change) separate parameters vs single-param-object
-  const cmd = new SlackCLIProcess('app list', options);
-  const proc = await cmd.execAsync({
-    cwd: appPath,
-  });
-  return proc.output;
-};
-
-// TODO: (breaking change): rename properties of this default export to match actual command names
 export default {
-  workspaceDelete: del,
-  workspaceInstall: install,
-  workspaceList: list,
+  /**
+   * `slack app delete`
+   * @param args command arguments
+   * @returns command output
+   */
+  delete: async function appDelete(args: ProjectCommandArguments & {
+  /** @description `--force`; ignores warnings and executes app deletion. Defaults to `true`. */
+    force?: boolean;
+    /** @description `--app [deployed|local]`; deletes either the deployed or local app. Defaults to `deployed`. */
+    app?: 'deployed' | 'local';
+  }): Promise<string> {
+    const appEnvironment = args.app ? args.app : 'deployed';
+    const cmdOpts: SlackCLICommandOptions = {
+      '--app': appEnvironment,
+    };
+    if (typeof args.force === 'undefined' || args.force) {
+      cmdOpts['--force'] = true;
+    }
+    const cmd = new SlackCLIProcess('app delete', args, cmdOpts);
+    const proc = await cmd.execAsync({
+      cwd: args.appPath,
+    });
+    return proc.output;
+  },
+  /**
+   * `slack app install`
+   * @param args command arguments
+   * @returns command output
+   */
+  install: async function workspaceInstall(args: ProjectCommandArguments): Promise<string> {
+    const cmd = new SlackCLIProcess('app install', args);
+    const proc = await cmd.execAsync({
+      cwd: args.appPath,
+    });
+    return proc.output;
+  },
+  /**
+   * `slack app list`
+   * @param appPath path to app
+   * @returns command output
+   */
+  list: async function appList(args: ProjectCommandArguments): Promise<string> {
+    const cmd = new SlackCLIProcess('app list', args);
+    const proc = await cmd.execAsync({
+      cwd: args.appPath,
+    });
+    return proc.output;
+  },
 };

@@ -1,11 +1,10 @@
 import child from 'child_process';
-import EventEmitter from 'events';
-import stream from 'stream';
 
 import { assert } from 'chai';
 import sinon from 'sinon';
 
 import { shell } from './shell';
+import { mockProcess } from '../utils/test';
 
 import type { ShellProcess } from '../types/shell';
 
@@ -17,10 +16,7 @@ describe('shell module', () => {
   let runOutput: child.SpawnSyncReturns<Buffer>;
 
   beforeEach(() => {
-    spawnProcess = new EventEmitter() as child.ChildProcessWithoutNullStreams;
-    spawnProcess.stdout = new EventEmitter() as stream.Readable;
-    spawnProcess.stderr = new EventEmitter() as stream.Readable;
-    spawnProcess.stdin = new stream.Writable();
+    spawnProcess = mockProcess();
     spawnSpy = sandbox.stub(child, 'spawn').returns(spawnProcess);
     runOutput = { pid: 1337, output: [], stdout: Buffer.from([]), stderr: Buffer.from([]), status: 0, signal: null };
     runSpy = sandbox.stub(child, 'spawnSync').returns(runOutput);

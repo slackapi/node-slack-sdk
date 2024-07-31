@@ -17,15 +17,8 @@ import logger from '../utils/logger';
  * Set of functions to spawn and interact with Slack Platform CLI processes and commands
  */
 export const SlackCLI = {
-  ...appCommands,
-  app: {
-    delete: appCommands.workspaceDelete,
-    install: appCommands.workspaceInstall,
-    list: appCommands.workspaceList,
-  },
-  ...authCommands,
+  app: appCommands,
   auth: authCommands,
-  ...collaboratorCommands, // TODO: (breaking change) remove, mimic same 'namespacing' as the actual CLI
   collaborators: {
     add: collaboratorCommands.collaboratorsAdd,
     list: collaboratorCommands.collaboratorsList,
@@ -84,12 +77,12 @@ export const SlackCLI = {
     // TODO: perhaps appPath does not exist, should guard against that.
     if (appPath) {
       // List instances of app installation if app path provided
-      const installedAppsOutput = await SlackCLI.app.list(appPath, { qa });
+      const installedAppsOutput = await SlackCLI.app.list({ appPath, qa });
       // If app is installed
       if (!installedAppsOutput.includes('This project has no apps')) {
         // Soft app delete
         try {
-          await SlackCLI.app.delete(appPath, appTeamID, { isLocalApp, qa });
+          await SlackCLI.app.delete({ appPath, team: appTeamID, qa, app: isLocalApp ? 'local' : 'deployed' });
         } catch (error) {
           logger.warn(`stopSession could not delete app gracefully, continuing. Error: ${error}`);
         }
@@ -104,7 +97,7 @@ export const SlackCLI = {
 
     if (shouldLogOut) {
       try {
-        await SlackCLI.logout({ teamFlag: appTeamID, qa });
+        await SlackCLI.auth.logout({ team: appTeamID, qa });
       } catch (error) {
         // TODO: maybe should error instead? this seems pretty bad
         logger.warn(`Could not logout gracefully. Error: ${error}`);
