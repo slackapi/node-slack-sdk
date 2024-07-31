@@ -1,4 +1,5 @@
-import { expectError, expectAssignable } from 'tsd';
+import { expectAssignable, expectError } from 'tsd';
+
 import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
@@ -284,6 +285,24 @@ expectAssignable<Parameters<typeof web.chat.postMessage>>([{
   thread_ts: '1234.56',
   reply_broadcast: true, // can send a threaded message and broadcast it, too
 }]);
+expectAssignable<Parameters<typeof web.chat.postMessage>>([{
+  channel: 'C1234',
+  blocks: [],
+  thread_ts: '1234.56',
+  reply_broadcast: false, // can send a threaded message and explicitly not broadcast it
+}]);
+// adding a test for when `reply_broadcast` specific boolean value is not known ahead of time
+// https://github.com/slackapi/node-slack-sdk/issues/1859
+function wideBooleanTest(b: boolean) {
+  expectAssignable<Parameters<typeof web.chat.postMessage>>([{
+    channel: 'C1234',
+    blocks: [],
+    thread_ts: '1234.56',
+    reply_broadcast: b, // can reply_broadcast be parameterized?
+  }]);
+}
+wideBooleanTest(true);
+wideBooleanTest(false);
 
 // chat.scheduleMessage
 // -- sad path

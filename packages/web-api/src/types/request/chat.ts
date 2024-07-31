@@ -88,7 +88,7 @@ interface WithinThreadReply extends Partial<ThreadTS> {
 }
 interface BroadcastedThreadReply extends ThreadTS {
   /** @description Used in conjunction with `thread_ts`, when set to `true` will broadcast the reply to the channel. */
-  reply_broadcast: true;
+  reply_broadcast: boolean;
 }
 // For APIs supporting `reply_broadcast`, there are two options: either a broadcasted threaded reply,
 // or not broadcasted. Broadcasted replies are necessarily threaded, so `thread_ts` becomes required.
