@@ -21,7 +21,11 @@ To migrate to the latest packages, updating your minimum Node.js to `12.13.0` is
 
 Our newly released major versions all require a minimum Node version of `12.13.0` and minimum npm version of `6.12.0` .
 
-**Note**: Learn more about our [support schedule](https://github.com/slackapi/node-slack-sdk/wiki/Support-Schedule) so that you can prepare and plan for future updates.
+:::info 
+
+Learn more about our [support schedule](https://github.com/slackapi/node-slack-sdk/wiki/Support-Schedule) so that you can prepare and plan for future updates.
+
+:::
 
 ### Minimum TypeScript Version
 

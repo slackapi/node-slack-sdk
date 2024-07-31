@@ -1,9 +1,5 @@
 ---
 title: Web API
-permalink: /web-api
-redirect_from:
- - /basic_usage
- - /web_api
 ---
 
 

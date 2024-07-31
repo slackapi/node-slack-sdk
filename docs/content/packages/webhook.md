@@ -1,8 +1,6 @@
 ---
 title: Incoming Webhooks
 permalink: /webhook
-redirect_from:
-  - /incoming_webhook
 ---
 
 # Slack Incoming Webhooks

@@ -1,6 +1,5 @@
 ---
 title: Events API
-permalink: /events-api
 ---
 
 :::warning[Deprecation Notice]

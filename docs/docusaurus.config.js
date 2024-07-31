@@ -56,6 +56,10 @@ const config = {
             to: '/getting-started#getting-a-token-to-use-the-web-api',
             from: ['/auth'],
           },
+          {
+            to: '/reference/logger',
+            from: ['/reference'],
+          },
         ],
       },
     ],
@@ -146,10 +150,6 @@ const config = {
             to: 'https://api.slack.com/docs',
             label: 'API Docs',
             target: '_self',
-          },
-          {
-            type: 'localeDropdown',
-            position: 'right',
           },
           {
             'aria-label': 'GitHub Repository',

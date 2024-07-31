@@ -1,6 +1,5 @@
 ---
 title: Interactive Messages
-permalink: /interactive-messages
 ---
 
 # Slack Interactive Messages for Node

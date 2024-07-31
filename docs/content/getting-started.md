@@ -1,7 +1,5 @@
 ---
 title: Getting Started
-permalink: /getting-started
-redirect_from: /getting_started
 ---
 
 This tutorial will show you how to use the packages in this Node Slack SDK to get a simple Slack app running. If you've
@@ -138,7 +136,7 @@ look next:
   listen for events happening inside Slack. You'll need a URL where your app can receive events, and the [local
   development tutorial](/tutorials/local-development) can help you set one up.
 
-* This tutorial only used two of **over 130 Web API methods** available. [Look through
+* This tutorial only used two of **over 200 Web API methods** available. [Look through
   them](https://api.slack.com/methods) to get ideas about what to build next!
 
 * Tokens are an important part of using the Slack platform. New apps are recommended to start with a Bot User, which

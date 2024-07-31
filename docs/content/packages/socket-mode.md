@@ -1,6 +1,5 @@
 ---
 title: Socket Mode
-permalink: /socket-mode
 ---
 
 # Slack Socket Mode

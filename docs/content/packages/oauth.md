@@ -1,6 +1,5 @@
 ---
 title: OAuth
-permalink: /oauth
 ---
 
 # Slack OAuth

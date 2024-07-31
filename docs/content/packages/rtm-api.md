@@ -1,14 +1,17 @@
 ---
 title: Real Time Messaging API
-permalink: /rtm-api
 ---
 
 # Slack Real Time Messaging API
 
-The `@slack/rtm-api` package contains a simple, convenient, and configurable client for receiving events and sending simple messages to Slack's [Real Time Messaging API](https://api.slack.com/rtm). Use it in your
+The `@slack/rtm-api` package contains a configurable client for receiving events and sending simple messages to the Slack [Real Time Messaging API](https://api.slack.com/rtm). Use it in your
 app to stay connected to the Slack platform over a persistent Websocket connection.
 
-**Note**: RTM isn't available for modern scoped apps anymore. We recommend using the [Events API](/events-api) and [Web API](/web-api) instead. If you need to use RTM (possibly due to corporate firewall limitations), you can do so by creating a [legacy scoped app](https://api.slack.com/apps?new_classic_app=1). If you have an existing RTM app, do not update its scopes as it will be updated to a modern scoped app and stop working with RTM.
+:::danger 
+
+The RTM API isn't available for modern granular-permissions apps, and you can no longer create new legacy apps. We recommend using [Bolt for JavaScript](https://slack.dev/bolt-js). If you have an existing RTM app, do not update its scopes as it will be updated to a granular-permissions app and stop working with the RTM API.
+
+::: 
 
 ## Installation
 
@@ -62,8 +65,8 @@ user ID and team ID, you can look those up any time the client is connected as t
 `rtm.connected` property.
 
 <details>
-<summary markdown="span">
-<strong><i>Additional connection options</i></strong>
+<summary>
+Additional connection options
 </summary>
 
 Options passed to the `.start()` method are passed through as arguments to the [`rtm.connect` Web API
@@ -99,8 +102,8 @@ rtm.on('message', (event) => {
 ```
 
 <details>
-<summary markdown="span">
-<strong><i>Listen for message subtypes</i></strong>
+<summary>
+Listen for message subtypes
 </summary>
 
 The `message` event type has a special property called `subtype` to help organize all the messages inside Slack. The
@@ -159,8 +162,8 @@ rtm.on('member_joined_channel', async (event) => {
 ```
 
 <details>
-<summary markdown="span">
-<strong><i>Send rich messages using the WebClient</i></strong>
+<summary>
+Send rich messages using the WebClient
 </summary>
 
 The Web API's [`chat.postMessage` method](https://api.slack.com/methods/chat.postMessage) is capable of sending [rich
@@ -217,8 +220,8 @@ rtm.on('member_joined_channel', async (event) => {
 </details>
 
 <details>
-<summary markdown="span">
-<strong><i>Send a typing indicator</i></strong>
+<summary>
+Send a typing indicator
 </summary>
 
 Over the RTM API, your bot user can appear to be typing in Slack before it sends a message ("`{Bot Display Name}` is
@@ -329,8 +332,8 @@ rtm.on('member_joined_channel', async (event) => {
 ```
 
 <details>
-<summary markdown="span">
-<strong><i>More error types</i></strong>
+<summary>
+More error types
 </summary>
 
 There are a few more types of errors that you might encounter, each with one of these `code`s:
@@ -371,8 +374,8 @@ const rtm = new RTMClient(token, {
 All the log levels, in order of most to least information are: `DEBUG`, `INFO`, `WARN`, and `ERROR`.
 
 <details>
-<summary markdown="span">
-<strong><i>Sending log output somewhere besides the console</i></strong>
+<summary>
+Sending log output somewhere besides the console
 </summary>
 
 You can also choose to have logs sent to a custom logger using the `logger` option. A custom logger needs to implement
