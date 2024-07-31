@@ -1,7 +1,5 @@
 ---
 title: Migrating to v5.x
-order: 1
-slug: migrating_to_v5
 ---
 
 # Migration Guide (v4 to v5)
@@ -232,7 +230,7 @@ comparison. The `WebAPICallReadError` was never used by the `WebClient`.
 ### Logger objects
 
 If your app set the `logger` option to a function, you need to update the code to instead use an object with methods
-for each log level. See details in [the logging documentation](https://slack.dev/node-slack-sdk/web-api#logging).
+for each log level. See details in [the logging documentation](/web-api#logging).
 
 ### New retry policies
 
@@ -325,7 +323,7 @@ literal, you need to update that code. Instead, compare with a property of the e
 ### Logger objects
 
 If your app set the `logger` option to a function, you need to update the code to instead use an object with methods
-for each log level. See details in [the logging documentation](https://slack.dev/node-slack-sdk/rtm-api#logging).
+for each log level. See details in [the logging documentation](/rtm-api#logging).
 
 ## IncomingWebhook
 

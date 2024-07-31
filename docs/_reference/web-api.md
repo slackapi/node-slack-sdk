@@ -1,6 +1,5 @@
 ---
 title: "@slack/web-api"
-slug: web-api
 ---
 
 <h1 id="classes" class="undefined auto-anchor-strong">Classes</h1>
@@ -258,7 +257,7 @@ slug: web-api
 </thead>
 <tbody>
 <tr>
-<td align="center">{ name, version }</td>
+<!-- <td align="center"><code>{ name, version }</code></td> -->
 <td align="center"><code>object</code></td>
 <td align="center">✓</td>
 <td></td>
@@ -535,9 +534,7 @@ slug: web-api
 </tr>
 <tr>
 <td align="center">data</td>
-<td align="center"><code><a href="#webapicallresult" title="">WebAPICallResult</a> &#x26; {
-error: string;
-}</code></td>
+<!-- <td align="center"><code><a href="#webapicallresult" title="">WebAPICallResult</a> &#x26; {error: string;}</code></td> -->
 <td></td>
 </tr>
 </tbody>
@@ -648,14 +645,11 @@ error: string;
 </table>
 <h1 id="type-aliases" class="undefined auto-anchor-strong">Type Aliases</h1>
 <h2 id="pageaccumulator">PageAccumulator</h2>
-<pre><code class="language-ts">R extends (accumulator: (infer A) | undefined, page: WebAPICallResult, index: number) => infer A ? A : never
-</code></pre>
+<pre><code class="language-ts">R extends (accumulator: (infer A) | undefined, page: WebAPICallResult, index: number) => infer A ? A : never</code></pre>
 <h2 id="tlsoptions">TLSOptions</h2>
-<pre><code class="language-ts">SecureContextOptions, 'pfx' | 'key' | 'passphrase' | 'cert' | 'ca'>
-</code></pre>
+<pre><code class="language-ts">SecureContextOptions, 'pfx' | 'key' | 'passphrase' | 'cert' | 'ca'></code></pre>
 <h2 id="webapicallerror">WebAPICallError</h2>
-<pre><code class="language-ts">WebAPIRequestError | WebAPIHTTPError | WebAPIRateLimitedError
-</code></pre>
+<pre><code class="language-ts">WebAPIRequestError | WebAPIHTTPError | WebAPIRateLimitedError</code></pre>
 One of:
 <ul>
 <li><a href="#webapirequesterror" title=""><code>WebAPIRequestError</code></a></li>

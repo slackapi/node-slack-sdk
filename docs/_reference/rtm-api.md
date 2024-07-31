@@ -1,6 +1,5 @@
 ---
 title: "@slack/rtm-api"
-slug: rtm-api
 ---
 
 <h1 id="classes" class="undefined auto-anchor-strong">Classes</h1>
@@ -567,8 +566,7 @@ slug: rtm-api
 </table>
 <h1 id="type-aliases" class="undefined auto-anchor-strong">Type Aliases</h1>
 <h2 id="rtmcallerror">RTMCallError</h2>
-<pre><code class="language-ts">RTMWebsocketError | RTMNoReplyReceivedError | RTMSendWhileDisconnectedError | RTMSendWhileNotReadyError
-</code></pre>
+<pre><code class="language-ts">RTMWebsocketError | RTMNoReplyReceivedError | RTMSendWhileDisconnectedError | RTMSendWhileNotReadyError</code></pre>
 One of:
 <ul>
 <li><a href="#rtmwebsocketerror" title=""><code>RTMWebsocketError</code></a></li>
@@ -577,8 +575,7 @@ One of:
 <li><a href="#rtmsendwhilenotreadyerror" title=""><code>RTMSendWhileNotReadyError</code></a></li>
 </ul>
 <h2 id="rtmstartoptions">RTMStartOptions</h2>
-<pre><code class="language-ts">RTMStartArguments
-</code></pre>
+<pre><code class="language-ts">RTMStartArguments</code></pre>
 One of:
 <ul>
 <li><code>RTMStartArguments</code></li>

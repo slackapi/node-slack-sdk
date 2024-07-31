@@ -4,8 +4,6 @@ permalink: /web-api
 redirect_from:
  - /basic_usage
  - /web_api
-order: 1
-anchor_links_header: Usage
 ---
 
 
@@ -111,7 +109,7 @@ const conversationId = '...';
 **Hint**: If you're using an editor that supports TypeScript, even if you're not using TypeScript to write your code,
 you'll get hints for all the arguments each method supports. This helps you save time by reducing the number of
 times you need to pop out to a webpage to check the reference. There's more information about [using
-TypeScript](https://slack.dev/node-slack-sdk/typescript) with this package in the documentation website.
+TypeScript](/typescript) with this package in the documentation website.
 
 **Note**: Use the [Block Kit Builder](https://api.slack.com/tools/block-kit-builder) for a playground
 where you can prototype your message's look and feel.
@@ -184,7 +182,7 @@ There are a few more types of errors that you might encounter, each with one of 
 
 * `ErrorCode.RateLimitedError`: The Web API cannot fulfill the API method call because your app has made too many
   requests too quickly. This error has a `retryAfter` property with the number of seconds you should wait before trying
-  again. See [the documentation on rate limit handling](https://slack.dev/node-slack-sdk/web-api#rate-limits) to
+  again. See [the documentation on rate limit handling](/web-api#rate-limits) to
   understand how the client will automatically deal with these problems for you.
 
 * `ErrorCode.HTTPError`: The HTTP response contained an unfamiliar status code. The Web API only responds with `200`

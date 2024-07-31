@@ -1,6 +1,5 @@
 ---
 title: "@slack/oauth"
-slug: oauth
 ---
 
 <h1 id="classes" class="undefined auto-anchor-strong">Classes</h1>

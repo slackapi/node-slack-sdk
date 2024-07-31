@@ -1,7 +1,5 @@
 ---
 title: Developing Slack apps locally
-order: 1
-slug: local_development
 ---
 
 # Developing Slack apps locally
@@ -10,24 +8,11 @@ This tutorial is meant to guide developers through setting up and configuring a 
 
 Feel free to skip around to the specific sections relevant to you — we won't mind 🙂
 
-- [Create an app](#create-an-app)
-- [Tokens and installing apps](#tokens-and-installing-apps)
-- [Socket Mode vs. HTTP](#socket-mode-vs-http)
-  - [Socket Mode](#socket-mode)
-  - [HTTP](#http)
-    - [What is a Request URL?](#what-is-a-request-url)
-    - [Using a local Request URL for development](#using-a-local-request-url-for-development)
-    - [Add Request URL to your app configuration](#add-the-url-to-your-app-configuration)
-- [Subscribing to workspace events](#subscribing-to-workspace-events)
-- [Adding event subscriptions](#adding-event-subscriptions)
-- [Next steps](#next-steps)
-
-
 ## Create an app
-Head over to our [Bolt JS Getting Started Guide's section "Create an App"](https://slack.dev/bolt-js/tutorial/getting-started#create-an-app) for the latest up-to-date instructions on how to create a new app on [api.slack.com/apps](https://api.slack.com/apps).
+Head over to [Create an app](https://slack.dev/bolt-js/getting-started#create-an-app) within our Getting started with JavaScript for Bolt page for instructions on how to create a Slack app on [api.slack.com/apps](https://api.slack.com/apps).
 
 ## Tokens and installing apps
-Head over to our [Bolt JS Getting Started Guide's section "Tokens and installing apps"](https://slack.dev/bolt-js/tutorial/getting-started#tokens-and-installing-apps) for the latest up-to-date information on what tokens are, the [different kinds of tokens available](https://api.slack.com/docs/token-types), how to create them on [api.slack.com/apps](https://api.slack.com/apps), how to install your app to a live Slack workspace and finally how to retrieve your access token.
+Head over to [Tokens and installing apps](https://slack.dev/bolt-js/getting-started#tokens-and-installing-apps) within our Getting started with JavaScript for Bolt page for information on what tokens are, the [different kinds of tokens available](https://api.slack.com/docs/token-types), how to create them on [api.slack.com/apps](https://api.slack.com/apps), how to install your app to a live Slack workspace and finally how to retrieve your access token.
 
 ## Socket Mode vs. HTTP
 Your app can [communicate with Slack using one of two methods](https://api.slack.com/apis/connections):
@@ -39,7 +24,7 @@ This tutorial will cover how to set up your app using either approach.
 
 ### Socket Mode
 
-Setting up your Node.js application for Socket Mode development is fast and easy with the [`@slack/socket-mode`](https://slack.dev/node-slack-sdk/socket-mode) package.
+Setting up your Node.js application for Socket Mode development is fast and easy with the [`@slack/socket-mode`](/socket-mode) package.
 
 Once you've [created an app](#create-an-app), you will need to generate an **App Token**. On your app's page on [api.slack.com/apps](https://api.slack.com/apps), under the main **Basic Information** page, scroll down to **App-Level Tokens**. Click **Generate Token and Scopes**, add a name for your app token, and click **Add Scope**. Choose `connections:write` and then click **Generate**. Copy and safely store the generated token - you'll need that when following the [Socket Mode package setup instructions](../socket-mode).
 

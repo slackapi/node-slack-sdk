@@ -1,7 +1,6 @@
 ---
 title: Using TypeScript
 permalink: /typescript
-order: 5
 ---
 
 This project is mostly written and built using [TypeScript](https://www.typescriptlang.org/), which means many of the APIs have type information metadata 🎉. If you're using a code editor like VSCode, Atom, or many others that know how to read that metadata, or if you're using TypeScript in your own project, you'll benefit from improved documentation as your write code, early detection of errors, easier refactoring, and more.
@@ -14,7 +13,7 @@ This page helps describe how to use this package from a project that also uses T
 
 Latest major versions of `@slack/web-api`, `@slack/rtm-api`, and `@slack/webhook` packages are supported to build against TypeScript version 5.3.x. You can try to use a greater minor version of Typescript like 5.4 or above, but beware that [API Breaking Changes](https://github.com/microsoft/TypeScript/wiki/API-Breaking-Changes) can be introduced in minor Typescript versions that break compatibility.
 
-The v6 versions of `@slack/web-api`, `@slack/rtm-api`, and `@slack/webhook` packages are supported to build against the minimum TypeScript version v4.1.0. See also [v5 to v6 migration guide](https://slack.dev/node-slack-sdk/tutorials/migrating-to-v6) for more details.
+The v6 versions of `@slack/web-api`, `@slack/rtm-api`, and `@slack/webhook` packages are supported to build against the minimum TypeScript version v4.1.0. See also [v5 to v6 migration guide](/tutorials/migrating-to-v6) for more details.
 
 The v5 versions of `@slack/web-api`, `@slack/rtm-api`, and `@slack/webhook` packages are supported to build against TypeScript v3.3.0 or higher. The v4 versions of the `@slack/web-api`, `@slack/rtm-api`, and `@slack/webhook` packages are supported to build against TypeScript v2.7.0 or higher.
 

@@ -1,8 +1,6 @@
 ---
 title: Socket Mode
 permalink: /socket-mode
-order: 7
-anchor_links_header: Usage
 ---
 
 # Slack Socket Mode

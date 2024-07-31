@@ -1,19 +1,19 @@
 ---
 title: Events API
 permalink: /events-api
-order: 2
-anchor_links_header: Usage
 ---
 
-The `@slack/events-api` package helps your app respond to events from Slack's [Events API](https://api.slack.com/events-api)
-such as new messages, emoji reactions, files, and much more. This package will help you start with convenient and secure
-defaults.
-
-### **Deprecation Notice**
+:::warning[Deprecation Notice]
 
 _`@slack/events-api` officially reached EOL on May 31st, 2021. Development has fully stopped for this package and all remaining open issues and pull requests have been closed._
 
-_At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](https://slack.dev/node-slack-sdk/tutorials/migrating-to-v6) for those looking to convert their existing apps._
+_At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](/tutorials/migrating-to-v6) for those looking to convert their existing apps._
+
+:::
+
+The `@slack/events-api` package helps your app respond to events from Slack's [Events API](https://api.slack.com/events-api)
+such as new messages, emoji reactions, and files. This package will help you start with convenient and secure
+defaults.
 
 ## Installation
 
@@ -26,7 +26,7 @@ development workspace. You'll also **need a public URL** where the app can begin
 to find the **request signing secret** given to you by Slack under the "Basic Information" of your app configuration.
 
 It may be helpful to read the tutorial on [developing Slack apps
-locally](https://slack.dev/node-slack-sdk/tutorials/local-development). After you have a URL for development, see the
+locally](/tutorials/local-development). After you have a URL for development, see the
 section on [verifying a request URL for development](#verify-tool) so you can save it as the Request URL in your app
 configuration. Now you can begin adding event subscriptions, just be sure to install the app in your development
 workspace again each time you add new scopes (typically whenever you add new event subscriptions).

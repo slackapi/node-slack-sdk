@@ -1,10 +1,6 @@
 ---
 title: Real Time Messaging API
 permalink: /rtm-api
-redirect_from:
-  - /bots
-  - /rtm_api
-order: 5
 ---
 
 # Slack Real Time Messaging API
@@ -12,7 +8,7 @@ order: 5
 The `@slack/rtm-api` package contains a simple, convenient, and configurable client for receiving events and sending simple messages to Slack's [Real Time Messaging API](https://api.slack.com/rtm). Use it in your
 app to stay connected to the Slack platform over a persistent Websocket connection.
 
-**Note**: RTM isn't available for modern scoped apps anymore. We recommend using the [Events API](https://slack.dev/node-slack-sdk/events-api) and [Web API](https://slack.dev/node-slack-sdk/web-api) instead. If you need to use RTM (possibly due to corporate firewall limitations), you can do so by creating a [legacy scoped app](https://api.slack.com/apps?new_classic_app=1). If you have an existing RTM app, do not update its scopes as it will be updated to a modern scoped app and stop working with RTM.
+**Note**: RTM isn't available for modern scoped apps anymore. We recommend using the [Events API](/events-api) and [Web API](/web-api) instead. If you need to use RTM (possibly due to corporate firewall limitations), you can do so by creating a [legacy scoped app](https://api.slack.com/apps?new_classic_app=1). If you have an existing RTM app, do not update its scopes as it will be updated to a modern scoped app and stop working with RTM.
 
 ## Installation
 
@@ -72,7 +68,7 @@ user ID and team ID, you can look those up any time the client is connected as t
 
 Options passed to the `.start()` method are passed through as arguments to the [`rtm.connect` Web API
 method](https://api.slack.com/methods/rtm.connect). These arguments deal with presence, which is discussed in more
-detail [on the documentation website](https://slack.dev/node-slack-sdk/rtm-api#presence).
+detail [on the documentation website](/rtm-api#presence).
 
 </details>
 
@@ -225,7 +221,7 @@ rtm.on('member_joined_channel', async (event) => {
 <strong><i>Send a typing indicator</i></strong>
 </summary>
 
-Over the RTM API, your bot user can appear to be typing in Slack before it sends a message ("{Bot Display Name} is
+Over the RTM API, your bot user can appear to be typing in Slack before it sends a message ("`{Bot Display Name}` is
 typing" is shown near the text input). The client has a `.sendTyping(conversationId)` method to allow your bot to
 trigger the typing indicator. The method returns a `Promise` that resolves when Slack has acknowledged the message. The
 `Promise` doesn't have a resolved value.
@@ -430,7 +426,7 @@ previously, and you're trying to add subscriptions for new users, you should inc
 to `.subscribePresence(userIds)` in the next call.
 
 If instead of being informed when a user's presence changes (reactively), your app needs to know what the user's status
-is currently (proactively), then your app should use the [`WebClient`](https://slack.dev/node-slack-sdk/web-api)'s
+is currently (proactively), then your app should use the [`WebClient`](/web-api)'s
 `users.getPresence` method. In general, its easier to deal with user presence proactively than to keep track of all the
 changes to understand the current presence of a user.
 
@@ -673,7 +669,7 @@ const rtm = new RTMClient(token, { webClient });
 The client can receive a snapshot of a portion of the workspace's state while its connecting. This can be useful if your
 app needs to keep track of some data as it changes while the app runs, but it needs the initial start to get started.
 However, **this can also cause the client to fail to connect on large teams**. Our recommendation is to call the [Web
-API](https://slack.dev/node-slack-sdk/web-api) to retrieve workspace state while your app is connecting, instead of
+API](/web-api) to retrieve workspace state while your app is connecting, instead of
 relying on the cache. See [sending rich messages](#send-messages) for an example of using the `WebClient` class inside
 your app, and use [some of the other methods](https://api.slack.com/methods) to get data.
 

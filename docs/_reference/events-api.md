@@ -1,7 +1,14 @@
 ---
 title: "@slack/events-api"
-slug: events-api
 ---
+
+:::warning[Deprecation Notice]
+
+_`@slack/events-api` officially reached EOL on May 31st, 2021. Development has fully stopped for this package and all remaining open issues and pull requests have been closed._
+
+_At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](/tutorials/migrating-to-v6) for those looking to convert their existing apps._
+
+:::
 
 <h1 id="classes" class="undefined auto-anchor-strong">Classes</h1>
 <h2 id="slackeventadapter">SlackEventAdapter</h2>
@@ -211,8 +218,7 @@ slug: events-api
 </tr>
 </tbody>
 </table>
-<p><strong>Returns</strong> <code>true</code>:<br>
-<br>
+<p><strong>Returns</strong> <code>true</code>:
 <code>true</code> when the signature is valid.</p>
 <h1 id="enums" class="undefined auto-anchor-strong">Enums</h1>
 <h2 id="errorcode">ErrorCode</h2>

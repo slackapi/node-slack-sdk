@@ -1,6 +1,5 @@
 ---
 title: "@slack/types"
-slug: types
 ---
 
 <h1 id="interfaces" class="undefined auto-anchor-strong">Interfaces</h1>
@@ -1477,15 +1476,13 @@ slug: types
 </table>
 <h1 id="type-aliases" class="undefined auto-anchor-strong">Type Aliases</h1>
 <h2 id="calluser">CallUser</h2>
-<pre><code class="language-ts">CallUserExternal
-</code></pre>
+<pre><code class="language-ts">CallUserExternal</code></pre>
 One of:
 <ul>
 <li><a href="#calluserexternal" title=""><code>CallUserExternal</code></a></li>
 </ul>
 <h2 id="knownblock">KnownBlock</h2>
-<pre><code class="language-ts">ContextBlock | ActionsBlock | DividerBlock | SectionBlock | InputBlock | FileBlock | HeaderBlock
-</code></pre>
+<pre><code class="language-ts">ContextBlock | ActionsBlock | DividerBlock | SectionBlock | InputBlock | FileBlock | HeaderBlock</code></pre>
 One of:
 <ul>
 <li><a href="#contextblock" title=""><code>ContextBlock</code></a></li>
@@ -1497,8 +1494,7 @@ One of:
 <li><a href="#headerblock" title=""><code>HeaderBlock</code></a></li>
 </ul>
 <h2 id="multiselect">MultiSelect</h2>
-<pre><code class="language-ts">MultiStaticSelect | MultiConversationsSelect | MultiChannelsSelect | MultiExternalSelect
-</code></pre>
+<pre><code class="language-ts">MultiStaticSelect | MultiConversationsSelect | MultiChannelsSelect | MultiExternalSelect</code></pre>
 One of:
 <ul>
 <li><a href="#multistaticselect" title=""><code>MultiStaticSelect</code></a></li>
@@ -1507,8 +1503,7 @@ One of:
 <li><a href="#multiexternalselect" title=""><code>MultiExternalSelect</code></a></li>
 </ul>
 <h2 id="select">Select</h2>
-<pre><code class="language-ts">StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect
-</code></pre>
+<pre><code class="language-ts">StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect</code></pre>
 One of:
 <ul>
 <li><a href="#staticselect" title=""><code>StaticSelect</code></a></li>

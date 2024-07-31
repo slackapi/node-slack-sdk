@@ -1,6 +1,5 @@
 ---
 title: "@slack/logger"
-slug: logger
 ---
 
 <h1 id="classes" class="undefined auto-anchor-strong">Classes</h1>

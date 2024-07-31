@@ -1,7 +1,14 @@
 ---
 title: "@slack/interactive-messages"
-slug: interactive-messages
 ---
+
+:::warning[Deprecation notice]
+
+_`@slack/interactive-messages` officially reached EOL on May 31st, 2021. Development has fully stopped for this package and all remaining open issues and pull requests have been closed._
+
+_At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](/tutorials/migrating-to-v6) for those looking to convert their existing apps._
+
+:::
 
 <h1 id="classes" class="undefined auto-anchor-strong">Classes</h1>
 <h2 id="slackmessageadapter">SlackMessageAdapter</h2>
@@ -91,7 +98,11 @@ slug: interactive-messages
 <h4>action(matchingConstraints, callback)</h4>
 <p>Add a handler for an interactive message action.</p>
 <p>Usually there's no need to be concerned with _how_ a message is sent to Slack, but the following table describes it fully.</p>
-<p>**Action**|**Return <code>object</code>**|**Return <code>Promise&#x3C;object></code>**|**Return <code>undefined</code>**|**Call <code>respond(message)</code>**|**Notes** :-----:|:-----:|:-----:|:-----:|:-----:|:-----: **Button Press**| Message in response | When resolved before <code>syncResponseTimeout</code> or <code>lateResponseFallbackEnabled: false</code>, message in response<br />When resolved after <code>syncResponseTimeout</code> and <code>lateResponseFallbackEnabled: true</code>, message in request to <code>response_url</code> | Empty response | Message in request to <code>response_url</code> | Create a new message instead of replacing using <code>replace_original: false</code> **Menu Selection**| Message in response | When resolved before <code>syncResponseTimeout</code> or <code>lateResponseFallbackEnabled: false</code>, message in response<br />When resolved after <code>syncResponseTimeout</code> and <code>lateResponseFallbackEnabled: true</code>, message in request to <code>response_url</code> | Empty response | Message in request to <code>response_url</code> | Create a new message instead of replacing using <code>replace_original: false</code> **Message Action** | Message in response | When resolved before <code>syncResponseTimeout</code> or <code>lateResponseFallbackEnabled: false</code>, message in response<br />When resolved after <code>syncResponseTimeout</code> and <code>lateResponseFallbackEnabled: true</code>, message in request to <code>response_url</code> | Empty response | Message in request to <code>response_url</code> | **Dialog Submission**| Error list in response | Error list in response | Empty response | Message in request to <code>response_url</code> | Returning a Promise that takes longer than 3 seconds to resolve can result in the user seeing an error. Warning logged if a promise isn't completed before <code>syncResponseTimeout</code>.</p>
+
+**Action**|**Return <code>object</code>**|**Return <code>Promise&#x3C;object></code>**|**Return <code>undefined</code>**|**Call <code>respond(message)</code>**|**Notes** 
+:-----:|:-----:|:-----:|:-----:|:-----:|:-----:
+**Button Press**| Message in response | When resolved before <code>syncResponseTimeout</code> or <code>lateResponseFallbackEnabled: false</code>, message in response<br />When resolved after <code>syncResponseTimeout</code> and <code>lateResponseFallbackEnabled: true</code>, message in request to <code>response_url</code> | Empty response | Message in request to <code>response_url</code> | Create a new message instead of replacing using <code>replace_original: false</code> **Menu Selection**| Message in response | When resolved before <code>syncResponseTimeout</code> or <code>lateResponseFallbackEnabled: false</code>, message in response<br />When resolved after <code>syncResponseTimeout</code> and <code>lateResponseFallbackEnabled: true</code>, message in request to <code>response_url</code> | Empty response | Message in request to <code>response_url</code> | Create a new message instead of replacing using <code>replace_original: false</code> **Message Action** | Message in response | When resolved before <code>syncResponseTimeout</code> or <code>lateResponseFallbackEnabled: false</code>, message in response<br />When resolved after <code>syncResponseTimeout</code> and <code>lateResponseFallbackEnabled: true</code>, message in request to <code>response_url</code> | Empty response | Message in request to <code>response_url</code> | **Dialog Submission**| Error list in response | Error list in response | Empty response | Message in request to <code>response_url</code> | Returning a Promise that takes longer than 3 seconds to resolve can result in the user seeing an error. Warning logged if a promise isn't completed before <code>syncResponseTimeout</code>.
+
 <strong>Parameters:</strong>
 <table>
 <thead>
@@ -495,30 +506,17 @@ slug: interactive-messages
 <h1 id="type-aliases" class="undefined auto-anchor-strong">Type Aliases</h1>
 <h2 id="actionhandler">ActionHandler</h2>
 <p>A handler function for action requests (block actions, button presses, menu selections, and dialog submissions).</p>
-<pre><code class="language-ts">) => any | Promise&#x3C;any> | undefined
-</code></pre>
+<pre><code class="language-ts">) => any | Promise&#x3C;any> | undefined</code></pre>
 <h2 id="optionshandler">OptionsHandler</h2>
-<p>A handler function for menu options requests.</p>
-<pre><code class="language-ts">&#x3C;any> | undefined
-</code></pre>
+<p>A handler function for menu options requests.</p><pre><code class="language-ts">&#x3C;any> | undefined</code></pre>
 <h2 id="respond">Respond</h2>
 <p>A function used to send message updates after an action is handled. This function can be used up to 5 times in 30 minutes.</p>
-<pre><code class="language-ts">&#x3C;unknown>
-</code></pre>
+<pre><code class="language-ts">&#x3C;unknown></code></pre>
 <h2 id="shortcuthandler">ShortcutHandler</h2>
 <p>A handler function for global shortcuts.</p>
-<p>TODO: describe the payload and return values more specifically?</p>
-<pre><code class="language-ts">&#x3C;any> | undefined
-</code></pre>
+<pre><code class="language-ts">&#x3C;any> | undefined</code></pre>
 <h2 id="viewclosedhandler">ViewClosedHandler</h2>
 <p>A handler function for view closed requests.</p>
-<p>TODO: describe the payload and return values more specifically?</p>
-<pre><code class="language-ts"></code></pre>
-One of:
-<ul>
-</ul>
 <h2 id="viewsubmissionhandler">ViewSubmissionHandler</h2>
 <p>A handler function for view submission requests.</p>
-<p>TODO: describe the payload and return values more specifically?</p>
-<pre><code class="language-ts">&#x3C;any> | undefined
-</code></pre>
+<pre><code class="language-ts">&#x3C;any> | undefined</code></pre>

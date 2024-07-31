@@ -2,7 +2,6 @@
 title: Getting Started
 permalink: /getting-started
 redirect_from: /getting_started
-order: 1
 ---
 
 This tutorial will show you how to use the packages in this Node Slack SDK to get a simple Slack app running. If you've
@@ -135,9 +134,9 @@ You just built your first Slack app with Node.js! 🎉💃🌮
 There's plenty more to learn and explore about this SDK and the Slack platform. Here are some ideas about where to
 look next:
 
-* Dive into the [`@slack/events-api`](https://slack.dev/node-slack-sdk/events-api) package to learn how your app can
+* Dive into the [`@slack/events-api`](/events-api) package to learn how your app can
   listen for events happening inside Slack. You'll need a URL where your app can receive events, and the [local
-  development tutorial](https://slack.dev/node-slack-sdk/tutorials/local-development) can help you set one up.
+  development tutorial](/tutorials/local-development) can help you set one up.
 
 * This tutorial only used two of **over 130 Web API methods** available. [Look through
   them](https://api.slack.com/methods) to get ideas about what to build next!
@@ -146,7 +145,7 @@ look next:
   allows the app to use a bot token. Learn about the [different types of
   tokens](https://api.slack.com/docs/token-types).
 
-* You now know how to build a Slack app for a single workspace, [learn how to implement Slack"
-  OAuth](https://api.slack.com/authentication/oauth-v2) to make your app installable in many workspaces. If you are using
+* You now know how to build a Slack app for a single workspace, [learn how to implement Slack
+OAuth](https://api.slack.com/authentication/oauth-v2) to make your app installable in many workspaces. If you are using
   [Passport](http://www.passportjs.org/) to handle authentication, you may find the
   [`@aoberoi/passport-slack`](https://github.com/aoberoi/passport-slack) strategy package helpful.

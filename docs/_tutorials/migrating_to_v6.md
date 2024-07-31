@@ -1,7 +1,5 @@
 ---
 title: Migrating to v6.x
-order: 1
-slug: migrating_to_v6
 ---
 
 # Migration Guide (v5 to v6)
@@ -123,5 +121,3 @@ await ack();
 });
 // @slack/bolt also has listeners for options, view, slash commands and shortcuts
 ```
-
-

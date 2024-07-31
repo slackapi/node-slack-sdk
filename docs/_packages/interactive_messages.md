@@ -1,19 +1,20 @@
 ---
 title: Interactive Messages
 permalink: /interactive-messages
-order: 3
 ---
 
 # Slack Interactive Messages for Node
 
-The `@slack/interactive-messages` helps your app respond to interactions from Slack's
-[interactive messages](https://api.slack.com/messaging/interactivity), [actions](https://api.slack.com/actions), and [dialogs](https://api.slack.com/dialogs). This package will help you start with convenient and secure defaults.
-
-### **Deprecation Notice**
+:::warning[Deprecation notice]
 
 _`@slack/interactive-messages` officially reached EOL on May 31st, 2021. Development has fully stopped for this package and all remaining open issues and pull requests have been closed._
 
-_At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](https://slack.dev/node-slack-sdk/tutorials/migrating-to-v6) for those looking to convert their existing apps._
+_At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](/tutorials/migrating-to-v6) for those looking to convert their existing apps._
+
+:::
+
+The `@slack/interactive-messages` helps your app respond to interactions from Slack's
+[interactive messages](https://api.slack.com/messaging/interactivity), [actions](https://api.slack.com/actions), and [dialogs](https://api.slack.com/dialogs). This package will help you start with convenient and secure defaults.
 
 ## Installation
 
@@ -26,7 +27,7 @@ development workspace. You'll also **need a public URL** where the app can begin
 to find the **request signing secret** given to you by Slack under the "Basic Information" of your app configuration.
 
 It may be helpful to read the tutorial on [developing Slack apps
-locally](https://slack.dev/node-slack-sdk/tutorials/local-development).
+locally](/tutorials/local-development).
 
 ---
 

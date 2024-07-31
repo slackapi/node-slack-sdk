@@ -1,6 +1,5 @@
 ---
 title: "@slack/webhook"
-slug: webhook
 ---
 
 <h1 id="classes" class="undefined auto-anchor-strong">Classes</h1>
@@ -231,8 +230,7 @@ slug: webhook
 </table>
 <h1 id="type-aliases" class="undefined auto-anchor-strong">Type Aliases</h1>
 <h2 id="incomingwebhooksenderror">IncomingWebhookSendError</h2>
-<pre><code class="language-ts">IncomingWebhookHTTPError
-</code></pre>
+<pre><code class="language-ts">IncomingWebhookHTTPError</code></pre>
 One of:
 <ul>
 <li><a href="#incomingwebhookhttperror" title=""><code>IncomingWebhookHTTPError</code></a></li>
