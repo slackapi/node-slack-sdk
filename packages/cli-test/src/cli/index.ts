@@ -1,9 +1,9 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
-import appCommands from './commands/app';
-import authCommands from './commands/auth';
-import collaboratorCommands from './commands/collaborator';
+import app from './commands/app';
+import auth from './commands/auth';
+import collaborator from './commands/collaborator';
 import createCommands from './commands/create';
 import envCommands from './commands/env';
 import externalAuthCommands from './commands/external-auth';
@@ -17,13 +17,9 @@ import logger from '../utils/logger';
  * Set of functions to spawn and interact with Slack Platform CLI processes and commands
  */
 export const SlackCLI = {
-  app: appCommands,
-  auth: authCommands,
-  collaborators: {
-    add: collaboratorCommands.collaboratorsAdd,
-    list: collaboratorCommands.collaboratorsList,
-    remove: collaboratorCommands.collaboratorsRemove,
-  },
+  app,
+  auth,
+  collaborator,
   ...createCommands,
   ...envCommands, // TODO: (breaking change) remove, mimic same 'namespacing' as the actual CLI
   env: {
