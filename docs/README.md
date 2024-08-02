@@ -66,22 +66,11 @@ The following command starts a local development server and opens up a browser w
 
 ```
 npm run start
-open http://localhost:3000/bolt-python/getting-started # visit a page
 ```
 
 Edits to pages are reflected live — no restarting the server or reloading the page. (I'd say... 95% of the time, and 100% time if you're just editing a markdown file)
 
-Remember — you're only viewing the Bolt-JS docs right now.
-
-#### Running locally in Japanese
-
-For local runs, Docusaurus treats each language as a different instance of the website. You'll want to specify the language to run the japanese site locally:
-
-```
-npm run start -- --locale ja-jp
-```
-
-Don't worry - both languages will be built/served on deployment. 
+Remember — you're only viewing the Node Slack SDK docs right now.
 
 ---
 

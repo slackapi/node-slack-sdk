@@ -10,7 +10,7 @@ The following contain additional examples that may be useful for consumers.
 
 ## Listen for Interactivity Events
 
-To receive interactivity events such as shorcut invocations, button clicks, and modal data submission, your listener can subscribe to "interactive" events.
+To receive interactivity events such as shortcut invocations, button clicks, and modal data submission, your listener can subscribe to "interactive" events.
 
 ```javascript
 const { WebClient } = require('@slack/web-api');

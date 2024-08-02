@@ -29,7 +29,6 @@ const sidebars = {
     {
       type: 'category',
       label: 'Packages',
-      collapsed: false,
       items: [
         'packages/web-api',
         'packages/oauth',
@@ -61,19 +60,86 @@ const sidebars = {
       type: 'category',
       label: 'Reference',
       items: [
-        'reference/logger',
-        'reference/oauth',
-        'reference/rtm-api',
-        'reference/types',
-        'reference/web-api',
-        'reference/webhook',
         {
           type: 'category',
-          label: 'Deprecated packages',
-          items: [
-            'reference/events-api',
-            'reference/interactive-messages',
-          ],
+          label: '@slack/events-api',
+          link: {
+            type: 'doc',
+            id: 'reference/events-api/index',
+          },
+          items: require('./content/reference/events-api/typedoc-sidebar.cjs'),
+        },
+        {
+          type: 'category',
+          label: '@slack/interactive-messages',
+          link: {
+            type: 'doc',
+            id: 'reference/interactive-messages/index',
+          },
+          items: require('./content/reference/interactive-messages/typedoc-sidebar.cjs'),
+        },
+        {
+          type: 'category',
+          label: '@slack/logger',
+          link: {
+            type: 'doc',
+            id: 'reference/logger/index',
+          },
+          items: require('./content/reference/logger/typedoc-sidebar.cjs'),
+        },
+        {
+          type: 'category',
+          label: '@slack/oauth',
+          link: {
+            type: 'doc',
+            id: 'reference/oauth/index',
+          },
+          items: require('./content/reference/oauth/typedoc-sidebar.cjs'),
+        },
+        {
+          type: 'category',
+          label: '@slack/rtm-api',
+          link: {
+            type: 'doc',
+            id: 'reference/rtm-api/index',
+          },
+          items: require('./content/reference/rtm-api/typedoc-sidebar.cjs'),
+        },
+        {
+          type: 'category',
+          label: '@slack/socket-mode',
+          link: {
+            type: 'doc',
+            id: 'reference/socket-mode/index',
+          },
+          items: require('./content/reference/socket-mode/typedoc-sidebar.cjs'),
+        },
+        {
+          type: 'category',
+          label: '@slack/types',
+          link: {
+            type: 'doc',
+            id: 'reference/types/index',
+          },
+          items: require('./content/reference/types/typedoc-sidebar.cjs'),
+        },
+        {
+          type: 'category',
+          label: '@slack/web-api',
+          link: {
+            type: 'doc',
+            id: 'reference/web-api/index',
+          },
+          items: require('./content/reference/web-api/typedoc-sidebar.cjs'),
+        },
+        {
+          type: 'category',
+          label: '@slack/webhook',
+          link: {
+            type: 'doc',
+            id: 'reference/webhook/index',
+          },
+          items: require('./content/reference/webhook/typedoc-sidebar.cjs'),
         },
       ],
     },
