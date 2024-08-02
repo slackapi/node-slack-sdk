@@ -1,32 +1,102 @@
-import { SlackCLIProcess } from '../cli-process';
+import { ProjectCommandArguments } from '../../types/commands/common_arguments';
+import { SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
+
+export interface ExternalAuthCommandArguments {
+  /** @description the OAuth Provider key to target. */
+  provider: string;
+  /** @description the OAuth Provider's client secret. */
+  secret: string;
+  /**
+   * @description Remove all tokens? If `provider` is not specified, removes all tokens for all providers,
+   * otherwise removes all tokens for the specified provider. Defaults to `false.`
+   */
+  all?: boolean;
+}
 
 /**
- * `slack external-auth`
- * @param appPath path to app
- * @param teamFlag team domain of the relevant app
- * @param provider provider to add external auth for
- * @param flags specification of external-auth, e.g. add or add-secret
+ * `slack external-auth add`
  * @returns command output
  */
-export const externalAuth = async function externalAuth(
-  appPath: string,
-  teamFlag: string,
-  provider: string,
-  flags: string,
-  options?: { qa?: boolean },
+export const add = async function externalAuthAdd(
+  args: ProjectCommandArguments & Pick<ExternalAuthCommandArguments, 'provider'>,
 ): Promise<string> {
-  // TODO: (breaking change) separate parameters vs single-param-object
-  // TODO: this is a generic entry point to the `external-auth` suite of commands, and today `flags` is abused to
-  // specify the actual sub-command. easy, but lazy, not sure if best approach
-  const cmd = new SlackCLIProcess(`external-auth ${flags}`, { team: teamFlag, qa: options?.qa }, {
-    '--provider': provider,
+  const cmd = new SlackCLIProcess('external-auth add', args, {
+    '--provider': args.provider,
   });
   const proc = await cmd.execAsync({
-    cwd: appPath,
+    cwd: args.appPath,
+  });
+  return proc.output;
+};
+
+/**
+ * `slack external-auth add-secret`
+ * @returns command output
+ */
+export const addSecret = async function extAuthAddSecret(
+  args: ProjectCommandArguments & Omit<ExternalAuthCommandArguments, 'all'>,
+): Promise<string> {
+  const cmd = new SlackCLIProcess('external-auth add-secret', args, {
+    '--provider': args.provider,
+    '--secret': args.secret,
+  });
+  const proc = await cmd.execAsync({
+    cwd: args.appPath,
+  });
+  return proc.output;
+};
+
+/**
+ * `slack external-auth remove`
+ * @returns command output
+ */
+export const remove = async function extAuthRemove(
+  args: ProjectCommandArguments & Omit<ExternalAuthCommandArguments, 'secret'>,
+): Promise<string> {
+  const cmdOpts: SlackCLICommandOptions = {
+    '--provider': args.provider,
+  };
+  if (args.all) {
+    cmdOpts['--all'] = true;
+  }
+  const cmd = new SlackCLIProcess('external-auth remove', args, cmdOpts);
+  const proc = await cmd.execAsync({
+    cwd: args.appPath,
+  });
+  return proc.output;
+};
+
+/**
+ * `slack external-auth select-auth`
+ * @returns command output
+ */
+export const selectAuth = async function extAuthSelectAuth(
+  args: ProjectCommandArguments & Pick<ExternalAuthCommandArguments, 'provider'> & {
+    /** @description specifies an external account identifier, e.g. an email address. */
+    externalAccount?: string;
+    /** @description specifies a workflow to set selected developer account. */
+    workflow?: string;
+  },
+): Promise<string> {
+  const cmdOpts: SlackCLICommandOptions = {
+    '--provider': args.provider,
+  };
+  if (args.externalAccount) {
+    cmdOpts['--external-account'] = args.externalAccount;
+  }
+  if (args.workflow) {
+    cmdOpts['--workflow'] = args.workflow;
+  }
+  const cmd = new SlackCLIProcess('external-auth select-auth', args, cmdOpts);
+  const proc = await cmd.execAsync({
+    cwd: args.appPath,
   });
   return proc.output;
 };
 
 export default {
-  externalAuth,
+  add,
+  addSecret,
+  remove,
+  selectAuth,
 };

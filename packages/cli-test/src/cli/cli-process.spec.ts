@@ -76,6 +76,38 @@ describe('SlackCLIProcess class', () => {
         await cmd.execAsync();
         sandbox.assert.calledWithMatch(spawnProcessSpy, '--skip-update');
       });
+      it('should default to `--app deployed` but allow overriding that via the `instance` parameter', async () => {
+        let cmd = new SlackCLIProcess('help');
+        await cmd.execAsync();
+        sandbox.assert.calledWithMatch(spawnProcessSpy, '--app deployed');
+        spawnProcessSpy.resetHistory();
+        cmd = new SlackCLIProcess('help', { instance: 'local' });
+        await cmd.execAsync();
+        sandbox.assert.calledWithMatch(spawnProcessSpy, '--app local');
+      });
+      it('should default to `--force` but allow overriding that via the `force` parameter', async () => {
+        let cmd = new SlackCLIProcess('help');
+        await cmd.execAsync();
+        sandbox.assert.calledWithMatch(spawnProcessSpy, '--force');
+        spawnProcessSpy.resetHistory();
+        cmd = new SlackCLIProcess('help', { force: true });
+        await cmd.execAsync();
+        sandbox.assert.calledWithMatch(spawnProcessSpy, '--force');
+        spawnProcessSpy.resetHistory();
+        cmd = new SlackCLIProcess('help', { force: false });
+        await cmd.execAsync();
+        sandbox.assert.neverCalledWithMatch(spawnProcessSpy, '--force');
+      });
+      it('should map token option to `--token`', async () => {
+        let cmd = new SlackCLIProcess('help', { token: 'xoxb-1234' });
+        await cmd.execAsync();
+        sandbox.assert.calledWithMatch(spawnProcessSpy, '--token xoxb-1234');
+        spawnProcessSpy.resetHistory();
+        cmd = new SlackCLIProcess('help');
+        await cmd.execAsync();
+        sandbox.assert.neverCalledWithMatch(spawnProcessSpy, '--token xoxb-1234');
+        spawnProcessSpy.resetHistory();
+      });
     });
     describe('command options', () => {
       it('should pass command-level key/value options to command in the form `--<key> value`', async () => {

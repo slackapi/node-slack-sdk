@@ -23,15 +23,10 @@ describe('app commands', () => {
   });
 
   describe('delete method', () => {
-    it('should invoke `app delete` and default to deployed apps and force=true', async () => {
+    it('should invoke `app delete` and default force=true', async () => {
       await app.delete({ appPath: '/some/path' });
       sandbox.assert.calledWith(spawnSpy, sinon.match('--force'));
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--app deployed'));
       sandbox.assert.calledWith(spawnSpy, sinon.match('app delete'));
-    });
-    it('should invoke with `--app local` if app=local', async () => {
-      await app.delete({ appPath: '/some/path', app: 'local' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--app local'));
     });
     it('should invoke with `--force` if force=true', async () => {
       await app.delete({ appPath: '/some/path', force: true });

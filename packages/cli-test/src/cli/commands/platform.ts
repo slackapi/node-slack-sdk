@@ -1,210 +1,159 @@
+import { ProjectCommandArguments } from '../../types/commands/common_arguments';
 import { SlackTracerId } from '../../utils/constants';
 import logger from '../../utils/logger';
-import { SlackCLIProcess } from '../cli-process';
+import { SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
 import { shell } from '../shell';
 
 import type { ShellProcess } from '../../types/shell';
 
-// TODO: the options for these methods could be DRYed up
+export interface StringWaitArgument {
+  /** @description string to wait for in the command output before this function returns. */
+  stringToWaitFor: string;
+}
 
-export default {
-  /**
-   * `slack platform activity`
-   * @param flag
-   * @returns command output
-   */
-  activity: async function activity({
-    appPath,
-    teamFlag,
-    flag,
-    localApp = true,
-    qa = false,
-  }: {
-    /** Path to app */
-    appPath: string;
-    /** workspace or organization name or ID to deploy the app to */
-    teamFlag: string;
-    /** Arbitrary flags to provide to the command */
-    flag?: string;
-    /** Whether to operate on the local or deployed app */
-    localApp?: boolean; // TODO: this option is provided inconsistently across commands (breaking change)
-    /** Whether to operate against --slackdev or production */
-    qa?: boolean; // TODO: this option is provided inconsistently across commands (breaking change)
-  }): Promise<string> {
-    const appEnvironment = localApp ? 'local' : 'deployed';
-    const cmd = new SlackCLIProcess(`activity ${flag}`, { team: teamFlag, qa }, {
-      '--app': appEnvironment,
-    });
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  },
+export interface ProcessArgument {
+  /** @description CLI process previous created via a `*Start` command. */
+  proc: ShellProcess;
+}
 
+export interface RunDeployArguments {
+  /** @description Hides output and prompts related to triggers. Defaults to `true`. */
+  hideTriggers?: boolean;
   /**
-   * waits for a specified sequence then returns the shell
-   * At the specific point where the sequence is found to continue with test
-   * @returns command output
+   * @description Org workspace ID, or the string `all` to request access to all workspaces in the org,
+   * to request grant access to in AAA scenarios
    */
-  activityTailStart: async function activityTailStart({
-    appPath,
-    teamFlag,
-    stringToWaitFor,
-    localApp = true,
-    qa = false,
-  }: {
-    /** Path to app */
-    appPath: string;
-    /** workspace or organization name or ID to deploy the app to */
-    teamFlag: string;
-    /** expected string to be present in the output before this function returns */
-    stringToWaitFor: string;
-    /** Whether to operate on the local or deployed app */
-    localApp?: boolean;
-    /** Whether to operate against --slackdev or production */
-    qa?: boolean; // TODO: this option is provided inconsistently across commands (breaking change)
-  }): Promise<ShellProcess> {
-    const appEnvironment = localApp ? 'local' : 'deployed';
-    const cmd = new SlackCLIProcess('activity --tail', { team: teamFlag, qa }, {
-      '--app': appEnvironment,
-    });
-    const proc = await cmd.execAsyncUntilOutputPresent(stringToWaitFor, {
-      cwd: appPath,
-    });
-    return proc;
-  },
+  orgWorkspaceGrantFlag?: string;
+  /** @description Delete the app after `run` process finishes. Defaults to `true`. */
+  cleanup?: boolean;
+}
 
-  /**
-   * waits for a specified string in the `activity` output, kills the process then returns the output
-   * @returns command output
-   */
-  activityTailStop: async function activityTailStop({
-    /** The ShellProcess to check */
-    proc,
-    stringToWait,
-  }: {
-    proc: ShellProcess;
-    /** expected string to be present in the output before process is killed */
-    stringToWait: string;
-  }): Promise<string> {
-    return new Promise((resolve, reject) => {
-      // Wait for output
-      shell.waitForOutput(stringToWait, proc).then(() => {
-        // kill the shell process
-        shell.kill(proc).then(() => {
-          resolve(proc.output);
-        }, (err) => {
-          const msg = `activityTailStop command failed to kill process: ${err}`;
-          logger.warn(msg);
-          reject(new Error(msg));
-        });
-      }, reject);
-    });
-  },
+/**
+ * `slack platform activity`
+ * @returns command output
+ */
+export const activity = async function activity(args: ProjectCommandArguments & {
+  /** @description Source of logs to filter; can be `slack` or `developer`. */
+  source?: 'slack' | 'developer';
+}): Promise<string> {
+  const cmdOpts: SlackCLICommandOptions = {};
+  if ('source' in args) {
+    cmdOpts['--source'] = args.source;
+  }
+  const cmd = new SlackCLIProcess('activity', args, cmdOpts);
+  const proc = await cmd.execAsync({
+    cwd: args.appPath,
+  });
+  return proc.output;
+};
 
-  /**
-   * `slack deploy`
-   */
-  deploy: async function deploy({
-    appPath,
-    teamFlag,
-    hideTriggers = true,
-    orgWorkspaceGrantFlag,
-    qa = false,
-  }: {
-    /** Path to app */
-    appPath: string;
-    /** workspace or organization name or ID to deploy the app to */
-    teamFlag: string;
-    /** hides output and prompts related to triggers. Defaults to `true`. */
-    hideTriggers?: boolean;
-    /**
-     * Org workspace ID, or the string `all` to request access to all workspaces in the org,
-     * to request grant access to in AAA scenarios
-     */
-    orgWorkspaceGrantFlag?: string;
-    /** Whether to operate against --slackdev or production */
-    qa?: boolean; // TODO: this option is provided inconsistently across commands (breaking change)
-  }): Promise<string> {
-    const cmd = new SlackCLIProcess('deploy', { team: teamFlag, qa }, {
-      '--hide-triggers': hideTriggers,
-      '--org-workspace-grant': orgWorkspaceGrantFlag,
-    });
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  },
+/**
+ * `slack platform activity` but waits for a specified sequence then returns the shell
+ * At the specific point where the sequence is found to continue with test
+ * @returns command output
+ */
+export const activityTailStart = async function activityTailStart(
+  args: ProjectCommandArguments & StringWaitArgument,
+): Promise<ShellProcess> {
+  const cmd = new SlackCLIProcess('activity', args, { '--tail': true });
+  const proc = await cmd.execAsyncUntilOutputPresent(args.stringToWaitFor, {
+    cwd: args.appPath,
+  });
+  return proc;
+};
 
-  /**
-   * start `slack run`
-   * - `runStop` must be used to stop `run` process
-   * @returns shell object to kill it explicitly in the test case
-   */
-  runStart: async function runStart({
-    appPath,
-    teamFlag,
-    cleanup = true,
-    hideTriggers = true,
-    orgWorkspaceGrantFlag,
-    qa = false,
-  }: {
-    /** Path to app */
-    appPath: string;
-    /** workspace or organization name or ID to deploy the app to */
-    teamFlag: string;
-    /** delete the app after `run` completes */
-    cleanup?: boolean;
-    /** hides output and prompts related to triggers. Defaults to `true`. */
-    hideTriggers?: boolean;
-    /**
-     * Org workspace ID, or the string `all` to request access to all workspaces in the org,
-     * to request grant access to in AAA scenarios
-     */
-    orgWorkspaceGrantFlag?: string;
-    /** Whether to operate against --slackdev or production */
-    qa?: boolean; // TODO: this option is provided inconsistently across commands (breaking change)
-  }): Promise<ShellProcess> {
-    const cmd = new SlackCLIProcess('run', { team: teamFlag, qa }, {
-      '--cleanup': cleanup,
-      '--hide-triggers': hideTriggers,
-      '--org-workspace-grant': orgWorkspaceGrantFlag,
-    });
-    const proc = await cmd.execAsyncUntilOutputPresent('Connected, awaiting events', {
-      cwd: appPath,
-    });
-    return proc;
-  },
-
-  /**
-   * stop `slack run`
-   * @param shell object with process to kill
-   * @param teamName to check that app was deleted from that team
-   */
-  runStop: async function runStop(proc: ShellProcess, teamName?: string): Promise<void> {
-    // TODO: teamName param should be changed to something else. 'wait for shutdown' or some such (breaking change)
-    return new Promise((resolve, reject) => {
+/**
+ * Waits for a specified string in the provided `activityTailStart` process output,
+ * kills the process then returns the output
+ * @returns command output
+ */
+export const activityTailStop = async function activityTailStop(
+  args: StringWaitArgument & ProcessArgument,
+): Promise<string> {
+  return new Promise((resolve, reject) => {
+    // Wait for output
+    shell.waitForOutput(args.stringToWaitFor, args.proc).then(() => {
       // kill the shell process
-      shell.kill(proc).then(() => {
-        // Due to the complexity of gracefully shutting down processes on Windows / lack of interrupt signal support,
-        // we don't wait for the SLACK_TRACE_PLATFORM_RUN_STOP trace on Windows
-        if (process.platform === 'win32') {
-          resolve();
-        }
-
-        if (teamName) {
-          // TODO: this is messed up. does not match to parameter name at all - team name has nothing to do with this.
-          // Check if local app was deleted automatically, if --cleanup was passed to `runStart`
-          // Wait for the output to verify process stopped
-          shell.waitForOutput(SlackTracerId.SLACK_TRACE_PLATFORM_RUN_STOP, proc).then(resolve, reject);
-        } else {
-          resolve();
-        }
+      shell.kill(args.proc).then(() => {
+        resolve(args.proc.output);
       }, (err) => {
-        const msg = `runStop command failed to kill process: ${err}`;
+        const msg = `activityTailStop command failed to kill process: ${err}`;
         logger.warn(msg);
         reject(new Error(msg));
       });
+    }, reject);
+  });
+};
+
+/**
+ * `slack deploy`
+ * @returns command output
+ */
+export const deploy = async function deploy(args: ProjectCommandArguments & Omit<RunDeployArguments, 'cleanup'>): Promise<string> {
+  const cmd = new SlackCLIProcess('deploy', args, {
+    '--hide-triggers': typeof args.hideTriggers !== 'undefined' ? args.hideTriggers : true,
+    '--org-workspace-grant': args.orgWorkspaceGrantFlag,
+  });
+  const proc = await cmd.execAsync({
+    cwd: args.appPath,
+  });
+  return proc.output;
+};
+
+/**
+ * start `slack run`. `runStop` must be used to stop the `run` process returned by this method.
+ * @returns shell object to kill it explicitly in the test case via `runStop`
+ */
+export const runStart = async function runStart(
+  args: ProjectCommandArguments & RunDeployArguments,
+): Promise<ShellProcess> {
+  const cmd = new SlackCLIProcess('run', args, {
+    '--cleanup': typeof args.cleanup !== 'undefined' ? args.cleanup : true,
+    '--hide-triggers': typeof args.hideTriggers !== 'undefined' ? args.hideTriggers : true,
+    '--org-workspace-grant': args.orgWorkspaceGrantFlag,
+  });
+  const proc = await cmd.execAsyncUntilOutputPresent('Connected, awaiting events', {
+    cwd: args.appPath,
+  });
+  return proc;
+};
+
+/**
+ * stop `slack run`
+ * @param teamName to check that app was deleted from that team
+ */
+export const runStop = async function runStop(args: ProcessArgument & {
+  /** @description Should wait for the `run` process to spin down before exiting this function. */
+  waitForShutdown?: boolean;
+}): Promise<void> {
+  return new Promise((resolve, reject) => {
+    // kill the shell process
+    shell.kill(args.proc).then(() => {
+      // Due to the complexity of gracefully shutting down processes on Windows / lack of interrupt signal support,
+      // we don't wait for the SLACK_TRACE_PLATFORM_RUN_STOP trace on Windows
+      if (process.platform === 'win32') {
+        resolve();
+      }
+
+      if (args.waitForShutdown) {
+        // Wait for the output to verify process stopped
+        shell.waitForOutput(SlackTracerId.SLACK_TRACE_PLATFORM_RUN_STOP, args.proc).then(resolve, reject);
+      } else {
+        resolve();
+      }
+    }, (err) => {
+      const msg = `runStop command failed to kill process: ${err}`;
+      logger.warn(msg);
+      reject(new Error(msg));
     });
-  },
+  });
+};
+
+export default {
+  activity,
+  activityTailStart,
+  activityTailStop,
+  deploy,
+  runStart,
+  runStop,
 };
