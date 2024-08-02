@@ -2,1512 +2,761 @@
 title: "@slack/types"
 ---
 
-<h1 id="interfaces" class="undefined auto-anchor-strong">Interfaces</h1>
-<h2 id="action">Action</h2>
-<h3>Fields</h3>
+## Interfaces
+
+### Action
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| action\_id | `string` |
+| type | `string` |
+
+### ActionsBlock
+
+#### Fields
+
 <table>
 <thead>
 <tr>
 <th align="center">Name</th>
 <th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">action_id</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="actionsblock">ActionsBlock</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
+
 </tr>
 </thead>
 <tbody>
 <tr>
 <td align="center">elements</td>
 <td align="center"><code>(<a href="#button" title="">Button</a> | <a href="#overflow" title="">Overflow</a> | <a href="#datepicker" title="">Datepicker</a> | <a href="#select" title="">Select</a> | <a href="#radiobuttons" title="">RadioButtons</a> | <a href="#checkboxes" title="">Checkboxes</a> | <a href="#action" title="">Action</a>)[]</code></td>
-<td></td>
+
 </tr>
 <tr>
 <td align="center">type</td>
 <td align="center"><code>'actions'</code></td>
-<td></td>
+
 </tr>
 </tbody>
 </table>
-<h2 id="attachmentaction">AttachmentAction</h2>
-<h3>Fields</h3>
+
+### AttachmentAction
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| confirm | [`Confirmation`](#confirmation) |
+| data\_source | `'static' \| 'channels' \| 'conversations' \| 'users' \| 'external'` |
+| id  | `string` |
+| min\_query\_length | `number` |
+| name | `string` |
+| option\_groups | `object` |
+| options | [`OptionField`](#optionfield)`[]` |
+| selected\_options | [`OptionField`](#optionfield)`[]` |
+| style | `'default' \| 'primary' \| 'danger'` |
+| text | `string` |
+| type | `'button' \| 'select'` |
+| url | `string` |
+| value | `string` |
+
+### Block
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| block\_id | `string` |
+| type | `string` |
+
+### Button
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| confirm | [`Confirm`](#confirm)` |
+| style | `'danger' \| 'primary'` |
+| text | [`PlainTextElement`](#plaintextelement)` |
+| type | `'button'` |
+| url | `string` |
+| value | `string` |
+
+### CallUserExternal
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| avatar\_url | `string` |
+| display\_name | `string` |
+| external\_id | `string` |
+
+### CallUserSlack
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| slack\_id | `string` |
+
+### ChannelsSelect
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| confirm | [`Confirm`](#confirm) |
+| initial\_channel | `string` |
+| placeholder | [`PlainTextElement`](#plaintextelement) |
+| type | `'channels_select'` |
+
+### Checkboxes
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| confirm | [`Confirm`](#confirm) |
+| initial\_options | `Option[]` |
+| options | `Option[]` |
+| type | `'checkboxes'` |
+
+### Confirm
+
+#### Fields
+
 <table>
 <thead>
 <tr>
 <th align="center">Name</th>
 <th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">confirm</td>
-<td align="center"><code><a href="#confirmation" title="">Confirmation</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">data_source</td>
-<td align="center"><code>'static' | 'channels' | 'conversations' | 'users' | 'external'</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">id</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">min_query_length</td>
-<td align="center"><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">name</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">option_groups</td>
-<td align="center"><code>object</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">options</td>
-<td align="center"><code><a href="#optionfield" title="">OptionField</a>[]</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">selected_options</td>
-<td align="center"><code><a href="#optionfield" title="">OptionField</a>[]</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">style</td>
-<td align="center"><code>'default' | 'primary' | 'danger'</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">text</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'button' | 'select'</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">url</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">value</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="block">Block</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">block_id</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="button">Button</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">confirm</td>
-<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">style</td>
-<td align="center"><code>'danger' | 'primary'</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">text</td>
-<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'button'</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">url</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">value</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="calluserexternal">CallUserExternal</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">avatar_url</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">display_name</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">external_id</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="calluserslack">CallUserSlack</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">slack_id</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="channelsselect">ChannelsSelect</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">confirm</td>
-<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">initial_channel</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">placeholder</td>
-<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'channels_select'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="checkboxes">Checkboxes</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">confirm</td>
-<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">initial_options</td>
-<td align="center"><code>Option[]</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">options</td>
-<td align="center"><code>Option[]</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'checkboxes'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="confirm">Confirm</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td align="center">confirm</td>
 <td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">deny</td>
 <td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">style</td>
 <td align="center"><code>'primary' | 'danger'</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">text</td>
 <td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a> | <a href="#mrkdwnelement" title="">MrkdwnElement</a></code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">title</td>
 <td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
 </tr>
 </tbody>
 </table>
-<h2 id="confirmation">Confirmation</h2>
-<h3>Fields</h3>
+
+### Confirmation
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| dismiss\_text | `string` |
+| ok\_text | `string` |
+| text | `string` |
+| title | `string` |
+
+### ContextBlock
+
+#### Fields
+
 <table>
 <thead>
 <tr>
 <th align="center">Name</th>
 <th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">dismiss_text</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">ok_text</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">text</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">title</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="contextblock">ContextBlock</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
+
 </tr>
 </thead>
 <tbody>
 <tr>
 <td align="center">elements</td>
 <td align="center"><code>(<a href="#imageelement" title="">ImageElement</a> | <a href="#plaintextelement" title="">PlainTextElement</a> | <a href="#mrkdwnelement" title="">MrkdwnElement</a>)[]</code></td>
-<td></td>
+
 </tr>
 <tr>
 <td align="center">type</td>
 <td align="center"><code>'context'</code></td>
-<td></td>
+
 </tr>
 </tbody>
 </table>
-<h2 id="conversationsselect">ConversationsSelect</h2>
-<h3>Fields</h3>
+
+### ConversationsSelect
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| confirm | [`Confirm`](#confirm) |
+| default\_to\_current\_conversation | `boolean` |
+| filter | `object` |
+| initial\_conversation | `string` |
+| placeholder | [`PlainTextElement`](#plaintextelement) |
+| response\_url\_enabled | `boolean` |
+| type | `'conversations_select'` |
+
+### Datepicker
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| confirm | [`Confirm`](#confirm) |
+| initial\_date | `string` |
+| placeholder | [`PlainTextElement`](#plaintextelement) |
+| type | `'datepicker'` |
+
+### Dialog
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| callback\_id | `string` |
+| elements | `object` |
+| notify\_on\_cancel | `boolean` |
+| state | `string` |
+| submit\_label | `string` |
+| title | `string` |
+
+### DividerBlock
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| type | `'divider'` |
+
+### ExternalSelect
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| confirm | [`Confirm`](#confirm) |
+| initial\_option | `Option` |
+| min\_query\_length | `number` |
+| placeholder | [`PlainTextElement`](#plaintextelement) |
+| type | `'external_select'` |
+
+### FileBlock
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| external\_id | `string` |
+| source | `string` |
+| type | `'file'` |
+
+### HeaderBlock
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| text | [`PlainTextElement`](#plaintextelement) |
+| type | `'header'` |
+
+### ImageBlock
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| alt\_text | `string` |
+| image\_url | `string` |
+| title | [`PlainTextElement`](#plaintextelement) |
+| type | `'image'` |
+
+### ImageElement
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| alt\_text | `string` |
+| image\_url | `string` |
+| type | `'image'` |
+
+### InputBlock
+
+#### Fields
+
 <table>
 <thead>
 <tr>
 <th align="center">Name</th>
 <th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">confirm</td>
-<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">default_to_current_conversation</td>
-<td align="center"><code>boolean</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">filter</td>
-<td align="center"><code>object</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">initial_conversation</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">placeholder</td>
-<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">response_url_enabled</td>
-<td align="center"><code>boolean</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'conversations_select'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="datepicker">Datepicker</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">confirm</td>
-<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">initial_date</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">placeholder</td>
-<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'datepicker'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="dialog">Dialog</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">callback_id</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">elements</td>
-<td align="center"><code>object</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">notify_on_cancel</td>
-<td align="center"><code>boolean</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">state</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">submit_label</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">title</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="dividerblock">DividerBlock</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'divider'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="externalselect">ExternalSelect</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">confirm</td>
-<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">initial_option</td>
-<td align="center"><code>Option</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">min_query_length</td>
-<td align="center"><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">placeholder</td>
-<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'external_select'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="fileblock">FileBlock</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">external_id</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">source</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'file'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="headerblock">HeaderBlock</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">text</td>
-<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'header'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="imageblock">ImageBlock</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">alt_text</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">image_url</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">title</td>
-<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'image'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="imageelement">ImageElement</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">alt_text</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">image_url</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'image'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="inputblock">InputBlock</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td align="center">element</td>
 <td align="center"><code><a href="#select" title="">Select</a> | <a href="#multiselect" title="">MultiSelect</a> | <a href="#datepicker" title="">Datepicker</a> | <a href="#plaintextinput" title="">PlainTextInput</a> | <a href="#radiobuttons" title="">RadioButtons</a> | <a href="#checkboxes" title="">Checkboxes</a></code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">hint</td>
 <td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">label</td>
 <td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">optional</td>
 <td align="center"><code>boolean</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">type</td>
 <td align="center"><code>'input'</code></td>
-<td></td>
 </tr>
 </tbody>
 </table>
-<h2 id="linkunfurls">LinkUnfurls</h2>
-<h2 id="messageattachment">MessageAttachment</h2>
-<h3>Fields</h3>
+
+### LinkUnfurls
+
+### MessageAttachment
+
+#### Fields
+
 <table>
 <thead>
 <tr>
 <th align="center">Name</th>
 <th align="center">Type</th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td align="center">actions</td>
 <td align="center"><code><a href="#attachmentaction" title="">AttachmentAction</a>[]</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">author_icon</td>
 <td align="center"><code>string</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">author_link</td>
 <td align="center"><code>string</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">author_name</td>
 <td align="center"><code>string</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">blocks</td>
 <td align="center"><code>(<a href="#knownblock" title="">KnownBlock</a> | <a href="#block" title="">Block</a>)[]</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">callback_id</td>
 <td align="center"><code>string</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">color</td>
 <td align="center"><code>'good' | 'warning' | 'danger' | string</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">fallback</td>
 <td align="center"><code>string</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">fields</td>
 <td align="center"><code>object</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">footer_icon</td>
 <td align="center"><code>string</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">footer</td>
 <td align="center"><code>string</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">image_url</td>
 <td align="center"><code>string</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">mrkdwn_in</td>
 <td align="center"><code>('pretext' | 'text' | 'fields')[]</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">pretext</td>
 <td align="center"><code>string</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">text</td>
 <td align="center"><code>string</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">thumb_url</td>
 <td align="center"><code>string</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">title_link</td>
 <td align="center"><code>string</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">title</td>
 <td align="center"><code>string</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">ts</td>
 <td align="center"><code>string</code></td>
-<td></td>
 </tr>
 </tbody>
 </table>
-<h2 id="mrkdwnelement">MrkdwnElement</h2>
-<h3>Fields</h3>
+
+### MrkdwnElement
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| text | `string` |
+| type | `'mrkdwn'` |
+| verbatim | `boolean` |
+
+### MultiChannelsSelect
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| confirm | [`Confirm`](#confirm) |
+| initial\_channels | `string[]` |
+| max\_selected\_items | `number` |
+| placeholder | [`PlainTextElement`](#plaintextelement) |
+| type | `'multi_channels_select'` |
+
+### MultiConversationsSelect
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| confirm | [`Confirm`](#confirm) |
+| default\_to\_current\_conversation | `boolean` |
+| filter | `object` |
+| initial\_conversations | `string[]` |
+| max\_selected\_items | `number` |
+| placeholder | [`PlainTextElement`](#plaintextelement) |
+| type | `'multi_conversations_select'` |
+
+### MultiExternalSelect
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| confirm | [`Confirm`](#confirm) |
+| initial\_options | `Option[]` |
+| max\_selected\_items | `number` |
+| min\_query\_length | `number` |
+| placeholder | [`PlainTextElement`](#plaintextelement) |
+| type | `'multi_external_select'` |
+
+### MultiStaticSelect
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| confirm | [`Confirm`](#confirm) |
+| initial\_options | `Option[]` |
+| max\_selected\_items | `number` |
+| option\_groups | `object` |
+| options | `Option[]` |
+| placeholder | [`PlainTextElement`](#plaintextelement) |
+| type | `'multi_static_select'` |
+
+### MultiUsersSelect
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| confirm | [`Confirm`](#confirm) |
+| initial\_users | `string[]` |
+| max\_selected\_items | `number` |
+| placeholder | [`PlainTextElement`](#plaintextelement) |
+| type | `'multi_users_select'` |
+
+### Option\_2
+
+#### Fields
+
 <table>
 <thead>
 <tr>
 <th align="center">Name</th>
 <th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">text</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'mrkdwn'</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">verbatim</td>
-<td align="center"><code>boolean</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="multichannelsselect">MultiChannelsSelect</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">confirm</td>
-<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">initial_channels</td>
-<td align="center"><code>string[]</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">max_selected_items</td>
-<td align="center"><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">placeholder</td>
-<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'multi_channels_select'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="multiconversationsselect">MultiConversationsSelect</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">confirm</td>
-<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">default_to_current_conversation</td>
-<td align="center"><code>boolean</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">filter</td>
-<td align="center"><code>object</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">initial_conversations</td>
-<td align="center"><code>string[]</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">max_selected_items</td>
-<td align="center"><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">placeholder</td>
-<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'multi_conversations_select'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="multiexternalselect">MultiExternalSelect</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">confirm</td>
-<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">initial_options</td>
-<td align="center"><code>Option[]</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">max_selected_items</td>
-<td align="center"><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">min_query_length</td>
-<td align="center"><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">placeholder</td>
-<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'multi_external_select'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="multistaticselect">MultiStaticSelect</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">confirm</td>
-<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">initial_options</td>
-<td align="center"><code>Option[]</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">max_selected_items</td>
-<td align="center"><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">option_groups</td>
-<td align="center"><code>object</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">options</td>
-<td align="center"><code>Option[]</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">placeholder</td>
-<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'multi_static_select'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="multiusersselect">MultiUsersSelect</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">confirm</td>
-<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">initial_users</td>
-<td align="center"><code>string[]</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">max_selected_items</td>
-<td align="center"><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">placeholder</td>
-<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'multi_users_select'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="option-2">Option_2</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
+
 </tr>
 </thead>
 <tbody>
 <tr>
 <td align="center">description</td>
 <td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
+
 </tr>
 <tr>
 <td align="center">text</td>
 <td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a> | <a href="#mrkdwnelement" title="">MrkdwnElement</a></code></td>
-<td></td>
+
 </tr>
 <tr>
 <td align="center">url</td>
 <td align="center"><code>string</code></td>
-<td></td>
+
 </tr>
 <tr>
 <td align="center">value</td>
 <td align="center"><code>string</code></td>
-<td></td>
+
 </tr>
 </tbody>
 </table>
-<h2 id="optionfield">OptionField</h2>
-<h3>Fields</h3>
+
+### OptionField
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| description | `string` |
+| text | `string` |
+| value | `string` |
+
+### Overflow
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| confirm | [`Confirm`](#confirm) |
+| options | `Option[]` |
+| type | `'overflow'` |
+
+### PlainTextElement
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| emoji | `boolean` |
+| text | `string` |
+| type | `'plain_text'` |
+
+### PlainTextInput
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| initial\_value | `string` |
+| max\_length | `number` |
+| min\_length | `number` |
+| multiline | `boolean` |
+| placeholder | [`PlainTextElement`](#plaintextelement) |
+| type | `'plain_text_input'` |
+
+### RadioButtons
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| confirm | [`Confirm`](#confirm) |
+| initial\_option | `Option` |
+| options | `Option[]` |
+| type | `'radio_buttons'` |
+
+### SectionBlock
+
+#### Fields
+
 <table>
 <thead>
 <tr>
 <th align="center">Name</th>
 <th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">description</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">text</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">value</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="overflow">Overflow</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">confirm</td>
-<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">options</td>
-<td align="center"><code>Option[]</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'overflow'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="plaintextelement">PlainTextElement</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">emoji</td>
-<td align="center"><code>boolean</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">text</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'plain_text'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="plaintextinput">PlainTextInput</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">initial_value</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">max_length</td>
-<td align="center"><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">min_length</td>
-<td align="center"><code>number</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">multiline</td>
-<td align="center"><code>boolean</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">placeholder</td>
-<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'plain_text_input'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="radiobuttons">RadioButtons</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">confirm</td>
-<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">initial_option</td>
-<td align="center"><code>Option</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">options</td>
-<td align="center"><code>Option[]</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'radio_buttons'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="sectionblock">SectionBlock</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td align="center">accessory</td>
 <td align="center"><code><a href="#button" title="">Button</a> | <a href="#overflow" title="">Overflow</a> | <a href="#datepicker" title="">Datepicker</a> | <a href="#select" title="">Select</a> | <a href="#multiselect" title="">MultiSelect</a> | <a href="#action" title="">Action</a> | <a href="#imageelement" title="">ImageElement</a> | <a href="#radiobuttons" title="">RadioButtons</a> | <a href="#checkboxes" title="">Checkboxes</a></code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">fields</td>
 <td align="center"><code>(<a href="#plaintextelement" title="">PlainTextElement</a> | <a href="#mrkdwnelement" title="">MrkdwnElement</a>)[]</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">text</td>
 <td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a> | <a href="#mrkdwnelement" title="">MrkdwnElement</a></code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">type</td>
 <td align="center"><code>'section'</code></td>
-<td></td>
 </tr>
 </tbody>
 </table>
-<h2 id="selectoption">SelectOption</h2>
-<h3>Fields</h3>
+
+### SelectOption
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| label | `string` |
+| value | `string` |
+
+### StaticSelect
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| confirm | [`Confirm`](#confirm) |
+| initial\_option | `Option` |
+| option\_groups | `object` |
+| options | `Option[]` |
+| placeholder | [`PlainTextElement`](#plaintextelement) |
+| type | `'static_select'` |
+
+### UsersSelect
+
+#### Fields
+
+| Name | Type |
+| --- | --- | 
+| confirm | [`Confirm`](#confirm) |
+| initial\_user | `string` |
+| placeholder | [`PlainTextElement`](#plaintextelement) |
+| type | `'users_select'` |
+
+### View
+
+#### Fields
+
 <table>
 <thead>
 <tr>
 <th align="center">Name</th>
 <th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">label</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">value</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="staticselect">StaticSelect</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">confirm</td>
-<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">initial_option</td>
-<td align="center"><code>Option</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">option_groups</td>
-<td align="center"><code>object</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">options</td>
-<td align="center"><code>Option[]</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">placeholder</td>
-<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'static_select'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="usersselect">UsersSelect</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="center">confirm</td>
-<td align="center"><code><a href="#confirm" title="">Confirm</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">initial_user</td>
-<td align="center"><code>string</code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">placeholder</td>
-<td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
-</tr>
-<tr>
-<td align="center">type</td>
-<td align="center"><code>'users_select'</code></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="view">View</h2>
-<h3>Fields</h3>
-<table>
-<thead>
-<tr>
-<th align="center">Name</th>
-<th align="center">Type</th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td align="center">blocks</td>
 <td align="center"><code>(<a href="#knownblock" title="">KnownBlock</a> | <a href="#block" title="">Block</a>)[]</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">callback_id</td>
 <td align="center"><code>string</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">clear_on_close</td>
 <td align="center"><code>boolean</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">close</td>
 <td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">external_id</td>
 <td align="center"><code>string</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">notify_on_close</td>
 <td align="center"><code>boolean</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">private_metadata</td>
 <td align="center"><code>string</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">submit_disabled</td>
 <td align="center"><code>boolean</code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">submit</td>
 <td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">title</td>
 <td align="center"><code><a href="#plaintextelement" title="">PlainTextElement</a></code></td>
-<td></td>
 </tr>
 <tr>
 <td align="center">type</td>
 <td align="center"><code>'home' | 'modal' | 'workflow_step'</code></td>
-<td></td>
 </tr>
 </tbody>
 </table>
-<h1 id="type-aliases" class="undefined auto-anchor-strong">Type Aliases</h1>
-<h2 id="calluser">CallUser</h2>
-<pre><code class="language-ts">CallUserExternal</code></pre>
+
+## Type Aliases
+
+### CallUser
+
+```ts
+CallUserExternal
+```
+
 One of:
-<ul>
-<li><a href="#calluserexternal" title=""><code>CallUserExternal</code></a></li>
-</ul>
-<h2 id="knownblock">KnownBlock</h2>
-<pre><code class="language-ts">ContextBlock | ActionsBlock | DividerBlock | SectionBlock | InputBlock | FileBlock | HeaderBlock</code></pre>
+
+*   [`CallUserExternal`](#calluserexternal)
+
+### KnownBlock
+
+```ts
+ContextBlock | ActionsBlock | DividerBlock | SectionBlock | InputBlock | FileBlock | HeaderBlock
+```
+
 One of:
-<ul>
-<li><a href="#contextblock" title=""><code>ContextBlock</code></a></li>
-<li><a href="#actionsblock" title=""><code>ActionsBlock</code></a></li>
-<li><a href="#dividerblock" title=""><code>DividerBlock</code></a></li>
-<li><a href="#sectionblock" title=""><code>SectionBlock</code></a></li>
-<li><a href="#inputblock" title=""><code>InputBlock</code></a></li>
-<li><a href="#fileblock" title=""><code>FileBlock</code></a></li>
-<li><a href="#headerblock" title=""><code>HeaderBlock</code></a></li>
-</ul>
-<h2 id="multiselect">MultiSelect</h2>
-<pre><code class="language-ts">MultiStaticSelect | MultiConversationsSelect | MultiChannelsSelect | MultiExternalSelect</code></pre>
+
+*   [`ContextBlock`](#contextblock)
+*   [`ActionsBlock`](#actionsblock)
+*   [`DividerBlock`](#dividerblock)
+*   [`SectionBlock`](#sectionblock)
+*   [`InputBlock`](#inputblock)
+*   [`FileBlock`](#fileblock)
+*   [`HeaderBlock`](#headerblock)
+
+### MultiSelect
+
+```ts
+MultiStaticSelect | MultiConversationsSelect | MultiChannelsSelect | MultiExternalSelect
+```
+
 One of:
-<ul>
-<li><a href="#multistaticselect" title=""><code>MultiStaticSelect</code></a></li>
-<li><a href="#multiconversationsselect" title=""><code>MultiConversationsSelect</code></a></li>
-<li><a href="#multichannelsselect" title=""><code>MultiChannelsSelect</code></a></li>
-<li><a href="#multiexternalselect" title=""><code>MultiExternalSelect</code></a></li>
-</ul>
-<h2 id="select">Select</h2>
-<pre><code class="language-ts">StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect</code></pre>
+
+*   [`MultiStaticSelect`](#multistaticselect)
+*   [`MultiConversationsSelect`](#multiconversationsselect)
+*   [`MultiChannelsSelect`](#multichannelsselect)
+*   [`MultiExternalSelect`](#multiexternalselect)
+
+### Select
+
+```ts
+StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect
+```
+
 One of:
-<ul>
-<li><a href="#staticselect" title=""><code>StaticSelect</code></a></li>
-<li><a href="#conversationsselect" title=""><code>ConversationsSelect</code></a></li>
-<li><a href="#channelsselect" title=""><code>ChannelsSelect</code></a></li>
-<li><a href="#externalselect" title=""><code>ExternalSelect</code></a></li>
-</ul>
+
+*   [`StaticSelect`](#staticselect)
+*   [`ConversationsSelect`](#conversationsselect)
+*   [`ChannelsSelect`](#channelsselect)
+*   [`ExternalSelect`](#externalselect)

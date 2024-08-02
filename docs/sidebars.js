@@ -24,7 +24,6 @@ const sidebars = {
       label: 'Node Slack SDK', // sidebar label
       className: 'sidebar-title',
     },
-    {type: 'html', value: '<hr>'},
     'getting-started',
     'typescript',
     {
@@ -79,8 +78,11 @@ const sidebars = {
       ],
     },
     {type: 'html', value: '<hr>'},
-    'changelog',
-
+    {
+      type: 'link',
+      label: 'Release notes',
+      href: 'https://github.com/SlackAPI/node-slack-sdk/releases',
+    },
     {
       type: 'link',
       label: 'Code on GitHub',

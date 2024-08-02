@@ -60,6 +60,10 @@ const config = {
             to: '/reference/logger',
             from: ['/reference'],
           },
+          {
+            to: 'https://github.com/SlackAPI/node-slack-sdk/releases',
+            from: ['/changelog'],
+          },
         ],
       },
     ],
@@ -70,6 +74,11 @@ const config = {
     ({
       colorMode: {
         respectPrefersColorScheme: true,
+      },
+      docs: {
+        sidebar: {
+          autoCollapseCategories: true,
+        },
       },
       navbar: {
         title: "Slack Developer Tools",

@@ -1,6 +1,5 @@
 ---
 title: Using TypeScript
-permalink: /typescript
 ---
 
 This project is mostly written and built using [TypeScript](https://www.typescriptlang.org/), which means many of the APIs have type information metadata 🎉. If you're using a code editor like VSCode, Atom, or many others that know how to read that metadata, or if you're using TypeScript in your own project, you'll benefit from improved documentation as your write code, early detection of errors, easier refactoring, and more.
