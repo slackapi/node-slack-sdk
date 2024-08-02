@@ -167,8 +167,8 @@ const socketModeClient = new SocketModeClient({
 All the log levels, in order of most to least information are: `DEBUG`, `INFO`, `WARN`, and `ERROR`.
 
 <details>
-<summary>
-Sending log output somewhere besides the console
+<summary markdown="span">
+<strong><i>Sending log output somewhere besides the console</i></strong>
 </summary>
 
 You can also choose to have logs sent to a custom logger using the `logger` option. A custom logger needs to implement specific methods (known as the `Logger` interface, see the [`@slack/logger` package](https://www.npmjs.com/package/@slack/logger) for details). A minimal interface should implement the following methods:

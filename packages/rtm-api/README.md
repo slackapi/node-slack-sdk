@@ -66,8 +66,8 @@ user ID and team ID, you can look those up any time the client is connected as t
 `rtm.connected` property.
 
 <details>
-<summary>
-Additional connection options
+<summary markdown="span">
+<strong><i>Additional connection options</i></strong>
 </summary>
 
 Options passed to the `.start()` method are passed through as arguments to the [`rtm.connect` Web API
@@ -103,8 +103,8 @@ rtm.on('message', (event) => {
 ```
 
 <details>
-<summary>
-Listen for message subtypes
+<summary markdown="span">
+<strong><i>Listen for message subtypes</i></strong>
 </summary>
 
 The `message` event type has a special property called `subtype` to help organize all the messages inside Slack. The
@@ -163,8 +163,8 @@ rtm.on('member_joined_channel', async (event) => {
 ```
 
 <details>
-<summary>
-Send rich messages using the WebClient
+<summary markdown="span">
+<strong><i>Send rich messages using the WebClient</i></strong>
 </summary>
 
 The Web API's [`chat.postMessage` method](https://api.slack.com/methods/chat.postMessage) is capable of sending [rich
@@ -221,8 +221,8 @@ rtm.on('member_joined_channel', async (event) => {
 </details>
 
 <details>
-<summary>
-Send a typing indicator
+<summary markdown="span">
+<strong><i>Send a typing indicator</i></strong>
 </summary>
 
 Over the RTM API, your bot user can appear to be typing in Slack before it sends a message ("{Bot Display Name} is
@@ -333,8 +333,8 @@ rtm.on('member_joined_channel', async (event) => {
 ```
 
 <details>
-<summary>
-More error types
+<summary markdown="span">
+<strong><i>More error types</i></strong>
 </summary>
 
 There are a few more types of errors that you might encounter, each with one of these `code`s:
@@ -375,8 +375,8 @@ const rtm = new RTMClient(token, {
 All the log levels, in order of most to least information are: `DEBUG`, `INFO`, `WARN`, and `ERROR`.
 
 <details>
-<summary>
-Sending log output somewhere besides the console
+<summary markdown="span">
+<strong><i>Sending log output somewhere besides the console</i></strong>
 </summary>
 
 You can also choose to have logs sent to a custom logger using the `logger` option. A custom logger needs to implement

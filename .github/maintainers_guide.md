@@ -28,7 +28,9 @@ Also, for verifying the behavior with the real Slack server-side and developer e
 
 ### 📄 Managing Documentation
 
-See the [Docs README](https://github.com/slackapi/node-slack-sdk/blob/main/docs/README.md) for information on how the Docs work. 
+See the [Docs README](https://github.com/slackapi/node-slack-sdk/blob/main/docs/README.md) for information on how the docs site work. 
+
+The reference docs are generated on every site build, pulling from this repo's files. The site is built automatically on every release via `docs-deploy.yml`. 
 
 ### 🚀 Releases
 _For beta releases, see [**Beta Releases**](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#-beta-releases) section below_

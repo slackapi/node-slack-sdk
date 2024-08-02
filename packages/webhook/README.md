@@ -39,8 +39,8 @@ const webhook = new IncomingWebhook(url);
 ```
 
 <details>
-<summary>
-Setting default arguments
+<summary markdown="span">
+<strong><i>Setting default arguments</i></strong>
 </summary>
 
 The webhook can be initialized with default arguments that are reused each time a notification is sent. Use the second

@@ -42,8 +42,8 @@ const installer = new InstallProvider({
 ```
 
 <details>
-<summary>
-Using a classic Slack app
+<summary markdown="span">
+<strong><i>Using a classic Slack app</i></strong>
 </summary>
 
   ```javascript
@@ -74,8 +74,8 @@ installer.generateInstallUrl({
 })
 ```
 <details>
-<summary>
-Adding custom metadata to the installation URL
+<summary markdown="span">
+<strong><i>Adding custom metadata to the installation URL</i></strong>
 </summary>
 
 You might want to present an "Add to Slack" button while the user is in the middle of some other tasks (e.g. linking their Slack account to your service). In these situations, you want to bring the user back to where they left off after the app installation is complete. Custom metadata can be used to capture partial (incomplete) information about the task (like which page they were on or inputs to form elements the user began to fill out) in progress. Then when the installation is complete, that custom metadata will be available for your app to recreate exactly where they left off. You must also use a [custom success handler when handling the OAuth redirect](#handling-the-oauth-redirect) to read the custom metadata after the installation is complete.
@@ -112,8 +112,8 @@ server.listen(3000);
 ```
 
 <details>
-<summary>
-Using an Express app
+<summary markdown="span">
+<strong><i>Using an Express app</i></strong>
 </summary>
 
 You can easily use `installer.handleCallback` within an Express app by setting up a route for the OAuth redirect.
@@ -126,8 +126,8 @@ app.get('/slack/oauth_redirect', (req, res) => {
 </details>
 
 <details>
-<summary>
-Using a custom success handler and custom failure handler
+<summary markdown="span">
+<strong><i>Using a custom success handler and custom failure handler</i></strong>
 </summary>
 
 If you decide you need custom success or failure behaviors (ex: wanting to show a page on your site with instructions on how to use the app), you can pass in your own success/failure functions.
@@ -239,8 +239,8 @@ result = {
 ```
 
 <details>
-<summary>
-Reading extended installation data
+<summary markdown="span">
+<strong><i>Reading extended installation data</i></strong>
 </summary>
 
 The `installer.authorize()` method only returns a subset of the installation data returned by the installation store. To fetch the entire saved installation, use the `installer.installationStore.fetchInstallation()` method.
@@ -314,8 +314,8 @@ const installer = new InstallProvider({
 All the log levels, in order of most to least information are: `DEBUG`, `INFO`, `WARN`, and `ERROR`.
 
 <details>
-<summary>
-Sending log output somewhere besides the console
+<summary markdown="span">
+<strong><i>Sending log output somewhere besides the console</i></strong>
 </summary>
 
 You can also choose to have logs sent to a custom logger using the `logger` option. A custom logger needs to implement

@@ -12,6 +12,7 @@ on:
     paths:
       - 'docs/**'
   workflow_dispatch:
+  release:
 
 jobs:
   build:
