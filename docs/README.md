@@ -24,7 +24,6 @@ docs/
 
 A cheat-sheet:
 * _I want to edit a doc._ `content/*/*.md`
-* _I want to edit a Japanese doc._ `i18n/ja-jp/docusaurus-plugin-content-docs/current/*/*.md`
 * _I want to change the docs sidebar._ `sidebar.js`
 * _I want to change the css._ Don't use this repo, use the home repo and the changes will propagate here.
 * _I want to change anything else._ `docusaurus.config.js`
@@ -34,8 +33,7 @@ A cheat-sheet:
 ## Adding a doc
 
 1. Make a markdown file. Add a `# Title` or use [front matter](https://docusaurus.io/docs/next/create-doc) with `title:`. 
-2. Save it in `content/folder/title.md` or `content/title.md`, depending on if it's in a sidebar category. The nuance is just for internal organization.
-3. There needs to be 1:1 docs content for the sidebar. Copy the folder/file and put it in the Japanese docs: `i18n/ja/docusaurus-plugin-content-docs/current/*`. Just leave it in English if you don't speak Japanese. 
+2. Save it in `content/folder/title.md` or `content/title.md`, depending on if it's in a sidebar category. The nuance is just for internal organization. 
 4. Add the doc's path to the sidebar within `docusaurus.config.js`. Where ever makes most sense for you.
 5. Test the changes ↓
 
