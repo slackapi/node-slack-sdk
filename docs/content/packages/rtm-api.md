@@ -479,8 +479,8 @@ rtm.on('presence_change', (event) => {
 ```
 
 <details>
-<summary markdown="span">
-<strong><i>Batch presence updates</i></strong>
+<summary>
+Batch presence updates
 </summary>
 
 Your app can receive even more efficient presence updates, by batching many users' updates into the same event. The

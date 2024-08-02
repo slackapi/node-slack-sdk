@@ -89,8 +89,8 @@ const port = process.env.PORT || 3000;
 when the server is no longer listening.
 
 <details>
-<summary markdown="span">
-<strong><i>Using an existing HTTP server</i></strong>
+<summary>
+Using an existing HTTP server
 </summary>
 
 The event adapter can receive requests from an existing Node HTTP server. You still need to specify a port, but this
@@ -118,8 +118,8 @@ server.listen(port, () => {
 </details>
 
 <details>
-<summary markdown="span">
-<strong><i>Using an Express app</i></strong>
+<summary>
+Using an Express app
 </summary>
 
 The event adapter can receive requests from an [Express](http://expressjs.com/) application. Instead of plugging the

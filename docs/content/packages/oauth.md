@@ -40,8 +40,8 @@ const installer = new InstallProvider({
 ```
 
 <details>
-<summary markdown="span">
-<strong><i>Using a classic Slack app</i></strong>
+<summary>
+Using a classic Slack app
 </summary>
 
   ```javascript
@@ -97,8 +97,8 @@ const installer = new InstallProvider({
 ```
 
 <details>
-<summary markdown="span">
-<strong><i>Manually generating installation page URL and contents</i></strong>
+<summary>
+Manually generating installation page URL and contents
 </summary>
 
 If you want to customize the installation page users will be shown, you may generate an installation URL dynamically and use the generated URL as part of the installation page displayed to the user.
@@ -152,8 +152,8 @@ server.listen(3000);
 ```
 
 <details>
-<summary markdown="span">
-<strong><i>Using an Express app</i></strong>
+<summary>
+Using an Express app
 </summary>
 
 You can easily use `installer.handleCallback` within an Express app by setting up a route for the OAuth redirect.
@@ -219,8 +219,8 @@ server.listen(3000);
 ```
 
 <details>
-<summary markdown="span">
-<strong><i>Using custom success or failure handlers</i></strong>
+<summary>
+Using custom success or failure handlers
 </summary>
 
 If you decide you need custom success or failure behaviors (ex: wanting to show a page on your site with instructions on how to use the app), you can pass in your own success/failure functions.
@@ -334,8 +334,8 @@ result = {
 ```
 
 <details>
-<summary markdown="span">
-<strong><i>Reading extended installation data</i></strong>
+<summary>
+Reading extended installation data
 </summary>
 
 The `installer.authorize()` method only returns a subset of the installation data returned by the installation store. To fetch the entire saved installation, use the `installer.installationStore.fetchInstallation()` method.
@@ -424,8 +424,8 @@ const installer = new InstallProvider({
 All the log levels, in order of most to least information are: `DEBUG`, `INFO`, `WARN`, and `ERROR`.
 
 <details>
-<summary markdown="span">
-<strong><i>Sending log output somewhere besides the console</i></strong>
+<summary>
+Sending log output somewhere besides the console
 </summary>
 
 You can also choose to have logs sent to a custom logger using the `logger` option. A custom logger needs to implement
@@ -477,13 +477,3 @@ const installer = new InstallProvider({
 This package supports Node v14 and higher. It's highly recommended to use [the latest LTS version of
 node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
 from that version.
-
-## Getting Help
-
-If you get stuck, we're here to help. The following are the best ways to get assistance working through your issue:
-
-  * [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and
-    general discussion related to these packages. Try searching before you create a new issue.
-  * [Email us](mailto:developers@slack.com) in Slack developer support: `developers@slack.com`
-  * [Bot Developers Hangout](https://community.botkit.ai/): a Slack community for developers
-    building all types of bots. You can find the maintainers and users of these packages in **#sdk-node-slack-sdk**.

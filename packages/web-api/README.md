@@ -47,8 +47,8 @@ const web = new WebClient(token);
 ```
 
 <details>
-<summary markdown="span">
-<strong><i>Initializing without a token</i></strong>
+<summary>
+Initializing without a token
 </summary>
 
 Alternatively, you can create a client without a token, and use it with multiple workspaces as long as you supply a
@@ -107,8 +107,8 @@ TypeScript](https://slack.dev/node-slack-sdk/typescript) with this package in th
 where you can prototype your message's look and feel.
 
 <details>
-<summary markdown="span">
-<strong><i>Using a dynamic method name</i></strong>
+<summary>
+Using a dynamic method name
 </summary>
 
 If you want to provide the method name as a string so that you can decide which method to call dynamically or to call
@@ -163,8 +163,8 @@ const { WebClient, ErrorCode } = require('@slack/web-api');
 ```
 
 <details>
-<summary markdown="span">
-<strong><i>More error types</i></strong>
+<summary>
+More error types
 </summary>
 
 There are a few more types of errors that you might encounter, each with one of these `code`s:
@@ -218,8 +218,8 @@ The `for await...of` syntax is available in Node v10.0.0 and above. If you're us
 functional iteration below.
 
 <details>
-<summary markdown="span">
-<strong><i>Using functional iteration</i></strong>
+<summary>
+Using functional iteration
 </summary>
 
 The `.paginate()` method can accept up to two additional parameters. The third parameter, `stopFn`, is a function that
@@ -273,8 +273,8 @@ const web = new WebClient(token, {
 All the log levels, in order of most to least information, are: `DEBUG`, `INFO`, `WARN`, and `ERROR`.
 
 <details>
-<summary markdown="span">
-<strong><i>Sending log output somewhere besides the console</i></strong>
+<summary>
+Sending log output somewhere besides the console
 </summary>
 
 You can also choose to have logs sent to a custom logger using the `logger` option. A custom logger needs to implement
