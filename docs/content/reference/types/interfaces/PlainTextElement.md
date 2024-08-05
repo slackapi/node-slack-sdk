@@ -22,7 +22,7 @@ Indicates whether emojis in a text field should be escaped into the colon emoji 
 
 #### Defined in
 
-[block-kit/composition-objects.ts:150](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/composition-objects.ts#L150)
+[block-kit/composition-objects.ts:150](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L150)
 
 ***
 
@@ -38,7 +38,7 @@ The text for the block. The minimum length is 1 and maximum length is 3000 chara
 
 #### Defined in
 
-[block-kit/composition-objects.ts:146](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/composition-objects.ts#L146)
+[block-kit/composition-objects.ts:146](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L146)
 
 ***
 
@@ -54,4 +54,4 @@ The formatting to use for this text object.
 
 #### Defined in
 
-[block-kit/composition-objects.ts:142](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/composition-objects.ts#L142)
+[block-kit/composition-objects.ts:142](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L142)

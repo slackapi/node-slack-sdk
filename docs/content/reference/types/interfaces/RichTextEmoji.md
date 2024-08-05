@@ -22,7 +22,7 @@ Name of emoji, without colons or skin tones, e.g. `wave`
 
 #### Defined in
 
-[block-kit/block-elements.ts:854](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L854)
+[block-kit/block-elements.ts:854](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L854)
 
 ***
 
@@ -82,7 +82,7 @@ A limited style object for styling rich text `text` elements.
 
 #### Defined in
 
-[block-kit/extensions.ts:86](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L86)
+[block-kit/extensions.ts:86](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L86)
 
 ***
 
@@ -98,7 +98,7 @@ The type of element. In this case `type` is always `emoji`.
 
 #### Defined in
 
-[block-kit/block-elements.ts:850](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L850)
+[block-kit/block-elements.ts:850](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L850)
 
 ***
 
@@ -114,7 +114,7 @@ Lowercase hexadecimal Unicode representation of a standard emoji (not for use wi
 
 #### Defined in
 
-[block-kit/block-elements.ts:858](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L858)
+[block-kit/block-elements.ts:858](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L858)
 
 ***
 
@@ -130,4 +130,4 @@ URL of emoji asset. Only used when sharing custom emoji across workspaces.
 
 #### Defined in
 
-[block-kit/block-elements.ts:862](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L862)
+[block-kit/block-elements.ts:862](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L862)

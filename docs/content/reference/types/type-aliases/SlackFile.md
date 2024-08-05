@@ -17,4 +17,4 @@ Currently only `png`, `jpg`, `jpeg`, and `gif` Slack image files are supported.
 
 ## Defined in
 
-[block-kit/composition-objects.ts:241](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/composition-objects.ts#L241)
+[block-kit/composition-objects.ts:241](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L241)

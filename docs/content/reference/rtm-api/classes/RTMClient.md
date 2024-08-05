@@ -32,7 +32,7 @@ new RTMClient(token, __namedParameters): RTMClient
 
 #### Defined in
 
-[RTMClient.ts:340](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/RTMClient.ts#L340)
+[RTMClient.ts:340](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L340)
 
 ## Properties
 
@@ -46,7 +46,7 @@ The team ID for the workspace the client is connected to.
 
 #### Defined in
 
-[RTMClient.ts:83](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/RTMClient.ts#L83)
+[RTMClient.ts:83](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L83)
 
 ***
 
@@ -60,7 +60,7 @@ The user ID for the connected client.
 
 #### Defined in
 
-[RTMClient.ts:78](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/RTMClient.ts#L78)
+[RTMClient.ts:78](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L78)
 
 ***
 
@@ -75,7 +75,7 @@ completes, and a WebSocket URL is available for the client's connection.
 
 #### Defined in
 
-[RTMClient.ts:73](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/RTMClient.ts#L73)
+[RTMClient.ts:73](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L73)
 
 ***
 
@@ -89,7 +89,7 @@ Whether or not the client is currently connected to the RTM API
 
 #### Defined in
 
-[RTMClient.ts:67](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/RTMClient.ts#L67)
+[RTMClient.ts:67](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L67)
 
 ## Methods
 
@@ -137,7 +137,7 @@ the message body
 
 ##### Defined in
 
-[RTMClient.ts:493](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/RTMClient.ts#L493)
+[RTMClient.ts:493](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L493)
 
 #### addOutgoingEvent(awaitReply, type, body)
 
@@ -162,7 +162,7 @@ body?): Promise<void>
 
 ##### Defined in
 
-[RTMClient.ts:494](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/RTMClient.ts#L494)
+[RTMClient.ts:494](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L494)
 
 ***
 
@@ -181,7 +181,7 @@ start() again later.
 
 #### Defined in
 
-[RTMClient.ts:432](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/RTMClient.ts#L432)
+[RTMClient.ts:432](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L432)
 
 ***
 
@@ -213,7 +213,7 @@ the message body
 
 #### Defined in
 
-[RTMClient.ts:541](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/RTMClient.ts#L541)
+[RTMClient.ts:541](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L541)
 
 ***
 
@@ -241,7 +241,7 @@ A conversation ID for the destination of this message.
 
 #### Defined in
 
-[RTMClient.ts:455](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/RTMClient.ts#L455)
+[RTMClient.ts:455](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L455)
 
 ***
 
@@ -265,7 +265,7 @@ The destination for where the typing indicator should be shown.
 
 #### Defined in
 
-[RTMClient.ts:463](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/RTMClient.ts#L463)
+[RTMClient.ts:463](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L463)
 
 ***
 
@@ -288,7 +288,7 @@ be sent or received.
 
 #### Defined in
 
-[RTMClient.ts:406](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/RTMClient.ts#L406)
+[RTMClient.ts:406](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L406)
 
 ***
 
@@ -313,4 +313,4 @@ any previous calls to this method.
 
 #### Defined in
 
-[RTMClient.ts:472](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/RTMClient.ts#L472)
+[RTMClient.ts:472](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L472)

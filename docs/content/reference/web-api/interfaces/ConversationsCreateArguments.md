@@ -22,7 +22,7 @@ Whether the channel should be private.
 
 #### Defined in
 
-[packages/web-api/src/types/request/conversations.ts:35](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/conversations.ts#L35)
+[packages/web-api/src/types/request/conversations.ts:35](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/conversations.ts#L35)
 
 ***
 
@@ -38,7 +38,7 @@ Name of the public or private channel to create.
 
 #### Defined in
 
-[packages/web-api/src/types/request/conversations.ts:74](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/conversations.ts#L74)
+[packages/web-api/src/types/request/conversations.ts:74](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/conversations.ts#L74)
 
 ***
 
@@ -58,7 +58,7 @@ If using an org token, `team_id` is required.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:65](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L65)
+[packages/web-api/src/types/request/common.ts:65](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L65)
 
 ***
 
@@ -78,4 +78,4 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)

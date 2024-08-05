@@ -34,7 +34,7 @@ a message. If a message is updated, use a new `block_id`.
 
 #### Defined in
 
-[block-kit/blocks.ts:44](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L44)
+[block-kit/blocks.ts:44](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L44)
 
 ***
 
@@ -51,7 +51,7 @@ There is a maximum of 25 elements in each action block.
 
 #### Defined in
 
-[block-kit/blocks.ts:80](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L80)
+[block-kit/blocks.ts:80](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L80)
 
 ***
 
@@ -71,4 +71,4 @@ The type of block. For an actions block, `type` is always `actions`.
 
 #### Defined in
 
-[block-kit/blocks.ts:75](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L75)
+[block-kit/blocks.ts:75](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L75)

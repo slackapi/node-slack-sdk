@@ -17,7 +17,7 @@ optional actions: AttachmentAction[];
 
 #### Defined in
 
-[message-attachments.ts:105](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L105)
+[message-attachments.ts:105](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L105)
 
 ***
 
@@ -29,7 +29,7 @@ optional app_id: string;
 
 #### Defined in
 
-[message-attachments.ts:115](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L115)
+[message-attachments.ts:115](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L115)
 
 ***
 
@@ -41,7 +41,7 @@ optional app_unfurl_url: string;
 
 #### Defined in
 
-[message-attachments.ts:113](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L113)
+[message-attachments.ts:113](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L113)
 
 ***
 
@@ -58,7 +58,7 @@ Will only work if `author_name` is present.
 
 #### Defined in
 
-[message-attachments.ts:49](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L49)
+[message-attachments.ts:49](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L49)
 
 ***
 
@@ -74,7 +74,7 @@ A valid URL that will hyperlink the `author_name` text. Will only work if `autho
 
 #### Defined in
 
-[message-attachments.ts:44](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L44)
+[message-attachments.ts:44](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L44)
 
 ***
 
@@ -90,7 +90,7 @@ Small text used to display the author's name.
 
 #### Defined in
 
-[message-attachments.ts:40](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L40)
+[message-attachments.ts:40](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L40)
 
 ***
 
@@ -102,7 +102,7 @@ optional author_subname: string;
 
 #### Defined in
 
-[message-attachments.ts:50](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L50)
+[message-attachments.ts:50](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L50)
 
 ***
 
@@ -119,7 +119,7 @@ An array of [layout blocks](../type-aliases/KnownBlock.md) in the same format
 
 #### Defined in
 
-[message-attachments.ts:21](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L21)
+[message-attachments.ts:21](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L21)
 
 ***
 
@@ -131,7 +131,7 @@ optional bot_id: string;
 
 #### Defined in
 
-[message-attachments.ts:116](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L116)
+[message-attachments.ts:116](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L116)
 
 ***
 
@@ -143,7 +143,7 @@ optional callback_id: string;
 
 #### Defined in
 
-[message-attachments.ts:106](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L106)
+[message-attachments.ts:106](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L106)
 
 ***
 
@@ -160,7 +160,7 @@ be one of `good` (green), `warning` (yellow), `danger` (red), or any hex color c
 
 #### Defined in
 
-[message-attachments.ts:31](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L31)
+[message-attachments.ts:31](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L31)
 
 ***
 
@@ -177,7 +177,7 @@ don't show formatted text (e.g. mobile notifications).
 
 #### Defined in
 
-[message-attachments.ts:26](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L26)
+[message-attachments.ts:26](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L26)
 
 ***
 
@@ -195,7 +195,7 @@ For best results, include no more than 2-3 field objects.
 
 #### Defined in
 
-[message-attachments.ts:71](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L71)
+[message-attachments.ts:71](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L71)
 
 ***
 
@@ -212,7 +212,7 @@ and may be truncated further when displayed to users in environments with limite
 
 #### Defined in
 
-[message-attachments.ts:91](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L91)
+[message-attachments.ts:91](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L91)
 
 ***
 
@@ -230,7 +230,7 @@ It's best to use an image that is similarly sized.
 
 #### Defined in
 
-[message-attachments.ts:97](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L97)
+[message-attachments.ts:97](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L97)
 
 ***
 
@@ -249,7 +249,7 @@ maintaining the original aspect ratio. Cannot be used with `thumb_url`.
 
 #### Defined in
 
-[message-attachments.ts:78](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L78)
+[message-attachments.ts:78](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L78)
 
 ***
 
@@ -261,7 +261,7 @@ optional is_app_unfurl: boolean;
 
 #### Defined in
 
-[message-attachments.ts:114](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L114)
+[message-attachments.ts:114](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L114)
 
 ***
 
@@ -279,7 +279,7 @@ the `text` or `pretext` properties.
 
 #### Defined in
 
-[message-attachments.ts:112](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L112)
+[message-attachments.ts:112](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L112)
 
 ***
 
@@ -296,7 +296,7 @@ or with [`mrkdwn`](https://api.slack.com/reference/surfaces/formatting#basics) b
 
 #### Defined in
 
-[message-attachments.ts:36](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L36)
+[message-attachments.ts:36](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L36)
 
 ***
 
@@ -308,7 +308,7 @@ optional preview: MessageAttachmentPreview;
 
 #### Defined in
 
-[message-attachments.ts:117](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L117)
+[message-attachments.ts:117](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L117)
 
 ***
 
@@ -327,7 +327,7 @@ a "Show more..." link to expand the content.
 
 #### Defined in
 
-[message-attachments.ts:65](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L65)
+[message-attachments.ts:65](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L65)
 
 ***
 
@@ -347,7 +347,7 @@ For best results, please use images that are already 75px by 75px.
 
 #### Defined in
 
-[message-attachments.ts:86](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L86)
+[message-attachments.ts:86](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L86)
 
 ***
 
@@ -363,7 +363,7 @@ Large title text near the top of the attachment.
 
 #### Defined in
 
-[message-attachments.ts:54](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L54)
+[message-attachments.ts:54](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L54)
 
 ***
 
@@ -379,7 +379,7 @@ A valid URL that turns the `title` text into a hyperlink.
 
 #### Defined in
 
-[message-attachments.ts:58](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L58)
+[message-attachments.ts:58](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L58)
 
 ***
 
@@ -398,4 +398,4 @@ relative to the present. Form factors, like mobile versus desktop may also trans
 
 #### Defined in
 
-[message-attachments.ts:104](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-attachments.ts#L104)
+[message-attachments.ts:104](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-attachments.ts#L104)

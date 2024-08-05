@@ -20,7 +20,7 @@ code: SendMessagePlatformError;
 
 #### Defined in
 
-[errors.ts:30](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/errors.ts#L30)
+[errors.ts:30](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/errors.ts#L30)
 
 ***
 
@@ -32,4 +32,4 @@ data: RTMCallResult;
 
 #### Defined in
 
-[errors.ts:31](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/errors.ts#L31)
+[errors.ts:31](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/errors.ts#L31)

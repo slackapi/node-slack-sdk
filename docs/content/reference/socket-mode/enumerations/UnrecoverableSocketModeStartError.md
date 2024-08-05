@@ -10,7 +10,7 @@ AccountInactive: "account_inactive";
 
 #### Defined in
 
-[packages/socket-mode/src/UnrecoverableSocketModeStartError.ts:8](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/socket-mode/src/UnrecoverableSocketModeStartError.ts#L8)
+[packages/socket-mode/src/UnrecoverableSocketModeStartError.ts:8](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/UnrecoverableSocketModeStartError.ts#L8)
 
 ***
 
@@ -22,7 +22,7 @@ InvalidAuth: "invalid_auth";
 
 #### Defined in
 
-[packages/socket-mode/src/UnrecoverableSocketModeStartError.ts:7](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/socket-mode/src/UnrecoverableSocketModeStartError.ts#L7)
+[packages/socket-mode/src/UnrecoverableSocketModeStartError.ts:7](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/UnrecoverableSocketModeStartError.ts#L7)
 
 ***
 
@@ -34,7 +34,7 @@ NotAuthed: "not_authed";
 
 #### Defined in
 
-[packages/socket-mode/src/UnrecoverableSocketModeStartError.ts:6](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/socket-mode/src/UnrecoverableSocketModeStartError.ts#L6)
+[packages/socket-mode/src/UnrecoverableSocketModeStartError.ts:6](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/UnrecoverableSocketModeStartError.ts#L6)
 
 ***
 
@@ -46,7 +46,7 @@ TeamDisabled: "team_disabled";
 
 #### Defined in
 
-[packages/socket-mode/src/UnrecoverableSocketModeStartError.ts:10](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/socket-mode/src/UnrecoverableSocketModeStartError.ts#L10)
+[packages/socket-mode/src/UnrecoverableSocketModeStartError.ts:10](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/UnrecoverableSocketModeStartError.ts#L10)
 
 ***
 
@@ -58,4 +58,4 @@ UserRemovedFromTeam: "user_removed_from_team";
 
 #### Defined in
 
-[packages/socket-mode/src/UnrecoverableSocketModeStartError.ts:9](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/socket-mode/src/UnrecoverableSocketModeStartError.ts#L9)
+[packages/socket-mode/src/UnrecoverableSocketModeStartError.ts:9](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/UnrecoverableSocketModeStartError.ts#L9)

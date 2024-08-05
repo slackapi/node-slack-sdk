@@ -14,7 +14,7 @@ code: string;
 
 #### Defined in
 
-[packages/oauth/src/errors.ts:2](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/oauth/src/errors.ts#L2)
+[packages/oauth/src/errors.ts:2](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/errors.ts#L2)
 
 ***
 

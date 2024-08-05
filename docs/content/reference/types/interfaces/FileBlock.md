@@ -37,7 +37,7 @@ a message. If a message is updated, use a new `block_id`.
 
 #### Defined in
 
-[block-kit/blocks.ts:44](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L44)
+[block-kit/blocks.ts:44](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L44)
 
 ***
 
@@ -53,7 +53,7 @@ The external unique ID for this file.
 
 #### Defined in
 
-[block-kit/blocks.ts:136](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L136)
+[block-kit/blocks.ts:136](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L136)
 
 ***
 
@@ -69,7 +69,7 @@ At the moment, source will always be `remote` for a remote file.
 
 #### Defined in
 
-[block-kit/blocks.ts:132](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L132)
+[block-kit/blocks.ts:132](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L132)
 
 ***
 
@@ -89,4 +89,4 @@ The type of block. For a file block, `type` is always `file`.
 
 #### Defined in
 
-[block-kit/blocks.ts:128](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L128)
+[block-kit/blocks.ts:128](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L128)

@@ -35,7 +35,7 @@ a message. If a message is updated, use a new `block_id`.
 
 #### Defined in
 
-[block-kit/blocks.ts:44](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L44)
+[block-kit/blocks.ts:44](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L44)
 
 ***
 
@@ -52,7 +52,7 @@ Maximum length for the text in this field is 150 characters.
 
 #### Defined in
 
-[block-kit/blocks.ts:153](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L153)
+[block-kit/blocks.ts:153](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L153)
 
 ***
 
@@ -72,4 +72,4 @@ The type of block. For a header block, `type` is always `header`.
 
 #### Defined in
 
-[block-kit/blocks.ts:148](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L148)
+[block-kit/blocks.ts:148](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L148)

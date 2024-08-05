@@ -14,7 +14,7 @@ URL to an avatar image of the user.
 
 #### Defined in
 
-[calls.ts:30](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/calls.ts#L30)
+[calls.ts:30](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/calls.ts#L30)
 
 ***
 
@@ -30,7 +30,7 @@ Name of the user to be displayed in the Call block in a message.
 
 #### Defined in
 
-[calls.ts:26](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/calls.ts#L26)
+[calls.ts:26](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/calls.ts#L26)
 
 ***
 
@@ -46,4 +46,4 @@ A unique ID created by your app to represent your users.
 
 #### Defined in
 
-[calls.ts:22](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/calls.ts#L22)
+[calls.ts:22](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/calls.ts#L22)

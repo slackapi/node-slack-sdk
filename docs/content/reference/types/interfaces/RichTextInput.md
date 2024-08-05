@@ -32,7 +32,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 
 #### Defined in
 
-[block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L15)
+[block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L15)
 
 ***
 
@@ -53,7 +53,7 @@ A [DispatchActionConfig](DispatchActionConfig.md) object that determines when du
 
 #### Defined in
 
-[block-kit/extensions.ts:33](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L33)
+[block-kit/extensions.ts:33](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L33)
 
 ***
 
@@ -75,7 +75,7 @@ Defaults to `false`.
 
 #### Defined in
 
-[block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L42)
+[block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L42)
 
 ***
 
@@ -91,7 +91,7 @@ Initial contents of the input when it is loaded.
 
 #### Defined in
 
-[block-kit/block-elements.ts:1039](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L1039)
+[block-kit/block-elements.ts:1039](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L1039)
 
 ***
 
@@ -112,7 +112,7 @@ length for the `text` field in this object is 150 characters.
 
 #### Defined in
 
-[block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L57)
+[block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L57)
 
 ***
 
@@ -132,4 +132,4 @@ The type of element. In this case `type` is always `rich_text_input`.
 
 #### Defined in
 
-[block-kit/block-elements.ts:1035](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L1035)
+[block-kit/block-elements.ts:1035](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L1035)

@@ -33,7 +33,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 
 #### Defined in
 
-[block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L15)
+[block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L15)
 
 ***
 
@@ -54,7 +54,7 @@ A [DispatchActionConfig](DispatchActionConfig.md) object that determines when du
 
 #### Defined in
 
-[block-kit/extensions.ts:33](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L33)
+[block-kit/extensions.ts:33](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L33)
 
 ***
 
@@ -76,7 +76,7 @@ Defaults to `false`.
 
 #### Defined in
 
-[block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L42)
+[block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L42)
 
 ***
 
@@ -92,7 +92,7 @@ The initial value in the input when it is loaded.
 
 #### Defined in
 
-[block-kit/block-elements.ts:557](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L557)
+[block-kit/block-elements.ts:557](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L557)
 
 ***
 
@@ -108,7 +108,7 @@ Decimal numbers are allowed if this property is `true`, set the value to `false`
 
 #### Defined in
 
-[block-kit/block-elements.ts:553](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L553)
+[block-kit/block-elements.ts:553](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L553)
 
 ***
 
@@ -124,7 +124,7 @@ The maximum value, cannot be less than `min_value`.
 
 #### Defined in
 
-[block-kit/block-elements.ts:565](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L565)
+[block-kit/block-elements.ts:565](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L565)
 
 ***
 
@@ -140,7 +140,7 @@ The minimum value, cannot be greater than `max_value`.
 
 #### Defined in
 
-[block-kit/block-elements.ts:561](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L561)
+[block-kit/block-elements.ts:561](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L561)
 
 ***
 
@@ -161,7 +161,7 @@ length for the `text` field in this object is 150 characters.
 
 #### Defined in
 
-[block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L57)
+[block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L57)
 
 ***
 
@@ -181,4 +181,4 @@ The type of element. In this case `type` is always `number_input`.
 
 #### Defined in
 
-[block-kit/block-elements.ts:549](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L549)
+[block-kit/block-elements.ts:549](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L549)

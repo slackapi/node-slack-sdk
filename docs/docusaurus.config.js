@@ -8,7 +8,7 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Slack Developer Tools',
+  title: 'Node Slack SDK',
   tagline: 'Official frameworks, libraries, and SDKs for Slack developers',
   favicon: 'img/favicon.ico',
 

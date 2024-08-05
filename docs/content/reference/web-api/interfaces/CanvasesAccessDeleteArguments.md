@@ -22,7 +22,7 @@ Encoded ID of the canvas.
 
 #### Defined in
 
-[packages/web-api/src/types/request/canvas.ts:6](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/canvas.ts#L6)
+[packages/web-api/src/types/request/canvas.ts:6](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/canvas.ts#L6)
 
 ***
 
@@ -42,7 +42,7 @@ An array of channel IDs (must include at least one ID).
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:76](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L76)
+[packages/web-api/src/types/request/common.ts:76](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L76)
 
 ***
 
@@ -62,7 +62,7 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
 
 ***
 
@@ -82,4 +82,4 @@ List of encoded user IDs.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:83](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L83)
+[packages/web-api/src/types/request/common.ts:83](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L83)

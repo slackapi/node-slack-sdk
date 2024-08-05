@@ -32,7 +32,7 @@ A free-form object containing whatever data your application wishes to attach to
 
 #### Defined in
 
-[message-metadata.ts:15](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-metadata.ts#L15)
+[message-metadata.ts:15](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-metadata.ts#L15)
 
 ***
 
@@ -49,4 +49,4 @@ The value of this field may appear in the UI to developers.
 
 #### Defined in
 
-[message-metadata.ts:11](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/message-metadata.ts#L11)
+[message-metadata.ts:11](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/message-metadata.ts#L11)

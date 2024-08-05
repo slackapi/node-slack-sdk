@@ -16,7 +16,7 @@ callback_id: string;
 
 #### Defined in
 
-[dialog.ts:7](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/dialog.ts#L7)
+[dialog.ts:7](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/dialog.ts#L7)
 
 ***
 
@@ -28,7 +28,7 @@ elements: object[];
 
 #### Defined in
 
-[dialog.ts:8](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/dialog.ts#L8)
+[dialog.ts:8](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/dialog.ts#L8)
 
 ***
 
@@ -40,7 +40,7 @@ optional notify_on_cancel: boolean;
 
 #### Defined in
 
-[dialog.ts:31](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/dialog.ts#L31)
+[dialog.ts:31](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/dialog.ts#L31)
 
 ***
 
@@ -52,7 +52,7 @@ optional state: string;
 
 #### Defined in
 
-[dialog.ts:32](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/dialog.ts#L32)
+[dialog.ts:32](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/dialog.ts#L32)
 
 ***
 
@@ -64,7 +64,7 @@ optional submit_label: string;
 
 #### Defined in
 
-[dialog.ts:30](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/dialog.ts#L30)
+[dialog.ts:30](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/dialog.ts#L30)
 
 ***
 
@@ -76,4 +76,4 @@ title: string;
 
 #### Defined in
 
-[dialog.ts:6](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/dialog.ts#L6)
+[dialog.ts:6](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/dialog.ts#L6)

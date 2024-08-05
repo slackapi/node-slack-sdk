@@ -22,7 +22,7 @@ Encoded IDs of the entities interacting with.
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/auth.ts:5](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/admin/auth.ts#L5)
+[packages/web-api/src/types/request/admin/auth.ts:5](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/auth.ts#L5)
 
 ***
 
@@ -42,7 +42,7 @@ The type of entity interacting with the policy.
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/auth.ts:9](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/admin/auth.ts#L9)
+[packages/web-api/src/types/request/admin/auth.ts:9](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/auth.ts#L9)
 
 ***
 
@@ -62,7 +62,7 @@ The name of the policy.
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/auth.ts:13](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/admin/auth.ts#L13)
+[packages/web-api/src/types/request/admin/auth.ts:13](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/auth.ts#L13)
 
 ***
 
@@ -82,4 +82,4 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)

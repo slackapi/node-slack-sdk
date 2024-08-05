@@ -47,7 +47,7 @@ The App ID, which does not vary per installation. Left as undefined when not ret
 
 #### Defined in
 
-[packages/oauth/src/installation.ts:76](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/oauth/src/installation.ts#L76)
+[packages/oauth/src/installation.ts:76](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation.ts#L76)
 
 ***
 
@@ -61,7 +61,7 @@ The version of Slack's auth flow that produced this installation. Synthesized as
 
 #### Defined in
 
-[packages/oauth/src/installation.ts:91](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/oauth/src/installation.ts#L91)
+[packages/oauth/src/installation.ts:91](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation.ts#L91)
 
 ***
 
@@ -109,7 +109,7 @@ userId: string;
 
 #### Defined in
 
-[packages/oauth/src/installation.ts:57](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/oauth/src/installation.ts#L57)
+[packages/oauth/src/installation.ts:57](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation.ts#L57)
 
 ***
 
@@ -124,7 +124,7 @@ the name and ID of the enterprise org.
 
 #### Defined in
 
-[packages/oauth/src/installation.ts:47](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/oauth/src/installation.ts#L47)
+[packages/oauth/src/installation.ts:47](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation.ts#L47)
 
 ***
 
@@ -139,7 +139,7 @@ Left as undefined when not returned from fetch.
 
 #### Defined in
 
-[packages/oauth/src/installation.ts:85](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/oauth/src/installation.ts#L85)
+[packages/oauth/src/installation.ts:85](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation.ts#L85)
 
 ***
 
@@ -181,7 +181,7 @@ url: string;
 
 #### Defined in
 
-[packages/oauth/src/installation.ts:65](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/oauth/src/installation.ts#L65)
+[packages/oauth/src/installation.ts:65](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation.ts#L65)
 
 ***
 
@@ -195,7 +195,7 @@ Whether the installation was performed on an enterprise org. Synthesized as `fal
 
 #### Defined in
 
-[packages/oauth/src/installation.ts:88](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/oauth/src/installation.ts#L88)
+[packages/oauth/src/installation.ts:88](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation.ts#L88)
 
 ***
 
@@ -209,7 +209,7 @@ A string value that can be held in the state parameter in the OAuth flow.
 
 #### Defined in
 
-[packages/oauth/src/installation.ts:94](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/oauth/src/installation.ts#L94)
+[packages/oauth/src/installation.ts:94](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation.ts#L94)
 
 ***
 
@@ -224,7 +224,7 @@ is the team property returned from oauth.access?
 
 #### Defined in
 
-[packages/oauth/src/installation.ts:37](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/oauth/src/installation.ts#L37)
+[packages/oauth/src/installation.ts:37](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation.ts#L37)
 
 ***
 
@@ -238,7 +238,7 @@ When the installation contains a bot user, the token type. Left as undefined whe
 
 #### Defined in
 
-[packages/oauth/src/installation.ts:79](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/oauth/src/installation.ts#L79)
+[packages/oauth/src/installation.ts:79](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation.ts#L79)
 
 ***
 
@@ -280,4 +280,4 @@ token: AuthVersion extends "v1" ? string : undefined | string;
 
 #### Defined in
 
-[packages/oauth/src/installation.ts:49](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/oauth/src/installation.ts#L49)
+[packages/oauth/src/installation.ts:49](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation.ts#L49)

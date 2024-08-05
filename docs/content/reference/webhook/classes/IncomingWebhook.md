@@ -22,7 +22,7 @@ new IncomingWebhook(url, defaults): IncomingWebhook
 
 #### Defined in
 
-[IncomingWebhook.ts:28](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/webhook/src/IncomingWebhook.ts#L28)
+[IncomingWebhook.ts:28](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/webhook/src/IncomingWebhook.ts#L28)
 
 ## Methods
 
@@ -46,4 +46,4 @@ the message (a simple string, or an object describing the message)
 
 #### Defined in
 
-[IncomingWebhook.ts:61](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/webhook/src/IncomingWebhook.ts#L61)
+[IncomingWebhook.ts:61](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/webhook/src/IncomingWebhook.ts#L61)

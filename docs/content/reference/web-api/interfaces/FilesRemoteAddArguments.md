@@ -22,7 +22,7 @@ Creator defined GUID for the file.
 
 #### Defined in
 
-[packages/web-api/src/types/request/files.ts:17](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/files.ts#L17)
+[packages/web-api/src/types/request/files.ts:17](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/files.ts#L17)
 
 ***
 
@@ -42,7 +42,7 @@ URL of the remote file.
 
 #### Defined in
 
-[packages/web-api/src/types/request/files.ts:180](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/files.ts#L180)
+[packages/web-api/src/types/request/files.ts:180](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/files.ts#L180)
 
 ***
 
@@ -66,7 +66,7 @@ A file type identifier.
 
 #### Defined in
 
-[packages/web-api/src/types/request/files.ts:31](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/files.ts#L31)
+[packages/web-api/src/types/request/files.ts:31](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/files.ts#L31)
 
 ***
 
@@ -87,7 +87,7 @@ of the remote file.
 
 #### Defined in
 
-[packages/web-api/src/types/request/files.ts:187](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/files.ts#L187)
+[packages/web-api/src/types/request/files.ts:187](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/files.ts#L187)
 
 ***
 
@@ -107,7 +107,7 @@ Preview of the document.
 
 #### Defined in
 
-[packages/web-api/src/types/request/files.ts:182](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/files.ts#L182)
+[packages/web-api/src/types/request/files.ts:182](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/files.ts#L182)
 
 ***
 
@@ -127,7 +127,7 @@ Title of the file being shared.
 
 #### Defined in
 
-[packages/web-api/src/types/request/files.ts:178](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/files.ts#L178)
+[packages/web-api/src/types/request/files.ts:178](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/files.ts#L178)
 
 ***
 
@@ -147,4 +147,4 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)

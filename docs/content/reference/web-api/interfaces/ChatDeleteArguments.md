@@ -24,7 +24,7 @@ Bot users in this context are considered authed users. If unused or `false`, the
 
 #### Defined in
 
-[packages/web-api/src/types/request/chat.ts:35](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/chat.ts#L35)
+[packages/web-api/src/types/request/chat.ts:35](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/chat.ts#L35)
 
 ***
 
@@ -44,7 +44,7 @@ Channel ID for the message.
 
 #### Defined in
 
-[packages/web-api/src/types/request/chat.ts:19](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/chat.ts#L19)
+[packages/web-api/src/types/request/chat.ts:19](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/chat.ts#L19)
 
 ***
 
@@ -64,7 +64,7 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
 
 ***
 
@@ -84,4 +84,4 @@ Timestamp of the message.
 
 #### Defined in
 
-[packages/web-api/src/types/request/chat.ts:23](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/chat.ts#L23)
+[packages/web-api/src/types/request/chat.ts:23](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/chat.ts#L23)

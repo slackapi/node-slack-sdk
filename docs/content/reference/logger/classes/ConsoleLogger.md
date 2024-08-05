@@ -20,7 +20,7 @@ new ConsoleLogger(): ConsoleLogger
 
 #### Defined in
 
-[index.ts:90](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/logger/src/index.ts#L90)
+[index.ts:90](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L90)
 
 ## Methods
 
@@ -46,7 +46,7 @@ Log a debug message
 
 #### Defined in
 
-[index.ts:117](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/logger/src/index.ts#L117)
+[index.ts:117](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L117)
 
 ***
 
@@ -72,7 +72,7 @@ Log an error message
 
 #### Defined in
 
-[index.ts:147](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/logger/src/index.ts#L147)
+[index.ts:147](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L147)
 
 ***
 
@@ -94,7 +94,7 @@ Return the current LogLevel.
 
 #### Defined in
 
-[index.ts:95](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/logger/src/index.ts#L95)
+[index.ts:95](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L95)
 
 ***
 
@@ -120,7 +120,7 @@ Log an info message
 
 #### Defined in
 
-[index.ts:127](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/logger/src/index.ts#L127)
+[index.ts:127](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L127)
 
 ***
 
@@ -146,7 +146,7 @@ Sets the instance's log level so that only messages which are equal or more seve
 
 #### Defined in
 
-[index.ts:102](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/logger/src/index.ts#L102)
+[index.ts:102](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L102)
 
 ***
 
@@ -172,7 +172,7 @@ Set the instance's name, which will appear on each log line before the message.
 
 #### Defined in
 
-[index.ts:109](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/logger/src/index.ts#L109)
+[index.ts:109](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L109)
 
 ***
 
@@ -198,4 +198,4 @@ Log a warning message
 
 #### Defined in
 
-[index.ts:137](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/logger/src/index.ts#L137)
+[index.ts:137](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L137)

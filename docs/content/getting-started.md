@@ -9,14 +9,14 @@ never used the Slack APIs before, you're in the right place. Welcome, and let's 
 
 The first step is to [create a new app](https://api.slack.com/apps?new_granular_bot_app=1) with Slack at the API website. Give your app a
 fun name and choose a Development Slack Workspace. We recommend using a workspace where you aren't going to disrupt real
-work getting done -- you can create a new one for free. After you create an app, you'll be greeted with some basic information.
+work getting done — you can create a new one for free. After you create an app, you'll be greeted with some basic information.
 
 In this guide we'll be **calling a method of Web API** to post a message to a channel. The Web API is the foundation of
 the Slack Platform, and almost every Slack app uses it. Aside from posting messages, the Web API allows your app to call
 [methods](https://api.slack.com/methods) that can be used for everything from creating a channel to updating a user's
 status. Before we can call any methods, we need to configure our new app with the proper permissions.
 
-## Getting a token to use the Web API
+## Get a token to use the Web API
 
 Navigate to **OAuth & Permissions** and scroll down to the section for scopes. Slack describes the various permissions
 your app could obtain from an installing bot as **scopes**. There are [over 80 scopes](https://api.slack.com/scopes)!
@@ -70,7 +70,7 @@ Getting started with Node Slack SDK
 
 If you see the same output as above, we're ready to start.
 
-## Sending a message with the Web API
+## Send a message with the Web API
 
 In this guide we'll post a simple message that contains the current time. We'll also follow the best practice of keeping
 secrets outside of your code (do not hardcode sensitive data).
@@ -127,21 +127,12 @@ Look inside Slack to verify a message was sent to `#general`.
 
 ## Next Steps
 
-You just built your first Slack app with Node.js! 🎉💃🌮
+You just built your first Slack app with Node.js! 🎉
 
-There's plenty more to learn and explore about this SDK and the Slack platform. Here are some ideas about where to
-look next:
-
-* Dive into the [`@slack/events-api`](/events-api) package to learn how your app can
-  listen for events happening inside Slack. You'll need a URL where your app can receive events, and the [local
-  development tutorial](/tutorials/local-development) can help you set one up.
+There's plenty more to learn and explore about the Node Slack SDK and the Slack platform. Here are some ideas about where to look next:
 
 * This tutorial only used two of **over 200 Web API methods** available. [Look through
   them](https://api.slack.com/methods) to get ideas about what to build next!
-
-* Tokens are an important part of using the Slack platform. New apps are recommended to start with a Bot User, which
-  allows the app to use a bot token. Learn about the [different types of
-  tokens](https://api.slack.com/docs/token-types).
 
 * You now know how to build a Slack app for a single workspace, [learn how to implement Slack
 OAuth](https://api.slack.com/authentication/oauth-v2) to make your app installable in many workspaces. If you are using

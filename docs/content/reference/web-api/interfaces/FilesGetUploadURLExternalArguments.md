@@ -18,7 +18,7 @@ Description of image for screen-reader.
 
 #### Defined in
 
-[packages/web-api/src/types/request/files.ts:82](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/files.ts#L82)
+[packages/web-api/src/types/request/files.ts:82](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/files.ts#L82)
 
 ***
 
@@ -34,7 +34,7 @@ Name of the file being uploaded.
 
 #### Defined in
 
-[packages/web-api/src/types/request/files.ts:78](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/files.ts#L78)
+[packages/web-api/src/types/request/files.ts:78](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/files.ts#L78)
 
 ***
 
@@ -50,7 +50,7 @@ Size in bytes of the file being uploaded.
 
 #### Defined in
 
-[packages/web-api/src/types/request/files.ts:80](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/files.ts#L80)
+[packages/web-api/src/types/request/files.ts:80](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/files.ts#L80)
 
 ***
 
@@ -66,7 +66,7 @@ Syntax type of the snippet being uploaded. E.g. `python`.
 
 #### Defined in
 
-[packages/web-api/src/types/request/files.ts:84](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/files.ts#L84)
+[packages/web-api/src/types/request/files.ts:84](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/files.ts#L84)
 
 ***
 
@@ -86,4 +86,4 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)

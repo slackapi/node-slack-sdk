@@ -6,4 +6,4 @@ type TeamExternalTeamsListArguments: OptionalArgument<TokenOverridable & CursorP
 
 ## Defined in
 
-[packages/web-api/src/types/request/team.ts:32](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/team.ts#L32)
+[packages/web-api/src/types/request/team.ts:32](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/team.ts#L32)

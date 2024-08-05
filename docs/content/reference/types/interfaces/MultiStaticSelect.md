@@ -32,7 +32,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 
 #### Defined in
 
-[block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L15)
+[block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L15)
 
 ***
 
@@ -53,7 +53,7 @@ with.
 
 #### Defined in
 
-[block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L25)
+[block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L25)
 
 ***
 
@@ -75,7 +75,7 @@ Defaults to `false`.
 
 #### Defined in
 
-[block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L42)
+[block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L42)
 
 ***
 
@@ -92,7 +92,7 @@ An array of option objects that exactly match one or more of the options within 
 
 #### Defined in
 
-[block-kit/block-elements.ts:331](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L331)
+[block-kit/block-elements.ts:331](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L331)
 
 ***
 
@@ -112,7 +112,7 @@ Specifies the maximum number of items that can be selected. Minimum number is 1.
 
 #### Defined in
 
-[block-kit/extensions.ts:49](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L49)
+[block-kit/extensions.ts:49](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L49)
 
 ***
 
@@ -129,7 +129,7 @@ this field should not be.
 
 #### Defined in
 
-[block-kit/block-elements.ts:346](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L346)
+[block-kit/block-elements.ts:346](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L346)
 
 ***
 
@@ -146,7 +146,7 @@ specified, this field should not be.
 
 #### Defined in
 
-[block-kit/block-elements.ts:338](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L338)
+[block-kit/block-elements.ts:338](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L338)
 
 ***
 
@@ -167,7 +167,7 @@ length for the `text` field in this object is 150 characters.
 
 #### Defined in
 
-[block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L57)
+[block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L57)
 
 ***
 
@@ -187,4 +187,4 @@ The type of element. In this case `type` is always `multi_static_select`.
 
 #### Defined in
 
-[block-kit/block-elements.ts:325](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L325)
+[block-kit/block-elements.ts:325](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L325)

@@ -26,7 +26,7 @@ Slack app signing secret used to authenticate request
 
 #### Defined in
 
-[adapter.ts:154](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/interactive-messages/src/adapter.ts#L154)
+[adapter.ts:154](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L154)
 
 ## Properties
 
@@ -41,7 +41,7 @@ This only works in cases where the semantic meaning of the response and the resp
 
 #### Defined in
 
-[adapter.ts:136](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/interactive-messages/src/adapter.ts#L136)
+[adapter.ts:136](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L136)
 
 ***
 
@@ -55,7 +55,7 @@ Slack app signing secret used to authenticate request
 
 #### Defined in
 
-[adapter.ts:124](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/interactive-messages/src/adapter.ts#L124)
+[adapter.ts:124](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L124)
 
 ***
 
@@ -70,7 +70,7 @@ to an asynchronous response.
 
 #### Defined in
 
-[adapter.ts:130](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/interactive-messages/src/adapter.ts#L130)
+[adapter.ts:130](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L130)
 
 ## Methods
 
@@ -111,7 +111,7 @@ this instance (for chaining)
 
 #### Defined in
 
-[adapter.ts:284](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/interactive-messages/src/adapter.ts#L284)
+[adapter.ts:284](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L284)
 
 ***
 
@@ -134,7 +134,7 @@ A promise that resolves to an instance of http.Server and will dispatch interact
 
 #### Defined in
 
-[adapter.ts:197](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/interactive-messages/src/adapter.ts#L197)
+[adapter.ts:197](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L197)
 
 ***
 
@@ -166,7 +166,7 @@ This is an internal API not meant to be used by code depending on this package.
 
 #### Defined in
 
-[adapter.ts:424](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/interactive-messages/src/adapter.ts#L424)
+[adapter.ts:424](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L424)
 
 ***
 
@@ -187,7 +187,7 @@ A middleware function (see http://expressjs.com/en/guide/using-middleware.html)
 
 #### Defined in
 
-[adapter.ts:248](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/interactive-messages/src/adapter.ts#L248)
+[adapter.ts:248](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L248)
 
 ***
 
@@ -225,7 +225,7 @@ this instance (for chaining)
 
 #### Defined in
 
-[adapter.ts:342](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/interactive-messages/src/adapter.ts#L342)
+[adapter.ts:342](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L342)
 
 ***
 
@@ -243,7 +243,7 @@ Create a request listener function that handles HTTP requests, verifies requests
 
 #### Defined in
 
-[adapter.ts:258](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/interactive-messages/src/adapter.ts#L258)
+[adapter.ts:258](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L258)
 
 ***
 
@@ -265,7 +265,7 @@ shortcut(matchingConstraints, callback): this
 
 #### Defined in
 
-[adapter.ts:308](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/interactive-messages/src/adapter.ts#L308)
+[adapter.ts:308](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L308)
 
 ***
 
@@ -290,7 +290,7 @@ A promise that resolves once the server is ready
 
 #### Defined in
 
-[adapter.ts:208](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/interactive-messages/src/adapter.ts#L208)
+[adapter.ts:208](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L208)
 
 ***
 
@@ -310,7 +310,7 @@ A promise that resolves once the server is cleaned up.
 
 #### Defined in
 
-[adapter.ts:223](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/interactive-messages/src/adapter.ts#L223)
+[adapter.ts:223](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L223)
 
 ***
 
@@ -341,7 +341,7 @@ this instance (for chaining)
 
 #### Defined in
 
-[adapter.ts:397](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/interactive-messages/src/adapter.ts#L397)
+[adapter.ts:397](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L397)
 
 ***
 
@@ -379,4 +379,4 @@ this instance (for chaining)
 
 #### Defined in
 
-[adapter.ts:375](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/interactive-messages/src/adapter.ts#L375)
+[adapter.ts:375](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L375)

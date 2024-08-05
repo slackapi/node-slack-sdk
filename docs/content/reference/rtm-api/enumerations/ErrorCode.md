@@ -12,7 +12,7 @@ KeepAliveClientNotConnected: "slack_rtmapi_keepalive_client_not_connected";
 
 #### Defined in
 
-[errors.ts:22](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/errors.ts#L22)
+[errors.ts:22](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/errors.ts#L22)
 
 ***
 
@@ -24,7 +24,7 @@ KeepAliveConfigError: "slack_rtmapi_keepalive_config_error";
 
 #### Defined in
 
-[errors.ts:21](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/errors.ts#L21)
+[errors.ts:21](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/errors.ts#L21)
 
 ***
 
@@ -36,7 +36,7 @@ KeepAliveInconsistentState: "slack_rtmapi_keepalive_inconsistent_state";
 
 #### Defined in
 
-[errors.ts:23](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/errors.ts#L23)
+[errors.ts:23](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/errors.ts#L23)
 
 ***
 
@@ -48,7 +48,7 @@ NoReplyReceivedError: "slack_rtmapi_no_reply_received_error";
 
 #### Defined in
 
-[errors.ts:18](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/errors.ts#L18)
+[errors.ts:18](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/errors.ts#L18)
 
 ***
 
@@ -60,7 +60,7 @@ SendMessagePlatformError: "slack_rtmapi_send_message_platform_error";
 
 #### Defined in
 
-[errors.ts:16](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/errors.ts#L16)
+[errors.ts:16](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/errors.ts#L16)
 
 ***
 
@@ -72,7 +72,7 @@ SendWhileDisconnectedError: "slack_rtmapi_send_while_disconnected_error";
 
 #### Defined in
 
-[errors.ts:14](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/errors.ts#L14)
+[errors.ts:14](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/errors.ts#L14)
 
 ***
 
@@ -84,7 +84,7 @@ SendWhileNotReadyError: "slack_rtmapi_send_while_not_ready_error";
 
 #### Defined in
 
-[errors.ts:15](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/errors.ts#L15)
+[errors.ts:15](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/errors.ts#L15)
 
 ***
 
@@ -96,4 +96,4 @@ WebsocketError: "slack_rtmapi_websocket_error";
 
 #### Defined in
 
-[errors.ts:17](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/rtm-api/src/errors.ts#L17)
+[errors.ts:17](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/errors.ts#L17)

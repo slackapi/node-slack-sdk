@@ -22,7 +22,7 @@ ID of conversation.
 
 #### Defined in
 
-[packages/web-api/src/types/request/conversations.ts:14](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/conversations.ts#L14)
+[packages/web-api/src/types/request/conversations.ts:14](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/conversations.ts#L14)
 
 ***
 
@@ -48,7 +48,7 @@ Default value fetches the first "page" of the collection.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L16)
+[packages/web-api/src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L16)
 
 ***
 
@@ -68,7 +68,7 @@ Return all metadata associated with messages. Defaults to `false`.
 
 #### Defined in
 
-[packages/web-api/src/types/request/conversations.ts:27](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/conversations.ts#L27)
+[packages/web-api/src/types/request/conversations.ts:27](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/conversations.ts#L27)
 
 ***
 
@@ -89,7 +89,7 @@ Ignored unless either timestamp is specified. Defaults to `false`.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:28](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L28)
+[packages/web-api/src/types/request/common.ts:28](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L28)
 
 ***
 
@@ -109,7 +109,7 @@ Only messages before this Unix timestamp will be included in results.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:23](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L23)
+[packages/web-api/src/types/request/common.ts:23](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L23)
 
 ***
 
@@ -130,7 +130,7 @@ even if the end of the list hasn't been reached. Must be an integer with a max v
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L9)
+[packages/web-api/src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L9)
 
 ***
 
@@ -150,7 +150,7 @@ Only messages after this Unix timestamp will be included in results.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:21](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L21)
+[packages/web-api/src/types/request/common.ts:21](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L21)
 
 ***
 
@@ -170,4 +170,4 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)

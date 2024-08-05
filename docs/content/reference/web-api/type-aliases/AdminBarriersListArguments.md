@@ -6,4 +6,4 @@ type AdminBarriersListArguments: OptionalArgument<TokenOverridable & CursorPagin
 
 ## Defined in
 
-[packages/web-api/src/types/request/admin/barriers.ts:27](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/admin/barriers.ts#L27)
+[packages/web-api/src/types/request/admin/barriers.ts:27](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/barriers.ts#L27)

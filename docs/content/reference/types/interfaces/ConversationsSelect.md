@@ -32,7 +32,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 
 #### Defined in
 
-[block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L15)
+[block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L15)
 
 ***
 
@@ -53,7 +53,7 @@ with.
 
 #### Defined in
 
-[block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L25)
+[block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L25)
 
 ***
 
@@ -70,7 +70,7 @@ modal, if available. Default is `false`.
 
 #### Defined in
 
-[block-kit/block-elements.ts:377](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L377)
+[block-kit/block-elements.ts:377](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L377)
 
 ***
 
@@ -104,7 +104,7 @@ A filter object that reduces the list of available conversations using the speci
 
 #### Defined in
 
-[block-kit/block-elements.ts:381](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L381)
+[block-kit/block-elements.ts:381](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L381)
 
 ***
 
@@ -126,7 +126,7 @@ Defaults to `false`.
 
 #### Defined in
 
-[block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L42)
+[block-kit/extensions.ts:42](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L42)
 
 ***
 
@@ -143,7 +143,7 @@ The ID of any valid conversation to be pre-selected when the menu loads. If
 
 #### Defined in
 
-[block-kit/block-elements.ts:372](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L372)
+[block-kit/block-elements.ts:372](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L372)
 
 ***
 
@@ -164,7 +164,7 @@ length for the `text` field in this object is 150 characters.
 
 #### Defined in
 
-[block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L57)
+[block-kit/extensions.ts:57](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L57)
 
 ***
 
@@ -187,7 +187,7 @@ for the message will be determined by the value of this select menu.
 
 #### Defined in
 
-[block-kit/extensions.ts:67](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L67)
+[block-kit/extensions.ts:67](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L67)
 
 ***
 
@@ -207,4 +207,4 @@ The type of element. In this case `type` is always `conversations_select`.
 
 #### Defined in
 
-[block-kit/block-elements.ts:367](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L367)
+[block-kit/block-elements.ts:367](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L367)

@@ -28,7 +28,7 @@ readers instead of the button `text` object. Maximum length for this field is 75
 
 #### Defined in
 
-[block-kit/block-elements.ts:63](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L63)
+[block-kit/block-elements.ts:63](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L63)
 
 ***
 
@@ -48,7 +48,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 
 #### Defined in
 
-[block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L15)
+[block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L15)
 
 ***
 
@@ -69,7 +69,7 @@ with.
 
 #### Defined in
 
-[block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L25)
+[block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L25)
 
 ***
 
@@ -90,7 +90,7 @@ If you don't include this field, the default button style will be used.
 
 #### Defined in
 
-[block-kit/block-elements.ts:58](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L58)
+[block-kit/block-elements.ts:58](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L58)
 
 ***
 
@@ -107,7 +107,7 @@ Maximum length for the text in this field is 75 characters.
 
 #### Defined in
 
-[block-kit/block-elements.ts:38](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L38)
+[block-kit/block-elements.ts:38](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L38)
 
 ***
 
@@ -127,7 +127,7 @@ The type of element. In this case `type` is always `button`.
 
 #### Defined in
 
-[block-kit/block-elements.ts:33](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L33)
+[block-kit/block-elements.ts:33](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L33)
 
 ***
 
@@ -145,7 +145,7 @@ and will need to send an [acknowledgement response](https://api.slack.com/intera
 
 #### Defined in
 
-[block-kit/block-elements.ts:49](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L49)
+[block-kit/block-elements.ts:49](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L49)
 
 ***
 
@@ -162,4 +162,4 @@ Maximum length for this field is 2000 characters.
 
 #### Defined in
 
-[block-kit/block-elements.ts:43](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L43)
+[block-kit/block-elements.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L43)

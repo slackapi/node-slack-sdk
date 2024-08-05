@@ -66,7 +66,7 @@ A limited style object for styling rich text `text` elements.
 
 #### Defined in
 
-[block-kit/extensions.ts:86](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L86)
+[block-kit/extensions.ts:86](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L86)
 
 ***
 
@@ -82,7 +82,7 @@ The text to link.
 
 #### Defined in
 
-[block-kit/block-elements.ts:876](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L876)
+[block-kit/block-elements.ts:876](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L876)
 
 ***
 
@@ -98,7 +98,7 @@ The type of element. In this case `type` is always `link`.
 
 #### Defined in
 
-[block-kit/block-elements.ts:872](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L872)
+[block-kit/block-elements.ts:872](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L872)
 
 ***
 
@@ -114,7 +114,7 @@ TODO: ?
 
 #### Defined in
 
-[block-kit/block-elements.ts:880](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L880)
+[block-kit/block-elements.ts:880](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L880)
 
 ***
 
@@ -130,4 +130,4 @@ URL to link to.
 
 #### Defined in
 
-[block-kit/block-elements.ts:884](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L884)
+[block-kit/block-elements.ts:884](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L884)

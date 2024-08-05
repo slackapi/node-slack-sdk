@@ -27,7 +27,7 @@ while `1` renders a border.
 
 #### Defined in
 
-[block-kit/extensions.ts:76](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L76)
+[block-kit/extensions.ts:76](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L76)
 
 ***
 
@@ -43,7 +43,7 @@ An array of either [RichTextLink](RichTextLink.md) or [RichTextText](RichTextTex
 
 #### Defined in
 
-[block-kit/block-elements.ts:1018](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L1018)
+[block-kit/block-elements.ts:1018](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L1018)
 
 ***
 
@@ -59,4 +59,4 @@ The type of element. In this case `type` is always `rich_text_preformatted`.
 
 #### Defined in
 
-[block-kit/block-elements.ts:1014](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L1014)
+[block-kit/block-elements.ts:1014](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L1014)

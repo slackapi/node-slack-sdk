@@ -36,7 +36,7 @@ a message. If a message is updated, use a new `block_id`.
 
 #### Defined in
 
-[block-kit/blocks.ts:44](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L44)
+[block-kit/blocks.ts:44](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L44)
 
 ***
 
@@ -53,7 +53,7 @@ A boolean that indicates whether or not the use of elements in this block should
 
 #### Defined in
 
-[block-kit/blocks.ts:218](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L218)
+[block-kit/blocks.ts:218](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L218)
 
 ***
 
@@ -69,7 +69,7 @@ A block element.
 
 #### Defined in
 
-[block-kit/blocks.ts:213](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L213)
+[block-kit/blocks.ts:213](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L213)
 
 ***
 
@@ -86,7 +86,7 @@ An optional hint that appears below an input element in a lighter grey. It must 
 
 #### Defined in
 
-[block-kit/blocks.ts:204](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L204)
+[block-kit/blocks.ts:204](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L204)
 
 ***
 
@@ -103,7 +103,7 @@ Maximum length for the text in this field is 2000 characters.
 
 #### Defined in
 
-[block-kit/blocks.ts:199](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L199)
+[block-kit/blocks.ts:199](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L199)
 
 ***
 
@@ -120,7 +120,7 @@ Defaults to `false`.
 
 #### Defined in
 
-[block-kit/blocks.ts:209](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L209)
+[block-kit/blocks.ts:209](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L209)
 
 ***
 
@@ -140,4 +140,4 @@ The type of block. For an input block, `type` is always `input`.
 
 #### Defined in
 
-[block-kit/blocks.ts:194](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L194)
+[block-kit/blocks.ts:194](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L194)

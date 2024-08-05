@@ -32,7 +32,7 @@ new AuthorizationError(message, original?): AuthorizationError
 
 #### Defined in
 
-[packages/oauth/src/errors.ts:45](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/oauth/src/errors.ts#L45)
+[packages/oauth/src/errors.ts:45](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/errors.ts#L45)
 
 ## Properties
 
@@ -48,7 +48,7 @@ code: ErrorCode = ErrorCode.AuthorizationError;
 
 #### Defined in
 
-[packages/oauth/src/errors.ts:41](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/oauth/src/errors.ts#L41)
+[packages/oauth/src/errors.ts:41](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/errors.ts#L41)
 
 ***
 
@@ -100,7 +100,7 @@ original: undefined | Error;
 
 #### Defined in
 
-[packages/oauth/src/errors.ts:43](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/oauth/src/errors.ts#L43)
+[packages/oauth/src/errors.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/errors.ts#L43)
 
 ***
 

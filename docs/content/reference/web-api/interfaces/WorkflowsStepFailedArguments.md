@@ -20,7 +20,7 @@ message: string;
 
 #### Defined in
 
-[packages/web-api/src/types/request/workflows.ts:14](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/workflows.ts#L14)
+[packages/web-api/src/types/request/workflows.ts:14](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/workflows.ts#L14)
 
 ***
 
@@ -40,7 +40,7 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
 
 ***
 
@@ -52,4 +52,4 @@ workflow_step_execute_id: string;
 
 #### Defined in
 
-[packages/web-api/src/types/request/workflows.ts:13](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/workflows.ts#L13)
+[packages/web-api/src/types/request/workflows.ts:13](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/workflows.ts#L13)

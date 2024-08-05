@@ -6,4 +6,4 @@ type AdminAppsRequestsListArguments: TeamOrEnterpriseID & Certified & TokenOverr
 
 ## Defined in
 
-[packages/web-api/src/types/request/admin/apps.ts:87](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/admin/apps.ts#L87)
+[packages/web-api/src/types/request/admin/apps.ts:87](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/apps.ts#L87)

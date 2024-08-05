@@ -1,5 +1,6 @@
 ---
 title: OAuth
+slug: /oauth
 ---
 
 # Slack OAuth

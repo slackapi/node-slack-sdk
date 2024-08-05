@@ -32,7 +32,7 @@ The token used to authenticate signed requests from Slack's Events API.
 
 #### Defined in
 
-[packages/events-api/src/adapter.ts:47](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/events-api/src/adapter.ts#L47)
+[packages/events-api/src/adapter.ts:47](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/events-api/src/adapter.ts#L47)
 
 ## Properties
 
@@ -46,7 +46,7 @@ Whether to include the API event bodies in adapter event listeners.
 
 #### Defined in
 
-[packages/events-api/src/adapter.ts:23](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/events-api/src/adapter.ts#L23)
+[packages/events-api/src/adapter.ts:23](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/events-api/src/adapter.ts#L23)
 
 ***
 
@@ -60,7 +60,7 @@ Whether to include request headers in adapter event listeners.
 
 #### Defined in
 
-[packages/events-api/src/adapter.ts:28](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/events-api/src/adapter.ts#L28)
+[packages/events-api/src/adapter.ts:28](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/events-api/src/adapter.ts#L28)
 
 ***
 
@@ -74,7 +74,7 @@ The token used to authenticate signed requests from Slack's Events API.
 
 #### Defined in
 
-[packages/events-api/src/adapter.ts:18](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/events-api/src/adapter.ts#L18)
+[packages/events-api/src/adapter.ts:18](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/events-api/src/adapter.ts#L18)
 
 ***
 
@@ -88,7 +88,7 @@ When `true` prevents the adapter from responding by itself and leaves that up to
 
 #### Defined in
 
-[packages/events-api/src/adapter.ts:33](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/events-api/src/adapter.ts#L33)
+[packages/events-api/src/adapter.ts:33](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/events-api/src/adapter.ts#L33)
 
 ## Methods
 
@@ -106,7 +106,7 @@ Creates an HTTP server to listen for event payloads.
 
 #### Defined in
 
-[packages/events-api/src/adapter.ts:76](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/events-api/src/adapter.ts#L76)
+[packages/events-api/src/adapter.ts:76](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/events-api/src/adapter.ts#L76)
 
 ***
 
@@ -124,7 +124,7 @@ Returns a middleware-compatible adapter.
 
 #### Defined in
 
-[packages/events-api/src/adapter.ts:120](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/events-api/src/adapter.ts#L120)
+[packages/events-api/src/adapter.ts:120](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/events-api/src/adapter.ts#L120)
 
 ***
 
@@ -142,7 +142,7 @@ Creates a request listener.
 
 #### Defined in
 
-[packages/events-api/src/adapter.ts:130](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/events-api/src/adapter.ts#L130)
+[packages/events-api/src/adapter.ts:130](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/events-api/src/adapter.ts#L130)
 
 ***
 
@@ -168,7 +168,7 @@ The server from the built-in `http` module.
 
 #### Defined in
 
-[packages/events-api/src/adapter.ts:87](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/events-api/src/adapter.ts#L87)
+[packages/events-api/src/adapter.ts:87](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/events-api/src/adapter.ts#L87)
 
 ***
 
@@ -186,4 +186,4 @@ Stops the server started by [SlackEventAdapter.start](SlackEventAdapter.md#start
 
 #### Defined in
 
-[packages/events-api/src/adapter.ts:100](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/events-api/src/adapter.ts#L100)
+[packages/events-api/src/adapter.ts:100](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/events-api/src/adapter.ts#L100)

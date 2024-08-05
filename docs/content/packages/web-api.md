@@ -1,5 +1,6 @@
 ---
 title: Web API
+slug: /web-api
 ---
 
 

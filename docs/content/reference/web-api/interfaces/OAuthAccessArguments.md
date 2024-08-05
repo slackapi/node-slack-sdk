@@ -22,7 +22,7 @@ Issued when you created your application.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:125](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L125)
+[packages/web-api/src/types/request/common.ts:125](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L125)
 
 ***
 
@@ -42,7 +42,7 @@ Issued when you created your application.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:127](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L127)
+[packages/web-api/src/types/request/common.ts:127](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L127)
 
 ***
 
@@ -62,7 +62,7 @@ The `code` parameter returned via the OAuth callback.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:129](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L129)
+[packages/web-api/src/types/request/common.ts:129](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L129)
 
 ***
 
@@ -83,7 +83,7 @@ first step and must match the originally submitted URI.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:134](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L134)
+[packages/web-api/src/types/request/common.ts:134](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L134)
 
 ***
 
@@ -99,4 +99,4 @@ Request the user to add your app only to a single channel. Only valid with a [le
 
 #### Defined in
 
-[packages/web-api/src/types/request/oauth.ts:6](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/oauth.ts#L6)
+[packages/web-api/src/types/request/oauth.ts:6](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/oauth.ts#L6)

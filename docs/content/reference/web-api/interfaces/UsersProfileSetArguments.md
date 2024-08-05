@@ -22,7 +22,7 @@ Name of a single profile field to set. If both `name` and `profile` are set, `na
 
 #### Defined in
 
-[packages/web-api/src/types/request/users.ts:87](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/users.ts#L87)
+[packages/web-api/src/types/request/users.ts:87](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/users.ts#L87)
 
 ***
 
@@ -44,7 +44,7 @@ At most 50 fields may be set. Each field name is limited to 255 characters.
 
 #### Defined in
 
-[packages/web-api/src/types/request/users.ts:80](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/users.ts#L80)
+[packages/web-api/src/types/request/users.ts:80](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/users.ts#L80)
 
 ***
 
@@ -64,7 +64,7 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
 
 ***
 
@@ -80,7 +80,7 @@ ID of user to change. This argument may only be specified by admins on paid team
 
 #### Defined in
 
-[packages/web-api/src/types/request/users.ts:82](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/users.ts#L82)
+[packages/web-api/src/types/request/users.ts:82](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/users.ts#L82)
 
 ***
 
@@ -100,4 +100,4 @@ Value to set for the profile field specified by `name`. Usable only if profile i
 
 #### Defined in
 
-[packages/web-api/src/types/request/users.ts:92](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/users.ts#L92)
+[packages/web-api/src/types/request/users.ts:92](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/users.ts#L92)

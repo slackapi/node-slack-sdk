@@ -12,7 +12,7 @@ HTTPError: "slack_webhook_http_error";
 
 #### Defined in
 
-[errors.ts:15](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/webhook/src/errors.ts#L15)
+[errors.ts:15](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/webhook/src/errors.ts#L15)
 
 ***
 
@@ -24,4 +24,4 @@ RequestError: "slack_webhook_request_error";
 
 #### Defined in
 
-[errors.ts:14](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/webhook/src/errors.ts#L14)
+[errors.ts:14](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/webhook/src/errors.ts#L14)

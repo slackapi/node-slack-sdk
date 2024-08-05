@@ -18,7 +18,7 @@ Allow results that involve disabled User Groups.
 
 #### Defined in
 
-[packages/web-api/src/types/request/usergroups.ts:50](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/usergroups.ts#L50)
+[packages/web-api/src/types/request/usergroups.ts:50](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/usergroups.ts#L50)
 
 ***
 
@@ -38,7 +38,7 @@ If using an org token, `team_id` is required.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:65](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L65)
+[packages/web-api/src/types/request/common.ts:65](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L65)
 
 ***
 
@@ -58,7 +58,7 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
 
 ***
 
@@ -74,4 +74,4 @@ The encoded ID of the User Group to list users for.
 
 #### Defined in
 
-[packages/web-api/src/types/request/usergroups.ts:48](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/usergroups.ts#L48)
+[packages/web-api/src/types/request/usergroups.ts:48](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/usergroups.ts#L48)

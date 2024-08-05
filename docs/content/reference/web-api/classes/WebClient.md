@@ -35,7 +35,7 @@ An API token to authenticate/authorize with Slack (usually start with `xoxp`, `x
 
 #### Defined in
 
-[packages/web-api/src/WebClient.ts:187](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/WebClient.ts#L187)
+[packages/web-api/src/WebClient.ts:187](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/WebClient.ts#L187)
 
 ## Properties
 
@@ -1576,7 +1576,7 @@ Unpublish workflows within the team or enterprise.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:546](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L546)
+[packages/web-api/src/methods.ts:546](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L546)
 
 ***
 
@@ -1606,7 +1606,7 @@ Checks API calling code.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1221](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1221)
+[packages/web-api/src/methods.ts:1221](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1221)
 
 ***
 
@@ -1760,7 +1760,7 @@ Uninstalls your app from a workspace.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1229](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1229)
+[packages/web-api/src/methods.ts:1229](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1229)
 
 ***
 
@@ -1816,7 +1816,7 @@ test: Method<AuthTestArguments, AuthTestResponse>;
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1285](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1285)
+[packages/web-api/src/methods.ts:1285](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1285)
 
 ***
 
@@ -1888,7 +1888,7 @@ Remove bookmark from a channel.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1301](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1301)
+[packages/web-api/src/methods.ts:1301](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1301)
 
 ***
 
@@ -1918,7 +1918,7 @@ Gets information about a bot user.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1324](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1324)
+[packages/web-api/src/methods.ts:1324](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1324)
 
 ***
 
@@ -2016,7 +2016,7 @@ Updates information about a Call.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1332](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1332)
+[packages/web-api/src/methods.ts:1332](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1332)
 
 ***
 
@@ -2128,7 +2128,7 @@ Find sections matching the provided criteria.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1363](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1363)
+[packages/web-api/src/methods.ts:1363](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1363)
 
 ***
 
@@ -2290,7 +2290,7 @@ Updates a message.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1400](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1400)
+[packages/web-api/src/methods.ts:1400](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1400)
 
 ***
 
@@ -2670,7 +2670,7 @@ Reverses conversation archival.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1463](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1463)
+[packages/web-api/src/methods.ts:1463](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1463)
 
 ***
 
@@ -2700,7 +2700,7 @@ Open a dialog with a user.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1622](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1622)
+[packages/web-api/src/methods.ts:1622](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1622)
 
 ***
 
@@ -2786,7 +2786,7 @@ Retrieves the Do Not Disturb status for up to 50 users on a team.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1630](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1630)
+[packages/web-api/src/methods.ts:1630](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1630)
 
 ***
 
@@ -2816,7 +2816,7 @@ Lists custom emoji for a team.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1658](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1658)
+[packages/web-api/src/methods.ts:1658](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1658)
 
 ***
 
@@ -3081,7 +3081,7 @@ as multiple file uploads property.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1666](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1666)
+[packages/web-api/src/methods.ts:1666](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1666)
 
 ***
 
@@ -3125,7 +3125,7 @@ Signal the successful completion of a Custom Function.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1767](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1767)
+[packages/web-api/src/methods.ts:1767](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1767)
 
 ***
 
@@ -3155,7 +3155,7 @@ For Enterprise Grid workspaces, map local user IDs to global user IDs.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1783](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1783)
+[packages/web-api/src/methods.ts:1783](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1783)
 
 ***
 
@@ -3223,7 +3223,7 @@ Exchanges a legacy access token for a new expiring access token and refresh toke
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1791](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1791)
+[packages/web-api/src/methods.ts:1791](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1791)
 
 ***
 
@@ -3273,7 +3273,7 @@ Get the identity of a user who has authorized [Sign in with Slack](https://api.s
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1812](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1812)
+[packages/web-api/src/methods.ts:1812](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1812)
 
 ***
 
@@ -3331,7 +3331,7 @@ Un-pins an item from a channel.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1827](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1827)
+[packages/web-api/src/methods.ts:1827](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1827)
 
 ***
 
@@ -3403,7 +3403,7 @@ Removes a reaction from an item.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1845](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1845)
+[packages/web-api/src/methods.ts:1845](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1845)
 
 ***
 
@@ -3489,7 +3489,7 @@ Lists all reminders created by or for a given user.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1870](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1870)
+[packages/web-api/src/methods.ts:1870](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1870)
 
 ***
 
@@ -3537,7 +3537,7 @@ Use `rtm.connect` instead. See [our post on retiring `rtm.start`](https://api.sl
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1898](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1898)
+[packages/web-api/src/methods.ts:1898](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1898)
 
 ***
 
@@ -3595,7 +3595,7 @@ Searches for messages matching a query.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1912](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1912)
+[packages/web-api/src/methods.ts:1912](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1912)
 
 ***
 
@@ -3609,7 +3609,7 @@ The base URL for reaching Slack's Web API. Consider changing this value for test
 
 #### Defined in
 
-[packages/web-api/src/WebClient.ts:130](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/WebClient.ts#L130)
+[packages/web-api/src/WebClient.ts:130](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/WebClient.ts#L130)
 
 ***
 
@@ -3682,7 +3682,7 @@ See [our post on stars and the Later list](https://api.slack.com/changelog/2023-
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:2140](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L2140)
+[packages/web-api/src/methods.ts:2140](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L2140)
 
 ***
 
@@ -3848,7 +3848,7 @@ Retrieve a team's profile.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1930](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1930)
+[packages/web-api/src/methods.ts:1930](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1930)
 
 ***
 
@@ -3862,7 +3862,7 @@ Authentication and authorization token for accessing Slack Web API (usually begi
 
 #### Defined in
 
-[packages/web-api/src/WebClient.ts:135](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/WebClient.ts#L135)
+[packages/web-api/src/WebClient.ts:135](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/WebClient.ts#L135)
 
 ***
 
@@ -3898,7 +3898,7 @@ Exchanges a refresh token for a new app configuration token.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1987](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1987)
+[packages/web-api/src/methods.ts:1987](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1987)
 
 ***
 
@@ -4018,7 +4018,7 @@ Update the list of users in a User Group.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:1997](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L1997)
+[packages/web-api/src/methods.ts:1997](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L1997)
 
 ***
 
@@ -4214,7 +4214,7 @@ Manually sets user presence.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:2043](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L2043)
+[packages/web-api/src/methods.ts:2043](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L2043)
 
 ***
 
@@ -4286,7 +4286,7 @@ Update an existing view.
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:2110](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L2110)
+[packages/web-api/src/methods.ts:2110](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L2110)
 
 ***
 
@@ -4362,7 +4362,7 @@ See [our post on deprecating Steps from Apps](https://api.slack.com/changelog/20
 
 #### Defined in
 
-[packages/web-api/src/methods.ts:2164](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/methods.ts#L2164)
+[packages/web-api/src/methods.ts:2164](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/methods.ts#L2164)
 
 ***
 
@@ -4445,7 +4445,7 @@ options
 
 #### Defined in
 
-[packages/web-api/src/WebClient.ts:255](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/WebClient.ts#L255)
+[packages/web-api/src/WebClient.ts:255](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/WebClient.ts#L255)
 
 ***
 
@@ -4535,7 +4535,7 @@ URLs returned from step 1 (e.g. https://files.slack.com/upload/v1/...\")
 
 #### Defined in
 
-[packages/web-api/src/WebClient.ts:436](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/WebClient.ts#L436)
+[packages/web-api/src/WebClient.ts:436](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/WebClient.ts#L436)
 
 ***
 
@@ -4745,7 +4745,7 @@ options
 
 ##### Defined in
 
-[packages/web-api/src/WebClient.ts:337](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/WebClient.ts#L337)
+[packages/web-api/src/WebClient.ts:337](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/WebClient.ts#L337)
 
 #### paginate(method, options, shouldStop)
 
@@ -4770,7 +4770,7 @@ shouldStop): Promise<void>
 
 ##### Defined in
 
-[packages/web-api/src/WebClient.ts:338](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/WebClient.ts#L338)
+[packages/web-api/src/WebClient.ts:338](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/WebClient.ts#L338)
 
 #### paginate(method, options, shouldStop, reduce)
 
@@ -4804,7 +4804,7 @@ reduce?): Promise<A>
 
 ##### Defined in
 
-[packages/web-api/src/WebClient.ts:343](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/WebClient.ts#L343)
+[packages/web-api/src/WebClient.ts:343](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/WebClient.ts#L343)
 
 ***
 

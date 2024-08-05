@@ -28,7 +28,7 @@ One of the compatible element objects.
 
 #### Defined in
 
-[block-kit/blocks.ts:280](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L280)
+[block-kit/blocks.ts:280](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L280)
 
 ***
 
@@ -52,7 +52,7 @@ a message. If a message is updated, use a new `block_id`.
 
 #### Defined in
 
-[block-kit/blocks.ts:44](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L44)
+[block-kit/blocks.ts:44](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L44)
 
 ***
 
@@ -71,7 +71,7 @@ Maximum length for the text in each item is 2000 characters.
 
 #### Defined in
 
-[block-kit/blocks.ts:276](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L276)
+[block-kit/blocks.ts:276](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L276)
 
 ***
 
@@ -89,7 +89,7 @@ is provided instead.
 
 #### Defined in
 
-[block-kit/blocks.ts:269](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L269)
+[block-kit/blocks.ts:269](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L269)
 
 ***
 
@@ -109,4 +109,4 @@ The type of block. For a section block, `type` is always `section`.
 
 #### Defined in
 
-[block-kit/blocks.ts:263](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/blocks.ts#L263)
+[block-kit/blocks.ts:263](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L263)

@@ -1,5 +1,6 @@
 ---
 title: Socket Mode
+slug: /socket-mode
 ---
 
 # Slack Socket Mode

@@ -22,7 +22,7 @@ Encoded channel ID.
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/conversations.ts:13](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/admin/conversations.ts#L13)
+[packages/web-api/src/types/request/admin/conversations.ts:13](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/conversations.ts#L13)
 
 ***
 
@@ -38,7 +38,7 @@ Set to `true` if channel has to be converted to an org channel. Defaults to `fal
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/conversations.ts:197](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/admin/conversations.ts#L197)
+[packages/web-api/src/types/request/admin/conversations.ts:197](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/conversations.ts#L197)
 
 ***
 
@@ -55,7 +55,7 @@ Not required if the channel is being shared org-wide.
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/conversations.ts:202](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/admin/conversations.ts#L202)
+[packages/web-api/src/types/request/admin/conversations.ts:202](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/conversations.ts#L202)
 
 ***
 
@@ -72,7 +72,7 @@ Omit this argument if the channel is a cross-workspace shared channel.
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/conversations.ts:207](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/admin/conversations.ts#L207)
+[packages/web-api/src/types/request/admin/conversations.ts:207](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/conversations.ts#L207)
 
 ***
 
@@ -92,4 +92,4 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)

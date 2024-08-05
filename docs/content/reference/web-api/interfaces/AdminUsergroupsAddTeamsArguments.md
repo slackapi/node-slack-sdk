@@ -19,7 +19,7 @@ Defaults to `false`.
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/usergroups.ts:28](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/admin/usergroups.ts#L28)
+[packages/web-api/src/types/request/admin/usergroups.ts:28](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/usergroups.ts#L28)
 
 ***
 
@@ -36,7 +36,7 @@ Each workspace MUST belong to the organization associated with the token.
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/usergroups.ts:23](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/admin/usergroups.ts#L23)
+[packages/web-api/src/types/request/admin/usergroups.ts:23](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/usergroups.ts#L23)
 
 ***
 
@@ -56,7 +56,7 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
 
 ***
 
@@ -76,4 +76,4 @@ ID of the IDP group to list/manage channels for.
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/usergroups.ts:10](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/admin/usergroups.ts#L10)
+[packages/web-api/src/types/request/admin/usergroups.ts:10](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/usergroups.ts#L10)

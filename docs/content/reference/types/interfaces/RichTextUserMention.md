@@ -66,7 +66,7 @@ A limited style object for styling rich text `text` elements.
 
 #### Defined in
 
-[block-kit/extensions.ts:86](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L86)
+[block-kit/extensions.ts:86](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L86)
 
 ***
 
@@ -82,7 +82,7 @@ The type of element. In this case `type` is always `user`.
 
 #### Defined in
 
-[block-kit/block-elements.ts:922](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L922)
+[block-kit/block-elements.ts:922](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L922)
 
 ***
 
@@ -98,4 +98,4 @@ The encoded user ID, e.g. U1234ABCD.
 
 #### Defined in
 
-[block-kit/block-elements.ts:926](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L926)
+[block-kit/block-elements.ts:926](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L926)

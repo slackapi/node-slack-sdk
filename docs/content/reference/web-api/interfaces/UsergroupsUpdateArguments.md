@@ -22,7 +22,7 @@ A comma separated string of encoded channel IDs for which the User Group uses as
 
 #### Defined in
 
-[packages/web-api/src/types/request/usergroups.ts:14](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/usergroups.ts#L14)
+[packages/web-api/src/types/request/usergroups.ts:14](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/usergroups.ts#L14)
 
 ***
 
@@ -42,7 +42,7 @@ A short description of the User Group.
 
 #### Defined in
 
-[packages/web-api/src/types/request/usergroups.ts:16](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/usergroups.ts#L16)
+[packages/web-api/src/types/request/usergroups.ts:16](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/usergroups.ts#L16)
 
 ***
 
@@ -62,7 +62,7 @@ A mention handle. Must be unique among channels, users and User Groups.
 
 #### Defined in
 
-[packages/web-api/src/types/request/usergroups.ts:18](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/usergroups.ts#L18)
+[packages/web-api/src/types/request/usergroups.ts:18](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/usergroups.ts#L18)
 
 ***
 
@@ -82,7 +82,7 @@ Include the number of users in each User Group.
 
 #### Defined in
 
-[packages/web-api/src/types/request/usergroups.ts:6](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/usergroups.ts#L6)
+[packages/web-api/src/types/request/usergroups.ts:6](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/usergroups.ts#L6)
 
 ***
 
@@ -102,7 +102,7 @@ A name for the User Group. Must be unique among User Groups.
 
 #### Defined in
 
-[packages/web-api/src/types/request/usergroups.ts:12](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/usergroups.ts#L12)
+[packages/web-api/src/types/request/usergroups.ts:12](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/usergroups.ts#L12)
 
 ***
 
@@ -122,7 +122,7 @@ If using an org token, `team_id` is required.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:65](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L65)
+[packages/web-api/src/types/request/common.ts:65](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L65)
 
 ***
 
@@ -142,7 +142,7 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
 
 ***
 
@@ -158,4 +158,4 @@ The encoded ID of the User Group to update.
 
 #### Defined in
 
-[packages/web-api/src/types/request/usergroups.ts:43](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/web-api/src/types/request/usergroups.ts#L43)
+[packages/web-api/src/types/request/usergroups.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/usergroups.ts#L43)

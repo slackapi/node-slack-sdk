@@ -32,7 +32,7 @@ Maximum length for the `text` in this field is 30 characters.
 
 #### Defined in
 
-[block-kit/composition-objects.ts:34](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/composition-objects.ts#L34)
+[block-kit/composition-objects.ts:34](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L34)
 
 ***
 
@@ -49,7 +49,7 @@ Maximum length for the `text` in this field is 30 characters.
 
 #### Defined in
 
-[block-kit/composition-objects.ts:39](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/composition-objects.ts#L39)
+[block-kit/composition-objects.ts:39](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L39)
 
 ***
 
@@ -67,7 +67,7 @@ background on desktop, or blue text on mobile. If this field is not provided, th
 
 #### Defined in
 
-[block-kit/composition-objects.ts:45](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/composition-objects.ts#L45)
+[block-kit/composition-objects.ts:45](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L45)
 
 ***
 
@@ -84,7 +84,7 @@ dialog. Maximum length for the `text` in this field is 300 characters.
 
 #### Defined in
 
-[block-kit/composition-objects.ts:29](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/composition-objects.ts#L29)
+[block-kit/composition-objects.ts:29](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L29)
 
 ***
 
@@ -101,4 +101,4 @@ Maximum length for this field is 100 characters.
 
 #### Defined in
 
-[block-kit/composition-objects.ts:24](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/composition-objects.ts#L24)
+[block-kit/composition-objects.ts:24](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L24)

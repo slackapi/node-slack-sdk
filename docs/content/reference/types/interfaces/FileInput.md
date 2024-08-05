@@ -31,7 +31,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 
 #### Defined in
 
-[block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/extensions.ts#L15)
+[block-kit/extensions.ts:15](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L15)
 
 ***
 
@@ -49,7 +49,7 @@ for convenience only, and you should perform your own file type validation based
 
 #### Defined in
 
-[block-kit/block-elements.ts:164](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L164)
+[block-kit/block-elements.ts:164](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L164)
 
 ***
 
@@ -66,7 +66,7 @@ Maximum number of files that can be uploaded for this `file_input` element. Mini
 
 #### Defined in
 
-[block-kit/block-elements.ts:169](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L169)
+[block-kit/block-elements.ts:169](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L169)
 
 ***
 
@@ -86,4 +86,4 @@ The type of element. In this case `type` is always `file_input`.
 
 #### Defined in
 
-[block-kit/block-elements.ts:158](https://github.com/slackapi/node-slack-sdk/blob/c15385ef93ccdde9702f52f7d1f445999203d794/packages/types/src/block-kit/block-elements.ts#L158)
+[block-kit/block-elements.ts:158](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L158)

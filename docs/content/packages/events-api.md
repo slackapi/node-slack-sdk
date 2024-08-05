@@ -1,5 +1,6 @@
 ---
 title: Events API
+slug: /events-api
 ---
 
 :::warning[Deprecation Notice]
