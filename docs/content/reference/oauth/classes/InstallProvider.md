@@ -20,7 +20,7 @@ new InstallProvider(__namedParameters): InstallProvider
 
 #### Defined in
 
-[packages/oauth/src/install-provider.ts:87](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider.ts#L87)
+[packages/oauth/src/install-provider.ts:87](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L87)
 
 ## Properties
 
@@ -32,7 +32,7 @@ installationStore: InstallationStore;
 
 #### Defined in
 
-[packages/oauth/src/install-provider.ts:38](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider.ts#L38)
+[packages/oauth/src/install-provider.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L38)
 
 ***
 
@@ -44,7 +44,7 @@ optional stateStore: StateStore;
 
 #### Defined in
 
-[packages/oauth/src/install-provider.ts:35](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider.ts#L35)
+[packages/oauth/src/install-provider.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L35)
 
 ## Methods
 
@@ -66,7 +66,7 @@ Fetches data from the installationStore
 
 #### Defined in
 
-[packages/oauth/src/install-provider.ts:173](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider.ts#L173)
+[packages/oauth/src/install-provider.ts:173](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L173)
 
 ***
 
@@ -96,7 +96,7 @@ Uses stateStore to generate a value for the state query param.
 
 #### Defined in
 
-[packages/oauth/src/install-provider.ts:408](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider.ts#L408)
+[packages/oauth/src/install-provider.ts:408](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L408)
 
 ***
 
@@ -134,7 +134,7 @@ in the installationStore.
 
 #### Defined in
 
-[packages/oauth/src/install-provider.ts:478](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider.ts#L478)
+[packages/oauth/src/install-provider.ts:478](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L478)
 
 ***
 
@@ -166,4 +166,4 @@ Handles the install path (the default is /slack/install) requests from an app in
 
 #### Defined in
 
-[packages/oauth/src/install-provider.ts:324](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider.ts#L324)
+[packages/oauth/src/install-provider.ts:324](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L324)

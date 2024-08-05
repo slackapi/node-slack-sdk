@@ -31,7 +31,7 @@ new SocketModeClient(__namedParameters): SocketModeClient
 
 #### Defined in
 
-[packages/socket-mode/src/SocketModeClient.ts:99](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/SocketModeClient.ts#L99)
+[packages/socket-mode/src/SocketModeClient.ts:99](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L99)
 
 ## Properties
 
@@ -45,7 +45,7 @@ The underlying WebSocket client instance
 
 #### Defined in
 
-[packages/socket-mode/src/SocketModeClient.ts:69](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/SocketModeClient.ts#L69)
+[packages/socket-mode/src/SocketModeClient.ts:69](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L69)
 
 ## Methods
 
@@ -64,7 +64,7 @@ unless you call start() again later.
 
 #### Defined in
 
-[packages/socket-mode/src/SocketModeClient.ts:205](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/SocketModeClient.ts#L205)
+[packages/socket-mode/src/SocketModeClient.ts:205](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L205)
 
 ***
 
@@ -92,7 +92,7 @@ Mediates:
 
 #### Defined in
 
-[packages/socket-mode/src/SocketModeClient.ts:282](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/SocketModeClient.ts#L282)
+[packages/socket-mode/src/SocketModeClient.ts:282](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L282)
 
 ***
 
@@ -112,4 +112,4 @@ or to disconnect the client via the `disconnect` method.
 
 #### Defined in
 
-[packages/socket-mode/src/SocketModeClient.ts:163](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/SocketModeClient.ts#L163)
+[packages/socket-mode/src/SocketModeClient.ts:163](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L163)

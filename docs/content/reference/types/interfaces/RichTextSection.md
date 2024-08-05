@@ -14,7 +14,7 @@ elements: RichTextElement[];
 
 #### Defined in
 
-[block-kit/block-elements.ts:966](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L966)
+[block-kit/block-elements.ts:966](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L966)
 
 ***
 
@@ -30,4 +30,4 @@ The type of element. In this case `type` is always `rich_text_section`.
 
 #### Defined in
 
-[block-kit/block-elements.ts:965](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L965)
+[block-kit/block-elements.ts:965](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L965)

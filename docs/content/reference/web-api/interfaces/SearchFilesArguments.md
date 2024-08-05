@@ -22,7 +22,7 @@ Number of items to return per page. Defaults to `20`
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:33](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L33)
+[packages/web-api/src/types/request/common.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L33)
 
 ***
 
@@ -46,7 +46,7 @@ Set to `true` to enable query highlight markers. Defaults to `false`.
 
 #### Defined in
 
-[packages/web-api/src/types/request/search.ts:10](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/search.ts#L10)
+[packages/web-api/src/types/request/search.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L10)
 
 ***
 
@@ -66,7 +66,7 @@ Page number of results to return. Defaults to `1`.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:35](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L35)
+[packages/web-api/src/types/request/common.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L35)
 
 ***
 
@@ -86,7 +86,7 @@ Search query.
 
 #### Defined in
 
-[packages/web-api/src/types/request/search.ts:5](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/search.ts#L5)
+[packages/web-api/src/types/request/search.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L5)
 
 ***
 
@@ -106,7 +106,7 @@ Return matches sorted by either `score` or `timestamp`. Defaults to `score`.
 
 #### Defined in
 
-[packages/web-api/src/types/request/search.ts:12](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/search.ts#L12)
+[packages/web-api/src/types/request/search.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L12)
 
 ***
 
@@ -126,7 +126,7 @@ Change sort direction to ascending (`asc`) or descending (`desc`). Defaults to `
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:117](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L117)
+[packages/web-api/src/types/request/common.ts:117](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L117)
 
 ***
 
@@ -146,7 +146,7 @@ If using an org token, `team_id` is required.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:65](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L65)
+[packages/web-api/src/types/request/common.ts:65](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L65)
 
 ***
 
@@ -166,4 +166,4 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

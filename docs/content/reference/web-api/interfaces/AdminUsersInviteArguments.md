@@ -22,7 +22,7 @@ An array of channel IDs (must include at least one ID).
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:76](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L76)
+[packages/web-api/src/types/request/common.ts:76](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L76)
 
 ***
 
@@ -38,7 +38,7 @@ An optional message to send to the user in the invite email.
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/users.ts:67](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/users.ts#L67)
+[packages/web-api/src/types/request/admin/users.ts:67](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L67)
 
 ***
 
@@ -54,7 +54,7 @@ The email address of the person to invite.
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/users.ts:65](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/users.ts#L65)
+[packages/web-api/src/types/request/admin/users.ts:65](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L65)
 
 ***
 
@@ -71,7 +71,7 @@ admin invite.
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/users.ts:72](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/users.ts#L72)
+[packages/web-api/src/types/request/admin/users.ts:72](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L72)
 
 ***
 
@@ -88,7 +88,7 @@ guest user and you want their account to expire on a certain date.
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/users.ts:77](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/users.ts#L77)
+[packages/web-api/src/types/request/admin/users.ts:77](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L77)
 
 ***
 
@@ -108,7 +108,7 @@ Set to `true` if user should be added to the workspace as a guest.
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/users.ts:19](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/users.ts#L19)
+[packages/web-api/src/types/request/admin/users.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L19)
 
 ***
 
@@ -128,7 +128,7 @@ Set to `true` if user should be added to the workspace as a guest.
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/users.ts:24](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/users.ts#L24)
+[packages/web-api/src/types/request/admin/users.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L24)
 
 ***
 
@@ -144,7 +144,7 @@ Full name of the user.
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/users.ts:79](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/users.ts#L79)
+[packages/web-api/src/types/request/admin/users.ts:79](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L79)
 
 ***
 
@@ -161,7 +161,7 @@ Resending can only be done via the UI and has no expiration. Defaults to `false`
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/users.ts:84](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/users.ts#L84)
+[packages/web-api/src/types/request/admin/users.ts:84](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L84)
 
 ***
 
@@ -181,7 +181,7 @@ The encoded team ID.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:61](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L61)
+[packages/web-api/src/types/request/common.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L61)
 
 ***
 
@@ -201,4 +201,4 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

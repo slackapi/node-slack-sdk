@@ -16,7 +16,7 @@ optional body: any;
 
 #### Defined in
 
-[packages/web-api/src/errors.ts:57](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/errors.ts#L57)
+[packages/web-api/src/errors.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L57)
 
 ***
 
@@ -32,7 +32,7 @@ code: HTTPError;
 
 #### Defined in
 
-[packages/web-api/src/errors.ts:52](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/errors.ts#L52)
+[packages/web-api/src/errors.ts:52](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L52)
 
 ***
 
@@ -60,7 +60,7 @@ headers: IncomingHttpHeaders;
 
 #### Defined in
 
-[packages/web-api/src/errors.ts:55](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/errors.ts#L55)
+[packages/web-api/src/errors.ts:55](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L55)
 
 ***
 
@@ -136,7 +136,7 @@ statusCode: number;
 
 #### Defined in
 
-[packages/web-api/src/errors.ts:53](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/errors.ts#L53)
+[packages/web-api/src/errors.ts:53](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L53)
 
 ***
 
@@ -148,7 +148,7 @@ statusMessage: string;
 
 #### Defined in
 
-[packages/web-api/src/errors.ts:54](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/errors.ts#L54)
+[packages/web-api/src/errors.ts:54](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L54)
 
 ***
 

@@ -18,7 +18,7 @@ code: SendWhileNotReadyError;
 
 #### Defined in
 
-[packages/socket-mode/src/errors.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/errors.ts#L43)
+[packages/socket-mode/src/errors.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L43)
 
 ***
 

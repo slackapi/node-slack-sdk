@@ -22,7 +22,7 @@ new FileInstallationStore(__namedParameters): FileInstallationStore
 
 #### Defined in
 
-[packages/oauth/src/installation-stores/file-store.ts:19](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation-stores/file-store.ts#L19)
+[packages/oauth/src/installation-stores/file-store.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/file-store.ts#L19)
 
 ## Methods
 
@@ -48,7 +48,7 @@ deleteInstallation(query, logger?): Promise<void>
 
 #### Defined in
 
-[packages/oauth/src/installation-stores/file-store.ts:97](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation-stores/file-store.ts#L97)
+[packages/oauth/src/installation-stores/file-store.ts:97](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/file-store.ts#L97)
 
 ***
 
@@ -74,7 +74,7 @@ fetchInstallation(query, logger?): Promise<Installation<"v1" | "v2", boolean>>
 
 #### Defined in
 
-[packages/oauth/src/installation-stores/file-store.ts:61](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation-stores/file-store.ts#L61)
+[packages/oauth/src/installation-stores/file-store.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/file-store.ts#L61)
 
 ***
 
@@ -100,4 +100,4 @@ storeInstallation(installation, logger?): Promise<void>
 
 #### Defined in
 
-[packages/oauth/src/installation-stores/file-store.ts:28](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation-stores/file-store.ts#L28)
+[packages/oauth/src/installation-stores/file-store.ts:28](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-stores/file-store.ts#L28)

@@ -10,7 +10,7 @@ optional agent: any;
 
 #### Defined in
 
-[RTMClient.ts:682](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L682)
+[RTMClient.ts:682](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L682)
 
 ***
 
@@ -22,7 +22,7 @@ optional autoReconnect: boolean;
 
 #### Defined in
 
-[RTMClient.ts:683](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L683)
+[RTMClient.ts:683](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L683)
 
 ***
 
@@ -34,7 +34,7 @@ optional clientPingTimeout: number;
 
 #### Defined in
 
-[RTMClient.ts:687](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L687)
+[RTMClient.ts:687](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L687)
 
 ***
 
@@ -46,7 +46,7 @@ optional logLevel: any;
 
 #### Defined in
 
-[RTMClient.ts:680](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L680)
+[RTMClient.ts:680](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L680)
 
 ***
 
@@ -58,7 +58,7 @@ optional logger: any;
 
 #### Defined in
 
-[RTMClient.ts:679](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L679)
+[RTMClient.ts:679](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L679)
 
 ***
 
@@ -70,7 +70,7 @@ optional replyAckOnReconnectTimeout: number;
 
 #### Defined in
 
-[RTMClient.ts:689](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L689)
+[RTMClient.ts:689](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L689)
 
 ***
 
@@ -82,7 +82,7 @@ optional retryConfig: any;
 
 #### Defined in
 
-[RTMClient.ts:681](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L681)
+[RTMClient.ts:681](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L681)
 
 ***
 
@@ -94,7 +94,7 @@ optional serverPongTimeout: number;
 
 #### Defined in
 
-[RTMClient.ts:688](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L688)
+[RTMClient.ts:688](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L688)
 
 ***
 
@@ -106,7 +106,7 @@ optional slackApiUrl: string;
 
 #### Defined in
 
-[RTMClient.ts:678](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L678)
+[RTMClient.ts:678](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L678)
 
 ***
 
@@ -118,7 +118,7 @@ optional tls: any;
 
 #### Defined in
 
-[RTMClient.ts:690](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L690)
+[RTMClient.ts:690](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L690)
 
 ***
 
@@ -130,7 +130,7 @@ optional useRtmConnect: boolean;
 
 #### Defined in
 
-[RTMClient.ts:686](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L686)
+[RTMClient.ts:686](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L686)
 
 ***
 
@@ -142,4 +142,4 @@ optional webClient: any;
 
 #### Defined in
 
-[RTMClient.ts:677](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L677)
+[RTMClient.ts:677](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L677)

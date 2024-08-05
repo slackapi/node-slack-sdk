@@ -26,17 +26,11 @@ const sidebars = {
     },
     'getting-started',
     'typescript',
-    {
-      type: 'category',
-      label: 'Packages',
-      items: [
-        'packages/web-api',
-        'packages/oauth',
-        'packages/rtm-api',
-        'packages/webhook',
-        'packages/socket-mode',
-      ],
-    },
+    'packages/web-api',
+    'packages/oauth',
+    'packages/rtm-api',
+    'packages/webhook',
+    'packages/socket-mode',
     {
       type: 'category',
       label: 'Deprecated packages',

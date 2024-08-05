@@ -23,7 +23,7 @@ Maximum length for the `text` in this field is 75 characters.
 
 #### Defined in
 
-[block-kit/composition-objects.ts:120](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L120)
+[block-kit/composition-objects.ts:120](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L120)
 
 ***
 
@@ -39,4 +39,4 @@ An array of [Option](../type-aliases/Option.md) that belong to this specific gro
 
 #### Defined in
 
-[block-kit/composition-objects.ts:124](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L124)
+[block-kit/composition-objects.ts:124](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L124)

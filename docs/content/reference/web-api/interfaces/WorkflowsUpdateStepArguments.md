@@ -18,7 +18,7 @@ optional inputs: object;
 
 #### Defined in
 
-[packages/web-api/src/types/request/workflows.ts:23](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/workflows.ts#L23)
+[packages/web-api/src/types/request/workflows.ts:23](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L23)
 
 ***
 
@@ -30,7 +30,7 @@ optional outputs: object[];
 
 #### Defined in
 
-[packages/web-api/src/types/request/workflows.ts:34](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/workflows.ts#L34)
+[packages/web-api/src/types/request/workflows.ts:34](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L34)
 
 ***
 
@@ -42,7 +42,7 @@ optional step_image_url: string;
 
 #### Defined in
 
-[packages/web-api/src/types/request/workflows.ts:21](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/workflows.ts#L21)
+[packages/web-api/src/types/request/workflows.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L21)
 
 ***
 
@@ -54,7 +54,7 @@ optional step_name: string;
 
 #### Defined in
 
-[packages/web-api/src/types/request/workflows.ts:22](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/workflows.ts#L22)
+[packages/web-api/src/types/request/workflows.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L22)
 
 ***
 
@@ -74,7 +74,7 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 ***
 
@@ -86,4 +86,4 @@ workflow_step_edit_id: string;
 
 #### Defined in
 
-[packages/web-api/src/types/request/workflows.ts:20](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/workflows.ts#L20)
+[packages/web-api/src/types/request/workflows.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L20)

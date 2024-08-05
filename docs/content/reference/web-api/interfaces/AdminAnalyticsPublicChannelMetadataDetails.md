@@ -10,7 +10,7 @@ channel_id: string;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:66](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L66)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:66](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L66)
 
 ***
 
@@ -22,7 +22,7 @@ date: string;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:70](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L70)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L70)
 
 ***
 
@@ -34,7 +34,7 @@ description: string;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:69](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L69)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:69](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L69)
 
 ***
 
@@ -46,7 +46,7 @@ name: string;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:67](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L67)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:67](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L67)
 
 ***
 
@@ -58,4 +58,4 @@ topic: string;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:68](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L68)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:68](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L68)

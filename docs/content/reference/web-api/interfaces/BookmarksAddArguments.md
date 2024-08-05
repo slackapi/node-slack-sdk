@@ -22,7 +22,7 @@ Channel containing bookmark.
 
 #### Defined in
 
-[packages/web-api/src/types/request/bookmarks.ts:5](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/bookmarks.ts#L5)
+[packages/web-api/src/types/request/bookmarks.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L5)
 
 ***
 
@@ -42,7 +42,7 @@ Emoji tag to apply to the bookmark.
 
 #### Defined in
 
-[packages/web-api/src/types/request/bookmarks.ts:16](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/bookmarks.ts#L16)
+[packages/web-api/src/types/request/bookmarks.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L16)
 
 ***
 
@@ -58,7 +58,7 @@ ID of the entity being bookmarked. Only applies to message and file types.
 
 #### Defined in
 
-[packages/web-api/src/types/request/bookmarks.ts:24](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/bookmarks.ts#L24)
+[packages/web-api/src/types/request/bookmarks.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L24)
 
 ***
 
@@ -78,7 +78,7 @@ Link to bookmark.
 
 #### Defined in
 
-[packages/web-api/src/types/request/bookmarks.ts:14](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/bookmarks.ts#L14)
+[packages/web-api/src/types/request/bookmarks.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L14)
 
 ***
 
@@ -94,7 +94,7 @@ ID of this bookmark's parent.
 
 #### Defined in
 
-[packages/web-api/src/types/request/bookmarks.ts:26](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/bookmarks.ts#L26)
+[packages/web-api/src/types/request/bookmarks.ts:26](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L26)
 
 ***
 
@@ -114,7 +114,7 @@ Title for the bookmark.
 
 #### Defined in
 
-[packages/web-api/src/types/request/bookmarks.ts:12](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/bookmarks.ts#L12)
+[packages/web-api/src/types/request/bookmarks.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L12)
 
 ***
 
@@ -134,7 +134,7 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 ***
 
@@ -150,4 +150,4 @@ Type of the bookmark. Only `link` is supported at the moment.
 
 #### Defined in
 
-[packages/web-api/src/types/request/bookmarks.ts:22](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/bookmarks.ts#L22)
+[packages/web-api/src/types/request/bookmarks.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L22)

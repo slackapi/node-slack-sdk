@@ -15,7 +15,7 @@ More details here:
 
 #### Defined in
 
-[packages/oauth/src/install-provider-options.ts:79](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider-options.ts#L79)
+[packages/oauth/src/install-provider-options.ts:79](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider-options.ts#L79)
 
 ***
 
@@ -29,7 +29,7 @@ The slack.com authorize URL
 
 #### Defined in
 
-[packages/oauth/src/install-provider-options.ts:28](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider-options.ts#L28)
+[packages/oauth/src/install-provider-options.ts:28](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider-options.ts#L28)
 
 ***
 
@@ -43,7 +43,7 @@ Client ID, which can be found under the Basic Information section of your applic
 
 #### Defined in
 
-[packages/oauth/src/install-provider-options.ts:13](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider-options.ts#L13)
+[packages/oauth/src/install-provider-options.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider-options.ts#L13)
 
 ***
 
@@ -57,7 +57,7 @@ The customization options for WebClient
 
 #### Defined in
 
-[packages/oauth/src/install-provider-options.ts:99](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider-options.ts#L99)
+[packages/oauth/src/install-provider-options.ts:99](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider-options.ts#L99)
 
 ***
 
@@ -71,7 +71,7 @@ Client Secret, which can be found under the Basic Information section of your ap
 
 #### Defined in
 
-[packages/oauth/src/install-provider-options.ts:18](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider-options.ts#L18)
+[packages/oauth/src/install-provider-options.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider-options.ts#L18)
 
 ***
 
@@ -85,7 +85,7 @@ The install path web page rendering will be skipped if true (default: false)
 
 #### Defined in
 
-[packages/oauth/src/install-provider-options.ts:71](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider-options.ts#L71)
+[packages/oauth/src/install-provider-options.ts:71](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider-options.ts#L71)
 
 ***
 
@@ -99,7 +99,7 @@ The initialization options for the OAuth flow
 
 #### Defined in
 
-[packages/oauth/src/install-provider-options.ts:84](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider-options.ts#L84)
+[packages/oauth/src/install-provider-options.ts:84](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider-options.ts#L84)
 
 ***
 
@@ -113,7 +113,7 @@ Manages installation data, which can be called by both the OAuth flow and author
 
 #### Defined in
 
-[packages/oauth/src/install-provider-options.ts:23](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider-options.ts#L23)
+[packages/oauth/src/install-provider-options.ts:23](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider-options.ts#L23)
 
 ***
 
@@ -129,7 +129,7 @@ This is supposed to be used only for backward-compatibility with v2.4 and olders
 
 #### Defined in
 
-[packages/oauth/src/install-provider-options.ts:51](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider-options.ts#L51)
+[packages/oauth/src/install-provider-options.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider-options.ts#L51)
 
 ***
 
@@ -143,7 +143,7 @@ optional logLevel: any;
 
 #### Defined in
 
-[packages/oauth/src/install-provider-options.ts:94](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider-options.ts#L94)
+[packages/oauth/src/install-provider-options.ts:94](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider-options.ts#L94)
 
 ***
 
@@ -157,7 +157,7 @@ optional logger: any;
 
 #### Defined in
 
-[packages/oauth/src/install-provider-options.ts:89](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider-options.ts#L89)
+[packages/oauth/src/install-provider-options.ts:89](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider-options.ts#L89)
 
 ***
 
@@ -179,7 +179,7 @@ The function for rendering the web page for the install path URL
 
 #### Defined in
 
-[packages/oauth/src/install-provider-options.ts:66](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider-options.ts#L66)
+[packages/oauth/src/install-provider-options.ts:66](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider-options.ts#L66)
 
 ***
 
@@ -193,7 +193,7 @@ The expiration time in seconds for the state parameter value stored via cookies
 
 #### Defined in
 
-[packages/oauth/src/install-provider-options.ts:61](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider-options.ts#L61)
+[packages/oauth/src/install-provider-options.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider-options.ts#L61)
 
 ***
 
@@ -207,7 +207,7 @@ The cookie name used for setting state parameter value in cookies
 
 #### Defined in
 
-[packages/oauth/src/install-provider-options.ts:56](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider-options.ts#L56)
+[packages/oauth/src/install-provider-options.ts:56](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider-options.ts#L56)
 
 ***
 
@@ -221,7 +221,7 @@ The secret value used for generating the state parameter value
 
 #### Defined in
 
-[packages/oauth/src/install-provider-options.ts:39](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider-options.ts#L39)
+[packages/oauth/src/install-provider-options.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider-options.ts#L39)
 
 ***
 
@@ -236,7 +236,7 @@ and verifies the value returned at redirection during OAuth flow to prevent CSRF
 
 #### Defined in
 
-[packages/oauth/src/install-provider-options.ts:34](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider-options.ts#L34)
+[packages/oauth/src/install-provider-options.ts:34](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider-options.ts#L34)
 
 ***
 
@@ -250,4 +250,4 @@ handleCallback() verifies the state parameter if true (default: true)
 
 #### Defined in
 
-[packages/oauth/src/install-provider-options.ts:44](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-provider-options.ts#L44)
+[packages/oauth/src/install-provider-options.ts:44](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider-options.ts#L44)

@@ -22,4 +22,4 @@ A helper union type of all Block Elements that can be used as an accessory in a 
 
 ## Defined in
 
-[block-kit/blocks.ts:248](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L248)
+[block-kit/blocks.ts:248](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L248)

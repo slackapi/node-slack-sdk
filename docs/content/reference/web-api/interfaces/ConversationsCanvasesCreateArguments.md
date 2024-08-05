@@ -18,7 +18,7 @@ Channel ID of the channel to create a canvas in.
 
 #### Defined in
 
-[packages/web-api/src/types/request/canvas.ts:88](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/canvas.ts#L88)
+[packages/web-api/src/types/request/canvas.ts:88](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L88)
 
 ***
 
@@ -34,7 +34,7 @@ Structure describing the type and contents of the Canvas being created.
 
 #### Defined in
 
-[packages/web-api/src/types/request/canvas.ts:90](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/canvas.ts#L90)
+[packages/web-api/src/types/request/canvas.ts:90](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L90)
 
 ***
 
@@ -54,4 +54,4 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

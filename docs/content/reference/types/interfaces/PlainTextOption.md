@@ -23,7 +23,7 @@ Maximum length for the `text` within this field is 75 characters.
 
 #### Defined in
 
-[block-kit/composition-objects.ts:85](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L85)
+[block-kit/composition-objects.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L85)
 
 ***
 
@@ -40,7 +40,7 @@ overflow, select and multi-select menus. Maximum length for the `text` in this f
 
 #### Defined in
 
-[block-kit/composition-objects.ts:101](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L101)
+[block-kit/composition-objects.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L101)
 
 ***
 
@@ -61,7 +61,7 @@ Maximum length for this field is 3000 characters.
 
 #### Defined in
 
-[block-kit/composition-objects.ts:80](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L80)
+[block-kit/composition-objects.ts:80](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L80)
 
 ***
 
@@ -82,4 +82,4 @@ Maximum length for this field is 75 characters.
 
 #### Defined in
 
-[block-kit/composition-objects.ts:75](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L75)
+[block-kit/composition-objects.ts:75](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L75)

@@ -18,7 +18,7 @@ bookmark_id: string;
 
 #### Defined in
 
-[packages/web-api/src/types/request/bookmarks.ts:8](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/bookmarks.ts#L8)
+[packages/web-api/src/types/request/bookmarks.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L8)
 
 ***
 
@@ -38,7 +38,7 @@ Channel containing bookmark.
 
 #### Defined in
 
-[packages/web-api/src/types/request/bookmarks.ts:5](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/bookmarks.ts#L5)
+[packages/web-api/src/types/request/bookmarks.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L5)
 
 ***
 
@@ -58,7 +58,7 @@ Emoji tag to apply to the bookmark.
 
 #### Defined in
 
-[packages/web-api/src/types/request/bookmarks.ts:16](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/bookmarks.ts#L16)
+[packages/web-api/src/types/request/bookmarks.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L16)
 
 ***
 
@@ -78,7 +78,7 @@ Link to bookmark.
 
 #### Defined in
 
-[packages/web-api/src/types/request/bookmarks.ts:14](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/bookmarks.ts#L14)
+[packages/web-api/src/types/request/bookmarks.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L14)
 
 ***
 
@@ -98,7 +98,7 @@ Title for the bookmark.
 
 #### Defined in
 
-[packages/web-api/src/types/request/bookmarks.ts:12](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/bookmarks.ts#L12)
+[packages/web-api/src/types/request/bookmarks.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L12)
 
 ***
 
@@ -118,4 +118,4 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)

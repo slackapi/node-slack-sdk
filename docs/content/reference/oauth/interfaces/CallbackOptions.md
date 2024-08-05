@@ -33,7 +33,7 @@ to build complete HTTP response for end-users.
 
 #### Defined in
 
-[packages/oauth/src/callback-options.ts:34](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/callback-options.ts#L34)
+[packages/oauth/src/callback-options.ts:34](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L34)
 
 ***
 
@@ -65,7 +65,7 @@ to build a complete HTTP response for end-users.
 
 #### Defined in
 
-[packages/oauth/src/callback-options.ts:18](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/callback-options.ts#L18)
+[packages/oauth/src/callback-options.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L18)
 
 ***
 
@@ -91,7 +91,7 @@ optional failure: (error, options, callbackReq, callbackRes) => void;
 
 #### Defined in
 
-[packages/oauth/src/callback-options.ts:64](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/callback-options.ts#L64)
+[packages/oauth/src/callback-options.ts:64](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L64)
 
 ***
 
@@ -117,7 +117,7 @@ optional failureAsync: (error, options, callbackReq, callbackRes) => Promise<voi
 
 #### Defined in
 
-[packages/oauth/src/callback-options.ts:73](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/callback-options.ts#L73)
+[packages/oauth/src/callback-options.ts:73](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L73)
 
 ***
 
@@ -143,7 +143,7 @@ optional success: (installation, options, callbackReq, callbackRes) => void;
 
 #### Defined in
 
-[packages/oauth/src/callback-options.ts:44](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/callback-options.ts#L44)
+[packages/oauth/src/callback-options.ts:44](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L44)
 
 ***
 
@@ -169,4 +169,4 @@ optional successAsync: (installation, options, callbackReq, callbackRes) => Prom
 
 #### Defined in
 
-[packages/oauth/src/callback-options.ts:53](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/callback-options.ts#L53)
+[packages/oauth/src/callback-options.ts:53](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L53)

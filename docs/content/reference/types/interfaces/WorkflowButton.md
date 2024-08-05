@@ -27,7 +27,7 @@ readers instead of the button `text` object. Maximum length for this field is 75
 
 #### Defined in
 
-[block-kit/block-elements.ts:752](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L752)
+[block-kit/block-elements.ts:752](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L752)
 
 ***
 
@@ -48,7 +48,7 @@ with.
 
 #### Defined in
 
-[block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L25)
+[block-kit/extensions.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L25)
 
 ***
 
@@ -69,7 +69,7 @@ If you don't include this field, the default button style will be used.
 
 #### Defined in
 
-[block-kit/block-elements.ts:747](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L747)
+[block-kit/block-elements.ts:747](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L747)
 
 ***
 
@@ -86,7 +86,7 @@ Maximum length for the `text` in this field is 75 characters.
 
 #### Defined in
 
-[block-kit/block-elements.ts:707](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L707)
+[block-kit/block-elements.ts:707](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L707)
 
 ***
 
@@ -102,7 +102,7 @@ The type of element. In this case `type` is always `workflow_button`.
 
 #### Defined in
 
-[block-kit/block-elements.ts:702](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L702)
+[block-kit/block-elements.ts:702](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L702)
 
 ***
 
@@ -150,4 +150,4 @@ A workflow object that contains details about the workflow that will run when th
 
 #### Defined in
 
-[block-kit/block-elements.ts:711](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L711)
+[block-kit/block-elements.ts:711](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L711)

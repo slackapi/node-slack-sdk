@@ -44,3 +44,19 @@ Or you can use `yarn`:
 ```shell
 $ yarn add @slack/web-api @slack/oauth
 ```
+
+## Getting help
+
+These docs have lots of information on the Node Slack SDK. There's also an in-depth Reference section. Please explore!
+
+If you otherwise get stuck, we're here to help. The following are the best ways to get assistance working through your issue:
+
+* [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, bug reports, feature requests, and general discussion related to the Node Slack SDK. Try searching for an existing issue before creating a new one.
+* [Email](mailto:support@slack.com) our developer support team: `support@slack.com`.
+
+## Contributing
+
+These docs live within the [Node Slack SDK](https://github.com/slackapi/node-slack-sdk) repository and are open source.
+
+We welcome contributions from everyone! Please check out our
+[Contributor's Guide](https://github.com/slackapi/node-slack-sdk/blob/main/.github/contributing.md) for how to contribute in a helpful and collaborative way.

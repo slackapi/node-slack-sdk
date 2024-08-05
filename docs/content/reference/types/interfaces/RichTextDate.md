@@ -22,7 +22,7 @@ Text to display in place of the date should parsing, formatting or displaying fa
 
 #### Defined in
 
-[block-kit/block-elements.ts:840](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L840)
+[block-kit/block-elements.ts:840](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L840)
 
 ***
 
@@ -58,7 +58,7 @@ TODO: test/document `{member_local_time}`, `{status_expiration}` and `{calendar_
 
 #### Defined in
 
-[block-kit/block-elements.ts:832](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L832)
+[block-kit/block-elements.ts:832](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L832)
 
 ***
 
@@ -118,7 +118,7 @@ A limited style object for styling rich text `text` elements.
 
 #### Defined in
 
-[block-kit/extensions.ts:86](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/extensions.ts#L86)
+[block-kit/extensions.ts:86](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L86)
 
 ***
 
@@ -134,7 +134,7 @@ A UNIX timestamp for the date to be displayed in seconds.
 
 #### Defined in
 
-[block-kit/block-elements.ts:808](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L808)
+[block-kit/block-elements.ts:808](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L808)
 
 ***
 
@@ -150,7 +150,7 @@ The type of element. In this case `type` is always `date`.
 
 #### Defined in
 
-[block-kit/block-elements.ts:804](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L804)
+[block-kit/block-elements.ts:804](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L804)
 
 ***
 
@@ -166,4 +166,4 @@ URL to link the entire `format` string to.
 
 #### Defined in
 
-[block-kit/block-elements.ts:836](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/block-elements.ts#L836)
+[block-kit/block-elements.ts:836](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L836)

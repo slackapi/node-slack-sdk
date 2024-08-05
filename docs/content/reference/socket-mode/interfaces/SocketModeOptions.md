@@ -12,7 +12,7 @@ The App-level token associated with your app, located under the Basic Informatio
 
 #### Defined in
 
-[packages/socket-mode/src/SocketModeOptions.ts:8](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/SocketModeOptions.ts#L8)
+[packages/socket-mode/src/SocketModeOptions.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeOptions.ts#L8)
 
 ***
 
@@ -28,7 +28,7 @@ to a disconnected client after some amount of time.
 
 #### Defined in
 
-[packages/socket-mode/src/SocketModeOptions.ts:22](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/SocketModeOptions.ts#L22)
+[packages/socket-mode/src/SocketModeOptions.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeOptions.ts#L22)
 
 ***
 
@@ -43,7 +43,7 @@ Useful for setting retry configurations, TLS and HTTP Agent options.
 
 #### Defined in
 
-[packages/socket-mode/src/SocketModeOptions.ts:46](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/SocketModeOptions.ts#L46)
+[packages/socket-mode/src/SocketModeOptions.ts:46](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeOptions.ts#L46)
 
 ***
 
@@ -60,7 +60,7 @@ Defaults to 5,000.
 
 #### Defined in
 
-[packages/socket-mode/src/SocketModeOptions.ts:29](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/SocketModeOptions.ts#L29)
+[packages/socket-mode/src/SocketModeOptions.ts:29](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeOptions.ts#L29)
 
 ***
 
@@ -74,7 +74,7 @@ An instance of `@slack/logger`'s LogLevel enum, setting the minimum log level to
 
 #### Defined in
 
-[packages/socket-mode/src/SocketModeOptions.ts:16](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/SocketModeOptions.ts#L16)
+[packages/socket-mode/src/SocketModeOptions.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeOptions.ts#L16)
 
 ***
 
@@ -88,7 +88,7 @@ An instance of `@slack/logger`'s Logger interface, to send log messages to.
 
 #### Defined in
 
-[packages/socket-mode/src/SocketModeOptions.ts:12](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/SocketModeOptions.ts#L12)
+[packages/socket-mode/src/SocketModeOptions.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeOptions.ts#L12)
 
 ***
 
@@ -103,7 +103,7 @@ Should logging related to `ping` and `pong` messages between the client and serv
 
 #### Defined in
 
-[packages/socket-mode/src/SocketModeOptions.ts:41](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/SocketModeOptions.ts#L41)
+[packages/socket-mode/src/SocketModeOptions.ts:41](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeOptions.ts#L41)
 
 ***
 
@@ -120,4 +120,4 @@ Defaults to 30,000.
 
 #### Defined in
 
-[packages/socket-mode/src/SocketModeOptions.ts:36](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/SocketModeOptions.ts#L36)
+[packages/socket-mode/src/SocketModeOptions.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeOptions.ts#L36)

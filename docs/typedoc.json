@@ -2,5 +2,6 @@
 "skipErrorChecking": true,
 "useCodeBlocks": true,
 "logLevel": "Error",
-"readme": "none"
+"readme": "none",
+"gitRevision": "main"
 }

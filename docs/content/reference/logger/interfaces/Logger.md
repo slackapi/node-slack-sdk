@@ -24,7 +24,7 @@ any data to log
 
 #### Defined in
 
-[index.ts:22](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L22)
+[index.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/logger/src/index.ts#L22)
 
 ***
 
@@ -48,7 +48,7 @@ any data to log
 
 #### Defined in
 
-[index.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L43)
+[index.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/logger/src/index.ts#L43)
 
 ***
 
@@ -66,7 +66,7 @@ Return the current LogLevel.
 
 #### Defined in
 
-[index.ts:55](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L55)
+[index.ts:55](https://github.com/slackapi/node-slack-sdk/blob/main/packages/logger/src/index.ts#L55)
 
 ***
 
@@ -90,7 +90,7 @@ any data to log
 
 #### Defined in
 
-[index.ts:29](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L29)
+[index.ts:29](https://github.com/slackapi/node-slack-sdk/blob/main/packages/logger/src/index.ts#L29)
 
 ***
 
@@ -115,7 +115,7 @@ as a string, like 'error' (case-insensitive)
 
 #### Defined in
 
-[index.ts:50](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L50)
+[index.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/logger/src/index.ts#L50)
 
 ***
 
@@ -140,7 +140,7 @@ as a string, will be output with every log after the level
 
 #### Defined in
 
-[index.ts:62](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L62)
+[index.ts:62](https://github.com/slackapi/node-slack-sdk/blob/main/packages/logger/src/index.ts#L62)
 
 ***
 
@@ -164,4 +164,4 @@ any data to log
 
 #### Defined in
 
-[index.ts:36](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L36)
+[index.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/packages/logger/src/index.ts#L36)

@@ -23,7 +23,7 @@ The minimum length is 1 and maximum length is 3000 characters.
 
 #### Defined in
 
-[block-kit/composition-objects.ts:166](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L166)
+[block-kit/composition-objects.ts:166](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L166)
 
 ***
 
@@ -39,7 +39,7 @@ The formatting to use for this text object.
 
 #### Defined in
 
-[block-kit/composition-objects.ts:161](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L161)
+[block-kit/composition-objects.ts:161](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L161)
 
 ***
 
@@ -58,4 +58,4 @@ Using a value of `true` will skip any preprocessing of this nature, although you
 
 #### Defined in
 
-[block-kit/composition-objects.ts:173](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L173)
+[block-kit/composition-objects.ts:173](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L173)

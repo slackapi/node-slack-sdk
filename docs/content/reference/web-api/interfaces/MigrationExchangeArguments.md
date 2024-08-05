@@ -22,7 +22,7 @@ If using an org token, `team_id` is required.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:65](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L65)
+[packages/web-api/src/types/request/common.ts:65](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L65)
 
 ***
 
@@ -38,7 +38,7 @@ Specify `true` to convert `W` global user IDs to workspace-specific `U` IDs. Def
 
 #### Defined in
 
-[packages/web-api/src/types/request/migration.ts:8](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/migration.ts#L8)
+[packages/web-api/src/types/request/migration.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/migration.ts#L8)
 
 ***
 
@@ -58,7 +58,7 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 ***
 
@@ -74,4 +74,4 @@ A comma-separated list of user IDs, up to 400 per request.
 
 #### Defined in
 
-[packages/web-api/src/types/request/migration.ts:6](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/migration.ts#L6)
+[packages/web-api/src/types/request/migration.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/migration.ts#L6)

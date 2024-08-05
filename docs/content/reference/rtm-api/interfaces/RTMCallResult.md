@@ -22,7 +22,7 @@ msg: string;
 
 #### Defined in
 
-[RTMClient.ts:698](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L698)
+[RTMClient.ts:698](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L698)
 
 ***
 
@@ -34,7 +34,7 @@ optional reply_to: number;
 
 #### Defined in
 
-[RTMClient.ts:697](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L697)
+[RTMClient.ts:697](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L697)
 
 ***
 
@@ -46,4 +46,4 @@ ts: string;
 
 #### Defined in
 
-[RTMClient.ts:696](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/RTMClient.ts#L696)
+[RTMClient.ts:696](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L696)

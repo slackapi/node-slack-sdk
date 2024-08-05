@@ -18,7 +18,7 @@ Filter files appearing in a specific channel, indicated by its ID.
 
 #### Defined in
 
-[packages/web-api/src/types/request/files.ts:92](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/files.ts#L92)
+[packages/web-api/src/types/request/files.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L92)
 
 ***
 
@@ -38,7 +38,7 @@ Number of items to return per page. Defaults to `20`
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:33](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L33)
+[packages/web-api/src/types/request/common.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L33)
 
 ***
 
@@ -58,7 +58,7 @@ Page number of results to return. Defaults to `1`.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:35](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L35)
+[packages/web-api/src/types/request/common.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L35)
 
 ***
 
@@ -75,7 +75,7 @@ being over the file limit.
 
 #### Defined in
 
-[packages/web-api/src/types/request/files.ts:97](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/files.ts#L97)
+[packages/web-api/src/types/request/files.ts:97](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L97)
 
 ***
 
@@ -95,7 +95,7 @@ If using an org token, `team_id` is required.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:65](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L65)
+[packages/web-api/src/types/request/common.ts:65](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L65)
 
 ***
 
@@ -115,7 +115,7 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 ***
 
@@ -131,7 +131,7 @@ Filter files created after this timestamp (inclusive).
 
 #### Defined in
 
-[packages/web-api/src/types/request/files.ts:99](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/files.ts#L99)
+[packages/web-api/src/types/request/files.ts:99](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L99)
 
 ***
 
@@ -147,7 +147,7 @@ Filter files created before this timestamp (inclusive).
 
 #### Defined in
 
-[packages/web-api/src/types/request/files.ts:101](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/files.ts#L101)
+[packages/web-api/src/types/request/files.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L101)
 
 ***
 
@@ -165,7 +165,7 @@ Available types are `all`, `spaces`, `snippets`, `images`, `gdocs`, `zips` and `
 
 #### Defined in
 
-[packages/web-api/src/types/request/files.ts:107](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/files.ts#L107)
+[packages/web-api/src/types/request/files.ts:107](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L107)
 
 ***
 
@@ -181,4 +181,4 @@ Filter files created by a single user.
 
 #### Defined in
 
-[packages/web-api/src/types/request/files.ts:109](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/files.ts#L109)
+[packages/web-api/src/types/request/files.ts:109](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L109)

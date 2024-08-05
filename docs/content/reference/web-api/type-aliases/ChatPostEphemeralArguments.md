@@ -19,4 +19,4 @@ The user should be in the channel specified by the `channel` argument.
 
 ## Defined in
 
-[packages/web-api/src/types/request/chat.ts:161](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/chat.ts#L161)
+[packages/web-api/src/types/request/chat.ts:161](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L161)

@@ -12,7 +12,7 @@ DEBUG: "debug";
 
 #### Defined in
 
-[index.ts:10](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L10)
+[index.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/logger/src/index.ts#L10)
 
 ***
 
@@ -24,7 +24,7 @@ ERROR: "error";
 
 #### Defined in
 
-[index.ts:7](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L7)
+[index.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/logger/src/index.ts#L7)
 
 ***
 
@@ -36,7 +36,7 @@ INFO: "info";
 
 #### Defined in
 
-[index.ts:9](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L9)
+[index.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/logger/src/index.ts#L9)
 
 ***
 
@@ -48,4 +48,4 @@ WARN: "warn";
 
 #### Defined in
 
-[index.ts:8](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/logger/src/index.ts#L8)
+[index.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/logger/src/index.ts#L8)

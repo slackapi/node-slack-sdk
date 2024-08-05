@@ -27,7 +27,7 @@ new FileStateStore(args): FileStateStore
 
 #### Defined in
 
-[packages/oauth/src/state-stores/file-state-store.ts:24](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/state-stores/file-state-store.ts#L24)
+[packages/oauth/src/state-stores/file-state-store.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/file-state-store.ts#L24)
 
 ## Methods
 
@@ -57,7 +57,7 @@ The InstallProvider verifies if this value is set in the installer's browser ses
 
 #### Defined in
 
-[packages/oauth/src/state-stores/file-state-store.ts:34](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/state-stores/file-state-store.ts#L34)
+[packages/oauth/src/state-stores/file-state-store.ts:34](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/file-state-store.ts#L34)
 
 ***
 
@@ -88,4 +88,4 @@ If the value is invalid, this method can throw InvalidStateError exception.
 
 #### Defined in
 
-[packages/oauth/src/state-stores/file-state-store.ts:48](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/state-stores/file-state-store.ts#L48)
+[packages/oauth/src/state-stores/file-state-store.ts:48](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/file-state-store.ts#L48)

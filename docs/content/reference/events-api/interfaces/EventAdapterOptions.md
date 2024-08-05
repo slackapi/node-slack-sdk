@@ -13,7 +13,7 @@ optional includeBody: boolean;
 
 #### Defined in
 
-[packages/events-api/src/adapter.ts:140](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/events-api/src/adapter.ts#L140)
+[packages/events-api/src/adapter.ts:140](https://github.com/slackapi/node-slack-sdk/blob/main/packages/events-api/src/adapter.ts#L140)
 
 ***
 
@@ -25,7 +25,7 @@ optional includeHeaders: boolean;
 
 #### Defined in
 
-[packages/events-api/src/adapter.ts:141](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/events-api/src/adapter.ts#L141)
+[packages/events-api/src/adapter.ts:141](https://github.com/slackapi/node-slack-sdk/blob/main/packages/events-api/src/adapter.ts#L141)
 
 ***
 
@@ -37,4 +37,4 @@ optional waitForResponse: boolean;
 
 #### Defined in
 
-[packages/events-api/src/adapter.ts:142](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/events-api/src/adapter.ts#L142)
+[packages/events-api/src/adapter.ts:142](https://github.com/slackapi/node-slack-sdk/blob/main/packages/events-api/src/adapter.ts#L142)

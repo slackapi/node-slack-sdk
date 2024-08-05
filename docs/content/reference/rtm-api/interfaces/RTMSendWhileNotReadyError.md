@@ -20,4 +20,4 @@ code: SendWhileNotReadyError;
 
 #### Defined in
 
-[errors.ts:48](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/errors.ts#L48)
+[errors.ts:48](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/errors.ts#L48)

@@ -19,7 +19,7 @@ this field is optional and defaults to the authed user of the token. Otherwise, 
 
 #### Defined in
 
-[packages/web-api/src/types/request/calls.ts:37](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/calls.ts#L37)
+[packages/web-api/src/types/request/calls.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L37)
 
 ***
 
@@ -35,7 +35,7 @@ Unix timestamp of the call start time.
 
 #### Defined in
 
-[packages/web-api/src/types/request/calls.ts:39](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/calls.ts#L39)
+[packages/web-api/src/types/request/calls.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L39)
 
 ***
 
@@ -56,7 +56,7 @@ with this URL.
 
 #### Defined in
 
-[packages/web-api/src/types/request/calls.ts:22](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/calls.ts#L22)
+[packages/web-api/src/types/request/calls.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L22)
 
 ***
 
@@ -73,7 +73,7 @@ If supplied, this ID will be displayed in the Call object.
 
 #### Defined in
 
-[packages/web-api/src/types/request/calls.ts:44](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/calls.ts#L44)
+[packages/web-api/src/types/request/calls.ts:44](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L44)
 
 ***
 
@@ -89,7 +89,7 @@ An ID supplied by the 3rd-party Call provider. It must be unique across all Call
 
 #### Defined in
 
-[packages/web-api/src/types/request/calls.ts:32](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/calls.ts#L32)
+[packages/web-api/src/types/request/calls.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L32)
 
 ***
 
@@ -109,7 +109,7 @@ The URL required for a client to join the Call.
 
 #### Defined in
 
-[packages/web-api/src/types/request/calls.ts:17](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/calls.ts#L17)
+[packages/web-api/src/types/request/calls.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L17)
 
 ***
 
@@ -129,7 +129,7 @@ The name of the Call.
 
 #### Defined in
 
-[packages/web-api/src/types/request/calls.ts:24](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/calls.ts#L24)
+[packages/web-api/src/types/request/calls.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L24)
 
 ***
 
@@ -149,7 +149,7 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 ***
 
@@ -173,4 +173,4 @@ The list of users to add/remove to/from the Call.
 
 #### Defined in
 
-[packages/web-api/src/types/request/calls.ts:13](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/calls.ts#L13)
+[packages/web-api/src/types/request/calls.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L13)

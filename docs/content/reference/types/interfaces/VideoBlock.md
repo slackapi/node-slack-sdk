@@ -28,7 +28,7 @@ A tooltip for the video. Required for accessibility.
 
 #### Defined in
 
-[block-kit/blocks.ts:307](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L307)
+[block-kit/blocks.ts:307](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L307)
 
 ***
 
@@ -44,7 +44,7 @@ Author name to be displayed. Must be less than 50 characters.
 
 #### Defined in
 
-[block-kit/blocks.ts:320](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L320)
+[block-kit/blocks.ts:320](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L320)
 
 ***
 
@@ -68,7 +68,7 @@ a message. If a message is updated, use a new `block_id`.
 
 #### Defined in
 
-[block-kit/blocks.ts:44](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L44)
+[block-kit/blocks.ts:44](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L44)
 
 ***
 
@@ -84,7 +84,7 @@ Description for video using a [PlainTextElement](PlainTextElement.md) object.
 
 #### Defined in
 
-[block-kit/blocks.ts:332](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L332)
+[block-kit/blocks.ts:332](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L332)
 
 ***
 
@@ -100,7 +100,7 @@ Icon for the video provider, e.g. YouTube icon.
 
 #### Defined in
 
-[block-kit/blocks.ts:328](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L328)
+[block-kit/blocks.ts:328](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L328)
 
 ***
 
@@ -116,7 +116,7 @@ The originating application or domain of the video, e.g. YouTube.
 
 #### Defined in
 
-[block-kit/blocks.ts:324](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L324)
+[block-kit/blocks.ts:324](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L324)
 
 ***
 
@@ -132,7 +132,7 @@ The thumbnail image URL.
 
 #### Defined in
 
-[block-kit/blocks.ts:303](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L303)
+[block-kit/blocks.ts:303](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L303)
 
 ***
 
@@ -148,7 +148,7 @@ Video title as a [PlainTextElement](PlainTextElement.md) object. `text` within m
 
 #### Defined in
 
-[block-kit/blocks.ts:311](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L311)
+[block-kit/blocks.ts:311](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L311)
 
 ***
 
@@ -165,7 +165,7 @@ Must go to an HTTPS URL.
 
 #### Defined in
 
-[block-kit/blocks.ts:316](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L316)
+[block-kit/blocks.ts:316](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L316)
 
 ***
 
@@ -185,7 +185,7 @@ The type of block. For a video block, `type` is always `video`.
 
 #### Defined in
 
-[block-kit/blocks.ts:293](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L293)
+[block-kit/blocks.ts:293](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L293)
 
 ***
 
@@ -203,4 +203,4 @@ and point to a HTTPS URL.
 
 #### Defined in
 
-[block-kit/blocks.ts:299](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L299)
+[block-kit/blocks.ts:299](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L299)

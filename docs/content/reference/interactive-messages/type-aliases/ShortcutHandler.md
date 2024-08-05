@@ -18,4 +18,4 @@ TODO: describe the payload and return values more specifically?
 
 ## Defined in
 
-[adapter.ts:820](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L820)
+[adapter.ts:820](https://github.com/slackapi/node-slack-sdk/blob/main/packages/interactive-messages/src/adapter.ts#L820)

@@ -18,4 +18,4 @@ Whether invite is to an external limited member. Defaults to `true`.
 
 ## Defined in
 
-[packages/web-api/src/types/request/conversations.ts:109](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/conversations.ts#L109)
+[packages/web-api/src/types/request/conversations.ts:109](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L109)

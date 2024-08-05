@@ -12,7 +12,7 @@ optional content: any;
 
 #### Defined in
 
-[adapter.ts:664](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L664)
+[adapter.ts:664](https://github.com/slackapi/node-slack-sdk/blob/main/packages/interactive-messages/src/adapter.ts#L664)
 
 ***
 
@@ -24,4 +24,4 @@ status: ResponseStatus;
 
 #### Defined in
 
-[adapter.ts:663](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L663)
+[adapter.ts:663](https://github.com/slackapi/node-slack-sdk/blob/main/packages/interactive-messages/src/adapter.ts#L663)

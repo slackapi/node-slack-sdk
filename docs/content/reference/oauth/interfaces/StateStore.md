@@ -29,7 +29,7 @@ The InstallProvider verifies if this value is set in the installer's browser ses
 
 #### Defined in
 
-[packages/oauth/src/state-stores/interface.ts:33](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/state-stores/interface.ts#L33)
+[packages/oauth/src/state-stores/interface.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/interface.ts#L33)
 
 ***
 
@@ -56,4 +56,4 @@ If the value is invalid, this method can throw InvalidStateError exception.
 
 #### Defined in
 
-[packages/oauth/src/state-stores/interface.ts:41](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/state-stores/interface.ts#L41)
+[packages/oauth/src/state-stores/interface.ts:41](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/interface.ts#L41)

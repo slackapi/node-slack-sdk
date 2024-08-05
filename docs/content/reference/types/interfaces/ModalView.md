@@ -22,7 +22,7 @@ An array of [AnyBlock](../type-aliases/AnyBlock.md) that defines the content of 
 
 #### Defined in
 
-[views.ts:6](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/views.ts#L6)
+[views.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L6)
 
 ***
 
@@ -47,7 +47,7 @@ store sensitive information (use `private_metadata` instead). Maximum length of 
 
 #### Defined in
 
-[views.ts:19](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/views.ts#L19)
+[views.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L19)
 
 ***
 
@@ -64,7 +64,7 @@ Defaults to `false`.
 
 #### Defined in
 
-[views.ts:54](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/views.ts#L54)
+[views.ts:54](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L54)
 
 ***
 
@@ -81,7 +81,7 @@ bottom-right of the view. Maximum length of 24 characters.
 
 #### Defined in
 
-[views.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/views.ts#L43)
+[views.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L43)
 
 ***
 
@@ -101,7 +101,7 @@ A custom identifier that must be unique for all views on a per-team basis.
 
 #### Defined in
 
-[views.ts:21](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/views.ts#L21)
+[views.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L21)
 
 ***
 
@@ -119,7 +119,7 @@ clicks the close button. Defaults to `false`.
 
 #### Defined in
 
-[views.ts:60](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/views.ts#L60)
+[views.ts:60](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L60)
 
 ***
 
@@ -142,7 +142,7 @@ Maximum length of 3000 characters.
 
 #### Defined in
 
-[views.ts:13](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/views.ts#L13)
+[views.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L13)
 
 ***
 
@@ -160,7 +160,7 @@ characters.
 
 #### Defined in
 
-[views.ts:49](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/views.ts#L49)
+[views.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L49)
 
 ***
 
@@ -177,7 +177,7 @@ maximum length of 24 characters.
 
 #### Defined in
 
-[views.ts:38](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/views.ts#L38)
+[views.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L38)
 
 ***
 
@@ -193,4 +193,4 @@ The type of view. Set to `modal` for modals.
 
 #### Defined in
 
-[views.ts:33](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/views.ts#L33)
+[views.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L33)

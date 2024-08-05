@@ -24,4 +24,4 @@ function defaultCallbackSuccess(
 
 ## Defined in
 
-[packages/oauth/src/callback-options.ts:82](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/callback-options.ts#L82)
+[packages/oauth/src/callback-options.ts:82](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L82)

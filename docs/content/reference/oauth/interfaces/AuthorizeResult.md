@@ -10,7 +10,7 @@ optional botId: string;
 
 #### Defined in
 
-[packages/oauth/src/authorize-result.ts:11](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/authorize-result.ts#L11)
+[packages/oauth/src/authorize-result.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L11)
 
 ***
 
@@ -22,7 +22,7 @@ optional botRefreshToken: string;
 
 #### Defined in
 
-[packages/oauth/src/authorize-result.ts:6](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/authorize-result.ts#L6)
+[packages/oauth/src/authorize-result.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L6)
 
 ***
 
@@ -34,7 +34,7 @@ optional botToken: string;
 
 #### Defined in
 
-[packages/oauth/src/authorize-result.ts:5](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/authorize-result.ts#L5)
+[packages/oauth/src/authorize-result.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L5)
 
 ***
 
@@ -46,7 +46,7 @@ optional botTokenExpiresAt: number;
 
 #### Defined in
 
-[packages/oauth/src/authorize-result.ts:7](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/authorize-result.ts#L7)
+[packages/oauth/src/authorize-result.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L7)
 
 ***
 
@@ -58,7 +58,7 @@ optional botUserId: string;
 
 #### Defined in
 
-[packages/oauth/src/authorize-result.ts:12](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/authorize-result.ts#L12)
+[packages/oauth/src/authorize-result.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L12)
 
 ***
 
@@ -70,7 +70,7 @@ optional enterpriseId: string;
 
 #### Defined in
 
-[packages/oauth/src/authorize-result.ts:14](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/authorize-result.ts#L14)
+[packages/oauth/src/authorize-result.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L14)
 
 ***
 
@@ -82,7 +82,7 @@ optional teamId: string;
 
 #### Defined in
 
-[packages/oauth/src/authorize-result.ts:13](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/authorize-result.ts#L13)
+[packages/oauth/src/authorize-result.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L13)
 
 ***
 
@@ -94,7 +94,7 @@ optional userRefreshToken: string;
 
 #### Defined in
 
-[packages/oauth/src/authorize-result.ts:9](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/authorize-result.ts#L9)
+[packages/oauth/src/authorize-result.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L9)
 
 ***
 
@@ -106,7 +106,7 @@ optional userToken: string;
 
 #### Defined in
 
-[packages/oauth/src/authorize-result.ts:8](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/authorize-result.ts#L8)
+[packages/oauth/src/authorize-result.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L8)
 
 ***
 
@@ -118,4 +118,4 @@ optional userTokenExpiresAt: number;
 
 #### Defined in
 
-[packages/oauth/src/authorize-result.ts:10](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/authorize-result.ts#L10)
+[packages/oauth/src/authorize-result.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/authorize-result.ts#L10)

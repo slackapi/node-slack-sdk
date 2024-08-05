@@ -29,7 +29,7 @@ new ClearStateStore(stateSecret, stateExpirationSeconds): ClearStateStore
 
 #### Defined in
 
-[packages/oauth/src/state-stores/clear-state-store.ts:13](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/state-stores/clear-state-store.ts#L13)
+[packages/oauth/src/state-stores/clear-state-store.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/clear-state-store.ts#L13)
 
 ## Methods
 
@@ -59,7 +59,7 @@ The InstallProvider verifies if this value is set in the installer's browser ses
 
 #### Defined in
 
-[packages/oauth/src/state-stores/clear-state-store.ts:21](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/state-stores/clear-state-store.ts#L21)
+[packages/oauth/src/state-stores/clear-state-store.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/clear-state-store.ts#L21)
 
 ***
 
@@ -90,4 +90,4 @@ If the value is invalid, this method can throw InvalidStateError exception.
 
 #### Defined in
 
-[packages/oauth/src/state-stores/clear-state-store.ts:33](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/state-stores/clear-state-store.ts#L33)
+[packages/oauth/src/state-stores/clear-state-store.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/clear-state-store.ts#L33)

@@ -10,7 +10,7 @@ optional metadata: string;
 
 #### Defined in
 
-[packages/oauth/src/install-url-options.ts:6](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-url-options.ts#L6)
+[packages/oauth/src/install-url-options.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-url-options.ts#L6)
 
 ***
 
@@ -22,7 +22,7 @@ optional redirectUri: string;
 
 #### Defined in
 
-[packages/oauth/src/install-url-options.ts:4](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-url-options.ts#L4)
+[packages/oauth/src/install-url-options.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-url-options.ts#L4)
 
 ***
 
@@ -34,7 +34,7 @@ scopes: string | string[];
 
 #### Defined in
 
-[packages/oauth/src/install-url-options.ts:2](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-url-options.ts#L2)
+[packages/oauth/src/install-url-options.ts:2](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-url-options.ts#L2)
 
 ***
 
@@ -46,7 +46,7 @@ optional teamId: string;
 
 #### Defined in
 
-[packages/oauth/src/install-url-options.ts:3](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-url-options.ts#L3)
+[packages/oauth/src/install-url-options.ts:3](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-url-options.ts#L3)
 
 ***
 
@@ -58,4 +58,4 @@ optional userScopes: string | string[];
 
 #### Defined in
 
-[packages/oauth/src/install-url-options.ts:5](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/install-url-options.ts#L5)
+[packages/oauth/src/install-url-options.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-url-options.ts#L5)

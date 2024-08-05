@@ -15,4 +15,4 @@ selectable item in a select menu, multi-select menu, checkbox group, radio butto
 
 ## Defined in
 
-[block-kit/composition-objects.ts:109](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/composition-objects.ts#L109)
+[block-kit/composition-objects.ts:109](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L109)

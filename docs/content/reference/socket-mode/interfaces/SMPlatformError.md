@@ -18,7 +18,7 @@ code: SendMessagePlatformError;
 
 #### Defined in
 
-[packages/socket-mode/src/errors.ts:24](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/errors.ts#L24)
+[packages/socket-mode/src/errors.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L24)
 
 ***
 
@@ -30,7 +30,7 @@ data: any;
 
 #### Defined in
 
-[packages/socket-mode/src/errors.ts:26](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/socket-mode/src/errors.ts#L26)
+[packages/socket-mode/src/errors.ts:26](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L26)
 
 ***
 

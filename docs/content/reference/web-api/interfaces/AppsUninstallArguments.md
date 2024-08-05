@@ -22,7 +22,7 @@ Issued when you created your application.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:125](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L125)
+[packages/web-api/src/types/request/common.ts:125](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L125)
 
 ***
 
@@ -42,4 +42,4 @@ Issued when you created your application.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:127](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L127)
+[packages/web-api/src/types/request/common.ts:127](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L127)

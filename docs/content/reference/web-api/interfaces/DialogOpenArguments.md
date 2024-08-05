@@ -18,7 +18,7 @@ The dialog definition.
 
 #### Defined in
 
-[packages/web-api/src/types/request/dialog.ts:9](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/dialog.ts#L9)
+[packages/web-api/src/types/request/dialog.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/dialog.ts#L9)
 
 ***
 
@@ -38,7 +38,7 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 ***
 
@@ -54,4 +54,4 @@ Exchange a trigger to post to the user.
 
 #### Defined in
 
-[packages/web-api/src/types/request/dialog.ts:7](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/dialog.ts#L7)
+[packages/web-api/src/types/request/dialog.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/dialog.ts#L7)

@@ -12,7 +12,7 @@ BodyParserNotPermitted: "SLACKADAPTER_BODY_PARSER_NOT_PERMITTED_FAILURE";
 
 #### Defined in
 
-[errors.ts:8](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/errors.ts#L8)
+[errors.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/interactive-messages/src/errors.ts#L8)
 
 ***
 
@@ -24,7 +24,7 @@ PromiseTimeout: "SLACKMESSAGEUTIL_PROMISE_TIMEOUT";
 
 #### Defined in
 
-[errors.ts:5](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/errors.ts#L5)
+[errors.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/interactive-messages/src/errors.ts#L5)
 
 ***
 
@@ -36,7 +36,7 @@ RequestTimeFailure: "SLACKHTTPHANDLER_REQUEST_TIMELIMIT_FAILURE";
 
 #### Defined in
 
-[errors.ts:7](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/errors.ts#L7)
+[errors.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/interactive-messages/src/errors.ts#L7)
 
 ***
 
@@ -48,4 +48,4 @@ SignatureVerificationFailure: "SLACKHTTPHANDLER_REQUEST_SIGNATURE_VERIFICATION_F
 
 #### Defined in
 
-[errors.ts:6](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/errors.ts#L6)
+[errors.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/interactive-messages/src/errors.ts#L6)

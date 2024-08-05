@@ -10,7 +10,7 @@ channel_id: string;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:46](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L46)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:46](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L46)
 
 ***
 
@@ -22,7 +22,7 @@ channel_type: string;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:58](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L58)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:58](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L58)
 
 ***
 
@@ -34,7 +34,7 @@ date: string;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:62](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L62)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:62](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L62)
 
 ***
 
@@ -46,7 +46,7 @@ date_created: number;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:47](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L47)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:47](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L47)
 
 ***
 
@@ -58,7 +58,7 @@ date_last_active: number;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:48](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L48)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:48](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L48)
 
 ***
 
@@ -70,7 +70,7 @@ enterprise_id: string;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:44](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L44)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:44](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L44)
 
 ***
 
@@ -82,7 +82,7 @@ externally_shared_with_organizations: AdminAnalyticsExternallySharedWithOrganiza
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:61](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L61)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L61)
 
 ***
 
@@ -94,7 +94,7 @@ full_members_count: number;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:50](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L50)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L50)
 
 ***
 
@@ -106,7 +106,7 @@ guest_member_count: number;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:51](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L51)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L51)
 
 ***
 
@@ -118,7 +118,7 @@ is_shared_externally: boolean;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:59](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L59)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:59](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L59)
 
 ***
 
@@ -130,7 +130,7 @@ members_who_posted_count: number;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:55](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L55)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:55](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L55)
 
 ***
 
@@ -142,7 +142,7 @@ members_who_viewed_count: number;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:54](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L54)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:54](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L54)
 
 ***
 
@@ -154,7 +154,7 @@ messages_posted_by_members_count: number;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:53](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L53)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:53](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L53)
 
 ***
 
@@ -166,7 +166,7 @@ messages_posted_count: number;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:52](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L52)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:52](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L52)
 
 ***
 
@@ -178,7 +178,7 @@ originating_team: AdminAnalyticsOriginatingTeamDetails;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:45](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L45)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:45](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L45)
 
 ***
 
@@ -190,7 +190,7 @@ reactions_added_count: number;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:56](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L56)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:56](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L56)
 
 ***
 
@@ -202,7 +202,7 @@ shared_with: AdminAnalyticsSharedWithDetails[];
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:60](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L60)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:60](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L60)
 
 ***
 
@@ -214,7 +214,7 @@ total_members_count: number;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:49](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L49)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L49)
 
 ***
 
@@ -226,4 +226,4 @@ visibility: string;
 
 #### Defined in
 
-[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:57](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L57)
+[packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAnalyticsGetFileResponse.ts#L57)

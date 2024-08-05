@@ -14,7 +14,7 @@ optional conversationId: string;
 
 #### Defined in
 
-[packages/oauth/src/installation-query.ts:8](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation-query.ts#L8)
+[packages/oauth/src/installation-query.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L8)
 
 ***
 
@@ -26,7 +26,7 @@ enterpriseId: isEnterpriseInstall extends true ? string : undefined | string;
 
 #### Defined in
 
-[packages/oauth/src/installation-query.ts:6](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation-query.ts#L6)
+[packages/oauth/src/installation-query.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L6)
 
 ***
 
@@ -38,7 +38,7 @@ isEnterpriseInstall: isEnterpriseInstall;
 
 #### Defined in
 
-[packages/oauth/src/installation-query.ts:4](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation-query.ts#L4)
+[packages/oauth/src/installation-query.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L4)
 
 ***
 
@@ -50,7 +50,7 @@ teamId: isEnterpriseInstall extends false ? string : undefined;
 
 #### Defined in
 
-[packages/oauth/src/installation-query.ts:5](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation-query.ts#L5)
+[packages/oauth/src/installation-query.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L5)
 
 ***
 
@@ -62,4 +62,4 @@ optional userId: string;
 
 #### Defined in
 
-[packages/oauth/src/installation-query.ts:7](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/installation-query.ts#L7)
+[packages/oauth/src/installation-query.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation-query.ts#L7)

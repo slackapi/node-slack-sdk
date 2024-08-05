@@ -6,4 +6,4 @@ type ReactionsGetArguments: ReactionsFull & TokenOverridable & MessageArgument |
 
 ## Defined in
 
-[packages/web-api/src/types/request/reactions.ts:23](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/reactions.ts#L23)
+[packages/web-api/src/types/request/reactions.ts:23](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reactions.ts#L23)

@@ -20,7 +20,7 @@ code: WebsocketError;
 
 #### Defined in
 
-[errors.ts:35](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/errors.ts#L35)
+[errors.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/errors.ts#L35)
 
 ***
 
@@ -32,4 +32,4 @@ original: Error;
 
 #### Defined in
 
-[errors.ts:36](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/rtm-api/src/errors.ts#L36)
+[errors.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/errors.ts#L36)

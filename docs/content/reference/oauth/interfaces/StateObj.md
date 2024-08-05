@@ -14,7 +14,7 @@ The passed InstallURLOptions object when generating this state parameter.
 
 #### Defined in
 
-[packages/oauth/src/state-stores/interface.ts:16](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/state-stores/interface.ts#L16)
+[packages/oauth/src/state-stores/interface.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/interface.ts#L16)
 
 ***
 
@@ -28,7 +28,7 @@ The timestamp that the state object was generated.
 
 #### Defined in
 
-[packages/oauth/src/state-stores/interface.ts:11](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/state-stores/interface.ts#L11)
+[packages/oauth/src/state-stores/interface.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/interface.ts#L11)
 
 ***
 
@@ -40,4 +40,4 @@ optional random: string | number;
 
 #### Defined in
 
-[packages/oauth/src/state-stores/interface.ts:17](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/oauth/src/state-stores/interface.ts#L17)
+[packages/oauth/src/state-stores/interface.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/interface.ts#L17)

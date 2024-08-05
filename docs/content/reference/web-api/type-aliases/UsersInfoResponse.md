@@ -38,4 +38,4 @@ optional user: User;
 
 ## Defined in
 
-[packages/web-api/src/types/response/UsersInfoResponse.ts:12](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/response/UsersInfoResponse.ts#L12)
+[packages/web-api/src/types/response/UsersInfoResponse.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/UsersInfoResponse.ts#L12)

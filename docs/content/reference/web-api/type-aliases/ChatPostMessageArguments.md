@@ -18,4 +18,4 @@ Disable Slack markup parsing by setting to `false`. Enabled by default.
 
 ## Defined in
 
-[packages/web-api/src/types/request/chat.ts:170](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/chat.ts#L170)
+[packages/web-api/src/types/request/chat.ts:170](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L170)

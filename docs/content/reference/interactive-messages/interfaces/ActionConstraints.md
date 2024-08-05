@@ -14,7 +14,7 @@ A string or RegExp to match against the `action_id`
 
 #### Defined in
 
-[adapter.ts:693](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L693)
+[adapter.ts:693](https://github.com/slackapi/node-slack-sdk/blob/main/packages/interactive-messages/src/adapter.ts#L693)
 
 ***
 
@@ -28,7 +28,7 @@ A string or RegExp to match against the `block_id`
 
 #### Defined in
 
-[adapter.ts:688](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L688)
+[adapter.ts:688](https://github.com/slackapi/node-slack-sdk/blob/main/packages/interactive-messages/src/adapter.ts#L688)
 
 ***
 
@@ -42,7 +42,7 @@ A string or RegExp to match against the `callback_id`
 
 #### Defined in
 
-[adapter.ts:683](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L683)
+[adapter.ts:683](https://github.com/slackapi/node-slack-sdk/blob/main/packages/interactive-messages/src/adapter.ts#L683)
 
 ***
 
@@ -58,7 +58,7 @@ Valid types include all
 
 #### Defined in
 
-[adapter.ts:700](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L700)
+[adapter.ts:700](https://github.com/slackapi/node-slack-sdk/blob/main/packages/interactive-messages/src/adapter.ts#L700)
 
 ***
 
@@ -72,4 +72,4 @@ When `true` only match actions from an unfurl
 
 #### Defined in
 
-[adapter.ts:705](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L705)
+[adapter.ts:705](https://github.com/slackapi/node-slack-sdk/blob/main/packages/interactive-messages/src/adapter.ts#L705)

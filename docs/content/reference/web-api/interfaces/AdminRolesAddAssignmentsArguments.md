@@ -23,7 +23,7 @@ These can be Org IDs (E12345), Team IDs (T12345) or Channel IDs (C12345).
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/roles.ts:10](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/roles.ts#L10)
+[packages/web-api/src/types/request/admin/roles.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/roles.ts#L10)
 
 ***
 
@@ -47,7 +47,7 @@ ID of the role to which users will be assigned/removed.
 
 #### Defined in
 
-[packages/web-api/src/types/request/admin/roles.ts:18](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/admin/roles.ts#L18)
+[packages/web-api/src/types/request/admin/roles.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/roles.ts#L18)
 
 ***
 
@@ -67,7 +67,7 @@ Overridable authentication token bearing required scopes.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L43)
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 ***
 
@@ -87,4 +87,4 @@ List of encoded user IDs.
 
 #### Defined in
 
-[packages/web-api/src/types/request/common.ts:83](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/common.ts#L83)
+[packages/web-api/src/types/request/common.ts:83](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L83)

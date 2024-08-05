@@ -14,4 +14,4 @@ The `xoxe` refresh token that was issued along with the old app configuration to
 
 #### Defined in
 
-[packages/web-api/src/types/request/tooling.ts:4](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/tooling.ts#L4)
+[packages/web-api/src/types/request/tooling.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/tooling.ts#L4)

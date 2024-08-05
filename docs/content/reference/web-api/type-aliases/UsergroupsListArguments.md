@@ -6,4 +6,4 @@ type UsergroupsListArguments: OptionalArgument<TokenOverridable & OptionalTeamAs
 
 ## Defined in
 
-[packages/web-api/src/types/request/usergroups.ts:31](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/usergroups.ts#L31)
+[packages/web-api/src/types/request/usergroups.ts:31](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/usergroups.ts#L31)

@@ -19,4 +19,4 @@ A helper union type of all known Blocks, as listed out on the
 
 ## Defined in
 
-[block-kit/blocks.ts:51](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/block-kit/blocks.ts#L51)
+[block-kit/blocks.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L51)

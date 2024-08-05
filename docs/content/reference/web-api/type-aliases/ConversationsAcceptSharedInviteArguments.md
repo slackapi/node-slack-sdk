@@ -29,4 +29,4 @@ Whether you'd like to use your workspace's free trial to begin using Slack Conne
 
 ## Defined in
 
-[packages/web-api/src/types/request/conversations.ts:51](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/web-api/src/types/request/conversations.ts#L51)
+[packages/web-api/src/types/request/conversations.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L51)

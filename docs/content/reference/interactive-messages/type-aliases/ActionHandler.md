@@ -36,4 +36,4 @@ When the action is a button press or a menu selection, this object is a replacem
 
 ## Defined in
 
-[adapter.ts:813](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/interactive-messages/src/adapter.ts#L813)
+[adapter.ts:813](https://github.com/slackapi/node-slack-sdk/blob/main/packages/interactive-messages/src/adapter.ts#L813)

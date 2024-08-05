@@ -22,7 +22,7 @@ An array of [AnyBlock](../type-aliases/AnyBlock.md) that defines the content of 
 
 #### Defined in
 
-[views.ts:6](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/views.ts#L6)
+[views.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L6)
 
 ***
 
@@ -47,7 +47,7 @@ store sensitive information (use `private_metadata` instead). Maximum length of 
 
 #### Defined in
 
-[views.ts:19](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/views.ts#L19)
+[views.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L19)
 
 ***
 
@@ -67,7 +67,7 @@ A custom identifier that must be unique for all views on a per-team basis.
 
 #### Defined in
 
-[views.ts:21](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/views.ts#L21)
+[views.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L21)
 
 ***
 
@@ -90,7 +90,7 @@ Maximum length of 3000 characters.
 
 #### Defined in
 
-[views.ts:13](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/views.ts#L13)
+[views.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L13)
 
 ***
 
@@ -106,4 +106,4 @@ The type of view. Set to `home` for Home tabs.
 
 #### Defined in
 
-[views.ts:27](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/types/src/views.ts#L27)
+[views.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L27)

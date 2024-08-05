@@ -14,7 +14,7 @@ Full, raw body string.
 
 #### Defined in
 
-[packages/events-api/src/http-handler.ts:280](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/events-api/src/http-handler.ts#L280)
+[packages/events-api/src/http-handler.ts:280](https://github.com/slackapi/node-slack-sdk/blob/main/packages/events-api/src/http-handler.ts#L280)
 
 ***
 
@@ -28,7 +28,7 @@ Signature from the `X-Slack-Signature` header.
 
 #### Defined in
 
-[packages/events-api/src/http-handler.ts:270](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/events-api/src/http-handler.ts#L270)
+[packages/events-api/src/http-handler.ts:270](https://github.com/slackapi/node-slack-sdk/blob/main/packages/events-api/src/http-handler.ts#L270)
 
 ***
 
@@ -42,7 +42,7 @@ Timestamp from the `X-Slack-Request-Timestamp` header.
 
 #### Defined in
 
-[packages/events-api/src/http-handler.ts:275](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/events-api/src/http-handler.ts#L275)
+[packages/events-api/src/http-handler.ts:275](https://github.com/slackapi/node-slack-sdk/blob/main/packages/events-api/src/http-handler.ts#L275)
 
 ***
 
@@ -56,4 +56,4 @@ The signing secret used to verify request signature.
 
 #### Defined in
 
-[packages/events-api/src/http-handler.ts:265](https://github.com/slackapi/node-slack-sdk/blob/7b348598b763c2b7545d1042b5f0429775cfa62c/packages/events-api/src/http-handler.ts#L265)
+[packages/events-api/src/http-handler.ts:265](https://github.com/slackapi/node-slack-sdk/blob/main/packages/events-api/src/http-handler.ts#L265)
