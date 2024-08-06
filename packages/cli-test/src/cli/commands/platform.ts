@@ -103,6 +103,7 @@ export const runStart = async function runStart(
   args: ProjectCommandArguments & RunDeployArguments,
 ): Promise<ShellProcess> {
   const cmd = new SlackCLIProcess('run', args, {
+    '--app': 'local',
     '--cleanup': typeof args.cleanup !== 'undefined' ? args.cleanup : true,
     '--hide-triggers': typeof args.hideTriggers !== 'undefined' ? args.hideTriggers : true,
     '--org-workspace-grant': args.orgWorkspaceGrantFlag,
