@@ -2,35 +2,35 @@
 
 ## Enumerations
 
-- [ErrorCode](enumerations/ErrorCode.md)
-- [ResponseStatus](enumerations/ResponseStatus.md)
+- [ErrorCode](Enumeration.ErrorCode.md)
+- [ResponseStatus](Enumeration.ResponseStatus.md)
 
 ## Classes
 
-- [SlackMessageAdapter](classes/SlackMessageAdapter.md)
+- [SlackMessageAdapter](Class.SlackMessageAdapter.md)
 
 ## Interfaces
 
-- [ActionConstraints](interfaces/ActionConstraints.md)
-- [DispatchResult](interfaces/DispatchResult.md)
-- [MessageAdapterOptions](interfaces/MessageAdapterOptions.md)
-- [OptionsConstraints](interfaces/OptionsConstraints.md)
-- [ShortcutConstraints](interfaces/ShortcutConstraints.md)
-- [ViewConstraints](interfaces/ViewConstraints.md)
+- [ActionConstraints](Interface.ActionConstraints.md)
+- [DispatchResult](Interface.DispatchResult.md)
+- [MessageAdapterOptions](Interface.MessageAdapterOptions.md)
+- [OptionsConstraints](Interface.OptionsConstraints.md)
+- [ShortcutConstraints](Interface.ShortcutConstraints.md)
+- [ViewConstraints](Interface.ViewConstraints.md)
 
 ## Type Aliases
 
-- [ActionHandler](type-aliases/ActionHandler.md)
-- [OptionsHandler](type-aliases/OptionsHandler.md)
-- [Respond](type-aliases/Respond.md)
-- [ShortcutHandler](type-aliases/ShortcutHandler.md)
-- [ViewClosedHandler](type-aliases/ViewClosedHandler.md)
-- [ViewSubmissionHandler](type-aliases/ViewSubmissionHandler.md)
+- [ActionHandler](TypeAlias.ActionHandler.md)
+- [OptionsHandler](TypeAlias.OptionsHandler.md)
+- [Respond](TypeAlias.Respond.md)
+- [ShortcutHandler](TypeAlias.ShortcutHandler.md)
+- [ViewClosedHandler](TypeAlias.ViewClosedHandler.md)
+- [ViewSubmissionHandler](TypeAlias.ViewSubmissionHandler.md)
 
 ## Variables
 
-- [errorCodes](variables/errorCodes.md)
+- [errorCodes](Variable.errorCodes.md)
 
 ## Functions
 
-- [createMessageAdapter](functions/createMessageAdapter.md)
+- [createMessageAdapter](Function.createMessageAdapter.md)

@@ -3,5 +3,6 @@
 "useCodeBlocks": true,
 "logLevel": "Error",
 "readme": "none",
-"gitRevision": "main"
+"gitRevision": "main",
+"flattenOutputFiles": true
 }
