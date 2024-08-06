@@ -123,7 +123,10 @@ export const runStart = async function runStart(
  * @param teamName to check that app was deleted from that team
  */
 export const runStop = async function runStop(args: ProcessArgument & {
-  /** @description Should wait for the `run` process to spin down before exiting this function. */
+  /**
+   * @description Should wait for the `run` process to spin down before exiting this function.
+   * On Windows, this property is always set to `true`. Defaults to `false`.
+   */
   waitForShutdown?: boolean;
 }): Promise<void> {
   return new Promise((resolve, reject) => {
