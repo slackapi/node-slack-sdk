@@ -4,55 +4,55 @@
 
 ### LogLevel
 
-Renames and re-exports [Logger](Variable.Logger.md)
+Renames and re-exports [Logger](variables/Logger.md)
 
 ## Enumerations
 
-- [ErrorCode](Enumeration.ErrorCode.md)
+- [ErrorCode](enumerations/ErrorCode.md)
 
 ## Classes
 
-- [AuthorizationError](Class.AuthorizationError.md)
-- [ClearStateStore](Class.ClearStateStore.md)
-- [FileInstallationStore](Class.FileInstallationStore.md)
-- [FileStateStore](Class.FileStateStore.md)
-- [GenerateInstallUrlError](Class.GenerateInstallUrlError.md)
-- [InstallProvider](Class.InstallProvider.md)
-- [InstallerInitializationError](Class.InstallerInitializationError.md)
-- [InvalidStateError](Class.InvalidStateError.md)
-- [MemoryInstallationStore](Class.MemoryInstallationStore.md)
-- [MissingCodeError](Class.MissingCodeError.md)
-- [MissingStateError](Class.MissingStateError.md)
-- [UnknownError](Class.UnknownError.md)
+- [AuthorizationError](classes/AuthorizationError.md)
+- [ClearStateStore](classes/ClearStateStore.md)
+- [FileInstallationStore](classes/FileInstallationStore.md)
+- [FileStateStore](classes/FileStateStore.md)
+- [GenerateInstallUrlError](classes/GenerateInstallUrlError.md)
+- [InstallProvider](classes/InstallProvider.md)
+- [InstallerInitializationError](classes/InstallerInitializationError.md)
+- [InvalidStateError](classes/InvalidStateError.md)
+- [MemoryInstallationStore](classes/MemoryInstallationStore.md)
+- [MissingCodeError](classes/MissingCodeError.md)
+- [MissingStateError](classes/MissingStateError.md)
+- [UnknownError](classes/UnknownError.md)
 
 ## Interfaces
 
-- [AuthorizeResult](Interface.AuthorizeResult.md)
-- [CallbackOptions](Interface.CallbackOptions.md)
-- [CodedError](Interface.CodedError.md)
-- [FileStateStoreArgs](Interface.FileStateStoreArgs.md)
-- [InstallPathOptions](Interface.InstallPathOptions.md)
-- [InstallProviderOptions](Interface.InstallProviderOptions.md)
-- [InstallURLOptions](Interface.InstallURLOptions.md)
-- [Installation](Interface.Installation.md)
-- [InstallationQuery](Interface.InstallationQuery.md)
-- [InstallationStore](Interface.InstallationStore.md)
-- [OAuthV2Response](Interface.OAuthV2Response.md)
-- [OAuthV2TokenRefreshResponse](Interface.OAuthV2TokenRefreshResponse.md)
-- [StateObj](Interface.StateObj.md)
-- [StateStore](Interface.StateStore.md)
+- [AuthorizeResult](interfaces/AuthorizeResult.md)
+- [CallbackOptions](interfaces/CallbackOptions.md)
+- [CodedError](interfaces/CodedError.md)
+- [FileStateStoreArgs](interfaces/FileStateStoreArgs.md)
+- [InstallPathOptions](interfaces/InstallPathOptions.md)
+- [InstallProviderOptions](interfaces/InstallProviderOptions.md)
+- [InstallURLOptions](interfaces/InstallURLOptions.md)
+- [Installation](interfaces/Installation.md)
+- [InstallationQuery](interfaces/InstallationQuery.md)
+- [InstallationStore](interfaces/InstallationStore.md)
+- [OAuthV2Response](interfaces/OAuthV2Response.md)
+- [OAuthV2TokenRefreshResponse](interfaces/OAuthV2TokenRefreshResponse.md)
+- [StateObj](interfaces/StateObj.md)
+- [StateStore](interfaces/StateStore.md)
 
 ## Type Aliases
 
-- [OrgInstallation](TypeAlias.OrgInstallation.md)
-- [OrgInstallationQuery](TypeAlias.OrgInstallationQuery.md)
+- [OrgInstallation](type-aliases/OrgInstallation.md)
+- [OrgInstallationQuery](type-aliases/OrgInstallationQuery.md)
 
 ## Variables
 
-- [Logger](Variable.Logger.md)
+- [Logger](variables/Logger.md)
 
 ## Functions
 
-- [defaultCallbackFailure](Function.defaultCallbackFailure.md)
-- [defaultCallbackSuccess](Function.defaultCallbackSuccess.md)
-- [defaultRenderHtmlForInstallPath](Function.defaultRenderHtmlForInstallPath.md)
+- [defaultCallbackFailure](functions/defaultCallbackFailure.md)
+- [defaultCallbackSuccess](functions/defaultCallbackSuccess.md)
+- [defaultRenderHtmlForInstallPath](functions/defaultRenderHtmlForInstallPath.md)

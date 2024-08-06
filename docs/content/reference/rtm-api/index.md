@@ -4,32 +4,32 @@
 
 ### LogLevel
 
-Renames and re-exports [Logger](Variable.Logger.md)
+Renames and re-exports [Logger](variables/Logger.md)
 
 ## Enumerations
 
-- [ErrorCode](Enumeration.ErrorCode.md)
+- [ErrorCode](enumerations/ErrorCode.md)
 
 ## Classes
 
-- [RTMClient](Class.RTMClient.md)
+- [RTMClient](classes/RTMClient.md)
 
 ## Interfaces
 
-- [CodedError](Interface.CodedError.md)
-- [RTMCallResult](Interface.RTMCallResult.md)
-- [RTMClientOptions](Interface.RTMClientOptions.md)
-- [RTMNoReplyReceivedError](Interface.RTMNoReplyReceivedError.md)
-- [RTMPlatformError](Interface.RTMPlatformError.md)
-- [RTMSendWhileDisconnectedError](Interface.RTMSendWhileDisconnectedError.md)
-- [RTMSendWhileNotReadyError](Interface.RTMSendWhileNotReadyError.md)
-- [RTMWebsocketError](Interface.RTMWebsocketError.md)
+- [CodedError](interfaces/CodedError.md)
+- [RTMCallResult](interfaces/RTMCallResult.md)
+- [RTMClientOptions](interfaces/RTMClientOptions.md)
+- [RTMNoReplyReceivedError](interfaces/RTMNoReplyReceivedError.md)
+- [RTMPlatformError](interfaces/RTMPlatformError.md)
+- [RTMSendWhileDisconnectedError](interfaces/RTMSendWhileDisconnectedError.md)
+- [RTMSendWhileNotReadyError](interfaces/RTMSendWhileNotReadyError.md)
+- [RTMWebsocketError](interfaces/RTMWebsocketError.md)
 
 ## Type Aliases
 
-- [RTMCallError](TypeAlias.RTMCallError.md)
-- [RTMStartOptions](TypeAlias.RTMStartOptions.md)
+- [RTMCallError](type-aliases/RTMCallError.md)
+- [RTMStartOptions](type-aliases/RTMStartOptions.md)
 
 ## Variables
 
-- [Logger](Variable.Logger.md)
+- [Logger](variables/Logger.md)

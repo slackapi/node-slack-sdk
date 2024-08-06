@@ -2,21 +2,21 @@
 
 ## Enumerations
 
-- [ErrorCode](Enumeration.ErrorCode.md)
+- [ErrorCode](enumerations/ErrorCode.md)
 
 ## Classes
 
-- [IncomingWebhook](Class.IncomingWebhook.md)
+- [IncomingWebhook](classes/IncomingWebhook.md)
 
 ## Interfaces
 
-- [CodedError](Interface.CodedError.md)
-- [IncomingWebhookDefaultArguments](Interface.IncomingWebhookDefaultArguments.md)
-- [IncomingWebhookHTTPError](Interface.IncomingWebhookHTTPError.md)
-- [IncomingWebhookRequestError](Interface.IncomingWebhookRequestError.md)
-- [IncomingWebhookResult](Interface.IncomingWebhookResult.md)
-- [IncomingWebhookSendArguments](Interface.IncomingWebhookSendArguments.md)
+- [CodedError](interfaces/CodedError.md)
+- [IncomingWebhookDefaultArguments](interfaces/IncomingWebhookDefaultArguments.md)
+- [IncomingWebhookHTTPError](interfaces/IncomingWebhookHTTPError.md)
+- [IncomingWebhookRequestError](interfaces/IncomingWebhookRequestError.md)
+- [IncomingWebhookResult](interfaces/IncomingWebhookResult.md)
+- [IncomingWebhookSendArguments](interfaces/IncomingWebhookSendArguments.md)
 
 ## Type Aliases
 
-- [IncomingWebhookSendError](TypeAlias.IncomingWebhookSendError.md)
+- [IncomingWebhookSendError](type-aliases/IncomingWebhookSendError.md)

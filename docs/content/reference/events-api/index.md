@@ -2,23 +2,23 @@
 
 ## Enumerations
 
-- [ErrorCode](Enumeration.ErrorCode.md)
+- [ErrorCode](enumerations/ErrorCode.md)
 
 ## Classes
 
-- [SlackEventAdapter](Class.SlackEventAdapter.md)
+- [SlackEventAdapter](classes/SlackEventAdapter.md)
 
 ## Interfaces
 
-- [CodedError](Interface.CodedError.md)
-- [EventAdapterOptions](Interface.EventAdapterOptions.md)
-- [VerifyRequestSignatureParams](Interface.VerifyRequestSignatureParams.md)
+- [CodedError](interfaces/CodedError.md)
+- [EventAdapterOptions](interfaces/EventAdapterOptions.md)
+- [VerifyRequestSignatureParams](interfaces/VerifyRequestSignatureParams.md)
 
 ## Variables
 
-- [errorCodes](Variable.errorCodes.md)
+- [errorCodes](variables/errorCodes.md)
 
 ## Functions
 
-- [createEventAdapter](Function.createEventAdapter.md)
-- [verifyRequestSignature](Function.verifyRequestSignature.md)
+- [createEventAdapter](functions/createEventAdapter.md)
+- [verifyRequestSignature](functions/verifyRequestSignature.md)

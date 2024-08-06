@@ -4,30 +4,30 @@
 
 ### LogLevel
 
-Renames and re-exports [Logger](Variable.Logger.md)
+Renames and re-exports [Logger](variables/Logger.md)
 
 ## Enumerations
 
-- [ErrorCode](Enumeration.ErrorCode.md)
-- [UnrecoverableSocketModeStartError](Enumeration.UnrecoverableSocketModeStartError.md)
+- [ErrorCode](enumerations/ErrorCode.md)
+- [UnrecoverableSocketModeStartError](enumerations/UnrecoverableSocketModeStartError.md)
 
 ## Classes
 
-- [SocketModeClient](Class.SocketModeClient.md)
+- [SocketModeClient](classes/SocketModeClient.md)
 
 ## Interfaces
 
-- [SMNoReplyReceivedError](Interface.SMNoReplyReceivedError.md)
-- [SMPlatformError](Interface.SMPlatformError.md)
-- [SMSendWhileDisconnectedError](Interface.SMSendWhileDisconnectedError.md)
-- [SMSendWhileNotReadyError](Interface.SMSendWhileNotReadyError.md)
-- [SMWebsocketError](Interface.SMWebsocketError.md)
-- [SocketModeOptions](Interface.SocketModeOptions.md)
+- [SMNoReplyReceivedError](interfaces/SMNoReplyReceivedError.md)
+- [SMPlatformError](interfaces/SMPlatformError.md)
+- [SMSendWhileDisconnectedError](interfaces/SMSendWhileDisconnectedError.md)
+- [SMSendWhileNotReadyError](interfaces/SMSendWhileNotReadyError.md)
+- [SMWebsocketError](interfaces/SMWebsocketError.md)
+- [SocketModeOptions](interfaces/SocketModeOptions.md)
 
 ## Type Aliases
 
-- [SMCallError](TypeAlias.SMCallError.md)
+- [SMCallError](type-aliases/SMCallError.md)
 
 ## Variables
 
-- [Logger](Variable.Logger.md)
+- [Logger](variables/Logger.md)

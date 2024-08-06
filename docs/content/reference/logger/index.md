@@ -2,12 +2,12 @@
 
 ## Enumerations
 
-- [LogLevel](Enumeration.LogLevel.md)
+- [LogLevel](enumerations/LogLevel.md)
 
 ## Classes
 
-- [ConsoleLogger](Class.ConsoleLogger.md)
+- [ConsoleLogger](classes/ConsoleLogger.md)
 
 ## Interfaces
 
-- [Logger](Interface.Logger.md)
+- [Logger](interfaces/Logger.md)
