@@ -182,7 +182,7 @@ const config = {
               },
               {
                 label: 'JavaScript',
-                to: 'https://slack.dev/node-slack-sdk',
+                to: 'https://slack.dev/bolt-js',
                 target: '_self',
               },
               {
