@@ -18,7 +18,8 @@ export interface SlackCLIGlobalOptions {
   /** @description Ignore warnings and continue executing command. Defaults to `true`. */
   force?: boolean;
   /**
-   * @description Application instance to target. Can be `local`, `deployed` an app ID string Defaults to `deployed`.
+   * @description Application instance to target. Can be `local`, `deployed` or an app ID string.
+   * Defaults to `deployed`.
    */
   instance?: string;
   /**
@@ -38,7 +39,7 @@ export interface SlackCLIGlobalOptions {
 
 export type SlackCLIHostTargetOptions = Pick<SlackCLIGlobalOptions, 'qa' | 'dev' | 'apihost'>;
 
-export type SlackCLICommandOptions = Record<string, string | boolean | undefined>;
+export type SlackCLICommandOptions = Record<string, string | boolean | number | undefined>;
 
 export class SlackCLIProcess {
   /**

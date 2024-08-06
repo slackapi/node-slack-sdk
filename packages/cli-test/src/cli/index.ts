@@ -9,8 +9,8 @@ import env from './commands/env';
 import externalAuth from './commands/external-auth';
 import func from './commands/function';
 import manifest from './commands/manifest';
-import platformCommands from './commands/platform';
-import triggerCommands from './commands/trigger';
+import platform from './commands/platform';
+import trigger from './commands/trigger';
 import { ProjectCommandArguments } from '../types/commands/common_arguments';
 import logger from '../utils/logger';
 
@@ -26,17 +26,8 @@ export const SlackCLI = {
   externalAuth,
   function: func,
   manifest,
-  ...platformCommands,
-  platform: platformCommands,
-  ...triggerCommands, // TODO: (breaking change) remove, mimic same 'namespacing' as the actual CLI
-  trigger: {
-    access: triggerCommands.triggerAccess,
-    create: triggerCommands.triggerCreate,
-    delete: triggerCommands.triggerDelete,
-    info: triggerCommands.triggerInfo,
-    list: triggerCommands.triggerList,
-    update: triggerCommands.triggerUpdate,
-  },
+  platform,
+  trigger,
 
   /**
    * Delete app and Log out of current team session

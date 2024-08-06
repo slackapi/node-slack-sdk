@@ -1,4 +1,4 @@
-import { ProjectCommandArguments } from '../../types/commands/common_arguments';
+import { ProjectCommandArguments, WorkspaceGrantArgument } from '../../types/commands/common_arguments';
 import { SlackTracerId } from '../../utils/constants';
 import logger from '../../utils/logger';
 import { SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
@@ -16,14 +16,9 @@ export interface ProcessArgument {
   proc: ShellProcess;
 }
 
-export interface RunDeployArguments {
+export interface RunDeployArguments extends WorkspaceGrantArgument {
   /** @description Hides output and prompts related to triggers. Defaults to `true`. */
   hideTriggers?: boolean;
-  /**
-   * @description Org workspace ID, or the string `all` to request access to all workspaces in the org,
-   * to request grant access to in AAA scenarios
-   */
-  orgWorkspaceGrantFlag?: string;
   /** @description Delete the app after `run` process finishes. Defaults to `true`. */
   cleanup?: boolean;
 }

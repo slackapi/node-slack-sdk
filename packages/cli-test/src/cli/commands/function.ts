@@ -1,4 +1,9 @@
-import { ProjectCommandArguments } from '../../types/commands/common_arguments';
+import {
+  GroupAccessChangeArguments,
+  InfoArgument,
+  ProjectCommandArguments,
+  UserAccessChangeArguments,
+} from '../../types/commands/common_arguments';
 import { SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
 
 type AccessChangeArguments = {
@@ -6,35 +11,6 @@ type AccessChangeArguments = {
   name: string;
   info?: boolean;
 } & (GroupAccessChangeArguments | UserAccessChangeArguments);
-
-type GroupAccessChangeArguments = GrantAppCollaboratorsArgument | GrantEveryoneArgument;
-
-export interface GrantAppCollaboratorsArgument {
-  /** @description Grant access for function specified by `name` to app collaborators. */
-  appCollaborators: true;
-}
-export interface GrantEveryoneArgument {
-  /** @description Grant access for function specified by `name` to everyone. */
-  everyone: true;
-}
-export interface GrantArgument {
-  /** @description Grant access for function specified by `name` to users specified by `users`. */
-  grant: true;
-}
-export interface RevokeArgument {
-  /** @description Revoke access for function specified by `name` to users specified by `users`. */
-  revoke: true;
-}
-
-type UserAccessChangeArguments = {
-  /** @description Array of users to grant or revoke access to. */
-  users: [string, ...string[]];
-} & (RevokeArgument | GrantArgument);
-
-export interface InfoArgument {
-  /** @description Whether to show access information for a function. Supercedes all other arguments. */
-  info: true;
-}
 
 type FunctionAccessArguments = AccessChangeArguments | InfoArgument;
 
@@ -46,7 +22,7 @@ export const access = async function functionAccess(
   args: ProjectCommandArguments & FunctionAccessArguments,
 ): Promise<string> {
   const cmdOpts: SlackCLICommandOptions = {};
-  if (typeof args.info !== 'undefined' || ('info' in args && args.info)) {
+  if ('info' in args && args.info) {
     cmdOpts['--info'] = true;
   } else {
     cmdOpts['--name'] = args.name;
