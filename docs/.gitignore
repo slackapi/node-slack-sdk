@@ -1,6 +1,5 @@
-_site
-Gemfile.lock
-.env
-
-# Built reference docs need to be committed currently
-# /_reference/*.md
+node_modules/
+.docusaurus
+.DS_Store
+build/
+.stylelintrc.json

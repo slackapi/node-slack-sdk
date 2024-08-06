@@ -1,0 +1,61 @@
+# Interface: AdminConversationsSetCustomRetentionArguments
+
+## Extends
+
+- `ChannelID`.`TokenOverridable`
+
+## Properties
+
+### channel\_id
+
+```ts
+channel_id: string;
+```
+
+#### Description
+
+Encoded channel ID.
+
+#### Inherited from
+
+`ChannelID.channel_id`
+
+#### Defined in
+
+[packages/web-api/src/types/request/admin/conversations.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L13)
+
+***
+
+### duration\_days
+
+```ts
+duration_days: number;
+```
+
+#### Description
+
+The message retention duration in days to set for this conversation.
+
+#### Defined in
+
+[packages/web-api/src/types/request/admin/conversations.ts:191](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L191)
+
+***
+
+### token?
+
+```ts
+optional token: string;
+```
+
+#### Description
+
+Overridable authentication token bearing required scopes.
+
+#### Inherited from
+
+`TokenOverridable.token`
+
+#### Defined in
+
+[packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
