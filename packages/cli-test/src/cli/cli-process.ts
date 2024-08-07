@@ -31,7 +31,11 @@ export interface SlackCLIGlobalOptions {
    * @description Whether the CLI should skip updating (`--skip-update`). Defaults to `true`.
    */
   skipUpdate?: boolean;
-  /** @description Workspace or organization name or ID to scope command to. */
+  /**
+   * @description The ID of your team. If you are using a Standard Slack plan, this is your workspace ID.
+   * If you are using an Enterprise Grid plan, this is the organization ID, even if your app is only granted to a
+   * subset of workspaces within the org.
+   */
   team?: string;
   /** @description Access token to use when making Slack API calls. */
   token?: string;
