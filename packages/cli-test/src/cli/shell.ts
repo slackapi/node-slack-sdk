@@ -5,7 +5,7 @@ import treekill from 'tree-kill';
 import { timeouts } from '../utils/constants';
 import logger from '../utils/logger';
 
-import type { ShellProcess } from '../utils/types';
+import type { ShellProcess } from '../types/shell';
 
 export const shell = {
   /**

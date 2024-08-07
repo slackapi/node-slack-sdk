@@ -1,158 +1,238 @@
-import { SlackCLIProcess } from '../cli-process';
+import {
+  ChannelAccessChangeArguments,
+  GroupAccessChangeArguments,
+  InfoArgument,
+  OrganizationAccessChangeArguments,
+  ProjectCommandArguments,
+  UserAccessChangeArguments,
+  WorkspaceGrantArgument,
+} from '../../types/commands/common_arguments';
+import { SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
 
-// TODO: the "flag" param throughout here should be done in a better way.
-// Perhaps expose the SlackCommandOptions type directly?
+type AccessChangeArguments = {
+  info?: boolean;
+} & (
+  GroupAccessChangeArguments | UserAccessChangeArguments | ChannelAccessChangeArguments |
+  OrganizationAccessChangeArguments
+);
+
+export interface TriggerIdArgument {
+  /** @description ID of the trigger being targeted. */
+  triggerId: string;
+}
+
+type TriggerAccessArguments = TriggerIdArgument & (AccessChangeArguments | InfoArgument);
+
+/**
+ * Sets grant or revoke on a set of command options based on what is provided in an arguments list.
+ * @param args - trigger access method arguments
+ * @param cmdOpts - command-level options to provide to SlackCLIProcess
+ * @return void
+ */
+function setAccessType(args: Parameters<typeof access>[0], cmdOpts: SlackCLICommandOptions) {
+  /* eslint-disable no-param-reassign */
+  if ('grant' in args && args.grant) {
+    cmdOpts['--grant'] = true;
+  } else if ('revoke' in args && args.revoke) {
+    cmdOpts['--revoke'] = true;
+  } else {
+    throw new Error('When granting or revoking trigger access, you must specify one of `grant` or `revoke` as `true`.');
+  }
+  /* eslint-enable no-param-reassign */
+}
 
 /**
  * `slack trigger access`
- * @param appPath path to app
- * @param teamFlag team domain of the updating trigger
- * @param flags specification of trigger access, e.g. --trigger-id Ft0143UPTAV8 --everyone
  * @returns command output
  */
 export const access = async function triggerAccess(
-  appPath: string,
-  teamFlag: string,
-  flags: string,
-  options?: { qa?: boolean },
+  args: ProjectCommandArguments & TriggerAccessArguments,
 ): Promise<string> {
-  // TODO: (breaking change) separate params vs. single-param-object
-  // TODO: access requires --trigger-id so add that to parameters (breaking change)
-  const cmd = new SlackCLIProcess(`trigger access ${flags}`, { team: teamFlag, qa: options?.qa });
+  const cmdOpts: SlackCLICommandOptions = {
+    '--trigger-id': args.triggerId,
+  };
+  if ('info' in args && args.info) {
+    cmdOpts['--info'] = true;
+  } else if ('appCollaborators' in args && args.appCollaborators) {
+    cmdOpts['--app-collaborators'] = true;
+  } else if ('everyone' in args && args.everyone) {
+    cmdOpts['--everyone'] = true;
+  } else if ('users' in args) {
+    cmdOpts['--users'] = args.users.join(',');
+    setAccessType(args, cmdOpts);
+  } else if ('channels' in args) {
+    cmdOpts['--channels'] = args.channels.join(',');
+    setAccessType(args, cmdOpts);
+  } else if ('organizations' in args) {
+    cmdOpts['--organizations'] = args.organizations.join(',');
+    setAccessType(args, cmdOpts);
+  } else {
+    throw new Error('When setting trigger access, you must specify a target for whom to give access to.');
+  }
+  const cmd = new SlackCLIProcess('trigger access', args, cmdOpts);
   const proc = await cmd.execAsync({
-    cwd: appPath,
+    cwd: args.appPath,
   });
   return proc.output;
 };
+
+export interface CreateFromArguments {
+  /** @description Trigger description. */
+  description?: string;
+  /** @description Trigger title. */
+  title: string;
+  /** @description Workflow callback ID for the trigger to trip. */
+  workflow: string;
+  /**
+   * @description When `true`, adds an `interactivity` parameter to the trigger with the name specified
+   * by `interactivityName`.
+   */
+  interactivity?: boolean,
+  /** @description Specifies the name of the interactivity parameter to use. Defaults to `interactivity`. */
+  interactivityName?: string;
+}
+
+export interface CreateFromFile {
+  /** @description Path to a file containing a trigger definition. Overrides any other arguments provided. */
+  triggerDef: string;
+}
+
+type CreateArguments = WorkspaceGrantArgument & (CreateFromArguments | CreateFromFile);
+
 /**
  * `slack trigger create`
  * @returns command output
  */
-export const create = async function triggerCreate({
-  appPath,
-  teamFlag,
-  flag,
-  orgWorkspaceGrantFlag,
-  options,
-}: {
-  /** path to app */
-  appPath: string;
-  /** team domain where the trigger will be created */
-  teamFlag: string;
-  /** any additional flags to provide i.e. method of trigger creation + ref, e.g. --trigger-def triggers/add-pin.json */
-  flag: string;
-  /** supplies additional workspace within an org to grant app access to as part of install */
-  orgWorkspaceGrantFlag?: string;
-  options?: { // TODO: must be a better way of exposing these options
-    /** Local app for local run sessions */
-    localApp?: boolean;
-    /** Whether to run against --slackdev or production */
-    qa?: boolean;
+export const create = async function triggerCreate(
+  args: ProjectCommandArguments & CreateArguments,
+): Promise<string> {
+  const cmdOpts: SlackCLICommandOptions = {
+    '--org-workspace-grant': args.orgWorkspaceGrantFlag,
   };
-}): Promise<string> {
-  const appEnvironment = options?.localApp ? 'local' : 'deployed';
-  const cmd = new SlackCLIProcess(`trigger create ${flag}`, { team: teamFlag, qa: options?.qa }, {
-    '--app': appEnvironment,
-    '--org-workspace-grant': orgWorkspaceGrantFlag,
-  });
+  if ('triggerDef' in args) {
+    cmdOpts['--trigger-def'] = args.triggerDef;
+  } else {
+    cmdOpts['--workflow'] = args.workflow;
+    cmdOpts['--title'] = args.title;
+    if ('description' in args) {
+      cmdOpts['--description'] = args.description;
+    }
+    if ('interactivity' in args && args.interactivity) {
+      cmdOpts['--interactivity'] = true;
+      if ('interactivityName' in args && args.interactivityName) {
+        cmdOpts['--interactivity-name'] = args.interactivityName;
+      }
+    }
+  }
+  const cmd = new SlackCLIProcess('trigger create', args, cmdOpts);
   const proc = await cmd.execAsync({
-    cwd: appPath,
+    cwd: args.appPath,
   });
   return proc.output;
 };
 
 /**
  * `slack trigger delete`
- * @param appPath path to the app
- * @param teamFlag team domain to delete trigger from
- * @param flag
  * @returns command output
  */
 export const del = async function triggerDelete(
-  appPath: string,
-  teamFlag: string,
-  flag: string,
-  options?: { qa?: boolean },
+  args: ProjectCommandArguments & TriggerIdArgument,
 ): Promise<string> {
-  // TODO: (breaking change) separate params vs. single-param-object
-  // TODO: delete requires --trigger-id so add that to parameters (breaking change)
-  const cmd = new SlackCLIProcess(`trigger delete ${flag}`, { team: teamFlag, qa: options?.qa });
+  const cmd = new SlackCLIProcess('trigger delete', args, {
+    '--trigger-id': args.triggerId,
+  });
   const proc = await cmd.execAsync({
-    cwd: appPath,
+    cwd: args.appPath,
   });
   return proc.output;
 };
 
 /**
  * `slack trigger info`
- * @param appPath path to the app
- * @param teamFlag team domain of the trigger
- * @param flag arbitrary additional flags
  * @returns command output
  */
 export const info = async function triggerInfo(
-  appPath: string,
-  teamFlag: string,
-  flag: string,
-  options?: { qa?: boolean },
+  args: ProjectCommandArguments & TriggerIdArgument,
 ): Promise<string> {
-  // TODO: getting trigger info necessitates passing a trigger ID, so that should be exposed in the parameters here
-  // TODO: (breaking change) separate params vs. single-param-object
-  const cmd = new SlackCLIProcess(`trigger info ${flag}`, { team: teamFlag, qa: options?.qa });
+  const cmd = new SlackCLIProcess('trigger info', args, {
+    '--trigger-id': args.triggerId,
+  });
   const proc = await cmd.execAsync({
-    cwd: appPath,
+    cwd: args.appPath,
   });
   return proc.output;
 };
 
 /**
  * `slack trigger list`
- * @param appPath path to app
- * @param teamFlag team domain for listing all triggers
- * @param flag arbitrary additional flags to pass
  * @returns command output
  */
 export const list = async function triggerList(
-  appPath: string,
-  teamFlag: string,
-  flag: string,
-  options?: { qa?: boolean },
+  args: ProjectCommandArguments & {
+    /** @description Limit the number of triggers to show. Defaults to `4`. */
+    limit?: number;
+    /**
+     * @description Only display triggers of the given type, can be one of:
+     * `all`, `shortcut`, `event`, `scheduled`, `webhook` and `external`. Defaults to `all`.
+     */
+    type?: 'all' | 'shortcut' | 'event' | 'scheduled' | 'webhook' | 'external';
+  },
 ): Promise<string> {
-  // TODO: (breaking change) separate params vs. single-param-object
-  const cmd = new SlackCLIProcess(`trigger list ${flag}`, { team: teamFlag, qa: options?.qa });
+  const cmdOpts: SlackCLICommandOptions = {};
+  if (args.limit) {
+    cmdOpts['--limit'] = args.limit;
+  }
+  if (args.type) {
+    cmdOpts['--type'] = args.type;
+  }
+  const cmd = new SlackCLIProcess('trigger list', args, cmdOpts);
   const proc = await cmd.execAsync({
-    cwd: appPath,
+    cwd: args.appPath,
   });
   return proc.output;
 };
 
 /**
  * `slack trigger update`
- * @param appPath path to the app
- * @param teamFlag team domain for the updating trigger
- * @param flag arbitrary additional flags to pass to command
  * @returns command output
  */
 export const update = async function triggerUpdate(
-  appPath: string,
-  teamFlag: string,
-  flag: string,
-  options?: { qa?: boolean },
+  args: ProjectCommandArguments & TriggerIdArgument & (Partial<CreateFromArguments> | CreateFromFile),
 ): Promise<string> {
-  // TODO: (breaking change) separate params vs. single-param-object
-  const cmd = new SlackCLIProcess(`trigger update ${flag}`, { team: teamFlag, qa: options?.qa });
+  const cmdOpts: SlackCLICommandOptions = {
+    '--trigger-id': args.triggerId,
+  };
+  if ('triggerDef' in args) {
+    cmdOpts['--trigger-def'] = args.triggerDef;
+  } else {
+    if ('workflow' in args) {
+      cmdOpts['--workflow'] = args.workflow;
+    }
+    if ('title' in args) {
+      cmdOpts['--title'] = args.title;
+    }
+    if ('description' in args) {
+      cmdOpts['--description'] = args.description;
+    }
+    if ('interactivity' in args) {
+      cmdOpts['--interactivity'] = args.interactivity;
+    }
+    if ('interactivityName' in args) {
+      cmdOpts['--interactivity-name'] = args.interactivityName;
+    }
+  }
+  const cmd = new SlackCLIProcess('trigger update', args, cmdOpts);
   const proc = await cmd.execAsync({
-    cwd: appPath,
+    cwd: args.appPath,
   });
   return proc.output;
 };
 
-// TODO: (breaking change): rename properties of this default export to match actual command names
 export default {
-  triggerAccess: access,
-  triggerCreate: create,
-  triggerDelete: del,
-  triggerInfo: info,
-  triggerList: list,
-  triggerUpdate: update,
+  access,
+  create,
+  delete: del,
+  info,
+  list,
+  update,
 };
