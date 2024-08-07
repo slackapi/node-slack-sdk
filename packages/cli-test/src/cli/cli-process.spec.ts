@@ -76,7 +76,7 @@ describe('SlackCLIProcess class', () => {
         await cmd.execAsync();
         sandbox.assert.calledWithMatch(spawnProcessSpy, '--skip-update');
       });
-      it('should default to `--app deployed` but allow overriding that via the `instance` parameter', async () => {
+      it('should default to `--app deployed` but allow overriding that via the `app` parameter', async () => {
         let cmd = new SlackCLIProcess('help');
         await cmd.execAsync();
         sandbox.assert.calledWithMatch(spawnProcessSpy, '--app deployed');
