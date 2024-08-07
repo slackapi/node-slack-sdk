@@ -81,7 +81,7 @@ describe('SlackCLIProcess class', () => {
         await cmd.execAsync();
         sandbox.assert.calledWithMatch(spawnProcessSpy, '--app deployed');
         spawnProcessSpy.resetHistory();
-        cmd = new SlackCLIProcess('help', { instance: 'local' });
+        cmd = new SlackCLIProcess('help', { app: 'local' });
         await cmd.execAsync();
         sandbox.assert.calledWithMatch(spawnProcessSpy, '--app local');
       });
