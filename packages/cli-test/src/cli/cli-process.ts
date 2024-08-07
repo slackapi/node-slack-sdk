@@ -1,19 +1,30 @@
 import { shell } from './shell';
 
-import type { ShellProcess } from '../utils/types';
+import type { ShellProcess } from '../types/shell';
 import type { SpawnOptionsWithoutStdio } from 'node:child_process';
-/*
- * some parameters used in the 'shell' calls that are CLI-specific and probably should not exist there:
-  * @param skipUpdate skip auto update notification
-  */
 
 export interface SlackCLIGlobalOptions {
   /**
+   * @description The API host the command should interact with, full domain name. (`--apihost qa1234.slack.com`)
+   * Takes precendence over `qa` and `dev` options.
+   * @example `qa1234.slack.com` or `dev2345.slack.com`
+   */
+  apihost?: string;
+  /**
    * @description Whether the command should interact with dev.slack (`--slackdev`)
+   * `qa` and `apihost` will both supersede this option.
    */
   dev?: boolean;
+  /** @description Ignore warnings and continue executing command. Defaults to `true`. */
+  force?: boolean;
+  /**
+   * @description Application instance to target. Can be `local`, `deployed` or an app ID string.
+   * Defaults to `deployed`.
+   */
+  app?: 'local' | 'deployed' | string;
   /**
    * @description Whether the command should interact with qa.slack (`--apihost qa.slack.com`)
+   * Takes precendence over `dev` option but is superseded by `apihost`.
    */
   qa?: boolean;
   /**
@@ -21,12 +32,18 @@ export interface SlackCLIGlobalOptions {
    */
   skipUpdate?: boolean;
   /**
-   * @description workspace or organization name or ID to scope command to
+   * @description The ID of your team. If you are using a Standard Slack plan, this is your workspace ID.
+   * If you are using an Enterprise Grid plan, this is the organization ID, even if your app is only granted to a
+   * subset of workspaces within the org.
    */
   team?: string;
+  /** @description Access token to use when making Slack API calls. */
+  token?: string;
 }
 
-export type SlackCLICommandOptions = Record<string, string | boolean | undefined>;
+export type SlackCLIHostTargetOptions = Pick<SlackCLIGlobalOptions, 'qa' | 'dev' | 'apihost'>;
+
+export type SlackCLICommandOptions = Record<string, string | boolean | number | undefined>;
 
 export class SlackCLIProcess {
   /**
@@ -88,20 +105,38 @@ export class SlackCLIProcess {
     let cmd = `${process.env.SLACK_CLI_PATH}`;
     if (this.globalOptions) {
       const opts = this.globalOptions;
-      if (opts.qa) {
+      // Determine API host target
+      if (opts.apihost) {
+        cmd += ` --apihost ${opts.apihost}`;
+      } else if (opts.qa) {
         cmd += ' --apihost qa.slack.com';
-      }
-      if (opts.dev) {
+      } else if (opts.dev) {
         cmd += ' --slackdev';
       }
+      // Always skip update unless explicitly set to something falsy
       if (opts.skipUpdate || opts.skipUpdate === undefined) {
         cmd += ' --skip-update';
       }
+      // Target team
       if (opts.team) {
         cmd += ` --team ${opts.team}`;
       }
+      // App instance; defaults to `deployed`
+      if (opts.app) {
+        cmd += ` --app ${opts.app}`;
+      } else {
+        cmd += ' --app deployed';
+      }
+      // Ignore warnings via --force; defaults to true
+      if (opts.force || typeof opts.force === 'undefined') {
+        cmd += ' --force';
+      }
+      // Specifying custom token
+      if (opts.token) {
+        cmd += ` --token ${opts.token}`;
+      }
     } else {
-      cmd += ' --skip-update';
+      cmd += ' --skip-update --force --app deployed';
     }
     cmd += ` ${this.command}`;
     if (this.commandOptions) {

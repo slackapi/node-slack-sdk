@@ -5,7 +5,7 @@ import treekill from 'tree-kill';
 import { timeouts } from '../utils/constants';
 import logger from '../utils/logger';
 
-import type { ShellProcess } from '../utils/types';
+import type { ShellProcess } from '../types/shell';
 
 export const shell = {
   /**
@@ -71,7 +71,7 @@ export const shell = {
    * Run shell command synchronously
    * - Execute child process with the command
    * - Wait for the command to complete and return the standard output
-   * @param command cli command, e.g. <cli> --version or any shell command
+   * @param command cli command
    * @param shellOpts various shell spawning options available to customize
    * @returns command stdout
    */
@@ -93,7 +93,6 @@ export const shell = {
       // Log command
       logger.info(`CLI Command finished: ${command}`);
 
-      // TODO: this method only returns stdout and not stderr...
       return this.removeANSIcolors(result.stdout.toString());
     } catch (error) {
       throw new Error(`runCommandSync failed!\nCommand: ${command}\nError: ${error}`);

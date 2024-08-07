@@ -1,36 +1,55 @@
-import { SlackCLIProcess } from '../cli-process';
-import commandError from '../command-error';
+import {
+  GroupAccessChangeArguments,
+  InfoArgument,
+  ProjectCommandArguments,
+  UserAccessChangeArguments,
+} from '../../types/commands/common_arguments';
+import { SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
 
-// TODO: the "flag" param throughout here should be done in a better way.
-// Perhaps expose the SlackCommandOptions type directly?
+type AccessChangeArguments = {
+  /** @description `callback_id` of function being targeted. */
+  name: string;
+  info?: boolean;
+} & (GroupAccessChangeArguments | UserAccessChangeArguments);
+
+type FunctionAccessArguments = AccessChangeArguments | InfoArgument;
 
 /**
  * `slack function access`
- * @param appPath path to app
- * @param teamFlag team domain for the function's app
- * @param flags specification of function distribution, i.e. --name greeting_function --app-collaborators
  * @returns command output
  */
 export const access = async function functionAccess(
-  appPath: string,
-  teamFlag: string,
-  flags: string,
-  options?: { qa?: boolean },
+  args: ProjectCommandArguments & FunctionAccessArguments,
 ): Promise<string> {
-  // TODO: breaking change, separate params vs single-param-object
-  const cmd = new SlackCLIProcess(`function access ${flags}`, { team: teamFlag, qa: options?.qa });
-  try {
-    const proc = await cmd.execAsync({
-      cwd: appPath,
-    });
-    return proc.output;
-  } catch (error) {
-    throw commandError(error, 'functionAccess');
+  const cmdOpts: SlackCLICommandOptions = {};
+  if ('info' in args && args.info) {
+    cmdOpts['--info'] = true;
+  } else {
+    cmdOpts['--name'] = args.name;
+    if ('appCollaborators' in args && args.appCollaborators) {
+      cmdOpts['--app-collaborators'] = true;
+    } else if ('everyone' in args && args.everyone) {
+      cmdOpts['--everyone'] = true;
+    } else if ('users' in args) {
+      cmdOpts['--users'] = args.users.join(',');
+      if ('grant' in args && args.grant) {
+        cmdOpts['--grant'] = true;
+      } else if ('revoke' in args && args.revoke) {
+        cmdOpts['--revoke'] = true;
+      } else {
+        throw new Error('When granting or revoking function access to users, you must specify one of `grant` or `revoke` as `true`.');
+      }
+    } else {
+      throw new Error('When setting function access, you must specify a target for whom to give access to.');
+    }
   }
+  const cmd = new SlackCLIProcess('function access', args, cmdOpts);
+  const proc = await cmd.execAsync({
+    cwd: args.appPath,
+  });
+  return proc.output;
 };
 
-// TODO: (breaking change): rename properties of this default export to match actual command names
 export default {
-  functionDistribute: access, // TODO: brekaing change remove this, is now called 'function access'
-  functionAccess: access,
+  access,
 };

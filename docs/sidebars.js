@@ -56,6 +56,15 @@ const sidebars = {
       items: [
         {
           type: 'category',
+          label: '@slack/cli-test',
+          link: {
+            type: 'doc',
+            id: 'reference/cli-test/index',
+          },
+          items: require('./content/reference/cli-test/typedoc-sidebar.cjs'),
+        },
+        {
+          type: 'category',
           label: '@slack/events-api',
           link: {
             type: 'doc',
