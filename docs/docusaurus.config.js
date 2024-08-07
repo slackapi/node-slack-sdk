@@ -70,6 +70,15 @@ const config = {
     [
       'docusaurus-plugin-typedoc',
       {
+        id: 'cli-test',
+        entryPoints: ['../packages/cli-test/src/index.ts'],
+        tsconfig: '../packages/cli-test/tsconfig.json',
+        out: "./content/reference/cli-test",
+      }
+    ],
+    [
+      'docusaurus-plugin-typedoc',
+      {
         id: 'events-api',
         entryPoints: ['../packages/events-api/src/index.ts'],
         tsconfig: '../packages/events-api/tsconfig.json',

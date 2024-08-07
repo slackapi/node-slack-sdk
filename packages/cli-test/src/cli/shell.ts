@@ -71,7 +71,7 @@ export const shell = {
    * Run shell command synchronously
    * - Execute child process with the command
    * - Wait for the command to complete and return the standard output
-   * @param command cli command, e.g. <cli> --version or any shell command
+   * @param command cli command
    * @param shellOpts various shell spawning options available to customize
    * @returns command stdout
    */

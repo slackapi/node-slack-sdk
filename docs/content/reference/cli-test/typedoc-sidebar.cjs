@@ -1,0 +1,4 @@
+// @ts-check
+/** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
+const typedocSidebar = { items: [{"type":"category","label":"Classes","items":[{"type":"doc","id":"reference/cli-test/classes/SlackCLIProcess","label":"SlackCLIProcess"}]},{"type":"category","label":"Variables","items":[{"type":"doc","id":"reference/cli-test/variables/SlackCLI","label":"SlackCLI"},{"type":"doc","id":"reference/cli-test/variables/SlackProduct","label":"SlackProduct"},{"type":"doc","id":"reference/cli-test/variables/SlackTracerId","label":"SlackTracerId"},{"type":"doc","id":"reference/cli-test/variables/shell","label":"shell"}]}]};
+module.exports = typedocSidebar.items;
