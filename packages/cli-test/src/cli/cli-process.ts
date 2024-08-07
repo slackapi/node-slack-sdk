@@ -21,7 +21,7 @@ export interface SlackCLIGlobalOptions {
    * @description Application instance to target. Can be `local`, `deployed` or an app ID string.
    * Defaults to `deployed`.
    */
-  instance?: string;
+  instance?: 'local' | 'deployed' | string;
   /**
    * @description Whether the command should interact with qa.slack (`--apihost qa.slack.com`)
    * Takes precendence over `dev` option but is superseded by `apihost`.

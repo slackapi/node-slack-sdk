@@ -4,7 +4,6 @@ import type { ProjectCommandArguments } from '../../types/commands/common_argume
 
 /**
  * `slack app delete`
- * @param args command arguments
  * @returns command output
  */
 export const del = async function appDelete(args: ProjectCommandArguments): Promise<string> {
@@ -17,7 +16,6 @@ export const del = async function appDelete(args: ProjectCommandArguments): Prom
 
 /**
  * `slack app install`
- * @param args command arguments
  * @returns command output
  */
 export const install = async function workspaceInstall(args: ProjectCommandArguments): Promise<string> {
@@ -30,7 +28,6 @@ export const install = async function workspaceInstall(args: ProjectCommandArgum
 
 /**
  * `slack app list`
- * @param appPath path to app
  * @returns command output
  */
 export const list = async function appList(args: ProjectCommandArguments): Promise<string> {
