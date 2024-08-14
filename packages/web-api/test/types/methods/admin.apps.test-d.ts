@@ -91,6 +91,16 @@ expectAssignable<Parameters<typeof web.admin.apps.clearResolution>>([{
   team_id: 'T1234',
 }]);
 expectAssignable<Parameters<typeof web.admin.apps.clearResolution>>([{
+  token: 'xoxp-example',
+  app_id: 'A1234',
+  team_id: 'T1234',
+}]);
+expectAssignable<Parameters<typeof web.admin.apps.clearResolution>>([{
+  app_id: 'A1234',
+  enterprise_id: 'E1234',
+}]);
+expectAssignable<Parameters<typeof web.admin.apps.clearResolution>>([{
+  token: 'xoxp-example',
   app_id: 'A1234',
   enterprise_id: 'E1234',
 }]);
@@ -239,6 +249,16 @@ expectAssignable<Parameters<typeof web.admin.apps.uninstall>>([{
   team_id: 'T1234',
 }]);
 expectAssignable<Parameters<typeof web.admin.apps.uninstall>>([{
+  token: 'xoxp-example',
+  app_id: 'A1234',
+  team_id: 'T1234',
+}]);
+expectAssignable<Parameters<typeof web.admin.apps.uninstall>>([{
+  app_id: 'A1234',
+  enterprise_id: 'E1234',
+}]);
+expectAssignable<Parameters<typeof web.admin.apps.uninstall>>([{
+  token: 'xoxp-example',
   app_id: 'A1234',
   enterprise_id: 'E1234',
 }]);

@@ -101,3 +101,8 @@ expectAssignable<Parameters<typeof web.apps.uninstall>>([{
   client_id: '1234.56',
   client_secret: 'ABC123',
 }]);
+expectAssignable<Parameters<typeof web.apps.uninstall>>([{
+  token: 'xoxb-example',
+  client_id: '1234.56',
+  client_secret: 'ABC123',
+}]);

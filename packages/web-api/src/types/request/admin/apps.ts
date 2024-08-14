@@ -59,7 +59,7 @@ export type AdminAppsApprovedListArguments = Partial<TeamOrEnterpriseID> & Token
 & Certified;
 
 // https://api.slack.com/methods/admin.apps.clearResolution
-export type AdminAppsClearResolutionArguments = AppID & TeamOrEnterpriseID;
+export type AdminAppsClearResolutionArguments = AppID & TeamOrEnterpriseID & TokenOverridable;
 
 // https://api.slack.com/methods/admin.apps.config.lookup
 export interface AdminAppsConfigLookupArguments extends TokenOverridable {
@@ -95,4 +95,4 @@ export type AdminAppsRestrictedListArguments = TeamOrEnterpriseID & Certified & 
 & CursorPaginationEnabled;
 
 // https://api.slack.com/methods/admin.apps.uninstall
-export type AdminAppsUninstallArguments = AppID & TeamOrEnterpriseID;
+export type AdminAppsUninstallArguments = AppID & TeamOrEnterpriseID & TokenOverridable;
