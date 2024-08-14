@@ -162,6 +162,7 @@ export type {
   AppsUninstallArguments,
 } from './apps';
 export type { APITestArguments } from './api';
+export type { AIAssistantThreadsSetStatusArguments, AIAssistantThreadsSetSuggestedPromptsArguments, AIAssistantThreadsSetTitleArguments } from './ai';
 export type { AdminAnalyticsGetFileArguments } from './admin/analytics';
 export type {
   AdminAppsActivitiesListArguments,
