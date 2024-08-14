@@ -34,4 +34,4 @@ export interface AppsManifestValidateArguments extends Partial<AppID>, TokenOver
 }
 
 // https://api.slack.com/methods/apps.uninstall
-export interface AppsUninstallArguments extends Pick<OAuthCredentials, 'client_id' | 'client_secret'> {}
+export interface AppsUninstallArguments extends Pick<OAuthCredentials, 'client_id' | 'client_secret'>, TokenOverridable {}
