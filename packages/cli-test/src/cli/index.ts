@@ -41,7 +41,7 @@ export const SlackCLI = {
       // List instances of app installation if app path provided
       const installedAppsOutput = await SlackCLI.app.list({
         ...args,
-        appPath: args.appPath!, // very dumb https://github.com/microsoft/TypeScript/issues/42384#issuecomment-872906445
+        appPath: args.appPath, // very dumb https://github.com/microsoft/TypeScript/issues/42384#issuecomment-872906445
       });
       // If app is installed
       if (!installedAppsOutput.includes('This project has no apps')) {
@@ -49,7 +49,7 @@ export const SlackCLI = {
         try {
           await SlackCLI.app.delete({
             ...args,
-            appPath: args.appPath!, // same crap https://github.com/microsoft/TypeScript/issues/42384#issuecomment-872906445
+            appPath: args.appPath, // same crap https://github.com/microsoft/TypeScript/issues/42384#issuecomment-872906445
           });
         } catch (error) {
           logger.warn(`stopSession could not delete app gracefully, continuing. Error: ${error}`);
