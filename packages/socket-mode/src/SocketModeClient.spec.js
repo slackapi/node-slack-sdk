@@ -1,4 +1,6 @@
 const { assert } = require('chai');
+const sinon = require('sinon');
+const { ConsoleLogger } = require('@slack/logger');
 const { SocketModeClient } = require('./SocketModeClient');
 
 describe('SocketModeClient', () => {
@@ -248,6 +250,97 @@ describe('SocketModeClient', () => {
         await client.onWebSocketMessage({ data: JSON.stringify(message) });
         await sleep(30);
         assert.equal(passedEnvelopeId, '57d6a792-4d35-4d0b-b6aa-3361493e1caf');
+      });
+    });
+
+    describe('redact', () => {
+      /** @type sinon.SinonSpy */
+      let spies;
+
+      beforeEach(() => {
+        spies = sinon.spy();
+      });
+
+      afterEach(() => {
+        sinon.reset();
+      });
+
+      it('should remove tokens and secrets from incoming messages', async () => {
+        const logger = new ConsoleLogger();
+        logger.debug = spies;
+        const client = new SocketModeClient({
+          appToken: 'xapp-example-001',
+          logger,
+        });
+
+        const input = {
+          type: 'hello',
+          payload: {
+            example: '12',
+            token: 'xoxb-example-001',
+            event: {
+              bot_access_token: 'xwfp-redaction-001',
+            },
+            values: {
+              secret: 'abcdef',
+            },
+            inputs: [
+              { id: "example", mock: "testing" },
+              { id: "mocking", mock: "testure" },
+            ],
+          },
+        };
+        const expected = {
+          type: 'hello',
+          payload: {
+            example: '12',
+            token: '[[REDACTED]]',
+            event: {
+              bot_access_token: '[[REDACTED]]',
+            },
+            values: {
+              secret: '[[REDACTED]]',
+            },
+            inputs: [
+              { id: "example", mock: "testing" },
+              { id: "mocking", mock: "testure" },
+            ],
+          },
+        };
+
+        client.onWebSocketMessage({ data: JSON.stringify(input) });
+        assert(spies.called);
+        assert(spies.calledWith("Received a message on the WebSocket: " + JSON.stringify(expected)));
+      });
+
+      it('should respond with undefined when attempting to redact undefined', async () => {
+        const logger = new ConsoleLogger();
+        logger.debug = spies;
+        logger.error = spies;
+        const client = new SocketModeClient({
+          appToken: 'xapp-example-001',
+          logger,
+        });
+
+        const input = undefined;
+
+        client.onWebSocketMessage({ data: JSON.stringify(input) });
+        assert(spies.called);
+        assert(spies.calledWith("Received a message on the WebSocket: undefined"));
+      });
+
+      it('should print the incoming data if parsing errors happen', async () => {
+        const logger = new ConsoleLogger();
+        logger.debug = spies;
+        logger.error = spies;
+        const client = new SocketModeClient({
+          appToken: 'xapp-example-001',
+          logger,
+        });
+
+        client.onWebSocketMessage({ data: `{"number":` });
+        assert(spies.called);
+        assert(spies.calledWith(`Received a message on the WebSocket: {"number":`));
       });
     });
   });
