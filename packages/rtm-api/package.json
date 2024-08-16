@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@slack/logger": "^4",
-    "@slack/web-api": "^7",
+    "@slack/web-api": "^7.3.4",
     "@types/node": ">=18",
     "eventemitter3": "^5",
     "finity": "^0.5.4",
