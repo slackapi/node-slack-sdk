@@ -11,7 +11,8 @@
   "repository": "slackapi/node-slack-sdk",
   "dependencies": {
     "@koa/router": "^10.1.0",
-    "jsonwebtoken": "^8.5.1",
+    "@slack/web-api": "^7.3.4",
+    "jsonwebtoken": "^9.0.2",
     "koa": "^2.13.1",
     "uuid": "^8.3.2"
   }
