@@ -54,6 +54,13 @@ export interface WebClientOptions {
   rejectRateLimitedCalls?: boolean;
   headers?: Record<string, string>;
   teamId?: string;
+  /**
+   * Options for the Axios adapter as an experimental option.
+   * @default ['xhr', 'http', 'fetch']
+   * @see https://www.npmjs.com/package/axios#-fetch-adapter
+   * @see https://github.com/slackapi/bolt-js/issues/2212
+   */
+  experimentalAxiosAdapter?: string[] | string;
 }
 
 export type TLSOptions = Pick<SecureContextOptions, 'pfx' | 'key' | 'passphrase' | 'cert' | 'ca'>;
@@ -171,6 +178,7 @@ export class WebClient extends Methods {
     rejectRateLimitedCalls = false,
     headers = {},
     teamId = undefined,
+    experimentalAxiosAdapter = ['xhr', 'http', 'fetch'],
   }: WebClientOptions = {}) {
     super();
 
@@ -197,6 +205,7 @@ export class WebClient extends Methods {
     // eslint-disable-next-line no-param-reassign
     if (this.token && !headers.Authorization) headers.Authorization = `Bearer ${this.token}`;
 
+    this.logger.debug(`creating axios adapter: ${experimentalAxiosAdapter}`)
     this.axios = axios.create({
       timeout,
       baseURL: slackApiUrl,
@@ -211,6 +220,7 @@ export class WebClient extends Methods {
       // for compatibility with https://api.slack.com, and for a larger set of possible proxies (SOCKS or other
       // protocols), users of this package should use the `agent` option to configure a proxy.
       proxy: false,
+      adapter: experimentalAxiosAdapter,
     });
     // serializeApiCallOptions will always determine the appropriate content-type
     delete this.axios.defaults.headers.post['Content-Type'];
