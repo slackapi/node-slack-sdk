@@ -37,7 +37,7 @@
   "scripts": {
     "prebuild": "shx rm -rf ./coverage",
     "build": "shx chmod +x src/*.js",
-    "prelint": "tsc --noemit --module es2022 --project ./jsconfig.json",
+    "prelint": "tsc --noemit --module es2022 --maxNodeModuleJsDepth 0 --project ./jsconfig.json",
     "lint": "eslint --ext .js src",
     "pretest": "npm run lint -- --fix",
     "test": "c8 mocha src/*.spec.js"
