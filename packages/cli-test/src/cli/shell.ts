@@ -173,15 +173,22 @@ export const shell = {
   waitForOutput: async function waitForOutput(
     expString: string,
     proc: ShellProcess,
+    opts?: {
+      /** @description How long to wait for expected output in milliseconds. Defaults to 10 seconds. */
+      timeout?: number;
+    },
   ): Promise<void> {
     const delay = 1000;
+    const timeout = opts?.timeout || timeouts.waitingAction;
     let waitedFor = 0;
     let timedOut = false;
     while (!proc.output.includes(expString)) {
+      console.log('OUTPUT', proc.output);
+      console.log('EXPECTED', expString);
       // eslint-disable-next-line no-await-in-loop
       await this.sleep(delay);
       waitedFor += delay;
-      if (waitedFor > timeouts.waitingAction) {
+      if (waitedFor > timeout) {
         timedOut = true;
         break;
       }

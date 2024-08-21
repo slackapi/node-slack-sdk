@@ -7,8 +7,13 @@ import { shell } from '../shell';
 import type { ShellProcess } from '../../types/shell';
 
 export interface StringWaitArgument {
-  /** @description string to wait for in the command output before this function returns. */
+  /** @description String to wait for in the command output before this function returns. */
   stringToWaitFor: string;
+}
+
+export interface TimeoutArgument {
+  /** @description Number of milliseconds to wait for process execution. Defaults to 10 seconds. */
+  timeout?: number;
 }
 
 export interface ProcessArgument {
@@ -48,11 +53,12 @@ export const activity = async function activity(args: ProjectCommandArguments & 
  * @returns command output
  */
 export const activityTailStart = async function activityTailStart(
-  args: ProjectCommandArguments & StringWaitArgument,
+  args: ProjectCommandArguments & StringWaitArgument & TimeoutArgument,
 ): Promise<ShellProcess> {
   const cmd = new SlackCLIProcess('activity', args, { '--tail': true });
   const proc = await cmd.execAsyncUntilOutputPresent(args.stringToWaitFor, {
     cwd: args.appPath,
+    timeout: args.timeout,
   });
   return proc;
 };
@@ -63,11 +69,11 @@ export const activityTailStart = async function activityTailStart(
  * @returns command output
  */
 export const activityTailStop = async function activityTailStop(
-  args: StringWaitArgument & ProcessArgument,
+  args: StringWaitArgument & ProcessArgument & TimeoutArgument,
 ): Promise<string> {
   return new Promise((resolve, reject) => {
     // Wait for output
-    shell.waitForOutput(args.stringToWaitFor, args.proc).then(() => {
+    shell.waitForOutput(args.stringToWaitFor, args.proc, { timeout: args.timeout }).then(() => {
       // kill the shell process
       shell.kill(args.proc).then(() => {
         resolve(args.proc.output);
@@ -100,7 +106,7 @@ export const deploy = async function deploy(args: ProjectCommandArguments & Omit
  * @returns shell object to kill it explicitly in the test case via `runStop`
  */
 export const runStart = async function runStart(
-  args: ProjectCommandArguments & RunDeployArguments,
+  args: ProjectCommandArguments & RunDeployArguments & TimeoutArgument,
 ): Promise<ShellProcess> {
   const cmd = new SlackCLIProcess('run', args, {
     '--app': 'local',
@@ -110,6 +116,7 @@ export const runStart = async function runStart(
   });
   const proc = await cmd.execAsyncUntilOutputPresent('Connected, awaiting events', {
     cwd: args.appPath,
+    timeout: args.timeout,
   });
   return proc;
 };
@@ -118,7 +125,7 @@ export const runStart = async function runStart(
  * stop `slack run`
  * @param teamName to check that app was deleted from that team
  */
-export const runStop = async function runStop(args: ProcessArgument & {
+export const runStop = async function runStop(args: ProcessArgument & TimeoutArgument & {
   /**
    * @description Should wait for the `run` process to spin down before exiting this function.
    * On Windows, this property is always set to `true`. Defaults to `false`.
@@ -136,7 +143,11 @@ export const runStop = async function runStop(args: ProcessArgument & {
 
       if (args.waitForShutdown) {
         // Wait for the output to verify process stopped
-        shell.waitForOutput(SlackTracerId.SLACK_TRACE_PLATFORM_RUN_STOP, args.proc).then(resolve, reject);
+        shell.waitForOutput(
+          SlackTracerId.SLACK_TRACE_PLATFORM_RUN_STOP,
+          args.proc,
+          { timeout: args.timeout },
+        ).then(resolve, reject);
       } else {
         resolve();
       }
