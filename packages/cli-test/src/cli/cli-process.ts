@@ -89,7 +89,9 @@ export class SlackCLIProcess {
   ): Promise<ShellProcess> {
     const cmd = this.assembleShellInvocation();
     const proc = shell.spawnProcess(cmd, shellOpts);
-    await shell.waitForOutput(output, proc);
+    await shell.waitForOutput(output, proc, {
+      timeout: shellOpts?.timeout,
+    });
     return proc;
   }
 
