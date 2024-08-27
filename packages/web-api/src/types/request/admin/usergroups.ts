@@ -1,9 +1,4 @@
-import type { OptionalTeamAssignable, TokenOverridable } from '../common';
-
-interface ChannelIDs {
-  /** @description One or more encoded channel IDs. */
-  channel_ids: string | string[];
-}
+import type { ChannelIDs, OptionalTeamAssignable, TokenOverridable } from '../common';
 
 interface UsergroupID {
   /** @description ID of the IDP group to list/manage channels for. */
