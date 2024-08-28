@@ -434,7 +434,7 @@ being able to reach `api.slack.com` and an error in the response from Slack abou
 something that can be resolved with a retry, so it was retried. The invalid token error means that the call isn't going
 to succeed until your app does something differently, so it stops attempting retries.
 
-You might not think 10 reties in 30 minutes is a good policy for your app. No problem, you can set the `retryConfig` to
+You might not think 10 retries in 30 minutes is a good policy for your app. No problem, you can set the `retryConfig` to
 one that works better for you. The `retryPolicies` export contains a few well known options, and you can always write
 your own.
 
