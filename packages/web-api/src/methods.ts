@@ -162,6 +162,7 @@ import type {
   ConversationsRepliesArguments,
   ConversationsRequestSharedInviteApproveArguments,
   ConversationsRequestSharedInviteDenyArguments,
+  ConversationsRequestSharedInviteListArguments,
   ConversationsSetPurposeArguments,
   ConversationsSetTopicArguments,
   ConversationsUnarchiveArguments,
@@ -411,6 +412,7 @@ import type {
   ConversationsRepliesResponse,
   ConversationsRequestSharedInviteApproveResponse,
   ConversationsRequestSharedInviteDenyResponse,
+  ConversationsRequestSharedInviteListResponse,
   ConversationsSetPurposeResponse,
   ConversationsSetTopicResponse,
   ConversationsUnarchiveResponse,
@@ -1731,6 +1733,11 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @see {@link https://api.slack.com/methods/conversations.requestSharedInvite.deny `conversations.requestSharedInvite.deny` API reference}.
        */
       deny: bindApiCall<ConversationsRequestSharedInviteDenyArguments, ConversationsRequestSharedInviteDenyResponse>(this, 'conversations.requestSharedInvite.deny'),
+      /**
+       * @description Lists requests to add external users to channels with ability to filter.
+       * @see {@link https://api.slack.com/methods/conversations.requestSharedInvite.list `conversations.requestSharedInvite.list` API reference}.
+       */
+      list: bindApiCall<ConversationsRequestSharedInviteListArguments, ConversationsRequestSharedInviteListResponse>(this, 'conversations.requestSharedInvite.list'),
     },
     /**
      * @description Sets the purpose for a conversation.
