@@ -6,13 +6,9 @@ import type {
   OptionalTeamAssignable,
   TeamID,
   TokenOverridable,
+  UserID,
   UserIDs,
 } from '../common';
-
-interface UserID {
-  /** @description The ID of the user. */
-  user_id: string;
-}
 
 interface IsRestricted {
   /** @description Set to `true` if user should be added to the workspace as a guest. */

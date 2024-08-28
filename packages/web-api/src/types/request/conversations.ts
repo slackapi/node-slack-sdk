@@ -209,6 +209,20 @@ export interface ConversationsRequestSharedInviteApproveArguments extends Invite
 // https://api.slack.com/methods/conversations.requestSharedInvite.deny
 export interface ConversationsRequestSharedInviteDenyArguments extends InviteID, Message { }
 
+// https://api.slack.com/methods/conversations.requestSharedInvite.list
+export interface ConversationsRequestSharedInviteListArguments extends CursorPaginationEnabled {
+  /** @description When `true` approved invitation requests will be returned, otherwise they will be excluded. */
+  include_approved?: boolean;
+  /** @description When `true` denied invitation requests will be returned, otherwise they will be excluded. */
+  include_denied?: boolean;
+  /** @description When `true` expired invitation requests will be returned, otherwise they will be excluded. */
+  include_expired?: boolean;
+  /** @description An optional list of invitation IDs to look up. */
+  invite_ids?: [string, ...string[]];
+  /** @description Optional filter to return invitiation requests for the given user. */
+  user_id?: string;
+}
+
 // https://api.slack.com/methods/conversations.setPurpose
 export interface ConversationsSetPurposeArguments extends Channel, TokenOverridable {
   /** @description A new, specialer purpose. */
