@@ -56,12 +56,19 @@ export interface Channel {
 
 export interface Properties {
   canvas?: Canvas;
+  tabs?:   Tab[];
 }
 
 export interface Canvas {
   file_id?:        string;
   is_empty?:       boolean;
   quip_thread_id?: string;
+}
+
+export interface Tab {
+  id?:    string;
+  label?: string;
+  type?:  string;
 }
 
 export interface Purpose {
