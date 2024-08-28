@@ -21,7 +21,7 @@ export type AdminConversationsSearchResponse = WebAPICallResult & {
 };
 
 export interface Conversation {
-  canvas?:                        Canvas;
+  canvas?:                        ListsClass;
   channel_email_addresses?:       ChannelEmailAddress[];
   channel_manager_count?:         number;
   connected_limited_team_ids?:    string[];
@@ -47,14 +47,15 @@ export interface Conversation {
   is_pending_ext_shared?:         boolean;
   is_private?:                    boolean;
   last_activity_ts?:              number;
-  lists?:                         Canvas;
+  lists?:                         ListsClass;
   member_count?:                  number;
   name?:                          string;
   pending_connected_team_ids?:    string[];
+  properties?:                    Properties;
   purpose?:                       string;
 }
 
-export interface Canvas {
+export interface ListsClass {
   ownership_details?: OwnershipDetail[];
   total_count?:       number;
 }
@@ -78,6 +79,37 @@ export interface Icons {
   image_36?: string;
   image_48?: string;
   image_72?: string;
+}
+
+export interface Properties {
+  at_channel_restricted?: boolean;
+  at_here_restricted?:    boolean;
+  canvas?:                PropertiesCanvas;
+  huddles_restricted?:    boolean;
+  posting_restricted_to?: PostingRestrictedTo;
+  tabs?:                  Tab[];
+  threads_restricted_to?: ThreadsRestrictedTo;
+}
+
+export interface PropertiesCanvas {
+  file_id?:        string;
+  is_empty?:       boolean;
+  quip_thread_id?: string;
+}
+
+export interface PostingRestrictedTo {
+  type?: string[];
+  user?: string[];
+}
+
+export interface Tab {
+  id?:    string;
+  label?: string;
+  type?:  string;
+}
+
+export interface ThreadsRestrictedTo {
+  type?: string[];
 }
 
 export interface ResponseMetadata {

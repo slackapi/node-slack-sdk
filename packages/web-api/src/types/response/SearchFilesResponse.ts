@@ -350,6 +350,8 @@ export interface AccessoryElement {
 
 export interface PurpleElement {
   channel_id?:   string;
+  fallback?:     string;
+  format?:       string;
   name?:         string;
   range?:        string;
   skin_tone?:    number;
@@ -359,6 +361,7 @@ export interface PurpleElement {
   timestamp?:    string;
   type?:         PurpleType;
   unicode?:      string;
+  unsafe?:       boolean;
   url?:          string;
   user_id?:      string;
   usergroup_id?: string;
@@ -366,10 +369,13 @@ export interface PurpleElement {
 }
 
 export interface Style {
-  bold?:   boolean;
-  code?:   boolean;
-  italic?: boolean;
-  strike?: boolean;
+  bold?:             boolean;
+  client_highlight?: boolean;
+  code?:             boolean;
+  highlight?:        boolean;
+  italic?:           boolean;
+  strike?:           boolean;
+  unlink?:           boolean;
 }
 
 export enum PurpleType {
@@ -454,6 +460,7 @@ export interface FileElement {
   attachments?:                             any[];
   blocks?:                                  Block[];
   bot_id?:                                  string;
+  can_toggle_canvas_lock?:                  boolean;
   canvas_template_mode?:                    string;
   cc?:                                      Cc[];
   channel_actions_count?:                   number;
@@ -990,6 +997,7 @@ export interface MessageFile {
   attachments?:                             any[];
   blocks?:                                  any[];
   bot_id?:                                  string;
+  can_toggle_canvas_lock?:                  boolean;
   canvas_template_mode?:                    string;
   cc?:                                      any[];
   channel_actions_count?:                   number;

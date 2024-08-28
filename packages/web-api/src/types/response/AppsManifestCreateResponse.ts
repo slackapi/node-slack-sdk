@@ -29,9 +29,10 @@ export interface Credentials {
 }
 
 export interface Error {
-  code?:    string;
-  message?: string;
-  pointer?: string;
+  code?:              string;
+  message?:           string;
+  pointer?:           string;
+  related_component?: string;
 }
 
 export interface ResponseMetadata {
