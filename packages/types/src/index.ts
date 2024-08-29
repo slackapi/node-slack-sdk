@@ -1,5 +1,6 @@
 export * from './calls';
 export * from './dialog';
+export * from './events';
 export * from './message-metadata';
 export * from './message-attachments';
 export * from './views';

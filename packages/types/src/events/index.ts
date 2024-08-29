@@ -85,89 +85,32 @@ import {
 import { TokensRevokedEvent } from './token';
 import { UserChangeEvent, UserHuddleChangedEvent, UserProfileChangedEvent, UserStatusChangedEvent } from './user';
 
-export { AppDeletedEvent, AppHomeOpenedEvent, AppInstalledEvent, AppMentionEvent, AppRateLimitedEvent, AppRequestedEvent, AppUninstalledEvent, AppUninstalledTeamEvent } from './app';
-export { CallRejectedEvent } from './call';
-export {
-  ChannelArchiveEvent,
-  ChannelCreatedEvent,
-  ChannelDeletedEvent,
-  ChannelHistoryChangedEvent,
-  ChannelIDChangedEvent,
-  ChannelLeftEvent,
-  ChannelRenameEvent,
-  ChannelSharedEvent,
-  ChannelUnarchiveEvent,
-  ChannelUnsharedEvent,
-} from './channel';
-export { DNDUpdatedEvent, DNDUpdatedUserEvent } from './dnd';
-export { EmailDomainChangedEvent } from './email';
-export { EmojiChangedEvent } from './emoji';
-export {
-  FileChangeEvent,
-  FileCommentDeletedEvent,
-  FileCreatedEvent,
-  FileDeletedEvent,
-  FilePublicEvent,
-  FileSharedEvent,
-  FileUnsharedEvent,
-} from './file';
-export { FunctionExecutedEvent } from './function';
-export { GridMigrationFinishedEvent, GridMigrationStartedEvent } from './grid-migration';
-export {
-  GroupArchiveEvent,
-  GroupCloseEvent,
-  GroupDeletedEvent,
-  GroupHistoryChangedEvent,
-  GroupLeftEvent,
-  GroupOpenEvent,
-  GroupRenameEvent,
-  GroupUnarchiveEvent,
-} from './group';
-export { IMCloseEvent, IMCreatedEvent, IMHistoryChangedEvent, IMOpenEvent } from './im';
-export { InviteRequestedEvent } from './invite';
-export { LinkSharedEvent } from './link-shared';
-export { MemberJoinedChannelEvent, MemberLeftChannelEvent } from './channel-membership';
-export { AllMessageEvents, BotMessageEvent, ChannelArchiveMessageEvent, ChannelJoinMessageEvent, ChannelLeaveMessageEvent, ChannelNameMessageEvent, ChannelPostingPermissionsMessageEvent, ChannelPurposeMessageEvent, ChannelTopicMessageEvent, ChannelUnarchiveMessageEvent, EKMAccessDeniedMessageEvent, FileShareMessageEvent, GenericMessageEvent, MeMessageEvent, MessageChangedEvent, MessageDeletedEvent, MessageRepliedEvent, ThreadBroadcastMessageEvent } from './message';
-export { AllMessageMetadataEvents, MessageMetadataDeletedEvent, MessageMetadataPostedEvent, MessageMetadataUpdatedEvent } from './message-metadata';
-export { PinAddedEvent, PinRemovedEvent } from './pin';
-export { ReactionAddedEvent, ReactionRemovedEvent } from './reaction';
-export {
-  SharedChannelInviteAccepted,
-  SharedChannelInviteAcceptedEvent,
-  SharedChannelInviteApproved,
-  SharedChannelInviteApprovedEvent,
-  SharedChannelInviteDeclined,
-  SharedChannelInviteDeclinedEvent,
-  SharedChannelInviteReceived,
-  SharedChannelInviteReceivedEvent,
-  SharedChannelInviteRequestedEvent,
-} from './shared-channel';
-export { StarAddedEvent, StarRemovedEvent } from './star';
-export {
-  SubteamCreated,
-  SubteamCreatedEvent,
-  SubteamMembersChanged,
-  SubteamMembersChangedEvent,
-  SubteamSelfAddedEvent,
-  SubteamSelfRemovedEvent,
-  SubteamUpdatedEvent,
-} from './subteam';
-export {
-  TeamAccessGrantedEvent,
-  TeamAccessRevokedEvent,
-  TeamDomainChangedEvent,
-  TeamJoinEvent,
-  TeamRenameEvent,
-} from './team';
-export { TokensRevokedEvent } from './token';
-export { UserChangeEvent, UserHuddleChangedEvent, UserProfileChangedEvent, UserStatusChangedEvent } from './user';
-export {
-  WorkflowDeletedEvent,
-  WorkflowPublishedEvent,
-  WorkflowStepDeletedEvent,
-  WorkflowStepExecuteEvent,
-  WorkflowUnpublishedEvent,
-} from './steps-from-apps';
+export type MessageEvent = AllMessageEvents;
+export * from './app';
+export * from './call';
+export * from './channel';
+export * from './dnd';
+export * from './email';
+export * from './emoji';
+export * from './file';
+export * from './function';
+export * from './grid-migration';
+export * from './group';
+export * from './im';
+export * from './invite';
+export * from './link-shared';
+export * from './channel-membership';
+export * from './message';
+export * from './message-metadata';
+export * from './pin';
+export * from './reaction';
+export * from './shared-channel';
+export * from './star';
+export * from './subteam';
+export * from './team';
+export * from './token';
+export * from './user';
+export * from './steps-from-apps';
 
 /**
  * All known event types in Slack's Events API
