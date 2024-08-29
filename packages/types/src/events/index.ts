@@ -21,7 +21,6 @@ import {
   ChannelUnarchiveEvent,
   ChannelUnsharedEvent,
 } from './channel';
-import { MemberJoinedChannelEvent, MemberLeftChannelEvent } from './channel-membership';
 import { DNDUpdatedEvent, DNDUpdatedUserEvent } from './dnd';
 import { EmailDomainChangedEvent } from './email';
 import { EmojiChangedEvent } from './emoji';
@@ -49,6 +48,7 @@ import {
 import { IMCloseEvent, IMCreatedEvent, IMHistoryChangedEvent, IMOpenEvent } from './im';
 import { InviteRequestedEvent } from './invite';
 import { LinkSharedEvent } from './link-shared';
+import { MemberJoinedChannelEvent, MemberLeftChannelEvent } from './member';
 import { AllMessageEvents } from './message';
 import { AllMessageMetadataEvents } from './message-metadata';
 import { PinAddedEvent, PinRemovedEvent } from './pin';
@@ -99,7 +99,7 @@ export * from './group';
 export * from './im';
 export * from './invite';
 export * from './link-shared';
-export * from './channel-membership';
+export * from './member';
 export * from './message';
 export * from './message-metadata';
 export * from './pin';
