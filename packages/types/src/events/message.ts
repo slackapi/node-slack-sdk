@@ -1,4 +1,5 @@
 import { Block, KnownBlock } from '../block-kit/blocks';
+import { BotProfile } from '../common/bot-profile';
 import { MessageAttachment } from '../message-attachments';
 
 type ChannelTypes = 'channel' | 'group' | 'im' | 'mpim' | 'app_home';
@@ -283,18 +284,6 @@ export interface ThreadBroadcastMessageEvent {
   client_msg_id: string;
   channel: string;
   channel_type: ChannelTypes;
-}
-
-interface BotProfile {
-  id: string;
-  name: string;
-  app_id: string;
-  team_id: string;
-  icons: {
-    [size: string]: string;
-  };
-  updated: number;
-  deleted: boolean;
 }
 
 interface File {
