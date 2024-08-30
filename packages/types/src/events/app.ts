@@ -15,6 +15,7 @@ export interface AppRequestedEvent {
       privacy_policy_url: string;
       app_homepage_url: string;
       app_directory_url: string;
+      is_granular_bot_app: boolean;
       is_app_directory_approved: boolean;
       is_internal: boolean;
       additional_info: string;
