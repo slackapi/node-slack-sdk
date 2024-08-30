@@ -13,7 +13,11 @@ import { PlainTextElement } from './block-kit/composition-objects';
  * Message attachments are considered a legacy part of messaging functionality. They are not deprecated per se, but they may change in the future, in ways that reduce their visibility or utility. We recommend moving to Block Kit instead. Read more about {@link https://api.slack.com/messaging/composing/layouts#when-to-use-attachments when to use message attachments}.
  * @see {@link https://api.slack.com/reference/messaging/attachments Secondary message attachments reference documentation}
  */
-export interface MessageAttachment {
+export type MessageAttachment = LegacyAttachment | BlocksAttachment;
+
+interface BlocksAttachment {
+}
+interface LegacyAttachment {
   /**
    * @description An array of {@link KnownBlock layout blocks} in the same format
    * {@link https://api.slack.com/block-kit/building as described in the building blocks guide}.
