@@ -1,0 +1,31 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directories:
+      - "/packages/cli-hooks"
+      - "/packages/cli-test"
+      - "/packages/logger"
+      - "/packages/oauth"
+      - "/packages/socket-mode"
+      - "/packages/types"
+      - "/packages/web-api"
+      - "/packages/web-api/test/integration-tests/**"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+  - package-ecosystem: "npm"
+    directories:
+      - "/"
+      - "/docs"
+      - "/examples/*"
+    schedule:
+      interval: "monthly"
+    groups:
+      docusaurus:
+        patterns:
+          - "@docusaurus/*"
+          - "@slack/*"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
