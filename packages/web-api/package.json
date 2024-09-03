@@ -67,7 +67,7 @@
     "@types/mocha": "^10",
     "@types/sinon": "^17",
     "@typescript-eslint/eslint-plugin": "^6",
-    "@typescript-eslint/parser": "^6",
+    "@typescript-eslint/parser": "^8",
     "busboy": "^1",
     "c8": "^9.1.0",
     "chai": "^4",
