@@ -65,7 +65,7 @@
     "eslint-plugin-node": "^11.1.0",
     "mocha": "^10.2.0",
     "shx": "^0.3.4",
-    "sinon": "^17.0.1",
+    "sinon": "^18.0.0",
     "typescript": "5.5.4"
   }
 }
