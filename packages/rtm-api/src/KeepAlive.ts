@@ -1,8 +1,8 @@
 import { EventEmitter } from 'eventemitter3';
 
-import { CodedError, ErrorCode } from './errors';
-import { LogLevel, Logger, getLogger } from './logger';
-import { RTMClient } from './RTMClient';
+import type { RTMClient } from './RTMClient';
+import { type CodedError, ErrorCode } from './errors';
+import { LogLevel, type Logger, getLogger } from './logger';
 
 export interface KeepAliveOptions {
   logger?: Logger;
@@ -140,7 +140,7 @@ export class KeepAlive extends EventEmitter {
   private clearPreviousPingTimer(): void {
     if (this.pingTimer !== undefined) {
       clearTimeout(this.pingTimer);
-      delete this.pingTimer;
+      this.pingTimer = undefined;
     }
   }
 
@@ -175,7 +175,8 @@ export class KeepAlive extends EventEmitter {
         throw error;
       }
       this.logger.debug('ping timer expired, sending ping');
-      this.client.send('ping')
+      this.client
+        .send('ping')
         .then((messageId) => {
           if (this.client === undefined) {
             if (!this.isMonitoring) {
@@ -192,35 +193,32 @@ export class KeepAlive extends EventEmitter {
 
           this.logger.debug('setting pong timer');
 
-          this.pongTimer = setTimeout(
-            () => {
-              if (this.client === undefined) {
-                // if monitoring stopped before the pong timer fires, its safe to return
-                if (!this.isMonitoring) {
-                  this.logger.debug('stopped monitoring before pong timer fired');
-                  return;
-                }
-                const error = new Error('no client found');
-                (error as CodedError).code = ErrorCode.KeepAliveInconsistentState;
-                throw error;
+          this.pongTimer = setTimeout(() => {
+            if (this.client === undefined) {
+              // if monitoring stopped before the pong timer fires, its safe to return
+              if (!this.isMonitoring) {
+                this.logger.debug('stopped monitoring before pong timer fired');
+                return;
               }
-              // signal that this pong is done being handled
-              this.client.off('slack_event', this.attemptAcknowledgePong);
+              const error = new Error('no client found');
+              (error as CodedError).code = ErrorCode.KeepAliveInconsistentState;
+              throw error;
+            }
+            // signal that this pong is done being handled
+            this.client.off('slack_event', this.attemptAcknowledgePong);
 
-              // no pong received to acknowledge the last ping within the serverPongTimeout
-              this.logger.debug('pong timer expired, recommend reconnect');
-              this.recommendReconnect = true;
-              this.emit('recommend_reconnect');
-            },
-            this.serverPongTimeout,
-          );
+            // no pong received to acknowledge the last ping within the serverPongTimeout
+            this.logger.debug('pong timer expired, recommend reconnect');
+            this.recommendReconnect = true;
+            this.emit('recommend_reconnect');
+          }, this.serverPongTimeout);
 
           this.client.on('slack_event', this.attemptAcknowledgePong, this);
         })
         .catch((error) => {
           this.logger.error(`Unhandled error: ${error.message}. Please report to @slack/rtm-api package maintainers.`);
         });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
     } catch (error: any) {
       this.logger.error(`Unhandled error: ${error.message}. Please report to @slack/rtm-api package maintainers.`);
     }
@@ -250,7 +248,7 @@ export class KeepAlive extends EventEmitter {
     if (this.lastPing !== undefined && event.reply_to !== undefined && (event.reply_to as number) >= this.lastPing) {
       // this message is a reply that acks the previous ping, clear the last ping
       this.logger.debug('received pong, clearing pong timer');
-      delete this.lastPing;
+      this.lastPing = undefined;
 
       // signal that this pong is done being handled
       this.clearPreviousPongTimer();
