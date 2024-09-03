@@ -9,7 +9,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "dist",
-    "sourceMap": true,
+    "skipLibCheck": true,
+    "sourceMap": true
   },
   "extends": "@tsconfig/recommended/tsconfig.json",
   "include": [
