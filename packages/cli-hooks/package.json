@@ -59,7 +59,7 @@
     "@types/node": "^22.5.2",
     "@types/semver": "^7.5.6",
     "@types/sinon": "^17.0.3",
-    "c8": "^9.0.0",
+    "c8": "^10.1.2",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-jsdoc": "^50.2.2",
     "eslint-plugin-node": "^11.1.0",
