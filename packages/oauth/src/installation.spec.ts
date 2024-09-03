@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { describe, it } from 'mocha';
 
-import { Installation } from './installation';
+import type { Installation } from './installation';
 
 describe('Installation', async () => {
   it('should be a team-level installation (bot)', async () => {

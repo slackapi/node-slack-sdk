@@ -1,11 +1,10 @@
-import { IncomingMessage, ServerResponse } from 'http';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 
-import { CodedError, ErrorCode } from './errors';
-import { InstallURLOptions } from './install-url-options';
-import { Installation, OrgInstallation } from './installation';
+import { type CodedError, ErrorCode } from './errors';
+import type { InstallURLOptions } from './install-url-options';
+import type { Installation, OrgInstallation } from './installation';
 
 export interface CallbackOptions {
-
   /**
    * An additional logic to run right before executing the Slack app installation with the given OAuth code parameter.
    *
@@ -171,12 +170,13 @@ function isOrgInstall(installation: Installation): installation is OrgInstallati
 }
 
 function isNotOrgInstall(installation: Installation): installation is Installation<'v1' | 'v2', false> {
-  return !(isOrgInstall(installation));
+  return !isOrgInstall(installation);
 }
 
 export function escapeHtml(input: string | undefined | null): string {
   if (input) {
-    return input.replace(/&/g, '&amp;')
+    return input
+      .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')

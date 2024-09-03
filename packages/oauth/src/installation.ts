@@ -28,29 +28,33 @@
  *
  * TODO: IsEnterpriseInstall is always false when AuthVersion is v1
  */
-export interface Installation<AuthVersion extends ('v1' | 'v2') = ('v1' | 'v2'),
- IsEnterpriseInstall extends boolean = boolean> {
+export interface Installation<
+  AuthVersion extends 'v1' | 'v2' = 'v1' | 'v2',
+  IsEnterpriseInstall extends boolean = boolean,
+> {
   /**
-  * TODO: when performing a “single workspace” install with the admin scope on the enterprise,
-  * is the team property returned from oauth.access?
-  */
-  team: IsEnterpriseInstall extends true ? undefined : {
-    id: string;
-    /** Left as undefined when not returned from fetch. */
-    name?: string;
-  };
+   * TODO: when performing a “single workspace” install with the admin scope on the enterprise,
+   * is the team property returned from oauth.access?
+   */
+  team: IsEnterpriseInstall extends true
+    ? undefined
+    : {
+        id: string;
+        /** Left as undefined when not returned from fetch. */
+        name?: string;
+      };
 
   /**
-  * When the installation is an enterprise install or when the installation occurs on the org to acquire `admin` scope,
-  * the name and ID of the enterprise org.
-  */
-  enterprise: IsEnterpriseInstall extends true ? EnterpriseInfo : (EnterpriseInfo | undefined);
+   * When the installation is an enterprise install or when the installation occurs on the org to acquire `admin` scope,
+   * the name and ID of the enterprise org.
+   */
+  enterprise: IsEnterpriseInstall extends true ? EnterpriseInfo : EnterpriseInfo | undefined;
 
   user: {
-    token: AuthVersion extends 'v1' ? string : (string | undefined);
-    refreshToken?: AuthVersion extends 'v1' ? never : (string | undefined);
-    expiresAt?: AuthVersion extends 'v1' ? never : (number | undefined); // utc, seconds
-    scopes: AuthVersion extends 'v1' ? string[] : (string[] | undefined);
+    token: AuthVersion extends 'v1' ? string : string | undefined;
+    refreshToken?: AuthVersion extends 'v1' ? never : string | undefined;
+    expiresAt?: AuthVersion extends 'v1' ? never : number | undefined; // utc, seconds
+    scopes: AuthVersion extends 'v1' ? string[] : string[] | undefined;
     id: string;
   };
 
@@ -79,9 +83,9 @@ export interface Installation<AuthVersion extends ('v1' | 'v2') = ('v1' | 'v2'),
   tokenType?: 'bot';
 
   /**
-  * When the installation is an enterprise org install, the URL of the landing page for all workspaces in the org.
-  * Left as undefined when not returned from fetch.
-  */
+   * When the installation is an enterprise org install, the URL of the landing page for all workspaces in the org.
+   * Left as undefined when not returned from fetch.
+   */
   enterpriseUrl?: AuthVersion extends 'v2' ? string : undefined;
 
   /** Whether the installation was performed on an enterprise org. Synthesized as `false` when not present. */
@@ -95,8 +99,8 @@ export interface Installation<AuthVersion extends ('v1' | 'v2') = ('v1' | 'v2'),
 }
 
 /**
-* A type to describe enterprise organization installations.
-*/
+ * A type to describe enterprise organization installations.
+ */
 export type OrgInstallation = Installation<'v2', true>;
 
 interface EnterpriseInfo {

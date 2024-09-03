@@ -1,12 +1,12 @@
-import fs from 'fs';
-import { homedir } from 'os';
-import path from 'path';
+import fs from 'node:fs';
+import { homedir } from 'node:os';
+import path from 'node:path';
 
-import { ConsoleLogger, Logger } from '@slack/logger';
+import { ConsoleLogger, type Logger } from '@slack/logger';
 
-import { StateObj, StateStore } from './interface';
 import { InvalidStateError } from '../errors';
-import { InstallURLOptions } from '../install-url-options';
+import type { InstallURLOptions } from '../install-url-options';
+import type { StateObj, StateStore } from './interface';
 
 export interface FileStateStoreArgs {
   stateExpirationSeconds?: number;
@@ -22,19 +22,12 @@ export class FileStateStore implements StateStore {
   private logger: Logger;
 
   public constructor(args: FileStateStoreArgs) {
-    this.baseDir = args.baseDir !== undefined ?
-      args.baseDir :
-      `${homedir()}/.bolt-js-oauth-states`;
-    this.stateExpirationSeconds = args.stateExpirationSeconds !== undefined ?
-      args.stateExpirationSeconds :
-      600;
+    this.baseDir = args.baseDir !== undefined ? args.baseDir : `${homedir()}/.bolt-js-oauth-states`;
+    this.stateExpirationSeconds = args.stateExpirationSeconds !== undefined ? args.stateExpirationSeconds : 600;
     this.logger = args.logger !== undefined ? args.logger : new ConsoleLogger();
   }
 
-  public async generateStateParam(
-    installOptions: InstallURLOptions,
-    now: Date,
-  ): Promise<string> {
+  public async generateStateParam(installOptions: InstallURLOptions, now: Date): Promise<string> {
     let state = generateRandomString();
     while (this.alreadyExists(state)) {
       // Still race condition can arise here
@@ -45,10 +38,7 @@ export class FileStateStore implements StateStore {
     return state;
   }
 
-  public async verifyStateParam(
-    now: Date,
-    state: string,
-  ): Promise<InstallURLOptions> {
+  public async verifyStateParam(now: Date, state: string): Promise<InstallURLOptions> {
     try {
       // decode the state using the secret
       let decoded: StateObj | undefined;
@@ -61,9 +51,7 @@ export class FileStateStore implements StateStore {
       if (decoded !== undefined) {
         // Check if the state value is not too old
         const generatedAt = new Date(decoded.now);
-        const passedSeconds = Math.floor(
-          (now.getTime() - generatedAt.getTime()) / 1000,
-        );
+        const passedSeconds = Math.floor((now.getTime() - generatedAt.getTime()) / 1000);
         if (passedSeconds > this.stateExpirationSeconds) {
           throw new InvalidStateError('The state value is already expired');
         }
@@ -115,7 +103,7 @@ export class FileStateStore implements StateStore {
 
 const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-function generateRandomString(length: number = 10): string {
+function generateRandomString(length = 10): string {
   let generated = '';
   for (let i = 0; i < length; i += 1) {
     const position = Math.floor(Math.random() * chars.length);

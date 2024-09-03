@@ -1,14 +1,14 @@
-import { IncomingMessage, ServerResponse } from 'http';
-import { URL, URLSearchParams } from 'url';
+import type { IncomingMessage, ServerResponse } from 'node:http';
+import { URL, URLSearchParams } from 'node:url';
 
-import { WebAPICallResult, WebClient, WebClientOptions } from '@slack/web-api';
+import { type WebAPICallResult, WebClient, type WebClientOptions } from '@slack/web-api';
 
-import { AuthorizeResult } from './authorize-result';
-import { CallbackOptions, defaultCallbackFailure, defaultCallbackSuccess } from './callback-options';
+import type { AuthorizeResult } from './authorize-result';
+import { type CallbackOptions, defaultCallbackFailure, defaultCallbackSuccess } from './callback-options';
 import defaultRenderHtmlForInstallPath from './default-render-html-for-install-path';
 import {
   AuthorizationError,
-  CodedError,
+  type CodedError,
   ErrorCode,
   GenerateInstallUrlError,
   InstallerInitializationError,
@@ -17,14 +17,14 @@ import {
   MissingStateError,
   UnknownError,
 } from './errors';
-import { InstallPathOptions } from './install-path-options';
-import { InstallProviderOptions } from './install-provider-options';
-import { InstallURLOptions } from './install-url-options';
-import { Installation } from './installation';
-import { InstallationQuery } from './installation-query';
-import { InstallationStore, MemoryInstallationStore } from './installation-stores';
-import { LogLevel, Logger, getLogger } from './logger';
-import { ClearStateStore, StateStore } from './state-stores';
+import type { InstallPathOptions } from './install-path-options';
+import type { InstallProviderOptions } from './install-provider-options';
+import type { InstallURLOptions } from './install-url-options';
+import type { Installation } from './installation';
+import type { InstallationQuery } from './installation-query';
+import { type InstallationStore, MemoryInstallationStore } from './installation-stores';
+import { LogLevel, type Logger, getLogger } from './logger';
+import { ClearStateStore, type StateStore } from './state-stores';
 
 /**
  * InstallProvider Class. Refer to InsallProviderOptions interface for the details of constructor arguments.
@@ -125,7 +125,9 @@ export class InstallProvider {
 
     this.directInstall = directInstall;
     if (!stateVerification) {
-      this.logger.warn("You've set InstallProvider#stateVerification to false. This flag is intended to enable org-wide app installations from admin pages. If this isn't your scenario, we recommend setting stateVerification to true and starting your OAuth flow from the provided `/slack/install` or your own starting endpoint.");
+      this.logger.warn(
+        "You've set InstallProvider#stateVerification to false. This flag is intended to enable org-wide app installations from admin pages. If this isn't your scenario, we recommend setting stateVerification to true and starting your OAuth flow from the provided `/slack/install` or your own starting endpoint.",
+      );
     }
     // Setup stateStore
     if (stateStore !== undefined) {
@@ -150,7 +152,9 @@ export class InstallProvider {
 
     this.authorizationUrl = authorizationUrl;
     if (authorizationUrl !== 'https://slack.com/oauth/v2/authorize' && authVersion === 'v1') {
-      this.logger.info('You provided both an authorizationUrl and an authVersion! The authVersion will be ignored in favor of the authorizationUrl.');
+      this.logger.info(
+        'You provided both an authorizationUrl and an authVersion! The authVersion will be ignored in favor of the authorizationUrl.',
+      );
     } else if (authVersion === 'v1') {
       this.authorizationUrl = 'https://slack.com/oauth/authorize';
     }
@@ -222,18 +226,19 @@ export class InstallProvider {
       }
 
       /*
-      * Token Rotation (Expiry Check + Refresh)
-      * The presence of `(bot|user)TokenExpiresAt` indicates having opted into token rotation.
-      * If the token has expired, or will expire within 2 hours, the token is refreshed and
-      * the `authResult` and `Installation` are updated with the new values.
-      */
+       * Token Rotation (Expiry Check + Refresh)
+       * The presence of `(bot|user)TokenExpiresAt` indicates having opted into token rotation.
+       * If the token has expired, or will expire within 2 hours, the token is refreshed and
+       * the `authResult` and `Installation` are updated with the new values.
+       */
       if (authResult.botRefreshToken || authResult.userRefreshToken) {
         const currentUTCSec = Math.floor(Date.now() / 1000); // seconds
         const tokensToRefresh: string[] = detectExpiredOrExpiringTokens(authResult, currentUTCSec);
 
         if (tokensToRefresh.length > 0) {
           if (queryResult.authVersion !== 'v2') {
-            const errorMessage = 'Unexpected data structure detected. ' +
+            const errorMessage =
+              'Unexpected data structure detected. ' +
               'The data returned by your InstallationStore#fetchInstallation() method must have "authVersion": "v2" ' +
               'if it has a refresh token';
             throw new UnknownError(errorMessage);
@@ -241,9 +246,9 @@ export class InstallProvider {
           const refreshResponses: OAuthV2TokenRefreshResponse[] = await this.refreshExpiringTokens(tokensToRefresh);
           if (refreshResponses.length) {
             const installationUpdates: TokenRefreshInstallationUpdates = {
-              ...queryResult as Installation<'v2', boolean>,
+              ...(queryResult as Installation<'v2', boolean>),
             };
-            refreshResponses.forEach((refreshResp) => {
+            for (const refreshResp of refreshResponses) {
               const tokenType = refreshResp.token_type;
 
               // Update Authorization
@@ -270,7 +275,7 @@ export class InstallProvider {
                 const errorMessage = `Unexpected data structure detected. The data returned by your InstallationStore#fetchInstallation() method must have ${tokenType} at top-level`;
                 throw new UnknownError(errorMessage);
               }
-            });
+            }
             await this.installationStore.storeInstallation(installationUpdates);
             this.logger.debug('Refreshed tokens have been saved in InstallationStore');
           } else {
@@ -281,7 +286,7 @@ export class InstallProvider {
 
       return authResult;
     } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: errors can be any
       throw new AuthorizationError((error as any).message);
     } finally {
       this.logger.debug(`Completed authorize() execution (source: ${sourceForLogging})`);
@@ -301,12 +306,13 @@ export class InstallProvider {
   }
 
   private async refreshExpiringToken(refreshToken: string): Promise<OAuthV2TokenRefreshResponse | Error> {
-    return this.noTokenClient.oauth.v2.access({
-      client_id: this.clientId,
-      client_secret: this.clientSecret,
-      grant_type: 'refresh_token',
-      refresh_token: refreshToken,
-    })
+    return this.noTokenClient.oauth.v2
+      .access({
+        client_id: this.clientId,
+        client_secret: this.clientSecret,
+        grant_type: 'refresh_token',
+        refresh_token: refreshToken,
+      })
       .then((res) => res as OAuthV2TokenRefreshResponse)
       .catch((e) => {
         this.logger.error(`Failed to perform oauth.v2.access API call for token rotation: (error: ${e})`);
@@ -320,7 +326,7 @@ export class InstallProvider {
 
   /**
    * Handles the install path (the default is /slack/install) requests from an app installer.
-  */
+   */
   public async handleInstallPath(
     req: IncomingMessage,
     res: ServerResponse,
@@ -328,11 +334,12 @@ export class InstallProvider {
     installOptions?: InstallURLOptions,
   ): Promise<void> {
     if (installOptions === undefined && this.installUrlOptions === undefined) {
-      const errorMessage = 'To enable the built-in install path handler, you need to pass InstallURLOptions to InstallProvider. ' +
+      const errorMessage =
+        'To enable the built-in install path handler, you need to pass InstallURLOptions to InstallProvider. ' +
         "If you're using @slack/bolt, please upgrade the framework to the latest version.";
       throw new GenerateInstallUrlError(errorMessage);
     }
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // biome-ignore lint/style/noNonNullAssertion: TODO: we should really rewrite the logic here to drop these
     const _installOptions: InstallURLOptions = installOptions! || this.installUrlOptions!;
     const _printableOptions = JSON.stringify(_installOptions);
     this.logger.debug(`Running handleInstallPath() with ${_printableOptions}`);
@@ -396,7 +403,7 @@ export class InstallProvider {
     } catch (e: unknown) {
       const message = `An unhandled error occurred while processing an install path request (error: ${e})`;
       this.logger.error(message);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: errors can be any
       throw new GenerateInstallUrlError((e as any).message);
     }
   }
@@ -407,7 +414,7 @@ export class InstallProvider {
    */
   public async generateInstallUrl(
     options: InstallURLOptions,
-    stateVerification: boolean = true,
+    stateVerification = true,
     state?: string,
   ): Promise<string> {
     const slackURL = new URL(this.authorizationUrl);
@@ -418,7 +425,7 @@ export class InstallProvider {
 
     // scope
     let scopes: string;
-    if (options.scopes instanceof Array) {
+    if (Array.isArray(options.scopes)) {
       scopes = options.scopes.join(',');
     } else {
       scopes = options.scopes;
@@ -455,7 +462,7 @@ export class InstallProvider {
     // user scope, only available for OAuth v2
     if (options.userScopes !== undefined && this.authVersion === 'v2') {
       let userScopes: string;
-      if (options.userScopes instanceof Array) {
+      if (Array.isArray(options.userScopes)) {
         userScopes = options.userScopes.join(',');
       } else {
         userScopes = options.userScopes;
@@ -500,7 +507,9 @@ export class InstallProvider {
           throw new MissingCodeError('Redirect url is missing the required code query parameter');
         }
         if (this.stateVerification && !stateInQueryString) {
-          throw new MissingStateError('Redirect url is missing the state query parameter. If this is intentional, see options for disabling default state verification.');
+          throw new MissingStateError(
+            'Redirect url is missing the state query parameter. If this is intentional, see options for disabling default state verification.',
+          );
         }
       } else {
         throw new UnknownError('Something went wrong');
@@ -511,15 +520,17 @@ export class InstallProvider {
           if (this.legacyStateVerification) {
             // This mode is not enabled by default
             // This option is for some of the existing developers that need time for migration
-            this.logger.warn('Enabling legacyStateVerification is not recommended as it does not properly work for OAuth CSRF protection. Please consider migrating from directly using InstallProvider#generateInstallUrl() to InstallProvider#handleInstallPath() for serving the install path.');
+            this.logger.warn(
+              'Enabling legacyStateVerification is not recommended as it does not properly work for OAuth CSRF protection. Please consider migrating from directly using InstallProvider#generateInstallUrl() to InstallProvider#handleInstallPath() for serving the install path.',
+            );
           } else {
             const stateInBrowserSession: string | undefined = extractCookieValue(req, this.stateCookieName);
-            if (!stateInBrowserSession || (stateInBrowserSession !== stateInQueryString)) {
+            if (!stateInBrowserSession || stateInBrowserSession !== stateInQueryString) {
               throw new InvalidStateError('The state parameter is not for this browser session.');
             }
           }
           if (this.stateStore) {
-            // eslint-disable-next-line no-param-reassign
+            // biome-ignore lint/style/noParameterAssign: we reassigning, deal with it
             installOptions = await this.stateStore.verifyStateParam(new Date(), stateInQueryString);
           } else {
             throw new InstallerInitializationError('StateStore is not properly configured');
@@ -531,7 +542,7 @@ export class InstallProvider {
       }
       if (!installOptions) {
         const emptyInstallOptions: InstallURLOptions = { scopes: [] };
-        // eslint-disable-next-line no-param-reassign
+        // biome-ignore lint/style/noParameterAssign: we reassigning, deal with it
         installOptions = emptyInstallOptions;
       }
 
@@ -554,12 +565,12 @@ export class InstallProvider {
 
       if (this.authVersion === 'v1') {
         // convert response type from WebApiCallResult to OAuthResponse
-        const v1Resp = await this.noTokenClient.oauth.access({
+        const v1Resp = (await this.noTokenClient.oauth.access({
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
           redirect_uri: installOptions.redirectUri,
-        }) as OAuthV1Response;
+        })) as OAuthV1Response;
 
         // resp obj for v1 - https://api.slack.com/methods/oauth.access#response
         const v1Installation: Installation<'v1', false> = {
@@ -595,12 +606,12 @@ export class InstallProvider {
         installation = v1Installation;
       } else {
         // convert response type from WebApiCallResult to OAuthResponse
-        const v2Resp = await this.noTokenClient.oauth.v2.access({
+        const v2Resp = (await this.noTokenClient.oauth.v2.access({
           code,
           client_id: this.clientId,
           client_secret: this.clientSecret,
           redirect_uri: installOptions.redirectUri,
-        }) as OAuthV2Response;
+        })) as OAuthV2Response;
 
         // resp obj for v2 - https://api.slack.com/methods/oauth.v2.access#response
         const v2Installation: Installation<'v2', boolean> = {
@@ -690,9 +701,7 @@ export class InstallProvider {
       await this.installationStore.storeInstallation(installation, this.logger);
 
       // Call the success callback
-      if (options !== undefined && (
-        options.success !== undefined || options.successAsync !== undefined
-      )) {
+      if (options !== undefined && (options.success !== undefined || options.successAsync !== undefined)) {
         if (options.success !== undefined) {
           this.logger.debug('Calling passed function as callbackOptions.success');
           options.success(installation, installOptions, req, res);
@@ -711,7 +720,7 @@ export class InstallProvider {
       if (!installOptions) {
         // To make the `installOptions` type compatible with `CallbackOptions#failure` signature
         const emptyInstallOptions: InstallURLOptions = { scopes: [] };
-        // eslint-disable-next-line no-param-reassign
+        // biome-ignore lint/style/noParameterAssign: we reassigning, deal with it
         installOptions = emptyInstallOptions;
       }
 
@@ -720,9 +729,7 @@ export class InstallProvider {
       if (codedError.code === undefined) {
         codedError.code = ErrorCode.UnknownError;
       }
-      if (options !== undefined && (
-        options.failure !== undefined || options.failureAsync !== undefined
-      )) {
+      if (options !== undefined && (options.failure !== undefined || options.failureAsync !== undefined)) {
         if (options.failure !== undefined) {
           this.logger.debug('Calling passed function as callbackOptions.failure');
           options.failure(codedError, installOptions, req, res);
@@ -757,12 +764,12 @@ export class InstallProvider {
 export interface OAuthV2Response extends WebAPICallResult {
   app_id: string;
   authed_user: {
-    id: string,
-    scope?: string,
-    access_token?: string,
-    token_type?: string,
-    refresh_token?: string,
-    expires_in?: number,
+    id: string;
+    scope?: string;
+    access_token?: string;
+    token_type?: string;
+    refresh_token?: string;
+    expires_in?: number;
   };
   scope?: string;
   token_type?: 'bot';
@@ -770,14 +777,14 @@ export interface OAuthV2Response extends WebAPICallResult {
   refresh_token?: string;
   expires_in?: number;
   bot_user_id?: string;
-  team: { id: string, name: string } | null;
-  enterprise: { name: string, id: string } | null;
+  team: { id: string; name: string } | null;
+  enterprise: { name: string; id: string } | null;
   is_enterprise_install: boolean;
   incoming_webhook?: {
-    url: string,
-    channel: string,
-    channel_id: string,
-    configuration_url: string,
+    url: string;
+    channel: string;
+    channel_id: string;
+    configuration_url: string;
   };
 }
 
@@ -789,8 +796,8 @@ export interface OAuthV2TokenRefreshResponse extends WebAPICallResult {
   refresh_token: string;
   expires_in: number;
   bot_user_id?: string;
-  team: { id: string, name: string };
-  enterprise: { name: string, id: string } | null;
+  team: { id: string; name: string };
+  enterprise: { name: string; id: string } | null;
   is_enterprise_install: boolean;
 }
 
@@ -807,12 +814,12 @@ interface OAuthV1Response extends WebAPICallResult {
   team_id: string;
   enterprise_id: string | null;
   // if they request bot user token
-  bot?: { bot_user_id: string, bot_access_token: string };
+  bot?: { bot_user_id: string; bot_access_token: string };
   incoming_webhook?: {
-    url: string,
-    channel: string,
-    channel_id: string,
-    configuration_url: string,
+    url: string;
+    channel: string;
+    channel_id: string;
+    configuration_url: string;
   };
   // app_id is currently undefined but leaving it in here incase the v1 method adds it
   app_id: string | undefined;
@@ -840,12 +847,12 @@ async function runAuthTest(token: string, clientOptions: WebClientOptions): Prom
 // This type is used only in this source file
 type TokenRefreshInstallationUpdates = Installation<'v2', boolean> & {
   bot?: {
-    token: string,
+    token: string;
     refreshToken?: string;
     expiresAt?: number;
   };
   user: {
-    token?: string,
+    token?: string;
     refreshToken?: string;
     expiresAt?: number;
   };
@@ -860,16 +867,22 @@ function detectExpiredOrExpiringTokens(authResult: AuthorizeResult, currentUTCSe
   const tokensToRefresh: string[] = [];
   const EXPIRY_WINDOW: number = 7200; // 2 hours
 
-  if (authResult.botRefreshToken &&
-    (authResult.botTokenExpiresAt !== undefined && authResult.botTokenExpiresAt !== null)) {
+  if (
+    authResult.botRefreshToken &&
+    authResult.botTokenExpiresAt !== undefined &&
+    authResult.botTokenExpiresAt !== null
+  ) {
     const botTokenExpiresIn = authResult.botTokenExpiresAt - currentUTCSec;
     if (botTokenExpiresIn <= EXPIRY_WINDOW) {
       tokensToRefresh.push(authResult.botRefreshToken);
     }
   }
 
-  if (authResult.userRefreshToken &&
-    (authResult.userTokenExpiresAt !== undefined && authResult.userTokenExpiresAt !== null)) {
+  if (
+    authResult.userRefreshToken &&
+    authResult.userTokenExpiresAt !== undefined &&
+    authResult.userTokenExpiresAt !== null
+  ) {
     const userTokenExpiresIn = authResult.userTokenExpiresAt - currentUTCSec;
     if (userTokenExpiresIn <= EXPIRY_WINDOW) {
       tokensToRefresh.push(authResult.userRefreshToken);

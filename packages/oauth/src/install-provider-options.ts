@@ -1,12 +1,11 @@
-import { LogLevel, Logger } from '@slack/logger';
-import { WebClientOptions } from '@slack/web-api';
+import type { LogLevel, Logger } from '@slack/logger';
+import type { WebClientOptions } from '@slack/web-api';
 
-import { InstallURLOptions } from './install-url-options';
-import { InstallationStore } from './installation-stores';
-import { StateStore } from './state-stores';
+import type { InstallURLOptions } from './install-url-options';
+import type { InstallationStore } from './installation-stores';
+import type { StateStore } from './state-stores';
 
 export interface InstallProviderOptions {
-
   /**
    * Client ID, which can be found under the Basic Information section of your application on https://api.slack.com/apps
    */
@@ -97,5 +96,4 @@ export interface InstallProviderOptions {
    * The customization options for WebClient
    */
   clientOptions?: Omit<WebClientOptions, 'logLevel' | 'logger'>;
-
 }

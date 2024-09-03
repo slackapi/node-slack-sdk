@@ -19,22 +19,15 @@
     "paths": {
       "*": ["./types/*"]
     },
-    "esModuleInterop" : true,
+    "esModuleInterop": true
 
     // Not using this setting because its only used to require the package.json file, and that would change the
     // structure of the files in the dist directory because package.json is not located inside src. It would be nice
     // to use import instead of require(), but its not worth the tradeoff of restructuring the build (for now).
     // "resolveJsonModule": true,
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "src/**/spec-utils.ts",
-    "src/**/*.spec.js",
-    "src/**/*.spec.ts",
-    "src/**/*.js"
-  ],
+  "include": ["src/**/*"],
+  "exclude": ["src/**/spec-utils.ts", "src/**/*.spec.js", "src/**/*.spec.ts", "src/**/*.js"],
   "jsdoc": {
     "out": "support/jsdoc",
     "access": "public"
