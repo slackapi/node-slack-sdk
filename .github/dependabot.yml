@@ -1,0 +1,35 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directories:
+      - "/packages/cli-hooks"
+      - "/packages/cli-test"
+      - "/packages/logger"
+      - "/packages/oauth"
+      - "/packages/socket-mode"
+      - "/packages/types"
+      - "/packages/web-api"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    allow:
+      - dependency-name: "typescript"
+      - dependency-name: "@types/node"
+  - package-ecosystem: "npm"
+    directories:
+      - "/"
+      - "/docs"
+      - "/examples/*"
+    schedule:
+      interval: "monthly"
+    allow:
+      - dependency-name: "@slack/*"
+    groups:
+      docusaurus:
+        patterns:
+          - "@docusaurus/*"
+          - "@slack/*"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
