@@ -10,8 +10,8 @@
   "author": "Ankur Oberoi <aoberoi@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@slack/interactive-messages": "^1.1.1",
-    "@slack/web-api": "^5.0.0",
+    "@slack/interactive-messages": "^2.0.2",
+    "@slack/web-api": "^7.3.4",
     "axios": "^1.6.0",
     "body-parser": "^1.18.2",
     "dotenv": "^5.0.1",
