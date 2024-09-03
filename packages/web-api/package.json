@@ -70,7 +70,7 @@
     "@typescript-eslint/parser": "^6",
     "busboy": "^1",
     "c8": "^9.1.0",
-    "chai": "^4",
+    "chai": "^5",
     "eslint": "^8",
     "eslint-config-airbnb-base": "^15",
     "eslint-config-airbnb-typescript": "^17",
