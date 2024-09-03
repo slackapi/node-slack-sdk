@@ -4,15 +4,10 @@
   "description": "Logging utility used by Node Slack SDK",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
-  "keywords": [
-    "slack",
-    "logging"
-  ],
+  "keywords": ["slack", "logging"],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist/**/*"
-  ],
+  "files": ["dist/**/*"],
   "engines": {
     "node": ">= 18",
     "npm": ">= 8.6.0"
@@ -29,31 +24,21 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
-    "lint": "eslint --fix --ext .ts src",
+    "lint": "npx @biomejs/biome check --write .",
     "mocha": "mocha --config .mocharc.json src/*.spec.js",
     "test:unit": "npm run build && npm run mocha",
     "test": "npm run lint && npm run coverage",
-    "coverage": "npm run build && c8 npm run mocha",
-    "ref-docs:model": "api-extractor run"
+    "coverage": "npm run build && c8 npm run mocha"
   },
   "dependencies": {
     "@types/node": ">=18.0.0"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.36.4",
+    "@biomejs/biome": "^1.8.3",
     "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.1",
-    "@typescript-eslint/eslint-plugin": "^6.4.1",
-    "@typescript-eslint/parser": "^6.4.0",
     "c8": "^9.1.0",
     "chai": "^4.3.8",
-    "eslint": "^8.47.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-airbnb-typescript": "^17.1.0",
-    "eslint-plugin-import": "^2.28.1",
-    "eslint-plugin-import-newlines": "^1.3.4",
-    "eslint-plugin-jsdoc": "^46.5.0",
-    "eslint-plugin-node": "^11.1.0",
     "mocha": "^10.2.0",
     "shx": "^0.3.2",
     "sinon": "^18.0.0",

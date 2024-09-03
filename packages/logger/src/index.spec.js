@@ -20,10 +20,10 @@ describe('Logger', () => {
       });
 
       it('should get LogLevel corrrectly', () => {
-        [LogLevel.DEBUG, LogLevel.ERROR, LogLevel.WARN, LogLevel.INFO].forEach((level) => {
+        for (const level of [LogLevel.DEBUG, LogLevel.ERROR, LogLevel.WARN, LogLevel.INFO]) {
           logger.setLevel(level);
           assert.equal(logger.getLevel(), level);
-        });
+        }
       });
     });
 
@@ -58,11 +58,7 @@ describe('Logger', () => {
 
         logger.info('test');
 
-        assert.deepEqual(infoStub.firstCall.args, [
-          '[INFO] ',
-          'foobles',
-          'test',
-        ]);
+        assert.deepEqual(infoStub.firstCall.args, ['[INFO] ', 'foobles', 'test']);
       });
     });
 
