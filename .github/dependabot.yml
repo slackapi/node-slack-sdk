@@ -11,10 +11,7 @@ updates:
       - "/packages/web-api"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 5
-    allow:
-      - dependency-name: "typescript"
-      - dependency-name: "@types/node"
+    open-pull-requests-limit: 10
   - package-ecosystem: "npm"
     directories:
       - "/"
@@ -22,8 +19,6 @@ updates:
       - "/examples/*"
     schedule:
       interval: "monthly"
-    allow:
-      - dependency-name: "@slack/*"
     groups:
       docusaurus:
         patterns:
