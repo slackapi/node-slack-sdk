@@ -40,12 +40,12 @@
     "@types/sinon": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^6",
     "@typescript-eslint/parser": "^6",
-    "c8": "^9.1.0",
-    "chai": "^4.4.1",
+    "c8": "^10.1.2",
+    "chai": "^5.1.1",
     "cross-env": "^7.0.3",
-    "eslint": "^8",
+    "eslint": "^9",
     "eslint-config-airbnb-base": "^15",
-    "eslint-config-airbnb-typescript": "^17",
+    "eslint-config-airbnb-typescript": "^18",
     "eslint-plugin-import": "^2",
     "eslint-plugin-import-newlines": "^1",
     "eslint-plugin-jsdoc": "^50",
@@ -54,6 +54,6 @@
     "shx": "^0.3.4",
     "sinon": "^18.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "5.0.4"
+    "typescript": "5.5.4"
   }
 }

@@ -45,20 +45,20 @@
     "@types/mocha": "^10.0.1",
     "@typescript-eslint/eslint-plugin": "^6.4.1",
     "@typescript-eslint/parser": "^6.4.0",
-    "c8": "^9.1.0",
-    "chai": "^4.3.8",
-    "eslint": "^8.47.0",
+    "c8": "^10.1.2",
+    "chai": "^5.1.1",
+    "eslint": "^9.9.1",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-import-newlines": "^1.3.4",
-    "eslint-plugin-jsdoc": "^46.5.0",
+    "eslint-plugin-jsdoc": "^50.2.2",
     "eslint-plugin-node": "^11.1.0",
     "mocha": "^10.2.0",
     "shx": "^0.3.2",
-    "sinon": "^15.2.0",
+    "sinon": "^18.0.0",
     "source-map-support": "^0.5.21",
-    "ts-node": "^8.2.0",
-    "typescript": "^4.1.0"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
   }
 }
