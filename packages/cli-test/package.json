@@ -4,7 +4,11 @@
   "description": "Node.js bindings for the Slack CLI for use in automated testing",
   "author": "Salesforce, Inc.",
   "license": "MIT",
-  "keywords": ["slack", "cli", "test"],
+  "keywords": [
+    "slack",
+    "cli",
+    "test"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -21,7 +25,7 @@
     "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
   "scripts": {
-    "lint": "eslint --fix --ext .ts src",
+    "lint": "npx @biomejs/biome check --write .",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
     "prepare": "npm run build",
@@ -33,23 +37,15 @@
     "winston": "^3.8.2"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
     "@tsconfig/recommended": "^1.0.6",
     "@types/chai": "^4.3.16",
     "@types/mocha": "^10.0.6",
     "@types/node": "^22.5.2",
     "@types/sinon": "^17.0.3",
-    "@typescript-eslint/eslint-plugin": "^6",
-    "@typescript-eslint/parser": "^6",
     "c8": "^10.1.2",
     "chai": "^4.4.1",
     "cross-env": "^7.0.3",
-    "eslint": "^8",
-    "eslint-config-airbnb-base": "^15",
-    "eslint-config-airbnb-typescript": "^17",
-    "eslint-plugin-import": "^2",
-    "eslint-plugin-import-newlines": "^1",
-    "eslint-plugin-jsdoc": "^50",
-    "eslint-plugin-node": "^11",
     "mocha": "^10.4.0",
     "shx": "^0.3.4",
     "sinon": "^18.0.0",

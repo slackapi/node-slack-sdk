@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 
-import { create } from './create';
 import { mockProcess } from '../../utils/test';
 import { shell } from '../shell';
+import { create } from './create';
 
 describe('create', () => {
   const sandbox = sinon.createSandbox();

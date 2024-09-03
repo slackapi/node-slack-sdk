@@ -1,5 +1,5 @@
-import { ProjectCommandArguments } from '../../types/commands/common_arguments';
-import { SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
+import type { ProjectCommandArguments } from '../../types/commands/common_arguments';
+import { type SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
 
 export interface ExternalAuthCommandArguments {
   /** @description the OAuth Provider key to target. */
@@ -71,12 +71,13 @@ export const remove = async function extAuthRemove(
  * @returns command output
  */
 export const selectAuth = async function extAuthSelectAuth(
-  args: ProjectCommandArguments & Pick<ExternalAuthCommandArguments, 'provider'> & {
-    /** @description specifies an external account identifier, e.g. an email address. */
-    externalAccount?: string;
-    /** @description specifies a workflow to set selected developer account. */
-    workflow?: string;
-  },
+  args: ProjectCommandArguments &
+    Pick<ExternalAuthCommandArguments, 'provider'> & {
+      /** @description specifies an external account identifier, e.g. an email address. */
+      externalAccount?: string;
+      /** @description specifies a workflow to set selected developer account. */
+      workflow?: string;
+    },
 ): Promise<string> {
   const cmdOpts: SlackCLICommandOptions = {
     '--provider': args.provider,

@@ -19,7 +19,7 @@ describe('SlackCLIProcess class', () => {
   describe('constructor', () => {
     it('should throw if `SLACK_CLI_PATH` env variable is falsy', () => {
       const orig = process.env.SLACK_CLI_PATH;
-      delete process.env.SLACK_CLI_PATH;
+      process.env.SLACK_CLI_PATH = '';
       assert.throws(() => {
         new SlackCLIProcess('help');
       });

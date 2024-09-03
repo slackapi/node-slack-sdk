@@ -1,7 +1,7 @@
 import { shell } from './shell';
 
-import type { ShellProcess } from '../types/shell';
 import type { SpawnOptionsWithoutStdio } from 'node:child_process';
+import type { ShellProcess } from '../types/shell';
 
 export interface SlackCLIGlobalOptions {
   /**
@@ -142,14 +142,14 @@ export class SlackCLIProcess {
     }
     cmd += ` ${this.command}`;
     if (this.commandOptions) {
-      Object.entries(this.commandOptions).forEach(([key, value]) => {
+      for (const [key, value] of Object.entries(this.commandOptions)) {
         if (key && value) {
           cmd += ` ${key}`;
           if (value !== true) {
             cmd += ` ${value}`;
           }
         }
-      });
+      }
     }
     return cmd;
   }

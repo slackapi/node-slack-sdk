@@ -1,7 +1,7 @@
-import { ProjectCommandArguments, WorkspaceGrantArgument } from '../../types/commands/common_arguments';
+import type { ProjectCommandArguments, WorkspaceGrantArgument } from '../../types/commands/common_arguments';
 import { SlackTracerId } from '../../utils/constants';
 import logger from '../../utils/logger';
-import { SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
+import { type SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
 import { shell } from '../shell';
 
 import type { ShellProcess } from '../../types/shell';
@@ -32,10 +32,12 @@ export interface RunDeployArguments extends WorkspaceGrantArgument {
  * `slack platform activity`
  * @returns command output
  */
-export const activity = async function activity(args: ProjectCommandArguments & {
-  /** @description Source of logs to filter; can be `slack` or `developer`. */
-  source?: 'slack' | 'developer';
-}): Promise<string> {
+export const activity = async function activity(
+  args: ProjectCommandArguments & {
+    /** @description Source of logs to filter; can be `slack` or `developer`. */
+    source?: 'slack' | 'developer';
+  },
+): Promise<string> {
   const cmdOpts: SlackCLICommandOptions = {};
   if ('source' in args) {
     cmdOpts['--source'] = args.source;
@@ -75,13 +77,16 @@ export const activityTailStop = async function activityTailStop(
     // Wait for output
     shell.waitForOutput(args.stringToWaitFor, args.proc, { timeout: args.timeout }).then(() => {
       // kill the shell process
-      shell.kill(args.proc).then(() => {
-        resolve(args.proc.output);
-      }, (err) => {
-        const msg = `activityTailStop command failed to kill process: ${err}`;
-        logger.warn(msg);
-        reject(new Error(msg));
-      });
+      shell.kill(args.proc).then(
+        () => {
+          resolve(args.proc.output);
+        },
+        (err) => {
+          const msg = `activityTailStop command failed to kill process: ${err}`;
+          logger.warn(msg);
+          reject(new Error(msg));
+        },
+      );
     }, reject);
   });
 };
@@ -90,7 +95,9 @@ export const activityTailStop = async function activityTailStop(
  * `slack deploy`
  * @returns command output
  */
-export const deploy = async function deploy(args: ProjectCommandArguments & Omit<RunDeployArguments, 'cleanup'>): Promise<string> {
+export const deploy = async function deploy(
+  args: ProjectCommandArguments & Omit<RunDeployArguments, 'cleanup'>,
+): Promise<string> {
   const cmd = new SlackCLIProcess('deploy', args, {
     '--hide-triggers': typeof args.hideTriggers !== 'undefined' ? args.hideTriggers : true,
     '--org-workspace-grant': args.orgWorkspaceGrantFlag,
@@ -125,37 +132,41 @@ export const runStart = async function runStart(
  * stop `slack run`
  * @param teamName to check that app was deleted from that team
  */
-export const runStop = async function runStop(args: ProcessArgument & TimeoutArgument & {
-  /**
-   * @description Should wait for the `run` process to spin down before exiting this function.
-   * On Windows, this property is always set to `true`. Defaults to `false`.
-   */
-  waitForShutdown?: boolean;
-}): Promise<void> {
+export const runStop = async function runStop(
+  args: ProcessArgument &
+    TimeoutArgument & {
+      /**
+       * @description Should wait for the `run` process to spin down before exiting this function.
+       * On Windows, this property is always set to `true`. Defaults to `false`.
+       */
+      waitForShutdown?: boolean;
+    },
+): Promise<void> {
   return new Promise((resolve, reject) => {
     // kill the shell process
-    shell.kill(args.proc).then(() => {
-      // Due to the complexity of gracefully shutting down processes on Windows / lack of interrupt signal support,
-      // we don't wait for the SLACK_TRACE_PLATFORM_RUN_STOP trace on Windows
-      if (process.platform === 'win32') {
-        resolve();
-      }
+    shell.kill(args.proc).then(
+      () => {
+        // Due to the complexity of gracefully shutting down processes on Windows / lack of interrupt signal support,
+        // we don't wait for the SLACK_TRACE_PLATFORM_RUN_STOP trace on Windows
+        if (process.platform === 'win32') {
+          resolve();
+        }
 
-      if (args.waitForShutdown) {
-        // Wait for the output to verify process stopped
-        shell.waitForOutput(
-          SlackTracerId.SLACK_TRACE_PLATFORM_RUN_STOP,
-          args.proc,
-          { timeout: args.timeout },
-        ).then(resolve, reject);
-      } else {
-        resolve();
-      }
-    }, (err) => {
-      const msg = `runStop command failed to kill process: ${err}`;
-      logger.warn(msg);
-      reject(new Error(msg));
-    });
+        if (args.waitForShutdown) {
+          // Wait for the output to verify process stopped
+          shell
+            .waitForOutput(SlackTracerId.SLACK_TRACE_PLATFORM_RUN_STOP, args.proc, { timeout: args.timeout })
+            .then(resolve, reject);
+        } else {
+          resolve();
+        }
+      },
+      (err) => {
+        const msg = `runStop command failed to kill process: ${err}`;
+        logger.warn(msg);
+        reject(new Error(msg));
+      },
+    );
   });
 };
 

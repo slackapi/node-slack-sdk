@@ -1,4 +1,4 @@
-import child from 'child_process';
+import child from 'node:child_process';
 
 import treekill from 'tree-kill';
 
@@ -42,14 +42,14 @@ export const shell = {
       // If is deploy command
 
       // Listen to data event that returns all the output and collect it
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: stdout can accept a variety of data
       childProcess.stdout.on('data', (data: any) => {
         sh.output += this.removeANSIcolors(data.toString());
         logger.verbose(`Output: ${this.removeANSIcolors(data.toString())}`);
       });
 
       // Collect error output
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: stderr can accept a variety of data
       childProcess.stderr.on('data', (data: any) => {
         sh.output += this.removeANSIcolors(data.toString());
         logger.error(`Error: ${this.removeANSIcolors(data.toString())}`);
@@ -107,14 +107,22 @@ export const shell = {
    */
   checkIfFinished: async function checkIfFinished(proc: ShellProcess): Promise<void> {
     return new Promise((resolve, reject) => {
+      // biome-ignore lint/style/useConst: closing over timeout variable
       let timeout: NodeJS.Timeout;
 
       const killIt = (reason: string) => {
-        shell.kill(proc).then(() => {
-          reject(new Error(`${reason}\nCommand: ${proc.command}, output: ${proc.output}`));
-        }, (err) => {
-          reject(new Error(`${reason}\nCommand: ${proc.command}, output: ${proc.output}\nAlso errored killing process: ${err.message}`));
-        });
+        shell.kill(proc).then(
+          () => {
+            reject(new Error(`${reason}\nCommand: ${proc.command}, output: ${proc.output}`));
+          },
+          (err) => {
+            reject(
+              new Error(
+                `${reason}\nCommand: ${proc.command}, output: ${proc.output}\nAlso errored killing process: ${err.message}`,
+              ),
+            );
+          },
+        );
       };
 
       const closeHandler = (code: number | null, signal: NodeJS.Signals | null) => {
@@ -158,7 +166,7 @@ export const shell = {
    */
   removeANSIcolors: function removeANSIcolors(text: string): string {
     const cleanText = text.replace(
-      // eslint-disable-next-line no-control-regex
+      // biome-ignore lint/suspicious/noControlCharactersInRegex: regex is magic
       /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
       '',
     );
@@ -195,11 +203,18 @@ export const shell = {
       if (timedOut) {
         // Kill the process
         const reason = `shell.waitForOutput timed out after ${waitedFor} ms. \nExpected output to include: ${expString}\nActual: ${proc.output}`;
-        shell.kill(proc).then(() => {
-          reject(new Error(`${reason}\nCommand: ${proc.command}, output: ${proc.output}`));
-        }, (err) => {
-          reject(new Error(`${reason}\nCommand: ${proc.command}, output: ${proc.output}\nAlso errored killing process: ${err.message}`));
-        });
+        shell.kill(proc).then(
+          () => {
+            reject(new Error(`${reason}\nCommand: ${proc.command}, output: ${proc.output}`));
+          },
+          (err) => {
+            reject(
+              new Error(
+                `${reason}\nCommand: ${proc.command}, output: ${proc.output}\nAlso errored killing process: ${err.message}`,
+              ),
+            );
+          },
+        );
       } else {
         resolve();
       }
@@ -220,13 +235,21 @@ export const shell = {
   },
   kill: async function kill(proc: ShellProcess): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      treekill(proc.process.pid!, (err) => {
-        if (err) {
-          reject(new Error(`Failed to kill command "${proc.command}": errored with ${err.message}\nOutput: ${proc.output}`));
-        } else {
-          resolve(true);
-        }
-      });
+      if (proc.process.pid) {
+        treekill(proc.process.pid, (err) => {
+          if (err) {
+            reject(
+              new Error(
+                `Failed to kill command "${proc.command}": errored with ${err.message}\nOutput: ${proc.output}`,
+              ),
+            );
+          } else {
+            resolve(true);
+          }
+        });
+      } else {
+        resolve(true);
+      }
     });
   },
 };

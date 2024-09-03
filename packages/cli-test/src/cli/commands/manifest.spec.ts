@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 
-import manifest from './manifest';
 import { mockProcess } from '../../utils/test';
 import { shell } from '../shell';
+import manifest from './manifest';
 
 describe('manifest commands', () => {
   const sandbox = sinon.createSandbox();

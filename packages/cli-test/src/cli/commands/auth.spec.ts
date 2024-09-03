@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 
-import auth from './auth';
 import { mockProcess } from '../../utils/test';
 import { shell } from '../shell';
+import auth from './auth';
 
 describe('auth commands', () => {
   const sandbox = sinon.createSandbox();

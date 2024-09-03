@@ -1,9 +1,9 @@
-import { ProjectCommandArguments } from '../../types/commands/common_arguments';
+import type { ProjectCommandArguments } from '../../types/commands/common_arguments';
 import { SlackCLIProcess } from '../cli-process';
 
 export interface CollaboratorEmail {
   /** @description email of the collaborator */
-  collaboratorEmail: string,
+  collaboratorEmail: string;
 }
 
 /**

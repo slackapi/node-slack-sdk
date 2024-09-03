@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 
-import trigger from './trigger';
 import { mockProcess } from '../../utils/test';
 import { shell } from '../shell';
+import trigger from './trigger';
 
 describe('trigger commands', () => {
   const sandbox = sinon.createSandbox();
@@ -89,12 +89,23 @@ describe('trigger commands', () => {
       sandbox.assert.calledWith(spawnSpy, sinon.match('--workflow some#/callback_id'));
     });
     it('should invoke `trigger create --description` if description specified', async () => {
-      await trigger.create({ appPath: '/some/path', workflow: 'some#/callback_id', title: 'Title', description: 'test' });
+      await trigger.create({
+        appPath: '/some/path',
+        workflow: 'some#/callback_id',
+        title: 'Title',
+        description: 'test',
+      });
       sandbox.assert.calledWith(spawnSpy, sinon.match('trigger create'));
       sandbox.assert.calledWith(spawnSpy, sinon.match('--description test'));
     });
     it('should invoke `trigger create --interactivity` if interactivity specified', async () => {
-      await trigger.create({ appPath: '/some/path', workflow: 'some#/callback_id', title: 'Title', interactivity: true, interactivityName: 'test' });
+      await trigger.create({
+        appPath: '/some/path',
+        workflow: 'some#/callback_id',
+        title: 'Title',
+        interactivity: true,
+        interactivityName: 'test',
+      });
       sandbox.assert.calledWith(spawnSpy, sinon.match('trigger create'));
       sandbox.assert.calledWith(spawnSpy, sinon.match('--interactivity'));
       sandbox.assert.calledWith(spawnSpy, sinon.match('--interactivity-name test'));

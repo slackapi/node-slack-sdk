@@ -1,16 +1,18 @@
-import { ProjectCommandArguments } from '../../types/commands/common_arguments';
-import { SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
+import type { ProjectCommandArguments } from '../../types/commands/common_arguments';
+import { type SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
 
 /**
  * `slack manifest info`
  * @returns command output
  */
-export const info = async function manifestInfo(args: ProjectCommandArguments & {
-  /**
-   * @description Whether to retrieve manifest from the local `project`, or `remote` from Slack. Defaults to `project`.
-   */
-  source?: 'project' | 'remote';
-}): Promise<string> {
+export const info = async function manifestInfo(
+  args: ProjectCommandArguments & {
+    /**
+     * @description Whether to retrieve manifest from the local `project`, or `remote` from Slack. Defaults to `project`.
+     */
+    source?: 'project' | 'remote';
+  },
+): Promise<string> {
   const cmdOpts: SlackCLICommandOptions = {
     '--source': args.source || 'project',
   };

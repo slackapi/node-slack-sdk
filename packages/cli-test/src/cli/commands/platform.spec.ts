@@ -1,11 +1,11 @@
-import assert from 'assert';
+import assert from 'node:assert';
 
 import sinon from 'sinon';
 
-import platform from './platform';
-import { ShellProcess } from '../../types/shell';
+import type { ShellProcess } from '../../types/shell';
 import { mockProcess } from '../../utils/test';
 import { shell } from '../shell';
+import platform from './platform';
 
 describe('platform commands', () => {
   const sandbox = sinon.createSandbox();
