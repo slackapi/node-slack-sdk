@@ -14,9 +14,9 @@
   "author": "Slack Technologies, LLC",
   "license": "MIT",
   "dependencies": {
-    "@slack/events-api": "^2.3.2",
-    "@slack/oauth": "^1.0.0",
-    "@slack/web-api": "^5.8.0",
+    "@slack/events-api": "^3.0.1",
+    "@slack/oauth": "^3.0.1",
+    "@slack/web-api": "^7.3.4",
     "express": "^4.17.1"
   }
 }

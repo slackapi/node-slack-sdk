@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": "slackapi/node-slack-sdk",
   "dependencies": {
-    "@slack/socket-mode": "^1.1.0",
-    "@slack/web-api": "^5.14.0"
+    "@slack/socket-mode": "^2.0.1",
+    "@slack/web-api": "^7.3.4"
   }
 }
