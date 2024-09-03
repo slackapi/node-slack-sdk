@@ -4,11 +4,7 @@
   "description": "Node implementation of the contract between the Slack CLI and Bolt for JavaScript",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
-  "keywords": [
-    "slack",
-    "cli",
-    "hooks"
-  ],
+  "keywords": ["slack", "cli", "hooks"],
   "type": "module",
   "main": "src/get-hooks.js",
   "files": [
@@ -38,8 +34,8 @@
     "prebuild": "shx rm -rf ./coverage",
     "build": "shx chmod +x src/*.js",
     "prelint": "tsc --noemit --module es2022 --maxNodeModuleJsDepth 0 --project ./jsconfig.json",
-    "lint": "eslint --ext .js src",
-    "pretest": "npm run lint -- --fix",
+    "lint": "npx @biomejs/biome check --write .",
+    "pretest": "npm run lint",
     "test": "c8 mocha src/*.spec.js"
   },
   "bin": {
@@ -54,15 +50,13 @@
     "semver": "^7.5.4"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
     "@types/minimist": "^1.2.5",
     "@types/mocha": "^10.0.6",
     "@types/node": "^22.5.2",
     "@types/semver": "^7.5.6",
     "@types/sinon": "^17.0.3",
     "c8": "^10.1.2",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-jsdoc": "^50.2.2",
-    "eslint-plugin-node": "^11.1.0",
     "mocha": "^10.2.0",
     "shx": "^0.3.4",
     "sinon": "^18.0.0",

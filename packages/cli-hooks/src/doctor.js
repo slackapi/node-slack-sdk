@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { fileURLToPath } from 'url';
-import fs from 'fs';
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
 import { getProtocol } from './protocols.js';
 

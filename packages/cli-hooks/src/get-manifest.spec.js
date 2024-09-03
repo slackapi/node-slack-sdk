@@ -1,7 +1,7 @@
+import assert from 'node:assert';
+import fs from 'node:fs';
+import path from 'node:path';
 import { after, before, describe, it } from 'mocha';
-import assert from 'assert';
-import fs from 'fs';
-import path from 'path';
 
 import getManifestData from './get-manifest.js';
 

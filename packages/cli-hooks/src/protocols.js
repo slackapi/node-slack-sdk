@@ -42,7 +42,7 @@ export function DefaultProtocol(args) {
   // If the particular hook invocation is requesting manifest generation we
   // ensure any logging is a no-op to prevent littering stdout with logging
   // and confusing the CLI's manifest JSON payload parsing.
-  const loggerMethod = manifestOnly ? () => { } : console.log; // eslint-disable-line no-console
+  const loggerMethod = manifestOnly ? () => {} : console.log; // eslint-disable-line no-console
   return {
     name: DEFAULT_PROTOCOL,
     log: loggerMethod,
@@ -70,10 +70,7 @@ export function MessageBoundaryProtocol(args) {
     respond: (/** @type {any} */ data) => {
       console.log(boundary + data + boundary); // eslint-disable-line no-console
     },
-    getCLIFlags: () => [
-      `--protocol=${MSG_BOUNDARY_PROTOCOL}`,
-      `--boundary=${boundary}`,
-    ],
+    getCLIFlags: () => [`--protocol=${MSG_BOUNDARY_PROTOCOL}`, `--boundary=${boundary}`],
   };
   return protocol;
 }
