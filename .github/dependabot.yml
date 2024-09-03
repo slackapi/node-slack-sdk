@@ -10,8 +10,14 @@ updates:
       - "/packages/types"
       - "/packages/web-api"
       - "/packages/web-api/test/integration-tests/**"
+    groups:
+      devDependencies:
+        dependency-type: "development"
     schedule:
       interval: "weekly"
+    ignore:
+      - dependency-name: "@typescript-eslint/parser"
+      - dependency-name: "@typescript-eslint/eslint-plugin"
     open-pull-requests-limit: 10
   - package-ecosystem: "npm"
     directories:
@@ -24,6 +30,8 @@ updates:
       docusaurus:
         patterns:
           - "@docusaurus/*"
+      slack:
+        patterns:
           - "@slack/*"
   - package-ecosystem: "github-actions"
     directory: "/"
