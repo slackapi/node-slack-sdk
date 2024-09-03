@@ -55,7 +55,7 @@
     "eventemitter3": "^5.0.1",
     "form-data": "^4.0.0",
     "is-electron": "2.2.2",
-    "is-stream": "^2",
+    "is-stream": "^4",
     "p-queue": "^6",
     "p-retry": "^4",
     "retry": "^0.13.1"
