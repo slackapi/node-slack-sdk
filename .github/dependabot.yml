@@ -9,6 +9,7 @@ updates:
       - "/packages/socket-mode"
       - "/packages/types"
       - "/packages/web-api"
+      - "/packages/web-api/test/integration-tests/**"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
