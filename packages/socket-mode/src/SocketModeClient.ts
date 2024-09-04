@@ -31,6 +31,21 @@ enum State {
 }
 
 /**
+ * Recursive definition for what a value might contain.
+ */
+interface Nesting {
+  [key: string]: NestedRecord | unknown;
+}
+
+/**
+ * Recursive definiton for possible JSON object values.
+ *
+ * FIXME: Prefer using a circular reference if allowed:
+ *   Record<string, NestedRecord> | NestedRecord[]
+ */
+type NestedRecord = Nesting | NestedRecord[];
+
+/**
  * A Socket Mode Client allows programs to communicate with the
  * [Slack Platform's Events API](https://api.slack.com/events-api) over WebSocket connections.
  * This object uses the EventEmitter pattern to dispatch incoming events
@@ -284,8 +299,6 @@ export class SocketModeClient extends EventEmitter {
       this.logger.debug('Unexpected binary message received, ignoring.');
       return;
     }
-    const payload = data.toString();
-    this.logger.debug(`Received a message on the WebSocket: ${payload}`);
 
     // Parse message into slack event
     let event: {
@@ -299,10 +312,13 @@ export class SocketModeClient extends EventEmitter {
       accepts_response_payload?: boolean; // type: events_api, slash_commands, interactive
     };
 
+    const payload = data?.toString();
     try {
       event = JSON.parse(payload);
+      this.logger.debug(`Received a message on the WebSocket: ${JSON.stringify(SocketModeClient.redact(event))}`);
     } catch (parseError) {
       // Prevent application from crashing on a bad message, but log an error to bring attention
+      this.logger.debug(`Received a message on the WebSocket: ${payload}`);
       this.logger.debug(
         `Unable to parse an incoming WebSocket message (will ignore): ${parseError}, ${payload}`,
       );
@@ -325,7 +341,7 @@ export class SocketModeClient extends EventEmitter {
     // Define Ack, a helper method for acknowledging events incoming from Slack
     const ack = async (response: Record<string, unknown>): Promise<void> => {
       if (this.logger.getLevel() === LogLevel.DEBUG) {
-        this.logger.debug(`Calling ack() - type: ${event.type}, envelope_id: ${event.envelope_id}, data: ${JSON.stringify(response)}`);
+        this.logger.debug(`Calling ack() - type: ${event.type}, envelope_id: ${event.envelope_id}, data: ${JSON.stringify(SocketModeClient.redact(response))}`);
       }
       await this.send(event.envelope_id, response);
     };
@@ -386,9 +402,8 @@ export class SocketModeClient extends EventEmitter {
       } else {
         this.emit('outgoing_message', message);
 
-        const flatMessage = JSON.stringify(message);
-        this.logger.debug(`Sending a WebSocket message: ${flatMessage}`);
-        this.websocket.send(flatMessage, (error) => {
+        this.logger.debug(`Sending a WebSocket message: ${JSON.stringify(SocketModeClient.redact(message))}`);
+        this.websocket.send(JSON.stringify(message), (error) => {
           if (error) {
             this.logger.error(`Failed to send a WebSocket message (error: ${error})`);
             return reject(websocketErrorWithOriginal(error));
@@ -397,6 +412,37 @@ export class SocketModeClient extends EventEmitter {
         });
       }
     });
+  }
+
+  /**
+   * Removes secrets and tokens from socket request and response objects
+   * before logging.
+   * @param body - the object with values for redaction.
+   * @returns the same object with redacted values.
+   */
+  private static redact(body: NestedRecord): NestedRecord {
+    if (body === undefined) {
+      return body;
+    }
+    const record = Object.create(body);
+    if (Array.isArray(body)) {
+      return body.map((item) => (
+        (typeof item === 'object' && item !== null) ?
+          SocketModeClient.redact(item) :
+          item
+      ));
+    }
+    Object.keys(body).forEach((key: string) => {
+      const value = body[key];
+      if (typeof value === 'object' && value !== null) {
+        record[key] = SocketModeClient.redact(value as NestedRecord);
+      } else if (key.match(/.*token.*/) !== null || key.match(/secret/)) {
+        record[key] = '[[REDACTED]]';
+      } else {
+        record[key] = value;
+      }
+    });
+    return record;
   }
 }
 
