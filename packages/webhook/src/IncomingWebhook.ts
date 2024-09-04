@@ -1,7 +1,7 @@
-import { Agent } from 'http';
+import type { Agent } from 'node:http';
 
-import { Block, KnownBlock, MessageAttachment } from '@slack/types'; // TODO: Block and KnownBlock will be merged into AnyBlock in upcoming types release
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import type { Block, KnownBlock, MessageAttachment } from '@slack/types'; // TODO: Block and KnownBlock will be merged into AnyBlock in upcoming types release
+import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 
 import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
 import { getUserAgent } from './instrument';
@@ -46,12 +46,11 @@ export class IncomingWebhook {
       proxy: false,
       timeout: defaults.timeout,
       headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         'User-Agent': getUserAgent(),
       },
     });
 
-    delete this.defaults.agent;
+    this.defaults.agent = undefined;
   }
 
   /**
@@ -71,23 +70,22 @@ export class IncomingWebhook {
     try {
       const response = await this.axios.post(this.url, payload);
       return this.buildResult(response);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
     } catch (error: any) {
       // Wrap errors in this packages own error types (abstract the implementation details' types)
       if (error.response !== undefined) {
         throw httpErrorWithOriginal(error);
-      } else if (error.request !== undefined) {
-        throw requestErrorWithOriginal(error);
-      } else {
-        throw error;
       }
+      if (error.request !== undefined) {
+        throw requestErrorWithOriginal(error);
+      }
+      throw error;
     }
   }
 
   /**
    * Processes an HTTP response into an IncomingWebhookResult.
    */
-  // eslint-disable-next-line class-methods-use-this
   private buildResult(response: AxiosResponse): IncomingWebhookResult {
     return {
       text: response.data,
@@ -117,7 +115,7 @@ export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArgu
   unfurl_media?: boolean;
   metadata?: {
     event_type: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
     event_payload: Record<string, any>;
   };
 }
