@@ -1,4 +1,4 @@
-import { StatusEmojiDisplayInfo } from '../common/status-emoji-display-info';
+import type { StatusEmojiDisplayInfo } from '../common/status-emoji-display-info';
 
 export interface TeamAccessGrantedEvent {
   type: 'team_access_granted';
@@ -60,14 +60,14 @@ export interface TeamJoinEvent {
       image_1024?: string;
       team: string;
       fields:
-      | {
-        [key: string]: {
-          value: string;
-          alt: string;
-        };
-      }
-      | []
-      | null;
+        | {
+            [key: string]: {
+              value: string;
+              alt: string;
+            };
+          }
+        | []
+        | null;
     };
     is_admin: boolean;
     is_owner: boolean;

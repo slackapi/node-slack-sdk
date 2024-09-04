@@ -175,10 +175,10 @@ export interface MrkdwnElement {
 
 interface BaseConversationFilter {
   /**
-  * @description Indicates which type of conversations should be included in the list. When this field is provided, any
-  * conversations that do not match will be excluded. You should provide an array of strings from the following options:
-  * `im`, `mpim`, `private`, and `public`. The array cannot be empty.
-  */
+   * @description Indicates which type of conversations should be included in the list. When this field is provided, any
+   * conversations that do not match will be excluded. You should provide an array of strings from the following options:
+   * `im`, `mpim`, `private`, and `public`. The array cannot be empty.
+   */
   include?: [ConversationType, ...ConversationType[]];
   /**
    * @description Indicates whether to exclude external {@link https://api.slack.com/enterprise/shared-channels shared channels}
@@ -196,7 +196,10 @@ interface BaseConversationFilter {
  * conversations select menu or a conversations multi-select menu.
  * @see {@link https://api.slack.com/reference/block-kit/composition-objects#filter_conversations Conversation filter object reference}.
  */
-export type ConversationFilter = (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'include'>>) | (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'exclude_bot_users'>>) | (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'exclude_external_shared_channels'>>);
+export type ConversationFilter =
+  | (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'include'>>)
+  | (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'exclude_bot_users'>>)
+  | (BaseConversationFilter & Required<Pick<BaseConversationFilter, 'exclude_external_shared_channels'>>);
 /**
  * @description Object for image which contains a image_url.
  */

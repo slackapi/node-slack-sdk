@@ -1,5 +1,5 @@
-import { AnyBlock } from './block-kit/blocks';
-import { PlainTextElement } from './block-kit/composition-objects';
+import type { AnyBlock } from './block-kit/blocks';
+import type { PlainTextElement } from './block-kit/composition-objects';
 
 interface BaseView {
   /** @description An array of {@link AnyBlock} that defines the content of the view. Max of 100 blocks. */

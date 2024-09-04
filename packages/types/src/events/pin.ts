@@ -1,6 +1,6 @@
-import { Block, KnownBlock } from '../block-kit/blocks';
-import { BotProfile } from '../common/bot-profile';
-import { MessageAttachment } from '../message-attachments';
+import type { Block, KnownBlock } from '../block-kit/blocks';
+import type { BotProfile } from '../common/bot-profile';
+import type { MessageAttachment } from '../message-attachments';
 
 interface PinnedMessageItem {
   client_msg_id?: string;
@@ -15,7 +15,7 @@ interface PinnedMessageItem {
   blocks?: (KnownBlock | Block)[];
   pinned_to?: string[];
   permalink: string;
-  ts: string
+  ts: string;
 }
 interface PinnedFileItem {
   id: string;
