@@ -1,10 +1,10 @@
-import { Agent } from 'http';
+import type { Agent } from 'node:http';
 
-import { EventEmitter } from 'eventemitter3';
-import { WebSocket, ClientOptions as WebSocketClientOptions } from 'ws';
+import type { EventEmitter } from 'eventemitter3';
+import { WebSocket, type ClientOptions as WebSocketClientOptions } from 'ws';
 
 import { websocketErrorWithOriginal } from './errors';
-import log, { LogLevel, Logger } from './logger';
+import log, { LogLevel, type Logger } from './logger';
 
 // Maps ws `readyState` to human readable labels https://github.com/websockets/ws/blob/HEAD/doc/ws.md#ready-state-constants
 export const WS_READY_STATES = ['CONNECTING', 'OPEN', 'CLOSING', 'CLOSED'];
@@ -17,7 +17,7 @@ export interface SlackWebSocketOptions {
   /** @description A LogLevel at which this class should log to. */
   logLevel?: LogLevel;
   /** @description A Logger instance used to log activity to. */
-  logger?: Logger,
+  logger?: Logger;
   /** @description Delay between this client sending a `ping` message, in milliseconds. */
   pingInterval?: number;
   /** @description The HTTP Agent to use when establishing a WebSocket connection. */
@@ -40,7 +40,8 @@ export interface SlackWebSocketOptions {
  * Encapsulates the Slack-specific details around establishing a WebSocket connection with the Slack backend.
  * Manages the ping/pong heartbeat of the connection.
  */
-export class SlackWebSocket { // python equiv: Connection
+export class SlackWebSocket {
+  // python equiv: Connection
   private static loggerName = 'SlackWebSocket';
 
   private options: SlackWebSocketOptions;
@@ -189,7 +190,8 @@ export class SlackWebSocket { // python equiv: Connection
    * Returns true if the underlying WebSocket connection is active, meaning the underlying
    * {@link https://github.com/websockets/ws/blob/master/doc/ws.md#ready-state-constants WebSocket ready state is "OPEN"}.
    */
-  public isActive(): boolean { // python equiv: SocketModeClient.is_connected
+  public isActive(): boolean {
+    // python equiv: SocketModeClient.is_connected
     if (!this.websocket) {
       this.logger.debug('isActive(): websocket not instantiated!');
       return false;
@@ -210,8 +212,8 @@ export class SlackWebSocket { // python equiv: Connection
   /**
    * Sends data via the underlying WebSocket. Accepts an errorback argument.
    */
-  public send(data: string, cb: ((err: Error | undefined) => void)): void {
-    return this.websocket?.send(data, cb);
+  public send(data: string, cb: (err: Error | undefined) => void): void {
+    this.websocket?.send(data, cb);
   }
 
   /**
@@ -221,7 +223,9 @@ export class SlackWebSocket { // python equiv: Connection
   private monitorPingFromSlack(): void {
     clearTimeout(this.serverPingTimeout);
     this.serverPingTimeout = setTimeout(() => {
-      this.logger.warn(`A ping wasn't received from the server before the timeout of ${this.options.serverPingTimeoutMS}ms!`);
+      this.logger.warn(
+        `A ping wasn't received from the server before the timeout of ${this.options.serverPingTimeoutMS}ms!`,
+      );
       this.disconnect();
     }, this.options.serverPingTimeoutMS);
   }
@@ -262,7 +266,9 @@ export class SlackWebSocket { // python equiv: Connection
         isInvalid = millis > this.options.clientPingTimeoutMS;
       }
       if (isInvalid) {
-        this.logger.warn(`A pong wasn't received from the server before the timeout of ${this.options.clientPingTimeoutMS}ms!`);
+        this.logger.warn(
+          `A pong wasn't received from the server before the timeout of ${this.options.clientPingTimeoutMS}ms!`,
+        );
         this.disconnect();
       }
     }, this.options.clientPingTimeoutMS / 3);

@@ -2,8 +2,8 @@ import { ConsoleLogger } from '@slack/logger';
 import { assert } from 'chai';
 import sinon from 'sinon';
 
-import logModule from './logger';
 import { SocketModeClient } from './SocketModeClient';
+import logModule from './logger';
 
 describe('SocketModeClient', () => {
   const sandbox = sinon.createSandbox();
@@ -70,7 +70,9 @@ describe('SocketModeClient', () => {
         });
         let slackEventListenerCalled = false;
         client.on('slack_event', async (args) => {
-          slackEventListenerCalled = args.ack !== undefined && args.body !== undefined &&
+          slackEventListenerCalled =
+            args.ack !== undefined &&
+            args.body !== undefined &&
             args.type === 'slash_commands' &&
             args.retry_num === undefined &&
             args.retry_reason === undefined;
@@ -167,14 +169,17 @@ describe('SocketModeClient', () => {
         });
         let eventsApiListenerCalled = false;
         client.on('app_mention', async (args) => {
-          eventsApiListenerCalled = args.ack !== undefined &&
+          eventsApiListenerCalled =
+            args.ack !== undefined &&
             args.body !== undefined &&
             args.retry_num === 2 &&
             args.retry_reason === 'timeout';
         });
         let slackEventListenerCalled = false;
         client.on('slack_event', async (args) => {
-          slackEventListenerCalled = args.ack !== undefined && args.body !== undefined &&
+          slackEventListenerCalled =
+            args.ack !== undefined &&
+            args.body !== undefined &&
             args.retry_num === 2 &&
             args.retry_reason === 'timeout';
         });

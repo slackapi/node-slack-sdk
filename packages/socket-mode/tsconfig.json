@@ -19,16 +19,11 @@
     "paths": {
       "*": ["./types/*"]
     },
-    "esModuleInterop" : true,
+    "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "src/**/*.spec.ts",
-    "src/**/*.js"
-  ],
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.spec.ts", "src/**/*.js"],
   "jsdoc": {
     "out": "support/jsdoc",
     "access": "public"

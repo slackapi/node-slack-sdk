@@ -1,24 +1,20 @@
 import {
   ErrorCode as APICallErrorCode,
-  AppsConnectionsOpenResponse,
-  WebAPICallError,
+  type AppsConnectionsOpenResponse,
+  type WebAPICallError,
   WebClient,
-  WebClientOptions,
+  type WebClientOptions,
   addAppMetadata,
 } from '@slack/web-api';
 import { EventEmitter } from 'eventemitter3';
-import WebSocket from 'ws';
+import type WebSocket from 'ws';
 
-import {
-  sendWhileDisconnectedError,
-  sendWhileNotReadyError,
-  websocketErrorWithOriginal,
-} from './errors';
-import log, { LogLevel, Logger } from './logger';
-import { SlackWebSocket, WS_READY_STATES } from './SlackWebSocket';
-import { SocketModeOptions } from './SocketModeOptions';
-import { UnrecoverableSocketModeStartError } from './UnrecoverableSocketModeStartError';
 import packageJson from '../package.json';
+import { SlackWebSocket, WS_READY_STATES } from './SlackWebSocket';
+import type { SocketModeOptions } from './SocketModeOptions';
+import { UnrecoverableSocketModeStartError } from './UnrecoverableSocketModeStartError';
+import { sendWhileDisconnectedError, sendWhileNotReadyError, websocketErrorWithOriginal } from './errors';
+import log, { LogLevel, type Logger } from './logger';
 
 // Lifecycle events as described in the README
 enum State {
@@ -80,32 +76,34 @@ export class SocketModeClient extends EventEmitter {
 
   /**
    * How long to wait for pongs from server before timing out
-  */
+   */
   private clientPingTimeoutMS: number;
 
   /**
    * Internal count for managing the reconnection state
    */
-  private numOfConsecutiveReconnectionFailures: number = 0;
+  private numOfConsecutiveReconnectionFailures = 0;
 
-  private customLoggerProvided: boolean = false;
+  private customLoggerProvided = false;
 
   /**
    * Sentinel tracking if user invoked `disconnect()`; for enforcing shutting down of client
    * even if `autoReconnectEnabled` is `true`.
    */
-  private shuttingDown: boolean = false;
+  private shuttingDown = false;
 
-  public constructor({
-    logger = undefined,
-    logLevel = undefined,
-    autoReconnectEnabled = true,
-    pingPongLoggingEnabled = false,
-    clientPingTimeout = 5000,
-    serverPingTimeout = 30000,
-    appToken = '',
-    clientOptions = {},
-  }: SocketModeOptions = { appToken: '' }) {
+  public constructor(
+    {
+      logger = undefined,
+      logLevel = undefined,
+      autoReconnectEnabled = true,
+      pingPongLoggingEnabled = false,
+      clientPingTimeout = 5000,
+      serverPingTimeout = 30000,
+      appToken = '',
+      clientOptions = {},
+    }: SocketModeOptions = { appToken: '' },
+  ) {
     super();
     if (!appToken) {
       throw new Error('Must provide an App-Level Token when initializing a Socket Mode Client');
@@ -160,7 +158,8 @@ export class SocketModeClient extends EventEmitter {
    * This method must be called before any messages can be sent or received,
    * or to disconnect the client via the `disconnect` method.
    */
-  public async start(): Promise<AppsConnectionsOpenResponse> { // python equiv: SocketModeClient.connect
+  public async start(): Promise<AppsConnectionsOpenResponse> {
+    // python equiv: SocketModeClient.connect
     this.shuttingDown = false;
     this.logger.debug('Starting Socket Mode session ...');
     // create a socket connection using SlackWebSocket
@@ -179,9 +178,9 @@ export class SocketModeClient extends EventEmitter {
 
     // Return a promise that resolves with the connection information
     return new Promise((resolve, reject) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: untyped connection callback parameters
       let connectedCallback = (_res: any) => {};
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: untyped connection callback parameters
       let disconnectedCallback = (_err: any) => {};
       connectedCallback = (result) => {
         this.removeListener(State.Disconnected, disconnectedCallback);
@@ -240,7 +239,8 @@ export class SocketModeClient extends EventEmitter {
   /**
    * Retrieves a new WebSocket URL to connect to.
    */
-  private async retrieveWSSURL(): Promise<string> { // python equiv: BaseSocketModeClient.issue_new_wss_url
+  private async retrieveWSSURL(): Promise<string> {
+    // python equiv: BaseSocketModeClient.issue_new_wss_url
     try {
       this.logger.debug('Going to retrieve a new WSS URL ...');
       const resp = await this.webClient.apps.connections.open({});
@@ -257,8 +257,10 @@ export class SocketModeClient extends EventEmitter {
       this.logger.error(`Failed to retrieve a new WSS URL (error: ${error})`);
       const err = error as WebAPICallError;
       let isRecoverable = true;
-      if (err.code === APICallErrorCode.PlatformError &&
-          (Object.values(UnrecoverableSocketModeStartError) as string[]).includes(err.data.error)) {
+      if (
+        err.code === APICallErrorCode.PlatformError &&
+        (Object.values(UnrecoverableSocketModeStartError) as string[]).includes(err.data.error)
+      ) {
         isRecoverable = false;
       } else if (err.code === APICallErrorCode.RequestError) {
         isRecoverable = false;
@@ -285,13 +287,14 @@ export class SocketModeClient extends EventEmitter {
       return;
     }
     const payload = data.toString();
+    // TODO: should we redact things in here?
     this.logger.debug(`Received a message on the WebSocket: ${payload}`);
 
     // Parse message into slack event
     let event: {
       type: string;
       reason: string;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: untyped connection callback parameters
       payload: Record<string, any>;
       envelope_id: string;
       retry_attempt?: number; // type: events_api
@@ -303,9 +306,7 @@ export class SocketModeClient extends EventEmitter {
       event = JSON.parse(payload);
     } catch (parseError) {
       // Prevent application from crashing on a bad message, but log an error to bring attention
-      this.logger.debug(
-        `Unable to parse an incoming WebSocket message (will ignore): ${parseError}, ${payload}`,
-      );
+      this.logger.debug(`Unable to parse an incoming WebSocket message (will ignore): ${parseError}, ${payload}`);
       return;
     }
 
@@ -317,7 +318,9 @@ export class SocketModeClient extends EventEmitter {
 
     // Slack is recycling the pod handling the connection (or otherwise requires the client to reconnect)
     if (event.type === 'disconnect') {
-      this.logger.debug(`Received "${event.type}" (${event.reason}) message - disconnecting.${this.autoReconnectEnabled ? ' Will reconnect.' : ''}`);
+      this.logger.debug(
+        `Received "${event.type}" (${event.reason}) message - disconnecting.${this.autoReconnectEnabled ? ' Will reconnect.' : ''}`,
+      );
       this.websocket?.disconnect();
       return;
     }
@@ -325,7 +328,9 @@ export class SocketModeClient extends EventEmitter {
     // Define Ack, a helper method for acknowledging events incoming from Slack
     const ack = async (response: Record<string, unknown>): Promise<void> => {
       if (this.logger.getLevel() === LogLevel.DEBUG) {
-        this.logger.debug(`Calling ack() - type: ${event.type}, envelope_id: ${event.envelope_id}, data: ${JSON.stringify(response)}`);
+        this.logger.debug(
+          `Calling ack() - type: ${event.type}, envelope_id: ${event.envelope_id}, data: ${JSON.stringify(response)}`,
+        );
       }
       await this.send(event.envelope_id, response);
     };
@@ -376,7 +381,9 @@ export class SocketModeClient extends EventEmitter {
 
     return new Promise((resolve, reject) => {
       const wsState = this.websocket?.readyState;
-      this.logger.debug(`send() method was called (WebSocket state: ${wsState ? WS_READY_STATES[wsState] : 'uninitialized'})`);
+      this.logger.debug(
+        `send() method was called (WebSocket state: ${wsState ? WS_READY_STATES[wsState] : 'uninitialized'})`,
+      );
       if (this.websocket === undefined) {
         this.logger.error('Failed to send a message as the client is not connected');
         reject(sendWhileDisconnectedError());

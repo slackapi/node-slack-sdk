@@ -17,12 +17,16 @@ export enum ErrorCode {
   InitializationError = 'slack_socket_mode_initialization_error',
 }
 
-export type SMCallError = SMPlatformError | SMWebsocketError | SMNoReplyReceivedError
-| SMSendWhileDisconnectedError | SMSendWhileNotReadyError;
+export type SMCallError =
+  | SMPlatformError
+  | SMWebsocketError
+  | SMNoReplyReceivedError
+  | SMSendWhileDisconnectedError
+  | SMSendWhileNotReadyError;
 
 export interface SMPlatformError extends CodedError {
   code: ErrorCode.SendMessagePlatformError;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
   data: any;
 }
 
@@ -62,22 +66,22 @@ export function websocketErrorWithOriginal(original: Error): SMWebsocketError {
     ErrorCode.WebsocketError,
   ) as Partial<SMWebsocketError>;
   error.original = original;
-  return (error as SMWebsocketError);
+  return error as SMWebsocketError;
 }
 
 /**
  * A factory to create SMPlatformError objects.
  */
 export function platformErrorFromEvent(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  event: any & { error: { msg: string; } },
+  // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
+  event: any & { error: { msg: string } },
 ): SMPlatformError {
   const error = errorWithCode(
     new Error(`An API error occurred: ${event.error.msg}`),
     ErrorCode.SendMessagePlatformError,
   ) as Partial<SMPlatformError>;
   error.data = event;
-  return (error as SMPlatformError);
+  return error as SMPlatformError;
 }
 
 // TODO: Is the below factory needed still?
@@ -86,8 +90,10 @@ export function platformErrorFromEvent(
  */
 export function noReplyReceivedError(): SMNoReplyReceivedError {
   return errorWithCode(
-    new Error('Message sent but no server acknowledgement was received. This may be caused by the client ' +
-    'changing connection state rather than any issue with the specific message. Check before resending.'),
+    new Error(
+      'Message sent but no server acknowledgement was received. This may be caused by the client ' +
+        'changing connection state rather than any issue with the specific message. Check before resending.',
+    ),
     ErrorCode.NoReplyReceivedError,
   ) as SMNoReplyReceivedError;
 }
