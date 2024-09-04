@@ -100,9 +100,9 @@ import type {
   AdminWorkflowsPermissionsLookupArguments,
   AdminWorkflowsSearchArguments,
   AdminWorkflowsUnpublishArguments,
-  AIAssistantThreadsSetStatusArguments,
-  AIAssistantThreadsSetSuggestedPromptsArguments,
-  AIAssistantThreadsSetTitleArguments,
+  AssistantThreadsSetStatusArguments,
+  AssistantThreadsSetSuggestedPromptsArguments,
+  AssistantThreadsSetTitleArguments,
   AppsConnectionsOpenArguments,
   AppsEventAuthorizationsListArguments,
   AppsManifestCreateArguments,
@@ -1335,27 +1335,25 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     test: bindApiCallWithOptionalArgument<APITestArguments, ApiTestResponse>(this, 'api.test'),
   };
 
-  public readonly ai = {
-    assistant: {
-      threads: {
-        /**
-         * @description Set loading status to indicate that the app is building a response.
-         * @see {@link https://api.slack.com/methods/ai.assistant.threads.setStatus `ai.assistant.threads.setStatus` API reference}.
-         */
-        setStatus: bindApiCall<AIAssistantThreadsSetStatusArguments, AIAssistantThreadsSetStatusResponse>(this, 'ai.assistant.threads.setStatus'),
-        /**
-         * @description Set suggested prompts for the user. Can suggest up to four prompts.
-         * @see {@link https://api.slack.com/methods/ai.assistant.threads.setSuggestedPrompts `ai.assistant.threads.setSuggestedPrompts` API reference}.
-         */
-        setSuggestedPrompts: bindApiCall<AIAssistantThreadsSetSuggestedPromptsArguments, AIAssistantThreadsSetSuggestedPromptsResponse>(this, 'ai.assistant.threads.setSuggestedPrompts'),
-        /**
-         * @description Set the title of the thread. This is shown when a user views the app's chat history.
-         * @see {@link https://api.slack.com/methods/ai.assistant.threads.setTitle `ai.assistant.threads.setTitle` API reference}.
-         */
-        setTitle: bindApiCall<AIAssistantThreadsSetTitleArguments, AIAssistantThreadsSetTitleResponse>(this, 'ai.assistant.threads.setTitle'),
-      }
+  public readonly assistant = {
+    threads: {
+      /**
+       * @description Set loading status to indicate that the app is building a response.
+       * @see {@link https://api.slack.com/methods/assistant.threads.setStatus `assistant.threads.setStatus` API reference}.
+       */
+      setStatus: bindApiCall<AssistantThreadsSetStatusArguments, AssistantThreadsSetStatusResponse>(this, 'assistant.threads.setStatus'),
+      /**
+       * @description Set suggested prompts for the user. Can suggest up to four prompts.
+       * @see {@link https://api.slack.com/methods/assistant.threads.setSuggestedPrompts `assistant.threads.setSuggestedPrompts` API reference}.
+       */
+      setSuggestedPrompts: bindApiCall<AssistantThreadsSetSuggestedPromptsArguments, AssistantThreadsSetSuggestedPromptsResponse>(this, 'assistant.threads.setSuggestedPrompts'),
+      /**
+       * @description Set the title of the thread. This is shown when a user views the app's chat history.
+       * @see {@link https://api.slack.com/methods/assistant.threads.setTitle `assistant.threads.setTitle` API reference}.
+       */
+      setTitle: bindApiCall<AssistantThreadsSetTitleArguments, AssistantThreadsSetTitleResponse>(this, 'assistant.threads.setTitle'),
     }
-  }
+  };
 
   public readonly apps = {
     connections: {
