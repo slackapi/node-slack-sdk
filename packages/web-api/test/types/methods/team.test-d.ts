@@ -26,9 +26,11 @@ expectAssignable<Parameters<typeof web.team.billing.info>>([{}]); // all optiona
 expectError(web.team.externalTeams.disconnect()); // lacking argument
 expectError(web.team.externalTeams.disconnect({})); // missing `target_team`
 // -- happy path
-expectAssignable<Parameters<typeof web.team.externalTeams.disconnect>>([{
-  target_team: 'T1234',
-}]);
+expectAssignable<Parameters<typeof web.team.externalTeams.disconnect>>([
+  {
+    target_team: 'T1234',
+  },
+]);
 
 // team.externalTeams.list
 // -- sad path

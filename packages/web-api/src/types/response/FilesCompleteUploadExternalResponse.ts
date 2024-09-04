@@ -8,73 +8,73 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type FilesCompleteUploadExternalResponse = WebAPICallResult & {
-  error?:             string;
-  files?:             File[];
-  needed?:            string;
-  ok?:                boolean;
-  provided?:          string;
+  error?: string;
+  files?: File[];
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
   response_metadata?: ResponseMetadata;
 };
 
 export interface File {
-  alt_txt?:              string;
-  channels?:             string[];
-  comments_count?:       number;
-  created?:              number;
-  deanimate?:            string;
-  deanimate_gif?:        string;
-  display_as_bot?:       boolean;
-  edit_link?:            string;
-  editable?:             boolean;
-  external_type?:        string;
-  file_access?:          string;
-  filetype?:             string;
-  groups?:               string[];
-  has_more_shares?:      boolean;
-  has_rich_preview?:     boolean;
-  id?:                   string;
-  ims?:                  string[];
-  is_external?:          boolean;
-  is_public?:            boolean;
-  is_starred?:           boolean;
-  lines?:                number;
-  lines_more?:           number;
-  media_display_type?:   string;
-  mimetype?:             string;
-  mode?:                 string;
-  name?:                 string;
-  original_h?:           number;
-  original_w?:           number;
-  permalink?:            string;
-  permalink_public?:     string;
-  pretty_type?:          string;
-  preview?:              string;
-  preview_highlight?:    string;
+  alt_txt?: string;
+  channels?: string[];
+  comments_count?: number;
+  created?: number;
+  deanimate?: string;
+  deanimate_gif?: string;
+  display_as_bot?: boolean;
+  edit_link?: string;
+  editable?: boolean;
+  external_type?: string;
+  file_access?: string;
+  filetype?: string;
+  groups?: string[];
+  has_more_shares?: boolean;
+  has_rich_preview?: boolean;
+  id?: string;
+  ims?: string[];
+  is_external?: boolean;
+  is_public?: boolean;
+  is_starred?: boolean;
+  lines?: number;
+  lines_more?: number;
+  media_display_type?: string;
+  mimetype?: string;
+  mode?: string;
+  name?: string;
+  original_h?: number;
+  original_w?: number;
+  permalink?: string;
+  permalink_public?: string;
+  pretty_type?: string;
+  preview?: string;
+  preview_highlight?: string;
   preview_is_truncated?: boolean;
-  public_url_shared?:    boolean;
-  shares?:               Shares;
-  size?:                 number;
-  thumb_160?:            string;
-  thumb_360?:            string;
-  thumb_360_gif?:        string;
-  thumb_360_h?:          number;
-  thumb_360_w?:          number;
-  thumb_480?:            string;
-  thumb_480_gif?:        string;
-  thumb_480_h?:          number;
-  thumb_480_w?:          number;
-  thumb_64?:             string;
-  thumb_80?:             string;
-  thumb_tiny?:           string;
-  timestamp?:            number;
-  title?:                string;
-  url_private?:          string;
+  public_url_shared?: boolean;
+  shares?: Shares;
+  size?: number;
+  thumb_160?: string;
+  thumb_360?: string;
+  thumb_360_gif?: string;
+  thumb_360_h?: number;
+  thumb_360_w?: number;
+  thumb_480?: string;
+  thumb_480_gif?: string;
+  thumb_480_h?: number;
+  thumb_480_w?: number;
+  thumb_64?: string;
+  thumb_80?: string;
+  thumb_tiny?: string;
+  timestamp?: number;
+  title?: string;
+  url_private?: string;
   url_private_download?: string;
-  user?:                 string;
-  user_team?:            string;
-  username?:             string;
+  user?: string;
+  user_team?: string;
+  username?: string;
 }
 
 export interface Shares {
@@ -82,16 +82,16 @@ export interface Shares {
 }
 
 export interface Public {
-  channel_name?:      string;
-  latest_reply?:      string;
-  reply_count?:       number;
-  reply_users?:       string[];
+  channel_name?: string;
+  latest_reply?: string;
+  reply_count?: number;
+  reply_users?: string[];
   reply_users_count?: number;
-  share_user_id?:     string;
-  source?:            string;
-  team_id?:           string;
-  thread_ts?:         string;
-  ts?:                string;
+  share_user_id?: string;
+  source?: string;
+  team_id?: string;
+  thread_ts?: string;
+  ts?: string;
 }
 
 export interface ResponseMetadata {

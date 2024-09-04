@@ -1,7 +1,7 @@
 /// <reference lib="esnext.asynciterable" />
 
-import { expectType, expectError } from 'tsd';
-import { WebClient, WebAPICallResult } from '../../';
+import { expectError, expectType } from 'tsd';
+import { type WebAPICallResult, WebClient } from '../../';
 
 const web = new WebClient();
 
@@ -15,7 +15,14 @@ expectType<Promise<void>>(web.paginate('conversations.list', {}, () => false));
 
 expectError(web.paginate('conversations.list', {}, () => 7));
 
-expectType<Promise<number>>(web.paginate('conversations.list', {}, () => false, () => 5));
+expectType<Promise<number>>(
+  web.paginate(
+    'conversations.list',
+    {},
+    () => false,
+    () => 5,
+  ),
+);
 
 // NOTE: this error does not arise with TypeScript 4.4+
 // When there's no shouldStop predicate given but there is a reducer, the behavior is undefined.
@@ -39,20 +46,24 @@ web.paginate('conversations.list', {}, (page) => {
 /* Testing the arguments of the reduce param */
 
 // Dummy type to make sure the generic param is bound properly
-interface Dummy { t: 'dummy'; }
+interface Dummy {
+  t: 'dummy';
+}
 const d: Dummy = { t: 'dummy' };
 
 // Ideally, we would get all the same expected types even when accumulator was not explicitly typed (only the return
 // value of reduce having a known type).
-expectType<Promise<Dummy>>(web.paginate(
-  'conversations.list',
-  {},
-  () => false,
-  (accumulator, page, pageNumber) => {
-    expectType<Dummy | undefined>(accumulator);
-    expectType<WebAPICallResult>(page);
-    expectType<number>(pageNumber);
+expectType<Promise<Dummy>>(
+  web.paginate(
+    'conversations.list',
+    {},
+    () => false,
+    (accumulator, page, pageNumber) => {
+      expectType<Dummy | undefined>(accumulator);
+      expectType<WebAPICallResult>(page);
+      expectType<number>(pageNumber);
 
-    return d;
-  }
-));
+      return d;
+    },
+  ),
+);

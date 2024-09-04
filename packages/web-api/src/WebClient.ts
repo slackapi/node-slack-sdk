@@ -1,12 +1,12 @@
-import { Agent } from 'http';
-import { basename } from 'path';
-import { stringify as qsStringify } from 'querystring';
-import { Readable } from 'stream';
-import { SecureContextOptions } from 'tls';
-import { TextDecoder } from 'util';
-import zlib from 'zlib';
+import type { Agent } from 'node:http';
+import { basename } from 'node:path';
+import { stringify as qsStringify } from 'node:querystring';
+import type { Readable } from 'node:stream';
+import type { SecureContextOptions } from 'node:tls';
+import { TextDecoder } from 'node:util';
+import zlib from 'node:zlib';
 
-import axios, { AxiosHeaderValue, AxiosInstance, AxiosResponse } from 'axios';
+import axios, { type AxiosHeaderValue, type AxiosInstance, type AxiosResponse } from 'axios';
 import FormData from 'form-data';
 import isElectron from 'is-electron';
 import isStream from 'is-stream';
@@ -27,10 +27,10 @@ import {
 } from './file-upload';
 import delay from './helpers';
 import { getUserAgent } from './instrument';
-import { LogLevel, Logger, getLogger } from './logger';
+import { LogLevel, type Logger, getLogger } from './logger';
 import { Methods } from './methods';
-import { RetryOptions, tenRetriesInAboutThirtyMinutes } from './retry-policies';
-import { CursorPaginationEnabled } from './types/request/common';
+import { type RetryOptions, tenRetriesInAboutThirtyMinutes } from './retry-policies';
+import type { CursorPaginationEnabled } from './types/request/common';
 
 import type {
   FileUploadV2Job,
@@ -50,7 +50,19 @@ import type {
  * Helpers
  */
 // Props on axios default headers object to ignore when retrieving full list of actual headers sent in any HTTP requests
-const axiosHeaderPropsToIgnore = ['delete', 'common', 'get', 'put', 'head', 'post', 'link', 'patch', 'purge', 'unlink', 'options'];
+const axiosHeaderPropsToIgnore = [
+  'delete',
+  'common',
+  'get',
+  'put',
+  'head',
+  'post',
+  'link',
+  'patch',
+  'purge',
+  'unlink',
+  'options',
+];
 const defaultFilename = 'Untitled';
 const defaultPageSize = 200;
 const noopPageReducer: PageReducer = () => undefined;
@@ -72,12 +84,12 @@ export interface WebClientOptions {
   headers?: Record<string, string>;
   teamId?: string;
   /**
- * Indicates whether to attach the original error to a Web API request error.
- * When set to true, the original error object will be attached to the Web API request error.
- * @type {boolean}
- * @default true
- */
-  attachOriginalToWebAPIRequestError?: boolean,
+   * Indicates whether to attach the original error to a Web API request error.
+   * When set to true, the original error object will be attached to the Web API request error.
+   * @type {boolean}
+   * @default true
+   */
+  attachOriginalToWebAPIRequestError?: boolean;
 }
 
 export type TLSOptions = Pick<SecureContextOptions, 'pfx' | 'key' | 'passphrase' | 'cert' | 'ca'>;
@@ -105,17 +117,19 @@ export interface WebAPICallResult {
 }
 
 // NOTE: should there be an async predicate?
-export interface PaginatePredicate {
-  (page: WebAPICallResult): boolean | undefined | void;
-}
+export type PaginatePredicate = (page: WebAPICallResult) => boolean | undefined | undefined;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface PageReducer<A = any> {
-  (accumulator: A | undefined, page: WebAPICallResult, index: number): A;
-}
+// biome-ignore lint/suspicious/noExplicitAny: reduce accumulator can be anything
+export type PageReducer<A = any> = (accumulator: A | undefined, page: WebAPICallResult, index: number) => A;
 
-export type PageAccumulator<R extends PageReducer> =
-  R extends (accumulator: (infer A) | undefined, page: WebAPICallResult, index: number) => infer A ? A : never;
+export type PageAccumulator<R extends PageReducer> = R extends (
+  accumulator: infer A | undefined,
+  page: WebAPICallResult,
+  index: number,
+  // biome-ignore lint/suspicious/noRedeclare: TODO: what is being redeclared here?
+) => infer A
+  ? A
+  : never;
 
 /**
  * A client for Slack's Web API
@@ -184,20 +198,23 @@ export class WebClient extends Methods {
   /**
    * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`)
    */
-  public constructor(token?: string, {
-    slackApiUrl = 'https://slack.com/api/',
-    logger = undefined,
-    logLevel = undefined,
-    maxRequestConcurrency = 100,
-    retryConfig = tenRetriesInAboutThirtyMinutes,
-    agent = undefined,
-    tls = undefined,
-    timeout = 0,
-    rejectRateLimitedCalls = false,
-    headers = {},
-    teamId = undefined,
-    attachOriginalToWebAPIRequestError = true,
-  }: WebClientOptions = {}) {
+  public constructor(
+    token?: string,
+    {
+      slackApiUrl = 'https://slack.com/api/',
+      logger = undefined,
+      logLevel = undefined,
+      maxRequestConcurrency = 100,
+      retryConfig = tenRetriesInAboutThirtyMinutes,
+      agent = undefined,
+      tls = undefined,
+      timeout = 0,
+      rejectRateLimitedCalls = false,
+      headers = {},
+      teamId = undefined,
+      attachOriginalToWebAPIRequestError = true,
+    }: WebClientOptions = {},
+  ) {
     super();
 
     this.token = token;
@@ -242,7 +259,7 @@ export class WebClient extends Methods {
       proxy: false,
     });
     // serializeApiCallOptions will always determine the appropriate content-type
-    delete this.axios.defaults.headers.post['Content-Type'];
+    this.axios.defaults.headers.post['Content-Type'] = undefined;
 
     this.logger.debug('initialized');
   }
@@ -271,10 +288,14 @@ export class WebClient extends Methods {
     const headers: Record<string, string> = {};
     if (options.token) headers.Authorization = `Bearer ${options.token}`;
 
-    const response = await this.makeRequest(method, {
-      team_id: this.teamId,
-      ...options,
-    }, headers);
+    const response = await this.makeRequest(
+      method,
+      {
+        team_id: this.teamId,
+        ...options,
+      },
+      headers,
+    );
     const result = await this.buildResult(response);
     this.logger.debug(`http request result: ${JSON.stringify(result)}`);
 
@@ -286,7 +307,7 @@ export class WebClient extends Methods {
     // log warnings and errors in response metadata messages
     // related to https://api.slack.com/changelog/2016-09-28-response-metadata-is-on-the-way
     if (result.response_metadata !== undefined && result.response_metadata.messages !== undefined) {
-      result.response_metadata.messages.forEach((msg) => {
+      for (const msg of result.response_metadata.messages) {
         const errReg: RegExp = /\[ERROR\](.*)/;
         const warnReg: RegExp = /\[WARN\](.*)/;
         if (errReg.test(msg)) {
@@ -300,16 +321,17 @@ export class WebClient extends Methods {
             this.logger.warn(warnMatch[1].trim());
           }
         }
-      });
+      }
     }
 
     // If result's content is gzip, "ok" property is not returned with successful response
     // TODO: look into simplifying this code block to only check for the second condition
     // if an { ok: false } body applies for all API errors
-    if (!result.ok && (response.headers['content-type'] !== 'application/gzip')) {
-      throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
-    } else if ('ok' in result && result.ok === false) {
-      throw platformErrorFromResult(result as (WebAPICallResult & { error: string; }));
+    if (!result.ok && response.headers['content-type'] !== 'application/gzip') {
+      throw platformErrorFromResult(result as WebAPICallResult & { error: string });
+    }
+    if ('ok' in result && result.ok === false) {
+      throw platformErrorFromResult(result as WebAPICallResult & { error: string });
     }
     this.logger.debug(`apiCall('${method}') end`);
     return result;
@@ -335,11 +357,7 @@ export class WebClient extends Methods {
    * @param reduce - a callback that can be used to accumulate a value that the return promise is resolved to
    */
   public paginate(method: string, options?: Record<string, unknown>): AsyncIterable<WebAPICallResult>;
-  public paginate(
-    method: string,
-    options: Record<string, unknown>,
-    shouldStop: PaginatePredicate,
-  ): Promise<void>;
+  public paginate(method: string, options: Record<string, unknown>, shouldStop: PaginatePredicate): Promise<void>;
   public paginate<R extends PageReducer, A extends PageAccumulator<R>>(
     method: string,
     options: Record<string, unknown>,
@@ -351,12 +369,12 @@ export class WebClient extends Methods {
     options?: Record<string, unknown>,
     shouldStop?: PaginatePredicate,
     reduce?: PageReducer<A>,
-  ): (Promise<A> | AsyncIterable<WebAPICallResult>) {
+  ): Promise<A> | AsyncIterable<WebAPICallResult> {
     const pageSize = (() => {
       if (options !== undefined && typeof options.limit === 'number') {
         const { limit } = options;
         // eslint-disable-next-line no-param-reassign
-        delete options.limit;
+        options.limit = undefined;
         return limit;
       }
       return defaultPageSize;
@@ -387,7 +405,7 @@ export class WebClient extends Methods {
       return generatePages.call(this);
     }
 
-    const pageReducer: PageReducer<A> = (reduce !== undefined) ? reduce : noopPageReducer;
+    const pageReducer: PageReducer<A> = reduce !== undefined ? reduce : noopPageReducer;
     let index = 0;
 
     return (async () => {
@@ -433,9 +451,9 @@ export class WebClient extends Methods {
    * **#3**: Complete uploads {@link https://api.slack.com/methods/files.completeUploadExternal files.completeUploadExternal}
    * @param options
    */
-  public async filesUploadV2(options: FilesUploadV2Arguments): Promise<
-  WebAPICallResult & { files: FilesCompleteUploadExternalResponse[] }
-  > {
+  public async filesUploadV2(
+    options: FilesUploadV2Arguments,
+  ): Promise<WebAPICallResult & { files: FilesCompleteUploadExternalResponse[] }> {
     this.logger.debug('files.uploadV2() start');
     // 1
     const fileUploads = await this.getAllFileUploads(options);
@@ -461,22 +479,25 @@ export class WebClient extends Methods {
    * which to send the file data to and an id for the file
    * @param fileUploads
    */
-  private async fetchAllUploadURLExternal(fileUploads: FileUploadV2Job[]):
-  Promise<Array<FilesGetUploadURLExternalResponse>> {
-    return Promise.all(fileUploads.map((upload: FileUploadV2Job) => {
-      /* eslint-disable @typescript-eslint/consistent-type-assertions */
-      const options = {
-        filename: upload.filename,
-        length: upload.length,
-        alt_text: upload.alt_text,
-        snippet_type: upload.snippet_type,
-      } as FilesGetUploadURLExternalArguments;
-      if ('token' in upload) {
-        options.token = upload.token;
-      }
+  private async fetchAllUploadURLExternal(
+    fileUploads: FileUploadV2Job[],
+  ): Promise<Array<FilesGetUploadURLExternalResponse>> {
+    return Promise.all(
+      fileUploads.map((upload: FileUploadV2Job) => {
+        /* eslint-disable @typescript-eslint/consistent-type-assertions */
+        const options = {
+          filename: upload.filename,
+          length: upload.length,
+          alt_text: upload.alt_text,
+          snippet_type: upload.snippet_type,
+        } as FilesGetUploadURLExternalArguments;
+        if ('token' in upload) {
+          options.token = upload.token;
+        }
 
-      return this.files.getUploadURLExternal(options);
-    }));
+        return this.files.getUploadURLExternal(options);
+      }),
+    );
   }
 
   /**
@@ -484,12 +505,9 @@ export class WebClient extends Methods {
    * @param fileUploads
    * @returns
    */
-  private async completeFileUploads(fileUploads: FileUploadV2Job[]):
-  Promise<Array<FilesCompleteUploadExternalResponse>> {
+  private async completeFileUploads(fileUploads: FileUploadV2Job[]): Promise<FilesCompleteUploadExternalResponse[]> {
     const toComplete: FilesCompleteUploadExternalArguments[] = Object.values(getAllFileUploadsToComplete(fileUploads));
-    return Promise.all(
-      toComplete.map((job: FilesCompleteUploadExternalArguments) => this.files.completeUploadExternal(job)),
-    );
+    return Promise.all(toComplete.map((job) => this.files.completeUploadExternal(job)));
   }
 
   /**
@@ -497,29 +515,37 @@ export class WebClient extends Methods {
    * @param fileUploads
    * @returns
    */
-  private async postFileUploadsToExternalURL(fileUploads: FileUploadV2Job[], options: FilesUploadV2Arguments)
-    : Promise<Array<FilesGetUploadURLExternalResponse>> {
-    return Promise.all(fileUploads.map(async (upload: FileUploadV2Job) => {
-      const { upload_url, file_id, filename, data } = upload;
-      // either file or content will be defined
-      const body = data;
+  private async postFileUploadsToExternalURL(
+    fileUploads: FileUploadV2Job[],
+    options: FilesUploadV2Arguments,
+  ): Promise<Array<FilesGetUploadURLExternalResponse>> {
+    return Promise.all(
+      fileUploads.map(async (upload: FileUploadV2Job) => {
+        const { upload_url, file_id, filename, data } = upload;
+        // either file or content will be defined
+        const body = data;
 
-      // try to post to external url
-      if (upload_url) {
-        const headers: Record<string, string> = {};
-        if (options.token) headers.Authorization = `Bearer ${options.token}`;
+        // try to post to external url
+        if (upload_url) {
+          const headers: Record<string, string> = {};
+          if (options.token) headers.Authorization = `Bearer ${options.token}`;
 
-        const uploadRes = await this.makeRequest(upload_url, {
-          body,
-        }, headers);
-        if (uploadRes.status !== 200) {
-          return Promise.reject(Error(`Failed to upload file (id:${file_id}, filename: ${filename})`));
+          const uploadRes = await this.makeRequest(
+            upload_url,
+            {
+              body,
+            },
+            headers,
+          );
+          if (uploadRes.status !== 200) {
+            return Promise.reject(Error(`Failed to upload file (id:${file_id}, filename: ${filename})`));
+          }
+          const returnData = { ok: true, body: uploadRes.data } as WebAPICallResult;
+          return Promise.resolve(returnData);
         }
-        const returnData = { ok: true, body: uploadRes.data } as WebAPICallResult;
-        return Promise.resolve(returnData);
-      }
-      return Promise.reject(Error(`No upload url found for file (id: ${file_id}, filename: ${filename}`));
-    }));
+        return Promise.reject(Error(`No upload url found for file (id: ${file_id}, filename: ${filename}`));
+      }),
+    );
   }
 
   /**
@@ -550,91 +576,99 @@ export class WebClient extends Methods {
     headers: Record<string, string> = {},
   ): Promise<AxiosResponse> {
     // TODO: better input types - remove any
-    const task = () => this.requestQueue.add(async () => {
-      const requestURL = (url.startsWith('https' || 'http')) ? url : `${this.axios.getUri() + url}`;
+    const task = () =>
+      this.requestQueue.add(async () => {
+        const requestURL = url.startsWith('https' || 'http') ? url : `${this.axios.getUri() + url}`;
 
-      try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const config: any = {
-          headers,
-          ...this.tlsConfig,
-        };
-        // admin.analytics.getFile returns a binary response
-        // To be able to parse it, it should be read as an ArrayBuffer
-        if (url.endsWith('admin.analytics.getFile')) {
-          config.responseType = 'arraybuffer';
-        }
-        // apps.event.authorizations.list will reject HTTP requests that send token in the body
-        // TODO: consider applying this change to all methods - though that will require thorough integration testing
-        if (url.endsWith('apps.event.authorizations.list')) {
-          // eslint-disable-next-line no-param-reassign
-          delete body.token;
-        }
-        this.logger.debug(`http request url: ${requestURL}`);
-        this.logger.debug(`http request body: ${JSON.stringify(redact(body))}`);
-        // compile all headers - some set by default under the hood by axios - that will be sent along
-        let allHeaders: Record<string, AxiosHeaderValue | undefined> = Object.keys(this.axios.defaults.headers)
-          .reduce((acc, cur) => {
-            if (!axiosHeaderPropsToIgnore.includes(cur)) {
-              acc[cur] = this.axios.defaults.headers[cur];
-            }
-            return acc;
-          }, {} as Record<string, AxiosHeaderValue | undefined>);
-
-        allHeaders = {
-          ...this.axios.defaults.headers.common,
-          ...allHeaders,
-          ...headers,
-        };
-        this.logger.debug(`http request headers: ${JSON.stringify(redact(allHeaders))}`);
-        const response = await this.axios.post(url, body, config);
-        this.logger.debug('http response received');
-
-        if (response.status === 429) {
-          const retrySec = parseRetryHeaders(response);
-          if (retrySec !== undefined) {
-            this.emit(WebClientEvent.RATE_LIMITED, retrySec, { url, body });
-            if (this.rejectRateLimitedCalls) {
-              throw new AbortError(rateLimitedErrorWithDelay(retrySec));
-            }
-            this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
-            // pause the request queue and then delay the rejection by the amount of time in the retry header
-            this.requestQueue.pause();
-            // NOTE: if there was a way to introspect the current RetryOperation and know what the next timeout
-            // would be, then we could subtract that time from the following delay, knowing that it the next
-            // attempt still wouldn't occur until after the rate-limit header has specified. an even better
-            // solution would be to subtract the time from only the timeout of this next attempt of the
-            // RetryOperation. this would result in the staying paused for the entire duration specified in the
-            // header, yet this operation not having to pay the timeout cost in addition to that.
-            await delay(retrySec * 1000);
-            // resume the request queue and throw a non-abort error to signal a retry
-            this.requestQueue.start();
-            // TODO: We may want to have more detailed info such as team_id, params except tokens, and so on.
-            throw new Error(`A rate limit was exceeded (url: ${url}, retry-after: ${retrySec})`);
-          } else {
-            // TODO: turn this into some CodedError
-            throw new AbortError(new Error(`Retry header did not contain a valid timeout (url: ${url}, retry-after header: ${response.headers['retry-after']})`));
+        try {
+          // biome-ignore lint/suspicious/noExplicitAny: TODO: type this
+          const config: any = {
+            headers,
+            ...this.tlsConfig,
+          };
+          // admin.analytics.getFile returns a binary response
+          // To be able to parse it, it should be read as an ArrayBuffer
+          if (url.endsWith('admin.analytics.getFile')) {
+            config.responseType = 'arraybuffer';
           }
-        }
+          // apps.event.authorizations.list will reject HTTP requests that send token in the body
+          // TODO: consider applying this change to all methods - though that will require thorough integration testing
+          if (url.endsWith('apps.event.authorizations.list')) {
+            // eslint-disable-next-line no-param-reassign
+            body.token = undefined;
+          }
+          this.logger.debug(`http request url: ${requestURL}`);
+          this.logger.debug(`http request body: ${JSON.stringify(redact(body))}`);
+          // compile all headers - some set by default under the hood by axios - that will be sent along
+          let allHeaders: Record<string, AxiosHeaderValue | undefined> = Object.keys(
+            this.axios.defaults.headers,
+          ).reduce(
+            (acc, cur) => {
+              if (!axiosHeaderPropsToIgnore.includes(cur)) {
+                acc[cur] = this.axios.defaults.headers[cur];
+              }
+              return acc;
+            },
+            {} as Record<string, AxiosHeaderValue | undefined>,
+          );
 
-        // Slack's Web API doesn't use meaningful status codes besides 429 and 200
-        if (response.status !== 200) {
-          throw httpErrorFromResponse(response);
-        }
+          allHeaders = {
+            ...this.axios.defaults.headers.common,
+            ...allHeaders,
+            ...headers,
+          };
+          this.logger.debug(`http request headers: ${JSON.stringify(redact(allHeaders))}`);
+          const response = await this.axios.post(url, body, config);
+          this.logger.debug('http response received');
 
-        return response;
-      } catch (error) {
-        // To make this compatible with tsd, casting here instead of `catch (error: any)`
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const e = error as any;
-        this.logger.warn('http request failed', e.message);
-        if (e.request) {
-          throw requestErrorWithOriginal(e, this.attachOriginalToWebAPIRequestError);
+          if (response.status === 429) {
+            const retrySec = parseRetryHeaders(response);
+            if (retrySec !== undefined) {
+              this.emit(WebClientEvent.RATE_LIMITED, retrySec, { url, body });
+              if (this.rejectRateLimitedCalls) {
+                throw new AbortError(rateLimitedErrorWithDelay(retrySec));
+              }
+              this.logger.info(`API Call failed due to rate limiting. Will retry in ${retrySec} seconds.`);
+              // pause the request queue and then delay the rejection by the amount of time in the retry header
+              this.requestQueue.pause();
+              // NOTE: if there was a way to introspect the current RetryOperation and know what the next timeout
+              // would be, then we could subtract that time from the following delay, knowing that it the next
+              // attempt still wouldn't occur until after the rate-limit header has specified. an even better
+              // solution would be to subtract the time from only the timeout of this next attempt of the
+              // RetryOperation. this would result in the staying paused for the entire duration specified in the
+              // header, yet this operation not having to pay the timeout cost in addition to that.
+              await delay(retrySec * 1000);
+              // resume the request queue and throw a non-abort error to signal a retry
+              this.requestQueue.start();
+              // TODO: We may want to have more detailed info such as team_id, params except tokens, and so on.
+              throw new Error(`A rate limit was exceeded (url: ${url}, retry-after: ${retrySec})`);
+            }
+            // TODO: turn this into some CodedError
+            throw new AbortError(
+              new Error(
+                `Retry header did not contain a valid timeout (url: ${url}, retry-after header: ${response.headers['retry-after']})`,
+              ),
+            );
+          }
+
+          // Slack's Web API doesn't use meaningful status codes besides 429 and 200
+          if (response.status !== 200) {
+            throw httpErrorFromResponse(response);
+          }
+
+          return response;
+        } catch (error) {
+          // To make this compatible with tsd, casting here instead of `catch (error: any)`
+          // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
+          const e = error as any;
+          this.logger.warn('http request failed', e.message);
+          if (e.request) {
+            throw requestErrorWithOriginal(e, this.attachOriginalToWebAPIRequestError);
+          }
+          throw error;
         }
-        throw error;
-      }
-    });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      });
+    // biome-ignore lint/suspicious/noExplicitAny: http responses can be anything
     return pRetry(task, this.retryConfig) as Promise<AxiosResponse<any, any>>;
   }
 
@@ -646,12 +680,14 @@ export class WebClient extends Methods {
    * @param options - arguments for the Web API method
    * @param headers - a mutable object representing the HTTP headers for the outgoing request
    */
-  private serializeApiCallOptions(options: Record<string, unknown>, headers?: Record<string, string>): string |
-  Readable {
+  private serializeApiCallOptions(
+    options: Record<string, unknown>,
+    headers?: Record<string, string>,
+  ): string | Readable {
     // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
     // binary content
-    let containsBinaryData: boolean = false;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let containsBinaryData = false;
+    // biome-ignore lint/suspicious/noExplicitAny: call options can be anything
     const flattened = Object.entries(options).map<[string, any] | []>(([key, value]) => {
       if (value === undefined || value === null) {
         return [];
@@ -673,58 +709,52 @@ export class WebClient extends Methods {
     // A body with binary content should be serialized as multipart/form-data
     if (containsBinaryData) {
       this.logger.debug('Request arguments contain binary data');
-      const form = flattened.reduce(
-        (frm, [key, value]) => {
-          if (Buffer.isBuffer(value) || isStream(value)) {
-            const opts: FormData.AppendOptions = {};
-            opts.filename = (() => {
-              // attempt to find filename from `value`. adapted from:
-              // https://github.com/form-data/form-data/blob/028c21e0f93c5fefa46a7bbf1ba753e4f627ab7a/lib/form_data.js#L227-L230
-              // formidable and the browser add a name property
-              // fs- and request- streams have path property
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              const streamOrBuffer: any = (value as any);
-              if (typeof streamOrBuffer.name === 'string') {
-                return basename(streamOrBuffer.name);
-              }
-              if (typeof streamOrBuffer.path === 'string') {
-                return basename(streamOrBuffer.path);
-              }
-              return defaultFilename;
-            })();
-            frm.append(key as string, value, opts);
-          } else if (key !== undefined && value !== undefined) {
-            frm.append(key, value);
-          }
-          return frm;
-        },
-        new FormData(),
-      );
+      const form = flattened.reduce((frm, [key, value]) => {
+        if (Buffer.isBuffer(value) || isStream(value)) {
+          const opts: FormData.AppendOptions = {};
+          opts.filename = (() => {
+            // attempt to find filename from `value`. adapted from:
+            // https://github.com/form-data/form-data/blob/028c21e0f93c5fefa46a7bbf1ba753e4f627ab7a/lib/form_data.js#L227-L230
+            // formidable and the browser add a name property
+            // fs- and request- streams have path property
+            // biome-ignore lint/suspicious/noExplicitAny: form values can be anything
+            const streamOrBuffer: any = value as any;
+            if (typeof streamOrBuffer.name === 'string') {
+              return basename(streamOrBuffer.name);
+            }
+            if (typeof streamOrBuffer.path === 'string') {
+              return basename(streamOrBuffer.path);
+            }
+            return defaultFilename;
+          })();
+          frm.append(key as string, value, opts);
+        } else if (key !== undefined && value !== undefined) {
+          frm.append(key, value);
+        }
+        return frm;
+      }, new FormData());
       if (headers) {
         // Copying FormData-generated headers into headers param
         // not reassigning to headers param since it is passed by reference and behaves as an inout param
-        Object.entries(form.getHeaders()).forEach(([header, value]) => {
-          // eslint-disable-next-line no-param-reassign
+        for (const [header, value] of Object.entries(form.getHeaders())) {
           headers[header] = value;
-        });
+        }
       }
       return form;
     }
 
     // Otherwise, a simple key-value object is returned
-    // eslint-disable-next-line no-param-reassign
     if (headers) headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const initialValue: { [key: string]: any; } = {};
-    return qsStringify(flattened.reduce(
-      (accumulator, [key, value]) => {
+    // biome-ignore lint/suspicious/noExplicitAny: form values can be anything
+    const initialValue: { [key: string]: any } = {};
+    return qsStringify(
+      flattened.reduce((accumulator, [key, value]) => {
         if (key !== undefined && value !== undefined) {
           accumulator[key] = value;
         }
         return accumulator;
-      },
-      initialValue,
-    ));
+      }, initialValue),
+    );
   }
 
   /**
@@ -748,19 +778,20 @@ export class WebClient extends Methods {
             }
             return resolve(buf.toString().split('\n'));
           });
-        }).then((res) => res)
+        })
+          .then((res) => res)
           .catch((err) => {
             throw err;
           });
-        const fileData: Array<AdminAnalyticsMemberDetails |
-        AdminAnalyticsPublicChannelDetails |
-        AdminAnalyticsPublicChannelMetadataDetails> = [];
+        const fileData: Array<
+          AdminAnalyticsMemberDetails | AdminAnalyticsPublicChannelDetails | AdminAnalyticsPublicChannelMetadataDetails
+        > = [];
         if (Array.isArray(unzippedData)) {
-          unzippedData.forEach((dataset) => {
+          for (const dataset of unzippedData) {
             if (dataset && dataset.length > 0) {
               fileData.push(JSON.parse(dataset));
             }
-          });
+          }
         }
         data = { file_data: fileData };
       } catch (err) {
@@ -791,7 +822,9 @@ export class WebClient extends Methods {
       data.response_metadata.scopes = (response.headers['x-oauth-scopes'] as string).trim().split(/\s*,\s*/);
     }
     if (response.headers['x-accepted-oauth-scopes'] !== undefined) {
-      data.response_metadata.acceptedScopes = (response.headers['x-accepted-oauth-scopes'] as string).trim().split(/\s*,\s*/);
+      data.response_metadata.acceptedScopes = (response.headers['x-accepted-oauth-scopes'] as string)
+        .trim()
+        .split(/\s*,\s*/);
     }
 
     // add retry metadata from headers
@@ -835,7 +868,7 @@ function paginationOptionsForNextPage(
  */
 function parseRetryHeaders(response: AxiosResponse): number | undefined {
   if (response.headers['retry-after'] !== undefined) {
-    const retryAfter = parseInt((response.headers['retry-after'] as string), 10);
+    const retryAfter = Number.parseInt(response.headers['retry-after'] as string, 10);
 
     if (!Number.isNaN(retryAfter)) {
       return retryAfter;
@@ -874,19 +907,18 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, options?: Recor
 
   const hasAttachments = (args: Record<string, unknown>) => Array.isArray(args.attachments) && args.attachments.length;
 
-  const missingAttachmentFallbackDetected = (args: Record<string, unknown>) => Array.isArray(args.attachments) &&
+  const missingAttachmentFallbackDetected = (args: Record<string, unknown>) =>
+    Array.isArray(args.attachments) &&
     args.attachments.some((attachment) => !attachment.fallback || attachment.fallback.trim() === '');
 
-  const isEmptyText = (args: Record<string, unknown>) => args.text === undefined || args.text === null || args.text === '';
+  const isEmptyText = (args: Record<string, unknown>) =>
+    args.text === undefined || args.text === null || args.text === '';
 
-  const buildMissingTextWarning = () => `The top-level \`text\` argument is missing in the request payload for a ${method} call - ` +
-    'It\'s a best practice to always provide a `text` argument when posting a message. ' +
-    'The `text` is used in places where the content cannot be rendered such as: ' +
-    'system push notifications, assistive technology such as screen readers, etc.';
+  const buildMissingTextWarning = () =>
+    `The top-level \`text\` argument is missing in the request payload for a ${method} call - It's a best practice to always provide a \`text\` argument when posting a message. The \`text\` is used in places where the content cannot be rendered such as: system push notifications, assistive technology such as screen readers, etc.`;
 
-  const buildMissingFallbackWarning = () => `Additionally, the attachment-level \`fallback\` argument is missing in the request payload for a ${method} call - ` +
-    'To avoid this warning, it is recommended to always provide a top-level `text` argument when posting a message. ' +
-    'Alternatively, you can provide an attachment-level `fallback` argument, though this is now considered a legacy field (see https://api.slack.com/reference/messaging/attachments#legacy_fields for more details).';
+  const buildMissingFallbackWarning = () =>
+    `Additionally, the attachment-level \`fallback\` argument is missing in the request payload for a ${method} call - To avoid this warning, it is recommended to always provide a top-level \`text\` argument when posting a message. Alternatively, you can provide an attachment-level \`fallback\` argument, though this is now considered a legacy field (see https://api.slack.com/reference/messaging/attachments#legacy_fields for more details).`;
   if (isTargetMethod && typeof options === 'object') {
     if (hasAttachments(options)) {
       if (missingAttachmentFallbackDetected(options) && isEmptyText(options)) {
@@ -924,7 +956,7 @@ export function buildThreadTsWarningMessage(method: string): string {
  * @returns
  */
 function redact(body: Record<string, unknown>): Record<string, unknown> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: objects can be anything
   const flattened = Object.entries(body).map<[string, any] | []>(([key, value]) => {
     // no value provided
     if (value === undefined || value === null) {
@@ -948,14 +980,11 @@ function redact(body: Record<string, unknown>): Record<string, unknown> {
   });
 
   // return as object
-  const initialValue: { [key: string]: unknown; } = {};
-  return flattened.reduce(
-    (accumulator, [key, value]) => {
-      if (key !== undefined && value !== undefined) {
-        accumulator[key] = value;
-      }
-      return accumulator;
-    },
-    initialValue,
-  );
+  const initialValue: { [key: string]: unknown } = {};
+  return flattened.reduce((accumulator, [key, value]) => {
+    if (key !== undefined && value !== undefined) {
+      accumulator[key] = value;
+    }
+    return accumulator;
+  }, initialValue);
 }

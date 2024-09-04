@@ -8,13 +8,13 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type TeamBillableInfoResponse = WebAPICallResult & {
-  billable_info?:     { [key: string]: BillableInfo };
-  error?:             string;
-  needed?:            string;
-  ok?:                boolean;
-  provided?:          string;
+  billable_info?: { [key: string]: BillableInfo };
+  error?: string;
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
   response_metadata?: ResponseMetadata;
 };
 

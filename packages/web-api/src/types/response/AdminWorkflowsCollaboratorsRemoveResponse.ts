@@ -8,17 +8,17 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type AdminWorkflowsCollaboratorsRemoveResponse = WebAPICallResult & {
-  error?:    string;
-  errors?:   Error[];
-  needed?:   string;
-  ok?:       boolean;
+  error?: string;
+  errors?: Error[];
+  needed?: string;
+  ok?: boolean;
   provided?: string;
 };
 
 export interface Error {
-  message?:  string;
-  user?:     string;
+  message?: string;
+  user?: string;
   workflow?: string;
 }

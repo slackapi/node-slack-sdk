@@ -1,4 +1,4 @@
-import { OptionalArgument } from '../../helpers';
+import type { OptionalArgument } from '../../helpers';
 
 import type {
   ChannelIDs,
@@ -31,10 +31,10 @@ interface SessionExpirationTarget {
   web_only?: boolean;
 }
 
-interface TeamIDWithoutDeactivatedWorkspaces extends TeamID {
+export interface TeamIDWithoutDeactivatedWorkspaces extends TeamID {
   include_deactivated_user_workspaces?: false;
 }
-interface DeactivatedWorkspacesWithoutTeamID {
+export interface DeactivatedWorkspacesWithoutTeamID {
   team_id?: never;
   /**
    * @description Only applies when using an org token and when no `team_id` is provided. If `true`, return workspaces
@@ -46,8 +46,8 @@ interface DeactivatedWorkspacesWithoutTeamID {
 // `admin.users.list` accepts either a team_id, or include_deactivated_user_workspaces=true, but not both
 type TeamIDOrDeactivatedWorkspaces = TeamIDWithoutDeactivatedWorkspaces | DeactivatedWorkspacesWithoutTeamID;
 
-interface BothTeamAndUserID extends TeamID, UserID {}
-interface NeitherTeamNorUserID {
+export interface BothTeamAndUserID extends TeamID, UserID {}
+export interface NeitherTeamNorUserID {
   team_id?: never;
   user_id?: never;
 }
@@ -55,12 +55,21 @@ interface NeitherTeamNorUserID {
 type EitherTeamAndUserIDOrNeither = BothTeamAndUserID | NeitherTeamNorUserID;
 
 // https://api.slack.com/methods/admin.users.assign
-export interface AdminUsersAssignArguments extends TeamID, UserID, Partial<ChannelIDs>, IsRestricted,
-  IsUltraRestricted, TokenOverridable {}
+export interface AdminUsersAssignArguments
+  extends TeamID,
+    UserID,
+    Partial<ChannelIDs>,
+    IsRestricted,
+    IsUltraRestricted,
+    TokenOverridable {}
 
 // https://api.slack.com/methods/admin.users.invite
-export interface AdminUsersInviteArguments extends ChannelIDs, TeamID, IsRestricted, IsUltraRestricted,
-  TokenOverridable {
+export interface AdminUsersInviteArguments
+  extends ChannelIDs,
+    TeamID,
+    IsRestricted,
+    IsUltraRestricted,
+    TokenOverridable {
   /** @description The email address of the person to invite. */
   email: string;
   /** @description An optional message to send to the user in the invite email. */
@@ -80,19 +89,22 @@ export interface AdminUsersInviteArguments extends ChannelIDs, TeamID, IsRestric
   /**
    * @description Allow this invite to be resent in the future if a user has not signed up yet.
    * Resending can only be done via the UI and has no expiration. Defaults to `false`.
-  */
+   */
   resend?: boolean;
 }
 
 // https://api.slack.com/methods/admin.users.list
-export type AdminUsersListArguments = OptionalArgument<TeamIDOrDeactivatedWorkspaces & TokenOverridable &
-CursorPaginationEnabled & {
-  /**
-   * @description If `true`, only active users will be returned. If `false`, only deactivated users will be returned.
-   * Default is `true`.
-   */
-  is_active?: boolean;
-}>;
+export type AdminUsersListArguments = OptionalArgument<
+  TeamIDOrDeactivatedWorkspaces &
+    TokenOverridable &
+    CursorPaginationEnabled & {
+      /**
+       * @description If `true`, only active users will be returned. If `false`, only deactivated users will be returned.
+       * Default is `true`.
+       */
+      is_active?: boolean;
+    }
+>;
 
 // https://api.slack.com/methods/admin.users.remove
 export interface AdminUsersRemoveArguments extends TeamID, UserID, TokenOverridable {}
@@ -110,8 +122,9 @@ export interface AdminUsersSessionInvalidateArguments extends TeamID, TokenOverr
 }
 
 // https://api.slack.com/methods/admin.users.session.list
-export type AdminUsersSessionListArguments = OptionalArgument<EitherTeamAndUserIDOrNeither & TokenOverridable &
-CursorPaginationEnabled>;
+export type AdminUsersSessionListArguments = OptionalArgument<
+  EitherTeamAndUserIDOrNeither & TokenOverridable & CursorPaginationEnabled
+>;
 
 // https://api.slack.com/methods/admin.users.session.reset
 export interface AdminUsersSessionResetArguments extends UserID, SessionExpirationTarget, TokenOverridable {}

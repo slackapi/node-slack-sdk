@@ -8,13 +8,13 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type AdminConversationsRestrictAccessListGroupsResponse = WebAPICallResult & {
-  error?:             string;
-  group_ids?:         string[];
-  needed?:            string;
-  ok?:                boolean;
-  provided?:          string;
+  error?: string;
+  group_ids?: string[];
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
   response_metadata?: ResponseMetadata;
 };
 

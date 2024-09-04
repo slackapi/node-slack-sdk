@@ -9,8 +9,7 @@ export interface AdminFunctionsListArguments extends TokenOverridable, CursorPag
 }
 
 // https://api.slack.com/methods/admin.functions.permissions.lookup
-export interface AdminFunctionsPermissionsLookupArguments
-  extends TokenOverridable {
+export interface AdminFunctionsPermissionsLookupArguments extends TokenOverridable {
   /** @description An array of function IDs to get permissions for. */
   function_ids: [string, ...string[]];
 }

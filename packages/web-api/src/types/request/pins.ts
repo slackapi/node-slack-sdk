@@ -1,4 +1,4 @@
-import { MessageArgument, TokenOverridable } from './common';
+import type { MessageArgument, TokenOverridable } from './common';
 
 // https://api.slack.com/methods/pins.add
 export interface PinsAddArguments extends MessageArgument, TokenOverridable {}

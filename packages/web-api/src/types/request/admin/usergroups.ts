@@ -11,8 +11,11 @@ interface UsergroupID {
 }
 
 // https://api.slack.com/methods/admin.usergroups.addChannels
-export interface AdminUsergroupsAddChannelsArguments extends ChannelIDs, UsergroupID, OptionalTeamAssignable,
-  TokenOverridable {}
+export interface AdminUsergroupsAddChannelsArguments
+  extends ChannelIDs,
+    UsergroupID,
+    OptionalTeamAssignable,
+    TokenOverridable {}
 
 // https://api.slack.com/methods/admin.usergroups.addTeams
 export interface AdminUsergroupsAddTeamsArguments extends UsergroupID, TokenOverridable {

@@ -60,6 +60,11 @@ export interface TeamID {
   /** @description The encoded team ID. */
   team_id: string;
 }
+export interface TeamIDs {
+  /** @description A list of team IDs (must include at least one ID). */
+  team_ids: [string, ...string[]];
+}
+
 export interface OptionalTeamAssignable {
   /** @description If using an org token, `team_id` is required. */
   team_id?: string;
@@ -74,6 +79,10 @@ export interface TargetTeam {
 export interface ChannelIDs {
   /** @description An array of channel IDs (must include at least one ID). */
   channel_ids: [string, ...string[]];
+}
+export interface ChannelID {
+  /** @description Encoded channel ID. */
+  channel_id: string;
 }
 
 // Same for user IDs

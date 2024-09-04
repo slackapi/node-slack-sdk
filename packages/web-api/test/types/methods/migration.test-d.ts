@@ -8,6 +8,8 @@ const web = new WebClient('TOKEN');
 expectError(web.migration.exchange()); // lacking argument
 expectError(web.migration.exchange({})); // empty argument
 // -- happy path
-expectAssignable<Parameters<typeof web.migration.exchange>>([{
-  users: 'U1234',
-}]);
+expectAssignable<Parameters<typeof web.migration.exchange>>([
+  {
+    users: 'U1234',
+  },
+]);

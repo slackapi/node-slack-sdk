@@ -8,39 +8,39 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type GroupsListResponse = WebAPICallResult & {
-  error?:             string;
-  groups?:            Group[];
-  needed?:            string;
-  ok?:                boolean;
-  provided?:          string;
+  error?: string;
+  groups?: Group[];
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
   response_metadata?: ResponseMetadata;
-  warning?:           string;
+  warning?: string;
 };
 
 export interface Group {
-  created?:         number;
-  creator?:         string;
-  id?:              string;
-  is_archived?:     boolean;
-  is_group?:        boolean;
-  is_mpim?:         boolean;
-  is_open?:         boolean;
-  last_read?:       string;
-  members?:         string[];
-  name?:            string;
+  created?: number;
+  creator?: string;
+  id?: string;
+  is_archived?: boolean;
+  is_group?: boolean;
+  is_mpim?: boolean;
+  is_open?: boolean;
+  last_read?: string;
+  members?: string[];
+  name?: string;
   name_normalized?: string;
-  parent_group?:    string;
-  priority?:        number;
-  purpose?:         Purpose;
-  topic?:           Purpose;
+  parent_group?: string;
+  priority?: number;
+  purpose?: Purpose;
+  topic?: Purpose;
 }
 
 export interface Purpose {
-  creator?:  string;
+  creator?: string;
   last_set?: number;
-  value?:    string;
+  value?: string;
 }
 
 export interface ResponseMetadata {

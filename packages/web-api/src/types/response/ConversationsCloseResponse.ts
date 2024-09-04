@@ -8,12 +8,12 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type ConversationsCloseResponse = WebAPICallResult & {
   already_closed?: boolean;
-  error?:          string;
-  needed?:         string;
-  no_op?:          boolean;
-  ok?:             boolean;
-  provided?:       string;
+  error?: string;
+  needed?: string;
+  no_op?: boolean;
+  ok?: boolean;
+  provided?: string;
 };

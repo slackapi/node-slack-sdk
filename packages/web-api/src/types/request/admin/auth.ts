@@ -17,8 +17,11 @@ interface PolicyName {
 export interface AdminAuthPolicyAssignEntitiesArguments extends EntityIDs, EntityType, PolicyName, TokenOverridable {}
 
 // https://api.slack.com/methods/admin.auth.policy.getEntities
-export interface AdminAuthPolicyGetEntitiesArguments extends Partial<EntityType>, PolicyName, TokenOverridable,
-  CursorPaginationEnabled {}
+export interface AdminAuthPolicyGetEntitiesArguments
+  extends Partial<EntityType>,
+    PolicyName,
+    TokenOverridable,
+    CursorPaginationEnabled {}
 
 // https://api.slack.com/methods/admin.auth.policy.removeEntities
 export interface AdminAuthPolicyRemoveEntitiesArguments extends EntityIDs, EntityType, PolicyName, TokenOverridable {}

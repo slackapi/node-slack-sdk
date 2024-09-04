@@ -8,66 +8,66 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type ConversationsListResponse = WebAPICallResult & {
-  channels?:          Channel[];
-  error?:             string;
-  needed?:            string;
-  ok?:                boolean;
-  provided?:          string;
+  channels?: Channel[];
+  error?: string;
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
   response_metadata?: ResponseMetadata;
 };
 
 export interface Channel {
-  context_team_id?:            string;
-  conversation_host_id?:       string;
-  created?:                    number;
-  creator?:                    string;
-  id?:                         string;
-  internal_team_ids?:          string[];
-  is_archived?:                boolean;
-  is_channel?:                 boolean;
-  is_ext_shared?:              boolean;
-  is_general?:                 boolean;
-  is_global_shared?:           boolean;
-  is_group?:                   boolean;
-  is_im?:                      boolean;
-  is_member?:                  boolean;
-  is_moved?:                   number;
-  is_mpim?:                    boolean;
-  is_org_default?:             boolean;
-  is_org_mandatory?:           boolean;
-  is_org_shared?:              boolean;
-  is_pending_ext_shared?:      boolean;
-  is_private?:                 boolean;
-  is_shared?:                  boolean;
-  is_user_deleted?:            boolean;
-  name?:                       string;
-  name_normalized?:            string;
-  num_members?:                number;
+  context_team_id?: string;
+  conversation_host_id?: string;
+  created?: number;
+  creator?: string;
+  id?: string;
+  internal_team_ids?: string[];
+  is_archived?: boolean;
+  is_channel?: boolean;
+  is_ext_shared?: boolean;
+  is_general?: boolean;
+  is_global_shared?: boolean;
+  is_group?: boolean;
+  is_im?: boolean;
+  is_member?: boolean;
+  is_moved?: number;
+  is_mpim?: boolean;
+  is_org_default?: boolean;
+  is_org_mandatory?: boolean;
+  is_org_shared?: boolean;
+  is_pending_ext_shared?: boolean;
+  is_private?: boolean;
+  is_shared?: boolean;
+  is_user_deleted?: boolean;
+  name?: string;
+  name_normalized?: string;
+  num_members?: number;
   pending_connected_team_ids?: string[];
-  pending_shared?:             string[];
-  previous_names?:             string[];
-  priority?:                   number;
-  properties?:                 Properties;
-  purpose?:                    Purpose;
-  shared_team_ids?:            string[];
-  topic?:                      Purpose;
-  unlinked?:                   number;
-  updated?:                    number;
-  user?:                       string;
+  pending_shared?: string[];
+  previous_names?: string[];
+  priority?: number;
+  properties?: Properties;
+  purpose?: Purpose;
+  shared_team_ids?: string[];
+  topic?: Purpose;
+  unlinked?: number;
+  updated?: number;
+  user?: string;
 }
 
 export interface Properties {
-  canvas?:                Canvas;
+  canvas?: Canvas;
   posting_restricted_to?: RestrictedTo;
-  tabs?:                  Tab[];
+  tabs?: Tab[];
   threads_restricted_to?: RestrictedTo;
 }
 
 export interface Canvas {
-  file_id?:        string;
-  is_empty?:       boolean;
+  file_id?: string;
+  is_empty?: boolean;
   quip_thread_id?: string;
 }
 
@@ -77,15 +77,15 @@ export interface RestrictedTo {
 }
 
 export interface Tab {
-  id?:    string;
+  id?: string;
   label?: string;
-  type?:  string;
+  type?: string;
 }
 
 export interface Purpose {
-  creator?:  string;
+  creator?: string;
   last_set?: number;
-  value?:    string;
+  value?: string;
 }
 
 export interface ResponseMetadata {

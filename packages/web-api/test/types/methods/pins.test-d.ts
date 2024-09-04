@@ -10,37 +10,51 @@ const message = { channel: 'C1234', timestamp: '1234.567' };
 // -- sad path
 expectError(web.pins.add()); // lacking argument
 expectError(web.pins.add({})); // empty argument
-expectError(web.pins.add({
-  channel: 'C1234', // missing timestamp
-}));
-expectError(web.pins.add({
-  timestamp: '1234.567', // missing `channel`
-}));
+expectError(
+  web.pins.add({
+    channel: 'C1234', // missing timestamp
+  }),
+);
+expectError(
+  web.pins.add({
+    timestamp: '1234.567', // missing `channel`
+  }),
+);
 // -- happy path
-expectAssignable<Parameters<typeof web.pins.add>>([{
-  ...message,
-}]);
+expectAssignable<Parameters<typeof web.pins.add>>([
+  {
+    ...message,
+  },
+]);
 
 // pins.list
 // -- sad path
 expectError(web.pins.list()); // lacking argument
 expectError(web.pins.list({})); // empty argument
 // -- happy path
-expectAssignable<Parameters<typeof web.pins.list>>([{
-  channel: message.channel,
-}]);
+expectAssignable<Parameters<typeof web.pins.list>>([
+  {
+    channel: message.channel,
+  },
+]);
 
 // pins.remove
 // -- sad path
 expectError(web.pins.remove()); // lacking argument
 expectError(web.pins.remove({})); // empty argument
-expectError(web.pins.remove({
-  channel: 'C1234', // missing timestamp
-}));
-expectError(web.pins.remove({
-  timestamp: '1234.567', // missing `channel`
-}));
+expectError(
+  web.pins.remove({
+    channel: 'C1234', // missing timestamp
+  }),
+);
+expectError(
+  web.pins.remove({
+    timestamp: '1234.567', // missing `channel`
+  }),
+);
 // -- happy path
-expectAssignable<Parameters<typeof web.pins.remove>>([{
-  ...message,
-}]);
+expectAssignable<Parameters<typeof web.pins.remove>>([
+  {
+    ...message,
+  },
+]);

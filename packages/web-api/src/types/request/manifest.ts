@@ -439,13 +439,9 @@ type UserScope =
 // https://api.slack.com/scopes?query=Configuration
 // var scopes = [].slice.call(document.getElementsByClassName('apiReferenceFilterableList__listItemLink'))
 // .map(e => ''' + e.innerText + ''').join(' | '); console.log('export type AnyConfigurationScope = ' + scopes + ';');
-export type AnyManifestConfigurationScope =
-  | 'app_configurations:read'
-  | 'app_configurations:write';
+export type AnyManifestConfigurationScope = 'app_configurations:read' | 'app_configurations:write';
 
-export type AppManifestLevelScopes =
-  | 'authorizations:read'
-  | 'connections:write';
+export type AppManifestLevelScopes = 'authorizations:read' | 'connections:write';
 
 // https://api.slack.com/events?filter=Events
 // var events = [].slice.call(document.getElementsByClassName('apiReferenceFilterableList__listItemLink'))
