@@ -43,7 +43,7 @@
     "c8": "^10.1.2",
     "chai": "^4.4.1",
     "cross-env": "^7.0.3",
-    "eslint": "^8",
+    "eslint": "^9",
     "eslint-config-airbnb-base": "^15",
     "eslint-config-airbnb-typescript": "^17",
     "eslint-plugin-import": "^2",
