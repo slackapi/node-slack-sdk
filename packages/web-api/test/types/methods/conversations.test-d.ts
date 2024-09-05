@@ -352,30 +352,31 @@ expectError(web.conversations.requestSharedInvite.approve({})); // empty argumen
 expectError(web.conversations.requestSharedInvite.approve({ message: { is_override: true } })); // missing message.text
 expectError(web.conversations.requestSharedInvite.approve({ message: { text: 'i will allow it' } })); // missing message.text
 // -- happy path
-expectAssignable<Parameters<typeof web.conversations.requestSharedInvite.approve>>([{
-  invite_id: 'I1234',
-}]);
-expectAssignable<Parameters<typeof web.conversations.requestSharedInvite.approve>>([{
-  invite_id: 'I1234',
-  message: {
-    is_override: false,
-    text: 'You have the administrator blessing',
+expectAssignable<Parameters<typeof web.conversations.requestSharedInvite.approve>>([
+  {
+    invite_id: 'I1234',
   },
-}]);
+]);
+expectAssignable<Parameters<typeof web.conversations.requestSharedInvite.approve>>([
+  {
+    invite_id: 'I1234',
+    message: {
+      is_override: false,
+      text: 'You have the administrator blessing',
+    },
+  },
+]);
 
 // conversations.requestSharedInvite.deny
 // -- sad path
 expectError(web.conversations.requestSharedInvite.deny()); // lacking argument
 expectError(web.conversations.requestSharedInvite.deny({})); // empty argument
 // -- happy path
-expectAssignable<Parameters<typeof web.conversations.requestSharedInvite.deny>>([{
-  invite_id: 'I1234',
-}]);
-
-// conversations.requestSharedInvite.list
-// -- happy path
-expectAssignable<Parameters<typeof web.conversations.requestSharedInvite.list>>([]);
-expectAssignable<Parameters<typeof web.conversations.requestSharedInvite.list>>([{}]);
+expectAssignable<Parameters<typeof web.conversations.requestSharedInvite.deny>>([
+  {
+    invite_id: 'I1234',
+  },
+]);
 
 // conversations.setPurpose
 // -- sad path

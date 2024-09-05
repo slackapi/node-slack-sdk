@@ -8,7 +8,7 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type ConversationsRequestSharedInviteDenyResponse = WebAPICallResult & {
   ok?: boolean;
 };

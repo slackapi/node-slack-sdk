@@ -8,8 +8,8 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type ConversationsRequestSharedInviteApproveResponse = WebAPICallResult & {
   invite_id?: string;
-  ok?:        boolean;
+  ok?: boolean;
 };

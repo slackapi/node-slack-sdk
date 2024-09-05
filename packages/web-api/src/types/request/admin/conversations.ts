@@ -39,13 +39,13 @@ interface RestrictAccessTeamID {
 }
 
 // https://api.slack.com/methods/admin.conversations.archive
-export interface AdminConversationsArchiveArguments extends ChannelID, TokenOverridable { }
+export interface AdminConversationsArchiveArguments extends ChannelID, TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.bulkArchive
-export interface AdminConversationsBulkArchiveArguments extends ChannelIDs, TokenOverridable { }
+export interface AdminConversationsBulkArchiveArguments extends ChannelIDs, TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.bulkDelete
-export interface AdminConversationsBulkDeleteArguments extends ChannelIDs, TokenOverridable { }
+export interface AdminConversationsBulkDeleteArguments extends ChannelIDs, TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.bulkMove
 export interface AdminConversationsBulkMoveArguments extends ChannelIDs, TokenOverridable {
@@ -60,7 +60,7 @@ export interface AdminConversationsConvertToPrivateArguments extends ChannelID, 
 }
 
 // https://api.slack.com/methods/admin.conversations.convertToPublic
-export interface AdminConversationsConvertToPublicArguments extends ChannelID, TokenOverridable { }
+export interface AdminConversationsConvertToPublicArguments extends ChannelID, TokenOverridable {}
 
 export interface OrgWide {
   /** @description When `true`, the channel will be available org-wide. */
@@ -93,7 +93,7 @@ export type AdminConversationsCreateArguments = TokenOverridable &
   };
 
 // https://api.slack.com/methods/admin.conversations.delete
-export interface AdminConversationsDeleteArguments extends ChannelID, TokenOverridable { }
+export interface AdminConversationsDeleteArguments extends ChannelID, TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.disconnectShared
 export interface AdminConversationsDisconnectSharedArguments extends ChannelID, TokenOverridable {
@@ -107,16 +107,16 @@ export type AdminConversationsEKMListOriginalConnectedChannelInfoArguments = Opt
 >;
 
 // https://api.slack.com/methods/admin.conversations.getConversationPrefs
-export interface AdminConversationsGetConversationPrefsArguments extends ChannelID, TokenOverridable { }
+export interface AdminConversationsGetConversationPrefsArguments extends ChannelID, TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.getCustomRetention
-export interface AdminConversationsGetCustomRetentionArguments extends ChannelID, TokenOverridable { }
+export interface AdminConversationsGetCustomRetentionArguments extends ChannelID, TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.getTeams
-export interface AdminConversationsGetTeamsArguments extends ChannelID, TokenOverridable, CursorPaginationEnabled { }
+export interface AdminConversationsGetTeamsArguments extends ChannelID, TokenOverridable, CursorPaginationEnabled {}
 
 // https://api.slack.com/methods/admin.conversations.invite
-export interface AdminConversationsInviteArguments extends ChannelID, UserIDs, TokenOverridable { }
+export interface AdminConversationsInviteArguments extends ChannelID, UserIDs, TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.lookup
 export interface AdminConversationsLookupArguments extends TeamIDs, TokenOverridable, CursorPaginationEnabled {
@@ -130,7 +130,7 @@ export interface AdminConversationsLookupArguments extends TeamIDs, TokenOverrid
 }
 
 // https://api.slack.com/methods/admin.conversations.removeCustomRetention
-export interface AdminConversationsRemoveCustomRetentionArguments extends ChannelID, TokenOverridable { }
+export interface AdminConversationsRemoveCustomRetentionArguments extends ChannelID, TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.rename
 export interface AdminConversationsRenameArguments extends ChannelID, TokenOverridable {
@@ -141,55 +141,55 @@ export interface AdminConversationsRenameArguments extends ChannelID, TokenOverr
 // https://api.slack.com/methods/admin.conversations.restrictAccess.addGroup
 export interface AdminConversationsRestrictAccessAddGroupArguments
   extends ChannelID,
-  GroupID,
-  RestrictAccessTeamID,
-  TokenOverridable { }
+    GroupID,
+    RestrictAccessTeamID,
+    TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.restrictAccess.listGroups
 export interface AdminConversationsRestrictAccessListGroupsArguments
   extends ChannelID,
-  RestrictAccessTeamID,
-  TokenOverridable { }
+    RestrictAccessTeamID,
+    TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.restrictAccess.removeGroup
 export interface AdminConversationsRestrictAccessRemoveGroupArguments
   extends ChannelID,
-  GroupID,
-  RestrictAccessTeamID,
-  TokenOverridable { }
+    GroupID,
+    RestrictAccessTeamID,
+    TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.search
 export type AdminConversationsSearchArguments = OptionalArgument<
   SortDir &
-  Partial<TeamIDs> &
-  TokenOverridable &
-  CursorPaginationEnabled & {
-    /** @description Array of encoded team IDs, signifying the external orgs to search through. */
-    connected_team_ids?: string[];
-    /** @description Name of the channel to query by. */
-    query?: string;
-    /**
-     * @description The type of channels to include or exclude in the search. For example `private` will search
-     * private channels, while `private_exclude` will exclude them.
-     * @see {@link https://api.slack.com/methods/admin.conversations.search#types Full list of channel types}.
-     */
-    search_channel_types?: ChannelType[];
-    /**
-     * @description Possible values are:
-     * - `relevant`: search ranking based on what we think is closest,
-     * - `name`: alphabetical,
-     * - `member_count`: number of users in the channel,
-     * - `created`: date channel was created.
-     * Defaults to `member_count`.
-     * You can optionally pair this with the `sort_dir` argument to change how it is sorted.
-     */
-    sort?: 'relevant' | 'name' | 'member_count' | 'created';
-    /**
-     * @description Only return the total count of channels.
-     * Omits channel data and allows access for admins without channel manager permissions. Defaults to `false`.
-     */
-    total_count_only?: boolean;
-  }
+    Partial<TeamIDs> &
+    TokenOverridable &
+    CursorPaginationEnabled & {
+      /** @description Array of encoded team IDs, signifying the external orgs to search through. */
+      connected_team_ids?: string[];
+      /** @description Name of the channel to query by. */
+      query?: string;
+      /**
+       * @description The type of channels to include or exclude in the search. For example `private` will search
+       * private channels, while `private_exclude` will exclude them.
+       * @see {@link https://api.slack.com/methods/admin.conversations.search#types Full list of channel types}.
+       */
+      search_channel_types?: ChannelType[];
+      /**
+       * @description Possible values are:
+       * - `relevant`: search ranking based on what we think is closest,
+       * - `name`: alphabetical,
+       * - `member_count`: number of users in the channel,
+       * - `created`: date channel was created.
+       * Defaults to `member_count`.
+       * You can optionally pair this with the `sort_dir` argument to change how it is sorted.
+       */
+      sort?: 'relevant' | 'name' | 'member_count' | 'created';
+      /**
+       * @description Only return the total count of channels.
+       * Omits channel data and allows access for admins without channel manager permissions. Defaults to `false`.
+       */
+      total_count_only?: boolean;
+    }
 >;
 
 // https://api.slack.com/methods/admin.conversations.setConversationPrefs
@@ -221,4 +221,4 @@ export interface AdminConversationsSetTeamsArguments extends ChannelID, TokenOve
 }
 
 // https://api.slack.com/methods/admin.conversations.unarchive
-export interface AdminConversationsUnarchiveArguments extends ChannelID, TokenOverridable { }
+export interface AdminConversationsUnarchiveArguments extends ChannelID, TokenOverridable {}

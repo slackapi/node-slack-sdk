@@ -162,7 +162,6 @@ import type {
   ConversationsRepliesArguments,
   ConversationsRequestSharedInviteApproveArguments,
   ConversationsRequestSharedInviteDenyArguments,
-  ConversationsRequestSharedInviteListArguments,
   ConversationsSetPurposeArguments,
   ConversationsSetTopicArguments,
   ConversationsUnarchiveArguments,
@@ -412,7 +411,6 @@ import type {
   ConversationsRepliesResponse,
   ConversationsRequestSharedInviteApproveResponse,
   ConversationsRequestSharedInviteDenyResponse,
-  ConversationsRequestSharedInviteListResponse,
   ConversationsSetPurposeResponse,
   ConversationsSetTopicResponse,
   ConversationsUnarchiveResponse,
@@ -1727,17 +1725,18 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @description Approves a request to add an external user to a channel and sends them a Slack Connect invite.
        * @see {@link https://api.slack.com/methods/conversations.requestSharedInvite.approve `conversations.requestSharedInvite.approve` API reference}.
        */
-      approve: bindApiCall<ConversationsRequestSharedInviteApproveArguments, ConversationsRequestSharedInviteApproveResponse>(this, 'conversations.requestSharedInvite.approve'),
+      approve: bindApiCall<
+        ConversationsRequestSharedInviteApproveArguments,
+        ConversationsRequestSharedInviteApproveResponse
+      >(this, 'conversations.requestSharedInvite.approve'),
       /**
        * @description Denies a request to invite an external user to a channel.
        * @see {@link https://api.slack.com/methods/conversations.requestSharedInvite.deny `conversations.requestSharedInvite.deny` API reference}.
        */
-      deny: bindApiCall<ConversationsRequestSharedInviteDenyArguments, ConversationsRequestSharedInviteDenyResponse>(this, 'conversations.requestSharedInvite.deny'),
-      /**
-       * @description Lists requests to add external users to channels with ability to filter.
-       * @see {@link https://api.slack.com/methods/conversations.requestSharedInvite.list `conversations.requestSharedInvite.list` API reference}.
-       */
-      list: bindApiCall<ConversationsRequestSharedInviteListArguments, ConversationsRequestSharedInviteListResponse>(this, 'conversations.requestSharedInvite.list'),
+      deny: bindApiCall<ConversationsRequestSharedInviteDenyArguments, ConversationsRequestSharedInviteDenyResponse>(
+        this,
+        'conversations.requestSharedInvite.deny',
+      ),
     },
     /**
      * @description Sets the purpose for a conversation.
