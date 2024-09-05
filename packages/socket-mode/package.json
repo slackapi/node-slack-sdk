@@ -61,7 +61,7 @@
     "@types/mocha": "^10",
     "@types/sinon": "^17",
     "c8": "^10.1.2",
-    "chai": "^4",
+    "chai": "^5",
     "mocha": "^10",
     "nodemon": "^3.1.0",
     "shx": "^0.3.2",
