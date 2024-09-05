@@ -1,10 +1,10 @@
-import { readFileSync } from 'fs';
-import { Readable } from 'stream';
+import { readFileSync } from 'node:fs';
+import { Readable } from 'node:stream';
 
-import { Logger } from '@slack/logger';
+import type { Logger } from '@slack/logger';
 
 import { ErrorCode, errorWithCode } from './errors';
-import {
+import type {
   FileUploadV2,
   FileUploadV2Job,
   FilesCompleteUploadExternalArguments,
@@ -30,7 +30,7 @@ export async function getFileUploadJob(
     filename: options.filename ?? fileName,
     initial_comment: options.initial_comment,
     snippet_type: options.snippet_type,
-    title: options.title ?? (options.filename ?? fileName), // default title to filename unless otherwise specified
+    title: options.title ?? options.filename ?? fileName, // default title to filename unless otherwise specified
     // calculated
     data: fileData,
     length: fileDataBytesLength,
@@ -83,55 +83,63 @@ export async function getFileUploadJob(
  * });
  * ```
  * @param options provided by user
-*/
+ */
 export async function getMultipleFileUploadJobs(
   options: FilesUploadV2Arguments,
   logger: Logger,
 ): Promise<FileUploadV2Job[]> {
   if ('file_uploads' in options) {
     // go through each file_upload and create a job for it
-    return Promise.all(options.file_uploads.map((upload) => {
-      // ensure no omitted properties included in files_upload entry
-      // these properties are valid only at the top-level, not
-      // inside file_uploads.
-      const { channel_id, channels, initial_comment, thread_ts } = upload as FileUploadV2;
-      if (channel_id || channels || initial_comment || thread_ts) {
+    return Promise.all(
+      options.file_uploads.map((upload) => {
+        // ensure no omitted properties included in files_upload entry
+        // these properties are valid only at the top-level, not
+        // inside file_uploads.
+        const { channel_id, channels, initial_comment, thread_ts } = upload as FileUploadV2;
+        if (channel_id || channels || initial_comment || thread_ts) {
+          throw errorWithCode(
+            new Error(buildInvalidFilesUploadParamError()),
+            ErrorCode.FileUploadInvalidArgumentsError,
+          );
+        }
+        // takes any channel_id, initial_comment and thread_ts
+        // supplied at the top level.
+        const uploadJobArgs: Record<string, unknown> = {
+          ...upload,
+          channels: options.channels,
+          channel_id: options.channel_id,
+          initial_comment: options.initial_comment,
+        };
+        if ('thread_ts' in options) {
+          uploadJobArgs.thread_ts = options.thread_ts;
+        }
+        if ('token' in options) {
+          uploadJobArgs.token = options.token;
+        }
+        if ('content' in upload) {
+          return getFileUploadJob(
+            {
+              content: upload.content,
+              ...uploadJobArgs,
+            },
+            logger,
+          );
+        }
+        if ('file' in upload) {
+          return getFileUploadJob(
+            {
+              file: upload.file,
+              ...uploadJobArgs,
+            },
+            logger,
+          );
+        }
         throw errorWithCode(
-          new Error(buildInvalidFilesUploadParamError()),
+          new Error('Either a file or content field is required for valid file upload. You must supply one'),
           ErrorCode.FileUploadInvalidArgumentsError,
         );
-      }
-      // takes any channel_id, initial_comment and thread_ts
-      // supplied at the top level.
-      const uploadJobArgs: Record<string, unknown> = {
-        ...upload,
-        channels: options.channels,
-        channel_id: options.channel_id,
-        initial_comment: options.initial_comment,
-      };
-      if ('thread_ts' in options) {
-        uploadJobArgs.thread_ts = options.thread_ts;
-      }
-      if ('token' in options) {
-        uploadJobArgs.token = options.token;
-      }
-      if ('content' in upload) {
-        return getFileUploadJob({
-          content: upload.content,
-          ...uploadJobArgs,
-        }, logger);
-      }
-      if ('file' in upload) {
-        return getFileUploadJob({
-          file: upload.file,
-          ...uploadJobArgs,
-        }, logger);
-      }
-      throw errorWithCode(
-        new Error('Either a file or content field is required for valid file upload. You must supply one'),
-        ErrorCode.FileUploadInvalidArgumentsError,
-      );
-    }));
+      }),
+    );
   }
   throw new Error(buildFilesUploadMissingMessage());
 }
@@ -159,7 +167,9 @@ export async function getFileData(options: FilesUploadV2Arguments | FileUploadV2
         return dataBuffer;
       } catch (error) {
         throw errorWithCode(
-          new Error(`Unable to resolve file data for ${file}. Please supply a filepath string, or binary data Buffer or String directly.`),
+          new Error(
+            `Unable to resolve file data for ${file}. Please supply a filepath string, or binary data Buffer or String directly.`,
+          ),
           ErrorCode.FileUploadInvalidArgumentsError,
         );
       }
@@ -182,10 +192,7 @@ export function getFileDataLength(data: Buffer): number {
   if (data) {
     return Buffer.byteLength(data, 'utf8');
   }
-  throw errorWithCode(
-    new Error(buildFileSizeErrorMsg()),
-    ErrorCode.FileUploadReadFileDataError,
-  );
+  throw errorWithCode(new Error(buildFileSizeErrorMsg()), ErrorCode.FileUploadReadFileDataError);
 }
 
 export async function getFileDataAsStream(readable: Readable): Promise<Buffer> {
@@ -194,7 +201,7 @@ export async function getFileDataAsStream(readable: Readable): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     readable.on('readable', () => {
       let chunk: Buffer;
-      /* eslint-disable no-cond-assign */
+      // biome-ignore lint/suspicious/noAssignInExpressions: being terse, this is OK
       while ((chunk = readable.read()) !== null) {
         chunks.push(chunk);
       }
@@ -219,10 +226,11 @@ export async function getFileDataAsStream(readable: Readable): Promise<Buffer> {
  * @param fileUploads
  * @returns
  */
-export function getAllFileUploadsToComplete(fileUploads: FileUploadV2Job[]):
-Record<string, FilesCompleteUploadExternalArguments> {
+export function getAllFileUploadsToComplete(
+  fileUploads: FileUploadV2Job[],
+): Record<string, FilesCompleteUploadExternalArguments> {
   const toComplete: Record<string, FilesCompleteUploadExternalArguments> = {};
-  fileUploads.forEach((upload) => {
+  for (const upload of fileUploads) {
     const { channel_id, thread_ts, initial_comment, file_id, title } = upload;
     if (file_id) {
       const compareString = `:::${channel_id}:::${thread_ts}:::${initial_comment}`;
@@ -247,7 +255,7 @@ Record<string, FilesCompleteUploadExternalArguments> {
     } else {
       throw new Error(buildMissingFileIdError());
     }
-  });
+  }
   return toComplete;
 }
 
@@ -257,7 +265,7 @@ Record<string, FilesCompleteUploadExternalArguments> {
  * lower-level utilities.
  * @param method
  * @param logger
-*/
+ */
 export function warnIfNotUsingFilesUploadV2(method: string, logger: Logger): void {
   const targetMethods = ['files.upload'];
   const isTargetMethod = targetMethods.includes(method);
@@ -284,10 +292,7 @@ export function warnIfChannels(options: FilesUploadV2Arguments | FileUploadV2, l
 export function errorIfChannelsCsv(options: FilesUploadV2Arguments | FileUploadV2): void {
   const channels = options.channels ? options.channels.split(',') : [];
   if (channels.length > 1) {
-    throw errorWithCode(
-      new Error(buildMultipleChannelsErrorMsg()),
-      ErrorCode.FileUploadInvalidArgumentsError,
-    );
+    throw errorWithCode(new Error(buildMultipleChannelsErrorMsg()), ErrorCode.FileUploadInvalidArgumentsError);
   }
 }
 
@@ -305,10 +310,9 @@ export function errorIfInvalidOrMissingFileData(options: FilesUploadV2Arguments 
       ErrorCode.FileUploadInvalidArgumentsError,
     );
   }
-  /* eslint-disable @typescript-eslint/no-explicit-any */
   if ('file' in options) {
     const { file } = options;
-    if (file && !(typeof file === 'string' || Buffer.isBuffer(file) || (file as any) instanceof Readable)) {
+    if (file && !(typeof file === 'string' || Buffer.isBuffer(file) || file instanceof Readable)) {
       throw errorWithCode(
         new Error('file must be a valid string path, buffer or Readable'),
         ErrorCode.FileUploadInvalidArgumentsError,
@@ -316,10 +320,7 @@ export function errorIfInvalidOrMissingFileData(options: FilesUploadV2Arguments 
     }
   }
   if ('content' in options && options.content && typeof options.content !== 'string') {
-    throw errorWithCode(
-      new Error('content must be a string'),
-      ErrorCode.FileUploadInvalidArgumentsError,
-    );
+    throw errorWithCode(new Error('content must be a string'), ErrorCode.FileUploadInvalidArgumentsError);
   }
 }
 
@@ -369,15 +370,19 @@ export function buildFileSizeErrorMsg(): string {
 }
 
 export function buildLegacyFileTypeWarning(): string {
-  return 'filetype is no longer a supported field in files.uploadV2.' +
+  return (
+    'filetype is no longer a supported field in files.uploadV2.' +
     ' \nPlease remove this field. To indicate file type, please do so via the required filename property' +
-    ' using the appropriate file extension, e.g. image.png, text.txt';
+    ' using the appropriate file extension, e.g. image.png, text.txt'
+  );
 }
 
 export function buildMissingFileNameWarning(): string {
-  return 'filename is a required field for files.uploadV2. \n For backwards compatibility and ease of migration, ' +
+  return (
+    'filename is a required field for files.uploadV2. \n For backwards compatibility and ease of migration, ' +
     'defaulting the filename. For best experience and consistent unfurl behavior, you' +
-    ' should set the filename property with correct file extension, e.g. image.png, text.txt';
+    ' should set the filename property with correct file extension, e.g. image.png, text.txt'
+  );
 }
 
 export function buildMissingExtensionWarning(filename: string): string {
@@ -389,8 +394,10 @@ export function buildLegacyMethodWarning(method: string): string {
 }
 
 export function buildGeneralFilesUploadWarning(): string {
-  return 'Our latest recommendation is to use client.files.uploadV2() method, ' +
-    'which is mostly compatible and much stabler, instead.';
+  return (
+    'Our latest recommendation is to use client.files.uploadV2() method, ' +
+    'which is mostly compatible and much stabler, instead.'
+  );
 }
 
 export function buildFilesUploadMissingMessage(): string {
@@ -398,8 +405,10 @@ export function buildFilesUploadMissingMessage(): string {
 }
 
 export function buildChannelsWarning(): string {
-  return 'Although the \'channels\' parameter is still supported for smoother migration from legacy files.upload, ' +
-    'we recommend using the new channel_id parameter with a single str value instead (e.g. \'C12345\').';
+  return (
+    "Although the 'channels' parameter is still supported for smoother migration from legacy files.upload, " +
+    "we recommend using the new channel_id parameter with a single str value instead (e.g. 'C12345')."
+  );
 }
 
 export function buildMultipleChannelsErrorMsg(): string {
@@ -407,6 +416,8 @@ export function buildMultipleChannelsErrorMsg(): string {
 }
 
 export function buildInvalidFilesUploadParamError(): string {
-  return 'You may supply file_uploads only for a single channel, comment, thread respectively. ' +
-  'Therefore, please supply any channel_id, initial_comment, thread_ts in the top-layer.';
+  return (
+    'You may supply file_uploads only for a single channel, comment, thread respectively. ' +
+    'Therefore, please supply any channel_id, initial_comment, thread_ts in the top-layer.'
+  );
 }

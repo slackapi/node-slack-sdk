@@ -13,14 +13,14 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "*": ["./types/*"]
+      "*": [
+        "./types/*"
+      ]
     },
-    "esModuleInterop" : true,
-
+    "esModuleInterop": true
     // Not using this setting because its only used to require the package.json file, and that would change the
     // structure of the files in the dist directory because package.json is not located inside src. It would be nice
     // to use import instead of require(), but its not worth the tradeoff of restructuring the build (for now).
@@ -30,8 +30,7 @@
     "src/**/*"
   ],
   "exclude": [
-    "src/**/*.spec.js",
-    "src/**/*.js"
+    "src/**/*.spec.*"
   ],
   "jsdoc": {
     "out": "support/jsdoc",

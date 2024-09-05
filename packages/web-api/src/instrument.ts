@@ -1,7 +1,6 @@
-import * as os from 'os';
-import { basename } from 'path';
+import * as os from 'node:os';
+import { basename } from 'node:path';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs
 const packageJson = require('../package.json');
 
 /**
@@ -17,9 +16,10 @@ function replaceSlashes(s: string): string {
 // v1.16.2 and use of the --unstable flag. Once support for this exists without the --unstable flag, we can improve
 // the `os` module deno shim to correctly report operating system from a deno runtime. Until then, the below `os`-
 // based code will report "browser/undefined" from a deno runtime.
-const baseUserAgent = `${replaceSlashes(packageJson.name)}/${packageJson.version} ` +
-                      `${basename(process.title)}/${process.version.replace('v', '')} ` +
-                      `${os.platform()}/${os.release()}`;
+const baseUserAgent =
+  `${replaceSlashes(packageJson.name)}/${packageJson.version} ` +
+  `${basename(process.title)}/${process.version.replace('v', '')} ` +
+  `${os.platform()}/${os.release()}`;
 
 const appMetadata: { [key: string]: string } = {};
 
@@ -28,7 +28,7 @@ const appMetadata: { [key: string]: string } = {};
  * @param appMetadata.name - name of tool to be counted in instrumentation
  * @param appMetadata.version - version of tool to be counted in instrumentation
  */
-export function addAppMetadata({ name, version }: { name: string, version: string }): void {
+export function addAppMetadata({ name, version }: { name: string; version: string }): void {
   appMetadata[replaceSlashes(name)] = version;
 }
 
@@ -36,7 +36,9 @@ export function addAppMetadata({ name, version }: { name: string, version: strin
  * Returns the current User-Agent value for instrumentation
  */
 export function getUserAgent(): string {
-  const appIdentifier = Object.entries(appMetadata).map(([name, version]) => `${name}/${version}`).join(' ');
+  const appIdentifier = Object.entries(appMetadata)
+    .map(([name, version]) => `${name}/${version}`)
+    .join(' ');
   // only prepend the appIdentifier when its not empty
-  return ((appIdentifier.length > 0) ? `${appIdentifier} ` : '') + baseUserAgent;
+  return (appIdentifier.length > 0 ? `${appIdentifier} ` : '') + baseUserAgent;
 }

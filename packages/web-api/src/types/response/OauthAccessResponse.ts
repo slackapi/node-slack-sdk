@@ -8,50 +8,50 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type OauthAccessResponse = WebAPICallResult & {
-  access_token?:     string;
+  access_token?: string;
   authorizing_user?: User;
-  bot?:              Bot;
-  enterprise_id?:    string;
-  error?:            string;
+  bot?: Bot;
+  enterprise_id?: string;
+  error?: string;
   incoming_webhook?: IncomingWebhook;
-  installer_user?:   User;
-  needed?:           string;
-  ok?:               boolean;
-  provided?:         string;
-  scope?:            string;
-  scopes?:           Scopes;
-  team_id?:          string;
-  team_name?:        string;
-  token_type?:       string;
-  user_id?:          string;
-  warning?:          string;
+  installer_user?: User;
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
+  scope?: string;
+  scopes?: Scopes;
+  team_id?: string;
+  team_name?: string;
+  token_type?: string;
+  user_id?: string;
+  warning?: string;
 };
 
 export interface User {
   app_home?: string;
-  user_id?:  string;
+  user_id?: string;
 }
 
 export interface Bot {
   bot_access_token?: string;
-  bot_user_id?:      string;
+  bot_user_id?: string;
 }
 
 export interface IncomingWebhook {
-  channel?:           string;
-  channel_id?:        string;
+  channel?: string;
+  channel_id?: string;
   configuration_url?: string;
-  url?:               string;
+  url?: string;
 }
 
 export interface Scopes {
   app_home?: string[];
-  channel?:  string[];
-  group?:    string[];
-  im?:       string[];
-  mpim?:     string[];
-  team?:     string[];
-  user?:     string[];
+  channel?: string[];
+  group?: string[];
+  im?: string[];
+  mpim?: string[];
+  team?: string[];
+  user?: string[];
 }

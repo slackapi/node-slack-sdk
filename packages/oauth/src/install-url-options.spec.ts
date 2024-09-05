@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { describe, it } from 'mocha';
 
-import { InstallURLOptions } from './install-url-options';
+import type { InstallURLOptions } from './install-url-options';
 
 describe('InstallURLOptions', async () => {
   // TODO: the use cases with only userScopes should be supported in TS
@@ -10,9 +10,7 @@ describe('InstallURLOptions', async () => {
     const options: InstallURLOptions = {
       scopes: ['commands', 'chat:write'],
     };
-    const actual = typeof options.scopes === 'string' ?
-      options.scopes.split(',').sort() :
-      options.scopes.sort();
+    const actual = typeof options.scopes === 'string' ? options.scopes.split(',').sort() : options.scopes.sort();
     assert.deepEqual(actual, ['chat:write', 'commands']);
   });
 
@@ -24,6 +22,9 @@ describe('InstallURLOptions', async () => {
       userScopes: ['chat:write'],
       metadata: 'meta',
     };
-    assert.deepEqual(JSON.stringify(options), '{"teamId":"T111","redirectUri":"https://www.example.com/slack/oauth_redirect","scopes":["commands","chat:write"],"userScopes":["chat:write"],"metadata":"meta"}');
+    assert.deepEqual(
+      JSON.stringify(options),
+      '{"teamId":"T111","redirectUri":"https://www.example.com/slack/oauth_redirect","scopes":["commands","chat:write"],"userScopes":["chat:write"],"metadata":"meta"}',
+    );
   });
 });

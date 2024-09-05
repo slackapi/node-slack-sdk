@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { fileURLToPath } from 'url';
-import fs from 'fs';
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
 import { getProtocol } from './protocols.js';
 
@@ -12,7 +12,7 @@ import { getProtocol } from './protocols.js';
 
 if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const protocol = getProtocol(process.argv.slice(1));
-  protocol.respond(JSON.stringify(doctor())); // eslint-disable-line no-console
+  protocol.respond(JSON.stringify(doctor()));
 }
 
 /**

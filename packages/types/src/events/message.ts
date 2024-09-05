@@ -1,6 +1,6 @@
-import { Block, KnownBlock } from '../block-kit/blocks';
-import { BotProfile } from '../common/bot-profile';
-import { MessageAttachment } from '../message-attachments';
+import type { Block, KnownBlock } from '../block-kit/blocks';
+import type { BotProfile } from '../common/bot-profile';
+import type { MessageAttachment } from '../message-attachments';
 
 type ChannelTypes = 'channel' | 'group' | 'im' | 'mpim' | 'app_home';
 
@@ -338,7 +338,7 @@ interface File {
   has_rich_preview?: boolean;
 
   shares?: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: TODO: type shares
     [key: string]: any;
   };
   channels: string[] | null;
@@ -346,7 +346,7 @@ interface File {
   users?: string[];
   pinned_to?: string[];
   reactions?: {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // biome-ignore lint/suspicious/noExplicitAny: TODO: type reactions
     [key: string]: any;
   }[];
   is_starred?: boolean;

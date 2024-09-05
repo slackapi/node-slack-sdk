@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 
-import func from './function';
 import { mockProcess } from '../../utils/test';
 import { shell } from '../shell';
+import func from './function';
 
 describe('function commands', () => {
   const sandbox = sinon.createSandbox();

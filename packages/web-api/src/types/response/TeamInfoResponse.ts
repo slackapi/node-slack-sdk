@@ -8,39 +8,39 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type TeamInfoResponse = WebAPICallResult & {
-  error?:    string;
-  needed?:   string;
-  ok?:       boolean;
+  error?: string;
+  needed?: string;
+  ok?: boolean;
   provided?: string;
-  team?:     Team;
+  team?: Team;
 };
 
 export interface Team {
-  avatar_base_url?:        string;
-  discoverable?:           string;
-  domain?:                 string;
-  email_domain?:           string;
-  enterprise_domain?:      string;
-  enterprise_id?:          string;
-  enterprise_name?:        string;
-  icon?:                   Icon;
-  id?:                     string;
-  is_verified?:            boolean;
+  avatar_base_url?: string;
+  discoverable?: string;
+  domain?: string;
+  email_domain?: string;
+  enterprise_domain?: string;
+  enterprise_id?: string;
+  enterprise_name?: string;
+  icon?: Icon;
+  id?: string;
+  is_verified?: boolean;
   lob_sales_home_enabled?: boolean;
-  name?:                   string;
-  url?:                    string;
+  name?: string;
+  url?: string;
 }
 
 export interface Icon {
-  image_102?:      string;
-  image_132?:      string;
-  image_230?:      string;
-  image_34?:       string;
-  image_44?:       string;
-  image_68?:       string;
-  image_88?:       string;
-  image_default?:  boolean;
+  image_102?: string;
+  image_132?: string;
+  image_230?: string;
+  image_34?: string;
+  image_44?: string;
+  image_68?: string;
+  image_88?: string;
+  image_default?: boolean;
   image_original?: string;
 }

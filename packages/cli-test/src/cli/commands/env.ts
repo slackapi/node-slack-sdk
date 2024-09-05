@@ -1,4 +1,4 @@
-import { ProjectCommandArguments } from '../../types/commands/common_arguments';
+import type { ProjectCommandArguments } from '../../types/commands/common_arguments';
 import { SlackCLIProcess } from '../cli-process';
 
 export interface EnvCommandArguments {
@@ -36,7 +36,9 @@ export const list = async function envList(args: ProjectCommandArguments): Promi
  * `slack env remove`
  * @returns command output
  */
-export const remove = async function envRemove(args: ProjectCommandArguments & Pick<EnvCommandArguments, 'secretKey'>): Promise<string> {
+export const remove = async function envRemove(
+  args: ProjectCommandArguments & Pick<EnvCommandArguments, 'secretKey'>,
+): Promise<string> {
   const cmd = new SlackCLIProcess(`env remove ${args.secretKey}`, args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,

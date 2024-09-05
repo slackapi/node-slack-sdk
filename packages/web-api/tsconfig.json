@@ -15,13 +15,13 @@
   "include": [
     "src/**/*"
   ],
+  "exclude": [
+    "src/**/*.spec.*"
+  ],
   "jsdoc": {
     "out": "support/jsdoc",
     "access": "public"
   },
-  "exclude": [
-    "src/**/*.js"
-  ],
   "ts-node": {
     "esm": true
   }

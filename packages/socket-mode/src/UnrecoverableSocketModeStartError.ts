@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 // NOTE: there may be a better way to add metadata to an error about being "unrecoverable" than to keep an
 // independent enum, probably a Set (this isn't used as a type).
 export enum UnrecoverableSocketModeStartError {

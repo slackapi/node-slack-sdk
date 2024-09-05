@@ -26,15 +26,19 @@ expectAssignable<Parameters<typeof web.dnd.info>>([]); // no arg is fine
 expectError(web.dnd.setSnooze()); // lacking argument
 expectError(web.dnd.setSnooze({})); // empty argument
 // -- happy path
-expectAssignable<Parameters<typeof web.dnd.setSnooze>>([{
-  num_minutes: 1,
-}]);
+expectAssignable<Parameters<typeof web.dnd.setSnooze>>([
+  {
+    num_minutes: 1,
+  },
+]);
 
 // dnd.teamInfo
 // -- sad path
 expectError(web.dnd.teamInfo()); // lacking argument
 expectError(web.dnd.teamInfo({})); // empty argument
 // -- happy path
-expectAssignable<Parameters<typeof web.dnd.teamInfo>>([{
-  users: 'U1234',
-}]);
+expectAssignable<Parameters<typeof web.dnd.teamInfo>>([
+  {
+    users: 'U1234',
+  },
+]);

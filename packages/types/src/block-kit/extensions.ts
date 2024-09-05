@@ -1,5 +1,5 @@
 // This file contains reusable extensions/mixins that other Block Kit elements will extend from.
-import { ConfirmationDialog, DispatchActionConfig, PlainTextElement } from './composition-objects';
+import type { ConfirmationDialog, DispatchActionConfig, PlainTextElement } from './composition-objects';
 
 // TODO: breaking change: remove `Action` and move properties to `Actionable` on next major release.
 /**
@@ -15,7 +15,7 @@ export interface Action {
   action_id?: string;
 }
 
-export interface Actionable extends Action {} // eslint-disable-line @typescript-eslint/no-empty-interface
+export interface Actionable extends Action { }
 
 export interface Confirmable {
   /**

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { fileURLToPath } from 'url';
-import fs from 'fs';
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
 import { SUPPORTED_NAMED_PROTOCOLS } from './protocols.js';
 
@@ -11,7 +11,7 @@ import { SUPPORTED_NAMED_PROTOCOLS } from './protocols.js';
  */
 
 if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  console.log(JSON.stringify(getHooks())); // eslint-disable-line no-console
+  console.log(JSON.stringify(getHooks()));
 }
 
 /**
@@ -53,9 +53,7 @@ export default function getHooks() {
     config: {
       watch: {
         'filter-regex': '^manifest\\.json$',
-        paths: [
-          '.',
-        ],
+        paths: ['.'],
       },
       'protocol-version': SUPPORTED_NAMED_PROTOCOLS,
       'sdk-managed-connection-enabled': true,

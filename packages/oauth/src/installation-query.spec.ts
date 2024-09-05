@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { describe, it } from 'mocha';
 
-import { InstallationQuery } from './installation-query';
+import type { InstallationQuery } from './installation-query';
 
 describe('InstallationQuery', async () => {
   it('should be a team-level installation query', async () => {

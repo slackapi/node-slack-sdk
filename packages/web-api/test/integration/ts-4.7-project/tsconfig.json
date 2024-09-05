@@ -16,10 +16,8 @@
 
     "moduleResolution": "node",
     "baseUrl": ".",
-    "esModuleInterop" : true,
+    "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "include": [
-    "index.ts"
-  ]
+  "include": ["index.ts"]
 }

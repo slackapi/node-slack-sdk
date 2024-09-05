@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
+import type { ProjectCommandArguments } from '../types/commands/common_arguments';
+import logger from '../utils/logger';
 import app from './commands/app';
 import auth from './commands/auth';
 import collaborator from './commands/collaborator';
@@ -11,8 +13,6 @@ import func from './commands/function';
 import manifest from './commands/manifest';
 import platform from './commands/platform';
 import trigger from './commands/trigger';
-import { ProjectCommandArguments } from '../types/commands/common_arguments';
-import logger from '../utils/logger';
 
 /**
  * Set of functions to spawn and interact with Slack Platform CLI processes and commands
@@ -33,10 +33,12 @@ export const SlackCLI = {
    * Delete app and Log out of current team session
    * @param options
    */
-  stopSession: async function stopSession(args: Partial<ProjectCommandArguments> & {
-    /** Should the CLI log out of its session with the team specified by `appTeamID`. Defaults to `true` */
-    shouldLogOut?: boolean;
-  }): Promise<void> {
+  stopSession: async function stopSession(
+    args: Partial<ProjectCommandArguments> & {
+      /** Should the CLI log out of its session with the team specified by `appTeamID`. Defaults to `true` */
+      shouldLogOut?: boolean;
+    },
+  ): Promise<void> {
     if (args.appPath) {
       // List instances of app installation if app path provided
       const installedAppsOutput = await SlackCLI.app.list({

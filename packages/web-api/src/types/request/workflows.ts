@@ -1,4 +1,4 @@
-import { TokenOverridable } from './common';
+import type { TokenOverridable } from './common';
 
 // TODO: breaking change: to be removed after Sep 12 2024
 // https://api.slack.com/changelog/2023-08-workflow-steps-from-apps-step-back
@@ -22,14 +22,14 @@ export interface WorkflowsUpdateStepArguments extends TokenOverridable {
   step_name?: string;
   inputs?: {
     [name: string]: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: steps from apps inputs are untyped
       value: any;
       skip_variable_replacement?: boolean;
       variables?: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // biome-ignore lint/suspicious/noExplicitAny: steps from apps inputs are untyped
         [key: string]: any;
       };
-    },
+    };
   };
   outputs?: {
     type: string;

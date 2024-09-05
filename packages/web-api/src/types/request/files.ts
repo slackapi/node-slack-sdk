@@ -1,48 +1,48 @@
+import type { Stream } from 'node:stream';
+import type { ExcludeFromUnion } from '../helpers';
+import type { FilesGetUploadURLExternalResponse } from '../response/index';
 import type {
   CursorPaginationEnabled,
   OptionalTeamAssignable,
   TokenOverridable,
   TraditionalPagingEnabled,
 } from './common';
-import type { ExcludeFromUnion } from '../helpers';
-import type { FilesGetUploadURLExternalResponse } from '../response/index';
-import type { Stream } from 'node:stream';
 
-interface FileArgument {
+export interface FileArgument {
   /** @description Encoded file ID. */
   file: string;
 }
-interface ExternalIDArgument {
+export interface ExternalIDArgument {
   /** @description Creator defined GUID for the file. */
   external_id: string;
 }
-interface ChannelsArgument {
+export interface ChannelsArgument {
   /**
    * @description Comma-seperated list of channel IDs where the file will be shared. If not specified the file will
    * be private.
    */
   channels?: string;
 }
-interface FileType {
+export interface FileType {
   /**
    * @description A file type identifier.
    * @see {@link https://api.slack.com/types/file#file_types File types} for a complete list of supported file types.
    */
   filetype?: string;
 }
-interface FileUploadComplete {
+export interface FileUploadComplete {
   /** @description Encoded file ID. */
   id: string;
   /** @description File title. */
   title?: string;
 }
 
-interface FileChannelDestinationArgument {
+export interface FileChannelDestinationArgument {
   /** @description Channel ID where the file will be shared. If not specified the file will be private. */
   channel_id?: string;
   thread_ts?: never;
 }
-interface FileThreadDestinationArgument {
+export interface FileThreadDestinationArgument {
   /** @description Channel ID where the file will be shared as a thread reply. */
   channel_id: string;
   /** @description Provide another message's `ts` value to upload this file as a reply. */
@@ -51,10 +51,10 @@ interface FileThreadDestinationArgument {
 // Some file APIs allow you to upload a file to a channel as its own message, or to a thread as a reply.
 type FileDestinationArgument = FileChannelDestinationArgument | FileThreadDestinationArgument;
 // Exact same as the above `FileDestinationArgument`, but with a `channels` property instead of `channel_id`.
-interface FileChannelDestinationArgumentChannels extends ChannelsArgument {
+export interface FileChannelDestinationArgumentChannels extends ChannelsArgument {
   thread_ts?: never;
 }
-interface FileThreadDestinationArgumentChannels extends Required<ChannelsArgument> {
+export interface FileThreadDestinationArgumentChannels extends Required<ChannelsArgument> {
   /** @description Provide another message's `ts` value to upload this file as a reply. */
   thread_ts: string;
 }
@@ -62,12 +62,13 @@ interface FileThreadDestinationArgumentChannels extends Required<ChannelsArgumen
 type FileDestinationArgumentChannels = FileChannelDestinationArgumentChannels | FileThreadDestinationArgumentChannels;
 
 // https://api.slack.com/methods/files.completeUploadExternal
-export type FilesCompleteUploadExternalArguments = FileDestinationArgument & TokenOverridable & {
-  /** @description Array of file IDs and their corresponding (optional) titles. */
-  files: [FileUploadComplete, ...FileUploadComplete[]];
-  /** @description The message text introducing the file in the specified channel. */
-  initial_comment?: string;
-};
+export type FilesCompleteUploadExternalArguments = FileDestinationArgument &
+  TokenOverridable & {
+    /** @description Array of file IDs and their corresponding (optional) titles. */
+    files: [FileUploadComplete, ...FileUploadComplete[]];
+    /** @description The message text introducing the file in the specified channel. */
+    initial_comment?: string;
+  };
 
 // https://api.slack.com/methods/files.delete
 export interface FilesDeleteArguments extends FileArgument, TokenOverridable {}
@@ -84,8 +85,11 @@ export interface FilesGetUploadURLExternalArguments extends TokenOverridable {
   snippet_type?: string;
 }
 // https://api.slack.com/methods/files.info
-export interface FilesInfoArguments extends FileArgument, TokenOverridable, CursorPaginationEnabled,
-  TraditionalPagingEnabled {}
+export interface FilesInfoArguments
+  extends FileArgument,
+    TokenOverridable,
+    CursorPaginationEnabled,
+    TraditionalPagingEnabled {}
 // https://api.slack.com/methods/files.list
 export interface FilesListArguments extends TokenOverridable, TraditionalPagingEnabled, OptionalTeamAssignable {
   /** @description Filter files appearing in a specific channel, indicated by its ID. */
@@ -128,14 +132,16 @@ export interface FileUploadBinaryContents {
 // File upload contents can be provided using either `content` or `file` arguments - and one of these is required.
 type FileUploadContents = FileUploadStringContents | FileUploadBinaryContents;
 
-type FileUpload = FileUploadContents & (FileDestinationArgumentChannels | FileDestinationArgument) & FileType & {
-  /** @description Name of the file. */
-  filename?: string;
-  /** @description The message text introducing the file in specified channel(s). */
-  initial_comment?: string;
-  /** @description File title. */
-  title?: string;
-};
+type FileUpload = FileUploadContents &
+  (FileDestinationArgumentChannels | FileDestinationArgument) &
+  FileType & {
+    /** @description Name of the file. */
+    filename?: string;
+    /** @description The message text introducing the file in specified channel(s). */
+    initial_comment?: string;
+    /** @description File title. */
+    title?: string;
+  };
 // https://api.slack.com/methods/files.upload
 export type FilesUploadArguments = FileUpload & TokenOverridable;
 
@@ -150,30 +156,29 @@ export type FileUploadV2 = FileUpload & {
   snippet_type?: string;
 };
 
-interface FilesUploadV2ArgumentsMultipleFiles {
+export interface FilesUploadV2ArgumentsMultipleFiles {
   file_uploads: ExcludeFromUnion<FileUploadV2, 'channel_id' | 'channels' | 'initial_comment' | 'thread_ts'>[];
 }
 
 // https://slack.dev/node-slack-sdk/web-api#upload-a-file
-export type FilesUploadV2Arguments = TokenOverridable & (
-  | FileUploadV2
-  | (Omit<FileUploadV2, 'file' | 'content'> & FilesUploadV2ArgumentsMultipleFiles)
-);
+export type FilesUploadV2Arguments = TokenOverridable &
+  (FileUploadV2 | (Omit<FileUploadV2, 'file' | 'content'> & FilesUploadV2ArgumentsMultipleFiles));
 
 // Helper type intended for internal use in filesUploadV2 client method
 // Includes additional metadata required to complete a single file upload job
-export type FileUploadV2Job = FileUploadV2 & TokenOverridable &
-Pick<FilesGetUploadURLExternalResponse, 'file_id' | 'upload_url' | 'error'> & {
-  length?: number;
-  data?: Buffer;
-};
+export type FileUploadV2Job = FileUploadV2 &
+  TokenOverridable &
+  Pick<FilesGetUploadURLExternalResponse, 'file_id' | 'upload_url' | 'error'> & {
+    length?: number;
+    data?: Buffer;
+  };
 
 // https://api.slack.com/methods/files.comments.delete
 export interface FilesCommentsDeleteArguments extends FileArgument, TokenOverridable {
   /** @description The ID of the comment to delete. */
   id: string;
 }
-interface SharedFile {
+export interface SharedFile {
   /** @description Title of the file being shared. */
   title: string;
   /** @description URL of the remote file. */
@@ -190,7 +195,7 @@ interface SharedFile {
 // https://api.slack.com/methods/files.remote.add
 export interface FilesRemoteAddArguments extends SharedFile, FileType, ExternalIDArgument, TokenOverridable {}
 // Either the encoded file ID or the external ID must be used as an argument.
-type FileOrExternalID = (FileArgument & { external_id?: never; }) | (ExternalIDArgument & { file?: never; });
+type FileOrExternalID = (FileArgument & { external_id?: never }) | (ExternalIDArgument & { file?: never });
 // https://api.slack.com/methods/files.remote.info
 export type FilesRemoteInfoArguments = FileOrExternalID & TokenOverridable;
 // https://api.slack.com/methods/files.remote.list

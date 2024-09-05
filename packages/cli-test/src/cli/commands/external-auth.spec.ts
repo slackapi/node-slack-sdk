@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 
-import extAuth from './external-auth';
 import { mockProcess } from '../../utils/test';
 import { shell } from '../shell';
+import extAuth from './external-auth';
 
 describe('external-auth commands', () => {
   const sandbox = sinon.createSandbox();

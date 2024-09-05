@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "es2022",
     "moduleResolution": "node",
-    "esModuleInterop" : true,
+    "esModuleInterop": true,
     "checkJs": true,
 
     "strict": true,
@@ -14,14 +14,11 @@
     "baseUrl": ".",
     "paths": {
       "*": ["./types/*"]
-    },
+    }
   },
-  "include": [
-    "src/**/*"
-  ],
+  "include": ["src/**/*"],
   "jsdoc": {
     "out": "support/jsdoc",
     "access": "public"
   }
 }
-

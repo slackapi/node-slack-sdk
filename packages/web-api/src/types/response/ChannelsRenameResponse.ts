@@ -8,38 +8,38 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type ChannelsRenameResponse = WebAPICallResult & {
-  channel?:  Channel;
-  error?:    string;
-  needed?:   string;
-  ok?:       boolean;
+  channel?: Channel;
+  error?: string;
+  needed?: string;
+  ok?: boolean;
   provided?: string;
 };
 
 export interface Channel {
-  created?:         number;
-  creator?:         string;
-  id?:              string;
-  is_archived?:     boolean;
-  is_channel?:      boolean;
-  is_general?:      boolean;
-  is_member?:       boolean;
-  is_mpim?:         boolean;
-  is_org_shared?:   boolean;
-  is_private?:      boolean;
-  is_shared?:       boolean;
-  members?:         string[];
-  name?:            string;
+  created?: number;
+  creator?: string;
+  id?: string;
+  is_archived?: boolean;
+  is_channel?: boolean;
+  is_general?: boolean;
+  is_member?: boolean;
+  is_mpim?: boolean;
+  is_org_shared?: boolean;
+  is_private?: boolean;
+  is_shared?: boolean;
+  members?: string[];
+  name?: string;
   name_normalized?: string;
-  previous_names?:  string[];
-  purpose?:         Purpose;
-  topic?:           Purpose;
-  unlinked?:        number;
+  previous_names?: string[];
+  purpose?: Purpose;
+  topic?: Purpose;
+  unlinked?: number;
 }
 
 export interface Purpose {
-  creator?:  string;
+  creator?: string;
   last_set?: number;
-  value?:    string;
+  value?: string;
 }

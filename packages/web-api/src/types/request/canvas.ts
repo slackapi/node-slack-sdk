@@ -1,11 +1,11 @@
-import type { ChannelIDs, TokenOverridable, UserIDs } from './common';
 import type { OptionalArgument } from '../helpers';
+import type { ChannelIDs, TokenOverridable, UserIDs } from './common';
 
 interface CanvasID {
   /** @description Encoded ID of the canvas. */
   canvas_id: string;
 }
-interface DocumentContent {
+export interface DocumentContent {
   /** @description The type of content used to describe Canvas content. Always is `markdown`. */
   type: 'markdown';
   /** @description The markdown defining the Canvas content. */
@@ -33,16 +33,17 @@ interface BaseChange {
 }
 type ChangeWithSectionAndContent = Required<BaseChange> & {
   /** @description The operation to perform on the canvas. */
-  operation: 'insert_after' | 'insert_before'
+  operation: 'insert_after' | 'insert_before';
 };
 type ChangeWithContent = Required<Pick<BaseChange, 'document_content'>> & {
   /** @description The operation to perform on the canvas. */
   operation: 'insert_at_start' | 'insert_at_end';
 };
-type ChangeWithContentAndOptionalSection = BaseChange & Required<Pick<BaseChange, 'document_content'>> & {
-  /** @description The operation to perform on the canvas. */
-  operation: 'replace';
-};
+type ChangeWithContentAndOptionalSection = BaseChange &
+  Required<Pick<BaseChange, 'document_content'>> & {
+    /** @description The operation to perform on the canvas. */
+    operation: 'replace';
+  };
 type ChangeWithSection = Required<Pick<BaseChange, 'section_id'>> & {
   /** @description The operation to perform on the canvas. */
   operation: 'delete';
@@ -50,8 +51,11 @@ type ChangeWithSection = Required<Pick<BaseChange, 'section_id'>> & {
 type Change = ChangeWithSection | ChangeWithContent | ChangeWithSectionAndContent | ChangeWithContentAndOptionalSection;
 
 // https://api.slack.com/methods/canvases.access.delete
-export interface CanvasesAccessDeleteArguments extends CanvasID, Partial<ChannelIDs>, TokenOverridable,
-  Partial<UserIDs> {}
+export interface CanvasesAccessDeleteArguments
+  extends CanvasID,
+    Partial<ChannelIDs>,
+    TokenOverridable,
+    Partial<UserIDs> {}
 
 // https://api.slack.com/methods/canvases.access.set
 export interface CanvasesAccessSetArguments extends CanvasID, Partial<ChannelIDs>, TokenOverridable, Partial<UserIDs> {
@@ -60,12 +64,14 @@ export interface CanvasesAccessSetArguments extends CanvasID, Partial<ChannelIDs
 }
 
 // https://api.slack.com/methods/canvases.create
-export type CanvasesCreateArguments = OptionalArgument<TokenOverridable & {
-  /** @description Title of the newly created canvas. */
-  title?: string;
-  /** @description Structure describing the type and contents of the Canvas being created. */
-  document_content?: DocumentContent;
-}>;
+export type CanvasesCreateArguments = OptionalArgument<
+  TokenOverridable & {
+    /** @description Title of the newly created canvas. */
+    title?: string;
+    /** @description Structure describing the type and contents of the Canvas being created. */
+    document_content?: DocumentContent;
+  }
+>;
 
 // https://api.slack.com/methods/canvases.sections.lookup
 export interface CanvasesSectionsLookupArguments extends CanvasID, TokenOverridable {

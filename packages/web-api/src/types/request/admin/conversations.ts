@@ -1,28 +1,32 @@
-import { OptionalArgument } from '../../helpers';
+import type { OptionalArgument } from '../../helpers';
 
 import type {
+  ChannelID,
   ChannelIDs,
   CursorPaginationEnabled,
   SortDir,
+  TeamIDs,
   TokenOverridable,
   UserIDs,
 } from '../common';
 
-interface ChannelID { // an identical interface exists in src/types/request/conversations.ts, but it is only for invites
-  /** @description Encoded channel ID. */
-  channel_id: string;
-}
-
-type ChannelType = 'private' | 'private_exclude' | 'archived' | 'exclude_archived' | 'private_exclude_archived' | 'multi_workspace' | 'org_wide' | 'external_shared_exclude' | 'external_shared' | 'external_shared_private' | 'external_shared_archived' | 'exclude_org_shared';
+type ChannelType =
+  | 'private'
+  | 'private_exclude'
+  | 'archived'
+  | 'exclude_archived'
+  | 'private_exclude_archived'
+  | 'multi_workspace'
+  | 'org_wide'
+  | 'external_shared_exclude'
+  | 'external_shared'
+  | 'external_shared_private'
+  | 'external_shared_archived'
+  | 'exclude_org_shared';
 
 interface GroupID {
   /** @description The {@link https://slack.com/help/articles/115001435788-Connect-identity-provider-groups-to-your-Enterprise-Grid-org IDP Group} ID. */
   group_id: string;
-}
-
-interface TeamIDs {
-  /** @description A list of team IDs to filter by (must include at least one ID). */
-  team_ids: [string, ...string[]];
 }
 
 // Interface to extend from specifically for the retrictAccess.* APIs, as the JSDoc is relevant only to these APIs
@@ -58,12 +62,12 @@ export interface AdminConversationsConvertToPrivateArguments extends ChannelID, 
 // https://api.slack.com/methods/admin.conversations.convertToPublic
 export interface AdminConversationsConvertToPublicArguments extends ChannelID, TokenOverridable {}
 
-interface OrgWide {
+export interface OrgWide {
   /** @description When `true`, the channel will be available org-wide. */
   org_wide: true;
   team_id?: never;
 }
-interface SpecificTeam {
+export interface SpecificTeam {
   /**
    * @description When `false` (the default), the channel will be available to only
    * the workspace specified by `team_id`.
@@ -78,14 +82,15 @@ interface SpecificTeam {
 type WorkspaceAccess = OrgWide | SpecificTeam;
 
 // https://api.slack.com/methods/admin.conversations.create
-export type AdminConversationsCreateArguments = TokenOverridable & WorkspaceAccess & {
-  /** @description When `true`, creates a private channel instead of a public channel. */
-  is_private: boolean;
-  /** @description Name of the public or private channel to create. */
-  name: string;
-  /** @description Description of the public or private channel to create. */
-  description?: string;
-};
+export type AdminConversationsCreateArguments = TokenOverridable &
+  WorkspaceAccess & {
+    /** @description When `true`, creates a private channel instead of a public channel. */
+    is_private: boolean;
+    /** @description Name of the public or private channel to create. */
+    name: string;
+    /** @description Description of the public or private channel to create. */
+    description?: string;
+  };
 
 // https://api.slack.com/methods/admin.conversations.delete
 export interface AdminConversationsDeleteArguments extends ChannelID, TokenOverridable {}
@@ -97,11 +102,14 @@ export interface AdminConversationsDisconnectSharedArguments extends ChannelID, 
 }
 
 // https://api.slack.com/methods/admin.conversations.ekm.listOriginalConnectedChannelInfo
-export type AdminConversationsEKMListOriginalConnectedChannelInfoArguments = OptionalArgument<Partial<TeamIDs> &
-TokenOverridable & CursorPaginationEnabled & {
-  /** @description A comma-separated list of channels to filter to. */
-  channel_ids?: string[];
-}>;
+export type AdminConversationsEKMListOriginalConnectedChannelInfoArguments = OptionalArgument<
+  Partial<TeamIDs> &
+    TokenOverridable &
+    CursorPaginationEnabled & {
+      /** @description A comma-separated list of channels to filter to. */
+      channel_ids?: string[];
+    }
+>;
 
 // https://api.slack.com/methods/admin.conversations.getConversationPrefs
 export interface AdminConversationsGetConversationPrefsArguments extends ChannelID, TokenOverridable {}
@@ -110,15 +118,13 @@ export interface AdminConversationsGetConversationPrefsArguments extends Channel
 export interface AdminConversationsGetCustomRetentionArguments extends ChannelID, TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.getTeams
-export interface AdminConversationsGetTeamsArguments
-  extends ChannelID, TokenOverridable, CursorPaginationEnabled {}
+export interface AdminConversationsGetTeamsArguments extends ChannelID, TokenOverridable, CursorPaginationEnabled {}
 
 // https://api.slack.com/methods/admin.conversations.invite
 export interface AdminConversationsInviteArguments extends ChannelID, UserIDs, TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.lookup
-export interface AdminConversationsLookupArguments
-  extends TeamIDs, TokenOverridable, CursorPaginationEnabled {
+export interface AdminConversationsLookupArguments extends TeamIDs, TokenOverridable, CursorPaginationEnabled {
   /**
    * @description UNIX timestamp to filter by public channels where the most recent message
    * was sent before this parameter.
@@ -138,46 +144,58 @@ export interface AdminConversationsRenameArguments extends ChannelID, TokenOverr
 }
 
 // https://api.slack.com/methods/admin.conversations.restrictAccess.addGroup
-export interface AdminConversationsRestrictAccessAddGroupArguments extends ChannelID, GroupID,
-  RestrictAccessTeamID, TokenOverridable {}
+export interface AdminConversationsRestrictAccessAddGroupArguments
+  extends ChannelID,
+    GroupID,
+    RestrictAccessTeamID,
+    TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.restrictAccess.listGroups
-export interface AdminConversationsRestrictAccessListGroupsArguments extends ChannelID, RestrictAccessTeamID,
-  TokenOverridable {}
+export interface AdminConversationsRestrictAccessListGroupsArguments
+  extends ChannelID,
+    RestrictAccessTeamID,
+    TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.restrictAccess.removeGroup
-export interface AdminConversationsRestrictAccessRemoveGroupArguments extends ChannelID, GroupID,
-  RestrictAccessTeamID, TokenOverridable {}
+export interface AdminConversationsRestrictAccessRemoveGroupArguments
+  extends ChannelID,
+    GroupID,
+    RestrictAccessTeamID,
+    TokenOverridable {}
 
 // https://api.slack.com/methods/admin.conversations.search
-export type AdminConversationsSearchArguments = OptionalArgument<SortDir & Partial<TeamIDs> & TokenOverridable &
-CursorPaginationEnabled & {
-  /** @description Array of encoded team IDs, signifying the external orgs to search through. */
-  connected_team_ids?: string[];
-  /** @description Name of the channel to query by. */
-  query?: string;
-  /**
-   * @description The type of channels to include or exclude in the search. For example `private` will search
-   * private channels, while `private_exclude` will exclude them.
-   * @see {@link https://api.slack.com/methods/admin.conversations.search#types Full list of channel types}.
-   */
-  search_channel_types?: ChannelType[];
-  /**
-   * @description Possible values are:
-   * - `relevant`: search ranking based on what we think is closest,
-   * - `name`: alphabetical,
-   * - `member_count`: number of users in the channel,
-   * - `created`: date channel was created.
-   * Defaults to `member_count`.
-   * You can optionally pair this with the `sort_dir` argument to change how it is sorted.
-   */
-  sort?: 'relevant' | 'name' | 'member_count' | 'created';
-  /**
-   * @description Only return the total count of channels.
-   * Omits channel data and allows access for admins without channel manager permissions. Defaults to `false`.
-   */
-  total_count_only?: boolean;
-}>;
+export type AdminConversationsSearchArguments = OptionalArgument<
+  SortDir &
+    Partial<TeamIDs> &
+    TokenOverridable &
+    CursorPaginationEnabled & {
+      /** @description Array of encoded team IDs, signifying the external orgs to search through. */
+      connected_team_ids?: string[];
+      /** @description Name of the channel to query by. */
+      query?: string;
+      /**
+       * @description The type of channels to include or exclude in the search. For example `private` will search
+       * private channels, while `private_exclude` will exclude them.
+       * @see {@link https://api.slack.com/methods/admin.conversations.search#types Full list of channel types}.
+       */
+      search_channel_types?: ChannelType[];
+      /**
+       * @description Possible values are:
+       * - `relevant`: search ranking based on what we think is closest,
+       * - `name`: alphabetical,
+       * - `member_count`: number of users in the channel,
+       * - `created`: date channel was created.
+       * Defaults to `member_count`.
+       * You can optionally pair this with the `sort_dir` argument to change how it is sorted.
+       */
+      sort?: 'relevant' | 'name' | 'member_count' | 'created';
+      /**
+       * @description Only return the total count of channels.
+       * Omits channel data and allows access for admins without channel manager permissions. Defaults to `false`.
+       */
+      total_count_only?: boolean;
+    }
+>;
 
 // https://api.slack.com/methods/admin.conversations.setConversationPrefs
 export interface AdminConversationsSetConversationPrefsArguments extends ChannelID, TokenOverridable {

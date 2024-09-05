@@ -8,13 +8,13 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type ChatScheduledMessagesListResponse = WebAPICallResult & {
-  error?:              string;
-  needed?:             string;
-  ok?:                 boolean;
-  provided?:           string;
-  response_metadata?:  ResponseMetadata;
+  error?: string;
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
+  response_metadata?: ResponseMetadata;
   scheduled_messages?: ScheduledMessage[];
 };
 
@@ -23,9 +23,9 @@ export interface ResponseMetadata {
 }
 
 export interface ScheduledMessage {
-  channel_id?:   string;
+  channel_id?: string;
   date_created?: number;
-  id?:           string;
-  post_at?:      number;
-  text?:         string;
+  id?: string;
+  post_at?: number;
+  text?: string;
 }

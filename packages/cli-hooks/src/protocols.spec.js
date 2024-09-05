@@ -1,14 +1,8 @@
-/* eslint-disable no-console */
-
+import assert from 'node:assert';
 import { afterEach, beforeEach, describe, it } from 'mocha';
-import assert from 'assert';
 import sinon from 'sinon';
 
-import {
-  DefaultProtocol,
-  MessageBoundaryProtocol,
-  getProtocol,
-} from './protocols.js';
+import { DefaultProtocol, MessageBoundaryProtocol, getProtocol } from './protocols.js';
 
 describe('protocol implementations', () => {
   describe('default protocol', () => {
@@ -42,12 +36,9 @@ describe('protocol implementations', () => {
     });
 
     it('errors if no boundary is specified', () => {
-      assert.throws(
-        () => {
-          MessageBoundaryProtocol([]);
-        },
-        /^Error: No boundary argument provided!$/,
-      );
+      assert.throws(() => {
+        MessageBoundaryProtocol([]);
+      }, /^Error: No boundary argument provided!$/);
     });
 
     it('uses the corresponding console methods', () => {

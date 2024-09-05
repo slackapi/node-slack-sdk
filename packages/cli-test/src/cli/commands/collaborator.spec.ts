@@ -1,8 +1,8 @@
 import sinon from 'sinon';
 
-import collaborator from './collaborator';
 import { mockProcess } from '../../utils/test';
 import { shell } from '../shell';
+import collaborator from './collaborator';
 
 describe('collaborator commands', () => {
   const sandbox = sinon.createSandbox();

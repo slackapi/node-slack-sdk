@@ -1,5 +1,5 @@
-import { Installation, InstallationQuery, InstallationStore, OrgInstallation } from '../index';
-import { Logger } from '../logger';
+import type { Installation, InstallationQuery, InstallationStore, OrgInstallation } from '../index';
+import type { Logger } from '../logger';
 
 // using a javascript object as a makeshift database for development
 // storing user tokens is not supported
@@ -35,7 +35,10 @@ export default class MemoryInstallationStore implements InstallationStore {
     }
   }
 
-  public async fetchInstallation(query: InstallationQuery<boolean>, logger?: Logger): Promise<Installation<'v1' | 'v2'>> {
+  public async fetchInstallation(
+    query: InstallationQuery<boolean>,
+    logger?: Logger,
+  ): Promise<Installation<'v1' | 'v2'>> {
     if (logger !== undefined) {
       logger.warn('Retrieving Access Token from DB. Please use a real Installation Store for production!');
     }

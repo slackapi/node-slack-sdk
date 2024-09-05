@@ -3,7 +3,7 @@
 // the rest of Bolt.
 export interface InstallationQuery<isEnterpriseInstall extends boolean> {
   teamId: isEnterpriseInstall extends false ? string : undefined;
-  enterpriseId: isEnterpriseInstall extends true ? string : (string | undefined);
+  enterpriseId: isEnterpriseInstall extends true ? string : string | undefined;
   userId?: string;
   conversationId?: string;
   isEnterpriseInstall: isEnterpriseInstall;

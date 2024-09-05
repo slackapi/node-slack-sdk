@@ -1,9 +1,9 @@
-import { MessageMetadata } from '../message-metadata';
+import type { MessageMetadata } from '../message-metadata';
 
 export type AllMessageMetadataEvents =
-| MessageMetadataDeletedEvent
-| MessageMetadataPostedEvent
-| MessageMetadataUpdatedEvent;
+  | MessageMetadataDeletedEvent
+  | MessageMetadataPostedEvent
+  | MessageMetadataUpdatedEvent;
 
 export interface MessageMetadataPostedEvent {
   type: 'message_metadata_posted';

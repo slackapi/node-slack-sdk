@@ -1,10 +1,10 @@
-import child from 'child_process';
+import child from 'node:child_process';
 
 import { assert } from 'chai';
 import sinon from 'sinon';
 
-import { shell } from './shell';
 import { mockProcess } from '../utils/test';
+import { shell } from './shell';
 
 import type { ShellProcess } from '../types/shell';
 
@@ -44,12 +44,15 @@ describe('shell module', () => {
         finished: true,
         command: 'echo "hi"',
       };
-      shell.checkIfFinished(proc).then(() => {
-        assert.fail('checkIfFinished resolved unexpectedly');
-      }, (err) => {
-        assert.include(err.message, 'boom');
-        done();
-      });
+      shell.checkIfFinished(proc).then(
+        () => {
+          assert.fail('checkIfFinished resolved unexpectedly');
+        },
+        (err) => {
+          assert.include(err.message, 'boom');
+          done();
+        },
+      );
       spawnProcess.emit('error', new Error('boom'));
     });
   });
@@ -96,12 +99,15 @@ describe('shell module', () => {
         finished: true,
         command: 'echo "hi"',
       };
-      shell.waitForOutput('heyo', proc, { timeout: 500 }).then(() => {
-        assert.fail('expected rejection, but got resolution');
-      }, (err) => {
-        assert.include(err.message, 'timed out');
-        done();
-      });
+      shell.waitForOutput('heyo', proc, { timeout: 500 }).then(
+        () => {
+          assert.fail('expected rejection, but got resolution');
+        },
+        (err) => {
+          assert.include(err.message, 'timed out');
+          done();
+        },
+      );
     });
     it('should resolve if process includes expected output', async () => {
       const proc: ShellProcess = {

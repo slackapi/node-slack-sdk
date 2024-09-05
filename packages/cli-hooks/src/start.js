@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-import { fileURLToPath } from 'url';
-import childProcess from 'child_process';
-import path from 'path';
-import fs from 'fs';
+import childProcess from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 /**
  * Implementation of the start hook that begins a new process to run the app.
@@ -33,7 +33,7 @@ export default function start(cwd) {
     process.stderr.write(data);
   });
   app.on('close', (code) => {
-    console.log(`Local run exited with code ${code}`); // eslint-disable-line no-console
+    console.log(`Local run exited with code ${code}`);
   });
 }
 

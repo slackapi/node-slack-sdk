@@ -1,11 +1,10 @@
-import { IncomingMessage, ServerResponse } from 'http';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 
-import { CodedError, ErrorCode } from './errors';
-import { InstallURLOptions } from './install-url-options';
-import { Installation, OrgInstallation } from './installation';
+import { type CodedError, ErrorCode } from './errors';
+import type { InstallURLOptions } from './install-url-options';
+import type { Installation, OrgInstallation } from './installation';
 
 export interface CallbackOptions {
-
   /**
    * An additional logic to run right before executing the Slack app installation with the given OAuth code parameter.
    *
@@ -119,7 +118,6 @@ export function defaultCallbackSuccess(
   <p>Redirecting to the Slack App... click <a href="${escapeHtml(redirectUrl)}">here</a>. If you use the browser version of Slack, click <a href="${escapeHtml(browserUrl)}" target="_blank">this link</a> instead.</p>
   </body>
   </html>`;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
   res.end(htmlResponse);
 }
@@ -141,7 +139,6 @@ export function defaultCallbackFailure(
     default:
       httpStatus = 500;
   }
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   res.writeHead(httpStatus, { 'Content-Type': 'text/html; charset=utf-8' });
   const html = `<html>
   <head>
@@ -171,12 +168,13 @@ function isOrgInstall(installation: Installation): installation is OrgInstallati
 }
 
 function isNotOrgInstall(installation: Installation): installation is Installation<'v1' | 'v2', false> {
-  return !(isOrgInstall(installation));
+  return !isOrgInstall(installation);
 }
 
 export function escapeHtml(input: string | undefined | null): string {
   if (input) {
-    return input.replace(/&/g, '&amp;')
+    return input
+      .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')

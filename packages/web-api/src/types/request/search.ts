@@ -1,4 +1,4 @@
-import { OptionalTeamAssignable, SortDir, TokenOverridable, TraditionalPagingEnabled } from './common';
+import type { OptionalTeamAssignable, SortDir, TokenOverridable, TraditionalPagingEnabled } from './common';
 
 interface Searchable extends OptionalTeamAssignable, SortDir {
   /** @description Search query. */
@@ -13,11 +13,8 @@ interface Searchable extends OptionalTeamAssignable, SortDir {
 }
 
 // https://api.slack.com/methods/search.all
-export interface SearchAllArguments extends TokenOverridable, TraditionalPagingEnabled,
-  Searchable { }
+export interface SearchAllArguments extends TokenOverridable, TraditionalPagingEnabled, Searchable {}
 // https://api.slack.com/methods/search.files
-export interface SearchFilesArguments extends TokenOverridable, TraditionalPagingEnabled,
-  Searchable { }
+export interface SearchFilesArguments extends TokenOverridable, TraditionalPagingEnabled, Searchable {}
 // https://api.slack.com/methods/search.messages
-export interface SearchMessagesArguments extends TokenOverridable, TraditionalPagingEnabled,
-  Searchable { }
+export interface SearchMessagesArguments extends TokenOverridable, TraditionalPagingEnabled, Searchable {}

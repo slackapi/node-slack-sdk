@@ -1,6 +1,6 @@
 export interface Manifest extends Record<string, unknown> {
   /** @description A group of settings that describe the manifest. */
-  _metadata?: ManifestMetadata; // eslint-disable-line @typescript-eslint/naming-convention
+  _metadata?: ManifestMetadata;
   /**
    * @description A group of settings that describe parts of an app's appearance within Slack. If you're distributing
    * the app via the App Directory, read our {@link https://api.slack.com/start/distributing/guidelines#listing listing guidelines} to pick the best values for these settings.
@@ -439,13 +439,9 @@ type UserScope =
 // https://api.slack.com/scopes?query=Configuration
 // var scopes = [].slice.call(document.getElementsByClassName('apiReferenceFilterableList__listItemLink'))
 // .map(e => ''' + e.innerText + ''').join(' | '); console.log('export type AnyConfigurationScope = ' + scopes + ';');
-export type AnyManifestConfigurationScope =
-  | 'app_configurations:read'
-  | 'app_configurations:write';
+export type AnyManifestConfigurationScope = 'app_configurations:read' | 'app_configurations:write';
 
-export type AppManifestLevelScopes =
-  | 'authorizations:read'
-  | 'connections:write';
+export type AppManifestLevelScopes = 'authorizations:read' | 'connections:write';
 
 // https://api.slack.com/events?filter=Events
 // var events = [].slice.call(document.getElementsByClassName('apiReferenceFilterableList__listItemLink'))

@@ -1,4 +1,4 @@
-import {
+import type {
   AppDeletedEvent,
   AppHomeOpenedEvent,
   AppInstalledEvent,
@@ -8,8 +8,8 @@ import {
   AppUninstalledEvent,
   AppUninstalledTeamEvent,
 } from './app';
-import { CallRejectedEvent } from './call';
-import {
+import type { CallRejectedEvent } from './call';
+import type {
   ChannelArchiveEvent,
   ChannelCreatedEvent,
   ChannelDeletedEvent,
@@ -21,10 +21,10 @@ import {
   ChannelUnarchiveEvent,
   ChannelUnsharedEvent,
 } from './channel';
-import { DNDUpdatedEvent, DNDUpdatedUserEvent } from './dnd';
-import { EmailDomainChangedEvent } from './email';
-import { EmojiChangedEvent } from './emoji';
-import {
+import type { DNDUpdatedEvent, DNDUpdatedUserEvent } from './dnd';
+import type { EmailDomainChangedEvent } from './email';
+import type { EmojiChangedEvent } from './emoji';
+import type {
   FileChangeEvent,
   FileCommentDeletedEvent,
   FileCreatedEvent,
@@ -33,9 +33,9 @@ import {
   FileSharedEvent,
   FileUnsharedEvent,
 } from './file';
-import { FunctionExecutedEvent } from './function';
-import { GridMigrationFinishedEvent, GridMigrationStartedEvent } from './grid-migration';
-import {
+import type { FunctionExecutedEvent } from './function';
+import type { GridMigrationFinishedEvent, GridMigrationStartedEvent } from './grid-migration';
+import type {
   GroupArchiveEvent,
   GroupCloseEvent,
   GroupDeletedEvent,
@@ -45,45 +45,45 @@ import {
   GroupRenameEvent,
   GroupUnarchiveEvent,
 } from './group';
-import { IMCloseEvent, IMCreatedEvent, IMHistoryChangedEvent, IMOpenEvent } from './im';
-import { InviteRequestedEvent } from './invite';
-import { LinkSharedEvent } from './link-shared';
-import { MemberJoinedChannelEvent, MemberLeftChannelEvent } from './member';
-import { AllMessageEvents } from './message';
-import { AllMessageMetadataEvents } from './message-metadata';
-import { PinAddedEvent, PinRemovedEvent } from './pin';
-import { ReactionAddedEvent, ReactionRemovedEvent } from './reaction';
-import {
+import type { IMCloseEvent, IMCreatedEvent, IMHistoryChangedEvent, IMOpenEvent } from './im';
+import type { InviteRequestedEvent } from './invite';
+import type { LinkSharedEvent } from './link-shared';
+import type { MemberJoinedChannelEvent, MemberLeftChannelEvent } from './member';
+import type { AllMessageEvents } from './message';
+import type { AllMessageMetadataEvents } from './message-metadata';
+import type { PinAddedEvent, PinRemovedEvent } from './pin';
+import type { ReactionAddedEvent, ReactionRemovedEvent } from './reaction';
+import type {
   SharedChannelInviteAcceptedEvent,
   SharedChannelInviteApprovedEvent,
   SharedChannelInviteDeclinedEvent,
   SharedChannelInviteReceivedEvent,
   SharedChannelInviteRequestedEvent,
 } from './shared-channel';
-import { StarAddedEvent, StarRemovedEvent } from './star';
-import {
+import type { StarAddedEvent, StarRemovedEvent } from './star';
+import type {
   WorkflowDeletedEvent,
   WorkflowPublishedEvent,
   WorkflowStepDeletedEvent,
   WorkflowStepExecuteEvent,
   WorkflowUnpublishedEvent,
 } from './steps-from-apps';
-import {
+import type {
   SubteamCreatedEvent,
   SubteamMembersChangedEvent,
   SubteamSelfAddedEvent,
   SubteamSelfRemovedEvent,
   SubteamUpdatedEvent,
 } from './subteam';
-import {
+import type {
   TeamAccessGrantedEvent,
   TeamAccessRevokedEvent,
   TeamDomainChangedEvent,
   TeamJoinEvent,
   TeamRenameEvent,
 } from './team';
-import { TokensRevokedEvent } from './token';
-import { UserChangeEvent, UserHuddleChangedEvent, UserProfileChangedEvent, UserStatusChangedEvent } from './user';
+import type { TokensRevokedEvent } from './token';
+import type { UserChangeEvent, UserHuddleChangedEvent, UserProfileChangedEvent, UserStatusChangedEvent } from './user';
 
 export type MessageEvent = AllMessageEvents;
 export * from './app';

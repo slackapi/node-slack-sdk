@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { describe, it } from 'mocha';
 
-import { InstallProviderOptions } from './install-provider-options';
+import type { InstallProviderOptions } from './install-provider-options';
 
 describe('InstallProviderOptions', async () => {
   it('should be compatible with past versions in terms of required args', async () => {

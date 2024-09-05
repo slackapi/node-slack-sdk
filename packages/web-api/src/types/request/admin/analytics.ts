@@ -7,7 +7,7 @@ interface Date {
    */
   date: string;
 }
-interface MemberArgs extends Date {
+export interface MemberArgs extends Date {
   /**
    * @description The type of analytics to retrieve. The options are currently limited to
    * `member` (for grid member analytics) and `public_channel` (for public channel analytics).
@@ -21,7 +21,7 @@ interface TypeChannel {
    */
   type: 'public_channel';
 }
-interface PublicChannelWithDate extends TypeChannel, Date {
+export interface PublicChannelWithDate extends TypeChannel, Date {
   /**
    * @description Retrieve metadata for the `type` of analytics indicated. Can be used only with `type` set to
    * `public_channel` analytics. Omit the date parameter when using this argument. Defaults to `false`.
@@ -29,7 +29,7 @@ interface PublicChannelWithDate extends TypeChannel, Date {
    */
   metadata_only?: false;
 }
-interface PublicChannelWithMetadata extends TypeChannel {
+export interface PublicChannelWithMetadata extends TypeChannel {
   /**
    * @description Retrieve metadata for the `type` of analytics indicated. Can be used only with `type` set to
    * `public_channel` analytics. Omit the date parameter when using this argument. Defaults to `false`.

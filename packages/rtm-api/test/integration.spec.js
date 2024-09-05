@@ -1,8 +1,8 @@
 const { assert } = require('chai');
 const { RTMClient } = require('../src/RTMClient');
 const { LogLevel } = require('../src/logger');
-const { WebSocketServer} = require('ws');
-const { createServer } = require('http');
+const { WebSocketServer } = require('ws');
+const { createServer } = require('node:http');
 const sinon = require('sinon');
 
 const HTTP_PORT = 12345;
@@ -21,12 +21,14 @@ describe('Integration tests with a WebSocket server', () => {
   beforeEach(() => {
     server = createServer((req, res) => {
       res.writeHead(200, { 'content-type': 'application/json' });
-      res.end(JSON.stringify({
-        ok: true,
-        url: `ws://localhost:${WSS_PORT}/`,
-        self: { id: 'elclassico' },
-        team: { id: 'T12345' },
-      }));
+      res.end(
+        JSON.stringify({
+          ok: true,
+          url: `ws://localhost:${WSS_PORT}/`,
+          self: { id: 'elclassico' },
+          team: { id: 'T12345' },
+        }),
+      );
     });
     server.listen(HTTP_PORT);
     wss = new WebSocketServer({ port: WSS_PORT });
@@ -35,7 +37,7 @@ describe('Integration tests with a WebSocket server', () => {
         assert.fail(err);
       });
       // Send `Event.ServerHello`
-      ws.send(JSON.stringify({type: 'hello'}));
+      ws.send(JSON.stringify({ type: 'hello' }));
       exposed_ws_connection = ws;
     });
   });
@@ -63,10 +65,12 @@ describe('Integration tests with a WebSocket server', () => {
     });
     it('can listen on slack event types and receive payload properties', async () => {
       client.on('connected', () => {
-        exposed_ws_connection.send(JSON.stringify({
-          type: 'team_member_joined',
-          envelope_id: 12345,
-        }));
+        exposed_ws_connection.send(
+          JSON.stringify({
+            type: 'team_member_joined',
+            envelope_id: 12345,
+          }),
+        );
       });
       await client.start();
       await new Promise((res, _rej) => {
@@ -85,5 +89,5 @@ describe('Integration tests with a WebSocket server', () => {
 });
 
 function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }

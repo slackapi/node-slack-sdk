@@ -1,4 +1,4 @@
-import { ConsoleLogger, LogLevel, Logger } from '@slack/logger';
+import { ConsoleLogger, type LogLevel, type Logger } from '@slack/logger';
 
 export { Logger, LogLevel } from '@slack/logger';
 
@@ -14,7 +14,9 @@ export function getLogger(name: string, level: LogLevel, existingLogger?: Logger
 
   // Set up the logger.
   const logger: Logger = (() => {
-    if (existingLogger !== undefined) { return existingLogger; }
+    if (existingLogger !== undefined) {
+      return existingLogger;
+    }
     return new ConsoleLogger();
   })();
   logger.setName(`${name}:${instanceId}`);

@@ -1,4 +1,4 @@
-import {
+import type {
   ChannelAccessChangeArguments,
   GroupAccessChangeArguments,
   InfoArgument,
@@ -7,14 +7,16 @@ import {
   UserAccessChangeArguments,
   WorkspaceGrantArgument,
 } from '../../types/commands/common_arguments';
-import { SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
+import { type SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
 
 type AccessChangeArguments = {
   info?: boolean;
 } & (
-  GroupAccessChangeArguments | UserAccessChangeArguments | ChannelAccessChangeArguments |
-  OrganizationAccessChangeArguments
-);
+    | GroupAccessChangeArguments
+    | UserAccessChangeArguments
+    | ChannelAccessChangeArguments
+    | OrganizationAccessChangeArguments
+  );
 
 export interface TriggerIdArgument {
   /** @description ID of the trigger being targeted. */
@@ -30,7 +32,6 @@ type TriggerAccessArguments = TriggerIdArgument & (AccessChangeArguments | InfoA
  * @return void
  */
 function setAccessType(args: Parameters<typeof access>[0], cmdOpts: SlackCLICommandOptions) {
-  /* eslint-disable no-param-reassign */
   if ('grant' in args && args.grant) {
     cmdOpts['--grant'] = true;
   } else if ('revoke' in args && args.revoke) {
@@ -38,7 +39,6 @@ function setAccessType(args: Parameters<typeof access>[0], cmdOpts: SlackCLIComm
   } else {
     throw new Error('When granting or revoking trigger access, you must specify one of `grant` or `revoke` as `true`.');
   }
-  /* eslint-enable no-param-reassign */
 }
 
 /**
@@ -87,7 +87,7 @@ export interface CreateFromArguments {
    * @description When `true`, adds an `interactivity` parameter to the trigger with the name specified
    * by `interactivityName`.
    */
-  interactivity?: boolean,
+  interactivity?: boolean;
   /** @description Specifies the name of the interactivity parameter to use. Defaults to `interactivity`. */
   interactivityName?: string;
 }
@@ -103,9 +103,7 @@ type CreateArguments = WorkspaceGrantArgument & (CreateFromArguments | CreateFro
  * `slack trigger create`
  * @returns command output
  */
-export const create = async function triggerCreate(
-  args: ProjectCommandArguments & CreateArguments,
-): Promise<string> {
+export const create = async function triggerCreate(args: ProjectCommandArguments & CreateArguments): Promise<string> {
   const cmdOpts: SlackCLICommandOptions = {
     '--org-workspace-grant': args.orgWorkspaceGrantFlag,
   };
@@ -135,9 +133,7 @@ export const create = async function triggerCreate(
  * `slack trigger delete`
  * @returns command output
  */
-export const del = async function triggerDelete(
-  args: ProjectCommandArguments & TriggerIdArgument,
-): Promise<string> {
+export const del = async function triggerDelete(args: ProjectCommandArguments & TriggerIdArgument): Promise<string> {
   const cmd = new SlackCLIProcess('trigger delete', args, {
     '--trigger-id': args.triggerId,
   });
@@ -151,9 +147,7 @@ export const del = async function triggerDelete(
  * `slack trigger info`
  * @returns command output
  */
-export const info = async function triggerInfo(
-  args: ProjectCommandArguments & TriggerIdArgument,
-): Promise<string> {
+export const info = async function triggerInfo(args: ProjectCommandArguments & TriggerIdArgument): Promise<string> {
   const cmd = new SlackCLIProcess('trigger info', args, {
     '--trigger-id': args.triggerId,
   });

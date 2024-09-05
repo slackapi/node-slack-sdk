@@ -1,6 +1,7 @@
-import { OptionalArgument } from '../helpers';
+import type { OptionalArgument } from '../helpers';
 
 import type {
+  ChannelID,
   CursorPaginationEnabled,
   LocaleAware,
   OptionalTeamAssignable,
@@ -9,15 +10,11 @@ import type {
   TokenOverridable,
 } from './common';
 
-interface Channel {
+export interface Channel {
   /** @description ID of conversation. */
   channel: string;
 }
-interface ChannelID {
-  /** @description ID of the channel that you'd like to accept. Must provide either `invite_id` or `channel_id`. */
-  channel_id: string;
-}
-interface Emails {
+export interface Emails {
   /** @description List of emails to receive this invite. Either `emails` or `user_ids` must be provided. */
   emails: string[];
   user_ids?: never;
@@ -26,11 +23,11 @@ interface IncludeAllMetadata {
   /** @description Return all metadata associated with messages. Defaults to `false`. */
   include_all_metadata?: boolean;
 }
-interface InviteID {
+export interface InviteID {
   /** @description ID of the invite. */
   invite_id: string;
 }
-interface IsPrivate {
+export interface IsPrivate {
   /** @description Whether the channel should be private. */
   is_private?: boolean;
 }
@@ -38,26 +35,28 @@ interface Message extends Channel {
   /** @description Unique identifier of message. */
   ts: string;
 }
-interface UserIDs {
+export interface UserIDs {
   /** List of user IDs to receive this invite. Either `emails` or `user_ids` must be provided. */
   user_ids: string[];
   emails?: never;
 }
-interface Users {
+export interface Users {
   /** @description A comma separated list of user IDs. Up to 1000 users may be listed. */
   users: string;
 }
 // https://api.slack.com/methods/conversations.acceptSharedInvite
-export type ConversationsAcceptSharedInviteArguments = TokenOverridable & OptionalTeamAssignable
-& (ChannelID | InviteID) & IsPrivate & {
-  /**
-   * @description Name of the channel. If the channel does not exist already in your workspace,
-   * this name is the one that the channel will take.
-   */
-  channel_name: string;
-  /** @description Whether you'd like to use your workspace's free trial to begin using Slack Connect. */
-  free_trial_accepted?: boolean;
-};
+export type ConversationsAcceptSharedInviteArguments = TokenOverridable &
+  OptionalTeamAssignable &
+  (ChannelID | InviteID) &
+  IsPrivate & {
+    /**
+     * @description Name of the channel. If the channel does not exist already in your workspace,
+     * this name is the one that the channel will take.
+     */
+    channel_name: string;
+    /** @description Whether you'd like to use your workspace's free trial to begin using Slack Connect. */
+    free_trial_accepted?: boolean;
+  };
 
 // https://api.slack.com/methods/conversations.approveSharedInvite
 export interface ConversationsApproveSharedInviteArguments extends InviteID, TargetTeam, TokenOverridable {}
@@ -78,15 +77,21 @@ export interface ConversationsCreateArguments extends IsPrivate, TokenOverridabl
 export interface ConversationsDeclineSharedInviteArguments extends InviteID, TargetTeam, TokenOverridable {}
 
 // https://api.slack.com/methods/conversations.externalInvitePermissions.set
-export interface ConversationsExternalInvitePermissionsSetArguments extends Channel, Required<TargetTeam>,
-  TokenOverridable {
+export interface ConversationsExternalInvitePermissionsSetArguments
+  extends Channel,
+    Required<TargetTeam>,
+    TokenOverridable {
   /** @description The type of action be taken: `upgrade` or `downgrade`. */
   action: 'downgrade' | 'upgrade';
 }
 
 // https://api.slack.com/methods/conversations.history
-export interface ConversationsHistoryArguments extends Channel, IncludeAllMetadata, TokenOverridable,
-  CursorPaginationEnabled, TimelinePaginationEnabled {}
+export interface ConversationsHistoryArguments
+  extends Channel,
+    IncludeAllMetadata,
+    TokenOverridable,
+    CursorPaginationEnabled,
+    TimelinePaginationEnabled {}
 
 // https://api.slack.com/methods/conversations.info
 export interface ConversationsInfoArguments extends Channel, TokenOverridable, LocaleAware {
@@ -106,10 +111,12 @@ export interface ConversationsInviteArguments extends Channel, Users, TokenOverr
 }
 
 // https://api.slack.com/methods/conversations.inviteShared
-export type ConversationsInviteSharedArguments = Channel & TokenOverridable & (Emails | UserIDs) & {
-  /** @description Whether invite is to an external limited member. Defaults to `true`. */
-  external_limited?: boolean;
-};
+export type ConversationsInviteSharedArguments = Channel &
+  TokenOverridable &
+  (Emails | UserIDs) & {
+    /** @description Whether invite is to an external limited member. Defaults to `true`. */
+    external_limited?: boolean;
+  };
 
 // https://api.slack.com/methods/conversations.join
 export interface ConversationsJoinArguments extends Channel, TokenOverridable {}
@@ -123,41 +130,48 @@ export interface ConversationsKickArguments extends Channel, TokenOverridable {
 export interface ConversationsLeaveArguments extends Channel, TokenOverridable {}
 
 // https://api.slack.com/methods/conversations.list
-export type ConversationsListArguments = OptionalArgument<TokenOverridable & CursorPaginationEnabled &
-OptionalTeamAssignable & {
-  /** @description Set to `true` to exclude archived channels from the list. Defaults to `false`. */
-  exclude_archived?: boolean;
-  /**
-   * @description Mix and match channel types by providing a comma-separated list of any combination of:
-   * `public_channel`, `private_channel`, `mpim` or `im`. Defaults to `public_channel`.
-   */
-  types?: string;
-}>;
+export type ConversationsListArguments = OptionalArgument<
+  TokenOverridable &
+    CursorPaginationEnabled &
+    OptionalTeamAssignable & {
+      /** @description Set to `true` to exclude archived channels from the list. Defaults to `false`. */
+      exclude_archived?: boolean;
+      /**
+       * @description Mix and match channel types by providing a comma-separated list of any combination of:
+       * `public_channel`, `private_channel`, `mpim` or `im`. Defaults to `public_channel`.
+       */
+      types?: string;
+    }
+>;
 
 // https://api.slack.com/methods/conversations.listConnectInvites
-export type ConversationsListConnectInvitesArguments = OptionalArgument<TokenOverridable & OptionalTeamAssignable & {
-  /** @description Maximum number of invites to return. Defaults to `100`. */
-  count?: number;
-  /** @description Set to `next_cursor` returned by previous call to list items in subsequent page. */
-  cursor?: string;
-}>;
+export type ConversationsListConnectInvitesArguments = OptionalArgument<
+  TokenOverridable &
+    OptionalTeamAssignable & {
+      /** @description Maximum number of invites to return. Defaults to `100`. */
+      count?: number;
+      /** @description Set to `next_cursor` returned by previous call to list items in subsequent page. */
+      cursor?: string;
+    }
+>;
 
 // https://api.slack.com/methods/conversations.mark
-export interface ConversationsMarkArguments extends Message, TokenOverridable { }
+export interface ConversationsMarkArguments extends Message, TokenOverridable {}
 
 // https://api.slack.com/methods/conversations.members
 export interface ConversationsMembersArguments extends Channel, TokenOverridable, CursorPaginationEnabled {}
 
 // https://api.slack.com/methods/conversations.open
-export type ConversationsOpenArguments = (Channel | Users) & TokenOverridable & {
-  /**
-   * @description Do not create a direct message or multi-person direct message.
-   * This is used to see if there is an existing dm or mpdm.
-   */
-  prevent_creation?: boolean;
-  /** @description Indicates you want the full IM channel definition in the response. */
-  return_im?: boolean;
-};
+export type ConversationsOpenArguments = (Channel | Users) &
+  TokenOverridable & {
+    /**
+     * @description Do not create a direct message or multi-person direct message.
+     * This is used to see if there is an existing dm or mpdm.
+     */
+    prevent_creation?: boolean;
+    /** @description Indicates you want the full IM channel definition in the response. */
+    return_im?: boolean;
+  };
 
 // https://api.slack.com/methods/conversations.rename
 export interface ConversationsRenameArguments extends Channel, TokenOverridable {
@@ -166,8 +180,12 @@ export interface ConversationsRenameArguments extends Channel, TokenOverridable 
 }
 
 // https://api.slack.com/methods/conversations.replies
-export interface ConversationsRepliesArguments extends Message, IncludeAllMetadata, TokenOverridable,
-  CursorPaginationEnabled, TimelinePaginationEnabled {}
+export interface ConversationsRepliesArguments
+  extends Message,
+    IncludeAllMetadata,
+    TokenOverridable,
+    CursorPaginationEnabled,
+    TimelinePaginationEnabled {}
 
 // https://api.slack.com/methods/conversations.setPurpose
 export interface ConversationsSetPurposeArguments extends Channel, TokenOverridable {
