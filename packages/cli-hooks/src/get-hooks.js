@@ -11,7 +11,7 @@ import { SUPPORTED_NAMED_PROTOCOLS } from './protocols.js';
  */
 
 if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  console.log(JSON.stringify(getHooks())); // eslint-disable-line no-console
+  console.log(JSON.stringify(getHooks()));
 }
 
 /**

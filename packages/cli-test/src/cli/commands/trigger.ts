@@ -12,11 +12,11 @@ import { type SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
 type AccessChangeArguments = {
   info?: boolean;
 } & (
-  | GroupAccessChangeArguments
-  | UserAccessChangeArguments
-  | ChannelAccessChangeArguments
-  | OrganizationAccessChangeArguments
-);
+    | GroupAccessChangeArguments
+    | UserAccessChangeArguments
+    | ChannelAccessChangeArguments
+    | OrganizationAccessChangeArguments
+  );
 
 export interface TriggerIdArgument {
   /** @description ID of the trigger being targeted. */
@@ -32,7 +32,6 @@ type TriggerAccessArguments = TriggerIdArgument & (AccessChangeArguments | InfoA
  * @return void
  */
 function setAccessType(args: Parameters<typeof access>[0], cmdOpts: SlackCLICommandOptions) {
-  /* eslint-disable no-param-reassign */
   if ('grant' in args && args.grant) {
     cmdOpts['--grant'] = true;
   } else if ('revoke' in args && args.revoke) {
@@ -40,7 +39,6 @@ function setAccessType(args: Parameters<typeof access>[0], cmdOpts: SlackCLIComm
   } else {
     throw new Error('When granting or revoking trigger access, you must specify one of `grant` or `revoke` as `true`.');
   }
-  /* eslint-enable no-param-reassign */
 }
 
 /**

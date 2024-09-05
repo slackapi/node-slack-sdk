@@ -96,7 +96,6 @@ export type TLSOptions = Pick<SecureContextOptions, 'pfx' | 'key' | 'passphrase'
 
 export enum WebClientEvent {
   // TODO: safe to rename this to conform to PascalCase enum type naming convention?
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   RATE_LIMITED = 'rate_limited',
 }
 
@@ -221,7 +220,6 @@ export class WebClient extends Methods {
     this.slackApiUrl = slackApiUrl;
 
     this.retryConfig = retryConfig;
-    // eslint-disable-next-line new-cap
     this.requestQueue = new pQueue({ concurrency: maxRequestConcurrency });
     // NOTE: may want to filter the keys to only those acceptable for TLS options
     this.tlsConfig = tls !== undefined ? tls : {};
@@ -239,13 +237,11 @@ export class WebClient extends Methods {
       this.logger = getLogger(WebClient.loggerName, logLevel ?? LogLevel.INFO, logger);
     }
 
-    // eslint-disable-next-line no-param-reassign
     if (this.token && !headers.Authorization) headers.Authorization = `Bearer ${this.token}`;
 
     this.axios = axios.create({
       timeout,
       baseURL: slackApiUrl,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       headers: isElectron() ? headers : { 'User-Agent': getUserAgent(), ...headers },
       httpAgent: agent,
       httpsAgent: agent,
@@ -281,9 +277,8 @@ export class WebClient extends Methods {
     }
 
     warnIfNotUsingFilesUploadV2(method, this.logger);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    if (method === 'files.uploadV2') return this.filesUploadV2(options);
+    // @ts-expect-error insufficient overlap between Record and FilesUploadV2Arguments
+    if (method === 'files.uploadV2') return this.filesUploadV2(options as FilesUploadV2Arguments);
 
     const headers: Record<string, string> = {};
     if (options.token) headers.Authorization = `Bearer ${options.token}`;
@@ -373,7 +368,6 @@ export class WebClient extends Methods {
     const pageSize = (() => {
       if (options !== undefined && typeof options.limit === 'number') {
         const { limit } = options;
-        // eslint-disable-next-line no-param-reassign
         options.limit = undefined;
         return limit;
       }
@@ -394,7 +388,6 @@ export class WebClient extends Methods {
       // NOTE: test for the situation where you're resuming a pagination using and existing cursor
 
       while (result === undefined || paginationOptions !== undefined) {
-        // eslint-disable-next-line no-await-in-loop
         result = await this.apiCall(method, Object.assign(options !== undefined ? options : {}, paginationOptions));
         yield result;
         paginationOptions = paginationOptionsForNextPage(result, pageSize);
@@ -426,7 +419,6 @@ export class WebClient extends Methods {
       }
 
       // Continue iteration
-      // eslint-disable-next-line no-restricted-syntax
       for await (const page of pageIterator) {
         accumulator = pageReducer(accumulator, page, index);
         if (shouldStop(page)) {
@@ -484,7 +476,6 @@ export class WebClient extends Methods {
   ): Promise<Array<FilesGetUploadURLExternalResponse>> {
     return Promise.all(
       fileUploads.map((upload: FileUploadV2Job) => {
-        /* eslint-disable @typescript-eslint/consistent-type-assertions */
         const options = {
           filename: upload.filename,
           length: upload.length,
@@ -594,7 +585,6 @@ export class WebClient extends Methods {
           // apps.event.authorizations.list will reject HTTP requests that send token in the body
           // TODO: consider applying this change to all methods - though that will require thorough integration testing
           if (url.endsWith('apps.event.authorizations.list')) {
-            // eslint-disable-next-line no-param-reassign
             body.token = undefined;
           }
           this.logger.debug(`http request url: ${requestURL}`);
@@ -762,7 +752,6 @@ export class WebClient extends Methods {
    * HTTP headers into the object.
    * @param response - an http response
    */
-  // eslint-disable-next-line class-methods-use-this
   private async buildResult(response: AxiosResponse): Promise<WebAPICallResult> {
     let { data } = response;
     const isGzipResponse = response.headers['content-type'] === 'application/gzip';

@@ -1,10 +1,9 @@
-/* eslint-disable */
 const WebApi = require('../../../dist/index');
 const client = new WebApi.WebClient('invalid-token');
 const assert = require('node:assert');
 client.auth
   .test()
-  .then((res) => {
+  .then((_res) => {
     console.error(
       '❌ Unexpected `auth.test` API success! Exiting CJS project integration test with non-zero exit code.',
     );

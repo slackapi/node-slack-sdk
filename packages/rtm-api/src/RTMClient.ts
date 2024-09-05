@@ -27,7 +27,7 @@ import {
 } from './errors';
 import { LogLevel, type Logger, getLogger } from './logger';
 
-const packageJson = require('../package.json'); // eslint-disable-line import/no-commonjs, @typescript-eslint/no-var-requires
+const packageJson = require('../package.json');
 
 /*
  * Helpers

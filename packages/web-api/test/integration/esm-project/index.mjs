@@ -1,9 +1,8 @@
 import assert from 'node:assert';
-/* eslint-disable */
 import { WebClient } from '../../../dist/index.js';
 const client = new WebClient('invalid-token');
 try {
-  const res = await client.auth.test();
+  await client.auth.test();
   console.error('❌ Unexpected auth.test success! Exiting ESM project integration test with non-zero exit code.');
   process.exit(1);
 } catch (e) {

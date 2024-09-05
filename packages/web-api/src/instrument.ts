@@ -1,7 +1,6 @@
 import * as os from 'node:os';
 import { basename } from 'node:path';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires, import/no-commonjs
 const packageJson = require('../package.json');
 
 /**

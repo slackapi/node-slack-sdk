@@ -191,7 +191,6 @@ export const shell = {
     let waitedFor = 0;
     let timedOut = false;
     while (!proc.output.includes(expString)) {
-      // eslint-disable-next-line no-await-in-loop
       await this.sleep(delay);
       waitedFor += delay;
       if (waitedFor > timeout) {

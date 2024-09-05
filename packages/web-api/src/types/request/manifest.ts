@@ -1,6 +1,6 @@
 export interface Manifest extends Record<string, unknown> {
   /** @description A group of settings that describe the manifest. */
-  _metadata?: ManifestMetadata; // eslint-disable-line @typescript-eslint/naming-convention
+  _metadata?: ManifestMetadata;
   /**
    * @description A group of settings that describe parts of an app's appearance within Slack. If you're distributing
    * the app via the App Directory, read our {@link https://api.slack.com/start/distributing/guidelines#listing listing guidelines} to pick the best values for these settings.

@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 /**
  * Severity levels for log entries
  */

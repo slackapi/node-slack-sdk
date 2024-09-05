@@ -97,7 +97,7 @@ describe('get-manifest implementation', async () => {
         const parsedManifest = getManifestData(process.cwd());
         assert.deepEqual(manifest, parsedManifest);
       } catch (err) {
-        console.error(err); // eslint-disable-line no-console
+        console.error(err);
         assert(false);
       }
     });
