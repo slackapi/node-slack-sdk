@@ -57,3 +57,46 @@ jobs:
           directory: packages/${{ matrix.package }}/coverage
           flags: ${{ matrix.package }}
           verbose: true
+  # integrates the packages from this repository that bolt-js relies on, to ensure bolt-js tests pass with incoming changes to these packages
+  bolt-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+    steps:
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Checkout node-slack-sdk
+        uses: actions/checkout@v4
+        with:
+          path: ./node-slack-sdk
+      - name: Install and link @slack/logger
+        working-directory: ./node-slack-sdk/packages/logger
+        run: npm i && npm link .
+      - name: Install and link @slack/oauth
+        working-directory: ./node-slack-sdk/packages/oauth
+        run: npm i && npm link .
+      - name: Install and link @slack/socket-mode
+        working-directory: ./node-slack-sdk/packages/socket-mode
+        run: npm i && npm link .
+      - name: Install and link @slack/types
+        working-directory: ./node-slack-sdk/packages/types
+        run: npm i && npm link .
+      - name: Install and link @slack/web-api
+        working-directory: ./node-slack-sdk/packages/web-api
+        run: npm i && npm link .
+      - name: Checkout bolt-js
+        uses: actions/checkout@v4
+        with:
+          repository: slackapi/bolt-js
+          path: ./bolt-js
+      - name: Link dependent packages
+        working-directory: ./bolt-js
+        run: npm i && npm link @slack/logger && npm link @slack/oauth && npm link @slack/socket-mode && npm link @slack/types && npm link @slack/web-api
+      - name: Run bolt-js tests
+        working-directory: ./bolt-js
+        run: npm test
