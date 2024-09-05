@@ -110,5 +110,6 @@ router.get('/slack/oauth_redirect', async (ctx) => {
 // Enable the routes
 app.use(router.routes()).use(router.allowedMethods());
 // Start the web app, which is available at http://localhost:3000/slack/*
-app.listen(3000);
-console.log('app started');
+app.listen(3000, () => {
+  console.log('app started');
+});
