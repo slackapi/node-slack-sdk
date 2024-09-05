@@ -1,29 +1,24 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "es2017",
-    "module": "commonjs",
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true,
-    "outDir": "dist",
-    "skipLibCheck": true,
-    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-
-    "moduleResolution": "node",
-    "baseUrl": ".",
-    "paths": {
-      "*": ["./types/*"]
-    },
-    "esModuleInterop": true,
-    "resolveJsonModule": true
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["src/**/*.spec.ts", "src/**/*.js"],
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "src/**/*.spec.*"
+  ],
   "jsdoc": {
     "out": "support/jsdoc",
     "access": "public"
