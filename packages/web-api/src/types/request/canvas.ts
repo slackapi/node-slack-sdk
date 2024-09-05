@@ -1,5 +1,5 @@
 import type { OptionalArgument } from '../helpers';
-import type { ChannelIDs, TokenOverridable, UserIDs } from './common';
+import type { ChannelID, ChannelIDs, TokenOverridable, UserIDs } from './common';
 
 interface CanvasID {
   /** @description Encoded ID of the canvas. */
@@ -89,9 +89,7 @@ export interface CanvasesEditArguments extends CanvasID, TokenOverridable {
 }
 
 // https://api.slack.com/methods/conversations.canvases.create
-export interface ConversationsCanvasesCreateArguments extends TokenOverridable {
-  /** @description Channel ID of the channel to create a canvas in. */
-  channel_id: string;
+export interface ConversationsCanvasesCreateArguments extends ChannelID, TokenOverridable {
   /** @description Structure describing the type and contents of the Canvas being created. */
   document_content?: DocumentContent;
 }

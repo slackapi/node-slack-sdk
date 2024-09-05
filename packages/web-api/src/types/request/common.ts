@@ -91,6 +91,10 @@ export interface UserIDs {
   /** @description List of encoded user IDs. */
   user_ids: [string, ...string[]];
 }
+export interface UserID {
+  /** @description Encoded user ID. */
+  user_id: string;
+}
 
 export interface AppID {
   /** @description The ID of the app. */

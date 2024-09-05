@@ -103,12 +103,7 @@ export interface AdminConversationsDisconnectSharedArguments extends ChannelID, 
 
 // https://api.slack.com/methods/admin.conversations.ekm.listOriginalConnectedChannelInfo
 export type AdminConversationsEKMListOriginalConnectedChannelInfoArguments = OptionalArgument<
-  Partial<TeamIDs> &
-    TokenOverridable &
-    CursorPaginationEnabled & {
-      /** @description A comma-separated list of channels to filter to. */
-      channel_ids?: string[];
-    }
+  Partial<TeamIDs> & TokenOverridable & CursorPaginationEnabled & Partial<ChannelIDs>
 >;
 
 // https://api.slack.com/methods/admin.conversations.getConversationPrefs
