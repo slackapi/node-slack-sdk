@@ -31,6 +31,10 @@ export interface IsPrivate {
   /** @description Whether the channel should be private. */
   is_private?: boolean;
 }
+interface MessageSpecifier extends Channel {
+  /** @description Unique identifier of message. */
+  ts: string;
+}
 interface Message {
   /** @description A message to send to the user who requested the invite. */
   message?: string;
@@ -156,7 +160,7 @@ export type ConversationsListConnectInvitesArguments = OptionalArgument<
 >;
 
 // https://api.slack.com/methods/conversations.mark
-export interface ConversationsMarkArguments extends Message, TokenOverridable {}
+export interface ConversationsMarkArguments extends MessageSpecifier, TokenOverridable {}
 
 // https://api.slack.com/methods/conversations.members
 export interface ConversationsMembersArguments extends Channel, TokenOverridable, CursorPaginationEnabled {}
@@ -181,7 +185,7 @@ export interface ConversationsRenameArguments extends Channel, TokenOverridable 
 
 // https://api.slack.com/methods/conversations.replies
 export interface ConversationsRepliesArguments
-  extends Message,
+  extends MessageSpecifier,
     IncludeAllMetadata,
     TokenOverridable,
     CursorPaginationEnabled,
