@@ -1,19 +1,19 @@
 // https://api.slack.com/legacy/sign-in-with-slack
-const Koa = require("koa");
-const Router = require("@koa/router");
-const { WebClient } = require("@slack/web-api");
-const uuid = require("uuid");
+const Koa = require('koa');
+const Router = require('@koa/router');
+const { WebClient } = require('@slack/web-api');
+const uuid = require('uuid');
 
 const app = new Koa();
 const router = new Router();
 
-router.get("/", async (ctx) => {
-  ctx.redirect("/slack/install");
+router.get('/', async (ctx) => {
+  ctx.redirect('/slack/install');
 });
 
 const clientId = process.env.SLACK_CLIENT_ID;
 const clientSecret = process.env.SLACK_CLIENT_SECRET;
-const legacyIdentityScopes = "identity.basic,identity.email"; // identity.basic is required at least
+const legacyIdentityScopes = 'identity.basic,identity.email'; // identity.basic is required at least
 
 class MyStateStore {
   constructor() {
@@ -35,11 +35,11 @@ class MyStateStore {
 }
 const myStateStore = new MyStateStore();
 
-router.get("/slack/install", async (ctx) => {
+router.get('/slack/install', async (ctx) => {
   const state = await myStateStore.generate();
   const url = `https://slack.com/oauth/v2/authorize?state=${state}&client_id=${clientId}&user_scope=${legacyIdentityScopes}`;
 
-  ctx.headers["content-type"] = "text/html; charset=utf-8";
+  ctx.headers['content-type'] = 'text/html; charset=utf-8';
   ctx.body = `<html>
   <head><style>body {padding: 10px 15px;font-family: verdana;text-align: center;}</style></head>
   <body>
@@ -51,10 +51,10 @@ router.get("/slack/install", async (ctx) => {
 
 const client = new WebClient();
 
-router.get("/slack/oauth_redirect", async (ctx) => {
+router.get('/slack/oauth_redirect', async (ctx) => {
   if (!(await myStateStore.validate(ctx.query.state))) {
     ctx.status = 400;
-    ctx.headers["content-type"] = "text/html; charset=utf-8";
+    ctx.headers['content-type'] = 'text/html; charset=utf-8';
     ctx.body = `<html>
       <head><style>body {padding: 10px 15px;font-family: verdana;text-align: center;}</style></head>
       <body>
@@ -70,9 +70,7 @@ router.get("/slack/oauth_redirect", async (ctx) => {
     client_secret: clientSecret,
     code: ctx.query.code,
   });
-  console.log(
-    `oauth.v2.access response: ${JSON.stringify(token, null, 2)}`
-  );
+  console.log(`oauth.v2.access response: ${JSON.stringify(token, null, 2)}`);
 
   let userAccessToken = token.authed_user.access_token;
 
@@ -83,16 +81,10 @@ router.get("/slack/oauth_redirect", async (ctx) => {
     const refreshedToken = await client.oauth.v2.access({
       client_id: clientId,
       client_secret: clientSecret,
-      grant_type: "refresh_token",
+      grant_type: 'refresh_token',
       refresh_token: token.refresh_token,
     });
-    console.log(
-      `oauth.v2.access (refresh) response: ${JSON.stringify(
-        refreshedToken,
-        null,
-        2
-      )}`
-    );
+    console.log(`oauth.v2.access (refresh) response: ${JSON.stringify(refreshedToken, null, 2)}`);
     userAccessToken = refreshedToken.access_token;
   }
 
@@ -103,11 +95,9 @@ router.get("/slack/oauth_redirect", async (ctx) => {
   // You don't need to do this here.
   const tokenWiredClient = new WebClient(userAccessToken);
   const userInfo = await tokenWiredClient.users.identity();
-  console.log(
-    `users.identity response: ${JSON.stringify(userInfo, null, 2)}`
-  );
+  console.log(`users.identity response: ${JSON.stringify(userInfo, null, 2)}`);
 
-  ctx.headers["content-type"] = "text/html; charset=utf-8";
+  ctx.headers['content-type'] = 'text/html; charset=utf-8';
   ctx.body = `<html>
   <head><style>body h2 {padding: 10px 15px;font-family: verdana;text-align: center;}</style></head>
   <body>
@@ -120,4 +110,6 @@ router.get("/slack/oauth_redirect", async (ctx) => {
 // Enable the routes
 app.use(router.routes()).use(router.allowedMethods());
 // Start the web app, which is available at http://localhost:3000/slack/*
-app.listen(3000);
+app.listen(3000, () => {
+  console.log('app started');
+});

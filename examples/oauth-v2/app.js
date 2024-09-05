@@ -13,7 +13,14 @@ const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET, {
 // Set path to receive events
 app.use('/slack/events', slackEvents.requestListener());
 
-const scopes = ['app_mentions:read', 'channels:read', 'groups:read', 'channels:manage', 'chat:write', 'incoming-webhook'];
+const scopes = [
+  'app_mentions:read',
+  'channels:read',
+  'groups:read',
+  'channels:manage',
+  'chat:write',
+  'incoming-webhook',
+];
 const userScopes = ['chat:write'];
 
 const installer = new InstallProvider({
@@ -27,14 +34,19 @@ const installer = new InstallProvider({
   logLevel: LogLevel.DEBUG,
 });
 
-app.get('/', (req, res) => res.send('go to /slack/install'));
+app.get('/', (_req, res) => res.send('go to /slack/install'));
 
-app.get('/slack/install', async (req, res, next) => {
-  await installer.handleInstallPath(req, res, {}, {
-    scopes,
-    userScopes,
-    metadata: 'some_metadata',
-  });
+app.get('/slack/install', async (req, res, _next) => {
+  await installer.handleInstallPath(
+    req,
+    res,
+    {},
+    {
+      scopes,
+      userScopes,
+      metadata: 'some_metadata',
+    },
+  );
 });
 
 // This works since @slack/oauth@2.5.0 or newer
@@ -120,24 +132,27 @@ slackEvents.on('app_home_opened', async (event, body) => {
       const web = new WebClient(DBInstallData.botToken);
       await web.views.publish({
         user_id: event.user,
-        view: { 
-          "type":"home",
-          "blocks":[
+        view: {
+          type: 'home',
+          blocks: [
             {
-              "type": "section",
-              "block_id": "section678",
-              "text": {
-                "type": "mrkdwn",
-                "text": "Welcome to the App Home!"
+              type: 'section',
+              block_id: 'section678',
+              text: {
+                type: 'mrkdwn',
+                text: 'Welcome to the App Home!',
               },
-            }
-          ]
+            },
+          ],
         },
       });
     }
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
   }
 });
-app.listen(port, () => console.log(`Example app listening on port ${port}! Go to http://localhost:3000/slack/install to initiate oauth flow`))
+app.listen(port, () =>
+  console.log(
+    `Example app listening on port ${port}! Go to http://localhost:3000/slack/install to initiate oauth flow`,
+  ),
+);
