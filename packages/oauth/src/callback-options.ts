@@ -118,7 +118,6 @@ export function defaultCallbackSuccess(
   <p>Redirecting to the Slack App... click <a href="${escapeHtml(redirectUrl)}">here</a>. If you use the browser version of Slack, click <a href="${escapeHtml(browserUrl)}" target="_blank">this link</a> instead.</p>
   </body>
   </html>`;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
   res.end(htmlResponse);
 }
@@ -140,7 +139,6 @@ export function defaultCallbackFailure(
     default:
       httpStatus = 500;
   }
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   res.writeHead(httpStatus, { 'Content-Type': 'text/html; charset=utf-8' });
   const html = `<html>
   <head>
