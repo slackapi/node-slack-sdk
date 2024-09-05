@@ -31,8 +31,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm --version
-      - name: Get Development Dependencies
-        run: npm i
       - name: Build and Run Tests in Each Package
         working-directory: packages/${{ matrix.package }}
         run: |
