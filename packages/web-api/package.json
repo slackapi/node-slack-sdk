@@ -49,7 +49,7 @@
     "@slack/logger": "^4.0.0",
     "@slack/types": "^2.9.0",
     "@types/node": ">=18.0.0",
-    "@types/retry": "0.12.0",
+    "@types/retry": "0.12.5",
     "axios": "^1.7.4",
     "eventemitter3": "^5.0.1",
     "form-data": "^4.0.0",
