@@ -1,13 +1,20 @@
 {
   "name": "@slack/types",
-  "version": "2.13.0",
+  "version": "2.13.1",
   "description": "Shared type definitions for the Node Slack SDK",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
-  "keywords": ["slack", "typescript", "types", "api"],
+  "keywords": [
+    "slack",
+    "typescript",
+    "types",
+    "api"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "engines": {
     "node": ">= 12.13.0",
     "npm": ">= 6.12.0"
