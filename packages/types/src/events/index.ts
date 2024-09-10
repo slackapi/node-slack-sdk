@@ -85,7 +85,6 @@ import type {
 import type { TokensRevokedEvent } from './token';
 import type { UserChangeEvent, UserHuddleChangedEvent, UserProfileChangedEvent, UserStatusChangedEvent } from './user';
 
-export type MessageEvent = AllMessageEvents;
 export * from './app';
 export * from './call';
 export * from './channel';
