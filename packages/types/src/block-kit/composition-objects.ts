@@ -49,7 +49,7 @@ export interface Confirm {
  * @description Defines a dialog that adds a confirmation step to interactive elements.
  * @see {@link https://api.slack.com/reference/block-kit/composition-objects#confirm Confirmation dialog object reference}.
  */
-export interface ConfirmationDialog extends Confirm { }
+export interface ConfirmationDialog extends Confirm {}
 
 /**
  * @description Defines when a {@link PlainTextElement} will return a {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions` interaction payload}.
