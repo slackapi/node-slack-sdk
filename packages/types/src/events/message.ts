@@ -24,6 +24,8 @@ export type AllMessageEvents =
   // | ReminderAddEvent // TODO: missing
   | ThreadBroadcastMessageEvent;
 
+export type MessageEvent = AllMessageEvents;
+
 export interface GenericMessageEvent {
   type: 'message';
   subtype: undefined;
