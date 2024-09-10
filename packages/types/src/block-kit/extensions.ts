@@ -15,7 +15,7 @@ export interface Action {
   action_id?: string;
 }
 
-export interface Actionable extends Action { }
+export interface Actionable extends Action {}
 
 export interface Confirmable {
   /**
