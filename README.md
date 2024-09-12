@@ -6,7 +6,7 @@ ___
 
 ## Getting Started
 
-Visit the [documentation site](https://slack.dev/node-slack-sdk) for all the lovely details.
+Visit the [documentation site](https://tools.slack.dev/node-slack-sdk) for all the lovely details.
 
 _This SDK is a collection of single-purpose packages. The packages are aimed at making building Slack apps
 easy, performant, secure, and scalable. They can help with just about anything in the Slack platform, from dropping
@@ -21,10 +21,10 @@ walk you through building your first Slack app using Node.js.
 
 | Slack API    | What its for | NPM Package      |
 |--------------|--------------|-------------------|
-| Web API      | Send data to or query data from Slack using any of [over 220 methods](https://api.slack.com/methods). | [`@slack/web-api`](https://slack.dev/node-slack-sdk/web-api) |
-| OAuth        | Setup the authentication flow using V2 OAuth for Slack apps as well as V1 OAuth for classic Slack apps. | [`@slack/oauth`](https://slack.dev/node-slack-sdk/oauth) |
-| Incoming Webhooks | Send notifications to a single channel which the user picks on installation. | [`@slack/webhook`](https://slack.dev/node-slack-sdk/webhook) |
-| Socket Mode  | Listen for incoming messages and a limited set of events happening in Slack, using WebSocket. | [`@slack/socket-mode`](https://slack.dev/node-slack-sdk/socket-mode) |
+| Web API      | Send data to or query data from Slack using any of [over 220 methods](https://api.slack.com/methods). | [`@slack/web-api`](https://tools.slack.dev/node-slack-sdk/web-api) |
+| OAuth        | Setup the authentication flow using V2 OAuth for Slack apps as well as V1 OAuth for classic Slack apps. | [`@slack/oauth`](https://tools.slack.dev/node-slack-sdk/oauth) |
+| Incoming Webhooks | Send notifications to a single channel which the user picks on installation. | [`@slack/webhook`](https://tools.slack.dev/node-slack-sdk/webhook) |
+| Socket Mode  | Listen for incoming messages and a limited set of events happening in Slack, using WebSocket. | [`@slack/socket-mode`](https://tools.slack.dev/node-slack-sdk/socket-mode) |
 
 **Not sure about which APIs are right for your app?** Read our [blog
 post](https://medium.com/slack-developer-blog/getting-started-with-slacks-apis-f930c73fc889) that explains the options.
@@ -34,7 +34,7 @@ If you're still not sure, [reach out for help](#getting-help) and our community 
 
 `@slack/events-api` and `@slack/interactive-messages` officially reached EOL on May 31st, 2021. Development has fully stopped for these packages and all remaining open issues and pull requests have been closed.
 
-At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](https://slack.dev/node-slack-sdk/tutorials/migrating-to-v6) for those looking to convert their existing apps.
+At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](https://tools.slack.dev/node-slack-sdk/tutorials/migrating-to-v6) for those looking to convert their existing apps.
 
 ## Installation
 
@@ -50,7 +50,7 @@ $ yarn add @slack/web-api @slack/socket-mode
 ## Usage
 
 The following examples summarize the most common ways to use this package. There's also a [Getting Started
-tutorial](https://slack.dev/node-slack-sdk/getting-started) that's perfect for just starting out, and each
+tutorial](https://tools.slack.dev/node-slack-sdk/getting-started) that's perfect for just starting out, and each
 package's documentation, linked in the table above.
 
 ### Posting a message with Web API
@@ -88,15 +88,15 @@ where you can prototype your message's look and feel.
 
 ### Listening for an event with the Events API
 
-Refer to [Bolt for JavaScript document pages](https://slack.dev/bolt-js/concepts#event-listening).
+Refer to [Bolt for JavaScript document pages](https://tools.slack.dev/bolt-js/concepts#event-listening).
 
 ### Responding to interactive messages
 
-Refer to [Bolt for JavaScript document pages](https://slack.dev/bolt-js/concepts#action-listening).
+Refer to [Bolt for JavaScript document pages](https://tools.slack.dev/bolt-js/concepts#action-listening).
 
 ### Using Socket Mode
 
-Refer to [the module document page](https://slack.dev/node-slack-sdk/socket-mode) and [Bolt for JavaScript document page](https://slack.dev/bolt-js/concepts#socket-mode).
+Refer to [the module document page](https://tools.slack.dev/node-slack-sdk/socket-mode) and [Bolt for JavaScript document page](https://tools.slack.dev/bolt-js/concepts#socket-mode).
 
 ## Requirements
 
