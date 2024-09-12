@@ -1,4 +1,4 @@
-# slack.dev
+# tools.slack.dev
 
 This website is built using [Docusaurus](https://docusaurus.io/). 'Tis cool.
 

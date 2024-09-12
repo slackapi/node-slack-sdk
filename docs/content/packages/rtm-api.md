@@ -10,7 +10,7 @@ app to stay connected to the Slack platform over a persistent Websocket connecti
 
 :::danger 
 
-The RTM API isn't available for modern granular-permissions apps, and you can no longer create new legacy apps. We recommend using [Bolt for JavaScript](https://slack.dev/bolt-js). If you have an existing RTM app, do not update its scopes as it will be updated to a granular-permissions app and stop working with the RTM API.
+The RTM API isn't available for modern granular-permissions apps, and you can no longer create new legacy apps. We recommend using [Bolt for JavaScript](https://tools.slack.dev/bolt-js). If you have an existing RTM app, do not update its scopes as it will be updated to a granular-permissions app and stop working with the RTM API.
 
 ::: 
 
