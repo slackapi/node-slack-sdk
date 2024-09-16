@@ -8,6 +8,10 @@ import type {
   AppUninstalledEvent,
   AppUninstalledTeamEvent,
 } from './app';
+import type {
+  AssistantThreadContextChangedEvent,
+  AssistantThreadStartedEvent,
+} from './assistant';
 import type { CallRejectedEvent } from './call';
 import type {
   ChannelArchiveEvent,
@@ -86,6 +90,7 @@ import type { TokensRevokedEvent } from './token';
 import type { UserChangeEvent, UserHuddleChangedEvent, UserProfileChangedEvent, UserStatusChangedEvent } from './user';
 
 export * from './app';
+export * from './assistant';
 export * from './call';
 export * from './channel';
 export * from './dnd';
@@ -125,6 +130,8 @@ export type SlackEvent =
   | AppRequestedEvent
   | AppUninstalledTeamEvent
   | AppUninstalledEvent
+  | AssistantThreadContextChangedEvent
+  | AssistantThreadStartedEvent
   | CallRejectedEvent
   | ChannelArchiveEvent
   | ChannelCreatedEvent
