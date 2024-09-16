@@ -47,7 +47,7 @@
     "mocha": "^10",
     "rewiremock": "^3",
     "shx": "^0.3.2",
-    "sinon": "^18",
+    "sinon": "^19",
     "source-map-support": "^0.5.21",
     "ts-node": "^10",
     "typescript": "5.5.4"
