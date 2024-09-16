@@ -72,7 +72,7 @@
     "mocha": "^10",
     "nock": "^13",
     "shx": "^0.3.2",
-    "sinon": "^18",
+    "sinon": "^19",
     "source-map-support": "^0.5.21",
     "ts-node": "^10",
     "tsd": "^0.31.1",
