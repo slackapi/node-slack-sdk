@@ -100,9 +100,6 @@ import type {
   AdminWorkflowsPermissionsLookupArguments,
   AdminWorkflowsSearchArguments,
   AdminWorkflowsUnpublishArguments,
-  AssistantThreadsSetStatusArguments,
-  AssistantThreadsSetSuggestedPromptsArguments,
-  AssistantThreadsSetTitleArguments,
   AppsConnectionsOpenArguments,
   AppsEventAuthorizationsListArguments,
   AppsManifestCreateArguments,
@@ -111,6 +108,9 @@ import type {
   AppsManifestUpdateArguments,
   AppsManifestValidateArguments,
   AppsUninstallArguments,
+  AssistantThreadsSetStatusArguments,
+  AssistantThreadsSetSuggestedPromptsArguments,
+  AssistantThreadsSetTitleArguments,
   AuthRevokeArguments,
   AuthTeamsListArguments,
   AuthTestArguments,
@@ -1344,18 +1344,27 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @description Set loading status to indicate that the app is building a response.
        * @see {@link https://api.slack.com/methods/assistant.threads.setStatus `assistant.threads.setStatus` API reference}.
        */
-      setStatus: bindApiCall<AssistantThreadsSetStatusArguments, AssistantThreadsSetStatusResponse>(this, 'assistant.threads.setStatus'),
+      setStatus: bindApiCall<AssistantThreadsSetStatusArguments, AssistantThreadsSetStatusResponse>(
+        this,
+        'assistant.threads.setStatus',
+      ),
       /**
        * @description Set suggested prompts for the user. Can suggest up to four prompts.
        * @see {@link https://api.slack.com/methods/assistant.threads.setSuggestedPrompts `assistant.threads.setSuggestedPrompts` API reference}.
        */
-      setSuggestedPrompts: bindApiCall<AssistantThreadsSetSuggestedPromptsArguments, AssistantThreadsSetSuggestedPromptsResponse>(this, 'assistant.threads.setSuggestedPrompts'),
+      setSuggestedPrompts: bindApiCall<
+        AssistantThreadsSetSuggestedPromptsArguments,
+        AssistantThreadsSetSuggestedPromptsResponse
+      >(this, 'assistant.threads.setSuggestedPrompts'),
       /**
        * @description Set the title of the thread. This is shown when a user views the app's chat history.
        * @see {@link https://api.slack.com/methods/assistant.threads.setTitle `assistant.threads.setTitle` API reference}.
        */
-      setTitle: bindApiCall<AssistantThreadsSetTitleArguments, AssistantThreadsSetTitleResponse>(this, 'assistant.threads.setTitle'),
-    }
+      setTitle: bindApiCall<AssistantThreadsSetTitleArguments, AssistantThreadsSetTitleResponse>(
+        this,
+        'assistant.threads.setTitle',
+      ),
+    },
   };
 
   public readonly apps = {

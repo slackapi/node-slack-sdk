@@ -7,24 +7,24 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type AdminRolesListAssignmentsResponse = WebAPICallResult & {
-  error?:             string;
-  needed?:            string;
-  ok?:                boolean;
-  provided?:          string;
+  error?: string;
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
   response_metadata?: ResponseMetadata;
-  role_assignments?:  RoleAssignment[];
+  role_assignments?: RoleAssignment[];
 };
 
 export interface ResponseMetadata {
-  messages?:    string[];
+  messages?: string[];
   next_cursor?: string;
 }
 
 export interface RoleAssignment {
   date_create?: number;
-  entity_id?:   string;
-  role_id?:     string;
-  user_id?:     string;
+  entity_id?: string;
+  role_id?: string;
+  user_id?: string;
 }

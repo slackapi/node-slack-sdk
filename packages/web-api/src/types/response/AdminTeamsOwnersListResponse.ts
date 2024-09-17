@@ -7,13 +7,13 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type AdminTeamsOwnersListResponse = WebAPICallResult & {
-  error?:             string;
-  needed?:            string;
-  ok?:                boolean;
-  owner_ids?:         string[];
-  provided?:          string;
+  error?: string;
+  needed?: string;
+  ok?: boolean;
+  owner_ids?: string[];
+  provided?: string;
   response_metadata?: ResponseMetadata;
 };
 

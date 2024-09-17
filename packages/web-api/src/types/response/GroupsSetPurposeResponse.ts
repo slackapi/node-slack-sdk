@@ -7,15 +7,15 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type GroupsSetPurposeResponse = WebAPICallResult & {
-  error?:             string;
-  needed?:            string;
-  ok?:                boolean;
-  provided?:          string;
-  purpose?:           string;
+  error?: string;
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
+  purpose?: string;
   response_metadata?: ResponseMetadata;
-  warning?:           string;
+  warning?: string;
 };
 
 export interface ResponseMetadata {

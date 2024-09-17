@@ -7,67 +7,67 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type AdminAppsRestrictedListResponse = WebAPICallResult & {
-  error?:             string;
-  needed?:            string;
-  ok?:                boolean;
-  provided?:          string;
+  error?: string;
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
   response_metadata?: ResponseMetadata;
-  restricted_apps?:   RestrictedApp[];
-  warning?:           string;
+  restricted_apps?: RestrictedApp[];
+  warning?: string;
 };
 
 export interface ResponseMetadata {
-  messages?:    string[];
+  messages?: string[];
   next_cursor?: string;
-  warnings?:    string[];
+  warnings?: string[];
 }
 
 export interface RestrictedApp {
-  app?:              App;
-  date_updated?:     number;
+  app?: App;
+  date_updated?: number;
   last_resolved_by?: LastResolvedBy;
-  scopes?:           Scope[];
+  scopes?: Scope[];
 }
 
 export interface App {
-  additional_info?:           string;
-  app_directory_url?:         string;
-  app_homepage_url?:          string;
-  description?:               string;
-  help_url?:                  string;
-  icons?:                     Icons;
-  id?:                        string;
+  additional_info?: string;
+  app_directory_url?: string;
+  app_homepage_url?: string;
+  description?: string;
+  help_url?: string;
+  icons?: Icons;
+  id?: string;
   is_app_directory_approved?: boolean;
-  is_granular_bot_app?:       boolean;
-  is_internal?:               boolean;
-  name?:                      string;
-  privacy_policy_url?:        string;
+  is_granular_bot_app?: boolean;
+  is_internal?: boolean;
+  name?: string;
+  privacy_policy_url?: string;
 }
 
 export interface Icons {
-  image_1024?:     string;
-  image_128?:      string;
-  image_192?:      string;
-  image_32?:       string;
-  image_36?:       string;
-  image_48?:       string;
-  image_512?:      string;
-  image_64?:       string;
-  image_72?:       string;
-  image_96?:       string;
+  image_1024?: string;
+  image_128?: string;
+  image_192?: string;
+  image_32?: string;
+  image_36?: string;
+  image_48?: string;
+  image_512?: string;
+  image_64?: string;
+  image_72?: string;
+  image_96?: string;
   image_original?: string;
 }
 
 export interface LastResolvedBy {
-  actor_id?:   string;
+  actor_id?: string;
   actor_type?: string;
 }
 
 export interface Scope {
-  description?:  string;
+  description?: string;
   is_sensitive?: boolean;
-  name?:         string;
-  token_type?:   string;
+  name?: string;
+  token_type?: string;
 }

@@ -7,15 +7,15 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type AdminConversationsWhitelistListGroupsLinkedToChannelResponse = WebAPICallResult & {
-  error?:             string;
-  group_ids?:         string[];
-  needed?:            string;
-  ok?:                boolean;
-  provided?:          string;
+  error?: string;
+  group_ids?: string[];
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
   response_metadata?: ResponseMetadata;
-  warning?:           string;
+  warning?: string;
 };
 
 export interface ResponseMetadata {

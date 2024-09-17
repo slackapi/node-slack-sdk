@@ -7,146 +7,146 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type ChatScheduleMessageResponse = WebAPICallResult & {
-  channel?:              string;
-  error?:                string;
-  message?:              Message;
-  needed?:               string;
-  ok?:                   boolean;
-  post_at?:              number;
-  provided?:             string;
-  response_metadata?:    ResponseMetadata;
+  channel?: string;
+  error?: string;
+  message?: Message;
+  needed?: string;
+  ok?: boolean;
+  post_at?: number;
+  provided?: string;
+  response_metadata?: ResponseMetadata;
   scheduled_message_id?: string;
 };
 
 export interface Message {
-  app_id?:               string;
+  app_id?: string;
   assistant_app_thread?: AssistantAppThread;
-  blocks?:               AssistantAppThreadBlock[];
-  bot_id?:               string;
-  bot_profile?:          BotProfile;
-  metadata?:             Metadata;
-  room?:                 Room;
-  team?:                 string;
-  text?:                 string;
-  type?:                 string;
-  user?:                 string;
+  blocks?: AssistantAppThreadBlock[];
+  bot_id?: string;
+  bot_profile?: BotProfile;
+  metadata?: Metadata;
+  room?: Room;
+  team?: string;
+  text?: string;
+  type?: string;
+  user?: string;
 }
 
 export interface AssistantAppThread {
   first_user_thread_reply?: string;
-  title?:                   string;
-  title_blocks?:            AssistantAppThreadBlock[];
+  title?: string;
+  title_blocks?: AssistantAppThreadBlock[];
 }
 
 export interface AssistantAppThreadBlock {
-  accessory?:                    Accessory;
-  alt_text?:                     string;
-  api_decoration_available?:     boolean;
-  app_collaborators?:            string[];
-  app_id?:                       string;
-  author_name?:                  string;
-  block_id?:                     string;
-  bot_user_id?:                  string;
-  button_label?:                 string;
-  call?:                         Call;
-  call_id?:                      string;
-  description?:                  DescriptionElement;
-  developer_trace_id?:           string;
-  dispatch_action?:              boolean;
-  element?:                      Accessory;
-  elements?:                     Accessory[];
-  external_id?:                  string;
-  fallback?:                     string;
-  fields?:                       DescriptionElement[];
-  file?:                         File;
-  file_id?:                      string;
-  function_trigger_id?:          string;
-  hint?:                         DescriptionElement;
-  image_bytes?:                  number;
-  image_height?:                 number;
-  image_url?:                    string;
-  image_width?:                  number;
-  is_animated?:                  boolean;
-  is_workflow_app?:              boolean;
-  label?:                        DescriptionElement;
-  optional?:                     boolean;
-  owning_team_id?:               string;
-  provider_icon_url?:            string;
-  provider_name?:                string;
+  accessory?: Accessory;
+  alt_text?: string;
+  api_decoration_available?: boolean;
+  app_collaborators?: string[];
+  app_id?: string;
+  author_name?: string;
+  block_id?: string;
+  bot_user_id?: string;
+  button_label?: string;
+  call?: Call;
+  call_id?: string;
+  description?: DescriptionElement;
+  developer_trace_id?: string;
+  dispatch_action?: boolean;
+  element?: Accessory;
+  elements?: Accessory[];
+  external_id?: string;
+  fallback?: string;
+  fields?: DescriptionElement[];
+  file?: File;
+  file_id?: string;
+  function_trigger_id?: string;
+  hint?: DescriptionElement;
+  image_bytes?: number;
+  image_height?: number;
+  image_url?: string;
+  image_width?: number;
+  is_animated?: boolean;
+  is_workflow_app?: boolean;
+  label?: DescriptionElement;
+  optional?: boolean;
+  owning_team_id?: string;
+  provider_icon_url?: string;
+  provider_name?: string;
   sales_home_workflow_app_type?: number;
-  share_url?:                    string;
-  slack_file?:                   SlackFile;
-  source?:                       string;
-  text?:                         DescriptionElement;
-  thumbnail_url?:                string;
-  title?:                        DescriptionElement;
-  title_url?:                    string;
-  trigger_subtype?:              string;
-  trigger_type?:                 string;
-  type?:                         BlockType;
-  url?:                          string;
-  video_url?:                    string;
-  workflow_id?:                  string;
+  share_url?: string;
+  slack_file?: SlackFile;
+  source?: string;
+  text?: DescriptionElement;
+  thumbnail_url?: string;
+  title?: DescriptionElement;
+  title_url?: string;
+  trigger_subtype?: string;
+  trigger_type?: string;
+  type?: BlockType;
+  url?: string;
+  video_url?: string;
+  workflow_id?: string;
 }
 
 export interface Accessory {
-  accessibility_label?:             string;
-  action_id?:                       string;
-  alt_text?:                        string;
-  border?:                          number;
-  confirm?:                         Confirm;
+  accessibility_label?: string;
+  action_id?: string;
+  alt_text?: string;
+  border?: number;
+  confirm?: Confirm;
   default_to_current_conversation?: boolean;
-  elements?:                        AccessoryElement[];
-  fallback?:                        string;
-  filter?:                          Filter;
-  focus_on_load?:                   boolean;
-  image_bytes?:                     number;
-  image_height?:                    number;
-  image_url?:                       string;
-  image_width?:                     number;
-  indent?:                          number;
-  initial_channel?:                 string;
-  initial_channels?:                string[];
-  initial_conversation?:            string;
-  initial_conversations?:           string[];
-  initial_date?:                    string;
-  initial_date_time?:               number;
-  initial_option?:                  Option;
-  initial_options?:                 Option[];
-  initial_time?:                    string;
-  initial_user?:                    string;
-  initial_users?:                   string[];
-  max_selected_items?:              number;
-  min_query_length?:                number;
-  offset?:                          number;
-  option_groups?:                   OptionGroup[];
-  options?:                         Option[];
-  placeholder?:                     DescriptionElement;
-  response_url_enabled?:            boolean;
-  slack_file?:                      SlackFile;
-  style?:                           string;
-  text?:                            DescriptionElement;
-  timezone?:                        string;
-  type?:                            string;
-  url?:                             string;
-  value?:                           string;
-  workflow?:                        Workflow;
+  elements?: AccessoryElement[];
+  fallback?: string;
+  filter?: Filter;
+  focus_on_load?: boolean;
+  image_bytes?: number;
+  image_height?: number;
+  image_url?: string;
+  image_width?: number;
+  indent?: number;
+  initial_channel?: string;
+  initial_channels?: string[];
+  initial_conversation?: string;
+  initial_conversations?: string[];
+  initial_date?: string;
+  initial_date_time?: number;
+  initial_option?: Option;
+  initial_options?: Option[];
+  initial_time?: string;
+  initial_user?: string;
+  initial_users?: string[];
+  max_selected_items?: number;
+  min_query_length?: number;
+  offset?: number;
+  option_groups?: OptionGroup[];
+  options?: Option[];
+  placeholder?: DescriptionElement;
+  response_url_enabled?: boolean;
+  slack_file?: SlackFile;
+  style?: string;
+  text?: DescriptionElement;
+  timezone?: string;
+  type?: string;
+  url?: string;
+  value?: string;
+  workflow?: Workflow;
 }
 
 export interface Confirm {
   confirm?: DescriptionElement;
-  deny?:    DescriptionElement;
-  style?:   string;
-  text?:    DescriptionElement;
-  title?:   DescriptionElement;
+  deny?: DescriptionElement;
+  style?: string;
+  text?: DescriptionElement;
+  title?: DescriptionElement;
 }
 
 export interface DescriptionElement {
-  emoji?:    boolean;
-  text?:     string;
-  type?:     DescriptionType;
+  emoji?: boolean;
+  text?: string;
+  type?: DescriptionType;
   verbatim?: boolean;
 }
 
@@ -156,42 +156,42 @@ export enum DescriptionType {
 }
 
 export interface AccessoryElement {
-  border?:   number;
+  border?: number;
   elements?: PurpleElement[];
-  indent?:   number;
-  offset?:   number;
-  style?:    string;
-  type?:     FluffyType;
+  indent?: number;
+  offset?: number;
+  style?: string;
+  type?: FluffyType;
 }
 
 export interface PurpleElement {
-  channel_id?:   string;
-  fallback?:     string;
-  format?:       string;
-  name?:         string;
-  range?:        string;
-  skin_tone?:    number;
-  style?:        Style;
-  team_id?:      string;
-  text?:         string;
-  timestamp?:    number | string;
-  type?:         PurpleType;
-  unicode?:      string;
-  unsafe?:       boolean;
-  url?:          string;
-  user_id?:      string;
+  channel_id?: string;
+  fallback?: string;
+  format?: string;
+  name?: string;
+  range?: string;
+  skin_tone?: number;
+  style?: Style;
+  team_id?: string;
+  text?: string;
+  timestamp?: number;
+  type?: PurpleType;
+  unicode?: string;
+  unsafe?: boolean;
+  url?: string;
+  user_id?: string;
   usergroup_id?: string;
-  value?:        string;
+  value?: string;
 }
 
 export interface Style {
-  bold?:             boolean;
+  bold?: boolean;
   client_highlight?: boolean;
-  code?:             boolean;
-  highlight?:        boolean;
-  italic?:           boolean;
-  strike?:           boolean;
-  unlink?:           boolean;
+  code?: boolean;
+  highlight?: boolean;
+  italic?: boolean;
+  strike?: boolean;
+  unlink?: boolean;
 }
 
 export enum PurpleType {
@@ -215,25 +215,25 @@ export enum FluffyType {
 }
 
 export interface Filter {
-  exclude_bot_users?:                boolean;
+  exclude_bot_users?: boolean;
   exclude_external_shared_channels?: boolean;
-  include?:                          any[];
+  include?: any[];
 }
 
 export interface Option {
   description?: DescriptionElement;
-  text?:        DescriptionElement;
-  url?:         string;
-  value?:       string;
+  text?: DescriptionElement;
+  url?: string;
+  value?: string;
 }
 
 export interface OptionGroup {
-  label?:   DescriptionElement;
+  label?: DescriptionElement;
   options?: Option[];
 }
 
 export interface SlackFile {
-  id?:  string;
+  id?: string;
   url?: string;
 }
 
@@ -243,258 +243,258 @@ export interface Workflow {
 
 export interface Trigger {
   customizable_input_parameters?: CustomizableInputParameter[];
-  url?:                           string;
+  url?: string;
 }
 
 export interface CustomizableInputParameter {
-  name?:  string;
+  name?: string;
   value?: string;
 }
 
 export interface Call {
   media_backend_type?: string;
-  v1?:                 V1;
+  v1?: V1;
 }
 
 export interface V1 {
-  active_participants?:  Participant[];
-  all_participants?:     Participant[];
-  app_icon_urls?:        AppIconUrls;
-  app_id?:               string;
-  channels?:             string[];
-  created_by?:           string;
-  date_end?:             number;
-  date_start?:           number;
+  active_participants?: Participant[];
+  all_participants?: Participant[];
+  app_icon_urls?: AppIconUrls;
+  app_id?: string;
+  channels?: string[];
+  created_by?: string;
+  date_end?: number;
+  date_start?: number;
   desktop_app_join_url?: string;
-  display_id?:           string;
-  has_ended?:            boolean;
-  id?:                   string;
-  is_dm_call?:           boolean;
-  join_url?:             string;
-  name?:                 string;
-  was_accepted?:         boolean;
-  was_missed?:           boolean;
-  was_rejected?:         boolean;
+  display_id?: string;
+  has_ended?: boolean;
+  id?: string;
+  is_dm_call?: boolean;
+  join_url?: string;
+  name?: string;
+  was_accepted?: boolean;
+  was_missed?: boolean;
+  was_rejected?: boolean;
 }
 
 export interface Participant {
-  avatar_url?:   string;
+  avatar_url?: string;
   display_name?: string;
-  external_id?:  string;
-  slack_id?:     string;
+  external_id?: string;
+  slack_id?: string;
 }
 
 export interface AppIconUrls {
-  image_1024?:     string;
-  image_128?:      string;
-  image_192?:      string;
-  image_32?:       string;
-  image_36?:       string;
-  image_48?:       string;
-  image_512?:      string;
-  image_64?:       string;
-  image_72?:       string;
-  image_96?:       string;
+  image_1024?: string;
+  image_128?: string;
+  image_192?: string;
+  image_32?: string;
+  image_36?: string;
+  image_48?: string;
+  image_512?: string;
+  image_64?: string;
+  image_72?: string;
+  image_96?: string;
   image_original?: string;
 }
 
 export interface File {
-  access?:                                  string;
-  alt_txt?:                                 string;
-  app_id?:                                  string;
-  app_name?:                                string;
-  attachments?:                             any[];
-  blocks?:                                  FileBlock[];
-  bot_id?:                                  string;
-  can_toggle_canvas_lock?:                  boolean;
-  canvas_template_mode?:                    string;
-  cc?:                                      Cc[];
-  channel_actions_count?:                   number;
-  channel_actions_ts?:                      string;
-  channels?:                                string[];
-  comments_count?:                          number;
-  converted_pdf?:                           string;
-  created?:                                 number;
-  deanimate?:                               string;
-  deanimate_gif?:                           string;
-  display_as_bot?:                          boolean;
-  dm_mpdm_users_with_file_access?:          DmMpdmUsersWithFileAccess[];
-  duration_ms?:                             number;
-  edit_link?:                               string;
-  edit_timestamp?:                          number;
-  editable?:                                boolean;
-  editor?:                                  string;
-  editors?:                                 string[];
-  external_id?:                             string;
-  external_type?:                           string;
-  external_url?:                            string;
-  favorites?:                               Favorite[];
-  file_access?:                             string;
-  filetype?:                                string;
-  from?:                                    Cc[];
-  groups?:                                  string[];
-  has_more?:                                boolean;
-  has_more_shares?:                         boolean;
-  has_rich_preview?:                        boolean;
-  headers?:                                 Headers;
-  hls?:                                     string;
-  hls_embed?:                               string;
-  id?:                                      string;
-  image_exif_rotation?:                     number;
-  ims?:                                     string[];
-  initial_comment?:                         InitialComment;
-  is_channel_space?:                        boolean;
-  is_external?:                             boolean;
-  is_public?:                               boolean;
-  is_starred?:                              boolean;
-  last_editor?:                             string;
-  last_read?:                               number;
-  lines?:                                   number;
-  lines_more?:                              number;
-  linked_channel_id?:                       string;
-  list_limits?:                             ListLimits;
-  list_metadata?:                           ListMetadata;
-  media_display_type?:                      string;
-  media_progress?:                          MediaProgress;
-  mimetype?:                                string;
-  mode?:                                    string;
-  mp4?:                                     string;
-  mp4_low?:                                 string;
-  name?:                                    string;
-  non_owner_editable?:                      boolean;
-  num_stars?:                               number;
-  org_or_workspace_access?:                 string;
-  original_attachment_count?:               number;
-  original_h?:                              string;
-  original_w?:                              string;
-  permalink?:                               string;
-  permalink_public?:                        string;
-  pinned_to?:                               string[];
-  pjpeg?:                                   string;
-  plain_text?:                              string;
-  pretty_type?:                             string;
-  preview?:                                 string;
-  preview_highlight?:                       string;
-  preview_is_truncated?:                    boolean;
-  preview_plain_text?:                      string;
+  access?: string;
+  alt_txt?: string;
+  app_id?: string;
+  app_name?: string;
+  attachments?: any[];
+  blocks?: FileBlock[];
+  bot_id?: string;
+  can_toggle_canvas_lock?: boolean;
+  canvas_template_mode?: string;
+  cc?: Cc[];
+  channel_actions_count?: number;
+  channel_actions_ts?: string;
+  channels?: string[];
+  comments_count?: number;
+  converted_pdf?: string;
+  created?: number;
+  deanimate?: string;
+  deanimate_gif?: string;
+  display_as_bot?: boolean;
+  dm_mpdm_users_with_file_access?: DmMpdmUsersWithFileAccess[];
+  duration_ms?: number;
+  edit_link?: string;
+  edit_timestamp?: number;
+  editable?: boolean;
+  editor?: string;
+  editors?: string[];
+  external_id?: string;
+  external_type?: string;
+  external_url?: string;
+  favorites?: Favorite[];
+  file_access?: string;
+  filetype?: string;
+  from?: Cc[];
+  groups?: string[];
+  has_more?: boolean;
+  has_more_shares?: boolean;
+  has_rich_preview?: boolean;
+  headers?: Headers;
+  hls?: string;
+  hls_embed?: string;
+  id?: string;
+  image_exif_rotation?: number;
+  ims?: string[];
+  initial_comment?: InitialComment;
+  is_channel_space?: boolean;
+  is_external?: boolean;
+  is_public?: boolean;
+  is_starred?: boolean;
+  last_editor?: string;
+  last_read?: number;
+  lines?: number;
+  lines_more?: number;
+  linked_channel_id?: string;
+  list_limits?: ListLimits;
+  list_metadata?: ListMetadata;
+  media_display_type?: string;
+  media_progress?: MediaProgress;
+  mimetype?: string;
+  mode?: string;
+  mp4?: string;
+  mp4_low?: string;
+  name?: string;
+  non_owner_editable?: boolean;
+  num_stars?: number;
+  org_or_workspace_access?: string;
+  original_attachment_count?: number;
+  original_h?: string;
+  original_w?: string;
+  permalink?: string;
+  permalink_public?: string;
+  pinned_to?: string[];
+  pjpeg?: string;
+  plain_text?: string;
+  pretty_type?: string;
+  preview?: string;
+  preview_highlight?: string;
+  preview_is_truncated?: boolean;
+  preview_plain_text?: string;
   private_channels_with_file_access_count?: number;
-  private_file_with_access_count?:          number;
-  public_url_shared?:                       boolean;
-  quip_thread_id?:                          string;
-  reactions?:                               Reaction[];
-  saved?:                                   Saved;
-  sent_to_self?:                            boolean;
-  shares?:                                  Shares;
-  show_badge?:                              boolean;
-  simplified_html?:                         string;
-  size?:                                    number;
-  source_team?:                             string;
-  subject?:                                 string;
-  subtype?:                                 string;
-  team_pref_version_history_enabled?:       boolean;
-  teams_shared_with?:                       any[];
-  template_conversion_ts?:                  number;
-  template_description?:                    string;
-  template_icon?:                           string;
-  template_name?:                           string;
-  template_title?:                          string;
-  thumb_1024?:                              string;
-  thumb_1024_gif?:                          string;
-  thumb_1024_h?:                            string;
-  thumb_1024_w?:                            string;
-  thumb_160?:                               string;
-  thumb_160_gif?:                           string;
-  thumb_160_h?:                             string;
-  thumb_160_w?:                             string;
-  thumb_360?:                               string;
-  thumb_360_gif?:                           string;
-  thumb_360_h?:                             string;
-  thumb_360_w?:                             string;
-  thumb_480?:                               string;
-  thumb_480_gif?:                           string;
-  thumb_480_h?:                             string;
-  thumb_480_w?:                             string;
-  thumb_64?:                                string;
-  thumb_64_gif?:                            string;
-  thumb_64_h?:                              string;
-  thumb_64_w?:                              string;
-  thumb_720?:                               string;
-  thumb_720_gif?:                           string;
-  thumb_720_h?:                             string;
-  thumb_720_w?:                             string;
-  thumb_80?:                                string;
-  thumb_800?:                               string;
-  thumb_800_gif?:                           string;
-  thumb_800_h?:                             string;
-  thumb_800_w?:                             string;
-  thumb_80_gif?:                            string;
-  thumb_80_h?:                              string;
-  thumb_80_w?:                              string;
-  thumb_960?:                               string;
-  thumb_960_gif?:                           string;
-  thumb_960_h?:                             string;
-  thumb_960_w?:                             string;
-  thumb_gif?:                               string;
-  thumb_pdf?:                               string;
-  thumb_pdf_h?:                             string;
-  thumb_pdf_w?:                             string;
-  thumb_tiny?:                              string;
-  thumb_video?:                             string;
-  thumb_video_h?:                           number;
-  thumb_video_w?:                           number;
-  timestamp?:                               number;
-  title?:                                   string;
-  title_blocks?:                            FileBlock[];
-  to?:                                      Cc[];
-  transcription?:                           Transcription;
-  update_notification?:                     number;
-  updated?:                                 number;
-  url_private?:                             string;
-  url_private_download?:                    string;
-  url_static_preview?:                      string;
-  user?:                                    string;
-  user_team?:                               string;
-  username?:                                string;
-  vtt?:                                     string;
+  private_file_with_access_count?: number;
+  public_url_shared?: boolean;
+  quip_thread_id?: string;
+  reactions?: Reaction[];
+  saved?: Saved;
+  sent_to_self?: boolean;
+  shares?: Shares;
+  show_badge?: boolean;
+  simplified_html?: string;
+  size?: number;
+  source_team?: string;
+  subject?: string;
+  subtype?: string;
+  team_pref_version_history_enabled?: boolean;
+  teams_shared_with?: any[];
+  template_conversion_ts?: number;
+  template_description?: string;
+  template_icon?: string;
+  template_name?: string;
+  template_title?: string;
+  thumb_1024?: string;
+  thumb_1024_gif?: string;
+  thumb_1024_h?: string;
+  thumb_1024_w?: string;
+  thumb_160?: string;
+  thumb_160_gif?: string;
+  thumb_160_h?: string;
+  thumb_160_w?: string;
+  thumb_360?: string;
+  thumb_360_gif?: string;
+  thumb_360_h?: string;
+  thumb_360_w?: string;
+  thumb_480?: string;
+  thumb_480_gif?: string;
+  thumb_480_h?: string;
+  thumb_480_w?: string;
+  thumb_64?: string;
+  thumb_64_gif?: string;
+  thumb_64_h?: string;
+  thumb_64_w?: string;
+  thumb_720?: string;
+  thumb_720_gif?: string;
+  thumb_720_h?: string;
+  thumb_720_w?: string;
+  thumb_80?: string;
+  thumb_800?: string;
+  thumb_800_gif?: string;
+  thumb_800_h?: string;
+  thumb_800_w?: string;
+  thumb_80_gif?: string;
+  thumb_80_h?: string;
+  thumb_80_w?: string;
+  thumb_960?: string;
+  thumb_960_gif?: string;
+  thumb_960_h?: string;
+  thumb_960_w?: string;
+  thumb_gif?: string;
+  thumb_pdf?: string;
+  thumb_pdf_h?: string;
+  thumb_pdf_w?: string;
+  thumb_tiny?: string;
+  thumb_video?: string;
+  thumb_video_h?: number;
+  thumb_video_w?: number;
+  timestamp?: number;
+  title?: string;
+  title_blocks?: FileBlock[];
+  to?: Cc[];
+  transcription?: Transcription;
+  update_notification?: number;
+  updated?: number;
+  url_private?: string;
+  url_private_download?: string;
+  url_static_preview?: string;
+  user?: string;
+  user_team?: string;
+  username?: string;
+  vtt?: string;
 }
 
 export interface FileBlock {
-  accessory?:                    Accessory;
-  alt_text?:                     string;
-  app_collaborators?:            string[];
-  app_id?:                       string;
-  author_name?:                  string;
-  block_id?:                     string;
-  bot_user_id?:                  string;
-  button_label?:                 string;
-  description?:                  DescriptionElement | string;
-  developer_trace_id?:           string;
-  elements?:                     Accessory[];
-  fallback?:                     string;
-  fields?:                       DescriptionElement[];
-  function_trigger_id?:          string;
-  image_bytes?:                  number;
-  image_height?:                 number;
-  image_url?:                    string;
-  image_width?:                  number;
-  is_animated?:                  boolean;
-  is_workflow_app?:              boolean;
-  owning_team_id?:               string;
-  provider_icon_url?:            string;
-  provider_name?:                string;
+  accessory?: Accessory;
+  alt_text?: string;
+  app_collaborators?: string[];
+  app_id?: string;
+  author_name?: string;
+  block_id?: string;
+  bot_user_id?: string;
+  button_label?: string;
+  description?: DescriptionElement | string;
+  developer_trace_id?: string;
+  elements?: Accessory[];
+  fallback?: string;
+  fields?: DescriptionElement[];
+  function_trigger_id?: string;
+  image_bytes?: number;
+  image_height?: number;
+  image_url?: string;
+  image_width?: number;
+  is_animated?: boolean;
+  is_workflow_app?: boolean;
+  owning_team_id?: string;
+  provider_icon_url?: string;
+  provider_name?: string;
   sales_home_workflow_app_type?: number;
-  share_url?:                    string;
-  slack_file?:                   SlackFile;
-  text?:                         DescriptionElement;
-  thumbnail_url?:                string;
-  title?:                        DescriptionElement | string;
-  title_url?:                    string;
-  trigger_subtype?:              string;
-  trigger_type?:                 string;
-  type?:                         BlockType;
-  url?:                          string;
-  video_url?:                    string;
-  workflow_id?:                  string;
+  share_url?: string;
+  slack_file?: SlackFile;
+  text?: DescriptionElement;
+  thumbnail_url?: string;
+  title?: DescriptionElement | string;
+  title_url?: string;
+  trigger_subtype?: string;
+  trigger_type?: string;
+  type?: BlockType;
+  url?: string;
+  video_url?: string;
+  workflow_id?: string;
 }
 
 export enum BlockType {
@@ -509,103 +509,103 @@ export enum BlockType {
 }
 
 export interface Cc {
-  address?:  string;
-  name?:     string;
+  address?: string;
+  name?: string;
   original?: string;
 }
 
 export interface DmMpdmUsersWithFileAccess {
-  access?:  string;
+  access?: string;
   user_id?: string;
 }
 
 export interface Favorite {
-  collection_id?:   string;
+  collection_id?: string;
   collection_name?: string;
-  position?:        string;
+  position?: string;
 }
 
 export interface Headers {
-  date?:        string;
+  date?: string;
   in_reply_to?: string;
-  message_id?:  string;
-  reply_to?:    string;
+  message_id?: string;
+  reply_to?: string;
 }
 
 export interface InitialComment {
-  channel?:   string;
-  comment?:   string;
-  created?:   number;
-  id?:        string;
-  is_intro?:  boolean;
+  channel?: string;
+  comment?: string;
+  created?: number;
+  id?: string;
+  is_intro?: boolean;
   timestamp?: number;
-  user?:      string;
+  user?: string;
 }
 
 export interface ListLimits {
-  column_count?:        number;
-  column_count_limit?:  number;
+  column_count?: number;
+  column_count_limit?: number;
   over_column_maximum?: boolean;
-  over_row_maximum?:    boolean;
-  over_view_maximum?:   boolean;
-  row_count?:           number;
-  row_count_limit?:     number;
-  view_count?:          number;
-  view_count_limit?:    number;
+  over_row_maximum?: boolean;
+  over_view_maximum?: boolean;
+  row_count?: number;
+  row_count_limit?: number;
+  view_count?: number;
+  view_count_limit?: number;
 }
 
 export interface ListMetadata {
   creation_source?: CreationSource;
-  description?:     string;
-  icon?:            string;
-  icon_team_id?:    string;
-  icon_url?:        string;
-  integrations?:    string[];
-  is_trial?:        boolean;
-  schema?:          Schema[];
-  views?:           View[];
+  description?: string;
+  icon?: string;
+  icon_team_id?: string;
+  icon_url?: string;
+  integrations?: string[];
+  is_trial?: boolean;
+  schema?: Schema[];
+  views?: View[];
 }
 
 export interface CreationSource {
-  reference_id?:         string;
-  type?:                 string;
+  reference_id?: string;
+  type?: string;
   workflow_function_id?: string;
 }
 
 export interface Schema {
-  id?:                string;
+  id?: string;
   is_primary_column?: boolean;
-  key?:               string;
-  name?:              string;
-  options?:           Options;
-  type?:              string;
+  key?: string;
+  name?: string;
+  options?: Options;
+  type?: string;
 }
 
 export interface Options {
-  canvas_id?:                  string;
+  canvas_id?: string;
   canvas_placeholder_mapping?: CanvasPlaceholderMapping[];
-  choices?:                    Choice[];
-  currency?:                   string;
-  currency_format?:            string;
-  date_format?:                string;
-  default_value?:              string;
-  default_value_typed?:        DefaultValueTyped;
-  emoji?:                      string;
-  emoji_team_id?:              string;
-  for_assignment?:             boolean;
-  format?:                     string;
-  linked_to?:                  string[];
-  mark_as_done_when_checked?:  boolean;
-  max?:                        number;
-  notify_users?:               boolean;
-  precision?:                  number;
-  rounding?:                   string;
-  show_member_name?:           boolean;
-  time_format?:                string;
+  choices?: Choice[];
+  currency?: string;
+  currency_format?: string;
+  date_format?: string;
+  default_value?: string;
+  default_value_typed?: DefaultValueTyped;
+  emoji?: string;
+  emoji_team_id?: string;
+  for_assignment?: boolean;
+  format?: string;
+  linked_to?: string[];
+  mark_as_done_when_checked?: boolean;
+  max?: number;
+  notify_users?: boolean;
+  precision?: number;
+  rounding?: string;
+  show_member_name?: boolean;
+  time_format?: string;
 }
 
 export interface CanvasPlaceholderMapping {
-  column?:   string;
+  column?: string;
   variable?: string;
 }
 
@@ -620,64 +620,64 @@ export interface DefaultValueTyped {
 }
 
 export interface View {
-  columns?:           Column[];
-  created_by?:        string;
-  date_created?:      number;
-  id?:                string;
+  columns?: Column[];
+  created_by?: string;
+  date_created?: number;
+  id?: string;
   is_all_items_view?: boolean;
-  is_locked?:         boolean;
-  name?:              string;
-  position?:          string;
+  is_locked?: boolean;
+  name?: string;
+  position?: string;
   stick_column_left?: boolean;
-  type?:              string;
+  type?: string;
 }
 
 export interface Column {
-  id?:       string;
-  key?:      string;
+  id?: string;
+  key?: string;
   position?: string;
-  visible?:  boolean;
-  width?:    number;
+  visible?: boolean;
+  width?: number;
 }
 
 export interface MediaProgress {
-  duration_ms?:   number;
+  duration_ms?: number;
   max_offset_ms?: number;
-  offset_ms?:     number;
+  offset_ms?: number;
 }
 
 export interface Reaction {
   count?: number;
-  name?:  string;
-  url?:   string;
+  name?: string;
+  url?: string;
   users?: string[];
 }
 
 export interface Saved {
   date_completed?: number;
-  date_due?:       number;
-  is_archived?:    boolean;
-  state?:          string;
+  date_due?: number;
+  is_archived?: boolean;
+  state?: string;
 }
 
 export interface Shares {
   private?: { [key: string]: Private[] };
-  public?:  { [key: string]: Private[] };
+  public?: { [key: string]: Private[] };
 }
 
 export interface Private {
-  access?:            string;
-  channel_name?:      string;
-  date_last_shared?:  number;
-  latest_reply?:      string;
-  reply_count?:       number;
-  reply_users?:       string[];
+  access?: string;
+  channel_name?: string;
+  date_last_shared?: number;
+  latest_reply?: string;
+  reply_count?: number;
+  reply_users?: string[];
   reply_users_count?: number;
-  share_user_id?:     string;
-  source?:            string;
-  team_id?:           string;
-  thread_ts?:         string;
-  ts?:                string;
+  share_user_id?: string;
+  source?: string;
+  team_id?: string;
+  thread_ts?: string;
+  ts?: string;
 }
 
 export interface Transcription {
@@ -686,11 +686,11 @@ export interface Transcription {
 }
 
 export interface BotProfile {
-  app_id?:  string;
+  app_id?: string;
   deleted?: boolean;
-  icons?:   Icons;
-  id?:      string;
-  name?:    string;
+  icons?: Icons;
+  id?: string;
+  name?: string;
   team_id?: string;
   updated?: number;
 }
@@ -703,46 +703,45 @@ export interface Icons {
 
 export interface Metadata {
   event_payload?: EventPayload;
-  event_type?:    string;
+  event_type?: string;
 }
 
-export interface EventPayload {
-}
+export type EventPayload = {};
 
 export interface Room {
-  app_id?:                       string;
-  attached_file_ids?:            string[];
-  background_id?:                string;
-  call_family?:                  string;
-  canvas_background?:            string;
-  canvas_thread_ts?:             string;
-  channels?:                     string[];
-  created_by?:                   string;
-  date_end?:                     number;
-  date_start?:                   number;
-  display_id?:                   string;
-  external_unique_id?:           string;
-  has_ended?:                    boolean;
-  id?:                           string;
-  is_dm_call?:                   boolean;
-  is_prewarmed?:                 boolean;
-  is_scheduled?:                 boolean;
-  knocks?:                       EventPayload;
-  last_invite_status_by_user?:   EventPayload;
-  media_backend_type?:           string;
-  media_server?:                 string;
-  name?:                         string;
-  participant_history?:          string[];
-  participants?:                 string[];
-  participants_camera_off?:      string[];
-  participants_camera_on?:       string[];
+  app_id?: string;
+  attached_file_ids?: string[];
+  background_id?: string;
+  call_family?: string;
+  canvas_background?: string;
+  canvas_thread_ts?: string;
+  channels?: string[];
+  created_by?: string;
+  date_end?: number;
+  date_start?: number;
+  display_id?: string;
+  external_unique_id?: string;
+  has_ended?: boolean;
+  id?: string;
+  is_dm_call?: boolean;
+  is_prewarmed?: boolean;
+  is_scheduled?: boolean;
+  knocks?: EventPayload;
+  last_invite_status_by_user?: EventPayload;
+  media_backend_type?: string;
+  media_server?: string;
+  name?: string;
+  participant_history?: string[];
+  participants?: string[];
+  participants_camera_off?: string[];
+  participants_camera_on?: string[];
   participants_screenshare_off?: string[];
-  participants_screenshare_on?:  string[];
-  pending_invitees?:             EventPayload;
-  thread_root_ts?:               string;
-  was_accepted?:                 boolean;
-  was_missed?:                   boolean;
-  was_rejected?:                 boolean;
+  participants_screenshare_on?: string[];
+  pending_invitees?: EventPayload;
+  thread_root_ts?: string;
+  was_accepted?: boolean;
+  was_missed?: boolean;
+  was_rejected?: boolean;
 }
 
 export interface ResponseMetadata {

@@ -1,4 +1,9 @@
-export { AdminAnalyticsGetFileResponse, AdminAnalyticsMemberDetails, AdminAnalyticsPublicChannelDetails, AdminAnalyticsPublicChannelMetadataDetails } from './AdminAnalyticsGetFileResponse';
+export {
+  AdminAnalyticsGetFileResponse,
+  AdminAnalyticsMemberDetails,
+  AdminAnalyticsPublicChannelDetails,
+  AdminAnalyticsPublicChannelMetadataDetails,
+} from './AdminAnalyticsGetFileResponse';
 export { AdminAppsActivitiesListResponse } from './AdminAppsActivitiesListResponse';
 export { AdminAppsApproveResponse } from './AdminAppsApproveResponse';
 export { AdminAppsApprovedListResponse } from './AdminAppsApprovedListResponse';

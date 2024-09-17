@@ -7,13 +7,13 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type CanvasesEditResponse = WebAPICallResult & {
-  detail?:            string;
-  error?:             string;
-  needed?:            string;
-  ok?:                boolean;
-  provided?:          string;
+  detail?: string;
+  error?: string;
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
   response_metadata?: ResponseMetadata;
 };
 

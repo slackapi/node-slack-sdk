@@ -7,11 +7,11 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type ChatPostEphemeralResponse = WebAPICallResult & {
-  error?:      string;
+  error?: string;
   message_ts?: string;
-  needed?:     string;
-  ok?:         boolean;
-  provided?:   string;
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
 };

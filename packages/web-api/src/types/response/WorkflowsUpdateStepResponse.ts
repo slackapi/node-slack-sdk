@@ -7,10 +7,10 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type WorkflowsUpdateStepResponse = WebAPICallResult & {
-  error?:    string;
-  needed?:   string;
-  ok?:       boolean;
+  error?: string;
+  needed?: string;
+  ok?: boolean;
   provided?: string;
 };

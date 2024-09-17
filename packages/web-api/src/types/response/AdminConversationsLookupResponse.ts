@@ -7,13 +7,13 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type AdminConversationsLookupResponse = WebAPICallResult & {
-  channel_ids?:       string[];
-  error?:             string;
-  needed?:            string;
-  ok?:                boolean;
-  provided?:          string;
+  channel_ids?: string[];
+  error?: string;
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
   response_metadata?: ResponseMetadata;
 };
 

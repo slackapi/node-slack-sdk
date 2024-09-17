@@ -7,16 +7,15 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type CanvasesAccessDeleteResponse = WebAPICallResult & {
-  error?:                        string;
+  error?: string;
   failed_to_update_channel_ids?: string[];
-  failed_to_update_user_ids?:    string[];
-  needed?:                       string;
-  ok?:                           boolean;
-  provided?:                     string;
-  response_metadata?:            ResponseMetadata;
+  failed_to_update_user_ids?: string[];
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
+  response_metadata?: ResponseMetadata;
 };
 
-export interface ResponseMetadata {
-}
+export type ResponseMetadata = {};

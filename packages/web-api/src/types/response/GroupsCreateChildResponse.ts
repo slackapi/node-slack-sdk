@@ -7,49 +7,49 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type GroupsCreateChildResponse = WebAPICallResult & {
-  error?:             string;
-  group?:             Group;
-  needed?:            string;
-  ok?:                boolean;
-  provided?:          string;
+  error?: string;
+  group?: Group;
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
   response_metadata?: ResponseMetadata;
-  warning?:           string;
+  warning?: string;
 };
 
 export interface Group {
-  created?:              number;
-  creator?:              string;
-  id?:                   string;
-  is_archived?:          boolean;
-  is_group?:             boolean;
-  is_mpim?:              boolean;
-  is_open?:              boolean;
-  last_read?:            string;
-  latest?:               Latest;
-  members?:              string[];
-  name?:                 string;
-  name_normalized?:      string;
-  parent_group?:         string;
-  purpose?:              Purpose;
-  topic?:                Purpose;
-  unread_count?:         number;
+  created?: number;
+  creator?: string;
+  id?: string;
+  is_archived?: boolean;
+  is_group?: boolean;
+  is_mpim?: boolean;
+  is_open?: boolean;
+  last_read?: string;
+  latest?: Latest;
+  members?: string[];
+  name?: string;
+  name_normalized?: string;
+  parent_group?: string;
+  purpose?: Purpose;
+  topic?: Purpose;
+  unread_count?: number;
   unread_count_display?: number;
 }
 
 export interface Latest {
   subtype?: string;
-  text?:    string;
-  ts?:      string;
-  type?:    string;
-  user?:    string;
+  text?: string;
+  ts?: string;
+  type?: string;
+  user?: string;
 }
 
 export interface Purpose {
-  creator?:  string;
+  creator?: string;
   last_set?: number;
-  value?:    string;
+  value?: string;
 }
 
 export interface ResponseMetadata {

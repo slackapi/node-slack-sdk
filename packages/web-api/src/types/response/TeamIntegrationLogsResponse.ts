@@ -7,38 +7,38 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type TeamIntegrationLogsResponse = WebAPICallResult & {
-  error?:    string;
-  logs?:     Log[];
-  needed?:   string;
-  ok?:       boolean;
-  paging?:   Paging;
+  error?: string;
+  logs?: Log[];
+  needed?: string;
+  ok?: boolean;
+  paging?: Paging;
   provided?: string;
 };
 
 export interface Log {
-  app_id?:               string;
-  app_type?:             string;
-  change_type?:          string;
-  channel?:              string;
-  date?:                 string;
-  reason?:               string;
-  resolution?:           string;
-  rss_feed?:             boolean;
+  app_id?: string;
+  app_type?: string;
+  change_type?: string;
+  channel?: string;
+  date?: string;
+  reason?: string;
+  resolution?: string;
+  rss_feed?: boolean;
   rss_feed_change_type?: string;
-  rss_feed_title?:       string;
-  rss_feed_url?:         string;
-  scope?:                string;
-  service_id?:           number;
-  service_type?:         string;
-  user_id?:              string;
-  user_name?:            string;
+  rss_feed_title?: string;
+  rss_feed_url?: string;
+  scope?: string;
+  service_id?: number;
+  service_type?: string;
+  user_id?: string;
+  user_name?: string;
 }
 
 export interface Paging {
   count?: number;
-  page?:  number;
+  page?: number;
   pages?: number;
   total?: number;
 }

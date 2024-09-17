@@ -7,24 +7,24 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type RtmConnectResponse = WebAPICallResult & {
-  error?:    string;
-  needed?:   string;
-  ok?:       boolean;
+  error?: string;
+  needed?: string;
+  ok?: boolean;
   provided?: string;
-  self?:     Self;
-  team?:     Team;
-  url?:      string;
+  self?: Self;
+  team?: Team;
+  url?: string;
 };
 
 export interface Self {
-  id?:   string;
+  id?: string;
   name?: string;
 }
 
 export interface Team {
   domain?: string;
-  id?:     string;
-  name?:   string;
+  id?: string;
+  name?: string;
 }

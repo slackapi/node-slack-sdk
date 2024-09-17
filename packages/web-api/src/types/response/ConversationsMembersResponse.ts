@@ -7,13 +7,13 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type ConversationsMembersResponse = WebAPICallResult & {
-  error?:             string;
-  members?:           string[];
-  needed?:            string;
-  ok?:                boolean;
-  provided?:          string;
+  error?: string;
+  members?: string[];
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
   response_metadata?: ResponseMetadata;
 };
 

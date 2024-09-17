@@ -7,16 +7,16 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type GroupsOpenResponse = WebAPICallResult & {
-  already_open?:      boolean;
-  error?:             string;
-  needed?:            string;
-  no_op?:             boolean;
-  ok?:                boolean;
-  provided?:          string;
+  already_open?: boolean;
+  error?: string;
+  needed?: string;
+  no_op?: boolean;
+  ok?: boolean;
+  provided?: string;
   response_metadata?: ResponseMetadata;
-  warning?:           string;
+  warning?: string;
 };
 
 export interface ResponseMetadata {

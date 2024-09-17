@@ -7,51 +7,51 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type ChannelsInviteResponse = WebAPICallResult & {
-  channel?:  Channel;
-  error?:    string;
-  needed?:   string;
-  ok?:       boolean;
+  channel?: Channel;
+  error?: string;
+  needed?: string;
+  ok?: boolean;
   provided?: string;
 };
 
 export interface Channel {
-  created?:              number;
-  creator?:              string;
-  id?:                   string;
-  is_archived?:          boolean;
-  is_channel?:           boolean;
-  is_general?:           boolean;
-  is_member?:            boolean;
-  is_mpim?:              boolean;
-  is_org_shared?:        boolean;
-  is_private?:           boolean;
-  is_shared?:            boolean;
-  last_read?:            string;
-  latest?:               Latest;
-  members?:              string[];
-  name?:                 string;
-  name_normalized?:      string;
-  previous_names?:       string[];
-  priority?:             number;
-  purpose?:              Purpose;
-  topic?:                Purpose;
-  unlinked?:             number;
-  unread_count?:         number;
+  created?: number;
+  creator?: string;
+  id?: string;
+  is_archived?: boolean;
+  is_channel?: boolean;
+  is_general?: boolean;
+  is_member?: boolean;
+  is_mpim?: boolean;
+  is_org_shared?: boolean;
+  is_private?: boolean;
+  is_shared?: boolean;
+  last_read?: string;
+  latest?: Latest;
+  members?: string[];
+  name?: string;
+  name_normalized?: string;
+  previous_names?: string[];
+  priority?: number;
+  purpose?: Purpose;
+  topic?: Purpose;
+  unlinked?: number;
+  unread_count?: number;
   unread_count_display?: number;
 }
 
 export interface Latest {
   subtype?: string;
-  text?:    string;
-  ts?:      string;
-  type?:    string;
-  user?:    string;
+  text?: string;
+  ts?: string;
+  type?: string;
+  user?: string;
 }
 
 export interface Purpose {
-  creator?:  string;
+  creator?: string;
   last_set?: number;
-  value?:    string;
+  value?: string;
 }

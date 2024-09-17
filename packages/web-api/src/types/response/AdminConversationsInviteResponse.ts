@@ -7,13 +7,13 @@
 //                                                                                     //
 /////////////////////////////////////////////////////////////////////////////////////////
 
-import { WebAPICallResult } from '../../WebClient';
+import type { WebAPICallResult } from '../../WebClient';
 export type AdminConversationsInviteResponse = WebAPICallResult & {
-  error?:           string;
+  error?: string;
   failed_user_ids?: FailedUserids;
-  needed?:          string;
-  ok?:              boolean;
-  provided?:        string;
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
 };
 
 export interface FailedUserids {
