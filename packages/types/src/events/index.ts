@@ -8,10 +8,7 @@ import type {
   AppUninstalledEvent,
   AppUninstalledTeamEvent,
 } from './app';
-import type {
-  AssistantThreadContextChangedEvent,
-  AssistantThreadStartedEvent,
-} from './assistant';
+import type { AssistantThreadContextChangedEvent, AssistantThreadStartedEvent } from './assistant';
 import type { CallRejectedEvent } from './call';
 import type {
   ChannelArchiveEvent,
