@@ -8,14 +8,10 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 import { WebAPICallResult } from '../../WebClient';
-export type AdminConversationsRestrictAccessAddGroupResponse = WebAPICallResult & {
-  error?:             string;
-  needed?:            string;
-  ok?:                boolean;
-  provided?:          string;
-  response_metadata?: ResponseMetadata;
+export type AssistantThreadsSetSuggestedPromptsResponse = WebAPICallResult & {
+  error?:    string;
+  needed?:   string;
+  ok?:       boolean;
+  provided?: string;
+  warning?:  string;
 };
-
-export interface ResponseMetadata {
-  messages?: string[];
-}
