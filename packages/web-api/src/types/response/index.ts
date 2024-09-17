@@ -116,6 +116,9 @@ export { AppsPermissionsScopesListResponse } from './AppsPermissionsScopesListRe
 export { AppsPermissionsUsersListResponse } from './AppsPermissionsUsersListResponse';
 export { AppsPermissionsUsersRequestResponse } from './AppsPermissionsUsersRequestResponse';
 export { AppsUninstallResponse } from './AppsUninstallResponse';
+export { AssistantThreadsSetStatusResponse } from './AssistantThreadsSetStatusResponse';
+export { AssistantThreadsSetSuggestedPromptsResponse } from './AssistantThreadsSetSuggestedPromptsResponse';
+export { AssistantThreadsSetTitleResponse } from './AssistantThreadsSetTitleResponse';
 export { AuthRevokeResponse } from './AuthRevokeResponse';
 export { AuthTeamsListResponse } from './AuthTeamsListResponse';
 export { AuthTestResponse } from './AuthTestResponse';
