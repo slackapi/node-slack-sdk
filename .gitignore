@@ -13,3 +13,5 @@ tmp/
 *.bk
 
 .DS_Store
+
+.husky/
