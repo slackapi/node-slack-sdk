@@ -22,6 +22,7 @@ This app requires you to setup a few environment variables. You can get these va
 export SLACK_CLIENT_ID=YOUR_SLACK_CLIENT_ID
 export SLACK_CLIENT_SECRET=YOUR_SLACK_CLIENT_SECRET
 export SLACK_SIGNING_SECRET=YOUR_SLACK_SIGNING_SECRET
+export SLACK_STATE_SECRET=YOUR_SLACK_STATE_SECRET
 ```
 
 ## Run the App
