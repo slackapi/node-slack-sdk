@@ -37,7 +37,7 @@ const { InstallProvider } = require('@slack/oauth');
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'my-state-secret'
+  stateSecret: process.env.SLACK_STATE_SECRET,
 });
 ```
 
@@ -53,7 +53,7 @@ const installer = new InstallProvider({
   const installer = new InstallProvider({
     clientId: process.env.SLACK_CLIENT_ID,
     clientSecret: process.env.SLACK_CLIENT_SECRET,
-    stateSecret: 'my-state-secret',
+    stateSecret: process.env.SLACK_STATE_SECRET,
     authVersion: 'v1' //required for classic Slack apps
   });
   ```
@@ -168,7 +168,7 @@ In the following example, the `installationStore` option is used and the object 
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'my-state-secret',
+  stateSecret: process.env.SLACK_STATE_SECRET,
   installationStore: {
     // takes in an installation object as an argument
     // returns nothing
@@ -306,7 +306,7 @@ const { InstallProvider, LogLevel } = require('@slack/oauth');
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'my-state-secret',
+  stateSecret: process.env.SLACK_STATE_SECRET,
   logLevel: LogLevel.DEBUG,
 });
 ```
@@ -339,7 +339,7 @@ const logWritable = createWriteStream('/var/my_log_file'); // Not shown: close t
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'my-state-secret',
+  stateSecret: process.env.SLACK_STATE_SECRET,
   // Creating a logger as a literal object. It's more likely that you'd create a class.
   logger: {
     debug(...msgs): { logWritable.write('debug: ' + JSON.stringify(msgs)); },
