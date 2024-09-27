@@ -556,8 +556,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @see {@link https://api.slack.com/methods/assistant.threads.setSuggestedPrompts `assistant.threads.setSuggestedPrompts` API reference}.
        */
       setSuggestedPrompts: bindApiCall<
-        AssistantThreadsSetSuggestedPromptsArguments,
-        AssistantThreadsSetSuggestedPromptsResponse
+      AssistantThreadsSetSuggestedPromptsArguments,
+      AssistantThreadsSetSuggestedPromptsResponse
       >(this, 'assistant.threads.setSuggestedPrompts'),
       /**
        * @description Set the title of the thread. This is shown when a user views the app's chat history.
