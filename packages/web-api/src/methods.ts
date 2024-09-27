@@ -90,6 +90,9 @@ import {
   AppsManifestUpdateResponse,
   AppsManifestValidateResponse,
   AppsUninstallResponse,
+  AssistantThreadsSetStatusResponse,
+  AssistantThreadsSetSuggestedPromptsResponse,
+  AssistantThreadsSetTitleResponse,
   AuthRevokeResponse,
   AuthTeamsListResponse,
   AuthTestResponse,
@@ -551,6 +554,35 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       validate: bindApiCall<AppsManifestValidateArguments, AppsManifestValidateResponse>(this, 'apps.manifest.validate'),
     },
     uninstall: bindApiCall<AppsUninstallArguments, AppsUninstallResponse>(this, 'apps.uninstall'),
+  };
+
+  public readonly assistant = {
+    threads: {
+      /**
+       * @description Set loading status to indicate that the app is building a response.
+       * @see {@link https://api.slack.com/methods/assistant.threads.setStatus `assistant.threads.setStatus` API reference}.
+       */
+      setStatus: bindApiCall<AssistantThreadsSetStatusArguments, AssistantThreadsSetStatusResponse>(
+        this,
+        'assistant.threads.setStatus',
+      ),
+      /**
+       * @description Set suggested prompts for the user. Can suggest up to four prompts.
+       * @see {@link https://api.slack.com/methods/assistant.threads.setSuggestedPrompts `assistant.threads.setSuggestedPrompts` API reference}.
+       */
+      setSuggestedPrompts: bindApiCall<
+      AssistantThreadsSetSuggestedPromptsArguments,
+      AssistantThreadsSetSuggestedPromptsResponse
+      >(this, 'assistant.threads.setSuggestedPrompts'),
+      /**
+       * @description Set the title of the thread. This is shown when a user views the app's chat history.
+       * @see {@link https://api.slack.com/methods/assistant.threads.setTitle `assistant.threads.setTitle` API reference}.
+       */
+      setTitle: bindApiCall<AssistantThreadsSetTitleArguments, AssistantThreadsSetTitleResponse>(
+        this,
+        'assistant.threads.setTitle',
+      ),
+    },
   };
 
   public readonly auth = {
@@ -1454,6 +1486,48 @@ export interface AppsManifestValidateArguments extends WebAPICallOptions, TokenO
 export interface AppsUninstallArguments extends WebAPICallOptions {
   client_id: string;
   client_secret: string;
+}
+
+/*
+ * `assistant.*`
+ */
+// https://api.slack.com/methods/assistant.threads.setStatus
+export interface AssistantThreadsSetStatusArguments extends WebAPICallOptions, TokenOverridable {
+  /** @description Channel ID containing the assistant thread. */
+  channel_id: string;
+  /** @description Status of the assistant (e.g. 'is thinking...') */
+  status: string;
+  /** @description Message timestamp of the thread. */
+  thread_ts: string;
+}
+
+// https://api.slack.com/methods/assistant.threads.setSuggestedPrompts
+export interface AssistantThreadsSetSuggestedPromptsArguments extends WebAPICallOptions, TokenOverridable {
+  /** @description Channel ID containing the assistant thread. */
+  channel_id: string;
+  /** @description Prompt suggestions that appear when opening assistant thread. */
+  prompts: [AssistantPrompt, ...AssistantPrompt[]];
+  /** @description Message timestamp of the thread. */
+  thread_ts: string;
+  /** @description Title for the prompts. */
+  title?: string;
+}
+
+interface AssistantPrompt {
+  /** @description Title of the prompt. */
+  title: string;
+  /** @description Message of the prompt. */
+  message: string;
+}
+
+// https://api.slack.com/methods/assistant.threads.setTitle
+export interface AssistantThreadsSetTitleArguments extends WebAPICallOptions, TokenOverridable {
+  /** @description Channel ID containing the assistant thread. */
+  channel_id: string;
+  /** @description Message timestamp of the thread. */
+  thread_ts: string;
+  /** @description Title of the thread. */
+  title: string;
 }
 
 /*
