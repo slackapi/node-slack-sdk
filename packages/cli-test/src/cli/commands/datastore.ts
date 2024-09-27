@@ -7,11 +7,11 @@ export interface DatastoreCommandArguments {
   /** @description datastore get primary key value*/
   primaryKeyValue: string;
   /** @description datastore put [item details] */
-  putItem: string;
+  putItem: object;
   /** @description datastore query [expression] */
   queryExpression: string;
   /** @description datastore query [expression expression_values] */
-  queryExpressionValues: string;
+  queryExpressionValues: object;
 }
 
 /**

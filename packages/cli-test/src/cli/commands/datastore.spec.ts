@@ -36,7 +36,11 @@ describe('datastore commands', () => {
   });
   describe('put method', () => {
     it('should invoke `datastore put [item details]`', async () => {
-      await datastore.datastorePut({ appPath: '/some/path', datastoreName: 'datastore', putItem: '{ "id": "1"}' });
+      const itemObj: any = {
+        id: "1",
+        content: "text"
+      };
+      await datastore.datastorePut({ appPath: '/some/path', datastoreName: 'datastore', putItem: itemObj });
       sandbox.assert.calledWith(
         spawnSpy,
         sinon.match(`datastore put`),
@@ -45,7 +49,10 @@ describe('datastore commands', () => {
   });
   describe('query method', () => {
     it('should invoke `datastore query [expression]`', async () => {
-      await datastore.datastoreQuery({ appPath: '/some/path',  datastoreName: 'datastore', queryExpression: 'id = :id', queryExpressionValues: '{ ":id": "1"}'});
+      const expressObj: any = {
+        id: "1",
+      };
+      await datastore.datastoreQuery({ appPath: '/some/path',  datastoreName: 'datastore', queryExpression: 'id = :id', queryExpressionValues: expressObj});
       sandbox.assert.calledWith(spawnSpy, sinon.match(`datastore query`));
     });
   });
