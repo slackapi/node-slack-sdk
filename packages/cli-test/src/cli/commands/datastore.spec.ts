@@ -25,13 +25,13 @@ describe('datastore commands', () => {
   describe('get method', () => {
     it('should invoke `datastore get <query>`', async () => {
       await datastore.datastoreGet({ appPath: '/some/path', datastoreName: 'datastore', primaryKeyValue: '1' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match(`datastore get`));
+      sandbox.assert.calledWith(spawnSpy, sinon.match('datastore get'));
     });
   });
   describe('delete method', () => {
     it('should invoke `datastore delete <query>`', async () => {
       await datastore.datastoreDelete({ appPath: '/some/path', datastoreName: 'datastore', primaryKeyValue: '1' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match(`datastore delete`));
+      sandbox.assert.calledWith(spawnSpy, sinon.match('datastore delete'));
     });
   });
   describe('put method', () => {
@@ -43,7 +43,7 @@ describe('datastore commands', () => {
       await datastore.datastorePut({ appPath: '/some/path', datastoreName: 'datastore', putItem: itemObj });
       sandbox.assert.calledWith(
         spawnSpy,
-        sinon.match(`datastore put`),
+        sinon.match('datastore put'),
       );
     });
   });
@@ -53,7 +53,7 @@ describe('datastore commands', () => {
         id: "1",
       };
       await datastore.datastoreQuery({ appPath: '/some/path',  datastoreName: 'datastore', queryExpression: 'id = :id', queryExpressionValues: expressObj});
-      sandbox.assert.calledWith(spawnSpy, sinon.match(`datastore query`));
+      sandbox.assert.calledWith(spawnSpy, sinon.match('datastore query'));
     });
   });
 });
