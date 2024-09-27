@@ -2,41 +2,31 @@ import type { ProjectCommandArguments } from '../../types/commands/common_argume
 import { SlackCLIProcess } from '../cli-process';
 
 export interface DatastoreCommandArguments {
-  /** @description datastore get <query> */
-  getQuery: string;
+  /** @description datastore name */
+  datastoreName: string;
+  /** @description datastore get primary key value*/
+  primaryKeyValue: string;
   /** @description datastore put [item details] */
-  putDetails: string;
+  putItem: string;
   /** @description datastore query [expression] */
   queryExpression: string;
-  /** @description datastore delete <query> */
-  deleteQuery: string;
+  /** @description datastore query [expression expression_values] */
+  queryExpressionValues: string;
 }
-
-/**
- * `slack datastore put`
- * @returns command output
- */
-export const datastorePut = async function datastorePut(
-  args: ProjectCommandArguments & Pick<DatastoreCommandArguments, 'putDetails'>,
-): Promise<string> {
-  const cmd = new SlackCLIProcess(
-    `datastore put '${args.putDetails}'`,
-    args,
-  );
-  const proc = await cmd.execAsync({
-    cwd: args.appPath,
-  });
-  return proc.output;
-};
 
 /**
  * `slack datastore get`
  * @returns command output
  */
 export const datastoreGet = async function datastoreGet(
-  args: ProjectCommandArguments & Pick<DatastoreCommandArguments, 'getQuery'>,
+  args: ProjectCommandArguments & Pick<DatastoreCommandArguments, 'datastoreName' | 'primaryKeyValue'>,
 ): Promise<string> {
-  const cmd = new SlackCLIProcess(`datastore get '${args.getQuery}'`, args);
+  const getQueryObj: any = {
+    datastore: args.datastoreName,
+    id: args.primaryKeyValue
+  };
+  const getQuery = JSON.stringify(getQueryObj);
+  const cmd = new SlackCLIProcess(`datastore get ${getQuery}`, args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -48,9 +38,36 @@ export const datastoreGet = async function datastoreGet(
  * @returns command output
  */
 export const datastoreDelete = async function datastoreDelete(
-  args: ProjectCommandArguments & Pick<DatastoreCommandArguments, 'deleteQuery'>,
+  args: ProjectCommandArguments & Pick<DatastoreCommandArguments, 'datastoreName' | 'primaryKeyValue'>,
 ): Promise<string> {
-  const cmd = new SlackCLIProcess(`datastore delete '${args.deleteQuery}'`, args);
+  const deleteQueryObj: any = {
+    datastore: args.datastoreName,
+    id: args.primaryKeyValue
+  };
+  const deleteQuery = JSON.stringify(deleteQueryObj);
+  const cmd = new SlackCLIProcess(`datastore delete '${deleteQuery}'`, args);
+  const proc = await cmd.execAsync({
+    cwd: args.appPath,
+  });
+  return proc.output;
+};
+
+/**
+ * `slack datastore put`
+ * @returns command output
+ */
+export const datastorePut = async function datastorePut(
+  args: ProjectCommandArguments & Pick<DatastoreCommandArguments, 'datastoreName' | 'putItem'>,
+): Promise<string> {
+  const putQueryObj: any = {
+    datastore: args.datastoreName,
+    item: args.putItem
+  };
+  const putQuery = JSON.stringify(putQueryObj);
+  const cmd = new SlackCLIProcess(
+    `datastore put '${putQuery}'`,
+    args,
+  );
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -62,10 +79,16 @@ export const datastoreDelete = async function datastoreDelete(
  * @returns command output
  */
 export const datastoreQuery = async function datastoreQuery(
-  args: ProjectCommandArguments & Pick<DatastoreCommandArguments, 'queryExpression'>,
+  args: ProjectCommandArguments & Pick<DatastoreCommandArguments, 'datastoreName' | 'queryExpression' | 'queryExpressionValues'>,
 ): Promise<string> {
+  const queryObj: any = {
+    datastore: args.datastoreName,
+    expression: args.queryExpression,
+    expression_values: args.queryExpressionValues
+  };
+  const query = JSON.stringify(queryObj);
   const cmd = new SlackCLIProcess(
-    `datastore query '${args.queryExpression}'`,
+    `datastore query '${query}'`,
     args,
   );
   const proc = await cmd.execAsync({
@@ -75,8 +98,8 @@ export const datastoreQuery = async function datastoreQuery(
 };
 
 export default {
-  datastorePut,
   datastoreGet,
   datastoreDelete,
+  datastorePut,
   datastoreQuery,
 };
