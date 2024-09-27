@@ -21,7 +21,7 @@ export interface DatastoreCommandArguments {
 export const datastoreGet = async function datastoreGet(
   args: ProjectCommandArguments & Pick<DatastoreCommandArguments, 'datastoreName' | 'primaryKeyValue'>,
 ): Promise<string> {
-  const getQueryObj: any = {
+  const getQueryObj = {
     datastore: args.datastoreName,
     id: args.primaryKeyValue
   };
@@ -40,7 +40,7 @@ export const datastoreGet = async function datastoreGet(
 export const datastoreDelete = async function datastoreDelete(
   args: ProjectCommandArguments & Pick<DatastoreCommandArguments, 'datastoreName' | 'primaryKeyValue'>,
 ): Promise<string> {
-  const deleteQueryObj: any = {
+  const deleteQueryObj = {
     datastore: args.datastoreName,
     id: args.primaryKeyValue
   };
@@ -59,7 +59,7 @@ export const datastoreDelete = async function datastoreDelete(
 export const datastorePut = async function datastorePut(
   args: ProjectCommandArguments & Pick<DatastoreCommandArguments, 'datastoreName' | 'putItem'>,
 ): Promise<string> {
-  const putQueryObj: any = {
+  const putQueryObj = {
     datastore: args.datastoreName,
     item: args.putItem
   };
@@ -81,7 +81,7 @@ export const datastorePut = async function datastorePut(
 export const datastoreQuery = async function datastoreQuery(
   args: ProjectCommandArguments & Pick<DatastoreCommandArguments, 'datastoreName' | 'queryExpression' | 'queryExpressionValues'>,
 ): Promise<string> {
-  const queryObj: any = {
+  const queryObj = {
     datastore: args.datastoreName,
     expression: args.queryExpression,
     expression_values: args.queryExpressionValues
