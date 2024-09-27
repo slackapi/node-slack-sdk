@@ -36,7 +36,7 @@ describe('datastore commands', () => {
   });
   describe('put method', () => {
     it('should invoke `datastore put [item details]`', async () => {
-      const itemObj: any = {
+      const itemObj = {
         id: "1",
         content: "text"
       };
@@ -49,7 +49,7 @@ describe('datastore commands', () => {
   });
   describe('query method', () => {
     it('should invoke `datastore query [expression]`', async () => {
-      const expressObj: any = {
+      const expressObj = {
         id: "1",
       };
       await datastore.datastoreQuery({ appPath: '/some/path',  datastoreName: 'datastore', queryExpression: 'id = :id', queryExpressionValues: expressObj});
