@@ -51,7 +51,7 @@
     "@biomejs/biome": "^1.8.3",
     "@tsconfig/recommended": "^1",
     "@types/busboy": "^1.5.4",
-    "@types/chai": "^4",
+    "@types/chai": "^5",
     "@types/mocha": "^10",
     "@types/sinon": "^17",
     "busboy": "^1",
