@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
-    "@types/chai": "^5.0.0",
+    "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.1",
     "c8": "^10.1.2",
     "chai": "^4.3.8",
