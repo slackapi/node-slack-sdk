@@ -26,7 +26,7 @@ export const datastoreGet = async function datastoreGet(
     id: args.primaryKeyValue
   };
   const getQuery = JSON.stringify(getQueryObj);
-  const cmd = new SlackCLIProcess(`datastore get ${getQuery}`, args);
+  const cmd = new SlackCLIProcess(`datastore get '${getQuery}'`, args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
