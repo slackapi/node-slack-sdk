@@ -7,6 +7,7 @@ import app from './commands/app';
 import auth from './commands/auth';
 import collaborator from './commands/collaborator';
 import { create } from './commands/create';
+import datastore from './commands/datastore';
 import env from './commands/env';
 import externalAuth from './commands/external-auth';
 import func from './commands/function';
@@ -22,6 +23,7 @@ export const SlackCLI = {
   auth,
   collaborator,
   create,
+  datastore,
   env,
   externalAuth,
   function: func,
