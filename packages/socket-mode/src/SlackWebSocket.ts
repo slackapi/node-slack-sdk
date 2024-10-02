@@ -124,7 +124,7 @@ export class SlackWebSocket {
       this.options.client.emit('error', websocketErrorWithOriginal(event.error));
     });
     ws.on('message', (msg, isBinary) => {
-      this.options.client.emit('message', msg, isBinary);
+      this.options.client.emit('ws_message', msg, isBinary);
     });
     ws.on('close', (code: number, data: Buffer) => {
       this.logger.debug(`WebSocket close frame received (code: ${code}, reason: ${data.toString()})`);

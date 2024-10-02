@@ -147,7 +147,7 @@ export class SocketModeClient extends EventEmitter {
         this.emit(State.Disconnected);
       }
     });
-    this.on('message', this.onWebSocketMessage.bind(this));
+    this.on('ws_message', this.onWebSocketMessage.bind(this));
     this.logger.debug('The Socket Mode client has successfully initialized');
   }
 
