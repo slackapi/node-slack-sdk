@@ -7,6 +7,9 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import sidebarGenerator from './sidebars.js';
 
+// TODO: add cli-hooks to this list in the future, even though its not typescript but pure jsdoc
+const PACKAGES = ['cli-test', 'logger', 'oauth', 'rtm-api', 'socket-mode', 'types', 'web-api', 'webhook'];
+
 /**
  * Generate a typedoc / docusaurus config object for use as reference documentation generation options for each package.
  * @param {string} pkg the sub-package to generate refdoc options for
@@ -55,8 +58,8 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          sidebarItemsGenerator: async ({ defaultSidebarItemsGenerator, ...args }) => {
-            return sidebarGenerator(await defaultSidebarItemsGenerator(args));
+          sidebarItemsGenerator: async () => {
+            return sidebarGenerator(PACKAGES);
           },
           path: 'content',
           breadcrumbs: false,
@@ -96,18 +99,7 @@ const config = {
         ],
       },
     ],
-    ...[
-      'cli-test',
-      'events-api',
-      'interactive-messages',
-      'logger',
-      'oauth',
-      'rtm-api',
-      'socket-mode',
-      'types',
-      'web-api',
-      'webhook',
-    ].map((pkg) => ['docusaurus-plugin-typedoc', packageReferenceOptions(pkg)]),
+    ...PACKAGES.map((pkg) => ['docusaurus-plugin-typedoc', packageReferenceOptions(pkg)]),
   ],
 
   themeConfig:

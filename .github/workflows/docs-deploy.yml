@@ -31,6 +31,15 @@ jobs:
         run: npm ci
         working-directory: ./docs
 
+      - name: Install sub-package dependencies
+        run: |
+          for dir in packages/*
+          do
+            test -d "$dir" || continue
+            pushd "$dir"
+            npm i
+            popd
+          done
       - name: Lint docs
         run: npm run lint
         working-directory: ./docs

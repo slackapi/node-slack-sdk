@@ -1,5 +1,25 @@
 // @ts-check
-export default function sidebarGenerator(_items) {
+
+/**
+ * Generate a sidebar object for use as reference documentation sidebar entry for each package.
+ * @param {string} pkg the sub-package to generate refdoc options for
+ */
+function packageSidebarEntry(pkg) {
+  return {
+    type: 'category',
+    label: `@slack/${pkg}`,
+    link: {
+      type: 'doc',
+      id: `reference/${pkg}/index`,
+    },
+    items: require(`./content/reference/${pkg}/typedoc-sidebar.cjs`),
+  };
+}
+/**
+ * Generate list of sidebar objects for docs site.
+ * @param {string[]} packages list of sub-package to generate refdoc sidebar entries for
+ */
+export default function sidebarGenerator(packages) {
   return [
     {
       type: 'doc',
@@ -36,98 +56,7 @@ export default function sidebarGenerator(_items) {
     {
       type: 'category',
       label: 'API Reference',
-      items: [
-        {
-          type: 'category',
-          label: '@slack/cli-test',
-          link: {
-            type: 'doc',
-            id: 'reference/cli-test/index',
-          },
-          items: require('./content/reference/cli-test/typedoc-sidebar.cjs'),
-        },
-        {
-          type: 'category',
-          label: '@slack/events-api',
-          link: {
-            type: 'doc',
-            id: 'reference/events-api/index',
-          },
-          items: require('./content/reference/events-api/typedoc-sidebar.cjs'),
-        },
-        {
-          type: 'category',
-          label: '@slack/interactive-messages',
-          link: {
-            type: 'doc',
-            id: 'reference/interactive-messages/index',
-          },
-          items: require('./content/reference/interactive-messages/typedoc-sidebar.cjs'),
-        },
-        {
-          type: 'category',
-          label: '@slack/logger',
-          link: {
-            type: 'doc',
-            id: 'reference/logger/index',
-          },
-          items: require('./content/reference/logger/typedoc-sidebar.cjs'),
-        },
-        {
-          type: 'category',
-          label: '@slack/oauth',
-          link: {
-            type: 'doc',
-            id: 'reference/oauth/index',
-          },
-          items: require('./content/reference/oauth/typedoc-sidebar.cjs'),
-        },
-        {
-          type: 'category',
-          label: '@slack/rtm-api',
-          link: {
-            type: 'doc',
-            id: 'reference/rtm-api/index',
-          },
-          items: require('./content/reference/rtm-api/typedoc-sidebar.cjs'),
-        },
-        {
-          type: 'category',
-          label: '@slack/socket-mode',
-          link: {
-            type: 'doc',
-            id: 'reference/socket-mode/index',
-          },
-          items: require('./content/reference/socket-mode/typedoc-sidebar.cjs'),
-        },
-        {
-          type: 'category',
-          label: '@slack/types',
-          link: {
-            type: 'doc',
-            id: 'reference/types/index',
-          },
-          items: require('./content/reference/types/typedoc-sidebar.cjs'),
-        },
-        {
-          type: 'category',
-          label: '@slack/web-api',
-          link: {
-            type: 'doc',
-            id: 'reference/web-api/index',
-          },
-          items: require('./content/reference/web-api/typedoc-sidebar.cjs'),
-        },
-        {
-          type: 'category',
-          label: '@slack/webhook',
-          link: {
-            type: 'doc',
-            id: 'reference/webhook/index',
-          },
-          items: require('./content/reference/webhook/typedoc-sidebar.cjs'),
-        },
-      ],
+      items: [...packages.map((pkg) => packageSidebarEntry(pkg))],
     },
     { type: 'html', value: '<hr>' },
     {
