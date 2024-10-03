@@ -7,6 +7,10 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import sidebarGenerator from './sidebars.js';
 
+/**
+ * Generate a typedoc / docusaurus config object for use as reference documentation generation options for each package.
+ * @param {string} pkg the sub-package to generate refdoc options for
+ */
 function packageReferenceOptions(pkg) {
   return {
     classPropertiesFormat: 'table',
