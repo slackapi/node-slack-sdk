@@ -3,9 +3,11 @@
   "version": "2024.08.01",
   "private": true,
   "scripts": {
+    "lint": "npx @biomejs/biome check .",
+    "lint:fix": "npx @biomejs/biome check --write .",
     "docusaurus": "docusaurus",
-    "start": "docusaurus start",
-    "build": "docusaurus build",
+    "start": "TYPEDOC_WATCH=true docusaurus start",
+    "build": "TYPEDOC_WATCH=false docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -25,6 +27,7 @@
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.3",
     "@docusaurus/module-type-aliases": "3.5.2",
     "@docusaurus/types": "3.5.2",
     "@tsconfig/recommended": "^1.0.7",
@@ -33,16 +36,8 @@
     "typedoc-plugin-markdown": "^4.2.8"
   },
   "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 3 chrome version",
-      "last 3 firefox version",
-      "last 5 safari version"
-    ]
+    "production": [">0.5%", "not dead", "not op_mini all"],
+    "development": ["last 3 chrome version", "last 3 firefox version", "last 5 safari version"]
   },
   "engines": {
     "node": ">=20.0"

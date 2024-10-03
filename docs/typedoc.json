@@ -1,7 +1,7 @@
 {
-"skipErrorChecking": true,
-"useCodeBlocks": true,
-"logLevel": "Error",
-"readme": "none",
-"gitRevision": "main"
+  "skipErrorChecking": true,
+  "useCodeBlocks": true,
+  "logLevel": "Error",
+  "readme": "none",
+  "gitRevision": "main"
 }

@@ -4,7 +4,26 @@
 // There are various equivalent ways to declare your Docusaurus config.
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
-import {themes as prismThemes} from 'prism-react-renderer';
+import { themes as prismThemes } from 'prism-react-renderer';
+import sidebarGenerator from './sidebars.js';
+
+function packageReferenceOptions(pkg) {
+  return {
+    classPropertiesFormat: 'table',
+    enumMembersFormat: 'table',
+    entryPoints: [`../packages/${pkg}/src/index.ts`],
+    id: pkg,
+    indexFormat: 'table',
+    interfacePropertiesFormat: 'table',
+    parametersFormat: 'table',
+    propertyMembersFormat: 'table',
+    out: `./content/reference/${pkg}`,
+    tsconfig: `../packages/${pkg}/tsconfig.json`,
+    typeDeclarationFormat: 'table',
+    useCodeBlocks: true,
+    watch: process.env.TYPEDOC_WATCH,
+  };
+}
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -32,10 +51,12 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          sidebarItemsGenerator: async ({ defaultSidebarItemsGenerator, ...args }) => {
+            return sidebarGenerator(await defaultSidebarItemsGenerator(args));
+          },
           path: 'content',
           breadcrumbs: false,
           routeBasePath: '/', // Serve the docs at the site's root
-          sidebarPath: './sidebars.js',
           editUrl: 'https://github.com/slackapi/node-slack-sdk/tree/main/docs',
         },
         blog: false,
@@ -49,10 +70,11 @@ const config = {
     ],
   ],
 
-  plugins:
-    ['docusaurus-theme-github-codeblock',
+  plugins: [
+    'docusaurus-theme-github-codeblock',
 
-    ['@docusaurus/plugin-client-redirects',
+    [
+      '@docusaurus/plugin-client-redirects',
       {
         redirects: [
           {
@@ -70,96 +92,18 @@ const config = {
         ],
       },
     ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'cli-test',
-        entryPoints: ['../packages/cli-test/src/index.ts'],
-        tsconfig: '../packages/cli-test/tsconfig.json',
-        out: "./content/reference/cli-test",
-      }
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'events-api',
-        entryPoints: ['../packages/events-api/src/index.ts'],
-        tsconfig: '../packages/events-api/tsconfig.json',
-        out: "./content/reference/events-api",
-      }
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'interactive-messages',
-        entryPoints: ['../packages/interactive-messages/src/index.ts'],
-        tsconfig: '../packages/interactive-messages/tsconfig.json',
-        out: "./content/reference/interactive-messages",
-      }
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'logger',
-        entryPoints: ['../packages/logger/src/index.ts'],
-        tsconfig: '../packages/logger/tsconfig.json',
-        out: "./content/reference/logger",
-      }
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'oauth',
-        entryPoints: ['../packages/oauth/src/index.ts'],
-        tsconfig: '../packages/oauth/tsconfig.json',
-        out: "./content/reference/oauth",
-      }
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'rtm-api',
-        entryPoints: ['../packages/rtm-api/src/index.ts'],
-        tsconfig: '../packages/rtm-api/tsconfig.json',
-        out: "./content/reference/rtm-api",
-      }
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'socket-mode',
-        entryPoints: ['../packages/socket-mode/src/index.ts'],
-        tsconfig: '../packages/socket-mode/tsconfig.json',
-        out: "./content/reference/socket-mode",
-      }
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'types',
-        entryPoints: ['../packages/types/src/index.ts'],
-        tsconfig: '../packages/types/tsconfig.json',
-        out: "./content/reference/types",
-      }
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'web',
-        entryPoints: ['../packages/web-api/src/index.ts'],
-        tsconfig: '../packages/web-api/tsconfig.json',
-        out: "./content/reference/web-api",
-      }
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'webhook',
-        entryPoints: ['../packages/webhook/src/index.ts'],
-        tsconfig: '../packages/webhook/tsconfig.json',
-        out: "./content/reference/webhook",
-      }
-    ]
+    ...[
+      'cli-test',
+      'events-api',
+      'interactive-messages',
+      'logger',
+      'oauth',
+      'rtm-api',
+      'socket-mode',
+      'types',
+      'web-api',
+      'webhook',
+    ].map((pkg) => ['docusaurus-plugin-typedoc', packageReferenceOptions(pkg)]),
   ],
 
   themeConfig:
@@ -174,12 +118,12 @@ const config = {
         },
       },
       navbar: {
-        title: "Slack Developer Tools",
+        title: 'Slack Developer Tools',
         logo: {
           alt: 'Slack logo',
           src: 'img/slack-logo.svg',
           href: 'https://tools.slack.dev',
-          target : '_self'
+          target: '_self',
         },
         items: [
           {
@@ -202,7 +146,7 @@ const config = {
                 to: 'https://tools.slack.dev/bolt-python',
                 target: '_self',
               },
-            ]
+            ],
           },
           {
             type: 'dropdown',
@@ -229,7 +173,7 @@ const config = {
                 to: 'https://api.slack.com/automation/quickstart',
                 target: '_self',
               },
-            ]
+            ],
           },
           {
             type: 'dropdown',
@@ -246,7 +190,7 @@ const config = {
                 to: 'https://slackcommunity.com/',
                 target: '_self',
               },
-            ]
+            ],
           },
           {
             to: 'https://api.slack.com/docs',
@@ -255,25 +199,25 @@ const config = {
           },
           {
             'aria-label': 'GitHub Repository',
-            'className': 'navbar-github-link',
-            'href': 'https://github.com/slackapi/node-slack-sdk',
-            'position': 'right',
+            className: 'navbar-github-link',
+            href: 'https://github.com/slackapi/node-slack-sdk',
+            position: 'right',
             target: '_self',
           },
         ],
       },
       footer: {
-        copyright: `<p> Made with ♡ by Slack and pals like you <p>`,
+        copyright: '<p> Made with ♡ by Slack and pals like you <p>',
       },
       prism: {
         // switch to alucard when available in prism?
-        theme: prismThemes.github, 
+        theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
       },
-        codeblock: {
-            showGithubLink: true,
-            githubLinkLabel: 'View on GitHub',
-        },
+      codeblock: {
+        showGithubLink: true,
+        githubLinkLabel: 'View on GitHub',
+      },
       // announcementBar: {
       //   id: `announcementBar`,
       //   content: `🎉️ <b><a target="_blank" href="https://api.slack.com/">Version 2.26.0</a> of the developer tools for the Slack automations platform is here!</b> 🎉️ `,
