@@ -59,7 +59,7 @@ const config = {
       ({
         docs: {
           sidebarItemsGenerator: async () => {
-            return sidebarGenerator(PACKAGES);
+            return await sidebarGenerator(PACKAGES);
           },
           path: 'content',
           breadcrumbs: false,
