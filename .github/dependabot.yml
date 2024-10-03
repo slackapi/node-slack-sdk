@@ -3,42 +3,22 @@ updates:
   - package-ecosystem: "npm"
     directory: "/packages/cli-hooks"
     groups:
-      dev-eslint:
-        dependency-type: "development"
-        patterns:
-          - "eslint"
-          - "eslint-plugin*"
       dev-sinon:
         dependency-type: "development"
         patterns:
           - "@types/sinon"
           - "sinon"
-      dev-chai:
-        dependency-type: "development"
-        patterns:
-          - "@types/chai"
-          - "chai"
       dev-mocha:
         dependency-type: "development"
         patterns:
           - "@types/mocha"
           - "mocha"
-    ignore:
-      - dependency-name: "@typescript-eslint/parser"
-      - dependency-name: "@typescript-eslint/eslint-plugin"
-      - dependency-name: "eslint-config-airbnb-base"
-      - dependency-name: "eslint-config-airbnb-typescript"
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "npm"
     directory: "/packages/cli-test"
     groups:
-      dev-eslint:
-        dependency-type: "development"
-        patterns:
-          - "eslint"
-          - "eslint-plugin*"
       dev-sinon:
         dependency-type: "development"
         patterns:
@@ -54,22 +34,12 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
-    ignore:
-      - dependency-name: "@typescript-eslint/parser"
-      - dependency-name: "@typescript-eslint/eslint-plugin"
-      - dependency-name: "eslint-config-airbnb-base"
-      - dependency-name: "eslint-config-airbnb-typescript"
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "npm"
     directory: "/packages/logger"
     groups:
-      dev-eslint:
-        dependency-type: "development"
-        patterns:
-          - "eslint"
-          - "eslint-plugin*"
       dev-sinon:
         dependency-type: "development"
         patterns:
@@ -85,11 +55,6 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
-    ignore:
-      - dependency-name: "@typescript-eslint/parser"
-      - dependency-name: "@typescript-eslint/eslint-plugin"
-      - dependency-name: "eslint-config-airbnb-base"
-      - dependency-name: "eslint-config-airbnb-typescript"
     schedule:
       interval: "weekly"
 
@@ -99,11 +64,6 @@ updates:
       slack:
         patterns:
           - "@slack/*"
-      dev-eslint:
-        dependency-type: "development"
-        patterns:
-          - "eslint"
-          - "eslint-plugin*"
       dev-sinon:
         dependency-type: "development"
         patterns:
@@ -119,11 +79,6 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
-    ignore:
-      - dependency-name: "@typescript-eslint/parser"
-      - dependency-name: "@typescript-eslint/eslint-plugin"
-      - dependency-name: "eslint-config-airbnb-base"
-      - dependency-name: "eslint-config-airbnb-typescript"
     schedule:
       interval: "weekly"
 
@@ -133,11 +88,6 @@ updates:
       slack:
         patterns:
           - "@slack/*"
-      dev-eslint:
-        dependency-type: "development"
-        patterns:
-          - "eslint"
-          - "eslint-plugin*"
       dev-sinon:
         dependency-type: "development"
         patterns:
@@ -153,42 +103,11 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
-    ignore:
-      - dependency-name: "@typescript-eslint/parser"
-      - dependency-name: "@typescript-eslint/eslint-plugin"
-      - dependency-name: "eslint-config-airbnb-base"
-      - dependency-name: "eslint-config-airbnb-typescript"
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "npm"
     directory: "/packages/types"
-    groups:
-      dev-eslint:
-        dependency-type: "development"
-        patterns:
-          - "eslint"
-          - "eslint-plugin*"
-      dev-sinon:
-        dependency-type: "development"
-        patterns:
-          - "@types/sinon"
-          - "sinon"
-      dev-chai:
-        dependency-type: "development"
-        patterns:
-          - "@types/chai"
-          - "chai"
-      dev-mocha:
-        dependency-type: "development"
-        patterns:
-          - "@types/mocha"
-          - "mocha"
-    ignore:
-      - dependency-name: "@typescript-eslint/parser"
-      - dependency-name: "@typescript-eslint/eslint-plugin"
-      - dependency-name: "eslint-config-airbnb-base"
-      - dependency-name: "eslint-config-airbnb-typescript"
     schedule:
       interval: "weekly"
 
@@ -200,11 +119,6 @@ updates:
       slack:
         patterns:
           - "@slack/*"
-      dev-eslint:
-        dependency-type: "development"
-        patterns:
-          - "eslint"
-          - "eslint-plugin*"
       dev-sinon:
         dependency-type: "development"
         patterns:
@@ -220,11 +134,6 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
-    ignore:
-      - dependency-name: "@typescript-eslint/parser"
-      - dependency-name: "@typescript-eslint/eslint-plugin"
-      - dependency-name: "eslint-config-airbnb-base"
-      - dependency-name: "eslint-config-airbnb-typescript"
     schedule:
       interval: "weekly"
 
@@ -247,4 +156,3 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
-
