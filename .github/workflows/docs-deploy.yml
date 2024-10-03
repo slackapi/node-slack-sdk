@@ -36,7 +36,7 @@ jobs:
           for dir in packages/*
           do
             test -d "$dir" || continue
-            if [ "$dir" == "client/" ] || [ "$dir" == "events-api/" ] || [ "$d" == "interactive-messages/" ] ; then
+            if [[ "$dir" == *"client" ]] || [[ "$dir" == *"events-api" ]] || [[ "$dir" == *"interactive-messages" ]]; then
               continue
             fi
             pushd "$dir"
