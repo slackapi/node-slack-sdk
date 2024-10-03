@@ -36,6 +36,9 @@ jobs:
           for dir in packages/*
           do
             test -d "$dir" || continue
+            if [ "$dir" == "client/" ] || [ "$dir" == "events-api/" ] || [ "$d" == "interactive-messages/" ] ; then
+              continue
+            fi
             pushd "$dir"
             npm i
             popd
