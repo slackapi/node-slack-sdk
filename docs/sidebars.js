@@ -1,21 +1,5 @@
 // @ts-check
-/**
- * Generate a sidebar object for use as reference documentation sidebar entry for each package.
- * @param {string} pkg the sub-package to generate refdoc options for
- */
-function packageSidebarEntry(pkg) {
-  /*
-  return {
-    type: 'category',
-    label: `@slack/${pkg}`,
-    link: {
-      type: 'doc',
-      id: `reference/${pkg}/index`,
-    },
-    items: await waitAndImportFile(`./content/reference/${pkg}/typedoc-sidebar.cjs`),
-  };
-  */
-}
+
 /**
  * Generate list of sidebar objects for docs site.
  * @param {string[]} packages list of sub-package to generate refdoc sidebar entries for
