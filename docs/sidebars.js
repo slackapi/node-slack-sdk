@@ -1,23 +1,10 @@
 // @ts-check
-import fs from 'node:fs';
-
-async function sleep(timeout) {
-  return new Promise((res) => {
-    setTimeout(res, timeout);
-  });
-}
-async function waitAndImportFile(file) {
-  while (!fs.existsSync(file)) {
-    console.log(file, 'does not exist, waiting for 50 ms');
-    await sleep(50);
-  }
-  return require(file);
-}
 /**
  * Generate a sidebar object for use as reference documentation sidebar entry for each package.
  * @param {string} pkg the sub-package to generate refdoc options for
  */
-async function packageSidebarEntry(pkg) {
+function packageSidebarEntry(pkg) {
+  /*
   return {
     type: 'category',
     label: `@slack/${pkg}`,
@@ -27,17 +14,14 @@ async function packageSidebarEntry(pkg) {
     },
     items: await waitAndImportFile(`./content/reference/${pkg}/typedoc-sidebar.cjs`),
   };
+  */
 }
 /**
  * Generate list of sidebar objects for docs site.
  * @param {string[]} packages list of sub-package to generate refdoc sidebar entries for
  */
-export default async function sidebarGenerator(packages) {
-  const apiReferenceItems = [];
-  for (const pkg of packages) {
-    apiReferenceItems.push(await packageSidebarEntry(pkg));
-  }
-  console.log('loaded typedoc sidebar items');
+export default function sidebarGenerator(packages) {
+  const apiItems = packages.map((pkg) => ({ type: 'doc', id: `reference/${pkg}/index` }));
   return [
     {
       type: 'doc',
@@ -74,7 +58,7 @@ export default async function sidebarGenerator(packages) {
     {
       type: 'category',
       label: 'API Reference',
-      items: apiReferenceItems,
+      items: apiItems,
     },
     { type: 'html', value: '<hr>' },
     {
