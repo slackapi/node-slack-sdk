@@ -13,8 +13,17 @@ export default function NotFoundContent({ className }) {
             </Translate>
           </Heading>
           <p>
-            <Translate id="theme.NotFound.p1" description="The first paragraph of the 404 page">
-              If we've led you astray, please let us know. We'll do our best to get things in order.
+            <Translate id="theme.NotFound.p1s1" description="Opening sentence of the first paragraph of the 404 page">
+              If we've led you astray,
+            </Translate>
+            <span> </span>
+            <a href="https://github.com/slackapi/node-slack-sdk/issues/new?assignees=&labels=untriaged&projects=&template=document.md&title=%28Set+a+clear+title+describing+your+idea%29">
+              <Translate id="theme.NotFound.p1s2" description="Second sentence of the first paragraph of the 404 page">
+                please let us know
+              </Translate>
+            </a>
+            <Translate id="theme.NotFound.p1s3" description="Closing sentence of the first paragraph of the 404 page">
+              . We'll do our best to get things in order.
             </Translate>
           </p>
           <p>

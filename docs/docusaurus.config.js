@@ -219,6 +219,17 @@ const config = {
       //   content: `🎉️ <b><a target="_blank" href="https://api.slack.com/">Version 2.26.0</a> of the developer tools for the Slack automations platform is here!</b> 🎉️ `,
       // },
     }),
+  // for performance, don't use docusaurus default of babel for transpiling, use esbuild. Details: https://github.com/facebook/docusaurus/discussions/3132#discussioncomment-3599203
+  webpack: {
+    jsLoader: (isServer) => ({
+      loader: require.resolve('esbuild-loader'),
+      options: {
+        loader: 'tsx',
+        format: isServer ? 'cjs' : undefined,
+        target: isServer ? 'node12' : 'es2017',
+      },
+    }),
+  },
 };
 
 export default config;
