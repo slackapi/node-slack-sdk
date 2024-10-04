@@ -8,6 +8,7 @@ async function sleep(timeout) {
 }
 async function waitAndImportFile(file) {
   while (!fs.existsSync(file)) {
+    console.log(file, 'does not exist, waiting for 50 ms');
     await sleep(50);
   }
   return require(file);
@@ -36,6 +37,7 @@ export default async function sidebarGenerator(packages) {
   for (const pkg of packages) {
     apiReferenceItems.push(await packageSidebarEntry(pkg));
   }
+  console.log('loaded typedoc sidebar items');
   return [
     {
       type: 'doc',
