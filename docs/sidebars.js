@@ -8,9 +8,9 @@ async function sleep(timeout) {
 }
 async function waitAndImportFile(file) {
   while (!fs.existsSync(file)) {
-    await sleep(200);
+    await sleep(50);
   }
-  return await import(file);
+  return require(file);
 }
 /**
  * Generate a sidebar object for use as reference documentation sidebar entry for each package.
@@ -32,6 +32,10 @@ async function packageSidebarEntry(pkg) {
  * @param {string[]} packages list of sub-package to generate refdoc sidebar entries for
  */
 export default async function sidebarGenerator(packages) {
+  const apiReferenceItems = [];
+  for (const pkg of packages) {
+    apiReferenceItems.push(await packageSidebarEntry(pkg));
+  }
   return [
     {
       type: 'doc',
@@ -68,7 +72,7 @@ export default async function sidebarGenerator(packages) {
     {
       type: 'category',
       label: 'API Reference',
-      items: [...packages.map(async (pkg) => await packageSidebarEntry(pkg))],
+      items: apiReferenceItems,
     },
     { type: 'html', value: '<hr>' },
     {
