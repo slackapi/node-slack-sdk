@@ -7,7 +7,7 @@
     "lint:fix": "npx @biomejs/biome check --write .",
     "docusaurus": "docusaurus",
     "start": "TYPEDOC_WATCH=true docusaurus start --no-minify",
-    "build": "TYPEDOC_WATCH=false docusaurus build --no-minify",
+    "build": "TYPEDOC_WATCH=false DOCUSAURUS_PERF_LOGGER=true docusaurus build --no-minify",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
