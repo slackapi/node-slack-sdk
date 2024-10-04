@@ -38,16 +38,8 @@
     "typedoc-plugin-markdown": "^4.2.8"
   },
   "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 3 chrome version",
-      "last 3 firefox version",
-      "last 5 safari version"
-    ]
+    "production": [">0.5%", "not dead", "not op_mini all"],
+    "development": ["last 3 chrome version", "last 3 firefox version", "last 5 safari version"]
   },
   "engines": {
     "node": ">=20.0"
