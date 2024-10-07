@@ -37,6 +37,7 @@ export interface User {
   is_primary_owner?: boolean;
   is_restricted?: boolean;
   is_ultra_restricted?: boolean;
+  last_active_ts?: number;
   roles?: string[];
   username?: string;
   workspaces?: string[];
