@@ -378,6 +378,12 @@ expectAssignable<Parameters<typeof web.conversations.requestSharedInvite.deny>>(
   },
 ]);
 
+// conversations.requestSharedInvite.list
+// -- sad path
+// -- happy path
+expectAssignable<Parameters<typeof web.conversations.requestSharedInvite.list>>([{}]); // all optional args
+expectAssignable<Parameters<typeof web.conversations.requestSharedInvite.list>>([]); // no arg is fine
+
 // conversations.setPurpose
 // -- sad path
 expectError(web.conversations.setPurpose()); // lacking argument
