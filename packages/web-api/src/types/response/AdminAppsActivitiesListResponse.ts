@@ -25,6 +25,7 @@ export interface Activity {
   enterprise_id?: string;
   event_type?: string;
   level?: string;
+  parent_execution_id?: string;
   payload?: Payload;
   source?: string;
   team_id?: string;
