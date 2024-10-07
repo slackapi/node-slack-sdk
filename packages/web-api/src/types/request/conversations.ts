@@ -217,18 +217,21 @@ export interface ConversationsRequestSharedInviteApproveArguments
 export interface ConversationsRequestSharedInviteDenyArguments extends InviteID, Message, TokenOverridable {}
 
 // https://api.slack.com/methods/conversations.requestSharedInvite.list
-export interface ConversationsRequestSharedInviteListArguments extends CursorPaginationEnabled, TokenOverridable {
-  /** @description When `true` approved invitation requests will be returned, otherwise they will be excluded. */
-  include_approved?: boolean;
-  /** @description When `true` denied invitation requests will be returned, otherwise they will be excluded. */
-  include_denied?: boolean;
-  /** @description When `true` expired invitation requests will be returned, otherwise they will be excluded. */
-  include_expired?: boolean;
-  /** @description An optional list of invitation ids to look up. */
-  invite_ids?: string[];
-  /** @description Optional filter to return invitation requests for the inviting user. */
-  user_id?: string;
-}
+export type ConversationsRequestSharedInviteListArguments = OptionalArgument<
+  CursorPaginationEnabled &
+    TokenOverridable & {
+      /** @description When `true` approved invitation requests will be returned, otherwise they will be excluded. */
+      include_approved?: boolean;
+      /** @description When `true` denied invitation requests will be returned, otherwise they will be excluded. */
+      include_denied?: boolean;
+      /** @description When `true` expired invitation requests will be returned, otherwise they will be excluded. */
+      include_expired?: boolean;
+      /** @description An optional list of invitation ids to look up. */
+      invite_ids?: string[];
+      /** @description Optional filter to return invitation requests for the inviting user. */
+      user_id?: string;
+    }
+>;
 
 // https://api.slack.com/methods/conversations.setPurpose
 export interface ConversationsSetPurposeArguments extends Channel, TokenOverridable {

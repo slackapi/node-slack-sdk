@@ -1778,10 +1778,10 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @description Lists requests to add external users to channels with ability to filter.
        * @see {@link https://api.slack.com/methods/conversations.requestSharedInvite.list `conversations.requestSharedInvite.list` API reference}.
        */
-      list: bindApiCall<ConversationsRequestSharedInviteListArguments, ConversationsRequestSharedInviteListResponse>(
-        this,
-        'conversations.requestSharedInvite.list',
-      ),
+      list: bindApiCallWithOptionalArgument<
+        ConversationsRequestSharedInviteListArguments,
+        ConversationsRequestSharedInviteListResponse
+      >(this, 'conversations.requestSharedInvite.list'),
     },
     /**
      * @description Sets the purpose for a conversation.
