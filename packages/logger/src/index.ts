@@ -1,5 +1,5 @@
 /**
- * Severity levels for log entries
+ * Severity levels for log entries.
  */
 export enum LogLevel {
   ERROR = 'error',
@@ -9,59 +9,59 @@ export enum LogLevel {
 }
 
 /**
- * Interface for objects where objects in this package's logs can be sent (can be used as `logger` option).
+ * Logging interface exposing different methods to log at different {@link LogLevel}s.
  */
 export interface Logger {
   /**
-   * Output debug message
+   * Output debug message.
    * @param msg any data to log
    */
   // biome-ignore lint/suspicious/noExplicitAny: can log anything
   debug(...msg: any[]): void;
 
   /**
-   * Output info message
+   * Output informational message.
    * @param msg any data to log
    */
   // biome-ignore lint/suspicious/noExplicitAny: can log anything
   info(...msg: any[]): void;
 
   /**
-   * Output warn message
+   * Output warning message.
    * @param msg any data to log
    */
   // biome-ignore lint/suspicious/noExplicitAny: can log anything
   warn(...msg: any[]): void;
 
   /**
-   * Output error message
+   * Output error message.
    * @param msg any data to log
    */
   // biome-ignore lint/suspicious/noExplicitAny: can log anything
   error(...msg: any[]): void;
 
   /**
-   * This disables all logging below the given level, so that after a log.setLevel("warn") call log.warn("something")
-   * or log.error("something") will output messages, but log.info("something") will not.
-   * @param level as a string, like 'error' (case-insensitive)
+   * This disables all logging below the given level, so that after a `setLevel("warn")` call, `warn("something")`
+   * or `error("something")` will output messages, but `info("something")` will not.
+   * @param level The minimum {@link LogLevel} the {@link Logger} should output messages for.
    */
   setLevel(level: LogLevel): void;
 
   /**
-   * Return the current LogLevel.
+   * Return the current {@link LogLevel}.
    */
   getLevel(): LogLevel;
 
   /**
-   * This allows the instance to be named so that they can easily be filtered when many loggers are sending output
+   * This allows the instance to be named so that they can easily be differentiated when many loggers are sending output
    * to the same destination.
-   * @param name as a string, will be output with every log after the level
+   * @param name The name the {@link Logger} should be set to.
    */
   setName(name: string): void;
 }
 
 /**
- * Default logger which logs to stdout and stderr
+ * Default logger which logs to stdout and stderr.
  */
 export class ConsoleLogger implements Logger {
   /** Setting for level */
@@ -85,6 +85,7 @@ export class ConsoleLogger implements Logger {
     [LogLevel.DEBUG]: 100,
   };
 
+  /** Creates a new instance of {@link ConsoleLogger}. By default, sets the {@link LogLevel} to `INFO`. */
   public constructor() {
     this.level = LogLevel.INFO;
     this.name = '';
@@ -94,23 +95,14 @@ export class ConsoleLogger implements Logger {
     return this.level;
   }
 
-  /**
-   * Sets the instance's log level so that only messages which are equal or more severe are output to the console.
-   */
   public setLevel(level: LogLevel): void {
     this.level = level;
   }
 
-  /**
-   * Set the instance's name, which will appear on each log line before the message.
-   */
   public setName(name: string): void {
     this.name = name;
   }
 
-  /**
-   * Log a debug message
-   */
   // biome-ignore lint/suspicious/noExplicitAny: can log anything
   public debug(...msg: any[]): void {
     if (ConsoleLogger.isMoreOrEqualSevere(LogLevel.DEBUG, this.level)) {
@@ -118,9 +110,6 @@ export class ConsoleLogger implements Logger {
     }
   }
 
-  /**
-   * Log an info message
-   */
   // biome-ignore lint/suspicious/noExplicitAny: can log anything
   public info(...msg: any[]): void {
     if (ConsoleLogger.isMoreOrEqualSevere(LogLevel.INFO, this.level)) {
@@ -128,9 +117,6 @@ export class ConsoleLogger implements Logger {
     }
   }
 
-  /**
-   * Log a warning message
-   */
   // biome-ignore lint/suspicious/noExplicitAny: can log anything
   public warn(...msg: any[]): void {
     if (ConsoleLogger.isMoreOrEqualSevere(LogLevel.WARN, this.level)) {
@@ -138,9 +124,6 @@ export class ConsoleLogger implements Logger {
     }
   }
 
-  /**
-   * Log an error message
-   */
   // biome-ignore lint/suspicious/noExplicitAny: can log anything
   public error(...msg: any[]): void {
     if (ConsoleLogger.isMoreOrEqualSevere(LogLevel.ERROR, this.level)) {
