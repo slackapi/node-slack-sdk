@@ -95,6 +95,7 @@ export interface WebClientOptions {
    */
   attachOriginalToWebAPIRequestError?: boolean;
   requestInterceptor?: RequestInterceptor;
+  adapter?: AdapterConfig;
 }
 
 export type TLSOptions = Pick<SecureContextOptions, 'pfx' | 'key' | 'passphrase' | 'cert' | 'ca'>;
@@ -138,6 +139,8 @@ export type PageAccumulator<R extends PageReducer> = R extends (
 export type RequestConfig = InternalAxiosRequestConfig;
 
 export type RequestInterceptor = (config: RequestConfig) => RequestConfig | Promise<RequestConfig>;
+
+export type AdapterConfig = (config: InternalAxiosRequestConfig) => Promise<AxiosResponse>;
 
 /**
  * A client for Slack's Web API
@@ -222,6 +225,7 @@ export class WebClient extends Methods {
       teamId = undefined,
       attachOriginalToWebAPIRequestError = true,
       requestInterceptor = undefined,
+      adapter = undefined,
     }: WebClientOptions = {},
   ) {
     super();
@@ -250,6 +254,7 @@ export class WebClient extends Methods {
     if (this.token && !headers.Authorization) headers.Authorization = `Bearer ${this.token}`;
 
     this.axios = axios.create({
+      adapter: adapter ? (config: InternalAxiosRequestConfig) => adapter({ ...config, adapter: undefined }) : undefined,
       timeout,
       baseURL: slackApiUrl,
       headers: isElectron() ? headers : { 'User-Agent': getUserAgent(), ...headers },

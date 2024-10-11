@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import axios from 'axios';
 import { assert, expect } from 'chai';
 import nock from 'nock';
 import sinon from 'sinon';
@@ -1010,6 +1011,33 @@ describe('WebClient', () => {
         });
 
       await client.apiCall('method');
+    });
+  });
+
+  describe('adapter', () => {
+    it('allows for custom handling of requests', async () => {
+      nock('https://slack.com/api', {
+        reqheaders: {
+          'User-Agent': 'custom-axios-client',
+        },
+      })
+        .post(/method/)
+        .reply(200, (_uri, requestBody) => {
+          return { ok: true, response_metadata: requestBody };
+        });
+
+      const customAxiosClient = axios.create();
+      const requestSpy = sinon.spy(customAxiosClient, 'request');
+
+      const client = new WebClient(token, {
+        adapter: (config: RequestConfig) => {
+          config.headers['User-Agent'] = 'custom-axios-client';
+          return customAxiosClient.request(config);
+        },
+      });
+
+      await client.apiCall('method');
+      expect(requestSpy.calledOnce).to.be.true;
     });
   });
 
