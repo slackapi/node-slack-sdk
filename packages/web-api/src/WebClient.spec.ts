@@ -2,7 +2,13 @@ import fs from 'node:fs';
 import { assert, expect } from 'chai';
 import nock from 'nock';
 import sinon from 'sinon';
-import { type WebAPICallResult, WebClient, WebClientEvent, buildThreadTsWarningMessage } from './WebClient';
+import {
+  type RequestConfig,
+  type WebAPICallResult,
+  WebClient,
+  WebClientEvent,
+  buildThreadTsWarningMessage,
+} from './WebClient';
 import { ErrorCode, type WebAPIRequestError } from './errors';
 import {
   buildGeneralFilesUploadWarning,
@@ -961,6 +967,49 @@ describe('WebClient', () => {
         assert(spy.calledOnceWith(0, sinon.match({ url: 'method', body: { foo: 'bar' } })));
         scope.done();
       }
+    });
+  });
+
+  describe('requestInterceptor', () => {
+    it('can intercept out going requests', async () => {
+      let expectedBody: Record<string, unknown>;
+
+      const client = new WebClient(token, {
+        requestInterceptor: (config: RequestConfig) => {
+          expectedBody = Object.freeze({
+            method: config.method,
+            base_url: config.baseURL,
+            path: config.url,
+            body: config.data ?? {},
+            query: config.params ?? {},
+            headers: structuredClone(config.headers),
+            test: 'static-body-value',
+          });
+          config.data = expectedBody;
+
+          config.headers.test = 'static-header-value';
+          config.headers['Content-Type'] = 'application/json';
+
+          return config;
+        },
+      });
+
+      nock('https://slack.com/api', {
+        reqheaders: {
+          test: 'static-header-value',
+          'Content-Type': 'application/json',
+        },
+      })
+        .post(/method/, (requestBody) => {
+          expect(requestBody).to.deep.equal(expectedBody);
+          return true;
+        })
+        .reply(200, (_uri, requestBody) => {
+          expect(requestBody).to.deep.equal(expectedBody);
+          return { ok: true, response_metadata: requestBody };
+        });
+
+      await client.apiCall('method');
     });
   });
 

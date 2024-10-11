@@ -94,6 +94,7 @@ export interface WebClientOptions {
    * @default true
    */
   attachOriginalToWebAPIRequestError?: boolean;
+  requestInterceptor?: RequestInterceptor;
 }
 
 export type TLSOptions = Pick<SecureContextOptions, 'pfx' | 'key' | 'passphrase' | 'cert' | 'ca'>;
@@ -133,6 +134,10 @@ export type PageAccumulator<R extends PageReducer> = R extends (
 ) => infer A
   ? A
   : never;
+
+export type RequestConfig = InternalAxiosRequestConfig;
+
+export type RequestInterceptor = (config: RequestConfig) => RequestConfig | Promise<RequestConfig>;
 
 /**
  * A client for Slack's Web API
@@ -216,6 +221,7 @@ export class WebClient extends Methods {
       headers = {},
       teamId = undefined,
       attachOriginalToWebAPIRequestError = true,
+      requestInterceptor = undefined,
     }: WebClientOptions = {},
   ) {
     super();
@@ -259,6 +265,12 @@ export class WebClient extends Methods {
     });
     // serializeApiCallOptions will always determine the appropriate content-type
     this.axios.defaults.headers.post['Content-Type'] = undefined;
+
+    // request interceptors have reversed execution order
+    // see: https://github.com/axios/axios/blob/v1.x/test/specs/interceptors.spec.js#L88
+    if (requestInterceptor) {
+      this.axios.interceptors.request.use(requestInterceptor, null, { synchronous: true });
+    }
     this.axios.interceptors.request.use(this.serializeApiCallOptions.bind(this), null, { synchronous: true });
 
     this.logger.debug('initialized');
