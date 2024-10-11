@@ -1,12 +1,16 @@
 import type { Agent } from 'node:http';
 import { basename } from 'node:path';
 import { stringify as qsStringify } from 'node:querystring';
-import type { Readable } from 'node:stream';
 import type { SecureContextOptions } from 'node:tls';
 import { TextDecoder } from 'node:util';
 import zlib from 'node:zlib';
 
-import axios, { type AxiosHeaderValue, type AxiosInstance, type AxiosResponse } from 'axios';
+import axios, {
+  type InternalAxiosRequestConfig,
+  type AxiosHeaderValue,
+  type AxiosInstance,
+  type AxiosResponse,
+} from 'axios';
 import FormData from 'form-data';
 import isElectron from 'is-electron';
 import isStream from 'is-stream';
@@ -245,7 +249,6 @@ export class WebClient extends Methods {
       headers: isElectron() ? headers : { 'User-Agent': getUserAgent(), ...headers },
       httpAgent: agent,
       httpsAgent: agent,
-      transformRequest: [this.serializeApiCallOptions.bind(this)],
       validateStatus: () => true, // all HTTP status codes should result in a resolved promise (as opposed to only 2xx)
       maxRedirects: 0,
       // disabling axios' automatic proxy support:
@@ -256,6 +259,7 @@ export class WebClient extends Methods {
     });
     // serializeApiCallOptions will always determine the appropriate content-type
     this.axios.defaults.headers.post['Content-Type'] = undefined;
+    this.axios.interceptors.request.use(this.serializeApiCallOptions.bind(this), null, { synchronous: true });
 
     this.logger.debug('initialized');
   }
@@ -667,13 +671,11 @@ export class WebClient extends Methods {
    * a string, used when posting with a content-type of url-encoded. Or, it can be a readable stream, used
    * when the options contain a binary (a stream or a buffer) and the upload should be done with content-type
    * multipart/form-data.
-   * @param options - arguments for the Web API method
-   * @param headers - a mutable object representing the HTTP headers for the outgoing request
+   * @param config - The Axios request configuration object
    */
-  private serializeApiCallOptions(
-    options: Record<string, unknown>,
-    headers?: Record<string, string>,
-  ): string | Readable {
+  private serializeApiCallOptions(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
+    const { data: options, headers } = config;
+
     // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
     // binary content
     let containsBinaryData = false;
@@ -730,14 +732,16 @@ export class WebClient extends Methods {
           headers[header] = value;
         }
       }
-      return form;
+      config.data = form;
+      config.headers = headers;
+      return config;
     }
 
     // Otherwise, a simple key-value object is returned
     if (headers) headers['Content-Type'] = 'application/x-www-form-urlencoded';
     // biome-ignore lint/suspicious/noExplicitAny: form values can be anything
     const initialValue: { [key: string]: any } = {};
-    return qsStringify(
+    config.data = qsStringify(
       flattened.reduce((accumulator, [key, value]) => {
         if (key !== undefined && value !== undefined) {
           accumulator[key] = value;
@@ -745,6 +749,8 @@ export class WebClient extends Methods {
         return accumulator;
       }, initialValue),
     );
+    config.headers = headers;
+    return config;
   }
 
   /**
