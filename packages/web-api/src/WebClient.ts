@@ -10,6 +10,7 @@ import axios, {
   type AxiosHeaderValue,
   type AxiosInstance,
   type AxiosResponse,
+  type AxiosAdapter,
 } from 'axios';
 import FormData from 'form-data';
 import isElectron from 'is-electron';
@@ -94,7 +95,18 @@ export interface WebClientOptions {
    * @default true
    */
   attachOriginalToWebAPIRequestError?: boolean;
+  /**
+   * Custom function to modify outgoing requests.
+   * @type {Function | undefined}
+   * @default undefined
+   */
   requestInterceptor?: RequestInterceptor;
+  /**
+   * Custom functions for modifing and handling outgoing requests.
+   * Useful if you would like to manage outgoing request with a custom http client.
+   * @type {Function | undefined}
+   * @default undefined
+   */
   adapter?: AdapterConfig;
 }
 
@@ -136,11 +148,23 @@ export type PageAccumulator<R extends PageReducer> = R extends (
   ? A
   : never;
 
+/**
+ * An alias to {@link https://github.com/axios/axios/blob/v1.x/index.d.ts#L367 Axios' `InternalAxiosRequestConfig`} object,
+ * which is the main parameter type provided to Axios interceptors and adapters.
+ */
 export type RequestConfig = InternalAxiosRequestConfig;
 
+/**
+ * An alias to {@link https://github.com/axios/axios/blob/v1.x/index.d.ts#L489 Axios' `AxiosInterceptorManager<InternalAxiosRequestConfig>` onFufilled} method,
+ * which controls the custom request interceptor logic
+ */
 export type RequestInterceptor = (config: RequestConfig) => RequestConfig | Promise<RequestConfig>;
 
-export type AdapterConfig = (config: InternalAxiosRequestConfig) => Promise<AxiosResponse>;
+/**
+ * An alias to {@link https://github.com/axios/axios/blob/v1.x/index.d.ts#L112 Axios' `AxiosAdapter`} interface,
+ * which is the contract required to specify an adapter
+ */
+export type AdapterConfig = AxiosAdapter;
 
 /**
  * A client for Slack's Web API
@@ -208,6 +232,9 @@ export class WebClient extends Methods {
 
   /**
    * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`)
+   * @param {Object} [webClientOptions] - Configuration options.
+   * @param {Function} [webClientOptions.requestInterceptor] - An interceptor to mutate outgoing requests. See {@link https://axios-http.com/docs/interceptors Axios interceptors}
+   * @param {Function} [webClientOptions.adapter] - An adapter to allow custom handling of requests. Useful if you would like to use a pre-configured http client. See {@link https://github.com/axios/axios/blob/v1.x/README.md?plain=1#L586 Axios adapter}
    */
   public constructor(
     token?: string,
