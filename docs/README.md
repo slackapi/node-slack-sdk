@@ -2,7 +2,7 @@
 
 This website is built using [Docusaurus](https://docusaurus.io/). 'Tis cool.
 
-Each Bolt/SDK has its own Docusaurus website, with matching CSS and nav/footer. There is also be a Docusaurus website of just the homepage and community tools. 
+Each package has its own Docusaurus website, with matching CSS and nav/footer. There is also be a Docusaurus website of just the homepage and community tools. 
 
 ```
 docs/

@@ -170,7 +170,7 @@ app.get('/slack/oauth_redirect', (req, res) => {
 
 There are many situations where you may want to persist some custom data relevant to your application across the entire OAuth flow. For example, you may want to map Slack resources (like users) to your own application's resources, or verify and gate eligibility for proceeding with installing your Slack application to a workspace based on your application's requirements. To this end, this package provides a series of hooks, or callbacks, that allow your application to integrate throughout key points of the OAuth flow.
 
-These are all callbacks customizable via the [`CallbackOptions`](reference/oauth#callbackoptions) and [`InstallPathOptions`](reference/oauth#installpathoptions) interfaces - check their [reference documentation](reference/oauth) for more details.
+These are all callbacks customizable via the [`CallbackOptions`](reference/oauth/interfaces/CallbackOptions) and [`InstallPathOptions`](reference/oauth/interfaces/InstallPathOptions) interfaces - check their [reference documentation](reference/oauth) for more details.
 
 For example, you may wish to store some information relevant to your application in a cookie before starting the OAuth flow and redirecting the user to the slack.com authorize URL. Once the user completes the authorization process on slack.com and is redirected back to your application, you can read this cookie and determine if the user has the appropriate permissions to proceed with installation of your application:
 
