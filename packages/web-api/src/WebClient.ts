@@ -295,7 +295,7 @@ export class WebClient extends Methods {
       // protocols), users of this package should use the `agent` option to configure a proxy.
       proxy: false,
     });
-    // serializeApiCallOptions will always determine the appropriate content-type
+    // serializeApiCallData will always determine the appropriate content-type
     this.axios.defaults.headers.post['Content-Type'] = undefined;
 
     // request interceptors have reversed execution order
@@ -303,7 +303,7 @@ export class WebClient extends Methods {
     if (requestInterceptor) {
       this.axios.interceptors.request.use(requestInterceptor, null, { synchronous: true });
     }
-    this.axios.interceptors.request.use(this.serializeApiCallOptions.bind(this), null, { synchronous: true });
+    this.axios.interceptors.request.use(this.serializeApiCallData.bind(this), null, { synchronous: true });
 
     this.logger.debug('initialized');
   }
@@ -717,14 +717,14 @@ export class WebClient extends Methods {
    * multipart/form-data.
    * @param config - The Axios request configuration object
    */
-  private serializeApiCallOptions(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
-    const { data: options, headers } = config;
+  private serializeApiCallData(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
+    const { data, headers } = config;
 
     // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
     // binary content
     let containsBinaryData = false;
     // biome-ignore lint/suspicious/noExplicitAny: call options can be anything
-    const flattened = Object.entries(options).map<[string, any] | []>(([key, value]) => {
+    const flattened = Object.entries(data).map<[string, any] | []>(([key, value]) => {
       if (value === undefined || value === null) {
         return [];
       }
