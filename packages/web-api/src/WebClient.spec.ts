@@ -1032,7 +1032,6 @@ describe('WebClient', () => {
             test: 'static-body-value',
           });
 
-          await new Promise((resolve) => setTimeout(resolve, 100));
           config.data = expectedBody;
 
           config.headers.test = 'static-header-value';

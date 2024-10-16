@@ -302,7 +302,7 @@ export class WebClient extends Methods {
     // request interceptors have reversed execution order
     // see: https://github.com/axios/axios/blob/v1.x/test/specs/interceptors.spec.js#L88
     if (requestInterceptor) {
-      this.axios.interceptors.request.use(requestInterceptor, null, { synchronous: true });
+      this.axios.interceptors.request.use(requestInterceptor, null);
     }
     this.axios.interceptors.request.use(this.serializeApiCallData.bind(this), null);
 
