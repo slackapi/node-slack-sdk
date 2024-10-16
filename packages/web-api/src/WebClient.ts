@@ -1,12 +1,17 @@
 import type { Agent } from 'node:http';
 import { basename } from 'node:path';
 import { stringify as qsStringify } from 'node:querystring';
-import type { Readable } from 'node:stream';
 import type { SecureContextOptions } from 'node:tls';
 import { TextDecoder } from 'node:util';
 import zlib from 'node:zlib';
 
-import axios, { type AxiosHeaderValue, type AxiosInstance, type AxiosResponse } from 'axios';
+import axios, {
+  type InternalAxiosRequestConfig,
+  type AxiosHeaderValue,
+  type AxiosInstance,
+  type AxiosResponse,
+  type AxiosAdapter,
+} from 'axios';
 import FormData from 'form-data';
 import isElectron from 'is-electron';
 import isStream from 'is-stream';
@@ -90,6 +95,20 @@ export interface WebClientOptions {
    * @default true
    */
   attachOriginalToWebAPIRequestError?: boolean;
+  /**
+   * Custom function to modify outgoing requests. See {@link https://axios-http.com/docs/interceptors Axios interceptor documentation} for more details.
+   * @type {Function | undefined}
+   * @default undefined
+   */
+  requestInterceptor?: RequestInterceptor;
+  /**
+   * Custom functions for modifing and handling outgoing requests.
+   * Useful if you would like to manage outgoing request with a custom http client.
+   * See {@link https://github.com/axios/axios/blob/v1.x/README.md?plain=1#L586 Axios adapter documentation} for more information.
+   * @type {Function | undefined}
+   * @default undefined
+   */
+  adapter?: AdapterConfig;
 }
 
 export type TLSOptions = Pick<SecureContextOptions, 'pfx' | 'key' | 'passphrase' | 'cert' | 'ca'>;
@@ -129,6 +148,24 @@ export type PageAccumulator<R extends PageReducer> = R extends (
 ) => infer A
   ? A
   : never;
+
+/**
+ * An alias to {@link https://github.com/axios/axios/blob/v1.x/index.d.ts#L367 Axios' `InternalAxiosRequestConfig`} object,
+ * which is the main parameter type provided to Axios interceptors and adapters.
+ */
+export type RequestConfig = InternalAxiosRequestConfig;
+
+/**
+ * An alias to {@link https://github.com/axios/axios/blob/v1.x/index.d.ts#L489 Axios' `AxiosInterceptorManager<InternalAxiosRequestConfig>` onFufilled} method,
+ * which controls the custom request interceptor logic
+ */
+export type RequestInterceptor = (config: RequestConfig) => RequestConfig | Promise<RequestConfig>;
+
+/**
+ * An alias to {@link https://github.com/axios/axios/blob/v1.x/index.d.ts#L112 Axios' `AxiosAdapter`} interface,
+ * which is the contract required to specify an adapter
+ */
+export type AdapterConfig = AxiosAdapter;
 
 /**
  * A client for Slack's Web API
@@ -196,6 +233,9 @@ export class WebClient extends Methods {
 
   /**
    * @param token - An API token to authenticate/authorize with Slack (usually start with `xoxp`, `xoxb`)
+   * @param {Object} [webClientOptions] - Configuration options.
+   * @param {Function} [webClientOptions.requestInterceptor] - An interceptor to mutate outgoing requests. See {@link https://axios-http.com/docs/interceptors Axios interceptors}
+   * @param {Function} [webClientOptions.adapter] - An adapter to allow custom handling of requests. Useful if you would like to use a pre-configured http client. See {@link https://github.com/axios/axios/blob/v1.x/README.md?plain=1#L586 Axios adapter}
    */
   public constructor(
     token?: string,
@@ -212,6 +252,8 @@ export class WebClient extends Methods {
       headers = {},
       teamId = undefined,
       attachOriginalToWebAPIRequestError = true,
+      requestInterceptor = undefined,
+      adapter = undefined,
     }: WebClientOptions = {},
   ) {
     super();
@@ -240,12 +282,12 @@ export class WebClient extends Methods {
     if (this.token && !headers.Authorization) headers.Authorization = `Bearer ${this.token}`;
 
     this.axios = axios.create({
+      adapter: adapter ? (config: InternalAxiosRequestConfig) => adapter({ ...config, adapter: undefined }) : undefined,
       timeout,
       baseURL: slackApiUrl,
       headers: isElectron() ? headers : { 'User-Agent': getUserAgent(), ...headers },
       httpAgent: agent,
       httpsAgent: agent,
-      transformRequest: [this.serializeApiCallOptions.bind(this)],
       validateStatus: () => true, // all HTTP status codes should result in a resolved promise (as opposed to only 2xx)
       maxRedirects: 0,
       // disabling axios' automatic proxy support:
@@ -254,8 +296,15 @@ export class WebClient extends Methods {
       // protocols), users of this package should use the `agent` option to configure a proxy.
       proxy: false,
     });
-    // serializeApiCallOptions will always determine the appropriate content-type
+    // serializeApiCallData will always determine the appropriate content-type
     this.axios.defaults.headers.post['Content-Type'] = undefined;
+
+    // request interceptors have reversed execution order
+    // see: https://github.com/axios/axios/blob/v1.x/test/specs/interceptors.spec.js#L88
+    if (requestInterceptor) {
+      this.axios.interceptors.request.use(requestInterceptor, null);
+    }
+    this.axios.interceptors.request.use(this.serializeApiCallData.bind(this), null);
 
     this.logger.debug('initialized');
   }
@@ -667,18 +716,16 @@ export class WebClient extends Methods {
    * a string, used when posting with a content-type of url-encoded. Or, it can be a readable stream, used
    * when the options contain a binary (a stream or a buffer) and the upload should be done with content-type
    * multipart/form-data.
-   * @param options - arguments for the Web API method
-   * @param headers - a mutable object representing the HTTP headers for the outgoing request
+   * @param config - The Axios request configuration object
    */
-  private serializeApiCallOptions(
-    options: Record<string, unknown>,
-    headers?: Record<string, string>,
-  ): string | Readable {
+  private serializeApiCallData(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
+    const { data, headers } = config;
+
     // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
     // binary content
     let containsBinaryData = false;
-    // biome-ignore lint/suspicious/noExplicitAny: call options can be anything
-    const flattened = Object.entries(options).map<[string, any] | []>(([key, value]) => {
+    // biome-ignore lint/suspicious/noExplicitAny: HTTP request data can be anything
+    const flattened = Object.entries(data).map<[string, any] | []>(([key, value]) => {
       if (value === undefined || value === null) {
         return [];
       }
@@ -730,14 +777,16 @@ export class WebClient extends Methods {
           headers[header] = value;
         }
       }
-      return form;
+      config.data = form;
+      config.headers = headers;
+      return config;
     }
 
     // Otherwise, a simple key-value object is returned
     if (headers) headers['Content-Type'] = 'application/x-www-form-urlencoded';
     // biome-ignore lint/suspicious/noExplicitAny: form values can be anything
     const initialValue: { [key: string]: any } = {};
-    return qsStringify(
+    config.data = qsStringify(
       flattened.reduce((accumulator, [key, value]) => {
         if (key !== undefined && value !== undefined) {
           accumulator[key] = value;
@@ -745,6 +794,8 @@ export class WebClient extends Methods {
         return accumulator;
       }, initialValue),
     );
+    config.headers = headers;
+    return config;
   }
 
   /**
