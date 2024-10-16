@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-import axios from 'axios';
+import axios, { type InternalAxiosRequestConfig } from 'axios';
 import { assert, expect } from 'chai';
 import nock from 'nock';
 import sinon from 'sinon';
@@ -1049,7 +1049,7 @@ describe('WebClient', () => {
   });
 
   describe('adapter', () => {
-    it('allows for custom handling of requests', async () => {
+    it('allows for custom handling of requests with preconfigured http client', async () => {
       nock('https://slack.com/api', {
         reqheaders: {
           'User-Agent': 'custom-axios-client',
@@ -1060,8 +1060,16 @@ describe('WebClient', () => {
           return { ok: true, response_metadata: requestBody };
         });
 
+      const customLoggingInterceptor = (config: InternalAxiosRequestConfig) => {
+        // client with custom logging behaviour
+        return config;
+      };
+      const customLoggingSpy = sinon.spy(customLoggingInterceptor);
+
       const customAxiosClient = axios.create();
-      const requestSpy = sinon.spy(customAxiosClient, 'request');
+      customAxiosClient.interceptors.request.use(customLoggingSpy);
+
+      const customClientRequestSpy = sinon.spy(customAxiosClient, 'request');
 
       const client = new WebClient(token, {
         adapter: (config: RequestConfig) => {
@@ -1071,7 +1079,9 @@ describe('WebClient', () => {
       });
 
       await client.apiCall('method');
-      expect(requestSpy.calledOnce).to.be.true;
+
+      expect(customLoggingSpy.calledOnce).to.be.true;
+      expect(customClientRequestSpy.calledOnce).to.be.true;
     });
   });
 
