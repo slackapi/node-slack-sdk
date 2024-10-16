@@ -303,7 +303,7 @@ export class WebClient extends Methods {
     if (requestInterceptor) {
       this.axios.interceptors.request.use(requestInterceptor, null, { synchronous: true });
     }
-    this.axios.interceptors.request.use(this.serializeApiCallData.bind(this), null, { synchronous: true });
+    this.axios.interceptors.request.use(this.serializeApiCallData.bind(this), null);
 
     this.logger.debug('initialized');
   }

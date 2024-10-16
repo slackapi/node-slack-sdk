@@ -972,7 +972,24 @@ describe('WebClient', () => {
   });
 
   describe('requestInterceptor', () => {
-    it('can intercept out going requests', async () => {
+    function configureMockServer(expectedBody: () => Record<string, unknown>) {
+      nock('https://slack.com/api', {
+        reqheaders: {
+          test: 'static-header-value',
+          'Content-Type': 'application/json',
+        },
+      })
+        .post(/method/, (requestBody) => {
+          expect(requestBody).to.deep.equal(expectedBody());
+          return true;
+        })
+        .reply(200, (_uri, requestBody) => {
+          expect(requestBody).to.deep.equal(expectedBody());
+          return { ok: true, response_metadata: requestBody };
+        });
+    }
+
+    it('can intercept out going requests, synchronously modifying the request body and headers', async () => {
       let expectedBody: Record<string, unknown>;
 
       const client = new WebClient(token, {
@@ -995,20 +1012,37 @@ describe('WebClient', () => {
         },
       });
 
-      nock('https://slack.com/api', {
-        reqheaders: {
-          test: 'static-header-value',
-          'Content-Type': 'application/json',
+      configureMockServer(() => expectedBody);
+
+      await client.apiCall('method');
+    });
+
+    it('can intercept out going requests, asynchronously modifying the request body and headers', async () => {
+      let expectedBody: Record<string, unknown>;
+
+      const client = new WebClient(token, {
+        requestInterceptor: async (config: RequestConfig) => {
+          expectedBody = Object.freeze({
+            method: config.method,
+            base_url: config.baseURL,
+            path: config.url,
+            body: config.data ?? {},
+            query: config.params ?? {},
+            headers: structuredClone(config.headers),
+            test: 'static-body-value',
+          });
+
+          await new Promise((resolve) => setTimeout(resolve, 100));
+          config.data = expectedBody;
+
+          config.headers.test = 'static-header-value';
+          config.headers['Content-Type'] = 'application/json';
+
+          return config;
         },
-      })
-        .post(/method/, (requestBody) => {
-          expect(requestBody).to.deep.equal(expectedBody);
-          return true;
-        })
-        .reply(200, (_uri, requestBody) => {
-          expect(requestBody).to.deep.equal(expectedBody);
-          return { ok: true, response_metadata: requestBody };
-        });
+      });
+
+      configureMockServer(() => expectedBody);
 
       await client.apiCall('method');
     });
