@@ -668,7 +668,7 @@ The client allows you to customize a request
 [`interceptor`](https://axios-http.com/docs/interceptors) to modify outgoing requests.
 Using this option allows you to modify outgoing requests to conform to the requirements of a proxy, which is a common requirement in many corporate settings.
 
-For example you may want to convert wrap all the original request information within a POST request.
+For example you may want to wrap the original request information within a POST request:
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
@@ -676,7 +676,7 @@ const { WebClient } = require('@slack/web-api');
 const token = process.env.SLACK_TOKEN;
 
 const webClient = new WebClient(token, {
-  requestInterceptor: (config: RequestConfig) => {
+  requestInterceptor: (config) => {
     config.headers['Content-Type'] = 'application/json';
 
     config.data  = {
@@ -700,9 +700,9 @@ const webClient = new WebClient(token, {
 
 The client allows you to specify an
 [`adapter`](https://github.com/axios/axios/blob/v1.x/README.md?plain=1#L586) to handle outgoing requests.
-Using this option allows you to used a pre-configured http client, which is a common requirement in many corporate settings.
+Using this option allows you to use a pre-configured http client, which is a common requirement in many corporate settings.
 
-For example you may want to use a http which is already configured with logging capabilities, desired timeouts, etc.
+For example you may want to use an HTTP client which is already configured with logging capabilities, desired timeouts, etc.
 
 ```javascript
 const { WebClient } = require('@slack/web-api');

@@ -96,7 +96,7 @@ export interface WebClientOptions {
    */
   attachOriginalToWebAPIRequestError?: boolean;
   /**
-   * Custom function to modify outgoing requests.
+   * Custom function to modify outgoing requests. See {@link https://axios-http.com/docs/interceptors Axios interceptor documentation} for more details.
    * @type {Function | undefined}
    * @default undefined
    */
@@ -104,6 +104,7 @@ export interface WebClientOptions {
   /**
    * Custom functions for modifing and handling outgoing requests.
    * Useful if you would like to manage outgoing request with a custom http client.
+   * See {@link https://github.com/axios/axios/blob/v1.x/README.md?plain=1#L586 Axios adapter documentation} for more information.
    * @type {Function | undefined}
    * @default undefined
    */
@@ -723,7 +724,7 @@ export class WebClient extends Methods {
     // The following operation both flattens complex objects into a JSON-encoded strings and searches the values for
     // binary content
     let containsBinaryData = false;
-    // biome-ignore lint/suspicious/noExplicitAny: call options can be anything
+    // biome-ignore lint/suspicious/noExplicitAny: HTTP request data can be anything
     const flattened = Object.entries(data).map<[string, any] | []>(([key, value]) => {
       if (value === undefined || value === null) {
         return [];
