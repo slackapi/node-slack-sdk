@@ -57,6 +57,9 @@ export interface GenericMessageEvent {
     count: number;
     users: string[];
   }[];
+
+  // TODO: add properties to this field once it's publicly released
+  assistant_thread?: Record<string, unknown>;
 }
 
 export interface BotMessageEvent {
