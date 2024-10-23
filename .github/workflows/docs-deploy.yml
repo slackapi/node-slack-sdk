@@ -31,6 +31,22 @@ jobs:
         run: npm ci
         working-directory: ./docs
 
+      - name: Install sub-package dependencies
+        run: |
+          for dir in packages/*
+          do
+            test -d "$dir" || continue
+            if [[ "$dir" == *"client" ]] || [[ "$dir" == *"events-api" ]] || [[ "$dir" == *"interactive-messages" ]]; then
+              continue
+            fi
+            pushd "$dir"
+            npm i
+            popd
+          done
+      - name: Lint docs
+        run: npm run lint
+        working-directory: ./docs
+
       - name: Build website
         run: npm run build
         working-directory: ./docs

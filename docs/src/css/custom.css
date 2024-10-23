@@ -4,7 +4,7 @@
  * work well for content-centric websites.
  */
 
- :root {
+:root {
   /* set hex colors here pls */
   --aubergine: #4a154b;
 
@@ -25,7 +25,7 @@
   --slack-dark-blue: #1264a3;
 
   --grey: #868686;
-  --white: #FFFFFF;
+  --white: #ffffff;
 }
 
 /* resets striped tables that hurt me eyes */
@@ -46,14 +46,14 @@ p a {
 [data-theme="light"] {
   --ifm-color-primary: var(--aubergine-active);
   --ifm-footer-background-color: var(--horchata);
-  --slack-link: var(--slack-dark-blue)
+  --slack-link: var(--slack-dark-blue);
 }
 
 [data-theme="dark"] {
   --ifm-color-primary: var(--aubergine-light);
   --ifm-navbar-background-color: var(--aubergine);
   --ifm-footer-background-color: var(--aubergine);
-  --slack-link: var(--slack-blue)
+  --slack-link: var(--slack-blue);
 }
 
 html[data-theme="dark"] {
