@@ -8,6 +8,8 @@ export interface AssistantThreadsSetStatusArguments extends TokenOverridable {
   status: string;
   /** @description Message timestamp of the thread. */
   thread_ts: string;
+  /** @description Whether or not the user is allowed to send a message while the status is being displayed. Defaults to `false`. */
+  is_send_allowed?: boolean;
 }
 
 // https://api.slack.com/methods/assistant.threads.setSuggestedPrompts
