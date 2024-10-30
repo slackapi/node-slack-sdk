@@ -69,7 +69,7 @@ describe('WebClient', () => {
 
     it('should succeed when constructing a class that extends WebClient', () => {
       assert.doesNotThrow(() => {
-        class X extends WebClient {}
+        class X extends WebClient { }
         new X();
       });
     });
@@ -463,6 +463,7 @@ describe('WebClient', () => {
         const scope = nock('https://slack.com', {
           reqheaders: {
             'User-Agent': (value) => {
+              console.log('User Agent is:', value);
               const metadata = parseUserAgentIntoMetadata(value);
               // NOTE: this assert isn't that strong and doesn't say anything about the values. at this time, there
               // isn't a good way to test this without dupicating the logic of the code under test.
