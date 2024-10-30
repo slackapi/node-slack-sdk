@@ -113,11 +113,11 @@ describe('WebClient', () => {
       } catch (e) {
         // biome-ignore lint/suspicious/noExplicitAny: TODO: type this better, should be whatever error class web-api throws for timeouts
         const error = e as any;
-        assert.isTrue((logger.warn as sinon.SinonStub).calledOnce, 'expected Logger to be called once');
         assert.equal(error.code, ErrorCode.RequestError);
         assert.equal(error.original.config.timeout, timeoutOverride);
         assert.equal(error.original.isAxiosError, true);
         assert.instanceOf(error, Error);
+        assert.isTrue((logger.warn as sinon.SinonStub).calledOnce, 'expected Logger to be called once');
       }
     });
   });
