@@ -13,3 +13,4 @@ tmp/
 *.bk
 
 .DS_Store
+.nyc_output/

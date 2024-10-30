@@ -9,8 +9,11 @@
 
 import type { WebAPICallResult } from '../../WebClient';
 export type ConversationsRequestSharedInviteListResponse = WebAPICallResult & {
+  error?: string;
   invite_requests?: InviteRequest[];
+  needed?: string;
   ok?: boolean;
+  provided?: string;
 };
 
 export interface InviteRequest {
@@ -32,8 +35,8 @@ export interface Channel {
   is_im?: boolean;
   is_private?: boolean;
   name?: string;
-  pending_connections?: any[];
-  previous_connections?: any[];
+  pending_connections?: Connection[];
+  previous_connections?: Connection[];
 }
 
 export interface Connection {

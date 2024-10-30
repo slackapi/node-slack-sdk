@@ -372,6 +372,7 @@ export interface FileElement {
   is_channel_space?: boolean;
   is_external?: boolean;
   is_public?: boolean;
+  is_restricted_sharing_enabled?: boolean;
   is_starred?: boolean;
   last_editor?: string;
   last_read?: number;
@@ -669,6 +670,7 @@ export interface Column {
 export interface MediaProgress {
   duration_ms?: number;
   max_offset_ms?: number;
+  media_watched?: boolean;
   offset_ms?: number;
 }
 
@@ -708,7 +710,13 @@ export interface Private {
 
 export interface Transcription {
   locale?: string;
+  preview?: TranscriptionPreview;
   status?: string;
+}
+
+export interface TranscriptionPreview {
+  content?: string;
+  has_more?: boolean;
 }
 
 export interface Attachment {
@@ -762,7 +770,7 @@ export interface Attachment {
   msg_subtype?: string;
   original_url?: string;
   pretext?: string;
-  preview?: Preview;
+  preview?: AttachmentPreview;
   service_icon?: string;
   service_name?: string;
   service_url?: string;
@@ -1053,6 +1061,7 @@ export interface PurpleFile {
   is_channel_space?: boolean;
   is_external?: boolean;
   is_public?: boolean;
+  is_restricted_sharing_enabled?: boolean;
   is_starred?: boolean;
   last_editor?: string;
   last_read?: number;
@@ -1282,7 +1291,7 @@ export interface AttachmentMetadata {
   thumb_tiny?: string;
 }
 
-export interface Preview {
+export interface AttachmentPreview {
   can_remove?: boolean;
   icon_url?: string;
   subtitle?: DescriptionElement;
