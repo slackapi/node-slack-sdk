@@ -463,7 +463,11 @@ describe('WebClient', () => {
         const scope = nock('https://slack.com', {
           reqheaders: {
             'User-Agent': (value) => {
+              console.log('process title is:', process.title);
               console.log('User Agent is:', value);
+              // User Agent value is different across platforms.
+              // on mac this is: @slack:web-api/7.7.0 node/18.15.0 darwin/23.6.0
+              // on windows this is: @slack:web-api/7.7.0 cmd.exe /22.10.0 win32/10.0.20348
               const metadata = parseUserAgentIntoMetadata(value);
               // NOTE: this assert isn't that strong and doesn't say anything about the values. at this time, there
               // isn't a good way to test this without dupicating the logic of the code under test.
