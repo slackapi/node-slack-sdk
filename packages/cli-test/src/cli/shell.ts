@@ -23,7 +23,7 @@ export const shell = {
     try {
       // Start child process
       const childProcess = child.spawn(`${command}`, {
-        shell: true,
+        shell: process.platform === 'win32' ? 'powershell.exe' : true,
         env: shell.assembleShellEnv(),
         ...shellOpts,
       });
@@ -85,7 +85,7 @@ export const shell = {
 
       // Start child process
       const result = child.spawnSync(`${command}`, {
-        shell: true,
+        shell: process.platform === 'win32' ? 'powershell.exe' : true,
         env: shell.assembleShellEnv(),
         ...shellOpts,
       });
