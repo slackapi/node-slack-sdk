@@ -13,16 +13,12 @@
     "sourceMap": true
   },
   "extends": "@tsconfig/recommended/tsconfig.json",
-  "include": [
-    "src/**/*"
-  ],
+  "include": ["src/**/*"],
   "jsdoc": {
     "out": "support/jsdoc",
     "access": "public"
   },
-  "exclude": [
-    "src/**/*.spec.*"
-  ],
+  "exclude": ["src/**/*.spec.*"],
   "ts-node": {
     "esm": true
   }

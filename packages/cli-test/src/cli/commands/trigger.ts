@@ -12,11 +12,11 @@ import { type SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
 type AccessChangeArguments = {
   info?: boolean;
 } & (
-    | GroupAccessChangeArguments
-    | UserAccessChangeArguments
-    | ChannelAccessChangeArguments
-    | OrganizationAccessChangeArguments
-  );
+  | GroupAccessChangeArguments
+  | UserAccessChangeArguments
+  | ChannelAccessChangeArguments
+  | OrganizationAccessChangeArguments
+);
 
 export interface TriggerIdArgument {
   /** @description ID of the trigger being targeted. */

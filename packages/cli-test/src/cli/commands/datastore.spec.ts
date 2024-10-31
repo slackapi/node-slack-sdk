@@ -37,22 +37,24 @@ describe('datastore commands', () => {
   describe('put method', () => {
     it('should invoke `datastore put [item details]`', async () => {
       const itemObj = {
-        id: "1",
-        content: "text"
+        id: '1',
+        content: 'text',
       };
       await datastore.datastorePut({ appPath: '/some/path', datastoreName: 'datastore', putItem: itemObj });
-      sandbox.assert.calledWith(
-        spawnSpy,
-        sinon.match('datastore put'),
-      );
+      sandbox.assert.calledWith(spawnSpy, sinon.match('datastore put'));
     });
   });
   describe('query method', () => {
     it('should invoke `datastore query [expression]`', async () => {
       const expressObj = {
-        id: "1",
+        id: '1',
       };
-      await datastore.datastoreQuery({ appPath: '/some/path',  datastoreName: 'datastore', queryExpression: 'id = :id', queryExpressionValues: expressObj});
+      await datastore.datastoreQuery({
+        appPath: '/some/path',
+        datastoreName: 'datastore',
+        queryExpression: 'id = :id',
+        queryExpressionValues: expressObj,
+      });
       sandbox.assert.calledWith(spawnSpy, sinon.match('datastore query'));
     });
   });
