@@ -42,7 +42,7 @@ export const activity = async function activity(
   if ('source' in args) {
     cmdOpts['--source'] = args.source;
   }
-  const cmd = new SlackCLIProcess('activity', args, cmdOpts);
+  const cmd = new SlackCLIProcess(['activity'], args, cmdOpts);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -57,7 +57,7 @@ export const activity = async function activity(
 export const activityTailStart = async function activityTailStart(
   args: ProjectCommandArguments & StringWaitArgument & TimeoutArgument,
 ): Promise<ShellProcess> {
-  const cmd = new SlackCLIProcess('activity', args, { '--tail': true });
+  const cmd = new SlackCLIProcess(['activity'], args, { '--tail': true });
   const proc = await cmd.execAsyncUntilOutputPresent(args.stringToWaitFor, {
     cwd: args.appPath,
     timeout: args.timeout,
@@ -98,7 +98,7 @@ export const activityTailStop = async function activityTailStop(
 export const deploy = async function deploy(
   args: ProjectCommandArguments & Omit<RunDeployArguments, 'cleanup'>,
 ): Promise<string> {
-  const cmd = new SlackCLIProcess('deploy', args, {
+  const cmd = new SlackCLIProcess(['deploy'], args, {
     '--hide-triggers': typeof args.hideTriggers !== 'undefined' ? args.hideTriggers : true,
     '--org-workspace-grant': args.orgWorkspaceGrantFlag,
   });
@@ -115,7 +115,7 @@ export const deploy = async function deploy(
 export const runStart = async function runStart(
   args: ProjectCommandArguments & RunDeployArguments & TimeoutArgument,
 ): Promise<ShellProcess> {
-  const cmd = new SlackCLIProcess('run', args, {
+  const cmd = new SlackCLIProcess(['run'], args, {
     '--app': 'local',
     '--cleanup': typeof args.cleanup !== 'undefined' ? args.cleanup : true,
     '--hide-triggers': typeof args.hideTriggers !== 'undefined' ? args.hideTriggers : true,

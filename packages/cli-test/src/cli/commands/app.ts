@@ -7,7 +7,7 @@ import type { ProjectCommandArguments } from '../../types/commands/common_argume
  * @returns command output
  */
 export const del = async function appDelete(args: ProjectCommandArguments): Promise<string> {
-  const cmd = new SlackCLIProcess('app delete', args);
+  const cmd = new SlackCLIProcess(['app', 'delete'], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -19,7 +19,7 @@ export const del = async function appDelete(args: ProjectCommandArguments): Prom
  * @returns command output
  */
 export const install = async function workspaceInstall(args: ProjectCommandArguments): Promise<string> {
-  const cmd = new SlackCLIProcess('app install', args);
+  const cmd = new SlackCLIProcess(['app', 'install'], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -31,7 +31,7 @@ export const install = async function workspaceInstall(args: ProjectCommandArgum
  * @returns command output
  */
 export const list = async function appList(args: ProjectCommandArguments): Promise<string> {
-  const cmd = new SlackCLIProcess('app list', args);
+  const cmd = new SlackCLIProcess(['app', 'list'], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });

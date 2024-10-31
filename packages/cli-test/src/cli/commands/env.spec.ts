@@ -25,19 +25,23 @@ describe('env commands', () => {
   describe('add method', () => {
     it('should invoke `env add <key> <value>`', async () => {
       await env.add({ appPath: '/some/path', secretKey: 'key', secretValue: 'value' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('env add key value'));
+      sandbox.assert.calledWith(
+        spawnSpy,
+        sinon.match.string,
+        sinon.match.array.contains(['env', 'add', 'key', 'value']),
+      );
     });
   });
   describe('list method', () => {
     it('should invoke `env list`', async () => {
       await env.list({ appPath: '/some/path' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('env list'));
+      sandbox.assert.calledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['env', 'list']));
     });
   });
   describe('remove method', () => {
     it('should invoke `env remove <key>`', async () => {
       await env.remove({ appPath: '/some/path', secretKey: 'key' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('env remove key'));
+      sandbox.assert.calledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['env', 'remove', 'key']));
     });
   });
 });

@@ -45,7 +45,7 @@ export const access = async function functionAccess(
       throw new Error('When setting function access, you must specify a target for whom to give access to.');
     }
   }
-  const cmd = new SlackCLIProcess('function access', args, cmdOpts);
+  const cmd = new SlackCLIProcess(['function', 'access'], args, cmdOpts);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });

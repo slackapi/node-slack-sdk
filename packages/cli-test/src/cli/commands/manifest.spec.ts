@@ -25,19 +25,25 @@ describe('manifest commands', () => {
   describe('info method', () => {
     it('should invoke `manifest info` and default `--source project`', async () => {
       await manifest.info({ appPath: '/some/path' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('manifest info'));
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--source project'));
+      sandbox.assert.calledWith(
+        spawnSpy,
+        sinon.match.string,
+        sinon.match.array.contains(['manifest', 'info', '--source', 'project']),
+      );
     });
     it('should invoke `manifest info --source remote` source=remote specified', async () => {
       await manifest.info({ appPath: '/some/path', source: 'remote' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('manifest info'));
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--source remote'));
+      sandbox.assert.calledWith(
+        spawnSpy,
+        sinon.match.string,
+        sinon.match.array.contains(['manifest', 'info', '--source', 'remote']),
+      );
     });
   });
   describe('validate method', () => {
     it('should invoke `manifest validate`', async () => {
       await manifest.validate({ appPath: '/some/path' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('manifest validate'));
+      sandbox.assert.calledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['manifest', 'validate']));
     });
   });
 });

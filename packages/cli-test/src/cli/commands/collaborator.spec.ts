@@ -25,19 +25,27 @@ describe('collaborator commands', () => {
   describe('add method', () => {
     it('should invoke `collaborators add <email>`', async () => {
       await collaborator.add({ appPath: '/some/path', collaboratorEmail: 'you@me.com' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('collaborators add you@me.com'));
+      sandbox.assert.calledWith(
+        spawnSpy,
+        sinon.match.string,
+        sinon.match.array.contains(['collaborators', 'add', 'you@me.com']),
+      );
     });
   });
   describe('list method', () => {
     it('should invoke `collaborators list`', async () => {
       await collaborator.list({ appPath: '/some/path' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('collaborators list'));
+      sandbox.assert.calledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['collaborators', 'list']));
     });
   });
   describe('remove method', () => {
     it('should invoke `collaborators remove <email>`', async () => {
       await collaborator.remove({ appPath: '/some/path', collaboratorEmail: 'you@me.com' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('collaborators remove you@me.com'));
+      sandbox.assert.calledWith(
+        spawnSpy,
+        sinon.match.string,
+        sinon.match.array.contains(['collaborators', 'remove', 'you@me.com']),
+      );
     });
   });
 });
