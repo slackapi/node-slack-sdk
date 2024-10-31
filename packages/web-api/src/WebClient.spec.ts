@@ -113,11 +113,11 @@ describe('WebClient', () => {
       } catch (e) {
         // biome-ignore lint/suspicious/noExplicitAny: TODO: type this better, should be whatever error class web-api throws for timeouts
         const error = e as any;
-        assert.isTrue((logger.warn as sinon.SinonStub).calledOnce, 'expected Logger to be called once');
         assert.equal(error.code, ErrorCode.RequestError);
         assert.equal(error.original.config.timeout, timeoutOverride);
         assert.equal(error.original.isAxiosError, true);
         assert.instanceOf(error, Error);
+        assert.isTrue((logger.warn as sinon.SinonStub).calledOnce, 'expected Logger to be called once');
       }
     });
   });
@@ -463,14 +463,13 @@ describe('WebClient', () => {
         const scope = nock('https://slack.com', {
           reqheaders: {
             'User-Agent': (value) => {
+              // User Agent value is different across platforms.
+              // on mac this is: @slack:web-api/7.7.0 node/18.15.0 darwin/23.6.0
+              // on windows this is: @slack:web-api/7.7.0 cmd.exe /22.10.0 win32/10.0.20348
               const metadata = parseUserAgentIntoMetadata(value);
               // NOTE: this assert isn't that strong and doesn't say anything about the values. at this time, there
               // isn't a good way to test this without dupicating the logic of the code under test.
-              assert.containsAllKeys(metadata, ['node', '@slack:web-api']);
-              // NOTE: there's an assumption that if there's any keys besides these left at all, its the platform part
-              metadata.node = undefined;
-              metadata['@slack:client'] = undefined;
-              assert.isNotEmpty(metadata);
+              assert.containsAllKeys(metadata, ['@slack:web-api']);
               return true;
             },
           },

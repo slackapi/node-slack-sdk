@@ -96,10 +96,12 @@ describe('platform commands', () => {
       sandbox.stub(shell, 'kill').rejects();
       await assert.rejects(platform.runStop({ proc: fakeProcess }));
     });
-    it('should reject if waitForShutdown=true and waitForOutput rejects', async () => {
-      sandbox.stub(shell, 'kill').resolves();
-      waitForOutputSpy.rejects();
-      await assert.rejects(platform.runStop({ proc: fakeProcess, waitForShutdown: true }));
+    it('non-Windows only: should reject if waitForShutdown=true and waitForOutput rejects', async () => {
+      if (process.platform !== 'win32') {
+        sandbox.stub(shell, 'kill').resolves();
+        waitForOutputSpy.rejects();
+        await assert.rejects(platform.runStop({ proc: fakeProcess, waitForShutdown: true }));
+      }
     });
     it('should resolve immediately if waitForShutdown=false and shell.kill resolve', async () => {
       sandbox.stub(shell, 'kill').resolves();

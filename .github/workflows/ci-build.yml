@@ -8,11 +8,11 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest, windows-latest]
         node-version: [18.x, 20.x, 22.x]
         package:
           - cli-hooks
@@ -24,6 +24,7 @@ jobs:
           - types
           - web-api
           - webhook
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
@@ -31,11 +32,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm --version
-      - name: Build and Run Tests in Each Package
+      - run: npm install
+        working-directory: packages/${{ matrix.package }}
+      - name: Link dependent packages (*nix)
+        if: matrix.os == 'ubuntu-latest'
         working-directory: packages/${{ matrix.package }}
         run: |
-          npm install
-          # depending on which package we are testing, also npm link up other dependent packages
+          # depending on which package we are testing, also npm link up dependent packages within this monorepo
           case "$PWD" in
             */webhook) pushd ../types && npm i && popd && npm link ../types;;
             */web-api) pushd ../types && npm i && popd && npm link ../types && pushd ../logger && npm i && popd && npm link ../logger;;
@@ -43,14 +46,41 @@ jobs:
             */socket-mode) pushd ../logger && npm i && popd && npm link ../logger && pushd ../web-api && npm i && popd && npm link ../web-api;;
             *) ;; # default
           esac
-          npm test
+      - name: Link dependent packages (Windows)
+        if: matrix.os == 'windows-latest'
+        working-directory: packages/${{ matrix.package }}
+        run: |
+          # depending on which package we are testing, also npm link up dependent packages within this monorepo
+          # NOTE: the following is PowerShell
+          echo "$pwd"
+          switch -Wildcard ( "$pwd" )
+          {
+            '*\webhook'
+            {
+              pushd ..\types && npm i && popd && npm link ..\types
+            }
+            '*\web-api'
+            {
+              pushd ..\types && npm i && popd && npm link ..\types && pushd ..\logger && npm i && popd && npm link ..\logger
+            }
+            '*\oauth'
+            {
+              pushd ..\logger && npm i && popd && npm link ..\logger && pushd ..\web-api && npm i && popd && npm link ..\web-api
+            }
+            '*\socket-mode'
+            {
+              pushd ..\logger && npm i && popd && npm link ..\logger && pushd ..\web-api && npm i && popd && npm link ..\web-api
+            }
+          }
+      - run: npm test
+        working-directory: packages/${{ matrix.package }}
       - name: Check for coverage report existence
         id: check_coverage
         uses: andstor/file-existence-action@v3
         with:
           files: packages/${{ matrix.package }}/coverage/lcov.info
       - name: Upload code coverage
-        if: matrix.node-version == '22.x' && steps.check_coverage.outputs.files_exists == 'true'
+        if: matrix.node-version == '22.x' && matrix.os == 'ubuntu-latest' && steps.check_coverage.outputs.files_exists == 'true'
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
