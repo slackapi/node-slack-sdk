@@ -69,7 +69,7 @@ describe('WebClient', () => {
 
     it('should succeed when constructing a class that extends WebClient', () => {
       assert.doesNotThrow(() => {
-        class X extends WebClient { }
+        class X extends WebClient {}
         new X();
       });
     });
