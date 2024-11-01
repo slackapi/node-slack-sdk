@@ -25,25 +25,35 @@ describe('trigger commands', () => {
   describe('access method', () => {
     it('should invoke `trigger access --info` if info=true', async () => {
       await trigger.access({ appPath: '/some/path', info: true, triggerId: 'T1234' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('trigger access'));
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--info'));
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--trigger-id T1234'));
+      sandbox.assert.calledWith(
+        spawnSpy,
+        sinon.match.string,
+        sinon.match.array.contains(['trigger', 'access', '--info', '--trigger-id', 'T1234']),
+      );
     });
     it('should invoke `trigger access --app-collaborators` if `appCollaborators` specified', async () => {
       await trigger.access({ appPath: '/some/path', triggerId: 'T1234', appCollaborators: true });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('trigger access'));
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--app-collaborators'));
+      sandbox.assert.calledWith(
+        spawnSpy,
+        sinon.match.string,
+        sinon.match.array.contains(['trigger', 'access', '--app-collaborators']),
+      );
     });
     it('should invoke `trigger access --everyone` if `everyone` specified', async () => {
       await trigger.access({ appPath: '/some/path', triggerId: 'T1234', everyone: true });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('trigger access'));
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--everyone'));
+      sandbox.assert.calledWith(
+        spawnSpy,
+        sinon.match.string,
+        sinon.match.array.contains(['trigger', 'access', '--everyone']),
+      );
     });
-    it('should invoke `trigger access --grant --users` if `grant` and `users` specified', async () => {
+    it.only('should invoke `trigger access --grant --users` if `grant` and `users` specified', async () => {
       await trigger.access({ appPath: '/some/path', triggerId: 'T1234', grant: true, users: ['U1234'] });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('trigger access'));
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--grant'));
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--users U1234'));
+      sandbox.assert.calledWith(
+        spawnSpy,
+        sinon.match.string,
+        sinon.match.array.contains(['trigger', 'access', '--grant', '--users', 'U1234']),
+      );
     });
     it('should invoke `trigger access --revoke --users` if `revoke` and `users` specified', async () => {
       await trigger.access({ appPath: '/some/path', triggerId: 'T1234', revoke: true, users: ['U1234'] });

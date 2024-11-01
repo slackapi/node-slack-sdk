@@ -14,14 +14,6 @@ export interface DatastoreCommandArguments {
   queryExpressionValues: object;
 }
 
-function escapeJSON(json: Record<string, unknown>): string {
-  let out = JSON.stringify(json);
-  if (process.platform === 'win32') {
-    out = out.replace(/"/g, '\\\\"');
-  }
-  return out;
-}
-
 /**
  * `slack datastore get`
  * @returns command output
@@ -33,8 +25,7 @@ export const datastoreGet = async function datastoreGet(
     datastore: args.datastoreName,
     id: args.primaryKeyValue,
   };
-  const getQuery = escapeJSON(getQueryObj);
-  const cmd = new SlackCLIProcess(`datastore get '${getQuery}'`, args);
+  const cmd = new SlackCLIProcess(['datastore', 'get', JSON.stringify(getQueryObj)], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -52,8 +43,7 @@ export const datastoreDelete = async function datastoreDelete(
     datastore: args.datastoreName,
     id: args.primaryKeyValue,
   };
-  const deleteQuery = escapeJSON(deleteQueryObj);
-  const cmd = new SlackCLIProcess(`datastore delete '${deleteQuery}'`, args);
+  const cmd = new SlackCLIProcess(['datastore', 'delete', JSON.stringify(deleteQueryObj)], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -71,8 +61,7 @@ export const datastorePut = async function datastorePut(
     datastore: args.datastoreName,
     item: args.putItem,
   };
-  const putQuery = escapeJSON(putQueryObj);
-  const cmd = new SlackCLIProcess(`datastore put '${putQuery}'`, args);
+  const cmd = new SlackCLIProcess(['datastore', 'put', JSON.stringify(putQueryObj)], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -92,8 +81,7 @@ export const datastoreQuery = async function datastoreQuery(
     expression: args.queryExpression,
     expression_values: args.queryExpressionValues,
   };
-  const query = escapeJSON(queryObj);
-  const cmd = new SlackCLIProcess(`datastore query '${query}'`, args);
+  const cmd = new SlackCLIProcess(['datastore', 'query', JSON.stringify(queryObj)], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });

@@ -12,28 +12,25 @@ export const shell = {
    * Spawns a shell command
    * - Start child process with the command
    * - Listen to data output events and collect them
-   * @param command The command to run, e.g. `echo "hi"`
+   * @param command The command to run, e.g. echo, cat, slack.exe
+   * @param args The arguments for the command, e.g. 'hi', '--skip-update'
    * @param shellOpts Options to customize shell execution
    * @returns command output
    */
   spawnProcess: function spawnProcess(
     command: string,
+    args: string[],
     shellOpts?: Partial<child.SpawnOptionsWithoutStdio>,
   ): ShellProcess {
     try {
-      // Start child process
-      const childProcess = child.spawn(`${command}`, {
-        shell: process.platform === 'win32' ? 'powershell.exe' : true,
-        env: shell.assembleShellEnv(),
-        ...shellOpts,
-      });
+      const childProcess = child.spawn(...getSpawnArguments(command, args, shell.assembleShellEnv(), shellOpts));
 
       // Set shell object
       const sh: ShellProcess = {
         process: childProcess,
         output: '',
         finished: false,
-        command,
+        command: `${command} ${args}`,
       };
 
       // Log command
@@ -71,24 +68,22 @@ export const shell = {
    * Run shell command synchronously
    * - Execute child process with the command
    * - Wait for the command to complete and return the standard output
-   * @param command cli command
+   * @param command The command to run, e.g. echo, cat, slack.exe
+   * @param args The arguments for the command, e.g. 'hi', '--skip-update'
    * @param shellOpts various shell spawning options available to customize
    * @returns command stdout
    */
   runCommandSync: function runSyncCommand(
     command: string,
+    args: string[],
     shellOpts?: Partial<child.SpawnOptionsWithoutStdio>,
   ): string {
     try {
       // Log command
-      logger.info(`CLI Command started: ${command}`);
+      logger.info(`CLI Command started: ${command} ${args}`);
 
       // Start child process
-      const result = child.spawnSync(`${command}`, {
-        shell: process.platform === 'win32' ? 'powershell.exe' : true,
-        env: shell.assembleShellEnv(),
-        ...shellOpts,
-      });
+      const result = child.spawnSync(...getSpawnArguments(command, args, shell.assembleShellEnv(), shellOpts));
 
       // Log command
       logger.info(`CLI Command finished: ${command}`);
@@ -252,3 +247,38 @@ export const shell = {
     });
   },
 };
+
+/**
+ * @description Returns arguments used to pass into child_process.spawn or spawnSync. Handles Windows-specifics hacks.
+ */
+function getSpawnArguments(
+  command: string,
+  args: string[],
+  env: ReturnType<typeof shell.assembleShellEnv>,
+  shellOpts?: Partial<child.SpawnOptionsWithoutStdio>,
+): [string, string[], child.SpawnOptionsWithoutStdio] {
+  if (process.platform === 'win32') {
+    // In windows, we actually spawn a command prompt and tell it to invoke the CLI command.
+    // The combination of windows and node's child_process spawning is complicated: on windows, child_process strips quotes from arguments. This makes passing JSON difficult.
+    // As a workaround, by telling Windows Command Prompt (cmd.exe) to execute a command to completion (/c) and leave spaces intact (/c), combined with feeding arguments as an argument array into child_process, we can get around this mess.
+    const windowsArgs = ['/s', '/c'].concat([command]).concat(args);
+    return [
+      'cmd',
+      windowsArgs,
+      {
+        shell: true,
+        env,
+        ...shellOpts,
+      },
+    ];
+  }
+  return [
+    command,
+    args,
+    {
+      shell: true,
+      env,
+      ...shellOpts,
+    },
+  ];
+}

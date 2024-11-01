@@ -29,7 +29,7 @@ export default {
      */
     authTicket: string;
   }> {
-    const cmd = new SlackCLIProcess('login', args, {
+    const cmd = new SlackCLIProcess(['login'], args, {
       '--no-prompt': true,
     });
     const proc = await cmd.execAsync();
@@ -64,7 +64,7 @@ export default {
       authTicket: string;
     },
   ): Promise<string> {
-    const cmd = new SlackCLIProcess('login', args, {
+    const cmd = new SlackCLIProcess(['login'], args, {
       '--no-prompt': true,
       '--challenge': args.challenge,
       '--ticket': args.authTicket,
@@ -95,7 +95,7 @@ export default {
     if (args && 'all' in args && !('team' in args) && args.all) {
       cmdOpts['--all'] = true;
     }
-    const cmd = new SlackCLIProcess('logout', args, cmdOpts);
+    const cmd = new SlackCLIProcess(['logout'], args, cmdOpts);
     const proc = await cmd.execAsync();
     return proc.output;
   },

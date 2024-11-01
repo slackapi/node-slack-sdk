@@ -49,7 +49,7 @@ export class SlackCLIProcess {
   /**
    * @description The CLI command to invoke
    */
-  public command: string;
+  public command: string[];
 
   /**
    * @description The global CLI options to pass to the command
@@ -61,7 +61,11 @@ export class SlackCLIProcess {
    */
   public commandOptions: SlackCLICommandOptions | undefined;
 
-  public constructor(command: string, globalOptions?: SlackCLIGlobalOptions, commandOptions?: SlackCLICommandOptions) {
+  public constructor(
+    command: string[],
+    globalOptions?: SlackCLIGlobalOptions,
+    commandOptions?: SlackCLICommandOptions,
+  ) {
     if (!process.env.SLACK_CLI_PATH) {
       throw new Error('`SLACK_CLI_PATH` environment variable not found! Aborting!');
     }
@@ -75,7 +79,8 @@ export class SlackCLIProcess {
    */
   public async execAsync(shellOpts?: Partial<SpawnOptionsWithoutStdio>): Promise<ShellProcess> {
     const cmd = this.assembleShellInvocation();
-    const proc = shell.spawnProcess(cmd, shellOpts);
+    // biome-ignore lint/style/noNonNullAssertion: the constructor checks for the truthiness of this environment variable
+    const proc = shell.spawnProcess(process.env.SLACK_CLI_PATH!, cmd, shellOpts);
     await shell.checkIfFinished(proc);
     return proc;
   }
@@ -88,7 +93,8 @@ export class SlackCLIProcess {
     shellOpts?: Partial<SpawnOptionsWithoutStdio>,
   ): Promise<ShellProcess> {
     const cmd = this.assembleShellInvocation();
-    const proc = shell.spawnProcess(cmd, shellOpts);
+    // biome-ignore lint/style/noNonNullAssertion: the constructor checks for the truthiness of this environment variable
+    const proc = shell.spawnProcess(process.env.SLACK_CLI_PATH!, cmd, shellOpts);
     await shell.waitForOutput(output, proc, {
       timeout: shellOpts?.timeout,
     });
@@ -100,53 +106,54 @@ export class SlackCLIProcess {
    */
   public execSync(shellOpts?: Partial<SpawnOptionsWithoutStdio>): string {
     const cmd = this.assembleShellInvocation();
-    return shell.runCommandSync(cmd, shellOpts);
+    // biome-ignore lint/style/noNonNullAssertion: the constructor checks for the truthiness of this environment variable
+    return shell.runCommandSync(process.env.SLACK_CLI_PATH!, cmd, shellOpts);
   }
 
-  private assembleShellInvocation(): string {
-    let cmd = `${process.env.SLACK_CLI_PATH}`;
+  private assembleShellInvocation(): string[] {
+    let cmd = [`${process.env.SLACK_CLI_PATH}`];
     if (this.globalOptions) {
       const opts = this.globalOptions;
       // Determine API host target
       if (opts.apihost) {
-        cmd += ` --apihost ${opts.apihost}`;
+        cmd = cmd.concat(['--apihost', opts.apihost]);
       } else if (opts.qa) {
-        cmd += ' --apihost qa.slack.com';
+        cmd = cmd.concat(['--apihost', 'qa.slack.com']);
       } else if (opts.dev) {
-        cmd += ' --slackdev';
+        cmd = cmd.concat(['--slackdev']);
       }
       // Always skip update unless explicitly set to something falsy
       if (opts.skipUpdate || opts.skipUpdate === undefined) {
-        cmd += ' --skip-update';
+        cmd = cmd.concat(['--skip-update']);
       }
       // Target team
       if (opts.team) {
-        cmd += ` --team ${opts.team}`;
+        cmd = cmd.concat(['--team', opts.team]);
       }
       // App instance; defaults to `deployed`
       if (opts.app) {
-        cmd += ` --app ${opts.app}`;
+        cmd = cmd.concat(['--app', opts.app]);
       } else {
-        cmd += ' --app deployed';
+        cmd = cmd.concat(['--app', 'deployed']);
       }
       // Ignore warnings via --force; defaults to true
       if (opts.force || typeof opts.force === 'undefined') {
-        cmd += ' --force';
+        cmd = cmd.concat(['--force']);
       }
       // Specifying custom token
       if (opts.token) {
-        cmd += ` --token ${opts.token}`;
+        cmd = cmd.concat(['--token', opts.token]);
       }
     } else {
-      cmd += ' --skip-update --force --app deployed';
+      cmd = cmd.concat(['--skip-update', '--force', '--app', 'deployed']);
     }
-    cmd += ` ${this.command}`;
+    cmd = cmd.concat(this.command);
     if (this.commandOptions) {
       for (const [key, value] of Object.entries(this.commandOptions)) {
         if (key && value) {
-          cmd += ` ${key}`;
+          cmd.push(key);
           if (value !== true) {
-            cmd += ` ${value}`;
+            cmd.push(String(value));
           }
         }
       }

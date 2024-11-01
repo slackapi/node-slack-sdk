@@ -20,7 +20,7 @@ export interface ExternalAuthCommandArguments {
 export const add = async function externalAuthAdd(
   args: ProjectCommandArguments & Pick<ExternalAuthCommandArguments, 'provider'>,
 ): Promise<string> {
-  const cmd = new SlackCLIProcess('external-auth add', args, {
+  const cmd = new SlackCLIProcess(['external-auth', 'add'], args, {
     '--provider': args.provider,
   });
   const proc = await cmd.execAsync({
@@ -36,7 +36,7 @@ export const add = async function externalAuthAdd(
 export const addSecret = async function extAuthAddSecret(
   args: ProjectCommandArguments & Omit<ExternalAuthCommandArguments, 'all'>,
 ): Promise<string> {
-  const cmd = new SlackCLIProcess('external-auth add-secret', args, {
+  const cmd = new SlackCLIProcess(['external-auth', 'add-secret'], args, {
     '--provider': args.provider,
     '--secret': args.secret,
   });
@@ -59,7 +59,7 @@ export const remove = async function extAuthRemove(
   if (args.all) {
     cmdOpts['--all'] = true;
   }
-  const cmd = new SlackCLIProcess('external-auth remove', args, cmdOpts);
+  const cmd = new SlackCLIProcess(['external-auth', 'remove'], args, cmdOpts);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -88,7 +88,7 @@ export const selectAuth = async function extAuthSelectAuth(
   if (args.workflow) {
     cmdOpts['--workflow'] = args.workflow;
   }
-  const cmd = new SlackCLIProcess('external-auth select-auth', args, cmdOpts);
+  const cmd = new SlackCLIProcess(['external-auth', 'select-auth'], args, cmdOpts);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });

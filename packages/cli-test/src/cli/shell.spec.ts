@@ -61,15 +61,16 @@ describe('shell module', () => {
     it('should invoke `assembleShellEnv` and pass as child_process.spawnSync `env` parameter', () => {
       const fakeEnv = { HEY: 'yo' };
       const assembleSpy = sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
-      const fakeCmd = 'echo "hi"';
-      shell.runCommandSync(fakeCmd);
+      const fakeCmd = 'echo';
+      const fakeArgs = ['"hi there"'];
+      shell.runCommandSync(fakeCmd, fakeArgs);
       sandbox.assert.calledOnce(assembleSpy);
-      sandbox.assert.calledWithMatch(runSpy, fakeCmd, sinon.match({ shell: true, env: fakeEnv }));
+      sandbox.assert.calledWithMatch(runSpy, fakeCmd, fakeArgs, sinon.match({ shell: true, env: fakeEnv }));
     });
     it('should raise bubble error details up', () => {
       runSpy.throws(new Error('this is bat country'));
       assert.throw(() => {
-        shell.runCommandSync('about to explode');
+        shell.runCommandSync('about to explode', []);
       }, /this is bat country/);
     });
   });
@@ -78,15 +79,16 @@ describe('shell module', () => {
     it('should invoke `assembleShellEnv` and pass as child_process.spawn `env` parameter', () => {
       const fakeEnv = { HEY: 'yo' };
       const assembleSpy = sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
-      const fakeCmd = 'echo "hi"';
-      shell.spawnProcess(fakeCmd);
+      const fakeCmd = 'echo';
+      const fakeArgs = ['"hi there"'];
+      shell.spawnProcess(fakeCmd, fakeArgs);
       sandbox.assert.calledOnce(assembleSpy);
-      sandbox.assert.calledWithMatch(spawnSpy, fakeCmd, sinon.match({ shell: true, env: fakeEnv }));
+      sandbox.assert.calledWithMatch(spawnSpy, fakeCmd, fakeArgs, sinon.match({ shell: true, env: fakeEnv }));
     });
     it('should raise bubble error details up', () => {
       spawnSpy.throws(new Error('this is bat country'));
       assert.throw(() => {
-        shell.spawnProcess('about to explode');
+        shell.spawnProcess('about to explode', []);
       }, /this is bat country/);
     });
   });
