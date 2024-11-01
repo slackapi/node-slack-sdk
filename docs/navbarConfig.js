@@ -2,6 +2,7 @@ const navbar = {
   title: 'Slack Developer Tools',
   logo: {
     src: 'img/slack-logo.svg',
+    href: 'https://tools.slack.dev',
   },
   items: [
     {
