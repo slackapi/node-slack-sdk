@@ -47,7 +47,7 @@ describe('trigger commands', () => {
         sinon.match.array.contains(['trigger', 'access', '--everyone']),
       );
     });
-    it.only('should invoke `trigger access --grant --users` if `grant` and `users` specified', async () => {
+    it('should invoke `trigger access --grant --users` if `grant` and `users` specified', async () => {
       await trigger.access({ appPath: '/some/path', triggerId: 'T1234', grant: true, users: ['U1234'] });
       sandbox.assert.calledWith(
         spawnSpy,
@@ -55,9 +55,9 @@ describe('trigger commands', () => {
         sinon.match.array.contains(['trigger', 'access', '--grant', '--users', 'U1234']),
       );
     });
-    it('should invoke `trigger access --revoke --users` if `revoke` and `users` specified', async () => {
+    it.only('should invoke `trigger access --revoke --users` if `revoke` and `users` specified', async () => {
       await trigger.access({ appPath: '/some/path', triggerId: 'T1234', revoke: true, users: ['U1234'] });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('trigger access'));
+      sandbox.assert.calledWith(spawnSpy, sinon.match.string, sinon.match.array.contains('trigger access'));
       sandbox.assert.calledWith(spawnSpy, sinon.match('--revoke'));
       sandbox.assert.calledWith(spawnSpy, sinon.match('--users U1234'));
     });

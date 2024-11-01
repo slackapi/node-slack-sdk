@@ -22,6 +22,7 @@ export const shell = {
     args: string[],
     shellOpts?: Partial<child.SpawnOptionsWithoutStdio>,
   ): ShellProcess {
+    const cmdString = `${command} ${args.join(' ')}`;
     try {
       const childProcess = child.spawn(...getSpawnArguments(command, args, shell.assembleShellEnv(), shellOpts));
 
@@ -30,7 +31,7 @@ export const shell = {
         process: childProcess,
         output: '',
         finished: false,
-        command: `${command} ${args}`,
+        command: cmdString,
       };
 
       // Log command
@@ -60,7 +61,7 @@ export const shell = {
 
       return sh;
     } catch (error) {
-      throw new Error(`spawnProcess failed!\nCommand: ${command}\nError: ${error}`);
+      throw new Error(`spawnProcess failed!\nCommand: ${cmdString}\nError: ${error}`);
     }
   },
 
@@ -78,19 +79,20 @@ export const shell = {
     args: string[],
     shellOpts?: Partial<child.SpawnOptionsWithoutStdio>,
   ): string {
+    const cmdString = `${command} ${args.join(' ')}`;
     try {
       // Log command
-      logger.info(`CLI Command started: ${command} ${args}`);
+      logger.info(`CLI Command started: ${cmdString}`);
 
       // Start child process
       const result = child.spawnSync(...getSpawnArguments(command, args, shell.assembleShellEnv(), shellOpts));
 
       // Log command
-      logger.info(`CLI Command finished: ${command}`);
+      logger.info(`CLI Command finished: ${cmdString}`);
 
       return this.removeANSIcolors(result.stdout.toString());
     } catch (error) {
-      throw new Error(`runCommandSync failed!\nCommand: ${command}\nError: ${error}`);
+      throw new Error(`runCommandSync failed!\nCommand: ${cmdString}\nError: ${error}`);
     }
   },
 

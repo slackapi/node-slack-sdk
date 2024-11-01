@@ -111,7 +111,7 @@ export class SlackCLIProcess {
   }
 
   private assembleShellInvocation(): string[] {
-    let cmd = [`${process.env.SLACK_CLI_PATH}`];
+    let cmd: string[] = [];
     if (this.globalOptions) {
       const opts = this.globalOptions;
       // Determine API host target
