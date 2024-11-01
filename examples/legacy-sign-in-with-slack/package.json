@@ -11,7 +11,7 @@
   "repository": "slackapi/node-slack-sdk",
   "dependencies": {
     "@koa/router": "^13.0.0",
-    "@slack/bolt": "^3.21.2",
+    "@slack/bolt": "^4.1.0",
     "koa": "^2.13.1",
     "uuid": "^10.0.0"
   }
