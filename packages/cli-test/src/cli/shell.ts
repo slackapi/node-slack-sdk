@@ -262,7 +262,13 @@ function getSpawnArguments(
   if (process.platform === 'win32') {
     // In windows, we actually spawn a command prompt and tell it to invoke the CLI command.
     // The combination of windows and node's child_process spawning is complicated: on windows, child_process strips quotes from arguments. This makes passing JSON difficult.
-    // As a workaround, by telling Windows Command Prompt (cmd.exe) to execute a command to completion (/c) and leave spaces intact (/s), combined with feeding arguments as an argument array into child_process, we can get around this mess.
+    // As a workaround, we:
+    // 1. Wrap the CLI command with a Windows Command Prompt (cmd.exe) process, and
+    // 2. Execute the command to completion (via the /c option), and
+    // 3. Leave spaces intact (via the /s option), and
+    // 4. Feed the arguments as an argument array into `child_process.spawn`.
+    // End-result is a process that looks like:
+    // cmd.exe "/s" "/c" "slack" "app" "list"
     const windowsArgs = ['/s', '/c'].concat([command]).concat(args);
     return [
       'cmd',
