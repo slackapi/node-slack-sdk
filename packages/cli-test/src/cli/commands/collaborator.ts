@@ -11,7 +11,7 @@ export interface CollaboratorEmail {
  * @returns command output
  */
 export const add = async function collaboratorsAdd(args: ProjectCommandArguments & CollaboratorEmail): Promise<string> {
-  const cmd = new SlackCLIProcess(`collaborators add ${args.collaboratorEmail}`, args);
+  const cmd = new SlackCLIProcess(['collaborators', 'add', args.collaboratorEmail], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -23,7 +23,7 @@ export const add = async function collaboratorsAdd(args: ProjectCommandArguments
  * @returns command output
  */
 export const list = async function collaboratorsList(args: ProjectCommandArguments): Promise<string> {
-  const cmd = new SlackCLIProcess('collaborators list', args);
+  const cmd = new SlackCLIProcess(['collaborators', 'list'], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -38,7 +38,7 @@ export const list = async function collaboratorsList(args: ProjectCommandArgumen
 export const remove = async function collaboratorsRemove(
   args: ProjectCommandArguments & CollaboratorEmail,
 ): Promise<string> {
-  const cmd = new SlackCLIProcess(`collaborators remove ${args.collaboratorEmail}`, args);
+  const cmd = new SlackCLIProcess(['collaborators', 'remove', args.collaboratorEmail], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });

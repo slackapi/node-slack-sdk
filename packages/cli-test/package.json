@@ -4,16 +4,10 @@
   "description": "Node.js bindings for the Slack CLI for use in automated testing",
   "author": "Salesforce, Inc.",
   "license": "MIT",
-  "keywords": [
-    "slack",
-    "cli",
-    "test"
-  ],
+  "keywords": ["slack", "cli", "test"],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist/**/*"
-  ],
+  "files": ["dist/**/*"],
   "engines": {
     "node": ">=18.15.5"
   },

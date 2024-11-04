@@ -12,11 +12,11 @@ import { type SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
 type AccessChangeArguments = {
   info?: boolean;
 } & (
-    | GroupAccessChangeArguments
-    | UserAccessChangeArguments
-    | ChannelAccessChangeArguments
-    | OrganizationAccessChangeArguments
-  );
+  | GroupAccessChangeArguments
+  | UserAccessChangeArguments
+  | ChannelAccessChangeArguments
+  | OrganizationAccessChangeArguments
+);
 
 export interface TriggerIdArgument {
   /** @description ID of the trigger being targeted. */
@@ -69,7 +69,7 @@ export const access = async function triggerAccess(
   } else {
     throw new Error('When setting trigger access, you must specify a target for whom to give access to.');
   }
-  const cmd = new SlackCLIProcess('trigger access', args, cmdOpts);
+  const cmd = new SlackCLIProcess(['trigger', 'access'], args, cmdOpts);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -122,7 +122,7 @@ export const create = async function triggerCreate(args: ProjectCommandArguments
       }
     }
   }
-  const cmd = new SlackCLIProcess('trigger create', args, cmdOpts);
+  const cmd = new SlackCLIProcess(['trigger', 'create'], args, cmdOpts);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -134,7 +134,7 @@ export const create = async function triggerCreate(args: ProjectCommandArguments
  * @returns command output
  */
 export const del = async function triggerDelete(args: ProjectCommandArguments & TriggerIdArgument): Promise<string> {
-  const cmd = new SlackCLIProcess('trigger delete', args, {
+  const cmd = new SlackCLIProcess(['trigger', 'delete'], args, {
     '--trigger-id': args.triggerId,
   });
   const proc = await cmd.execAsync({
@@ -148,7 +148,7 @@ export const del = async function triggerDelete(args: ProjectCommandArguments & 
  * @returns command output
  */
 export const info = async function triggerInfo(args: ProjectCommandArguments & TriggerIdArgument): Promise<string> {
-  const cmd = new SlackCLIProcess('trigger info', args, {
+  const cmd = new SlackCLIProcess(['trigger', 'info'], args, {
     '--trigger-id': args.triggerId,
   });
   const proc = await cmd.execAsync({
@@ -179,7 +179,7 @@ export const list = async function triggerList(
   if (args.type) {
     cmdOpts['--type'] = args.type;
   }
-  const cmd = new SlackCLIProcess('trigger list', args, cmdOpts);
+  const cmd = new SlackCLIProcess(['trigger', 'list'], args, cmdOpts);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -215,7 +215,7 @@ export const update = async function triggerUpdate(
       cmdOpts['--interactivity-name'] = args.interactivityName;
     }
   }
-  const cmd = new SlackCLIProcess('trigger update', args, cmdOpts);
+  const cmd = new SlackCLIProcess(['trigger', 'update'], args, cmdOpts);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });

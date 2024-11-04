@@ -20,7 +20,7 @@ export const create = async function create(
       cmdOpts['--branch'] = args.branch;
     }
   }
-  const cmd = new SlackCLIProcess(`create ${args.appPath}`, args, cmdOpts);
+  const cmd = new SlackCLIProcess(['create', args.appPath], args, cmdOpts);
   const proc = await cmd.execAsync();
   return proc.output;
 };

@@ -25,18 +25,30 @@ describe('create', () => {
   describe('method', () => {
     it('should invoke `create <appPath>`', async () => {
       await create({ appPath: 'myApp' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('create myApp'));
+      sandbox.assert.calledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['create', 'myApp']));
     });
     it('should invoke `create <appPath> --template` if template specified', async () => {
       await create({ appPath: 'myApp', template: 'slack-samples/deno-hello-world' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('create myApp'));
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--template slack-samples/deno-hello-world'));
+      sandbox.assert.calledWith(
+        spawnSpy,
+        sinon.match.string,
+        sinon.match.array.contains(['create', 'myApp', '--template', 'slack-samples/deno-hello-world']),
+      );
     });
     it('should invoke `create <appPath> --template --branch` if both template and branch specified', async () => {
       await create({ appPath: 'myApp', template: 'slack-samples/deno-hello-world', branch: 'feat-functions' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('create myApp'));
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--template slack-samples/deno-hello-world'));
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--branch feat-functions'));
+      sandbox.assert.calledWith(
+        spawnSpy,
+        sinon.match.string,
+        sinon.match.array.contains([
+          'create',
+          'myApp',
+          '--template',
+          'slack-samples/deno-hello-world',
+          '--branch',
+          'feat-functions',
+        ]),
+      );
     });
   });
 });

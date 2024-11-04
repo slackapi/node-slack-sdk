@@ -12,28 +12,26 @@ export const shell = {
    * Spawns a shell command
    * - Start child process with the command
    * - Listen to data output events and collect them
-   * @param command The command to run, e.g. `echo "hi"`
+   * @param command The command to run, e.g. echo, cat, slack.exe
+   * @param args The arguments for the command, e.g. 'hi', '--skip-update'
    * @param shellOpts Options to customize shell execution
    * @returns command output
    */
   spawnProcess: function spawnProcess(
     command: string,
+    args: string[],
     shellOpts?: Partial<child.SpawnOptionsWithoutStdio>,
   ): ShellProcess {
+    const cmdString = `${command} ${args.join(' ')}`;
     try {
-      // Start child process
-      const childProcess = child.spawn(`${command}`, {
-        shell: true,
-        env: shell.assembleShellEnv(),
-        ...shellOpts,
-      });
+      const childProcess = child.spawn(...getSpawnArguments(command, args, shell.assembleShellEnv(), shellOpts));
 
       // Set shell object
       const sh: ShellProcess = {
         process: childProcess,
         output: '',
         finished: false,
-        command,
+        command: cmdString,
       };
 
       // Log command
@@ -63,7 +61,7 @@ export const shell = {
 
       return sh;
     } catch (error) {
-      throw new Error(`spawnProcess failed!\nCommand: ${command}\nError: ${error}`);
+      throw new Error(`spawnProcess failed!\nCommand: ${cmdString}\nError: ${error}`);
     }
   },
 
@@ -71,31 +69,30 @@ export const shell = {
    * Run shell command synchronously
    * - Execute child process with the command
    * - Wait for the command to complete and return the standard output
-   * @param command cli command
+   * @param command The command to run, e.g. echo, cat, slack.exe
+   * @param args The arguments for the command, e.g. 'hi', '--skip-update'
    * @param shellOpts various shell spawning options available to customize
    * @returns command stdout
    */
   runCommandSync: function runSyncCommand(
     command: string,
+    args: string[],
     shellOpts?: Partial<child.SpawnOptionsWithoutStdio>,
   ): string {
+    const cmdString = `${command} ${args.join(' ')}`;
     try {
       // Log command
-      logger.info(`CLI Command started: ${command}`);
+      logger.info(`CLI Command started: ${cmdString}`);
 
       // Start child process
-      const result = child.spawnSync(`${command}`, {
-        shell: true,
-        env: shell.assembleShellEnv(),
-        ...shellOpts,
-      });
+      const result = child.spawnSync(...getSpawnArguments(command, args, shell.assembleShellEnv(), shellOpts));
 
       // Log command
-      logger.info(`CLI Command finished: ${command}`);
+      logger.info(`CLI Command finished: ${cmdString}`);
 
       return this.removeANSIcolors(result.stdout.toString());
     } catch (error) {
-      throw new Error(`runCommandSync failed!\nCommand: ${command}\nError: ${error}`);
+      throw new Error(`runCommandSync failed!\nCommand: ${cmdString}\nError: ${error}`);
     }
   },
 
@@ -252,3 +249,44 @@ export const shell = {
     });
   },
 };
+
+/**
+ * @description Returns arguments used to pass into child_process.spawn or spawnSync. Handles Windows-specifics hacks.
+ */
+function getSpawnArguments(
+  command: string,
+  args: string[],
+  env: ReturnType<typeof shell.assembleShellEnv>,
+  shellOpts?: Partial<child.SpawnOptionsWithoutStdio>,
+): [string, string[], child.SpawnOptionsWithoutStdio] {
+  if (process.platform === 'win32') {
+    // In windows, we actually spawn a command prompt and tell it to invoke the CLI command.
+    // The combination of windows and node's child_process spawning is complicated: on windows, child_process strips quotes from arguments. This makes passing JSON difficult.
+    // As a workaround, we:
+    // 1. Wrap the CLI command with a Windows Command Prompt (cmd.exe) process, and
+    // 2. Execute the command to completion (via the /c option), and
+    // 3. Leave spaces intact (via the /s option), and
+    // 4. Feed the arguments as an argument array into `child_process.spawn`.
+    // End-result is a process that looks like:
+    // cmd.exe "/s" "/c" "slack" "app" "list"
+    const windowsArgs = ['/s', '/c'].concat([command]).concat(args);
+    return [
+      'cmd',
+      windowsArgs,
+      {
+        shell: true,
+        env,
+        ...shellOpts,
+      },
+    ];
+  }
+  return [
+    command,
+    args,
+    {
+      shell: true,
+      env,
+      ...shellOpts,
+    },
+  ];
+}

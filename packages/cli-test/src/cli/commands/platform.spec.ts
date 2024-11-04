@@ -31,19 +31,21 @@ describe('platform commands', () => {
   describe('activity method', () => {
     it('should invoke `activity`', async () => {
       await platform.activity({ appPath: '/some/path' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('activity'));
+      sandbox.assert.calledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['activity']));
     });
     it('should invoke `activity` with specified `source`', async () => {
       await platform.activity({ appPath: '/some/path', source: 'slack' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('activity'));
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--source slack'));
+      sandbox.assert.calledWith(
+        spawnSpy,
+        sinon.match.string,
+        sinon.match.array.contains(['activity', '--source', 'slack']),
+      );
     });
   });
   describe('activityTailStart method', () => {
     it('should invoke `activity --tail`', async () => {
       await platform.activityTailStart({ appPath: '/some/path', stringToWaitFor: 'poop' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('activity'));
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--tail'));
+      sandbox.assert.calledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['activity', '--tail']));
     });
   });
   describe('activityTailStop method', () => {
@@ -64,31 +66,36 @@ describe('platform commands', () => {
   describe('deploy method', () => {
     it('should invoke `deploy` with --hide-triggers by default', async () => {
       await platform.deploy({ appPath: '/some/path' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('deploy'));
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--hide-triggers'));
+      sandbox.assert.calledWith(
+        spawnSpy,
+        sinon.match.string,
+        sinon.match.array.contains(['deploy', '--hide-triggers']),
+      );
     });
     it('should invoke `deploy` without --hide-triggers if hideTriggers=false', async () => {
       await platform.deploy({ appPath: '/some/path', hideTriggers: false });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('deploy'));
-      sandbox.assert.neverCalledWith(spawnSpy, sinon.match('--hide-triggers'));
+      sandbox.assert.calledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['deploy']));
+      sandbox.assert.neverCalledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['--hide-triggers']));
     });
   });
   describe('runStart method', () => {
     it('should invoke `run` with --cleanup and --hide-triggers by default', async () => {
       await platform.runStart({ appPath: '/some/path' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('run'));
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--cleanup'));
-      sandbox.assert.calledWith(spawnSpy, sinon.match('--hide-triggers'));
+      sandbox.assert.calledWith(
+        spawnSpy,
+        sinon.match.string,
+        sinon.match.array.contains(['run', '--cleanup', '--hide-triggers']),
+      );
     });
     it('should invoke `run` without --hide-triggers if hideTriggers=false', async () => {
       await platform.runStart({ appPath: '/some/path', hideTriggers: false });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('run'));
-      sandbox.assert.neverCalledWith(spawnSpy, sinon.match('--hide-triggers'));
+      sandbox.assert.calledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['run']));
+      sandbox.assert.neverCalledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['--hide-triggers']));
     });
     it('should invoke `run` without --cleanup if cleanup=false', async () => {
       await platform.runStart({ appPath: '/some/path', cleanup: false });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('run'));
-      sandbox.assert.neverCalledWith(spawnSpy, sinon.match('--cleanup'));
+      sandbox.assert.calledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['run']));
+      sandbox.assert.neverCalledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['--cleanup']));
     });
   });
   describe('runStop method', () => {

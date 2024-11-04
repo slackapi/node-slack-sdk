@@ -15,6 +15,13 @@ export interface DatastoreCommandArguments {
 }
 
 /**
+ * Used to escape double quotes in JSON strings; this is needed when JSON is passed as a command line argument, which for the datastore commands, it is.
+ */
+function escapeJSON(obj: Record<string, unknown>): string {
+  return `"${JSON.stringify(obj).replace(/"/g, '\\"')}"`;
+}
+
+/**
  * `slack datastore get`
  * @returns command output
  */
@@ -23,10 +30,9 @@ export const datastoreGet = async function datastoreGet(
 ): Promise<string> {
   const getQueryObj = {
     datastore: args.datastoreName,
-    id: args.primaryKeyValue
+    id: args.primaryKeyValue,
   };
-  const getQuery = JSON.stringify(getQueryObj);
-  const cmd = new SlackCLIProcess(`datastore get '${getQuery}'`, args);
+  const cmd = new SlackCLIProcess(['datastore', 'get', escapeJSON(getQueryObj)], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -42,10 +48,9 @@ export const datastoreDelete = async function datastoreDelete(
 ): Promise<string> {
   const deleteQueryObj = {
     datastore: args.datastoreName,
-    id: args.primaryKeyValue
+    id: args.primaryKeyValue,
   };
-  const deleteQuery = JSON.stringify(deleteQueryObj);
-  const cmd = new SlackCLIProcess(`datastore delete '${deleteQuery}'`, args);
+  const cmd = new SlackCLIProcess(['datastore', 'delete', escapeJSON(deleteQueryObj)], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -61,13 +66,9 @@ export const datastorePut = async function datastorePut(
 ): Promise<string> {
   const putQueryObj = {
     datastore: args.datastoreName,
-    item: args.putItem
+    item: args.putItem,
   };
-  const putQuery = JSON.stringify(putQueryObj);
-  const cmd = new SlackCLIProcess(
-    `datastore put '${putQuery}'`,
-    args,
-  );
+  const cmd = new SlackCLIProcess(['datastore', 'put', escapeJSON(putQueryObj)], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -79,18 +80,15 @@ export const datastorePut = async function datastorePut(
  * @returns command output
  */
 export const datastoreQuery = async function datastoreQuery(
-  args: ProjectCommandArguments & Pick<DatastoreCommandArguments, 'datastoreName' | 'queryExpression' | 'queryExpressionValues'>,
+  args: ProjectCommandArguments &
+    Pick<DatastoreCommandArguments, 'datastoreName' | 'queryExpression' | 'queryExpressionValues'>,
 ): Promise<string> {
   const queryObj = {
     datastore: args.datastoreName,
     expression: args.queryExpression,
-    expression_values: args.queryExpressionValues
+    expression_values: args.queryExpressionValues,
   };
-  const query = JSON.stringify(queryObj);
-  const cmd = new SlackCLIProcess(
-    `datastore query '${query}'`,
-    args,
-  );
+  const cmd = new SlackCLIProcess(['datastore', 'query', escapeJSON(queryObj)], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });

@@ -16,7 +16,7 @@ export const info = async function manifestInfo(
   const cmdOpts: SlackCLICommandOptions = {
     '--source': args.source || 'project',
   };
-  const cmd = new SlackCLIProcess('manifest info', args, cmdOpts);
+  const cmd = new SlackCLIProcess(['manifest', 'info'], args, cmdOpts);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -28,7 +28,7 @@ export const info = async function manifestInfo(
  * @returns command output
  */
 export const validate = async function manifestValidate(args: ProjectCommandArguments): Promise<string> {
-  const cmd = new SlackCLIProcess('manifest validate', args);
+  const cmd = new SlackCLIProcess(['manifest', 'validate'], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });

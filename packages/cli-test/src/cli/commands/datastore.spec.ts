@@ -25,35 +25,37 @@ describe('datastore commands', () => {
   describe('get method', () => {
     it('should invoke `datastore get <query>`', async () => {
       await datastore.datastoreGet({ appPath: '/some/path', datastoreName: 'datastore', primaryKeyValue: '1' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('datastore get'));
+      sandbox.assert.calledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['datastore', 'get']));
     });
   });
   describe('delete method', () => {
     it('should invoke `datastore delete <query>`', async () => {
       await datastore.datastoreDelete({ appPath: '/some/path', datastoreName: 'datastore', primaryKeyValue: '1' });
-      sandbox.assert.calledWith(spawnSpy, sinon.match('datastore delete'));
+      sandbox.assert.calledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['datastore', 'delete']));
     });
   });
   describe('put method', () => {
     it('should invoke `datastore put [item details]`', async () => {
       const itemObj = {
-        id: "1",
-        content: "text"
+        id: '1',
+        content: 'text',
       };
       await datastore.datastorePut({ appPath: '/some/path', datastoreName: 'datastore', putItem: itemObj });
-      sandbox.assert.calledWith(
-        spawnSpy,
-        sinon.match('datastore put'),
-      );
+      sandbox.assert.calledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['datastore', 'put']));
     });
   });
   describe('query method', () => {
     it('should invoke `datastore query [expression]`', async () => {
       const expressObj = {
-        id: "1",
+        id: '1',
       };
-      await datastore.datastoreQuery({ appPath: '/some/path',  datastoreName: 'datastore', queryExpression: 'id = :id', queryExpressionValues: expressObj});
-      sandbox.assert.calledWith(spawnSpy, sinon.match('datastore query'));
+      await datastore.datastoreQuery({
+        appPath: '/some/path',
+        datastoreName: 'datastore',
+        queryExpression: 'id = :id',
+        queryExpressionValues: expressObj,
+      });
+      sandbox.assert.calledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['datastore', 'query']));
     });
   });
 });
