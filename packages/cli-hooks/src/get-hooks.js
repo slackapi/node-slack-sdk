@@ -45,9 +45,9 @@ if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
 export default function getHooks() {
   return {
     hooks: {
-      doctor: 'npx -q --no-install -p @slack/cli-hooks slack-cli-doctor',
-      'check-update': 'npx -q --no-install -p @slack/cli-hooks slack-cli-check-update',
-      'get-manifest': 'npx -q --no-install -p @slack/cli-hooks slack-cli-get-manifest',
+      doctor: 'NODE_NO_WARNINGS=1 npx -q --no-install -p @slack/cli-hooks slack-cli-doctor',
+      'check-update': 'NODE_NO_WARNINGS=1 npx -q --no-install -p @slack/cli-hooks slack-cli-check-update',
+      'get-manifest': 'NODE_NO_WARNINGS=1 npx -q --no-install -p @slack/cli-hooks slack-cli-get-manifest',
       start: 'npx -q --no-install -p @slack/cli-hooks slack-cli-start',
     },
     config: {
