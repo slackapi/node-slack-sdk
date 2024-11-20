@@ -43,6 +43,8 @@ if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
  * @returns {SDKInterface} Information about the hooks currently supported.
  */
 export default function getHooks() {
+  // NODE_NO_WARNINGS=1 silences node process warnings. These warnings can occur
+  // on some node version (e.g. v23.2.0) and cause invalid JSON hook responses.
   return {
     hooks: {
       doctor: 'NODE_NO_WARNINGS=1 npx -q --no-install -p @slack/cli-hooks slack-cli-doctor',

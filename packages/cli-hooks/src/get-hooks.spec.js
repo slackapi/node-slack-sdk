@@ -6,9 +6,13 @@ import getHooks from './get-hooks.js';
 describe('get-hooks implementation', async () => {
   it('should return scripts for required hooks', async () => {
     const { hooks } = getHooks();
-    assert(hooks.doctor === 'npx -q --no-install -p @slack/cli-hooks slack-cli-doctor');
-    assert(hooks['check-update'] === 'npx -q --no-install -p @slack/cli-hooks slack-cli-check-update');
-    assert(hooks['get-manifest'] === 'npx -q --no-install -p @slack/cli-hooks slack-cli-get-manifest');
+    assert(hooks.doctor === 'NODE_NO_WARNINGS=1 npx -q --no-install -p @slack/cli-hooks slack-cli-doctor');
+    assert(
+      hooks['check-update'] === 'NODE_NO_WARNINGS=1 npx -q --no-install -p @slack/cli-hooks slack-cli-check-update',
+    );
+    assert(
+      hooks['get-manifest'] === 'NODE_NO_WARNINGS=1 npx -q --no-install -p @slack/cli-hooks slack-cli-get-manifest',
+    );
     assert(hooks.start === 'npx -q --no-install -p @slack/cli-hooks slack-cli-start');
   });
 
