@@ -42,7 +42,7 @@ export function DefaultProtocol(args) {
   // If the particular hook invocation is requesting manifest generation we
   // ensure any logging is a no-op to prevent littering stdout with logging
   // and confusing the CLI's manifest JSON payload parsing.
-  const loggerMethod = manifestOnly ? () => { } : console.log;
+  const loggerMethod = manifestOnly ? () => {} : console.log;
   return {
     name: DEFAULT_PROTOCOL,
     log: loggerMethod,

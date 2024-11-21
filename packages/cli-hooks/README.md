@@ -76,7 +76,7 @@ Below is an example `slack.json` file that overrides the default `start` hook:
 ```json
 {
   "hooks": {
-    "get-hooks": "npx -q --no-install -p @slack/cli-hooks slack-cli-get-hooks",
+    "get-hooks": "NODE_NO_WARNINGS=1 npx -q --no-install -p @slack/cli-hooks slack-cli-get-hooks",
     "start": "npm run dev"
   }
 }
