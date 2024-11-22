@@ -42,9 +42,9 @@ describe('Integration tests with a WebSocket server', () => {
     });
   });
   afterEach(async () => {
-    server.close();
+    if (server) server.close();
     server = null;
-    wss.close();
+    if (wss) wss.close();
     wss = null;
     exposed_ws_connection = null;
     if (client) {
@@ -131,7 +131,7 @@ describe('Integration tests with a WebSocket server', () => {
     });
   });
   describe('unexpected socket messages sent to client', () => {
-    const debugLoggerSpy = sinon.stub().callsFake(console.debug); // add the following to expose further logging: .callsFake(console.log);
+    const debugLoggerSpy = sinon.stub(); // add the following to expose further logging: .callsFake(console.log);
     const noop = () => {};
     beforeEach(() => {
       client = new SocketModeClient({
@@ -139,10 +139,11 @@ describe('Integration tests with a WebSocket server', () => {
         clientOptions: {
           slackApiUrl: `http://localhost:${HTTP_PORT}/`,
         },
+        logLevel: 'debug',
         logger: {
           debug: debugLoggerSpy,
-          info: debugLoggerSpy,
-          error: debugLoggerSpy,
+          info: noop,
+          error: noop,
           getLevel: () => 'debug',
         },
       });
@@ -168,9 +169,19 @@ describe('Integration tests with a WebSocket server', () => {
       assert.isTrue(debugLoggerSpy.calledWith(sinon.match('Unable to parse an incoming WebSocket message')));
       await client.disconnect();
     });
-    it('should (TODO: do what?) if WSS server sends unexpected HTTP response during handshake, like a 409', async () => {
+    it('should maintain one serial reconnection attempt if WSS server sends unexpected HTTP response during handshake, like a 409', async () => {
+      // override socket mode client instance with lower client ping timeout, which controls reconnection rate
+      client = new SocketModeClient({
+        appToken: 'whatever',
+        clientOptions: {
+          slackApiUrl: `http://localhost:${HTTP_PORT}/`,
+        },
+        clientPingTimeout: 20,
+        logLevel: 'debug',
+      });
       // shut down the default mock WS server used in these tests as we will customize its behaviour in this test
       wss.close();
+      wss = null;
       // custom HTTP server that blows up during initial WS handshake
       const badServer = createServer((_req, res) => {
         res.writeHead(409, { 'content-type': 'application/json' });
@@ -181,9 +192,23 @@ describe('Integration tests with a WebSocket server', () => {
         );
       });
       badServer.listen(WSS_PORT);
-      await client.start();
-      // TODO: what to assert on? What is expected behaviour?
+      let closed = 0;
+      client.on('close', () => {
+        closed++;
+      });
+      // do not use await here, since `start()` won't return until the connection is established. we are intentionally testing the connection establishment failure, so that will never finish. so, let's run this in a rogue "thread"!
+      client.start();
+      await sleep(50);
+      // after 50ms, with a timeout of 20ms, we would expect 2 retries by this point.
+      assert.equal(closed, 2, 'unexpected number of times `close` event was raised during reconnection!');
       await client.disconnect();
+      await new Promise((res, rej) => {
+        // shut down the bad server
+        badServer.close((err) => {
+          if (err) rej(err);
+          else res();
+        });
+      });
     });
   });
   describe('lifecycle events', () => {
