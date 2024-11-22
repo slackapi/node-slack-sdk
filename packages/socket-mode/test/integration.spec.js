@@ -90,7 +90,7 @@ describe('Integration tests with a WebSocket server', () => {
       await client.disconnect();
     });
   });
-  describe('catastrophic server behaviour', () => {
+  describe('`apps.connections.open` API failure modes', () => {
     beforeEach(() => {
       client = new SocketModeClient({
         appToken: 'whatever',
@@ -130,8 +130,8 @@ describe('Integration tests with a WebSocket server', () => {
       await client.disconnect();
     });
   });
-  describe('failure modes / unexpected messages sent to client', () => {
-    const debugLoggerSpy = sinon.stub(); // add the following to expose further logging: .callsFake(console.log);
+  describe('unexpected socket messages sent to client', () => {
+    const debugLoggerSpy = sinon.stub().callsFake(console.debug); // add the following to expose further logging: .callsFake(console.log);
     const noop = () => {};
     beforeEach(() => {
       client = new SocketModeClient({
@@ -141,8 +141,8 @@ describe('Integration tests with a WebSocket server', () => {
         },
         logger: {
           debug: debugLoggerSpy,
-          info: noop,
-          error: noop,
+          info: debugLoggerSpy,
+          error: debugLoggerSpy,
           getLevel: () => 'debug',
         },
       });
@@ -166,6 +166,23 @@ describe('Integration tests with a WebSocket server', () => {
       await client.start();
       await sleep(10);
       assert.isTrue(debugLoggerSpy.calledWith(sinon.match('Unable to parse an incoming WebSocket message')));
+      await client.disconnect();
+    });
+    it('should (TODO: do what?) if WSS server sends unexpected HTTP response during handshake, like a 409', async () => {
+      // shut down the default mock WS server used in these tests as we will customize its behaviour in this test
+      wss.close();
+      // custom HTTP server that blows up during initial WS handshake
+      const badServer = createServer((_req, res) => {
+        res.writeHead(409, { 'content-type': 'application/json' });
+        res.end(
+          JSON.stringify({
+            message: 'Unexpected server response: 409',
+          }),
+        );
+      });
+      badServer.listen(WSS_PORT);
+      await client.start();
+      // TODO: what to assert on? What is expected behaviour?
       await client.disconnect();
     });
   });
