@@ -132,7 +132,7 @@ describe('Integration tests with a WebSocket server', () => {
   });
   describe('unexpected socket messages sent to client', () => {
     const debugLoggerSpy = sinon.stub(); // add the following to expose further logging: .callsFake(console.log);
-    const noop = () => { };
+    const noop = () => {};
     beforeEach(() => {
       client = new SocketModeClient({
         appToken: 'whatever',
