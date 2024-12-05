@@ -26,6 +26,11 @@ jobs:
           - webhook
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Configure git settings (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          git config --global core.autocrlf false
+          git config --global core.eol lf
       - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4

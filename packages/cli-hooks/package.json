@@ -34,7 +34,8 @@
     "prebuild": "shx rm -rf ./coverage",
     "build": "shx chmod +x src/*.js",
     "prelint": "tsc --noemit --module es2022 --maxNodeModuleJsDepth 0 --project ./jsconfig.json",
-    "lint": "npx @biomejs/biome check --write .",
+    "lint": "npx @biomejs/biome check .",
+    "lint:fix": "npx @biomejs/biome check --write .",
     "pretest": "npm run lint",
     "test": "c8 mocha src/*.spec.js"
   },
