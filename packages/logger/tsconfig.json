@@ -16,9 +16,7 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "*": [
-        "./types/*"
-      ]
+      "*": ["./types/*"]
     },
     "esModuleInterop": true
     // Not using this setting because its only used to require the package.json file, and that would change the
@@ -26,12 +24,8 @@
     // to use import instead of require(), but its not worth the tradeoff of restructuring the build (for now).
     // "resolveJsonModule": true,
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "src/**/*.spec.*"
-  ],
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.spec.*"],
   "jsdoc": {
     "out": "support/jsdoc",
     "access": "public"
