@@ -19,9 +19,10 @@
     "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
   "scripts": {
-    "lint": "npx @biomejs/biome check --write .",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
+    "lint": "npx @biomejs/biome check .",
+    "lint:fix": "npx @biomejs/biome check --write .",
     "prepare": "npm run build",
     "mocha": "cross-env SLACK_CLI_PATH=/doesnt/matter mocha --config .mocharc.json src/*.spec.ts src/**/*.spec.ts src/**/**/*.spec.ts",
     "test": "npm run lint && npm run build && c8 npm run mocha"
