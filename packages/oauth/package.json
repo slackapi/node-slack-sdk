@@ -4,17 +4,9 @@
   "description": "Official library for interacting with Slack's Oauth endpoints",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
-  "keywords": [
-    "slack",
-    "oauth",
-    "bot",
-    "http",
-    "api"
-  ],
+  "keywords": ["slack", "oauth", "bot", "http", "api"],
   "main": "dist/index.js",
-  "files": [
-    "dist/**/*"
-  ],
+  "files": ["dist/**/*"],
   "engines": {
     "node": ">=18",
     "npm": ">=8.6.0"

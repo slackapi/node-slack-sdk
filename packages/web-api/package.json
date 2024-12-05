@@ -4,22 +4,10 @@
   "description": "Official library for using the Slack Platform's Web API",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
-  "keywords": [
-    "slack",
-    "web-api",
-    "bot",
-    "client",
-    "http",
-    "api",
-    "proxy",
-    "rate-limiting",
-    "pagination"
-  ],
+  "keywords": ["slack", "web-api", "bot", "client", "http", "api", "proxy", "rate-limiting", "pagination"],
   "main": "dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist/**/*"
-  ],
+  "files": ["dist/**/*"],
   "engines": {
     "node": ">= 18",
     "npm": ">= 8.6.0"
