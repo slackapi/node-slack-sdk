@@ -26,7 +26,7 @@ jobs:
           - webhook
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Configure git settings for windows
+      - name: Configure git settings (Windows)
         if: matrix.os == 'windows-latest'
         run: |
           git config --global core.eol lf
