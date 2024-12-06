@@ -111,29 +111,28 @@ export class SlackWebSocket {
       agent: this.options.httpAgent,
     };
 
-    const ws = new WebSocket(this.options.url, options);
+    this.websocket = new WebSocket(this.options.url, options);
 
-    ws.addEventListener('open', (_event) => {
+    this.websocket.addEventListener('open', (_event) => {
       this.logger.debug('WebSocket open event received (connection established)!');
-      this.websocket = ws;
       this.monitorPingToSlack();
     });
-    ws.addEventListener('error', (event) => {
+    this.websocket.addEventListener('error', (event) => {
       this.logger.error(`WebSocket error occurred: ${event.message}`);
       this.disconnect();
       this.options.client.emit('error', websocketErrorWithOriginal(event.error));
     });
-    ws.on('message', (msg, isBinary) => {
+    this.websocket.on('message', (msg, isBinary) => {
       this.options.client.emit('ws_message', msg, isBinary);
     });
-    ws.on('close', (code: number, data: Buffer) => {
+    this.websocket.on('close', (code: number, data: Buffer) => {
       this.logger.debug(`WebSocket close frame received (code: ${code}, reason: ${data.toString()})`);
       this.closeFrameReceived = true;
       this.disconnect();
     });
 
     // Confirm WebSocket connection is still active
-    ws.on('ping', (data) => {
+    this.websocket.on('ping', (data) => {
       // Note that ws' `autoPong` option is true by default, so no need to respond to ping.
       // see https://github.com/websockets/ws/blob/2aa0405a5e96754b296fef6bd6ebdfb2f11967fc/doc/ws.md#new-websocketaddress-protocols-options
       if (this.options.pingPongLoggingEnabled) {
@@ -142,7 +141,7 @@ export class SlackWebSocket {
       this.monitorPingFromSlack();
     });
 
-    ws.on('pong', (data) => {
+    this.websocket.on('pong', (data) => {
       if (this.options.pingPongLoggingEnabled) {
         this.logger.debug(`WebSocket received pong from Slack server (data: ${data.toString()})`);
       }

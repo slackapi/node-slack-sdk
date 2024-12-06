@@ -229,9 +229,13 @@ export class SocketModeClient extends EventEmitter {
     this.logger.debug(`Before trying to reconnect, this client will wait for ${msBeforeRetry} milliseconds`);
     return new Promise((res, _rej) => {
       setTimeout(() => {
-        this.logger.debug('Continuing with reconnect...');
-        this.emit(State.Reconnecting);
-        cb.apply(this).then(res);
+        if (this.shuttingDown) {
+          this.logger.debug('Client shutting down, will not attempt reconnect.');
+        } else {
+          this.logger.debug('Continuing with reconnect...');
+          this.emit(State.Reconnecting);
+          cb.apply(this).then(res);
+        }
       }, msBeforeRetry);
     });
   }

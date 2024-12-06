@@ -61,10 +61,7 @@ function errorWithCode(error: Error, code: ErrorCode): CodedError {
  * A factory to create SMWebsocketError objects.
  */
 export function websocketErrorWithOriginal(original: Error): SMWebsocketError {
-  const error = errorWithCode(
-    new Error(`Failed to send message on websocket: ${original.message}`),
-    ErrorCode.WebsocketError,
-  ) as Partial<SMWebsocketError>;
+  const error = errorWithCode(new Error(original.message), ErrorCode.WebsocketError) as Partial<SMWebsocketError>;
   error.original = original;
   return error as SMWebsocketError;
 }
