@@ -235,13 +235,19 @@ export function getAllFileUploadsToComplete(
     if (file_id) {
       const compareString = `:::${channel_id}:::${thread_ts}:::${initial_comment}`;
       if (!Object.prototype.hasOwnProperty.call(toComplete, compareString)) {
-        toComplete[compareString] = {
-          files: [{ id: file_id, title }],
-          channel_id,
-          initial_comment,
-        };
-        if (thread_ts) {
-          toComplete[compareString].thread_ts = upload.thread_ts;
+        if (channel_id && thread_ts) {
+          toComplete[compareString] = {
+            files: [{ id: file_id, title }],
+            channel_id,
+            initial_comment,
+            thread_ts,
+          };
+        } else {
+          toComplete[compareString] = {
+            files: [{ id: file_id, title }],
+            channel_id,
+            initial_comment,
+          };
         }
         if ('token' in upload) {
           toComplete[compareString].token = upload.token;
