@@ -42,9 +42,9 @@ describe('Integration tests with a WebSocket server', () => {
     });
   });
   afterEach(async () => {
-    server.close();
+    if (server) server.close();
     server = null;
-    wss.close();
+    if (wss) wss.close();
     wss = null;
     exposed_ws_connection = null;
     if (client) {
@@ -90,7 +90,7 @@ describe('Integration tests with a WebSocket server', () => {
       await client.disconnect();
     });
   });
-  describe('catastrophic server behaviour', () => {
+  describe('`apps.connections.open` API failure modes', () => {
     beforeEach(() => {
       client = new SocketModeClient({
         appToken: 'whatever',
@@ -130,7 +130,7 @@ describe('Integration tests with a WebSocket server', () => {
       await client.disconnect();
     });
   });
-  describe('failure modes / unexpected messages sent to client', () => {
+  describe('unexpected socket messages sent to client', () => {
     const debugLoggerSpy = sinon.stub(); // add the following to expose further logging: .callsFake(console.log);
     const noop = () => {};
     beforeEach(() => {
@@ -139,6 +139,7 @@ describe('Integration tests with a WebSocket server', () => {
         clientOptions: {
           slackApiUrl: `http://localhost:${HTTP_PORT}/`,
         },
+        logLevel: 'debug',
         logger: {
           debug: debugLoggerSpy,
           info: noop,
@@ -167,6 +168,52 @@ describe('Integration tests with a WebSocket server', () => {
       await sleep(10);
       assert.isTrue(debugLoggerSpy.calledWith(sinon.match('Unable to parse an incoming WebSocket message')));
       await client.disconnect();
+    });
+    it('should maintain one serial reconnection attempt if WSS server sends unexpected HTTP response during handshake, like a 409', async () => {
+      // test for https://github.com/slackapi/node-slack-sdk/issues/2094
+      // override socket mode client instance with lower client ping timeout, which controls reconnection rate
+      client = new SocketModeClient({
+        appToken: 'whatever',
+        clientOptions: {
+          slackApiUrl: `http://localhost:${HTTP_PORT}/`,
+        },
+        clientPingTimeout: 20, // controls reconnection rate
+        logLevel: 'debug',
+      });
+      // shut down the default mock WS server used in these tests as we will customize its behaviour in this test
+      wss.close();
+      wss = null;
+      // custom HTTP server that blows up during initial WS handshake
+      const badServer = createServer((_req, res) => {
+        res.writeHead(409, { 'content-type': 'application/json' });
+        res.end(
+          JSON.stringify({
+            message: 'Unexpected server response: 409',
+          }),
+        );
+      });
+      badServer.listen(WSS_PORT);
+      let closed = 0;
+      // the `close` event is raised every time the websocket server returns an error, so let's keep track of how often this event is emited and use that to infer correct reconnection attempt counts / behaviour
+      client.on('close', () => {
+        closed++;
+      });
+      // do not use await here, since `start()` won't return until the connection is established. we are intentionally testing connection establishment failure, so that will never finish. so, let's run this in a rogue "thread", e.g. fire off an async method and let it do its thing!
+      client.start();
+      await sleep(50);
+      // after 50ms, with a timeout of 20ms, we would expect 2 retries.
+      // crucially, the bug reported in https://github.com/slackapi/node-slack-sdk/issues/2094 shows that on every reconnection attempt, we spawn _another_ websocket instance, which attempts to reconnect forever and is never cleaned up.
+      // effectively: with each reconnection attempt, we double the number of websockets, eventually causing crashes / out-of-memory issues / rate-limiting from Slack APIs.
+      // with the bug not fixed, this assertion fails as `close` event was emitted 4 times! if we waited another 20ms, we would see this event count double again (8), and so on.
+      assert.equal(closed, 2, 'unexpected number of times `close` event was raised during reconnection!');
+      await client.disconnect();
+      await new Promise((res, rej) => {
+        // shut down the bad server
+        badServer.close((err) => {
+          if (err) rej(err);
+          else res();
+        });
+      });
     });
   });
   describe('lifecycle events', () => {
