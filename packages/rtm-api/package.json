@@ -13,7 +13,7 @@
     "npm": ">=8.6.0"
   },
   "repository": "slackapi/node-slack-sdk",
-  "homepage": "https://slack.dev/node-slack-sdk/rtm-api",
+  "homepage": "https://tools.slack.dev/node-slack-sdk/rtm-api",
   "publishConfig": {
     "access": "public"
   },

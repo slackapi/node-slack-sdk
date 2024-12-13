@@ -23,7 +23,7 @@
     "type": "git",
     "url": "git+https://github.com/slackapi/node-slack-sdk.git"
   },
-  "homepage": "https://slack.dev/node-slack-sdk",
+  "homepage": "https://tools.slack.dev/node-slack-sdk",
   "publishConfig": {
     "access": "public"
   },
