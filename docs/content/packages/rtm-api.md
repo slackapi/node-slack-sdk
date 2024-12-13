@@ -646,7 +646,7 @@ const rtm = new RTMClient(token, options);
 
 ### Custom WebClient
 
-In some cases, you might want to customize the underlying component making HTTP requests to the Slack API, the [`WebClient`](reference/web-api#webclient), beyond the provided [`RTMClientOptions`](reference/rtm-api#rtmclientoptions). Note that overriding the [`WebClient`](reference/web-api#webclient) instance takes precedence over any other [`RTMClientOptions`](reference/rtm-api#rtmclientoptions) specified.
+In some cases, you might want to customize the underlying component making HTTP requests to the Slack API, the [`WebClient`](/reference/web-api/classes/WebClient), beyond the provided [`RTMClientOptions`](/reference/rtm-api/interfaces/RTMClientOptions). Note that overriding the [`WebClient`](/reference/web-api/classes/WebClient) instance takes precedence over any other [`RTMClientOptions`](/reference/rtm-api/interfaces/RTMClientOptions) specified.
 
 ```javascript
 const { RTMClient } = require('@slack/rtm-api');
@@ -674,7 +674,7 @@ The client can receive a snapshot of a portion of the workspace's state while it
 app needs to keep track of some data as it changes while the app runs, but it needs the initial start to get started.
 However, **this can also cause the client to fail to connect on large teams**. Our recommendation is to call the [Web
 API](/web-api) to retrieve workspace state while your app is connecting, instead of
-relying on the cache. See [sending rich messages](#send-messages) for an example of using the `WebClient` class inside
+relying on the cache. See [send rich messages](#send-a-message) for an example of using the `WebClient` class inside
 your app, and use [some of the other methods](https://api.slack.com/methods) to get data.
 
 If you're certain that you'd like to receive the snapshot, you can set the `useRtmConnect` option to `false`. This
