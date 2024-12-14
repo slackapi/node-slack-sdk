@@ -146,6 +146,9 @@ updates:
       docusaurus:
         patterns:
           - "@docusaurus/*"
+          - "docusaurus-plugin-typedoc"
+          - "typedoc"
+          - "typedoc-plugin-markdown"
       slack:
         patterns:
           - "@slack/*"
