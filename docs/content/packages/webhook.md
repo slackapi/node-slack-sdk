@@ -1,6 +1,6 @@
 ---
 title: Incoming Webhooks
-permalink: /webhook
+slug: /webhook
 ---
 
 # Slack Incoming Webhooks
