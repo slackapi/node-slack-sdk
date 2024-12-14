@@ -1,14 +1,7 @@
 ---
 title: Incoming Webhooks
-permalink: /webhook
+slug: /webhook
 ---
-
-# Slack Incoming Webhooks
-
-[![build-ci](https://github.com/slackapi/node-slack-sdk/actions/workflows/ci-build.yml/badge.svg)](https://github.com/slackapi/node-slack-sdk/actions/workflows/ci-build.yml)
-<!-- TODO: per-flag badge https://docs.codecov.io/docs/flags#section-flag-badges-and-graphs -->
-[![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/branch/main/graph/badge.svg)](https://codecov.io/gh/slackapi/node-slack-sdk)
-<!-- TODO: npm versions with scoped packages: https://github.com/rvagg/nodei.co/issues/24 -->
 
 The `@slack/webhook` package contains a helper for making requests to Slack's [Incoming
 Webhooks](https://api.slack.com/incoming-webhooks). Use it in your app to send a notification to a channel.

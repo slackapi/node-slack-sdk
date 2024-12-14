@@ -1918,7 +1918,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * - multiple upload_files
      * Will try to honor both single file or content data supplied as well
      * as multiple file uploads property.
-     * @see {@link https://slack.dev/node-slack-sdk/web-api#upload-a-file `@slack/web-api` Upload a file documentation}.
+     * @see {@link https://tools.slack.dev/node-slack-sdk/web-api#upload-a-file `@slack/web-api` Upload a file documentation}.
      */
     uploadV2: bindFilesUploadV2<FilesUploadV2Arguments, WebAPICallResult>(this),
     comments: {

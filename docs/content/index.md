@@ -13,10 +13,10 @@ The Node Slack SDK has corresponding packages for Slack APIs. They are small and
 
 | Slack API    | Use | NPM package      |
 |--------------|--------------|-------------------|
-| Web API      | Send data to or query data from Slack using any of [over 200 methods](https://api.slack.com/methods). | [`@slack/web-api`](https://tools.slack.dev/node-slack-sdk/web-api) |
-| OAuth        | Set up the authentication flow using V2 OAuth for Slack apps as well as V1 OAuth for classic Slack apps. | [`@slack/oauth`](https://tools.slack.dev/node-slack-sdk/oauth) |
-| Incoming Webhooks | Send notifications to a single channel which the user picks on installation. | [`@slack/webhook`](https://tools.slack.dev/node-slack-sdk/webhook) |
-| Socket Mode  | Listen for incoming messages and a limited set of events happening in Slack, using WebSocket. | [`@slack/socket-mode`](https://tools.slack.dev/node-slack-sdk/socket-mode) |
+| Web API      | Send data to or query data from Slack using any of [over 200 methods](https://api.slack.com/methods). | [`@slack/web-api`](/web-api) |
+| OAuth        | Set up the authentication flow using V2 OAuth for Slack apps as well as V1 OAuth for classic Slack apps. | [`@slack/oauth`](/oauth) |
+| Incoming Webhooks | Send notifications to a single channel which the user picks on installation. | [`@slack/webhook`](/webhook) |
+| Socket Mode  | Listen for incoming messages and a limited set of events happening in Slack, using WebSocket. | [`@slack/socket-mode`](/socket-mode) |
 
 :::warning[Deprecation Notice]
 

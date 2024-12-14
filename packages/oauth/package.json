@@ -12,7 +12,7 @@
     "npm": ">=8.6.0"
   },
   "repository": "slackapi/node-slack-sdk",
-  "homepage": "https://slack.dev/node-slack-sdk/oauth",
+  "homepage": "https://tools.slack.dev/node-slack-sdk/oauth",
   "publishConfig": {
     "access": "public"
   },

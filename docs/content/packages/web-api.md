@@ -31,7 +31,7 @@ This article contains the steps you must follow to get your access token:
 3. [Install the app to a workspace](https://api.slack.com/authentication/basics#installing)
 4. Finally, [get your access token](https://api.slack.com/authentication/basics#getting-your-authentication-token)
 
-You can also read the [Getting Started guide](../getting-started) which guides
+You can also read the [Getting Started guide](/getting-started) which guides
 you through creating an app, retrieving an access token, and using this `@slack/web-api`
 package to post a message.
 
