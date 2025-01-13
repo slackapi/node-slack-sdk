@@ -1,13 +1,12 @@
-import { IncomingMessage, ServerResponse } from 'http';
+import type { IncomingMessage, ServerResponse } from 'node:http';
 
-import { InstallURLOptions } from './install-url-options';
+import type { InstallURLOptions } from './install-url-options';
 
 /**
  * Customizable callbacks that are supposed to be called
  * inside InstallProvider#handleInstallPath() method.
  */
 export interface InstallPathOptions {
-
   /**
    * Customize the response headers and body data for
    * additional user-specific data handling such as acccount mapping and activity tracking.

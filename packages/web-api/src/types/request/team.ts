@@ -1,4 +1,5 @@
-import {
+import type { OptionalArgument } from '../helpers';
+import type {
   AppID,
   CursorPaginationEnabled,
   OptionalTeamAssignable,
@@ -7,65 +8,90 @@ import {
   TokenOverridable,
   TraditionalPagingEnabled,
 } from './common';
-import { OptionalArgument } from '../helpers';
 
 // https://api.slack.com/methods/team.accessLogs
-export type TeamAccessLogsArguments = OptionalArgument<TokenOverridable & CursorPaginationEnabled &
-TraditionalPagingEnabled & OptionalTeamAssignable & {
-  /**
-   * @description End of time range of logs to include in results (inclusive) as a UNIX timestamp in seconds.
-   * Default to now.
-   */
-  before?: number;
-}>;
+export type TeamAccessLogsArguments = OptionalArgument<
+  TokenOverridable &
+    CursorPaginationEnabled &
+    TraditionalPagingEnabled &
+    OptionalTeamAssignable & {
+      /**
+       * @description End of time range of logs to include in results (inclusive) as a UNIX timestamp in seconds.
+       * Default to now.
+       */
+      before?: number;
+    }
+>;
 // https://api.slack.com/methods/team.billableInfo
-export type TeamBillableInfoArguments = OptionalArgument<TokenOverridable & CursorPaginationEnabled &
-OptionalTeamAssignable & {
-  /** @description A user to retrieve the billable information for. Defaults to all users. */
-  user?: string;
-}>;
+export type TeamBillableInfoArguments = OptionalArgument<
+  TokenOverridable &
+    CursorPaginationEnabled &
+    OptionalTeamAssignable & {
+      /** @description A user to retrieve the billable information for. Defaults to all users. */
+      user?: string;
+    }
+>;
 // https://api.slack.com/methods/team.billing.info
 export type TeamBillingInfoArguments = OptionalArgument<TokenOverridable>;
 // https://api.slack.com/methods/team.externalTeams.disconnect
 export type TeamExternalTeamsDisconnectArguments = TokenOverridable & Required<TargetTeam>;
 // https://api.slack.com/methods/team.externalTeams.list
-export type TeamExternalTeamsListArguments = OptionalArgument<TokenOverridable & CursorPaginationEnabled & {
-  /** @description Status of the connected team. */
-  connection_status_filter?: 'CONNECTED' | 'DISCONNECTED' | 'BLOCKED' | 'IN_REVIEW';
-  /** @description Filters connected orgs by Slack Connect pref override(s) */
-  slack_connect_pref_filter?: 'approved_orgs_only' | 'allow_sc_file_uploads' | 'profile_visibility' | 'away_team_sc_invite_permissions' | 'accept_sc_invites' | 'sc_mpdm_to_private' | 'require_sc_channel_for_sc_dm' | 'external_awareness_context_bar';
-  /** @description Direction to sort in asc or desc. */
-  sort_direction?: SortDir['sort_dir'];
-  /** @description Name of the parameter that we are sorting by. Defaults to `team_name`. */
-  sort_field?: 'team_name' | 'last_active_timestamp' | 'connection_status';
-  /** @description Shows connected orgs which are connected on a specified encoded workspace ID. */
-  workspace_filter?: string[];
-}>;
+export type TeamExternalTeamsListArguments = OptionalArgument<
+  TokenOverridable &
+    CursorPaginationEnabled & {
+      /** @description Status of the connected team. */
+      connection_status_filter?: 'CONNECTED' | 'DISCONNECTED' | 'BLOCKED' | 'IN_REVIEW';
+      /** @description Filters connected orgs by Slack Connect pref override(s) */
+      slack_connect_pref_filter?:
+        | 'approved_orgs_only'
+        | 'allow_sc_file_uploads'
+        | 'profile_visibility'
+        | 'away_team_sc_invite_permissions'
+        | 'accept_sc_invites'
+        | 'sc_mpdm_to_private'
+        | 'require_sc_channel_for_sc_dm'
+        | 'external_awareness_context_bar';
+      /** @description Direction to sort in asc or desc. */
+      sort_direction?: SortDir['sort_dir'];
+      /** @description Name of the parameter that we are sorting by. Defaults to `team_name`. */
+      sort_field?: 'team_name' | 'last_active_timestamp' | 'connection_status';
+      /** @description Shows connected orgs which are connected on a specified encoded workspace ID. */
+      workspace_filter?: string[];
+    }
+>;
 // https://api.slack.com/methods/team.info
-export type TeamInfoArguments = OptionalArgument<TokenOverridable & {
-  /**
-   * @description Query by domain instead of team (only when `team` is null). This only works for domains in the same
-   * enterprise as the querying team token.
-   * This also expects the domain to belong to a team and not the enterprise itself.
-   */
-  domain?: string; // available only for Enterprise Grid
-  /** @description Team to get info about; if omitted, will return information about the current team. */
-  team?: string;
-}>;
+export type TeamInfoArguments = OptionalArgument<
+  TokenOverridable & {
+    /**
+     * @description Query by domain instead of team (only when `team` is null). This only works for domains in the same
+     * enterprise as the querying team token.
+     * This also expects the domain to belong to a team and not the enterprise itself.
+     */
+    domain?: string; // available only for Enterprise Grid
+    /** @description Team to get info about; if omitted, will return information about the current team. */
+    team?: string;
+  }
+>;
 // https://api.slack.com/methods/team.integrationLogs
-export type TeamIntegrationLogsArguments = OptionalArgument<Partial<AppID> & TokenOverridable &
-OptionalTeamAssignable & TraditionalPagingEnabled & {
-  /** @description Filter logs with this change type. Defaults to all logs. */
-  change_type?: 'added' | 'removed' | 'enabled' | 'disabled' | 'updated';
-  /** @description Filter logs to this service. Defaults to all logs. */
-  service_id?: string;
-  /** @description Filter logs generated by this user’s actions. Defaults to all logs. */
-  user?: string;
-}>;
+export type TeamIntegrationLogsArguments = OptionalArgument<
+  Partial<AppID> &
+    TokenOverridable &
+    OptionalTeamAssignable &
+    TraditionalPagingEnabled & {
+      /** @description Filter logs with this change type. Defaults to all logs. */
+      change_type?: 'added' | 'removed' | 'enabled' | 'disabled' | 'updated';
+      /** @description Filter logs to this service. Defaults to all logs. */
+      service_id?: string;
+      /** @description Filter logs generated by this user’s actions. Defaults to all logs. */
+      user?: string;
+    }
+>;
 // https://api.slack.com/methods/team.profile.get
-export type TeamProfileGetArguments = OptionalArgument<TokenOverridable & {
-  /** @description Filter by visibility. */
-  visibility?: 'all' | 'visible' | 'hidden';
-}>;
+export type TeamProfileGetArguments = OptionalArgument<
+  TokenOverridable & {
+    /** @description Filter by visibility. */
+    visibility?: 'all' | 'visible' | 'hidden';
+  }
+>;
 // https://api.slack.com/methods/team.preferences.list
 export type TeamPreferencesListArguments = OptionalArgument<TokenOverridable>;

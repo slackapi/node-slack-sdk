@@ -1,20 +1,20 @@
-import { View } from '@slack/types';
+import type { View } from '@slack/types';
 
-import { TokenOverridable } from './common';
+import type { TokenOverridable } from './common';
 
-interface BaseViewsArguments {
+export interface BaseViewsArguments {
   /** @description A {@link https://api.slack.com/reference/surfaces/views view payload}. */
   view: View;
 }
 
-interface ViewTriggerId {
+export interface ViewTriggerId {
   /**
    * @description An access token originating from a user interaction in the Slack client.
    * One of `trigger_id` or `interactivity_pointer` is required to interact with views.
    */
   trigger_id: string;
 }
-interface ViewInteractivityPointer {
+export interface ViewInteractivityPointer {
   /**
    * @description An access token originating from a user interaction in the Slack client.
    * One of `trigger_id` or `interactivity_pointer` is required to interact with views.
@@ -28,7 +28,7 @@ export type ViewsOpenArguments = BaseViewsArguments & TokenOverridable & (ViewTr
 // https://api.slack.com/methods/views.push
 export type ViewsPushArguments = BaseViewsArguments & TokenOverridable & (ViewTriggerId | ViewInteractivityPointer);
 
-interface ViewHash {
+export interface ViewHash {
   /**
    * @description A string that represents view state to protect against possible race conditions.
    * @see {@link https://api.slack.com/surfaces/modals#handling_race_conditions Avoiding race conditions when using views}.
@@ -42,14 +42,14 @@ export interface ViewsPublishArguments extends BaseViewsArguments, TokenOverrida
   user_id: string;
 }
 
-interface ViewExternalId {
+export interface ViewExternalId {
   /**
    * @description A unique identifier of the view set by the developer. Must be unique for all views on a team.
    * Max length of 255 characters. Either `view_id` or `external_id` is required.
    */
   external_id: string;
 }
-interface ViewViewId {
+export interface ViewViewId {
   /**
    * @description A unique identifier of the view to be updated. Either `view_id` or `external_id` is required.
    */

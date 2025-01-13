@@ -1,8 +1,8 @@
+import assert from 'node:assert';
+import childProcess from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
 import { after, afterEach, before, beforeEach, describe, it } from 'mocha';
-import assert from 'assert';
-import childProcess from 'child_process';
-import fs from 'fs';
-import path from 'path';
 import sinon from 'sinon';
 
 import start from './start.js';
@@ -38,19 +38,19 @@ describe('start implementation', async () => {
       stdoutWriteStub = sinon.stub(process.stdout, 'write');
       stderrWriteStub = sinon.stub(process.stderr, 'write');
       mockSpawnProcess = {
-        stdout: { on: sinon.stub(), setEncoding: () => { } },
+        stdout: { on: sinon.stub(), setEncoding: () => {} },
         stderr: { on: sinon.stub() },
         on: sinon.stub(),
       };
-      spawnStub = sinon.stub(childProcess, 'spawn').returns(/** @type {any} */(mockSpawnProcess));
+      spawnStub = sinon.stub(childProcess, 'spawn').returns(/** @type {any} */ (mockSpawnProcess));
       process.env.SLACK_CLI_XAPP = 'xapp-example';
       process.env.SLACK_CLI_XOXB = 'xoxb-example';
     });
 
     afterEach(() => {
       sinon.restore();
-      delete process.env.SLACK_CLI_XOXB;
-      delete process.env.SLACK_CLI_XAPP;
+      process.env.SLACK_CLI_XOXB = undefined;
+      process.env.SLACK_CLI_XAPP = undefined;
     });
 
     describe('runs the package main path', async () => {
@@ -109,7 +109,7 @@ describe('start implementation', async () => {
       });
 
       after(() => {
-        delete process.env.SLACK_CLI_CUSTOM_FILE_PATH;
+        process.env.SLACK_CLI_CUSTOM_FILE_PATH = undefined;
       });
 
       it('writes output from the custom script', async () => {

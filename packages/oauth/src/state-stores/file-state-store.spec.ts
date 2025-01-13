@@ -1,4 +1,4 @@
-import os from 'os';
+import os from 'node:os';
 
 import { FileStateStore } from './file-state-store';
 import { StateStoreChaiTestRunner } from './spec-utils';

@@ -1,10 +1,9 @@
-import { InstallURLOptions } from '../install-url-options';
+import type { InstallURLOptions } from '../install-url-options';
 
 /**
  * The data structure represented by the state parameter.
  */
 export interface StateObj {
-
   /**
    * The timestamp that the state object was generated.
    */
@@ -24,7 +23,6 @@ export interface StateObj {
  * (Redirect URL: the default path is "/slack/oauth_redirect")
  */
 export interface StateStore {
-
   /**
    * Generates a valid state parameter value, which can be decoded as a StateObj object
    * by the verifyStateParam() method. This value may be stored on the server-side with expiration.

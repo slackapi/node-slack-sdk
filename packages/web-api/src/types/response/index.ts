@@ -1,4 +1,9 @@
-export { AdminAnalyticsGetFileResponse, AdminAnalyticsMemberDetails, AdminAnalyticsPublicChannelDetails, AdminAnalyticsPublicChannelMetadataDetails } from './AdminAnalyticsGetFileResponse';
+export {
+  AdminAnalyticsGetFileResponse,
+  AdminAnalyticsMemberDetails,
+  AdminAnalyticsPublicChannelDetails,
+  AdminAnalyticsPublicChannelMetadataDetails,
+} from './AdminAnalyticsGetFileResponse';
 export { AdminAppsActivitiesListResponse } from './AdminAppsActivitiesListResponse';
 export { AdminAppsApproveResponse } from './AdminAppsApproveResponse';
 export { AdminAppsApprovedListResponse } from './AdminAppsApprovedListResponse';
@@ -111,6 +116,9 @@ export { AppsPermissionsScopesListResponse } from './AppsPermissionsScopesListRe
 export { AppsPermissionsUsersListResponse } from './AppsPermissionsUsersListResponse';
 export { AppsPermissionsUsersRequestResponse } from './AppsPermissionsUsersRequestResponse';
 export { AppsUninstallResponse } from './AppsUninstallResponse';
+export { AssistantThreadsSetStatusResponse } from './AssistantThreadsSetStatusResponse';
+export { AssistantThreadsSetSuggestedPromptsResponse } from './AssistantThreadsSetSuggestedPromptsResponse';
+export { AssistantThreadsSetTitleResponse } from './AssistantThreadsSetTitleResponse';
 export { AuthRevokeResponse } from './AuthRevokeResponse';
 export { AuthTeamsListResponse } from './AuthTeamsListResponse';
 export { AuthTestResponse } from './AuthTestResponse';
@@ -178,6 +186,9 @@ export { ConversationsMembersResponse } from './ConversationsMembersResponse';
 export { ConversationsOpenResponse } from './ConversationsOpenResponse';
 export { ConversationsRenameResponse } from './ConversationsRenameResponse';
 export { ConversationsRepliesResponse } from './ConversationsRepliesResponse';
+export { ConversationsRequestSharedInviteApproveResponse } from './ConversationsRequestSharedInviteApproveResponse';
+export { ConversationsRequestSharedInviteDenyResponse } from './ConversationsRequestSharedInviteDenyResponse';
+export { ConversationsRequestSharedInviteListResponse } from './ConversationsRequestSharedInviteListResponse';
 export { ConversationsSetPurposeResponse } from './ConversationsSetPurposeResponse';
 export { ConversationsSetTopicResponse } from './ConversationsSetTopicResponse';
 export { ConversationsUnarchiveResponse } from './ConversationsUnarchiveResponse';

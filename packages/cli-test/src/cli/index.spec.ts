@@ -1,7 +1,7 @@
 import sinon from 'sinon';
 
-import { SlackCLI } from './index';
 import logger from '../utils/logger';
+import { SlackCLI } from './index';
 
 describe('cli module', () => {
   const sandbox = sinon.createSandbox();

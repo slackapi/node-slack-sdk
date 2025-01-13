@@ -15,7 +15,7 @@ const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
   authVersion: 'v1',
-  stateSecret: 'super-secret'
+  stateSecret: process.env.SLACK_STATE_SECRET,
 });
 
 app.get('/', (req, res) => res.send('go to /slack/install'));

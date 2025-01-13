@@ -36,7 +36,7 @@ const storedInstallation = {
   appId: 'fakeAppId',
   tokenType: 'tokenType',
   isEnterpriseInstall: false,
-}
+};
 
 // TODO: valid tests with org-wide installations
 const storedOrgInstallation = {
@@ -64,7 +64,7 @@ const storedOrgInstallation = {
   appId: undefined,
   tokenType: 'tokenType',
   isEnterpriseInstall: true,
-}
+};
 
 describe('MemoryInstallationStore', async () => {
   it('should store and fetch an installation', async () => {

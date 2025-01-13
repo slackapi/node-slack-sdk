@@ -1,5 +1,5 @@
-import type { TokenOverridable } from './common';
 import type { Dialog } from '@slack/types';
+import type { TokenOverridable } from './common';
 
 // https://api.slack.com/methods/dialog.open
 export interface DialogOpenArguments extends TokenOverridable {

@@ -1,4 +1,4 @@
-import { AxiosError, AxiosResponse } from 'axios';
+import type { AxiosError, AxiosResponse } from 'axios';
 
 /**
  * All errors produced by this package adhere to this interface
@@ -47,7 +47,7 @@ export function requestErrorWithOriginal(original: AxiosError): IncomingWebhookR
     ErrorCode.RequestError,
   ) as Partial<IncomingWebhookRequestError>;
   error.original = original;
-  return (error as IncomingWebhookRequestError);
+  return error as IncomingWebhookRequestError;
 }
 
 /**
@@ -60,5 +60,5 @@ export function httpErrorWithOriginal(original: AxiosError & { response: AxiosRe
     ErrorCode.HTTPError,
   ) as Partial<IncomingWebhookHTTPError>;
   error.original = original;
-  return (error as IncomingWebhookHTTPError);
+  return error as IncomingWebhookHTTPError;
 }

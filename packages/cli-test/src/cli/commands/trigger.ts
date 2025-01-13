@@ -1,4 +1,4 @@
-import {
+import type {
   ChannelAccessChangeArguments,
   GroupAccessChangeArguments,
   InfoArgument,
@@ -7,13 +7,15 @@ import {
   UserAccessChangeArguments,
   WorkspaceGrantArgument,
 } from '../../types/commands/common_arguments';
-import { SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
+import { type SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
 
 type AccessChangeArguments = {
   info?: boolean;
 } & (
-  GroupAccessChangeArguments | UserAccessChangeArguments | ChannelAccessChangeArguments |
-  OrganizationAccessChangeArguments
+  | GroupAccessChangeArguments
+  | UserAccessChangeArguments
+  | ChannelAccessChangeArguments
+  | OrganizationAccessChangeArguments
 );
 
 export interface TriggerIdArgument {
@@ -30,7 +32,6 @@ type TriggerAccessArguments = TriggerIdArgument & (AccessChangeArguments | InfoA
  * @return void
  */
 function setAccessType(args: Parameters<typeof access>[0], cmdOpts: SlackCLICommandOptions) {
-  /* eslint-disable no-param-reassign */
   if ('grant' in args && args.grant) {
     cmdOpts['--grant'] = true;
   } else if ('revoke' in args && args.revoke) {
@@ -38,7 +39,6 @@ function setAccessType(args: Parameters<typeof access>[0], cmdOpts: SlackCLIComm
   } else {
     throw new Error('When granting or revoking trigger access, you must specify one of `grant` or `revoke` as `true`.');
   }
-  /* eslint-enable no-param-reassign */
 }
 
 /**
@@ -69,7 +69,7 @@ export const access = async function triggerAccess(
   } else {
     throw new Error('When setting trigger access, you must specify a target for whom to give access to.');
   }
-  const cmd = new SlackCLIProcess('trigger access', args, cmdOpts);
+  const cmd = new SlackCLIProcess(['trigger', 'access'], args, cmdOpts);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -87,7 +87,7 @@ export interface CreateFromArguments {
    * @description When `true`, adds an `interactivity` parameter to the trigger with the name specified
    * by `interactivityName`.
    */
-  interactivity?: boolean,
+  interactivity?: boolean;
   /** @description Specifies the name of the interactivity parameter to use. Defaults to `interactivity`. */
   interactivityName?: string;
 }
@@ -103,9 +103,7 @@ type CreateArguments = WorkspaceGrantArgument & (CreateFromArguments | CreateFro
  * `slack trigger create`
  * @returns command output
  */
-export const create = async function triggerCreate(
-  args: ProjectCommandArguments & CreateArguments,
-): Promise<string> {
+export const create = async function triggerCreate(args: ProjectCommandArguments & CreateArguments): Promise<string> {
   const cmdOpts: SlackCLICommandOptions = {
     '--org-workspace-grant': args.orgWorkspaceGrantFlag,
   };
@@ -124,7 +122,7 @@ export const create = async function triggerCreate(
       }
     }
   }
-  const cmd = new SlackCLIProcess('trigger create', args, cmdOpts);
+  const cmd = new SlackCLIProcess(['trigger', 'create'], args, cmdOpts);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -135,10 +133,8 @@ export const create = async function triggerCreate(
  * `slack trigger delete`
  * @returns command output
  */
-export const del = async function triggerDelete(
-  args: ProjectCommandArguments & TriggerIdArgument,
-): Promise<string> {
-  const cmd = new SlackCLIProcess('trigger delete', args, {
+export const del = async function triggerDelete(args: ProjectCommandArguments & TriggerIdArgument): Promise<string> {
+  const cmd = new SlackCLIProcess(['trigger', 'delete'], args, {
     '--trigger-id': args.triggerId,
   });
   const proc = await cmd.execAsync({
@@ -151,10 +147,8 @@ export const del = async function triggerDelete(
  * `slack trigger info`
  * @returns command output
  */
-export const info = async function triggerInfo(
-  args: ProjectCommandArguments & TriggerIdArgument,
-): Promise<string> {
-  const cmd = new SlackCLIProcess('trigger info', args, {
+export const info = async function triggerInfo(args: ProjectCommandArguments & TriggerIdArgument): Promise<string> {
+  const cmd = new SlackCLIProcess(['trigger', 'info'], args, {
     '--trigger-id': args.triggerId,
   });
   const proc = await cmd.execAsync({
@@ -185,7 +179,7 @@ export const list = async function triggerList(
   if (args.type) {
     cmdOpts['--type'] = args.type;
   }
-  const cmd = new SlackCLIProcess('trigger list', args, cmdOpts);
+  const cmd = new SlackCLIProcess(['trigger', 'list'], args, cmdOpts);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -221,7 +215,7 @@ export const update = async function triggerUpdate(
       cmdOpts['--interactivity-name'] = args.interactivityName;
     }
   }
-  const cmd = new SlackCLIProcess('trigger update', args, cmdOpts);
+  const cmd = new SlackCLIProcess(['trigger', 'update'], args, cmdOpts);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });

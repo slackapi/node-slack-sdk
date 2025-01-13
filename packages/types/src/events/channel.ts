@@ -18,16 +18,16 @@ export interface ChannelCreatedEvent {
     creator: string; // user ID
     is_shared: boolean;
     is_org_shared: boolean;
-    context_team_id: string,
+    context_team_id: string;
     is_archived: boolean;
-    is_frozen: boolean,
-    is_general: boolean,
-    is_group: boolean,
-    is_private: boolean,
-    is_ext_shared: boolean,
-    is_im: boolean,
-    is_mpim: boolean,
-    is_pending_ext_shared: boolean,
+    is_frozen: boolean;
+    is_general: boolean;
+    is_group: boolean;
+    is_private: boolean;
+    is_ext_shared: boolean;
+    is_im: boolean;
+    is_mpim: boolean;
+    is_pending_ext_shared: boolean;
   };
 }
 

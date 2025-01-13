@@ -1,8 +1,8 @@
 import { sign, verify } from 'jsonwebtoken';
 
-import { StateObj, StateStore } from './interface';
 import { InvalidStateError } from '../errors';
-import { InstallURLOptions } from '../install-url-options';
+import type { InstallURLOptions } from '../install-url-options';
+import type { StateObj, StateStore } from './interface';
 
 // default implementation of StateStore
 export default class ClearStateStore implements StateStore {
@@ -10,18 +10,12 @@ export default class ClearStateStore implements StateStore {
 
   private stateExpirationSeconds: number;
 
-  public constructor(
-    stateSecret: string,
-    stateExpirationSeconds: number = 600,
-  ) {
+  public constructor(stateSecret: string, stateExpirationSeconds = 600) {
     this.stateSecret = stateSecret;
     this.stateExpirationSeconds = stateExpirationSeconds;
   }
 
-  public async generateStateParam(
-    installOptions: InstallURLOptions,
-    now: Date,
-  ): Promise<string> {
+  public async generateStateParam(installOptions: InstallURLOptions, now: Date): Promise<string> {
     const source = {
       installOptions,
       now: now.toJSON(),
@@ -30,10 +24,7 @@ export default class ClearStateStore implements StateStore {
     return sign(source, this.stateSecret);
   }
 
-  public async verifyStateParam(
-    now: Date,
-    state: string,
-  ): Promise<InstallURLOptions> {
+  public async verifyStateParam(now: Date, state: string): Promise<InstallURLOptions> {
     // decode the state using the secret
     let decoded: StateObj;
     try {
@@ -44,9 +35,7 @@ export default class ClearStateStore implements StateStore {
     }
     // Check if the state value is not too old
     const generatedAt = new Date(decoded.now);
-    const passedSeconds = Math.floor(
-      (now.getTime() - generatedAt.getTime()) / 1000,
-    );
+    const passedSeconds = Math.floor((now.getTime() - generatedAt.getTime()) / 1000);
     if (passedSeconds > this.stateExpirationSeconds) {
       throw new InvalidStateError('The state value is already expired');
     }

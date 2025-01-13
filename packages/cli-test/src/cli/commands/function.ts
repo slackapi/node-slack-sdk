@@ -1,10 +1,10 @@
-import {
+import type {
   GroupAccessChangeArguments,
   InfoArgument,
   ProjectCommandArguments,
   UserAccessChangeArguments,
 } from '../../types/commands/common_arguments';
-import { SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
+import { type SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
 
 type AccessChangeArguments = {
   /** @description `callback_id` of function being targeted. */
@@ -37,13 +37,15 @@ export const access = async function functionAccess(
       } else if ('revoke' in args && args.revoke) {
         cmdOpts['--revoke'] = true;
       } else {
-        throw new Error('When granting or revoking function access to users, you must specify one of `grant` or `revoke` as `true`.');
+        throw new Error(
+          'When granting or revoking function access to users, you must specify one of `grant` or `revoke` as `true`.',
+        );
       }
     } else {
       throw new Error('When setting function access, you must specify a target for whom to give access to.');
     }
   }
-  const cmd = new SlackCLIProcess('function access', args, cmdOpts);
+  const cmd = new SlackCLIProcess(['function', 'access'], args, cmdOpts);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });

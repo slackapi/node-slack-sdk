@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 /**
  * Severity levels for log entries
  */
@@ -18,28 +16,28 @@ export interface Logger {
    * Output debug message
    * @param msg any data to log
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: can log anything
   debug(...msg: any[]): void;
 
   /**
    * Output info message
    * @param msg any data to log
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: can log anything
   info(...msg: any[]): void;
 
   /**
    * Output warn message
    * @param msg any data to log
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: can log anything
   warn(...msg: any[]): void;
 
   /**
    * Output error message
    * @param msg any data to log
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: can log anything
   error(...msg: any[]): void;
 
   /**
@@ -74,7 +72,7 @@ export class ConsoleLogger implements Logger {
 
   /** Map of labels for each log level */
   private static labels: Map<LogLevel, string> = (() => {
-    const entries = Object.entries(LogLevel) as ([string, LogLevel])[];
+    const entries = Object.entries(LogLevel) as [string, LogLevel][];
     const map = entries.map(([key, value]) => [value, `[${key}] `] as [LogLevel, string]);
     return new Map(map);
   })();
@@ -113,7 +111,7 @@ export class ConsoleLogger implements Logger {
   /**
    * Log a debug message
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: can log anything
   public debug(...msg: any[]): void {
     if (ConsoleLogger.isMoreOrEqualSevere(LogLevel.DEBUG, this.level)) {
       console.debug(ConsoleLogger.labels.get(LogLevel.DEBUG), this.name, ...msg);
@@ -123,7 +121,7 @@ export class ConsoleLogger implements Logger {
   /**
    * Log an info message
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: can log anything
   public info(...msg: any[]): void {
     if (ConsoleLogger.isMoreOrEqualSevere(LogLevel.INFO, this.level)) {
       console.info(ConsoleLogger.labels.get(LogLevel.INFO), this.name, ...msg);
@@ -133,7 +131,7 @@ export class ConsoleLogger implements Logger {
   /**
    * Log a warning message
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: can log anything
   public warn(...msg: any[]): void {
     if (ConsoleLogger.isMoreOrEqualSevere(LogLevel.WARN, this.level)) {
       console.warn(ConsoleLogger.labels.get(LogLevel.WARN), this.name, ...msg);
@@ -143,7 +141,7 @@ export class ConsoleLogger implements Logger {
   /**
    * Log an error message
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // biome-ignore lint/suspicious/noExplicitAny: can log anything
   public error(...msg: any[]): void {
     if (ConsoleLogger.isMoreOrEqualSevere(LogLevel.ERROR, this.level)) {
       console.error(ConsoleLogger.labels.get(LogLevel.ERROR), this.name, ...msg);

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { fileURLToPath } from 'url';
-import fs from 'fs';
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
 import { SUPPORTED_NAMED_PROTOCOLS } from './protocols.js';
 
@@ -11,7 +11,7 @@ import { SUPPORTED_NAMED_PROTOCOLS } from './protocols.js';
  */
 
 if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  console.log(JSON.stringify(getHooks())); // eslint-disable-line no-console
+  console.log(JSON.stringify(getHooks()));
 }
 
 /**
@@ -43,19 +43,19 @@ if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
  * @returns {SDKInterface} Information about the hooks currently supported.
  */
 export default function getHooks() {
+  // NODE_NO_WARNINGS=1 silences node process warnings. These warnings can occur
+  // on some node version (e.g. v23.2.0) and cause invalid JSON hook responses.
   return {
     hooks: {
-      doctor: 'npx -q --no-install -p @slack/cli-hooks slack-cli-doctor',
-      'check-update': 'npx -q --no-install -p @slack/cli-hooks slack-cli-check-update',
-      'get-manifest': 'npx -q --no-install -p @slack/cli-hooks slack-cli-get-manifest',
+      doctor: 'NODE_NO_WARNINGS=1 npx -q --no-install -p @slack/cli-hooks slack-cli-doctor',
+      'check-update': 'NODE_NO_WARNINGS=1 npx -q --no-install -p @slack/cli-hooks slack-cli-check-update',
+      'get-manifest': 'NODE_NO_WARNINGS=1 npx -q --no-install -p @slack/cli-hooks slack-cli-get-manifest',
       start: 'npx -q --no-install -p @slack/cli-hooks slack-cli-start',
     },
     config: {
       watch: {
         'filter-regex': '^manifest\\.json$',
-        paths: [
-          '.',
-        ],
+        paths: ['.'],
       },
       'protocol-version': SUPPORTED_NAMED_PROTOCOLS,
       'sdk-managed-connection-enabled': true,

@@ -1,10 +1,10 @@
-import child from 'child_process';
+import child from 'node:child_process';
 
 import { assert } from 'chai';
 import sinon from 'sinon';
 
-import { shell } from './shell';
 import { mockProcess } from '../utils/test';
+import { shell } from './shell';
 
 import type { ShellProcess } from '../types/shell';
 
@@ -44,12 +44,15 @@ describe('shell module', () => {
         finished: true,
         command: 'echo "hi"',
       };
-      shell.checkIfFinished(proc).then(() => {
-        assert.fail('checkIfFinished resolved unexpectedly');
-      }, (err) => {
-        assert.include(err.message, 'boom');
-        done();
-      });
+      shell.checkIfFinished(proc).then(
+        () => {
+          assert.fail('checkIfFinished resolved unexpectedly');
+        },
+        (err) => {
+          assert.include(err.message, 'boom');
+          done();
+        },
+      );
       spawnProcess.emit('error', new Error('boom'));
     });
   });
@@ -58,34 +61,104 @@ describe('shell module', () => {
     it('should invoke `assembleShellEnv` and pass as child_process.spawnSync `env` parameter', () => {
       const fakeEnv = { HEY: 'yo' };
       const assembleSpy = sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
-      const fakeCmd = 'echo "hi"';
-      shell.runCommandSync(fakeCmd);
+      const fakeCmd = 'echo';
+      const fakeArgs = ['"hi there"'];
+      shell.runCommandSync(fakeCmd, fakeArgs);
       sandbox.assert.calledOnce(assembleSpy);
-      sandbox.assert.calledWithMatch(runSpy, fakeCmd, sinon.match({ shell: true, env: fakeEnv }));
+      sandbox.assert.calledWithMatch(
+        runSpy,
+        sinon.match.string,
+        sinon.match.array,
+        sinon.match({ shell: true, env: fakeEnv }),
+      );
     });
     it('should raise bubble error details up', () => {
       runSpy.throws(new Error('this is bat country'));
       assert.throw(() => {
-        shell.runCommandSync('about to explode');
+        shell.runCommandSync('about to explode', []);
       }, /this is bat country/);
     });
+    if (process.platform === 'win32') {
+      it('on Windows, should wrap command to shell out in a `cmd /s /c` wrapper process', () => {
+        const fakeEnv = { HEY: 'yo' };
+        sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
+        const fakeCmd = 'echo';
+        const fakeArgs = ['"hi there"'];
+        shell.runCommandSync(fakeCmd, fakeArgs);
+        sandbox.assert.calledWithMatch(
+          runSpy,
+          'cmd',
+          sinon.match.array.contains(['/s', '/c', fakeCmd, ...fakeArgs]),
+          sinon.match({ shell: true, env: fakeEnv }),
+        );
+      });
+    } else {
+      it('on non-Windows, should shell out to provided command directly', () => {
+        const fakeEnv = { HEY: 'yo' };
+        sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
+        const fakeCmd = 'echo';
+        const fakeArgs = ['"hi there"'];
+        shell.runCommandSync(fakeCmd, fakeArgs);
+        sandbox.assert.calledWithMatch(
+          runSpy,
+          fakeCmd,
+          sinon.match.array.contains(fakeArgs),
+          sinon.match({ shell: true, env: fakeEnv }),
+        );
+      });
+    }
   });
 
   describe('spawnProcess method', () => {
     it('should invoke `assembleShellEnv` and pass as child_process.spawn `env` parameter', () => {
       const fakeEnv = { HEY: 'yo' };
       const assembleSpy = sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
-      const fakeCmd = 'echo "hi"';
-      shell.spawnProcess(fakeCmd);
+      const fakeCmd = 'echo';
+      const fakeArgs = ['"hi there"'];
+      shell.spawnProcess(fakeCmd, fakeArgs);
       sandbox.assert.calledOnce(assembleSpy);
-      sandbox.assert.calledWithMatch(spawnSpy, fakeCmd, sinon.match({ shell: true, env: fakeEnv }));
+      sandbox.assert.calledWithMatch(
+        spawnSpy,
+        sinon.match.string,
+        sinon.match.array,
+        sinon.match({ shell: true, env: fakeEnv }),
+      );
     });
     it('should raise bubble error details up', () => {
       spawnSpy.throws(new Error('this is bat country'));
       assert.throw(() => {
-        shell.spawnProcess('about to explode');
+        shell.spawnProcess('about to explode', []);
       }, /this is bat country/);
     });
+    if (process.platform === 'win32') {
+      it('on Windows, should wrap command to shell out in a `cmd /s /c` wrapper process', () => {
+        const fakeEnv = { HEY: 'yo' };
+        sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
+        const fakeCmd = 'echo';
+        const fakeArgs = ['"hi there"'];
+        shell.spawnProcess(fakeCmd, fakeArgs);
+        sandbox.assert.calledWithMatch(
+          spawnSpy,
+          'cmd',
+          sinon.match.array.contains(['/s', '/c', fakeCmd, ...fakeArgs]),
+          sinon.match({ shell: true, env: fakeEnv }),
+        );
+      });
+    } else {
+      it('on non-Windows, should shell out to provided command directly', () => {
+        const fakeEnv = { HEY: 'yo' };
+        sandbox.stub(shell, 'assembleShellEnv').returns(fakeEnv);
+        const fakeCmd = 'echo';
+        const fakeArgs = ['"hi there"'];
+        shell.spawnProcess(fakeCmd, fakeArgs);
+        sandbox.assert.calledWithMatch(
+          spawnSpy,
+          fakeCmd,
+          sinon.match.array.contains(fakeArgs),
+          sinon.match({ shell: true, env: fakeEnv }),
+        );
+      });
+    }
   });
 
   describe('waitForOutput method', () => {
@@ -96,12 +169,15 @@ describe('shell module', () => {
         finished: true,
         command: 'echo "hi"',
       };
-      shell.waitForOutput('heyo', proc, { timeout: 500 }).then(() => {
-        assert.fail('expected rejection, but got resolution');
-      }, (err) => {
-        assert.include(err.message, 'timed out');
-        done();
-      });
+      shell.waitForOutput('heyo', proc, { timeout: 500 }).then(
+        () => {
+          assert.fail('expected rejection, but got resolution');
+        },
+        (err) => {
+          assert.include(err.message, 'timed out');
+          done();
+        },
+      );
     });
     it('should resolve if process includes expected output', async () => {
       const proc: ShellProcess = {

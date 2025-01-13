@@ -14,9 +14,9 @@ export interface MessageMetadata {
    */
   event_payload: {
     [key: string]: string | number | boolean | MessageMetadataEventPayloadObject | MessageMetadataEventPayloadObject[];
-  }
+  };
 }
 
 export interface MessageMetadataEventPayloadObject {
-  [key: string]: string | number | boolean
+  [key: string]: string | number | boolean;
 }

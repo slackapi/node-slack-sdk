@@ -1,4 +1,4 @@
-import { OptionalArgument } from '../../helpers';
+import type { OptionalArgument } from '../../helpers';
 
 import type { CursorPaginationEnabled, TokenOverridable } from '../common';
 

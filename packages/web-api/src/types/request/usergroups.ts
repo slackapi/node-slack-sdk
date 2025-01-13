@@ -1,7 +1,7 @@
-import { OptionalTeamAssignable, TokenOverridable } from './common';
-import { OptionalArgument } from '../helpers';
+import type { OptionalArgument } from '../helpers';
+import type { OptionalTeamAssignable, TokenOverridable } from './common';
 
-interface UsergroupsIncludeCount {
+export interface UsergroupsIncludeCount {
   /** @description Include the number of users in each User Group. */
   include_count?: boolean;
 }
@@ -28,17 +28,22 @@ export interface UsergroupsEnableArguments extends TokenOverridable, OptionalTea
   usergroup: string;
 }
 // https://api.slack.com/methods/usergroups.list
-export type UsergroupsListArguments = OptionalArgument<TokenOverridable & OptionalTeamAssignable &
-UsergroupsIncludeCount & {
-  /** @description Include disabled User Groups. */
-  include_disabled?: boolean;
-  /** @description Include the list of users for each User Group. */
-  include_users?: boolean;
-}>;
+export type UsergroupsListArguments = OptionalArgument<
+  TokenOverridable &
+    OptionalTeamAssignable &
+    UsergroupsIncludeCount & {
+      /** @description Include disabled User Groups. */
+      include_disabled?: boolean;
+      /** @description Include the list of users for each User Group. */
+      include_users?: boolean;
+    }
+>;
 
 // https://api.slack.com/methods/usergroups.update
-export interface UsergroupsUpdateArguments extends TokenOverridable, OptionalTeamAssignable,
-  Partial<UsergroupsCreateArguments> {
+export interface UsergroupsUpdateArguments
+  extends TokenOverridable,
+    OptionalTeamAssignable,
+    Partial<UsergroupsCreateArguments> {
   /** @description The encoded ID of the User Group to update. */
   usergroup: string;
 }
@@ -50,8 +55,10 @@ export interface UsergroupsUsersListArguments extends TokenOverridable, Optional
   include_disabled?: boolean;
 }
 // https://api.slack.com/methods/usergroups.users.update
-export interface UsergroupsUsersUpdateArguments extends TokenOverridable, OptionalTeamAssignable,
-  UsergroupsIncludeCount {
+export interface UsergroupsUsersUpdateArguments
+  extends TokenOverridable,
+    OptionalTeamAssignable,
+    UsergroupsIncludeCount {
   /** @description The encoded ID of the User Group to update users for. */
   usergroup: string;
   /**

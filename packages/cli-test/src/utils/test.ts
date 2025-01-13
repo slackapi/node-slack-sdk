@@ -1,6 +1,6 @@
-import child from 'child_process';
-import EventEmitter from 'events';
-import stream from 'stream';
+import type child from 'node:child_process';
+import EventEmitter from 'node:events';
+import stream from 'node:stream';
 
 export function mockProcess(): child.ChildProcessWithoutNullStreams {
   const spawnProcess = new EventEmitter() as child.ChildProcessWithoutNullStreams;

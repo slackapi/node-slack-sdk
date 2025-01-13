@@ -32,9 +32,11 @@ expectAssignable<Parameters<typeof web.users.identity>>([{}]); // all args are o
 expectError(web.users.info()); // lacking argument
 expectError(web.users.info({})); // empty argument
 // -- happy path
-expectAssignable<Parameters<typeof web.users.info>>([{
-  user: 'U1234', // must specify a user
-}]);
+expectAssignable<Parameters<typeof web.users.info>>([
+  {
+    user: 'U1234', // must specify a user
+  },
+]);
 
 // users.list
 // -- sad path
@@ -47,27 +49,33 @@ expectAssignable<Parameters<typeof web.users.list>>([{}]); // all args are optio
 expectError(web.users.lookupByEmail()); // lacking argument
 expectError(web.users.lookupByEmail({})); // empty argument
 // -- happy path
-expectAssignable<Parameters<typeof web.users.lookupByEmail>>([{
-  email: 'ceo@slack.com', // must specify an email
-}]);
+expectAssignable<Parameters<typeof web.users.lookupByEmail>>([
+  {
+    email: 'ceo@slack.com', // must specify an email
+  },
+]);
 
 // users.setPhoto
 // -- sad path
 expectError(web.users.setPhoto()); // lacking argument
 expectError(web.users.setPhoto({})); // empty argument
 // -- happy path
-expectAssignable<Parameters<typeof web.users.setPhoto>>([{
-  image: Buffer.from([1]), // must specify an image
-}]);
+expectAssignable<Parameters<typeof web.users.setPhoto>>([
+  {
+    image: Buffer.from([1]), // must specify an image
+  },
+]);
 
 // users.setPresence
 // -- sad path
 expectError(web.users.setPresence()); // lacking argument
 expectError(web.users.setPresence({})); // empty argument
 // -- happy path
-expectAssignable<Parameters<typeof web.users.setPresence>>([{
-  presence: 'auto', // must specify presence
-}]);
+expectAssignable<Parameters<typeof web.users.setPresence>>([
+  {
+    presence: 'auto', // must specify presence
+  },
+]);
 
 // users.profile.get
 // -- sad path

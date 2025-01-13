@@ -1,4 +1,4 @@
-import type { CursorPaginationEnabled, TokenOverridable } from '../common';
+import type { CursorPaginationEnabled, TokenOverridable, UserIDs } from '../common';
 
 // https://api.slack.com/methods/admin.functions.list
 export interface AdminFunctionsListArguments extends TokenOverridable, CursorPaginationEnabled {
@@ -9,18 +9,15 @@ export interface AdminFunctionsListArguments extends TokenOverridable, CursorPag
 }
 
 // https://api.slack.com/methods/admin.functions.permissions.lookup
-export interface AdminFunctionsPermissionsLookupArguments
-  extends TokenOverridable {
+export interface AdminFunctionsPermissionsLookupArguments extends TokenOverridable {
   /** @description An array of function IDs to get permissions for. */
   function_ids: [string, ...string[]];
 }
 
 // https://api.slack.com/methods/admin.functions.permissions.set
-export interface AdminFunctionsPermissionsSetArguments extends TokenOverridable {
+export interface AdminFunctionsPermissionsSetArguments extends TokenOverridable, Partial<UserIDs> {
   /** @description The function ID to set permissions for. */
   function_id: string;
   /** @description The function visibility. */
   visibility: 'everyone' | 'app_collaborators' | 'named_entities' | 'no_one';
-  /** @description List of user IDs to allow for `named_entities` visibility. */
-  user_ids?: string[];
 }

@@ -20,3 +20,7 @@ npm i
 # This Ruby script runs quicktype internally and do some additional modification to the generated files
 ruby ./code_generator.rb
 popd
+# run lint fixing after type generation
+pushd packages/web-api
+npm i
+npm run lint

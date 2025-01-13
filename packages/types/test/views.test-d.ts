@@ -1,5 +1,5 @@
 import { expectAssignable, expectError } from 'tsd';
-import { HomeView, ModalView, PlainTextElement } from '../src/index';
+import type { HomeView, ModalView, PlainTextElement } from '../src/index';
 
 const plaintext: PlainTextElement = { type: 'plain_text', text: 'hi' };
 

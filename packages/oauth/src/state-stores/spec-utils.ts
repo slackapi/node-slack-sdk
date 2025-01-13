@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable import/no-extraneous-dependencies */
 import { assert } from 'chai';
 
-import { StateStore } from './interface';
-import { InstallURLOptions } from '../install-url-options';
+import type { InstallURLOptions } from '../install-url-options';
+import type { StateStore } from './interface';
 
 export interface StateStoreChaiTestRunnerArgs {
   stateStore: StateStore;
@@ -17,9 +15,7 @@ export class StateStoreChaiTestRunner {
 
   public constructor(args: StateStoreChaiTestRunnerArgs) {
     this.stateStore = args.stateStore;
-    this.shouldVerifyOnlyOnce = args.shouldVerifyOnlyOnce === undefined ?
-      true :
-      args.shouldVerifyOnlyOnce;
+    this.shouldVerifyOnlyOnce = args.shouldVerifyOnlyOnce === undefined ? true : args.shouldVerifyOnlyOnce;
   }
 
   public async enableTests(testTarget: string): Promise<void> {
@@ -42,16 +38,12 @@ export class StateStoreChaiTestRunner {
       it('should detect old state values', async () => {
         const { stateStore } = this;
         const installUrlOptions = { scopes: ['channels:read'] };
-        const fifteenMinutesLater = new Date(
-          new Date().getTime() + 15 * 60 * 1000,
-        );
-        const state = await stateStore.generateStateParam(
-          installUrlOptions,
-          new Date(),
-        );
+        const fifteenMinutesLater = new Date(new Date().getTime() + 15 * 60 * 1000);
+        const state = await stateStore.generateStateParam(installUrlOptions, new Date());
         try {
           await stateStore.verifyStateParam(fifteenMinutesLater, state);
           assert.fail('Exception should be thrown');
+          // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
         } catch (e: any) {
           assert.equal(e.code, 'slack_oauth_invalid_state');
         }
@@ -61,29 +53,20 @@ export class StateStoreChaiTestRunner {
         it('should detect multiple consumption', async () => {
           const { stateStore } = this;
           const installUrlOptions = { scopes: ['channels:read'] };
-          Array.from(Array(200)).forEach(async () => {
+          for (let i = 0; i < 200; i++) {
             // generate other states
             await stateStore.generateStateParam(installUrlOptions, new Date());
-          });
-          const state = await stateStore.generateStateParam(
-            installUrlOptions,
-            new Date(),
-          );
+          }
+          const state = await stateStore.generateStateParam(installUrlOptions, new Date());
           const result = await stateStore.verifyStateParam(new Date(), state);
           assert.exists(result);
-          let expectedlyReturnedResult;
+          let expectedlyReturnedResult: InstallURLOptions = { scopes: [] };
           try {
-            expectedlyReturnedResult = await stateStore.verifyStateParam(
-              new Date(),
-              state,
-            );
+            expectedlyReturnedResult = await stateStore.verifyStateParam(new Date(), state);
             assert.fail('Exception should be thrown');
+            // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
           } catch (e: any) {
-            assert.equal(
-              e.code,
-              'slack_oauth_invalid_state',
-              `${state} ${JSON.stringify(expectedlyReturnedResult)}`,
-            );
+            assert.equal(e.code, 'slack_oauth_invalid_state', `${state} ${JSON.stringify(expectedlyReturnedResult)}`);
           }
         });
       }

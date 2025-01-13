@@ -1,19 +1,19 @@
-const Koa = require("koa");
-const Router = require("@koa/router");
-const { WebClient } = require("@slack/web-api"); // requires v6.4 or higher
-const jwt = require("jsonwebtoken");
-const uuid = require("uuid");
+const Koa = require('koa');
+const Router = require('@koa/router');
+const { WebClient } = require('@slack/web-api'); // requires v6.4 or higher
+const jwt = require('jsonwebtoken');
+const uuid = require('uuid');
 
 const app = new Koa();
 const router = new Router();
 
-router.get("/", async (ctx) => {
-  ctx.redirect("/slack/install");
+router.get('/', async (ctx) => {
+  ctx.redirect('/slack/install');
 });
 
 const clientId = process.env.SLACK_CLIENT_ID;
 const clientSecret = process.env.SLACK_CLIENT_SECRET;
-const oidcScopes = "openid,email,profile"; // openid is required at least
+const oidcScopes = 'openid,email,profile'; // openid is required at least
 const redirectUri = process.env.SLACK_REDIRECT_URI;
 
 class MyStateStore {
@@ -36,14 +36,14 @@ class MyStateStore {
 }
 const myStateStore = new MyStateStore();
 
-router.get("/slack/install", async (ctx) => {
+router.get('/slack/install', async (ctx) => {
   const state = await myStateStore.generate();
   // (optional) you can pass nonce parameter as well
   // refer to https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest for details
-  const nonce = "your-own-nonce-value";
+  const nonce = 'your-own-nonce-value';
   const url = `https://slack.com/openid/connect/authorize?response_type=code&state=${state}&client_id=${clientId}&scope=${oidcScopes}&redirect_uri=${redirectUri}&nonce=${nonce}`;
 
-  ctx.headers["content-type"] = "text/html; charset=utf-8";
+  ctx.headers['content-type'] = 'text/html; charset=utf-8';
   ctx.body = `<html>
   <head><style>body {padding: 10px 15px;font-family: verdana;text-align: center;}</style></head>
   <body>
@@ -55,10 +55,10 @@ router.get("/slack/install", async (ctx) => {
 
 const client = new WebClient();
 
-router.get("/slack/oauth_redirect", async (ctx) => {
+router.get('/slack/oauth_redirect', async (ctx) => {
   if (!(await myStateStore.validate(ctx.query.state))) {
     ctx.status = 400;
-    ctx.headers["content-type"] = "text/html; charset=utf-8";
+    ctx.headers['content-type'] = 'text/html; charset=utf-8';
     ctx.body = `<html>
       <head><style>body {padding: 10px 15px;font-family: verdana;text-align: center;}</style></head>
       <body>
@@ -72,12 +72,10 @@ router.get("/slack/oauth_redirect", async (ctx) => {
   const token = await client.openid.connect.token({
     client_id: clientId,
     client_secret: clientSecret,
-    grant_type: "authorization_code",
+    grant_type: 'authorization_code',
     code: ctx.query.code,
   });
-  console.log(
-    `openid.connect.token response: ${JSON.stringify(token, null, 2)}`
-  );
+  console.log(`openid.connect.token response: ${JSON.stringify(token, null, 2)}`);
 
   let userAccessToken = token.access_token;
 
@@ -88,16 +86,10 @@ router.get("/slack/oauth_redirect", async (ctx) => {
     const refreshedToken = await client.openid.connect.token({
       client_id: clientId,
       client_secret: clientSecret,
-      grant_type: "refresh_token",
+      grant_type: 'refresh_token',
       refresh_token: token.refresh_token,
     });
-    console.log(
-      `openid.connect.token (refresh) response: ${JSON.stringify(
-        refreshedToken,
-        null,
-        2
-      )}`
-    );
+    console.log(`openid.connect.token (refresh) response: ${JSON.stringify(refreshedToken, null, 2)}`);
     userAccessToken = refreshedToken.access_token;
   }
 
@@ -111,11 +103,9 @@ router.get("/slack/oauth_redirect", async (ctx) => {
   // You don't need to do this here.
   const tokenWiredClient = new WebClient(userAccessToken);
   const userInfo = await tokenWiredClient.openid.connect.userInfo();
-  console.log(
-    `openid.connect.userInfo response: ${JSON.stringify(userInfo, null, 2)}`
-  );
+  console.log(`openid.connect.userInfo response: ${JSON.stringify(userInfo, null, 2)}`);
 
-  ctx.headers["content-type"] = "text/html; charset=utf-8";
+  ctx.headers['content-type'] = 'text/html; charset=utf-8';
   ctx.body = `<html>
   <head><style>body h2 {padding: 10px 15px;font-family: verdana;text-align: center;}</style></head>
   <body>
@@ -130,4 +120,6 @@ router.get("/slack/oauth_redirect", async (ctx) => {
 // Enable the routes
 app.use(router.routes()).use(router.allowedMethods());
 // Start the web app, which is available at http://localhost:3000/slack/*
-app.listen(3000);
+app.listen(3000, () => {
+  console.log('app started');
+});

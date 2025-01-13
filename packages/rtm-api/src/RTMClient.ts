@@ -1,22 +1,23 @@
-import { Agent } from 'http';
+import type { Agent } from 'node:http';
 
 import {
   ErrorCode as APICallErrorCode,
-  RTMConnectArguments,
-  RTMStartArguments,
-  RetryOptions,
-  TLSOptions,
-  WebAPICallError,
-  WebAPICallResult,
+  type RTMConnectArguments,
+  type RTMStartArguments,
+  type RetryOptions,
+  type TLSOptions,
+  type WebAPICallError,
+  type WebAPICallResult,
   WebClient,
   addAppMetadata,
 } from '@slack/web-api';
 import { EventEmitter } from 'eventemitter3';
-import Finity, { StateMachine } from 'finity';
+import Finity, { type StateMachine } from 'finity';
 import PCancelable from 'p-cancelable';
 import PQueue from 'p-queue';
 import WebSocket from 'ws';
 
+import { KeepAlive } from './KeepAlive';
 import {
   noReplyReceivedError,
   platformErrorFromEvent,
@@ -24,10 +25,9 @@ import {
   sendWhileNotReadyError,
   websocketErrorWithOriginal,
 } from './errors';
-import { KeepAlive } from './KeepAlive';
-import { LogLevel, Logger, getLogger } from './logger';
+import { LogLevel, type Logger, getLogger } from './logger';
 
-const packageJson = require('../package.json'); // eslint-disable-line import/no-commonjs, @typescript-eslint/no-var-requires
+const packageJson = require('../package.json');
 
 /*
  * Helpers
@@ -64,13 +64,13 @@ export class RTMClient extends EventEmitter {
   /**
    * Whether or not the client is currently connected to the RTM API
    */
-  public connected: boolean = false;
+  public connected = false;
 
   /**
    * Whether or not the client has authenticated to the RTM API. This occurs when the connect method
    * completes, and a WebSocket URL is available for the client's connection.
    */
-  public authenticated: boolean = false;
+  public authenticated = false;
 
   /**
    * The user ID for the connected client.
@@ -107,7 +107,7 @@ export class RTMClient extends EventEmitter {
    * The number of milliseconds to wait upon connection for reply messages from the previous connection. The default
    * value is 2 seconds.
    */
-  private replyAckOnReconnectTimeout: number = 2000;
+  private replyAckOnReconnectTimeout = 2000;
 
   /**
    * State machine that backs the transition and action behavior
@@ -117,175 +117,202 @@ export class RTMClient extends EventEmitter {
   /**
    * Configuration for the state machine
    */
-  private stateMachineConfig = Finity
-    .configure()
+  private stateMachineConfig = Finity.configure()
     /* eslint-disable @typescript-eslint/indent, newline-per-chained-call */
-      .initialState('disconnected')
-        .on('start').transitionTo('connecting')
-        .on('explicit disconnect').transitionTo('disconnected')
-        .onEnter(() => {
-          // each client should start out with the outgoing event queue paused
-          this.logger.debug('pausing outgoing event queue');
-          this.outgoingEventQueue.pause();
-          // when a formerly connected client gets disconnected, all outgoing messages whose promises were waiting
-          // for a reply from the server should be canceled
-          this.awaitingReplyList.forEach((p) => { p.cancel(); });
-        })
-      .state('connecting')
-        .submachine(Finity.configure()
-          .initialState('authenticating')
-            .do(() => {
-              // determine which Web API method to use for the connection
-              const connectMethod = this.useRtmConnect ? 'rtm.connect' : 'rtm.start';
-
-              return this.webClient.apiCall(connectMethod, this.startOpts !== undefined ? { ...this.startOpts } : {})
-                .then((result: WebAPICallResult) => {
-                  const startData = result as RTMStartResult;
-
-                  // capture identity information
-                  this.activeUserId = startData.self.id;
-                  this.activeTeamId = startData.team.id;
-
-                  return result;
-                });
-            })
-              .onSuccess().transitionTo('authenticated')
-              .onFailure()
-                .transitionTo('reconnecting').withCondition((context) => {
-                  const error = context.error as WebAPICallError;
-
-                  this.logger.info(`unable to RTM start: ${error.message}`);
-
-                  // Observe this event when the error which causes reconnecting or disconnecting is meaningful
-                  this.emit('unable_to_rtm_start', error);
-
-                  let isRecoverable = true;
-                  if (error.code === APICallErrorCode.PlatformError &&
-                      (Object.values(UnrecoverableRTMStartError) as string[]).includes(error.data.error)) {
-                    isRecoverable = false;
-                  } else if (error.code === APICallErrorCode.RequestError) {
-                    isRecoverable = false;
-                  } else if (error.code === APICallErrorCode.HTTPError) {
-                    isRecoverable = false;
-                  }
-
-                  return this.autoReconnect && isRecoverable;
-                })
-                .transitionTo('failed')
-          .state('authenticated')
-            .onEnter((_state, context) => {
-              this.authenticated = true;
-              this.setupWebsocket(context.result.url);
-              setImmediate(() => {
-                this.emit('authenticated', context.result);
-              });
-            })
-            .on('websocket open').transitionTo('handshaking')
-          .state('handshaking') // a state in which to wait until the 'server hello' event
-          .state('failed')
-            .onEnter((_state, context) => {
-              // dispatch 'failure' on parent machine to transition out of this submachine's states
-              this.stateMachine.handle('failure', context.error);
-            })
-          .global()
-            .onStateEnter((state) => {
-              this.logger.debug(`transitioning to state: connecting:${state}`);
-            })
-        .getConfig())
-        .on('server hello').transitionTo('connected')
-        .on('websocket close')
-          .transitionTo('reconnecting').withCondition(() => this.autoReconnect)
-          .transitionTo('disconnected').withAction(() => {
-            // this transition circumvents the 'disconnecting' state (since the websocket is already closed), so we need
-            // to execute its onExit behavior here.
-            this.teardownWebsocket();
-          })
-        .on('failure').transitionTo('disconnected')
-        .on('explicit disconnect').transitionTo('disconnecting')
-      .state('connected')
-        .onEnter(() => {
-          this.connected = true;
-        })
-        .submachine(Finity.configure()
-          .initialState('resuming')
-            // when a reply to the last message sent is received, we assume that the client is "caught up" from its
-            // previous connection
-            .on('replay finished').transitionTo('ready')
-            // when this client is connecting for the first time, or if the last message sent on the previous connection
-            // would not get a reply from the server, or if for any other reason we do not receive a reply to the last
-            // message sent - after a timeout, we assume that the client is "caught up"
-            .onTimeout(this.replyAckOnReconnectTimeout).transitionTo('ready')
-            .onExit(() => {
-              // once all replay messages are processed, if there are any more messages awaiting a reply message, let
-              // them know that there are none expected to arrive.
-              this.awaitingReplyList.forEach((p) => { p.cancel(); });
-            })
-          .state('ready')
-            .onEnter(() => {
-              this.keepAlive.start(this);
-              // the transition isn't done yet, so we delay the following statement until after the event loop returns
-              setImmediate(() => {
-                this.logger.debug('resuming outgoing event queue');
-                this.outgoingEventQueue.start();
-                this.emit('ready');
-              });
-            })
-          .global()
-            .onStateEnter((state) => {
-              this.logger.debug(`transitioning to state: connected:${state}`);
-            })
-        .getConfig())
-        .on('websocket close')
-          .transitionTo('reconnecting').withCondition(() => this.autoReconnect)
-          .transitionTo('disconnected').withAction(() => {
-            // this transition circumvents the 'disconnecting' state (since the websocket is already closed), so we need
-            // to execute its onExit behavior here.
-            this.teardownWebsocket();
-          })
-        .on('explicit disconnect').transitionTo('disconnecting')
-        .onExit(() => {
-          this.connected = false;
-          this.authenticated = false;
-
-          // clear data that is now stale
-          this.activeUserId = undefined;
-          this.activeTeamId = undefined;
-
-          this.keepAlive.stop();
-          this.outgoingEventQueue.pause();
-        })
-      .state('disconnecting')
-        .onEnter(() => {
-          // Most of the time, a websocket will exist. The only time it does not is when transitioning from connecting,
-          // before the rtm.start() has finished and the websocket hasn't been set up.
-          if (this.websocket !== undefined) {
-            this.websocket.close();
-          }
-        })
-        .on('websocket close').transitionTo('disconnected')
-        .onExit(() => this.teardownWebsocket())
-      // reconnecting is just like disconnecting, except that the websocket should already be closed before we enter
-      // this state, and that the next state should be connecting.
-      .state('reconnecting')
+    .initialState('disconnected')
+    .on('start')
+    .transitionTo('connecting')
+    .on('explicit disconnect')
+    .transitionTo('disconnected')
+    .onEnter(() => {
+      // each client should start out with the outgoing event queue paused
+      this.logger.debug('pausing outgoing event queue');
+      this.outgoingEventQueue.pause();
+      // when a formerly connected client gets disconnected, all outgoing messages whose promises were waiting
+      // for a reply from the server should be canceled
+      for (const p of this.awaitingReplyList) {
+        p.cancel();
+      }
+    })
+    .state('connecting')
+    .submachine(
+      Finity.configure()
+        .initialState('authenticating')
         .do(() => {
-          this.keepAlive.stop();
-          return Promise.resolve(true);
+          // determine which Web API method to use for the connection
+          const connectMethod = this.useRtmConnect ? 'rtm.connect' : 'rtm.start';
+
+          return this.webClient
+            .apiCall(connectMethod, this.startOpts !== undefined ? { ...this.startOpts } : {})
+            .then((result: WebAPICallResult) => {
+              const startData = result as RTMStartResult;
+
+              // capture identity information
+              this.activeUserId = startData.self.id;
+              this.activeTeamId = startData.team.id;
+
+              return result;
+            });
         })
-          .onSuccess().transitionTo('connecting')
-        .onExit(() => this.teardownWebsocket())
-      .global()
-        .onStateEnter((state, context) => {
-          this.logger.debug(`transitioning to state: ${state}`);
-          if (state === 'disconnected') {
-            // Emits a `disconnected` event with a possible error object (might be undefined)
-            this.emit(state, context.eventPayload);
-          } else {
-            // Emits events: `connecting`, `connected`, `disconnecting`, `reconnecting`
-            this.emit(state);
+        .onSuccess()
+        .transitionTo('authenticated')
+        .onFailure()
+        .transitionTo('reconnecting')
+        .withCondition((context) => {
+          const error = context.error as WebAPICallError;
+
+          this.logger.info(`unable to RTM start: ${error.message}`);
+
+          // Observe this event when the error which causes reconnecting or disconnecting is meaningful
+          this.emit('unable_to_rtm_start', error);
+
+          let isRecoverable = true;
+          if (
+            error.code === APICallErrorCode.PlatformError &&
+            (Object.values(UnrecoverableRTMStartError) as string[]).includes(error.data.error)
+          ) {
+            isRecoverable = false;
+          } else if (error.code === APICallErrorCode.RequestError) {
+            isRecoverable = false;
+          } else if (error.code === APICallErrorCode.HTTPError) {
+            isRecoverable = false;
+          }
+
+          return this.autoReconnect && isRecoverable;
+        })
+        .transitionTo('failed')
+        .state('authenticated')
+        .onEnter((_state, context) => {
+          this.authenticated = true;
+          this.setupWebsocket(context.result.url);
+          setImmediate(() => {
+            this.emit('authenticated', context.result);
+          });
+        })
+        .on('websocket open')
+        .transitionTo('handshaking')
+        .state('handshaking') // a state in which to wait until the 'server hello' event
+        .state('failed')
+        .onEnter((_state, context) => {
+          // dispatch 'failure' on parent machine to transition out of this submachine's states
+          this.stateMachine.handle('failure', context.error);
+        })
+        .global()
+        .onStateEnter((state) => {
+          this.logger.debug(`transitioning to state: connecting:${state}`);
+        })
+        .getConfig(),
+    )
+    .on('server hello')
+    .transitionTo('connected')
+    .on('websocket close')
+    .transitionTo('reconnecting')
+    .withCondition(() => this.autoReconnect)
+    .transitionTo('disconnected')
+    .withAction(() => {
+      // this transition circumvents the 'disconnecting' state (since the websocket is already closed), so we need
+      // to execute its onExit behavior here.
+      this.teardownWebsocket();
+    })
+    .on('failure')
+    .transitionTo('disconnected')
+    .on('explicit disconnect')
+    .transitionTo('disconnecting')
+    .state('connected')
+    .onEnter(() => {
+      this.connected = true;
+    })
+    .submachine(
+      Finity.configure()
+        .initialState('resuming')
+        // when a reply to the last message sent is received, we assume that the client is "caught up" from its
+        // previous connection
+        .on('replay finished')
+        .transitionTo('ready')
+        // when this client is connecting for the first time, or if the last message sent on the previous connection
+        // would not get a reply from the server, or if for any other reason we do not receive a reply to the last
+        // message sent - after a timeout, we assume that the client is "caught up"
+        .onTimeout(this.replyAckOnReconnectTimeout)
+        .transitionTo('ready')
+        .onExit(() => {
+          // once all replay messages are processed, if there are any more messages awaiting a reply message, let
+          // them know that there are none expected to arrive.
+          for (const p of this.awaitingReplyList) {
+            p.cancel();
           }
         })
+        .state('ready')
+        .onEnter(() => {
+          this.keepAlive.start(this);
+          // the transition isn't done yet, so we delay the following statement until after the event loop returns
+          setImmediate(() => {
+            this.logger.debug('resuming outgoing event queue');
+            this.outgoingEventQueue.start();
+            this.emit('ready');
+          });
+        })
+        .global()
+        .onStateEnter((state) => {
+          this.logger.debug(`transitioning to state: connected:${state}`);
+        })
+        .getConfig(),
+    )
+    .on('websocket close')
+    .transitionTo('reconnecting')
+    .withCondition(() => this.autoReconnect)
+    .transitionTo('disconnected')
+    .withAction(() => {
+      // this transition circumvents the 'disconnecting' state (since the websocket is already closed), so we need
+      // to execute its onExit behavior here.
+      this.teardownWebsocket();
+    })
+    .on('explicit disconnect')
+    .transitionTo('disconnecting')
+    .onExit(() => {
+      this.connected = false;
+      this.authenticated = false;
+
+      // clear data that is now stale
+      this.activeUserId = undefined;
+      this.activeTeamId = undefined;
+
+      this.keepAlive.stop();
+      this.outgoingEventQueue.pause();
+    })
+    .state('disconnecting')
+    .onEnter(() => {
+      // Most of the time, a websocket will exist. The only time it does not is when transitioning from connecting,
+      // before the rtm.start() has finished and the websocket hasn't been set up.
+      if (this.websocket !== undefined) {
+        this.websocket.close();
+      }
+    })
+    .on('websocket close')
+    .transitionTo('disconnected')
+    .onExit(() => this.teardownWebsocket())
+    // reconnecting is just like disconnecting, except that the websocket should already be closed before we enter
+    // this state, and that the next state should be connecting.
+    .state('reconnecting')
+    .do(() => {
+      this.keepAlive.stop();
+      return Promise.resolve(true);
+    })
+    .onSuccess()
+    .transitionTo('connecting')
+    .onExit(() => this.teardownWebsocket())
+    .global()
+    .onStateEnter((state, context) => {
+      this.logger.debug(`transitioning to state: ${state}`);
+      if (state === 'disconnected') {
+        // Emits a `disconnected` event with a possible error object (might be undefined)
+        this.emit(state, context.eventPayload);
+      } else {
+        // Emits events: `connecting`, `connected`, `disconnecting`, `reconnecting`
+        this.emit(state);
+      }
+    })
     .getConfig();
-    /* eslint-enable @typescript-eslint/indent, newline-per-chained-call */
+  /* eslint-enable @typescript-eslint/indent, newline-per-chained-call */
 
   /**
    * The client's websocket
@@ -337,30 +364,35 @@ export class RTMClient extends EventEmitter {
    */
   private logger: Logger;
 
-  public constructor(token: string, {
-    slackApiUrl = 'https://slack.com/api/',
-    logger = undefined,
-    logLevel = LogLevel.INFO,
-    retryConfig,
-    agent = undefined,
-    autoReconnect = true,
-    useRtmConnect = true,
-    clientPingTimeout,
-    serverPongTimeout,
-    replyAckOnReconnectTimeout = 2000,
-    tls = undefined,
-    webClient,
-  }: RTMClientOptions = {}) {
-    super();
-    this.webClient = webClient || new WebClient(token, {
-      slackApiUrl,
-      logger,
-      logLevel,
+  public constructor(
+    token: string,
+    {
+      slackApiUrl = 'https://slack.com/api/',
+      logger = undefined,
+      logLevel = LogLevel.INFO,
       retryConfig,
-      agent,
-      tls,
-      maxRequestConcurrency: 1,
-    });
+      agent = undefined,
+      autoReconnect = true,
+      useRtmConnect = true,
+      clientPingTimeout,
+      serverPongTimeout,
+      replyAckOnReconnectTimeout = 2000,
+      tls = undefined,
+      webClient,
+    }: RTMClientOptions = {},
+  ) {
+    super();
+    this.webClient =
+      webClient ||
+      new WebClient(token, {
+        slackApiUrl,
+        logger,
+        logLevel,
+        retryConfig,
+        agent,
+        tls,
+        maxRequestConcurrency: 1,
+      });
 
     this.agentConfig = agent;
     this.autoReconnect = autoReconnect;
@@ -491,8 +523,13 @@ export class RTMClient extends EventEmitter {
    * @param body - the message body
    */
   public addOutgoingEvent(awaitReply: true, type: string, body?: Record<string, unknown>): Promise<RTMCallResult>;
-  public addOutgoingEvent(awaitReply: false, type: string, body?: Record<string, unknown>): Promise<void>;
-  public addOutgoingEvent(awaitReply: boolean, type: string, body?: Record<string, unknown>): Promise<RTMCallResult | void> { // eslint-disable-line max-len
+  public addOutgoingEvent(awaitReply: false, type: string, body?: Record<string, unknown>): Promise<undefined>;
+  public addOutgoingEvent(
+    awaitReply: boolean,
+    type: string,
+    body?: Record<string, unknown>,
+  ): Promise<RTMCallResult | undefined> {
+    // eslint-disable-line max-len
     const awaitReplyTask = (messageId: number) => {
       const replyPromise = new PCancelable<RTMCallResult>((resolve, reject, onCancel) => {
         // We only want the event handler to resolve the Promise in the case the message IDs match
@@ -502,7 +539,7 @@ export class RTMClient extends EventEmitter {
           if (event.reply_to === messageId) {
             this.off('slack_event', eventHandler);
             if (event.error !== undefined) {
-              const error = platformErrorFromEvent(event as RTMCallResult & { error: { msg: string; } });
+              const error = platformErrorFromEvent(event as RTMCallResult & { error: { msg: string } });
               return reject(error);
             }
             return resolve(event);
@@ -518,12 +555,12 @@ export class RTMClient extends EventEmitter {
       return replyPromise;
     };
 
-    const sendTask = (): Promise<RTMCallResult | void> => {
+    const sendTask = (): Promise<RTMCallResult | undefined> => {
       const sendPromise = this.send(type, body);
       if (awaitReply) {
         return sendPromise.then(awaitReplyTask);
       }
-      return sendPromise.then(() => Promise.resolve());
+      return sendPromise.then(() => Promise.resolve(undefined));
     };
 
     return this.outgoingEventQueue.add(sendTask);
@@ -550,8 +587,9 @@ export class RTMClient extends EventEmitter {
       if (this.websocket === undefined) {
         this.logger.error('cannot send message when client is not connected');
         reject(sendWhileDisconnectedError());
-      } else if (!(this.stateMachine.getCurrentState() === 'connected' &&
-                 this.stateMachine.getStateHierarchy()[1] === 'ready')) {
+      } else if (
+        !(this.stateMachine.getCurrentState() === 'connected' && this.stateMachine.getStateHierarchy()[1] === 'ready')
+      ) {
         this.logger.error('cannot send message when client is not ready');
         reject(sendWhileNotReadyError());
       } else {
@@ -626,10 +664,10 @@ export class RTMClient extends EventEmitter {
     this.logger.debug(`received message on websocket: ${data.toString()}`);
 
     // parse message into slack event
-    let event;
+    let event: { type: string } & Record<string, unknown>;
     try {
       event = JSON.parse(data.toString());
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
     } catch (parseError: any) {
       // prevent application from crashing on a bad message, but log an error to bring attention
       this.logger.error(
@@ -649,9 +687,12 @@ export class RTMClient extends EventEmitter {
       }
     }
 
-    if (this.stateMachine.getCurrentState() === 'connected' &&
-        this.stateMachine.getStateHierarchy()[1] === 'resuming' &&
-        event.reply_to !== undefined && event.reply_to === this.messageId) {
+    if (
+      this.stateMachine.getCurrentState() === 'connected' &&
+      this.stateMachine.getStateHierarchy()[1] === 'resuming' &&
+      event.reply_to !== undefined &&
+      event.reply_to === this.messageId
+    ) {
       this.stateMachine.handle('replay finished');
     }
 

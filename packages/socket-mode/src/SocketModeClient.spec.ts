@@ -2,8 +2,8 @@ import { ConsoleLogger } from '@slack/logger';
 import { assert } from 'chai';
 import sinon from 'sinon';
 
-import logModule from './logger';
 import { SocketModeClient } from './SocketModeClient';
+import logModule from './logger';
 
 describe('SocketModeClient', () => {
   const sandbox = sinon.createSandbox();
@@ -70,12 +70,14 @@ describe('SocketModeClient', () => {
         });
         let slackEventListenerCalled = false;
         client.on('slack_event', async (args) => {
-          slackEventListenerCalled = args.ack !== undefined && args.body !== undefined &&
+          slackEventListenerCalled =
+            args.ack !== undefined &&
+            args.body !== undefined &&
             args.type === 'slash_commands' &&
             args.retry_num === undefined &&
             args.retry_reason === undefined;
         });
-        client.emit('message', message, false /* isBinary */);
+        client.emit('ws_message', message, false /* isBinary */);
         await sleep(30);
         assert.isTrue(commandListenerCalled);
         assert.isTrue(slackEventListenerCalled);
@@ -87,7 +89,7 @@ describe('SocketModeClient', () => {
         client.on('slash_commands', async ({ envelope_id }) => {
           passedEnvelopeId = envelope_id;
         });
-        client.emit('message', message, false /* isBinary */);
+        client.emit('ws_message', message, false /* isBinary */);
         await sleep(30);
         assert.equal(passedEnvelopeId, envelopeId);
       });
@@ -97,7 +99,7 @@ describe('SocketModeClient', () => {
         client.on('slack_event', async ({ envelope_id }) => {
           passedEnvelopeId = envelope_id;
         });
-        client.emit('message', message, false /* isBinary */);
+        client.emit('ws_message', message, false /* isBinary */);
         await sleep(30);
         assert.equal(passedEnvelopeId, envelopeId);
       });
@@ -105,7 +107,7 @@ describe('SocketModeClient', () => {
 
     describe('events_api messages', () => {
       const envelopeId = 'cda4159a-72a5-4744-aba3-4d66eb52682b';
-      const message = JSON.stringify({
+      const appMention = JSON.stringify({
         envelope_id: envelopeId,
         payload: {
           token: 'verification-token',
@@ -114,6 +116,59 @@ describe('SocketModeClient', () => {
           event: {
             client_msg_id: 'f0582a78-72db-4feb-b2f3-1e47d66365c8',
             type: 'app_mention',
+            text: '<@U111>',
+            user: 'U222',
+            ts: '1610241741.000200',
+            team: 'T111',
+            blocks: [
+              {
+                type: 'rich_text',
+                block_id: 'Sesm',
+                elements: [
+                  {
+                    type: 'rich_text_section',
+                    elements: [
+                      {
+                        type: 'user',
+                        user_id: 'U111',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+            channel: 'C111',
+            event_ts: '1610241741.000200',
+          },
+          type: 'event_callback',
+          event_id: 'Ev111',
+          event_time: 1610241741,
+          authorizations: [
+            {
+              enterprise_id: null,
+              team_id: 'T111',
+              user_id: 'U222',
+              is_bot: true,
+              is_enterprise_install: false,
+            },
+          ],
+          is_ext_shared_channel: false,
+          event_context: '1-app_mention-T111-C111',
+        },
+        type: 'events_api',
+        accepts_response_payload: false,
+        retry_attempt: 2,
+        retry_reason: 'timeout',
+      });
+      const message = JSON.stringify({
+        envelope_id: envelopeId,
+        payload: {
+          token: 'verification-token',
+          team_id: 'T111',
+          api_app_id: 'A111',
+          event: {
+            client_msg_id: 'f0582a78-72db-4feb-b2f3-1e47d66365c8',
+            type: 'message',
             text: '<@U111>',
             user: 'U222',
             ts: '1610241741.000200',
@@ -167,18 +222,21 @@ describe('SocketModeClient', () => {
         });
         let eventsApiListenerCalled = false;
         client.on('app_mention', async (args) => {
-          eventsApiListenerCalled = args.ack !== undefined &&
+          eventsApiListenerCalled =
+            args.ack !== undefined &&
             args.body !== undefined &&
             args.retry_num === 2 &&
             args.retry_reason === 'timeout';
         });
         let slackEventListenerCalled = false;
         client.on('slack_event', async (args) => {
-          slackEventListenerCalled = args.ack !== undefined && args.body !== undefined &&
+          slackEventListenerCalled =
+            args.ack !== undefined &&
+            args.body !== undefined &&
             args.retry_num === 2 &&
             args.retry_reason === 'timeout';
         });
-        client.emit('message', message, false /* isBinary */);
+        client.emit('ws_message', appMention, false /* isBinary */);
         await sleep(30);
         assert.isFalse(otherListenerCalled);
         assert.isTrue(eventsApiListenerCalled);
@@ -191,7 +249,7 @@ describe('SocketModeClient', () => {
         client.on('app_mention', async ({ envelope_id }) => {
           passedEnvelopeId = envelope_id;
         });
-        client.emit('message', message, false /* isBinary */);
+        client.emit('ws_message', appMention, false /* isBinary */);
         await sleep(30);
         assert.equal(passedEnvelopeId, envelopeId);
       });
@@ -201,9 +259,16 @@ describe('SocketModeClient', () => {
         client.on('slack_event', async ({ envelope_id }) => {
           passedEnvelopeId = envelope_id;
         });
-        client.emit('message', message, false /* isBinary */);
+        client.emit('ws_message', appMention, false /* isBinary */);
         await sleep(30);
         assert.equal(passedEnvelopeId, envelopeId);
+      });
+      it('should process message events once', async () => {
+        const client = new SocketModeClient({ appToken: 'xapp-' });
+        const spy = sinon.spy();
+        client.on('message', spy);
+        client.emit('ws_message', message, false /* isBinary */);
+        sinon.assert.callCount(spy, 1);
       });
     });
 
@@ -247,7 +312,7 @@ describe('SocketModeClient', () => {
         client.on('slack_event', async (args) => {
           slackEventListenerCalled = args.ack !== undefined && args.body !== undefined;
         });
-        client.emit('message', message, false /* isBinary */);
+        client.emit('ws_message', message, false /* isBinary */);
         await sleep(30);
         assert.isFalse(otherListenerCalled);
         assert.isTrue(interactiveListenerCalled);
@@ -260,7 +325,7 @@ describe('SocketModeClient', () => {
         client.on('interactive', async ({ envelope_id }) => {
           passedEnvelopeId = envelope_id;
         });
-        client.emit('message', message, false /* isBinary */);
+        client.emit('ws_message', message, false /* isBinary */);
         await sleep(30);
         assert.equal(passedEnvelopeId, envelopeId);
       });
@@ -270,7 +335,7 @@ describe('SocketModeClient', () => {
         client.on('slack_event', async ({ envelope_id }) => {
           passedEnvelopeId = envelope_id;
         });
-        client.emit('message', message, false /* isBinary */);
+        client.emit('ws_message', message, false /* isBinary */);
         await sleep(30);
         assert.equal(passedEnvelopeId, envelopeId);
       });

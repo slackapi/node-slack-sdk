@@ -1,4 +1,4 @@
-import { RTMCallResult } from './RTMClient';
+import type { RTMCallResult } from './RTMClient';
 
 /**
  * All errors produced by this package adhere to this interface
@@ -23,8 +23,12 @@ export enum ErrorCode {
   KeepAliveInconsistentState = 'slack_rtmapi_keepalive_inconsistent_state',
 }
 
-export type RTMCallError = RTMPlatformError | RTMWebsocketError | RTMNoReplyReceivedError
-| RTMSendWhileDisconnectedError | RTMSendWhileNotReadyError;
+export type RTMCallError =
+  | RTMPlatformError
+  | RTMWebsocketError
+  | RTMNoReplyReceivedError
+  | RTMSendWhileDisconnectedError
+  | RTMSendWhileNotReadyError;
 
 export interface RTMPlatformError extends CodedError {
   code: ErrorCode.SendMessagePlatformError;
@@ -67,19 +71,19 @@ export function websocketErrorWithOriginal(original: Error): RTMWebsocketError {
     ErrorCode.WebsocketError,
   ) as Partial<RTMWebsocketError>;
   error.original = original;
-  return (error as RTMWebsocketError);
+  return error as RTMWebsocketError;
 }
 
 /**
  * A factory to create RTMPlatformError objects.
  */
-export function platformErrorFromEvent(event: RTMCallResult & { error: { msg: string; } }): RTMPlatformError {
+export function platformErrorFromEvent(event: RTMCallResult & { error: { msg: string } }): RTMPlatformError {
   const error = errorWithCode(
     new Error(`An API error occurred: ${event.error.msg}`),
     ErrorCode.SendMessagePlatformError,
   ) as Partial<RTMPlatformError>;
   error.data = event;
-  return (error as RTMPlatformError);
+  return error as RTMPlatformError;
 }
 
 /**
@@ -87,8 +91,10 @@ export function platformErrorFromEvent(event: RTMCallResult & { error: { msg: st
  */
 export function noReplyReceivedError(): RTMNoReplyReceivedError {
   return errorWithCode(
-    new Error('Message sent but no server acknowledgement was received. This may be caused by the client ' +
-    'changing connection state rather than any issue with the specific message. Check before resending.'),
+    new Error(
+      'Message sent but no server acknowledgement was received. This may be caused by the client ' +
+        'changing connection state rather than any issue with the specific message. Check before resending.',
+    ),
     ErrorCode.NoReplyReceivedError,
   ) as RTMNoReplyReceivedError;
 }

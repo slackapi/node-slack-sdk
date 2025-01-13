@@ -1,8 +1,8 @@
-import { OptionalArgument } from '../../helpers';
+import type { OptionalArgument } from '../../helpers';
 
 import type { AppID, CursorPaginationEnabled, SortDir, TokenOverridable } from '../common';
 
-interface CollaboratorIDs {
+export interface CollaboratorIDs {
   /** @description Array of collaborators (encoded user IDs) - maximum of 50 items. */
   collaborator_ids: [string, ...string[]];
 }
@@ -28,19 +28,24 @@ export interface AdminWorkflowsPermissionsLookupArguments extends WorkflowIDs, T
 }
 
 // https://api.slack.com/methods/admin.workflows.search
-export type AdminWorkflowsSearchArguments = OptionalArgument<Partial<AppID> & Partial<CollaboratorIDs> & SortDir &
-TokenOverridable & CursorPaginationEnabled & {
-  /** @description Only include workflows with no collaborators in the result; default is `false`. */
-  no_collaborators?: boolean;
-  /** @description Number of trigger IDs to fetch for each workflow; default is `0`. */
-  num_trigger_ids?: number;
-  /** @description A search query to filter for workflow name or description. */
-  query?: string;
-  /** @description The field used to sort the returned workflows. Currently only `premium_runs` is supported. */
-  sort?: 'premium_runs';
-  /** @description Source of workflow creation, either from `code` or `workflow_builder`. */
-  source?: 'code' | 'workflow_builder';
-}>;
+export type AdminWorkflowsSearchArguments = OptionalArgument<
+  Partial<AppID> &
+    Partial<CollaboratorIDs> &
+    SortDir &
+    TokenOverridable &
+    CursorPaginationEnabled & {
+      /** @description Only include workflows with no collaborators in the result; default is `false`. */
+      no_collaborators?: boolean;
+      /** @description Number of trigger IDs to fetch for each workflow; default is `0`. */
+      num_trigger_ids?: number;
+      /** @description A search query to filter for workflow name or description. */
+      query?: string;
+      /** @description The field used to sort the returned workflows. Currently only `premium_runs` is supported. */
+      sort?: 'premium_runs';
+      /** @description Source of workflow creation, either from `code` or `workflow_builder`. */
+      source?: 'code' | 'workflow_builder';
+    }
+>;
 
 // https://api.slack.com/methods/admin.workflows.unpublish
 export interface AdminWorkflowsUnpublishArguments extends WorkflowIDs, TokenOverridable {}

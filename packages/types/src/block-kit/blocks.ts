@@ -1,5 +1,5 @@
 // This file contains objects documented here: https://api.slack.com/reference/block-kit/blocks
-import {
+import type {
   Button,
   Checkboxes,
   DateTimepicker,
@@ -22,12 +22,7 @@ import {
   URLInput,
   WorkflowButton,
 } from './block-elements';
-import {
-  PlainTextElement,
-  SlackFileImageObject,
-  TextObject,
-  UrlImageObject,
-} from './composition-objects';
+import type { PlainTextElement, SlackFileImageObject, TextObject, UrlImageObject } from './composition-objects';
 
 export interface Block {
   /**
@@ -48,8 +43,17 @@ export interface Block {
  * A helper union type of all known Blocks, as listed out on the
  * {@link https://api.slack.com/reference/block-kit/blocks Blocks reference}.
  */
-export type KnownBlock = ImageBlock | ContextBlock | ActionsBlock | DividerBlock |
-SectionBlock | InputBlock | FileBlock | HeaderBlock | VideoBlock | RichTextBlock;
+export type KnownBlock =
+  | ImageBlock
+  | ContextBlock
+  | ActionsBlock
+  | DividerBlock
+  | SectionBlock
+  | InputBlock
+  | FileBlock
+  | HeaderBlock
+  | VideoBlock
+  | RichTextBlock;
 
 /**
  * A helper union type of all known Blocks as well as the generic {@link Block} interface. A full list of known blocks
@@ -61,8 +65,18 @@ export type AnyBlock = KnownBlock | Block;
  * A helper union type of all Block Elements that can be used in an {@link ActionsBlock}.
  * @see {@link https://api.slack.com/reference/block-kit/blocks#actions Actions block reference}.
  */
-export type ActionsBlockElement = Button | Checkboxes | Datepicker | DateTimepicker | MultiSelect | Overflow |
-RadioButtons | Select | Timepicker | WorkflowButton | RichTextInput;
+export type ActionsBlockElement =
+  | Button
+  | Checkboxes
+  | Datepicker
+  | DateTimepicker
+  | MultiSelect
+  | Overflow
+  | RadioButtons
+  | Select
+  | Timepicker
+  | WorkflowButton
+  | RichTextInput;
 
 /**
  * @description Holds multiple interactive elements.
@@ -172,14 +186,27 @@ export type ImageBlock = {
    * Maximum length for the text in this field is 2000 characters.
    */
   title?: PlainTextElement;
-} & Block & (UrlImageObject | SlackFileImageObject);
+} & Block &
+  (UrlImageObject | SlackFileImageObject);
 
 /**
  * A helper union type of all Block Elements that can be used in an {@link InputBlock}.
  * @see {@link https://api.slack.com/reference/block-kit/blocks#input Input block reference}.
  */
-export type InputBlockElement = Checkboxes | Datepicker | DateTimepicker | EmailInput | FileInput | MultiSelect |
-NumberInput | PlainTextInput | RadioButtons | RichTextInput | Select | Timepicker | URLInput;
+export type InputBlockElement =
+  | Checkboxes
+  | Datepicker
+  | DateTimepicker
+  | EmailInput
+  | FileInput
+  | MultiSelect
+  | NumberInput
+  | PlainTextInput
+  | RadioButtons
+  | RichTextInput
+  | Select
+  | Timepicker
+  | URLInput;
 
 /**
  * @description Collects information from users via block elements.
@@ -237,7 +264,7 @@ export interface RichTextBlock extends Block {
   /**
    * @description The type of block. For a rich text block, `type` is always `rich_text`.
    */
-  type: 'rich_text',
+  type: 'rich_text';
   elements: RichTextBlockElement[];
 }
 
@@ -245,8 +272,17 @@ export interface RichTextBlock extends Block {
  * A helper union type of all Block Elements that can be used as an accessory in a {@link SectionBlock}.
  * @see {@link https://api.slack.com/reference/block-kit/blocks#section Section block reference}.
  */
-export type SectionBlockAccessory = Button | Checkboxes | Datepicker | ImageElement | MultiSelect | Overflow |
-RadioButtons | Select | Timepicker | WorkflowButton;
+export type SectionBlockAccessory =
+  | Button
+  | Checkboxes
+  | Datepicker
+  | ImageElement
+  | MultiSelect
+  | Overflow
+  | RadioButtons
+  | Select
+  | Timepicker
+  | WorkflowButton;
 
 // TODO: breaking change: use a discriminative union to represent section block using `text` or `fields` but
 // not both or neither.

@@ -36,7 +36,7 @@ const { InstallProvider } = require('@slack/oauth');
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'my-state-secret'
+  stateSecret: process.env.SLACK_STATE_SECRET,
 });
 ```
 
@@ -52,7 +52,7 @@ Using a classic Slack app
   const installer = new InstallProvider({
     clientId: process.env.SLACK_CLIENT_ID,
     clientSecret: process.env.SLACK_CLIENT_SECRET,
-    stateSecret: 'my-state-secret',
+    stateSecret: process.env.SLACK_STATE_SECRET,
     authVersion: 'v1' //required for classic Slack apps
   });
   ```
@@ -92,7 +92,7 @@ const { InstallProvider } = require('@slack/oauth');
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'my-state-secret',
+  stateSecret: process.env.SLACK_STATE_SECRET,
   renderHtmlForInstallPath: (url) => `<html><body><a href="${url}">Install my app!</a></body></html>`
 });
 ```
@@ -170,7 +170,7 @@ app.get('/slack/oauth_redirect', (req, res) => {
 
 There are many situations where you may want to persist some custom data relevant to your application across the entire OAuth flow. For example, you may want to map Slack resources (like users) to your own application's resources, or verify and gate eligibility for proceeding with installing your Slack application to a workspace based on your application's requirements. To this end, this package provides a series of hooks, or callbacks, that allow your application to integrate throughout key points of the OAuth flow.
 
-These are all callbacks customizable via the [`CallbackOptions`](reference/oauth#callbackoptions) and [`InstallPathOptions`](reference/oauth#installpathoptions) interfaces - check their [reference documentation](reference/oauth) for more details.
+These are all callbacks customizable via the [`CallbackOptions`](/reference/oauth/interfaces/CallbackOptions) and [`InstallPathOptions`](/reference/oauth/interfaces/InstallPathOptions) interfaces - check their [reference documentation](reference/oauth) for more details.
 
 For example, you may wish to store some information relevant to your application in a cookie before starting the OAuth flow and redirecting the user to the slack.com authorize URL. Once the user completes the authorization process on slack.com and is redirected back to your application, you can read this cookie and determine if the user has the appropriate permissions to proceed with installation of your application:
 
@@ -182,7 +182,7 @@ const { createServer } = require('http');
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'my-state-secret'
+  stateSecret: process.env.SLACK_STATE_SECRET,
 });
 
 const server = createServer(async (req, res) =>  {
@@ -248,6 +248,7 @@ app.get('/slack/oauth_redirect', (req, res) => {
 });
 ```
 </details>
+
 ---
 
 ### Storing installations in a database
@@ -264,7 +265,7 @@ In the following example, the `installationStore` option is used and the object 
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'my-state-secret',
+  stateSecret: process.env.SLACK_STATE_SECRET,
   installationStore: {
     // takes in an installation object as an argument
     // returns nothing
@@ -417,7 +418,7 @@ const { InstallProvider, LogLevel } = require('@slack/oauth');
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'my-state-secret',
+  stateSecret: process.env.SLACK_STATE_SECRET,
   logLevel: LogLevel.DEBUG,
 });
 ```
@@ -450,7 +451,7 @@ const logWritable = createWriteStream('/var/my_log_file'); // Not shown: close t
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'my-state-secret',
+  stateSecret: process.env.SLACK_STATE_SECRET,
   // Creating a logger as a literal object. It's more likely that you'd create a class.
   logger: {
     debug(...msgs): { logWritable.write('debug: ' + JSON.stringify(msgs)); },

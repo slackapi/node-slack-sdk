@@ -1,4 +1,4 @@
-import { StatusEmojiDisplayInfo } from '../common/status-emoji-display-info';
+import type { StatusEmojiDisplayInfo } from '../common/status-emoji-display-info';
 
 export interface UserChangeEvent {
   type: 'user_change';
@@ -42,14 +42,14 @@ export interface UserChangeEvent {
       image_1024?: string;
       team: string;
       fields:
-      | {
-        [key: string]: {
-          value: string;
-          alt: string;
-        };
-      }
-      | []
-      | null;
+        | {
+            [key: string]: {
+              value: string;
+              alt: string;
+            };
+          }
+        | []
+        | null;
     };
     is_admin: boolean;
     is_owner: boolean;
@@ -124,14 +124,14 @@ export interface UserHuddleChangedEvent {
       image_1024?: string;
       team: string;
       fields:
-      | {
-        [key: string]: {
-          value: string;
-          alt: string;
-        };
-      }
-      | []
-      | null;
+        | {
+            [key: string]: {
+              value: string;
+              alt: string;
+            };
+          }
+        | []
+        | null;
     };
     is_admin: boolean;
     is_owner: boolean;
@@ -206,14 +206,14 @@ export interface UserProfileChangedEvent {
       image_1024?: string;
       team: string;
       fields:
-      | {
-        [key: string]: {
-          value: string;
-          alt: string;
-        };
-      }
-      | []
-      | null;
+        | {
+            [key: string]: {
+              value: string;
+              alt: string;
+            };
+          }
+        | []
+        | null;
     };
     is_admin: boolean;
     is_owner: boolean;
@@ -269,7 +269,7 @@ export interface UserStatusChangedEvent {
       status_text: string;
       status_text_canonical: string;
       status_emoji: string;
-      status_emoji_display_info: StatusEmojiDisplayInfo[],
+      status_emoji_display_info: StatusEmojiDisplayInfo[];
       status_expiration: number;
       avatar_hash: string;
       first_name: string;
@@ -286,14 +286,14 @@ export interface UserStatusChangedEvent {
       image_1024?: string;
       team: string;
       fields:
-      | {
-        [key: string]: {
-          value: string;
-          alt: string;
-        };
-      }
-      | []
-      | null;
+        | {
+            [key: string]: {
+              value: string;
+              alt: string;
+            };
+          }
+        | []
+        | null;
     };
     is_admin: boolean;
     is_owner: boolean;

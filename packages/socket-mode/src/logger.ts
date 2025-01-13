@@ -12,7 +12,9 @@ export default {
 
     // Set up the logger.
     const logger: Logger = (() => {
-      if (existingLogger !== undefined) { return existingLogger; }
+      if (existingLogger !== undefined) {
+        return existingLogger;
+      }
       return new ConsoleLogger();
     })();
     logger.setName(`socket-mode:${name}:${instanceId}`);

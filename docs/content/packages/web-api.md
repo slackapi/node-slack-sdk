@@ -31,7 +31,7 @@ This article contains the steps you must follow to get your access token:
 3. [Install the app to a workspace](https://api.slack.com/authentication/basics#installing)
 4. Finally, [get your access token](https://api.slack.com/authentication/basics#getting-your-authentication-token)
 
-You can also read the [Getting Started guide](../getting-started) which guides
+You can also read the [Getting Started guide](/getting-started) which guides
 you through creating an app, retrieving an access token, and using this `@slack/web-api`
 package to post a message.
 
@@ -658,6 +658,65 @@ const proxy = new HttpsProxyAgent(process.env.http_proxy || 'http://168.63.76.32
 const web = new WebClient(token, { agent: proxy });
 
 // All API method calls will now go through the proxy
+```
+
+---
+
+### Modify outgoing requests with a request interceptor
+
+The client allows you to customize a request
+[`interceptor`](https://axios-http.com/docs/interceptors) to modify outgoing requests.
+Using this option allows you to modify outgoing requests to conform to the requirements of a proxy, which is a common requirement in many corporate settings.
+
+For example you may want to wrap the original request information within a POST request:
+
+```javascript
+const { WebClient } = require('@slack/web-api');
+
+const token = process.env.SLACK_TOKEN;
+
+const webClient = new WebClient(token, {
+  requestInterceptor: (config) => {
+    config.headers['Content-Type'] = 'application/json';
+
+    config.data  = {
+      method: config.method,
+      base_url: config.baseURL,
+      path: config.url,
+      body: config.data ?? {},
+      query: config.params ?? {},
+      headers: structuredClone(config.headers),
+      test: 'static-body-value',
+    };
+
+    return config;
+  }
+});
+```
+
+---
+
+### Using a pre-configured http client to handle outgoing requests
+
+The client allows you to specify an
+[`adapter`](https://github.com/axios/axios/blob/v1.x/README.md?plain=1#L586) to handle outgoing requests.
+Using this option allows you to use a pre-configured http client, which is a common requirement in many corporate settings.
+
+For example you may want to use an HTTP client which is already configured with logging capabilities, desired timeouts, etc.
+
+```javascript
+const { WebClient } = require('@slack/web-api');
+const { CustomHttpClient } = require('@company/http-client')
+
+const token = process.env.SLACK_TOKEN;
+
+const customClient = CustomHttpClient();
+
+const webClient = new WebClient(token, {
+  adapter: (config: RequestConfig) => {
+    return customClient.request(config);
+  }
+});
 ```
 
 ---

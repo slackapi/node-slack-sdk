@@ -1,15 +1,13 @@
 {
   "name": "@slack/cli-test",
-  "version": "1.1.0+cli.2.29.1",
+  "version": "2.0.0+cli.2.30.1",
   "description": "Node.js bindings for the Slack CLI for use in automated testing",
   "author": "Salesforce, Inc.",
   "license": "MIT",
   "keywords": ["slack", "cli", "test"],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist/**/*"
-  ],
+  "files": ["dist/**/*"],
   "engines": {
     "node": ">=18.15.5"
   },
@@ -21,9 +19,10 @@
     "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
   "scripts": {
-    "lint": "eslint --fix --ext .ts src",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
+    "lint": "npx @biomejs/biome check .",
+    "lint:fix": "npx @biomejs/biome check --write .",
     "prepare": "npm run build",
     "mocha": "cross-env SLACK_CLI_PATH=/doesnt/matter mocha --config .mocharc.json src/*.spec.ts src/**/*.spec.ts src/**/**/*.spec.ts",
     "test": "npm run lint && npm run build && c8 npm run mocha"
@@ -33,27 +32,19 @@
     "winston": "^3.8.2"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.8.3",
     "@tsconfig/recommended": "^1.0.6",
     "@types/chai": "^4.3.16",
     "@types/mocha": "^10.0.6",
     "@types/node": "^22.5.2",
     "@types/sinon": "^17.0.3",
-    "@typescript-eslint/eslint-plugin": "^6",
-    "@typescript-eslint/parser": "^6",
     "c8": "^10.1.2",
     "chai": "^4.4.1",
     "cross-env": "^7.0.3",
-    "eslint": "^8",
-    "eslint-config-airbnb-base": "^15",
-    "eslint-config-airbnb-typescript": "^17",
-    "eslint-plugin-import": "^2",
-    "eslint-plugin-import-newlines": "^1",
-    "eslint-plugin-jsdoc": "^50",
-    "eslint-plugin-node": "^11",
-    "mocha": "^10.4.0",
+    "mocha": "^11.0.1",
     "shx": "^0.3.4",
-    "sinon": "^18.0.0",
+    "sinon": "^19.0.2",
     "ts-node": "^10.9.2",
-    "typescript": "5.0.4"
+    "typescript": "5.7.3"
   }
 }

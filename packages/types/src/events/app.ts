@@ -1,7 +1,7 @@
-import { Block, KnownBlock } from '../block-kit/blocks';
-import { BotProfile } from '../common/bot-profile';
-import { MessageAttachment } from '../message-attachments';
-import { View } from '../views';
+import type { Block, KnownBlock } from '../block-kit/blocks';
+import type { BotProfile } from '../common/bot-profile';
+import type { MessageAttachment } from '../message-attachments';
+import type { View } from '../views';
 
 export interface AppRequestedEvent {
   type: 'app_requested';
@@ -31,7 +31,7 @@ export interface AppRequestedEvent {
         image_512?: string;
         image_1024?: string;
         image_original?: string;
-      }
+      };
     };
   };
   previous_resolution: {

@@ -1,5 +1,5 @@
-import { ProjectCommandArguments } from '../../types/commands/common_arguments';
-import { SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
+import type { ProjectCommandArguments } from '../../types/commands/common_arguments';
+import { type SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
 
 /**
  * `slack create`
@@ -20,7 +20,7 @@ export const create = async function create(
       cmdOpts['--branch'] = args.branch;
     }
   }
-  const cmd = new SlackCLIProcess(`create ${args.appPath}`, args, cmdOpts);
+  const cmd = new SlackCLIProcess(['create', args.appPath], args, cmdOpts);
   const proc = await cmd.execAsync();
   return proc.output;
 };

@@ -1,4 +1,4 @@
-import { Logger, createLogger, format, transports } from 'winston';
+import { type Logger, createLogger, format, transports } from 'winston';
 
 // Configure CLI log level
 // Winston logging levels, see: https://github.com/winstonjs/winston#logging
@@ -12,12 +12,7 @@ const logPrintFormat = format.printf(
 // Create logger
 const logger: Logger = createLogger({
   level: loggerLevel,
-  format: format.combine(
-    format.label({ label: 'Slack CLI' }),
-    format.timestamp(),
-    format.colorize(),
-    logPrintFormat,
-  ),
+  format: format.combine(format.label({ label: 'Slack CLI' }), format.timestamp(), format.colorize(), logPrintFormat),
   transports: [new transports.Console()],
 });
 

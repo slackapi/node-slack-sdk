@@ -16,13 +16,13 @@ $ npm install @slack/oauth
 
 ## Usage
 
-These examples show how to get started using the most common features. You'll find more extensive [documentation on the package's website](https://slack.dev/node-slack-sdk/oauth).
+These examples show how to get started using the most common features. You'll find more extensive [documentation on the package's website](https://tools.slack.dev/node-slack-sdk/oauth).
 
 <!-- END: Remove before copying into the docs directory -->
 
 Before building an app, you'll need to [create a Slack app](https://api.slack.com/apps/new) and install it to your development workspace. You'll also need to copy the **Client ID** and **Client Secret** given to you by Slack under the **Basic Information** of your app configuration.
 
-It may be helpful to read the tutorials on [getting started](https://slack.dev/node-slack-sdk/getting-started) and [getting a public URL that can be used for development](https://slack.dev/node-slack-sdk/tutorials/local-development).
+It may be helpful to read the tutorials on [getting started](https://tools.slack.dev/node-slack-sdk/getting-started) and [getting a public URL that can be used for development](https://tools.slack.dev/node-slack-sdk/tutorials/local-development).
 
 ---
 
@@ -37,7 +37,7 @@ const { InstallProvider } = require('@slack/oauth');
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'my-state-secret'
+  stateSecret: process.env.SLACK_STATE_SECRET,
 });
 ```
 
@@ -53,7 +53,7 @@ const installer = new InstallProvider({
   const installer = new InstallProvider({
     clientId: process.env.SLACK_CLIENT_ID,
     clientSecret: process.env.SLACK_CLIENT_SECRET,
-    stateSecret: 'my-state-secret',
+    stateSecret: process.env.SLACK_STATE_SECRET,
     authVersion: 'v1' //required for classic Slack apps
   });
   ```
@@ -168,7 +168,7 @@ In the following example, the `installationStore` option is used and the object 
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'my-state-secret',
+  stateSecret: process.env.SLACK_STATE_SECRET,
   installationStore: {
     // takes in an installation object as an argument
     // returns nothing
@@ -306,7 +306,7 @@ const { InstallProvider, LogLevel } = require('@slack/oauth');
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'my-state-secret',
+  stateSecret: process.env.SLACK_STATE_SECRET,
   logLevel: LogLevel.DEBUG,
 });
 ```
@@ -339,7 +339,7 @@ const logWritable = createWriteStream('/var/my_log_file'); // Not shown: close t
 const installer = new InstallProvider({
   clientId: process.env.SLACK_CLIENT_ID,
   clientSecret: process.env.SLACK_CLIENT_SECRET,
-  stateSecret: 'my-state-secret',
+  stateSecret: process.env.SLACK_STATE_SECRET,
   // Creating a logger as a literal object. It's more likely that you'd create a class.
   logger: {
     debug(...msgs): { logWritable.write('debug: ' + JSON.stringify(msgs)); },

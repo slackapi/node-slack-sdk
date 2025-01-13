@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
+import childProcess from 'node:child_process';
+import fs from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import util from 'node:util';
 import { clean, gt, major } from 'semver';
-import { fileURLToPath } from 'url';
-import childProcess from 'child_process';
-import fs from 'fs';
-import util from 'util';
 
 import { getProtocol } from './protocols.js';
 
@@ -122,16 +122,20 @@ async function gatherDependencyFile(cwd) {
   const inaccessibleFiles = [];
   try {
     const packageJSONFile = await getJSON(`${cwd}/${packageJSONFileName}`);
-    if ('devDependencies' in packageJSONFile &&
-            typeof packageJSONFile.devDependencies === 'object' &&
-            packageJSONFile.devDependencies !== null &&
-            Object.values(packageJSONFile.devDependencies).every((value) => (typeof value === 'string'))) {
+    if (
+      'devDependencies' in packageJSONFile &&
+      typeof packageJSONFile.devDependencies === 'object' &&
+      packageJSONFile.devDependencies !== null &&
+      Object.values(packageJSONFile.devDependencies).every((value) => typeof value === 'string')
+    ) {
       Object.assign(projectDependencies.dependencies, packageJSONFile.devDependencies);
     }
-    if ('dependencies' in packageJSONFile &&
-            typeof packageJSONFile.dependencies === 'object' &&
-            packageJSONFile.dependencies !== null &&
-            Object.values(packageJSONFile.dependencies).every((value) => (typeof value === 'string'))) {
+    if (
+      'dependencies' in packageJSONFile &&
+      typeof packageJSONFile.dependencies === 'object' &&
+      packageJSONFile.dependencies !== null &&
+      Object.values(packageJSONFile.dependencies).every((value) => typeof value === 'string')
+    ) {
       Object.assign(projectDependencies.dependencies, packageJSONFile.dependencies);
     }
   } catch (err) {
@@ -213,7 +217,8 @@ async function fetchLatestPackageVersion(packageName) {
 function getReleaseNotesUrl(packageName, latestVersion) {
   if (packageName === SLACK_BOLT_SDK) {
     return `https://github.com/slackapi/bolt-js/releases/tag/@slack/bolt@${latestVersion}`;
-  } if (packageName === SLACK_CLI_HOOKS) {
+  }
+  if (packageName === SLACK_CLI_HOOKS) {
     return `https://github.com/slackapi/node-slack-sdk/releases/tag/@slack/cli-hooks@${latestVersion}`;
   }
   return undefined;

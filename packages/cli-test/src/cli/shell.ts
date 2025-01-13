@@ -1,4 +1,4 @@
-import child from 'child_process';
+import child from 'node:child_process';
 
 import treekill from 'tree-kill';
 
@@ -12,28 +12,26 @@ export const shell = {
    * Spawns a shell command
    * - Start child process with the command
    * - Listen to data output events and collect them
-   * @param command The command to run, e.g. `echo "hi"`
+   * @param command The command to run, e.g. echo, cat, slack.exe
+   * @param args The arguments for the command, e.g. 'hi', '--skip-update'
    * @param shellOpts Options to customize shell execution
    * @returns command output
    */
   spawnProcess: function spawnProcess(
     command: string,
+    args: string[],
     shellOpts?: Partial<child.SpawnOptionsWithoutStdio>,
   ): ShellProcess {
+    const cmdString = `${command} ${args.join(' ')}`;
     try {
-      // Start child process
-      const childProcess = child.spawn(`${command}`, {
-        shell: true,
-        env: shell.assembleShellEnv(),
-        ...shellOpts,
-      });
+      const childProcess = child.spawn(...getSpawnArguments(command, args, shell.assembleShellEnv(), shellOpts));
 
       // Set shell object
       const sh: ShellProcess = {
         process: childProcess,
         output: '',
         finished: false,
-        command,
+        command: cmdString,
       };
 
       // Log command
@@ -42,14 +40,14 @@ export const shell = {
       // If is deploy command
 
       // Listen to data event that returns all the output and collect it
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: stdout can accept a variety of data
       childProcess.stdout.on('data', (data: any) => {
         sh.output += this.removeANSIcolors(data.toString());
         logger.verbose(`Output: ${this.removeANSIcolors(data.toString())}`);
       });
 
       // Collect error output
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: stderr can accept a variety of data
       childProcess.stderr.on('data', (data: any) => {
         sh.output += this.removeANSIcolors(data.toString());
         logger.error(`Error: ${this.removeANSIcolors(data.toString())}`);
@@ -63,7 +61,7 @@ export const shell = {
 
       return sh;
     } catch (error) {
-      throw new Error(`spawnProcess failed!\nCommand: ${command}\nError: ${error}`);
+      throw new Error(`spawnProcess failed!\nCommand: ${cmdString}\nError: ${error}`);
     }
   },
 
@@ -71,31 +69,30 @@ export const shell = {
    * Run shell command synchronously
    * - Execute child process with the command
    * - Wait for the command to complete and return the standard output
-   * @param command cli command
+   * @param command The command to run, e.g. echo, cat, slack.exe
+   * @param args The arguments for the command, e.g. 'hi', '--skip-update'
    * @param shellOpts various shell spawning options available to customize
    * @returns command stdout
    */
   runCommandSync: function runSyncCommand(
     command: string,
+    args: string[],
     shellOpts?: Partial<child.SpawnOptionsWithoutStdio>,
   ): string {
+    const cmdString = `${command} ${args.join(' ')}`;
     try {
       // Log command
-      logger.info(`CLI Command started: ${command}`);
+      logger.info(`CLI Command started: ${cmdString}`);
 
       // Start child process
-      const result = child.spawnSync(`${command}`, {
-        shell: true,
-        env: shell.assembleShellEnv(),
-        ...shellOpts,
-      });
+      const result = child.spawnSync(...getSpawnArguments(command, args, shell.assembleShellEnv(), shellOpts));
 
       // Log command
-      logger.info(`CLI Command finished: ${command}`);
+      logger.info(`CLI Command finished: ${cmdString}`);
 
       return this.removeANSIcolors(result.stdout.toString());
     } catch (error) {
-      throw new Error(`runCommandSync failed!\nCommand: ${command}\nError: ${error}`);
+      throw new Error(`runCommandSync failed!\nCommand: ${cmdString}\nError: ${error}`);
     }
   },
 
@@ -107,14 +104,22 @@ export const shell = {
    */
   checkIfFinished: async function checkIfFinished(proc: ShellProcess): Promise<void> {
     return new Promise((resolve, reject) => {
+      // biome-ignore lint/style/useConst: closing over timeout variable
       let timeout: NodeJS.Timeout;
 
       const killIt = (reason: string) => {
-        shell.kill(proc).then(() => {
-          reject(new Error(`${reason}\nCommand: ${proc.command}, output: ${proc.output}`));
-        }, (err) => {
-          reject(new Error(`${reason}\nCommand: ${proc.command}, output: ${proc.output}\nAlso errored killing process: ${err.message}`));
-        });
+        shell.kill(proc).then(
+          () => {
+            reject(new Error(`${reason}\nCommand: ${proc.command}, output: ${proc.output}`));
+          },
+          (err) => {
+            reject(
+              new Error(
+                `${reason}\nCommand: ${proc.command}, output: ${proc.output}\nAlso errored killing process: ${err.message}`,
+              ),
+            );
+          },
+        );
       };
 
       const closeHandler = (code: number | null, signal: NodeJS.Signals | null) => {
@@ -158,7 +163,7 @@ export const shell = {
    */
   removeANSIcolors: function removeANSIcolors(text: string): string {
     const cleanText = text.replace(
-      // eslint-disable-next-line no-control-regex
+      // biome-ignore lint/suspicious/noControlCharactersInRegex: regex is magic
       /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
       '',
     );
@@ -183,7 +188,6 @@ export const shell = {
     let waitedFor = 0;
     let timedOut = false;
     while (!proc.output.includes(expString)) {
-      // eslint-disable-next-line no-await-in-loop
       await this.sleep(delay);
       waitedFor += delay;
       if (waitedFor > timeout) {
@@ -195,11 +199,18 @@ export const shell = {
       if (timedOut) {
         // Kill the process
         const reason = `shell.waitForOutput timed out after ${waitedFor} ms. \nExpected output to include: ${expString}\nActual: ${proc.output}`;
-        shell.kill(proc).then(() => {
-          reject(new Error(`${reason}\nCommand: ${proc.command}, output: ${proc.output}`));
-        }, (err) => {
-          reject(new Error(`${reason}\nCommand: ${proc.command}, output: ${proc.output}\nAlso errored killing process: ${err.message}`));
-        });
+        shell.kill(proc).then(
+          () => {
+            reject(new Error(`${reason}\nCommand: ${proc.command}, output: ${proc.output}`));
+          },
+          (err) => {
+            reject(
+              new Error(
+                `${reason}\nCommand: ${proc.command}, output: ${proc.output}\nAlso errored killing process: ${err.message}`,
+              ),
+            );
+          },
+        );
       } else {
         resolve();
       }
@@ -220,13 +231,62 @@ export const shell = {
   },
   kill: async function kill(proc: ShellProcess): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      treekill(proc.process.pid!, (err) => {
-        if (err) {
-          reject(new Error(`Failed to kill command "${proc.command}": errored with ${err.message}\nOutput: ${proc.output}`));
-        } else {
-          resolve(true);
-        }
-      });
+      if (proc.process.pid) {
+        treekill(proc.process.pid, (err) => {
+          if (err) {
+            reject(
+              new Error(
+                `Failed to kill command "${proc.command}": errored with ${err.message}\nOutput: ${proc.output}`,
+              ),
+            );
+          } else {
+            resolve(true);
+          }
+        });
+      } else {
+        resolve(true);
+      }
     });
   },
 };
+
+/**
+ * @description Returns arguments used to pass into child_process.spawn or spawnSync. Handles Windows-specifics hacks.
+ */
+function getSpawnArguments(
+  command: string,
+  args: string[],
+  env: ReturnType<typeof shell.assembleShellEnv>,
+  shellOpts?: Partial<child.SpawnOptionsWithoutStdio>,
+): [string, string[], child.SpawnOptionsWithoutStdio] {
+  if (process.platform === 'win32') {
+    // In windows, we actually spawn a command prompt and tell it to invoke the CLI command.
+    // The combination of windows and node's child_process spawning is complicated: on windows, child_process strips quotes from arguments. This makes passing JSON difficult.
+    // As a workaround, we:
+    // 1. Wrap the CLI command with a Windows Command Prompt (cmd.exe) process, and
+    // 2. Execute the command to completion (via the /c option), and
+    // 3. Leave spaces intact (via the /s option), and
+    // 4. Feed the arguments as an argument array into `child_process.spawn`.
+    // End-result is a process that looks like:
+    // cmd.exe "/s" "/c" "slack" "app" "list"
+    const windowsArgs = ['/s', '/c'].concat([command]).concat(args);
+    return [
+      'cmd',
+      windowsArgs,
+      {
+        shell: true,
+        env,
+        ...shellOpts,
+      },
+    ];
+  }
+  return [
+    command,
+    args,
+    {
+      shell: true,
+      env,
+      ...shellOpts,
+    },
+  ];
+}

@@ -1,9 +1,9 @@
+import assert from 'node:assert';
+import fs from 'node:fs';
+import path from 'node:path';
+import util from 'node:util';
 import { after, before, describe, it } from 'mocha';
-import assert from 'assert';
-import fs from 'fs';
-import path from 'path';
 import sinon from 'sinon';
-import util from 'util';
 
 import checkForSDKUpdates, {
   hasAvailableUpdates,
@@ -32,12 +32,14 @@ const packageJSON = {
 function mockNPM(command) {
   if (command === 'npm info @slack/bolt version --tag latest') {
     return '3.1.4';
-  } if (command === 'npm info @slack/cli-hooks version --tag latest') {
+  }
+  if (command === 'npm info @slack/cli-hooks version --tag latest') {
     return '1.0.1';
   }
   if (command === 'npm list @slack/bolt --depth=0 --json') {
     return '{"dependencies":{"@slack/bolt":{"version":"3.0.0"}}}';
-  } if (command === 'npm list @slack/cli-hooks --depth=0 --json') {
+  }
+  if (command === 'npm list @slack/cli-hooks --depth=0 --json') {
     return '{"dependencies":{"@slack/cli-hooks":{"version":"0.0.1"}}}';
   }
   throw new Error('Unknown NPM command mocked');
@@ -49,11 +51,10 @@ describe('check-update implementation', async () => {
     const packageJSONFilePath = path.join(tempDir, 'package.json');
 
     before(() => {
-      sinon.stub(util, 'promisify')
-        .returns((/** @type {string} */ command) => {
-          const info = mockNPM(command);
-          return Promise.resolve({ stdout: info });
-        });
+      sinon.stub(util, 'promisify').returns((/** @type {string} */ command) => {
+        const info = mockNPM(command);
+        return Promise.resolve({ stdout: info });
+      });
       if (!fs.existsSync(tempDir)) {
         fs.mkdirSync(tempDir);
       }
@@ -192,8 +193,9 @@ describe('check-update implementation', async () => {
       const fileError = { name: 'package.json', error: 'Not found' };
       const message = createUpdateErrorMessage(['@slack/cli-hooks'], [fileError]);
       const expected = {
-        message: 'An error occurred fetching updates for the following packages: @slack/cli-hooks\n' +
-                    'An error occurred while reading the following files:\n  package.json: Not found\n',
+        message:
+          'An error occurred fetching updates for the following packages: @slack/cli-hooks\n' +
+          'An error occurred while reading the following files:\n  package.json: Not found\n',
       };
       assert.deepEqual(message, expected);
     });

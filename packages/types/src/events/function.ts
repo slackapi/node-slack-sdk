@@ -23,7 +23,7 @@ export interface FunctionExecutedEvent {
     app_id: string;
     date_created: number;
     date_updated: number;
-    date_deleted: number
+    date_deleted: number;
   };
   inputs: FunctionInputs;
   function_execution_id: string;

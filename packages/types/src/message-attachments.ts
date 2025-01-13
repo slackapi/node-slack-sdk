@@ -1,5 +1,5 @@
-import { AnyBlock } from './block-kit/blocks';
-import { PlainTextElement } from './block-kit/composition-objects';
+import type { AnyBlock } from './block-kit/blocks';
+import type { PlainTextElement } from './block-kit/composition-objects';
 
 // TODO: breaking changes, use discriminated union for `fallback`, `text` and `block` properties, maybe LegacyAttachment
 // vs. BlocksAttachment? as per https://api.slack.com/reference/messaging/attachments#legacy_fields
@@ -155,7 +155,7 @@ interface AttachmentAction {
   name?: string;
   options?: OptionField[];
   option_groups?: {
-    text: string
+    text: string;
     options: OptionField[];
   }[];
   selected_options?: OptionField[];
