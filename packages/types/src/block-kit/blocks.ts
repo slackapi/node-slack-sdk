@@ -314,6 +314,10 @@ export interface SectionBlock extends Block {
    * @description One of the compatible element objects.
    */
   accessory?: SectionBlockAccessory;
+  /**
+   * Whether or not this section block's text should always expand when rendered. If false or not provided, it may be rendered with a 'see more' option to expand and show the full text. For AI Assistant apps, this allows the app to post long messages without users needing to click 'see more' to expand the message.
+   */
+  expand?: boolean;
 }
 
 /**
