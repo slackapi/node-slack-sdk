@@ -39,6 +39,8 @@ export interface SlackCLIGlobalOptions {
   team?: string;
   /** @description Access token to use when making Slack API calls. */
   token?: string;
+  /** @description Print debug logging and additional CLI information. */
+  verbose?: boolean;
 }
 
 export type SlackCLIHostTargetOptions = Pick<SlackCLIGlobalOptions, 'qa' | 'dev' | 'apihost'>;
@@ -143,6 +145,9 @@ export class SlackCLIProcess {
       // Specifying custom token
       if (opts.token) {
         cmd = cmd.concat(['--token', opts.token]);
+      }
+      if (opts.verbose) {
+        cmd = cmd.concat(['--verbose']);
       }
     } else {
       cmd = cmd.concat(['--skip-update', '--force', '--app', 'deployed']);
