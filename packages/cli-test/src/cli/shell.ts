@@ -42,15 +42,17 @@ export const shell = {
       // Listen to data event that returns all the output and collect it
       // biome-ignore lint/suspicious/noExplicitAny: stdout can accept a variety of data
       childProcess.stdout.on('data', (data: any) => {
-        sh.output += this.removeANSIcolors(data.toString());
-        logger.verbose(`Output: ${this.removeANSIcolors(data.toString())}`);
+        const output = this.removeANSIcolors(data.toString()).replace(/\r?\n$/, '');
+        sh.output += output;
+        logger.verbose(`Output: ${output}`);
       });
 
       // Collect error output
       // biome-ignore lint/suspicious/noExplicitAny: stderr can accept a variety of data
       childProcess.stderr.on('data', (data: any) => {
-        sh.output += this.removeANSIcolors(data.toString());
-        logger.error(`Error: ${this.removeANSIcolors(data.toString())}`);
+        const output = this.removeANSIcolors(data.toString()).replace(/\r?\n$/, '');
+        sh.output += output;
+        logger.error(`Error: ${output}`);
       });
 
       // Set the finished flag to true on close event
@@ -90,7 +92,7 @@ export const shell = {
       // Log command
       logger.info(`CLI Command finished: ${cmdString}`);
 
-      return this.removeANSIcolors(result.stdout.toString());
+      return this.removeANSIcolors(result.stdout.toString()).replace(/\r?\n$/, '');
     } catch (error) {
       throw new Error(`runCommandSync failed!\nCommand: ${cmdString}\nError: ${error}`);
     }
