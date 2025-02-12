@@ -131,12 +131,6 @@ describe('shell module', () => {
         sinon.match({ shell: true, env: fakeEnv }),
       );
     });
-    it('should raise bubble error details up', () => {
-      spawnSpy.throws(new Error('this is bat country'));
-      assert.throw(() => {
-        shell.spawnProcess('about to explode', []);
-      }, /this is bat country/);
-    });
     it('should return the command outputs unchanged', () => {
       const fakeCmd = 'echo';
       const fakeArgs = ['"greetings"'];
@@ -145,6 +139,12 @@ describe('shell module', () => {
       spawnProcess.stderr.emit('data', 'warning\n');
       spawnProcess.stdout.emit('data', 'endings\r\n');
       assert.equal(sh.output, 'outputs\r\nwarning\nendings\r\n');
+    });
+    it('should raise bubble error details up', () => {
+      spawnSpy.throws(new Error('this is bat country'));
+      assert.throw(() => {
+        shell.spawnProcess('about to explode', []);
+      }, /this is bat country/);
     });
     if (process.platform === 'win32') {
       it('on Windows, should wrap command to shell out in a `cmd /s /c` wrapper process', () => {
