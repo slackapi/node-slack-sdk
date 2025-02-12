@@ -140,6 +140,15 @@ describe('SlackCLIProcess class', () => {
         );
         spawnProcessSpy.resetHistory();
       });
+      it('should map verbose option to `--verbose`', async () => {
+        let cmd = new SlackCLIProcess(['help'], { verbose: true });
+        await cmd.execAsync();
+        sandbox.assert.calledWith(spawnProcessSpy, sinon.match.string, sinon.match.array.contains(['--verbose']));
+        spawnProcessSpy.resetHistory();
+        cmd = new SlackCLIProcess(['help']);
+        await cmd.execAsync();
+        sandbox.assert.neverCalledWith(spawnProcessSpy, sinon.match.string, sinon.match.array.contains(['--verbose']));
+      });
     });
     describe('command options', () => {
       it('should pass command-level key/value options to command in the form `--<key> value`', async () => {
