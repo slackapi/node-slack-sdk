@@ -7,13 +7,21 @@ import {
 
 import type { ShellProcess } from '../../types/shell';
 
+type AuthLoginNoPromptArguments = SlackCLIHostTargetOptions & Pick<SlackCLIGlobalOptions, 'verbose'>;
+type AuthLoginChallengeExchangeArugments = SlackCLIHostTargetOptions & {
+  /** @description Challenge string extracted from the Slack client UI after submitting the auth slash command. */
+  challenge: string;
+  /** @description The `authTicket` output from `loginNoPrompt`; required to complete the login flow. */
+  authTicket: string;
+} & Pick<SlackCLIGlobalOptions, 'verbose'>;
+
 export default {
   /**
    *  `slack login --no-prompt`; initiates a CLI login flow. The `authTicketSlashCommand` returned should be entered
    *  into the Slack client, and the challenge code retrieved and fed into the `loginChallengeExchange` method to
    *  complete the CLI login flow.
    */
-  loginNoPrompt: async function loginNoPrompt(args?: SlackCLIHostTargetOptions): Promise<{
+  loginNoPrompt: async function loginNoPrompt(args?: AuthLoginNoPromptArguments): Promise<{
     /** @description Command output */
     output: ShellProcess['output'];
     /**
@@ -57,12 +65,7 @@ export default {
    * @returns
    */
   loginChallengeExchange: async function loginChallengeExchange(
-    args: SlackCLIHostTargetOptions & {
-      /** @description Challenge string extracted from the Slack client UI after submitting the auth slash command. */
-      challenge: string;
-      /** @description The `authTicket` output from `loginNoPrompt`; required to complete the login flow. */
-      authTicket: string;
-    },
+    args: AuthLoginChallengeExchangeArugments,
   ): Promise<string> {
     const cmd = new SlackCLIProcess(['login'], args, {
       '--no-prompt': true,

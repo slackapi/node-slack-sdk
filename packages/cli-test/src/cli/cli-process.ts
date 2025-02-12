@@ -43,7 +43,7 @@ export interface SlackCLIGlobalOptions {
   verbose?: boolean;
 }
 
-export type SlackCLIHostTargetOptions = Pick<SlackCLIGlobalOptions, 'qa' | 'dev' | 'apihost' | 'verbose'>;
+export type SlackCLIHostTargetOptions = Pick<SlackCLIGlobalOptions, 'qa' | 'dev' | 'apihost'>;
 
 export type SlackCLICommandOptions = Record<string, string | boolean | number | undefined>;
 
