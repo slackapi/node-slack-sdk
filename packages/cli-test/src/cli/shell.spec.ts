@@ -72,6 +72,13 @@ describe('shell module', () => {
         sinon.match({ shell: true, env: fakeEnv }),
       );
     });
+    it('should return the command outputs unchanged', () => {
+      const fakeCmd = 'echo';
+      const fakeArgs = ['"greetings"'];
+      const sh = shell.spawnProcess(fakeCmd, fakeArgs);
+      spawnProcess.stdout.emit('data', 'outputs\r\n');
+      assert.equal(sh.output, 'outputs\r\n');
+    });
     it('should raise bubble error details up', () => {
       runSpy.throws(new Error('this is bat country'));
       assert.throw(() => {
@@ -123,6 +130,15 @@ describe('shell module', () => {
         sinon.match.array,
         sinon.match({ shell: true, env: fakeEnv }),
       );
+    });
+    it('should return the command outputs unchanged', () => {
+      const fakeCmd = 'echo';
+      const fakeArgs = ['"greetings"'];
+      const sh = shell.spawnProcess(fakeCmd, fakeArgs);
+      spawnProcess.stdout.emit('data', 'outputs\r\n');
+      spawnProcess.stderr.emit('data', 'warning\n');
+      spawnProcess.stdout.emit('data', 'endings\r\n');
+      assert.equal(sh.output, 'outputs\r\nwarning\nendings\r\n');
     });
     it('should raise bubble error details up', () => {
       spawnSpy.throws(new Error('this is bat country'));

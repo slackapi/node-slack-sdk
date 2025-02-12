@@ -42,15 +42,17 @@ export const shell = {
       // Listen to data event that returns all the output and collect it
       // biome-ignore lint/suspicious/noExplicitAny: stdout can accept a variety of data
       childProcess.stdout.on('data', (data: any) => {
-        sh.output += this.removeANSIcolors(data.toString());
-        logger.verbose(`Output: ${this.removeANSIcolors(data.toString())}`);
+        const output = this.removeANSIcolors(data.toString());
+        sh.output += output;
+        logger.verbose(`Output: ${output.replace(/\r?\n$/, '')}`);
       });
 
       // Collect error output
       // biome-ignore lint/suspicious/noExplicitAny: stderr can accept a variety of data
       childProcess.stderr.on('data', (data: any) => {
-        sh.output += this.removeANSIcolors(data.toString());
-        logger.error(`Error: ${this.removeANSIcolors(data.toString())}`);
+        const output = this.removeANSIcolors(data.toString());
+        sh.output += output;
+        logger.error(`Error: ${output.replace(/\r?\n$/, '')}`);
       });
 
       // Set the finished flag to true on close event
