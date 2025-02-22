@@ -23,7 +23,7 @@ import start from './start.js';
 describe('start implementation', async () => {
   describe('begins the app process', async () => {
     /** @type {sinon.SinonStub} */
-    let consoleLogStub;
+    let exitStub;
     /** @type {sinon.SinonStub} */
     let stdoutWriteStub;
     /** @type {sinon.SinonStub} */
@@ -34,7 +34,7 @@ describe('start implementation', async () => {
     let spawnStub;
 
     beforeEach(() => {
-      consoleLogStub = sinon.stub(console, 'log');
+      exitStub = sinon.stub(process, 'exit');
       stdoutWriteStub = sinon.stub(process.stdout, 'write');
       stderrWriteStub = sinon.stub(process.stderr, 'write');
       mockSpawnProcess = {
@@ -84,7 +84,7 @@ describe('start implementation', async () => {
         assert.ok(spawnStub.calledWith('node', [path.resolve('tmp', 'start.js')]));
         assert.ok(stdoutWriteStub.calledWith('message'));
         assert.ok(stderrWriteStub.calledWith('warning'));
-        assert.ok(consoleLogStub.calledWith('Local run exited with code 0'));
+        assert.ok(exitStub.calledWith(0));
       });
     });
 
@@ -99,7 +99,7 @@ describe('start implementation', async () => {
         assert.ok(spawnStub.calledWith('node', [path.resolve('tmp', 'app.js')]));
         assert.ok(stdoutWriteStub.calledWith('defaults'));
         assert.ok(stderrWriteStub.calledWith('watch out'));
-        assert.ok(consoleLogStub.calledWith('Local run exited with code 2'));
+        assert.ok(exitStub.calledWith(2));
       });
     });
 
@@ -122,7 +122,7 @@ describe('start implementation', async () => {
         assert.ok(spawnStub.calledWith('node', [path.resolve('application.js')]));
         assert.ok(stdoutWriteStub.calledWith('startled'));
         assert.ok(stderrWriteStub.calledWith('erroneous'));
-        assert.ok(consoleLogStub.calledWith('Local run exited with code 4'));
+        assert.ok(exitStub.calledWith(4));
       });
     });
   });
