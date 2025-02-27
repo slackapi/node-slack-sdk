@@ -33,7 +33,7 @@ export default function start(cwd) {
     process.stderr.write(data);
   });
   app.on('close', (code) => {
-    console.log(`Local run exited with code ${code}`);
+    process.exit(code);
   });
 }
 
