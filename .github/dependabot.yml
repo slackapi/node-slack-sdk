@@ -152,6 +152,10 @@ updates:
       slack:
         patterns:
           - "@slack/*"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
     schedule:
       interval: "monthly"
 
