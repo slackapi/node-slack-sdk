@@ -18,7 +18,7 @@ export class StateStoreChaiTestRunner {
     this.shouldVerifyOnlyOnce = args.shouldVerifyOnlyOnce === undefined ? true : args.shouldVerifyOnlyOnce;
   }
 
-  public async enableTests(testTarget: string): Promise<void> {
+  public enableTests(testTarget: string): void {
     describe(testTarget, () => {
       it('should generate and verify valid state values', async () => {
         const { stateStore } = this;
