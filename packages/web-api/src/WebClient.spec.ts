@@ -779,6 +779,18 @@ describe('WebClient', () => {
       const client = new WebClient(token, { slackApiUrl: alternativeUrl });
       await client.apiCall('method');
     });
+
+    it('should send requests to an absolute URL', async () => {
+      nock('http://12.34.56.78/').post('/api/method').reply(200, { ok: true });
+      const client = new WebClient(token);
+      await client.apiCall('http://12.34.56.78/api/method');
+    });
+
+    it('should send requests to the default URL', async () => {
+      nock('https://slack.com/').post('/api/https://example.com/api/method').reply(200, { ok: true });
+      const client = new WebClient(token, { allowAbsoluteUrls: false });
+      await client.apiCall('https://example.com/api/method');
+    });
   });
 
   describe('has an option to set request concurrency', () => {

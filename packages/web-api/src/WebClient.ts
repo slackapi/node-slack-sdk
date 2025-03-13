@@ -77,6 +77,12 @@ const noopPageReducer: PageReducer = () => undefined;
  */
 
 export interface WebClientOptions {
+  /**
+   * The base URL requests are sent to. Often unchanged, but might be set for testing techniques.
+   *
+   * See {@link https://tools.slack.dev/node-slack-sdk/web-api/#custom-api-url} for more information.
+   * @default https://slack.com/api/
+   */
   slackApiUrl?: string;
   logger?: Logger;
   logLevel?: LogLevel;
@@ -88,6 +94,15 @@ export interface WebClientOptions {
   rejectRateLimitedCalls?: boolean;
   headers?: Record<string, string>;
   teamId?: string;
+  /**
+   * Determines if a dynamic method name being an absolute URL overrides the configured slackApiUrl.
+   * When set to false, the URL used in Slack API requests will always begin with the slackApiUrl.
+   *
+   * See {@link https://tools.slack.dev/node-slack-sdk/web-api#call-a-method} for more details.
+   * See {@link https://github.com/axios/axios?tab=readme-ov-file#request-config} for more details.
+   * @default true
+   */
+  allowAbsoluteUrls?: boolean;
   /**
    * Indicates whether to attach the original error to a Web API request error.
    * When set to true, the original error object will be attached to the Web API request error.
@@ -226,6 +241,16 @@ export class WebClient extends Methods {
   private teamId?: string;
 
   /**
+   * Determines if a dynamic method name being an absolute URL overrides the configured slackApiUrl.
+   * When set to false, the URL used in Slack API requests will always begin with the slackApiUrl.
+   *
+   * See {@link https://tools.slack.dev/node-slack-sdk/web-api#call-a-method} for more details.
+   * See {@link https://github.com/axios/axios?tab=readme-ov-file#request-config} for more details.
+   * @default true
+   */
+  private allowAbsoluteUrls: boolean;
+
+  /**
    * Configuration to opt-out of attaching the original error
    * (obtained from the HTTP client) to WebAPIRequestError.
    */
@@ -251,6 +276,7 @@ export class WebClient extends Methods {
       rejectRateLimitedCalls = false,
       headers = {},
       teamId = undefined,
+      allowAbsoluteUrls = true,
       attachOriginalToWebAPIRequestError = true,
       requestInterceptor = undefined,
       adapter = undefined,
@@ -268,6 +294,7 @@ export class WebClient extends Methods {
     this.rejectRateLimitedCalls = rejectRateLimitedCalls;
     this.teamId = teamId;
     this.attachOriginalToWebAPIRequestError = attachOriginalToWebAPIRequestError;
+    this.allowAbsoluteUrls = allowAbsoluteUrls;
 
     // Logging
     if (typeof logger !== 'undefined') {
@@ -285,6 +312,7 @@ export class WebClient extends Methods {
       adapter: adapter ? (config: InternalAxiosRequestConfig) => adapter({ ...config, adapter: undefined }) : undefined,
       timeout,
       baseURL: slackApiUrl,
+      allowAbsoluteUrls,
       headers: isElectron() ? headers : { 'User-Agent': getUserAgent(), ...headers },
       httpAgent: agent,
       httpsAgent: agent,
@@ -618,7 +646,9 @@ export class WebClient extends Methods {
     // TODO: better input types - remove any
     const task = () =>
       this.requestQueue.add(async () => {
-        const requestURL = url.startsWith('https' || 'http') ? url : `${this.axios.getUri() + url}`;
+        const requestURL = url.startsWith('https' || 'http') && this.allowAbsoluteUrls
+          ? url
+          : `${this.axios.getUri() + url}`;
 
         try {
           // biome-ignore lint/suspicious/noExplicitAny: TODO: type this
