@@ -646,9 +646,8 @@ export class WebClient extends Methods {
     // TODO: better input types - remove any
     const task = () =>
       this.requestQueue.add(async () => {
-        const requestURL = url.startsWith('https' || 'http') && this.allowAbsoluteUrls
-          ? url
-          : `${this.axios.getUri() + url}`;
+        const requestURL =
+          url.startsWith('https' || 'http') && this.allowAbsoluteUrls ? url : `${this.axios.getUri() + url}`;
 
         try {
           // biome-ignore lint/suspicious/noExplicitAny: TODO: type this
