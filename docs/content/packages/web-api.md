@@ -131,6 +131,20 @@ const conversationId = '...';
   });
 })();
 ```
+
+A dynamic method name can either be in the format shown above, to be sent with the [`slackApiUrl`](#custom-api-url)
+option, or as an absolute URL. Setting the
+[`allowAbsoluteUrls`](/reference/web-api/interfaces/WebClientOptions#allowabsoluteurls)
+option to `false` sends all requests to the `slackApiUrl` option value:
+
+```javascript
+const { WebClient } = require('@slack/web-api');
+
+const web = new WebClient(token, {
+  allowAbsoluteUrls: false,
+});
+```
+
 </details>
 
 ---
