@@ -646,8 +646,7 @@ export class WebClient extends Methods {
     // TODO: better input types - remove any
     const task = () =>
       this.requestQueue.add(async () => {
-        const requestURL =
-          url.startsWith('https' || 'http') && this.allowAbsoluteUrls ? url : `${this.axios.getUri() + url}`;
+        const requestURL = this.deriveRequestUrl(url);
 
         try {
           // biome-ignore lint/suspicious/noExplicitAny: TODO: type this
@@ -738,6 +737,17 @@ export class WebClient extends Methods {
       });
     // biome-ignore lint/suspicious/noExplicitAny: http responses can be anything
     return pRetry(task, this.retryConfig) as Promise<AxiosResponse<any, any>>;
+  }
+
+  /**
+   * Get the complete request URL for the provided URL.
+   * @param url - The resource to POST to. Either a Slack API method or absolute URL.
+   */
+  private deriveRequestUrl(url: string): string {
+    if (url.startsWith('https' || 'http') && this.allowAbsoluteUrls) {
+      return url;
+    }
+    return `${this.axios.getUri() + url}`;
   }
 
   /**
