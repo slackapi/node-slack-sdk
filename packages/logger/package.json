@@ -26,10 +26,10 @@
     "build:clean": "shx rm -rf ./dist ./coverage",
     "lint": "npx @biomejs/biome check .",
     "lint:fix": "npx @biomejs/biome check --write .",
-    "mocha": "mocha --config .mocharc.json src/*.spec.js",
+    "mocha": "mocha --config ./test/.mocharc.json src/*.spec.js",
     "test:unit": "npm run build && npm run mocha",
     "test": "npm run lint && npm run coverage",
-    "coverage": "npm run build && c8 npm run mocha"
+    "coverage": "npm run build && c8 --config ./test/.c8rc.json npm run mocha"
   },
   "dependencies": {
     "@types/node": ">=18.0.0"
@@ -41,6 +41,8 @@
     "c8": "^10.1.2",
     "chai": "^4.3.8",
     "mocha": "^11.0.1",
+    "mocha-junit-reporter": "^2.2.1",
+    "mocha-multi-reporters": "^1.5.1",
     "shx": "^0.3.2",
     "sinon": "^19.0.2",
     "source-map-support": "^0.5.21",

@@ -6,5 +6,4 @@ package-lock.json
 /dist
 
 # coverage
-/.nyc_output
 /coverage

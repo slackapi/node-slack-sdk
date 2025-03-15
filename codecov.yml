@@ -1,6 +1,6 @@
 comment:
   layout: "condensed_header, diff, flags"
-  
+
 flags:
   cli-hooks:
     paths:
