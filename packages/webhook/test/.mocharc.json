@@ -1,0 +1,5 @@
+{
+  "reporter": "mocha-multi-reporters",
+  "reporter-options": ["configFile=./test/.reports.json"],
+  "require": ["ts-node/register", "source-map-support/register"]
+}

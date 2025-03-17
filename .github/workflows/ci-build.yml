@@ -92,3 +92,11 @@ jobs:
           directory: packages/${{ matrix.package }}/coverage
           flags: ${{ matrix.package }}
           verbose: true
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          file: packages/${{ matrix.package }}/coverage/test-results.xml
+          flags: ${{ matrix.node-version }},${{ matrix.os }},${{ matrix.package }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true
