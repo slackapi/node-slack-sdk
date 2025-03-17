@@ -44,7 +44,7 @@
     "mocha": "^11.0.1",
     "mocha-junit-reporter": "^2.2.1",
     "mocha-multi-reporters": "^1.5.1",
-    "shx": "^0.3.4",
+    "shx": "^0.4.0",
     "sinon": "^19.0.2",
     "ts-node": "^10.9.2",
     "typescript": "5.7.3"
