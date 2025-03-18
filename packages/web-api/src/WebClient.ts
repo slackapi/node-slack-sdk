@@ -293,8 +293,8 @@ export class WebClient extends Methods {
     this.tlsConfig = tls !== undefined ? tls : {};
     this.rejectRateLimitedCalls = rejectRateLimitedCalls;
     this.teamId = teamId;
-    this.attachOriginalToWebAPIRequestError = attachOriginalToWebAPIRequestError;
     this.allowAbsoluteUrls = allowAbsoluteUrls;
+    this.attachOriginalToWebAPIRequestError = attachOriginalToWebAPIRequestError;
 
     // Logging
     if (typeof logger !== 'undefined') {
