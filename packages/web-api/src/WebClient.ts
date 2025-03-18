@@ -744,7 +744,8 @@ export class WebClient extends Methods {
    * @param url - The resource to POST to. Either a Slack API method or absolute URL.
    */
   private deriveRequestUrl(url: string): string {
-    if (url.startsWith('https' || 'http') && this.allowAbsoluteUrls) {
+    const isAbsoluteURL = url.startsWith('https://') || url.startsWith('http://');
+    if (isAbsoluteURL && this.allowAbsoluteUrls) {
       return url;
     }
     return `${this.axios.getUri() + url}`;
