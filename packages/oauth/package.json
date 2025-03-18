@@ -26,8 +26,8 @@
     "lint": "npx @biomejs/biome check .",
     "lint:fix": "npx @biomejs/biome check --write .",
     "test": "npm run lint && npm run coverage",
-    "coverage": "npm run build && c8 npm run test:mocha",
-    "test:mocha": "mocha --config .mocharc.json src/*.spec.ts src/**/*.spec.ts",
+    "coverage": "npm run build && c8 --config ./test/.c8rc.json npm run test:mocha",
+    "test:mocha": "mocha --config ./test/.mocharc.json src/*.spec.ts src/**/*.spec.ts",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
   },
   "dependencies": {
@@ -46,8 +46,10 @@
     "c8": "^10.1.2",
     "chai": "^4",
     "mocha": "^11",
+    "mocha-junit-reporter": "^2.2.1",
+    "mocha-multi-reporters": "^1.5.1",
     "rewiremock": "^3",
-    "shx": "^0.3.2",
+    "shx": "^0.4.0",
     "sinon": "^19",
     "source-map-support": "^0.5.21",
     "ts-node": "^10",

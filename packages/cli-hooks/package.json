@@ -37,7 +37,7 @@
     "lint": "npx @biomejs/biome check .",
     "lint:fix": "npx @biomejs/biome check --write .",
     "pretest": "npm run lint",
-    "test": "c8 mocha src/*.spec.js"
+    "test": "c8 --config ./test/.c8rc.json mocha --config ./test/.mocharc.json src/*.spec.js"
   },
   "bin": {
     "slack-cli-check-update": "src/check-update.js",
@@ -59,7 +59,9 @@
     "@types/sinon": "^17.0.3",
     "c8": "^10.1.2",
     "mocha": "^11.0.1",
-    "shx": "^0.3.4",
+    "mocha-junit-reporter": "^2.2.1",
+    "mocha-multi-reporters": "^1.5.1",
+    "shx": "^0.4.0",
     "sinon": "^19.0.2",
     "typescript": "5.7.3"
   }
