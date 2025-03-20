@@ -919,7 +919,7 @@ describe('WebClient', () => {
           await client.apiCall('method', { foo: 'bar' });
           assert.fail('expected error to be thrown');
         } catch (_err) {
-          assert(spy.calledOnceWith(0, sinon.match({ url: 'method', body: { foo: 'bar' } })));
+          assert(spy.calledOnceWith(0, sinon.match({ url: 'https://slack.com/api/method', body: { foo: 'bar' } })));
           scope.done();
         }
       });
@@ -982,7 +982,7 @@ describe('WebClient', () => {
         await client.apiCall('method', { foo: 'bar' });
         assert.fail('expected error to be thrown');
       } catch (_err) {
-        assert(spy.calledOnceWith(0, sinon.match({ url: 'method', body: { foo: 'bar' } })));
+        assert(spy.calledOnceWith(0, sinon.match({ url: 'https://slack.com/api/method', body: { foo: 'bar' } })));
         scope.done();
       }
     });
