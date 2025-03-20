@@ -1163,7 +1163,7 @@ describe('WebClient', () => {
         content: 'Happiness!', // test string
         filename: 'happiness.txt',
         title: 'Testing Happiness',
-        channels: 'C1234',
+        channel_id: 'C1234',
       };
 
       // returns exactly one file upload
@@ -1176,7 +1176,7 @@ describe('WebClient', () => {
         file: './test/fixtures/test-txt.txt', // test string
         filename: 'test.txt',
         title: 'Test file',
-        channels: 'C1234',
+        channel_id: 'C1234',
       };
 
       // @ts-expect-error getAllFileUploads is a private method, TODO: refactor into own function/module that is more easily testable
@@ -1223,7 +1223,7 @@ describe('WebClient', () => {
         file: './test/fixtures/test-txt.txt', // test string
         filename: 'test.txt',
         title: 'Test file',
-        channels: 'C1234',
+        channel_id: 'C1234',
       };
       // 1 entry at the top level + 4 jobs from files in files_uploads
       // @ts-expect-error getAllFileUploads is a private method, TODO: refactor into own function/module that is more easily testable
