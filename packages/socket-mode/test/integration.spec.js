@@ -200,12 +200,17 @@ describe('Integration tests with a WebSocket server', () => {
       });
       // do not use await here, since `start()` won't return until the connection is established. we are intentionally testing connection establishment failure, so that will never finish. so, let's run this in a rogue "thread", e.g. fire off an async method and let it do its thing!
       client.start();
-      await sleep(40);
-      // after 40ms + the overhead, with a timeout of 20ms, we would expect 2 retries.
+
+      const start_time = Date.now();
+      let retries = 0;
+      do {
+        await sleep(2);
+        retries = closed;
+      } while (retries < 2 && 40 < Date.now() - start_time < 50);
+      // after 40 to 50 milliseconds, with a timeout of 20ms, we would expect 2 retries.
       // crucially, the bug reported in https://github.com/slackapi/node-slack-sdk/issues/2094 shows that on every reconnection attempt, we spawn _another_ websocket instance, which attempts to reconnect forever and is never cleaned up.
       // effectively: with each reconnection attempt, we double the number of websockets, eventually causing crashes / out-of-memory issues / rate-limiting from Slack APIs.
       // with the bug not fixed, this assertion fails as `close` event was emitted 4 times! if we waited another 20ms, we would see this event count double again (8), and so on.
-      const retries = closed;
       await client.disconnect();
       await new Promise((res, rej) => {
         // shut down the bad server
