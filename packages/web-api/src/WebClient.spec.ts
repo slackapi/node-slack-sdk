@@ -919,7 +919,7 @@ describe('WebClient', () => {
           await client.apiCall('method', { foo: 'bar' });
           assert.fail('expected error to be thrown');
         } catch (_err) {
-          assert(spy.calledOnceWith(0, sinon.match({ url: 'method', body: { foo: 'bar' } })));
+          assert(spy.calledOnceWith(0, sinon.match({ url: 'https://slack.com/api/method', body: { foo: 'bar' } })));
           scope.done();
         }
       });
@@ -982,7 +982,7 @@ describe('WebClient', () => {
         await client.apiCall('method', { foo: 'bar' });
         assert.fail('expected error to be thrown');
       } catch (_err) {
-        assert(spy.calledOnceWith(0, sinon.match({ url: 'method', body: { foo: 'bar' } })));
+        assert(spy.calledOnceWith(0, sinon.match({ url: 'https://slack.com/api/method', body: { foo: 'bar' } })));
         scope.done();
       }
     });
@@ -1153,6 +1153,140 @@ describe('WebClient', () => {
         });
       await client.apps.event.authorizations.list({ event_context: 'foo' });
       scope.done();
+    });
+  });
+
+  describe('filesUploadV2', () => {
+    it('uploads a single file', async () => {
+      const scope = nock('https://slack.com')
+        .post('/api/files.getUploadURLExternal', { filename: 'test-txt.txt', length: 18 })
+        .reply(200, {
+          ok: true,
+          file_id: 'F0123456789',
+          upload_url: 'https://files.slack.com/upload/v1/abcdefghijklmnopqrstuvwxyz',
+        })
+        .post('/api/files.completeUploadExternal', { files: '[{"id":"F0123456789","title":"test-txt.txt"}]' })
+        .reply(200, {
+          ok: true,
+          files: [
+            {
+              id: 'F0123456789',
+              name: 'test-txt.txt',
+              permalink: 'https://my-workspace.slack.com/files/U0123456789/F0123456789/test-txt.txt',
+            },
+          ],
+        });
+      const uploader = nock('https://files.slack.com').post('/upload/v1/abcdefghijklmnopqrstuvwxyz').reply(200);
+      const client = new WebClient(token);
+      const response = await client.filesUploadV2({
+        file: fs.createReadStream('./test/fixtures/test-txt.txt'),
+        filename: 'test-txt.txt',
+      });
+      const expected = {
+        ok: true,
+        files: [
+          {
+            ok: true,
+            files: [
+              {
+                id: 'F0123456789',
+                name: 'test-txt.txt',
+                permalink: 'https://my-workspace.slack.com/files/U0123456789/F0123456789/test-txt.txt',
+              },
+            ],
+            response_metadata: {},
+          },
+        ],
+      };
+      assert.deepEqual(response, expected);
+      scope.done();
+      uploader.done();
+    });
+
+    it('uploads multiple files', async () => {
+      const scope = nock('https://slack.com')
+        .post('/api/files.getUploadURLExternal', { filename: 'test-png.png', length: 55292 })
+        .reply(200, {
+          ok: true,
+          file_id: 'F0000000001',
+          upload_url: 'https://files.slack.com/upload/v1/zyxwvutsrqponmlkjihgfedcba',
+        })
+        .post('/api/files.getUploadURLExternal', { filename: 'test-txt.txt', length: 18 })
+        .reply(200, {
+          ok: true,
+          file_id: 'F0123456789',
+          upload_url: 'https://files.slack.com/upload/v1/abcdefghijklmnopqrstuvwxyz',
+        })
+        .post('/api/files.completeUploadExternal', (args) => {
+          const { channel_id, thread_ts, initial_comment, files } = args;
+          return (
+            channel_id === 'C0123456789' &&
+            thread_ts === '1223313423434.131321' &&
+            initial_comment === 'success!' &&
+            (files === '[{"id":"F0123456789","title":"test-txt.txt"},{"id":"F0000000001","title":"test-png.png"}]' ||
+              files === '[{"id":"F0000000001","title":"test-png.png"},{"id":"F0123456789","title":"test-txt.txt"}]')
+          );
+        })
+        .reply(200, {
+          ok: true,
+          files: [
+            {
+              id: 'F0123456789',
+              name: 'test-txt.txt',
+              permalink: 'https://my-workspace.slack.com/files/U0123456789/F0123456789/test-txt.txt',
+            },
+            {
+              id: 'F0000000001',
+              name: 'test-png.png',
+              permalink: 'https://my-workspace.slack.com/files/U0123456789/F0000000001/test-png.png',
+            },
+          ],
+        });
+      const uploader = nock('https://files.slack.com')
+        .post('/upload/v1/abcdefghijklmnopqrstuvwxyz')
+        .reply(200)
+        .post('/upload/v1/zyxwvutsrqponmlkjihgfedcba')
+        .reply(200);
+      const client = new WebClient(token, { allowAbsoluteUrls: false });
+      const response = await client.filesUploadV2({
+        channel_id: 'C0123456789',
+        thread_ts: '1223313423434.131321',
+        initial_comment: 'success!',
+        file_uploads: [
+          {
+            file: fs.createReadStream('./test/fixtures/test-txt.txt'),
+            filename: 'test-txt.txt',
+          },
+          {
+            file: fs.createReadStream('./test/fixtures/test-png.png'),
+            filename: 'test-png.png',
+          },
+        ],
+      });
+      const expected = {
+        ok: true,
+        files: [
+          {
+            ok: true,
+            files: [
+              {
+                id: 'F0123456789',
+                name: 'test-txt.txt',
+                permalink: 'https://my-workspace.slack.com/files/U0123456789/F0123456789/test-txt.txt',
+              },
+              {
+                id: 'F0000000001',
+                name: 'test-png.png',
+                permalink: 'https://my-workspace.slack.com/files/U0123456789/F0000000001/test-png.png',
+              },
+            ],
+            response_metadata: {},
+          },
+        ],
+      };
+      assert.deepEqual(response, expected);
+      scope.done();
+      uploader.done();
     });
   });
 

@@ -312,7 +312,6 @@ export class WebClient extends Methods {
       adapter: adapter ? (config: InternalAxiosRequestConfig) => adapter({ ...config, adapter: undefined }) : undefined,
       timeout,
       baseURL: slackApiUrl,
-      allowAbsoluteUrls,
       headers: isElectron() ? headers : { 'User-Agent': getUserAgent(), ...headers },
       httpAgent: agent,
       httpsAgent: agent,
@@ -360,8 +359,9 @@ export class WebClient extends Methods {
     const headers: Record<string, string> = {};
     if (options.token) headers.Authorization = `Bearer ${options.token}`;
 
+    const url = this.deriveRequestUrl(method);
     const response = await this.makeRequest(
-      method,
+      url,
       {
         team_id: this.teamId,
         ...options,
@@ -646,8 +646,6 @@ export class WebClient extends Methods {
     // TODO: better input types - remove any
     const task = () =>
       this.requestQueue.add(async () => {
-        const requestURL = this.deriveRequestUrl(url);
-
         try {
           // biome-ignore lint/suspicious/noExplicitAny: TODO: type this
           const config: any = {
@@ -664,7 +662,7 @@ export class WebClient extends Methods {
           if (url.endsWith('apps.event.authorizations.list')) {
             body.token = undefined;
           }
-          this.logger.debug(`http request url: ${requestURL}`);
+          this.logger.debug(`http request url: ${url}`);
           this.logger.debug(`http request body: ${JSON.stringify(redact(body))}`);
           // compile all headers - some set by default under the hood by axios - that will be sent along
           let allHeaders: Record<string, AxiosHeaderValue | undefined> = Object.keys(
