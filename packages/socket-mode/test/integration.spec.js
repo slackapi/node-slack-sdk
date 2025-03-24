@@ -199,9 +199,9 @@ describe('Integration tests with a WebSocket server', () => {
         closed++;
       });
 
-      const startTime = Date.now();
       let elapseTime = 0;
       let retries = 0;
+      const startTime = Date.now();
 
       // do not use await here, since `start()` won't return until the connection is established. we are intentionally testing connection establishment failure, so that will never finish. so, let's run this in a rogue "thread", e.g. fire off an async method and let it do its thing!
       client.start();
