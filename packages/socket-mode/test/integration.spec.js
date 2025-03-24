@@ -223,7 +223,6 @@ describe('Integration tests with a WebSocket server', () => {
         });
       });
       assert.equal(retries, 2, 'unexpected number of times `close` event was raised during reconnection!');
-      console.log(elapseTime);
       assert.isAtLeast(elapseTime, 25, 'unexpectedly rapid `close` events raised during reconnection!');
     });
   });
