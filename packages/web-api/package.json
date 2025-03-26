@@ -63,7 +63,7 @@
     "mocha-multi-reporters": "^1.5.1",
     "nock": "^13",
     "shx": "^0.4.0",
-    "sinon": "^19",
+    "sinon": "^20",
     "source-map-support": "^0.5.21",
     "ts-node": "^10",
     "tsd": "^0.31.1",
