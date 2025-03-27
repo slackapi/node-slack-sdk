@@ -1,6 +1,6 @@
 {
   "name": "@slack/rtm-api",
-  "version": "7.0.2",
+  "version": "7.0.3",
   "description": "Official library for using the Slack Platform's Real Time Messaging API",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@slack/logger": "^4",
-    "@slack/web-api": "^7.8.0",
+    "@slack/web-api": "^7.9.1",
     "@types/node": ">=18",
     "eventemitter3": "^5",
     "finity": "^0.5.4",
