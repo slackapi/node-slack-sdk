@@ -1,7 +1,7 @@
-import fs from 'node:fs';
+// import fs from 'node:fs';
 import os from 'node:os';
-import { assert, expect } from 'chai';
-import sinon from 'sinon';
+// import { assert, expect } from 'chai';
+// import sinon from 'sinon';
 
 import { FileStateStore } from './file-state-store';
 import type { StateStore } from './interface';
