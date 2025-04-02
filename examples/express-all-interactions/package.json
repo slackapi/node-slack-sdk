@@ -13,7 +13,7 @@
     "@slack/interactive-messages": "^2.0.2",
     "@slack/web-api": "^7.3.4",
     "axios": "^1.6.0",
-    "body-parser": "^1.18.2",
+    "body-parser": "^2.2.0",
     "dotenv": "^16.4.5",
     "express": "^5.1.0"
   }
