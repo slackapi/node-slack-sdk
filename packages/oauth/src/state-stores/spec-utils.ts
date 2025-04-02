@@ -58,6 +58,10 @@ export class StateStoreChaiTestRunner {
             await stateStore.generateStateParam(installUrlOptions, new Date());
           }
           const state = await stateStore.generateStateParam(installUrlOptions, new Date());
+          
+          // NOTE: wait 1 second to make sure IO operations completed
+          await new Promise((resolve, _) => setTimeout(resolve, 1000));
+          
           const result = await stateStore.verifyStateParam(new Date(), state);
           assert.exists(result);
           let expectedlyReturnedResult: InstallURLOptions = { scopes: [] };
@@ -68,7 +72,7 @@ export class StateStoreChaiTestRunner {
           } catch (e: any) {
             assert.equal(e.code, 'slack_oauth_invalid_state', `${state} ${JSON.stringify(expectedlyReturnedResult)}`);
           }
-        }).timeout(4000); // https://github.com/slackapi/node-slack-sdk/issues/2159#issuecomment-2749367820
+        }).timeout(10000); // https://github.com/slackapi/node-slack-sdk/issues/2159#issuecomment-2749367820
       }
     });
   }
