@@ -13,7 +13,7 @@
     "@slack/events-api": "^3.0.1",
     "@slack/web-api": "^7.3.4",
     "dotenv": "^16.4.5",
-    "express": "^4.16.3",
+    "express": "^5.1.0",
     "node-localstorage": "^3.0.5",
     "passport": "^0.7.0"
   }
