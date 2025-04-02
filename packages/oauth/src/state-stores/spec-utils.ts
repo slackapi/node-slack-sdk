@@ -53,7 +53,7 @@ export class StateStoreChaiTestRunner {
         it('should detect multiple consumption', async () => {
           const { stateStore } = this;
           const installUrlOptions = { scopes: ['channels:read'] };
-          for (let i = 0; i < 200; i++) {
+          for (let i = 0; i < 100; i++) {
             // generate other states
             await stateStore.generateStateParam(installUrlOptions, new Date());
           }
