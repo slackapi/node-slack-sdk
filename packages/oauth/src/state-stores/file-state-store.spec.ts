@@ -4,7 +4,7 @@ import os from 'node:os';
 // import sinon from 'sinon';
 
 import { FileStateStore } from './file-state-store';
-import type { StateStore } from './interface';
+// import type { StateStore } from './interface';
 import { StateStoreChaiTestRunner } from './spec-utils';
 
 const testRunner = new StateStoreChaiTestRunner({
