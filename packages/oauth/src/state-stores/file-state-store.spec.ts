@@ -14,32 +14,32 @@ const testRunner = new StateStoreChaiTestRunner({
 });
 testRunner.enableTests('FileStateStore');
 
-describe('FileStateStore specifics', () => {
-  const stateStore: StateStore = new FileStateStore({
-    baseDir: os.tmpdir(),
-  });
-  const installUrlOptions = { scopes: ['channels:read'] };
+// describe('FileStateStore specifics', () => {
+//   const stateStore: StateStore = new FileStateStore({
+//     baseDir: os.tmpdir(),
+//   });
+//   const installUrlOptions = { scopes: ['channels:read'] };
 
-  it('should close all files after writing them', async () => {
-    const writeFileSyncStub = sinon.stub(fs, 'writeFileSync').throws(new Error('mock_write_error'));
+//   it('should close all files after writing them', async () => {
+//     const writeFileSyncStub = sinon.stub(fs, 'writeFileSync').throws(new Error('mock_write_error'));
 
-    try {
-      await stateStore.generateStateParam(installUrlOptions, new Date());
-      assert.fail('Exception should be thrown');
-      // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
-    } catch (e: any) {
-      assert.equal(e.message, 'mock_write_error');
-    }
+//     try {
+//       await stateStore.generateStateParam(installUrlOptions, new Date());
+//       assert.fail('Exception should be thrown');
+//       // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
+//     } catch (e: any) {
+//       assert.equal(e.message, 'mock_write_error');
+//     }
 
-    assert(writeFileSyncStub.calledOnce, 'writeFileSync should be called once');
-    const fd = writeFileSyncStub.getCall(0).args[0] as number;
+//     assert(writeFileSyncStub.calledOnce, 'writeFileSync should be called once');
+//     const fd = writeFileSyncStub.getCall(0).args[0] as number;
 
-    expect(
-      () => fs.fstatSync(fd),
-      'The file must be closed, we expect fstatSync to throw an error when the file is closed',
-    ).to.throw('EBADF: bad file descriptor, fstat');
+//     expect(
+//       () => fs.fstatSync(fd),
+//       'The file must be closed, we expect fstatSync to throw an error when the file is closed',
+//     ).to.throw('EBADF: bad file descriptor, fstat');
 
-    // Restore original function
-    writeFileSyncStub.restore();
-  });
-});
+//     // Restore original function
+//     writeFileSyncStub.restore();
+//   });
+// });

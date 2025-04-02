@@ -72,7 +72,7 @@ export class StateStoreChaiTestRunner {
           } catch (e: any) {
             assert.equal(e.code, 'slack_oauth_invalid_state', `${state} ${JSON.stringify(expectedlyReturnedResult)}`);
           }
-        }).timeout(10000); // https://github.com/slackapi/node-slack-sdk/issues/2159#issuecomment-2749367820
+        }).timeout(5000); // https://github.com/slackapi/node-slack-sdk/issues/2159#issuecomment-2749367820
       }
     });
   }
