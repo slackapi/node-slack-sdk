@@ -17,6 +17,6 @@
     "@slack/events-api": "^3.0.1",
     "@slack/oauth": "^3.0.1",
     "@slack/web-api": "^7.3.4",
-    "express": "^4.17.1"
+    "express": "^5.1.0"
   }
 }
