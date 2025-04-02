@@ -39,7 +39,7 @@ describe('FileStateStore specifics', () => {
       'The file must be closed, we expect fstatSync to throw an error when the file is closed',
     ).to.throw('EBADF: bad file descriptor, fstat');
 
-    // Restore original function
+    // 
     writeFileSyncStub.restore();
   });
 });
