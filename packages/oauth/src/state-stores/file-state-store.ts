@@ -76,9 +76,9 @@ export class FileStateStore implements StateStore {
   private writeToFile(filename: string, data: StateObj): void {
     fs.mkdirSync(this.baseDir, { recursive: true });
     const fullpath = path.resolve(`${this.baseDir}/${filename}`);
-    // NOTE: Replace the following lines with `fs.writeFileSync(fd, JSON.stringify(data), { flush: true });`  
-    // once `flush` is supported by the oldest Node.js version in this project.  
-    // Reference: https://nodejs.org/api/fs.html#fswritefilesyncfile-data-options  
+    // NOTE: Replace the following lines with `fs.writeFileSync(fd, JSON.stringify(data), { flush: true });`
+    // once `flush` is supported by the oldest Node.js version in this project.
+    // Reference: https://nodejs.org/api/fs.html#fswritefilesyncfile-data-options
     // Current implementation achieves the same effect.
     const fd = fs.openSync(fullpath, 'w');
     try {
