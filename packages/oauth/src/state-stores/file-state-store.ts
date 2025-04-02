@@ -76,7 +76,7 @@ export class FileStateStore implements StateStore {
   private writeToFile(filename: string, data: StateObj): void {
     fs.mkdirSync(this.baseDir, { recursive: true });
     const fullpath = path.resolve(`${this.baseDir}/${filename}`);
-    fs.writeFileSync(fullpath, JSON.stringify(data));
+    fs.writeFileSync(fullpath, JSON.stringify(data), { flush: true });
   }
 
   private readFile(filename: string): StateObj | undefined {
