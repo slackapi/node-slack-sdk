@@ -63,6 +63,7 @@ export class StateStoreChaiTestRunner {
 
           // NOTE: wait 0.5 second to ensure IO operations completed
           await new Promise((resolve, _) => setTimeout(resolve, 500));
+          console.log('\tsetTimeout: complete');
 
           const result = await stateStore.verifyStateParam(new Date(), state);
           assert.exists(result);
