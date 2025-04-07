@@ -55,7 +55,9 @@ export class StateStoreChaiTestRunner {
           const installUrlOptions = { scopes: ['channels:read'] };
           for (let i = 0; i < 100; i++) {
             // generate other states
-            await stateStore.generateStateParam(installUrlOptions, new Date());
+            const date = new Date();
+            await stateStore.generateStateParam(installUrlOptions, date);
+            console.log('\tgenerateStateParam:', i, 100, date);
           }
           const state = await stateStore.generateStateParam(installUrlOptions, new Date());
 
