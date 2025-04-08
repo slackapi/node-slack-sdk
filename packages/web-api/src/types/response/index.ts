@@ -199,6 +199,7 @@ export { DndInfoResponse } from './DndInfoResponse';
 export { DndSetSnoozeResponse } from './DndSetSnoozeResponse';
 export { DndTeamInfoResponse } from './DndTeamInfoResponse';
 export { EmojiListResponse } from './EmojiListResponse';
+export { EntityPresentDetailsResponse } from './EntityPresentDetailsResponse';
 export { FilesCommentsAddResponse } from './FilesCommentsAddResponse';
 export { FilesCommentsDeleteResponse } from './FilesCommentsDeleteResponse';
 export { FilesCommentsEditResponse } from './FilesCommentsEditResponse';

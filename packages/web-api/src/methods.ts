@@ -176,6 +176,7 @@ import type {
   DndSetSnoozeArguments,
   DndTeamInfoArguments,
   EmojiListArguments,
+  EntityPresentDetailsArguments,
   FilesCommentsDeleteArguments,
   FilesCompleteUploadExternalArguments,
   FilesDeleteArguments,
@@ -429,6 +430,7 @@ import type {
   DndSetSnoozeResponse,
   DndTeamInfoResponse,
   EmojiListResponse,
+  EntityPresentDetailsResponse,
   FilesCommentsDeleteResponse,
   FilesCompleteUploadExternalResponse,
   FilesDeleteResponse,
@@ -1614,6 +1616,18 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://api.slack.com/methods/chat.update `chat.update` API reference}.
      */
     update: bindApiCall<ChatUpdateArguments, ChatUpdateResponse>(this, 'chat.update'),
+  };
+
+  public readonly entity = {
+    /**
+     * @description
+     * Provide information about the entity to be displayed in the flexpane.
+     * A link to the API documentation will be added when this API is publicly released.
+     */
+    presentDetails: bindApiCall<EntityPresentDetailsArguments, EntityPresentDetailsResponse>(
+      this,
+      'entity.presentDetails',
+    ),
   };
 
   public readonly conversations = {

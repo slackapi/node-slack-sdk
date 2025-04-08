@@ -2,6 +2,7 @@ import type { OptionalArgument } from '../helpers';
 
 import type {
   Block, // TODO: these will be combined into one in a new types release
+  EntitiesMetadata,
   KnownBlock,
   LinkUnfurls,
   MessageAttachment,
@@ -220,13 +221,24 @@ export interface SourceAndUnfurlID {
 }
 type UnfurlTarget = ChannelAndTS | SourceAndUnfurlID;
 
+type ChatUnfurlEntitiesMetadata = EntitiesMetadata & {
+  /**
+   * @description The unfurl URL for the entity.
+   */
+  app_unfurl_url?: string;
+};
+
 // https://api.slack.com/methods/chat.unfurl
 export type ChatUnfurlArguments = {
   /**
-   * @description URL-encoded JSON map with keys set to URLs featured in the the message, pointing to their unfurl
+   * @description Object with keys set to URLs featured in the message, pointing to their unfurl
    * blocks or message attachments.
    */
-  unfurls: LinkUnfurls;
+  unfurls?: LinkUnfurls;
+  /**
+   * @description Array of entities to attach to the message based on URLs featured in the message.
+   */
+  metadata?: ChatUnfurlEntitiesMetadata;
 } & UnfurlTarget &
   TokenOverridable & {
     /**
