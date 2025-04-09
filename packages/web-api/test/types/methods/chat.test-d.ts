@@ -546,7 +546,7 @@ expectError(
 );
 expectError(
   web.chat.unfurl({
-    channel: 'C1234', // missing unfurls
+    channel: 'C1234', // missing both unfurls and metadata
     ts: '1234.56',
   }),
 );
@@ -598,6 +598,37 @@ expectAssignable<Parameters<typeof web.chat.unfurl>>([
     unfurls: {},
     channel: 'C1234',
     ts: '1234.56',
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.unfurl>>([
+  {
+    channel: 'C1234',
+    ts: '1234.56',
+    metadata: {
+      entities: [
+        {
+          entity_type: '',
+          entity_payload: {},
+          app_unfurl_url: 'https://google.com',
+        },
+      ],
+    },
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.unfurl>>([
+  {
+    channel: 'C1234',
+    ts: '1234.56',
+    unfurls: {}, // Accepts both unfurl and metadata attachments
+    metadata: {
+      entities: [
+        {
+          entity_type: '',
+          entity_payload: {},
+          app_unfurl_url: 'https://google.com',
+        },
+      ],
+    },
   },
 ]);
 

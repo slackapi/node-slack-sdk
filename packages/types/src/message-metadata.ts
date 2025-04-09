@@ -27,7 +27,7 @@ export interface MessageMetadataEventPayloadObject {
 }
 
 /**
- * @description Metadata that represents an entity.
+ * @description An array of entities.
  */
 export interface EntitiesMetadata {
   entities: EntityMetadata[];
