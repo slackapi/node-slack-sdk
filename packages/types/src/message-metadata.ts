@@ -1,7 +1,7 @@
 /**
  * @description Application-specific data to attach to a Slack message.
  */
-export interface MessageMetadata extends EventMetadata, EntitiesMetadata {}
+export type MessageMetadata = EventMetadata | EntitiesMetadata;
 
 /**
  * @description Metadata that represents an event in Slack.
@@ -27,7 +27,7 @@ export interface MessageMetadataEventPayloadObject {
 }
 
 /**
- * @description Metadata that represents an entity.
+ * @description An array of entities.
  */
 export interface EntitiesMetadata {
   entities: EntityMetadata[];
