@@ -78,6 +78,7 @@ export type {
   FilesRemoteAddArguments,
 } from './files';
 export type { EmojiListArguments } from './emoji';
+export type { EntityPresentDetailsArguments } from './entity';
 export type {
   DndEndDndArguments,
   DndEndSnoozeArguments,
