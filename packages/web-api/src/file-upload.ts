@@ -200,10 +200,10 @@ export async function getFileDataAsStream(readable: Readable): Promise<Buffer> {
 
   return new Promise((resolve, reject) => {
     readable.on('readable', () => {
-      let chunk: Buffer;
-      // biome-ignore lint/suspicious/noAssignInExpressions: being terse, this is OK
-      while ((chunk = readable.read()) !== null) {
+      let chunk = readable.read();
+      while (chunk !== null) {
         chunks.push(chunk);
+        chunk = readable.read();
       }
     });
     readable.on('end', () => {
