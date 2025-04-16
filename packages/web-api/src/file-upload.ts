@@ -245,10 +245,10 @@ export function getAllFileUploadsToComplete(
           const fileDestinationArgument: FileThreadDestinationArgument = {
             channel_id,
             thread_ts: upload.thread_ts,
-          }
+          };
           toComplete[compareString] = {
             ...toComplete[compareString],
-            ...fileDestinationArgument
+            ...fileDestinationArgument,
           };
         }
         if ('token' in upload) {
