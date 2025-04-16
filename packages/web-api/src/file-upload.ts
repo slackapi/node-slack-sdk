@@ -244,7 +244,7 @@ export function getAllFileUploadsToComplete(
         if (thread_ts && channel_id) {
           const fileDestinationArgument: FileThreadDestinationArgument = {
             channel_id,
-            thread_ts: upload.thread_ts,
+            thread_ts,
           };
           toComplete[compareString] = {
             ...toComplete[compareString],
