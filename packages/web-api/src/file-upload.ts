@@ -191,7 +191,7 @@ export async function getFileData(options: FilesUploadV2Arguments | FileUploadV2
 
 export function getFileDataLength(data: Buffer): number {
   if (data) {
-    return Buffer.byteLength(data.toString('utf8'));
+    return Buffer.byteLength(data);
   }
   throw errorWithCode(new Error(buildFileSizeErrorMsg()), ErrorCode.FileUploadReadFileDataError);
 }
