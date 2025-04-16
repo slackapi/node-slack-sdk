@@ -5,6 +5,7 @@ import type { Logger } from '@slack/logger';
 
 import { ErrorCode, errorWithCode } from './errors';
 import type {
+  FileThreadDestinationArgument,
   FileUploadV2,
   FileUploadV2Job,
   FilesCompleteUploadExternalArguments,
@@ -200,10 +201,10 @@ export async function getFileDataAsStream(readable: Readable): Promise<Buffer> {
 
   return new Promise((resolve, reject) => {
     readable.on('readable', () => {
-      let chunk: Buffer;
-      // biome-ignore lint/suspicious/noAssignInExpressions: being terse, this is OK
-      while ((chunk = readable.read()) !== null) {
+      let chunk = readable.read();
+      while (chunk !== null) {
         chunks.push(chunk);
+        chunk = readable.read();
       }
     });
     readable.on('end', () => {
@@ -240,8 +241,15 @@ export function getAllFileUploadsToComplete(
           channel_id,
           initial_comment,
         };
-        if (thread_ts) {
-          toComplete[compareString].thread_ts = upload.thread_ts;
+        if (thread_ts && channel_id) {
+          const fileThreadDestinationArgument: FileThreadDestinationArgument = {
+            channel_id,
+            thread_ts,
+          };
+          toComplete[compareString] = {
+            ...toComplete[compareString],
+            ...fileThreadDestinationArgument,
+          };
         }
         if ('token' in upload) {
           toComplete[compareString].token = upload.token;
