@@ -63,6 +63,6 @@
     "mocha-multi-reporters": "^1.5.1",
     "shx": "^0.4.0",
     "sinon": "^20.0.0",
-    "typescript": "5.8.2"
+    "typescript": "5.8.3"
   }
 }
