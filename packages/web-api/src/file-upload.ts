@@ -5,6 +5,7 @@ import type { Logger } from '@slack/logger';
 
 import { ErrorCode, errorWithCode } from './errors';
 import type {
+  FileThreadDestinationArgument,
   FileUploadV2,
   FileUploadV2Job,
   FilesCompleteUploadExternalArguments,
@@ -240,8 +241,15 @@ export function getAllFileUploadsToComplete(
           channel_id,
           initial_comment,
         };
-        if (thread_ts) {
-          toComplete[compareString].thread_ts = upload.thread_ts;
+        if (thread_ts && channel_id) {
+          const fileDestinationArgument: FileThreadDestinationArgument = {
+            channel_id,
+            thread_ts: upload.thread_ts,
+          }
+          toComplete[compareString] = {
+            ...toComplete[compareString],
+            ...fileDestinationArgument
+          };
         }
         if ('token' in upload) {
           toComplete[compareString].token = upload.token;
