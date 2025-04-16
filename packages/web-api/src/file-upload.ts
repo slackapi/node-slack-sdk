@@ -242,13 +242,13 @@ export function getAllFileUploadsToComplete(
           initial_comment,
         };
         if (thread_ts && channel_id) {
-          const fileDestinationArgument: FileThreadDestinationArgument = {
+          const fileThreadDestinationArgument: FileThreadDestinationArgument = {
             channel_id,
             thread_ts,
           };
           toComplete[compareString] = {
             ...toComplete[compareString],
-            ...fileDestinationArgument,
+            ...fileThreadDestinationArgument,
           };
         }
         if ('token' in upload) {
