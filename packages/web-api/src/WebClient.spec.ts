@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import axios, { type InternalAxiosRequestConfig } from 'axios';
 import { assert, expect } from 'chai';
-import nock from 'nock';
+import nock, { type ReplyHeaders } from 'nock';
 import sinon from 'sinon';
 import {
   type RequestConfig,
@@ -801,7 +801,7 @@ describe('WebClient', () => {
 
   describe('has an option to set request concurrency', () => {
     // TODO: factor out common logic into test helpers
-    const responseDelay = 100; // ms
+    const responseDelay = 500; // ms
     let testStart: number;
     let scope: nock.Scope;
 
@@ -1102,14 +1102,15 @@ describe('WebClient', () => {
   });
 
   it('should throw an error if the response has no retry info', async () => {
-    // @ts-expect-error header values cannot be undefined
-    const scope = nock('https://slack.com').post(/api/).reply(429, {}, { 'retry-after': undefined });
+    const emptyHeaders: ReplyHeaders & { 'retry-after'?: never } = {}; // Ensure that 'retry-after' is not in the headers
+    const scope = nock('https://slack.com').post(/api/).reply(429, {}, emptyHeaders);
     const client = new WebClient(token);
     try {
       await client.apiCall('method');
       assert.fail('expected error to be thrown');
     } catch (err) {
       assert.instanceOf(err, Error);
+    } finally {
       scope.done();
     }
   });
