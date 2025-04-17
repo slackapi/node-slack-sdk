@@ -1102,7 +1102,7 @@ describe('WebClient', () => {
   });
 
   it('should throw an error if the response has no retry info', async () => {
-    const emptyHeaders: ReplyHeaders = {};
+    const emptyHeaders: ReplyHeaders & { 'retry-after'?: never } = {}; // Ensure that 'retry-after' is not in the headers
     const scope = nock('https://slack.com').post(/api/).reply(429, {}, emptyHeaders);
     const client = new WebClient(token);
     try {
