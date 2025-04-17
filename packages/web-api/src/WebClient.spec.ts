@@ -825,7 +825,7 @@ describe('WebClient', () => {
 
     it('should have a default conncurrency of 100', async () => {
       const client = new WebClient(token);
-      const requests: Promise<WebAPICallResult>[] = [];
+      const requests = [];
       for (let i = 0; i < 101; i++) {
         requests.push(client.apiCall(`${i}`));
       }
