@@ -802,11 +802,9 @@ describe('WebClient', () => {
   describe('has an option to set request concurrency', () => {
     // TODO: factor out common logic into test helpers
     const responseDelay = 100; // ms
-    let testStart: number;
     let scope: nock.Scope;
 
     beforeEach(() => {
-      testStart = Date.now();
       scope = nock('https://slack.com')
         .persist()
         .post(/api/)
@@ -814,7 +812,10 @@ describe('WebClient', () => {
         .reply((_uri, _requestBody) => {
           // NOTE: the assumption is that this function gets called right away when the request body is available,
           // not after the delay
-          const diff = Date.now() - testStart;
+          const now = Date.now();
+          const paths = _uri.split('/'); // "/api/99/1744901290437" -> "", "api", "99", "1744901290437"
+          const requestTimeSent = Number(paths[3]);
+          const diff = now - requestTimeSent;
           return [200, JSON.stringify({ ok: true, diff })];
         });
     });
@@ -825,9 +826,9 @@ describe('WebClient', () => {
 
     it('should have a default conncurrency of 100', async () => {
       const client = new WebClient(token);
-      const requests = [];
+      const requests: Promise<WebAPICallResult>[] = [];
       for (let i = 0; i < 101; i++) {
-        requests.push(client.apiCall(`${i}`));
+        requests.push(client.apiCall(`${i}/${Date.now()}`));
       }
       const responses = (await Promise.all(requests)) as (WebAPICallResult & { diff: number })[];
       // verify all responses are present
@@ -847,7 +848,7 @@ describe('WebClient', () => {
 
     it('should allow concurrency to be set', async () => {
       const client = new WebClient(token, { maxRequestConcurrency: 1 });
-      const requests = [client.apiCall('1'), client.apiCall('2')];
+      const requests = [client.apiCall(`1/${Date.now()}`), client.apiCall(`2/${Date.now()}`)];
       const responses = (await Promise.all(requests)) as (WebAPICallResult & { diff: number })[];
       // verify all responses are present
       assert.lengthOf(responses, 2);
