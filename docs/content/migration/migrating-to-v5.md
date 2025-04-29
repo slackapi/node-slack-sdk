@@ -17,7 +17,7 @@ Those packages only moved repositories, but did not get updated in this process.
 
 ## Update to a supported version of Node
 
-These package have dropped support for versions of Node that are no longer supported. We recommend updating to the latest LTS version of [Node](https://nodejs.org/en/), which at this time is v10.15.3. The minimum supported version is v8.9.0.
+These packages have dropped support for versions of Node that are no longer supported. We recommend updating to the latest LTS version of [Node](https://nodejs.org/en/), which at this time is v10.15.3. The minimum supported version is v8.9.0.
 
 :::info[Learn more about our [support schedule](/support-schedule) so that you can prepare and plan for future updates.]
 

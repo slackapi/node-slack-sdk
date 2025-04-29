@@ -1,6 +1,6 @@
 # Migrating to v4.x
 
-This migration guide helps you transition an application written using the `v3.x` series of this package, to the `v4.x` series. This guide focuses specifically on the breaking changes to help get your existing app up and running as quickly as possible. In some cases, there may be better techniques for accomplishing what your app already does by utilizing brand new features or new API. Learn about all the new features in our [`v4.0.0` release notes](https://github.com/slackapi/node-slack-sdk/releases/tag/v4.0.0) if you'd like to go beyond a simple port.
+This migration guide helps you transition an application written using the `v3.x` series of this package, to the `v4.x` series. This guide focuses specifically on the breaking changes to help get your existing app up and running as quickly as possible. In some cases, there may be better techniques for accomplishing what your app already does by utilizing brand new features or new API methods. Learn about all the new features in our [`v4.0.0` release notes](https://github.com/slackapi/node-slack-sdk/releases/tag/v4.0.0) if you'd like to go beyond a simple port.
 
 ## WebClient
 
@@ -80,7 +80,7 @@ The datastore APIs have helped apps keep track of team state since this feature 
 
 At a high level, here are the design issues that could not be addressed in a backwards compatible way:
 
-- **Synchronous calling convention** - In order to plug in storage destinations other than memory (`SlackMemoryDataStore`) the code to reach that destination would need to be asynchronous. This is important if you want to share state across many processes while horizontally scaling an app. As a result, the maintainers have never seen an implementation of the `SlackDataStore` interface other than the memory-based one provided.
+- **Synchronous calling convention** - In order to plug in storage destinations other than memory (`SlackMemoryDataStore`), the code to reach that destination would need to be asynchronous. This is important if you want to share state across many processes while horizontally scaling an app. As a result, the maintainers have never seen an implementation of the `SlackDataStore` interface other than the memory-based one provided.
 
 - **Names versus IDs** - While we always thought it was a good idea to use IDs anywhere possible in programmatic use, the Slack platform wasn't overly strict about it. With the introduction of Shared Channels, we cannot preserve any guarantees of uniqueness for usernames, as we mentioned in this [changelog entry](https://api.slack.com/changelog/2017-09-the-one-about-usernames). In fact, channel names also lose these types of guarantees. The APIs in the `SlackDataStore` that operate on names instead of IDs start to break since the fundamental assumptions are not true anymore.
 
@@ -119,7 +119,7 @@ If you aren't sure how to translate a specific data store method into a Web API 
 
 You'll notice that this code has become asynchronous. This will likely be the largest challenge in migrating away from the data store, but for most developers it will be worth it.
 
-For the majority of apps, you will be ready for v4 at this point. If your app is having performance related issues, there's room to make improvements by caching the data that is relevant to your app. This should only be taken on if you believe its necessary, since cache invalidation is one of the [only two hard things in computer science](https://martinfowler.com/bliki/TwoHardThings.html).
+For the majority of apps, you will be ready for v4 at this point. If your app is having performance related issues, there's room to make improvements by caching the data that is relevant to your app. This should only be taken on if you believe it's necessary, since cache invalidation is one of the [only two hard things in computer science](https://martinfowler.com/bliki/TwoHardThings.html).
 
 The approach for caching data that we recommend is to pick out the data your app needs, store it at connection time, and update it according to a determined policy. You may want to disable the `useRtmConnect` option in order
 to get more data at connection time.
@@ -197,7 +197,7 @@ rtm.addOutgoingEvent(true, message.type, message)
   });
 ```
 
-### Events
+### Events {#events}
 
 The `RTMClient` now has more well-defined states (and substates) that you may observe using the [`EventEmitter` API pattern](https://nodejs.org/api/events.html). The following table helps describe the relationship between events in the `v3.x` series and events in the `v4.x` series.
 
