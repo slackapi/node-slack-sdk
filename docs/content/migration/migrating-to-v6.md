@@ -19,11 +19,9 @@ To migrate to the latest packages, updating your minimum Node.js to `12.13.0` is
 
 ### Minimum Node Version
 
-Our newly released major versions all require a minimum Node version of `12.13.0` and minimum npm version of `6.12.0` .
+Our newly released major versions all require a minimum Node version of `12.13.0` and minimum npm version of `6.12.0`.
 
-:::info 
-
-Learn more about our [support schedule](https://github.com/slackapi/node-slack-sdk/wiki/Support-Schedule) so that you can prepare and plan for future updates.
+:::info[Learn more about our [support schedule](/support-schedule) so that you can prepare and plan for future updates.]
 
 :::
 
@@ -89,7 +87,7 @@ installationStore: {
   },
 ```
 
-### Deprecating @slack/events-api & @slack/interactive-messages
+### Deprecating `@slack/events-api` & `@slack/interactive-messages` packages
 
 `@slack/events-api` and `@slack/interactive-messages` will be deprecated on **January 12th, 2021**. We will only implement **critical bug fixes** until the official end of life date and close non critical issues and pull requests, which is slated for **May 31st, 2021**. At this time, development will fully stop for these packages and all remaining open issues and pull requests will be closed. Bolt for JavaScript can now perform all the same functionality as these packages. We think you’ll love the more modern set of features you get in Bolt. Here are some migration examples:
 
