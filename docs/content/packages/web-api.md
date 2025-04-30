@@ -1,8 +1,8 @@
 ---
-title: Web API
 slug: /web-api
 ---
 
+# Web API
 
 The `@slack/web-api` package contains a simple, convenient, and configurable HTTP client for making requests to Slack's
 [Web API](https://api.slack.com/web). Use it in your app to call any of the over 130
