@@ -1,8 +1,4 @@
----
-title: Migrating to v5.x
----
-
-# Migration Guide (v4 to v5)
+# Migrating to v5.x
 
 This tutorial will guide you through the process of updating your app from using the `@slack/client` package (`v4.x`)
 to using the new, improved, and independent packages, starting with `v5.0.0`.

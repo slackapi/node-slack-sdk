@@ -1,8 +1,4 @@
----
-title: Migrating to v6.x
----
-
-# Migration Guide (v5 to v6)
+# Migrating to v6.x
 
 The following packages have been updated in the release being dubbed as `v6`:
 * `@slack/web-api@6.0.0`
