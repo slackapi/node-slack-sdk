@@ -206,7 +206,7 @@ The `RTMClient` now has more well-defined states (and substates) that you may ob
 | `disconnected`  | `disconnect`    | The client is not connected to the platform. This is a steady state - no attempt to connect is occurring. |
 | `connecting`    | `connecting` / `attempting_reconnect`   | The client is in the process of connecting to the platform. |
 | `authenticated` | `authenticated` | The client has authenticated with the platform. The `rtm.connect` or `rtm.start` response is emitted as an argument. This is a sub-state of `connecting`. |
-| `connected`     |                 | The client is connected to the platform and incoming events will start being emittied. |
+| `connected`     |                 | The client is connected to the platform and incoming events will start being emitted. |
 | `ready`         | `open`          | The client is ready to send outgoing messages. This is a sub-state of `connected` |
 | `disconnecting` |                 | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `disconnected`. |
 | `reconnecting`  |                 | The client is no longer connected to the platform and cleaning up its resources. It will soon transition to `connecting`. |
