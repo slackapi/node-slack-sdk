@@ -14,7 +14,7 @@ npm i @slack/web-api
 
 **TL;DR**: this package now supports only node v18 and newer, and HTTP API arguments passed to methods in this project in the context of a  TypeScript project are stricter.
 
-This release focusses on the type safety of Slack HTTP API method arguments provided by `@slack/web-api`. If you use this package in a TypeScript project, many of the HTTP API methods now have stricter argument typing, which hopefully helps guide developers towards proper argument usage for Slack's HTTP API methods.
+This release focuses on the type safety of Slack HTTP API method arguments provided by `@slack/web-api`. If you use this package in a TypeScript project, many of the HTTP API methods now have stricter argument typing, which hopefully helps guide developers towards proper argument usage for Slack's HTTP API methods.
 
 **If you use this package in a JavaScript project, no such guidance is provided and the breaking changes listed below do not apply to you.**
 
@@ -93,7 +93,7 @@ You can no longer provide _both_ `request_id` and `app_id` - these APIs will onl
 
 ## `admin.barriers.*`
 
-The `restricted_subjects` array is no longer a `string[]` but enforces an array with the exact values `['im', 'mpim', 'call']` - which these APIs demands (see e.g. [`admin.barriers.create` usage info](https://api.slack.com/methods/admin.barriers.create#markdown)).
+The `restricted_subjects` array is no longer a `string[]` but enforces an array with the exact values `['im', 'mpim', 'call']` - which these APIs demand (see e.g. [`admin.barriers.create` usage info](https://api.slack.com/methods/admin.barriers.create#markdown)).
 
 ## `admin.conversations.*`
 
