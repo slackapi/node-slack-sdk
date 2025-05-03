@@ -2,6 +2,7 @@ import type { OptionalArgument } from '../helpers';
 
 import type {
   Block, // TODO: these will be combined into one in a new types release
+  EntityMetadata,
   KnownBlock,
   LinkUnfurls,
   MessageAttachment,
@@ -220,14 +221,31 @@ export interface SourceAndUnfurlID {
 }
 type UnfurlTarget = ChannelAndTS | SourceAndUnfurlID;
 
-// https://api.slack.com/methods/chat.unfurl
-export type ChatUnfurlArguments = {
+type ChatUnfurlArgumentUnfurls = {
   /**
-   * @description URL-encoded JSON map with keys set to URLs featured in the the message, pointing to their unfurl
+   * @description Object with keys set to URLs featured in the message, pointing to their unfurl
    * blocks or message attachments.
    */
   unfurls: LinkUnfurls;
-} & UnfurlTarget &
+};
+
+type ChatUnfurlArgumentMetadata = {
+  /**
+   * @description Array of entities to attach to the message based on URLs featured in the message.
+   */
+  metadata: {
+    entities: (EntityMetadata & {
+      /**
+       * @description The unfurl URL for the entity.
+       */
+      app_unfurl_url: string;
+    })[];
+  };
+};
+
+// https://api.slack.com/methods/chat.unfurl
+export type ChatUnfurlArguments = (ChatUnfurlArgumentUnfurls | ChatUnfurlArgumentMetadata) &
+  UnfurlTarget &
   TokenOverridable & {
     /**
      * @description Provide a simply-formatted string to send as an ephemeral message to the user as invitation to
