@@ -33,6 +33,18 @@ const sidebars = {
     'packages/socket-mode',
     {
       type: 'category',
+      label: 'Migration',
+      items: [
+        'migration/migrating-to-v4',
+        'migration/migrating-to-v5',
+        'migration/migrating-to-v6',
+        'migration/migrating-socket-mode-package-to-v2',
+        'migration/migrating-web-api-package-to-v7',
+
+      ],
+    },
+    {
+      type: 'category',
       label: 'Deprecated packages',
       items: [
         'packages/events-api',
@@ -44,9 +56,7 @@ const sidebars = {
       type: 'category',
       label: 'Tutorials',
       items: [
-        'tutorials/local-development',
-        'tutorials/migrating-to-v5',
-        'tutorials/migrating-to-v6',
+        'tutorials/local-development'
       ],
     },
     {type: 'html', value: '<hr>'},
@@ -147,6 +157,7 @@ const sidebars = {
       ],
     },
     {type: 'html', value: '<hr>'},
+    'support-schedule',
     {
       type: 'link',
       label: 'Release notes',

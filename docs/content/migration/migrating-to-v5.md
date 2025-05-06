@@ -1,31 +1,21 @@
----
-title: Migrating to v5.x
----
-
-# Migration Guide (v4 to v5)
+# Migrating to v5.x
 
 This tutorial will guide you through the process of updating your app from using the `@slack/client` package (`v4.x`)
 to using the new, improved, and independent packages, starting with `v5.0.0`.
 
 If you were not using any deprecated features, this should only take a couple minutes.
 
-:::info 
+:::info[If you were using the `@slack/events-api` or `@slack/interactive-messages` packages, this migration doesn't affect your app] 
 
-If you were using the `@slack/events-api` or `@slack/interactive-messages` packages, this migration doesn't
-affect your app. Those packages only moved repositories, but did not get updated in this process. You're done!
+Those packages only moved repositories, but did not get updated in this process. You're done!
 
 :::
 
 ## Update to a supported version of Node
 
-These package have dropped support for versions of Node that are no longer supported. We recommend updating to the
-latest LTS version of [Node](https://nodejs.org/en/), which at this time is v10.15.3. The minimum supported version is
-v8.9.0.
+These packages have dropped support for versions of Node that are no longer supported. We recommend updating to the latest LTS version of [Node](https://nodejs.org/en/), which at this time is v10.15.3. The minimum supported version is v8.9.0.
 
-:::info 
-
-Learn more about our [support schedule](https://github.com/slackapi/node-slack-sdk/wiki/Support-Schedule) so
-that you can prepare and plan for future updates.
+:::info[Learn more about our [support schedule](/support-schedule) so that you can prepare and plan for future updates.]
 
 :::
 
