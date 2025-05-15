@@ -58,6 +58,21 @@ describe('WebClient', () => {
       const client = new WebClient();
       assert.instanceOf(client, WebClient);
     });
+
+    it('should add a trailing slash to slackApiUrl if missing', () => {
+      const client = new WebClient(token, { slackApiUrl: 'https://slack.com/api' });
+      assert.equal(client.slackApiUrl, 'https://slack.com/api/');
+    });
+
+    it('should preserve trailing slash in slackApiUrl if provided', () => {
+      const client = new WebClient(token, { slackApiUrl: 'https://slack.com/api/' });
+      assert.equal(client.slackApiUrl, 'https://slack.com/api/');
+    });
+
+    it('should handle custom domains and add trailing slash', () => {
+      const client = new WebClient(token, { slackApiUrl: 'https://example.com/slack/api' });
+      assert.equal(client.slackApiUrl, 'https://example.com/slack/api/');
+    });
   });
 
   describe('Methods superclass', () => {

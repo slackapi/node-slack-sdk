@@ -286,6 +286,9 @@ export class WebClient extends Methods {
 
     this.token = token;
     this.slackApiUrl = slackApiUrl;
+    if (!this.slackApiUrl.endsWith('/')) {
+      this.slackApiUrl += '/';
+    }
 
     this.retryConfig = retryConfig;
     this.requestQueue = new pQueue({ concurrency: maxRequestConcurrency });
