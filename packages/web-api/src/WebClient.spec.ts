@@ -812,6 +812,15 @@ describe('WebClient', () => {
       const client = new WebClient(token, { allowAbsoluteUrls: false });
       await client.apiCall('https://example.com/api/method');
     });
+
+    it('should add a trailing slash to slackApiUrl if missing', async () => {
+      const alternativeUrl = 'http://12.34.56.78/api'; // No trailing slash here
+      nock(alternativeUrl)
+        .post(/api\/method/)
+        .reply(200, { ok: true });
+      const client = new WebClient(token, { slackApiUrl: alternativeUrl });
+      await client.apiCall('method');
+    });
   });
 
   describe('has an option to set request concurrency', () => {
