@@ -286,6 +286,9 @@ export class WebClient extends Methods {
 
     this.token = token;
     this.slackApiUrl = slackApiUrl;
+    if (!this.slackApiUrl.endsWith('/')) {
+      this.slackApiUrl += '/';
+    }
 
     this.retryConfig = retryConfig;
     this.requestQueue = new pQueue({ concurrency: maxRequestConcurrency });
@@ -311,7 +314,7 @@ export class WebClient extends Methods {
     this.axios = axios.create({
       adapter: adapter ? (config: InternalAxiosRequestConfig) => adapter({ ...config, adapter: undefined }) : undefined,
       timeout,
-      baseURL: slackApiUrl,
+      baseURL: this.slackApiUrl,
       headers: isElectron() ? headers : { 'User-Agent': getUserAgent(), ...headers },
       httpAgent: agent,
       httpsAgent: agent,
