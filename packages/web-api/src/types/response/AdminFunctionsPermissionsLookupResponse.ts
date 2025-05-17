@@ -11,6 +11,7 @@ import type { WebAPICallResult } from '../../WebClient';
 export type AdminFunctionsPermissionsLookupResponse = WebAPICallResult & {
   error?: string;
   errors?: Errors;
+  metadata?: { [key: string]: Errors };
   needed?: string;
   ok?: boolean;
   permissions?: { [key: string]: Permission };

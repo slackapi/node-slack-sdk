@@ -52,6 +52,7 @@ export interface EnterpriseUser {
   id?: string;
   is_admin?: boolean;
   is_owner?: boolean;
+  is_primary_owner?: boolean;
   teams?: string[];
 }
 

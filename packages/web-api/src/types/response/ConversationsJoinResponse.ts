@@ -56,6 +56,7 @@ export interface Channel {
 export interface Properties {
   canvas?: Canvas;
   tabs?: Tab[];
+  tabz?: Tab[];
 }
 
 export interface Canvas {

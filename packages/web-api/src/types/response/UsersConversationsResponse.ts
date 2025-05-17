@@ -64,6 +64,7 @@ export interface Properties {
   huddles_restricted?: boolean;
   posting_restricted_to?: PostingRestrictedTo;
   tabs?: Tab[];
+  tabz?: Tab[];
   threads_restricted_to?: ThreadsRestrictedTo;
 }
 

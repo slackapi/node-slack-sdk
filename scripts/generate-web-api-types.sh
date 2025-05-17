@@ -23,4 +23,4 @@ popd
 # run lint fixing after type generation
 pushd packages/web-api
 npm i
-npm run lint
+npm run lint:fix

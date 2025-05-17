@@ -82,6 +82,7 @@ export interface Shares {
 
 export interface Public {
   channel_name?: string;
+  is_silent_share?: boolean;
   latest_reply?: string;
   reply_count?: number;
   reply_users?: string[];
