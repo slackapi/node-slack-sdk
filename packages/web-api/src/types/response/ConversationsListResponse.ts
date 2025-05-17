@@ -61,6 +61,7 @@ export interface Properties {
   canvas?: Canvas;
   posting_restricted_to?: RestrictedTo;
   tabs?: Tab[];
+  tabz?: Tab[];
   threads_restricted_to?: RestrictedTo;
 }
 
