@@ -55,6 +55,7 @@ export interface Attachment {
   author_subname?: string;
   blocks?: TitleBlockElement[];
   bot_id?: string;
+  bot_team_id?: string;
   callback_id?: string;
   channel_id?: string;
   channel_name?: string;
@@ -185,6 +186,7 @@ export interface TitleBlockElement {
   description?: DescriptionElement | string;
   developer_trace_id?: string;
   elements?: Accessory[];
+  expand?: boolean;
   fallback?: string;
   fields?: DescriptionElement[];
   function_trigger_id?: string;
@@ -221,7 +223,7 @@ export interface Accessory {
   default_to_current_conversation?: boolean;
   elements?: AccessoryElement[];
   fallback?: string;
-  filter?: Filter;
+  filter?: AccessoryFilter;
   focus_on_load?: boolean;
   image_bytes?: number;
   image_height?: number;
@@ -328,7 +330,7 @@ export enum PurpleType {
   Usergroup = 'usergroup',
 }
 
-export interface Filter {
+export interface AccessoryFilter {
   exclude_bot_users?: boolean;
   exclude_external_shared_channels?: boolean;
   include?: any[];
@@ -391,6 +393,7 @@ export interface FileElement {
   blocks?: TitleBlockElement[];
   bot_id?: string;
   can_toggle_canvas_lock?: boolean;
+  canvas_printing_enabled?: boolean;
   canvas_template_mode?: string;
   cc?: Cc[];
   channel_actions_count?: number;
@@ -437,6 +440,7 @@ export interface FileElement {
   lines?: number;
   lines_more?: number;
   linked_channel_id?: string;
+  list_csv_download_url?: string;
   list_limits?: ListLimits;
   list_metadata?: ListMetadata;
   media_display_type?: string;
@@ -580,6 +584,7 @@ export interface InitialComment {
 export interface ListLimits {
   column_count?: number;
   column_count_limit?: number;
+  max_attachments_per_cell?: number;
   over_column_maximum?: boolean;
   over_row_maximum?: boolean;
   over_view_maximum?: boolean;
@@ -592,6 +597,7 @@ export interface ListLimits {
 export interface ListMetadata {
   creation_source?: CreationSource;
   description?: string;
+  description_blocks?: TitleBlockElement[];
   icon?: string;
   icon_team_id?: string;
   icon_url?: string;
@@ -658,11 +664,15 @@ export interface View {
   columns?: Column[];
   created_by?: string;
   date_created?: number;
+  default_view_key?: string;
+  filters?: FilterElement[];
+  grouping?: Grouping;
   id?: string;
   is_all_items_view?: boolean;
   is_locked?: boolean;
   name?: string;
   position?: string;
+  show_completed_items?: boolean;
   stick_column_left?: boolean;
   type?: string;
 }
@@ -673,6 +683,19 @@ export interface Column {
   position?: string;
   visible?: boolean;
   width?: number;
+}
+
+export interface FilterElement {
+  column_id?: string;
+  key?: string;
+  operator?: string;
+  typed_values?: any[];
+  values?: string[];
+}
+
+export interface Grouping {
+  group_by?: string;
+  group_by_column_id?: string;
 }
 
 export interface MediaProgress {
@@ -927,6 +950,7 @@ export interface MessageFile {
   blocks?: any[];
   bot_id?: string;
   can_toggle_canvas_lock?: boolean;
+  canvas_printing_enabled?: boolean;
   canvas_template_mode?: string;
   cc?: any[];
   channel_actions_count?: number;
@@ -973,6 +997,7 @@ export interface MessageFile {
   lines?: number;
   lines_more?: number;
   linked_channel_id?: string;
+  list_csv_download_url?: string;
   list_limits?: ListLimits;
   list_metadata?: ListMetadata;
   media_display_type?: string;
@@ -1105,6 +1130,7 @@ export interface Room {
   display_id?: string;
   external_unique_id?: string;
   has_ended?: boolean;
+  huddle_link?: string;
   id?: string;
   is_dm_call?: boolean;
   is_prewarmed?: boolean;
@@ -1118,10 +1144,19 @@ export interface Room {
   participants_camera_on?: any[];
   participants_screenshare_off?: any[];
   participants_screenshare_on?: any[];
+  recording?: Recording;
   thread_root_ts?: string;
   was_accepted?: boolean;
   was_missed?: boolean;
   was_rejected?: boolean;
+}
+
+export interface Recording {
+  can_record_summary?: string;
+  notetaking?: boolean;
+  summary?: boolean;
+  summary_status?: string;
+  transcript?: boolean;
 }
 
 export interface Root {
@@ -1218,6 +1253,7 @@ export interface MatchBlock {
   dispatch_action?: boolean;
   element?: Accessory;
   elements?: Accessory[];
+  expand?: boolean;
   external_id?: string;
   fallback?: string;
   fields?: DescriptionElement[];
