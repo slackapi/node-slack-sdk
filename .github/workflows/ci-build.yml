@@ -25,15 +25,19 @@ jobs:
           - web-api
           - webhook
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
     steps:
       - name: Configure git settings (Windows)
         if: matrix.os == 'windows-latest'
         run: |
           git config --global core.autocrlf false
           git config --global core.eol lf
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm --version
@@ -81,12 +85,12 @@ jobs:
         working-directory: packages/${{ matrix.package }}
       - name: Check for coverage report existence
         id: check_coverage
-        uses: andstor/file-existence-action@v3
+        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
         with:
           files: packages/${{ matrix.package }}/coverage/lcov.info
       - name: Upload code coverage
         if: matrix.node-version == '22.x' && matrix.os == 'ubuntu-latest' && steps.check_coverage.outputs.files_exists == 'true'
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@18283e04ce6e62d37312384ff67231eb8fd56d24 # v5.4.3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: packages/${{ matrix.package }}/coverage
@@ -94,7 +98,7 @@ jobs:
           verbose: true
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@v1
+        uses: codecov/test-results-action@f2dba722c67b86c6caa034178c6e4d35335f6706 # v1.1.0
         with:
           file: packages/${{ matrix.package }}/coverage/test-results.xml
           flags: ${{ matrix.node-version }},${{ matrix.os }},${{ matrix.package }}
