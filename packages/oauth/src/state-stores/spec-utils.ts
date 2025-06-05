@@ -61,7 +61,7 @@ export class StateStoreChaiTestRunner {
           }
           const state = await stateStore.generateStateParam(installUrlOptions, new Date());
 
-          // NOTE: wait 0.5 second to ensure IO operations completed
+          // Wait 0.5 second to ensure I/O is complete and avoid flaky test results from rapid I/O
           await new Promise((resolve, _) => setTimeout(resolve, 500));
           console.log('\tsetTimeout: complete');
 
