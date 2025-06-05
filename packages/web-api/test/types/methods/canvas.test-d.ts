@@ -237,6 +237,6 @@ expectError(web.conversations.canvases.create({})); // empty argument
 expectAssignable<Parameters<typeof web.conversations.canvases.create>>([
   {
     channel_id: 'C1234',
-    title: 'Fun Document Title'
+    title: 'Fun Document Title',
   },
 ]);
