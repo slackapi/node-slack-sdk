@@ -92,4 +92,6 @@ export interface CanvasesEditArguments extends CanvasID, TokenOverridable {
 export interface ConversationsCanvasesCreateArguments extends ChannelID, TokenOverridable {
   /** @description Structure describing the type and contents of the Canvas being created. */
   document_content?: DocumentContent;
+  /** @description Title of the newly created canvas. */
+  title?: string;
 }
