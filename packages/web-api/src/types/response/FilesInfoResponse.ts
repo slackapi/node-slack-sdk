@@ -40,6 +40,7 @@ export interface File {
   app_name?: string;
   bot_id?: string;
   can_toggle_canvas_lock?: boolean;
+  canvas_printing_enabled?: boolean;
   canvas_template_mode?: string;
   cc?: Cc[];
   channel_actions_count?: number;
@@ -86,6 +87,7 @@ export interface File {
   lines?: number;
   lines_more?: number;
   linked_channel_id?: string;
+  list_csv_download_url?: string;
   list_limits?: ListLimits;
   list_metadata?: ListMetadata;
   media_display_type?: string;
@@ -178,7 +180,7 @@ export interface File {
   thumb_video_w?: number;
   timestamp?: number;
   title?: string;
-  title_blocks?: TitleBlock[];
+  title_blocks?: Block[];
   to?: Cc[];
   transcription?: Transcription;
   update_notification?: number;
@@ -219,6 +221,7 @@ export interface Headers {
 export interface ListLimits {
   column_count?: number;
   column_count_limit?: number;
+  max_attachments_per_cell?: number;
   over_column_maximum?: boolean;
   over_row_maximum?: boolean;
   over_view_maximum?: boolean;
@@ -231,6 +234,7 @@ export interface ListLimits {
 export interface ListMetadata {
   creation_source?: CreationSource;
   description?: string;
+  description_blocks?: Block[];
   icon?: string;
   icon_team_id?: string;
   icon_url?: string;
@@ -246,116 +250,7 @@ export interface CreationSource {
   workflow_function_id?: string;
 }
 
-export interface Schema {
-  id?: string;
-  is_primary_column?: boolean;
-  key?: string;
-  name?: string;
-  options?: Options;
-  type?: string;
-}
-
-export interface Options {
-  canvas_id?: string;
-  canvas_placeholder_mapping?: CanvasPlaceholderMapping[];
-  choices?: Choice[];
-  currency?: string;
-  currency_format?: string;
-  date_format?: string;
-  default_value?: string;
-  default_value_typed?: DefaultValueTyped;
-  emoji?: string;
-  emoji_team_id?: string;
-  for_assignment?: boolean;
-  format?: string;
-  linked_to?: string[];
-  mark_as_done_when_checked?: boolean;
-  max?: number;
-  notify_users?: boolean;
-  precision?: number;
-  rounding?: string;
-  show_member_name?: boolean;
-  time_format?: string;
-}
-
-export interface CanvasPlaceholderMapping {
-  column?: string;
-  variable?: string;
-}
-
-export interface Choice {
-  color?: string;
-  label?: string;
-  value?: string;
-}
-
-export interface DefaultValueTyped {
-  select?: string[];
-}
-
-export interface View {
-  columns?: Column[];
-  created_by?: string;
-  date_created?: number;
-  id?: string;
-  is_all_items_view?: boolean;
-  is_locked?: boolean;
-  name?: string;
-  position?: string;
-  stick_column_left?: boolean;
-  type?: string;
-}
-
-export interface Column {
-  id?: string;
-  key?: string;
-  position?: string;
-  visible?: boolean;
-  width?: number;
-}
-
-export interface MediaProgress {
-  duration_ms?: number;
-  max_offset_ms?: number;
-  media_watched?: boolean;
-  offset_ms?: number;
-}
-
-export interface Reaction {
-  count?: number;
-  name?: string;
-  url?: string;
-  users?: string[];
-}
-
-export interface Saved {
-  date_completed?: number;
-  date_due?: number;
-  is_archived?: boolean;
-  state?: string;
-}
-
-export interface Shares {
-  private?: { [key: string]: Private[] };
-  public?: { [key: string]: Private[] };
-}
-
-export interface Private {
-  access?: string;
-  channel_name?: string;
-  date_last_shared?: number;
-  latest_reply?: string;
-  reply_count?: number;
-  reply_users?: string[];
-  reply_users_count?: number;
-  share_user_id?: string;
-  source?: string;
-  team_id?: string;
-  thread_ts?: string;
-  ts?: string;
-}
-
-export interface TitleBlock {
+export interface Block {
   accessory?: Accessory;
   alt_text?: string;
   app_collaborators?: string[];
@@ -367,6 +262,7 @@ export interface TitleBlock {
   description?: Text | string;
   developer_trace_id?: string;
   elements?: Accessory[];
+  expand?: boolean;
   fallback?: string;
   fields?: Text[];
   function_trigger_id?: string;
@@ -403,7 +299,7 @@ export interface Accessory {
   default_to_current_conversation?: boolean;
   elements?: AccessoryElement[];
   fallback?: string;
-  filter?: Filter;
+  filter?: AccessoryFilter;
   focus_on_load?: boolean;
   image_bytes?: number;
   image_height?: number;
@@ -464,7 +360,7 @@ export interface AccessoryElement {
   indent?: number;
   offset?: number;
   style?: string;
-  type?: string;
+  type?: FluffyType;
 }
 
 export interface PurpleElement {
@@ -478,7 +374,7 @@ export interface PurpleElement {
   team_id?: string;
   text?: string;
   timestamp?: number;
-  type?: ElementType;
+  type?: PurpleType;
   unicode?: string;
   unsafe?: boolean;
   url?: string;
@@ -497,7 +393,7 @@ export interface Style {
   unlink?: boolean;
 }
 
-export enum ElementType {
+export enum PurpleType {
   Broadcast = 'broadcast',
   Channel = 'channel',
   Color = 'color',
@@ -510,7 +406,14 @@ export enum ElementType {
   Usergroup = 'usergroup',
 }
 
-export interface Filter {
+export enum FluffyType {
+  RichTextList = 'rich_text_list',
+  RichTextPreformatted = 'rich_text_preformatted',
+  RichTextQuote = 'rich_text_quote',
+  RichTextSection = 'rich_text_section',
+}
+
+export interface AccessoryFilter {
   exclude_bot_users?: boolean;
   exclude_external_shared_channels?: boolean;
   include?: any[];
@@ -545,6 +448,132 @@ export interface Trigger {
 export interface CustomizableInputParameter {
   name?: string;
   value?: string;
+}
+
+export interface Schema {
+  id?: string;
+  is_primary_column?: boolean;
+  key?: string;
+  name?: string;
+  options?: Options;
+  type?: string;
+}
+
+export interface Options {
+  canvas_id?: string;
+  canvas_placeholder_mapping?: CanvasPlaceholderMapping[];
+  choices?: Choice[];
+  currency?: string;
+  currency_format?: string;
+  date_format?: string;
+  default_value?: string;
+  default_value_typed?: DefaultValueTyped;
+  emoji?: string;
+  emoji_team_id?: string;
+  for_assignment?: boolean;
+  format?: string;
+  linked_to?: string[];
+  mark_as_done_when_checked?: boolean;
+  max?: number;
+  notify_users?: boolean;
+  precision?: number;
+  rounding?: string;
+  show_member_name?: boolean;
+  time_format?: string;
+}
+
+export interface CanvasPlaceholderMapping {
+  column?: string;
+  variable?: string;
+}
+
+export interface Choice {
+  color?: string;
+  label?: string;
+  value?: string;
+}
+
+export interface DefaultValueTyped {
+  select?: string[];
+}
+
+export interface View {
+  columns?: Column[];
+  created_by?: string;
+  date_created?: number;
+  default_view_key?: string;
+  filters?: FilterElement[];
+  grouping?: Grouping;
+  id?: string;
+  is_all_items_view?: boolean;
+  is_locked?: boolean;
+  name?: string;
+  position?: string;
+  show_completed_items?: boolean;
+  stick_column_left?: boolean;
+  type?: string;
+}
+
+export interface Column {
+  id?: string;
+  key?: string;
+  position?: string;
+  visible?: boolean;
+  width?: number;
+}
+
+export interface FilterElement {
+  column_id?: string;
+  key?: string;
+  operator?: string;
+  typed_values?: any[];
+  values?: string[];
+}
+
+export interface Grouping {
+  group_by?: string;
+  group_by_column_id?: string;
+}
+
+export interface MediaProgress {
+  duration_ms?: number;
+  max_offset_ms?: number;
+  media_watched?: boolean;
+  offset_ms?: number;
+}
+
+export interface Reaction {
+  count?: number;
+  name?: string;
+  url?: string;
+  users?: string[];
+}
+
+export interface Saved {
+  date_completed?: number;
+  date_due?: number;
+  is_archived?: boolean;
+  state?: string;
+}
+
+export interface Shares {
+  private?: { [key: string]: Private[] };
+  public?: { [key: string]: Private[] };
+}
+
+export interface Private {
+  access?: string;
+  channel_name?: string;
+  date_last_shared?: number;
+  latest_reply?: string;
+  reply_count?: number;
+  reply_users?: string[];
+  reply_users_count?: number;
+  share_user_id?: string;
+  source?: string;
+  team_id?: string;
+  thread_ts?: string;
+  ts?: string;
 }
 
 export interface Transcription {

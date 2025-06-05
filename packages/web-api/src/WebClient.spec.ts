@@ -58,6 +58,21 @@ describe('WebClient', () => {
       const client = new WebClient();
       assert.instanceOf(client, WebClient);
     });
+
+    it('should add a trailing slash to slackApiUrl if missing', () => {
+      const client = new WebClient(token, { slackApiUrl: 'https://slack.com/api' });
+      assert.equal(client.slackApiUrl, 'https://slack.com/api/');
+    });
+
+    it('should preserve trailing slash in slackApiUrl if provided', () => {
+      const client = new WebClient(token, { slackApiUrl: 'https://slack.com/api/' });
+      assert.equal(client.slackApiUrl, 'https://slack.com/api/');
+    });
+
+    it('should handle custom domains and add trailing slash', () => {
+      const client = new WebClient(token, { slackApiUrl: 'https://example.com/slack/api' });
+      assert.equal(client.slackApiUrl, 'https://example.com/slack/api/');
+    });
   });
 
   describe('Methods superclass', () => {
@@ -796,6 +811,15 @@ describe('WebClient', () => {
       nock('https://slack.com/').post('/api/https://example.com/api/method').reply(200, { ok: true });
       const client = new WebClient(token, { allowAbsoluteUrls: false });
       await client.apiCall('https://example.com/api/method');
+    });
+
+    it('should add a trailing slash to slackApiUrl if missing', async () => {
+      const alternativeUrl = 'http://12.34.56.78/api'; // No trailing slash here
+      nock(alternativeUrl)
+        .post(/api\/method/)
+        .reply(200, { ok: true });
+      const client = new WebClient(token, { slackApiUrl: alternativeUrl });
+      await client.apiCall('method');
     });
   });
 
