@@ -1190,7 +1190,11 @@ describe('WebClient', () => {
           file_id: 'F0123456789',
           upload_url: 'https://files.slack.com/upload/v1/abcdefghijklmnopqrstuvwxyz',
         })
-        .post('/api/files.completeUploadExternal', { files: '[{"id":"F0123456789","title":"test-txt.txt"}]' })
+        .post('/api/files.completeUploadExternal', {
+          blocks: '[{"type":"section","text":{"type":"plain_text","text":"Hello"}}]',
+          channel_id: 'C010101010',
+          files: '[{"id":"F0123456789","title":"test-txt.txt"}]',
+        })
         .reply(200, {
           ok: true,
           files: [
@@ -1204,6 +1208,8 @@ describe('WebClient', () => {
       const uploader = nock('https://files.slack.com').post('/upload/v1/abcdefghijklmnopqrstuvwxyz').reply(200);
       const client = new WebClient(token);
       const response = await client.filesUploadV2({
+        blocks: [{ type: 'section', text: { type: 'plain_text', text: 'Hello' } }],
+        channel_id: 'C010101010',
         file: fs.createReadStream('./test/fixtures/test-txt.txt'),
         filename: 'test-txt.txt',
       });
