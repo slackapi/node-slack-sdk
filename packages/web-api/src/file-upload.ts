@@ -27,6 +27,7 @@ export async function getFileUploadJob(
   const fileUploadJob: Record<string, unknown> = {
     // supplied by user
     alt_text: options.alt_text,
+    blocks: options.blocks,
     channel_id: options.channels ?? options.channel_id,
     filename: options.filename ?? fileName,
     initial_comment: options.initial_comment,
@@ -96,8 +97,8 @@ export async function getMultipleFileUploadJobs(
         // ensure no omitted properties included in files_upload entry
         // these properties are valid only at the top-level, not
         // inside file_uploads.
-        const { channel_id, channels, initial_comment, thread_ts } = upload as FileUploadV2;
-        if (channel_id || channels || initial_comment || thread_ts) {
+        const { blocks, channel_id, channels, initial_comment, thread_ts } = upload as FileUploadV2;
+        if (blocks || channel_id || channels || initial_comment || thread_ts) {
           throw errorWithCode(
             new Error(buildInvalidFilesUploadParamError()),
             ErrorCode.FileUploadInvalidArgumentsError,
@@ -107,6 +108,7 @@ export async function getMultipleFileUploadJobs(
         // supplied at the top level.
         const uploadJobArgs: Record<string, unknown> = {
           ...upload,
+          blocks: options.blocks,
           channels: options.channels,
           channel_id: options.channel_id,
           initial_comment: options.initial_comment,
@@ -220,7 +222,7 @@ export async function getFileDataAsStream(readable: Readable): Promise<Buffer> {
 
 /**
  * Filters through all fileUploads and groups them into jobs for completion
- * based on combination of channel_id, thread_ts, initial_comment.
+ * based on combination of channel_id, thread_ts, initial_comment, blocks.
  * {@link https://api.slack.com/methods/files.completeUploadExternal files.completeUploadExternal} allows for multiple
  * files to be uploaded with a message (`initial_comment`), and as a threaded message (`thread_ts`)
  * In order to be grouped together, file uploads must have like properties.
@@ -232,13 +234,14 @@ export function getAllFileUploadsToComplete(
 ): Record<string, FilesCompleteUploadExternalArguments> {
   const toComplete: Record<string, FilesCompleteUploadExternalArguments> = {};
   for (const upload of fileUploads) {
-    const { channel_id, thread_ts, initial_comment, file_id, title } = upload;
+    const { blocks, channel_id, thread_ts, initial_comment, file_id, title } = upload;
     if (file_id) {
-      const compareString = `:::${channel_id}:::${thread_ts}:::${initial_comment}`;
+      const compareString = `:::${channel_id}:::${thread_ts}:::${initial_comment}:::${JSON.stringify(blocks)}`;
       if (!Object.prototype.hasOwnProperty.call(toComplete, compareString)) {
         toComplete[compareString] = {
           files: [{ id: file_id, title }],
           channel_id,
+          blocks,
           initial_comment,
         };
         if (thread_ts && channel_id) {
@@ -425,7 +428,7 @@ export function buildMultipleChannelsErrorMsg(): string {
 
 export function buildInvalidFilesUploadParamError(): string {
   return (
-    'You may supply file_uploads only for a single channel, comment, thread respectively. ' +
-    'Therefore, please supply any channel_id, initial_comment, thread_ts in the top-layer.'
+    'You may supply file_uploads only for a single channel, message, or thread respectively. ' +
+    'Therefore, please supply any channel_id, initial_comment or blocks, or thread_ts in the top-layer.'
   );
 }

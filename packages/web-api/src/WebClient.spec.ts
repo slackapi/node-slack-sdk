@@ -1228,6 +1228,58 @@ describe('WebClient', () => {
       uploader.done();
     });
 
+    it('uploads content', async () => {
+      const scope = nock('https://slack.com')
+        .post('/api/files.getUploadURLExternal', { filename: 'content.txt', length: 42 })
+        .reply(200, {
+          ok: true,
+          file_id: 'F0101010101',
+          upload_url: 'https://files.slack.com/upload/v1/abcdefghijklmnopqrstuvwxyz',
+        })
+        .post('/api/files.completeUploadExternal', {
+          blocks: '[{"type":"section","text":{"type":"plain_text","text":"Hello"}}]',
+          channel_id: 'C010101010',
+          files: '[{"id":"F0101010101","title":"content.txt"}]',
+        })
+        .reply(200, {
+          ok: true,
+          files: [
+            {
+              id: 'F0101010101',
+              name: 'content.txt',
+              permalink: 'https://my-workspace.slack.com/files/U0123456789/F0101010101/content.txt',
+            },
+          ],
+        });
+      const uploader = nock('https://files.slack.com').post('/upload/v1/abcdefghijklmnopqrstuvwxyz').reply(200);
+      const client = new WebClient(token);
+      const response = await client.filesUploadV2({
+        blocks: [{ type: 'section', text: { type: 'plain_text', text: 'Hello' } }],
+        channel_id: 'C010101010',
+        content: 'Words from another variable might go here!',
+        filename: 'content.txt',
+      });
+      const expected = {
+        ok: true,
+        files: [
+          {
+            ok: true,
+            files: [
+              {
+                id: 'F0101010101',
+                name: 'content.txt',
+                permalink: 'https://my-workspace.slack.com/files/U0123456789/F0101010101/content.txt',
+              },
+            ],
+            response_metadata: {},
+          },
+        ],
+      };
+      assert.deepEqual(response, expected);
+      scope.done();
+      uploader.done();
+    });
+
     it('uploads multiple files', async () => {
       const scope = nock('https://slack.com')
         .post('/api/files.getUploadURLExternal', { filename: 'test-png.png', length: 55292 })

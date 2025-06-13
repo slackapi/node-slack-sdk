@@ -1,4 +1,5 @@
 import type { Stream } from 'node:stream';
+import type { Block, KnownBlock } from '@slack/types';
 import type { ExcludeFromUnion } from '../helpers';
 import type { FilesGetUploadURLExternalResponse } from '../response/index';
 import type {
@@ -64,10 +65,19 @@ type FileDestinationArgumentChannels = FileChannelDestinationArgumentChannels | 
 // https://api.slack.com/methods/files.completeUploadExternal
 export type FilesCompleteUploadExternalArguments = FileDestinationArgument &
   TokenOverridable & {
-    /** @description Array of file IDs and their corresponding (optional) titles. */
+    /**
+     * @description Array of file IDs and their corresponding (optional) titles.
+     * @example [{"id":"F044GKUHN9Z", "title":"slack-test"}]
+     **/
     files: [FileUploadComplete, ...FileUploadComplete[]];
     /** @description The message text introducing the file in the specified channel. */
     initial_comment?: string;
+    /**
+     * @description An array of structured rich text blocks. If the `initial_comment` field is provided, the `blocks` field is ignored.
+     * @example [{"type": "section", "text": {"type": "plain_text", "text": "Hello world"}}]
+     * @see {@link https://api.slack.com/reference/block-kit/blocks}
+     */
+    blocks?: (KnownBlock | Block)[];
   };
 
 // https://api.slack.com/methods/files.delete
@@ -148,6 +158,12 @@ export type FilesUploadArguments = FileUpload & TokenOverridable;
 export type FileUploadV2 = FileUpload & {
   /** @description Description of image for screen-reader. */
   alt_text?: string;
+  /**
+   * @description An array of structured rich text blocks. If the `initial_comment` field is provided, the `blocks` field is ignored.
+   * @example [{"type": "section", "text": {"type": "plain_text", "text": "Hello world"}}]
+   * @see {@link https://api.slack.com/reference/block-kit/blocks}
+   */
+  blocks?: (KnownBlock | Block)[];
   /** @description Channel ID where the file will be shared. If not specified the file will be private. */
   channel_id?: string;
   /** @deprecated use channel_id instead */
@@ -157,7 +173,10 @@ export type FileUploadV2 = FileUpload & {
 };
 
 export interface FilesUploadV2ArgumentsMultipleFiles {
-  file_uploads: ExcludeFromUnion<FileUploadV2, 'channel_id' | 'channels' | 'initial_comment' | 'thread_ts'>[];
+  file_uploads: ExcludeFromUnion<
+    FileUploadV2,
+    'blocks' | 'channel_id' | 'channels' | 'initial_comment' | 'thread_ts'
+  >[];
 }
 
 // https://tools.slack.dev/node-slack-sdk/web-api#upload-a-file
