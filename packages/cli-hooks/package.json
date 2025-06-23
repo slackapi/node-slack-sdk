@@ -4,7 +4,11 @@
   "description": "Node implementation of the contract between the Slack CLI and Bolt for JavaScript",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
-  "keywords": ["slack", "cli", "hooks"],
+  "keywords": [
+    "cli",
+    "hooks",
+    "slack"
+  ],
   "type": "module",
   "main": "src/get-hooks.js",
   "files": [
@@ -51,7 +55,7 @@
     "semver": "^7.5.4"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
+    "@biomejs/biome": "^2.0.5",
     "@types/minimist": "^1.2.5",
     "@types/mocha": "^10.0.6",
     "@types/node": "^24.0.3",
