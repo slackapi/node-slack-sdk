@@ -2,8 +2,8 @@ import { ConsoleLogger } from '@slack/logger';
 import { assert } from 'chai';
 import sinon from 'sinon';
 
-import { SocketModeClient } from './SocketModeClient';
 import logModule from './logger';
+import { SocketModeClient } from './SocketModeClient';
 
 describe('SocketModeClient', () => {
   const sandbox = sinon.createSandbox();

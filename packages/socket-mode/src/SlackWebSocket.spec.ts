@@ -3,7 +3,9 @@ import { assert } from 'chai';
 import EventEmitter from 'eventemitter3';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
+
 proxyquire.noPreserveCache();
+
 import logModule from './logger';
 
 // A slightly spruced up event emitter aiming at mocking out the `ws` library's `WebSocket` class

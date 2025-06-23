@@ -4,7 +4,7 @@ import type { EventEmitter } from 'eventemitter3';
 import { WebSocket, type ClientOptions as WebSocketClientOptions } from 'ws';
 
 import { websocketErrorWithOriginal } from './errors';
-import log, { LogLevel, type Logger } from './logger';
+import log, { type Logger, LogLevel } from './logger';
 
 // Maps ws `readyState` to human readable labels https://github.com/websockets/ws/blob/HEAD/doc/ws.md#ready-state-constants
 export const WS_READY_STATES = ['CONNECTING', 'OPEN', 'CLOSING', 'CLOSED'];
@@ -145,7 +145,7 @@ export class SlackWebSocket {
       if (this.options.pingPongLoggingEnabled) {
         this.logger.debug(`WebSocket received pong from Slack server (data: ${data.toString()})`);
       }
-      this.lastPongReceivedTimestamp = new Date().getTime();
+      this.lastPongReceivedTimestamp = Date.now();
     });
   }
 
@@ -238,7 +238,7 @@ export class SlackWebSocket {
     let pingAttemptCount = 0;
     clearInterval(this.clientPingTimeout);
     this.clientPingTimeout = setInterval(() => {
-      const now = new Date().getTime();
+      const now = Date.now();
       try {
         const pingMessage = `Ping from client (${now})`;
         this.websocket?.ping(pingMessage);
