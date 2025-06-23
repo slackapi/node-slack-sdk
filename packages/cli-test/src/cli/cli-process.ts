@@ -1,7 +1,6 @@
-import { shell } from './shell';
-
 import type { SpawnOptionsWithoutStdio } from 'node:child_process';
 import type { ShellProcess } from '../types/shell';
+import { shell } from './shell';
 
 export interface SlackCLIGlobalOptions {
   /**
