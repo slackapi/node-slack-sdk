@@ -54,7 +54,7 @@
     "ws": "^8"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
+    "@biomejs/biome": "^2.0.5",
     "@tsconfig/recommended": "^1.0.7",
     "@types/chai": "^4",
     "@types/mocha": "^10",
