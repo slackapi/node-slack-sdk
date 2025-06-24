@@ -13,7 +13,7 @@ export interface TeamAccessRevokedEvent {
 }
 
 export interface TeamDomainChangedEvent {
-  type: 'team_domain_changed';
+  type: 'team_domain_change';
   url: string;
   domain: string;
 }
