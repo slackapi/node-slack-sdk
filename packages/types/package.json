@@ -4,10 +4,17 @@
   "description": "Shared type definitions for the Node Slack SDK",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
-  "keywords": ["slack", "typescript", "types", "api"],
+  "keywords": [
+    "slack",
+    "typescript",
+    "types",
+    "api"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "engines": {
     "node": ">= 12.13.0",
     "npm": ">= 6.12.0"
@@ -30,7 +37,7 @@
     "test:types": "tsd"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
+    "@biomejs/biome": "^2.0.5",
     "shx": "^0.4.0",
     "tsd": "^0.32.0",
     "typescript": "^5.5.4"

@@ -107,11 +107,11 @@ export * from './pin';
 export * from './reaction';
 export * from './shared-channel';
 export * from './star';
+export * from './steps-from-apps';
 export * from './subteam';
 export * from './team';
 export * from './token';
 export * from './user';
-export * from './steps-from-apps';
 
 /**
  * All known event types in Slack's Events API
