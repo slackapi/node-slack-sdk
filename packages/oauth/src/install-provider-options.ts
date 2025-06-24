@@ -1,4 +1,4 @@
-import type { LogLevel, Logger } from '@slack/logger';
+import type { Logger, LogLevel } from '@slack/logger';
 import type { WebClientOptions } from '@slack/web-api';
 
 import type { InstallURLOptions } from './install-url-options';

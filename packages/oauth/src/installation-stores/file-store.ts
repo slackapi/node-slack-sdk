@@ -80,7 +80,7 @@ export default class FileInstallationStore implements InstallationStore {
             const userInstallation: Installation = JSON.parse(userData.toString());
             installation.user = userInstallation.user;
           }
-        } catch (err) {
+        } catch (_err) {
           logger?.debug(`The user-token installation for the request user (user_id: ${query.userId}) was not found.`);
           installation.user.token = undefined;
           installation.user.refreshToken = undefined;
@@ -89,7 +89,7 @@ export default class FileInstallationStore implements InstallationStore {
         }
       }
       return installation;
-    } catch (err) {
+    } catch (_err) {
       throw new Error(
         `No installation data found (enterprise_id: ${query.enterpriseId}, team_id: ${query.teamId}, user_id: ${query.userId})`,
       );

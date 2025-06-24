@@ -38,7 +38,7 @@ export class StateStoreChaiTestRunner {
       it('should detect old state values', async () => {
         const { stateStore } = this;
         const installUrlOptions = { scopes: ['channels:read'] };
-        const fifteenMinutesLater = new Date(new Date().getTime() + 15 * 60 * 1000);
+        const fifteenMinutesLater = new Date(Date.now() + 15 * 60 * 1000);
         const state = await stateStore.generateStateParam(installUrlOptions, new Date());
         try {
           await stateStore.verifyStateParam(fifteenMinutesLater, state);
