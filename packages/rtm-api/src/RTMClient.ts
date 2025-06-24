@@ -2,14 +2,14 @@ import type { Agent } from 'node:http';
 
 import {
   ErrorCode as APICallErrorCode,
+  addAppMetadata,
+  type RetryOptions,
   type RTMConnectArguments,
   type RTMStartArguments,
-  type RetryOptions,
   type TLSOptions,
   type WebAPICallError,
   type WebAPICallResult,
   WebClient,
-  addAppMetadata,
 } from '@slack/web-api';
 import { EventEmitter } from 'eventemitter3';
 import Finity, { type StateMachine } from 'finity';
@@ -17,7 +17,6 @@ import PCancelable from 'p-cancelable';
 import PQueue from 'p-queue';
 import WebSocket from 'ws';
 
-import { KeepAlive } from './KeepAlive';
 import {
   noReplyReceivedError,
   platformErrorFromEvent,
@@ -25,7 +24,8 @@ import {
   sendWhileNotReadyError,
   websocketErrorWithOriginal,
 } from './errors';
-import { LogLevel, type Logger, getLogger } from './logger';
+import { KeepAlive } from './KeepAlive';
+import { getLogger, type Logger, LogLevel } from './logger';
 
 const packageJson = require('../package.json');
 

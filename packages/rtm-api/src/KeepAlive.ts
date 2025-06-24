@@ -1,8 +1,8 @@
 import { EventEmitter } from 'eventemitter3';
 
-import type { RTMClient } from './RTMClient';
 import { type CodedError, ErrorCode } from './errors';
-import { LogLevel, type Logger, getLogger } from './logger';
+import { getLogger, type Logger, LogLevel } from './logger';
+import type { RTMClient } from './RTMClient';
 
 export interface KeepAliveOptions {
   logger?: Logger;
