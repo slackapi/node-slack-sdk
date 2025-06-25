@@ -3,13 +3,6 @@ import axios, { type InternalAxiosRequestConfig } from 'axios';
 import { assert, expect } from 'chai';
 import nock, { type ReplyHeaders } from 'nock';
 import sinon from 'sinon';
-import {
-  type RequestConfig,
-  type WebAPICallResult,
-  WebClient,
-  WebClientEvent,
-  buildThreadTsWarningMessage,
-} from './WebClient';
 import { ErrorCode, type WebAPIRequestError } from './errors';
 import {
   buildGeneralFilesUploadWarning,
@@ -17,8 +10,15 @@ import {
   buildLegacyMethodWarning,
 } from './file-upload';
 import { addAppMetadata } from './instrument';
-import { LogLevel, type Logger } from './logger';
+import { type Logger, LogLevel } from './logger';
 import { rapidRetryPolicy } from './retry-policies';
+import {
+  buildThreadTsWarningMessage,
+  type RequestConfig,
+  type WebAPICallResult,
+  WebClient,
+  WebClientEvent,
+} from './WebClient';
 
 const token = 'xoxb-faketoken';
 

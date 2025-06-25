@@ -5,11 +5,11 @@ import type { Logger } from '@slack/logger';
 
 import { ErrorCode, errorWithCode } from './errors';
 import type {
+  FilesCompleteUploadExternalArguments,
+  FilesUploadV2Arguments,
   FileThreadDestinationArgument,
   FileUploadV2,
   FileUploadV2Job,
-  FilesCompleteUploadExternalArguments,
-  FilesUploadV2Arguments,
 } from './types/request/files';
 
 export async function getFileUploadJob(
@@ -168,7 +168,7 @@ export async function getFileData(options: FilesUploadV2Arguments | FileUploadV2
       try {
         const dataBuffer = readFileSync(file);
         return dataBuffer;
-      } catch (error) {
+      } catch (_err) {
         throw errorWithCode(
           new Error(
             `Unable to resolve file data for ${file}. Please supply a filepath string, or binary data Buffer or String directly.`,
@@ -237,6 +237,7 @@ export function getAllFileUploadsToComplete(
     const { blocks, channel_id, thread_ts, initial_comment, file_id, title } = upload;
     if (file_id) {
       const compareString = `:::${channel_id}:::${thread_ts}:::${initial_comment}:::${JSON.stringify(blocks)}`;
+      // biome-ignore lint/suspicious/noPrototypeBuiltins: TODO use hasOwn instead of hasOwnProperty
       if (!Object.prototype.hasOwnProperty.call(toComplete, compareString)) {
         toComplete[compareString] = {
           files: [{ id: file_id, title }],
