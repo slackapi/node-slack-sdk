@@ -14,9 +14,6 @@ export { addAppMetadata } from './instrument';
 
 export { Logger, LogLevel } from './logger';
 
-export * from './methods';
-export { default as Method } from './methods';
-
 export { default as retryPolicies, RetryOptions } from './retry-policies';
 
 export * from './types/request/index';
@@ -32,3 +29,7 @@ export {
   WebClientEvent,
   WebClientOptions,
 } from './WebClient';
+
+// methods must be exported after WebClient
+export * from './methods';
+export { default as Method } from './methods';
