@@ -49,7 +49,7 @@
     "retry": "^0.13.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
+    "@biomejs/biome": "^2.0.6",
     "@tsconfig/recommended": "^1",
     "@types/busboy": "^1.5.4",
     "@types/chai": "^4",
