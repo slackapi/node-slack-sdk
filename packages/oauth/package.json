@@ -39,7 +39,7 @@
     "lodash.isstring": "^4"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
+    "@biomejs/biome": "^2.0.6",
     "@types/chai": "^4",
     "@types/mocha": "^10",
     "@types/sinon": "^17",
