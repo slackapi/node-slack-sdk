@@ -31,7 +31,10 @@ export { InstallPathOptions } from './install-path-options';
 export * from './installation-stores';
 export * from './state-stores';
 
-// Utilities
+// Errors
 
 export * from './errors';
+
+// Logging
+
 export { Logger, LogLevel } from './logger';
