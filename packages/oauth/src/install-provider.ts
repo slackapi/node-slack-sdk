@@ -23,7 +23,7 @@ import type { InstallURLOptions } from './install-url-options';
 import type { Installation } from './installation';
 import type { InstallationQuery } from './installation-query';
 import { type InstallationStore, MemoryInstallationStore } from './installation-stores';
-import { LogLevel, type Logger, getLogger } from './logger';
+import { getLogger, type Logger, LogLevel } from './logger';
 import { ClearStateStore, type StateStore } from './state-stores';
 
 /**

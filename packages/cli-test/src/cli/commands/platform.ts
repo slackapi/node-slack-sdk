@@ -1,10 +1,9 @@
 import type { ProjectCommandArguments, WorkspaceGrantArgument } from '../../types/commands/common_arguments';
+import type { ShellProcess } from '../../types/shell';
 import { SlackTracerId } from '../../utils/constants';
 import logger from '../../utils/logger';
 import { type SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
 import { shell } from '../shell';
-
-import type { ShellProcess } from '../../types/shell';
 
 export interface StringWaitArgument {
   /** @description String to wait for in the command output before this function returns. */

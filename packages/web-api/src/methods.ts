@@ -1,10 +1,7 @@
 import { EventEmitter } from 'eventemitter3';
 
-import { type WebAPICallResult, WebClient, type WebClientEvent } from './WebClient';
-
 // Request, followed by response, types
 import type {
-  APITestArguments,
   AdminAnalyticsGetFileArguments,
   AdminAppsActivitiesListArguments,
   AdminAppsApproveArguments,
@@ -100,6 +97,7 @@ import type {
   AdminWorkflowsPermissionsLookupArguments,
   AdminWorkflowsSearchArguments,
   AdminWorkflowsUnpublishArguments,
+  APITestArguments,
   AppsConnectionsOpenArguments,
   AppsEventAuthorizationsListArguments,
   AppsManifestCreateArguments,
@@ -137,8 +135,8 @@ import type {
   ChatMeMessageArguments,
   ChatPostEphemeralArguments,
   ChatPostMessageArguments,
-  ChatScheduleMessageArguments,
   ChatScheduledMessagesListArguments,
+  ChatScheduleMessageArguments,
   ChatUnfurlArguments,
   ChatUpdateArguments,
   ConversationsAcceptSharedInviteArguments,
@@ -203,8 +201,6 @@ import type {
   PinsAddArguments,
   PinsListArguments,
   PinsRemoveArguments,
-  RTMConnectArguments,
-  RTMStartArguments,
   ReactionsAddArguments,
   ReactionsGetArguments,
   ReactionsListArguments,
@@ -214,6 +210,8 @@ import type {
   RemindersDeleteArguments,
   RemindersInfoArguments,
   RemindersListArguments,
+  RTMConnectArguments,
+  RTMStartArguments,
   SearchAllArguments,
   SearchFilesArguments,
   SearchMessagesArguments,
@@ -259,15 +257,15 @@ import type {
 import type {
   AdminAnalyticsGetFileResponse,
   AdminAppsActivitiesListResponse,
-  AdminAppsApproveResponse,
   AdminAppsApprovedListResponse,
+  AdminAppsApproveResponse,
   AdminAppsClearResolutionResponse,
   AdminAppsConfigLookupResponse,
   AdminAppsConfigSetResponse,
   AdminAppsRequestsCancelResponse,
   AdminAppsRequestsListResponse,
-  AdminAppsRestrictResponse,
   AdminAppsRestrictedListResponse,
+  AdminAppsRestrictResponse,
   AdminAppsUninstallResponse,
   AdminAuthPolicyAssignEntitiesResponse,
   AdminAuthPolicyGetEntitiesResponse,
@@ -309,8 +307,8 @@ import type {
   AdminFunctionsListResponse,
   AdminFunctionsPermissionsLookupResponse,
   AdminFunctionsPermissionsSetResponse,
-  AdminInviteRequestsApproveResponse,
   AdminInviteRequestsApprovedListResponse,
+  AdminInviteRequestsApproveResponse,
   AdminInviteRequestsDeniedListResponse,
   AdminInviteRequestsDenyResponse,
   AdminInviteRequestsListResponse,
@@ -390,8 +388,8 @@ import type {
   ChatMeMessageResponse,
   ChatPostEphemeralResponse,
   ChatPostMessageResponse,
-  ChatScheduleMessageResponse,
   ChatScheduledMessagesListResponse,
+  ChatScheduleMessageResponse,
   ChatUnfurlResponse,
   ChatUpdateResponse,
   ConversationsAcceptSharedInviteResponse,
@@ -509,6 +507,8 @@ import type {
   WorkflowsStepFailedResponse,
   WorkflowsUpdateStepResponse,
 } from './types/response/index';
+
+import { type WebAPICallResult, WebClient, type WebClientEvent } from './WebClient';
 
 /**
  * Generic method definition

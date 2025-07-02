@@ -4,10 +4,22 @@
   "description": "Official library for using the Slack Platform's Web API",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
-  "keywords": ["slack", "web-api", "bot", "client", "http", "api", "proxy", "rate-limiting", "pagination"],
+  "keywords": [
+    "slack",
+    "web-api",
+    "bot",
+    "client",
+    "http",
+    "api",
+    "proxy",
+    "rate-limiting",
+    "pagination"
+  ],
   "main": "dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "engines": {
     "node": ">= 18",
     "npm": ">= 8.6.0"
@@ -49,7 +61,7 @@
     "retry": "^0.13.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
+    "@biomejs/biome": "^2.0.5",
     "@tsconfig/recommended": "^1",
     "@types/busboy": "^1.5.4",
     "@types/chai": "^4",

@@ -3,7 +3,7 @@ const { RTMClient } = require('../src/RTMClient');
 const { LogLevel } = require('../src/logger');
 const { WebSocketServer } = require('ws');
 const { createServer } = require('node:http');
-const sinon = require('sinon');
+const _sinon = require('sinon');
 
 const HTTP_PORT = 12345;
 const WSS_PORT = 23456;
@@ -19,7 +19,7 @@ let client = null;
 
 describe('Integration tests with a WebSocket server', () => {
   beforeEach(() => {
-    server = createServer((req, res) => {
+    server = createServer((_req, res) => {
       res.writeHead(200, { 'content-type': 'application/json' });
       res.end(
         JSON.stringify({

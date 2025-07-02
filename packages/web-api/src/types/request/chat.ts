@@ -1,5 +1,3 @@
-import type { OptionalArgument } from '../helpers';
-
 import type {
   Block, // TODO: these will be combined into one in a new types release
   KnownBlock,
@@ -7,6 +5,9 @@ import type {
   MessageAttachment,
   MessageMetadata,
 } from '@slack/types';
+
+import type { OptionalArgument } from '../helpers';
+
 import type {
   CursorPaginationEnabled,
   OptionalTeamAssignable,

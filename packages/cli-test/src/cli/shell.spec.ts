@@ -3,10 +3,9 @@ import child from 'node:child_process';
 import { assert } from 'chai';
 import sinon from 'sinon';
 
+import type { ShellProcess } from '../types/shell';
 import { mockProcess } from '../utils/test';
 import { shell } from './shell';
-
-import type { ShellProcess } from '../types/shell';
 
 describe('shell module', () => {
   const sandbox = sinon.createSandbox();

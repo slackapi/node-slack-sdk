@@ -4,10 +4,23 @@
   "description": "Official library for using the Slack Platform's Real Time Messaging API",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
-  "keywords": ["slack", "rtm-api", "bot", "client", "http", "websocket", "api", "proxy", "state", "connection"],
+  "keywords": [
+    "slack",
+    "rtm-api",
+    "bot",
+    "client",
+    "http",
+    "websocket",
+    "api",
+    "proxy",
+    "state",
+    "connection"
+  ],
   "main": "dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "engines": {
     "node": ">=18",
     "npm": ">=8.6.0"
@@ -40,7 +53,7 @@
     "ws": "^8"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
+    "@biomejs/biome": "^2.0.5",
     "@types/chai": "^4",
     "@types/mocha": "^10",
     "@types/sinon": "^17",

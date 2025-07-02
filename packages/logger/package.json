@@ -4,10 +4,15 @@
   "description": "Logging utility used by Node Slack SDK",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
-  "keywords": ["slack", "logging"],
+  "keywords": [
+    "slack",
+    "logging"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "engines": {
     "node": ">= 18",
     "npm": ">= 8.6.0"
@@ -35,7 +40,7 @@
     "@types/node": ">=18.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
+    "@biomejs/biome": "^2.0.5",
     "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.1",
     "c8": "^10.1.2",

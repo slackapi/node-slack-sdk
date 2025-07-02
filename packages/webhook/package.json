@@ -4,10 +4,19 @@
   "description": "Official library for using the Slack Platform's Incoming Webhooks",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
-  "keywords": ["slack", "request", "client", "http", "api", "proxy"],
+  "keywords": [
+    "slack",
+    "request",
+    "client",
+    "http",
+    "api",
+    "proxy"
+  ],
   "main": "dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "engines": {
     "node": ">= 18",
     "npm": ">= 8.6.0"
@@ -36,7 +45,7 @@
     "axios": "^1.8.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
+    "@biomejs/biome": "^2.0.5",
     "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.1",
     "c8": "^9.1.0",

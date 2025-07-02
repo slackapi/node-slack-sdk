@@ -6,9 +6,9 @@ import { after, before, describe, it } from 'mocha';
 import sinon from 'sinon';
 
 import checkForSDKUpdates, {
+  createUpdateErrorMessage,
   hasAvailableUpdates,
   hasBreakingChange,
-  createUpdateErrorMessage,
 } from './check-update.js';
 
 /**

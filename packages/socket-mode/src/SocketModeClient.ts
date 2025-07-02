@@ -1,20 +1,21 @@
 import {
   ErrorCode as APICallErrorCode,
   type AppsConnectionsOpenResponse,
+  addAppMetadata,
   type WebAPICallError,
   WebClient,
   type WebClientOptions,
-  addAppMetadata,
 } from '@slack/web-api';
+
 import { EventEmitter } from 'eventemitter3';
 import type WebSocket from 'ws';
 
 import packageJson from '../package.json';
+import { sendWhileDisconnectedError, sendWhileNotReadyError, websocketErrorWithOriginal } from './errors';
+import log, { type Logger, LogLevel } from './logger';
 import { SlackWebSocket, WS_READY_STATES } from './SlackWebSocket';
 import type { SocketModeOptions } from './SocketModeOptions';
 import { UnrecoverableSocketModeStartError } from './UnrecoverableSocketModeStartError';
-import { sendWhileDisconnectedError, sendWhileNotReadyError, websocketErrorWithOriginal } from './errors';
-import log, { LogLevel, type Logger } from './logger';
 
 // Lifecycle events as described in the README
 enum State {

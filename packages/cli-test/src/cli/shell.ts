@@ -2,10 +2,9 @@ import child from 'node:child_process';
 
 import treekill from 'tree-kill';
 
+import type { ShellProcess } from '../types/shell';
 import { timeouts } from '../utils/constants';
 import logger from '../utils/logger';
-
-import type { ShellProcess } from '../types/shell';
 
 export const shell = {
   /**

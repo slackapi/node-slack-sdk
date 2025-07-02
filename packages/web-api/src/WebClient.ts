@@ -6,11 +6,11 @@ import { TextDecoder } from 'node:util';
 import zlib from 'node:zlib';
 
 import axios, {
-  type InternalAxiosRequestConfig,
+  type AxiosAdapter,
   type AxiosHeaderValue,
   type AxiosInstance,
   type AxiosResponse,
-  type AxiosAdapter,
+  type InternalAxiosRequestConfig,
 } from 'axios';
 import FormData from 'form-data';
 import isElectron from 'is-electron';
@@ -32,16 +32,16 @@ import {
 } from './file-upload';
 import delay from './helpers';
 import { getUserAgent } from './instrument';
-import { LogLevel, type Logger, getLogger } from './logger';
+import { getLogger, type Logger, LogLevel } from './logger';
 import { Methods } from './methods';
 import { type RetryOptions, tenRetriesInAboutThirtyMinutes } from './retry-policies';
 import type { CursorPaginationEnabled } from './types/request/common';
 
 import type {
-  FileUploadV2Job,
   FilesCompleteUploadExternalArguments,
   FilesGetUploadURLExternalArguments,
   FilesUploadV2Arguments,
+  FileUploadV2Job,
 } from './types/request/files';
 import type {
   AdminAnalyticsMemberDetails,

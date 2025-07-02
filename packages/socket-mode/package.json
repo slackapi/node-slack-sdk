@@ -20,7 +20,9 @@
   ],
   "main": "dist/src/index.js",
   "types": "./dist/src/index.d.ts",
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "engines": {
     "node": ">= 18",
     "npm": ">= 8.6.0"
@@ -54,7 +56,7 @@
     "ws": "^8"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
+    "@biomejs/biome": "^2.0.5",
     "@tsconfig/recommended": "^1.0.7",
     "@types/chai": "^4",
     "@types/mocha": "^10",

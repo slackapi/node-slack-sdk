@@ -42,8 +42,8 @@ const storedInstallation = {
   isEnterpriseInstall: false,
 };
 
-// TODO: valid tests with org-wide installations
-const storedOrgInstallation = {
+// TODO: valid tests with org-wide installations, remove _ prefix when implemented.
+const _storedOrgInstallation = {
   team: null,
   enterprise: {
     id: 'test-enterprise-id',

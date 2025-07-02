@@ -1,7 +1,8 @@
 import { assert } from 'chai';
 import nock from 'nock';
-import { IncomingWebhook } from './IncomingWebhook';
+
 import { ErrorCode } from './errors';
+import { IncomingWebhook } from './IncomingWebhook';
 
 const url = 'https://hooks.slack.com/services/FAKEWEBHOOK';
 
@@ -105,7 +106,7 @@ describe('IncomingWebhook', () => {
         try {
           await webhook.send({ channel: 'different' });
           assert.fail('expected rejection');
-        } catch (error) {
+        } catch (_err) {
           assert.nestedPropertyVal(webhook, 'defaults.channel', defaultParams.channel);
         }
       });

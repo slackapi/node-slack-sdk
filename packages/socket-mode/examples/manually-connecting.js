@@ -1,5 +1,4 @@
 const { SocketModeClient, LogLevel } = require('@slack/socket-mode');
-const { WebClient } = require('@slack/web-api');
 
 const logLevel = LogLevel.DEBUG;
 const socketModeClient = new SocketModeClient({
@@ -9,9 +8,11 @@ const socketModeClient = new SocketModeClient({
   // serverPingTimeout: 30000,
   // clientPingTimeout: 5000,
 });
-const webClient = new WebClient(process.env.SLACK_BOT_TOKEN, {
-  logLevel,
-});
+
+// const { WebClient } = require('@slack/web-api');
+// const webClient = new WebClient(process.env.SLACK_BOT_TOKEN, {
+//   logLevel,
+// });
 
 socketModeClient.on('slack_event', async ({ ack, body }) => {
   try {
