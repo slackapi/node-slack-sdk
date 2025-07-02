@@ -43,8 +43,7 @@
     "@slack/web-api": "^7.9.1",
     "@types/jsonwebtoken": "^9",
     "@types/node": ">=18",
-    "jsonwebtoken": "^9",
-    "lodash.isstring": "^4"
+    "jsonwebtoken": "^9"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
