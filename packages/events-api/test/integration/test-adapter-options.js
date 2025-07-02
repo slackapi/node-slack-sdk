@@ -1,7 +1,7 @@
 require('mocha');
 const assert = require('assert');
 const request = require('superagent');
-const isFunction = require('lodash.isfunction');
+const isFunction = require('es-toolkit/compat/isFunction');
 
 const { createEventAdapter } = require('../../src/');
 const { createRequestSignature } = require('../helpers');

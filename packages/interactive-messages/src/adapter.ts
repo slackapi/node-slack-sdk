@@ -1,9 +1,9 @@
 import http, { RequestListener, Agent } from 'http';
 import axios, { AxiosInstance } from 'axios';
-import isString from 'lodash.isstring';
-import isRegExp from 'lodash.isregexp';
-import isFunction from 'lodash.isfunction';
-import isPlainObject from 'lodash.isplainobject';
+import isString from 'es-toolkit/compat/isString';
+import isRegExp from 'es-toolkit/compat/isRegExp';
+import isFunction from 'es-toolkit/compat/isFunction';
+import isPlainObject from 'es-toolkit/compat/isPlainObject';
 import debugFactory from 'debug';
 // eslint-disable-next-line import/no-extraneous-dependencies, node/no-extraneous-import
 import { RequestHandler } from 'express';

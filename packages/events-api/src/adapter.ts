@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 import http, { RequestListener } from 'http';
 import debugFactory from 'debug';
-import isString from 'lodash.isstring';
+import isString from 'es-toolkit/compat/isString';
 import { RequestHandler } from 'express'; // eslint-disable-line import/no-extraneous-dependencies
 import { createHTTPHandler } from './http-handler';
 import { isFalsy } from './util';
