@@ -79,7 +79,7 @@ import type {
 import type {
   TeamAccessGrantedEvent,
   TeamAccessRevokedEvent,
-  TeamDomainChangedEvent,
+  TeamDomainChangeEvent,
   TeamJoinEvent,
   TeamRenameEvent,
 } from './team';
@@ -190,7 +190,7 @@ export type SlackEvent =
   | SubteamUpdatedEvent
   | TeamAccessGrantedEvent
   | TeamAccessRevokedEvent
-  | TeamDomainChangedEvent
+  | TeamDomainChangeEvent
   | TeamJoinEvent
   | TeamRenameEvent
   | TokensRevokedEvent

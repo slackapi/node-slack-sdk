@@ -12,8 +12,8 @@ export interface TeamAccessRevokedEvent {
   event_ts: string;
 }
 
-export interface TeamDomainChangedEvent {
-  type: 'team_domain_changed';
+export interface TeamDomainChangeEvent {
+  type: 'team_domain_change';
   url: string;
   domain: string;
 }
