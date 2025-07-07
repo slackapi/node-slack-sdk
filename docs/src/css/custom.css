@@ -338,7 +338,7 @@ a code {
   color: var(--code-link-text);
 }
 
-a[href^="https://api.slack.com/methods"] > code
+a[href^="https://docs.slack.dev/reference/methods"] > code
 {
   background-color: var(--method-link-background);
   color: var(--method-link-text);
@@ -350,7 +350,7 @@ a[href^="/reference/methods"] > code
   color: var(--method-link-text);
 }
 
-a[href^="https://api.slack.com/scopes"] > code
+a[href^="https://docs.slack.dev/reference/scopes"] > code
 {
   background-color: var(--scope-link-background);
   color: var(--scope-link-text);
@@ -362,7 +362,7 @@ a[href^="/reference/scopes"] > code
   color: var(--scope-link-text);
 }
 
-a[href^="https://api.slack.com/events"] > code
+a[href^="https://docs.slack.dev/reference/events"] > code
 {
   background-color: var(--event-link-background);
   color: var(--event-link-text);

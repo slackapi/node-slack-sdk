@@ -115,7 +115,7 @@ export * from './user';
 
 /**
  * All known event types in Slack's Events API
- * Please refer to https://api.slack.com/events?filter=Events for more details
+ * Please refer to https://docs.slack.dev/reference/events for more details
  * This is a discriminated union. The discriminant is the `type` property.
  */
 export type SlackEvent =

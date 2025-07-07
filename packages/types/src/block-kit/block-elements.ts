@@ -1,4 +1,4 @@
-// This file contains objects documented here: https://api.slack.com/reference/block-kit/block-elements
+// This file contains objects documented here: https://docs.slack.dev/reference/block-kit/block-elements
 
 import type { RichTextBlock } from './blocks';
 import type {
@@ -23,7 +23,7 @@ import type {
 
 /**
  * @description Allows users a direct path to performing basic actions.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#button Button element reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/button-element Button element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface Button extends Actionable, Confirmable {
@@ -65,7 +65,7 @@ export interface Button extends Actionable, Confirmable {
 
 /**
  * @description Allows users to choose multiple items from a list of options.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#checkboxes Checkboxes element reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/checkboxes-element Checkboxes element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface Checkboxes extends Actionable, Confirmable, Focusable {
@@ -86,7 +86,7 @@ export interface Checkboxes extends Actionable, Confirmable, Focusable {
 
 /**
  * @description Allows users to select a date from a calendar style UI.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#datepicker Date picker element reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/date-picker-element Date picker element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface Datepicker extends Actionable, Confirmable, Focusable, Placeholdable {
@@ -106,7 +106,7 @@ export interface Datepicker extends Actionable, Confirmable, Focusable, Placehol
  * clients, this time picker will take the form of a dropdown list and the date picker will take the form of a dropdown
  * calendar. Both options will have free-text entry for precise choices. On mobile clients, the time picker and date
  * picker will use native UIs.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#datetimepicker Datetime picker element reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/datetime-picker-element Datetime picker element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface DateTimepicker extends Actionable, Confirmable, Focusable {
@@ -124,7 +124,7 @@ export interface DateTimepicker extends Actionable, Confirmable, Focusable {
 
 /**
  * @description Allows user to enter an email into a single-line field.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#email Email input element reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/email-input-element Email input element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface EmailInput extends Actionable, Dispatchable, Focusable, Placeholdable {
@@ -141,7 +141,7 @@ export interface EmailInput extends Actionable, Dispatchable, Focusable, Placeho
 /**
  * @description Allows user to upload files. In order to use the `file_input` element within your app,
  * your app must have the `files:read` scope.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#file_input File input element reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/file-input-element File input element reference}.
  */
 export interface FileInput extends Actionable {
   /**
@@ -149,7 +149,7 @@ export interface FileInput extends Actionable {
    */
   type: 'file_input';
   /**
-   * @description An array of valid {@link https://api.slack.com/types/file#types file extensions} that will be accepted
+   * @description An array of valid {@link https://docs.slack.dev/reference/objects/file-object file extensions} that will be accepted
    * for this element. All file extensions will be accepted if `filetypes` is not specified. This validation is provided
    * for convenience only, and you should perform your own file type validation based on what you expect to receive.
    */
@@ -164,7 +164,7 @@ export interface FileInput extends Actionable {
 /**
  * @description Displays an image as part of a larger block of content. Use this `image` block if you want a block with
  * only an image in it.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#image Image element reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/image-element Image element reference}.
  */
 export type ImageElement = {
   /**
@@ -188,7 +188,7 @@ export type ImageElement = {
  * filter the list. There are different types of select menu elements that depend on different data sources for their
  * lists of options: {@link StaticSelect}, {@link ExternalSelect}, {@link UsersSelect}, {@link ConversationsSelect},
  * {@link ChannelsSelect}.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#select Select menu element reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/select-menu-element Select menu element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export type Select = UsersSelect | StaticSelect | ConversationsSelect | ChannelsSelect | ExternalSelect;
@@ -200,7 +200,7 @@ export type Select = UsersSelect | StaticSelect | ConversationsSelect | Channels
  * There are different types of multi-select menu that depend on different data sources for their lists of options:
  * {@link MultiStaticSelect}, {@link MultiExternalSelect}, {@link MultiUsersSelect}, {@link MultiConversationsSelect},
  * {@link MultiChannelsSelect}.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#multi_select Multi-select menu element reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/multi-select-menus-element Multi-select menu element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export type MultiSelect =
@@ -213,7 +213,7 @@ export type MultiSelect =
 /**
  * @description This select menu will populate its options with a list of Slack users visible to the current user in the
  * active workspace.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#users_select Select menu of users reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/select-menu-element#users_select Select menu of users reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface UsersSelect extends Actionable, Confirmable, Focusable, Placeholdable {
@@ -230,7 +230,7 @@ export interface UsersSelect extends Actionable, Confirmable, Focusable, Placeho
 /**
  * @description This multi-select menu will populate its options with a list of Slack users visible to the current user
  * in the active workspace.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#users_multi_select Multi-select menu of users reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/multi-select-menu-element#users_multi_select Multi-select menu of users reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface MultiUsersSelect extends Actionable, Confirmable, Focusable, MaxItemsSelectable, Placeholdable {
@@ -247,7 +247,7 @@ export interface MultiUsersSelect extends Actionable, Confirmable, Focusable, Ma
 /**
  * @description This is the simplest form of select menu, with a static list of options passed in when defining the
  * element.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#static_select Select menu of static options reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/select-menu-element#static_select Select menu of static options reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface StaticSelect extends Actionable, Confirmable, Focusable, Placeholdable {
@@ -284,7 +284,7 @@ export interface StaticSelect extends Actionable, Confirmable, Focusable, Placeh
 /**
  * @description This is the simplest form of select menu, with a static list of options passed in when defining the
  * element.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#static_multi_select Multi-select menu of static options reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/multi-select-menu-element#static_multi_select Multi-select menu of static options reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface MultiStaticSelect extends Actionable, Confirmable, Focusable, MaxItemsSelectable, Placeholdable {
@@ -321,7 +321,7 @@ export interface MultiStaticSelect extends Actionable, Confirmable, Focusable, M
 /**
  * @description This select menu will populate its options with a list of public and private channels, DMs, and MPIMs
  * visible to the current user in the active workspace.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#conversations_select Select menu of conversations reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/select-menu-element#conversations_select Select menu of conversations reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface ConversationsSelect extends Actionable, Confirmable, Focusable, Placeholdable, URLRespondable {
@@ -355,7 +355,7 @@ export interface ConversationsSelect extends Actionable, Confirmable, Focusable,
 /**
  * @description This multi-select menu will populate its options with a list of public and private channels, DMs, and
  * MPIMs visible to the current user in the active workspace.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#conversation_multi_select Multi-select menu of conversations reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/multi-select-menu-element#conversation_multi_select Multi-select menu of conversations reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface MultiConversationsSelect
@@ -393,7 +393,7 @@ export interface MultiConversationsSelect
 /**
  * @description This select menu will populate its options with a list of public channels visible to the current user
  * in the active workspace.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#channels_select Select menu of public channels reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/select-menu-element#channels_select Select menu of public channels reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface ChannelsSelect extends Actionable, Confirmable, Focusable, Placeholdable, URLRespondable {
@@ -410,7 +410,7 @@ export interface ChannelsSelect extends Actionable, Confirmable, Focusable, Plac
 /**
  * @description This multi-select menu will populate its options with a list of public channels visible to the current
  * user in the active workspace.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#channel_multi_select Multi-select menu of public channels reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/multi-select-menu-element#channel_multi_select Multi-select menu of public channels reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface MultiChannelsSelect extends Actionable, Confirmable, Focusable, MaxItemsSelectable, Placeholdable {
@@ -428,7 +428,7 @@ export interface MultiChannelsSelect extends Actionable, Confirmable, Focusable,
 /**
  * @description This select menu will load its options from an external data source, allowing for a dynamic list of
  * options.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#external_select Select menu of external data source reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/select-menu-element#external_select Select menu of external data source reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface ExternalSelect extends Actionable, Confirmable, Focusable, Placeholdable {
@@ -451,7 +451,7 @@ export interface ExternalSelect extends Actionable, Confirmable, Focusable, Plac
 
 /**
  * @description This menu will load its options from an external data source, allowing for a dynamic list of options.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#external_multi_select Multi-select menu of external data source reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/multi-select-menu-element#external_multi_select Multi-select menu of external data source reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface MultiExternalSelect extends Actionable, Confirmable, Focusable, MaxItemsSelectable, Placeholdable {
@@ -480,7 +480,7 @@ export interface MultiExternalSelect extends Actionable, Confirmable, Focusable,
  * @description Allows user to enter a number into a single-line field. The number input element accepts both whole and
  * decimal numbers. For example, 0.25, 5.5, and -10 are all valid input values. Decimal numbers are only allowed when
  * `is_decimal_allowed` is equal to `true`.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#number Number input element reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/number-input-element Number input element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface NumberInput extends Actionable, Dispatchable, Focusable, Placeholdable {
@@ -512,7 +512,7 @@ export interface NumberInput extends Actionable, Dispatchable, Focusable, Placeh
  * than customizable text. As such, it is usually used if you want a more compact layout than a select menu, or to
  * supply a list of less visually important actions after a row of buttons. You can also specify simple URL links as
  * overflow menu options, instead of actions.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#overflow Overflow menu element reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/overflow-menu-element Overflow menu element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface Overflow extends Actionable, Confirmable {
@@ -529,7 +529,7 @@ export interface Overflow extends Actionable, Confirmable {
 
 /**
  * @description Allows users to enter freeform text data into a single-line or multi-line field.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#input Plain-text input element reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/plain-text-input-element Plain-text input element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface PlainTextInput extends Actionable, Dispatchable, Focusable, Placeholdable {
@@ -560,7 +560,7 @@ export interface PlainTextInput extends Actionable, Dispatchable, Focusable, Pla
 
 /**
  * @description Allows users to choose one item from a list of possible options.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#radio Radio button group element reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/radio-button-group-element Radio button group element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface RadioButtons extends Actionable, Confirmable, Focusable {
@@ -583,7 +583,7 @@ export interface RadioButtons extends Actionable, Confirmable, Focusable {
  * @description Allows users to choose a time from a rich dropdown UI. On desktop clients, this time picker will take
  * the form of a dropdown list with free-text entry for precise choices. On mobile clients, the time picker will use
  * native time picker UIs.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#timepicker Time picker element reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/time-picker-element Time picker element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface Timepicker extends Actionable, Confirmable, Focusable, Placeholdable {
@@ -606,7 +606,7 @@ export interface Timepicker extends Actionable, Confirmable, Focusable, Placehol
 
 /**
  * @description Allows user to enter a URL into a single-line field.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#url URL input element reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/url-input-element URL input element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface URLInput extends Actionable, Dispatchable, Focusable, Placeholdable {
@@ -622,7 +622,7 @@ export interface URLInput extends Actionable, Dispatchable, Focusable, Placehold
 
 /**
  * @description Allows users to run a {@link https://api.slack.com/automation/triggers/link#workflow_buttons link trigger} with customizable inputs.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#workflow_button Workflow button element reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/workflow-button-element Workflow button element reference}.
  */
 export interface WorkflowButton extends Confirmable {
   /**
@@ -950,7 +950,7 @@ export interface RichTextPreformatted extends RichTextBorderable {
 /**
  * @description A rich text input creates a composer/WYSIWYG editor for entering formatted text, offering nearly the
  * same experience you have writing messages in Slack.
- * @see {@link https://api.slack.com/reference/block-kit/block-elements#rich_text_input Rich-text input element reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/rich-text-input-element Rich-text input element reference}.
  * @see {@link https://api.slack.com/interactivity/handling This is an interactive component - see our guide to enabling interactivity}.
  */
 export interface RichTextInput extends Actionable, Dispatchable, Focusable, Placeholdable {

@@ -45,7 +45,7 @@ const rtm = new RTMClient(token);
 Data from Slack will begin to flow to your program once the client is connected. You'll also be able to send data to
 Slack after the connection is established. Connecting is as easy as calling the `.start()` method. This method returns a
 `Promise` that resolves to the data returned from the [`rtm.connect` Web API
-method](https://api.slack.com/methods/rtm.connect).
+method](https://docs.slack.dev/reference/methods/rtm.connect).
 
 ```javascript
 const { RTMClient } = require('@slack/rtm-api');
@@ -71,7 +71,7 @@ Additional connection options
 </summary>
 
 Options passed to the `.start()` method are passed through as arguments to the [`rtm.connect` Web API
-method](https://api.slack.com/methods/rtm.connect). These arguments deal with presence, which is discussed in more
+method](https://docs.slack.dev/reference/methods/rtm.connect). These arguments deal with presence, which is discussed in more
 detail [on the documentation website](/rtm-api#presence).
 
 </details>
@@ -85,14 +85,14 @@ If you've used Node's [`EventEmitter`](https://nodejs.org/api/events.html#events
 before, then you're already familiar with how this works, since the client is an `EventEmitter`.
 
 The `event` argument passed to the listener is an object. It's contents corresponds to the [type of
-event](https://api.slack.com/events) its registered for.
+event](https://docs.slack.dev/reference/events) its registered for.
 
 ```javascript
 const { RTMClient } = require('@slack/rtm-api');
 const token = process.env.SLACK_BOT_TOKEN;
 const rtm = new RTMClient(token);
 
-// Attach listeners to events by type. See: https://api.slack.com/events/message
+// Attach listeners to events by type. See: https://docs.slack.dev/reference/events/message
 rtm.on('message', (event) => {
   console.log(event);
 });
@@ -116,7 +116,7 @@ const { RTMClient } = require('@slack/rtm-api');
 const token = process.env.SLACK_BOT_TOKEN;
 const rtm = new RTMClient(token);
 
-// Attach listeners to events by message subtype. See: https://api.slack.com/events/message/channel_purpose
+// Attach listeners to events by message subtype. See: https://docs.slack.dev/reference/events/message/channel_purpose
 rtm.on('message::channel_purpose', (event) => {
   console.log(event);
 });
@@ -146,7 +146,7 @@ const token = process.env.SLACK_BOT_TOKEN;
 const rtm = new RTMClient(token);
 
 // Listen for users who join a channel that the bot user is a member of
-// See: https://api.slack.com/events/member_joined_channel
+// See: https://docs.slack.dev/reference/events/member_joined_channel
 rtm.on('member_joined_channel', async (event) => {
   try {
     // Send a welcome message to the same channel where the new member just joined, and mention the user.
@@ -167,7 +167,7 @@ rtm.on('member_joined_channel', async (event) => {
 Send rich messages using the WebClient
 </summary>
 
-The Web API's [`chat.postMessage` method](https://api.slack.com/methods/chat.postMessage) is capable of sending [rich
+The Web API's [`chat.postMessage` method](https://docs.slack.dev/reference/methods/chat.postMessage) is capable of sending [rich
 messages](https://api.slack.com/messaging/composing/layouts) more advanced layout and interactions. These rich messages
 are more attractive and useful for users of your app. Install and import the `@slack/web-api` package into your app,
 initialize the `WebClient` class, and use the `.chat.postMessage(options)` method to send a rich message. The example
@@ -183,7 +183,7 @@ const { WebClient } = require('@slack/web-api');
 const web = new WebClient(token);
 
 // Listen for users who join a channel that the bot user is a member of
-// See: https://api.slack.com/events/member_joined_channel
+// See: https://docs.slack.dev/reference/events/member_joined_channel
 rtm.on('member_joined_channel', async (event) => {
   try {
     // Send a welcome message with a button to the same channel where the new member just joined.
@@ -239,7 +239,7 @@ const token = process.env.SLACK_BOT_TOKEN;
 const rtm = new RTMClient(token);
 
 // Listen for users who join a channel that the bot user is a member of
-// See: https://api.slack.com/events/member_joined_channel
+// See: https://docs.slack.dev/reference/events/member_joined_channel
 rtm.on('member_joined_channel', async (event) => {
   try {
     // Send a typing indicator, and wait for 3 seconds
@@ -675,10 +675,10 @@ app needs to keep track of some data as it changes while the app runs, but it ne
 However, **this can also cause the client to fail to connect on large teams**. Our recommendation is to call the [Web
 API](/web-api) to retrieve workspace state while your app is connecting, instead of
 relying on the cache. See [send rich messages](#send-a-message) for an example of using the `WebClient` class inside
-your app, and use [some of the other methods](https://api.slack.com/methods) to get data.
+your app, and use [some of the other methods](https://docs.slack.dev/reference/methods) to get data.
 
 If you're certain that you'd like to receive the snapshot, you can set the `useRtmConnect` option to `false`. This
-configures the client to use the [`rtm.start`](https://api.slack.com/methods/rtm.start) method (instead of
+configures the client to use the [`rtm.start`](https://docs.slack.dev/reference/methods/rtm.start) method (instead of
 `rtm.connect`), and emit the snapshot on the `authenticated` event.
 
 ```javascript

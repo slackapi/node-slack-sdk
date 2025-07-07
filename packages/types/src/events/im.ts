@@ -10,7 +10,7 @@ export interface IMCreatedEvent {
   user: string;
   // TODO: incomplete, this should probably be a reference to a IM shape from @slack/types. can it just be a
   // Conversation shape? or should it be a Channel shape?
-  // https://api.slack.com/types/im
+  // https://docs.slack.dev/reference/objects/im-object
   channel: {
     id: string;
   };

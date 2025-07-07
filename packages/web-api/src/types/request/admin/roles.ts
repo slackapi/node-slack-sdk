@@ -13,15 +13,15 @@ export interface EntityIDs {
 interface RoleID {
   /**
    * @description ID of the role to which users will be assigned/removed.
-   * @see {@link https://api.slack.com/methods/admin.roles.addAssignments#markdown Admin Roles under Usage info}.
+   * @see {@link https://docs.slack.dev/reference/methods/admin.roles.addAssignments Admin Roles under Usage info}.
    */
   role_id: string;
 }
 
-// https://api.slack.com/methods/admin.roles.addAssignments
+// https://docs.slack.dev/reference/methods/admin.roles.addAssignments
 export interface AdminRolesAddAssignmentsArguments extends EntityIDs, RoleID, UserIDs, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.roles.listAssignments
+// https://docs.slack.dev/reference/methods/admin.roles.listAssignments
 export type AdminRolesListAssignmentsArguments = OptionalArgument<
   Partial<EntityIDs> &
     TokenOverridable &
@@ -29,11 +29,11 @@ export type AdminRolesListAssignmentsArguments = OptionalArgument<
     SortDir & {
       /**
        * @description Collection of role ids to scope results by.
-       * @see {@link https://api.slack.com/methods/admin.roles.addAssignments#markdown Admin Roles under Usage info}.
+       * @see {@link https://docs.slack.dev/reference/methods/admin.roles.addAssignments Admin Roles under Usage info}.
        */
       role_ids?: string[];
     }
 >;
 
-// https://api.slack.com/methods/admin.roles.removeAssignments
+// https://docs.slack.dev/reference/methods/admin.roles.removeAssignments
 export interface AdminRolesRemoveAssignmentsArguments extends EntityIDs, RoleID, UserIDs, TokenOverridable {}

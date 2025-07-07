@@ -61,7 +61,7 @@ const navbar = {
       target: '_self',
     },
     {
-      to: 'https://api.slack.com',
+      to: 'https://docs.slack.dev',
       label: 'API Docs',
       position: 'right',
       target: '_self',

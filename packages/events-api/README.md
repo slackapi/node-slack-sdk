@@ -1,6 +1,6 @@
 # Slack Events API
 
-The `@slack/events-api` package helps your app respond to events from Slack's [Events API](https://api.slack.com/events-api)
+The `@slack/events-api` package helps your app respond to events from Slack's [Events API](https://https://docs.slack.dev/apis/events-api)
 such as new messages, emoji reactions, files, and much more. This package will help you start with convenient and secure
 defaults.
 
@@ -165,7 +165,7 @@ adapter. If you've used Node's [`EventEmitter`](https://nodejs.org/api/events.ht
 before, then you're already familiar with how this works, since the adapter is an `EventEmitter`.
 
 The `event` argument passed to the listener is an object. It's contents corresponds to the [type of
-event](https://api.slack.com/events) its registered for.
+event](https://docs.slack.dev/reference/events) its registered for.
 
 ```javascript
 const { createEventAdapter } = require('@slack/events-api');
@@ -173,7 +173,7 @@ const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 const slackEvents = createEventAdapter(slackSigningSecret);
 const port = process.env.PORT || 3000;
 
-// Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
+// Attach listeners to events by Slack Event "type". See: https://docs.slack.dev/reference/events/message.im
 slackEvents.on('message', (event) => {
   console.log(`Received a message event: user ${event.user} in channel ${event.channel} says ${event.text}`);
 });

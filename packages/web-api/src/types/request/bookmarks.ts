@@ -12,7 +12,7 @@ interface BookmarkFields {
   emoji?: string;
 }
 
-// https://api.slack.com/methods/bookmarks.add
+// https://docs.slack.dev/reference/methods/bookmarks.add
 export interface BookmarksAddArguments extends ChannelID, BookmarkFields, TokenOverridable {
   /** @description Type of the bookmark. Only `link` is supported at the moment. */
   type: 'link';
@@ -21,11 +21,11 @@ export interface BookmarksAddArguments extends ChannelID, BookmarkFields, TokenO
   /** @description ID of this bookmark's parent. */
   parent_id?: string;
 }
-// https://api.slack.com/methods/bookmarks.edit
+// https://docs.slack.dev/reference/methods/bookmarks.edit
 export interface BookmarksEditArguments extends ChannelID, ID, Partial<BookmarkFields>, TokenOverridable {}
 
-// https://api.slack.com/methods/bookmarks.list
+// https://docs.slack.dev/reference/methods/bookmarks.list
 export interface BookmarksListArguments extends ChannelID, TokenOverridable {}
 
-// https://api.slack.com/methods/bookmarks.remove
+// https://docs.slack.dev/reference/methods/bookmarks.remove
 export interface BookmarksRemoveArguments extends ChannelID, ID, TokenOverridable {}

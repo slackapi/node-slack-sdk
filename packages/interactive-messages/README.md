@@ -518,7 +518,7 @@ slackInteractions.shortcut({ callbackId: 'simple-modal', type: 'shortcut' }, (pa
           type: "section",
           text: {
             type: "mrkdwn",
-            text: "About the simplest modal you could conceive of :smile:\n\nMaybe <https://api.slack.com/reference/block-kit/interactive-components|*make the modal interactive*> or <https://api.slack.com/surfaces/modals/using#modifying|*learn more advanced modal use cases*>."
+            text: "About the simplest modal you could conceive of :smile:\n\nMaybe <https://docs.slack.dev/interactivity|*make the modal interactive*> or <https://api.slack.com/surfaces/modals/using#modifying|*learn more advanced modal use cases*>."
           }
         },
         {

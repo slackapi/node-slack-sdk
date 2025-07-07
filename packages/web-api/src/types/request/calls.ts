@@ -8,7 +8,7 @@ interface ID {
 interface Users {
   /**
    * @description The list of users to add/remove to/from the Call.
-   * @see {@link https://api.slack.com/apis/calls#users Using the Calls API: a note on Users}.
+   * @see {@link https://docs.slack.dev/apis/web-api/using-the-calls-api Using the Calls API: a note on Users}.
    */
   users: CallUser[];
 }
@@ -24,7 +24,7 @@ interface CallDetails {
   title?: string;
 }
 
-// https://api.slack.com/methods/calls.add
+// https://docs.slack.dev/reference/methods/calls.add
 export interface CallsAddArguments extends Partial<Users>, CallDetails, TokenOverridable {
   /**
    * @description An ID supplied by the 3rd-party Call provider. It must be unique across all Calls from that service.
@@ -44,20 +44,20 @@ export interface CallsAddArguments extends Partial<Users>, CallDetails, TokenOve
   external_display_id?: string;
 }
 
-// https://api.slack.com/methods/calls.end
+// https://docs.slack.dev/reference/methods/calls.end
 export interface CallsEndArguments extends ID, TokenOverridable {
   /** @description Call duration in seconds. */
   duration?: number;
 }
 
-// https://api.slack.com/methods/calls.info
+// https://docs.slack.dev/reference/methods/calls.info
 export interface CallsInfoArguments extends ID, TokenOverridable {}
 
-// https://api.slack.com/methods/calls.update
+// https://docs.slack.dev/reference/methods/calls.update
 export interface CallsUpdateArguments extends ID, Partial<CallDetails>, TokenOverridable {}
 
-// https://api.slack.com/methods/calls.participants.add
+// https://docs.slack.dev/reference/methods/calls.participants.add
 export interface CallsParticipantsAddArguments extends ID, Users, TokenOverridable {}
 
-// https://api.slack.com/methods/calls.participants.remove
+// https://docs.slack.dev/reference/methods/calls.participants.remove
 export interface CallsParticipantsRemoveArguments extends ID, Users, TokenOverridable {}

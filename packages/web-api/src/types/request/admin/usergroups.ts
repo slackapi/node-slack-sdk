@@ -10,14 +10,14 @@ interface UsergroupID {
   usergroup_id: string;
 }
 
-// https://api.slack.com/methods/admin.usergroups.addChannels
+// https://docs.slack.dev/reference/methods/admin.usergroups.addChannels
 export interface AdminUsergroupsAddChannelsArguments
   extends ChannelIDs,
     UsergroupID,
     OptionalTeamAssignable,
     TokenOverridable {}
 
-// https://api.slack.com/methods/admin.usergroups.addTeams
+// https://docs.slack.dev/reference/methods/admin.usergroups.addTeams
 export interface AdminUsergroupsAddTeamsArguments extends UsergroupID, TokenOverridable {
   /**
    * @description One or more encoded team (workspace) IDs.
@@ -31,11 +31,11 @@ export interface AdminUsergroupsAddTeamsArguments extends UsergroupID, TokenOver
   auto_provision?: boolean;
 }
 
-// https://api.slack.com/methods/admin.usergroups.listChannels
+// https://docs.slack.dev/reference/methods/admin.usergroups.listChannels
 export interface AdminUsergroupsListChannelsArguments extends UsergroupID, OptionalTeamAssignable, TokenOverridable {
   /** @description Flag to include or exclude the count of members per channel. */
   include_num_members?: boolean;
 }
 
-// https://api.slack.com/methods/admin.usergroups.removeChannels
+// https://docs.slack.dev/reference/methods/admin.usergroups.removeChannels
 export interface AdminUsergroupsRemoveChannelsArguments extends ChannelIDs, UsergroupID, TokenOverridable {}

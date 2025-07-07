@@ -1,6 +1,6 @@
 import type { OptionalTeamAssignable, TokenOverridable } from './common';
 
-// https://api.slack.com/methods/migration.exchange
+// https://docs.slack.dev/reference/methods/migration.exchange
 export interface MigrationExchangeArguments extends TokenOverridable, OptionalTeamAssignable {
   /** @description A comma-separated list of user IDs, up to 400 per request. */
   users: string;

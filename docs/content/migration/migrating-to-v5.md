@@ -202,7 +202,7 @@ const web = new WebClient(token, {
 
 The `files.comments.add` and `files.comments.edit` named methods were removed. If you still need to use them, you can
 use the `.apiCall(methodName, options)` method instead, but we recommend that you instead use [threaded
-messages](https://api.slack.com/changelog/2018-05-file-threads-soon-tread) instead of file comments.
+messages](https://docs.slack.dev/changelog/2018-05-file-threads-soon-tread) instead of file comments.
 
 All named methods in the `apps.*` family of methods were removed. Again, you can use the the `.apiCall(methodName,
 options)` method instead, but [we recommend migrating your

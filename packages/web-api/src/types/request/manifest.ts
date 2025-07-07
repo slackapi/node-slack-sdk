@@ -147,19 +147,19 @@ interface ManifestOAuthConfig {
    * A maximum of 1000 redirect URLs can be included in this array.
    */
   redirect_urls?: string[];
-  /** @description A subgroup of settings that describe {@link https://api.slack.com/scopes permission scopes} configuration. */
+  /** @description A subgroup of settings that describe {@link https://docs.slack.dev/reference/scopes permission scopes} configuration. */
   scopes?: ManifestOAuthScopes;
   token_management_enabled?: boolean;
 }
 
 interface ManifestOAuthScopes {
   /**
-   * @description An array of strings containing {@link https://api.slack.com/scopes?filter=granular_bot granular bot scopes}
+   * @description An array of strings containing {@link https://docs.slack.dev/reference/scopes?token_types=Bot granular bot scopes}
    * to request upon app installation. A maximum of 255 scopes can included in this array.
    */
   bot?: BotScope[];
   /**
-   * @description An array of strings containing {@link https://api.slack.com/scopes?filter=user user scopes}
+   * @description An array of strings containing {@link https://docs.slack.dev/reference/scopes?token_types=User user scopes}
    * to request upon app installation. A maximum of 255 scopes can included in this array.
    */
   user?: UserScope[];
@@ -171,7 +171,7 @@ interface ManifestSettings {
    * {@link https://api.slack.com/authentication/best-practices#ip_allowlisting Allowed IP Ranges} feature. Maximum of 50 IP addresses.
    */
   allowed_ip_address_ranges?: string[];
-  /** @description A subgroup of settings that describe {@link https://api.slack.com/apis/connections/events-api Events API} configuration for the app. */
+  /** @description A subgroup of settings that describe {@link https://docs.slack.dev/apis/web-api/using-the-conversations-api Events API} configuration for the app. */
   event_subscriptions?: ManifestEventSubscriptions;
   /** @description A subgroup of settings that describe {@link https://api.slack.com/messaging/webhooks Incoming Webhooks} configuration for the app. */
   incoming_webhooks?: ManifestIncomingWebhooks;
@@ -179,7 +179,7 @@ interface ManifestSettings {
   interactivity?: ManifestInteractivity;
   /** @description A boolean that specifies whether or not {@link https://api.slack.com/enterprise/apps organization-wide deployment} is enabled. */
   org_deploy_enabled?: boolean;
-  /** @description A boolean that specifies whether or not {@link https://api.slack.com/apis/connections/socket Socket Mode} is enabled. */
+  /** @description A boolean that specifies whether or not {@link https://docs.slack.dev/apis/events-api/using-socket-mode Socket Mode} is enabled. */
   socket_mode_enabled?: boolean;
   /** @description A boolean that specifies whether or not {@link https://api.slack.com/authentication/rotation token rotation} is enabled. */
   token_rotation_enabled?: boolean;
@@ -190,18 +190,18 @@ interface ManifestEventSubscriptions {
   /**
    * @description An array of strings matching the event types you want to the app to subscribe to.
    * A maximum of 100 event types can be used.
-   * @see {@link https://api.slack.com/events Event types}.
+   * @see {@link https://docs.slack.dev/reference/events Event types}.
    */
   bot_events?: ManifestEvent[];
   /**
    * @description An array of strings matching the event types you want to the app to subscribe to on
    * behalf of authorized users. A maximum of 100 event types can be used.
-   * @see {@link https://api.slack.com/events Event types}.
+   * @see {@link https://docs.slack.dev/reference/events Event types}.
    */
   user_events?: ManifestEvent[];
   /**
    * @description A string containing the full `https` URL that acts as the
-   * {@link https://api.slack.com/apis/connections/events-api#request-urls Events API request URL}.
+   * {@link https://docs.slack.dev/apis/events-api/using-http-request-urls Events API request URL}.
    * If set, you'll need to manually verify the Request URL in the App Manifest section of App Management.
    */
   request_url?: string; // can be absent when enabling Socket Mode
@@ -274,7 +274,7 @@ interface NumberManifestParameterProperty extends CommonManifestParameterPropert
 
 // TODO: add more types that we support
 
-// https://api.slack.com/scopes?filter=granular_bot
+// https://docs.slack.dev/reference/scopes?token_types=Bot
 // var scopes = [].slice.call(document.getElementsByClassName('apiReferenceFilterableList__listItemLink'))
 // .map(e => '"' + e.innerText + '"').join(' | '); console.log("type BotScope = " + scopes + ";");
 type BotScope =
@@ -344,7 +344,7 @@ type BotScope =
   | 'users:write'
   | 'workflow.steps:execute';
 
-// https://api.slack.com/scopes?filter=user
+// https://docs.slack.dev/reference/scopes?token_types=User
 // var scopes = [].slice.call(document.getElementsByClassName('apiReferenceFilterableList__listItemLink'))
 // .map(e => ''' + e.innerText + ''').join(' | '); console.log('type UserScope = ' + scopes + ';');
 type UserScope =
@@ -436,14 +436,14 @@ type UserScope =
   | 'users:read.email'
   | 'users:write';
 
-// https://api.slack.com/scopes?query=Configuration
+// https://docs.slack.dev/reference/scopes?token_types=Configuration
 // var scopes = [].slice.call(document.getElementsByClassName('apiReferenceFilterableList__listItemLink'))
 // .map(e => ''' + e.innerText + ''').join(' | '); console.log('export type AnyConfigurationScope = ' + scopes + ';');
 export type AnyManifestConfigurationScope = 'app_configurations:read' | 'app_configurations:write';
 
 export type AppManifestLevelScopes = 'authorizations:read' | 'connections:write';
 
-// https://api.slack.com/events?filter=Events
+// https://docs.slack.dev/reference/events
 // var events = [].slice.call(document.getElementsByClassName('apiReferenceFilterableList__listItemLink'))
 // .map(e => '"' + e.innerText + '"').join(' | '); console.log("export type AnyMafifestEvent = " + events + ";");
 type ManifestEvent =

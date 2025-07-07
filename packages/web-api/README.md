@@ -4,7 +4,7 @@
 
 The `@slack/web-api` package contains a simple, convenient, and configurable HTTP client for making requests to Slack's
 [Web API](https://api.slack.com/web). Use it in your app to call any of the over 130
-[methods](https://api.slack.com/methods), and let it handle formatting, queuing, retrying, pagination, and more.
+[methods](https://docs.slack.dev/reference/methods), and let it handle formatting, queuing, retrying, pagination, and more.
 
 ## Requirements
 
@@ -87,7 +87,7 @@ const conversationId = '...';
 (async () => {
 
   // Post a message to the channel, and await the result.
-  // Find more arguments and details of the response: https://api.slack.com/methods/chat.postMessage
+  // Find more arguments and details of the response: https://docs.slack.dev/reference/methods/chat.postMessage
   const result = await web.chat.postMessage({
     text: 'Hello world!',
     channel: conversationId,
@@ -132,7 +132,7 @@ const conversationId = '...';
 
 ### Handle errors
 
-Errors can happen for many reasons: maybe the token doesn't have the proper [scopes](https://api.slack.com/scopes) to
+Errors can happen for many reasons: maybe the token doesn't have the proper [scopes](https://docs.slack.dev/reference/scopes) to
 call a method, maybe its been revoked by a user, or maybe you just used a bad argument. In these cases, the returned
 `Promise` will reject with an `Error`. You should catch the error and use the information it contains to decide how your
 app can proceed.

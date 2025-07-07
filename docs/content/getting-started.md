@@ -13,19 +13,19 @@ work getting done — you can create a new one for free. After you create an app
 
 In this guide we'll be **calling a method of Web API** to post a message to a channel. The Web API is the foundation of
 the Slack Platform, and almost every Slack app uses it. Aside from posting messages, the Web API allows your app to call
-[methods](https://api.slack.com/methods) that can be used for everything from creating a channel to updating a user's
+[methods](https://docs.slack.dev/reference/methods) that can be used for everything from creating a channel to updating a user's
 status. Before we can call any methods, we need to configure our new app with the proper permissions.
 
 ## Get a token to use the Web API
 
 Navigate to **OAuth & Permissions** and scroll down to the section for scopes. Slack describes the various permissions
-your app could obtain from an installing bot as **scopes**. There are [over 80 scopes](https://api.slack.com/scopes)!
+your app could obtain from an installing bot as **scopes**. There are [over 80 scopes](https://docs.slack.dev/reference/scopes)!
 Some are broad and authorize your app to access lots of data, while others are very specific and let your app touch just
 a tiny sliver. Your users (and their IT admins) will have opinions about which data your app should access, and only
 agree to install the app if the data permissions seem reasonable, so we recommend finding the scope(s) with the least
 amount of privilege for your app's needs. In this guide we will use the Web API to post a message. The scope required
-for this is called [`chat:write`](https://api.slack.com/scopes/chat:write). Scroll down to "Bot Token Scopes", ensure this section is expanded, then click "Add an OAuth Scope", find the
-[`chat:write`](https://api.slack.com/scopes/chat:write) scope and select it to add it to your app.
+for this is called [`chat:write`](https://docs.slack.dev/reference/scopes/chat.write). Scroll down to "Bot Token Scopes", ensure this section is expanded, then click "Add an OAuth Scope", find the
+[`chat:write`](https://docs.slack.dev/reference/scopes/chat.writee) scope and select it to add it to your app.
 
 Now our app has described which scope it desires in the workspace, but we haven't added it to your workspace yet. To install your app, scroll up to the top of the page and click the **Install to Workspace** button. You'll be taken to the app installation page. This page is where you grant the bot user permission to install the app in your development workspace with specific capabilities.
 
@@ -132,9 +132,8 @@ You just built your first Slack app with Node.js! 🎉
 There's plenty more to learn and explore about the Node Slack SDK and the Slack platform. Here are some ideas about where to look next:
 
 * This tutorial only used two of **over 200 Web API methods** available. [Look through
-  them](https://api.slack.com/methods) to get ideas about what to build next!
+  them](https://docs.slack.dev/reference/methods) to get ideas about what to build next!
 
 * You now know how to build a Slack app for a single workspace, [learn how to implement Slack
-OAuth](https://api.slack.com/authentication/oauth-v2) to make your app installable in many workspaces. If you are using
-  [Passport](http://www.passportjs.org/) to handle authentication, you may find the
+OAuth](https://docs.slack.dev/authentication/installing-with-oauth) to make your app installable in many workspaces. If you are using [Passport](http://www.passportjs.org/) to handle authentication, you may find the
   [`@aoberoi/passport-slack`](https://github.com/aoberoi/passport-slack) strategy package helpful.

@@ -1,7 +1,7 @@
 import type { OptionalArgument } from '../helpers';
 import type { CursorPaginationEnabled, TokenOverridable } from './common';
 
-// https://api.slack.com/methods/auth.revoke
+// https://docs.slack.dev/reference/methods/auth.revoke
 export type AuthRevokeArguments = OptionalArgument<
   TokenOverridable & {
     /**
@@ -12,7 +12,7 @@ export type AuthRevokeArguments = OptionalArgument<
   }
 >;
 
-// https://api.slack.com/methods/auth.teams.list
+// https://docs.slack.dev/reference/methods/auth.teams.list
 export type AuthTeamsListArguments = OptionalArgument<
   TokenOverridable &
     CursorPaginationEnabled & {
@@ -25,5 +25,5 @@ export type AuthTeamsListArguments = OptionalArgument<
     }
 >;
 
-// https://api.slack.com/methods/auth.test
+// https://docs.slack.dev/reference/methods/auth.test
 export type AuthTestArguments = OptionalArgument<TokenOverridable>;

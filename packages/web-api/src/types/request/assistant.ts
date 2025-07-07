@@ -1,6 +1,6 @@
 import type { TokenOverridable } from './common';
 
-// https://api.slack.com/methods/assistant.threads.setStatus
+// https://docs.slack.dev/reference/methods/assistant.threads.setStatus
 export interface AssistantThreadsSetStatusArguments extends TokenOverridable {
   /** @description Channel ID containing the assistant thread. */
   channel_id: string;
@@ -10,7 +10,7 @@ export interface AssistantThreadsSetStatusArguments extends TokenOverridable {
   thread_ts: string;
 }
 
-// https://api.slack.com/methods/assistant.threads.setSuggestedPrompts
+// https://docs.slack.dev/reference/methods/assistant.threads.setSuggestedPrompts
 export interface AssistantThreadsSetSuggestedPromptsArguments extends TokenOverridable {
   /** @description Channel ID containing the assistant thread. */
   channel_id: string;
@@ -29,7 +29,7 @@ interface AssistantPrompt {
   message: string;
 }
 
-// https://api.slack.com/methods/assistant.threads.setTitle
+// https://docs.slack.dev/reference/methods/assistant.threads.setTitle
 export interface AssistantThreadsSetTitleArguments extends TokenOverridable {
   /** @description Channel ID containing the assistant thread. */
   channel_id: string;

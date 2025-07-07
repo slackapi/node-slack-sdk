@@ -62,7 +62,7 @@ export interface ModalView extends BaseView {
 
 /**
  * {@link https://api.slack.com/legacy/workflows/steps#handle_config_view Configuration modal} for {@link https://api.slack.com/legacy/workflows/steps legacy Workflow Steps from Apps}.
- * @deprecated Steps from Apps are deprecated and will no longer be executed starting September 12, 2024. For more information, see our {@link https://api.slack.com/changelog/2023-08-workflow-steps-from-apps-step-back deprecation announcement}.
+ * @deprecated Steps from Apps are deprecated and will no longer be executed starting September 12, 2024. For more information, see our {@link https://docs.slack.dev/changelog/2023-08-workflow-steps-from-apps-step-back deprecation announcement}.
  */
 export interface WorkflowStepView extends BaseView {
   type: 'workflow_step';

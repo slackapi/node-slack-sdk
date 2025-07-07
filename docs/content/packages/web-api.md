@@ -6,7 +6,7 @@ slug: /web-api
 
 The `@slack/web-api` package contains a simple, convenient, and configurable HTTP client for making requests to Slack's
 [Web API](https://api.slack.com/web). Use it in your app to call any of the over 130
-[methods](https://api.slack.com/methods), and let it handle formatting, queuing, retrying, pagination, and more.
+[methods](https://docs.slack.dev/reference/methods), and let it handle formatting, queuing, retrying, pagination, and more.
 
 ## Installation
 
@@ -92,7 +92,7 @@ const conversationId = '...';
 (async () => {
 
   // Post a message to the channel, and await the result.
-  // Find more arguments and details of the response: https://api.slack.com/methods/chat.postMessage
+  // Find more arguments and details of the response: https://docs.slack.dev/reference/methods/chat.postMessage
   const result = await web.chat.postMessage({
     text: 'Hello world!',
     channel: conversationId,
@@ -151,7 +151,7 @@ const web = new WebClient(token, {
 
 ### Handle errors
 
-Errors can happen for many reasons: maybe the token doesn't have the proper [scopes](https://api.slack.com/scopes) to
+Errors can happen for many reasons: maybe the token doesn't have the proper [scopes](https://docs.slack.dev/reference/scopes) to
 call a method, maybe its been revoked by a user, or maybe you just used a bad argument. In these cases, the returned
 `Promise` will reject with an `Error`. You should catch the error and use the information it contains to decide how your
 app can proceed.
@@ -273,7 +273,7 @@ pattern for people that use _functional programming_.
 ---
 
 ### Opening modals
-[Modals](https://api.slack.com/block-kit/surfaces/modals) can be created by calling the `views.open` method. The method requires you to pass a valid [view payload](https://api.slack.com/reference/block-kit/views) in addition to a `trigger_id`, which can be obtained when a user invokes your app using a slash command, clicking a button, or using [another interactive action](https://api.slack.com/reference/messaging/interactive-components).
+[Modals](https://api.slack.com/block-kit/surfaces/modals) can be created by calling the `views.open` method. The method requires you to pass a valid [view payload](https://docs.slack.dev/surfaces/modals) in addition to a `trigger_id`, which can be obtained when a user invokes your app using a slash command, clicking a button, or using [another interactive action](https://api.slack.com/reference/messaging/interactive-components).
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
@@ -285,7 +285,7 @@ const trigger = 'VALID_TRIGGER_ID';
 (async () => {
 
   // Open a modal.
-  // Find more arguments and details of the response: https://api.slack.com/methods/views.open
+  // Find more arguments and details of the response: https://docs.slack.dev/reference/methods/views.open
   const result = await web.views.open({
     trigger_id: trigger,
     view: {
@@ -336,7 +336,7 @@ const vid = 'YOUR_VIEW_ID';
 (async () => {
 
   // Update a modal
-  // Find more arguments and details of the response: https://api.slack.com/methods/views.update
+  // Find more arguments and details of the response: https://docs.slack.dev/reference/methods/views.update
   const result = await web.views.update({
     view_id: vid
     view: {
@@ -504,7 +504,7 @@ posted with a message if these aren't included.
 A posted message can be formatted with [Block Kit](https://docs.slack.dev/block-kit) using the `blocks` argument instead
 of the `initial_comment` text.
 
-In a successful response, the `result.files` contains an array of [shared files](https://api.slack.com/types/file).
+In a successful response, the `result.files` contains an array of [shared files](https://docs.slack.dev/reference/objects/file-object).
 These files are "private" and available to just the `token` holder if no `channel_id` is included in the request, and
 are marked "public" when shared to a provided `channel_id`.
 
@@ -515,7 +515,7 @@ accepts similar attributes as a single file:
 * `content`: The file contents as a string. If omitted, `file` must be provided.
 * `file`: The file path or data to upload. If omitted, `content` must be provided.
 * `filename`: The name of the file.
-* `filetype`: A file type identifier. [Reference](https://api.slack.com/types/file#file_types).
+* `filetype`: A file type identifier. [Reference](https://docs.slack.dev/reference/objects/file-object).
 * `snippet_type`: Syntax type of the snippet being uploaded. E.g. `python`.
 * `title`: The title of the file.
 
@@ -640,7 +640,7 @@ console.log('File uploaded:', result.files);
 ```
 
 Please note
-[the planned sunset date](https://api.slack.com/changelog/2024-04-a-better-way-to-upload-files-is-here-to-stay) of
+[the planned sunset date](https://docs.slack.dev/changelog/2024-04-a-better-way-to-upload-files-is-here-to-stay) of
 2025-03-11 for the `files.upload` method if you're using it at this time. Migrating when possible is recommended and
 `filesUploadV2` offers advantages that we're excited to share!
 
@@ -869,7 +869,7 @@ const web = new WebClient(token, options);
 ### Exchange an OAuth grant for a token
 
 There's one method in the Slack Web API that doesn't requires a token, because its the method that gets a token! This
-method is called [`oauth.v2.access`](https://api.slack.com/methods/oauth.v2.access). It's used as part of the [OAuth
+method is called [`oauth.v2.access`](https://docs.slack.dev/reference/methods/oauth.v2.access). It's used as part of the [OAuth
 2.0](https://api.slack.com/authentication/oauth-v2) process that users initiate when installing your app into a workspace. In the
 last step of this process, your app has received an authorization grant called `code` which it needs to exchange for
 an access token (`token`). You can use an instance of the `WebClient` that has no token to easily complete this
@@ -908,8 +908,8 @@ look at the [@aoberoi/passport-slack Passport Strategy](https://github.com/aober
 
 The `@slack/web-api` package supports the following API methods which you can use to implement **Sign in With Slack**:
 
-- [`openid.connect.token`](https://api.slack.com/methods/openid.connect.token)
-- [`openid.connect.userInfo`](https://api.slack.com/methods/openid.connect.userInfo)
+- [`openid.connect.token`](https://docs.slack.dev/reference/methods/openid.connect.token)
+- [`openid.connect.userInfo`](https://docs.slack.dev/reference/methods/openid.connect.userInfo)
 
 Here's a fully-functioning [sample application implementation](https://github.com/slackapi/node-slack-sdk/blob/main/examples/openid-connect) for your perusal!
 

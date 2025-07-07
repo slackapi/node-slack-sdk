@@ -56,7 +56,7 @@ If you've used Node's [`EventEmitter`](https://nodejs.org/api/events.html#events
 before, then you're already familiar with how this works, since the client is an `EventEmitter`.
 
 The `event` argument passed to the listener is an object. Its contents correspond to the [type of
-event](https://api.slack.com/events) it's registered for.
+event](https://docs.slack.dev/reference/events) it's registered for.
 
 ```javascript
 const { SocketModeClient } = require('@slack/socket-mode');
@@ -64,7 +64,7 @@ const appToken = process.env.SLACK_APP_TOKEN;
 
 const socketModeClient = new SocketModeClient({appToken});
 
-// Attach listeners to events by type. See: https://api.slack.com/events/message
+// Attach listeners to events by type. See: https://docs.slack.dev/reference/events/message
 socketModeClient.on('message', (event) => {
   console.log(event);
 });
@@ -85,7 +85,7 @@ const { WebClient } = require('@slack/web-api');
 const socketModeClient = new SocketModeClient(process.env.SLACK_APP_TOKEN);
 const webClient = new WebClient(process.env.BOT_TOKEN);
 
-// Attach listeners to events by type. See: https://api.slack.com/events/message
+// Attach listeners to events by type. See: https://docs.slack.dev/reference/events/message
 socketModeClient.on('member_joined_channel', async ({event, body, ack}) => {
     try {
       // send acknowledgement back to slack over the socketMode websocket connection
@@ -217,5 +217,5 @@ If you get stuck, we're here to help. The following are the best ways to get ass
 
   * [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and general discussion related to these packages. Try searching before you create a new issue.
 
-[socket-mode]: https://api.slack.com/apis/connections/socket
-[app-token]: https://api.slack.com/authentication/token-types#app
+[socket-mode]: https://docs.slack.dev/apis/events-api/using-socket-mode
+[app-token]: https://docs.slack.dev/authentication/tokens#app-level

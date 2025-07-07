@@ -114,7 +114,7 @@ export interface MessageAttachment {
   is_app_unfurl?: boolean; // TODO: not documented in https://api.slack.com/reference/messaging/attachments
   app_id?: string; // TODO: not documented in https://api.slack.com/reference/messaging/attachments
   bot_id?: string; // TODO: not documented in https://api.slack.com/reference/messaging/attachments
-  preview?: MessageAttachmentPreview; // https://api.slack.com/methods/chat.unfurl#markdown TODO: not documented in https://api.slack.com/reference/messaging/attachments, also unclear why this links to chat.unfurl?
+  preview?: MessageAttachmentPreview; // https://docs.slack.dev/reference/methods/chat.unfurl TODO: not documented in https://api.slack.com/reference/messaging/attachments, also unclear why this links to chat.unfurl?
 }
 
 /**
@@ -138,7 +138,7 @@ export interface MessageAttachmentField {
   short?: boolean;
 }
 
-// https://api.slack.com/methods/chat.unfurl#markdown
+// https://docs.slack.dev/reference/methods/chat.unfurl
 interface MessageAttachmentPreview {
   type?: string;
   can_remove?: boolean;

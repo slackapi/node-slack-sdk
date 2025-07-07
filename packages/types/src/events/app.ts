@@ -158,7 +158,7 @@ export interface AppRateLimitedEvent {
 
 // TODO: this event doesn't use the envelope. write test cases to make sure its works without breaking, and figure out
 // what exceptions need to be made to the related types to make this work
-// https://api.slack.com/events/app_rate_limited
+// https://docs.slack.dev/reference/events/app_rate_limited
 // export interface AppRateLimitedEvent {
 // }
 

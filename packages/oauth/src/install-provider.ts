@@ -572,7 +572,7 @@ export class InstallProvider {
           redirect_uri: installOptions.redirectUri,
         })) as OAuthV1Response;
 
-        // resp obj for v1 - https://api.slack.com/methods/oauth.access#response
+        // resp obj for v1 - https://docs.slack.dev/reference/methods/oauth.access#response
         const v1Installation: Installation<'v1', false> = {
           team: { id: v1Resp.team_id, name: v1Resp.team_name },
           enterprise: v1Resp.enterprise_id === null ? undefined : { id: v1Resp.enterprise_id },
@@ -613,7 +613,7 @@ export class InstallProvider {
           redirect_uri: installOptions.redirectUri,
         })) as OAuthV2Response;
 
-        // resp obj for v2 - https://api.slack.com/methods/oauth.v2.access#response
+        // resp obj for v2 - https://docs.slack.dev/reference/methods/oauth.v2.access#response
         const v2Installation: Installation<'v2', boolean> = {
           team: v2Resp.team === null ? undefined : v2Resp.team,
           enterprise: v2Resp.enterprise == null ? undefined : v2Resp.enterprise,
@@ -760,7 +760,7 @@ export class InstallProvider {
   }
 }
 
-// Response shape from oauth.v2.access - https://api.slack.com/methods/oauth.v2.access#response
+// Response shape from oauth.v2.access - https://docs.slack.dev/reference/methods/oauth.v2.access#response
 export interface OAuthV2Response extends WebAPICallResult {
   app_id: string;
   authed_user: {
@@ -805,7 +805,7 @@ export interface OAuthV2TokenRefreshResponse extends WebAPICallResult {
 // Internals
 // ------------------------------------------
 
-// Response shape from oauth.access - https://api.slack.com/methods/oauth.access#response
+// Response shape from oauth.access - https://docs.slack.dev/reference/methods/oauth.access
 interface OAuthV1Response extends WebAPICallResult {
   access_token: string;
   // scope parameter isn't returned in workspace apps

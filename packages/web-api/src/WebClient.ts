@@ -185,7 +185,7 @@ export type AdapterConfig = AxiosAdapter;
 /**
  * A client for Slack's Web API
  *
- * This client provides an alias for each {@link https://api.slack.com/methods|Web API method}. Each method is
+ * This client provides an alias for each {@link https://docs.slack.dev/reference/methods|Web API method}. Each method is
  * a convenience wrapper for calling the {@link WebClient#apiCall} method using the method name as the first parameter.
  */
 export class WebClient extends Methods {
@@ -341,7 +341,7 @@ export class WebClient extends Methods {
 
   /**
    * Generic method for calling a Web API method
-   * @param method - the Web API method to call {@link https://api.slack.com/methods}
+   * @param method - the Web API method to call {@link https://docs.slack.dev/reference/methods}
    * @param options - options
    */
   public async apiCall(method: string, options: Record<string, unknown> = {}): Promise<WebAPICallResult> {
@@ -380,7 +380,7 @@ export class WebClient extends Methods {
     }
 
     // log warnings and errors in response metadata messages
-    // related to https://api.slack.com/changelog/2016-09-28-response-metadata-is-on-the-way
+    // related to https://docs.slack.dev/changelog/2016/09/28/response-metadata-is-on-the-way
     if (result.response_metadata !== undefined && result.response_metadata.messages !== undefined) {
       for (const msg of result.response_metadata.messages) {
         const errReg: RegExp = /\[ERROR\](.*)/;
@@ -514,13 +514,13 @@ export class WebClient extends Methods {
    * This wrapper method provides an easy way to upload files using the following endpoints:
    *
    * **#1**: For each file submitted with this method, submit filenames
-   * and file metadata to {@link https://api.slack.com/methods/files.getUploadURLExternal files.getUploadURLExternal} to request a URL to
+   * and file metadata to {@link https://docs.slack.dev/reference/methods/files.getuploadurlexternal files.getUploadURLExternal} to request a URL to
    * which to send the file data to and an id for the file
    *
    * **#2**: for each returned file `upload_url`, upload corresponding file to
    * URLs returned from step 1 (e.g. https://files.slack.com/upload/v1/...\")
    *
-   * **#3**: Complete uploads {@link https://api.slack.com/methods/files.completeUploadExternal files.completeUploadExternal}
+   * **#3**: Complete uploads {@link https://docs.slack.dev/reference/methods/files.completeuploadexternal files.completeUploadExternal}
    * @param options
    */
   public async filesUploadV2(
@@ -972,7 +972,7 @@ function warnDeprecations(method: string, logger: Logger): void {
   });
 
   if (isDeprecated) {
-    logger.warn(`${method} is deprecated. Please check on https://api.slack.com/methods for an alternative.`);
+    logger.warn(`${method} is deprecated. Please check on https://docs.slack.dev/reference/methods for an alternative.`);
   }
 }
 

@@ -50,20 +50,20 @@ type ChangeWithSection = Required<Pick<BaseChange, 'section_id'>> & {
 };
 type Change = ChangeWithSection | ChangeWithContent | ChangeWithSectionAndContent | ChangeWithContentAndOptionalSection;
 
-// https://api.slack.com/methods/canvases.access.delete
+// https://docs.slack.dev/reference/methods/canvases.access.delete
 export interface CanvasesAccessDeleteArguments
   extends CanvasID,
     Partial<ChannelIDs>,
     TokenOverridable,
     Partial<UserIDs> {}
 
-// https://api.slack.com/methods/canvases.access.set
+// https://docs.slack.dev/reference/methods/canvases.access.set
 export interface CanvasesAccessSetArguments extends CanvasID, Partial<ChannelIDs>, TokenOverridable, Partial<UserIDs> {
   /** @description Desired level of access. */
   access_level: 'read' | 'write';
 }
 
-// https://api.slack.com/methods/canvases.create
+// https://docs.slack.dev/reference/methods/canvases.create
 export type CanvasesCreateArguments = OptionalArgument<
   TokenOverridable & {
     /** @description Title of the newly created canvas. */
@@ -73,22 +73,22 @@ export type CanvasesCreateArguments = OptionalArgument<
   }
 >;
 
-// https://api.slack.com/methods/canvases.sections.lookup
+// https://docs.slack.dev/reference/methods/canvases.sections.lookup
 export interface CanvasesSectionsLookupArguments extends CanvasID, TokenOverridable {
   /** @description Filtering criteria. */
   criteria: Criteria;
 }
 
-// https://api.slack.com/methods/canvases.delete
+// https://docs.slack.dev/reference/methods/canvases.delete
 export interface CanvasesDeleteArguments extends CanvasID, TokenOverridable {}
 
-// https://api.slack.com/methods/canvases.edit
+// https://docs.slack.dev/reference/methods/canvases.edit
 export interface CanvasesEditArguments extends CanvasID, TokenOverridable {
   /** @description List of changes to apply to the canvas. */
   changes: [Change, ...Change[]];
 }
 
-// https://api.slack.com/methods/conversations.canvases.create
+// https://docs.slack.dev/reference/methods/conversations.canvases.create
 export interface ConversationsCanvasesCreateArguments extends ChannelID, TokenOverridable {
   /** @description Structure describing the type and contents of the Canvas being created. */
   document_content?: DocumentContent;

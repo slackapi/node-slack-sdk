@@ -15,10 +15,10 @@ Head over to [Create an app](https://tools.slack.dev/bolt-js/getting-started#cre
 Head over to [Tokens and installing apps](https://tools.slack.dev/bolt-js/getting-started#tokens-and-installing-apps) within our Getting started with JavaScript for Bolt page for information on what tokens are, the [different kinds of tokens available](https://api.slack.com/docs/token-types), how to create them on [api.slack.com/apps](https://api.slack.com/apps), how to install your app to a live Slack workspace and finally how to retrieve your access token.
 
 ## Socket Mode vs. HTTP
-Your app can [communicate with Slack using one of two methods](https://api.slack.com/apis/connections):
+Your app can [communicate with Slack using one of two methods](https://docs.slack.dev/apis/events-api):
 
-1. [Socket Mode](https://api.slack.com/apis/connections/socket). Connect to Slack using a direct and long-lived socket connection. This is our recommended approach when getting started in local development because of its convenience. However apps cannot use Socket Mode and also be listed in the [App Directory](https://api.slack.com/start/distributing/directory). For that, you'll need to use [HTTP](#http)). It is also important to remember that Socket Mode is more prone to network faults because the connection is a long-lived one.
-2. [HTTP](https://api.slack.com/apis/connections/events-api). Expose your app using a public-facing URL that Slack will send HTTP requests to. This requires a few [additional steps](https://tools.slack.dev/bolt-js/tutorial/getting-started-http#setting-up-events-with-http) to set up, but may be more resilient to network disruptions than communication via Socket Mode.
+1. [Socket Mode](https://docs.slack.dev/apis/events-api/using-socket-mode). Connect to Slack using a direct and long-lived socket connection. This is our recommended approach when getting started in local development because of its convenience. However apps cannot use Socket Mode and also be listed in the [App Directory](https://api.slack.com/start/distributing/directory). For that, you'll need to use [HTTP](#http). It is also important to remember that Socket Mode is more prone to network faults because the connection is a long-lived one.
+2. [HTTP](https://docs.slack.dev/apis/events-api/using-http-request-urls). Expose your app using a public-facing URL that Slack will send HTTP requests to. This requires a few [additional steps](https://tools.slack.dev/bolt-js/tutorial/getting-started-http#setting-up-events-with-http) to set up, but may be more resilient to network disruptions than communication via Socket Mode.
 
 This tutorial will cover how to set up your app using either approach.
 
@@ -52,9 +52,9 @@ At this point you have a public-facing URL. Now, let's add that to the **Interac
 ![Configuring a Request URL](request-url-config.png "Configuring a Request URL")
 
 ### Subscribing to workspace events
-If you want your app to be subscribed to workspace events (like when a reaction is added, when a user mentions your app, or [another Events API event](https://api.slack.com/events), you need to enable events for your app.
+If you want your app to be subscribed to workspace events (like when a reaction is added, when a user mentions your app, or [another Events API event](https://docs.slack.dev/reference/events)), you need to enable events for your app.
 
-Start by clicking **Event Subscriptions** on the left sidebar. If your app is using HTTP to communicate with Slack, after you toggle the switch, you'll need to add a Request URL. This is similar to [adding a Request URL in the **Interactive Components** section](#what-is-a-request-url), but as described on this page, Slack will issue a `challenge` request to verify that your app's request URL can respond appropriately to incoming requests. Read through our [Request URL Configuration &amp; Verification](https://api.slack.com/apis/connections/events-api#the-events-api__subscribing-to-event-types__events-api-request-urls__request-url-configuration--verification) documentation for details on how to properly handle a `challenge` request.
+Start by clicking **Event Subscriptions** on the left sidebar. If your app is using HTTP to communicate with Slack, after you toggle the switch, you'll need to add a Request URL. This is similar to [adding a Request URL in the **Interactive Components** section](#what-is-a-request-url), but as described on this page, Slack will issue a `challenge` request to verify that your app's request URL can respond appropriately to incoming requests. Read through our [Request URL Configuration &amp; Verification](https://docs.slack.dev/apis/events-api#subscribing) documentation for details on how to properly handle a `challenge` request.
 
 On the **Event Subscriptions** page, you can add each event you want your app to subscribe to. In the tables below, you may add Workspace events and Bot events.
 
