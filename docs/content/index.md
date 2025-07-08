@@ -3,7 +3,7 @@ title: Node Slack SDK
 slug: /
 ---
 
-The Node Slack SDK is a collection of single-purpose packages aimed at making building Slack apps performant, secure, and scalable. 
+The Node Slack SDK is a collection of single-purpose packages for building Slack apps that are performant, secure, and scalable. 
 
 **Just starting out?** The [Getting Started tutorial](/getting-started) will walk you through building your first Slack app using Node.js.
 
@@ -13,16 +13,16 @@ The Node Slack SDK has corresponding packages for Slack APIs. They are small and
 
 | Slack API    | Use | NPM package      |
 |--------------|--------------|-------------------|
-| Web API      | Send data to or query data from Slack using any of [over 200 methods](https://docs.slack.dev/reference/methods). | [`@slack/web-api`](/web-api) |
-| OAuth        | Set up the authentication flow using V2 OAuth for Slack apps as well as V1 OAuth for classic Slack apps. | [`@slack/oauth`](/oauth) |
-| Incoming Webhooks | Send notifications to a single channel which the user picks on installation. | [`@slack/webhook`](/webhook) |
+| Web API      | Send data to or query data from Slack using any of [more than 200 methods](https://docs.slack.dev/reference/methods). | [`@slack/web-api`](/web-api) |
+| OAuth        | Set up the authentication flow using V2 OAuth for Slack apps. | [`@slack/oauth`](/oauth) |
+| Incoming Webhooks | Send notifications to a single channel that the user picks on installation. | [`@slack/webhook`](/webhook) |
 | Socket Mode  | Listen for incoming messages and a limited set of events happening in Slack, using WebSocket. | [`@slack/socket-mode`](/socket-mode) |
 
 :::warning[Deprecation Notice]
 
 `@slack/events-api` and `@slack/interactive-messages` officially reached EOL on May 31st, 2021. Development has fully stopped for these packages and all remaining open issues and pull requests have been closed.
 
-At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](/tutorials/migrating-to-v6) for those looking to convert their existing apps.
+At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more).
 
 :::
 

@@ -39,6 +39,6 @@ export function getUserAgent(): string {
   const appIdentifier = Object.entries(appMetadata)
     .map(([name, version]) => `${name}/${version}`)
     .join(' ');
-  // only prepend the appIdentifier when its not empty
+  // only prepend the appIdentifier when it's not empty
   return (appIdentifier.length > 0 ? `${appIdentifier} ` : '') + baseUserAgent;
 }

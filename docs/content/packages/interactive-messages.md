@@ -13,8 +13,8 @@ _At this time, we recommend migrating to [Bolt for JavaScript](https://github.co
 
 :::
 
-The `@slack/interactive-messages` helps your app respond to interactions from Slack's
-[interactive messages](https://api.slack.com/messaging/interactivity), [actions](https://api.slack.com/actions), and [dialogs](https://api.slack.com/dialogs). This package will help you start with convenient and secure defaults.
+The `@slack/interactive-messages` helps your app respond to interactions from the Slack
+[interactive messages](https://docs.slack.dev/interactivity), [actions](https://docs.slack.dev/interactivity/implementing-shortcuts), and [modals](https://docs.slack.dev/interactivity/adding-interactive-modals-to-home-tab). This package will help you start with convenient and secure defaults.
 
 ## Installation
 
@@ -23,18 +23,18 @@ $ npm install @slack/interactive-messages
 ```
 
 Before building an app, you'll need to [create a Slack app](https://api.slack.com/apps/new) and install it to your
-development workspace. You'll also **need a public URL** where the app can begin receiving actions. Finally, you'll need
-to find the **request signing secret** given to you by Slack under the "Basic Information" of your app configuration.
+development workspace. You'll also need a public URL where the app can begin receiving actions. Finally, you'll need
+to find the request signing secret given to you by Slack under the **Basic Information** of your app configuration.
 
 It may be helpful to read the tutorial on [developing Slack apps
 locally](/tutorials/local-development).
 
 ---
 
-### Initialize the message adapter
+## Initialize the message adapter
 
 The package exports a `createMessageAdapter()` function, which returns an instance of the `SlackMessageAdapter` class.
-The function requires one parameter, the **request signing secret**, which it uses to enforce that all events are coming
+The function requires one parameter, the request signing secret, which it uses to enforce that all events are coming
 from Slack to keep your app secure.
 
 ```javascript
@@ -49,7 +49,7 @@ const slackInteractions = createMessageAdapter(slackSigningSecret);
 
 ---
 
-### Start a server
+## Start a server
 
 The message adapter transforms incoming HTTP requests into verified and parsed actions, and dispatches actions to the
 appropriate handler. That means, in order for it dispatch actions for your app, it needs an HTTP server. The adapter can
@@ -78,7 +78,7 @@ const port = process.env.PORT || 3000;
 })();
 ```
 
-**Note**: To gracefully stop the server, there's also the `.stop()` method, which returns a `Promise` that resolves
+To gracefully stop the server, there's also the `.stop()` method, which returns a `Promise` that resolves
 when the server is no longer listening.
 
 <details>
@@ -87,7 +87,7 @@ Using an existing HTTP server
 </summary>
 
 The message adapter can receive requests from an existing Node HTTP server. You still need to specify a port, but this
-time its only given to the server. Starting a server in this manner means it is listening to requests on all paths; as
+time it's only given to the server. Starting a server in this manner means it is listening to requests on all paths; as
 long as the Request URL is routed to this port, the adapter will receive the requests.
 
 ```javascript
@@ -117,9 +117,9 @@ Using an Express app
 
 The message adapter can receive requests from an [Express](http://expressjs.com/) application. Instead of plugging the
 adapter's request listener into a server, it's plugged into the Express `app`. With Express, `app.use()` can be used to
-set which path you'd like the adapter to receive requests from. **You should be careful about one detail: if your
+set which path you'd like the adapter to receive requests from. You should be careful about one detail: if your
 Express app is using the `body-parser` middleware, then the adapter can only work if it comes _before_ the body parser
-in the middleware stack.** If you accidentally allow the body to be parsed before the adapter receives it, the adapter
+in the middleware stack. If you accidentally allow the body to be parsed before the adapter receives it, the adapter
 will emit an error, and respond to requests with a status code of `500`.
 
 ```javascript
@@ -151,25 +151,23 @@ server.listen(port, () => {
 
 ---
 
-### Handle an action
+## Handle an action
 
 Actions are interactions in Slack that generate an HTTP request to your app. These are:
 
--  **Block actions**: A user interacted with one of the [interactive
-   components](https://api.slack.com/reference/messaging/interactive-components) in a message built with [block
-   elements](https://api.slack.com/reference/messaging/block-elements).
--  **Message actions**: A user selected an [action in the overflow menu of a message](https://api.slack.com/actions).
--  **Dialog submission**: A user submitted a form in a [modal dialog](https://api.slack.com/dialogs)
--  **Attachment actions**: A user clicked a button or selected an item in a menu in a message built with [legacy message
-   attachments](https://api.slack.com/interactive-messages).
+-  **Block actions**: A user interacted with one of the interactive
+   components in a message built with [block elements](https://docs.slack.dev/reference/block-kit/block-elements).
+-  **Message actions**: A user selected an [action in the overflow menu of a message](https://docs.slack.dev/interactivity/implementing-shortcuts).
+-  **Dialog submission**: A user submitted a form in a [modal dialog](https://docs.slack.dev/surfaces/modals)
+-  **Attachment actions**: A user clicked a button or selected an item in a menu in a message built with [legacy message attachments](https://docs.slack.dev/legacy/legacy-messaging/legacy-secondary-message-attachments).
 
 You app will only handle actions that occur in messages or dialogs your app produced. [Block Kit
 Builder](https://api.slack.com/tools/block-kit-builder) is a playground where you can prototype your interactive
 components with block elements.
 
-Apps register functions, called **handlers**, to be triggered when an action is received by the adapter using the
+Apps register functions, called handlers, to be triggered when an action is received by the adapter using the
 `.action(constraints, handler)` method. When registering a handler, you describe which action(s) you'd like the handler
-to match using **constraints**. Constraints are [described in detail](#constraints) below. The adapter will call the
+to match using constraints. Constraints are [described in detail](#constraints) below. The adapter will call the
 handler whose constraints match the action best.
 
 These handlers receive up to two arguments:
@@ -183,10 +181,10 @@ These handlers receive up to two arguments:
 Handlers can return an object, or a `Promise` for a object which must resolve within the `syncResponseTimeout` (default:
 2500ms). The contents of the object depend on the kind of action that's being handled.
 
-- **Attachment actions**: The object describes a message to replace the message where the interaction occurred. **It's
+- **Attachment actions**: The object describes a message to replace the message where the interaction occurred. It's
   recommended to remove interactive elements when you only expect the action once, so that no other users might trigger
-  a duplicate.** If no value is returned, then the message remains the same.
-- **Dialog submission**: The object describes [validation errors](https://api.slack.com/dialogs#input_validation) to
+  a duplicate. If no value is returned, then the message remains the same.
+- **Dialog submission**: The object describes [validation errors](https://docs.slack.dev/surfaces/modals#displaying_errors) to
   show the user and prevent the dialog from closing. If no value is returned, the submission is treated as successful.
 - **Block actions** and **Message actions**: Avoid returning any value.
 
@@ -234,7 +232,7 @@ slackInteractions.action({ type: 'message_action' }, (payload, respond) => {
 
 // Example of handling all dialog submissions
 slackInteractions.action({ type: 'dialog_submission' }, (payload, respond) => {
-  // Validate the submission (errors is of the shape in https://api.slack.com/dialogs#input_validation)
+  // Validate the submission (errors is of the shape in https://docs.slack.dev/surfaces/modals#displaying_errors)
   const errors = validate(payload.submission);
 
   // Only return a value if there were errors
@@ -278,22 +276,21 @@ slackInteractions.action({ type: 'button' }, (payload, respond) => {
 
 ---
 
-### Handle an options request
+## Handle an options request
 
 Options requests are generated when a user interacts with a menu that uses a dynamic data source. These menus can be
-inside a block element, an attachment, or a dialog. In order for an app to use a dynamic data source, you must save an
-"Options Load URL" in the app configuration.
+inside a block element, an attachment, or a dialog. In order for an app to use a dynamic data source, you must save an **Options Load URL** in the app configuration.
 
-Apps register functions, called **handlers**, to be triggered when an options request is received by the adapter using
+Apps register functions, called handlers, to be triggered when an options request is received by the adapter using
 the `.options(constraints, handler)` method. When registering a handler, you describe which options request(s) you'd
-like the handler to match using **constraints**. Constraints are [described in detail](#constraints) below. The adapter
+like the handler to match using constraints. Constraints are [described in detail](#constraints) below. The adapter
 will call the handler whose constraints match the action best.
 
 These handlers receive a single `payload` argument. The `payload` describes the interaction with the menu that occurred.
 The exact shape depends on whether the interaction occurred within a [block
-element](https://api.slack.com/reference/messaging/block-elements#external-select),
-[attachment](https://api.slack.com/docs/message-menus#options_load_url), or a
-[dialog](https://api.slack.com/dialogs#dynamic_select_elements_external).
+element](https://docs.slack.dev/reference/block-kit/block-elements/multi-select-menu-element#external_multi_select),
+[attachment](https://docs.slack.dev/legacy/legacy-messaging/legacy-adding-menus-to-messages), or a
+[dialog](https://docs.slack.dev/legacy/legacy-dialogs).
 
 Handlers can return an object, or a `Promise` for a object which must resolve within the `syncResponseTimeout` (default:
 2500ms). The contents of the object depend on where the options request was generated (you can find the expected shapes
@@ -355,21 +352,20 @@ slackInteractions.options({ within: 'dialog' }, (payload) => {
 
 ---
 
-### Handling view submission and view closed interactions
+## Handling view submission and view closed interactions
 
 View submissions are generated when a user clicks on the submission button of a
-[Modal](https://api.slack.com/surfaces/modals). View closed interactions are generated when a user clicks on the cancel
-button of a Modal, or dismisses the modal using the `×` in the corner.
+[Modal](https://docs.slack.dev/surfaces/modals). View closed interactions are generated when a user clicks on the cancel button of a Modal, or dismisses the modal using the `×` in the corner.
 
-Apps register functions, called **handlers**, to be triggered when a submissions are received by the adapter using the
+Apps register functions, called handlers, to be triggered when a submissions are received by the adapter using the
 `.viewSubmission(constraints, handler)` method or when closed interactions are received using the
 `.viewClosed(constraints, handler)` method. When registering a handler, you describe which submissions and closed
-interactions you'd like the handler to match using **constraints**. Constraints are [described in detail](#constraints)
+interactions you'd like the handler to match using constraints. Constraints are [described in detail](#constraints)
 below. The adapter will call the handler whose constraints match the interaction best.
 
 These handlers receive a single `payload` argument. The `payload` describes the
-[view submission](https://api.slack.com/reference/interaction-payloads/views#view_submission) or
-[view closed](https://api.slack.com/reference/interaction-payloads/views#view_closed)
+[view submission](https://docs.slack.dev/reference/interaction-payloads/view-interactions-payload#view_submission) or
+[view closed](https://docs.slack.dev/reference/interaction-payloads/view-interactions-payload#view_closed)
 interaction that occurred.
 
 For view submissions, handlers can return an object, or a `Promise` for a object which must resolve within the
@@ -397,7 +393,7 @@ slackInteractions.viewSubmission('simple_modal_callback_id', (payload) => {
   // which contains value properties that contain the input data. Let's log one specific value.
   console.log(payload.view.state.my_block_id.my_action_id.value);
 
-  // Validate the inputs (errors is of the shape in https://api.slack.com/surfaces/modals/using#displaying_errors)
+  // Validate the inputs (errors is of the shape in https://docs.slack.dev/surfaces/modals#displaying_errors)
   const errors = validate(payload.view.state);
 
   // Return validation errors if there were errors in the inputs
@@ -466,22 +462,22 @@ slackInteractions.viewClosed('my_modal_callback_id', (payload) => {
 
 ---
 
-### Handling a global shortcut
+## Handling a global shortcut
 
-Shortcuts are invokable UI elements within Slack clients. For [global shortcuts](https://api.slack.com/interactivity/shortcuts/using#global_shortcuts), they are available in the composer and search menus.
+Shortcuts are invokable UI elements within Slack clients. For [global shortcuts](https://docs.slack.dev/interactivity/implementing-shortcuts#global), they are available in the composer and search menus.
 
-Apps register functions, called **handlers**, to be triggered when an shortcuts request is received by the adapter using
+Apps register functions, called handlers, to be triggered when an shortcuts request is received by the adapter using
 the `.shortcut(constraints, handler)` method. When registering a handler, you describe which shortcut request(s) you'd
-like the handler to match using **constraints**. Constraints are [described in detail](#constraints) below. The adapter
+like the handler to match using constraints. Constraints are [described in detail](#constraints) below. The adapter
 will call the handler whose constraints match the action best.
 
 These handlers receive a single `payload` argument. The `payload` describes the interaction with the menu that occurred.
-If interested, checkout the shape of the [shortcuts payload](https://api.slack.com/reference/interaction-payloads/shortcuts).
+If interested, checkout the shape of the [shortcuts payload](https://docs.slack.dev/reference/interaction-payloads/shortcuts-interaction-payload).
 
 Handlers can return a `Promise` which must resolve within the `syncResponseTimeout` (default:
 2500ms).
 
-The `.shortcut()` handler currently supports [global shortcuts](https://api.slack.com/interactivity/shortcuts/using#global_shortcuts). [Message shortcuts](https://api.slack.com/interactivity/shortcuts/using#message_shortcuts) (previously known as message actions) are still handled by the `.action()` handler. 
+The `.shortcut()` handler currently supports [global shortcuts](https://docs.slack.dev/interactivity/implementing-shortcuts#global). [Message shortcuts](https://docs.slack.dev/interactivity/implementing-shortcuts#messages) (previously known as message actions) are still handled by the `.action()` handler. 
 
 ```javascript
 const { createMessageAdapter } = require('@slack/interactive-messages');
@@ -545,7 +541,7 @@ slackInteractions.shortcut({ callbackId: 'simple-modal', type: 'shortcut' }, (pa
 
 ---
 
-### Constraints
+## Constraints
 
 Constraints allow you to describe when a handler should be called. In simpler apps, you can use very simple constraints
 to divide up the structure of your app. In more complex apps, you can use specific constraints to target very specific
@@ -564,7 +560,7 @@ Constraints can be a simple string, a `RegExp`, or an object with a number of pr
 | `viewId` | `string` | Match the `view_id` for view submissions | 🚫 | 🚫 | ✅ | 🚫 |
 | `externalId` | `string` or `RegExp` | Match the `external_id` for view submissions | 🚫 | 🚫 | ✅ | 🚫 |
 
-All of the properties are optional, its just a matter of how specific you want to the handler's behavior to be. A
+All of the properties are optional, it's just a matter of how specific you want to the handler's behavior to be. A
 `string` or `RegExp` is a shorthand for only specifying the `callbackId` constraint. Here are some examples:
 
 ```javascript
@@ -599,7 +595,7 @@ slackInteractions.action({}, (payload, respond) => { /* ... */ });
 
 ---
 
-### Debugging
+## Debugging
 
 If you're having difficulty understanding why a certain request received a certain response, you can try debugging your
 program. A common cause is a request signature verification failing, sometimes because the wrong secret was used. The
@@ -607,7 +603,7 @@ following example shows how you might figure this out using debugging.
 
 Start your program with the `DEBUG` environment variable set to `@slack/interactive-messages:*`. This should only be
 used for development/debugging purposes, and should not be turned on in production. This tells the adapter to write
-messages about what its doing to the console. The easiest way to set this environment variable is to prepend it to the
+messages about what it's doing to the console. The easiest way to set this environment variable is to prepend it to the
 `node` command when you start the program.
 
 ```shell
@@ -656,11 +652,11 @@ include it in your bug report.
 
 ---
 
-### Late response fallback
+## Late response fallback
 
 Handlers for actions and options requests can return `Promise`s. If those `Promise`s don't resolve within a certain time
 (2.5 seconds by default - see [`syncResponseTimeout`](#synchronous-response-timeout)), then the adapter will attempt
-to send the resolved value to the `response_url`, this is called **late response fallback**. This feature works well for
+to send the resolved value to the `response_url`, this is called late response fallback. This feature works well for
 attachment actions since there's no difference between what the `response_url` expects and what the
 synchronous response contains. However with dialog submission and options requests, the `response_url` expects a message
 while the return values should contain validation errors or options (respectively). In these cases, late response
@@ -685,15 +681,15 @@ const slackInteractions = createMessageAdapter(slackSigningSecret, {
 })();
 ```
 
-When choosing to turn late response fallback off, its important to stop relying on returning `Promise`s from handler
+When choosing to turn late response fallback off, it's important to stop relying on returning `Promise`s from handler
 functions, and instead use the `respond()` argument in your handlers for all deferred (asynchronous) responses.
 
 ---
 
-### Synchronous response timeout
+## Synchronous response timeout
 
 The amount of time that the adapter is willing to wait for a `Promise` returned from a handler to resolve, before
-attempting [late response fallback](#late-response-fallback) is known as the **synchronous response timeout**. This
+attempting [late response fallback](#late-response-fallback) is known as the synchronous response timeout. This
 value is set to 2.5 seconds be default. That value was chosen because Slack will wait a maximum of 3 seconds for
 interactions to receive a response, and there should be some additional padding for Node's processing time and
 connection time. Leaving a half second for that overhead is relatively conservative.

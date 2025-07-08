@@ -135,7 +135,7 @@ export class KeepAlive extends EventEmitter {
   }
 
   /**
-   * Clears the ping timer if its set, otherwise this is a noop.
+   * Clears the ping timer if it's set, otherwise this is a noop.
    */
   private clearPreviousPingTimer(): void {
     if (this.pingTimer !== undefined) {
@@ -166,7 +166,7 @@ export class KeepAlive extends EventEmitter {
     try {
       if (this.client === undefined) {
         if (!this.isMonitoring) {
-          // if monitoring stopped before the ping timer fires, its safe to return
+          // if monitoring stopped before the ping timer fires, it's safe to return
           this.logger.debug('stopped monitoring before ping timer fired');
           return;
         }
@@ -180,7 +180,7 @@ export class KeepAlive extends EventEmitter {
         .then((messageId) => {
           if (this.client === undefined) {
             if (!this.isMonitoring) {
-              // if monitoring stopped before the ping is sent, its safe to return
+              // if monitoring stopped before the ping is sent, it's safe to return
               this.logger.debug('stopped monitoring before outgoing ping message was finished');
               return;
             }
@@ -195,7 +195,7 @@ export class KeepAlive extends EventEmitter {
 
           this.pongTimer = setTimeout(() => {
             if (this.client === undefined) {
-              // if monitoring stopped before the pong timer fires, its safe to return
+              // if monitoring stopped before the pong timer fires, it's safe to return
               if (!this.isMonitoring) {
                 this.logger.debug('stopped monitoring before pong timer fired');
                 return;
@@ -225,7 +225,7 @@ export class KeepAlive extends EventEmitter {
   }
 
   /**
-   * Clears the pong timer if its set, otherwise this is a noop.
+   * Clears the pong timer if it's set, otherwise this is a noop.
    */
   private clearPreviousPongTimer(): void {
     if (this.pongTimer !== undefined) {

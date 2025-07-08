@@ -12,7 +12,7 @@ export type ConversationType = 'im' | 'mpim' | 'private' | 'public';
 // TODO: breaking change: remove `Confirm` and move properties to `ConfirmationDialog` below on next major release.
 /**
  * @deprecated {@link Confirm} aliased to {@link ConfirmationDialog} in order to make the construct clearer
- * and line up terminology with api.slack.com.
+ * and line up terminology with docs.slack.dev.
  * @description Defines a dialog that adds a confirmation step to interactive elements.
  * @see {@link https://docs.slack.dev/reference/block-kit/composition-objects/confirmation-dialog-object Confirmation dialog object reference}.
  */
@@ -52,13 +52,13 @@ export interface Confirm {
 export interface ConfirmationDialog extends Confirm {}
 
 /**
- * @description Defines when a {@link PlainTextElement} will return a {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions` interaction payload}.
- * @see {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions` interaction payload}.
+ * @description Defines when a {@link PlainTextElement} will return a {@link https://docs.slack.dev/reference/interaction-payloads/block_actions-payload `block_actions` interaction payload}.
+ * @see {@link https://docs.slack.dev/reference/interaction-payloads/block_actions-payload `block_actions` interaction payload}.
  */
 export interface DispatchActionConfig {
   /**
    * @description An array of interaction types that you would like to receive a
-   * {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions` payload} for. Should be
+   * {@link https://docs.slack.dev/reference/interaction-payloads/block_actions-payload `block_actions` payload} for. Should be
    * one or both of:
    *   `on_enter_pressed` — payload is dispatched when user presses the enter key while the input is in focus. Hint
    *   text will appear underneath the input explaining to the user to press enter to submit.
@@ -166,9 +166,9 @@ export interface MrkdwnElement {
   text: string;
   /**
    * @description When set to `false` (as is default) URLs will be auto-converted into links, conversation names will
-   * be link-ified, and certain mentions will be {@link https://api.slack.com/reference/surfaces/formatting#automatic-parsing automatically parsed}.
+   * be link-ified, and certain mentions will be {@link https://docs.slack.dev/messaging/formatting-message-text automatically parsed}.
    * Using a value of `true` will skip any preprocessing of this nature, although you can still include
-   * {@link https://api.slack.com/reference/surfaces/formatting#advanced manual parsing strings}.
+   * {@link https://docs.slack.dev/messaging/formatting-message-text manual parsing strings}.
    */
   verbatim?: boolean;
 }
@@ -181,7 +181,7 @@ interface BaseConversationFilter {
    */
   include?: [ConversationType, ...ConversationType[]];
   /**
-   * @description Indicates whether to exclude external {@link https://api.slack.com/enterprise/shared-channels shared channels}
+   * @description Indicates whether to exclude external {@link https://docs.slack.dev/apis/slack-connect shared channels}
    * from conversation lists. This field will not exclude users from shared channels. Defaults to `false`.
    */
   exclude_external_shared_channels?: boolean;

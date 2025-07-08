@@ -2,38 +2,27 @@
 title: Getting Started
 ---
 
-This tutorial will show you how to use the packages in this Node Slack SDK to get a simple Slack app running. If you've
+This guide shows how to use the packages in the Node Slack SDK to get a simple Slack app running. If you've
 never used the Slack APIs before, you're in the right place. Welcome, and let's get started!
 
 ## Create a Slack app
 
-The first step is to [create a new app](https://api.slack.com/apps?new_granular_bot_app=1) with Slack at the API website. Give your app a
-fun name and choose a Development Slack Workspace. We recommend using a workspace where you aren't going to disrupt real
-work getting done — you can create a new one for free. After you create an app, you'll be greeted with some basic information.
+The first step is to [create a new app](https://api.slack.com/apps?new_app=1). Give your app a fun name and choose a development Slack workspace. We recommend using a workspace where you aren't going to disrupt real work getting done — you can create a new one for free. After you create an app, you'll be greeted with some basic information.
 
-In this guide we'll be **calling a method of Web API** to post a message to a channel. The Web API is the foundation of
-the Slack Platform, and almost every Slack app uses it. Aside from posting messages, the Web API allows your app to call
-[methods](https://docs.slack.dev/reference/methods) that can be used for everything from creating a channel to updating a user's
-status. Before we can call any methods, we need to configure our new app with the proper permissions.
+In this guide, we'll be calling a method of the Web API to post a message to a channel. The Web API is the foundation of
+the Slack platform, and nearly every Slack app uses it. Aside from posting messages, the Web API allows your app to call
+[methods](https://docs.slack.dev/reference/methods) that can be used for everything from creating a channel to updating a user's status. Before we can call any methods, we first need to configure our new app with the proper permissions.
 
 ## Get a token to use the Web API
 
-Navigate to **OAuth & Permissions** and scroll down to the section for scopes. Slack describes the various permissions
-your app could obtain from an installing bot as **scopes**. There are [over 80 scopes](https://docs.slack.dev/reference/scopes)!
-Some are broad and authorize your app to access lots of data, while others are very specific and let your app touch just
-a tiny sliver. Your users (and their IT admins) will have opinions about which data your app should access, and only
-agree to install the app if the data permissions seem reasonable, so we recommend finding the scope(s) with the least
-amount of privilege for your app's needs. In this guide we will use the Web API to post a message. The scope required
-for this is called [`chat:write`](https://docs.slack.dev/reference/scopes/chat.write). Scroll down to "Bot Token Scopes", ensure this section is expanded, then click "Add an OAuth Scope", find the
-[`chat:write`](https://docs.slack.dev/reference/scopes/chat.writee) scope and select it to add it to your app.
+In your [app settings](https://api.slack.com/apps), select the app you created and navigate to **OAuth & Permissions** in the left nav. Scroll down to the section for scopes. Slack describes the various permissions
+your app could obtain from an installing bot as scopes. There are [over 80 scopes](https://docs.slack.dev/reference/scopes)! Some are broad and authorize your app to access lots of data, while others are very specific and let your app touch just a tiny sliver. Your users (and their IT admins) will have opinions about which data your app should access and only agree to install the app if the data permissions seem reasonable, so we recommend finding the scope(s) with the least amount of privilege for your app's needs. In this guide, we will use the Web API to post a message. The scope required for this is [`chat:write`](https://docs.slack.dev/reference/scopes/chat.write). Scroll down to **Bot Token Scopes**, ensure this section is expanded, then click **Add an OAuth Scope**, find the [`chat:write`](https://docs.slack.dev/reference/scopes/chat.writee) scope and select it to add it to your app.
 
-Now our app has described which scope it desires in the workspace, but we haven't added it to your workspace yet. To install your app, scroll up to the top of the page and click the **Install to Workspace** button. You'll be taken to the app installation page. This page is where you grant the bot user permission to install the app in your development workspace with specific capabilities.
+Now our app has declared which scope it desires in the workspace, but we haven't added it to your workspace yet. To install your app, scroll up to the top of the page and click the **Install to Workspace** button. You'll be taken to the app installation page. This page is where you grant the bot user permission to install the app in your development workspace with specific capabilities.
 
-Go ahead and click "Allow". This will install the app on the workspace and generate the token we'll need.
+Click **Allow**. This will install the app on the workspace and generate the token we'll need.
 
-When you return to the **OAuth & Permissions** page copy the **Bot User OAuth Access Token** (it should begin with `xoxb`). Treat
-this value like a password and keep it safe. The Web API uses tokens to authenticate the requests your app makes. In
-a later step, you'll be asked to use this token in your code.
+When you return to the **OAuth & Permissions** page, copy the **Bot User OAuth Access Token** (it should begin with `xoxb`). Treat this value like a password and keep it safe. The Web API uses tokens to authenticate the requests your app makes. In a later step, you'll be asked to use this token in your code.
 
 ## Set up your local project
 
@@ -72,7 +61,7 @@ If you see the same output as above, we're ready to start.
 
 ## Send a message with the Web API
 
-In this guide we'll post a simple message that contains the current time. We'll also follow the best practice of keeping
+In this guide, we'll post a simple message that contains the current time. We'll also follow the best practice of keeping
 secrets outside of your code (do not hardcode sensitive data).
 
 Before we move forward, add the bot user you created above to the `#general` channel in your workspace. Bots need to be
@@ -80,7 +69,7 @@ invited to channels to be able to post in them. You can do this by going to the 
 type `/invite @YourBotUser` with the display name of your bot user.
 
 Store the access token in a new environment variable. The following example works on Linux and MacOS; but [similar
-commands are available on Windows](https://superuser.com/a/212153/94970). Replace the value with OAuth Access Token that
+commands are available on Windows](https://superuser.com/a/212153/94970). Replace the value with OAuth Access token that
 you copied earlier.
 
 ```shell

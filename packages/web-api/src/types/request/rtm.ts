@@ -6,7 +6,7 @@ export type RTMConnectArguments = OptionalArgument<
   TokenOverridable & {
     /**
      * @description Batch presence deliveries via subscription. Enabling changes the shape of `presence_change` events.
-     * @see {@link https://api.slack.com/docs/presence-and-status#batching batch presence}.
+     * @see {@link https://docs.slack.dev/apis/web-api/user-presence-and-status#batching batch presence}.
      */
     batch_presence_aware?: boolean;
     /**

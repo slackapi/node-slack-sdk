@@ -3,7 +3,7 @@
 [![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/graph/badge.svg?token=OcQREPvC7r&flag=web-api)](https://codecov.io/gh/slackapi/node-slack-sdk)
 
 The `@slack/web-api` package contains a simple, convenient, and configurable HTTP client for making requests to Slack's
-[Web API](https://api.slack.com/web). Use it in your app to call any of the over 130
+[Web API](https://docs.slack.dev/apis/web-api). Use it in your app to call any of the over 130
 [methods](https://docs.slack.dev/reference/methods), and let it handle formatting, queuing, retrying, pagination, and more.
 
 ## Requirements
@@ -133,7 +133,7 @@ const conversationId = '...';
 ### Handle errors
 
 Errors can happen for many reasons: maybe the token doesn't have the proper [scopes](https://docs.slack.dev/reference/scopes) to
-call a method, maybe its been revoked by a user, or maybe you just used a bad argument. In these cases, the returned
+call a method, maybe it's been revoked by a user, or maybe you just used a bad argument. In these cases, the returned
 `Promise` will reject with an `Error`. You should catch the error and use the information it contains to decide how your
 app can proceed.
 
@@ -151,7 +151,7 @@ const { WebClient, ErrorCode } = require('@slack/web-api');
     // This method call should fail because we're giving it a bogus user ID to lookup.
     const response = await web.users.info({ user: '...' });
   } catch (error) {
-    // Check the code property, and when its a PlatformError, log the whole response.
+    // Check the code property, and when it's a PlatformError, log the whole response.
     if (error.code === ErrorCode.PlatformError) {
       console.log(error.data);
     } else {
@@ -187,7 +187,7 @@ There are a few more types of errors that you might encounter, each with one of 
 
 ### Pagination
 
-[Many of the Web API's methods](https://api.slack.com/docs/pagination#methods_supporting_cursor-based_pagination) return
+[Many of the Web API's methods](https://docs.slack.dev/apis/web-api/pagination) return
 lists of objects, and are known to be **cursor-paginated**. The result of calling these methods will contain a part of
 the list, or a page, and also provide you with information on how to continue to the next page on a subsequent API call.
 Instead of calling many times manually, the `WebClient` can manage to get each page, allowing you to determine when to
@@ -244,7 +244,7 @@ time it gets called, the `accumulator` is undefined.
 ```
 
 The returned value is a `Promise`, but what it resolves to depends on whether or not you include the fourth (optional)
-parameter. If you don't include it, the resolved value is always `undefined`. In this case, its used for control flow
+parameter. If you don't include it, the resolved value is always `undefined`. In this case, it's used for control flow
 purposes (resuming the rest of your program), and the function in the third parameter is used to capture a result. If
 you do include the fourth parameter, then the resolved value is the value of the `accumulator`. This is a familiar
 pattern for people that use _functional programming_.
@@ -258,7 +258,7 @@ pattern for people that use _functional programming_.
 The `WebClient` will log interesting information to the console by default. You can use the `logLevel` to decide how
 much information, or how interesting the information needs to be, in order for it to be output. There are a few possible
 log levels, which you can find in the `LogLevel` export. By default, the value is set to `LogLevel.INFO`. While you're
-in development, its sometimes helpful to set this to the most verbose: `LogLevel.DEBUG`.
+in development, it's sometimes helpful to set this to the most verbose: `LogLevel.DEBUG`.
 
 ```javascript
 // Import LogLevel from the package

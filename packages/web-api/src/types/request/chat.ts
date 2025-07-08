@@ -42,7 +42,7 @@ export interface LinkNames {
 export interface Parse {
   /**
    * @description Change how messages are treated. Defaults to `none`.
-   * @see {@link https://api.slack.com/reference/surfaces/formatting#automatic-parsing Formatting: Automatic parsing}.
+   * @see {@link https://docs.slack.dev/messaging/formatting-message-text Formatting: Automatic parsing}.
    */
   parse?: 'full' | 'none';
 }
@@ -64,7 +64,7 @@ export interface ChannelAndBlocks extends Channel, Partial<Text> {
 export interface ChannelAndAttachments extends Channel, Partial<Text> {
   /**
    * @description An array of structured attachments.
-   * @see {@link https://api.slack.com/messaging/composing/layouts#attachments Adding secondary attachments}.
+   * @see {@link https://docs.slack.dev/messaging/formatting-message-text#attachments Adding secondary attachments}.
    */
   attachments: MessageAttachment[];
 }

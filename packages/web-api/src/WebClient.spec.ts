@@ -598,7 +598,7 @@ describe('WebClient', () => {
       const scope = nock('https://slack.com')
         .post('/api/chat.postMessage', 'channel=c&text=t')
         .reply(200, { ok: true })
-        // Trying this method because its mounted one layer "deeper"
+        // Trying this method because it's mounted one layer "deeper"
         .post('/api/team.profile.get')
         .reply(200, { ok: true });
       await Promise.all([client.chat.postMessage({ channel: 'c', text: 't' }), client.team.profile.get()]);

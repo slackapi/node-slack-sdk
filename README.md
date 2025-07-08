@@ -19,7 +19,7 @@ Slack's APIs. They are small and powerful when used independently, and work seam
 **Just starting out?** The [Getting Started tutorial](https://slackapi.github.io/node-slack-sdk/getting-started) will
 walk you through building your first Slack app using Node.js.
 
-| Slack API    | What its for | NPM Package      |
+| Slack API    | What it's for | NPM Package      |
 |--------------|--------------|-------------------|
 | Web API      | Send data to or query data from Slack using any of [over 220 methods](https://docs.slack.dev/reference/methods). | [`@slack/web-api`](https://tools.slack.dev/node-slack-sdk/web-api) |
 | OAuth        | Setup the authentication flow using V2 OAuth for Slack apps as well as V1 OAuth for classic Slack apps. | [`@slack/oauth`](https://tools.slack.dev/node-slack-sdk/oauth) |

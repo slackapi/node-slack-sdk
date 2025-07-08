@@ -273,11 +273,11 @@ Next, use the `agent` option in the client constructor to configure with your pr
 const HttpsProxyAgent = require('https-proxy-agent');
 const { WebClient, RTMClient } = require('@slack/client');
 
-// in this example, we read the token from an environment variable. its best practice to keep sensitive data outside
+// in this example, we read the token from an environment variable. It's best practice to keep sensitive data outside
 // your source code.
 const token = process.env.SLACK_TOKEN;
 
-// its common to read the proxy URL from an environment variable, since it also may be sensitive.
+// it's common to read the proxy URL from an environment variable, since it also may be sensitive.
 const proxyUrl = process.env.http_proxy || 'http://12.34.56.78:9999';
 
 // To use Slack's Web API:
@@ -300,7 +300,7 @@ Example:
 ```javascript
 const { WebClient, RTMClient } = require('@slack/client');
 
-// in this example, we read the token from an environment variable. its best practice to keep sensitive data outside
+// in this example, we read the token from an environment variable. it's best practice to keep sensitive data outside
 // your source code.
 const token = process.env.SLACK_TOKEN;
 

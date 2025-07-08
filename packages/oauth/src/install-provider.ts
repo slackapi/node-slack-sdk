@@ -46,7 +46,7 @@ export class InstallProvider {
   // The default is "v2" (a.k.a. Granular Bot Permissions), different from "v1" (a.k.a. "Classic Apps").
   // More details here:
   // - https://medium.com/slack-developer-blog/more-precision-less-restrictions-a3550006f9c3
-  // - https://api.slack.com/authentication/migration
+  // - https://docs.slack.dev/legacy/legacy-app-migration/migrating-classic-apps
   private authVersion: string;
 
   // @slack/logger logging used in this class
@@ -385,7 +385,7 @@ export class InstallProvider {
       if (this.directInstall !== undefined && this.directInstall) {
         // If a Slack app sets "Direct Install URL" in the Slack app configruation,
         // the installation flow of the app should start with the Slack authorize URL.
-        // See https://api.slack.com/start/distributing/directory#direct_install for more details.
+        // See https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace for more details.
         res.setHeader('Location', url);
         res.writeHead(302);
         res.end('');

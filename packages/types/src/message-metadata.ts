@@ -1,7 +1,7 @@
 /**
  * @description Application-specific data to attach to Slack message.
- * @see {@link https://api.slack.com/metadata/using Using Metadata}
- * @see {@link https://api.slack.com/reference/metadata#payload_structure Metadata Payload Structure}
+ * @see {@link https://docs.slack.dev/messaging/message-metadata Using Metadata}
+ * @see {@link https://docs.slack.dev/messaging/message-metadata Metadata Payload Structure}
  */
 export interface MessageMetadata {
   /**

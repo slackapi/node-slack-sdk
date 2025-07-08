@@ -32,7 +32,7 @@ export interface Block {
   /**
    * @description A string acting as a unique identifier for a block. If not specified, a `block_id` will be generated.
    * You can use this `block_id` when you receive an interaction payload to
-   * {@link https://api.slack.com/interactivity/handling#payloads identify the source of the action}.
+   * {@link https://docs.slack.dev/interactivity/handling-user-interaction#payloads identify the source of the action}.
    * Maximum length for this field is 255 characters. `block_id` should be unique for each message and each iteration of
    * a message. If a message is updated, use a new `block_id`.
    */
@@ -129,10 +129,10 @@ export interface DividerBlock extends Block {
 }
 
 /**
- * @description Displays a {@link https://api.slack.com/messaging/files/remote remote file}. You can't add this block to
- * app surfaces directly, but it will show up when {@link https://api.slack.com/messaging/retrieving retrieving messages}
+ * @description Displays a {@link https://docs.slack.dev/messaging/working-with-files#remote remote file}. You can't add this block to
+ * app surfaces directly, but it will show up when {@link https://docs.slack.dev/messaging/retrieving-messages retrieving messages}
  * that contain remote files. If you want to add remote files to messages,
- * {@link https://api.slack.com/messaging/files/remote follow our guide}.
+ * {@link https://docs.slack.dev/messaging/working-with-files#remote follow our guide}.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/file-block File block reference}.
  */
 export interface FileBlock extends Block {
@@ -211,8 +211,8 @@ export type InputBlockElement =
 /**
  * @description Collects information from users via block elements.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/input-block Input block reference}.
- * @see {@link https://api.slack.com/surfaces/modals#gathering_input Collecting input in modals guide}.
- * @see {@link https://api.slack.com/surfaces/app-home#gathering_input Collecting input in Home tabs guide}.
+ * @see {@link https://docs.slack.dev/surfaces/modals#gathering_input Collecting input in modals guide}.
+ * @see {@link https://docs.slack.dev/surfaces/app-home Collecting input in Home tabs guide}.
  */
 export interface InputBlock extends Block {
   /**
@@ -240,7 +240,7 @@ export interface InputBlock extends Block {
   element: InputBlockElement;
   /**
    * @description A boolean that indicates whether or not the use of elements in this block should dispatch a
-   * {@link https://api.slack.com/reference/interaction-payloads/block-actions block_actions payload}. Defaults to `false`.
+   * {@link https://docs.slack.dev/reference/interaction-payloads/block_actions-payload block_actions payload}. Defaults to `false`.
    */
   dispatch_action?: boolean;
 }
@@ -289,7 +289,7 @@ export type SectionBlockAccessory =
 /**
  * @description Displays text, possibly alongside block elements. A section can be used as a simple text block, in
  * combination with text fields, or side-by-side with certain
- * {@link https://api.slack.com/reference/messaging/block-elements block elements}.
+ * {@link https://docs.slack.dev/reference/block-kit/block-elements block elements}.
  * @see {@link https://docs.slack.dev/reference/block-kit/blocks/section-block Section block reference}.
  */
 export interface SectionBlock extends Block {

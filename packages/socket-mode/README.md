@@ -76,7 +76,7 @@ socketModeClient.on('message', (event) => {
 
 ### Send a message
 
-To respond to events and send messages back into Slack, we recommend using the `@slack/web-api` package with a [bot token](https://api.slack.com/authentication/token-types#bot).
+To respond to events and send messages back into Slack, we recommend using the `@slack/web-api` package with a [bot token](https://docs.slack.dev/authentication/tokens#bot).
 
 ```javascript
 const { SocketModeClient } = require('@slack/socket-mode');

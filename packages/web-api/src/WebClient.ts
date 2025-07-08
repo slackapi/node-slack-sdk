@@ -421,12 +421,12 @@ export class WebClient extends Methods {
    * that is called with three arguments: `accumulator`, `page`, and `index`. The `accumulator` is a value of any type
    * you choose, but it will contain `undefined` when `reduce` is called for the first time. The `page` argument and
    * `index` arguments are exactly what they say they are. The `reduce` function's return value will be passed in as
-   * `accumulator` the next time its called, and the returned promise will resolve to the last value of `accumulator`.
+   * `accumulator` the next time it's called, and the returned promise will resolve to the last value of `accumulator`.
    *
    * The for-await-of syntax is part of ES2018. It is available natively in Node starting with v10.0.0. You may be able
    * to use it in earlier JavaScript runtimes by transpiling your source with a tool like Babel. However, the
    * transpiled code will likely sacrifice performance.
-   * @param method - the cursor-paginated Web API method to call {@link https://api.slack.com/docs/pagination}
+   * @param method - the cursor-paginated Web API method to call {@link https://docs.slack.dev/apis/web-api/paginationn}
    * @param options - options
    * @param shouldStop - a predicate that is called with each page, and should return true when pagination can end.
    * @param reduce - a callback that can be used to accumulate a value that the return promise is resolved to
@@ -999,7 +999,7 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, options?: Recor
     `The top-level \`text\` argument is missing in the request payload for a ${method} call - It's a best practice to always provide a \`text\` argument when posting a message. The \`text\` is used in places where the content cannot be rendered such as: system push notifications, assistive technology such as screen readers, etc.`;
 
   const buildMissingFallbackWarning = () =>
-    `Additionally, the attachment-level \`fallback\` argument is missing in the request payload for a ${method} call - To avoid this warning, it is recommended to always provide a top-level \`text\` argument when posting a message. Alternatively, you can provide an attachment-level \`fallback\` argument, though this is now considered a legacy field (see https://api.slack.com/reference/messaging/attachments#legacy_fields for more details).`;
+    `Additionally, the attachment-level \`fallback\` argument is missing in the request payload for a ${method} call - To avoid this warning, it is recommended to always provide a top-level \`text\` argument when posting a message. Alternatively, you can provide an attachment-level \`fallback\` argument, though this is now considered a legacy field (see https://docs.slack.dev/legacy/legacy-messaging/legacy-secondary-message-attachments for more details).`;
   if (isTargetMethod && typeof options === 'object') {
     if (hasAttachments(options)) {
       if (missingAttachmentFallbackDetected(options) && isEmptyText(options)) {

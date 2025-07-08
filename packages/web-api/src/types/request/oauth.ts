@@ -2,7 +2,7 @@ import type { OAuthCredentials, OAuthGrantRefresh } from './common';
 
 // https://docs.slack.dev/reference/methods/oauth.access
 export interface OAuthAccessArguments extends OAuthCredentials {
-  /** @description Request the user to add your app only to a single channel. Only valid with a {@link https://api.slack.com/legacy-workspace-apps legacy workspace app}. Defaults to `false`. */
+  /** @description Request the user to add your app only to a single channel. Only valid with a {@link https://docs.slack.dev/legacy/legacy-steps-from-apps legacy workspace app}. Defaults to `false`. */
   single_channel?: boolean;
 }
 // https://docs.slack.dev/reference/methods/oauth.v2.access

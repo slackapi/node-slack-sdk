@@ -171,7 +171,7 @@ After:
 
 ### Simplified agent option
 
-If your app is using the `agent` option and its working, its most likely going to continue to work.
+If your app is using the `agent` option and it's working, it's most likely going to continue to work.
 
 Only if your app set the `agent` option to an object with an `http` or an `https` property, you should consolidate the
 value by only using the value of the `https` property. This is a simplified design, because only the `https` value would
@@ -283,7 +283,7 @@ event. The `raw_message` event emitted a string, which was encoded in JSON, so y
 
 ### Simplified agent option
 
-If your app is using the `agent` option and its working, its most likely going to continue to work.
+If your app is using the `agent` option and it's working, it's most likely going to continue to work.
 
 Only if your app set the `agent` option to an object with an `http` or an `https` property, you should consolidate the
 value by only using the value of the `https` property. This is a simplified design, because only the `https` value would
@@ -365,7 +365,7 @@ After:
 
 ### Simplified agent option
 
-If your app is using the `agent` option and its working, its most likely going to continue to work.
+If your app is using the `agent` option and it's working, it's most likely going to continue to work.
 
 Only if your app set the `agent` option to an object with an `http` or an `https` property, you should consolidate the
 value by only using the value of the `https` property. This is a simplified design, because only the `https` value would

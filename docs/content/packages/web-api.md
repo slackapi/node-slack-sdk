@@ -4,9 +4,7 @@ slug: /web-api
 
 # Web API
 
-The `@slack/web-api` package contains a simple, convenient, and configurable HTTP client for making requests to Slack's
-[Web API](https://api.slack.com/web). Use it in your app to call any of the over 130
-[methods](https://docs.slack.dev/reference/methods), and let it handle formatting, queuing, retrying, pagination, and more.
+The `@slack/web-api` package contains a simple, convenient, and configurable HTTP client for making requests to the Slack [Web API](https://docs.slack.dev/apis/web-api). Use it in your app to call any of the more than 200 [methods](https://docs.slack.dev/reference/methods), and let it handle formatting, queuing, retrying, and pagination.
 
 ## Installation
 
@@ -14,28 +12,26 @@ The `@slack/web-api` package contains a simple, convenient, and configurable HTT
 $ npm install @slack/web-api
 ```
 
----
-
 ### Prerequisites
 
 To use this package, you must have a Slack access token. Access tokens are issued
-to Slack applications. Each application _installation_, that is, the unique combination
+to Slack applications. Each application installation, that is, the unique combination
 of an application and a specific Slack workspace it is installed to, will generate
 a workspace-specific access token for the application.
 
-We recommend you read our documentation on [Basic app setup](https://api.slack.com/authentication/basics).
+We recommend you read our documentation on [Basic app setup](https://docs.slack.dev/quickstart).
 This article contains the steps you must follow to get your access token:
 
-1. [Create a new Slack application](https://api.slack.com/authentication/basics#creating)
-2. [Set permissions your app will request](https://api.slack.com/authentication/basics#scopes)
-3. [Install the app to a workspace](https://api.slack.com/authentication/basics#installing)
-4. Finally, [get your access token](https://api.slack.com/authentication/basics#getting-your-authentication-token)
+1. [Create a new Slack application](https://docs.slack.dev/quickstart)
+2. [Set permissions your app will request](https://docs.slack.dev/quickstart#scopes)
+3. [Install the app to a workspace](https://docs.slack.dev/quickstart#installing)
+4. Finally, get your access token
 
 You can also read the [Getting Started guide](/getting-started) which guides
 you through creating an app, retrieving an access token, and using this `@slack/web-api`
 package to post a message.
 
-### Initialize the client
+## Initialize the client
 
 The package exports a `WebClient` class. You must initialize it with an access
 token so that you don't have to provide the token each time you call a method. A
@@ -78,12 +74,12 @@ const web = new WebClient();
 
 ---
 
-### Call a method
+## Call a method
 
-The client instance has a named method for each of the public methods in the Web API. The most popular one is
-called `chat.postMessage`, and its used to send a message to a conversation. For every method, you pass arguments as
-properties of an options object. This helps with the readablility of your code since every argument has a name. All
-named methods return a `Promise` which resolves with the response data, or rejects with an error.
+The client instance has a named method for each of the public methods in the Web API. The most popular is
+called `chat.postMessage`, and it is used to send a message to a conversation. For every method, you pass arguments as
+properties of an `options` object. This helps with the readability of your code because every argument has a name. All
+named methods return a `Promise`, which resolves with the response data, or rejects with an error.
 
 ```javascript
 // Given some known conversation ID (representing a public channel, private channel, DM or group DM)
@@ -103,12 +99,11 @@ const conversationId = '...';
 })();
 ```
 
-**Hint**: If you're using an editor that supports TypeScript, even if you're not using TypeScript to write your code,
-you'll get hints for all the arguments each method supports. This helps you save time by reducing the number of
-times you need to pop out to a webpage to check the reference. There's more information about [using
-TypeScript](/typescript) with this package in the documentation website.
+If you're using an editor that supports TypeScript, even if you're not using TypeScript to write your code,
+you'll get hints for all of the arguments each method supports. This saves time by reducing the number of
+times you need to open a webpage to check the reference. More information about [using TypeScript here](/typescript).
 
-**Note**: Use the [Block Kit Builder](https://api.slack.com/tools/block-kit-builder) for a playground
+Use the [Block Kit Builder](https://api.slack.com/tools/block-kit-builder) for a playground
 where you can prototype your message's look and feel.
 
 <details>
@@ -149,12 +144,9 @@ const web = new WebClient(token, {
 
 ---
 
-### Handle errors
+## Handle errors
 
-Errors can happen for many reasons: maybe the token doesn't have the proper [scopes](https://docs.slack.dev/reference/scopes) to
-call a method, maybe its been revoked by a user, or maybe you just used a bad argument. In these cases, the returned
-`Promise` will reject with an `Error`. You should catch the error and use the information it contains to decide how your
-app can proceed.
+Errors can happen for many reasons: maybe the token doesn't have the proper [scopes](https://docs.slack.dev/reference/scopes) to call a method, maybe it has been revoked by a user, or maybe you just used a bad argument. In these cases, the returned `Promise` will reject with an `Error`. You should catch the error and use the information it contains to decide how your app can proceed.
 
 Each error contains a `code` property, which you can check against the `ErrorCode` export to understand the kind of
 error you're dealing with. For example, when Slack responds to your app with an error, that is an
@@ -170,7 +162,7 @@ const { WebClient, ErrorCode } = require('@slack/web-api');
     // This method call should fail because we're giving it a bogus user ID to lookup.
     const response = await web.users.info({ user: '...' });
   } catch (error) {
-    // Check the code property, and when its a PlatformError, log the whole response.
+    // Check the code property, and when it's a PlatformError, log the whole response.
     if (error.code === ErrorCode.PlatformError) {
       console.log(error.data);
     } else {
@@ -197,22 +189,22 @@ There are a few more types of errors that you might encounter, each with one of 
   understand how the client will automatically deal with these problems for you.
 
 * `ErrorCode.HTTPError`: The HTTP response contained an unfamiliar status code. The Web API only responds with `200`
-  (yes, even for errors) or `429` (rate limiting). If you receive this error, its likely due to a problem with a proxy,
+  (yes, even for errors) or `429` (rate limiting). If you receive this error, it's likely due to a problem with a proxy,
   a custom TLS configuration, or a custom API URL. This error has the `statusCode`, `statusMessage`, `headers`, and
   `body` properties containing more details.
 </details>
 
 ---
 
-### Pagination
+## Pagination
 
-[Many of the Web API's methods](https://api.slack.com/docs/pagination#methods_supporting_cursor-based_pagination) return
-lists of objects, and are known to be **cursor-paginated**. The result of calling these methods will contain a part of
+[Many of the Web API's methods](https://docs.slack.dev/apis/web-api/pagination#methods) return
+lists of objects, and are cursor-paginated. The result of calling these methods will contain a part of
 the list, or a page, and also provide you with information on how to continue to the next page on a subsequent API call.
 Instead of calling many times manually, the `WebClient` can manage getting each page, allowing you to determine when to
 stop, and help you process the results.
 
-The process of retrieving multiple pages from Slack's API can be described as **asynchronous iteration**, which means
+The process of retrieving multiple pages from the API can be described as asynchronous iteration, which means
 you're processing items in a collection, but getting each item is an asynchronous operation. Fortunately, JavaScript
 has this concept built in, and in newer versions of the language there's syntax to make it even simpler:
 [`for await...of`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for-await...of).
@@ -263,7 +255,7 @@ time it gets called, the `accumulator` is undefined.
 ```
 
 The returned value is a `Promise`, but what it resolves to depends on whether or not you include the fourth (optional)
-parameter. If you don't include it, the resolved value is always `undefined`. In this case, its used for control flow
+parameter. If you don't include it, the resolved value is always `undefined`. In this case, it's used for control flow
 purposes (resuming the rest of your program), and the function in the third parameter is used to capture a result. If
 you do include the fourth parameter, then the resolved value is the value of the `accumulator`. This is a familiar
 pattern for people that use _functional programming_.
@@ -272,14 +264,14 @@ pattern for people that use _functional programming_.
 
 ---
 
-### Opening modals
-[Modals](https://api.slack.com/block-kit/surfaces/modals) can be created by calling the `views.open` method. The method requires you to pass a valid [view payload](https://docs.slack.dev/surfaces/modals) in addition to a `trigger_id`, which can be obtained when a user invokes your app using a slash command, clicking a button, or using [another interactive action](https://api.slack.com/reference/messaging/interactive-components).
+## Opening modals
+[Modals](https://docs.slack.dev/surfaces/modals) can be created by calling the `views.open` method. The method requires you to pass a valid [view payload](https://docs.slack.dev/surfaces/modals) in addition to a `trigger_id`, which can be obtained when a user invokes your app using a slash command, clicking a button, or using [another interactive action](https://docs.slack.dev/reference/block-kit/block-elements).
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
 
 // trigger_ids can be obtained when a user invokes your app.
-// Find more information on triggers: https://api.slack.com/docs/triggers
+// Find more information on triggers: https://docs.slack.dev/surfaces/modals#interactions
 const trigger = 'VALID_TRIGGER_ID';
 
 (async () => {
@@ -363,12 +355,12 @@ const vid = 'YOUR_VIEW_ID';
 
 ---
 
-### Logging
+## Logging
 
 The `WebClient` will log interesting information to the console by default. You can use the `logLevel` to decide how
 much information, or how interesting the information needs to be, in order for it to be output. There are a few possible
 log levels, which you can find in the `LogLevel` export. By default, the value is set to `LogLevel.INFO`. While you're
-in development, its sometimes helpful to set this to the most verbose: `LogLevel.DEBUG`.
+in development, it's sometimes helpful to set this to the most verbose: `LogLevel.DEBUG`.
 
 ```javascript
 // Import LogLevel from the package
@@ -421,11 +413,11 @@ const web = new WebClient(token, {
 
 ---
 
-### Automatic retries
+## Automatic retries
 
 In production systems, you want your app to be resilient to short hiccups and temporary outages. Solving for this
 problem usually involves building a queuing system that handles retrying failed tasks. The `WebClient` comes with this
-queuing system out of the box, and its on by default! The client will retry a failed API method call up to 10 times,
+queuing system out of the box, and it's on by default! The client will retry a failed API method call up to 10 times,
 spaced out over about 30 minutes. If the request doesn't succeed in that time, then the returned `Promise` will reject.
 You can observe each of the retries in your logs by [setting the log level to DEBUG](#logging). Try running the
 following code with your network disconnected, and then re-connect after you see a couple of log messages:
@@ -443,8 +435,7 @@ const web = new WebClient('bogus token');
 ```
 
 Shortly after re-connecting your network, you should see the `Done!` message. Did you notice the program doesn't use a
-valid token? The client is doing something clever and helpful here. It knows the difference between an error such as not
-being able to reach `api.slack.com` and an error in the response from Slack about an invalid token. The former is
+valid token? The client is doing something clever and helpful here. It knows the difference between an error, such as not being able to reach `api.slack.com`, and an error in the response from Slack about an invalid token. The former is
 something that can be resolved with a retry, so it was retried. The invalid token error means that the call isn't going
 to succeed until your app does something differently, so it stops attempting retries.
 
@@ -474,7 +465,7 @@ retrying the API call. If you'd like to opt out of that behavior, set the `rejec
 
 ---
 
-### Upload a file
+## Upload a file
 
 Blobs of binary data, sometimes structured, sometimes called a "file", can be useful to upload and share to a channel.
 Such files can be uploaded and shared to a channel with the nifty `filesUploadV2` API:
@@ -539,7 +530,7 @@ const result = await web.filesUploadV2({
 
 Notice a `thread_ts` even snuck into that last example just for those threaded uploaded needs.
 
-**Handling binary data:**
+### Handling binary data
 
 Several methods, `filesUploadV2`, `files.upload (deprecated)`, and `users.setPhoto`, allow you to upload a file. In
 Node, there are a few ways you might be dealing with files, or more generally, binary data. When you have the whole file
@@ -575,25 +566,25 @@ const filename = 'test_file.csv';
 
 In the example above, you could also use a `Buffer` object as the value for the `file` property of the options object.
 
-**Migrating from the `files.upload` API method:**
+### Migrating from the `files.upload` API method
 
 Prior to @slack/web-api v6.8.0, `files.upload` was the recommended way to upload files. Release @slack/web-api v6.8.0
 introduced the now recommended `filesUploadV2` above.
 
-At that time we were receiving many reports on the performance issue of the prior `files.upload` API. So, to cope with
-the problem, our Platform team decided to unlock a new way to upload files to Slack via public APIs.
+At that time we were receiving many reports on the performance issue of the prior `files.upload` API. To cope with
+the problem, our platform team decided to unlock a new way to upload files to Slack via public APIs.
 
 To utilize this new approach, developers need to implement the following steps on their code side:
 
-* Call WebClient#files.getUploadURLExternal() method to receive a URL to use for each file
+* Call the `WebClient#files.getUploadURLExternal()` method to receive a URL to use for each file
 * Perform an HTTP POST request to the URL you received in step 1 for each file
-* Call WebClient#files.completeUploadExternal() method with the pairs of file ID and title to complete the whole
+* Call the `WebClient#files.completeUploadExternal()` method with the pairs of file ID and title to complete the whole
   process, plus share the files in a channel
-* If you would like the full metadata of the files, call WebClient#files.info() method for each file
+* If you would like the full metadata of the files, call the `WebClient#files.info()` method for each file
 
-We understand that writing the above code requires many lines of code. Also, existing WebClient#files.upload() users
+We understand that writing the above code requires many lines of code. Also, existing `WebClient#files.upload()` users
 have to take a certain amount of time for migration. To mitigate the pain, we've added a wrapper method named
-WebClient#filesUploadV2().
+`WebClient#filesUploadV2()`.
 
 Also, in addition to the performance improvements, another good news is that 3rd party apps can now upload multiple
 files at a time!
@@ -641,12 +632,12 @@ console.log('File uploaded:', result.files);
 
 Please note
 [the planned sunset date](https://docs.slack.dev/changelog/2024-04-a-better-way-to-upload-files-is-here-to-stay) of
-2025-03-11 for the `files.upload` method if you're using it at this time. Migrating when possible is recommended and
+2025-11-12 for the `files.upload` method if you're using it at this time. Migrating when possible is recommended and
 `filesUploadV2` offers advantages that we're excited to share!
 
 ---
 
-### Proxy requests with a custom agent
+## Proxy requests with a custom agent
 
 The client allows you to customize the HTTP
 [`Agent`](https://nodejs.org/docs/latest/api/http.html#http_class_http_agent) used to create the connection to Slack.
@@ -679,13 +670,13 @@ const web = new WebClient(token, { agent: proxy });
 
 ---
 
-### Modify outgoing requests with a request interceptor
+## Modify outgoing requests with a request interceptor
 
 The client allows you to customize a request
 [`interceptor`](https://axios-http.com/docs/interceptors) to modify outgoing requests.
 Using this option allows you to modify outgoing requests to conform to the requirements of a proxy, which is a common requirement in many corporate settings.
 
-For example you may want to wrap the original request information within a POST request:
+For example, you may want to wrap the original request information within a POST request:
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
@@ -713,13 +704,13 @@ const webClient = new WebClient(token, {
 
 ---
 
-### Using a pre-configured http client to handle outgoing requests
+## Using a pre-configured http client to handle outgoing requests
 
 The client allows you to specify an
 [`adapter`](https://github.com/axios/axios/blob/v1.x/README.md?plain=1#L586) to handle outgoing requests.
-Using this option allows you to use a pre-configured http client, which is a common requirement in many corporate settings.
+Using this option allows you to use a pre-configured HTTP client, which is a common requirement in many corporate settings.
 
-For example you may want to use an HTTP client which is already configured with logging capabilities, desired timeouts, etc.
+For example, you may want to use an HTTP client which is already configured with logging capabilities, desired timeouts, etc.
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
@@ -738,19 +729,15 @@ const webClient = new WebClient(token, {
 
 ---
 
-### Rate limits
+## Rate limits
 
 When your app calls API methods too frequently, Slack will politely ask (by returning an error) the app to slow down,
-and also let your app know how many seconds later it should try again. This is called **rate limiting** and the
+and also let your app know how many seconds later it should try again. This is called rate limiting, and the
 `WebClient` handles it for your app with grace. The client will understand these rate limiting errors, wait the
 appropriate amount of time, and then retry the request without any changes in your code. The `Promise` returned only
 resolves when Slack has given your app a real response.
 
-It's a good idea to know when you're bumping up against [these limits](https://api.slack.com/docs/rate-limits), so that
-you might be able to change the behavior of your app to hit them less often. Your users would surely appreciate getting
-things done without the delay. Each time a rate limit related error occurs, the `WebClient` instance emits an event:
-`WebClientEvent.RATE_LIMITED`. We recommend that you use the event to inform users when something might take longer than
-expected, or just log it for later.
+It's a good idea to know when you're bumping up against [these limits](https://docs.slack.dev/apis/web-api/rate-limits), so that you might be able to change the behavior of your app to hit them less often. Your users would surely appreciate getting things done without the delay. Each time a rate limit-related error occurs, the `WebClient` instance emits an event: `WebClientEvent.RATE_LIMITED`. We recommend that you use the event to inform users when something might take longer than expected, or just log it for later.
 
 ```javascript
 const { WebClient, WebClientEvent } = require('@slack/web-api');
@@ -763,11 +750,7 @@ web.on(WebClientEvent.RATE_LIMITED, (numSeconds, { url }) => {
 });
 ```
 
-You might not want to the `WebClient` to handle rate limits in this way. Perhaps the operation was time sensitive, and
-it won't be useful by the time Slack is ready for another request. Or, you have a more sophisticated approach. In these
-cases, you can set the `rejectRateLimitedCalls` option on the client to `true`. Once you set this option, method calls
-can fail with rate limiting related errors. These errors have a `code` property set to `ErrorCode.RateLimitedError`. See
-[error handling](#handle-errors) for more details.
+You might not want to use the `WebClient` to handle rate limits in this way. Perhaps the operation was time sensitive, and it won't be useful by the time Slack is ready for another request. Or, you have a more sophisticated approach. In these cases, you can set the `rejectRateLimitedCalls` option on the client to `true`. Once you set this option, method calls can fail with rate limiting-related errors. These errors have a `code` property set to `ErrorCode.RateLimitedError`. See [error handling](#handle-errors) for more details.
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
@@ -779,13 +762,13 @@ const web = new WebClient(token, { rejectRateLimitedCalls: true });
 
 ---
 
-### Request concurrency
+## Request concurrency
 
-Each of the API method calls the client starts are happening **concurrently**, or at the same time. If your app tries
+Each of the API method calls that the client starts are happening concurrently, or at the same time. If your app tries
 to perform a lot of method calls, let's say 100 of them, at the same time, each one of them would be competing for the
 same network resources (such as bandwidth). By competing, they might negatively affect the performance of all the rest,
 and therefore negatively affect the performance of your app. This is one of the reasons why the `WebClient` limits the
-**concurrency** of requests by default to one hundred, which means it keeps track of how many requests are waiting, and only
+concurrency of requests by default to one hundred, which means it keeps track of how many requests are waiting and only
 starts an additional request when one of them completes. The exact number of requests the client allows at the same time
 can be set using the `maxRequestConcurrency` option.
 
@@ -799,27 +782,23 @@ const web = new WebClient(token, { maxRequestConcurrency: 5 });
 
 The lower you set the `maxRequestConcurrency`, the less parallelism you'll have in your app. Imagine setting the
 concurrency to `1`. Each of the method calls would have to wait for the previous method call to complete before it can
-even be started. This could slow down your app significantly. So its best not to set this number too low.
+even be started. This could slow down your app significantly. So it's best not to set this number too low.
 
-Another reason, besides competing for resources, that you might limit the request concurrency is to **minimize the
-amount of state** in your app. Each request that hasn't completed is in some ways a piece of state that hasn't yet been
+Another reason, besides competing for resources, that you might limit the request concurrency is to minimize the
+amount of state in your app. Each request that hasn't completed is in some ways a piece of state that hasn't yet been
 stored anywhere except the memory of your program. In the scenario where you had 100 method calls waiting, and your
 program unexpectedly crashes, you've lost information about 100 different things going on in the app. But by limiting
-the concurrency to a smaller number, you can minimize this risk. So its best not to set this number too high.
+the concurrency to a smaller number, you can minimize this risk. So it's best not to set this number too high.
 
 ---
 
-### Custom TLS configuration
+## Custom TLS configuration
 
 Each connection to Slack starts with a handshake that allows your app to trust that it is actually Slack you are
 connecting to. The system for establishing this trust is called TLS. In order for TLS to work, the host running your app
-keeps a list of trusted **certificate authorities**, that it can use to verify a signature Slack produces. You don't
-usually see this list, its usually a part of the operating system you're running on. In very special cases, like certain
-testing techniques, you might want to send a request to another party that doesn't have a valid TLS signature that your
-certificate authority would verify. In these cases, you can provide alternative TLS settings, in order to change how the
-operating system might determine whether the signature is valid. You can use the `tls` option to describe the settings
-you want (these settings are the most common and useful from the [standard Node
-API](https://nodejs.org/dist/latest/docs/api/tls.html#tls_tls_createsecurecontext_options)).
+keeps a list of trusted certificate authorities that it can use to verify a signature Slack produces. You don't
+usually see this list; it's usually a part of the operating system you're running on. In very special cases, like certain testing techniques, you might want to send a request to another party that doesn't have a valid TLS signature that your certificate authority would verify. In these cases, you can provide alternative TLS settings, in order to change how the operating system might determine whether the signature is valid. You can use the `tls` option to describe the settings you want (these settings are the most common and useful from the [standard Node
+API](https://nodejs.org/dist/latest/docs/api/tls.html#tls_tls_createsecurecontext_options).
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
@@ -843,7 +822,7 @@ const web = new WebClient(token, { tls: { ca } });
 
 ---
 
-### Custom API URL
+## Custom API URL
 
 The URLs for method calls to Slack's Web API always begin with `https://slack.com/api/`. In very special cases, such as
 certain testing techniques, you might want to send these requests to a different URL. The `slackApiUrl` option allows
@@ -866,14 +845,10 @@ const web = new WebClient(token, options);
 
 ---
 
-### Exchange an OAuth grant for a token
+## Exchange an OAuth grant for a token
 
-There's one method in the Slack Web API that doesn't requires a token, because its the method that gets a token! This
-method is called [`oauth.v2.access`](https://docs.slack.dev/reference/methods/oauth.v2.access). It's used as part of the [OAuth
-2.0](https://api.slack.com/authentication/oauth-v2) process that users initiate when installing your app into a workspace. In the
-last step of this process, your app has received an authorization grant called `code` which it needs to exchange for
-an access token (`token`). You can use an instance of the `WebClient` that has no token to easily complete this
-exchange.
+There's one method in the Slack Web API that doesn't requires a token, because it's the method that gets a token! This
+method is called [`oauth.v2.access`](https://docs.slack.dev/reference/methods/oauth.v2.access). It's used as part of the [OAuth 2.0](https://docs.slack.dev/authentication/installing-with-oauth) process that users initiate when installing your app into a workspace. In the last step of this process, your app has received an authorization grant called `code`, which it needs to exchange for an access token (`token`). You can use an instance of the `WebClient` that has no token to easily complete this exchange.
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
@@ -897,26 +872,26 @@ const clientSecret = process.env.SLACK_CLIENT_SECRET;
 })();
 ```
 
-**Note**: If you're looking for a more complete solution that handles more of the OAuth process for your app, take a
+If you're looking for a more complete solution that handles more of the OAuth process for your app, take a
 look at the [@aoberoi/passport-slack Passport Strategy](https://github.com/aoberoi/passport-slack).
 
 ---
 
-### Sign in with Slack via OpenID Connect
+## Sign in with Slack via OpenID Connect
 
-**Sign in With Slack** via [OpenID Connect](https://openid.net/specs/openid-connect-core-1_0.html) gives users the ability to sign into your service using their Slack profile.
+Sign in With Slack via [OpenID Connect](https://openid.net/specs/openid-connect-core-1_0.html) gives users the ability to sign into your service using their Slack profile.
 
-The `@slack/web-api` package supports the following API methods which you can use to implement **Sign in With Slack**:
+The `@slack/web-api` package supports the following API methods which you can use to implement Sign in With Slack:
 
 - [`openid.connect.token`](https://docs.slack.dev/reference/methods/openid.connect.token)
 - [`openid.connect.userInfo`](https://docs.slack.dev/reference/methods/openid.connect.userInfo)
 
 Here's a fully-functioning [sample application implementation](https://github.com/slackapi/node-slack-sdk/blob/main/examples/openid-connect) for your perusal!
 
-:::tip
+:::tip[Sign in with Slack Documentation]
 
-To read more about how **Sign in with Slack** works, and to access helpful resources like a Sign in With Slack
-button generator and other design assets, check out: [Authentication: Sign in with Slack](https://api.slack.com/authentication/sign-in-with-slack)
+To read more about how Sign in with Slack works, and to access helpful resources like a Sign in With Slack
+button generator and other design assets, check out: [Authentication: Sign in with Slack](https://docs.slack.dev/authentication/sign-in-with-slack)
 documentation page.
 
 :::

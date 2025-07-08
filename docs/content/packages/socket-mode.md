@@ -11,7 +11,7 @@ The following contain additional examples that may be useful for consumers.
 
 ## Listen for Interactivity Events
 
-To receive interactivity events such as shortcut invocations, button clicks, and modal data submission, your listener can subscribe to "interactive" events.
+To receive interactivity events such as shortcut invocations, button clicks, and modal data submission, your listener can subscribe to `interactive` events.
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
@@ -48,7 +48,7 @@ socketModeClient.on('interactive', async ({ body, ack }) => {
 });
 ```
 
-For slash commands, you can subscribe to "slash_commands" events and dispatch requests inside the listener.
+For slash commands, you can subscribe to `slash_commands` events and dispatch requests inside the listener.
 
 ```javascript
 socketModeClient.on('slash_commands', async ({ body, ack }) => {
@@ -58,4 +58,4 @@ socketModeClient.on('slash_commands', async ({ body, ack }) => {
 });
 ```
 
-When your app has multiple interactive events or slash commands, you will need to include your own routing logic. This is a good time to consider using Slack's Bolt framework, which provides an easier way to register listeners for events and user actions. You can learn more in [Bolt's Socket Mode documentation](https://tools.slack.dev/bolt-js/concepts#socket-mode).
+When your app has multiple interactive events or slash commands, you will need to include your own routing logic. This is a good time to consider using Slack's Bolt framework, which provides an easier way to register listeners for events and user actions. You can learn more in [Bolt's Socket Mode documentation](https://tools.slack.dev/bolt-js/concepts/socket-mode).

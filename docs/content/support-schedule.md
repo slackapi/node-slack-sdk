@@ -20,7 +20,7 @@ _Node v4.x LTS maintenance end in April creates the opportunity to sunset `@slac
 
 These commitments are important because it enables both users and maintainers of the Node SDK to establish expectations and plan ahead.
 
-For users, it means you'll have at least 120 days from when you can first find out your major version will be unsupported, to when its end-of-life. It also means you have at least 90 of those days to migrate your application to use the next major version because a release will be available. Lastly, it means you have up to 30 days where you can speak up for the major version changes that are most important to you.
+For users, it means you'll have at least 120 days from when you can first find out your major version will be unsupported, to when it's end-of-life. It also means you have at least 90 of those days to migrate your application to use the next major version because a release will be available. Lastly, it means you have up to 30 days where you can speak up for the major version changes that are most important to you.
 
 For maintainers, it gives us the freedom of always developing against supported versions of Node and most dependencies. It also keeps us honest by giving us a finite amount of time to make decisions about large changes and to communicate those decisions. Maintainers can decide to create a new major version at any time in the year, but we cannot move a major version out of maintenance without meeting the transition expectations of users.
 

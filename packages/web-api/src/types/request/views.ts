@@ -3,7 +3,7 @@ import type { View } from '@slack/types';
 import type { TokenOverridable } from './common';
 
 export interface BaseViewsArguments {
-  /** @description A {@link https://api.slack.com/reference/surfaces/views view payload}. */
+  /** @description A {@link https://docs.slack.dev/surfaces/modals view payload}. */
   view: View;
 }
 
@@ -31,7 +31,7 @@ export type ViewsPushArguments = BaseViewsArguments & TokenOverridable & (ViewTr
 export interface ViewHash {
   /**
    * @description A string that represents view state to protect against possible race conditions.
-   * @see {@link https://api.slack.com/surfaces/modals#handling_race_conditions Avoiding race conditions when using views}.
+   * @see {@link https://docs.slack.dev/surfaces/modals#handling_race_conditions Avoiding race conditions when using views}.
    */
   hash?: string;
 }

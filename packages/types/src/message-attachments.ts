@@ -2,21 +2,21 @@ import type { AnyBlock } from './block-kit/blocks';
 import type { PlainTextElement } from './block-kit/composition-objects';
 
 // TODO: breaking changes, use discriminated union for `fallback`, `text` and `block` properties, maybe LegacyAttachment
-// vs. BlocksAttachment? as per https://api.slack.com/reference/messaging/attachments#legacy_fields
+// vs. BlocksAttachment? as per https://docs.slack.dev/legacy/legacy-messaging/legacy-secondary-message-attachments
 // "these fields are optional if you're including blocks as above. If you aren't, one of fallback or text are required"
 // also further nested discriminated union types that could be helpful here:
 // - LegacyAttachmentWithAuthor: if author_name is present, then author_icon and author_link are optional fields
 // - LegacyAttachmentWithFooter: if footer is present, then footer_icon is an optional field
 // - image_url and thumb_url cannot be used together
 /**
- * Add {@link https://api.slack.com/messaging/composing/layouts#attachments secondary attachments} to your messages in Slack.
- * Message attachments are considered a legacy part of messaging functionality. They are not deprecated per se, but they may change in the future, in ways that reduce their visibility or utility. We recommend moving to Block Kit instead. Read more about {@link https://api.slack.com/messaging/composing/layouts#when-to-use-attachments when to use message attachments}.
- * @see {@link https://api.slack.com/reference/messaging/attachments Secondary message attachments reference documentation}
+ * Add {@link https://docs.slack.dev/messaging/formatting-message-text#attachments secondary attachments} to your messages in Slack.
+ * Message attachments are considered a legacy part of messaging functionality. They are not deprecated per se, but they may change in the future, in ways that reduce their visibility or utility. We recommend moving to Block Kit instead. Read more about {@link https://docs.slack.dev/messaging/formatting-message-text#attachments when to use message attachments}.
+ * @see {@link https://docs.slack.dev/messaging/formatting-message-text#attachmentsSecondary message attachments reference documentation}
  */
 export interface MessageAttachment {
   /**
    * @description An array of {@link KnownBlock layout blocks} in the same format
-   * {@link https://api.slack.com/block-kit/building as described in the building blocks guide}.
+   * {@link https://docs.slack.dev/block-kit/designing-with-block-kit as described in the building blocks guide}.
    */
   blocks?: AnyBlock[];
   /**
@@ -31,7 +31,7 @@ export interface MessageAttachment {
   color?: 'good' | 'warning' | 'danger' | string;
   /**
    * @description Text that appears above the message attachment block. It can be formatted as plain text,
-   * or with {@link https://api.slack.com/reference/surfaces/formatting#basics `mrkdwn`} by including it in the `mrkdwn_in` field.
+   * or with {@link https://docs.slack.dev/messaging/formatting-message-text#basic-formatting `mrkdwn`} by including it in the `mrkdwn_in` field.
    */
   pretext?: string;
   /**
@@ -47,7 +47,7 @@ export interface MessageAttachment {
    * Will only work if `author_name` is present.
    */
   author_icon?: string; // author_name must be present
-  author_subname?: string; // TODO: not documented in https://api.slack.com/reference/messaging/attachments
+  author_subname?: string; // TODO: not documented in https://docs.slack.dev/legacy/legacy-messaging/legacy-secondary-message-attachments
   /**
    * @description Large title text near the top of the attachment.
    */
@@ -58,14 +58,14 @@ export interface MessageAttachment {
   title_link?: string; // title must be present
   /**
    * @description The main body text of the attachment. It can be formatted as plain text, or with
-   * {@link https://api.slack.com/reference/surfaces/formatting#basics `mrkdwn`} by including it in the `mrkdwn_in` field.
+   * {@link https://docs.slack.dev/messaging/formatting-message-text#basic-formatting `mrkdwn`} by including it in the `mrkdwn_in` field.
    * The content will automatically collapse if it contains 700+ characters or 5+ line breaks, and will display
    * a "Show more..." link to expand the content.
    */
   text?: string; // either this or fallback must be defined
   /**
    * @description An array of {@link MessageAttachmentField} that get displayed in a table-like way
-   * (see {@link https://api.slack.com/reference/messaging/attachments#example this example}).
+   * (see {@link https://docs.slack.dev/messaging/formatting-message-text#attachments this example}).
    * For best results, include no more than 2-3 field objects.
    */
   fields?: MessageAttachmentField[];
@@ -102,24 +102,24 @@ export interface MessageAttachment {
    * relative to the present. Form factors, like mobile versus desktop may also transform its rendered appearance.
    */
   ts?: string;
-  actions?: AttachmentAction[]; // TODO: https://api.slack.com/legacy/message-buttons#crafting_your_message
-  callback_id?: string; // TODO: https://api.slack.com/legacy/message-buttons#crafting_your_message
+  actions?: AttachmentAction[]; // TODO: https://docs.slack.dev/legacy/legacy-messaging/legacy-message-buttons
+  callback_id?: string; // TODO: https://docs.slack.dev/legacy/legacy-messaging/legacy-message-buttons
   /**
-   * @description Field names that should be {@link https://api.slack.com/reference/surfaces/formatting#basics formatted by `mrkdwn` syntax}.
+   * @description Field names that should be {@link https://docs.slack.dev/messaging/formatting-message-textformatted by `mrkdwn` syntax}.
    * The fields that can be formatted in this way include the names of the `fields` property, or
    * the `text` or `pretext` properties.
    */
   mrkdwn_in?: ('pretext' | 'text' | 'fields')[]; // TODO: I think `fields` here is wrong? instead they should reference field names from `fields`
-  app_unfurl_url?: string; // TODO: not documented in https://api.slack.com/reference/messaging/attachments
-  is_app_unfurl?: boolean; // TODO: not documented in https://api.slack.com/reference/messaging/attachments
-  app_id?: string; // TODO: not documented in https://api.slack.com/reference/messaging/attachments
-  bot_id?: string; // TODO: not documented in https://api.slack.com/reference/messaging/attachments
-  preview?: MessageAttachmentPreview; // https://docs.slack.dev/reference/methods/chat.unfurl TODO: not documented in https://api.slack.com/reference/messaging/attachments, also unclear why this links to chat.unfurl?
+  app_unfurl_url?: string; // TODO: not documented in https://docs.slack.dev/messaging/formatting-message-text#attachments
+  is_app_unfurl?: boolean; // TODO: not documented in https://docs.slack.dev/messaging/formatting-message-text#attachments
+  app_id?: string; // TODO: not documented in https://docs.slack.dev/messaging/formatting-message-text#attachments
+  bot_id?: string; // TODO: not documented in https://docs.slack.dev/messaging/formatting-message-text#attachments
+  preview?: MessageAttachmentPreview; // https://docs.slack.dev/reference/methods/chat.unfurl TODO: not documented in https://docs.slack.dev/messaging/formatting-message-text#attachments, also unclear why this links to chat.unfurl?
 }
 
 /**
  * @description A field object to include in a {@link MessageAttachment}.
- * @see {@link https://api.slack.com/reference/messaging/attachments#field_objects Field objects reference}.
+ * @see {@link https://docs.slack.dev/messaging/formatting-message-text#attachments Field objects reference}.
  */
 export interface MessageAttachmentField {
   /**
@@ -128,7 +128,7 @@ export interface MessageAttachmentField {
    */
   title: string;
   /**
-   * @description The text value displayed in the field object. It can be formatted as plain text, or with {@link https://api.slack.com/reference/surfaces/formatting#basics `mrkdwn`} by using the `mrkdwn_in` option of {@link MessageAttachment}.
+   * @description The text value displayed in the field object. It can be formatted as plain text, or with {@link https://docs.slack.dev/messaging/formatting-message-text `mrkdwn`} by using the `mrkdwn_in` option of {@link MessageAttachment}.
    */
   value: string;
   /**

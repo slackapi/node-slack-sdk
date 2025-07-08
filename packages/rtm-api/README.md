@@ -1,6 +1,6 @@
 # Slack Real Time Messaging API
 
-The `@slack/rtm-api` package contains a simple, convenient, and configurable client for receiving events and sending simple messages to Slack's [Real Time Messaging API](https://api.slack.com/rtm). Use it in your
+The `@slack/rtm-api` package contains a simple, convenient, and configurable client for receiving events and sending simple messages to Slack's [Real Time Messaging API](https://docs.slack.dev/legacy/legacy-rtm-api). Use it in your
 app to stay connected to the Slack platform over a persistent Websocket connection.
 
 **Note**: The RTM API isn't available for modern granular-permissions apps, and you can no longer create new legacy apps. We recommend using [Bolt for JavaScript](https://tools.slack.dev/bolt-js). If you have an existing RTM app, do not update its scopes as it will be updated to a granular-permissions app and stop working with the RTM API.
@@ -84,8 +84,8 @@ Apps register functions, called listeners, to be triggered when an event of a sp
 If you've used Node's [`EventEmitter`](https://nodejs.org/api/events.html#events_class_eventemitter) pattern
 before, then you're already familiar with how this works, since the client is an `EventEmitter`.
 
-The `event` argument passed to the listener is an object. It's contents corresponds to the [type of
-event](https://docs.slack.dev/reference/events) its registered for.
+The `event` argument passed to the listener is an object. Its contents corresponds to the [type of
+event](https://docs.slack.dev/reference/events) it's registered for.
 
 ```javascript
 const { RTMClient } = require('@slack/rtm-api');
@@ -136,7 +136,7 @@ Your app can send simple messages to Slack over the client's connection. In this
 send messages that include attachments or blocks, but it can include text, mentions, and links which unfurl.
 The client has a `.sendMessage(text, conversationId)` method for sending messages to Slack. That method returns a
 `Promise` which resolves once Slack has acknowledged the message with a
-[reply](https://api.slack.com/rtm#handling_responses). The resolved value contains information about the sent message,
+[reply](https://docs.slack.dev/legacy/legacy-rtm-api#handling-responses). The resolved value contains information about the sent message,
 such as the `ts` identifier. See [error handling](#handle-errors) for details on how your app should deal with a
 `Promise` rejection.
 
@@ -167,11 +167,7 @@ rtm.on('member_joined_channel', async (event) => {
 <strong><i>Send rich messages using the WebClient</i></strong>
 </summary>
 
-The Web API's [`chat.postMessage` method](https://docs.slack.dev/reference/methods/chat.postMessage) is capable of sending [rich
-messages](https://api.slack.com/messaging/composing/layouts) more advanced layout and interactions. These rich messages
-are more attractive and useful for users of your app. Install and import the `@slack/web-api` package into your app,
-initialize the `WebClient` class, and use the `.chat.postMessage(options)` method to send a rich message. The example
-above can be rewritten using the following code:
+The Web API's [`chat.postMessage` method](https://docs.slack.dev/reference/methods/chat.postMessage) is capable of sending [rich messages](https://docs.slack.dev/messaging/formatting-message-text) more advanced layout and interactions. These rich messages are more attractive and useful for users of your app. Install and import the `@slack/web-api` package into your app, initialize the `WebClient` class, and use the `.chat.postMessage(options)` method to send a rich message. The example above can be rewritten using the following code:
 
 ```javascript
 const { RTMClient } = require('@slack/rtm-api');
@@ -317,7 +313,7 @@ rtm.on('member_joined_channel', async (event) => {
     const reply = await rtm.sendMessage(`Welcome to the channel, <@${event.user}>`, event.channel)
     console.log('Message sent successfully', reply.ts);
   } catch (error) {
-    // Check the error code, and when its a platform error, log the whole response
+    // Check the error code, and when it's a platform error, log the whole response
     if (error.code === ErrorCode.SendMessagePlatformError) {
       console.log(error.data);
     } else {
@@ -355,7 +351,7 @@ There are a few more types of errors that you might encounter, each with one of 
 The `RTMClient` will log interesting information to the console by default. You can use the `logLevel` to decide how
 much information, or how interesting the information needs to be, in order for it to be output. There are a few possible
 log levels, which you can find in the `LogLevel` export. By default, the value is set to `LogLevel.INFO`. While you're
-in development, its sometimes helpful to set this to the most verbose: `LogLevel.DEBUG`.
+in development, it's sometimes helpful to set this to the most verbose: `LogLevel.DEBUG`.
 
 ```javascript
 // Import LogLevel from the package
