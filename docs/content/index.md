@@ -22,7 +22,7 @@ The Node Slack SDK has corresponding packages for Slack APIs. They are small and
 
 `@slack/events-api` and `@slack/interactive-messages` officially reached EOL on May 31st, 2021. Development has fully stopped for these packages and all remaining open issues and pull requests have been closed.
 
-At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more).
+At this time, we recommend migrating to [Bolt for JavaScript](https://tools.slack.dev/bolt-js), a framework that offers all of the functionality available in those packages (and more).
 
 :::
 

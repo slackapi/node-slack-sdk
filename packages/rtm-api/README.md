@@ -167,7 +167,7 @@ rtm.on('member_joined_channel', async (event) => {
 <strong><i>Send rich messages using the WebClient</i></strong>
 </summary>
 
-The Web API's [`chat.postMessage` method](https://docs.slack.dev/reference/methods/chat.postMessage) is capable of sending [rich messages](https://docs.slack.dev/messaging/formatting-message-text) more advanced layout and interactions. These rich messages are more attractive and useful for users of your app. Install and import the `@slack/web-api` package into your app, initialize the `WebClient` class, and use the `.chat.postMessage(options)` method to send a rich message. The example above can be rewritten using the following code:
+The [`chat.postMessage`](https://docs.slack.dev/reference/methods/chat.postMessage) Web API method is capable of sending [rich messages](https://docs.slack.dev/messaging/formatting-message-text) more advanced layout and interactions. These rich messages are more attractive and useful for users of your app. Install and import the `@slack/web-api` package into your app, initialize the `WebClient` class, and use the `.chat.postMessage(options)` method to send a rich message. The example above can be rewritten using the following code:
 
 ```javascript
 const { RTMClient } = require('@slack/rtm-api');

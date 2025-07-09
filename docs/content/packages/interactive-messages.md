@@ -13,8 +13,8 @@ _At this time, we recommend migrating to [Bolt for JavaScript](https://github.co
 
 :::
 
-The `@slack/interactive-messages` helps your app respond to interactions from the Slack
-[interactive messages](https://docs.slack.dev/interactivity), [actions](https://docs.slack.dev/interactivity/implementing-shortcuts), and [modals](https://docs.slack.dev/interactivity/adding-interactive-modals-to-home-tab). This package will help you start with convenient and secure defaults.
+The `@slack/interactive-messages` helps your app respond to interactions from
+[interactive messages](https://docs.slack.dev/interactivity), [actions](https://docs.slack.dev/interactivity/implementing-shortcuts), and [modals](https://docs.slack.dev/interactivity/adding-interactive-modals-to-home-tab) in Slack. This package will help you start with convenient and secure defaults.
 
 ## Installation
 
@@ -681,7 +681,7 @@ const slackInteractions = createMessageAdapter(slackSigningSecret, {
 })();
 ```
 
-When choosing to turn late response fallback off, it's important to stop relying on returning `Promise`s from handler
+When choosing to turn late response fallback off, it's important to stop relying on returning a `Promise` from the handler
 functions, and instead use the `respond()` argument in your handlers for all deferred (asynchronous) responses.
 
 ---
