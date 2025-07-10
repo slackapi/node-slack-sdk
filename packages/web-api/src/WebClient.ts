@@ -973,7 +973,7 @@ function warnDeprecations(method: string, logger: Logger): void {
 
   if (isDeprecated) {
     logger.warn(
-      `${method} is deprecated. Please check on https://docs.slack.dev/reference/methods for an alternative.`
+      `${method} is deprecated. Please check on https://docs.slack.dev/reference/methods for an alternative.`,
     );
   }
 }
