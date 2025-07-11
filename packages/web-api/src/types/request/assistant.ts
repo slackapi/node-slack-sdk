@@ -15,7 +15,7 @@ export interface AssistantThreadsSetSuggestedPromptsArguments extends TokenOverr
   /** @description Channel ID containing the assistant thread. */
   channel_id: string;
   /** @description Prompt suggestions that appear when opening assistant thread. */
-  prompts: [AssistantPrompt, ...AssistantPrompt[]];
+  prompts: AssistantPrompt[];
   /** @description Message timestamp of the thread. */
   thread_ts: string;
   /** @description Title for the prompts. */
