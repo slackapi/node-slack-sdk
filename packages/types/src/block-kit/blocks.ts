@@ -254,7 +254,7 @@ export interface InputBlock extends Block {
  */
 export interface MarkdownBlock extends Block {
   /**
-   * @description The type of block. For a markdown block, `type` is always `input`.
+   * @description The type of block. For a markdown block, `type` is always `markdown`.
    */
   type: 'markdown';
   /**
