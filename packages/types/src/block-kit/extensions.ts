@@ -9,7 +9,7 @@ export interface Action {
   type: string;
   /**
    * @description: An identifier for this action. You can use this when you receive an interaction payload to
-   * {@link https://api.slack.com/interactivity/handling#payloads identify the source of the action}. Should be unique
+   * {@link https://docs.slack.dev/interactivity/handling-user-interaction#payloads identify the source of the action}. Should be unique
    * among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
    */
   action_id?: string;
@@ -28,7 +28,7 @@ export interface Confirmable {
 export interface Dispatchable {
   /**
    * @description A {@link DispatchActionConfig} object that determines when during text input the element returns a
-   * {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions` payload}.
+   * {@link https://docs.slack.dev/reference/interaction-payloads/block_actions-payload `block_actions` payload}.
    */
   dispatch_action_config?: DispatchActionConfig;
 }
@@ -36,7 +36,7 @@ export interface Dispatchable {
 export interface Focusable {
   /**
    * @description Indicates whether the element will be set to auto focus within the
-   * {@link https://api.slack.com/reference/surfaces/views `view` object}. Only one element can be set to `true`.
+   * {@link https://docs.slack.dev/surfaces/modals `view` object}. Only one element can be set to `true`.
    * Defaults to `false`.
    */
   focus_on_load?: boolean;
@@ -59,9 +59,9 @@ export interface Placeholdable {
 
 export interface URLRespondable {
   /**
-   * @description When set to `true`, the {@link https://api.slack.com/reference/interaction-payloads/views#view_submission `view_submission` payload}
+   * @description When set to `true`, the {@link https://docs.slack.dev/reference/interaction-payloads/view-interactions-payload#view_submission `view_submission` payload}
    * from the menu's parent view will contain a `response_url`. This `response_url` can be used for
-   * {@link https://api.slack.com/interactivity/handling#message_responses message responses}. The target conversation
+   * {@link https://docs.slack.dev/interactivity/handling-user-interaction#message_responses message responses}. The target conversation
    * for the message will be determined by the value of this select menu.
    */
   response_url_enabled?: boolean;

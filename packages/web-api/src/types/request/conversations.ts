@@ -48,7 +48,7 @@ export interface Users {
   /** @description A comma separated list of user IDs. Up to 1000 users may be listed. */
   users: string;
 }
-// https://api.slack.com/methods/conversations.acceptSharedInvite
+// https://docs.slack.dev/reference/methods/conversations.acceptSharedInvite
 export type ConversationsAcceptSharedInviteArguments = TokenOverridable &
   OptionalTeamAssignable &
   (ChannelID | InviteID) &
@@ -62,25 +62,25 @@ export type ConversationsAcceptSharedInviteArguments = TokenOverridable &
     free_trial_accepted?: boolean;
   };
 
-// https://api.slack.com/methods/conversations.approveSharedInvite
+// https://docs.slack.dev/reference/methods/conversations.approveSharedInvite
 export interface ConversationsApproveSharedInviteArguments extends InviteID, TargetTeam, TokenOverridable {}
 
-// https://api.slack.com/methods/conversations.archive
+// https://docs.slack.dev/reference/methods/conversations.archive
 export interface ConversationsArchiveArguments extends Channel, TokenOverridable {}
 
-// https://api.slack.com/methods/conversations.close
+// https://docs.slack.dev/reference/methods/conversations.close
 export interface ConversationsCloseArguments extends Channel, TokenOverridable {}
 
-// https://api.slack.com/methods/conversations.create
+// https://docs.slack.dev/reference/methods/conversations.create
 export interface ConversationsCreateArguments extends IsPrivate, TokenOverridable, OptionalTeamAssignable {
   /** @description Name of the public or private channel to create. */
   name: string;
 }
 
-// https://api.slack.com/methods/conversations.declineSharedInvite
+// https://docs.slack.dev/reference/methods/conversations.declineSharedInvite
 export interface ConversationsDeclineSharedInviteArguments extends InviteID, TargetTeam, TokenOverridable {}
 
-// https://api.slack.com/methods/conversations.externalInvitePermissions.set
+// https://docs.slack.dev/reference/methods/conversations.externalInvitePermissions.set
 export interface ConversationsExternalInvitePermissionsSetArguments
   extends Channel,
     Required<TargetTeam>,
@@ -89,7 +89,7 @@ export interface ConversationsExternalInvitePermissionsSetArguments
   action: 'downgrade' | 'upgrade';
 }
 
-// https://api.slack.com/methods/conversations.history
+// https://docs.slack.dev/reference/methods/conversations.history
 export interface ConversationsHistoryArguments
   extends Channel,
     IncludeAllMetadata,
@@ -97,7 +97,7 @@ export interface ConversationsHistoryArguments
     CursorPaginationEnabled,
     TimelinePaginationEnabled {}
 
-// https://api.slack.com/methods/conversations.info
+// https://docs.slack.dev/reference/methods/conversations.info
 export interface ConversationsInfoArguments extends Channel, TokenOverridable, LocaleAware {
   /**
    @description Set to `true` to include the member count for the specified conversation. Defaults to `false`.
@@ -105,7 +105,7 @@ export interface ConversationsInfoArguments extends Channel, TokenOverridable, L
   include_num_members?: boolean;
 }
 
-// https://api.slack.com/methods/conversations.invite
+// https://docs.slack.dev/reference/methods/conversations.invite
 export interface ConversationsInviteArguments extends Channel, Users, TokenOverridable {
   /**
    * @description When set to `true` and multiple user IDs are provided, continue inviting the valid ones while
@@ -114,7 +114,7 @@ export interface ConversationsInviteArguments extends Channel, Users, TokenOverr
   force?: boolean;
 }
 
-// https://api.slack.com/methods/conversations.inviteShared
+// https://docs.slack.dev/reference/methods/conversations.inviteShared
 export type ConversationsInviteSharedArguments = Channel &
   TokenOverridable &
   (Emails | UserIDs) & {
@@ -122,18 +122,18 @@ export type ConversationsInviteSharedArguments = Channel &
     external_limited?: boolean;
   };
 
-// https://api.slack.com/methods/conversations.join
+// https://docs.slack.dev/reference/methods/conversations.join
 export interface ConversationsJoinArguments extends Channel, TokenOverridable {}
 
-// https://api.slack.com/methods/conversations.kick
+// https://docs.slack.dev/reference/methods/conversations.kick
 export interface ConversationsKickArguments extends Channel, TokenOverridable {
   user: string;
 }
 
-// https://api.slack.com/methods/conversations.leave
+// https://docs.slack.dev/reference/methods/conversations.leave
 export interface ConversationsLeaveArguments extends Channel, TokenOverridable {}
 
-// https://api.slack.com/methods/conversations.list
+// https://docs.slack.dev/reference/methods/conversations.list
 export type ConversationsListArguments = OptionalArgument<
   TokenOverridable &
     CursorPaginationEnabled &
@@ -148,7 +148,7 @@ export type ConversationsListArguments = OptionalArgument<
     }
 >;
 
-// https://api.slack.com/methods/conversations.listConnectInvites
+// https://docs.slack.dev/reference/methods/conversations.listConnectInvites
 export type ConversationsListConnectInvitesArguments = OptionalArgument<
   TokenOverridable &
     OptionalTeamAssignable & {
@@ -159,13 +159,13 @@ export type ConversationsListConnectInvitesArguments = OptionalArgument<
     }
 >;
 
-// https://api.slack.com/methods/conversations.mark
+// https://docs.slack.dev/reference/methods/conversations.mark
 export interface ConversationsMarkArguments extends MessageSpecifier, TokenOverridable {}
 
-// https://api.slack.com/methods/conversations.members
+// https://docs.slack.dev/reference/methods/conversations.members
 export interface ConversationsMembersArguments extends Channel, TokenOverridable, CursorPaginationEnabled {}
 
-// https://api.slack.com/methods/conversations.open
+// https://docs.slack.dev/reference/methods/conversations.open
 export type ConversationsOpenArguments = (Channel | Users) &
   TokenOverridable & {
     /**
@@ -177,13 +177,13 @@ export type ConversationsOpenArguments = (Channel | Users) &
     return_im?: boolean;
   };
 
-// https://api.slack.com/methods/conversations.rename
+// https://docs.slack.dev/reference/methods/conversations.rename
 export interface ConversationsRenameArguments extends Channel, TokenOverridable {
   /** @description New name for conversation. */
   name: string;
 }
 
-// https://api.slack.com/methods/conversations.replies
+// https://docs.slack.dev/reference/methods/conversations.replies
 export interface ConversationsRepliesArguments
   extends MessageSpecifier,
     IncludeAllMetadata,
@@ -191,7 +191,7 @@ export interface ConversationsRepliesArguments
     CursorPaginationEnabled,
     TimelinePaginationEnabled {}
 
-// https://api.slack.com/methods/conversations.requestSharedInvite.approve
+// https://docs.slack.dev/reference/methods/conversations.requestSharedInvite.approve
 export interface ConversationsRequestSharedInviteApproveArguments
   extends InviteID,
     Partial<ChannelID>,
@@ -213,10 +213,10 @@ export interface ConversationsRequestSharedInviteApproveArguments
   };
 }
 
-// https://api.slack.com/methods/conversations.requestSharedInvite.deny
+// https://docs.slack.dev/reference/methods/conversations.requestSharedInvite.deny
 export interface ConversationsRequestSharedInviteDenyArguments extends InviteID, Message, TokenOverridable {}
 
-// https://api.slack.com/methods/conversations.requestSharedInvite.list
+// https://docs.slack.dev/reference/methods/conversations.requestSharedInvite.list
 export type ConversationsRequestSharedInviteListArguments = OptionalArgument<
   CursorPaginationEnabled &
     TokenOverridable & {
@@ -233,17 +233,17 @@ export type ConversationsRequestSharedInviteListArguments = OptionalArgument<
     }
 >;
 
-// https://api.slack.com/methods/conversations.setPurpose
+// https://docs.slack.dev/reference/methods/conversations.setPurpose
 export interface ConversationsSetPurposeArguments extends Channel, TokenOverridable {
   /** @description A new, specialer purpose. */
   purpose: string;
 }
 
-// https://api.slack.com/methods/conversations.setTopic
+// https://docs.slack.dev/reference/methods/conversations.setTopic
 export interface ConversationsSetTopicArguments extends Channel, TokenOverridable {
   /** @description The new topic string. Does not support formatting or linkification. */
   topic: string;
 }
 
-// https://api.slack.com/methods/conversations.unarchive
+// https://docs.slack.dev/reference/methods/conversations.unarchive
 export interface ConversationsUnarchiveArguments extends Channel, TokenOverridable {}

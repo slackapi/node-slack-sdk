@@ -101,7 +101,7 @@ describe('check-update implementation', async () => {
             url: 'https://github.com/slackapi/node-slack-sdk/releases/tag/@slack/cli-hooks@1.0.1',
           },
         ],
-        url: 'https://api.slack.com/automation/changelog',
+        url: 'https://docs.slack.dev/changelog',
       };
       assert.deepEqual(updates, expected);
     });

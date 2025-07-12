@@ -11,7 +11,7 @@ export interface CursorPaginationEnabled {
    * @description Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute
    * returned by a previous request's `response_metadata`.
    * Default value fetches the first "page" of the collection.
-   * @see {@link https://api.slack.com/docs/pagination pagination} for more detail.
+   * @see {@link https://docs.slack.dev/apis/web-api/pagination pagination} for more detail.
    */
   cursor?: string;
 }

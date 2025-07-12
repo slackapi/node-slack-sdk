@@ -7,7 +7,7 @@ interface Email {
   email: string;
 }
 
-// https://api.slack.com/methods/users.conversations
+// https://docs.slack.dev/reference/methods/users.conversations
 export interface UsersConversationsArguments extends TokenOverridable, CursorPaginationEnabled, OptionalTeamAssignable {
   /** @description Set to `true` to exclude archived channels from the list. Default is `false`. */
   exclude_archived?: boolean;
@@ -22,31 +22,31 @@ export interface UsersConversationsArguments extends TokenOverridable, CursorPag
    */
   user?: string;
 }
-// https://api.slack.com/methods/users.deletePhoto
+// https://docs.slack.dev/reference/methods/users.deletePhoto
 export interface UsersDeletePhotoArguments extends TokenOverridable {}
-// https://api.slack.com/methods/users.discoverableContacts.lookup
+// https://docs.slack.dev/reference/methods/users.discoverableContacts.lookup
 export interface UsersDiscoverableContactsLookupArguments extends Email, TokenOverridable {}
-// https://api.slack.com/methods/users.getPresence
+// https://docs.slack.dev/reference/methods/users.getPresence
 export interface UsersGetPresenceArguments extends TokenOverridable {
   /** @description User to get presence info on. Defaults to the authed user. */
   user?: string;
 }
-// https://api.slack.com/methods/users.identity
+// https://docs.slack.dev/reference/methods/users.identity
 export interface UsersIdentityArguments extends TokenOverridable {}
-// https://api.slack.com/methods/users.info
+// https://docs.slack.dev/reference/methods/users.info
 export interface UsersInfoArguments extends TokenOverridable, LocaleAware {
   /** @description User to get info on. */
   user: string;
 }
-// https://api.slack.com/methods/users.list
+// https://docs.slack.dev/reference/methods/users.list
 export interface UsersListArguments
   extends TokenOverridable,
     CursorPaginationEnabled,
     LocaleAware,
     OptionalTeamAssignable {}
-// https://api.slack.com/methods/users.lookupByEmail
+// https://docs.slack.dev/reference/methods/users.lookupByEmail
 export interface UsersLookupByEmailArguments extends Email, TokenOverridable {}
-// https://api.slack.com/methods/users.setPhoto
+// https://docs.slack.dev/reference/methods/users.setPhoto
 export interface UsersSetPhotoArguments extends TokenOverridable {
   /** @description Image file contents. */
   image: Buffer | Stream;
@@ -57,12 +57,12 @@ export interface UsersSetPhotoArguments extends TokenOverridable {
   /** @description Y coordinate of top-left corner of crop box. */
   crop_y?: number;
 }
-// https://api.slack.com/methods/users.setPresence
+// https://docs.slack.dev/reference/methods/users.setPresence
 export interface UsersSetPresenceArguments extends TokenOverridable {
   /** @description Either `auto` or `away`. */
   presence: 'auto' | 'away';
 }
-// https://api.slack.com/methods/users.profile.get
+// https://docs.slack.dev/reference/methods/users.profile.get
 export interface UsersProfileGetArguments extends TokenOverridable {
   /**
    * @description Include labels for each ID in custom profile fields.
@@ -72,25 +72,25 @@ export interface UsersProfileGetArguments extends TokenOverridable {
   /** @description User to retrieve profile info for. */
   user?: string;
 }
-// https://api.slack.com/methods/users.profile.set
+// https://docs.slack.dev/reference/methods/users.profile.set
 export interface UsersProfileSetArguments extends TokenOverridable {
   /**
    * @description Sets profile fields using a single argument.
    * Collection of key:value pairs presented.
    * At most 50 fields may be set. Each field name is limited to 255 characters.
-   * @see {@link https://api.slack.com/methods/users.profile.set#profile-fields `users.profile.set` Profile fields usage info}.
+   * @see {@link https://docs.slack.dev/reference/methods/users.profile.set#profile-fields `users.profile.set` Profile fields usage info}.
    */
   profile?: Record<string, unknown>;
   /** @description ID of user to change. This argument may only be specified by admins on paid teams. */
   user?: string; // must be an admin user and must be on a paid plan
   /**
    * @description Name of a single profile field to set. If both `name` and `profile` are set, `name` takes precedence.
-   * @see {@link https://api.slack.com/methods/users.profile.set#profile-fields `users.profile.set` Profile fields usage info}.
+   * @see {@link https://docs.slack.dev/reference/methods/users.profile.set#profile-fields `users.profile.set` Profile fields usage info}.
    */
   name?: string;
   /**
    * @description Value to set for the profile field specified by `name`. Usable only if profile is not passed.
-   * @see {@link https://api.slack.com/methods/users.profile.set#profile-fields `users.profile.set` Profile fields usage info}.
+   * @see {@link https://docs.slack.dev/reference/methods/users.profile.set#profile-fields `users.profile.set` Profile fields usage info}.
    */
   value?: string;
 }

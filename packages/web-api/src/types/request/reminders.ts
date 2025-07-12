@@ -13,7 +13,7 @@ interface ReminderRecurrenceWeekly {
   weekdays: [DaysOfTheWeek, ...DaysOfTheWeek[]];
 }
 type ReminderRecurrence = ReminderRecurrenceWeekly | ReminderRecurrenceDailyMonthlyYearly;
-// https://api.slack.com/methods/reminders.add
+// https://docs.slack.dev/reference/methods/reminders.add
 export interface RemindersAddArguments extends TokenOverridable, OptionalTeamAssignable {
   /** @description The content of the reminder. */
   text: string;
@@ -27,7 +27,7 @@ export interface RemindersAddArguments extends TokenOverridable, OptionalTeamAss
   /**
    * @description No longer supported - reminders cannot be set for other users.
    * @deprecated
-   * @see {@link https://api.slack.com/changelog/2023-07-its-later-already-for-stars-and-reminders#what Changes to `reminders.*` APIs announcement}.
+   * @see {@link https://docs.slack.dev/changelog/2023-07-its-later-already-for-stars-and-reminders Changes to `reminders.*` APIs announcement}.
    */
   user?: string;
   /**
@@ -36,20 +36,20 @@ export interface RemindersAddArguments extends TokenOverridable, OptionalTeamAss
    */
   recurrence?: ReminderRecurrence;
 }
-// https://api.slack.com/methods/reminders.complete
+// https://docs.slack.dev/reference/methods/reminders.complete
 export interface RemindersCompleteArguments extends TokenOverridable, OptionalTeamAssignable {
   /** @description The ID of the reminder to be marked as complete. */
   reminder: string;
 }
-// https://api.slack.com/methods/reminders.delete
+// https://docs.slack.dev/reference/methods/reminders.delete
 export interface RemindersDeleteArguments extends TokenOverridable, OptionalTeamAssignable {
   /** @description The ID of the reminder to delete. */
   reminder: string;
 }
-// https://api.slack.com/methods/reminders.info
+// https://docs.slack.dev/reference/methods/reminders.info
 export interface RemindersInfoArguments extends TokenOverridable, OptionalTeamAssignable {
   /** @description The ID of the reminder to retrieve information about. */
   reminder: string;
 }
-// https://api.slack.com/methods/reminders.list
+// https://docs.slack.dev/reference/methods/reminders.list
 export type RemindersListArguments = OptionalArgument<TokenOverridable & OptionalTeamAssignable>;

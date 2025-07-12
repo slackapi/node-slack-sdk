@@ -493,7 +493,7 @@ describe('file-upload', () => {
 
         channel_id: '1',
       };
-      // should be it's own job, it's missing a channel id, so its private and cant be grouped in a message
+      // should be it's own job, it's missing a channel id, so it's private and can't be grouped in a message
       const fileUploadJob4 = {
         file: Buffer.from('test'),
         filename: 'test.txt',

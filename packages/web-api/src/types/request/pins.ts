@@ -1,11 +1,11 @@
 import type { MessageArgument, TokenOverridable } from './common';
 
-// https://api.slack.com/methods/pins.add
+// https://docs.slack.dev/reference/methods/pins.add
 export interface PinsAddArguments extends MessageArgument, TokenOverridable {}
-// https://api.slack.com/methods/pins.list
+// https://docs.slack.dev/reference/methods/pins.list
 export interface PinsListArguments extends TokenOverridable {
   /** @description Channel to get pinned items for. */
   channel: string;
 }
-// https://api.slack.com/methods/pins.remove
+// https://docs.slack.dev/reference/methods/pins.remove
 export interface PinsRemoveArguments extends MessageArgument, TokenOverridable {}

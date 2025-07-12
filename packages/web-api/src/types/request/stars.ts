@@ -13,10 +13,10 @@ export interface StarsChannelDestination {
   /** @description Encoded channel ID the star belongs to. */
   channel: string;
 }
-// https://api.slack.com/methods/stars.add & https://api.slack.com/methods/stars.remove
+// https://docs.slack.dev/reference/methods/stars.add & https://docs.slack.dev/reference/methods/stars.remove
 export type StarsAddRemoveArguments = TokenOverridable &
   (StarsChannelDestination | MessageArgument | FileArgument | FileCommentArgument);
-// https://api.slack.com/methods/stars.list
+// https://docs.slack.dev/reference/methods/stars.list
 export interface StarsListArguments
   extends TokenOverridable,
     TraditionalPagingEnabled,

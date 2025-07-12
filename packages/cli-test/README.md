@@ -70,5 +70,5 @@ describe('Login with the CLI', () => {
 | `SLACK_CLI_PATH`      | yes      | path to Slack CLI binary                                                       |
 | `SLACK_CLI_LOG_LEVEL` | no       | default: `info`. [Logger levels](https://github.com/winstonjs/winston#logging) |
 
-[cli]: https://api.slack.com/automation/quickstart
-[commands]: https://api.slack.com/automation/cli/commands
+[cli]: https://tools.slack.dev/deno-slack-sdk/guides/getting-started
+[commands]: https://tools.slack.dev/slack-cli/reference/commands/slack

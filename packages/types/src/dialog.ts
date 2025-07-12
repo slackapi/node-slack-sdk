@@ -1,6 +1,6 @@
 /**
  * Reusable shapes for argument values
- * @deprecated Dialogs are a deprecated surface in Slack. For more details on how to upgrade, check out our {@link https://api.slack.com/block-kit/dialogs-to-modals Upgrading outmoded dialogs to modals guide}. This will be removed in the next major version.
+ * @deprecated Dialogs are a deprecated surface in Slack. For more details on how to upgrade, check out our {@link https://docs.slack.dev/block-kit/upgrading-outmoded-dialogs-to-modals Upgrading outmoded dialogs to modals guide}. This will be removed in the next major version.
  */
 export interface Dialog {
   title: string;

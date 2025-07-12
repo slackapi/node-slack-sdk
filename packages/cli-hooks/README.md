@@ -114,12 +114,12 @@ assistance working through your issue:
 
 <!-- a collection of links -->
 [bolt]: https://github.com/slackapi/bolt-js
-[cli]: https://api.slack.com/automation/cli
+[cli]: https://tools.slack.dev/slack-cli/
 [community]: https://community.slack.com/
 [config]: https://api.slack.com/apps
 [email]: mailto:developers@slack.com
-[install]: https://api.slack.com/automation/cli/install
+[install]: https://tools.slack.dev/slack-cli/guides/installing-the-slack-cli-for-mac-and-linux
 [issues]: http://github.com/slackapi/node-slack-sdk/issues
-[manifest]: https://api.slack.com/reference/manifests
+[manifest]: https://docs.slack.dev/reference/app-manifest
 [node]: https://github.com/nodejs/Release#release-schedule
 [supported]: #supported-hooks

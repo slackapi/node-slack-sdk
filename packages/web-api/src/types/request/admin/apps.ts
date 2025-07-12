@@ -21,7 +21,7 @@ export interface Certified {
   certified?: boolean;
 }
 
-// https://api.slack.com/methods/admin.apps.activities.list
+// https://docs.slack.dev/reference/methods/admin.apps.activities.list
 export type AdminAppsActivitiesListArguments = OptionalArgument<
   Partial<AppID> &
     Partial<TeamID> &
@@ -51,25 +51,25 @@ export type AdminAppsActivitiesListArguments = OptionalArgument<
     }
 >;
 
-// https://api.slack.com/methods/admin.apps.approve
+// https://docs.slack.dev/reference/methods/admin.apps.approve
 export type AdminAppsApproveArguments = AppOrRequestID & TeamOrEnterpriseID & TokenOverridable;
 
-// https://api.slack.com/methods/admin.apps.approved.list
+// https://docs.slack.dev/reference/methods/admin.apps.approved.list
 export type AdminAppsApprovedListArguments = Partial<TeamOrEnterpriseID> &
   TokenOverridable &
   CursorPaginationEnabled &
   Certified;
 
-// https://api.slack.com/methods/admin.apps.clearResolution
+// https://docs.slack.dev/reference/methods/admin.apps.clearResolution
 export type AdminAppsClearResolutionArguments = AppID & TeamOrEnterpriseID & TokenOverridable;
 
-// https://api.slack.com/methods/admin.apps.config.lookup
+// https://docs.slack.dev/reference/methods/admin.apps.config.lookup
 export interface AdminAppsConfigLookupArguments extends TokenOverridable {
   /** @description An array of app IDs to get app configs for. */
   app_ids: string[];
 }
 
-// https://api.slack.com/methods/admin.apps.config.set
+// https://docs.slack.dev/reference/methods/admin.apps.config.set
 export interface AdminAppsConfigSetArguments extends AppID, TokenOverridable {
   /** @description Domain restrictions for the app. */
   domain_restrictions?: {
@@ -82,23 +82,23 @@ export interface AdminAppsConfigSetArguments extends AppID, TokenOverridable {
   workflow_auth_strategy?: 'builder_choice' | 'end_user_only';
 }
 
-// https://api.slack.com/methods/admin.apps.requests.cancel
+// https://docs.slack.dev/reference/methods/admin.apps.requests.cancel
 export type AdminAppsRequestsCancelArguments = RequestID & TeamOrEnterpriseID & TokenOverridable;
 
-// https://api.slack.com/methods/admin.apps.requests.list
+// https://docs.slack.dev/reference/methods/admin.apps.requests.list
 export type AdminAppsRequestsListArguments = TeamOrEnterpriseID &
   Certified &
   TokenOverridable &
   CursorPaginationEnabled;
 
-// https://api.slack.com/methods/admin.apps.restrict
+// https://docs.slack.dev/reference/methods/admin.apps.restrict
 export type AdminAppsRestrictArguments = AppOrRequestID & TeamOrEnterpriseID & TokenOverridable;
 
-// https://api.slack.com/methods/admin.apps.restricted.list
+// https://docs.slack.dev/reference/methods/admin.apps.restricted.list
 export type AdminAppsRestrictedListArguments = TeamOrEnterpriseID &
   Certified &
   TokenOverridable &
   CursorPaginationEnabled;
 
-// https://api.slack.com/methods/admin.apps.uninstall
+// https://docs.slack.dev/reference/methods/admin.apps.uninstall
 export type AdminAppsUninstallArguments = AppID & TeamOrEnterpriseID & TokenOverridable;

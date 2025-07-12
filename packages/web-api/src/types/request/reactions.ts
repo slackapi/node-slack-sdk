@@ -17,14 +17,14 @@ export interface ReactionName {
   /** @description Reaction (emoji) name. */
   name: string;
 }
-// https://api.slack.com/methods/reactions.add
+// https://docs.slack.dev/reference/methods/reactions.add
 export interface ReactionsAddArguments extends MessageArgument, TokenOverridable, ReactionName {}
-// https://api.slack.com/methods/reactions.get
+// https://docs.slack.dev/reference/methods/reactions.get
 export type ReactionsGetArguments = ReactionsFull &
   TokenOverridable &
   (MessageArgument | FileArgument | FileCommentArgument);
 
-// https://api.slack.com/methods/reactions.list
+// https://docs.slack.dev/reference/methods/reactions.list
 export type ReactionsListArguments = OptionalArgument<
   ReactionsFull &
     TokenOverridable &
@@ -35,7 +35,7 @@ export type ReactionsListArguments = OptionalArgument<
       user?: string;
     }
 >;
-// https://api.slack.com/methods/reactions.remove
+// https://docs.slack.dev/reference/methods/reactions.remove
 export type ReactionsRemoveArguments = TokenOverridable &
   ReactionName &
   (MessageArgument | FileArgument | FileCommentArgument);

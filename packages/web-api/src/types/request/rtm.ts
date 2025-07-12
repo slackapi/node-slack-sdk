@@ -1,12 +1,12 @@
 import type { OptionalArgument } from '../helpers';
 import type { LocaleAware, TokenOverridable } from './common';
 
-// https://api.slack.com/methods/rtm.connect
+// https://docs.slack.dev/reference/methods/rtm.connect
 export type RTMConnectArguments = OptionalArgument<
   TokenOverridable & {
     /**
      * @description Batch presence deliveries via subscription. Enabling changes the shape of `presence_change` events.
-     * @see {@link https://api.slack.com/docs/presence-and-status#batching batch presence}.
+     * @see {@link https://docs.slack.dev/apis/web-api/user-presence-and-status#batching batch presence}.
      */
     batch_presence_aware?: boolean;
     /**
@@ -16,7 +16,7 @@ export type RTMConnectArguments = OptionalArgument<
     presence_sub?: boolean;
   }
 >;
-// https://api.slack.com/methods/rtm.start
+// https://docs.slack.dev/reference/methods/rtm.start
 export type RTMStartArguments = OptionalArgument<
   RTMConnectArguments &
     LocaleAware & {

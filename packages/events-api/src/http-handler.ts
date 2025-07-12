@@ -29,7 +29,7 @@ enum ResponseStatus {
  * Verifies the signature of a request. Throws a {@link CodedError} if the signature is invalid.
  *
  * @remarks
- * See [Verifying requests from Slack](https://api.slack.com/docs/verifying-requests-from-slack#sdk_support) for more
+ * See [Verifying requests from Slack](https://docs.slack.dev/authentication/verifying-requests-from-slack#SDK-support) for more
  * information.
  *
  * @param params - See {@link VerifyRequestSignatureParams}.

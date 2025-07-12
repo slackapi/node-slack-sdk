@@ -13,15 +13,15 @@ interface PolicyName {
   policy_name: 'email_password';
 }
 
-// https://api.slack.com/methods/admin.auth.policy.assignEntities
+// https://docs.slack.dev/reference/methods/admin.auth.policy.assignEntities
 export interface AdminAuthPolicyAssignEntitiesArguments extends EntityIDs, EntityType, PolicyName, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.auth.policy.getEntities
+// https://docs.slack.dev/reference/methods/admin.auth.policy.getEntities
 export interface AdminAuthPolicyGetEntitiesArguments
   extends Partial<EntityType>,
     PolicyName,
     TokenOverridable,
     CursorPaginationEnabled {}
 
-// https://api.slack.com/methods/admin.auth.policy.removeEntities
+// https://docs.slack.dev/reference/methods/admin.auth.policy.removeEntities
 export interface AdminAuthPolicyRemoveEntitiesArguments extends EntityIDs, EntityType, PolicyName, TokenOverridable {}

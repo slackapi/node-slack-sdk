@@ -182,7 +182,7 @@ type ResponseHandler = (dispatchResult: {
 /**
  * Headers required for verification.
  *
- * See: https://api.slack.com/docs/verifying-requests-from-slack
+ * See: https://docs.slack.dev/authentication/verifying-requests-from-slack
  */
 export interface VerificationHeaders extends IncomingHttpHeaders {
   'x-slack-signature': string;

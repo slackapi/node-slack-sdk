@@ -292,7 +292,7 @@ function createCheckUpdateResponse(versionMap, inaccessibleFiles) {
     name: 'the Slack SDK',
     message: '',
     releases,
-    url: 'https://api.slack.com/automation/changelog',
+    url: 'https://docs.slack.dev/changelog',
     error: createUpdateErrorMessage(dependencyErrors, inaccessibleFiles),
   };
 }

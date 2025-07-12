@@ -57,7 +57,7 @@ describe('SlackWebSocket', () => {
   });
   describe('WebSocket event handling', () => {
     it('should call disconnect() if websocket emits an error', async () => {
-      // an exposed event emitter pretending its a websocket
+      // an exposed event emitter pretending it's a websocket
       const ws = new WSMock();
       // mock out the `ws` library and have it return our event emitter mock
       SlackWebSocket = proxyquire.load('./SlackWebSocket', {

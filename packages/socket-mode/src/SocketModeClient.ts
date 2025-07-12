@@ -29,7 +29,7 @@ enum State {
 
 /**
  * A Socket Mode Client allows programs to communicate with the
- * [Slack Platform's Events API](https://api.slack.com/events-api) over WebSocket connections.
+ * [Slack Platform's Events API](https://https://docs.slack.dev/apis/events-api) over WebSocket connections.
  * This object uses the EventEmitter pattern to dispatch incoming events
  * and has a built in send method to acknowledge incoming events over the WebSocket connection.
  */

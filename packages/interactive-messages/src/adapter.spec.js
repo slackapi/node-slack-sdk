@@ -971,7 +971,7 @@ describe('SlackMessageAdapter', function () {
     });
 
     // the following tests pertain to the behavior of #matchCallback(), but since that is an
-    // implementation detail, its tested as part of the behavior of #dispatch()
+    // implementation detail, it's tested as part of the behavior of #dispatch()
     describe('callback matching', function () {
       beforeEach(function () {
         this.buttonPayload = {

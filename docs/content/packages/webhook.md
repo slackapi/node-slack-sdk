@@ -4,7 +4,7 @@ slug: /webhook
 ---
 
 The `@slack/webhook` package contains a helper for making requests to Slack's [Incoming
-Webhooks](https://api.slack.com/incoming-webhooks). Use it in your app to send a notification to a channel.
+Webhooks](https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks). Use it in your app to send a notification to a channel.
 
 ## Installation
 
@@ -14,12 +14,12 @@ $ npm install @slack/webhook
 
 ---
 
-### Initialize the webhook
+## Initialize the webhook
 
 The package exports a `IncomingWebhook` class. You'll need to initialize it with the URL you received from Slack.
 
-The URL can come from installation in your development workspace, which is shown right in the app configuration pages.
-Or, the URL could be in the response from [`oauth.v2.access`](https://api.slack.com/methods/oauth.v2.access) when the app is
+The URL can come from installation in your development workspace, which is shown in the app configuration pages.
+Or, the URL could be in the response from [`oauth.v2.access`](https://docs.slack.dev/reference/methods/oauth.v2.access) when the app is
 distributed and installed into another workspace.
 
 ```javascript
@@ -54,9 +54,9 @@ const webhook = new IncomingWebhook(url, {
 
 ---
 
-### Send a notification
+## Send a notification
 
-Something interesting just happened in your app, so its time to send the notification! Just call the
+Something interesting just happened in your app, so it's time to send the notification! Call the
 `.send(options)` method on the webhook. The `options` parameter is an object that should describe the contents of
 the message. The method returns a `Promise` that resolves once the notification is sent.
 
@@ -76,7 +76,7 @@ const webhook = new IncomingWebhook(url);
 
 ---
 
-### Proxy requests with a custom agent
+## Proxy requests with a custom agent
 
 The webhook allows you to customize the HTTP
 [`Agent`](https://nodejs.org/docs/latest/api/http.html#http_class_http_agent) used to create the connection to Slack.

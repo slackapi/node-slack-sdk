@@ -185,7 +185,7 @@ export type AdapterConfig = AxiosAdapter;
 /**
  * A client for Slack's Web API
  *
- * This client provides an alias for each {@link https://api.slack.com/methods|Web API method}. Each method is
+ * This client provides an alias for each {@link https://docs.slack.dev/reference/methods|Web API method}. Each method is
  * a convenience wrapper for calling the {@link WebClient#apiCall} method using the method name as the first parameter.
  */
 export class WebClient extends Methods {
@@ -341,7 +341,7 @@ export class WebClient extends Methods {
 
   /**
    * Generic method for calling a Web API method
-   * @param method - the Web API method to call {@link https://api.slack.com/methods}
+   * @param method - the Web API method to call {@link https://docs.slack.dev/reference/methods}
    * @param options - options
    */
   public async apiCall(method: string, options: Record<string, unknown> = {}): Promise<WebAPICallResult> {
@@ -380,7 +380,7 @@ export class WebClient extends Methods {
     }
 
     // log warnings and errors in response metadata messages
-    // related to https://api.slack.com/changelog/2016-09-28-response-metadata-is-on-the-way
+    // related to https://docs.slack.dev/changelog/2016/09/28/response-metadata-is-on-the-way
     if (result.response_metadata !== undefined && result.response_metadata.messages !== undefined) {
       for (const msg of result.response_metadata.messages) {
         const errReg: RegExp = /\[ERROR\](.*)/;
@@ -421,12 +421,12 @@ export class WebClient extends Methods {
    * that is called with three arguments: `accumulator`, `page`, and `index`. The `accumulator` is a value of any type
    * you choose, but it will contain `undefined` when `reduce` is called for the first time. The `page` argument and
    * `index` arguments are exactly what they say they are. The `reduce` function's return value will be passed in as
-   * `accumulator` the next time its called, and the returned promise will resolve to the last value of `accumulator`.
+   * `accumulator` the next time it's called, and the returned promise will resolve to the last value of `accumulator`.
    *
    * The for-await-of syntax is part of ES2018. It is available natively in Node starting with v10.0.0. You may be able
    * to use it in earlier JavaScript runtimes by transpiling your source with a tool like Babel. However, the
    * transpiled code will likely sacrifice performance.
-   * @param method - the cursor-paginated Web API method to call {@link https://api.slack.com/docs/pagination}
+   * @param method - the cursor-paginated Web API method to call {@link https://docs.slack.dev/apis/web-api/paginationn}
    * @param options - options
    * @param shouldStop - a predicate that is called with each page, and should return true when pagination can end.
    * @param reduce - a callback that can be used to accumulate a value that the return promise is resolved to
@@ -514,13 +514,13 @@ export class WebClient extends Methods {
    * This wrapper method provides an easy way to upload files using the following endpoints:
    *
    * **#1**: For each file submitted with this method, submit filenames
-   * and file metadata to {@link https://api.slack.com/methods/files.getUploadURLExternal files.getUploadURLExternal} to request a URL to
+   * and file metadata to {@link https://docs.slack.dev/reference/methods/files.getuploadurlexternal files.getUploadURLExternal} to request a URL to
    * which to send the file data to and an id for the file
    *
    * **#2**: for each returned file `upload_url`, upload corresponding file to
    * URLs returned from step 1 (e.g. https://files.slack.com/upload/v1/...\")
    *
-   * **#3**: Complete uploads {@link https://api.slack.com/methods/files.completeUploadExternal files.completeUploadExternal}
+   * **#3**: Complete uploads {@link https://docs.slack.dev/reference/methods/files.completeuploadexternal files.completeUploadExternal}
    * @param options
    */
   public async filesUploadV2(
@@ -972,7 +972,9 @@ function warnDeprecations(method: string, logger: Logger): void {
   });
 
   if (isDeprecated) {
-    logger.warn(`${method} is deprecated. Please check on https://api.slack.com/methods for an alternative.`);
+    logger.warn(
+      `${method} is deprecated. Please check on https://docs.slack.dev/reference/methods for an alternative.`,
+    );
   }
 }
 
@@ -999,7 +1001,7 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, options?: Recor
     `The top-level \`text\` argument is missing in the request payload for a ${method} call - It's a best practice to always provide a \`text\` argument when posting a message. The \`text\` is used in places where the content cannot be rendered such as: system push notifications, assistive technology such as screen readers, etc.`;
 
   const buildMissingFallbackWarning = () =>
-    `Additionally, the attachment-level \`fallback\` argument is missing in the request payload for a ${method} call - To avoid this warning, it is recommended to always provide a top-level \`text\` argument when posting a message. Alternatively, you can provide an attachment-level \`fallback\` argument, though this is now considered a legacy field (see https://api.slack.com/reference/messaging/attachments#legacy_fields for more details).`;
+    `Additionally, the attachment-level \`fallback\` argument is missing in the request payload for a ${method} call - To avoid this warning, it is recommended to always provide a top-level \`text\` argument when posting a message. Alternatively, you can provide an attachment-level \`fallback\` argument, though this is now considered a legacy field (see https://docs.slack.dev/legacy/legacy-messaging/legacy-secondary-message-attachments for more details).`;
   if (isTargetMethod && typeof options === 'object') {
     if (hasAttachments(options)) {
       if (missingAttachmentFallbackDetected(options) && isEmptyText(options)) {

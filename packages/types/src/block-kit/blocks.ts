@@ -1,4 +1,4 @@
-// This file contains objects documented here: https://api.slack.com/reference/block-kit/blocks
+// This file contains objects documented here: https://docs.slack.dev/reference/block-kit/blocks
 import type {
   Button,
   Checkboxes,
@@ -32,7 +32,7 @@ export interface Block {
   /**
    * @description A string acting as a unique identifier for a block. If not specified, a `block_id` will be generated.
    * You can use this `block_id` when you receive an interaction payload to
-   * {@link https://api.slack.com/interactivity/handling#payloads identify the source of the action}.
+   * {@link https://docs.slack.dev/interactivity/handling-user-interaction#payloads identify the source of the action}.
    * Maximum length for this field is 255 characters. `block_id` should be unique for each message and each iteration of
    * a message. If a message is updated, use a new `block_id`.
    */
@@ -41,7 +41,7 @@ export interface Block {
 
 /**
  * A helper union type of all known Blocks, as listed out on the
- * {@link https://api.slack.com/reference/block-kit/blocks Blocks reference}.
+ * {@link https://docs.slack.dev/reference/block-kit/blocks Blocks reference}.
  */
 export type KnownBlock =
   | ActionsBlock
@@ -58,13 +58,13 @@ export type KnownBlock =
 
 /**
  * A helper union type of all known Blocks as well as the generic {@link Block} interface. A full list of known blocks
- * is available here: {@link https://api.slack.com/reference/block-kit/blocks Blocks reference}.
+ * is available here: {@link https://docs.slack.dev/reference/block-kit/blocks Blocks reference}.
  */
 export type AnyBlock = KnownBlock | Block;
 
 /**
  * A helper union type of all Block Elements that can be used in an {@link ActionsBlock}.
- * @see {@link https://api.slack.com/reference/block-kit/blocks#actions Actions block reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/actions-block Actions block reference}.
  */
 export type ActionsBlockElement =
   | Button
@@ -81,7 +81,7 @@ export type ActionsBlockElement =
 
 /**
  * @description Holds multiple interactive elements.
- * @see {@link https://api.slack.com/reference/block-kit/blocks#actions Actions block reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/actions-block Actions block reference}.
  */
 export interface ActionsBlock extends Block {
   /**
@@ -97,13 +97,13 @@ export interface ActionsBlock extends Block {
 
 /**
  * A helper union type of all Block Elements that can be used in a {@link ContextBlock}.
- * @see {@link https://api.slack.com/reference/block-kit/blocks#context Context block reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/context-block Context block reference}.
  */
 export type ContextBlockElement = ImageElement | TextObject;
 
 /**
  * @description Displays contextual info, which can include both images and text.
- * @see {@link https://api.slack.com/reference/block-kit/blocks#context Context block reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/context-block Context block reference}.
  */
 export interface ContextBlock extends Block {
   /**
@@ -120,7 +120,7 @@ export interface ContextBlock extends Block {
 /**
  * @description Visually separates pieces of info inside of a message. A content divider, like an `<hr>`, to split up
  * different blocks inside of a message. The divider block is nice and neat, requiring only a `type`.
- * @see {@link https://api.slack.com/reference/block-kit/blocks#divider Divider block reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/divider-block Divider block reference}.
  */
 export interface DividerBlock extends Block {
   /**
@@ -130,11 +130,11 @@ export interface DividerBlock extends Block {
 }
 
 /**
- * @description Displays a {@link https://api.slack.com/messaging/files/remote remote file}. You can't add this block to
- * app surfaces directly, but it will show up when {@link https://api.slack.com/messaging/retrieving retrieving messages}
+ * @description Displays a {@link https://docs.slack.dev/messaging/working-with-files#remote remote file}. You can't add this block to
+ * app surfaces directly, but it will show up when {@link https://docs.slack.dev/messaging/retrieving-messages retrieving messages}
  * that contain remote files. If you want to add remote files to messages,
- * {@link https://api.slack.com/messaging/files/remote follow our guide}.
- * @see {@link https://api.slack.com/reference/block-kit/blocks#file File block reference}.
+ * {@link https://docs.slack.dev/messaging/working-with-files#remote follow our guide}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/file-block File block reference}.
  */
 export interface FileBlock extends Block {
   /**
@@ -154,7 +154,7 @@ export interface FileBlock extends Block {
 /**
  * @description Displays a larger-sized text block. A `header` is a plain-text block that displays in a larger, bold
  * font. Use it to delineate between different groups of content in your app's surfaces.
- * @see {@link https://api.slack.com/reference/block-kit/blocks#header Header block reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/header-block Header block reference}.
  */
 export interface HeaderBlock extends Block {
   /**
@@ -170,7 +170,7 @@ export interface HeaderBlock extends Block {
 
 /**
  * @description Displays an image. A simple image block, designed to make those cat photos really pop.
- * @see {@link https://api.slack.com/reference/block-kit/blocks#image Image block reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/image-block Image block reference}.
  */
 export type ImageBlock = {
   /**
@@ -192,7 +192,7 @@ export type ImageBlock = {
 
 /**
  * A helper union type of all Block Elements that can be used in an {@link InputBlock}.
- * @see {@link https://api.slack.com/reference/block-kit/blocks#input Input block reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/input-block Input block reference}.
  */
 export type InputBlockElement =
   | Checkboxes
@@ -211,9 +211,9 @@ export type InputBlockElement =
 
 /**
  * @description Collects information from users via block elements.
- * @see {@link https://api.slack.com/reference/block-kit/blocks#input Input block reference}.
- * @see {@link https://api.slack.com/surfaces/modals#gathering_input Collecting input in modals guide}.
- * @see {@link https://api.slack.com/surfaces/app-home#gathering_input Collecting input in Home tabs guide}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/input-block Input block reference}.
+ * @see {@link https://docs.slack.dev/surfaces/modals#gathering_input Collecting input in modals guide}.
+ * @see {@link https://docs.slack.dev/surfaces/app-home Collecting input in Home tabs guide}.
  */
 export interface InputBlock extends Block {
   /**
@@ -241,7 +241,7 @@ export interface InputBlock extends Block {
   element: InputBlockElement;
   /**
    * @description A boolean that indicates whether or not the use of elements in this block should dispatch a
-   * {@link https://api.slack.com/reference/interaction-payloads/block-actions block_actions payload}. Defaults to `false`.
+   * {@link https://docs.slack.dev/reference/interaction-payloads/block_actions-payload block_actions payload}. Defaults to `false`.
    */
   dispatch_action?: boolean;
 }
@@ -265,7 +265,7 @@ export interface MarkdownBlock extends Block {
 
 /**
  * A helper union type of all Block Elements that can be used in a {@link RichTextBlock}.
- * @see {@link https://api.slack.com/reference/block-kit/blocks#rich_text Rich text block reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/rich-text-block Rich text block reference}.
  */
 export type RichTextBlockElement = RichTextSection | RichTextList | RichTextQuote | RichTextPreformatted;
 
@@ -276,7 +276,7 @@ export type RichTextBlockElement = RichTextSection | RichTextList | RichTextQuot
  * `rich_text` is strongly preferred and allows greater flexibility.
  * You might encounter a `rich_text` block in a message payload, as a built-in type in workflow apps, or as output of
  * the {@link RichTextInput}.
- * @see {@link https://api.slack.com/reference/block-kit/blocks#rich_text Rich text block reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/rich-text-block Rich text block reference}.
  */
 export interface RichTextBlock extends Block {
   /**
@@ -288,7 +288,7 @@ export interface RichTextBlock extends Block {
 
 /**
  * A helper union type of all Block Elements that can be used as an accessory in a {@link SectionBlock}.
- * @see {@link https://api.slack.com/reference/block-kit/blocks#section Section block reference}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/section-block Section block reference}.
  */
 export type SectionBlockAccessory =
   | Button
@@ -307,8 +307,8 @@ export type SectionBlockAccessory =
 /**
  * @description Displays text, possibly alongside block elements. A section can be used as a simple text block, in
  * combination with text fields, or side-by-side with certain
- * {@link https://api.slack.com/reference/messaging/block-elements block elements}.
- * @see {@link https://api.slack.com/reference/block-kit/blocks#section Section block reference}.
+ * {@link https://docs.slack.dev/reference/block-kit/block-elements block elements}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/section-block Section block reference}.
  */
 export interface SectionBlock extends Block {
   /**
@@ -341,8 +341,8 @@ export interface SectionBlock extends Block {
 /**
  * @description Displays an embedded video player. A video block is designed to embed videos in all app surfaces (e.g.
  * link unfurls, messages, modals, App Home) — anywhere you can put blocks! To use the video block within your app, you
- * must have the {@link https://api.slack.com/scopes/links.embed:write `links.embed:write` scope}.
- * @see {@link https://api.slack.com/reference/block-kit/blocks#video Video block reference}.
+ * must have the {@link https://docs.slack.dev/reference/scopes/links.embed.write `links.embed:write` scope}.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/video-block Video block reference}.
  */
 export interface VideoBlock extends Block {
   /**
@@ -351,7 +351,7 @@ export interface VideoBlock extends Block {
   type: 'video';
   /**
    * @description The URL to be embedded. Must match any existing
-   * {@link https://api.slack.com/reference/messaging/link-unfurling#configuring_domains unfurl domains} within the app
+   * {@link https://docs.slack.dev/messaging/unfurling-links-in-messages unfurl domains} within the app
    * and point to a HTTPS URL.
    */
   video_url: string;

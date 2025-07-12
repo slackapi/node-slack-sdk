@@ -8,7 +8,7 @@ if (user !== undefined) {
 }
 
 (async () => {
-  // https://api.slack.com/methods/reactions.list
+  // https://docs.slack.dev/reference/methods/reactions.list
   for await (const page of client.paginate('reactions.list', parameters)) {
     console.log(JSON.stringify(page, null, 2));
   }

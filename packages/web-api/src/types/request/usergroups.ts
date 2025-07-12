@@ -6,7 +6,7 @@ export interface UsergroupsIncludeCount {
   include_count?: boolean;
 }
 
-// https://api.slack.com/methods/usergroups.create
+// https://docs.slack.dev/reference/methods/usergroups.create
 export interface UsergroupsCreateArguments extends TokenOverridable, OptionalTeamAssignable, UsergroupsIncludeCount {
   /** @description A name for the User Group. Must be unique among User Groups. */
   name: string;
@@ -17,17 +17,17 @@ export interface UsergroupsCreateArguments extends TokenOverridable, OptionalTea
   /** @description A mention handle. Must be unique among channels, users and User Groups. */
   handle?: string;
 }
-// https://api.slack.com/methods/usergroups.disable
+// https://docs.slack.dev/reference/methods/usergroups.disable
 export interface UsergroupsDisableArguments extends TokenOverridable, OptionalTeamAssignable, UsergroupsIncludeCount {
   /** @description The encoded ID of the User Group to disable. */
   usergroup: string;
 }
-// https://api.slack.com/methods/usergroups.enable
+// https://docs.slack.dev/reference/methods/usergroups.enable
 export interface UsergroupsEnableArguments extends TokenOverridable, OptionalTeamAssignable, UsergroupsIncludeCount {
   /** @description The encoded ID of the User Group to enable. */
   usergroup: string;
 }
-// https://api.slack.com/methods/usergroups.list
+// https://docs.slack.dev/reference/methods/usergroups.list
 export type UsergroupsListArguments = OptionalArgument<
   TokenOverridable &
     OptionalTeamAssignable &
@@ -39,7 +39,7 @@ export type UsergroupsListArguments = OptionalArgument<
     }
 >;
 
-// https://api.slack.com/methods/usergroups.update
+// https://docs.slack.dev/reference/methods/usergroups.update
 export interface UsergroupsUpdateArguments
   extends TokenOverridable,
     OptionalTeamAssignable,
@@ -47,14 +47,14 @@ export interface UsergroupsUpdateArguments
   /** @description The encoded ID of the User Group to update. */
   usergroup: string;
 }
-// https://api.slack.com/methods/usergroups.users.list
+// https://docs.slack.dev/reference/methods/usergroups.users.list
 export interface UsergroupsUsersListArguments extends TokenOverridable, OptionalTeamAssignable {
   /** @description The encoded ID of the User Group to list users for. */
   usergroup: string;
   /** @description Allow results that involve disabled User Groups. */
   include_disabled?: boolean;
 }
-// https://api.slack.com/methods/usergroups.users.update
+// https://docs.slack.dev/reference/methods/usergroups.users.update
 export interface UsergroupsUsersUpdateArguments
   extends TokenOverridable,
     OptionalTeamAssignable,

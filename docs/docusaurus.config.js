@@ -180,7 +180,7 @@ const config = {
       },
       // announcementBar: {
       //   id: `announcementBar`,
-      //   content: `🎉️ <b><a target="_blank" href="https://api.slack.com/">Version 2.26.0</a> of the developer tools for the Slack automations platform is here!</b> 🎉️ `,
+      //   content: `🎉️ <b><a target="_blank" href="https://docs.slack.dev/">Version 2.26.0</a> of the developer tools for the Slack automations platform is here!</b> 🎉️ `,
       // },
     }),
 };

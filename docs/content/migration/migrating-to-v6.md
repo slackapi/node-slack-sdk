@@ -27,7 +27,7 @@ Our newly released major versions all require a minimum TypeScript version of `4
 
 ### Org Wide App Installation changes to InstallationStore in @slack/oauth
 
-In [`@slack/oauth@1.4.0`](https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Foauth%401.4.0), we introduced support for [org wide app installations](https://api.slack.com/enterprise/apps). To add support to your applications, two new methods were introduced to the Installation Store used during OAuth, `fetchOrgInstallation` & `storeOrgInstallation`. With ``@slack/oauth@2.0.0``, we have dropped support for these two new methods for a simpler interface. See the code samples below for the recommended changes to migrate.
+In [`@slack/oauth@1.4.0`](https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Foauth%401.4.0), we introduced support for [org wide app installations](https://docs.slack.dev/enterprise-grid/organization-ready-apps). To add support to your applications, two new methods were introduced to the Installation Store used during OAuth, `fetchOrgInstallation` & `storeOrgInstallation`. With ``@slack/oauth@2.0.0``, we have dropped support for these two new methods for a simpler interface. See the code samples below for the recommended changes to migrate.
 
 Before:
 
