@@ -44,16 +44,17 @@ export interface Block {
  * {@link https://api.slack.com/reference/block-kit/blocks Blocks reference}.
  */
 export type KnownBlock =
-  | ImageBlock
-  | ContextBlock
   | ActionsBlock
+  | ContextBlock
   | DividerBlock
-  | SectionBlock
-  | InputBlock
   | FileBlock
   | HeaderBlock
-  | VideoBlock
-  | RichTextBlock;
+  | ImageBlock
+  | InputBlock
+  | MarkdownBlock
+  | RichTextBlock
+  | SectionBlock
+  | VideoBlock;
 
 /**
  * A helper union type of all known Blocks as well as the generic {@link Block} interface. A full list of known blocks
@@ -243,6 +244,23 @@ export interface InputBlock extends Block {
    * {@link https://api.slack.com/reference/interaction-payloads/block-actions block_actions payload}. Defaults to `false`.
    */
   dispatch_action?: boolean;
+}
+
+/**
+ * @description This block can be used with AI apps when you expect a markdown response from an LLM that can get lost in
+ * translation rendering in Slack. Providing it in a markdown block leaves the translating to Slack to ensure your message
+ * appears as intended. Note that passing a single block may result in multiple blocks after translation.
+ * @see {@link https://api.slack.com/reference/block-kit/blocks#markdown Markdown block reference}
+ */
+export interface MarkdownBlock extends Block {
+  /**
+   * @description The type of block. For a markdown block, `type` is always `input`.
+   */
+  type: 'markdown';
+  /**
+   * @description The standard markdown-formatted text. Limit 12,000 characters max.
+   */
+  text: string;
 }
 
 /**
