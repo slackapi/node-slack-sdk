@@ -1877,7 +1877,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     ),
     /**
      * @description Gets information about a file.
-     * @see {@link https://docs.slack.dev/reference/methods/files.info`files.info` API reference}.
+     * @see {@link https://docs.slack.dev/reference/methods/files.info `files.info` API reference}.
      */
     info: bindApiCall<FilesInfoArguments, FilesInfoResponse>(this, 'files.info'),
     /**
