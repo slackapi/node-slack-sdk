@@ -6,28 +6,28 @@ interface BaseView {
   blocks: AnyBlock[];
   /**
    * @description String that will be sent to your app in
-   * {@link https://api.slack.com/reference/interaction-payloads/views#view_submission `view_submission`} and
-   * {@link https://api.slack.com/reference/interaction-payloads/block-actions `block_actions`} events.
+   * {@link https://docs.slack.dev/reference/interaction-payloads/view-interactions-payload#view_submission `view_submission`} and
+   * {@link https://docs.slack.dev/reference/interaction-payloads/block_actions-payload `block_actions`} events.
    * Maximum length of 3000 characters.
    */
   private_metadata?: string;
   /**
    * @description An identifier to recognize interactions and submissions of this particular view. Don't use this to
    * store sensitive information (use `private_metadata` instead). Maximum length of 255 characters.
-   * @see {@link https://api.slack.com/surfaces/modals#interactions Handling and responding to interactions}.
+   * @see {@link https://docs.slack.dev/surfaces/modals#interactions Handling and responding to interactions}.
    */
   callback_id?: string;
   /** @description A custom identifier that must be unique for all views on a per-team basis. */
   external_id?: string;
 }
 
-// Reference: https://api.slack.com/surfaces/app-home#composing
+// Reference: https://docs.slack.dev/surfaces/app-home#composing
 export interface HomeView extends BaseView {
   /** @description The type of view. Set to `home` for Home tabs. */
   type: 'home';
 }
 
-// Reference: https://api.slack.com/surfaces/modals#composing_views
+// Reference: https://docs.slack.dev/surfaces/modals#composing_views
 export interface ModalView extends BaseView {
   /** @description The type of view. Set to `modal` for modals. */
   type: 'modal';
@@ -54,15 +54,15 @@ export interface ModalView extends BaseView {
   clear_on_close?: boolean;
   /**
    * @description Indicates whether Slack will send your app a
-   * {@link https://api.slack.com/reference/interaction-payloads/views#view_closed `view_closed`} event when a user
+   * {@link https://docs.slack.dev/reference/interaction-payloads/view-interactions-payload#view_closed `view_closed`} event when a user
    * clicks the close button. Defaults to `false`.
    */
   notify_on_close?: boolean;
 }
 
 /**
- * {@link https://api.slack.com/legacy/workflows/steps#handle_config_view Configuration modal} for {@link https://api.slack.com/legacy/workflows/steps legacy Workflow Steps from Apps}.
- * @deprecated Steps from Apps are deprecated and will no longer be executed starting September 12, 2024. For more information, see our {@link https://api.slack.com/changelog/2023-08-workflow-steps-from-apps-step-back deprecation announcement}.
+ * {@link https://docs.slack.dev/legacy/legacy-steps-from-appsConfiguration modal} for {@link https://docs.slack.dev/legacy/legacy-steps-from-apps legacy Workflow Steps from Apps}.
+ * @deprecated Steps from Apps are deprecated and will no longer be executed starting September 12, 2024. For more information, see our {@link https://docs.slack.dev/changelog/2023-08-workflow-steps-from-apps-step-back deprecation announcement}.
  */
 export interface WorkflowStepView extends BaseView {
   type: 'workflow_step';

@@ -2,7 +2,7 @@
 
 [![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/graph/badge.svg?token=OcQREPvC7r&flag=oauth)](https://codecov.io/gh/slackapi/node-slack-sdk)
 
-The `@slack/oauth` package makes it simple to setup the OAuth flow for Slack apps. It supports [V2 OAuth](https://api.slack.com/authentication/oauth-v2) for Slack Apps as well as [V1 OAuth](https://api.slack.com/docs/oauth) for [Classic Slack apps](https://api.slack.com/authentication/quickstart). Slack apps that are installed in multiple workspaces, like in the App Directory or in an Enterprise Grid, will need to implement OAuth and store information about each of those installations (such as access tokens).
+The `@slack/oauth` package makes it simple to setup the OAuth flow for Slack apps. It supports [V2 OAuth](https://docs.slack.dev/authentication/installing-with-oauth) for Slack Apps as well as [V1 OAuth](https://docs.slack.dev/legacy/legacy-authentication) for [Classic Slack apps](https://docs.slack.dev/quickstart). Slack apps that are installed in multiple workspaces, like in the Slack Marketplace or in an Enterprise Grid, will need to implement OAuth and store information about each of those installations (such as access tokens).
 
 The package handles URL generation, state verification, and authorization code exchange for access tokens. It also provides an interface for easily plugging in your own database for saving and retrieving installation data.
 
@@ -63,9 +63,9 @@ const installer = new InstallProvider({
 
 ### Generating an installation URL
 
-You'll need an installation URL when you want to test your own installation, in order to submit your app to the App Directory, and if you need an additional authorizations (user tokens) from users inside a team when your app is already installed. These URLs are also commonly used on your own webpages as the link for an ["Add to Slack" button](https://api.slack.com/docs/slack-button). You may also need to generate an installation URL dynamically when an option's value is only known at runtime, and in this case you would redirect the user to the installation URL.
+You'll need an installation URL when you want to test your own installation, in order to submit your app to the Slack Marketplace, and if you need an additional authorizations (user tokens) from users inside a team when your app is already installed. These URLs are also commonly used on your own webpages as the link for an ["Add to Slack" button](https://docs.slack.dev/legacy/legacy-slack-button). You may also need to generate an installation URL dynamically when an option's value is only known at runtime, and in this case you would redirect the user to the installation URL.
 
-The `installProvider.generateInstallUrl()` method will create an installation URL for you. It takes in an options argument which at a minimum contains a `scopes` property. `installProvider.generateInstallUrl()` options argument also supports `metadata`, `teamId`, `redirectUri` and `userScopes` properties.
+The `installProvider.generateInstallUrl()` method will create an installation URL for you. It takes in an `options` argument which at a minimum contains a `scopes` property. The `installProvider.generateInstallUrl()` method's `options` argument also supports `metadata`, `teamId`, `redirectUri` and `userScopes` properties.
 
 ```javascript
 installer.generateInstallUrl({
@@ -296,7 +296,7 @@ const installer = new InstallProvider({
 The `InstallProvider` will log interesting information to the console by default. You can use the `logLevel` to decide how
 much information, or how interesting the information needs to be, in order for it to be output. There are a few possible
 log levels, which you can find in the `LogLevel` export. By default, the value is set to `LogLevel.INFO`. While you're
-in development, its sometimes helpful to set this to the most verbose: `LogLevel.DEBUG`.
+in development, it's sometimes helpful to set this to the most verbose: `LogLevel.DEBUG`.
 
 ```javascript
 // Import LogLevel from the package

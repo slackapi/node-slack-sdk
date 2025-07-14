@@ -2,7 +2,7 @@ import type { OptionalArgument } from '../helpers';
 
 import type { OptionalTeamAssignable, TokenOverridable } from './common';
 
-// https://api.slack.com/methods/bots.info
+// https://docs.slack.dev/reference/methods/bots.info
 export type BotsInfoArguments = OptionalArgument<
   TokenOverridable &
     OptionalTeamAssignable & {

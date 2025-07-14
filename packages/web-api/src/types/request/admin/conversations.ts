@@ -38,28 +38,28 @@ interface RestrictAccessTeamID {
   team_id?: string;
 }
 
-// https://api.slack.com/methods/admin.conversations.archive
+// https://docs.slack.dev/reference/methods/admin.conversations.archive
 export interface AdminConversationsArchiveArguments extends ChannelID, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.conversations.bulkArchive
+// https://docs.slack.dev/reference/methods/admin.conversations.bulkArchive
 export interface AdminConversationsBulkArchiveArguments extends ChannelIDs, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.conversations.bulkDelete
+// https://docs.slack.dev/reference/methods/admin.conversations.bulkDelete
 export interface AdminConversationsBulkDeleteArguments extends ChannelIDs, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.conversations.bulkMove
+// https://docs.slack.dev/reference/methods/admin.conversations.bulkMove
 export interface AdminConversationsBulkMoveArguments extends ChannelIDs, TokenOverridable {
   /** @description Target team ID to move channels to. */
   target_team_id: string;
 }
 
-// https://api.slack.com/methods/admin.conversations.convertToPrivate
+// https://docs.slack.dev/reference/methods/admin.conversations.convertToPrivate
 export interface AdminConversationsConvertToPrivateArguments extends ChannelID, TokenOverridable {
   /** @description Name of private channel to create. Only respected when converting an MPIM. */
   name?: string;
 }
 
-// https://api.slack.com/methods/admin.conversations.convertToPublic
+// https://docs.slack.dev/reference/methods/admin.conversations.convertToPublic
 export interface AdminConversationsConvertToPublicArguments extends ChannelID, TokenOverridable {}
 
 export interface OrgWide {
@@ -81,7 +81,7 @@ export interface SpecificTeam {
 // When creating a channel, it can either be org wide or team specific, but not both
 type WorkspaceAccess = OrgWide | SpecificTeam;
 
-// https://api.slack.com/methods/admin.conversations.create
+// https://docs.slack.dev/reference/methods/admin.conversations.create
 export type AdminConversationsCreateArguments = TokenOverridable &
   WorkspaceAccess & {
     /** @description When `true`, creates a private channel instead of a public channel. */
@@ -92,33 +92,33 @@ export type AdminConversationsCreateArguments = TokenOverridable &
     description?: string;
   };
 
-// https://api.slack.com/methods/admin.conversations.delete
+// https://docs.slack.dev/reference/methods/admin.conversations.delete
 export interface AdminConversationsDeleteArguments extends ChannelID, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.conversations.disconnectShared
+// https://docs.slack.dev/reference/methods/admin.conversations.disconnectShared
 export interface AdminConversationsDisconnectSharedArguments extends ChannelID, TokenOverridable {
   /** @description Team IDs getting removed from the channel, optional if there are only two teams in the channel. */
   leaving_team_ids?: string[];
 }
 
-// https://api.slack.com/methods/admin.conversations.ekm.listOriginalConnectedChannelInfo
+// https://docs.slack.dev/reference/methods/admin.conversations.ekm.listOriginalConnectedChannelInfo
 export type AdminConversationsEKMListOriginalConnectedChannelInfoArguments = OptionalArgument<
   Partial<TeamIDs> & TokenOverridable & CursorPaginationEnabled & Partial<ChannelIDs>
 >;
 
-// https://api.slack.com/methods/admin.conversations.getConversationPrefs
+// https://docs.slack.dev/reference/methods/admin.conversations.getConversationPrefs
 export interface AdminConversationsGetConversationPrefsArguments extends ChannelID, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.conversations.getCustomRetention
+// https://docs.slack.dev/reference/methods/admin.conversations.getCustomRetention
 export interface AdminConversationsGetCustomRetentionArguments extends ChannelID, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.conversations.getTeams
+// https://docs.slack.dev/reference/methods/admin.conversations.getTeams
 export interface AdminConversationsGetTeamsArguments extends ChannelID, TokenOverridable, CursorPaginationEnabled {}
 
-// https://api.slack.com/methods/admin.conversations.invite
+// https://docs.slack.dev/reference/methods/admin.conversations.invite
 export interface AdminConversationsInviteArguments extends ChannelID, UserIDs, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.conversations.lookup
+// https://docs.slack.dev/reference/methods/admin.conversations.lookup
 export interface AdminConversationsLookupArguments extends TeamIDs, TokenOverridable, CursorPaginationEnabled {
   /**
    * @description UNIX timestamp to filter by public channels where the most recent message
@@ -129,36 +129,36 @@ export interface AdminConversationsLookupArguments extends TeamIDs, TokenOverrid
   max_member_count?: number;
 }
 
-// https://api.slack.com/methods/admin.conversations.removeCustomRetention
+// https://docs.slack.dev/reference/methods/admin.conversations.removeCustomRetention
 export interface AdminConversationsRemoveCustomRetentionArguments extends ChannelID, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.conversations.rename
+// https://docs.slack.dev/reference/methods/admin.conversations.rename
 export interface AdminConversationsRenameArguments extends ChannelID, TokenOverridable {
   /** @description The new name for the channel. */
   name: string;
 }
 
-// https://api.slack.com/methods/admin.conversations.restrictAccess.addGroup
+// https://docs.slack.dev/reference/methods/admin.conversations.restrictAccess.addGroup
 export interface AdminConversationsRestrictAccessAddGroupArguments
   extends ChannelID,
     GroupID,
     RestrictAccessTeamID,
     TokenOverridable {}
 
-// https://api.slack.com/methods/admin.conversations.restrictAccess.listGroups
+// https://docs.slack.dev/reference/methods/admin.conversations.restrictAccess.listGroups
 export interface AdminConversationsRestrictAccessListGroupsArguments
   extends ChannelID,
     RestrictAccessTeamID,
     TokenOverridable {}
 
-// https://api.slack.com/methods/admin.conversations.restrictAccess.removeGroup
+// https://docs.slack.dev/reference/methods/admin.conversations.restrictAccess.removeGroup
 export interface AdminConversationsRestrictAccessRemoveGroupArguments
   extends ChannelID,
     GroupID,
     RestrictAccessTeamID,
     TokenOverridable {}
 
-// https://api.slack.com/methods/admin.conversations.search
+// https://docs.slack.dev/reference/methods/admin.conversations.search
 export type AdminConversationsSearchArguments = OptionalArgument<
   SortDir &
     Partial<TeamIDs> &
@@ -171,7 +171,7 @@ export type AdminConversationsSearchArguments = OptionalArgument<
       /**
        * @description The type of channels to include or exclude in the search. For example `private` will search
        * private channels, while `private_exclude` will exclude them.
-       * @see {@link https://api.slack.com/methods/admin.conversations.search#types Full list of channel types}.
+       * @see {@link https://docs.slack.dev/reference/methods/admin.conversations.search#types Full list of channel types}.
        */
       search_channel_types?: ChannelType[];
       /**
@@ -192,19 +192,19 @@ export type AdminConversationsSearchArguments = OptionalArgument<
     }
 >;
 
-// https://api.slack.com/methods/admin.conversations.setConversationPrefs
+// https://docs.slack.dev/reference/methods/admin.conversations.setConversationPrefs
 export interface AdminConversationsSetConversationPrefsArguments extends ChannelID, TokenOverridable {
   /** @description The prefs for this channel. */
   prefs: Record<string, unknown>;
 }
 
-// https://api.slack.com/methods/admin.conversations.setCustomRetention
+// https://docs.slack.dev/reference/methods/admin.conversations.setCustomRetention
 export interface AdminConversationsSetCustomRetentionArguments extends ChannelID, TokenOverridable {
   /** @description The message retention duration in days to set for this conversation. */
   duration_days: number;
 }
 
-// https://api.slack.com/methods/admin.conversations.setTeams
+// https://docs.slack.dev/reference/methods/admin.conversations.setTeams
 export interface AdminConversationsSetTeamsArguments extends ChannelID, TokenOverridable {
   /** @description Set to `true` if channel has to be converted to an org channel. Defaults to `false`. */
   org_channel?: boolean;
@@ -220,5 +220,5 @@ export interface AdminConversationsSetTeamsArguments extends ChannelID, TokenOve
   team_id?: string;
 }
 
-// https://api.slack.com/methods/admin.conversations.unarchive
+// https://docs.slack.dev/reference/methods/admin.conversations.unarchive
 export interface AdminConversationsUnarchiveArguments extends ChannelID, TokenOverridable {}

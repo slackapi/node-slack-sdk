@@ -9,7 +9,7 @@ import type {
   TraditionalPagingEnabled,
 } from './common';
 
-// https://api.slack.com/methods/team.accessLogs
+// https://docs.slack.dev/reference/methods/team.accessLogs
 export type TeamAccessLogsArguments = OptionalArgument<
   TokenOverridable &
     CursorPaginationEnabled &
@@ -22,7 +22,7 @@ export type TeamAccessLogsArguments = OptionalArgument<
       before?: number;
     }
 >;
-// https://api.slack.com/methods/team.billableInfo
+// https://docs.slack.dev/reference/methods/team.billableInfo
 export type TeamBillableInfoArguments = OptionalArgument<
   TokenOverridable &
     CursorPaginationEnabled &
@@ -31,11 +31,11 @@ export type TeamBillableInfoArguments = OptionalArgument<
       user?: string;
     }
 >;
-// https://api.slack.com/methods/team.billing.info
+// https://docs.slack.dev/reference/methods/team.billing.info
 export type TeamBillingInfoArguments = OptionalArgument<TokenOverridable>;
-// https://api.slack.com/methods/team.externalTeams.disconnect
+// https://docs.slack.dev/reference/methods/team.externalTeams.disconnect
 export type TeamExternalTeamsDisconnectArguments = TokenOverridable & Required<TargetTeam>;
-// https://api.slack.com/methods/team.externalTeams.list
+// https://docs.slack.dev/reference/methods/team.externalTeams.list
 export type TeamExternalTeamsListArguments = OptionalArgument<
   TokenOverridable &
     CursorPaginationEnabled & {
@@ -59,7 +59,7 @@ export type TeamExternalTeamsListArguments = OptionalArgument<
       workspace_filter?: string[];
     }
 >;
-// https://api.slack.com/methods/team.info
+// https://docs.slack.dev/reference/methods/team.info
 export type TeamInfoArguments = OptionalArgument<
   TokenOverridable & {
     /**
@@ -72,7 +72,7 @@ export type TeamInfoArguments = OptionalArgument<
     team?: string;
   }
 >;
-// https://api.slack.com/methods/team.integrationLogs
+// https://docs.slack.dev/reference/methods/team.integrationLogs
 export type TeamIntegrationLogsArguments = OptionalArgument<
   Partial<AppID> &
     TokenOverridable &
@@ -86,12 +86,12 @@ export type TeamIntegrationLogsArguments = OptionalArgument<
       user?: string;
     }
 >;
-// https://api.slack.com/methods/team.profile.get
+// https://docs.slack.dev/reference/methods/team.profile.get
 export type TeamProfileGetArguments = OptionalArgument<
   TokenOverridable & {
     /** @description Filter by visibility. */
     visibility?: 'all' | 'visible' | 'hidden';
   }
 >;
-// https://api.slack.com/methods/team.preferences.list
+// https://docs.slack.dev/reference/methods/team.preferences.list
 export type TeamPreferencesListArguments = OptionalArgument<TokenOverridable>;

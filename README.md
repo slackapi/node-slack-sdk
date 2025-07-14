@@ -19,10 +19,10 @@ Slack's APIs. They are small and powerful when used independently, and work seam
 **Just starting out?** The [Getting Started tutorial](https://slackapi.github.io/node-slack-sdk/getting-started) will
 walk you through building your first Slack app using Node.js.
 
-| Slack API    | What its for | NPM Package      |
+| Slack API    | Use | NPM Package      |
 |--------------|--------------|-------------------|
-| Web API      | Send data to or query data from Slack using any of [over 220 methods](https://api.slack.com/methods). | [`@slack/web-api`](https://tools.slack.dev/node-slack-sdk/web-api) |
-| OAuth        | Setup the authentication flow using V2 OAuth for Slack apps as well as V1 OAuth for classic Slack apps. | [`@slack/oauth`](https://tools.slack.dev/node-slack-sdk/oauth) |
+| Web API      | Send data to or query data from Slack using any of [over 220 methods](https://docs.slack.dev/reference/methods). | [`@slack/web-api`](https://tools.slack.dev/node-slack-sdk/web-api) |
+| OAuth        | Set up the authentication flow using V2 OAuth for Slack apps as well as V1 OAuth for classic Slack apps. | [`@slack/oauth`](https://tools.slack.dev/node-slack-sdk/oauth) |
 | Incoming Webhooks | Send notifications to a single channel which the user picks on installation. | [`@slack/webhook`](https://tools.slack.dev/node-slack-sdk/webhook) |
 | Socket Mode  | Listen for incoming messages and a limited set of events happening in Slack, using WebSocket. | [`@slack/socket-mode`](https://tools.slack.dev/node-slack-sdk/socket-mode) |
 
@@ -58,7 +58,7 @@ package's documentation, linked in the table above.
 Your app will interact with the Web API through the `WebClient` object, which is an export from `@slack/web-api`. You
 typically instantiate a client with a token you received from Slack. The example below shows how to post a message into
 a channel, DM, MPDM, or group. The `WebClient` object makes it simple to call any of the [**over 130 Web API
-methods**](https://api.slack.com/methods).
+methods**](https://docs.slack.dev/reference/methods).
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
@@ -72,7 +72,7 @@ const web = new WebClient(token);
 const conversationId = 'C1232456';
 
 (async () => {
-  // See: https://api.slack.com/methods/chat.postMessage
+  // See: https://docs.slack.dev/reference/methods/chat.postMessage
   const res = await web.chat.postMessage({ channel: conversationId, text: 'Hello there' });
 
   // `res` contains information about the posted message

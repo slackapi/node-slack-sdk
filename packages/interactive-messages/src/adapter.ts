@@ -650,7 +650,7 @@ export default class SlackMessageAdapter {
         }
       }
 
-      // if there's no reason to eliminate this callback, then its a match!
+      // if there's no reason to eliminate this callback, then it's a match!
       return true;
     });
   }
@@ -694,7 +694,7 @@ export interface ActionConstraints {
 
   /**
    * Valid types include all
-   * [actions block elements](https://api.slack.com/reference/messaging/interactive-components),
+   * [actions block elements](https://docs.slack.dev/reference/block-kit/block-elements),
    * `select` only for menu selections, or `dialog_submission` only for dialog submissions
    */
   type?: string;
@@ -781,7 +781,7 @@ export type StoredConstraints =
  * A function used to send message updates after an action is handled. This function can be used
  * up to 5 times in 30 minutes.
  *
- * @param message - a [message](https://api.slack.com/docs/interactive-message-field-guide#top-level_message_fields).
+ * @param message - a [message](https://docs.slack.dev/legacy/legacy-messaging/legacy-interactive-message-field-guide).
  *   Dialog submissions do not allow `replace_original: false` on this message.
  * @returns there's no contract or interface for the resolution value, but this Promise will resolve when the HTTP
  *   response from the `response_url` request is complete and reject when there is an error.
@@ -793,19 +793,19 @@ export type Respond = (message: any) => Promise<unknown>;
  * and dialog submissions).
  *
  * @param payload - an object describing the
- *   [block actions](https://api.slack.com/messaging/interactivity/enabling#understanding-payloads)
- *   [button press](https://api.slack.com/docs/message-buttons#responding_to_message_actions),
- *   [menu selection](https://api.slack.com/docs/message-menus#request_url_response), or
- *   [dialog submission](https://api.slack.com/dialogs#evaluating_submission_responses).
+ *   [block actions](https://docs.slack.dev/interactivity)
+ *   [button press](https://docs.slack.dev/legacy/legacy-messaging/legacy-message-buttons#responding-to-message-actions),
+ *   [menu selection](https://docs.slack.dev/legacy/legacy-messaging/legacy-adding-menus-to-messages), or
+ *   [dialog submission](https://docs.slack.dev/legacy/legacy-dialogs#submit).
  * @param respond - When the action is a button press or menu selection, this function is used to update the message
  *   where the action occurred or create new messages in the same conversation. When the action is a dialog submission,
  *   this function is used to create new messages in the conversation where the dialog was triggered.
  * @returns When the action is a button press or a menu selection, this object is a replacement
- *   [message](https://api.slack.com/docs/interactive-message-field-guide#top-level_message_fields) for the message in
+ *   [message](https://docs.slack.dev/legacy/legacy-messaging/legacy-interactive-message-field-guide) for the message in
  *   which the action occurred. It may also be a Promise for a message, and if so and the Promise takes longer than the
  *   `syncResponseTimeout` to complete, the message is sent over the `response_url`. The message may also be a new
  *   message in the same conversation by setting `replace_original: false`. When the action is a dialog submission,
- *   this object is a list of [validation errors](https://api.slack.com/dialogs#input_validation). It may also be a
+ *   this object is a list of [validation errors](https://docs.slack.dev/legacy/legacy-dialogs#input-validation). It may also be a
  *   Promise for a list of validation errors, and if so and the Promise takes longer than the `syncResponseTimeout` to
  *   complete, Slack will display an error to the user. If there is no return value, then button presses and menu
  *   selections do not update the message and dialog submissions will validate and dismiss.
@@ -823,9 +823,9 @@ export type ShortcutHandler = (payload: any) => any | Promise<any> | undefined;
  * A handler function for menu options requests.
  *
  * @param payload - an object describing
- *   [the state of the menu](https://api.slack.com/docs/message-menus#options_load_url)
- * @returns an [options list](https://api.slack.com/docs/interactive-message-field-guide#option_fields) or
- *   [option groups list](https://api.slack.com/docs/interactive-message-field-guide#option_groups). When the menu is
+ *   [the state of the menu](https://docs.slack.dev/legacy/legacy-messaging/legacy-adding-menus-to-messages#options-load-url)
+ * @returns an [options list](https://docs.slack.dev/legacy/legacy-messaging/legacy-interactive-message-field-guide#option_fields) or
+ *   [option groups list](https://docs.slack.dev/legacy/legacy-messaging/legacy-interactive-message-field-guide#option_groups). When the menu is
  *   within an interactive message, (`within: 'interactive_message'`) the option keys are `text` and `value`. When the
  *   menu is within a dialog (`within: 'dialog'`) the option keys are `label` and `value`. When the menu is within a
  *   dialog (`within: 'block_actions'`) the option keys are a text block and `value`. This function may also return a

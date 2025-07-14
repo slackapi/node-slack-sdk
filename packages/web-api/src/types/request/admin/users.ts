@@ -50,7 +50,7 @@ export interface NeitherTeamNorUserID {
 // `admin.users.session.list` accepts either BOTH team_id+user_id, or neither
 type EitherTeamAndUserIDOrNeither = BothTeamAndUserID | NeitherTeamNorUserID;
 
-// https://api.slack.com/methods/admin.users.assign
+// https://docs.slack.dev/reference/methods/admin.users.assign
 export interface AdminUsersAssignArguments
   extends TeamID,
     UserID,
@@ -59,7 +59,7 @@ export interface AdminUsersAssignArguments
     IsUltraRestricted,
     TokenOverridable {}
 
-// https://api.slack.com/methods/admin.users.invite
+// https://docs.slack.dev/reference/methods/admin.users.invite
 export interface AdminUsersInviteArguments
   extends ChannelIDs,
     TeamID,
@@ -89,7 +89,7 @@ export interface AdminUsersInviteArguments
   resend?: boolean;
 }
 
-// https://api.slack.com/methods/admin.users.list
+// https://docs.slack.dev/reference/methods/admin.users.list
 export type AdminUsersListArguments = OptionalArgument<
   TeamIDOrDeactivatedWorkspaces &
     TokenOverridable &
@@ -102,33 +102,33 @@ export type AdminUsersListArguments = OptionalArgument<
     }
 >;
 
-// https://api.slack.com/methods/admin.users.remove
+// https://docs.slack.dev/reference/methods/admin.users.remove
 export interface AdminUsersRemoveArguments extends TeamID, UserID, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.users.session.clearSettings
+// https://docs.slack.dev/reference/methods/admin.users.session.clearSettings
 export interface AdminUsersSessionClearSettingsArguments extends UserIDs, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.users.session.getSettings
+// https://docs.slack.dev/reference/methods/admin.users.session.getSettings
 export interface AdminUsersSessionGetSettingsArguments extends UserIDs, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.users.session.invalidate
+// https://docs.slack.dev/reference/methods/admin.users.session.invalidate
 export interface AdminUsersSessionInvalidateArguments extends TeamID, TokenOverridable {
   /** @description ID of the session to invalidate. */
   session_id: string;
 }
 
-// https://api.slack.com/methods/admin.users.session.list
+// https://docs.slack.dev/reference/methods/admin.users.session.list
 export type AdminUsersSessionListArguments = OptionalArgument<
   EitherTeamAndUserIDOrNeither & TokenOverridable & CursorPaginationEnabled
 >;
 
-// https://api.slack.com/methods/admin.users.session.reset
+// https://docs.slack.dev/reference/methods/admin.users.session.reset
 export interface AdminUsersSessionResetArguments extends UserID, SessionExpirationTarget, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.users.session.resetBulk
+// https://docs.slack.dev/reference/methods/admin.users.session.resetBulk
 export interface AdminUsersSessionResetBulkArguments extends UserIDs, SessionExpirationTarget, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.users.session.setSettings
+// https://docs.slack.dev/reference/methods/admin.users.session.setSettings
 export interface AdminUsersSessionSetSettingsArguments extends UserIDs, TokenOverridable {
   /** @description Terminate the session when the client—either the desktop app or a browser window—is closed. */
   desktop_app_browser_quit?: boolean;
@@ -139,22 +139,22 @@ export interface AdminUsersSessionSetSettingsArguments extends UserIDs, TokenOve
   duration?: number;
 }
 
-// https://api.slack.com/methods/admin.users.setAdmin
+// https://docs.slack.dev/reference/methods/admin.users.setAdmin
 export interface AdminUsersSetAdminArguments extends TeamID, UserID, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.users.setExpiration
+// https://docs.slack.dev/reference/methods/admin.users.setExpiration
 export interface AdminUsersSetExpirationArguments extends UserID, TokenOverridable, OptionalTeamAssignable {
   /** @description Epoch timestamp in seconds when guest account should be disabled. */
   expiration_ts: number;
 }
 
-// https://api.slack.com/methods/admin.users.setOwner
+// https://docs.slack.dev/reference/methods/admin.users.setOwner
 export interface AdminUsersSetOwnerArguments extends TeamID, UserID, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.users.setRegular
+// https://docs.slack.dev/reference/methods/admin.users.setRegular
 export interface AdminUsersSetRegularArguments extends TeamID, UserID, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.users.unsupportedVersions.export
+// https://docs.slack.dev/reference/methods/admin.users.unsupportedVersions.export
 export interface AdminUsersUnsupportedVersionsExportArguments extends TokenOverridable {
   /**
    * @description Unix timestamp of the date of past or upcoming end of support cycles.
