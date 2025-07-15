@@ -28,6 +28,7 @@ import type {
   AdminConversationsConvertToPrivateArguments,
   AdminConversationsConvertToPublicArguments,
   AdminConversationsCreateArguments,
+  AdminConversationsCreateForObjectsArguments,
   AdminConversationsDeleteArguments,
   AdminConversationsDisconnectSharedArguments,
   AdminConversationsEKMListOriginalConnectedChannelInfoArguments,
@@ -35,6 +36,7 @@ import type {
   AdminConversationsGetCustomRetentionArguments,
   AdminConversationsGetTeamsArguments,
   AdminConversationsInviteArguments,
+  AdminConversationsLinkObjectsArguments,
   AdminConversationsLookupArguments,
   AdminConversationsRemoveCustomRetentionArguments,
   AdminConversationsRenameArguments,
@@ -46,6 +48,7 @@ import type {
   AdminConversationsSetCustomRetentionArguments,
   AdminConversationsSetTeamsArguments,
   AdminConversationsUnarchiveArguments,
+  AdminConversationsUnlinkObjectsArguments,
   AdminEmojiAddAliasArguments,
   AdminEmojiAddArguments,
   AdminEmojiListArguments,
@@ -280,6 +283,7 @@ import type {
   AdminConversationsBulkMoveResponse,
   AdminConversationsConvertToPrivateResponse,
   AdminConversationsConvertToPublicResponse,
+  AdminConversationsCreateForObjectsResponse,
   AdminConversationsCreateResponse,
   AdminConversationsDeleteResponse,
   AdminConversationsDisconnectSharedResponse,
@@ -288,6 +292,7 @@ import type {
   AdminConversationsGetCustomRetentionResponse,
   AdminConversationsGetTeamsResponse,
   AdminConversationsInviteResponse,
+  AdminConversationsLinkObjectsResponse,
   AdminConversationsLookupResponse,
   AdminConversationsRemoveCustomRetentionResponse,
   AdminConversationsRenameResponse,
@@ -299,6 +304,7 @@ import type {
   AdminConversationsSetCustomRetentionResponse,
   AdminConversationsSetTeamsResponse,
   AdminConversationsUnarchiveResponse,
+  AdminConversationsUnlinkObjectsResponse,
   AdminEmojiAddAliasResponse,
   AdminEmojiAddResponse,
   AdminEmojiListResponse,
@@ -777,6 +783,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         'admin.conversations.create',
       ),
       /**
+       * @description Create a Salesforce channel for the corresponding object provided.
+       * @see {@link https://docs.slack.dev/reference/methods/admin.conversations.createForObjects `admin.conversations.createForObjects` API reference}.
+       */
+      createForObjects: bindApiCall<
+        AdminConversationsCreateForObjectsArguments,
+        AdminConversationsCreateForObjectsResponse
+      >(this, 'admin.conversations.createForObjects'),
+      /**
        * @description Delete a public or private channel.
        * @see {@link https://docs.slack.dev/reference/methods/admin.conversations.delete `admin.conversations.delete` API reference}.
        */
@@ -843,6 +857,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       lookup: bindApiCall<AdminConversationsLookupArguments, AdminConversationsLookupResponse>(
         this,
         'admin.conversations.lookup',
+      ),
+      /**
+       * @description Link a Salesforce record to a channel.
+       * @see {@link https://docs.slack.dev/reference/methods/admin.conversations.linkObjects `admin.conversations.linkObjects` API reference}.
+       */
+      linkObjects: bindApiCall<AdminConversationsLinkObjectsArguments, AdminConversationsLinkObjectsResponse>(
+        this,
+        'admin.conversations.linkObjects',
       ),
       /**
        * @description Remove a conversation's retention policy.
@@ -925,6 +947,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       unarchive: bindApiCall<AdminConversationsUnarchiveArguments, AdminConversationsUnarchiveResponse>(
         this,
         'admin.conversations.unarchive',
+      ),
+      /**
+       * @description Unlink a Salesforce record from a channel.
+       * @see {@link https://docs.slack.dev/reference/methods/admin.conversations.unlinkObjects `admin.conversations.unlinkObjects` API reference}.
+       */
+      unlinkObjects: bindApiCall<AdminConversationsUnlinkObjectsArguments, AdminConversationsUnlinkObjectsResponse>(
+        this,
+        'admin.conversations.unlinkObjects',
       ),
     },
     emoji: {
