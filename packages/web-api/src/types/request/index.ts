@@ -31,6 +31,7 @@ export type {
   AdminConversationsConvertToPrivateArguments,
   AdminConversationsConvertToPublicArguments,
   AdminConversationsCreateArguments,
+  AdminConversationsCreateForObjectsArguments,
   AdminConversationsDeleteArguments,
   AdminConversationsDisconnectSharedArguments,
   AdminConversationsEKMListOriginalConnectedChannelInfoArguments,
@@ -38,6 +39,7 @@ export type {
   AdminConversationsGetCustomRetentionArguments,
   AdminConversationsGetTeamsArguments,
   AdminConversationsInviteArguments,
+  AdminConversationsLinkObjectsArguments,
   AdminConversationsLookupArguments,
   AdminConversationsRemoveCustomRetentionArguments,
   AdminConversationsRenameArguments,
@@ -49,6 +51,7 @@ export type {
   AdminConversationsSetCustomRetentionArguments,
   AdminConversationsSetTeamsArguments,
   AdminConversationsUnarchiveArguments,
+  AdminConversationsUnlinkObjectsArguments,
 } from './admin/conversations';
 export type {
   AdminEmojiAddAliasArguments,

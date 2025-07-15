@@ -182,6 +182,35 @@ expectAssignable<Parameters<typeof web.admin.conversations.create>>([
   },
 ]);
 
+// admin.conversations.createForObjects
+// -- sad path
+expectError(web.admin.conversations.createForObjects()); // lacking argument
+expectError(web.admin.conversations.createForObjects({})); // empty argument
+expectError(
+  web.admin.conversations.createForObjects({
+    object_id: '0019000000DmehKAAR', // missing salesforce_org_id
+  }),
+);
+expectError(
+  web.admin.conversations.createForObjects({
+    salesforce_org_id: '00DGC00000024hsuWY', // missing object_id
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.admin.conversations.createForObjects>>([
+  {
+    object_id: '0019000000DmehKAAR',
+    salesforce_org_id: '00DGC00000024hsuWY',
+  },
+]);
+expectAssignable<Parameters<typeof web.admin.conversations.createForObjects>>([
+  {
+    object_id: '0019000000DmehKAAR',
+    salesforce_org_id: '00DGC00000024hsuWY',
+    invite_object_team: true,
+  },
+]);
+
 // admin.conversations.delete
 // -- sad path
 expectError(web.admin.conversations.delete()); // lacking argument
@@ -285,6 +314,40 @@ expectAssignable<Parameters<typeof web.admin.conversations.lookup>>([
   {
     team_ids: ['T1234'],
     last_message_activity_before: 10,
+  },
+]);
+
+// admin.conversations.linkObjects
+// -- sad path
+expectError(web.admin.conversations.linkObjects()); // lacking argument
+expectError(web.admin.conversations.linkObjects({})); // empty argument
+expectError(
+  web.admin.conversations.linkObjects({
+    channel: 'C1234', // missing record_id and salesforce_org_id
+  }),
+);
+expectError(
+  web.admin.conversations.linkObjects({
+    record_id: '0019000000DmehKAAR', // missing channel and salesforce_org_id
+  }),
+);
+expectError(
+  web.admin.conversations.linkObjects({
+    salesforce_org_id: '00DGC00000024hsuWY', // missing channel and record_id
+  }),
+);
+expectError(
+  web.admin.conversations.linkObjects({
+    channel: 'C1234',
+    record_id: '0019000000DmehKAAR', // missing salesforce_org_id
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.admin.conversations.linkObjects>>([
+  {
+    channel: 'C1234',
+    record_id: '0019000000DmehKAAR',
+    salesforce_org_id: '00DGC00000024hsuWY',
   },
 ]);
 
@@ -445,5 +508,27 @@ expectError(web.admin.conversations.unarchive({})); // empty argument
 expectAssignable<Parameters<typeof web.admin.conversations.unarchive>>([
   {
     channel_id: 'C1234',
+  },
+]);
+
+// admin.conversations.unlinkObjects
+// -- sad path
+expectError(web.admin.conversations.unlinkObjects()); // lacking argument
+expectError(web.admin.conversations.unlinkObjects({})); // empty argument
+expectError(
+  web.admin.conversations.unlinkObjects({
+    channel: 'C1234', // missing new_name
+  }),
+);
+expectError(
+  web.admin.conversations.unlinkObjects({
+    new_name: 'new-channel-name', // missing channel
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.admin.conversations.unlinkObjects>>([
+  {
+    channel: 'C1234',
+    new_name: 'new-channel-name',
   },
 ]);
