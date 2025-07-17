@@ -8,11 +8,11 @@
   "node-slack-sdk/getting-started",
   { "type": "html", "value": "<hr>" },
   "node-slack-sdk/typescript",
-  "node-slack-sdk/packages/web-api",
-  "node-slack-sdk/packages/oauth",
-  "node-slack-sdk/packages/rtm-api",
-  "node-slack-sdk/packages/webhook",
-  "node-slack-sdk/packages/socket-mode",
+  "node-slack-sdk/web-api",
+  "node-slack-sdk/oauth",
+  "node-slack-sdk/rtm-api",
+  "node-slack-sdk/webhook",
+  "node-slack-sdk/socket-mode",
   {
     "type": "category",
     "label": "Migration",
@@ -27,7 +27,7 @@
   {
     "type": "category",
     "label": "Deprecated packages",
-    "items": ["node-slack-sdk/packages/events-api", "node-slack-sdk/packages/interactive-messages"]
+    "items": ["node-slack-sdk/legacy/events-api", "node-slack-sdk/legacy/interactive-messages"]
   },
   {
     "type": "category",
