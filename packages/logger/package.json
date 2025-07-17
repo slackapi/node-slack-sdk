@@ -18,7 +18,7 @@
     "npm": ">= 8.6.0"
   },
   "repository": "slackapi/node-slack-sdk",
-  "homepage": "https://tools.slack.dev/node-slack-sdk",
+  "homepage": "https://docs.slack.dev/node-slack-sdk",
   "publishConfig": {
     "access": "public"
   },
