@@ -14,7 +14,7 @@ In order to guarantee you at least 90 days to migrate from one major version to 
 2. Within 30 days of that announcement, a new major version release will be available to start developing against.
 3. After a major version's maintenance ends, there will be a 30 day period of soft-maintenance for critical fixes and merging low impact contributions. It then is considered end-of-life.
 
-![Node v4.x LTS maintenance end in April creates the opportunity to sunset @slack/client v3.x](/img/support-schedule.png)
+![Node v4.x LTS maintenance end in April creates the opportunity to sunset @slack/client v3.x](/img/node-slack-sdk/support-schedule.png)
 
 _Node v4.x LTS maintenance end in April creates the opportunity to sunset `@slack/client` v3.x_
 

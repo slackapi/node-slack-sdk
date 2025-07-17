@@ -1,0 +1,54 @@
+[
+  {
+    "type": "doc",
+    "id": "node-slack-sdk/index",
+    "label": "Node Slack SDK",
+    "className": "sidebar-title"
+  },
+  "node-slack-sdk/getting-started",
+  { "type": "html", "value": "<hr>" },
+  "node-slack-sdk/typescript",
+  "node-slack-sdk/packages/web-api",
+  "node-slack-sdk/packages/oauth",
+  "node-slack-sdk/packages/rtm-api",
+  "node-slack-sdk/packages/webhook",
+  "node-slack-sdk/packages/socket-mode",
+  {
+    "type": "category",
+    "label": "Migration",
+    "items": [
+      "node-slack-sdk/migration/migrating-to-v4",
+      "node-slack-sdk/migration/migrating-to-v5",
+      "node-slack-sdk/migration/migrating-to-v6",
+      "node-slack-sdk/migration/migrating-socket-mode-package-to-v2",
+      "node-slack-sdk/migration/migrating-web-api-package-to-v7"
+    ]
+  },
+  {
+    "type": "category",
+    "label": "Deprecated packages",
+    "items": ["node-slack-sdk/packages/events-api", "node-slack-sdk/packages/interactive-messages"]
+  },
+  {
+    "type": "category",
+    "label": "Tutorials",
+    "items": ["node-slack-sdk/tutorials/local-development"]
+  },
+  { "type": "html", "value": "<hr>" },
+  "node-slack-sdk/support-schedule",
+  {
+    "type": "link",
+    "label": "Release notes",
+    "href": "https://github.com/SlackAPI/node-slack-sdk/releases"
+  },
+  {
+    "type": "link",
+    "label": "Code on GitHub",
+    "href": "https://github.com/SlackAPI/node-slack-sdk"
+  },
+  {
+    "type": "link",
+    "label": "Contributors Guide",
+    "href": "https://github.com/SlackAPI/node-slack-sdk/blob/main/.github/contributing.md"
+  }
+]
