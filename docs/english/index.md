@@ -1,8 +1,12 @@
 # Node Slack SDK
 
-The Node Slack SDK is a collection of single-purpose packages for building Slack apps that are performant, secure, and scalable. 
+The Node Slack SDK is a collection of single-purpose packages for building Slack apps that are performant, secure, and scalable.
 
-**Just starting out?** The [Getting Started tutorial](/node-slack-sdk/getting-started) will walk you through building your first Slack app using Node.js.
+:::tip[Just starting out?] 
+
+The [Getting Started tutorial](/node-slack-sdk/getting-started) will walk you through building your first Slack app using Node.js.
+
+:::
 
 ## Slack APIs
 
@@ -15,11 +19,9 @@ The Node Slack SDK has corresponding packages for Slack APIs. They are small and
 | Incoming Webhooks | Send notifications to a single channel that the user picks on installation. | [`@slack/webhook`](/node-slack-sdk/webhook) |
 | Socket Mode  | Listen for incoming messages and a limited set of events happening in Slack, using WebSocket. | [`@slack/socket-mode`](/node-slack-sdk/socket-mode) |
 
-:::warning[Deprecation Notice]
+:::warning[`@slack/events-api` and `@slack/interactive-messages` officially reached EOL on May 31st, 2021. Development has fully stopped for these packages and all remaining open issues and pull requests have been closed.]
 
-`@slack/events-api` and `@slack/interactive-messages` officially reached EOL on May 31st, 2021. Development has fully stopped for these packages and all remaining open issues and pull requests have been closed.
-
-At this time, we recommend migrating to [Bolt for JavaScript](/bolt-js), a framework that offers all of the functionality available in those packages (and more).
+At this time, we recommend migrating to [Bolt for JavaScript](/bolt-js), a framework that offers all of the functionality available in those packages.
 
 :::
 
