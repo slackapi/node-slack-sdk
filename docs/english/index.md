@@ -1,6 +1,5 @@
 ---
 title: Node Slack SDK
-slug: /
 ---
 
 The Node Slack SDK is a collection of single-purpose packages for building Slack apps that are performant, secure, and scalable. 
