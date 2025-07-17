@@ -1,12 +1,8 @@
----
-title: Developing Slack apps locally
----
-
 # Developing Slack apps locally
 
 This tutorial is meant to guide developers through setting up and configuring a Slack app for local development.
 
-Feel free to skip around to the specific sections relevant to you — we won't mind 🙂
+Feel free to skip around to the specific sections relevant to you — we won't mind. 🙂
 
 ## Create an app
 Head over to [Create an app](https://tools.slack.dev/bolt-js/getting-started#create-an-app) within our Getting started with JavaScript for Bolt page for instructions on how to create a Slack app on [api.slack.com/apps](https://api.slack.com/apps).
@@ -24,7 +20,7 @@ This tutorial will cover how to set up your app using either approach.
 
 ### Socket Mode
 
-Setting up your Node.js application for Socket Mode development is fast and easy with the [`@slack/socket-mode`](/socket-mode) package.
+Setting up your Node.js application for Socket Mode development is fast and easy with the [`@slack/socket-mode`](/node-slack-sdk/socket-mode) package.
 
 Once you've [created an app](#create-an-app), you will need to generate an app token. On your app's page on [api.slack.com/apps](https://api.slack.com/apps), under the main **Basic Information** page, scroll down to **App-Level Tokens**. Click **Generate Token and Scopes**, add a name for your app token, and click **Add Scope**. Choose `connections:write` and then click **Generate**. Copy and safely store the generated token - you'll need that when following the [Socket Mode package setup instructions](../socket-mode).
 

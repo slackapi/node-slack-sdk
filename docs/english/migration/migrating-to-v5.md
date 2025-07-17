@@ -15,7 +15,7 @@ Those packages only moved repositories, but did not get updated in this process.
 
 These packages have dropped support for versions of Node that are no longer supported. We recommend updating to the latest LTS version of [Node](https://nodejs.org/en/), which at this time is v10.15.3. The minimum supported version is v8.9.0.
 
-:::info[Learn more about our [support schedule](/support-schedule) so that you can prepare and plan for future updates.]
+:::info[Learn more about our [support schedule](/node-slack-sdk/support-schedule) so that you can prepare and plan for future updates.]
 
 :::
 
@@ -228,7 +228,7 @@ comparison. The `WebAPICallReadError` was never used by the `WebClient`.
 ### Logger objects
 
 If your app set the `logger` option to a function, you need to update the code to instead use an object with methods
-for each log level. See details in [the logging documentation](/web-api#logging).
+for each log level. See details in [the logging documentation](/node-slack-sdk/web-api#logging).
 
 ### New retry policies
 
@@ -321,7 +321,7 @@ literal, you need to update that code. Instead, compare with a property of the e
 ### Logger objects
 
 If your app set the `logger` option to a function, you need to update the code to instead use an object with methods
-for each log level. See details in [the logging documentation](/rtm-api#logging).
+for each log level. See details in [the logging documentation](/node-slack-sdk/rtm-api#logging).
 
 ## IncomingWebhook
 

@@ -1,10 +1,8 @@
----
-title: Node Slack SDK
----
+# Node Slack SDK
 
 The Node Slack SDK is a collection of single-purpose packages for building Slack apps that are performant, secure, and scalable. 
 
-**Just starting out?** The [Getting Started tutorial](/getting-started) will walk you through building your first Slack app using Node.js.
+**Just starting out?** The [Getting Started tutorial](/node-slack-sdk/getting-started) will walk you through building your first Slack app using Node.js.
 
 ## Slack APIs
 
@@ -12,10 +10,10 @@ The Node Slack SDK has corresponding packages for Slack APIs. They are small and
 
 | Slack API    | Use | NPM package      |
 |--------------|--------------|-------------------|
-| Web API      | Send data to or query data from Slack using any of [more than 200 methods](https://docs.slack.dev/reference/methods). | [`@slack/web-api`](/web-api) |
-| OAuth        | Set up the authentication flow using V2 OAuth for Slack apps. | [`@slack/oauth`](/oauth) |
-| Incoming Webhooks | Send notifications to a single channel that the user picks on installation. | [`@slack/webhook`](/webhook) |
-| Socket Mode  | Listen for incoming messages and a limited set of events happening in Slack, using WebSocket. | [`@slack/socket-mode`](/socket-mode) |
+| Web API      | Send data to or query data from Slack using any of [more than 200 methods](https://docs.slack.dev/reference/methods). | [`@slack/web-api`](/node-slack-sdk/web-api) |
+| OAuth        | Set up the authentication flow using V2 OAuth for Slack apps. | [`@slack/oauth`](/node-slack-sdk/oauth) |
+| Incoming Webhooks | Send notifications to a single channel that the user picks on installation. | [`@slack/webhook`](/node-slack-sdk/webhook) |
+| Socket Mode  | Listen for incoming messages and a limited set of events happening in Slack, using WebSocket. | [`@slack/socket-mode`](/node-slack-sdk/socket-mode) |
 
 :::warning[Deprecation Notice]
 

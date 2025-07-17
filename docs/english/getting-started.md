@@ -1,6 +1,4 @@
----
-title: Getting Started
----
+# Getting started
 
 This guide shows how to use the packages in the Node Slack SDK to get a simple Slack app running. If you've
 never used the Slack APIs before, you're in the right place. Welcome, and let's get started!

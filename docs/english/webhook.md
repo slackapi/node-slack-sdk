@@ -1,6 +1,4 @@
----
-title: Incoming Webhooks
----
+# Incoming webhooks
 
 The `@slack/webhook` package contains a helper for making requests to Slack's [Incoming
 Webhooks](https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks). Use it in your app to send a notification to a channel.

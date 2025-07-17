@@ -1,8 +1,4 @@
----
-title: Socket Mode
----
-
-# Slack Socket Mode
+# Socket Mode
 
 For baseline package documentation, please see the project's [`README`](https://github.com/slackapi/node-slack-sdk/tree/main/packages/socket-mode#readme) or the [documentation on npm](https://www.npmjs.com/package/@slack/socket-mode).
 
