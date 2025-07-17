@@ -1,12 +1,12 @@
 # OAuth
 
-The `@slack/oauth` package makes it straightforward to set up the OAuth flow for Slack apps. It supports [V2 OAuth](https://docs.slack.dev/authentication/installing-with-oauth) for Slack Apps as well as [V1 OAuth](https://docs.slack.dev/legacy/legacy-authentication) for [Classic Slack apps](https://docs.slack.dev/legacy/legacy-authenticationt). Slack apps that are installed in multiple workspaces, like those available in the Slack Marketplace or installed in an Enterprise Grid, will need to implement OAuth and store information about each of those installations (such as access tokens).
+The `@slack/oauth` package makes it straightforward to set up the OAuth flow for Slack apps. It supports [V2 OAuth](/authentication/installing-with-oauth) for Slack Apps as well as [V1 OAuth](/legacy/legacy-authentication) for [Classic Slack apps](/legacy/legacy-authenticationt). Slack apps that are installed in multiple workspaces, like those available in the Slack Marketplace or installed in an Enterprise Grid, will need to implement OAuth and store information about each of those installations (such as access tokens).
 
 The package handles URL generation, state verification, and authorization code exchange for access tokens. It also provides an interface for easily plugging in your own database for saving and retrieving installation data.
 
 ## Limitations
 
-At this time, the `@slack/oauth` package does not support [Sign in with Slack](https://docs.slack.dev/authentication/sign-in-with-slack). However, there are APIs available in the [`@slack/web-api`](./web-api)  package to implement Sign in With Slack; for more information, have a look at the `@slack/web-api` [Sign in with Slack documentation](./web-api#sign-in-with-slack-via-openid-connect).
+At this time, the `@slack/oauth` package does not support [Sign in with Slack](/authentication/sign-in-with-slack). However, there are APIs available in the [`@slack/web-api`](./web-api)  package to implement Sign in With Slack; for more information, have a look at the `@slack/web-api` [Sign in with Slack documentation](./web-api#sign-in-with-slack-via-openid-connect).
 
 ## Installation
 
@@ -57,7 +57,7 @@ Using a classic Slack app
 
 ## Showing an Installation Page
 
-You'll need an installation URL when you want to test your own installation in order to submit your app to the Slack Marketplace and in case you need additional authorizations (such as user tokens) from users inside a team where your app is already installed. These URLs are also commonly used on your own webpages as the link for an ["Add to Slack" button](https://docs.slack.dev/legacy/legacy-slack-button).
+You'll need an installation URL when you want to test your own installation in order to submit your app to the Slack Marketplace and in case you need additional authorizations (such as user tokens) from users inside a team where your app is already installed. These URLs are also commonly used on your own webpages as the link for an ["Add to Slack" button](/legacy/legacy-slack-button).
 
 The recommended approach is for `InstallProvider` to render the installation page at a URL/path of your choosing [using the `handleInstallPath()` method](#using-handleinstallpath). It will automatically display an "Add to Slack" button and encode any desired user or bot scopes and metadata you specify. If you wish to further customize the installation page, you can do so by passing a `renderHtmlForInstallPath` function to the `InstallProvider` constructor. Also, if your app supports Direct Install URL in the Slack Marketplace page, you can pass `directInstall: true` when initializing `InstallProvider`.
 

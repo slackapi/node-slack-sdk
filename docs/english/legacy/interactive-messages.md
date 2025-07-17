@@ -7,7 +7,7 @@ At this time, we recommend migrating to [Bolt for JavaScript](https://github.com
 :::
 
 The `@slack/interactive-messages` helps your app respond to interactions from
-[interactive messages](https://docs.slack.dev/interactivity), [actions](https://docs.slack.dev/interactivity/implementing-shortcuts), and [modals](https://docs.slack.dev/interactivity/adding-interactive-modals-to-home-tab) in Slack. This package will help you start with convenient and secure defaults.
+[interactive messages](/interactivity), [actions](/interactivity/implementing-shortcuts), and [modals](/interactivity/adding-interactive-modals-to-home-tab) in Slack. This package will help you start with convenient and secure defaults.
 
 ## Installation
 
@@ -149,10 +149,10 @@ server.listen(port, () => {
 Actions are interactions in Slack that generate an HTTP request to your app. These are:
 
 -  **Block actions**: A user interacted with one of the interactive
-   components in a message built with [block elements](https://docs.slack.dev/reference/block-kit/block-elements).
--  **Message actions**: A user selected an [action in the overflow menu of a message](https://docs.slack.dev/interactivity/implementing-shortcuts).
--  **Dialog submission**: A user submitted a form in a [modal dialog](https://docs.slack.dev/surfaces/modals)
--  **Attachment actions**: A user clicked a button or selected an item in a menu in a message built with [legacy message attachments](https://docs.slack.dev/legacy/legacy-messaging/legacy-secondary-message-attachments).
+   components in a message built with [block elements](/reference/block-kit/block-elements).
+-  **Message actions**: A user selected an [action in the overflow menu of a message](/interactivity/implementing-shortcuts).
+-  **Dialog submission**: A user submitted a form in a [modal dialog](/surfaces/modals)
+-  **Attachment actions**: A user clicked a button or selected an item in a menu in a message built with [legacy message attachments](/legacy/legacy-messaging/legacy-secondary-message-attachments).
 
 You app will only handle actions that occur in messages or dialogs your app produced. [Block Kit
 Builder](https://api.slack.com/tools/block-kit-builder) is a playground where you can prototype your interactive
@@ -177,7 +177,7 @@ Handlers can return an object, or a `Promise` for a object which must resolve wi
 - **Attachment actions**: The object describes a message to replace the message where the interaction occurred. It's
   recommended to remove interactive elements when you only expect the action once, so that no other users might trigger
   a duplicate. If no value is returned, then the message remains the same.
-- **Dialog submission**: The object describes [validation errors](https://docs.slack.dev/surfaces/modals#displaying_errors) to
+- **Dialog submission**: The object describes [validation errors](/surfaces/modals#displaying_errors) to
   show the user and prevent the dialog from closing. If no value is returned, the submission is treated as successful.
 - **Block actions** and **Message actions**: Avoid returning any value.
 
@@ -225,7 +225,7 @@ slackInteractions.action({ type: 'message_action' }, (payload, respond) => {
 
 // Example of handling all dialog submissions
 slackInteractions.action({ type: 'dialog_submission' }, (payload, respond) => {
-  // Validate the submission (errors is of the shape in https://docs.slack.dev/surfaces/modals#displaying_errors)
+  // Validate the submission (errors is of the shape in /surfaces/modals#displaying_errors)
   const errors = validate(payload.submission);
 
   // Only return a value if there were errors
@@ -281,9 +281,9 @@ will call the handler whose constraints match the action best.
 
 These handlers receive a single `payload` argument. The `payload` describes the interaction with the menu that occurred.
 The exact shape depends on whether the interaction occurred within a [block
-element](https://docs.slack.dev/reference/block-kit/block-elements/multi-select-menu-element#external_multi_select),
-[attachment](https://docs.slack.dev/legacy/legacy-messaging/legacy-adding-menus-to-messages), or a
-[dialog](https://docs.slack.dev/legacy/legacy-dialogs).
+element](/reference/block-kit/block-elements/multi-select-menu-element#external_multi_select),
+[attachment](/legacy/legacy-messaging/legacy-adding-menus-to-messages), or a
+[dialog](/legacy/legacy-dialogs).
 
 Handlers can return an object, or a `Promise` for a object which must resolve within the `syncResponseTimeout` (default:
 2500ms). The contents of the object depend on where the options request was generated (you can find the expected shapes
@@ -348,7 +348,7 @@ slackInteractions.options({ within: 'dialog' }, (payload) => {
 ## Handling view submission and view closed interactions
 
 View submissions are generated when a user clicks on the submission button of a
-[Modal](https://docs.slack.dev/surfaces/modals). View closed interactions are generated when a user clicks on the cancel button of a Modal, or dismisses the modal using the `×` in the corner.
+[Modal](/surfaces/modals). View closed interactions are generated when a user clicks on the cancel button of a Modal, or dismisses the modal using the `×` in the corner.
 
 Apps register functions, called handlers, to be triggered when a submissions are received by the adapter using the
 `.viewSubmission(constraints, handler)` method or when closed interactions are received using the
@@ -357,8 +357,8 @@ interactions you'd like the handler to match using constraints. Constraints are 
 below. The adapter will call the handler whose constraints match the interaction best.
 
 These handlers receive a single `payload` argument. The `payload` describes the
-[view submission](https://docs.slack.dev/reference/interaction-payloads/view-interactions-payload#view_submission) or
-[view closed](https://docs.slack.dev/reference/interaction-payloads/view-interactions-payload#view_closed)
+[view submission](/reference/interaction-payloads/view-interactions-payload#view_submission) or
+[view closed](/reference/interaction-payloads/view-interactions-payload#view_closed)
 interaction that occurred.
 
 For view submissions, handlers can return an object, or a `Promise` for a object which must resolve within the
@@ -386,7 +386,7 @@ slackInteractions.viewSubmission('simple_modal_callback_id', (payload) => {
   // which contains value properties that contain the input data. Let's log one specific value.
   console.log(payload.view.state.my_block_id.my_action_id.value);
 
-  // Validate the inputs (errors is of the shape in https://docs.slack.dev/surfaces/modals#displaying_errors)
+  // Validate the inputs (errors is of the shape in /surfaces/modals#displaying_errors)
   const errors = validate(payload.view.state);
 
   // Return validation errors if there were errors in the inputs
@@ -457,7 +457,7 @@ slackInteractions.viewClosed('my_modal_callback_id', (payload) => {
 
 ## Handling a global shortcut
 
-Shortcuts are invokable UI elements within Slack clients. For [global shortcuts](https://docs.slack.dev/interactivity/implementing-shortcuts#global), they are available in the composer and search menus.
+Shortcuts are invokable UI elements within Slack clients. For [global shortcuts](/interactivity/implementing-shortcuts#global), they are available in the composer and search menus.
 
 Apps register functions, called handlers, to be triggered when an shortcuts request is received by the adapter using
 the `.shortcut(constraints, handler)` method. When registering a handler, you describe which shortcut request(s) you'd
@@ -465,12 +465,12 @@ like the handler to match using constraints. Constraints are [described in detai
 will call the handler whose constraints match the action best.
 
 These handlers receive a single `payload` argument. The `payload` describes the interaction with the menu that occurred.
-If interested, checkout the shape of the [shortcuts payload](https://docs.slack.dev/reference/interaction-payloads/shortcuts-interaction-payload).
+If interested, checkout the shape of the [shortcuts payload](/reference/interaction-payloads/shortcuts-interaction-payload).
 
 Handlers can return a `Promise` which must resolve within the `syncResponseTimeout` (default:
 2500ms).
 
-The `.shortcut()` handler currently supports [global shortcuts](https://docs.slack.dev/interactivity/implementing-shortcuts#global). [Message shortcuts](https://docs.slack.dev/interactivity/implementing-shortcuts#messages) (previously known as message actions) are still handled by the `.action()` handler. 
+The `.shortcut()` handler currently supports [global shortcuts](/interactivity/implementing-shortcuts#global). [Message shortcuts](/interactivity/implementing-shortcuts#messages) (previously known as message actions) are still handled by the `.action()` handler. 
 
 ```javascript
 const { createMessageAdapter } = require('@slack/interactive-messages');
@@ -506,7 +506,7 @@ slackInteractions.shortcut({ callbackId: 'simple-modal', type: 'shortcut' }, (pa
           type: "section",
           text: {
             type: "mrkdwn",
-            text: "About the simplest modal you could conceive of :smile:\n\nMaybe <https://docs.slack.dev/interactivity|*make the modal interactive*> or <https://docs.slack.dev/surfaces/modals|*learn more advanced modal use cases*>."
+            text: "About the simplest modal you could conceive of :smile:\n\nMaybe </interactivity|*make the modal interactive*> or </surfaces/modals|*learn more advanced modal use cases*>."
           }
         },
         {

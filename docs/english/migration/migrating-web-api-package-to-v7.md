@@ -57,7 +57,7 @@ Generally, all of the above methods have equivalents available under the `conver
 
 ## Adding JSDoc to methods and method arguments
 
-This one benefits both TypeScript and JavaScript users! Both API methods and API arguments are exhaustively documented with JSDoc. It includes the API method descriptions, mimicking the hand-written docs we have on https://docs.slack.dev/reference/methods, as well as documenting each API argument and linking to relevant contextual documentation where applicable.
+This one benefits both TypeScript and JavaScript users! Both API methods and API arguments are exhaustively documented with JSDoc. It includes the API method descriptions, mimicking the hand-written docs we have on /reference/methods, as well as documenting each API argument and linking to relevant contextual documentation where applicable.
 
 ## Type tests for method arguments
 
@@ -71,7 +71,7 @@ Moving forward, all of our APIs were exhaustively tested and the arguments to th
 
 Without further ado, let's dive in the changes for each API:
 
-## [`admin.analytics.getFile`](https://docs.slack.dev/reference/methods/admin.analytics.getFile)
+## [`admin.analytics.getFile`](/reference/methods/admin.analytics.getFile)
 
 Previously, most arguments to this API were optional. Now, the specific combinations of `type`, `date` and `metadata_only` are [more strictly typed to ensure only valid combinations are possible](https://github.com/slackapi/node-slack-sdk/pull/1673/files?diff=unified&w=0#diff-49ab2c95a2115046c53fe532bcd82a4e52434c16fbf1a7fdab08a764321ac0cdR44).
 
@@ -79,7 +79,7 @@ Previously, most arguments to this API were optional. Now, the specific combinat
 
 You can no longer provide _both_ `request_id` and `app_id` - these APIs will only accept one of these arguments. Similarly for `enterprise_id` and `team_id` - only one can be provided, and one of them is required as well.
 
-### [`admin.apps.activities.list`](https://docs.slack.dev/reference/methods/admin.apps.activities.list)
+### [`admin.apps.activities.list`](/reference/methods/admin.apps.activities.list)
 
 - `component_type` is no longer any `string`, but rather it must be one of: `events_api`, `workflows`, `functions`, `tables`
 - `min_log_level` is no longer any `string`, but rather it must be one of: `trace`, `debug`, `info`, `warn`, `error`, `fatal`
@@ -93,7 +93,7 @@ You can no longer provide _both_ `request_id` and `app_id` - these APIs will onl
 
 ## `admin.barriers.*`
 
-The `restricted_subjects` array is no longer a `string[]` but enforces an array with the exact values `['im', 'mpim', 'call']` - which these APIs demand (see e.g. [`admin.barriers.create` usage info](https://docs.slack.dev/reference/methods/admin.barriers.create)).
+The `restricted_subjects` array is no longer a `string[]` but enforces an array with the exact values `['im', 'mpim', 'call']` - which these APIs demand (see e.g. [`admin.barriers.create` usage info](/reference/methods/admin.barriers.create)).
 
 ## `admin.conversations.*`
 
@@ -102,7 +102,7 @@ The `restricted_subjects` array is no longer a `string[]` but enforces an array 
 - This might sound familiar, but `user_ids` must be passed at least one user ID. Keeping it consistent around here, folks.
 - The `org_wide` and `team_id` parameters influence one another: if `org_wide` is true, `team_id` must not be provided. Conversely, if `team_id` is provided, `org_wide` should be omitted, or, if you really want to include it, it must be `false`. Previously, both properties were simply optional.
 
-### [`admin.conversations.search`](https://docs.slack.dev/reference/methods/admin.conversations.search)
+### [`admin.conversations.search`](/reference/methods/admin.conversations.search)
 
 The `search_channel_types` argument is [now an enumeration of specific values](https://github.com/slackapi/node-slack-sdk/pull/1673/files?diff=unified&w=0#diff-16abafd789456431bd84945a174544e42cf9d0ddda6077b4cfcdd85377a1971eR8), rather than just any old `string` you want.
 
@@ -127,11 +127,11 @@ The `search_channel_types` argument is [now an enumeration of specific values](h
 - `channel_ids` must be passed at least one channel ID. Previously this parameter was a string, so you had to comma-separate your channel IDs manually, as if this was the 1800s.
 - `user_ids` must be passed at least one user ID. Otherwise, what, you're going to invite 0 users? Who do you think you're kidding?
 
-### [`admin.users.list`](https://docs.slack.dev/reference/methods/admin.users.list)
+### [`admin.users.list`](/reference/methods/admin.users.list)
 
 The `team_id` and `include_deactivated_user_workspaces` parameters were previously both optional. However, they kind of depend on each other. You can either provide a `team_id` and no `include_deactivated_user_workspaces` (or set it to `false`), or set `include_deactivated_user_workspaces` to `true` and omit `team_id`. Otherwise providing both doesn't make any sense at all? We need to be logically consistent, people!
 
-### [`admin.users.session.list`](https://docs.slack.dev/reference/methods/admin.users.session.list)
+### [`admin.users.session.list`](/reference/methods/admin.users.session.list)
 
 This API will now accept either _both_ `team_id` and `user_id`, or _neither_. Previously both properties were optional, which was not ideal.
 
@@ -140,7 +140,7 @@ This API will now accept either _both_ `team_id` and `user_id`, or _neither_. Pr
 - `collaborator_ids` must be passed at least one collaborator ID. Collaborating with 0 other humans is not really collaborating, now is it?
 - Similarly, `workflow_ids` must be passed at least one workflow ID.
 
-### [`admin.workflows.search`](https://docs.slack.dev/reference/methods/admin.workflows.search)
+### [`admin.workflows.search`](/reference/methods/admin.workflows.search)
 
 - `sort_dir` will accept either `asc` or `desc`. Previously any `string` was, unfortunately, A-OK.
 - `sort` now only accepts `premium_runs`, whereas previously you could pass it any `string`.
@@ -187,7 +187,7 @@ Previously this method could be called without any arguments. Now, arguments are
 ## `reactions.*`
 
 - `channel` and `timestamp` are now required properties for `reactions.add`.
-- `reactions.add` no longer supports the `file` and `file_comment` parameters, as per our [API docs for this method](https://docs.slack.dev/reference/methods/reactions.add). 
+- `reactions.add` no longer supports the `file` and `file_comment` parameters, as per our [API docs for this method](/reference/methods/reactions.add). 
 - `reactions.get` and `reactions.remove` now require to supply one and only one of:
   - both `channel` and `timestamp`, or
   - a `file` encoded file ID, or
@@ -207,8 +207,8 @@ The `add` and `remove` APIs require one of:
 
 ## `users.*`
 
-- The deprecated `presence` parameter for [`users.list`](https://docs.slack.dev/reference/methods/users.list) has been removed.
-- The `profile` parameter for [`users.profile.set`](https://docs.slack.dev/reference/methods/users.profile.set) has been changed from a string to, basically, any object you wish.
+- The deprecated `presence` parameter for [`users.list`](/reference/methods/users.list) has been removed.
+- The `profile` parameter for [`users.profile.set`](/reference/methods/users.profile.set) has been changed from a string to, basically, any object you wish.
 
 ## `views.*`
 

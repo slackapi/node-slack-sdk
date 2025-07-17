@@ -1,7 +1,7 @@
 # Incoming webhooks
 
 The `@slack/webhook` package contains a helper for making requests to Slack's [Incoming
-Webhooks](https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks). Use it in your app to send a notification to a channel.
+Webhooks](/messaging/sending-messages-using-incoming-webhooks). Use it in your app to send a notification to a channel.
 
 ## Installation
 
@@ -16,7 +16,7 @@ $ npm install @slack/webhook
 The package exports a `IncomingWebhook` class. You'll need to initialize it with the URL you received from Slack.
 
 The URL can come from installation in your development workspace, which is shown in the app configuration pages.
-Or, the URL could be in the response from [`oauth.v2.access`](https://docs.slack.dev/reference/methods/oauth.v2.access) when the app is
+Or, the URL could be in the response from [`oauth.v2.access`](/reference/methods/oauth.v2.access) when the app is
 distributed and installed into another workspace.
 
 ```javascript

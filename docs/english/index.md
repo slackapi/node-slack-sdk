@@ -10,7 +10,7 @@ The Node Slack SDK has corresponding packages for Slack APIs. They are small and
 
 | Slack API    | Use | NPM package      |
 |--------------|--------------|-------------------|
-| Web API      | Send data to or query data from Slack using any of [more than 200 methods](https://docs.slack.dev/reference/methods). | [`@slack/web-api`](/node-slack-sdk/web-api) |
+| Web API      | Send data to or query data from Slack using any of [more than 200 methods](/reference/methods). | [`@slack/web-api`](/node-slack-sdk/web-api) |
 | OAuth        | Set up the authentication flow using V2 OAuth for Slack apps. | [`@slack/oauth`](/node-slack-sdk/oauth) |
 | Incoming Webhooks | Send notifications to a single channel that the user picks on installation. | [`@slack/webhook`](/node-slack-sdk/webhook) |
 | Socket Mode  | Listen for incoming messages and a limited set of events happening in Slack, using WebSocket. | [`@slack/socket-mode`](/node-slack-sdk/socket-mode) |
@@ -19,7 +19,7 @@ The Node Slack SDK has corresponding packages for Slack APIs. They are small and
 
 `@slack/events-api` and `@slack/interactive-messages` officially reached EOL on May 31st, 2021. Development has fully stopped for these packages and all remaining open issues and pull requests have been closed.
 
-At this time, we recommend migrating to [Bolt for JavaScript](https://tools.slack.dev/bolt-js), a framework that offers all of the functionality available in those packages (and more).
+At this time, we recommend migrating to [Bolt for JavaScript](/bolt-js), a framework that offers all of the functionality available in those packages (and more).
 
 :::
 

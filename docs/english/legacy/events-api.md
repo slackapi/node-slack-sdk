@@ -6,7 +6,7 @@ At this time, we recommend migrating to [Bolt for JavaScript](https://github.com
 
 :::
 
-The `@slack/events-api` package helps your app respond to events from the Slack [Events API](https://https://docs.slack.dev/apis/events-api)
+The `@slack/events-api` package helps your app respond to events from the Slack [Events API](https:///apis/events-api)
 such as new messages, emoji reactions, and files. This package will help you start with convenient and secure
 defaults.
 
@@ -155,7 +155,7 @@ adapter. If you've used Node's [`EventEmitter`](https://nodejs.org/api/events.ht
 before, then you're already familiar with how this works, since the adapter is an `EventEmitter`.
 
 The `event` argument passed to the listener is an object. Its contents corresponds to the [type of
-event](https://docs.slack.dev/reference/events) it's registered for.
+event](/reference/events) it's registered for.
 
 ```javascript
 const { createEventAdapter } = require('@slack/events-api');
@@ -163,7 +163,7 @@ const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 const slackEvents = createEventAdapter(slackSigningSecret);
 const port = process.env.PORT || 3000;
 
-// Attach listeners to events by Slack Event "type". See: https://docs.slack.dev/reference/events/message.im
+// Attach listeners to events by Slack Event "type". See: /reference/events/message.im
 slackEvents.on('message', (event) => {
   console.log(`Received a message event: user ${event.user} in channel ${event.channel} says ${event.text}`);
 });
@@ -290,11 +290,11 @@ tool is listening on. In other words, start ngrok with a command like `ngrok htt
 The adapter can trigger listeners with more data than only the event body. The listeners can receive additional
 arguments: the event envelope, and the request headers.
 
-The envelope [contains data](https://docs.slack.dev/reference/objects/event-object) regarding how the event was triggered, in addition to
+The envelope [contains data](/reference/objects/event-object) regarding how the event was triggered, in addition to
 the event itself. In order to receive this data in listeners, the adapter must be initialized with the `includeBody`
 option set to `true`. All listeners will now be triggered with an additional argument which contains the envelope.
 
-The headers [contain data](https://https://docs.slack.dev/apis/events-api#error_handling) regarding whether the event is a retry of
+The headers [contain data](https:///apis/events-api#error_handling) regarding whether the event is a retry of
 a previously failed delivery. In order to receive this data in listeners, the adapter must be initialized with the `includeHeaders`
 option set to `true`. All listeners will now be triggered with an additional argument which contains an key-value object
 describing the HTTP request headers.

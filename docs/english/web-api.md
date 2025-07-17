@@ -1,6 +1,6 @@
 # Web API
 
-The `@slack/web-api` package contains a simple, convenient, and configurable HTTP client for making requests to the Slack [Web API](https://docs.slack.dev/apis/web-api). Use it in your app to call any of the more than 200 [methods](https://docs.slack.dev/reference/methods), and let it handle formatting, queuing, retrying, and pagination.
+The `@slack/web-api` package contains a simple, convenient, and configurable HTTP client for making requests to the Slack [Web API](/apis/web-api). Use it in your app to call any of the more than 200 [methods](/reference/methods), and let it handle formatting, queuing, retrying, and pagination.
 
 ## Installation
 
@@ -15,12 +15,12 @@ to Slack applications. Each application installation, that is, the unique combin
 of an application and a specific Slack workspace it is installed to, will generate
 a workspace-specific access token for the application.
 
-We recommend you read our documentation on [Basic app setup](https://docs.slack.dev/quickstart).
+We recommend you read our documentation on [Basic app setup](/quickstart).
 This article contains the steps you must follow to get your access token:
 
-1. [Create a new Slack application](https://docs.slack.dev/quickstart)
-2. [Set permissions your app will request](https://docs.slack.dev/quickstart#scopes)
-3. [Install the app to a workspace](https://docs.slack.dev/quickstart#installing)
+1. [Create a new Slack application](/quickstart)
+2. [Set permissions your app will request](/quickstart#scopes)
+3. [Install the app to a workspace](/quickstart#installing)
 4. Finally, get your access token
 
 You can also read the [Getting Started guide](/node-slack-sdk/getting-started) which guides
@@ -84,7 +84,7 @@ const conversationId = '...';
 (async () => {
 
   // Post a message to the channel, and await the result.
-  // Find more arguments and details of the response: https://docs.slack.dev/reference/methods/chat.postMessage
+  // Find more arguments and details of the response: /reference/methods/chat.postMessage
   const result = await web.chat.postMessage({
     text: 'Hello world!',
     channel: conversationId,
@@ -142,7 +142,7 @@ const web = new WebClient(token, {
 
 ## Handle errors
 
-Errors can happen for many reasons: maybe the token doesn't have the proper [scopes](https://docs.slack.dev/reference/scopes) to call a method, maybe it has been revoked by a user, or maybe you just used a bad argument. In these cases, the returned `Promise` will reject with an `Error`. You should catch the error and use the information it contains to decide how your app can proceed.
+Errors can happen for many reasons: maybe the token doesn't have the proper [scopes](/reference/scopes) to call a method, maybe it has been revoked by a user, or maybe you just used a bad argument. In these cases, the returned `Promise` will reject with an `Error`. You should catch the error and use the information it contains to decide how your app can proceed.
 
 Each error contains a `code` property, which you can check against the `ErrorCode` export to understand the kind of
 error you're dealing with. For example, when Slack responds to your app with an error, that is an
@@ -194,7 +194,7 @@ There are a few more types of errors that you might encounter, each with one of 
 
 ## Pagination
 
-[Many of the Web API's methods](https://docs.slack.dev/apis/web-api/pagination#methods) return
+[Many of the Web API's methods](/apis/web-api/pagination#methods) return
 lists of objects, and are cursor-paginated. The result of calling these methods will contain a part of
 the list, or a page, and also provide you with information on how to continue to the next page on a subsequent API call.
 Instead of calling many times manually, the `WebClient` can manage getting each page, allowing you to determine when to
@@ -261,19 +261,19 @@ pattern for people that use _functional programming_.
 ---
 
 ## Opening modals
-[Modals](https://docs.slack.dev/surfaces/modals) can be created by calling the `views.open` method. The method requires you to pass a valid [view payload](https://docs.slack.dev/surfaces/modals) in addition to a `trigger_id`, which can be obtained when a user invokes your app using a slash command, clicking a button, or using [another interactive action](https://docs.slack.dev/reference/block-kit/block-elements).
+[Modals](/surfaces/modals) can be created by calling the `views.open` method. The method requires you to pass a valid [view payload](/surfaces/modals) in addition to a `trigger_id`, which can be obtained when a user invokes your app using a slash command, clicking a button, or using [another interactive action](/reference/block-kit/block-elements).
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
 
 // trigger_ids can be obtained when a user invokes your app.
-// Find more information on triggers: https://docs.slack.dev/surfaces/modals#interactions
+// Find more information on triggers: /surfaces/modals#interactions
 const trigger = 'VALID_TRIGGER_ID';
 
 (async () => {
 
   // Open a modal.
-  // Find more arguments and details of the response: https://docs.slack.dev/reference/methods/views.open
+  // Find more arguments and details of the response: /reference/methods/views.open
   const result = await web.views.open({
     trigger_id: trigger,
     view: {
@@ -324,7 +324,7 @@ const vid = 'YOUR_VIEW_ID';
 (async () => {
 
   // Update a modal
-  // Find more arguments and details of the response: https://docs.slack.dev/reference/methods/views.update
+  // Find more arguments and details of the response: /reference/methods/views.update
   const result = await web.views.update({
     view_id: vid
     view: {
@@ -488,10 +488,10 @@ of binary data follow soon!
 The `channel_id` and `initial_comment` aren't required, but the file either won't be shared to a channel or it won't be
 posted with a message if these aren't included.
 
-A posted message can be formatted with [Block Kit](https://docs.slack.dev/block-kit) using the `blocks` argument instead
+A posted message can be formatted with [Block Kit](/block-kit) using the `blocks` argument instead
 of the `initial_comment` text.
 
-In a successful response, the `result.files` contains an array of [shared files](https://docs.slack.dev/reference/objects/file-object).
+In a successful response, the `result.files` contains an array of [shared files](/reference/objects/file-object).
 These files are "private" and available to just the `token` holder if no `channel_id` is included in the request, and
 are marked "public" when shared to a provided `channel_id`.
 
@@ -502,7 +502,7 @@ accepts similar attributes as a single file:
 * `content`: The file contents as a string. If omitted, `file` must be provided.
 * `file`: The file path or data to upload. If omitted, `content` must be provided.
 * `filename`: The name of the file.
-* `filetype`: A file type identifier. [Reference](https://docs.slack.dev/reference/objects/file-object).
+* `filetype`: A file type identifier. [Reference](/reference/objects/file-object).
 * `snippet_type`: Syntax type of the snippet being uploaded. E.g. `python`.
 * `title`: The title of the file.
 
@@ -627,7 +627,7 @@ console.log('File uploaded:', result.files);
 ```
 
 Please note
-[the planned sunset date](https://docs.slack.dev/changelog/2024-04-a-better-way-to-upload-files-is-here-to-stay) of
+[the planned sunset date](/changelog/2024-04-a-better-way-to-upload-files-is-here-to-stay) of
 2025-11-12 for the `files.upload` method if you're using it at this time. Migrating when possible is recommended and
 `filesUploadV2` offers advantages that we're excited to share!
 
@@ -733,7 +733,7 @@ and also let your app know how many seconds later it should try again. This is c
 appropriate amount of time, and then retry the request without any changes in your code. The `Promise` returned only
 resolves when Slack has given your app a real response.
 
-It's a good idea to know when you're bumping up against [these limits](https://docs.slack.dev/apis/web-api/rate-limits), so that you might be able to change the behavior of your app to hit them less often. Your users would surely appreciate getting things done without the delay. Each time a rate limit-related error occurs, the `WebClient` instance emits an event: `WebClientEvent.RATE_LIMITED`. We recommend that you use the event to inform users when something might take longer than expected, or just log it for later.
+It's a good idea to know when you're bumping up against [these limits](/apis/web-api/rate-limits), so that you might be able to change the behavior of your app to hit them less often. Your users would surely appreciate getting things done without the delay. Each time a rate limit-related error occurs, the `WebClient` instance emits an event: `WebClientEvent.RATE_LIMITED`. We recommend that you use the event to inform users when something might take longer than expected, or just log it for later.
 
 ```javascript
 const { WebClient, WebClientEvent } = require('@slack/web-api');
@@ -844,7 +844,7 @@ const web = new WebClient(token, options);
 ## Exchange an OAuth grant for a token
 
 There's one method in the Slack Web API that doesn't requires a token, because it's the method that gets a token! This
-method is called [`oauth.v2.access`](https://docs.slack.dev/reference/methods/oauth.v2.access). It's used as part of the [OAuth 2.0](https://docs.slack.dev/authentication/installing-with-oauth) process that users initiate when installing your app into a workspace. In the last step of this process, your app has received an authorization grant called `code`, which it needs to exchange for an access token (`token`). You can use an instance of the `WebClient` that has no token to easily complete this exchange.
+method is called [`oauth.v2.access`](/reference/methods/oauth.v2.access). It's used as part of the [OAuth 2.0](/authentication/installing-with-oauth) process that users initiate when installing your app into a workspace. In the last step of this process, your app has received an authorization grant called `code`, which it needs to exchange for an access token (`token`). You can use an instance of the `WebClient` that has no token to easily complete this exchange.
 
 ```javascript
 const { WebClient } = require('@slack/web-api');
@@ -879,15 +879,15 @@ Sign in With Slack via [OpenID Connect](https://openid.net/specs/openid-connect-
 
 The `@slack/web-api` package supports the following API methods which you can use to implement Sign in With Slack:
 
-- [`openid.connect.token`](https://docs.slack.dev/reference/methods/openid.connect.token)
-- [`openid.connect.userInfo`](https://docs.slack.dev/reference/methods/openid.connect.userInfo)
+- [`openid.connect.token`](/reference/methods/openid.connect.token)
+- [`openid.connect.userInfo`](/reference/methods/openid.connect.userInfo)
 
 Here's a fully-functioning [sample application implementation](https://github.com/slackapi/node-slack-sdk/blob/main/examples/openid-connect) for your perusal!
 
 :::tip[Sign in with Slack Documentation]
 
 To read more about how Sign in with Slack works, and to access helpful resources like a Sign in With Slack
-button generator and other design assets, check out: [Authentication: Sign in with Slack](https://docs.slack.dev/authentication/sign-in-with-slack)
+button generator and other design assets, check out: [Authentication: Sign in with Slack](/authentication/sign-in-with-slack)
 documentation page.
 
 :::
