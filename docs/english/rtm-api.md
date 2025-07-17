@@ -1,6 +1,5 @@
 ---
 title: Real Time Messaging API
-slug: /rtm-api
 ---
 
 # Slack Real Time Messaging API

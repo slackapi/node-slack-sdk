@@ -1,6 +1,5 @@
 ---
 title: Incoming Webhooks
-slug: /webhook
 ---
 
 The `@slack/webhook` package contains a helper for making requests to Slack's [Incoming

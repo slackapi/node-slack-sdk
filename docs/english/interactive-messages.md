@@ -1,6 +1,5 @@
 ---
 title: Interactive Messages
-slug: /interactive-messages
 ---
 
 # Slack Interactive Messages for Node
