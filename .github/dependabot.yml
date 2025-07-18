@@ -159,6 +159,30 @@ updates:
     schedule:
       interval: "monthly"
 
+  - package-ecosystem: "npm"
+    directory: "/packages/webhook"
+    groups:
+      slack:
+        patterns:
+          - "@slack/*"
+      dev-sinon:
+        dependency-type: "development"
+        patterns:
+          - "@types/sinon"
+          - "sinon"
+      dev-chai:
+        dependency-type: "development"
+        patterns:
+          - "@types/chai"
+          - "chai"
+      dev-mocha:
+        dependency-type: "development"
+        patterns:
+          - "@types/mocha"
+          - "mocha"
+    schedule:
+      interval: "weekly"
+
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
