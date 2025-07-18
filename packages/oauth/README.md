@@ -16,13 +16,13 @@ $ npm install @slack/oauth
 
 ## Usage
 
-These examples show how to get started using the most common features. You'll find more extensive [documentation on the package's website](https://docs.slack.dev/node-slack-sdk/oauth).
+These examples show how to get started using the most common features. You'll find more extensive [documentation on the package's website](https://tools.slack.dev/node-slack-sdk/oauth).
 
 <!-- END: Remove before copying into the docs directory -->
 
 Before building an app, you'll need to [create a Slack app](https://api.slack.com/apps/new) and install it to your development workspace. You'll also need to copy the **Client ID** and **Client Secret** given to you by Slack under the **Basic Information** of your app configuration.
 
-It may be helpful to read the tutorials on [getting started](https://docs.slack.dev/node-slack-sdk/getting-started) and [getting a public URL that can be used for development](https://docs.slack.dev/node-slack-sdk/tutorials/local-development).
+It may be helpful to read the tutorials on [getting started](https://tools.slack.dev/node-slack-sdk/getting-started) and [getting a public URL that can be used for development](https://tools.slack.dev/node-slack-sdk/tutorials/local-development).
 
 ---
 

@@ -621,7 +621,7 @@ export interface URLInput extends Actionable, Dispatchable, Focusable, Placehold
 }
 
 /**
- * @description Allows users to run a {@link https://docs.slack.dev/deno-slack-sdk/guides/creating-link-triggers/#workflow_buttons link trigger} with customizable inputs.
+ * @description Allows users to run a {@link https://tools.slack.dev/deno-slack-sdk/guides/creating-link-triggers/#workflow_buttons link trigger} with customizable inputs.
  * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/workflow-button-element Workflow button element reference}.
  */
 export interface WorkflowButton extends Confirmable {
@@ -639,12 +639,12 @@ export interface WorkflowButton extends Confirmable {
    */
   workflow: {
     /**
-     * @description Properties of the {@link https://docs.slack.dev/deno-slack-sdk/guides/creating-link-triggers/#workflow_buttons link trigger}
+     * @description Properties of the {@link https://tools.slack.dev/deno-slack-sdk/guides/creating-link-triggers/#workflow_buttons link trigger}
      * that will be invoked via this button.
      */
     trigger: {
       /**
-       * @description The trigger URL of the {@link https://docs.slack.dev/deno-slack-sdk/guides/creating-link-triggers/#workflow_buttons link trigger}
+       * @description The trigger URL of the {@link https://tools.slack.dev/deno-slack-sdk/guides/creating-link-triggers/#workflow_buttons link trigger}
        */
       url: string;
       /**
