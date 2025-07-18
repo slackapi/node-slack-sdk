@@ -18,14 +18,24 @@ from that version.
 $ npm install @slack/web-api
 ```
 
-<!-- START: Remove before copying into the docs directory -->
+## Documentation
+
+### Generating Reference Docs
+
+To generate markdown reference documentation, run:
+
+```shell
+npm run docs:generate
+```
+
+The markdown files will show in the `docs/reference` directory! 
+
+---
 
 ## Usage
 
 These examples show the most common features of the `WebClient`. You'll find even more extensive [documentation on the
 package's website](https://tools.slack.dev/node-slack-sdk/web-api).
-
-<!-- END: Remove before copying into the docs directory -->
 
 ---
 

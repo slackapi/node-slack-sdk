@@ -1,0 +1,20 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "name": "Slack Web API Client",
+  "entryPoints": ["src/index.ts"],
+  "out": "docs/reference",
+  "plugin": ["typedoc-plugin-markdown"],
+  "skipErrorChecking": true,
+  "useCodeBlocks": true,
+  "logLevel": "Error",
+  "readme": "none",
+  "gitRevision": "main",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeInternal": true,
+  "hideGenerator": true,
+  "jsDocCompatibility": true,
+  "titleLink": false,
+  "hidePageHeader": true,
+  "entryFileName": "index"
+} 

@@ -44,7 +44,8 @@
     "test:integration:ts": "cd test/integration/ts-4.7-project && npm i && npm run build",
     "test:unit": "npm run build && c8 --config ./test/.c8rc.json npm run mocha",
     "test:types": "tsd",
-    "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
+    "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown --out ../../docs/content/reference/web-api src/index.ts"
   },
   "dependencies": {
     "@slack/logger": "^4.0.0",
@@ -79,7 +80,13 @@
     "source-map-support": "^0.5.21",
     "ts-node": "^10",
     "tsd": "^0.32.0",
+    "typedoc": "^0.28.0",
+    "typedoc-plugin-markdown": "^4.7.0",
     "typescript": "5.8.3"
+  },
+  "peerDependencies": {
+    "typescript": "5.8.3",
+    "typedoc": "^0.28.0"
   },
   "tsd": {
     "directory": "test/types"

@@ -44,7 +44,6 @@ const config = {
 
   plugins: [
     'docusaurus-theme-github-codeblock',
-
     [
       '@docusaurus/plugin-client-redirects',
       {
@@ -62,96 +61,6 @@ const config = {
             from: ['/changelog'],
           },
         ],
-      },
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'cli-test',
-        entryPoints: ['../packages/cli-test/src/index.ts'],
-        tsconfig: '../packages/cli-test/tsconfig.json',
-        out: './content/reference/cli-test',
-      },
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'events-api',
-        entryPoints: ['../packages/events-api/src/index.ts'],
-        tsconfig: '../packages/events-api/tsconfig.json',
-        out: './content/reference/events-api',
-      },
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'interactive-messages',
-        entryPoints: ['../packages/interactive-messages/src/index.ts'],
-        tsconfig: '../packages/interactive-messages/tsconfig.json',
-        out: './content/reference/interactive-messages',
-      },
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'logger',
-        entryPoints: ['../packages/logger/src/index.ts'],
-        tsconfig: '../packages/logger/tsconfig.json',
-        out: './content/reference/logger',
-      },
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'oauth',
-        entryPoints: ['../packages/oauth/src/index.ts'],
-        tsconfig: '../packages/oauth/tsconfig.json',
-        out: './content/reference/oauth',
-      },
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'rtm-api',
-        entryPoints: ['../packages/rtm-api/src/index.ts'],
-        tsconfig: '../packages/rtm-api/tsconfig.json',
-        out: './content/reference/rtm-api',
-      },
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'socket-mode',
-        entryPoints: ['../packages/socket-mode/src/index.ts'],
-        tsconfig: '../packages/socket-mode/tsconfig.json',
-        out: './content/reference/socket-mode',
-      },
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'types',
-        entryPoints: ['../packages/types/src/index.ts'],
-        tsconfig: '../packages/types/tsconfig.json',
-        out: './content/reference/types',
-      },
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'web',
-        entryPoints: ['../packages/web-api/src/index.ts'],
-        tsconfig: '../packages/web-api/tsconfig.json',
-        out: './content/reference/web-api',
-      },
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'webhook',
-        entryPoints: ['../packages/webhook/src/index.ts'],
-        tsconfig: '../packages/webhook/tsconfig.json',
-        out: './content/reference/webhook',
       },
     ],
   ],
