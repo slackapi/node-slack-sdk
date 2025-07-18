@@ -5,7 +5,7 @@
   "outputs": [
     {
         "name": "markdown",
-        "path": "../../docs/content/reference/webhooks"
+        "path": "../../docs/content/reference/webhook"
     }
   ],
   "skipErrorChecking": true,

@@ -45,7 +45,7 @@
     "test:unit": "npm run build && c8 --config ./test/.c8rc.json npm run mocha",
     "test:types": "tsd",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build",
-    "docs": "npx typedoc --plugin typedoc-plugin-markdown --out ../../docs/content/reference/web-api src/index.ts"
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown"
   },
   "dependencies": {
     "@slack/logger": "^4.0.0",

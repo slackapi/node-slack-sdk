@@ -41,7 +41,8 @@
     "lint": "npx @biomejs/biome check .",
     "lint:fix": "npx @biomejs/biome check --write .",
     "pretest": "npm run lint",
-    "test": "c8 --config ./test/.c8rc.json mocha --config ./test/.mocharc.json src/*.spec.js"
+    "test": "c8 --config ./test/.c8rc.json mocha --config ./test/.mocharc.json src/*.spec.js",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown"
   },
   "bin": {
     "slack-cli-check-update": "src/check-update.js",
@@ -52,7 +53,9 @@
   },
   "dependencies": {
     "minimist": "^1.2.8",
-    "semver": "^7.5.4"
+    "semver": "^7.5.4",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
