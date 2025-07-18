@@ -179,7 +179,7 @@ export interface FilesUploadV2ArgumentsMultipleFiles {
   >[];
 }
 
-// https://docs.slack.dev/node-slack-sdk/web-api#upload-a-file
+// https://tools.slack.dev/node-slack-sdk/web-api#upload-a-file
 export type FilesUploadV2Arguments = TokenOverridable &
   (FileUploadV2 | (Omit<FileUploadV2, 'file' | 'content'> & FilesUploadV2ArgumentsMultipleFiles));
 
