@@ -45,7 +45,8 @@
     "test:coverage": "c8 --config ./test/.c8rc.json npm run test:unit",
     "test:integration": "mocha --config ./test/.mocharc.json test/integration.spec.js",
     "test": "npm run lint && npm run build && npm run test:coverage && npm run test:integration",
-    "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm test"
+    "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm test",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown"
   },
   "dependencies": {
     "@slack/logger": "^4",
@@ -53,6 +54,8 @@
     "@types/node": ">=18",
     "@types/ws": "^8",
     "eventemitter3": "^5",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.0",
     "ws": "^8"
   },
   "devDependencies": {
