@@ -138,28 +138,6 @@ updates:
       interval: "weekly"
 
   - package-ecosystem: "npm"
-    directories:
-      - "/"
-      - "/docs"
-      - "/examples/*"
-    groups:
-      docusaurus:
-        patterns:
-          - "@docusaurus/*"
-          - "docusaurus-plugin-typedoc"
-          - "typedoc"
-          - "typedoc-plugin-markdown"
-      slack:
-        patterns:
-          - "@slack/*"
-      react:
-        patterns:
-          - "react"
-          - "react-dom"
-    schedule:
-      interval: "monthly"
-
-  - package-ecosystem: "npm"
     directory: "/packages/webhook"
     groups:
       slack:
@@ -182,6 +160,28 @@ updates:
           - "mocha"
     schedule:
       interval: "weekly"
+
+  - package-ecosystem: "npm"
+    directories:
+      - "/"
+      - "/docs"
+      - "/examples/*"
+    groups:
+      docusaurus:
+        patterns:
+          - "@docusaurus/*"
+          - "docusaurus-plugin-typedoc"
+          - "typedoc"
+          - "typedoc-plugin-markdown"
+      slack:
+        patterns:
+          - "@slack/*"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+    schedule:
+      interval: "monthly"
 
   - package-ecosystem: "github-actions"
     directory: "/"
