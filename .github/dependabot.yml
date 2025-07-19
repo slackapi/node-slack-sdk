@@ -140,14 +140,6 @@ updates:
   - package-ecosystem: "npm"
     directory: "/packages/webhook"
     groups:
-      slack:
-        patterns:
-          - "@slack/*"
-      dev-sinon:
-        dependency-type: "development"
-        patterns:
-          - "@types/sinon"
-          - "sinon"
       dev-chai:
         dependency-type: "development"
         patterns:
