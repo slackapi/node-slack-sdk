@@ -91,18 +91,26 @@ expectAssignable<Parameters<typeof web.workflows.featured.remove>>([
 // -- sad path
 expectError(web.workflows.featured.set()); // lacking argument
 expectError(web.workflows.featured.set({})); // empty argument
-expectError(web.workflows.featured.set({
-  channel_id: 'C1234', // missing trigger_ids
-}));
-expectError(web.workflows.featured.set({
-  trigger_ids: [], // missing channel_id
-}));
+expectError(
+  web.workflows.featured.set({
+    channel_id: 'C1234', // missing trigger_ids
+  }),
+);
+expectError(
+  web.workflows.featured.set({
+    trigger_ids: [], // missing channel_id
+  }),
+);
 // -- happy path
-expectAssignable<Parameters<typeof web.workflows.featured.set>>([{
-  channel_id: 'C1234',
-  trigger_ids: [],
-}]);
-expectAssignable<Parameters<typeof web.workflows.featured.set>>([{
-  channel_id: 'C1234',
-  trigger_ids: ['Ft1234', 'Ft0001'],
-}]);
+expectAssignable<Parameters<typeof web.workflows.featured.set>>([
+  {
+    channel_id: 'C1234',
+    trigger_ids: [],
+  },
+]);
+expectAssignable<Parameters<typeof web.workflows.featured.set>>([
+  {
+    channel_id: 'C1234',
+    trigger_ids: ['Ft1234', 'Ft0001'],
+  },
+]);
