@@ -4,8 +4,8 @@
   "plugin": ["typedoc-plugin-markdown"],
   "outputs": [
     {
-        "name": "markdown",
-        "path": "../../docs/content/reference/rtm-api"
+      "name": "markdown",
+      "path": "../../docs/content/reference/rtm-api"
     }
   ],
   "skipErrorChecking": true,

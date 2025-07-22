@@ -4,8 +4,8 @@
   "plugin": ["typedoc-plugin-markdown"],
   "outputs": [
     {
-        "name": "markdown",
-        "path": "../../docs/content/reference/oauth"
+      "name": "markdown",
+      "path": "../../docs/content/reference/oauth"
     }
   ],
   "skipErrorChecking": true,
