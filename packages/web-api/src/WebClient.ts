@@ -964,7 +964,7 @@ function parseRetryHeaders(response: AxiosResponse): number | undefined {
  * @param logger instance of web clients logger
  */
 function warnDeprecations(method: string, logger: Logger): void {
-  const deprecatedMethods = ['workflows.'];
+  const deprecatedMethods = ['workflows.stepCompleted', 'workflows.stepFailed', 'workflows.updateStep'];
 
   const isDeprecated = deprecatedMethods.some((depMethod) => {
     const re = new RegExp(`^${depMethod}`);

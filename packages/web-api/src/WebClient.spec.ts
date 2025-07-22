@@ -326,6 +326,24 @@ describe('WebClient', () => {
           assert.fail('Should have logged a warning and info when files.upload is used');
         }
       });
+
+      it('warns when user is accessing a deprecated method', async () => {
+        const client = new WebClient(token, { logLevel: LogLevel.INFO, logger });
+        await client.apiCall('workflows.stepCompleted', {});
+
+        let warnedAboutDeprecatedMethod = false;
+        for (const call of (logger.warn as sinon.SinonStub).getCalls()) {
+          if (
+            call.args[0] ===
+            'workflows.stepCompleted is deprecated. Please check on https://docs.slack.dev/reference/methods for an alternative.'
+          ) {
+            warnedAboutDeprecatedMethod = true;
+          }
+        }
+        if (!warnedAboutDeprecatedMethod) {
+          assert.fail('Should have logged a warning when a deprecated method is used');
+        }
+      });
     });
 
     describe('with OAuth scopes in the response headers', () => {

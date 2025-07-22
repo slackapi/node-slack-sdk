@@ -317,6 +317,10 @@ export type {
   ViewsUpdateArguments,
 } from './views';
 export type {
+  WorkflowsFeaturedAddArguments,
+  WorkflowsFeaturedListArguments,
+  WorkflowsFeaturedRemoveArguments,
+  WorkflowsFeaturedSetArguments,
   WorkflowsStepCompletedArguments,
   WorkflowsStepFailedArguments,
   WorkflowsUpdateStepArguments,

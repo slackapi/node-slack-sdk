@@ -250,6 +250,10 @@ import type {
   ViewsPublishArguments,
   ViewsPushArguments,
   ViewsUpdateArguments,
+  WorkflowsFeaturedAddArguments,
+  WorkflowsFeaturedListArguments,
+  WorkflowsFeaturedRemoveArguments,
+  WorkflowsFeaturedSetArguments,
   WorkflowsStepCompletedArguments,
   WorkflowsStepFailedArguments,
   WorkflowsUpdateStepArguments,
@@ -503,6 +507,10 @@ import type {
   ViewsPublishResponse,
   ViewsPushResponse,
   ViewsUpdateResponse,
+  WorkflowsFeaturedAddResponse,
+  WorkflowsFeaturedListResponse,
+  WorkflowsFeaturedRemoveResponse,
+  WorkflowsFeaturedSetResponse,
   WorkflowsStepCompletedResponse,
   WorkflowsStepFailedResponse,
   WorkflowsUpdateStepResponse,
@@ -2380,6 +2388,31 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   };
 
   public readonly workflows = {
+    featured: {
+      /**
+       * @description Add featured workflows to a channel.
+       * @see {@link https://docs.slack.dev/reference/methods/workflows.featured.add `workflows.featured.add` API reference}.
+       */
+      add: bindApiCall<WorkflowsFeaturedAddArguments, WorkflowsFeaturedAddResponse>(this, 'workflows.featured.add'),
+      /**
+       * @description List the featured workflows for specified channels.
+       * @see {@link https://docs.slack.dev/reference/methods/workflows.featured.list `workflows.featured.list` API reference}.
+       */
+      list: bindApiCall<WorkflowsFeaturedListArguments, WorkflowsFeaturedListResponse>(this, 'workflows.featured.list'),
+      /**
+       * @description Remove featured workflows from a channel.
+       * @see {@link https://docs.slack.dev/reference/methods/workflows.featured.remove `workflows.featured.remove` API reference}.
+       */
+      remove: bindApiCall<WorkflowsFeaturedRemoveArguments, WorkflowsFeaturedRemoveResponse>(
+        this,
+        'workflows.featured.remove',
+      ),
+      /**
+       * @description Set featured workflows for a channel.
+       * @see {@link https://docs.slack.dev/reference/methods/workflows.featured.set `workflows.featured.set` API reference}.
+       */
+      set: bindApiCall<WorkflowsFeaturedSetArguments, WorkflowsFeaturedSetResponse>(this, 'workflows.featured.set'),
+    },
     /**
      * @description Indicate that an app's step in a workflow completed execution.
      * @deprecated Steps from Apps is deprecated.
