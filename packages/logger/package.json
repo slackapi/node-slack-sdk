@@ -34,10 +34,13 @@
     "mocha": "mocha --config ./test/.mocharc.json src/*.spec.js",
     "test:unit": "npm run build && npm run mocha",
     "test": "npm run lint && npm run coverage",
-    "coverage": "npm run build && c8 --config ./test/.c8rc.json npm run mocha"
+    "coverage": "npm run build && c8 --config ./test/.c8rc.json npm run mocha",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown"
   },
   "dependencies": {
-    "@types/node": ">=18.0.0"
+    "@types/node": ">=18.0.0",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.1"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",

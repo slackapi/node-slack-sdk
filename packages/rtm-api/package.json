@@ -40,7 +40,8 @@
     "lint": "npx @biomejs/biome check .",
     "lint:fix": "npx @biomejs/biome check --write .",
     "test": "npm run lint && npm run build && npm run test:integration",
-    "test:integration": "mocha --config .mocharc.json test/integration.spec.js"
+    "test:integration": "mocha --config .mocharc.json test/integration.spec.js",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown"
   },
   "dependencies": {
     "@slack/logger": "^4",
@@ -50,6 +51,8 @@
     "finity": "^0.5.4",
     "p-cancelable": "^2",
     "p-queue": "^6",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.1",
     "ws": "^8"
   },
   "devDependencies": {

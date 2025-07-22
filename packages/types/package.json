@@ -34,7 +34,8 @@
     "lint": "npx @biomejs/biome check .",
     "lint:fix": "npx @biomejs/biome check --write .",
     "test": "npm run lint && npm run build && npm run test:types",
-    "test:types": "tsd"
+    "test:types": "tsd",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
@@ -44,5 +45,9 @@
   },
   "tsd": {
     "directory": "test"
+  },
+  "dependencies": {
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.1"
   }
 }

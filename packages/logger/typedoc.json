@@ -1,0 +1,25 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/index.ts"],
+  "plugin": ["typedoc-plugin-markdown"],
+  "outputs": [
+    {
+        "name": "markdown",
+        "path": "../../docs/content/reference/logger"
+    }
+  ],
+  "skipErrorChecking": true,
+  "useCodeBlocks": true,
+  "logLevel": "Error",
+  "readme": "none",
+  "gitRevision": "main",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeInternal": true,
+  "hideGenerator": true,
+  "jsDocCompatibility": true,
+  "titleLink": false,
+  "hidePageHeader": true,
+  "entryFileName": "index",
+  "exclude": ["**/*.test.ts", "**/*.spec.ts", "**/*.test-d.ts"]
+}
