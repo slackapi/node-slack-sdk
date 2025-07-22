@@ -43,7 +43,9 @@
   "dependencies": {
     "@slack/types": "^2.9.0",
     "@types/node": ">=18.0.0",
-    "axios": "^1.8.3"
+    "axios": "^1.8.3",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.1"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
