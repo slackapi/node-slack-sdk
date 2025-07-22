@@ -36,14 +36,17 @@
     "test": "npm run lint && npm run coverage",
     "coverage": "npm run build && c8 --config ./test/.c8rc.json npm run test:mocha",
     "test:mocha": "mocha --config ./test/.mocharc.json src/*.spec.ts src/**/*.spec.ts",
-    "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
+    "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown"
   },
   "dependencies": {
     "@slack/logger": "^4",
     "@slack/web-api": "^7.9.1",
     "@types/jsonwebtoken": "^9",
     "@types/node": ">=18",
-    "jsonwebtoken": "^9"
+    "jsonwebtoken": "^9",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
