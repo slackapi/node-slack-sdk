@@ -13,6 +13,7 @@
   "logLevel": "Error",
   "readme": "none",
   "gitRevision": "main",
+  "includeVersion": true,
   "excludePrivate": true,
   "excludeProtected": true,
   "excludeInternal": true,
