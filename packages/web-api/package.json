@@ -36,6 +36,7 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "lint": "npx @biomejs/biome check .",
     "lint:fix": "npx @biomejs/biome check --write .",
     "mocha": "mocha --config ./test/.mocharc.json \"./src/**/*.spec.ts\"",
@@ -44,8 +45,7 @@
     "test:integration:ts": "cd test/integration/ts-4.7-project && npm i && npm run build",
     "test:unit": "npm run build && c8 --config ./test/.c8rc.json npm run mocha",
     "test:types": "tsd",
-    "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build",
-    "docs": "npx typedoc --plugin typedoc-plugin-markdown"
+    "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
   },
   "dependencies": {
     "@slack/logger": "^4.0.0",
@@ -83,10 +83,6 @@
     "typedoc": "^0.28.0",
     "typedoc-plugin-markdown": "^4.7.0",
     "typescript": "5.8.3"
-  },
-  "peerDependencies": {
-    "typescript": "5.8.3",
-    "typedoc": "^0.28.0"
   },
   "tsd": {
     "directory": "test/types"

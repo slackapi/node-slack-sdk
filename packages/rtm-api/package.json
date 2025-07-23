@@ -37,11 +37,11 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "lint": "npx @biomejs/biome check .",
     "lint:fix": "npx @biomejs/biome check --write .",
     "test": "npm run lint && npm run build && npm run test:integration",
-    "test:integration": "mocha --config .mocharc.json test/integration.spec.js",
-    "docs": "npx typedoc --plugin typedoc-plugin-markdown"
+    "test:integration": "mocha --config .mocharc.json test/integration.spec.js"
   },
   "dependencies": {
     "@slack/logger": "^4",
@@ -51,8 +51,6 @@
     "finity": "^0.5.4",
     "p-cancelable": "^2",
     "p-queue": "^6",
-    "typedoc": "^0.28.7",
-    "typedoc-plugin-markdown": "^4.7.1",
     "ws": "^8"
   },
   "devDependencies": {
@@ -67,6 +65,8 @@
     "sinon": "^17",
     "source-map-support": "^0.5.21",
     "ts-node": "^10",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.1",
     "typescript": "5.3.3"
   }
 }

@@ -29,18 +29,16 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "lint": "npx @biomejs/biome check .",
     "lint:fix": "npx @biomejs/biome check --write .",
     "mocha": "mocha --config ./test/.mocharc.json src/*.spec.js",
     "test:unit": "npm run build && npm run mocha",
     "test": "npm run lint && npm run coverage",
-    "coverage": "npm run build && c8 --config ./test/.c8rc.json npm run mocha",
-    "docs": "npx typedoc --plugin typedoc-plugin-markdown"
+    "coverage": "npm run build && c8 --config ./test/.c8rc.json npm run mocha"
   },
   "dependencies": {
-    "@types/node": ">=18.0.0",
-    "typedoc": "^0.28.7",
-    "typedoc-plugin-markdown": "^4.7.1"
+    "@types/node": ">=18.0.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
@@ -55,6 +53,8 @@
     "sinon": "^21.0.0",
     "source-map-support": "^0.5.21",
     "ts-node": "^10.9.2",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.1",
     "typescript": "^5.5.4"
   }
 }
