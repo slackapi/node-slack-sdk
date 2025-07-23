@@ -18,7 +18,6 @@
   "excludeInternal": true,
   "hideGenerator": true,
   "jsDocCompatibility": true,
-  "titleLink": false,
   "hidePageHeader": true,
   "entryFileName": "index",
   "exclude": ["**/*.test.ts", "**/*.spec.ts", "**/*.test-d.ts"]
