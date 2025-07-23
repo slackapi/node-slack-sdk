@@ -53,10 +53,6 @@ const config = {
             from: ['/auth'],
           },
           {
-            to: '/reference/logger',
-            from: ['/reference'],
-          },
-          {
             to: 'https://github.com/SlackAPI/node-slack-sdk/releases',
             from: ['/changelog'],
           },
