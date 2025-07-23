@@ -29,7 +29,7 @@ We have included `launch.json` files that store configuration for `vscode` debug
 
 See the [Docs README](https://github.com/slackapi/node-slack-sdk/blob/main/docs/README.md) for information on how the docs site work. 
 
-The reference docs for each package is independent of the others. They're generated using `typedoc` and `plugin-typedoc-markdown`. In each package's `package.json` there's a `docs` command that generates reference docs for that package based on the configuration settings found in `/package-name/typedoc.json`. 
+The reference docs for each package is independent of the others. They're generated using `typedoc` and `typedoc-plugin-markdown`. In each package's `package.json` there's a `docs` command that generates reference docs for that package based on the configuration settings found in `/package-name/typedoc.json`. 
 
 The script places the reference markdown files in `/reference/package-name`.
 
