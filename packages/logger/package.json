@@ -29,6 +29,7 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "lint": "npx @biomejs/biome check .",
     "lint:fix": "npx @biomejs/biome check --write .",
     "mocha": "mocha --config ./test/.mocharc.json src/*.spec.js",
@@ -52,6 +53,8 @@
     "sinon": "^21.0.0",
     "source-map-support": "^0.5.21",
     "ts-node": "^10.9.2",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.1",
     "typescript": "^5.5.4"
   }
 }
