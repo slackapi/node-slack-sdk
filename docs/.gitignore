@@ -3,4 +3,3 @@ node_modules/
 .DS_Store
 build/
 .stylelintrc.json
-content/reference
