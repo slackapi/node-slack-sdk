@@ -29,7 +29,9 @@ We have included `launch.json` files that store configuration for `vscode` debug
 
 See the [Docs README](https://github.com/slackapi/node-slack-sdk/blob/main/docs/README.md) for information on how the docs site work. 
 
-The reference docs are generated on every site build, pulling from this repo's files. The site is built automatically on every release via `docs-deploy.yml`. 
+The reference docs for each package is independent of the others. They're generated using `typedoc` and `typedoc-plugin-markdown`. In each package's `package.json` there's a `docs` command that generates reference docs for that package based on the configuration settings found in `/package-name/typedoc.json`. 
+
+The script places the reference markdown files in `/reference/package-name`.
 
 ### 🚀 Releases
 _For beta releases, see [**Beta Releases**](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#-beta-releases) section below_
@@ -50,7 +52,9 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
 4. For each package to be released, run `npm run test` to verify that tests are passing and code is free of linting errors.
 
-5. On your new branch, bump the version(s) in `package.json` (see [Versioning and Tags](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#-versioning-and-tags))
+5. Generate the reference docs for that package by running `npm run docs`.
+
+6. On your new branch, bump the version(s) in `package.json` (see [Versioning and Tags](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#-versioning-and-tags))
 
     - Make a single commit for the version(s) bump, following the format in: ([Example](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594))
 
@@ -58,7 +62,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - Add appropriate labels on the PR, including `release`
 
-6. Once the PR has been approved and tests have passed, merge it into the main repository.
+7. Once the PR has been approved and tests have passed, merge it into the main repository.
 
     -  Check out your local `main` branch and update it to get the latest changes: `git checkout main && git pull origin main`
 
@@ -73,7 +77,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - Run `npm publish . --otp YOUR_OTP_CODE`. To generate an OTP (One Time Password), use your password generator of choice (Duo, 1Password)
 
-8. Close GitHub Milestone(s)
+9. Close GitHub Milestone(s)
 
     - Close the relevant GitHub Milestone(s) for the release(s)
 
@@ -81,7 +85,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - Move any unfinished, open issues to the next GitHub Milestone
 
-9. Create GitHub Release(s) with release notes
+10. Create GitHub Release(s) with release notes
 
     - From the repository, navigate to the **Releases** section and draft a new release
 
@@ -93,7 +97,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - Once the release notes are ready, click the "Publish Release" button to make them public
 
-10. Communicate the release (as appropriate)
+11. Communicate the release (as appropriate)
 
     - **Internal**
 

@@ -37,6 +37,7 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "lint": "npx @biomejs/biome check .",
     "lint:fix": "npx @biomejs/biome check --write .",
     "test": "npm run lint && npm run build && npm run test:integration",
@@ -64,6 +65,8 @@
     "sinon": "^17",
     "source-map-support": "^0.5.21",
     "ts-node": "^10",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.1",
     "typescript": "5.3.3"
   }
 }

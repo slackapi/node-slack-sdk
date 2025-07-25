@@ -138,6 +138,22 @@ updates:
       interval: "weekly"
 
   - package-ecosystem: "npm"
+    directory: "/packages/webhook"
+    groups:
+      dev-chai:
+        dependency-type: "development"
+        patterns:
+          - "@types/chai"
+          - "chai"
+      dev-mocha:
+        dependency-type: "development"
+        patterns:
+          - "@types/mocha"
+          - "mocha"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "npm"
     directories:
       - "/"
       - "/docs"
