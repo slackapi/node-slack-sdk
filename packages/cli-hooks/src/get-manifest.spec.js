@@ -12,7 +12,7 @@ describe('get-manifest implementation', async () => {
         getManifestData(process.cwd());
       } catch (err) {
         if (err instanceof Error) {
-          assert(err.message.includes('Failed to find a manifest file in this project'));
+          assert(err.message.includes('Failed to find a manifest.json file in this project'));
           return;
         }
       }
@@ -96,6 +96,147 @@ describe('get-manifest implementation', async () => {
       try {
         const parsedManifest = getManifestData(process.cwd());
         assert.deepEqual(manifest, parsedManifest);
+      } catch (err) {
+        console.error(err);
+        assert(false);
+      }
+    });
+  });
+
+  describe('custom manifest filename', async () => {
+    const tempDir = path.join(process.cwd(), 'tmp');
+    const slackDir = path.join(tempDir, 'slack');
+    const configPath = path.join(slackDir, 'config.json');
+    const customFilePath = path.join(tempDir, 'custom-manifest.json');
+    const manifest = {
+      display_information: {
+        name: 'Custom manifest app',
+      },
+    };
+
+    before(() => {
+      if (!fs.existsSync(tempDir)) {
+        fs.mkdirSync(tempDir);
+      }
+      if (!fs.existsSync(slackDir)) {
+        fs.mkdirSync(slackDir);
+      }
+    });
+
+    after(() => {
+      if (fs.existsSync(customFilePath)) {
+        fs.unlinkSync(customFilePath);
+      }
+      if (fs.existsSync(configPath)) {
+        fs.unlinkSync(configPath);
+      }
+      if (fs.existsSync(slackDir)) {
+        fs.rmSync(slackDir, { recursive: true });
+      }
+      if (fs.existsSync(tempDir)) {
+        fs.rmSync(tempDir, { recursive: true });
+      }
+    });
+
+    it('should use custom manifest filename from config', async () => {
+      const config = {
+        manifest: {
+          filename: 'custom-manifest.json',
+        },
+      };
+
+      fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+      fs.writeFileSync(customFilePath, JSON.stringify(manifest, null, 2));
+
+      try {
+        const parsedManifest = getManifestData(tempDir);
+        assert.deepEqual(manifest, parsedManifest);
+      } catch (err) {
+        console.error(err);
+        assert(false);
+      }
+    });
+
+    it('should handle missing custom manifest file', async () => {
+      const config = {
+        manifest: {
+          filename: 'missing-manifest.json',
+        },
+      };
+
+      fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+
+      try {
+        getManifestData(tempDir);
+        assert(false, 'Should have thrown an error');
+      } catch (err) {
+        if (err instanceof Error) {
+          assert(err.message.includes('Failed to find a missing-manifest.json file in this project'));
+          return;
+        }
+        assert(false);
+      }
+    });
+
+    it('should handle malformed config file gracefully', async () => {
+      const defaultManifestPath = path.join(tempDir, 'manifest.json');
+
+      fs.writeFileSync(configPath, '{invalid json');
+      fs.writeFileSync(defaultManifestPath, JSON.stringify(manifest, null, 2));
+
+      try {
+        const parsedManifest = getManifestData(tempDir);
+        assert.deepEqual(manifest, parsedManifest);
+
+        if (fs.existsSync(defaultManifestPath)) {
+          fs.unlinkSync(defaultManifestPath);
+        }
+      } catch (err) {
+        console.error(err);
+        assert(false);
+      }
+    });
+
+    it('should handle config without manifest property', async () => {
+      const defaultManifestPath = path.join(tempDir, 'manifest.json');
+      const config = {
+        other_setting: 'value',
+      };
+
+      fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+      fs.writeFileSync(defaultManifestPath, JSON.stringify(manifest, null, 2));
+
+      try {
+        const parsedManifest = getManifestData(tempDir);
+        assert.deepEqual(manifest, parsedManifest);
+
+        if (fs.existsSync(defaultManifestPath)) {
+          fs.unlinkSync(defaultManifestPath);
+        }
+      } catch (err) {
+        console.error(err);
+        assert(false);
+      }
+    });
+
+    it('should handle config with manifest property but no filename', async () => {
+      const defaultManifestPath = path.join(tempDir, 'manifest.json');
+      const config = {
+        manifest: {
+          other_setting: 'value',
+        },
+      };
+
+      fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
+      fs.writeFileSync(defaultManifestPath, JSON.stringify(manifest, null, 2));
+
+      try {
+        const parsedManifest = getManifestData(tempDir);
+        assert.deepEqual(manifest, parsedManifest);
+
+        if (fs.existsSync(defaultManifestPath)) {
+          fs.unlinkSync(defaultManifestPath);
+        }
       } catch (err) {
         console.error(err);
         assert(false);

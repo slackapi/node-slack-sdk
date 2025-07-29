@@ -24,11 +24,35 @@ if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
  * @returns {object} Parsed values of the project manifest.
  */
 export default function getManifestData(searchDir) {
-  const manifestJSON = readManifestJSONFile(searchDir, 'manifest.json');
+  const customFilename = getCustomManifestFilename(searchDir);
+  const filename = customFilename || 'manifest.json';
+
+  const manifestJSON = readManifestJSONFile(searchDir, filename);
+
   if (!manifestJSON) {
-    throw new Error('Failed to find a manifest file in this project');
+    throw new Error(`Failed to find a ${filename} file in this project`);
   }
   return manifestJSON;
+}
+
+/**
+ * Reads custom manifest filename from project configuration.
+ * @param {string} searchDir - Directory to begin search in.
+ * @returns {string | undefined} Custom manifest filename if configured.
+ */
+function getCustomManifestFilename(searchDir) {
+  try {
+    const slackConfigPath = path.join(searchDir, 'slack', 'config.json');
+    if (fs.existsSync(slackConfigPath)) {
+      const slackConfig = JSON.parse(fs.readFileSync(slackConfigPath, 'utf8'));
+      if (slackConfig.manifest?.filename) {
+        return slackConfig.manifest.filename;
+      }
+    }
+  } catch (_err) {
+    // Silently fall back to default behavior if config file is malformed or unreadable
+  }
+  return undefined;
 }
 
 /**
