@@ -54,7 +54,7 @@
     "@types/retry": "0.12.0",
     "axios": "^1.8.3",
     "eventemitter3": "^5.0.1",
-    "form-data": "^4.0.0",
+    "form-data": "^4.0.4",
     "is-electron": "2.2.2",
     "is-stream": "^2",
     "p-queue": "^6",
