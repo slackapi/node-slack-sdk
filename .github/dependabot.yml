@@ -199,26 +199,6 @@ updates:
     schedule:
       interval: "monthly"
 
-  - package-ecosystem: "npm"
-    directories:
-      - "/docs"
-    groups:
-      docusaurus:
-        patterns:
-          - "@docusaurus/*"
-          - "docusaurus-plugin-typedoc"
-          - "typedoc"
-          - "typedoc-plugin-markdown"
-      react:
-        patterns:
-          - "react"
-          - "react-dom"
-    labels:
-      - "dependencies"
-      - "docs"
-      - "javascript"
-    schedule:
-      interval: "monthly"
 
   - package-ecosystem: "github-actions"
     directory: "/"
