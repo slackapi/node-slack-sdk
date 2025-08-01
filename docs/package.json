@@ -28,8 +28,8 @@
     "@docusaurus/module-type-aliases": "3.8.1",
     "@docusaurus/types": "3.8.1",
     "@tsconfig/recommended": "^1.0.10",
-    "docusaurus-plugin-typedoc": "^1.4.0",
-    "typedoc": ">=0.28.7",
+    "docusaurus-plugin-typedoc": "^1.4.1",
+    "typedoc": ">=0.28.9",
     "typedoc-plugin-markdown": "^4.7.0"
   },
   "browserslist": {
