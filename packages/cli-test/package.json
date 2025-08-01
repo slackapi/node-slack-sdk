@@ -47,7 +47,7 @@
     "@types/sinon": "^17.0.3",
     "c8": "^10.1.2",
     "chai": "^4.4.1",
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.0.0",
     "mocha": "^11.0.1",
     "mocha-junit-reporter": "^2.2.1",
     "mocha-multi-reporters": "^1.5.1",
@@ -56,6 +56,6 @@
     "ts-node": "^10.9.2",
     "typedoc": "^0.28.7",
     "typedoc-plugin-markdown": "^4.7.1",
-    "typescript": "5.8.3"
+    "typescript": "5.9.2"
   }
 }

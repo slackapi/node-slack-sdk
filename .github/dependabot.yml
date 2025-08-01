@@ -13,6 +13,10 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "pkg:cli-hooks"
     schedule:
       interval: "weekly"
 
@@ -34,6 +38,10 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "pkg:cli-test"
     schedule:
       interval: "weekly"
 
@@ -55,6 +63,10 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "pkg:logger"
     schedule:
       interval: "weekly"
 
@@ -79,6 +91,10 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "pkg:oauth"
     schedule:
       interval: "weekly"
 
@@ -103,11 +119,19 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "pkg:socket-mode"
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "npm"
     directory: "/packages/types"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "pkg:types"
     schedule:
       interval: "weekly"
 
@@ -134,6 +158,10 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "pkg:web-api"
     schedule:
       interval: "weekly"
 
@@ -150,32 +178,31 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "pkg:webhook"
     schedule:
       interval: "weekly"
 
   - package-ecosystem: "npm"
     directories:
-      - "/"
-      - "/docs"
       - "/examples/*"
     groups:
-      docusaurus:
-        patterns:
-          - "@docusaurus/*"
-          - "docusaurus-plugin-typedoc"
-          - "typedoc"
-          - "typedoc-plugin-markdown"
       slack:
         patterns:
           - "@slack/*"
-      react:
-        patterns:
-          - "react"
-          - "react-dom"
+    labels:
+      - "area:examples"
+      - "dependencies"
+      - "javascript"
     schedule:
       interval: "monthly"
 
   - package-ecosystem: "github-actions"
     directory: "/"
+    labels:
+      - "dependencies"
+      - "github_actions"
     schedule:
       interval: "monthly"
