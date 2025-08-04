@@ -30,7 +30,7 @@
     "npm": ">= 5.5.1"
   },
   "repository": "slackapi/node-slack-sdk",
-  "homepage": "https://slack.dev/node-slack-sdk/tutorials/migrating-to-v5",
+  "homepage": "https://slack.dev/node-slack-sdk/migration/migrating-to-v5",
   "publishConfig": {
     "access": "public"
   },

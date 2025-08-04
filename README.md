@@ -34,7 +34,7 @@ If you're still not sure, [reach out for help](#getting-help) and our community 
 
 `@slack/events-api` and `@slack/interactive-messages` officially reached EOL on May 31st, 2021. Development has fully stopped for these packages and all remaining open issues and pull requests have been closed.
 
-At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](https://docs.slack.dev/node-slack-sdk/tutorials/migrating-to-v6) for those looking to convert their existing apps.
+At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](https://docs.slack.dev/node-slack-sdk/migration/migrating-to-v6) for those looking to convert their existing apps.
 
 ## Installation
 

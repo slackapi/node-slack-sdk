@@ -2,11 +2,11 @@
 
 :::warning[`@slack/events-api` officially reached EOL on May 31st, 2021. Development has fully stopped for this package and all remaining open issues and pull requests have been closed.]
 
-At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](/node-slack-sdk/tutorials/migrating-to-v6) for those looking to convert their existing apps.
+At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](/node-slack-sdk/migration/migrating-to-v6) for those looking to convert their existing apps.
 
 :::
 
-The `@slack/events-api` package helps your app respond to events from the Slack [Events API](https:///apis/events-api)
+The `@slack/events-api` package helps your app respond to events from the Slack [Events API](apis/events-api)
 such as new messages, emoji reactions, and files. This package will help you start with convenient and secure
 defaults.
 
