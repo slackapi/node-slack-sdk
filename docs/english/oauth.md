@@ -1,6 +1,6 @@
 # OAuth
 
-The `@slack/oauth` package makes it straightforward to set up the OAuth flow for Slack apps. It supports [V2 OAuth](/authentication/installing-with-oauth) for Slack Apps as well as [V1 OAuth](/legacy/legacy-authentication) for [Classic Slack apps](/legacy/legacy-authenticationt). Slack apps that are installed in multiple workspaces, like those available in the Slack Marketplace or installed in an Enterprise Grid, will need to implement OAuth and store information about each of those installations (such as access tokens).
+The `@slack/oauth` package makes it straightforward to set up the OAuth flow for Slack apps. It supports [V2 OAuth](/authentication/installing-with-oauth) for Slack Apps as well as [V1 OAuth](/legacy/legacy-authentication) for [Classic Slack apps](/legacy/legacy-authentication). Slack apps that are installed in multiple workspaces, like those available in the Slack Marketplace or installed in an Enterprise Grid, will need to implement OAuth and store information about each of those installations (such as access tokens).
 
 The package handles URL generation, state verification, and authorization code exchange for access tokens. It also provides an interface for easily plugging in your own database for saving and retrieving installation data.
 
