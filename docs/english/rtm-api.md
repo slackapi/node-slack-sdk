@@ -5,7 +5,7 @@ app to stay connected to the Slack platform over a persistent Websocket connecti
 
 :::danger 
 
-The RTM API isn't available for modern granular-permissions apps, and you can no longer create new legacy apps. We recommend using [Bolt for JavaScript](/bolt-js). If you have an existing RTM app, do not update its scopes as it will be updated to a granular-permissions app and stop working with the RTM API.
+The RTM API isn't available for modern granular-permissions apps, and you can no longer create new legacy apps. We recommend using [Bolt for JavaScript](/tools/bolt-js). If you have an existing RTM app, do not update its scopes as it will be updated to a granular-permissions app and stop working with the RTM API.
 
 ::: 
 
@@ -65,7 +65,7 @@ Additional connection options
 </summary>
 
 Options passed to the `.start()` method are passed through as arguments to the [`rtm.connect`](/reference/methods/rtm.connect) method. These arguments deal with presence, which is discussed in more
-detail [below](/node-slack-sdk/rtm-api#presence).
+detail [below](/tools/node-slack-sdk/rtm-api#presence).
 
 </details>
 
@@ -419,7 +419,7 @@ previously, and you're trying to add subscriptions for new users, you should inc
 to `.subscribePresence(userIds)` in the next call.
 
 If instead of being informed when a user's presence changes (reactively), your app needs to know what the user's status
-is currently (proactively), then your app should use the [`WebClient`](/node-slack-sdk/web-api)'s
+is currently (proactively), then your app should use the [`WebClient`](/tools/node-slack-sdk/web-api)'s
 `users.getPresence` method. In general, it's easier to deal with user presence proactively than to keep track of all the
 changes to understand the current presence of a user.
 
@@ -635,7 +635,7 @@ const rtm = new RTMClient(token, options);
 
 ## Custom WebClient
 
-In some cases, you might want to customize the underlying component making HTTP requests to the Slack API, the [`WebClient`](/node-slack-sdk/reference/web-api/classes/WebClient), beyond the provided [`RTMClientOptions`](/node-slack-sdk/reference/rtm-api/interfaces/RTMClientOptions). Note that overriding the [`WebClient`](/node-slack-sdk/reference/web-api/classes/WebClient) instance takes precedence over any other [`RTMClientOptions`](/node-slack-sdk/reference/rtm-api/interfaces/RTMClientOptions) specified.
+In some cases, you might want to customize the underlying component making HTTP requests to the Slack API, the [`WebClient`](/tools/node-slack-sdk/reference/web-api/classes/WebClient), beyond the provided [`RTMClientOptions`](/tools/node-slack-sdk/reference/rtm-api/interfaces/RTMClientOptions). Note that overriding the [`WebClient`](/tools/node-slack-sdk/reference/web-api/classes/WebClient) instance takes precedence over any other [`RTMClientOptions`](/tools/node-slack-sdk/reference/rtm-api/interfaces/RTMClientOptions) specified.
 
 ```javascript
 const { RTMClient } = require('@slack/rtm-api');
@@ -662,7 +662,7 @@ const rtm = new RTMClient(token, { webClient });
 The client can receive a snapshot of a portion of the workspace's state while it's connecting. This can be useful if your
 app needs to keep track of some data as it changes while the app runs, but it needs the initial start to get started.
 However, this can also cause the client to fail to connect on large teams. Our recommendation is to call the [Web
-API](/node-slack-sdk/web-api) to retrieve workspace state while your app is connecting, instead of
+API](/tools/node-slack-sdk/web-api) to retrieve workspace state while your app is connecting, instead of
 relying on the cache. See [send rich messages](#send-a-message) for an example of using the `WebClient` class inside
 your app, and use [some of the other methods](/reference/methods) to get data.
 

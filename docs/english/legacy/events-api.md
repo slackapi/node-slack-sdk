@@ -2,7 +2,7 @@
 
 :::warning[`@slack/events-api` officially reached EOL on May 31st, 2021. Development has fully stopped for this package and all remaining open issues and pull requests have been closed.]
 
-At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](/node-slack-sdk/migration/migrating-to-v6) for those looking to convert their existing apps.
+At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](/tools/node-slack-sdk/migration/migrating-to-v6) for those looking to convert their existing apps.
 
 :::
 
@@ -21,7 +21,7 @@ development workspace. You'll also need a public URL where the app can begin rec
 to find the request signing secret given to you by Slack under the **Basic Information** of your app configuration.
 
 It may be helpful to read the tutorial on [developing Slack apps
-locally](/node-slack-sdk/tutorials/local-development). After you have a URL for development, see the
+locally](/tools/node-slack-sdk/tutorials/local-development). After you have a URL for development, see the
 section on [verifying a request URL for development](#verify-tool) so you can save it as the Request URL in your app
 configuration. Now you can begin adding event subscriptions, just be sure to install the app in your development
 workspace again each time you add new scopes (typically whenever you add new event subscriptions).

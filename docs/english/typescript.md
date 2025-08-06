@@ -10,11 +10,11 @@ This page describes how to use this package from a project that also uses TypeSc
 
 Latest major versions of `@slack/web-api`, `@slack/rtm-api`, and `@slack/webhook` packages are supported to build against TypeScript version 5.3.x. You can try to use a greater minor version of Typescript like 5.4 or above, but beware that [API Breaking Changes](https://github.com/microsoft/TypeScript/wiki/API-Breaking-Changes) can be introduced in minor Typescript versions that break compatibility.
 
-The v6 versions of `@slack/web-api`, `@slack/rtm-api`, and `@slack/webhook` packages are supported to build against the minimum TypeScript version v4.1.0. See also [v5 to v6 migration guide](/node-slack-sdk/migration/migrating-to-v6) for more details.
+The v6 versions of `@slack/web-api`, `@slack/rtm-api`, and `@slack/webhook` packages are supported to build against the minimum TypeScript version v4.1.0. See also [v5 to v6 migration guide](/tools/node-slack-sdk/migration/migrating-to-v6) for more details.
 
 The v5 versions of `@slack/web-api`, `@slack/rtm-api`, and `@slack/webhook` packages are supported to build against TypeScript v3.3.0 or higher. The v4 versions of the `@slack/web-api`, `@slack/rtm-api`, and `@slack/webhook` packages are supported to build against TypeScript v2.7.0 or higher.
 
-This project adheres to a [support schedule](/node-slack-sdk/support-schedule) so that you can predictably plan your time and effort for migration. That plan covers versions of Node.js and how they correlate to major versions of these packages. However, for TypeScript, we're using a slightly different convention. Each time a major version is released, we take the most recent version of TypeScript available, and make it the minimum. That doesn't mean that the project won't work against earlier versions of TypeScript, but it does give this project a chance to adopt new features from up to and including that version of TypeScript throughout the time that the major version of the package is supported.
+This project adheres to a [support schedule](/tools/node-slack-sdk/support-schedule) so that you can predictably plan your time and effort for migration. That plan covers versions of Node.js and how they correlate to major versions of these packages. However, for TypeScript, we're using a slightly different convention. Each time a major version is released, we take the most recent version of TypeScript available, and make it the minimum. That doesn't mean that the project won't work against earlier versions of TypeScript, but it does give this project a chance to adopt new features from up to and including that version of TypeScript throughout the time that the major version of the package is supported.
 
 ---
 

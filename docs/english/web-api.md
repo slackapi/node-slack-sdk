@@ -23,7 +23,7 @@ This article contains the steps you must follow to get your access token:
 3. [Install the app to a workspace](/quickstart#installing)
 4. Finally, get your access token
 
-You can also read the [Getting Started guide](/node-slack-sdk/getting-started) which guides
+You can also read the [Getting Started guide](/tools/node-slack-sdk/getting-started) which guides
 you through creating an app, retrieving an access token, and using this `@slack/web-api`
 package to post a message.
 
@@ -97,7 +97,7 @@ const conversationId = '...';
 
 If you're using an editor that supports TypeScript, even if you're not using TypeScript to write your code,
 you'll get hints for all of the arguments each method supports. This saves time by reducing the number of
-times you need to open a webpage to check the reference. More information about [using TypeScript here](/node-slack-sdk/typescript).
+times you need to open a webpage to check the reference. More information about [using TypeScript here](/tools/node-slack-sdk/typescript).
 
 Use the [Block Kit Builder](https://api.slack.com/tools/block-kit-builder) for a playground
 where you can prototype your message's look and feel.
@@ -125,7 +125,7 @@ const conversationId = '...';
 
 A dynamic method name can either be in the format shown above, to be sent with the [`slackApiUrl`](#custom-api-url)
 option, or as an absolute URL. Setting the
-[`allowAbsoluteUrls`](/node-slack-sdk/reference/web-api/interfaces/WebClientOptions#allowabsoluteurls)
+[`allowAbsoluteUrls`](/tools/node-slack-sdk/reference/web-api/interfaces/WebClientOptions#allowabsoluteurls)
 option to `false` sends all requests to the `slackApiUrl` option value:
 
 ```javascript
@@ -181,7 +181,7 @@ There are a few more types of errors that you might encounter, each with one of 
 
 * `ErrorCode.RateLimitedError`: The Web API cannot fulfill the API method call because your app has made too many
   requests too quickly. This error has a `retryAfter` property with the number of seconds you should wait before trying
-  again. See [the documentation on rate limit handling](/node-slack-sdk/web-api#rate-limits) to
+  again. See [the documentation on rate limit handling](/tools/node-slack-sdk/web-api#rate-limits) to
   understand how the client will automatically deal with these problems for you.
 
 * `ErrorCode.HTTPError`: The HTTP response contained an unfamiliar status code. The Web API only responds with `200`
