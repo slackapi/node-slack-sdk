@@ -3,9 +3,9 @@
 The `@slack/rtm-api` package contains a configurable client for receiving events and sending simple messages to the Slack [Real Time Messaging API](/legacy/legacy-rtm-api). Use it in your
 app to stay connected to the Slack platform over a persistent Websocket connection.
 
-:::danger 
+:::danger[The RTM API isn't available for modern granular-permissions apps, and you can no longer create new legacy apps.] 
 
-The RTM API isn't available for modern granular-permissions apps, and you can no longer create new legacy apps. We recommend using [Bolt for JavaScript](/tools/bolt-js). If you have an existing RTM app, do not update its scopes as it will be updated to a granular-permissions app and stop working with the RTM API.
+We recommend using [Bolt for JavaScript](/tools/bolt-js). If you have an existing RTM app, do not update its scopes as it will be updated to a granular-permissions app and stop working with the RTM API.
 
 ::: 
 
