@@ -6,7 +6,7 @@ At this time, we recommend migrating to [Bolt for JavaScript](https://github.com
 
 :::
 
-The `@slack/events-api` package helps your app respond to events from the Slack [Events API](apis/events-api)
+The `@slack/events-api` package helps your app respond to events from the Slack [Events API](/apis/events-api)
 such as new messages, emoji reactions, and files. This package will help you start with convenient and secure
 defaults.
 
