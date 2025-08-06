@@ -184,6 +184,9 @@ export type ChatPostMessageArguments = TokenOverridable &
   Unfurls & {
     /** @description Disable Slack markup parsing by setting to `false`. Enabled by default. */
     mrkdwn?: boolean;
+    /** @description Accepts message text formatted in markdown. This argument should not be used
+     * in conjunction with blocks or text. Limit this field to 12,000 characters. */
+    markdown_text?: string;
   };
 
 // https://docs.slack.dev/reference/methods/chat.scheduleMessage
