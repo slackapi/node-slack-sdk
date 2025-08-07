@@ -168,6 +168,9 @@ export type ChatPostEphemeralArguments = TokenOverridable &
      * The user should be in the channel specified by the `channel` argument.
      */
     user: string;
+    /** @description Accepts message text formatted in markdown. This argument should not be used
+     * in conjunction with blocks or text. Limit this field to 12,000 characters. */
+    markdown_text?: string;
   } & Authorship &
   Parse &
   LinkNames &
@@ -194,6 +197,9 @@ export type ChatScheduleMessageArguments = TokenOverridable &
   MessageContents & {
     /** @description Unix EPOCH timestamp of time in future to send the message. */
     post_at: string | number;
+    /** @description Accepts message text formatted in markdown. This argument should not be used
+     * in conjunction with blocks or text. Limit this field to 12,000 characters. */
+    markdown_text?: string;
   } & ReplyInThread &
   Parse &
   LinkNames &
@@ -268,4 +274,7 @@ export type ChatUpdateArguments = MessageContents & {
     file_ids?: string[];
     /** @description Broadcast an existing thread reply to make it visible to everyone in the channel or conversation. */
     reply_broadcast?: boolean;
+    /** @description Accepts message text formatted in markdown. This argument should not be used
+     * in conjunction with blocks or text. Limit this field to 12,000 characters. */
+    markdown_text?: string;
   };
