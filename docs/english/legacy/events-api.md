@@ -1,14 +1,14 @@
-# Slack Events API
+# Events API
 
-The `@slack/events-api` package helps your app respond to events from Slack's [Events API](https://https://docs.slack.dev/apis/events-api)
-such as new messages, emoji reactions, files, and much more. This package will help you start with convenient and secure
+:::warning[`@slack/events-api` officially reached EOL on May 31st, 2021. Development has fully stopped for this package and all remaining open issues and pull requests have been closed.]
+
+At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](/tools/node-slack-sdk/migration/migrating-to-v6) for those looking to convert their existing apps.
+
+:::
+
+The `@slack/events-api` package helps your app respond to events from the Slack [Events API](/apis/events-api)
+such as new messages, emoji reactions, and files. This package will help you start with convenient and secure
 defaults.
-
-### **Deprecation Notice**
-
-_`@slack/events-api` officially reached EOL on May 31st, 2021. Development has fully stopped for this package and all remaining open issues and pull requests have been closed._
-
-_At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](https://slack.dev/node-slack-sdk/migration/migrating-to-v6) for those looking to convert their existing apps._
 
 ## Installation
 
@@ -16,32 +16,22 @@ _At this time, we recommend migrating to [Bolt for JavaScript](https://github.co
 $ npm install @slack/events-api
 ```
 
-<!-- START: Remove before copying into the docs directory -->
-
-## Usage
-
-These examples show how to get started using the most common features. You'll find even more extensive
-[documentation on the package's website](https://slack.dev/node-slack-sdk/events-api).
-
-<!-- END: Remove before copying into the docs directory -->
-
 Before building an app, you'll need to [create a Slack app](https://api.slack.com/apps/new) and install it to your
-development workspace. You'll also **need a public URL** where the app can begin receiving events. Finally, you'll need
-to find the **request signing secret** given to you by Slack under the "Basic Information" of your app configuration.
+development workspace. You'll also need a public URL where the app can begin receiving events. Finally, you'll need
+to find the request signing secret given to you by Slack under the **Basic Information** of your app configuration.
 
-It may be helpful to read the tutorials on [getting started](https://slack.dev/node-slack-sdk/getting-started) and
-[getting a public URL that can be used for development](https://slack.dev/node-slack-sdk/tutorials/local-development).
-After you have a URL for development, see the section on [verifying a request URL for development](#verify-tool) so you
-can save it as the Request URL in your app configuration. Now you can begin adding event subscriptions, just be sure to
-install the app in your development workspace again each time you add new scopes (typically whenever you add new event
-subscriptions).
+It may be helpful to read the tutorial on [developing Slack apps
+locally](/tools/node-slack-sdk/tutorials/local-development). After you have a URL for development, see the
+section on [verifying a request URL for development](#verify-tool) so you can save it as the Request URL in your app
+configuration. Now you can begin adding event subscriptions, just be sure to install the app in your development
+workspace again each time you add new scopes (typically whenever you add new event subscriptions).
 
 ---
 
-### Initialize the event adapter
+## Initialize the event adapter
 
 The package exports a `createEventAdapter()` function, which returns an instance of the `SlackEventAdapter` class. The function
-requires one parameter, the **request signing secret**, which it uses to enforce that all events are coming from Slack
+requires one parameter, the request signing secret, which it uses to enforce that all events are coming from Slack
 to keep your app secure.
 
 ```javascript
@@ -56,10 +46,10 @@ const slackEvents = createEventAdapter(slackSigningSecret);
 
 ---
 
-### Start a server
+## Start a server
 
 The event adapter transforms incoming HTTP requests into verified and parsed events.
-That means, in order for it to emit events for your app, it needs an HTTP server. The adapter can receive requests from
+That means in order for it to emit events for your app, it needs an HTTP server. The adapter can receive requests from
 an existing server, or as a convenience, it can create and start the server for you.
 
 In the following example, the event adapter starts an HTTP server using the `.start()` method. Starting the
@@ -85,12 +75,12 @@ const port = process.env.PORT || 3000;
 })();
 ```
 
-**Note**: To gracefully stop the server, there's also the `.stop()` method, which returns a `Promise` that resolves
+To gracefully stop the server, there's also the `.stop()` method, which returns a `Promise` that resolves
 when the server is no longer listening.
 
 <details>
-<summary markdown="span">
-<strong><i>Using an existing HTTP server</i></strong>
+<summary>
+Using an existing HTTP server
 </summary>
 
 The event adapter can receive requests from an existing Node HTTP server. You still need to specify a port, but this
@@ -118,15 +108,15 @@ server.listen(port, () => {
 </details>
 
 <details>
-<summary markdown="span">
-<strong><i>Using an Express app</i></strong>
+<summary>
+Using an Express app
 </summary>
 
 The event adapter can receive requests from an [Express](http://expressjs.com/) application. Instead of plugging the
 adapter's request listener into a server, it's plugged into the Express `app`. With Express, `app.use()` can be used to
-set which path you'd like the adapter to receive requests from. **You should be careful about one detail: if your
+set which path you'd like the adapter to receive requests from. You should be careful about one detail: if your
 Express app is using the `body-parser` middleware, then the adapter can only work if it comes _before_ the body parser
-in the middleware stack.** If you accidentally allow the body to be parsed before the adapter receives it, the adapter
+in the middleware stack. If you accidentally allow the body to be parsed before the adapter receives it, the adapter
 will emit an error, and respond to requests with a status code of `500`.
 
 ```javascript
@@ -158,14 +148,14 @@ server.listen(port, () => {
 
 ---
 
-### Listen for an event
+## Listen for an event
 
 Apps register functions, called listeners, to be triggered when an event of a specific type is received by the
 adapter. If you've used Node's [`EventEmitter`](https://nodejs.org/api/events.html#events_class_eventemitter) pattern
 before, then you're already familiar with how this works, since the adapter is an `EventEmitter`.
 
 The `event` argument passed to the listener is an object. Its contents corresponds to the [type of
-event](https://docs.slack.dev/reference/events) it's registered for.
+event](/reference/events) it's registered for.
 
 ```javascript
 const { createEventAdapter } = require('@slack/events-api');
@@ -173,7 +163,7 @@ const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 const slackEvents = createEventAdapter(slackSigningSecret);
 const port = process.env.PORT || 3000;
 
-// Attach listeners to events by Slack Event "type". See: https://docs.slack.dev/reference/events/message.im
+// Attach listeners to events by Slack Event "type". See: /reference/events/message.im
 slackEvents.on('message', (event) => {
   console.log(`Received a message event: user ${event.user} in channel ${event.channel} says ${event.text}`);
 });
@@ -186,7 +176,7 @@ slackEvents.on('message', (event) => {
 
 ---
 
-### Handle errors
+## Handle errors
 
 If an error is thrown inside a listener, it must be handled, otherwise it will crash your program. The adapter allows
 you to define an error handler for errors thrown inside any listener, using the `.on('error', handlernFn)` method.
@@ -216,10 +206,10 @@ slackEvents.on('error', (error) => {
 
 ---
 
-### Debugging
+## Debugging
 
 If you're having difficulty understanding why a certain request received a certain response, you can try debugging your
-program. A common cause is a request signature verification failing, sometimes because the wrong secret was used. The
+program. A common cause is a request signature verification failing, sometimes it's because the wrong secret was used. The
 following example shows how you might figure this out using debugging.
 
 Start your program with the `DEBUG` environment variable set to `@slack/events-api:*`. This should only be used for
@@ -270,7 +260,7 @@ include it in your bug report.
 
 ---
 
-### Verify tool
+## Verify tool
 
 Once you have a URL where you'd like to receive requests from the Events API, you must save it as a Request URL in your
 Slack app configuration. But in order to save it, your app needs to respond to a challenge request, so that Slack knows
@@ -283,49 +273,104 @@ Once the package is installed in your app, a command line program will be availa
 $ ./node_modules/.bin/slack-verify --secret <signing_secret> [--path=/slack/events] [--port=3000]
 ```
 
-Run the command with your own signing secret (provided by Slack in the "Basic Information"), and optionally a path and a
+Run the command with your own signing secret (provided by Slack in the **Basic Information** of the app settings), and optionally a path and a
 port. A web server will be listening for requests containing a challenge and respond to them the way Slack expects. Now
 input input and save the Request URL. Once it's saved, you can stop the server with `Ctrl-C` and start working on your
 app.
 
-**Note:** If you're using a tunneling tool like [ngrok](https://ngrok.com), the Request URL you save in Slack would be
+If you're using a tunneling tool like [ngrok](https://ngrok.com), the Request URL you save in Slack would be
 the tunnel URL, such as `https://abcdef.ngrok.io`, appended with the path. In other words, it should look like
 `https://abcdef.ngrok.io/slack/events`. Also make sure that when ngrok was started, it's set to use the port that the
 tool is listening on. In other words, start ngrok with a command like `ngrok http 3000`.
 
 ---
 
-### More
+## Receive additional event data
 
-The [documentation website](https://slack.dev/node-slack-sdk/events-api) has information about these additional features of
-the `SlackEventAdapter`:
+The adapter can trigger listeners with more data than only the event body. The listeners can receive additional
+arguments: the event envelope, and the request headers.
 
-*  Receiving event envelope and header data
-*  Custom responses
+The envelope [contains data](/reference/objects/event-object) regarding how the event was triggered, in addition to
+the event itself. In order to receive this data in listeners, the adapter must be initialized with the `includeBody`
+option set to `true`. All listeners will now be triggered with an additional argument which contains the envelope.
+
+The headers [contain data](https:///apis/events-api#error_handling) regarding whether the event is a retry of
+a previously failed delivery. In order to receive this data in listeners, the adapter must be initialized with the `includeHeaders`
+option set to `true`. All listeners will now be triggered with an additional argument which contains an key-value object
+describing the HTTP request headers.
+
+```javascript
+const { createEventAdapter } = require('@slack/events-api');
+const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
+const port = process.env.PORT || 3000;
+
+// Initialize the adapter to trigger listeners with envelope data and headers
+const slackEvents = createEventAdapter(slackSigningSecret, {
+  includeBody: true,
+  includeHeaders: true,
+});
+
+// Listeners now receive 3 arguments
+slackEvents.on('message', (event, body, headers) => {
+  console.log(`Received a message event: user ${event.user} in channel ${event.channel} says ${event.text}`);
+  console.log(`The event ID is ${body.event_id} and time is ${body.event_time}`);
+  if (headers['X-Slack-Retry-Num'] !== undefined) {
+    console.log(`The delivery of this event was retried ${headers['X-Slack-Retry-Num']} times because ${headers['X-Slack-Retry-Reason']}`);
+  }
+});
+
+(async () => {
+  const server = await slackEvents.start(port);
+  console.log(`Listening for events on ${server.address().port}`);
+})();
+```
+
+**Note**: If the `includeHeaders` option is set to `true`, but the `includeBody` argument is not, then listeners will
+receive only 2 arguments: `event` and `headers`.
 
 ---
 
-## Examples
+## Custom responses
 
-*  [Greet And React](../../examples/greet-and-react) - A ready to run sample app that listens for messages and emoji
-   reactions, and responds to them. It is built on top of the [Express](https://expressjs.com) web framework. It also
-   implements [OAuth](https://docs.slack.dev/authentication/installing-with-oauth) to demonstrate how an app can handle installation to additional
-   workspaces and be structured to handle events from multiple workspaces.
+The adapter allows your listener to determine whether exactly how it should respond to the incoming HTTP request. This
+is an advanced feature, and should not be used unless you have a specific need such as: turning event delivery retries
+off, redirecting Slack to deliver the event to another URL, or changing the HTTP response body.
 
----
+In order to customize responses, the adapter must be initialized with the `waitForResponse` option set to `true`. Once
+this option is set, listeners will be triggered with an additional `respond()` argument that every listener must
+call in under 3 seconds. When the event was handled normally, call `respond()` with no arguments. If there was
+an error, call `respond(error)` with an object that has a `status` property set to a valid HTTP status code. If you'd
+like to turn event deliveries off, call `respond(null, options)` with an object that has the `failWithNoRetry` property
+set to `true`. If you'd like to redirect, call `respond(null, options)` with an object that has the `redirectLocation`
+property set to the URL. Lastly, if you'd like to customize the respond body, call `respond(null, options)` with an
+object that has the `content` property set to a string you'd like to use as the body.
 
-## Requirements
+```javascript
+const { createEventAdapter } = require('@slack/events-api');
+const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
+const port = process.env.PORT || 3000;
 
-This package supports Node v14 and higher. It's highly recommended to use [the latest LTS version of
-node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
-from that version.
+// Initialize the adapter to trigger listeners with the respond function
+const slackEvents = createEventAdapter(slackSigningSecret, {
+  waitForResponse: true,
+});
 
-## Getting Help
+// Redirect events of 'message' type to another URL
+slackEvents.on('message', (_event, respond) => {
+  respond(null, {
+    redirectLocation: 'https://example.com/slack/events/message',
+  });
+});
 
-If you get stuck, we're here to help. The following are the best ways to get assistance working through your issue:
+// It's now required to call the respond function in every listener
+slackEvents.on('reaction_added', (event, respond) => {
+  console.log('Reaction event received');
+  // Normal success
+  respond();
+});
 
-  * [Issue Tracker](http://github.com/slackapi/node-slack-sdk/issues) for questions, feature requests, bug reports and
-    general discussion related to these packages. Try searching before you create a new issue.
-  * [Email us](mailto:developers@slack.com) in Slack developer support: `developers@slack.com`
-  * [Bot Developers Hangout](https://community.botkit.ai/): a Slack community for developers
-    building all types of bots. You can find the maintainers and users of these packages in **#sdk-node-slack-sdk**.
+(async () => {
+  const server = await slackEvents.start(port);
+  console.log(`Listening for events on ${server.address().port}`);
+})();
+```
