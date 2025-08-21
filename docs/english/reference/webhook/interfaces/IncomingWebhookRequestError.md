@@ -32,7 +32,7 @@ Defined in: [src/errors.ts:21](https://github.com/slackapi/node-slack-sdk/blob/m
 optional errno: number;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:196
+Defined in: node\_modules/@types/node/globals.d.ts:393
 
 #### Inherited from
 
@@ -84,7 +84,7 @@ Defined in: [src/errors.ts:22](https://github.com/slackapi/node-slack-sdk/blob/m
 optional path: string;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:198
+Defined in: node\_modules/@types/node/globals.d.ts:395
 
 #### Inherited from
 
@@ -112,7 +112,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078
 optional syscall: string;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:199
+Defined in: node\_modules/@types/node/globals.d.ts:396
 
 #### Inherited from
 
