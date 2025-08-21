@@ -40,7 +40,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
     "shx": "^0.4.0",
-    "tsd": "^0.32.0",
+    "tsd": "^0.33.0",
     "typedoc": "^0.28.7",
     "typedoc-plugin-markdown": "^4.7.1",
     "typescript": "^5.5.4"
