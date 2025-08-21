@@ -168,8 +168,10 @@ export type ChatPostEphemeralArguments = TokenOverridable &
      * The user should be in the channel specified by the `channel` argument.
      */
     user: string;
-    /** @description Accepts message text formatted in markdown. This argument should not be used
-     * in conjunction with blocks or text. Limit this field to 12,000 characters. */
+    /**
+     * @description Accepts message text formatted in markdown. This argument should not be used in conjunction with blocks or text. Limit this field to 12,000 characters.
+     * @example **This is bold text**
+     */
     markdown_text?: string;
   } & Authorship &
   Parse &
@@ -187,8 +189,10 @@ export type ChatPostMessageArguments = TokenOverridable &
   Unfurls & {
     /** @description Disable Slack markup parsing by setting to `false`. Enabled by default. */
     mrkdwn?: boolean;
-    /** @description Accepts message text formatted in markdown. This argument should not be used
-     * in conjunction with blocks or text. Limit this field to 12,000 characters. */
+    /**
+     * @description Accepts message text formatted in markdown. This argument should not be used in conjunction with blocks or text. Limit this field to 12,000 characters.
+     * @example **This is bold text**
+     */
     markdown_text?: string;
   };
 
@@ -197,8 +201,10 @@ export type ChatScheduleMessageArguments = TokenOverridable &
   MessageContents & {
     /** @description Unix EPOCH timestamp of time in future to send the message. */
     post_at: string | number;
-    /** @description Accepts message text formatted in markdown. This argument should not be used
-     * in conjunction with blocks or text. Limit this field to 12,000 characters. */
+    /**
+     * @description Accepts message text formatted in markdown. This argument should not be used in conjunction with blocks or text. Limit this field to 12,000 characters.
+     * @example **This is bold text**
+     */
     markdown_text?: string;
   } & ReplyInThread &
   Parse &
@@ -274,7 +280,9 @@ export type ChatUpdateArguments = MessageContents & {
     file_ids?: string[];
     /** @description Broadcast an existing thread reply to make it visible to everyone in the channel or conversation. */
     reply_broadcast?: boolean;
-    /** @description Accepts message text formatted in markdown. This argument should not be used
-     * in conjunction with blocks or text. Limit this field to 12,000 characters. */
+    /**
+     * @description Accepts message text formatted in markdown. This argument should not be used in conjunction with blocks or text. Limit this field to 12,000 characters.
+     * @example **This is bold text**
+     */
     markdown_text?: string;
   };
