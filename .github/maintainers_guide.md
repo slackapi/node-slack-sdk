@@ -52,9 +52,9 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
 4. For each package to be released, run `npm run test` to verify that tests are passing and code is free of linting errors.
 
-5. Generate the reference docs for that package by running `npm run docs`.
+5. On our new branch, bump the version(s) in `package.json` (see [Versioning and Tags](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#-versioning-and-tags))
 
-6. On your new branch, bump the version(s) in `package.json` (see [Versioning and Tags](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#-versioning-and-tags))
+    - Generate the reference docs for that package by running `npm run docs`.
 
     - Make a single commit for the version(s) bump, following the format in: ([Example](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594))
 
@@ -62,7 +62,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - Add appropriate labels on the PR, including `release`
 
-7. Once the PR has been approved and tests have passed, merge it into the main repository.
+6. Once the PR has been approved and tests have passed, merge it into the main repository.
 
     -  Check out your local `main` branch and update it to get the latest changes: `git checkout main && git pull origin main`
 
@@ -77,7 +77,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - Run `npm publish . --otp YOUR_OTP_CODE`. To generate an OTP (One Time Password), use your password generator of choice (Duo, 1Password)
 
-9. Close GitHub Milestone(s)
+8. Close GitHub Milestone(s)
 
     - Close the relevant GitHub Milestone(s) for the release(s)
 
@@ -85,7 +85,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - Move any unfinished, open issues to the next GitHub Milestone
 
-10. Create GitHub Release(s) with release notes
+9. Create GitHub Release(s) with release notes
 
     - From the repository, navigate to the **Releases** section and draft a new release
 
@@ -97,7 +97,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - Once the release notes are ready, click the "Publish Release" button to make them public
 
-11. Communicate the release (as appropriate)
+10. Communicate the release (as appropriate)
 
     - **Internal**
 
@@ -138,7 +138,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     -  Push the new tag up to origin: `git push --tags origin`
 
-5. Publish the release to npm
+6. Publish the release to npm
 
     - Run `npm publish --tag <dist-tag> . --otp YOUR_OTP_CODE`
 
@@ -146,11 +146,11 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - To generate an OTP (One Time Password), use your password generator of choice (Duo, 1Password)
 
-6. Test that the publish was successful
+7. Test that the publish was successful
 
     - Run `npm info <PACKAGE_NAME> dist-tags`
 
-7. Create GitHub Release(s) with release notes
+8. Create GitHub Release(s) with release notes
 
     - From the repository, navigate to the **Releases** section and draft a new release
 
