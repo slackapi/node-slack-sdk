@@ -995,7 +995,8 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, options?: Recor
     args.attachments.some((attachment) => !attachment.fallback || attachment.fallback.trim() === '');
 
   const isEmptyText = (args: Record<string, unknown>) =>
-    args.text === undefined || args.text === null || args.text === '';
+    (args.text === undefined || args.text === null || args.text === '') &&
+    (args.markdown_text === undefined || args.markdown === null || args.markdown_text === '');
 
   const buildMissingTextWarning = () =>
     `The top-level \`text\` argument is missing in the request payload for a ${method} call - It's a best practice to always provide a \`text\` argument when posting a message. The \`text\` is used in places where the content cannot be rendered such as: system push notifications, assistive technology such as screen readers, etc.`;
