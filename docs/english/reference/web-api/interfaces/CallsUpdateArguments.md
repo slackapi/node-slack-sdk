@@ -25,9 +25,7 @@ with this URL.
 
 #### Inherited from
 
-```ts
-Partial.desktop_app_join_url
-```
+[`CallsAddArguments`](CallsAddArguments.md).[`desktop_app_join_url`](CallsAddArguments.md#desktop_app_join_url)
 
 ***
 
@@ -65,9 +63,7 @@ The URL required for a client to join the Call.
 
 #### Inherited from
 
-```ts
-Partial.join_url
-```
+[`CallsAddArguments`](CallsAddArguments.md).[`join_url`](CallsAddArguments.md#join_url)
 
 ***
 
@@ -85,9 +81,7 @@ The name of the Call.
 
 #### Inherited from
 
-```ts
-Partial.title
-```
+[`CallsAddArguments`](CallsAddArguments.md).[`title`](CallsAddArguments.md#title)
 
 ***
 

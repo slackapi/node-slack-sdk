@@ -58,9 +58,7 @@ The team or enterprise id of the other party.
 
 #### Inherited from
 
-```ts
-Required.target_team
-```
+[`ConversationsApproveSharedInviteArguments`](ConversationsApproveSharedInviteArguments.md).[`target_team`](ConversationsApproveSharedInviteArguments.md#target_team)
 
 ***
 

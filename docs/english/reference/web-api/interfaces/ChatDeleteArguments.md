@@ -2,7 +2,7 @@
 
 # Interface: ChatDeleteArguments
 
-Defined in: [src/types/request/chat.ts:149](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L149)
+Defined in: [src/types/request/chat.ts:157](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L157)
 
 ## Extends
 

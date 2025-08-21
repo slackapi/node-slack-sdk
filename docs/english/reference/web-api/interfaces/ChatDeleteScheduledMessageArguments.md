@@ -2,7 +2,7 @@
 
 # Interface: ChatDeleteScheduledMessageArguments
 
-Defined in: [src/types/request/chat.ts:152](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L152)
+Defined in: [src/types/request/chat.ts:160](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L160)
 
 ## Extends
 
@@ -58,7 +58,7 @@ Channel.channel
 scheduled_message_id: string;
 ```
 
-Defined in: [src/types/request/chat.ts:154](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L154)
+Defined in: [src/types/request/chat.ts:162](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L162)
 
 #### Description
 
