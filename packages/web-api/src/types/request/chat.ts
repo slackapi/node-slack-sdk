@@ -68,11 +68,19 @@ export interface ChannelAndAttachments extends Channel, Partial<Text> {
    */
   attachments: MessageAttachment[];
 }
+export interface ChannelAndMarkdownText extends Channel {
+  /**
+   * @description Accepts message text formatted in markdown. This argument should not be used in conjunction with `blocks` or `text`. Limit this field to 12,000 characters.
+   * @example **This is bold text**
+   */
+  markdown_text: string;
+}
 // Models message-creation arguments, user must provide one of the following combinations:
 // 1. channel and text
 // 2. channel and blocks
 // 3. channel and attachments
-type MessageContents = ChannelAndText | ChannelAndBlocks | ChannelAndAttachments;
+// 4. channel and markdown_text
+type MessageContents = ChannelAndText | ChannelAndBlocks | ChannelAndAttachments | ChannelAndMarkdownText;
 export interface ThreadTS {
   /**
    * @description Provide another message's `ts` value to post this message in a thread. Avoid using a reply's `ts`

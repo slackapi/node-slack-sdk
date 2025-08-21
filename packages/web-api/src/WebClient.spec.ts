@@ -219,6 +219,21 @@ describe('WebClient', () => {
         });
       }
 
+      const markdownTextPatterns = textWarningTestPatterns.reduce((acc, { method, args }) => {
+        const textPatterns = [{ markdown_text: '# example' }].map((v) => ({
+          method,
+          args: Object.assign({}, v, args),
+        }));
+        return acc.concat(textPatterns);
+      }, [] as MethodArgs[]);
+      for (const { method, args } of markdownTextPatterns) {
+        it(`should not send warning to logs when client executes ${method} with markdown_text argument`, async () => {
+          const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
+          await warnClient.apiCall(method, args);
+          assert.isTrue((logger.warn as sinon.SinonStub).calledThrice);
+        });
+      }
+
       const textPatterns = textWarningTestPatterns.reduce((acc, { method, args }) => {
         const textPatterns = [{ text: '' }, { text: null }, {}].map((v) => ({
           method,
