@@ -98,12 +98,12 @@ expectError(web.chat.postEphemeral()); // lacking argument
 expectError(web.chat.postEphemeral({})); // empty argument
 expectError(
   web.chat.postEphemeral({
-    channel: 'C1234', // missing text/attachments/blocks and user
+    channel: 'C1234', // missing text/attachments/blocks/markdown_text and user
   }),
 );
 expectError(
   web.chat.postEphemeral({
-    channel: 'C1234', // missing text/attachments/blocks
+    channel: 'C1234', // missing text/attachments/blocks/markdown_text
     user: 'U1234',
   }),
 );
@@ -250,6 +250,13 @@ expectAssignable<Parameters<typeof web.chat.postEphemeral>>([
     as_user: false, // ... or with as_user=false
   },
 ]);
+expectAssignable<Parameters<typeof web.chat.postEphemeral>>([
+  {
+    channel: 'C1234',
+    user: 'U1234',
+    markdown_text: '**bold**',
+  },
+]);
 
 // chat.postMessage
 // -- sad path
@@ -257,7 +264,7 @@ expectError(web.chat.postMessage()); // lacking argument
 expectError(web.chat.postMessage({})); // empty argument
 expectError(
   web.chat.postMessage({
-    channel: 'C1234', // missing text/attachments/blocks
+    channel: 'C1234', // missing text/attachments/blocks/markdown_text
   }),
 );
 expectError(
@@ -379,6 +386,12 @@ expectAssignable<Parameters<typeof web.chat.postMessage>>([
 expectAssignable<Parameters<typeof web.chat.postMessage>>([
   {
     channel: 'C1234',
+    markdown_text: '**bold**',
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.postMessage>>([
+  {
+    channel: 'C1234',
     text: 'hello',
     thread_ts: '1234.56', // can send a threaded message
   },
@@ -425,7 +438,7 @@ expectError(
 );
 expectError(
   web.chat.scheduleMessage({
-    channel: 'C1234', // missing text/attachments/blocks
+    channel: 'C1234', // missing text/attachments/blocks/markdown_text
     post_at: 'U1234',
   }),
 );
@@ -509,6 +522,13 @@ expectAssignable<Parameters<typeof web.chat.scheduleMessage>>([
     post_at: 'U1234',
     attachments: [],
     text: 'fallback',
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.scheduleMessage>>([
+  {
+    channel: 'C1234',
+    markdown_text: '**bold**',
+    post_at: 299876400,
   },
 ]);
 expectAssignable<Parameters<typeof web.chat.scheduleMessage>>([
@@ -612,7 +632,7 @@ expectError(
 );
 expectError(
   web.chat.update({
-    channel: 'C1234', // missing text/attachments/blocks
+    channel: 'C1234', // missing text/attachments/blocks/markdown_text
     ts: '1234.56',
   }),
 );
@@ -703,6 +723,13 @@ expectAssignable<Parameters<typeof web.chat.update>>([
     ts: '1234.56',
     attachments: [],
     text: 'fallback',
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.update>>([
+  {
+    channel: 'C1234',
+    ts: '1234.56',
+    markdown_text: '**bold**',
   },
 ]);
 expectAssignable<Parameters<typeof web.chat.update>>([
