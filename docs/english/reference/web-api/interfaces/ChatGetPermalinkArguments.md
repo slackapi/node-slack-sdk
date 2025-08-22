@@ -2,7 +2,7 @@
 
 # Interface: ChatGetPermalinkArguments
 
-Defined in: [src/types/request/chat.ts:158](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L158)
+Defined in: [src/types/request/chat.ts:166](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L166)
 
 ## Extends
 

@@ -24,9 +24,7 @@ The ID of the app.
 
 #### Inherited from
 
-```ts
-Partial.app_id
-```
+[`AdminAppsConfigSetArguments`](AdminAppsConfigSetArguments.md).[`app_id`](AdminAppsConfigSetArguments.md#app_id)
 
 ***
 

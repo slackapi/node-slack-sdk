@@ -50,9 +50,7 @@ The type of entity interacting with the policy.
 
 #### Inherited from
 
-```ts
-Partial.entity_type
-```
+[`AdminAuthPolicyAssignEntitiesArguments`](AdminAuthPolicyAssignEntitiesArguments.md).[`entity_type`](AdminAuthPolicyAssignEntitiesArguments.md#entity_type)
 
 ***
 

@@ -2,7 +2,7 @@
 
 # Interface: ChatMeMessageArguments
 
-Defined in: [src/types/request/chat.ts:161](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L161)
+Defined in: [src/types/request/chat.ts:169](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L169)
 
 ## Extends
 

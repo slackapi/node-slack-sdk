@@ -1,6 +1,6 @@
 [@slack/web-api](../index.md) / Actionable
 
-# Interface: ~~Actionable~~
+# ~~Interface: Actionable~~
 
 Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:14
 
