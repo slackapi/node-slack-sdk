@@ -1,4 +1,4 @@
-# @slack/types v2.15.0
+# @slack/types v2.16.0
 
 ## Interfaces
 
