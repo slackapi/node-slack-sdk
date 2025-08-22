@@ -1,6 +1,6 @@
 import type { CursorPaginationEnabled, TokenOverridable, UserIDs } from '../common';
 
-// https://api.slack.com/methods/admin.functions.list
+// https://docs.slack.dev/reference/methods/admin.functions.list
 export interface AdminFunctionsListArguments extends TokenOverridable, CursorPaginationEnabled {
   /** @description Array of app IDs to get functions for; max 50. */
   app_ids: string[];
@@ -8,13 +8,13 @@ export interface AdminFunctionsListArguments extends TokenOverridable, CursorPag
   team_id?: string;
 }
 
-// https://api.slack.com/methods/admin.functions.permissions.lookup
+// https://docs.slack.dev/reference/methods/admin.functions.permissions.lookup
 export interface AdminFunctionsPermissionsLookupArguments extends TokenOverridable {
   /** @description An array of function IDs to get permissions for. */
   function_ids: [string, ...string[]];
 }
 
-// https://api.slack.com/methods/admin.functions.permissions.set
+// https://docs.slack.dev/reference/methods/admin.functions.permissions.set
 export interface AdminFunctionsPermissionsSetArguments extends TokenOverridable, Partial<UserIDs> {
   /** @description The function ID to set permissions for. */
   function_id: string;

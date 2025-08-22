@@ -4,10 +4,23 @@
   "description": "Official library for using the Slack Platform's Real Time Messaging API",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
-  "keywords": ["slack", "rtm-api", "bot", "client", "http", "websocket", "api", "proxy", "state", "connection"],
+  "keywords": [
+    "slack",
+    "rtm-api",
+    "bot",
+    "client",
+    "http",
+    "websocket",
+    "api",
+    "proxy",
+    "state",
+    "connection"
+  ],
   "main": "dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "engines": {
     "node": ">=18",
     "npm": ">=8.6.0"
@@ -24,6 +37,7 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "lint": "npx @biomejs/biome check .",
     "lint:fix": "npx @biomejs/biome check --write .",
     "test": "npm run lint && npm run build && npm run test:integration",
@@ -40,7 +54,7 @@
     "ws": "^8"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
+    "@biomejs/biome": "^2.0.5",
     "@types/chai": "^4",
     "@types/mocha": "^10",
     "@types/sinon": "^17",
@@ -51,6 +65,8 @@
     "sinon": "^17",
     "source-map-support": "^0.5.21",
     "ts-node": "^10",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.1",
     "typescript": "5.3.3"
   }
 }

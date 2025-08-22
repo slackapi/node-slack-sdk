@@ -1,5 +1,6 @@
 import assert from 'node:assert';
 import { WebClient } from '../../../dist/index.js';
+
 const client = new WebClient('invalid-token');
 try {
   await client.auth.test();

@@ -1,6 +1,6 @@
 # Slack Events API
 
-The `@slack/events-api` package helps your app respond to events from Slack's [Events API](https://api.slack.com/events-api)
+The `@slack/events-api` package helps your app respond to events from Slack's [Events API](https://https://docs.slack.dev/apis/events-api)
 such as new messages, emoji reactions, files, and much more. This package will help you start with convenient and secure
 defaults.
 
@@ -8,7 +8,7 @@ defaults.
 
 _`@slack/events-api` officially reached EOL on May 31st, 2021. Development has fully stopped for this package and all remaining open issues and pull requests have been closed._
 
-_At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](https://slack.dev/node-slack-sdk/tutorials/migrating-to-v6) for those looking to convert their existing apps._
+_At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](https://slack.dev/node-slack-sdk/migration/migrating-to-v6) for those looking to convert their existing apps._
 
 ## Installation
 
@@ -94,7 +94,7 @@ when the server is no longer listening.
 </summary>
 
 The event adapter can receive requests from an existing Node HTTP server. You still need to specify a port, but this
-time its only given to the server. Starting a server in this manner means it is listening to requests on all paths; as
+time it's only given to the server. Starting a server in this manner means it is listening to requests on all paths; as
 long as the Request URL is routed to this port, the adapter will receive the requests.
 
 ```javascript
@@ -164,8 +164,8 @@ Apps register functions, called listeners, to be triggered when an event of a sp
 adapter. If you've used Node's [`EventEmitter`](https://nodejs.org/api/events.html#events_class_eventemitter) pattern
 before, then you're already familiar with how this works, since the adapter is an `EventEmitter`.
 
-The `event` argument passed to the listener is an object. It's contents corresponds to the [type of
-event](https://api.slack.com/events) its registered for.
+The `event` argument passed to the listener is an object. Its contents corresponds to the [type of
+event](https://docs.slack.dev/reference/events) it's registered for.
 
 ```javascript
 const { createEventAdapter } = require('@slack/events-api');
@@ -173,7 +173,7 @@ const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 const slackEvents = createEventAdapter(slackSigningSecret);
 const port = process.env.PORT || 3000;
 
-// Attach listeners to events by Slack Event "type". See: https://api.slack.com/events/message.im
+// Attach listeners to events by Slack Event "type". See: https://docs.slack.dev/reference/events/message.im
 slackEvents.on('message', (event) => {
   console.log(`Received a message event: user ${event.user} in channel ${event.channel} says ${event.text}`);
 });
@@ -224,7 +224,7 @@ following example shows how you might figure this out using debugging.
 
 Start your program with the `DEBUG` environment variable set to `@slack/events-api:*`. This should only be used for
 development/debugging purposes, and should not be turned on in production. This tells the adapter to write messages
-about what its doing to the console. The easiest way to set this environment variable is to prepend it to the `node`
+about what it's doing to the console. The easiest way to set this environment variable is to prepend it to the `node`
 command when you start the program.
 
 ```shell
@@ -285,7 +285,7 @@ $ ./node_modules/.bin/slack-verify --secret <signing_secret> [--path=/slack/even
 
 Run the command with your own signing secret (provided by Slack in the "Basic Information"), and optionally a path and a
 port. A web server will be listening for requests containing a challenge and respond to them the way Slack expects. Now
-input input and save the Request URL. Once its saved, you can stop the server with `Ctrl-C` and start working on your
+input input and save the Request URL. Once it's saved, you can stop the server with `Ctrl-C` and start working on your
 app.
 
 **Note:** If you're using a tunneling tool like [ngrok](https://ngrok.com), the Request URL you save in Slack would be
@@ -309,7 +309,7 @@ the `SlackEventAdapter`:
 
 *  [Greet And React](../../examples/greet-and-react) - A ready to run sample app that listens for messages and emoji
    reactions, and responds to them. It is built on top of the [Express](https://expressjs.com) web framework. It also
-   implements [OAuth](https://api.slack.com/docs/oauth) to demonstrate how an app can handle installation to additional
+   implements [OAuth](https://docs.slack.dev/authentication/installing-with-oauth) to demonstrate how an app can handle installation to additional
    workspaces and be structured to handle events from multiple workspaces.
 
 ---

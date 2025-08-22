@@ -1,13 +1,13 @@
 # Slack Interactive Messages for Node
 
 `@slack/interactive-messages` helps your app respond to interactions from Slack's
-[interactive messages](https://api.slack.com/messaging/interactivity), [actions](https://api.slack.com/actions), and [dialogs](https://api.slack.com/dialogs). This package will help you start with convenient and secure defaults.
+[interactive messages](https://docs.slack.dev/interactivity), [actions](https://docs.slack.dev/interactivity/implementing-shortcuts), and [modals](https://docs.slack.dev/surfaces/modals). This package will help you start with convenient and secure defaults.
 
 ### **Deprecation Notice**
 
 _`@slack/interactive-messages` officially reached EOL on May 31st, 2021. Development has fully stopped for this package and all remaining open issues and pull requests have been closed._
 
-_At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](https://slack.dev/node-slack-sdk/tutorials/migrating-to-v6) for those looking to convert their existing apps._
+_At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](https://slack.dev/node-slack-sdk/migration/migrating-to-v6) for those looking to convert their existing apps._
 ## Installation
 
 ```shell
@@ -88,7 +88,7 @@ when the server is no longer listening.
 </summary>
 
 The message adapter can receive requests from an existing Node HTTP server. You still need to specify a port, but this
-time its only given to the server. Starting a server in this manner means it is listening to requests on all paths; as
+time it's only given to the server. Starting a server in this manner means it is listening to requests on all paths; as
 long as the Request URL is routed to this port, the adapter will receive the requests.
 
 ```javascript
@@ -156,13 +156,12 @@ server.listen(port, () => {
 
 Actions are interactions in Slack that generate an HTTP request to your app. These are:
 
--  **Block actions**: A user interacted with one of the [interactive
-   components](https://api.slack.com/reference/messaging/interactive-components) in a message built with [block
-   elements](https://api.slack.com/reference/messaging/block-elements).
--  **Message Shortcuts (previously message actions)**: A user selected an [action in the overflow menu of a message](https://api.slack.com/actions).
--  **Dialog submission**: A user submitted a form in a [modal dialog](https://api.slack.com/dialogs)
+-  **Block actions**: A user interacted with one of the interactive
+   components in a message built with [block elements](https://docs.slack.dev/reference/block-kit/block-elements).
+-  **Message Shortcuts (previously message actions)**: A user selected an [action in the overflow menu of a message](https://docs.slack.dev/interactivity/implementing-shortcuts).
+-  **Dialog submission**: A user submitted a form in a [modal dialog](https://docs.slack.dev/legacy/legacy-dialogs)
 -  **Attachment actions**: A user clicked a button or selected an item in a menu in a message built with [legacy message
-   attachments](https://api.slack.com/interactive-messages).
+   attachments](https://docs.slack.dev/interactivity).
 
 You app will only handle actions that occur in messages or dialogs your app produced. [Block Kit
 Builder](https://api.slack.com/tools/block-kit-builder) is a playground where you can prototype your interactive
@@ -187,8 +186,7 @@ Handlers can return an object, or a `Promise` for a object which must resolve wi
 - **Attachment actions**: The object describes a message to replace the message where the interaction occurred. **It's
   recommended to remove interactive elements when you only expect the action once, so that no other users might trigger
   a duplicate.** If no value is returned, then the message remains the same.
-- **Dialog submission**: The object describes [validation errors](https://api.slack.com/dialogs#input_validation) to
-  show the user and prevent the dialog from closing. If no value is returned, the submission is treated as successful.
+- **Dialog submission**: The object describes [validation errors](https://docs.slack.dev/legacy/legacy-dialogs#input-validation) to show the user and prevent the dialog from closing. If no value is returned, the submission is treated as successful.
 - **Block actions** and **Message actions**: Avoid returning any value.
 
 ```javascript
@@ -235,7 +233,7 @@ slackInteractions.action({ type: 'message_action' }, (payload, respond) => {
 
 // Example of handling all dialog submissions
 slackInteractions.action({ type: 'dialog_submission' }, (payload, respond) => {
-  // Validate the submission (errors is of the shape in https://api.slack.com/dialogs#input_validation)
+  // Validate the submission (errors is of the shape in https://docs.slack.dev/legacy/legacy-dialogs#input-validation)
   const errors = validate(payload.submission);
 
   // Only return a value if there were errors
@@ -292,9 +290,9 @@ will call the handler whose constraints match the action best.
 
 These handlers receive a single `payload` argument. The `payload` describes the interaction with the menu that occurred.
 The exact shape depends on whether the interaction occurred within a [block
-element](https://api.slack.com/reference/messaging/block-elements#external-select),
-[attachment](https://api.slack.com/docs/message-menus#options_load_url), or a
-[dialog](https://api.slack.com/dialogs#dynamic_select_elements_external).
+element](https://docs.slack.dev/reference/block-kit/block-elements/select-menu-element#external_select),
+[attachment](https://docs.slack.dev/legacy/legacy-messaging/legacy-adding-menus-to-messages#options-load-url), or a
+[dialog](https://docs.slack.dev/legacy/legacy-messaging).
 
 Handlers can return an object, or a `Promise` for a object which must resolve within the `syncResponseTimeout` (default:
 2500ms). The contents of the object depend on where the options request was generated (you can find the expected shapes
@@ -359,7 +357,7 @@ slackInteractions.options({ within: 'dialog' }, (payload) => {
 ### Handling view submission and view closed interactions
 
 View submissions are generated when a user clicks on the submission button of a
-[Modal](https://api.slack.com/surfaces/modals). View closed interactions are generated when a user clicks on the cancel
+[Modal](https://docs.slack.dev/surfaces/modals). View closed interactions are generated when a user clicks on the cancel
 button of a Modal, or dismisses the modal using the `×` in the corner.
 
 Apps register functions, called **handlers**, to be triggered when a submissions are received by the adapter using the
@@ -369,8 +367,8 @@ interactions you'd like the handler to match using **constraints**. Constraints 
 below. The adapter will call the handler whose constraints match the interaction best.
 
 These handlers receive a single `payload` argument. The `payload` describes the
-[view submission](https://api.slack.com/reference/interaction-payloads/views#view_submission) or
-[view closed](https://api.slack.com/reference/interaction-payloads/views#view_closed)
+[view submission](https://docs.slack.dev/reference/interaction-payloads/view-interactions-payload#view_submission) or
+[view closed](https://docs.slack.dev/reference/interaction-payloads/view-interactions-payload#view_closed)
 interaction that occurred.
 
 For view submissions, handlers can return an object, or a `Promise` for a object which must resolve within the
@@ -398,7 +396,7 @@ slackInteractions.viewSubmission('simple_modal_callback_id', (payload) => {
   // which contains value properties that contain the input data. Let's log one specific value.
   console.log(payload.view.state.my_block_id.my_action_id.value);
 
-  // Validate the inputs (errors is of the shape in https://api.slack.com/surfaces/modals/using#displaying_errors)
+  // Validate the inputs (errors is of the shape in https://docs.slack.dev/surfaces/modals#displaying_errors)
   const errors = validate(payload.view.state);
 
   // Return validation errors if there were errors in the inputs
@@ -469,7 +467,7 @@ slackInteractions.viewClosed('my_modal_callback_id', (payload) => {
 
 ### Handling a global shortcut
 
-Shortcuts are invokable UI elements within Slack clients. For [global shortcuts](https://api.slack.com/interactivity/shortcuts/using#global_shortcuts), they are available in the composer and search menus.
+Shortcuts are invokable UI elements within Slack clients. For [global shortcuts](https://docs.slack.dev/interactivity/implementing-shortcuts#global), they are available in the composer and search menus.
 
 Apps register functions, called **handlers**, to be triggered when an shortcuts request is received by the adapter using
 the `.shortcut(constraints, handler)` method. When registering a handler, you describe which shortcut request(s) you'd
@@ -477,12 +475,12 @@ like the handler to match using **constraints**. Constraints are [described in d
 will call the handler whose constraints match the action best.
 
 These handlers receive a single `payload` argument. The `payload` describes the interaction with the menu that occurred.
-If interested, checkout the shape of the [shortcuts payload](https://api.slack.com/reference/interaction-payloads/shortcuts).
+If interested, checkout the shape of the [shortcuts payload](https://docs.slack.dev/interactivity/implementing-shortcuts).
 
 Handlers can return a `Promise` which must resolve within the `syncResponseTimeout` (default:
 2500ms).
 
-The `.shortcut()` handler currently supports [global shortcuts](https://api.slack.com/interactivity/shortcuts/using#global_shortcuts). [Message shortcuts](https://api.slack.com/interactivity/shortcuts/using#message_shortcuts) (previously known as message actions) are still handled by the `.action()` handler. 
+The `.shortcut()` handler currently supports [global shortcuts](https://docs.slack.dev/interactivity/implementing-shortcuts#global). [Message shortcuts](https://docs.slack.dev/interactivity/implementing-shortcuts#messages) (previously known as message actions) are still handled by the `.action()` handler. 
 
 ```javascript
 const { createMessageAdapter } = require('@slack/interactive-messages');
@@ -518,7 +516,7 @@ slackInteractions.shortcut({ callbackId: 'simple-modal', type: 'shortcut' }, (pa
           type: "section",
           text: {
             type: "mrkdwn",
-            text: "About the simplest modal you could conceive of :smile:\n\nMaybe <https://api.slack.com/reference/block-kit/interactive-components|*make the modal interactive*> or <https://api.slack.com/surfaces/modals/using#modifying|*learn more advanced modal use cases*>."
+            text: "About the simplest modal you could conceive of :smile:\n\nMaybe <https://docs.slack.dev/interactivity|*make the modal interactive*> or <https://docs.slack.dev/surfaces/modals|*learn more advanced modal use cases*>."
           }
         },
         {
@@ -565,7 +563,7 @@ Constraints can be a simple string, a `RegExp`, or an object with a number of pr
 | `viewId` | `string` | Match the `view_id` for view submissions | 🚫 | 🚫 | ✅ | 🚫 |
 | `externalId` | `string` or `RegExp` | Match the `external_id` for view submissions | 🚫 | 🚫 | ✅ | 🚫 |
 
-All of the properties are optional, its just a matter of how specific you want to the handler's behavior to be. A
+All of the properties are optional, it's just a matter of how specific you want to the handler's behavior to be. A
 `string` or `RegExp` is a shorthand for only specifying the `callbackId` constraint. Here are some examples:
 
 ```javascript
@@ -608,7 +606,7 @@ following example shows how you might figure this out using debugging.
 
 Start your program with the `DEBUG` environment variable set to `@slack/interactive-messages:*`. This should only be
 used for development/debugging purposes, and should not be turned on in production. This tells the adapter to write
-messages about what its doing to the console. The easiest way to set this environment variable is to prepend it to the
+messages about what it's doing to the console. The easiest way to set this environment variable is to prepend it to the
 `node` command when you start the program.
 
 ```shell

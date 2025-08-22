@@ -3,7 +3,7 @@ export interface Manifest extends Record<string, unknown> {
   _metadata?: ManifestMetadata;
   /**
    * @description A group of settings that describe parts of an app's appearance within Slack. If you're distributing
-   * the app via the App Directory, read our {@link https://api.slack.com/start/distributing/guidelines#listing listing guidelines} to pick the best values for these settings.
+   * the app via the Slack Marketplace, read our {@link https://docs.slack.dev/slack-marketplace/distributing-your-app-in-the-slack-marketplace listing guidelines} to pick the best values for these settings.
    */
   display_information: ManifestDisplayInformation;
   /** @description A group of settings corresponding to the Features section of the app config pages. */
@@ -46,51 +46,51 @@ interface ManifestDisplayInformation {
 
 interface ManifestFeatures {
   /**
-   * @description A subgroup of settings that describe {@link https://api.slack.com/surfaces/app-home App Home} configuration.
-   * @see {@link https://api.slack.com/surfaces/app-home App Home}.
+   * @description A subgroup of settings that describe {@link https://docs.slack.dev/surfaces/app-home App Home} configuration.
+   * @see {@link https://docs.slack.dev/surfaces/app-home App Home}.
    */
   app_home?: ManifestAppHome;
   /**
-   * @description A subgroup of settings that describe {@link https://api.slack.com/legacy/enabling-bot-users bot user} configuration.
-   * @see {@link https://api.slack.com/legacy/enabling-bot-users Legacy bots}.
+   * @description A subgroup of settings that describe {@link https://docs.slack.dev/legacy/legacy-bot-users bot user} configuration.
+   * @see {@link https://docs.slack.dev/legacy/legacy-bot-users Legacy bots}.
    */
   bot_user?: ManifestBotUser;
   /**
-   * @description An array of settings groups that describe {@link https://api.slack.com/interactivity/shortcuts shortcuts}
+   * @description An array of settings groups that describe {@link https://docs.slack.dev/interactivity/implementing-shortcuts shortcuts}
    * configuration. A maximum of 10 shortcuts can be included in this array.
-   * @see {@link https://api.slack.com/interactivity/shortcuts Shortcuts}.
+   * @see {@link https://docs.slack.dev/interactivity/implementing-shortcuts Shortcuts}.
    */
   shortcuts?: ManifestShortcut[];
   /**
-   * @description An array of settings groups that describe {@link https://api.slack.com/interactivity/slash-commands slash commands}
+   * @description An array of settings groups that describe {@link https://docs.slack.dev/interactivity/implementing-slash-commands slash commands}
    * configuration. A maximum of 50 slash commands can be included in this array.
-   * @see {@link https://api.slack.com/interactivity/slash-commands Slash Commands}.
+   * @see {@link https://docs.slack.dev/interactivity/implementing-slash-commands Slash Commands}.
    */
   slash_commands?: ManifestSlashCommand[];
   /**
    * @description An array of strings containing valid unfurl domains to register. A maximum of 5 unfurl domains can be
    * included in this array.
-   * @see {@link https://api.slack.com/reference/messaging/link-unfurling#configuring_domains Link unfurling: configuring domains}.
+   * @see {@link https://docs.slack.dev/messaging/unfurling-links-in-messages Link unfurling: configuring domains}.
    */
   unfurl_domains?: string[];
 }
 
 interface ManifestAppHome {
   /**
-   * @description A boolean that specifies whether or not the {@link https://api.slack.com/surfaces/app-home#home-tab Home tab} is enabled.
-   * @see {@link https://api.slack.com/surfaces/app-home#home-tab Home tab}.
+   * @description A boolean that specifies whether or not the {@link https://docs.slack.dev/surfaces/app-home#home-tab Home tab} is enabled.
+   * @see {@link https://docs.slack.dev/surfaces/app-home#home-tab Home tab}.
    */
   home_tab_enabled?: boolean;
   /**
    * @description A boolean that specifies whether or not the Messages tab in your App Home is enabled.
-   * @see {@link https://api.slack.com/surfaces/app-home#messages-tab Message tab}.
+   * @see {@link https://docs.slack.dev/surfaces/app-home#messages-tab Message tab}.
    */
   messages_tab_enabled?: boolean;
   /**
    * @description A boolean that specifies whether or not the users can send messages to your app in the
-   * {@link https://api.slack.com/surfaces/app-home#messages-tab Messages tab}
+   * {@link https://docs.slack.dev/surfaces/app-home#messages-tab Messages tab}
    * of your App Home.
-   * @see {@link https://api.slack.com/surfaces/app-home#messages-tab Messages tab}.
+   * @see {@link https://docs.slack.dev/surfaces/app-home#messages-tab Messages tab}.
    */
   messages_tab_read_only_enabled?: boolean;
 }
@@ -106,7 +106,7 @@ interface ManifestBotUser {
 }
 
 interface ManifestShortcut {
-  /** @description Specifies which {@link https://api.slack.com/interactivity/shortcuts#shortcut-types type of shortcut} is being described. */
+  /** @description Specifies which {@link https://docs.slack.dev/interactivity/implementing-shortcuts type of shortcut} is being described. */
   type: 'global' | 'message';
   /** @description A string containing the name of the shortcut. */
   name: string;
@@ -134,7 +134,7 @@ interface ManifestSlashCommand {
   should_escape?: boolean;
   /**
    * @description A string containing the full `https` URL that acts as the
-   * {@link https://api.slack.com/interactivity/slash-commands#creating_commands slash command's request URL}.
+   * {@link https://docs.slack.dev/interactivity/implementing-slash-commands#creating_commands slash command's request URL}.
    */
   url?: string; // can be absent when enabling Socket Mode
   /** @description A string a short usage hint about the slash command for users. Maximum length is 1000 characters. */
@@ -143,23 +143,23 @@ interface ManifestSlashCommand {
 
 interface ManifestOAuthConfig {
   /**
-   * @description An array of strings containing {@link https://api.slack.com/authentication/oauth-v2#asking OAuth redirect URLs}.
+   * @description An array of strings containing {@link https://docs.slack.dev/authentication/installing-with-oauth OAuth redirect URLs}.
    * A maximum of 1000 redirect URLs can be included in this array.
    */
   redirect_urls?: string[];
-  /** @description A subgroup of settings that describe {@link https://api.slack.com/scopes permission scopes} configuration. */
+  /** @description A subgroup of settings that describe {@link https://docs.slack.dev/reference/scopes permission scopes} configuration. */
   scopes?: ManifestOAuthScopes;
   token_management_enabled?: boolean;
 }
 
 interface ManifestOAuthScopes {
   /**
-   * @description An array of strings containing {@link https://api.slack.com/scopes?filter=granular_bot granular bot scopes}
+   * @description An array of strings containing {@link https://docs.slack.dev/reference/scopes?token_types=Bot granular bot scopes}
    * to request upon app installation. A maximum of 255 scopes can included in this array.
    */
   bot?: BotScope[];
   /**
-   * @description An array of strings containing {@link https://api.slack.com/scopes?filter=user user scopes}
+   * @description An array of strings containing {@link https://docs.slack.dev/reference/scopes?token_types=User user scopes}
    * to request upon app installation. A maximum of 255 scopes can included in this array.
    */
   user?: UserScope[];
@@ -168,20 +168,20 @@ interface ManifestOAuthScopes {
 interface ManifestSettings {
   /**
    * @description An array of strings that contain IP addresses that conform to the
-   * {@link https://api.slack.com/authentication/best-practices#ip_allowlisting Allowed IP Ranges} feature. Maximum of 50 IP addresses.
+   * {@link https://docs.slack.dev/authentication/best-practices-for-security Allowed IP Ranges} feature. Maximum of 50 IP addresses.
    */
   allowed_ip_address_ranges?: string[];
-  /** @description A subgroup of settings that describe {@link https://api.slack.com/apis/connections/events-api Events API} configuration for the app. */
+  /** @description A subgroup of settings that describe {@link https://docs.slack.dev/apis/web-api/using-the-conversations-api Events API} configuration for the app. */
   event_subscriptions?: ManifestEventSubscriptions;
-  /** @description A subgroup of settings that describe {@link https://api.slack.com/messaging/webhooks Incoming Webhooks} configuration for the app. */
+  /** @description A subgroup of settings that describe {@link https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks Incoming Webhooks} configuration for the app. */
   incoming_webhooks?: ManifestIncomingWebhooks;
-  /** @description A subgroup of settings that describe {@link https://api.slack.com/interactivity interactivity} configuration for the app. */
+  /** @description A subgroup of settings that describe {@link https://docs.slack.dev/interactivityinteractivity} configuration for the app. */
   interactivity?: ManifestInteractivity;
-  /** @description A boolean that specifies whether or not {@link https://api.slack.com/enterprise/apps organization-wide deployment} is enabled. */
+  /** @description A boolean that specifies whether or not {@link https://docs.slack.dev/enterprise-grid/organization-ready-apps organization-wide deployment} is enabled. */
   org_deploy_enabled?: boolean;
-  /** @description A boolean that specifies whether or not {@link https://api.slack.com/apis/connections/socket Socket Mode} is enabled. */
+  /** @description A boolean that specifies whether or not {@link https://docs.slack.dev/apis/events-api/using-socket-mode Socket Mode} is enabled. */
   socket_mode_enabled?: boolean;
-  /** @description A boolean that specifies whether or not {@link https://api.slack.com/authentication/rotation token rotation} is enabled. */
+  /** @description A boolean that specifies whether or not {@link https://docs.slack.dev/authentication/using-token-rotation token rotation} is enabled. */
   token_rotation_enabled?: boolean;
   function_runtime?: string;
 }
@@ -190,34 +190,34 @@ interface ManifestEventSubscriptions {
   /**
    * @description An array of strings matching the event types you want to the app to subscribe to.
    * A maximum of 100 event types can be used.
-   * @see {@link https://api.slack.com/events Event types}.
+   * @see {@link https://docs.slack.dev/reference/events Event types}.
    */
   bot_events?: ManifestEvent[];
   /**
    * @description An array of strings matching the event types you want to the app to subscribe to on
    * behalf of authorized users. A maximum of 100 event types can be used.
-   * @see {@link https://api.slack.com/events Event types}.
+   * @see {@link https://docs.slack.dev/reference/events Event types}.
    */
   user_events?: ManifestEvent[];
   /**
    * @description A string containing the full `https` URL that acts as the
-   * {@link https://api.slack.com/apis/connections/events-api#request-urls Events API request URL}.
+   * {@link https://docs.slack.dev/apis/events-api/using-http-request-urls Events API request URL}.
    * If set, you'll need to manually verify the Request URL in the App Manifest section of App Management.
    */
   request_url?: string; // can be absent when enabling Socket Mode
 }
 
 interface ManifestIncomingWebhooks {
-  /** @description Whether to {@link https://api.slack.com/messaging/webhooks#enable_webhooks enable Incoming Webhooks} for your application or not. */
+  /** @description Whether to {@link https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks enable Incoming Webhooks} for your application or not. */
   incoming_webhooks_enabled?: boolean;
 }
 
 interface ManifestInteractivity {
   /** @description A boolean that specifies whether or not interactivity features are enabled. */
   is_enabled: boolean;
-  /** @description A string containing the full https URL that acts as the {@link https://api.slack.com/interactivity/handling#setup interactive Options Load URL}. */
+  /** @description A string containing the full https URL that acts as the {@link https://docs.slack.dev/interactivity/handling-user-interaction interactive Options Load URL}. */
   message_menu_options_url?: string;
-  /** @description A string containing the full https URL that acts as the {@link https://api.slack.com/interactivity/handling#setup interactive Request URL}. */
+  /** @description A string containing the full https URL that acts as the {@link https://docs.slack.dev/interactivity/handling-user-interaction interactive Request URL}. */
   request_url?: string; // can be absent when enabling Socket Mode
 }
 
@@ -274,7 +274,7 @@ interface NumberManifestParameterProperty extends CommonManifestParameterPropert
 
 // TODO: add more types that we support
 
-// https://api.slack.com/scopes?filter=granular_bot
+// https://docs.slack.dev/reference/scopes?token_types=Bot
 // var scopes = [].slice.call(document.getElementsByClassName('apiReferenceFilterableList__listItemLink'))
 // .map(e => '"' + e.innerText + '"').join(' | '); console.log("type BotScope = " + scopes + ";");
 type BotScope =
@@ -344,7 +344,7 @@ type BotScope =
   | 'users:write'
   | 'workflow.steps:execute';
 
-// https://api.slack.com/scopes?filter=user
+// https://docs.slack.dev/reference/scopes?token_types=User
 // var scopes = [].slice.call(document.getElementsByClassName('apiReferenceFilterableList__listItemLink'))
 // .map(e => ''' + e.innerText + ''').join(' | '); console.log('type UserScope = ' + scopes + ';');
 type UserScope =
@@ -436,14 +436,14 @@ type UserScope =
   | 'users:read.email'
   | 'users:write';
 
-// https://api.slack.com/scopes?query=Configuration
+// https://docs.slack.dev/reference/scopes?token_types=Configuration
 // var scopes = [].slice.call(document.getElementsByClassName('apiReferenceFilterableList__listItemLink'))
 // .map(e => ''' + e.innerText + ''').join(' | '); console.log('export type AnyConfigurationScope = ' + scopes + ';');
 export type AnyManifestConfigurationScope = 'app_configurations:read' | 'app_configurations:write';
 
 export type AppManifestLevelScopes = 'authorizations:read' | 'connections:write';
 
-// https://api.slack.com/events?filter=Events
+// https://docs.slack.dev/reference/events
 // var events = [].slice.call(document.getElementsByClassName('apiReferenceFilterableList__listItemLink'))
 // .map(e => '"' + e.innerText + '"').join(' | '); console.log("export type AnyMafifestEvent = " + events + ";");
 type ManifestEvent =

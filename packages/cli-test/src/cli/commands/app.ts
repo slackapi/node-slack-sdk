@@ -1,6 +1,5 @@
-import { SlackCLIProcess } from '../cli-process';
-
 import type { ProjectCommandArguments } from '../../types/commands/common_arguments';
+import { SlackCLIProcess } from '../cli-process';
 
 /**
  * `slack app delete`

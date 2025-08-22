@@ -2,7 +2,7 @@ import assert from 'node:assert';
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import sinon from 'sinon';
 
-import { DefaultProtocol, MessageBoundaryProtocol, getProtocol } from './protocols.js';
+import { DefaultProtocol, getProtocol, MessageBoundaryProtocol } from './protocols.js';
 
 describe('protocol implementations', () => {
   describe('default protocol', () => {

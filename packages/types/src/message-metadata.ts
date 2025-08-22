@@ -1,12 +1,7 @@
 /**
- * @description Application-specific data to attach to a Slack message.
- */
-export type MessageMetadata = EventMetadata | EntitiesMetadata;
-
-/**
- * @description Metadata that represents an event in Slack.
- * @see {@link https://api.slack.com/metadata/using Using Metadata}
- * @see {@link https://api.slack.com/reference/metadata#payload_structure Metadata Payload Structure}
+ * @description Application-specific data to attach to Slack message.
+ * @see {@link https://docs.slack.dev/messaging/message-metadata Using Metadata}
+ * @see {@link https://docs.slack.dev/messaging/message-metadata Metadata Payload Structure}
  */
 export interface EventMetadata {
   /**

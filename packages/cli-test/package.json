@@ -4,10 +4,16 @@
   "description": "Node.js bindings for the Slack CLI for use in automated testing",
   "author": "Salesforce, Inc.",
   "license": "MIT",
-  "keywords": ["slack", "cli", "test"],
+  "keywords": [
+    "cli",
+    "slack",
+    "test"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "engines": {
     "node": ">=18.15.5"
   },
@@ -21,6 +27,7 @@
   "scripts": {
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "lint": "npx @biomejs/biome check .",
     "lint:fix": "npx @biomejs/biome check --write .",
     "prepare": "npm run build",
@@ -32,21 +39,23 @@
     "winston": "^3.8.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
+    "@biomejs/biome": "^2.0.5",
     "@tsconfig/recommended": "^1.0.6",
     "@types/chai": "^4.3.16",
     "@types/mocha": "^10.0.6",
-    "@types/node": "^22.5.2",
+    "@types/node": "^24.0.3",
     "@types/sinon": "^17.0.3",
     "c8": "^10.1.2",
     "chai": "^4.4.1",
-    "cross-env": "^7.0.3",
+    "cross-env": "^10.0.0",
     "mocha": "^11.0.1",
     "mocha-junit-reporter": "^2.2.1",
     "mocha-multi-reporters": "^1.5.1",
     "shx": "^0.4.0",
-    "sinon": "^20.0.0",
+    "sinon": "^21.0.0",
     "ts-node": "^10.9.2",
-    "typescript": "5.8.3"
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.1",
+    "typescript": "5.9.2"
   }
 }

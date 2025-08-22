@@ -3,7 +3,7 @@ import type { View } from '@slack/types';
 import type { TokenOverridable } from './common';
 
 export interface BaseViewsArguments {
-  /** @description A {@link https://api.slack.com/reference/surfaces/views view payload}. */
+  /** @description A {@link https://docs.slack.dev/surfaces/modals view payload}. */
   view: View;
 }
 
@@ -22,21 +22,21 @@ export interface ViewInteractivityPointer {
   interactivity_pointer: string;
 }
 
-// https://api.slack.com/methods/views.open
+// https://docs.slack.dev/reference/methods/views.open
 export type ViewsOpenArguments = BaseViewsArguments & TokenOverridable & (ViewTriggerId | ViewInteractivityPointer);
 
-// https://api.slack.com/methods/views.push
+// https://docs.slack.dev/reference/methods/views.push
 export type ViewsPushArguments = BaseViewsArguments & TokenOverridable & (ViewTriggerId | ViewInteractivityPointer);
 
 export interface ViewHash {
   /**
    * @description A string that represents view state to protect against possible race conditions.
-   * @see {@link https://api.slack.com/surfaces/modals#handling_race_conditions Avoiding race conditions when using views}.
+   * @see {@link https://docs.slack.dev/surfaces/modals#handling_race_conditions Avoiding race conditions when using views}.
    */
   hash?: string;
 }
 
-// https://api.slack.com/methods/views.publish
+// https://docs.slack.dev/reference/methods/views.publish
 export interface ViewsPublishArguments extends BaseViewsArguments, TokenOverridable, ViewHash {
   /** @description ID of the user you want publish a view to. */
   user_id: string;
@@ -56,5 +56,5 @@ export interface ViewViewId {
   view_id: string;
 }
 
-// https://api.slack.com/methods/views.update
+// https://docs.slack.dev/reference/methods/views.update
 export type ViewsUpdateArguments = BaseViewsArguments & TokenOverridable & (ViewExternalId | ViewViewId) & ViewHash;

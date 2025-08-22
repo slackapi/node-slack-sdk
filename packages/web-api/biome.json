@@ -1,9 +1,9 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.5/schema.json",
   "extends": ["../../biome.json"],
   "overrides": [
     {
-      "include": ["src/types/response/**/*.ts"],
+      "includes": ["**/src/types/response/**/*.ts"],
       "linter": {
         "rules": {
           "complexity": {
@@ -11,6 +11,16 @@
           },
           "suspicious": {
             "noExplicitAny": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["src/index.ts"],
+      "assist": {
+        "actions": {
+          "source": {
+            "organizeImports": "off"
           }
         }
       }

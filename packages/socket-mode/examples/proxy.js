@@ -1,5 +1,4 @@
 const { SocketModeClient, LogLevel } = require('@slack/socket-mode');
-const { WebClient } = require('@slack/web-api');
 const HttpsProxyAgent = require('https-proxy-agent');
 const clientOptions = { agent: new HttpsProxyAgent('http://localhost:9001') };
 
@@ -8,10 +7,12 @@ const socketModeClient = new SocketModeClient({
   logLevel: LogLevel.DEBUG,
   clientOptions,
 });
-const webClient = new WebClient(process.env.SLACK_BOT_TOKEN, {
-  logLevel: LogLevel.DEBUG,
-  clientOptions,
-});
+
+// const { WebClient } = require('@slack/web-api');
+// const webClient = new WebClient(process.env.SLACK_BOT_TOKEN, {
+//   logLevel: LogLevel.DEBUG,
+//   clientOptions,
+// });
 
 socketModeClient.on('slack_event', async ({ ack, body }) => {
   console.log(body);

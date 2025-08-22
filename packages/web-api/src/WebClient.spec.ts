@@ -1,15 +1,8 @@
 import fs from 'node:fs';
 import axios, { type InternalAxiosRequestConfig } from 'axios';
 import { assert, expect } from 'chai';
-import nock from 'nock';
+import nock, { type ReplyHeaders } from 'nock';
 import sinon from 'sinon';
-import {
-  type RequestConfig,
-  type WebAPICallResult,
-  WebClient,
-  WebClientEvent,
-  buildThreadTsWarningMessage,
-} from './WebClient';
 import { ErrorCode, type WebAPIRequestError } from './errors';
 import {
   buildGeneralFilesUploadWarning,
@@ -17,8 +10,15 @@ import {
   buildLegacyMethodWarning,
 } from './file-upload';
 import { addAppMetadata } from './instrument';
-import { LogLevel, type Logger } from './logger';
+import { type Logger, LogLevel } from './logger';
 import { rapidRetryPolicy } from './retry-policies';
+import {
+  buildThreadTsWarningMessage,
+  type RequestConfig,
+  type WebAPICallResult,
+  WebClient,
+  WebClientEvent,
+} from './WebClient';
 
 const token = 'xoxb-faketoken';
 
@@ -57,6 +57,21 @@ describe('WebClient', () => {
     it('should build a client without a token', () => {
       const client = new WebClient();
       assert.instanceOf(client, WebClient);
+    });
+
+    it('should add a trailing slash to slackApiUrl if missing', () => {
+      const client = new WebClient(token, { slackApiUrl: 'https://slack.com/api' });
+      assert.equal(client.slackApiUrl, 'https://slack.com/api/');
+    });
+
+    it('should preserve trailing slash in slackApiUrl if provided', () => {
+      const client = new WebClient(token, { slackApiUrl: 'https://slack.com/api/' });
+      assert.equal(client.slackApiUrl, 'https://slack.com/api/');
+    });
+
+    it('should handle custom domains and add trailing slash', () => {
+      const client = new WebClient(token, { slackApiUrl: 'https://example.com/slack/api' });
+      assert.equal(client.slackApiUrl, 'https://example.com/slack/api/');
     });
   });
 
@@ -204,6 +219,21 @@ describe('WebClient', () => {
         });
       }
 
+      const markdownTextPatterns = textWarningTestPatterns.reduce((acc, { method, args }) => {
+        const textPatterns = [{ markdown_text: '# example' }].map((v) => ({
+          method,
+          args: Object.assign({}, v, args),
+        }));
+        return acc.concat(textPatterns);
+      }, [] as MethodArgs[]);
+      for (const { method, args } of markdownTextPatterns) {
+        it(`should not send warning to logs when client executes ${method} with markdown_text argument`, async () => {
+          const warnClient = new WebClient(token, { logLevel: LogLevel.WARN, logger });
+          await warnClient.apiCall(method, args);
+          assert.isTrue((logger.warn as sinon.SinonStub).calledThrice);
+        });
+      }
+
       const textPatterns = textWarningTestPatterns.reduce((acc, { method, args }) => {
         const textPatterns = [{ text: '' }, { text: null }, {}].map((v) => ({
           method,
@@ -309,6 +339,24 @@ describe('WebClient', () => {
         }
         if (!warnedAboutLegacyFilesUpload || !infoAboutRecommendedFilesUploadV2) {
           assert.fail('Should have logged a warning and info when files.upload is used');
+        }
+      });
+
+      it('warns when user is accessing a deprecated method', async () => {
+        const client = new WebClient(token, { logLevel: LogLevel.INFO, logger });
+        await client.apiCall('workflows.stepCompleted', {});
+
+        let warnedAboutDeprecatedMethod = false;
+        for (const call of (logger.warn as sinon.SinonStub).getCalls()) {
+          if (
+            call.args[0] ===
+            'workflows.stepCompleted is deprecated. Please check on https://docs.slack.dev/reference/methods for an alternative.'
+          ) {
+            warnedAboutDeprecatedMethod = true;
+          }
+        }
+        if (!warnedAboutDeprecatedMethod) {
+          assert.fail('Should have logged a warning when a deprecated method is used');
         }
       });
     });
@@ -583,7 +631,7 @@ describe('WebClient', () => {
       const scope = nock('https://slack.com')
         .post('/api/chat.postMessage', 'channel=c&text=t')
         .reply(200, { ok: true })
-        // Trying this method because its mounted one layer "deeper"
+        // Trying this method because it's mounted one layer "deeper"
         .post('/api/team.profile.get')
         .reply(200, { ok: true });
       await Promise.all([client.chat.postMessage({ channel: 'c', text: 't' }), client.team.profile.get()]);
@@ -797,11 +845,20 @@ describe('WebClient', () => {
       const client = new WebClient(token, { allowAbsoluteUrls: false });
       await client.apiCall('https://example.com/api/method');
     });
+
+    it('should add a trailing slash to slackApiUrl if missing', async () => {
+      const alternativeUrl = 'http://12.34.56.78/api'; // No trailing slash here
+      nock(alternativeUrl)
+        .post(/api\/method/)
+        .reply(200, { ok: true });
+      const client = new WebClient(token, { slackApiUrl: alternativeUrl });
+      await client.apiCall('method');
+    });
   });
 
   describe('has an option to set request concurrency', () => {
     // TODO: factor out common logic into test helpers
-    const responseDelay = 100; // ms
+    const responseDelay = 500; // ms
     let testStart: number;
     let scope: nock.Scope;
 
@@ -1102,14 +1159,15 @@ describe('WebClient', () => {
   });
 
   it('should throw an error if the response has no retry info', async () => {
-    // @ts-expect-error header values cannot be undefined
-    const scope = nock('https://slack.com').post(/api/).reply(429, {}, { 'retry-after': undefined });
+    const emptyHeaders: ReplyHeaders & { 'retry-after'?: never } = {}; // Ensure that 'retry-after' is not in the headers
+    const scope = nock('https://slack.com').post(/api/).reply(429, {}, emptyHeaders);
     const client = new WebClient(token);
     try {
       await client.apiCall('method');
       assert.fail('expected error to be thrown');
     } catch (err) {
       assert.instanceOf(err, Error);
+    } finally {
       scope.done();
     }
   });
@@ -1192,6 +1250,58 @@ describe('WebClient', () => {
                 id: 'F0123456789',
                 name: 'test-txt.txt',
                 permalink: 'https://my-workspace.slack.com/files/U0123456789/F0123456789/test-txt.txt',
+              },
+            ],
+            response_metadata: {},
+          },
+        ],
+      };
+      assert.deepEqual(response, expected);
+      scope.done();
+      uploader.done();
+    });
+
+    it('uploads content', async () => {
+      const scope = nock('https://slack.com')
+        .post('/api/files.getUploadURLExternal', { filename: 'content.txt', length: 42 })
+        .reply(200, {
+          ok: true,
+          file_id: 'F0101010101',
+          upload_url: 'https://files.slack.com/upload/v1/abcdefghijklmnopqrstuvwxyz',
+        })
+        .post('/api/files.completeUploadExternal', {
+          blocks: '[{"type":"section","text":{"type":"plain_text","text":"Hello"}}]',
+          channel_id: 'C010101010',
+          files: '[{"id":"F0101010101","title":"content.txt"}]',
+        })
+        .reply(200, {
+          ok: true,
+          files: [
+            {
+              id: 'F0101010101',
+              name: 'content.txt',
+              permalink: 'https://my-workspace.slack.com/files/U0123456789/F0101010101/content.txt',
+            },
+          ],
+        });
+      const uploader = nock('https://files.slack.com').post('/upload/v1/abcdefghijklmnopqrstuvwxyz').reply(200);
+      const client = new WebClient(token);
+      const response = await client.filesUploadV2({
+        blocks: [{ type: 'section', text: { type: 'plain_text', text: 'Hello' } }],
+        channel_id: 'C010101010',
+        content: 'Words from another variable might go here!',
+        filename: 'content.txt',
+      });
+      const expected = {
+        ok: true,
+        files: [
+          {
+            ok: true,
+            files: [
+              {
+                id: 'F0101010101',
+                name: 'content.txt',
+                permalink: 'https://my-workspace.slack.com/files/U0123456789/F0101010101/content.txt',
               },
             ],
             response_metadata: {},

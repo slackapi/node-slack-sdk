@@ -1,21 +1,23 @@
 /// <reference lib="es2017" />
 
 export {
+  RTMCallResult,
   RTMClient,
   RTMClientOptions,
   RTMStartOptions,
-  RTMCallResult,
 } from './RTMClient';
 
-export { Logger, LogLevel } from './logger';
+// Utilities
 
 export {
   CodedError,
   ErrorCode,
-  RTMPlatformError,
-  RTMWebsocketError,
+  RTMCallError,
   RTMNoReplyReceivedError,
+  RTMPlatformError,
   RTMSendWhileDisconnectedError,
   RTMSendWhileNotReadyError,
-  RTMCallError,
+  RTMWebsocketError,
 } from './errors';
+
+export { Logger, LogLevel } from './logger';

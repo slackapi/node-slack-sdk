@@ -1,5 +1,3 @@
-import type { OptionalArgument } from '../helpers';
-
 import type {
   Block, // TODO: these will be combined into one in a new types release
   EntityMetadata,
@@ -8,6 +6,9 @@ import type {
   MessageAttachment,
   MessageMetadata,
 } from '@slack/types';
+
+import type { OptionalArgument } from '../helpers';
+
 import type {
   CursorPaginationEnabled,
   OptionalTeamAssignable,
@@ -29,9 +30,9 @@ interface ChannelAndMessageTS extends Channel {
 }
 export interface AsUser {
   /**
-   * @description Pass `true` to act as the authed user with {@link https://api.slack.com/scopes/chat:write:user `chat:write:user` scope}.
+   * @description Pass `true` to act as the authed user with {@link https://docs.slack.dev/reference/scopes/chat.write `chat:write:user` scope}.
    * Bot users in this context are considered authed users. If unused or `false`, the message will be acted upon with
-   * {@link https://api.slack.com/scopes/chat:write:bot `chat:write:bot` scope}.
+   * {@link https://docs.slack.dev/reference/scopes/chat.write `chat:write:bot` scope}.
    */
   as_user?: boolean;
 }
@@ -42,7 +43,7 @@ export interface LinkNames {
 export interface Parse {
   /**
    * @description Change how messages are treated. Defaults to `none`.
-   * @see {@link https://api.slack.com/reference/surfaces/formatting#automatic-parsing Formatting: Automatic parsing}.
+   * @see {@link https://docs.slack.dev/messaging/formatting-message-text Formatting: Automatic parsing}.
    */
   parse?: 'full' | 'none';
 }
@@ -57,22 +58,30 @@ export interface ChannelAndText extends Channel, Text {}
 export interface ChannelAndBlocks extends Channel, Partial<Text> {
   /**
    * @description An array of structured Blocks.
-   * @see {@link https://api.slack.com/reference/block-kit/blocks Blocks reference}.
+   * @see {@link https://docs.slack.dev/reference/block-kit/blocks Blocks reference}.
    */
   blocks: (KnownBlock | Block)[];
 }
 export interface ChannelAndAttachments extends Channel, Partial<Text> {
   /**
    * @description An array of structured attachments.
-   * @see {@link https://api.slack.com/messaging/composing/layouts#attachments Adding secondary attachments}.
+   * @see {@link https://docs.slack.dev/messaging/formatting-message-text#attachments Adding secondary attachments}.
    */
   attachments: MessageAttachment[];
+}
+export interface ChannelAndMarkdownText extends Channel {
+  /**
+   * @description Accepts message text formatted in markdown. This argument should not be used in conjunction with `blocks` or `text`. Limit this field to 12,000 characters.
+   * @example **This is bold text**
+   */
+  markdown_text: string;
 }
 // Models message-creation arguments, user must provide one of the following combinations:
 // 1. channel and text
 // 2. channel and blocks
 // 3. channel and attachments
-type MessageContents = ChannelAndText | ChannelAndBlocks | ChannelAndAttachments;
+// 4. channel and markdown_text
+type MessageContents = ChannelAndText | ChannelAndBlocks | ChannelAndAttachments | ChannelAndMarkdownText;
 export interface ThreadTS {
   /**
    * @description Provide another message's `ts` value to post this message in a thread. Avoid using a reply's `ts`
@@ -130,9 +139,9 @@ type Authorship =
   | (Icon & Username)
   | {
       /**
-       * @description Pass `true` to act as the authed user with {@link https://api.slack.com/scopes/chat:write:user `chat:write:user` scope}.
+       * @description Pass `true` to act as the authed user with {@link https://docs.slack.dev/reference/scopes/chat.write `chat:write:user` scope}.
        * Bot users in this context are considered authed users. If unused or `false`, the message will be acted upon with
-       * {@link https://api.slack.com/scopes/chat:write:bot `chat:write:bot` scope}.
+       * {@link https://docs.slack.dev/reference/scopes/chat.write `chat:write:bot` scope}.
        */
       as_user: true;
       icon_emoji?: never;
@@ -145,22 +154,22 @@ export interface Unfurls {
   unfurl_media?: boolean;
 }
 
-// https://api.slack.com/methods/chat.delete
+// https://docs.slack.dev/reference/methods/chat.delete
 export interface ChatDeleteArguments extends ChannelAndTS, AsUser, TokenOverridable {}
 
-// https://api.slack.com/methods/chat.deleteScheduledMessage
+// https://docs.slack.dev/reference/methods/chat.deleteScheduledMessage
 export interface ChatDeleteScheduledMessageArguments extends Channel, AsUser, TokenOverridable {
-  /** @description The `scheduled_message_id` returned from call to {@link https://api.slack.com/methods/chat.scheduleMessage `chat.scheduleMessage`}. */
+  /** @description The `scheduled_message_id` returned from call to {@link https://docs.slack.dev/reference/methods/chat.scheduleMessage `chat.scheduleMessage`}. */
   scheduled_message_id: string;
 }
 
-// https://api.slack.com/methods/chat.getPermalink
+// https://docs.slack.dev/reference/methods/chat.getPermalink
 export interface ChatGetPermalinkArguments extends ChannelAndMessageTS, TokenOverridable {}
 
-// https://api.slack.com/methods/chat.meMessage
+// https://docs.slack.dev/reference/methods/chat.meMessage
 export interface ChatMeMessageArguments extends ChannelAndText, TokenOverridable {}
 
-// https://api.slack.com/methods/chat.postEphemeral
+// https://docs.slack.dev/reference/methods/chat.postEphemeral
 export type ChatPostEphemeralArguments = TokenOverridable &
   MessageContents & {
     /**
@@ -173,7 +182,7 @@ export type ChatPostEphemeralArguments = TokenOverridable &
   LinkNames &
   Partial<ThreadTS>;
 
-// https://api.slack.com/methods/chat.postMessage
+// https://docs.slack.dev/reference/methods/chat.postMessage
 export type ChatPostMessageArguments = TokenOverridable &
   MessageContents &
   ReplyInThread &
@@ -186,7 +195,7 @@ export type ChatPostMessageArguments = TokenOverridable &
     mrkdwn?: boolean;
   };
 
-// https://api.slack.com/methods/chat.scheduleMessage
+// https://docs.slack.dev/reference/methods/chat.scheduleMessage
 export type ChatScheduleMessageArguments = TokenOverridable &
   MessageContents & {
     /** @description Unix EPOCH timestamp of time in future to send the message. */
@@ -198,7 +207,7 @@ export type ChatScheduleMessageArguments = TokenOverridable &
   Metadata &
   Unfurls;
 
-// https://api.slack.com/methods/chat.scheduledMessages.list
+// https://docs.slack.dev/reference/methods/chat.scheduledMessages.list
 export type ChatScheduledMessagesListArguments = OptionalArgument<
   TokenOverridable &
     CursorPaginationEnabled &
@@ -221,6 +230,7 @@ export interface SourceAndUnfurlID {
 }
 type UnfurlTarget = ChannelAndTS | SourceAndUnfurlID;
 
+// `unfurls` param of the `chat.unfurl` API 
 type ChatUnfurlArgumentUnfurls = {
   /**
    * @description Object with keys set to URLs featured in the message, pointing to their unfurl
@@ -229,6 +239,7 @@ type ChatUnfurlArgumentUnfurls = {
   unfurls: LinkUnfurls;
 };
 
+// `metadata` param of the `chat.unfurl` API 
 type ChatUnfurlArgumentMetadata = {
   /**
    * @description Array of entities to attach to the message based on URLs featured in the message.
@@ -269,7 +280,7 @@ export type ChatUnfurlArguments = (ChatUnfurlArgumentUnfurls | ChatUnfurlArgumen
     user_auth_blocks?: (KnownBlock | Block)[];
   };
 
-// https://api.slack.com/methods/chat.update
+// https://docs.slack.dev/reference/methods/chat.update
 export type ChatUpdateArguments = MessageContents & {
   /** @description Timestamp of the message to be updated. */
   ts: string;

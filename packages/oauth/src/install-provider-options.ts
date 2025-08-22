@@ -1,4 +1,4 @@
-import type { LogLevel, Logger } from '@slack/logger';
+import type { Logger, LogLevel } from '@slack/logger';
 import type { WebClientOptions } from '@slack/web-api';
 
 import type { InstallURLOptions } from './install-url-options';
@@ -73,7 +73,7 @@ export interface InstallProviderOptions {
    * The default is "v2" (a.k.a. Granular Bot Permissions), different from "v1" (a.k.a. "Classic Apps").
    * More details here:
    * - https://medium.com/slack-developer-blog/more-precision-less-restrictions-a3550006f9c3
-   * - https://api.slack.com/authentication/migration
+   * - https://docs.slack.dev/legacy/legacy-app-migration/migrating-classic-apps
    */
   authVersion?: 'v1' | 'v2'; // default 'v2'
 

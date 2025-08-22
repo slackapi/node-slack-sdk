@@ -1,11 +1,11 @@
 import type { OptionalArgument } from '../helpers';
 import type { OptionalTeamAssignable, TokenOverridable } from './common';
 
-// https://api.slack.com/methods/dnd.endDnd
+// https://docs.slack.dev/reference/methods/dnd.endDnd
 export type DndEndDndArguments = OptionalArgument<TokenOverridable>;
-// https://api.slack.com/methods/dnd.endSnooze
+// https://docs.slack.dev/reference/methods/dnd.endSnooze
 export type DndEndSnoozeArguments = OptionalArgument<TokenOverridable>;
-// https://api.slack.com/methods/dnd.info
+// https://docs.slack.dev/reference/methods/dnd.info
 export type DndInfoArguments = OptionalArgument<
   TokenOverridable &
     OptionalTeamAssignable & {
@@ -13,12 +13,12 @@ export type DndInfoArguments = OptionalArgument<
       user?: string;
     }
 >;
-// https://api.slack.com/methods/dnd.setSnooze
+// https://docs.slack.dev/reference/methods/dnd.setSnooze
 export interface DndSetSnoozeArguments extends TokenOverridable {
   /** @description Number of minutes, from now, to snooze until. */
   num_minutes: number;
 }
-// https://api.slack.com/methods/dnd.teamInfo
+// https://docs.slack.dev/reference/methods/dnd.teamInfo
 export interface DndTeamInfoArguments extends TokenOverridable, OptionalTeamAssignable {
   /** @description Comma-separated list of users to fetch Do Not Disturb status for. */
   users: string;

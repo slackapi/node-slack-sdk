@@ -12,13 +12,13 @@ interface WorkflowIDs {
   workflow_ids: [string, ...string[]];
 }
 
-// https://api.slack.com/methods/admin.workflows.collaborators.add
+// https://docs.slack.dev/reference/methods/admin.workflows.collaborators.add
 export interface AdminWorkflowsCollaboratorsAddArguments extends CollaboratorIDs, WorkflowIDs, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.workflows.collaborators.remove
+// https://docs.slack.dev/reference/methods/admin.workflows.collaborators.remove
 export interface AdminWorkflowsCollaboratorsRemoveArguments extends CollaboratorIDs, WorkflowIDs, TokenOverridable {}
 
-// https://api.slack.com/methods/admin.workflows.permissions.lookup
+// https://docs.slack.dev/reference/methods/admin.workflows.permissions.lookup
 export interface AdminWorkflowsPermissionsLookupArguments extends WorkflowIDs, TokenOverridable {
   /**
    * @description Maximum number of triggers to fetch for each workflow when determining overall run permissions.
@@ -27,7 +27,7 @@ export interface AdminWorkflowsPermissionsLookupArguments extends WorkflowIDs, T
   max_workflow_triggers?: number;
 }
 
-// https://api.slack.com/methods/admin.workflows.search
+// https://docs.slack.dev/reference/methods/admin.workflows.search
 export type AdminWorkflowsSearchArguments = OptionalArgument<
   Partial<AppID> &
     Partial<CollaboratorIDs> &
@@ -47,5 +47,5 @@ export type AdminWorkflowsSearchArguments = OptionalArgument<
     }
 >;
 
-// https://api.slack.com/methods/admin.workflows.unpublish
+// https://docs.slack.dev/reference/methods/admin.workflows.unpublish
 export interface AdminWorkflowsUnpublishArguments extends WorkflowIDs, TokenOverridable {}

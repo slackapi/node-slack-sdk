@@ -31,15 +31,18 @@ rewiremock(() => require('@slack/web-api')).with({
   },
 });
 rewiremock.enable();
+
 import {
   type CallbackOptions,
-  type InstallPathOptions,
-  InstallProvider,
   type Installation,
   type InstallationStore,
+  type InstallPathOptions,
+  InstallProvider,
   type StateStore,
 } from './index';
+
 rewiremock.disable();
+
 import type { OAuthV2AccessArguments, OauthV2AccessResponse, WebClientOptions } from '@slack/web-api';
 import {
   type AuthorizationError,
@@ -47,7 +50,8 @@ import {
   type GenerateInstallUrlError,
   type InstallerInitializationError,
 } from './errors';
-import { LogLevel, type Logger } from './logger';
+import { type Logger, LogLevel } from './logger';
+
 const webClientOptions: WebClientOptions = { timeout: 1000 };
 
 async function mockedV2AccessResp(options: OAuthV2AccessArguments): Promise<OauthV2AccessResponse> {

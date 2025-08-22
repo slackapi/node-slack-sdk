@@ -2,14 +2,14 @@ import type { Agent } from 'node:http';
 
 import {
   ErrorCode as APICallErrorCode,
+  addAppMetadata,
+  type RetryOptions,
   type RTMConnectArguments,
   type RTMStartArguments,
-  type RetryOptions,
   type TLSOptions,
   type WebAPICallError,
   type WebAPICallResult,
   WebClient,
-  addAppMetadata,
 } from '@slack/web-api';
 import { EventEmitter } from 'eventemitter3';
 import Finity, { type StateMachine } from 'finity';
@@ -17,7 +17,6 @@ import PCancelable from 'p-cancelable';
 import PQueue from 'p-queue';
 import WebSocket from 'ws';
 
-import { KeepAlive } from './KeepAlive';
 import {
   noReplyReceivedError,
   platformErrorFromEvent,
@@ -25,7 +24,8 @@ import {
   sendWhileNotReadyError,
   websocketErrorWithOriginal,
 } from './errors';
-import { LogLevel, type Logger, getLogger } from './logger';
+import { KeepAlive } from './KeepAlive';
+import { getLogger, type Logger, LogLevel } from './logger';
 
 const packageJson = require('../package.json');
 
@@ -56,7 +56,7 @@ interface RTMStartResult extends WebAPICallResult {
   };
 }
 /**
- * An RTMClient allows programs to communicate with the {@link https://api.slack.com/rtm|Slack Platform's RTM API}.
+ * An RTMClient allows programs to communicate with the {@link https://docs.slack.dev/legacy/legacy-rtm-api|Slack Platform's RTM API}.
  * This object uses the EventEmitter pattern to dispatch incoming events and has several methods for sending outgoing
  * messages.
  */
@@ -336,7 +336,7 @@ export class RTMClient extends EventEmitter {
 
   /**
    * A queue of tasks used to serialize outgoing messages and to allow the client to buffer outgoing messages when
-   * its not in the 'ready' state. This queue is paused and resumed as the state machine transitions.
+   * it's not in the 'ready' state. This queue is paused and resumed as the state machine transitions.
    */
   private outgoingEventQueue = new PQueue({ concurrency: 1 });
 
@@ -344,7 +344,7 @@ export class RTMClient extends EventEmitter {
    * A list of cancelable Promises that each represent a caller waiting on the server to acknowledge an outgoing
    * message with a response (an incoming message containing a "reply_to" property with the outgoing message's ID).
    * This list is emptied by canceling all the promises when the client no longer expects to receive any replies from
-   * the server (when its disconnected or when its reconnected and doesn't expect replies for past outgoing messages).
+   * the server (when it's disconnected or when it's reconnected and doesn't expect replies for past outgoing messages).
    * The list is a sparse array, where the indexes are message IDs for the sent messages.
    */
   private awaitingReplyList: PCancelable<RTMCallResult>[] = [];
@@ -593,7 +593,7 @@ export class RTMClient extends EventEmitter {
         this.logger.error('cannot send message when client is not ready');
         reject(sendWhileNotReadyError());
       } else {
-        // NOTE: future feature request: middleware pipeline to process the message before its sent
+        // NOTE: future feature request: middleware pipeline to process the message before it's sent
         this.emit('outgoing_message', message);
 
         const flatMessage = JSON.stringify(message);

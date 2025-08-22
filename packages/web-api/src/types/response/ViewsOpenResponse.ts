@@ -54,6 +54,7 @@ export interface Block {
   dispatch_action?: boolean;
   element?: PurpleElement;
   elements?: StickyElement[];
+  expand?: boolean;
   fallback?: string;
   fields?: Close[];
   hint?: Close;

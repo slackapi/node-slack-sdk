@@ -80,7 +80,7 @@ import type {
 import type {
   TeamAccessGrantedEvent,
   TeamAccessRevokedEvent,
-  TeamDomainChangedEvent,
+  TeamDomainChangeEvent,
   TeamJoinEvent,
   TeamRenameEvent,
 } from './team';
@@ -108,15 +108,15 @@ export * from './pin';
 export * from './reaction';
 export * from './shared-channel';
 export * from './star';
+export * from './steps-from-apps';
 export * from './subteam';
 export * from './team';
 export * from './token';
 export * from './user';
-export * from './steps-from-apps';
 
 /**
  * All known event types in Slack's Events API
- * Please refer to https://api.slack.com/events?filter=Events for more details
+ * Please refer to https://docs.slack.dev/reference/events for more details
  * This is a discriminated union. The discriminant is the `type` property.
  */
 export type SlackEvent =
@@ -192,12 +192,12 @@ export type SlackEvent =
   | SubteamUpdatedEvent
   | TeamAccessGrantedEvent
   | TeamAccessRevokedEvent
-  | TeamDomainChangedEvent
+  | TeamDomainChangeEvent
   | TeamJoinEvent
   | TeamRenameEvent
   | TokensRevokedEvent
   // TODO: url_verification event is missing, but maybe we don't need it?
-  // NOTE: url_verification does not use the envelope, but its also not interesting for an app developer. its omitted.
+  // NOTE: url_verification does not use the envelope, but it's also not interesting for an app developer. it's omitted.
   | UserChangeEvent
   | UserHuddleChangedEvent
   | UserProfileChangedEvent

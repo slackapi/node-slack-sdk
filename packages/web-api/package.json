@@ -1,13 +1,25 @@
 {
   "name": "@slack/web-api",
-  "version": "7.10.1-featWorkObjectsBeta.1",
+  "version": "7.11.0-tmp",
   "description": "Official library for using the Slack Platform's Web API",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
-  "keywords": ["slack", "web-api", "bot", "client", "http", "api", "proxy", "rate-limiting", "pagination"],
+  "keywords": [
+    "slack",
+    "web-api",
+    "bot",
+    "client",
+    "http",
+    "api",
+    "proxy",
+    "rate-limiting",
+    "pagination"
+  ],
   "main": "dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "engines": {
     "node": ">= 18",
     "npm": ">= 8.6.0"
@@ -24,6 +36,7 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "lint": "npx @biomejs/biome check .",
     "lint:fix": "npx @biomejs/biome check --write .",
     "mocha": "mocha --config ./test/.mocharc.json \"./src/**/*.spec.ts\"",
@@ -39,9 +52,9 @@
     "@slack/types": "2.15.0-featWorkObjectsBeta.2",
     "@types/node": ">=18.0.0",
     "@types/retry": "0.12.0",
-    "axios": "^1.8.3",
+    "axios": "^1.11.0",
     "eventemitter3": "^5.0.1",
-    "form-data": "^4.0.0",
+    "form-data": "^4.0.4",
     "is-electron": "2.2.2",
     "is-stream": "^2",
     "p-queue": "^6",
@@ -49,7 +62,7 @@
     "retry": "^0.13.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
+    "@biomejs/biome": "^2.0.5",
     "@tsconfig/recommended": "^1",
     "@types/busboy": "^1.5.4",
     "@types/chai": "^4",
@@ -61,13 +74,15 @@
     "mocha": "^11",
     "mocha-junit-reporter": "^2.2.1",
     "mocha-multi-reporters": "^1.5.1",
-    "nock": "^13",
+    "nock": "^14",
     "shx": "^0.4.0",
-    "sinon": "^20",
+    "sinon": "^21",
     "source-map-support": "^0.5.21",
     "ts-node": "^10",
-    "tsd": "^0.31.1",
-    "typescript": "5.3.3"
+    "tsd": "^0.33.0",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.1",
+    "typescript": "5.9.2"
   },
   "tsd": {
     "directory": "test/types"

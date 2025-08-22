@@ -1,11 +1,10 @@
+import type { ShellProcess } from '../../types/shell';
 import {
   type SlackCLICommandOptions,
   type SlackCLIGlobalOptions,
   type SlackCLIHostTargetOptions,
   SlackCLIProcess,
 } from '../cli-process';
-
-import type { ShellProcess } from '../../types/shell';
 
 type AuthLoginNoPromptArguments = SlackCLIHostTargetOptions & Pick<SlackCLIGlobalOptions, 'verbose'>;
 type AuthLoginChallengeExchangeArugments = SlackCLIHostTargetOptions & {

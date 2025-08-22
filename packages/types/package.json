@@ -1,13 +1,20 @@
 {
   "name": "@slack/types",
-  "version": "2.15.0-featWorkObjectsBeta.2",
+  "version": "2.17.0-tmp",
   "description": "Shared type definitions for the Node Slack SDK",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
-  "keywords": ["slack", "typescript", "types", "api"],
+  "keywords": [
+    "slack",
+    "typescript",
+    "types",
+    "api"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist/**/*"],
+  "files": [
+    "dist/**/*"
+  ],
   "engines": {
     "node": ">= 12.13.0",
     "npm": ">= 6.12.0"
@@ -24,15 +31,18 @@
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
+    "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "lint": "npx @biomejs/biome check .",
     "lint:fix": "npx @biomejs/biome check --write .",
     "test": "npm run lint && npm run build && npm run test:types",
     "test:types": "tsd"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
+    "@biomejs/biome": "^2.0.5",
     "shx": "^0.4.0",
-    "tsd": "^0.31.0",
+    "tsd": "^0.33.0",
+    "typedoc": "^0.28.7",
+    "typedoc-plugin-markdown": "^4.7.1",
     "typescript": "^5.5.4"
   },
   "tsd": {
