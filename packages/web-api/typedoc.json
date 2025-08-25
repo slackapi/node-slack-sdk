@@ -5,7 +5,7 @@
   "outputs": [
     {
       "name": "markdown",
-      "path": "../../docs/content/reference/web-api"
+      "path": "../../docs/english/reference/web-api"
     }
   ],
   "skipErrorChecking": true,
