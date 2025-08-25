@@ -1,4 +1,4 @@
-# @slack/rtm-api v7.0.3
+# @slack/rtm-api v7.0.4
 
 ## Enumerations
 
