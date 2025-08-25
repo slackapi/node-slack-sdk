@@ -24,9 +24,7 @@ A comma separated string of encoded channel IDs for which the User Group uses as
 
 #### Inherited from
 
-```ts
-Partial.channels
-```
+[`UsergroupsCreateArguments`](UsergroupsCreateArguments.md).[`channels`](UsergroupsCreateArguments.md#channels)
 
 ***
 
@@ -44,9 +42,7 @@ A short description of the User Group.
 
 #### Inherited from
 
-```ts
-Partial.description
-```
+[`UsergroupsCreateArguments`](UsergroupsCreateArguments.md).[`description`](UsergroupsCreateArguments.md#description)
 
 ***
 
@@ -64,9 +60,7 @@ A mention handle. Must be unique among channels, users and User Groups.
 
 #### Inherited from
 
-```ts
-Partial.handle
-```
+[`UsergroupsCreateArguments`](UsergroupsCreateArguments.md).[`handle`](UsergroupsCreateArguments.md#handle)
 
 ***
 
@@ -84,9 +78,7 @@ Include the number of users in each User Group.
 
 #### Inherited from
 
-```ts
-Partial.include_count
-```
+[`UsergroupsCreateArguments`](UsergroupsCreateArguments.md).[`include_count`](UsergroupsCreateArguments.md#include_count)
 
 ***
 
@@ -104,9 +96,7 @@ A name for the User Group. Must be unique among User Groups.
 
 #### Inherited from
 
-```ts
-Partial.name
-```
+[`UsergroupsCreateArguments`](UsergroupsCreateArguments.md).[`name`](UsergroupsCreateArguments.md#name)
 
 ***
 

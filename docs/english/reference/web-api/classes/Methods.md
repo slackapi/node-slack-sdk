@@ -1,6 +1,6 @@
 [@slack/web-api](../index.md) / Methods
 
-# Class: `abstract` Methods
+# Abstract Class: Methods
 
 Defined in: [src/methods.ts:565](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/methods.ts#L565)
 

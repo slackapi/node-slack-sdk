@@ -6,7 +6,7 @@
 type ChatUpdateArguments = MessageContents & object & TokenOverridable & AsUser & LinkNames & Metadata & Parse & object;
 ```
 
-Defined in: [src/types/request/chat.ts:256](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L256)
+Defined in: [src/types/request/chat.ts:264](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L264)
 
 ## Type declaration
 

@@ -1,6 +1,6 @@
 [@slack/web-api](../index.md) / WorkflowStepView
 
-# Interface: ~~WorkflowStepView~~
+# ~~Interface: WorkflowStepView~~
 
 Defined in: node\_modules/@slack/types/dist/views.d.ts:61
 

@@ -71,9 +71,7 @@ If using an org token, `team_id` is required.
 
 #### Inherited from
 
-```ts
-Required.team_id
-```
+[`AdminUsergroupsAddChannelsArguments`](AdminUsergroupsAddChannelsArguments.md).[`team_id`](AdminUsergroupsAddChannelsArguments.md#team_id)
 
 ***
 
