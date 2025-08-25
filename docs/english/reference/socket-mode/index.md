@@ -1,4 +1,4 @@
-# @slack/socket-mode v2.0.4
+# @slack/socket-mode v2.0.5
 
 ## Enumerations
 
