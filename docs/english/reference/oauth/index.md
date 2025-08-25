@@ -1,4 +1,4 @@
-# @slack/oauth v3.0.3
+# @slack/oauth v3.0.4
 
 ## Enumerations
 
