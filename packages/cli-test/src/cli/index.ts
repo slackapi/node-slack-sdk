@@ -14,6 +14,7 @@ import func from './commands/function';
 import manifest from './commands/manifest';
 import platform from './commands/platform';
 import trigger from './commands/trigger';
+import version from './commands/version';
 
 /**
  * Set of functions to spawn and interact with Slack Platform CLI processes and commands
@@ -30,6 +31,7 @@ export const SlackCLI = {
   manifest,
   platform,
   trigger,
+  version,
 
   /**
    * Delete app and Log out of current team session
