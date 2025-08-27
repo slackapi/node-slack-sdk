@@ -6,7 +6,7 @@
 const SlackCLI: object;
 ```
 
-Defined in: [cli/index.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/cli-test/src/cli/index.ts#L21)
+Defined in: [cli/index.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/cli-test/src/cli/index.ts#L22)
 
 Set of functions to spawn and interact with Slack Platform CLI processes and commands
 
@@ -809,6 +809,26 @@ update: (args) => Promise<string>;
 ###### args
 
 `ProjectCommandArguments` & TriggerIdArgument & (CreateFromFile \| Partial\<CreateFromArguments\>)
+
+##### Returns
+
+`Promise`\<`string`\>
+
+command output
+
+### version
+
+```ts
+version: object;
+```
+
+#### version.version()
+
+```ts
+version: () => Promise<string>;
+```
+
+`slack version`
 
 ##### Returns
 
