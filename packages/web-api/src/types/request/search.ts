@@ -14,11 +14,11 @@ interface Searchable extends OptionalTeamAssignable, SortDir {
 
 interface SearchMessagesCursorPagination {
   /**
-  * @description Paginate through collections of data by setting the `cursor` parameter to `*` for the first "page"
-  * or a `next_cursor` attribute returned by a previous request's `response_metadata`. 
-  * Use the `count` parameter to set the number of items to return per page rather than `limit`.
-  * @see {@link https://docs.slack.dev/apis/web-api/pagination pagination} for more detail.
-  */
+   * @description Paginate through collections of data by setting the `cursor` parameter to `*` for the first "page"
+   * or a `next_cursor` attribute returned by a previous request's `response_metadata`.
+   * Use the `count` parameter to set the number of items to return per page rather than `limit`.
+   * @see {@link https://docs.slack.dev/apis/web-api/pagination pagination} for more detail.
+   */
   cursor?: string;
 }
 
@@ -27,4 +27,8 @@ export interface SearchAllArguments extends TokenOverridable, TraditionalPagingE
 // https://docs.slack.dev/reference/methods/search.files
 export interface SearchFilesArguments extends TokenOverridable, TraditionalPagingEnabled, Searchable {}
 // https://docs.slack.dev/reference/methods/search.messages
-export interface SearchMessagesArguments extends TokenOverridable, TraditionalPagingEnabled, Searchable, SearchMessagesCursorPagination {}
+export interface SearchMessagesArguments
+  extends TokenOverridable,
+    TraditionalPagingEnabled,
+    Searchable,
+    SearchMessagesCursorPagination {}
