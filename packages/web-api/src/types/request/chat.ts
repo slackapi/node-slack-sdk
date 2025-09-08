@@ -230,32 +230,8 @@ export interface SourceAndUnfurlID {
 }
 type UnfurlTarget = ChannelAndTS | SourceAndUnfurlID;
 
-// `unfurls` param of the `chat.unfurl` API 
-type ChatUnfurlArgumentUnfurls = {
-  /**
-   * @description Object with keys set to URLs featured in the message, pointing to their unfurl
-   * blocks or message attachments.
-   */
-  unfurls: LinkUnfurls;
-};
-
-// `metadata` param of the `chat.unfurl` API 
-type ChatUnfurlArgumentMetadata = {
-  /**
-   * @description Array of entities to attach to the message based on URLs featured in the message.
-   */
-  metadata: {
-    entities: (EntityMetadata & {
-      /**
-       * @description The unfurl URL for the entity.
-       */
-      app_unfurl_url: string;
-    })[];
-  };
-};
-
 // https://api.slack.com/methods/chat.unfurl
-export type ChatUnfurlArguments = (ChatUnfurlArgumentUnfurls | ChatUnfurlArgumentMetadata) &
+export type ChatUnfurlArguments = (BlockKitUnfurls | EntityMetadataUnfurls) &
   UnfurlTarget &
   TokenOverridable & {
     /**
@@ -279,6 +255,30 @@ export type ChatUnfurlArguments = (ChatUnfurlArgumentUnfurls | ChatUnfurlArgumen
      */
     user_auth_blocks?: (KnownBlock | Block)[];
   };
+
+// `unfurls` param of the `chat.unfurl` API
+type BlockKitUnfurls = {
+  /**
+   * @description Object with keys set to URLs featured in the message, pointing to their unfurl
+   * blocks or message attachments.
+   */
+  unfurls: LinkUnfurls;
+};
+
+// `metadata` param of the `chat.unfurl` API
+type EntityMetadataUnfurls = {
+  /**
+   * @description Array of entities to attach to the message based on URLs featured in the message.
+   */
+  metadata: {
+    entities: (EntityMetadata & {
+      /**
+       * @description The unfurl URL for the entity.
+       */
+      app_unfurl_url: string;
+    })[];
+  };
+};
 
 // https://docs.slack.dev/reference/methods/chat.update
 export type ChatUpdateArguments = MessageContents & {
