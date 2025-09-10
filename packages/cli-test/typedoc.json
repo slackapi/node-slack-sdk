@@ -5,7 +5,7 @@
   "outputs": [
     {
       "name": "markdown",
-      "path": "../../docs/content/reference/cli-test"
+      "path": "../../docs/english/reference/cli-test"
     }
   ],
   "skipErrorChecking": true,

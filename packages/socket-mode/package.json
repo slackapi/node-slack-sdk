@@ -1,6 +1,6 @@
 {
   "name": "@slack/socket-mode",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Official library for using the Slack Platform's Socket Mode API",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "@slack/logger": "^4",
-    "@slack/web-api": "^7.9.1",
+    "@slack/web-api": "^7.10.0",
     "@types/node": ">=18",
     "@types/ws": "^8",
     "eventemitter3": "^5",
