@@ -27,6 +27,10 @@ export interface MessageMetadataEventPayloadObject {
   [key: string]: string | number | boolean;
 }
 
+export interface MessageMetadataEventPayloadAttributes {
+  [key: string]: string | number | boolean | MessageMetadataEventPayloadAttributes;
+}
+
 /**
  * @description Metadata that represents an entity.
  */
@@ -38,7 +42,19 @@ export interface EntityMetadata {
   /**
    * @description Schema for the given entity type.
    */
-  entity_payload: object;
+  entity_payload: {
+    // biome-ignore lint/complexity/noBannedTypes: Allow Object
+    attributes: Object;
+    // biome-ignore lint/complexity/noBannedTypes: Allow Object
+    fields?: Object;
+    // biome-ignore lint/complexity/noBannedTypes: Allow Object
+    custom_fields?: Object[];
+    // biome-ignore lint/complexity/noBannedTypes: Allow Object
+    slack_file?: Object;
+    display_order?: string[];
+    // biome-ignore lint/complexity/noBannedTypes: Allow Object
+    actions?: Object;
+  };
   /**
    * @description Reference (and optional type) used to identify an entity within the developer's system.
    */

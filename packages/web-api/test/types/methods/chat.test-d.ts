@@ -421,7 +421,11 @@ expectAssignable<Parameters<typeof web.chat.postMessage>>([
       entities: [
         {
           entity_type: 'slack#/entities/file',
-          entity_payload: {},
+          entity_payload: {
+            attributes: {}
+          },
+          external_ref: {id: ""},
+          url: ""
         },
       ],
     },
@@ -643,7 +647,11 @@ expectAssignable<Parameters<typeof web.chat.unfurl>>([
       entities: [
         {
           entity_type: 'slack#/entities/file',
-          entity_payload: {},
+          entity_payload: {
+            attributes: {}
+          },
+          external_ref: {id: ""},
+          url: "",
           app_unfurl_url: 'https://google.com',
         },
       ],

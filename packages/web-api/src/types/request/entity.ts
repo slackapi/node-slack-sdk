@@ -4,7 +4,7 @@ import type { TokenOverridable } from './common';
 // https://api.slack.com/methods/entity.presentDetails
 export type EntityPresentDetailsArguments = TokenOverridable & {
   /**
-   * @description Eentity metadata that will be presented in the flexpane.
+   * @description Entity metadata to be presented in the flexpane.
    * */
   metadata?: EntityMetadata;
   /**
@@ -24,9 +24,14 @@ export type EntityPresentDetailsArguments = TokenOverridable & {
   /** @description Error response preventing flexpane data from being returned. */
   error?: {
     // Error status indicating why the entity could not be presented.
-    // Accepted values: ["restricted", "internal_error", "not_found", "user_not_authed", "custom"]
     status: string;
-    // If status is 'custom', you can use this field to provide a specific message.
+    // If status is 'custom', you can use this field to provide a message to the client.
     custom_message?: string;
+    // String format, eg. 'markdown'.
+    message_format?: string;
+    // If status is 'custom', you can use this field to provide a title to the client.
+    custom_title?: string;
+    // Set of action buttons to be shown in case of a specific error.
+    actions?: Object[];
   };
 };
