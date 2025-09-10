@@ -4,6 +4,35 @@ import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
 
+// chat.appendStream
+// -- sad path
+expectError(web.chat.appendStream()); // lacking argument
+expectError(web.chat.appendStream({})); // empty argument
+expectError(
+  web.chat.appendStream({
+    channel: 'C1234', // missing ts
+  }),
+);
+expectError(
+  web.chat.appendStream({
+    ts: '1234.56', // missing channel
+  }),
+);
+expectError(
+  web.chat.appendStream({
+    channel: 'C1234',
+    ts: '1234.56', // missing markdown_text
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.chat.appendStream>>([
+  {
+    channel: 'C1234',
+    ts: '1234.56',
+    markdown_text: 'hello',
+  },
+]);
+
 // chat.delete
 // -- sad path
 expectError(web.chat.delete()); // lacking argument
@@ -554,6 +583,61 @@ expectAssignable<Parameters<typeof web.chat.scheduleMessage>>([
 // -- happy path
 expectAssignable<Parameters<typeof web.chat.scheduledMessages.list>>([{}]); // all optional args
 expectAssignable<Parameters<typeof web.chat.scheduledMessages.list>>([]); // no arg is fine
+
+// chat.startStream
+// -- sad path
+expectError(web.chat.startStream()); // lacking argument
+expectError(web.chat.startStream({})); // empty argument
+// -- happy path
+expectAssignable<Parameters<typeof web.chat.startStream>>([
+  {
+    channel: 'C1234',
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.startStream>>([
+  {
+    channel: 'C1234',
+    markdown_text: 'hello',
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.startStream>>([
+  {
+    channel: 'C1234',
+    markdown_text: 'hello',
+    unfurl_links: true,
+    unfurl_media: false,
+  },
+]);
+
+// chat.stopStream
+// -- sad path
+expectError(web.chat.stopStream()); // lacking argument
+expectError(web.chat.stopStream({})); // empty argument
+expectError(
+  web.chat.stopStream({
+    channel: 'C1234', // missing ts
+  }),
+);
+expectError(
+  web.chat.stopStream({
+    ts: '1234.56', // missing channel
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.chat.stopStream>>([
+  {
+    channel: 'C1234',
+    ts: '1234.56',
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.stopStream>>([
+  {
+    channel: 'C1234',
+    ts: '1234.56',
+    markdown_text: 'hello',
+    blocks: [],
+  },
+]);
 
 // chat.unfurl
 // -- sad path
