@@ -80,7 +80,7 @@ export interface WebClientOptions {
   /**
    * The base URL requests are sent to. Often unchanged, but might be set for testing techniques.
    *
-   * See {@link https://tools.slack.dev/node-slack-sdk/web-api/#custom-api-url} for more information.
+   * See {@link https://docs.slack.dev/tools/node-slack-sdk/web-api/#custom-api-url} for more information.
    * @default https://slack.com/api/
    */
   slackApiUrl?: string;
@@ -98,7 +98,7 @@ export interface WebClientOptions {
    * Determines if a dynamic method name being an absolute URL overrides the configured slackApiUrl.
    * When set to false, the URL used in Slack API requests will always begin with the slackApiUrl.
    *
-   * See {@link https://tools.slack.dev/node-slack-sdk/web-api#call-a-method} for more details.
+   * See {@link https://docs.slack.dev/tools/node-slack-sdk/web-api/#call-a-method} for more details.
    * See {@link https://github.com/axios/axios?tab=readme-ov-file#request-config} for more details.
    * @default true
    */
@@ -244,7 +244,7 @@ export class WebClient extends Methods {
    * Determines if a dynamic method name being an absolute URL overrides the configured slackApiUrl.
    * When set to false, the URL used in Slack API requests will always begin with the slackApiUrl.
    *
-   * See {@link https://tools.slack.dev/node-slack-sdk/web-api#call-a-method} for more details.
+   * See {@link https://docs.slack.dev/tools/node-slack-sdk/web-api/#call-a-method} for more details.
    * See {@link https://github.com/axios/axios?tab=readme-ov-file#request-config} for more details.
    * @default true
    */
