@@ -422,10 +422,10 @@ expectAssignable<Parameters<typeof web.chat.postMessage>>([
         {
           entity_type: 'slack#/entities/file',
           entity_payload: {
-            attributes: {}
+            attributes: {},
           },
-          external_ref: {id: ""},
-          url: ""
+          external_ref: { id: '' },
+          url: '',
         },
       ],
     },
@@ -646,13 +646,25 @@ expectAssignable<Parameters<typeof web.chat.unfurl>>([
     metadata: {
       entities: [
         {
-          entity_type: 'slack#/entities/file',
+          entity_type: 'slack#/entities/task',
           entity_payload: {
-            attributes: {}
+            attributes: {
+              title: {
+                text: 'Important task',
+              },
+            },
+            fields: {
+              status: {
+                value: 'All clear',
+              },
+              description: {
+                value: 'Details of the task.',
+              },
+            },
           },
-          external_ref: {id: ""},
-          url: "",
-          app_unfurl_url: 'https://google.com',
+          external_ref: { id: '1234' },
+          url: 'https://myappdomain.com/id/1234',
+          app_unfurl_url: 'https://myappdomain.com/id/1234?myquery=param',
         },
       ],
     },

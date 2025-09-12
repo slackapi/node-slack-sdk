@@ -32,6 +32,7 @@ export type EntityPresentDetailsArguments = TokenOverridable & {
     // If status is 'custom', you can use this field to provide a title to the client.
     custom_title?: string;
     // Set of action buttons to be shown in case of a specific error.
+    // biome-ignore lint/complexity/noBannedTypes: Allow Object
     actions?: Object[];
   };
 };
