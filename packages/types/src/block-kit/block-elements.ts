@@ -163,7 +163,7 @@ export interface FeedbackButtons extends Actionable {
      * @description The positive feedback button value.
      */
     value: string;
-  }
+  };
   /**
    * @description A button to indicate negative feedback.
    */
@@ -181,7 +181,7 @@ export interface FeedbackButtons extends Actionable {
      * @description The negative feedback button value.
      */
     value: string;
-  }
+  };
 }
 
 /**
