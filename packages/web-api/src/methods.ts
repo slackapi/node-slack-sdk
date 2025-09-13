@@ -129,6 +129,7 @@ import type {
   CanvasesDeleteArguments,
   CanvasesEditArguments,
   CanvasesSectionsLookupArguments,
+  ChatAppendStreamArguments,
   ChatDeleteArguments,
   ChatDeleteScheduledMessageArguments,
   ChatGetPermalinkArguments,
@@ -137,6 +138,8 @@ import type {
   ChatPostMessageArguments,
   ChatScheduledMessagesListArguments,
   ChatScheduleMessageArguments,
+  ChatStartStreamArguments,
+  ChatStopStreamArguments,
   ChatUnfurlArguments,
   ChatUpdateArguments,
   ConversationsAcceptSharedInviteArguments,
@@ -386,6 +389,7 @@ import type {
   CanvasesDeleteResponse,
   CanvasesEditResponse,
   CanvasesSectionsLookupResponse,
+  ChatAppendStreamResponse,
   ChatDeleteResponse,
   ChatDeleteScheduledMessageResponse,
   ChatGetPermalinkResponse,
@@ -394,6 +398,8 @@ import type {
   ChatPostMessageResponse,
   ChatScheduledMessagesListResponse,
   ChatScheduleMessageResponse,
+  ChatStartStreamResponse,
+  ChatStopStreamResponse,
   ChatUnfurlResponse,
   ChatUpdateResponse,
   ConversationsAcceptSharedInviteResponse,
@@ -1562,6 +1568,10 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly chat = {
     /**
+     * @description Adds content to an existing streaming message.
+     */
+    appendStream: bindApiCall<ChatAppendStreamArguments, ChatAppendStreamResponse>(this, 'chat.appendStream'),
+    /**
      * @description Deletes a message.
      * @see {@link https://docs.slack.dev/reference/methods/chat.delete `chat.delete` API reference}.
      */
@@ -1612,6 +1622,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         'chat.scheduledMessages.list',
       ),
     },
+    /**
+     * @description Initiates a new streaming message.
+     */
+    startStream: bindApiCall<ChatStartStreamArguments, ChatStartStreamResponse>(this, 'chat.startStream'),
+    /**
+     * @description Finalizes and completes the streaming message.
+     */
+    stopStream: bindApiCall<ChatStopStreamArguments, ChatStopStreamResponse>(this, 'chat.stopStream'),
     /**
      * @description Provide custom unfurl behavior for user-posted URLs.
      * @see {@link https://docs.slack.dev/reference/methods/chat.unfurl `chat.unfurl` API reference}.
