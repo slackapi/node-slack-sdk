@@ -232,11 +232,11 @@ export interface IconButton extends Actionable, Confirmable {
   /**
    * @description The button value.
    */
-  value: string;
+  value?: string;
   /**
    * @description User IDs for which the icon appears.
    */
-  visible_to_user_ids: string[];
+  visible_to_user_ids?: string[];
 }
 
 /**
