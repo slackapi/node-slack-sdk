@@ -217,6 +217,7 @@ export interface IconButton extends Actionable, Confirmable {
   type: 'icon_button';
   /**
    * @description The icon to show.
+   * @example trash
    */
   icon: string;
   /**
@@ -229,7 +230,7 @@ export interface IconButton extends Actionable, Confirmable {
    */
   accessibility_label?: string;
   /**
-   * @description The positive feedback button value.
+   * @description The button value.
    */
   value: string;
   /**
