@@ -154,7 +154,7 @@ export interface Unfurls {
   unfurl_media?: boolean;
 }
 
-export interface ChatAppendStreamArguments extends TokenOverridable, ChannelAndTS, MarkdownText {}
+export interface ChatAppendStreamArguments extends TokenOverridable, ChannelAndTS, Partial<MarkdownText> {}
 
 // https://docs.slack.dev/reference/methods/chat.delete
 export interface ChatDeleteArguments extends ChannelAndTS, AsUser, TokenOverridable {}
@@ -227,7 +227,8 @@ export interface ChatStartStreamArguments
 
 export type ChatStopStreamArguments = TokenOverridable &
   ChannelAndTS &
-  Partial<MarkdownText> & {
+  Partial<MarkdownText> &
+  Partial<Metadata> & {
     /**
      * Block formatted elements will be appended to the end of the message.
      */
