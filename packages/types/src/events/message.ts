@@ -68,6 +68,7 @@ export interface BotMessageEvent {
   event_ts: string;
   channel: string;
   channel_type: ChannelTypes;
+  streaming_state?: 'in_progress' | 'completed' | 'errored';
   ts: string;
   text: string;
   bot_id: string;
