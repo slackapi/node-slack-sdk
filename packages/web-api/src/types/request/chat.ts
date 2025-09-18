@@ -154,7 +154,7 @@ export interface Unfurls {
   unfurl_media?: boolean;
 }
 
-export interface ChatAppendStreamArguments extends TokenOverridable, ChannelAndTS, Partial<MarkdownText> {}
+export interface ChatAppendStreamArguments extends TokenOverridable, ChannelAndTS, MarkdownText {}
 
 // https://docs.slack.dev/reference/methods/chat.delete
 export interface ChatDeleteArguments extends ChannelAndTS, AsUser, TokenOverridable {}
