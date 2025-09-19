@@ -1568,7 +1568,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly chat = {
     /**
-     * @description Adds content to an existing streaming message.
+     * @description Appends text to an existing streaming conversation.
      */
     appendStream: bindApiCall<ChatAppendStreamArguments, ChatAppendStreamResponse>(this, 'chat.appendStream'),
     /**
@@ -1623,11 +1623,11 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
       ),
     },
     /**
-     * @description Initiates a new streaming message.
+     * @description Starts a new streaming conversation.
      */
     startStream: bindApiCall<ChatStartStreamArguments, ChatStartStreamResponse>(this, 'chat.startStream'),
     /**
-     * @description Finalizes and completes the streaming message.
+     * @description Stops a streaming conversation.
      */
     stopStream: bindApiCall<ChatStopStreamArguments, ChatStopStreamResponse>(this, 'chat.stopStream'),
     /**

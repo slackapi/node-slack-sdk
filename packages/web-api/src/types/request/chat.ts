@@ -227,7 +227,8 @@ export interface ChatStartStreamArguments
 
 export type ChatStopStreamArguments = TokenOverridable &
   ChannelAndTS &
-  Partial<MarkdownText> & {
+  Partial<MarkdownText> &
+  Partial<Metadata> & {
     /**
      * Block formatted elements will be appended to the end of the message.
      */

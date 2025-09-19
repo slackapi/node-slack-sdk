@@ -10,18 +10,18 @@ expectError(web.chat.appendStream()); // lacking argument
 expectError(web.chat.appendStream({})); // empty argument
 expectError(
   web.chat.appendStream({
-    channel: 'C1234', // missing ts
+    channel: 'C1234', // missing ts and markdown_text
   }),
 );
 expectError(
   web.chat.appendStream({
-    ts: '1234.56', // missing channel
+    ts: '1234.56', // missing channel and markdown_text
   }),
 );
 expectError(
   web.chat.appendStream({
-    channel: 'C1234',
-    ts: '1234.56', // missing markdown_text
+    channel: 'C1234', // missing_markdown_text
+    ts: '1234.56',
   }),
 );
 // -- happy path
