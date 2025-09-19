@@ -5,7 +5,9 @@ import type {
   Datepicker,
   DateTimepicker,
   EmailInput,
+  FeedbackButtons,
   FileInput,
+  IconButton,
   ImageElement,
   MultiSelect,
   NumberInput,
@@ -46,6 +48,7 @@ export interface Block {
 export type KnownBlock =
   | ActionsBlock
   | ContextBlock
+  | ContextActionsBlock
   | DividerBlock
   | FileBlock
   | HeaderBlock
@@ -115,6 +118,25 @@ export interface ContextBlock extends Block {
    * Maximum number of items is 10.
    */
   elements: ContextBlockElement[]; // TODO: breaking change: min 1 item
+}
+
+/**
+ * A helper union type of all Block Elements that can be used in a {@link ContextActionsBlock}.
+ */
+export type ContextActionsBlockElement = FeedbackButtons | IconButton;
+
+/**
+ * @description Displays actions as contextual info, which can include both feedback and icons.
+ */
+export interface ContextActionsBlock extends Block {
+  /**
+   * @description The type of block. For a context actions block, `type` is always `context_actions`.
+   */
+  type: 'context_actions';
+  /**
+   * @description An array of {@link FeedbackButtons} or {@link IconButtons} objects.
+   */
+  elements: ContextActionsBlockElement[];
 }
 
 /**
