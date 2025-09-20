@@ -134,7 +134,7 @@ export interface ContextActionsBlock extends Block {
    */
   type: 'context_actions';
   /**
-   * @description An array of {@link FeedbackButtons} or {@link IconButton} block elements. Maximum 5.
+   * @description An array of {@link FeedbackButtons} or {@link IconButton} block elements. Maximum number of items is 5.
    */
   elements: ContextActionsBlockElement[];
 }
