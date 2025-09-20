@@ -126,7 +126,7 @@ export interface ContextBlock extends Block {
 export type ContextActionsBlockElement = FeedbackButtons | IconButton;
 
 /**
- * @description Displays actions as contextual info, which can include both feedback buttons or icon buttons.
+ * @description Displays actions as contextual info, which can include both feedback buttons and icon buttons.
  */
 export interface ContextActionsBlock extends Block {
   /**
