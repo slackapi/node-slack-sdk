@@ -134,7 +134,7 @@ export interface ContextActionsBlock extends Block {
    */
   type: 'context_actions';
   /**
-   * @description An array of {@link FeedbackButtons} or {@link IconButton} objects.
+   * @description An array of {@link FeedbackButtons} or {@link IconButton} block elements.
    */
   elements: ContextActionsBlockElement[];
 }
