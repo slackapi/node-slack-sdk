@@ -1,5 +1,7 @@
 import { expectAssignable, expectError } from 'tsd';
 import { WebClient } from '../../../src/WebClient';
+import type { WebAPICallResult } from '../../../src/WebClient';
+import type { FilesCompleteUploadExternalResponse } from '../../../src/types/response/FilesCompleteUploadExternalResponse';
 
 const web = new WebClient('TOKEN');
 
@@ -177,6 +179,9 @@ expectAssignable<Parameters<typeof web.files.uploadV2>>([
     content: 'text',
   },
 ]);
+expectAssignable<Promise<WebAPICallResult & { files: FilesCompleteUploadExternalResponse[] }>>(
+  web.files.uploadV2({ content: 'text' }),
+);
 
 // files.comments.delete
 // -- sad path
