@@ -16,7 +16,7 @@ type RichTextElement =
   | RichTextUsergroupMention;
 ```
 
-Defined in: [block-kit/block-elements.ts:875](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L875)
+Defined in: [block-kit/block-elements.ts:953](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L953)
 
 ## Description
 

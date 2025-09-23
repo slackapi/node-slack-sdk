@@ -10,7 +10,7 @@ type RichTextBlockElement =
   | RichTextPreformatted;
 ```
 
-Defined in: [block-kit/blocks.ts:270](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L270)
+Defined in: [block-kit/blocks.ts:292](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L292)
 
 A helper union type of all Block Elements that can be used in a [RichTextBlock](../interfaces/RichTextBlock.md).
 

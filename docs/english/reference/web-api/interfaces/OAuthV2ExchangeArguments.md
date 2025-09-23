@@ -24,7 +24,9 @@ Issued when you created your application.
 
 #### Inherited from
 
-[`OAuthAccessArguments`](OAuthAccessArguments.md).[`client_id`](OAuthAccessArguments.md#client_id)
+```ts
+Pick.client_id
+```
 
 ***
 
@@ -42,7 +44,9 @@ Issued when you created your application.
 
 #### Inherited from
 
-[`OAuthAccessArguments`](OAuthAccessArguments.md).[`client_secret`](OAuthAccessArguments.md#client_secret)
+```ts
+Pick.client_secret
+```
 
 ***
 
