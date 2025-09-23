@@ -2,7 +2,7 @@
 
 # Interface: URLInput
 
-Defined in: [block-kit/block-elements.ts:612](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L612)
+Defined in: [block-kit/block-elements.ts:690](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L690)
 
 ## Description
 
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_value: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:620](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L620)
+Defined in: [block-kit/block-elements.ts:698](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L698)
 
 #### Description
 
@@ -115,7 +115,7 @@ length for the `text` field in this object is 150 characters.
 type: "url_text_input";
 ```
 
-Defined in: [block-kit/block-elements.ts:616](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L616)
+Defined in: [block-kit/block-elements.ts:694](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L694)
 
 #### Description
 

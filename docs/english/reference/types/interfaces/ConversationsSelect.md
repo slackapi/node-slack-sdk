@@ -2,7 +2,7 @@
 
 # Interface: ConversationsSelect
 
-Defined in: [block-kit/block-elements.ts:327](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L327)
+Defined in: [block-kit/block-elements.ts:405](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L405)
 
 ## Description
 
@@ -63,7 +63,7 @@ with.
 optional default_to_current_conversation: boolean;
 ```
 
-Defined in: [block-kit/block-elements.ts:341](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L341)
+Defined in: [block-kit/block-elements.ts:419](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L419)
 
 #### Description
 
@@ -78,7 +78,7 @@ modal, if available. Default is `false`.
 optional filter: object;
 ```
 
-Defined in: [block-kit/block-elements.ts:345](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L345)
+Defined in: [block-kit/block-elements.ts:423](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L423)
 
 #### exclude\_bot\_users?
 
@@ -130,7 +130,7 @@ Defaults to `false`.
 optional initial_conversation: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:336](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L336)
+Defined in: [block-kit/block-elements.ts:414](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L414)
 
 #### Description
 
@@ -185,7 +185,7 @@ for the message will be determined by the value of this select menu.
 type: "conversations_select";
 ```
 
-Defined in: [block-kit/block-elements.ts:331](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L331)
+Defined in: [block-kit/block-elements.ts:409](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L409)
 
 #### Description
 

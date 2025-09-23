@@ -1,4 +1,4 @@
-# @slack/web-api v7.10.0
+# @slack/web-api v7.10.0-aiAppsBeta.2
 
 ## Enumerations
 
@@ -154,10 +154,12 @@
 - [ChannelUnarchiveEvent](interfaces/ChannelUnarchiveEvent.md)
 - [ChannelUnarchiveMessageEvent](interfaces/ChannelUnarchiveMessageEvent.md)
 - [ChannelUnsharedEvent](interfaces/ChannelUnsharedEvent.md)
+- [ChatAppendStreamArguments](interfaces/ChatAppendStreamArguments.md)
 - [ChatDeleteArguments](interfaces/ChatDeleteArguments.md)
 - [ChatDeleteScheduledMessageArguments](interfaces/ChatDeleteScheduledMessageArguments.md)
 - [ChatGetPermalinkArguments](interfaces/ChatGetPermalinkArguments.md)
 - [ChatMeMessageArguments](interfaces/ChatMeMessageArguments.md)
+- [ChatStartStreamArguments](interfaces/ChatStartStreamArguments.md)
 - [Checkboxes](interfaces/Checkboxes.md)
 - [CodedError](interfaces/CodedError.md)
 - [~~Confirm~~](interfaces/Confirm.md)
@@ -578,6 +580,7 @@
 - [ChannelsSetPurposeResponse](type-aliases/ChannelsSetPurposeResponse.md)
 - [ChannelsSetTopicResponse](type-aliases/ChannelsSetTopicResponse.md)
 - [ChannelsUnarchiveResponse](type-aliases/ChannelsUnarchiveResponse.md)
+- [ChatAppendStreamResponse](type-aliases/ChatAppendStreamResponse.md)
 - [ChatDeleteResponse](type-aliases/ChatDeleteResponse.md)
 - [ChatDeleteScheduledMessageResponse](type-aliases/ChatDeleteScheduledMessageResponse.md)
 - [ChatGetPermalinkResponse](type-aliases/ChatGetPermalinkResponse.md)
@@ -590,6 +593,9 @@
 - [ChatScheduledMessagesListResponse](type-aliases/ChatScheduledMessagesListResponse.md)
 - [ChatScheduleMessageArguments](type-aliases/ChatScheduleMessageArguments.md)
 - [ChatScheduleMessageResponse](type-aliases/ChatScheduleMessageResponse.md)
+- [ChatStartStreamResponse](type-aliases/ChatStartStreamResponse.md)
+- [ChatStopStreamArguments](type-aliases/ChatStopStreamArguments.md)
+- [ChatStopStreamResponse](type-aliases/ChatStopStreamResponse.md)
 - [ChatUnfurlArguments](type-aliases/ChatUnfurlArguments.md)
 - [ChatUnfurlResponse](type-aliases/ChatUnfurlResponse.md)
 - [ChatUpdateArguments](type-aliases/ChatUpdateArguments.md)
