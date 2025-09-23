@@ -126,7 +126,7 @@ export interface ContextBlock extends Block {
 export type ContextActionsBlockElement = FeedbackButtons | IconButton;
 
 /**
- * @description Displays actions as contextual info, which can include both feedback and icons.
+ * @description Displays actions as contextual info, which can include both feedback buttons and icon buttons.
  */
 export interface ContextActionsBlock extends Block {
   /**
@@ -134,7 +134,7 @@ export interface ContextActionsBlock extends Block {
    */
   type: 'context_actions';
   /**
-   * @description An array of {@link FeedbackButtons} or {@link IconButtons} objects.
+   * @description An array of {@link FeedbackButtons} or {@link IconButton} block elements. Maximum number of items is 5.
    */
   elements: ContextActionsBlockElement[];
 }
