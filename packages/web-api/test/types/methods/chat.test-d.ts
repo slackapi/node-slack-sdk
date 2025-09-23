@@ -608,6 +608,16 @@ expectAssignable<Parameters<typeof web.chat.startStream>>([
     unfurl_media: false,
   },
 ]);
+expectAssignable<Parameters<typeof web.chat.startStream>>([
+  {
+    channel: 'C1234',
+    markdown_text: 'hello',
+    unfurl_links: true,
+    unfurl_media: false,
+    recipient_team_id: 'T1234',
+    recipient_user_id: 'U1234',
+  },
+]);
 
 // chat.stopStream
 // -- sad path

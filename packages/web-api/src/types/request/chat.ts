@@ -223,7 +223,17 @@ export interface ChatStartStreamArguments
     Channel,
     Partial<ThreadTS>,
     Partial<MarkdownText>,
-    Unfurls {}
+    Unfurls {
+  /**
+   * @description The ID of the team that is associated with `recipient_user_id`
+   * to receive the streaming conversation messages.
+   */
+  recipient_team_id?: string;
+  /**
+   * @description The ID of the user to receive the streaming conversation messages.
+   */
+  recipient_user_id?: string;
+}
 
 export type ChatStopStreamArguments = TokenOverridable &
   ChannelAndTS &
