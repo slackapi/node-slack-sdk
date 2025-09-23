@@ -2,7 +2,7 @@
 
 # Interface: UsersSelect
 
-Defined in: [block-kit/block-elements.ts:219](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L219)
+Defined in: [block-kit/block-elements.ts:297](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L297)
 
 ## Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_user: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:227](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L227)
+Defined in: [block-kit/block-elements.ts:305](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L305)
 
 #### Description
 
@@ -116,7 +116,7 @@ length for the `text` field in this object is 150 characters.
 type: "users_select";
 ```
 
-Defined in: [block-kit/block-elements.ts:223](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L223)
+Defined in: [block-kit/block-elements.ts:301](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L301)
 
 #### Description
 

@@ -1,4 +1,4 @@
-# @slack/types v2.16.0
+# @slack/types v2.16.0-aiAppsBeta.1
 
 ## Interfaces
 
@@ -45,6 +45,7 @@
 - [Confirmable](interfaces/Confirmable.md)
 - [Confirmation](interfaces/Confirmation.md)
 - [ConfirmationDialog](interfaces/ConfirmationDialog.md)
+- [ContextActionsBlock](interfaces/ContextActionsBlock.md)
 - [ContextBlock](interfaces/ContextBlock.md)
 - [ConversationsSelect](interfaces/ConversationsSelect.md)
 - [Datepicker](interfaces/Datepicker.md)
@@ -60,6 +61,7 @@
 - [EmailInput](interfaces/EmailInput.md)
 - [EmojiChangedEvent](interfaces/EmojiChangedEvent.md)
 - [ExternalSelect](interfaces/ExternalSelect.md)
+- [FeedbackButtons](interfaces/FeedbackButtons.md)
 - [FileBlock](interfaces/FileBlock.md)
 - [FileChangeEvent](interfaces/FileChangeEvent.md)
 - [FileCommentDeletedEvent](interfaces/FileCommentDeletedEvent.md)
@@ -85,6 +87,7 @@
 - [GroupUnarchiveEvent](interfaces/GroupUnarchiveEvent.md)
 - [HeaderBlock](interfaces/HeaderBlock.md)
 - [HomeView](interfaces/HomeView.md)
+- [IconButton](interfaces/IconButton.md)
 - [IMCloseEvent](interfaces/IMCloseEvent.md)
 - [IMCreatedEvent](interfaces/IMCreatedEvent.md)
 - [IMHistoryChangedEvent](interfaces/IMHistoryChangedEvent.md)
@@ -195,6 +198,7 @@
 - [AnyBlock](type-aliases/AnyBlock.md)
 - [CallUser](type-aliases/CallUser.md)
 - [ColorScheme](type-aliases/ColorScheme.md)
+- [ContextActionsBlockElement](type-aliases/ContextActionsBlockElement.md)
 - [ContextBlockElement](type-aliases/ContextBlockElement.md)
 - [ConversationFilter](type-aliases/ConversationFilter.md)
 - [ConversationType](type-aliases/ConversationType.md)

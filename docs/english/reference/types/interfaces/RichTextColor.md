@@ -2,7 +2,7 @@
 
 # Interface: RichTextColor
 
-Defined in: [block-kit/block-elements.ts:701](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L701)
+Defined in: [block-kit/block-elements.ts:779](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L779)
 
 ## Description
 
@@ -78,7 +78,7 @@ A limited style object for styling rich text `text` elements.
 type: "color";
 ```
 
-Defined in: [block-kit/block-elements.ts:705](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L705)
+Defined in: [block-kit/block-elements.ts:783](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L783)
 
 #### Description
 
@@ -92,7 +92,7 @@ The type of element. In this case `type` is always `color`.
 value: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:709](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L709)
+Defined in: [block-kit/block-elements.ts:787](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L787)
 
 #### Description
 

@@ -24,7 +24,9 @@ An array of channel IDs (must include at least one ID).
 
 #### Inherited from
 
-[`AdminConversationsBulkArchiveArguments`](AdminConversationsBulkArchiveArguments.md).[`channel_ids`](AdminConversationsBulkArchiveArguments.md#channel_ids)
+```ts
+Partial.channel_ids
+```
 
 ***
 

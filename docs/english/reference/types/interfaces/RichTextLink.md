@@ -2,7 +2,7 @@
 
 # Interface: RichTextLink
 
-Defined in: [block-kit/block-elements.ts:797](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L797)
+Defined in: [block-kit/block-elements.ts:875](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L875)
 
 ## Description
 
@@ -78,7 +78,7 @@ A limited style object for styling rich text `text` elements.
 optional text: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:805](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L805)
+Defined in: [block-kit/block-elements.ts:883](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L883)
 
 #### Description
 
@@ -92,7 +92,7 @@ The text to link.
 type: "link";
 ```
 
-Defined in: [block-kit/block-elements.ts:801](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L801)
+Defined in: [block-kit/block-elements.ts:879](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L879)
 
 #### Description
 
@@ -106,7 +106,7 @@ The type of element. In this case `type` is always `link`.
 optional unsafe: boolean;
 ```
 
-Defined in: [block-kit/block-elements.ts:809](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L809)
+Defined in: [block-kit/block-elements.ts:887](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L887)
 
 #### Description
 
@@ -120,7 +120,7 @@ TODO: ?
 url: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:813](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L813)
+Defined in: [block-kit/block-elements.ts:891](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L891)
 
 #### Description
 
