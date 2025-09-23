@@ -223,7 +223,18 @@ export interface ChatStartStreamArguments
     Channel,
     Partial<ThreadTS>,
     Partial<MarkdownText>,
-    Unfurls {}
+    Unfurls {
+  /**
+   * @description The ID of the team that is associated with `recipient_user_id`.
+   * This is required when starting a streaming conversation outside of a DM.
+   */
+  recipient_team_id?: string;
+  /**
+   * @description The ID of the user to receive the streaming conversation messages.
+   * This is required when starting a streaming conversation outside of a DM.
+   */
+  recipient_user_id?: string;
+}
 
 export type ChatStopStreamArguments = TokenOverridable &
   ChannelAndTS &
