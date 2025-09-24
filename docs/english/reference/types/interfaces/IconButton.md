@@ -113,7 +113,7 @@ Defined in: [block-kit/block-elements.ts:217](https://github.com/slackapi/node-s
 
 #### Description
 
-The type of element. In this case `type` is always `file_input`.
+The type of element. In this case `type` is always `icon_button`.
 
 #### Overrides
 

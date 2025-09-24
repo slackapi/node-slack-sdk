@@ -1,6 +1,6 @@
 [@slack/types](../index.md) / Action
 
-# Interface: ~~Action~~
+# ~~Interface: Action~~
 
 Defined in: [block-kit/extensions.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L8)
 

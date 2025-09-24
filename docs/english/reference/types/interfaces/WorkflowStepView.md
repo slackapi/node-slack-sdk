@@ -1,6 +1,6 @@
 [@slack/types](../index.md) / WorkflowStepView
 
-# Interface: ~~WorkflowStepView~~
+# ~~Interface: WorkflowStepView~~
 
 Defined in: [views.ts:67](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/views.ts#L67)
 

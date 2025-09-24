@@ -1,4 +1,4 @@
-# @slack/types v2.16.0-aiAppsBeta.1
+# @slack/types v2.16.0-aiAppsBeta.2
 
 ## Interfaces
 
