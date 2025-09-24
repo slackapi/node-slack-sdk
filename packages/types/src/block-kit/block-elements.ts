@@ -212,7 +212,7 @@ export interface FileInput extends Actionable {
  */
 export interface IconButton extends Actionable, Confirmable {
   /**
-   * @description The type of element. In this case `type` is always `file_input`.
+   * @description The type of element. In this case `type` is always `icon_button`.
    */
   type: 'icon_button';
   /**
