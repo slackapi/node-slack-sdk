@@ -17,7 +17,7 @@ import isElectron from 'is-electron';
 import isStream from 'is-stream';
 import pQueue from 'p-queue';
 import pRetry, { AbortError } from 'p-retry';
-
+import ChatStreamer from './chat-stream';
 import {
   httpErrorFromResponse,
   platformErrorFromResult,
@@ -35,8 +35,8 @@ import { getUserAgent } from './instrument';
 import { getLogger, type Logger, LogLevel } from './logger';
 import { Methods } from './methods';
 import { type RetryOptions, tenRetriesInAboutThirtyMinutes } from './retry-policies';
+import type { ChatStartStreamArguments } from './types/request';
 import type { CursorPaginationEnabled } from './types/request/common';
-
 import type {
   FilesCompleteUploadExternalArguments,
   FilesGetUploadURLExternalArguments,
@@ -508,6 +508,36 @@ export class WebClient extends Methods {
       }
       return accumulator;
     })();
+  }
+
+  /**
+   * Stream markdown text into a conversation.
+   *
+   * @description The "stream" method starts a new chat stream in a coversation that can be appended to. After appending an entire message, the stream can be stopped with concluding arguments such as "blocks" for gathering feedback.
+   *
+   * @example
+   * const streamer = await client.stream({
+   *   channel: "C0123456789",
+   *   thread_ts: "1700000001.123456",
+   *   recipient_team_id: "T0123456789",
+   *   recipient_user_id: "U0123456789",
+   * });
+   * await streamer.append({
+   *   markdown_text: "**hello wo",
+   * });
+   * await streamer.append({
+   *   markdown_text: "rld!**",
+   * });
+   * await streamer.stop();
+   *
+   * @see {@link https://docs.slack.dev/reference/methods/chat.startStream}
+   * @see {@link https://docs.slack.dev/reference/methods/chat.appendStream}
+   * @see {@link https://docs.slack.dev/reference/methods/chat.stopStream}
+   */
+  public async stream(params: ChatStartStreamArguments): Promise<ChatStreamer> {
+    const streamer = new ChatStreamer(this);
+    await streamer.start(params);
+    return streamer;
   }
 
   /**
