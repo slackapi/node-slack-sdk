@@ -82,7 +82,7 @@ export default class ChatStreamer {
       ...params,
     });
     if (!response.ts) {
-      throw new Error('failed to start stream: ' + response.error);
+      throw new Error(`failed to start stream: ${response.error}`);
     }
     this.channel = params.channel;
     this.state = 'in_progress';
