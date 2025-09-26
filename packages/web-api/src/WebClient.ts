@@ -513,10 +513,10 @@ export class WebClient extends Methods {
   /**
    * Stream markdown text into a conversation.
    *
-   * @description The "stream" method starts a new chat stream in a coversation that can be appended to. After appending an entire message, the stream can be stopped with concluding arguments such as "blocks" for gathering feedback.
+   * @description The "chatStream" method starts a new chat stream in a coversation that can be appended to. After appending an entire message, the stream can be stopped with concluding arguments such as "blocks" for gathering feedback.
    *
    * @example
-   * const streamer = await client.stream({
+   * const streamer = await client.chatStream({
    *   channel: "C0123456789",
    *   thread_ts: "1700000001.123456",
    *   recipient_team_id: "T0123456789",
@@ -534,7 +534,7 @@ export class WebClient extends Methods {
    * @see {@link https://docs.slack.dev/reference/methods/chat.appendStream}
    * @see {@link https://docs.slack.dev/reference/methods/chat.stopStream}
    */
-  public async stream(params: ChatStartStreamArguments): Promise<ChatStreamer> {
+  public async chatStream(params: ChatStartStreamArguments): Promise<ChatStreamer> {
     const streamer = new ChatStreamer(this);
     await streamer.start(params);
     return streamer;

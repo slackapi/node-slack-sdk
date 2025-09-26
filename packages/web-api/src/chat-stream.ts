@@ -43,9 +43,9 @@ export default class ChatStreamer {
   /**
    * Start a new stream.
    *
-   * @description The "start" method starts a new chat stream unique to a {@link ChatStreamer} being used. This method can be called once. If the chat stream was created with the {@link WebClient#stream} method this method should not be called because the stream is started already.
+   * @description The "start" method starts a new chat stream unique to a {@link ChatStreamer} being used. This method can be called once. If the chat stream was created with the {@link WebClient#chatStream} method this method should not be called because the stream is started already.
    * @example
-   * const streamer = await client.stream({
+   * const streamer = await client.chatStream({
    *   channel: "C0123456789",
    *   thread_ts: "1700000001.123456",
    *   recipient_team_id: "T0123456789",
