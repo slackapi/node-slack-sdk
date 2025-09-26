@@ -1,5 +1,6 @@
 import type {
   Block, // TODO: these will be combined into one in a new types release
+  EntityMetadata,
   KnownBlock,
   LinkUnfurls,
   MessageAttachment,
@@ -229,14 +230,9 @@ export interface SourceAndUnfurlID {
 }
 type UnfurlTarget = ChannelAndTS | SourceAndUnfurlID;
 
-// https://docs.slack.dev/reference/methods/chat.unfurl
-export type ChatUnfurlArguments = {
-  /**
-   * @description URL-encoded JSON map with keys set to URLs featured in the the message, pointing to their unfurl
-   * blocks or message attachments.
-   */
-  unfurls: LinkUnfurls;
-} & UnfurlTarget &
+// https://api.slack.com/methods/chat.unfurl
+export type ChatUnfurlArguments = (BlockKitUnfurls | EntityMetadataUnfurls) &
+  UnfurlTarget &
   TokenOverridable & {
     /**
      * @description Provide a simply-formatted string to send as an ephemeral message to the user as invitation to
@@ -259,6 +255,30 @@ export type ChatUnfurlArguments = {
      */
     user_auth_blocks?: (KnownBlock | Block)[];
   };
+
+// `unfurls` param of the `chat.unfurl` API
+type BlockKitUnfurls = {
+  /**
+   * @description Object with keys set to URLs featured in the message, pointing to their unfurl
+   * blocks or message attachments.
+   */
+  unfurls: LinkUnfurls;
+};
+
+// `metadata` param of the `chat.unfurl` API
+type EntityMetadataUnfurls = {
+  /**
+   * @description Array of entities to attach to the message based on URLs featured in the message.
+   */
+  metadata: {
+    entities: (EntityMetadata & {
+      /**
+       * @description The unfurl URL for the entity.
+       */
+      app_unfurl_url: string;
+    })[];
+  };
+};
 
 // https://docs.slack.dev/reference/methods/chat.update
 export type ChatUpdateArguments = MessageContents & {

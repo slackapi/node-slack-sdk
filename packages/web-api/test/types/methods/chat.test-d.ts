@@ -412,6 +412,25 @@ expectAssignable<Parameters<typeof web.chat.postMessage>>([
     reply_broadcast: false, // can send a threaded message and explicitly not broadcast it
   },
 ]);
+expectAssignable<Parameters<typeof web.chat.postMessage>>([
+  {
+    channel: 'C1234',
+    text: 'hello',
+    thread_ts: '1234.56',
+    metadata: {
+      entities: [
+        {
+          entity_type: 'slack#/entities/file',
+          entity_payload: {
+            attributes: {},
+          },
+          external_ref: { id: '' },
+          url: '',
+        },
+      ],
+    },
+  },
+]);
 // adding a test for when `reply_broadcast` specific boolean value is not known ahead of time
 // https://github.com/slackapi/node-slack-sdk/issues/1859
 function wideBooleanTest(b: boolean) {
@@ -566,7 +585,7 @@ expectError(
 );
 expectError(
   web.chat.unfurl({
-    channel: 'C1234', // missing unfurls
+    channel: 'C1234', // missing both unfurls and metadata
     ts: '1234.56',
   }),
 );
@@ -618,6 +637,37 @@ expectAssignable<Parameters<typeof web.chat.unfurl>>([
     unfurls: {},
     channel: 'C1234',
     ts: '1234.56',
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.unfurl>>([
+  {
+    channel: 'C1234',
+    ts: '1234.56',
+    metadata: {
+      entities: [
+        {
+          entity_type: 'slack#/entities/task',
+          entity_payload: {
+            attributes: {
+              title: {
+                text: 'Important task',
+              },
+            },
+            fields: {
+              status: {
+                value: 'All clear',
+              },
+              description: {
+                value: 'Details of the task.',
+              },
+            },
+          },
+          external_ref: { id: '1234' },
+          url: 'https://myappdomain.com/id/1234',
+          app_unfurl_url: 'https://myappdomain.com/id/1234?myquery=param',
+        },
+      ],
+    },
   },
 ]);
 
