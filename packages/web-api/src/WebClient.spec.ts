@@ -1214,6 +1214,159 @@ describe('WebClient', () => {
     });
   });
 
+  describe('chatStream', () => {
+    it('streams a short message', async () => {
+      const scope = nock('https://slack.com')
+        .post('/api/chat.startStream', {
+          channel: 'C0123456789',
+          thread_ts: '123.000',
+          recipient_team_id: 'T0123456789',
+          recipient_user_id: 'U0123456789',
+        })
+        .reply(200, {
+          ok: true,
+          ts: '123.123',
+        })
+        .post('/api/chat.stopStream', { channel: 'C0123456789', ts: '123.123', markdown_text: 'nice!' })
+        .reply(200, {
+          ok: true,
+        });
+      const streamer = client.chatStream({
+        channel: 'C0123456789',
+        thread_ts: '123.000',
+        recipient_team_id: 'T0123456789',
+        recipient_user_id: 'U0123456789',
+      });
+      await streamer.append({
+        markdown_text: 'nice!',
+      });
+      await streamer.stop();
+      scope.done();
+    });
+
+    it('streams a long message', async () => {
+      const scope = nock('https://slack.com')
+        .post('/api/chat.startStream', {
+          channel: 'C0123456789',
+          markdown_text: '**this messag',
+          recipient_team_id: 'T0123456789',
+          recipient_user_id: 'U0123456789',
+          thread_ts: '123.000',
+        })
+        .reply(200, {
+          ok: true,
+          ts: '123.123',
+        })
+        .post('/api/chat.appendStream', {
+          channel: 'C0123456789',
+          markdown_text: 'e is bold!',
+          token: 'xoxb-updated-1',
+          ts: '123.123',
+        })
+        .reply(200, {
+          ok: true,
+        })
+        .post('/api/chat.stopStream', {
+          channel: 'C0123456789',
+          markdown_text: '**',
+          token: 'xoxb-updated-2',
+          ts: '123.123',
+        })
+        .reply(200, {
+          ok: true,
+        });
+      const streamer = client.chatStream({
+        buffer_size: 5,
+        channel: 'C0123456789',
+        recipient_team_id: 'T0123456789',
+        recipient_user_id: 'U0123456789',
+        thread_ts: '123.000',
+      });
+      await streamer.append({
+        markdown_text: '**this messag',
+      });
+      await streamer.append({
+        markdown_text: 'e is',
+        token: 'xoxb-updated-1',
+      });
+      await streamer.append({
+        markdown_text: ' bold!',
+      });
+      await streamer.append({
+        markdown_text: '*',
+      });
+      await streamer.stop({
+        markdown_text: '*',
+        token: 'xoxb-updated-2',
+      });
+      scope.done();
+    });
+
+    it('errors when appending to an unstarted stream', async () => {
+      const scope = nock('https://slack.com')
+        .post('/api/chat.startStream', {
+          channel: 'U0123456789',
+          thread_ts: '123.000',
+        })
+        .reply(200, {
+          ok: true,
+          ts: undefined,
+        });
+      const streamer = client.chatStream({
+        channel: 'U0123456789',
+        thread_ts: '123.000',
+      });
+      try {
+        await streamer.stop();
+        assert.fail();
+      } catch (error) {
+        assert.equal((error as Error).message, 'failed to stop stream: stream not started');
+      }
+      scope.done();
+    });
+
+    it('errors when appending to a completed stream', async () => {
+      const scope = nock('https://slack.com')
+        .post('/api/chat.startStream', {
+          channel: 'C0123456789',
+          thread_ts: '123.000',
+          recipient_team_id: 'T0123456789',
+          recipient_user_id: 'U0123456789',
+        })
+        .reply(200, {
+          ok: true,
+          ts: '123.123',
+        })
+        .post('/api/chat.stopStream', { channel: 'C0123456789', ts: '123.123', markdown_text: 'nice!' })
+        .reply(200, {
+          ok: true,
+        });
+      const streamer = client.chatStream({
+        channel: 'C0123456789',
+        thread_ts: '123.000',
+        recipient_team_id: 'T0123456789',
+        recipient_user_id: 'U0123456789',
+      });
+      await streamer.append({
+        markdown_text: 'nice!',
+      });
+      await streamer.stop();
+      try {
+        await streamer.append({ markdown_text: 'more...' });
+        assert.fail();
+      } catch (error) {
+        assert.equal((error as Error).message, 'failed to append stream: stream state is completed');
+      }
+      try {
+        await streamer.stop();
+        assert.fail();
+      } catch (error) {
+        assert.equal((error as Error).message, 'failed to stop stream: stream state is completed');
+      }
+      scope.done();
+    });
+  });
+
   describe('filesUploadV2', () => {
     it('uploads a single file', async () => {
       const scope = nock('https://slack.com')
