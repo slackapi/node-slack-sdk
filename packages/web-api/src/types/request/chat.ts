@@ -218,12 +218,7 @@ export type ChatScheduledMessagesListArguments = OptionalArgument<
     Partial<Channel>
 >;
 
-export interface ChatStartStreamArguments
-  extends TokenOverridable,
-    Channel,
-    Partial<ThreadTS>,
-    Partial<MarkdownText>,
-    Unfurls {
+export interface ChatStartStreamArguments extends TokenOverridable, Channel, Partial<MarkdownText>, ThreadTS, Unfurls {
   /**
    * @description The ID of the team that is associated with `recipient_user_id`.
    * This is required when starting a streaming conversation outside of a DM.

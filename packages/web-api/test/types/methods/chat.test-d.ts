@@ -592,17 +592,20 @@ expectError(web.chat.startStream({})); // empty argument
 expectAssignable<Parameters<typeof web.chat.startStream>>([
   {
     channel: 'C1234',
+    thread_ts: '1234.56',
   },
 ]);
 expectAssignable<Parameters<typeof web.chat.startStream>>([
   {
     channel: 'C1234',
+    thread_ts: '1234.56',
     markdown_text: 'hello',
   },
 ]);
 expectAssignable<Parameters<typeof web.chat.startStream>>([
   {
     channel: 'C1234',
+    thread_ts: '1234.56',
     markdown_text: 'hello',
     unfurl_links: true,
     unfurl_media: false,
@@ -611,6 +614,7 @@ expectAssignable<Parameters<typeof web.chat.startStream>>([
 expectAssignable<Parameters<typeof web.chat.startStream>>([
   {
     channel: 'C1234',
+    thread_ts: '1234.56',
     markdown_text: 'hello',
     unfurl_links: true,
     unfurl_media: false,
