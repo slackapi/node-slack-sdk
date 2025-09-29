@@ -588,6 +588,16 @@ expectAssignable<Parameters<typeof web.chat.scheduledMessages.list>>([]); // no 
 // -- sad path
 expectError(web.chat.startStream()); // lacking argument
 expectError(web.chat.startStream({})); // empty argument
+expectError(
+  web.chat.startStream({
+    channel: 'C1234', // missing thread_ts
+  }),
+);
+expectError(
+  web.chat.startStream({
+    thread_ts: '1234.56', // missing channel
+  }),
+);
 // -- happy path
 expectAssignable<Parameters<typeof web.chat.startStream>>([
   {
