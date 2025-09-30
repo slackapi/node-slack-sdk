@@ -12,8 +12,6 @@ export interface ChatStreamerOptions {
 }
 
 export class ChatStreamer {
-  private args: ChatStartStreamArguments;
-
   private buffer = '';
 
   private client: WebClient;
@@ -23,6 +21,8 @@ export class ChatStreamer {
   private options: Required<ChatStreamerOptions>;
 
   private state: 'starting' | 'in_progress' | 'completed';
+
+  private streamArgs: ChatStartStreamArguments;
 
   private streamTs: string | undefined;
 
@@ -51,13 +51,13 @@ export class ChatStreamer {
    * @see {@link https://docs.slack.dev/reference/methods/chat.stopStream}
    */
   constructor(client: WebClient, logger: Logger, args: ChatStartStreamArguments, options: ChatStreamerOptions) {
-    this.args = args;
     this.client = client;
     this.logger = logger;
     this.options = {
       buffer_size: options.buffer_size ?? 256,
     };
     this.state = 'starting';
+    this.streamArgs = args;
   }
 
   /**
@@ -96,10 +96,10 @@ export class ChatStreamer {
     const details = {
       bufferLength: this.buffer.length,
       bufferSize: this.options.buffer_size,
-      channel: this.args.channel,
-      recipientTeamId: this.args.recipient_team_id,
-      recipientUserId: this.args.recipient_user_id,
-      threadTs: this.args.thread_ts,
+      channel: this.streamArgs.channel,
+      recipientTeamId: this.streamArgs.recipient_team_id,
+      recipientUserId: this.streamArgs.recipient_user_id,
+      threadTs: this.streamArgs.thread_ts,
     };
     this.logger.debug(`ChatStreamer appended to buffer: ${JSON.stringify(details)}`);
     return null;
@@ -132,7 +132,7 @@ export class ChatStreamer {
     }
     if (!this.streamTs) {
       const response = await this.client.chat.startStream({
-        ...this.args,
+        ...this.streamArgs,
         token: this.token,
       });
       if (!response.ts) {
@@ -143,7 +143,7 @@ export class ChatStreamer {
     }
     const response = await this.client.chat.stopStream({
       token: this.token,
-      channel: this.args.channel,
+      channel: this.streamArgs.channel,
       ts: this.streamTs,
       ...params,
       markdown_text: this.buffer + (params?.markdown_text ?? ''),
@@ -157,7 +157,7 @@ export class ChatStreamer {
   ): Promise<ChatStartStreamResponse | ChatAppendStreamResponse> {
     if (!this.streamTs) {
       const response = await this.client.chat.startStream({
-        ...this.args,
+        ...this.streamArgs,
         token: this.token,
         ...params,
         markdown_text: this.buffer,
@@ -169,7 +169,7 @@ export class ChatStreamer {
     }
     const response = await this.client.chat.appendStream({
       token: this.token,
-      channel: this.args.channel,
+      channel: this.streamArgs.channel,
       ts: this.streamTs,
       ...params,
       markdown_text: this.buffer,
