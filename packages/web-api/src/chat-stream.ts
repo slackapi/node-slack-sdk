@@ -6,7 +6,7 @@ import type WebClient from './WebClient';
 export interface ChatStreamerOptions {
   /**
    * @description The length of markdown_text to buffer in-memory before calling a method. Increasing this value decreases the number of method calls made for the same amount of text, which is useful to avoid rate limits.
-   * @default 250
+   * @default 256
    */
   buffer_size?: number;
 }
@@ -41,7 +41,7 @@ export class ChatStreamer {
    *   recipient_team_id: "T0123456789",
    *   recipient_user_id: "U0123456789",
    * };
-   * const streamer = new ChatStreamer(client, logger, args, { buffer_size: 500 });
+   * const streamer = new ChatStreamer(client, logger, args, { buffer_size: 512 });
    * await streamer.append({
    *   markdown_text: "**hello world!**",
    * });
@@ -55,7 +55,7 @@ export class ChatStreamer {
     this.client = client;
     this.logger = logger;
     this.options = {
-      buffer_size: options.buffer_size ?? 250,
+      buffer_size: options.buffer_size ?? 256,
     };
     this.state = 'starting';
   }
