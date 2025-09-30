@@ -10,8 +10,8 @@ Allows users a direct path to performing basic actions.
 
 ## See
 
- - [Button element reference](https://api.slack.com/reference/block-kit/block-elements#button).
- - [This is an interactive component - see our guide to enabling interactivity](https://api.slack.com/interactivity/handling).
+ - [Button element reference](https://docs.slack.dev/reference/block-kit/block-elements/button-element).
+ - [is an interactive component - see our guide to enabling interactivity](https://docs.slack.dev/interactivity/handling-user-interactionThis).
 
 ## Extends
 
@@ -43,7 +43,7 @@ optional action_id: string;
 Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads). Should be unique
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
 among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
 
 #### Inherited from
@@ -134,8 +134,8 @@ Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:29
 #### Description
 
 A URL to load in the user's browser when the button is clicked. Maximum length for this field is 3000
-characters. If you're using `url`, you'll still receive an [interaction payload](https://api.slack.com/interactivity/handling#payloads)
-and will need to send an [acknowledgement response](https://api.slack.com/interactivity/handling#acknowledgment_response).
+characters. If you're using `url`, you'll still receive an [interaction payload](https://docs.slack.dev/interactivity/handling-user-interaction#payloads)
+and will need to send an [acknowledgement response](https://docs.slack.dev/interactivity/handling-user-interaction#acknowledgment_response).
 
 ***
 
@@ -149,5 +149,5 @@ Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:23
 
 #### Description
 
-The value to send along with the [interaction payload](https://api.slack.com/interactivity/handling#payloads).
+The value to send along with the [interaction payload](https://docs.slack.dev/interactivity/handling-user-interaction#payloads).
 Maximum length for this field is 2000 characters.

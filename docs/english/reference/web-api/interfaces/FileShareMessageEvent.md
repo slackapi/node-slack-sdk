@@ -2,7 +2,7 @@
 
 # Interface: FileShareMessageEvent
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:160
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:161
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:160
 optional attachments: MessageAttachment[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:164
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:165
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:164
 optional blocks: (Block | KnownBlock)[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:165
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:166
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:165
 channel: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:174
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:175
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:174
 channel_type: ChannelTypes;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:175
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:176
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:175
 optional display_as_bot: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:168
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:169
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:168
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:176
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:177
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:176
 optional files: File[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:166
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:167
 
 ***
 
@@ -82,7 +82,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:166
 optional parent_user_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:171
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:172
 
 ***
 
@@ -92,7 +92,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:171
 subtype: "file_share";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:162
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:163
 
 ***
 
@@ -102,7 +102,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:162
 text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:163
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:164
 
 ***
 
@@ -112,7 +112,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:163
 optional thread_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:173
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:174
 
 ***
 
@@ -122,7 +122,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:173
 ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:172
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:173
 
 ***
 
@@ -132,7 +132,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:172
 type: "message";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:161
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:162
 
 ***
 
@@ -142,7 +142,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:161
 optional upload: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:167
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:168
 
 ***
 
@@ -152,7 +152,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:167
 user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:170
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:171
 
 ***
 
@@ -162,4 +162,4 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:170
 optional x_files: string[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:169
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:170

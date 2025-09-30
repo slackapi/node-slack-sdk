@@ -2,7 +2,7 @@
 
 # Interface: RichTextUsergroupMention
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:766
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:842
 
 ## Description
 
@@ -78,7 +78,7 @@ A limited style object for styling rich text `text` elements.
 type: "usergroup";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:770
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:846
 
 #### Description
 
@@ -92,7 +92,7 @@ The type of element. In this case `type` is always `usergroup`.
 usergroup_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:774
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:850
 
 #### Description
 

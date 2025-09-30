@@ -10,8 +10,8 @@ Allows users to select a date from a calendar style UI.
 
 ## See
 
- - [Date picker element reference](https://api.slack.com/reference/block-kit/block-elements#datepicker).
- - [This is an interactive component - see our guide to enabling interactivity](https://api.slack.com/interactivity/handling).
+ - [Date picker element reference](https://docs.slack.dev/reference/block-kit/block-elements/date-picker-element).
+ - [This is an interactive component - see our guide to enabling interactivity](https://docs.slack.dev/interactivity/handling-user-interaction).
 
 ## Extends
 
@@ -28,7 +28,7 @@ optional action_id: string;
 Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads). Should be unique
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
 among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
 
 #### Inherited from
@@ -67,7 +67,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
 #### Description
 
 Indicates whether the element will be set to auto focus within the
-[\`view\` object](https://api.slack.com/reference/surfaces/views). Only one element can be set to `true`.
+[\`view\` object](https://docs.slack.dev/surfaces/modals). Only one element can be set to `true`.
 Defaults to `false`.
 
 #### Inherited from

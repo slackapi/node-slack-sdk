@@ -6,7 +6,7 @@ Defined in: [src/types/request/chat.ts:221](https://github.com/slackapi/node-sla
 
 ## Extends
 
-- `TokenOverridable`.`Channel`.`Partial`\<`ThreadTS`\>.`Partial`\<`MarkdownText`\>.`Unfurls`
+- `TokenOverridable`.`Channel`.`Partial`\<`MarkdownText`\>.`ThreadTS`.`Unfurls`
 
 ## Properties
 
@@ -50,16 +50,44 @@ Accepts message text formatted in markdown. This argument should not be used in 
 
 #### Inherited from
 
-```ts
-Partial.markdown_text
-```
+[`ChatAppendStreamArguments`](ChatAppendStreamArguments.md).[`markdown_text`](ChatAppendStreamArguments.md#markdown_text)
 
 ***
 
-### thread\_ts?
+### recipient\_team\_id?
 
 ```ts
-optional thread_ts: string;
+optional recipient_team_id: string;
+```
+
+Defined in: [src/types/request/chat.ts:226](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L226)
+
+#### Description
+
+The ID of the team that is associated with `recipient_user_id`.
+This is required when starting a streaming conversation outside of a DM.
+
+***
+
+### recipient\_user\_id?
+
+```ts
+optional recipient_user_id: string;
+```
+
+Defined in: [src/types/request/chat.ts:231](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L231)
+
+#### Description
+
+The ID of the user to receive the streaming conversation messages.
+This is required when starting a streaming conversation outside of a DM.
+
+***
+
+### thread\_ts
+
+```ts
+thread_ts: string;
 ```
 
 Defined in: [src/types/request/chat.ts:90](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L90)
@@ -72,7 +100,7 @@ value; use its parent's value instead.
 #### Inherited from
 
 ```ts
-Partial.thread_ts
+ThreadTS.thread_ts
 ```
 
 ***

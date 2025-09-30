@@ -23,4 +23,4 @@ A helper union type of all Block Elements that can be used in an [ActionsBlock](
 
 ## See
 
-[Actions block reference](https://api.slack.com/reference/block-kit/blocks#actions).
+[Actions block reference](https://docs.slack.dev/reference/block-kit/blocks/actions-block).

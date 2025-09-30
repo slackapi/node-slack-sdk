@@ -167,6 +167,4 @@ The list of users to add/remove to/from the Call.
 
 #### Inherited from
 
-```ts
-Partial.users
-```
+[`CallsParticipantsAddArguments`](CallsParticipantsAddArguments.md).[`users`](CallsParticipantsAddArguments.md#users)

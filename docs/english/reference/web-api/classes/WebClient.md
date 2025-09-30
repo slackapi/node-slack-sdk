@@ -4603,6 +4603,56 @@ options
 
 ***
 
+### chatStream()
+
+```ts
+chatStream(params): ChatStreamer;
+```
+
+Defined in: [src/WebClient.ts:537](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L537)
+
+Stream markdown text into a conversation.
+
+#### Parameters
+
+##### params
+
+`Omit`\<[`ChatStartStreamArguments`](../interfaces/ChatStartStreamArguments.md) & `ChatStreamerOptions`, `"markdown_text"`\>
+
+#### Returns
+
+`ChatStreamer`
+
+#### Description
+
+The "chatStream" method starts a new chat stream in a coversation that can be appended to. After appending an entire message, the stream can be stopped with concluding arguments such as "blocks" for gathering feedback.
+
+#### Example
+
+```ts
+const streamer = client.chatStream({
+  channel: "C0123456789",
+  thread_ts: "1700000001.123456",
+  recipient_team_id: "T0123456789",
+  recipient_user_id: "U0123456789",
+});
+await streamer.append({
+  markdown_text: "**hello wo",
+});
+await streamer.append({
+  markdown_text: "rld!**",
+});
+await streamer.stop();
+```
+
+#### See
+
+ - [https://docs.slack.dev/reference/methods/chat.startStream](https://docs.slack.dev/reference/methods/chat.startStream)
+ - [https://docs.slack.dev/reference/methods/chat.appendStream](https://docs.slack.dev/reference/methods/chat.appendStream)
+ - [https://docs.slack.dev/reference/methods/chat.stopStream](https://docs.slack.dev/reference/methods/chat.stopStream)
+
+***
+
 ### emit()
 
 ```ts
@@ -4666,7 +4716,7 @@ listeners.
 filesUploadV2(options): Promise<WebAPICallResult & object>;
 ```
 
-Defined in: [src/WebClient.ts:526](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L526)
+Defined in: [src/WebClient.ts:558](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L558)
 
 This wrapper method provides an easy way to upload files using the following endpoints:
 

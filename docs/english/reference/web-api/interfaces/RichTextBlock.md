@@ -2,7 +2,7 @@
 
 # Interface: RichTextBlock
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:190
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:223
 
 ## Description
 
@@ -15,7 +15,7 @@ the [RichTextInput](RichTextInput.md).
 
 ## See
 
-[Rich text block reference](https://api.slack.com/reference/block-kit/blocks#rich_text).
+[Rich text block reference](https://docs.slack.dev/reference/block-kit/blocks/rich-text-block).
 
 ## Extends
 
@@ -35,7 +35,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
 
 A string acting as a unique identifier for a block. If not specified, a `block_id` will be generated.
 You can use this `block_id` when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads).
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads).
 Maximum length for this field is 255 characters. `block_id` should be unique for each message and each iteration of
 a message. If a message is updated, use a new `block_id`.
 
@@ -51,7 +51,7 @@ a message. If a message is updated, use a new `block_id`.
 elements: RichTextBlockElement[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:195
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:228
 
 ***
 
@@ -61,7 +61,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:195
 type: "rich_text";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:194
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:227
 
 #### Description
 

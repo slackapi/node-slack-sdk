@@ -6,7 +6,7 @@
 type ChatUnfurlArguments = object & UnfurlTarget & TokenOverridable & object;
 ```
 
-Defined in: [src/types/request/chat.ts:253](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L253)
+Defined in: [src/types/request/chat.ts:259](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L259)
 
 ## Type declaration
 

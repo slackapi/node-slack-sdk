@@ -1,4 +1,4 @@
-# @slack/web-api v7.10.0-aiAppsBeta.2
+# @slack/web-api v7.10.0-aiAppsBeta.4
 
 ## Enumerations
 
@@ -166,6 +166,7 @@
 - [Confirmable](interfaces/Confirmable.md)
 - [Confirmation](interfaces/Confirmation.md)
 - [ConfirmationDialog](interfaces/ConfirmationDialog.md)
+- [ContextActionsBlock](interfaces/ContextActionsBlock.md)
 - [ContextBlock](interfaces/ContextBlock.md)
 - [ConversationsApproveSharedInviteArguments](interfaces/ConversationsApproveSharedInviteArguments.md)
 - [ConversationsArchiveArguments](interfaces/ConversationsArchiveArguments.md)
@@ -206,6 +207,7 @@
 - [EmailInput](interfaces/EmailInput.md)
 - [EmojiChangedEvent](interfaces/EmojiChangedEvent.md)
 - [ExternalSelect](interfaces/ExternalSelect.md)
+- [FeedbackButtons](interfaces/FeedbackButtons.md)
 - [FileBlock](interfaces/FileBlock.md)
 - [FileChangeEvent](interfaces/FileChangeEvent.md)
 - [FileCommentDeletedEvent](interfaces/FileCommentDeletedEvent.md)
@@ -242,6 +244,7 @@
 - [GroupUnarchiveEvent](interfaces/GroupUnarchiveEvent.md)
 - [HeaderBlock](interfaces/HeaderBlock.md)
 - [HomeView](interfaces/HomeView.md)
+- [IconButton](interfaces/IconButton.md)
 - [IMCloseEvent](interfaces/IMCloseEvent.md)
 - [IMCreatedEvent](interfaces/IMCreatedEvent.md)
 - [IMHistoryChangedEvent](interfaces/IMHistoryChangedEvent.md)
@@ -251,6 +254,7 @@
 - [LinkSharedEvent](interfaces/LinkSharedEvent.md)
 - [LinkUnfurls](interfaces/LinkUnfurls.md)
 - [Logger](interfaces/Logger.md)
+- [MarkdownBlock](interfaces/MarkdownBlock.md)
 - [MaxItemsSelectable](interfaces/MaxItemsSelectable.md)
 - [MemberJoinedChannelEvent](interfaces/MemberJoinedChannelEvent.md)
 - [MemberLeftChannelEvent](interfaces/MemberLeftChannelEvent.md)
@@ -601,6 +605,7 @@
 - [ChatUpdateArguments](type-aliases/ChatUpdateArguments.md)
 - [ChatUpdateResponse](type-aliases/ChatUpdateResponse.md)
 - [ColorScheme](type-aliases/ColorScheme.md)
+- [ContextActionsBlockElement](type-aliases/ContextActionsBlockElement.md)
 - [ContextBlockElement](type-aliases/ContextBlockElement.md)
 - [ConversationFilter](type-aliases/ConversationFilter.md)
 - [ConversationsAcceptSharedInviteArguments](type-aliases/ConversationsAcceptSharedInviteArguments.md)

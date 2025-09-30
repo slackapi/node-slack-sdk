@@ -2,7 +2,7 @@
 
 # Interface: ThreadBroadcastMessageEvent
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:224
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:225
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:224
 optional attachments: MessageAttachment[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:229
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:230
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:229
 optional blocks: (Block | KnownBlock)[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:230
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:231
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:230
 channel: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:242
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:243
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:242
 channel_type: ChannelTypes;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:243
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:244
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:243
 client_msg_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:241
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:242
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:241
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:227
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:228
 
 ***
 
@@ -74,7 +74,7 @@ root:
   | BotMessageEvent & object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:234
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:235
 
 #### Type declaration
 
@@ -116,7 +116,7 @@ thread_ts: string;
 subtype: "thread_broadcast";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:226
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:227
 
 ***
 
@@ -126,7 +126,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:226
 text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:228
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:229
 
 ***
 
@@ -136,7 +136,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:228
 optional thread_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:233
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:234
 
 ***
 
@@ -146,7 +146,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:233
 ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:232
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:233
 
 ***
 
@@ -156,7 +156,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:232
 type: "message";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:225
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:226
 
 ***
 
@@ -166,4 +166,4 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:225
 user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:231
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:232

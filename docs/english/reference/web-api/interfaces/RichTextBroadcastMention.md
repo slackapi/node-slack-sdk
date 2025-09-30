@@ -2,7 +2,7 @@
 
 # Interface: RichTextBroadcastMention
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:601
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:677
 
 ## Description
 
@@ -20,7 +20,7 @@ A broadcast mention element for use in a rich text message.
 range: "channel" | "here" | "everyone";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:609
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:685
 
 #### Description
 
@@ -92,7 +92,7 @@ A limited style object for styling rich text `text` elements.
 type: "broadcast";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:605
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:681
 
 #### Description
 

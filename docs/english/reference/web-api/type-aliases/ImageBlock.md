@@ -8,7 +8,7 @@ type ImageBlock = object & Block &
   | SlackFileImageObject;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:119
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:136
 
 ## Type declaration
 
@@ -50,4 +50,4 @@ Displays an image. A simple image block, designed to make those cat photos reall
 
 ## See
 
-[Image block reference](https://api.slack.com/reference/block-kit/blocks#image).
+[Image block reference](https://docs.slack.dev/reference/block-kit/blocks/image-block).

@@ -1,17 +1,18 @@
-[@slack/web-api](../index.md) / HeaderBlock
+[@slack/web-api](../index.md) / MarkdownBlock
 
-# Interface: HeaderBlock
+# Interface: MarkdownBlock
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:121
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:199
 
 ## Description
 
-Displays a larger-sized text block. A `header` is a plain-text block that displays in a larger, bold
-font. Use it to delineate between different groups of content in your app's surfaces.
+This block can be used with AI apps when you expect a markdown response from an LLM that can get lost in
+translation rendering in Slack. Providing it in a markdown block leaves the translating to Slack to ensure your message
+appears as intended. Note that passing a single block may result in multiple blocks after translation.
 
 ## See
 
-[Header block reference](https://docs.slack.dev/reference/block-kit/blocks/header-block).
+[Markdown block reference](https://api.slack.com/reference/block-kit/blocks#markdown).
 
 ## Extends
 
@@ -44,29 +45,28 @@ a message. If a message is updated, use a new `block_id`.
 ### text
 
 ```ts
-text: PlainTextElement;
+text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:130
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:207
 
 #### Description
 
-The text for the block, in the form of a [PlainTextElement](PlainTextElement.md).
-Maximum length for the text in this field is 150 characters.
+The standard markdown-formatted text. Limit 12,000 characters max.
 
 ***
 
 ### type
 
 ```ts
-type: "header";
+type: "markdown";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:125
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:203
 
 #### Description
 
-The type of block. For a header block, `type` is always `header`.
+The type of block. For a markdown block, `type` is always `markdown`.
 
 #### Overrides
 

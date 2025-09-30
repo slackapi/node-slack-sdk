@@ -2,7 +2,7 @@
 
 # Interface: ConversationsSelect
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:272
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:348
 
 ## Description
 
@@ -11,8 +11,8 @@ visible to the current user in the active workspace.
 
 ## See
 
- - [Select menu of conversations reference](https://api.slack.com/reference/block-kit/block-elements#conversations_select).
- - [This is an interactive component - see our guide to enabling interactivity](https://api.slack.com/interactivity/handling).
+ - [Select menu of conversations reference](https://docs.slack.dev/reference/block-kit/block-elements/select-menu-element#conversations_select).
+ - [This is an interactive component - see our guide to enabling interactivity](https://docs.slack.dev/interactivity/handling-user-interaction).
 
 ## Extends
 
@@ -29,7 +29,7 @@ optional action_id: string;
 Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads). Should be unique
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
 among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
 
 #### Inherited from
@@ -63,7 +63,7 @@ with.
 optional default_to_current_conversation: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:286
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:362
 
 #### Description
 
@@ -78,7 +78,7 @@ modal, if available. Default is `false`.
 optional filter: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:290
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:366
 
 #### exclude\_bot\_users?
 
@@ -115,7 +115,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
 #### Description
 
 Indicates whether the element will be set to auto focus within the
-[\`view\` object](https://api.slack.com/reference/surfaces/views). Only one element can be set to `true`.
+[\`view\` object](https://docs.slack.dev/surfaces/modals). Only one element can be set to `true`.
 Defaults to `false`.
 
 #### Inherited from
@@ -130,7 +130,7 @@ Defaults to `false`.
 optional initial_conversation: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:281
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:357
 
 #### Description
 
@@ -168,9 +168,9 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:58
 
 #### Description
 
-When set to `true`, the [\`view\_submission\` payload](https://api.slack.com/reference/interaction-payloads/views#view_submission)
+When set to `true`, the [\`view\_submission\` payload](https://docs.slack.dev/reference/interaction-payloads/view-interactions-payload#view_submission)
 from the menu's parent view will contain a `response_url`. This `response_url` can be used for
-[message responses](https://api.slack.com/interactivity/handling#message_responses). The target conversation
+[message responses](https://docs.slack.dev/interactivity/handling-user-interaction#message_responses). The target conversation
 for the message will be determined by the value of this select menu.
 
 #### Inherited from
@@ -185,7 +185,7 @@ for the message will be determined by the value of this select menu.
 type: "conversations_select";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:276
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:352
 
 #### Description
 

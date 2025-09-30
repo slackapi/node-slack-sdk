@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:38
 optional attachments: MessageAttachment[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:52
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:53
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:52
 optional blocks: (Block | KnownBlock)[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:53
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:54
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:53
 bot_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:46
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:47
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:43
 optional edited: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:54
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:55
 
 #### ts
 
@@ -94,13 +94,23 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:41
 optional icons: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:48
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:49
 
 #### Index Signature
 
 ```ts
 [size: string]: string
 ```
+
+***
+
+### streaming\_state?
+
+```ts
+optional streaming_state: "in_progress" | "completed" | "errored";
+```
+
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:44
 
 ***
 
@@ -120,7 +130,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:40
 text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:45
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:46
 
 ***
 
@@ -130,7 +140,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:45
 optional thread_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:58
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:59
 
 ***
 
@@ -140,7 +150,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:58
 ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:44
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:45
 
 ***
 
@@ -160,7 +170,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:39
 optional user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:51
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:52
 
 ***
 
@@ -170,4 +180,4 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:51
 optional username: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:47
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:48

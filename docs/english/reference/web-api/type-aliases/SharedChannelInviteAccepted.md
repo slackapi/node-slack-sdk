@@ -1,6 +1,6 @@
 [@slack/web-api](../index.md) / SharedChannelInviteAccepted
 
-# Type Alias: ~~SharedChannelInviteAccepted~~
+# ~~Type Alias: SharedChannelInviteAccepted~~
 
 ```ts
 type SharedChannelInviteAccepted = SharedChannelInviteAcceptedEvent;

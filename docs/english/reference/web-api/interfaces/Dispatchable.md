@@ -25,4 +25,4 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:28
 #### Description
 
 A [DispatchActionConfig](DispatchActionConfig.md) object that determines when during text input the element returns a
-[\`block\_actions\` payload](https://api.slack.com/reference/interaction-payloads/block-actions).
+[\`block\_actions\` payload](https://docs.slack.dev/reference/interaction-payloads/block_actions-payload).

@@ -10,7 +10,7 @@ Defines a dialog that adds a confirmation step to interactive elements.
 
 ## See
 
-[Confirmation dialog object reference](https://api.slack.com/reference/block-kit/composition-objects#confirm).
+[Confirmation dialog object reference](https://docs.slack.dev/reference/block-kit/composition-objects/confirmation-dialog-object).
 
 ## Extends
 

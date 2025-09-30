@@ -1,13 +1,13 @@
 [@slack/web-api](../index.md) / Confirm
 
-# Interface: ~~Confirm~~
+# ~~Interface: Confirm~~
 
 Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:14
 
 ## Deprecated
 
 Confirm aliased to [ConfirmationDialog](ConfirmationDialog.md) in order to make the construct clearer
-and line up terminology with api.slack.com.
+and line up terminology with docs.slack.dev.
 
 ## Description
 
@@ -15,7 +15,7 @@ Defines a dialog that adds a confirmation step to interactive elements.
 
 ## See
 
-[Confirmation dialog object reference](https://api.slack.com/reference/block-kit/composition-objects#confirm).
+[Confirmation dialog object reference](https://docs.slack.dev/reference/block-kit/composition-objects/confirmation-dialog-object).
 
 ## Extended by
 

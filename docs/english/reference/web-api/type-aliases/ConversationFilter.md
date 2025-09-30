@@ -18,4 +18,4 @@ conversations select menu or a conversations multi-select menu.
 
 ## See
 
-[Conversation filter object reference](https://api.slack.com/reference/block-kit/composition-objects#filter_conversations).
+[Conversation filter object reference](https://docs.slack.dev/reference/block-kit/composition-objects/conversation-filter-object).

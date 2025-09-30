@@ -1,17 +1,12 @@
-[@slack/web-api](../index.md) / HeaderBlock
+[@slack/web-api](../index.md) / ContextActionsBlock
 
-# Interface: HeaderBlock
+# Interface: ContextActionsBlock
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:121
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:74
 
 ## Description
 
-Displays a larger-sized text block. A `header` is a plain-text block that displays in a larger, bold
-font. Use it to delineate between different groups of content in your app's surfaces.
-
-## See
-
-[Header block reference](https://docs.slack.dev/reference/block-kit/blocks/header-block).
+Displays actions as contextual info, which can include both feedback buttons and icon buttons.
 
 ## Extends
 
@@ -41,32 +36,31 @@ a message. If a message is updated, use a new `block_id`.
 
 ***
 
-### text
+### elements
 
 ```ts
-text: PlainTextElement;
+elements: ContextActionsBlockElement[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:130
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:82
 
 #### Description
 
-The text for the block, in the form of a [PlainTextElement](PlainTextElement.md).
-Maximum length for the text in this field is 150 characters.
+An array of [FeedbackButtons](FeedbackButtons.md) or [IconButton](IconButton.md) block elements. Maximum number of items is 5.
 
 ***
 
 ### type
 
 ```ts
-type: "header";
+type: "context_actions";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:125
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:78
 
 #### Description
 
-The type of block. For a header block, `type` is always `header`.
+The type of block. For a context actions block, `type` is always `context_actions`.
 
 #### Overrides
 

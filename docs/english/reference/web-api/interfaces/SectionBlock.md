@@ -2,17 +2,17 @@
 
 # Interface: SectionBlock
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:208
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:241
 
 ## Description
 
 Displays text, possibly alongside block elements. A section can be used as a simple text block, in
 combination with text fields, or side-by-side with certain
-[block elements](https://api.slack.com/reference/messaging/block-elements).
+[block elements](https://docs.slack.dev/reference/block-kit/block-elements).
 
 ## See
 
-[Section block reference](https://api.slack.com/reference/block-kit/blocks#section).
+[Section block reference](https://docs.slack.dev/reference/block-kit/blocks/section-block).
 
 ## Extends
 
@@ -26,7 +26,7 @@ combination with text fields, or side-by-side with certain
 optional accessory: SectionBlockAccessory;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:229
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:262
 
 #### Description
 
@@ -46,7 +46,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
 
 A string acting as a unique identifier for a block. If not specified, a `block_id` will be generated.
 You can use this `block_id` when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads).
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads).
 Maximum length for this field is 255 characters. `block_id` should be unique for each message and each iteration of
 a message. If a message is updated, use a new `block_id`.
 
@@ -62,7 +62,7 @@ a message. If a message is updated, use a new `block_id`.
 optional expand: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:233
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:266
 
 Whether or not this section block's text should always expand when rendered. If false or not provided, it may be rendered with a 'see more' option to expand and show the full text. For AI Assistant apps, this allows the app to post long messages without users needing to click 'see more' to expand the message.
 
@@ -74,7 +74,7 @@ Whether or not this section block's text should always expand when rendered. If 
 optional fields: TextObject[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:225
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:258
 
 #### Description
 
@@ -91,7 +91,7 @@ Maximum length for the text in each item is 2000 characters.
 optional text: TextObject;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:218
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:251
 
 #### Description
 
@@ -107,7 +107,7 @@ is provided instead.
 type: "section";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:212
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:245
 
 #### Description
 
