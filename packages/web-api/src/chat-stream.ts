@@ -31,7 +31,7 @@ export class ChatStreamer {
   /**
    * Instantiate a new chat streamer.
    *
-   * @description The "constructor" method creates a unique {@link ChatStreamer} instance that keeps track of one chat stream. The stream must be started.
+   * @description The "constructor" method creates a unique {@link ChatStreamer} instance that keeps track of one chat stream.
    * @example
    * const client = new WebClient(process.env.SLACK_BOT_TOKEN);
    * const logger = new ConsoleLogger();
@@ -65,7 +65,7 @@ export class ChatStreamer {
    *
    * @description The "append" method appends to the chat stream being used. This method can be called multiple times. After the stream is stopped this method cannot be called.
    * @example
-   * const streamer = client.startStream({
+   * const streamer = client.chatStream({
    *   channel: "C0123456789",
    *   thread_ts: "1700000001.123456",
    *   recipient_team_id: "T0123456789",
@@ -111,7 +111,7 @@ export class ChatStreamer {
    * @description The "stop" method stops the chat stream being used. This method can be called once to end the stream. Additional "blocks" and "metadata" can be provided.
    *
    * @example
-   * const streamer = client.startStream({
+   * const streamer = client.chatStream({
    *   channel: "C0123456789",
    *   thread_ts: "1700000001.123456",
    *   recipient_team_id: "T0123456789",
