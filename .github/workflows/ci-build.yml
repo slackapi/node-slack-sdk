@@ -41,7 +41,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm --version
-      - run: npm install
+      - run: npm install --verbose
         working-directory: packages/${{ matrix.package }}
       - name: Link dependent packages (*nix)
         if: matrix.os == 'ubuntu-latest'
