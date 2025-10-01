@@ -90,7 +90,7 @@ jobs:
           files: packages/${{ matrix.package }}/coverage/lcov.info
       - name: Upload code coverage
         if: matrix.node-version == '22.x' && matrix.os == 'ubuntu-latest' && steps.check_coverage.outputs.files_exists == 'true'
-        uses: codecov/codecov-action@fdcc8476540edceab3de004e990f80d881c6cc00 # v5.5.0
+        uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5.5.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: packages/${{ matrix.package }}/coverage
