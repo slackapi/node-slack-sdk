@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import type { ContextActionsBlock } from '@slack/types';
 import axios, { type InternalAxiosRequestConfig } from 'axios';
 import { assert, expect } from 'chai';
 import nock, { type ReplyHeaders } from 'nock';
@@ -1245,6 +1246,36 @@ describe('WebClient', () => {
     });
 
     it('streams a long message', async () => {
+      const contextActionsBlock: ContextActionsBlock = {
+        type: 'context_actions',
+        elements: [
+          {
+            type: 'feedback_buttons',
+            positive_button: {
+              text: {
+                type: 'plain_text',
+                text: 'good',
+              },
+              value: '+1',
+            },
+            negative_button: {
+              text: {
+                type: 'plain_text',
+                text: 'bad',
+              },
+              value: '-1',
+            },
+          },
+          {
+            type: 'icon_button',
+            icon: 'trash',
+            text: {
+              type: 'plain_text',
+              text: 'delete',
+            },
+          },
+        ],
+      };
       const scope = nock('https://slack.com')
         .post('/api/chat.startStream', {
           channel: 'C0123456789',
@@ -1267,6 +1298,7 @@ describe('WebClient', () => {
           ok: true,
         })
         .post('/api/chat.stopStream', {
+          blocks: JSON.stringify([contextActionsBlock]),
           channel: 'C0123456789',
           markdown_text: '**',
           token: 'xoxb-updated-2',
@@ -1296,6 +1328,7 @@ describe('WebClient', () => {
         markdown_text: '*',
       });
       await streamer.stop({
+        blocks: [contextActionsBlock],
         markdown_text: '*',
         token: 'xoxb-updated-2',
       });
