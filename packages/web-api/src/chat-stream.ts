@@ -61,7 +61,7 @@ export class ChatStreamer {
   }
 
   /**
-   * Append to a stream.
+   * Append to the stream.
    *
    * @description The "append" method appends to the chat stream being used. This method can be called multiple times. After the stream is stopped this method cannot be called.
    * @example
@@ -106,7 +106,7 @@ export class ChatStreamer {
   }
 
   /**
-   * Stop a stream.
+   * Stop the stream and finalize the message.
    *
    * @description The "stop" method stops the chat stream being used. This method can be called once to end the stream. Additional "blocks" and "metadata" can be provided.
    *
@@ -130,6 +130,9 @@ export class ChatStreamer {
     if (args?.token) {
       this.token = args.token;
     }
+    if (args?.markdown_text) {
+      this.buffer += args.markdown_text;
+    }
     if (!this.streamTs) {
       const response = await this.client.chat.startStream({
         ...this.streamArgs,
@@ -146,7 +149,7 @@ export class ChatStreamer {
       channel: this.streamArgs.channel,
       ts: this.streamTs,
       ...args,
-      markdown_text: this.buffer + (args?.markdown_text ?? ''),
+      markdown_text: this.buffer,
     });
     this.state = 'completed';
     return response;
