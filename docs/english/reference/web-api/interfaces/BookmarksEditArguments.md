@@ -60,7 +60,9 @@ Emoji tag to apply to the bookmark.
 
 #### Inherited from
 
-[`BookmarksAddArguments`](BookmarksAddArguments.md).[`emoji`](BookmarksAddArguments.md#emoji)
+```ts
+Partial.emoji
+```
 
 ***
 
@@ -78,7 +80,9 @@ Link to bookmark.
 
 #### Inherited from
 
-[`BookmarksAddArguments`](BookmarksAddArguments.md).[`link`](BookmarksAddArguments.md#link)
+```ts
+Partial.link
+```
 
 ***
 
@@ -96,7 +100,9 @@ Title for the bookmark.
 
 #### Inherited from
 
-[`BookmarksAddArguments`](BookmarksAddArguments.md).[`title`](BookmarksAddArguments.md#title)
+```ts
+Partial.title
+```
 
 ***
 

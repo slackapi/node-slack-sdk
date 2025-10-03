@@ -1,6 +1,6 @@
 [@slack/types](../index.md) / SubteamMembersChanged
 
-# ~~Type Alias: SubteamMembersChanged~~
+# Type Alias: ~~SubteamMembersChanged~~
 
 ```ts
 type SubteamMembersChanged = SubteamMembersChangedEvent;

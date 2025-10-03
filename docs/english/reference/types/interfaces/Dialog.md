@@ -1,6 +1,6 @@
 [@slack/types](../index.md) / Dialog
 
-# ~~Interface: Dialog~~
+# Interface: ~~Dialog~~
 
 Defined in: [dialog.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/dialog.ts#L5)
 

@@ -76,7 +76,7 @@ root:
 
 Defined in: [events/message.ts:283](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L283)
 
-#### Type Declaration
+#### Type declaration
 
 ##### latest\_reply
 

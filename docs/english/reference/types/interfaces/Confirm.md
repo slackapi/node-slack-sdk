@@ -1,6 +1,6 @@
 [@slack/types](../index.md) / Confirm
 
-# ~~Interface: Confirm~~
+# Interface: ~~Confirm~~
 
 Defined in: [block-kit/composition-objects.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L19)
 

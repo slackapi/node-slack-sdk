@@ -58,7 +58,9 @@ List of encoded user IDs.
 
 #### Inherited from
 
-[`AdminConversationsInviteArguments`](AdminConversationsInviteArguments.md).[`user_ids`](AdminConversationsInviteArguments.md#user_ids)
+```ts
+Partial.user_ids
+```
 
 ***
 

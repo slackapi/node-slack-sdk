@@ -54,7 +54,7 @@ message: AllMessageEvents & object;
 
 Defined in: [events/message.ts:263](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L263)
 
-#### Type Declaration
+#### Type declaration
 
 ##### replies
 
