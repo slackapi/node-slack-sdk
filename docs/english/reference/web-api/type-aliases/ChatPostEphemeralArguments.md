@@ -8,7 +8,7 @@ type ChatPostEphemeralArguments = TokenOverridable & MessageContents & object & 
 
 Defined in: [src/types/request/chat.ts:175](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L175)
 
-## Type declaration
+## Type Declaration
 
 ### user
 

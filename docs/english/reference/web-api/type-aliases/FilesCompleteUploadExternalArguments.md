@@ -8,7 +8,7 @@ type FilesCompleteUploadExternalArguments = FileDestinationArgument & TokenOverr
 
 Defined in: [src/types/request/files.ts:66](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L66)
 
-## Type declaration
+## Type Declaration
 
 ### blocks?
 

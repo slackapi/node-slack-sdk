@@ -8,7 +8,7 @@ type UsersLookupByEmailResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/UsersLookupByEmailResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/UsersLookupByEmailResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### error?
 

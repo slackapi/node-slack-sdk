@@ -8,7 +8,7 @@ type ImRepliesResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/ImRepliesResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/ImRepliesResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### error?
 

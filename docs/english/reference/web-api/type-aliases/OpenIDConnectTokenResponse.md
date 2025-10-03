@@ -8,7 +8,7 @@ type OpenIDConnectTokenResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/OpenIDConnectTokenResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/OpenIDConnectTokenResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### access\_token?
 

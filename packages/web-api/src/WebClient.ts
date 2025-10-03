@@ -513,7 +513,7 @@ export class WebClient extends Methods {
   /**
    * Stream markdown text into a conversation.
    *
-   * @description The "chatStream" method starts a new chat stream in a coversation that can be appended to. After appending an entire message, the stream can be stopped with concluding arguments such as "blocks" for gathering feedback.
+   * @description The "chatStream" method starts a new chat stream in a conversation that can be appended to. After appending an entire message, the stream can be stopped with concluding arguments such as "blocks" for gathering feedback.
    *
    * @example
    * const streamer = client.chatStream({

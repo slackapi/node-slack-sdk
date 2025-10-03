@@ -76,7 +76,7 @@ root:
 
 Defined in: node\_modules/@slack/types/dist/events/message.d.ts:235
 
-#### Type declaration
+#### Type Declaration
 
 ##### latest\_reply
 

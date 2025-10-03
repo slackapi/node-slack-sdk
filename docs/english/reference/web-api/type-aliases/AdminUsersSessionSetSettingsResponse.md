@@ -8,7 +8,7 @@ type AdminUsersSessionSetSettingsResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/AdminUsersSessionSetSettingsResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminUsersSessionSetSettingsResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### error?
 

@@ -8,7 +8,7 @@ type ViewsPushResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/ViewsPushResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/ViewsPushResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### error?
 

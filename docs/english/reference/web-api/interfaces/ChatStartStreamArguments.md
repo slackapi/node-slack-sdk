@@ -6,7 +6,7 @@ Defined in: [src/types/request/chat.ts:221](https://github.com/slackapi/node-sla
 
 ## Extends
 
-- `TokenOverridable`.`Channel`.`Partial`\<`MarkdownText`\>.`ThreadTS`.`Unfurls`
+- `TokenOverridable`.`Channel`.`Partial`\<`MarkdownText`\>.`ThreadTS`
 
 ## Properties
 
@@ -121,44 +121,4 @@ Overridable authentication token bearing required scopes.
 
 ```ts
 TokenOverridable.token
-```
-
-***
-
-### unfurl\_links?
-
-```ts
-optional unfurl_links: boolean;
-```
-
-Defined in: [src/types/request/chat.ts:152](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L152)
-
-#### Description
-
-Pass `true` to enable unfurling of primarily text-based content.
-
-#### Inherited from
-
-```ts
-Unfurls.unfurl_links
-```
-
-***
-
-### unfurl\_media?
-
-```ts
-optional unfurl_media: boolean;
-```
-
-Defined in: [src/types/request/chat.ts:154](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L154)
-
-#### Description
-
-Pass `false` to disable unfurling of media content.
-
-#### Inherited from
-
-```ts
-Unfurls.unfurl_media
 ```

@@ -10,7 +10,7 @@ type ImageBlock = object & Block &
 
 Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:136
 
-## Type declaration
+## Type Declaration
 
 ### alt\_text
 

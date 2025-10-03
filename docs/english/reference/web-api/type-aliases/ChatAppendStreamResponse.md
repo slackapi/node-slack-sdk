@@ -8,7 +8,7 @@ type ChatAppendStreamResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/ChatAppendStreamResponse.ts:2](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/ChatAppendStreamResponse.ts#L2)
 
-## Type declaration
+## Type Declaration
 
 ### channel?
 

@@ -8,7 +8,7 @@ type ChatPostEphemeralResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/ChatPostEphemeralResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/ChatPostEphemeralResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### error?
 
