@@ -8,7 +8,7 @@ type ChatPostMessageArguments = TokenOverridable & MessageContents & ReplyInThre
 
 Defined in: [src/types/request/chat.ts:188](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L188)
 
-## Type declaration
+## Type Declaration
 
 ### mrkdwn?
 

@@ -8,7 +8,7 @@ type AdminUsergroupsAddChannelsResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/AdminUsergroupsAddChannelsResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminUsergroupsAddChannelsResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### error?
 

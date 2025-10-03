@@ -8,7 +8,7 @@ type AdminAuthPolicyRemoveEntitiesResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/AdminAuthPolicyRemoveEntitiesResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAuthPolicyRemoveEntitiesResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### entity\_total\_count?
 

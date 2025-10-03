@@ -1,6 +1,6 @@
 [@slack/web-api](../index.md) / Action
 
-# Interface: ~~Action~~
+# ~~Interface: Action~~
 
 Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:5
 

@@ -50,9 +50,7 @@ Accepts message text formatted in markdown. This argument should not be used in 
 
 #### Inherited from
 
-```ts
-Partial.markdown_text
-```
+[`ChatAppendStreamArguments`](ChatAppendStreamArguments.md).[`markdown_text`](ChatAppendStreamArguments.md#markdown_text)
 
 ***
 

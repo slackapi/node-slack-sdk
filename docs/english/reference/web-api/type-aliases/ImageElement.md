@@ -10,7 +10,7 @@ type ImageElement = object &
 
 Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:219
 
-## Type declaration
+## Type Declaration
 
 ### alt\_text
 

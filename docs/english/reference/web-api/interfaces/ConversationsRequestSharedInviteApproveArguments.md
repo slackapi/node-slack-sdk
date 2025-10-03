@@ -24,9 +24,7 @@ Encoded channel ID.
 
 #### Inherited from
 
-```ts
-Partial.channel_id
-```
+[`AdminConversationsArchiveArguments`](AdminConversationsArchiveArguments.md).[`channel_id`](AdminConversationsArchiveArguments.md#channel_id)
 
 ***
 

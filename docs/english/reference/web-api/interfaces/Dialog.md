@@ -1,6 +1,6 @@
 [@slack/web-api](../index.md) / Dialog
 
-# Interface: ~~Dialog~~
+# ~~Interface: Dialog~~
 
 Defined in: node\_modules/@slack/types/dist/dialog.d.ts:5
 

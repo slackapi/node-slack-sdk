@@ -8,7 +8,7 @@ type ChatUpdateArguments = MessageContents & object & TokenOverridable & AsUser 
 
 Defined in: [src/types/request/chat.ts:290](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L290)
 
-## Type declaration
+## Type Declaration
 
 ### ts
 
@@ -20,7 +20,7 @@ ts: string;
 
 Timestamp of the message to be updated.
 
-## Type declaration
+## Type Declaration
 
 ### file\_ids?
 

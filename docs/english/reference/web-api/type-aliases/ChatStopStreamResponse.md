@@ -8,7 +8,7 @@ type ChatStopStreamResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/ChatStopStreamResponse.ts:3](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/ChatStopStreamResponse.ts#L3)
 
-## Type declaration
+## Type Declaration
 
 ### channel?
 

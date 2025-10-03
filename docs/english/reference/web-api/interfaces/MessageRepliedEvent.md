@@ -54,7 +54,7 @@ message: AllMessageEvents & object;
 
 Defined in: node\_modules/@slack/types/dist/events/message.d.ts:219
 
-#### Type declaration
+#### Type Declaration
 
 ##### replies
 
