@@ -37,11 +37,11 @@ jobs:
         with:
           persist-credentials: false
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm --version
-      - run: npm install
+      - run: npm install --verbose
         working-directory: packages/${{ matrix.package }}
       - name: Link dependent packages (*nix)
         if: matrix.os == 'ubuntu-latest'
@@ -90,7 +90,7 @@ jobs:
           files: packages/${{ matrix.package }}/coverage/lcov.info
       - name: Upload code coverage
         if: matrix.node-version == '22.x' && matrix.os == 'ubuntu-latest' && steps.check_coverage.outputs.files_exists == 'true'
-        uses: codecov/codecov-action@fdcc8476540edceab3de004e990f80d881c6cc00 # v5.5.0
+        uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5.5.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: packages/${{ matrix.package }}/coverage
