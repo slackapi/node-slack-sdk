@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "es2017",
-    "module": "commonjs",
+    "target": "es6",
+    "module": "nodenext",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
@@ -13,7 +13,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "baseUrl": ".",
     "paths": {
       "*": ["./types/*"]
@@ -24,7 +24,7 @@
     // to use import instead of require(), but it's not worth the tradeoff of restructuring the build (for now).
     // "resolveJsonModule": true,
   },
-  "include": ["src/**/*"],
+  "include": ["package.json", "src/**/*"],
   "exclude": ["src/**/*.spec.*"],
   "jsdoc": {
     "out": "support/jsdoc",

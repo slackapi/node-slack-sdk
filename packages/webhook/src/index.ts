@@ -6,11 +6,11 @@ export {
   IncomingWebhookHTTPError,
   IncomingWebhookRequestError,
   IncomingWebhookSendError,
-} from './errors';
+} from './errors.js';
 
 export {
   IncomingWebhook,
   IncomingWebhookDefaultArguments,
   IncomingWebhookResult,
   IncomingWebhookSendArguments,
-} from './IncomingWebhook';
+} from './IncomingWebhook.js';
