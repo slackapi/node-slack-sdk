@@ -1,4 +1,4 @@
-# @slack/web-api v7.10.0-aiAppsBeta.4
+# @slack/web-api v7.10.0
 
 ## Enumerations
 
