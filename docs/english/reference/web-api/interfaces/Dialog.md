@@ -8,7 +8,7 @@ Reusable shapes for argument values
 
 ## Deprecated
 
-Dialogs are a deprecated surface in Slack. For more details on how to upgrade, check out our [Upgrading outmoded dialogs to modals guide](https://api.slack.com/block-kit/dialogs-to-modals). This will be removed in the next major version.
+Dialogs are a deprecated surface in Slack. For more details on how to upgrade, check out our [Upgrading outmoded dialogs to modals guide](https://docs.slack.dev/block-kit/upgrading-outmoded-dialogs-to-modals). This will be removed in the next major version.
 
 ## Properties
 

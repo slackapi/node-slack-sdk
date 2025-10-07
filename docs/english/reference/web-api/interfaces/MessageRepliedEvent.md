@@ -2,7 +2,7 @@
 
 # Interface: MessageRepliedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:210
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:211
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:210
 channel: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:215
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:216
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:215
 channel_type: ChannelTypes;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:216
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:217
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:216
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:213
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:214
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:213
 hidden: true;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:214
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:215
 
 ***
 
@@ -52,9 +52,9 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:214
 message: AllMessageEvents & object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:218
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:219
 
-#### Type declaration
+#### Type Declaration
 
 ##### replies
 
@@ -82,7 +82,7 @@ thread_ts: string;
 subtype: "message_replied";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:212
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:213
 
 ***
 
@@ -92,7 +92,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:212
 ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:217
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:218
 
 ***
 
@@ -102,4 +102,4 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:217
 type: "message";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:211
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:212

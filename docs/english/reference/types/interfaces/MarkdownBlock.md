@@ -2,7 +2,7 @@
 
 # Interface: MarkdownBlock
 
-Defined in: [block-kit/blocks.ts:255](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L255)
+Defined in: [block-kit/blocks.ts:277](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L277)
 
 ## Description
 
@@ -26,7 +26,7 @@ appears as intended. Note that passing a single block may result in multiple blo
 optional block_id: string;
 ```
 
-Defined in: [block-kit/blocks.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L39)
+Defined in: [block-kit/blocks.ts:41](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L41)
 
 #### Description
 
@@ -48,7 +48,7 @@ a message. If a message is updated, use a new `block_id`.
 text: string;
 ```
 
-Defined in: [block-kit/blocks.ts:263](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L263)
+Defined in: [block-kit/blocks.ts:285](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L285)
 
 #### Description
 
@@ -62,7 +62,7 @@ The standard markdown-formatted text. Limit 12,000 characters max.
 type: "markdown";
 ```
 
-Defined in: [block-kit/blocks.ts:259](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L259)
+Defined in: [block-kit/blocks.ts:281](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L281)
 
 #### Description
 

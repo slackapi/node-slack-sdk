@@ -2,7 +2,7 @@
 
 # Interface: RichTextText
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:740
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:816
 
 ## Description
 
@@ -78,7 +78,7 @@ A limited style object for styling rich text `text` elements.
 text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:748
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:824
 
 #### Description
 
@@ -92,7 +92,7 @@ The text to render.
 type: "text";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:744
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:820
 
 #### Description
 

@@ -2,7 +2,7 @@
 
 # Interface: Overflow
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:439
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:515
 
 ## Description
 
@@ -14,8 +14,8 @@ overflow menu options, instead of actions.
 
 ## See
 
- - [Overflow menu element reference](https://api.slack.com/reference/block-kit/block-elements#overflow).
- - [This is an interactive component - see our guide to enabling interactivity](https://api.slack.com/interactivity/handling).
+ - [Overflow menu element reference](https://docs.slack.dev/reference/block-kit/block-elements/overflow-menu-element).
+ - [This is an interactive component - see our guide to enabling interactivity](https://docs.slack.dev/interactivity/handling-user-interaction).
 
 ## Extends
 
@@ -32,7 +32,7 @@ optional action_id: string;
 Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads). Should be unique
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
 among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
 
 #### Inherited from
@@ -66,7 +66,7 @@ with.
 options: PlainTextOption[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:447
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:523
 
 #### Description
 
@@ -80,7 +80,7 @@ An array of up to 5 [PlainTextOption](PlainTextOption.md) to display in the menu
 type: "overflow";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:443
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:519
 
 #### Description
 

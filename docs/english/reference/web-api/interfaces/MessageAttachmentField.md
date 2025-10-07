@@ -10,7 +10,7 @@ A field object to include in a [MessageAttachment](MessageAttachment.md).
 
 ## See
 
-[Field objects reference](https://api.slack.com/reference/messaging/attachments#field_objects).
+[Field objects reference](https://docs.slack.dev/messaging/formatting-message-text#attachments).
 
 ## Properties
 
@@ -54,4 +54,4 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:124
 
 #### Description
 
-The text value displayed in the field object. It can be formatted as plain text, or with [\`mrkdwn\`](https://api.slack.com/reference/surfaces/formatting#basics) by using the `mrkdwn_in` option of [MessageAttachment](MessageAttachment.md).
+The text value displayed in the field object. It can be formatted as plain text, or with [\`mrkdwn\`](https://docs.slack.dev/messaging/formatting-message-text) by using the `mrkdwn_in` option of [MessageAttachment](MessageAttachment.md).

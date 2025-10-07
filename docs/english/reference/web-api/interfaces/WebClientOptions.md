@@ -47,7 +47,7 @@ Defined in: [src/WebClient.ts:105](https://github.com/slackapi/node-slack-sdk/bl
 Determines if a dynamic method name being an absolute URL overrides the configured slackApiUrl.
 When set to false, the URL used in Slack API requests will always begin with the slackApiUrl.
 
-See [https://tools.slack.dev/node-slack-sdk/web-api#call-a-method](https://tools.slack.dev/node-slack-sdk/web-api#call-a-method) for more details.
+See [https://docs.slack.dev/tools/node-slack-sdk/web-api/#call-a-method](https://docs.slack.dev/tools/node-slack-sdk/web-api/#call-a-method) for more details.
 See [https://github.com/axios/axios?tab=readme-ov-file#request-config](https://github.com/axios/axios?tab=readme-ov-file#request-config) for more details.
 
 #### Default
@@ -165,7 +165,7 @@ Defined in: [src/WebClient.ts:86](https://github.com/slackapi/node-slack-sdk/blo
 
 The base URL requests are sent to. Often unchanged, but might be set for testing techniques.
 
-See [https://tools.slack.dev/node-slack-sdk/web-api/#custom-api-url](https://tools.slack.dev/node-slack-sdk/web-api/#custom-api-url) for more information.
+See [https://docs.slack.dev/tools/node-slack-sdk/web-api/#custom-api-url](https://docs.slack.dev/tools/node-slack-sdk/web-api/#custom-api-url) for more information.
 
 #### Default
 

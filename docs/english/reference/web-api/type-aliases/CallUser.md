@@ -12,4 +12,4 @@ Defined in: node\_modules/@slack/types/dist/calls.d.ts:4
 
 ## Description
 
-For use in representing [users in a Slack Call](https://api.slack.com/apis/calls#users).
+For use in representing [users in a Slack Call](https://docs.slack.dev/apis/web-api/using-the-calls-api).

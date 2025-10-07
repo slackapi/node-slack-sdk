@@ -8,7 +8,7 @@ type AppsPermissionsRequestResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/AppsPermissionsRequestResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AppsPermissionsRequestResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### error?
 

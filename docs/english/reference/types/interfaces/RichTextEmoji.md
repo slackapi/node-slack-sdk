@@ -2,7 +2,7 @@
 
 # Interface: RichTextEmoji
 
-Defined in: [block-kit/block-elements.ts:775](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L775)
+Defined in: [block-kit/block-elements.ts:853](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L853)
 
 ## Description
 
@@ -20,7 +20,7 @@ An emoji element for use in a rich text message.
 name: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:783](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L783)
+Defined in: [block-kit/block-elements.ts:861](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L861)
 
 #### Description
 
@@ -92,7 +92,7 @@ A limited style object for styling rich text `text` elements.
 type: "emoji";
 ```
 
-Defined in: [block-kit/block-elements.ts:779](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L779)
+Defined in: [block-kit/block-elements.ts:857](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L857)
 
 #### Description
 
@@ -106,7 +106,7 @@ The type of element. In this case `type` is always `emoji`.
 optional unicode: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:787](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L787)
+Defined in: [block-kit/block-elements.ts:865](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L865)
 
 #### Description
 
@@ -120,7 +120,7 @@ Lowercase hexadecimal Unicode representation of a standard emoji (not for use wi
 optional url: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:791](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L791)
+Defined in: [block-kit/block-elements.ts:869](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L869)
 
 #### Description
 

@@ -8,7 +8,7 @@ type GroupsOpenResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/GroupsOpenResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/GroupsOpenResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### already\_open?
 

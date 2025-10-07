@@ -4,11 +4,11 @@
 
 Defined in: node\_modules/@slack/types/dist/views.d.ts:61
 
-[Configuration modal](https://api.slack.com/legacy/workflows/steps#handle_config_view) for [legacy Workflow Steps from Apps](https://api.slack.com/legacy/workflows/steps).
+[modal](https://docs.slack.dev/legacy/legacy-steps-from-appsConfiguration) for [legacy Workflow Steps from Apps](https://docs.slack.dev/legacy/legacy-steps-from-apps).
 
 ## Deprecated
 
-Steps from Apps are deprecated and will no longer be executed starting September 12, 2024. For more information, see our [deprecation announcement](https://api.slack.com/changelog/2023-08-workflow-steps-from-apps-step-back).
+Steps from Apps are deprecated and will no longer be executed starting September 12, 2024. For more information, see our [deprecation announcement](https://docs.slack.dev/changelog/2023-08-workflow-steps-from-apps-step-back).
 
 ## Extends
 
@@ -51,7 +51,7 @@ store sensitive information (use `private_metadata` instead). Maximum length of 
 
 #### See
 
-[Handling and responding to interactions](https://api.slack.com/surfaces/modals#interactions).
+[Handling and responding to interactions](https://docs.slack.dev/surfaces/modals#interactions).
 
 #### Inherited from
 
@@ -92,8 +92,8 @@ Defined in: node\_modules/@slack/types/dist/views.d.ts:12
 #### Description
 
 String that will be sent to your app in
-[\`view\_submission\`](https://api.slack.com/reference/interaction-payloads/views#view_submission) and
-[\`block\_actions\`](https://api.slack.com/reference/interaction-payloads/block-actions) events.
+[\`view\_submission\`](https://docs.slack.dev/reference/interaction-payloads/view-interactions-payload#view_submission) and
+[\`block\_actions\`](https://docs.slack.dev/reference/interaction-payloads/block_actions-payload) events.
 Maximum length of 3000 characters.
 
 #### Inherited from

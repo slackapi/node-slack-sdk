@@ -8,7 +8,7 @@ type ConversationsExternalInvitePermissionsSetResponse = WebAPICallResult & obje
 
 Defined in: [src/types/response/ConversationsExternalInvitePermissionsSetResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/ConversationsExternalInvitePermissionsSetResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### error?
 

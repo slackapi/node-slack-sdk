@@ -8,7 +8,7 @@ type WorkflowsFeaturedListResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/WorkflowsFeaturedListResponse.ts:3](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/WorkflowsFeaturedListResponse.ts#L3)
 
-## Type declaration
+## Type Declaration
 
 ### featured\_workflows
 

@@ -2,7 +2,7 @@
 
 # Interface: StaticSelect
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:212
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:288
 
 ## Description
 
@@ -11,8 +11,8 @@ element.
 
 ## See
 
- - [Select menu of static options reference](https://api.slack.com/reference/block-kit/block-elements#static_select).
- - [This is an interactive component - see our guide to enabling interactivity](https://api.slack.com/interactivity/handling).
+ - [Select menu of static options reference](https://docs.slack.dev/reference/block-kit/block-elements/select-menu-element#static_select).
+ - [This is an interactive component - see our guide to enabling interactivity](https://docs.slack.dev/interactivity/handling-user-interaction).
 
 ## Extends
 
@@ -29,7 +29,7 @@ optional action_id: string;
 Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads). Should be unique
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
 among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
 
 #### Inherited from
@@ -68,7 +68,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
 #### Description
 
 Indicates whether the element will be set to auto focus within the
-[\`view\` object](https://api.slack.com/reference/surfaces/views). Only one element can be set to `true`.
+[\`view\` object](https://docs.slack.dev/surfaces/modals). Only one element can be set to `true`.
 Defaults to `false`.
 
 #### Inherited from
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_option: PlainTextOption;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:221
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:297
 
 #### Description
 
@@ -98,7 +98,7 @@ This option will be selected when the menu initially loads.
 optional option_groups: object[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:231
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:307
 
 #### label
 
@@ -125,7 +125,7 @@ this field should not be.
 optional options: PlainTextOption[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:226
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:302
 
 #### Description
 
@@ -159,7 +159,7 @@ length for the `text` field in this object is 150 characters.
 type: "static_select";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:216
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:292
 
 #### Description
 

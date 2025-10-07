@@ -8,7 +8,7 @@ type AdminTeamsListResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/AdminTeamsListResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminTeamsListResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### error?
 

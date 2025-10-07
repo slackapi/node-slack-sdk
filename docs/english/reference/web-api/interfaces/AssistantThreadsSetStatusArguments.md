@@ -24,6 +24,20 @@ Channel ID containing the assistant thread.
 
 ***
 
+### loading\_messages?
+
+```ts
+optional loading_messages: string[];
+```
+
+Defined in: [src/types/request/assistant.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L12)
+
+#### Description
+
+The list of messages to rotate through as a loading indicator.
+
+***
+
 ### status
 
 ```ts

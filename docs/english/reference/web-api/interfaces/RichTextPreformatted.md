@@ -2,7 +2,7 @@
 
 # Interface: RichTextPreformatted
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:829
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:905
 
 ## Description
 
@@ -39,7 +39,7 @@ while `1` renders a border.
 elements: (RichTextLink | RichTextText)[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:837
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:913
 
 #### Description
 
@@ -53,7 +53,7 @@ An array of either [RichTextLink](RichTextLink.md) or [RichTextText](RichTextTex
 type: "rich_text_preformatted";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:833
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:909
 
 #### Description
 

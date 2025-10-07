@@ -2,7 +2,7 @@
 
 # Interface: ChannelsSelect
 
-Defined in: [block-kit/block-elements.ts:399](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L399)
+Defined in: [block-kit/block-elements.ts:477](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L477)
 
 ## Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_channel: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:407](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L407)
+Defined in: [block-kit/block-elements.ts:485](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L485)
 
 #### Description
 
@@ -137,7 +137,7 @@ for the message will be determined by the value of this select menu.
 type: "channels_select";
 ```
 
-Defined in: [block-kit/block-elements.ts:403](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L403)
+Defined in: [block-kit/block-elements.ts:481](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L481)
 
 #### Description
 
