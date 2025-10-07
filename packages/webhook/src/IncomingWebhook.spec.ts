@@ -1,8 +1,8 @@
 import { assert } from 'chai';
 import nock from 'nock';
 
-import { ErrorCode } from './errors';
-import { IncomingWebhook } from './IncomingWebhook';
+import { ErrorCode } from '../dist/src/errors.js';
+import { IncomingWebhook } from '../dist/src/IncomingWebhook.js';
 
 const url = 'https://hooks.slack.com/services/FAKEWEBHOOK';
 
