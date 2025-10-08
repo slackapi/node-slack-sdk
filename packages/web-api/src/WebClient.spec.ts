@@ -1899,6 +1899,62 @@ describe('WebClient', () => {
       }
     });
   });
+
+  describe('accepts an AbortSignal to cancel requests', () => {
+    let scope: nock.Scope;
+    beforeEach(() => {
+      scope = nock('https://slack.com').post(/api/).delay(50).reply(200, { ok: true });
+    });
+
+    it('cancels the request when the signal is aborted', async () => {
+      const client = new WebClient(token);
+      const controller = new AbortController();
+      const { signal } = controller;
+
+      setTimeout(() => {
+        controller.abort();
+      }, 1);
+
+      try {
+        await client.conversations.list({}, { signal });
+        assert.fail('Expected error to be thrown');
+      } catch (error) {
+        scope.done();
+      }
+    });
+
+    it('completes the request when the signal is not aborted', async () => {
+      const client = new WebClient(token);
+      const controller = new AbortController();
+      const { signal } = controller;
+
+      try {
+        const response = await client.conversations.list({}, { signal });
+        assert.equal(response.ok, true);
+        scope.done();
+      } catch (error) {
+        assert.fail(`Did not expect an error to be thrown: ${(error as Error).message}`);
+      }
+    });
+
+    it('uses the AbortSignal reason', async () => {
+      const client = new WebClient(token);
+      const controller = new AbortController();
+      const { signal } = controller;
+      const abortReason = new Error('Abort reason');
+      setTimeout(() => {
+        controller.abort(abortReason);
+      }, 1);
+
+      try {
+        await client.conversations.list({}, { signal });
+        assert.fail('Expected error to be thrown');
+      } catch (error) {
+        assert.equal(error, abortReason);
+        scope.done();
+      }
+    });
+  });
 });
 
 // Helpers
