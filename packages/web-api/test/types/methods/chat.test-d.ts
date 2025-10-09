@@ -1,5 +1,5 @@
+import type { EntityMetadata } from '@slack/types';
 import { expectAssignable, expectError } from 'tsd';
-
 import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
@@ -639,34 +639,33 @@ expectAssignable<Parameters<typeof web.chat.unfurl>>([
     ts: '1234.56',
   },
 ]);
+const entityMetadata: EntityMetadata = {
+  entity_type: 'slack#/entities/task',
+  entity_payload: {
+    attributes: {
+      title: {
+        text: 'Important task',
+      },
+    },
+    fields: {
+      status: {
+        value: 'All clear',
+      },
+      description: {
+        value: 'Details of the task.',
+      },
+    },
+  },
+  external_ref: { id: '1234' },
+  url: 'https://myappdomain.com/id/1234',
+  app_unfurl_url: 'https://myappdomain.com/id/1234?myquery=param',
+};
 expectAssignable<Parameters<typeof web.chat.unfurl>>([
   {
     channel: 'C1234',
     ts: '1234.56',
     metadata: {
-      entities: [
-        {
-          entity_type: 'slack#/entities/task',
-          entity_payload: {
-            attributes: {
-              title: {
-                text: 'Important task',
-              },
-            },
-            fields: {
-              status: {
-                value: 'All clear',
-              },
-              description: {
-                value: 'Details of the task.',
-              },
-            },
-          },
-          external_ref: { id: '1234' },
-          url: 'https://myappdomain.com/id/1234',
-          app_unfurl_url: 'https://myappdomain.com/id/1234?myquery=param',
-        },
-      ],
+      entities: [entityMetadata],
     },
   },
 ]);

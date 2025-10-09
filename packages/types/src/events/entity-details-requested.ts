@@ -6,6 +6,8 @@ export interface EntityDetailsRequestedEvent {
     url: string;
     domain: string;
   };
+  entity_url: string;
+  app_unfurl_url?: string;
   user_locale: string;
   event_ts: string;
   external_ref?: {
@@ -13,5 +15,6 @@ export interface EntityDetailsRequestedEvent {
     type?: string;
   };
   message_ts?: string;
+  thread_ts?: string;
   channel?: string;
 }

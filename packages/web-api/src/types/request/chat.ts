@@ -271,12 +271,7 @@ type EntityMetadataUnfurls = {
    * @description Array of entities to attach to the message based on URLs featured in the message.
    */
   metadata: {
-    entities: (EntityMetadata & {
-      /**
-       * @description The unfurl URL for the entity.
-       */
-      app_unfurl_url: string;
-    })[];
+    entities: EntityMetadata[];
   };
 };
 

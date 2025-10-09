@@ -540,4 +540,5 @@ type ManifestEvent =
   | 'workflow_published'
   | 'workflow_step_deleted'
   | 'workflow_step_execute'
-  | 'workflow_unpublished';
+  | 'workflow_unpublished'
+  | 'entity_details_requested';
