@@ -451,7 +451,7 @@ expectAssignable<Parameters<typeof web.chat.postMessage>>([
         {
           entity_type: 'slack#/entities/file',
           entity_payload: {
-            attributes: {},
+            attributes: { title: { text: 'My File' } },
           },
           external_ref: { id: '' },
           url: '',
