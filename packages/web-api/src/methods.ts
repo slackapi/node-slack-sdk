@@ -129,6 +129,7 @@ import type {
   CanvasesDeleteArguments,
   CanvasesEditArguments,
   CanvasesSectionsLookupArguments,
+  ChatAppendStreamArguments,
   ChatDeleteArguments,
   ChatDeleteScheduledMessageArguments,
   ChatGetPermalinkArguments,
@@ -137,6 +138,8 @@ import type {
   ChatPostMessageArguments,
   ChatScheduledMessagesListArguments,
   ChatScheduleMessageArguments,
+  ChatStartStreamArguments,
+  ChatStopStreamArguments,
   ChatUnfurlArguments,
   ChatUpdateArguments,
   ConversationsAcceptSharedInviteArguments,
@@ -387,6 +390,7 @@ import type {
   CanvasesDeleteResponse,
   CanvasesEditResponse,
   CanvasesSectionsLookupResponse,
+  ChatAppendStreamResponse,
   ChatDeleteResponse,
   ChatDeleteScheduledMessageResponse,
   ChatGetPermalinkResponse,
@@ -395,6 +399,8 @@ import type {
   ChatPostMessageResponse,
   ChatScheduledMessagesListResponse,
   ChatScheduleMessageResponse,
+  ChatStartStreamResponse,
+  ChatStopStreamResponse,
   ChatUnfurlResponse,
   ChatUpdateResponse,
   ConversationsAcceptSharedInviteResponse,
@@ -1564,6 +1570,10 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly chat = {
     /**
+     * @description Appends text to an existing streaming conversation.
+     */
+    appendStream: bindApiCall<ChatAppendStreamArguments, ChatAppendStreamResponse>(this, 'chat.appendStream'),
+    /**
      * @description Deletes a message.
      * @see {@link https://docs.slack.dev/reference/methods/chat.delete `chat.delete` API reference}.
      */
@@ -1614,6 +1624,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         'chat.scheduledMessages.list',
       ),
     },
+    /**
+     * @description Starts a new streaming conversation.
+     */
+    startStream: bindApiCall<ChatStartStreamArguments, ChatStartStreamResponse>(this, 'chat.startStream'),
+    /**
+     * @description Stops a streaming conversation.
+     */
+    stopStream: bindApiCall<ChatStopStreamArguments, ChatStopStreamResponse>(this, 'chat.stopStream'),
     /**
      * @description Provide custom unfurl behavior for user-posted URLs.
      * @see {@link https://docs.slack.dev/reference/methods/chat.unfurl `chat.unfurl` API reference}.
@@ -1940,7 +1958,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * - multiple upload_files
      * Will try to honor both single file or content data supplied as well
      * as multiple file uploads property.
-     * @see {@link https://tools.slack.dev/node-slack-sdk/web-api#upload-a-file `@slack/web-api` Upload a file documentation}.
+     * @see {@link https://docs.slack.dev/tools/node-slack-sdk/web-api/#upload-a-file `@slack/web-api` Upload a file documentation}.
      */
     uploadV2: bindFilesUploadV2<FilesUploadV2Arguments, WebAPICallResult>(this),
     comments: {

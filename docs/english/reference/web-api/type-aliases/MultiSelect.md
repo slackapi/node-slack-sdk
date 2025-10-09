@@ -11,7 +11,7 @@ type MultiSelect =
   | MultiExternalSelect;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:173
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:249
 
 ## Description
 
@@ -24,5 +24,5 @@ There are different types of multi-select menu that depend on different data sou
 
 ## See
 
- - [Multi-select menu element reference](https://api.slack.com/reference/block-kit/block-elements#multi_select).
- - [This is an interactive component - see our guide to enabling interactivity](https://api.slack.com/interactivity/handling).
+ - [Multi-select menu element reference](https://docs.slack.dev/reference/block-kit/block-elements/multi-select-menus-element).
+ - [This is an interactive component - see our guide to enabling interactivity](https://docs.slack.dev/interactivity/handling-user-interaction).

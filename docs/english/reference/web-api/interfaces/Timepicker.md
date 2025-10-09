@@ -2,7 +2,7 @@
 
 # Interface: Timepicker
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:506
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:582
 
 ## Description
 
@@ -12,8 +12,8 @@ native time picker UIs.
 
 ## See
 
- - [Time picker element reference](https://api.slack.com/reference/block-kit/block-elements#timepicker).
- - [This is an interactive component - see our guide to enabling interactivity](https://api.slack.com/interactivity/handling).
+ - [Time picker element reference](https://docs.slack.dev/reference/block-kit/block-elements/time-picker-element).
+ - [This is an interactive component - see our guide to enabling interactivity](https://docs.slack.dev/interactivity/handling-user-interaction).
 
 ## Extends
 
@@ -30,7 +30,7 @@ optional action_id: string;
 Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads). Should be unique
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
 among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
 
 #### Inherited from
@@ -69,7 +69,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
 #### Description
 
 Indicates whether the element will be set to auto focus within the
-[\`view\` object](https://api.slack.com/reference/surfaces/views). Only one element can be set to `true`.
+[\`view\` object](https://docs.slack.dev/surfaces/modals). Only one element can be set to `true`.
 Defaults to `false`.
 
 #### Inherited from
@@ -84,7 +84,7 @@ Defaults to `false`.
 optional initial_time: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:516
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:592
 
 #### Description
 
@@ -119,7 +119,7 @@ length for the `text` field in this object is 150 characters.
 optional timezone: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:521
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:597
 
 #### Description
 
@@ -134,7 +134,7 @@ text underneath the time picker. It is also passed to the app upon certain inter
 type: "timepicker";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:510
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:586
 
 #### Description
 

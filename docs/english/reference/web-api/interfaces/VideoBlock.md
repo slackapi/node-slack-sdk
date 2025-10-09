@@ -2,17 +2,17 @@
 
 # Interface: VideoBlock
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:241
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:274
 
 ## Description
 
 Displays an embedded video player. A video block is designed to embed videos in all app surfaces (e.g.
 link unfurls, messages, modals, App Home) — anywhere you can put blocks! To use the video block within your app, you
-must have the [\`links.embed:write\` scope](https://api.slack.com/scopes/links.embed:write).
+must have the [\`links.embed:write\` scope](https://docs.slack.dev/reference/scopes/links.embed.write).
 
 ## See
 
-[Video block reference](https://api.slack.com/reference/block-kit/blocks#video).
+[Video block reference](https://docs.slack.dev/reference/block-kit/blocks/video-block).
 
 ## Extends
 
@@ -26,7 +26,7 @@ must have the [\`links.embed:write\` scope](https://api.slack.com/scopes/links.e
 alt_text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:259
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:292
 
 #### Description
 
@@ -40,7 +40,7 @@ A tooltip for the video. Required for accessibility.
 optional author_name: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:272
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:305
 
 #### Description
 
@@ -60,7 +60,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
 
 A string acting as a unique identifier for a block. If not specified, a `block_id` will be generated.
 You can use this `block_id` when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads).
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads).
 Maximum length for this field is 255 characters. `block_id` should be unique for each message and each iteration of
 a message. If a message is updated, use a new `block_id`.
 
@@ -76,7 +76,7 @@ a message. If a message is updated, use a new `block_id`.
 optional description: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:284
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:317
 
 #### Description
 
@@ -90,7 +90,7 @@ Description for video using a [PlainTextElement](PlainTextElement.md) object.
 optional provider_icon_url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:280
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:313
 
 #### Description
 
@@ -104,7 +104,7 @@ Icon for the video provider, e.g. YouTube icon.
 optional provider_name: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:276
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:309
 
 #### Description
 
@@ -118,7 +118,7 @@ The originating application or domain of the video, e.g. YouTube.
 thumbnail_url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:255
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:288
 
 #### Description
 
@@ -132,7 +132,7 @@ The thumbnail image URL.
 title: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:263
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:296
 
 #### Description
 
@@ -146,7 +146,7 @@ Video title as a [PlainTextElement](PlainTextElement.md) object. `text` within m
 optional title_url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:268
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:301
 
 #### Description
 
@@ -161,7 +161,7 @@ Must go to an HTTPS URL.
 type: "video";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:245
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:278
 
 #### Description
 
@@ -179,10 +179,10 @@ The type of block. For a video block, `type` is always `video`.
 video_url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:251
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:284
 
 #### Description
 
 The URL to be embedded. Must match any existing
-[unfurl domains](https://api.slack.com/reference/messaging/link-unfurling#configuring_domains) within the app
+[unfurl domains](https://docs.slack.dev/messaging/unfurling-links-in-messages) within the app
 and point to a HTTPS URL.

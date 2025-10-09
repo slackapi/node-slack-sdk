@@ -8,7 +8,7 @@ type AdminConversationsRemoveCustomRetentionResponse = WebAPICallResult & object
 
 Defined in: [src/types/response/AdminConversationsRemoveCustomRetentionResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminConversationsRemoveCustomRetentionResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### error?
 

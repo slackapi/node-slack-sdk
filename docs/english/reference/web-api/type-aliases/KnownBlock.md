@@ -4,19 +4,21 @@
 
 ```ts
 type KnownBlock = 
-  | ImageBlock
-  | ContextBlock
   | ActionsBlock
+  | ContextBlock
+  | ContextActionsBlock
   | DividerBlock
-  | SectionBlock
-  | InputBlock
   | FileBlock
   | HeaderBlock
-  | VideoBlock
-  | RichTextBlock;
+  | ImageBlock
+  | InputBlock
+  | MarkdownBlock
+  | RichTextBlock
+  | SectionBlock
+  | VideoBlock;
 ```
 
 Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:21
 
 A helper union type of all known Blocks, as listed out on the
-[Blocks reference](https://api.slack.com/reference/block-kit/blocks).
+[Blocks reference](https://docs.slack.dev/reference/block-kit/blocks).

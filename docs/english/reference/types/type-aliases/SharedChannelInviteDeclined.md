@@ -1,6 +1,6 @@
 [@slack/types](../index.md) / SharedChannelInviteDeclined
 
-# Type Alias: ~~SharedChannelInviteDeclined~~
+# ~~Type Alias: SharedChannelInviteDeclined~~
 
 ```ts
 type SharedChannelInviteDeclined = SharedChannelInviteDeclinedEvent;

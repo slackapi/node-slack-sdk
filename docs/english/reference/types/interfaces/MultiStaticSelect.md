@@ -2,7 +2,7 @@
 
 # Interface: MultiStaticSelect
 
-Defined in: [block-kit/block-elements.ts:290](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L290)
+Defined in: [block-kit/block-elements.ts:368](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L368)
 
 ## Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_options: PlainTextOption[];
 ```
 
-Defined in: [block-kit/block-elements.ts:300](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L300)
+Defined in: [block-kit/block-elements.ts:378](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L378)
 
 #### Description
 
@@ -116,7 +116,7 @@ Specifies the maximum number of items that can be selected. Minimum number is 1.
 optional option_groups: object[];
 ```
 
-Defined in: [block-kit/block-elements.ts:315](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L315)
+Defined in: [block-kit/block-elements.ts:393](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L393)
 
 #### label
 
@@ -143,7 +143,7 @@ this field should not be.
 optional options: PlainTextOption[];
 ```
 
-Defined in: [block-kit/block-elements.ts:307](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L307)
+Defined in: [block-kit/block-elements.ts:385](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L385)
 
 #### Description
 
@@ -177,7 +177,7 @@ length for the `text` field in this object is 150 characters.
 type: "multi_static_select";
 ```
 
-Defined in: [block-kit/block-elements.ts:294](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L294)
+Defined in: [block-kit/block-elements.ts:372](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L372)
 
 #### Description
 

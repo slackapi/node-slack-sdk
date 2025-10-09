@@ -11,7 +11,7 @@ type Select =
   | ExternalSelect;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:162
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:238
 
 ## Description
 
@@ -23,5 +23,5 @@ lists of options: [StaticSelect](../interfaces/StaticSelect.md), [ExternalSelect
 
 ## See
 
- - [Select menu element reference](https://api.slack.com/reference/block-kit/block-elements#select).
- - [This is an interactive component - see our guide to enabling interactivity](https://api.slack.com/interactivity/handling).
+ - [Select menu element reference](https://docs.slack.dev/reference/block-kit/block-elements/select-menu-element).
+ - [This is an interactive component - see our guide to enabling interactivity](https://docs.slack.dev/interactivity/handling-user-interaction).

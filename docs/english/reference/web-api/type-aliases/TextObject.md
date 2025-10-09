@@ -17,4 +17,4 @@ Defines an object containing some text. Can be either a [PlainTextElement](../in
 
 ## See
 
-[Text object reference](https://api.slack.com/reference/block-kit/composition-objects#text).
+[Text object reference](https://docs.slack.dev/reference/block-kit/composition-objects/text-object).

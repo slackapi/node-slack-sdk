@@ -139,6 +139,52 @@ export interface EmailInput extends Actionable, Dispatchable, Focusable, Placeho
 }
 
 /**
+ * @description Buttons to indicate positive or negative feedback.
+ */
+export interface FeedbackButtons extends Actionable {
+  /**
+   * @description The type of block. For a feedback buttons block, `type` is always `feedback_buttons`.
+   */
+  type: 'feedback_buttons';
+  /**
+   * @description A button to indicate positive feedback.
+   */
+  positive_button: {
+    /**
+     * @description Defines an object containing some text.
+     * @see {@link https://docs.slack.dev/reference/block-kit/composition-objects/text-object Text object reference}.
+     */
+    text: PlainTextElement;
+    /**
+     * @description A label for longer descriptive text about a button element. This label will be read out by screen readers instead of the button `text` object. Maximum length for this field is 75 characters.
+     */
+    accessibility_label?: string;
+    /**
+     * @description The positive feedback button value.
+     */
+    value: string;
+  };
+  /**
+   * @description A button to indicate negative feedback.
+   */
+  negative_button: {
+    /**
+     * @description Defines an object containing some text.
+     * @see {@link https://docs.slack.dev/reference/block-kit/composition-objects/text-object Text object reference}.
+     */
+    text: PlainTextElement;
+    /**
+     * @description A label for longer descriptive text about a button element. This label will be read out by screen readers instead of the button `text` object. Maximum length for this field is 75 characters.
+     */
+    accessibility_label?: string;
+    /**
+     * @description The negative feedback button value.
+     */
+    value: string;
+  };
+}
+
+/**
  * @description Allows user to upload files. In order to use the `file_input` element within your app,
  * your app must have the `files:read` scope.
  * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/file-input-element File input element reference}.
@@ -159,6 +205,38 @@ export interface FileInput extends Actionable {
    * `10`. Defaults to `10` if not specified.
    */
   max_files?: number;
+}
+
+/**
+ * @description An icon button to perform actions.
+ */
+export interface IconButton extends Actionable, Confirmable {
+  /**
+   * @description The type of element. In this case `type` is always `icon_button`.
+   */
+  type: 'icon_button';
+  /**
+   * @description The icon to show.
+   * @example trash
+   */
+  icon: string;
+  /**
+   * @description Defines an object containing some text.
+   * @see {@link https://docs.slack.dev/reference/block-kit/composition-objects/text-object Text object reference}.
+   */
+  text: PlainTextElement;
+  /**
+   * @description A label for longer descriptive text about a button element. This label will be read out by screen readers instead of the button `text` object. Maximum length for this field is 75 characters.
+   */
+  accessibility_label?: string;
+  /**
+   * @description The button value.
+   */
+  value?: string;
+  /**
+   * @description User IDs for which the icon appears.
+   */
+  visible_to_user_ids?: string[];
 }
 
 /**
@@ -621,7 +699,7 @@ export interface URLInput extends Actionable, Dispatchable, Focusable, Placehold
 }
 
 /**
- * @description Allows users to run a {@link https://tools.slack.dev/deno-slack-sdk/guides/creating-link-triggers/#workflow_buttons link trigger} with customizable inputs.
+ * @description Allows users to run a {@link https://docs.slack.dev/tools/deno-slack-sdk/guides/creating-link-triggers/#workflow_buttons link trigger} with customizable inputs.
  * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/workflow-button-element Workflow button element reference}.
  */
 export interface WorkflowButton extends Confirmable {
@@ -639,12 +717,12 @@ export interface WorkflowButton extends Confirmable {
    */
   workflow: {
     /**
-     * @description Properties of the {@link https://tools.slack.dev/deno-slack-sdk/guides/creating-link-triggers/#workflow_buttons link trigger}
+     * @description Properties of the {@link https://docs.slack.dev/tools/deno-slack-sdk/guides/creating-link-triggers/#workflow_buttons link trigger}
      * that will be invoked via this button.
      */
     trigger: {
       /**
-       * @description The trigger URL of the {@link https://tools.slack.dev/deno-slack-sdk/guides/creating-link-triggers/#workflow_buttons link trigger}
+       * @description The trigger URL of the {@link https://docs.slack.dev/tools/deno-slack-sdk/guides/creating-link-triggers/#workflow_buttons link trigger}
        */
       url: string;
       /**

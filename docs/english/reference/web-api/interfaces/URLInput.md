@@ -2,7 +2,7 @@
 
 # Interface: URLInput
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:528
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:604
 
 ## Description
 
@@ -10,8 +10,8 @@ Allows user to enter a URL into a single-line field.
 
 ## See
 
- - [URL input element reference](https://api.slack.com/reference/block-kit/block-elements#url).
- - [This is an interactive component - see our guide to enabling interactivity](https://api.slack.com/interactivity/handling).
+ - [URL input element reference](https://docs.slack.dev/reference/block-kit/block-elements/url-input-element).
+ - [This is an interactive component - see our guide to enabling interactivity](https://docs.slack.dev/interactivity/handling-user-interaction).
 
 ## Extends
 
@@ -28,7 +28,7 @@ optional action_id: string;
 Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads). Should be unique
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
 among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
 
 #### Inherited from
@@ -48,7 +48,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:28
 #### Description
 
 A [DispatchActionConfig](DispatchActionConfig.md) object that determines when during text input the element returns a
-[\`block\_actions\` payload](https://api.slack.com/reference/interaction-payloads/block-actions).
+[\`block\_actions\` payload](https://docs.slack.dev/reference/interaction-payloads/block_actions-payload).
 
 #### Inherited from
 
@@ -67,7 +67,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
 #### Description
 
 Indicates whether the element will be set to auto focus within the
-[\`view\` object](https://api.slack.com/reference/surfaces/views). Only one element can be set to `true`.
+[\`view\` object](https://docs.slack.dev/surfaces/modals). Only one element can be set to `true`.
 Defaults to `false`.
 
 #### Inherited from
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_value: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:536
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:612
 
 #### Description
 
@@ -115,7 +115,7 @@ length for the `text` field in this object is 150 characters.
 type: "url_text_input";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:532
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:608
 
 #### Description
 

@@ -27,7 +27,7 @@
     "type": "git",
     "url": "git+https://github.com/slackapi/node-slack-sdk.git"
   },
-  "homepage": "https://tools.slack.dev/node-slack-sdk",
+  "homepage": "https://docs.slack.dev/tools/node-slack-sdk/",
   "publishConfig": {
     "access": "public"
   },
@@ -67,6 +67,6 @@
     "mocha-multi-reporters": "^1.5.1",
     "shx": "^0.4.0",
     "sinon": "^21.0.0",
-    "typescript": "5.9.2"
+    "typescript": "5.9.3"
   }
 }

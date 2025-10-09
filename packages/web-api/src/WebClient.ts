@@ -17,7 +17,7 @@ import isElectron from 'is-electron';
 import isStream from 'is-stream';
 import pQueue from 'p-queue';
 import pRetry, { AbortError } from 'p-retry';
-
+import { ChatStreamer, type ChatStreamerOptions } from './chat-stream';
 import {
   httpErrorFromResponse,
   platformErrorFromResult,
@@ -35,8 +35,8 @@ import { getUserAgent } from './instrument';
 import { getLogger, type Logger, LogLevel } from './logger';
 import { Methods } from './methods';
 import { type RetryOptions, tenRetriesInAboutThirtyMinutes } from './retry-policies';
+import type { ChatStartStreamArguments } from './types/request';
 import type { CursorPaginationEnabled } from './types/request/common';
-
 import type {
   FilesCompleteUploadExternalArguments,
   FilesGetUploadURLExternalArguments,
@@ -80,7 +80,7 @@ export interface WebClientOptions {
   /**
    * The base URL requests are sent to. Often unchanged, but might be set for testing techniques.
    *
-   * See {@link https://tools.slack.dev/node-slack-sdk/web-api/#custom-api-url} for more information.
+   * See {@link https://docs.slack.dev/tools/node-slack-sdk/web-api/#custom-api-url} for more information.
    * @default https://slack.com/api/
    */
   slackApiUrl?: string;
@@ -98,7 +98,7 @@ export interface WebClientOptions {
    * Determines if a dynamic method name being an absolute URL overrides the configured slackApiUrl.
    * When set to false, the URL used in Slack API requests will always begin with the slackApiUrl.
    *
-   * See {@link https://tools.slack.dev/node-slack-sdk/web-api#call-a-method} for more details.
+   * See {@link https://docs.slack.dev/tools/node-slack-sdk/web-api/#call-a-method} for more details.
    * See {@link https://github.com/axios/axios?tab=readme-ov-file#request-config} for more details.
    * @default true
    */
@@ -244,7 +244,7 @@ export class WebClient extends Methods {
    * Determines if a dynamic method name being an absolute URL overrides the configured slackApiUrl.
    * When set to false, the URL used in Slack API requests will always begin with the slackApiUrl.
    *
-   * See {@link https://tools.slack.dev/node-slack-sdk/web-api#call-a-method} for more details.
+   * See {@link https://docs.slack.dev/tools/node-slack-sdk/web-api/#call-a-method} for more details.
    * See {@link https://github.com/axios/axios?tab=readme-ov-file#request-config} for more details.
    * @default true
    */
@@ -508,6 +508,38 @@ export class WebClient extends Methods {
       }
       return accumulator;
     })();
+  }
+
+  /**
+   * Stream markdown text into a conversation.
+   *
+   * @description The "chatStream" method starts a new chat stream in a conversation that can be appended to. After appending an entire message, the stream can be stopped with concluding arguments such as "blocks" for gathering feedback.
+   *
+   * @example
+   * const streamer = client.chatStream({
+   *   channel: "C0123456789",
+   *   thread_ts: "1700000001.123456",
+   *   recipient_team_id: "T0123456789",
+   *   recipient_user_id: "U0123456789",
+   * });
+   * await streamer.append({
+   *   markdown_text: "**hello wo",
+   * });
+   * await streamer.append({
+   *   markdown_text: "rld!**",
+   * });
+   * await streamer.stop();
+   *
+   * @see {@link https://docs.slack.dev/reference/methods/chat.startStream}
+   * @see {@link https://docs.slack.dev/reference/methods/chat.appendStream}
+   * @see {@link https://docs.slack.dev/reference/methods/chat.stopStream}
+   */
+  public chatStream(params: Omit<ChatStartStreamArguments & ChatStreamerOptions, 'markdown_text'>): ChatStreamer {
+    const { buffer_size, ...args } = params;
+    const options: ChatStreamerOptions = {
+      buffer_size,
+    };
+    return new ChatStreamer(this, this.logger, args, options);
   }
 
   /**

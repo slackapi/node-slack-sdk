@@ -2,7 +2,7 @@
 
 # Interface: RichTextChannelMention
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:627
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:703
 
 ## Description
 
@@ -20,7 +20,7 @@ A channel mention element for use in a rich text message.
 channel_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:635
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:711
 
 #### Description
 
@@ -92,7 +92,7 @@ A limited style object for styling rich text `text` elements.
 type: "channel";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:631
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:707
 
 #### Description
 

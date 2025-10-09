@@ -28,7 +28,7 @@
     "npm": ">= 8.6.0"
   },
   "repository": "slackapi/node-slack-sdk",
-  "homepage": "https://tools.slack.dev/node-slack-sdk/socket-mode",
+  "homepage": "https://docs.slack.dev/tools/node-slack-sdk/socket-mode/",
   "publishConfig": {
     "access": "public"
   },
@@ -76,6 +76,6 @@
     "ts-node": "^10",
     "typedoc": "^0.28.7",
     "typedoc-plugin-markdown": "^4.7.0",
-    "typescript": "5.9.2"
+    "typescript": "5.9.3"
   }
 }

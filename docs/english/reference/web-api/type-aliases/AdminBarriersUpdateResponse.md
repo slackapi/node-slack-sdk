@@ -8,7 +8,7 @@ type AdminBarriersUpdateResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/AdminBarriersUpdateResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminBarriersUpdateResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### barrier?
 

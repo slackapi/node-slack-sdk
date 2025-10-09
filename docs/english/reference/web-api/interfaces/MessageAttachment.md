@@ -4,12 +4,12 @@
 
 Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:8
 
-Add [secondary attachments](https://api.slack.com/messaging/composing/layouts#attachments) to your messages in Slack.
-Message attachments are considered a legacy part of messaging functionality. They are not deprecated per se, but they may change in the future, in ways that reduce their visibility or utility. We recommend moving to Block Kit instead. Read more about [when to use message attachments](https://api.slack.com/messaging/composing/layouts#when-to-use-attachments).
+Add [secondary attachments](https://docs.slack.dev/messaging/formatting-message-text#attachments) to your messages in Slack.
+Message attachments are considered a legacy part of messaging functionality. They are not deprecated per se, but they may change in the future, in ways that reduce their visibility or utility. We recommend moving to Block Kit instead. Read more about [when to use message attachments](https://docs.slack.dev/messaging/formatting-message-text#attachments).
 
 ## See
 
-[Secondary message attachments reference documentation](https://api.slack.com/reference/messaging/attachments)
+[message attachments reference documentation](https://docs.slack.dev/messaging/formatting-message-text#attachmentsSecondary)
 
 ## Properties
 
@@ -107,7 +107,7 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:13
 #### Description
 
 An array of [layout blocks](../type-aliases/KnownBlock.md) in the same format
-[as described in the building blocks guide](https://api.slack.com/block-kit/building).
+[as described in the building blocks guide](https://docs.slack.dev/block-kit/designing-with-block-kit).
 
 ***
 
@@ -172,7 +172,7 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:63
 #### Description
 
 An array of [MessageAttachmentField](MessageAttachmentField.md) that get displayed in a table-like way
-(see [this example](https://api.slack.com/reference/messaging/attachments#example)).
+(see [this example](https://docs.slack.dev/messaging/formatting-message-text#attachments)).
 For best results, include no more than 2-3 field objects.
 
 ***
@@ -245,7 +245,7 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:104
 
 #### Description
 
-Field names that should be [formatted by \`mrkdwn\` syntax](https://api.slack.com/reference/surfaces/formatting#basics).
+Field names that should be [by \`mrkdwn\` syntax](https://docs.slack.dev/messaging/formatting-message-textformatted).
 The fields that can be formatted in this way include the names of the `fields` property, or
 the `text` or `pretext` properties.
 
@@ -262,7 +262,7 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:28
 #### Description
 
 Text that appears above the message attachment block. It can be formatted as plain text,
-or with [\`mrkdwn\`](https://api.slack.com/reference/surfaces/formatting#basics) by including it in the `mrkdwn_in` field.
+or with [\`mrkdwn\`](https://docs.slack.dev/messaging/formatting-message-text#basic-formatting) by including it in the `mrkdwn_in` field.
 
 ***
 
@@ -287,7 +287,7 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:57
 #### Description
 
 The main body text of the attachment. It can be formatted as plain text, or with
-[\`mrkdwn\`](https://api.slack.com/reference/surfaces/formatting#basics) by including it in the `mrkdwn_in` field.
+[\`mrkdwn\`](https://docs.slack.dev/messaging/formatting-message-text#basic-formatting) by including it in the `mrkdwn_in` field.
 The content will automatically collapse if it contains 700+ characters or 5+ line breaks, and will display
 a "Show more..." link to expand the content.
 

@@ -3,7 +3,7 @@
 The `@slack/rtm-api` package contains a simple, convenient, and configurable client for receiving events and sending simple messages to Slack's [Real Time Messaging API](https://docs.slack.dev/legacy/legacy-rtm-api). Use it in your
 app to stay connected to the Slack platform over a persistent Websocket connection.
 
-**Note**: The RTM API isn't available for modern granular-permissions apps, and you can no longer create new legacy apps. We recommend using [Bolt for JavaScript](https://tools.slack.dev/bolt-js). If you have an existing RTM app, do not update its scopes as it will be updated to a granular-permissions app and stop working with the RTM API.
+**Note**: The RTM API isn't available for modern granular-permissions apps, and you can no longer create new legacy apps. We recommend using [Bolt for JavaScript](https://docs.slack.dev/tools/bolt-js/). If you have an existing RTM app, do not update its scopes as it will be updated to a granular-permissions app and stop working with the RTM API.
 
 ## Installation
 
@@ -16,7 +16,7 @@ $ npm install @slack/rtm-api
 ## Usage
 
 These examples show the most common features of the `RTMClient`. You'll find even more extensive [documentation on the
-package's website](https://tools.slack.dev/node-slack-sdk/rtm-api).
+package's website](https://docs.slack.dev/tools/node-slack-sdk/rtm-api/).
 
 <!-- END: Remove before copying into the docs directory -->
 
@@ -72,7 +72,7 @@ user ID and team ID, you can look those up any time the client is connected as t
 
 Options passed to the `.start()` method are passed through as arguments to the [`rtm.connect` Web API
 method](https://docs.slack.dev/reference/methods/rtm.connect). These arguments deal with presence, which is discussed in more
-detail [on the documentation website](https://tools.slack.dev/node-slack-sdk/rtm-api/#presence).
+detail [on the documentation website](https://docs.slack.dev/tools/node-slack-sdk/rtm-api/#presence).
 
 </details>
 

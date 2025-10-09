@@ -8,7 +8,7 @@ type BookmarksAddResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/BookmarksAddResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/BookmarksAddResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### bookmark?
 

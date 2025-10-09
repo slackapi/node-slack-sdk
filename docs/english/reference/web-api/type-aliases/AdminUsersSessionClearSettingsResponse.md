@@ -8,7 +8,7 @@ type AdminUsersSessionClearSettingsResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/AdminUsersSessionClearSettingsResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminUsersSessionClearSettingsResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### error?
 

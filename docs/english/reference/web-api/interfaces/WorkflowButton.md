@@ -2,15 +2,15 @@
 
 # Interface: WorkflowButton
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:542
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:618
 
 ## Description
 
-Allows users to run a [link trigger](https://api.slack.com/automation/triggers/link#workflow_buttons) with customizable inputs.
+Allows users to run a [link trigger](https://docs.slack.dev/tools/deno-slack-sdk/guides/creating-link-triggers/#workflow_buttons) with customizable inputs.
 
 ## See
 
-[Workflow button element reference](https://api.slack.com/reference/block-kit/block-elements#workflow_button).
+[Workflow button element reference](https://docs.slack.dev/reference/block-kit/block-elements/workflow-button-element).
 
 ## Extends
 
@@ -24,7 +24,7 @@ Allows users to run a [link trigger](https://api.slack.com/automation/triggers/l
 optional accessibility_label: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:596
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:672
 
 #### Description
 
@@ -58,7 +58,7 @@ with.
 optional style: ColorScheme;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:591
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:667
 
 #### Description
 
@@ -77,7 +77,7 @@ If you don't include this field, the default button style will be used.
 text: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:551
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:627
 
 #### Description
 
@@ -92,7 +92,7 @@ Maximum length for the `text` in this field is 75 characters.
 type: "workflow_button";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:546
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:622
 
 #### Description
 
@@ -106,7 +106,7 @@ The type of element. In this case `type` is always `workflow_button`.
 workflow: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:555
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:631
 
 #### trigger
 
@@ -116,7 +116,7 @@ trigger: object;
 
 ##### Description
 
-Properties of the [link trigger](https://api.slack.com/automation/triggers/link#workflow_buttons)
+Properties of the [link trigger](https://docs.slack.dev/tools/deno-slack-sdk/guides/creating-link-triggers/#workflow_buttons)
 that will be invoked via this button.
 
 ##### trigger.customizable\_input\_parameters?
@@ -138,7 +138,7 @@ url: string;
 
 ###### Description
 
-The trigger URL of the [link trigger](https://api.slack.com/automation/triggers/link#workflow_buttons)
+The trigger URL of the [link trigger](https://docs.slack.dev/tools/deno-slack-sdk/guides/creating-link-triggers/#workflow_buttons)
 
 #### Description
 

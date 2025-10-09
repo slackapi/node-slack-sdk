@@ -2,7 +2,7 @@
 
 # Interface: RadioButtons
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:484
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:560
 
 ## Description
 
@@ -10,8 +10,8 @@ Allows users to choose one item from a list of possible options.
 
 ## See
 
- - [Radio button group element reference](https://api.slack.com/reference/block-kit/block-elements#radio).
- - [This is an interactive component - see our guide to enabling interactivity](https://api.slack.com/interactivity/handling).
+ - [Radio button group element reference](https://docs.slack.dev/reference/block-kit/block-elements/radio-button-group-element).
+ - [This is an interactive component - see our guide to enabling interactivity](https://docs.slack.dev/interactivity/handling-user-interaction).
 
 ## Extends
 
@@ -28,7 +28,7 @@ optional action_id: string;
 Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads). Should be unique
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
 among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
 
 #### Inherited from
@@ -67,7 +67,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
 #### Description
 
 Indicates whether the element will be set to auto focus within the
-[\`view\` object](https://api.slack.com/reference/surfaces/views). Only one element can be set to `true`.
+[\`view\` object](https://docs.slack.dev/surfaces/modals). Only one element can be set to `true`.
 Defaults to `false`.
 
 #### Inherited from
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_option: Option;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:493
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:569
 
 #### Description
 
@@ -97,7 +97,7 @@ be selected when the radio button group initially loads.
 options: Option[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:497
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:573
 
 #### Description
 
@@ -111,7 +111,7 @@ An array of [Option](../type-aliases/Option.md) objects. A maximum of 10 options
 type: "radio_buttons";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:488
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:564
 
 #### Description
 

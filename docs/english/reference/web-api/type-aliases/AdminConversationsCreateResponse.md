@@ -8,7 +8,7 @@ type AdminConversationsCreateResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/AdminConversationsCreateResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminConversationsCreateResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### channel\_id?
 

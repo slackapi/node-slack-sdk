@@ -2,7 +2,7 @@
 
 # Interface: ChannelArchiveMessageEvent
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:60
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:61
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:60
 channel: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:65
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:66
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:65
 channel_type: ChannelTypes;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:66
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:67
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:66
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:69
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:70
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:69
 subtype: "channel_archive";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:62
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:63
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:62
 team: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:63
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:64
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:63
 text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:67
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:68
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:67
 ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:68
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:69
 
 ***
 
@@ -82,7 +82,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:68
 type: "message";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:61
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:62
 
 ***
 
@@ -92,4 +92,4 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:61
 user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:64
+Defined in: node\_modules/@slack/types/dist/events/message.d.ts:65
