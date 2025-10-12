@@ -10,8 +10,8 @@ Application-specific data to attach to Slack message.
 
 ## See
 
- - [Using Metadata](https://api.slack.com/metadata/using)
- - [Metadata Payload Structure](https://api.slack.com/reference/metadata#payload_structure)
+ - [Using Metadata](https://docs.slack.dev/messaging/message-metadata)
+ - [Metadata Payload Structure](https://docs.slack.dev/messaging/message-metadata)
 
 ## Properties
 

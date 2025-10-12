@@ -2,7 +2,7 @@
 
 # Interface: RichTextList
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:793
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:869
 
 ## Description
 
@@ -39,7 +39,7 @@ while `1` renders a border.
 elements: RichTextSection[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:801
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:877
 
 #### Description
 
@@ -53,7 +53,7 @@ An array of [RichTextSection](RichTextSection.md) elements comprising each list 
 optional indent: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:811
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:887
 
 #### Description
 
@@ -68,7 +68,7 @@ or characters rendered as the list points. Also affected by the `style` property
 style: "bullet" | "ordered";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:806
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:882
 
 #### Description
 
@@ -83,7 +83,7 @@ The type of list. Can be either `bullet` (the list points are all rendered the s
 type: "rich_text_list";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:797
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:873
 
 #### Description
 

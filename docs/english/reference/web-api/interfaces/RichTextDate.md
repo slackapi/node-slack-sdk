@@ -2,7 +2,7 @@
 
 # Interface: RichTextDate
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:640
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:716
 
 ## Description
 
@@ -20,7 +20,7 @@ A date element for use in a rich text message.
 optional fallback: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:680
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:756
 
 #### Description
 
@@ -34,7 +34,7 @@ Text to display in place of the date should parsing, formatting or displaying fa
 format: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:672
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:748
 
 #### Description
 
@@ -126,7 +126,7 @@ A limited style object for styling rich text `text` elements.
 timestamp: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:648
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:724
 
 #### Description
 
@@ -140,7 +140,7 @@ A UNIX timestamp for the date to be displayed in seconds.
 type: "date";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:644
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:720
 
 #### Description
 
@@ -154,7 +154,7 @@ The type of element. In this case `type` is always `date`.
 optional url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:676
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:752
 
 #### Description
 

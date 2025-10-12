@@ -45,7 +45,7 @@ store sensitive information (use `private_metadata` instead). Maximum length of 
 
 #### See
 
-[Handling and responding to interactions](https://api.slack.com/surfaces/modals#interactions).
+[Handling and responding to interactions](https://docs.slack.dev/surfaces/modals#interactions).
 
 #### Inherited from
 
@@ -86,8 +86,8 @@ Defined in: node\_modules/@slack/types/dist/views.d.ts:12
 #### Description
 
 String that will be sent to your app in
-[\`view\_submission\`](https://api.slack.com/reference/interaction-payloads/views#view_submission) and
-[\`block\_actions\`](https://api.slack.com/reference/interaction-payloads/block-actions) events.
+[\`view\_submission\`](https://docs.slack.dev/reference/interaction-payloads/view-interactions-payload#view_submission) and
+[\`block\_actions\`](https://docs.slack.dev/reference/interaction-payloads/block_actions-payload) events.
 Maximum length of 3000 characters.
 
 #### Inherited from

@@ -10,7 +10,7 @@ Defines an object containing some text.
 
 ## See
 
-[Text object reference](https://api.slack.com/reference/block-kit/composition-objects#text).
+[Text object reference](https://docs.slack.dev/reference/block-kit/composition-objects/text-object).
 
 ## Properties
 
@@ -54,6 +54,6 @@ Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:1
 #### Description
 
 When set to `false` (as is default) URLs will be auto-converted into links, conversation names will
-be link-ified, and certain mentions will be [automatically parsed](https://api.slack.com/reference/surfaces/formatting#automatic-parsing).
+be link-ified, and certain mentions will be [automatically parsed](https://docs.slack.dev/messaging/formatting-message-text).
 Using a value of `true` will skip any preprocessing of this nature, although you can still include
-[manual parsing strings](https://api.slack.com/reference/surfaces/formatting#advanced).
+[manual parsing strings](https://docs.slack.dev/messaging/formatting-message-text).

@@ -53,6 +53,13 @@ interface Text {
    */
   text: string;
 }
+interface MarkdownText {
+  /**
+   * @description Accepts message text formatted in markdown. This argument should not be used in conjunction with `blocks` or `text`. Limit this field to 12,000 characters.
+   * @example **This is bold text**
+   */
+  markdown_text: string;
+}
 export interface ChannelAndText extends Channel, Text {}
 export interface ChannelAndBlocks extends Channel, Partial<Text> {
   /**
@@ -68,13 +75,7 @@ export interface ChannelAndAttachments extends Channel, Partial<Text> {
    */
   attachments: MessageAttachment[];
 }
-export interface ChannelAndMarkdownText extends Channel {
-  /**
-   * @description Accepts message text formatted in markdown. This argument should not be used in conjunction with `blocks` or `text`. Limit this field to 12,000 characters.
-   * @example **This is bold text**
-   */
-  markdown_text: string;
-}
+export interface ChannelAndMarkdownText extends Channel, MarkdownText {}
 // Models message-creation arguments, user must provide one of the following combinations:
 // 1. channel and text
 // 2. channel and blocks
@@ -153,6 +154,8 @@ export interface Unfurls {
   unfurl_media?: boolean;
 }
 
+export interface ChatAppendStreamArguments extends TokenOverridable, ChannelAndTS, MarkdownText {}
+
 // https://docs.slack.dev/reference/methods/chat.delete
 export interface ChatDeleteArguments extends ChannelAndTS, AsUser, TokenOverridable {}
 
@@ -214,6 +217,29 @@ export type ChatScheduledMessagesListArguments = OptionalArgument<
     Pick<TimelinePaginationEnabled, 'latest' | 'oldest'> &
     Partial<Channel>
 >;
+
+export interface ChatStartStreamArguments extends TokenOverridable, Channel, Partial<MarkdownText>, ThreadTS {
+  /**
+   * @description The ID of the team that is associated with `recipient_user_id`.
+   * This is required when starting a streaming conversation outside of a DM.
+   */
+  recipient_team_id?: string;
+  /**
+   * @description The ID of the user to receive the streaming conversation messages.
+   * This is required when starting a streaming conversation outside of a DM.
+   */
+  recipient_user_id?: string;
+}
+
+export type ChatStopStreamArguments = TokenOverridable &
+  ChannelAndTS &
+  Partial<MarkdownText> &
+  Partial<Metadata> & {
+    /**
+     * Block formatted elements will be appended to the end of the message.
+     */
+    blocks?: (KnownBlock | Block)[];
+  };
 
 export interface SourceAndUnfurlID {
   /**

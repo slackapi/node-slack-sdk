@@ -2,7 +2,7 @@
 
 # Interface: StaticSelect
 
-Defined in: [block-kit/block-elements.ts:253](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L253)
+Defined in: [block-kit/block-elements.ts:331](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L331)
 
 ## Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_option: PlainTextOption;
 ```
 
-Defined in: [block-kit/block-elements.ts:263](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L263)
+Defined in: [block-kit/block-elements.ts:341](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L341)
 
 #### Description
 
@@ -98,7 +98,7 @@ This option will be selected when the menu initially loads.
 optional option_groups: object[];
 ```
 
-Defined in: [block-kit/block-elements.ts:278](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L278)
+Defined in: [block-kit/block-elements.ts:356](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L356)
 
 #### label
 
@@ -125,7 +125,7 @@ this field should not be.
 optional options: PlainTextOption[];
 ```
 
-Defined in: [block-kit/block-elements.ts:270](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L270)
+Defined in: [block-kit/block-elements.ts:348](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L348)
 
 #### Description
 
@@ -159,7 +159,7 @@ length for the `text` field in this object is 150 characters.
 type: "static_select";
 ```
 
-Defined in: [block-kit/block-elements.ts:257](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L257)
+Defined in: [block-kit/block-elements.ts:335](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L335)
 
 #### Description
 

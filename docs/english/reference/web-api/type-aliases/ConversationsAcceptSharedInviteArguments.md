@@ -8,7 +8,7 @@ type ConversationsAcceptSharedInviteArguments = TokenOverridable & OptionalTeamA
 
 Defined in: [src/types/request/conversations.ts:52](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L52)
 
-## Type declaration
+## Type Declaration
 
 ### channel\_name
 

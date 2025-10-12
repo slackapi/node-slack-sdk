@@ -2,7 +2,7 @@
 
 # Interface: HeaderBlock
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:104
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:121
 
 ## Description
 
@@ -11,7 +11,7 @@ font. Use it to delineate between different groups of content in your app's surf
 
 ## See
 
-[Header block reference](https://api.slack.com/reference/block-kit/blocks#header).
+[Header block reference](https://docs.slack.dev/reference/block-kit/blocks/header-block).
 
 ## Extends
 
@@ -31,7 +31,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
 
 A string acting as a unique identifier for a block. If not specified, a `block_id` will be generated.
 You can use this `block_id` when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads).
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads).
 Maximum length for this field is 255 characters. `block_id` should be unique for each message and each iteration of
 a message. If a message is updated, use a new `block_id`.
 
@@ -47,7 +47,7 @@ a message. If a message is updated, use a new `block_id`.
 text: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:113
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:130
 
 #### Description
 
@@ -62,7 +62,7 @@ Maximum length for the text in this field is 150 characters.
 type: "header";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:108
+Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:125
 
 #### Description
 

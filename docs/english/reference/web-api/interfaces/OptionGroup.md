@@ -10,7 +10,7 @@ Defines a way to group options in a select or multi-select menu.
 
 ## See
 
-[Option group object reference](https://api.slack.com/reference/block-kit/composition-objects#option_group).
+[Option group object reference](https://docs.slack.dev/reference/block-kit/composition-objects/option-group-object).
 
 ## Properties
 

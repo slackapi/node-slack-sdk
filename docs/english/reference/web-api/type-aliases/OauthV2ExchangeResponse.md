@@ -8,7 +8,7 @@ type OauthV2ExchangeResponse = WebAPICallResult & object;
 
 Defined in: [src/types/response/OauthV2ExchangeResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/OauthV2ExchangeResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### access\_token?
 

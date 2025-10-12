@@ -2,7 +2,7 @@
 
 # Interface: RichTextEmoji
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:685
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:761
 
 ## Description
 
@@ -20,7 +20,7 @@ An emoji element for use in a rich text message.
 name: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:693
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:769
 
 #### Description
 
@@ -92,7 +92,7 @@ A limited style object for styling rich text `text` elements.
 type: "emoji";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:689
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:765
 
 #### Description
 
@@ -106,7 +106,7 @@ The type of element. In this case `type` is always `emoji`.
 optional unicode: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:697
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:773
 
 #### Description
 
@@ -120,7 +120,7 @@ Lowercase hexadecimal Unicode representation of a standard emoji (not for use wi
 optional url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:701
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:777
 
 #### Description
 

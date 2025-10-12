@@ -2,7 +2,7 @@
 
 # Interface: FileInput
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:121
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:166
 
 ## Description
 
@@ -11,7 +11,7 @@ your app must have the `files:read` scope.
 
 ## See
 
-[File input element reference](https://api.slack.com/reference/block-kit/block-elements#file_input).
+[File input element reference](https://docs.slack.dev/reference/block-kit/block-elements/file-input-element).
 
 ## Extends
 
@@ -28,7 +28,7 @@ optional action_id: string;
 Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads). Should be unique
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
 among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
 
 #### Inherited from
@@ -43,11 +43,11 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 optional filetypes: string[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:131
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:176
 
 #### Description
 
-An array of valid [file extensions](https://api.slack.com/types/file#types) that will be accepted
+An array of valid [file extensions](https://docs.slack.dev/reference/objects/file-object) that will be accepted
 for this element. All file extensions will be accepted if `filetypes` is not specified. This validation is provided
 for convenience only, and you should perform your own file type validation based on what you expect to receive.
 
@@ -59,7 +59,7 @@ for convenience only, and you should perform your own file type validation based
 optional max_files: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:136
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:181
 
 #### Description
 
@@ -74,7 +74,7 @@ Maximum number of files that can be uploaded for this `file_input` element. Mini
 type: "file_input";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:125
+Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:170
 
 #### Description
 

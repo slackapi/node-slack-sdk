@@ -2,7 +2,7 @@
 
 # Interface: RichTextDate
 
-Defined in: [block-kit/block-elements.ts:729](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L729)
+Defined in: [block-kit/block-elements.ts:807](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L807)
 
 ## Description
 
@@ -20,7 +20,7 @@ A date element for use in a rich text message.
 optional fallback: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:769](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L769)
+Defined in: [block-kit/block-elements.ts:847](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L847)
 
 #### Description
 
@@ -34,7 +34,7 @@ Text to display in place of the date should parsing, formatting or displaying fa
 format: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:761](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L761)
+Defined in: [block-kit/block-elements.ts:839](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L839)
 
 #### Description
 
@@ -126,7 +126,7 @@ A limited style object for styling rich text `text` elements.
 timestamp: number;
 ```
 
-Defined in: [block-kit/block-elements.ts:737](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L737)
+Defined in: [block-kit/block-elements.ts:815](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L815)
 
 #### Description
 
@@ -140,7 +140,7 @@ A UNIX timestamp for the date to be displayed in seconds.
 type: "date";
 ```
 
-Defined in: [block-kit/block-elements.ts:733](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L733)
+Defined in: [block-kit/block-elements.ts:811](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L811)
 
 #### Description
 
@@ -154,7 +154,7 @@ The type of element. In this case `type` is always `date`.
 optional url: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:765](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L765)
+Defined in: [block-kit/block-elements.ts:843](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L843)
 
 #### Description
 

@@ -1,6 +1,6 @@
 [@slack/types](../index.md) / Actionable
 
-# Interface: ~~Actionable~~
+# ~~Interface: Actionable~~
 
 Defined in: [block-kit/extensions.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/extensions.ts#L18)
 
@@ -19,7 +19,9 @@ Defined in: [block-kit/extensions.ts:18](https://github.com/slackapi/node-slack-
 - [`Datepicker`](Datepicker.md)
 - [`DateTimepicker`](DateTimepicker.md)
 - [`EmailInput`](EmailInput.md)
+- [`FeedbackButtons`](FeedbackButtons.md)
 - [`FileInput`](FileInput.md)
+- [`IconButton`](IconButton.md)
 - [`UsersSelect`](UsersSelect.md)
 - [`MultiUsersSelect`](MultiUsersSelect.md)
 - [`StaticSelect`](StaticSelect.md)

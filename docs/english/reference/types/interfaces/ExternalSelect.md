@@ -2,7 +2,7 @@
 
 # Interface: ExternalSelect
 
-Defined in: [block-kit/block-elements.ts:434](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L434)
+Defined in: [block-kit/block-elements.ts:512](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L512)
 
 ## Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_option: PlainTextOption;
 ```
 
-Defined in: [block-kit/block-elements.ts:443](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L443)
+Defined in: [block-kit/block-elements.ts:521](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L521)
 
 #### Description
 
@@ -97,7 +97,7 @@ A single option to be selected when the menu initially loads.
 optional min_query_length: number;
 ```
 
-Defined in: [block-kit/block-elements.ts:449](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L449)
+Defined in: [block-kit/block-elements.ts:527](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L527)
 
 #### Description
 
@@ -132,7 +132,7 @@ length for the `text` field in this object is 150 characters.
 type: "external_select";
 ```
 
-Defined in: [block-kit/block-elements.ts:438](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L438)
+Defined in: [block-kit/block-elements.ts:516](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L516)
 
 #### Description
 

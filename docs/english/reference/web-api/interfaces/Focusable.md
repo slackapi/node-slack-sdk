@@ -40,5 +40,5 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
 #### Description
 
 Indicates whether the element will be set to auto focus within the
-[\`view\` object](https://api.slack.com/reference/surfaces/views). Only one element can be set to `true`.
+[\`view\` object](https://docs.slack.dev/surfaces/modals). Only one element can be set to `true`.
 Defaults to `false`.
