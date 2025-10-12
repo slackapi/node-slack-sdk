@@ -6,4 +6,4 @@
 /dist
 
 # coverage
-/coverage
+/lcov.info

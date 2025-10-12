@@ -1,8 +1,6 @@
 import type { Agent } from 'node:http';
-
 import type { Block, KnownBlock, MessageAttachment } from '@slack/types'; // TODO: Block and KnownBlock will be merged into AnyBlock in upcoming types release
 import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
-
 import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors.js';
 import { getUserAgent } from './instrument.js';
 

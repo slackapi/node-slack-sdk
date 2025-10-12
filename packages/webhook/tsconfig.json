@@ -25,7 +25,6 @@
     // "resolveJsonModule": true,
   },
   "include": ["package.json", "src/**/*"],
-  "exclude": ["src/**/*.spec.*"],
   "jsdoc": {
     "out": "support/jsdoc",
     "access": "public"
