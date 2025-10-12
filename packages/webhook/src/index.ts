@@ -1,5 +1,3 @@
-/// <reference lib="es2017" />
-
 export {
   CodedError,
   ErrorCode,
@@ -10,7 +8,7 @@ export {
 
 export {
   IncomingWebhook,
-  IncomingWebhookDefaultArguments,
+  IncomingWebhookOptions,
   IncomingWebhookResult,
   IncomingWebhookSendArguments,
 } from './IncomingWebhook.js';

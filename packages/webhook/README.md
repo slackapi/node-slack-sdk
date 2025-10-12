@@ -2,13 +2,11 @@
 
 [![codecov](https://codecov.io/gh/slackapi/node-slack-sdk/graph/badge.svg?token=OcQREPvC7r&flag=webhook)](https://codecov.io/gh/slackapi/node-slack-sdk)
 
-The `@slack/webhook` package contains a helper for making requests to Slack's [Incoming
-Webhooks](https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks). Use it in your app to send a notification to a channel.
+The `@slack/webhook` package contains a helper for sending message to Slack using [incoming webhooks](https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks). Use it in your app to send a notification to a channel.
 
 ## Requirements
-This package supports Node v18 and higher. It's highly recommended to use [the latest LTS version of
-node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features
-from that version.
+
+This package supports Node v20 and higher. It's highly recommended to use [the latest LTS version of node](https://github.com/nodejs/Release#release-schedule), and the documentation is written using syntax and features from that version.
 
 ## Installation
 
@@ -24,12 +22,10 @@ $ npm install @slack/webhook
 
 ### Initialize the webhook
 
-The package exports an `IncomingWebhook` class. You'll need to initialize it with the URL you received from Slack.
-To create a webhook URL, follow the instructions in the [Getting started with Incoming Webhooks](https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks)
-guide.
+The package exports an `IncomingWebhook` class. You'll need to initialize it with the URL you received from Slack. To create a webhook URL, follow the instructions in the [Getting started with incoming webhooks](https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks) guide.
 
 ```javascript
-const { IncomingWebhook } = require('@slack/webhook');
+import { IncomingWebhook } from "@slack/webhook";
 
 // Read a url from the environment variables
 const url = process.env.SLACK_WEBHOOK_URL;
@@ -43,16 +39,16 @@ const webhook = new IncomingWebhook(url);
 <strong><i>Setting default arguments</i></strong>
 </summary>
 
-The webhook can be initialized with default arguments that are reused each time a notification is sent. Use the second
-parameter to the constructor to set the default arguments.
+The webhook can be initialized with default arguments that are reused each time a notification is sent. Use the second parameter to the constructor to set the default arguments.
 
 ```javascript
-const { IncomingWebhook } = require('@slack/webhook');
+import { IncomingWebhook } from "@slack/webhook";
+
 const url = process.env.SLACK_WEBHOOK_URL;
 
 // Initialize with defaults
 const webhook = new IncomingWebhook(url, {
-  icon_emoji: ':bowtie:',
+  unfurl_media: false,
 });
 ```
 
@@ -62,12 +58,11 @@ const webhook = new IncomingWebhook(url, {
 
 ### Send a notification
 
-Something interesting just happened in your app, so it's time to send the notification! Just call the
-`.send(options)` method on the webhook. The `options` parameter is an object that should describe the contents of
-the message. The method returns a `Promise` that resolves once the notification is sent.
+Something interesting just happened in your app, so it's time to send the notification! Just call the `.send(options)` method on the webhook. The `options` parameter is an object that should describe the contents of the message. The method returns a `Promise` that resolves once the notification is sent.
 
 ```javascript
-const { IncomingWebhook } = require('@slack/webhook');
+import { IncomingWebhook } from "@slack/webhook";
+
 const url = process.env.SLACK_WEBHOOK_URL;
 
 const webhook = new IncomingWebhook(url);
@@ -75,47 +70,65 @@ const webhook = new IncomingWebhook(url);
 // Send the notification
 (async () => {
   await webhook.send({
-    text: 'I\'ve got news for you...',
+    text: "I've got news for you...",
   });
 })();
 ```
 
 ---
 
-### Proxy requests with a custom agent
+### Send requests with a custom fetch adapter
 
-The webhook allows you to customize the HTTP
-[`Agent`](https://nodejs.org/docs/latest/api/http.html#http_class_http_agent) used to create the connection to Slack.
-Using this option is the best way to make all requests from your app go through a proxy, which is a common requirement in
-many corporate settings.
+The `@slack/webhook` package sends requests using [`globalThis.fetch`](https://nodejs.org/api/globals.html#fetch) by default, but you can customize that for various purposes such as for custom handling of retries or proxying requests, both of which are common requirements in corporate settings.
 
-In order to create an `Agent` from some proxy information (such as a host, port, username, and password), you can use
-one of many npm packages. We recommend [`https-proxy-agent`](https://www.npmjs.com/package/https-proxy-agent). Start
-by installing this package and saving it to your `package.json`.
+In order to use a custom fetch adapter, provide a function that's compatible with the `fetch` interface.
+
+The following example uses the [`undici`](https://www.npmjs.com/package/undici) package to create a dispatcher for proxying requests with a limited timeout. Start by installing this package:
 
 ```shell
-$ npm install https-proxy-agent
+$ npm install unidici
 ```
 
-Import the `HttpsProxyAgent` class, and create an instance that can be used as the `agent` option of the
-`IncomingWebhook`.
+Then import the `ProxyAgent` and `fetch` class from the `unidici` package to create a custom `fetch` implementation. This is passed to the `IncomingWebhook` constructor and used in requests:
 
 ```javascript
-const { IncomingWebhook } = require('@slack/webhook');
-const { HttpsProxyAgent } = require('https-proxy-agent');
+import { IncomingWebhook } from "@slack/webhook";
+import { ProxyAgent, fetch as undiciFetch } from "undici";
+
 const url = process.env.SLACK_WEBHOOK_URL;
 
-// One of the ways you can configure HttpsProxyAgent is using a simple string.
-// See: https://github.com/TooTallNate/node-https-proxy-agent for more options
-const proxy = new HttpsProxyAgent(process.env.http_proxy || 'http://168.63.76.32:3128');
+/**
+ * Configure your proxy agent here
+ * @see {@link https://undici.nodejs.org/#/docs/api/ProxyAgent.md}
+ */
+const proxyAgent = new ProxyAgent({
+  uri: new URL("http://localhost:8888"),
+  proxyTls: {
+    signal: AbortSignal.timeout(400),
+  },
+});
 
-// Initialize with the proxy agent option
-const webhook = new IncomingWebhook(token, { agent: proxy });
+/**
+ * Implement a custom fetch adapter
+ * @type {typeof globalThis.fetch}
+ * @see {@link https://undici.nodejs.org/#/docs/api/Fetch.md}
+ */
+const myFetch = async (url, opts) => {
+  return await undiciFetch(url, {
+    ...opts,
+    dispatcher: proxyAgent,
+  });
+};
+
+// Initialize with the custom fetch adapater and proxy
+const webhook = new IncomingWebhook(url, {
+  fetch: myFetch,
+});
 
 // Sending this webhook will now go through the proxy
 (async () => {
   await webhook.send({
-    text: 'I\'ve got news for you...',
+    text: "I've got news for you...",
   });
 })();
 ```

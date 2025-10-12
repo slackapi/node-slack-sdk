@@ -21,5 +21,5 @@
   "jsDocCompatibility": true,
   "hidePageHeader": true,
   "entryFileName": "index",
-  "exclude": ["**/*.test.ts", "**/*.spec.ts", "**/*.test-d.ts"]
+  "exclude": ["**/*.test.ts", "**/*.test-d.ts"]
 }
