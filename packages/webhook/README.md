@@ -86,10 +86,10 @@ In order to use a custom fetch adapter, provide a function that's compatible wit
 The following example uses the [`undici`](https://www.npmjs.com/package/undici) package to create a dispatcher for proxying requests with a limited timeout. Start by installing this package:
 
 ```shell
-$ npm install unidici
+$ npm install undici
 ```
 
-Then import the `ProxyAgent` and `fetch` class from the `unidici` package to create a custom `fetch` implementation. This is passed to the `IncomingWebhook` constructor and used in requests:
+Then import the `ProxyAgent` and `fetch` class from the `undici` package to create a custom `fetch` implementation. This is passed to the `IncomingWebhook` constructor and used in requests:
 
 ```javascript
 import { IncomingWebhook } from "@slack/webhook";
