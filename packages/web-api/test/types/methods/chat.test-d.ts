@@ -1,4 +1,4 @@
-import type { EntityMetadata } from '@slack/types';
+import { CustomFieldType, type EntityMetadata, EntityType } from '@slack/types';
 import { expectAssignable, expectError } from 'tsd';
 import { WebClient } from '../../../src/WebClient';
 
@@ -449,7 +449,7 @@ expectAssignable<Parameters<typeof web.chat.postMessage>>([
     metadata: {
       entities: [
         {
-          entity_type: 'slack#/entities/file',
+          entity_type: EntityType.File,
           entity_payload: {
             attributes: { title: { text: 'My File' } },
           },
@@ -752,6 +752,15 @@ const entityMetadata: EntityMetadata = {
         value: 'Details of the task.',
       },
     },
+    custom_fields: [
+      {
+        label: 'My Field',
+        key: 'my-field',
+        type: CustomFieldType.Array,
+        item_type: 'slack#/types/channel_id',
+        value: [{ value: 'C0123ABC' }],
+      },
+    ],
   },
   external_ref: { id: '1234' },
   url: 'https://myappdomain.com/id/1234',

@@ -50,7 +50,7 @@ export interface EntityMetadata {
   /**
    * @description Entity type.
    */
-  entity_type: string;
+  entity_type: EntityType | string;
   /**
    * @description Schema for the given entity type.
    */
@@ -68,10 +68,7 @@ export interface EntityMetadata {
   /**
    * @description Reference (and optional type) used to identify an entity within the developer's system.
    */
-  external_ref: {
-    id: string;
-    type?: string;
-  };
+  external_ref: ExternalRef;
   /**
    * @description URL used to identify an entity within the developer's system.
    */
@@ -81,6 +78,19 @@ export interface EntityMetadata {
    * @description The exact URL posted in the source message. Required in metadata passed to `chat.unfurl`.
    */
   app_unfurl_url?: string;
+}
+
+export interface ExternalRef {
+  id: string;
+  type?: string;
+}
+
+export enum EntityType {
+  Task = 'slack#/entities/task',
+  File = 'slack#/entities/file',
+  Item = 'slack#/entities/item',
+  Incident = 'slack#/entities/incident',
+  ContentItem = 'slack#/entities/content_item',
 }
 
 export interface FileEntitySlackFile {
@@ -137,9 +147,6 @@ export interface EntityEditSupport {
 export interface EntityFullSizePreview {
   is_supported: boolean;
   preview_url?: string;
-  is_animated?: boolean;
-  width?: string;
-  height?: string;
   mime_type?: string;
   error?: {
     code: string;
@@ -190,6 +197,10 @@ export interface ContentItemEntityFields {
   last_modified_by?: EntityTypedField;
 }
 
+export interface EntityArrayItemField extends Omit<EntityTypedField, 'type'> {
+  type?: string;
+}
+
 export interface EntityTypedField {
   type: string;
   label?: string;
@@ -204,6 +215,7 @@ export interface EntityTypedField {
   edit?: EntityEditSupport;
   tag_color?: string;
   user?: EntityUserIDField | EntityUserField;
+  entity_ref?: EntityRefField;
 }
 
 export interface EntityStringField {
@@ -229,6 +241,14 @@ export interface EntityUserField {
   icon?: EntityIconField;
 }
 
+export interface EntityRefField {
+  entity_url: string;
+  external_ref: ExternalRef;
+  title: string;
+  display_type?: string;
+  icon?: EntityIconField;
+}
+
 export interface EntityTimestampField {
   value: number;
   label?: string;
@@ -250,8 +270,8 @@ export interface EntityImageField {
 export interface EntityCustomField {
   label: string;
   key: string;
-  type: string;
-  value?: string | number | EntityTypedField[];
+  type: CustomFieldType | string;
+  value?: string | number | EntityArrayItemField[];
   link?: string;
   icon?: EntityIconField;
   long?: boolean;
@@ -263,6 +283,19 @@ export interface EntityCustomField {
   edit?: EntityEditSupport;
   item_type?: string;
   user?: EntityUserIDField | EntityUserField;
+  entity_ref?: EntityRefField;
+}
+
+export enum CustomFieldType {
+  Integer = 'integer',
+  String = 'string',
+  Array = 'array',
+  Date = 'slack#/types/date',
+  Timestamp = 'slack#/types/timestamp',
+  Image = 'slack#/types/image',
+  ChannelId = 'slack#/types/channel_id',
+  User = 'slack#/types/user',
+  EntityRef = 'slack#/types/entity_ref',
 }
 
 export interface EntityActionButton {

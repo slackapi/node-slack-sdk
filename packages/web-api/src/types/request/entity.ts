@@ -1,4 +1,4 @@
-import type { EntityMetadata } from '@slack/types';
+import type { EntityActionButton, EntityMetadata } from '@slack/types';
 import type { TokenOverridable } from './common';
 
 // https://api.slack.com/methods/entity.presentDetails
@@ -32,7 +32,6 @@ export type EntityPresentDetailsArguments = TokenOverridable & {
     // If status is 'custom', you can use this field to provide a title to the client.
     custom_title?: string;
     // Set of action buttons to be shown in case of a specific error.
-    // biome-ignore lint/complexity/noBannedTypes: Allow Object
-    actions?: Object[];
+    actions?: EntityActionButton[];
   };
 };
