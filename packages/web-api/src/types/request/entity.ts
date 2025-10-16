@@ -23,15 +23,25 @@ export type EntityPresentDetailsArguments = TokenOverridable & {
   user_auth_url?: string;
   /** @description Error response preventing flexpane data from being returned. */
   error?: {
-    // Error status indicating why the entity could not be presented.
+    /**
+     * @description Error status indicating why the entity could not be presented.
+     * */
     status: string;
-    // If status is 'custom', you can use this field to provide a message to the client.
+    /**
+     * @description If status is 'custom', you can use this field to provide a message to the client.
+     * */
     custom_message?: string;
-    // String format, eg. 'markdown'.
+    /**
+     * @description String format, eg. 'markdown'.
+     * */
     message_format?: string;
-    // If status is 'custom', you can use this field to provide a title to the client.
+    /**
+     * @description If status is 'custom', you can use this field to provide a title to the client.
+     * */
     custom_title?: string;
-    // Set of action buttons to be shown in case of a specific error.
+    /**
+     * @description Set of action buttons to be shown in case of a specific error.
+     * */
     actions?: EntityActionButton[];
   };
 };
