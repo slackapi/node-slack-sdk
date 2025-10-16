@@ -1,7 +1,7 @@
 import type { EntityActionButton, EntityMetadata } from '@slack/types';
 import type { TokenOverridable } from './common';
 
-// https://api.slack.com/methods/entity.presentDetails
+// https://docs.slack.dev/reference/methods/entity.presentDetails
 export type EntityPresentDetailsArguments = TokenOverridable & {
   /**
    * @description Entity metadata to be presented in the flexpane.
