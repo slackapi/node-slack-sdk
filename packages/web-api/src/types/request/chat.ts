@@ -106,6 +106,10 @@ export interface BroadcastedThreadReply extends ThreadTS {
 // or not broadcasted. Broadcasted replies are necessarily threaded, so `thread_ts` becomes required.
 type ReplyInThread = WithinThreadReply | BroadcastedThreadReply;
 
+export interface ChatPostMessageMetadata {
+  /** @description Object representing message metadata, which will be made accessible to any user or app. */
+  metadata?: EntityAndEventMessageMetadata;
+}
 export interface Metadata {
   /** @description Object representing message metadata, which will be made accessible to any user or app. */
   metadata?: MessageMetadata;
@@ -193,7 +197,7 @@ export type ChatPostMessageArguments = TokenOverridable &
   Authorship &
   Parse &
   LinkNames &
-  EntityAndEventMessageMetadata &
+  ChatPostMessageMetadata &
   Unfurls & {
     /** @description Disable Slack markup parsing by setting to `false`. Enabled by default. */
     mrkdwn?: boolean;
