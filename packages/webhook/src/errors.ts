@@ -1,5 +1,3 @@
-import type { AxiosError, AxiosResponse } from 'axios';
-
 /**
  * All errors produced by this package adhere to this interface
  */
@@ -41,7 +39,7 @@ function errorWithCode(error: Error, code: ErrorCode): CodedError {
  * A factory to create IncomingWebhookRequestError objects
  * @param original The original error
  */
-export function requestErrorWithOriginal(original: AxiosError): IncomingWebhookRequestError {
+export function requestErrorWithOriginal(original: Error): IncomingWebhookRequestError {
   const error = errorWithCode(
     new Error(`A request error occurred: ${original.message}`),
     ErrorCode.RequestError,
@@ -54,7 +52,9 @@ export function requestErrorWithOriginal(original: AxiosError): IncomingWebhookR
  * A factory to create IncomingWebhookHTTPError objects
  * @param original The original error
  */
-export function httpErrorWithOriginal(original: AxiosError & { response: AxiosResponse }): IncomingWebhookHTTPError {
+export function httpErrorWithOriginal(
+  original: Error & { response: { status: number; statusText: string; data: string } },
+): IncomingWebhookHTTPError {
   const error = errorWithCode(
     new Error(`An HTTP protocol error occurred: statusCode = ${original.response.status}`),
     ErrorCode.HTTPError,

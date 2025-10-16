@@ -1,125 +1,137 @@
-import type { Agent } from 'node:http';
-
-import type { Block, KnownBlock, MessageAttachment } from '@slack/types'; // TODO: Block and KnownBlock will be merged into AnyBlock in upcoming types release
-import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
-
-import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
-import { getUserAgent } from './instrument';
+import type { AnyBlock, MessageAttachment, MessageMetadata } from '@slack/types';
+import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors.js';
+import { getUserAgent } from './instrument.js';
 
 /**
- * A client for Slack's Incoming Webhooks
+ * @description A client to send messages with Slack incoming webhooks.
+ * @see {@link https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks}
  */
 export class IncomingWebhook {
   /**
-   * The webhook URL
+   * @description The webhook URL.
    */
   private url: string;
 
   /**
-   * Default arguments for posting messages with this webhook
+   * @description Default arguments for posting messages with this webhook.
    */
-  private defaults: IncomingWebhookDefaultArguments;
+  private defaults: IncomingWebhookSendArguments;
 
   /**
-   * Axios HTTP client instance used by this client
+   * @description A method to send requests.
+   * @see {@link https://github.com/nodejs/undici/discussions/2167}
    */
-  private axios: AxiosInstance;
+  private fetch: typeof globalThis.fetch;
 
-  public constructor(
-    url: string,
-    defaults: IncomingWebhookDefaultArguments = {
-      timeout: 0,
-    },
-  ) {
-    if (url === undefined) {
-      throw new Error('Incoming webhook URL is required');
-    }
-
-    this.url = url;
+  /**
+   * @param url The URL of the incoming webhook.
+   * @param configuration Options and default arguments used when sending a message.
+   */
+  public constructor(url: string, configuration: IncomingWebhookOptions & IncomingWebhookSendArguments = {}) {
+    const { fetch, ...defaults } = configuration;
     this.defaults = defaults;
-
-    this.axios = axios.create({
-      baseURL: url,
-      httpAgent: defaults.agent,
-      httpsAgent: defaults.agent,
-      maxRedirects: 0,
-      proxy: false,
-      timeout: defaults.timeout,
-      headers: {
-        'User-Agent': getUserAgent(),
-      },
-    });
-
-    this.defaults.agent = undefined;
+    this.fetch = fetch || globalThis.fetch;
+    this.url = url;
   }
 
   /**
-   * Send a notification to a conversation
+   * Send a notification to a conversation.
    * @param message - the message (a simple string, or an object describing the message)
    */
   public async send(message: string | IncomingWebhookSendArguments): Promise<IncomingWebhookResult> {
-    // NOTE: no support for TLS config
-    let payload: IncomingWebhookSendArguments = { ...this.defaults };
-
+    let payload: IncomingWebhookSendArguments = {
+      ...this.defaults,
+    };
     if (typeof message === 'string') {
       payload.text = message;
     } else {
       payload = Object.assign(payload, message);
     }
-
     try {
-      const response = await this.axios.post(this.url, payload);
-      return this.buildResult(response);
+      const response = await this.fetch(this.url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'User-Agent': getUserAgent(),
+        },
+        body: JSON.stringify(payload),
+      });
+      const text = await response.text();
+      const result = {
+        text,
+      };
+      return result;
       // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
     } catch (error: any) {
       // Wrap errors in this packages own error types (abstract the implementation details' types)
       if (error.response !== undefined) {
         throw httpErrorWithOriginal(error);
       }
-      if (error.request !== undefined) {
+      if (error.request !== undefined || error.code) {
         throw requestErrorWithOriginal(error);
       }
       throw error;
     }
   }
-
-  /**
-   * Processes an HTTP response into an IncomingWebhookResult.
-   */
-  private buildResult(response: AxiosResponse): IncomingWebhookResult {
-    return {
-      text: response.data,
-    };
-  }
 }
 
-/*
- * Exported types
+/**
+ * @description Configuration options used to send incoming webhooks.
  */
-
-export interface IncomingWebhookDefaultArguments {
-  username?: string;
-  icon_emoji?: string;
-  icon_url?: string;
-  channel?: string;
-  text?: string;
-  link_names?: boolean;
-  agent?: Agent;
-  timeout?: number;
+export interface IncomingWebhookOptions {
+  /**
+   * @description A method to send requests.
+   * @see {@link https://github.com/nodejs/undici/discussions/2167}
+   */
+  fetch?: typeof globalThis.fetch;
 }
 
-export interface IncomingWebhookSendArguments extends IncomingWebhookDefaultArguments {
+/**
+ * @description Arguments to use when sending a message using an incoming webhook.
+ * @see {@link https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks}
+ */
+export interface IncomingWebhookSendArguments {
+  /**
+   * @description Add {@link https://docs.slack.dev/messaging/formatting-message-text#attachments secondary attachments} to your messages in Slack. Message attachments are considered a legacy part of messaging functionality. They are not deprecated per se, but they may change in the future, in ways that reduce their visibility or utility. We recommend moving to Block Kit instead. Read more about {@link https://docs.slack.dev/messaging/formatting-message-text#attachments when to use message attachments}.
+   * @see {@link https://docs.slack.dev/messaging/formatting-message-text#attachmentsSecondary message attachments reference documentation}
+   */
   attachments?: MessageAttachment[];
-  blocks?: (KnownBlock | Block)[];
+  /**
+   * @description Add {@link https://docs.slack.dev/block-kit/ blocks} as a visual components to arrange message layouts.
+   * @see {@link https://docs.slack.dev/messaging/formatting-message-text/#rich-layouts}
+   * @see {@link https://docs.slack.dev/block-kit/}
+   * @see {@link https://docs.slack.dev/block-kit/formatting-with-rich-text/}
+   */
+  blocks?: AnyBlock[];
+  /**
+   * @description Text to send to the incoming webhook. Formatted as {@link https://docs.slack.dev/messaging/formatting-message-text/#basic-formatting mrkdwn}.
+   * @see {@link https://docs.slack.dev/messaging/formatting-message-text/}
+   */
+  text?: string;
+  /**
+   * @description Pass `true` to enable unfurling of primarily text-based content.
+   * @default false
+   * @see {@link https://docs.slack.dev/messaging/unfurling-links-in-messages#classic_unfurl}
+   */
   unfurl_links?: boolean;
+  /**
+   * @description Pass `false` to disable unfurling of media content.
+   * @default true
+   * @see {@link https://docs.slack.dev/messaging/unfurling-links-in-messages#classic_unfurl}
+   **/
   unfurl_media?: boolean;
-  metadata?: {
-    event_type: string;
-    // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
-    event_payload: Record<string, any>;
-  };
+  /**
+   * @description Object representing message metadata, which will be made accessible to any user or app.
+   * @see {@link https://docs.slack.dev/messaging/message-metadata/}
+   **/
+  metadata?: MessageMetadata;
 }
 
+/**
+ * The result from a posted incoming webhook.
+ * @example {text:"ok"}
+ * @see {@link https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks/#handling_errors}.
+ */
 export interface IncomingWebhookResult {
   text: string;
 }
