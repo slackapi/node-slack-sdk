@@ -1,6 +1,6 @@
 {
   "name": "@slack/web-api",
-  "version": "7.11.0-featWorkObjectsBeta.2",
+  "version": "7.11.0-featWorkObjectsBeta.3",
   "description": "Official library for using the Slack Platform's Web API",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@slack/logger": "^4.0.0",
-    "@slack/types": "2.17.0-featWorkObjectsBeta.2",
+    "@slack/types": "2.17.0-featWorkObjectsBeta.3",
     "@types/node": ">=18.0.0",
     "@types/retry": "0.12.0",
     "axios": "^1.11.0",
