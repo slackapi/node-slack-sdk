@@ -256,7 +256,7 @@ export interface SourceAndUnfurlID {
 }
 type UnfurlTarget = ChannelAndTS | SourceAndUnfurlID;
 
-// https://api.slack.com/methods/chat.unfurl
+// https://docs.slack.dev/reference/methods/chat.unfurl
 export type ChatUnfurlArguments = (BlockKitUnfurls | EntityMetadataUnfurls) &
   UnfurlTarget &
   TokenOverridable & {
