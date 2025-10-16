@@ -1,8 +1,11 @@
 import type { Option, PlainTextElement, SlackFile } from './block-kit/composition-objects';
 
+// ------------------------------
+// Event metadata
+// ------------------------------
+
 /**
- * @description Application-specific event or entity data to attach to Slack message.
- * Provide 'event_type' and 'event_payload' to set event metadata, or use 'entities' to set work object entity metadata.
+ * @description Application-specific event data to attach to a Slack message.
  * @see {@link https://docs.slack.dev/messaging/message-metadata Using Metadata}
  * @see {@link https://docs.slack.dev/messaging/message-metadata Metadata Payload Structure}
  */
@@ -11,37 +14,34 @@ export interface MessageMetadata {
    * @description A human readable alphanumeric string representing your application's metadata event.
    * The value of this field may appear in the UI to developers.
    */
-  event_type?: string;
+  event_type: string;
   /**
    * @description A free-form object containing whatever data your application wishes to attach to messages.
    */
-  event_payload?: {
+  event_payload: {
     [key: string]: string | number | boolean | MessageMetadataEventPayloadObject | MessageMetadataEventPayloadObject[];
   };
-
-  /**
-   * @description An array of work object entities.
-   */
-  entities?: EntityMetadata[];
 }
-
-// ------------------------------
-// Event metadata
-// ------------------------------
-
-export interface EventMessageMetadata extends Omit<MessageMetadata, 'entities'> {}
 
 export interface MessageMetadataEventPayloadObject {
   [key: string]: string | number | boolean;
 }
 
-export interface MessageMetadataEventPayloadAttributes {
-  [key: string]: string | number | boolean | MessageMetadataEventPayloadAttributes;
-}
-
 // ------------------------------
 // Work object metadata
 // ------------------------------
+
+/**
+ * @description Application-specific entity and/or event data to attach to a Slack message.
+ * Provide 'entities' to set work object entity metadata.
+ * Provide 'event_type' and 'event_payload' to set event metadata.
+ */
+export interface EntityAndEventMessageMetadata extends Partial<MessageMetadata> {
+  /**
+   * @description An array of work object entities.
+   */
+  entities?: EntityMetadata[];
+}
 
 /**
  * @description Metadata that represents a work object entity.

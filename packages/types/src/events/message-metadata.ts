@@ -1,4 +1,4 @@
-import type { EventMessageMetadata } from '../message-metadata';
+import type { MessageMetadata } from '../message-metadata';
 
 export type AllMessageMetadataEvents =
   | MessageMetadataDeletedEvent
@@ -12,7 +12,7 @@ export interface MessageMetadataPostedEvent {
   user_id: string;
   team_id: string;
   channel_id: string;
-  metadata: EventMessageMetadata;
+  metadata: MessageMetadata;
   message_ts: string;
   event_ts: string;
 }
@@ -21,20 +21,20 @@ export interface MessageMetadataUpdatedEvent {
   type: 'message_metadata_updated';
   channel_id: string;
   event_ts: string;
-  previous_metadata: EventMessageMetadata;
+  previous_metadata: MessageMetadata;
   app_id: string;
   bot_id?: string;
   user_id: string;
   team_id: string;
   message_ts: string;
-  metadata: EventMessageMetadata;
+  metadata: MessageMetadata;
 }
 
 export interface MessageMetadataDeletedEvent {
   type: 'message_metadata_deleted';
   channel_id: string;
   event_ts: string;
-  previous_metadata: EventMessageMetadata;
+  previous_metadata: MessageMetadata;
   app_id: string;
   bot_id?: string;
   user_id: string;

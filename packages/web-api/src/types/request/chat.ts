@@ -1,5 +1,6 @@
 import type {
   Block, // TODO: these will be combined into one in a new types release
+  EntityAndEventMessageMetadata,
   EntityMetadata,
   KnownBlock,
   LinkUnfurls,
@@ -192,7 +193,7 @@ export type ChatPostMessageArguments = TokenOverridable &
   Authorship &
   Parse &
   LinkNames &
-  Metadata &
+  EntityAndEventMessageMetadata &
   Unfurls & {
     /** @description Disable Slack markup parsing by setting to `false`. Enabled by default. */
     mrkdwn?: boolean;
@@ -282,7 +283,9 @@ export type ChatUnfurlArguments = (BlockKitUnfurls | EntityMetadataUnfurls) &
     user_auth_blocks?: (KnownBlock | Block)[];
   };
 
-// `unfurls` param of the `chat.unfurl` API
+/**
+ * @description The `unfurls` param of the `chat.unfurl` API.
+ */
 type BlockKitUnfurls = {
   /**
    * @description Object with keys set to URLs featured in the message, pointing to their unfurl
@@ -291,12 +294,14 @@ type BlockKitUnfurls = {
   unfurls: LinkUnfurls;
 };
 
-// `metadata` param of the `chat.unfurl` API
+/**
+ * @description The `metadata` param of the `chat.unfurl` API.
+ */
 type EntityMetadataUnfurls = {
   /**
-   * @description Array of entities to attach to the message based on URLs featured in the message.
+   * @description Unfurl metadata featuring an array of entities to attach to the message based on URLs featured in the message.
    */
-  metadata: {
+  metadata: Partial<MessageMetadata> & {
     entities: EntityMetadata[];
   };
 };
