@@ -1644,18 +1644,6 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     update: bindApiCall<ChatUpdateArguments, ChatUpdateResponse>(this, 'chat.update'),
   };
 
-  public readonly entity = {
-    /**
-     * @description
-     * Provide information about the entity to be displayed in the flexpane.
-     * A link to the API documentation will be added when this API is publicly released.
-     */
-    presentDetails: bindApiCall<EntityPresentDetailsArguments, EntityPresentDetailsResponse>(
-      this,
-      'entity.presentDetails',
-    ),
-  };
-
   public readonly conversations = {
     /**
      * @description Accepts an invitation to a Slack Connect channel.
@@ -1891,6 +1879,18 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/emoji.list `emoji.list` API reference}.
      */
     list: bindApiCallWithOptionalArgument<EmojiListArguments, EmojiListResponse>(this, 'emoji.list'),
+  };
+
+  public readonly entity = {
+    /**
+     * @description
+     * Provide information about the entity to be displayed in the flexpane.
+     * A link to the API documentation will be added when this API is publicly released.
+     */
+    presentDetails: bindApiCall<EntityPresentDetailsArguments, EntityPresentDetailsResponse>(
+      this,
+      'entity.presentDetails',
+    ),
   };
 
   public readonly files = {

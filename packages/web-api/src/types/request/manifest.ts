@@ -467,6 +467,7 @@ type ManifestEvent =
   | 'dnd_updated_user'
   | 'email_domain_changed'
   | 'emoji_changed'
+  | 'entity_details_requested'
   | 'file_change'
   | 'file_comment_added'
   | 'file_comment_deleted'
@@ -540,5 +541,4 @@ type ManifestEvent =
   | 'workflow_published'
   | 'workflow_step_deleted'
   | 'workflow_step_execute'
-  | 'workflow_unpublished'
-  | 'entity_details_requested';
+  | 'workflow_unpublished';

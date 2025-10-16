@@ -56,7 +56,7 @@ export interface EntityMetadata {
    */
   entity_payload: {
     attributes: EntityAttributes;
-    fields?: FileEntityFields | TaskEntityFields | IncidentEntityFields | ContentItemEntityFields;
+    fields?: ContentItemEntityFields | FileEntityFields | IncidentEntityFields | TaskEntityFields;
     custom_fields?: EntityCustomField[];
     slack_file?: FileEntitySlackFile;
     display_order?: string[];
