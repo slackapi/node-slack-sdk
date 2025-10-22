@@ -304,7 +304,7 @@ interface ChatUnfurlUnfurls {
    * blocks or message attachments.
    */
   unfurls: LinkUnfurls;
-};
+}
 
 /**
  * @description The `metadata` param of the `chat.unfurl` API.
@@ -316,7 +316,7 @@ interface ChatUnfurlMetadata {
   metadata: Partial<MessageMetadata> & {
     entities: EntityMetadata[];
   };
-};
+}
 
 // https://docs.slack.dev/reference/methods/chat.update
 export type ChatUpdateArguments = MessageContents & {
