@@ -12,7 +12,7 @@ describe('shell module', () => {
   let spawnSpy: sinon.SinonStub;
   let spawnProcess: child.ChildProcessWithoutNullStreams;
   let runSpy: sinon.SinonStub;
-  let runOutput: child.SpawnSyncReturns<Buffer>;
+  let runOutput: child.SpawnSyncReturns<Buffer<ArrayBuffer>>;
 
   beforeEach(() => {
     spawnProcess = mockProcess();
