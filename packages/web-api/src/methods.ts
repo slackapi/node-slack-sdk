@@ -1883,9 +1883,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly entity = {
     /**
-     * @description
-     * Provide information about the entity to be displayed in the flexpane.
-     * A link to the API documentation will be added when this API is publicly released.
+     * @description Provide information about the entity to be displayed in the flexpane.
+     * @see {@link https://docs.slack.dev/reference/methods/entity.presentDetails}
      */
     presentDetails: bindApiCall<EntityPresentDetailsArguments, EntityPresentDetailsResponse>(
       this,
