@@ -270,7 +270,7 @@ export interface SourceAndUnfurlID {
 type UnfurlTarget = ChannelAndTS | SourceAndUnfurlID;
 
 // https://docs.slack.dev/reference/methods/chat.unfurl
-export type ChatUnfurlArguments = (BlockKitUnfurls | EntityMetadataUnfurls) &
+export type ChatUnfurlArguments = (ChatUnfurlUnfurls | ChatUnfurlMetadata) &
   UnfurlTarget &
   TokenOverridable & {
     /**
@@ -298,7 +298,7 @@ export type ChatUnfurlArguments = (BlockKitUnfurls | EntityMetadataUnfurls) &
 /**
  * @description The `unfurls` param of the `chat.unfurl` API.
  */
-type BlockKitUnfurls = {
+interface ChatUnfurlUnfurls {
   /**
    * @description Object with keys set to URLs featured in the message, pointing to their unfurl
    * blocks or message attachments.
@@ -309,7 +309,7 @@ type BlockKitUnfurls = {
 /**
  * @description The `metadata` param of the `chat.unfurl` API.
  */
-type EntityMetadataUnfurls = {
+interface ChatUnfurlMetadata {
   /**
    * @description Unfurl metadata featuring an array of entities to attach to the message based on URLs featured in the message.
    */
