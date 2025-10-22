@@ -32,18 +32,6 @@ export interface MessageMetadataEventPayloadObject {
 // ------------------------------
 
 /**
- * @description Application-specific entity and/or event data to attach to a Slack message.
- * Provide 'entities' to set work object entity metadata.
- * Provide 'event_type' and 'event_payload' to set event metadata.
- */
-export interface EntityAndEventMessageMetadata extends Partial<MessageMetadata> {
-  /**
-   * @description An array of work object entities.
-   */
-  entities?: EntityMetadata[];
-}
-
-/**
  * @description Metadata that represents a work object entity.
  */
 export interface EntityMetadata {

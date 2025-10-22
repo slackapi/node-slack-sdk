@@ -1,6 +1,5 @@
 import type {
   Block, // TODO: these will be combined into one in a new types release
-  EntityAndEventMessageMetadata,
   EntityMetadata,
   KnownBlock,
   LinkUnfurls,
@@ -107,8 +106,17 @@ export interface BroadcastedThreadReply extends ThreadTS {
 type ReplyInThread = WithinThreadReply | BroadcastedThreadReply;
 
 export interface ChatPostMessageMetadata {
-  /** @description Object representing message metadata, which will be made accessible to any user or app. */
-  metadata?: EntityAndEventMessageMetadata;
+  /**
+   * @description Object representing message metadata, entity and/or event data to attach to a Slack message.
+   * Provide 'entities' to set work object entity metadata.
+   * Provide 'event_type' and 'event_payload' to set event metadata.
+   */
+  metadata?: Partial<MessageMetadata> & {
+    /**
+     * @description An array of work object entities.
+     */
+    entities?: EntityMetadata[];
+  };
 }
 export interface Metadata {
   /** @description Object representing message metadata, which will be made accessible to any user or app. */
