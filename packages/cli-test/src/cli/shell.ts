@@ -105,7 +105,6 @@ export const shell = {
    */
   checkIfFinished: async function checkIfFinished(proc: ShellProcess): Promise<void> {
     return new Promise((resolve, reject) => {
-      // biome-ignore lint/style/useConst: closing over timeout variable
       let timeout: NodeJS.Timeout;
 
       const killIt = (reason: string) => {
