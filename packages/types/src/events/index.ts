@@ -25,7 +25,6 @@ import type {
 import type { DNDUpdatedEvent, DNDUpdatedUserEvent } from './dnd';
 import type { EmailDomainChangedEvent } from './email';
 import type { EmojiChangedEvent } from './emoji';
-import type { EntityDetailsRequestedEvent } from './entity-details-requested';
 import type {
   FileChangeEvent,
   FileCommentDeletedEvent,
@@ -145,7 +144,6 @@ export type SlackEvent =
   | DNDUpdatedUserEvent
   | EmailDomainChangedEvent
   | EmojiChangedEvent
-  | EntityDetailsRequestedEvent
   | FileChangeEvent
   | FileCommentDeletedEvent
   | FileCreatedEvent

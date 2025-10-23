@@ -1,6 +1,6 @@
 {
   "name": "@slack/types",
-  "version": "2.17.0-featWorkObjectsBeta.3",
+  "version": "2.17.0",
   "description": "Shared type definitions for the Node Slack SDK",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
