@@ -35,3 +35,10 @@ expectAssignable<Parameters<typeof web.search.messages>>([
     query: '1234', // must specify query
   },
 ]);
+expectAssignable<Parameters<typeof web.search.messages>>([
+  {
+    query: '1234',
+    cursor: '*', // optional: enable cursor pagination
+    count: 30, // optional: the number of results to return per page
+  },
+]);

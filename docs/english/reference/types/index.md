@@ -1,4 +1,9 @@
-# @slack/types v2.17.0
+# @slack/types v2.18.0
+
+## Enumerations
+
+- [CustomFieldType](enumerations/CustomFieldType.md)
+- [EntityType](enumerations/EntityType.md)
 
 ## Interfaces
 
@@ -45,6 +50,7 @@
 - [Confirmable](interfaces/Confirmable.md)
 - [Confirmation](interfaces/Confirmation.md)
 - [ConfirmationDialog](interfaces/ConfirmationDialog.md)
+- [ContentItemEntityFields](interfaces/ContentItemEntityFields.md)
 - [ContextActionsBlock](interfaces/ContextActionsBlock.md)
 - [ContextBlock](interfaces/ContextBlock.md)
 - [ConversationsSelect](interfaces/ConversationsSelect.md)
@@ -60,6 +66,22 @@
 - [EmailDomainChangedEvent](interfaces/EmailDomainChangedEvent.md)
 - [EmailInput](interfaces/EmailInput.md)
 - [EmojiChangedEvent](interfaces/EmojiChangedEvent.md)
+- [EntityActionButton](interfaces/EntityActionButton.md)
+- [EntityArrayItemField](interfaces/EntityArrayItemField.md)
+- [EntityAttributes](interfaces/EntityAttributes.md)
+- [EntityCustomField](interfaces/EntityCustomField.md)
+- [EntityEditSupport](interfaces/EntityEditSupport.md)
+- [EntityFullSizePreview](interfaces/EntityFullSizePreview.md)
+- [EntityIconField](interfaces/EntityIconField.md)
+- [EntityImageField](interfaces/EntityImageField.md)
+- [EntityMetadata](interfaces/EntityMetadata.md)
+- [EntityRefField](interfaces/EntityRefField.md)
+- [EntityStringField](interfaces/EntityStringField.md)
+- [EntityTimestampField](interfaces/EntityTimestampField.md)
+- [EntityTypedField](interfaces/EntityTypedField.md)
+- [EntityUserField](interfaces/EntityUserField.md)
+- [EntityUserIDField](interfaces/EntityUserIDField.md)
+- [ExternalRef](interfaces/ExternalRef.md)
 - [ExternalSelect](interfaces/ExternalSelect.md)
 - [FeedbackButtons](interfaces/FeedbackButtons.md)
 - [FileBlock](interfaces/FileBlock.md)
@@ -67,6 +89,8 @@
 - [FileCommentDeletedEvent](interfaces/FileCommentDeletedEvent.md)
 - [FileCreatedEvent](interfaces/FileCreatedEvent.md)
 - [FileDeletedEvent](interfaces/FileDeletedEvent.md)
+- [FileEntityFields](interfaces/FileEntityFields.md)
+- [FileEntitySlackFile](interfaces/FileEntitySlackFile.md)
 - [FileInput](interfaces/FileInput.md)
 - [FilePublicEvent](interfaces/FilePublicEvent.md)
 - [FileSharedEvent](interfaces/FileSharedEvent.md)
@@ -92,6 +116,7 @@
 - [IMCreatedEvent](interfaces/IMCreatedEvent.md)
 - [IMHistoryChangedEvent](interfaces/IMHistoryChangedEvent.md)
 - [IMOpenEvent](interfaces/IMOpenEvent.md)
+- [IncidentEntityFields](interfaces/IncidentEntityFields.md)
 - [InputBlock](interfaces/InputBlock.md)
 - [InviteRequestedEvent](interfaces/InviteRequestedEvent.md)
 - [LinkSharedEvent](interfaces/LinkSharedEvent.md)
@@ -165,6 +190,7 @@
 - [SubteamSelfAddedEvent](interfaces/SubteamSelfAddedEvent.md)
 - [SubteamSelfRemovedEvent](interfaces/SubteamSelfRemovedEvent.md)
 - [SubteamUpdatedEvent](interfaces/SubteamUpdatedEvent.md)
+- [TaskEntityFields](interfaces/TaskEntityFields.md)
 - [TeamAccessGrantedEvent](interfaces/TeamAccessGrantedEvent.md)
 - [TeamAccessRevokedEvent](interfaces/TeamAccessRevokedEvent.md)
 - [TeamDomainChangeEvent](interfaces/TeamDomainChangeEvent.md)
