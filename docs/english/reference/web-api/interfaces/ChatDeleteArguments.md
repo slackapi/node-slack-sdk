@@ -2,7 +2,7 @@
 
 # Interface: ChatDeleteArguments
 
-Defined in: [src/types/request/chat.ts:160](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L160)
+Defined in: [src/types/request/chat.ts:174](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L174)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/chat.ts:160](https://github.com/slackapi/node-sla
 optional as_user: boolean;
 ```
 
-Defined in: [src/types/request/chat.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L36)
+Defined in: [src/types/request/chat.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L37)
 
 #### Description
 
@@ -38,7 +38,7 @@ AsUser.as_user
 channel: string;
 ```
 
-Defined in: [src/types/request/chat.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L20)
+Defined in: [src/types/request/chat.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L21)
 
 #### Description
 
@@ -78,7 +78,7 @@ TokenOverridable.token
 ts: string;
 ```
 
-Defined in: [src/types/request/chat.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L24)
+Defined in: [src/types/request/chat.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L25)
 
 #### Description
 

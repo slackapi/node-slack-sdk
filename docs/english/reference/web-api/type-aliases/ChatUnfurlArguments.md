@@ -3,23 +3,10 @@
 # Type Alias: ChatUnfurlArguments
 
 ```ts
-type ChatUnfurlArguments = object & UnfurlTarget & TokenOverridable & object;
+type ChatUnfurlArguments = ChatUnfurlUnfurls | ChatUnfurlMetadata & UnfurlTarget & TokenOverridable & object;
 ```
 
-Defined in: [src/types/request/chat.ts:259](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L259)
-
-## Type Declaration
-
-### unfurls
-
-```ts
-unfurls: LinkUnfurls;
-```
-
-#### Description
-
-URL-encoded JSON map with keys set to URLs featured in the the message, pointing to their unfurl
-blocks or message attachments.
+Defined in: [src/types/request/chat.ts:273](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L273)
 
 ## Type Declaration
 

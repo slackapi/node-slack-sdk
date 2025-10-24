@@ -2,7 +2,7 @@
 
 # Interface: ChatStartStreamArguments
 
-Defined in: [src/types/request/chat.ts:221](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L221)
+Defined in: [src/types/request/chat.ts:235](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L235)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/chat.ts:221](https://github.com/slackapi/node-sla
 channel: string;
 ```
 
-Defined in: [src/types/request/chat.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L20)
+Defined in: [src/types/request/chat.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L21)
 
 #### Description
 
@@ -36,7 +36,7 @@ Channel.channel
 optional markdown_text: string;
 ```
 
-Defined in: [src/types/request/chat.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L61)
+Defined in: [src/types/request/chat.ts:62](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L62)
 
 #### Description
 
@@ -60,7 +60,7 @@ Accepts message text formatted in markdown. This argument should not be used in 
 optional recipient_team_id: string;
 ```
 
-Defined in: [src/types/request/chat.ts:226](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L226)
+Defined in: [src/types/request/chat.ts:240](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L240)
 
 #### Description
 
@@ -75,7 +75,7 @@ This is required when starting a streaming conversation outside of a DM.
 optional recipient_user_id: string;
 ```
 
-Defined in: [src/types/request/chat.ts:231](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L231)
+Defined in: [src/types/request/chat.ts:245](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L245)
 
 #### Description
 
@@ -90,7 +90,7 @@ This is required when starting a streaming conversation outside of a DM.
 thread_ts: string;
 ```
 
-Defined in: [src/types/request/chat.ts:90](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L90)
+Defined in: [src/types/request/chat.ts:91](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L91)
 
 #### Description
 
