@@ -92,5 +92,7 @@ export interface RichTextStyleable {
     italic?: boolean;
     /** @description When `true`, strikes through the text in this element. Defaults to `false`. */
     strike?: boolean;
+    /** @description When `true`, underlines the text in this element. Defaults to `false`. */
+    underline?: boolean;
   };
 }
