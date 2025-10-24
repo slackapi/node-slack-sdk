@@ -2,7 +2,7 @@
 
 # Interface: ChatAppendStreamArguments
 
-Defined in: [src/types/request/chat.ts:157](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L157)
+Defined in: [src/types/request/chat.ts:171](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L171)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/chat.ts:157](https://github.com/slackapi/node-sla
 channel: string;
 ```
 
-Defined in: [src/types/request/chat.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L20)
+Defined in: [src/types/request/chat.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L21)
 
 #### Description
 
@@ -36,7 +36,7 @@ ChannelAndTS.channel
 markdown_text: string;
 ```
 
-Defined in: [src/types/request/chat.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L61)
+Defined in: [src/types/request/chat.ts:62](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L62)
 
 #### Description
 
@@ -82,7 +82,7 @@ TokenOverridable.token
 ts: string;
 ```
 
-Defined in: [src/types/request/chat.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L24)
+Defined in: [src/types/request/chat.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L25)
 
 #### Description
 

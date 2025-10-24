@@ -2,11 +2,11 @@
 
 # Interface: SearchMessagesArguments
 
-Defined in: [src/types/request/search.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L20)
+Defined in: [src/types/request/search.ts:30](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L30)
 
 ## Extends
 
-- `TokenOverridable`.`TraditionalPagingEnabled`.`Searchable`
+- `TokenOverridable`.`TraditionalPagingEnabled`.`Searchable`.`SearchMessagesCursorPagination`
 
 ## Properties
 
@@ -26,6 +26,32 @@ Number of items to return per page. Defaults to `20`
 
 ```ts
 TraditionalPagingEnabled.count
+```
+
+***
+
+### cursor?
+
+```ts
+optional cursor: string;
+```
+
+Defined in: [src/types/request/search.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L22)
+
+#### Description
+
+Paginate through collections of data by setting the `cursor` parameter to `*` for the first "page"
+or a `next_cursor` attribute returned by a previous request's `response_metadata`.
+Use the `count` parameter to set the number of items to return per page rather than `limit`.
+
+#### See
+
+[pagination](https://docs.slack.dev/apis/web-api/pagination) for more detail.
+
+#### Inherited from
+
+```ts
+SearchMessagesCursorPagination.cursor
 ```
 
 ***

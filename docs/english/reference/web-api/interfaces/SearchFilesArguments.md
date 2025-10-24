@@ -2,7 +2,7 @@
 
 # Interface: SearchFilesArguments
 
-Defined in: [src/types/request/search.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L18)
+Defined in: [src/types/request/search.ts:28](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L28)
 
 ## Extends
 
