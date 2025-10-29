@@ -467,6 +467,7 @@ type ManifestEvent =
   | 'dnd_updated_user'
   | 'email_domain_changed'
   | 'emoji_changed'
+  | 'entity_details_requested'
   | 'file_change'
   | 'file_comment_added'
   | 'file_comment_deleted'

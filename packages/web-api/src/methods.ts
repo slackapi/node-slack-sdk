@@ -177,6 +177,7 @@ import type {
   DndSetSnoozeArguments,
   DndTeamInfoArguments,
   EmojiListArguments,
+  EntityPresentDetailsArguments,
   FilesCommentsDeleteArguments,
   FilesCompleteUploadExternalArguments,
   FilesDeleteArguments,
@@ -437,6 +438,7 @@ import type {
   DndSetSnoozeResponse,
   DndTeamInfoResponse,
   EmojiListResponse,
+  EntityPresentDetailsResponse,
   FilesCommentsDeleteResponse,
   FilesCompleteUploadExternalResponse,
   FilesDeleteResponse,
@@ -1877,6 +1879,17 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/emoji.list `emoji.list` API reference}.
      */
     list: bindApiCallWithOptionalArgument<EmojiListArguments, EmojiListResponse>(this, 'emoji.list'),
+  };
+
+  public readonly entity = {
+    /**
+     * @description Provide information about the entity to be displayed in the flexpane.
+     * @see {@link https://docs.slack.dev/reference/methods/entity.presentDetails}
+     */
+    presentDetails: bindApiCall<EntityPresentDetailsArguments, EntityPresentDetailsResponse>(
+      this,
+      'entity.presentDetails',
+    ),
   };
 
   public readonly files = {

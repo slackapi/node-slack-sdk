@@ -1,5 +1,6 @@
 import type {
   Block, // TODO: these will be combined into one in a new types release
+  EntityMetadata,
   KnownBlock,
   LinkUnfurls,
   MessageAttachment,
@@ -104,6 +105,19 @@ export interface BroadcastedThreadReply extends ThreadTS {
 // or not broadcasted. Broadcasted replies are necessarily threaded, so `thread_ts` becomes required.
 type ReplyInThread = WithinThreadReply | BroadcastedThreadReply;
 
+export interface ChatPostMessageMetadata {
+  /**
+   * @description Object representing message metadata, entity and/or event data to attach to a Slack message.
+   * Provide 'entities' to set work object entity metadata.
+   * Provide 'event_type' and 'event_payload' to set event metadata.
+   */
+  metadata?: Partial<MessageMetadata> & {
+    /**
+     * @description An array of work object entities.
+     */
+    entities?: EntityMetadata[];
+  };
+}
 export interface Metadata {
   /** @description Object representing message metadata, which will be made accessible to any user or app. */
   metadata?: MessageMetadata;
@@ -191,7 +205,7 @@ export type ChatPostMessageArguments = TokenOverridable &
   Authorship &
   Parse &
   LinkNames &
-  Metadata &
+  ChatPostMessageMetadata &
   Unfurls & {
     /** @description Disable Slack markup parsing by setting to `false`. Enabled by default. */
     mrkdwn?: boolean;
@@ -256,13 +270,8 @@ export interface SourceAndUnfurlID {
 type UnfurlTarget = ChannelAndTS | SourceAndUnfurlID;
 
 // https://docs.slack.dev/reference/methods/chat.unfurl
-export type ChatUnfurlArguments = {
-  /**
-   * @description URL-encoded JSON map with keys set to URLs featured in the the message, pointing to their unfurl
-   * blocks or message attachments.
-   */
-  unfurls: LinkUnfurls;
-} & UnfurlTarget &
+export type ChatUnfurlArguments = (ChatUnfurlUnfurls | ChatUnfurlMetadata) &
+  UnfurlTarget &
   TokenOverridable & {
     /**
      * @description Provide a simply-formatted string to send as an ephemeral message to the user as invitation to
@@ -285,6 +294,29 @@ export type ChatUnfurlArguments = {
      */
     user_auth_blocks?: (KnownBlock | Block)[];
   };
+
+/**
+ * @description The `unfurls` param of the `chat.unfurl` API.
+ */
+interface ChatUnfurlUnfurls {
+  /**
+   * @description Object with keys set to URLs featured in the message, pointing to their unfurl
+   * blocks or message attachments.
+   */
+  unfurls: LinkUnfurls;
+}
+
+/**
+ * @description The `metadata` param of the `chat.unfurl` API.
+ */
+interface ChatUnfurlMetadata {
+  /**
+   * @description Unfurl metadata featuring an array of entities to attach to the message based on URLs featured in the message.
+   */
+  metadata: Partial<MessageMetadata> & {
+    entities: EntityMetadata[];
+  };
+}
 
 // https://docs.slack.dev/reference/methods/chat.update
 export type ChatUpdateArguments = MessageContents & {
