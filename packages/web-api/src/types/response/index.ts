@@ -275,6 +275,7 @@ export { RtmStartResponse } from './RtmStartResponse';
 export { SearchAllResponse } from './SearchAllResponse';
 export { SearchFilesResponse } from './SearchFilesResponse';
 export { SearchMessagesResponse } from './SearchMessagesResponse';
+export { SlackListsCreateResponse } from './SlackListsCreateResponse';
 export { StarsAddResponse } from './StarsAddResponse';
 export { StarsListResponse } from './StarsListResponse';
 export { StarsRemoveResponse } from './StarsRemoveResponse';
