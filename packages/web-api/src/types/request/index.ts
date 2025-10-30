@@ -275,6 +275,7 @@ export type {
   SearchFilesArguments,
   SearchMessagesArguments,
 } from './search';
+export type { SlackListsCreateArguments } from './slacklists';
 export type {
   StarsAddRemoveArguments,
   StarsListArguments,

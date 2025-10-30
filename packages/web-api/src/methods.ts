@@ -219,6 +219,7 @@ import type {
   SearchAllArguments,
   SearchFilesArguments,
   SearchMessagesArguments,
+  SlackListsCreateArguments,
   StarsAddRemoveArguments,
   StarsListArguments,
   TeamAccessLogsArguments,
@@ -479,6 +480,7 @@ import type {
   SearchAllResponse,
   SearchFilesResponse,
   SearchMessagesResponse,
+  SlackListsCreateResponse,
   StarsAddResponse,
   StarsListResponse,
   StarsRemoveResponse,
@@ -2171,6 +2173,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/search.messages search.messages` API reference}.
      */
     messages: bindApiCall<SearchMessagesArguments, SearchMessagesResponse>(this, 'search.messages'),
+  };
+
+  public readonly slacklists = {
+    /**
+     * @description Create a List.
+     * @see {@link https://docs.slack.dev/reference/methods/slacklists.create slackLists.create` API reference
+     */
+    create: bindApiCall<SlackListsCreateArguments, SlackListsCreateResponse>(this, 'slackLists.create'),
   };
 
   public readonly team = {
