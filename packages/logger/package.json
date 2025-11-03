@@ -45,7 +45,7 @@
     "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.1",
     "c8": "^10.1.2",
-    "chai": "^4.3.8",
+    "chai": "^6.2.0",
     "mocha": "^11.0.1",
     "mocha-junit-reporter": "^2.2.1",
     "mocha-multi-reporters": "^1.5.1",
