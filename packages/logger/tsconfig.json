@@ -25,7 +25,7 @@
     // "resolveJsonModule": true,
   },
   "include": ["src/**/*"],
-  "exclude": ["src/**/*.spec.*"],
+  "exclude": ["src/**/*.test.*"],
   "jsdoc": {
     "out": "support/jsdoc",
     "access": "public"
