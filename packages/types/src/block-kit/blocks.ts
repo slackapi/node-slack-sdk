@@ -24,7 +24,7 @@ import type {
   URLInput,
   WorkflowButton,
 } from './block-elements';
-import type { PlainTextElement, SlackFileImageObject, TextObject, UrlImageObject } from './composition-objects';
+import type { PlainTextElement, RawTextElement, SlackFileImageObject, TextObject, UrlImageObject } from './composition-objects';
 
 export interface Block {
   /**
@@ -358,6 +358,40 @@ export interface SectionBlock extends Block {
    * Whether or not this section block's text should always expand when rendered. If false or not provided, it may be rendered with a 'see more' option to expand and show the full text. For AI Assistant apps, this allows the app to post long messages without users needing to click 'see more' to expand the message.
    */
   expand?: boolean;
+}
+
+/**
+ * @description Displays structured information in a table.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/table-block Table block reference}.
+ */
+export interface TableBlock extends Block {
+  /**
+   * @description The type of block. For a table block, `type` is always `table`.
+   */
+  type: 'table';
+  /**
+   * @description An array consisting of table rows. Maximum 100 rows. Each row object is an array with a max of 20 table cells. Table cells can have a type of raw_text or rich_text.
+   */
+  rows: (RichTextBlock | RawTextElement)[][];
+  /**
+   * @description An array describing column behavior. If there are fewer items in the column_settings array than there are columns in the table, then the items in the the column_settings array will describe the same number of columns in the table as there are in the array itself. Any additional columns will have the default behavior. Maximum 20 items.
+   */
+   column_settings?: TableBlockColumnSettings[];
+}
+
+/**
+ * Schema for column_settings of the table block.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/table-block/#schema-for-column_settings}.
+ */
+interface TableBlockColumnSettings {
+  /**
+   * @description The alignment for items in this column. Can be left, center, or right. Defaults to left if not defined.
+   */
+  align?: "left" | "center" | "right";
+  /**
+   * @description Whether the contents of this column should be wrapped or not. Defaults to false if not defined.
+   */
+  is_wrapped?: boolean;
 }
 
 /**
