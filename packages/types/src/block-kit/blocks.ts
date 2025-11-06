@@ -24,7 +24,13 @@ import type {
   URLInput,
   WorkflowButton,
 } from './block-elements';
-import type { PlainTextElement, RawTextElement, SlackFileImageObject, TextObject, UrlImageObject } from './composition-objects';
+import type {
+  PlainTextElement,
+  RawTextElement,
+  SlackFileImageObject,
+  TextObject,
+  UrlImageObject,
+} from './composition-objects';
 
 export interface Block {
   /**
@@ -376,7 +382,7 @@ export interface TableBlock extends Block {
   /**
    * @description An array describing column behavior. If there are fewer items in the column_settings array than there are columns in the table, then the items in the the column_settings array will describe the same number of columns in the table as there are in the array itself. Any additional columns will have the default behavior. Maximum 20 items.
    */
-   column_settings?: TableBlockColumnSettings[];
+  column_settings?: TableBlockColumnSettings[];
 }
 
 /**
@@ -387,7 +393,7 @@ interface TableBlockColumnSettings {
   /**
    * @description The alignment for items in this column. Can be left, center, or right. Defaults to left if not defined.
    */
-  align?: "left" | "center" | "right";
+  align?: 'left' | 'center' | 'right';
   /**
    * @description Whether the contents of this column should be wrapped or not. Defaults to false if not defined.
    */
