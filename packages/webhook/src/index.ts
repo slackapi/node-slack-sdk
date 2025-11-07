@@ -1,16 +1,14 @@
-/// <reference lib="es2017" />
-
 export {
   CodedError,
   ErrorCode,
   IncomingWebhookHTTPError,
   IncomingWebhookRequestError,
   IncomingWebhookSendError,
-} from './errors';
+} from './errors.js';
 
 export {
   IncomingWebhook,
-  IncomingWebhookDefaultArguments,
+  IncomingWebhookOptions,
   IncomingWebhookResult,
   IncomingWebhookSendArguments,
-} from './IncomingWebhook';
+} from './IncomingWebhook.js';
