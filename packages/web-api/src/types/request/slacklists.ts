@@ -2,6 +2,7 @@ import type { Block, KnownBlock } from '@slack/types';
 
 import type { TokenOverridable } from './common';
 
+// https://docs.slack.dev/reference/methods/slackLists.create
 export interface SlackListsCreateArguments extends TokenOverridable {
   name: string;
   description_blocks?: Array<Record<string, Block | KnownBlock>>;
