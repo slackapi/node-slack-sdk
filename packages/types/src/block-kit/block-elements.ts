@@ -144,10 +144,12 @@ export interface EmailInput extends Actionable, Dispatchable, Focusable, Placeho
 export interface FeedbackButtons extends Actionable {
   /**
    * @description The type of block. For a feedback buttons block, `type` is always `feedback_buttons`.
+   * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/feedback-buttons-element Feedback buttons element reference}.
    */
   type: 'feedback_buttons';
   /**
    * @description A button to indicate positive feedback.
+   * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/feedback-buttons-element/#button-object-fields Feedback buttons object fields reference}.
    */
   positive_button: {
     /**
@@ -166,6 +168,7 @@ export interface FeedbackButtons extends Actionable {
   };
   /**
    * @description A button to indicate negative feedback.
+   * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/feedback-buttons-element/#button-object-fields Feedback buttons object fields reference}.
    */
   negative_button: {
     /**
@@ -209,6 +212,7 @@ export interface FileInput extends Actionable {
 
 /**
  * @description An icon button to perform actions.
+ * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/icon-button-element Icon button element reference}.
  */
 export interface IconButton extends Actionable, Confirmable {
   /**

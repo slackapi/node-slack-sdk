@@ -1571,6 +1571,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
   public readonly chat = {
     /**
      * @description Appends text to an existing streaming conversation.
+     * @see {@link https://docs.slack.dev/reference/methods/chat.appendStream `chat.appendStream` API reference}.
      */
     appendStream: bindApiCall<ChatAppendStreamArguments, ChatAppendStreamResponse>(this, 'chat.appendStream'),
     /**
@@ -1626,10 +1627,12 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     },
     /**
      * @description Starts a new streaming conversation.
+     * @see {@link https://docs.slack.dev/reference/methods/chat.startStream `chat.startStream` API reference}.
      */
     startStream: bindApiCall<ChatStartStreamArguments, ChatStartStreamResponse>(this, 'chat.startStream'),
     /**
      * @description Stops a streaming conversation.
+     * @see {@link https://docs.slack.dev/reference/methods/chat.stopStream `chat.stopStream` API reference}.
      */
     stopStream: bindApiCall<ChatStopStreamArguments, ChatStopStreamResponse>(this, 'chat.stopStream'),
     /**
