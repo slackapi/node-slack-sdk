@@ -92,15 +92,19 @@ jobs:
         if: matrix.node-version == '22.x' && matrix.os == 'ubuntu-latest' && steps.check_coverage.outputs.files_exists == 'true'
         uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5.5.1
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
           directory: packages/${{ matrix.package }}/coverage
+          fail_ci_if_error: true
           flags: ${{ matrix.package }}
+          report-type: coverage
+          token: ${{ secrets.CODECOV_TOKEN }}
           verbose: true
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@47f89e9acb64b76debcd5ea40642d25a4adced9f # v1.1.1
+        uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5.5.1
         with:
+          fail_ci_if_error: true
           file: packages/${{ matrix.package }}/coverage/test-results.xml
           flags: ${{ matrix.node-version }},${{ matrix.os }},${{ matrix.package }}
+          report-type: test_results
           token: ${{ secrets.CODECOV_TOKEN }}
           verbose: true
