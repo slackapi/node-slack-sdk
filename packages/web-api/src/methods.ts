@@ -2175,7 +2175,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     messages: bindApiCall<SearchMessagesArguments, SearchMessagesResponse>(this, 'search.messages'),
   };
 
-  public readonly slacklists = {
+  public readonly slackLists = {
     /**
      * @description Create a List.
      * @see {@link https://docs.slack.dev/reference/methods/slacklists.create slackLists.create` API reference
