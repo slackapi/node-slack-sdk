@@ -1,4 +1,4 @@
-import type { Block, KnownBlock } from '@slack/types';
+import type { RichTextBlock } from '@slack/types';
 
 import type { TokenOverridable } from './common';
 
