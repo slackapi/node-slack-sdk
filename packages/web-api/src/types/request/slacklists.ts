@@ -5,7 +5,7 @@ import type { TokenOverridable } from './common';
 // https://docs.slack.dev/reference/methods/slackLists.create
 export interface SlackListsCreateArguments extends TokenOverridable {
   name: string;
-  description_blocks?: Array<Record<string, Block | KnownBlock>>;
+  description_blocks?: Array<RichTextBlock>;
   schema?: Array<Record<string, Block | KnownBlock>>;
   copy_from_list_id?: string;
   include_copied_list_records?: boolean;
