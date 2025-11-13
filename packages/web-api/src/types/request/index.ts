@@ -275,7 +275,20 @@ export type {
   SearchFilesArguments,
   SearchMessagesArguments,
 } from './search';
-export type { SlackListsAccessDeleteArguments, SlackListsAccessSetArguments, SlackListsCreateArguments, SlackListsDownloadGetArguments, SlackListsDownloadStartArguments, SlackListsItemsCreateArguments, SlackListsItemsDeleteArguments, SlackListsItemsDeleteMultipleArguments, SlackListsItemsInfoArguments, SlackListsItemsListArguments, SlackListsItemsUpdateArguments, SlackListsUpdateArguments } from './slacklists';
+export type {
+  SlackListsAccessDeleteArguments,
+  SlackListsAccessSetArguments,
+  SlackListsCreateArguments,
+  SlackListsDownloadGetArguments,
+  SlackListsDownloadStartArguments,
+  SlackListsItemsCreateArguments,
+  SlackListsItemsDeleteArguments,
+  SlackListsItemsDeleteMultipleArguments,
+  SlackListsItemsInfoArguments,
+  SlackListsItemsListArguments,
+  SlackListsItemsUpdateArguments,
+  SlackListsUpdateArguments,
+} from './slacklists';
 export type {
   StarsAddRemoveArguments,
   StarsListArguments,
