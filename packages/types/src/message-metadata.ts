@@ -237,11 +237,23 @@ export interface EntityRefField {
   icon?: EntityIconField;
 }
 
+export interface EntityBooleanCheckboxField {
+  type: string;
+  text: string;
+  description?: string;
+}
+
+export interface EntityBooleanTextField {
+  type: string;
+  true_text: string;
+  false_text: string;
+  true_description?: string;
+  false_description?: string;
+}
+
 export interface EntityTimestampField {
   value: number;
   label?: string;
-  link?: string;
-  icon?: EntityIconField;
   type?: string;
   edit?: EntityEditSupport;
 }
@@ -272,6 +284,7 @@ export interface EntityCustomField {
   item_type?: string;
   user?: EntityUserIDField | EntityUserField;
   entity_ref?: EntityRefField;
+  boolean?: EntityBooleanCheckboxField | EntityBooleanTextField;
 }
 
 export enum CustomFieldType {
@@ -284,6 +297,9 @@ export enum CustomFieldType {
   ChannelId = 'slack#/types/channel_id',
   User = 'slack#/types/user',
   EntityRef = 'slack#/types/entity_ref',
+  Boolean = 'boolean',
+  Link = 'slack#/types/link',
+  Email = 'slack#/types/email',
 }
 
 export interface EntityActionButton {
