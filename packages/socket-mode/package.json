@@ -62,7 +62,7 @@
     "@types/chai": "^4",
     "@types/mocha": "^10",
     "@types/proxyquire": "^1.3.31",
-    "@types/sinon": "^17",
+    "@types/sinon": "^21",
     "c8": "^10.1.2",
     "chai": "^4",
     "mocha": "^11",
