@@ -67,7 +67,7 @@
     "@types/busboy": "^1.5.4",
     "@types/chai": "^4",
     "@types/mocha": "^10",
-    "@types/sinon": "^17",
+    "@types/sinon": "^21",
     "busboy": "^1",
     "c8": "^10.1.2",
     "chai": "^4",
