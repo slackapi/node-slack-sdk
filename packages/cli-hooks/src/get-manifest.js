@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { getProtocol } from './protocols.js';
 
 /**
- * Implemention of the get-manifest hook that provides manifest information.
+ * Implementation of the get-manifest hook that provides manifest information.
  * Printed as a well-formatted structure of project manifest data to stdout.
  */
 
