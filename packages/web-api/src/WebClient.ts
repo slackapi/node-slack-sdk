@@ -344,7 +344,11 @@ export class WebClient extends Methods {
    * @param method - the Web API method to call {@link https://docs.slack.dev/reference/methods}
    * @param options - options
    */
-  public async apiCall(method: string, options: Record<string, unknown> = {}): Promise<WebAPICallResult> {
+  public async apiCall(
+    method: string,
+    options: Record<string, unknown> = {},
+    config?: { signal?: AbortSignal },
+  ): Promise<WebAPICallResult> {
     this.logger.debug(`apiCall('${method}') start`);
 
     warnDeprecations(method, this.logger);
@@ -370,6 +374,7 @@ export class WebClient extends Methods {
         ...options,
       },
       headers,
+      config,
     );
     const result = await this.buildResult(response);
     this.logger.debug(`http request result: ${JSON.stringify(result)}`);
@@ -677,6 +682,7 @@ export class WebClient extends Methods {
     url: string,
     body: Record<string, unknown>,
     headers: Record<string, string> = {},
+    options?: { signal?: AbortSignal },
   ): Promise<AxiosResponse> {
     // TODO: better input types - remove any
     const task = () =>
@@ -685,6 +691,7 @@ export class WebClient extends Methods {
           // biome-ignore lint/suspicious/noExplicitAny: TODO: type this
           const config: any = {
             headers,
+            signal: options?.signal,
             ...this.tlsConfig,
           };
           // admin.analytics.getFile returns a binary response
@@ -762,6 +769,9 @@ export class WebClient extends Methods {
           // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
           const e = error as any;
           this.logger.warn('http request failed', e.message);
+          if (e.name === 'CanceledError' && options?.signal?.reason) {
+            throw new pRetry.AbortError(options.signal.reason);
+          }
           if (e.request) {
             throw requestErrorWithOriginal(e, this.attachOriginalToWebAPIRequestError);
           }
