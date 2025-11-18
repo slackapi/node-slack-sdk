@@ -45,11 +45,16 @@ Remove cached project dependencies with `rm -r node_modules package-lock.json` b
 
 ### 📄 Managing Documentation
 
-See the [Docs README](https://github.com/slackapi/node-slack-sdk/blob/main/docs/README.md) for information on how the docs site work. 
+The reference docs for each package is independent of the others. They're generated using the `typedoc` and `typedoc-plugin-markdown` packages with the configurations of the package's `typedoc.json` file.
 
-The reference docs for each package is independent of the others. They're generated using `typedoc` and `typedoc-plugin-markdown`. In each package's `package.json` there's a `docs` command that generates reference docs for that package based on the configuration settings found in `/package-name/typedoc.json`. 
+Each package has a script to these generate reference docs. For example:
 
-The script places the reference markdown files in `/reference/package-name`.
+```sh
+cd packages/web-api
+npm run docs
+```
+
+The script places the reference markdown files in `/docs/english/reference/package-name`.
 
 ### 🚀 Releases
 _For beta releases, see [**Beta Releases**](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#-beta-releases) section below_
