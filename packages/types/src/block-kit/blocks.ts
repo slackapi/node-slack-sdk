@@ -63,6 +63,7 @@ export type KnownBlock =
   | MarkdownBlock
   | RichTextBlock
   | SectionBlock
+  | TableBlock
   | VideoBlock;
 
 /**
