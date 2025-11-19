@@ -144,7 +144,7 @@ expectError(web.slackLists.items.update({ list_id: 'L1234567890' })); // missing
 expectAssignable<Parameters<typeof web.slackLists.items.update>>([
   {
     list_id: 'L1234567890',
-    cells: [{ id: 'C1234567890', value: 'test' }],
+    cells: [{ row_id: 'Rec014K005UQJ', column_id: 'Col014K005UQJ', user: ['U01284PCR98', 'U0137181B5H'] }],
   },
 ]);
 

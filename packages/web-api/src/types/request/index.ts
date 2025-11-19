@@ -288,7 +288,7 @@ export type {
   SlackListsItemsListArguments,
   SlackListsItemsUpdateArguments,
   SlackListsUpdateArguments,
-} from './slacklists';
+} from './slackLists';
 export type {
   StarsAddRemoveArguments,
   StarsListArguments,

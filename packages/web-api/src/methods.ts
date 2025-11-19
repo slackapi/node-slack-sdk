@@ -2264,7 +2264,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        */
       info: bindApiCall<SlackListsItemsInfoArguments, SlackListsItemsInfoResponse>(this, 'slackLists.items.info'),
       /**
-       * @description List items in a list.
+       * @description Get records from a List.
        * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.list `slackLists.items.list` API reference}.
        */
       list: bindApiCall<SlackListsItemsListArguments, SlackListsItemsListResponse>(this, 'slackLists.items.list'),
