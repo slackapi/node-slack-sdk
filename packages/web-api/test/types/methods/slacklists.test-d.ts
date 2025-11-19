@@ -51,8 +51,8 @@ expectError(web.slackLists.download.get({ list_id: 'L1234567890' })); // missing
 // -- happy path
 expectAssignable<Parameters<typeof web.slackLists.download.get>>([
   {
-    list_id: 'L1234567890',
-    job_id: 'J1234567890',
+    list_id: 'F1234567890',
+    job_id: 'Le1234567890',
   },
 ]);
 
