@@ -4,6 +4,9 @@ import type { TokenOverridable } from './common';
 
 // https://docs.slack.dev/reference/methods/slackLists.access.delete
 export interface SlackListsAccessDeleteArguments extends TokenOverridable {
+  /**
+   * @description Encoded ID of the List.
+   */
   list_id: string;
   channel_ids?: string[];
   user_ids?: string[];
