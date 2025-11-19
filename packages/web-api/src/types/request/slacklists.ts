@@ -4,6 +4,9 @@ import type { TokenOverridable } from './common';
 
 // https://docs.slack.dev/reference/methods/slackLists.access.delete
 export interface SlackListsAccessDeleteArguments extends TokenOverridable {
+  /**
+   * @description Encoded ID of the List.
+   */
   list_id: string;
   channel_ids?: string[];
   user_ids?: string[];
@@ -21,6 +24,10 @@ export interface SlackListsAccessSetArguments extends TokenOverridable {
 export interface SlackListsCreateArguments extends TokenOverridable {
   name: string;
   description_blocks?: Array<RichTextBlock>;
+  /**
+   * @description Column definition for the List.
+   * @see {@link https://docs.slack.dev/reference/methods/slackLists.create#schema-definition}
+   */
   schema?: Array<Record<string, unknown>>;
   copy_from_list_id?: string;
   include_copied_list_records?: boolean;
@@ -53,7 +60,7 @@ export interface SlackListsItemsDeleteArguments extends TokenOverridable {
   id: string;
 }
 
-// https://docs.slack.dev/reference/methods/slackLists.items.deletemultiple
+// https://docs.slack.dev/reference/methods/slackLists.items.deleteMultiple
 export interface SlackListsItemsDeleteMultipleArguments extends TokenOverridable {
   list_id: string;
   ids: string[];
