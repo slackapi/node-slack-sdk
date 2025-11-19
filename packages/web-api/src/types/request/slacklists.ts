@@ -53,7 +53,7 @@ export interface SlackListsItemsDeleteArguments extends TokenOverridable {
   id: string;
 }
 
-// https://docs.slack.dev/reference/methods/slackLists.items.deletemultiple
+// https://docs.slack.dev/reference/methods/slackLists.items.deleteMultiple
 export interface SlackListsItemsDeleteMultipleArguments extends TokenOverridable {
   list_id: string;
   ids: string[];
