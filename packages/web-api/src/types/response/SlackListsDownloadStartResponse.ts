@@ -5,4 +5,5 @@ export type SlackListsDownloadStartResponse = WebAPICallResult & {
   needed?: string;
   ok?: boolean;
   provided?: string;
+  job_id?: string;
 };

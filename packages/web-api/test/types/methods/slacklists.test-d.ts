@@ -4,7 +4,6 @@ import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
 
-
 // slackLists.access.delete
 // -- sad path
 expectError(web.slackLists.access.delete()); // lacking argument
