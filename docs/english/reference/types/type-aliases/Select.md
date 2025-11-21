@@ -11,7 +11,7 @@ type Select =
   | ExternalSelect;
 ```
 
-Defined in: [block-kit/block-elements.ts:272](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L272)
+Defined in: [block-kit/block-elements.ts:276](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L276)
 
 ## Description
 

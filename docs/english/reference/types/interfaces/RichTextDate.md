@@ -2,7 +2,7 @@
 
 # Interface: RichTextDate
 
-Defined in: [block-kit/block-elements.ts:807](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L807)
+Defined in: [block-kit/block-elements.ts:811](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L811)
 
 ## Description
 
@@ -20,7 +20,7 @@ A date element for use in a rich text message.
 optional fallback: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:847](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L847)
+Defined in: [block-kit/block-elements.ts:851](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L851)
 
 #### Description
 
@@ -34,7 +34,7 @@ Text to display in place of the date should parsing, formatting or displaying fa
 format: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:839](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L839)
+Defined in: [block-kit/block-elements.ts:843](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L843)
 
 #### Description
 
@@ -110,6 +110,16 @@ optional strike: boolean;
 
 When `true`, strikes through the text in this element. Defaults to `false`.
 
+#### underline?
+
+```ts
+optional underline: boolean;
+```
+
+##### Description
+
+When `true`, underlines the text in this element. Defaults to `false`.
+
 #### Description
 
 A limited style object for styling rich text `text` elements.
@@ -126,7 +136,7 @@ A limited style object for styling rich text `text` elements.
 timestamp: number;
 ```
 
-Defined in: [block-kit/block-elements.ts:815](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L815)
+Defined in: [block-kit/block-elements.ts:819](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L819)
 
 #### Description
 
@@ -140,7 +150,7 @@ A UNIX timestamp for the date to be displayed in seconds.
 type: "date";
 ```
 
-Defined in: [block-kit/block-elements.ts:811](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L811)
+Defined in: [block-kit/block-elements.ts:815](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L815)
 
 #### Description
 
@@ -154,7 +164,7 @@ The type of element. In this case `type` is always `date`.
 optional url: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:843](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L843)
+Defined in: [block-kit/block-elements.ts:847](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L847)
 
 #### Description
 

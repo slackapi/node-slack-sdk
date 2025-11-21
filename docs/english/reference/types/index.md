@@ -1,4 +1,4 @@
-# @slack/types v2.18.0
+# @slack/types v2.19.0
 
 ## Enumerations
 
@@ -69,6 +69,8 @@
 - [EntityActionButton](interfaces/EntityActionButton.md)
 - [EntityArrayItemField](interfaces/EntityArrayItemField.md)
 - [EntityAttributes](interfaces/EntityAttributes.md)
+- [EntityBooleanCheckboxField](interfaces/EntityBooleanCheckboxField.md)
+- [EntityBooleanTextField](interfaces/EntityBooleanTextField.md)
 - [EntityCustomField](interfaces/EntityCustomField.md)
 - [EntityEditSupport](interfaces/EntityEditSupport.md)
 - [EntityFullSizePreview](interfaces/EntityFullSizePreview.md)
@@ -154,6 +156,7 @@
 - [PlainTextInput](interfaces/PlainTextInput.md)
 - [PlainTextOption](interfaces/PlainTextOption.md)
 - [RadioButtons](interfaces/RadioButtons.md)
+- [RawTextElement](interfaces/RawTextElement.md)
 - [ReactionAddedEvent](interfaces/ReactionAddedEvent.md)
 - [ReactionRemovedEvent](interfaces/ReactionRemovedEvent.md)
 - [RichTextBlock](interfaces/RichTextBlock.md)
@@ -190,6 +193,7 @@
 - [SubteamSelfAddedEvent](interfaces/SubteamSelfAddedEvent.md)
 - [SubteamSelfRemovedEvent](interfaces/SubteamSelfRemovedEvent.md)
 - [SubteamUpdatedEvent](interfaces/SubteamUpdatedEvent.md)
+- [TableBlock](interfaces/TableBlock.md)
 - [TaskEntityFields](interfaces/TaskEntityFields.md)
 - [TeamAccessGrantedEvent](interfaces/TeamAccessGrantedEvent.md)
 - [TeamAccessRevokedEvent](interfaces/TeamAccessRevokedEvent.md)

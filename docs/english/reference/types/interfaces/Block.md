@@ -2,7 +2,7 @@
 
 # Interface: Block
 
-Defined in: [block-kit/blocks.ts:29](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L29)
+Defined in: [block-kit/blocks.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L35)
 
 ## Extended by
 
@@ -16,6 +16,7 @@ Defined in: [block-kit/blocks.ts:29](https://github.com/slackapi/node-slack-sdk/
 - [`MarkdownBlock`](MarkdownBlock.md)
 - [`RichTextBlock`](RichTextBlock.md)
 - [`SectionBlock`](SectionBlock.md)
+- [`TableBlock`](TableBlock.md)
 - [`VideoBlock`](VideoBlock.md)
 
 ## Properties
@@ -26,7 +27,7 @@ Defined in: [block-kit/blocks.ts:29](https://github.com/slackapi/node-slack-sdk/
 optional block_id: string;
 ```
 
-Defined in: [block-kit/blocks.ts:41](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L41)
+Defined in: [block-kit/blocks.ts:47](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L47)
 
 #### Description
 
@@ -44,7 +45,7 @@ a message. If a message is updated, use a new `block_id`.
 type: string;
 ```
 
-Defined in: [block-kit/blocks.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L33)
+Defined in: [block-kit/blocks.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L39)
 
 #### Description
 

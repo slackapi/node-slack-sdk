@@ -2,7 +2,7 @@
 
 # Interface: EntityTimestampField
 
-Defined in: [message-metadata.ts:240](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L240)
+Defined in: [message-metadata.ts:254](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L254)
 
 ## Properties
 
@@ -12,17 +12,7 @@ Defined in: [message-metadata.ts:240](https://github.com/slackapi/node-slack-sdk
 optional edit: EntityEditSupport;
 ```
 
-Defined in: [message-metadata.ts:246](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L246)
-
-***
-
-### icon?
-
-```ts
-optional icon: EntityIconField;
-```
-
-Defined in: [message-metadata.ts:244](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L244)
+Defined in: [message-metadata.ts:258](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L258)
 
 ***
 
@@ -32,17 +22,7 @@ Defined in: [message-metadata.ts:244](https://github.com/slackapi/node-slack-sdk
 optional label: string;
 ```
 
-Defined in: [message-metadata.ts:242](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L242)
-
-***
-
-### link?
-
-```ts
-optional link: string;
-```
-
-Defined in: [message-metadata.ts:243](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L243)
+Defined in: [message-metadata.ts:256](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L256)
 
 ***
 
@@ -52,7 +32,7 @@ Defined in: [message-metadata.ts:243](https://github.com/slackapi/node-slack-sdk
 optional type: string;
 ```
 
-Defined in: [message-metadata.ts:245](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L245)
+Defined in: [message-metadata.ts:257](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L257)
 
 ***
 
@@ -62,4 +42,4 @@ Defined in: [message-metadata.ts:245](https://github.com/slackapi/node-slack-sdk
 value: number;
 ```
 
-Defined in: [message-metadata.ts:241](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L241)
+Defined in: [message-metadata.ts:255](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L255)
