@@ -6,7 +6,7 @@
 type ContextBlockElement = ImageElement | TextObject;
 ```
 
-Defined in: [block-kit/blocks.ts:105](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L105)
+Defined in: [block-kit/blocks.ts:112](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L112)
 
 A helper union type of all Block Elements that can be used in a [ContextBlock](../interfaces/ContextBlock.md).
 

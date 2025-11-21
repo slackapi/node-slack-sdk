@@ -2,7 +2,7 @@
 
 # Interface: RichTextInput
 
-Defined in: [block-kit/block-elements.ts:1034](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1034)
+Defined in: [block-kit/block-elements.ts:1038](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1038)
 
 ## Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_value: RichTextBlock;
 ```
 
-Defined in: [block-kit/block-elements.ts:1042](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1042)
+Defined in: [block-kit/block-elements.ts:1046](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1046)
 
 #### Description
 
@@ -116,7 +116,7 @@ length for the `text` field in this object is 150 characters.
 type: "rich_text_input";
 ```
 
-Defined in: [block-kit/block-elements.ts:1038](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1038)
+Defined in: [block-kit/block-elements.ts:1042](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1042)
 
 #### Description
 

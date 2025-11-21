@@ -2,7 +2,7 @@
 
 # Interface: EntityCustomField
 
-Defined in: [message-metadata.ts:258](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L258)
+Defined in: [message-metadata.ts:270](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L270)
 
 ## Properties
 
@@ -12,7 +12,19 @@ Defined in: [message-metadata.ts:258](https://github.com/slackapi/node-slack-sdk
 optional alt_text: string;
 ```
 
-Defined in: [message-metadata.ts:269](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L269)
+Defined in: [message-metadata.ts:281](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L281)
+
+***
+
+### boolean?
+
+```ts
+optional boolean: 
+  | EntityBooleanCheckboxField
+  | EntityBooleanTextField;
+```
+
+Defined in: [message-metadata.ts:287](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L287)
 
 ***
 
@@ -22,7 +34,7 @@ Defined in: [message-metadata.ts:269](https://github.com/slackapi/node-slack-sdk
 optional edit: EntityEditSupport;
 ```
 
-Defined in: [message-metadata.ts:271](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L271)
+Defined in: [message-metadata.ts:283](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L283)
 
 ***
 
@@ -32,7 +44,7 @@ Defined in: [message-metadata.ts:271](https://github.com/slackapi/node-slack-sdk
 optional entity_ref: EntityRefField;
 ```
 
-Defined in: [message-metadata.ts:274](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L274)
+Defined in: [message-metadata.ts:286](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L286)
 
 ***
 
@@ -42,7 +54,7 @@ Defined in: [message-metadata.ts:274](https://github.com/slackapi/node-slack-sdk
 optional format: string;
 ```
 
-Defined in: [message-metadata.ts:266](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L266)
+Defined in: [message-metadata.ts:278](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L278)
 
 ***
 
@@ -52,7 +64,7 @@ Defined in: [message-metadata.ts:266](https://github.com/slackapi/node-slack-sdk
 optional icon: EntityIconField;
 ```
 
-Defined in: [message-metadata.ts:264](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L264)
+Defined in: [message-metadata.ts:276](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L276)
 
 ***
 
@@ -62,7 +74,7 @@ Defined in: [message-metadata.ts:264](https://github.com/slackapi/node-slack-sdk
 optional image_url: string;
 ```
 
-Defined in: [message-metadata.ts:267](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L267)
+Defined in: [message-metadata.ts:279](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L279)
 
 ***
 
@@ -72,7 +84,7 @@ Defined in: [message-metadata.ts:267](https://github.com/slackapi/node-slack-sdk
 optional item_type: string;
 ```
 
-Defined in: [message-metadata.ts:272](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L272)
+Defined in: [message-metadata.ts:284](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L284)
 
 ***
 
@@ -82,7 +94,7 @@ Defined in: [message-metadata.ts:272](https://github.com/slackapi/node-slack-sdk
 key: string;
 ```
 
-Defined in: [message-metadata.ts:260](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L260)
+Defined in: [message-metadata.ts:272](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L272)
 
 ***
 
@@ -92,7 +104,7 @@ Defined in: [message-metadata.ts:260](https://github.com/slackapi/node-slack-sdk
 label: string;
 ```
 
-Defined in: [message-metadata.ts:259](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L259)
+Defined in: [message-metadata.ts:271](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L271)
 
 ***
 
@@ -102,7 +114,7 @@ Defined in: [message-metadata.ts:259](https://github.com/slackapi/node-slack-sdk
 optional link: string;
 ```
 
-Defined in: [message-metadata.ts:263](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L263)
+Defined in: [message-metadata.ts:275](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L275)
 
 ***
 
@@ -112,7 +124,7 @@ Defined in: [message-metadata.ts:263](https://github.com/slackapi/node-slack-sdk
 optional long: boolean;
 ```
 
-Defined in: [message-metadata.ts:265](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L265)
+Defined in: [message-metadata.ts:277](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L277)
 
 ***
 
@@ -122,7 +134,7 @@ Defined in: [message-metadata.ts:265](https://github.com/slackapi/node-slack-sdk
 optional slack_file: SlackFile;
 ```
 
-Defined in: [message-metadata.ts:268](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L268)
+Defined in: [message-metadata.ts:280](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L280)
 
 ***
 
@@ -132,7 +144,7 @@ Defined in: [message-metadata.ts:268](https://github.com/slackapi/node-slack-sdk
 optional tag_color: string;
 ```
 
-Defined in: [message-metadata.ts:270](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L270)
+Defined in: [message-metadata.ts:282](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L282)
 
 ***
 
@@ -142,7 +154,7 @@ Defined in: [message-metadata.ts:270](https://github.com/slackapi/node-slack-sdk
 type: string;
 ```
 
-Defined in: [message-metadata.ts:261](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L261)
+Defined in: [message-metadata.ts:273](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L273)
 
 ***
 
@@ -154,7 +166,7 @@ optional user:
   | EntityUserField;
 ```
 
-Defined in: [message-metadata.ts:273](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L273)
+Defined in: [message-metadata.ts:285](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L285)
 
 ***
 
@@ -164,4 +176,4 @@ Defined in: [message-metadata.ts:273](https://github.com/slackapi/node-slack-sdk
 optional value: string | number | EntityArrayItemField[];
 ```
 
-Defined in: [message-metadata.ts:262](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L262)
+Defined in: [message-metadata.ts:274](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L274)

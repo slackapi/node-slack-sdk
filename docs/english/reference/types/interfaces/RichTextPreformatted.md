@@ -2,7 +2,7 @@
 
 # Interface: RichTextPreformatted
 
-Defined in: [block-kit/block-elements.ts:1017](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1017)
+Defined in: [block-kit/block-elements.ts:1021](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1021)
 
 ## Description
 
@@ -39,7 +39,7 @@ while `1` renders a border.
 elements: (RichTextLink | RichTextText)[];
 ```
 
-Defined in: [block-kit/block-elements.ts:1025](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1025)
+Defined in: [block-kit/block-elements.ts:1029](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1029)
 
 #### Description
 
@@ -53,7 +53,7 @@ An array of either [RichTextLink](RichTextLink.md) or [RichTextText](RichTextTex
 type: "rich_text_preformatted";
 ```
 
-Defined in: [block-kit/block-elements.ts:1021](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1021)
+Defined in: [block-kit/block-elements.ts:1025](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1025)
 
 #### Description
 

@@ -38,7 +38,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 negative_button: object;
 ```
 
-Defined in: [block-kit/block-elements.ts:170](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L170)
+Defined in: [block-kit/block-elements.ts:173](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L173)
 
 #### accessibility\_label?
 
@@ -78,6 +78,10 @@ The negative feedback button value.
 
 A button to indicate negative feedback.
 
+#### See
+
+[Feedback buttons object fields reference](https://docs.slack.dev/reference/block-kit/block-elements/feedback-buttons-element/#button-object-fields).
+
 ***
 
 ### positive\_button
@@ -86,7 +90,7 @@ A button to indicate negative feedback.
 positive_button: object;
 ```
 
-Defined in: [block-kit/block-elements.ts:152](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L152)
+Defined in: [block-kit/block-elements.ts:154](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L154)
 
 #### accessibility\_label?
 
@@ -126,6 +130,10 @@ The positive feedback button value.
 
 A button to indicate positive feedback.
 
+#### See
+
+[Feedback buttons object fields reference](https://docs.slack.dev/reference/block-kit/block-elements/feedback-buttons-element/#button-object-fields).
+
 ***
 
 ### type
@@ -134,11 +142,15 @@ A button to indicate positive feedback.
 type: "feedback_buttons";
 ```
 
-Defined in: [block-kit/block-elements.ts:148](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L148)
+Defined in: [block-kit/block-elements.ts:149](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L149)
 
 #### Description
 
 The type of block. For a feedback buttons block, `type` is always `feedback_buttons`.
+
+#### See
+
+[Feedback buttons element reference](https://docs.slack.dev/reference/block-kit/block-elements/feedback-buttons-element).
 
 #### Overrides
 

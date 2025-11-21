@@ -2,7 +2,7 @@
 
 # Interface: UrlImageObject
 
-Defined in: [block-kit/composition-objects.ts:206](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L206)
+Defined in: [block-kit/composition-objects.ts:221](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L221)
 
 ## Description
 
@@ -16,7 +16,7 @@ Object for image which contains a image_url.
 image_url: string;
 ```
 
-Defined in: [block-kit/composition-objects.ts:210](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L210)
+Defined in: [block-kit/composition-objects.ts:225](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/composition-objects.ts#L225)
 
 #### Description
 
