@@ -2,7 +2,7 @@
 
 # Interface: NumberInput
 
-Defined in: [block-kit/block-elements.ts:564](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L564)
+Defined in: [block-kit/block-elements.ts:568](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L568)
 
 ## Description
 
@@ -84,7 +84,7 @@ Defaults to `false`.
 optional initial_value: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:576](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L576)
+Defined in: [block-kit/block-elements.ts:580](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L580)
 
 #### Description
 
@@ -98,7 +98,7 @@ The initial value in the input when it is loaded.
 is_decimal_allowed: boolean;
 ```
 
-Defined in: [block-kit/block-elements.ts:572](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L572)
+Defined in: [block-kit/block-elements.ts:576](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L576)
 
 #### Description
 
@@ -112,7 +112,7 @@ Decimal numbers are allowed if this property is `true`, set the value to `false`
 optional max_value: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:584](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L584)
+Defined in: [block-kit/block-elements.ts:588](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L588)
 
 #### Description
 
@@ -126,7 +126,7 @@ The maximum value, cannot be less than `min_value`.
 optional min_value: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:580](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L580)
+Defined in: [block-kit/block-elements.ts:584](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L584)
 
 #### Description
 
@@ -159,7 +159,7 @@ length for the `text` field in this object is 150 characters.
 type: "number_input";
 ```
 
-Defined in: [block-kit/block-elements.ts:568](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L568)
+Defined in: [block-kit/block-elements.ts:572](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L572)
 
 #### Description
 
