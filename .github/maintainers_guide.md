@@ -118,7 +118,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - To see a list of changes between the last tag for the specific package, you can use this `git` command: `git log --oneline --full-history @slack/types@2.8.0..@slack/types@2.9.0 -- packages/types`. Sub in the correct tags and the last argument should be the path to the sub-package you are releasing (in order to filter commits just to the specific path).
 
-    - Release notes should mention contributors, issues, PRs, milestone, and link to npm package ([Example](https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Ftypes%402.17.0)) 
+    - Release notes should mention contributors, issues, PRs, milestone, and link to npm package ([Example](https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Ftypes%402.17.0))
 
     - Once the release notes are ready, click the "Publish Release" button to make them public
 
