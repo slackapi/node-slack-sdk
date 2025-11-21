@@ -24,14 +24,37 @@ Test code should be written in syntax that runs on the oldest supported Node.js 
 
 We have included `launch.json` files that store configuration for `vscode` debugging in each package. This allows you to set breakpoints in test files and interactively debug. Open the project in `vscode` and navigate to the debug screen on the left sidebar. The icon for it looks like a little lock bug with an x inside. At the top in `vscode`, select the configuration to run and press the green play icon to start debugging. Alternatively, on mac, you can press `cmd + shift + d` to get to the debug screen and `F5` to start debugging. If you are using `vscode` debugging, don't forget to lint the source (`npm run lint`) manually.
 
+### 🧰 Local Development
+
+Using in progress changes made to this package in an app can be useful for development. Use the pack command to package a particular SDK package. For example:
+
+```sh
+cd packages/web-api
+npm pack
+```
+
+Install the `slack-web-api-*.tgz` to an app to use your changes:
+
+```sh
+npm install path/to/node-slack-sdk/packages/slack-web-api-*.tgz
+```
+
+The packaged build includes dependencies published with each package, including required peer dependencies but not devDependencies, to imitate actual installations.
+
+Remove cached project dependencies with `rm -r node_modules package-lock.json` between those steps to keep the cache clean.
 
 ### 📄 Managing Documentation
 
-See the [Docs README](https://github.com/slackapi/node-slack-sdk/blob/main/docs/README.md) for information on how the docs site work. 
+The reference docs for each package is independent of the others. They're generated using the `typedoc` and `typedoc-plugin-markdown` packages with the configurations of the package's `typedoc.json` file.
 
-The reference docs for each package is independent of the others. They're generated using `typedoc` and `typedoc-plugin-markdown`. In each package's `package.json` there's a `docs` command that generates reference docs for that package based on the configuration settings found in `/package-name/typedoc.json`. 
+Each package has a script to these generate reference docs. For example:
 
-The script places the reference markdown files in `/reference/package-name`.
+```sh
+cd packages/web-api
+npm run docs
+```
+
+The script places the reference markdown files in `/docs/english/reference/package-name`.
 
 ### 🚀 Releases
 _For beta releases, see [**Beta Releases**](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#-beta-releases) section below_
