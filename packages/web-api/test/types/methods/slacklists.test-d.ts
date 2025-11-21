@@ -103,8 +103,8 @@ expectError(web.slackLists.items.deleteMultiple({ list_id: 'L1234567890' })); //
 // -- happy path
 expectAssignable<Parameters<typeof web.slackLists.items.deleteMultiple>>([
   {
-    list_id: 'L1234567890',
-    ids: ['I1234567890', 'I0987654321'],
+    list_id: 'F1234567890',
+    ids: ['Fe1234567890', 'Fe0987654321'],
   },
 ]);
 
