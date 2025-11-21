@@ -79,11 +79,13 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - Generate the reference docs for that package by running `npm run docs`.
 
-    - Make a single commit for the version(s) bump, following the format in: ([Example](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594))
+    - Make a single commit for the version(s) bump, following the format in: ([Example](https://github.com/slackapi/node-slack-sdk/commit/ff03f7812c678bdc5cea5eace75db34631a88dda))
 
-    - Create a pull request for the version change ([Example](https://github.com/slackapi/node-slack-sdk/pull/1059))
+    - Create a pull request for the version change ([Example](https://github.com/slackapi/node-slack-sdk/pull/2402))
 
-    - Add appropriate labels on the PR, including `release`
+    - Add appropriate labels on the PR, including `release`, `pkg:*`, and `semver:*`
+
+    - Add appropriate milestone on the PR
 
 6. Once the PR has been approved and tests have passed, merge it into the main repository.
 
@@ -91,7 +93,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     -  Add a version tag (ie, `git tag @slack/web-api@5.6.0`)
 
-    -  Push the new tag up to origin: `git push --tags origin`
+    -  Push the new tag up to origin: `git push origin @slack/web-api@5.6.0`
 
 7. Publish the release to npm
     - To publish, you need to be a member of the `slack Org` on npm and set up 2-Factor Auth with your password generator of choice. Before you can publish with npm, you must run `npm login` from the command line.
@@ -100,23 +102,23 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
     - Run `npm publish . --otp YOUR_OTP_CODE`. To generate an OTP (One Time Password), use your password generator of choice (Duo, 1Password)
 
-8. Close GitHub Milestone(s)
+8. Close GitHub Milestone
 
-    - Close the relevant GitHub Milestone(s) for the release(s)
+    - Close the relevant GitHub Milestone for the release
 
     - Check the existing GitHub Milestones to see if the next minor version exists. If it doesn't, then create a GitHub Milestone for new issues to live in. Typically, you'll create a new minor version - however, if there are any bugs that need to be carried over from the current GitHub Milestone, you could make a Milestone for a patch version to reflect those issues
 
     - Move any unfinished, open issues to the next GitHub Milestone
 
-9. Create GitHub Release(s) with release notes
+9. Create GitHub Release with release notes
 
-    - From the repository, navigate to the **Releases** section and draft a new release
+    - From the repository, navigate to the **Releases** section and select [Draft a new release](https://github.com/slackapi/node-slack-sdk/releases/new)
 
     - When creating the release notes, select the tag you generated earlier for your release and title the release the same name as the tag
 
     - To see a list of changes between the last tag for the specific package, you can use this `git` command: `git log --oneline --full-history @slack/types@2.8.0..@slack/types@2.9.0 -- packages/types`. Sub in the correct tags and the last argument should be the path to the sub-package you are releasing (in order to filter commits just to the specific path).
 
-    - Release notes should mention contributors, issues and PRs ([Example](https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Fweb-api%406.2.0))
+    - Release notes should mention contributors, issues, PRs, milestone, and link to npm package ([Example](https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Ftypes%402.17.0))
 
     - Once the release notes are ready, click the "Publish Release" button to make them public
 
