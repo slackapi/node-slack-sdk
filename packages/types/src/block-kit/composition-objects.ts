@@ -183,7 +183,7 @@ export interface RawTextElement {
    */
   type: 'raw_text';
   /**
-   * @description The text for the block. The minimum length is 1.
+   * @description The text for the block. The minimum length is 1 character.
    */
   text: string;
 }
