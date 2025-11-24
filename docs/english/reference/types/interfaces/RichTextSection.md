@@ -2,7 +2,7 @@
 
 # Interface: RichTextSection
 
-Defined in: [block-kit/block-elements.ts:968](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L968)
+Defined in: [block-kit/block-elements.ts:972](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L972)
 
 ## Description
 
@@ -16,7 +16,7 @@ A section block within a rich text field.
 elements: RichTextElement[];
 ```
 
-Defined in: [block-kit/block-elements.ts:973](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L973)
+Defined in: [block-kit/block-elements.ts:977](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L977)
 
 ***
 
@@ -26,7 +26,7 @@ Defined in: [block-kit/block-elements.ts:973](https://github.com/slackapi/node-s
 type: "rich_text_section";
 ```
 
-Defined in: [block-kit/block-elements.ts:972](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L972)
+Defined in: [block-kit/block-elements.ts:976](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L976)
 
 #### Description
 
