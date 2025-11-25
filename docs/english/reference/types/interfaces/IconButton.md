@@ -2,11 +2,15 @@
 
 # Interface: IconButton
 
-Defined in: [block-kit/block-elements.ts:213](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L213)
+Defined in: [block-kit/block-elements.ts:217](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L217)
 
 ## Description
 
 An icon button to perform actions.
+
+## See
+
+[Icon button element reference](https://docs.slack.dev/reference/block-kit/block-elements/icon-button-element).
 
 ## Extends
 
@@ -20,7 +24,7 @@ An icon button to perform actions.
 optional accessibility_label: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:231](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L231)
+Defined in: [block-kit/block-elements.ts:235](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L235)
 
 #### Description
 
@@ -71,7 +75,7 @@ with.
 icon: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:222](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L222)
+Defined in: [block-kit/block-elements.ts:226](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L226)
 
 #### Description
 
@@ -91,7 +95,7 @@ trash
 text: PlainTextElement;
 ```
 
-Defined in: [block-kit/block-elements.ts:227](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L227)
+Defined in: [block-kit/block-elements.ts:231](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L231)
 
 #### Description
 
@@ -109,7 +113,7 @@ Defines an object containing some text.
 type: "icon_button";
 ```
 
-Defined in: [block-kit/block-elements.ts:217](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L217)
+Defined in: [block-kit/block-elements.ts:221](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L221)
 
 #### Description
 
@@ -127,7 +131,7 @@ The type of element. In this case `type` is always `icon_button`.
 optional value: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:235](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L235)
+Defined in: [block-kit/block-elements.ts:239](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L239)
 
 #### Description
 
@@ -141,7 +145,7 @@ The button value.
 optional visible_to_user_ids: string[];
 ```
 
-Defined in: [block-kit/block-elements.ts:239](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L239)
+Defined in: [block-kit/block-elements.ts:243](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L243)
 
 #### Description
 

@@ -2,7 +2,7 @@
 
 # Interface: PlainTextInput
 
-Defined in: [block-kit/block-elements.ts:613](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L613)
+Defined in: [block-kit/block-elements.ts:617](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L617)
 
 ## Description
 
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_value: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:621](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L621)
+Defined in: [block-kit/block-elements.ts:625](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L625)
 
 #### Description
 
@@ -96,7 +96,7 @@ The initial value in the plain-text input when it is loaded.
 optional max_length: number;
 ```
 
-Defined in: [block-kit/block-elements.ts:636](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L636)
+Defined in: [block-kit/block-elements.ts:640](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L640)
 
 #### Description
 
@@ -111,7 +111,7 @@ they will receive an error.
 optional min_length: number;
 ```
 
-Defined in: [block-kit/block-elements.ts:631](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L631)
+Defined in: [block-kit/block-elements.ts:635](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L635)
 
 #### Description
 
@@ -126,7 +126,7 @@ an error. Maximum value is 3000.
 optional multiline: boolean;
 ```
 
-Defined in: [block-kit/block-elements.ts:626](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L626)
+Defined in: [block-kit/block-elements.ts:630](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L630)
 
 #### Description
 
@@ -160,7 +160,7 @@ length for the `text` field in this object is 150 characters.
 type: "plain_text_input";
 ```
 
-Defined in: [block-kit/block-elements.ts:617](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L617)
+Defined in: [block-kit/block-elements.ts:621](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L621)
 
 #### Description
 
