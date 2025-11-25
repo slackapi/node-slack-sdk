@@ -2,7 +2,7 @@ import type { RichTextBlock } from '@slack/types';
 
 import type { TokenOverridable } from './common';
 
-// Field type definitions for Slack Lists items
+// Field type definitions for Slack Lists items:
 // https://docs.slack.dev/reference/methods/slackLists.items.create#field-types
 
 /**
