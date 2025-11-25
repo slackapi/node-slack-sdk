@@ -6,35 +6,19 @@ import type { TokenOverridable } from './common';
 // https://docs.slack.dev/reference/methods/slackLists.items.create#field-types
 
 /**
- * @description Text field with rich text formatting.
+ * @description Attachment field with file IDs.
  */
-export interface SlackListsItemFieldRichText {
+export interface SlackListsItemFieldAttachment {
   column_id: string;
-  rich_text: RichTextBlock[];
+  attachment: string[];
 }
 
 /**
- * @description User field containing user IDs.
+ * @description Channel field with channel IDs.
  */
-export interface SlackListsItemFieldUser {
+export interface SlackListsItemFieldChannel {
   column_id: string;
-  user: string[];
-}
-
-/**
- * @description Date field in YYYY-MM-DD format.
- */
-export interface SlackListsItemFieldDate {
-  column_id: string;
-  date: string[];
-}
-
-/**
- * @description Select field with option IDs.
- */
-export interface SlackListsItemFieldSelect {
-  column_id: string;
-  select: string[];
+  channel: string[];
 }
 
 /**
@@ -46,11 +30,11 @@ export interface SlackListsItemFieldCheckbox {
 }
 
 /**
- * @description Number field with numeric values.
+ * @description Date field in YYYY-MM-DD format.
  */
-export interface SlackListsItemFieldNumber {
+export interface SlackListsItemFieldDate {
   column_id: string;
-  number: number[];
+  date: string[];
 }
 
 /**
@@ -59,22 +43,6 @@ export interface SlackListsItemFieldNumber {
 export interface SlackListsItemFieldEmail {
   column_id: string;
   email: string[];
-}
-
-/**
- * @description Phone field with phone numbers.
- */
-export interface SlackListsItemFieldPhone {
-  column_id: string;
-  phone: string[];
-}
-
-/**
- * @description Attachment field with file IDs.
- */
-export interface SlackListsItemFieldAttachment {
-  column_id: string;
-  attachment: string[];
 }
 
 /**
@@ -98,27 +66,27 @@ export interface SlackListsItemFieldMessage {
 }
 
 /**
+ * @description Number field with numeric values.
+ */
+export interface SlackListsItemFieldNumber {
+  column_id: string;
+  number: number[];
+}
+
+/**
+ * @description Phone field with phone numbers.
+ */
+export interface SlackListsItemFieldPhone {
+  column_id: string;
+  phone: string[];
+}
+
+/**
  * @description Rating field with numeric rating values.
  */
 export interface SlackListsItemFieldRating {
   column_id: string;
   rating: number[];
-}
-
-/**
- * @description Timestamp field with Unix timestamps.
- */
-export interface SlackListsItemFieldTimestamp {
-  column_id: string;
-  timestamp: number[];
-}
-
-/**
- * @description Channel field with channel IDs.
- */
-export interface SlackListsItemFieldChannel {
-  column_id: string;
-  channel: string[];
 }
 
 /**
@@ -131,6 +99,38 @@ export interface SlackListsItemFieldReference {
       file_id: string;
     };
   }>;
+}
+
+/**
+ * @description Text field with rich text formatting.
+ */
+export interface SlackListsItemFieldRichText {
+  column_id: string;
+  rich_text: RichTextBlock[];
+}
+
+/**
+ * @description Select field with option IDs.
+ */
+export interface SlackListsItemFieldSelect {
+  column_id: string;
+  select: string[];
+}
+
+/**
+ * @description Timestamp field with Unix timestamps.
+ */
+export interface SlackListsItemFieldTimestamp {
+  column_id: string;
+  timestamp: number[];
+}
+
+/**
+ * @description User field containing user IDs.
+ */
+export interface SlackListsItemFieldUser {
+  column_id: string;
+  user: string[];
 }
 
 /**
@@ -556,206 +556,6 @@ export interface SlackListsUpdateArguments extends TokenOverridable {
 // These types are used in API responses and include additional metadata
 
 /**
- * @description Column visibility and position in a view.
- */
-export interface SlackListsViewColumn {
-  /**
-   * @description Whether the column is visible in this view.
-   */
-  visible: boolean;
-  /**
-   * @description The column key.
-   */
-  key: string;
-  /**
-   * @description The column ID.
-   */
-  id: string;
-  /**
-   * @description The position of the column in the view.
-   */
-  position: string;
-}
-
-/**
- * @description A view configuration for a Slack List.
- */
-export interface SlackListsView {
-  /**
-   * @description The unique identifier for the view.
-   */
-  id: string;
-  /**
-   * @description The name of the view.
-   */
-  name: string;
-  /**
-   * @description The type of view (e.g., "table", "record").
-   */
-  type: string;
-  /**
-   * @description Whether the view is locked from editing.
-   */
-  is_locked: boolean;
-  /**
-   * @description The position of the view.
-   */
-  position: string;
-  /**
-   * @description Array of column configurations for this view.
-   */
-  columns: SlackListsViewColumn[];
-  /**
-   * @description Unix timestamp when the view was created.
-   */
-  date_created: number;
-  /**
-   * @description User ID of the creator.
-   */
-  created_by: string;
-  /**
-   * @description Whether to stick the column to the left.
-   */
-  stick_column_left: boolean;
-  /**
-   * @description Whether this is the "all items" view.
-   */
-  is_all_items_view: boolean;
-  /**
-   * @description The default view key.
-   */
-  default_view_key?: string;
-  /**
-   * @description Whether to show completed items.
-   */
-  show_completed_items?: boolean;
-}
-
-/**
- * @description Source information for how the list was created.
- */
-export interface SlackListsCreationSource {
-  /**
-   * @description The type of creation source (e.g., "copy_from_list").
-   */
-  type: string;
-  /**
-   * @description Reference ID for the source.
-   */
-  reference_id: string;
-}
-
-/**
- * @description Limits and counts for various list resources.
- */
-export interface SlackListsLimits {
-  /**
-   * @description Whether the list has exceeded the maximum row count.
-   */
-  over_row_maximum: boolean;
-  /**
-   * @description The maximum number of rows allowed.
-   */
-  row_count_limit: number;
-  /**
-   * @description The current number of rows.
-   */
-  row_count: number;
-  /**
-   * @description The number of archived rows.
-   */
-  archived_row_count: number;
-  /**
-   * @description Whether the list has exceeded the maximum column count.
-   */
-  over_column_maximum: boolean;
-  /**
-   * @description The current number of columns.
-   */
-  column_count: number;
-  /**
-   * @description The maximum number of columns allowed.
-   */
-  column_count_limit: number;
-  /**
-   * @description Whether the list has exceeded the maximum view count.
-   */
-  over_view_maximum: boolean;
-  /**
-   * @description The current number of views.
-   */
-  view_count: number;
-  /**
-   * @description The maximum number of views allowed.
-   */
-  view_count_limit: number;
-  /**
-   * @description The maximum number of attachments per cell.
-   */
-  max_attachments_per_cell: number;
-}
-
-/**
- * @description Metadata for a Slack List including schema, views, and configuration.
- */
-export interface SlackListsMetadata {
-  /**
-   * @description Array of column definitions with IDs.
-   */
-  schema: SlackListsSchemaColumnResponse[];
-  /**
-   * @description Array of view configurations.
-   */
-  views: SlackListsView[];
-  /**
-   * @description Array of integrations.
-   */
-  integrations: unknown[];
-  /**
-   * @description Icon for the list.
-   */
-  icon: string;
-  /**
-   * @description Text description of the list.
-   */
-  description: string;
-  /**
-   * @description Rich text blocks describing the list.
-   */
-  description_blocks: RichTextBlock[];
-  /**
-   * @description Whether the list is in trial mode.
-   */
-  is_trial: boolean;
-  /**
-   * @description Array of column definitions for subtasks.
-   */
-  subtask_schema: SlackListsSchemaColumnResponse[];
-  /**
-   * @description Information about how the list was created.
-   */
-  creation_source?: SlackListsCreationSource;
-  /**
-   * @description Whether the list is in todo mode.
-   */
-  todo_mode: boolean;
-  /**
-   * @description The default view.
-   */
-  default_view: string;
-}
-
-/**
- * @description Column definition returned in responses, includes all schema properties plus an id.
- */
-export interface SlackListsSchemaColumnResponse extends SlackListsSchemaColumn {
-  /**
-   * @description The unique identifier for the column.
-   */
-  id: string;
-}
-
-/**
  * @description A Slack List file object with complete metadata.
  */
 export interface SlackList {
@@ -907,4 +707,204 @@ export interface SlackList {
    * @description Whether the list is AI suggested.
    */
   is_ai_suggested: boolean;
+}
+
+/**
+ * @description Source information for how the list was created.
+ */
+export interface SlackListsCreationSource {
+  /**
+   * @description The type of creation source (e.g., "copy_from_list").
+   */
+  type: string;
+  /**
+   * @description Reference ID for the source.
+   */
+  reference_id: string;
+}
+
+/**
+ * @description Limits and counts for various list resources.
+ */
+export interface SlackListsLimits {
+  /**
+   * @description Whether the list has exceeded the maximum row count.
+   */
+  over_row_maximum: boolean;
+  /**
+   * @description The maximum number of rows allowed.
+   */
+  row_count_limit: number;
+  /**
+   * @description The current number of rows.
+   */
+  row_count: number;
+  /**
+   * @description The number of archived rows.
+   */
+  archived_row_count: number;
+  /**
+   * @description Whether the list has exceeded the maximum column count.
+   */
+  over_column_maximum: boolean;
+  /**
+   * @description The current number of columns.
+   */
+  column_count: number;
+  /**
+   * @description The maximum number of columns allowed.
+   */
+  column_count_limit: number;
+  /**
+   * @description Whether the list has exceeded the maximum view count.
+   */
+  over_view_maximum: boolean;
+  /**
+   * @description The current number of views.
+   */
+  view_count: number;
+  /**
+   * @description The maximum number of views allowed.
+   */
+  view_count_limit: number;
+  /**
+   * @description The maximum number of attachments per cell.
+   */
+  max_attachments_per_cell: number;
+}
+
+/**
+ * @description Metadata for a Slack List including schema, views, and configuration.
+ */
+export interface SlackListsMetadata {
+  /**
+   * @description Array of column definitions with IDs.
+   */
+  schema: SlackListsSchemaColumnResponse[];
+  /**
+   * @description Array of view configurations.
+   */
+  views: SlackListsView[];
+  /**
+   * @description Array of integrations.
+   */
+  integrations: unknown[];
+  /**
+   * @description Icon for the list.
+   */
+  icon: string;
+  /**
+   * @description Text description of the list.
+   */
+  description: string;
+  /**
+   * @description Rich text blocks describing the list.
+   */
+  description_blocks: RichTextBlock[];
+  /**
+   * @description Whether the list is in trial mode.
+   */
+  is_trial: boolean;
+  /**
+   * @description Array of column definitions for subtasks.
+   */
+  subtask_schema: SlackListsSchemaColumnResponse[];
+  /**
+   * @description Information about how the list was created.
+   */
+  creation_source?: SlackListsCreationSource;
+  /**
+   * @description Whether the list is in todo mode.
+   */
+  todo_mode: boolean;
+  /**
+   * @description The default view.
+   */
+  default_view: string;
+}
+
+/**
+ * @description Column definition returned in responses, includes all schema properties plus an id.
+ */
+export interface SlackListsSchemaColumnResponse extends SlackListsSchemaColumn {
+  /**
+   * @description The unique identifier for the column.
+   */
+  id: string;
+}
+
+/**
+ * @description A view configuration for a Slack List.
+ */
+export interface SlackListsView {
+  /**
+   * @description The unique identifier for the view.
+   */
+  id: string;
+  /**
+   * @description The name of the view.
+   */
+  name: string;
+  /**
+   * @description The type of view (e.g., "table", "record").
+   */
+  type: string;
+  /**
+   * @description Whether the view is locked from editing.
+   */
+  is_locked: boolean;
+  /**
+   * @description The position of the view.
+   */
+  position: string;
+  /**
+   * @description Array of column configurations for this view.
+   */
+  columns: SlackListsViewColumn[];
+  /**
+   * @description Unix timestamp when the view was created.
+   */
+  date_created: number;
+  /**
+   * @description User ID of the creator.
+   */
+  created_by: string;
+  /**
+   * @description Whether to stick the column to the left.
+   */
+  stick_column_left: boolean;
+  /**
+   * @description Whether this is the "all items" view.
+   */
+  is_all_items_view: boolean;
+  /**
+   * @description The default view key.
+   */
+  default_view_key?: string;
+  /**
+   * @description Whether to show completed items.
+   */
+  show_completed_items?: boolean;
+}
+
+/**
+ * @description Column visibility and position in a view.
+ */
+export interface SlackListsViewColumn {
+  /**
+   * @description Whether the column is visible in this view.
+   */
+  visible: boolean;
+  /**
+   * @description The column key.
+   */
+  key: string;
+  /**
+   * @description The column ID.
+   */
+  id: string;
+  /**
+   * @description The position of the column in the view.
+   */
+  position: string;
 }
