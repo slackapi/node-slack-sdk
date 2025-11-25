@@ -50,7 +50,7 @@ error: string;
 optional errno: number;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:393
+Defined in: node\_modules/@types/node/globals.d.ts:102
 
 #### Inherited from
 
@@ -92,7 +92,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
 optional path: string;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:395
+Defined in: node\_modules/@types/node/globals.d.ts:104
 
 #### Inherited from
 
@@ -120,7 +120,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078
 optional syscall: string;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:396
+Defined in: node\_modules/@types/node/globals.d.ts:105
 
 #### Inherited from
 
