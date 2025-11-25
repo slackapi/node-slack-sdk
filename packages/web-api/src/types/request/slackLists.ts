@@ -2,7 +2,7 @@ import type { RichTextBlock } from '@slack/types';
 
 import type { TokenOverridable } from './common';
 
-// Field type definitions for Slack Lists items
+// Field type definitions for Slack Lists items:
 // https://docs.slack.dev/reference/methods/slackLists.items.create#field-types
 
 /**
@@ -137,21 +137,21 @@ export interface SlackListsItemFieldReference {
  * @description Union type of all possible Slack Lists item field types.
  */
 export type SlackListsItemField =
-  | SlackListsItemFieldRichText
-  | SlackListsItemFieldUser
-  | SlackListsItemFieldDate
-  | SlackListsItemFieldSelect
-  | SlackListsItemFieldCheckbox
-  | SlackListsItemFieldNumber
-  | SlackListsItemFieldEmail
-  | SlackListsItemFieldPhone
   | SlackListsItemFieldAttachment
+  | SlackListsItemFieldChannel
+  | SlackListsItemFieldCheckbox
+  | SlackListsItemFieldDate
+  | SlackListsItemFieldEmail
   | SlackListsItemFieldLink
   | SlackListsItemFieldMessage
+  | SlackListsItemFieldNumber
+  | SlackListsItemFieldPhone
   | SlackListsItemFieldRating
+  | SlackListsItemFieldReference
+  | SlackListsItemFieldRichText
+  | SlackListsItemFieldSelect
   | SlackListsItemFieldTimestamp
-  | SlackListsItemFieldChannel
-  | SlackListsItemFieldReference;
+  | SlackListsItemFieldUser;
 
 /**
  * @description Slack Lists item structure.
@@ -208,7 +208,7 @@ export type SlackListsItemCellUpdate = SlackListsItemField & {
   row_id: string;
 };
 
-// Schema definition types for slackLists.create
+// Schema definition types for slackLists.create:
 // https://docs.slack.dev/reference/methods/slackLists.create#schema-definition
 
 /**
