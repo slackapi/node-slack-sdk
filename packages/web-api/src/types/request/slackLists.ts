@@ -208,7 +208,7 @@ export type SlackListsItemCellUpdate = SlackListsItemField & {
   row_id: string;
 };
 
-// Schema definition types for slackLists.create
+// Schema definition types for slackLists.create:
 // https://docs.slack.dev/reference/methods/slackLists.create#schema-definition
 
 /**
