@@ -219,6 +219,18 @@ import type {
   SearchAllArguments,
   SearchFilesArguments,
   SearchMessagesArguments,
+  SlackListsAccessDeleteArguments,
+  SlackListsAccessSetArguments,
+  SlackListsCreateArguments,
+  SlackListsDownloadGetArguments,
+  SlackListsDownloadStartArguments,
+  SlackListsItemsCreateArguments,
+  SlackListsItemsDeleteArguments,
+  SlackListsItemsDeleteMultipleArguments,
+  SlackListsItemsInfoArguments,
+  SlackListsItemsListArguments,
+  SlackListsItemsUpdateArguments,
+  SlackListsUpdateArguments,
   StarsAddRemoveArguments,
   StarsListArguments,
   TeamAccessLogsArguments,
@@ -479,6 +491,18 @@ import type {
   SearchAllResponse,
   SearchFilesResponse,
   SearchMessagesResponse,
+  SlackListsAccessDeleteResponse,
+  SlackListsAccessSetResponse,
+  SlackListsCreateResponse,
+  SlackListsDownloadGetResponse,
+  SlackListsDownloadStartResponse,
+  SlackListsItemsCreateResponse,
+  SlackListsItemsDeleteMultipleResponse,
+  SlackListsItemsDeleteResponse,
+  SlackListsItemsInfoResponse,
+  SlackListsItemsListResponse,
+  SlackListsItemsUpdateResponse,
+  SlackListsUpdateResponse,
   StarsAddResponse,
   StarsListResponse,
   StarsRemoveResponse,
@@ -2171,6 +2195,93 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/search.messages search.messages` API reference}.
      */
     messages: bindApiCall<SearchMessagesArguments, SearchMessagesResponse>(this, 'search.messages'),
+  };
+
+  public readonly slackLists = {
+    access: {
+      /**
+       * @description Delete access for specified entities.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.access.delete `slackLists.access.delete` API reference}.
+       */
+      delete: bindApiCall<SlackListsAccessDeleteArguments, SlackListsAccessDeleteResponse>(
+        this,
+        'slackLists.access.delete',
+      ),
+      /**
+       * @description Set access level for specified entities.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.access.set `slackLists.access.set` API reference}.
+       */
+      set: bindApiCall<SlackListsAccessSetArguments, SlackListsAccessSetResponse>(this, 'slackLists.access.set'),
+    },
+    /**
+     * @description Create a List.
+     * @see {@link https://docs.slack.dev/reference/methods/slackLists.create `slackLists.create` API reference}.
+     */
+    create: bindApiCall<SlackListsCreateArguments, SlackListsCreateResponse>(this, 'slackLists.create'),
+    download: {
+      /**
+       * @description Get download job status.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.download.get `slackLists.download.get` API reference}.
+       */
+      get: bindApiCall<SlackListsDownloadGetArguments, SlackListsDownloadGetResponse>(this, 'slackLists.download.get'),
+      /**
+       * @description Start a download job for a list.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.download.start `slackLists.download.start` API reference}.
+       */
+      start: bindApiCall<SlackListsDownloadStartArguments, SlackListsDownloadStartResponse>(
+        this,
+        'slackLists.download.start',
+      ),
+    },
+    items: {
+      /**
+       * @description Create a list item.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.create `slackLists.items.create` API reference}.
+       */
+      create: bindApiCall<SlackListsItemsCreateArguments, SlackListsItemsCreateResponse>(
+        this,
+        'slackLists.items.create',
+      ),
+      /**
+       * @description Delete a list item.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.delete `slackLists.items.delete` API reference}.
+       */
+      delete: bindApiCall<SlackListsItemsDeleteArguments, SlackListsItemsDeleteResponse>(
+        this,
+        'slackLists.items.delete',
+      ),
+      /**
+       * @description Delete multiple list items.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.deleteMultiple `slackLists.items.deleteMultiple` API reference}.
+       */
+      deleteMultiple: bindApiCall<SlackListsItemsDeleteMultipleArguments, SlackListsItemsDeleteMultipleResponse>(
+        this,
+        'slackLists.items.deleteMultiple',
+      ),
+      /**
+       * @description Get info about a list item.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.info `slackLists.items.info` API reference}.
+       */
+      info: bindApiCall<SlackListsItemsInfoArguments, SlackListsItemsInfoResponse>(this, 'slackLists.items.info'),
+      /**
+       * @description Get records from a List.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.list `slackLists.items.list` API reference}.
+       */
+      list: bindApiCall<SlackListsItemsListArguments, SlackListsItemsListResponse>(this, 'slackLists.items.list'),
+      /**
+       * @description Update a list item.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.update `slackLists.items.update` API reference}.
+       */
+      update: bindApiCall<SlackListsItemsUpdateArguments, SlackListsItemsUpdateResponse>(
+        this,
+        'slackLists.items.update',
+      ),
+    },
+    /**
+     * @description Update a list.
+     * @see {@link https://docs.slack.dev/reference/methods/slackLists.update `slackLists.update` API reference}.
+     */
+    update: bindApiCall<SlackListsUpdateArguments, SlackListsUpdateResponse>(this, 'slackLists.update'),
   };
 
   public readonly team = {
