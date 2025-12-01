@@ -250,7 +250,10 @@ app.get('/slack/oauth_redirect', (req, res) => {
 
 Although this package uses a default `MemoryInstallationStore`, it isn't recommended for production purposes since the access tokens it stores are lost when the process terminates or restarts. To override this default, `InstallProvider` allows for supplying your own `installationStore`, which is then used to save and retrieve installation information (like tokens) to your own database.
 
-For more persistent storage during development, `FileInstallationStore` is a provided alternative to `MemoryInstallationStore` and is available for import and use directly from the package. Customizable options for this store include specifying the `baseDir`, `clientId`, and `historicalDataEnabled`. Please remember that `FileInstallationStore` and `FileStateStore` are for development-only and you should supply your own `installationStore` for production deployments.
+For more persistent storage during development, `FileInstallationStore` is a provided alternative to `MemoryInstallationStore` and is available for import and use directly from the package. Customizable options for this store include specifying the `baseDir`, `clientId`, and `historicalDataEnabled`. 
+
+:::warning[`FileInstallationStore` and `FileStateStore` are for development only and you should supply your own `installationStore` for production deployments.]
+:::
 
 An installation store is an object that provides three methods: `storeInstallation`, `fetchInstallation`, and `deleteInstallation`. `storeInstallation` takes an `installation` as an argument, which is an object that contains all installation related data (like tokens, teamIds, enterpriseIds, etc). `fetchInstallation` and `deleteInstallation` both take in an `installQuery`, which is used to query the database. The `installQuery` can contain `teamId`, `enterpriseId`, `userId`, `conversationId` and `isEnterpriseInstall`.
 
