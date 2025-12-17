@@ -8,8 +8,14 @@ export interface AssistantThreadsSetStatusArguments extends TokenOverridable {
   status: string;
   /** @description Message timestamp of the thread. */
   thread_ts: string;
+  /** @description Emoji to use as the icon for this message. Overrides `icon_url`. */
+  icon_emoji?: string;
+  /** @description URL to an image to use as the icon for this message. The `icon_emoji` field takes precendence over this field. */
+  icon_url?: string;
   /** @description The list of messages to rotate through as a loading indicator. */
   loading_messages?: string[];
+  /** @description Set your bot's username. */
+  username?: string;
 }
 
 // https://docs.slack.dev/reference/methods/assistant.threads.setSuggestedPrompts
