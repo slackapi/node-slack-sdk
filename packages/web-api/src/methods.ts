@@ -351,6 +351,7 @@ import type {
   AdminUsergroupsListChannelsResponse,
   AdminUsergroupsRemoveChannelsResponse,
   AdminUsersAssignResponse,
+  AdminUsersGetExpirationResponse,
   AdminUsersInviteResponse,
   AdminUsersListResponse,
   AdminUsersRemoveResponse,

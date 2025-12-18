@@ -81,6 +81,7 @@ export { AdminUsergroupsAddTeamsResponse } from './AdminUsergroupsAddTeamsRespon
 export { AdminUsergroupsListChannelsResponse } from './AdminUsergroupsListChannelsResponse';
 export { AdminUsergroupsRemoveChannelsResponse } from './AdminUsergroupsRemoveChannelsResponse';
 export { AdminUsersAssignResponse } from './AdminUsersAssignResponse';
+export { AdminUsersGetExpirationResponse } from './AdminUsersGetExpirationResponse';
 export { AdminUsersInviteResponse } from './AdminUsersInviteResponse';
 export { AdminUsersListResponse } from './AdminUsersListResponse';
 export { AdminUsersRemoveResponse } from './AdminUsersRemoveResponse';

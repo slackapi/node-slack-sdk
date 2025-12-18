@@ -8,10 +8,18 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 
 import type { WebAPICallResult } from '../../WebClient';
-export type WorkflowsFeaturedAddResponse = WebAPICallResult & {
+export type AdminUsersGetExpirationResponse = WebAPICallResult & {
   error?: string;
   needed?: string;
   ok?: boolean;
   provided?: string;
-  warning?: string;
+  user?: User;
 };
+
+export interface User {
+  email?: string;
+  expiration_ts?: number;
+  id?: string;
+  is_restricted?: boolean;
+  is_ultra_restricted?: boolean;
+}
