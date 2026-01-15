@@ -169,7 +169,7 @@ export interface Unfurls {
   unfurl_media?: boolean;
 }
 
-export interface ChatAppendStreamArguments extends TokenOverridable, ChannelAndTS, MarkdownText {
+export interface ChatAppendStreamArguments extends TokenOverridable, ChannelAndTS, Partial<MarkdownText> {
   /**
    * @description An array of {@link https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming chunk objects} to append to the stream.
    * Either `markdown_text` or `chunks` is required.

@@ -26,6 +26,15 @@ export interface URLSource {
 }
 
 /**
+ * An updated title of plans for task and tool calls.
+ * https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming
+ */
+export interface PlanUpdateChunk extends Chunk {
+  type: 'plan_update';
+  title: string;
+}
+
+/**
  * Used for displaying tool execution progress in a timeline-style UI.
  * https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming
  */
@@ -42,7 +51,7 @@ export interface TaskUpdateChunk extends Chunk {
 /**
  * Union type of all possible chunk types
  */
-export type AnyChunk = MarkdownTextChunk | TaskUpdateChunk;
+export type AnyChunk = MarkdownTextChunk | PlanUpdateChunk | TaskUpdateChunk;
 
 /**
  * Parse a chunk object and return the appropriate typed chunk.
@@ -67,6 +76,14 @@ export function parseChunk(chunk: unknown): AnyChunk | null {
       return chunkObj as unknown as MarkdownTextChunk;
     }
     console.warn('Invalid MarkdownTextChunk (missing text property)', chunk);
+    return null;
+  }
+
+  if(type === 'plan_update') {
+    if (typeof chunkObj.title === 'string') {
+      return chunkObj as unknown as PlanUpdateChunk;
+    }
+    console.warn('Invalid PlanUpdateChunk (missing title property)', chunk);
     return null;
   }
 
