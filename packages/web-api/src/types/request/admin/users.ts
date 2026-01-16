@@ -59,6 +59,16 @@ export interface AdminUsersAssignArguments
     IsUltraRestricted,
     TokenOverridable {}
 
+// https://docs.slack.dev/reference/methods/admin.users.getExpiration
+export interface AdminUsersGetExpirationArguments extends TokenOverridable {
+  /** @description The ID of the guest user to get the expiration for. */
+  user_id?: string;
+  /**
+   * @description If an org token is passed in and this team is on the org, it will operate on the workspace level
+   * on the specified team. Otherwise it will operate on the org or team in context. */
+  target_team?: string;
+}
+
 // https://docs.slack.dev/reference/methods/admin.users.invite
 export interface AdminUsersInviteArguments
   extends ChannelIDs,
