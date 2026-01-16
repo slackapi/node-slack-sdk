@@ -43,6 +43,10 @@ expectAssignable<Parameters<typeof web.chat.appendStream>>([
         text: 'Hello world',
       },
       {
+        type: 'plan_update',
+        title: 'Analyzing request',
+      },
+      {
         type: 'task_update',
         id: 'task-1',
         title: 'Processing request',
@@ -655,11 +659,14 @@ expectAssignable<Parameters<typeof web.chat.startStream>>([
   {
     channel: 'C1234',
     thread_ts: '1234.56',
-    markdown_text: 'hello',
     chunks: [
       {
         type: 'markdown_text',
         text: 'Hello world',
+      },
+      {
+        type: 'plan_update',
+        title: 'Analyzing request',
       },
       {
         type: 'task_update',
@@ -680,6 +687,10 @@ expectAssignable<Parameters<typeof web.chat.startStream>>([
       {
         type: 'markdown_text',
         text: 'Hello world',
+      },
+      {
+        type: 'plan_update',
+        title: 'Analyzing request',
       },
       {
         type: 'task_update',
@@ -727,11 +738,14 @@ expectAssignable<Parameters<typeof web.chat.stopStream>>([
   {
     channel: 'C1234',
     ts: '1234.56',
-    markdown_text: 'hello',
     chunks: [
       {
         type: 'markdown_text',
         text: 'Hello world',
+      },
+      {
+        type: 'plan_update',
+        title: 'Analyzing request',
       },
       {
         type: 'task_update',
