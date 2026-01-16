@@ -12,7 +12,7 @@ Defined in: [events/user.ts:85](https://github.com/slackapi/node-slack-sdk/blob/
 cache_ts: number;
 ```
 
-Defined in: [events/user.ts:163](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L163)
+Defined in: [events/user.ts:164](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L164)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [events/user.ts:163](https://github.com/slackapi/node-slack-sdk/blob
 event_ts: string;
 ```
 
-Defined in: [events/user.ts:164](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L164)
+Defined in: [events/user.ts:165](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L165)
 
 ***
 
@@ -251,6 +251,12 @@ first_name: string;
 
 ```ts
 huddle_state: string;
+```
+
+##### profile.huddle\_state\_call\_id?
+
+```ts
+optional huddle_state_call_id: string;
 ```
 
 ##### profile.huddle\_state\_expiration\_ts

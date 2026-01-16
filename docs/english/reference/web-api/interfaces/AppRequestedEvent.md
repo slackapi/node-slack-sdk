@@ -200,16 +200,16 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:62
 
 ```ts
 previous_resolution: 
+  | null
   | {
   scopes: {
      description: string;
      is_dangerous: boolean;
      name: string;
-     token_type: "user" | "bot" | "app" | null;
+     token_type: null | "user" | "bot" | "app";
   };
   status: "approved" | "restricted";
-}
-  | null;
+};
 ```
 
 Defined in: node\_modules/@slack/types/dist/events/app.d.ts:36
@@ -245,7 +245,7 @@ name: string;
 #### token\_type
 
 ```ts
-token_type: "user" | "bot" | "app" | null;
+token_type: null | "user" | "bot" | "app";
 ```
 
 ***
