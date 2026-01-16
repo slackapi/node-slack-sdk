@@ -89,7 +89,14 @@ export class ChatStreamer {
     if (args.token) {
       this.token = args.token;
     }
-    this.buffer += args.markdown_text;
+  
+    if (args.chunks) {
+      return await this.flushBuffer(args);
+    }
+  
+    if (args.markdown_text) {
+      this.buffer += args.markdown_text;
+    }
     if (this.buffer.length >= this.options.buffer_size) {
       return await this.flushBuffer(args);
     }
@@ -144,12 +151,13 @@ export class ChatStreamer {
       this.streamTs = response.ts;
       this.state = 'in_progress';
     }
+    const finalArgs = args?.chunks ? args : { ...args, markdown_text: this.buffer };
+
     const response = await this.client.chat.stopStream({
       token: this.token,
       channel: this.streamArgs.channel,
       ts: this.streamTs,
-      ...args,
-      markdown_text: this.buffer,
+      ...finalArgs,
     });
     this.state = 'completed';
     return response;
@@ -158,12 +166,14 @@ export class ChatStreamer {
   private async flushBuffer(
     args: Omit<ChatStartStreamArguments | ChatAppendStreamArguments, 'channel' | 'ts'>,
   ): Promise<ChatStartStreamResponse | ChatAppendStreamResponse> {
+
+    const finalArgs = args.chunks ? args : { ...args, markdown_text: this.buffer };
+
     if (!this.streamTs) {
       const response = await this.client.chat.startStream({
         ...this.streamArgs,
         token: this.token,
-        ...args,
-        markdown_text: this.buffer,
+        ...finalArgs,
       });
       this.buffer = '';
       this.streamTs = response.ts;
@@ -174,8 +184,7 @@ export class ChatStreamer {
       token: this.token,
       channel: this.streamArgs.channel,
       ts: this.streamTs,
-      ...args,
-      markdown_text: this.buffer,
+      ...finalArgs,
     });
     this.buffer = '';
     return response;
