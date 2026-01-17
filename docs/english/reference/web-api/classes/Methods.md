@@ -3129,7 +3129,10 @@ Use `uploadV2` instead. See [our post on retiring \`files.upload\`](https://docs
 #### uploadV2
 
 ```ts
-uploadV2: MethodWithRequiredArgument<FilesUploadV2Arguments, WebAPICallResult>;
+uploadV2: MethodWithRequiredArgument<
+  FilesUploadV2Arguments,
+  WebAPICallResult & { files: FilesCompleteUploadExternalResponse[] }
+>;
 ```
 
 ##### Description
