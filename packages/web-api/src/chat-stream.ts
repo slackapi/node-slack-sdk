@@ -151,8 +151,9 @@ export class ChatStreamer {
       this.streamTs = response.ts;
       this.state = 'in_progress';
     }
-    const finalArgs = args?.chunks ? args : { ...args, markdown_text: this.buffer };
-
+    const finalArgs = this.buffer.length > 0 && !args?.chunks
+      ? { ...args, markdown_text: this.buffer }
+      : args;
     const response = await this.client.chat.stopStream({
       token: this.token,
       channel: this.streamArgs.channel,
@@ -167,7 +168,9 @@ export class ChatStreamer {
     args: Omit<ChatStartStreamArguments | ChatAppendStreamArguments, 'channel' | 'ts'>,
   ): Promise<ChatStartStreamResponse | ChatAppendStreamResponse> {
 
-    const finalArgs = args.chunks ? args : { ...args, markdown_text: this.buffer };
+    const finalArgs = this.buffer.length > 0 && !args.chunks
+      ? { ...args, markdown_text: this.buffer }
+      : args;
 
     if (!this.streamTs) {
       const response = await this.client.chat.startStream({
