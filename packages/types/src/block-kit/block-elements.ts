@@ -702,16 +702,30 @@ export interface URLInput extends Actionable, Dispatchable, Focusable, Placehold
   initial_value?: string;
 }
 
+/**
+ *  @description A URL source element to reference in a task card block.
+ *  @see {@link https://docs.slack.dev/reference/block-kit/block-elements/url-source-element}
+ */
+
 export interface URLSourceElement {
   /**
    * @description The type of element. In this case `type` is always `url`.
    */
   type: 'url';
 
+  /**
+   * @description The URL type source.
+   */
   url: string;
-  
+
+  /**
+   * @description Display text for the URL.
+   */
   text: string;
 
+  /**
+   * @description Optional icon URL to display with the source.
+   */
   icon_url?: string[];
 }
 
