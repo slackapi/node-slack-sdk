@@ -22,6 +22,7 @@ import type {
   Select,
   Timepicker,
   URLInput,
+  URLSourceElement,
   WorkflowButton,
 } from './block-elements';
 import type {
@@ -64,6 +65,8 @@ export type KnownBlock =
   | RichTextBlock
   | SectionBlock
   | TableBlock
+  | TaskCardBlock
+  | PlanUpdateBlock
   | VideoBlock;
 
 /**
@@ -400,6 +403,23 @@ interface TableBlockColumnSettings {
    * @description Whether the contents of this column should be wrapped or not. Defaults to false if not defined.
    */
   is_wrapped?: boolean;
+}
+
+export interface TaskCardBlock extends Block {
+  type: 'task_card';
+  task_id: string;
+  title: string;
+  details?: RichTextBlock | Record<string, unknown>;
+  output?: RichTextBlock | Record<string, unknown>;
+  sources?: (URLSourceElement | Record<string, unknown>)[]
+  status: 'pending' | 'in_progress' | 'complete' | 'error'; // pending, in_progress, complete, error
+}
+
+export interface PlanUpdateBlock extends Block {
+  type: 'plan';
+  plan_id: string;
+  title: string;
+  tasks?: (TaskCardBlock | Record<string, unknown>)[];
 }
 
 /**

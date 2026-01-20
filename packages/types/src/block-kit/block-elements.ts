@@ -702,6 +702,21 @@ export interface URLInput extends Actionable, Dispatchable, Focusable, Placehold
   initial_value?: string;
 }
 
+export interface URLSourceElement {
+  /**
+   * @description The type of element. In this case `type` is always `url`.
+   */
+  type: 'url';
+
+  url: string;
+  
+  text: string;
+
+  icon_url?: string[];
+}
+
+
+
 /**
  * @description Allows users to run a {@link https://docs.slack.dev/tools/deno-slack-sdk/guides/creating-link-triggers/#workflow_buttons link trigger} with customizable inputs.
  * @see {@link https://docs.slack.dev/reference/block-kit/block-elements/workflow-button-element Workflow button element reference}.

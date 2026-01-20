@@ -1,3 +1,4 @@
+import { URLSourceElement } from "./block-kit/block-elements";
 /**
  * Base interface for streaming message chunks.
  * https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming
@@ -13,16 +14,6 @@ export interface Chunk {
 export interface MarkdownTextChunk extends Chunk {
   type: 'markdown_text';
   text: string;
-}
-
-/**
- * URL source for task update chunks.
- */
-export interface URLSource {
-  type: 'url';
-  url: string;
-  text: string;
-  icon_url?: string;
 }
 
 /**
@@ -45,7 +36,7 @@ export interface TaskUpdateChunk extends Chunk {
   status: 'pending' | 'in_progress' | 'complete' | 'error';
   details?: string;
   output?: string;
-  sources?: URLSource[];
+  sources?: URLSourceElement[];
 }
 
 /**
