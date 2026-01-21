@@ -255,6 +255,11 @@ export interface ChatStartStreamArguments extends TokenOverridable, Channel, Par
    * This is required when starting a streaming conversation outside of a DM.
    */
   recipient_user_id?: string;
+  /**
+   *  @description Specifies how tasks are displayed in the message. A "timeline" displays individual tasks
+   * interleaved with text and "plan" displays all tasks together.
+   */
+  task_display_mode?: string;
 }
 
 export type ChatStopStreamArguments = TokenOverridable &
