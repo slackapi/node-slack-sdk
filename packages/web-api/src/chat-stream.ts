@@ -90,11 +90,11 @@ export class ChatStreamer {
       this.token = args.token;
     }
   
-    if (args.chunks) {
+    if (args?.chunks) {
       return await this.flushBuffer(args);
     }
   
-    if (args.markdown_text) {
+    if (args?.markdown_text) {
       this.buffer += args.markdown_text;
     }
     if (this.buffer.length >= this.options.buffer_size) {
