@@ -27,6 +27,9 @@
   "bugs": {
     "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
+  "dependencies": {
+    "@slack/logger": "^4.0.0"
+  },
   "scripts": {
     "prepare": "npm run build",
     "build": "npm run build:clean && tsc",

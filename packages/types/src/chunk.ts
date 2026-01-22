@@ -1,3 +1,8 @@
+import { ConsoleLogger, LogLevel } from '@slack/logger';
+
+const logger = new ConsoleLogger();
+logger.setLevel(LogLevel.DEBUG);
+
 /**
  * Base interface for streaming message chunks.
  * https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming
@@ -65,7 +70,7 @@ export function parseChunk(chunk: unknown): AnyChunk | null {
   const chunkObj = chunk as Record<string, unknown>;
 
   if (!('type' in chunkObj) || typeof chunkObj.type !== 'string') {
-    console.warn('Unknown chunk detected and skipped (missing type)', chunk);
+    logger.debug('Unknown chunk detected and skipped (missing type)', chunk);
     return null;
   }
 
@@ -75,15 +80,15 @@ export function parseChunk(chunk: unknown): AnyChunk | null {
     if (typeof chunkObj.text === 'string') {
       return chunkObj as unknown as MarkdownTextChunk;
     }
-    console.warn('Invalid MarkdownTextChunk (missing text property)', chunk);
+    logger.debug('Invalid MarkdownTextChunk (missing text property)', chunk);
     return null;
   }
 
-  if(type === 'plan_update') {
+  if (type === 'plan_update') {
     if (typeof chunkObj.title === 'string') {
       return chunkObj as unknown as PlanUpdateChunk;
     }
-    console.warn('Invalid PlanUpdateChunk (missing title property)', chunk);
+    logger.debug('Invalid PlanUpdateChunk (missing title property)', chunk);
     return null;
   }
 
@@ -97,10 +102,10 @@ export function parseChunk(chunk: unknown): AnyChunk | null {
     ) {
       return chunkObj as unknown as TaskUpdateChunk;
     }
-    console.warn('Invalid TaskUpdateChunk (missing required properties)', chunk);
+    logger.debug('Invalid TaskUpdateChunk (missing required properties)', chunk);
     return null;
   }
 
-  console.warn(`Unknown chunk type detected and skipped: ${type}`, chunk);
+  logger.debug(`Unknown chunk type detected and skipped: ${type}`, chunk);
   return null;
 }
