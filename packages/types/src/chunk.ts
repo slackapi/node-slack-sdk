@@ -67,40 +67,38 @@ export function parseChunk(chunk: unknown): AnyChunk | null {
     return null;
   }
 
-  const chunkObj = chunk as Record<string, unknown>;
-
-  if (!('type' in chunkObj) || typeof chunkObj.type !== 'string') {
+  if (!('type' in chunk) || typeof chunk.type !== 'string') {
     logger.debug('Unknown chunk detected and skipped (missing type)', chunk);
     return null;
   }
 
-  const { type } = chunkObj;
+  const type = chunk.type;
 
   if (type === 'markdown_text') {
-    if (typeof chunkObj.text === 'string') {
-      return chunkObj as unknown as MarkdownTextChunk;
+    if ('text' in chunk && typeof chunk.text === 'string') {
+      return chunk as MarkdownTextChunk;
     }
     logger.debug('Invalid MarkdownTextChunk (missing text property)', chunk);
     return null;
   }
 
   if (type === 'plan_update') {
-    if (typeof chunkObj.title === 'string') {
-      return chunkObj as unknown as PlanUpdateChunk;
+    if ('title' in chunk && typeof chunk.title === 'string') {
+      return chunk as PlanUpdateChunk;
     }
     logger.debug('Invalid PlanUpdateChunk (missing title property)', chunk);
     return null;
   }
 
   if (type === 'task_update') {
-    const taskChunk = chunkObj as Partial<TaskUpdateChunk>;
+    const taskChunk = chunk as Partial<TaskUpdateChunk>;
     if (
       typeof taskChunk.id === 'string' &&
       typeof taskChunk.title === 'string' &&
       typeof taskChunk.status === 'string' &&
       ['pending', 'in_progress', 'complete', 'error'].includes(taskChunk.status)
     ) {
-      return chunkObj as unknown as TaskUpdateChunk;
+      return chunk as TaskUpdateChunk;
     }
     logger.debug('Invalid TaskUpdateChunk (missing required properties)', chunk);
     return null;
