@@ -36,7 +36,6 @@ expectAssignable<Parameters<typeof web.chat.appendStream>>([
   {
     channel: 'C1234',
     ts: '1234.56',
-    markdown_text: 'hello',
     chunks: [
       {
         type: 'markdown_text',
