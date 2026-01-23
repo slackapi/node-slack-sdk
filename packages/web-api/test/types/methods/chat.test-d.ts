@@ -15,15 +15,10 @@ expectError(
 );
 expectError(
   web.chat.appendStream({
-    ts: '1234.56', // missing channel and markdown_text
+    ts: '1234.56', // missing channel
   }),
 );
-expectError(
-  web.chat.appendStream({
-    channel: 'C1234', // missing_markdown_text
-    ts: '1234.56',
-  }),
-);
+
 // -- happy path
 expectAssignable<Parameters<typeof web.chat.appendStream>>([
   {
@@ -36,7 +31,6 @@ expectAssignable<Parameters<typeof web.chat.appendStream>>([
   {
     channel: 'C1234',
     ts: '1234.56',
-    markdown_text: 'hello',
     chunks: [
       {
         type: 'markdown_text',
