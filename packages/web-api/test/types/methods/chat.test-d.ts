@@ -15,21 +15,39 @@ expectError(
 );
 expectError(
   web.chat.appendStream({
-    ts: '1234.56', // missing channel and markdown_text
+    ts: '1234.56', // missing channel
   }),
 );
-expectError(
-  web.chat.appendStream({
-    channel: 'C1234', // missing_markdown_text
-    ts: '1234.56',
-  }),
-);
+
 // -- happy path
 expectAssignable<Parameters<typeof web.chat.appendStream>>([
   {
     channel: 'C1234',
     ts: '1234.56',
     markdown_text: 'hello',
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.appendStream>>([
+  {
+    channel: 'C1234',
+    ts: '1234.56',
+    chunks: [
+      {
+        type: 'markdown_text',
+        text: 'Hello world',
+      },
+      {
+        type: 'plan_update',
+        title: 'Analyzing request',
+      },
+      {
+        type: 'task_update',
+        id: 'task-1',
+        title: 'Processing request',
+        status: 'in_progress',
+        details: 'Working on it...',
+      },
+    ],
   },
 ]);
 
@@ -635,6 +653,29 @@ expectAssignable<Parameters<typeof web.chat.startStream>>([
   {
     channel: 'C1234',
     thread_ts: '1234.56',
+    chunks: [
+      {
+        type: 'markdown_text',
+        text: 'Hello world',
+      },
+      {
+        type: 'plan_update',
+        title: 'Analyzing request',
+      },
+      {
+        type: 'task_update',
+        id: 'task-1',
+        title: 'Processing request',
+        status: 'in_progress',
+        details: 'Working on it...',
+      },
+    ],
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.startStream>>([
+  {
+    channel: 'C1234',
+    thread_ts: '1234.56',
     markdown_text: 'hello',
     recipient_team_id: 'T1234',
     recipient_user_id: 'U1234',
@@ -667,6 +708,30 @@ expectAssignable<Parameters<typeof web.chat.stopStream>>([
     channel: 'C1234',
     ts: '1234.56',
     markdown_text: 'hello',
+    blocks: [],
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.stopStream>>([
+  {
+    channel: 'C1234',
+    ts: '1234.56',
+    chunks: [
+      {
+        type: 'markdown_text',
+        text: 'Hello world',
+      },
+      {
+        type: 'plan_update',
+        title: 'Analyzing request',
+      },
+      {
+        type: 'task_update',
+        id: 'task-1',
+        title: 'Processing request',
+        status: 'in_progress',
+        details: 'Working on it...',
+      },
+    ],
     blocks: [],
   },
 ]);
