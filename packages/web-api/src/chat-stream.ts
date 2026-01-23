@@ -1,4 +1,5 @@
 import type { Logger } from '@slack/logger';
+import type { AnyChunk } from '@slack/types';
 import type { ChatAppendStreamArguments, ChatStartStreamArguments, ChatStopStreamArguments } from './types/request';
 import type { ChatAppendStreamResponse, ChatStartStreamResponse, ChatStopStreamResponse } from './types/response';
 import type WebClient from './WebClient';
@@ -89,16 +90,10 @@ export class ChatStreamer {
     if (args.token) {
       this.token = args.token;
     }
-
-    if (args?.chunks) {
-      return await this.flushBuffer(args);
-    }
-
     if (args?.markdown_text) {
       this.buffer += args.markdown_text;
     }
-
-    if (this.buffer.length >= this.options.buffer_size) {
+    if (this.buffer.length >= this.options.buffer_size || args?.chunks) {
       return await this.flushBuffer(args);
     }
     const details = {
@@ -152,12 +147,24 @@ export class ChatStreamer {
       this.streamTs = response.ts;
       this.state = 'in_progress';
     }
-    const finalArgs = this.buffer.length > 0 && !args?.chunks ? { ...args, markdown_text: this.buffer } : args;
+
+    const flushings: AnyChunk[] = [];
+
+    if (this.buffer.length > 0) {
+      flushings.push({
+        type: 'markdown_text',
+        text: this.buffer,
+      });
+    }
+    if (args?.chunks) {
+      flushings.push(...args.chunks);
+    }
+
     const response = await this.client.chat.stopStream({
       token: this.token,
       channel: this.streamArgs.channel,
       ts: this.streamTs,
-      ...finalArgs,
+      chunks: flushings,
     });
     this.state = 'completed';
     return response;
@@ -166,13 +173,23 @@ export class ChatStreamer {
   private async flushBuffer(
     args: Omit<ChatStartStreamArguments | ChatAppendStreamArguments, 'channel' | 'ts'>,
   ): Promise<ChatStartStreamResponse | ChatAppendStreamResponse> {
-    const finalArgs = this.buffer.length > 0 && !args.chunks ? { ...args, markdown_text: this.buffer } : args;
+    const flushings: AnyChunk[] = [];
+
+    if (this.buffer.length > 0) {
+      flushings.push({
+        type: 'markdown_text',
+        text: this.buffer,
+      });
+    }
+    if (args?.chunks) {
+      flushings.push(...args.chunks);
+    }
 
     if (!this.streamTs) {
       const response = await this.client.chat.startStream({
         ...this.streamArgs,
         token: this.token,
-        ...finalArgs,
+        chunks: flushings,
       });
       this.buffer = '';
       this.streamTs = response.ts;
@@ -183,7 +200,7 @@ export class ChatStreamer {
       token: this.token,
       channel: this.streamArgs.channel,
       ts: this.streamTs,
-      ...finalArgs,
+      chunks: flushings,
     });
     this.buffer = '';
     return response;
