@@ -92,6 +92,7 @@ export class ChatStreamer {
     }
     if (args?.markdown_text) {
       this.buffer += args.markdown_text;
+      args.markdown_text = undefined;
     }
     if (this.buffer.length >= this.options.buffer_size || args?.chunks) {
       return await this.flushBuffer(args);
@@ -135,6 +136,7 @@ export class ChatStreamer {
     }
     if (args?.markdown_text) {
       this.buffer += args.markdown_text;
+      args.markdown_text = undefined;
     }
     if (!this.streamTs) {
       const response = await this.client.chat.startStream({
@@ -165,6 +167,7 @@ export class ChatStreamer {
       channel: this.streamArgs.channel,
       ts: this.streamTs,
       chunks: flushings,
+      ...args,
     });
     this.state = 'completed';
     return response;
@@ -190,6 +193,7 @@ export class ChatStreamer {
         ...this.streamArgs,
         token: this.token,
         chunks: flushings,
+        ...args,
       });
       this.buffer = '';
       this.streamTs = response.ts;
@@ -201,6 +205,7 @@ export class ChatStreamer {
       channel: this.streamArgs.channel,
       ts: this.streamTs,
       chunks: flushings,
+      ...args,
     });
     this.buffer = '';
     return response;
