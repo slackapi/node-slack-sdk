@@ -14,19 +14,12 @@ export interface ChatStreamerOptions {
 
 export class ChatStreamer {
   private buffer = '';
-
   private client: WebClient;
-
   private logger: Logger;
-
   private options: Required<ChatStreamerOptions>;
-
   private state: 'starting' | 'in_progress' | 'completed';
-
   private streamArgs: ChatStartStreamArguments;
-
   private streamTs: string | undefined;
-
   private token: string | undefined;
 
   /**
@@ -132,7 +125,6 @@ export class ChatStreamer {
       throw new Error(`failed to stop stream: stream state is ${this.state}`);
     }
     const { markdown_text, chunks, ...opts } = args ?? {};
-
     if (opts.token) {
       this.token = opts.token;
     }
@@ -150,24 +142,21 @@ export class ChatStreamer {
       this.streamTs = response.ts;
       this.state = 'in_progress';
     }
-
-    const flushings: AnyChunk[] = [];
-
+    const chunksToFlush: AnyChunk[] = [];
     if (this.buffer.length > 0) {
-      flushings.push({
+      chunksToFlush.push({
         type: 'markdown_text',
         text: this.buffer,
       });
     }
     if (chunks) {
-      flushings.push(...chunks);
+      chunksToFlush.push(...chunks);
     }
-
     const response = await this.client.chat.stopStream({
       token: this.token,
       channel: this.streamArgs.channel,
       ts: this.streamTs,
-      chunks: flushings,
+      chunks: chunksToFlush,
       ...opts,
     });
     this.state = 'completed';
@@ -178,23 +167,21 @@ export class ChatStreamer {
     args: Omit<ChatStartStreamArguments | ChatAppendStreamArguments, 'channel' | 'ts'>,
   ): Promise<ChatStartStreamResponse | ChatAppendStreamResponse> {
     const { chunks, ...opts } = args ?? {};
-    const flushings: AnyChunk[] = [];
-
+    const chunksToFlush: AnyChunk[] = [];
     if (this.buffer.length > 0) {
-      flushings.push({
+      chunksToFlush.push({
         type: 'markdown_text',
         text: this.buffer,
       });
     }
     if (chunks) {
-      flushings.push(...chunks);
+      chunksToFlush.push(...chunks);
     }
-
     if (!this.streamTs) {
       const response = await this.client.chat.startStream({
         ...this.streamArgs,
         token: this.token,
-        chunks: flushings,
+        chunks: chunksToFlush,
         ...opts,
       });
       this.buffer = '';
@@ -206,7 +193,7 @@ export class ChatStreamer {
       token: this.token,
       channel: this.streamArgs.channel,
       ts: this.streamTs,
-      chunks: flushings,
+      chunks: chunksToFlush,
       ...opts,
     });
     this.buffer = '';
