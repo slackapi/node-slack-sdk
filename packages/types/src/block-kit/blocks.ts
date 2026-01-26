@@ -22,6 +22,7 @@ import type {
   Select,
   Timepicker,
   URLInput,
+  URLSourceElement,
   WorkflowButton,
 } from './block-elements';
 import type {
@@ -64,6 +65,8 @@ export type KnownBlock =
   | RichTextBlock
   | SectionBlock
   | TableBlock
+  | TaskCardBlock
+  | PlanBlock
   | VideoBlock;
 
 /**
@@ -400,6 +403,73 @@ interface TableBlockColumnSettings {
    * @description Whether the contents of this column should be wrapped or not. Defaults to false if not defined.
    */
   is_wrapped?: boolean;
+}
+
+/** 
+ * @description A discrete action or tool call.
+ * @see https://docs.slack.dev/reference/block-kit/blocks/task-card-block/
+*/
+export interface TaskCardBlock extends Block {
+  /**
+   * @description The type of element. In this case `type` is always `task_card`.
+   */
+  type: 'task_card';
+
+  /**
+   * @description ID for the task.
+   */
+  task_id: string;
+
+  /**
+   * @description Title of the task in plain text.
+   */
+  title: string;
+
+  /**
+   * @description Details of the task in the form of a single "rich_text" entity.
+   */
+  details?: RichTextBlock | Record<string, unknown>;
+
+  /**
+   * @description Output of the task in the form of a single "rich_text" entity.
+   */
+  output?: RichTextBlock | Record<string, unknown>;
+
+  /**
+   * @description List of sources used to generate a response.
+   */
+  sources?: (URLSourceElement | Record<string, unknown>)[]
+
+  /**
+   * @description The state of a task. Either "pending" or "in_progress" or "complete" or "error".
+   */
+  status: 'pending' | 'in_progress' | 'complete' | 'error';
+}
+
+/**
+ * @description A collection of related tasks.
+ * @see https://docs.slack.dev/reference/block-kit/blocks/plan-block/
+ */
+export interface PlanBlock extends Block {
+  /**
+   * @description The type of block. In this case `type` is always `plan`.
+   */
+  type: 'plan';
+
+  /**
+   * @description ID for the plan.
+   */
+  plan_id: string;
+
+  /**
+   * @description Title of the plan in plain text.
+   */
+  title: string;
+
+  /**
+   * @description An array of tasks associated with this plan.
+   */
+  tasks?: (TaskCardBlock | Record<string, unknown>)[];
 }
 
 /**
