@@ -405,10 +405,10 @@ interface TableBlockColumnSettings {
   is_wrapped?: boolean;
 }
 
-/** 
+/**
  * @description A discrete action or tool call.
  * @see https://docs.slack.dev/reference/block-kit/blocks/task-card-block/
-*/
+ */
 export interface TaskCardBlock extends Block {
   /**
    * @description The type of element. In this case `type` is always `task_card`.
@@ -438,7 +438,7 @@ export interface TaskCardBlock extends Block {
   /**
    * @description List of sources used to generate a response.
    */
-  sources?: (URLSourceElement | Record<string, unknown>)[]
+  sources?: (URLSourceElement | Record<string, unknown>)[];
 
   /**
    * @description The state of a task. Either "pending" or "in_progress" or "complete" or "error".
