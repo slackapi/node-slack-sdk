@@ -428,7 +428,7 @@ export interface TaskCardBlock extends Block {
   /**
    * @description Details of the task in the form of a single "rich_text" entity.
    */
-  details?: RichTextBlock | Record<string, unknown>;
+  details?: RichTextBlock;
 
   /**
    * @description Output of the task in the form of a single "rich_text" entity.
