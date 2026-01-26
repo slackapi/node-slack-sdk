@@ -2,7 +2,7 @@
 
 # Interface: UserStatusChangedEvent
 
-Defined in: [events/user.ts:249](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L249)
+Defined in: [events/user.ts:250](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L250)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [events/user.ts:249](https://github.com/slackapi/node-slack-sdk/blob
 cache_ts: number;
 ```
 
-Defined in: [events/user.ts:325](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L325)
+Defined in: [events/user.ts:326](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L326)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [events/user.ts:325](https://github.com/slackapi/node-slack-sdk/blob
 event_ts: string;
 ```
 
-Defined in: [events/user.ts:326](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L326)
+Defined in: [events/user.ts:327](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L327)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [events/user.ts:326](https://github.com/slackapi/node-slack-sdk/blob
 type: "user_status_changed";
 ```
 
-Defined in: [events/user.ts:250](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L250)
+Defined in: [events/user.ts:251](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L251)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [events/user.ts:250](https://github.com/slackapi/node-slack-sdk/blob
 user: object;
 ```
 
-Defined in: [events/user.ts:251](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L251)
+Defined in: [events/user.ts:252](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L252)
 
 #### color
 
