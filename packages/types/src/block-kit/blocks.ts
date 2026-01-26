@@ -406,7 +406,7 @@ interface TableBlockColumnSettings {
 }
 
 /**
- * @description A discrete action or tool call.
+ * @description A discrete task or tool call.
  * @see https://docs.slack.dev/reference/block-kit/blocks/task-card-block/
  */
 export interface TaskCardBlock extends Block {
