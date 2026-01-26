@@ -568,7 +568,6 @@ expectAssignable<Parameters<typeof web.chat.postMessage>>([
     blocks: [
       {
         type: 'plan',
-        plan_id: 'plan-001',
         title: 'My execution plan',
         tasks: [
           {
@@ -611,7 +610,6 @@ expectAssignable<Parameters<typeof web.chat.postMessage>>([
     blocks: [
       {
         type: 'plan',
-        plan_id: 'plan-minimal',
         title: 'Empty plan',
       },
     ],

@@ -433,12 +433,12 @@ export interface TaskCardBlock extends Block {
   /**
    * @description Output of the task in the form of a single "rich_text" entity.
    */
-  output?: RichTextBlock | Record<string, unknown>;
+  output?: RichTextBlock;
 
   /**
    * @description List of sources used to generate a response.
    */
-  sources?: (URLSourceElement | Record<string, unknown>)[];
+  sources?: URLSourceElement[];
 
   /**
    * @description The state of a task. Either "pending" or "in_progress" or "complete" or "error".
@@ -455,11 +455,6 @@ export interface PlanBlock extends Block {
    * @description The type of block. In this case `type` is always `plan`.
    */
   type: 'plan';
-
-  /**
-   * @description ID for the plan.
-   */
-  plan_id: string;
 
   /**
    * @description Title of the plan in plain text.
