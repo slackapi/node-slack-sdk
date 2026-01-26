@@ -814,33 +814,7 @@ expectAssignable<Parameters<typeof web.chat.startStream>>([
       },
       {
         type: 'plan_update',
-        title: 'Hello world',
-      },
-      {
-        type: 'task_update',
-        id: 'task-1',
-        title: 'Processing request',
-        status: 'in_progress',
-        details: 'Working on it...',
-      },
-    ],
-    recipient_team_id: 'T1234',
-    recipient_user_id: 'U1234',
-  },
-]);
-
-expectAssignable<Parameters<typeof web.chat.startStream>>([
-  {
-    channel: 'C1234',
-    thread_ts: '1234.56',
-    chunks: [
-      {
-        type: 'markdown_text',
-        text: 'Hello world',
-      },
-      {
-        type: 'plan_update',
-        title: 'Hello world',
+        title: 'Analyzing request',
       },
       {
         type: 'task_update',
