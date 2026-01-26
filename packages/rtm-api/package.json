@@ -34,18 +34,18 @@
     "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
   "scripts": {
+    "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "lint": "npx @biomejs/biome check .",
     "lint:fix": "npx @biomejs/biome check --write .",
     "test": "npm run lint && npm run build && npm run test:integration",
-    "test:integration": "mocha --config .mocharc.json test/integration.spec.js",
-    "prepare": "npm run build"
+    "test:integration": "mocha --config .mocharc.json test/integration.spec.js"
   },
   "dependencies": {
-    "@slack/logger": "^4.0.0",
-    "@slack/web-api": "^7.13.0",
+    "@slack/logger": "^4",
+    "@slack/web-api": "^7.10.0",
     "@types/node": ">=18",
     "eventemitter3": "^5",
     "finity": "^0.5.4",
