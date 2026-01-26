@@ -595,6 +595,18 @@ expectAssignable<Parameters<typeof web.chat.postMessage>>([
                 },
               ],
             },
+            sources: [
+              {
+                type: 'url',
+                url: 'https://example.com/docs',
+                text: 'Documentation',
+              },
+              {
+                type: 'url',
+                url: 'https://example.com/api',
+                text: 'API Reference',
+              },
+            ],
           },
         ],
       },
