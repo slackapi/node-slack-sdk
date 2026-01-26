@@ -35,11 +35,11 @@
     "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
   "scripts": {
-    "prebuild": "shx rm -rf ./coverage",
     "build": "shx chmod +x src/*.js",
-    "prelint": "tsc --noemit --module es2022 --maxNodeModuleJsDepth 0 --project ./jsconfig.json",
     "lint": "npx @biomejs/biome check .",
     "lint:fix": "npx @biomejs/biome check --write .",
+    "prebuild": "shx rm -rf ./coverage",
+    "prelint": "tsc --noemit --module es2022 --maxNodeModuleJsDepth 0 --project ./jsconfig.json",
     "pretest": "npm run lint",
     "test": "c8 --config ./test/.c8rc.json mocha --config ./test/.mocharc.json src/*.spec.js"
   },

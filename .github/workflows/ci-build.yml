@@ -42,20 +42,22 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm --version
       - name: Install workspace dependencies
-        run: npm install --ignore-scripts --verbose
-      - name: Build dependency packages
+        run: npm install --verbose
+      - name: Build packages
         run: |
-          # Requires no internal dependencies
+          # Build packages without internal dependencies
           npm run build --workspace=@slack/cli-hooks
           npm run build --workspace=@slack/cli-test
+
+          # Build base dependencies
           npm run build --workspace=@slack/logger
           npm run build --workspace=@slack/types
 
-          # Some internal dependencies
+          # Build packages requiring base dependencies
           npm run build --workspace=@slack/web-api
           npm run build --workspace=@slack/webhook
 
-          # Requires the Web API package
+          # Build packages that depend on the Web API
           npm run build --workspace=@slack/oauth
           npm run build --workspace=@slack/rtm-api
           npm run build --workspace=@slack/socket-mode
