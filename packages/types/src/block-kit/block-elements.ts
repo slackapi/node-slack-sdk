@@ -722,11 +722,6 @@ export interface URLSourceElement {
    * @description Display text for the URL.
    */
   text: string;
-
-  /**
-   * @description Optional icon URL to display with the source.
-   */
-  icon_url?: string[];
 }
 
 /**

@@ -66,7 +66,7 @@ export type KnownBlock =
   | SectionBlock
   | TableBlock
   | TaskCardBlock
-  | PlanUpdateBlock
+  | PlanBlock
   | VideoBlock;
 
 /**
@@ -450,7 +450,7 @@ export interface TaskCardBlock extends Block {
  * @description A collection of related tasks.
  * @see https://docs.slack.dev/reference/block-kit/blocks/plan-block/
  */
-export interface PlanUpdateBlock extends Block {
+export interface PlanBlock extends Block {
   /**
    * @description The type of block. In this case `type` is always `plan`.
    */

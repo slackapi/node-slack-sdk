@@ -1,3 +1,4 @@
+import { URLSourceElement } from "./block-kit/block-elements";
 /**
  * Base interface for streaming message chunks.
  * https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming
