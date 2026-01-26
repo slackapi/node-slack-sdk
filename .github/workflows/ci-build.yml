@@ -42,7 +42,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm --version
       - name: Install workspace dependencies
-        run: npm install --verbose
+        run: npm install --ignore-scripts --verbose
       - name: Build dependency packages
         run: |
           # Requires no internal dependencies
