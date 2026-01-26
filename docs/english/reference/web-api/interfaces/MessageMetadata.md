@@ -2,11 +2,11 @@
 
 # Interface: MessageMetadata
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:7
+Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:6
 
 ## Description
 
-Application-specific event data to attach to a Slack message.
+Application-specific data to attach to Slack message.
 
 ## See
 
@@ -21,7 +21,7 @@ Application-specific event data to attach to a Slack message.
 event_payload: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:16
+Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:15
 
 #### Index Signature
 
@@ -46,7 +46,7 @@ A free-form object containing whatever data your application wishes to attach to
 event_type: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:12
+Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:11
 
 #### Description
 
