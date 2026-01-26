@@ -2,7 +2,7 @@
 
 # Interface: AppUninstalledEvent
 
-Defined in: [events/app.ts:220](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L220)
+Defined in: [events/app.ts:165](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L165)
 
 ## Properties
 
@@ -12,4 +12,4 @@ Defined in: [events/app.ts:220](https://github.com/slackapi/node-slack-sdk/blob/
 type: "app_uninstalled";
 ```
 
-Defined in: [events/app.ts:221](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L221)
+Defined in: [events/app.ts:166](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L166)

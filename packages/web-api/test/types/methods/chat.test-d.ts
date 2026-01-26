@@ -15,10 +15,15 @@ expectError(
 );
 expectError(
   web.chat.appendStream({
-    ts: '1234.56', // missing channel
+    ts: '1234.56', // missing channel and markdown_text
   }),
 );
-
+expectError(
+  web.chat.appendStream({
+    channel: 'C1234', // missing_markdown_text
+    ts: '1234.56',
+  }),
+);
 // -- happy path
 expectAssignable<Parameters<typeof web.chat.appendStream>>([
   {
@@ -31,6 +36,7 @@ expectAssignable<Parameters<typeof web.chat.appendStream>>([
   {
     channel: 'C1234',
     ts: '1234.56',
+    markdown_text: 'hello',
     chunks: [
       {
         type: 'markdown_text',
@@ -38,7 +44,7 @@ expectAssignable<Parameters<typeof web.chat.appendStream>>([
       },
       {
         type: 'plan_update',
-        title: 'Analyzing request',
+        title: 'Hello world',
       },
       {
         type: 'task_update',
@@ -785,7 +791,7 @@ expectAssignable<Parameters<typeof web.chat.startStream>>([
       },
       {
         type: 'plan_update',
-        title: 'Analyzing request',
+        title: 'Hello world',
       },
       {
         type: 'task_update',
@@ -801,7 +807,23 @@ expectAssignable<Parameters<typeof web.chat.startStream>>([
   {
     channel: 'C1234',
     thread_ts: '1234.56',
-    markdown_text: 'hello',
+    chunks: [
+      {
+        type: 'markdown_text',
+        text: 'Hello world',
+      },
+      {
+        type: 'plan_update',
+        title: 'Hello world',
+      },
+      {
+        type: 'task_update',
+        id: 'task-1',
+        title: 'Processing request',
+        status: 'in_progress',
+        details: 'Working on it...',
+      },
+    ],
     recipient_team_id: 'T1234',
     recipient_user_id: 'U1234',
   },
@@ -874,7 +896,7 @@ expectAssignable<Parameters<typeof web.chat.stopStream>>([
       },
       {
         type: 'plan_update',
-        title: 'Analyzing request',
+        title: 'Hello world',
       },
       {
         type: 'task_update',

@@ -2,7 +2,7 @@
 
 # Interface: AppRateLimitedEvent
 
-Defined in: [events/app.ts:206](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L206)
+Defined in: [events/app.ts:151](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L151)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [events/app.ts:206](https://github.com/slackapi/node-slack-sdk/blob/
 api_app_id: string;
 ```
 
-Defined in: [events/app.ts:211](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L211)
+Defined in: [events/app.ts:156](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L156)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [events/app.ts:211](https://github.com/slackapi/node-slack-sdk/blob/
 minute_rate_limited: number;
 ```
 
-Defined in: [events/app.ts:210](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L210)
+Defined in: [events/app.ts:155](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L155)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [events/app.ts:210](https://github.com/slackapi/node-slack-sdk/blob/
 team_id: string;
 ```
 
-Defined in: [events/app.ts:209](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L209)
+Defined in: [events/app.ts:154](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L154)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [events/app.ts:209](https://github.com/slackapi/node-slack-sdk/blob/
 token: string;
 ```
 
-Defined in: [events/app.ts:208](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L208)
+Defined in: [events/app.ts:153](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L153)
 
 ***
 
@@ -52,4 +52,4 @@ Defined in: [events/app.ts:208](https://github.com/slackapi/node-slack-sdk/blob/
 type: "app_rate_limited";
 ```
 
-Defined in: [events/app.ts:207](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L207)
+Defined in: [events/app.ts:152](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/app.ts#L152)
