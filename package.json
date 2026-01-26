@@ -1,0 +1,21 @@
+{
+  "name": "@slack",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slackapi/node-slack-sdk.git"
+  },
+  "workspaces": [
+    "packages/cli-hooks",
+    "packages/cli-test",
+    "packages/logger",
+    "packages/oauth",
+    "packages/rtm-api",
+    "packages/socket-mode",
+    "packages/types",
+    "packages/web-api",
+    "packages/webhook"
+  ]
+}

@@ -49,8 +49,8 @@
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm test"
   },
   "dependencies": {
-    "@slack/logger": "^4",
-    "@slack/web-api": "^7.10.0",
+    "@slack/logger": "^4.0.0",
+    "@slack/web-api": "^7.13.0",
     "@types/node": ">=18",
     "@types/ws": "^8",
     "eventemitter3": "^5",
