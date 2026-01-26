@@ -87,15 +87,15 @@ export class ChatStreamer {
     if (this.state === 'completed') {
       throw new Error(`failed to append stream: stream state is ${this.state}`);
     }
-    if (args.token) {
-      this.token = args.token;
+    const { markdown_text, chunks, ...opts } = args;
+    if (opts.token) {
+      this.token = opts.token;
     }
-    if (args?.markdown_text) {
-      this.buffer += args.markdown_text;
-      args.markdown_text = undefined;
+    if (markdown_text) {
+      this.buffer += markdown_text;
     }
-    if (this.buffer.length >= this.options.buffer_size || args?.chunks) {
-      return await this.flushBuffer(args);
+    if (this.buffer.length >= this.options.buffer_size || chunks) {
+      return await this.flushBuffer({ chunks, ...opts });
     }
     const details = {
       bufferLength: this.buffer.length,
@@ -131,12 +131,13 @@ export class ChatStreamer {
     if (this.state === 'completed') {
       throw new Error(`failed to stop stream: stream state is ${this.state}`);
     }
-    if (args?.token) {
-      this.token = args.token;
+    const { markdown_text, chunks, ...opts } = args ?? {};
+
+    if (opts.token) {
+      this.token = opts.token;
     }
-    if (args?.markdown_text) {
-      this.buffer += args.markdown_text;
-      args.markdown_text = undefined;
+    if (markdown_text) {
+      this.buffer += markdown_text;
     }
     if (!this.streamTs) {
       const response = await this.client.chat.startStream({
@@ -158,8 +159,8 @@ export class ChatStreamer {
         text: this.buffer,
       });
     }
-    if (args?.chunks) {
-      flushings.push(...args.chunks);
+    if (chunks) {
+      flushings.push(...chunks);
     }
 
     const response = await this.client.chat.stopStream({
@@ -167,7 +168,7 @@ export class ChatStreamer {
       channel: this.streamArgs.channel,
       ts: this.streamTs,
       chunks: flushings,
-      ...args,
+      ...opts,
     });
     this.state = 'completed';
     return response;
@@ -176,6 +177,7 @@ export class ChatStreamer {
   private async flushBuffer(
     args: Omit<ChatStartStreamArguments | ChatAppendStreamArguments, 'channel' | 'ts'>,
   ): Promise<ChatStartStreamResponse | ChatAppendStreamResponse> {
+    const { chunks, ...opts } = args ?? {};
     const flushings: AnyChunk[] = [];
 
     if (this.buffer.length > 0) {
@@ -184,8 +186,8 @@ export class ChatStreamer {
         text: this.buffer,
       });
     }
-    if (args?.chunks) {
-      flushings.push(...args.chunks);
+    if (chunks) {
+      flushings.push(...chunks);
     }
 
     if (!this.streamTs) {
@@ -193,7 +195,7 @@ export class ChatStreamer {
         ...this.streamArgs,
         token: this.token,
         chunks: flushings,
-        ...args,
+        ...opts,
       });
       this.buffer = '';
       this.streamTs = response.ts;
@@ -205,7 +207,7 @@ export class ChatStreamer {
       channel: this.streamArgs.channel,
       ts: this.streamTs,
       chunks: flushings,
-      ...args,
+      ...opts,
     });
     this.buffer = '';
     return response;
