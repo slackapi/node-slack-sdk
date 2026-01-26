@@ -35,7 +35,7 @@ optional channel_id: string;
 ##### context.enterprise\_id?
 
 ```ts
-optional enterprise_id: string | null;
+optional enterprise_id: null | string;
 ```
 
 ##### context.team\_id?
