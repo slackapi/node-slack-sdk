@@ -493,6 +493,141 @@ function wideBooleanTest(b: boolean) {
 wideBooleanTest(true);
 wideBooleanTest(false);
 
+// TaskCardBlock with all properties
+expectAssignable<Parameters<typeof web.chat.postMessage>>([
+  {
+    channel: 'C1234',
+    text: 'fallback',
+    blocks: [
+      {
+        type: 'task_card',
+        task_id: '000',
+        title: 'Living life well...',
+        status: 'error',
+        details: {
+          type: 'rich_text',
+          elements: [
+            {
+              type: 'rich_text_section',
+              elements: [
+                {
+                  type: 'text',
+                  text: 'Dreamt of touching grass',
+                },
+              ],
+            },
+          ],
+        },
+        sources: [
+          {
+            type: 'url',
+            text: 'An online encyclopedia',
+            url: 'https://wikipedia.org',
+          },
+        ],
+        output: {
+          type: 'rich_text',
+          elements: [
+            {
+              type: 'rich_text_section',
+              elements: [
+                {
+                  type: 'text',
+                  text: 'Good things once happened',
+                },
+              ],
+            },
+          ],
+        },
+      },
+    ],
+  },
+]);
+
+// TaskCardBlock with minimal required properties
+expectAssignable<Parameters<typeof web.chat.postMessage>>([
+  {
+    channel: 'C1234',
+    text: 'fallback',
+    blocks: [
+      {
+        type: 'task_card',
+        task_id: 'task-123',
+        title: 'Simple task',
+        status: 'pending',
+      },
+    ],
+  },
+]);
+
+// PlanUpdateBlock with nested TaskCardBlocks
+expectAssignable<Parameters<typeof web.chat.postMessage>>([
+  {
+    channel: 'C1234',
+    text: 'fallback',
+    blocks: [
+      {
+        type: 'plan',
+        title: 'My execution plan',
+        tasks: [
+          {
+            type: 'task_card',
+            task_id: 'task-1',
+            title: 'First task',
+            status: 'complete',
+          },
+          {
+            type: 'task_card',
+            task_id: 'task-2',
+            title: 'Second task',
+            status: 'in_progress',
+            details: {
+              type: 'rich_text',
+              elements: [
+                {
+                  type: 'rich_text_section',
+                  elements: [
+                    {
+                      type: 'text',
+                      text: 'Working on this...',
+                    },
+                  ],
+                },
+              ],
+            },
+            sources: [
+              {
+                type: 'url',
+                url: 'https://example.com/docs',
+                text: 'Documentation',
+              },
+              {
+                type: 'url',
+                url: 'https://example.com/api',
+                text: 'API Reference',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+]);
+
+// PlanUpdateBlock with minimal required properties
+expectAssignable<Parameters<typeof web.chat.postMessage>>([
+  {
+    channel: 'C1234',
+    text: 'fallback',
+    blocks: [
+      {
+        type: 'plan',
+        title: 'Empty plan',
+      },
+    ],
+  },
+]);
+
 // chat.scheduleMessage
 // -- sad path
 expectError(web.chat.scheduleMessage()); // lacking argument
