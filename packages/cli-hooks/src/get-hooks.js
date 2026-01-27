@@ -32,8 +32,22 @@ if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
  */
 
 /**
- * Information about the files to watch for specific changes.
+ * Information about file changes for CLI actions.
  * @typedef SDKConfigWatch
+ * @property {AppConfigWatch} app - Watch config for server restarts.
+ * @property {ManifestConfigWatch} manifest - Watch config for app reinstalls.
+ */
+
+/**
+ * Information about the app files to watch for server restarts.
+ * @typedef AppConfigWatch
+ * @property {string} filter-regex - Regex pattern for finding filtered files.
+ * @property {string[]} paths - Specific locations to begin searching for files.
+ */
+
+/**
+ * Information about the manifest files to watch for app reinstalls.
+ * @typedef ManifestConfigWatch
  * @property {string} filter-regex - Regex pattern for finding filtered files.
  * @property {string[]} paths - Specific locations to begin searching for files.
  */
@@ -52,8 +66,14 @@ export default function getHooks() {
     },
     config: {
       watch: {
-        'filter-regex': '^manifest\\.json$',
-        paths: ['.'],
+        app: {
+          paths: ['.'],
+          'filter-regex': '.js$',
+        },
+        manifest: {
+          paths: ['manifest.json'],
+          'filter-regex': '^manifest\\.json$',
+        },
       },
       'protocol-version': SUPPORTED_NAMED_PROTOCOLS,
       'sdk-managed-connection-enabled': true,
