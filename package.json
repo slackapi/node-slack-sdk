@@ -17,5 +17,12 @@
     "packages/types",
     "packages/web-api",
     "packages/webhook"
-  ]
+  ],
+  "scripts": {
+    "lint": "npx @biomejs/biome check packages",
+    "lint:fix": "npx @biomejs/biome check --write packages"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.0.5"
+  }
 }

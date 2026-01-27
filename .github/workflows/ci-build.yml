@@ -41,8 +41,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm --version
-      - name: Install workspace dependencies
-        run: npm install --verbose
+      - name: Install dependencies
+        run: |
+          npm install --verbose
       - name: Build packages
         run: |
           # Build packages without internal dependencies
@@ -62,7 +63,9 @@ jobs:
           npm run build --workspace=@slack/rtm-api
           npm run build --workspace=@slack/socket-mode
       - name: Run tests
-        run: npm test --workspace=@slack/${{ matrix.package }}
+        run: |
+          npm run lint
+          npm test --workspace=@slack/${{ matrix.package }}
       - name: Check for coverage report existence
         id: check_coverage
         uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
