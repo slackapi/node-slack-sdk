@@ -14,15 +14,20 @@ for pkg in $pkgs; do
 
   echo "[pre-commit] $dir"
 
-  out="$(npm --prefix "$dir" run -s lint:fix 2>&1)" && { git add -u "$dir"; continue; }
+  tmp="$(mktemp)"
+  if npm --prefix "$dir" run lint:fix 2>&1 | tee "$tmp"; then
+    rm -f "$tmp"
+    git add -u "$dir"
+    continue
+  fi
 
-  echo "$out" | grep -qi 'missing script:.*lint:fix' && {
-    out2="$(npm --prefix "$dir" run -s lint -- --fix 2>&1)" && { git add -u "$dir"; continue; }
-    echo "$out2" | grep -qi 'missing script:.*lint' && { echo "[pre-commit] no lint script, skipping"; continue; }
-    echo "$out2" >&2
-    exit 1
-  }
+  if grep -qi 'missing script:.*lint:fix' "$tmp"; then
+    rm -f "$tmp"
+    npm --prefix "$dir" run lint -- --fix
+    git add -u "$dir"
+    continue
+  fi
 
-  echo "$out" >&2
+  rm -f "$tmp"
   exit 1
 done
