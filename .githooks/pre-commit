@@ -1,54 +1,28 @@
 #!/bin/sh
 set -e
 
-changed_paths=$(git diff --name-only --cached --diff-filter=ACMR)
-if [ -z "$changed_paths" ]; then
-  exit 0
-fi
+cd "$(git rev-parse --show-toplevel)" || exit 1
 
-repo_root=$(git rev-parse --show-toplevel 2>/dev/null)
-if [ -z "$repo_root" ]; then
+pkgs=$(git diff --cached --name-only --diff-filter=ACMR -- 'packages/*/*' \
+  | cut -d/ -f2 | sort -u)
+
+[ -z "$pkgs" ] && exit 0
+
+for pkg in $pkgs; do
+  dir="packages/$pkg"
+  [ -f "$dir/package.json" ] || continue
+
+  echo "[pre-commit] $dir"
+
+  out="$(npm --prefix "$dir" run -s lint:fix 2>&1)" && { git add -u "$dir"; continue; }
+
+  echo "$out" | grep -qi 'missing script:.*lint:fix' && {
+    out2="$(npm --prefix "$dir" run -s lint -- --fix 2>&1)" && { git add -u "$dir"; continue; }
+    echo "$out2" | grep -qi 'missing script:.*lint' && { echo "[pre-commit] no lint script, skipping"; continue; }
+    echo "$out2" >&2
+    exit 1
+  }
+
+  echo "$out" >&2
   exit 1
-fi
-
-cd "$repo_root"
-
-packages=""
-for path in $changed_paths; do
-  case "$path" in
-    packages/*/*)
-      pkg=${path#packages/}
-      pkg=${pkg%%/*}
-      case " $packages " in
-        *" $pkg "*) ;;
-        *) packages="$packages $pkg" ;;
-      esac
-      ;;
-  esac
-done
-
-if [ -z "$packages" ]; then
-  exit 0
-fi
-
-run_lint() {
-  pkg_dir="$1"
-  pkg_json="$repo_root/$pkg_dir/package.json"
-
-  if node -e "const p=require(process.argv[1]);process.exit(p.scripts&&p.scripts['lint:fix']?0:1)" "$pkg_json"; then
-    echo "[pre-commit] npm --prefix $pkg_dir run lint:fix"
-    npm --prefix "$pkg_dir" run lint:fix
-  elif node -e "const p=require(process.argv[1]);process.exit(p.scripts&&p.scripts.lint?0:1)" "$pkg_json"; then
-    echo "[pre-commit] npm --prefix $pkg_dir run lint -- --fix"
-    npm --prefix "$pkg_dir" run lint -- --fix
-  fi
-
-  git add -u "$pkg_dir"
-}
-
-for pkg in $packages; do
-  pkg_dir="packages/$pkg"
-  if [ -f "$pkg_dir/package.json" ]; then
-    run_lint "$pkg_dir"
-  fi
 done
