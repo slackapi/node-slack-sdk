@@ -10,6 +10,28 @@ Maintaining this project requires installing [Node.js](https://nodejs.org). All 
 ### ⚗️ Testing and Linting
 The Node SDK is made up of multiple, individual packages, each with their own tests. As such, tests are run on a per-package basis. However, the top-level directory contains some development dependencies applicable to all packages. As a result, to run tests for any package, first ensure you run `npm install` from the top-level directory. Then, for a given package, navigate to the package's directory (ie, `packages/web-api`) and run `npm install` to install that package's required dependencies. Finally, run `npm test` to run that package's tests. To run just the linting and not the entire test suite, run `npm run lint`.
 
+#### Pre-commit lint hook (optional)
+We provide an opt-in Git hook that runs the linter with auto-fix for any packages touched in your staged changes. This helps ensure formatting is applied before commits are created.
+
+Enable it once per clone:
+
+```sh
+git config core.hooksPath .githooks
+```
+
+Disable it:
+
+```sh
+git config --unset core.hooksPath
+```
+
+Notes:
+- The hook runs `npm --prefix packages/<pkg> run lint:fix` when available, otherwise `npm --prefix packages/<pkg> run lint -- --fix`.
+- The hook currently uses `npm --prefix`. If you use a different package manager locally, adjust the hook for your environment.
+- It only runs for packages that have staged changes.
+- You can skip it with `git commit --no-verify` if needed.
+- It stages tracked changes under each package after auto-fixing.
+
 This project has tests for individual packages as `*.spec.js` files and inside of each's package's `src` directory. Also, for verifying the behavior with the real Slack server-side and developer experience with installed packages, you can run the tests amd scripts under `prod-server-integration-tests`. Refer to the README file in the directory for details. These tests are supposed to be run in the project maintainers' manual execution. They are not part of CI builds for now.
 
 Upon opening a PR, tests are executed by GitHub Actions, our continuous integration system. GitHub Actions runs several, more granular builds in order to report on success and failure in a more targeted way.
