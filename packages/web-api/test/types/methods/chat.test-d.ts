@@ -856,7 +856,7 @@ expectAssignable<Parameters<typeof web.chat.startStream>>([
     ],
     recipient_team_id: 'T1234',
     recipient_user_id: 'U1234',
-    task_display_mode: 'timeline'
+    task_display_mode: 'timeline', // Expect to be supported
   },
 ]);
 
