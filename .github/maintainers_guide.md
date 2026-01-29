@@ -10,9 +10,15 @@ Maintaining this project requires installing [Node.js](https://nodejs.org). All 
 
 ### ⚗️ Testing and Linting
 
-The Node SDK is made up of multiple, individual packages, each with their own tests. As such, tests are run on a per-package basis. However, the top-level directory contains some development dependencies applicable to all packages. As a result, to run tests for any package, first ensure you run `npm install` from the top-level directory. Then, for a given package, navigate to the package's directory (ie, `packages/web-api`) and run `npm test` to run that package's tests. To run just the linting and not the entire test suite, run `npm run lint` from the root directory.
+The Node SDK is made up of multiple, individual packages, each with their own tests. As such, tests are run on a per-package basis. However, the top-level directory contains some development dependencies applicable to all packages. As a result, to run tests for any package, first run `npm install` from the top-level directory. Then run `npm test --workspace packages/<package-name>` to run that package's tests. To run linting across all packages, run `npm run lint` from the root directory.
 
-This project has tests for individual packages as `*.spec.js` files and inside of each's package's `src` directory. Also, for verifying the behavior with the real Slack server-side and developer experience with installed packages, you can run the tests amd scripts under `prod-server-integration-tests`. Refer to the README file in the directory for details. These tests are supposed to be run in the project maintainers' manual execution. They are not part of CI builds for now.
+```sh
+npm install
+npm run lint
+npm test --workspace packages/web-api
+```
+
+This project has tests for individual packages as `*.spec.js` files and inside of each package's `src` directory. Also, for verifying the behavior with the real Slack server-side and developer experience with installed packages, you can run the tests amd scripts under `prod-server-integration-tests`. Refer to the README file in the directory for details. These tests are supposed to be run in the project maintainers' manual execution. They are not part of CI builds for now.
 
 Upon opening a PR, tests are executed by GitHub Actions, our continuous integration system. GitHub Actions runs several, more granular builds in order to report on success and failure in a more targeted way.
 
@@ -31,14 +37,13 @@ We have included `launch.json` files that store configuration for `vscode` debug
 Using in progress changes made to this package in an app can be useful for development. Use the pack command to package a particular SDK package. For example:
 
 ```sh
-cd packages/web-api
-npm pack
+npm pack --workspace packages/web-api
 ```
 
 Install the `slack-web-api-*.tgz` to an app to use your changes:
 
 ```sh
-npm install path/to/node-slack-sdk/packages/slack-web-api-*.tgz
+npm install path/to/node-slack-sdk/slack-web-api-*.tgz
 ```
 
 The packaged build includes dependencies published with each package, including required peer dependencies but not devDependencies, to imitate actual installations.
@@ -52,8 +57,7 @@ The reference docs for each package is independent of the others. They're genera
 Each package has a script to these generate reference docs. For example:
 
 ```sh
-cd packages/web-api
-npm run docs
+npm run docs --workspace packages/web-api
 ```
 
 The script places the reference markdown files in `/docs/english/reference/package-name`.
@@ -73,12 +77,10 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
 2. Make sure your local `main` branch has the latest changes (i.e. `git checkout main && git pull --tags origin main`). Then, open a new branch off of your local `main` branch for the release (i.e. `git checkout -b <package>-<release>`).
 
-3. Navigate to the specific package(s) you're releasing in the `packages/` directory.
+3. For each package to be released, run `npm test --workspace packages/<package-name>` to verify that tests are passing.
 
-4. For each package to be released, run `npm run test` to verify that tests are passing.
-
-5. On our new branch, bump the version(s) in `package.json` (see [Versioning and Tags](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#-versioning-and-tags))
-   - Generate the reference docs for that package by running `npm run docs`.
+4. On our new branch, bump the version(s) in `package.json` (see [Versioning and Tags](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#-versioning-and-tags))
+   - Generate the reference docs for that package by running `npm run docs --workspace packages/<package-name>`.
 
    - Make a single commit for the version(s) bump, following the format in: ([Example](https://github.com/slackapi/node-slack-sdk/commit/ff03f7812c678bdc5cea5eace75db34631a88dda))
 
@@ -88,28 +90,28 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
    - Add appropriate milestone on the PR
 
-6. Once the PR has been approved and tests have passed, merge it into the main repository.
+5. Once the PR has been approved and tests have passed, merge it into the main repository.
    - Check out your local `main` branch and update it to get the latest changes: `git checkout main && git pull origin main`
 
    - Add a version tag (ie, `git tag @slack/web-api@5.6.0`)
 
    - Push the new tag up to origin: `git push origin @slack/web-api@5.6.0`
 
-7. Publish the release to npm
+6. Publish the release to npm
    - To publish, you need to be a member of the `slack Org` on npm and set up 2-Factor Auth with your password generator of choice. Before you can publish with npm, you must run `npm login` from the command line.
 
-   - As the final validation, within the package directory (ex: `packages/types`), run `mv package-lock.json package-lock.json.bk && rm -rf node_modules/ dist/ && npm i && npm test && npm pack` and confirm if there are `*.js`, `*.d.ts` files under the `dist` directory.
+   - As the final validation, run `rm -rf packages/types/dist && npm test --workspace packages/types && npm pack --workspace packages/types` and confirm if there are `*.js`, `*.d.ts` files under the `dist` directory.
 
-   - Run `npm publish . --otp YOUR_OTP_CODE`. To generate an OTP (One Time Password), use your password generator of choice (Duo, 1Password)
+   - Run `npm publish --workspace packages/types --otp YOUR_OTP_CODE`. To generate an OTP (One Time Password), use your password generator of choice (Duo, 1Password)
 
-8. Close GitHub Milestone
+7. Close GitHub Milestone
    - Close the relevant GitHub Milestone for the release
 
    - Check the existing GitHub Milestones to see if the next minor version exists. If it doesn't, then create a GitHub Milestone for new issues to live in. Typically, you'll create a new minor version - however, if there are any bugs that need to be carried over from the current GitHub Milestone, you could make a Milestone for a patch version to reflect those issues
 
    - Move any unfinished, open issues to the next GitHub Milestone
 
-9. Create GitHub Release with release notes
+8. Create GitHub Release with release notes
    - From the repository, navigate to the **Releases** section and select [Draft a new release](https://github.com/slackapi/node-slack-sdk/releases/new)
 
    - When creating the release notes, select the tag you generated earlier for your release and title the release the same name as the tag
@@ -120,14 +122,14 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
    - Once the release notes are ready, click the "Publish Release" button to make them public
 
-10. Communicate the release (as appropriate)
-    - **Internal**
-      - Include a brief description and link to the GitHub release
+9. Communicate the release (as appropriate)
+   - **Internal**
+     - Include a brief description and link to the GitHub release
 
-    - **External**
-      - **Slack Community Hangout** (`community.slack.com/`) in **#lang-javascript**. Include a link to the package on `npmjs.com/package/@slack/` as well as the release notes. ([Example](https://community.slack.com/archives/CHF1FKX4J/p1657293144932579))
+   - **External**
+     - **Slack Community Hangout** (`community.slack.com/`) in **#lang-javascript**. Include a link to the package on `npmjs.com/package/@slack/` as well as the release notes. ([Example](https://community.slack.com/archives/CHF1FKX4J/p1657293144932579))
 
-      - **Twitter**: Primarily for major updates. Coordinate with Developer Marketing.
+     - **Twitter**: Primarily for major updates. Coordinate with Developer Marketing.
 
 ### 🚧 Beta Releases
 
@@ -136,11 +138,9 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
    - If you do not have a feature branch, you can also use generic release candidate branch name like `<next-version>rc`, i.e. `2.5.0rc`.
 
-2. Navigate to the specific package(s) you're releasing in the `packages/` directory.
+2. For each package to be released, run `npm test --workspace packages/<package-name>` to verify that tests are passing.
 
-3. For each package to be released, run `npm it` to install the latest dependencies and verify that everything is working and free of errors.
-
-4. Bump the version(s) in `package.json`
+3. Bump the version(s) in `package.json`
    - The version must be in the format of `Major.Minor.Patch-BetaNamespace.BetaVersion` (ex: `5.10.0-workflowStepsBeta.1`, `2.5.0-rc.1`)
 
    - Make a single commit for the version bump ([Example](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594))
@@ -149,23 +149,23 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 
    - Add appropriate labels, including `release`
 
-5. Once the PR's checks and tests have passed, merge it into the corresponding feature branch on the main repository. If you would like a review on the pull request or feel that the specific release you're doing requires extra attention, you can wait for an approval, but it is optional for this type of PR.
+4. Once the PR's checks and tests have passed, merge it into the corresponding feature branch on the main repository. If you would like a review on the pull request or feel that the specific release you're doing requires extra attention, you can wait for an approval, but it is optional for this type of PR.
    - Update your local main branch: `git pull origin <beta-feature-branch>`
 
    - Add a version tag (ie, `git tag @slack/web-api@5.10.0-workflowStepsBeta.1`)
 
    - Push the new tag up to origin: `git push --tags origin`
 
-6. Publish the release to npm
-   - Run `npm publish --tag <dist-tag> . --otp YOUR_OTP_CODE`
+5. Publish the release to npm
+   - Run `npm publish --workspace packages/<package-name> --tag <dist-tag> --otp YOUR_OTP_CODE`
      - `<dist-tag>` should be a label representative of the beta release. It could be feature-specific (i.e. `feat-token-rotation`) or it can be a generic release candidate (i.e. `2.5.0rc`). Whatever you decide: it must _not_ be `latest`, as that is reserved for non-beta releases.
 
    - To generate an OTP (One Time Password), use your password generator of choice (Duo, 1Password)
 
-7. Test that the publish was successful
+6. Test that the publish was successful
    - Run `npm info <PACKAGE_NAME> dist-tags`
 
-8. Create GitHub Release(s) with release notes
+7. Create GitHub Release(s) with release notes
    - From the repository, navigate to the **Releases** section and draft a new release
 
    - Release notes should mention the beta feature (if applicable), contributors, issues and PRs ([Example](https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Ftypes%401.8.0-workflowStepsBeta.2))
