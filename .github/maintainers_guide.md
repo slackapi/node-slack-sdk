@@ -78,13 +78,13 @@ When a PR containing changesets is merged to `main`, a different PR is opened or
 
 ### 🚀 Releases
 
-Releasing can feel intimidating at first, but don't fret! If you make a mistake, npm allows you to unpublish within the first 72 hours (you just won't be able to reuse that version number). Venture on!
+Releasing can feel intimidating at first, but don't fret! If you make a mistake, npm allows you to unpublish within the first 72 hours. The one catch is that you can't reuse the same version number. Venture on!
 
-> For beta releases, read the [**Beta Releases**](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#-beta-releases) section below.
+> For beta releases, read the [**Beta Releases**](#-beta-releases) section below.
 
 New official package versions are published when the release PR created from changesets is merged and the publish workflow is approved. Follow these steps to build confidence:
 
-1. **Check GitHub Milestones**: Before merging the release PR please check the relevant [Milestones](https://github.com/slackapi/node-slack-sdk/milestones). If issues or pull requests are still open, either decide to postpone the release or save those changes for a future update.
+1. **Check GitHub Milestones**: Before merging the release PR please check the relevant [Milestones](https://github.com/slackapi/node-slack-sdk/milestones). If issues or pull requests are still open either decide to postpone the release or save those changes for a future update.
 
 2. **Review the release PR**: Verify that version bumps match expectations, CHANGELOG entries are clear, and CI checks pass.
 
