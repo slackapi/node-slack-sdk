@@ -37,7 +37,7 @@
     "build:clean": "shx rm -rf ./dist ./coverage",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "mocha": "mocha --config ./test/.mocharc.json \"./src/**/*.spec.ts\"",
-    "prepublishOnly": "npm run build",
+    "prepack": "npm run build",
     "test": "npm run test:types && npm run test:integration && npm run test:unit",
     "test:integration": "npm run build && node test/integration/commonjs-project/index.js && node test/integration/esm-project/index.mjs && npm run test:integration:ts",
     "test:integration:ts": "cd test/integration/ts-4.7-project && npm i && npm run build",

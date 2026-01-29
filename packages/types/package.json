@@ -31,7 +31,7 @@
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
-    "prepublishOnly": "npm run build",
+    "prepack": "npm run build",
     "test": "npm run build && npm run test:types",
     "test:types": "tsd"
   },

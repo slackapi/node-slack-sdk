@@ -29,7 +29,7 @@
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
-    "prepublishOnly": "npm run build",
+    "prepack": "npm run build",
     "test": "npm run test:unit",
     "test:unit": "npm run build && node --import tsx --test src/index.test.ts"
   },

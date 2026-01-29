@@ -34,7 +34,7 @@
     "build:clean": "shx rm -rf ./dist ./coverage",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "mocha": "mocha --config ./test/.mocharc.json src/*.spec.ts",
-    "prepublishOnly": "npm run build",
+    "prepack": "npm run build",
     "test": "npm run test:unit",
     "test:unit": "npm run build && c8 --config ./test/.c8rc.json npm run mocha"
   },

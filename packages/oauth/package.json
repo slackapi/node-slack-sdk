@@ -32,7 +32,7 @@
     "build:clean": "shx rm -rf ./dist ./coverage",
     "coverage": "npm run build && c8 --config ./test/.c8rc.json npm run test:mocha",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
-    "prepublishOnly": "npm run build",
+    "prepack": "npm run build",
     "test": "npm run coverage",
     "test:mocha": "mocha --config ./test/.mocharc.json src/*.spec.ts src/**/*.spec.ts",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
