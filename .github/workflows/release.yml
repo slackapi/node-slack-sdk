@@ -36,8 +36,8 @@ jobs:
         uses: changesets/action@c48e67d110a68bc90ccf1098e9646092baacaa87 # v1.6.0
         with:
           createGithubReleases: true
-          commit: "ci: release"
-          title: "ci: release"
+          commit: "chore: release"
+          title: "chore: release"
           publish: npm run changeset -- publish
           version: npm run changeset -- version
         env:
