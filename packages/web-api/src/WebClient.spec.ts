@@ -1228,7 +1228,11 @@ describe('WebClient', () => {
           ok: true,
           ts: '123.123',
         })
-        .post('/api/chat.stopStream', { channel: 'C0123456789', ts: '123.123', markdown_text: 'nice!' })
+        .post('/api/chat.stopStream', {
+          channel: 'C0123456789',
+          ts: '123.123',
+          chunks: JSON.stringify([{ type: 'markdown_text', text: 'nice!' }]),
+        })
         .reply(200, {
           ok: true,
         });
@@ -1279,7 +1283,7 @@ describe('WebClient', () => {
       const scope = nock('https://slack.com')
         .post('/api/chat.startStream', {
           channel: 'C0123456789',
-          markdown_text: '**this messag',
+          chunks: JSON.stringify([{ type: 'markdown_text', text: '**this messag' }]),
           recipient_team_id: 'T0123456789',
           recipient_user_id: 'U0123456789',
           thread_ts: '123.000',
@@ -1290,7 +1294,7 @@ describe('WebClient', () => {
         })
         .post('/api/chat.appendStream', {
           channel: 'C0123456789',
-          markdown_text: 'e is bold!',
+          chunks: JSON.stringify([{ type: 'markdown_text', text: 'e is bold!' }]),
           token: 'xoxb-updated-1',
           ts: '123.123',
         })
@@ -1300,7 +1304,7 @@ describe('WebClient', () => {
         .post('/api/chat.stopStream', {
           blocks: JSON.stringify([contextActionsBlock]),
           channel: 'C0123456789',
-          markdown_text: '**',
+          chunks: JSON.stringify([{ type: 'markdown_text', text: '**' }]),
           token: 'xoxb-updated-2',
           ts: '123.123',
         })
@@ -1370,7 +1374,11 @@ describe('WebClient', () => {
           ok: true,
           ts: '123.123',
         })
-        .post('/api/chat.stopStream', { channel: 'C0123456789', ts: '123.123', markdown_text: 'nice!' })
+        .post('/api/chat.stopStream', {
+          channel: 'C0123456789',
+          ts: '123.123',
+          chunks: JSON.stringify([{ type: 'markdown_text', text: 'nice!' }]),
+        })
         .reply(200, {
           ok: true,
         });
