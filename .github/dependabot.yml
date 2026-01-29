@@ -206,3 +206,11 @@ updates:
       - "github_actions"
     schedule:
       interval: "monthly"
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    labels:
+      - "dependencies"
+      - "javascript"
+    schedule:
+      interval: "weekly"
