@@ -26,20 +26,17 @@
     "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
   "scripts": {
-    "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
-    "lint": "npx @biomejs/biome check .",
-    "lint:fix": "npx @biomejs/biome check --write .",
-    "test": "npm run lint && npm run test:unit",
+    "prepack": "npm run build",
+    "test": "npm run test:unit",
     "test:unit": "npm run build && node --import tsx --test src/index.test.ts"
   },
   "dependencies": {
     "@types/node": ">=18.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.0.5",
     "shx": "^0.4.0",
     "source-map-support": "^0.5.21",
     "tsx": "^4.20.6",

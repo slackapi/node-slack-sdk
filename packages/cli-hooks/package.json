@@ -35,12 +35,9 @@
     "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
   "scripts": {
-    "prebuild": "shx rm -rf ./coverage",
     "build": "shx chmod +x src/*.js",
+    "prebuild": "shx rm -rf ./coverage",
     "prelint": "tsc --noemit --module es2022 --maxNodeModuleJsDepth 0 --project ./jsconfig.json",
-    "lint": "npx @biomejs/biome check .",
-    "lint:fix": "npx @biomejs/biome check --write .",
-    "pretest": "npm run lint",
     "test": "c8 --config ./test/.c8rc.json mocha --config ./test/.mocharc.json src/*.spec.js"
   },
   "bin": {
@@ -55,7 +52,6 @@
     "semver": "^7.5.4"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.0.5",
     "@types/minimist": "^1.2.5",
     "@types/mocha": "^10.0.6",
     "@types/node": "^25.0.3",
