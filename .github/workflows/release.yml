@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    environment: publish
+    permissions:
+      contents: write
+      id-token: write
+      pull-requests: write
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: true
+
+      - name: Setup Node
+        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        with:
+          node-version: 24
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Gather changesets
+        uses: changesets/action@c48e67d110a68bc90ccf1098e9646092baacaa87 # v1.6.0
+        with:
+          createGithubReleases: true
+          commit: "ci: release"
+          title: "ci: release"
+          publish: npm run changeset -- publish
+          version: npm run changeset -- version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

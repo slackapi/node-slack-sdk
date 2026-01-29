@@ -62,78 +62,45 @@ npm run docs --workspace packages/web-api
 
 The script places the reference markdown files in `/docs/english/reference/package-name`.
 
+### 🎁 Updating Changesets
+
+This project uses [Changesets](https://github.com/changesets/changesets) to track changes and automate releases.
+
+Each changeset describes a change to a package and its [semver](https://semver.org/) impact, and a new changeset should be added when updating a published package with some change that affects consumers of the package:
+
+```sh
+npm run changeset
+```
+
+Updates to documentation, tests, or CI might not require new entries.
+
+When a PR containing changesets is merged to `main`, a different PR is opened or updating using [changesets/action](https://github.com/changesets/action) which consumes the pending changesets, bumps relevant package versions, and updates various `CHANGELOG` files in preparation to release.
+
 ### 🚀 Releases
 
-_For beta releases, see [**Beta Releases**](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#-beta-releases) section below_
+Releasing can feel intimidating at first, but don't fret! If you make a mistake, npm allows you to unpublish within the first 72 hours (you just won't be able to reuse that version number). Venture on!
 
-Releasing can feel intimidating at first, but rest assured: if you make a mistake, don't fret! npm allows you to unpublish a release within the first 72 hours of publishing (you just won’t be able to use the same version number again). Venture on!
+> For beta releases, read the [**Beta Releases**](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#-beta-releases) section below.
 
-1. Check the status of the package's GitHub Milestone for issues that should be shipped with the release.
-   - If all issues have been closed, continue with the release.
+New official package versions are published when the release PR created from changesets is merged and the publish workflow is approved. Follow these steps to build confidence:
 
-   - If issues are still open, discuss with the team about whether the open issues should be moved to a future release or if the release should be held off until the issues are resolved.
+1. **Check GitHub Milestones**: Before merging the release PR please check the relevant [Milestones](https://github.com/slackapi/node-slack-sdk/milestones). If issues or pull requests are still open, either decide to postpone the release or save those changes for a future update.
 
-   - Take a look at all issues under the Milestone to make sure that the type of issues included aligns with the Milestone name based on [semantic versioning](https://semver.org/). If the issues do not align with the naming of the Milestone (ex: if the issues are all bug fixes, but the Milestone is labeled as a minor release), then you can tweak the Milestone name to reflect the correct versioning.
+2. **Review the release PR**: Verify that version bumps match expectations, CHANGELOG entries are clear, and CI checks pass.
 
-2. Make sure your local `main` branch has the latest changes (i.e. `git checkout main && git pull --tags origin main`). Then, open a new branch off of your local `main` branch for the release (i.e. `git checkout -b <package>-<release>`).
+3. **Merge and approve**: Merge the release PR, then approve the publish workflow to release packages to npm.
 
-3. For each package to be released, run `npm test --workspace packages/<package-name>` to verify that tests are passing.
+4. **Update Milestones**: Close the relevant [Milestones](https://github.com/slackapi/node-slack-sdk/milestones) and rename these to match the released package versions. Open a new Milestone for the next version, e.g. `@slack/web-api@next`.
 
-4. On our new branch, bump the version(s) in `package.json` (see [Versioning and Tags](https://github.com/slackapi/node-slack-sdk/blob/main/.github/maintainers_guide.md#-versioning-and-tags))
-   - Generate the reference docs for that package by running `npm run docs --workspace packages/<package-name>`.
+5. **Communicate the release**:
 
-   - Make a single commit for the version(s) bump, following the format in: ([Example](https://github.com/slackapi/node-slack-sdk/commit/ff03f7812c678bdc5cea5eace75db34631a88dda))
-
-   - Create a pull request for the version change ([Example](https://github.com/slackapi/node-slack-sdk/pull/2402))
-
-   - Add appropriate labels on the PR, including `release`, `pkg:*`, and `semver:*`
-
-   - Add appropriate milestone on the PR
-
-5. Once the PR has been approved and tests have passed, merge it into the main repository.
-   - Check out your local `main` branch and update it to get the latest changes: `git checkout main && git pull origin main`
-
-   - Add a version tag (ie, `git tag @slack/web-api@5.6.0`)
-
-   - Push the new tag up to origin: `git push origin @slack/web-api@5.6.0`
-
-6. Publish the release to npm
-   - To publish, you need to be a member of the `slack Org` on npm and set up 2-Factor Auth with your password generator of choice. Before you can publish with npm, you must run `npm login` from the command line.
-
-   - As the final validation, run `rm -rf packages/types/dist && npm test --workspace packages/types && npm pack --workspace packages/types` and confirm if there are `*.js`, `*.d.ts` files under the `dist` directory.
-
-   - Run `npm publish --workspace packages/types --otp YOUR_OTP_CODE`. To generate an OTP (One Time Password), use your password generator of choice (Duo, 1Password)
-
-7. Close GitHub Milestone
-   - Close the relevant GitHub Milestone for the release
-
-   - Check the existing GitHub Milestones to see if the next minor version exists. If it doesn't, then create a GitHub Milestone for new issues to live in. Typically, you'll create a new minor version - however, if there are any bugs that need to be carried over from the current GitHub Milestone, you could make a Milestone for a patch version to reflect those issues
-
-   - Move any unfinished, open issues to the next GitHub Milestone
-
-8. Create GitHub Release with release notes
-   - From the repository, navigate to the **Releases** section and select [Draft a new release](https://github.com/slackapi/node-slack-sdk/releases/new)
-
-   - When creating the release notes, select the tag you generated earlier for your release and title the release the same name as the tag
-
-   - To see a list of changes between the last tag for the specific package, you can use this `git` command: `git log --oneline --full-history @slack/types@2.8.0..@slack/types@2.9.0 -- packages/types`. Sub in the correct tags and the last argument should be the path to the sub-package you are releasing (in order to filter commits just to the specific path).
-
-   - Release notes should mention contributors, issues, PRs, milestone, and link to npm package ([Example](https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Ftypes%402.17.0))
-
-   - Once the release notes are ready, click the "Publish Release" button to make them public
-
-9. Communicate the release (as appropriate)
-   - **Internal**
-     - Include a brief description and link to the GitHub release
-
-   - **External**
-     - **Slack Community Hangout** (`community.slack.com/`) in **#lang-javascript**. Include a link to the package on `npmjs.com/package/@slack/` as well as the release notes. ([Example](https://community.slack.com/archives/CHF1FKX4J/p1657293144932579))
-
-     - **Twitter**: Primarily for major updates. Coordinate with Developer Marketing.
+   - **Internal**: Post a brief description and link to the GitHub release.
+   - **External**: Post in **#lang-javascript** on [Slack Community](https://community.slack.com/). Include a link to the package on `npmjs.com/package/@slack/` as well as the release notes.
 
 ### 🚧 Beta Releases
 
 1. Make sure your local `main` branch has the latest changes
+
    - Run `git rebase main` from your feature branch (this will rebase your feature branch from `main`). You can opt for `git merge main` if you are not comfortable with rebasing.
 
    - If you do not have a feature branch, you can also use generic release candidate branch name like `<next-version>rc`, i.e. `2.5.0rc`.
@@ -141,6 +108,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
 2. For each package to be released, run `npm test --workspace packages/<package-name>` to verify that tests are passing.
 
 3. Bump the version(s) in `package.json`
+
    - The version must be in the format of `Major.Minor.Patch-BetaNamespace.BetaVersion` (ex: `5.10.0-workflowStepsBeta.1`, `2.5.0-rc.1`)
 
    - Make a single commit for the version bump ([Example](https://github.com/slackapi/node-slack-sdk/commit/1503609d79abf035e9e21bad7360e124e4211594))
@@ -150,6 +118,7 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
    - Add appropriate labels, including `release`
 
 4. Once the PR's checks and tests have passed, merge it into the corresponding feature branch on the main repository. If you would like a review on the pull request or feel that the specific release you're doing requires extra attention, you can wait for an approval, but it is optional for this type of PR.
+
    - Update your local main branch: `git pull origin <beta-feature-branch>`
 
    - Add a version tag (ie, `git tag @slack/web-api@5.10.0-workflowStepsBeta.1`)
@@ -157,15 +126,19 @@ Releasing can feel intimidating at first, but rest assured: if you make a mistak
    - Push the new tag up to origin: `git push --tags origin`
 
 5. Publish the release to npm
+
    - Run `npm publish --workspace packages/<package-name> --tag <dist-tag> --otp YOUR_OTP_CODE`
+
      - `<dist-tag>` should be a label representative of the beta release. It could be feature-specific (i.e. `feat-token-rotation`) or it can be a generic release candidate (i.e. `2.5.0rc`). Whatever you decide: it must _not_ be `latest`, as that is reserved for non-beta releases.
 
    - To generate an OTP (One Time Password), use your password generator of choice (Duo, 1Password)
 
 6. Test that the publish was successful
+
    - Run `npm info <PACKAGE_NAME> dist-tags`
 
 7. Create GitHub Release(s) with release notes
+
    - From the repository, navigate to the **Releases** section and draft a new release
 
    - Release notes should mention the beta feature (if applicable), contributors, issues and PRs ([Example](https://github.com/slackapi/node-slack-sdk/releases/tag/%40slack%2Ftypes%401.8.0-workflowStepsBeta.2))

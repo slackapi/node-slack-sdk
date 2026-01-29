@@ -1,6 +1,7 @@
 {
   "name": "@slack/interactive-messages",
   "version": "2.0.2",
+  "private": true,
   "description": "Official library for using the Slack Platform's Interactive Buttons, Menus, Dialogs, Actions, and Block Actions",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
