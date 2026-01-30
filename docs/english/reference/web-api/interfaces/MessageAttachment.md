@@ -2,7 +2,7 @@
 
 # Interface: MessageAttachment
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:8
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:8
 
 Add [secondary attachments](https://docs.slack.dev/messaging/formatting-message-text#attachments) to your messages in Slack.
 Message attachments are considered a legacy part of messaging functionality. They are not deprecated per se, but they may change in the future, in ways that reduce their visibility or utility. We recommend moving to Block Kit instead. Read more about [when to use message attachments](https://docs.slack.dev/messaging/formatting-message-text#attachments).
@@ -19,7 +19,7 @@ Message attachments are considered a legacy part of messaging functionality. The
 optional actions: AttachmentAction[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:97
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:97
 
 ***
 
@@ -29,7 +29,7 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:97
 optional app_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:107
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:107
 
 ***
 
@@ -39,7 +39,7 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:107
 optional app_unfurl_url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:105
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:105
 
 ***
 
@@ -49,7 +49,7 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:105
 optional author_icon: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:41
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:41
 
 #### Description
 
@@ -64,7 +64,7 @@ Will only work if `author_name` is present.
 optional author_link: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:36
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:36
 
 #### Description
 
@@ -78,7 +78,7 @@ A valid URL that will hyperlink the `author_name` text. Will only work if `autho
 optional author_name: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:32
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:32
 
 #### Description
 
@@ -92,7 +92,7 @@ Small text used to display the author's name.
 optional author_subname: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:42
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:42
 
 ***
 
@@ -102,7 +102,7 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:42
 optional blocks: AnyBlock[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:13
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:13
 
 #### Description
 
@@ -117,7 +117,7 @@ An array of [layout blocks](../type-aliases/KnownBlock.md) in the same format
 optional bot_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:108
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:108
 
 ***
 
@@ -127,7 +127,7 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:108
 optional callback_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:98
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:98
 
 ***
 
@@ -137,7 +137,7 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:98
 optional color: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:23
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:23
 
 #### Description
 
@@ -152,7 +152,7 @@ be one of `good` (green), `warning` (yellow), `danger` (red), or any hex color c
 optional fallback: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:18
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:18
 
 #### Description
 
@@ -167,7 +167,7 @@ don't show formatted text (e.g. mobile notifications).
 optional fields: MessageAttachmentField[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:63
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:63
 
 #### Description
 
@@ -183,7 +183,7 @@ For best results, include no more than 2-3 field objects.
 optional footer: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:83
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:83
 
 #### Description
 
@@ -198,7 +198,7 @@ and may be truncated further when displayed to users in environments with limite
 optional footer_icon: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:89
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:89
 
 #### Description
 
@@ -214,7 +214,7 @@ It's best to use an image that is similarly sized.
 optional image_url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:70
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:70
 
 #### Description
 
@@ -231,7 +231,7 @@ maintaining the original aspect ratio. Cannot be used with `thumb_url`.
 optional is_app_unfurl: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:106
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:106
 
 ***
 
@@ -241,7 +241,7 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:106
 optional mrkdwn_in: ("text" | "pretext" | "fields")[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:104
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:104
 
 #### Description
 
@@ -257,7 +257,7 @@ the `text` or `pretext` properties.
 optional pretext: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:28
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:28
 
 #### Description
 
@@ -272,7 +272,7 @@ or with [\`mrkdwn\`](https://docs.slack.dev/messaging/formatting-message-text#ba
 optional preview: MessageAttachmentPreview;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:109
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:109
 
 ***
 
@@ -282,7 +282,7 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:109
 optional text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:57
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:57
 
 #### Description
 
@@ -299,7 +299,7 @@ a "Show more..." link to expand the content.
 optional thumb_url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:78
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:78
 
 #### Description
 
@@ -317,7 +317,7 @@ For best results, please use images that are already 75px by 75px.
 optional title: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:46
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:46
 
 #### Description
 
@@ -331,7 +331,7 @@ Large title text near the top of the attachment.
 optional title_link: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:50
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:50
 
 #### Description
 
@@ -345,7 +345,7 @@ A valid URL that turns the `title` text into a hyperlink.
 optional ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:96
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:96
 
 #### Description
 

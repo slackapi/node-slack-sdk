@@ -2,7 +2,7 @@
 
 # Interface: AppMentionEvent
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:102
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:102
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:102
 optional attachments: MessageAttachment[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:124
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:124
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:124
 optional blocks: (Block | KnownBlock)[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:125
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:125
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:125
 optional bot_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:105
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:105
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:105
 optional bot_profile: BotProfile;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:106
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:106
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:106
 channel: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:136
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:136
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:136
 optional client_msg_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:139
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:139
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:139
 optional display_as_bot: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:130
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:130
 
 ***
 
@@ -82,7 +82,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:130
 optional edited: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:131
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:131
 
 #### ts
 
@@ -104,7 +104,7 @@ user: string;
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:137
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:137
 
 ***
 
@@ -114,7 +114,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:137
 optional files: object[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:126
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:126
 
 #### id
 
@@ -130,7 +130,7 @@ id: string;
 optional source_team: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:110
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:110
 
 ***
 
@@ -140,7 +140,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:110
 optional subtype: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:104
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:104
 
 ***
 
@@ -150,7 +150,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:104
 optional team: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:108
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:108
 
 ***
 
@@ -160,7 +160,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:108
 text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:123
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:123
 
 ***
 
@@ -170,7 +170,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:123
 optional thread_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:138
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:138
 
 ***
 
@@ -180,7 +180,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:138
 ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:135
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:135
 
 ***
 
@@ -190,7 +190,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:135
 type: "app_mention";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:103
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:103
 
 ***
 
@@ -200,7 +200,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:103
 optional upload: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:129
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:129
 
 ***
 
@@ -210,7 +210,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:129
 optional user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:122
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:122
 
 ***
 
@@ -220,7 +220,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:122
 optional user_profile: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:111
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:111
 
 #### avatar\_hash?
 
@@ -284,7 +284,7 @@ team: string;
 optional user_team: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:109
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:109
 
 ***
 
@@ -294,4 +294,4 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:109
 optional username: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:107
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:107

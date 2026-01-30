@@ -2,7 +2,7 @@
 
 # Interface: TeamAccessRevokedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:7
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:7
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/team.d.ts:7
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:10
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:10
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/team.d.ts:10
 team_ids: string[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:9
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:9
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: node\_modules/@slack/types/dist/events/team.d.ts:9
 type: "team_access_revoked";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:8
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:8

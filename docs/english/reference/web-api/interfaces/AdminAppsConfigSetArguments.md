@@ -2,7 +2,7 @@
 
 # Interface: AdminAppsConfigSetArguments
 
-Defined in: [src/types/request/admin/apps.ts:73](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/apps.ts#L73)
+Defined in: [packages/web-api/src/types/request/admin/apps.ts:73](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/apps.ts#L73)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/apps.ts:73](https://github.com/slackapi/nod
 app_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L101)
+Defined in: [packages/web-api/src/types/request/common.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L101)
 
 #### Description
 
@@ -36,7 +36,7 @@ AppID.app_id
 optional domain_restrictions: object;
 ```
 
-Defined in: [src/types/request/admin/apps.ts:75](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/apps.ts#L75)
+Defined in: [packages/web-api/src/types/request/admin/apps.ts:75](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/apps.ts#L75)
 
 #### emails?
 
@@ -70,7 +70,7 @@ Domain restrictions for the app.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -90,7 +90,7 @@ TokenOverridable.token
 optional workflow_auth_strategy: "builder_choice" | "end_user_only";
 ```
 
-Defined in: [src/types/request/admin/apps.ts:82](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/apps.ts#L82)
+Defined in: [packages/web-api/src/types/request/admin/apps.ts:82](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/apps.ts#L82)
 
 #### Description
 

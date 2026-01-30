@@ -2,7 +2,7 @@
 
 # Interface: Dispatchable
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:23
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:23
 
 ## Extended by
 
@@ -20,7 +20,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:23
 optional dispatch_action_config: DispatchActionConfig;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:28
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:28
 
 #### Description
 

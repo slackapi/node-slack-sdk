@@ -2,7 +2,7 @@
 
 # Interface: URLRespondable
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:51
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:51
 
 ## Extended by
 
@@ -17,7 +17,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:51
 optional response_url_enabled: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:58
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:58
 
 #### Description
 

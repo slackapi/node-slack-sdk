@@ -2,7 +2,7 @@
 
 # Interface: MessageMetadataEventPayloadObject
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:19
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-metadata.d.ts:19
 
 ## Indexable
 

@@ -2,7 +2,7 @@
 
 # Interface: EmailDomainChangedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/email.d.ts:1
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/email.d.ts:1
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/email.d.ts:1
 email_domain: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/email.d.ts:3
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/email.d.ts:3
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/email.d.ts:3
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/email.d.ts:4
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/email.d.ts:4
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: node\_modules/@slack/types/dist/events/email.d.ts:4
 type: "email_domain_changed";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/email.d.ts:2
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/email.d.ts:2

@@ -2,7 +2,7 @@
 
 # Interface: GroupCloseEvent
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:8
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:8
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:8
 channel: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:11
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:11
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:11
 type: "group_close";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:9
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:9
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:9
 user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:10
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:10

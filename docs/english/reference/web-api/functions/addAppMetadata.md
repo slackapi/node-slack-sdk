@@ -6,7 +6,7 @@
 function addAppMetadata(__namedParameters): void;
 ```
 
-Defined in: [src/instrument.ts:31](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/instrument.ts#L31)
+Defined in: [packages/web-api/src/instrument.ts:31](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/instrument.ts#L31)
 
 Appends the app metadata into the User-Agent value
 

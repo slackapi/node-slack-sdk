@@ -2,7 +2,7 @@
 
 # Interface: SharedChannelInviteApprovedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:58
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:58
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:58
 approving_team_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:62
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:62
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:62
 approving_user: SharedChannelUserItem;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:64
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:64
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:64
 channel: SharedChannelItem;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:61
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:61
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:61
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:65
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:65
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:65
 invite: SharedChannelInviteItem;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:60
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:60
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:60
 teams_in_channel: SharedChannelTeamItem[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:63
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:63
 
 ***
 
@@ -72,4 +72,4 @@ Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:63
 type: "shared_channel_invite_approved";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:59
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:59

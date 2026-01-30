@@ -2,7 +2,7 @@
 
 # Interface: RichTextQuote
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:892
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:892
 
 ## Description
 
@@ -20,7 +20,7 @@ A quote block within a rich text field.
 optional border: 0 | 1;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:66
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:66
 
 #### Description
 
@@ -39,7 +39,7 @@ while `1` renders a border.
 elements: RichTextElement[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:900
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:900
 
 #### Description
 
@@ -53,7 +53,7 @@ An array of [RichTextElement](../type-aliases/RichTextElement.md) comprising the
 type: "rich_text_quote";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:896
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:896
 
 #### Description
 

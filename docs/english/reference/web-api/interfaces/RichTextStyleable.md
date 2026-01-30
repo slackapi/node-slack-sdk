@@ -2,7 +2,7 @@
 
 # Interface: RichTextStyleable
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:71
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:71
 
 ## Description
 
@@ -29,7 +29,7 @@ For use styling Rich Text sub-elements.
 optional style: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:75
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:75
 
 #### bold?
 

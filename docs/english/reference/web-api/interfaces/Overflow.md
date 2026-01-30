@@ -2,7 +2,7 @@
 
 # Interface: Overflow
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:515
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:515
 
 ## Description
 
@@ -29,7 +29,7 @@ overflow menu options, instead of actions.
 optional action_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
 [identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
@@ -47,7 +47,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 optional confirm: ConfirmationDialog;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
 
 #### Description
 
@@ -66,7 +66,7 @@ with.
 options: PlainTextOption[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:523
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:523
 
 #### Description
 
@@ -80,7 +80,7 @@ An array of up to 5 [PlainTextOption](PlainTextOption.md) to display in the menu
 type: "overflow";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:519
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:519
 
 #### Description
 

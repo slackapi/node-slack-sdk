@@ -2,7 +2,7 @@
 
 # Interface: PlainTextInput
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:530
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:530
 
 ## Description
 
@@ -25,7 +25,7 @@ Allows users to enter freeform text data into a single-line or multi-line field.
 optional action_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
 [identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
@@ -43,7 +43,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 optional dispatch_action_config: DispatchActionConfig;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:28
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:28
 
 #### Description
 
@@ -62,7 +62,7 @@ A [DispatchActionConfig](DispatchActionConfig.md) object that determines when du
 optional focus_on_load: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
 
 #### Description
 
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_value: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:538
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:538
 
 #### Description
 
@@ -96,7 +96,7 @@ The initial value in the plain-text input when it is loaded.
 optional max_length: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:553
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:553
 
 #### Description
 
@@ -111,7 +111,7 @@ they will receive an error.
 optional min_length: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:548
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:548
 
 #### Description
 
@@ -126,7 +126,7 @@ an error. Maximum value is 3000.
 optional multiline: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:543
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:543
 
 #### Description
 
@@ -141,7 +141,7 @@ Defaults to `false`.
 optional placeholder: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:49
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:49
 
 #### Description
 
@@ -160,7 +160,7 @@ length for the `text` field in this object is 150 characters.
 type: "plain_text_input";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:534
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:534
 
 #### Description
 

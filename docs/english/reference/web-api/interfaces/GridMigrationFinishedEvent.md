@@ -2,7 +2,7 @@
 
 # Interface: GridMigrationFinishedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/grid-migration.d.ts:1
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/grid-migration.d.ts:1
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/grid-migration.d.ts:1
 enterprise_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/grid-migration.d.ts:3
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/grid-migration.d.ts:3
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: node\_modules/@slack/types/dist/events/grid-migration.d.ts:3
 type: "grid_migration_finished";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/grid-migration.d.ts:2
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/grid-migration.d.ts:2

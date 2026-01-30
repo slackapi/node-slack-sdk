@@ -2,7 +2,7 @@
 
 # Interface: CallRejectedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/call.d.ts:1
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/call.d.ts:1
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/call.d.ts:1
 call_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/call.d.ts:3
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/call.d.ts:3
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/call.d.ts:3
 channel_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/call.d.ts:5
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/call.d.ts:5
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/call.d.ts:5
 external_unique_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/call.d.ts:6
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/call.d.ts:6
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/call.d.ts:6
 type: "call_rejected";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/call.d.ts:2
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/call.d.ts:2
 
 ***
 
@@ -52,4 +52,4 @@ Defined in: node\_modules/@slack/types/dist/events/call.d.ts:2
 user_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/call.d.ts:4
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/call.d.ts:4

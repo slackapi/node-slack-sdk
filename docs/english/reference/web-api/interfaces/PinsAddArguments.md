@@ -2,7 +2,7 @@
 
 # Interface: PinsAddArguments
 
-Defined in: [src/types/request/pins.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/pins.ts#L4)
+Defined in: [packages/web-api/src/types/request/pins.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/pins.ts#L4)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/pins.ts:4](https://github.com/slackapi/node-slack
 channel: string;
 ```
 
-Defined in: [src/types/request/common.ts:111](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L111)
+Defined in: [packages/web-api/src/types/request/common.ts:111](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L111)
 
 #### Description
 
@@ -36,7 +36,7 @@ MessageArgument.channel
 timestamp: string;
 ```
 
-Defined in: [src/types/request/common.ts:113](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L113)
+Defined in: [packages/web-api/src/types/request/common.ts:113](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L113)
 
 #### Description
 
@@ -56,7 +56,7 @@ MessageArgument.timestamp
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

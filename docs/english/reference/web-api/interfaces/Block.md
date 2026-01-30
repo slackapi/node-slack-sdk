@@ -2,7 +2,7 @@
 
 # Interface: Block
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:3
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:3
 
 ## Extended by
 
@@ -26,7 +26,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:3
 optional block_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
 
 #### Description
 
@@ -44,7 +44,7 @@ a message. If a message is updated, use a new `block_id`.
 type: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:7
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:7
 
 #### Description
 
