@@ -71,7 +71,6 @@ export default function getHooks() {
           paths: ['.'],
         },
         manifest: {
-          'filter-regex': '^manifest\\.json$',
           paths: ['manifest.json'],
         },
       },

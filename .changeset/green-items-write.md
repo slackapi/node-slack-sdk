@@ -21,7 +21,6 @@ The following watch settings are provided automatically when using this package:
         "paths": ["."]
       },
       "manifest": {
-        "filter-regex": "^manifest\\.json$",
         "paths": ["manifest.json"]
       }
     }

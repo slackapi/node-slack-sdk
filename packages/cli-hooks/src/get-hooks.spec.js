@@ -34,7 +34,6 @@ describe('get-hooks implementation', async () => {
     const { config } = getHooks();
     assert(config.watch);
     assert(config.watch.manifest);
-    assert.equal(config.watch.manifest['filter-regex'], '^manifest\\.json$');
     assert.deepEqual(config.watch.manifest.paths, ['manifest.json']);
   });
 });
