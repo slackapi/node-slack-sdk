@@ -2,7 +2,7 @@
 
 # Class: ClearStateStore
 
-Defined in: [src/state-stores/clear-state-store.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/clear-state-store.ts#L8)
+Defined in: [packages/oauth/src/state-stores/clear-state-store.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/clear-state-store.ts#L8)
 
 Generates state parameter value in the OAuth flow.
 While the state parameter value works for the CSRF protection purpose,
@@ -21,7 +21,7 @@ it can transfer the given InstallURLOptions value to the Redirect URL handler
 new ClearStateStore(stateSecret, stateExpirationSeconds): ClearStateStore;
 ```
 
-Defined in: [src/state-stores/clear-state-store.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/clear-state-store.ts#L13)
+Defined in: [packages/oauth/src/state-stores/clear-state-store.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/clear-state-store.ts#L13)
 
 #### Parameters
 
@@ -45,7 +45,7 @@ Defined in: [src/state-stores/clear-state-store.ts:13](https://github.com/slacka
 generateStateParam(installOptions, now): Promise<string>;
 ```
 
-Defined in: [src/state-stores/clear-state-store.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/clear-state-store.ts#L18)
+Defined in: [packages/oauth/src/state-stores/clear-state-store.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/clear-state-store.ts#L18)
 
 Generates a valid state parameter value, which can be decoded as a StateObj object
 by the verifyStateParam() method. This value may be stored on the server-side with expiration.
@@ -77,7 +77,7 @@ The InstallProvider verifies if this value is set in the installer's browser ses
 verifyStateParam(now, state): Promise<InstallURLOptions>;
 ```
 
-Defined in: [src/state-stores/clear-state-store.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/clear-state-store.ts#L27)
+Defined in: [packages/oauth/src/state-stores/clear-state-store.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/state-stores/clear-state-store.ts#L27)
 
 Verifies the given state string value by trying to decode the value and
 build the passed InstallURLOptions object from the data.

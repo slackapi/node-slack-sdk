@@ -2,7 +2,7 @@
 
 # Interface: AdminFunctionsPermissionsLookupArguments
 
-Defined in: [src/types/request/admin/functions.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/functions.ts#L12)
+Defined in: [packages/web-api/src/types/request/admin/functions.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/functions.ts#L12)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/functions.ts:12](https://github.com/slackap
 function_ids: [string, ...string[]];
 ```
 
-Defined in: [src/types/request/admin/functions.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/functions.ts#L14)
+Defined in: [packages/web-api/src/types/request/admin/functions.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/functions.ts#L14)
 
 #### Description
 
@@ -30,7 +30,7 @@ An array of function IDs to get permissions for.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

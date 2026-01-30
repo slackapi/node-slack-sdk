@@ -2,7 +2,7 @@
 
 # Interface: SMNoReplyReceivedError
 
-Defined in: [src/errors.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L38)
+Defined in: [packages/socket-mode/src/errors.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L38)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/errors.ts:38](https://github.com/slackapi/node-slack-sdk/blob/m
 code: NoReplyReceivedError;
 ```
 
-Defined in: [src/errors.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L39)
+Defined in: [packages/socket-mode/src/errors.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L39)
 
 #### Overrides
 

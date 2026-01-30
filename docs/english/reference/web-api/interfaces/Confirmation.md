@@ -2,7 +2,7 @@
 
 # Interface: Confirmation
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:161
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:161
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:161
 optional dismiss_text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:162
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:162
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:162
 optional ok_text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:163
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:163
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:163
 text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:164
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:164
 
 ***
 
@@ -42,4 +42,4 @@ Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:164
 optional title: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:165
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:165

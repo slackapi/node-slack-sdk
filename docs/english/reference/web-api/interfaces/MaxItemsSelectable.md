@@ -2,7 +2,7 @@
 
 # Interface: MaxItemsSelectable
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:38
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:38
 
 ## Extended by
 
@@ -20,7 +20,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:38
 optional max_selected_items: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:42
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:42
 
 #### Description
 

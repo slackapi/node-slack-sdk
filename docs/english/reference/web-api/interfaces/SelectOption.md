@@ -2,7 +2,7 @@
 
 # Interface: SelectOption
 
-Defined in: node\_modules/@slack/types/dist/dialog.d.ts:32
+Defined in: packages/web-api/node\_modules/@slack/types/dist/dialog.d.ts:32
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/dialog.d.ts:32
 label: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/dialog.d.ts:33
+Defined in: packages/web-api/node\_modules/@slack/types/dist/dialog.d.ts:33
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: node\_modules/@slack/types/dist/dialog.d.ts:33
 value: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/dialog.d.ts:34
+Defined in: packages/web-api/node\_modules/@slack/types/dist/dialog.d.ts:34

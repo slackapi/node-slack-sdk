@@ -2,7 +2,7 @@
 
 # Interface: AdminUsersAssignArguments
 
-Defined in: [src/types/request/admin/users.ts:54](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L54)
+Defined in: [packages/web-api/src/types/request/admin/users.ts:54](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L54)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/users.ts:54](https://github.com/slackapi/no
 optional channel_ids: [string, ...string[]];
 ```
 
-Defined in: [src/types/request/common.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L81)
+Defined in: [packages/web-api/src/types/request/common.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L81)
 
 #### Description
 
@@ -34,7 +34,7 @@ An array of channel IDs (must include at least one ID).
 optional is_restricted: boolean;
 ```
 
-Defined in: [src/types/request/admin/users.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L15)
+Defined in: [packages/web-api/src/types/request/admin/users.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L15)
 
 #### Description
 
@@ -54,7 +54,7 @@ IsRestricted.is_restricted
 optional is_ultra_restricted: boolean;
 ```
 
-Defined in: [src/types/request/admin/users.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L20)
+Defined in: [packages/web-api/src/types/request/admin/users.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L20)
 
 #### Description
 
@@ -74,7 +74,7 @@ IsUltraRestricted.is_ultra_restricted
 team_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L61)
+Defined in: [packages/web-api/src/types/request/common.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L61)
 
 #### Description
 
@@ -94,7 +94,7 @@ TeamID.team_id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -114,7 +114,7 @@ TokenOverridable.token
 user_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:96](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L96)
+Defined in: [packages/web-api/src/types/request/common.ts:96](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L96)
 
 #### Description
 

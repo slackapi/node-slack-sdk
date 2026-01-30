@@ -2,7 +2,7 @@
 
 # Interface: TeamJoinEvent
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:17
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:17
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/team.d.ts:17
 cache_ts: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:92
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:92
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/team.d.ts:92
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:93
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:93
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/team.d.ts:93
 type: "team_join";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:18
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:18
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/team.d.ts:18
 user: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:19
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:19
 
 #### color
 
@@ -234,11 +234,11 @@ optional email: string;
 
 ```ts
 fields: 
-  | null
   | {
 [key: string]: object;
 }
-  | [];
+  | []
+  | null;
 ```
 
 ##### profile.first\_name

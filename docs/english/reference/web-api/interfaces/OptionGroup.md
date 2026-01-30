@@ -2,7 +2,7 @@
 
 # Interface: OptionGroup
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:104
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:104
 
 ## Description
 
@@ -20,7 +20,7 @@ Defines a way to group options in a select or multi-select menu.
 label: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:109
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:109
 
 #### Description
 
@@ -35,7 +35,7 @@ Maximum length for the `text` in this field is 75 characters.
 options: Option[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:113
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:113
 
 #### Description
 

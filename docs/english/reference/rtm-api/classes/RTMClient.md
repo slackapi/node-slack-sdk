@@ -2,7 +2,7 @@
 
 # Class: RTMClient
 
-Defined in: [src/RTMClient.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L63)
+Defined in: [packages/rtm-api/src/RTMClient.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L63)
 
 An RTMClient allows programs to communicate with the [Platform's RTM API](https://docs.slack.dev/legacy/legacy-rtm-api|Slack).
 This object uses the EventEmitter pattern to dispatch incoming events and has several methods for sending outgoing
@@ -20,7 +20,7 @@ messages.
 new RTMClient(token, __namedParameters): RTMClient;
 ```
 
-Defined in: [src/RTMClient.ts:367](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L367)
+Defined in: [packages/rtm-api/src/RTMClient.ts:367](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L367)
 
 #### Parameters
 
@@ -50,7 +50,7 @@ EventEmitter.constructor
 optional activeTeamId: string;
 ```
 
-Defined in: [src/RTMClient.ts:83](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L83)
+Defined in: [packages/rtm-api/src/RTMClient.ts:83](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L83)
 
 The team ID for the workspace the client is connected to.
 
@@ -62,7 +62,7 @@ The team ID for the workspace the client is connected to.
 optional activeUserId: string;
 ```
 
-Defined in: [src/RTMClient.ts:78](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L78)
+Defined in: [packages/rtm-api/src/RTMClient.ts:78](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L78)
 
 The user ID for the connected client.
 
@@ -74,7 +74,7 @@ The user ID for the connected client.
 authenticated: boolean = false;
 ```
 
-Defined in: [src/RTMClient.ts:73](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L73)
+Defined in: [packages/rtm-api/src/RTMClient.ts:73](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L73)
 
 Whether or not the client has authenticated to the RTM API. This occurs when the connect method
 completes, and a WebSocket URL is available for the client's connection.
@@ -87,7 +87,7 @@ completes, and a WebSocket URL is available for the client's connection.
 connected: boolean = false;
 ```
 
-Defined in: [src/RTMClient.ts:67](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L67)
+Defined in: [packages/rtm-api/src/RTMClient.ts:67](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L67)
 
 Whether or not the client is currently connected to the RTM API
 
@@ -99,7 +99,7 @@ Whether or not the client is currently connected to the RTM API
 static prefixed: string | boolean;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:9
+Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:9
 
 #### Inherited from
 
@@ -118,7 +118,7 @@ addListener<T>(
    context?): this;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:45
+Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:45
 
 #### Type Parameters
 
@@ -163,7 +163,7 @@ addOutgoingEvent(
 body?): Promise<RTMCallResult>;
 ```
 
-Defined in: [src/RTMClient.ts:525](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L525)
+Defined in: [packages/rtm-api/src/RTMClient.ts:525](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L525)
 
 Generic method for sending an outgoing message of an arbitrary type. This method guards the higher-level methods
 from concern of which state the client is in, because it places all messages into a queue. The tasks on the queue
@@ -211,7 +211,7 @@ addOutgoingEvent(
 body?): Promise<undefined>;
 ```
 
-Defined in: [src/RTMClient.ts:526](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L526)
+Defined in: [packages/rtm-api/src/RTMClient.ts:526](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L526)
 
 Generic method for sending an outgoing message of an arbitrary type. This method guards the higher-level methods
 from concern of which state the client is in, because it places all messages into a queue. The tasks on the queue
@@ -258,7 +258,7 @@ the message body
 disconnect(): Promise<void>;
 ```
 
-Defined in: [src/RTMClient.ts:464](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L464)
+Defined in: [packages/rtm-api/src/RTMClient.ts:464](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L464)
 
 End an RTM session. After this method is called no messages will be sent or received unless you call
 start() again later.
@@ -275,7 +275,7 @@ start() again later.
 emit<T>(event, ...args): boolean;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:32
+Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:32
 
 Calls each of the listeners registered for a given event.
 
@@ -313,7 +313,7 @@ EventEmitter.emit
 eventNames(): (string | symbol)[];
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:15
+Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:15
 
 Return an array listing the events for which the emitter has registered
 listeners.
@@ -336,7 +336,7 @@ EventEmitter.eventNames
 listenerCount(event): number;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:27
+Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:27
 
 Return the number of listeners listening to a given event.
 
@@ -364,7 +364,7 @@ EventEmitter.listenerCount
 listeners<T>(event): (...args) => void[];
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:20
+Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:20
 
 Return the listeners registered for a given event.
 
@@ -402,7 +402,7 @@ off<T>(
    once?): this;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:69
+Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:69
 
 #### Type Parameters
 
@@ -449,7 +449,7 @@ on<T>(
    context?): this;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:40
+Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:40
 
 Add a listener for a given event.
 
@@ -494,7 +494,7 @@ once<T>(
    context?): this;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:54
+Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:54
 
 Add a one-time listener for a given event.
 
@@ -536,7 +536,7 @@ EventEmitter.once
 removeAllListeners(event?): this;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:79
+Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:79
 
 Remove all listeners, or those of the specified event.
 
@@ -568,7 +568,7 @@ removeListener<T>(
    once?): this;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:63
+Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:63
 
 Remove the listeners of a given event.
 
@@ -614,7 +614,7 @@ EventEmitter.removeListener
 send(type, body): Promise<number>;
 ```
 
-Defined in: [src/RTMClient.ts:578](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L578)
+Defined in: [packages/rtm-api/src/RTMClient.ts:578](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L578)
 
 Generic method for sending an outgoing message of an arbitrary type. The main difference between this method and
 addOutgoingEvent() is that this method does not use a queue so it can only be used while the client is ready
@@ -646,7 +646,7 @@ the message body
 sendMessage(text, conversationId): Promise<RTMCallResult>;
 ```
 
-Defined in: [src/RTMClient.ts:487](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L487)
+Defined in: [packages/rtm-api/src/RTMClient.ts:487](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L487)
 
 Send a simple message to a public channel, private channel, DM, or MPDM.
 
@@ -676,7 +676,7 @@ A conversation ID for the destination of this message.
 sendTyping(conversationId): Promise<void>;
 ```
 
-Defined in: [src/RTMClient.ts:495](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L495)
+Defined in: [packages/rtm-api/src/RTMClient.ts:495](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L495)
 
 Sends a typing indicator to indicate that the user with `activeUserId` is typing.
 
@@ -700,7 +700,7 @@ The destination for where the typing indicator should be shown.
 start(options?): Promise<WebAPICallResult>;
 ```
 
-Defined in: [src/RTMClient.ts:438](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L438)
+Defined in: [packages/rtm-api/src/RTMClient.ts:438](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L438)
 
 Begin an RTM session using the provided options. This method must be called before any messages can
 be sent or received.
@@ -723,7 +723,7 @@ be sent or received.
 subscribePresence(userIds): Promise<void>;
 ```
 
-Defined in: [src/RTMClient.ts:504](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L504)
+Defined in: [packages/rtm-api/src/RTMClient.ts:504](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L504)
 
 Subscribes this client to presence changes for only the given `userIds`.
 

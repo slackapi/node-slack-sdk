@@ -6,7 +6,7 @@
 type SlackListsCreateResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/SlackListsCreateResponse.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/SlackListsCreateResponse.ts#L4)
+Defined in: [packages/web-api/src/types/response/SlackListsCreateResponse.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/SlackListsCreateResponse.ts#L4)
 
 ## Type Declaration
 

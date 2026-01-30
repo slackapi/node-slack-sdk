@@ -2,7 +2,7 @@
 
 # Interface: AdminConversationsRestrictAccessRemoveGroupArguments
 
-Defined in: [src/types/request/admin/conversations.ts:155](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L155)
+Defined in: [packages/web-api/src/types/request/admin/conversations.ts:155](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L155)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/conversations.ts:155](https://github.com/sl
 channel_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L85)
+Defined in: [packages/web-api/src/types/request/common.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L85)
 
 #### Description
 
@@ -36,7 +36,7 @@ ChannelID.channel_id
 group_id: string;
 ```
 
-Defined in: [src/types/request/admin/conversations.ts:29](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L29)
+Defined in: [packages/web-api/src/types/request/admin/conversations.ts:29](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L29)
 
 #### Description
 
@@ -56,7 +56,7 @@ GroupID.group_id
 optional team_id: string;
 ```
 
-Defined in: [src/types/request/admin/conversations.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L38)
+Defined in: [packages/web-api/src/types/request/admin/conversations.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L38)
 
 #### Description
 
@@ -77,7 +77,7 @@ RestrictAccessTeamID.team_id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

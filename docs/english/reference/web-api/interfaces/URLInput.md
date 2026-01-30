@@ -2,7 +2,7 @@
 
 # Interface: URLInput
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:604
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:604
 
 ## Description
 
@@ -25,7 +25,7 @@ Allows user to enter a URL into a single-line field.
 optional action_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
 [identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
@@ -43,7 +43,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 optional dispatch_action_config: DispatchActionConfig;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:28
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:28
 
 #### Description
 
@@ -62,7 +62,7 @@ A [DispatchActionConfig](DispatchActionConfig.md) object that determines when du
 optional focus_on_load: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
 
 #### Description
 
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_value: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:612
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:612
 
 #### Description
 
@@ -96,7 +96,7 @@ The initial value in the URL input when it is loaded.
 optional placeholder: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:49
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:49
 
 #### Description
 
@@ -115,7 +115,7 @@ length for the `text` field in this object is 150 characters.
 type: "url_text_input";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:608
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:608
 
 #### Description
 

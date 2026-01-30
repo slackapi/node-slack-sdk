@@ -2,7 +2,7 @@
 
 # Interface: Logger
 
-Defined in: node\_modules/@slack/logger/dist/index.d.ts:13
+Defined in: packages/oauth/node\_modules/@slack/logger/dist/index.d.ts:13
 
 Interface for objects where objects in this package's logs can be sent (can be used as `logger` option).
 
@@ -14,7 +14,7 @@ Interface for objects where objects in this package's logs can be sent (can be u
 debug(...msg): void;
 ```
 
-Defined in: node\_modules/@slack/logger/dist/index.d.ts:18
+Defined in: packages/oauth/node\_modules/@slack/logger/dist/index.d.ts:18
 
 Output debug message
 
@@ -38,7 +38,7 @@ any data to log
 error(...msg): void;
 ```
 
-Defined in: node\_modules/@slack/logger/dist/index.d.ts:33
+Defined in: packages/oauth/node\_modules/@slack/logger/dist/index.d.ts:33
 
 Output error message
 
@@ -62,7 +62,7 @@ any data to log
 getLevel(): LogLevel;
 ```
 
-Defined in: node\_modules/@slack/logger/dist/index.d.ts:43
+Defined in: packages/oauth/node\_modules/@slack/logger/dist/index.d.ts:43
 
 Return the current LogLevel.
 
@@ -78,7 +78,7 @@ Return the current LogLevel.
 info(...msg): void;
 ```
 
-Defined in: node\_modules/@slack/logger/dist/index.d.ts:23
+Defined in: packages/oauth/node\_modules/@slack/logger/dist/index.d.ts:23
 
 Output info message
 
@@ -102,7 +102,7 @@ any data to log
 setLevel(level): void;
 ```
 
-Defined in: node\_modules/@slack/logger/dist/index.d.ts:39
+Defined in: packages/oauth/node\_modules/@slack/logger/dist/index.d.ts:39
 
 This disables all logging below the given level, so that after a log.setLevel("warn") call log.warn("something")
 or log.error("something") will output messages, but log.info("something") will not.
@@ -127,7 +127,7 @@ as a string, like 'error' (case-insensitive)
 setName(name): void;
 ```
 
-Defined in: node\_modules/@slack/logger/dist/index.d.ts:49
+Defined in: packages/oauth/node\_modules/@slack/logger/dist/index.d.ts:49
 
 This allows the instance to be named so that they can easily be filtered when many loggers are sending output
 to the same destination.
@@ -152,7 +152,7 @@ as a string, will be output with every log after the level
 warn(...msg): void;
 ```
 
-Defined in: node\_modules/@slack/logger/dist/index.d.ts:28
+Defined in: packages/oauth/node\_modules/@slack/logger/dist/index.d.ts:28
 
 Output warn message
 

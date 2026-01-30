@@ -2,7 +2,7 @@
 
 # Interface: CodedError
 
-Defined in: [src/errors.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/errors.ts#L6)
+Defined in: [packages/rtm-api/src/errors.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/errors.ts#L6)
 
 All errors produced by this package adhere to this interface
 
@@ -26,7 +26,7 @@ All errors produced by this package adhere to this interface
 code: ErrorCode;
 ```
 
-Defined in: [src/errors.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/errors.ts#L7)
+Defined in: [packages/rtm-api/src/errors.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/errors.ts#L7)
 
 #### Overrides
 
@@ -42,7 +42,7 @@ NodeJS.ErrnoException.code
 optional errno: number;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:196
+Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:196
 
 #### Inherited from
 
@@ -58,7 +58,7 @@ NodeJS.ErrnoException.errno
 message: string;
 ```
 
-Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
+Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1077
 
 #### Inherited from
 
@@ -74,7 +74,7 @@ NodeJS.ErrnoException.message
 name: string;
 ```
 
-Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1075
+Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
 
 #### Inherited from
 
@@ -90,7 +90,7 @@ NodeJS.ErrnoException.name
 optional path: string;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:198
+Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:198
 
 #### Inherited from
 
@@ -106,7 +106,7 @@ NodeJS.ErrnoException.path
 optional stack: string;
 ```
 
-Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1077
+Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078
 
 #### Inherited from
 
@@ -122,7 +122,7 @@ NodeJS.ErrnoException.stack
 optional syscall: string;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:199
+Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:199
 
 #### Inherited from
 
