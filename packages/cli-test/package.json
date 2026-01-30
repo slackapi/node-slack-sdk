@@ -17,7 +17,10 @@
   "engines": {
     "node": ">=18.15.5"
   },
-  "repository": "slackapi/node-slack-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slackapi/node-slack-sdk.git"
+  },
   "publishConfig": {
     "access": "public"
   },
