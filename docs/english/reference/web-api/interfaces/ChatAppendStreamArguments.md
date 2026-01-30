@@ -2,7 +2,7 @@
 
 # Interface: ChatAppendStreamArguments
 
-Defined in: [packages/web-api/src/types/request/chat.ts:172](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L172)
+Defined in: [packages/web-api/src/types/request/chat.ts:171](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L171)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/web-api/src/types/request/chat.ts:172](https://github.com/
 channel: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/chat.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L22)
+Defined in: [packages/web-api/src/types/request/chat.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L21)
 
 #### Description
 
@@ -36,22 +36,7 @@ ChannelAndTS.channel
 optional chunks: AnyChunk[];
 ```
 
-Defined in: [packages/web-api/src/types/request/chat.ts:177](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L177)
-
-#### Description
-
-An array of [chunk objects](https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming) to append to the stream.
-Either `markdown_text` or `chunks` is required.
-
-***
-
-### markdown\_text?
-
-```ts
-optional markdown_text: string;
-```
-
-Defined in: [packages/web-api/src/types/request/chat.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L63)
+Defined in: [packages/web-api/src/types/request/chat.ts:62](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L62)
 
 #### Description
 
@@ -97,7 +82,7 @@ TokenOverridable.token
 ts: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/chat.ts:26](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L26)
+Defined in: [packages/web-api/src/types/request/chat.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L25)
 
 #### Description
 

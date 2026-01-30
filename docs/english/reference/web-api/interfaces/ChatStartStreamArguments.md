@@ -2,7 +2,7 @@
 
 # Interface: ChatStartStreamArguments
 
-Defined in: [packages/web-api/src/types/request/chat.ts:242](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L242)
+Defined in: [packages/web-api/src/types/request/chat.ts:235](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L235)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/web-api/src/types/request/chat.ts:242](https://github.com/
 channel: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/chat.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L22)
+Defined in: [packages/web-api/src/types/request/chat.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L21)
 
 #### Description
 
@@ -51,7 +51,7 @@ Either `markdown_text` or `chunks` is required.
 optional markdown_text: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/chat.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L63)
+Defined in: [packages/web-api/src/types/request/chat.ts:62](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L62)
 
 #### Description
 
@@ -77,7 +77,7 @@ Partial.markdown_text
 optional recipient_team_id: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/chat.ts:252](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L252)
+Defined in: [packages/web-api/src/types/request/chat.ts:240](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L240)
 
 #### Description
 
@@ -92,7 +92,7 @@ This is required when starting a streaming conversation outside of a DM.
 optional recipient_user_id: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/chat.ts:257](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L257)
+Defined in: [packages/web-api/src/types/request/chat.ts:245](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L245)
 
 #### Description
 
@@ -122,7 +122,7 @@ Specifies how tasks are displayed in the message. A "timeline" displays individu
 thread_ts: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/chat.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L92)
+Defined in: [packages/web-api/src/types/request/chat.ts:91](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L91)
 
 #### Description
 

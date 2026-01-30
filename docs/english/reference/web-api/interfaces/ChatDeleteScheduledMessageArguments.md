@@ -2,7 +2,7 @@
 
 # Interface: ChatDeleteScheduledMessageArguments
 
-Defined in: [packages/web-api/src/types/request/chat.ts:184](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L184)
+Defined in: [packages/web-api/src/types/request/chat.ts:177](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L177)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/web-api/src/types/request/chat.ts:184](https://github.com/
 optional as_user: boolean;
 ```
 
-Defined in: [packages/web-api/src/types/request/chat.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L38)
+Defined in: [packages/web-api/src/types/request/chat.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L37)
 
 #### Description
 
@@ -38,7 +38,7 @@ AsUser.as_user
 channel: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/chat.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L22)
+Defined in: [packages/web-api/src/types/request/chat.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L21)
 
 #### Description
 
@@ -58,7 +58,7 @@ Channel.channel
 scheduled_message_id: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/chat.ts:186](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L186)
+Defined in: [packages/web-api/src/types/request/chat.ts:179](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L179)
 
 #### Description
 

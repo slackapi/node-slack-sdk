@@ -19,10 +19,12 @@
     "packages/webhook"
   ],
   "scripts": {
+    "changeset": "npx @changesets/cli",
     "lint": "npx @biomejs/biome check packages",
     "lint:fix": "npx @biomejs/biome check --write packages"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.0.5"
+    "@biomejs/biome": "^2.0.5",
+    "@changesets/cli": "^2.29.8"
   }
 }

@@ -2,7 +2,7 @@
 
 # Interface: ChatGetPermalinkArguments
 
-Defined in: [packages/web-api/src/types/request/chat.ts:190](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L190)
+Defined in: [packages/web-api/src/types/request/chat.ts:183](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L183)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [packages/web-api/src/types/request/chat.ts:190](https://github.com/
 channel: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/chat.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L22)
+Defined in: [packages/web-api/src/types/request/chat.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L21)
 
 #### Description
 
@@ -36,7 +36,7 @@ ChannelAndMessageTS.channel
 message_ts: string;
 ```
 
-Defined in: [packages/web-api/src/types/request/chat.ts:30](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L30)
+Defined in: [packages/web-api/src/types/request/chat.ts:29](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L29)
 
 #### Description
 
