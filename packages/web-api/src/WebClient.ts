@@ -159,7 +159,6 @@ export type PageAccumulator<R extends PageReducer> = R extends (
   accumulator: infer A | undefined,
   page: WebAPICallResult,
   index: number,
-  // biome-ignore lint/suspicious/noRedeclare: TODO: what is being redeclared here?
 ) => infer A
   ? A
   : never;
