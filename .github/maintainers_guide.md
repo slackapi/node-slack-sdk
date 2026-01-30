@@ -145,6 +145,8 @@ This project is versioned using [Semantic Versioning](http://semver.org/), parti
 
 One package that expands upon the standard major.minor.patch version schema typically associated with Semantic Versioning is the `@slack/cli-test` package. This package employs standard major.minor.patch version, in addition to a [build metadata suffix](https://semver.org/#spec-item-10) suffix of the form `+cli.X.Y.Z`, e.g. `0.1.0+cli.2.24.0`. The version after `+cli.` communicates compatibility between the `@slack/cli-test` package and the [Slack CLI](https://docs.slack.dev/tools/slack-cli/) itself.
 
+> The `@slack/cli-test` package must be published manually because our automated release workflow does not support semver build metadata. See [#2483](https://github.com/slackapi/node-slack-sdk/pull/2483) and [#2492](https://github.com/slackapi/node-slack-sdk/pull/2492) for more context.
+
 ### 🪵 Branches
 
 `main` is where active development occurs. Long running named feature branches are occasionally created for collaboration on a feature that has a large scope (because everyone cannot push commits to another person's open Pull Request). After a major version increment, a maintenance branch for the older major version is left open (e.g. `v3`, `v4`, etc).

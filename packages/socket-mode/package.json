@@ -27,7 +27,10 @@
     "node": ">= 18",
     "npm": ">= 8.6.0"
   },
-  "repository": "slackapi/node-slack-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slackapi/node-slack-sdk.git"
+  },
   "homepage": "https://docs.slack.dev/tools/node-slack-sdk/socket-mode/",
   "publishConfig": {
     "access": "public"
