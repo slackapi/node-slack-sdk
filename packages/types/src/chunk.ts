@@ -17,7 +17,7 @@ export interface MarkdownTextChunk extends Chunk {
 }
 
 /**
- * An updated title of plans for task and tool calls.
+ * Used for displaying an updated title of a plan.
  * https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming
  */
 export interface PlanUpdateChunk extends Chunk {
@@ -26,7 +26,7 @@ export interface PlanUpdateChunk extends Chunk {
 }
 
 /**
- * Used for displaying tool execution progress in a timeline-style UI.
+ * Used for displaying task progress in a timeline-style UI.
  * https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming
  */
 export interface TaskUpdateChunk extends Chunk {
