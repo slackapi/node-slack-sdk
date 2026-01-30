@@ -2,7 +2,7 @@
 
 # ~~Interface: WorkflowStepView~~
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:61
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:61
 
 [modal](https://docs.slack.dev/legacy/legacy-steps-from-appsConfiguration) for [legacy Workflow Steps from Apps](https://docs.slack.dev/legacy/legacy-steps-from-apps).
 
@@ -22,7 +22,7 @@ Steps from Apps are deprecated and will no longer be executed starting September
 blocks: AnyBlock[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:5
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:5
 
 #### Description
 
@@ -42,7 +42,7 @@ BaseView.blocks
 optional callback_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:18
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:18
 
 #### Description
 
@@ -67,7 +67,7 @@ BaseView.callback_id
 optional external_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:20
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:20
 
 #### Description
 
@@ -87,7 +87,7 @@ BaseView.external_id
 optional private_metadata: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:12
 
 #### Description
 
@@ -110,7 +110,7 @@ BaseView.private_metadata
 optional submit_disabled: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:67
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:67
 
 #### Description
 
@@ -125,4 +125,4 @@ Defaults to `false`.
 type: "workflow_step";
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:62
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:62

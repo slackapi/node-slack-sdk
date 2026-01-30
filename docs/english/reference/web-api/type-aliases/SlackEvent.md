@@ -90,7 +90,7 @@ type SlackEvent =
   | WorkflowStepExecuteEvent;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/index.d.ts:58
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/index.d.ts:58
 
 All known event types in Slack's Events API
 Please refer to https://docs.slack.dev/reference/events for more details

@@ -2,7 +2,7 @@
 
 # Interface: PinRemovedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:44
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:44
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:44
 channel_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:47
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:47
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:47
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:57
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:57
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:57
 has_pins: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:56
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:56
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:56
 item: PinnedItem;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:48
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:48
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:48
 item_user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:49
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:49
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:49
 pin_count: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:50
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:50
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:50
 pinned_info: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:51
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:51
 
 #### channel
 
@@ -100,7 +100,7 @@ pinned_ts: number;
 type: "pin_removed";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:45
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:45
 
 ***
 
@@ -110,4 +110,4 @@ Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:45
 user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:46
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:46

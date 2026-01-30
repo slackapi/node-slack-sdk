@@ -6,7 +6,7 @@
 type AdminInviteRequestsApproveResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/AdminInviteRequestsApproveResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminInviteRequestsApproveResponse.ts#L11)
+Defined in: [packages/web-api/src/types/response/AdminInviteRequestsApproveResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminInviteRequestsApproveResponse.ts#L11)
 
 ## Type Declaration
 

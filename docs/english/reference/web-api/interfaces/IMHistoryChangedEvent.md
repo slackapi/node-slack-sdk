@@ -2,7 +2,7 @@
 
 # Interface: IMHistoryChangedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/im.d.ts:14
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/im.d.ts:14
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/im.d.ts:14
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/im.d.ts:18
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/im.d.ts:18
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/im.d.ts:18
 latest: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/im.d.ts:16
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/im.d.ts:16
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/im.d.ts:16
 ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/im.d.ts:17
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/im.d.ts:17
 
 ***
 
@@ -42,4 +42,4 @@ Defined in: node\_modules/@slack/types/dist/events/im.d.ts:17
 type: "im_history_changed";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/im.d.ts:15
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/im.d.ts:15

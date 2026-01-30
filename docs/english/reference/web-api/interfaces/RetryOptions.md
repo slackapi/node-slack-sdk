@@ -2,7 +2,7 @@
 
 # Interface: RetryOptions
 
-Defined in: [src/retry-policies.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/retry-policies.ts#L6)
+Defined in: [packages/web-api/src/retry-policies.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/retry-policies.ts#L6)
 
 Options to create retry policies. Extends from https://github.com/tim-kos/node-retry.
 
@@ -18,7 +18,7 @@ Options to create retry policies. Extends from https://github.com/tim-kos/node-r
 optional factor: number;
 ```
 
-Defined in: node\_modules/@types/retry/index.d.ts:125
+Defined in: packages/web-api/node\_modules/@types/retry/index.d.ts:125
 
 The exponential factor to use.
 
@@ -42,7 +42,7 @@ OperationOptions.factor
 optional forever: boolean;
 ```
 
-Defined in: node\_modules/@types/retry/index.d.ts:88
+Defined in: packages/web-api/node\_modules/@types/retry/index.d.ts:88
 
 Whether to retry forever.
 
@@ -66,7 +66,7 @@ OperationOptions.forever
 optional maxRetryTime: number;
 ```
 
-Defined in: node\_modules/@types/retry/index.d.ts:98
+Defined in: packages/web-api/node\_modules/@types/retry/index.d.ts:98
 
 The maximum time (in milliseconds) that the retried operation is allowed to run.
 
@@ -90,7 +90,7 @@ OperationOptions.maxRetryTime
 optional maxTimeout: number;
 ```
 
-Defined in: node\_modules/@types/retry/index.d.ts:135
+Defined in: packages/web-api/node\_modules/@types/retry/index.d.ts:135
 
 The maximum number of milliseconds between two retries.
 
@@ -114,7 +114,7 @@ OperationOptions.maxTimeout
 optional minTimeout: number;
 ```
 
-Defined in: node\_modules/@types/retry/index.d.ts:130
+Defined in: packages/web-api/node\_modules/@types/retry/index.d.ts:130
 
 The number of milliseconds before starting the first retry.
 
@@ -138,7 +138,7 @@ OperationOptions.minTimeout
 optional randomize: boolean;
 ```
 
-Defined in: node\_modules/@types/retry/index.d.ts:140
+Defined in: packages/web-api/node\_modules/@types/retry/index.d.ts:140
 
 Randomizes the timeouts by multiplying a factor between 1-2.
 
@@ -162,7 +162,7 @@ OperationOptions.randomize
 optional retries: number;
 ```
 
-Defined in: node\_modules/@types/retry/index.d.ts:109
+Defined in: packages/web-api/node\_modules/@types/retry/index.d.ts:109
 
 The maximum amount of times to retry the operation.
 
@@ -186,7 +186,7 @@ OperationOptions.retries
 optional unref: boolean;
 ```
 
-Defined in: node\_modules/@types/retry/index.d.ts:93
+Defined in: packages/web-api/node\_modules/@types/retry/index.d.ts:93
 
 Whether to [unref](https://nodejs.org/api/timers.html#timers_unref) the setTimeout's.
 

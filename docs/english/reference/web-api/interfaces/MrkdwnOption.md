@@ -2,7 +2,7 @@
 
 # Interface: MrkdwnOption
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:80
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:80
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:8
 optional description: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:78
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:78
 
 #### Description
 
@@ -37,7 +37,7 @@ OptionDescriptor.description
 text: MrkdwnElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:85
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:85
 
 #### Description
 
@@ -52,7 +52,7 @@ radio buttons and checkboxes. Maximum length for the `text` in this field is 75 
 optional url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:73
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:73
 
 #### Description
 
@@ -73,7 +73,7 @@ OptionDescriptor.url
 optional value: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:68
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:68
 
 #### Description
 

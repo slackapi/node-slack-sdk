@@ -2,7 +2,7 @@
 
 # Interface: ChannelUnsharedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:78
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:78
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:78
 channel: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:81
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:81
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:81
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:83
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:83
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:83
 is_ext_shared: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:82
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:82
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:82
 previously_connected_team_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:80
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:80
 
 ***
 
@@ -52,4 +52,4 @@ Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:80
 type: "channel_unshared";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:79
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:79

@@ -2,7 +2,7 @@
 
 # Interface: PinAddedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:30
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:30
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:30
 channel_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:33
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:33
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:33
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:42
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:42
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:42
 item: PinnedItem;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:34
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:34
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:34
 item_user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:35
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:35
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:35
 pin_count: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:36
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:36
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:36
 pinned_info: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:37
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:37
 
 #### channel
 
@@ -90,7 +90,7 @@ pinned_ts: number;
 type: "pin_added";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:31
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:31
 
 ***
 
@@ -100,4 +100,4 @@ Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:31
 user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/pin.d.ts:32
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/pin.d.ts:32

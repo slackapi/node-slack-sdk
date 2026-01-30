@@ -2,7 +2,7 @@
 
 # Interface: RadioButtons
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:560
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:560
 
 ## Description
 
@@ -25,7 +25,7 @@ Allows users to choose one item from a list of possible options.
 optional action_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
 [identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
@@ -43,7 +43,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 optional confirm: ConfirmationDialog;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
 
 #### Description
 
@@ -62,7 +62,7 @@ with.
 optional focus_on_load: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
 
 #### Description
 
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_option: Option;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:569
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:569
 
 #### Description
 
@@ -97,7 +97,7 @@ be selected when the radio button group initially loads.
 options: Option[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:573
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:573
 
 #### Description
 
@@ -111,7 +111,7 @@ An array of [Option](../type-aliases/Option.md) objects. A maximum of 10 options
 type: "radio_buttons";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:564
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:564
 
 #### Description
 

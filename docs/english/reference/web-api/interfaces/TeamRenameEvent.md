@@ -2,7 +2,7 @@
 
 # Interface: TeamRenameEvent
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:95
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:95
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/team.d.ts:95
 name: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:97
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:97
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: node\_modules/@slack/types/dist/events/team.d.ts:97
 type: "team_rename";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:96
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:96

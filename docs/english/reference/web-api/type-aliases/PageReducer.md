@@ -6,7 +6,7 @@
 type PageReducer<A> = (accumulator, page, index) => A;
 ```
 
-Defined in: [src/WebClient.ts:156](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L156)
+Defined in: [packages/web-api/src/WebClient.ts:156](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/WebClient.ts#L156)
 
 ## Type Parameters
 

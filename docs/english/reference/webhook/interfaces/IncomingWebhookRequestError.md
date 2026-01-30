@@ -2,7 +2,7 @@
 
 # Interface: IncomingWebhookRequestError
 
-Defined in: [src/errors.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L20)
+Defined in: [packages/webhook/src/errors.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L20)
 
 All errors produced by this package adhere to this interface
 
@@ -18,7 +18,7 @@ All errors produced by this package adhere to this interface
 code: RequestError;
 ```
 
-Defined in: [src/errors.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L21)
+Defined in: [packages/webhook/src/errors.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L21)
 
 #### Overrides
 
@@ -32,7 +32,7 @@ Defined in: [src/errors.ts:21](https://github.com/slackapi/node-slack-sdk/blob/m
 optional errno: number;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:196
+Defined in: packages/webhook/node\_modules/@types/node/globals.d.ts:196
 
 #### Inherited from
 
@@ -74,7 +74,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
 original: Error;
 ```
 
-Defined in: [src/errors.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L22)
+Defined in: [packages/webhook/src/errors.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L22)
 
 ***
 
@@ -84,7 +84,7 @@ Defined in: [src/errors.ts:22](https://github.com/slackapi/node-slack-sdk/blob/m
 optional path: string;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:198
+Defined in: packages/webhook/node\_modules/@types/node/globals.d.ts:198
 
 #### Inherited from
 
@@ -112,7 +112,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078
 optional syscall: string;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:199
+Defined in: packages/webhook/node\_modules/@types/node/globals.d.ts:199
 
 #### Inherited from
 

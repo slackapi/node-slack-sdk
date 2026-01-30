@@ -2,7 +2,7 @@
 
 # Interface: ConversationsSelect
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:348
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:348
 
 ## Description
 
@@ -26,7 +26,7 @@ visible to the current user in the active workspace.
 optional action_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
 [identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
@@ -44,7 +44,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 optional confirm: ConfirmationDialog;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
 
 #### Description
 
@@ -63,7 +63,7 @@ with.
 optional default_to_current_conversation: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:362
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:362
 
 #### Description
 
@@ -78,7 +78,7 @@ modal, if available. Default is `false`.
 optional filter: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:366
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:366
 
 #### exclude\_bot\_users?
 
@@ -110,7 +110,7 @@ A filter object that reduces the list of available conversations using the speci
 optional focus_on_load: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
 
 #### Description
 
@@ -130,7 +130,7 @@ Defaults to `false`.
 optional initial_conversation: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:357
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:357
 
 #### Description
 
@@ -145,7 +145,7 @@ The ID of any valid conversation to be pre-selected when the menu loads. If
 optional placeholder: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:49
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:49
 
 #### Description
 
@@ -164,7 +164,7 @@ length for the `text` field in this object is 150 characters.
 optional response_url_enabled: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:58
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:58
 
 #### Description
 
@@ -185,7 +185,7 @@ for the message will be determined by the value of this select menu.
 type: "conversations_select";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:352
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:352
 
 #### Description
 

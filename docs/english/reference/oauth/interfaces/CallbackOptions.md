@@ -2,7 +2,7 @@
 
 # Interface: CallbackOptions
 
-Defined in: [src/callback-options.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L7)
+Defined in: [packages/oauth/src/callback-options.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L7)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [src/callback-options.ts:7](https://github.com/slackapi/node-slack-s
 optional afterInstallation: (installation, options, callbackReq, callbackRes) => Promise<boolean>;
 ```
 
-Defined in: [src/callback-options.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L33)
+Defined in: [packages/oauth/src/callback-options.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L33)
 
 An additional logic to run right after executing the Slack app installation with the given OAuth code parameter.
 
@@ -53,7 +53,7 @@ to build complete HTTP response for end-users.
 optional beforeInstallation: (options, callbackReq, callbackRes) => Promise<boolean>;
 ```
 
-Defined in: [src/callback-options.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L17)
+Defined in: [packages/oauth/src/callback-options.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L17)
 
 An additional logic to run right before executing the Slack app installation with the given OAuth code parameter.
 
@@ -89,7 +89,7 @@ to build a complete HTTP response for end-users.
 optional failure: (error, options, callbackReq, callbackRes) => void;
 ```
 
-Defined in: [src/callback-options.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L63)
+Defined in: [packages/oauth/src/callback-options.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L63)
 
 #### Parameters
 
@@ -121,7 +121,7 @@ Defined in: [src/callback-options.ts:63](https://github.com/slackapi/node-slack-
 optional failureAsync: (error, options, callbackReq, callbackRes) => Promise<void>;
 ```
 
-Defined in: [src/callback-options.ts:72](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L72)
+Defined in: [packages/oauth/src/callback-options.ts:72](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L72)
 
 #### Parameters
 
@@ -153,7 +153,7 @@ Defined in: [src/callback-options.ts:72](https://github.com/slackapi/node-slack-
 optional success: (installation, options, callbackReq, callbackRes) => void;
 ```
 
-Defined in: [src/callback-options.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L43)
+Defined in: [packages/oauth/src/callback-options.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L43)
 
 #### Parameters
 
@@ -185,7 +185,7 @@ Defined in: [src/callback-options.ts:43](https://github.com/slackapi/node-slack-
 optional successAsync: (installation, options, callbackReq, callbackRes) => Promise<void>;
 ```
 
-Defined in: [src/callback-options.ts:52](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L52)
+Defined in: [packages/oauth/src/callback-options.ts:52](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L52)
 
 #### Parameters
 

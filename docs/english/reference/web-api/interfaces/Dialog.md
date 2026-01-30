@@ -2,7 +2,7 @@
 
 # ~~Interface: Dialog~~
 
-Defined in: node\_modules/@slack/types/dist/dialog.d.ts:5
+Defined in: packages/web-api/node\_modules/@slack/types/dist/dialog.d.ts:5
 
 Reusable shapes for argument values
 
@@ -18,7 +18,7 @@ Dialogs are a deprecated surface in Slack. For more details on how to upgrade, c
 callback_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/dialog.d.ts:7
+Defined in: packages/web-api/node\_modules/@slack/types/dist/dialog.d.ts:7
 
 ***
 
@@ -28,7 +28,7 @@ Defined in: node\_modules/@slack/types/dist/dialog.d.ts:7
 elements: object[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/dialog.d.ts:8
+Defined in: packages/web-api/node\_modules/@slack/types/dist/dialog.d.ts:8
 
 #### ~~data\_source?~~
 
@@ -128,7 +128,7 @@ optional value: string;
 optional notify_on_cancel: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/dialog.d.ts:29
+Defined in: packages/web-api/node\_modules/@slack/types/dist/dialog.d.ts:29
 
 ***
 
@@ -138,7 +138,7 @@ Defined in: node\_modules/@slack/types/dist/dialog.d.ts:29
 optional state: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/dialog.d.ts:30
+Defined in: packages/web-api/node\_modules/@slack/types/dist/dialog.d.ts:30
 
 ***
 
@@ -148,7 +148,7 @@ Defined in: node\_modules/@slack/types/dist/dialog.d.ts:30
 optional submit_label: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/dialog.d.ts:28
+Defined in: packages/web-api/node\_modules/@slack/types/dist/dialog.d.ts:28
 
 ***
 
@@ -158,4 +158,4 @@ Defined in: node\_modules/@slack/types/dist/dialog.d.ts:28
 title: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/dialog.d.ts:6
+Defined in: packages/web-api/node\_modules/@slack/types/dist/dialog.d.ts:6

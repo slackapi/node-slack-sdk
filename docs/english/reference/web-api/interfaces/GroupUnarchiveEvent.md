@@ -2,7 +2,7 @@
 
 # Interface: GroupUnarchiveEvent
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:49
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:49
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:49
 actor_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:52
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:52
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:52
 channel: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:51
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:51
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:51
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:53
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:53
 
 ***
 
@@ -42,4 +42,4 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:53
 type: "group_unarchive";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:50
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:50

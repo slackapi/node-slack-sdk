@@ -2,7 +2,7 @@
 
 # Interface: OAuthV2TokenRefreshResponse
 
-Defined in: [src/install-provider.ts:791](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L791)
+Defined in: [packages/oauth/src/install-provider.ts:791](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L791)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/install-provider.ts:791](https://github.com/slackapi/node-slack
 access_token: string;
 ```
 
-Defined in: [src/install-provider.ts:795](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L795)
+Defined in: [packages/oauth/src/install-provider.ts:795](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L795)
 
 ***
 
@@ -26,7 +26,7 @@ Defined in: [src/install-provider.ts:795](https://github.com/slackapi/node-slack
 app_id: string;
 ```
 
-Defined in: [src/install-provider.ts:792](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L792)
+Defined in: [packages/oauth/src/install-provider.ts:792](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L792)
 
 ***
 
@@ -36,7 +36,7 @@ Defined in: [src/install-provider.ts:792](https://github.com/slackapi/node-slack
 optional bot_user_id: string;
 ```
 
-Defined in: [src/install-provider.ts:798](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L798)
+Defined in: [packages/oauth/src/install-provider.ts:798](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L798)
 
 ***
 
@@ -44,14 +44,14 @@ Defined in: [src/install-provider.ts:798](https://github.com/slackapi/node-slack
 
 ```ts
 enterprise: 
-  | null
   | {
   id: string;
   name: string;
-};
+}
+  | null;
 ```
 
-Defined in: [src/install-provider.ts:800](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L800)
+Defined in: [packages/oauth/src/install-provider.ts:800](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L800)
 
 ***
 
@@ -61,7 +61,7 @@ Defined in: [src/install-provider.ts:800](https://github.com/slackapi/node-slack
 optional error: string;
 ```
 
-Defined in: node\_modules/@slack/web-api/dist/WebClient.d.ts:64
+Defined in: packages/oauth/node\_modules/@slack/web-api/dist/WebClient.d.ts:64
 
 #### Inherited from
 
@@ -77,7 +77,7 @@ WebAPICallResult.error
 expires_in: number;
 ```
 
-Defined in: [src/install-provider.ts:797](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L797)
+Defined in: [packages/oauth/src/install-provider.ts:797](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L797)
 
 ***
 
@@ -87,7 +87,7 @@ Defined in: [src/install-provider.ts:797](https://github.com/slackapi/node-slack
 is_enterprise_install: boolean;
 ```
 
-Defined in: [src/install-provider.ts:801](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L801)
+Defined in: [packages/oauth/src/install-provider.ts:801](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L801)
 
 ***
 
@@ -97,7 +97,7 @@ Defined in: [src/install-provider.ts:801](https://github.com/slackapi/node-slack
 ok: boolean;
 ```
 
-Defined in: node\_modules/@slack/web-api/dist/WebClient.d.ts:63
+Defined in: packages/oauth/node\_modules/@slack/web-api/dist/WebClient.d.ts:63
 
 #### Inherited from
 
@@ -113,7 +113,7 @@ WebAPICallResult.ok
 refresh_token: string;
 ```
 
-Defined in: [src/install-provider.ts:796](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L796)
+Defined in: [packages/oauth/src/install-provider.ts:796](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L796)
 
 ***
 
@@ -123,7 +123,7 @@ Defined in: [src/install-provider.ts:796](https://github.com/slackapi/node-slack
 optional response_metadata: object;
 ```
 
-Defined in: node\_modules/@slack/web-api/dist/WebClient.d.ts:65
+Defined in: packages/oauth/node\_modules/@slack/web-api/dist/WebClient.d.ts:65
 
 #### acceptedScopes?
 
@@ -175,7 +175,7 @@ WebAPICallResult.response_metadata
 scope: string;
 ```
 
-Defined in: [src/install-provider.ts:793](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L793)
+Defined in: [packages/oauth/src/install-provider.ts:793](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L793)
 
 ***
 
@@ -185,7 +185,7 @@ Defined in: [src/install-provider.ts:793](https://github.com/slackapi/node-slack
 team: object;
 ```
 
-Defined in: [src/install-provider.ts:799](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L799)
+Defined in: [packages/oauth/src/install-provider.ts:799](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L799)
 
 #### id
 
@@ -207,4 +207,4 @@ name: string;
 token_type: "bot" | "user";
 ```
 
-Defined in: [src/install-provider.ts:794](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L794)
+Defined in: [packages/oauth/src/install-provider.ts:794](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L794)

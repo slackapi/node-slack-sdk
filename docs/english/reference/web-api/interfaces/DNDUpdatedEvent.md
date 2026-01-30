@@ -2,7 +2,7 @@
 
 # Interface: DNDUpdatedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/dnd.d.ts:1
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/dnd.d.ts:1
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/dnd.d.ts:1
 dnd_status: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/dnd.d.ts:4
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/dnd.d.ts:4
 
 #### dnd\_enabled
 
@@ -58,7 +58,7 @@ snooze_remaining: number;
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/dnd.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/dnd.d.ts:12
 
 ***
 
@@ -68,7 +68,7 @@ Defined in: node\_modules/@slack/types/dist/events/dnd.d.ts:12
 type: "dnd_updated";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/dnd.d.ts:2
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/dnd.d.ts:2
 
 ***
 
@@ -78,4 +78,4 @@ Defined in: node\_modules/@slack/types/dist/events/dnd.d.ts:2
 user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/dnd.d.ts:3
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/dnd.d.ts:3

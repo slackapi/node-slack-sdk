@@ -2,7 +2,7 @@
 
 # Interface: InviteRequestedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/invite.d.ts:1
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/invite.d.ts:1
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/invite.d.ts:1
 invite_request: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/invite.d.ts:3
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/invite.d.ts:3
 
 #### channel\_ids
 
@@ -100,4 +100,4 @@ name: string;
 type: "invite_requested";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/invite.d.ts:2
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/invite.d.ts:2

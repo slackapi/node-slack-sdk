@@ -2,7 +2,7 @@
 
 # Interface: RTMWebsocketError
 
-Defined in: [src/errors.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/errors.ts#L38)
+Defined in: [packages/rtm-api/src/errors.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/errors.ts#L38)
 
 All errors produced by this package adhere to this interface
 
@@ -18,7 +18,7 @@ All errors produced by this package adhere to this interface
 code: WebsocketError;
 ```
 
-Defined in: [src/errors.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/errors.ts#L39)
+Defined in: [packages/rtm-api/src/errors.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/errors.ts#L39)
 
 #### Overrides
 
@@ -32,7 +32,7 @@ Defined in: [src/errors.ts:39](https://github.com/slackapi/node-slack-sdk/blob/m
 optional errno: number;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:196
+Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:196
 
 #### Inherited from
 
@@ -46,7 +46,7 @@ Defined in: node\_modules/@types/node/globals.d.ts:196
 message: string;
 ```
 
-Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
+Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1077
 
 #### Inherited from
 
@@ -60,7 +60,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
 name: string;
 ```
 
-Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1075
+Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
 
 #### Inherited from
 
@@ -74,7 +74,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1075
 original: Error;
 ```
 
-Defined in: [src/errors.ts:40](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/errors.ts#L40)
+Defined in: [packages/rtm-api/src/errors.ts:40](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/errors.ts#L40)
 
 ***
 
@@ -84,7 +84,7 @@ Defined in: [src/errors.ts:40](https://github.com/slackapi/node-slack-sdk/blob/m
 optional path: string;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:198
+Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:198
 
 #### Inherited from
 
@@ -98,7 +98,7 @@ Defined in: node\_modules/@types/node/globals.d.ts:198
 optional stack: string;
 ```
 
-Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1077
+Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078
 
 #### Inherited from
 
@@ -112,7 +112,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1077
 optional syscall: string;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:199
+Defined in: packages/rtm-api/node\_modules/@types/node/globals.d.ts:199
 
 #### Inherited from
 
