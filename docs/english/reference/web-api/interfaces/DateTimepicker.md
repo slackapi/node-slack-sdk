@@ -2,7 +2,7 @@
 
 # Interface: DateTimepicker
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:89
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:89
 
 ## Description
 
@@ -28,7 +28,7 @@ picker will use native UIs.
 optional action_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
 [identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
@@ -46,7 +46,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 optional confirm: ConfirmationDialog;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
 
 #### Description
 
@@ -65,7 +65,7 @@ with.
 optional focus_on_load: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
 
 #### Description
 
@@ -85,7 +85,7 @@ Defaults to `false`.
 optional initial_date_time: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:99
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:99
 
 #### Description
 
@@ -101,7 +101,7 @@ time August 10th, 2021 at 03:17pm PST.
 type: "datetimepicker";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:93
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:93
 
 #### Description
 

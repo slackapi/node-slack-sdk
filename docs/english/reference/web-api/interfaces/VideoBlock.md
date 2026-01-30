@@ -2,7 +2,7 @@
 
 # Interface: VideoBlock
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:274
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:274
 
 ## Description
 
@@ -26,7 +26,7 @@ must have the [\`links.embed:write\` scope](https://docs.slack.dev/reference/sco
 alt_text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:292
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:292
 
 #### Description
 
@@ -40,7 +40,7 @@ A tooltip for the video. Required for accessibility.
 optional author_name: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:305
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:305
 
 #### Description
 
@@ -54,7 +54,7 @@ Author name to be displayed. Must be less than 50 characters.
 optional block_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
 
 #### Description
 
@@ -76,7 +76,7 @@ a message. If a message is updated, use a new `block_id`.
 optional description: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:317
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:317
 
 #### Description
 
@@ -90,7 +90,7 @@ Description for video using a [PlainTextElement](PlainTextElement.md) object.
 optional provider_icon_url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:313
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:313
 
 #### Description
 
@@ -104,7 +104,7 @@ Icon for the video provider, e.g. YouTube icon.
 optional provider_name: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:309
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:309
 
 #### Description
 
@@ -118,7 +118,7 @@ The originating application or domain of the video, e.g. YouTube.
 thumbnail_url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:288
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:288
 
 #### Description
 
@@ -132,7 +132,7 @@ The thumbnail image URL.
 title: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:296
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:296
 
 #### Description
 
@@ -146,7 +146,7 @@ Video title as a [PlainTextElement](PlainTextElement.md) object. `text` within m
 optional title_url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:301
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:301
 
 #### Description
 
@@ -161,7 +161,7 @@ Must go to an HTTPS URL.
 type: "video";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:278
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:278
 
 #### Description
 
@@ -179,7 +179,7 @@ The type of block. For a video block, `type` is always `video`.
 video_url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:284
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:284
 
 #### Description
 

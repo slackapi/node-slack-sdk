@@ -2,7 +2,7 @@
 
 # Interface: ActionsBlock
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:36
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:36
 
 ## Description
 
@@ -24,7 +24,7 @@ Holds multiple interactive elements.
 optional block_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
 
 #### Description
 
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 elements: ActionsBlockElement[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:45
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:45
 
 #### Description
 
@@ -61,7 +61,7 @@ There is a maximum of 25 elements in each action block.
 type: "actions";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:40
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:40
 
 #### Description
 

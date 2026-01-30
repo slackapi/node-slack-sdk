@@ -2,7 +2,7 @@
 
 # Interface: SubteamMembersChangedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:34
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:34
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:34
 optional added_users: string[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:40
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:40
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:40
 optional added_users_count: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:41
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:41
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:41
 date_previous_update: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:38
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:38
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:38
 date_update: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:39
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:39
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:39
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:44
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:44
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:44
 optional removed_users: string[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:42
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:42
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:42
 optional removed_users_count: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:43
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:43
 
 ***
 
@@ -82,7 +82,7 @@ Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:43
 subteam_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:36
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:36
 
 ***
 
@@ -92,7 +92,7 @@ Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:36
 team_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:37
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:37
 
 ***
 
@@ -102,4 +102,4 @@ Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:37
 type: "subteam_members_changed";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:35
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:35

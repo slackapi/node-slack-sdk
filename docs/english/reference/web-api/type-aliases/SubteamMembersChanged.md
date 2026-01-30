@@ -6,7 +6,7 @@
 type SubteamMembersChanged = SubteamMembersChangedEvent;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:49
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:49
 
 ## Deprecated
 

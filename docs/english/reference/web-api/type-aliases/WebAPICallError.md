@@ -10,4 +10,4 @@ type WebAPICallError =
   | WebAPIRateLimitedError;
 ```
 
-Defined in: [src/errors.ts:29](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L29)
+Defined in: [packages/web-api/src/errors.ts:29](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L29)

@@ -2,7 +2,7 @@
 
 # Interface: HomeView
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:22
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:22
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: node\_modules/@slack/types/dist/views.d.ts:22
 blocks: AnyBlock[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:5
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:5
 
 #### Description
 
@@ -36,7 +36,7 @@ BaseView.blocks
 optional callback_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:18
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:18
 
 #### Description
 
@@ -61,7 +61,7 @@ BaseView.callback_id
 optional external_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:20
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:20
 
 #### Description
 
@@ -81,7 +81,7 @@ BaseView.external_id
 optional private_metadata: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:12
 
 #### Description
 
@@ -104,7 +104,7 @@ BaseView.private_metadata
 type: "home";
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:24
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:24
 
 #### Description
 

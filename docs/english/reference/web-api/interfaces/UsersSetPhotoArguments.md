@@ -2,7 +2,7 @@
 
 # Interface: UsersSetPhotoArguments
 
-Defined in: [src/types/request/users.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L50)
+Defined in: [packages/web-api/src/types/request/users.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L50)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/users.ts:50](https://github.com/slackapi/node-sla
 optional crop_w: number;
 ```
 
-Defined in: [src/types/request/users.ts:54](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L54)
+Defined in: [packages/web-api/src/types/request/users.ts:54](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L54)
 
 #### Description
 
@@ -30,7 +30,7 @@ Width/height of crop box (always square).
 optional crop_x: number;
 ```
 
-Defined in: [src/types/request/users.ts:56](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L56)
+Defined in: [packages/web-api/src/types/request/users.ts:56](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L56)
 
 #### Description
 
@@ -44,7 +44,7 @@ X coordinate of top-left corner of crop box.
 optional crop_y: number;
 ```
 
-Defined in: [src/types/request/users.ts:58](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L58)
+Defined in: [packages/web-api/src/types/request/users.ts:58](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L58)
 
 #### Description
 
@@ -58,7 +58,7 @@ Y coordinate of top-left corner of crop box.
 image: Buffer<ArrayBufferLike> | Stream;
 ```
 
-Defined in: [src/types/request/users.ts:52](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L52)
+Defined in: [packages/web-api/src/types/request/users.ts:52](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L52)
 
 #### Description
 
@@ -72,7 +72,7 @@ Image file contents.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

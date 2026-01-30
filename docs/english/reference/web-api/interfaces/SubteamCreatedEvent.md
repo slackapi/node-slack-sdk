@@ -2,7 +2,7 @@
 
 # Interface: SubteamCreatedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:25
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:25
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:25
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:28
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:28
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:28
 subteam: Subteam;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:27
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:27
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:27
 type: "subteam_created";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:26
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:26

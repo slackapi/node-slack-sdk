@@ -2,7 +2,7 @@
 
 # Interface: TeamDomainChangeEvent
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:12
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/team.d.ts:12
 domain: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:15
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:15
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/team.d.ts:15
 type: "team_domain_change";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:13
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:13
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: node\_modules/@slack/types/dist/events/team.d.ts:13
 url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:14
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:14

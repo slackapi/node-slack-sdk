@@ -2,7 +2,7 @@
 
 # Interface: AdminInviteRequestsApproveArguments
 
-Defined in: [src/types/request/admin/inviteRequests.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/inviteRequests.ts#L9)
+Defined in: [packages/web-api/src/types/request/admin/inviteRequests.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/inviteRequests.ts#L9)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/inviteRequests.ts:9](https://github.com/sla
 invite_request_id: string;
 ```
 
-Defined in: [src/types/request/admin/inviteRequests.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/inviteRequests.ts#L5)
+Defined in: [packages/web-api/src/types/request/admin/inviteRequests.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/inviteRequests.ts#L5)
 
 #### Description
 
@@ -36,7 +36,7 @@ InviteRequestID.invite_request_id
 team_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
+Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
 
 #### Description
 
@@ -54,7 +54,7 @@ If using an org token, `team_id` is required.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

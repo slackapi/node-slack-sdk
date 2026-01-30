@@ -2,7 +2,7 @@
 
 # Interface: WorkflowsStepCompletedArguments
 
-Defined in: [src/types/request/workflows.ts:55](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L55)
+Defined in: [packages/web-api/src/types/request/workflows.ts:55](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L55)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/workflows.ts:55](https://github.com/slackapi/node
 optional outputs: Record<string, unknown>;
 ```
 
-Defined in: [src/types/request/workflows.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L57)
+Defined in: [packages/web-api/src/types/request/workflows.ts:57](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L57)
 
 ***
 
@@ -26,7 +26,7 @@ Defined in: [src/types/request/workflows.ts:57](https://github.com/slackapi/node
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -46,4 +46,4 @@ TokenOverridable.token
 workflow_step_execute_id: string;
 ```
 
-Defined in: [src/types/request/workflows.ts:56](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L56)
+Defined in: [packages/web-api/src/types/request/workflows.ts:56](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L56)

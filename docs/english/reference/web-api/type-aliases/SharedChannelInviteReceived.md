@@ -6,7 +6,7 @@
 type SharedChannelInviteReceived = SharedChannelInviteReceivedEvent;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:93
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:93
 
 ## Deprecated
 

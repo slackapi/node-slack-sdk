@@ -2,7 +2,7 @@
 
 # Interface: ChatStartStreamArguments
 
-Defined in: [src/types/request/chat.ts:235](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L235)
+Defined in: [packages/web-api/src/types/request/chat.ts:242](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L242)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/chat.ts:235](https://github.com/slackapi/node-sla
 channel: string;
 ```
 
-Defined in: [src/types/request/chat.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L21)
+Defined in: [packages/web-api/src/types/request/chat.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L22)
 
 #### Description
 
@@ -30,13 +30,28 @@ Channel.channel
 
 ***
 
+### chunks?
+
+```ts
+optional chunks: AnyChunk[];
+```
+
+Defined in: [packages/web-api/src/types/request/chat.ts:247](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L247)
+
+#### Description
+
+An array of [chunk objects](https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming) to start the stream with.
+Either `markdown_text` or `chunks` is required.
+
+***
+
 ### markdown\_text?
 
 ```ts
 optional markdown_text: string;
 ```
 
-Defined in: [src/types/request/chat.ts:62](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L62)
+Defined in: [packages/web-api/src/types/request/chat.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L63)
 
 #### Description
 
@@ -50,7 +65,9 @@ Accepts message text formatted in markdown. This argument should not be used in 
 
 #### Inherited from
 
-[`ChatAppendStreamArguments`](ChatAppendStreamArguments.md).[`markdown_text`](ChatAppendStreamArguments.md#markdown_text)
+```ts
+Partial.markdown_text
+```
 
 ***
 
@@ -60,7 +77,7 @@ Accepts message text formatted in markdown. This argument should not be used in 
 optional recipient_team_id: string;
 ```
 
-Defined in: [src/types/request/chat.ts:240](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L240)
+Defined in: [packages/web-api/src/types/request/chat.ts:252](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L252)
 
 #### Description
 
@@ -75,12 +92,27 @@ This is required when starting a streaming conversation outside of a DM.
 optional recipient_user_id: string;
 ```
 
-Defined in: [src/types/request/chat.ts:245](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L245)
+Defined in: [packages/web-api/src/types/request/chat.ts:257](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L257)
 
 #### Description
 
 The ID of the user to receive the streaming conversation messages.
 This is required when starting a streaming conversation outside of a DM.
+
+***
+
+### task\_display\_mode?
+
+```ts
+optional task_display_mode: string;
+```
+
+Defined in: [packages/web-api/src/types/request/chat.ts:262](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L262)
+
+#### Description
+
+Specifies how tasks are displayed in the message. A "timeline" displays individual tasks
+ with text and "plan" displays all tasks together.
 
 ***
 
@@ -90,7 +122,7 @@ This is required when starting a streaming conversation outside of a DM.
 thread_ts: string;
 ```
 
-Defined in: [src/types/request/chat.ts:91](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L91)
+Defined in: [packages/web-api/src/types/request/chat.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L92)
 
 #### Description
 
@@ -111,7 +143,7 @@ ThreadTS.thread_ts
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

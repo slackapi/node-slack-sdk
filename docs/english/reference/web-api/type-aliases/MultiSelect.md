@@ -11,7 +11,7 @@ type MultiSelect =
   | MultiExternalSelect;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:249
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:249
 
 ## Description
 

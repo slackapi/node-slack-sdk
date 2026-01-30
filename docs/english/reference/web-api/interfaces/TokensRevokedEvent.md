@@ -2,7 +2,7 @@
 
 # Interface: TokensRevokedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/token.d.ts:1
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/token.d.ts:1
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/token.d.ts:1
 tokens: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/token.d.ts:3
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/token.d.ts:3
 
 #### bot?
 
@@ -34,4 +34,4 @@ optional oauth: string[];
 type: "tokens_revoked";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/token.d.ts:2
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/token.d.ts:2

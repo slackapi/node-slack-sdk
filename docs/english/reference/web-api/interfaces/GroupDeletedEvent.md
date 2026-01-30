@@ -2,7 +2,7 @@
 
 # Interface: GroupDeletedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:13
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:13
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:13
 actor_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:17
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:17
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:17
 channel: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:15
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:15
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:15
 date_deleted: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:16
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:16
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:16
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:18
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:18
 
 ***
 
@@ -52,4 +52,4 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:18
 type: "group_deleted";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:14
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:14

@@ -2,7 +2,7 @@
 
 # Interface: MessageAttachmentField
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:115
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:115
 
 ## Description
 
@@ -20,7 +20,7 @@ A field object to include in a [MessageAttachment](MessageAttachment.md).
 optional short: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:129
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:129
 
 #### Description
 
@@ -35,7 +35,7 @@ other field objects. Defaults to `false`.
 title: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:120
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:120
 
 #### Description
 
@@ -50,7 +50,7 @@ will be escaped for you.
 value: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:124
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:124
 
 #### Description
 

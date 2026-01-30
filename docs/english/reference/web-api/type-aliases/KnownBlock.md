@@ -18,7 +18,7 @@ type KnownBlock =
   | VideoBlock;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:21
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:21
 
 A helper union type of all known Blocks, as listed out on the
 [Blocks reference](https://docs.slack.dev/reference/block-kit/blocks).

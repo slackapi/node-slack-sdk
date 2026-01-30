@@ -2,7 +2,7 @@
 
 # Enumeration: LogLevel
 
-Defined in: node\_modules/@slack/logger/dist/index.d.ts:4
+Defined in: packages/web-api/node\_modules/@slack/logger/dist/index.d.ts:4
 
 Severity levels for log entries
 
@@ -14,7 +14,7 @@ Severity levels for log entries
 DEBUG: "debug";
 ```
 
-Defined in: node\_modules/@slack/logger/dist/index.d.ts:8
+Defined in: packages/web-api/node\_modules/@slack/logger/dist/index.d.ts:8
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: node\_modules/@slack/logger/dist/index.d.ts:8
 ERROR: "error";
 ```
 
-Defined in: node\_modules/@slack/logger/dist/index.d.ts:5
+Defined in: packages/web-api/node\_modules/@slack/logger/dist/index.d.ts:5
 
 ***
 
@@ -34,7 +34,7 @@ Defined in: node\_modules/@slack/logger/dist/index.d.ts:5
 INFO: "info";
 ```
 
-Defined in: node\_modules/@slack/logger/dist/index.d.ts:7
+Defined in: packages/web-api/node\_modules/@slack/logger/dist/index.d.ts:7
 
 ***
 
@@ -44,4 +44,4 @@ Defined in: node\_modules/@slack/logger/dist/index.d.ts:7
 WARN: "warn";
 ```
 
-Defined in: node\_modules/@slack/logger/dist/index.d.ts:6
+Defined in: packages/web-api/node\_modules/@slack/logger/dist/index.d.ts:6

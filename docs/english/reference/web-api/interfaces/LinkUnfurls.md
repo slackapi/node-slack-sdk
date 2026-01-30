@@ -2,7 +2,7 @@
 
 # Interface: LinkUnfurls
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:167
+Defined in: packages/web-api/node\_modules/@slack/types/dist/message-attachments.d.ts:167
 
 ## Indexable
 

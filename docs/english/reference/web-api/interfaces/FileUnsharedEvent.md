@@ -2,7 +2,7 @@
 
 # Interface: FileUnsharedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:50
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:50
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/file.d.ts:50
 channel_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:57
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:57
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/file.d.ts:57
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:58
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:58
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/file.d.ts:58
 file: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:54
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:54
 
 #### id
 
@@ -48,7 +48,7 @@ id: string;
 file_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:52
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:52
 
 ***
 
@@ -58,7 +58,7 @@ Defined in: node\_modules/@slack/types/dist/events/file.d.ts:52
 type: "file_unshared";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:51
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:51
 
 ***
 
@@ -68,4 +68,4 @@ Defined in: node\_modules/@slack/types/dist/events/file.d.ts:51
 user_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:53
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:53

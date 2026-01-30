@@ -2,7 +2,7 @@
 
 # Interface: GroupLeftEvent
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:26
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:26
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:26
 actor_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:29
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:29
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:29
 channel: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:28
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:28
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:28
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:30
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:30
 
 ***
 
@@ -42,4 +42,4 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:30
 type: "group_left";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:27
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:27

@@ -2,7 +2,7 @@
 
 # Interface: ContextActionsBlock
 
-Defined in: [block-kit/blocks.ts:139](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L139)
+Defined in: [block-kit/blocks.ts:142](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L142)
 
 ## Description
 
@@ -24,7 +24,7 @@ Displays actions as contextual info, which can include both feedback buttons and
 optional block_id: string;
 ```
 
-Defined in: [block-kit/blocks.ts:47](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L47)
+Defined in: [block-kit/blocks.ts:48](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L48)
 
 #### Description
 
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 elements: ContextActionsBlockElement[];
 ```
 
-Defined in: [block-kit/blocks.ts:147](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L147)
+Defined in: [block-kit/blocks.ts:150](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L150)
 
 #### Description
 
@@ -60,7 +60,7 @@ An array of [FeedbackButtons](FeedbackButtons.md) or [IconButton](IconButton.md)
 type: "context_actions";
 ```
 
-Defined in: [block-kit/blocks.ts:143](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L143)
+Defined in: [block-kit/blocks.ts:146](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L146)
 
 #### Description
 

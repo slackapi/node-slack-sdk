@@ -2,7 +2,7 @@
 
 # Interface: UserChangeEvent
 
-Defined in: node\_modules/@slack/types/dist/events/user.d.ts:2
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/user.d.ts:2
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/user.d.ts:2
 cache_ts: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/user.d.ts:77
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/user.d.ts:77
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/user.d.ts:77
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/user.d.ts:78
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/user.d.ts:78
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/user.d.ts:78
 type: "user_change";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/user.d.ts:3
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/user.d.ts:3
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/user.d.ts:3
 user: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/user.d.ts:4
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/user.d.ts:4
 
 #### color
 
@@ -234,11 +234,11 @@ optional email: string;
 
 ```ts
 fields: 
-  | null
   | []
   | {
 [key: string]: object;
-};
+}
+  | null;
 ```
 
 ##### profile.first\_name

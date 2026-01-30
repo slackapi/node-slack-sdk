@@ -2,7 +2,7 @@
 
 # Interface: HeaderBlock
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:121
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:121
 
 ## Description
 
@@ -25,7 +25,7 @@ font. Use it to delineate between different groups of content in your app's surf
 optional block_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
 
 #### Description
 
@@ -47,7 +47,7 @@ a message. If a message is updated, use a new `block_id`.
 text: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:130
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:130
 
 #### Description
 
@@ -62,7 +62,7 @@ Maximum length for the text in this field is 150 characters.
 type: "header";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:125
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:125
 
 #### Description
 

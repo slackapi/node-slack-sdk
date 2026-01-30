@@ -2,7 +2,7 @@
 
 # Interface: FileCommentDeletedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:8
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:8
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/file.d.ts:8
 comment: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:10
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:10
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/file.d.ts:10
 file: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:12
 
 #### id
 
@@ -38,7 +38,7 @@ id: string;
 file_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:11
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:11
 
 ***
 
@@ -48,4 +48,4 @@ Defined in: node\_modules/@slack/types/dist/events/file.d.ts:11
 type: "file_comment_deleted";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:9
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:9

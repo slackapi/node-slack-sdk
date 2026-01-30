@@ -2,7 +2,7 @@
 
 # Interface: MrkdwnElement
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:143
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:143
 
 ## Description
 
@@ -20,7 +20,7 @@ Defines an object containing some text.
 text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:152
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:152
 
 #### Description
 
@@ -35,7 +35,7 @@ The minimum length is 1 and maximum length is 3000 characters.
 type: "mrkdwn";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:147
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:147
 
 #### Description
 
@@ -49,7 +49,7 @@ The formatting to use for this text object.
 optional verbatim: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:159
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:159
 
 #### Description
 

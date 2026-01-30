@@ -2,7 +2,7 @@
 
 # Interface: ReactionRemovedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/reaction.d.ts:14
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/reaction.d.ts:14
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/reaction.d.ts:14
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/reaction.d.ts:20
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/reaction.d.ts:20
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/reaction.d.ts:20
 item: ReactionMessageItem;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/reaction.d.ts:19
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/reaction.d.ts:19
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/reaction.d.ts:19
 item_user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/reaction.d.ts:18
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/reaction.d.ts:18
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/reaction.d.ts:18
 reaction: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/reaction.d.ts:17
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/reaction.d.ts:17
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/events/reaction.d.ts:17
 type: "reaction_removed";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/reaction.d.ts:15
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/reaction.d.ts:15
 
 ***
 
@@ -62,4 +62,4 @@ Defined in: node\_modules/@slack/types/dist/events/reaction.d.ts:15
 user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/reaction.d.ts:16
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/reaction.d.ts:16
