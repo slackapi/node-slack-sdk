@@ -31,6 +31,16 @@ The following watch settings are provided automatically when using this package:
 - **app**: Watches for JavaScript file changes to restart the app server
 - **manifest**: Watches the manifest file for changes to reinstall the app
 
+**Note:** Manifest watching requires a local manifest source in your `.slack/config.json` file. Remote manifests will not be updated on file changes.
+
+```json
+{
+  "manifest": {
+    "source": "local"
+  }
+}
+```
+
 ### Custom Configurations
 
 You can override these defaults in your `.slack/hooks.json` file to reduce the paths searched or change the file patterns. Read [Watch Configurations](https://docs.slack.dev/tools/slack-cli/reference/hooks/#watch-configurations) for more options.
