@@ -59,7 +59,7 @@
     "chai": "^4",
     "mocha": "^10",
     "shx": "^0.3.2",
-    "sinon": "^17",
+    "sinon": "^21",
     "source-map-support": "^0.5.21",
     "ts-node": "^10",
     "typedoc": "^0.28.7",
