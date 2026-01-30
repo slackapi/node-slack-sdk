@@ -15,7 +15,7 @@ jobs:
     environment: publish
     permissions:
       contents: write
-      id-token: write
+      id-token: write # OIDC: https://docs.npmjs.com/trusted-publishers
       pull-requests: write
     steps:
       - name: Checkout Repo
