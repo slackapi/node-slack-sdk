@@ -2,7 +2,7 @@
 
 # Interface: GroupRenameEvent
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:37
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:37
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:37
 channel: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:39
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:39
 
 #### created
 
@@ -58,7 +58,7 @@ name_normalized: string;
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:47
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:47
 
 ***
 
@@ -68,4 +68,4 @@ Defined in: node\_modules/@slack/types/dist/events/group.d.ts:47
 type: "group_rename";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/group.d.ts:38
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/group.d.ts:38

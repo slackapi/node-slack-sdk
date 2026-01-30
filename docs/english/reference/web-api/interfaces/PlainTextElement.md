@@ -2,7 +2,7 @@
 
 # Interface: PlainTextElement
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:125
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:125
 
 ## Description
 
@@ -20,7 +20,7 @@ Defines an object containing some text.
 optional emoji: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:137
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:137
 
 #### Description
 
@@ -34,7 +34,7 @@ Indicates whether emojis in a text field should be escaped into the colon emoji 
 text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:133
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:133
 
 #### Description
 
@@ -48,7 +48,7 @@ The text for the block. The minimum length is 1 and maximum length is 3000 chara
 type: "plain_text";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:129
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:129
 
 #### Description
 

@@ -2,7 +2,7 @@
 
 # Interface: RichTextChannelMention
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:703
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:703
 
 ## Description
 
@@ -20,7 +20,7 @@ A channel mention element for use in a rich text message.
 channel_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:711
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:711
 
 #### Description
 
@@ -34,7 +34,7 @@ The encoded channel ID, e.g. C1234ABCD.
 optional style: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:75
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:75
 
 #### bold?
 
@@ -92,7 +92,7 @@ A limited style object for styling rich text `text` elements.
 type: "channel";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:707
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:707
 
 #### Description
 

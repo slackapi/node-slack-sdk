@@ -2,7 +2,7 @@
 
 # Interface: EKMAccessDeniedMessageEvent
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:151
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:151
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:151
 channel: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:155
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:155
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:155
 channel_type: ChannelTypes;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:156
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:156
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:156
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:154
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:154
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:154
 subtype: "ekm_access_denied";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:153
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:153
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:153
 text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:158
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:158
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:158
 ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:157
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:157
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:157
 type: "message";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:152
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:152
 
 ***
 
@@ -82,4 +82,4 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:152
 user: "UREVOKEDU";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:159
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:159

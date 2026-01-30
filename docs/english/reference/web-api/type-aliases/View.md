@@ -9,4 +9,4 @@ type View =
   | WorkflowStepView;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:69
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:69

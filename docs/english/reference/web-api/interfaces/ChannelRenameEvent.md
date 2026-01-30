@@ -2,7 +2,7 @@
 
 # Interface: ChannelRenameEvent
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:54
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:54
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:54
 channel: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:56
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:56
 
 #### created
 
@@ -58,7 +58,7 @@ name_normalized: string;
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:64
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:64
 
 ***
 
@@ -68,4 +68,4 @@ Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:64
 type: "channel_rename";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:55
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:55

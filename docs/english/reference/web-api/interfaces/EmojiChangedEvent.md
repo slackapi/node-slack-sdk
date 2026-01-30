@@ -2,7 +2,7 @@
 
 # Interface: EmojiChangedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/emoji.d.ts:1
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/emoji.d.ts:1
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/emoji.d.ts:1
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/emoji.d.ts:9
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/emoji.d.ts:9
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/emoji.d.ts:9
 optional name: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/emoji.d.ts:5
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/emoji.d.ts:5
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/emoji.d.ts:5
 optional names: string[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/emoji.d.ts:4
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/emoji.d.ts:4
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/emoji.d.ts:4
 optional new_name: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/emoji.d.ts:8
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/emoji.d.ts:8
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/events/emoji.d.ts:8
 optional old_name: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/emoji.d.ts:7
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/emoji.d.ts:7
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/events/emoji.d.ts:7
 subtype: "add" | "remove" | "rename";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/emoji.d.ts:3
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/emoji.d.ts:3
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: node\_modules/@slack/types/dist/events/emoji.d.ts:3
 type: "emoji_changed";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/emoji.d.ts:2
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/emoji.d.ts:2
 
 ***
 
@@ -82,4 +82,4 @@ Defined in: node\_modules/@slack/types/dist/events/emoji.d.ts:2
 optional value: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/emoji.d.ts:6
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/emoji.d.ts:6

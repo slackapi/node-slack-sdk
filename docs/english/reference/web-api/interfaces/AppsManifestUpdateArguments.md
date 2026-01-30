@@ -2,7 +2,7 @@
 
 # Interface: AppsManifestUpdateArguments
 
-Defined in: [src/types/request/apps.ts:26](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L26)
+Defined in: [packages/web-api/src/types/request/apps.ts:26](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L26)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/apps.ts:26](https://github.com/slackapi/node-slac
 app_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L101)
+Defined in: [packages/web-api/src/types/request/common.ts:101](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L101)
 
 #### Description
 
@@ -36,7 +36,7 @@ AppID.app_id
 manifest: Manifest;
 ```
 
-Defined in: [src/types/request/apps.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L27)
+Defined in: [packages/web-api/src/types/request/apps.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L27)
 
 ***
 
@@ -46,7 +46,7 @@ Defined in: [src/types/request/apps.ts:27](https://github.com/slackapi/node-slac
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

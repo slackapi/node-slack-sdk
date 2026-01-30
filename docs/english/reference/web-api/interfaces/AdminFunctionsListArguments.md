@@ -2,7 +2,7 @@
 
 # Interface: AdminFunctionsListArguments
 
-Defined in: [src/types/request/admin/functions.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/functions.ts#L4)
+Defined in: [packages/web-api/src/types/request/admin/functions.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/functions.ts#L4)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/functions.ts:4](https://github.com/slackapi
 app_ids: string[];
 ```
 
-Defined in: [src/types/request/admin/functions.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/functions.ts#L6)
+Defined in: [packages/web-api/src/types/request/admin/functions.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/functions.ts#L6)
 
 #### Description
 
@@ -30,7 +30,7 @@ Array of app IDs to get functions for; max 50.
 optional cursor: string;
 ```
 
-Defined in: [src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L16)
+Defined in: [packages/web-api/src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L16)
 
 #### Description
 
@@ -56,7 +56,7 @@ CursorPaginationEnabled.cursor
 optional limit: number;
 ```
 
-Defined in: [src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L9)
+Defined in: [packages/web-api/src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L9)
 
 #### Description
 
@@ -77,7 +77,7 @@ CursorPaginationEnabled.limit
 optional team_id: string;
 ```
 
-Defined in: [src/types/request/admin/functions.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/functions.ts#L8)
+Defined in: [packages/web-api/src/types/request/admin/functions.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/functions.ts#L8)
 
 #### Description
 
@@ -91,7 +91,7 @@ The team context to retrieve functions from.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

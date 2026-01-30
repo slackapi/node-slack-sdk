@@ -2,7 +2,7 @@
 
 # Interface: RichTextBorderable
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:61
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:61
 
 For use in setting border style details on certain Rich Text elements.
 
@@ -20,7 +20,7 @@ For use in setting border style details on certain Rich Text elements.
 optional border: 0 | 1;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:66
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:66
 
 #### Description
 

@@ -2,7 +2,7 @@
 
 # Interface: Focusable
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:30
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:30
 
 ## Extended by
 
@@ -35,7 +35,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:30
 optional focus_on_load: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
 
 #### Description
 

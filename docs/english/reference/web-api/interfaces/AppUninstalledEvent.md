@@ -2,7 +2,7 @@
 
 # Interface: AppUninstalledEvent
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:148
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:148
 
 ## Properties
 
@@ -12,4 +12,4 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:148
 type: "app_uninstalled";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:149
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:149

@@ -2,7 +2,7 @@
 
 # ~~Interface: Confirm~~
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:14
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:14
 
 ## Deprecated
 
@@ -29,7 +29,7 @@ Defines a dialog that adds a confirmation step to interactive elements.
 optional confirm: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:29
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:29
 
 #### Description
 
@@ -44,7 +44,7 @@ Maximum length for the `text` in this field is 30 characters.
 optional deny: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:34
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:34
 
 #### Description
 
@@ -59,7 +59,7 @@ Maximum length for the `text` in this field is 30 characters.
 optional style: ColorScheme;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:40
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:40
 
 #### Description
 
@@ -77,7 +77,7 @@ text:
   | MrkdwnElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:24
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:24
 
 #### Description
 
@@ -92,7 +92,7 @@ dialog. Maximum length for the `text` in this field is 300 characters.
 optional title: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:19
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:19
 
 #### Description
 

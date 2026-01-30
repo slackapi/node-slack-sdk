@@ -2,7 +2,7 @@
 
 # Interface: IconButton
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:186
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:186
 
 ## Description
 
@@ -20,7 +20,7 @@ An icon button to perform actions.
 optional accessibility_label: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:204
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:204
 
 #### Description
 
@@ -34,7 +34,7 @@ A label for longer descriptive text about a button element. This label will be r
 optional action_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
 [identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
@@ -52,7 +52,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 optional confirm: ConfirmationDialog;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
 
 #### Description
 
@@ -71,7 +71,7 @@ with.
 icon: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:195
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:195
 
 #### Description
 
@@ -91,7 +91,7 @@ trash
 text: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:200
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:200
 
 #### Description
 
@@ -109,7 +109,7 @@ Defines an object containing some text.
 type: "icon_button";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:190
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:190
 
 #### Description
 
@@ -127,7 +127,7 @@ The type of element. In this case `type` is always `icon_button`.
 optional value: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:208
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:208
 
 #### Description
 
@@ -141,7 +141,7 @@ The button value.
 optional visible_to_user_ids: string[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:212
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:212
 
 #### Description
 

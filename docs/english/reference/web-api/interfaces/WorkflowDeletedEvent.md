@@ -2,7 +2,7 @@
 
 # Interface: WorkflowDeletedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:1
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:1
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:1
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:12
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:12
 type: "workflow_deleted";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:2
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:2
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:2
 workflow_draft_configuration: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:4
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:4
 
 #### app\_steps
 
@@ -54,4 +54,4 @@ version_id: string;
 workflow_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:3
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:3

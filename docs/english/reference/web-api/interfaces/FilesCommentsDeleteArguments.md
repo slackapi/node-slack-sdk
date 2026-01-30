@@ -2,7 +2,7 @@
 
 # Interface: FilesCommentsDeleteArguments
 
-Defined in: [src/types/request/files.ts:196](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L196)
+Defined in: [packages/web-api/src/types/request/files.ts:196](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L196)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/files.ts:196](https://github.com/slackapi/node-sl
 file: string;
 ```
 
-Defined in: [src/types/request/files.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L14)
+Defined in: [packages/web-api/src/types/request/files.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L14)
 
 #### Description
 
@@ -36,7 +36,7 @@ FileArgument.file
 id: string;
 ```
 
-Defined in: [src/types/request/files.ts:198](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L198)
+Defined in: [packages/web-api/src/types/request/files.ts:198](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L198)
 
 #### Description
 
@@ -50,7 +50,7 @@ The ID of the comment to delete.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

@@ -2,7 +2,7 @@
 
 # Interface: CanvasesDeleteArguments
 
-Defined in: [src/types/request/canvas.ts:83](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L83)
+Defined in: [packages/web-api/src/types/request/canvas.ts:83](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L83)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/canvas.ts:83](https://github.com/slackapi/node-sl
 canvas_id: string;
 ```
 
-Defined in: [src/types/request/canvas.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L6)
+Defined in: [packages/web-api/src/types/request/canvas.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/canvas.ts#L6)
 
 #### Description
 
@@ -36,7 +36,7 @@ CanvasID.canvas_id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

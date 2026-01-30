@@ -2,7 +2,7 @@
 
 # Interface: AdminRolesAddAssignmentsArguments
 
-Defined in: [src/types/request/admin/roles.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/roles.ts#L22)
+Defined in: [packages/web-api/src/types/request/admin/roles.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/roles.ts#L22)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/roles.ts:22](https://github.com/slackapi/no
 entity_ids: [string, ...string[]];
 ```
 
-Defined in: [src/types/request/admin/roles.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/roles.ts#L10)
+Defined in: [packages/web-api/src/types/request/admin/roles.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/roles.ts#L10)
 
 #### Description
 
@@ -37,7 +37,7 @@ EntityIDs.entity_ids
 role_id: string;
 ```
 
-Defined in: [src/types/request/admin/roles.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/roles.ts#L18)
+Defined in: [packages/web-api/src/types/request/admin/roles.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/roles.ts#L18)
 
 #### Description
 
@@ -61,7 +61,7 @@ RoleID.role_id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -81,7 +81,7 @@ TokenOverridable.token
 user_ids: [string, ...string[]];
 ```
 
-Defined in: [src/types/request/common.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L92)
+Defined in: [packages/web-api/src/types/request/common.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L92)
 
 #### Description
 

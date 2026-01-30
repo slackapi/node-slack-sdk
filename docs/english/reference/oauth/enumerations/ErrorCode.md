@@ -2,7 +2,7 @@
 
 # Enumeration: ErrorCode
 
-Defined in: [src/errors.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L8)
+Defined in: [packages/oauth/src/errors.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L8)
 
 A dictionary of codes for errors produced by this package.
 
@@ -14,7 +14,7 @@ A dictionary of codes for errors produced by this package.
 AuthorizationError: "slack_oauth_installer_authorization_error";
 ```
 
-Defined in: [src/errors.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L10)
+Defined in: [packages/oauth/src/errors.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L10)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [src/errors.ts:10](https://github.com/slackapi/node-slack-sdk/blob/m
 GenerateInstallUrlError: "slack_oauth_generate_url_error";
 ```
 
-Defined in: [src/errors.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L11)
+Defined in: [packages/oauth/src/errors.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L11)
 
 ***
 
@@ -34,7 +34,7 @@ Defined in: [src/errors.ts:11](https://github.com/slackapi/node-slack-sdk/blob/m
 InstallerInitializationError: "slack_oauth_installer_initialization_error";
 ```
 
-Defined in: [src/errors.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L9)
+Defined in: [packages/oauth/src/errors.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L9)
 
 ***
 
@@ -44,7 +44,7 @@ Defined in: [src/errors.ts:9](https://github.com/slackapi/node-slack-sdk/blob/ma
 InvalidStateError: "slack_oauth_invalid_state";
 ```
 
-Defined in: [src/errors.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L13)
+Defined in: [packages/oauth/src/errors.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L13)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [src/errors.ts:13](https://github.com/slackapi/node-slack-sdk/blob/m
 MissingCodeError: "slack_oauth_missing_code";
 ```
 
-Defined in: [src/errors.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L14)
+Defined in: [packages/oauth/src/errors.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L14)
 
 ***
 
@@ -64,7 +64,7 @@ Defined in: [src/errors.ts:14](https://github.com/slackapi/node-slack-sdk/blob/m
 MissingStateError: "slack_oauth_missing_state";
 ```
 
-Defined in: [src/errors.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L12)
+Defined in: [packages/oauth/src/errors.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L12)
 
 ***
 
@@ -74,4 +74,4 @@ Defined in: [src/errors.ts:12](https://github.com/slackapi/node-slack-sdk/blob/m
 UnknownError: "slack_oauth_unknown_error";
 ```
 
-Defined in: [src/errors.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L15)
+Defined in: [packages/oauth/src/errors.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L15)

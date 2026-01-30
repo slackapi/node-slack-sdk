@@ -6,7 +6,7 @@
 type ImCloseResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/ImCloseResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/ImCloseResponse.ts#L11)
+Defined in: [packages/web-api/src/types/response/ImCloseResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/ImCloseResponse.ts#L11)
 
 ## Type Declaration
 

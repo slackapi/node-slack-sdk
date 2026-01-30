@@ -2,7 +2,7 @@
 
 # Interface: Button
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:9
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:9
 
 ## Description
 
@@ -25,7 +25,7 @@ Allows users a direct path to performing basic actions.
 optional accessibility_label: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:43
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:43
 
 #### Description
 
@@ -40,7 +40,7 @@ readers instead of the button `text` object. Maximum length for this field is 75
 optional action_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
 [identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
@@ -58,7 +58,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 optional confirm: ConfirmationDialog;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
 
 #### Description
 
@@ -77,7 +77,7 @@ with.
 optional style: ColorScheme;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:38
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:38
 
 #### Description
 
@@ -96,7 +96,7 @@ If you don't include this field, the default button style will be used.
 text: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:18
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:18
 
 #### Description
 
@@ -111,7 +111,7 @@ Maximum length for the text in this field is 75 characters.
 type: "button";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:13
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:13
 
 #### Description
 
@@ -129,7 +129,7 @@ The type of element. In this case `type` is always `button`.
 optional url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:29
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:29
 
 #### Description
 
@@ -145,7 +145,7 @@ and will need to send an [acknowledgement response](https://docs.slack.dev/inter
 optional value: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:23
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:23
 
 #### Description
 

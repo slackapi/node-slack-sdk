@@ -2,7 +2,7 @@
 
 # Interface: FileChangeEvent
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:1
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:1
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/file.d.ts:1
 file: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:4
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:4
 
 #### id
 
@@ -28,7 +28,7 @@ id: string;
 file_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:3
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:3
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: node\_modules/@slack/types/dist/events/file.d.ts:3
 type: "file_change";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:2
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:2

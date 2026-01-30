@@ -2,7 +2,7 @@
 
 # Interface: AdminWorkflowsPermissionsLookupArguments
 
-Defined in: [src/types/request/admin/workflows.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/workflows.ts#L22)
+Defined in: [packages/web-api/src/types/request/admin/workflows.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/workflows.ts#L22)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/workflows.ts:22](https://github.com/slackap
 optional max_workflow_triggers: number;
 ```
 
-Defined in: [src/types/request/admin/workflows.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/workflows.ts#L27)
+Defined in: [packages/web-api/src/types/request/admin/workflows.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/workflows.ts#L27)
 
 #### Description
 
@@ -31,7 +31,7 @@ Defaults to `100`. Maximum of `1000`.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -51,7 +51,7 @@ TokenOverridable.token
 workflow_ids: [string, ...string[]];
 ```
 
-Defined in: [src/types/request/admin/workflows.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/workflows.ts#L12)
+Defined in: [packages/web-api/src/types/request/admin/workflows.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/workflows.ts#L12)
 
 #### Description
 

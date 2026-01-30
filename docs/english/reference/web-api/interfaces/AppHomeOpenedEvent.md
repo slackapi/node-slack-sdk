@@ -2,7 +2,7 @@
 
 # Interface: AppHomeOpenedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:65
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:65
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:65
 channel: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:68
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:68
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:68
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:71
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:71
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:71
 optional tab: "home" | "messages";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:69
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:69
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:69
 type: "app_home_opened";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:66
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:66
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:66
 user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:67
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:67
 
 ***
 
@@ -62,4 +62,4 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:67
 optional view: View;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:70
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:70

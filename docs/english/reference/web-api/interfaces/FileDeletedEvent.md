@@ -2,7 +2,7 @@
 
 # Interface: FileDeletedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:25
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:25
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/file.d.ts:25
 optional channel_ids: string[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:28
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:28
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/file.d.ts:28
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:29
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:29
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/file.d.ts:29
 file_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:27
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:27
 
 ***
 
@@ -42,4 +42,4 @@ Defined in: node\_modules/@slack/types/dist/events/file.d.ts:27
 type: "file_deleted";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/file.d.ts:26
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/file.d.ts:26

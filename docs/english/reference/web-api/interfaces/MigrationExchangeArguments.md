@@ -2,7 +2,7 @@
 
 # Interface: MigrationExchangeArguments
 
-Defined in: [src/types/request/migration.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/migration.ts#L4)
+Defined in: [packages/web-api/src/types/request/migration.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/migration.ts#L4)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/migration.ts:4](https://github.com/slackapi/node-
 optional team_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
+Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
 
 #### Description
 
@@ -36,7 +36,7 @@ OptionalTeamAssignable.team_id
 optional to_old: boolean;
 ```
 
-Defined in: [src/types/request/migration.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/migration.ts#L8)
+Defined in: [packages/web-api/src/types/request/migration.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/migration.ts#L8)
 
 #### Description
 
@@ -50,7 +50,7 @@ Specify `true` to convert `W` global user IDs to workspace-specific `U` IDs. Def
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -70,7 +70,7 @@ TokenOverridable.token
 users: string;
 ```
 
-Defined in: [src/types/request/migration.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/migration.ts#L6)
+Defined in: [packages/web-api/src/types/request/migration.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/migration.ts#L6)
 
 #### Description
 
