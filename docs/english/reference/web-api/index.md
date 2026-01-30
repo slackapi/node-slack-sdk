@@ -8,6 +8,7 @@
 
 ## Classes
 
+- [ChatStreamer](classes/ChatStreamer.md)
 - [Methods](classes/Methods.md)
 - [WebClient](classes/WebClient.md)
 
@@ -160,6 +161,7 @@
 - [ChatGetPermalinkArguments](interfaces/ChatGetPermalinkArguments.md)
 - [ChatMeMessageArguments](interfaces/ChatMeMessageArguments.md)
 - [ChatStartStreamArguments](interfaces/ChatStartStreamArguments.md)
+- [ChatStreamerOptions](interfaces/ChatStreamerOptions.md)
 - [Checkboxes](interfaces/Checkboxes.md)
 - [CodedError](interfaces/CodedError.md)
 - [~~Confirm~~](interfaces/Confirm.md)
