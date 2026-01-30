@@ -67,12 +67,12 @@ export default function getHooks() {
     config: {
       watch: {
         app: {
+          'filter-regex': '\\.js$',
           paths: ['.'],
-          'filter-regex': '.js$',
         },
         manifest: {
-          paths: ['manifest.json'],
           'filter-regex': '^manifest\\.json$',
+          paths: ['manifest.json'],
         },
       },
       'protocol-version': SUPPORTED_NAMED_PROTOCOLS,

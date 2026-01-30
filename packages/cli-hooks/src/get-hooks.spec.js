@@ -26,15 +26,15 @@ describe('get-hooks implementation', async () => {
     const { config } = getHooks();
     assert(config.watch);
     assert(config.watch.app);
+    assert.equal(config.watch.app['filter-regex'], '\\.js$');
     assert.deepEqual(config.watch.app.paths, ['.']);
-    assert.equal(config.watch.app['filter-regex'], '.js$');
   });
 
   it('should return watch config for manifest files', async () => {
     const { config } = getHooks();
     assert(config.watch);
     assert(config.watch.manifest);
-    assert.deepEqual(config.watch.manifest.paths, ['manifest.json']);
     assert.equal(config.watch.manifest['filter-regex'], '^manifest\\.json$');
+    assert.deepEqual(config.watch.manifest.paths, ['manifest.json']);
   });
 });
