@@ -257,7 +257,7 @@ export interface ChatStartStreamArguments extends TokenOverridable, Channel, Par
   recipient_user_id?: string;
   /**
    *  @description Specifies how tasks are displayed in the message. A "timeline" displays individual tasks
-   * interleaved with text and "plan" displays all tasks together.
+   *  with text and "plan" displays all tasks together.
    */
   task_display_mode?: string;
 }
@@ -267,7 +267,7 @@ export type ChatStopStreamArguments = TokenOverridable &
   Partial<MarkdownText> &
   Partial<Metadata> & {
     /**
-     * @description An array of {@link https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming chunk objects} to finalize the stream with.
+     * @description An array of {@link https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming chunk objects} to finish the stream with.
      */
     chunks?: AnyChunk[];
     /**

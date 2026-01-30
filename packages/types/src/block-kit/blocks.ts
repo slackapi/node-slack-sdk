@@ -411,7 +411,7 @@ interface TableBlockColumnSettings {
  */
 export interface TaskCardBlock extends Block {
   /**
-   * @description The type of element. In this case `type` is always `task_card`.
+   * @description The type of block. For this block, type will always be `task_card`.
    */
   type: 'task_card';
 
@@ -436,12 +436,12 @@ export interface TaskCardBlock extends Block {
   output?: RichTextBlock;
 
   /**
-   * @description List of sources used to generate a response.
+   * @description Array of URL source elements used to generate a response.
    */
   sources?: URLSourceElement[];
 
   /**
-   * @description The state of a task. Either "pending" or "in_progress" or "complete" or "error".
+   * @description The state of a task. Can be "pending", "in_progress", "complete", or "error".
    */
   status: 'pending' | 'in_progress' | 'complete' | 'error';
 }
@@ -462,7 +462,7 @@ export interface PlanBlock extends Block {
   title: string;
 
   /**
-   * @description An array of tasks associated with this plan.
+   * @description A sequence of task card blocks. Each task represents a single action within the plan.
    */
   tasks?: (TaskCardBlock | Record<string, unknown>)[];
 }
