@@ -33,56 +33,39 @@ jobs:
         run: |
           git config --global core.autocrlf false
           git config --global core.eol lf
-      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm --version
-      - run: npm install --verbose
-        working-directory: packages/${{ matrix.package }}
-      - name: Link dependent packages (*nix)
-        if: matrix.os == 'ubuntu-latest'
-        working-directory: packages/${{ matrix.package }}
+      - name: Install dependencies
         run: |
-          # depending on which package we are testing, also npm link up dependent packages within this monorepo
-          case "$PWD" in
-            */webhook) pushd ../types && npm i && popd && npm link ../types;;
-            */web-api) pushd ../types && npm i && popd && npm link ../types && pushd ../logger && npm i && popd && npm link ../logger;;
-            */oauth) pushd ../logger && npm i && popd && npm link ../logger && pushd ../web-api && npm i && popd && npm link ../web-api;;
-            */socket-mode) pushd ../logger && npm i && popd && npm link ../logger && pushd ../web-api && npm i && popd && npm link ../web-api;;
-            *) ;; # default
-          esac
-      - name: Link dependent packages (Windows)
-        if: matrix.os == 'windows-latest'
-        working-directory: packages/${{ matrix.package }}
+          npm install --verbose
+      - name: Build packages
         run: |
-          # depending on which package we are testing, also npm link up dependent packages within this monorepo
-          # NOTE: the following is PowerShell
-          echo "$pwd"
-          switch -Wildcard ( "$pwd" )
-          {
-            '*\webhook'
-            {
-              pushd ..\types && npm i && popd && npm link ..\types
-            }
-            '*\web-api'
-            {
-              pushd ..\types && npm i && popd && npm link ..\types && pushd ..\logger && npm i && popd && npm link ..\logger
-            }
-            '*\oauth'
-            {
-              pushd ..\logger && npm i && popd && npm link ..\logger && pushd ..\web-api && npm i && popd && npm link ..\web-api
-            }
-            '*\socket-mode'
-            {
-              pushd ..\logger && npm i && popd && npm link ..\logger && pushd ..\web-api && npm i && popd && npm link ..\web-api
-            }
-          }
-      - run: npm test
-        working-directory: packages/${{ matrix.package }}
+          # Build packages without internal dependencies
+          npm run build --workspace=@slack/cli-hooks
+          npm run build --workspace=@slack/cli-test
+
+          # Build base dependencies
+          npm run build --workspace=@slack/logger
+          npm run build --workspace=@slack/types
+
+          # Build packages requiring base dependencies
+          npm run build --workspace=@slack/web-api
+          npm run build --workspace=@slack/webhook
+
+          # Build packages that depend on the Web API
+          npm run build --workspace=@slack/oauth
+          npm run build --workspace=@slack/rtm-api
+          npm run build --workspace=@slack/socket-mode
+      - name: Run tests
+        run: |
+          npm run lint
+          npm test --workspace=@slack/${{ matrix.package }}
       - name: Check for coverage report existence
         id: check_coverage
         uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0

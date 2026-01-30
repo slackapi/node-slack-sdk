@@ -30,14 +30,12 @@
     "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
   "scripts": {
-    "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
-    "lint": "npx @biomejs/biome check .",
-    "lint:fix": "npx @biomejs/biome check --write .",
     "mocha": "mocha --config ./test/.mocharc.json src/*.spec.ts",
-    "test": "npm run lint && npm run test:unit",
+    "prepack": "npm run build",
+    "test": "npm run test:unit",
     "test:unit": "npm run build && c8 --config ./test/.c8rc.json npm run mocha"
   },
   "dependencies": {
@@ -46,7 +44,6 @@
     "axios": "^1.11.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.0.5",
     "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.1",
     "c8": "^10.1.3",
