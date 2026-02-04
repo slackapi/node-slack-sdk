@@ -41,7 +41,7 @@ if (fs.realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
 /**
  * Information about the app files to watch for server restarts.
  * @typedef AppConfigWatch
- * @property {string} filter-regex - Regex pattern for finding filtered files.
+ * @property {string} [filter-regex] - Regex pattern for finding filtered files.
  * @property {string[]} paths - Specific locations to begin searching for files.
  */
 
