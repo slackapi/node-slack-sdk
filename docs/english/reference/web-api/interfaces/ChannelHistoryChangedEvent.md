@@ -2,7 +2,7 @@
 
 # Interface: ChannelHistoryChangedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:36
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:36
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:36
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:40
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:40
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:40
 latest: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:38
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:38
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:38
 ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:39
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:39
 
 ***
 
@@ -42,4 +42,4 @@ Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:39
 type: "channel_history_changed";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:37
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:37

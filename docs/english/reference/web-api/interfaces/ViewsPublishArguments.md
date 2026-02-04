@@ -2,7 +2,7 @@
 
 # Interface: ViewsPublishArguments
 
-Defined in: [src/types/request/views.ts:40](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/views.ts#L40)
+Defined in: [packages/web-api/src/types/request/views.ts:40](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/views.ts#L40)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/views.ts:40](https://github.com/slackapi/node-sla
 optional hash: string;
 ```
 
-Defined in: [src/types/request/views.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/views.ts#L36)
+Defined in: [packages/web-api/src/types/request/views.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/views.ts#L36)
 
 #### Description
 
@@ -40,7 +40,7 @@ ViewHash.hash
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -60,7 +60,7 @@ TokenOverridable.token
 user_id: string;
 ```
 
-Defined in: [src/types/request/views.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/views.ts#L42)
+Defined in: [packages/web-api/src/types/request/views.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/views.ts#L42)
 
 #### Description
 
@@ -74,7 +74,7 @@ ID of the user you want publish a view to.
 view: View;
 ```
 
-Defined in: [src/types/request/views.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/views.ts#L7)
+Defined in: [packages/web-api/src/types/request/views.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/views.ts#L7)
 
 #### Description
 

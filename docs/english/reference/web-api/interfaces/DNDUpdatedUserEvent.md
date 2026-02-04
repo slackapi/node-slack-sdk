@@ -2,7 +2,7 @@
 
 # Interface: DNDUpdatedUserEvent
 
-Defined in: node\_modules/@slack/types/dist/events/dnd.d.ts:14
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/dnd.d.ts:14
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/dnd.d.ts:14
 dnd_status: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/dnd.d.ts:17
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/dnd.d.ts:17
 
 #### dnd\_enabled
 
@@ -40,7 +40,7 @@ next_dnd_start_ts: number;
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/dnd.d.ts:22
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/dnd.d.ts:22
 
 ***
 
@@ -50,7 +50,7 @@ Defined in: node\_modules/@slack/types/dist/events/dnd.d.ts:22
 type: "dnd_updated_user";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/dnd.d.ts:15
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/dnd.d.ts:15
 
 ***
 
@@ -60,4 +60,4 @@ Defined in: node\_modules/@slack/types/dist/events/dnd.d.ts:15
 user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/dnd.d.ts:16
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/dnd.d.ts:16

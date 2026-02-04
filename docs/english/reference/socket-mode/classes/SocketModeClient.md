@@ -2,7 +2,7 @@
 
 # Class: SocketModeClient
 
-Defined in: [src/SocketModeClient.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L36)
+Defined in: [packages/socket-mode/src/SocketModeClient.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L36)
 
 A Socket Mode Client allows programs to communicate with the
 [Slack Platform's Events API](https://https://docs.slack.dev/apis/events-api) over WebSocket connections.
@@ -21,7 +21,7 @@ and has a built in send method to acknowledge incoming events over the WebSocket
 new SocketModeClient(__namedParameters): SocketModeClient;
 ```
 
-Defined in: [src/SocketModeClient.ts:96](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L96)
+Defined in: [packages/socket-mode/src/SocketModeClient.ts:96](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L96)
 
 #### Parameters
 
@@ -47,7 +47,7 @@ EventEmitter.constructor
 optional websocket: SlackWebSocket;
 ```
 
-Defined in: [src/SocketModeClient.ts:66](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L66)
+Defined in: [packages/socket-mode/src/SocketModeClient.ts:66](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L66)
 
 The underlying WebSocket client instance
 
@@ -59,7 +59,7 @@ The underlying WebSocket client instance
 static prefixed: string | boolean;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:9
+Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:9
 
 #### Inherited from
 
@@ -78,7 +78,7 @@ addListener<T>(
    context?): this;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:45
+Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:45
 
 #### Type Parameters
 
@@ -118,7 +118,7 @@ EventEmitter.addListener
 disconnect(): Promise<void>;
 ```
 
-Defined in: [src/SocketModeClient.ts:205](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L205)
+Defined in: [packages/socket-mode/src/SocketModeClient.ts:205](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L205)
 
 End a Socket Mode session. After this method is called no messages will be sent or received
 unless you call start() again later.
@@ -135,7 +135,7 @@ unless you call start() again later.
 emit<T>(event, ...args): boolean;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:32
+Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:32
 
 Calls each of the listeners registered for a given event.
 
@@ -173,7 +173,7 @@ EventEmitter.emit
 eventNames(): (string | symbol)[];
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:15
+Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:15
 
 Return an array listing the events for which the emitter has registered
 listeners.
@@ -196,7 +196,7 @@ EventEmitter.eventNames
 listenerCount(event): number;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:27
+Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:27
 
 Return the number of listeners listening to a given event.
 
@@ -224,7 +224,7 @@ EventEmitter.listenerCount
 listeners<T>(event): (...args) => void[];
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:20
+Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:20
 
 Return the listeners registered for a given event.
 
@@ -262,7 +262,7 @@ off<T>(
    once?): this;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:69
+Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:69
 
 #### Type Parameters
 
@@ -309,7 +309,7 @@ on<T>(
    context?): this;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:40
+Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:40
 
 Add a listener for a given event.
 
@@ -354,7 +354,7 @@ once<T>(
    context?): this;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:54
+Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:54
 
 Add a one-time listener for a given event.
 
@@ -396,7 +396,7 @@ EventEmitter.once
 removeAllListeners(event?): this;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:79
+Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:79
 
 Remove all listeners, or those of the specified event.
 
@@ -428,7 +428,7 @@ removeListener<T>(
    once?): this;
 ```
 
-Defined in: node\_modules/eventemitter3/index.d.ts:63
+Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:63
 
 Remove the listeners of a given event.
 
@@ -474,7 +474,7 @@ EventEmitter.removeListener
 start(): Promise<AppsConnectionsOpenResponse>;
 ```
 
-Defined in: [src/SocketModeClient.ts:162](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L162)
+Defined in: [packages/socket-mode/src/SocketModeClient.ts:162](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L162)
 
 Start a Socket Mode session app.
 This method must be called before any messages can be sent or received,

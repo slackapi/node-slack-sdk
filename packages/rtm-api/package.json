@@ -25,7 +25,10 @@
     "node": ">=18",
     "npm": ">=8.6.0"
   },
-  "repository": "slackapi/node-slack-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slackapi/node-slack-sdk.git"
+  },
   "homepage": "https://docs.slack.dev/tools/node-slack-sdk/rtm-api/",
   "publishConfig": {
     "access": "public"
@@ -57,7 +60,7 @@
     "@types/sinon": "^17",
     "@types/ws": "^8",
     "chai": "^4",
-    "mocha": "^10",
+    "mocha": "^11",
     "shx": "^0.3.2",
     "sinon": "^21",
     "source-map-support": "^0.5.21",

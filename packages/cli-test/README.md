@@ -6,7 +6,7 @@ This library is designed to automate the [Slack Platform Command Line Interface]
 
 # Requirements
 
-1. Ensure the [Slack CLI][cli] is installed on your system.
+1. Ensure the [Slack CLI][cli] (version 2.32.2 or higher) is installed on your system.
 2. Export the path to the CLI binary as a `SLACK_CLI_PATH` environment variable.
 
 # Quickstart

@@ -2,7 +2,7 @@
 
 # Interface: ChannelUnarchiveEvent
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:72
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:72
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:72
 channel: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:74
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:74
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:74
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:76
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:76
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:76
 type: "channel_unarchive";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:73
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:73
 
 ***
 
@@ -42,4 +42,4 @@ Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:73
 user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:75
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:75

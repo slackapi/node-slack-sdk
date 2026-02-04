@@ -2,7 +2,7 @@
 
 # Interface: AssistantThreadsSetTitleArguments
 
-Defined in: [src/types/request/assistant.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L35)
+Defined in: [packages/web-api/src/types/request/assistant.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L35)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/assistant.ts:35](https://github.com/slackapi/node
 channel_id: string;
 ```
 
-Defined in: [src/types/request/assistant.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L37)
+Defined in: [packages/web-api/src/types/request/assistant.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L37)
 
 #### Description
 
@@ -30,7 +30,7 @@ Channel ID containing the assistant thread.
 thread_ts: string;
 ```
 
-Defined in: [src/types/request/assistant.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L39)
+Defined in: [packages/web-api/src/types/request/assistant.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L39)
 
 #### Description
 
@@ -44,7 +44,7 @@ Message timestamp of the thread.
 title: string;
 ```
 
-Defined in: [src/types/request/assistant.ts:41](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L41)
+Defined in: [packages/web-api/src/types/request/assistant.ts:41](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/assistant.ts#L41)
 
 #### Description
 
@@ -58,7 +58,7 @@ Title of the thread.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

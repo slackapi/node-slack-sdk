@@ -2,7 +2,7 @@
 
 # Interface: DividerBlock
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:89
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:89
 
 ## Description
 
@@ -25,7 +25,7 @@ different blocks inside of a message. The divider block is nice and neat, requir
 optional block_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
 
 #### Description
 
@@ -47,7 +47,7 @@ a message. If a message is updated, use a new `block_id`.
 type: "divider";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:93
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:93
 
 #### Description
 

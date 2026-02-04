@@ -2,7 +2,7 @@
 
 # Interface: SharedChannelInviteReceivedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:84
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:84
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:84
 channel: SharedChannelItem;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:87
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:87
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:87
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:88
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:88
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:88
 invite: SharedChannelInviteItem;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:86
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:86
 
 ***
 
@@ -42,4 +42,4 @@ Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:86
 type: "shared_channel_invite_received";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/shared-channel.d.ts:85
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/shared-channel.d.ts:85

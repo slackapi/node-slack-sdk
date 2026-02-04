@@ -2,7 +2,7 @@
 
 # Interface: ModalView
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:26
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:26
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: node\_modules/@slack/types/dist/views.d.ts:26
 blocks: AnyBlock[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:5
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:5
 
 #### Description
 
@@ -36,7 +36,7 @@ BaseView.blocks
 optional callback_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:18
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:18
 
 #### Description
 
@@ -61,7 +61,7 @@ BaseView.callback_id
 optional clear_on_close: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:49
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:49
 
 #### Description
 
@@ -76,7 +76,7 @@ Defaults to `false`.
 optional close: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:38
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:38
 
 #### Description
 
@@ -91,7 +91,7 @@ bottom-right of the view. Maximum length of 24 characters.
 optional external_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:20
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:20
 
 #### Description
 
@@ -111,7 +111,7 @@ BaseView.external_id
 optional notify_on_close: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:55
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:55
 
 #### Description
 
@@ -127,7 +127,7 @@ clicks the close button. Defaults to `false`.
 optional private_metadata: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:12
 
 #### Description
 
@@ -150,7 +150,7 @@ BaseView.private_metadata
 optional submit: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:44
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:44
 
 #### Description
 
@@ -166,7 +166,7 @@ characters.
 title: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:33
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:33
 
 #### Description
 
@@ -181,7 +181,7 @@ maximum length of 24 characters.
 type: "modal";
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:28
+Defined in: packages/web-api/node\_modules/@slack/types/dist/views.d.ts:28
 
 #### Description
 

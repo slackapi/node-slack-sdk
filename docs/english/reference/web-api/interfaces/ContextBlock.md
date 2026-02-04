@@ -2,7 +2,7 @@
 
 # Interface: ContextBlock
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:56
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:56
 
 ## Description
 
@@ -24,7 +24,7 @@ Displays contextual info, which can include both images and text.
 optional block_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
 
 #### Description
 
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 elements: ContextBlockElement[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:65
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:65
 
 #### Description
 
@@ -61,7 +61,7 @@ Maximum number of items is 10.
 type: "context";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:60
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:60
 
 #### Description
 

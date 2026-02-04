@@ -2,7 +2,7 @@
 
 # Interface: AppUninstalledTeamEvent
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:92
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:92
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:92
 app_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:94
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:94
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:94
 app_name: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:95
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:95
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:95
 app_owner_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:96
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:96
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:96
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:100
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:100
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:100
 team_domain: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:98
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:98
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:98
 team_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:97
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:97
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:97
 type: "app_uninstalled_team";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:93
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:93
 
 ***
 
@@ -82,4 +82,4 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:93
 user_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:99
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/app.d.ts:99

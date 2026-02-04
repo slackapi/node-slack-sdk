@@ -2,7 +2,7 @@
 
 # Interface: FileBlock
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:102
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:102
 
 ## Description
 
@@ -27,7 +27,7 @@ that contain remote files. If you want to add remote files to messages,
 optional block_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
 
 #### Description
 
@@ -49,7 +49,7 @@ a message. If a message is updated, use a new `block_id`.
 external_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:114
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:114
 
 #### Description
 
@@ -63,7 +63,7 @@ The external unique ID for this file.
 source: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:110
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:110
 
 #### Description
 
@@ -77,7 +77,7 @@ At the moment, source will always be `remote` for a remote file.
 type: "file";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:106
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:106
 
 #### Description
 

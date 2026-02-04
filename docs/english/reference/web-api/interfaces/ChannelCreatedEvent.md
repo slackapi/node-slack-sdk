@@ -2,7 +2,7 @@
 
 # Interface: ChannelCreatedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:8
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:8
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:8
 channel: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:11
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:11
 
 #### context\_team\_id
 
@@ -130,7 +130,7 @@ name_normalized: string;
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:10
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:10
 
 ***
 
@@ -140,4 +140,4 @@ Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:10
 type: "channel_created";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/channel.d.ts:9
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:9

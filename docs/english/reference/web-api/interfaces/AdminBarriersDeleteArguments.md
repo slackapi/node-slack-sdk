@@ -2,7 +2,7 @@
 
 # Interface: AdminBarriersDeleteArguments
 
-Defined in: [src/types/request/admin/barriers.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/barriers.ts#L24)
+Defined in: [packages/web-api/src/types/request/admin/barriers.ts:24](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/barriers.ts#L24)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/barriers.ts:24](https://github.com/slackapi
 barrier_id: string;
 ```
 
-Defined in: [src/types/request/admin/barriers.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/barriers.ts#L7)
+Defined in: [packages/web-api/src/types/request/admin/barriers.ts:7](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/barriers.ts#L7)
 
 #### Description
 
@@ -36,7 +36,7 @@ BarrierID.barrier_id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

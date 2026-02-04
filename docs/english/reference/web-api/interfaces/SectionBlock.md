@@ -2,7 +2,7 @@
 
 # Interface: SectionBlock
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:241
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:241
 
 ## Description
 
@@ -26,7 +26,7 @@ combination with text fields, or side-by-side with certain
 optional accessory: SectionBlockAccessory;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:262
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:262
 
 #### Description
 
@@ -40,7 +40,7 @@ One of the compatible element objects.
 optional block_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
 
 #### Description
 
@@ -62,7 +62,7 @@ a message. If a message is updated, use a new `block_id`.
 optional expand: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:266
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:266
 
 Whether or not this section block's text should always expand when rendered. If false or not provided, it may be rendered with a 'see more' option to expand and show the full text. For AI Assistant apps, this allows the app to post long messages without users needing to click 'see more' to expand the message.
 
@@ -74,7 +74,7 @@ Whether or not this section block's text should always expand when rendered. If 
 optional fields: TextObject[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:258
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:258
 
 #### Description
 
@@ -91,7 +91,7 @@ Maximum length for the text in each item is 2000 characters.
 optional text: TextObject;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:251
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:251
 
 #### Description
 
@@ -107,7 +107,7 @@ is provided instead.
 type: "section";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:245
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:245
 
 #### Description
 

@@ -2,7 +2,7 @@
 
 # Interface: WorkflowPublishedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:14
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:14
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:14
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:25
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:25
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:25
 type: "workflow_published";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:15
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:15
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:15
 workflow_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:16
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:16
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:16
 workflow_published_configuration: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:17
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:17
 
 #### app\_steps
 

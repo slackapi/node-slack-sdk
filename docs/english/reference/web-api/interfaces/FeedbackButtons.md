@@ -2,7 +2,7 @@
 
 # Interface: FeedbackButtons
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:119
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:119
 
 ## Description
 
@@ -20,7 +20,7 @@ Buttons to indicate positive or negative feedback.
 optional action_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
 [identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
@@ -38,7 +38,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 negative_button: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:145
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:145
 
 #### accessibility\_label?
 
@@ -86,7 +86,7 @@ A button to indicate negative feedback.
 positive_button: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:127
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:127
 
 #### accessibility\_label?
 
@@ -134,7 +134,7 @@ A button to indicate positive feedback.
 type: "feedback_buttons";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:123
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:123
 
 #### Description
 

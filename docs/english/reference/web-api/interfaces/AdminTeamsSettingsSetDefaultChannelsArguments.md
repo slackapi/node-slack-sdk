@@ -2,7 +2,7 @@
 
 # Interface: AdminTeamsSettingsSetDefaultChannelsArguments
 
-Defined in: [src/types/request/admin/teams.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L32)
+Defined in: [packages/web-api/src/types/request/admin/teams.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L32)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/teams.ts:32](https://github.com/slackapi/no
 channel_ids: [string, ...string[]];
 ```
 
-Defined in: [src/types/request/common.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L81)
+Defined in: [packages/web-api/src/types/request/common.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L81)
 
 #### Description
 
@@ -36,7 +36,7 @@ ChannelIDs.channel_ids
 team_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L61)
+Defined in: [packages/web-api/src/types/request/common.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L61)
 
 #### Description
 
@@ -56,7 +56,7 @@ TeamID.team_id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

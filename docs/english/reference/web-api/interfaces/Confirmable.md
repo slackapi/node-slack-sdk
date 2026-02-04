@@ -2,7 +2,7 @@
 
 # Interface: Confirmable
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:16
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:16
 
 ## Extended by
 
@@ -34,7 +34,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:16
 optional confirm: ConfirmationDialog;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
 
 #### Description
 

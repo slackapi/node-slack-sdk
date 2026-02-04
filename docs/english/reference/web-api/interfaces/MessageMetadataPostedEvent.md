@@ -2,7 +2,7 @@
 
 # Interface: MessageMetadataPostedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:3
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message-metadata.d.ts:3
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:3
 app_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:5
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message-metadata.d.ts:5
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:5
 optional bot_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:6
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message-metadata.d.ts:6
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:6
 channel_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:9
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message-metadata.d.ts:9
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:9
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message-metadata.d.ts:12
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:12
 message_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:11
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message-metadata.d.ts:11
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:11
 metadata: MessageMetadata;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:10
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message-metadata.d.ts:10
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:10
 team_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:8
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message-metadata.d.ts:8
 
 ***
 
@@ -82,7 +82,7 @@ Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:8
 type: "message_metadata_posted";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:4
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message-metadata.d.ts:4
 
 ***
 
@@ -92,4 +92,4 @@ Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:4
 user_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message-metadata.d.ts:7
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message-metadata.d.ts:7

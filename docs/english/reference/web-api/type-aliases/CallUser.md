@@ -8,7 +8,7 @@ type CallUser =
   | CallUserExternal;
 ```
 
-Defined in: node\_modules/@slack/types/dist/calls.d.ts:4
+Defined in: packages/web-api/node\_modules/@slack/types/dist/calls.d.ts:4
 
 ## Description
 

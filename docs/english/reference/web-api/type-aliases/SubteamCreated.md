@@ -6,7 +6,7 @@
 type SubteamCreated = SubteamCreatedEvent;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/subteam.d.ts:33
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:33
 
 ## Deprecated
 
