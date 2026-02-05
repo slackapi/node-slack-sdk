@@ -65,12 +65,13 @@ export interface CanvasesAccessSetArguments extends CanvasID, Partial<ChannelIDs
 
 // https://docs.slack.dev/reference/methods/canvases.create
 export type CanvasesCreateArguments = OptionalArgument<
-  TokenOverridable & {
-    /** @description Title of the newly created canvas. */
-    title?: string;
-    /** @description Structure describing the type and contents of the Canvas being created. */
-    document_content?: DocumentContent;
-  }
+  TokenOverridable &
+    Partial<ChannelID> & {
+      /** @description Title of the newly created canvas. */
+      title?: string;
+      /** @description Structure describing the type and contents of the Canvas being created. */
+      document_content?: DocumentContent;
+    }
 >;
 
 // https://docs.slack.dev/reference/methods/canvases.sections.lookup
