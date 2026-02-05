@@ -120,7 +120,7 @@ export const runStart = async function runStart(
     '--hide-triggers': typeof args.hideTriggers !== 'undefined' ? args.hideTriggers : true,
     '--org-workspace-grant': args.orgWorkspaceGrantFlag,
   });
-  const proc = await cmd.execAsyncUntilOutputPresent('Connected, awaiting events', {
+  const proc = await cmd.execAsyncUntilOutputPresent(SlackTracerId.SLACK_TRACE_PLATFORM_RUN_START, {
     cwd: args.appPath,
     timeout: args.timeout,
   });
