@@ -234,6 +234,14 @@ export type ChatScheduledMessagesListArguments = OptionalArgument<
 
 export interface ChatStartStreamArguments extends TokenOverridable, Channel, Partial<MarkdownText>, ThreadTS {
   /**
+   * @description Emoji to use as the icon for this message. Overrides `icon_url`.
+   */
+  icon_emoji?: string;
+  /**
+   * @description URL to an image to use as the icon for this message. The `icon_emoji` field takes precendence over this field.
+   */
+  icon_url?: string;
+  /**
    * @description The ID of the team that is associated with `recipient_user_id`.
    * This is required when starting a streaming conversation outside of a DM.
    */
@@ -243,6 +251,10 @@ export interface ChatStartStreamArguments extends TokenOverridable, Channel, Par
    * This is required when starting a streaming conversation outside of a DM.
    */
   recipient_user_id?: string;
+  /**
+   * @description Set your bot's username.
+   */
+  username?: string;
 }
 
 export type ChatStopStreamArguments = TokenOverridable &
