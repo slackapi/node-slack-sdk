@@ -94,6 +94,7 @@ export type {
 } from './admin/usergroups';
 export type {
   AdminUsersAssignArguments,
+  AdminUsersGetExpirationArguments,
   AdminUsersInviteArguments,
   AdminUsersListArguments,
   AdminUsersRemoveArguments,
