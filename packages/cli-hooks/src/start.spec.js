@@ -18,6 +18,7 @@ import start from './start.js';
  * @property {MockStreams} stdout - Output logged to standard output streams.
  * @property {MockStreams} stderr - Output logged to standard error streams.
  * @property {sinon.SinonStub} on - A fallback event to mock the spawn closure.
+ * @property {sinon.SinonStub} [kill] - Forced exit code of a spawned process.
  */
 
 describe('start implementation', async () => {
@@ -41,6 +42,7 @@ describe('start implementation', async () => {
         stdout: { on: sinon.stub(), setEncoding: () => {} },
         stderr: { on: sinon.stub() },
         on: sinon.stub(),
+        kill: sinon.stub(),
       };
       spawnStub = sinon.stub(childProcess, 'spawn').returns(/** @type {any} */ (mockSpawnProcess));
       process.env.SLACK_CLI_XAPP = 'xapp-example';
@@ -124,6 +126,63 @@ describe('start implementation', async () => {
         assert.ok(stderrWriteStub.calledWith('erroneous'));
         assert.ok(exitStub.calledWith(4));
       });
+    });
+  });
+
+  describe('stops the app process', () => {
+    /** @type {sinon.SinonStub} */
+    let processStub;
+    /** @type {sinon.SinonStub} */
+    let exitStub;
+    /** @type {MockSpawnProcess} */
+    let mockSpawnProcess;
+    /** @type {sinon.SinonStub} */
+    let spawnStub;
+
+    beforeEach(() => {
+      process.env.SLACK_CLI_CUSTOM_FILE_PATH = 'app.js';
+      processStub = sinon.stub(process, 'on');
+      exitStub = sinon.stub(process, 'exit');
+      mockSpawnProcess = {
+        stdout: { on: sinon.stub(), setEncoding: () => {} },
+        stderr: { on: sinon.stub() },
+        on: sinon.stub(),
+        kill: sinon.stub(),
+      };
+      spawnStub = sinon.stub(childProcess, 'spawn').returns(/** @type {any} */ (mockSpawnProcess));
+    });
+
+    afterEach(() => {
+      sinon.restore();
+      process.env.SLACK_CLI_CUSTOM_FILE_PATH = undefined;
+    });
+
+    it('stops app process on hook exit', () => {
+      start('./');
+      assert.ok(spawnStub.called);
+      assert.ok(spawnStub.calledWith('node', [path.resolve('app.js')]));
+      const handler = processStub.getCalls().find((call) => call.args[0] === 'exit')?.args[1];
+      assert.ok(handler, 'exit handler should be registered');
+      handler();
+      assert.ok(mockSpawnProcess.kill?.called);
+    });
+
+    it('stops app process on hook SIGINT', () => {
+      start('./');
+      const handler = processStub.getCalls().find((call) => call.args[0] === 'SIGINT')?.args[1];
+      assert.ok(handler, 'SIGINT handler should be registered');
+      handler();
+      assert.ok(mockSpawnProcess.kill?.calledWith('SIGINT'));
+      assert.ok(exitStub.called);
+    });
+
+    it('stops app process on hook SIGTERM', () => {
+      start('./');
+      const handler = processStub.getCalls().find((call) => call.args[0] === 'SIGTERM')?.args[1];
+      assert.ok(handler, 'SIGTERM handler should be registered');
+      handler();
+      assert.ok(mockSpawnProcess.kill?.calledWith('SIGTERM'));
+      assert.ok(exitStub.called);
     });
   });
 });
