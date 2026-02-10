@@ -2,15 +2,18 @@
 "@slack/web-api": minor
 ---
 
-feat: add thinking steps
+feat: add thinking steps support to streaming methods
 
-This release introduces new Thinking Steps features:
+`chat.appendStream`, `chat.startStream`, and `chat.stopStream` now accept a `chunks` parameter for streaming structured content including markdown text, plan updates, and task updates.
 
-- **Chunks in streaming methods**: `chat.appendStream`, `chat.startStream`, and `chat.stopStream` now support a `chunks` parameter for streaming structured content including markdown text, plan updates, and task updates with sources.
+Related PRs:
 
-- **Task and Plan Blocks**: `chat.postMessage` and related methods now support `plan` blocks containing `task_card` elements for displaying task progress and status.
+- [#2467](https://github.com/slackapi/node-slack-sdk/pull/2467) - accept chunks as arguments to chat.{start,append,stop}Stream methods
+- [#2470](https://github.com/slackapi/node-slack-sdk/pull/2470) - accept chunks as arguments to chat stream helper
+- [#2479](https://github.com/slackapi/node-slack-sdk/pull/2479) - add task display mode option to start of chat streams
+- [#2481](https://github.com/slackapi/node-slack-sdk/pull/2481) - export the chat streamer and related options from the package
 
-### Streaming with Chunks
+### Example
 
 ```js
 const stream = new ChatStreamer(client, client.logger, {
@@ -21,24 +24,24 @@ const stream = new ChatStreamer(client, client.logger, {
 await stream.append({
   chunks: [
     {
-      type: 'markdown_text',
-      text: '**Hello!** I am starting to process your request...\n\n'
-    }
-  ]
+      type: "markdown_text",
+      text: "**Hello!** I am starting to process your request...\n\n",
+    },
+  ],
 });
 
 await stream.append({
   chunks: [
     {
-      type: 'plan_update',
-      title: 'Processing tasks...',
+      type: "plan_update",
+      title: "Processing tasks...",
     },
     {
-      type: 'task_update',
-      id: 'task-1',
-      title: 'Fetching data from API',
-      status: 'complete',
-      output: 'Successfully retrieved 42 records',
+      type: "task_update",
+      id: "task-1",
+      title: "Fetching data from API",
+      status: "complete",
+      output: "Successfully retrieved 42 records",
     },
   ],
 });
@@ -46,39 +49,9 @@ await stream.append({
 await stream.stop({
   chunks: [
     {
-      type: 'markdown_text',
-      text: '\n\n---\n\n✅ **All tasks completed successfully!**\n',
+      type: "markdown_text",
+      text: "\n\n---\n\n✅ **All tasks completed successfully!**\n",
     },
   ],
-});
-```
-
-### Task and Plan Blocks
-
-```js
-await client.chat.postMessage({
-  channel: CHANNEL_ID,
-  text: 'Task progress update',
-  blocks: [
-    {
-      type: 'plan',
-      plan_id: 'plan-123',
-      title: 'My Task',
-      tasks: [
-        {
-          type: 'task_card',
-          task_id: 'task-124',
-          title: 'Task 1',
-          status: 'complete'
-        },
-        {
-          type: 'task_card',
-          task_id: 'task-125',
-          title: 'Task 2',
-          status: 'pending'
-        },
-      ]
-    }
-  ]
 });
 ```
