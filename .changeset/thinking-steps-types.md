@@ -8,7 +8,7 @@ Added types for Thinking Steps features:
 
 - **Block types**: `PlanBlock` and `TaskCard` for displaying task progress in messages
 - **Chunk types**: `MarkdownTextChunk`, `PlanUpdateChunk`, `TaskUpdateChunk` for streaming
-- **Source types**: `UrlSource` to reference sources of a task
+- **Source types**: `UrlSourceElements` for displaying sources within task cards
 
 Related PRs:
 
