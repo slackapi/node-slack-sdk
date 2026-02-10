@@ -4857,11 +4857,11 @@ Stream markdown text into a conversation.
 
 ##### params
 
-`Omit`\<[`ChatStartStreamArguments`](../interfaces/ChatStartStreamArguments.md) & `ChatStreamerOptions`, `"markdown_text"`\>
+`Omit`\<[`ChatStartStreamArguments`](../interfaces/ChatStartStreamArguments.md) & [`ChatStreamerOptions`](../interfaces/ChatStreamerOptions.md), `"markdown_text"`\>
 
 #### Returns
 
-`ChatStreamer`
+[`ChatStreamer`](ChatStreamer.md)
 
 #### Description
 

@@ -16,7 +16,7 @@ type SectionBlockAccessory =
   | WorkflowButton;
 ```
 
-Defined in: [block-kit/blocks.ts:323](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L323)
+Defined in: [block-kit/blocks.ts:326](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L326)
 
 A helper union type of all Block Elements that can be used as an accessory in a [SectionBlock](../interfaces/SectionBlock.md).
 
