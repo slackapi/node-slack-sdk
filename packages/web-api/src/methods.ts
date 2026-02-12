@@ -555,9 +555,11 @@ import { type WebAPICallResult, WebClient, type WebClientEvent } from './WebClie
  */
 type MethodWithRequiredArgument<MethodArguments, MethodResult extends WebAPICallResult = WebAPICallResult> = (
   options: MethodArguments,
+  config?: { signal?: AbortSignal },
 ) => Promise<MethodResult>;
 type MethodWithOptionalArgument<MethodArguments, MethodResult extends WebAPICallResult = WebAPICallResult> = (
   options?: MethodArguments,
+  config?: { signal?: AbortSignal },
 ) => Promise<MethodResult>;
 
 export default MethodWithOptionalArgument;
@@ -604,7 +606,11 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     }
   }
 
-  public abstract apiCall(method: string, options?: Record<string, unknown>): Promise<WebAPICallResult>;
+  public abstract apiCall(
+    method: string,
+    options?: Record<string, unknown>,
+    config?: { signal?: AbortSignal },
+  ): Promise<WebAPICallResult>;
   public abstract filesUploadV2(options: FilesUploadV2Arguments): Promise<WebAPICallResult>;
 
   public readonly admin = {
