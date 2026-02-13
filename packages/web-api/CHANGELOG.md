@@ -1,5 +1,11 @@
 # @slack/web-api
 
+## 7.14.1
+
+### Patch Changes
+
+- 370cf22: chore(deps): bump axios to ^1.13.5
+
 ## 7.14.0
 
 ### Minor Changes
