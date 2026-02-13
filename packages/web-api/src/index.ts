@@ -19,6 +19,8 @@ export { default as retryPolicies, RetryOptions } from './retry-policies';
 export * from './types/request/index';
 export * from './types/response/index';
 
+export { ChatStreamer, ChatStreamerOptions } from './chat-stream';
+
 export {
   PageAccumulator,
   PageReducer,

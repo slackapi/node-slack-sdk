@@ -2,7 +2,7 @@
 
 # Interface: StaticSelect
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:288
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:288
 
 ## Description
 
@@ -26,7 +26,7 @@ element.
 optional action_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
 [identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
@@ -44,7 +44,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 optional confirm: ConfirmationDialog;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
 
 #### Description
 
@@ -63,7 +63,7 @@ with.
 optional focus_on_load: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
 
 #### Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_option: PlainTextOption;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:297
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:297
 
 #### Description
 
@@ -98,7 +98,7 @@ This option will be selected when the menu initially loads.
 optional option_groups: object[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:307
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:307
 
 #### label
 
@@ -125,7 +125,7 @@ this field should not be.
 optional options: PlainTextOption[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:302
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:302
 
 #### Description
 
@@ -140,7 +140,7 @@ specified, this field should not be.
 optional placeholder: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:49
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:49
 
 #### Description
 
@@ -159,7 +159,7 @@ length for the `text` field in this object is 150 characters.
 type: "static_select";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:292
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:292
 
 #### Description
 

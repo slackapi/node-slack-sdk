@@ -35,6 +35,17 @@ export default function start(cwd) {
   app.on('close', (code) => {
     process.exit(code);
   });
+  process.on('exit', () => {
+    app.kill();
+  });
+  process.on('SIGINT', () => {
+    app.kill('SIGINT');
+    process.exit();
+  });
+  process.on('SIGTERM', () => {
+    app.kill('SIGTERM');
+    process.exit();
+  });
 }
 
 /**

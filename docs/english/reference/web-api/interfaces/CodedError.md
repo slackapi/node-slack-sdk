@@ -2,7 +2,7 @@
 
 # Interface: CodedError
 
-Defined in: [src/errors.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L10)
+Defined in: [packages/web-api/src/errors.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L10)
 
 All errors produced by this package adhere to this interface
 
@@ -25,7 +25,7 @@ All errors produced by this package adhere to this interface
 code: ErrorCode;
 ```
 
-Defined in: [src/errors.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L11)
+Defined in: [packages/web-api/src/errors.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L11)
 
 #### Overrides
 
@@ -41,7 +41,7 @@ NodeJS.ErrnoException.code
 optional errno: number;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:102
+Defined in: packages/web-api/node\_modules/@types/node/globals.d.ts:102
 
 #### Inherited from
 
@@ -89,7 +89,7 @@ NodeJS.ErrnoException.name
 optional path: string;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:104
+Defined in: packages/web-api/node\_modules/@types/node/globals.d.ts:104
 
 #### Inherited from
 
@@ -121,7 +121,7 @@ NodeJS.ErrnoException.stack
 optional syscall: string;
 ```
 
-Defined in: node\_modules/@types/node/globals.d.ts:105
+Defined in: packages/web-api/node\_modules/@types/node/globals.d.ts:105
 
 #### Inherited from
 

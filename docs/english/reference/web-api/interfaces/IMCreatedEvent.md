@@ -2,7 +2,7 @@
 
 # Interface: IMCreatedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/im.d.ts:7
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/im.d.ts:7
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/im.d.ts:7
 channel: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/im.d.ts:10
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/im.d.ts:10
 
 #### id
 
@@ -28,7 +28,7 @@ id: string;
 type: "im_created";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/im.d.ts:8
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/im.d.ts:8
 
 ***
 
@@ -38,4 +38,4 @@ Defined in: node\_modules/@slack/types/dist/events/im.d.ts:8
 user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/im.d.ts:9
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/im.d.ts:9

@@ -1,4 +1,4 @@
-# @slack/web-api v7.11.0
+# @slack/web-api v7.13.0
 
 ## Enumerations
 
@@ -8,6 +8,7 @@
 
 ## Classes
 
+- [ChatStreamer](classes/ChatStreamer.md)
 - [Methods](classes/Methods.md)
 - [WebClient](classes/WebClient.md)
 
@@ -160,6 +161,7 @@
 - [ChatGetPermalinkArguments](interfaces/ChatGetPermalinkArguments.md)
 - [ChatMeMessageArguments](interfaces/ChatMeMessageArguments.md)
 - [ChatStartStreamArguments](interfaces/ChatStartStreamArguments.md)
+- [ChatStreamerOptions](interfaces/ChatStreamerOptions.md)
 - [Checkboxes](interfaces/Checkboxes.md)
 - [CodedError](interfaces/CodedError.md)
 - [~~Confirm~~](interfaces/Confirm.md)
@@ -332,6 +334,18 @@
 - [SharedChannelInviteReceivedEvent](interfaces/SharedChannelInviteReceivedEvent.md)
 - [SharedChannelInviteRequestedEvent](interfaces/SharedChannelInviteRequestedEvent.md)
 - [SlackFileImageObject](interfaces/SlackFileImageObject.md)
+- [SlackListsAccessDeleteArguments](interfaces/SlackListsAccessDeleteArguments.md)
+- [SlackListsAccessSetArguments](interfaces/SlackListsAccessSetArguments.md)
+- [SlackListsCreateArguments](interfaces/SlackListsCreateArguments.md)
+- [SlackListsDownloadGetArguments](interfaces/SlackListsDownloadGetArguments.md)
+- [SlackListsDownloadStartArguments](interfaces/SlackListsDownloadStartArguments.md)
+- [SlackListsItemsCreateArguments](interfaces/SlackListsItemsCreateArguments.md)
+- [SlackListsItemsDeleteArguments](interfaces/SlackListsItemsDeleteArguments.md)
+- [SlackListsItemsDeleteMultipleArguments](interfaces/SlackListsItemsDeleteMultipleArguments.md)
+- [SlackListsItemsInfoArguments](interfaces/SlackListsItemsInfoArguments.md)
+- [SlackListsItemsListArguments](interfaces/SlackListsItemsListArguments.md)
+- [SlackListsItemsUpdateArguments](interfaces/SlackListsItemsUpdateArguments.md)
+- [SlackListsUpdateArguments](interfaces/SlackListsUpdateArguments.md)
 - [StarAddedEvent](interfaces/StarAddedEvent.md)
 - [StarRemovedEvent](interfaces/StarRemovedEvent.md)
 - [StarsListArguments](interfaces/StarsListArguments.md)
@@ -654,6 +668,8 @@
 - [DndTeamInfoResponse](type-aliases/DndTeamInfoResponse.md)
 - [EmojiListArguments](type-aliases/EmojiListArguments.md)
 - [EmojiListResponse](type-aliases/EmojiListResponse.md)
+- [EntityPresentDetailsArguments](type-aliases/EntityPresentDetailsArguments.md)
+- [EntityPresentDetailsResponse](type-aliases/EntityPresentDetailsResponse.md)
 - [FilesCommentsAddResponse](type-aliases/FilesCommentsAddResponse.md)
 - [FilesCommentsDeleteResponse](type-aliases/FilesCommentsDeleteResponse.md)
 - [FilesCommentsEditResponse](type-aliases/FilesCommentsEditResponse.md)
@@ -761,6 +777,18 @@
 - [~~SharedChannelInviteReceived~~](type-aliases/SharedChannelInviteReceived.md)
 - [SlackEvent](type-aliases/SlackEvent.md)
 - [SlackFile](type-aliases/SlackFile.md)
+- [SlackListsAccessDeleteResponse](type-aliases/SlackListsAccessDeleteResponse.md)
+- [SlackListsAccessSetResponse](type-aliases/SlackListsAccessSetResponse.md)
+- [SlackListsCreateResponse](type-aliases/SlackListsCreateResponse.md)
+- [SlackListsDownloadGetResponse](type-aliases/SlackListsDownloadGetResponse.md)
+- [SlackListsDownloadStartResponse](type-aliases/SlackListsDownloadStartResponse.md)
+- [SlackListsItemsCreateResponse](type-aliases/SlackListsItemsCreateResponse.md)
+- [SlackListsItemsDeleteMultipleResponse](type-aliases/SlackListsItemsDeleteMultipleResponse.md)
+- [SlackListsItemsDeleteResponse](type-aliases/SlackListsItemsDeleteResponse.md)
+- [SlackListsItemsInfoResponse](type-aliases/SlackListsItemsInfoResponse.md)
+- [SlackListsItemsListResponse](type-aliases/SlackListsItemsListResponse.md)
+- [SlackListsItemsUpdateResponse](type-aliases/SlackListsItemsUpdateResponse.md)
+- [SlackListsUpdateResponse](type-aliases/SlackListsUpdateResponse.md)
 - [StarsAddRemoveArguments](type-aliases/StarsAddRemoveArguments.md)
 - [StarsAddResponse](type-aliases/StarsAddResponse.md)
 - [StarsListResponse](type-aliases/StarsListResponse.md)

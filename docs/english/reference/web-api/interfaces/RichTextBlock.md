@@ -2,7 +2,7 @@
 
 # Interface: RichTextBlock
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:223
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:223
 
 ## Description
 
@@ -29,7 +29,7 @@ the [RichTextInput](RichTextInput.md).
 optional block_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
 
 #### Description
 
@@ -51,7 +51,7 @@ a message. If a message is updated, use a new `block_id`.
 elements: RichTextBlockElement[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:228
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:228
 
 ***
 
@@ -61,7 +61,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:228
 type: "rich_text";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:227
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:227
 
 #### Description
 

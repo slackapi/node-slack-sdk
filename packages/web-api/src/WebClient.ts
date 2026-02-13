@@ -159,7 +159,6 @@ export type PageAccumulator<R extends PageReducer> = R extends (
   accumulator: infer A | undefined,
   page: WebAPICallResult,
   index: number,
-  // biome-ignore lint/suspicious/noRedeclare: TODO: what is being redeclared here?
 ) => infer A
   ? A
   : never;
@@ -514,6 +513,8 @@ export class WebClient extends Methods {
    * Stream markdown text into a conversation.
    *
    * @description The "chatStream" method starts a new chat stream in a conversation that can be appended to. After appending an entire message, the stream can be stopped with concluding arguments such as "blocks" for gathering feedback.
+   *
+   * The "markdown_text" content is appended to a buffer before being sent to the recipient, with a default buffer size of "256" characters. Setting the "buffer_size" value to a smaller number sends more frequent updates for the same amount of characters, but might reach rate limits more often.
    *
    * @example
    * const streamer = client.chatStream({

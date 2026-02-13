@@ -2,7 +2,7 @@
 
 # Interface: IMCloseEvent
 
-Defined in: node\_modules/@slack/types/dist/events/im.d.ts:1
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/im.d.ts:1
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/im.d.ts:1
 channel: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/im.d.ts:4
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/im.d.ts:4
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/im.d.ts:4
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/im.d.ts:5
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/im.d.ts:5
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/im.d.ts:5
 type: "im_close";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/im.d.ts:2
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/im.d.ts:2
 
 ***
 
@@ -42,4 +42,4 @@ Defined in: node\_modules/@slack/types/dist/events/im.d.ts:2
 user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/im.d.ts:3
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/im.d.ts:3

@@ -2,7 +2,7 @@
 
 # Interface: ConversationsCreateArguments
 
-Defined in: [src/types/request/conversations.ts:75](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L75)
+Defined in: [packages/web-api/src/types/request/conversations.ts:75](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L75)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/conversations.ts:75](https://github.com/slackapi/
 optional is_private: boolean;
 ```
 
-Defined in: [src/types/request/conversations.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L32)
+Defined in: [packages/web-api/src/types/request/conversations.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L32)
 
 #### Description
 
@@ -36,7 +36,7 @@ IsPrivate.is_private
 name: string;
 ```
 
-Defined in: [src/types/request/conversations.ts:77](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L77)
+Defined in: [packages/web-api/src/types/request/conversations.ts:77](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L77)
 
 #### Description
 
@@ -50,7 +50,7 @@ Name of the public or private channel to create.
 optional team_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
+Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
 
 #### Description
 
@@ -70,7 +70,7 @@ OptionalTeamAssignable.team_id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

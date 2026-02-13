@@ -2,7 +2,7 @@
 
 # Interface: AdminTeamsCreateArguments
 
-Defined in: [src/types/request/admin/teams.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L11)
+Defined in: [packages/web-api/src/types/request/admin/teams.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L11)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/teams.ts:11](https://github.com/slackapi/no
 optional team_description: string;
 ```
 
-Defined in: [src/types/request/admin/teams.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L17)
+Defined in: [packages/web-api/src/types/request/admin/teams.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L17)
 
 #### Description
 
@@ -30,7 +30,7 @@ Description for the team.
 optional team_discoverability: TeamDiscoverability;
 ```
 
-Defined in: [src/types/request/admin/teams.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L19)
+Defined in: [packages/web-api/src/types/request/admin/teams.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L19)
 
 #### Description
 
@@ -44,7 +44,7 @@ Who can join the team.
 team_domain: string;
 ```
 
-Defined in: [src/types/request/admin/teams.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L13)
+Defined in: [packages/web-api/src/types/request/admin/teams.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L13)
 
 #### Description
 
@@ -58,7 +58,7 @@ Team domain (for example, slacksoftballteam). Domains are limited to 21 characte
 team_name: string;
 ```
 
-Defined in: [src/types/request/admin/teams.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L15)
+Defined in: [packages/web-api/src/types/request/admin/teams.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/teams.ts#L15)
 
 #### Description
 
@@ -72,7 +72,7 @@ Team name (for example, Slack Softball Team).
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

@@ -2,7 +2,7 @@
 
 # Interface: InputBlock
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:163
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:163
 
 ## Description
 
@@ -26,7 +26,7 @@ Collects information from users via block elements.
 optional block_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:15
 
 #### Description
 
@@ -48,7 +48,7 @@ a message. If a message is updated, use a new `block_id`.
 optional dispatch_action: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:191
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:191
 
 #### Description
 
@@ -63,7 +63,7 @@ A boolean that indicates whether or not the use of elements in this block should
 element: InputBlockElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:186
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:186
 
 #### Description
 
@@ -77,7 +77,7 @@ A block element.
 optional hint: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:177
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:177
 
 #### Description
 
@@ -92,7 +92,7 @@ An optional hint that appears below an input element in a lighter grey. It must 
 label: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:172
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:172
 
 #### Description
 
@@ -107,7 +107,7 @@ Maximum length for the text in this field is 2000 characters.
 optional optional: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:182
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:182
 
 #### Description
 
@@ -122,7 +122,7 @@ Defaults to `false`.
 type: "input";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/blocks.d.ts:167
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/blocks.d.ts:167
 
 #### Description
 

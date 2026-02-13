@@ -22,9 +22,16 @@ import type {
   Select,
   Timepicker,
   URLInput,
+  URLSourceElement,
   WorkflowButton,
 } from './block-elements';
-import type { PlainTextElement, SlackFileImageObject, TextObject, UrlImageObject } from './composition-objects';
+import type {
+  PlainTextElement,
+  RawTextElement,
+  SlackFileImageObject,
+  TextObject,
+  UrlImageObject,
+} from './composition-objects';
 
 export interface Block {
   /**
@@ -57,6 +64,9 @@ export type KnownBlock =
   | MarkdownBlock
   | RichTextBlock
   | SectionBlock
+  | TableBlock
+  | TaskCardBlock
+  | PlanBlock
   | VideoBlock;
 
 /**
@@ -127,6 +137,7 @@ export type ContextActionsBlockElement = FeedbackButtons | IconButton;
 
 /**
  * @description Displays actions as contextual info, which can include both feedback buttons and icon buttons.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/context-actions-block Context actions block reference}.
  */
 export interface ContextActionsBlock extends Block {
   /**
@@ -358,6 +369,102 @@ export interface SectionBlock extends Block {
    * Whether or not this section block's text should always expand when rendered. If false or not provided, it may be rendered with a 'see more' option to expand and show the full text. For AI Assistant apps, this allows the app to post long messages without users needing to click 'see more' to expand the message.
    */
   expand?: boolean;
+}
+
+/**
+ * @description Displays structured information in a table.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/table-block Table block reference}.
+ */
+export interface TableBlock extends Block {
+  /**
+   * @description The type of block. For a table block, `type` is always `table`.
+   */
+  type: 'table';
+  /**
+   * @description An array consisting of table rows. Maximum 100 rows. Each row object is an array with a max of 20 table cells. Table cells can have a type of raw_text or rich_text.
+   */
+  rows: (RichTextBlock | RawTextElement)[][];
+  /**
+   * @description An array describing column behavior. If there are fewer items in the column_settings array than there are columns in the table, then the items in the the column_settings array will describe the same number of columns in the table as there are in the array itself. Any additional columns will have the default behavior. Maximum 20 items.
+   */
+  column_settings?: TableBlockColumnSettings[];
+}
+
+/**
+ * Schema for column_settings of the table block.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/table-block/#schema-for-column_settings}.
+ */
+interface TableBlockColumnSettings {
+  /**
+   * @description The alignment for items in this column. Can be left, center, or right. Defaults to left if not defined.
+   */
+  align?: 'left' | 'center' | 'right';
+  /**
+   * @description Whether the contents of this column should be wrapped or not. Defaults to false if not defined.
+   */
+  is_wrapped?: boolean;
+}
+
+/**
+ * @description A discrete task or tool call.
+ * @see https://docs.slack.dev/reference/block-kit/blocks/task-card-block/
+ */
+export interface TaskCardBlock extends Block {
+  /**
+   * @description The type of block. For this block, type will always be `task_card`.
+   */
+  type: 'task_card';
+
+  /**
+   * @description ID for the task.
+   */
+  task_id: string;
+
+  /**
+   * @description Title of the task in plain text.
+   */
+  title: string;
+
+  /**
+   * @description Details of the task in the form of a single "rich_text" entity.
+   */
+  details?: RichTextBlock;
+
+  /**
+   * @description Output of the task in the form of a single "rich_text" entity.
+   */
+  output?: RichTextBlock;
+
+  /**
+   * @description Array of URL source elements used to generate a response.
+   */
+  sources?: URLSourceElement[];
+
+  /**
+   * @description The state of a task. Can be "pending", "in_progress", "complete", or "error".
+   */
+  status: 'pending' | 'in_progress' | 'complete' | 'error';
+}
+
+/**
+ * @description A collection of related tasks.
+ * @see https://docs.slack.dev/reference/block-kit/blocks/plan-block/
+ */
+export interface PlanBlock extends Block {
+  /**
+   * @description The type of block. In this case `type` is always `plan`.
+   */
+  type: 'plan';
+
+  /**
+   * @description Title of the plan in plain text.
+   */
+  title: string;
+
+  /**
+   * @description A sequence of task card blocks. Each task represents a single action within the plan.
+   */
+  tasks?: (TaskCardBlock | Record<string, unknown>)[];
 }
 
 /**

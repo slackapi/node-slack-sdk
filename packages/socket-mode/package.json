@@ -27,7 +27,10 @@
     "node": ">= 18",
     "npm": ">= 8.6.0"
   },
-  "repository": "slackapi/node-slack-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slackapi/node-slack-sdk.git"
+  },
   "homepage": "https://docs.slack.dev/tools/node-slack-sdk/socket-mode/",
   "publishConfig": {
     "access": "public"
@@ -36,16 +39,14 @@
     "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
   "scripts": {
-    "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
-    "lint": "npx @biomejs/biome check .",
-    "lint:fix": "npx @biomejs/biome check --write .",
-    "test:unit": "mocha --config ./test/.mocharc.json src/**/*.spec.ts",
+    "prepack": "npm run build",
+    "test": "npm run build && npm run test:coverage && npm run test:integration",
     "test:coverage": "c8 --config ./test/.c8rc.json npm run test:unit",
     "test:integration": "mocha --config ./test/.mocharc.json test/integration.spec.js",
-    "test": "npm run lint && npm run build && npm run test:coverage && npm run test:integration",
+    "test:unit": "mocha --config ./test/.mocharc.json src/**/*.spec.ts",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm test"
   },
   "dependencies": {
@@ -57,12 +58,11 @@
     "ws": "^8"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.0.5",
     "@tsconfig/recommended": "^1.0.7",
     "@types/chai": "^4",
     "@types/mocha": "^10",
     "@types/proxyquire": "^1.3.31",
-    "@types/sinon": "^17",
+    "@types/sinon": "^21",
     "c8": "^10.1.2",
     "chai": "^4",
     "mocha": "^11",

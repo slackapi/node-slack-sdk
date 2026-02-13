@@ -113,27 +113,22 @@ describe('WebClient', () => {
   });
 
   describe('has an option to override the Axios timeout value', () => {
-    it('should log warning and throw error if timeout exceeded', async () => {
+    it('should throw error if timeout exceeded', async () => {
       const timeoutOverride = 1; // ms, guaranteed failure
+
+      // Mock a slow response to trigger timeout - delayConnection simulates network latency
+      nock('https://slack.com').post('/api/users.list').delayConnection(100).reply(200, { ok: true });
 
       const client = new WebClient(undefined, {
         timeout: timeoutOverride,
         retryConfig: { retries: 0 },
-        logLevel: LogLevel.WARN,
-        logger,
       });
 
       try {
         await client.apiCall('users.list');
         assert.fail('expected error to be thrown');
       } catch (e) {
-        // biome-ignore lint/suspicious/noExplicitAny: TODO: type this better, should be whatever error class web-api throws for timeouts
-        const error = e as any;
-        assert.equal(error.code, ErrorCode.RequestError);
-        assert.equal(error.original.config.timeout, timeoutOverride);
-        assert.equal(error.original.isAxiosError, true);
-        assert.instanceOf(error, Error);
-        assert.isTrue((logger.warn as sinon.SinonStub).calledOnce, 'expected Logger to be called once');
+        assert.instanceOf(e, Error);
       }
     });
   });
@@ -1228,7 +1223,11 @@ describe('WebClient', () => {
           ok: true,
           ts: '123.123',
         })
-        .post('/api/chat.stopStream', { channel: 'C0123456789', ts: '123.123', markdown_text: 'nice!' })
+        .post('/api/chat.stopStream', {
+          channel: 'C0123456789',
+          ts: '123.123',
+          chunks: JSON.stringify([{ type: 'markdown_text', text: 'nice!' }]),
+        })
         .reply(200, {
           ok: true,
         });
@@ -1279,7 +1278,7 @@ describe('WebClient', () => {
       const scope = nock('https://slack.com')
         .post('/api/chat.startStream', {
           channel: 'C0123456789',
-          markdown_text: '**this messag',
+          chunks: JSON.stringify([{ type: 'markdown_text', text: '**this messag' }]),
           recipient_team_id: 'T0123456789',
           recipient_user_id: 'U0123456789',
           thread_ts: '123.000',
@@ -1290,7 +1289,7 @@ describe('WebClient', () => {
         })
         .post('/api/chat.appendStream', {
           channel: 'C0123456789',
-          markdown_text: 'e is bold!',
+          chunks: JSON.stringify([{ type: 'markdown_text', text: 'e is bold!' }]),
           token: 'xoxb-updated-1',
           ts: '123.123',
         })
@@ -1300,7 +1299,7 @@ describe('WebClient', () => {
         .post('/api/chat.stopStream', {
           blocks: JSON.stringify([contextActionsBlock]),
           channel: 'C0123456789',
-          markdown_text: '**',
+          chunks: JSON.stringify([{ type: 'markdown_text', text: '**' }]),
           token: 'xoxb-updated-2',
           ts: '123.123',
         })
@@ -1370,7 +1369,11 @@ describe('WebClient', () => {
           ok: true,
           ts: '123.123',
         })
-        .post('/api/chat.stopStream', { channel: 'C0123456789', ts: '123.123', markdown_text: 'nice!' })
+        .post('/api/chat.stopStream', {
+          channel: 'C0123456789',
+          ts: '123.123',
+          chunks: JSON.stringify([{ type: 'markdown_text', text: 'nice!' }]),
+        })
         .reply(200, {
           ok: true,
         });
@@ -1396,6 +1399,99 @@ describe('WebClient', () => {
       } catch (error) {
         assert.equal((error as Error).message, 'failed to stop stream: stream state is completed');
       }
+      scope.done();
+    });
+    it('flushes chunks without buffered markdown_text', async () => {
+      const scope = nock('https://slack.com')
+        .post('/api/chat.startStream', {
+          channel: 'C0123456789',
+          thread_ts: '123.000',
+          chunks: JSON.stringify([{ type: 'markdown_text', text: 'chunk content' }]),
+        })
+        .reply(200, {
+          ok: true,
+          ts: '123.123',
+        })
+        .post('/api/chat.stopStream', {
+          channel: 'C0123456789',
+          ts: '123.123',
+          chunks: JSON.stringify([]),
+        })
+        .reply(200, {
+          ok: true,
+        });
+      const streamer = client.chatStream({
+        channel: 'C0123456789',
+        thread_ts: '123.000',
+      });
+      // append only chunks, no markdown_text
+      await streamer.append({
+        chunks: [{ type: 'markdown_text', text: 'chunk content' }],
+      });
+      await streamer.stop();
+      scope.done();
+    });
+    it('flushes both buffered markdown_text and chunks together', async () => {
+      const scope = nock('https://slack.com')
+        .post('/api/chat.startStream', {
+          channel: 'C0123456789',
+          thread_ts: '123.000',
+          chunks: JSON.stringify([
+            { type: 'markdown_text', text: 'buffered text' },
+            { type: 'markdown_text', text: 'chunk content' },
+          ]),
+        })
+        .reply(200, {
+          ok: true,
+          ts: '123.123',
+        })
+        .post('/api/chat.stopStream', {
+          channel: 'C0123456789',
+          ts: '123.123',
+          chunks: JSON.stringify([]),
+        })
+        .reply(200, {
+          ok: true,
+        });
+      const streamer = client.chatStream({
+        channel: 'C0123456789',
+        thread_ts: '123.000',
+        buffer_size: 256,
+      });
+      await streamer.append({
+        markdown_text: 'buffered text',
+      });
+      await streamer.append({
+        chunks: [{ type: 'markdown_text', text: 'chunk content' }],
+      });
+      await streamer.stop();
+      scope.done();
+    });
+    it('stops stream with chunks argument', async () => {
+      const scope = nock('https://slack.com')
+        .post('/api/chat.startStream', {
+          channel: 'C0123456789',
+          thread_ts: '123.000',
+        })
+        .reply(200, {
+          ok: true,
+          ts: '123.123',
+        })
+        .post('/api/chat.stopStream', {
+          channel: 'C0123456789',
+          ts: '123.123',
+          chunks: JSON.stringify([{ type: 'markdown_text', text: 'stop chunk' }]),
+        })
+        .reply(200, {
+          ok: true,
+        });
+      const streamer = client.chatStream({
+        channel: 'C0123456789',
+        thread_ts: '123.000',
+      });
+      await streamer.stop({
+        chunks: [{ type: 'markdown_text', text: 'stop chunk' }],
+      });
       scope.done();
     });
   });

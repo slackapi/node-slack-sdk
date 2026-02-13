@@ -2,7 +2,7 @@
 
 # Interface: CallsParticipantsAddArguments
 
-Defined in: [src/types/request/calls.ts:60](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L60)
+Defined in: [packages/web-api/src/types/request/calls.ts:60](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L60)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/calls.ts:60](https://github.com/slackapi/node-sla
 id: string;
 ```
 
-Defined in: [src/types/request/calls.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L6)
+Defined in: [packages/web-api/src/types/request/calls.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L6)
 
 #### Description
 
@@ -36,7 +36,7 @@ ID.id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -56,7 +56,7 @@ TokenOverridable.token
 users: CallUser[];
 ```
 
-Defined in: [src/types/request/calls.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L13)
+Defined in: [packages/web-api/src/types/request/calls.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/calls.ts#L13)
 
 #### Description
 

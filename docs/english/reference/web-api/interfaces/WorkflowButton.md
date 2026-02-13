@@ -2,7 +2,7 @@
 
 # Interface: WorkflowButton
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:618
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:618
 
 ## Description
 
@@ -24,7 +24,7 @@ Allows users to run a [link trigger](https://docs.slack.dev/tools/deno-slack-sdk
 optional accessibility_label: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:672
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:672
 
 #### Description
 
@@ -39,7 +39,7 @@ readers instead of the button `text` object. Maximum length for this field is 75
 optional confirm: ConfirmationDialog;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
 
 #### Description
 
@@ -58,7 +58,7 @@ with.
 optional style: ColorScheme;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:667
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:667
 
 #### Description
 
@@ -77,7 +77,7 @@ If you don't include this field, the default button style will be used.
 text: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:627
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:627
 
 #### Description
 
@@ -92,7 +92,7 @@ Maximum length for the `text` in this field is 75 characters.
 type: "workflow_button";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:622
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:622
 
 #### Description
 
@@ -106,7 +106,7 @@ The type of element. In this case `type` is always `workflow_button`.
 workflow: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:631
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:631
 
 #### trigger
 

@@ -1,6 +1,6 @@
 {
   "name": "@slack/web-api",
-  "version": "7.11.0",
+  "version": "7.14.0",
   "description": "Official library for using the Slack Platform's Web API",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -24,7 +24,10 @@
     "node": ">= 18",
     "npm": ">= 8.6.0"
   },
-  "repository": "slackapi/node-slack-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slackapi/node-slack-sdk.git"
+  },
   "homepage": "https://docs.slack.dev/tools/node-slack-sdk/web-api/",
   "publishConfig": {
     "access": "public"
@@ -33,23 +36,21 @@
     "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
   "scripts": {
-    "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
     "build:clean": "shx rm -rf ./dist ./coverage",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
-    "lint": "npx @biomejs/biome check .",
-    "lint:fix": "npx @biomejs/biome check --write .",
     "mocha": "mocha --config ./test/.mocharc.json \"./src/**/*.spec.ts\"",
-    "test": "npm run lint && npm run test:types && npm run test:integration && npm run test:unit",
+    "prepack": "npm run build",
+    "test": "npm run test:types && npm run test:integration && npm run test:unit",
     "test:integration": "npm run build && node test/integration/commonjs-project/index.js && node test/integration/esm-project/index.mjs && npm run test:integration:ts",
     "test:integration:ts": "cd test/integration/ts-4.7-project && npm i && npm run build",
-    "test:unit": "npm run build && c8 --config ./test/.c8rc.json npm run mocha",
     "test:types": "tsd",
+    "test:unit": "npm run build && c8 --config ./test/.c8rc.json npm run mocha",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
   },
   "dependencies": {
     "@slack/logger": "^4.0.0",
-    "@slack/types": "^2.17.0",
+    "@slack/types": "^2.20.0",
     "@types/node": ">=18.0.0",
     "@types/retry": "0.12.0",
     "axios": "^1.12.0",
@@ -62,12 +63,11 @@
     "retry": "^0.13.1"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.0.5",
     "@tsconfig/recommended": "^1",
     "@types/busboy": "^1.5.4",
     "@types/chai": "^4",
     "@types/mocha": "^10",
-    "@types/sinon": "^17",
+    "@types/sinon": "^21",
     "busboy": "^1",
     "c8": "^10.1.2",
     "chai": "^4",

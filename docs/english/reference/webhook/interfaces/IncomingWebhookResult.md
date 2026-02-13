@@ -2,7 +2,7 @@
 
 # Interface: IncomingWebhookResult
 
-Defined in: [src/IncomingWebhook.ts:123](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L123)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:123](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L123)
 
 ## Properties
 
@@ -12,4 +12,4 @@ Defined in: [src/IncomingWebhook.ts:123](https://github.com/slackapi/node-slack-
 text: string;
 ```
 
-Defined in: [src/IncomingWebhook.ts:124](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L124)
+Defined in: [packages/webhook/src/IncomingWebhook.ts:124](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L124)

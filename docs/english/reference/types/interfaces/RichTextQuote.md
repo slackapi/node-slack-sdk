@@ -2,7 +2,7 @@
 
 # Interface: RichTextQuote
 
-Defined in: [block-kit/block-elements.ts:1003](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1003)
+Defined in: [block-kit/block-elements.ts:1029](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1029)
 
 ## Description
 
@@ -39,7 +39,7 @@ while `1` renders a border.
 elements: RichTextElement[];
 ```
 
-Defined in: [block-kit/block-elements.ts:1011](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1011)
+Defined in: [block-kit/block-elements.ts:1037](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1037)
 
 #### Description
 
@@ -53,7 +53,7 @@ An array of [RichTextElement](../type-aliases/RichTextElement.md) comprising the
 type: "rich_text_quote";
 ```
 
-Defined in: [block-kit/block-elements.ts:1007](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1007)
+Defined in: [block-kit/block-elements.ts:1033](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L1033)
 
 #### Description
 

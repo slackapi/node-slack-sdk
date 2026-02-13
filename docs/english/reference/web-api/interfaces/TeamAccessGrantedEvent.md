@@ -2,7 +2,7 @@
 
 # Interface: TeamAccessGrantedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:2
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:2
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/team.d.ts:2
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:5
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:5
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/team.d.ts:5
 team_ids: string[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:4
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:4
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: node\_modules/@slack/types/dist/events/team.d.ts:4
 type: "team_access_granted";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/team.d.ts:3
+Defined in: packages/web-api/node\_modules/@slack/types/dist/events/team.d.ts:3

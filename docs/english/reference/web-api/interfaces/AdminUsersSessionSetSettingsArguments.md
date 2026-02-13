@@ -2,7 +2,7 @@
 
 # Interface: AdminUsersSessionSetSettingsArguments
 
-Defined in: [src/types/request/admin/users.ts:132](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L132)
+Defined in: [packages/web-api/src/types/request/admin/users.ts:132](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L132)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/users.ts:132](https://github.com/slackapi/n
 optional desktop_app_browser_quit: boolean;
 ```
 
-Defined in: [src/types/request/admin/users.ts:134](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L134)
+Defined in: [packages/web-api/src/types/request/admin/users.ts:134](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L134)
 
 #### Description
 
@@ -30,7 +30,7 @@ Terminate the session when the client—either the desktop app or a browser wind
 optional duration: number;
 ```
 
-Defined in: [src/types/request/admin/users.ts:139](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L139)
+Defined in: [packages/web-api/src/types/request/admin/users.ts:139](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L139)
 
 #### Description
 
@@ -45,7 +45,7 @@ the max value is 315569520 or 10 years (that's a long Slack session).
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -65,7 +65,7 @@ TokenOverridable.token
 user_ids: [string, ...string[]];
 ```
 
-Defined in: [src/types/request/common.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L92)
+Defined in: [packages/web-api/src/types/request/common.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L92)
 
 #### Description
 

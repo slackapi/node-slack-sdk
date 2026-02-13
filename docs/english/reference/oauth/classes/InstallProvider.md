@@ -2,7 +2,7 @@
 
 # Class: InstallProvider
 
-Defined in: [src/install-provider.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L32)
+Defined in: [packages/oauth/src/install-provider.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L32)
 
 InstallProvider Class. Refer to InsallProviderOptions interface for the details of constructor arguments.
 
@@ -14,7 +14,7 @@ InstallProvider Class. Refer to InsallProviderOptions interface for the details 
 new InstallProvider(__namedParameters): InstallProvider;
 ```
 
-Defined in: [src/install-provider.ts:87](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L87)
+Defined in: [packages/oauth/src/install-provider.ts:87](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L87)
 
 #### Parameters
 
@@ -34,7 +34,7 @@ Defined in: [src/install-provider.ts:87](https://github.com/slackapi/node-slack-
 installationStore: InstallationStore;
 ```
 
-Defined in: [src/install-provider.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L38)
+Defined in: [packages/oauth/src/install-provider.ts:38](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L38)
 
 ***
 
@@ -44,7 +44,7 @@ Defined in: [src/install-provider.ts:38](https://github.com/slackapi/node-slack-
 optional stateStore: StateStore;
 ```
 
-Defined in: [src/install-provider.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L35)
+Defined in: [packages/oauth/src/install-provider.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L35)
 
 ## Methods
 
@@ -54,7 +54,7 @@ Defined in: [src/install-provider.ts:35](https://github.com/slackapi/node-slack-
 authorize(source): Promise<AuthorizeResult>;
 ```
 
-Defined in: [src/install-provider.ts:177](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L177)
+Defined in: [packages/oauth/src/install-provider.ts:177](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L177)
 
 Fetches data from the installationStore
 
@@ -79,7 +79,7 @@ generateInstallUrl(
 state?): Promise<string>;
 ```
 
-Defined in: [src/install-provider.ts:415](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L415)
+Defined in: [packages/oauth/src/install-provider.ts:415](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L415)
 
 Returns a URL that is suitable for including in an Add to Slack button
 Uses stateStore to generate a value for the state query param.
@@ -114,7 +114,7 @@ handleCallback(
 installOptions?): Promise<void>;
 ```
 
-Defined in: [src/install-provider.ts:485](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L485)
+Defined in: [packages/oauth/src/install-provider.ts:485](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L485)
 
 This method handles the incoming request to the callback URL.
 It can be used as a RequestListener in almost any HTTP server
@@ -158,7 +158,7 @@ handleInstallPath(
 installOptions?): Promise<void>;
 ```
 
-Defined in: [src/install-provider.ts:330](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L330)
+Defined in: [packages/oauth/src/install-provider.ts:330](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/install-provider.ts#L330)
 
 Handles the install path (the default is /slack/install) requests from an app installer.
 

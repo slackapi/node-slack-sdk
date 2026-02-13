@@ -2,7 +2,7 @@
 
 # Interface: CallUserSlack
 
-Defined in: node\_modules/@slack/types/dist/calls.d.ts:5
+Defined in: packages/web-api/node\_modules/@slack/types/dist/calls.d.ts:5
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/calls.d.ts:5
 slack_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/calls.d.ts:10
+Defined in: packages/web-api/node\_modules/@slack/types/dist/calls.d.ts:10
 
 #### Description
 

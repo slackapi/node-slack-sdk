@@ -2,7 +2,7 @@
 
 # Interface: HeaderBlock
 
-Defined in: [block-kit/blocks.ts:181](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L181)
+Defined in: [block-kit/blocks.ts:192](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L192)
 
 ## Description
 
@@ -25,7 +25,7 @@ font. Use it to delineate between different groups of content in your app's surf
 optional block_id: string;
 ```
 
-Defined in: [block-kit/blocks.ts:41](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L41)
+Defined in: [block-kit/blocks.ts:48](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L48)
 
 #### Description
 
@@ -47,7 +47,7 @@ a message. If a message is updated, use a new `block_id`.
 text: PlainTextElement;
 ```
 
-Defined in: [block-kit/blocks.ts:190](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L190)
+Defined in: [block-kit/blocks.ts:201](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L201)
 
 #### Description
 
@@ -62,7 +62,7 @@ Maximum length for the text in this field is 150 characters.
 type: "header";
 ```
 
-Defined in: [block-kit/blocks.ts:185](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L185)
+Defined in: [block-kit/blocks.ts:196](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L196)
 
 #### Description
 

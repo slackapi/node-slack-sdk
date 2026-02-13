@@ -2,7 +2,7 @@
 
 # Interface: AdminConversationsLookupArguments
 
-Defined in: [src/types/request/admin/conversations.ts:122](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L122)
+Defined in: [packages/web-api/src/types/request/admin/conversations.ts:122](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L122)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/conversations.ts:122](https://github.com/sl
 optional cursor: string;
 ```
 
-Defined in: [src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L16)
+Defined in: [packages/web-api/src/types/request/common.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L16)
 
 #### Description
 
@@ -42,7 +42,7 @@ CursorPaginationEnabled.cursor
 last_message_activity_before: number;
 ```
 
-Defined in: [src/types/request/admin/conversations.ts:127](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L127)
+Defined in: [packages/web-api/src/types/request/admin/conversations.ts:127](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L127)
 
 #### Description
 
@@ -57,7 +57,7 @@ was sent before this parameter.
 optional limit: number;
 ```
 
-Defined in: [src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L9)
+Defined in: [packages/web-api/src/types/request/common.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L9)
 
 #### Description
 
@@ -78,7 +78,7 @@ CursorPaginationEnabled.limit
 optional max_member_count: number;
 ```
 
-Defined in: [src/types/request/admin/conversations.ts:129](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L129)
+Defined in: [packages/web-api/src/types/request/admin/conversations.ts:129](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L129)
 
 #### Description
 
@@ -92,7 +92,7 @@ Filter by public channels with member count equal to or less than the specified 
 team_ids: [string, ...string[]];
 ```
 
-Defined in: [src/types/request/common.ts:65](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L65)
+Defined in: [packages/web-api/src/types/request/common.ts:65](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L65)
 
 #### Description
 
@@ -112,7 +112,7 @@ TeamIDs.team_ids
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

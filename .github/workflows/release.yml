@@ -1,0 +1,89 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  changelog:
+    name: Changelog
+    runs-on: ubuntu-latest
+    outputs:
+      hasChangesets: ${{ steps.changesets.outputs.hasChangesets }}
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: true
+
+      - name: Setup Node
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install --verbose
+
+      - name: Create or update release PR
+        id: changesets
+        uses: changesets/action@c48e67d110a68bc90ccf1098e9646092baacaa87 # v1.6.0
+        with:
+          commit: "chore: release"
+          title: "chore: release"
+          version: npm run changeset -- version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    name: Publish
+    needs: changelog
+    if: needs.changelog.outputs.hasChangesets == 'false'
+    runs-on: ubuntu-latest
+    environment: publish
+    permissions:
+      contents: write
+      id-token: write # OIDC: https://docs.npmjs.com/trusted-publishers
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: true
+
+      - name: Setup Node
+        uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+        with:
+          node-version: 24
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        run: npm install --verbose
+
+      - name: Build packages
+        run: |
+          # Build base dependencies
+          npm run build --workspace=@slack/logger
+          npm run build --workspace=@slack/types
+
+          # Build packages requiring base dependencies
+          npm run build --workspace=@slack/web-api
+          npm run build --workspace=@slack/webhook
+
+          # Build packages that depend on the Web API
+          npm run build --workspace=@slack/oauth
+          npm run build --workspace=@slack/rtm-api
+          npm run build --workspace=@slack/socket-mode
+
+      - name: Publish to npm and create GitHub releases
+        uses: changesets/action@c48e67d110a68bc90ccf1098e9646092baacaa87 # v1.6.0
+        with:
+          createGithubReleases: true
+          publish: npm run changeset -- publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

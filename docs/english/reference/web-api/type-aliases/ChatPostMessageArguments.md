@@ -3,10 +3,10 @@
 # Type Alias: ChatPostMessageArguments
 
 ```ts
-type ChatPostMessageArguments = TokenOverridable & MessageContents & ReplyInThread & Authorship & Parse & LinkNames & Metadata & Unfurls & object;
+type ChatPostMessageArguments = TokenOverridable & MessageContents & ReplyInThread & Authorship & Parse & LinkNames & ChatPostMessageMetadata & Unfurls & object;
 ```
 
-Defined in: [src/types/request/chat.ts:188](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L188)
+Defined in: [packages/web-api/src/types/request/chat.ts:209](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L209)
 
 ## Type Declaration
 

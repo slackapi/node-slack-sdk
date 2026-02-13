@@ -17,7 +17,7 @@ type ActionsBlockElement =
   | RichTextInput;
 ```
 
-Defined in: [block-kit/blocks.ts:72](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L72)
+Defined in: [block-kit/blocks.ts:82](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L82)
 
 A helper union type of all Block Elements that can be used in an [ActionsBlock](../interfaces/ActionsBlock.md).
 

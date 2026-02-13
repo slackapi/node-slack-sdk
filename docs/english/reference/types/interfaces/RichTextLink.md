@@ -2,7 +2,7 @@
 
 # Interface: RichTextLink
 
-Defined in: [block-kit/block-elements.ts:875](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L875)
+Defined in: [block-kit/block-elements.ts:901](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L901)
 
 ## Description
 
@@ -62,6 +62,16 @@ optional strike: boolean;
 
 When `true`, strikes through the text in this element. Defaults to `false`.
 
+#### underline?
+
+```ts
+optional underline: boolean;
+```
+
+##### Description
+
+When `true`, underlines the text in this element. Defaults to `false`.
+
 #### Description
 
 A limited style object for styling rich text `text` elements.
@@ -78,7 +88,7 @@ A limited style object for styling rich text `text` elements.
 optional text: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:883](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L883)
+Defined in: [block-kit/block-elements.ts:909](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L909)
 
 #### Description
 
@@ -92,7 +102,7 @@ The text to link.
 type: "link";
 ```
 
-Defined in: [block-kit/block-elements.ts:879](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L879)
+Defined in: [block-kit/block-elements.ts:905](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L905)
 
 #### Description
 
@@ -106,7 +116,7 @@ The type of element. In this case `type` is always `link`.
 optional unsafe: boolean;
 ```
 
-Defined in: [block-kit/block-elements.ts:887](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L887)
+Defined in: [block-kit/block-elements.ts:913](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L913)
 
 #### Description
 
@@ -120,7 +130,7 @@ TODO: ?
 url: string;
 ```
 
-Defined in: [block-kit/block-elements.ts:891](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L891)
+Defined in: [block-kit/block-elements.ts:917](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/block-elements.ts#L917)
 
 #### Description
 

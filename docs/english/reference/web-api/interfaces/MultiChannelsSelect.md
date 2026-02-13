@@ -2,7 +2,7 @@
 
 # Interface: MultiChannelsSelect
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:424
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:424
 
 ## Description
 
@@ -26,7 +26,7 @@ user in the active workspace.
 optional action_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
 [identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
@@ -44,7 +44,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 optional confirm: ConfirmationDialog;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
 
 #### Description
 
@@ -63,7 +63,7 @@ with.
 optional focus_on_load: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
 
 #### Description
 
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_channels: string[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:432
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:432
 
 #### Description
 
@@ -97,7 +97,7 @@ An array of one or more IDs of any valid public channel to be pre-selected when 
 optional max_selected_items: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:42
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:42
 
 #### Description
 
@@ -115,7 +115,7 @@ Specifies the maximum number of items that can be selected. Minimum number is 1.
 optional placeholder: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:49
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:49
 
 #### Description
 
@@ -134,7 +134,7 @@ length for the `text` field in this object is 150 characters.
 type: "multi_channels_select";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:428
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:428
 
 #### Description
 

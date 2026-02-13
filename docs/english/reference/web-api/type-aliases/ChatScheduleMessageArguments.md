@@ -6,7 +6,7 @@
 type ChatScheduleMessageArguments = TokenOverridable & MessageContents & object & ReplyInThread & Parse & LinkNames & AsUser & Metadata & Unfurls;
 ```
 
-Defined in: [src/types/request/chat.ts:201](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L201)
+Defined in: [packages/web-api/src/types/request/chat.ts:222](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L222)
 
 ## Type Declaration
 

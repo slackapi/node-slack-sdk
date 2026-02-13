@@ -2,7 +2,7 @@
 
 # Interface: PlainTextOption
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:87
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:87
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:8
 optional description: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:78
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:78
 
 #### Description
 
@@ -37,7 +37,7 @@ OptionDescriptor.description
 text: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:92
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:92
 
 #### Description
 
@@ -52,7 +52,7 @@ overflow, select and multi-select menus. Maximum length for the `text` in this f
 optional url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:73
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:73
 
 #### Description
 
@@ -73,7 +73,7 @@ OptionDescriptor.url
 optional value: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:68
+Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:68
 
 #### Description
 

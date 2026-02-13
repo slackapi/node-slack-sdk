@@ -173,6 +173,21 @@ export interface MrkdwnElement {
   verbatim?: boolean;
 }
 
+/**
+ * @description Defines an object containing some text.
+ * @see {@link https://docs.slack.dev/reference/block-kit/composition-objects/text-object Text object reference}.
+ */
+export interface RawTextElement {
+  /**
+   * @description The formatting to use for this text object.
+   */
+  type: 'raw_text';
+  /**
+   * @description The text for the block. The minimum length is 1 character.
+   */
+  text: string;
+}
+
 interface BaseConversationFilter {
   /**
    * @description Indicates which type of conversations should be included in the list. When this field is provided, any
