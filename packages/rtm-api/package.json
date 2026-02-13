@@ -55,7 +55,7 @@
     "ws": "^8"
   },
   "devDependencies": {
-    "@types/chai": "^4",
+    "@types/chai": "^5",
     "@types/mocha": "^10",
     "@types/sinon": "^17",
     "@types/ws": "^8",
