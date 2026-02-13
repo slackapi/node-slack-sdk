@@ -3,15 +3,14 @@ name: SDK Document
 about: Submit an issue on documentation
 title: "(Set a clear title describing your idea)"
 labels: untriaged
-assignees: ''
-
+assignees: ""
 ---
 
 (Describe your issue and goal here)
 
 ### List any relevant URLs
 
-- E.g. https://slack.dev/node-slack-sdk/
+- E.g. https://docs.slack.dev/tools/node-slack-sdk/
 
 ### Requirements
 

@@ -3,22 +3,23 @@ name: SDK Enhancement / Feature Request
 about: Submit an enhancement/feature request
 title: "(Set a clear title describing your idea)"
 labels: untriaged
-assignees: ''
-
+assignees: ""
 ---
 
-(Describe your issue and goal here) 
+(Describe your issue and goal here)
 
 #### Packages:
 
 Select all that apply:
 
-- [ ] `@slack/web-api`
-- [ ] `@slack/rtm-api`
-- [ ] `@slack/webhooks`
+- [ ] `@slack/cli-hooks`
+- [ ] `@slack/cli-test`
 - [ ] `@slack/oauth`
+- [ ] `@slack/rtm-api`
 - [ ] `@slack/socket-mode`
 - [ ] `@slack/types`
+- [ ] `@slack/web-api`
+- [ ] `@slack/webhook`
 - [ ] I don't know
 
 ### Requirements

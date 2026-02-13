@@ -3,8 +3,7 @@ name: SDK Question
 about: Submit a question about this SDK
 title: "(Set a clear title describing your question)"
 labels: untriaged
-assignees: ''
-
+assignees: ""
 ---
 
 (Describe your issue and goal here)
@@ -13,22 +12,26 @@ assignees: ''
 
 Select all that apply:
 
-- [ ] `@slack/web-api`
-- [ ] `@slack/rtm-api`
-- [ ] `@slack/webhooks`
+- [ ] `@slack/cli-hooks`
+- [ ] `@slack/cli-test`
 - [ ] `@slack/oauth`
+- [ ] `@slack/rtm-api`
 - [ ] `@slack/socket-mode`
 - [ ] `@slack/types`
+- [ ] `@slack/web-api`
+- [ ] `@slack/webhook`
 - [ ] I don't know
 
 ### Reproducible in:
 
 #### The Slack SDK version
 
-(Paste the output of 
+(Paste the output of
+
 ```bash
 npm ls | grep -o "\S\+@\S\+$" | tr @ ' ' | awk -v q='"' '{print q$1q": "q"^"$2q","}' | grep slack
 ```
+
 or refer to your `package.json`)
 
 #### Node.js runtime version
@@ -57,6 +60,6 @@ or refer to your `package.json`)
 
 ### Requirements
 
-For general questions/issues about Slack API platform or its server-side, could you submit questions at https://my.slack.com/help/requests/new instead. :bow:
+For general questions/issues about Slack API platform or its server-side, could you submit questions at https://slack.com/help/requests/new instead. :bow:
 
 Please read the [Contributing guidelines](https://github.com/slackapi/node-slack-sdk/blob/main/.github/contributing.md) and [Code of Conduct](https://slackhq.github.io/code-of-conduct) before creating this issue or pull request. By submitting, you are agreeing to those rules.
