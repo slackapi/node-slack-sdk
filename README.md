@@ -30,12 +30,6 @@ walk you through building your first Slack app using Node.js.
 post](https://medium.com/slack-developer-blog/getting-started-with-slacks-apis-f930c73fc889) that explains the options.
 If you're still not sure, [reach out for help](#getting-help) and our community can guide you.
 
-**Deprecation Notice** 
-
-`@slack/events-api` and `@slack/interactive-messages` officially reached EOL on May 31st, 2021. Development has fully stopped for these packages and all remaining open issues and pull requests have been closed.
-
-At this time, we recommend migrating to [Bolt for JavaScript](https://github.com/slackapi/bolt-js), a framework that offers all of the functionality available in those packages (and more). To help with that process, we've provided some [migration samples](https://docs.slack.dev/tools/node-slack-sdk/migration/migrating-to-v6/) for those looking to convert their existing apps.
-
 ## Installation
 
 Use your favorite package manager to install any of the packages and save to your `package.json`:
