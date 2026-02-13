@@ -1,6 +1,6 @@
 {
   "name": "@slack/webhook",
-  "version": "7.0.6",
+  "version": "7.0.7",
   "description": "Official library for using the Slack Platform's Incoming Webhooks",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -44,7 +44,7 @@
   "dependencies": {
     "@slack/types": "^2.9.0",
     "@types/node": ">=18.0.0",
-    "axios": "^1.11.0"
+    "axios": "^1.13.5"
   },
   "devDependencies": {
     "@types/chai": "^4.3.5",
