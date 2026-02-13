@@ -9,6 +9,7 @@
 
 import type { WebAPICallResult } from '../../WebClient';
 export type UsersConversationsResponse = WebAPICallResult & {
+  arg?: string;
   channels?: Channel[];
   error?: string;
   needed?: string;
@@ -62,6 +63,8 @@ export interface Channel {
 export interface Properties {
   canvas?: Canvas;
   huddles_restricted?: boolean;
+  is_dormant?: boolean;
+  meeting_notes?: MeetingNotes;
   posting_restricted_to?: PostingRestrictedTo;
   tabs?: Tab[];
   tabz?: Tab[];
@@ -71,7 +74,12 @@ export interface Properties {
 export interface Canvas {
   file_id?: string;
   is_empty?: boolean;
+  is_migrated?: boolean;
   quip_thread_id?: string;
+}
+
+export interface MeetingNotes {
+  file_id?: string;
 }
 
 export interface PostingRestrictedTo {
@@ -80,9 +88,16 @@ export interface PostingRestrictedTo {
 }
 
 export interface Tab {
+  data?: Data;
   id?: string;
+  is_disabled?: boolean;
   label?: string;
   type?: string;
+}
+
+export interface Data {
+  file_id?: string;
+  shared_ts?: string;
 }
 
 export interface ThreadsRestrictedTo {

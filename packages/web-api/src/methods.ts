@@ -77,6 +77,7 @@ import type {
   AdminUsergroupsListChannelsArguments,
   AdminUsergroupsRemoveChannelsArguments,
   AdminUsersAssignArguments,
+  AdminUsersGetExpirationArguments,
   AdminUsersInviteArguments,
   AdminUsersListArguments,
   AdminUsersRemoveArguments,
@@ -350,6 +351,7 @@ import type {
   AdminUsergroupsListChannelsResponse,
   AdminUsergroupsRemoveChannelsResponse,
   AdminUsersAssignResponse,
+  AdminUsersGetExpirationResponse,
   AdminUsersInviteResponse,
   AdminUsersListResponse,
   AdminUsersRemoveResponse,
@@ -1210,6 +1212,14 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
        * @see {@link https://docs.slack.dev/reference/methods/admin.users.assign `admin.users.assign` API reference}.
        */
       assign: bindApiCall<AdminUsersAssignArguments, AdminUsersAssignResponse>(this, 'admin.users.assign'),
+      /**
+       * @description Fetches the expiration timestamp for a guest.
+       * @see {@link https://docs.slack.dev/reference/methods/admin.users.getExpiration `admin.users.getExpiration` API reference}.
+       */
+      getExpiration: bindApiCall<AdminUsersGetExpirationArguments, AdminUsersGetExpirationResponse>(
+        this,
+        'admin.users.getExpiration',
+      ),
       /**
        * @description Invite a user to a workspace.
        * @see {@link https://docs.slack.dev/reference/methods/admin.users.invite `admin.users.invite` API reference}.
