@@ -48,7 +48,7 @@
     "jsonwebtoken": "^9"
   },
   "devDependencies": {
-    "@types/chai": "^4",
+    "@types/chai": "^5",
     "@types/mocha": "^10",
     "@types/sinon": "^21",
     "c8": "^10.1.2",
