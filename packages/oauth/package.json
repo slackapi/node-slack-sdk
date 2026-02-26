@@ -51,7 +51,7 @@
     "@types/chai": "^4",
     "@types/mocha": "^10",
     "@types/sinon": "^21",
-    "c8": "^10.1.2",
+    "c8": "^11.0.0",
     "chai": "^4",
     "mocha": "^11",
     "mocha-junit-reporter": "^2.2.1",
