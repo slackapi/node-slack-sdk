@@ -19,7 +19,7 @@ npm test --workspace packages/web-api
 ```
 
 #### Pre-commit lint hook (optional)
-We provide an opt-in Git hook that runs npm run lint from the repository root before a commit is created.
+We provide an opt-in Git hook that runs `npm run lint` from the repository root before a commit is created.
 
 Enable it once per clone:
 
@@ -34,8 +34,8 @@ git config --unset core.hooksPath
 ```
 
 Notes:
-- The hook runs npm run lint from the repository root.
-- You can skip it with git commit --no-verify if needed.
+- The hook runs `npm run lint` from the repository root.
+- You can skip it with `git commit --no-verify` if needed.
 
 This project has tests for individual packages as `*.spec.js` files and inside of each package's `src` directory. Also, for verifying the behavior with the real Slack server-side and developer experience with installed packages, you can run the tests amd scripts under `prod-server-integration-tests`. Refer to the README file in the directory for details. These tests are supposed to be run in the project maintainers' manual execution. They are not part of CI builds for now.
 
