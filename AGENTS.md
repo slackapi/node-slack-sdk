@@ -275,18 +275,6 @@ Entry point for response type generation. It:
 3. Executes `scripts/code_generator.rb`
 4. Runs `npm run lint:fix` on `packages/web-api`
 
-### `scripts/code_generator.rb`
-
-The Ruby script that does the actual generation:
-
-- Iterates over JSON files in `tmp/java-slack-sdk/json-logs/samples/api/`
-- Converts method names to PascalCase (e.g., `chat.postMessage` → `ChatPostMessage`)
-- Runs quicktype with `--just-types --all-properties-optional` to generate TypeScript interfaces
-- Prepends a "DO NOT EDIT" banner and `import type { WebAPICallResult } from '../../WebClient'`
-- Converts the root interface to a type alias intersected with `WebAPICallResult`
-- Regenerates `packages/web-api/src/types/response/index.ts` with all exports
-- Special handling: `admin.analytics.getFile` exports multiple types (`AdminAnalyticsGetFileResponse`, `AdminAnalyticsMemberDetails`, `AdminAnalyticsPublicChannelDetails`, `AdminAnalyticsPublicChannelMetadataDetails`)
-
 ## Testing
 
 - **Unit tests**: Mocha + chai + sinon (`*.spec.ts` files), coverage via c8
