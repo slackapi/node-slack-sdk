@@ -33,7 +33,7 @@ jobs:
 
       - name: Create or update release PR
         id: changesets
-        uses: changesets/action@c48e67d110a68bc90ccf1098e9646092baacaa87 # v1.6.0
+        uses: changesets/action@6a0a831ff30acef54f2c6aa1cbbc1096b066edaf # v1.7.0
         with:
           commit: "chore: release"
           title: "chore: release"
@@ -81,7 +81,7 @@ jobs:
           npm run build --workspace=@slack/socket-mode
 
       - name: Publish to npm and create GitHub releases
-        uses: changesets/action@c48e67d110a68bc90ccf1098e9646092baacaa87 # v1.6.0
+        uses: changesets/action@6a0a831ff30acef54f2c6aa1cbbc1096b066edaf # v1.7.0
         with:
           createGithubReleases: true
           publish: npm run changeset -- publish
