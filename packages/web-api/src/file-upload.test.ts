@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { createReadStream, statSync, unlinkSync, writeFileSync } from 'node:fs';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import sinon from 'sinon';
-import { ErrorCode } from './errors';
+import { ErrorCode, type WebAPIFileUploadInvalidArgumentsError } from './errors';
 import {
   buildChannelsWarning,
   buildLegacyFileTypeWarning,
@@ -54,8 +54,8 @@ describe('file-upload', () => {
       assert.strictEqual(valid.filename, res.filename);
 
       // calculated values
-      assert.ok(res.data !== undefined);
-      assert.ok(res.length !== undefined);
+      assert.ok(res.data);
+      assert.ok(res.length);
     });
     it('warns if legacy filetype', async () => {
       const containsFileType = {
@@ -141,10 +141,10 @@ describe('file-upload', () => {
       assert.strictEqual(valid.file_uploads[1].filename, res[1].filename);
 
       // calculated values
-      assert.ok(res[0].data !== undefined);
-      assert.ok(res[1].data !== undefined);
-      assert.ok(res[0].length !== undefined);
-      assert.ok(res[1].length !== undefined);
+      assert.ok(res[0].data);
+      assert.ok(res[1].data);
+      assert.ok(res[0].length);
+      assert.ok(res[1].length);
     });
   });
   describe('getFileData', () => {
@@ -157,11 +157,12 @@ describe('file-upload', () => {
         // if we get here this test is failed
         assert.fail(res.toString());
       } catch (err) {
+        const e = err as WebAPIFileUploadInvalidArgumentsError;
         assert.strictEqual(
-          (err as Record<string, unknown>).message,
+          e.message,
           'Either a file or content field is required for valid file upload. You cannot supply both',
         );
-        assert.strictEqual((err as Record<string, unknown>).code, ErrorCode.FileUploadInvalidArgumentsError);
+        assert.strictEqual(e.code, ErrorCode.FileUploadInvalidArgumentsError);
       }
     });
     it('handles invalid input for file or content or when both supplied', async () => {
@@ -176,11 +177,12 @@ describe('file-upload', () => {
         const res = await getFileData(invalidFileUpload);
         assert.fail(res.toString());
       } catch (err) {
+        const e = err as WebAPIFileUploadInvalidArgumentsError;
         assert.strictEqual(
-          (err as Record<string, unknown>).message,
+          e.message,
           'Either a file or content field is required for valid file upload. You cannot supply both',
         );
-        assert.strictEqual((err as Record<string, unknown>).code, ErrorCode.FileUploadInvalidArgumentsError);
+        assert.strictEqual(e.code, ErrorCode.FileUploadInvalidArgumentsError);
       }
 
       // file supplied invalid type of valid
@@ -193,11 +195,12 @@ describe('file-upload', () => {
         const res = await getFileData(invalidFileUpload2);
         assert.fail(res.toString());
       } catch (err) {
+        const e = err as WebAPIFileUploadInvalidArgumentsError;
         assert.strictEqual(
-          (err as Record<string, unknown>).message,
+          e.message,
           'file must be a valid string path, buffer or Readable',
         );
-        assert.strictEqual((err as Record<string, unknown>).code, ErrorCode.FileUploadInvalidArgumentsError);
+        assert.strictEqual(e.code, ErrorCode.FileUploadInvalidArgumentsError);
       }
 
       // content supplied invalid type of field
@@ -210,8 +213,9 @@ describe('file-upload', () => {
         const res = await getFileData(invalidFileUpload3);
         assert.fail(res.toString());
       } catch (err) {
-        assert.strictEqual((err as Record<string, unknown>).message, 'content must be a string');
-        assert.strictEqual((err as Record<string, unknown>).code, ErrorCode.FileUploadInvalidArgumentsError);
+        const e = err as WebAPIFileUploadInvalidArgumentsError;
+        assert.strictEqual(e.message, 'content must be a string');
+        assert.strictEqual(e.code, ErrorCode.FileUploadInvalidArgumentsError);
       }
     });
     it('handles file as buffer', async () => {
@@ -243,11 +247,12 @@ describe('file-upload', () => {
         const res = await getFileData(fileUpload);
         assert.fail(res.toString());
       } catch (err) {
+        const e = err as WebAPIFileUploadInvalidArgumentsError;
         assert.strictEqual(
-          (err as Record<string, unknown>).message,
+          e.message,
           `Unable to resolve file data for ${fileUpload.file}. Please supply a filepath string, or binary data Buffer or String directly.`,
         );
-        assert.strictEqual((err as Record<string, unknown>).code, ErrorCode.FileUploadInvalidArgumentsError);
+        assert.strictEqual(e.code, ErrorCode.FileUploadInvalidArgumentsError);
       }
     });
     it('handles file as ReadStream', async () => {
@@ -289,7 +294,8 @@ describe('file-upload', () => {
         await getFileDataAsStream(createReadStream('./test/fixtures/test-txt-empty.txt'));
         assert.fail('expected exception to be thrown but was not');
       } catch (err) {
-        assert.strictEqual((err as Record<string, unknown>).message, 'No data in supplied file');
+        assert.ok(err instanceof Error);
+        assert.strictEqual(err.message, 'No data in supplied file');
       }
     });
     it('ensures complete file is uploaded', async () => {
