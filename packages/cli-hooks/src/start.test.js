@@ -1,6 +1,7 @@
 import assert from 'node:assert';
 import childProcess from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { after, afterEach, before, beforeEach, describe, it } from 'node:test';
 import sinon from 'sinon';
@@ -56,34 +57,26 @@ describe('start implementation', async () => {
     });
 
     describe('runs the package main path', async () => {
-      const tempDir = path.join(process.cwd(), 'tmp');
+      const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'start-'));
       const packageJSONFilePath = path.join(tempDir, 'package.json');
 
       before(() => {
         const mainPackageJSON = { name: 'Example application', main: 'start.js' };
-        if (!fs.existsSync(tempDir)) {
-          fs.mkdirSync(tempDir);
-        }
         fs.writeFileSync(packageJSONFilePath, JSON.stringify(mainPackageJSON, null, 2));
       });
 
       after(() => {
-        if (fs.existsSync(packageJSONFilePath)) {
-          fs.unlinkSync(packageJSONFilePath);
-        }
-        if (fs.existsSync(tempDir)) {
-          fs.rmSync(tempDir, { recursive: true });
-        }
+        fs.rmSync(tempDir, { recursive: true, force: true });
       });
 
       it('writes output from the main script', () => {
-        start('./tmp');
+        start(tempDir);
         mockSpawnProcess.stdout.on.callArgWith(1, 'message');
         mockSpawnProcess.stderr.on.callArgWith(1, 'warning');
         mockSpawnProcess.on.callArgWith(1, 0);
 
         assert.ok(spawnStub.called);
-        assert.ok(spawnStub.calledWith('node', [path.resolve('tmp', 'start.js')]));
+        assert.ok(spawnStub.calledWith('node', [path.resolve(tempDir, 'start.js')]));
         assert.ok(stdoutWriteStub.calledWith('message'));
         assert.ok(stderrWriteStub.calledWith('warning'));
         assert.ok(exitStub.calledWith(0));

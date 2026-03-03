@@ -1,5 +1,6 @@
 import assert from 'node:assert';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { after, before, describe, it } from 'node:test';
 
@@ -21,28 +22,20 @@ describe('get-manifest implementation', async () => {
   });
 
   describe('broken project manifest file exists', async () => {
-    const tempDir = path.join(process.cwd(), 'tmp');
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'manifest-broken-'));
     const filePath = path.join(tempDir, 'manifest.json');
 
     before(() => {
-      if (!fs.existsSync(tempDir)) {
-        fs.mkdirSync(tempDir);
-      }
       fs.writeFileSync(filePath, '{');
     });
 
     after(() => {
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-      if (fs.existsSync(tempDir)) {
-        fs.rmSync(tempDir, { recursive: true });
-      }
+      fs.rmSync(tempDir, { recursive: true, force: true });
     });
 
     it('should error for invalid manifest.json', async () => {
       try {
-        getManifestData(process.cwd());
+        getManifestData(tempDir);
       } catch (err) {
         if (err instanceof Error) {
           const nodeV18Error = 'SyntaxError: Unexpected end of JSON input';
@@ -57,7 +50,7 @@ describe('get-manifest implementation', async () => {
   });
 
   describe('contains project manifest file', async () => {
-    const tempDir = path.join(process.cwd(), 'tmp');
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'manifest-valid-'));
     const filePath = path.join(tempDir, 'manifest.json');
     const manifest = {
       display_information: {
@@ -77,24 +70,16 @@ describe('get-manifest implementation', async () => {
     };
 
     before(() => {
-      if (!fs.existsSync(tempDir)) {
-        fs.mkdirSync(tempDir);
-      }
       fs.writeFileSync(filePath, JSON.stringify(manifest, null, 2));
     });
 
     after(() => {
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-      if (fs.existsSync(tempDir)) {
-        fs.rmSync(tempDir, { recursive: true });
-      }
+      fs.rmSync(tempDir, { recursive: true, force: true });
     });
 
     it('should return existing manifest values', async () => {
       try {
-        const parsedManifest = getManifestData(process.cwd());
+        const parsedManifest = getManifestData(tempDir);
         assert.deepEqual(manifest, parsedManifest);
       } catch (err) {
         console.error(err);

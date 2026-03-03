@@ -1,7 +1,8 @@
 import assert from 'node:assert';
+import childProcess from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
-import util from 'node:util';
 import { after, before, describe, it } from 'node:test';
 import sinon from 'sinon';
 
@@ -47,34 +48,23 @@ function mockNPM(command) {
 
 describe('check-update implementation', async () => {
   describe('collects recent package versions', async () => {
-    const tempDir = path.join(process.cwd(), 'tmp');
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'check-update-'));
     const packageJSONFilePath = path.join(tempDir, 'package.json');
 
     before(() => {
-      sinon.stub(util, 'promisify').returns((/** @type {string} */ command) => {
-        const info = mockNPM(command);
-        return Promise.resolve({ stdout: info });
+      sinon.stub(childProcess, 'exec').callsFake((command, cb) => {
+        cb(null, { stdout: mockNPM(command), stderr: '' });
       });
-      if (!fs.existsSync(tempDir)) {
-        fs.mkdirSync(tempDir);
-      }
-      if (!fs.existsSync(packageJSONFilePath)) {
-        fs.writeFileSync(packageJSONFilePath, JSON.stringify(packageJSON, null, 2));
-      }
+      fs.writeFileSync(packageJSONFilePath, JSON.stringify(packageJSON, null, 2));
     });
 
     after(() => {
       sinon.restore();
-      if (fs.existsSync(packageJSONFilePath)) {
-        fs.unlinkSync(packageJSONFilePath);
-      }
-      if (fs.existsSync(tempDir)) {
-        fs.rmSync(tempDir, { recursive: true });
-      }
+      fs.rmSync(tempDir, { recursive: true, force: true });
     });
 
     it('shows version information for packages', async () => {
-      const updates = await checkForSDKUpdates('./tmp');
+      const updates = await checkForSDKUpdates(tempDir);
       const expected = {
         name: 'the Slack SDK',
         error: undefined,
