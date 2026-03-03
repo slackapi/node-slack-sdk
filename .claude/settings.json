@@ -1,6 +1,7 @@
 {
   "permissions": {
     "allow": [
+      "Bash(cat:*)",
       "Bash(echo:*)",
       "Bash(gh issue view:*)",
       "Bash(gh label list:*)",
