@@ -65,6 +65,7 @@
   "devDependencies": {
     "@tsconfig/recommended": "^1",
     "@types/busboy": "^1.5.4",
+    "@types/node": "^18.19.130",
     "@types/sinon": "^21",
     "busboy": "^1",
     "nock": "^14",
