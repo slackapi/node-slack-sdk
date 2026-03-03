@@ -99,7 +99,7 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
         clientOptions: {
           slackApiUrl: `http://localhost:${HTTP_PORT}/`,
         },
-        clientPingTimeout: 25,
+        clientPingTimeout: 100,
       });
     });
     it('should retry if retrieving a WSS URL fails', async () => {
@@ -140,6 +140,7 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
         clientOptions: {
           slackApiUrl: `http://localhost:${HTTP_PORT}/`,
         },
+        clientPingTimeout: 100,
         logLevel: 'debug',
         logger: {
           debug: debugLoggerSpy,
@@ -185,7 +186,7 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
         clientOptions: {
           slackApiUrl: `http://localhost:${HTTP_PORT}/`,
         },
-        clientPingTimeout: 20, // controls reconnection rate
+        clientPingTimeout: 100, // controls reconnection rate
         logLevel: 'debug',
       });
       // shut down the default mock WS server used in these tests as we will customize its behaviour in this test
@@ -249,7 +250,7 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
         clientOptions: {
           slackApiUrl: `http://localhost:${HTTP_PORT}/`,
         },
-        clientPingTimeout: 25,
+        clientPingTimeout: 100,
       });
     });
     it('raises connecting event during `start()`', async () => {
@@ -310,7 +311,9 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
         });
       });
       afterEach(async () => {
-        await client.disconnect();
+        if (client) {
+          await client.disconnect();
+        }
       });
       // These tests check that specific type:disconnect events, of various reasons, sent by Slack backend are not raised as slack_events for apps to consume.
       for (const reason of DISCONNECT_REASONS) {
@@ -363,8 +366,8 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
             clientOptions: {
               slackApiUrl: `http://localhost:${HTTP_PORT}/`,
             },
-            clientPingTimeout: 25,
-            serverPingTimeout: 25,
+            clientPingTimeout: 100,
+            serverPingTimeout: 100,
             pingPongLoggingEnabled: false,
           });
         });
@@ -373,8 +376,8 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
           // create a waiter for post-reconnect connected event
           const reconnectedWaiter = new Promise((res) => client.on('connected', res));
           exposed_ws_connection.ping();
-          // we set server and client ping timeout to 25, so waiting for 50 + a bit should force a reconnect
-          await sleep(60);
+          // we set server and client ping timeout to 100, so waiting for 200 + buffer should force a reconnect
+          await sleep(250);
           // if we pass the point where the reconnectedWaiter succeeded, then we have verified the reconnection succeeded
           // and this test can be considered passing. if we time out here, then that is an indication of a failure.
           await reconnectedWaiter;
@@ -395,8 +398,8 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
           await client.start();
           // create a waiter for post-reconnect connected event
           const reconnectedWaiter = new Promise((res) => client.on('connected', res));
-          // we set server and client ping timeout to 25, so waiting for 50 + a bit should force a reconnect
-          await sleep(60);
+          // we set server and client ping timeout to 100, so waiting for 200 + buffer should force a reconnect
+          await sleep(250);
           // if we pass the point where the reconnectedWaiter succeeded, then we have verified the reconnection succeeded
           // and this test can be considered passing. if we time out here, then that is an indication of a failure.
           await reconnectedWaiter;
@@ -426,8 +429,8 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
           await client.start();
           // create a waiter for post-reconnect connected event
           const reconnectedWaiter = new Promise((res) => client.on('connected', res));
-          // we set server and client ping timeout to 25, so waiting for 50 + a bit should force a reconnect
-          await sleep(60);
+          // we set server and client ping timeout to 100, so waiting for 200 + buffer should force a reconnect
+          await sleep(250);
           // if we pass the point where the reconnectedWaiter succeeded, then we have verified the reconnection succeeded
           // and this test can be considered passing. if we time out here, then that is an indication of a failure.
           await reconnectedWaiter;
