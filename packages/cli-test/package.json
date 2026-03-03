@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@tsconfig/recommended": "^1.0.6",
-    "@types/node": "^25.0.3",
+    "@types/node": "^18.19.130",
     "@types/sinon": "^21.0.0",
     "cross-env": "^10.0.0",
     "shx": "^0.4.0",
