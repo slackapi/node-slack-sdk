@@ -196,10 +196,7 @@ describe('file-upload', () => {
         assert.fail(res.toString());
       } catch (err) {
         const e = err as WebAPIFileUploadInvalidArgumentsError;
-        assert.strictEqual(
-          e.message,
-          'file must be a valid string path, buffer or Readable',
-        );
+        assert.strictEqual(e.message, 'file must be a valid string path, buffer or Readable');
         assert.strictEqual(e.code, ErrorCode.FileUploadInvalidArgumentsError);
       }
 
