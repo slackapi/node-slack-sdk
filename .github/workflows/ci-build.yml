@@ -61,13 +61,13 @@ jobs:
           npm run build --workspace=@slack/socket-mode
       - name: Lint
         run: npm run lint
-      - name: Run tests (Node 18)
-        if: matrix.node-version == '18.x'
+      - name: Run tests (Node 18/20)
+        if: matrix.node-version != '22.x'
         shell: bash
-        # Node 18 doesn't have --test-reporter=lcov/junit, use simpler test script
+        # Node 18 lacks --test-reporter; Node 20 has coverage bugs. Use simpler script.
         run: npm run test:node18 --workspaces --if-present
-      - name: Run tests (Node 20+)
-        if: matrix.node-version != '18.x'
+      - name: Run tests (Node 22)
+        if: matrix.node-version == '22.x'
         shell: bash
         run: npm test
       - name: Upload code coverage
