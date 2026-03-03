@@ -525,7 +525,8 @@ describe('file-upload', () => {
         getAllFileUploadsToComplete(fileUploadJobs);
         assert.fail('Should fail with error because of missing file_id but did not');
       } catch (error) {
-        assert.strictEqual((error as Record<string, unknown>).message, buildMissingFileIdError());
+        assert.ok(error instanceof Error);
+        assert.strictEqual(error.message, buildMissingFileIdError());
       }
     });
     it('should correctly group entries with no channel_ids', () => {

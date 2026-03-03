@@ -81,11 +81,11 @@ describe('FileInstallationStore', async () => {
   beforeEach(() => {
     // Note that these sinon stubs affect the `os` package behaviors
     // in the tests in this file
-    fsMakeDirSync = (sinon.stub(fs, 'mkdirSync') as sinon.SinonStub).returns(undefined);
-    fsWriteFileSync = (sinon.stub(fs, 'writeFileSync') as sinon.SinonStub).returns(undefined);
+    fsMakeDirSync = sinon.stub(fs, 'mkdirSync').returns(undefined);
+    fsWriteFileSync = sinon.stub(fs, 'writeFileSync').returns(undefined);
     fsReadFileSync = sinon.stub(fs, 'readFileSync').returns(Buffer.from(JSON.stringify(storedInstallation)));
-    fsUnlinkSync = (sinon.stub(fs, 'unlinkSync') as sinon.SinonStub).returns(undefined);
-    fsReaddirSync = (sinon.stub(fs, 'readdirSync') as sinon.SinonStub).returns(['app-latest', 'user-userId-latest']);
+    fsUnlinkSync = sinon.stub(fs, 'unlinkSync').returns(undefined);
+    fsReaddirSync = sinon.stub(fs, 'readdirSync').returns(['app-latest', 'user-userId-latest']);
   });
 
   afterEach(() => {

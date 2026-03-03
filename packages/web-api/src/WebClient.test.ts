@@ -5,7 +5,13 @@ import type { ContextActionsBlock } from '@slack/types';
 import axios, { type InternalAxiosRequestConfig } from 'axios';
 import nock, { type ReplyHeaders } from 'nock';
 import sinon from 'sinon';
-import { ErrorCode, type WebAPIRequestError } from './errors';
+import {
+  ErrorCode,
+  type WebAPIHTTPError,
+  type WebAPIPlatformError,
+  type WebAPIRateLimitedError,
+  type WebAPIRequestError,
+} from './errors';
 import {
   buildGeneralFilesUploadWarning,
   buildInvalidFilesUploadParamError,
@@ -418,9 +424,10 @@ describe('WebClient', () => {
         assert.fail('expected thrown exception');
       } catch (error) {
         assert.ok(error instanceof Error);
-        assert.strictEqual((error as Record<string, unknown>).code, ErrorCode.PlatformError);
-        assert.strictEqual(((error as Record<string, unknown>).data as Record<string, unknown>).ok, false);
-        assert.strictEqual(((error as Record<string, unknown>).data as Record<string, unknown>).error, 'bad error');
+        const e = error as WebAPIPlatformError;
+        assert.strictEqual(e.code, ErrorCode.PlatformError);
+        assert.strictEqual(e.data.ok, false);
+        assert.strictEqual(e.data.error, 'bad error');
         scope.done();
       }
     });
@@ -433,10 +440,9 @@ describe('WebClient', () => {
         await client.apiCall('method');
         assert.fail('expected error to be thrown');
       } catch (error) {
-        assert.strictEqual((error as Record<string, unknown>).code, ErrorCode.HTTPError);
-        assert.strictEqual((error as Record<string, unknown>).statusCode, 500);
-        // TODO: type this closer to the actual error we throw
-        const e = error as Record<string, unknown>;
+        const e = error as WebAPIHTTPError;
+        assert.strictEqual(e.code, ErrorCode.HTTPError);
+        assert.strictEqual(e.statusCode, 500);
         assert.ok(e.headers);
         assert.deepStrictEqual(e.body, body);
         assert.ok(error instanceof Error);
@@ -452,9 +458,10 @@ describe('WebClient', () => {
         await client.apiCall('method');
         assert.fail('expected error to be thrown');
       } catch (error) {
-        assert.strictEqual((error as Record<string, unknown>).code, ErrorCode.RequestError);
+        const e = error as WebAPIRequestError;
+        assert.strictEqual(e.code, ErrorCode.RequestError);
         assert.ok(error instanceof Error);
-        assert.ok((error as WebAPIRequestError).original instanceof Error);
+        assert.ok(e.original instanceof Error);
       }
     });
 
@@ -955,8 +962,9 @@ describe('WebClient', () => {
           await client.apiCall('method');
           assert.fail('expected error to be thrown');
         } catch (error) {
-          assert.strictEqual((error as Record<string, unknown>).code, ErrorCode.RateLimitedError);
-          assert.strictEqual((error as Record<string, unknown>).retryAfter, retryAfter);
+          const e = error as WebAPIRateLimitedError;
+          assert.strictEqual(e.code, ErrorCode.RateLimitedError);
+          assert.strictEqual(e.retryAfter, retryAfter);
           assert.ok(error instanceof Error);
           scope.done();
         }
