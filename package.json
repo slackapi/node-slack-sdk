@@ -28,6 +28,8 @@
     "@biomejs/biome": "^2.0.5",
     "@changesets/cli": "^2.29.8",
     "@types/node": "^18.19.130",
+    "shx": "^0.4.0",
+    "tsx": "^4.20.6",
     "typescript": "5.9.3"
   }
 }

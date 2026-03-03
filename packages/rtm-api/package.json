@@ -57,9 +57,7 @@
   "devDependencies": {
     "@types/sinon": "^17",
     "@types/ws": "^8",
-    "shx": "^0.3.2",
     "sinon": "^21",
-    "tsx": "^4.20.6",
     "typedoc": "^0.28.7",
     "typedoc-plugin-markdown": "^4.7.1"
   }

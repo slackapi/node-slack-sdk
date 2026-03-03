@@ -63,14 +63,11 @@
     "retry": "^0.13.1"
   },
   "devDependencies": {
-    "@tsconfig/recommended": "^1",
     "@types/busboy": "^1.5.4",
     "@types/sinon": "^21",
     "busboy": "^1",
     "nock": "^14",
-    "shx": "^0.4.0",
     "sinon": "^21",
-    "tsx": "^4.20.6",
     "tsd": "^0.33.0",
     "typedoc": "^0.28.7",
     "typedoc-plugin-markdown": "^4.7.1"

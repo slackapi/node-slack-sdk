@@ -48,8 +48,6 @@
   },
   "devDependencies": {
     "nock": "^14.0.6",
-    "shx": "^0.4.0",
-    "tsx": "^4.20.6",
     "typedoc": "^0.28.7",
     "typedoc-plugin-markdown": "^4.7.1"
   }
