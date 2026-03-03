@@ -1,6 +1,5 @@
-import { IncomingMessage, ServerResponse } from 'node:http';
-
 import assert from 'node:assert/strict';
+import { IncomingMessage, ServerResponse } from 'node:http';
 import { describe, it } from 'node:test';
 import sinon from 'sinon';
 

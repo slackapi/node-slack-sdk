@@ -67,7 +67,11 @@ export class StateStoreChaiTestRunner {
             assert.fail('Exception should be thrown');
             // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
           } catch (e: any) {
-            assert.strictEqual(e.code, 'slack_oauth_invalid_state', `${state} ${JSON.stringify(expectedlyReturnedResult)}`);
+            assert.strictEqual(
+              e.code,
+              'slack_oauth_invalid_state',
+              `${state} ${JSON.stringify(expectedlyReturnedResult)}`,
+            );
           }
         });
       }

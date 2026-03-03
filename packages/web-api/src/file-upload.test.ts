@@ -1,6 +1,6 @@
-import { createReadStream, statSync, unlinkSync, writeFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
-import { describe, it, beforeEach, afterEach } from 'node:test';
+import { createReadStream, statSync, unlinkSync, writeFileSync } from 'node:fs';
+import { afterEach, beforeEach, describe, it } from 'node:test';
 import sinon from 'sinon';
 import { ErrorCode } from './errors';
 import {
@@ -193,7 +193,10 @@ describe('file-upload', () => {
         const res = await getFileData(invalidFileUpload2);
         assert.fail(res.toString());
       } catch (err) {
-        assert.strictEqual((err as Record<string, unknown>).message, 'file must be a valid string path, buffer or Readable');
+        assert.strictEqual(
+          (err as Record<string, unknown>).message,
+          'file must be a valid string path, buffer or Readable',
+        );
         assert.strictEqual((err as Record<string, unknown>).code, ErrorCode.FileUploadInvalidArgumentsError);
       }
 

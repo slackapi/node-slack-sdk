@@ -1,6 +1,6 @@
-import fs from 'node:fs';
 import assert from 'node:assert/strict';
-import { describe, it, beforeEach, afterEach } from 'node:test';
+import fs from 'node:fs';
+import { afterEach, beforeEach, describe, it } from 'node:test';
 import type { ContextActionsBlock } from '@slack/types';
 import axios, { type InternalAxiosRequestConfig } from 'axios';
 import nock, { type ReplyHeaders } from 'nock';
@@ -1177,7 +1177,10 @@ describe('WebClient', () => {
       assert.fail('expected error to be thrown');
     } catch (err) {
       assert.ok(err instanceof Error);
-      assert.ok((err as Error).message.includes('retry-after header: notanumber'), 'Raw retry-after header value included in error');
+      assert.ok(
+        (err as Error).message.includes('retry-after header: notanumber'),
+        'Raw retry-after header value included in error',
+      );
       scope.done();
     }
   });
@@ -1965,7 +1968,7 @@ describe('WebClient', () => {
       try {
         await client.apiCall('conversations/list');
       } catch (error) {
-        assert.ok(Object.prototype.hasOwnProperty.call(error, 'original'));
+        assert.ok(Object.hasOwn(error, 'original'));
         scope.done();
       }
     });
@@ -1979,7 +1982,7 @@ describe('WebClient', () => {
       try {
         await client.apiCall('conversations/list');
       } catch (error) {
-        assert.ok(Object.prototype.hasOwnProperty.call(error, 'original'));
+        assert.ok(Object.hasOwn(error, 'original'));
         scope.done();
       }
     });
@@ -1993,7 +1996,7 @@ describe('WebClient', () => {
       try {
         await client.apiCall('conversations/list');
       } catch (error) {
-        assert.ok(!Object.prototype.hasOwnProperty.call(error, 'original'));
+        assert.ok(!Object.hasOwn(error, 'original'));
         scope.done();
       }
     });

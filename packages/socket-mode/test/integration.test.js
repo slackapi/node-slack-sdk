@@ -176,7 +176,9 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
       // with `undefined` after disconnect(). node:test detects these as unhandled
       // rejections (mocha did not). Mock process.emit to swallow them during cleanup.
       const originalEmit = process.emit.bind(process);
-      t.after(() => { process.emit = originalEmit; });
+      t.after(() => {
+        process.emit = originalEmit;
+      });
       // override socket mode client instance with lower client ping timeout, which controls reconnection rate
       client = new SocketModeClient({
         appToken: 'whatever',

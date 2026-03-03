@@ -1,23 +1,16 @@
-import url from 'node:url';
 import assert from 'node:assert/strict';
-import { describe, it, beforeEach } from 'node:test';
+import { beforeEach, describe, it } from 'node:test';
+import url from 'node:url';
+import type { OAuthV2AccessArguments, OauthV2AccessResponse, WebClientOptions } from '@slack/web-api';
 import rewiremock from 'rewiremock';
 import sinon from 'sinon';
-
-import type { OAuthV2AccessArguments, OauthV2AccessResponse, WebClientOptions } from '@slack/web-api';
-import type {
-  CallbackOptions,
-  Installation,
-  InstallationStore,
-  InstallPathOptions,
-  StateStore,
-} from './index';
 import {
   type AuthorizationError,
   ErrorCode,
   type GenerateInstallUrlError,
   type InstallerInitializationError,
 } from './errors';
+import type { CallbackOptions, Installation, InstallationStore, InstallPathOptions, StateStore } from './index';
 import { type Logger, LogLevel } from './logger';
 
 // Stub WebClient api calls that the OAuth package makes
@@ -52,8 +45,6 @@ rewiremock(() => require('@slack/web-api')).with({
 rewiremock.enable();
 
 // Use require() so rewiremock can intercept @slack/web-api dependency
-// biome-ignore lint/style/noVar: need var for hoisting compatibility
-// biome-ignore lint/correctness/noUndeclaredVariables: require is available
 var { InstallProvider } = require('./index') as typeof import('./index');
 
 rewiremock.disable();
@@ -384,7 +375,10 @@ describe('InstallProvider', async () => {
         headers.Location,
         'https://slack.com/oauth/v2/authorize?scope=channels%3Aread&state=fakeState&client_id=MY_ID&redirect_uri=https%3A%2F%2Fmysite.com%2Fslack%2Fredirect&team=T12345&user_scope=chat%3Awrite%3Auser',
       );
-      assert.strictEqual(headers['Set-Cookie'], 'slack-app-oauth-state=fakeState; Secure; HttpOnly; Path=/; Max-Age=600');
+      assert.strictEqual(
+        headers['Set-Cookie'],
+        'slack-app-oauth-state=fakeState; Secure; HttpOnly; Path=/; Max-Age=600',
+      );
     });
     it('should redirect installers with data set by InstallPathOptions.beforeRedirection()', async () => {
       const installer = new InstallProvider({
@@ -424,7 +418,10 @@ describe('InstallProvider', async () => {
         'https://slack.com/oauth/v2/authorize?scope=channels%3Aread&state=fakeState&client_id=MY_ID&redirect_uri=https%3A%2F%2Fmysite.com%2Fslack%2Fredirect&team=T12345&user_scope=chat%3Awrite%3Auser',
       );
       assert.strictEqual(headers['Set-Cookie'][0], 'additional-cookie=external-service-user-id; Secure; HttpOnly;');
-      assert.strictEqual(headers['Set-Cookie'][1], 'slack-app-oauth-state=fakeState; Secure; HttpOnly; Path=/; Max-Age=600');
+      assert.strictEqual(
+        headers['Set-Cookie'][1],
+        'slack-app-oauth-state=fakeState; Secure; HttpOnly; Path=/; Max-Age=600',
+      );
     });
   });
 

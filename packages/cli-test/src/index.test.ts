@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { describe, it, afterEach } from 'node:test';
+import { afterEach, describe, it } from 'node:test';
 
 import sinon from 'sinon';
 

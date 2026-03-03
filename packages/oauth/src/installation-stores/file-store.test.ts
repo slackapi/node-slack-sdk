@@ -134,7 +134,10 @@ describe('FileInstallationStore', async () => {
     await installationStore.storeInstallation(storedInstallation);
 
     assert.strictEqual(fsWriteFileSync.calledWith(sinon.match(`${fakeInstallDir}/app-`), installationJSON), true);
-    assert.strictEqual(fsWriteFileSync.calledWith(sinon.match(`${fakeInstallDir}/user-${user.id}-`), installationJSON), true);
+    assert.strictEqual(
+      fsWriteFileSync.calledWith(sinon.match(`${fakeInstallDir}/user-${user.id}-`), installationJSON),
+      true,
+    );
 
     // 1 store = 4 files = 2 latest + 2 timestamps
     assert.strictEqual(fsWriteFileSync.callCount, 4);
@@ -165,7 +168,10 @@ describe('FileInstallationStore', async () => {
       });
       assert.fail(`An exception should be thrown ${JSON.stringify(res)}`);
     } catch (e: any) {
-      assert.strictEqual(e.message, 'No installation data found (enterprise_id: E999, team_id: T111, user_id: undefined)');
+      assert.strictEqual(
+        e.message,
+        'No installation data found (enterprise_id: E999, team_id: T111, user_id: undefined)',
+      );
     }
   });
 

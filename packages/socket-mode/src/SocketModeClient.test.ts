@@ -1,6 +1,6 @@
-import { ConsoleLogger } from '@slack/logger';
 import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
+import { ConsoleLogger } from '@slack/logger';
 import sinon from 'sinon';
 
 import logModule from './logger';
