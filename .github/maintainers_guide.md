@@ -55,7 +55,13 @@ Remove cached project dependencies with `rm -r node_modules package-lock.json` b
 
 The reference docs for each package is independent of the others. They're generated using the `typedoc` and `typedoc-plugin-markdown` packages with the configurations of the package's `typedoc.json` file.
 
-Each package has a script to these generate reference docs. For example:
+Generate reference docs for all packages:
+
+```sh
+npm run docs
+```
+
+Or generate docs for a specific package. For example:
 
 ```sh
 npm run docs --workspace packages/web-api
