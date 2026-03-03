@@ -41,11 +41,11 @@
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "prepack": "npm run build",
     "test": "npm run test:unit",
-    "test:node18": "npm run build && node --test --test-reporter=spec --import tsx --test src/**/*.test.ts",
+    "test:node18": "npm run build && node --test --test-reporter=spec --import tsx --test src/*.test.ts",
     "test:integration": "npm run build && node test/integration/commonjs-project/index.js && node test/integration/esm-project/index.mjs && npm run test:integration:ts",
     "test:integration:ts": "cd test/integration/ts-4.7-project && npm i && npm run build",
     "test:types": "tsd",
-    "test:unit": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/**/*.test.ts",
+    "test:unit": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/*.test.ts",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
   },
   "dependencies": {
