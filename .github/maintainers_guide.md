@@ -15,6 +15,7 @@ The Node SDK is made up of multiple, individual packages, each with their own te
 ```sh
 npm install
 npm run lint
+npm test
 npm test --workspace packages/web-api
 ```
 
