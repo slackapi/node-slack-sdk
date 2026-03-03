@@ -63,10 +63,12 @@ jobs:
         run: npm run lint
       - name: Run tests (Node 18)
         if: matrix.node-version == '18.x'
+        shell: bash
         # Node 18 doesn't have --test-reporter=lcov/junit, use simpler test script
         run: npm run test:node18 --workspaces --if-present
       - name: Run tests (Node 20+)
         if: matrix.node-version != '18.x'
+        shell: bash
         run: npm test
       - name: Upload code coverage
         if: matrix.node-version == '22.x' && matrix.os == 'ubuntu-latest'
