@@ -50,7 +50,7 @@
     "@types/node": ">=18",
     "eventemitter3": "^5",
     "finity": "^0.5.4",
-    "p-cancelable": "^2",
+    "p-cancelable": "^4",
     "p-queue": "^6",
     "ws": "^8"
   },
