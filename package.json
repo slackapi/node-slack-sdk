@@ -26,7 +26,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
-    "@changesets/cli": "^2.29.8",
-    "glob": "^13.0.6"
+    "@changesets/cli": "^2.29.8"
   }
 }

@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "@types/sinon": "^21",
+    "glob": "^13",
     "rewiremock": "^3",
     "shx": "^0.4.0",
     "sinon": "^21",

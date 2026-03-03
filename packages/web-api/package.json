@@ -67,6 +67,7 @@
     "@types/busboy": "^1.5.4",
     "@types/sinon": "^21",
     "busboy": "^1",
+    "glob": "^13",
     "nock": "^14",
     "shx": "^0.4.0",
     "sinon": "^21",
