@@ -204,6 +204,7 @@ describe('InstallProvider', async () => {
     it('should build a default installer given a clientID, client secret and stateSecret', async () => {
       const installer = new InstallProvider({ clientId, clientSecret, stateSecret, logger: noopLogger });
       assert.ok(installer instanceof InstallProvider);
+      // biome-ignore lint/suspicious/noExplicitAny: accessing private property for test assertion
       assert.strictEqual((installer as any).authVersion, 'v2');
     });
 
@@ -216,7 +217,9 @@ describe('InstallProvider', async () => {
         clientOptions: webClientOptions,
       });
       assert.ok(installer instanceof InstallProvider);
+      // biome-ignore lint/suspicious/noExplicitAny: accessing private property for test assertion
       assert.strictEqual((installer as any).authVersion, 'v2');
+      // biome-ignore lint/suspicious/noExplicitAny: accessing private property for test assertion
       assert.strictEqual((installer as any).clientOptions.timeout, webClientOptions.timeout);
     });
 
@@ -251,6 +254,7 @@ describe('InstallProvider', async () => {
         logger: noopLogger,
       });
       assert.ok(installer instanceof InstallProvider);
+      // biome-ignore lint/suspicious/noExplicitAny: accessing private property for test assertion
       assert.strictEqual((installer as any).authVersion, 'v2');
     });
 
@@ -263,6 +267,7 @@ describe('InstallProvider', async () => {
         logger: noopLogger,
       });
       assert.ok(installer instanceof InstallProvider);
+      // biome-ignore lint/suspicious/noExplicitAny: accessing private property for test assertion
       assert.strictEqual((installer as any).authVersion, 'v1');
     });
 

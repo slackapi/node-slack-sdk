@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import nock from 'nock';
 
+import type { CodedError } from './errors';
 import { ErrorCode } from './errors';
 import { IncomingWebhook } from './IncomingWebhook';
 
@@ -20,12 +21,14 @@ describe('IncomingWebhook', () => {
 
     it('should create a default webhook with a default timeout', () => {
       const webhook = new IncomingWebhook(url);
+      // biome-ignore lint/suspicious/noExplicitAny: accessing private property for test assertion
       assert.strictEqual((webhook as any).defaults.timeout, 0);
     });
 
     it('should create an axios instance that has the timeout passed by the user', () => {
       const givenTimeout = 100;
       const webhook = new IncomingWebhook(url, { timeout: givenTimeout });
+      // biome-ignore lint/suspicious/noExplicitAny: accessing private property for test assertion
       assert.strictEqual((webhook as any).axios.defaults.timeout, givenTimeout);
     });
   });
@@ -94,7 +97,7 @@ describe('IncomingWebhook', () => {
           assert.fail('expected rejection');
         } catch (error) {
           assert.ok(error instanceof Error);
-          assert.strictEqual((error as any).code, ErrorCode.RequestError);
+          assert.strictEqual((error as CodedError).code, ErrorCode.RequestError);
         }
       });
     });
@@ -108,6 +111,7 @@ describe('IncomingWebhook', () => {
           await webhook.send({ channel: 'different' });
           assert.fail('expected rejection');
         } catch (_err) {
+          // biome-ignore lint/suspicious/noExplicitAny: accessing private property for test assertion
           assert.strictEqual((webhook as any).defaults.channel, defaultParams.channel);
         }
       });

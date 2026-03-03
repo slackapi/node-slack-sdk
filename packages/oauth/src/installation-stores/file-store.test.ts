@@ -4,6 +4,7 @@ import os from 'node:os';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import sinon from 'sinon';
 
+import type { InstallationQuery } from '../index';
 import { InstallProvider } from '../index';
 import { FileInstallationStore } from './index';
 
@@ -79,11 +80,11 @@ describe('FileInstallationStore', async () => {
   beforeEach(() => {
     // Note that these sinon stubs affect the `os` package behaviors
     // in the tests in this file
-    fsMakeDirSync = sinon.stub(fs, 'mkdirSync').returns({} as any);
-    fsWriteFileSync = sinon.stub(fs, 'writeFileSync').returns(undefined as any);
+    fsMakeDirSync = (sinon.stub(fs, 'mkdirSync') as sinon.SinonStub).returns(undefined);
+    fsWriteFileSync = (sinon.stub(fs, 'writeFileSync') as sinon.SinonStub).returns(undefined);
     fsReadFileSync = sinon.stub(fs, 'readFileSync').returns(Buffer.from(JSON.stringify(storedInstallation)));
-    fsUnlinkSync = sinon.stub(fs, 'unlinkSync').returns(undefined as any);
-    fsReaddirSync = sinon.stub(fs, 'readdirSync').returns(['app-latest', 'user-userId-latest'] as any);
+    fsUnlinkSync = (sinon.stub(fs, 'unlinkSync') as sinon.SinonStub).returns(undefined);
+    fsReaddirSync = (sinon.stub(fs, 'readdirSync') as sinon.SinonStub).returns(['app-latest', 'user-userId-latest']);
   });
 
   afterEach(() => {
@@ -117,7 +118,8 @@ describe('FileInstallationStore', async () => {
     try {
       await installationStore.storeInstallation(storedInstallation);
       assert.fail('An exception should be thrown');
-    } catch (e: any) {
+    } catch (e: unknown) {
+      assert.ok(e instanceof Error);
       assert.strictEqual(
         e.message,
         'Failed to save installation to FileInstallationStore (error: Error: The original error message)',
@@ -167,7 +169,8 @@ describe('FileInstallationStore', async () => {
         teamId: 'T111',
       });
       assert.fail(`An exception should be thrown ${JSON.stringify(res)}`);
-    } catch (e: any) {
+    } catch (e: unknown) {
+      assert.ok(e instanceof Error);
       assert.strictEqual(
         e.message,
         'No installation data found (enterprise_id: E999, team_id: T111, user_id: undefined)',
@@ -232,13 +235,13 @@ describe('FileInstallationStore', async () => {
       },
     };
     const installationStore = {
-      fetchInstallation: (_: any) => {
+      fetchInstallation: (_: InstallationQuery<boolean>) => {
         return new Promise((resolve) => {
           resolve(storedInstallation);
         });
       },
       storeInstallation: () => {},
-      deleteInstallation: (_: any) => {},
+      deleteInstallation: (_: InstallationQuery<boolean>) => {},
     };
     const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
     const authorizeResult = await installer.authorize({ teamId: 'T111' });
@@ -270,13 +273,13 @@ describe('FileInstallationStore', async () => {
       user: null,
     };
     const installationStore = {
-      fetchInstallation: (_: any) => {
+      fetchInstallation: (_: InstallationQuery<boolean>) => {
         return new Promise((resolve) => {
           resolve(storedInstallation);
         });
       },
       storeInstallation: () => {},
-      deleteInstallation: (_: any) => {},
+      deleteInstallation: (_: InstallationQuery<boolean>) => {},
     };
     const installer = new InstallProvider({ clientId, clientSecret, stateSecret, installationStore });
     const authorizeResult = await installer.authorize({ teamId: 'T111' });
