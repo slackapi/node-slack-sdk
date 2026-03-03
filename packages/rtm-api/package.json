@@ -41,8 +41,8 @@
     "build:clean": "shx rm -rf ./dist",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "prepack": "npm run build",
-    "test": "npm run build && npm run test:integration",
-    "test:integration": "mocha --config .mocharc.json test/integration.spec.js"
+    "test": "npm run test:integration",
+    "test:integration": "npm run build && node --import tsx --test test/integration.test.js"
   },
   "dependencies": {
     "@slack/logger": "^4",
@@ -55,16 +55,11 @@
     "ws": "^8"
   },
   "devDependencies": {
-    "@types/chai": "^4",
-    "@types/mocha": "^10",
     "@types/sinon": "^17",
     "@types/ws": "^8",
-    "chai": "^4",
-    "mocha": "^11",
     "shx": "^0.3.2",
     "sinon": "^21",
-    "source-map-support": "^0.5.21",
-    "ts-node": "^10",
+    "tsx": "^4.20.6",
     "typedoc": "^0.28.7",
     "typedoc-plugin-markdown": "^4.7.1",
     "typescript": "5.9.3"

@@ -83,7 +83,7 @@ npm run build --workspace=@slack/socket-mode
 ## Code Conventions
 
 - **Formatting**: configured in `biome.json`
-- **Test files**: `*.spec.ts` using Mocha + chai + sinon; coverage via c8
+- **Test files**: `*.test.{ts,js}` using `node:test` + `node:assert/strict`; coverage via `--experimental-test-coverage`
 - **Type tests**: `*.test-d.ts` using tsd
 - **Naming conventions for request/response types**:
   - Request: `{Namespace}{Action}Arguments` (e.g., `ChatPostMessageArguments`)
@@ -277,10 +277,14 @@ Entry point for response type generation. It:
 
 ## Testing
 
-- **Unit tests**: Mocha + chai + sinon (`*.spec.ts` files), coverage via c8
+- **Test framework**: `node:test` (built-in) with `node:assert/strict` for assertions
+- **Test runner**: `node --experimental-test-coverage --import tsx --test`
+- **Unit tests**: `*.test.{ts,js}` files alongside source (e.g., `src/WebClient.test.ts`)
 - **Type tests**: tsd (`*.test-d.ts` files in `packages/web-api/test/types/`)
 - **Integration tests**: CommonJS, ESM, and TypeScript compatibility checks
-- **CI matrix**: Node 18.x, 20.x, 22.x on Ubuntu + Windows
+- **CI matrix**: Node 18.x, 20.x, 22.x on Ubuntu + Windows (6 jobs total)
+- **Coverage output**: `lcov.info` at each package root (not in `coverage/` dir)
+- **Test results**: `test-results.xml` at each package root (JUnit format)
 
 Per-package test commands:
 
