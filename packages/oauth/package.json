@@ -36,8 +36,8 @@
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "prepack": "npm run build",
     "test": "npm run test:unit",
-    "test:node18": "npm run build && node --test --test-reporter=spec --import tsx --test src/*.test.ts src/*/*.test.ts",
-    "test:unit": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/*.test.ts src/*/*.test.ts",
+    "test:node18": "npm run build && glob -c \"node --test --test-reporter=spec --import tsx\" \"src/**/*.test.ts\"",
+    "test:unit": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/**/*.test.ts",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
   },
   "dependencies": {
