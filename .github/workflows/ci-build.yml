@@ -8,22 +8,17 @@ on:
 
 jobs:
   test:
-    timeout-minutes: 4
+    timeout-minutes: 6
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        node-version: [18.x, 20.x, 22.x]
-        package:
-          - cli-hooks
-          - cli-test
-          - logger
-          - oauth
-          - rtm-api
-          - socket-mode
-          - types
-          - web-api
-          - webhook
+        os:
+          - "ubuntu-latest"
+          - "windows-latest"
+        node-version:
+          - "18.x"
+          - "20.x"
+          - "22.x"
     runs-on: ${{ matrix.os }}
     permissions:
       contents: read
@@ -40,10 +35,12 @@ jobs:
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm --version
-      - name: Install dependencies
+      - name: Check versions
         run: |
-          npm install --verbose
+          node --version
+          npm --version
+      - name: Install dependencies
+        run: npm install --verbose
       - name: Build packages
         run: |
           # Build packages without internal dependencies
@@ -62,32 +59,27 @@ jobs:
           npm run build --workspace=@slack/oauth
           npm run build --workspace=@slack/rtm-api
           npm run build --workspace=@slack/socket-mode
+      - name: Lint
+        run: npm run lint
       - name: Run tests
-        run: |
-          npm run lint
-          npm test --workspace=@slack/${{ matrix.package }}
-      - name: Check for coverage report existence
-        id: check_coverage
-        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3.0.0
-        with:
-          files: packages/${{ matrix.package }}/coverage/lcov.info
+        run: npm test
       - name: Upload code coverage
-        if: matrix.node-version == '22.x' && matrix.os == 'ubuntu-latest' && steps.check_coverage.outputs.files_exists == 'true'
+        if: matrix.node-version == '22.x' && matrix.os == 'ubuntu-latest'
         uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
         with:
-          directory: packages/${{ matrix.package }}/coverage
           fail_ci_if_error: true
-          flags: ${{ matrix.package }}
+          files: packages/*/lcov.info
+          flags: cli-hooks,cli-test,logger,oauth,socket-mode,web-api,webhook
           report_type: coverage
           token: ${{ secrets.CODECOV_TOKEN }}
           verbose: true
-      - name: Upload test results to Codecov
+      - name: Upload test results
         if: ${{ !cancelled() }}
         uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
         with:
           fail_ci_if_error: true
-          files: packages/${{ matrix.package }}/coverage/test-results.xml
-          flags: ${{ matrix.node-version }},${{ matrix.os }},${{ matrix.package }}
+          files: packages/*/test-results.xml
+          flags: ${{ matrix.node-version }},${{ matrix.os }}
           report_type: test_results
           token: ${{ secrets.CODECOV_TOKEN }}
           verbose: true

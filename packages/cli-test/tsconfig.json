@@ -18,8 +18,5 @@
     "out": "support/jsdoc",
     "access": "public"
   },
-  "exclude": ["src/**/*.spec.*"],
-  "ts-node": {
-    "esm": true
-  }
+  "exclude": ["src/**/*.test.*"]
 }

@@ -30,11 +30,11 @@
   },
   "scripts": {
     "build": "npm run build:clean && tsc",
-    "build:clean": "shx rm -rf ./dist ./coverage",
+    "build:clean": "shx rm -rf ./dist",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "prepack": "npm run build",
     "test": "npm run test:unit",
-    "test:unit": "npm run build && node --import tsx --test src/index.test.ts"
+    "test:unit": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/index.test.ts"
   },
   "dependencies": {
     "@types/node": ">=18.0.0"
