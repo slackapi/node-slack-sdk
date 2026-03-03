@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
+import path from 'node:path';
 import { afterEach, beforeEach, describe, it } from 'node:test';
 import sinon from 'sinon';
 
@@ -98,13 +99,13 @@ describe('FileInstallationStore', async () => {
   it('should store the latest installation', async () => {
     const installationStore = new FileInstallationStore({ baseDir: os.tmpdir() });
     const { enterprise, team, user } = storedInstallation;
-    const fakeInstallDir = `${os.tmpdir()}/${enterprise.id}-${team.id}`;
+    const fakeInstallDir = path.join(os.tmpdir(), `${enterprise.id}-${team.id}`);
     const installationJSON = JSON.stringify(storedInstallation);
 
     await installationStore.storeInstallation(storedInstallation);
-    assert.strictEqual(fsWriteFileSync.calledWith(`${fakeInstallDir}/app-latest`, installationJSON), true);
+    assert.strictEqual(fsWriteFileSync.calledWith(path.join(fakeInstallDir, 'app-latest'), installationJSON), true);
     assert.strictEqual(
-      fsWriteFileSync.calledWith(sinon.match(`${fakeInstallDir}/user-${user.id}-latest`), installationJSON),
+      fsWriteFileSync.calledWith(sinon.match(path.join(fakeInstallDir, `user-${user.id}-latest`)), installationJSON),
       true,
     );
   });
@@ -130,14 +131,17 @@ describe('FileInstallationStore', async () => {
   it('should store additional records for each installation with historicalDataEnabled', async () => {
     const installationStore = new FileInstallationStore({ baseDir: os.tmpdir(), historicalDataEnabled: true });
     const { enterprise, team, user } = storedInstallation;
-    const fakeInstallDir = `${os.tmpdir()}/${enterprise.id}-${team.id}`;
+    const fakeInstallDir = path.join(os.tmpdir(), `${enterprise.id}-${team.id}`);
     const installationJSON = JSON.stringify(storedInstallation);
 
     await installationStore.storeInstallation(storedInstallation);
 
-    assert.strictEqual(fsWriteFileSync.calledWith(sinon.match(`${fakeInstallDir}/app-`), installationJSON), true);
     assert.strictEqual(
-      fsWriteFileSync.calledWith(sinon.match(`${fakeInstallDir}/user-${user.id}-`), installationJSON),
+      fsWriteFileSync.calledWith(sinon.match(`${fakeInstallDir}${path.sep}app-`), installationJSON),
+      true,
+    );
+    assert.strictEqual(
+      fsWriteFileSync.calledWith(sinon.match(`${fakeInstallDir}${path.sep}user-${user.id}-`), installationJSON),
       true,
     );
 
@@ -148,13 +152,13 @@ describe('FileInstallationStore', async () => {
   it('should fetch a stored installation', async () => {
     const installationStore = new FileInstallationStore({ baseDir: os.tmpdir() });
     const { enterprise, team } = storedInstallation;
-    const fakeInstallDir = `${os.tmpdir()}/${enterprise.id}-${team.id}`;
+    const fakeInstallDir = path.join(os.tmpdir(), `${enterprise.id}-${team.id}`);
     const query = { enterpriseId: enterprise.id, teamId: team.id };
 
     await installationStore.storeInstallation(storedInstallation);
     const installation = await installationStore.fetchInstallation(query);
 
-    assert.strictEqual(fsReadFileSync.calledWith(sinon.match(`${fakeInstallDir}/app-latest`)), true);
+    assert.strictEqual(fsReadFileSync.calledWith(sinon.match(path.join(fakeInstallDir, 'app-latest'))), true);
     assert.deepStrictEqual(installation, storedInstallation);
   });
   it('should throw an exception with sufficient information when failing to fetch data', async () => {
@@ -181,7 +185,7 @@ describe('FileInstallationStore', async () => {
   it('should delete all records of installation if no userId is passed', async () => {
     const installationStore = new FileInstallationStore({ baseDir: os.tmpdir() });
     const { enterprise, team } = storedInstallation;
-    const fakeInstallDir = `${os.tmpdir()}/${enterprise.id}-${team.id}`;
+    const fakeInstallDir = path.join(os.tmpdir(), `${enterprise.id}-${team.id}`);
     const query = { enterpriseId: enterprise.id, teamId: team.id };
 
     await installationStore.deleteInstallation(query);
@@ -197,7 +201,7 @@ describe('FileInstallationStore', async () => {
   it('should delete only user records of installation if userId is passed', async () => {
     const installationStore = new FileInstallationStore({ baseDir: os.tmpdir() });
     const { enterprise, team, user } = storedInstallation;
-    const fakeInstallDir = `${os.tmpdir()}/${enterprise.id}-${team.id}`;
+    const fakeInstallDir = path.join(os.tmpdir(), `${enterprise.id}-${team.id}`);
     const query = { enterpriseId: enterprise.id, teamId: team.id, userId: user.id };
 
     await installationStore.deleteInstallation(query);
