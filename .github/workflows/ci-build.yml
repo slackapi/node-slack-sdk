@@ -85,7 +85,7 @@ jobs:
         uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
         with:
           fail_ci_if_error: true
-          files: packages/*/test-results.xml
+          files: packages/cli-hooks/test-results.xml,packages/cli-test/test-results.xml,packages/logger/test-results.xml,packages/oauth/test-results.xml,packages/socket-mode/test-results.xml,packages/web-api/test-results.xml,packages/webhook/test-results.xml
           flags: ${{ matrix.node-version }},${{ matrix.os }}
           report_type: test_results
           token: ${{ secrets.CODECOV_TOKEN }}
