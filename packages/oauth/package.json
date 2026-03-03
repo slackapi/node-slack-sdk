@@ -36,7 +36,7 @@
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "prepack": "npm run build",
     "test": "npm run test:unit",
-    "test:node18": "npm run build && npx glob -c \"node --test --test-reporter=spec --import tsx\" \"src/**/*.test.ts\"",
+    "test:node18": "npm run build && bash -c 'shopt -s globstar && node --test --test-reporter=spec --import tsx src/**/*.test.ts'",
     "test:unit": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/**/*.test.ts",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
   },
@@ -49,7 +49,6 @@
   },
   "devDependencies": {
     "@types/sinon": "^21",
-    "glob": "^13",
     "rewiremock": "^3",
     "shx": "^0.4.0",
     "sinon": "^21",
