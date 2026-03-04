@@ -8,17 +8,9 @@ Maintaining this project requires installing [Node.js](https://nodejs.org). All 
 
 ## ✅ Tasks
 
-### ⚗️ Testing and Linting
+### 🔧 Git hooks (optional)
 
-The Node SDK is made up of multiple, individual packages, each with their own tests. As such, tests are run on a per-package basis. However, the top-level directory contains some development dependencies applicable to all packages. As a result, to run tests for any package, first run `npm install` from the top-level directory. Then run `npm test --workspace packages/<package-name>` to run that package's tests. To run linting across all packages, run `npm run lint` from the root directory.
-
-```sh
-npm install
-npm run lint
-npm test --workspace packages/web-api
-```
-
-#### Pre-commit lint hook (optional)
+#### Pre-commit lint hook
 We provide an opt-in Git hook that runs `npm run lint` from the repository root before a commit is created.
 
 Enable it once per clone:
@@ -36,6 +28,16 @@ git config --unset core.hooksPath
 Notes:
 - The hook runs `npm run lint` from the repository root.
 - You can skip it with `git commit --no-verify` if needed.
+
+### ⚗️ Testing and Linting
+
+The Node SDK is made up of multiple, individual packages, each with their own tests. As such, tests are run on a per-package basis. However, the top-level directory contains some development dependencies applicable to all packages. As a result, to run tests for any package, first run `npm install` from the top-level directory. Then run `npm test --workspace packages/<package-name>` to run that package's tests. To run linting across all packages, run `npm run lint` from the root directory.
+
+```sh
+npm install
+npm run lint
+npm test --workspace packages/web-api
+```
 
 This project has tests for individual packages as `*.spec.js` files and inside of each package's `src` directory. Also, for verifying the behavior with the real Slack server-side and developer experience with installed packages, you can run the tests amd scripts under `prod-server-integration-tests`. Refer to the README file in the directory for details. These tests are supposed to be run in the project maintainers' manual execution. They are not part of CI builds for now.
 
