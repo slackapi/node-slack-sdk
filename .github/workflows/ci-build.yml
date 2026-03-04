@@ -61,6 +61,8 @@ jobs:
           npm run build --workspace=@slack/socket-mode
       - name: Lint
         run: npm run lint
+      - name: Build docs
+        run: npm run docs
       - name: Run tests (Node 18/20)
         if: matrix.node-version != '22.x'
         shell: bash
