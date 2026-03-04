@@ -36,10 +36,11 @@ The Node SDK is made up of multiple, individual packages, each with their own te
 ```sh
 npm install
 npm run lint
+npm test
 npm test --workspace packages/web-api
 ```
 
-This project has tests for individual packages as `*.spec.js` files and inside of each package's `src` directory. Also, for verifying the behavior with the real Slack server-side and developer experience with installed packages, you can run the tests amd scripts under `prod-server-integration-tests`. Refer to the README file in the directory for details. These tests are supposed to be run in the project maintainers' manual execution. They are not part of CI builds for now.
+This project has tests for individual packages as `*.test.ts` (or `*.test.js`) files inside of each package's `src` directory. Tests use `node:test` as the test runner and `node:assert/strict` for assertions. Also, for verifying the behavior with the real Slack server-side and developer experience with installed packages, you can run the tests and scripts under `prod-server-integration-tests`. Refer to the README file in the directory for details. These tests are supposed to be run in the project maintainers' manual execution. They are not part of CI builds for now.
 
 
 Upon opening a PR, tests are executed by GitHub Actions, our continuous integration system. GitHub Actions runs several, more granular builds in order to report on success and failure in a more targeted way.

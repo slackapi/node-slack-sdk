@@ -21,7 +21,8 @@
   "scripts": {
     "changeset": "npx @changesets/cli",
     "lint": "npx @biomejs/biome check packages",
-    "lint:fix": "npx @biomejs/biome check --write packages"
+    "lint:fix": "npx @biomejs/biome check --write packages",
+    "test": "npm test --workspaces --if-present"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
