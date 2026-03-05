@@ -1,5 +1,11 @@
 # @slack/web-api
 
+## 7.15.0
+
+### Minor Changes
+
+- 75649f4: feat: add support for apps.user.connection.update
+
 ## 7.14.1
 
 ### Patch Changes
