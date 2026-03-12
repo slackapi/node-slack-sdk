@@ -48,14 +48,10 @@
     "jsonwebtoken": "^9"
   },
   "devDependencies": {
-    "@types/node": "^18.19.130",
     "@types/sinon": "^21",
     "rewiremock": "^3",
-    "shx": "^0.4.0",
     "sinon": "^21",
-    "tsx": "^4.20.6",
     "typedoc": "^0.28.7",
-    "typedoc-plugin-markdown": "^4.7.0",
-    "typescript": "5.9.3"
+    "typedoc-plugin-markdown": "^4.7.0"
   }
 }

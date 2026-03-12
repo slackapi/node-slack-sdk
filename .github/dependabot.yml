@@ -13,16 +13,6 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
-    ignore:
-      - dependency-name: "@types/node"
-        versions:
-          - "19.x"
-          - "20.x"
-          - "21.x"
-          - "22.x"
-          - "23.x"
-          - "24.x"
-          - "25.x"
     labels:
       - "dependencies"
       - "javascript"
@@ -48,16 +38,6 @@ updates:
         patterns:
           - "@types/mocha"
           - "mocha"
-    ignore:
-      - dependency-name: "@types/node"
-        versions:
-          - "19.x"
-          - "20.x"
-          - "21.x"
-          - "22.x"
-          - "23.x"
-          - "24.x"
-          - "25.x"
     labels:
       - "dependencies"
       - "javascript"
@@ -178,16 +158,6 @@ updates:
 
   - package-ecosystem: "npm"
     directory: "/packages/types"
-    ignore:
-      - dependency-name: "@types/node"
-        versions:
-          - "19.x"
-          - "20.x"
-          - "21.x"
-          - "22.x"
-          - "23.x"
-          - "24.x"
-          - "25.x"
     labels:
       - "dependencies"
       - "javascript"
@@ -289,6 +259,16 @@ updates:
 
   - package-ecosystem: "npm"
     directory: "/"
+    ignore:
+      - dependency-name: "@types/node"
+        versions:
+          - "19.x"
+          - "20.x"
+          - "21.x"
+          - "22.x"
+          - "23.x"
+          - "24.x"
+          - "25.x"
     labels:
       - "dependencies"
       - "javascript"
