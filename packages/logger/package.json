@@ -37,6 +37,9 @@
     "test:node18": "npm run build && node --test --test-reporter=spec --import tsx --test src/index.test.ts",
     "test:unit": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/index.test.ts"
   },
+  "dependencies": {
+    "@types/node": ">=18"
+  },
   "devDependencies": {
     "@types/node": "^18.19.130",
     "shx": "^0.4.0",
