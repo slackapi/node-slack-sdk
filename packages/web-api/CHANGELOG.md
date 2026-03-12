@@ -1,5 +1,19 @@
 # @slack/web-api
 
+## 7.15.0
+
+### Minor Changes
+
+- 75649f4: feat: add support for apps.user.connection.update
+
+### Patch Changes
+
+- b8d922f: build: add support for node 24
+- Updated dependencies [b8d922f]
+- Updated dependencies [b8d922f]
+  - @slack/logger@4.0.1
+  - @slack/types@2.20.1
+
 ## 7.14.1
 
 ### Patch Changes

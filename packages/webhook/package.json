@@ -1,6 +1,6 @@
 {
   "name": "@slack/webhook",
-  "version": "7.0.7",
+  "version": "7.0.8",
   "description": "Official library for using the Slack Platform's Incoming Webhooks",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -42,7 +42,7 @@
     "test:unit": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/IncomingWebhook.test.ts"
   },
   "dependencies": {
-    "@slack/types": "^2.9.0",
+    "@slack/types": "^2.20.1",
     "@types/node": ">=18",
     "axios": "^1.13.5"
   },
