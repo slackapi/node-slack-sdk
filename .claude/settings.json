@@ -39,7 +39,6 @@
       "Bash(nvm use:*)",
       "Bash(tail:*)",
       "Bash(tree:*)",
-      "WebFetch(domain:devblogs.microsoft.com)",
       "WebFetch(domain:docs.slack.dev)",
       "WebFetch(domain:github.com)",
       "WebFetch(domain:npmjs.com)",
