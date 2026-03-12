@@ -47,6 +47,7 @@
     "axios": "^1.13.5"
   },
   "devDependencies": {
+    "@types/node": "^18.19.130",
     "nock": "^14.0.6",
     "typedoc": "^0.28.7",
     "typedoc-plugin-markdown": "^4.7.1"
