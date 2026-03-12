@@ -55,7 +55,6 @@
     "ws": "^8"
   },
   "devDependencies": {
-    "@types/node": "^18.19.130",
     "@types/sinon": "^17",
     "@types/ws": "^8",
     "sinon": "^21"
