@@ -127,6 +127,7 @@ export type {
   AppsManifestUpdateArguments,
   AppsManifestValidateArguments,
   AppsUninstallArguments,
+  AppsUserConnectionUpdateArguments,
 } from './apps';
 export type {
   AssistantThreadsSetStatusArguments,
