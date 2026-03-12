@@ -1,22 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "declaration": true,
-    "declarationMap": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "outDir": "dist",
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "sourceMap": true
+    "resolveJsonModule": true
   },
-  "extends": "@tsconfig/recommended/tsconfig.json",
   "include": ["src/**/*"],
-  "exclude": ["src/**/*.test.*"],
-  "jsdoc": {
-    "out": "support/jsdoc",
-    "access": "public"
-  }
+  "exclude": ["src/**/*.test.*"]
 }

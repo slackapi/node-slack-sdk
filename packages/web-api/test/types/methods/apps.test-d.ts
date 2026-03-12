@@ -103,6 +103,34 @@ expectAssignable<Parameters<typeof web.apps.manifest.validate>>([
   },
 ]);
 
+// apps.user.connection.update
+// -- sad path
+expectError(web.apps.user.connection.update()); // lacking argument
+expectError(web.apps.user.connection.update({})); // empty argument
+expectError(
+  web.apps.user.connection.update({
+    user_id: 'U1234', // missing status
+  }),
+);
+expectError(
+  web.apps.user.connection.update({
+    status: 'connected', // missing user_id
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.apps.user.connection.update>>([
+  {
+    user_id: 'U1234',
+    status: 'connected',
+  },
+]);
+expectAssignable<Parameters<typeof web.apps.user.connection.update>>([
+  {
+    user_id: 'U1234',
+    status: 'disconnected',
+  },
+]);
+
 // apps.uninstall
 // -- sad path
 expectError(web.apps.uninstall()); // lacking argument

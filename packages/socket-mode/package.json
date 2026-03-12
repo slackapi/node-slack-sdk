@@ -58,17 +58,10 @@
     "ws": "^8"
   },
   "devDependencies": {
-    "@types/node": "^18.19.130",
-    "@tsconfig/recommended": "^1.0.7",
     "@types/proxyquire": "^1.3.31",
     "@types/sinon": "^21",
     "nodemon": "^3.1.0",
     "proxyquire": "^2.1.3",
-    "shx": "^0.4.0",
-    "sinon": "^21",
-    "tsx": "^4.20.6",
-    "typedoc": "^0.28.7",
-    "typedoc-plugin-markdown": "^4.7.0",
-    "typescript": "5.9.3"
+    "sinon": "^21"
   }
 }
