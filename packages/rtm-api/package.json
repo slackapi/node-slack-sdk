@@ -57,8 +57,6 @@
   "devDependencies": {
     "@types/sinon": "^17",
     "@types/ws": "^8",
-    "sinon": "^21",
-    "typedoc": "^0.28.7",
-    "typedoc-plugin-markdown": "^4.7.1"
+    "sinon": "^21"
   }
 }

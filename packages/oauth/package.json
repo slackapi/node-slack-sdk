@@ -50,8 +50,6 @@
   "devDependencies": {
     "@types/sinon": "^21",
     "rewiremock": "^3",
-    "sinon": "^21",
-    "typedoc": "^0.28.7",
-    "typedoc-plugin-markdown": "^4.7.0"
+    "sinon": "^21"
   }
 }

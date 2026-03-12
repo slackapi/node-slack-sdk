@@ -30,6 +30,7 @@
       "Bash(npm install)",
       "Bash(npm install:*)",
       "Bash(npm run build:*)",
+      "Bash(npm run docs:*)",
       "Bash(npm run lint:*)",
       "Bash(npm run lint:fix:*)",
       "Bash(npm show:*)",
