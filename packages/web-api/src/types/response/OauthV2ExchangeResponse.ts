@@ -52,4 +52,5 @@ export interface IncomingWebhook {
 
 export interface ResponseMetadata {
   messages?: string[];
+  warnings?: any[];
 }

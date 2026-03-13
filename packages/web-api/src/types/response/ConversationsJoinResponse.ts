@@ -55,20 +55,34 @@ export interface Channel {
 
 export interface Properties {
   canvas?: Canvas;
+  meeting_notes?: MeetingNotes;
   tabs?: Tab[];
   tabz?: Tab[];
+  use_case?: string;
 }
 
 export interface Canvas {
   file_id?: string;
   is_empty?: boolean;
+  is_migrated?: boolean;
   quip_thread_id?: string;
 }
 
+export interface MeetingNotes {
+  file_id?: string;
+}
+
 export interface Tab {
+  data?: Data;
   id?: string;
+  is_disabled?: boolean;
   label?: string;
   type?: string;
+}
+
+export interface Data {
+  file_id?: string;
+  shared_ts?: string;
 }
 
 export interface Purpose {
