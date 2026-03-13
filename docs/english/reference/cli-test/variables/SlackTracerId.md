@@ -10,7 +10,7 @@ Defined in: [utils/constants.ts:5](https://github.com/slackapi/node-slack-sdk/bl
 
 This file should be kept up to date with the source of truth in the Slack CLI repo
 
-## Type declaration
+## Type Declaration
 
 ### SLACK\_TRACE\_ADMIN\_APPROVAL\_REQUEST\_PENDING
 

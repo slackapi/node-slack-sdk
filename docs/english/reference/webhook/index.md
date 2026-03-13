@@ -1,4 +1,4 @@
-# @slack/webhook v7.0.6
+# @slack/webhook v7.0.8
 
 ## Enumerations
 

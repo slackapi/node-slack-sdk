@@ -1,5 +1,11 @@
 # @slack/cli-test
 
+## 2.2.2
+
+### Patch Changes
+
+- b8d922f: build: add support for node 24
+
 ## 2.2.1
 
 ### Patch Changes

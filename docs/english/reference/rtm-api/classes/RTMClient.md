@@ -17,7 +17,7 @@ messages.
 ### Constructor
 
 ```ts
-new RTMClient(token, __namedParameters): RTMClient;
+new RTMClient(token, __namedParameters?): RTMClient;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:367](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L367)
@@ -28,7 +28,7 @@ Defined in: [packages/rtm-api/src/RTMClient.ts:367](https://github.com/slackapi/
 
 `string`
 
-##### \_\_namedParameters
+##### \_\_namedParameters?
 
 [`RTMClientOptions`](../interfaces/RTMClientOptions.md) = `{}`
 
@@ -99,7 +99,7 @@ Whether or not the client is currently connected to the RTM API
 static prefixed: string | boolean;
 ```
 
-Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:9
+Defined in: node\_modules/eventemitter3/index.d.ts:9
 
 #### Inherited from
 
@@ -118,7 +118,7 @@ addListener<T>(
    context?): this;
 ```
 
-Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:45
+Defined in: node\_modules/eventemitter3/index.d.ts:45
 
 #### Type Parameters
 
@@ -275,7 +275,7 @@ start() again later.
 emit<T>(event, ...args): boolean;
 ```
 
-Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:32
+Defined in: node\_modules/eventemitter3/index.d.ts:32
 
 Calls each of the listeners registered for a given event.
 
@@ -313,7 +313,7 @@ EventEmitter.emit
 eventNames(): (string | symbol)[];
 ```
 
-Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:15
+Defined in: node\_modules/eventemitter3/index.d.ts:15
 
 Return an array listing the events for which the emitter has registered
 listeners.
@@ -336,7 +336,7 @@ EventEmitter.eventNames
 listenerCount(event): number;
 ```
 
-Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:27
+Defined in: node\_modules/eventemitter3/index.d.ts:27
 
 Return the number of listeners listening to a given event.
 
@@ -364,7 +364,7 @@ EventEmitter.listenerCount
 listeners<T>(event): (...args) => void[];
 ```
 
-Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:20
+Defined in: node\_modules/eventemitter3/index.d.ts:20
 
 Return the listeners registered for a given event.
 
@@ -402,7 +402,7 @@ off<T>(
    once?): this;
 ```
 
-Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:69
+Defined in: node\_modules/eventemitter3/index.d.ts:69
 
 #### Type Parameters
 
@@ -449,7 +449,7 @@ on<T>(
    context?): this;
 ```
 
-Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:40
+Defined in: node\_modules/eventemitter3/index.d.ts:40
 
 Add a listener for a given event.
 
@@ -494,7 +494,7 @@ once<T>(
    context?): this;
 ```
 
-Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:54
+Defined in: node\_modules/eventemitter3/index.d.ts:54
 
 Add a one-time listener for a given event.
 
@@ -536,7 +536,7 @@ EventEmitter.once
 removeAllListeners(event?): this;
 ```
 
-Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:79
+Defined in: node\_modules/eventemitter3/index.d.ts:79
 
 Remove all listeners, or those of the specified event.
 
@@ -568,7 +568,7 @@ removeListener<T>(
    once?): this;
 ```
 
-Defined in: packages/rtm-api/node\_modules/eventemitter3/index.d.ts:63
+Defined in: node\_modules/eventemitter3/index.d.ts:63
 
 Remove the listeners of a given event.
 
@@ -611,7 +611,7 @@ EventEmitter.removeListener
 ### send()
 
 ```ts
-send(type, body): Promise<number>;
+send(type, body?): Promise<number>;
 ```
 
 Defined in: [packages/rtm-api/src/RTMClient.ts:578](https://github.com/slackapi/node-slack-sdk/blob/main/packages/rtm-api/src/RTMClient.ts#L578)
@@ -630,7 +630,7 @@ there is `ts` on messages once the server acknowledges it).
 
 the message type
 
-##### body
+##### body?
 
 the message body
 

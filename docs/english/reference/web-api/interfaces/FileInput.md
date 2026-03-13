@@ -2,7 +2,7 @@
 
 # Interface: FileInput
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:166
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:169
 
 ## Description
 
@@ -25,7 +25,7 @@ your app must have the `files:read` scope.
 optional action_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
 [identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
@@ -43,7 +43,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 optional filetypes: string[];
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:176
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:179
 
 #### Description
 
@@ -59,7 +59,7 @@ for convenience only, and you should perform your own file type validation based
 optional max_files: number;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:181
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:184
 
 #### Description
 
@@ -74,7 +74,7 @@ Maximum number of files that can be uploaded for this `file_input` element. Mini
 type: "file_input";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:170
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:173
 
 #### Description
 

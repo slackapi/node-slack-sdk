@@ -2,7 +2,7 @@
 
 # Interface: ThreadBroadcastMessageEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:225
+Defined in: packages/types/dist/events/message.d.ts:225
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 optional attachments: MessageAttachment[];
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:230
+Defined in: packages/types/dist/events/message.d.ts:230
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 optional blocks: (Block | KnownBlock)[];
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:231
+Defined in: packages/types/dist/events/message.d.ts:231
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 channel: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:243
+Defined in: packages/types/dist/events/message.d.ts:243
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 channel_type: ChannelTypes;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:244
+Defined in: packages/types/dist/events/message.d.ts:244
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 client_msg_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:242
+Defined in: packages/types/dist/events/message.d.ts:242
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:228
+Defined in: packages/types/dist/events/message.d.ts:228
 
 ***
 
@@ -74,7 +74,7 @@ root:
   | BotMessageEvent & object;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:235
+Defined in: packages/types/dist/events/message.d.ts:235
 
 #### Type Declaration
 
@@ -116,7 +116,7 @@ thread_ts: string;
 subtype: "thread_broadcast";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:227
+Defined in: packages/types/dist/events/message.d.ts:227
 
 ***
 
@@ -126,7 +126,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 text: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:229
+Defined in: packages/types/dist/events/message.d.ts:229
 
 ***
 
@@ -136,7 +136,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 optional thread_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:234
+Defined in: packages/types/dist/events/message.d.ts:234
 
 ***
 
@@ -146,7 +146,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:233
+Defined in: packages/types/dist/events/message.d.ts:233
 
 ***
 
@@ -156,7 +156,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 type: "message";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:226
+Defined in: packages/types/dist/events/message.d.ts:226
 
 ***
 
@@ -166,4 +166,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 user: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:232
+Defined in: packages/types/dist/events/message.d.ts:232

@@ -2,7 +2,7 @@
 
 # Interface: ChannelSharedEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:66
+Defined in: packages/types/dist/events/channel.d.ts:66
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 channel: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:69
+Defined in: packages/types/dist/events/channel.d.ts:69
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 connected_team_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:68
+Defined in: packages/types/dist/events/channel.d.ts:68
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:70
+Defined in: packages/types/dist/events/channel.d.ts:70
 
 ***
 
@@ -42,4 +42,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 type: "channel_shared";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:67
+Defined in: packages/types/dist/events/channel.d.ts:67

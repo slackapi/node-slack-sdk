@@ -2,7 +2,7 @@
 
 # Interface: LinkSharedEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.d.ts:1
+Defined in: packages/types/dist/events/link-shared.d.ts:1
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.
 channel: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.d.ts:3
+Defined in: packages/types/dist/events/link-shared.d.ts:3
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.d.ts:14
+Defined in: packages/types/dist/events/link-shared.d.ts:14
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.
 is_bot_user_member: boolean;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.d.ts:4
+Defined in: packages/types/dist/events/link-shared.d.ts:4
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.
 links: object[];
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.d.ts:8
+Defined in: packages/types/dist/events/link-shared.d.ts:8
 
 #### domain
 
@@ -64,7 +64,7 @@ url: string;
 message_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.d.ts:6
+Defined in: packages/types/dist/events/link-shared.d.ts:6
 
 ***
 
@@ -74,7 +74,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.
 optional source: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.d.ts:13
+Defined in: packages/types/dist/events/link-shared.d.ts:13
 
 ***
 
@@ -84,7 +84,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.
 optional thread_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.d.ts:7
+Defined in: packages/types/dist/events/link-shared.d.ts:7
 
 ***
 
@@ -94,7 +94,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.
 type: "link_shared";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.d.ts:2
+Defined in: packages/types/dist/events/link-shared.d.ts:2
 
 ***
 
@@ -104,7 +104,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.
 optional unfurl_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.d.ts:12
+Defined in: packages/types/dist/events/link-shared.d.ts:12
 
 ***
 
@@ -114,4 +114,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.
 user: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/link-shared.d.ts:5
+Defined in: packages/types/dist/events/link-shared.d.ts:5

@@ -18,14 +18,14 @@ and has a built in send method to acknowledge incoming events over the WebSocket
 ### Constructor
 
 ```ts
-new SocketModeClient(__namedParameters): SocketModeClient;
+new SocketModeClient(__namedParameters?): SocketModeClient;
 ```
 
 Defined in: [packages/socket-mode/src/SocketModeClient.ts:96](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/SocketModeClient.ts#L96)
 
 #### Parameters
 
-##### \_\_namedParameters
+##### \_\_namedParameters?
 
 [`SocketModeOptions`](../interfaces/SocketModeOptions.md) = `...`
 
@@ -59,7 +59,7 @@ The underlying WebSocket client instance
 static prefixed: string | boolean;
 ```
 
-Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:9
+Defined in: node\_modules/eventemitter3/index.d.ts:9
 
 #### Inherited from
 
@@ -78,7 +78,7 @@ addListener<T>(
    context?): this;
 ```
 
-Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:45
+Defined in: node\_modules/eventemitter3/index.d.ts:45
 
 #### Type Parameters
 
@@ -135,7 +135,7 @@ unless you call start() again later.
 emit<T>(event, ...args): boolean;
 ```
 
-Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:32
+Defined in: node\_modules/eventemitter3/index.d.ts:32
 
 Calls each of the listeners registered for a given event.
 
@@ -173,7 +173,7 @@ EventEmitter.emit
 eventNames(): (string | symbol)[];
 ```
 
-Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:15
+Defined in: node\_modules/eventemitter3/index.d.ts:15
 
 Return an array listing the events for which the emitter has registered
 listeners.
@@ -196,7 +196,7 @@ EventEmitter.eventNames
 listenerCount(event): number;
 ```
 
-Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:27
+Defined in: node\_modules/eventemitter3/index.d.ts:27
 
 Return the number of listeners listening to a given event.
 
@@ -224,7 +224,7 @@ EventEmitter.listenerCount
 listeners<T>(event): (...args) => void[];
 ```
 
-Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:20
+Defined in: node\_modules/eventemitter3/index.d.ts:20
 
 Return the listeners registered for a given event.
 
@@ -262,7 +262,7 @@ off<T>(
    once?): this;
 ```
 
-Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:69
+Defined in: node\_modules/eventemitter3/index.d.ts:69
 
 #### Type Parameters
 
@@ -309,7 +309,7 @@ on<T>(
    context?): this;
 ```
 
-Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:40
+Defined in: node\_modules/eventemitter3/index.d.ts:40
 
 Add a listener for a given event.
 
@@ -354,7 +354,7 @@ once<T>(
    context?): this;
 ```
 
-Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:54
+Defined in: node\_modules/eventemitter3/index.d.ts:54
 
 Add a one-time listener for a given event.
 
@@ -396,7 +396,7 @@ EventEmitter.once
 removeAllListeners(event?): this;
 ```
 
-Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:79
+Defined in: node\_modules/eventemitter3/index.d.ts:79
 
 Remove all listeners, or those of the specified event.
 
@@ -428,7 +428,7 @@ removeListener<T>(
    once?): this;
 ```
 
-Defined in: packages/socket-mode/node\_modules/eventemitter3/index.d.ts:63
+Defined in: node\_modules/eventemitter3/index.d.ts:63
 
 Remove the listeners of a given event.
 

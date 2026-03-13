@@ -2,7 +2,7 @@
 
 # Interface: SubteamSelfAddedEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:50
+Defined in: packages/types/dist/events/subteam.d.ts:50
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:53
+Defined in: packages/types/dist/events/subteam.d.ts:53
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts
 subteam_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:52
+Defined in: packages/types/dist/events/subteam.d.ts:52
 
 ***
 
@@ -32,4 +32,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts
 type: "subteam_self_added";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/subteam.d.ts:51
+Defined in: packages/types/dist/events/subteam.d.ts:51

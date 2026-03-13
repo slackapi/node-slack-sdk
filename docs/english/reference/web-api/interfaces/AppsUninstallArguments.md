@@ -2,7 +2,7 @@
 
 # Interface: AppsUninstallArguments
 
-Defined in: [packages/web-api/src/types/request/apps.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L36)
+Defined in: [packages/web-api/src/types/request/apps.ts:44](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/apps.ts#L44)
 
 ## Extends
 

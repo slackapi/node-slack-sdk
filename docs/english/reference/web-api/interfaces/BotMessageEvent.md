@@ -2,7 +2,7 @@
 
 # Interface: BotMessageEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:38
+Defined in: packages/types/dist/events/message.d.ts:38
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 optional attachments: MessageAttachment[];
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:53
+Defined in: packages/types/dist/events/message.d.ts:53
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 optional blocks: (Block | KnownBlock)[];
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:54
+Defined in: packages/types/dist/events/message.d.ts:54
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 bot_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:47
+Defined in: packages/types/dist/events/message.d.ts:47
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 channel: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:42
+Defined in: packages/types/dist/events/message.d.ts:42
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 channel_type: ChannelTypes;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:43
+Defined in: packages/types/dist/events/message.d.ts:43
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 optional edited: object;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:55
+Defined in: packages/types/dist/events/message.d.ts:55
 
 #### ts
 
@@ -84,7 +84,7 @@ user: string;
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:41
+Defined in: packages/types/dist/events/message.d.ts:41
 
 ***
 
@@ -94,7 +94,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 optional icons: object;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:49
+Defined in: packages/types/dist/events/message.d.ts:49
 
 #### Index Signature
 
@@ -110,7 +110,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 optional streaming_state: "in_progress" | "completed" | "errored";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:44
+Defined in: packages/types/dist/events/message.d.ts:44
 
 ***
 
@@ -120,7 +120,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 subtype: "bot_message";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:40
+Defined in: packages/types/dist/events/message.d.ts:40
 
 ***
 
@@ -130,7 +130,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 text: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:46
+Defined in: packages/types/dist/events/message.d.ts:46
 
 ***
 
@@ -140,7 +140,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 optional thread_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:59
+Defined in: packages/types/dist/events/message.d.ts:59
 
 ***
 
@@ -150,7 +150,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:45
+Defined in: packages/types/dist/events/message.d.ts:45
 
 ***
 
@@ -160,7 +160,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 type: "message";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:39
+Defined in: packages/types/dist/events/message.d.ts:39
 
 ***
 
@@ -170,7 +170,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 optional user: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:52
+Defined in: packages/types/dist/events/message.d.ts:52
 
 ***
 
@@ -180,4 +180,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 optional username: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:48
+Defined in: packages/types/dist/events/message.d.ts:48

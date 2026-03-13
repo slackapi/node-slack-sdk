@@ -8,7 +8,7 @@ type TextObject =
   | MrkdwnElement;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:120
+Defined in: packages/types/dist/block-kit/composition-objects.d.ts:120
 
 ## Description
 

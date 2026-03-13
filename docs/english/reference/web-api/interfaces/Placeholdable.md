@@ -2,7 +2,7 @@
 
 # Interface: Placeholdable
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:44
+Defined in: packages/types/dist/block-kit/extensions.d.ts:44
 
 ## Extended by
 
@@ -32,7 +32,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extension
 optional placeholder: PlainTextElement;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:49
+Defined in: packages/types/dist/block-kit/extensions.d.ts:49
 
 #### Description
 
