@@ -11,6 +11,7 @@ Maintaining this project requires installing [Node.js](https://nodejs.org). All 
 ### 🔧 Git hooks (optional)
 
 #### Pre-commit lint hook
+
 We provide an opt-in Git hook that runs `npm run lint` from the repository root before a commit is created.
 
 Enable it once per clone:
@@ -26,6 +27,7 @@ git config --unset core.hooksPath
 ```
 
 Notes:
+
 - The hook runs `npm run lint` from the repository root.
 - You can skip it with `git commit --no-verify` if needed.
 
@@ -41,7 +43,6 @@ npm test --workspace packages/web-api
 ```
 
 This project has tests for individual packages as `*.test.ts` (or `*.test.js`) files inside of each package's `src` directory. Tests use `node:test` as the test runner and `node:assert/strict` for assertions. Also, for verifying the behavior with the real Slack server-side and developer experience with installed packages, you can run the tests and scripts under `prod-server-integration-tests`. Refer to the README file in the directory for details. These tests are supposed to be run in the project maintainers' manual execution. They are not part of CI builds for now.
-
 
 Upon opening a PR, tests are executed by GitHub Actions, our continuous integration system. GitHub Actions runs several, more granular builds in order to report on success and failure in a more targeted way.
 
@@ -115,7 +116,7 @@ New official package versions are published when the release PR created from cha
 
 1. **Check GitHub Milestones**: Before merging the release PR please check the relevant [Milestones](https://github.com/slackapi/node-slack-sdk/milestones). If issues or pull requests are still open either decide to postpone the release or save those changes for a future update.
 
-2. **Review the release PR**: Verify that version bumps match expectations, `CHANGELOG` entries are clear, and CI checks pass on the `main` branch.
+2. **Review the release PR**: Verify that version bumps match expectations, `CHANGELOG` entries are clear, and CI checks pass on the `main` branch. Use `npm run docs` to generate documentation.
 
 3. **Merge and approve**: Merge the release PR, then approve the [publish](https://github.com/slackapi/node-slack-sdk/actions/workflows/release.yml) workflow to release packages to npm.
 
