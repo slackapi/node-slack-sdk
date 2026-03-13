@@ -2,7 +2,7 @@
 
 # Interface: WorkflowStepExecuteEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:61
+Defined in: packages/types/dist/events/steps-from-apps.d.ts:61
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-a
 callback_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:63
+Defined in: packages/types/dist/events/steps-from-apps.d.ts:63
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-a
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:80
+Defined in: packages/types/dist/events/steps-from-apps.d.ts:80
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-a
 type: "workflow_step_execute";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:62
+Defined in: packages/types/dist/events/steps-from-apps.d.ts:62
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-a
 workflow_step: object;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/steps-from-apps.d.ts:64
+Defined in: packages/types/dist/events/steps-from-apps.d.ts:64
 
 #### inputs
 

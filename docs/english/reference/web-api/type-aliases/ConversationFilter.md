@@ -9,7 +9,7 @@ type ConversationFilter =
 | BaseConversationFilter & Required<Pick<BaseConversationFilter, "exclude_external_shared_channels">>;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:183
+Defined in: packages/types/dist/block-kit/composition-objects.d.ts:197
 
 ## Description
 

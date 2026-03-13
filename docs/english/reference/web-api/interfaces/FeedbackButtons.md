@@ -2,7 +2,7 @@
 
 # Interface: FeedbackButtons
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:119
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:119
 
 ## Description
 
@@ -20,7 +20,7 @@ Buttons to indicate positive or negative feedback.
 optional action_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
 [identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
@@ -38,7 +38,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 negative_button: object;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:145
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:148
 
 #### accessibility\_label?
 
@@ -78,6 +78,10 @@ The negative feedback button value.
 
 A button to indicate negative feedback.
 
+#### See
+
+[Feedback buttons object fields reference](https://docs.slack.dev/reference/block-kit/block-elements/feedback-buttons-element/#button-object-fields).
+
 ***
 
 ### positive\_button
@@ -86,7 +90,7 @@ A button to indicate negative feedback.
 positive_button: object;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:127
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:129
 
 #### accessibility\_label?
 
@@ -126,6 +130,10 @@ The positive feedback button value.
 
 A button to indicate positive feedback.
 
+#### See
+
+[Feedback buttons object fields reference](https://docs.slack.dev/reference/block-kit/block-elements/feedback-buttons-element/#button-object-fields).
+
 ***
 
 ### type
@@ -134,11 +142,15 @@ A button to indicate positive feedback.
 type: "feedback_buttons";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:123
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:124
 
 #### Description
 
 The type of block. For a feedback buttons block, `type` is always `feedback_buttons`.
+
+#### See
+
+[Feedback buttons element reference](https://docs.slack.dev/reference/block-kit/block-elements/feedback-buttons-element).
 
 #### Overrides
 

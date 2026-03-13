@@ -32,7 +32,7 @@ Defined in: [packages/web-api/src/errors.ts:47](https://github.com/slackapi/node
 optional errno: number;
 ```
 
-Defined in: packages/web-api/node\_modules/@types/node/globals.d.ts:102
+Defined in: node\_modules/@types/node/globals.d.ts:102
 
 #### Inherited from
 
@@ -84,7 +84,7 @@ Defined in: [packages/web-api/src/errors.ts:48](https://github.com/slackapi/node
 optional path: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@types/node/globals.d.ts:104
+Defined in: node\_modules/@types/node/globals.d.ts:104
 
 #### Inherited from
 
@@ -112,7 +112,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1078
 optional syscall: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@types/node/globals.d.ts:105
+Defined in: node\_modules/@types/node/globals.d.ts:105
 
 #### Inherited from
 

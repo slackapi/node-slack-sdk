@@ -11,7 +11,7 @@ A client for Slack's Incoming Webhooks
 ### Constructor
 
 ```ts
-new IncomingWebhook(url, defaults): IncomingWebhook;
+new IncomingWebhook(url, defaults?): IncomingWebhook;
 ```
 
 Defined in: [packages/webhook/src/IncomingWebhook.ts:28](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/IncomingWebhook.ts#L28)
@@ -22,7 +22,7 @@ Defined in: [packages/webhook/src/IncomingWebhook.ts:28](https://github.com/slac
 
 `string`
 
-##### defaults
+##### defaults?
 
 [`IncomingWebhookDefaultArguments`](../interfaces/IncomingWebhookDefaultArguments.md) = `...`
 

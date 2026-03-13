@@ -6,4 +6,4 @@
 type MessageEvent = AllMessageEvents;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:6
+Defined in: packages/types/dist/events/message.d.ts:6

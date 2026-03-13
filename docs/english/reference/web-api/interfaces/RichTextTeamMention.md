@@ -2,7 +2,7 @@
 
 # Interface: RichTextTeamMention
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:803
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:825
 
 ## Description
 
@@ -20,7 +20,7 @@ A workspace or team mention element for use in a rich text message.
 optional style: object;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/extensions.d.ts:75
+Defined in: packages/types/dist/block-kit/extensions.d.ts:75
 
 #### bold?
 
@@ -62,6 +62,16 @@ optional strike: boolean;
 
 When `true`, strikes through the text in this element. Defaults to `false`.
 
+#### underline?
+
+```ts
+optional underline: boolean;
+```
+
+##### Description
+
+When `true`, underlines the text in this element. Defaults to `false`.
+
 #### Description
 
 A limited style object for styling rich text `text` elements.
@@ -78,7 +88,7 @@ A limited style object for styling rich text `text` elements.
 team_id: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:811
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:833
 
 #### Description
 
@@ -92,7 +102,7 @@ The encoded team ID, e.g. T1234ABCD.
 type: "team";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:807
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:829
 
 #### Description
 

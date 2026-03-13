@@ -41,7 +41,7 @@ NodeJS.ErrnoException.code
 optional errno: number;
 ```
 
-Defined in: packages/web-api/node\_modules/@types/node/globals.d.ts:102
+Defined in: node\_modules/@types/node/globals.d.ts:102
 
 #### Inherited from
 
@@ -89,7 +89,7 @@ NodeJS.ErrnoException.name
 optional path: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@types/node/globals.d.ts:104
+Defined in: node\_modules/@types/node/globals.d.ts:104
 
 #### Inherited from
 
@@ -121,7 +121,7 @@ NodeJS.ErrnoException.stack
 optional syscall: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@types/node/globals.d.ts:105
+Defined in: node\_modules/@types/node/globals.d.ts:105
 
 #### Inherited from
 

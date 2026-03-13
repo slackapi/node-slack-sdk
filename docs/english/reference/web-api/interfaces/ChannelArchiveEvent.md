@@ -2,7 +2,7 @@
 
 # Interface: ChannelArchiveEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:1
+Defined in: packages/types/dist/events/channel.d.ts:1
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 channel: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:3
+Defined in: packages/types/dist/events/channel.d.ts:3
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:6
+Defined in: packages/types/dist/events/channel.d.ts:6
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 optional is_moved: number;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:5
+Defined in: packages/types/dist/events/channel.d.ts:5
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 type: "channel_archive";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:2
+Defined in: packages/types/dist/events/channel.d.ts:2
 
 ***
 
@@ -52,4 +52,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts
 user: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/channel.d.ts:4
+Defined in: packages/types/dist/events/channel.d.ts:4

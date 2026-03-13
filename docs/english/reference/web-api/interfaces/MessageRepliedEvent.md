@@ -2,7 +2,7 @@
 
 # Interface: MessageRepliedEvent
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:211
+Defined in: packages/types/dist/events/message.d.ts:211
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 channel: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:216
+Defined in: packages/types/dist/events/message.d.ts:216
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 channel_type: ChannelTypes;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:217
+Defined in: packages/types/dist/events/message.d.ts:217
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 event_ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:214
+Defined in: packages/types/dist/events/message.d.ts:214
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 hidden: true;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:215
+Defined in: packages/types/dist/events/message.d.ts:215
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 message: AllMessageEvents & object;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:219
+Defined in: packages/types/dist/events/message.d.ts:219
 
 #### Type Declaration
 
@@ -82,7 +82,7 @@ thread_ts: string;
 subtype: "message_replied";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:213
+Defined in: packages/types/dist/events/message.d.ts:213
 
 ***
 
@@ -92,7 +92,7 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 ts: string;
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:218
+Defined in: packages/types/dist/events/message.d.ts:218
 
 ***
 
@@ -102,4 +102,4 @@ Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts
 type: "message";
 ```
 
-Defined in: packages/web-api/node\_modules/@slack/types/dist/events/message.d.ts:212
+Defined in: packages/types/dist/events/message.d.ts:212

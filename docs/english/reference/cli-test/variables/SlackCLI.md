@@ -10,7 +10,7 @@ Defined in: [cli/index.ts:22](https://github.com/slackapi/node-slack-sdk/blob/ma
 
 Set of functions to spawn and interact with Slack Platform CLI processes and commands
 
-## Type declaration
+## Type Declaration
 
 ### app
 

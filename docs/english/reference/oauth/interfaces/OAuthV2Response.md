@@ -107,7 +107,7 @@ Defined in: [packages/oauth/src/install-provider.ts:781](https://github.com/slac
 optional error: string;
 ```
 
-Defined in: packages/oauth/node\_modules/@slack/web-api/dist/WebClient.d.ts:64
+Defined in: packages/web-api/dist/WebClient.d.ts:66
 
 #### Inherited from
 
@@ -177,7 +177,7 @@ Defined in: [packages/oauth/src/install-provider.ts:782](https://github.com/slac
 ok: boolean;
 ```
 
-Defined in: packages/oauth/node\_modules/@slack/web-api/dist/WebClient.d.ts:63
+Defined in: packages/web-api/dist/WebClient.d.ts:65
 
 #### Inherited from
 
@@ -203,7 +203,7 @@ Defined in: [packages/oauth/src/install-provider.ts:777](https://github.com/slac
 optional response_metadata: object;
 ```
 
-Defined in: packages/oauth/node\_modules/@slack/web-api/dist/WebClient.d.ts:65
+Defined in: packages/web-api/dist/WebClient.d.ts:67
 
 #### acceptedScopes?
 

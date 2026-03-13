@@ -54,7 +54,7 @@ The CLI command to invoke
 ### commandOptions
 
 ```ts
-commandOptions: undefined | SlackCLICommandOptions;
+commandOptions: SlackCLICommandOptions | undefined;
 ```
 
 Defined in: [cli/cli-process.ts:63](https://github.com/slackapi/node-slack-sdk/blob/main/packages/cli-test/src/cli/cli-process.ts#L63)
@@ -68,7 +68,7 @@ The CLI command-specific options to pass to the command
 ### globalOptions
 
 ```ts
-globalOptions: undefined | SlackCLIGlobalOptions;
+globalOptions: SlackCLIGlobalOptions | undefined;
 ```
 
 Defined in: [cli/cli-process.ts:58](https://github.com/slackapi/node-slack-sdk/blob/main/packages/cli-test/src/cli/cli-process.ts#L58)
