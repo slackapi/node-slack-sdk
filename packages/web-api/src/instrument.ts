@@ -10,7 +10,7 @@ function replaceSlashes(s: string): string {
   return s.replace('/', ':');
 }
 
-const MAX_LATIN1_CODE = 0xFF;
+const MAX_LATIN1_CODE = 0xff;
 
 /**
  * Ensures a string is safe for use in HTTP headers by URI-encoding characters outside the Latin-1 (ISO-8859-1) range.
