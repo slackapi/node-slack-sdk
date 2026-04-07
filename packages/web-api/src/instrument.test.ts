@@ -60,8 +60,8 @@ describe('instrument', () => {
       assert.ok(isLatin1Safe(ua));
     });
 
-    it('should return a Latin-1 safe user agent when process.title contains non-ASCII characters', () => {
-      const notLatin1SafeTitle = '管理者'
+    it('should return a Latin-1 safe user agent when process.title contains non-Latin-1 characters', () => {
+      const notLatin1SafeTitle = '管理者: Windows PowerShell'
       assert.strictEqual(isLatin1Safe(notLatin1SafeTitle), false);
 
       mockProcessTitle(notLatin1SafeTitle);
@@ -69,6 +69,15 @@ describe('instrument', () => {
       const ua = getUserAgent();
       assert.ok(isLatin1Safe(ua), `User-Agent contains non-Latin-1 characters: ${ua}`);
       assert.ok(!ua.includes(notLatin1SafeTitle), 'User-Agent should not contain raw non-ASCII characters');
+      assert.ok(ua.includes('%E7%AE%A1%E7%90%86%E8%80%85: Windows PowerShell'), 'User-Agent should percent-encode only non-Latin-1 characters');
+    });
+
+    it('should preserve Latin-1 characters in process.title', () => {
+      mockProcessTitle('café');
+      const { getUserAgent } = freshImport();
+      const ua = getUserAgent();
+      assert.ok(ua.includes('café/'), `User-Agent should preserve Latin-1 characters: ${ua}`);
+      assert.ok(isLatin1Safe(ua));
     });
   });
 });

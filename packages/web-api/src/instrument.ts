@@ -10,6 +10,20 @@ function replaceSlashes(s: string): string {
   return s.replace('/', ':');
 }
 
+const MAX_LATIN1_CODE = 0xFF;
+
+/**
+ * Ensures a string is safe for use in HTTP headers by URI-encoding characters outside the Latin-1 (ISO-8859-1) range.
+ * Latin-1 characters (code points 0x00–0xFF) are preserved as-is; all others are percent-encoded via encodeURIComponent.
+ */
+function toLatin1Safe(s: string): string {
+  let result = '';
+  for (const char of s) {
+    result += char.charCodeAt(0) <= MAX_LATIN1_CODE ? char : encodeURIComponent(char);
+  }
+  return result;
+}
+
 // TODO: for the deno build (see the `npm run build:deno` npm run script), we could replace the `os-browserify` npm
 // module shim with our own shim leveraging the deno beta compatibility layer for node's `os` module (for more info
 // see https://deno.land/std@0.116.0/node/os.ts). At the time of writing this TODO (2021/11/25), this required deno
@@ -18,7 +32,7 @@ function replaceSlashes(s: string): string {
 // based code will report "browser/undefined" from a deno runtime.
 const baseUserAgent =
   `${replaceSlashes(packageJson.name)}/${packageJson.version} ` +
-  `${encodeURI(basename(process.title))}/${process.version.replace('v', '')} ` +
+  `${toLatin1Safe(basename(process.title))}/${process.version.replace('v', '')} ` +
   `${os.platform()}/${os.release()}`;
 
 const appMetadata: { [key: string]: string } = {};
