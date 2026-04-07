@@ -18,7 +18,7 @@ function replaceSlashes(s: string): string {
 // based code will report "browser/undefined" from a deno runtime.
 const baseUserAgent =
   `${replaceSlashes(packageJson.name)}/${packageJson.version} ` +
-  `${basename(process.title)}/${process.version.replace('v', '')} ` +
+  `${encodeURI(basename(process.title))}/${process.version.replace('v', '')} ` +
   `${os.platform()}/${os.release()}`;
 
 const appMetadata: { [key: string]: string } = {};
