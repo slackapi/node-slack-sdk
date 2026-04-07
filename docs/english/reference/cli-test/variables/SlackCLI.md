@@ -328,26 +328,6 @@ command output
 env: object;
 ```
 
-#### env.add()
-
-```ts
-add: (args) => Promise<string>;
-```
-
-`slack env add`
-
-##### Parameters
-
-###### args
-
-`ProjectCommandArguments` & `EnvCommandArguments`
-
-##### Returns
-
-`Promise`\<`string`\>
-
-command output
-
 #### env.list()
 
 ```ts
@@ -368,13 +348,33 @@ list: (args) => Promise<string>;
 
 command output
 
-#### env.remove()
+#### env.set()
 
 ```ts
-remove: (args) => Promise<string>;
+set: (args) => Promise<string>;
 ```
 
-`slack env remove`
+`slack env set`
+
+##### Parameters
+
+###### args
+
+`ProjectCommandArguments` & `EnvCommandArguments`
+
+##### Returns
+
+`Promise`\<`string`\>
+
+command output
+
+#### env.unset()
+
+```ts
+unset: (args) => Promise<string>;
+```
+
+`slack env unset`
 
 ##### Parameters
 
