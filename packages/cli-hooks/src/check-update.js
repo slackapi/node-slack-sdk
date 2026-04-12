@@ -191,7 +191,7 @@ async function collectVersionInfo(packageName) {
 async function getProjectPackageVersion(packageName) {
   const stdout = await execWrapper(`npm list ${packageName} --depth=0 --json`);
   const currentVersionOutput = JSON.parse(stdout);
-  if (!currentVersionOutput.dependencies || !currentVersionOutput.dependencies[packageName]) {
+  if (!currentVersionOutput.dependencies?.[packageName]) {
     throw new Error(`Failed to gather project information about ${packageName}`);
   }
   return currentVersionOutput.dependencies[packageName].version;
