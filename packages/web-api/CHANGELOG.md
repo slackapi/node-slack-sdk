@@ -1,5 +1,12 @@
 # @slack/web-api
 
+## 7.15.1
+
+### Patch Changes
+
+- 3a9c444: build(deps): bump minimum axios version to 1.15.0
+- 175dcb8: Fix user-agent header to URI-encode characters outside the Latin-1 range, preventing errors when `process.title` contains non-ASCII characters
+
 ## 7.15.0
 
 ### Minor Changes

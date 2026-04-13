@@ -1,5 +1,11 @@
 # @slack/webhook
 
+## 7.0.9
+
+### Patch Changes
+
+- 3a9c444: build(deps): bump minimum axios version to 1.15.0
+
 ## 7.0.8
 
 ### Patch Changes
