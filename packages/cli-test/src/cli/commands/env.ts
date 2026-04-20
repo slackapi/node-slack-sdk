@@ -9,11 +9,11 @@ export interface EnvCommandArguments {
 }
 
 /**
- * `slack env add`
+ * `slack env set`
  * @returns command output
  */
-export const add = async function envAdd(args: ProjectCommandArguments & EnvCommandArguments): Promise<string> {
-  const cmd = new SlackCLIProcess(['env', 'add', args.secretKey, args.secretValue], args);
+export const set = async function envSet(args: ProjectCommandArguments & EnvCommandArguments): Promise<string> {
+  const cmd = new SlackCLIProcess(['env', 'set', args.secretKey, args.secretValue], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -33,13 +33,13 @@ export const list = async function envList(args: ProjectCommandArguments): Promi
 };
 
 /**
- * `slack env remove`
+ * `slack env unset`
  * @returns command output
  */
-export const remove = async function envRemove(
+export const unset = async function envUnset(
   args: ProjectCommandArguments & Pick<EnvCommandArguments, 'secretKey'>,
 ): Promise<string> {
-  const cmd = new SlackCLIProcess(['env', 'remove', args.secretKey], args);
+  const cmd = new SlackCLIProcess(['env', 'unset', args.secretKey], args);
   const proc = await cmd.execAsync({
     cwd: args.appPath,
   });
@@ -47,7 +47,7 @@ export const remove = async function envRemove(
 };
 
 export default {
-  add,
+  set,
   list,
-  remove,
+  unset,
 };
