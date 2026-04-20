@@ -41,7 +41,7 @@ jobs:
           node --version
           npm --version
       - name: Install dependencies
-        run: npm install --verbose
+        run: npm ci --verbose
       - name: Build packages
         run: |
           # Build packages without internal dependencies
