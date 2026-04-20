@@ -1,5 +1,4 @@
 node_modules
-/package-lock.json
 scripts/package-lock.json
 examples/*/package-lock.json
 
