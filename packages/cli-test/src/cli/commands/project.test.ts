@@ -4,9 +4,9 @@ import sinon from 'sinon';
 
 import { mockProcess } from '../../utils/test';
 import { shell } from '../shell';
-import { create } from './create';
+import project from './project';
 
-describe('create', () => {
+describe('project', () => {
   const sandbox = sinon.createSandbox();
   let spawnSpy: sinon.SinonStub;
 
@@ -24,13 +24,13 @@ describe('create', () => {
     sandbox.restore();
   });
 
-  describe('method', () => {
+  describe('create', () => {
     it('should invoke `create <appPath>`', async () => {
-      await create({ appPath: 'myApp' });
+      await project.create({ appPath: 'myApp' });
       sandbox.assert.calledWith(spawnSpy, sinon.match.string, sinon.match.array.contains(['create', 'myApp']));
     });
     it('should invoke `create <appPath> --template` if template specified', async () => {
-      await create({ appPath: 'myApp', template: 'slack-samples/deno-hello-world' });
+      await project.create({ appPath: 'myApp', template: 'slack-samples/deno-hello-world' });
       sandbox.assert.calledWith(
         spawnSpy,
         sinon.match.string,
@@ -38,7 +38,7 @@ describe('create', () => {
       );
     });
     it('should invoke `create <appPath> --template --branch` if both template and branch specified', async () => {
-      await create({ appPath: 'myApp', template: 'slack-samples/deno-hello-world', branch: 'feat-functions' });
+      await project.create({ appPath: 'myApp', template: 'slack-samples/deno-hello-world', branch: 'feat-functions' });
       sandbox.assert.calledWith(
         spawnSpy,
         sinon.match.string,
