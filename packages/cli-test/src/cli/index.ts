@@ -6,13 +6,13 @@ import logger from '../utils/logger';
 import app from './commands/app';
 import auth from './commands/auth';
 import collaborator from './commands/collaborator';
-import { create } from './commands/create';
 import datastore from './commands/datastore';
 import env from './commands/env';
 import externalAuth from './commands/external-auth';
 import func from './commands/function';
 import manifest from './commands/manifest';
 import platform from './commands/platform';
+import project from './commands/project';
 import trigger from './commands/trigger';
 import version from './commands/version';
 
@@ -23,13 +23,13 @@ export const SlackCLI = {
   app,
   auth,
   collaborator,
-  create,
   datastore,
   env,
   externalAuth,
   function: func,
   manifest,
   platform,
+  project,
   trigger,
   version,
 

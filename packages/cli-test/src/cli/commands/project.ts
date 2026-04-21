@@ -5,7 +5,7 @@ import { type SlackCLICommandOptions, SlackCLIProcess } from '../cli-process';
  * `slack create`
  * @returns command output
  */
-export const create = async function create(
+export const create = async function projectCreate(
   args: ProjectCommandArguments & {
     /** @description URL to an app template to use when creating app. */
     template?: string;
@@ -25,4 +25,6 @@ export const create = async function create(
   return proc.output;
 };
 
-export default create;
+export default {
+  create,
+};
