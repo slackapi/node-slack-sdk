@@ -1,5 +1,11 @@
 # @slack/cli-hooks
 
+## 1.3.2
+
+### Patch Changes
+
+- 1a6c510: refactor(cli-hooks): use optional chaining check to gather project dependencies
+
 ## 1.3.1
 
 ### Patch Changes
