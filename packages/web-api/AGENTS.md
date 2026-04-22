@@ -36,15 +36,40 @@ Reference: `https://docs.slack.dev/reference/methods/{method.name}`
 bash scripts/generate-web-api-types.sh
 ```
 
-This clones `slackapi/java-slack-sdk`, reads JSON response samples, and generates `*Response.ts` files into `src/types/response/`. Prerequisites: Ruby and npm.
+This script:
 
-If the JSON sample doesn't exist yet in `java-slack-sdk`, the maintainers need to add it there first.
+1. Clones/updates `slackapi/java-slack-sdk` into `tmp/java-slack-sdk`
+2. Reads JSON response samples from `tmp/java-slack-sdk/json-logs/samples/api/`
+3. Runs `scripts/code_generator.rb` which uses quicktype to generate TypeScript types
+4. Outputs `*Response.ts` files to `src/types/response/`
+5. Regenerates `src/types/response/index.ts`
+6. Runs `npm run lint:fix` on the generated files
+
+**Prerequisites**: Ruby and npm must be installed.
+
+Generated response types look like this (example: `ChatAppendStreamResponse.ts`):
+
+```typescript
+import type { WebAPICallResult } from '../../WebClient';
+export type ChatAppendStreamResponse = WebAPICallResult & {
+  channel?: string;
+  error?: string;
+  needed?: string;
+  ok?: boolean;
+  provided?: string;
+  ts?: string;
+};
+```
+
+All generated files extend `WebAPICallResult` and have all properties optional.
+
+**Note**: If the JSON sample doesn't exist yet in `java-slack-sdk`, the API method has not been added to that project yet. The maintainers need to add it there first before it can be added here.
 
 ### Step 3: Add Request Argument Types
 
 File: `src/types/request/<namespace>.ts`
 
-Create an interface for the method's arguments. Reuse mixins from `src/types/request/common.ts`:
+Create an interface/type for the method's arguments. Reuse mixins from `src/types/request/common.ts`:
 
 | Mixin | Purpose |
 |-------|---------|
@@ -57,45 +82,102 @@ Create an interface for the method's arguments. Reuse mixins from `src/types/req
 
 Also reuse namespace-specific mixins from the same file (e.g., `Channel`, `ChannelAndTS`, `AsUser` in `chat.ts`).
 
+**Example** — `ChatAppendStreamArguments` from `src/types/request/chat.ts`:
+
+```typescript
+export interface ChatAppendStreamArguments extends TokenOverridable, ChannelAndTS, Partial<MarkdownText> {
+  /**
+   * @description An array of chunk objects to append to the stream.
+   * Either `markdown_text` or `chunks` is required.
+   */
+  chunks?: AnyChunk[];
+}
+```
+
 ### Step 4: Export Request Types
 
 File: `src/types/request/index.ts`
 
-Add the new type to the appropriate export block.
+Add the new type to the appropriate export block:
+
+```typescript
+export type {
+  ChatAppendStreamArguments,
+  ChatStartStreamArguments,
+  ChatStopStreamArguments,
+  // ... existing exports
+} from './chat';
+```
 
 ### Step 5: Add Method Binding
 
 File: `src/methods.ts`
 
-1. Import the argument type from `./types/request` (barrel).
-2. Import the response type from `./types/response/<ResponseName>` (individual file).
-3. Add a binding in the appropriate namespace object of the `Methods` class:
+1. Import the argument and response types at the top of the file.
+2. Add a method binding in the appropriate namespace object of the `Methods` class.
+
+**Import pattern**:
 
 ```typescript
-/**
- * @description Description of the method.
- * @see {@link https://docs.slack.dev/reference/methods/namespace.methodName `namespace.methodName` API reference}.
- */
-methodName: bindApiCall<MethodNameArguments, MethodNameResponse>(this, 'namespace.methodName'),
+// Request types are imported from the request index barrel
+import type {
+  ChatAppendStreamArguments,
+  // ...
+} from './types/request';
+
+// Response types are imported from individual files
+import type { ChatAppendStreamResponse } from './types/response/ChatAppendStreamResponse';
 ```
 
-Use `bindApiCallWithOptionalArgument` instead when **all** arguments are optional.
+**Note**: Request types are imported from the barrel `./types/request` (already grouped by namespace), but response types are imported from their individual files (e.g., `./types/response/ChatAppendStreamResponse`).
+
+**Binding pattern** — within the appropriate namespace object in the `Methods` class:
+
+```typescript
+public readonly chat = {
+  /**
+   * @description Appends text to an existing streaming conversation.
+   * @see {@link https://docs.slack.dev/reference/methods/chat.appendStream `chat.appendStream` API reference}.
+   */
+  appendStream: bindApiCall<ChatAppendStreamArguments, ChatAppendStreamResponse>(this, 'chat.appendStream'),
+  // ...
+};
+```
+
+**`bindApiCall` vs `bindApiCallWithOptionalArgument`**:
+
+- `bindApiCall` — for methods with **required** arguments (most methods)
+- `bindApiCallWithOptionalArgument` — for methods where **all arguments are optional**
 
 ### Step 6: Add Type Tests
 
 File: `test/types/methods/<namespace>.test-d.ts`
 
-Add sad path (`expectError`) and happy path (`expectAssignable`) tests:
+Add both sad path (should error) and happy path (should compile) tests:
 
 ```typescript
-// namespace.methodName
+import { expectAssignable, expectError } from 'tsd';
+import { WebClient } from '../../../src/WebClient';
+
+const web = new WebClient('TOKEN');
+
+// chat.appendStream
 // -- sad path
-expectError(web.namespace.methodName()); // lacking argument
-expectError(web.namespace.methodName({})); // empty argument
+expectError(web.chat.appendStream()); // lacking argument
+expectError(web.chat.appendStream({})); // empty argument
+expectError(
+  web.chat.appendStream({
+    channel: 'C1234', // missing ts and markdown_text
+  }),
+);
 
 // -- happy path
-expectAssignable<Parameters<typeof web.namespace.methodName>>([
-  { /* required fields */ },
+expectAssignable<Parameters<typeof web.chat.appendStream>>([
+  {
+    channel: 'C1234',
+    ts: '1234.56',
+    markdown_text: 'hello',
+  },
 ]);
 ```
 
@@ -119,13 +201,19 @@ expectAssignable<Parameters<typeof web.namespace.methodName>>([
 3. Executes `scripts/code_generator.rb`
 4. Runs `npm run lint:fix` on generated output
 
-Biome overrides exist for generated response types (`noBannedTypes: off`, `noExplicitAny: off`).
-
 ## Naming Conventions
 
 - Request types: `{Namespace}{Action}Arguments` (e.g., `ChatPostMessageArguments`)
 - Response types: `{Namespace}{Action}Response` (e.g., `ChatPostMessageResponse`)
 - Method names: camelCase matching the API (e.g., `chat.postMessage` -> `postMessage`)
+
+## Development Philosophy
+
+- **Follow existing patterns exactly** — when adding a new method, match the style of adjacent methods.
+- **Reuse mixins** from `common.ts` and namespace-specific files rather than duplicating field definitions.
+- **Every API method needs four things**: request type, response type, method binding, and type tests.
+- **Naming conventions**: PascalCase for types (`ChatPostMessageArguments`), camelCase for methods (`postMessage`).
+- **JSDoc on method bindings**: Always include `@description` and `@see` with a link to the API reference.
 
 ## Testing
 
@@ -135,6 +223,15 @@ npm run test:unit --workspace=packages/web-api # unit only
 npm run test:types --workspace=packages/web-api # tsd only
 ```
 
-- **Unit tests**: `*.test.{ts,js}` using `node:test` + `node:assert/strict`
-- **Type tests**: `*.test-d.ts` using tsd
-- **Coverage**: `--experimental-test-coverage`, outputs `lcov.info` at package root
+- **Test framework**: `node:test` (built-in) with `node:assert/strict` for assertions
+- **Test runner**: `node --experimental-test-coverage --import tsx --test`
+- **Unit tests**: `*.test.{ts,js}` files alongside source (e.g., `src/WebClient.test.ts`)
+- **Type tests**: tsd (`*.test-d.ts` files in `test/types/`)
+- **Integration tests**: CommonJS, ESM, and TypeScript compatibility checks
+- **Coverage output**: `lcov.info` at package root (not in `coverage/` dir)
+- **Test results**: `test-results.xml` at package root (JUnit format)
+
+## Common Pitfalls
+
+- **Biome import organization is disabled** for `src/index.ts` in Biome config.
+- **Biome overrides exist for generated code** — `src/types/response/**/*.ts` has relaxed rules (`noBannedTypes: off`, `noExplicitAny: off`).
