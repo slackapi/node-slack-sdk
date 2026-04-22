@@ -93,7 +93,13 @@ Individual packages have their own `AGENTS.md` with package-specific guidance:
 
 - `packages/web-api/AGENTS.md` — adding API methods, code generation, client architecture
 
+## Development Philosophy
+
+- **Follow existing patterns exactly** — when adding or modifying code, match the style of adjacent code.
+- **Reuse mixins and shared types** rather than duplicating field definitions across packages.
+- **PascalCase for types**, camelCase for methods.
+- **JSDoc on public APIs**: Always include `@description` and `@see` with a link to the API reference.
+
 ## Common Pitfalls
 
 - **Build in dependency order** — see the dependency graph above.
-- **Follow existing patterns exactly** — match the style of adjacent code.

@@ -15,6 +15,7 @@ The core Slack Web API client. Wraps every Slack API method with typed request a
 - **p-retry** for automatic retries with backoff
 - **ChatStreamer** (`src/ChatStreamer.ts`) for streaming support via `chatStream()`
 - Built-in cursor pagination via `paginate()`
+- Rate limiting with emitted events
 
 ## Critical Rules
 
@@ -24,11 +25,30 @@ The core Slack Web API client. Wraps every Slack API method with typed request a
 4. **Response type imports use individual files**, not the barrel — e.g., `import type { ChatPostMessageResponse } from './types/response/ChatPostMessageResponse'`.
 5. **Request type imports use the barrel** — `import type { ChatPostMessageArguments } from './types/request'`.
 
+## Naming Conventions
+
+- **Types**: PascalCase
+  - Request: `{Namespace}{Action}Arguments` (e.g., `ChatPostMessageArguments`)
+  - Response: `{Namespace}{Action}Response` (e.g., `ChatPostMessageResponse`)
+- **Methods**: camelCase matching the API
+  - e.g., `chat.postMessage` -> `postMessage`
+
+## Development Philosophy
+
+- **Follow existing patterns exactly** — when adding a new method, match the style of adjacent methods.
+- **Reuse mixins** from `common.ts` and namespace-specific files rather than duplicating field definitions.
+- **Every API method needs four things**: request type, response type, method binding, and type tests.
+- **JSDoc on method bindings**: Always include `@description` and `@see` with a link to the API reference.
+
 ## Adding a New Slack API Method
+
+This is the most common contribution. Follow these steps in order.
 
 ### Step 1: Look Up the API Method Documentation
 
 Reference: `https://docs.slack.dev/reference/methods/{method.name}`
+
+For example, for `chat.appendStream`: https://docs.slack.dev/reference/methods/chat.appendStream
 
 ### Step 2: Generate Response Types
 
@@ -200,20 +220,6 @@ expectAssignable<Parameters<typeof web.chat.appendStream>>([
 2. Runs `npm install` in `scripts/` for quicktype
 3. Executes `scripts/code_generator.rb`
 4. Runs `npm run lint:fix` on generated output
-
-## Naming Conventions
-
-- Request types: `{Namespace}{Action}Arguments` (e.g., `ChatPostMessageArguments`)
-- Response types: `{Namespace}{Action}Response` (e.g., `ChatPostMessageResponse`)
-- Method names: camelCase matching the API (e.g., `chat.postMessage` -> `postMessage`)
-
-## Development Philosophy
-
-- **Follow existing patterns exactly** — when adding a new method, match the style of adjacent methods.
-- **Reuse mixins** from `common.ts` and namespace-specific files rather than duplicating field definitions.
-- **Every API method needs four things**: request type, response type, method binding, and type tests.
-- **Naming conventions**: PascalCase for types (`ChatPostMessageArguments`), camelCase for methods (`postMessage`).
-- **JSDoc on method bindings**: Always include `@description` and `@see` with a link to the API reference.
 
 ## Testing
 
