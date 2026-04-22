@@ -91,6 +91,7 @@ npm run build --workspace=@slack/socket-mode
 
 Individual packages have their own `AGENTS.md` with package-specific guidance:
 
+- `packages/types/AGENTS.md` — shared type definitions, Block Kit types, event types
 - `packages/web-api/AGENTS.md` — adding API methods, code generation, client architecture
 
 ## Development Philosophy
