@@ -116,7 +116,7 @@ New official package versions are published when the release PR created from cha
 
 1. **Check GitHub Milestones**: Before merging the release PR please check the relevant [Milestones](https://github.com/slackapi/node-slack-sdk/milestones). If issues or pull requests are still open either decide to postpone the release or save those changes for a future update.
 
-2. **Review the release PR**: Verify that version bumps match expectations, `CHANGELOG` entries are clear, and CI checks pass on the `main` branch. Use `npm run docs` to generate documentation.
+2. **Review the release PR**: Verify that version bumps match expectations, `CHANGELOG` entries are clear, and CI checks pass on the `main` branch. Use `npm run docs` to generate documentation and `npm install` to update versions in the `package-lock.json` file.
 
 3. **Merge and approve**: Merge the release PR, then approve the [publish](https://github.com/slackapi/node-slack-sdk/actions/workflows/release.yml) workflow to release packages to npm.
 
