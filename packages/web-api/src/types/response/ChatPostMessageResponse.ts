@@ -990,6 +990,7 @@ export interface BotProfile {
   name?: string;
   team_id?: string;
   updated?: number;
+  user_id?: string;
 }
 
 export interface BotProfileIcons {

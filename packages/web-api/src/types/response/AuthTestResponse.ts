@@ -12,6 +12,7 @@ export type AuthTestResponse = WebAPICallResult & {
   app_id?: string;
   app_name?: string;
   bot_id?: string;
+  context?: string;
   enterprise_id?: string;
   error?: string;
   expires_in?: number;
