@@ -37,7 +37,7 @@ jobs:
         with:
           commit: "chore: release"
           title: "chore: release"
-          version: npm run changeset -- version
+          version: npm run version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
