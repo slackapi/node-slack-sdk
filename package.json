@@ -23,7 +23,8 @@
     "docs": "npm run docs --workspaces --if-present",
     "lint": "npx @biomejs/biome check packages",
     "lint:fix": "npx @biomejs/biome check --write packages",
-    "test": "npm test --workspaces --if-present"
+    "test": "npm test --workspaces --if-present",
+    "version": "npm run changeset version && npm install && npm run docs"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
