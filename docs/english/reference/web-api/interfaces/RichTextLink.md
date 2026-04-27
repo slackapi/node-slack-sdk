@@ -2,7 +2,7 @@
 
 # Interface: RichTextLink
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:782
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:804
 
 ## Description
 
@@ -20,7 +20,7 @@ A link element for use in a rich text message.
 optional style: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:75
+Defined in: packages/types/dist/block-kit/extensions.d.ts:75
 
 #### bold?
 
@@ -62,6 +62,16 @@ optional strike: boolean;
 
 When `true`, strikes through the text in this element. Defaults to `false`.
 
+#### underline?
+
+```ts
+optional underline: boolean;
+```
+
+##### Description
+
+When `true`, underlines the text in this element. Defaults to `false`.
+
 #### Description
 
 A limited style object for styling rich text `text` elements.
@@ -78,7 +88,7 @@ A limited style object for styling rich text `text` elements.
 optional text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:790
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:812
 
 #### Description
 
@@ -92,7 +102,7 @@ The text to link.
 type: "link";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:786
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:808
 
 #### Description
 
@@ -106,7 +116,7 @@ The type of element. In this case `type` is always `link`.
 optional unsafe: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:794
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:816
 
 #### Description
 
@@ -120,7 +130,7 @@ TODO: ?
 url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:798
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:820
 
 #### Description
 

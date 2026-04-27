@@ -2,7 +2,7 @@
 
 # Interface: CodedError
 
-Defined in: [src/errors.ts:1](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L1)
+Defined in: [packages/oauth/src/errors.ts:1](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L1)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/errors.ts:1](https://github.com/slackapi/node-slack-sdk/blob/ma
 code: string;
 ```
 
-Defined in: [src/errors.ts:2](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L2)
+Defined in: [packages/oauth/src/errors.ts:2](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/errors.ts#L2)
 
 ***
 

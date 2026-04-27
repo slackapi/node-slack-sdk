@@ -2,7 +2,7 @@
 
 # Interface: UsersGetPresenceArguments
 
-Defined in: [src/types/request/users.ts:30](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L30)
+Defined in: [packages/web-api/src/types/request/users.ts:30](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L30)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/users.ts:30](https://github.com/slackapi/node-sla
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -36,7 +36,7 @@ TokenOverridable.token
 optional user: string;
 ```
 
-Defined in: [src/types/request/users.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L32)
+Defined in: [packages/web-api/src/types/request/users.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/users.ts#L32)
 
 #### Description
 

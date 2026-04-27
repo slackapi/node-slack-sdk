@@ -2,7 +2,7 @@
 
 # Interface: AppRequestedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:5
+Defined in: packages/types/dist/events/app.d.ts:5
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:5
 app_request: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:7
+Defined in: packages/types/dist/events/app.d.ts:7
 
 #### app
 
@@ -172,7 +172,7 @@ id: string;
 date_created: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:63
+Defined in: packages/types/dist/events/app.d.ts:63
 
 ***
 
@@ -182,7 +182,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:63
 is_user_app_collaborator: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:45
+Defined in: packages/types/dist/events/app.d.ts:45
 
 ***
 
@@ -192,7 +192,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:45
 message: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:62
+Defined in: packages/types/dist/events/app.d.ts:62
 
 ***
 
@@ -212,7 +212,7 @@ previous_resolution:
   | null;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:36
+Defined in: packages/types/dist/events/app.d.ts:36
 
 ***
 
@@ -222,7 +222,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:36
 scopes: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:56
+Defined in: packages/types/dist/events/app.d.ts:56
 
 #### description
 
@@ -256,7 +256,7 @@ token_type: "user" | "bot" | "app" | null;
 team: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:51
+Defined in: packages/types/dist/events/app.d.ts:51
 
 #### domain
 
@@ -284,7 +284,7 @@ name: string;
 type: "app_requested";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:6
+Defined in: packages/types/dist/events/app.d.ts:6
 
 ***
 
@@ -294,7 +294,7 @@ Defined in: node\_modules/@slack/types/dist/events/app.d.ts:6
 user: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/app.d.ts:46
+Defined in: packages/types/dist/events/app.d.ts:46
 
 #### email
 

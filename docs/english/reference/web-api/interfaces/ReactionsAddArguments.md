@@ -2,7 +2,7 @@
 
 # Interface: ReactionsAddArguments
 
-Defined in: [src/types/request/reactions.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reactions.ts#L21)
+Defined in: [packages/web-api/src/types/request/reactions.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reactions.ts#L21)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/reactions.ts:21](https://github.com/slackapi/node
 channel: string;
 ```
 
-Defined in: [src/types/request/common.ts:111](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L111)
+Defined in: [packages/web-api/src/types/request/common.ts:111](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L111)
 
 #### Description
 
@@ -36,7 +36,7 @@ MessageArgument.channel
 name: string;
 ```
 
-Defined in: [src/types/request/reactions.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reactions.ts#L18)
+Defined in: [packages/web-api/src/types/request/reactions.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reactions.ts#L18)
 
 #### Description
 
@@ -56,7 +56,7 @@ ReactionName.name
 timestamp: string;
 ```
 
-Defined in: [src/types/request/common.ts:113](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L113)
+Defined in: [packages/web-api/src/types/request/common.ts:113](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L113)
 
 #### Description
 
@@ -76,7 +76,7 @@ MessageArgument.timestamp
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

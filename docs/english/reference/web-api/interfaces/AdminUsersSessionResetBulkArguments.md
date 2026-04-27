@@ -2,7 +2,7 @@
 
 # Interface: AdminUsersSessionResetBulkArguments
 
-Defined in: [src/types/request/admin/users.ts:129](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L129)
+Defined in: [packages/web-api/src/types/request/admin/users.ts:129](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L129)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/users.ts:129](https://github.com/slackapi/n
 optional mobile_only: boolean;
 ```
 
-Defined in: [src/types/request/admin/users.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L25)
+Defined in: [packages/web-api/src/types/request/admin/users.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L25)
 
 #### Description
 
@@ -36,7 +36,7 @@ SessionExpirationTarget.mobile_only
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -56,7 +56,7 @@ TokenOverridable.token
 user_ids: [string, ...string[]];
 ```
 
-Defined in: [src/types/request/common.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L92)
+Defined in: [packages/web-api/src/types/request/common.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L92)
 
 #### Description
 
@@ -76,7 +76,7 @@ UserIDs.user_ids
 optional web_only: boolean;
 ```
 
-Defined in: [src/types/request/admin/users.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L27)
+Defined in: [packages/web-api/src/types/request/admin/users.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/users.ts#L27)
 
 #### Description
 

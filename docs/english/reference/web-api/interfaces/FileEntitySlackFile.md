@@ -2,7 +2,7 @@
 
 # Interface: FileEntitySlackFile
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:69
+Defined in: packages/types/dist/message-metadata.d.ts:69
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:69
 id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:70
+Defined in: packages/types/dist/message-metadata.d.ts:70
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:70
 optional type: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:71
+Defined in: packages/types/dist/message-metadata.d.ts:71

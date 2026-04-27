@@ -6,7 +6,7 @@
 type ConversationsAcceptSharedInviteArguments = TokenOverridable & OptionalTeamAssignable & ChannelID | InviteID & IsPrivate & object;
 ```
 
-Defined in: [src/types/request/conversations.ts:52](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L52)
+Defined in: [packages/web-api/src/types/request/conversations.ts:52](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L52)
 
 ## Type Declaration
 

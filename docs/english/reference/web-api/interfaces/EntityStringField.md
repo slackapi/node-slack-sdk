@@ -2,7 +2,7 @@
 
 # Interface: EntityStringField
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:183
+Defined in: packages/types/dist/message-metadata.d.ts:183
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:183
 optional edit: EntityEditSupport;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:192
+Defined in: packages/types/dist/message-metadata.d.ts:192
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:192
 optional format: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:186
+Defined in: packages/types/dist/message-metadata.d.ts:186
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:186
 optional icon: EntityIconField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:188
+Defined in: packages/types/dist/message-metadata.d.ts:188
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:188
 optional label: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:185
+Defined in: packages/types/dist/message-metadata.d.ts:185
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:185
 optional link: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:187
+Defined in: packages/types/dist/message-metadata.d.ts:187
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:187
 optional long: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:189
+Defined in: packages/types/dist/message-metadata.d.ts:189
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:189
 optional tag_color: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:191
+Defined in: packages/types/dist/message-metadata.d.ts:191
 
 ***
 
@@ -82,7 +82,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:191
 optional type: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:190
+Defined in: packages/types/dist/message-metadata.d.ts:190
 
 ***
 
@@ -92,4 +92,4 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:190
 value: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:184
+Defined in: packages/types/dist/message-metadata.d.ts:184

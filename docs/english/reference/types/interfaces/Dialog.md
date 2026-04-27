@@ -105,7 +105,7 @@ optional selected_options: SelectOption[];
 #### ~~subtype?~~
 
 ```ts
-optional subtype: "number" | "email" | "tel" | "url";
+optional subtype: "number" | "url" | "email" | "tel";
 ```
 
 #### ~~type~~

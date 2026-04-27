@@ -2,7 +2,7 @@
 
 # Interface: AdminFunctionsPermissionsSetArguments
 
-Defined in: [src/types/request/admin/functions.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/functions.ts#L18)
+Defined in: [packages/web-api/src/types/request/admin/functions.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/functions.ts#L18)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/functions.ts:18](https://github.com/slackap
 function_id: string;
 ```
 
-Defined in: [src/types/request/admin/functions.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/functions.ts#L20)
+Defined in: [packages/web-api/src/types/request/admin/functions.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/functions.ts#L20)
 
 #### Description
 
@@ -30,7 +30,7 @@ The function ID to set permissions for.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -50,7 +50,7 @@ TokenOverridable.token
 optional user_ids: [string, ...string[]];
 ```
 
-Defined in: [src/types/request/common.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L92)
+Defined in: [packages/web-api/src/types/request/common.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L92)
 
 #### Description
 
@@ -68,7 +68,7 @@ List of encoded user IDs.
 visibility: "everyone" | "app_collaborators" | "named_entities" | "no_one";
 ```
 
-Defined in: [src/types/request/admin/functions.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/functions.ts#L22)
+Defined in: [packages/web-api/src/types/request/admin/functions.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/functions.ts#L22)
 
 #### Description
 

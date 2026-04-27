@@ -2,7 +2,7 @@
 
 # Interface: SearchMessagesArguments
 
-Defined in: [src/types/request/search.ts:30](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L30)
+Defined in: [packages/web-api/src/types/request/search.ts:30](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L30)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/search.ts:30](https://github.com/slackapi/node-sl
 optional count: number;
 ```
 
-Defined in: [src/types/request/common.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L33)
+Defined in: [packages/web-api/src/types/request/common.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L33)
 
 #### Description
 
@@ -36,7 +36,7 @@ TraditionalPagingEnabled.count
 optional cursor: string;
 ```
 
-Defined in: [src/types/request/search.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L22)
+Defined in: [packages/web-api/src/types/request/search.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L22)
 
 #### Description
 
@@ -62,7 +62,7 @@ SearchMessagesCursorPagination.cursor
 optional highlight: boolean;
 ```
 
-Defined in: [src/types/request/search.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L10)
+Defined in: [packages/web-api/src/types/request/search.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L10)
 
 #### Description
 
@@ -86,7 +86,7 @@ Searchable.highlight
 optional page: number;
 ```
 
-Defined in: [src/types/request/common.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L35)
+Defined in: [packages/web-api/src/types/request/common.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L35)
 
 #### Description
 
@@ -106,7 +106,7 @@ TraditionalPagingEnabled.page
 query: string;
 ```
 
-Defined in: [src/types/request/search.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L5)
+Defined in: [packages/web-api/src/types/request/search.ts:5](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L5)
 
 #### Description
 
@@ -126,7 +126,7 @@ Searchable.query
 optional sort: "score" | "timestamp";
 ```
 
-Defined in: [src/types/request/search.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L12)
+Defined in: [packages/web-api/src/types/request/search.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/search.ts#L12)
 
 #### Description
 
@@ -146,7 +146,7 @@ Searchable.sort
 optional sort_dir: "asc" | "desc";
 ```
 
-Defined in: [src/types/request/common.ts:130](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L130)
+Defined in: [packages/web-api/src/types/request/common.ts:130](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L130)
 
 #### Description
 
@@ -166,7 +166,7 @@ Searchable.sort_dir
 optional team_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
+Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
 
 #### Description
 
@@ -186,7 +186,7 @@ Searchable.team_id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

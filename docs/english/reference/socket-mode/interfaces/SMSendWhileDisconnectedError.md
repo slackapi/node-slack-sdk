@@ -2,7 +2,7 @@
 
 # Interface: SMSendWhileDisconnectedError
 
-Defined in: [src/errors.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L42)
+Defined in: [packages/socket-mode/src/errors.ts:42](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L42)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/errors.ts:42](https://github.com/slackapi/node-slack-sdk/blob/m
 code: SendWhileDisconnectedError;
 ```
 
-Defined in: [src/errors.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L43)
+Defined in: [packages/socket-mode/src/errors.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L43)
 
 #### Overrides
 

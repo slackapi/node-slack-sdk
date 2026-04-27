@@ -1,6 +1,6 @@
 {
   "name": "@slack/socket-mode",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Official library for using the Slack Platform's Socket Mode API",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -27,7 +27,10 @@
     "node": ">= 18",
     "npm": ">= 8.6.0"
   },
-  "repository": "slackapi/node-slack-sdk",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slackapi/node-slack-sdk.git"
+  },
   "homepage": "https://docs.slack.dev/tools/node-slack-sdk/socket-mode/",
   "publishConfig": {
     "access": "public"
@@ -36,46 +39,29 @@
     "url": "https://github.com/slackapi/node-slack-sdk/issues"
   },
   "scripts": {
-    "prepare": "npm run build",
     "build": "npm run build:clean && tsc",
-    "build:clean": "shx rm -rf ./dist ./coverage",
+    "build:clean": "shx rm -rf ./dist",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
-    "lint": "npx @biomejs/biome check .",
-    "lint:fix": "npx @biomejs/biome check --write .",
-    "test:unit": "mocha --config ./test/.mocharc.json src/**/*.spec.ts",
-    "test:coverage": "c8 --config ./test/.c8rc.json npm run test:unit",
-    "test:integration": "mocha --config ./test/.mocharc.json test/integration.spec.js",
-    "test": "npm run lint && npm run build && npm run test:coverage && npm run test:integration",
+    "prepack": "npm run build",
+    "test": "npm run test:unit && npm run test:integration",
+    "test:node18": "npm run build && bash -c 'node --test --test-reporter=spec --import tsx src/*.test.ts' && npm run test:integration",
+    "test:integration": "npm run build && node --import tsx --test test/integration.test.js",
+    "test:unit": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/*.test.ts",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm test"
   },
   "dependencies": {
-    "@slack/logger": "^4",
-    "@slack/web-api": "^7.10.0",
+    "@slack/logger": "^4.0.1",
+    "@slack/web-api": "^7.15.0",
     "@types/node": ">=18",
     "@types/ws": "^8",
     "eventemitter3": "^5",
     "ws": "^8"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.0.5",
-    "@tsconfig/recommended": "^1.0.7",
-    "@types/chai": "^4",
-    "@types/mocha": "^10",
     "@types/proxyquire": "^1.3.31",
     "@types/sinon": "^21",
-    "c8": "^10.1.2",
-    "chai": "^4",
-    "mocha": "^11",
-    "mocha-junit-reporter": "^2.2.1",
-    "mocha-multi-reporters": "^1.5.1",
     "nodemon": "^3.1.0",
     "proxyquire": "^2.1.3",
-    "shx": "^0.4.0",
-    "sinon": "^21",
-    "source-map-support": "^0.5.21",
-    "ts-node": "^10",
-    "typedoc": "^0.28.7",
-    "typedoc-plugin-markdown": "^4.7.0",
-    "typescript": "5.9.3"
+    "sinon": "^21"
   }
 }

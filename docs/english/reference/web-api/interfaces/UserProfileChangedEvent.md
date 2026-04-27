@@ -2,7 +2,7 @@
 
 # Interface: UserProfileChangedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/user.d.ts:158
+Defined in: packages/types/dist/events/user.d.ts:159
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/user.d.ts:158
 cache_ts: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/user.d.ts:233
+Defined in: packages/types/dist/events/user.d.ts:234
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/user.d.ts:233
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/user.d.ts:234
+Defined in: packages/types/dist/events/user.d.ts:235
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/user.d.ts:234
 type: "user_profile_changed";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/user.d.ts:159
+Defined in: packages/types/dist/events/user.d.ts:160
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/user.d.ts:159
 user: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/user.d.ts:160
+Defined in: packages/types/dist/events/user.d.ts:161
 
 #### color
 

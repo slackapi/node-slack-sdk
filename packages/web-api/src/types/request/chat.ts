@@ -1,4 +1,5 @@
 import type {
+  AnyChunk,
   Block, // TODO: these will be combined into one in a new types release
   EntityMetadata,
   KnownBlock,
@@ -168,7 +169,13 @@ export interface Unfurls {
   unfurl_media?: boolean;
 }
 
-export interface ChatAppendStreamArguments extends TokenOverridable, ChannelAndTS, MarkdownText {}
+export interface ChatAppendStreamArguments extends TokenOverridable, ChannelAndTS, Partial<MarkdownText> {
+  /**
+   * @description An array of {@link https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming chunk objects} to append to the stream.
+   * Either `markdown_text` or `chunks` is required.
+   */
+  chunks?: AnyChunk[];
+}
 
 // https://docs.slack.dev/reference/methods/chat.delete
 export interface ChatDeleteArguments extends ChannelAndTS, AsUser, TokenOverridable {}
@@ -234,6 +241,11 @@ export type ChatScheduledMessagesListArguments = OptionalArgument<
 
 export interface ChatStartStreamArguments extends TokenOverridable, Channel, Partial<MarkdownText>, ThreadTS {
   /**
+   * @description An array of {@link https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming chunk objects} to start the stream with.
+   * Either `markdown_text` or `chunks` is required.
+   */
+  chunks?: AnyChunk[];
+  /**
    * @description Emoji to use as the icon for this message. Overrides `icon_url`.
    */
   icon_emoji?: string;
@@ -252,6 +264,11 @@ export interface ChatStartStreamArguments extends TokenOverridable, Channel, Par
    */
   recipient_user_id?: string;
   /**
+   *  @description Specifies how tasks are displayed in the message. A "timeline" displays individual tasks
+   *  with text and "plan" displays all tasks together.
+   */
+  task_display_mode?: string;
+  /**
    * @description Set your bot's username.
    */
   username?: string;
@@ -261,6 +278,10 @@ export type ChatStopStreamArguments = TokenOverridable &
   ChannelAndTS &
   Partial<MarkdownText> &
   Partial<Metadata> & {
+    /**
+     * @description An array of {@link https://docs.slack.dev/messaging/sending-and-scheduling-messages#text-streaming chunk objects} to finish the stream with.
+     */
+    chunks?: AnyChunk[];
     /**
      * Block formatted elements will be appended to the end of the message.
      */

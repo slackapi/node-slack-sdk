@@ -2,7 +2,7 @@
 
 # Interface: SlackListsCreateArguments
 
-Defined in: [src/types/request/slackLists.ts:370](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L370)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:370](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L370)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/slackLists.ts:370](https://github.com/slackapi/no
 optional copy_from_list_id: string;
 ```
 
-Defined in: [src/types/request/slackLists.ts:390](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L390)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:390](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L390)
 
 #### Description
 
@@ -30,7 +30,7 @@ ID of the List to copy.
 optional description_blocks: RichTextBlock[];
 ```
 
-Defined in: [src/types/request/slackLists.ts:379](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L379)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:379](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L379)
 
 #### Description
 
@@ -44,7 +44,7 @@ A rich text description of the List.
 optional include_copied_list_records: boolean;
 ```
 
-Defined in: [src/types/request/slackLists.ts:395](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L395)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:395](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L395)
 
 #### Description
 
@@ -58,7 +58,7 @@ Boolean indicating whether to include records when a List is copied.
 name: string;
 ```
 
-Defined in: [src/types/request/slackLists.ts:374](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L374)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:374](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L374)
 
 #### Description
 
@@ -72,7 +72,7 @@ Name of the List.
 optional schema: SlackListsSchemaColumn[];
 ```
 
-Defined in: [src/types/request/slackLists.ts:385](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L385)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:385](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L385)
 
 #### Description
 
@@ -90,7 +90,7 @@ Column definition for the List.
 optional todo_mode: boolean;
 ```
 
-Defined in: [src/types/request/slackLists.ts:400](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L400)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:400](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L400)
 
 #### Description
 
@@ -104,7 +104,7 @@ Boolean indicating whether the List should be used to track todo tasks.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

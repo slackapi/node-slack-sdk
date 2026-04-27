@@ -2,7 +2,7 @@
 
 # Interface: EntityImageField
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:218
+Defined in: packages/types/dist/message-metadata.d.ts:228
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:218
 alt_text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:219
+Defined in: packages/types/dist/message-metadata.d.ts:229
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:219
 optional image_url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:221
+Defined in: packages/types/dist/message-metadata.d.ts:231
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:221
 optional label: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:220
+Defined in: packages/types/dist/message-metadata.d.ts:230
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:220
 optional slack_file: SlackFile;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:222
+Defined in: packages/types/dist/message-metadata.d.ts:232
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:222
 optional title: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:223
+Defined in: packages/types/dist/message-metadata.d.ts:233
 
 ***
 
@@ -62,4 +62,4 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:223
 optional type: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:224
+Defined in: packages/types/dist/message-metadata.d.ts:234

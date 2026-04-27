@@ -2,7 +2,7 @@
 
 # Interface: ConversationsExternalInvitePermissionsSetArguments
 
-Defined in: [src/types/request/conversations.ts:84](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L84)
+Defined in: [packages/web-api/src/types/request/conversations.ts:84](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L84)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/conversations.ts:84](https://github.com/slackapi/
 action: "downgrade" | "upgrade";
 ```
 
-Defined in: [src/types/request/conversations.ts:89](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L89)
+Defined in: [packages/web-api/src/types/request/conversations.ts:89](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L89)
 
 #### Description
 
@@ -30,7 +30,7 @@ The type of action be taken: `upgrade` or `downgrade`.
 channel: string;
 ```
 
-Defined in: [src/types/request/conversations.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L15)
+Defined in: [packages/web-api/src/types/request/conversations.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L15)
 
 #### Description
 
@@ -50,7 +50,7 @@ Channel.channel
 target_team: string;
 ```
 
-Defined in: [src/types/request/common.ts:74](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L74)
+Defined in: [packages/web-api/src/types/request/common.ts:74](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L74)
 
 #### Description
 
@@ -68,7 +68,7 @@ The team or enterprise id of the other party.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

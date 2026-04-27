@@ -2,7 +2,7 @@
 
 # Interface: EntityCustomField
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:226
+Defined in: packages/types/dist/message-metadata.d.ts:236
 
 ## Properties
 
@@ -12,7 +12,19 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:226
 optional alt_text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:237
+Defined in: packages/types/dist/message-metadata.d.ts:247
+
+***
+
+### boolean?
+
+```ts
+optional boolean: 
+  | EntityBooleanCheckboxField
+  | EntityBooleanTextField;
+```
+
+Defined in: packages/types/dist/message-metadata.d.ts:253
 
 ***
 
@@ -22,7 +34,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:237
 optional edit: EntityEditSupport;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:239
+Defined in: packages/types/dist/message-metadata.d.ts:249
 
 ***
 
@@ -32,7 +44,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:239
 optional entity_ref: EntityRefField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:242
+Defined in: packages/types/dist/message-metadata.d.ts:252
 
 ***
 
@@ -42,7 +54,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:242
 optional format: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:234
+Defined in: packages/types/dist/message-metadata.d.ts:244
 
 ***
 
@@ -52,7 +64,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:234
 optional icon: EntityIconField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:232
+Defined in: packages/types/dist/message-metadata.d.ts:242
 
 ***
 
@@ -62,7 +74,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:232
 optional image_url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:235
+Defined in: packages/types/dist/message-metadata.d.ts:245
 
 ***
 
@@ -72,7 +84,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:235
 optional item_type: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:240
+Defined in: packages/types/dist/message-metadata.d.ts:250
 
 ***
 
@@ -82,7 +94,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:240
 key: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:228
+Defined in: packages/types/dist/message-metadata.d.ts:238
 
 ***
 
@@ -92,7 +104,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:228
 label: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:227
+Defined in: packages/types/dist/message-metadata.d.ts:237
 
 ***
 
@@ -102,7 +114,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:227
 optional link: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:231
+Defined in: packages/types/dist/message-metadata.d.ts:241
 
 ***
 
@@ -112,7 +124,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:231
 optional long: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:233
+Defined in: packages/types/dist/message-metadata.d.ts:243
 
 ***
 
@@ -122,7 +134,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:233
 optional slack_file: SlackFile;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:236
+Defined in: packages/types/dist/message-metadata.d.ts:246
 
 ***
 
@@ -132,7 +144,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:236
 optional tag_color: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:238
+Defined in: packages/types/dist/message-metadata.d.ts:248
 
 ***
 
@@ -142,7 +154,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:238
 type: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:229
+Defined in: packages/types/dist/message-metadata.d.ts:239
 
 ***
 
@@ -154,7 +166,7 @@ optional user:
   | EntityUserField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:241
+Defined in: packages/types/dist/message-metadata.d.ts:251
 
 ***
 
@@ -164,4 +176,4 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:241
 optional value: string | number | EntityArrayItemField[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:230
+Defined in: packages/types/dist/message-metadata.d.ts:240

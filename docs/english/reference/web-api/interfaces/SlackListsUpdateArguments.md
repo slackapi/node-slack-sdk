@@ -2,7 +2,7 @@
 
 # Interface: SlackListsUpdateArguments
 
-Defined in: [src/types/request/slackLists.ts:533](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L533)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:533](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L533)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/slackLists.ts:533](https://github.com/slackapi/no
 optional description_blocks: RichTextBlock[];
 ```
 
-Defined in: [src/types/request/slackLists.ts:547](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L547)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:547](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L547)
 
 #### Description
 
@@ -30,7 +30,7 @@ A rich text description of the List.
 id: string;
 ```
 
-Defined in: [src/types/request/slackLists.ts:537](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L537)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:537](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L537)
 
 #### Description
 
@@ -44,7 +44,7 @@ Encoded ID of the List.
 optional name: string;
 ```
 
-Defined in: [src/types/request/slackLists.ts:542](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L542)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:542](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L542)
 
 #### Description
 
@@ -58,7 +58,7 @@ Name of the List.
 optional todo_mode: boolean;
 ```
 
-Defined in: [src/types/request/slackLists.ts:552](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L552)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:552](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L552)
 
 #### Description
 
@@ -72,7 +72,7 @@ Boolean indicating whether the List should be used to track todo tasks.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

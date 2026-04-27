@@ -2,7 +2,7 @@
 
 # Interface: AdminConversationsBulkArchiveArguments
 
-Defined in: [src/types/request/admin/conversations.ts:45](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L45)
+Defined in: [packages/web-api/src/types/request/admin/conversations.ts:45](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L45)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/conversations.ts:45](https://github.com/sla
 channel_ids: [string, ...string[]];
 ```
 
-Defined in: [src/types/request/common.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L81)
+Defined in: [packages/web-api/src/types/request/common.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L81)
 
 #### Description
 
@@ -36,7 +36,7 @@ ChannelIDs.channel_ids
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

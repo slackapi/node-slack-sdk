@@ -2,7 +2,7 @@
 
 # Interface: UserHuddleChangedEvent
 
-Defined in: node\_modules/@slack/types/dist/events/user.d.ts:80
+Defined in: packages/types/dist/events/user.d.ts:80
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/user.d.ts:80
 cache_ts: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/user.d.ts:155
+Defined in: packages/types/dist/events/user.d.ts:156
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/user.d.ts:155
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/user.d.ts:156
+Defined in: packages/types/dist/events/user.d.ts:157
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/user.d.ts:156
 type: "user_huddle_changed";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/user.d.ts:81
+Defined in: packages/types/dist/events/user.d.ts:81
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/user.d.ts:81
 user: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/user.d.ts:82
+Defined in: packages/types/dist/events/user.d.ts:82
 
 #### color
 
@@ -251,6 +251,12 @@ first_name: string;
 
 ```ts
 huddle_state: string;
+```
+
+##### profile.huddle\_state\_call\_id?
+
+```ts
+optional huddle_state_call_id: string;
 ```
 
 ##### profile.huddle\_state\_expiration\_ts

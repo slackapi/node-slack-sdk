@@ -234,11 +234,11 @@ optional email: string;
 
 ```ts
 fields: 
-  | null
   | {
 [key: string]: object;
 }
-  | [];
+  | []
+  | null;
 ```
 
 ##### profile.first\_name

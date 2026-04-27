@@ -2,7 +2,7 @@
 
 # Interface: WebAPIRequestError
 
-Defined in: [src/errors.ts:46](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L46)
+Defined in: [packages/web-api/src/errors.ts:46](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L46)
 
 All errors produced by this package adhere to this interface
 
@@ -18,7 +18,7 @@ All errors produced by this package adhere to this interface
 code: RequestError;
 ```
 
-Defined in: [src/errors.ts:47](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L47)
+Defined in: [packages/web-api/src/errors.ts:47](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L47)
 
 #### Overrides
 
@@ -74,7 +74,7 @@ Defined in: node\_modules/typescript/lib/lib.es5.d.ts:1076
 original: Error;
 ```
 
-Defined in: [src/errors.ts:48](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L48)
+Defined in: [packages/web-api/src/errors.ts:48](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L48)
 
 ***
 

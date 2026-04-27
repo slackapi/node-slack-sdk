@@ -2,7 +2,7 @@
 
 # Interface: WorkflowsUpdateStepArguments
 
-Defined in: [src/types/request/workflows.ts:67](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L67)
+Defined in: [packages/web-api/src/types/request/workflows.ts:67](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L67)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/workflows.ts:67](https://github.com/slackapi/node
 optional inputs: object;
 ```
 
-Defined in: [src/types/request/workflows.ts:71](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L71)
+Defined in: [packages/web-api/src/types/request/workflows.ts:71](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L71)
 
 #### Index Signature
 
@@ -32,7 +32,7 @@ Defined in: [src/types/request/workflows.ts:71](https://github.com/slackapi/node
 optional outputs: object[];
 ```
 
-Defined in: [src/types/request/workflows.ts:82](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L82)
+Defined in: [packages/web-api/src/types/request/workflows.ts:82](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L82)
 
 #### label
 
@@ -60,7 +60,7 @@ type: string;
 optional step_image_url: string;
 ```
 
-Defined in: [src/types/request/workflows.ts:69](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L69)
+Defined in: [packages/web-api/src/types/request/workflows.ts:69](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L69)
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: [src/types/request/workflows.ts:69](https://github.com/slackapi/node
 optional step_name: string;
 ```
 
-Defined in: [src/types/request/workflows.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L70)
+Defined in: [packages/web-api/src/types/request/workflows.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L70)
 
 ***
 
@@ -80,7 +80,7 @@ Defined in: [src/types/request/workflows.ts:70](https://github.com/slackapi/node
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -100,4 +100,4 @@ TokenOverridable.token
 workflow_step_edit_id: string;
 ```
 
-Defined in: [src/types/request/workflows.ts:68](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L68)
+Defined in: [packages/web-api/src/types/request/workflows.ts:68](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L68)

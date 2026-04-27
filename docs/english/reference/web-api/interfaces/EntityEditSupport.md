@@ -2,7 +2,7 @@
 
 # Interface: EntityEditSupport
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:94
+Defined in: packages/types/dist/message-metadata.d.ts:94
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:94
 enabled: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:95
+Defined in: packages/types/dist/message-metadata.d.ts:95
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:95
 optional hint: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:97
+Defined in: packages/types/dist/message-metadata.d.ts:97
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:97
 optional number: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:106
+Defined in: packages/types/dist/message-metadata.d.ts:106
 
 #### is\_decimal\_allowed?
 
@@ -60,7 +60,7 @@ optional min_value: number;
 optional optional: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:98
+Defined in: packages/types/dist/message-metadata.d.ts:98
 
 ***
 
@@ -70,7 +70,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:98
 optional placeholder: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:96
+Defined in: packages/types/dist/message-metadata.d.ts:96
 
 ***
 
@@ -80,7 +80,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:96
 optional select: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:99
+Defined in: packages/types/dist/message-metadata.d.ts:99
 
 #### current\_value?
 
@@ -120,7 +120,7 @@ optional static_options: Option[];
 optional text: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:111
+Defined in: packages/types/dist/message-metadata.d.ts:111
 
 #### max\_length?
 

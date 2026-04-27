@@ -2,7 +2,7 @@
 
 # Interface: EntityUserIDField
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:194
+Defined in: packages/types/dist/message-metadata.d.ts:194
 
 ## Properties
 
@@ -12,4 +12,4 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:194
 user_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:195
+Defined in: packages/types/dist/message-metadata.d.ts:195

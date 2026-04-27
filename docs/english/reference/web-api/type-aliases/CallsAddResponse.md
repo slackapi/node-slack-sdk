@@ -6,7 +6,7 @@
 type CallsAddResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/CallsAddResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/CallsAddResponse.ts#L11)
+Defined in: [packages/web-api/src/types/response/CallsAddResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/CallsAddResponse.ts#L11)
 
 ## Type Declaration
 

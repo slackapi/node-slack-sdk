@@ -2,7 +2,7 @@
 
 # Interface: EntityActionButton
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:255
+Defined in: packages/types/dist/message-metadata.d.ts:269
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:255
 optional accessibility_label: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:261
+Defined in: packages/types/dist/message-metadata.d.ts:275
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:261
 action_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:257
+Defined in: packages/types/dist/message-metadata.d.ts:271
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:257
 optional processing_state: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:262
+Defined in: packages/types/dist/message-metadata.d.ts:276
 
 #### enabled
 
@@ -54,7 +54,7 @@ optional interstitial_text: string;
 optional style: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:259
+Defined in: packages/types/dist/message-metadata.d.ts:273
 
 ***
 
@@ -64,7 +64,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:259
 text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:256
+Defined in: packages/types/dist/message-metadata.d.ts:270
 
 ***
 
@@ -74,7 +74,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:256
 optional url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:260
+Defined in: packages/types/dist/message-metadata.d.ts:274
 
 ***
 
@@ -84,4 +84,4 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:260
 optional value: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:258
+Defined in: packages/types/dist/message-metadata.d.ts:272

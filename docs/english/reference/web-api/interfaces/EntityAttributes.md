@@ -2,7 +2,7 @@
 
 # Interface: EntityAttributes
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:73
+Defined in: packages/types/dist/message-metadata.d.ts:73
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:73
 optional display_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:79
+Defined in: packages/types/dist/message-metadata.d.ts:79
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:79
 optional display_type: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:78
+Defined in: packages/types/dist/message-metadata.d.ts:78
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:78
 optional full_size_preview: EntityFullSizePreview;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:83
+Defined in: packages/types/dist/message-metadata.d.ts:83
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:83
 optional locale: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:82
+Defined in: packages/types/dist/message-metadata.d.ts:82
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:82
 optional metadata_last_modified: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:84
+Defined in: packages/types/dist/message-metadata.d.ts:84
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:84
 optional product_icon: EntityIconField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:80
+Defined in: packages/types/dist/message-metadata.d.ts:80
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:80
 optional product_name: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:81
+Defined in: packages/types/dist/message-metadata.d.ts:81
 
 ***
 
@@ -82,7 +82,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:81
 title: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:74
+Defined in: packages/types/dist/message-metadata.d.ts:74
 
 #### edit?
 

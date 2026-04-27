@@ -2,7 +2,7 @@
 
 # Interface: SMWebsocketError
 
-Defined in: [src/errors.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L33)
+Defined in: [packages/socket-mode/src/errors.ts:33](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L33)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/errors.ts:33](https://github.com/slackapi/node-slack-sdk/blob/m
 code: WebsocketError;
 ```
 
-Defined in: [src/errors.ts:34](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L34)
+Defined in: [packages/socket-mode/src/errors.ts:34](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L34)
 
 #### Overrides
 
@@ -64,7 +64,7 @@ CodedError.name
 original: Error;
 ```
 
-Defined in: [src/errors.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L35)
+Defined in: [packages/socket-mode/src/errors.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L35)
 
 ***
 

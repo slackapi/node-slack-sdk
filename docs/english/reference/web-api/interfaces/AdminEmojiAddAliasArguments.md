@@ -2,7 +2,7 @@
 
 # Interface: AdminEmojiAddAliasArguments
 
-Defined in: [src/types/request/admin/emoji.ts:23](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/emoji.ts#L23)
+Defined in: [packages/web-api/src/types/request/admin/emoji.ts:23](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/emoji.ts#L23)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/emoji.ts:23](https://github.com/slackapi/no
 alias_for: string;
 ```
 
-Defined in: [src/types/request/admin/emoji.ts:28](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/emoji.ts#L28)
+Defined in: [packages/web-api/src/types/request/admin/emoji.ts:28](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/emoji.ts#L28)
 
 #### Description
 
@@ -31,7 +31,7 @@ Any wrapping whitespace or colons will be automatically trimmed.
 name: string;
 ```
 
-Defined in: [src/types/request/admin/emoji.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/emoji.ts#L10)
+Defined in: [packages/web-api/src/types/request/admin/emoji.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/emoji.ts#L10)
 
 #### Description
 
@@ -52,7 +52,7 @@ Name.name
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

@@ -8,4 +8,4 @@ type IncomingWebhookSendError =
   | IncomingWebhookHTTPError;
 ```
 
-Defined in: [src/errors.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L18)
+Defined in: [packages/webhook/src/errors.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/webhook/src/errors.ts#L18)

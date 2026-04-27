@@ -2,7 +2,7 @@
 
 # Interface: WorkflowsFeaturedRemoveArguments
 
-Defined in: [src/types/request/workflows.ts:26](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L26)
+Defined in: [packages/web-api/src/types/request/workflows.ts:26](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L26)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/workflows.ts:26](https://github.com/slackapi/node
 channel_id: string;
 ```
 
-Defined in: [src/types/request/workflows.ts:30](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L30)
+Defined in: [packages/web-api/src/types/request/workflows.ts:30](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L30)
 
 #### Description
 
@@ -30,7 +30,7 @@ Channel to remove featured workflow from.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -50,7 +50,7 @@ TokenOverridable.token
 trigger_ids: string[];
 ```
 
-Defined in: [src/types/request/workflows.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L35)
+Defined in: [packages/web-api/src/types/request/workflows.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/workflows.ts#L35)
 
 #### Description
 

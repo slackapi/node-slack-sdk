@@ -2,7 +2,7 @@
 
 # Enumeration: EntityType
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:62
+Defined in: packages/types/dist/message-metadata.d.ts:62
 
 ## Enumeration Members
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:62
 ContentItem: "slack#/entities/content_item";
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:67
+Defined in: packages/types/dist/message-metadata.d.ts:67
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:67
 File: "slack#/entities/file";
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:64
+Defined in: packages/types/dist/message-metadata.d.ts:64
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:64
 Incident: "slack#/entities/incident";
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:66
+Defined in: packages/types/dist/message-metadata.d.ts:66
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:66
 Item: "slack#/entities/item";
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:65
+Defined in: packages/types/dist/message-metadata.d.ts:65
 
 ***
 
@@ -52,4 +52,4 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:65
 Task: "slack#/entities/task";
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:63
+Defined in: packages/types/dist/message-metadata.d.ts:63

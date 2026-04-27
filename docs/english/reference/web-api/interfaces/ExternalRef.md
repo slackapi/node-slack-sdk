@@ -2,7 +2,7 @@
 
 # Interface: ExternalRef
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:58
+Defined in: packages/types/dist/message-metadata.d.ts:58
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:58
 id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:59
+Defined in: packages/types/dist/message-metadata.d.ts:59
 
 ***
 
@@ -22,4 +22,4 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:59
 optional type: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:60
+Defined in: packages/types/dist/message-metadata.d.ts:60

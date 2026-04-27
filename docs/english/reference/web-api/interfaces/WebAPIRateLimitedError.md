@@ -2,7 +2,7 @@
 
 # Interface: WebAPIRateLimitedError
 
-Defined in: [src/errors.ts:60](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L60)
+Defined in: [packages/web-api/src/errors.ts:60](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L60)
 
 All errors produced by this package adhere to this interface
 
@@ -18,7 +18,7 @@ All errors produced by this package adhere to this interface
 code: RateLimitedError;
 ```
 
-Defined in: [src/errors.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L61)
+Defined in: [packages/web-api/src/errors.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L61)
 
 #### Overrides
 
@@ -88,7 +88,7 @@ Defined in: node\_modules/@types/node/globals.d.ts:104
 retryAfter: number;
 ```
 
-Defined in: [src/errors.ts:62](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L62)
+Defined in: [packages/web-api/src/errors.ts:62](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L62)
 
 ***
 

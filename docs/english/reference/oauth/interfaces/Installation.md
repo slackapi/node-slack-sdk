@@ -2,7 +2,7 @@
 
 # Interface: Installation\<AuthVersion, IsEnterpriseInstall\>
 
-Defined in: [src/installation.ts:31](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L31)
+Defined in: [packages/oauth/src/installation.ts:31](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L31)
 
 An individual installation of the Slack app.
 
@@ -51,7 +51,7 @@ TODO: IsEnterpriseInstall is always false when AuthVersion is v1
 optional appId: AuthVersion extends "v2" ? string : undefined;
 ```
 
-Defined in: [src/installation.ts:80](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L80)
+Defined in: [packages/oauth/src/installation.ts:80](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L80)
 
 The App ID, which does not vary per installation. Left as undefined when not returned from fetch.
 
@@ -63,7 +63,7 @@ The App ID, which does not vary per installation. Left as undefined when not ret
 optional authVersion: AuthVersion;
 ```
 
-Defined in: [src/installation.ts:95](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L95)
+Defined in: [packages/oauth/src/installation.ts:95](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L95)
 
 The version of Slack's auth flow that produced this installation. Synthesized as `v2` when not present.
 
@@ -75,7 +75,7 @@ The version of Slack's auth flow that produced this installation. Synthesized as
 optional bot: object;
 ```
 
-Defined in: [src/installation.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L61)
+Defined in: [packages/oauth/src/installation.ts:61](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L61)
 
 #### expiresAt?
 
@@ -118,10 +118,10 @@ userId: string;
 ### enterprise
 
 ```ts
-enterprise: IsEnterpriseInstall extends true ? EnterpriseInfo : undefined | EnterpriseInfo;
+enterprise: IsEnterpriseInstall extends true ? EnterpriseInfo : EnterpriseInfo | undefined;
 ```
 
-Defined in: [src/installation.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L51)
+Defined in: [packages/oauth/src/installation.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L51)
 
 When the installation is an enterprise install or when the installation occurs on the org to acquire `admin` scope,
 the name and ID of the enterprise org.
@@ -134,7 +134,7 @@ the name and ID of the enterprise org.
 optional enterpriseUrl: AuthVersion extends "v2" ? string : undefined;
 ```
 
-Defined in: [src/installation.ts:89](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L89)
+Defined in: [packages/oauth/src/installation.ts:89](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L89)
 
 When the installation is an enterprise org install, the URL of the landing page for all workspaces in the org.
 Left as undefined when not returned from fetch.
@@ -147,7 +147,7 @@ Left as undefined when not returned from fetch.
 optional incomingWebhook: object;
 ```
 
-Defined in: [src/installation.ts:69](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L69)
+Defined in: [packages/oauth/src/installation.ts:69](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L69)
 
 #### channel?
 
@@ -187,7 +187,7 @@ url: string;
 optional isEnterpriseInstall: IsEnterpriseInstall;
 ```
 
-Defined in: [src/installation.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L92)
+Defined in: [packages/oauth/src/installation.ts:92](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L92)
 
 Whether the installation was performed on an enterprise org. Synthesized as `false` when not present.
 
@@ -199,7 +199,7 @@ Whether the installation was performed on an enterprise org. Synthesized as `fal
 optional metadata: string;
 ```
 
-Defined in: [src/installation.ts:98](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L98)
+Defined in: [packages/oauth/src/installation.ts:98](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L98)
 
 A string value that can be held in the state parameter in the OAuth flow.
 
@@ -211,7 +211,7 @@ A string value that can be held in the state parameter in the OAuth flow.
 team: IsEnterpriseInstall extends true ? undefined : object;
 ```
 
-Defined in: [src/installation.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L39)
+Defined in: [packages/oauth/src/installation.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L39)
 
 TODO: when performing a “single workspace” install with the admin scope on the enterprise,
 is the team property returned from oauth.access?
@@ -224,7 +224,7 @@ is the team property returned from oauth.access?
 optional tokenType: "bot";
 ```
 
-Defined in: [src/installation.ts:83](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L83)
+Defined in: [packages/oauth/src/installation.ts:83](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L83)
 
 When the installation contains a bot user, the token type. Left as undefined when not returned from fetch.
 
@@ -236,12 +236,12 @@ When the installation contains a bot user, the token type. Left as undefined whe
 user: object;
 ```
 
-Defined in: [src/installation.ts:53](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L53)
+Defined in: [packages/oauth/src/installation.ts:53](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/installation.ts#L53)
 
 #### expiresAt?
 
 ```ts
-optional expiresAt: AuthVersion extends "v1" ? never : undefined | number;
+optional expiresAt: AuthVersion extends "v1" ? never : number | undefined;
 ```
 
 #### id
@@ -253,17 +253,17 @@ id: string;
 #### refreshToken?
 
 ```ts
-optional refreshToken: AuthVersion extends "v1" ? never : undefined | string;
+optional refreshToken: AuthVersion extends "v1" ? never : string | undefined;
 ```
 
 #### scopes
 
 ```ts
-scopes: AuthVersion extends "v1" ? string[] : undefined | string[];
+scopes: AuthVersion extends "v1" ? string[] : string[] | undefined;
 ```
 
 #### token
 
 ```ts
-token: AuthVersion extends "v1" ? string : undefined | string;
+token: AuthVersion extends "v1" ? string : string | undefined;
 ```

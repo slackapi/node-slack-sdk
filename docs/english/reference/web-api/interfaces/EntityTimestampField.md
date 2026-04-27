@@ -2,7 +2,7 @@
 
 # Interface: EntityTimestampField
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:210
+Defined in: packages/types/dist/message-metadata.d.ts:222
 
 ## Properties
 
@@ -12,17 +12,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:210
 optional edit: EntityEditSupport;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:216
-
-***
-
-### icon?
-
-```ts
-optional icon: EntityIconField;
-```
-
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:214
+Defined in: packages/types/dist/message-metadata.d.ts:226
 
 ***
 
@@ -32,17 +22,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:214
 optional label: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:212
-
-***
-
-### link?
-
-```ts
-optional link: string;
-```
-
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:213
+Defined in: packages/types/dist/message-metadata.d.ts:224
 
 ***
 
@@ -52,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:213
 optional type: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:215
+Defined in: packages/types/dist/message-metadata.d.ts:225
 
 ***
 
@@ -62,4 +42,4 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:215
 value: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:211
+Defined in: packages/types/dist/message-metadata.d.ts:223

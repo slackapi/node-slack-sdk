@@ -6,7 +6,7 @@
 type ViewsOpenResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/ViewsOpenResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/ViewsOpenResponse.ts#L11)
+Defined in: [packages/web-api/src/types/response/ViewsOpenResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/ViewsOpenResponse.ts#L11)
 
 ## Type Declaration
 

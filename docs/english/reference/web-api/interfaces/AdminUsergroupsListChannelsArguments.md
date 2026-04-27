@@ -2,7 +2,7 @@
 
 # Interface: AdminUsergroupsListChannelsArguments
 
-Defined in: [src/types/request/admin/usergroups.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/usergroups.ts#L35)
+Defined in: [packages/web-api/src/types/request/admin/usergroups.ts:35](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/usergroups.ts#L35)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/usergroups.ts:35](https://github.com/slacka
 optional include_num_members: boolean;
 ```
 
-Defined in: [src/types/request/admin/usergroups.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/usergroups.ts#L37)
+Defined in: [packages/web-api/src/types/request/admin/usergroups.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/usergroups.ts#L37)
 
 #### Description
 
@@ -30,7 +30,7 @@ Flag to include or exclude the count of members per channel.
 optional team_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
+Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
 
 #### Description
 
@@ -50,7 +50,7 @@ OptionalTeamAssignable.team_id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -70,7 +70,7 @@ TokenOverridable.token
 usergroup_id: string;
 ```
 
-Defined in: [src/types/request/admin/usergroups.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/usergroups.ts#L10)
+Defined in: [packages/web-api/src/types/request/admin/usergroups.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/usergroups.ts#L10)
 
 #### Description
 

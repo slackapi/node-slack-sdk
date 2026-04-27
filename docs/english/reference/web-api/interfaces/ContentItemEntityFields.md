@@ -2,7 +2,7 @@
 
 # Interface: ContentItemEntityFields
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:156
+Defined in: packages/types/dist/message-metadata.d.ts:156
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:156
 optional created_by: EntityTypedField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:159
+Defined in: packages/types/dist/message-metadata.d.ts:159
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:159
 optional date_created: EntityTimestampField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:160
+Defined in: packages/types/dist/message-metadata.d.ts:160
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:160
 optional date_updated: EntityTimestampField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:161
+Defined in: packages/types/dist/message-metadata.d.ts:161
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:161
 optional description: EntityStringField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:158
+Defined in: packages/types/dist/message-metadata.d.ts:158
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:158
 optional last_modified_by: EntityTypedField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:162
+Defined in: packages/types/dist/message-metadata.d.ts:162
 
 ***
 
@@ -62,4 +62,4 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:162
 optional preview: EntityImageField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:157
+Defined in: packages/types/dist/message-metadata.d.ts:157

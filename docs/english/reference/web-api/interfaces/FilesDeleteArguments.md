@@ -2,7 +2,7 @@
 
 # Interface: FilesDeleteArguments
 
-Defined in: [src/types/request/files.ts:84](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L84)
+Defined in: [packages/web-api/src/types/request/files.ts:84](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L84)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/files.ts:84](https://github.com/slackapi/node-sla
 file: string;
 ```
 
-Defined in: [src/types/request/files.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L14)
+Defined in: [packages/web-api/src/types/request/files.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/files.ts#L14)
 
 #### Description
 
@@ -36,7 +36,7 @@ FileArgument.file
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

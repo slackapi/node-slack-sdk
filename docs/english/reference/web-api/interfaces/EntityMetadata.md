@@ -2,7 +2,7 @@
 
 # Interface: EntityMetadata
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:26
+Defined in: packages/types/dist/message-metadata.d.ts:26
 
 ## Description
 
@@ -16,7 +16,7 @@ Metadata that represents a work object entity.
 optional app_unfurl_url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:56
+Defined in: packages/types/dist/message-metadata.d.ts:56
 
 #### Description
 
@@ -30,7 +30,7 @@ The exact URL posted in the source message. Required in metadata passed to `chat
 entity_payload: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:34
+Defined in: packages/types/dist/message-metadata.d.ts:34
 
 #### actions?
 
@@ -96,7 +96,7 @@ Schema for the given entity type.
 entity_type: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:30
+Defined in: packages/types/dist/message-metadata.d.ts:30
 
 #### Description
 
@@ -110,7 +110,7 @@ Entity type.
 external_ref: ExternalRef;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:48
+Defined in: packages/types/dist/message-metadata.d.ts:48
 
 #### Description
 
@@ -124,7 +124,7 @@ Reference (and optional type) used to identify an entity within the developer's 
 url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:52
+Defined in: packages/types/dist/message-metadata.d.ts:52
 
 #### Description
 

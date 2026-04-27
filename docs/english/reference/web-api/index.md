@@ -1,4 +1,4 @@
-# @slack/web-api v7.13.0
+# @slack/web-api v7.15.1
 
 ## Enumerations
 
@@ -10,6 +10,7 @@
 
 ## Classes
 
+- [ChatStreamer](classes/ChatStreamer.md)
 - [Methods](classes/Methods.md)
 - [WebClient](classes/WebClient.md)
 
@@ -109,6 +110,7 @@
 - [AppsManifestUpdateArguments](interfaces/AppsManifestUpdateArguments.md)
 - [AppsManifestValidateArguments](interfaces/AppsManifestValidateArguments.md)
 - [AppsUninstallArguments](interfaces/AppsUninstallArguments.md)
+- [AppsUserConnectionUpdateArguments](interfaces/AppsUserConnectionUpdateArguments.md)
 - [AppUninstalledEvent](interfaces/AppUninstalledEvent.md)
 - [AppUninstalledTeamEvent](interfaces/AppUninstalledTeamEvent.md)
 - [AssistantThreadContextChangedEvent](interfaces/AssistantThreadContextChangedEvent.md)
@@ -162,7 +164,9 @@
 - [ChatGetPermalinkArguments](interfaces/ChatGetPermalinkArguments.md)
 - [ChatMeMessageArguments](interfaces/ChatMeMessageArguments.md)
 - [ChatStartStreamArguments](interfaces/ChatStartStreamArguments.md)
+- [ChatStreamerOptions](interfaces/ChatStreamerOptions.md)
 - [Checkboxes](interfaces/Checkboxes.md)
+- [Chunk](interfaces/Chunk.md)
 - [CodedError](interfaces/CodedError.md)
 - [~~Confirm~~](interfaces/Confirm.md)
 - [Confirmable](interfaces/Confirmable.md)
@@ -212,6 +216,8 @@
 - [EntityActionButton](interfaces/EntityActionButton.md)
 - [EntityArrayItemField](interfaces/EntityArrayItemField.md)
 - [EntityAttributes](interfaces/EntityAttributes.md)
+- [EntityBooleanCheckboxField](interfaces/EntityBooleanCheckboxField.md)
+- [EntityBooleanTextField](interfaces/EntityBooleanTextField.md)
 - [EntityCustomField](interfaces/EntityCustomField.md)
 - [EntityEditSupport](interfaces/EntityEditSupport.md)
 - [EntityFullSizePreview](interfaces/EntityFullSizePreview.md)
@@ -277,6 +283,7 @@
 - [LinkUnfurls](interfaces/LinkUnfurls.md)
 - [Logger](interfaces/Logger.md)
 - [MarkdownBlock](interfaces/MarkdownBlock.md)
+- [MarkdownTextChunk](interfaces/MarkdownTextChunk.md)
 - [MaxItemsSelectable](interfaces/MaxItemsSelectable.md)
 - [MemberJoinedChannelEvent](interfaces/MemberJoinedChannelEvent.md)
 - [MemberLeftChannelEvent](interfaces/MemberLeftChannelEvent.md)
@@ -316,7 +323,10 @@
 - [PlainTextElement](interfaces/PlainTextElement.md)
 - [PlainTextInput](interfaces/PlainTextInput.md)
 - [PlainTextOption](interfaces/PlainTextOption.md)
+- [PlanBlock](interfaces/PlanBlock.md)
+- [PlanUpdateChunk](interfaces/PlanUpdateChunk.md)
 - [RadioButtons](interfaces/RadioButtons.md)
+- [RawTextElement](interfaces/RawTextElement.md)
 - [ReactionAddedEvent](interfaces/ReactionAddedEvent.md)
 - [ReactionRemovedEvent](interfaces/ReactionRemovedEvent.md)
 - [ReactionsAddArguments](interfaces/ReactionsAddArguments.md)
@@ -375,7 +385,10 @@
 - [SubteamSelfAddedEvent](interfaces/SubteamSelfAddedEvent.md)
 - [SubteamSelfRemovedEvent](interfaces/SubteamSelfRemovedEvent.md)
 - [SubteamUpdatedEvent](interfaces/SubteamUpdatedEvent.md)
+- [TableBlock](interfaces/TableBlock.md)
+- [TaskCardBlock](interfaces/TaskCardBlock.md)
 - [TaskEntityFields](interfaces/TaskEntityFields.md)
+- [TaskUpdateChunk](interfaces/TaskUpdateChunk.md)
 - [TeamAccessGrantedEvent](interfaces/TeamAccessGrantedEvent.md)
 - [TeamAccessRevokedEvent](interfaces/TeamAccessRevokedEvent.md)
 - [TeamDomainChangeEvent](interfaces/TeamDomainChangeEvent.md)
@@ -388,6 +401,7 @@
 - [UrlImageObject](interfaces/UrlImageObject.md)
 - [URLInput](interfaces/URLInput.md)
 - [URLRespondable](interfaces/URLRespondable.md)
+- [URLSourceElement](interfaces/URLSourceElement.md)
 - [UserChangeEvent](interfaces/UserChangeEvent.md)
 - [UsergroupsCreateArguments](interfaces/UsergroupsCreateArguments.md)
 - [UsergroupsDisableArguments](interfaces/UsergroupsDisableArguments.md)
@@ -558,6 +572,7 @@
 - [AllMessageEvents](type-aliases/AllMessageEvents.md)
 - [AllMessageMetadataEvents](type-aliases/AllMessageMetadataEvents.md)
 - [AnyBlock](type-aliases/AnyBlock.md)
+- [AnyChunk](type-aliases/AnyChunk.md)
 - [APITestArguments](type-aliases/APITestArguments.md)
 - [ApiTestResponse](type-aliases/ApiTestResponse.md)
 - [AppsConnectionsOpenArguments](type-aliases/AppsConnectionsOpenArguments.md)
@@ -575,6 +590,7 @@
 - [AppsPermissionsUsersListResponse](type-aliases/AppsPermissionsUsersListResponse.md)
 - [AppsPermissionsUsersRequestResponse](type-aliases/AppsPermissionsUsersRequestResponse.md)
 - [AppsUninstallResponse](type-aliases/AppsUninstallResponse.md)
+- [AppsUserConnectionUpdateResponse](type-aliases/AppsUserConnectionUpdateResponse.md)
 - [AssistantThreadsSetStatusResponse](type-aliases/AssistantThreadsSetStatusResponse.md)
 - [AssistantThreadsSetSuggestedPromptsResponse](type-aliases/AssistantThreadsSetSuggestedPromptsResponse.md)
 - [AssistantThreadsSetTitleResponse](type-aliases/AssistantThreadsSetTitleResponse.md)

@@ -2,7 +2,7 @@
 
 # Interface: CodedError
 
-Defined in: [src/errors.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L10)
+Defined in: [packages/web-api/src/errors.ts:10](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L10)
 
 All errors produced by this package adhere to this interface
 
@@ -25,7 +25,7 @@ All errors produced by this package adhere to this interface
 code: ErrorCode;
 ```
 
-Defined in: [src/errors.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L11)
+Defined in: [packages/web-api/src/errors.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L11)
 
 #### Overrides
 

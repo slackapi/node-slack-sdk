@@ -2,7 +2,7 @@
 
 # Interface: PinsListArguments
 
-Defined in: [src/types/request/pins.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/pins.ts#L6)
+Defined in: [packages/web-api/src/types/request/pins.ts:6](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/pins.ts#L6)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/pins.ts:6](https://github.com/slackapi/node-slack
 channel: string;
 ```
 
-Defined in: [src/types/request/pins.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/pins.ts#L8)
+Defined in: [packages/web-api/src/types/request/pins.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/pins.ts#L8)
 
 #### Description
 
@@ -30,7 +30,7 @@ Channel to get pinned items for.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

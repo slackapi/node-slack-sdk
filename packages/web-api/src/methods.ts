@@ -106,6 +106,7 @@ import type {
   AppsManifestUpdateArguments,
   AppsManifestValidateArguments,
   AppsUninstallArguments,
+  AppsUserConnectionUpdateArguments,
   AssistantThreadsSetStatusArguments,
   AssistantThreadsSetSuggestedPromptsArguments,
   AssistantThreadsSetTitleArguments,
@@ -379,6 +380,7 @@ import type {
   AppsManifestUpdateResponse,
   AppsManifestValidateResponse,
   AppsUninstallResponse,
+  AppsUserConnectionUpdateResponse,
   AssistantThreadsSetStatusResponse,
   AssistantThreadsSetSuggestedPromptsResponse,
   AssistantThreadsSetTitleResponse,
@@ -1469,6 +1471,18 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/apps.uninstall `apps.uninstall` API reference}.
      */
     uninstall: bindApiCall<AppsUninstallArguments, AppsUninstallResponse>(this, 'apps.uninstall'),
+    user: {
+      connection: {
+        /**
+         * @description Updates the connection status between a user and an app.
+         * @see {@link https://docs.slack.dev/reference/methods/apps.user.connection.update `apps.user.connection.update` API reference}.
+         */
+        update: bindApiCall<AppsUserConnectionUpdateArguments, AppsUserConnectionUpdateResponse>(
+          this,
+          'apps.user.connection.update',
+        ),
+      },
+    },
   };
 
   public readonly auth = {

@@ -2,7 +2,7 @@
 
 # Enumeration: CustomFieldType
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:244
+Defined in: packages/types/dist/message-metadata.d.ts:255
 
 ## Enumeration Members
 
@@ -12,7 +12,17 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:244
 Array: "array";
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:247
+Defined in: packages/types/dist/message-metadata.d.ts:258
+
+***
+
+### Boolean
+
+```ts
+Boolean: "boolean";
+```
+
+Defined in: packages/types/dist/message-metadata.d.ts:265
 
 ***
 
@@ -22,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:247
 ChannelId: "slack#/types/channel_id";
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:251
+Defined in: packages/types/dist/message-metadata.d.ts:262
 
 ***
 
@@ -32,7 +42,17 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:251
 Date: "slack#/types/date";
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:248
+Defined in: packages/types/dist/message-metadata.d.ts:259
+
+***
+
+### Email
+
+```ts
+Email: "slack#/types/email";
+```
+
+Defined in: packages/types/dist/message-metadata.d.ts:267
 
 ***
 
@@ -42,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:248
 EntityRef: "slack#/types/entity_ref";
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:253
+Defined in: packages/types/dist/message-metadata.d.ts:264
 
 ***
 
@@ -52,7 +72,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:253
 Image: "slack#/types/image";
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:250
+Defined in: packages/types/dist/message-metadata.d.ts:261
 
 ***
 
@@ -62,7 +82,17 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:250
 Integer: "integer";
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:245
+Defined in: packages/types/dist/message-metadata.d.ts:256
+
+***
+
+### Link
+
+```ts
+Link: "slack#/types/link";
+```
+
+Defined in: packages/types/dist/message-metadata.d.ts:266
 
 ***
 
@@ -72,7 +102,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:245
 String: "string";
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:246
+Defined in: packages/types/dist/message-metadata.d.ts:257
 
 ***
 
@@ -82,7 +112,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:246
 Timestamp: "slack#/types/timestamp";
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:249
+Defined in: packages/types/dist/message-metadata.d.ts:260
 
 ***
 
@@ -92,4 +122,4 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:249
 User: "slack#/types/user";
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:252
+Defined in: packages/types/dist/message-metadata.d.ts:263

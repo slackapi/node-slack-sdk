@@ -2,7 +2,7 @@
 
 # Interface: SlackListsAccessDeleteArguments
 
-Defined in: [src/types/request/slackLists.ts:329](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L329)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:329](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L329)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/slackLists.ts:329](https://github.com/slackapi/no
 optional channel_ids: string[];
 ```
 
-Defined in: [src/types/request/slackLists.ts:338](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L338)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:338](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L338)
 
 #### Description
 
@@ -30,7 +30,7 @@ List of channels you wish to update access for. Can only be used if user_ids is 
 list_id: string;
 ```
 
-Defined in: [src/types/request/slackLists.ts:333](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L333)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:333](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L333)
 
 #### Description
 
@@ -44,7 +44,7 @@ Encoded ID of the List.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -64,7 +64,7 @@ TokenOverridable.token
 optional user_ids: string[];
 ```
 
-Defined in: [src/types/request/slackLists.ts:343](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L343)
+Defined in: [packages/web-api/src/types/request/slackLists.ts:343](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/slackLists.ts#L343)
 
 #### Description
 

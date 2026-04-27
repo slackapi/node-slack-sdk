@@ -2,7 +2,7 @@
 
 # Interface: RemindersInfoArguments
 
-Defined in: [src/types/request/reminders.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reminders.ts#L50)
+Defined in: [packages/web-api/src/types/request/reminders.ts:50](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reminders.ts#L50)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/reminders.ts:50](https://github.com/slackapi/node
 reminder: string;
 ```
 
-Defined in: [src/types/request/reminders.ts:52](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reminders.ts#L52)
+Defined in: [packages/web-api/src/types/request/reminders.ts:52](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reminders.ts#L52)
 
 #### Description
 
@@ -30,7 +30,7 @@ The ID of the reminder to retrieve information about.
 optional team_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
+Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
 
 #### Description
 
@@ -50,7 +50,7 @@ OptionalTeamAssignable.team_id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

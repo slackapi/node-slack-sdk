@@ -2,7 +2,7 @@
 
 # Interface: IncidentEntityFields
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:145
+Defined in: packages/types/dist/message-metadata.d.ts:145
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:145
 optional assigned_to: EntityTypedField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:150
+Defined in: packages/types/dist/message-metadata.d.ts:150
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:150
 optional created_by: EntityTypedField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:149
+Defined in: packages/types/dist/message-metadata.d.ts:149
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:149
 optional date_created: EntityTimestampField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:151
+Defined in: packages/types/dist/message-metadata.d.ts:151
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:151
 optional date_updated: EntityTimestampField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:152
+Defined in: packages/types/dist/message-metadata.d.ts:152
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:152
 optional description: EntityStringField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:153
+Defined in: packages/types/dist/message-metadata.d.ts:153
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:153
 optional priority: EntityStringField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:147
+Defined in: packages/types/dist/message-metadata.d.ts:147
 
 ***
 
@@ -72,7 +72,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:147
 optional service: EntityStringField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:154
+Defined in: packages/types/dist/message-metadata.d.ts:154
 
 ***
 
@@ -82,7 +82,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:154
 optional status: EntityStringField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:146
+Defined in: packages/types/dist/message-metadata.d.ts:146
 
 ***
 
@@ -92,4 +92,4 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:146
 optional urgency: EntityStringField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:148
+Defined in: packages/types/dist/message-metadata.d.ts:148

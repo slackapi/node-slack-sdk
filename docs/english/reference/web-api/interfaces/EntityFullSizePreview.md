@@ -2,7 +2,7 @@
 
 # Interface: EntityFullSizePreview
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:116
+Defined in: packages/types/dist/message-metadata.d.ts:116
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:116
 optional error: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:120
+Defined in: packages/types/dist/message-metadata.d.ts:120
 
 #### code
 
@@ -34,7 +34,7 @@ optional message: string;
 is_supported: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:117
+Defined in: packages/types/dist/message-metadata.d.ts:117
 
 ***
 
@@ -44,7 +44,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:117
 optional mime_type: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:119
+Defined in: packages/types/dist/message-metadata.d.ts:119
 
 ***
 
@@ -54,4 +54,4 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:119
 optional preview_url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:118
+Defined in: packages/types/dist/message-metadata.d.ts:118

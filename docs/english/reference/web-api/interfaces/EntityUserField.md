@@ -2,7 +2,7 @@
 
 # Interface: EntityUserField
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:197
+Defined in: packages/types/dist/message-metadata.d.ts:197
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:197
 optional email: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:200
+Defined in: packages/types/dist/message-metadata.d.ts:200
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:200
 optional icon: EntityIconField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:201
+Defined in: packages/types/dist/message-metadata.d.ts:201
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:201
 text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:198
+Defined in: packages/types/dist/message-metadata.d.ts:198
 
 ***
 
@@ -42,4 +42,4 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:198
 optional url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:199
+Defined in: packages/types/dist/message-metadata.d.ts:199

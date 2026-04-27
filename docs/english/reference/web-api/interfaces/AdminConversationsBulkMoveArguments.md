@@ -2,7 +2,7 @@
 
 # Interface: AdminConversationsBulkMoveArguments
 
-Defined in: [src/types/request/admin/conversations.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L51)
+Defined in: [packages/web-api/src/types/request/admin/conversations.ts:51](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L51)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/admin/conversations.ts:51](https://github.com/sla
 channel_ids: [string, ...string[]];
 ```
 
-Defined in: [src/types/request/common.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L81)
+Defined in: [packages/web-api/src/types/request/common.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L81)
 
 #### Description
 
@@ -36,7 +36,7 @@ ChannelIDs.channel_ids
 target_team_id: string;
 ```
 
-Defined in: [src/types/request/admin/conversations.ts:53](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L53)
+Defined in: [packages/web-api/src/types/request/admin/conversations.ts:53](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/admin/conversations.ts#L53)
 
 #### Description
 
@@ -50,7 +50,7 @@ Target team ID to move channels to.
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

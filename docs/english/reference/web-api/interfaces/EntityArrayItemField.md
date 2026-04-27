@@ -2,7 +2,7 @@
 
 # Interface: EntityArrayItemField
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:164
+Defined in: packages/types/dist/message-metadata.d.ts:164
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:164
 optional alt_text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:177
+Defined in: packages/types/dist/message-metadata.d.ts:177
 
 #### Inherited from
 
@@ -30,7 +30,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:177
 optional edit: EntityEditSupport;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:178
+Defined in: packages/types/dist/message-metadata.d.ts:178
 
 #### Inherited from
 
@@ -44,7 +44,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:178
 optional entity_ref: EntityRefField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:181
+Defined in: packages/types/dist/message-metadata.d.ts:181
 
 #### Inherited from
 
@@ -58,7 +58,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:181
 optional format: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:174
+Defined in: packages/types/dist/message-metadata.d.ts:174
 
 #### Inherited from
 
@@ -72,7 +72,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:174
 optional icon: EntityIconField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:172
+Defined in: packages/types/dist/message-metadata.d.ts:172
 
 #### Inherited from
 
@@ -86,7 +86,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:172
 optional image_url: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:175
+Defined in: packages/types/dist/message-metadata.d.ts:175
 
 #### Inherited from
 
@@ -100,7 +100,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:175
 optional label: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:169
+Defined in: packages/types/dist/message-metadata.d.ts:169
 
 #### Inherited from
 
@@ -114,7 +114,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:169
 optional link: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:171
+Defined in: packages/types/dist/message-metadata.d.ts:171
 
 #### Inherited from
 
@@ -128,7 +128,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:171
 optional long: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:173
+Defined in: packages/types/dist/message-metadata.d.ts:173
 
 #### Inherited from
 
@@ -142,7 +142,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:173
 optional slack_file: SlackFile;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:176
+Defined in: packages/types/dist/message-metadata.d.ts:176
 
 #### Inherited from
 
@@ -156,7 +156,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:176
 optional tag_color: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:179
+Defined in: packages/types/dist/message-metadata.d.ts:179
 
 #### Inherited from
 
@@ -170,7 +170,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:179
 optional type: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:165
+Defined in: packages/types/dist/message-metadata.d.ts:165
 
 ***
 
@@ -182,7 +182,7 @@ optional user:
   | EntityUserField;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:180
+Defined in: packages/types/dist/message-metadata.d.ts:180
 
 #### Inherited from
 
@@ -196,7 +196,7 @@ Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:180
 optional value: string | number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-metadata.d.ts:170
+Defined in: packages/types/dist/message-metadata.d.ts:170
 
 #### Inherited from
 

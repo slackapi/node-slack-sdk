@@ -2,7 +2,7 @@
 
 # Interface: BookmarksRemoveArguments
 
-Defined in: [src/types/request/bookmarks.ts:31](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L31)
+Defined in: [packages/web-api/src/types/request/bookmarks.ts:31](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L31)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/bookmarks.ts:31](https://github.com/slackapi/node
 bookmark_id: string;
 ```
 
-Defined in: [src/types/request/bookmarks.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L4)
+Defined in: [packages/web-api/src/types/request/bookmarks.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/bookmarks.ts#L4)
 
 #### Inherited from
 
@@ -32,7 +32,7 @@ ID.bookmark_id
 channel_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L85)
+Defined in: [packages/web-api/src/types/request/common.ts:85](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L85)
 
 #### Description
 
@@ -52,7 +52,7 @@ ChannelID.channel_id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
