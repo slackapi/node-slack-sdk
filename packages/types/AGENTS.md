@@ -54,15 +54,59 @@ src/
 
 ## Adding New Types
 
-### Adding a New Block Kit Element
+### Adding a New Block Kit Type
 
-1. Add the interface to the appropriate file in `src/block-kit/`:
-   - **Layout blocks** → `blocks.ts`
-   - **Interactive elements** → `block-elements.ts`
-   - **Composition objects** → `composition-objects.ts`
-   - **Message/modal extensions** → `extensions.ts`
-2. Add the new type to the relevant discriminated union (e.g., `KnownBlock`, `BlockElement`).
-3. Verify it is exported through `src/index.ts` (already covered if the file is re-exported).
+Block Kit types live in `src/block-kit/` across four files:
+
+| File | Contents |
+|------|----------|
+| `blocks.ts` | Layout blocks (`SectionBlock`, `ActionsBlock`, `HeaderBlock`, etc.) |
+| `block-elements.ts` | Interactive elements (`Button`, `Datepicker`, `StaticSelect`, etc.) |
+| `composition-objects.ts` | Reusable objects (`PlainTextElement`, `MrkdwnElement`, `Option`, `ConfirmationDialog`, etc.) |
+| `extensions.ts` | Mixins for shared behaviors (`Actionable`, `Confirmable`, `Focusable`, `Placeholdable`, etc.) |
+
+#### Steps
+
+1. **Define the interface** in the appropriate file. Extend the correct base type and set a string literal `type`:
+
+   ```typescript
+   export interface MyCustomBlock extends Block {
+     /** @description The type of block. For this block, `type` is always `my_custom`. */
+     type: 'my_custom';
+     /** @description A required text field. */
+     text: TextObject;
+     /** @description An optional field. Maximum length is 300 characters. */
+     optional_field?: string;
+   }
+   ```
+
+   Key conventions:
+   - Extend `Block` for layout blocks. For elements, use mixins from `extensions.ts` (`Actionable`, `Confirmable`, `Focusable`, `Placeholdable`, etc.) instead of duplicating shared fields.
+   - The `type` field must be a string literal matching the Slack API type value.
+   - Use snake_case for field names to match the Slack JSON API.
+   - Include `@description` JSDoc on every field and `@see` with an API reference link on the interface.
+   - Mark fields as required or optional based on the Slack API documentation.
+
+2. **Add to the discriminated union.** This is the most commonly missed step:
+   - **Layout blocks** → add to the `KnownBlock` union in `blocks.ts`
+   - **Elements** → add to the element-specific unions where the element is allowed (e.g., `ActionsBlockElement`, `InputBlockElement`, `SectionBlockElement`)
+   - **Composition objects** → add to or create the relevant union type
+
+   Forgetting this means the type won't be recognized in typed arrays like `KnownBlock[]`.
+
+3. **Verify barrel export.** If the file is already re-exported from `src/index.ts` (all `block-kit/` files are), no extra step is needed. If you created a new file, add `export * from './<filename>'` to `src/index.ts`.
+
+4. **Add type tests** in `test/blocks.test-d.ts` (or the appropriate test file). Cover:
+   - Happy path: `expectAssignable<MyCustomBlock>({ type: 'my_custom', text: { type: 'mrkdwn', text: 'hi' } })`
+   - Sad path: `expectError<MyCustomBlock>({})` (missing required fields)
+   - Union assignability: `expectAssignable<KnownBlock>({ type: 'my_custom', text: { type: 'mrkdwn', text: 'hi' } })`
+
+5. **Build and test:**
+
+   ```bash
+   npm run build --workspace=packages/types
+   npm run test:types --workspace=packages/types
+   ```
 
 ### Adding a New Event Type
 
