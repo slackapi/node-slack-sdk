@@ -101,6 +101,12 @@ Individual packages have their own `AGENTS.md` with package-specific guidance:
 - **PascalCase for types**, camelCase for methods.
 - **JSDoc on public APIs**: Always include `@description` and `@see` with a link to the API reference.
 
+## Common Contribution Workflows
+
+### Adding a New Block Kit Type
+
+Block Kit types are defined in the `@slack/types` package. See `packages/types/AGENTS.md` for detailed steps covering interface definition, discriminated union registration, barrel exports, and type tests.
+
 ## Common Pitfalls
 
 - **Build in dependency order** — see the dependency graph above.
