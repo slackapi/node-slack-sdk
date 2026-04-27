@@ -8,13 +8,22 @@ export interface AssistantThreadsSetStatusArguments extends TokenOverridable {
   status: string;
   /** @description Message timestamp of the thread. */
   thread_ts: string;
-  /** @description Emoji to use as the icon for this message. Overrides `icon_url`. */
+  /**
+   * @description Emoji to use as the icon for this message. Overrides `icon_url`.
+   * @example :chart_with_upwards_trend:
+   */
   icon_emoji?: string;
-  /** @description URL to an image to use as the icon for this message. The `icon_emoji` field takes precendence over this field. */
+  /**
+   * @description Image URL to use as the icon for this message.
+   * @example http://lorempixel.com/48/48
+   */
   icon_url?: string;
   /** @description The list of messages to rotate through as a loading indicator. */
   loading_messages?: string[];
-  /** @description Set your bot's username. */
+  /**
+   * @description The bot's username to display.
+   * @example My Bot
+   */
   username?: string;
 }
 
