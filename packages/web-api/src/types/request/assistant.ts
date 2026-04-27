@@ -8,6 +8,8 @@ export interface AssistantThreadsSetStatusArguments extends TokenOverridable {
   status: string;
   /** @description Message timestamp of the thread. */
   thread_ts: string;
+  /** @description The list of messages to rotate through as a loading indicator. */
+  loading_messages?: string[];
   /**
    * @description Emoji to use as the icon for this message. Overrides `icon_url`.
    * @example :chart_with_upwards_trend:
@@ -18,8 +20,6 @@ export interface AssistantThreadsSetStatusArguments extends TokenOverridable {
    * @example http://lorempixel.com/48/48
    */
   icon_url?: string;
-  /** @description The list of messages to rotate through as a loading indicator. */
-  loading_messages?: string[];
   /**
    * @description The bot's username to display.
    * @example My Bot
