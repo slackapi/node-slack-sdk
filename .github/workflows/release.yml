@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       hasChangesets: ${{ steps.changesets.outputs.hasChangesets }}
+      releaseExists: ${{ steps.published.outputs.exists }}
     permissions:
       contents: write
       pull-requests: write
@@ -41,10 +42,26 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Check if publish is needed
+        id: published
+        if: steps.changesets.outputs.hasChangesets == 'false'
+        run: |
+          EXISTS=true
+          for PKG in $(npm query .workspace | jq -r '.[].name'); do
+            VERSION=$(npm query "#${PKG}" | jq -r '.[0].version')
+            if ! gh release view "${PKG}@${VERSION}" &>/dev/null; then
+              EXISTS=false
+              break
+            fi
+          done
+          echo "exists=${EXISTS}" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   publish:
     name: Publish
     needs: changelog
-    if: needs.changelog.outputs.hasChangesets == 'false'
+    if: needs.changelog.outputs.hasChangesets == 'false' && needs.changelog.outputs.releaseExists == 'false'
     runs-on: ubuntu-latest
     environment: publish
     permissions:
