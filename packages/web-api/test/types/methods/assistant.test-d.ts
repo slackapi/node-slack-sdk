@@ -46,6 +46,23 @@ expectAssignable<Parameters<typeof web.assistant.threads.setStatus>>([
     loading_messages: ['counting sheep...', 'moving bricks...'],
   },
 ]);
+expectAssignable<Parameters<typeof web.assistant.threads.setStatus>>([
+  {
+    channel_id: 'C1234',
+    thread_ts: '123.123',
+    status: 'counting...',
+    username: 'Abacus',
+    icon_emoji: 'abacus',
+  },
+]);
+expectAssignable<Parameters<typeof web.assistant.threads.setStatus>>([
+  {
+    channel_id: 'C1234',
+    thread_ts: '123.123',
+    status: 'dreaming...',
+    icon_url: 'https://example.com/clouds-square.png',
+  },
+]);
 
 // assistant.threads.setSuggestedPrompts
 // -- sad path
