@@ -32,7 +32,7 @@
     "build:clean": "shx rm -rf ./dist",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "prepack": "npm run build",
-    "test": "npm run build && cross-env SLACK_CLI_PATH=/doesnt/matter glob -c \"node --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test\" \"src/**/*.test.ts\"",
+    "test": "npm run build && cross-env SLACK_CLI_PATH=/doesnt/matter node --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/**/*.test.ts",
     "test:coverage": "npm run build && cross-env SLACK_CLI_PATH=/doesnt/matter node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/**/*.test.ts"
   },
   "dependencies": {
