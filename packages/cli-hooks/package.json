@@ -37,7 +37,7 @@
   "scripts": {
     "build": "shx chmod +x src/*.js",
     "prelint": "tsc --noemit --module es2022 --maxNodeModuleJsDepth 0 --project ./jsconfig.json",
-    "test": "node --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml --test src/*.test.js",
+    "test": "bash -c 'node --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml --test src/*.test.js'",
     "test:coverage": "node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --test src/*.test.js"
   },
   "bin": {
