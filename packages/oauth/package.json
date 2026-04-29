@@ -35,8 +35,8 @@
     "build:clean": "shx rm -rf ./dist",
     "docs": "npx typedoc --plugin typedoc-plugin-markdown",
     "prepack": "npm run build",
-    "test": "npm run build && node --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/callback-options.test.ts src/default-render-html-for-install-path.test.ts src/install-path-options.test.ts src/install-provider.test.ts src/install-provider-options.test.ts src/install-url-options.test.ts src/installation.test.ts src/installation-query.test.ts src/logger.test.ts src/installation-stores/file-store.test.ts src/installation-stores/memory-store.test.ts src/state-stores/clear-state-store.test.ts src/state-stores/file-state-store.test.ts",
-    "test:coverage": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/callback-options.test.ts src/default-render-html-for-install-path.test.ts src/install-path-options.test.ts src/install-provider.test.ts src/install-provider-options.test.ts src/install-url-options.test.ts src/installation.test.ts src/installation-query.test.ts src/logger.test.ts src/installation-stores/file-store.test.ts src/installation-stores/memory-store.test.ts src/state-stores/clear-state-store.test.ts src/state-stores/file-state-store.test.ts",
+    "test": "npm run build && bash -c 'node --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/**/*.test.ts'",
+    "test:coverage": "npm run build && node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --import tsx --test src/**/*.test.ts",
     "watch": "npx nodemon --watch 'src' --ext 'ts' --exec npm run build"
   },
   "dependencies": {
