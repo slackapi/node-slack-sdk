@@ -426,6 +426,10 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
           });
           await new Promise((res) => unresponsiveWsServer.listen(WSS_PORT, res));
           await client.start();
+          let closeCount = 0;
+          client.on('close', () => {
+            closeCount++;
+          });
           // Swap in a working WSS for the reconnection attempt
           client.on('reconnecting', () => {
             if (rawSocket) rawSocket.destroy();
@@ -440,6 +444,8 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
           });
           const reconnectedWaiter = new Promise((res) => client.on('connected', res));
           await reconnectedWaiter;
+          // The force-terminate should produce 1 close event per reconnection attempt
+          assert.strictEqual(closeCount, 1);
           await client.disconnect();
         });
         it('should reconnect if server does not respond with `pong` message within specified client ping timeout after initially responding with `pong`', async () => {
