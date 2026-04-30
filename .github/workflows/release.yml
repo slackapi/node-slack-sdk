@@ -32,6 +32,21 @@ jobs:
       - name: Install dependencies
         run: npm ci --verbose
 
+      - name: Build packages
+        run: |
+          # Build base dependencies
+          npm run build --workspace=@slack/logger
+          npm run build --workspace=@slack/types
+
+          # Build packages requiring base dependencies
+          npm run build --workspace=@slack/web-api
+          npm run build --workspace=@slack/webhook
+
+          # Build packages that depend on the Web API
+          npm run build --workspace=@slack/oauth
+          npm run build --workspace=@slack/rtm-api
+          npm run build --workspace=@slack/socket-mode
+
       - name: Create or update release PR
         id: changesets
         uses: changesets/action@6a0a831ff30acef54f2c6aa1cbbc1096b066edaf # v1.7.0

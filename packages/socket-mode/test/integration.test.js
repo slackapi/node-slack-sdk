@@ -405,6 +405,49 @@ describe('Integration tests with a WebSocket server', { timeout: 30000 }, () => 
           await reconnectedWaiter;
           await client.disconnect();
         });
+        it('should reconnect if server becomes completely unresponsive and does not respond to close frames', async () => {
+          wss.close();
+          // Use noServer mode so we get access to the raw socket via the upgrade event.
+          // After sending hello, we pause the socket to simulate a fully unresponsive server
+          // that won't respond to pings OR close frames.
+          wss = new WebSocketServer({ noServer: true, autoPong: false });
+          const unresponsiveWsServer = createServer();
+          let rawSocket = null;
+          unresponsiveWsServer.on('upgrade', (req, socket, head) => {
+            rawSocket = socket;
+            wss.handleUpgrade(req, socket, head, (ws) => {
+              ws.on('error', () => {});
+              ws.send(JSON.stringify({ type: 'hello' }));
+              exposed_ws_connection = ws;
+              // Make the server completely unresponsive: it won't process any incoming
+              // data, including ping frames and close frames.
+              socket.pause();
+            });
+          });
+          await new Promise((res) => unresponsiveWsServer.listen(WSS_PORT, res));
+          await client.start();
+          let closeCount = 0;
+          client.on('close', () => {
+            closeCount++;
+          });
+          // Swap in a working WSS for the reconnection attempt
+          client.on('reconnecting', () => {
+            if (rawSocket) rawSocket.destroy();
+            unresponsiveWsServer.close();
+            wss.close();
+            wss = new WebSocketServer({ port: WSS_PORT });
+            wss.on('connection', (ws) => {
+              ws.on('error', () => {});
+              ws.send(JSON.stringify({ type: 'hello' }));
+              exposed_ws_connection = ws;
+            });
+          });
+          const reconnectedWaiter = new Promise((res) => client.on('connected', res));
+          await reconnectedWaiter;
+          // The force-terminate should produce 1 close event per reconnection attempt
+          assert.strictEqual(closeCount, 1);
+          await client.disconnect();
+        });
         it('should reconnect if server does not respond with `pong` message within specified client ping timeout after initially responding with `pong`', async () => {
           wss.close();
           // override the web socket server so that it DOESNT auto-respond to ping messages with a pong, except for the first time
