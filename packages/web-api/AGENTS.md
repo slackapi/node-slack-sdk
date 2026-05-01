@@ -224,8 +224,7 @@ expectAssignable<Parameters<typeof web.chat.appendStream>>([
 ## Testing
 
 ```bash
-npm test --workspace=packages/web-api         # all tests
-npm run test:unit --workspace=packages/web-api # unit only
+npm test --workspace=packages/web-api           # all tests
 npm run test:types --workspace=packages/web-api # tsd only
 ```
 

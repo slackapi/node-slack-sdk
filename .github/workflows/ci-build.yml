@@ -6,6 +6,9 @@ on:
       - main
   pull_request:
 
+env:
+  LATEST_SUPPORTED_NODE: "24.x"
+
 jobs:
   test:
     timeout-minutes: 6
@@ -63,16 +66,16 @@ jobs:
       - name: Lint
         run: npm run lint
       - name: Build docs
+        if: matrix.node-version == env.LATEST_SUPPORTED_NODE
         run: npm run docs
-      - name: Run tests (Node 18/20)
-        if: matrix.node-version != '22.x' && matrix.node-version != '24.x'
-        # Node 18 lacks --test-reporter; Node 20 has coverage bugs. Use simpler script.
-        run: npm run test:node18 --workspaces --if-present
-      - name: Run tests (Node 22+)
-        if: matrix.node-version == '22.x' || matrix.node-version == '24.x'
+      - name: Run tests
+        if: matrix.node-version != env.LATEST_SUPPORTED_NODE
         run: npm test
+      - name: Run test coverage
+        if: matrix.node-version == env.LATEST_SUPPORTED_NODE
+        run: npm run test:coverage
       - name: Upload code coverage
-        if: matrix.node-version == '24.x' && matrix.os == 'ubuntu-latest'
+        if: matrix.node-version == env.LATEST_SUPPORTED_NODE && matrix.os == 'ubuntu-latest'
         uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
         with:
           fail_ci_if_error: true

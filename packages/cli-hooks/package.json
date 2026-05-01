@@ -37,9 +37,8 @@
   "scripts": {
     "build": "shx chmod +x src/*.js",
     "prelint": "tsc --noemit --module es2022 --maxNodeModuleJsDepth 0 --project ./jsconfig.json",
-    "test": "npm run test:unit",
-    "test:node18": "bash -c 'node --test --test-reporter=spec src/*.test.js'",
-    "test:unit": "node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --test src/*.test.js"
+    "test": "bash -c 'node --test-reporter=spec --test-reporter-destination=stdout --test-reporter=junit --test-reporter-destination=test-results.xml --test src/*.test.js'",
+    "test:coverage": "node --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info --test-reporter=junit --test-reporter-destination=test-results.xml --test src/*.test.js"
   },
   "bin": {
     "slack-cli-check-update": "src/check-update.js",

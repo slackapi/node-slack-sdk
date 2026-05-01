@@ -159,11 +159,16 @@ export class SlackWebSocket {
       if (this.closeFrameReceived) {
         this.logger.debug('Terminating WebSocket (close frame received).');
         this.terminate();
+      } else if (this.websocket.readyState === WebSocket.CLOSING) {
+        // A close frame was already sent but the peer hasn't responded. Force-terminate rather than
+        // waiting for the ws library's closeTimeout (~30s) while the ping monitor logs repeated warnings.
+        this.logger.debug('Terminating WebSocket (close frame sent but no response, force-terminating).');
+        this.terminate();
       } else {
         // If we haven't received a close frame yet, then we send one to the peer, expecting to receive a close frame
         // in response.
         this.logger.debug('Sending close frame (status=1000).');
-        this.websocket.close(1000); // send a close frame, 1000=Normal Closure
+        this.websocket.close(1000); // 1000 = Normal Closure
       }
     } else {
       this.logger.debug('WebSocket already disconnected, flushing remainder.');
