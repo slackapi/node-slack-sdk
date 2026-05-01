@@ -3,6 +3,7 @@ import type { AnyChunk } from '@slack/types';
 import type { ChatAppendStreamArguments, ChatStartStreamArguments, ChatStopStreamArguments } from './types/request';
 import type { ChatAppendStreamResponse, ChatStartStreamResponse, ChatStopStreamResponse } from './types/response';
 import type WebClient from './WebClient';
+import type { RequestOptions } from './WebClient';
 
 export interface ChatStreamerOptions {
   /**
@@ -10,13 +11,18 @@ export interface ChatStreamerOptions {
    * @default 256
    */
   buffer_size?: number;
+  /**
+   * @description Request options that apply to all internal API calls made by this streamer.
+   */
+  requestOptions?: RequestOptions;
 }
 
 export class ChatStreamer {
   private buffer = '';
   private client: WebClient;
   private logger: Logger;
-  private options: Required<ChatStreamerOptions>;
+  private options: Required<Pick<ChatStreamerOptions, 'buffer_size'>>;
+  private requestOptions: RequestOptions | undefined;
   private state: 'starting' | 'in_progress' | 'completed';
   private streamArgs: ChatStartStreamArguments;
   private streamTs: string | undefined;
@@ -50,6 +56,7 @@ export class ChatStreamer {
     this.options = {
       buffer_size: options.buffer_size ?? 256,
     };
+    this.requestOptions = options.requestOptions;
     this.state = 'starting';
     this.streamArgs = args;
   }
@@ -132,10 +139,13 @@ export class ChatStreamer {
       this.buffer += markdown_text;
     }
     if (!this.streamTs) {
-      const response = await this.client.chat.startStream({
-        ...this.streamArgs,
-        token: this.token,
-      });
+      const response = await this.client.chat.startStream(
+        {
+          ...this.streamArgs,
+          token: this.token,
+        },
+        this.requestOptions,
+      );
       if (!response.ts) {
         throw new Error('failed to stop stream: stream not started');
       }
@@ -152,13 +162,16 @@ export class ChatStreamer {
     if (chunks) {
       chunksToFlush.push(...chunks);
     }
-    const response = await this.client.chat.stopStream({
-      token: this.token,
-      channel: this.streamArgs.channel,
-      ts: this.streamTs,
-      chunks: chunksToFlush,
-      ...opts,
-    });
+    const response = await this.client.chat.stopStream(
+      {
+        token: this.token,
+        channel: this.streamArgs.channel,
+        ts: this.streamTs,
+        chunks: chunksToFlush,
+        ...opts,
+      },
+      this.requestOptions,
+    );
     this.state = 'completed';
     return response;
   }
@@ -178,24 +191,30 @@ export class ChatStreamer {
       chunksToFlush.push(...chunks);
     }
     if (!this.streamTs) {
-      const response = await this.client.chat.startStream({
-        ...this.streamArgs,
-        token: this.token,
-        chunks: chunksToFlush,
-        ...opts,
-      });
+      const response = await this.client.chat.startStream(
+        {
+          ...this.streamArgs,
+          token: this.token,
+          chunks: chunksToFlush,
+          ...opts,
+        },
+        this.requestOptions,
+      );
       this.buffer = '';
       this.streamTs = response.ts;
       this.state = 'in_progress';
       return response;
     }
-    const response = await this.client.chat.appendStream({
-      token: this.token,
-      channel: this.streamArgs.channel,
-      ts: this.streamTs,
-      chunks: chunksToFlush,
-      ...opts,
-    });
+    const response = await this.client.chat.appendStream(
+      {
+        token: this.token,
+        channel: this.streamArgs.channel,
+        ts: this.streamTs,
+        chunks: chunksToFlush,
+        ...opts,
+      },
+      this.requestOptions,
+    );
     this.buffer = '';
     return response;
   }

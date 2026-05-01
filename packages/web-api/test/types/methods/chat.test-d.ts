@@ -1,6 +1,6 @@
 import { CustomFieldType, type EntityMetadata } from '@slack/types';
 import { expectAssignable, expectError } from 'tsd';
-import { WebClient } from '../../../src/WebClient';
+import { type RequestOptions, WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
 
@@ -1137,4 +1137,14 @@ expectAssignable<Parameters<typeof web.chat.update>>([
     text: 'hello',
     reply_broadcast: true, // can broadcast a threaded msg
   },
+]);
+
+// RequestOptions can be passed as a second argument to any method
+expectAssignable<Parameters<typeof web.chat.postMessage>>([
+  { channel: 'C1234', text: 'hello' },
+  { signal: new AbortController().signal } satisfies RequestOptions,
+]);
+expectAssignable<Parameters<typeof web.chat.postMessage>>([
+  { channel: 'C1234', text: 'hello' },
+  { fetch: globalThis.fetch } satisfies RequestOptions,
 ]);

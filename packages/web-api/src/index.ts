@@ -22,10 +22,11 @@ export * from './types/response/index';
 export { ChatStreamer, ChatStreamerOptions } from './chat-stream';
 
 export {
+  FetchFunction,
   PageAccumulator,
   PageReducer,
   PaginatePredicate,
-  TLSOptions,
+  RequestOptions,
   WebAPICallResult,
   WebClient,
   WebClientEvent,

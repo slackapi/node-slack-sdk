@@ -1,10 +1,15 @@
-import type { Agent } from 'node:http';
-
 import type { Block, KnownBlock, MessageAttachment } from '@slack/types'; // TODO: Block and KnownBlock will be merged into AnyBlock in upcoming types release
-import axios, { type AxiosInstance, type AxiosResponse } from 'axios';
 
+import type { CodedError } from './errors';
 import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
 import { getUserAgent } from './instrument';
+
+export type FetchFunction = typeof globalThis.fetch;
+
+export interface RequestOptions {
+  fetch?: FetchFunction;
+  signal?: AbortSignal;
+}
 
 /**
  * A client for Slack's Incoming Webhooks
@@ -21,9 +26,19 @@ export class IncomingWebhook {
   private defaults: IncomingWebhookDefaultArguments;
 
   /**
-   * Axios HTTP client instance used by this client
+   * The fetch function used for HTTP requests
    */
-  private axios: AxiosInstance;
+  private fetchFn: FetchFunction;
+
+  /**
+   * Request timeout in milliseconds
+   */
+  private timeout: number;
+
+  /**
+   * Default headers sent with every request
+   */
+  private headers: Record<string, string>;
 
   public constructor(
     url: string,
@@ -36,29 +51,26 @@ export class IncomingWebhook {
     }
 
     this.url = url;
-    this.defaults = defaults;
+    this.fetchFn = defaults.fetch ?? globalThis.fetch;
+    this.timeout = defaults.timeout ?? 0;
+    this.headers = {
+      'User-Agent': getUserAgent(),
+    };
 
-    this.axios = axios.create({
-      baseURL: url,
-      httpAgent: defaults.agent,
-      httpsAgent: defaults.agent,
-      maxRedirects: 0,
-      proxy: false,
-      timeout: defaults.timeout,
-      headers: {
-        'User-Agent': getUserAgent(),
-      },
-    });
-
-    this.defaults.agent = undefined;
+    // Remove transport options so they don't leak into payloads
+    const { fetch: _fetch, timeout: _timeout, ...messageDefaults } = defaults;
+    this.defaults = messageDefaults;
   }
 
   /**
    * Send a notification to a conversation
    * @param message - the message (a simple string, or an object describing the message)
+   * @param options - optional request-level overrides (custom fetch, abort signal)
    */
-  public async send(message: string | IncomingWebhookSendArguments): Promise<IncomingWebhookResult> {
-    // NOTE: no support for TLS config
+  public async send(
+    message: string | IncomingWebhookSendArguments,
+    options?: RequestOptions,
+  ): Promise<IncomingWebhookResult> {
     let payload: IncomingWebhookSendArguments = { ...this.defaults };
 
     if (typeof message === 'string') {
@@ -67,28 +79,47 @@ export class IncomingWebhook {
       payload = Object.assign(payload, message);
     }
 
+    const effectiveFetch = options?.fetch ?? this.fetchFn;
+    const effectiveSignal = options?.signal;
+
+    const controller = new AbortController();
+    const timer = !effectiveSignal && this.timeout > 0 ? setTimeout(() => controller.abort(), this.timeout) : undefined;
+    const signal = effectiveSignal ?? (timer ? controller.signal : undefined);
+
     try {
-      const response = await this.axios.post(this.url, payload);
-      return this.buildResult(response);
-      // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
-    } catch (error: any) {
-      // Wrap errors in this packages own error types (abstract the implementation details' types)
-      if (error.response !== undefined) {
-        throw httpErrorWithOriginal(error);
+      const response = await effectiveFetch(this.url, {
+        method: 'POST',
+        headers: {
+          ...this.headers,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+        redirect: 'manual',
+        ...(signal ? { signal } : {}),
+      });
+
+      if (!response.ok) {
+        const body = await response.text();
+        throw httpErrorWithOriginal(response.status, body);
       }
-      if (error.request !== undefined) {
-        throw requestErrorWithOriginal(error);
+
+      return await this.buildResult(response);
+    } catch (error) {
+      if (error instanceof Error && 'code' in error && typeof (error as CodedError).code === 'string') {
+        throw error;
       }
-      throw error;
+      throw requestErrorWithOriginal(error instanceof Error ? error : new Error(String(error)));
+    } finally {
+      if (timer) clearTimeout(timer);
     }
   }
 
   /**
    * Processes an HTTP response into an IncomingWebhookResult.
    */
-  private buildResult(response: AxiosResponse): IncomingWebhookResult {
+  private async buildResult(response: Response): Promise<IncomingWebhookResult> {
     return {
-      text: response.data,
+      text: await response.text(),
     };
   }
 }
@@ -104,7 +135,7 @@ export interface IncomingWebhookDefaultArguments {
   channel?: string;
   text?: string;
   link_names?: boolean;
-  agent?: Agent;
+  fetch?: FetchFunction;
   timeout?: number;
 }
 
