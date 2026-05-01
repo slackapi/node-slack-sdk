@@ -21,7 +21,7 @@
     "dist/**/*"
   ],
   "engines": {
-    "node": ">= 18",
+    "node": ">= 20",
     "npm": ">= 8.6.0"
   },
   "repository": {
@@ -50,7 +50,7 @@
   "dependencies": {
     "@slack/logger": "^4.0.1",
     "@slack/types": "^2.20.1",
-    "@types/node": ">=18",
+    "@types/node": ">=20",
     "@types/retry": "0.12.0",
     "axios": "^1.15.0",
     "eventemitter3": "^5.0.1",

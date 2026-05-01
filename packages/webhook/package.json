@@ -18,7 +18,7 @@
     "dist/**/*"
   ],
   "engines": {
-    "node": ">= 18",
+    "node": ">= 20",
     "npm": ">= 8.6.0"
   },
   "repository": {
@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@slack/types": "^2.20.1",
-    "@types/node": ">=18",
+    "@types/node": ">=20",
     "axios": "^1.15.0"
   },
   "devDependencies": {
