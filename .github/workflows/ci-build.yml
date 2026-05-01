@@ -19,7 +19,6 @@ jobs:
           - "ubuntu-latest"
           - "windows-latest"
         node-version:
-          - "18.x"
           - "20.x"
           - "22.x"
           - "24.x"
@@ -68,19 +67,8 @@ jobs:
       - name: Build docs
         if: matrix.node-version == env.LATEST_SUPPORTED_NODE
         run: npm run docs
-      - name: Run tests (Node 18)
-        if: matrix.node-version == '18.x'
-        # @slack/web-api and @slack/webhook require Node >= 20.
-        run: |
-          npm test --workspace=@slack/cli-hooks
-          npm test --workspace=@slack/cli-test
-          npm test --workspace=@slack/logger
-          npm test --workspace=@slack/oauth
-          npm test --workspace=@slack/rtm-api
-          npm test --workspace=@slack/socket-mode
-          npm test --workspace=@slack/types
       - name: Run tests
-        if: matrix.node-version != env.LATEST_SUPPORTED_NODE && matrix.node-version != '18.x'
+        if: matrix.node-version != env.LATEST_SUPPORTED_NODE
         run: npm test
       - name: Run test coverage
         if: matrix.node-version == env.LATEST_SUPPORTED_NODE

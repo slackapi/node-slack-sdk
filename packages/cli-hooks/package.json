@@ -20,7 +20,7 @@
     "src/start.js"
   ],
   "engines": {
-    "node": ">= 18",
+    "node": ">= 20",
     "npm": ">= 8.6.0"
   },
   "repository": {
