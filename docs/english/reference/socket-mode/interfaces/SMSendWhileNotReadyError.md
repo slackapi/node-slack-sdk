@@ -2,7 +2,7 @@
 
 # Interface: SMSendWhileNotReadyError
 
-Defined in: [src/errors.ts:46](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L46)
+Defined in: [packages/socket-mode/src/errors.ts:46](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L46)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/errors.ts:46](https://github.com/slackapi/node-slack-sdk/blob/m
 code: SendWhileNotReadyError;
 ```
 
-Defined in: [src/errors.ts:47](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L47)
+Defined in: [packages/socket-mode/src/errors.ts:47](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L47)
 
 #### Overrides
 

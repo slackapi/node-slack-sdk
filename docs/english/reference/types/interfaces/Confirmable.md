@@ -10,6 +10,7 @@ Defined in: [block-kit/extensions.ts:20](https://github.com/slackapi/node-slack-
 - [`Checkboxes`](Checkboxes.md)
 - [`Datepicker`](Datepicker.md)
 - [`DateTimepicker`](DateTimepicker.md)
+- [`IconButton`](IconButton.md)
 - [`UsersSelect`](UsersSelect.md)
 - [`MultiUsersSelect`](MultiUsersSelect.md)
 - [`StaticSelect`](StaticSelect.md)

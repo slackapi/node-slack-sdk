@@ -127,6 +127,7 @@ export type {
   AppsManifestUpdateArguments,
   AppsManifestValidateArguments,
   AppsUninstallArguments,
+  AppsUserConnectionUpdateArguments,
 } from './apps';
 export type {
   AssistantThreadsSetStatusArguments,
@@ -163,6 +164,7 @@ export type {
   ConversationsCanvasesCreateArguments,
 } from './canvas';
 export type {
+  ChatAppendStreamArguments,
   ChatDeleteArguments,
   ChatDeleteScheduledMessageArguments,
   ChatGetPermalinkArguments,
@@ -171,6 +173,8 @@ export type {
   ChatPostMessageArguments,
   ChatScheduledMessagesListArguments,
   ChatScheduleMessageArguments,
+  ChatStartStreamArguments,
+  ChatStopStreamArguments,
   ChatUnfurlArguments,
   ChatUpdateArguments,
 } from './chat';
@@ -212,6 +216,7 @@ export type {
   DndTeamInfoArguments,
 } from './dnd';
 export type { EmojiListArguments } from './emoji';
+export type { EntityPresentDetailsArguments } from './entity';
 export type {
   FilesCommentsDeleteArguments,
   FilesCompleteUploadExternalArguments,
@@ -271,6 +276,20 @@ export type {
   SearchFilesArguments,
   SearchMessagesArguments,
 } from './search';
+export type {
+  SlackListsAccessDeleteArguments,
+  SlackListsAccessSetArguments,
+  SlackListsCreateArguments,
+  SlackListsDownloadGetArguments,
+  SlackListsDownloadStartArguments,
+  SlackListsItemsCreateArguments,
+  SlackListsItemsDeleteArguments,
+  SlackListsItemsDeleteMultipleArguments,
+  SlackListsItemsInfoArguments,
+  SlackListsItemsListArguments,
+  SlackListsItemsUpdateArguments,
+  SlackListsUpdateArguments,
+} from './slackLists';
 export type {
   StarsAddRemoveArguments,
   StarsListArguments,

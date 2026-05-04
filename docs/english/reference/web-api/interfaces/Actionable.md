@@ -2,7 +2,7 @@
 
 # ~~Interface: Actionable~~
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:14
+Defined in: packages/types/dist/block-kit/extensions.d.ts:14
 
 ## Deprecated
 
@@ -19,7 +19,9 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:14
 - [`Datepicker`](Datepicker.md)
 - [`DateTimepicker`](DateTimepicker.md)
 - [`EmailInput`](EmailInput.md)
+- [`FeedbackButtons`](FeedbackButtons.md)
 - [`FileInput`](FileInput.md)
+- [`IconButton`](IconButton.md)
 - [`UsersSelect`](UsersSelect.md)
 - [`MultiUsersSelect`](MultiUsersSelect.md)
 - [`StaticSelect`](StaticSelect.md)
@@ -46,10 +48,10 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:14
 optional action_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads). Should be unique
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
 among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
 
 #### Inherited from
@@ -64,7 +66,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 type: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:6
+Defined in: packages/types/dist/block-kit/extensions.d.ts:6
 
 #### Inherited from
 

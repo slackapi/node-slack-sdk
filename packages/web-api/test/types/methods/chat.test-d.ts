@@ -1,8 +1,55 @@
+import { CustomFieldType, type EntityMetadata } from '@slack/types';
 import { expectAssignable, expectError } from 'tsd';
-
 import { WebClient } from '../../../src/WebClient';
 
 const web = new WebClient('TOKEN');
+
+// chat.appendStream
+// -- sad path
+expectError(web.chat.appendStream()); // lacking argument
+expectError(web.chat.appendStream({})); // empty argument
+expectError(
+  web.chat.appendStream({
+    channel: 'C1234', // missing ts and markdown_text
+  }),
+);
+expectError(
+  web.chat.appendStream({
+    ts: '1234.56', // missing channel
+  }),
+);
+
+// -- happy path
+expectAssignable<Parameters<typeof web.chat.appendStream>>([
+  {
+    channel: 'C1234',
+    ts: '1234.56',
+    markdown_text: 'hello',
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.appendStream>>([
+  {
+    channel: 'C1234',
+    ts: '1234.56',
+    chunks: [
+      {
+        type: 'markdown_text',
+        text: 'Hello world',
+      },
+      {
+        type: 'plan_update',
+        title: 'Analyzing request',
+      },
+      {
+        type: 'task_update',
+        id: 'task-1',
+        title: 'Processing request',
+        status: 'in_progress',
+        details: 'Working on it...',
+      },
+    ],
+  },
+]);
 
 // chat.delete
 // -- sad path
@@ -412,6 +459,25 @@ expectAssignable<Parameters<typeof web.chat.postMessage>>([
     reply_broadcast: false, // can send a threaded message and explicitly not broadcast it
   },
 ]);
+expectAssignable<Parameters<typeof web.chat.postMessage>>([
+  {
+    channel: 'C1234',
+    text: 'hello',
+    thread_ts: '1234.56',
+    metadata: {
+      entities: [
+        {
+          entity_type: 'slack#/entities/file',
+          entity_payload: {
+            attributes: { title: { text: 'My File' } },
+          },
+          external_ref: { id: '' },
+          url: '',
+        },
+      ],
+    },
+  },
+]);
 // adding a test for when `reply_broadcast` specific boolean value is not known ahead of time
 // https://github.com/slackapi/node-slack-sdk/issues/1859
 function wideBooleanTest(b: boolean) {
@@ -426,6 +492,141 @@ function wideBooleanTest(b: boolean) {
 }
 wideBooleanTest(true);
 wideBooleanTest(false);
+
+// TaskCardBlock with all properties
+expectAssignable<Parameters<typeof web.chat.postMessage>>([
+  {
+    channel: 'C1234',
+    text: 'fallback',
+    blocks: [
+      {
+        type: 'task_card',
+        task_id: '000',
+        title: 'Living life well...',
+        status: 'error',
+        details: {
+          type: 'rich_text',
+          elements: [
+            {
+              type: 'rich_text_section',
+              elements: [
+                {
+                  type: 'text',
+                  text: 'Dreamt of touching grass',
+                },
+              ],
+            },
+          ],
+        },
+        sources: [
+          {
+            type: 'url',
+            text: 'An online encyclopedia',
+            url: 'https://wikipedia.org',
+          },
+        ],
+        output: {
+          type: 'rich_text',
+          elements: [
+            {
+              type: 'rich_text_section',
+              elements: [
+                {
+                  type: 'text',
+                  text: 'Good things once happened',
+                },
+              ],
+            },
+          ],
+        },
+      },
+    ],
+  },
+]);
+
+// TaskCardBlock with minimal required properties
+expectAssignable<Parameters<typeof web.chat.postMessage>>([
+  {
+    channel: 'C1234',
+    text: 'fallback',
+    blocks: [
+      {
+        type: 'task_card',
+        task_id: 'task-123',
+        title: 'Simple task',
+        status: 'pending',
+      },
+    ],
+  },
+]);
+
+// PlanUpdateBlock with nested TaskCardBlocks
+expectAssignable<Parameters<typeof web.chat.postMessage>>([
+  {
+    channel: 'C1234',
+    text: 'fallback',
+    blocks: [
+      {
+        type: 'plan',
+        title: 'My execution plan',
+        tasks: [
+          {
+            type: 'task_card',
+            task_id: 'task-1',
+            title: 'First task',
+            status: 'complete',
+          },
+          {
+            type: 'task_card',
+            task_id: 'task-2',
+            title: 'Second task',
+            status: 'in_progress',
+            details: {
+              type: 'rich_text',
+              elements: [
+                {
+                  type: 'rich_text_section',
+                  elements: [
+                    {
+                      type: 'text',
+                      text: 'Working on this...',
+                    },
+                  ],
+                },
+              ],
+            },
+            sources: [
+              {
+                type: 'url',
+                url: 'https://example.com/docs',
+                text: 'Documentation',
+              },
+              {
+                type: 'url',
+                url: 'https://example.com/api',
+                text: 'API Reference',
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+]);
+
+// PlanUpdateBlock with minimal required properties
+expectAssignable<Parameters<typeof web.chat.postMessage>>([
+  {
+    channel: 'C1234',
+    text: 'fallback',
+    blocks: [
+      {
+        type: 'plan',
+        title: 'Empty plan',
+      },
+    ],
+  },
+]);
 
 // chat.scheduleMessage
 // -- sad path
@@ -555,6 +756,164 @@ expectAssignable<Parameters<typeof web.chat.scheduleMessage>>([
 expectAssignable<Parameters<typeof web.chat.scheduledMessages.list>>([{}]); // all optional args
 expectAssignable<Parameters<typeof web.chat.scheduledMessages.list>>([]); // no arg is fine
 
+// chat.startStream
+// -- sad path
+expectError(web.chat.startStream()); // lacking argument
+expectError(web.chat.startStream({})); // empty argument
+expectError(
+  web.chat.startStream({
+    channel: 'C1234', // missing thread_ts
+  }),
+);
+expectError(
+  web.chat.startStream({
+    thread_ts: '1234.56', // missing channel
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.chat.startStream>>([
+  {
+    channel: 'C1234',
+    thread_ts: '1234.56',
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.startStream>>([
+  {
+    channel: 'C1234',
+    thread_ts: '1234.56',
+    markdown_text: 'hello',
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.startStream>>([
+  {
+    channel: 'C1234',
+    thread_ts: '1234.56',
+    chunks: [
+      {
+        type: 'markdown_text',
+        text: 'Hello world',
+      },
+      {
+        type: 'plan_update',
+        title: 'Analyzing request',
+      },
+      {
+        type: 'task_update',
+        id: 'task-1',
+        title: 'Processing request',
+        status: 'in_progress',
+        details: 'Working on it...',
+      },
+    ],
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.startStream>>([
+  {
+    channel: 'C1234',
+    thread_ts: '1234.56',
+    chunks: [
+      {
+        type: 'markdown_text',
+        text: 'Hello world',
+      },
+      {
+        type: 'plan_update',
+        title: 'Analyzing request',
+      },
+      {
+        type: 'task_update',
+        id: 'task-1',
+        title: 'Processing request',
+        status: 'in_progress',
+        details: 'Working on it...',
+      },
+    ],
+    recipient_team_id: 'T1234',
+    recipient_user_id: 'U1234',
+  },
+]);
+
+expectAssignable<Parameters<typeof web.chat.startStream>>([
+  {
+    channel: 'C1234',
+    thread_ts: '1234.56',
+    chunks: [
+      {
+        type: 'markdown_text',
+        text: 'Hello world',
+      },
+      {
+        type: 'plan_update',
+        title: 'Hello world',
+      },
+      {
+        type: 'task_update',
+        id: 'task-1',
+        title: 'Processing request',
+        status: 'in_progress',
+        details: 'Working on it...',
+      },
+    ],
+    recipient_team_id: 'T1234',
+    recipient_user_id: 'U1234',
+    task_display_mode: 'timeline', // Expect to be supported
+  },
+]);
+
+// chat.stopStream
+// -- sad path
+expectError(web.chat.stopStream()); // lacking argument
+expectError(web.chat.stopStream({})); // empty argument
+expectError(
+  web.chat.stopStream({
+    channel: 'C1234', // missing ts
+  }),
+);
+expectError(
+  web.chat.stopStream({
+    ts: '1234.56', // missing channel
+  }),
+);
+// -- happy path
+expectAssignable<Parameters<typeof web.chat.stopStream>>([
+  {
+    channel: 'C1234',
+    ts: '1234.56',
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.stopStream>>([
+  {
+    channel: 'C1234',
+    ts: '1234.56',
+    markdown_text: 'hello',
+    blocks: [],
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.stopStream>>([
+  {
+    channel: 'C1234',
+    ts: '1234.56',
+    chunks: [
+      {
+        type: 'markdown_text',
+        text: 'Hello world',
+      },
+      {
+        type: 'plan_update',
+        title: 'Analyzing request',
+      },
+      {
+        type: 'task_update',
+        id: 'task-1',
+        title: 'Processing request',
+        status: 'in_progress',
+        details: 'Working on it...',
+      },
+    ],
+    blocks: [],
+  },
+]);
+
 // chat.unfurl
 // -- sad path
 expectError(web.chat.unfurl()); // lacking argument
@@ -566,7 +925,7 @@ expectError(
 );
 expectError(
   web.chat.unfurl({
-    channel: 'C1234', // missing unfurls
+    channel: 'C1234', // missing both unfurls and metadata
     ts: '1234.56',
   }),
 );
@@ -618,6 +977,45 @@ expectAssignable<Parameters<typeof web.chat.unfurl>>([
     unfurls: {},
     channel: 'C1234',
     ts: '1234.56',
+  },
+]);
+const entityMetadata: EntityMetadata = {
+  entity_type: 'slack#/entities/task',
+  entity_payload: {
+    attributes: {
+      title: {
+        text: 'Important task',
+      },
+    },
+    fields: {
+      status: {
+        value: 'All clear',
+      },
+      description: {
+        value: 'Details of the task.',
+      },
+    },
+    custom_fields: [
+      {
+        label: 'My Field',
+        key: 'my-field',
+        type: CustomFieldType.Array,
+        item_type: 'slack#/types/channel_id',
+        value: [{ value: 'C0123ABC' }],
+      },
+    ],
+  },
+  external_ref: { id: '1234' },
+  url: 'https://myappdomain.com/id/1234',
+  app_unfurl_url: 'https://myappdomain.com/id/1234?myquery=param',
+};
+expectAssignable<Parameters<typeof web.chat.unfurl>>([
+  {
+    channel: 'C1234',
+    ts: '1234.56',
+    metadata: {
+      entities: [entityMetadata],
+    },
   },
 ]);
 

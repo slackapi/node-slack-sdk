@@ -2,7 +2,7 @@
 
 # Enumeration: ErrorCode
 
-Defined in: [src/errors.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L11)
+Defined in: [packages/socket-mode/src/errors.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L11)
 
 A dictionary of codes for errors produced by this package
 
@@ -14,7 +14,7 @@ A dictionary of codes for errors produced by this package
 InitializationError: "slack_socket_mode_initialization_error";
 ```
 
-Defined in: [src/errors.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L17)
+Defined in: [packages/socket-mode/src/errors.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L17)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [src/errors.ts:17](https://github.com/slackapi/node-slack-sdk/blob/m
 NoReplyReceivedError: "slack_socket_mode_no_reply_received_error";
 ```
 
-Defined in: [src/errors.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L16)
+Defined in: [packages/socket-mode/src/errors.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L16)
 
 ***
 
@@ -34,7 +34,7 @@ Defined in: [src/errors.ts:16](https://github.com/slackapi/node-slack-sdk/blob/m
 SendMessagePlatformError: "slack_socket_mode_send_message_platform_error";
 ```
 
-Defined in: [src/errors.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L14)
+Defined in: [packages/socket-mode/src/errors.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L14)
 
 ***
 
@@ -44,7 +44,7 @@ Defined in: [src/errors.ts:14](https://github.com/slackapi/node-slack-sdk/blob/m
 SendWhileDisconnectedError: "slack_socket_mode_send_while_disconnected_error";
 ```
 
-Defined in: [src/errors.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L12)
+Defined in: [packages/socket-mode/src/errors.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L12)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [src/errors.ts:12](https://github.com/slackapi/node-slack-sdk/blob/m
 SendWhileNotReadyError: "slack_socket_mode_send_while_not_ready_error";
 ```
 
-Defined in: [src/errors.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L13)
+Defined in: [packages/socket-mode/src/errors.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L13)
 
 ***
 
@@ -64,4 +64,4 @@ Defined in: [src/errors.ts:13](https://github.com/slackapi/node-slack-sdk/blob/m
 WebsocketError: "slack_socket_mode_websocket_error";
 ```
 
-Defined in: [src/errors.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L15)
+Defined in: [packages/socket-mode/src/errors.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L15)

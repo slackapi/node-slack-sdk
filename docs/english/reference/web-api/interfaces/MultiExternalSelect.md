@@ -2,7 +2,7 @@
 
 # Interface: MultiExternalSelect
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:385
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:465
 
 ## Description
 
@@ -10,8 +10,8 @@ This menu will load its options from an external data source, allowing for a dyn
 
 ## See
 
- - [Multi-select menu of external data source reference](https://api.slack.com/reference/block-kit/block-elements#external_multi_select).
- - [This is an interactive component - see our guide to enabling interactivity](https://api.slack.com/interactivity/handling).
+ - [Multi-select menu of external data source reference](https://docs.slack.dev/reference/block-kit/block-elements/multi-select-menu-element#external_multi_select).
+ - [This is an interactive component - see our guide to enabling interactivity](https://docs.slack.dev/interactivity/handling-user-interaction).
 
 ## Extends
 
@@ -25,10 +25,10 @@ This menu will load its options from an external data source, allowing for a dyn
 optional action_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads). Should be unique
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
 among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
 
 #### Inherited from
@@ -43,7 +43,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 optional confirm: ConfirmationDialog;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
+Defined in: packages/types/dist/block-kit/extensions.d.ts:21
 
 #### Description
 
@@ -62,12 +62,12 @@ with.
 optional focus_on_load: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
+Defined in: packages/types/dist/block-kit/extensions.d.ts:36
 
 #### Description
 
 Indicates whether the element will be set to auto focus within the
-[\`view\` object](https://api.slack.com/reference/surfaces/views). Only one element can be set to `true`.
+[\`view\` object](https://docs.slack.dev/surfaces/modals). Only one element can be set to `true`.
 Defaults to `false`.
 
 #### Inherited from
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_options: PlainTextOption[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:393
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:473
 
 #### Description
 
@@ -96,7 +96,7 @@ An array of options to be selected when the menu initially loads.
 optional max_selected_items: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:42
+Defined in: packages/types/dist/block-kit/extensions.d.ts:42
 
 #### Description
 
@@ -114,7 +114,7 @@ Specifies the maximum number of items that can be selected. Minimum number is 1.
 optional min_query_length: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:399
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:479
 
 #### Description
 
@@ -130,7 +130,7 @@ of typed characters required before dispatch. The default value is `3`.
 optional placeholder: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:49
+Defined in: packages/types/dist/block-kit/extensions.d.ts:49
 
 #### Description
 
@@ -149,7 +149,7 @@ length for the `text` field in this object is 150 characters.
 type: "multi_external_select";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:389
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:469
 
 #### Description
 

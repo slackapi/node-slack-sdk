@@ -26,13 +26,23 @@ Defined in: [events/member.ts:5](https://github.com/slackapi/node-slack-sdk/blob
 
 ***
 
+### enterprise?
+
+```ts
+optional enterprise: string;
+```
+
+Defined in: [events/member.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L8)
+
+***
+
 ### event\_ts
 
 ```ts
 event_ts: string;
 ```
 
-Defined in: [events/member.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L8)
+Defined in: [events/member.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L9)
 
 ***
 

@@ -2,7 +2,7 @@
 
 # Interface: MessageMetadataEventPayloadObject
 
-Defined in: [message-metadata.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L20)
+Defined in: [message-metadata.ts:26](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/message-metadata.ts#L26)
 
 ## Indexable
 

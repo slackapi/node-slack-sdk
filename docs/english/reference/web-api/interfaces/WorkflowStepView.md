@@ -2,13 +2,13 @@
 
 # ~~Interface: WorkflowStepView~~
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:61
+Defined in: packages/types/dist/views.d.ts:61
 
-[Configuration modal](https://api.slack.com/legacy/workflows/steps#handle_config_view) for [legacy Workflow Steps from Apps](https://api.slack.com/legacy/workflows/steps).
+[modal](https://docs.slack.dev/legacy/legacy-steps-from-appsConfiguration) for [legacy Workflow Steps from Apps](https://docs.slack.dev/legacy/legacy-steps-from-apps).
 
 ## Deprecated
 
-Steps from Apps are deprecated and will no longer be executed starting September 12, 2024. For more information, see our [deprecation announcement](https://api.slack.com/changelog/2023-08-workflow-steps-from-apps-step-back).
+Steps from Apps are deprecated and will no longer be executed starting September 12, 2024. For more information, see our [deprecation announcement](https://docs.slack.dev/changelog/2023-08-workflow-steps-from-apps-step-back).
 
 ## Extends
 
@@ -22,7 +22,7 @@ Steps from Apps are deprecated and will no longer be executed starting September
 blocks: AnyBlock[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:5
+Defined in: packages/types/dist/views.d.ts:5
 
 #### Description
 
@@ -42,7 +42,7 @@ BaseView.blocks
 optional callback_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:18
+Defined in: packages/types/dist/views.d.ts:18
 
 #### Description
 
@@ -51,7 +51,7 @@ store sensitive information (use `private_metadata` instead). Maximum length of 
 
 #### See
 
-[Handling and responding to interactions](https://api.slack.com/surfaces/modals#interactions).
+[Handling and responding to interactions](https://docs.slack.dev/surfaces/modals#interactions).
 
 #### Inherited from
 
@@ -67,7 +67,7 @@ BaseView.callback_id
 optional external_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:20
+Defined in: packages/types/dist/views.d.ts:20
 
 #### Description
 
@@ -87,13 +87,13 @@ BaseView.external_id
 optional private_metadata: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:12
+Defined in: packages/types/dist/views.d.ts:12
 
 #### Description
 
 String that will be sent to your app in
-[\`view\_submission\`](https://api.slack.com/reference/interaction-payloads/views#view_submission) and
-[\`block\_actions\`](https://api.slack.com/reference/interaction-payloads/block-actions) events.
+[\`view\_submission\`](https://docs.slack.dev/reference/interaction-payloads/view-interactions-payload#view_submission) and
+[\`block\_actions\`](https://docs.slack.dev/reference/interaction-payloads/block_actions-payload) events.
 Maximum length of 3000 characters.
 
 #### Inherited from
@@ -110,7 +110,7 @@ BaseView.private_metadata
 optional submit_disabled: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:67
+Defined in: packages/types/dist/views.d.ts:67
 
 #### Description
 
@@ -125,4 +125,4 @@ Defaults to `false`.
 type: "workflow_step";
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:62
+Defined in: packages/types/dist/views.d.ts:62

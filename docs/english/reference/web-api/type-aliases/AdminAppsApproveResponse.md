@@ -6,9 +6,9 @@
 type AdminAppsApproveResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/AdminAppsApproveResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAppsApproveResponse.ts#L11)
+Defined in: [packages/web-api/src/types/response/AdminAppsApproveResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAppsApproveResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### error?
 

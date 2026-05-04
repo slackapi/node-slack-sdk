@@ -54,16 +54,16 @@
   {
     "type": "link",
     "label": "Release notes",
-    "href": "https://github.com/SlackAPI/tools/node-slack-sdk/releases"
+    "href": "https://github.com/slackapi/node-slack-sdk/releases"
   },
   {
     "type": "link",
     "label": "Code on GitHub",
-    "href": "https://github.com/SlackAPI/tools/node-slack-sdk"
+    "href": "https://github.com/slackapi/node-slack-sdk"
   },
   {
     "type": "link",
     "label": "Contributors Guide",
-    "href": "https://github.com/SlackAPI/tools/node-slack-sdk/blob/main/.github/contributing.md"
+    "href": "https://github.com/slackapi/node-slack-sdk/blob/main/.github/contributing.md"
   }
 ]

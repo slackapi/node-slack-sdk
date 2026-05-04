@@ -2,7 +2,7 @@
 
 # Interface: UserProfileChangedEvent
 
-Defined in: [events/user.ts:167](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L167)
+Defined in: [events/user.ts:168](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L168)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [events/user.ts:167](https://github.com/slackapi/node-slack-sdk/blob
 cache_ts: number;
 ```
 
-Defined in: [events/user.ts:245](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L245)
+Defined in: [events/user.ts:246](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L246)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [events/user.ts:245](https://github.com/slackapi/node-slack-sdk/blob
 event_ts: string;
 ```
 
-Defined in: [events/user.ts:246](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L246)
+Defined in: [events/user.ts:247](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L247)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [events/user.ts:246](https://github.com/slackapi/node-slack-sdk/blob
 type: "user_profile_changed";
 ```
 
-Defined in: [events/user.ts:168](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L168)
+Defined in: [events/user.ts:169](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L169)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [events/user.ts:168](https://github.com/slackapi/node-slack-sdk/blob
 user: object;
 ```
 
-Defined in: [events/user.ts:169](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L169)
+Defined in: [events/user.ts:170](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/user.ts#L170)
 
 #### color
 
@@ -234,11 +234,11 @@ optional email: string;
 
 ```ts
 fields: 
-  | null
   | []
   | {
 [key: string]: object;
-};
+}
+  | null;
 ```
 
 ##### profile.first\_name

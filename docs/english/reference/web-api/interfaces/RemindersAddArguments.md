@@ -2,7 +2,7 @@
 
 # Interface: RemindersAddArguments
 
-Defined in: [src/types/request/reminders.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reminders.ts#L17)
+Defined in: [packages/web-api/src/types/request/reminders.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reminders.ts#L17)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/reminders.ts:17](https://github.com/slackapi/node
 optional recurrence: ReminderRecurrence;
 ```
 
-Defined in: [src/types/request/reminders.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reminders.ts#L37)
+Defined in: [packages/web-api/src/types/request/reminders.ts:37](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reminders.ts#L37)
 
 #### Description
 
@@ -31,7 +31,7 @@ you must also set the `weekdays` array to specify which days of the week to recu
 optional team_id: string;
 ```
 
-Defined in: [src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
+Defined in: [packages/web-api/src/types/request/common.ts:70](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L70)
 
 #### Description
 
@@ -51,7 +51,7 @@ OptionalTeamAssignable.team_id
 text: string;
 ```
 
-Defined in: [src/types/request/reminders.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reminders.ts#L19)
+Defined in: [packages/web-api/src/types/request/reminders.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reminders.ts#L19)
 
 #### Description
 
@@ -65,7 +65,7 @@ The content of the reminder.
 time: string | number;
 ```
 
-Defined in: [src/types/request/reminders.ts:26](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reminders.ts#L26)
+Defined in: [packages/web-api/src/types/request/reminders.ts:26](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reminders.ts#L26)
 
 #### Description
 
@@ -82,7 +82,7 @@ When this reminder should happen, one of:
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 
@@ -102,7 +102,7 @@ TokenOverridable.token
 optional user: string;
 ```
 
-Defined in: [src/types/request/reminders.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reminders.ts#L32)
+Defined in: [packages/web-api/src/types/request/reminders.ts:32](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/reminders.ts#L32)
 
 #### Description
 

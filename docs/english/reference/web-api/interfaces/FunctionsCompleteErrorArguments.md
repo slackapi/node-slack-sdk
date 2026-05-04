@@ -2,7 +2,7 @@
 
 # Interface: FunctionsCompleteErrorArguments
 
-Defined in: [src/types/request/functions.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/functions.ts#L8)
+Defined in: [packages/web-api/src/types/request/functions.ts:8](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/functions.ts#L8)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/types/request/functions.ts:8](https://github.com/slackapi/node-
 error: string;
 ```
 
-Defined in: [src/types/request/functions.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/functions.ts#L9)
+Defined in: [packages/web-api/src/types/request/functions.ts:9](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/functions.ts#L9)
 
 ***
 
@@ -26,7 +26,7 @@ Defined in: [src/types/request/functions.ts:9](https://github.com/slackapi/node-
 function_execution_id: string;
 ```
 
-Defined in: [src/types/request/functions.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/functions.ts#L4)
+Defined in: [packages/web-api/src/types/request/functions.ts:4](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/functions.ts#L4)
 
 #### Inherited from
 
@@ -42,7 +42,7 @@ ExecutionID.function_execution_id
 optional token: string;
 ```
 
-Defined in: [src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
+Defined in: [packages/web-api/src/types/request/common.ts:43](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/common.ts#L43)
 
 #### Description
 

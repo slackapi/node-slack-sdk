@@ -6,9 +6,9 @@
 type FilesDeleteResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/FilesDeleteResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/FilesDeleteResponse.ts#L11)
+Defined in: [packages/web-api/src/types/response/FilesDeleteResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/FilesDeleteResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### error?
 

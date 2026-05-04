@@ -6,6 +6,7 @@
 type KnownBlock = 
   | ActionsBlock
   | ContextBlock
+  | ContextActionsBlock
   | DividerBlock
   | FileBlock
   | HeaderBlock
@@ -14,10 +15,13 @@ type KnownBlock =
   | MarkdownBlock
   | RichTextBlock
   | SectionBlock
+  | TableBlock
+  | TaskCardBlock
+  | PlanBlock
   | VideoBlock;
 ```
 
-Defined in: [block-kit/blocks.ts:46](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L46)
+Defined in: [block-kit/blocks.ts:55](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L55)
 
 A helper union type of all known Blocks, as listed out on the
 [Blocks reference](https://docs.slack.dev/reference/block-kit/blocks).

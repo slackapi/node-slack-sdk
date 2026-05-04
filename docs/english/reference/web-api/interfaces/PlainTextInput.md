@@ -2,7 +2,7 @@
 
 # Interface: PlainTextInput
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:454
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:534
 
 ## Description
 
@@ -10,8 +10,8 @@ Allows users to enter freeform text data into a single-line or multi-line field.
 
 ## See
 
- - [Plain-text input element reference](https://api.slack.com/reference/block-kit/block-elements#input).
- - [This is an interactive component - see our guide to enabling interactivity](https://api.slack.com/interactivity/handling).
+ - [Plain-text input element reference](https://docs.slack.dev/reference/block-kit/block-elements/plain-text-input-element).
+ - [This is an interactive component - see our guide to enabling interactivity](https://docs.slack.dev/interactivity/handling-user-interaction).
 
 ## Extends
 
@@ -25,10 +25,10 @@ Allows users to enter freeform text data into a single-line or multi-line field.
 optional action_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads). Should be unique
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
 among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
 
 #### Inherited from
@@ -43,12 +43,12 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 optional dispatch_action_config: DispatchActionConfig;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:28
+Defined in: packages/types/dist/block-kit/extensions.d.ts:28
 
 #### Description
 
 A [DispatchActionConfig](DispatchActionConfig.md) object that determines when during text input the element returns a
-[\`block\_actions\` payload](https://api.slack.com/reference/interaction-payloads/block-actions).
+[\`block\_actions\` payload](https://docs.slack.dev/reference/interaction-payloads/block_actions-payload).
 
 #### Inherited from
 
@@ -62,12 +62,12 @@ A [DispatchActionConfig](DispatchActionConfig.md) object that determines when du
 optional focus_on_load: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
+Defined in: packages/types/dist/block-kit/extensions.d.ts:36
 
 #### Description
 
 Indicates whether the element will be set to auto focus within the
-[\`view\` object](https://api.slack.com/reference/surfaces/views). Only one element can be set to `true`.
+[\`view\` object](https://docs.slack.dev/surfaces/modals). Only one element can be set to `true`.
 Defaults to `false`.
 
 #### Inherited from
@@ -82,7 +82,7 @@ Defaults to `false`.
 optional initial_value: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:462
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:542
 
 #### Description
 
@@ -96,7 +96,7 @@ The initial value in the plain-text input when it is loaded.
 optional max_length: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:477
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:557
 
 #### Description
 
@@ -111,7 +111,7 @@ they will receive an error.
 optional min_length: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:472
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:552
 
 #### Description
 
@@ -126,7 +126,7 @@ an error. Maximum value is 3000.
 optional multiline: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:467
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:547
 
 #### Description
 
@@ -141,7 +141,7 @@ Defaults to `false`.
 optional placeholder: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:49
+Defined in: packages/types/dist/block-kit/extensions.d.ts:49
 
 #### Description
 
@@ -160,7 +160,7 @@ length for the `text` field in this object is 150 characters.
 type: "plain_text_input";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:458
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:538
 
 #### Description
 

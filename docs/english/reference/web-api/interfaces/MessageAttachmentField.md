@@ -2,7 +2,7 @@
 
 # Interface: MessageAttachmentField
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:115
+Defined in: packages/types/dist/message-attachments.d.ts:115
 
 ## Description
 
@@ -10,7 +10,7 @@ A field object to include in a [MessageAttachment](MessageAttachment.md).
 
 ## See
 
-[Field objects reference](https://api.slack.com/reference/messaging/attachments#field_objects).
+[Field objects reference](https://docs.slack.dev/messaging/formatting-message-text#attachments).
 
 ## Properties
 
@@ -20,7 +20,7 @@ A field object to include in a [MessageAttachment](MessageAttachment.md).
 optional short: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:129
+Defined in: packages/types/dist/message-attachments.d.ts:129
 
 #### Description
 
@@ -35,7 +35,7 @@ other field objects. Defaults to `false`.
 title: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:120
+Defined in: packages/types/dist/message-attachments.d.ts:120
 
 #### Description
 
@@ -50,8 +50,8 @@ will be escaped for you.
 value: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/message-attachments.d.ts:124
+Defined in: packages/types/dist/message-attachments.d.ts:124
 
 #### Description
 
-The text value displayed in the field object. It can be formatted as plain text, or with [\`mrkdwn\`](https://api.slack.com/reference/surfaces/formatting#basics) by using the `mrkdwn_in` option of [MessageAttachment](MessageAttachment.md).
+The text value displayed in the field object. It can be formatted as plain text, or with [\`mrkdwn\`](https://docs.slack.dev/messaging/formatting-message-text) by using the `mrkdwn_in` option of [MessageAttachment](MessageAttachment.md).

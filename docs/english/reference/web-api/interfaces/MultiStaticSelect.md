@@ -2,7 +2,7 @@
 
 # Interface: MultiStaticSelect
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:242
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:322
 
 ## Description
 
@@ -11,8 +11,8 @@ element.
 
 ## See
 
- - [Multi-select menu of static options reference](https://api.slack.com/reference/block-kit/block-elements#static_multi_select).
- - [This is an interactive component - see our guide to enabling interactivity](https://api.slack.com/interactivity/handling).
+ - [Multi-select menu of static options reference](https://docs.slack.dev/reference/block-kit/block-elements/multi-select-menu-element#static_multi_select).
+ - [This is an interactive component - see our guide to enabling interactivity](https://docs.slack.dev/interactivity/handling-user-interaction).
 
 ## Extends
 
@@ -26,10 +26,10 @@ element.
 optional action_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads). Should be unique
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
 among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
 
 #### Inherited from
@@ -44,7 +44,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 optional confirm: ConfirmationDialog;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
+Defined in: packages/types/dist/block-kit/extensions.d.ts:21
 
 #### Description
 
@@ -63,12 +63,12 @@ with.
 optional focus_on_load: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
+Defined in: packages/types/dist/block-kit/extensions.d.ts:36
 
 #### Description
 
 Indicates whether the element will be set to auto focus within the
-[\`view\` object](https://api.slack.com/reference/surfaces/views). Only one element can be set to `true`.
+[\`view\` object](https://docs.slack.dev/surfaces/modals). Only one element can be set to `true`.
 Defaults to `false`.
 
 #### Inherited from
@@ -83,7 +83,7 @@ Defaults to `false`.
 optional initial_options: PlainTextOption[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:251
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:331
 
 #### Description
 
@@ -98,7 +98,7 @@ An array of option objects that exactly match one or more of the options within 
 optional max_selected_items: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:42
+Defined in: packages/types/dist/block-kit/extensions.d.ts:42
 
 #### Description
 
@@ -116,7 +116,7 @@ Specifies the maximum number of items that can be selected. Minimum number is 1.
 optional option_groups: object[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:261
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:341
 
 #### label
 
@@ -143,7 +143,7 @@ this field should not be.
 optional options: PlainTextOption[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:256
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:336
 
 #### Description
 
@@ -158,7 +158,7 @@ specified, this field should not be.
 optional placeholder: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:49
+Defined in: packages/types/dist/block-kit/extensions.d.ts:49
 
 #### Description
 
@@ -177,7 +177,7 @@ length for the `text` field in this object is 150 characters.
 type: "multi_static_select";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:246
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:326
 
 #### Description
 

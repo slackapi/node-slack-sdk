@@ -2,7 +2,7 @@
 
 # Interface: Confirmable
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:16
+Defined in: packages/types/dist/block-kit/extensions.d.ts:16
 
 ## Extended by
 
@@ -10,6 +10,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:16
 - [`Checkboxes`](Checkboxes.md)
 - [`Datepicker`](Datepicker.md)
 - [`DateTimepicker`](DateTimepicker.md)
+- [`IconButton`](IconButton.md)
 - [`UsersSelect`](UsersSelect.md)
 - [`MultiUsersSelect`](MultiUsersSelect.md)
 - [`StaticSelect`](StaticSelect.md)
@@ -33,7 +34,7 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:16
 optional confirm: ConfirmationDialog;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
+Defined in: packages/types/dist/block-kit/extensions.d.ts:21
 
 #### Description
 

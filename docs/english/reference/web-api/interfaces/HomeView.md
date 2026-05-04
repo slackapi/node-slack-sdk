@@ -2,7 +2,7 @@
 
 # Interface: HomeView
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:22
+Defined in: packages/types/dist/views.d.ts:22
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: node\_modules/@slack/types/dist/views.d.ts:22
 blocks: AnyBlock[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:5
+Defined in: packages/types/dist/views.d.ts:5
 
 #### Description
 
@@ -36,7 +36,7 @@ BaseView.blocks
 optional callback_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:18
+Defined in: packages/types/dist/views.d.ts:18
 
 #### Description
 
@@ -45,7 +45,7 @@ store sensitive information (use `private_metadata` instead). Maximum length of 
 
 #### See
 
-[Handling and responding to interactions](https://api.slack.com/surfaces/modals#interactions).
+[Handling and responding to interactions](https://docs.slack.dev/surfaces/modals#interactions).
 
 #### Inherited from
 
@@ -61,7 +61,7 @@ BaseView.callback_id
 optional external_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:20
+Defined in: packages/types/dist/views.d.ts:20
 
 #### Description
 
@@ -81,13 +81,13 @@ BaseView.external_id
 optional private_metadata: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:12
+Defined in: packages/types/dist/views.d.ts:12
 
 #### Description
 
 String that will be sent to your app in
-[\`view\_submission\`](https://api.slack.com/reference/interaction-payloads/views#view_submission) and
-[\`block\_actions\`](https://api.slack.com/reference/interaction-payloads/block-actions) events.
+[\`view\_submission\`](https://docs.slack.dev/reference/interaction-payloads/view-interactions-payload#view_submission) and
+[\`block\_actions\`](https://docs.slack.dev/reference/interaction-payloads/block_actions-payload) events.
 Maximum length of 3000 characters.
 
 #### Inherited from
@@ -104,7 +104,7 @@ BaseView.private_metadata
 type: "home";
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:24
+Defined in: packages/types/dist/views.d.ts:24
 
 #### Description
 

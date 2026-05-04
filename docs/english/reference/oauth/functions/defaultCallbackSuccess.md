@@ -10,7 +10,7 @@ function defaultCallbackSuccess(
    res): void;
 ```
 
-Defined in: [src/callback-options.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L81)
+Defined in: [packages/oauth/src/callback-options.ts:81](https://github.com/slackapi/node-slack-sdk/blob/main/packages/oauth/src/callback-options.ts#L81)
 
 ## Parameters
 
@@ -20,7 +20,7 @@ Defined in: [src/callback-options.ts:81](https://github.com/slackapi/node-slack-
 
 ### \_options
 
-`undefined` | [`InstallURLOptions`](../interfaces/InstallURLOptions.md)
+[`InstallURLOptions`](../interfaces/InstallURLOptions.md) | `undefined`
 
 ### \_req
 

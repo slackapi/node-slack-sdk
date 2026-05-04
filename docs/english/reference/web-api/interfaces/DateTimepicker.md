@@ -2,7 +2,7 @@
 
 # Interface: DateTimepicker
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:89
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:89
 
 ## Description
 
@@ -13,8 +13,8 @@ picker will use native UIs.
 
 ## See
 
- - [Datetime picker element reference](https://api.slack.com/reference/block-kit/block-elements#datetimepicker).
- - [This is an interactive component - see our guide to enabling interactivity](https://api.slack.com/interactivity/handling).
+ - [Datetime picker element reference](https://docs.slack.dev/reference/block-kit/block-elements/datetime-picker-element).
+ - [This is an interactive component - see our guide to enabling interactivity](https://docs.slack.dev/interactivity/handling-user-interaction).
 
 ## Extends
 
@@ -28,10 +28,10 @@ picker will use native UIs.
 optional action_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:12
+Defined in: packages/types/dist/block-kit/extensions.d.ts:12
 
 @description: An identifier for this action. You can use this when you receive an interaction payload to
-[identify the source of the action](https://api.slack.com/interactivity/handling#payloads). Should be unique
+[identify the source of the action](https://docs.slack.dev/interactivity/handling-user-interaction#payloads). Should be unique
 among all other `action_id`s in the containing block. Maximum length for this field is 255 characters.
 
 #### Inherited from
@@ -46,7 +46,7 @@ among all other `action_id`s in the containing block. Maximum length for this fi
 optional confirm: ConfirmationDialog;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:21
+Defined in: packages/types/dist/block-kit/extensions.d.ts:21
 
 #### Description
 
@@ -65,12 +65,12 @@ with.
 optional focus_on_load: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:36
+Defined in: packages/types/dist/block-kit/extensions.d.ts:36
 
 #### Description
 
 Indicates whether the element will be set to auto focus within the
-[\`view\` object](https://api.slack.com/reference/surfaces/views). Only one element can be set to `true`.
+[\`view\` object](https://docs.slack.dev/surfaces/modals). Only one element can be set to `true`.
 Defaults to `false`.
 
 #### Inherited from
@@ -85,7 +85,7 @@ Defaults to `false`.
 optional initial_date_time: number;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:99
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:99
 
 #### Description
 
@@ -101,7 +101,7 @@ time August 10th, 2021 at 03:17pm PST.
 type: "datetimepicker";
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/block-elements.d.ts:93
+Defined in: packages/types/dist/block-kit/block-elements.d.ts:93
 
 #### Description
 

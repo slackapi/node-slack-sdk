@@ -29,6 +29,7 @@ type SlackEvent =
   | DNDUpdatedUserEvent
   | EmailDomainChangedEvent
   | EmojiChangedEvent
+  | EntityDetailsRequestedEvent
   | FileChangeEvent
   | FileCommentDeletedEvent
   | FileCreatedEvent
@@ -90,7 +91,7 @@ type SlackEvent =
   | WorkflowStepExecuteEvent;
 ```
 
-Defined in: [events/index.ts:121](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/index.ts#L121)
+Defined in: [events/index.ts:122](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/index.ts#L122)
 
 All known event types in Slack's Events API
 Please refer to https://docs.slack.dev/reference/events for more details

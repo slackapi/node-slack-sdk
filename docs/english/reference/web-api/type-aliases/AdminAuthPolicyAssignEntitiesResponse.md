@@ -6,9 +6,9 @@
 type AdminAuthPolicyAssignEntitiesResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/AdminAuthPolicyAssignEntitiesResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAuthPolicyAssignEntitiesResponse.ts#L11)
+Defined in: [packages/web-api/src/types/response/AdminAuthPolicyAssignEntitiesResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/AdminAuthPolicyAssignEntitiesResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### entity\_total\_count?
 

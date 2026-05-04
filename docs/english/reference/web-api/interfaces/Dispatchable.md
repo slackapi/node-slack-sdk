@@ -2,7 +2,7 @@
 
 # Interface: Dispatchable
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:23
+Defined in: packages/types/dist/block-kit/extensions.d.ts:23
 
 ## Extended by
 
@@ -20,9 +20,9 @@ Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:23
 optional dispatch_action_config: DispatchActionConfig;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/extensions.d.ts:28
+Defined in: packages/types/dist/block-kit/extensions.d.ts:28
 
 #### Description
 
 A [DispatchActionConfig](DispatchActionConfig.md) object that determines when during text input the element returns a
-[\`block\_actions\` payload](https://api.slack.com/reference/interaction-payloads/block-actions).
+[\`block\_actions\` payload](https://docs.slack.dev/reference/interaction-payloads/block_actions-payload).

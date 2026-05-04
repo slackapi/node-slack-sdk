@@ -2,7 +2,7 @@
 
 # Interface: BotMessageEvent
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:38
+Defined in: packages/types/dist/events/message.d.ts:38
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:38
 optional attachments: MessageAttachment[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:52
+Defined in: packages/types/dist/events/message.d.ts:53
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:52
 optional blocks: (Block | KnownBlock)[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:53
+Defined in: packages/types/dist/events/message.d.ts:54
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:53
 bot_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:46
+Defined in: packages/types/dist/events/message.d.ts:47
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:46
 channel: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:42
+Defined in: packages/types/dist/events/message.d.ts:42
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:42
 channel_type: ChannelTypes;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:43
+Defined in: packages/types/dist/events/message.d.ts:43
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:43
 optional edited: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:54
+Defined in: packages/types/dist/events/message.d.ts:55
 
 #### ts
 
@@ -84,7 +84,7 @@ user: string;
 event_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:41
+Defined in: packages/types/dist/events/message.d.ts:41
 
 ***
 
@@ -94,7 +94,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:41
 optional icons: object;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:48
+Defined in: packages/types/dist/events/message.d.ts:49
 
 #### Index Signature
 
@@ -104,13 +104,23 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:48
 
 ***
 
+### streaming\_state?
+
+```ts
+optional streaming_state: "in_progress" | "completed" | "errored";
+```
+
+Defined in: packages/types/dist/events/message.d.ts:44
+
+***
+
 ### subtype
 
 ```ts
 subtype: "bot_message";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:40
+Defined in: packages/types/dist/events/message.d.ts:40
 
 ***
 
@@ -120,7 +130,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:40
 text: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:45
+Defined in: packages/types/dist/events/message.d.ts:46
 
 ***
 
@@ -130,7 +140,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:45
 optional thread_ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:58
+Defined in: packages/types/dist/events/message.d.ts:59
 
 ***
 
@@ -140,7 +150,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:58
 ts: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:44
+Defined in: packages/types/dist/events/message.d.ts:45
 
 ***
 
@@ -150,7 +160,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:44
 type: "message";
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:39
+Defined in: packages/types/dist/events/message.d.ts:39
 
 ***
 
@@ -160,7 +170,7 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:39
 optional user: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:51
+Defined in: packages/types/dist/events/message.d.ts:52
 
 ***
 
@@ -170,4 +180,4 @@ Defined in: node\_modules/@slack/types/dist/events/message.d.ts:51
 optional username: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/events/message.d.ts:47
+Defined in: packages/types/dist/events/message.d.ts:48

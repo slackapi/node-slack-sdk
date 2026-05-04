@@ -6,9 +6,9 @@
 type ConversationsInviteSharedArguments = Channel & TokenOverridable & Emails | UserIDs & object;
 ```
 
-Defined in: [src/types/request/conversations.ts:118](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L118)
+Defined in: [packages/web-api/src/types/request/conversations.ts:118](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/conversations.ts#L118)
 
-## Type declaration
+## Type Declaration
 
 ### external\_limited?
 

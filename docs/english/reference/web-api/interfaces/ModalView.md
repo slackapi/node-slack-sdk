@@ -2,7 +2,7 @@
 
 # Interface: ModalView
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:26
+Defined in: packages/types/dist/views.d.ts:26
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: node\_modules/@slack/types/dist/views.d.ts:26
 blocks: AnyBlock[];
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:5
+Defined in: packages/types/dist/views.d.ts:5
 
 #### Description
 
@@ -36,7 +36,7 @@ BaseView.blocks
 optional callback_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:18
+Defined in: packages/types/dist/views.d.ts:18
 
 #### Description
 
@@ -45,7 +45,7 @@ store sensitive information (use `private_metadata` instead). Maximum length of 
 
 #### See
 
-[Handling and responding to interactions](https://api.slack.com/surfaces/modals#interactions).
+[Handling and responding to interactions](https://docs.slack.dev/surfaces/modals#interactions).
 
 #### Inherited from
 
@@ -61,7 +61,7 @@ BaseView.callback_id
 optional clear_on_close: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:49
+Defined in: packages/types/dist/views.d.ts:49
 
 #### Description
 
@@ -76,7 +76,7 @@ Defaults to `false`.
 optional close: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:38
+Defined in: packages/types/dist/views.d.ts:38
 
 #### Description
 
@@ -91,7 +91,7 @@ bottom-right of the view. Maximum length of 24 characters.
 optional external_id: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:20
+Defined in: packages/types/dist/views.d.ts:20
 
 #### Description
 
@@ -111,12 +111,12 @@ BaseView.external_id
 optional notify_on_close: boolean;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:55
+Defined in: packages/types/dist/views.d.ts:55
 
 #### Description
 
 Indicates whether Slack will send your app a
-[\`view\_closed\`](https://api.slack.com/reference/interaction-payloads/views#view_closed) event when a user
+[\`view\_closed\`](https://docs.slack.dev/reference/interaction-payloads/view-interactions-payload#view_closed) event when a user
 clicks the close button. Defaults to `false`.
 
 ***
@@ -127,13 +127,13 @@ clicks the close button. Defaults to `false`.
 optional private_metadata: string;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:12
+Defined in: packages/types/dist/views.d.ts:12
 
 #### Description
 
 String that will be sent to your app in
-[\`view\_submission\`](https://api.slack.com/reference/interaction-payloads/views#view_submission) and
-[\`block\_actions\`](https://api.slack.com/reference/interaction-payloads/block-actions) events.
+[\`view\_submission\`](https://docs.slack.dev/reference/interaction-payloads/view-interactions-payload#view_submission) and
+[\`block\_actions\`](https://docs.slack.dev/reference/interaction-payloads/block_actions-payload) events.
 Maximum length of 3000 characters.
 
 #### Inherited from
@@ -150,7 +150,7 @@ BaseView.private_metadata
 optional submit: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:44
+Defined in: packages/types/dist/views.d.ts:44
 
 #### Description
 
@@ -166,7 +166,7 @@ characters.
 title: PlainTextElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:33
+Defined in: packages/types/dist/views.d.ts:33
 
 #### Description
 
@@ -181,7 +181,7 @@ maximum length of 24 characters.
 type: "modal";
 ```
 
-Defined in: node\_modules/@slack/types/dist/views.d.ts:28
+Defined in: packages/types/dist/views.d.ts:28
 
 #### Description
 

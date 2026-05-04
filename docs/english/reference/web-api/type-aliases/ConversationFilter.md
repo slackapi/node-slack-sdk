@@ -9,7 +9,7 @@ type ConversationFilter =
 | BaseConversationFilter & Required<Pick<BaseConversationFilter, "exclude_external_shared_channels">>;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:183
+Defined in: packages/types/dist/block-kit/composition-objects.d.ts:197
 
 ## Description
 
@@ -18,4 +18,4 @@ conversations select menu or a conversations multi-select menu.
 
 ## See
 
-[Conversation filter object reference](https://api.slack.com/reference/block-kit/composition-objects#filter_conversations).
+[Conversation filter object reference](https://docs.slack.dev/reference/block-kit/composition-objects/conversation-filter-object).

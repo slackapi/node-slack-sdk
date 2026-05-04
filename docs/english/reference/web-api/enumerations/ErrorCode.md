@@ -2,7 +2,7 @@
 
 # Enumeration: ErrorCode
 
-Defined in: [src/errors.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L17)
+Defined in: [packages/web-api/src/errors.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L17)
 
 A dictionary of codes for errors produced by this package
 
@@ -14,7 +14,7 @@ A dictionary of codes for errors produced by this package
 FileUploadInvalidArgumentsError: "slack_webapi_file_upload_invalid_args_error";
 ```
 
-Defined in: [src/errors.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L25)
+Defined in: [packages/web-api/src/errors.ts:25](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L25)
 
 ***
 
@@ -24,7 +24,7 @@ Defined in: [src/errors.ts:25](https://github.com/slackapi/node-slack-sdk/blob/m
 FileUploadReadFileDataError: "slack_webapi_file_upload_read_file_data_error";
 ```
 
-Defined in: [src/errors.ts:26](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L26)
+Defined in: [packages/web-api/src/errors.ts:26](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L26)
 
 ***
 
@@ -34,7 +34,7 @@ Defined in: [src/errors.ts:26](https://github.com/slackapi/node-slack-sdk/blob/m
 HTTPError: "slack_webapi_http_error";
 ```
 
-Defined in: [src/errors.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L20)
+Defined in: [packages/web-api/src/errors.ts:20](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L20)
 
 ***
 
@@ -44,7 +44,7 @@ Defined in: [src/errors.ts:20](https://github.com/slackapi/node-slack-sdk/blob/m
 PlatformError: "slack_webapi_platform_error";
 ```
 
-Defined in: [src/errors.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L21)
+Defined in: [packages/web-api/src/errors.ts:21](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L21)
 
 ***
 
@@ -54,7 +54,7 @@ Defined in: [src/errors.ts:21](https://github.com/slackapi/node-slack-sdk/blob/m
 RateLimitedError: "slack_webapi_rate_limited_error";
 ```
 
-Defined in: [src/errors.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L22)
+Defined in: [packages/web-api/src/errors.ts:22](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L22)
 
 ***
 
@@ -64,4 +64,4 @@ Defined in: [src/errors.ts:22](https://github.com/slackapi/node-slack-sdk/blob/m
 RequestError: "slack_webapi_request_error";
 ```
 
-Defined in: [src/errors.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L19)
+Defined in: [packages/web-api/src/errors.ts:19](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/errors.ts#L19)

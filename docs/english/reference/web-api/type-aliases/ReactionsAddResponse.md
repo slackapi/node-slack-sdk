@@ -6,9 +6,9 @@
 type ReactionsAddResponse = WebAPICallResult & object;
 ```
 
-Defined in: [src/types/response/ReactionsAddResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/ReactionsAddResponse.ts#L11)
+Defined in: [packages/web-api/src/types/response/ReactionsAddResponse.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/response/ReactionsAddResponse.ts#L11)
 
-## Type declaration
+## Type Declaration
 
 ### error?
 

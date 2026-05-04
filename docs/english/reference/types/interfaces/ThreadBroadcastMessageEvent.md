@@ -2,7 +2,7 @@
 
 # Interface: ThreadBroadcastMessageEvent
 
-Defined in: [events/message.ts:272](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L272)
+Defined in: [events/message.ts:273](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L273)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [events/message.ts:272](https://github.com/slackapi/node-slack-sdk/b
 optional attachments: MessageAttachment[];
 ```
 
-Defined in: [events/message.ts:277](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L277)
+Defined in: [events/message.ts:278](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L278)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [events/message.ts:277](https://github.com/slackapi/node-slack-sdk/b
 optional blocks: (Block | KnownBlock)[];
 ```
 
-Defined in: [events/message.ts:278](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L278)
+Defined in: [events/message.ts:279](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L279)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [events/message.ts:278](https://github.com/slackapi/node-slack-sdk/b
 channel: string;
 ```
 
-Defined in: [events/message.ts:290](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L290)
+Defined in: [events/message.ts:291](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L291)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [events/message.ts:290](https://github.com/slackapi/node-slack-sdk/b
 channel_type: ChannelTypes;
 ```
 
-Defined in: [events/message.ts:291](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L291)
+Defined in: [events/message.ts:292](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L292)
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: [events/message.ts:291](https://github.com/slackapi/node-slack-sdk/b
 client_msg_id: string;
 ```
 
-Defined in: [events/message.ts:289](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L289)
+Defined in: [events/message.ts:290](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L290)
 
 ***
 
@@ -62,7 +62,7 @@ Defined in: [events/message.ts:289](https://github.com/slackapi/node-slack-sdk/b
 event_ts: string;
 ```
 
-Defined in: [events/message.ts:275](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L275)
+Defined in: [events/message.ts:276](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L276)
 
 ***
 
@@ -74,9 +74,9 @@ root:
   | BotMessageEvent & object;
 ```
 
-Defined in: [events/message.ts:282](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L282)
+Defined in: [events/message.ts:283](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L283)
 
-#### Type declaration
+#### Type Declaration
 
 ##### latest\_reply
 
@@ -116,7 +116,7 @@ thread_ts: string;
 subtype: "thread_broadcast";
 ```
 
-Defined in: [events/message.ts:274](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L274)
+Defined in: [events/message.ts:275](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L275)
 
 ***
 
@@ -126,7 +126,7 @@ Defined in: [events/message.ts:274](https://github.com/slackapi/node-slack-sdk/b
 text: string;
 ```
 
-Defined in: [events/message.ts:276](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L276)
+Defined in: [events/message.ts:277](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L277)
 
 ***
 
@@ -136,7 +136,7 @@ Defined in: [events/message.ts:276](https://github.com/slackapi/node-slack-sdk/b
 optional thread_ts: string;
 ```
 
-Defined in: [events/message.ts:281](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L281)
+Defined in: [events/message.ts:282](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L282)
 
 ***
 
@@ -146,7 +146,7 @@ Defined in: [events/message.ts:281](https://github.com/slackapi/node-slack-sdk/b
 ts: string;
 ```
 
-Defined in: [events/message.ts:280](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L280)
+Defined in: [events/message.ts:281](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L281)
 
 ***
 
@@ -156,7 +156,7 @@ Defined in: [events/message.ts:280](https://github.com/slackapi/node-slack-sdk/b
 type: "message";
 ```
 
-Defined in: [events/message.ts:273](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L273)
+Defined in: [events/message.ts:274](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L274)
 
 ***
 
@@ -166,4 +166,4 @@ Defined in: [events/message.ts:273](https://github.com/slackapi/node-slack-sdk/b
 user: string;
 ```
 
-Defined in: [events/message.ts:279](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L279)
+Defined in: [events/message.ts:280](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/message.ts#L280)

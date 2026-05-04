@@ -109,6 +109,7 @@ export interface UserHuddleChangedEvent {
       status_expiration: number;
       avatar_hash: string;
       huddle_state: string;
+      huddle_state_call_id?: string;
       huddle_state_expiration_ts: number;
       first_name: string;
       last_name: string;

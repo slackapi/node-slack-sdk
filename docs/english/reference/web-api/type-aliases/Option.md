@@ -8,7 +8,7 @@ type Option =
   | PlainTextOption;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:99
+Defined in: packages/types/dist/block-kit/composition-objects.d.ts:99
 
 ## Description
 
@@ -17,4 +17,4 @@ selectable item in a select menu, multi-select menu, checkbox group, radio butto
 
 ## See
 
-[Option object reference](https://api.slack.com/reference/block-kit/composition-objects#option).
+[Option object reference](https://docs.slack.dev/reference/block-kit/composition-objects/option-object).

@@ -2,7 +2,7 @@
 
 # Interface: MemberLeftChannelEvent
 
-Defined in: [events/member.ts:11](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L11)
+Defined in: [events/member.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L12)
 
 ## Properties
 
@@ -12,7 +12,7 @@ Defined in: [events/member.ts:11](https://github.com/slackapi/node-slack-sdk/blo
 channel: string;
 ```
 
-Defined in: [events/member.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L14)
+Defined in: [events/member.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L15)
 
 ***
 
@@ -22,7 +22,7 @@ Defined in: [events/member.ts:14](https://github.com/slackapi/node-slack-sdk/blo
 channel_type: string;
 ```
 
-Defined in: [events/member.ts:15](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L15)
+Defined in: [events/member.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L16)
 
 ***
 
@@ -32,7 +32,7 @@ Defined in: [events/member.ts:15](https://github.com/slackapi/node-slack-sdk/blo
 event_ts: string;
 ```
 
-Defined in: [events/member.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L17)
+Defined in: [events/member.ts:18](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L18)
 
 ***
 
@@ -42,7 +42,7 @@ Defined in: [events/member.ts:17](https://github.com/slackapi/node-slack-sdk/blo
 team: string;
 ```
 
-Defined in: [events/member.ts:16](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L16)
+Defined in: [events/member.ts:17](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L17)
 
 ***
 
@@ -52,7 +52,7 @@ Defined in: [events/member.ts:16](https://github.com/slackapi/node-slack-sdk/blo
 type: "member_left_channel";
 ```
 
-Defined in: [events/member.ts:12](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L12)
+Defined in: [events/member.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L13)
 
 ***
 
@@ -62,4 +62,4 @@ Defined in: [events/member.ts:12](https://github.com/slackapi/node-slack-sdk/blo
 user: string;
 ```
 
-Defined in: [events/member.ts:13](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L13)
+Defined in: [events/member.ts:14](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/events/member.ts#L14)

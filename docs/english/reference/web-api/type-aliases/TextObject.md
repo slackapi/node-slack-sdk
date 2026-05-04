@@ -8,7 +8,7 @@ type TextObject =
   | MrkdwnElement;
 ```
 
-Defined in: node\_modules/@slack/types/dist/block-kit/composition-objects.d.ts:120
+Defined in: packages/types/dist/block-kit/composition-objects.d.ts:120
 
 ## Description
 
@@ -17,4 +17,4 @@ Defines an object containing some text. Can be either a [PlainTextElement](../in
 
 ## See
 
-[Text object reference](https://api.slack.com/reference/block-kit/composition-objects#text).
+[Text object reference](https://docs.slack.dev/reference/block-kit/composition-objects/text-object).

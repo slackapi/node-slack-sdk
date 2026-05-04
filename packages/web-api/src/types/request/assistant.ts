@@ -8,6 +8,8 @@ export interface AssistantThreadsSetStatusArguments extends TokenOverridable {
   status: string;
   /** @description Message timestamp of the thread. */
   thread_ts: string;
+  /** @description The list of messages to rotate through as a loading indicator. */
+  loading_messages?: string[];
 }
 
 // https://docs.slack.dev/reference/methods/assistant.threads.setSuggestedPrompts

@@ -106,6 +106,7 @@ import type {
   AppsManifestUpdateArguments,
   AppsManifestValidateArguments,
   AppsUninstallArguments,
+  AppsUserConnectionUpdateArguments,
   AssistantThreadsSetStatusArguments,
   AssistantThreadsSetSuggestedPromptsArguments,
   AssistantThreadsSetTitleArguments,
@@ -129,6 +130,7 @@ import type {
   CanvasesDeleteArguments,
   CanvasesEditArguments,
   CanvasesSectionsLookupArguments,
+  ChatAppendStreamArguments,
   ChatDeleteArguments,
   ChatDeleteScheduledMessageArguments,
   ChatGetPermalinkArguments,
@@ -137,6 +139,8 @@ import type {
   ChatPostMessageArguments,
   ChatScheduledMessagesListArguments,
   ChatScheduleMessageArguments,
+  ChatStartStreamArguments,
+  ChatStopStreamArguments,
   ChatUnfurlArguments,
   ChatUpdateArguments,
   ConversationsAcceptSharedInviteArguments,
@@ -174,6 +178,7 @@ import type {
   DndSetSnoozeArguments,
   DndTeamInfoArguments,
   EmojiListArguments,
+  EntityPresentDetailsArguments,
   FilesCommentsDeleteArguments,
   FilesCompleteUploadExternalArguments,
   FilesDeleteArguments,
@@ -215,6 +220,18 @@ import type {
   SearchAllArguments,
   SearchFilesArguments,
   SearchMessagesArguments,
+  SlackListsAccessDeleteArguments,
+  SlackListsAccessSetArguments,
+  SlackListsCreateArguments,
+  SlackListsDownloadGetArguments,
+  SlackListsDownloadStartArguments,
+  SlackListsItemsCreateArguments,
+  SlackListsItemsDeleteArguments,
+  SlackListsItemsDeleteMultipleArguments,
+  SlackListsItemsInfoArguments,
+  SlackListsItemsListArguments,
+  SlackListsItemsUpdateArguments,
+  SlackListsUpdateArguments,
   StarsAddRemoveArguments,
   StarsListArguments,
   TeamAccessLogsArguments,
@@ -363,6 +380,7 @@ import type {
   AppsManifestUpdateResponse,
   AppsManifestValidateResponse,
   AppsUninstallResponse,
+  AppsUserConnectionUpdateResponse,
   AssistantThreadsSetStatusResponse,
   AssistantThreadsSetSuggestedPromptsResponse,
   AssistantThreadsSetTitleResponse,
@@ -386,6 +404,7 @@ import type {
   CanvasesDeleteResponse,
   CanvasesEditResponse,
   CanvasesSectionsLookupResponse,
+  ChatAppendStreamResponse,
   ChatDeleteResponse,
   ChatDeleteScheduledMessageResponse,
   ChatGetPermalinkResponse,
@@ -394,6 +413,8 @@ import type {
   ChatPostMessageResponse,
   ChatScheduledMessagesListResponse,
   ChatScheduleMessageResponse,
+  ChatStartStreamResponse,
+  ChatStopStreamResponse,
   ChatUnfurlResponse,
   ChatUpdateResponse,
   ConversationsAcceptSharedInviteResponse,
@@ -431,6 +452,7 @@ import type {
   DndSetSnoozeResponse,
   DndTeamInfoResponse,
   EmojiListResponse,
+  EntityPresentDetailsResponse,
   FilesCommentsDeleteResponse,
   FilesCompleteUploadExternalResponse,
   FilesDeleteResponse,
@@ -471,6 +493,18 @@ import type {
   SearchAllResponse,
   SearchFilesResponse,
   SearchMessagesResponse,
+  SlackListsAccessDeleteResponse,
+  SlackListsAccessSetResponse,
+  SlackListsCreateResponse,
+  SlackListsDownloadGetResponse,
+  SlackListsDownloadStartResponse,
+  SlackListsItemsCreateResponse,
+  SlackListsItemsDeleteMultipleResponse,
+  SlackListsItemsDeleteResponse,
+  SlackListsItemsInfoResponse,
+  SlackListsItemsListResponse,
+  SlackListsItemsUpdateResponse,
+  SlackListsUpdateResponse,
   StarsAddResponse,
   StarsListResponse,
   StarsRemoveResponse,
@@ -1437,6 +1471,18 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/apps.uninstall `apps.uninstall` API reference}.
      */
     uninstall: bindApiCall<AppsUninstallArguments, AppsUninstallResponse>(this, 'apps.uninstall'),
+    user: {
+      connection: {
+        /**
+         * @description Updates the connection status between a user and an app.
+         * @see {@link https://docs.slack.dev/reference/methods/apps.user.connection.update `apps.user.connection.update` API reference}.
+         */
+        update: bindApiCall<AppsUserConnectionUpdateArguments, AppsUserConnectionUpdateResponse>(
+          this,
+          'apps.user.connection.update',
+        ),
+      },
+    },
   };
 
   public readonly auth = {
@@ -1562,6 +1608,11 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
 
   public readonly chat = {
     /**
+     * @description Appends text to an existing streaming conversation.
+     * @see {@link https://docs.slack.dev/reference/methods/chat.appendStream `chat.appendStream` API reference}.
+     */
+    appendStream: bindApiCall<ChatAppendStreamArguments, ChatAppendStreamResponse>(this, 'chat.appendStream'),
+    /**
      * @description Deletes a message.
      * @see {@link https://docs.slack.dev/reference/methods/chat.delete `chat.delete` API reference}.
      */
@@ -1612,6 +1663,16 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
         'chat.scheduledMessages.list',
       ),
     },
+    /**
+     * @description Starts a new streaming conversation.
+     * @see {@link https://docs.slack.dev/reference/methods/chat.startStream `chat.startStream` API reference}.
+     */
+    startStream: bindApiCall<ChatStartStreamArguments, ChatStartStreamResponse>(this, 'chat.startStream'),
+    /**
+     * @description Stops a streaming conversation.
+     * @see {@link https://docs.slack.dev/reference/methods/chat.stopStream `chat.stopStream` API reference}.
+     */
+    stopStream: bindApiCall<ChatStopStreamArguments, ChatStopStreamResponse>(this, 'chat.stopStream'),
     /**
      * @description Provide custom unfurl behavior for user-posted URLs.
      * @see {@link https://docs.slack.dev/reference/methods/chat.unfurl `chat.unfurl` API reference}.
@@ -1861,6 +1922,17 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     list: bindApiCallWithOptionalArgument<EmojiListArguments, EmojiListResponse>(this, 'emoji.list'),
   };
 
+  public readonly entity = {
+    /**
+     * @description Provide information about the entity to be displayed in the flexpane.
+     * @see {@link https://docs.slack.dev/reference/methods/entity.presentDetails}
+     */
+    presentDetails: bindApiCall<EntityPresentDetailsArguments, EntityPresentDetailsResponse>(
+      this,
+      'entity.presentDetails',
+    ),
+  };
+
   public readonly files = {
     /**
      * @description Finishes an upload started with {@link https://docs.slack.dev/reference/methods/files.getUploadURLExternal `files.getUploadURLExternal`}.
@@ -1926,7 +1998,7 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * - multiple upload_files
      * Will try to honor both single file or content data supplied as well
      * as multiple file uploads property.
-     * @see {@link https://tools.slack.dev/node-slack-sdk/web-api#upload-a-file `@slack/web-api` Upload a file documentation}.
+     * @see {@link https://docs.slack.dev/tools/node-slack-sdk/web-api/#upload-a-file `@slack/web-api` Upload a file documentation}.
      */
     uploadV2: bindFilesUploadV2<FilesUploadV2Arguments, WebAPICallResult>(this),
     comments: {
@@ -2137,6 +2209,93 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
      * @see {@link https://docs.slack.dev/reference/methods/search.messages search.messages` API reference}.
      */
     messages: bindApiCall<SearchMessagesArguments, SearchMessagesResponse>(this, 'search.messages'),
+  };
+
+  public readonly slackLists = {
+    access: {
+      /**
+       * @description Delete access for specified entities.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.access.delete `slackLists.access.delete` API reference}.
+       */
+      delete: bindApiCall<SlackListsAccessDeleteArguments, SlackListsAccessDeleteResponse>(
+        this,
+        'slackLists.access.delete',
+      ),
+      /**
+       * @description Set access level for specified entities.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.access.set `slackLists.access.set` API reference}.
+       */
+      set: bindApiCall<SlackListsAccessSetArguments, SlackListsAccessSetResponse>(this, 'slackLists.access.set'),
+    },
+    /**
+     * @description Create a List.
+     * @see {@link https://docs.slack.dev/reference/methods/slackLists.create `slackLists.create` API reference}.
+     */
+    create: bindApiCall<SlackListsCreateArguments, SlackListsCreateResponse>(this, 'slackLists.create'),
+    download: {
+      /**
+       * @description Get download job status.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.download.get `slackLists.download.get` API reference}.
+       */
+      get: bindApiCall<SlackListsDownloadGetArguments, SlackListsDownloadGetResponse>(this, 'slackLists.download.get'),
+      /**
+       * @description Start a download job for a list.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.download.start `slackLists.download.start` API reference}.
+       */
+      start: bindApiCall<SlackListsDownloadStartArguments, SlackListsDownloadStartResponse>(
+        this,
+        'slackLists.download.start',
+      ),
+    },
+    items: {
+      /**
+       * @description Create a list item.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.create `slackLists.items.create` API reference}.
+       */
+      create: bindApiCall<SlackListsItemsCreateArguments, SlackListsItemsCreateResponse>(
+        this,
+        'slackLists.items.create',
+      ),
+      /**
+       * @description Delete a list item.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.delete `slackLists.items.delete` API reference}.
+       */
+      delete: bindApiCall<SlackListsItemsDeleteArguments, SlackListsItemsDeleteResponse>(
+        this,
+        'slackLists.items.delete',
+      ),
+      /**
+       * @description Delete multiple list items.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.deleteMultiple `slackLists.items.deleteMultiple` API reference}.
+       */
+      deleteMultiple: bindApiCall<SlackListsItemsDeleteMultipleArguments, SlackListsItemsDeleteMultipleResponse>(
+        this,
+        'slackLists.items.deleteMultiple',
+      ),
+      /**
+       * @description Get info about a list item.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.info `slackLists.items.info` API reference}.
+       */
+      info: bindApiCall<SlackListsItemsInfoArguments, SlackListsItemsInfoResponse>(this, 'slackLists.items.info'),
+      /**
+       * @description Get records from a List.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.list `slackLists.items.list` API reference}.
+       */
+      list: bindApiCall<SlackListsItemsListArguments, SlackListsItemsListResponse>(this, 'slackLists.items.list'),
+      /**
+       * @description Update a list item.
+       * @see {@link https://docs.slack.dev/reference/methods/slackLists.items.update `slackLists.items.update` API reference}.
+       */
+      update: bindApiCall<SlackListsItemsUpdateArguments, SlackListsItemsUpdateResponse>(
+        this,
+        'slackLists.items.update',
+      ),
+    },
+    /**
+     * @description Update a list.
+     * @see {@link https://docs.slack.dev/reference/methods/slackLists.update `slackLists.update` API reference}.
+     */
+    update: bindApiCall<SlackListsUpdateArguments, SlackListsUpdateResponse>(this, 'slackLists.update'),
   };
 
   public readonly team = {

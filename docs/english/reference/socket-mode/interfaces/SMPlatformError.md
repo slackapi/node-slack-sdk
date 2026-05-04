@@ -2,7 +2,7 @@
 
 # Interface: SMPlatformError
 
-Defined in: [src/errors.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L27)
+Defined in: [packages/socket-mode/src/errors.ts:27](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L27)
 
 ## Extends
 
@@ -16,7 +16,7 @@ Defined in: [src/errors.ts:27](https://github.com/slackapi/node-slack-sdk/blob/m
 code: SendMessagePlatformError;
 ```
 
-Defined in: [src/errors.ts:28](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L28)
+Defined in: [packages/socket-mode/src/errors.ts:28](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L28)
 
 #### Overrides
 
@@ -32,7 +32,7 @@ CodedError.code
 data: any;
 ```
 
-Defined in: [src/errors.ts:30](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L30)
+Defined in: [packages/socket-mode/src/errors.ts:30](https://github.com/slackapi/node-slack-sdk/blob/main/packages/socket-mode/src/errors.ts#L30)
 
 ***
 
