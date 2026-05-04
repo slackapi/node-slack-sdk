@@ -4,7 +4,7 @@
 
 ### Minor Changes
 
-- 4f03ee8: feat(types): add Card, Carousel, and Alert block types
+- 4f03ee8: feat(types): add [Card](https://docs.slack.dev/reference/block-kit/blocks/card-block/), [Carousel](https://docs.slack.dev/reference/block-kit/blocks/carousel-block), and [Alert](https://docs.slack.dev/reference/block-kit/blocks/alert-block) block types
 
 ## 2.20.1
 
