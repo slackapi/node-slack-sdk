@@ -1,18 +1,16 @@
-[@slack/web-api](../index.md) / MarkdownBlock
+[@slack/web-api](../index.md) / CarouselBlock
 
-# Interface: MarkdownBlock
+# Interface: CarouselBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:270
+Defined in: packages/types/dist/block-kit/blocks.d.ts:107
 
 ## Description
 
-This block can be used with AI apps when you expect a markdown response from an LLM that can get lost in
-translation rendering in Slack. Providing it in a markdown block leaves the translating to Slack to ensure your message
-appears as intended. Note that passing a single block may result in multiple blocks after translation.
+A horizontally scrollable collection of [CardBlock](CardBlock.md) elements.
 
 ## See
 
-[Markdown block reference](https://api.slack.com/reference/block-kit/blocks#markdown).
+[Carousel block reference](https://docs.slack.dev/reference/block-kit/blocks/carousel-block).
 
 ## Extends
 
@@ -42,31 +40,31 @@ a message. If a message is updated, use a new `block_id`.
 
 ***
 
-### text
+### elements
 
 ```ts
-text: string;
+elements: CardBlock[];
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:278
+Defined in: packages/types/dist/block-kit/blocks.d.ts:115
 
 #### Description
 
-The standard markdown-formatted text. Limit 12,000 characters max.
+An array of [CardBlock](CardBlock.md) elements. Minimum 1, maximum 10 cards.
 
 ***
 
 ### type
 
 ```ts
-type: "markdown";
+type: "carousel";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:274
+Defined in: packages/types/dist/block-kit/blocks.d.ts:111
 
 #### Description
 
-The type of block. For a markdown block, `type` is always `markdown`.
+The type of block. For a carousel block, `type` is always `carousel`.
 
 #### Overrides
 

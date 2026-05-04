@@ -19,7 +19,7 @@ type InputBlockElement =
   | URLInput;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:157
+Defined in: packages/types/dist/block-kit/blocks.d.ts:227
 
 A helper union type of all Block Elements that can be used in an [InputBlock](../interfaces/InputBlock.md).
 

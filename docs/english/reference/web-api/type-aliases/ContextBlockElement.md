@@ -6,7 +6,7 @@
 type ContextBlockElement = ImageElement | TextObject;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:51
+Defined in: packages/types/dist/block-kit/blocks.d.ts:121
 
 A helper union type of all Block Elements that can be used in a [ContextBlock](../interfaces/ContextBlock.md).
 

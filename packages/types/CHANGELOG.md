@@ -1,5 +1,11 @@
 # @slack/types
 
+## 2.21.0
+
+### Minor Changes
+
+- 4f03ee8: feat(types): add Card, Carousel, and Alert block types
+
 ## 2.20.1
 
 ### Patch Changes

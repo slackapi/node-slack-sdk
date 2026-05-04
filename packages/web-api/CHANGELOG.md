@@ -1,5 +1,13 @@
 # @slack/web-api
 
+## 7.15.2
+
+### Patch Changes
+
+- 4b6fe3a: feat: add authorship arguments - `icon_emoji`, `icon_url`, and `username` - to the [`assistant.threads.setStatus`](https://docs.slack.dev/reference/methods/assistant.threads.setStatus/) and [`chat.startStream`](https://docs.slack.dev/reference/methods/chat.startStream/) methods
+- Updated dependencies [4f03ee8]
+  - @slack/types@2.21.0
+
 ## 7.15.1
 
 ### Patch Changes

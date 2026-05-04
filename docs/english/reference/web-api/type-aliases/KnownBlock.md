@@ -5,6 +5,9 @@
 ```ts
 type KnownBlock = 
   | ActionsBlock
+  | AlertBlock
+  | CardBlock
+  | CarouselBlock
   | ContextBlock
   | ContextActionsBlock
   | DividerBlock

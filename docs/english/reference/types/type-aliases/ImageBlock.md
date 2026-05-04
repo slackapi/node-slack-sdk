@@ -8,7 +8,7 @@ type ImageBlock = object & Block &
   | SlackFileImageObject;
 ```
 
-Defined in: [block-kit/blocks.ts:208](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L208)
+Defined in: [block-kit/blocks.ts:285](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L285)
 
 ## Type Declaration
 

@@ -56,7 +56,7 @@ Defined in: [chunk.ts:39](https://github.com/slackapi/node-slack-sdk/blob/main/p
 ### status
 
 ```ts
-status: "pending" | "in_progress" | "complete" | "error";
+status: "error" | "pending" | "in_progress" | "complete";
 ```
 
 Defined in: [chunk.ts:36](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/chunk.ts#L36)

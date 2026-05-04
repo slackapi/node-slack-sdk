@@ -2,7 +2,7 @@
 
 # Interface: ContextBlock
 
-Defined in: [block-kit/blocks.ts:121](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L121)
+Defined in: [block-kit/blocks.ts:198](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L198)
 
 ## Description
 
@@ -24,7 +24,7 @@ Displays contextual info, which can include both images and text.
 optional block_id: string;
 ```
 
-Defined in: [block-kit/blocks.ts:48](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L48)
+Defined in: [block-kit/blocks.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L49)
 
 #### Description
 
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 elements: ContextBlockElement[];
 ```
 
-Defined in: [block-kit/blocks.ts:130](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L130)
+Defined in: [block-kit/blocks.ts:207](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L207)
 
 #### Description
 
@@ -61,7 +61,7 @@ Maximum number of items is 10.
 type: "context";
 ```
 
-Defined in: [block-kit/blocks.ts:125](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L125)
+Defined in: [block-kit/blocks.ts:202](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L202)
 
 #### Description
 
