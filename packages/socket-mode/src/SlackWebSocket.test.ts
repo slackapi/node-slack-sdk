@@ -9,12 +9,15 @@ proxyquire.noPreserveCache();
 
 import logModule from './logger';
 
-// A slightly spruced up event emitter aiming at mocking out the `ws` library's `WebSocket` class
-class WSMock extends EventEmitter {
-  // biome-ignore lint/suspicious/noExplicitAny: event listeners can accept any args
-  addEventListener(evt: string, fn: (...args: any[]) => void) {
-    this.addListener.call(this, evt, fn);
-  }
+// Minimal mock of undici's WebSocket (EventTarget-based)
+class WSMock extends EventTarget {
+  static CONNECTING = 0;
+  static OPEN = 1;
+  static CLOSING = 2;
+  static CLOSED = 3;
+  readyState = 1;
+  close() {}
+  send(_data: string) {}
 }
 
 describe('SlackWebSocket', () => {
@@ -22,8 +25,9 @@ describe('SlackWebSocket', () => {
   let SlackWebSocket: typeof import('./SlackWebSocket').SlackWebSocket;
   beforeEach(() => {
     SlackWebSocket = proxyquire.load('./SlackWebSocket', {
-      ws: {
+      undici: {
         WebSocket: WSMock,
+        ping: () => {},
       },
     }).SlackWebSocket;
   });
@@ -58,28 +62,27 @@ describe('SlackWebSocket', () => {
   });
   describe('WebSocket event handling', () => {
     it('should call disconnect() if websocket emits an error', async () => {
-      // an exposed event emitter pretending it's a websocket
       const ws = new WSMock();
-      // mock out the `ws` library and have it return our event emitter mock
       SlackWebSocket = proxyquire.load('./SlackWebSocket', {
-        ws: {
+        undici: {
           WebSocket: class Fake {
             constructor() {
               // biome-ignore lint/correctness/noConstructorReturn: for test mocking purposes
               return ws;
             }
           },
+          ping: () => {},
         },
       }).SlackWebSocket;
       const sws = new SlackWebSocket({
-        url: 'whatevs',
+        url: 'wss://test.slack.com',
         client: new EventEmitter(),
         clientPingTimeoutMS: 1,
         serverPingTimeoutMS: 1,
       });
       const discStub = sinon.stub(sws, 'disconnect');
       sws.connect();
-      ws.emit('error', { error: new Error('boom') });
+      ws.dispatchEvent(new ErrorEvent('error', { error: new Error('boom'), message: 'boom' }));
       sinon.assert.calledOnce(discStub);
     });
   });

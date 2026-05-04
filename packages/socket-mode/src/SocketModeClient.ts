@@ -8,7 +8,7 @@ import {
 } from '@slack/web-api';
 
 import { EventEmitter } from 'eventemitter3';
-import type WebSocket from 'ws';
+import { type Dispatcher, fetch as undiciFetch } from 'undici';
 
 import packageJson from '../package.json';
 import { sendWhileDisconnectedError, sendWhileNotReadyError, websocketErrorWithOriginal } from './errors';
@@ -55,14 +55,15 @@ export class SocketModeClient extends EventEmitter {
   private webClient: WebClient;
 
   /**
-   * WebClient options we pass to our WebClient instance
-   * We also reuse agent and tls for our WebSocket connection
+   * WebClient options we pass to our WebClient instance.
    */
   private webClientOptions: WebClientOptions;
 
   /**
-   * The underlying WebSocket client instance
+   * The undici Dispatcher used for both WebSocket and HTTP connections.
    */
+  private dispatcher?: Dispatcher;
+
   public websocket?: SlackWebSocket;
 
   /**
@@ -103,6 +104,7 @@ export class SocketModeClient extends EventEmitter {
       serverPingTimeout = 30000,
       appToken = '',
       clientOptions = {},
+      dispatcher = undefined,
     }: SocketModeOptions = { appToken: '' },
   ) {
     super();
@@ -113,6 +115,7 @@ export class SocketModeClient extends EventEmitter {
     this.clientPingTimeoutMS = clientPingTimeout;
     this.serverPingTimeoutMS = serverPingTimeout;
     // Setup the logger
+    this.dispatcher = dispatcher;
     if (typeof logger !== 'undefined') {
       this.customLoggerProvided = true;
       this.logger = logger;
@@ -127,11 +130,20 @@ export class SocketModeClient extends EventEmitter {
       // For faster retries of apps.connections.open API calls for reconnecting
       this.webClientOptions.retryConfig = { retries: 100, factor: 1.3 };
     }
+    // When a dispatcher is provided, wrap undici.fetch with it for the WebClient's HTTP calls.
+    // Cast through unknown because undici's fetch types have minor differences from globalThis.fetch.
+    const fetchOption: typeof globalThis.fetch | undefined =
+      (clientOptions as WebClientOptions).fetch ??
+      (dispatcher
+        ? (((url: Parameters<typeof undiciFetch>[0], init?: Parameters<typeof undiciFetch>[1]) =>
+            undiciFetch(url, { ...init, dispatcher })) as unknown as typeof globalThis.fetch)
+        : undefined);
     this.webClient = new WebClient('', {
       logger,
       logLevel: this.logger.getLevel(),
       headers: { Authorization: `Bearer ${appToken}` },
       ...clientOptions,
+      ...(fetchOption ? { fetch: fetchOption } : {}),
     });
     this.autoReconnectEnabled = autoReconnectEnabled;
 
@@ -171,7 +183,7 @@ export class SocketModeClient extends EventEmitter {
       client: this,
       logLevel: this.logger.getLevel(),
       logger: this.customLoggerProvided ? this.logger : undefined,
-      httpAgent: this.webClientOptions.agent,
+      dispatcher: this.dispatcher,
       clientPingTimeoutMS: this.clientPingTimeoutMS,
       serverPingTimeoutMS: this.serverPingTimeoutMS,
       pingPongLoggingEnabled: this.pingPongLoggingEnabled,
@@ -279,20 +291,12 @@ export class SocketModeClient extends EventEmitter {
     }
   }
 
-  /**
-   * `onmessage` handler for the client's WebSocket.
-   * This will parse the payload and dispatch the application-relevant events for each incoming message.
-   * Mediates:
-   * - raising the State.Connected event (when Slack sends a type:hello message)
-   * - disconnecting the underlying socket (when Slack sends a type:disconnect message)
-   */
-  protected async onWebSocketMessage(data: WebSocket.RawData, isBinary: boolean): Promise<void> {
+  protected async onWebSocketMessage(data: string | ArrayBuffer, isBinary: boolean): Promise<void> {
     if (isBinary) {
       this.logger.debug('Unexpected binary message received, ignoring.');
       return;
     }
-    const payload = data.toString();
-    // TODO: should we redact things in here?
+    const payload = data as string;
     this.logger.debug(`Received a message on the WebSocket: ${payload}`);
 
     // Parse message into slack event
@@ -302,9 +306,9 @@ export class SocketModeClient extends EventEmitter {
       // biome-ignore lint/suspicious/noExplicitAny: untyped connection callback parameters
       payload: Record<string, any>;
       envelope_id: string;
-      retry_attempt?: number; // type: events_api
-      retry_reason?: string; // type: events_api
-      accepts_response_payload?: boolean; // type: events_api, slash_commands, interactive
+      retry_attempt?: number;
+      retry_reason?: string;
+      accepts_response_payload?: boolean;
     };
 
     try {

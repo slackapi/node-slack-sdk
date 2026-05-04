@@ -1,4 +1,5 @@
 import type { WebClientOptions } from '@slack/web-api';
+import type { Dispatcher } from 'undici';
 import type { Logger, LogLevel } from './logger';
 
 export interface SocketModeOptions {
@@ -41,7 +42,14 @@ export interface SocketModeOptions {
   pingPongLoggingEnabled?: boolean;
   /**
    * The `@slack/web-api` `WebClientOptions` to provide to the HTTP client interacting with Slack's HTTP API.
-   * Useful for setting retry configurations, TLS and HTTP Agent options.
+   * Useful for setting retry configurations and custom fetch implementations.
    */
   clientOptions?: Omit<WebClientOptions, 'logLevel' | 'logger'>;
+  /**
+   * An undici `Dispatcher` used for both the WebSocket connection and HTTP API calls.
+   * Use this to configure proxies (e.g. `new ProxyAgent('http://proxy:3128')`) or custom TLS behavior.
+   *
+   * @see https://undici.nodejs.org/#/docs/api/ProxyAgent
+   */
+  dispatcher?: Dispatcher;
 }
