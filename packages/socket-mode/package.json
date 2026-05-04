@@ -24,8 +24,8 @@
     "dist/**/*"
   ],
   "engines": {
-    "node": ">= 18",
-    "npm": ">= 8.6.0"
+    "node": ">=20",
+    "npm": ">=9.6.4"
   },
   "repository": {
     "type": "git",
@@ -52,7 +52,7 @@
   "dependencies": {
     "@slack/logger": "^4.0.1",
     "@slack/web-api": "^7.15.0",
-    "@types/node": ">=18",
+    "@types/node": ">=20",
     "@types/ws": "^8",
     "eventemitter3": "^5",
     "ws": "^8"

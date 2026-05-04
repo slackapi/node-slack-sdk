@@ -19,7 +19,7 @@ section.
 
 ## Requirements
 
-This package supports Node v18 and higher. It's highly recommended to use [the
+This package supports Node v20 and higher. It's highly recommended to use [the
 latest LTS version of Node][node].
 
 An updated version of the Slack CLI is also encouraged while using this package.
