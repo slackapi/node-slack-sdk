@@ -15,7 +15,8 @@
     "dist/**/*"
   ],
   "engines": {
-    "node": ">=20"
+    "node": ">=20",
+    "npm": ">=9.6.4"
   },
   "repository": {
     "type": "git",
