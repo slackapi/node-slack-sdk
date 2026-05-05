@@ -1,6 +1,6 @@
 {
   "name": "@slack/web-api",
-  "version": "8.0.0",
+  "version": "8.0.0-rc.1",
   "description": "Official library for using the Slack Platform's Web API",
   "author": "Slack Technologies, LLC",
   "license": "MIT",
@@ -52,7 +52,11 @@
     "@slack/types": "^2.21.0",
     "@types/node": ">=20",
     "@types/retry": "0.12.0",
+    "axios": "^1.15.0",
     "eventemitter3": "^5.0.1",
+    "form-data": "^4.0.4",
+    "is-electron": "2.2.2",
+    "is-stream": "^2",
     "p-queue": "^6",
     "p-retry": "^4",
     "retry": "^0.13.1"
