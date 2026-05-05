@@ -1127,40 +1127,6 @@ describe('WebClient', () => {
       await client.apiCall('method');
       assert.ok(fetchCalled);
     });
-
-    it('should use a per-request fetch override', async () => {
-      let fetchCalled = false;
-      const customFetch: typeof globalThis.fetch = async () => {
-        fetchCalled = true;
-        return new Response(JSON.stringify({ ok: true }), {
-          status: 200,
-          headers: { 'content-type': 'application/json' },
-        });
-      };
-      const client = new WebClient(token, { retryConfig: { retries: 0 } });
-      await client.apiCall('method', {}, { fetch: customFetch });
-      assert.ok(fetchCalled);
-    });
-
-    it('should use a per-request signal for abort', async () => {
-      const slowFetch: typeof globalThis.fetch = (_input, init) => {
-        return new Promise((resolve, reject) => {
-          const timer = setTimeout(() => resolve(new Response(JSON.stringify({ ok: true }), { status: 200 })), 5000);
-          init?.signal?.addEventListener('abort', () => {
-            clearTimeout(timer);
-            reject(init.signal?.reason ?? new DOMException('The operation was aborted.', 'AbortError'));
-          });
-        });
-      };
-      const client = new WebClient(token, { fetch: slowFetch, retryConfig: { retries: 0 } });
-      try {
-        await client.apiCall('method', {}, { signal: AbortSignal.timeout(10) });
-        assert.fail('expected error to be thrown');
-      } catch (error) {
-        assert.ok(error instanceof Error);
-        assert.strictEqual((error as WebAPIRequestError).code, ErrorCode.RequestError);
-      }
-    });
   });
 
   it('should throw an error if the response has no retry info', async () => {

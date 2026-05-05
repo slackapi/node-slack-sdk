@@ -9,10 +9,8 @@ export {
 } from './errors';
 
 export {
-  FetchFunction,
   IncomingWebhook,
   IncomingWebhookDefaultArguments,
   IncomingWebhookResult,
   IncomingWebhookSendArguments,
-  RequestOptions,
 } from './IncomingWebhook';

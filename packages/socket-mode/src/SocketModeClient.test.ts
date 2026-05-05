@@ -72,7 +72,7 @@ describe('SocketModeClient', () => {
       });
     });
   });
-  
+
   describe('start()', () => {
     it('should resolve once Connected state emitted');
     it('should reject once Disconnected state emitted');

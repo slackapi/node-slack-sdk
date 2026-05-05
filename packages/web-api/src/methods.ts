@@ -550,18 +550,16 @@ import type {
   WorkflowsUpdateStepResponse,
 } from './types/response/index';
 
-import { type RequestOptions, type WebAPICallResult, WebClient, type WebClientEvent } from './WebClient';
+import { type WebAPICallResult, WebClient, type WebClientEvent } from './WebClient';
 
 /**
  * Generic method definition
  */
 type MethodWithRequiredArgument<MethodArguments, MethodResult extends WebAPICallResult = WebAPICallResult> = (
-  args: MethodArguments,
-  options?: RequestOptions,
+  options: MethodArguments,
 ) => Promise<MethodResult>;
 type MethodWithOptionalArgument<MethodArguments, MethodResult extends WebAPICallResult = WebAPICallResult> = (
-  args?: MethodArguments,
-  options?: RequestOptions,
+  options?: MethodArguments,
 ) => Promise<MethodResult>;
 
 export default MethodWithOptionalArgument;
@@ -608,15 +606,8 @@ export abstract class Methods extends EventEmitter<WebClientEvent> {
     }
   }
 
-  public abstract apiCall(
-    method: string,
-    args?: Record<string, unknown>,
-    options?: RequestOptions,
-  ): Promise<WebAPICallResult>;
-  public abstract filesUploadV2(
-    args: FilesUploadV2Arguments,
-    options?: RequestOptions,
-  ): Promise<WebAPICallResult>;
+  public abstract apiCall(method: string, options?: Record<string, unknown>): Promise<WebAPICallResult>;
+  public abstract filesUploadV2(options: FilesUploadV2Arguments): Promise<WebAPICallResult>;
 
   public readonly admin = {
     analytics: {

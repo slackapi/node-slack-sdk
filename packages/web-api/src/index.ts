@@ -26,7 +26,6 @@ export {
   PageAccumulator,
   PageReducer,
   PaginatePredicate,
-  RequestOptions,
   WebAPICallResult,
   WebClient,
   WebClientEvent,

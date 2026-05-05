@@ -143,38 +143,5 @@ describe('IncomingWebhook', () => {
         }
       });
     });
-
-    describe('per-request options', () => {
-      it('should use a per-request fetch override', async () => {
-        let fetchCalled = false;
-        const customFetch: typeof globalThis.fetch = async () => {
-          fetchCalled = true;
-          return new Response('custom', { status: 200 });
-        };
-        const result = await webhook.send('Hello', { fetch: customFetch });
-        assert.ok(fetchCalled);
-        assert.strictEqual(result.text, 'custom');
-      });
-
-      it('should use a per-request signal for abort', async () => {
-        const slowFetch: typeof globalThis.fetch = (_input, init) => {
-          return new Promise((resolve, reject) => {
-            const timer = setTimeout(() => resolve(new Response('ok', { status: 200 })), 5000);
-            init?.signal?.addEventListener('abort', () => {
-              clearTimeout(timer);
-              reject(init.signal?.reason ?? new DOMException('The operation was aborted.', 'AbortError'));
-            });
-          });
-        };
-
-        try {
-          await webhook.send('Hello', { fetch: slowFetch, signal: AbortSignal.timeout(10) });
-          assert.fail('expected rejection');
-        } catch (error) {
-          assert.ok(error instanceof Error);
-          assert.strictEqual((error as CodedError).code, ErrorCode.RequestError);
-        }
-      });
-    });
   });
 });

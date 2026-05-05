@@ -118,13 +118,6 @@ export type PageAccumulator<R extends PageReducer> = R extends (
 
 export type FetchFunction = typeof globalThis.fetch;
 
-export interface RequestOptions {
-  /** Override the client-level `fetch` for this single request. */
-  fetch?: FetchFunction;
-  /** Override the client-level timeout signal. Replaces the SDK's default AbortController. */
-  signal?: AbortSignal;
-}
-
 /**
  * A client for Slack's Web API
  *
@@ -246,39 +239,34 @@ export class WebClient extends Methods {
   /**
    * Generic method for calling a Web API method
    * @param method - the Web API method to call {@link https://docs.slack.dev/reference/methods}
-   * @param args - arguments for the Web API method
+   * @param options - arguments for the Web API method
    */
-  public async apiCall(
-    method: string,
-    args: Record<string, unknown> = {},
-    options?: RequestOptions,
-  ): Promise<WebAPICallResult> {
+  public async apiCall(method: string, options: Record<string, unknown> = {}): Promise<WebAPICallResult> {
     this.logger.debug(`apiCall('${method}') start`);
 
     warnDeprecations(method, this.logger);
-    warnIfFallbackIsMissing(method, this.logger, args);
-    warnIfThreadTsIsNotString(method, this.logger, args);
+    warnIfFallbackIsMissing(method, this.logger, options);
+    warnIfThreadTsIsNotString(method, this.logger, options);
 
-    if (typeof args === 'string' || typeof args === 'number' || typeof args === 'boolean') {
-      throw new TypeError(`Expected an options argument but instead received a ${typeof args}`);
+    if (typeof options === 'string' || typeof options === 'number' || typeof options === 'boolean') {
+      throw new TypeError(`Expected an options argument but instead received a ${typeof options}`);
     }
 
     warnIfNotUsingFilesUploadV2(method, this.logger);
     // @ts-expect-error insufficient overlap between Record and FilesUploadV2Arguments
-    if (method === 'files.uploadV2') return this.filesUploadV2(args as FilesUploadV2Arguments, options);
+    if (method === 'files.uploadV2') return this.filesUploadV2(options as FilesUploadV2Arguments);
 
     const headers: Record<string, string> = {};
-    if (args.token) headers.Authorization = `Bearer ${args.token}`;
+    if (options.token) headers.Authorization = `Bearer ${options.token}`;
 
     const url = this.deriveRequestUrl(method);
     const response = await this.makeRequest(
       url,
       {
         team_id: this.teamId,
-        ...args,
+        ...options,
       },
       headers,
-      options,
     );
     const result = await this.buildResult(response);
     this.logger.debug(`http request result: ${JSON.stringify(result)}`);
@@ -336,28 +324,28 @@ export class WebClient extends Methods {
    * to use it in earlier JavaScript runtimes by transpiling your source with a tool like Babel. However, the
    * transpiled code will likely sacrifice performance.
    * @param method - the cursor-paginated Web API method to call {@link https://docs.slack.dev/apis/web-api/paginationn}
-   * @param args - arguments for the Web API method
+   * @param options - options
    * @param shouldStop - a predicate that is called with each page, and should return true when pagination can end.
    * @param reduce - a callback that can be used to accumulate a value that the return promise is resolved to
    */
-  public paginate(method: string, args?: Record<string, unknown>): AsyncIterable<WebAPICallResult>;
-  public paginate(method: string, args: Record<string, unknown>, shouldStop: PaginatePredicate): Promise<void>;
+  public paginate(method: string, options?: Record<string, unknown>): AsyncIterable<WebAPICallResult>;
+  public paginate(method: string, options: Record<string, unknown>, shouldStop: PaginatePredicate): Promise<void>;
   public paginate<R extends PageReducer, A extends PageAccumulator<R>>(
     method: string,
-    args: Record<string, unknown>,
+    options: Record<string, unknown>,
     shouldStop: PaginatePredicate,
     reduce?: PageReducer<A>,
   ): Promise<A>;
   public paginate<R extends PageReducer, A extends PageAccumulator<R>>(
     method: string,
-    args?: Record<string, unknown>,
+    options?: Record<string, unknown>,
     shouldStop?: PaginatePredicate,
     reduce?: PageReducer<A>,
   ): Promise<A> | AsyncIterable<WebAPICallResult> {
     const pageSize = (() => {
-      if (args !== undefined && typeof args.limit === 'number') {
-        const { limit } = args;
-        args.limit = undefined;
+      if (options !== undefined && typeof options.limit === 'number') {
+        const { limit } = options;
+        options.limit = undefined;
         return limit;
       }
       return defaultPageSize;
@@ -366,18 +354,18 @@ export class WebClient extends Methods {
     async function* generatePages(this: WebClient): AsyncIterableIterator<WebAPICallResult> {
       // when result is undefined, that signals that the first of potentially many calls has not yet been made
       let result: WebAPICallResult | undefined;
-      // paginationOptions stores pagination options not already stored in the args argument
+      // paginationOptions stores pagination options not already stored in the options argument
       let paginationOptions: CursorPaginationEnabled | undefined = {
         limit: pageSize,
       };
-      if (args !== undefined && args.cursor !== undefined) {
-        paginationOptions.cursor = args.cursor as string;
+      if (options !== undefined && options.cursor !== undefined) {
+        paginationOptions.cursor = options.cursor as string;
       }
 
       // NOTE: test for the situation where you're resuming a pagination using and existing cursor
 
       while (result === undefined || paginationOptions !== undefined) {
-        result = await this.apiCall(method, Object.assign(args !== undefined ? args : {}, paginationOptions));
+        result = await this.apiCall(method, Object.assign(options !== undefined ? options : {}, paginationOptions));
         yield result;
         paginationOptions = paginationOptionsForNextPage(result, pageSize);
       }
@@ -464,16 +452,15 @@ export class WebClient extends Methods {
    * URLs returned from step 1 (e.g. https://files.slack.com/upload/v1/...\")
    *
    * **#3**: Complete uploads {@link https://docs.slack.dev/reference/methods/files.completeuploadexternal files.completeUploadExternal}
-   * @param args
+   * @param options
    */
   public async filesUploadV2(
-    args: FilesUploadV2Arguments,
-    options?: RequestOptions,
+    options: FilesUploadV2Arguments,
   ): Promise<WebAPICallResult & { files: FilesCompleteUploadExternalResponse[] }> {
     this.logger.debug('files.uploadV2() start');
     // 1
-    const fileUploads = await this.getAllFileUploads(args);
-    const fileUploadsURLRes = await this.fetchAllUploadURLExternal(fileUploads, options);
+    const fileUploads = await this.getAllFileUploads(options);
+    const fileUploadsURLRes = await this.fetchAllUploadURLExternal(fileUploads);
     // set the upload_url and file_id returned from Slack
     fileUploadsURLRes.forEach((res, idx) => {
       fileUploads[idx].upload_url = res.upload_url;
@@ -481,10 +468,10 @@ export class WebClient extends Methods {
     });
 
     // 2
-    await this.postFileUploadsToExternalURL(fileUploads, args, options);
+    await this.postFileUploadsToExternalURL(fileUploads, options);
 
     // 3
-    const completion = await this.completeFileUploads(fileUploads, options);
+    const completion = await this.completeFileUploads(fileUploads);
 
     return { ok: true, files: completion };
   }
@@ -497,21 +484,20 @@ export class WebClient extends Methods {
    */
   private async fetchAllUploadURLExternal(
     fileUploads: FileUploadV2Job[],
-    options?: RequestOptions,
   ): Promise<Array<FilesGetUploadURLExternalResponse>> {
     return Promise.all(
       fileUploads.map((upload: FileUploadV2Job) => {
-        const args = {
+        const options = {
           filename: upload.filename,
           length: upload.length,
           alt_text: upload.alt_text,
           snippet_type: upload.snippet_type,
         } as FilesGetUploadURLExternalArguments;
         if ('token' in upload) {
-          args.token = upload.token;
+          options.token = upload.token;
         }
 
-        return this.files.getUploadURLExternal(args, options);
+        return this.files.getUploadURLExternal(options);
       }),
     );
   }
@@ -521,12 +507,9 @@ export class WebClient extends Methods {
    * @param fileUploads
    * @returns
    */
-  private async completeFileUploads(
-    fileUploads: FileUploadV2Job[],
-    options?: RequestOptions,
-  ): Promise<FilesCompleteUploadExternalResponse[]> {
+  private async completeFileUploads(fileUploads: FileUploadV2Job[]): Promise<FilesCompleteUploadExternalResponse[]> {
     const toComplete: FilesCompleteUploadExternalArguments[] = Object.values(getAllFileUploadsToComplete(fileUploads));
-    return Promise.all(toComplete.map((job) => this.files.completeUploadExternal(job, options)));
+    return Promise.all(toComplete.map((job) => this.files.completeUploadExternal(job)));
   }
 
   /**
@@ -536,8 +519,7 @@ export class WebClient extends Methods {
    */
   private async postFileUploadsToExternalURL(
     fileUploads: FileUploadV2Job[],
-    args: FilesUploadV2Arguments,
-    options?: RequestOptions,
+    options: FilesUploadV2Arguments,
   ): Promise<Array<FilesGetUploadURLExternalResponse>> {
     return Promise.all(
       fileUploads.map(async (upload: FileUploadV2Job) => {
@@ -548,7 +530,7 @@ export class WebClient extends Methods {
         // try to post to external url
         if (upload_url) {
           const headers: Record<string, string> = {};
-          if (args.token) headers.Authorization = `Bearer ${args.token}`;
+          if (options.token) headers.Authorization = `Bearer ${options.token}`;
 
           const uploadRes = await this.makeRequest(
             upload_url,
@@ -556,7 +538,6 @@ export class WebClient extends Methods {
               body,
             },
             headers,
-            options,
           );
           if (uploadRes.status !== 200) {
             return Promise.reject(Error(`Failed to upload file (id:${file_id}, filename: ${filename})`));
@@ -571,20 +552,20 @@ export class WebClient extends Methods {
   }
 
   /**
-   * @param args All file uploads arguments
+   * @param options All file uploads arguments
    * @returns An array of file upload entries
    */
-  private async getAllFileUploads(args: FilesUploadV2Arguments): Promise<FileUploadV2Job[]> {
+  private async getAllFileUploads(options: FilesUploadV2Arguments): Promise<FileUploadV2Job[]> {
     let fileUploads: FileUploadV2Job[] = [];
 
     // add single file data to uploads if file or content exists at the top level
-    if ('file' in args || 'content' in args) {
-      fileUploads.push(await getFileUploadJob(args, this.logger));
+    if ('file' in options || 'content' in options) {
+      fileUploads.push(await getFileUploadJob(options, this.logger));
     }
 
     // add multiple files data when file_uploads is supplied
-    if ('file_uploads' in args) {
-      fileUploads = fileUploads.concat(await getMultipleFileUploadJobs(args, this.logger));
+    if ('file_uploads' in options) {
+      fileUploads = fileUploads.concat(await getMultipleFileUploadJobs(options, this.logger));
     }
     return fileUploads;
   }
@@ -596,7 +577,6 @@ export class WebClient extends Methods {
     url: string,
     body: Record<string, unknown>,
     headers: Record<string, string> = {},
-    options?: RequestOptions,
   ): Promise<Response> {
     const task = () =>
       this.requestQueue.add(async () => {
@@ -612,16 +592,12 @@ export class WebClient extends Methods {
         this.logger.debug(`http request body: ${JSON.stringify(redact(body))}`);
         this.logger.debug(`http request headers: ${JSON.stringify(redact(allHeaders))}`);
 
-        const effectiveFetch = options?.fetch ?? this.fetchFn;
-        const effectiveSignal = options?.signal;
-
         const controller = new AbortController();
-        const timer =
-          !effectiveSignal && this.timeout > 0 ? setTimeout(() => controller.abort(), this.timeout) : undefined;
-        const signal = effectiveSignal ?? (timer ? controller.signal : undefined);
+        const timer = this.timeout > 0 ? setTimeout(() => controller.abort(), this.timeout) : undefined;
+        const signal = timer ? controller.signal : undefined;
 
         try {
-          const response = await effectiveFetch(url, {
+          const response = await this.fetchFn(url, {
             method: 'POST',
             headers: allHeaders,
             body: serializedBody,
@@ -899,34 +875,34 @@ function warnDeprecations(method: string, logger: Logger): void {
  * Log a warning when using chat.postMessage without text argument or attachments with fallback argument
  * @param method api method being called
  * @param logger instance of we clients logger
- * @param args arguments for the Web API method
+ * @param options arguments for the Web API method
  */
-function warnIfFallbackIsMissing(method: string, logger: Logger, args?: Record<string, unknown>): void {
+function warnIfFallbackIsMissing(method: string, logger: Logger, options?: Record<string, unknown>): void {
   const targetMethods = ['chat.postEphemeral', 'chat.postMessage', 'chat.scheduleMessage'];
   const isTargetMethod = targetMethods.includes(method);
 
-  const hasAttachments = (a: Record<string, unknown>) => Array.isArray(a.attachments) && a.attachments.length;
+  const hasAttachments = (args: Record<string, unknown>) => Array.isArray(args.attachments) && args.attachments.length;
 
-  const missingAttachmentFallbackDetected = (a: Record<string, unknown>) =>
-    Array.isArray(a.attachments) &&
-    a.attachments.some((attachment) => !attachment.fallback || attachment.fallback.trim() === '');
+  const missingAttachmentFallbackDetected = (args: Record<string, unknown>) =>
+    Array.isArray(args.attachments) &&
+    args.attachments.some((attachment) => !attachment.fallback || attachment.fallback.trim() === '');
 
-  const isEmptyText = (a: Record<string, unknown>) =>
-    (a.text === undefined || a.text === null || a.text === '') &&
-    (a.markdown_text === undefined || a.markdown === null || a.markdown_text === '');
+  const isEmptyText = (args: Record<string, unknown>) =>
+    (args.text === undefined || args.text === null || args.text === '') &&
+    (args.markdown_text === undefined || args.markdown === null || args.markdown_text === '');
 
   const buildMissingTextWarning = () =>
     `The top-level \`text\` argument is missing in the request payload for a ${method} call - It's a best practice to always provide a \`text\` argument when posting a message. The \`text\` is used in places where the content cannot be rendered such as: system push notifications, assistive technology such as screen readers, etc.`;
 
   const buildMissingFallbackWarning = () =>
     `Additionally, the attachment-level \`fallback\` argument is missing in the request payload for a ${method} call - To avoid this warning, it is recommended to always provide a top-level \`text\` argument when posting a message. Alternatively, you can provide an attachment-level \`fallback\` argument, though this is now considered a legacy field (see https://docs.slack.dev/legacy/legacy-messaging/legacy-secondary-message-attachments for more details).`;
-  if (isTargetMethod && typeof args === 'object') {
-    if (hasAttachments(args)) {
-      if (missingAttachmentFallbackDetected(args) && isEmptyText(args)) {
+  if (isTargetMethod && typeof options === 'object') {
+    if (hasAttachments(options)) {
+      if (missingAttachmentFallbackDetected(options) && isEmptyText(options)) {
         logger.warn(buildMissingTextWarning());
         logger.warn(buildMissingFallbackWarning());
       }
-    } else if (isEmptyText(args)) {
+    } else if (isEmptyText(options)) {
       logger.warn(buildMissingTextWarning());
     }
   }
@@ -936,13 +912,13 @@ function warnIfFallbackIsMissing(method: string, logger: Logger, args?: Record<s
  * Log a warning when thread_ts is not a string
  * @param method api method being called
  * @param logger instance of web clients logger
- * @param args arguments for the Web API method
+ * @param options arguments for the Web API method
  */
-function warnIfThreadTsIsNotString(method: string, logger: Logger, args?: Record<string, unknown>): void {
+function warnIfThreadTsIsNotString(method: string, logger: Logger, options?: Record<string, unknown>): void {
   const targetMethods = ['chat.postEphemeral', 'chat.postMessage', 'chat.scheduleMessage', 'files.upload'];
   const isTargetMethod = targetMethods.includes(method);
 
-  if (isTargetMethod && args?.thread_ts !== undefined && typeof args?.thread_ts !== 'string') {
+  if (isTargetMethod && options?.thread_ts !== undefined && typeof options?.thread_ts !== 'string') {
     logger.warn(buildThreadTsWarningMessage(method));
   }
 }

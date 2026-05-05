@@ -4,12 +4,7 @@ import type { CodedError } from './errors';
 import { httpErrorWithOriginal, requestErrorWithOriginal } from './errors';
 import { getUserAgent } from './instrument';
 
-export type FetchFunction = typeof globalThis.fetch;
-
-export interface RequestOptions {
-  fetch?: FetchFunction;
-  signal?: AbortSignal;
-}
+type FetchFunction = typeof globalThis.fetch;
 
 /**
  * A client for Slack's Incoming Webhooks
@@ -65,12 +60,8 @@ export class IncomingWebhook {
   /**
    * Send a notification to a conversation
    * @param message - the message (a simple string, or an object describing the message)
-   * @param options - optional request-level overrides (custom fetch, abort signal)
    */
-  public async send(
-    message: string | IncomingWebhookSendArguments,
-    options?: RequestOptions,
-  ): Promise<IncomingWebhookResult> {
+  public async send(message: string | IncomingWebhookSendArguments): Promise<IncomingWebhookResult> {
     let payload: IncomingWebhookSendArguments = { ...this.defaults };
 
     if (typeof message === 'string') {
@@ -79,15 +70,12 @@ export class IncomingWebhook {
       payload = Object.assign(payload, message);
     }
 
-    const effectiveFetch = options?.fetch ?? this.fetchFn;
-    const effectiveSignal = options?.signal;
-
     const controller = new AbortController();
-    const timer = !effectiveSignal && this.timeout > 0 ? setTimeout(() => controller.abort(), this.timeout) : undefined;
-    const signal = effectiveSignal ?? (timer ? controller.signal : undefined);
+    const timer = this.timeout > 0 ? setTimeout(() => controller.abort(), this.timeout) : undefined;
+    const signal = timer ? controller.signal : undefined;
 
     try {
-      const response = await effectiveFetch(this.url, {
+      const response = await this.fetchFn(this.url, {
         method: 'POST',
         headers: {
           ...this.headers,
