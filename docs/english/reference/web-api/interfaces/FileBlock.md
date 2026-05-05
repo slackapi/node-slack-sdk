@@ -2,7 +2,7 @@
 
 # Interface: FileBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:103
+Defined in: packages/types/dist/block-kit/blocks.d.ts:173
 
 ## Description
 
@@ -49,7 +49,7 @@ a message. If a message is updated, use a new `block_id`.
 external_id: string;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:115
+Defined in: packages/types/dist/block-kit/blocks.d.ts:185
 
 #### Description
 
@@ -63,7 +63,7 @@ The external unique ID for this file.
 source: string;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:111
+Defined in: packages/types/dist/block-kit/blocks.d.ts:181
 
 #### Description
 
@@ -77,7 +77,7 @@ At the moment, source will always be `remote` for a remote file.
 type: "file";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:107
+Defined in: packages/types/dist/block-kit/blocks.d.ts:177
 
 #### Description
 

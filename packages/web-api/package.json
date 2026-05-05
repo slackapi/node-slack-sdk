@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@slack/logger": "^4.0.1",
-    "@slack/types": "^2.20.1",
+    "@slack/types": "^2.21.0",
     "@types/node": ">=20",
     "@types/retry": "0.12.0",
     "eventemitter3": "^5.0.1",

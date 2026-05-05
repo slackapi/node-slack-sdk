@@ -26,6 +26,7 @@ import type {
   WorkflowButton,
 } from './block-elements';
 import type {
+  MrkdwnElement,
   PlainTextElement,
   RawTextElement,
   SlackFileImageObject,
@@ -54,6 +55,9 @@ export interface Block {
  */
 export type KnownBlock =
   | ActionsBlock
+  | AlertBlock
+  | CardBlock
+  | CarouselBlock
   | ContextBlock
   | ContextActionsBlock
   | DividerBlock
@@ -106,6 +110,79 @@ export interface ActionsBlock extends Block {
    * There is a maximum of 25 elements in each action block.
    */
   elements: ActionsBlockElement[]; // TODO: breaking change: min 1 item
+}
+
+/**
+ * @description A prominent notice block for displaying warnings, status updates, or other important information.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/alert-block Alert block reference}.
+ */
+export interface AlertBlock extends Block {
+  /**
+   * @description The type of block. For an alert block, `type` is always `alert`.
+   */
+  type: 'alert';
+  /**
+   * @description The alert message content in the form of a {@link TextObject}.
+   */
+  text: TextObject;
+  /**
+   * @description The severity level of the alert. Defaults to `"default"` if omitted.
+   */
+  level?: 'default' | 'info' | 'warning' | 'error' | 'success';
+}
+
+/**
+ * @description A rich display block for presenting structured content such as recommendations, results, or work items.
+ * At least one of `hero_image`, `title`, `actions`, or `body` must be provided.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/card-block Card block reference}.
+ */
+export interface CardBlock extends Block {
+  /**
+   * @description The type of block. For a card block, `type` is always `card`.
+   */
+  type: 'card';
+  /**
+   * @description A top banner image for the card in the form of an {@link ImageElement}.
+   */
+  hero_image?: ImageElement;
+  /**
+   * @description A small icon displayed next to the title and subtitle in the form of an {@link ImageElement}.
+   */
+  icon?: ImageElement;
+  /**
+   * @description The title of the card in the form of a {@link MrkdwnElement}.
+   * Maximum length for the text in this field is 150 characters.
+   */
+  title?: MrkdwnElement;
+  /**
+   * @description The subtitle of the card in the form of a {@link MrkdwnElement}.
+   * Maximum length for the text in this field is 150 characters.
+   */
+  subtitle?: MrkdwnElement;
+  /**
+   * @description The body text of the card in the form of a {@link MrkdwnElement}.
+   * Maximum length for the text in this field is 200 characters.
+   */
+  body?: MrkdwnElement;
+  /**
+   * @description An array of {@link Button} elements displayed at the bottom of the card.
+   */
+  actions?: Button[];
+}
+
+/**
+ * @description A horizontally scrollable collection of {@link CardBlock} elements.
+ * @see {@link https://docs.slack.dev/reference/block-kit/blocks/carousel-block Carousel block reference}.
+ */
+export interface CarouselBlock extends Block {
+  /**
+   * @description The type of block. For a carousel block, `type` is always `carousel`.
+   */
+  type: 'carousel';
+  /**
+   * @description An array of {@link CardBlock} elements. Minimum 1, maximum 10 cards.
+   */
+  elements: CardBlock[];
 }
 
 /**

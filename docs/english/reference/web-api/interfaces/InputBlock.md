@@ -2,7 +2,7 @@
 
 # Interface: InputBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:164
+Defined in: packages/types/dist/block-kit/blocks.d.ts:234
 
 ## Description
 
@@ -48,7 +48,7 @@ a message. If a message is updated, use a new `block_id`.
 optional dispatch_action: boolean;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:192
+Defined in: packages/types/dist/block-kit/blocks.d.ts:262
 
 #### Description
 
@@ -63,7 +63,7 @@ A boolean that indicates whether or not the use of elements in this block should
 element: InputBlockElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:187
+Defined in: packages/types/dist/block-kit/blocks.d.ts:257
 
 #### Description
 
@@ -77,7 +77,7 @@ A block element.
 optional hint: PlainTextElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:178
+Defined in: packages/types/dist/block-kit/blocks.d.ts:248
 
 #### Description
 
@@ -92,7 +92,7 @@ An optional hint that appears below an input element in a lighter grey. It must 
 label: PlainTextElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:173
+Defined in: packages/types/dist/block-kit/blocks.d.ts:243
 
 #### Description
 
@@ -107,7 +107,7 @@ Maximum length for the text in this field is 2000 characters.
 optional optional: boolean;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:183
+Defined in: packages/types/dist/block-kit/blocks.d.ts:253
 
 #### Description
 
@@ -122,7 +122,7 @@ Defaults to `false`.
 type: "input";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:168
+Defined in: packages/types/dist/block-kit/blocks.d.ts:238
 
 #### Description
 

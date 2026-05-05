@@ -7,6 +7,9 @@ Defined in: packages/types/dist/block-kit/blocks.d.ts:3
 ## Extended by
 
 - [`ActionsBlock`](ActionsBlock.md)
+- [`AlertBlock`](AlertBlock.md)
+- [`CardBlock`](CardBlock.md)
+- [`CarouselBlock`](CarouselBlock.md)
 - [`ContextBlock`](ContextBlock.md)
 - [`ContextActionsBlock`](ContextActionsBlock.md)
 - [`DividerBlock`](DividerBlock.md)

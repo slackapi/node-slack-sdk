@@ -2,7 +2,7 @@
 
 # Interface: RichTextBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:224
+Defined in: packages/types/dist/block-kit/blocks.d.ts:294
 
 ## Description
 
@@ -51,7 +51,7 @@ a message. If a message is updated, use a new `block_id`.
 elements: RichTextBlockElement[];
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:229
+Defined in: packages/types/dist/block-kit/blocks.d.ts:299
 
 ***
 
@@ -61,7 +61,7 @@ Defined in: packages/types/dist/block-kit/blocks.d.ts:229
 type: "rich_text";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:228
+Defined in: packages/types/dist/block-kit/blocks.d.ts:298
 
 #### Description
 

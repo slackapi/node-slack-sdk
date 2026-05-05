@@ -16,7 +16,7 @@ type SectionBlockAccessory =
   | WorkflowButton;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:235
+Defined in: packages/types/dist/block-kit/blocks.d.ts:305
 
 A helper union type of all Block Elements that can be used as an accessory in a [SectionBlock](../interfaces/SectionBlock.md).
 

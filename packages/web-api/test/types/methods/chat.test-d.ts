@@ -832,6 +832,25 @@ expectAssignable<Parameters<typeof web.chat.startStream>>([
     recipient_user_id: 'U1234',
   },
 ]);
+expectAssignable<Parameters<typeof web.chat.startStream>>([
+  {
+    channel: 'C1234',
+    thread_ts: '1234.56',
+    recipient_team_id: 'T1234',
+    recipient_user_id: 'U1234',
+    username: 'Abacus',
+    icon_emoji: 'abacus',
+  },
+]);
+expectAssignable<Parameters<typeof web.chat.startStream>>([
+  {
+    channel: 'C1234',
+    thread_ts: '1234.56',
+    recipient_team_id: 'T1234',
+    recipient_user_id: 'U1234',
+    icon_url: 'https://example.com/clouds-square.png',
+  },
+]);
 
 expectAssignable<Parameters<typeof web.chat.startStream>>([
   {
