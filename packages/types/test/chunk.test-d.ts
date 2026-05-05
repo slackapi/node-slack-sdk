@@ -20,10 +20,7 @@ expectAssignable<BlocksChunk>({
 });
 expectAssignable<BlocksChunk>({
   type: 'blocks',
-  blocks: [
-    { type: 'divider' },
-    { type: 'header', text: { type: 'plain_text', text: 'Hello' } },
-  ],
+  blocks: [{ type: 'divider' }, { type: 'header', text: { type: 'plain_text', text: 'Hello' } }],
 });
 // Unknown block types accepted via generic Block interface
 expectAssignable<BlocksChunk>({
