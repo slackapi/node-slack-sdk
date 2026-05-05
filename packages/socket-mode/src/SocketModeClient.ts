@@ -114,8 +114,8 @@ export class SocketModeClient extends EventEmitter {
     this.pingPongLoggingEnabled = pingPongLoggingEnabled;
     this.clientPingTimeoutMS = clientPingTimeout;
     this.serverPingTimeoutMS = serverPingTimeout;
-    // Setup the logger
     this.dispatcher = dispatcher;
+    // Setup the logger
     if (typeof logger !== 'undefined') {
       this.customLoggerProvided = true;
       this.logger = logger;
@@ -126,24 +126,20 @@ export class SocketModeClient extends EventEmitter {
       this.logger = log.getLogger(SocketModeClient.loggerName, logLevel ?? LogLevel.INFO, logger);
     }
     this.webClientOptions = clientOptions;
+    if (this.dispatcher) {
+      const { dispatcher } = this;
+      this.webClientOptions.fetch = ((input: Parameters<typeof undiciFetch>[0], init?: Parameters<typeof undiciFetch>[1]) =>
+        undiciFetch(input, { ...init, dispatcher })) as unknown as typeof globalThis.fetch;
+    }
     if (this.webClientOptions.retryConfig === undefined) {
       // For faster retries of apps.connections.open API calls for reconnecting
       this.webClientOptions.retryConfig = { retries: 100, factor: 1.3 };
     }
-    // When a dispatcher is provided, wrap undici.fetch with it for the WebClient's HTTP calls.
-    // Cast through unknown because undici's fetch types have minor differences from globalThis.fetch.
-    const fetchOption: typeof globalThis.fetch | undefined =
-      (clientOptions as WebClientOptions).fetch ??
-      (dispatcher
-        ? (((url: Parameters<typeof undiciFetch>[0], init?: Parameters<typeof undiciFetch>[1]) =>
-            undiciFetch(url, { ...init, dispatcher })) as unknown as typeof globalThis.fetch)
-        : undefined);
     this.webClient = new WebClient('', {
       logger,
       logLevel: this.logger.getLevel(),
       headers: { Authorization: `Bearer ${appToken}` },
-      ...clientOptions,
-      ...(fetchOption ? { fetch: fetchOption } : {}),
+      ...this.webClientOptions,
     });
     this.autoReconnectEnabled = autoReconnectEnabled;
 

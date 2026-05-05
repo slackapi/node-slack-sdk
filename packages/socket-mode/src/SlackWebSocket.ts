@@ -223,7 +223,7 @@ export class SlackWebSocket {
         // If we haven't received a close frame yet, then we send one to the peer, expecting to receive a close frame
         // in response.
         this.logger.debug('Sending close frame (status=1000).');
-        this.websocket.close(1000);
+        this.websocket.close(1000); // 1000 = Normal Closure
       }
     } else {
       this.logger.debug('WebSocket already disconnected, flushing remainder.');
