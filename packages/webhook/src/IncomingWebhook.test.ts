@@ -128,9 +128,12 @@ describe('IncomingWebhook', () => {
         })
           .post(/services/)
           .reply(200, 'ok');
-        const webhook = new IncomingWebhook(url);
-        await webhook.send('Hello');
-        scope.done();
+        try {
+          const webhook = new IncomingWebhook(url);
+          await webhook.send('Hello');
+        } finally {
+          scope.done();
+        }
       });
     });
   });

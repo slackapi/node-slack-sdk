@@ -478,6 +478,7 @@ describe('WebClient', () => {
         assert.strictEqual(e.code, ErrorCode.HTTPError);
         assert.strictEqual(e.statusCode, 502);
         assert.strictEqual(e.body, htmlBody);
+      } finally {
         scope.done();
       }
     });
@@ -493,10 +494,13 @@ describe('WebClient', () => {
         const scope = nock('https://slack.com')
           .post('/api/admin.analytics.getFile')
           .reply(200, gzipped, { 'content-type': 'application/gzip' });
-        const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
-        const result = await client.apiCall('admin.analytics.getFile', { type: 'member' });
-        assert.deepStrictEqual(result.file_data, fileData);
-        scope.done();
+        try {
+          const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
+          const result = await client.apiCall('admin.analytics.getFile', { type: 'member' });
+          assert.deepStrictEqual(result.file_data, fileData);
+        } finally {
+          scope.done();
+        }
       });
     });
 
