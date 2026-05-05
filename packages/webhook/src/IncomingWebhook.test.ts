@@ -5,6 +5,7 @@ import nock from 'nock';
 import type { CodedError } from './errors';
 import { ErrorCode } from './errors';
 import { IncomingWebhook } from './IncomingWebhook';
+import { getUserAgent } from './instrument';
 
 const url = 'https://hooks.slack.com/services/FAKEWEBHOOK';
 
@@ -74,6 +75,21 @@ describe('IncomingWebhook', () => {
         });
         assert.strictEqual(result.text, 'ok');
         scope.done();
+      });
+    });
+
+    describe('User-Agent header', () => {
+      it('should send the User-Agent header with every request', async () => {
+        let capturedHeaders: HeadersInit | undefined;
+        const capturingFetch: typeof globalThis.fetch = async (_input, init) => {
+          capturedHeaders = init?.headers;
+          return new Response('ok', { status: 200 });
+        };
+        const webhook = new IncomingWebhook(url, { fetch: capturingFetch });
+        await webhook.send('Hello');
+        assert.ok(capturedHeaders);
+        const headers = capturedHeaders as Record<string, string>;
+        assert.strictEqual(headers['User-Agent'], getUserAgent());
       });
     });
 

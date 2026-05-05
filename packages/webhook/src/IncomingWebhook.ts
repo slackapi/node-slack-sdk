@@ -94,7 +94,7 @@ export class IncomingWebhook {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload),
-        redirect: 'manual',
+        redirect: 'error',
         ...(signal ? { signal } : {}),
       });
 

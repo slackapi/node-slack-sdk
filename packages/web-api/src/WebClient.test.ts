@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { afterEach, beforeEach, describe, it } from 'node:test';
+import zlib from 'node:zlib';
 import type { ContextActionsBlock } from '@slack/types';
 import nock, { type ReplyHeaders } from 'nock';
 import sinon from 'sinon';
@@ -112,7 +113,7 @@ describe('WebClient', () => {
     });
   });
 
-  describe('has an option to override the Axios timeout value', () => {
+  describe('has an option to override the timeout value', () => {
     it('should throw error if timeout exceeded', async () => {
       const timeoutOverride = 1; // ms, guaranteed failure
 
@@ -136,6 +137,32 @@ describe('WebClient', () => {
         assert.fail('expected error to be thrown');
       } catch (e) {
         assert.ok(e instanceof Error);
+      }
+    });
+
+    it('should produce a WebAPIRequestError with original when timeout fires', async () => {
+      const slowFetch: typeof globalThis.fetch = (_input, init) =>
+        new Promise((_resolve, reject) => {
+          const timer = setTimeout(() => reject(new Error('should have been aborted')), 5000);
+          init?.signal?.addEventListener('abort', () => {
+            clearTimeout(timer);
+            reject(init.signal?.reason ?? new DOMException('The operation was aborted.', 'AbortError'));
+          });
+        });
+
+      const client = new WebClient(undefined, {
+        timeout: 1,
+        retryConfig: { retries: 0 },
+        fetch: slowFetch,
+      });
+
+      try {
+        await client.apiCall('users.list');
+        assert.fail('expected error to be thrown');
+      } catch (error) {
+        const e = error as WebAPIRequestError;
+        assert.strictEqual(e.code, ErrorCode.RequestError);
+        assert.ok(e.original instanceof Error);
       }
     });
   });
@@ -401,6 +428,26 @@ describe('WebClient', () => {
       });
     });
 
+    describe('admin.analytics.getFile GZIP response', () => {
+      it('should decompress GZIP response and return file_data array', async () => {
+        const fileData = [
+          { date: '2024-01-01', user_id: 'U123', messages_posted: 5 },
+          { date: '2024-01-01', user_id: 'U456', messages_posted: 10 },
+        ];
+        const ndjson = fileData.map((d) => JSON.stringify(d)).join('\n');
+        const gzipped = zlib.gzipSync(Buffer.from(ndjson));
+
+        const scope = nock('https://slack.com')
+          .post('/api/admin.analytics.getFile')
+          .reply(200, gzipped, { 'content-type': 'application/gzip' });
+
+        const client = new WebClient(token, { retryConfig: rapidRetryPolicy });
+        const result = await client.apiCall('admin.analytics.getFile', { type: 'member' });
+        assert.deepStrictEqual(result.file_data, fileData);
+        scope.done();
+      });
+    });
+
     describe('when an API call fails', () => {
       it('should return a Promise which rejects on error', async () => {
         const client = new WebClient(undefined, { retryConfig: { retries: 0 } });
@@ -446,6 +493,22 @@ describe('WebClient', () => {
         assert.ok(e.headers);
         assert.deepStrictEqual(e.body, body);
         assert.ok(error instanceof Error);
+        scope.done();
+      }
+    });
+
+    it('should set error.body to the raw string when HTTP error response is not valid JSON', async () => {
+      const htmlBody = '<html><body><h1>502 Bad Gateway</h1></body></html>';
+      const scope = nock('https://slack.com').post(/api/).reply(502, htmlBody);
+      const client = new WebClient(token, { retryConfig: { retries: 0 } });
+      try {
+        await client.apiCall('method');
+        assert.fail('expected error to be thrown');
+      } catch (error) {
+        const e = error as WebAPIHTTPError;
+        assert.strictEqual(e.code, ErrorCode.HTTPError);
+        assert.strictEqual(e.statusCode, 502);
+        assert.strictEqual(e.body, htmlBody);
         scope.done();
       }
     });
@@ -1910,7 +1973,10 @@ describe('WebClient', () => {
         await client.apiCall('conversations/list');
         assert.fail('Should have thrown');
       } catch (error) {
+        const e = error as WebAPIRequestError;
+        assert.strictEqual(e.code, ErrorCode.RequestError);
         assert.ok(Object.hasOwn(error, 'original'));
+        assert.ok(e.original instanceof Error);
         scope.done();
       }
     });

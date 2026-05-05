@@ -76,7 +76,6 @@ export interface WebClientOptions {
    * When set to false, the URL used in Slack API requests will always begin with the slackApiUrl.
    *
    * See {@link https://docs.slack.dev/tools/node-slack-sdk/web-api/#call-a-method} for more details.
-   * See {@link https://github.com/axios/axios?tab=readme-ov-file#request-config} for more details.
    * @default true
    */
   allowAbsoluteUrls?: boolean;
@@ -626,7 +625,7 @@ export class WebClient extends Methods {
             method: 'POST',
             headers: allHeaders,
             body: serializedBody,
-            redirect: 'manual',
+            redirect: 'error',
             ...(signal ? { signal } : {}),
           });
           this.logger.debug('http response received');
@@ -666,13 +665,13 @@ export class WebClient extends Methods {
         } catch (error) {
           // biome-ignore lint/suspicious/noExplicitAny: errors can be anything
           const e = error as any;
-          this.logger.warn('http request failed', e.message);
           if (error instanceof AbortError) {
             throw error;
           }
           if (e.code !== undefined && typeof e.code === 'string') {
             throw error;
           }
+          this.logger.warn('http request failed', e.message);
           throw requestErrorWithOriginal(e instanceof Error ? e : new Error(String(e)));
         } finally {
           if (timer) clearTimeout(timer);

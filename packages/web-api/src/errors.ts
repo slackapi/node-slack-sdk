@@ -1,5 +1,3 @@
-import type { IncomingHttpHeaders } from 'node:http';
-
 import type { WebAPICallResult } from './WebClient';
 
 /**
@@ -50,7 +48,7 @@ export interface WebAPIHTTPError extends CodedError {
   code: ErrorCode.HTTPError;
   statusCode: number;
   statusMessage: string;
-  headers: IncomingHttpHeaders;
+  headers: Record<string, string>;
   // biome-ignore lint/suspicious/noExplicitAny: HTTP response bodies might be anything
   body?: any;
 }
