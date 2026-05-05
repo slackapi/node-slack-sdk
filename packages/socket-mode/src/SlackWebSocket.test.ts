@@ -27,6 +27,9 @@ describe('SlackWebSocket', () => {
     SlackWebSocket = proxyquire.load('./SlackWebSocket', {
       undici: {
         WebSocket: WSMock,
+        CloseEvent,
+        ErrorEvent,
+        MessageEvent,
         ping: () => {},
       },
     }).SlackWebSocket;
@@ -71,11 +74,14 @@ describe('SlackWebSocket', () => {
               return ws;
             }
           },
+          CloseEvent,
+          ErrorEvent,
+          MessageEvent,
           ping: () => {},
         },
       }).SlackWebSocket;
       const sws = new SlackWebSocket({
-        url: 'wss://test.slack.com',
+        url: 'whatevs',
         client: new EventEmitter(),
         clientPingTimeoutMS: 1,
         serverPingTimeoutMS: 1,

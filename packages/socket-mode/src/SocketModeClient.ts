@@ -291,12 +291,20 @@ export class SocketModeClient extends EventEmitter {
     }
   }
 
+  /**
+   * `onmessage` handler for the client's WebSocket.
+   * This will parse the payload and dispatch the application-relevant events for each incoming message.
+   * Mediates:
+   * - raising the State.Connected event (when Slack sends a type:hello message)
+   * - disconnecting the underlying socket (when Slack sends a type:disconnect message)
+   */
   protected async onWebSocketMessage(data: string | ArrayBuffer, isBinary: boolean): Promise<void> {
     if (isBinary) {
       this.logger.debug('Unexpected binary message received, ignoring.');
       return;
     }
     const payload = data as string;
+    // TODO: should we redact things in here?
     this.logger.debug(`Received a message on the WebSocket: ${payload}`);
 
     // Parse message into slack event
@@ -306,9 +314,9 @@ export class SocketModeClient extends EventEmitter {
       // biome-ignore lint/suspicious/noExplicitAny: untyped connection callback parameters
       payload: Record<string, any>;
       envelope_id: string;
-      retry_attempt?: number;
-      retry_reason?: string;
-      accepts_response_payload?: boolean;
+      retry_attempt?: number; // type: events_api
+      retry_reason?: string; // type: events_api
+      accepts_response_payload?: boolean; // type: events_api, slash_commands, interactive
     };
 
     try {

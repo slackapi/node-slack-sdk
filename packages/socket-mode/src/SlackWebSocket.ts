@@ -1,7 +1,7 @@
 import { channel } from 'node:diagnostics_channel';
 
 import type { EventEmitter } from 'eventemitter3';
-import { type Dispatcher, WebSocket, ping as wsPing } from 'undici';
+import { CloseEvent, type Dispatcher, ErrorEvent, MessageEvent, ping, WebSocket } from 'undici';
 
 import { websocketErrorWithOriginal } from './errors';
 import log, { type Logger, LogLevel } from './logger';
@@ -11,6 +11,19 @@ export const WS_READY_STATES = ['CONNECTING', 'OPEN', 'CLOSING', 'CLOSED'];
 interface PingPongMessage {
   websocket: WebSocket;
   payload: Buffer;
+}
+
+function isPingPongMessage(message: unknown): message is PingPongMessage {
+  if (typeof message !== 'object' || message === null) {
+    return false;
+  }
+  if (!('websocket' in message && message.websocket instanceof WebSocket)) {
+    return false;
+  }
+  if (!('payload' in message && Buffer.isBuffer(message.payload))) {
+    return false;
+  }
+  return true;
 }
 
 export interface SlackWebSocketOptions {
@@ -80,8 +93,8 @@ export class SlackWebSocket {
   private messageHandler: ((event: Event) => void) | null = null;
   private closeHandler: ((event: Event) => void) | null = null;
 
-  private pingHandler: ((msg: unknown) => void) | null = null;
-  private pongHandler: ((msg: unknown) => void) | null = null;
+  private pingHandler: ((message: unknown) => void) | null = null;
+  private pongHandler: ((message: unknown) => void) | null = null;
 
   private static pingChannel = channel('undici:websocket:ping');
   private static pongChannel = channel('undici:websocket:pong');
@@ -131,23 +144,32 @@ export class SlackWebSocket {
     this.websocket.addEventListener('open', this.openHandler);
 
     this.errorHandler = (event: Event) => {
-      const errorEvent = event as ErrorEvent;
-      this.logger.error(`WebSocket error occurred: ${errorEvent.message}`);
+      if (!(event instanceof ErrorEvent)) {
+        this.logger.warn(`Expected ErrorEvent but received ${event.constructor.name} (type: ${event.type})`);
+        return;
+      }
+      this.logger.error(`WebSocket error occurred: ${event.message}`);
       this.disconnect();
-      this.options.client.emit('error', websocketErrorWithOriginal(errorEvent.error ?? new Error(errorEvent.message)));
+      this.options.client.emit('error', websocketErrorWithOriginal(event.error ?? new Error(event.message)));
     };
     this.websocket.addEventListener('error', this.errorHandler);
 
     this.messageHandler = (event: Event) => {
-      const msgEvent = event as MessageEvent;
-      const isBinary = typeof msgEvent.data !== 'string';
-      this.options.client.emit('ws_message', msgEvent.data, isBinary);
+      if (!(event instanceof MessageEvent)) {
+        this.logger.warn(`Expected MessageEvent but received ${event.constructor.name} (type: ${event.type})`);
+        return;
+      }
+      const isBinary = typeof event.data !== 'string';
+      this.options.client.emit('ws_message', event.data, isBinary);
     };
     this.websocket.addEventListener('message', this.messageHandler);
 
     this.closeHandler = (event: Event) => {
-      const closeEvent = event as CloseEvent;
-      this.logger.debug(`WebSocket close frame received (code: ${closeEvent.code}, reason: ${closeEvent.reason})`);
+      if (!(event instanceof CloseEvent)) {
+        this.logger.warn(`Expected CloseEvent but received ${event.constructor.name} (type: ${event.type})`);
+        return;
+      }
+      this.logger.debug(`WebSocket close frame received (code: ${event.code}, reason: ${event.reason})`);
       this.closeFrameReceived = true;
       this.disconnect();
     };
@@ -155,21 +177,27 @@ export class SlackWebSocket {
 
     // Subscribe to undici diagnostics_channel for WebSocket ping/pong frame events.
     // These channels fire for ALL undici WebSocket instances, so we filter by matching instance.
-    this.pingHandler = (raw: unknown) => {
-      const msg = raw as PingPongMessage;
-      if (msg.websocket !== this.websocket) return;
+    this.pingHandler = (message: unknown) => {
+      if (!isPingPongMessage(message)) {
+        this.logger.warn('Received unexpected ping diagnostics message format');
+        return;
+      }
+      if (message.websocket !== this.websocket) return;
       if (this.options.pingPongLoggingEnabled) {
-        this.logger.debug(`WebSocket received ping from Slack server (data: ${msg.payload?.toString()})`);
+        this.logger.debug(`WebSocket received ping from Slack server (data: ${message.payload?.toString()})`);
       }
       this.monitorPingFromSlack();
     };
     SlackWebSocket.pingChannel.subscribe(this.pingHandler);
 
-    this.pongHandler = (raw: unknown) => {
-      const msg = raw as PingPongMessage;
-      if (msg.websocket !== this.websocket) return;
+    this.pongHandler = (message: unknown) => {
+      if (!isPingPongMessage(message)) {
+        this.logger.warn('Received unexpected pong diagnostics message format');
+        return;
+      }
+      if (message.websocket !== this.websocket) return;
       if (this.options.pingPongLoggingEnabled) {
-        this.logger.debug(`WebSocket received pong from Slack server (data: ${msg.payload?.toString()})`);
+        this.logger.debug(`WebSocket received pong from Slack server (data: ${message.payload?.toString()})`);
       }
       this.lastPongReceivedTimestamp = Date.now();
     };
@@ -207,6 +235,8 @@ export class SlackWebSocket {
    * Clean up any underlying intervals, timeouts and the WebSocket.
    */
   private cleanup(): void {
+    clearTimeout(this.serverPingTimeout);
+    clearInterval(this.clientPingTimeout);
     if (this.websocket) {
       if (this.openHandler) this.websocket.removeEventListener('open', this.openHandler);
       if (this.errorHandler) this.websocket.removeEventListener('error', this.errorHandler);
@@ -222,8 +252,6 @@ export class SlackWebSocket {
     this.pingHandler = null;
     this.pongHandler = null;
     this.websocket = null;
-    clearTimeout(this.serverPingTimeout);
-    clearInterval(this.clientPingTimeout);
     // Emit event back to client letting it know connection has closed (in case it needs to reconnect if
     // reconnecting is enabled)
     this.options.client.emit('close');
@@ -288,9 +316,11 @@ export class SlackWebSocket {
       const now = Date.now();
       try {
         const pingMessage = `Ping from client (${now})`;
-        if (this.websocket) {
-          wsPing(this.websocket, Buffer.from(pingMessage));
+        if (!this.websocket) {
+          this.logger.error('WebSocket not available, skipping ping.');
+          return;
         }
+        ping(this.websocket, Buffer.from(pingMessage));
         if (this.lastPongReceivedTimestamp === undefined) {
           pingAttemptCount += 1;
         } else {
