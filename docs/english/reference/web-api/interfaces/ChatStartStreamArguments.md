@@ -45,6 +45,46 @@ Either `markdown_text` or `chunks` is required.
 
 ***
 
+### icon\_emoji?
+
+```ts
+optional icon_emoji: string;
+```
+
+Defined in: [packages/web-api/src/types/request/chat.ts:267](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L267)
+
+#### Description
+
+Emoji to use as the icon for this message. Overrides `icon_url`.
+
+#### Example
+
+```ts
+:chart_with_upwards_trend:
+```
+
+***
+
+### icon\_url?
+
+```ts
+optional icon_url: string;
+```
+
+Defined in: [packages/web-api/src/types/request/chat.ts:272](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L272)
+
+#### Description
+
+Image URL to use as the icon for this message.
+
+#### Example
+
+```ts
+http://lorempixel.com/48/48
+```
+
+***
+
 ### markdown\_text?
 
 ```ts
@@ -153,4 +193,24 @@ Overridable authentication token bearing required scopes.
 
 ```ts
 TokenOverridable.token
+```
+
+***
+
+### username?
+
+```ts
+optional username: string;
+```
+
+Defined in: [packages/web-api/src/types/request/chat.ts:277](https://github.com/slackapi/node-slack-sdk/blob/main/packages/web-api/src/types/request/chat.ts#L277)
+
+#### Description
+
+The bot's username to display.
+
+#### Example
+
+```ts
+My Bot
 ```

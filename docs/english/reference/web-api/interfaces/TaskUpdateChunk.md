@@ -56,7 +56,7 @@ Defined in: packages/types/dist/chunk.d.ts:36
 ### status
 
 ```ts
-status: "pending" | "in_progress" | "complete" | "error";
+status: "error" | "pending" | "in_progress" | "complete";
 ```
 
 Defined in: packages/types/dist/chunk.d.ts:33

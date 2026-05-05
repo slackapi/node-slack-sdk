@@ -2,7 +2,7 @@
 
 # Interface: ContextActionsBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:75
+Defined in: packages/types/dist/block-kit/blocks.d.ts:145
 
 ## Description
 
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 elements: ContextActionsBlockElement[];
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:83
+Defined in: packages/types/dist/block-kit/blocks.d.ts:153
 
 #### Description
 
@@ -60,7 +60,7 @@ An array of [FeedbackButtons](FeedbackButtons.md) or [IconButton](IconButton.md)
 type: "context_actions";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:79
+Defined in: packages/types/dist/block-kit/blocks.d.ts:149
 
 #### Description
 

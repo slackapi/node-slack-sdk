@@ -4,6 +4,7 @@ import { afterEach, beforeEach, describe, it } from 'node:test';
 import sinon from 'sinon';
 
 import type { ShellProcess } from '../../types/shell';
+import { SlackTracerId } from '../../utils/constants';
 import { mockProcess } from '../../utils/test';
 import { shell } from '../shell';
 import platform from './platform';
@@ -87,6 +88,12 @@ describe('platform commands', () => {
         sinon.match.string,
         sinon.match.array.contains(['run', '--cleanup', '--hide-triggers']),
       );
+      sandbox.assert.calledWith(
+        waitForOutputSpy,
+        SlackTracerId.SLACK_TRACE_PLATFORM_RUN_START,
+        sinon.match.object,
+        sinon.match.object,
+      );
     });
     it('should invoke `run` without --hide-triggers if hideTriggers=false', async () => {
       await platform.runStart({ appPath: '/some/path', hideTriggers: false });
@@ -120,6 +127,12 @@ describe('platform commands', () => {
       sandbox.stub(shell, 'kill').resolves();
       await platform.runStop({ proc: fakeProcess, waitForShutdown: true });
       assert.ok(true);
+      sandbox.assert.calledWith(
+        waitForOutputSpy,
+        SlackTracerId.SLACK_TRACE_PLATFORM_RUN_STOP,
+        sinon.match.object,
+        sinon.match.object,
+      );
     });
   });
 });

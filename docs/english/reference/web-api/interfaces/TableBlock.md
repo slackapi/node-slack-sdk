@@ -2,7 +2,7 @@
 
 # Interface: TableBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:273
+Defined in: packages/types/dist/block-kit/blocks.d.ts:343
 
 ## Description
 
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 optional column_settings: TableBlockColumnSettings[];
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:285
+Defined in: packages/types/dist/block-kit/blocks.d.ts:355
 
 #### Description
 
@@ -62,7 +62,7 @@ rows: (
   | RawTextElement)[][];
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:281
+Defined in: packages/types/dist/block-kit/blocks.d.ts:351
 
 #### Description
 
@@ -76,7 +76,7 @@ An array consisting of table rows. Maximum 100 rows. Each row object is an array
 type: "table";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:277
+Defined in: packages/types/dist/block-kit/blocks.d.ts:347
 
 #### Description
 

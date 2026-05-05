@@ -1,4 +1,4 @@
-# @slack/types v2.20.1
+# @slack/types v2.21.0
 
 ## Enumerations
 
@@ -10,6 +10,7 @@
 - [~~Action~~](interfaces/Action.md)
 - [~~Actionable~~](interfaces/Actionable.md)
 - [ActionsBlock](interfaces/ActionsBlock.md)
+- [AlertBlock](interfaces/AlertBlock.md)
 - [AppDeletedEvent](interfaces/AppDeletedEvent.md)
 - [AppHomeOpenedEvent](interfaces/AppHomeOpenedEvent.md)
 - [AppInstalledEvent](interfaces/AppInstalledEvent.md)
@@ -26,6 +27,8 @@
 - [CallRejectedEvent](interfaces/CallRejectedEvent.md)
 - [CallUserExternal](interfaces/CallUserExternal.md)
 - [CallUserSlack](interfaces/CallUserSlack.md)
+- [CardBlock](interfaces/CardBlock.md)
+- [CarouselBlock](interfaces/CarouselBlock.md)
 - [ChannelArchiveEvent](interfaces/ChannelArchiveEvent.md)
 - [ChannelArchiveMessageEvent](interfaces/ChannelArchiveMessageEvent.md)
 - [ChannelCreatedEvent](interfaces/ChannelCreatedEvent.md)

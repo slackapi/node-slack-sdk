@@ -2,7 +2,7 @@
 
 # Interface: TableBlock
 
-Defined in: [block-kit/blocks.ts:378](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L378)
+Defined in: [block-kit/blocks.ts:455](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L455)
 
 ## Description
 
@@ -24,7 +24,7 @@ Displays structured information in a table.
 optional block_id: string;
 ```
 
-Defined in: [block-kit/blocks.ts:48](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L48)
+Defined in: [block-kit/blocks.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L49)
 
 #### Description
 
@@ -46,7 +46,7 @@ a message. If a message is updated, use a new `block_id`.
 optional column_settings: TableBlockColumnSettings[];
 ```
 
-Defined in: [block-kit/blocks.ts:390](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L390)
+Defined in: [block-kit/blocks.ts:467](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L467)
 
 #### Description
 
@@ -62,7 +62,7 @@ rows: (
   | RawTextElement)[][];
 ```
 
-Defined in: [block-kit/blocks.ts:386](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L386)
+Defined in: [block-kit/blocks.ts:463](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L463)
 
 #### Description
 
@@ -76,7 +76,7 @@ An array consisting of table rows. Maximum 100 rows. Each row object is an array
 type: "table";
 ```
 
-Defined in: [block-kit/blocks.ts:382](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L382)
+Defined in: [block-kit/blocks.ts:459](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L459)
 
 #### Description
 

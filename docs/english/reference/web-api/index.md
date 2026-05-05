@@ -1,4 +1,4 @@
-# @slack/web-api v7.15.1
+# @slack/web-api v7.15.2
 
 ## Enumerations
 
@@ -97,6 +97,7 @@
 - [AdminWorkflowsCollaboratorsRemoveArguments](interfaces/AdminWorkflowsCollaboratorsRemoveArguments.md)
 - [AdminWorkflowsPermissionsLookupArguments](interfaces/AdminWorkflowsPermissionsLookupArguments.md)
 - [AdminWorkflowsUnpublishArguments](interfaces/AdminWorkflowsUnpublishArguments.md)
+- [AlertBlock](interfaces/AlertBlock.md)
 - [AppDeletedEvent](interfaces/AppDeletedEvent.md)
 - [AppHomeOpenedEvent](interfaces/AppHomeOpenedEvent.md)
 - [AppInstalledEvent](interfaces/AppInstalledEvent.md)
@@ -139,6 +140,8 @@
 - [CanvasesDeleteArguments](interfaces/CanvasesDeleteArguments.md)
 - [CanvasesEditArguments](interfaces/CanvasesEditArguments.md)
 - [CanvasesSectionsLookupArguments](interfaces/CanvasesSectionsLookupArguments.md)
+- [CardBlock](interfaces/CardBlock.md)
+- [CarouselBlock](interfaces/CarouselBlock.md)
 - [ChannelArchiveEvent](interfaces/ChannelArchiveEvent.md)
 - [ChannelArchiveMessageEvent](interfaces/ChannelArchiveMessageEvent.md)
 - [ChannelCreatedEvent](interfaces/ChannelCreatedEvent.md)

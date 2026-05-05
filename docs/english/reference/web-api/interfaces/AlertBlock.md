@@ -1,18 +1,16 @@
-[@slack/web-api](../index.md) / MarkdownBlock
+[@slack/web-api](../index.md) / AlertBlock
 
-# Interface: MarkdownBlock
+# Interface: AlertBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:270
+Defined in: packages/types/dist/block-kit/blocks.d.ts:51
 
 ## Description
 
-This block can be used with AI apps when you expect a markdown response from an LLM that can get lost in
-translation rendering in Slack. Providing it in a markdown block leaves the translating to Slack to ensure your message
-appears as intended. Note that passing a single block may result in multiple blocks after translation.
+A prominent notice block for displaying warnings, status updates, or other important information.
 
 ## See
 
-[Markdown block reference](https://api.slack.com/reference/block-kit/blocks#markdown).
+[Alert block reference](https://docs.slack.dev/reference/block-kit/blocks/alert-block).
 
 ## Extends
 
@@ -42,31 +40,45 @@ a message. If a message is updated, use a new `block_id`.
 
 ***
 
-### text
+### level?
 
 ```ts
-text: string;
+optional level: "default" | "info" | "warning" | "error" | "success";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:278
+Defined in: packages/types/dist/block-kit/blocks.d.ts:63
 
 #### Description
 
-The standard markdown-formatted text. Limit 12,000 characters max.
+The severity level of the alert. Defaults to `"default"` if omitted.
+
+***
+
+### text
+
+```ts
+text: TextObject;
+```
+
+Defined in: packages/types/dist/block-kit/blocks.d.ts:59
+
+#### Description
+
+The alert message content in the form of a [TextObject](../type-aliases/TextObject.md).
 
 ***
 
 ### type
 
 ```ts
-type: "markdown";
+type: "alert";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:274
+Defined in: packages/types/dist/block-kit/blocks.d.ts:55
 
 #### Description
 
-The type of block. For a markdown block, `type` is always `markdown`.
+The type of block. For an alert block, `type` is always `alert`.
 
 #### Overrides
 

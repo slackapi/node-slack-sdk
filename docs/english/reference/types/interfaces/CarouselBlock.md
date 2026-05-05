@@ -1,17 +1,16 @@
-[@slack/types](../index.md) / DividerBlock
+[@slack/types](../index.md) / CarouselBlock
 
-# Interface: DividerBlock
+# Interface: CarouselBlock
 
-Defined in: [block-kit/blocks.ts:235](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L235)
+Defined in: [block-kit/blocks.ts:177](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L177)
 
 ## Description
 
-Visually separates pieces of info inside of a message. A content divider, like an `<hr>`, to split up
-different blocks inside of a message. The divider block is nice and neat, requiring only a `type`.
+A horizontally scrollable collection of [CardBlock](CardBlock.md) elements.
 
 ## See
 
-[Divider block reference](https://docs.slack.dev/reference/block-kit/blocks/divider-block).
+[Carousel block reference](https://docs.slack.dev/reference/block-kit/blocks/carousel-block).
 
 ## Extends
 
@@ -41,17 +40,31 @@ a message. If a message is updated, use a new `block_id`.
 
 ***
 
-### type
+### elements
 
 ```ts
-type: "divider";
+elements: CardBlock[];
 ```
 
-Defined in: [block-kit/blocks.ts:239](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L239)
+Defined in: [block-kit/blocks.ts:185](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L185)
 
 #### Description
 
-The type of block. For a divider block, `type` is always `divider`.
+An array of [CardBlock](CardBlock.md) elements. Minimum 1, maximum 10 cards.
+
+***
+
+### type
+
+```ts
+type: "carousel";
+```
+
+Defined in: [block-kit/blocks.ts:181](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L181)
+
+#### Description
+
+The type of block. For a carousel block, `type` is always `carousel`.
 
 #### Overrides
 

@@ -2,7 +2,7 @@
 
 # Interface: VideoBlock
 
-Defined in: [block-kit/blocks.ts:476](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L476)
+Defined in: [block-kit/blocks.ts:553](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L553)
 
 ## Description
 
@@ -26,7 +26,7 @@ must have the [\`links.embed:write\` scope](https://docs.slack.dev/reference/sco
 alt_text: string;
 ```
 
-Defined in: [block-kit/blocks.ts:494](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L494)
+Defined in: [block-kit/blocks.ts:571](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L571)
 
 #### Description
 
@@ -40,7 +40,7 @@ A tooltip for the video. Required for accessibility.
 optional author_name: string;
 ```
 
-Defined in: [block-kit/blocks.ts:507](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L507)
+Defined in: [block-kit/blocks.ts:584](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L584)
 
 #### Description
 
@@ -54,7 +54,7 @@ Author name to be displayed. Must be less than 50 characters.
 optional block_id: string;
 ```
 
-Defined in: [block-kit/blocks.ts:48](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L48)
+Defined in: [block-kit/blocks.ts:49](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L49)
 
 #### Description
 
@@ -76,7 +76,7 @@ a message. If a message is updated, use a new `block_id`.
 optional description: PlainTextElement;
 ```
 
-Defined in: [block-kit/blocks.ts:519](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L519)
+Defined in: [block-kit/blocks.ts:596](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L596)
 
 #### Description
 
@@ -90,7 +90,7 @@ Description for video using a [PlainTextElement](PlainTextElement.md) object.
 optional provider_icon_url: string;
 ```
 
-Defined in: [block-kit/blocks.ts:515](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L515)
+Defined in: [block-kit/blocks.ts:592](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L592)
 
 #### Description
 
@@ -104,7 +104,7 @@ Icon for the video provider, e.g. YouTube icon.
 optional provider_name: string;
 ```
 
-Defined in: [block-kit/blocks.ts:511](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L511)
+Defined in: [block-kit/blocks.ts:588](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L588)
 
 #### Description
 
@@ -118,7 +118,7 @@ The originating application or domain of the video, e.g. YouTube.
 thumbnail_url: string;
 ```
 
-Defined in: [block-kit/blocks.ts:490](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L490)
+Defined in: [block-kit/blocks.ts:567](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L567)
 
 #### Description
 
@@ -132,7 +132,7 @@ The thumbnail image URL.
 title: PlainTextElement;
 ```
 
-Defined in: [block-kit/blocks.ts:498](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L498)
+Defined in: [block-kit/blocks.ts:575](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L575)
 
 #### Description
 
@@ -146,7 +146,7 @@ Video title as a [PlainTextElement](PlainTextElement.md) object. `text` within m
 optional title_url: string;
 ```
 
-Defined in: [block-kit/blocks.ts:503](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L503)
+Defined in: [block-kit/blocks.ts:580](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L580)
 
 #### Description
 
@@ -161,7 +161,7 @@ Must go to an HTTPS URL.
 type: "video";
 ```
 
-Defined in: [block-kit/blocks.ts:480](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L480)
+Defined in: [block-kit/blocks.ts:557](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L557)
 
 #### Description
 
@@ -179,7 +179,7 @@ The type of block. For a video block, `type` is always `video`.
 video_url: string;
 ```
 
-Defined in: [block-kit/blocks.ts:486](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L486)
+Defined in: [block-kit/blocks.ts:563](https://github.com/slackapi/node-slack-sdk/blob/main/packages/types/src/block-kit/blocks.ts#L563)
 
 #### Description
 

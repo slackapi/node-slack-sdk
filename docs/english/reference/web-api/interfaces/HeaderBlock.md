@@ -2,7 +2,7 @@
 
 # Interface: HeaderBlock
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:122
+Defined in: packages/types/dist/block-kit/blocks.d.ts:192
 
 ## Description
 
@@ -47,7 +47,7 @@ a message. If a message is updated, use a new `block_id`.
 text: PlainTextElement;
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:131
+Defined in: packages/types/dist/block-kit/blocks.d.ts:201
 
 #### Description
 
@@ -62,7 +62,7 @@ Maximum length for the text in this field is 150 characters.
 type: "header";
 ```
 
-Defined in: packages/types/dist/block-kit/blocks.d.ts:126
+Defined in: packages/types/dist/block-kit/blocks.d.ts:196
 
 #### Description
 
